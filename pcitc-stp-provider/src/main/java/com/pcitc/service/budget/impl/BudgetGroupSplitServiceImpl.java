@@ -2,7 +2,6 @@ package com.pcitc.service.budget.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -187,78 +186,92 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 	@Override
 	public List<Map<String,Object>> selectBudgetSplitDataList(String budgetInfoId)
 	{
-		System.out.println(budgetInfoId);
 		BudgetInfo info = budgetInfoMapper.selectByPrimaryKey(budgetInfoId);
-		System.out.println(JSON.toJSONString(info));
 		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
 		//检索数据
 		BudgetSplitDataExample example = new BudgetSplitDataExample();
 		BudgetSplitDataExample.Criteria c = example.createCriteria();
-		c.andBudgetInfoIdEqualTo(budgetInfoId);
+		c.andBudgetInfoIdEqualTo(info.getDataId());
 		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
 		List<BudgetSplitData> datas =  budgetSplitDataMapper.selectByExample(example);
 		//检索分类
-		List<SysDictionary> dis = systemRemoteClient.getDictionaryListByParentCode("ROOT_JFYS_JTDWFL"+info.getNd());
+		List<SysDictionary> dis = this.selectTitleDic(info.getNd());
 		//有多少項就有多少條記錄
 		List<BudgetOrganEnum> organs = BudgetOrganNdEnum.getByNd(info.getNd()).getOrgans();
 		for(BudgetOrganEnum org:organs) {
-			BudgetSplitBaseDataVo vo = new BudgetSplitBaseDataVo();
-			vo.setBudgetInfoId(budgetInfoId);
-			vo.setNd(info.getNd());
-			vo.setOrganId(org.getId());
-			vo.setOrganCode(org.getCode());
-			vo.setOrganName(org.getName());
-			vo.setBudgetType(info.getBudgetType());
-			vo.setBudgetTypeName(BudgetInfoEnum.getByCode(info.getBudgetType()).getDesc());
-			vo.setDataVersion(info.getDataVersion());
-			vo.setNo(org.getId());
-			
-			Map<String,Object> map  = MyBeanUtils.transBean2Map(vo);
-			//按字典拼接数据
-			Double total_jz = 0d;
-			Double total_xq = 0d;
-			for(SysDictionary d:dis) {
-				//搜索数据
-				List<BudgetSplitData> lsData = datas.stream().filter(a -> a.getOrganCode().equals(org.getCode())).filter(a -> a.getOrganId().equals(org.getId()))
-						.filter(a -> a.getSplitCode().equals(d.getCode())).collect(Collectors.toList());
-				BudgetSplitData dt = lsData.size()>0?lsData.get(0):new BudgetSplitData();
-				map.putAll(new SplitItemVo(d.getCode(),dt.getTotal(),dt.getJz(),dt.getXq()));
-				//计算合计
-				total_jz += dt.getJz()==null?0:dt.getJz();
-				total_xq += dt.getXq()==null?0:dt.getXq();
-			}
-			List<BudgetSplitData> lsData = datas.stream().filter(a -> a.getOrganCode().equals(org.getCode())).filter(a -> a.getOrganId().equals(org.getId()))
-					.filter(a -> a.getSplitCode().equals("plan")).collect(Collectors.toList());
-			//计划数据（结转、新签）
-			map.put("plan_jz", lsData.size()>0?lsData.get(0).getJz():0);
-			map.put("plan_xq", lsData.size()>0?lsData.get(0).getXq():0);
-			map.put("plan_total", new Double(map.get("plan_jz").toString())+new Double(map.get("plan_xq").toString()));
-			
-			map.put("total_jz", total_jz);
-			map.put("total_xq", total_xq);
-			map.put("total", total_jz+total_xq);
-			
+			Map<String,Object> map = getRowData(info,org,dis,datas);
 			rsdata.add(map);
 		}
 		return rsdata;
+	}
+	/**
+	 * 封装行记录
+	 * @return
+	 */
+	private Map<String,Object> getRowData(BudgetInfo info,BudgetOrganEnum org,List<SysDictionary> dis,List<BudgetSplitData> datas)
+	{
+		BudgetSplitBaseDataVo vo = new BudgetSplitBaseDataVo();
+		vo.setBudgetInfoId(info.getDataId());
+		vo.setNd(info.getNd());
+		vo.setOrganId(org.getId());
+		vo.setOrganCode(org.getCode());
+		vo.setOrganName(org.getName());
+		vo.setBudgetType(info.getBudgetType());
+		vo.setBudgetTypeName(BudgetInfoEnum.getByCode(info.getBudgetType()).getDesc());
+		vo.setDataVersion(info.getDataVersion());
+		vo.setNo(org.getId());
+		
+		Map<String,Object> map  = MyBeanUtils.transBean2Map(vo);
+		//按字典拼接数据
+		Double total_jz = 0d;
+		Double total_xq = 0d;
+		for(SysDictionary d:dis) {
+			//搜索数据
+			List<BudgetSplitData> lsData = datas.stream().filter(a -> a.getOrganCode().equals(org.getCode())).filter(a -> a.getOrganId().equals(org.getId()))
+					.filter(a -> a.getSplitCode().equals(d.getCode())).collect(Collectors.toList());
+			BudgetSplitData dt = lsData.size()>0?lsData.get(0):new BudgetSplitData();
+			map.putAll(new SplitItemVo(d.getCode(),dt.getTotal(),dt.getJz(),dt.getXq()));
+			//计算合计
+			total_jz += dt.getJz()==null?0:dt.getJz();
+			total_xq += dt.getXq()==null?0:dt.getXq();
+		}
+		List<BudgetSplitData> lsData = datas.stream().filter(a -> a.getOrganCode().equals(org.getCode())).filter(a -> a.getOrganId().equals(org.getId()))
+				.filter(a -> a.getSplitCode().equals("plan")).collect(Collectors.toList());
+		//计划数据（结转、新签）
+		map.put("plan_jz", lsData.size()>0?lsData.get(0).getJz():0);
+		map.put("plan_xq", lsData.size()>0?lsData.get(0).getXq():0);
+		map.put("plan_total", new Double(map.get("plan_jz").toString())+new Double(map.get("plan_xq").toString()));
+		
+		map.put("total_jz", total_jz);
+		map.put("total_xq", total_xq);
+		map.put("total", total_jz+total_xq);
+		
+		return map;
+	}
+	/**
+	 * 获得标题
+	 * @param nd
+	 * @return
+	 */
+	private List<SysDictionary> selectTitleDic(String nd)
+	{
+		List<SysDictionary> dis = systemRemoteClient.getDictionaryListByParentCode("ROOT_JFYS_JTDWFL"+nd);
+		if(dis.size()==0) {
+			dis = systemRemoteClient.getDictionaryListByParentCode("ROOT_JFYS_JTDWFL");
+		}
+		return dis;
 	}
 	@Override
 	public List<Map<String,Object>> selectBudgetSplitTableTitles(String nd) 
 	{
 		List<Map<String,Object>> titles = new ArrayList<Map<String,Object>>();
-		//检索分类
-		List<SysDictionary> dis = systemRemoteClient.getDictionaryListByParentCode("ROOT_JFYS_JTDWFL"+nd);
-		if(dis.size()==0) {
-			dis = systemRemoteClient.getDictionaryListByParentCode("ROOT_JFYS_JTDWFL");
-		}
+		List<SysDictionary> dis = selectTitleDic(nd);
 		for(SysDictionary d:dis) {
 			//计划项特殊处理，不计入总数,列：序号，处部门，合计，结转[合计，油服..机械..其他，计划]，新签[合计，油服..机械..其他，计划]，
 			titles.add(new SplitItemVo(d.getCode(),d.getName()));
 		}
 		return titles;
 	}
-	
-	
 	@Override
 	public List<BudgetSplitData> saveBudgetSplitData(String items) {
 		List<BudgetSplitData> rs = new ArrayList<BudgetSplitData>();
@@ -277,7 +290,7 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 				String dataVersion = map.get("dataVersion").toString();
 				String budgetTypeName = map.get("budgetTypeName").toString();
 				
-				List<SysDictionary> dis = systemRemoteClient.getDictionaryListByParentCode("ROOT_JFYS_JTDWFL"+nd);
+				List<SysDictionary> dis = selectTitleDic(nd);
 				for(SysDictionary d:dis) 
 				{
 					String splitCode = d.getCode();
@@ -289,7 +302,6 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 						split = (BudgetSplitData)MyBeanUtils.createDefaultModel(BudgetSplitData.class);
 					}
 					split.setSplitName(d.getName());
-					split.setBudgetType(budgetType);
 					split.setNd(nd);
 					split.setDataVersion(dataVersion);
 					split.setBudgetType(budgetType);
@@ -340,27 +352,48 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 	}
 
 	@Override
-	public List<BudgetSplitData> selectB2cSplitHistoryItems(BudgetSplitData item) {
-		//检索已通过审核的资产预算
+	public Map<String,Object> selectGroupSplitFinalItem(String nd,String organCode) {
+		//检索已通过审核的预算
 		BudgetInfoExample infoExample = new BudgetInfoExample();
 		BudgetInfoExample.Criteria infoc = infoExample.createCriteria();
 		infoc.andAuditStatusEqualTo(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
 		infoc.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
-		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.B2C_SPLIT.getCode());
+		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.GROUP_SPLIT.getCode());
+		infoc.andNdEqualTo(nd);
+		
 		List<BudgetInfo> infos = budgetInfoMapper.selectByExample(infoExample);
-		Set<String> ids = new HashSet<String>();
-		ids.add("xxxx");//避免为空
-		for(BudgetInfo info:infos) {
-			ids.add(info.getDataId());
+		if(infos !=null && infos.size()>0) {
+			BudgetInfo info = infos.get(0);
+		
+			BudgetSplitDataExample example = new BudgetSplitDataExample();
+			BudgetSplitDataExample.Criteria c = example.createCriteria();
+			c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+			c.andBudgetInfoIdEqualTo(info.getDataId());
+			List<BudgetSplitData> datas = budgetSplitDataMapper.selectByExample(example);
+			BudgetOrganEnum org = BudgetOrganEnum.getByCode(organCode);
+			List<SysDictionary> dis = this.selectTitleDic(nd);
+			
+			return getRowData(info,org,dis,datas);
+		}else {
+			return new HashMap<String,Object>();
 		}
+	}
+	@Override
+	public Map<String,Object> selectGroupSplitItem(String budgetInfoId,String organCode) {
+		
+		BudgetInfo info = budgetInfoMapper.selectByPrimaryKey(budgetInfoId);
+		
 		BudgetSplitDataExample example = new BudgetSplitDataExample();
 		BudgetSplitDataExample.Criteria c = example.createCriteria();
 		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
-		c.andBudgetInfoIdIn(new ArrayList<String>(ids));
-		c.andNdNotEqualTo(item.getNd());
-		example.setOrderByClause("nd desc");
-		return budgetSplitDataMapper.selectByExample(example);
+		c.andBudgetInfoIdEqualTo(info.getDataId());
+		List<BudgetSplitData> datas = budgetSplitDataMapper.selectByExample(example);
+		BudgetOrganEnum org = BudgetOrganEnum.getByCode(organCode);
+		List<SysDictionary> dis = this.selectTitleDic(info.getNd());
+		
+		return getRowData(info,org,dis,datas);
 	}
+	
 
 	@Override
 	public List<BudgetSplitData> selectBudgetSplitDataByInfoId(String budgetId) throws Exception 

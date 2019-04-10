@@ -1,8 +1,5 @@
 package com.pcitc.base.stp.budget.vo;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * 分解表基础对象
  * @author uuy
@@ -22,7 +19,7 @@ public class BudgetSplitBaseDataVo
     private String budgetInfoId;
    
     
-    private Map<String,SplitItemVo> items = new HashMap<String,SplitItemVo>();
+   
     
 	public Integer getNo() {
 		return no;
@@ -73,13 +70,6 @@ public class BudgetSplitBaseDataVo
 	}
 	public void setBudgetInfoId(String budgetInfoId) {
 		this.budgetInfoId = budgetInfoId;
-	}
-	
-	public Map<String, SplitItemVo> getItems() {
-		return items;
-	}
-	public void setItems(Map<String, SplitItemVo> items) {
-		this.items = items;
 	}
 	public String getOrganName() {
 		return organName;

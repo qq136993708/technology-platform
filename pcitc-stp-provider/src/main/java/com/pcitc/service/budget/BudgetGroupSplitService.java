@@ -105,12 +105,17 @@ public interface BudgetGroupSplitService
 	 */
 	public int deleteBudgetSplitDataByInfo(String budgetInfoId) throws Exception;
 	/**
-	 * 
+	 * 获取指定项指定年的审批数据
 	 * @param item
 	 * @return
 	 */
-	public List<BudgetSplitData> selectB2cSplitHistoryItems(BudgetSplitData item);
-	
+	public Map<String,Object> selectGroupSplitFinalItem(String nd,String organCode);
+	/**
+	 * 获取指定项指表的审批数据
+	 * @param item
+	 * @return
+	 */
+	public Map<String,Object> selectGroupSplitItem(String budgetInfoId,String organCode);
 	/**
 	 * 获取计划参考数据
 	 * @param budgetInfoId
