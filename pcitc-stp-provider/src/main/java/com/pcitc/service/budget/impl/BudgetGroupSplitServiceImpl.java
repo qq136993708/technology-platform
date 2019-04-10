@@ -79,7 +79,7 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 		}
 	}
 
-	@Override
+	/*@Override
 	public int deleteBudgetSplitData(String id) throws Exception
 	{
 		BudgetSplitData group = budgetSplitDataMapper.selectByPrimaryKey(id);
@@ -89,7 +89,7 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 			return budgetSplitDataMapper.updateByPrimaryKey(group);
 		}
 		return 0;
-	}
+	}*/
 
 	@Override
 	public List<BudgetSplitData> selectBudgetSplitDataListByIds(List<String> list) throws Exception

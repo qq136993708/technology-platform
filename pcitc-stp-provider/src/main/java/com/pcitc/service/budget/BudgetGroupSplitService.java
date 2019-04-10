@@ -61,7 +61,7 @@ public interface BudgetGroupSplitService
 	 * @return
 	 * @throws Exception
 	 */
-	public int deleteBudgetSplitData(String id) throws Exception;
+	//public int deleteBudgetSplitData(String id) throws Exception;
 	/**
 	 * 检索预算项列表
 	 * @param list

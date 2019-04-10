@@ -203,7 +203,23 @@ public class BudgetGroupSplitProviderClient
 		}
 		return rs;
 	}
-	
+	@ApiOperation(value="集团公司预算-删除集团年度预算",notes="删除集团年度预算表（逻辑删除）")
+	@RequestMapping(value = "/stp-provider/budget/budget-groupsplit-del", method = RequestMethod.POST)
+	public Object deleteBudgetGroupTotalInfo(@RequestBody BudgetInfo info) 
+	{
+		logger.info("budget-delete-grouptotal...");
+		Integer rs = 0;
+		try
+		{
+			rs += budgetInfoService.deleteBudgetInfo(info.getDataId());
+			rs += budgetGroupSplitService.deleteBudgetSplitDataByInfo(info.getDataId());
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rs;
+	}
 	/*@ApiOperation(value="集团公司预算分解-持久化预算项",notes="添加或更新集团预算表项目。")
 	@RequestMapping(value = "/stp-provider/budget/budget-persistence-grouptotal-item", method = RequestMethod.POST)
 	public Object addOrUpdateGroupTotalItem(@RequestBody BudgetGroupTotal budgetGroupTotal) 
@@ -221,23 +237,7 @@ public class BudgetGroupSplitProviderClient
 		return rs;
 	}
 	
-	@ApiOperation(value="集团公司预算分解-删除集团年度预算",notes="删除集团年度预算表（逻辑删除）")
-	@RequestMapping(value = "/stp-provider/budget/budget-grouptotal-del", method = RequestMethod.POST)
-	public Object deleteBudgetGroupTotalInfo(@RequestBody BudgetInfo info) 
-	{
-		logger.info("budget-delete-grouptotal...");
-		Integer rs = 0;
-		try
-		{
-			rs += budgetInfoService.deleteBudgetInfo(info.getDataId());
-			rs += budgetGroupTotalService.deleteBudgetGroupTotalByInfo(info.getDataId());
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		return rs;
-	}
+	
 	@ApiOperation(value="集团公司预算分解-检索预算项详情",notes="检索预算项详情包括子项详情")
 	@RequestMapping(value = "/stp-provider/budget/get-grouptotal-item/{itemId}", method = RequestMethod.POST)
 	public Object selectBudgetGroupTotalItem(@PathVariable("itemId") String itemId) 

@@ -175,8 +175,10 @@
             		$("#update_time").html(curent_budget_info.updateTime);//最后更新时间
             		$("#info_status").html(curent_budget_info.auditStatusDesc);//状态
             		
-            		publicMethods.ajaxPost("/budget/budget-assettotal-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
-	                	curent_tabel_data = data.data;
+            		var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});
+            		publicMethods.ajaxAsyncPost("/budget/budget-assettotal-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
+            			layer.close(lodingMsg);
+            			curent_tabel_data = data.data;
 	                	table.reload('dataTable', {data: data.data});
 	                	renderfunc();
 	                	//预分配数
