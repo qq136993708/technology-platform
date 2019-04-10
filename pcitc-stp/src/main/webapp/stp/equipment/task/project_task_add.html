@@ -486,7 +486,6 @@
     var postCodes = "";
     
     var topicId= $('#topicId').val();
-    
     //牵头单位名称
     var leadUnitName="${sreProject.leadUnitName?default('')}";
     //牵头单位--表格
@@ -879,9 +878,10 @@
                 
                  var topicId= $('#topicId').val();
                  var flag =checkSaveTaskVersion(topicId)
+                 var taskId= $('#taskId').val();
                 // alert(flag);
                 // return;
-         		 if(flag==false)
+         		 if(flag==false && (taskId==null || taskId==''))
          		 {
          			layer.alert("该课题计划的主任务合同号未成生，请联系科技部相关人员，然后再增加补充合同");
          		 }else
