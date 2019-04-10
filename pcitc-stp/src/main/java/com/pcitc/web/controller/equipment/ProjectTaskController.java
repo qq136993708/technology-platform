@@ -1181,6 +1181,8 @@ public class ProjectTaskController extends BaseController {
 		SreProjectTask sreProjectTask = responseEntity.getBody();
 		request.setAttribute("sreProjectTask", sreProjectTask);
 		
+		System.out.println(">>>>>>>>>>>>>id"+id+" TopicId:"+sreProjectTask.getTopicId());
+		
 		SreProject sreProject=EquipmentUtils.getSreProject(sreProjectTask.getTopicId(), restTemplate, httpHeaders);
 		request.setAttribute("sreProject", sreProject);
 		List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);

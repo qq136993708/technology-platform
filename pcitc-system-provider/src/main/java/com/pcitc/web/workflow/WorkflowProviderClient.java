@@ -141,7 +141,7 @@ public class WorkflowProviderClient {
 			}
 			
 			SysFunctionProdef fpd = workflowInstanceService.queryFunctionProdef(workflowVo);
-			
+			System.out.println("fpd---"+fpd.getProdefName());
 			if (fpd == null || fpd.getProdefId() == null) {
 				return "流程启动异常,参数异常";
 			} else {
@@ -623,7 +623,7 @@ public class WorkflowProviderClient {
 				// 获取下一个节点信息
 				System.out.println("51----------获取下一个节点信息----"+activityImpl.getId());
 				task = nextTaskDefinition(activityImpl, activityImpl.getId(), null, processInstanceId, globalVar);
-				System.out.println("52----------获取下一个节点信息----"+task.getKey());
+				System.out.println("52----------获取下一个节点信息----"+task);
 				break;
 			}
 		}
@@ -667,7 +667,7 @@ public class WorkflowProviderClient {
 		PvmActivity ac = null;
 
 		Object s = null;
-		System.out.println("53----------节点信息----"+activityImpl.getProperty("type"));
+		System.out.println("53----------节点信息----"+activityImpl.getProperty("type")+"----"+activityId);
 		// 如果遍历节点为用户任务并且节点不是当前节点信息
 		if ("userTask".equals(activityImpl.getProperty("type")) && !activityId.equals(activityImpl.getId())) {
 			// 获取该节点下一个节点信息(下一个实例可能是多实例节点)
@@ -701,7 +701,7 @@ public class WorkflowProviderClient {
 						boolean cond = true;
 						for (PvmTransition tr1 : outTransitionsTemp) {
 							s = tr1.getProperty("conditionText"); // 获取排他网关线路判断条件信息
-							// System.out.println("1============================="+s+"------------------------------"+elString);
+							System.out.println("1============================="+s+"------------------------------"+elString);
 							// 计算出现的变量的相应的表达式是否成立，el中可能有多个变量，在全局变量中分别取这些值
 							// 判断el表达式是否成立
 							// 可能存在除agree（同意不同意）之外的其他条件判断（一个节点只能有一个节点判断），所以直接遍历当前的网关条件

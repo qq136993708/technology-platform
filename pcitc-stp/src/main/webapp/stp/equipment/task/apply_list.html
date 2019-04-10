@@ -664,7 +664,8 @@ var name=$('#name').val();
     {
     	var specialAuditor0 =getTaskSpecialAuditor0ByProfessionalDepartName(professionalDepartName);
     	$("#specialAuditor0").val(specialAuditor0);
-    	
+    	//alert(specialAuditor0);
+    	//return;
     	var json = {functionId:functionId,specialAuditor0:specialAuditor0};
     	 $.ajax({
              type : 'POST',
