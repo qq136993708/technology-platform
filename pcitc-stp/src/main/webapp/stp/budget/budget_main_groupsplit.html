@@ -308,9 +308,11 @@
                 	if($("#data_version").val()==""){
                 		parent.layer.alert("请选择需要保存的预算版本", {title : '提示'});
                 		return;
-                	}                
-   					publicMethods.ajaxPost("/budget/save-groupsplit-items", {"info":JSON.stringify(curent_budget_info),"items":JSON.stringify(curent_tabel_data)}, function (data) {
-   	                     if (data.success) {    	                    	
+                	}
+                	var lodingMsg = layer.msg('处理中....');
+   					publicMethods.ajaxAsyncPost("/budget/save-groupsplit-items", {"info":JSON.stringify(curent_budget_info),"items":JSON.stringify(curent_tabel_data)}, function (data) {
+   						layer.close(lodingMsg); 
+   						if (data.success) {    	                    	
    	                    	 layer.msg('保存成功!');
    	                     } else {
    	                    	 layer.msg('操作异常，请重试!');
