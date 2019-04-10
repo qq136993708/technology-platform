@@ -650,7 +650,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 	    	flowJson.put("specialAuditor0", specialAuditor0);
 	    	
 	    	
-	    	flowJson.put("signAuditRate", 1d); 
+	    	//flowJson.put("signAuditRate", 1d); 
 	    	
 	    	// 远程调用
 	    	System.out.println("=====远程调用开始");
