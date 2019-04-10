@@ -800,6 +800,51 @@ public class EquipmentUtils {
 	}
 	
 	
+	
+	//根据任务书专处业--》自动到各专业领域
+	public  static String getTaskSpecialAuditor0ByProfessionalDepartName(String professionalDepartName)
+	{
+		String specialAuditor0="";
+		if(professionalDepartName.contains("勘探开发")==true)
+		{
+			specialAuditor0="";//关晓东
+		}
+		if(professionalDepartName.contains("石油工程")==true)
+		{
+			specialAuditor0="";//陈本池
+		}
+		if(professionalDepartName.contains("炼油")==true)
+		{
+			specialAuditor0="30130056_LYC_ZYCCZ";//潘煜
+		}
+		if(professionalDepartName.contains("化工")==true)
+		{
+			specialAuditor0="";//方志平
+		}
+		if(professionalDepartName.contains("合成材料")==true)
+		{
+			specialAuditor0="";//庄毅
+		}
+		if(professionalDepartName.contains("装备与储运")==true)
+		{
+			specialAuditor0="";//卢衍波
+		}
+		if(professionalDepartName.contains("知识产权")==true)
+		{
+			specialAuditor0="";//陈蓓艳
+		}
+		if(professionalDepartName.contains("三剂")==true)
+		{
+			specialAuditor0="30130062_SJC_ZYCCZ";//林雯
+		}
+		if(professionalDepartName.contains("技术监督")==true)
+		{
+			specialAuditor0="30130063_JSJDC_ZYCCZ";//秦士珍
+		}
+		return specialAuditor0;
+	}
+	
+	
 	/*public static void main(String[] args) 
 	{
 		

@@ -912,7 +912,10 @@ public class ProjectTaskController extends BaseController {
 		String userIds = CommonUtil.getParameter(request, "userIds", "");
 		SreProjectTask sreProjectTask =EquipmentUtils.getSreProjectTask(taskId,restTemplate,httpHeaders);
 		System.out.println("============start_workflow_new userIds="+userIds+" functionId="+functionId+" taskId="+taskId);
-		
+		//根据任务书专处业--》自动到各专业领域
+		String professionalDepartName=sreProjectTask.getProfessionalDepartName();
+		String specialAuditor0=EquipmentUtils.getTaskSpecialAuditor0ByProfessionalDepartName(professionalDepartName);
+		System.out.println("============specialAuditor0 ="+specialAuditor0);
 		Map<String ,Object> paramMap = new HashMap<String ,Object>();
 		paramMap.put("taskId", taskId);
 		paramMap.put("functionId", functionId);
@@ -921,6 +924,7 @@ public class ProjectTaskController extends BaseController {
 		paramMap.put("authenticatedUserName", sysUserInfo.getUserDisp());
 		paramMap.put("functionId", functionId);
 		paramMap.put("auditor", userIds);
+		paramMap.put("specialAuditor0", specialAuditor0);
 		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
 		Result rs = this.restTemplate.exchange(TASK_WORKFLOW_URL + taskId, HttpMethod.POST, httpEntity, Result.class).getBody();
 		return rs;

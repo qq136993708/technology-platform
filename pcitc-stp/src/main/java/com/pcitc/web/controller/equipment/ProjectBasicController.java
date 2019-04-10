@@ -525,7 +525,7 @@ public class ProjectBasicController extends BaseController {
 		String userIds = CommonUtil.getParameter(request, "userIds", "");
 		SreProject sreProject=EquipmentUtils.getSreProject(id,restTemplate,httpHeaders);
 		System.out.println("============start_workflow_new userIds="+userIds+" functionId="+functionId+" id="+id);
-		
+		String specialAuditor0=EquipmentUtils.getTaskSpecialAuditor0ByProfessionalDepartName(sreProject.getProfessionalDepartName());
 		Map<String ,Object> paramMap = new HashMap<String ,Object>();
 		paramMap.put("id", id);
 		paramMap.put("functionId", functionId);
@@ -534,6 +534,7 @@ public class ProjectBasicController extends BaseController {
 		paramMap.put("authenticatedUserName", sysUserInfo.getUserDisp());
 		paramMap.put("functionId", functionId);
 		paramMap.put("auditor", userIds);
+		paramMap.put("specialAuditor0", specialAuditor0);
 		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
 		Result rs = this.restTemplate.exchange(EQUIPMENT_PROJECT_WORKFLOW_URL + id, HttpMethod.POST, httpEntity, Result.class).getBody();
 		return rs;
