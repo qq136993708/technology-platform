@@ -202,7 +202,7 @@
             	}
             });
 			//空数据初始化
-			function initEmptyData()
+			window.initEmptyData = function()
 			{
 				table.reload('dataTable', {data: []});
 				$("#budgetMoney").val(0);//可分配数
@@ -249,7 +249,7 @@
 				calculationSurplusMoney();
 			});
           	//初始化数据版本
-            function initDataVersion(budget_id){
+            window.initDataVersion =function(budget_id){
                 publicMethods.ajaxPost("/budget/budget_groupsplit_info_list",{"nd":cu_date}, function (dt) {
                 	$("#data_version").html('<option value="">---请选择版本---</option>');
                 	budget_info_map = {};
@@ -287,8 +287,6 @@
             	});
           		$("#surplusMoney").val(parseInt($("#budgetMoney").val())-total_money);
           	}
-          	//将方法转换为全局方法
-          	window.initDataVersion = initDataVersion;
             initDataVersion();
             // 触发不同的按钮事件
             var $ = layui.$, active = {

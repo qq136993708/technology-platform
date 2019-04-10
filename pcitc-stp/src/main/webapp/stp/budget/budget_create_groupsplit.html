@@ -28,7 +28,7 @@
 	    <div class="date-box">
 	        <input type="text" id="choose-year"><i class="layui-icon layui-icon-date"></i>
 	    </div>
-	    <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" id="creat_blank" >创建集团预算分解表</button>
+	    <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" id="creat_blank" >创建预算分解表</button>
     </div>
     <!-- <div class="create-table">
         <div class="layui-row layui-col-space20">
@@ -123,14 +123,15 @@
                         	reloadTable();
             	    		//刷新父页面
             				parent.initDataVersion();
+            	    		parent.initEmptyData();
             	   		}); 
                     });
                		break;
             }
         });
-	    //创建空白预算表
+	    //创建预算表
 	    $("#creat_blank").on("click",function(){
-	    	publicMethods.ajaxPost("/budget/budget-groupsplit-create",{"nd":cu_date}, function (dt) {
+	    	publicMethods.ajaxAsyncPost("/budget/budget-groupsplit-create",{"nd":cu_date}, function (dt) {
 	    		//提示消息
 	    		parent.layer.alert("操作成功", {title : '信息'});
 	    		//关闭当前页面
@@ -138,21 +139,6 @@
 	    		//刷新父页面
 				parent.initDataVersion(dt.dataId);
  		   	});
-	    });
-	    //根据模板创建预算表
-	    $("#creat_bytemplate").on("click",function(){
-	    	if($("#data_version").val()){
-	    		publicMethods.ajaxPost("/budget/budget-groupsplit-create-bytemplate",{"nd":cu_date,"dataId":$("#data_version").val()}, function (dt) {
-	    			//提示消息
-		    		parent.layer.alert("操作成功", {title : '信息'});
-		    		//关闭当前页面
-					parent.layer.close(parent.layer.getFrameIndex(window.name));
-		    		//刷新父页面
-					parent.initDataVersion(dt.dataId);
-	 		   	});
-	    	}else{
-	    		parent.layer.alert("请选择参考历史预算表", {title : '信息'});
-	    	}
 	    });
 	    /*点击取消按钮*/
 	    $("#cancel").click(function () {
