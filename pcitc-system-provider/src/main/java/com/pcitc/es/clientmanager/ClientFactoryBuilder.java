@@ -39,7 +39,7 @@ public class ClientFactoryBuilder {
 	@Value("#{'${elasticsearch.hosts}'.split(',')}")
 	public void setHOSTS(List<String> hOSTS) {
 		HOSTS = hOSTS;
-	}
+	} 
 
 	@Value("${elasticsearch.cluster.name}")
 	public void setCLUSTER_NAME(String cLUSTER_NAME) {

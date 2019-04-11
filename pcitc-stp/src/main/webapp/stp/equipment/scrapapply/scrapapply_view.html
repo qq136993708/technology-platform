@@ -15,41 +15,9 @@
 <body>
 <input type="hidden" value="${id}" id="getid" name="getid">
 <input type="hidden" id="getList" name="getList" value='${getList}'/>
-<div class="twoListleft">
-	<div class="searchBox">
-        <!--查询条件-->
-        <label class="dateInput">
-            <span>装备名称</span>
-            <input type="text" id="equipmentName" name="equipmentName" placeholder="请输入名称" title="名称" autocomplete="off" class="form-control">
-        </label>
-        <!--按钮组-->
-        <div class="btnGroup">
-            <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="roleSearchEvent">查询
-            </button>
-        </div>
-    </div>
-    <div class="tableBox">
-        <div class="tableToolBox">
-        
-        </div>
-        <table id="role_table" class="layui-hide" lay-filter="roleCheckboxEvent"></table>
-    </div>
-</div>
-<div class="twoListRight">
-	<div class="searchBox">
-        <!--查询条件-->
-        <label class="dateInput">
-            <span>名称</span>
-            <input type="text" name="userName" placeholder=""
-                   title="用户名" autocomplete="off"
-                   class="form-control" id="applyName" value="${name}">
-        </label>
-        <!--按钮组-->
-        <div class="btnGroup">
-            <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="userSearchEvent" onclick="save()">提交
-            </button>
-        </div>
-    </div>
+
+<div class="">
+
     <div class="tableBox">
         <div class="tableToolBox">
           <span id="priceandnumber"></span>
@@ -182,7 +150,7 @@
 	        , cols: [[
 	            	 {type: 'checkbox', event: 'roleCheckboxEvent'}
 	            	,{title:'序号', type:'numbers'}
-	            	, {field: 'id', title: '编号', style: 'cursor: pointer;'}
+	            	, {field: 'id', title: 'id', style: 'cursor: pointer;'}
 	            	, {field: 'equipmentPrice', title: '装备单价', style: 'cursor: pointer;'}
 	            	, {field: 'equipmenNumber', title: '规格数量', style: 'cursor: pointer;'}
 	            	, {field: 'equipmentName', title: '装备名称', style: 'cursor: pointer;'}
@@ -194,7 +162,7 @@
 	            	, {field: 'assetsClassification', title: '分类', style: 'cursor: pointer;'}
 	        ]]
 	        , done: function (res, curr, count) {
-	         //$("[data-field='id']").css('display','none');
+	         $("[data-field='id']").css('display','none');
 	            // 点击行联动选择框--单选
 	            $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
 	               
@@ -237,8 +205,7 @@
 	        	 {field: 'id', title: '编号', style: 'cursor: pointer;'}
 	           , {field: 'equipmentName', title: '装备名称', style: 'cursor: pointer;'}
 	           , {field: 'specification', title: '规格型号', style: 'cursor: pointer;'}
-	           , {field: 'del', title :'删除', style :'cursor: pointer;color: red;', align: 'center', width : '10%',templet:function(d){return '<span onclick="view_project('+d.id+')" style="color:red">删除</span>'}}
-	        ]],
+	        	        ]],
 	        data:AddData
 	        , done: function (res, curr, count) {
 	        	layer.close(lodingMsg);
