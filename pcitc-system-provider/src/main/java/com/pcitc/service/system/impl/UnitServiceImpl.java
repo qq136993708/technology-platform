@@ -2,7 +2,6 @@ package com.pcitc.service.system.impl;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -307,7 +306,7 @@ public class UnitServiceImpl implements UnitService {
 		SysUnitExample.Criteria c = example.createCriteria();
 		c.andUnitRelationEqualTo(unit.getUnitRelation());
 		example.setOrderByClause("unit_path desc");
-		
+		Integer number;
 		//设置路径查找同一个父机构下的同级机构
 		List<SysUnit> units = unitMapper.selectByExample(example);
 		if(units == null || units.size()==0){
@@ -317,8 +316,13 @@ public class UnitServiceImpl implements UnitService {
 		}else{
 			//Integer path = new Integer(units.get(0).getUnitPath())+1;
 			String path = units.get(0).getUnitPath();
-			Integer number = new Integer("1"+path.substring(path.length()-4))+1;
-			return path.substring(0, path.length()-4)+number.toString().substring(1);
+			if(path.length()<4) {
+				number = new Integer("1"+path.substring(path.length()-3))+1;
+				return path.substring(0, path.length()-3)+number.toString().substring(1);
+			}else {
+				number = new Integer("1"+path.substring(path.length()-4))+1;
+				return path.substring(0, path.length()-4)+number.toString().substring(1);
+			}
 		}
 	}
 
@@ -363,7 +367,7 @@ public class UnitServiceImpl implements UnitService {
 		if(parentCode !=null) {
 			c.andUnitPathLike(parentCode+"%");
 		}
-		example.setOrderByClause("unit_path ASC");
+		example.setOrderByClause("unit_order ASC");
 		List<SysUnit> units = unitMapper.selectByExample(example);
 		List<TreeNode> nodes = new ArrayList<TreeNode>();
 		for(SysUnit unit:units) 
@@ -420,71 +424,22 @@ public class UnitServiceImpl implements UnitService {
 		return null;
 	}
 	
-	public SysUnit getUnitByUnitPath(String unitPath)
-	{
-		SysUnitExample example = new SysUnitExample();
-		SysUnitExample.Criteria cr = example.createCriteria();
-		cr.andUnitPathEqualTo(unitPath) ;
-		List<SysUnit> units = unitMapper.selectByExample(example);
-		if(units != null && units.size()>0) {
-			return units.get(0);
+	/**
+	 * 查询某种条件下的组织机构节点，有组织机构和岗位, 没有人员
+	 * @param unit
+	 * @return
+	 * @throws Exception
+	 */
+	public List<TreeNode> getUnitPostTree(HashMap<String,Object> paramMap) {
+		List<TreeNode> nodes = unitMapper.getUnitPostTree(paramMap);
+		for (int i = 0; i < nodes.size(); i++) {
+			TreeNode tree = nodes.get(i);
+			if (tree.getLevelCode() < 3) {
+				tree.setOpen("true");
+            } else {
+                tree.setOpen("false");
+            }
 		}
-		return null;
-	}
-	
-
-	@Override
-	public String getUnitZTreeListByName(String name) {
-		//先检索出所有的数据
-		SysUnitExample example = new SysUnitExample();
-		Criteria c = example.createCriteria();
-		c.andUnitDelflagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
-		example.setOrderByClause("unit_path ASC");
-		List<SysUnit> units = unitMapper.selectByExample(example);
-		
-		// 根据名称模糊匹配组织机构（包含当前组织机构的所有父节点，不包含子节点），ztree
-		if(name !=null && !"".equals(name)) {
-			Map<String,SysUnit> map = new HashMap<String,SysUnit>();
-			for(SysUnit unit:units) {
-				map.put(unit.getUnitPath(), unit);
-			}
-			//如果是模糊匹配则需要先检索名称，再检索父子节点
-			SysUnitExample ex = new SysUnitExample();
-			Criteria exc = ex.createCriteria();
-			exc.andUnitDelflagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
-			exc.andUnitNameLike("%"+name+"%");
-			ex.setOrderByClause("unit_path ASC");
-			List<SysUnit> searchunits = unitMapper.selectByExample(ex);
-			
-			
-			Map<String,SysUnit> unitset = new HashMap<String,SysUnit>();
-			for(SysUnit u:searchunits) {
-				unitset.put(u.getUnitPath(),u);
-				String pathurl = u.getUnitPath();
-				if(pathurl == null) {continue;}
-				for(int i =0;i<pathurl.length();i+=4) {
-					String path = pathurl.substring(0, i+4);
-					unitset.put(path,map.get(path));
-				}
-			}
-			units = new ArrayList<SysUnit>(unitset.values());
-			java.util.Collections.sort(units, new Comparator<SysUnit>() {
-				@Override
-				public int compare(SysUnit u1, SysUnit u2) {
-					return u1.getUnitLevel() - u2.getUnitLevel();
-				}
-			});
-		}
-		List<TreeNode> nodes = new ArrayList<TreeNode>();
-		for(SysUnit unit:units) 
-		{
-			TreeNode node = new TreeNode();
-			node.setId(unit.getUnitId());
-			node.setpId(unit.getUnitRelation());
-			node.setName(unit.getUnitName());
-			node.setText(unit.getUnitCode());
-			nodes.add(node);
-		}
-		return JSONArray.toJSONString(nodes);
+		return nodes;
 	}
 }

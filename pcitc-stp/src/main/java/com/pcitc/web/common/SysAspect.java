@@ -1,10 +1,10 @@
 package com.pcitc.web.common;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,33 +24,31 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.system.SysFunctionProperty;
 import com.pcitc.base.system.SysLog;
 import com.pcitc.base.system.SysUser;
-import com.pcitc.base.system.SysUserProperty;
-import com.pcitc.base.util.JsonUtil;
 
 /**
  * @author zhanghaifeng
  * @Date: 2017/10/15
- * @annotation SysLogAspect
- * 操作日志和数据查询控制
+ * @annotation SysLogAspect 操作日志和数据查询控制
  * 
  */
 @Aspect
 @Component
 public class SysAspect extends BaseController {
-	
+
 	private static final String LOG_ADD_URL = "http://pcitc-zuul/system-proxy/log-provider/log/add";
-	
+
 	private static final String USER_DATA_FILTER_URL = "http://pcitc-zuul/system-proxy/userProperty-provider/data-filter/";
 	
+	private static final String FUNCTION_FILTER_URL = "http://pcitc-zuul/system-proxy/userProperty-provider/function/data-filter";
+
 	/**
 	 * 定义Pointcut，Pointcut的名称，此方法不能有返回值，该方法只是一个标示
 	 */
@@ -65,7 +63,7 @@ public class SysAspect extends BaseController {
 	 */
 	@Before("controllerAspect()")
 	public void doBefore(JoinPoint joinPoint) {
-		
+
 	}
 
 	/**
@@ -103,52 +101,78 @@ public class SysAspect extends BaseController {
 		if (operData == null) {
 			return null;
 		}
-		
-        System.out.println("CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());  
-        Object[] args = joinPoint.getArgs(); 
-        System.out.println("过滤功能标识 : " + operData.dataFlag());  
-        if (operData.dataFlag() != null && !operData.dataFlag().equals("")) {
-        	System.out.println("过滤查询方法的参数 : " + args+"=="+args.length+"====="+args[0].getClass()+"---"+(args[0].getClass() == String.class));  
-        	if (args != null && args.length > 0 && args[0].getClass() == LayuiTableParam.class) {
-        		
-        		LayuiTableParam inPro = (LayuiTableParam)args[0];
-        		
-        		if (inPro.getParam().get("functionCode") != null && !inPro.getParam().get("functionCode").toString().equals("")) {
-            		// 既然已经点击这个菜单，说明此人有此功能的权限。直接查询这个菜单有哪些属性的权限控制，此人的属性权限控制又有哪些内容
-            		//httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-            		MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
-            		Map<String,Object> paramMap = new HashMap<String,Object>();
-            		
-            		paramMap.put("functionCode", inPro.getParam().get("functionCode"));
-            		
-            		List<String> list = httpHeaders.get("Authorization");
-    		    	if (list != null && list.get(0) != null) {
-    		    		SysUser userInfo = JwtTokenUtil.getUserFromTokenByValue(list.get(0).split(" ")[1]);
-    		    		paramMap.put("userId", userInfo.getUserId());
-                	    requestBody.add("jsonStr", JsonUtil.parseMapToJson(paramMap));
-                	    HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
-                	    // 59d9113d-745d-4c46-bc84-c18f132ac2c1 暂时写死
-                	    ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(USER_DATA_FILTER_URL+userInfo.getUserId()+"/"+inPro.getParam().get("functionCode"), HttpMethod.POST, entity, JSONArray.class);
-                	    JSONArray retJson = responseEntity.getBody();
-                	    if (retJson != null) {
-                	    	List<SysUserProperty> supList = JSONArray.parseArray(retJson.toString(), SysUserProperty.class);
-                	    	
-                	    	System.out.println("此人此功能配置的控制数据 : " + inPro.getParam().get("functionCode"));
-                    	    for (SysUserProperty supVO : supList) {
-                        	    if (inPro !=null && inPro.getParam().get(supVO.getDataType()) == null) {
-                        	    	System.out.println(supVO.getDataType()+"========自动加入的控制数据key-value================"+supVO.getDataId());
-                        	    	inPro.getParam().put(supVO.getDataType(), supVO.getDataId());
-                        		}
-                    	    }
-                    	    args[0] = inPro;
-                	    }
-    		    	} 
-        		}
-        		
-            }
-        }
-        
-        Object obj = joinPoint.proceed(args);
+
+		Object[] args = joinPoint.getArgs();
+		if (operData.dataFlag() != null && !operData.dataFlag().equals("")) {
+			if (args != null && args.length > 0 && args[0].getClass() == LayuiTableParam.class) {
+
+				LayuiTableParam inPro = (LayuiTableParam) args[0];
+				List<String> list = httpHeaders.get("Authorization");
+				
+				/*if (inPro.getParam().get("functionCode") != null && !inPro.getParam().get("functionCode").toString().equals("")) {
+					// 既然已经点击这个菜单，说明此人有此功能的权限。直接查询这个菜单有哪些属性的权限控制，此人的属性权限控制又有哪些内容
+					// httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+					MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
+					Map<String, Object> paramMap = new HashMap<String, Object>();
+
+					paramMap.put("functionCode", inPro.getParam().get("functionCode"));
+
+					if (list != null && list.get(0) != null) {
+						SysUser userInfo = JwtTokenUtil.getUserFromTokenByValue(list.get(0).split(" ")[1]);
+						paramMap.put("userId", userInfo.getUserId());
+						requestBody.add("jsonStr", JsonUtil.parseMapToJson(paramMap));
+						HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
+						// 59d9113d-745d-4c46-bc84-c18f132ac2c1 暂时写死
+						ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(USER_DATA_FILTER_URL + userInfo.getUserId() + "/" + inPro.getParam().get("functionCode"), HttpMethod.POST, entity, JSONArray.class);
+						JSONArray retJson = responseEntity.getBody();
+						if (retJson != null) {
+							List<SysUserProperty> supList = JSONArray.parseArray(retJson.toString(), SysUserProperty.class);
+
+							System.out.println("此人此功能配置的控制数据 : " + inPro.getParam().get("functionCode"));
+							for (SysUserProperty supVO : supList) {
+								if (inPro != null && inPro.getParam().get(supVO.getDataType()) == null) {
+									System.out.println(supVO.getDataType() + "========自动加入的控制数据key-value================" + supVO.getDataId());
+									inPro.getParam().put(supVO.getDataType(), supVO.getDataId());
+								}
+							}
+							args[0] = inPro;
+						}
+					}
+				}*/
+				
+				if (inPro.getParam().get("functionId") != null && !inPro.getParam().get("functionId").toString().equals("")) {
+					// 既然已经点击这个菜单，说明此人有此功能的权限。直接查询这个菜单有哪些属性的权限控制，此人的属性权限控制又有哪些内容
+					//MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
+					HashMap<String, Object> paramMap = new HashMap<String, Object>();
+					paramMap.put("functionId", inPro.getParam().get("functionId"));
+
+					if (list != null && list.get(0) != null) {
+						SysUser userInfo = JwtTokenUtil.getUserFromTokenByValue(list.get(0).split(" ")[1]);
+						String[] postArr = userInfo.getUserPost().split(",");
+						paramMap.put("postIds", Arrays.asList(postArr));
+						//HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
+						HttpEntity<HashMap<String, Object>> entity = new HttpEntity<HashMap<String, Object>>(paramMap, this.httpHeaders);
+
+						ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(FUNCTION_FILTER_URL , HttpMethod.POST, entity, JSONArray.class);
+						JSONArray retJson = responseEntity.getBody();
+						if (retJson != null) {
+							List<SysFunctionProperty> sfpList = JSONArray.parseArray(retJson.toString(), SysFunctionProperty.class);
+
+							for (SysFunctionProperty sfpVO : sfpList) {
+								if (inPro != null && inPro.getParam().get(sfpVO.getProCode()) == null) {
+									System.out.println(sfpVO.getProCode() + "========自动加入的控制数据key-value================" + sfpVO.getPostConfigValue());
+									inPro.getParam().put(sfpVO.getProCode(), sfpVO.getPostConfigValue());
+								}
+							}
+							args[0] = inPro;
+						}
+					}
+				}
+				
+			}
+		}
+
+		Object obj = joinPoint.proceed(args);
 		return obj;
 	}
 
@@ -165,7 +189,7 @@ public class SysAspect extends BaseController {
 			if (logger == null) {
 				return;
 			}
-			
+
 			// 有日志记录的才进行日志保存（一般是增删改）
 			if (logger.actionName() != null && !logger.actionName().equals("")) {
 				HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -177,18 +201,18 @@ public class SysAspect extends BaseController {
 				sysLog.setLogTime(new Date());
 				sysLog.setLogStatus("1");
 				sysLog.setAuditStatus("1");
-		    	List<String> list = httpHeaders.get("Authorization");
-		    	// 第一次登录时，没有header
-		    	if (list != null && list.get(0) != null) {
-		    		SysUser userInfo = JwtTokenUtil.getUserFromTokenByValue(list.get(0).split(" ")[1]);
-			    	sysLog.setLogPerson(userInfo.getUserDisp());
-			    	sysLog.setLogPersonId(userInfo.getUserId());
-		    	} else {
-		    		// 登录方法的特殊日志处理
-		    		sysLog.setLogPerson(request.getParameter("username"));
-			    	sysLog.setLogPersonId(request.getParameter("username"));
-		    	}
-		    	httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+				List<String> list = httpHeaders.get("Authorization");
+				// 第一次登录时，没有header
+				if (list != null && list.get(0) != null) {
+					SysUser userInfo = JwtTokenUtil.getUserFromTokenByValue(list.get(0).split(" ")[1]);
+					sysLog.setLogPerson(userInfo.getUserDisp());
+					sysLog.setLogPersonId(userInfo.getUserId());
+				} else {
+					// 登录方法的特殊日志处理
+					sysLog.setLogPerson(request.getParameter("username"));
+					sysLog.setLogPersonId(request.getParameter("username"));
+				}
+				httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 				this.restTemplate.exchange(LOG_ADD_URL, HttpMethod.POST, new HttpEntity<SysLog>(sysLog, this.httpHeaders), Integer.class);
 			}
 		} catch (Exception exp) {

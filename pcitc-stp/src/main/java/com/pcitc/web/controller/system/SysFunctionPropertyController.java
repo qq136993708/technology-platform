@@ -1,7 +1,9 @@
 package com.pcitc.web.controller.system;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.system.SysFunctionProperty;
@@ -27,7 +29,6 @@ import com.pcitc.web.common.OperationFilter;
 
 
 @Controller
-@RequestMapping("functionProperty")
 public class SysFunctionPropertyController extends BaseController {
 	
 	private static final String FUNCTION_LIST = "http://pcitc-zuul/system-proxy/sysFunctionProperty-provider/sysFunctionProperty_list";
@@ -39,19 +40,28 @@ public class SysFunctionPropertyController extends BaseController {
 	private static final String GET_FUNCTIONBYID = "http://pcitc-zuul/system-proxy/sysFunctionProperty-provider/getSysFunctionPropertyById/";
 	
 	private static final String GET_FUNCTION = "http://pcitc-zuul/system-proxy/sysFunctionProperty-provider/getSysFunctionProperty";
-
+	
 	/**
 	 * 跳转到菜单配置列表页
 	 */
-	@RequestMapping(value = "/function_property")
+	@RequestMapping(value = "/functionProperty/function_property")
 	public String toList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return "/base/property/function_property";
 	}
 	
 	/**
+	 * 跳转到菜单配置列表页
+	 * 一个功能中，配置菜单的控制项及这个控制项对应的内容属性
+	 */
+	@RequestMapping(value = "/functionProperty/function_property_all")
+	public String toFunctionPropertyList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return "/base/property/function_property_all";
+	}
+	
+	/**
 	 * 跳转到菜单配置详情页
 	 */
-	@RequestMapping(value = "/function_property_info")
+	@RequestMapping(value = "/functionProperty/function_property_info")
 	public String toInfo(String id, String funcId, String funcCode, Model model){
 		if(StringUtils.isEmpty(id)) id = "";
 		model.addAttribute("id", id);
@@ -65,7 +75,7 @@ public class SysFunctionPropertyController extends BaseController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/getFunctionPropertyList", method = RequestMethod.POST)
+	@RequestMapping(value = "/functionProperty/getFunctionPropertyList", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getFunctionPropertyList(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		SysFunctionProperty obj = new SysFunctionProperty();
@@ -102,7 +112,7 @@ public class SysFunctionPropertyController extends BaseController {
 	 * 保存菜单配置
 	 * @return
 	 */
-	@RequestMapping(value = "/saveData")
+	@RequestMapping(value = "/functionProperty/saveData")
 	@ResponseBody
 	public int saveData(@RequestBody SysFunctionProperty SysFunctionProperty){
 	    HttpEntity<SysFunctionProperty> entity = new HttpEntity<SysFunctionProperty>(SysFunctionProperty,this.httpHeaders);
@@ -117,7 +127,7 @@ public class SysFunctionPropertyController extends BaseController {
 	 * @return
 	 */
 	@OperationFilter(modelName = "数据项配置", actionName = "删除配置")
-	@RequestMapping(value = "/deleteData")
+	@RequestMapping(value = "/functionProperty/deleteData")
 	@ResponseBody
 	public int deleteData(HttpServletRequest request){
 	    String id = request.getParameter("id");
@@ -131,7 +141,7 @@ public class SysFunctionPropertyController extends BaseController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/getDataById")
+	@RequestMapping(value = "/functionProperty/getDataById")
 	@ResponseBody
 	public Object getDataById(HttpServletRequest request){
 	    String id = request.getParameter("id");
@@ -145,7 +155,7 @@ public class SysFunctionPropertyController extends BaseController {
 	 * @param obj
 	 * @return
 	 */
-	@RequestMapping(value = "/getData")
+	@RequestMapping(value = "/functionProperty/getData")
 	@ResponseBody
 	public Object getData(@RequestBody SysFunctionProperty obj){
 	    HttpEntity<SysFunctionProperty> entity = new HttpEntity<SysFunctionProperty>(obj, this.httpHeaders);
