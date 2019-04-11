@@ -65,7 +65,7 @@
       #{declareTime,jdbcType=TIMESTAMP}, #{assetNumber,jdbcType=VARCHAR}, #{configure,jdbcType=VARCHAR}, 
       #{measuringUnit,jdbcType=VARCHAR}, #{assetsClassification,jdbcType=VARCHAR}, #{nationality,jdbcType=VARCHAR}, 
       #{placeUse,jdbcType=VARCHAR}, #{placePeople,jdbcType=VARCHAR}, #{receivePeople,jdbcType=VARCHAR},
-      #{specification,jdbcType=VARCHAR},#{arrival_date,jdbcType=TIMESTAMP},#{supplier,jdbcType=VARCHAR}
+      #{specification,jdbcType=VARCHAR},#{arrivaldate,jdbcType=TIMESTAMP},#{supplier,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreDetail" >
@@ -130,7 +130,7 @@
         <if test="specification != null" >
         specification,
       </if>
-        <if test="arrival_date != null" >
+        <if test="arrivaldate != null" >
         arrival_date,
       </if>
         <if test="supplier != null" >
@@ -196,7 +196,7 @@
         <if test="specification != null" >
         #{specification,jdbcType=VARCHAR},
       </if>
-        <if test="arrival_date != null" >
+        <if test="arrivaldate != null" >
         #{arrival_date,jdbcType=TIMESTAMP},
       </if>
         <if test="supplier != null" >
@@ -263,8 +263,8 @@
         <if test="specification != null" >
         specification = #{specification,jdbcType=VARCHAR},
       </if>
-        <if test="receivePeople != null" >
-        arrival_date = #{arrival_date,jdbcType=TIMESTAMP},
+        <if test="arrivaldate != null" >
+        arrival_date = #{arrivaldate,jdbcType=TIMESTAMP},
       </if>
         <if test="supplier != null" >
         supplier = #{supplier,jdbcType=VARCHAR},
@@ -292,7 +292,7 @@
       place_people = #{placePeople,jdbcType=VARCHAR},
       receive_people = #{receivePeople,jdbcType=VARCHAR},
       specification= #{specification,jdbcType=VARCHAR},
-      arrival_date= #{arrival_date,jdbcType=TIMESTAMP},
+      arrival_date= #{arrivaldate,jdbcType=TIMESTAMP},
       supplier = #{supplier,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>

@@ -53,7 +53,7 @@ public class ForApplicationController extends BaseController {
 	private static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/forapplication/get/";
 	private static final String VIEW_URL = "http://pcitc-zuul/stp-proxy/sre-provider/forapplication/pageview";
 	private static final String EQU_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/page";
-	private static final String DETAIL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/forapplicationdetail/add";
+	private static final String DETAIL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/Detail/add";
 	/**
 	 * 列表
 	 * 
@@ -260,6 +260,7 @@ public class ForApplicationController extends BaseController {
 		String result = "";
 		SreForApplication pplication = new SreForApplication();
 		ResponseEntity<String> responseEntity = null;
+		ResponseEntity<String> respo = null;
 		String applyDepartName = sysUserInfo.getUnitName();
 		String applyDepartCode = sysUserInfo.getUnitCode();
 		String firstApplyUser=sysUserInfo.getUnitPath();
@@ -310,8 +311,8 @@ public class ForApplicationController extends BaseController {
 				}
 	         }
 			}
-				responseEntity = this.restTemplate.exchange(DETAIL_URL, HttpMethod.POST, new HttpEntity<SreDetail>(sreDeta, this.httpHeaders), String.class);
-				statusCode = responseEntity.getStatusCodeValue();
+				respo = this.restTemplate.exchange(DETAIL_URL, HttpMethod.POST, new HttpEntity<SreDetail>(sreDeta, this.httpHeaders), String.class);
+				statusCode = respo.getStatusCodeValue();
 				if(statusCode == 200) {
 					 result = "1";
 				}else {

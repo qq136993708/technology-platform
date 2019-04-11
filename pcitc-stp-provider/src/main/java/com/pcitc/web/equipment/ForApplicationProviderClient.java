@@ -86,7 +86,7 @@ public class ForApplicationProviderClient
 	}
 	
 	@ApiOperation(value = "增加转资装备", notes = "增加转资申请")
-	@RequestMapping(value = "/sre-provider/forapplicationdetail/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/sre-provider/Detail/add", method = RequestMethod.POST)
 	public String insertSreForApplication(@RequestBody SreDetail sreDetail) throws Exception{
 		logger.info("====================add forapplication....========================");
 		Integer count= detailService.insertDetail(sreDetail);
