@@ -103,13 +103,38 @@
 </div>
 <script>
     var editor = CKEDITOR.replace("content", { "toolbar": "Basic" }); //显示编辑器
+    var f = 0;
     editor.on('change', function (event) {
+
+        if (f%2!=0){
+            f++;
+            return;
+        }
 
         var data = this.getData(); //获取editor中的内容
         // this.setData(data);
         console.log(data);
-
-
+        var jqueryData = $(data);
+        var firstChild = jqueryData[jqueryData.length - 1].firstChild;
+        if (firstChild) {
+            var src = firstChild.src;
+            if (src) {
+                if(src.split('.')[1]!="img")
+                {
+                    var alt = firstChild.alt;
+                    jqueryData[jqueryData.length - 1].firstChild.remove();
+                    var apd ="<a href='"+src+"'>"+alt+"</a>";
+                    jqueryData[jqueryData.length - 1].innerHTML = apd;
+                    var msg = "";
+                    for (var i = 0; i < jqueryData.length; i++) {
+                        msg += jqueryData[i].outerHTML||'';
+                    }
+                    f++;
+                    editor.setData(msg);
+                }
+            }
+        }
+        console.log(this.getData());
     });
 
 </script>
