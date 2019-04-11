@@ -868,15 +868,15 @@ public class SysFileController extends BaseController {
         return postForEntity.getBody().get("flag").toString();
     }
 
+    @Value("${ckfilepath}")
+    private String ckfilepath;
 
     @RequestMapping(value = "/sysfile/ckupload", method = RequestMethod.POST)
     public void upload(@RequestParam(value = "upload", required = false) MultipartFile files) {
         PrintWriter out = null;
         String originalFilename = files.getOriginalFilename();
         String fileType = originalFilename.substring(originalFilename.lastIndexOf(".",originalFilename.length()));
-        System.out.println(fileType+"----"+originalFilename+"=="+files.getName());
-        System.out.println(files.isEmpty());
-        String imageUrl = "upload";
+        String imageUrl = "ckupload";
         String msg = "";
         String fileName = "";
         String strFilePath = "";
@@ -894,8 +894,7 @@ public class SysFileController extends BaseController {
 //            File upload = new File(serverPath+imageUrl);
 //            if(!upload.exists()) upload.mkdirs();
 
-            strFilePath = request.getSession().getServletContext().getRealPath("/")+imageUrl+File.separator+date+File.separator;
-            System.out.println("strFilePath:"+strFilePath);
+            strFilePath = ckfilepath+imageUrl+File.separator+date+File.separator;
             File filePath = new File(strFilePath);
             if(!filePath.exists()) filePath.mkdirs();
 
@@ -909,9 +908,6 @@ public class SysFileController extends BaseController {
                 imageUrl = imageUrl+File.separator+date+File.separator+fileName;
                 imageUrl = imageUrl.replace("\\","/");
                 imageUrl = imageUrl.replace("\\\\","/");
-                System.out.println("savedName = " + savedName);
-                System.out.println("imageUrl = " + imageUrl);
-                System.out.println("fileName = " + fileName);
             }
         } catch (Exception e) {
             e.printStackTrace();
