@@ -186,8 +186,10 @@
             		$("#update_time").html(curent_budget_info.updateTime);//最后更新时间
             		$("#info_status").html(curent_budget_info.auditStatusDesc);//状态
             		
-            		publicMethods.ajaxPost("/budget/budget-groupsplit-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
-	                	curent_tabel_data = data.data;
+            		var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});
+            		publicMethods.ajaxAsyncPost("/budget/budget-groupsplit-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
+	                	layer.close(lodingMsg);
+            			curent_tabel_data = data.data;
 	                	table.reload('dataTable', {data: data.data});
 	                	renderfunc();
 	                	//预分配数
@@ -200,7 +202,7 @@
             	}
             });
 			//空数据初始化
-			function initEmptyData()
+			window.initEmptyData = function()
 			{
 				table.reload('dataTable', {data: []});
 				$("#budgetMoney").val(0);//可分配数
@@ -247,7 +249,7 @@
 				calculationSurplusMoney();
 			});
           	//初始化数据版本
-            function initDataVersion(budget_id){
+            window.initDataVersion =function(budget_id){
                 publicMethods.ajaxPost("/budget/budget_groupsplit_info_list",{"nd":cu_date}, function (dt) {
                 	$("#data_version").html('<option value="">---请选择版本---</option>');
                 	budget_info_map = {};
@@ -285,8 +287,6 @@
             	});
           		$("#surplusMoney").val(parseInt($("#budgetMoney").val())-total_money);
           	}
-          	//将方法转换为全局方法
-          	window.initDataVersion = initDataVersion;
             initDataVersion();
             // 触发不同的按钮事件
             var $ = layui.$, active = {
@@ -308,13 +308,16 @@
                 	if($("#data_version").val()==""){
                 		parent.layer.alert("请选择需要保存的预算版本", {title : '提示'});
                 		return;
-                	}                
-   					publicMethods.ajaxPost("/budget/save-groupsplit-items", {"info":JSON.stringify(curent_budget_info),"items":JSON.stringify(curent_tabel_data)}, function (data) {
-   	                     if (data.success) {    	                    	
-   	                    	 layer.msg('保存成功!');
-   	                     } else {
-   	                    	 layer.msg('操作异常，请重试!');
-   	                     }
+                	}
+                	var lodingMsg = layer.msg('处理中....',{time: 15*1000});
+   					publicMethods.ajaxAsyncPost("/budget/save-groupsplit-items", {"info":JSON.stringify(curent_budget_info),"items":JSON.stringify(curent_tabel_data)}, function (data) {
+   						if (data.success) {    	                    	
+   	                    	layer.msg('保存成功!',{time: 500});
+   	                    	//layer.close(lodingMsg);
+   	                    } else {
+   	                    	layer.msg('操作异常，请重试!',{time: 500});
+   	                    	//layer.close(lodingMsg);
+   	                    }
    	                });                	
                 },submitEvent:function(){
                 	if($("#data_version").val()==""){
@@ -346,7 +349,9 @@
                 		parent.layer.alert("请选择历史数据项", {title : '提示'});
                 		return;
                 	}
-                	var url = '/budget/budget_history_compare_groupsplit?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId;
+                	console.log(curent_budget_info);
+                	console.log(curent_tabel_data[selectIndex]);
+                	var url = '/budget/budget_history_compare_groupsplit?nd='+cu_date+'&organCode='+curent_tabel_data[selectIndex].organCode+"&budgetInfoId="+curent_budget_info.dataId;
                    	layer.open({
                         title: '集团公司经费预算编制管理-往年预算参考'
                         , skin: 'layui-layer-lan'
