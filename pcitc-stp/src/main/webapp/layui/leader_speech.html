@@ -25,7 +25,7 @@
         <div class="layui-col-md9">
             <div class="layui-col-md6 layui-speech layui-speech-right">
                 <div class="news layui-speech-new">
-                    <p>最新讲话<a href="/sysNews/toLeaderSpeechList?stype=ROOT_XTGL_XWLX_ZXJH" target="_blank">更多</a></p>
+                    <p>最新讲话<a href="/instituteIndex?url=/sysNews/toLeaderSpeechList?stype=ROOT_XTGL_XWLX_ZXJH" target="_blank">更多</a></p>
                     <ul id="ROOT_XTGL_XWLX_ZXJH">
                         <!--<li>-->
                             <!--<img src="/layuiadmin/layui/images/icon-video.png" alt="">-->
@@ -46,7 +46,7 @@
                     </ul>
                 </div>
                 <div class="news group">
-                    <p>集团领导讲话<a href="/sysNews/toLeaderSpeechList?stype=ROOT_XTGL_XWLX_JTLDJH" target="_blank">更多</a></p>
+                    <p>集团领导讲话<a href="/instituteIndex?url=/sysNews/toLeaderSpeechList?stype=ROOT_XTGL_XWLX_JTLDJH" target="_blank">更多</a></p>
                     <ul id="ROOT_XTGL_XWLX_JTLDJH">
                         <!--<li class="video"><a href="javascript:void(0);">习近平：为实现民族伟大复兴 推进祖国和平统一而共同奋斗</a>-->
                             <!--<span>[2019-01-03]</span></li>-->
@@ -69,7 +69,7 @@
             </div>
             <div class="layui-col-md6 layui-speech">
                 <div class="news country">
-                    <p>国家领导讲话<a href="/sysNews/toLeaderSpeechList?stype=ROOT_XTGL_XWLX_GJLDJH" target="_blank">更多</a></p>
+                    <p>国家领导讲话<a href="/instituteIndex?url=/sysNews/toLeaderSpeechList?stype=ROOT_XTGL_XWLX_GJLDJH" target="_blank">更多</a></p>
                     <ul id="ROOT_XTGL_XWLX_GJLDJH">
                         <!--<li><a href="javascript:void(0);">习近平：为实现民族伟大复兴 推进祖国和平统一而共同奋斗</a>-->
                             <!--<span>[2019-01-03]</span></li>-->
@@ -90,7 +90,7 @@
                     </ul>
                 </div>
                 <div class="news science">
-                    <p>科技部领导讲话<a href="/sysNews/toLeaderSpeechList?stype=ROOT_XTGL_XWLX_KJBLDJH" target="_blank">更多</a></p>
+                    <p>科技部领导讲话<a href="/instituteIndex?url=/sysNews/toLeaderSpeechList?stype=ROOT_XTGL_XWLX_KJBLDJH" target="_blank">更多</a></p>
                     <ul id="ROOT_XTGL_XWLX_KJBLDJH">
                         <!--<li><a href="javascript:void(0);">习近平：为实现民族伟大复兴 推进祖国和平统一而共同奋斗</a><span>[2019-01-03]</span></li>-->
                         <!--<li><a href="javascript:void(0);">国家主席习近平发表二〇一九年新年贺词</a>-->
@@ -157,14 +157,15 @@
                 for (var i = 0; i < data.length; i++) {
                     var d = data[i];
                     if (d.stype == "ROOT_XTGL_XWLX_KJBLDJH") {
-                        ROOT_XTGL_XWLX_KJBLDJH = ROOT_XTGL_XWLX_KJBLDJH + "<li><a target='_blank' href=\"/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
+                        ROOT_XTGL_XWLX_KJBLDJH = ROOT_XTGL_XWLX_KJBLDJH + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
                     } else if (d.stype == "ROOT_XTGL_XWLX_JTLDJH") {
-                        ROOT_XTGL_XWLX_JTLDJH = ROOT_XTGL_XWLX_JTLDJH + "<li><a target='_blank' href=\"/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
+                        ROOT_XTGL_XWLX_JTLDJH = ROOT_XTGL_XWLX_JTLDJH + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
                     } else if (d.stype == "ROOT_XTGL_XWLX_GJLDJH") {
-                        ROOT_XTGL_XWLX_GJLDJH = ROOT_XTGL_XWLX_GJLDJH + "<li><a target='_blank' href=\"/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
+                        ROOT_XTGL_XWLX_GJLDJH = ROOT_XTGL_XWLX_GJLDJH + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
                     } else if (d.stype == "ROOT_XTGL_XWLX_ZXJH") {
-                        ROOT_XTGL_XWLX_ZXJH = ROOT_XTGL_XWLX_ZXJH + "<li><a target='_blank' href=\"/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
+                        ROOT_XTGL_XWLX_ZXJH = ROOT_XTGL_XWLX_ZXJH + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
                     }
+
                 }
                 $("#ROOT_XTGL_XWLX_KJBLDJH").html(ROOT_XTGL_XWLX_KJBLDJH);
                 $("#ROOT_XTGL_XWLX_JTLDJH").html(ROOT_XTGL_XWLX_JTLDJH);

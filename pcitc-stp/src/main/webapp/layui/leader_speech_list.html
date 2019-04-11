@@ -13,6 +13,9 @@
     <script src="/layuiadmin/layui/layui.js"></script>
     <style>
         html{background: #fff;}
+        .layui-table-view,.layui-table-page{border: 0;}
+        .layui-laypage .layui-laypage-curr .layui-laypage-em{background: red !important;}
+        .layui-leader-list{padding-bottom: 20px;}
     </style>
 </head>
 <body>
@@ -43,6 +46,7 @@
                         <!--<span>[2018-12-30]</span></li>-->
                     <!--<li><a href="javascript:void(0);">习近平在庆祝改革开放40周年大会上的讲话</a><span>[2018-12-19]</span></li>-->
                 </ul>
+                <table id="sysNewsTableId" class="layui-hide" lay-filter="tableEvent"></table>
             </div>
         </div>
         <div class="layui-col-md4 layui-speech">
@@ -73,10 +77,6 @@
         </div>
     </div>
 </div>
-
-
-<div  style="display: none"><table id="sysNewsTableId" class="layui-hide" lay-filter="tableEvent"></table></div>
-
 <script>
 
     layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'publicMethods', 'element'], function () {
@@ -85,6 +85,8 @@
             layer = layui.layer,
             publicMethods = layui.publicMethods,
             laypage = layui.laypage;
+        parent.$("html").css("background", "#fff");
+        parent.$("#LAY_app_body").css("left", "0");
         var d = '${stype}';
         var stype="";
         if (d == "ROOT_XTGL_XWLX_KJBLDJH") {
@@ -136,21 +138,26 @@
                         "stype": "${stype}",
                     }
             };
-            publicMethods.tableRender('sysNewsTableId', 'sysNewsTableId', '/sysNews/getTableData', false, null, where, true, function (res, curr, count) {
+            publicMethods.tableRenderH('sysNewsTableId', 'sysNewsTableId',0, '/sysNews/getTableData', false, null, where, true, function (res, curr, count) {
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
 
                 });
                 var newslist = "";
                 for (let i = 0,j = res.data.length; i < j; i++) {
                     var d = res.data[i];
-                    newslist = newslist + "<li><a target='_blank' href=\"/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
+                    newslist = newslist + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
                 }
                 $("#newslist").html(newslist);
+                if($("#newslist li").length<15){
+                    var newsHeight=$(document).height()-($("#newslist li").length*38)-235
+                    $(".layui-table-view").css("padding-top",newsHeight+"px");
+                }else {
+                    $(".layui-table-view").css("padding-top","0px");
+                }
             });
         }
 
         renderTable();
-
         var $ = layui.$, active = {
             searchEvent: function () { //点击查询按钮
                 renderTable();
