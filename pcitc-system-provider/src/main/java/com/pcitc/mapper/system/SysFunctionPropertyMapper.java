@@ -1,12 +1,12 @@
 package com.pcitc.mapper.system;
 
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 import com.pcitc.base.system.SysFunctionProperty;
 import com.pcitc.base.system.SysFunctionPropertyExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface SysFunctionPropertyMapper {
-    long countByExample(SysFunctionPropertyExample example);
+    int countByExample(SysFunctionPropertyExample example);
 
     int deleteByExample(SysFunctionPropertyExample example);
 

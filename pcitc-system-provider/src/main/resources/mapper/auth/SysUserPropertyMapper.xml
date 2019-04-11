@@ -386,22 +386,18 @@
 		select data_type,GROUP_CONCAT(data_id) data_id
 		from sys_user_property
 		where
-		user_id = #{userId,jdbcType=VARCHAR} and
-		data_type in (select pro_code from sys_function_property where function_code =
-		#{functionCode,jdbcType=VARCHAR})
+			user_id = #{userId,jdbcType=VARCHAR} and
+			data_type in (select pro_code from sys_function_property 
+					  where post_config_value is null and function_code = #{functionCode,jdbcType=VARCHAR})
 		group by data_type
+		
 		union all
 		select pro_code,null
-		from sys_function_property where function_code =
-		#{functionCode,jdbcType=VARCHAR} and pro_code='create_user_id'
+		from sys_function_property 
+		where post_config_value is null and 
+			  function_code = #{functionCode,jdbcType=VARCHAR} and 
+			  pro_code='create_user_id'
 	</select>
-	
-	
-	<select id="getSysUserProperty" resultMap="BaseResultMap" parameterType="java.util.Map">
-	  SELECT * FROM sys_user_property WHERE user_id = #{userId,jdbcType=VARCHAR} AND data_type =#{dataType,jdbcType=VARCHAR} 
-	</select>
-	
-	
 
 	<!-- 根据用户id 获取data_id -->
 	<select id="getDataIdByUserId" resultMap="BaseResultMap">
@@ -423,20 +419,47 @@
 	<select id="selectUserPropertyUnitTree" resultType="com.pcitc.base.common.TreeNode">
 		SELECT u.unit_id as id,u.unit_name as name,u.unit_code as
 		code,u.unit_relation as pId,up.permission as text
-		from sys_unit u LEFT JOIN sys_user_property up on up.data_id LIKE CONCAT('%,',u.unit_id,',%')
-		<if test="userId!=null and userId!=''.toString">
-			and up.user_id = #{userId}
-		</if>
-		<if test="dataType!=null and dataType!=''.toString">
-			and up.data_type = #{dataType}
-		</if>
+		from sys_unit u LEFT JOIN sys_user_property up on (
+															up.data_id LIKE CONCAT('%,',u.unit_id,',%')
+															<if test="userId!=null and userId!=''.toString">
+																and up.user_id = #{userId}
+															</if>
+															<if test="dataType!=null and dataType!=''.toString">
+																and up.data_type = #{dataType}
+															</if>
+															)
 		where u.unit_delflag = 0
 		<if test="projectName!= null and projectName!= ''.toString">
 			and u.unit_name like '%${projectName}%'
 		</if>
 		order by u.unit_code
-		<!-- <if test="iSortCol!=null and iSortCol!=''.toString()"> order by ${iSortCol} 
-			${sSortDir_0} </if> -->
+	</select>
+	
+	<!-- 菜单-岗位-功能的配置部门数据 -->
+	<select id="selectUnitListForUnitDataConfig" parameterType="java.util.HashMap" resultType="com.pcitc.base.common.TreeNode">
+		SELECT u.unit_id as id,u.unit_name as name,u.unit_code as
+		code,u.unit_relation as pId,up.is_available AS text
+		from sys_unit u LEFT JOIN (
+									select sys_function_property.post_config_value ,sys_function_property.is_available 
+									from sys_post,sys_function_property
+									where 
+										sys_post.post_id = sys_function_property.post_id
+										<if test="functionId!=null and functionId!=''.toString">
+											and sys_function_property.function_id = #{functionId}
+										</if>
+										<if test="postId!=null and postId!=''.toString">
+											and sys_function_property.post_id = #{postId}
+										</if>
+										<if test="proCode!=null and proCode!=''.toString">
+											and sys_function_property.pro_code = #{proCode}
+										</if>
+								  ) as up on (up.post_config_value LIKE CONCAT('%',u.unit_id,'%'))
+		where u.unit_delflag = 0 
+		<if test="configUnitName!= null and configUnitName!= ''.toString">
+			and u.unit_name like '%${configUnitName}%'
+		</if>
+		group by u.unit_id
+		order by u.unit_code
 	</select>
 
 	<!-- 根据用户id 和dataType获取data_id -->
@@ -519,7 +542,39 @@
 	</select>
 
 
-
+	<!-- 批量插入 菜单、配置项、岗位三者和配置内容的关联-->
+	<insert id="bantchInsertFunctionProperty" parameterType="java.util.ArrayList">
+		insert into sys_function_property (id,function_id,pro_code,post_id,post_config_value,create_date,create_user_id,is_available) values 
+		<foreach collection="list" item="item" index="index" separator=",">
+			('${item.id}','${item.functionId}','${item.proCode}','${item.postId}','${item.postConfigValue}','${item.createDate}','${item.createUserId}','${item.isAvailable}')
+		</foreach>
+	</insert>
+	
+	<!-- 批量删除functionId、procode、postids对应的数据 -->
+	<delete id="bantchDeleteFunctionProperty" parameterType="java.util.HashMap">
+		delete from sys_function_property
+		where 
+			function_id = #{functionId,jdbcType=VARCHAR} and 
+			pro_code = #{proCode,jdbcType=VARCHAR} and 
+			post_id in
+				<foreach collection="postIds" item="postId" open="(" separator="," close=")">
+					#{postId,jdbcType=VARCHAR}
+				</foreach>
+	</delete>
+	
+	<!-- 数据项控制，查询当前人所属岗位、菜单，对应的属性控制信息 -->
+	<select id="dataFilterFunction" resultType="com.pcitc.base.system.SysFunctionProperty" parameterType="java.util.HashMap">
+		select pro_code as proCode,GROUP_CONCAT(post_config_value) as postConfigValue 
+		from sys_function_property
+		where 
+			post_id is not null and 
+			function_id = '${functionId}' and 
+			post_id in
+				<foreach collection="postIds" item="postId" open="(" separator="," close=")">
+					#{postId,jdbcType=VARCHAR}
+				</foreach>
+		group by pro_code
+	</select>
 
 
 </mapper>

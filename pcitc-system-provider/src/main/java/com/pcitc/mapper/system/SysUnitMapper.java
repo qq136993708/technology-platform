@@ -1,5 +1,6 @@
 package com.pcitc.mapper.system;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -132,5 +133,18 @@ public interface SysUnitMapper {
 	 * @return
 	 */
 	List<SysUnit> selectControlUnit(SysUnit unit);
+
+	/**
+	 * 根据机构id查询机构名称
+	 * @return
+	 */
+	Map<String, Object> selectUnitNameByIds(Map params);
 	
+	/**
+	 * 查询某种条件下的组织机构节点，有组织机构和岗位, 没有人员
+	 * @param unit
+	 * @return
+	 * @throws Exception
+	 */
+	public List<TreeNode> getUnitPostTree(HashMap<String,Object> paramMap);
 }

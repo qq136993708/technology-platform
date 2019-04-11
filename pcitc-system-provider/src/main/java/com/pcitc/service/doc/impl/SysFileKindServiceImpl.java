@@ -63,21 +63,37 @@ public class SysFileKindServiceImpl implements SysFileKindService {
     public int updateOrInsertSysFileKind(SysFileKind sysFileKind) throws Exception {
         int result = 500;
         if (sysFileKind.getId() != null && !sysFileKind.getId().equals("")) {
-            sysFileKindMapper.updateByPrimaryKey(sysFileKind);
+        	SysFileKind updateObject = sysFileKindMapper.selectByPrimaryKey(sysFileKind.getId());
+        	updateObject.setUpdateDate(sysFileKind.getUpdateDate());
+        	updateObject.setUpdatePersonId(sysFileKind.getUpdatePersonId());
+        	updateObject.setUpdatePersonName(sysFileKind.getUpdatePersonName());
+        	updateObject.setKindName(sysFileKind.getKindName());
+        	updateObject.setRamarks(sysFileKind.getRamarks());
+            sysFileKindMapper.updateByPrimaryKey(updateObject);
         } else {
             sysFileKind.setId(UUID.randomUUID().toString().replaceAll("-", ""));
             String parentId = sysFileKind.getParentId();
             SysFileKind parentObj = sysFileKindMapper.selectByPrimaryKey(parentId);
-            sysFileKind.setKindLevel(String.valueOf(Integer.parseInt(parentObj.getKindLevel()) + 1));
-            sysFileKind.setKindLeaf("0"); //叶子节点
-            sysFileKind.setKindCode(sysFileKind.getId().substring(0,8));
-            sysFileKind.setKindPath(parentObj.getKindPath()+""+sysFileKind.getKindCode());
+            if (parentObj != null) {
+            	sysFileKind.setKindLevel(String.valueOf(Integer.parseInt(parentObj.getKindLevel()) + 1));
+                sysFileKind.setKindLeaf("0"); //叶子节点
+                sysFileKind.setKindCode(sysFileKind.getId().substring(0,8));
+                sysFileKind.setKindPath(parentObj.getKindPath()+""+sysFileKind.getKindCode());
+                
+                sysFileKindMapper.insertSelective(sysFileKind);
+                
+                // 修改父亲节点的是否是叶子节点标识
+                parentObj.setKindLeaf("1");
+                sysFileKindMapper.updateByPrimaryKey(parentObj);
+            } else {
+            	sysFileKind.setKindLevel("0");
+                sysFileKind.setKindLeaf("0"); //叶子节点
+                sysFileKind.setKindCode(sysFileKind.getId().substring(0,8));
+                sysFileKind.setKindPath(sysFileKind.getKindCode());
+                
+                sysFileKindMapper.insertSelective(sysFileKind);
+            }
             
-            sysFileKindMapper.insertSelective(sysFileKind);
-            
-            // 修改父亲节点的是否是叶子节点标识
-            parentObj.setKindLeaf("1");
-            sysFileKindMapper.updateByPrimaryKey(parentObj);
         }
         result = 200;
         return result;

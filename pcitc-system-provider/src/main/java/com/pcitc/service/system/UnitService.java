@@ -2,6 +2,7 @@ package com.pcitc.service.system;
 
 
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -142,6 +143,7 @@ public interface UnitService
 	 * @return
 	 */
 	String getUnitZTreeList(String parentCode);
+	
 	/**
 	 * 监理单位
 	 * @param param
@@ -155,14 +157,13 @@ public interface UnitService
 	 * @return
 	 */
 	public SysUnit seletUnitByCode(String code);
+	
 	/**
-	 *  根据名称模糊匹配组织机构（包含当前组织机构的所有父节点，不包含子节点），ztree
+	 * 查询某种条件下的组织机构节点，有组织机构和岗位, 没有人员
 	 * @param unit
 	 * @return
+	 * @throws Exception
 	 */
-	String getUnitZTreeListByName(String name);
-	
-	public SysUnit getUnitByUnitPath(String unitPath);
-	
+	public List<TreeNode> getUnitPostTree(HashMap<String,Object> paramMap);
 	
 }
