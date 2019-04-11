@@ -129,8 +129,8 @@ public class ProjectBasicController extends BaseController {
 	public String add(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 
-		
-		
+
+
 		String leadUnitName =  "";
 		String leadUnitCode =  "";
 		String joinUnitIds =  "";//参与单位IDS

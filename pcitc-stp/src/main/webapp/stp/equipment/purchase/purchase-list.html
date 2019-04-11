@@ -16,9 +16,8 @@
 <input  name="functionId"     id="functionId"      type="hidden">
 <input  name="userIds"        id="userIds"         type="hidden">
 <input  name="id"         id="id"          type="hidden" >
-<input type="hidden" name="applyUnitCode" id="applyUnitCode" value="${applyUnitCode}">
+<input type="text" name="departCode" id="departCode" value="${departCode}">
 <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
-
 
 
 </form>
@@ -318,7 +317,7 @@ var name=$('#name').val();
             		layer.msg('请点击选择一行数据');
             	} else {
             		 var id=selectRowData.id;
-            		 var temUrl="/sre-project-basic/get/" + id;
+            		 var temUrl="/sre-purchase/getParticulars/" + id;
             		 layer.open({
                          title:'详情',
                          skin: 'layui-layer-lan',
@@ -395,7 +394,7 @@ var name=$('#name').val();
         });
         //监听表格双击事件
         table.on('rowDouble(processdef-table)', function(obj){
-        	var temUrl = '/sre-project-basic/get/'+obj.data.id;
+        	var temUrl = '/sre-purchase/getParticulars/'+obj.data.id;
         	openFullWin("详情",temUrl);
         });
         
@@ -415,7 +414,7 @@ var name=$('#name').val();
             url: '/sre_purchase/list',
             method:"POST",
 		//查询条件            
-            where: {param: {"proposerName":$("#proposerName").val(),"purchaseName":$("#purchaseName").val(),"auditStatus":$("#auditStatus").val(),"createDate":$("#createDate").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"applyUnitCode":$("#applyUnitCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {"proposerName":$("#proposerName").val(),"purchaseName":$("#purchaseName").val(),"auditStatus":$("#auditStatus").val(),"createDate":$("#createDate").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"departCode":$("#departCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),

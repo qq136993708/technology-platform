@@ -16,6 +16,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SrePurchase;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.DateUtil;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -46,6 +47,8 @@ public class PurchaseController extends BaseController{
 	private static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/get/";
     private static final String PAGE_URL_CHOOSE_PROJECT = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/page";
     private static final String GET_BY_PROJECT_ID = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/getSreProject/";
+    private static final String GET_PROJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/get/";
+
 
     private static final String ADD_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/add";
     private static final String UPDATE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/update";
@@ -56,6 +59,8 @@ public class PurchaseController extends BaseController{
 	@RequestMapping(value = "/sre_purchase/to-list")
 	public String list(HttpServletRequest request, HttpServletResponse response) {
 
+        String departCode=sysUserInfo.getUnitCode();
+        request.setAttribute("departCode", departCode);
 		String	parentUnitPathIds="";
 		String unitPathIds =   sysUserInfo.getUnitPath();
 		if(!unitPathIds.equals(""))
@@ -237,8 +242,7 @@ public class PurchaseController extends BaseController{
         //状态  String auditStatus = CommonUtil.getParameter(request, "auditStatus", Constant.AUDIT_STATUS_DRAFT);
         String unitPathIds =   CommonUtil.getParameter(request, "unitPathIds",sysUserInfo.getUnitPath());
         String unitPathNames = CommonUtil.getParameter(request, "unitPathNames", sysUserInfo.getUnitName());
-
-
+        String unitPathCode = CommonUtil.getParameter(request, "unitPathCode", sysUserInfo.getUnitCode());
 
         String parentUnitPathIds ="";
         String parentUnitPathNames =  "";
@@ -262,8 +266,8 @@ public class PurchaseController extends BaseController{
         {
             srePurchase = new SrePurchase();
             srePurchase.setCreateDate(new Date());
-            srePurchase.setDepartCode(sysUserInfo.getUserId());//部门code
-            srePurchase.setDepartName(sysUserInfo.getUnitName());//部门名称
+            /*srePurchase.setDepartCode(sysUserInfo.getUnitCode());//部门code
+            srePurchase.setDepartName(sysUserInfo.getUnitName());//部门名称*/
 
             String idv = UUID.randomUUID().toString().replaceAll("-", "");
             srePurchase.setId(idv);
@@ -274,37 +278,15 @@ public class PurchaseController extends BaseController{
             srePurchase = se.getBody();
         }
         // 流程状态
-            //srePurchase.setState(auditStatus); ;
-
-         /*purchase_name  采购名称
-        proposer_id     采购员ID
-        proposer_name   申请人姓名
-        parent_unit_path_names 单位名称
-        depart_name     部门名称
-        depart_code     部门Code
-        stage           阶段
-        state           状态
-        create_date     创建时间
-        equipment_id    装备ID
-        ischeck         采购合同是否验收
-        project_id      计划课题表ID*/
-
-       /* topicId				课题ID
-        taskWriteUsersIds		用户ID
-        id						ID
-        equipmentIds			装备ID
-        leadUnitCode			用户code
-        createUserName			用户名
-        createUserId			登录名
-        name					课题名称
-        leadUnitName			所属单位
-        purchaseName			采购名称*/
+            //srePurchase.setState(auditStatus);
 
             srePurchase.setPurchaseName(purchaseName);//采购名称
             srePurchase.setProposerId(leadUnitCode);//采购员ID
             srePurchase.setProposerName(createUserName);//采购员姓名
             srePurchase.setParentUnitPathNames(leadUnitName);//单位名称
             srePurchase.setDepartName(unitPathNames);//部门名称
+            srePurchase.setDepartCode(unitPathCode);//部门Code
+
             srePurchase.setEquipmentId(equipmentIds);//装备ID
             srePurchase.setProjectId(topicId);//课题ID
 
@@ -358,5 +340,51 @@ public class PurchaseController extends BaseController{
         out.flush();
         out.close();
         return null;
+    }
+    /**
+     * 详情
+     *
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/sre-purchase/getParticulars/{id}", method = RequestMethod.GET)
+    public String getParticulars(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception
+    {
+        ResponseEntity<SrePurchase> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
+        int statusCode = responseEntity.getStatusCodeValue();
+        logger.info("============远程返回  statusCode " + statusCode);
+        SrePurchase srePurchase = responseEntity.getBody();
+        request.setAttribute("srePurchase",srePurchase);
+        String projectId = srePurchase.getProjectId();
+
+
+        ResponseEntity<SreProject> responseEntity1 = this.restTemplate.exchange(GET_PROJECT_URL + projectId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
+        int statusCode1 = responseEntity.getStatusCodeValue();
+        logger.info("============远程返回  statusCode " + statusCode);
+        SreProject sreProjectBasic = responseEntity1.getBody();
+        request.setAttribute("sreProjectBasic", sreProjectBasic);
+        String name = sreProjectBasic.getName();
+        System.out.println(name+"=================================");
+
+        String proposerName = srePurchase.getProposerName();
+        String departCode = srePurchase.getDepartCode();
+        String departName = srePurchase.getDepartName();
+        String parentUnitPathNames = srePurchase.getParentUnitPathNames();
+
+
+        request.setAttribute("proposerName", proposerName);
+        request.setAttribute("departCode", departCode);
+        request.setAttribute("departName", departName);
+        request.setAttribute("parentUnitPathNames", parentUnitPathNames);
+        List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
+        request.setAttribute("unitFieldList", unitFieldList);
+
+        List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+        request.setAttribute("dicList", dicList);
+
+
+        return "/stp/equipment/purchase/purchase-view";
     }
 }

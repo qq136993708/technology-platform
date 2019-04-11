@@ -57,7 +57,8 @@ public class PurchaseServiceImpl implements PurchaseService {
 		PageHelper.startPage(pageNum, pageSize);
 		String purchaseName=getTableParam(param,"purchaseName","");
 		String departName=getTableParam(param,"departName","");
-		String stage=getTableParam(param,"stage","");
+        String departCode = getTableParam(param, "departCode", "");
+        String stage=getTableParam(param,"stage","");
 		String state=getTableParam(param,"state","");
 		String proposerName=getTableParam(param,"proposerName","");
 		String parentUnitPathNames=getTableParam(param,"parentUnitPathNames","");
@@ -73,21 +74,21 @@ public class PurchaseServiceImpl implements PurchaseService {
 		map.put("parentUnitPathNames", parentUnitPathNames);
 		map.put("createDate", createDate);
 
-		 //System.out.println(">>>>>>>>applyDepartCode="+purchaseName);
-		 /*StringBuffer applyUnitCodeStr=new StringBuffer(); if(!purchaseName.equals("")) {
-		 applyUnitCodeStr.append(" ("); String arr[]=purchaseName.split(",");
+		 System.out.println(">>>>>>>>applyDepartCode="+departCode);
+		 StringBuffer applyUnitCodeStr=new StringBuffer(); if(!departCode.equals("")) {
+		 applyUnitCodeStr.append(" ("); String arr[]=departCode.split(",");
 		 for(int i=0;i<arr.length;i++) {
 		 	if(i>0) {
 			 applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]
-			 +"', t.`apply_depart_code`)");
+			 +"', t.`depart_code`)");
 		 	}else {
-			 applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
+			 applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`depart_code`)");
 			 }
 		 }
 		 applyUnitCodeStr.append(" )");
 		 }
 
-		 map.put("sqlStr", applyUnitCodeStr.toString());*/
+		 map.put("sqlStr", applyUnitCodeStr.toString());
 
 		
 		List<SrePurchase> list = srePurchaseMapper.getList(map);

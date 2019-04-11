@@ -41,10 +41,10 @@ public class PurchaseProviderClient
 	
 	@ApiOperation(value = "采购分页", notes = "采购分页")
 	@RequestMapping(value = "/sre-provider/purchase/page", method = RequestMethod.POST)
-	public LayuiTableData getSrePurchaseList(@RequestBody LayuiTableParam param)throws Exception
+	public LayuiTableData getSrePurchaseList(@RequestBody LayuiTableParam paramsJson)throws Exception
 	{
-		LayuiTableData rageResult=purchaseService.getPurchasePage(param);
-		return rageResult;
+		logger.info("=== SreTechMeeting paramsJson============"+paramsJson);
+		return purchaseService.getPurchasePage(paramsJson);
 	}
 	
 	@ApiOperation(value = "采购名称,ID", notes = "采购名称,ID")

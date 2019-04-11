@@ -10,7 +10,7 @@ import com.pcitc.base.stp.equipment.SrePurchase;
 
 public interface PurchaseService {
 	
-	public LayuiTableData getPurchasePage(LayuiTableParam param)throws Exception;
+	public LayuiTableData getPurchasePage(LayuiTableParam paramsJson)throws Exception;
 
 	public List<SrePurchase> getPurchaseNameIdList()throws Exception;
 
