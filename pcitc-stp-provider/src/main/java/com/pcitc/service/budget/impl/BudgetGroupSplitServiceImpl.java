@@ -2,6 +2,7 @@ package com.pcitc.service.budget.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -262,6 +263,32 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 		return dis;
 	}
 	@Override
+	public Map<String,List<SplitItemVo>> selectBudgetSplitHistoryTableTitles(String nd) 
+	{
+		BudgetInfoExample infoExample = new BudgetInfoExample();
+		BudgetInfoExample.Criteria infoc = infoExample.createCriteria();
+		infoc.andAuditStatusEqualTo(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
+		infoc.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.GROUP_SPLIT.getCode());
+		infoc.andNdNotEqualTo(nd);
+		infoExample.setOrderByClause("nd desc");
+		
+		List<BudgetInfo> infos = budgetInfoMapper.selectByExample(infoExample);
+		Map<String,List<SplitItemVo>> maps = new LinkedHashMap<String,List<SplitItemVo>>();
+		for(BudgetInfo info:infos) 
+		{
+			List<SplitItemVo> titles = new ArrayList<SplitItemVo>();
+			List<SysDictionary> dis = selectTitleDic(nd);
+			for(SysDictionary d:dis) {
+				//计划项特殊处理，不计入总数,列：序号，处部门，合计，结转[合计，油服..机械..其他，计划]，新签[合计，油服..机械..其他，计划]，
+				titles.add(new SplitItemVo(d.getCode(),d.getName()));
+			}
+			maps.put(info.getNd(), titles);
+		}
+		return maps;
+	}
+	
+	@Override
 	public List<Map<String,Object>> selectBudgetSplitTableTitles(String nd) 
 	{
 		List<Map<String,Object>> titles = new ArrayList<Map<String,Object>>();
@@ -272,6 +299,7 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 		}
 		return titles;
 	}
+	
 	@Override
 	public List<BudgetSplitData> saveBudgetSplitData(String items) {
 		List<BudgetSplitData> rs = new ArrayList<BudgetSplitData>();

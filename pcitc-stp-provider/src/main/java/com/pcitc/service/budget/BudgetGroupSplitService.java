@@ -7,6 +7,7 @@ import java.util.Set;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.budget.BudgetSplitData;
+import com.pcitc.base.stp.budget.vo.SplitItemVo;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectPlan;
 
@@ -43,7 +44,13 @@ public interface BudgetGroupSplitService
 	 */
 	public List<Map<String,Object>> selectBudgetSplitTableTitles(String nd);
 	/**
-	 * 查询当前预算项的所有子项(包含已删除)
+	 * 查询历史预算标题（非指定年）
+	 * @param dataId
+	 * @return
+	 */
+	public Map<String,List<SplitItemVo>> selectBudgetSplitHistoryTableTitles(String nd);
+	/**
+	 * 保存预算数据
 	 * @param dataId
 	 * @return
 	 */
