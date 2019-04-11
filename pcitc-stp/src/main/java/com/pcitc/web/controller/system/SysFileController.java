@@ -1,17 +1,12 @@
 package com.pcitc.web.controller.system;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.io.*;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.base.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -21,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,8 +41,6 @@ import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.system.SysFile;
 import com.pcitc.base.system.SysFileVo;
 import com.pcitc.base.system.SysUser;
-import com.pcitc.base.util.DataTableInfoVo;
-import com.pcitc.base.util.IdUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.feign.SysFileFeignClient;
 
@@ -872,6 +866,77 @@ public class SysFileController extends BaseController {
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(form, this.httpHeaders);
         ResponseEntity<JSONObject> postForEntity = this.restTemplate.postForEntity(showFlag + id, httpEntity, JSONObject.class);
         return postForEntity.getBody().get("flag").toString();
+    }
+
+    @Value("${ckfilepath}")
+    private String ckfilepath;
+
+    @RequestMapping(value = "/sysfile/ckupload", method = RequestMethod.POST)
+    public void upload(@RequestParam(value = "upload", required = false) MultipartFile files) {
+        PrintWriter out = null;
+        String originalFilename = files.getOriginalFilename();
+        String fileType = originalFilename.substring(originalFilename.lastIndexOf(".",originalFilename.length()));
+        String imageUrl = "ckupload";
+        String msg = "";
+        String fileName = "";
+        String strFilePath = "";
+        boolean isComplete = false;
+        JSONObject result = new JSONObject();
+        try {
+            String filePrefixFormat = "yyyyMMddHHmmssS";
+//            String date = "";
+            String date = sysUserInfo.getUserId();
+//            String date = DateUtil.format(new Date(), filePrefixFormat);
+//            File path = new File(ResourceUtils.getURL("classpath:").getPath());
+//            if(!path.exists()) path = new File("");
+//            File upload = new File(path.getAbsolutePath(),imageUrl);
+
+//            File upload = new File(serverPath+imageUrl);
+//            if(!upload.exists()) upload.mkdirs();
+
+            strFilePath = ckfilepath+imageUrl+File.separator+date+File.separator;
+            File filePath = new File(strFilePath);
+            if(!filePath.exists()) filePath.mkdirs();
+
+            fileName = UUID.randomUUID().toString()+fileType;
+            String savedName = strFilePath + File.separator + fileName;
+
+//            files.transferTo(new File(savedName));
+            isComplete = FileUtil.copyInputStreamToFile(files.getInputStream(), new File(savedName));
+            if (isComplete==true){
+                out = response.getWriter();
+                imageUrl = imageUrl+File.separator+date+File.separator+fileName;
+                imageUrl = imageUrl.replace("\\","/");
+                imageUrl = imageUrl.replace("\\\\","/");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("富文本编辑器上传图片时发生异常", e);
+            msg = "服务器异常";
+        } finally {
+            if (!StrUtil.isBlank(msg)) {
+                //上传失败
+                result.put("uploaded", 0);
+                JSONObject errorObj = new JSONObject();
+                errorObj.put("message", msg);
+                result.put("error", errorObj);
+            } else {
+                System.out.println(isComplete);
+                //上传成功
+                result.put("uploaded", 1);
+//                result.put("fileName", "a.jpg");
+                result.put("fileName", fileName);
+//                result.put("url", "/upload/a.jpg");
+                result.put("url", File.separator+imageUrl);
+            }
+            out.println(result.toJSONString());
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println("File.separator = " + File.separator);
+        System.out.println("File.separator = " + File.pathSeparator);
+        System.out.println("File.separator = " + File.separatorChar);
     }
 
 }

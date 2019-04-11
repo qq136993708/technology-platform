@@ -11,7 +11,7 @@ import java.io.Serializable;
  * <p>实体类</p>
  * <p>Table: zjk_expert - 专家-基本信息</p>
  *
- * @since 2019-02-27 09:14:44
+ * @since 2019-04-02 03:48:48
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ZjkExpert extends DataEntity implements Serializable {
@@ -150,12 +150,12 @@ public class ZjkExpert extends DataEntity implements Serializable {
     private String bak2;
 
     /**
-     * bak3 -
+     * bak3 - 专家等级(根据导入专家类型区分)1,技术领军人物,2首席专家,3高级专家
      */
     private String bak3;
 
     /**
-     * bak4 -
+     * bak4 - 人员编号
      */
     private String bak4;
 
@@ -378,6 +378,31 @@ public class ZjkExpert extends DataEntity implements Serializable {
      * place_origin - 籍贯
      */
     private String placeOrigin;
+
+    /**
+     * team_view - 团队突破
+     */
+    private String teamView;
+
+    /**
+     * bak7 -
+     */
+    private String bak7;
+
+    /**
+     * bak8 -
+     */
+    private String bak8;
+
+    /**
+     * bak9 -
+     */
+    private String bak9;
+
+    /**
+     * bak10 -
+     */
+    private String bak10;
 
     public String getDataId() {
         return this.dataId;
@@ -939,6 +964,46 @@ public class ZjkExpert extends DataEntity implements Serializable {
         this.placeOrigin = placeOrigin;
     }
 
+    public String getTeamView() {
+        return this.teamView;
+    }
+
+    public void setTeamView(String teamView) {
+        this.teamView = teamView;
+    }
+
+    public String getBak7() {
+        return this.bak7;
+    }
+
+    public void setBak7(String bak7) {
+        this.bak7 = bak7;
+    }
+
+    public String getBak8() {
+        return this.bak8;
+    }
+
+    public void setBak8(String bak8) {
+        this.bak8 = bak8;
+    }
+
+    public String getBak9() {
+        return this.bak9;
+    }
+
+    public void setBak9(String bak9) {
+        this.bak9 = bak9;
+    }
+
+    public String getBak10() {
+        return this.bak10;
+    }
+
+    public void setBak10(String bak10) {
+        this.bak10 = bak10;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -1092,7 +1157,17 @@ public class ZjkExpert extends DataEntity implements Serializable {
 
                         (this.getBriefDesc() == null ? other.getBriefDesc() == null : this.getBriefDesc().equals(other.getBriefDesc())) &&
 
-                        (this.getPlaceOrigin() == null ? other.getPlaceOrigin() == null : this.getPlaceOrigin().equals(other.getPlaceOrigin()));
+                        (this.getPlaceOrigin() == null ? other.getPlaceOrigin() == null : this.getPlaceOrigin().equals(other.getPlaceOrigin())) &&
+
+                        (this.getTeamView() == null ? other.getTeamView() == null : this.getTeamView().equals(other.getTeamView())) &&
+
+                        (this.getBak7() == null ? other.getBak7() == null : this.getBak7().equals(other.getBak7())) &&
+
+                        (this.getBak8() == null ? other.getBak8() == null : this.getBak8().equals(other.getBak8())) &&
+
+                        (this.getBak9() == null ? other.getBak9() == null : this.getBak9().equals(other.getBak9())) &&
+
+                        (this.getBak10() == null ? other.getBak10() == null : this.getBak10().equals(other.getBak10()));
     }
 
     @Override
@@ -1169,6 +1244,11 @@ public class ZjkExpert extends DataEntity implements Serializable {
         result = prime * result + ((getAwardsTitle() == null) ? 0 : getAwardsTitle().hashCode());
         result = prime * result + ((getBriefDesc() == null) ? 0 : getBriefDesc().hashCode());
         result = prime * result + ((getPlaceOrigin() == null) ? 0 : getPlaceOrigin().hashCode());
+        result = prime * result + ((getTeamView() == null) ? 0 : getTeamView().hashCode());
+        result = prime * result + ((getBak7() == null) ? 0 : getBak7().hashCode());
+        result = prime * result + ((getBak8() == null) ? 0 : getBak8().hashCode());
+        result = prime * result + ((getBak9() == null) ? 0 : getBak9().hashCode());
+        result = prime * result + ((getBak10() == null) ? 0 : getBak10().hashCode());
         return result;
     }
 
@@ -1248,6 +1328,11 @@ public class ZjkExpert extends DataEntity implements Serializable {
         sb.append(", awardsTitle=").append(awardsTitle);
         sb.append(", briefDesc=").append(briefDesc);
         sb.append(", placeOrigin=").append(placeOrigin);
+        sb.append(", teamView=").append(teamView);
+        sb.append(", bak7=").append(bak7);
+        sb.append(", bak8=").append(bak8);
+        sb.append(", bak9=").append(bak9);
+        sb.append(", bak10=").append(bak10);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

@@ -80,7 +80,7 @@
     			table.reload('itemTable',{
                     data:viewObj.itemData
                 });
-    			$(".nd").html("2020");
+    			
     			//加载历史
     			publicMethods.ajaxPost("/budget/search-grouptotal-history-items",groupTotalInfo, function (historydata) {
                 	$.each(historydata,function(index,dt){

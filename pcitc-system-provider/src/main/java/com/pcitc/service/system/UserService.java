@@ -97,6 +97,6 @@ public interface UserService {
 	
 	public LayuiTableData querySysUserListByPage(LayuiTableParam param);
 
-	
+	public LayuiTableData getSysUserListByUserUnitPage(LayuiTableParam param);
 
 }

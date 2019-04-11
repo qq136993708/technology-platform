@@ -1,7 +1,5 @@
 package com.pcitc.base.stp.budget.vo;
 
-import java.util.Map;
-
 /**
  * 分解表基础对象
  * @author uuy
@@ -11,19 +9,17 @@ public class BudgetSplitBaseDataVo
 {
 
 	private Integer no;
-	private String dataId;
 	private String dataVersion;
 	private String nd;
 	private Integer organId;
     private String organCode;
-    private Integer splitId;
-    private String splitCode;
+    private String organName;
     private Integer budgetType;
     private String budgetTypeName;  
     private String budgetInfoId;
-    private Integer delFlag;
+   
     
-    private Map<String,SplitItemVo> items;
+   
     
 	public Integer getNo() {
 		return no;
@@ -31,12 +27,7 @@ public class BudgetSplitBaseDataVo
 	public void setNo(Integer no) {
 		this.no = no;
 	}
-	public String getDataId() {
-		return dataId;
-	}
-	public void setDataId(String dataId) {
-		this.dataId = dataId;
-	}
+	
 	public String getDataVersion() {
 		return dataVersion;
 	}
@@ -61,18 +52,7 @@ public class BudgetSplitBaseDataVo
 	public void setOrganCode(String organCode) {
 		this.organCode = organCode;
 	}
-	public Integer getSplitId() {
-		return splitId;
-	}
-	public void setSplitId(Integer splitId) {
-		this.splitId = splitId;
-	}
-	public String getSplitCode() {
-		return splitCode;
-	}
-	public void setSplitCode(String splitCode) {
-		this.splitCode = splitCode;
-	}
+	
 	public Integer getBudgetType() {
 		return budgetType;
 	}
@@ -91,16 +71,12 @@ public class BudgetSplitBaseDataVo
 	public void setBudgetInfoId(String budgetInfoId) {
 		this.budgetInfoId = budgetInfoId;
 	}
-	public Integer getDelFlag() {
-		return delFlag;
+	public String getOrganName() {
+		return organName;
 	}
-	public void setDelFlag(Integer delFlag) {
-		this.delFlag = delFlag;
+	public void setOrganName(String organName) {
+		this.organName = organName;
 	}
-	public Map<String, SplitItemVo> getItems() {
-		return items;
-	}
-	public void setItems(Map<String, SplitItemVo> items) {
-		this.items = items;
-	}
+	
+	
 }

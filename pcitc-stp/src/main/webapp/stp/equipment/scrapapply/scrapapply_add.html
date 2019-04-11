@@ -3,42 +3,60 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<title>科技管理平台</title>
+	<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
-    <script src="/common/js/jquery-1.11.3.min.js"></script>
-    <script src="/layuiadmin/layui/layui.js"></script>
-       <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+
+	<script src="/layuiadmin/layui/layui.js"></script>
+	<script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 </head>
-
 <body>
-
-<div class="searchBox">
- <input type="hidden" name="auditStatus" id="auditStatus" value="${auditStatus}">
- <input type="hidden" name="applyDepartCode" id="applyDepartCode" value="${applyDepartCode}">
- <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
- 
- 
-    <!--查询条件-->
-    <label class="dateInput">
-        <span>名称</span>
-        <input type="text" name="name" id="name" placeholder="请输入名称" title="名称" autocomplete="off" class="form-control" >
-    </label>
-    
-    
-    <!--按钮组-->
-    <div class="btnGroup">
-        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+<input type="hidden" value="${id}" id="getid" name="getid">
+<div class="twoListleft">
+	<div class="searchBox">
+        <!--查询条件-->
+        <label class="dateInput">
+            <span>装备名称</span>
+            <input type="text" id="equipmentName" name="equipmentName" placeholder="请输入名称" title="名称" autocomplete="off" class="form-control">
+        </label>
+        <!--按钮组-->
+        <div class="btnGroup">
+            <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="roleSearchEvent">查询
+            </button>
+        </div>
+    </div>
+    <div class="tableBox">
+        <div class="tableToolBox">
+        
+        </div>
+        <table id="role_table" class="layui-hide" lay-filter="roleCheckboxEvent"></table>
     </div>
 </div>
-
-
-<div class="tableBox">
-    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
+<div class="twoListRight">
+	<div class="searchBox">
+        <!--查询条件-->
+        <label class="dateInput">
+            <span>名称</span>
+            <input type="text" name="userName" placeholder=""
+                   title="用户名" autocomplete="off"
+                   class="form-control" id="applyName">
+        </label>
+        <!--按钮组-->
+        <div class="btnGroup">
+            <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="userSearchEvent" onclick="save()">提交
+            </button>
+        </div>
+    </div>
+    <div class="tableBox">
+        <div class="tableToolBox">
+          <span id="priceandnumber"></span>
+        </div>
+        <table id="user_table" class="layui-hide" lay-filter="tableDataTwo"></table>
+    </div>
 </div>
-
-
-<script id="dateTpl" type="text/html"> {{formatTime(d.applicationTime)}} </script>
+</body>
 <script type="text/javascript">
     // 时间格式化
     function formatTime(d) {
@@ -61,124 +79,180 @@
         }
     }
 </script>
-<!--表格数据操作js-->
-
-<script>
-var table,selectRowData;
-var publicMethods;
-var name=$('#name').val();
-    layui.use(['jquery','table','laypage','layer','laytpl',"publicMethods"], function(){
-           table = layui.table,
-            $ = layui.jquery,
-            layer = layui.layer,
-            laypage = layui.laypage;
-           publicMethods=layui.publicMethods;
-	     //加载表格      
-	     renderTable();
-	     //移除表头的复选框,去掉全选
-	     $(".layui-table-header table thead th input").remove();  
-         // 触发不同的按钮事件
-         var $ = layui.$, active = {
-            searchEvent: function() { //点击查询按钮
-            	renderTable();
-               
-            },
-            resetEvent: function() { //点击重置按钮
-            	$('#name').val("");
-            	$('#auditStatus').val("");
-            }
-            
-        };
-
-      //监听排序
-        table.on('sort(model-table)', function(obj){
-            console.log(this, obj.field, obj.type)
-            //return;
-            //服务端排序
-            table.reload('model-table', {
-                initSort: obj,
-                page: {curr: 1}, //重新从第一页开始
-                where: { //重新请求服务端
-                    key: obj.field, //排序字段
-                    order: obj.type //排序方式
-                }
-            });
-        });
-        //区别按钮属性
-        $('.layui-btn').on('click', function(){
-            var type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
-        });   
-    });
-
-    function renderTable()
-    { 
-       //渲染
-       table.render({
-           elem: '#processdef-table',
-           url: '/sre-sreScrapApply/list',
-           method:"POST",
-           where: {param: {"name":$("#name").val()}},
-           limit: 15,
-           id: 'processdef-table',
-           height: commonDislodgeTable(),
-           page: {
-               groups: 5,
-               limits: [15,30,45,60],
-               layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
-               first: '首页', //不显示首页
-               last: '尾页', //不显示尾页
-               theme: '#0F9EE0'
-           },
-           cols: [[
-            {type : 'checkbox', event : 'changeEvents', width : 55},
-           	{title : '序号', type : 'numbers', width : 55},
-            {field : 'name', title : '报废名称', style : 'cursor: pointer;', align : 'center',  width : '29%'},
-            {field : 'createUser',     title : '创建人', style : 'cursor: pointer;', align : 'left', width : '15%' },
-            {field : 'updateUser', title : '更新人', style : 'cursor: pointer;', align : 'center',width : '15%'},
-            {field : 'remarks', title : '备注', style : 'cursor: pointer;', align : 'center',width : '29%'}
-               
-           ]],
-           done: function (res, curr, count) {
-               // 点击行联动选择框--单选
-               $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-               	var index=parseInt($(this).index()+1);
-                   $('tr').removeClass('layui-table-click');
-                   $(this).addClass('layui-table-click');
-                   $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                   $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                   selectRowData=res.data[index-1];
-                   var applicationState=selectRowData.applicationState;
-                  
-                   if(applicationState=='0' || applicationState=='3' )
-                   {
-                	  
-                	   $("#editEvent").attr("disabled",false);
-                	   $("#deleteEvent").attr("disabled",false);
-                   }else if(applicationState=='1' || applicationState=='2')
-                   {
-                	   $("#editEvent").attr("disabled",true);
-                	   $("#deleteEvent").attr("disabled",true);
-                   }
-                  
-               });
-               //项目分类，项目性质
-               var dicMap = ['ROOT_ZBGL_ZBFL'];
-               var dicVal = {};
-				publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
-					$.each(data,function(key,val){
-						$.each(val,function(i,dt){
-							dicVal[dt.code] = dt.name;
-						});
-					});
-			   	}); 
-				$.each(res.data,function(i,dt){
-					$("tr[data-index='"+i+"'] td[data-field='type'] div").html(dicVal[res.data[i].type]); 
-			   	});
-           }
-       });
+<script type="text/javascript">
+    var AddData=[];
+	var selectRowData,table;
+	//reload后删除表头
+	function reloadTable(table,where)
+	{
+		layui.table.reload(table,{where: where});
+		$(".layui-table-header table thead th input").remove();
+	}
+	function view_project(id) 
+    {
+    var k=[];
+		    for(var i=0;i<AddData.length;i++)
+		    {
+		    if(AddData[i]!="undefined" && AddData[i]!=null && AddData[i]!="")
+			        {
+					    if(AddData[i].id==id)
+					    {
+					         delete AddData[i];
+					     }
+				        }
+		        }
+		        for(var i=0;i<AddData.length;i++)
+		        {
+			        if(AddData[i]!="undefined" && AddData[i]!=null && AddData[i]!="")
+			        {
+			        k.unshift({id:AddData[i].id,equipmentName:AddData[i].equipmentName,specification:AddData[i].specification,del:"删除"});
+			        }
+		        }
+		        AddData=k;
+		    table.reload('userListTable',{
+						data : AddData
+			}) 
+				$("#priceandnumber").html("合计100数量100"); 
+								 
     }
-</script>
+    
+	function save()
+	{
+	if($("#applyName").val()=="")
+	{
+	layer.msg("请输入名称");
+	return;
+	}
+	var ids='';
+	var getid=$("#getid").val();
+		for(var i=0;i<AddData.length;i++)
+		{
+		ids=ids+","+AddData[i].id;
+		}
+		var name=$("#applyName").val();
+		 $.ajax({
+	           type : 'POST',
+	           url : "/sre-sreScrapApply/addApplyAndItem",
+	           data : {"name":name,"ids":ids,"id":getid,"addorupdate":""},
+	           success : function(data) {
+	           layer.msg("保存成功！");
+	        	}
+	       });
+    	  
+	}
+	layui.use(['jquery', 'table', 'laypage'], function () {
+    	table = layui.table,$ = layui.jquery;
+    	
+    	
+    	 var $ = layui.$, active = {
+            roleSearchEvent: function() { //点击查询按钮
+            	rendRoleTable(); 
+            },
+        };
+    	
+    	
+    	
+    	
+    	
+    function rendRoleTable()
+    {
+    	var lodingMsg = layer.msg('数据加载中....');
+    	var param = JSON.parse(window.localStorage.getItem("param"));
+	    //渲染第一个表格
+	    table.render({
+	        elem: '#role_table' //表格容器
+	        , url: '/sre-detail/list' //请求的url地址
+	        , limit : param.selfRownum //每页默认显示的数量
+	        , id: 'roleListTable'
+	        , where: {param: {"equipmentName":$("#equipmentName").val()}}
+	        , height: commonDislodgeTable()
+	        , method:"POST"
+	        ,loading:true
+	        , page: {
+	            groups: 5
+	            , limits : [ param.selfRownum, 15, 30, 45, 60 ]
+	            , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+	            , first: '首页' //不显示首页
+	            , last: '尾页' //不显示尾页
+	            , theme: '#0F9EE0'
+	        }
+	        , cols: [[
+	            	 {type: 'checkbox', event: 'roleCheckboxEvent'}
+	            	,{title:'序号', type:'numbers'}
+	            	, {field: 'id', title: 'id', style: 'cursor: pointer;'}
+	            	, {field: 'equipmentPrice', title: '装备单价', style: 'cursor: pointer;'}
+	            	, {field: 'equipmenNumber', title: '规格数量', style: 'cursor: pointer;'}
+	            	, {field: 'equipmentName', title: '装备名称', style: 'cursor: pointer;'}
+	            	, {field: 'specification', title: '规格型号', style: 'cursor: pointer;'}
+	            	, {field: 'arrivaldate', title: '到货日期', style: 'cursor: pointer;', templet :function (row){
+                        return formatTime(row.arrivaldate);
+                        }  }
+	            	, {field: 'supplier', title: '供应商', style: 'cursor: pointer;'}
+	            	, {field: 'assetsClassification', title: '分类', style: 'cursor: pointer;'}
+	        ]]
+	        , done: function (res, curr, count) {
+	        $("[data-field='id']").css('display','none');
+	            // 点击行联动选择框--单选
+	            $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+	               
+	                 var index=parseInt($(this).index()+1);
+	                  selectRowData=res.data[index-1];
+                   $(this).addClass('layui-table-click');
+                   $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+               
+	                  var bo=false;
+	                  for(var i=0;i<AddData.length;i++)
+	                  {
+		                  if(AddData[i].id==selectRowData.id)
+		                  {
+		                  bo=true;
+		                  }
+	                  }
+	                  if(bo==false)
+	                  {
+						AddData.unshift({id:selectRowData.id,equipmentName:selectRowData.equipmentName,specification:selectRowData.specification,del:"删除"});
+					  }
+						table.reload('userListTable',{
+						data : AddData
+						}) 
+						$("#priceandnumber").html("合计100数量100");       
+	            })
+	        }
+	    });
+    }
+    
 
-</body>
+    function rendUserTable(){
+    	var lodingMsg = layer.msg('数据加载中....');
+    	var param = JSON.parse(window.localStorage.getItem("param"));
+	    table.render({
+	        elem: '#user_table' //表格容器
+	        , id: 'userListTable'
+	        , height: commonDislodgeTable()
+	        , loading: true
+	        , cols: [[
+	        	 {field: 'id', title: '编号', style: 'cursor: pointer;'}
+	           , {field: 'equipmentName', title: '装备名称', style: 'cursor: pointer;'}
+	           , {field: 'specification', title: '规格型号', style: 'cursor: pointer;'}
+	           , {field: 'del', title :'删除', style :'cursor: pointer;color: red;', align: 'center', width : '10%',templet:function(d){return '<span onclick="view_project('+d.id+')" style="color:red">删除</span>'}}
+	        ]],
+	        data:AddData
+	        , done: function (res, curr, count) {
+	        	layer.close(lodingMsg);
+	        }
+	        
+	    });
+	    $(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
+    }
+    rendRoleTable();
+    rendUserTable();
+   
+    //区别按钮属性
+    $('.layui-btn').on('click', function () {
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
+    });
+});
+   
+</script>
 </html>

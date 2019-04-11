@@ -322,11 +322,12 @@ var nd=$("#month").val().substring(4,0);
 			
 			},
 			success : function(data) {
-				var total_count = 0;
-				$.each(data.data.seriesDataList,function(index,dt){
-					total_count+=dt;
-				});
-				$("#equipment_id").html(total_count+ "<small style='font-size:14px'>(台)</small>");
+				var xkCount_1=getDataCountForName(data.data,'500万以上');
+		    	var jzCount_2=getDataCountForName(data.data,'300-500万');
+		    	var jzCount_3=getDataCountForName(data.data,'100-300万');
+		    	var jzCount_4=getDataCountForName(data.data,'100万以下');
+		        var allCount=xkCount_1+jzCount_2+jzCount_3+jzCount_4;
+				$("#equipment_id").html(allCount+ "<small style='font-size:14px'>(台)</small>");
 			}
 		});
 
@@ -462,6 +463,32 @@ var nd=$("#month").val().substring(4,0);
 		setdragon_count();
 		setinvestment_count();
 		get_news();
+	}
+	
+	
+	
+	
+	function getDataCountForName(data,strName)
+	{
+		var seriesList=data.seriesList;
+		//alert(seriesList.length);
+		
+	    var xkCount=0;
+	    for(var i=0;i<seriesList.length;i++)
+	    {
+	    	var arr=seriesList[i].data;
+	    	var name=seriesList[i].name;
+	    	if(name==strName)
+	    	{
+	    		var name_count=0;
+	    		for(var j=0;j<arr.length;j++)
+	            {
+	    			name_count=name_count+parseInt(arr[j]);
+	            }
+	    		xkCount=name_count;
+	    	}
+	    } 
+	    return parseInt(xkCount);
 	}
 </script>
 </body>

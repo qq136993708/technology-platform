@@ -10,7 +10,7 @@ import java.io.Serializable;
  * <p>实体类</p>
  * <p>Table: zjk_project_expert - </p>
  *
- * @since 2019-02-21 03:28:04
+ * @since 2019-04-02 04:12:02
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ZjkProjectExpert extends DataEntity implements Serializable {

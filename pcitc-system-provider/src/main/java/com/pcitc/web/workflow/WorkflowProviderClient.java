@@ -141,7 +141,7 @@ public class WorkflowProviderClient {
 			}
 			
 			SysFunctionProdef fpd = workflowInstanceService.queryFunctionProdef(workflowVo);
-			
+			System.out.println("fpd---"+fpd.getProdefName());
 			if (fpd == null || fpd.getProdefId() == null) {
 				return "流程启动异常,参数异常";
 			} else {
@@ -192,16 +192,18 @@ public class WorkflowProviderClient {
 		// 本次任务的可用变量
 		Map<String, Object> taskVar = taskService.getVariables(task.getId());
 		
+		for (Map.Entry<String, Object> entry : json.entrySet()) {
+			taskVar.put(entry.getKey(), entry.getValue());
+        }
+		
 		for (String key : taskVar.keySet()) {
 			System.out.println(key+"-----taskVar====" + taskVar.get(key));
 		}
 		// 本次任务节点的下一个节点。特殊节点，根据表单内容来觉得下一步的审批人
 		// 启动节点，获取开始的下一个节点的下个节点（二层）
-		Map<String, Object> temMap = new HashMap<String, Object>();
-		temMap.put("agree", "1");
-		TaskDefinition taskDef = this.getNextTaskInfo(task.getId(), temMap);
+		TaskDefinition taskDef = this.getNextTaskInfo(task.getId(), variables);
 		// System.out.println("1=========TaskDefinition======="+taskDef);
-		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor") && taskVar.get("auditor") == null) {
+		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor")) {
 			// 特殊节点，自动获取当初传递的审批人员的值。并且不是通过选择来确定审批者的
 			System.out.println("1=========TaskDefinition======="+taskDef.getKey());
 			System.out.println("1=========TaskDefinition======="+json.getString(taskDef.getKey()));
@@ -226,6 +228,8 @@ public class WorkflowProviderClient {
 		taskVar.put("authenticatedUserName", json.getString("authenticatedUserName"));
 		taskVar.put("authenticatedDate", new Date());
 		taskVar.put("flowAuditorName", json.getString("authenticatedUserName"));
+		// 启动节点，审批意见为空
+		taskVar.put("flowAuditorComments", " ");
 
 		String processInstanceName = "";
 		if (!StrUtil.isBlankOrNull(json.getString("processInstanceName"))) {
@@ -246,6 +250,10 @@ public class WorkflowProviderClient {
 			taskVar.put("assigneeList", Arrays.asList(taskVar.get("auditor").toString().split(",")));
 			System.out.println("2会签时2====" + taskVar.get("auditor"));
 		}
+		
+		// 为回退添加标识位
+		taskVar.put("rejectFlag", task.getId());
+		
 		System.out.println("开始执行任务----------------"+task.getId());
 		taskService.complete(task.getId(), taskVar);
 		Date date2 = new Date();
@@ -337,11 +345,9 @@ public class WorkflowProviderClient {
 		}
 		
 		// 本次任务节点的下一个节点。特殊节点，根据表单内容来觉得下一步的审批人
-		Map<String, Object> temMap = new HashMap<String, Object>();
-		temMap.put("agree", "1");
-		TaskDefinition taskDef = this.getNextTaskInfo(task.getId(), temMap);
+		TaskDefinition taskDef = this.getNextTaskInfo(task.getId(), iniVar);
 		// System.out.println("1=========TaskDefinition======="+taskDef);
-		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor") && taskVar.get("auditor") == null) {
+		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor")) {
 			// 特殊节点，获取当初传递的值
 			Set<String> userIds = new LinkedHashSet<String>();
 			System.out.println("1=========TaskDefinition======="+taskDef.getKey());
@@ -365,6 +371,8 @@ public class WorkflowProviderClient {
 		taskVar.put("authenticatedUserName", workflowVo.getAuthenticatedUserName());
 		taskVar.put("authenticatedDate", new Date());
 		taskVar.put("flowAuditorName", workflowVo.getAuthenticatedUserName());
+		// 启动节点，审批意见为空
+		taskVar.put("flowAuditorComments", " ");
 		
 		// 设置此流程实例的名称（待办任务名称）
 		runtimeService.setProcessInstanceName(processInstance.getId(), workflowVo.getProcessInstanceName());
@@ -381,6 +389,9 @@ public class WorkflowProviderClient {
 			System.out.println("1会签时====" + taskVar.get("auditor"));
 			taskVar.put("assigneeList", taskVar.get("auditor"));
 		}
+		
+		// 为回退添加标识位
+		taskVar.put("rejectFlag", task.getId());
 		
 		// 处理本次任务，同时指定下一次任务可用的变量(taskVar)
 		taskService.complete(task.getId(), taskVar);
@@ -612,7 +623,7 @@ public class WorkflowProviderClient {
 				// 获取下一个节点信息
 				System.out.println("51----------获取下一个节点信息----"+activityImpl.getId());
 				task = nextTaskDefinition(activityImpl, activityImpl.getId(), null, processInstanceId, globalVar);
-				System.out.println("52----------获取下一个节点信息----"+task.getKey());
+				System.out.println("52----------获取下一个节点信息----"+task);
 				break;
 			}
 		}
@@ -656,7 +667,7 @@ public class WorkflowProviderClient {
 		PvmActivity ac = null;
 
 		Object s = null;
-		System.out.println("53----------节点信息----"+activityImpl.getProperty("type"));
+		System.out.println("53----------节点信息----"+activityImpl.getProperty("type")+"----"+activityId);
 		// 如果遍历节点为用户任务并且节点不是当前节点信息
 		if ("userTask".equals(activityImpl.getProperty("type")) && !activityId.equals(activityImpl.getId())) {
 			// 获取该节点下一个节点信息(下一个实例可能是多实例节点)
@@ -690,7 +701,7 @@ public class WorkflowProviderClient {
 						boolean cond = true;
 						for (PvmTransition tr1 : outTransitionsTemp) {
 							s = tr1.getProperty("conditionText"); // 获取排他网关线路判断条件信息
-							// System.out.println("1============================="+s+"------------------------------"+elString);
+							System.out.println("1============================="+s+"------------------------------"+elString);
 							// 计算出现的变量的相应的表达式是否成立，el中可能有多个变量，在全局变量中分别取这些值
 							// 判断el表达式是否成立
 							// 可能存在除agree（同意不同意）之外的其他条件判断（一个节点只能有一个节点判断），所以直接遍历当前的网关条件
@@ -737,7 +748,9 @@ public class WorkflowProviderClient {
 	 * @return
 	 */
 	public boolean isCondition(String key, String el, String value) {
-		// System.out.println(key+"===="+el+"========"+value);
+		if (el.indexOf(key) < 0) {
+			return false;
+		}
 		ExpressionFactory factory = new ExpressionFactoryImpl();
 		SimpleContext context = new SimpleContext();
 		context.setVariable(key, factory.createValueExpression(value, String.class));

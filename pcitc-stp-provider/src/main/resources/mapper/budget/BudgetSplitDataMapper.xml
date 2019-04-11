@@ -11,12 +11,12 @@
     <result column="nd" jdbcType="VARCHAR" property="nd" />
     <result column="budget_type" jdbcType="INTEGER" property="budgetType" />
     <result column="budget_type_name" jdbcType="VARCHAR" property="budgetTypeName" />
-    <result column="split_id" jdbcType="INTEGER" property="splitId" />
     <result column="split_code" jdbcType="VARCHAR" property="splitCode" />
+    <result column="split_name" jdbcType="VARCHAR" property="splitName" />
     <result column="total" jdbcType="DOUBLE" property="total" />
     <result column="jz" jdbcType="DOUBLE" property="jz" />
     <result column="xq" jdbcType="DOUBLE" property="xq" />
-    <result column="plan" jdbcType="DOUBLE" property="plan" />
+    <result column="payment_type" jdbcType="INTEGER" property="paymentType" />
     <result column="budget_info_id" jdbcType="VARCHAR" property="budgetInfoId" />
     <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
   </resultMap>
@@ -80,7 +80,8 @@
   </sql>
   <sql id="Base_Column_List">
     data_id, data_version, create_time, update_time, organ_id, organ_code, nd, budget_type, 
-    budget_type_name, split_id, split_code, total, jz, xq, plan, budget_info_id, del_flag
+    budget_type_name, split_code, split_name, total, jz, xq, payment_type, budget_info_id, 
+    del_flag
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.stp.budget.BudgetSplitDataExample" resultMap="BaseResultMap">
     select
@@ -117,15 +118,15 @@
     insert into out_tem_budget_split_data (data_id, data_version, create_time, 
       update_time, organ_id, organ_code, 
       nd, budget_type, budget_type_name, 
-      split_id, split_code, total, 
-      jz, xq, plan, budget_info_id, 
-      del_flag)
+      split_code, split_name, total, 
+      jz, xq, payment_type, 
+      budget_info_id, del_flag)
     values (#{dataId,jdbcType=VARCHAR}, #{dataVersion,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, 
       #{updateTime,jdbcType=VARCHAR}, #{organId,jdbcType=INTEGER}, #{organCode,jdbcType=VARCHAR}, 
       #{nd,jdbcType=VARCHAR}, #{budgetType,jdbcType=INTEGER}, #{budgetTypeName,jdbcType=VARCHAR}, 
-      #{splitId,jdbcType=INTEGER}, #{splitCode,jdbcType=VARCHAR}, #{total,jdbcType=DOUBLE}, 
-      #{jz,jdbcType=DOUBLE}, #{xq,jdbcType=DOUBLE}, #{plan,jdbcType=DOUBLE}, #{budgetInfoId,jdbcType=VARCHAR}, 
-      #{delFlag,jdbcType=INTEGER})
+      #{splitCode,jdbcType=VARCHAR}, #{splitName,jdbcType=VARCHAR}, #{total,jdbcType=DOUBLE}, 
+      #{jz,jdbcType=DOUBLE}, #{xq,jdbcType=DOUBLE}, #{paymentType,jdbcType=INTEGER}, 
+      #{budgetInfoId,jdbcType=VARCHAR}, #{delFlag,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.budget.BudgetSplitData">
     insert into out_tem_budget_split_data
@@ -157,11 +158,11 @@
       <if test="budgetTypeName != null">
         budget_type_name,
       </if>
-      <if test="splitId != null">
-        split_id,
-      </if>
       <if test="splitCode != null">
         split_code,
+      </if>
+      <if test="splitName != null">
+        split_name,
       </if>
       <if test="total != null">
         total,
@@ -172,8 +173,8 @@
       <if test="xq != null">
         xq,
       </if>
-      <if test="plan != null">
-        plan,
+      <if test="paymentType != null">
+        payment_type,
       </if>
       <if test="budgetInfoId != null">
         budget_info_id,
@@ -210,11 +211,11 @@
       <if test="budgetTypeName != null">
         #{budgetTypeName,jdbcType=VARCHAR},
       </if>
-      <if test="splitId != null">
-        #{splitId,jdbcType=INTEGER},
-      </if>
       <if test="splitCode != null">
         #{splitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="splitName != null">
+        #{splitName,jdbcType=VARCHAR},
       </if>
       <if test="total != null">
         #{total,jdbcType=DOUBLE},
@@ -225,8 +226,8 @@
       <if test="xq != null">
         #{xq,jdbcType=DOUBLE},
       </if>
-      <if test="plan != null">
-        #{plan,jdbcType=DOUBLE},
+      <if test="paymentType != null">
+        #{paymentType,jdbcType=INTEGER},
       </if>
       <if test="budgetInfoId != null">
         #{budgetInfoId,jdbcType=VARCHAR},
@@ -272,11 +273,11 @@
       <if test="record.budgetTypeName != null">
         budget_type_name = #{record.budgetTypeName,jdbcType=VARCHAR},
       </if>
-      <if test="record.splitId != null">
-        split_id = #{record.splitId,jdbcType=INTEGER},
-      </if>
       <if test="record.splitCode != null">
         split_code = #{record.splitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.splitName != null">
+        split_name = #{record.splitName,jdbcType=VARCHAR},
       </if>
       <if test="record.total != null">
         total = #{record.total,jdbcType=DOUBLE},
@@ -287,8 +288,8 @@
       <if test="record.xq != null">
         xq = #{record.xq,jdbcType=DOUBLE},
       </if>
-      <if test="record.plan != null">
-        plan = #{record.plan,jdbcType=DOUBLE},
+      <if test="record.paymentType != null">
+        payment_type = #{record.paymentType,jdbcType=INTEGER},
       </if>
       <if test="record.budgetInfoId != null">
         budget_info_id = #{record.budgetInfoId,jdbcType=VARCHAR},
@@ -312,12 +313,12 @@
       nd = #{record.nd,jdbcType=VARCHAR},
       budget_type = #{record.budgetType,jdbcType=INTEGER},
       budget_type_name = #{record.budgetTypeName,jdbcType=VARCHAR},
-      split_id = #{record.splitId,jdbcType=INTEGER},
       split_code = #{record.splitCode,jdbcType=VARCHAR},
+      split_name = #{record.splitName,jdbcType=VARCHAR},
       total = #{record.total,jdbcType=DOUBLE},
       jz = #{record.jz,jdbcType=DOUBLE},
       xq = #{record.xq,jdbcType=DOUBLE},
-      plan = #{record.plan,jdbcType=DOUBLE},
+      payment_type = #{record.paymentType,jdbcType=INTEGER},
       budget_info_id = #{record.budgetInfoId,jdbcType=VARCHAR},
       del_flag = #{record.delFlag,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -351,11 +352,11 @@
       <if test="budgetTypeName != null">
         budget_type_name = #{budgetTypeName,jdbcType=VARCHAR},
       </if>
-      <if test="splitId != null">
-        split_id = #{splitId,jdbcType=INTEGER},
-      </if>
       <if test="splitCode != null">
         split_code = #{splitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="splitName != null">
+        split_name = #{splitName,jdbcType=VARCHAR},
       </if>
       <if test="total != null">
         total = #{total,jdbcType=DOUBLE},
@@ -366,8 +367,8 @@
       <if test="xq != null">
         xq = #{xq,jdbcType=DOUBLE},
       </if>
-      <if test="plan != null">
-        plan = #{plan,jdbcType=DOUBLE},
+      <if test="paymentType != null">
+        payment_type = #{paymentType,jdbcType=INTEGER},
       </if>
       <if test="budgetInfoId != null">
         budget_info_id = #{budgetInfoId,jdbcType=VARCHAR},
@@ -388,12 +389,12 @@
       nd = #{nd,jdbcType=VARCHAR},
       budget_type = #{budgetType,jdbcType=INTEGER},
       budget_type_name = #{budgetTypeName,jdbcType=VARCHAR},
-      split_id = #{splitId,jdbcType=INTEGER},
       split_code = #{splitCode,jdbcType=VARCHAR},
+      split_name = #{splitName,jdbcType=VARCHAR},
       total = #{total,jdbcType=DOUBLE},
       jz = #{jz,jdbcType=DOUBLE},
       xq = #{xq,jdbcType=DOUBLE},
-      plan = #{plan,jdbcType=DOUBLE},
+      payment_type = #{paymentType,jdbcType=INTEGER},
       budget_info_id = #{budgetInfoId,jdbcType=VARCHAR},
       del_flag = #{delFlag,jdbcType=INTEGER}
     where data_id = #{dataId,jdbcType=VARCHAR}

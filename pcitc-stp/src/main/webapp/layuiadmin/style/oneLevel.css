@@ -74,6 +74,8 @@
 .layui-news ul li a{width: 73%;display: inline-block;overflow: hidden;color: white;
     text-overflow: ellipsis;white-space: nowrap;font-size: 16px;}
 .layui-news ul li span{color:#a8ffd5;font-size:16px;position: relative;right:-30px;top: -10px;}
+.news ul{min-height: 272px;}
+.group ul{min-height: auto;}
 .layui-agency-left{background-color: #0094d3;height: 128px;}
 .layui-agency-left ul {height: auto;overflow: hidden;padding-left: 50px;}
 .layui-agency-left ul li{width: 43%;float: left;text-align: center;position: relative;
@@ -134,10 +136,10 @@ line-height: 60px;font-size: 22px;}
 .layui-leader-list,.layui-leader-details{width: 75%;margin: 0 auto;}
 .layui-leader-speech .layui-col-md9 .layui-col-md6,.layui-leader-list .layui-col-md8{padding-right: 60px;}
 .layui-speech .news>p{font-size: 18px;color: #de252a;text-indent: 36px;height: 32px;margin-bottom: 20px;
-    border-bottom: 1px solid #dfdfdf;line-height: 18px;}
+    border-bottom: 1px solid #dfdfdf;line-height: 18px;cursor: pointer;}
 .layui-speech .news>p a{color: #878787;font-size: 16px;float: right;}
 .layui-speech-new{background: url("/layuiadmin/layui/images/icon-speech-new.png") no-repeat;}
-.layui-speech-new ul li:nth-child(1){display: flex;margin-bottom: 12px;height: 148px;overflow: hidden;}
+/*.layui-speech-new ul li:nth-child(1){display: flex;margin-bottom: 12px;height: 148px;overflow: hidden;}*/
 .layui-speech-new ul li img{float: left;}
 .layui-speech-new ul li .details{float: left;width: 100%;padding-left: 28px;
     text-overflow: ellipsis;}
@@ -162,12 +164,15 @@ line-height: 60px;font-size: 22px;}
 .science{background: url("/layuiadmin/layui/images/icon-science.png") no-repeat;margin-top: 50px;}
 .study ul{display: block !important;}
 .layui-leader-list .group{margin-top: 0;width: 100%;}
+.layui-leader-list .group ul li{border-bottom: 1px solid #f5f5f5;margin-bottom: 5px;}
+.group ul li:last-child{border: none;}
 .layui-speech-d{text-align: center;}
 .layui-speech-d span{ font-size: 14px;color: #aaa;display: inline-block;padding: 50px 0 36px;}
 .layui-speech-d .details span{margin: 20px 0 40px;padding: 0}
-.layui-speech-d .details p{text-align: left;font-size: 18px;color: #666666;}
+.layui-speech-d .details p{text-align: left;font-size: 18px;color: #666666;text-indent: 2em;
+    line-height: 30px;margin: 10px 0;}
 .layui-speech-d h4{font-size: 26px;color: #000000;}
-.layui-speech-d h5{font-size: 16px;color: #000000;}
+.layui-speech-d h5{font-size: 16px;color: #000000;margin-bottom: 20px;}
 .layui-speech-d .title{margin-top: 26px;}
 .layui-speech-d .title-time{margin-top: 20px;}
 .layui-speech-d .time{margin-right: 10px;}

@@ -12,7 +12,7 @@ import java.io.Serializable;
  * <p>实体类</p>
  * <p>Table: zjk_patent - 专家-专利信息</p>
  *
- * @since 2018-12-28 09:30:57
+ * @since 2019-04-02 04:14:04
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ZjkPatent extends DataEntity implements Serializable {
@@ -90,7 +90,7 @@ public class ZjkPatent extends DataEntity implements Serializable {
     private String applyDate;
 
     /**
-     * bak1 - 是否指派
+     * bak1 - 所属技术分类名称
      */
     private String bak1;
 
@@ -209,6 +209,25 @@ public class ZjkPatent extends DataEntity implements Serializable {
     }
 
     private String select_type;
+    /**
+     * doc_id - 文档编号
+     */
+    private String docId;
+
+    /**
+     * nd - 年度
+     */
+    private String nd;
+
+    /**
+     * country - 授权国家
+     */
+    private String country;
+
+    /**
+     * is_result - 是否形成工业化成果
+     */
+    private String isResult;
 
     public String getDataId() {
         return this.dataId;
@@ -498,6 +517,38 @@ public class ZjkPatent extends DataEntity implements Serializable {
         this.modifyUser = modifyUser;
     }
 
+    public String getDocId() {
+        return this.docId;
+    }
+
+    public void setDocId(String docId) {
+        this.docId = docId;
+    }
+
+    public String getNd() {
+        return this.nd;
+    }
+
+    public void setNd(String nd) {
+        this.nd = nd;
+    }
+
+    public String getCountry() {
+        return this.country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getIsResult() {
+        return this.isResult;
+    }
+
+    public void setIsResult(String isResult) {
+        this.isResult = isResult;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -583,7 +634,15 @@ public class ZjkPatent extends DataEntity implements Serializable {
 
                         (this.getModifyDate() == null ? other.getModifyDate() == null : this.getModifyDate().equals(other.getModifyDate())) &&
 
-                        (this.getModifyUser() == null ? other.getModifyUser() == null : this.getModifyUser().equals(other.getModifyUser()));
+                        (this.getModifyUser() == null ? other.getModifyUser() == null : this.getModifyUser().equals(other.getModifyUser())) &&
+
+                        (this.getDocId() == null ? other.getDocId() == null : this.getDocId().equals(other.getDocId())) &&
+
+                        (this.getNd() == null ? other.getNd() == null : this.getNd().equals(other.getNd())) &&
+
+                        (this.getCountry() == null ? other.getCountry() == null : this.getCountry().equals(other.getCountry())) &&
+
+                        (this.getIsResult() == null ? other.getIsResult() == null : this.getIsResult().equals(other.getIsResult()));
     }
 
     @Override
@@ -626,6 +685,10 @@ public class ZjkPatent extends DataEntity implements Serializable {
         result = prime * result + ((getCreateUserDisp() == null) ? 0 : getCreateUserDisp().hashCode());
         result = prime * result + ((getModifyDate() == null) ? 0 : getModifyDate().hashCode());
         result = prime * result + ((getModifyUser() == null) ? 0 : getModifyUser().hashCode());
+        result = prime * result + ((getDocId() == null) ? 0 : getDocId().hashCode());
+        result = prime * result + ((getNd() == null) ? 0 : getNd().hashCode());
+        result = prime * result + ((getCountry() == null) ? 0 : getCountry().hashCode());
+        result = prime * result + ((getIsResult() == null) ? 0 : getIsResult().hashCode());
         return result;
     }
 
@@ -671,6 +734,10 @@ public class ZjkPatent extends DataEntity implements Serializable {
         sb.append(", createUserDisp=").append(createUserDisp);
         sb.append(", modifyDate=").append(modifyDate);
         sb.append(", modifyUser=").append(modifyUser);
+        sb.append(", docId=").append(docId);
+        sb.append(", nd=").append(nd);
+        sb.append(", country=").append(country);
+        sb.append(", isResult=").append(isResult);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

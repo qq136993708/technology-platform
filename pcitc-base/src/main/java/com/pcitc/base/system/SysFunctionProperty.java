@@ -1,15 +1,7 @@
 package com.pcitc.base.system;
 
-
-import com.pcitc.base.util.SearchInfo;
-
-public class SysFunctionProperty extends SearchInfo {
-    /**
-	 *
-	 */
-	private static final long serialVersionUID = -6507966992910907478L;
-
-	private String id;
+public class SysFunctionProperty {
+    private String id;
 
     private String functionId;
 
@@ -19,9 +11,61 @@ public class SysFunctionProperty extends SearchInfo {
 
     private String proCode;
 
+    private String postId;
+
+    private String postName;
+
+    private String postCode;
+
+    private String postConfigValue;
+
     private Integer isAvailable;
 
-    public String getId() {
+    private String createDate;
+
+    private String createUserId;
+    
+    private String limit;
+
+    private String page;
+
+    private String iSortCol;
+
+    private String sSortDir_0;
+    
+    public String getLimit() {
+		return limit;
+	}
+
+	public void setLimit(String limit) {
+		this.limit = limit;
+	}
+
+	public String getPage() {
+		return page;
+	}
+
+	public void setPage(String page) {
+		this.page = page;
+	}
+
+	public String getiSortCol() {
+		return iSortCol;
+	}
+
+	public void setiSortCol(String iSortCol) {
+		this.iSortCol = iSortCol;
+	}
+
+	public String getsSortDir_0() {
+		return sSortDir_0;
+	}
+
+	public void setsSortDir_0(String sSortDir_0) {
+		this.sSortDir_0 = sSortDir_0;
+	}
+
+	public String getId() {
         return id;
     }
 
@@ -61,11 +105,59 @@ public class SysFunctionProperty extends SearchInfo {
         this.proCode = proCode;
     }
 
+    public String getPostId() {
+        return postId;
+    }
+
+    public void setPostId(String postId) {
+        this.postId = postId;
+    }
+
+    public String getPostName() {
+        return postName;
+    }
+
+    public void setPostName(String postName) {
+        this.postName = postName;
+    }
+
+    public String getPostCode() {
+        return postCode;
+    }
+
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
+    }
+
+    public String getPostConfigValue() {
+        return postConfigValue;
+    }
+
+    public void setPostConfigValue(String postConfigValue) {
+        this.postConfigValue = postConfigValue;
+    }
+
     public Integer getIsAvailable() {
         return isAvailable;
     }
 
     public void setIsAvailable(Integer isAvailable) {
         this.isAvailable = isAvailable;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(String createUserId) {
+        this.createUserId = createUserId;
     }
 }

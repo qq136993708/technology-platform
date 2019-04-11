@@ -18,6 +18,18 @@ public enum BudgetInfoEnum
 	ASSET_SPLIT(204,"预算分解表（资产预算分解）"),
 	STOCK_SPLIT(205,"预算分解表（股份预算分解）");
 	
+	public static BudgetInfoEnum getByCode(Integer code) 
+	{
+		for(BudgetInfoEnum v:BudgetInfoEnum.values()) 
+		{
+			if(v.getCode().equals(code)) 
+			{
+				return v;
+			}
+		}
+		return TOTAL;
+	}
+	
 	private BudgetInfoEnum(Integer code, String desc) {
 		this.code = code;
 		this.desc = desc;

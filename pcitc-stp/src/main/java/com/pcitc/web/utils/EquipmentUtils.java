@@ -14,9 +14,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSON;
@@ -28,6 +25,7 @@ import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectSetup;
 import com.pcitc.base.stp.equipment.SreProjectTask;
+import com.pcitc.base.system.SysPost;
 import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserProperty;
@@ -328,6 +326,16 @@ public class EquipmentUtils {
 		layuiTableData.setCount(returnlist.size());
 		return layuiTableData;
 		
+	}
+	
+	
+   //根据unitId获得机构下岗位列表
+	public static List<SysPost>  getPostListByUnitId(String unitId,RestTemplate restTemplate,HttpHeaders httpHeaders) throws Exception
+	{
+	     String GET_POST_LIST_BYUNIT = "http://pcitc-zuul/system-proxy/post-provider/post/get-post-json";
+	     JSONArray jSONArray = restTemplate.exchange(GET_POST_LIST_BYUNIT, HttpMethod.POST, new HttpEntity<String>(unitId, httpHeaders), JSONArray.class).getBody();
+	     List<SysPost> list = JSONObject.parseArray(jSONArray.toJSONString(), SysPost.class);
+	     return list;
 	}
 	
 	
@@ -789,6 +797,51 @@ public class EquipmentUtils {
 		resultMap.put("budgetTableStrList_zb", budgetTableStrList_zb);
 		resultMap.put("budgetTableStrList_fy", budgetTableStrList_fy);
 		return resultMap;
+	}
+	
+	
+	
+	//根据任务书专处业--》自动到各专业领域
+	public  static String getTaskSpecialAuditor0ByProfessionalDepartName(String professionalDepartName)
+	{
+		String specialAuditor0="";
+		if(professionalDepartName.contains("勘探开发")==true)
+		{
+			specialAuditor0="";//关晓东
+		}
+		if(professionalDepartName.contains("石油工程")==true)
+		{
+			specialAuditor0="";//陈本池
+		}
+		if(professionalDepartName.contains("炼油")==true)
+		{
+			specialAuditor0="30130056_LYC_ZYCCZ";//潘煜
+		}
+		if(professionalDepartName.contains("化工")==true)
+		{
+			specialAuditor0="";//方志平
+		}
+		if(professionalDepartName.contains("合成材料")==true)
+		{
+			specialAuditor0="";//庄毅
+		}
+		if(professionalDepartName.contains("装备与储运")==true)
+		{
+			specialAuditor0="";//卢衍波
+		}
+		if(professionalDepartName.contains("知识产权")==true)
+		{
+			specialAuditor0="";//陈蓓艳
+		}
+		if(professionalDepartName.contains("三剂")==true)
+		{
+			specialAuditor0="30130062_SJC_ZYCCZ";//林雯
+		}
+		if(professionalDepartName.contains("技术监督")==true)
+		{
+			specialAuditor0="30130063_JSJDC_ZYCCZ";//秦士珍
+		}
+		return specialAuditor0;
 	}
 	
 	

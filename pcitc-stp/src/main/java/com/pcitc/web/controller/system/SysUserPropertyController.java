@@ -1,5 +1,6 @@
 package com.pcitc.web.controller.system;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,7 @@ import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.system.SysFunctionProperty;
 import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUserProperty;
 import com.pcitc.base.system.vo.SysUserPropertyVo;
@@ -25,7 +27,6 @@ import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.OperationFilter;
 
 @Controller
-@RequestMapping("userProperty")
 public class SysUserPropertyController extends BaseController {
 
 	private static final String FIRST_LEVEL_NODE = "http://pcitc-zuul/system-proxy/userProperty-provider/first-level-tree";
@@ -42,13 +43,70 @@ public class SysUserPropertyController extends BaseController {
 
 	private static final String UNIT_POST_CON_TREE = "http://pcitc-zuul/system-proxy/unit-provider/units-posts-users/tree";
 	
+	private static final String UNIT_POST_TREE = "http://pcitc-zuul/system-proxy/unit-provider/units-posts/tree";
+	
+	private static final String UNIT_CONFIG = "http://pcitc-zuul/system-proxy/userProperty-provider/units/tree/config";
+	
+	private static final String SAVE_FUN_CONFIG = "http://pcitc-zuul/system-proxy/userProperty-provider/function/config/post/save";
+	
 	@ResponseBody
-	@RequestMapping(value = { "/getOrgTree" }, method = { RequestMethod.POST })
+	@RequestMapping(value = { "/userProperty/getOrgTree" }, method = { RequestMethod.POST })
 	public String getOrgTree() {
 		System.out.println("----------getOrgTree");
 		ResponseEntity<List> responseEntity = restTemplate.exchange(FIRST_LEVEL_NODE, HttpMethod.POST, new HttpEntity<String>("", this.httpHeaders), List.class);
 		List treeNodes = responseEntity.getBody();
 		return JSONUtils.toJSONString(treeNodes);
+	}
+	
+	/**
+	 * 检索机构(树),通过岗位、菜单、配置项信息
+	 */
+	@RequestMapping(value = "/userProperty/units/tree/config")
+	@ResponseBody
+	public String selectUnitListForUnitDataConfig(HttpServletRequest request) throws Exception {
+		String path = request.getContextPath();
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		if (request.getParameter("functionId")!= null) {
+			map.put("functionId", request.getParameter("functionId"));
+		}
+		if (request.getParameter("postId")!= null) {
+			map.put("postId", request.getParameter("postId"));
+		}
+		if (request.getParameter("proCode")!= null) {
+			map.put("proCode", request.getParameter("proCode"));
+		}
+		HttpEntity<HashMap<String, Object>> entity = new HttpEntity<HashMap<String, Object>>(map, this.httpHeaders);
+
+		ResponseEntity<List> responseEntity = this.restTemplate.exchange(UNIT_CONFIG, HttpMethod.POST, entity, List.class);
+		List treeNodes = responseEntity.getBody();
+		for (int i = 0; i < treeNodes.size(); i++) {
+			Map temNode = (Map)treeNodes.get(i);
+			temNode.put("icon", path + "/image/house.png");
+		}
+		return JSONUtils.toJSONString(responseEntity.getBody());
+	}
+	
+	/**
+	 * 用户授权树部门下的部门和用户
+	 */
+	@RequestMapping(value = "/userProperty/unit-post/tree-data")
+	@ResponseBody
+	public String getUnitPostTree(HttpServletRequest request) throws Exception {
+		String path = request.getContextPath();
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		HttpEntity<HashMap<String, Object>> entity = new HttpEntity<HashMap<String, Object>>(map, this.httpHeaders);
+
+		ResponseEntity<List> responseEntity = this.restTemplate.exchange(UNIT_POST_TREE, HttpMethod.POST, entity, List.class);
+		List treeNodes = responseEntity.getBody();
+		for (int i = 0; i < treeNodes.size(); i++) {
+			Map temNode = (Map)treeNodes.get(i);
+			if (temNode.get("nodeType").equals("unit")) {
+				temNode.put("icon", path + "/image/house.png");
+			} else if (temNode.get("nodeType").equals("post")) {
+				temNode.put("icon", path + "/image/post.png");
+			} 
+		}
+		return JSONUtils.toJSONString(responseEntity.getBody());
 	}
 
 	/**
@@ -58,7 +116,7 @@ public class SysUserPropertyController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/selectUserUnderOfUnitTree")
+	@RequestMapping(value = "/userProperty/selectUserUnderOfUnitTree")
 	@ResponseBody
 	public String selectUserUnderOfUnitTree(HttpServletRequest request) throws Exception {
 		String path = request.getContextPath();
@@ -88,7 +146,7 @@ public class SysUserPropertyController extends BaseController {
 	 * @return
 	 */
 	@OperationFilter(modelName = "用户配置管理", actionName = "保存用户配置关系")
-	@RequestMapping(value = "/saveUserPropertyList")
+	@RequestMapping(value = "/userProperty/saveUserPropertyList")
 	@ResponseBody
 	public int saveUserPropertyList(String userProperties, SysUserPropertyVo property) {
 
@@ -99,13 +157,29 @@ public class SysUserPropertyController extends BaseController {
 		int result = responseEntity.getBody();
 		return result;
 	}
+	
+	/**
+	 * 保存菜单、配置项、岗位三者和配置内容的关联，其中岗位、配置内容可能有多个
+	 */
+	@OperationFilter(modelName = "数据权限配置", actionName = "保存菜单、配置项、岗位三者和配置内容的关联")
+	@RequestMapping(value = "/userProperty/function/config/post/save")
+	@ResponseBody
+	public int saveFunctionConfigPost(SysFunctionProperty sysFunctionProperty) throws Exception {
+		System.out.println("sysFunctionProperty------"+sysFunctionProperty);
+		System.out.println("sysFunctionProperty------"+sysFunctionProperty.getPostId());
+		sysFunctionProperty.setCreateUserId(sysUserInfo.getUserId());
+		HttpEntity<SysFunctionProperty> entity = new HttpEntity<SysFunctionProperty>(sysFunctionProperty, this.httpHeaders);
+		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVE_FUN_CONFIG, HttpMethod.POST, entity, Integer.class);
+		int result = responseEntity.getBody();
+		return result;
+	}
 
 	/**
 	 * 跳转至用户配置页面
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = { "/toUserPorperty" }, method = { RequestMethod.POST, RequestMethod.GET })
+	@RequestMapping(value = { "/userProperty/toUserPorperty" }, method = { RequestMethod.POST, RequestMethod.GET })
 	public String toUserPorperty() {
 		return "/base/property/user_property";
 	}
@@ -118,7 +192,7 @@ public class SysUserPropertyController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/getTableData")
+	@RequestMapping(value = "/userProperty/getTableData")
 	@ResponseBody
 	public Object getTableData(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request) throws Exception {
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
@@ -136,7 +210,7 @@ public class SysUserPropertyController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/select-unit-tree")
+	@RequestMapping(value = "/userProperty/select-unit-tree")
 	@ResponseBody
 	public String selectUnitTree(HttpServletRequest request) throws Exception {
 		String userId = request.getParameter("userId");
@@ -147,7 +221,7 @@ public class SysUserPropertyController extends BaseController {
 
 	}
 
-	@RequestMapping(value = "/child-by-child")
+	@RequestMapping(value = "/userProperty/child-by-child")
 	@ResponseBody
 	public String childByChild(HttpServletRequest request) throws Exception {
 		String parentCode = request.getParameter("parentCode");

@@ -81,6 +81,9 @@ public interface EquipmentService {
 	//内部确认流程
 	public Result dealInnerTaskFlow(String id, Map map)throws Exception;
 	public Result dealUpTaskFlow(String id, Map map)throws Exception;
+	
+	
+	
 /**=========================================立项报告==========================================*/
 	
 	

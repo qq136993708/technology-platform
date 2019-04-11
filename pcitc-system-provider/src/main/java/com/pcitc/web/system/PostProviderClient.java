@@ -137,6 +137,18 @@ public class PostProviderClient
 		return postService.findByUnit(unitId);
 	}
 	
+	@ApiOperation(value="检索岗位列表(不分页)",notes="获得机构下岗位列表！")
+	@RequestMapping(value = "/post-provider/post/get-post-json", method = RequestMethod.POST)
+	public JSONArray getSysPostListByUnitjson(@RequestBody String unitId) 
+	{
+		//获取机构下岗位，不分页
+		List<SysPost> list= postService.findByUnit(unitId);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+		return json;
+	}
+	
+	
+	
 	@ApiOperation(value="生成岗位编码",notes="根据岗位信息生成岗位编码，岗位编码中包含机构编码！")
 	@RequestMapping(value = "/post-provider/post/post-code", method = RequestMethod.POST)
 	public Object getSysPostCode(@RequestBody SysPost post) 
