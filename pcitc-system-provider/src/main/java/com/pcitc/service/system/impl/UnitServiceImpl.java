@@ -442,4 +442,19 @@ public class UnitServiceImpl implements UnitService {
 		}
 		return nodes;
 	}
+	
+	
+	//根据UnitPath检索机构信息
+	public SysUnit getUnitByUnitPath(String unitPath)
+	{
+		SysUnitExample example = new SysUnitExample();
+		SysUnitExample.Criteria cr = example.createCriteria();
+		cr.andUnitPathEqualTo(unitPath) ;
+		List<SysUnit> units = unitMapper.selectByExample(example);
+		if(units != null && units.size()>0) {
+			return units.get(0);
+		}
+		return null;
+	}
+	
 }

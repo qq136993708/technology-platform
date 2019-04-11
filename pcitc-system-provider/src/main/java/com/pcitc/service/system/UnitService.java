@@ -166,4 +166,8 @@ public interface UnitService
 	 */
 	public List<TreeNode> getUnitPostTree(HashMap<String,Object> paramMap);
 	
+	//根据UnitPath检索机构信息
+	public SysUnit getUnitByUnitPath(String unitPath);
+	
+	
 }
