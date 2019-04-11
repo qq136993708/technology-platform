@@ -34,7 +34,7 @@
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from sre_equipment_detail
-    where id = #{id,jdbcType=VARCHAR}
+    where configure = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SreDetail" >
     insert into sre_equipment_detail (id, equipment_id, equipment_name, 
@@ -260,7 +260,9 @@
    <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
 	     <if test="equipmentName != null and equipmentName!='' ">               AND t.equipment_name   like CONCAT('%',#{equipmentName },'%')</if>
-	     <if test="declareDepartment    != null and declareDepartment!='' "> AND t.declare_department    like CONCAT('%',#{declareDepartment},'%')</if>
+	     <if test="declareDepartment!= null and declareDepartment!='' "> AND t.declare_department    like CONCAT('%',#{declareDepartment},'%')</if>
+	 	 <if test="configure!= null and configure!='' "> AND t.configure    like CONCAT('%',#{configure},'%')</if>
+	 	 <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
 	 </trim>
 	</sql>
 </mapper>

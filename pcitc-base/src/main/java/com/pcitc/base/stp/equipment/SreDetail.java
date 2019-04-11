@@ -182,4 +182,16 @@ public class SreDetail {
     public void setReceivePeople(String receivePeople) {
         this.receivePeople = receivePeople;
     }
+
+	@Override
+	public String toString() {
+		return "SreDetail [id=" + id + ", equipmentId=" + equipmentId + ", equipmentName=" + equipmentName
+				+ ", equipmentType=" + equipmentType + ", equipmentPrice=" + equipmentPrice + ", equipmenNumber="
+				+ equipmenNumber + ", declareUnit=" + declareUnit + ", declareDepartment=" + declareDepartment
+				+ ", declarePeople=" + declarePeople + ", declareTime=" + declareTime + ", assetNumber=" + assetNumber
+				+ ", configure=" + configure + ", measuringUnit=" + measuringUnit + ", assetsClassification="
+				+ assetsClassification + ", nationality=" + nationality + ", placeUse=" + placeUse + ", placePeople="
+				+ placePeople + ", receivePeople=" + receivePeople + "]";
+	}
+    
 }

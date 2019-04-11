@@ -20,9 +20,9 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.equipment.SreProjectTask;
+import com.pcitc.base.workflow.Constants;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
-import com.pcitc.base.workflow.Constants;
 
 @Controller
 public class TaskClosureController extends BaseController {
@@ -73,7 +73,7 @@ public class TaskClosureController extends BaseController {
 		Result resultsDate = new Result();
 		//ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPP_URL + taskId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
 		SreProjectTask sreProjectTask=EquipmentUtils.getSreProjectTask(taskId, restTemplate, httpHeaders);
-		sreProjectTask.setCloseStatus("1");
+		sreProjectTask.setCloseStatus(Constants.TASK_CLOUSE);
 		sreProjectTask.setCloseDate(new Date());
 		String  sre = EquipmentUtils.updateSreProjectTask(sreProjectTask, restTemplate, httpHeaders);
 		if(sre!=null && sre.equals(Constants.TASK_CLOUSE)) {

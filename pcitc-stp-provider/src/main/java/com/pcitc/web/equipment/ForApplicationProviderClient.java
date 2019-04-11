@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.stp.equipment.SreDetail;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreForApplication;
 import com.pcitc.service.equipment.DetailService;
@@ -47,6 +48,7 @@ public class ForApplicationProviderClient
 	@RequestMapping(value = "/sre-provider/forapplication/delete/{id}", method = RequestMethod.POST)
 	public int deleteSreForapplication(@PathVariable("id") String id)throws Exception{
 		logger.info("=============================delete sreForapplication=================");
+		Integer count =  detailService.deleteDetail(id);
 		return forapplicationService.deleteForapplication(id);
 	}
 	
@@ -58,7 +60,21 @@ public class ForApplicationProviderClient
 		return sreForApplication.getApplicationId();
 	}
 	
+	@ApiOperation(value = "获取转资", notes = "根据ID获取转资")
+	@RequestMapping(value = "/sre-provider/forapplication/get/{id}", method = RequestMethod.GET)
+	public SreForApplication selectUserByUserId(@PathVariable(value = "id", required = true) String id) throws Exception {
+		logger.info("===============================get sreEquipment id "+id+"===========");
+		return forapplicationService.selectForApplication(id);
+	}
 	
+	
+	@ApiOperation(value = "转资详情分页", notes = "转资详情分页")
+	@RequestMapping(value = "/sre-provider/forapplication/pageview", method = RequestMethod.POST)
+	public LayuiTableData getForApplicationListView(@RequestBody LayuiTableParam param)throws Exception
+	{
+		LayuiTableData rageResult=detailService.getForApplicationView(param);
+		return rageResult;
+	}
 	/**===============================================装备台账===================================================*/
 	
 	@ApiOperation(value = "装备台账分页", notes = "装备台账分页")
@@ -67,5 +83,13 @@ public class ForApplicationProviderClient
 	{
 		LayuiTableData rageResult=detailService.getDetailPage(param);
 		return rageResult;
+	}
+	
+	@ApiOperation(value = "增加转资装备", notes = "增加转资申请")
+	@RequestMapping(value = "/sre-provider/forapplicationdetail/add", method = RequestMethod.POST)
+	public String insertSreForApplication(@RequestBody SreDetail sreDetail) throws Exception{
+		logger.info("====================add forapplication....========================");
+		Integer count= detailService.insertDetail(sreDetail);
+		return sreDetail.getEquipmentId();
 	}
 }
