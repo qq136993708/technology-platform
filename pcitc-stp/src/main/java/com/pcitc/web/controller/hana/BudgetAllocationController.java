@@ -37,7 +37,7 @@ public class BudgetAllocationController {
 	private RestTemplate restTemplate;
 	
 	
-	private static final String jtgszbkjjfys_data = "http://pcitc-zuul/system-proxy/out-project-provider/budget-proposals/group-company/stp-money";
+	private static final String jtgszbkjjfys_data = "http://pcitc-zuul/system-proxy/out-decision-provider/budget-proposals/group-company/stp-money";
 	private static final String gfgszbkjjfysjyg_data = "http://pcitc-zuul/system-proxy/out-decision-provider/ysfp/jfysfx/stock-company-money";
 	//private static final String cbmkjjfyszb_data = "http://pcitc-zuul/system-proxy/out-decision-provider/ysfp/jfysfx/department-budget";
 	private static final String cbmkjjfyszb_data = "http://pcitc-zuul/system-proxy/out-decision-provider/budget-proposals/department/stp-money";
