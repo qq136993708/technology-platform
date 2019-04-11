@@ -191,6 +191,7 @@
 .btn-group-right{text-align: right;}
 .layui-form-item{margin-bottom: 8px;}
 .layui-form-label{width: 100px; font-size: 12px;line-height: 28px;margin-left: 10px; padding: 0;}
+.layui-form-labelH{line-height: 20px;}
 /*form表单*/
 .layui-form{font-size: 12px;position: relative;width: 100%;}
 .bb-title {width: 130px;text-align: right;padding-right: 0;height: 34px;line-height: 34px;font-weight: normal;}
