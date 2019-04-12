@@ -291,7 +291,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre_project_taskac/list',
             method:"POST",
-            where: {param: {"name":$("#name").val(),"auditStatus":2,"isCheck":0}},
+            where: {param: {"name":$("#name").val(),"auditStatus":2,"isCheck":2}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),

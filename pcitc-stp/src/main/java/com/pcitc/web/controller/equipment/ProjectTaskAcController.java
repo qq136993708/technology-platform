@@ -51,4 +51,11 @@ public class ProjectTaskAcController extends BaseController{
 		logger.info("============查询结果：" + result);
 		return result.toString();
 	}
+	
+	@RequestMapping(value = "/to_prlist")
+	public String prlist(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+		request.setAttribute("dicList", dicList);
+		return "/stp/equipment/taskac/project_taskpr_list";
+	}
 }
