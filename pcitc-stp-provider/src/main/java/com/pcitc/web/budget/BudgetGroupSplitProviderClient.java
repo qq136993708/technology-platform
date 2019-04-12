@@ -2,6 +2,7 @@ package com.pcitc.web.budget;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -257,7 +258,27 @@ public class BudgetGroupSplitProviderClient
 		}
 		return map;
 	}
-	
+	@ApiOperation(value="集团公司预算分解-检索预算项历史数据",notes="检索预算项历史数据列表")
+	@RequestMapping(value = "/stp-provider/budget/get-groupsplit-history-items", method = RequestMethod.POST)
+	public Object selectBudgetGroupSplitHistoryItems(@RequestBody BudgetSplitBaseDataVo vo) 
+	{
+		Map<String,Object> rsmap = new LinkedHashMap<String,Object>();
+		try
+		{
+			//查询有最终报告的报表
+			Map<String,List<SplitItemVo>> map = budgetGroupSplitService.selectBudgetSplitHistoryTableTitles(vo.getNd());
+			for(java.util.Iterator<String> iter = map.keySet().iterator();iter.hasNext();){
+				String cnd = iter.next();
+				rsmap.put(cnd, budgetGroupSplitService.selectGroupSplitFinalItem(cnd,vo.getOrganCode()));
+			}
+			System.out.println(JSON.toJSONString(rsmap));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rsmap;
+	}
 	/*@ApiOperation(value="集团公司预算分解-持久化预算项",notes="添加或更新集团预算表项目。")
 	@RequestMapping(value = "/stp-provider/budget/budget-persistence-grouptotal-item", method = RequestMethod.POST)
 	public Object addOrUpdateGroupTotalItem(@RequestBody BudgetGroupTotal budgetGroupTotal) 
@@ -445,26 +466,7 @@ public class BudgetGroupSplitProviderClient
 		}
 		return rs;
 	}
-	@ApiOperation(value="集团公司预算分解-检索预算项历史数据",notes="检索预算项历史数据列表不包括子项")
-	@RequestMapping(value = "/stp-provider/budget/search-grouptotal-history-items", method = RequestMethod.POST)
-	public Object selectBudgetGroupTotalItemHistory(@RequestBody BudgetGroupTotal item) 
-	{
-		List<Map<String,Object>> rsmap = new ArrayList<Map<String,Object>>();
-		try
-		{
-			List<BudgetGroupTotal> rs = budgetGroupTotalService.selectGroupTotalHistoryItems(item);
-			for(BudgetGroupTotal total:rs) {
-				Map<String,Object> map  = MyBeanUtils.transBean2Map(total);
-				map.put("total", new Double(map.get("zxjf").toString())+new Double(map.get("xmjf").toString()));
-				rsmap.add(map);
-			}
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		return rsmap;
-	}
+	
 	@ApiOperation(value="集团公司预算分解-检索预算项历年数据",notes="检索预算项历年数据列表不包括子项")
 	@RequestMapping(value = "/stp-provider/budget/search-grouptotal-final-history-list", method = RequestMethod.POST)
 	public Object selectBudgetGroupFinalHistoryList() 
