@@ -234,7 +234,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .layui-form-onswitch {border-color: #17a2b8;background-color: #17a2b8;}
 .layui-form-checked span, .layui-form-checked:hover span {background: none;}
 .layui-form-checked i, .layui-form-checked:hover i {color: #17a2b8;}
-.layui-form-mid {float: left;display: block;padding: 6px 0!important; margin-right: 10px;}
+.layui-form-mid {float: left;display: block;padding: 6px 0!important; margin-right: 10px;margin-left: 10px;}
 .layui-input-block {margin-left: 125px;min-height: 36px;}
 .formBoxHeader{border: 1px solid #cccccc; padding-top: 10px;margin-bottom: 10px;}
 .formBoxHeader .layui-col-xs2{margin-left: 10px;width: 19%;}

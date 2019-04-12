@@ -24,7 +24,7 @@
             width: 120px;
         }
 
-        .layui-input-block {
+        .box-body .layui-input-block {
             margin-left: 175px !important;
         }
 
@@ -68,7 +68,7 @@
         .box-body {
             margin-bottom: 10px !important;
         }
-        .layui-form-label{width: 150px !important;}
+        .box-body .layui-form-label{width: 150px !important;}
     </style>
 </head>
 <body>
@@ -302,8 +302,8 @@
                 var arrDV = arrD[i].split("#");
                 var yearFeeStrN = arrD[i].substring(arrD[i].indexOf('#') + 1);
                 var html = ' <div class="layui-form-item layui-form-text" >' +
-                    '        <div class="layui-input-block" id="yearTr' + i + '" style="margin-left: 0;">' +
-                    '        <label class="layui-form-label" style="width: 100%;text-align: left;margin-left: 0;">' + arrDV[0].split(",")[1] + '</label>' +
+                    '        <div class="layui-input-block" id="yearTr' + i + '" style="margin-left: 0 !important;">' +
+                    '        <label class="layui-form-label" style="width: 100% !important;text-align: left;margin-left: 0;">' + arrDV[0].split(",")[1] + '</label>' +
                     '            <table class="layui-table">' +
                     '             <thead>' +
                     '             <tr>' +
