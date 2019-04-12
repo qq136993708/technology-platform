@@ -267,13 +267,13 @@
                 var  e3 = 0;
                 for (let i = 0,j=data.length; i <j; i++) {
                     var bak3 = data[i].bak3;
-                    if(bak3=="1"){
+                    if(bak3=="ZJK_ZJLX_JSLJRW"){
                         e1++;
                         expertKy = expertKy+"<li><a href=\"/expertController/expertDetailIndex?dataId="+data[i].data_id+"\" target='_blank'>"+data[i].expert_name+"</a></li>\n";
-                    }else if(bak3=="2"){
+                    }else if(bak3=="ZJK_ZJLX_JTSXZJ"){
                         e2++;
                         expert2 = expert2+"<li><a href=\"/expertController/expertDetailIndex?dataId="+data[i].data_id+"\" target='_blank'>"+data[i].expert_name+"</a></li>\n";
-                    }else if(bak3=="3"){
+                    }else if(bak3=="ZJK_ZJLX_JTGJZJ"){
                         e3++;
                         expert3 = expert3+"<li><a href=\"/expertController/expertDetailIndex?dataId="+data[i].data_id+"\" target='_blank'>"+data[i].expert_name+"</a></li>\n";
                     }

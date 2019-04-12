@@ -883,9 +883,8 @@ public class SysFileController extends BaseController {
         boolean isComplete = false;
         JSONObject result = new JSONObject();
         try {
-            String filePrefixFormat = "yyyyMMddHHmmssS";
+//            String filePrefixFormat = "yyyyMMddHHmmssS";
 //            String date = "";
-            String date = sysUserInfo.getUserId();
 //            String date = DateUtil.format(new Date(), filePrefixFormat);
 //            File path = new File(ResourceUtils.getURL("classpath:").getPath());
 //            if(!path.exists()) path = new File("");
@@ -894,14 +893,12 @@ public class SysFileController extends BaseController {
 //            File upload = new File(serverPath+imageUrl);
 //            if(!upload.exists()) upload.mkdirs();
 
+            String date = sysUserInfo.getUserId();
             strFilePath = ckfilepath+imageUrl+File.separator+date+File.separator;
             File filePath = new File(strFilePath);
             if(!filePath.exists()) filePath.mkdirs();
-
             fileName = UUID.randomUUID().toString()+fileType;
             String savedName = strFilePath + File.separator + fileName;
-
-//            files.transferTo(new File(savedName));
             isComplete = FileUtil.copyInputStreamToFile(files.getInputStream(), new File(savedName));
             if (isComplete==true){
                 out = response.getWriter();
@@ -909,6 +906,27 @@ public class SysFileController extends BaseController {
                 imageUrl = imageUrl.replace("\\","/");
                 imageUrl = imageUrl.replace("\\\\","/");
             }
+
+
+            //统一上传
+//            String tempFileName = files.getOriginalFilename();
+//            if (tempFileName.indexOf("\\") > -1) {
+//                tempFileName = tempFileName.substring(tempFileName.lastIndexOf("\\") + 1, tempFileName.length());
+//            }
+//            String uuid = IdUtil.createIdByTime();
+//            JSONObject jsonObject = new JSONObject();
+//            jsonObject.put("bak10","");
+//            jsonObject.put("bak9","");
+//            jsonObject.put("flag","0");
+//            jsonObject.put("lastModifiedDate","");
+//            sysFileFeignClient.uploadFileSaveLayui(files, request, response, tempFileName, "ff8129325ed94773bfd9f33145ccd080", sysUserInfo.getUserId(), uuid, "ckupload", jsonObject.toJSONString());
+//            SysFile sysFile = this.restTemplate.exchange(GET + uuid, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysFile.class).getBody();
+//
+
+
+
+
+
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("富文本编辑器上传图片时发生异常", e);
