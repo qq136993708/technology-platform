@@ -170,7 +170,7 @@ public class SysNewsController extends BaseController {
     @OperationFilter(modelName = "系统新闻表", actionName = "保存saveRecord")
     public int saveRecord(SysNews record) {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        if (record.getId() == null || "".equals(record.getId())) {
+        if (record.getDataId() == null || "".equals(record.getDataId())) {
             record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
             record.setCreateUser(sysUserInfo.getUserId());
             record.setCreateUserDisp(sysUserInfo.getUserName());
