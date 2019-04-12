@@ -68,7 +68,7 @@ public class UnitProviderClient
 		for (int i = 0; i < list.size(); i++) {
 			TreeNode tree = list.get(i);
 			// 前几层默认打开
-			if (tree.getLevelCode()<1) {
+			if (tree.getLevelCode()<2) {
 				tree.setOpen("true");
 			} else {
 				tree.setOpen("false");
@@ -143,7 +143,6 @@ public class UnitProviderClient
 		// postCodes 包含多个岗位节点编码
 		String postCodes = null;
 		List<TreeNode> list = new ArrayList<TreeNode>();
-		System.out.println("1后台getUnitTreeAndPostsAndUserByPostCodes==========="+jsonStr);
 		JSONObject reJson = JSONObject.parseObject(jsonStr);
 		
 		if (reJson.get("postCodes") != null && !reJson.get("postCodes").equals("")) {
@@ -156,12 +155,10 @@ public class UnitProviderClient
 			for (int i = 0; i < codes.length; i++) {
 				postCodeList.add(codes[i]);
 			}
-			System.out.println("2后台==========="+postCodeList);
 			Map<String,Object> postMap = new HashMap<String,Object>();
 			postMap.put("postCodes", postCodeList);
 			
 			List<TreeNode> postList = unitService.getPostInfoByPostCodes(postMap);
-			System.out.println("2后台==========="+postList.size());
 			
 			for (int i = 0; i < postList.size(); i++) {
 				TreeNode tree = postList.get(i);
@@ -173,17 +170,13 @@ public class UnitProviderClient
 					}
 				}
 			}
-			System.out.println("e后台==========="+postParentCodeList);
 			Map<String,Object> unitMap = new HashMap<String,Object>();
 			unitMap.put("unitIds", postParentCodeList);
 			
 			List<TreeNode> unitList = unitService.getUnitInfoByUnitIds(unitMap);
 			
-			System.out.println("e后台==========="+unitList.size());
-			
 			list.addAll(postList);
 			list.addAll(unitList);
-			System.out.println("e后台==========="+list.size());
 		}
 		
 		for (int i = 0; i < list.size(); i++) {
@@ -215,7 +208,6 @@ public class UnitProviderClient
 	}
 	
 	
-	
 	@ApiOperation(value="根据unitPath编码检索机构",notes="根据机构unitPath编码检索机构信息。")
 	@RequestMapping(value = "/unit-provider/unit/getUnitByUnitPath/{unitPath}", method = RequestMethod.POST)
 	public SysUnit getUnitByUnitPath(@PathVariable(value = "unitPath", required = true) String unitPath) 
@@ -236,10 +228,10 @@ public class UnitProviderClient
 	public Object saveUnit(@RequestBody SysUnit unit) 
 	{
 		logger.info("save unit start.....");
-		SysUnit dbunit = unitService.seletUnitByCode(unit.getUnitCode());
+		/*SysUnit dbunit = unitService.seletUnitByCode(unit.getUnitCode());
 		if(dbunit != null) {
 			return new Result(false, "编码重复!");
-		}
+		}*/
 		Integer rs = unitService.saveUnit(unit);
 		if(rs > 0) {
 			return new Result(true, "操作成功!");
@@ -251,11 +243,11 @@ public class UnitProviderClient
 	@RequestMapping(value = "/unit-provider/unit/upd-unit", method = RequestMethod.POST)
 	public Object updateUnit(@RequestBody SysUnit unit) 
 	{
-		SysUnit dbunit = unitService.seletUnitByCode(unit.getUnitCode());
+		/*SysUnit dbunit = unitService.seletUnitByCode(unit.getUnitCode());
 		if(dbunit!=null && !dbunit.getUnitId().equals(unit.getUnitId())) 
 		{
 			return new Result(false, "编码重复!");
-		}
+		}*/
 		logger.info("update unit start.....");
 		SysUnit oldUnit = unitService.seletUnitById(unit.getUnitId());
 		if(oldUnit != null)
@@ -340,11 +332,9 @@ public class UnitProviderClient
 	 */
 	@ApiOperation(value="获取组织机构树(ztree)",notes="根据机构信息，生成ztree组织机构树。")
 	@RequestMapping(value = "/unit-provider/unit/ztree-unit-list",method = RequestMethod.POST)
-	public String selectUnitForZTree(@RequestBody(required=false) String name) 
+	public String selectUnitForZTree() 
 	{
-		System.out.println("name............"+name);
-		//return unitService.getUnitZTreeList(null);
-		return unitService.getUnitZTreeListByName(name);
+		return unitService.getUnitZTreeList(null);
 	}
 	
 	@ApiOperation(value="获取监理单位列表",notes="获取监理单位列表")
@@ -357,5 +347,16 @@ public class UnitProviderClient
 			logger.error("[组织机构-获取监理单位列表失败：]", e);
 		}
 		return units;
+	}
+	
+	/**
+	 * 查询某种条件下的组织机构节点，有组织机构和岗位，没有人员
+	 */
+	@ApiOperation(value="检索机构(树)有组织机构和岗位",notes="有组织机构和岗位")
+	@RequestMapping(value = "/unit-provider/units-posts/tree", method = RequestMethod.POST)
+	public List<TreeNode> getUnitPostTree(@RequestBody HashMap<String, Object> map) {
+		
+		List<TreeNode> list = unitService.getUnitPostTree(map);
+		return list;
 	}
 }

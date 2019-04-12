@@ -15,6 +15,7 @@
         html{background: #fff;}
         .layui-table-view,.layui-table-page{border: 0;}
         .layui-laypage .layui-laypage-curr .layui-laypage-em{background: red !important;}
+        .layui-leader-list{padding-bottom: 20px;}
     </style>
 </head>
 <body>
@@ -147,11 +148,16 @@
                     newslist = newslist + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
                 }
                 $("#newslist").html(newslist);
+                if($("#newslist li").length<15){
+                    var newsHeight=$(document).height()-($("#newslist li").length*38)-235
+                    $(".layui-table-view").css("padding-top",newsHeight+"px");
+                }else {
+                    $(".layui-table-view").css("padding-top","0px");
+                }
             });
         }
 
         renderTable();
-
         var $ = layui.$, active = {
             searchEvent: function () { //点击查询按钮
                 renderTable();

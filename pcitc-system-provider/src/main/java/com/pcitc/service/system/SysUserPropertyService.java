@@ -1,5 +1,6 @@
 package com.pcitc.service.system;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
+import com.pcitc.base.system.SysFunctionProperty;
 import com.pcitc.base.system.SysUserProperty;
 
 public interface SysUserPropertyService {
@@ -70,6 +72,23 @@ public interface SysUserPropertyService {
 	 */
 	public List<SysUserProperty> selectUserPropertyByUserIdAndDataType(String userId, String dataType);
 	
+	/**
+	 * @param paramMap
+	 * @return
+	 * 检索机构(树),通过岗位、菜单、配置项信息
+	 */
+	public List<TreeNode> selectUnitListForUnitDataConfig(HashMap<String,Object> paramMap);
 	
-	public SysUserProperty getSysUserProperty(String userId, String dataType);
+	/**
+	 * @param sysFunctionProperty
+	 * @return
+	 * 保存菜单、配置项、岗位三者和配置内容的关联
+	 */
+	public int saveFunctionConfigPost(SysFunctionProperty sysFunctionProperty);
+	
+	/**
+	 * 数据项控制，查询当前人所属岗位、菜单，对应的属性控制信息
+	 */
+	public List<SysFunctionProperty> dataFilterFunction(HashMap<String,Object> paramMap);
+	
 }

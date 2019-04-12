@@ -303,14 +303,21 @@ public class EquipmentServiceImpl implements EquipmentService {
 	
 	public Result dealProjectWorkFlow(String id, Map map) throws Exception
 	{
-		SreProject sreProject=sreProjectMapper.selectByPrimaryKey(id);
 		
+		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(map));
+		System.out.println(">>>>>>>>>>课题 上报 dealProjectWorkFlow 参数: "+parmamss.toJSONString());
+		
+		SreProject sreProject=sreProjectMapper.selectByPrimaryKey(id);
 		String processInstanceName=(String)map.get("processInstanceName");
 		String authenticatedUserId=(String)map.get("authenticatedUserId");
 		String authenticatedUserName=(String)map.get("authenticatedUserName");
 		String functionId=(String)map.get("functionId");
 		String auditor=(String)map.get("auditor");
-		System.out.println("============start_workflow_new auditor="+auditor+" functionId="+functionId+" id="+id+" authenticatedUserId="+authenticatedUserId+" authenticatedUserName="+authenticatedUserName);
+		String specialAuditor0=(String)map.get("specialAuditor0");
+		
+		
+		
+	
 		// 调用审批流程，此处调用同时实现事务
     	JSONObject flowJson = new JSONObject();
     	// 业务主键id
@@ -332,7 +339,7 @@ public class EquipmentServiceImpl implements EquipmentService {
     	
     	// 非必填选项，当下一步审批者需要本次任务执行人（启动者）手动选择的时候，需要auditUserIds属性
     	flowJson.put("auditor", auditor);
-    	
+    	flowJson.put("specialAuditor0", specialAuditor0); 
 		// 非必填选项, 对流程中出现的多个判断条件，比如money>100等，需要把事先把money条件输入
 		// flowJson.put("money", 50); // 环节1需要用到
 		// flowJson.put("departmentCode", "1005"); // 环节2需要用到
@@ -490,6 +497,12 @@ public class EquipmentServiceImpl implements EquipmentService {
 	//内部确认流程
 	public Result dealInnerTaskFlow(String id, Map map) throws Exception
 	{
+		
+		
+		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(map));
+		System.out.println(">>>>>>>>>>内部确认流程 dealInnerTaskFlow 参数: "+parmamss.toJSONString());
+		
+		
 		SreProjectTask sreProject=sreProjectTaskMapper.selectByPrimaryKey(id);
 		String processInstanceName=(String)map.get("processInstanceName");
 		String authenticatedUserId=(String)map.get("authenticatedUserId");
@@ -515,7 +528,6 @@ public class EquipmentServiceImpl implements EquipmentService {
 		
 		
 		
-		System.out.println("============内部确认流程 auditor="+auditor+" functionId="+functionId+" id="+id+" authenticatedUserId="+authenticatedUserId+" authenticatedUserName="+authenticatedUserName);
 		// 调用审批流程，此处调用同时实现事务
     	JSONObject flowJson = new JSONObject();
     	// 业务主键id
@@ -586,13 +598,22 @@ public class EquipmentServiceImpl implements EquipmentService {
 	   //总部上报流程
 		public Result dealUpTaskFlow(String id, Map map) throws Exception
 		{
+			
+			
+			JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(map));
+			System.out.println(">>>>>>>>>>总部上报流程 dealUpTaskFlow 参数: "+parmamss.toJSONString());
+			
+			
 			SreProjectTask sreProject=sreProjectTaskMapper.selectByPrimaryKey(id);
 			String processInstanceName=(String)map.get("processInstanceName");
 			String authenticatedUserId=(String)map.get("authenticatedUserId");
 			String authenticatedUserName=(String)map.get("authenticatedUserName");
 			String functionId=(String)map.get("functionId");
 			String auditor=(String)map.get("auditor");
-			System.out.println("============start_workflow_new auditor="+auditor+" functionId="+functionId+" id="+id+" authenticatedUserId="+authenticatedUserId+" authenticatedUserName="+authenticatedUserName);
+			String specialAuditor0=(String)map.get("specialAuditor0");
+			
+			
+			
 			// 调用审批流程，此处调用同时实现事务
 	    	JSONObject flowJson = new JSONObject();
 	    	// 业务主键id
@@ -624,7 +645,12 @@ public class EquipmentServiceImpl implements EquipmentService {
 			// flowJson.put("companyCode", "2006"); // 环节n需要用到
 	    	// 非必填选项, 会签时需要的属性，会签里所有的人，同意率（double类型）
 	    	
-	    	flowJson.put("signAuditRate", 1d); 
+	    	
+
+	    	flowJson.put("specialAuditor0", specialAuditor0);
+	    	
+	    	
+	    	//flowJson.put("signAuditRate", 1d); 
 	    	
 	    	// 远程调用
 	    	System.out.println("=====远程调用开始");
