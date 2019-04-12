@@ -278,7 +278,7 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 		for(BudgetInfo info:infos) 
 		{
 			List<SplitItemVo> titles = new ArrayList<SplitItemVo>();
-			List<SysDictionary> dis = selectTitleDic(nd);
+			List<SysDictionary> dis = selectTitleDic(info.getNd());
 			for(SysDictionary d:dis) {
 				//计划项特殊处理，不计入总数,列：序号，处部门，合计，结转[合计，油服..机械..其他，计划]，新签[合计，油服..机械..其他，计划]，
 				titles.add(new SplitItemVo(d.getCode(),d.getName()));

@@ -271,6 +271,7 @@ public class BudgetGroupSplitProviderClient
 				String cnd = iter.next();
 				rsmap.put(cnd, budgetGroupSplitService.selectGroupSplitFinalItem(cnd,vo.getOrganCode()));
 			}
+			System.out.println("**********");
 			System.out.println(JSON.toJSONString(rsmap));
 		}
 		catch (Exception e)
