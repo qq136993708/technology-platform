@@ -5,6 +5,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -81,10 +82,10 @@ public class SysFileCollectClient {
     }
 
     @ApiOperation(value = "删除文件收藏", notes = "根据ID删除文件收藏信息,操作成功返回500")
-    @RequestMapping(value = "/sysfilecollect-provider/sysfilecollect/delete_sysfilecollect/{id}", method = RequestMethod.POST)
-    public int deleteSysFileCollectById(@PathVariable(value = "id", required = true) String id) {
+    @RequestMapping(value = "/sysfilecollect-provider/sysfilecollect/delete_sysfilecollect", method = RequestMethod.POST)
+    public int deleteSysFileCollectById(@RequestBody HashMap<String, Object> map) {
         try {
-            return sysFileCollectService.deleteSysFileCollectById(id);
+            return sysFileCollectService.deleteSysFileCollect(map);
         } catch (Exception e) {
             logger.error("[删除信息失败：]", e);
         }

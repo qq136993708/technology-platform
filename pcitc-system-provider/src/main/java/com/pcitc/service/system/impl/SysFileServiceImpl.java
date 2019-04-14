@@ -95,6 +95,9 @@ public class SysFileServiceImpl implements SysFileService {
 
 	@Autowired
 	SysFileConfigService sysFileConfigService;
+	
+	@Autowired
+    private ClientFactoryBuilder clientFactoryBuilder;
 
 	// @Autowired
 	// SysSerialService sysSerialService;
@@ -459,8 +462,7 @@ public class SysFileServiceImpl implements SysFileService {
 		int pageStart = dataTableInfoVo.getiDisplayStart();
 
 		//AccessorService accessor = new ClientFactoryBuilder.Config().setConfigPath("elasticsearch.properties").initConfig(true).createByConfig();
-		AccessorService accessor = new AccessorServiceImpl(ClientFactoryBuilder.getClient());
-		System.out.println("selectSysFileListEs----ClientFactoryBuilder.getClient()-----------" + ClientFactoryBuilder.getClient());
+		AccessorService accessor = new AccessorServiceImpl(clientFactoryBuilder.getClient());
 		BooleanCondtionBuilder.Builder builder = new BooleanCondtionBuilder.Builder();
 		Map<String, String> queryMap = new HashMap<>();
 		Map<String, String> highLightList = new HashMap<>();
@@ -555,7 +557,7 @@ public class SysFileServiceImpl implements SysFileService {
 					List<SysFile> sysFiles = getSysFileByMd5(strMd5);
 					if (sysFiles != null && sysFiles.size() > 0) {
 						sysFile = sysFiles.get(0);
-						strFileSuffix = sysFile.getFileSuffix().toUpperCase();
+						strFileSuffix = sysFile.getFileSuffix().toLowerCase();
 						// 这样也可以上传同名文件了
 						String filePrefixFormat = "yyyyMMddHHmmssS";
 						String savedName = DateUtil.format(new Date(), filePrefixFormat) + "_" + filename;
@@ -649,10 +651,14 @@ public class SysFileServiceImpl implements SysFileService {
 							}
 						}
 						insert(sysFile);
+						
+						if (sysFile.getFileSuffix() != null) {
+							if ("docx".equals(sysFile.getFileSuffix()) || "doc".equals(sysFile.getFileSuffix()) || "txt".equals(sysFile.getFileSuffix()) || "xls".equals(sysFile.getFileSuffix()) || "xlsx".equals(sysFile.getFileSuffix()) || "pdf".equals(sysFile.getFileSuffix()) || "xml".equals(sysFile.getFileSuffix())) {
+								fileToEs(sysFile);
+							}
+						}
 					}
-					if ("DOCX".equals(strFileSuffix) || "DOC".equals(strFileSuffix) || "TXT".equals(strFileSuffix) || "XLS".equals(strFileSuffix) || "XLSX".equals(strFileSuffix) || "PDF".equals(strFileSuffix)) {
-						fileToEs(sysFile);
-					}
+					
 					fileList.add(sysFile);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -685,7 +691,7 @@ public class SysFileServiceImpl implements SysFileService {
 
 	public AccessorService getAccessorService() {
 		//AccessorService accessor = new ClientFactoryBuilder.Config().setConfigPath("elasticsearch.properties").initConfig(true).createByConfig();
-		AccessorService accessor = new AccessorServiceImpl(ClientFactoryBuilder.getClient());
+		AccessorService accessor = new AccessorServiceImpl(clientFactoryBuilder.getClient());
 		return accessor;
 	}
 
@@ -712,17 +718,12 @@ public class SysFileServiceImpl implements SysFileService {
 			// 把文件输出流的数据，放到字节数组
 			// buffer = baos.toByteArray();
 			AccessorService accessor = getAccessorService();
+			
 			IndexAccessorService indexAccessor = getIndexAccessorService(accessor);
 			indexAccessor.createIndexWithSettings(SysFile.class);
 			indexAccessor.createMappingXContentBuilder(SysFile.class);
-			// sysFile.setEsId((int)(accessor.count(SysFile.class,null)));
-			String strFileSuffix = sysFile.getFileSuffix().toUpperCase();
-			// if ("DOCX".equals(strFileSuffix) || "DOC".equals(strFileSuffix)
-			// || "TXT".equals(strFileSuffix) || "XLS".equals(strFileSuffix) ||
-			// "XLSX".equals(strFileSuffix) || "PDF".equals(strFileSuffix)) {
+			sysFile.setEsId((int)(accessor.count(SysFile.class,null)));
 			sysFile.setBak4(GetTextFromFile.getText(sysFile.getFilePath()));
-			// }
-			// sysFile.setBak4(new String(buffer, "utf-8"));
 			accessor.add(sysFile);
 		} catch (Exception e) {
 			System.out.println("文件写入ES异常");
@@ -1362,9 +1363,10 @@ public class SysFileServiceImpl implements SysFileService {
 					insert(sysFile);
 					// TODO :2018/06/25:save - es
 					// es-start
-					String strFileSuffix = sysFile.getFileSuffix().toUpperCase();
-					if ("DOCX".equals(strFileSuffix) || "DOC".equals(strFileSuffix) || "TXT".equals(strFileSuffix) || "XLS".equals(strFileSuffix) || "XLSX".equals(strFileSuffix) || "PDF".equals(strFileSuffix)) {
-						fileToEs(sysFile);
+					if (sysFile.getFileSuffix() != null) {
+						if ("docx".equals(sysFile.getFileSuffix()) || "doc".equals(sysFile.getFileSuffix()) || "txt".equals(sysFile.getFileSuffix()) || "xls".equals(sysFile.getFileSuffix()) || "xlsx".equals(sysFile.getFileSuffix()) || "pdf".equals(sysFile.getFileSuffix()) || "xml".equals(sysFile.getFileSuffix())) {
+							fileToEs(sysFile);
+						}
 					}
 					// es-end
 					// uploaderService.save(sysFile);
