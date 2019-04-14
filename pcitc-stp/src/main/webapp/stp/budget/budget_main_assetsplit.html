@@ -244,7 +244,7 @@
 			});
           	//初始化数据版本
             window.initDataVersion =function(budget_id){
-                publicMethods.ajaxPost("/budget/budget_assetsplit_info_list",{"nd":cu_date}, function (dt) {
+                publicMethods.ajaxAsyncPost("/budget/budget_assetsplit_info_list",{"nd":cu_date}, function (dt) {
                 	$("#data_version").html('<option value="">---请选择版本---</option>');
                 	budget_info_map = {};
                 	$.each(dt,function(index,data){
@@ -320,7 +320,7 @@
                 	}  
                 	layer.confirm('提交后将不可再编辑！确定要提交审批吗？',{title:"提交确认"},function(index){
     					layer.close(index);
-    					publicMethods.ajaxPost("/budget/start-budget-assetsplit-activity", {"budgetInfoId":curent_budget_info.dataId,"functionId":param.id}, function (data) {
+    					publicMethods.ajaxAsyncPost("/budget/start-budget-assetsplit-activity", {"budgetInfoId":curent_budget_info.dataId,"functionId":param.id}, function (data) {
     	                     if (data.success) {    	                    	 
     	                    	 budget_info_map[data.data.dataVersion]=data.data; 
     	                    	 $("#data_version").trigger("change");
