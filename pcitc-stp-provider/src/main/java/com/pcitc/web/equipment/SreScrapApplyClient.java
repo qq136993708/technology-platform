@@ -118,8 +118,7 @@ public class SreScrapApplyClient {
             if(i>0)
             {
             	int k = sreScrapApplyItemService.deleteByApplyId(findview.getAddorupdate());
-            	if(k>0)
-            	{
+         
             		String[] detailid=findview.getIds().split(",");
         			if(detailid.length>0)
         			{
@@ -140,9 +139,8 @@ public class SreScrapApplyClient {
         				}
         				
         			}
-        			str="success";
-            }
-		}
+        			str="success"; 
+	         	}
 	  }
 		return str;
 	 }

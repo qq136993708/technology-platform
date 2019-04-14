@@ -1,5 +1,6 @@
 package com.pcitc.web.controller.equipment;
 
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -100,7 +101,30 @@ public class SreScrapApplyController extends BaseController {
 			return "/stp/equipment/scrapapply/scrapapply_edit";
 		}
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/sre-sreScrapApply/view")
+	public String view(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String id = CommonUtil.getParameter(request, "id", "");
+		request.setAttribute("id",id);
+			System.out.println(id);
+			String name="";
+			ResponseEntity<SreScrapApply> sreScrapApply=restTemplate.exchange(GETVIEW_URL + id, HttpMethod.GET,new HttpEntity<Object>(this.httpHeaders), SreScrapApply.class);
+			if(sreScrapApply!=null && sreScrapApply.getBody()!=null)
+			{
+				name=sreScrapApply.getBody().getName();				
+			}
+			request.setAttribute("name",name);
+			ResponseEntity<List> selectByAppltidList=restTemplate.exchange(GETLIST_URL + id, HttpMethod.GET,new HttpEntity<Object>(this.httpHeaders),List.class);
+			List<FindAppltid> list = selectByAppltidList.getBody();
+			JSONArray jsonObject = JSONArray.parseArray(JSON.toJSONString(list));
+			request.setAttribute("getList",jsonObject.toString());
+			return "/stp/equipment/scrapapply/scrapapply_view";
+	}
+	
+	
+	
 	@RequestMapping(value = "/sre-sreScrapApply/addApplyAndItem")
+	@ResponseBody
 	public String addApplyAndItem(HttpServletRequest request)throws Exception{
 		ResponseEntity<String> responseEntity = null;
 		String name = CommonUtil.getParameter(request, "name", "");
@@ -113,6 +137,7 @@ public class SreScrapApplyController extends BaseController {
 		f.setUserName(sysUserInfo.getUserName());
 		f.setAddorupdate(id);
 		responseEntity =restTemplate.exchange(INSERT_URL, HttpMethod.POST,new HttpEntity<FindView>(f, this.httpHeaders),String.class);
-		return "";
+		String success ="{\"success\":\"success\"}";
+		return success;
 	}
 }
