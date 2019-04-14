@@ -89,11 +89,9 @@
 				
 				layer.confirm(showAlter, function() {
 					ajaxPost("/sysfilekind/auth/user/save", data.field, function(dt, status) {
-						layer.msg("操作成功");
-						parent.reloadtable('showTableId', null);
-						parent.initTree();
-						var index = parent.layer.getFrameIndex(window.name);
-						parent.layer.close(index);
+						parent.active.refresh();
+	                    var index = parent.layer.getFrameIndex(window.name);
+	                    parent.layer.close(index);
 					});
 				});
 				return false;
