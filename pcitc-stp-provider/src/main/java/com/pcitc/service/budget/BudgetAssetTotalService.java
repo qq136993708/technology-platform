@@ -12,7 +12,7 @@ import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.stp.out.OutUnit;
 
 /**
- * 集团预算总表业务
+ * 资产公司预算总表业务
  * @author fb
  *
  */
