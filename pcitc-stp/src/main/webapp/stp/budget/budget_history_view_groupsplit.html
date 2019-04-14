@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>历年参考数据</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        .con-box{margin: auto 20px;}
+        .table-title{height: 30px;line-height: 30px;}
+        .margin-bot30{margin-bottom: 30px;}
+    </style>
+</head>
+<body>
+<div class="con-box">
+    <#list history_items?keys as cnd>
+	    <p class="table-title">&nbsp;&nbsp;</p>
+	    <div class="bottom-table-box">
+	        <table id="${cnd}" class="layui-table" lay-filter="${tb.dataId}" lay-data="{height: '200',limit:100,totalRow: true}">
+	            <thead>
+		            <tr>
+		             	<th lay-data="{type:'checkbox',width: '5%'}" rowspan="3"></th>
+		             	<th lay-data="{field:'no',align: 'center', width: '10%',totalRowText: '合计'}" rowspan="3">序号</th>
+		                <th lay-data="{field:'organName', width: '15%'}" rowspan="3">专业处/部门</th>
+		                <th lay-data="{field:'total', align: 'right', width: '10%',totalRow: true}" rowspan="3">预算合计</th>
+		                <th lay-data="{align: 'center',totalRow: true}" colspan="${history_items[cnd]?size+2}">${cnd}年结转项目经费</th>
+		                <th lay-data="{align: 'center', totalRow: true}" colspan="${history_items[cnd]?size+2}">${cnd}年新签项目经费</th>
+		            </tr>
+		            <tr>
+		                 <th lay-data="{field:'total_jz', align: 'right',totalRow: true}"  rowspan="2">合计</th>
+		                 <th lay-data="{align: 'right',totalRow: true}"  colspan="${history_items[cnd]?size}">拨款</th>
+		                 <th lay-data="{field:'plan_jz', edit:true,align: 'right',totalRow: true}"  rowspan="2">计划</th>
+		                 <th lay-data="{field:'total_xq', align: 'right',totalRow: true}"  rowspan="2">合计</th>
+		                 <th lay-data="{align: 'right',totalRow: true}"  colspan="${history_items[cnd]?size}">拨款</th>
+		                 <th lay-data="{field:'plan_xq', edit:true,align: 'right',totalRow: true}"  rowspan="2">计划</th>
+		            </tr>
+		            <tr>
+			          	<#list history_items[cnd] as item>
+			          		<#list item?keys as key> 
+			             		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true}">${item[key]}</th>
+			             	</#list>
+			            </#list>
+			            <#list history_items[cnd] as item>
+			            	<#list item?keys as key> 
+			             		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true}">${item[key]}</th>
+			             	</#list> 
+			            </#list>
+		            </tr>
+	            </thead>
+	        </table>
+	    </div>
+    </#list>
+</div>
+<div class="form-bottom">
+    <div class="form-bottom-btns">
+        <button type="button"
+                class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
+                id="cancel">关闭
+        </button>
+    </div>
+</div>
+    <script>
+        layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
+            var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
+            publicMethods.ajaxPost("/budget/search-groupsplit-final-history-list",null, function (data) {
+            	$.each(data,function(index,dt){
+            		console.log(data[index]);
+            		//计算合计
+            		/* $.each(dt.items,function(index,d){
+            			dt.total = parseInt(dt.xmjf)+parseInt(dt.zxjf);
+            		}); */
+       				table.reload(dt.nd, {data: dt.items});
+       			});
+ 		   	});
+            $("#cancel").click(function () {
+    	        var index = parent.layer.getFrameIndex(window.name);
+    	        parent.layer.close(index);
+    	    });
+        });
+    </script>
+</body>
+</html>

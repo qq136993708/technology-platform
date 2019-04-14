@@ -280,6 +280,28 @@ public class BudgetGroupSplitProviderClient
 		}
 		return rsmap;
 	}
+	@ApiOperation(value="集团公司预算分解-检索预算项历年数据",notes="检索预算项历年数据列表不包括子项")
+	@RequestMapping(value = "/stp-provider/budget/search-groupsplit-final-history-list", method = RequestMethod.POST)
+	public Object selectBudgetGroupFinalHistoryList() 
+	{
+		List<Map<String,Object>> rsmap = new ArrayList<Map<String,Object>>();
+		try
+		{
+			List<BudgetInfo> rs = budgetInfoService.selectFinalBudgetInfoList(BudgetInfoEnum.GROUP_SPLIT.getCode());
+			for(BudgetInfo info:rs) {
+				Map<String,Object> map  = MyBeanUtils.transBean2Map(info);
+				List<Map<String,Object>> items =  budgetGroupSplitService.selectBudgetSplitDataList(info.getDataId());
+				map.put("items", items);
+				rsmap.add(map);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rsmap;
+	}
+	
 	/*@ApiOperation(value="集团公司预算分解-持久化预算项",notes="添加或更新集团预算表项目。")
 	@RequestMapping(value = "/stp-provider/budget/budget-persistence-grouptotal-item", method = RequestMethod.POST)
 	public Object addOrUpdateGroupTotalItem(@RequestBody BudgetGroupTotal budgetGroupTotal) 
@@ -468,34 +490,7 @@ public class BudgetGroupSplitProviderClient
 		return rs;
 	}
 	
-	@ApiOperation(value="集团公司预算分解-检索预算项历年数据",notes="检索预算项历年数据列表不包括子项")
-	@RequestMapping(value = "/stp-provider/budget/search-grouptotal-final-history-list", method = RequestMethod.POST)
-	public Object selectBudgetGroupFinalHistoryList() 
-	{
-		List<Map<String,Object>> rsmap = new ArrayList<Map<String,Object>>();
-		try
-		{
-			List<BudgetInfo> rs = budgetInfoService.selectFinalBudgetInfoList(BudgetInfoEnum.GROUP_TOTAL.getCode());
-			for(BudgetInfo info:rs) {
-				List<BudgetGroupTotal> totals = budgetGroupTotalService.selectItemsByBudgetId(info.getDataId());
-				Map<String,Object> map  = MyBeanUtils.transBean2Map(info);
-				
-				List<Map<String,Object>> items = new ArrayList<Map<String,Object>>();
-				for(BudgetGroupTotal total:totals) {
-					Map<String,Object> mp  = MyBeanUtils.transBean2Map(total);
-					mp.put("total", new Double(mp.get("zxjf").toString())+new Double(mp.get("xmjf").toString()));
-					items.add(mp);
-				}
-				map.put("items", items);
-				rsmap.add(map);
-			}
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		return rsmap;
-	}
+	
 	@ApiOperation(value="集团公司预算分解-获取计划参考数据",notes="检索集团公司年度计划金额")
 	@RequestMapping(value = "/stp-provider/budget/select-grouptotal-compare-plan", method = RequestMethod.POST)
 	public Object selectBudgetGroupItemComparePlan(@RequestBody Map<String,Object> params) 

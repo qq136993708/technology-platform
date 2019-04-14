@@ -80,6 +80,7 @@ public class BudgetGroupSplitController extends BaseController {
 	//private static final String BUDGET_GROUPTOTAL_COMPANY_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-group-company-items";
 	//private static final String BUDGET_GROUPTOTAL_COMPANY_TREE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-group-company-tree";
 	private static final String BUDGET_GROUPTOTAL_FINAL_HISTORY_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-groupsplit-final-history-list";
+	
 	private static final String BUDGET_GROUPTOTAL_COMPARE_PLAN = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-groupsplit-compare-plan";
 	private static final String BUDGET_GROUPTOTAL_COMPARE_PROJECT = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-groupsplit-compare-project";
 	
@@ -118,7 +119,6 @@ public class BudgetGroupSplitController extends BaseController {
 	public Object toBudgetGroupSplitHistoryPage(HttpServletRequest request) throws IOException 
 	{
 		String nd = request.getParameter("nd");
-		request.setAttribute("organCode", request.getParameter("organCode"));
 		request.setAttribute("budgetInfoId", request.getParameter("budgetInfoId"));
 		request.setAttribute("nd", nd);
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPSPLIT_TITLES, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), List.class);
@@ -126,18 +126,24 @@ public class BudgetGroupSplitController extends BaseController {
 		
 		infors = this.restTemplate.exchange(BUDGET_GROUPSPLIT_HISTORY_TITLES, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), Object.class);
 		request.setAttribute("history_items", infors.getBody());
-		System.out.println(infors.getBody());
 		return "stp/budget/budget_history_compare_groupsplit";
 	}
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_history_view_groupsplit")
 	public Object toBudgetGroupSplitHistoryViews(HttpServletRequest request) throws IOException 
 	{
 		//检索数据
+		/*		
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPTOTAL_FINAL_HISTORY_LIST, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
 		String budgetInfoId = request.getParameter("budgetInfoId");
 		request.setAttribute("budgetInfoId", budgetInfoId);
 		request.setAttribute("tb_datas", infors.getBody());
-		request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
+		request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));*/
+		String nd = request.getParameter("nd");
+		request.setAttribute("budgetInfoId", request.getParameter("budgetInfoId"));
+		request.setAttribute("nd", nd);
+		
+		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPSPLIT_HISTORY_TITLES, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), Object.class);
+		request.setAttribute("history_items", infors.getBody());
 		return "stp/budget/budget_history_view_groupsplit";
 	}
 	
