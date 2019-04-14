@@ -1,6 +1,7 @@
 package com.pcitc.web.controller.doc;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,29 +45,28 @@ import com.pcitc.web.common.OperationFilter;
  */
 
 @Controller
-@RequestMapping("sysfilecollect")
 public class SysFileCollectController extends BaseController {
 
-	private static final String GET_INFO = "http://pcitc-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/get-sysfilecollect/";
-	private static final String TREE_DATA = "http://pcitc-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/tree-data";
-	private static final String ADD = "http://pcitc-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/add-sysfilecollect";
-	private static final String UPDATE = "http://pcitc-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/update-sysfilecollect";
-	private static final String DEL = "http://pcitc-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/del-sysfilecollect/";
-	private static final String DEL_REAL = "http://pcitc-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/del-sysfilecollect-real/";
+	private static final String GET_INFO = "http://pplus-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/get-sysfilecollect/";
+	private static final String TREE_DATA = "http://pplus-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/tree-data";
+	private static final String ADD = "http://pplus-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/add-sysfilecollect";
+	private static final String UPDATE = "http://pplus-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/update-sysfilecollect";
+	private static final String DEL = "http://pplus-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/del-sysfilecollect/";
+	private static final String DEL_REAL = "http://pplus-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/del-sysfilecollect-real/";
 
 	/**
 	 * 标准增删改查
 	 */
-	private static final String LIST = "http://pcitc-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/sysfilecollect_list";
-	private static final String LISTPARAM = "http://pcitc-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/sysfilecollect_list_param";
+	private static final String LIST = "http://pplus-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/sysfilecollect_list";
+	private static final String LISTPARAM = "http://pplus-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/sysfilecollect_list_param";
 
-	private static final String LISTPAGE = "http://pcitc-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/sysfilecollect-page";
+	private static final String LISTPAGE = "http://pplus-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/sysfilecollect-page";
 
-	private static final String SAVE = "http://pcitc-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/save_sysfilecollect";
+	private static final String SAVE = "http://pplus-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/save_sysfilecollect";
 
-	private static final String DELETE = "http://pcitc-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/delete_sysfilecollect/";
+	private static final String DELETE_COLLECT = "http://pplus-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/delete_sysfilecollect";
 
-	private static final String GET = "http://pcitc-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/get_sysfilecollect/";
+	private static final String GET = "http://pplus-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/get_sysfilecollect/";
 	
 	
 	/**
@@ -74,7 +74,7 @@ public class SysFileCollectController extends BaseController {
 	 *
 	 * @return
 	 */
-	@RequestMapping(value = { "/ini-file-collect" }, method = { RequestMethod.GET })
+	@RequestMapping(value = { "/sysfilecollect/ini-file-collect" }, method = { RequestMethod.GET })
 	public String iniSysFileCollect(HttpServletRequest request) {
 		request.setAttribute("fileIds", request.getParameter("fileIds"));
 		return "pplus/doc/sysFile_collect";
@@ -84,7 +84,7 @@ public class SysFileCollectController extends BaseController {
 	 * 保存-文件收藏
 	 * record.fileIds、fileKind有多个，后台处理
 	 */
-	@RequestMapping(value = "/savesysFileCollect")
+	@RequestMapping(value = "/sysfilecollect/savesysFileCollect")
 	@ResponseBody
 	@OperationFilter(modelName = "文档管理", actionName = "文档收藏")
 	public int saveRecord(SysFileCollect record) {
@@ -103,7 +103,7 @@ public class SysFileCollectController extends BaseController {
 	 * @param sysFileCollect
 	 * @return
 	 */
-	@RequestMapping(value = "/list", method = RequestMethod.POST)
+	@RequestMapping(value = "/sysfilecollect/list", method = RequestMethod.POST)
 	@ResponseBody
 	@OperationFilter(modelName = "文件收藏", actionName = "查询列表getList")
 	public Object getList(@RequestBody SysFileCollect sysFileCollect) {
@@ -113,7 +113,7 @@ public class SysFileCollectController extends BaseController {
 		return list;
 	}
 
-	@RequestMapping(value = "/listParam", method = RequestMethod.POST)
+	@RequestMapping(value = "/sysfilecollect/listParam", method = RequestMethod.POST)
 	@ResponseBody
 	@OperationFilter(modelName = "文件收藏", actionName = "查询列表getListParam")
 	public Object getListParam(@RequestParam String id) {
@@ -134,7 +134,7 @@ public class SysFileCollectController extends BaseController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/getTableData", method = RequestMethod.POST)
+	@RequestMapping(value = "/sysfilecollect/getTableData", method = RequestMethod.POST)
 	@ResponseBody
 	@OperationFilter(modelName = "文件收藏", actionName = "分页查询getTableData")
 	public Object getTableData(@RequestBody List<Object> aoData, HttpServletRequest request) {
@@ -160,16 +160,25 @@ public class SysFileCollectController extends BaseController {
 
 	/**
 	 * 删除-文件收藏
-	 *
+	 * 删除本人关于此文件的收藏
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/deletesysFileCollectById")
+	@RequestMapping(value = "/sysfilecollect/file-kind/file/delete")
 	@ResponseBody
-	@OperationFilter(modelName = "文件收藏", actionName = "删除deleteObject")
+	@OperationFilter(modelName = "文件收藏", actionName = "删除本人此文件收藏")
 	public int deleteObject(HttpServletRequest request) {
-		String id = request.getParameter("id");
-		ResponseEntity<Integer> responseEntity = restTemplate.exchange(DELETE + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), Integer.class);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		if (request.getParameter("fileIds")!= null) {
+			map.put("fileIds", request.getParameter("fileIds"));
+		}
+		if (request.getParameter("fileKind")!= null) {
+			map.put("fileKind", request.getParameter("fileKind"));
+		}
+		map.put("userId", sysUserInfo.getUserId());
+		HttpEntity<HashMap<String, Object>> entity = new HttpEntity<HashMap<String, Object>>(map, this.httpHeaders);
+
+		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(DELETE_COLLECT, HttpMethod.POST, entity, Integer.class);
 		int result = responseEntity.getBody();
 		return result;
 	}
@@ -181,7 +190,7 @@ public class SysFileCollectController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(method = RequestMethod.GET, value = "/edit")
+	@RequestMapping(method = RequestMethod.GET, value = "/sysfilecollect/edit")
 	@OperationFilter(modelName = "文件收藏", actionName = "跳转编辑页面pageEdit")
 	public String pageEdit(String id, Model model, String opt) {
 		model.addAttribute("id", id);
@@ -194,7 +203,7 @@ public class SysFileCollectController extends BaseController {
 	 *
 	 * @return
 	 */
-	@RequestMapping(value = { "/toListPage" }, method = { RequestMethod.GET })
+	@RequestMapping(value = { "/sysfilecollect/toListPage" }, method = { RequestMethod.GET })
 	@OperationFilter(modelName = "文件收藏", actionName = "跳转列表页toListPage")
 	public String toListPage() {
 		return "pplus/doc/sysFileCollect_list";
@@ -206,7 +215,7 @@ public class SysFileCollectController extends BaseController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/getsysFileCollectInfo")
+	@RequestMapping(value = "/sysfilecollect/getsysFileCollectInfo")
 	@OperationFilter(modelName = "文件收藏", actionName = "根据ID查询对象信息getsysFileCollectInfo")
 	@ResponseBody
 	public Object getsysFileCollectInfo(HttpServletRequest request) {
@@ -223,7 +232,7 @@ public class SysFileCollectController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/sysfilecollect/get/{id}")
+	@RequestMapping(value = "/sysfilecollect/sysfilecollect/get/{id}")
 	@ResponseBody
 	public String getSysFileCollectInfo(@PathVariable String id) throws Exception {
 		SysFileCollect sysFileCollect = this.restTemplate.exchange(GET + id, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysFileCollect.class).getBody();
@@ -231,13 +240,13 @@ public class SysFileCollectController extends BaseController {
 		return JSONObject.toJSONString(sysFileCollect);
 	}
 
-	@RequestMapping(value = "/sysfilecollect/tree-data")
+	@RequestMapping(value = "/sysfilecollect/sysfilecollect/tree-data")
 	public Object getSysFileCollectTreeData() throws Exception {
 		TreeNode node = this.restTemplate.exchange(TREE_DATA, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), TreeNode.class).getBody();
 		return node;
 	}
 
-	@RequestMapping(value = "/sysfilecollect/tree-datas")
+	@RequestMapping(value = "/sysfilecollect/sysfilecollect/tree-datas")
 	@ResponseBody
 	public String getSysFileCollectTreeDatas(HttpServletRequest request) throws Exception {
 
@@ -245,7 +254,7 @@ public class SysFileCollectController extends BaseController {
 		return JSONUtils.toJSONString(list);
 	}
 
-	@RequestMapping(value = "/sysfilecollect/add")
+	@RequestMapping(value = "/sysfilecollect/sysfilecollect/add")
 	public Object addSysFileCollect(SysFileCollect sysFileCollect) throws Exception {
 		HttpEntity<Object> entity = new HttpEntity<Object>(sysFileCollect, this.httpHeaders);
 		System.out.println(entity);
@@ -253,19 +262,19 @@ public class SysFileCollectController extends BaseController {
 		return JSONObject.toJSONString(rs);
 	}
 
-	@RequestMapping(value = "/sysfilecollect/update")
+	@RequestMapping(value = "/sysfilecollect/sysfilecollect/update")
 	public Object updateSysFileCollect(SysFileCollect sysFileCollect) throws Exception {
 		DataOperationStatusEnum rs = this.restTemplate.exchange(UPDATE, HttpMethod.POST, new HttpEntity<Object>(sysFileCollect, this.httpHeaders), DataOperationStatusEnum.class).getBody();
 		return rs;
 	}
 
-	@RequestMapping(value = "/sysfilecollect/del")
+	@RequestMapping(value = "/sysfilecollect/sysfilecollect/del")
 	public Object delSysFileCollect(String sysFileCollectId) throws Exception {
 		DataOperationStatusEnum rs = this.restTemplate.exchange(DEL + sysFileCollectId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), DataOperationStatusEnum.class).getBody();
 		return rs;
 	}
 
-	@RequestMapping(value = "/sysfilecollect/del-real")
+	@RequestMapping(value = "/sysfilecollect/sysfilecollect/del-real")
 	public Object delSysFileCollectReal(String id) throws Exception {
 		DataOperationStatusEnum rs = this.restTemplate.exchange(DEL_REAL + id, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), DataOperationStatusEnum.class).getBody();
 		return rs;

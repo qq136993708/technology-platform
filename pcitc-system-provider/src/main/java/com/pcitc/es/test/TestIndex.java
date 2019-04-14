@@ -21,11 +21,11 @@ public class TestIndex {
 
 //        SearchUtil.getMappingXContentBuilder(TestModel.class);
 
-        //创建连接 链接方式1
+        /*//创建连接 链接方式1
         AccessorService accessor = new ClientFactoryBuilder
                 .Builder()
                 .setCLUSTER_NAME("elasticsearch")//es别名
-                .setCLIENT_PORT(9300)//es 端口
+                .setCLIENT_PORT("9300")//es 端口
                 .setHOSTS(new ArrayList<>(Arrays.asList("127.0.0.1"))) //es 地址
                 .create();
 
@@ -74,6 +74,6 @@ public class TestIndex {
 //        //删除一条 id 为1的数据
 //        accessor.delete("1", TestModel.class);
         //详情见AccessorService 接口
-    }
+*/    }
 
 }

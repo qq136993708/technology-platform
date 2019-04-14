@@ -126,6 +126,7 @@
 		}
 	</script>
 	<script>
+		var selectedCollFiles;
 		layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element' ], function() {
 			var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
 			table = layui.table;
@@ -276,13 +277,13 @@
 					}
 				},
 				collectEvent : function() {
-					var ids = active.getChecked();
-					if (ids == "") {
+					selectedCollFiles = active.getChecked();
+					if (selectedCollFiles == "") {
 						layer.msg("请选择要收藏的文档");
 						return;
 					}
 					
-					var temUrl = "/sysfilecollect/ini-file-collect?fileIds="+ids;
+					var temUrl = "/sysfilecollect/ini-file-collect";
 					layer.open({
 						title : '选择收藏分类',
 						skin : 'layui-layer-lan',

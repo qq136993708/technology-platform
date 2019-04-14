@@ -655,7 +655,8 @@ public class TaskProviderClient {
 					// 此时前台应该已经选择好auditor
 				}
 			} else {
-				// 初始值虽然是specialAuditor开头，启动是没有配置对应变量
+				// 初始值虽然是specialAuditor开头，启动时没有配置对应变量
+				System.out.println("初始值虽然是specialAuditor开头，启动时没有配置对应变量");
 			}
 		}
 
@@ -672,10 +673,7 @@ public class TaskProviderClient {
 					nextVar.put("agreeCount", agreeCount + 1);
 				} else {
 					runtimeService.setVariable(currentExecutionId, "agreeCount", 1);
-					// runtimeService.setVariable(currentExecutionId,
-					// "nrOfCompletedInstances", 1);
 					nextVar.put("agreeCount", 1);
-					// nextVar.put("nrOfCompletedInstances", 1);
 				}
 			} else {
 				// 不处理
@@ -1530,6 +1528,12 @@ public class TaskProviderClient {
 		// 取得上一步活动(要撤回审批的这个活动节点)
 		ActivityImpl hisActivity = definitionEntity.findActivity(historicTaskInstance.getTaskDefinitionKey());
 		System.out.println("撤回审批的这个活动节点---------"+hisActivity);
+		
+		// 要回退到的节点、当前节点是会签节点，不允许回退
+		if (currActivity.getActivityBehavior().getClass().getName().contains("MultiInstanceBehavior") || hisActivity.getActivityBehavior().getClass().getName().contains("MultiInstanceBehavior")) {
+			retJson.put("result", false);
+			return retJson;
+		} 
 		
 		// 当前任务节点的平行任务（一个节点有多个人来审批）
 		List<Task> currTasks = taskService.createTaskQuery().processInstanceId(processInstance.getId()).taskDefinitionKey(currActivity.getId()).list();
