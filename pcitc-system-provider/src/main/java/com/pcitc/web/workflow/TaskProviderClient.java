@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiOperation;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -71,6 +72,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.system.SysUser;
+import com.pcitc.base.system.SysUserExample;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.base.workflow.ActivityVo;
@@ -1313,10 +1315,12 @@ public class TaskProviderClient {
 	@ApiOperation(value = "某个实例的任务列表", notes = "instanceId涉及到的任务列表，返回总数和list的json对象")
 	@RequestMapping(value = "/task-provider/task/process/list/{instanceId}", method = RequestMethod.POST)
 	public JSONObject selectTaskProcessList(@PathVariable("instanceId") String instanceId, @RequestParam(value = "jsonStr", required = false) String jsonStr) {
-		// HistoricActivityInstanceQuery query =
-		// historyService.createHistoricActivityInstanceQuery().processInstanceId(instanceId);
 		// 已执行的流程节点
 		List<HistoricActivityInstance> historicActivityInstanceList = historyService.createHistoricActivityInstanceQuery().processInstanceId(instanceId).orderByHistoricActivityInstanceStartTime().asc().list();
+		
+		// 历史流程中用过的变量信息
+		HistoricVariableInstanceQuery hviq = historyService.createHistoricVariableInstanceQuery().processInstanceId(instanceId);
+		
 		// voList=处理历史上已经发生过的任务节点
 		List<ActivityVo> voList = new ArrayList<ActivityVo>();
 		// 处理历史上已经发生过的节点，包括开始节点
@@ -1339,18 +1343,29 @@ public class TaskProviderClient {
 				}
 				
 				
-				HistoricVariableInstance hvi = historyService.createHistoricVariableInstanceQuery().executionId(historicActivityInstance.getExecutionId()).variableName(historicActivityInstance.getTaskId()).singleResult();
-				System.out.println(historicActivityInstance.getExecutionId()+"----1hvi1====" + hvi);
-				System.out.println(historicActivityInstance.getExecutionId()+"----2hvi1====" + historicActivityInstance.getTaskId());
+				HistoricVariableInstance hvi = hviq.variableName(historicActivityInstance.getTaskId()).singleResult();
 				
 				if (hvi == null) {
 					// 当前任务，在历史任务中没有此属性
-					vo.setAssigneeName("");
+					List<IdentityLink> identityLinks = taskService.getIdentityLinksForTask(historicActivityInstance.getTaskId());
+					Set<String> userIds = taskInstanceService.getCandidateUserForTask(identityLinks);
+					List<String> userList = new ArrayList<>(userIds);
+					System.out.println("userIds==========="+String.join("", userIds));
+					SysUserExample example = new SysUserExample();
+					example.createCriteria().andUserIdIn(userList);
+					List<SysUser> users = userService.selectByExample(example);
+					String userNames = "";
+					for (int i = 0; i < users.size(); i++) {
+						if (i == 0) {
+							userNames = users.get(i).getUserDisp();
+						} else {
+							userNames = userNames + "," + users.get(i).getUserDisp();
+						}
+					}
+					vo.setAssigneeName(userNames);
 				} else {
 					vo.setAssigneeName(hvi.getValue() == null ? "" : hvi.getValue().toString());
 				}
-				
-				
 			}
 
 			// 节点状态
@@ -1424,7 +1439,7 @@ public class TaskProviderClient {
 
 				// 单个候选人的情况下，代理任务，防止无法审批的情况下任务无人处理；多个候选人的情况下不代理（让其他人处理）
 				// System.out.println(assignee+"=========112==========="+taskEntity);
-				List<IdentityLink> identityLinks = processEngine.getTaskService().getIdentityLinksForTask(taskEntity.getId());
+				List<IdentityLink> identityLinks = taskService.getIdentityLinksForTask(taskEntity.getId());
 				Set<String> userIds = taskInstanceService.getCandidateUserForTask(identityLinks);
 				// System.out.println(assignee+"=========1124==========="+userIds.size());
 				if (userIds.size() == 1) {

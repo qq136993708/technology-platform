@@ -650,6 +650,13 @@ public class UserServiceImpl implements UserService {
 		data.setCount(total);
 		return data;
 	}
+	
+	/**
+	 * mybatis自带查询用户信息
+	 */
+	public List<SysUser> selectByExample(SysUserExample example) {
+		return userMapper.selectByExample(example);
+	}
 
 
 }
