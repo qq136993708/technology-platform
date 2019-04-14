@@ -32,9 +32,7 @@
 								<span class="must-fill">*</span>
 							</label>
 							<div class="layui-input-block">
-								<input class="layui-input readOnlyBox" id="assigneeName" name="assigneeName" lay-verify="required" type="text" value='${userInfo.userDisp}' disabled>
-								<input id="assigneeCode" name="assigneeCode" type="hidden" value="${userInfo.userId}">
-								<input id="createPerson" name="createPerson" type="hidden" value="${userInfo.userDisp}">
+								<input class="layui-input readOnlyBox" id="assigneeName" name="assigneeName" lay-verify="required" type="text" value='${userInfo.userDisp}' disabled> <input id="assigneeCode" name="assigneeCode" type="hidden" value="${userInfo.userId}"> <input id="createPerson" name="createPerson" type="hidden" value="${userInfo.userDisp}">
 							</div>
 						</div>
 					</div>
@@ -103,9 +101,9 @@
 			</div>
 			<div class="form-bottom">
 				<div class="form-bottom-btns">
-					<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="form-submit">保存</button>
-					<button type="reset" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white">重置</button>
-					<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">取消</button>
+					<button id="submitBtn" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="form-submit">保存</button>
+					<button id="resetBtn" type="reset" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white">重置</button>
+					<button id="closeBtn" type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white">取消</button>
 				</div>
 			</div>
 		</form>
@@ -114,7 +112,9 @@
 	<script>
 		layui.config({
 			base : '../../../../' //静态资源所在路径
-		}).use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element' ], function() {
+		}).use([
+				'jquery', 'form', 'laydate', 'table', 'layer', 'element'
+		], function() {
 			var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
 
 			form.render(null, 'component-form-group');
@@ -166,6 +166,7 @@
 			$("#createDate").attr("value", $("#createDate").val());
 
 			/* 监听提交 */
+			var lodingMsg;
 			form.on('submit(form-submit)', function(data) {
 				if ($('#attorneyValue').val() == "") {
 					layer.msg('必须选择被委托人');
@@ -177,16 +178,27 @@
 				}
 				data.field.attorneyName = $('#attorneyShow').val();
 				data.field.attorneyCode = $('#attorneyValue').val();
-				alert(3111);
+				lodingMsg = layer.msg('处理中...', {shade: [0.5, '#393D49']});
 				$.ajax({
 					type : 'POST',
 					url : "/delegate",
 					data : JSON.stringify(data.field),
 					contentType : "application/json;charset=UTF-8",
+					beforeSend : function() {
+						$("#submitBtn").attr("disabled", "true");
+						$("#resetBtn").attr("disabled", "true");
+						$("#closeBtn").attr("disabled", "true");
+					},
 					error : function(data) {//请求失败处理函数  
-						layer.msg('操作失败');
+						layer.close(lodingMsg);
+                        layer.msg("操作失败!",{time: 2000,icon: 2}, function(){
+                            $("#submitBtn").removeAttr("disabled");
+                            $("#resetBtn").removeAttr("disabled");
+                            $("#closeBtn").removeAttr("disabled");
+                        });
 					},
 					success : function(data) { //请求成功后处理函数。
+						layer.close(lodingMsg);
 						parent.updateFlag = true;
 						var index = parent.layer.getFrameIndex(window.name);
 						parent.layer.close(index);

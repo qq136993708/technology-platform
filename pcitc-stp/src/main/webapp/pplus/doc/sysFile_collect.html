@@ -32,7 +32,6 @@
     </div>
 
 	<script type="text/javascript">
-		var fileIds = "${fileIds?default(0)}";
 		var zNodes;
 
 		var setting = {
@@ -86,7 +85,7 @@
 		            selectedCollectKind = (selectedCollectKind == "" ? nodes[i].id : (selectedCollectKind + "," + nodes[i].id));
 		            bak1 = (bak1 == "" ? nodes[i].name : (bak1 + "," + nodes[i].name));
 		        }
-		        data.field.fileId = fileIds;
+		        data.field.fileId = parent.selectedCollFiles;
 		        data.field.fileKind = selectedCollectKind;
 		        data.field.bak1 = bak1;
 		        $.ajax({
@@ -100,6 +99,7 @@
 						parent.reloadtable();
 						var index = parent.layer.getFrameIndex(window.name);
 						parent.layer.close(index);
+						return false;
 					},
 					error : function(msg) {
 						layer.msg(msg);

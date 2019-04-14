@@ -1,5 +1,6 @@
 package com.pcitc.service.doc;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -77,4 +78,6 @@ public interface SysFileCollectService {
      * @param strFileId
      */
     public void deleteObjByParam(String strFileId);
+    
+    public int deleteSysFileCollect(HashMap<String, Object> map);
 }

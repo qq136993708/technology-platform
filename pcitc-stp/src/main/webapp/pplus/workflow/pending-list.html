@@ -191,6 +191,7 @@
 						layer.msg('请点击选择一行数据');
 					} else {
 						var temUrl = "/task/pending/deal/" + selectRowData.id;
+						updateFlag = false;
 						layer.open({
 							title : '任务处理',
 							skin : 'layui-layer-lan',
@@ -207,7 +208,6 @@
 									active.searchEvent();
 									layer.msg('操作成功');
 								}
-								
 							}
 						});
 					}

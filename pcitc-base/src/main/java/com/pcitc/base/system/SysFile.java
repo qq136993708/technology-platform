@@ -56,7 +56,7 @@ public class SysFile extends DataEntity implements Serializable {
     /**
      * 文件名称
      */
-    @Field(type = FieldType.text)
+    //@Field(type = FieldType.text)
     //@Field(type = FieldType.text, analyzer = "ik_max_word", fieldsName = {"ik", "pinyin", "first_py"}, fieldsAnalyzer = {"ik_max_word", "full_pinyin_letter_analyzer", "first_py_letter_analyzer"})
     private String fileName;
 

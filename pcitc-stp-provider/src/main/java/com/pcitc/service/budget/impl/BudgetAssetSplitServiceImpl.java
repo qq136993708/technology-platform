@@ -37,13 +37,13 @@ import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.mapper.budget.BudgetInfoMapper;
 import com.pcitc.mapper.budget.BudgetSplitDataMapper;
-import com.pcitc.service.budget.BudgetGroupSplitService;
+import com.pcitc.service.budget.BudgetAssetSplitService;
 import com.pcitc.service.feign.SystemRemoteClient;
 
 
-@Service("budgetGroupSplitService")
+@Service("budgetAssetSplitService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
-public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
+public class BudgetAssetSplitServiceImpl implements BudgetAssetSplitService
 {
 
 	@Autowired
@@ -170,9 +170,9 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 	 */
 	private List<SysDictionary> selectTitleDic(String nd)
 	{
-		List<SysDictionary> dis = systemRemoteClient.getDictionaryListByParentCode("ROOT_JFYS_JTDWFL"+nd);
+		List<SysDictionary> dis = systemRemoteClient.getDictionaryListByParentCode("ROOT_JFYS_ZCDWFL"+nd);
 		if(dis.size()==0) {
-			dis = systemRemoteClient.getDictionaryListByParentCode("ROOT_JFYS_JTDWFL");
+			dis = systemRemoteClient.getDictionaryListByParentCode("ROOT_JFYS_ZCDWFL");
 		}
 		return dis;
 	}
@@ -268,34 +268,6 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 					saveOrUpdateBudgetSplitData(split);
 					rs.add(split);
 				}
-				//计划数据
-				BudgetSplitData split = selectBudgetSplitItemData("plan",organCode,budgetInfoId);
-				if(split == null) {
-					split = (BudgetSplitData)MyBeanUtils.createDefaultModel(BudgetSplitData.class);
-				}
-				Double jz = new Double(map.get("plan_jz").toString());
-				Double xq = new Double(map.get("plan_xq").toString());
-				Double total = jz+xq;
-				
-				//MyBeanUtils.copyPropertiesIgnoreNull(splitInfo, split);
-				
-				split.setBudgetType(budgetType);
-				split.setNd(nd);
-				split.setDataVersion(dataVersion);
-				split.setBudgetType(budgetType);
-				split.setBudgetTypeName(budgetTypeName);
-				split.setBudgetInfoId(budgetInfoId);
-				split.setOrganCode(organCode);
-				split.setOrganId(organId);
-				
-				split.setSplitCode("plan");
-				split.setSplitName("计划");
-				split.setPaymentType(0);//部门自筹
-				split.setJz(jz);
-				split.setXq(xq);
-				split.setTotal(total);
-				saveOrUpdateBudgetSplitData(split);
-				rs.add(split);
 			}
 		}
 		catch (Exception e)
@@ -306,7 +278,7 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 	}
 
 	@Override
-	public Map<String,Object> selectGroupSplitFinalItem(String nd,String organCode) {
+	public Map<String,Object> selectAssetSplitFinalItem(String nd,String organCode) {
 		//检索已通过审核的预算
 		BudgetInfoExample infoExample = new BudgetInfoExample();
 		BudgetInfoExample.Criteria infoc = infoExample.createCriteria();
@@ -333,7 +305,7 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 		}
 	}
 	@Override
-	public Map<String,Object> selectGroupSplitItem(String budgetInfoId,String organCode) {
+	public Map<String,Object> selectAssetSplitItem(String budgetInfoId,String organCode) {
 		
 		BudgetInfo info = budgetInfoMapper.selectByPrimaryKey(budgetInfoId);
 		

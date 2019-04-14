@@ -43,8 +43,8 @@
 
 	<script>
 		var parentId = "xxxxxxxx";
-		var updateFlag = false;
 		var zNodes;
+		var active;
 		
 		$(function() {
 			$.ajax({
@@ -210,7 +210,8 @@
 
 			renderTable();
 			// 触发不同的按钮事件
-			var $ = layui.$, active = {
+			var $ = layui.$;
+			active = {
 				searchEvent : function() { //点击查询按钮
 					table.reload('showTableId', {
 						where : {
@@ -276,14 +277,7 @@
 						area : [
 								'800px', '440px'
 						],
-						content : temUrl,
-						end : function() {
-							if (updateFlag) {
-								initTree();
-								active.searchEvent();
-								layer.msg('操作成功');
-							}
-						}
+						content : temUrl
 					});
 				},
 				editEvent : function() { //点击编辑按钮
@@ -306,14 +300,7 @@
 						area : [
 								'800px', '440px'
 						],
-						content : temUrl,
-						end : function() {
-							if (updateFlag) {
-								initTree();
-								active.searchEvent();
-								layer.msg('操作成功');
-							}
-						}
+						content : temUrl
 					});
 				},
 				deleteEvent : function() { //点击删除按钮
@@ -343,7 +330,12 @@
 						return;
 					}
 					openBaseWin("文档分类权限配置", "/sysfilekind/auth/ini-config?sysFileKindId=" + selectRowData.id);
-				}
+				},
+				refresh : function() { 
+					initTree();
+					active.searchEvent();
+					layer.msg('操作成功');
+				},
 			};
 			$('.layui-btn').on('click', function() {
 				var type = $(this).data('type');

@@ -44,7 +44,8 @@
 			<div class="tableToolBox">
 				<div class="whiteLine"></div>
 				<div class="tableBtns">
-					<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="downloadEvent">下载</button>
+					<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteCollectEvent">删除</button>
+					<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_import btnMyBgImg" data-type="downloadEvent">下载</button>
 				</div>
 			</div>
 			<table id="fileShowTable" class="layui-hide" lay-filter="tableEvent"></table>
@@ -154,27 +155,27 @@
 					done : function(res, curr, count) {
 						// 关闭等待刷新
 						layer.close(lodingMsg);
-
-						$(document).on("click", ".layui-table-body table.layui-table tbody tr", function() {
-							var index = $(this).attr('data-index');
-							var tableBox = $(this).parents('.layui-table-box');
-							//存在固定列
-							if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
-								tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
-							} else {
-								tableDiv = tableBox.find(".layui-table-body.layui-table-main");
-							}
-							var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
-							if (checkCell.length > 0) {
-								checkCell.click();
-							}
-						});
-						$(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function(e) {
-							e.stopPropagation();
-						});
 					}
 				});
 			}
+			
+			$(document).on("click", ".layui-table-body table.layui-table tbody tr", function() {
+				var index = $(this).attr('data-index');
+				var tableBox = $(this).parents('.layui-table-box');
+				//存在固定列
+				if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
+					tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+				} else {
+					tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+				}
+				var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+				if (checkCell.length > 0) {
+					checkCell.click();
+				}
+			});
+			$(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function(e) {
+				e.stopPropagation();
+			});
 			
 			renderTable();
 			// 触发不同的按钮事件
@@ -287,6 +288,27 @@
 						});
 						layer.msg(flag == "DEL_OK" ? "删除成功" : "删除失败！请删除此节点下子节点后再执行此操作！");
 					});
+				},
+				deleteCollectEvent : function() {
+					if (nodeTreeId == "") {
+						layer.msg("请选择要删除的收藏文档分类");
+						return;
+					}
+					var fileIds = active.getChecked();
+					if (fileIds == "") {
+						layer.msg("请选择要删除的收藏文档");
+						return;
+					}
+					layer.confirm('确定删除此收藏吗？', function() {
+						ajaxPost("/sysfilecollect/file-kind/file/delete", {
+							"fileIds" : fileIds,
+							"fileKind" : nodeTreeId
+						}, function(data) {
+							layer.msg("文档删除成功");
+						});
+						active.searchEvent();
+					});
+					return false;
 				}
 			};
 			$('.layui-btn').on('click', function() {
