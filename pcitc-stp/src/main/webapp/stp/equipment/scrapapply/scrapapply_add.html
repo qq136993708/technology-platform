@@ -133,10 +133,11 @@
 		 $.ajax({
 	           type : 'POST',
 	           url : "/sre-sreScrapApply/addApplyAndItem",
+	           dataType:"json",
 	           data : {"name":name,"ids":ids,"id":getid,"addorupdate":""},
 	           success : function(data) {
-	           layer.msg("保存成功！");
-	        	}
+	            alert("保存成功！");
+	         },
 	       });
     	  
 	}
@@ -179,7 +180,7 @@
 	        , cols: [[
 	            	 {type: 'checkbox', event: 'roleCheckboxEvent'}
 	            	,{title:'序号', type:'numbers'}
-	            	, {field: 'id', title: 'id', style: 'cursor: pointer;'}
+	            	, {field: 'id', title: '编号', style: 'cursor: pointer;'}
 	            	, {field: 'equipmentPrice', title: '装备单价', style: 'cursor: pointer;'}
 	            	, {field: 'equipmenNumber', title: '规格数量', style: 'cursor: pointer;'}
 	            	, {field: 'equipmentName', title: '装备名称', style: 'cursor: pointer;'}
@@ -191,7 +192,7 @@
 	            	, {field: 'assetsClassification', title: '分类', style: 'cursor: pointer;'}
 	        ]]
 	        , done: function (res, curr, count) {
-	        $("[data-field='id']").css('display','none');
+	        //$("[data-field='id']").css('display','none');
 	            // 点击行联动选择框--单选
 	            $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
 	               

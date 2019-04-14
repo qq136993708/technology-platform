@@ -62,7 +62,7 @@
 
 
 <div class="formBox">
-    <div class="box-body">
+    <div class="box-body" style="padding-right: 0;">
         <form class="layui-form" name="form1" id="form1" action="" method="POST"
               lay-filter="component-form-group layui-container">
             <div class="layer-box">
@@ -72,14 +72,14 @@
                 <input name="yearFeeStr" id="yearFeeStr" value="${sreProjectBasic.yearFeeStr}" type="hidden">
                 <input name="functionId" id="functionId" type="hidden">
                 <input name="userIds" id="userIds" type="hidden">
-                
+
                   <input  name="taskContent"               id="taskContent"              value="${sreProjectTask.taskContent}"            type="hidden">
 			   <input  name="taskAssessmentContent"     id="taskAssessmentContent"    value="${sreProjectTask.taskAssessmentContent}"   type="hidden">
 			   <input  name="budgetTable"               id="budgetTable"           value="${sreProjectTask.budgetTable}"         type="hidden">
 			   <input  name="fundsSourcesTable"         id="fundsSourcesTable"     value="${sreProjectTask.fundsSourcesTable}"   type="hidden">
-                
-                
-                
+
+
+
                  <div class="layui-row" >
                     <div class="tableToolBox">
                         <div class="tableBtns">
@@ -87,9 +87,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="box-body" style="padding-left:10px;padding-right:10px">
-                    
-                    
+                    <div class="box-body" style="padding-left:10px;padding-right:60px;margin-bottom: 15px;">
+
+
 			                    <div class="layui-row">
 			                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 			                        <div class="layui-form-item">
@@ -111,15 +111,15 @@
 			                        </div>
 			                    </div>
 			                 </div>
-			                 
-			                 
-			                 
+
+
+
 			                 <div class="layui-row">
 			                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 			                        <div class="layui-form-item">
 			                            <label for="" class="layui-form-label">合同编号</label>
 			                            <div class="layui-input-block">
-			                             <#if sreProjectTask.contractNum !=null> 
+			                             <#if sreProjectTask.contractNum !=null>
 			                              <input class="layui-input readOnlyBox"  style="color:green" name="contractNum" id="contractNum" readonly="readonly"
 				                               value="${sreProjectTask.contractNum}" autocomplete="off" type="text">
 			                              </#if>
@@ -130,7 +130,7 @@
 			                        <div class="layui-form-item">
 			                            <label for="" class="layui-form-label">ERP号</label>
 			                            <div class="layui-input-block">
-			                                <#if sreProjectTask.erpNum !=null> 
+			                                <#if sreProjectTask.erpNum !=null>
 			                                      <input class="layui-input readOnlyBox"  style="color:green" name="erpNum" id="erpNum" readonly="readonly"
 				                                  value="${sreProjectTask.erpNum}" autocomplete="off" type="text">
 			                              </#if>
@@ -138,18 +138,18 @@
 			                        </div>
 			                    </div>
 			                 </div>
-			                 
-			                 
-			                 
-				            
-				            
-				            
+
+
+
+
+
+
 				             <div class="layui-row">
 				                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				                        <div class="layui-form-item">
 				                            <label class="layui-form-label">归属部门</label>
 				                            <div class="layui-input-block">
-				                               
+
 				                                <select name="belongDepartmentName" id="belongDepartmentName" disabled="disabled"
 				                                        lay-filter="getDepartNameByUnitName" style="width:200px">
 				                                    <option value="">--请选择部门--</option>
@@ -161,8 +161,8 @@
 				                        </div>
 				                    </div>
 				                </div>
-				
-				
+
+
 				                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				                    <div class="layui-form-item">
 				                        <label for="" class="layui-form-label">专业处</label>
@@ -173,7 +173,7 @@
 				                        </div>
 				                    </div>
 				                </div>
-				
+
 				                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				                    <div class="layui-form-item">
 				                        <label for="" class="layui-form-label">专业领域</label>
@@ -183,10 +183,10 @@
 				                        </div>
 				                    </div>
 				                </div>
-                
-                
-                
-				            
+
+
+
+
 				                <div class="layui-form-item layui-form-text">
 				                    <label class="layui-form-label">项目执行年限</label>
 				                    <div class="layui-input-block">
@@ -201,8 +201,8 @@
 				                        </div>
 				                    </div>
 				                </div>
-				
-				
+
+
 				                <div class="layui-form-item layui-form-text">
 				                    <label class="layui-form-label">目标和主要任务</label>
 				                    <div class="layui-input-block">
@@ -210,10 +210,10 @@
 				                              class="layui-textarea readOnlyBox">${sreProjectTask.taskMainTaskContent}</textarea>
 				                    </div>
 				                </div>
-				                
-				                
-				                
-				                
+
+
+
+
 				                 <div class="layui-row">
 					                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 					                    <div class="layui-form-item">
@@ -234,9 +234,9 @@
 					                    </div>
 					                </div>
 					            </div>
-				                
-				                
-				                
+
+
+
 				                 <div class="layui-row">
 					                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 					                    <div class="layui-form-item">
@@ -257,7 +257,7 @@
 					                    </div>
 					                </div>
 					            </div>
-					            
+
 					            <div class="layui-row">
 					                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 					                    <div class="layui-form-item">
@@ -274,7 +274,7 @@
 					                        <div class="layui-input-block">
 					                         <input class="layui-input readOnlyBox" name="createDate" id="createDate" value="${sreProjectTask.createDate?string("yyyy-MM-dd HH:mm:ss")}"     autocomplete="off" type="text">
 				                            </div>
-					                           
+
 					                    </div>
 					                </div>
 					            </div>
@@ -309,14 +309,14 @@
 					                    </div>
 					                </div>
 					            </div>
-					            
-					            
-					            
-					          
-					            
-					            
-					            
-					            
+
+
+
+
+
+
+
+
 					            <div class="layui-row">
 					                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 					                    <div class="layui-form-item">
@@ -324,7 +324,7 @@
 					                        <div class="layui-input-block">
 					                           <select name="innerAuditStatus" id="innerAuditStatus" disabled="disabled"  style="color:red;width:200px">
 					                                          <option value="">--未确认--</option>
-					                                           <#list dicList as vo> 
+					                                           <#list dicList as vo>
 																  <option value="${vo.numValue}" <#if vo.numValue ==sreProjectTask.innerAuditStatus> selected="selected" </#if> >${vo.name}</option>
 																</#list>
 					                            </select>
@@ -337,7 +337,7 @@
 					                        <div class="layui-input-block">
 					                           <select name="auditStatus" id="auditStatus" disabled="disabled"  style="color:red;width:200px">
 					                                          <option value="">--未上报--</option>
-					                                           <#list dicList as vo> 
+					                                           <#list dicList as vo>
 																  <option value="${vo.numValue}" <#if vo.numValue ==sreProjectTask.auditStatus> selected="selected" </#if> >${vo.name}</option>
 																</#list>
 					                            </select>
@@ -345,18 +345,18 @@
 					                    </div>
 					                </div>
 					            </div>
-					            
-					            
-				                
-				                
-				                
-				                
+
+
+
+
+
+
                     </div>
                 </div>
-                
-                
 
-                
+
+
+
 
 
                 <div class="layui-row" id="task_content">
@@ -617,7 +617,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="box-body" style="padding-left:10px;padding-right:10px">
+                    <div class="box-body" style="padding-left:10px;padding-right:10px;padding-bottom: 10px;">
 
                         <label class="layui-form-label" style="width: 100%;text-align: left;margin-left: 0;">
                             ${sreProject.leadUnitName?default('')}</label>
@@ -703,11 +703,11 @@
             , $ = layui.jquery
             , form = layui.form;
         var publicMethods = layui.publicMethods;
-        
-        
-        
-        
-        
+
+
+
+
+
         form.on('select(getDepartNameByUnitName)',function(data){
         	getDepartNameByUnitName(data.value);
         })
@@ -793,9 +793,9 @@
 			}
 
 
-			
-			
-			
+
+
+
 
         form.render();
 
@@ -803,9 +803,9 @@
         laydate.render({
             elem: '#LAY-component-form-group-date'
         });
-        
+
         publicMethods.createTable('', '', "project_funds_table", 2, yearFeeStr, true);
-        
+
         var arrD = yearFeeStrJoinUnit.split(";");
         if (arrD == '') {
 
@@ -833,8 +833,8 @@
                 publicMethods.createTable("", "", "yearTr" + i, 2, yearFeeStrN, true);
             });
         }
-        
-        
+
+
         //添加到form.render()之后
         $("#file_div").load('/common/public/uploadlayuiload.html');
         if(taskContent!='')
@@ -1005,7 +1005,7 @@
         });
     }
 
-    function view_project(id) 
+    function view_project(id)
     {
     	 var temUrl="/sre-project-basic/get/" + id;
 		 layer.open({

@@ -20,6 +20,7 @@
     <script src="/layuiadmin/layui/layui.js"></script>
     <style type="text/css">
         .box-body{margin-bottom: 50px !important;padding: 0 30px;}
+        textarea{width: 75%;}
     </style>
 </head>
 <body>
@@ -291,12 +292,12 @@
         if (taskArr != '') {
             $.each(taskArr.split("|"), function (i, val) {
                 var taskVal = val.split("#");
-                var tr = "<tr><td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[0] + "</textarea></td>" +
-                    "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[1] + "</textarea></td>" +
-                    "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[2] + "</textarea></td>" +
-                    "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[3] + "</textarea></td>" +
-                    "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[4] + "</textarea></td>" +
-                    "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[5] + "</textarea></td>" +
+                var tr = "<tr><td><textarea    rows='2' cols='20' >" + taskVal[0] + "</textarea></td>" +
+                    "<td><textarea    rows='2' cols='20' >" + taskVal[1] + "</textarea></td>" +
+                    "<td><textarea    rows='2' cols='20' >" + taskVal[2] + "</textarea></td>" +
+                    "<td><textarea    rows='2' cols='20' >" + taskVal[3] + "</textarea></td>" +
+                    "<td><textarea    rows='2' cols='20' >" + taskVal[4] + "</textarea></td>" +
+                    "<td><textarea    rows='2' cols='20' >" + taskVal[5] + "</textarea></td>" +
                     "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
                 addTr("supplier_will_str", tr);
                 formVerify();
@@ -306,10 +307,10 @@
         //意向供应商事件
         $("#gysAddEvent").click(function () {
             var n = $("#supplier_will_str table tbody tr").length + 1;
-            var tr = "<tr><td><textarea     rows='2' style='width: 95%;'></textarea></td><td><textarea     rows='2' style='width: 95%;'></textarea> </td>" +
-                "<td><textarea     rows='2' cols='20' style='width: 95%;'></textarea> </td><td><textarea     rows='2' style='width: 95%;'></textarea> </td>" +
-                "<td><textarea     rows='2' style='width: 95%;'></textarea> </td>" +
-                "<td><textarea     rows='2' style='width: 95%;'></textarea> </td>" +
+            var tr = "<tr><td><textarea     rows='2' ></textarea></td><td><textarea     rows='2' ></textarea> </td>" +
+                "<td><textarea     rows='2' cols='20' ></textarea> </td><td><textarea     rows='2' ></textarea> </td>" +
+                "<td><textarea     rows='2' ></textarea> </td>" +
+                "<td><textarea     rows='2' ></textarea> </td>" +
                 "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
             addTr("supplier_will_str", tr);
             dele();
@@ -572,13 +573,13 @@
             $.each(taskArr.split("|"), function (i, val) {
                 if (val != '') {
                     var taskVal = val.split("#");
-                    var tr = "<tr><td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[0] + "</textarea></td>" +
-                        "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[1] + "</textarea></td>" +
-                        "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[2] + "</textarea></td>" +
-                        "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[3] + "</textarea></td>" +
-                        "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[4] + "</textarea></td>" +
-                        "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[5] + "</textarea></td>" +
-                        "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[6] + "</textarea></td>" +
+                    var tr = "<tr><td><textarea    rows='2' cols='20' >" + taskVal[0] + "</textarea></td>" +
+                        "<td><textarea    rows='2' cols='20' >" + taskVal[1] + "</textarea></td>" +
+                        "<td><textarea    rows='2' cols='20' >" + taskVal[2] + "</textarea></td>" +
+                        "<td><textarea    rows='2' cols='20' >" + taskVal[3] + "</textarea></td>" +
+                        "<td><textarea    rows='2' cols='20' >" + taskVal[4] + "</textarea></td>" +
+                        "<td><textarea    rows='2' cols='20' >" + taskVal[5] + "</textarea></td>" +
+                        "<td><textarea    rows='2' cols='20' >" + taskVal[6] + "</textarea></td>" +
                         "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
                     addTr("supplier_str", tr);
                     formVerify();
