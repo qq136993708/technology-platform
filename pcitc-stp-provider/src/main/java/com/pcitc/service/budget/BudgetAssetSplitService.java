@@ -14,7 +14,7 @@ import com.pcitc.base.stp.out.OutProjectPlan;
  * @author fb
  *
  */
-public interface BudgetGroupSplitService
+public interface BudgetAssetSplitService
 {
 	/**
 	 * 查询当前预算表数据
@@ -65,13 +65,13 @@ public interface BudgetGroupSplitService
 	 * @param item
 	 * @return
 	 */
-	public Map<String,Object> selectGroupSplitFinalItem(String nd,String organCode);
+	public Map<String,Object> selectAssetSplitFinalItem(String nd,String organCode);
 	/**
 	 * 获取指定项指表的审批数据
 	 * @param item
 	 * @return
 	 */
-	public Map<String,Object> selectGroupSplitItem(String budgetInfoId,String organCode);
+	public Map<String,Object> selectAssetSplitItem(String budgetInfoId,String organCode);
 	/**
 	 * 获取计划参考数据
 	 * @param budgetInfoId
