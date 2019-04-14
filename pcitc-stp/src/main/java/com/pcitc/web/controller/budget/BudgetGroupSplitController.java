@@ -119,6 +119,7 @@ public class BudgetGroupSplitController extends BaseController {
 	public Object toBudgetGroupSplitHistoryPage(HttpServletRequest request) throws IOException 
 	{
 		String nd = request.getParameter("nd");
+		request.setAttribute("organCode", request.getParameter("organCode"));
 		request.setAttribute("budgetInfoId", request.getParameter("budgetInfoId"));
 		request.setAttribute("nd", nd);
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPSPLIT_TITLES, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), List.class);

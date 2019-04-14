@@ -132,7 +132,7 @@ public class BudgetGroupSplitProviderClient
 	@RequestMapping(value = "/stp-provider/budget/budget-create-template-groupsplit", method = RequestMethod.POST)
 	public Object createOrUpdateBudgetInfoByHis(@RequestBody BudgetInfo info) 
 	{
-		logger.info("budget-create-template-grouptotal...");
+		logger.info("budget-create-template-groupsplit...");
 		BudgetInfo newInfo = null;
 		try
 		{
@@ -158,7 +158,7 @@ public class BudgetGroupSplitProviderClient
 	public Object selectGroupSplitItemTable(@RequestBody LayuiTableParam param) 
 	{
 		String dataId = param.getParam().get("budget_info_id").toString();
-		logger.info("select-budget-grouptotal-items..."+dataId);
+		logger.info("select-budget-groupsplit-items..."+dataId);
 		LayuiTableData table = new LayuiTableData();
 		List<Map<String,Object>> data = null;
 		try
@@ -250,6 +250,8 @@ public class BudgetGroupSplitProviderClient
 		Map<String,Object> map = new HashMap<String,Object>();
 		try
 		{
+			System.out.println(JSON.toJSONString(vo));
+			System.out.println("--------------");
 			map = budgetGroupSplitService.selectGroupSplitItem(vo.getBudgetInfoId(),vo.getOrganCode());
 		}
 		catch (Exception e)
