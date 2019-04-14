@@ -180,6 +180,7 @@
                 var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
                 form.render(null, 'functiongroup-form');
                 if (parentId != "") {
+                    $("#imgDesc").val("");
                     ajaxPost("/sysfileconfig/get/" + parentId, null, function (data) {
                         form.val("functiongroup-form", data);
                         $("input").attr("style",false);

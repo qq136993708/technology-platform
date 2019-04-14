@@ -523,7 +523,8 @@ public class SysFileServiceImpl implements SysFileService {
 	 */
 	@Transactional(isolation = Isolation.READ_UNCOMMITTED)
 	public String uploadFileSaveLayui(@RequestParam(value = "file", required = false) MultipartFile filePart, HttpServletRequest request, HttpServletResponse response, String filename, String filepathconfig, String userid, String uuid, String formId, String flag) {
-		MultipartFile[] files = new MultipartFile[] { filePart };
+        System.out.println(filePart);
+	    MultipartFile[] files = new MultipartFile[] { filePart };
 		String strUserId = userid;
 		FileResult msg = new FileResult();
 		ArrayList<Integer> arr = new ArrayList<>();
