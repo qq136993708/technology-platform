@@ -71,7 +71,7 @@
 
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label for="" class="layui-form-label">完成比例<span class="must-fill">*</span></label>
+                            <label for="" class="layui-form-label">完成比例<span class="must-fill"></span></label>
                             <div class="layui-input-block">
                                 <input class="layui-input" name="bl" id="bl"
                                        placeholder="完成比例" autocomplete="off" type="text">
@@ -208,7 +208,7 @@
             type: 'datetime'
         });
         $.ajax({
-            url: '/pageCommon/dic/ROOT_SGGL_GDGL_GDLX',
+            url: '/pageCommon/dic/ROOT_RWGL_RWLX',
             dataType: 'json',
             type: 'post',
             success: function (data) {
@@ -266,6 +266,8 @@
                 }
                 sthTrArr.push(sthTrObj)
                 console.log(sthTrArr);
+                console.log("--------------sthTrObj------------");
+                console.log(sthTrObj);
             });
             var jsonData = data.field;
             jsonData.matterList = sthTrArr;
