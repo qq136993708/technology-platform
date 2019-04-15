@@ -2,8 +2,6 @@ package com.pcitc.web.controller.equipment;
 
 
 import java.io.PrintWriter;
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -14,10 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
-import com.pcitc.base.stp.equipment.SreEquipment;
+import com.pcitc.base.stp.equipment.SreProjectTask;
 import com.pcitc.base.stp.equipment.SrePurchase;
 import com.pcitc.base.system.SysDictionary;
-import com.pcitc.base.util.DateUtil;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -54,6 +51,10 @@ public class PurchaseController extends BaseController{
     private static final String UPDATE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/update";
     private static final String DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/delete/";
 
+    // 流程操作--同意
+    private static final String AUDIT_AGREE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/task/agree/";
+    // 流程操作--拒绝
+    private static final String AUDIT_REJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/task/reject/";
 
     //跳转到采购申请页面
 	@RequestMapping(value = "/sre_purchase/to-list")
@@ -119,6 +120,7 @@ public class PurchaseController extends BaseController{
         String projectId    = "";
         String name         = "";
         String equipmentId  = "";
+        String sreProjectEquipmentIds = "";
                 String unitPathIds =   sysUserInfo.getUnitPath();
 		if(!unitPathIds.equals(""))
 		{
@@ -154,8 +156,10 @@ public class PurchaseController extends BaseController{
             ResponseEntity<SreProject> SreProjectResponseEntity = this.restTemplate.exchange(GET_BY_PROJECT_ID + projectId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
             SreProject sreProject = SreProjectResponseEntity.getBody();
             name = sreProject.getName();
+            sreProjectEquipmentIds = sreProject.getEquipmentIds();
 
-		}
+
+        }
 		request.setAttribute("createUserName",createUserName);
 		request.setAttribute("documentDoc", documentDoc);
 		request.setAttribute("leadUnitName", leadUnitName);
@@ -165,6 +169,7 @@ public class PurchaseController extends BaseController{
         request.setAttribute("topicId", projectId);
         request.setAttribute("name", name);
         request.setAttribute("equipmentIds",equipmentId);
+        request.setAttribute("sreProjectEquipmentIds",sreProjectEquipmentIds);
 
 
 
@@ -230,6 +235,7 @@ public class PurchaseController extends BaseController{
         // 业务ID
         String id = CommonUtil.getParameter(request, "id", "");
         // 流程状态-是保存还是提交
+        String status = CommonUtil.getParameter(request, "status", Constant.PURCHASE_STATUS_DRAFT);
         String topicId = CommonUtil.getParameter(request, "topicId", "");
         String taskWriteUsersIds = CommonUtil.getParameter(request, "taskWriteUsersIds", "");
         String equipmentIds = CommonUtil.getParameter(request, "equipmentIds", "");
@@ -258,7 +264,6 @@ public class PurchaseController extends BaseController{
                 }
             }
         }
-
         SrePurchase srePurchase = null;
         ResponseEntity<String> responseEntity = null;
         // 判断是新增还是修改
@@ -266,20 +271,17 @@ public class PurchaseController extends BaseController{
         {
             srePurchase = new SrePurchase();
             srePurchase.setCreateDate(new Date());
-            /*srePurchase.setDepartCode(sysUserInfo.getUnitCode());//部门code
-            srePurchase.setDepartName(sysUserInfo.getUnitName());//部门名称*/
 
             String idv = UUID.randomUUID().toString().replaceAll("-", "");
             srePurchase.setId(idv);
-            //状态 srePurchase.setAuditStatus(auditStatus);
+            srePurchase.setState(Integer.valueOf(status));
         } else
         {
             ResponseEntity<SrePurchase> se = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
             srePurchase = se.getBody();
         }
         // 流程状态
-            //srePurchase.setState(auditStatus);
-
+            srePurchase.setState(Integer.parseInt(status));
             srePurchase.setPurchaseName(purchaseName);//采购名称
             srePurchase.setProposerId(leadUnitCode);//采购员ID
             srePurchase.setProposerName(createUserName);//采购员姓名
@@ -387,4 +389,97 @@ public class PurchaseController extends BaseController{
 
         return "/stp/equipment/purchase/purchase-view";
     }
+
+    //任务上报
+    @RequestMapping(value = "/sre-purchase/apply_list")
+    public String apply_list(HttpServletRequest request, HttpServletResponse response)throws Exception {
+
+
+
+        List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+        request.setAttribute("dicList", dicList);
+
+        List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
+        request.setAttribute("unitFieldList", unitFieldList);
+
+
+        String	parentUnitPathIds="";
+        String unitPathIds =   sysUserInfo.getUnitPath();
+        if(unitPathIds!=null && !unitPathIds.equals(""))
+        {
+            if(unitPathIds.length()>4)
+            {
+                parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
+
+            }
+        }
+        request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+
+
+        return "/stp/equipment/purchase/apply-list";
+    }
+    //sre-purchase/upFileDoc
+    @RequestMapping(value = "/sre-purchase/upFileDoc")
+    public String upFileDoc(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+
+
+        String id = CommonUtil.getParameter(request, "id", "");
+        request.setAttribute("id", id);
+
+        if(!id.equals(""))
+        {
+            ResponseEntity<SrePurchase> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
+            SrePurchase srePurchase = responseEntity.getBody();
+            request.setAttribute("srePurchase", srePurchase);
+            String documentDoc = srePurchase.getDocumentDoc();
+
+            /*SreProjectTask sreProjectTask =EquipmentUtils.getSreProjectTask(id, restTemplate, httpHeaders);
+            request.setAttribute("sreProjectTask", sreProjectTask);
+            String documentDoc=sreProjectTask.getDocumentDoc();*/
+            if(documentDoc==null || documentDoc.equals(""))
+            {
+                documentDoc= IdUtil.createFileIdByTime();
+            }
+            request.setAttribute("documentDoc", documentDoc);
+        }
+
+        return "/stp/equipment/purchase/upFileDoc";
+    }
+    @RequestMapping(value = "/sre-purchase/updateFileDoc")
+    public String updateFileDoc(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        Result resultsDate = new Result();
+        String id = CommonUtil.getParameter(request, "id", "");
+        String documentDoc = CommonUtil.getParameter(request, "documentDoc", "");
+        String resutl="";
+
+        int statusCodeValue = 0;
+        if(!id.equals(""))
+        {
+            ResponseEntity<SrePurchase> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
+            SrePurchase srePurchase = responseEntity.getBody();
+            srePurchase.setDocumentDoc(documentDoc);
+
+            ResponseEntity<String>  exchange = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
+            statusCodeValue = responseEntity.getStatusCodeValue();
+
+        }
+        if (statusCodeValue==200)
+        {
+            resultsDate.setSuccess(true);
+        } else
+        {
+            resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
+        }
+
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+        out.println(ob.toString());
+        out.flush();
+        out.close();
+        return null;
+    }
+
 }

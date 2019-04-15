@@ -7,7 +7,11 @@ public class SrePurchase {
 
     private String purchaseName;
 
+    private String proposerId;
+
     private String proposerName;
+
+    private String parentUnitPathId;
 
     private String parentUnitPathNames;
 
@@ -21,13 +25,15 @@ public class SrePurchase {
 
     private Date createDate;
 
-    private String proposerId;
-
     private String equipmentId;
 
     private Integer ischeck;
 
     private String projectId;
+
+    private String loginName;
+
+    private String documentDoc;
 
     public String getId() {
         return id;
@@ -45,12 +51,28 @@ public class SrePurchase {
         this.purchaseName = purchaseName;
     }
 
+    public String getProposerId() {
+        return proposerId;
+    }
+
+    public void setProposerId(String proposerId) {
+        this.proposerId = proposerId;
+    }
+
     public String getProposerName() {
         return proposerName;
     }
 
     public void setProposerName(String proposerName) {
         this.proposerName = proposerName;
+    }
+
+    public String getParentUnitPathId() {
+        return parentUnitPathId;
+    }
+
+    public void setParentUnitPathId(String parentUnitPathId) {
+        this.parentUnitPathId = parentUnitPathId;
     }
 
     public String getParentUnitPathNames() {
@@ -101,14 +123,6 @@ public class SrePurchase {
         this.createDate = createDate;
     }
 
-    public String getProposerId() {
-        return proposerId;
-    }
-
-    public void setProposerId(String proposerId) {
-        this.proposerId = proposerId;
-    }
-
     public String getEquipmentId() {
         return equipmentId;
     }
@@ -131,5 +145,21 @@ public class SrePurchase {
 
     public void setProjectId(String projectId) {
         this.projectId = projectId;
+    }
+
+    public String getLoginName() {
+        return loginName;
+    }
+
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
+    }
+
+    public String getDocumentDoc() {
+        return documentDoc;
+    }
+
+    public void setDocumentDoc(String documentDoc) {
+        this.documentDoc = documentDoc;
     }
 }

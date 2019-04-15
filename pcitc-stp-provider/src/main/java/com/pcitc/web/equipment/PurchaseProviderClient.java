@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
+import com.pcitc.base.common.Constant;
 import com.pcitc.base.stp.equipment.*;
+import com.pcitc.base.workflow.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,7 @@ import io.swagger.annotations.ApiOperation;
 public class PurchaseProviderClient 
 {
 	
-	private final static Logger logger = LoggerFactory.getLogger(PurchaseProviderClient.class); 
+	private final static Logger logger = LoggerFactory.getLogger(PurchaseProviderClient.class);
 	@Autowired
 	private PurchaseService purchaseService;
 	
@@ -87,4 +89,18 @@ public class PurchaseProviderClient
         logger.info("===============================get SreProject id "+id+"===========");
         return purchaseService.selectProjectBasic(id);
     }
+	/**
+	 * @param id
+	 * @return
+	 * 业务系统处理审批流程都同意后业务
+	 */
+	@RequestMapping(value = "/sre-provider/purchase/success/{id}", method = RequestMethod.POST)
+	public Integer taskAgreeSreProject(@PathVariable(value = "id", required = true) String id)throws Exception {
+
+		SrePurchase srePurchase = purchaseService.selectSrePurchaseById(id);
+		srePurchase.setState(Integer.valueOf(Constant.PURCHASE_STATUS_SUBMIT));
+		int count=purchaseService.updateSrePurchase(srePurchase);
+		System.out.println("======业务系统处理审批流程都 --同意 --后业务======="+id);
+		return count;
+	}
 }

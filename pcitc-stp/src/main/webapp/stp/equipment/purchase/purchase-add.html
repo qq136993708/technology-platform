@@ -38,8 +38,9 @@
               lay-filter="component-form-group layui-container">
             <input name="topicId" id="topicId" value="${topicId}" type="hidden">
             <input name="taskWriteUsersIds" id="taskWriteUsersIds" value="${taskWriteUsersIds}" type="hidden">
-            <input name="id" id="id" value="${id}" type="hidden">
-            <input name="equipmentIds" id="equipmentIds"  value="${equipmentIds}" type="hidden">
+            <input name="id" id="id" value="${id}" type="text">
+            <input name="equipmentIds" id="equipmentIds"  value="${equipmentIds}" type="text">
+            <input name="sreProjectEquipmentIds" id="sreProjectEquipmentIds"  value="${sreProjectEquipmentIds}" type="text">
             <input name="leadUnitCode" id="leadUnitCode" value="${leadUnitCode}" type="hidden">
             <input name="createUserName" id="createUserName" value="${createUserName}" type="hidden">
             <input name="createUserId" id="createUserId" value="${createUserId}" type="hidden">
@@ -128,11 +129,24 @@
 
 </script>
 <script>
+    /*for (var i = 0; i < animals.length; i++) {
+        if(arr[i]=arr2[i]){
+            $("#openTakeaway").attr("checked", "checked");
+        }
+    }*/
 
     function call_back(equipmentIds)
-    {
+    {alert("XXX");
         renderTable(equipmentIds);
     }
+    /*window.onload=function()
+    {
+        var  equipmentIds  = $("#sreProjectEquipmentIds").val();
+        renderTable(equipmentIds);
+    }*/
+
+
+
     function choosePurchase(id)
     {
         var temUrl = '/sre-purchase/chooseProject?taskWriteUsersIds='+$("#taskWriteUsersIds").val()+"&id="+id;
@@ -264,55 +278,28 @@
 					});
 			}
 
-
-
-        var equipmentIds = $("#equipmentIds").val();
+        var equipmentIds = $("#sreProjectEquipmentIds").val();
         renderTable(equipmentIds)
 
-        publicMethods.createTable($("#beginYear").val(), $("#endYear").val(), "yearTr", 2, yearFeeStr);
 
 
         //添加到form.render()之后
         $("#file_div").load('/common/public/uploadlayuiload.html');
 
 
-
         $('.layui-btn').on('click', function () {
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
-        var $ = layui.$, active = {
+        /*var $ = layui.$, active = {
             selectEvent: function () {
+                alert("AAA");
                 var temUrl = '/sre-equipment/chooseEquipmentByTopicId?equipmentIds=' + $("#equipmentIds").val() + "&topicId="+$("#topicId").val();
 
 
                 //publicMethods.openBaseWin("选择装备", temUrl, "90%", "80%");
             }
-            /* ,
-	            deleteEvent:function(){
-	            	layer.confirm('确定要移除吗？',{title:"移除确认"},function(index){
-						layer.close(index);
-		            	var check = table.checkStatus('join_apply_table');
-		            	var equipmentIds=$("#equipmentIds").val();
-		            	for(var dt in check.data)
-		            	{
-		            		var id=check.data[dt].equipmentId;
-
-		            		equipmentIds=equipmentIds.replace(id,'');
-		            	}
-		            	$("#equipmentIds").val(equipmentIds);
-		            	renderTable(equipmentIds);
-	            	});
-	            }  */
-
-        }
-        /*form.verify({
-            validateNumber: function (value, item) {
-                if (value <= 0 || value > 2000) {
-                    return '费用不能大于2000万';
-                }
-            }
-        });*/
+        }*/
 
 
         /* 监听提交 */
@@ -350,6 +337,13 @@
             {
                 layer.alert("请点击选择装备数据");
             } else {
+                var equipmentIds="";
+                alert(equipmentIds)
+                for(var dt in check.data)
+                {
+                    equipmentIds=equipmentIds+check.data[dt].equipmentId+",";
+                }
+                document.getElementById("equipmentIds").value=equipmentIds;
                 var url="/sre-purchase/save?v_date="+v_date;
                 var backurl="/sre_purchase/to-list?v_date="+v_date;
                 ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
@@ -399,7 +393,9 @@
     }
 
     function renderTable(equipmentIds) {
-        $("#equipmentIds").val(equipmentIds);
+        //if(sreProjectEquipmentIds)
+
+        //$("#equipmentIds").val(equipmentIds);
         table.render({
             elem: '#join_apply_table',
             url: '/sre-equipment/chooseEquipmentByIds?equipmentIds=' + equipmentIds,
@@ -431,8 +427,30 @@
 
             ]],
             done: function (res, curr, count) {
+                console.log(res)
+                console.log(curr)
+                console.log(count)
+                var equipmentIds="";
+                for(var i;i<res.data.length;i++)
+                {
+                    var equipmentIds=res.data.equipmentId;
+                }
+                    var equipmentIds =  $("#equipmentIds").val().split(",");
+                    for (var i=0; i<equipmentIds.length;i++){
+                        for (var j = 0; j < res.data.length; j++) {
+                            if (equipmentIds[i] == res.data[j].equipmentId) {
+                                //alert(equipmentIds[i] + "xiangdeng " + res.data[j].equipmentId)
+                                //alert("i=" + i + "=========" + "j=" + j)
+                                //$('tr:eq('+i+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+
+                                res.data[i].equipmentId.checked=true;
+                            }
+                        }
+                }
+
 
                 //项目分类，项目性质
+                $('table.layui-table thead tr th:eq(0)').addClass('layui-hide');
                 var dicMap = ['ROOT_ZBGL_ZBFL'];
                 var dicVal = {};
                 publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys", {"parentCodes": JSON.stringify(dicMap)}, function (data) {
