@@ -44,6 +44,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.vo.BudgetSplitBaseDataVo;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
@@ -335,11 +336,14 @@ public class BudgetGroupSplitController extends BaseController {
 	{
 		try {
 			InputStream is = new FileInputStream(template);
+			
 			workbook = new XSSFWorkbook(is);
 			sheet = workbook.getSheetAt(0);
 			//处理标题 年度
 			String title = readCell(sheet.getRow(0).getCell(0));
 			sheet.getRow(0).getCell(0).setCellValue(title.replace("${nd}", param.get("nd")));
+			this.processExcelTitle(sheet, param, null);
+			
 			
 			//从第五行开始，第五行是测试数据
 			Row templateRow = sheet.getRow(4);
@@ -415,6 +419,13 @@ public class BudgetGroupSplitController extends BaseController {
 			e.printStackTrace();
 		}
 	}
+	//处理标题
+	private void processExcelTitle(XSSFSheet sheet,Map<String,String> param,List<SysDictionary> dis){
+		
+	}
+	
+	
+	
 	private void fileDownload(File file,HttpServletResponse res) 
 	{
         OutputStream out = null;
