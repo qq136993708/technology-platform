@@ -1351,17 +1351,20 @@ public class TaskProviderClient {
 					Set<String> userIds = taskInstanceService.getCandidateUserForTask(identityLinks);
 					List<String> userList = new ArrayList<>(userIds);
 					System.out.println("userIds==========="+String.join("", userIds));
-					SysUserExample example = new SysUserExample();
-					example.createCriteria().andUserIdIn(userList);
-					List<SysUser> users = userService.selectByExample(example);
 					String userNames = "";
-					for (int i = 0; i < users.size(); i++) {
-						if (i == 0) {
-							userNames = users.get(i).getUserDisp();
-						} else {
-							userNames = userNames + "," + users.get(i).getUserDisp();
+					if (userList != null && userList.size() > 0) {
+						SysUserExample example = new SysUserExample();
+						example.createCriteria().andUserIdIn(userList);
+						List<SysUser> users = userService.selectByExample(example);
+						
+						for (int i = 0; i < users.size(); i++) {
+							if (i == 0) {
+								userNames = users.get(i).getUserDisp();
+							} else {
+								userNames = userNames + "," + users.get(i).getUserDisp();
+							}
 						}
-					}
+					} 
 					vo.setAssigneeName(userNames);
 				} else {
 					vo.setAssigneeName(hvi.getValue() == null ? "" : hvi.getValue().toString());

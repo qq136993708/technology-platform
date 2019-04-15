@@ -134,6 +134,8 @@ public class SysFileController extends BaseController {
      * 查询用户信息
      */
     private static final String USER_DETAILS_URL = "http://pcitc-zuul/system-proxy/user-provider/user/user-details/";
+	
+	private static final String commonFileList = "http://pplus-zuul/system-proxy/file-common-provider/files/common/data-list";
 
     // 文件上传路径
     @Value("${uploaderPathTemp}")
@@ -315,6 +317,32 @@ public class SysFileController extends BaseController {
         httpHeaders.add("x-frame-options", "ALLOW-FROM");
         response.addHeader("x-frame-options", "ALLOW-FROM");
         return responseEntity;
+    }
+	
+	/**
+     * 通过md5值，查询sys_file（存在多个），判断当前人，是否有这些file的权限，只要有权限，就能下载这个文件
+     */
+    @RequestMapping(value = "/sysfile/md5/download/{fileMd5}")
+    public Result downloadFileByMd5(@PathVariable("fileMd5") String fileMd5, HttpServletRequest request, HttpServletResponse response) {
+    	LayuiTableParam param = new LayuiTableParam();
+    	param.getParam().put("userId", sysUserInfo.getUserId());
+    	param.getParam().put("fileMd5", fileMd5);
+    	
+		LayuiTableData layuiTableData = new LayuiTableData();
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+		ResponseEntity<LayuiTableData> fileEntity = restTemplate.exchange(commonFileList, HttpMethod.POST, entity, LayuiTableData.class);
+		layuiTableData = fileEntity.getBody();
+		Result retJson = new Result();
+		retJson.setSuccess(false);
+		if (layuiTableData.getData().size() > 0) {
+			System.out.println("md51------------------------"+layuiTableData.getData().size());
+			JSONArray array = JSONArray.parseArray(JSON.toJSONString(layuiTableData.getData()));
+			String fileId = array.getJSONObject(0).getString("id");
+			System.out.println("md52------------------------"+fileId);
+			retJson.setSuccess(true);
+			retJson.setData(fileId);
+		} 
+		return retJson;
     }
 
     @RequestMapping(value = "/sysfile/viewPic/{id}", method = RequestMethod.GET)
