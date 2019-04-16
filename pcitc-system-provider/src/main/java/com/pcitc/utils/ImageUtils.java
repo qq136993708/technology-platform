@@ -268,7 +268,7 @@ public class ImageUtils {
         }
     }
 
-    public static void batImagegetImgScale(String path,String newpath) {
+    public static void batImagegetImgScale(String path,String newpath,String type) {
         if(!new File(newpath).exists()){
             FileUtil.mkdir(newpath);
         }
@@ -283,10 +283,14 @@ public class ImageUtils {
             System.out.println(fileName);
             if (FileUtil.isImage(fileName)) {
                 temp = new File(fileName);
-                getImgSize(750,750,fileName,newpath + File.separator + "750_"+tempList[i]);
-                getImgSize(325,325,fileName,newpath + File.separator + "325_"+tempList[i]);
+                if ("325".equals(type)){
+                    getImgSize(310,310,fileName,newpath + File.separator + "325_"+tempList[i]);
+                }else {
+                    getImgSize(730,730,fileName,newpath + File.separator + "750_"+tempList[i]);
+                }
+//                getImgSize(750,750,fileName,newpath + File.separator + "750_"+tempList[i]);
+//                getImgSize(325,325,fileName,newpath + File.separator + "325_"+tempList[i]);
             }
-
         }
     }
 
@@ -312,14 +316,59 @@ public class ImageUtils {
         }
     }
 
+    public static void batImagegetCompose(String path,String newpath,String modelPic,String modelPicName) {
+        if(!new File(newpath).exists()){
+            FileUtil.mkdir(newpath);
+        }
+        File file = new File(path);
+        if (!file.isDirectory()) {
+            return;
+        }
+        String[] tempList = file.list();
+        File temp = null;
+        for (int i = 0; i < tempList.length; i++) {
+            String fileName = path + File.separator + tempList[i];
+            System.out.println(fileName);
+            if (FileUtil.isImage(fileName)) {
+                temp = new File(fileName);
+                Pic.composePic(modelPic,fileName,newpath + File.separator + modelPicName+"_"+tempList[i]);
+//                getImgSize(725,725,fileName,newpath + File.separator + "750_"+tempList[i]);
+//                getImgSize(750,750,fileName,newpath + File.separator + "750_"+tempList[i]);
+//                getImgSize(325,325,fileName,newpath + File.separator + "325_"+tempList[i]);
+//                getImgSize(300,300,fileName,newpath + File.separator + "325_"+tempList[i]);
+            }
+
+        }
+    }
+
     public static void main(String[] args) {
 
-        String path = "C:\\Users\\Administrator\\Desktop\\20190122\\";
-//        String newpath = "C:\\Users\\Administrator\\Desktop\\20190122样式一";
-//        batImage(path,newpath);
-        String newpath = "C:\\Users\\Administrator\\Desktop\\20190122样式二";
+        String type = "750";
+        String date = "20190414";
+        String path = "E:\\doc\\书道\\图片\\"+date+"\\";
 
-        batImagegetImgScale(path,newpath);
+        String newpath = path+type;
+        batImagegetImgScale(path,newpath,type);
+
+
+        //图片合并
+        String newpathCompose = "E:\\doc\\书道\\图片\\"+date+"-img";
+
+
+
+//        String modelPic750="E:\\doc\\书道\\图片\\750.png";
+//        batImagegetCompose(newpath,newpathCompose,modelPic750,type);
+
+
+
+        type = "325";
+        newpath = path+type;
+        batImagegetImgScale(path,newpath,type);
+
+        String modelPic325="E:\\doc\\书道\\图片\\325.png";
+        batImagegetCompose(newpath,newpathCompose,modelPic325,"325");
+
+//        Pic.composePic(modelPic,pic,newPic);
 
 //        newpath = "C:\\Users\\Administrator\\Desktop\\20190122样式三";
 //        batgetImgScale(path,newpath);

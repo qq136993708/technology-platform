@@ -57,7 +57,8 @@ public  class ForApplicationServiceImpl implements ForApplicationService {
 		String applicationUserName=getTableParam(param,"applicationUserName","");
 		String applicationTime=getTableParam(param,"applicationTime","");
 		String applicationMoney=getTableParam(param,"applicationMoney","");
-		
+		String applyDepartCode=getTableParam(param,"applyDepartCode","");
+		String unitPathIds=getTableParam(param,"parentUnitPathIds","");
 		Map map=new HashMap();
 		map.put("applicationId", applicationId);
 		map.put("applicationState", applicationState);
@@ -65,9 +66,29 @@ public  class ForApplicationServiceImpl implements ForApplicationService {
 		map.put("applicationUserName", applicationUserName);
 		map.put("applicationTime", applicationTime);
 		map.put("applicationMoney", applicationMoney);
+		map.put("firstApplyUser", unitPathIds);
 		
 		System.out.println(">>>>>>>>applicationState="+applicationState);
+		StringBuffer applyUnitCodeStr=new StringBuffer();
+		if(!applyDepartCode.equals(""))
+		{
+			applyUnitCodeStr.append(" (");
+			String arr[]=applyDepartCode.split(",");
+			for(int i=0;i<arr.length;i++)
+			{
+				if(i>0)
+				{
+					applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
+				}else
+				{
+					applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
+				}
+				
+			}
+			applyUnitCodeStr.append(" )");
+		}
 		
+		map.put("sqlStr", applyUnitCodeStr.toString());
 		List<SreForApplication> list = sreforapplicationMapper.getList(map);
 		PageInfo<SreForApplication> pageInfo = new PageInfo<SreForApplication>(list);
 		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
@@ -90,6 +111,14 @@ public  class ForApplicationServiceImpl implements ForApplicationService {
 		return sreforapplicationMapper.insert(record);
 	}
 
+
+	@Override
+	public SreForApplication selectForApplication(String id) {
+		// TODO Auto-generated method stub
+		return sreforapplicationMapper.selectByPrimaryKey(id);
+	}
+
+	
 
 	
 

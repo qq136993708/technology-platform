@@ -73,17 +73,38 @@
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" id="editEvent" data-type="editEvent">编辑</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="applyEvent" data-type="applyEvent">上报</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" id="detailEvent" data-type="detailEvent">详情</button>
-            -->
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  id="deleteEvent" data-type="deleteEvent">关闭任务</button>
-           
+            -->
         </div>
     </div>
    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table> 
 </div>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
+<script id="closete" type="text/html"> {{clouseTime(d.closeDate)}} </script>
 <script type="text/javascript">
     // 时间格式化
     function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+    
+ // 时间格式化
+    function clouseTime(d) {
         if (d) {
             var date = new Date();
             date.setTime(d);
@@ -242,51 +263,7 @@ var name=$('#name').val();
              
             },
             
-            addEvent: function(){ //点击新增按钮
-            		 layer.open({
-                         title:'计划上报-新增',
-                         skin: 'layui-layer-lan',
-                         shadeClose: true,
-                         type: 2,
-                         fixed: false,
-                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                         maxmin: false,
-                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                         area: ['70%','90%'],
-                         content:  '/sre-project-basic/add'
-                     });
-                 
-            }
-            ,editEvent: function(){  //点击编辑按钮
-            	if (typeof(selectRowData) == "undefined")
-            	{
-           			layer.msg('请点击选择一行数据');
-               	} else 
-               	{
-            		 var id=selectRowData.id;
-           		     var url="/sre-project-basic/add?id="+id;
-           		     var auditStatus=selectRowData.auditStatus;
-           		     if(auditStatus!='0')
-           		     {
-           		    	layer.alert('上报中或审核通过，不能修改');
-           		    	return;
-           		     }
-	           		 layer.open({
-	                      title:'编辑',
-	                      skin: 'layui-layer-lan',
-	                      shadeClose: true,
-	                      type: 2,
-	                      fixed: false,
-	                      //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-	                      maxmin: false,
-	                      //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-	                      area: ['70%', '90%'],
-	                      content:  url
-	                 });
-           		  
-            	}
-               
-            },deleteEvent: function(){  //点击关闭按钮
+            deleteEvent: function(){  //点击关闭按钮
                  console.log('点击了关闭按钮')
                  if (typeof(selectRowData) == "undefined") 
                  {
@@ -404,7 +381,7 @@ var name=$('#name').val();
     	//渲染
         table.render({
             elem: '#processdef-table',
-            url: '/sre-task-closure/list',
+            url: '/sre-closure/list',
             method:"POST",
             where: {param: {"topicName":$("#topicName").val(),"setupYear":$("#setupYear").val(),"name":$("#name").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"applyUnitCode":$("#applyUnitCode").val(),"closeStatus":$("#closeStatus").val()}},
             limit: 15,	
@@ -419,16 +396,15 @@ var name=$('#name').val();
                 theme: '#0F9EE0'
             },
             cols: [[
-            	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
             	{field : 'topicName',      title : '任务书', style : 'cursor: pointer;', align: 'left', width : '10%',templet:function(d){return '<span onclick="view_isWriteTask(\''+d.taskId+'\')" style="color:#17a2b8">'+d.topicName+'</span>'}},
                 {field : 'setupYear',      title : '立项年份', style : 'cursor: pointer;', align: 'center', width : '10%'},
                 {field : 'contractNum', title : '合同号', style : 'cursor: pointer;', align: 'center', width : '10%'},
-                {field : 'parentUnitPathNames',  title : '填写单位', style : 'cursor: pointer;', align: 'left', width : '30%'},
+                {field : 'parentUnitPathNames',  title : '填写单位', style : 'cursor: pointer;', align: 'left', width : '25%'},
                 {field : 'createUnitName',  title : '填写部门', style : 'cursor: pointer;', align: 'left', width : '10%'},
                 {field : 'createDate',     title : '任务书填写时间', style : 'cursor: pointer;', align: 'center', width : '10%', templet : '#dateTpl'},
-            	{field : 'createUserName', title : '任务书填写人', style : 'cursor: pointer;', align: 'center', width : '10%'}
-            
+            	{field : 'createUserName', title : '任务书填写人', style : 'cursor: pointer;', align: 'center', width : '10%'},
+                {field : 'closeDate', title : '任务书关闭时间', style : 'cursor: pointer;', align: 'center', width : '10%', templet : '#closete'}
                 ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选
