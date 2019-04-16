@@ -1,5 +1,7 @@
 package com.pcitc.service.equipment.impl;
 
+
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -984,8 +986,12 @@ public class EquipmentServiceImpl implements EquipmentService {
 		// 1、设置分页信息，包括当前页数和每页显示的总计数
 		PageHelper.startPage(pageNum, pageSize);
 		String closeStatus = getTableParam(param, "closeStatus","");
+		String setupYear = getTableParam(param, "setupYear", "");
+		String topicName = getTableParam(param, "topicName", "");
 		Map map = new HashMap();
 		map.put("closeStatus", closeStatus);
+		map.put("topicName", topicName);
+		map.put("setupYear", setupYear);
 		List<SreProjectTask> list = sreProjectTaskMapper.getTaskClosureList(map);
 		PageInfo<SreProjectTask> pageInfo = new PageInfo<SreProjectTask>(list);
 		System.out.println(">>>>>>>>>任务书查询分页结果 "+pageInfo.getList().size());
@@ -996,7 +1002,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		data.setCount(total.intValue());
 	    return data;
 	}
-	
+
 	
 	
 	

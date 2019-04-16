@@ -1444,6 +1444,10 @@ public class SysFileServiceImpl implements SysFileService {
 		if (param.getParam().get("fileKind") != null && !StringUtils.isBlank(param.getParam().get("fileKind") + "")) {
 			hashmap.put("fileKind", param.getParam().get("fileKind"));
 		}
+		
+		if (param.getParam().get("fileMd5") != null && !StringUtils.isBlank(param.getParam().get("fileMd5") + "")) {
+			hashmap.put("fileMd5", param.getParam().get("fileMd5"));
+		}
 
 		if (param.getParam().get("fileName") != null && !StringUtils.isBlank(param.getParam().get("fileName") + "")) {
 			hashmap.put("fileName", param.getParam().get("fileName"));

@@ -14,7 +14,7 @@
 <body>
 
 <div class="searchBox">
- <input type="hidden" name="auditStatus" id="auditStatus" value="${auditStatus}">
+ <input type="hidden" name="applicationState" id="applicationState" value="${applicationState}">
  <input type="hidden" name="applyDepartCode" id="applyDepartCode" value="${applyDepartCode}">
  <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
  
@@ -51,7 +51,7 @@
                 <span class="btn-state btn-blue"></span>已通过
             </button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"     data-type="addEvent"  id="addEvent" > 新增</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit"    data-type="editEvent"  id="editEvent" >编辑</button>
+            <!-- <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit"    data-type="editEvent"  id="editEvent" >编辑</button> -->
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent" id="detailEvent" >详情</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="deleteEvent" id="deleteEvent" >删除</button>
           <!--   <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="acceptSoftEvent" >软件验收</button>
@@ -157,7 +157,7 @@ var name=$('#name').val();
             },
             addEvent: function(){ //点击新增按钮
                 layer.open({
-                    title:'装备-新增',
+                    title:'转资-新增',
                     skin: 'layui-layer-lan',
                     shadeClose: true,
                     type: 2,
@@ -170,7 +170,6 @@ var name=$('#name').val();
                 });
             }
             ,editEvent: function(){  //点击编辑按钮
-            	
             	if (typeof(selectRowData.applicationId) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
@@ -193,28 +192,27 @@ var name=$('#name').val();
                
             },deleteEvent: function(){  //点击删除按钮
                  console.log('点击了删除按钮')
-                 if (typeof(selectRowData.applicationId) == "undefined") 
+                 if (typeof(selectRowData) == "undefined") 
                  {
             		layer.msg('请点击选择一行数据');
-            	 } else 
-            	 {
+            	 } else if(selectRowData.applicationState =="2"){
+            		 layer.msg('转资申请已通过,不能删除');
+            	}else {
             		  var applicationId=selectRowData.applicationId;
-           		      var url="/sre-forapplication/delete/"+applicationId;
+         		      var url="/sre-forapplication/delete/"+applicationId;
 	           		  layer.confirm('确定要删除吗？', { btn: ['确定','取消']}, function(){
 	         				 ajaxDeleteOpt(url,"post","删除成功","删除失败");
 	         			}, function(){
-	         			 
 	         			});
             	}
-            
               
             },
             detailEvent: function(){  //点击详情按钮
-            	if (typeof(selectRowData.applicationId) == "undefined") {
+            	if (typeof(selectRowData) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
-            		 var equipmentId=selectRowData.applicationId;
-            		 var temUrl="/sre-forapplication/get/" + applicationId;
+            		 var applicationId=selectRowData.applicationId;
+            		 var temUrl="/sre-forapplication/get/"+applicationId;
             		 layer.open({
                          title:'详情',
                          skin: 'layui-layer-lan',
@@ -329,7 +327,7 @@ var name=$('#name').val();
            elem: '#processdef-table',
            url: '/sre-forapplication/list',
            method:"POST",
-           where: {param: {"applicationName":$("#name").val(),"auditStatus":$("#auditStatus").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+           where: {param: {"applicationName":$("#name").val(),"applicationState":$("#applicationState").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
            limit: 15,
            id: 'processdef-table',
            height: commonDislodgeTable(),
@@ -345,10 +343,9 @@ var name=$('#name').val();
            	   {type : 'checkbox', event : 'changeEvents', width : 55},
            	{title : '序号', type : 'numbers', width : 55},
             {field : 'applicationState', title : '转资申请状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.applicationState) }}</div>', width : '10%'},
-            {field : 'applicationName',     title : '转资名称', style : 'cursor: pointer;', align : 'left', width : '20%' },
-            {field : 'applicationUserName', title : '转资申请人', style : 'cursor: pointer;', align : 'left', width : '9%'},
-            {field : 'applicationTime', title : '转资时间', style : 'cursor: pointer;', align : 'center',width : '25%', templet : '#dateTpl'},
-            {field : 'applicationMoney', title : '总价¥（万元）', style : 'cursor: pointer;', align : 'center', width : '25%',templet:function(d){return '<span style="color:red">'+d.applicationMoney+'</span>'}},
+            {field : 'applicationName',     title : '转资名称', style : 'cursor: pointer;', align : 'left', width : '30%',templet:function(d){return '<span onclick="view(\''+d.applicationId+'\')" style="color:#17a2b8">'+d.applicationName+'</span>'} },
+            {field : 'applicationUserName', title : '转资申请人', style : 'cursor: pointer;', align : 'left', width : '29%'},
+            {field : 'applicationTime', title : '转资时间', style : 'cursor: pointer;', align : 'center',width : '22%', templet : '#dateTpl'},
            ]],
            done: function (res, curr, count) {
                // 点击行联动选择框--单选
@@ -359,18 +356,6 @@ var name=$('#name').val();
                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                    selectRowData=res.data[index-1];
-                   var applicationState=selectRowData.applicationState;
-                  
-                   if(applicationState=='0' || applicationState=='3' )
-                   {
-                	  
-                	   $("#editEvent").attr("disabled",false);
-                	   $("#deleteEvent").attr("disabled",false);
-                   }else if(applicationState=='1' || applicationState=='2')
-                   {
-                	   $("#editEvent").attr("disabled",true);
-                	   $("#deleteEvent").attr("disabled",true);
-                   }
                   
                });
                //项目分类，项目性质

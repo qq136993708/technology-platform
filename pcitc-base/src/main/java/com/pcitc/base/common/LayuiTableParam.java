@@ -11,8 +11,8 @@ import java.util.Map;
  *
  */
 public class LayuiTableParam {
-	private Integer page;
-	private Integer limit;
+	private Integer page = 1;
+	private Integer limit = 15;
 	private Map<String, Object> sorts = new HashMap<String, Object>();
 	private Map<String, Object> param = new HashMap<String, Object>();
 	private String paramJson;

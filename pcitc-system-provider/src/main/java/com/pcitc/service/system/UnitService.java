@@ -168,6 +168,7 @@ public interface UnitService
 	
 	//根据UnitPath检索机构信息
 	public SysUnit getUnitByUnitPath(String unitPath);
+	public String getUnitZTreeListByName(String name);
 	
 	
 }

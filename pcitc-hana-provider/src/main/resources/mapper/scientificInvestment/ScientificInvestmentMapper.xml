@@ -157,8 +157,54 @@
      
 	  <!-- 投资项目采购进度统计表--> 
 	  <select id="getTzxmcgjdtjbDataList" resultMap="brandConstructionPayResultMap" parameterType="java.util.Map" >
-              SELECT
-					"G0GSJC",
+            
+           SELECT 
+			"G0GSJC",
+			 round(  sum("K0XMXQSL"),2) AS K0XMXQSL,
+			 round(  sum("K0XMJHSL"),2) AS K0XMJHSL,
+			 round(  sum("K0XMJHJE"),2) AS K0XMJHJE,
+			 round(  sum("K0XMDDSL"),2) AS K0XMDDSL,
+			 round(  sum("K0XMDDJE"),2) AS K0XMDDJE,
+			 round(  sum("K0XMRKSL"),2) AS K0XMRKSL,
+			 round(  sum("K0XMRKJE"),2) AS K0XMRKJE ,
+			 round(  sum("K0XMFPSL"),2) AS K0XMFPSL,
+			 round(  sum("K0XMFPJE"),2) AS K0XMFPJE,
+			 round(  sum("K0XMYFWQJE"),2) AS K0XMYFWQJE,
+			 round(  sum("K0WQJE"),2) AS K0WQJE,
+			 round(  sum("K0YQJE"),2) AS K0YQJE,
+			 round(  sum("K0ZBJE"),2) AS K0ZBJE,
+			 round(  sum("K0XMLYSL"),2) AS K0XMLYSL,
+			 round(  sum("K0XMLYJE"),2) AS K0XMLYJE 
+			 FROM
+			 (
+			            SELECT
+						"G0GSJC",
+						"G0GSOR" AS "G0GSOR",
+						round( sum("K0XMXQSL")/10000,2) AS "K0XMXQSL",
+						round( sum("K0XMJHSL")/10000,2) AS "K0XMJHSL",
+						round( sum("K0XMJHJE")/10000,2) AS "K0XMJHJE",
+						round( sum("K0XMDDSL")/10000,2)  AS "K0XMDDSL",
+						round( sum("K0XMDDJE")/10000,2) AS "K0XMDDJE",
+						round( sum("K0XMRKSL")/10000,2)  AS "K0XMRKSL",
+						round( sum("K0XMRKJE")/10000,2) AS "K0XMRKJE",
+						round( sum("K0XMFPSL")/10000,2) AS "K0XMFPSL",
+						round( sum("K0XMFPJE")/10000,2) AS "K0XMFPJE",
+						round( sum("K0XMYFWQJE")/10000,2) AS "K0XMYFWQJE",
+						round( sum("K0WQJE")/10000,2)   AS "K0WQJE",
+						round( sum("K0YQJE")/10000,2)   AS "K0YQJE",
+						round( sum("K0ZBJE") /10000,2)  AS "K0ZBJE",
+						round( sum("K0XMLYSL")/10000,2) AS "K0XMLYSL",
+						round( sum("K0XMLYJE") /10000,2)AS "K0XMLYJE" 
+					FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_TZ_1002_02"
+					(
+					'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+					'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+					) 
+					GROUP BY  "G0GSJC","G0GSOR"
+			       UNION ALL 
+			        SELECT
+			       '合计' as "G0GSJC",
+			       '0'    as  "G0GSOR",
 					round( sum("K0XMXQSL")/10000,2) AS "K0XMXQSL",
 					round( sum("K0XMJHSL")/10000,2) AS "K0XMJHSL",
 					round( sum("K0XMJHJE")/10000,2) AS "K0XMJHJE",
@@ -174,64 +220,123 @@
 					round( sum("K0ZBJE") /10000,2)  AS "K0ZBJE",
 					round( sum("K0XMLYSL")/10000,2) AS "K0XMLYSL",
 					round( sum("K0XMLYJE") /10000,2)AS "K0XMLYJE" 
-				FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_TZ_1002_02"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
-					 '${month}'),
-					 'PLACEHOLDER' = ('$$PR_GSDM$$',
-					 '${companyCode}')) 
+				FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_TZ_1002_02"
+				(
+				'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+				'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+				) 
 				GROUP BY  "G0GSJC","G0GSOR"
-				ORDER BY  "G0GSOR"
+			 )GROUP BY  "G0GSJC","G0GSOR"
+			ORDER BY  "G0GSOR"    
 	 </select>
 	 
-	  
-     
-     
 	 
-	 <!-- 投资项目转出情况表 -->
+	 
+	   <!-- 投资项目转出情况表 -->
 	   <select id="getTzxmzcqkbDataList" resultMap="brandConstructionPayResultMap" parameterType="java.util.Map" >
-          
-		 SELECT 
-		     "G0GSJC",
-		      ROUND(IFNULL(sum("K0NCGZYZLJJE"),0)/10000,2)   AS "K0NCGZYZLJJE",
-		      ROUND(IFNULL(sum("K0NCGZYZLJGZJE"),0)/10000,2) AS "K0NCGZYZLJGZJE",
-		      ROUND(IFNULL(sum("K0NCGZYZLJZJJE"),0)/10000,2) AS "K0NCGZYZLJZJJE", 
-		      ROUND(IFNULL(sum("K0NCGZYZBNJE"),0)/10000,2)   AS "K0NCGZYZBNJE",    
-		      ROUND(IFNULL(sum("K0NCGZYZBNGZJE"),0)/10000,2) AS "K0NCGZYZBNGZJE", 
-		      ROUND(IFNULL(sum("K0NCGZYZBNZJJE"),0)/10000,2) AS "K0NCGZYZBNZJJE"                 
-		 FROM
-		 (
-		 SELECT
-		     "G0GSDM",
-		     "G0GSJC",
-		     "G0GSOR",
-		     sum("K0NCGZYZJE") AS "K0NCGZYZLJJE",
-		     CASE 
-		        WHEN "G0ZCBJ" IN('GZ') THEN sum("K0NCGZYZJE")
-		     END               AS "K0NCGZYZLJGZJE",
-		     CASE 
-		        WHEN "G0ZCBJ" IN('ZJ') THEN sum("K0NCGZYZJE")
-		     END               AS "K0NCGZYZLJZJJE", 
-		     CASE 
-		        WHEN "G0ZBHBJ" IN('BN') THEN sum("K0NCGZYZJE")
-		     END               AS "K0NCGZYZBNJE",  
-		      CASE 
-		        WHEN "G0ZBHBJ" IN('BN') AND "G0ZCBJ" IN('GZ')  THEN sum("K0NCGZYZJE")
-		     END               AS "K0NCGZYZBNGZJE",        
-		      CASE 
-		        WHEN  "G0ZCBJ" IN('ZJ')  THEN sum("K0NCGZYZJE")
-		     END               AS "K0NCGZYZBNZJJE"          
-		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_TZ_1003_01"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
-		     '${month}'),
-		     'PLACEHOLDER' = ('$$PR_GSDM$$',
-		     '${companyCode}')) 
-		GROUP BY 
-		     "G0GSDM",
-		     "G0GSJC",
-		     "G0GSOR",
-		     "G0ZBHBJ",
-		     "G0ZCBJ"
-		 )
-		 GROUP BY "G0GSJC","G0GSOR"
-		 ORDER BY "G0GSOR"
+          SELECT 
+				"G0GSJC",
+				 "K0NCGZYZLJJE",
+				 "K0NCGZYZLJGZJE",
+				 "K0NCGZYZLJZJJE", 
+				 "K0NCGZYZBNJE",    
+				 "K0NCGZYZBNGZJE", 
+				 "K0NCGZYZBNZJJE"   
+				FROM
+				(
+				SELECT 
+				"G0GSJC",
+				"G0GSOR" AS "G0GSOR",
+				 ROUND(IFNULL(sum("K0NCGZYZLJJE"),0)/10000,2)   AS "K0NCGZYZLJJE",
+				 ROUND(IFNULL(sum("K0NCGZYZLJGZJE"),0)/10000,2) AS "K0NCGZYZLJGZJE",
+				 ROUND(IFNULL(sum("K0NCGZYZLJZJJE"),0)/10000,2) AS "K0NCGZYZLJZJJE", 
+				 ROUND(IFNULL(sum("K0NCGZYZBNJE"),0)/10000,2)   AS "K0NCGZYZBNJE",    
+				 ROUND(IFNULL(sum("K0NCGZYZBNGZJE"),0)/10000,2) AS "K0NCGZYZBNGZJE", 
+				 ROUND(IFNULL(sum("K0NCGZYZBNZJJE"),0)/10000,2) AS "K0NCGZYZBNZJJE"                 
+				FROM
+				(
+						 SELECT
+						     "G0GSDM",
+						     "G0GSJC",
+						     "G0GSOR",
+						     sum("K0NCGZYZJE") AS "K0NCGZYZLJJE",
+						     CASE 
+						        WHEN "G0ZCBJ" IN('GZ') THEN sum("K0NCGZYZJE")
+						     END               AS "K0NCGZYZLJGZJE",
+						     CASE 
+						        WHEN "G0ZCBJ" IN('ZJ') THEN sum("K0NCGZYZJE")
+						     END               AS "K0NCGZYZLJZJJE", 
+						     CASE 
+						        WHEN "G0ZBHBJ" IN('BN') THEN sum("K0NCGZYZJE")
+						     END               AS "K0NCGZYZBNJE",  
+						      CASE 
+						        WHEN "G0ZBHBJ" IN('BN') AND "G0ZCBJ" IN('GZ')  THEN sum("K0NCGZYZJE")
+						     END               AS "K0NCGZYZBNGZJE",        
+						      CASE 
+						        WHEN  "G0ZCBJ" IN('ZJ')  THEN sum("K0NCGZYZJE")
+						     END               AS "K0NCGZYZBNZJJE"          
+						FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_TZ_1003_01"
+						(
+					    'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+					    'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+						) 
+						     
+						GROUP BY 
+						     "G0GSDM",
+						     "G0GSJC",
+						     "G0GSOR",
+						     "G0ZBHBJ",
+						     "G0ZCBJ"
+				)
+				GROUP BY "G0GSJC","G0GSOR"
+				UNION ALL 
+				SELECT 
+				'合计' as "G0GSJC",
+				'0'    as  "G0GSOR",
+				 ROUND(IFNULL(sum("K0NCGZYZLJJE"),0)/10000,2)   AS "K0NCGZYZLJJE",
+				 ROUND(IFNULL(sum("K0NCGZYZLJGZJE"),0)/10000,2) AS "K0NCGZYZLJGZJE",
+				 ROUND(IFNULL(sum("K0NCGZYZLJZJJE"),0)/10000,2) AS "K0NCGZYZLJZJJE", 
+				 ROUND(IFNULL(sum("K0NCGZYZBNJE"),0)/10000,2)   AS "K0NCGZYZBNJE",    
+				 ROUND(IFNULL(sum("K0NCGZYZBNGZJE"),0)/10000,2) AS "K0NCGZYZBNGZJE", 
+				 ROUND(IFNULL(sum("K0NCGZYZBNZJJE"),0)/10000,2) AS "K0NCGZYZBNZJJE"                 
+				FROM
+				(
+						 SELECT
+						     "G0GSDM",
+						     "G0GSJC",
+						     "G0GSOR",
+						     sum("K0NCGZYZJE") AS "K0NCGZYZLJJE",
+						     CASE 
+						        WHEN "G0ZCBJ" IN('GZ') THEN sum("K0NCGZYZJE")
+						     END               AS "K0NCGZYZLJGZJE",
+						     CASE 
+						        WHEN "G0ZCBJ" IN('ZJ') THEN sum("K0NCGZYZJE")
+						     END               AS "K0NCGZYZLJZJJE", 
+						     CASE 
+						        WHEN "G0ZBHBJ" IN('BN') THEN sum("K0NCGZYZJE")
+						     END               AS "K0NCGZYZBNJE",  
+						      CASE 
+						        WHEN "G0ZBHBJ" IN('BN') AND "G0ZCBJ" IN('GZ')  THEN sum("K0NCGZYZJE")
+						     END               AS "K0NCGZYZBNGZJE",        
+						      CASE 
+						        WHEN  "G0ZCBJ" IN('ZJ')  THEN sum("K0NCGZYZJE")
+						     END               AS "K0NCGZYZBNZJJE"          
+						FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_TZ_1003_01"
+						(
+						'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+						'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+						)
+						GROUP BY 
+						     "G0GSDM",
+						     "G0GSJC",
+						     "G0GSOR",
+						     "G0ZBHBJ",
+						     "G0ZCBJ"
+				)
+				GROUP BY "G0GSJC","G0GSOR"
+				)
+				ORDER BY  "G0GSOR"    
+				          
           
 	 </select>
 	 
