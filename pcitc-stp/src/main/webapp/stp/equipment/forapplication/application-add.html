@@ -203,11 +203,14 @@ var publicMethods;
                         url: "/sre-forapplicatio/save",
                         data: {"arr": arr,"equipmentIds":equipmentIds,"froname":froname},
                         traditional : true,
-                        async : true,         
-                        success : function(result){
-                        	if(result=="1") {
+                        async : true,   
+                        dataType:"json",
+                        success : function(data){
+                        	if(data.result == 1) {
                         		alert("添加成功!!");
                         		parent.location.href = '/sre-forapplication/to-list';
+                        	}else {
+                        		layer.alert("添加失败,请联系管理员!!");
                         	}
                         },
                     });    

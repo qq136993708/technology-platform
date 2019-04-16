@@ -19,4 +19,6 @@ public interface SreForApplicationMapper {
 	int updateByPrimaryKey(SreForApplication record);
     
 	List getList(Map map);
+	
+	SreForApplication selectaRchaseidKey(String applicationId);
 }

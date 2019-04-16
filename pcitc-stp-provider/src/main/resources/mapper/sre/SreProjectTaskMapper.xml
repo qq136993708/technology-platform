@@ -839,4 +839,11 @@
 	     <if test="setupYear != null and setupYear !=''  "> AND t.setup_year = #{setupYear}</if>
    </select>
   
+  
+   <select id="selectByTopicKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sre_project_task
+    where topic_id = #{taskId,jdbcType=VARCHAR}
+  </select>
 </mapper>

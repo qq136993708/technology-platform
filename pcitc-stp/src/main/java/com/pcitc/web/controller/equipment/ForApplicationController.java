@@ -323,8 +323,13 @@ public class ForApplicationController extends BaseController {
 		  }else {
 			  result = "2";
 		  }
-	
-		response.getWriter().print(result);
+		JSONObject jObject=new JSONObject();
+		jObject.put("result", result);
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		out.println(jObject.toString());
+		out.flush();
+		out.close();
 		return null;
 		}
 	

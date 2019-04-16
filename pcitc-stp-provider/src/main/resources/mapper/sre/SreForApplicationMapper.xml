@@ -189,4 +189,11 @@
 	 	 <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
 	 </trim>
 	</sql>
+	
+	<select id="selectaRchaseidKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+			*
+    from sre_for_application
+    where application_purchaseid like CONCAT('%',#{applicationId},'%')
+  </select>
 </mapper>

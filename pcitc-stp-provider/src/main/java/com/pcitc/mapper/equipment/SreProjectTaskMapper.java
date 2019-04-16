@@ -34,4 +34,6 @@ public interface SreProjectTaskMapper {
 	int updataTaskClosure(String id, String closure,Date date);
 
 	List<SreProjectTask> getClosedList(Map map);
+	
+	SreProjectTask selectByTopicKey(String taskId);
 }
