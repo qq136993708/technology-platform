@@ -69,6 +69,8 @@ public class TaskController extends BaseController {
 	// 任务撤回操作
 	private static final String TASK_RECALL = "http://pcitc-zuul/system-proxy/task-provider/task/recall/";
 
+	// 消息列表
+	private static final String MESSAGE_LIST = "http://pcitc-zuul/system-proxy/message-provider/message/list";
 	/**
 	 * 判断是否需要选择审批人
 	 */
@@ -103,7 +105,42 @@ public class TaskController extends BaseController {
 
 		return "/pplus/workflow/deal-user-list";
 	}
+	
+	/**
+	 * 跳转消息列表
+	 */
+	@RequestMapping(value = "/task/message/list/ini")
+	public String iniMessageList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+		return "/pplus/workflow/message-list";
+	}
+	
+	/**
+	 * @author zhf
+	 * @date 2019年4月16日 上午10:28:42 消息列表数据
+	 */
+	@RequestMapping(value = "/task/message/list", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getMessageListData(@ModelAttribute("param") LayuiTableParam param) {
+
+		// 获取当前登录人信息
+		param.getParam().put("userId", sysUserInfo.getUserId());
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(MESSAGE_LIST, HttpMethod.POST, entity, LayuiTableData.class);
+		LayuiTableData retJson = responseEntity.getBody();
+
+		return JSON.toJSON(retJson).toString();
+	}
+	
+	/**
+	 * 跳转消息详情
+	 */
+	@RequestMapping(value = "/task/message/details")
+	public String messageDetails(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		return "/pplus/workflow/message-details";
+	}
+	
 	/**
 	 * 查询所有的下一个节点需要处理的人（角色用列表）
 	 * 
