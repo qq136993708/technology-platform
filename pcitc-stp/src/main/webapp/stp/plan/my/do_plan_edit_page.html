@@ -104,7 +104,7 @@
         </div>
 
 
-        <div class="tableBox">
+        <div class="tableBox" id="matterTableDivParent">
             <div class="tableToolBox">
                 <div class="tableTitle">事项列表<span class="red"></span>
                 </div>
@@ -389,6 +389,11 @@
                 {field: 'bl', title: '比例', event: 'setActive', style: 'cursor: pointer;'},
                 {field: 'jsId', title: '接收人', event: 'setActive', style: 'cursor: pointer;'}
             ]]
+            ,done: function (res, curr, count) {
+                if (res.data.length==0){
+                    document.getElementById("matterTableDivParent").style.display="none";
+                }
+            }
         });
         table.render({
             elem: '#matterFeedBackTalbe',

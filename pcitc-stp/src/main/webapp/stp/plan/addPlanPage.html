@@ -151,15 +151,14 @@
 
 <script>
     function setWelder(selectData){
-        console.log("父节点调用:");
         selectData = eval(selectData);
-        console.log("----------"+selectData.length);
-        console.log(selectData);
         var userId = "";
         var userDisp = "";
         for (var j = 0; j <selectData.length; j++) {
-            userId = userId+((j==0)?"":",")+selectData[j].userId;
+            // userId = userId+((j==0)?"":",")+selectData[j].userId;
             userDisp = userDisp+((j==0)?"":",")+selectData[j].userDisp;
+            userId = selectData[j].userId+","+userId;
+            // userDisp = selectData[j].userDisp+","+userDisp;
         }
         $('#workOrderAllotUserId').val(userId);
         $('#workOrderAllotUserName').val(userDisp);

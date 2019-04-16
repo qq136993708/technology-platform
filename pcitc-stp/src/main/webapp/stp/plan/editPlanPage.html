@@ -136,7 +136,7 @@
                         lay-submit="" lay-filter="save">保存
                 </button>
                 <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
-                        lay-submit="" lay-filter="component-form-submit">下发
+                        lay-submit="" lay-filter="component-form-submit" id="btn_submit_xf">下发
                 </button>
                 <button type="button"
                         class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
@@ -157,8 +157,10 @@
         var userId = "";
         var userDisp = "";
         for (var j = 0; j <selectData.length; j++) {
-            userId = userId+((j==0)?"":",")+selectData[j].userId;
+            // userId = userId+((j==0)?"":",")+selectData[j].userId;
             userDisp = userDisp+((j==0)?"":",")+selectData[j].userDisp;
+            userId = selectData[j].userId+","+userId;
+            // userDisp = selectData[j].userDisp+","+userDisp;
         }
         $('#workOrderAllotUserId').val(userId);
         $('#workOrderAllotUserName').val(userDisp);
@@ -190,11 +192,7 @@
         });
         publicMethods = layui.publicMethods,
             form.render(null, 'component-form-group');
-
-
-
         var dataStatus = 0;
-        console.log($('#workOrderAllotUserId').val)
         //显示文件上传部分
         $("#file_upload").load('/common/public/uploadlayuiload.html');
         form.verify({
@@ -279,6 +277,9 @@
                 console.log(sthTrObj);
             });
             var jsonData = data.field;
+            if (jsonData.bl==100){
+                jsonData.workOrderStatus = 2;
+            }
             jsonData.matterList = sthTrArr;
             console.log("------jsonData-------");
             console.log(jsonData.matterList);
@@ -386,7 +387,10 @@
                 console.log(dataJson);
                 enhance.filling(dataJson);
                 selectData = data;
-                //$("#jobContent").val(data.jobContent);
+                console.log(dataJson.workOrderStatus);
+                if (dataJson.workOrderStatus != "0") {
+                    document.getElementById("btn_submit_xf").style.display="none";
+                }
             },
             error: function (e) {
                 console.log(e);
@@ -397,13 +401,14 @@
         table.render({
             elem: '#matterTalbe',
             url: '/plan/queryBotWorkOrderMatterList',
-            limit: 15,
+            limit: 1000,
             method: "POST",
             where: {param: {"workOrderId": dataId}},
             cols: [[
                 {type: 'checkbox',width:55},
                 {title: '序号', type: 'numbers',width:55},
                 {field: 'dataId', title: '主键', event: 'setActive', style: 'cursor: pointer;', edit: true},
+                {field: 'createDate', title: '处理时间',width:130},
                 {field: 'workOrderName', title: '事项内容', event: 'setActive', style: 'cursor: pointer;', edit: true},
                 {
                     field: 'workOrderAllotUserName',
