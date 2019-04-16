@@ -162,8 +162,10 @@
         var userId = "";
         var userDisp = "";
         for (var j = 0; j <selectData.length; j++) {
-            userId = userId+((j==0)?"":",")+selectData[j].userId;
+            // userId = userId+((j==0)?"":",")+selectData[j].userId;
             userDisp = userDisp+((j==0)?"":",")+selectData[j].userDisp;
+            userId = selectData[j].userId+","+userId;
+            // userDisp = selectData[j].userDisp+","+userDisp;
         }
         $('#workOrderAllotUserId').val(userId);
         $('#workOrderAllotUserName').val(userDisp);
@@ -290,6 +292,9 @@
                 console.log(sthTrObj);
             });
             var jsonData = data.field;
+            if (jsonData.bl==100){
+                jsonData.workOrderStatus = 2;
+            }
             jsonData.matterList = sthTrArr;
             console.log("------jsonData-------");
             console.log(jsonData.matterList);
@@ -397,7 +402,10 @@
                 console.log(dataJson);
                 enhance.filling(dataJson);
                 selectData = data;
-                //$("#jobContent").val(data.jobContent);
+                console.log(dataJson.workOrderStatus);
+                if (dataJson.workOrderStatus != "0") {
+                    document.getElementById("btn_submit_xf").style.display="none";
+                }
             },
             error: function (e) {
                 console.log(e);
@@ -415,6 +423,7 @@
                 {type: 'checkbox',width:55},
                 {title: '序号', type: 'numbers',width:55},
                 {field: 'dataId', title: '主键', event: 'setActive', style: 'cursor: pointer;', edit: true},
+                {field: 'createDate', title: '处理时间',width:130},
                 {field: 'workOrderName', title: '事项内容', event: 'setActive', style: 'cursor: pointer;', edit: true},
                 {
                     field: 'workOrderAllotUserName',

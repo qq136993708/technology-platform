@@ -314,6 +314,7 @@ public class PlanServiceImpl implements PlanService {
         String workOrderId = (String) param.getParam().get("workOrderId");
         PlanBaseExample example = new PlanBaseExample();
         PlanBaseExample.Criteria c = example.createCriteria();
+        example.setOrderByClause("create_date desc");
         if (workOrderId != null && !"".equals(workOrderId)) {
 //            vo.setParentId(workOrderId);
             c.andParentIdEqualTo(workOrderId);
