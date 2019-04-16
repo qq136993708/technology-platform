@@ -203,7 +203,7 @@ public class WorkflowProviderClient {
 		// 启动节点，获取开始的下一个节点的下个节点（二层）
 		TaskDefinition taskDef = this.getNextTaskInfo(task.getId(), variables);
 		// System.out.println("1=========TaskDefinition======="+taskDef);
-		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor")) {
+		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor") && (taskVar.get("auditor") == null || taskVar.get("auditor").equals(""))) {
 			// 特殊节点，自动获取当初传递的审批人员的值。并且不是通过选择来确定审批者的
 			System.out.println("1=========TaskDefinition======="+taskDef.getKey());
 			System.out.println("1=========TaskDefinition======="+json.getString(taskDef.getKey()));
@@ -347,7 +347,7 @@ public class WorkflowProviderClient {
 		// 本次任务节点的下一个节点。特殊节点，根据表单内容来觉得下一步的审批人
 		TaskDefinition taskDef = this.getNextTaskInfo(task.getId(), iniVar);
 		// System.out.println("1=========TaskDefinition======="+taskDef);
-		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor")) {
+		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor") && (taskVar.get("auditor") == null || taskVar.get("auditor").equals(""))) {
 			// 特殊节点，获取当初传递的值
 			Set<String> userIds = new LinkedHashSet<String>();
 			System.out.println("1=========TaskDefinition======="+taskDef.getKey());

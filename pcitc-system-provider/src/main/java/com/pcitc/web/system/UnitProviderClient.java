@@ -337,6 +337,23 @@ public class UnitProviderClient
 		return unitService.getUnitZTreeList(null);
 	}
 	
+	
+	/**
+	 *  获得组织机构树
+	 * @param tableInfo
+	 * @return
+	 */
+	@ApiOperation(value="获取组织机构树(ztree)",notes="根据机构信息，生成ztree组织机构树。")
+	@RequestMapping(value = "/unit-provider/unit/ztree_unit_list_by_name",method = RequestMethod.POST)
+	public String selectUnitForZTreename(@RequestBody(required=false) String name) 
+	{
+		System.out.println("name............"+name);
+		//return unitService.getUnitZTreeList(null);
+		return unitService.getUnitZTreeListByName(name);
+	}
+	
+	
+	
 	@ApiOperation(value="获取监理单位列表",notes="获取监理单位列表")
 	@RequestMapping(value = "/unit-provider/unit/control-unit-list")
 	public LayuiTableData selectControlUnit(@RequestBody LayuiTableParam param){

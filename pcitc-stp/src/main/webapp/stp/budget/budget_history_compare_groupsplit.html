@@ -19,8 +19,8 @@
         <table id="itemTable" class="layui-table" lay-filter="itemTable" lay-data="{totalRow: false}">
             <thead>
                 <tr>
-                	<th lay-data="{type:'checkbox'}" rowspan="3"></th>
-                	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}" rowspan="3">序号</th>
+                	<th lay-data="{type:'checkbox',width: '5%'}" rowspan="3"></th>
+                	<th lay-data="{field:'no',align: 'center', width: '10%',totalRowText: '合计'}" rowspan="3">序号</th>
                     <th lay-data="{field:'organName', width: '15%'}" rowspan="3">专业处/部门</th>
                     <th lay-data="{field:'total', align: 'right', width: '10%',totalRow: true}" rowspan="3">预算合计</th>
                    	<th lay-data="{align: 'center',totalRow: true}" colspan="${items?size+2}">${nd}年结转项目经费</th>
@@ -49,25 +49,42 @@
         	</thead>
         </table>
     </div>
-    <div class="bottom-table-box">
-        <#list history_items?keys as nd>
-	        <table id="${nd}" class="layui-table" lay-filter="historyItemTable" lay-data="{height: '250',limit:100}">
-	            <thead>
-	            <tr>
-	                <th lay-data="{field:'nd', width: '10%', align:'center'}" rowspan="2">年度</th>
-	                <th lay-data="{field:'dataVersion', width: '15%'}" rowspan="2">预算版本</th>
-	                <th lay-data="{field:'displayName', width: '30%'}" rowspan="2">承担单位</th>
-	                <th lay-data="{align:'center'}", colspan="3">历年预算</th>
+   	<#list history_items?keys as cnd>
+	    <div class="margin-bot30">
+	     <table id="${cnd}" class="layui-table" lay-filter="historyItemTable" lay-data="{totalRow: false}">
+	         <thead>
+	        	<tr>
+	             	<th lay-data="{type:'checkbox',width: '5%'}" rowspan="3"></th>
+	             	<th lay-data="{field:'no',align: 'center', width: '10%',totalRowText: '合计'}" rowspan="3">序号</th>
+	                <th lay-data="{field:'organName', width: '15%'}" rowspan="3">专业处/部门</th>
+	                <th lay-data="{field:'total', align: 'right', width: '10%',totalRow: true}" rowspan="3">预算合计</th>
+	                <th lay-data="{align: 'center',totalRow: true}" colspan="${history_items[cnd]?size+2}">${cnd}年结转项目经费</th>
+	                <th lay-data="{align: 'center', totalRow: true}" colspan="${history_items[cnd]?size+2}">${cnd}年新签项目经费</th>
 	            </tr>
 	            <tr>
-	                <th lay-data="{field:'total', align: 'right'}">合计</th>
-	                <th lay-data="{field:'xmjf', width: '15%',align:'right'}">项目经费</th>
-	                <th lay-data="{field:'zxjf', width: '15%',align:'right'}">重点实验室专项经费</th>
+	                 <th lay-data="{field:'total_jz', align: 'right',totalRow: true}"  rowspan="2">合计</th>
+	                 <th lay-data="{align: 'right',totalRow: true}"  colspan="${history_items[cnd]?size}">拨款</th>
+	                 <th lay-data="{field:'plan_jz', edit:true,align: 'right',totalRow: true}"  rowspan="2">计划</th>
+	                 <th lay-data="{field:'total_xq', align: 'right',totalRow: true}"  rowspan="2">合计</th>
+	                 <th lay-data="{align: 'right',totalRow: true}"  colspan="${history_items[cnd]?size}">拨款</th>
+	                 <th lay-data="{field:'plan_xq', edit:true,align: 'right',totalRow: true}"  rowspan="2">计划</th>
 	            </tr>
-	            </thead>
-	        </table>
-        </#list>
-    </div>
+	            <tr>
+		          	<#list history_items[cnd] as item>
+		          		<#list item?keys as key> 
+		             		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true}">${item[key]}</th>
+		             	</#list>
+		            </#list>
+		            <#list history_items[cnd] as item>
+		            	<#list item?keys as key> 
+		             		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true}">${item[key]}</th>
+		             	</#list> 
+		            </#list>
+	            </tr>
+	         </thead>
+	     </table>
+	   </div>
+	</#list>
 </div>
 <div class="form-bottom">
     <div class="form-bottom-btns">
@@ -90,37 +107,32 @@
             var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
             var budgetInfoId = "${budgetInfoId}";
             var organCode = "${organCode}";
+            var nd = "${nd}";
             var groupTotalInfo = null;
             //加载预算项
-            publicMethods.ajaxPost("/budget/get-groupsplit-item",{"organCode":organCode,"budgetInfoId":budgetInfoId}, function (data) {
+            publicMethods.ajaxAsyncPost("/budget/get-groupsplit-item",{"organCode":organCode,"budgetInfoId":budgetInfoId}, function (data) {
             	$(".nd").html(data.nd);
             	groupTotalInfo = data;
             	viewObj.itemData.push(groupTotalInfo);
     			table.reload('itemTable',{
                     data:viewObj.itemData
                 });
-    			//console.log(viewObj.itemData);
-    			//加载历史
-    			publicMethods.ajaxPost("/budget/get-grouptotal-history-items",groupTotalInfo, function (historydata) {
-                	$.each(historydata,function(index,dt){
-                		viewObj.historyItemData.push(dt);
-                	});
-        			table.reload('historyItemTable',{
-                        data:viewObj.historyItemData
-                    });
-           		});
+       		});
+          	//加载历史
+            publicMethods.ajaxAsyncPost("/budget/get-groupsplit-history-items",{"organCode":organCode,"nd":nd}, function (historydata) {
+            	$.each(historydata,function(key,val){
+            		var tb_data = [];
+            		tb_data.push(val);
+		    		table.reload(key,{data:tb_data});
+		    		console.log(key);
+		    		console.log(val);
+            	});
        		});
             //预算项编辑事件监听
             table.on('edit(itemTable)', function(obj){ 
             	$.each(viewObj.itemData,function(index,dt){
-            		if(obj.data.dataId == dt.dataId){
-            			if(obj.field=="xmjf"){
-            				dt.xmjf = obj.value;
-            			}else if(obj.field=="zxjf")
-            			{
-            				dt.zxjf = obj.value;
-            			}
-            			dt.total = parseInt(dt.xmjf)+parseInt(dt.zxjf);
+            		if(obj.data.organCode == dt.organCode){
+            			viewObj.itemData[index][obj.field] = obj.value
             		}
             	});
             	//刷新表格数据
@@ -132,7 +144,7 @@
             });
             var $ = layui.$, active = {
            		saveEvent: function () {
-           			publicMethods.ajaxPost('/budget/save-grouptotal-item', viewObj.itemData[0], function (data, status) {
+           			publicMethods.ajaxPost('/budget/save-groupsplit-item', viewObj.itemData[0], function (data, status) {
        	                if (data.success) {
        	                	parent.initDataVersion("${budgetInfoId}");
        	                	var index = parent.layer.getFrameIndex(window.name);

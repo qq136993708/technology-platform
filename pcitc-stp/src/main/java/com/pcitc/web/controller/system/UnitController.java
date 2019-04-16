@@ -47,6 +47,8 @@ public class UnitController extends BaseController {
 	private static final String UNIT_POST_CON_TREE = "http://pcitc-zuul/system-proxy/unit-provider/units-posts-users/tree";
 	private static final String UNIT_PART_TREE = "http://pcitc-zuul/system-proxy/unit-provider/units-users/part-tree";
 	private static final String UNIT_POST_PART_TREE = "http://pcitc-zuul/system-proxy/unit-provider/units-posts-users/part-tree";
+	
+	private static final String UNIT_LIST_ZTREE_DATA_BY_NAME = "http://pcitc-zuul/system-proxy/unit-provider/unit/ztree_unit_list_by_name";
 
 	/**
 	 * @param request
@@ -206,6 +208,19 @@ public class UnitController extends BaseController {
 	public String getComboboxUnitTree(@RequestParam(value="name", required=false) String name,HttpServletRequest request) throws Exception {
 		System.out.println("name:"+name);
 		ResponseEntity<String> responseEntity = restTemplate.exchange(UNIT_LIST_ZTREE_DATA, HttpMethod.POST, new HttpEntity<Object>(name,this.httpHeaders), String.class);
+		System.out.println(responseEntity.getBody());
+		return responseEntity.getBody();
+
+	}
+	
+	
+	
+
+	@RequestMapping(value = "/unit/ztree_unit_list_by_name")
+	@ResponseBody
+	public String ztree_unit_list_by_name(@RequestParam(value="name", required=false) String name,HttpServletRequest request) throws Exception {
+		System.out.println("name:"+name);
+		ResponseEntity<String> responseEntity = restTemplate.exchange(UNIT_LIST_ZTREE_DATA_BY_NAME, HttpMethod.POST, new HttpEntity<Object>(name,this.httpHeaders), String.class);
 		System.out.println(responseEntity.getBody());
 		return responseEntity.getBody();
 

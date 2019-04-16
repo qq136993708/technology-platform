@@ -134,6 +134,8 @@ public class SysFileController extends BaseController {
      * 查询用户信息
      */
     private static final String USER_DETAILS_URL = "http://pcitc-zuul/system-proxy/user-provider/user/user-details/";
+	
+	private static final String commonFileList = "http://pplus-zuul/system-proxy/file-common-provider/files/common/data-list";
 
     // 文件上传路径
     @Value("${uploaderPathTemp}")
@@ -315,6 +317,32 @@ public class SysFileController extends BaseController {
         httpHeaders.add("x-frame-options", "ALLOW-FROM");
         response.addHeader("x-frame-options", "ALLOW-FROM");
         return responseEntity;
+    }
+	
+	/**
+     * 通过md5值，查询sys_file（存在多个），判断当前人，是否有这些file的权限，只要有权限，就能下载这个文件
+     */
+    @RequestMapping(value = "/sysfile/md5/download/{fileMd5}")
+    public Result downloadFileByMd5(@PathVariable("fileMd5") String fileMd5, HttpServletRequest request, HttpServletResponse response) {
+    	LayuiTableParam param = new LayuiTableParam();
+    	param.getParam().put("userId", sysUserInfo.getUserId());
+    	param.getParam().put("fileMd5", fileMd5);
+    	
+		LayuiTableData layuiTableData = new LayuiTableData();
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+		ResponseEntity<LayuiTableData> fileEntity = restTemplate.exchange(commonFileList, HttpMethod.POST, entity, LayuiTableData.class);
+		layuiTableData = fileEntity.getBody();
+		Result retJson = new Result();
+		retJson.setSuccess(false);
+		if (layuiTableData.getData().size() > 0) {
+			System.out.println("md51------------------------"+layuiTableData.getData().size());
+			JSONArray array = JSONArray.parseArray(JSON.toJSONString(layuiTableData.getData()));
+			String fileId = array.getJSONObject(0).getString("id");
+			System.out.println("md52------------------------"+fileId);
+			retJson.setSuccess(true);
+			retJson.setData(fileId);
+		} 
+		return retJson;
     }
 
     @RequestMapping(value = "/sysfile/viewPic/{id}", method = RequestMethod.GET)
@@ -883,9 +911,8 @@ public class SysFileController extends BaseController {
         boolean isComplete = false;
         JSONObject result = new JSONObject();
         try {
-            String filePrefixFormat = "yyyyMMddHHmmssS";
+//            String filePrefixFormat = "yyyyMMddHHmmssS";
 //            String date = "";
-            String date = sysUserInfo.getUserId();
 //            String date = DateUtil.format(new Date(), filePrefixFormat);
 //            File path = new File(ResourceUtils.getURL("classpath:").getPath());
 //            if(!path.exists()) path = new File("");
@@ -894,14 +921,12 @@ public class SysFileController extends BaseController {
 //            File upload = new File(serverPath+imageUrl);
 //            if(!upload.exists()) upload.mkdirs();
 
+            String date = sysUserInfo.getUserId();
             strFilePath = ckfilepath+imageUrl+File.separator+date+File.separator;
             File filePath = new File(strFilePath);
             if(!filePath.exists()) filePath.mkdirs();
-
             fileName = UUID.randomUUID().toString()+fileType;
             String savedName = strFilePath + File.separator + fileName;
-
-//            files.transferTo(new File(savedName));
             isComplete = FileUtil.copyInputStreamToFile(files.getInputStream(), new File(savedName));
             if (isComplete==true){
                 out = response.getWriter();
@@ -909,6 +934,27 @@ public class SysFileController extends BaseController {
                 imageUrl = imageUrl.replace("\\","/");
                 imageUrl = imageUrl.replace("\\\\","/");
             }
+
+
+            //统一上传
+//            String tempFileName = files.getOriginalFilename();
+//            if (tempFileName.indexOf("\\") > -1) {
+//                tempFileName = tempFileName.substring(tempFileName.lastIndexOf("\\") + 1, tempFileName.length());
+//            }
+//            String uuid = IdUtil.createIdByTime();
+//            JSONObject jsonObject = new JSONObject();
+//            jsonObject.put("bak10","");
+//            jsonObject.put("bak9","");
+//            jsonObject.put("flag","0");
+//            jsonObject.put("lastModifiedDate","");
+//            sysFileFeignClient.uploadFileSaveLayui(files, request, response, tempFileName, "ff8129325ed94773bfd9f33145ccd080", sysUserInfo.getUserId(), uuid, "ckupload", jsonObject.toJSONString());
+//            SysFile sysFile = this.restTemplate.exchange(GET + uuid, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysFile.class).getBody();
+//
+
+
+
+
+
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("富文本编辑器上传图片时发生异常", e);
@@ -924,19 +970,11 @@ public class SysFileController extends BaseController {
                 System.out.println(isComplete);
                 //上传成功
                 result.put("uploaded", 1);
-//                result.put("fileName", "a.jpg");
                 result.put("fileName", fileName);
-//                result.put("url", "/upload/a.jpg");
                 result.put("url", File.separator+imageUrl);
             }
             out.println(result.toJSONString());
         }
-    }
-
-    public static void main(String[] args) {
-        System.out.println("File.separator = " + File.separator);
-        System.out.println("File.separator = " + File.pathSeparator);
-        System.out.println("File.separator = " + File.separatorChar);
     }
 
 }

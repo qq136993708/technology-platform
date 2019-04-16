@@ -95,7 +95,7 @@
             /* 监听提交 */
             form.on('submit(submitBtn)', function(data) {
                 ajaxPost("/sysfilekind/savesysFileKind", data.field, function(dt, status) {
-                	parent.updateFlag = true;
+                	parent.active.refresh();
                     var index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);
                 });

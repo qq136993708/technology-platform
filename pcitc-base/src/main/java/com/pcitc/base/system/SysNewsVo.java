@@ -5,7 +5,17 @@ import java.io.Serializable;
 import com.pcitc.base.util.SearchInfo;
 
 public class SysNewsVo extends SearchInfo implements Serializable {
-    private Integer id;
+    private String id;
+
+    public String getDataid() {
+        return dataid;
+    }
+
+    public void setDataid(String dataid) {
+        this.dataid = dataid;
+    }
+
+    private String dataid;
 
     // 标题
     private String title;
@@ -49,11 +59,11 @@ public class SysNewsVo extends SearchInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

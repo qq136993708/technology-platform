@@ -23,6 +23,7 @@ import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.sort.SortOrder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -37,12 +38,16 @@ public class AccessorServiceImpl implements AccessorService {
     private static Logger LOG = Logger.getLogger(String.valueOf(AccessorServiceImpl.class));
 
     private static TransportClient client;
+    
+    @Autowired
+    private ClientFactoryBuilder clientFactoryBuilder;
 
     public AccessorServiceImpl() {
         try {
             if (client == null) {
             	//new ClientFactoryBuilder.Config().setConfigPath("elasticsearch.properties").initConfig(true);
-                client = ClientFactoryBuilder.getClient();
+            	System.out.println("AccessorServiceImpl:初始化client ");
+            	client = clientFactoryBuilder.getClient();
             }
             System.out.println("AccessorServiceImpl client get========== "+client);
         } catch (Exception e) {

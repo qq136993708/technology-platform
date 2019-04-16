@@ -1,8 +1,6 @@
 package com.pcitc.service.doc.impl;
 
-import com.pcitc.es.clientmanager.ClientFactoryBuilder;
-import com.pcitc.es.utils.SearchUtil;
-import com.pcitc.service.doc.IndexAccessorService;
+import java.util.logging.Logger;
 
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
@@ -12,9 +10,12 @@ import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.cluster.metadata.MappingMetaData;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.logging.Logger;
+import com.pcitc.es.clientmanager.ClientFactoryBuilder;
+import com.pcitc.es.utils.SearchUtil;
+import com.pcitc.service.doc.IndexAccessorService;
 
 /**
  * @author:Administrator
@@ -25,11 +26,15 @@ public class IndexAccessorServiceImpl implements IndexAccessorService {
     private static Logger LOG = Logger.getLogger(String.valueOf(IndexAccessorServiceImpl.class));
 
     private static TransportClient client;
+    
+    @Autowired
+    private ClientFactoryBuilder clientFactoryBuilder;
 
     public IndexAccessorServiceImpl() {
         try {
             if (client == null) {
-                client = ClientFactoryBuilder.getClient();
+            	System.out.println("IndexAccessorServiceImpl:初始化client ");
+                client = clientFactoryBuilder.getClient();
             }
         } catch (Exception e) {
             System.out.println("IndexAccessorServiceImpl:连接es客户端异常 ");
