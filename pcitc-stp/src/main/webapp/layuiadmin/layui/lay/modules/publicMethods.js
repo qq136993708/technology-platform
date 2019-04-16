@@ -438,7 +438,8 @@ layui.define(['jquery','form','table','laydate'],
                 lay('.datetime').each(function() {
                     laydate.render({
                         elem : this,
-                        trigger : 'click'
+                        trigger : 'click',
+                        value:new Date()
                     });
                 });
             },
