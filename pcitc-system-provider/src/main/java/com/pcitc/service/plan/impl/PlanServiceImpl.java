@@ -47,8 +47,8 @@ public class PlanServiceImpl implements PlanService {
     public int saveBotWorkOrder(PlanBase vo) {
         int result = 200;
         try {
-            SysUser sysUser = userService.selectUserByUserId(vo.getWorkOrderAllotUserId());
-            vo.setWorkOrderAllotUserName(sysUser==null?"":sysUser.getUserName());
+//            SysUser sysUser = userService.selectUserByUserId(vo.getWorkOrderAllotUserId());
+//            vo.setWorkOrderAllotUserName(sysUser==null?"":sysUser.getUserName());
             planBaseMapper.insert(vo);
         } catch (Exception e) {
             result = 500;
@@ -243,8 +243,8 @@ public class PlanServiceImpl implements PlanService {
                 }
             }
             for (int i = 0; i < list.size(); i++) {
-                SysUser sysUser = userService.selectUserByUserId(list.get(i).getWorkOrderAllotUserId());
-                list.get(i).setWorkOrderAllotUserName(sysUser==null?"":sysUser.getUserName());
+//                SysUser sysUser = userService.selectUserByUserId(list.get(i).getWorkOrderAllotUserId());
+//                list.get(i).setWorkOrderAllotUserName(sysUser==null?"":sysUser.getUserName());
                 planBaseMapper.insert(list.get(i));
             }
 
