@@ -225,7 +225,6 @@
                     }else {
                         $('#workOrderTypeS').append("<option value='"+item.code+"'>"+item.name+"</option>");//往下拉菜单里添加元素
                     }
-                    console.log( item.code)
                 })
                 form.render();
             }
@@ -274,10 +273,7 @@
                 sthTrArr.push(sthTrObj)
             });
             var jsonData = data.field;
-            console.log(jsonData);
             jsonData.matterList = sthTrArr;
-            console.log("------jsonData-------");
-            console.log(jsonData);
             $.ajax({
                 type: 'post',
                 dataType: 'json',
@@ -370,7 +366,6 @@
 
         //添加修改取值
         var dataId = '${dataId}';
-        console.log("dataId:" + dataId);
         $.ajax({
             type: 'post',
             dataType: 'json',
@@ -432,7 +427,6 @@
                 "number": 7,
                 "specialElement": []
             };
-            console.log(trParam);
             publicMethods.addTableTr(trParam);
         });
         //动态移除事项

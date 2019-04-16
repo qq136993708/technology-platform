@@ -158,10 +158,8 @@
             //propertychange监听input里面的字符变化,属性改变事件
             $('.form-control').bind('input propertychange', function() {
                 var $this = $(this);
-                console.log($this);
                 var text_length = $this.val().length;//获取当前文本框的长度
                 var current_width = parseInt(text_length) *12;//该16是改变前的宽度除以当前字符串的长度,算出每个字符的长度
-                console.log(current_width)
                 $this.css("width",current_width+"px");
             });
         })

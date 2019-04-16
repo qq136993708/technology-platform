@@ -228,7 +228,6 @@
                     }else {
                         $('#workOrderTypeS').append("<option value='"+item.code+"'>"+item.name+"</option>");//往下拉菜单里添加元素
                     }
-                    console.log( item.code)
                 })
                 form.render();
             }
@@ -277,10 +276,7 @@
                 sthTrArr.push(sthTrObj)
             });
             var jsonData = data.field;
-            console.log(jsonData);
             jsonData.matterList = sthTrArr;
-            console.log("------jsonData-------");
-            console.log(jsonData);
             $.ajax({
                 type: 'post',
                 dataType: 'json',
@@ -373,7 +369,6 @@
 
         //添加修改取值
         var dataId = '${dataId}';
-        console.log("dataId:" + dataId);
         $.ajax({
             type: 'post',
             dataType: 'json',
@@ -381,7 +376,6 @@
             url: '/plan/viewBotWorkOrder?dataId=' + dataId,
             success: function (data) {
                 dataJson = JSON.parse(JSON.stringify(data));
-                console.log(dataJson);
                 enhance.filling(dataJson);
                 selectData = data;
                 //$("#jobContent").val(data.jobContent);
@@ -450,7 +444,6 @@
                 "number": 8,
                 "specialElement": []
             };
-            console.log(trParam);
             publicMethods.addTableTr(trParam);
         });
         //动态移除事项
