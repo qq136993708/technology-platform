@@ -94,6 +94,18 @@
                        </div> -->
 				</div>
 			</div>
+
+            <div class="tableBox" style="height: 150px">
+                <div class="tableToolBox">
+                    <div class="layui-form-item">
+                        <input type="hidden" name="parentId" id="parentId" value="">
+                        <div id="file_upload_parent">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
 		</div>
 		<div class="tableBox">
 			<div class="tableToolBox">
@@ -166,6 +178,15 @@
     var publicMethods;
     var submitArr = [];
     var submitStr = "";
+
+    //start-upload2
+    var file_edit_detail2 = "detail";
+    //文件上传配置
+    var file_opt_flag2 = param.id;
+    //自定义表单字段
+    var file_ids2 = "parentId";
+    //end-upload2
+
     layui.config({
         base: '/layuiadmin/lib/extend/' //静态资源所在路径
     }).extend({
@@ -206,13 +227,14 @@
                 console.log(dataJson);
                 enhance.filling(dataJson);
                 selectData = data;
+                $("#file_upload_parent").load('/common/public/uploadlayuiload2.html');
             },
             error: function (e) {
                 alertError("出错了！", e);
             }
         });
         $.ajax({
-            url: '/pageCommon/dic/ROOT_SGGL_GDGL_GDLX',
+            url: '/pageCommon/dic/ROOT_RWGL_RWLX',
             dataType: 'json',
             type: 'post',
             success: function (data) {
@@ -231,11 +253,11 @@
         // 	id:"workOrderType",
         // 	field:"workOrderType",
         // 	data:dataJson,
-        // 	url:"/pageCommon/dic/ROOT_SGGL_GDGL_GDLX"
+        // 	url:"/pageCommon/dic/ROOT_RWGL_RWLX"
         // };
         //添加类型
         // $.ajax({
-        //     url: '/pageCommon/dic/ROOT_SGGL_GDGL_GDLX',
+        //     url: '/pageCommon/dic/ROOT_RWGL_RWLX',
         //     dataType: 'json',
         //     type: 'post',
         //     success: function (data) {
@@ -247,7 +269,7 @@
         // });
         // publicMethods.dataDictionary(workOrderTypeParam);
         $.ajax({
-            url: '/pageCommon/dic/ROOT_SGGL_GDGL_GDLX',
+            url: '/pageCommon/dic/ROOT_RWGL_RWLX',
             dataType: 'json',
             type: 'post',
             success: function (data) {

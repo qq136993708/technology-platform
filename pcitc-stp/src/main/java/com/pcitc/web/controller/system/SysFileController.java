@@ -185,6 +185,9 @@ public class SysFileController extends BaseController {
             for (int i = 0; i < files.length; i++) {
                 /** 转换文件 */
                 MultipartFile file = files[i];
+                System.out.println("----uploadMultipleFileLayui------");
+                System.out.println(file);
+
                 String tempFileName = file.getOriginalFilename();
                 if (tempFileName.indexOf("\\") > -1) {
                     tempFileName = tempFileName.substring(tempFileName.lastIndexOf("\\") + 1, tempFileName.length());
@@ -900,7 +903,7 @@ public class SysFileController extends BaseController {
     private String ckfilepath;
 
     @RequestMapping(value = "/sysfile/ckupload", method = RequestMethod.POST)
-    public void upload(@RequestParam(value = "upload", required = false) MultipartFile files) {
+    public void ckupload(@RequestParam(value = "upload", required = false) MultipartFile files) {
         PrintWriter out = null;
         String originalFilename = files.getOriginalFilename();
         String fileType = originalFilename.substring(originalFilename.lastIndexOf(".",originalFilename.length()));
@@ -921,6 +924,8 @@ public class SysFileController extends BaseController {
 //            File upload = new File(serverPath+imageUrl);
 //            if(!upload.exists()) upload.mkdirs();
 
+            System.out.println("-----ckupload-----");
+            System.out.println(files);
             String date = sysUserInfo.getUserId();
             strFilePath = ckfilepath+imageUrl+File.separator+date+File.separator;
             File filePath = new File(strFilePath);
@@ -936,7 +941,7 @@ public class SysFileController extends BaseController {
             }
 
 
-            //统一上传
+            //统一上传---文件不能传输到后台,使用独立上传
 //            String tempFileName = files.getOriginalFilename();
 //            if (tempFileName.indexOf("\\") > -1) {
 //                tempFileName = tempFileName.substring(tempFileName.lastIndexOf("\\") + 1, tempFileName.length());
@@ -949,7 +954,6 @@ public class SysFileController extends BaseController {
 //            jsonObject.put("lastModifiedDate","");
 //            sysFileFeignClient.uploadFileSaveLayui(files, request, response, tempFileName, "ff8129325ed94773bfd9f33145ccd080", sysUserInfo.getUserId(), uuid, "ckupload", jsonObject.toJSONString());
 //            SysFile sysFile = this.restTemplate.exchange(GET + uuid, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysFile.class).getBody();
-//
 
 
 
