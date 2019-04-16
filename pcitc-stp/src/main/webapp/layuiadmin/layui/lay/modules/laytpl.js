@@ -140,6 +140,46 @@ layui.define(['jquery'],function (e) {
         }
         return stateData;
     };
+	
+	o.taskStatus_equipment = function(d){
+        var stateData;
+        if(d==1){
+			 stateData="<span class='fontStateColor  btn-blue'></span>"
+        }else{
+             stateData="<span class='fontStateColor btnYellow'></span>"
+        }
+        return stateData;
+    };
+	
+	o.acceptanceStatus_equipment = function(d){
+        var stateData;
+        if(d==1){
+			 stateData="<span class='fontStateColor  btn-blue'></span>"
+        }else{
+             stateData="<span class='fontStateColor btnYellow'></span>"
+        }
+        return stateData;
+    };
+	
+	o.forapplicationStatus_equipment = function(d){
+        var stateData;    
+		if(d==2){
+			stateData="<span class='fontStateColor  btn-blue'></span>"
+        }else{
+             stateData="<span class='fontStateColor btnYellow'></span>"
+        }
+        return stateData;
+    };
+	
+	o.contractStatus_equipment = function(d){
+        var stateData;
+        if(d!=""){
+			stateData="<span class='fontStateColor  btn-blue'></span>"
+        }else{
+             stateData="<span class='fontStateColor btnYellow'></span>"
+        }
+        return stateData;
+    };
     
     o.releaseStatus = function(d){
         var stateData;

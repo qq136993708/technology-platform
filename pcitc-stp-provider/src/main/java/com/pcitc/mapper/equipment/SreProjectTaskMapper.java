@@ -1,5 +1,7 @@
 package com.pcitc.mapper.equipment;
 
+
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -28,4 +30,10 @@ public interface SreProjectTaskMapper {
     int getCount(Map map);
 
 	List<SreProjectTask> getTaskClosureList(Map map);
+
+	int updataTaskClosure(String id, String closure,Date date);
+
+	List<SreProjectTask> getClosedList(Map map);
+	
+	SreProjectTask selectByTopicKey(String taskId);
 }

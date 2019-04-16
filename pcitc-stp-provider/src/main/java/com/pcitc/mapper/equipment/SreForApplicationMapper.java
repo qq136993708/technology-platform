@@ -8,15 +8,17 @@ import com.pcitc.base.stp.equipment.SreForApplication;
 public interface SreForApplicationMapper {
     int deleteByPrimaryKey(String applicationId);
 
-    int insert(SreForApplication record);
+	int insert(SreForApplication record);
 
-    int insertSelective(SreForApplication record);
+	int insertSelective(SreForApplication record);
 
-    SreForApplication selectByPrimaryKey(String applicationId);
+	SreForApplication selectByPrimaryKey(String applicationId);
 
-    int updateByPrimaryKeySelective(SreForApplication record);
+	int updateByPrimaryKeySelective(SreForApplication record);
 
-    int updateByPrimaryKey(SreForApplication record);
+	int updateByPrimaryKey(SreForApplication record);
     
 	List getList(Map map);
+	
+	SreForApplication selectaRchaseidKey(String applicationId);
 }

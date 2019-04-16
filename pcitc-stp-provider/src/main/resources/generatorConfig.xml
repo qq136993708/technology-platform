@@ -19,7 +19,7 @@
 
 	  
 
-	   <table schema="pcitc-stp-provider" tableName="sre_scrap_apply" domainObjectName="srescrapapply"
+	   <table schema="pcitc-stp-provider" tableName="sre_for_application" domainObjectName="SreForApplication"
 			enableCountByExample="false" 
 			enableUpdateByExample="false"
 			enableDeleteByExample="false" 

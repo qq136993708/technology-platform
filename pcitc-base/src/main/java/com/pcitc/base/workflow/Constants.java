@@ -49,6 +49,9 @@ public class Constants {
     public static final int FLOW_STATE_DONE=2;//审批通过
     public static final int FLOW_STATE_CLOSE=3;//强制结束
     
+    //任务关闭变量
+    public static final String TASK_CLOUSE="0"; //关闭状态
+    
     
     public static final String START_WORKFLOW_URL = "http://pcitc-zuul/system-proxy/workflow-provider/workflow/start";
     

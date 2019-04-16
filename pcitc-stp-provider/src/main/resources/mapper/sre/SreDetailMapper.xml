@@ -48,7 +48,7 @@
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from sre_equipment_detail
-    where id = #{id,jdbcType=VARCHAR}
+    where configure = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SreDetail" >
     insert into sre_equipment_detail (id, equipment_id, equipment_name, 
@@ -65,7 +65,7 @@
       #{declareTime,jdbcType=TIMESTAMP}, #{assetNumber,jdbcType=VARCHAR}, #{configure,jdbcType=VARCHAR}, 
       #{measuringUnit,jdbcType=VARCHAR}, #{assetsClassification,jdbcType=VARCHAR}, #{nationality,jdbcType=VARCHAR}, 
       #{placeUse,jdbcType=VARCHAR}, #{placePeople,jdbcType=VARCHAR}, #{receivePeople,jdbcType=VARCHAR},
-      #{specification,jdbcType=VARCHAR},#{arrival_date,jdbcType=TIMESTAMP},#{supplier,jdbcType=VARCHAR}
+      #{specification,jdbcType=VARCHAR},#{arrivaldate,jdbcType=TIMESTAMP},#{supplier,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreDetail" >
@@ -130,7 +130,7 @@
         <if test="specification != null" >
         specification,
       </if>
-        <if test="arrival_date != null" >
+        <if test="arrivaldate != null" >
         arrival_date,
       </if>
         <if test="supplier != null" >
@@ -196,7 +196,7 @@
         <if test="specification != null" >
         #{specification,jdbcType=VARCHAR},
       </if>
-        <if test="arrival_date != null" >
+        <if test="arrivaldate != null" >
         #{arrival_date,jdbcType=TIMESTAMP},
       </if>
         <if test="supplier != null" >
@@ -263,8 +263,8 @@
         <if test="specification != null" >
         specification = #{specification,jdbcType=VARCHAR},
       </if>
-        <if test="receivePeople != null" >
-        arrival_date = #{arrival_date,jdbcType=TIMESTAMP},
+        <if test="arrivaldate != null" >
+        arrival_date = #{arrivaldate,jdbcType=TIMESTAMP},
       </if>
         <if test="supplier != null" >
         supplier = #{supplier,jdbcType=VARCHAR},
@@ -292,7 +292,7 @@
       place_people = #{placePeople,jdbcType=VARCHAR},
       receive_people = #{receivePeople,jdbcType=VARCHAR},
       specification= #{specification,jdbcType=VARCHAR},
-      arrival_date= #{arrival_date,jdbcType=TIMESTAMP},
+      arrival_date= #{arrivaldate,jdbcType=TIMESTAMP},
       supplier = #{supplier,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -311,7 +311,9 @@
    <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
 	     <if test="equipmentName != null and equipmentName!='' ">               AND t.equipment_name   like CONCAT('%',#{equipmentName },'%')</if>
-	     <if test="declareDepartment    != null and declareDepartment!='' "> AND t.declare_department    like CONCAT('%',#{declareDepartment},'%')</if>
+	     <if test="declareDepartment!= null and declareDepartment!='' "> AND t.declare_department    like CONCAT('%',#{declareDepartment},'%')</if>
+	 	 <if test="configure!= null and configure!='' "> AND t.configure    like CONCAT('%',#{configure},'%')</if>
+	 	 <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
 	 </trim>
 	</sql>
 </mapper>
