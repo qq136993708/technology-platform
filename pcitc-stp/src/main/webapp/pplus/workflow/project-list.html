@@ -241,6 +241,7 @@
 			// 触发不同的按钮事件
 			var $ = layui.$, active = {
 				searchEvent : function() { //点击查询按钮
+					selectRowData = '';
 					renderTable();
 				},
 				resetEvent : function() { //点击重置按钮
