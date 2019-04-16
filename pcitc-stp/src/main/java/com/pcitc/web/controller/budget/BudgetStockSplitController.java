@@ -56,7 +56,7 @@ import com.pcitc.web.common.BaseController;
  *
  */
 @Controller
-public class BudgetAssetSplitController extends BaseController {
+public class BudgetStockSplitController extends BaseController {
 
 	private static final String BUDGET_ASSETSPLIT_TABLE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-assetsplit-info-table";
 	private static final String BUDGET_ASSETSPLIT_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-assetsplit-info-list";	

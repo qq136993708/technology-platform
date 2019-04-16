@@ -51,7 +51,7 @@ import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
 /**
- * 集团预算总表
+ * 集团预算分解表
  * @author fb
  *
  */
