@@ -298,7 +298,6 @@ public class BudgetGroupSplitController extends BaseController {
 	}
 	
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping("/budget/budget_download/groupsplit/{dataId}")
 	public void downBudgetGroupSplit(@PathVariable("dataId") String dataId,HttpServletResponse res) throws IOException 
 	{
@@ -325,7 +324,7 @@ public class BudgetGroupSplitController extends BaseController {
 		String newFilePath = path.getPath() + "static/budget/"+info.getNd()+"集团经费预算明细（建议稿）_"+DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss")+".xlsx";
 		File outFile = new File(newFilePath);
 		
-		processDataAndDownload(f,new ArrayList(tabldata.getData()),parammap,outFile);
+		processDataAndDownload(f,tabldata,parammap,outFile);
 	    //下载文件
 		this.fileDownload(new File(newFilePath), res);
 	}
@@ -334,7 +333,7 @@ public class BudgetGroupSplitController extends BaseController {
 	
 	private XSSFWorkbook workbook;
 	private XSSFSheet sheet;
-	private void processDataAndDownload(File template,List<Map<String,Object>> list,Map<String,String> param,File outFile) 
+	private void processDataAndDownload(File template,LayuiTableData tableData,Map<String,String> param,File outFile) 
 	{
 		try {
 			InputStream is = new FileInputStream(template);
@@ -347,13 +346,6 @@ public class BudgetGroupSplitController extends BaseController {
 			//获得标题
 			ResponseEntity<?> rs = this.restTemplate.exchange(BUDGET_GROUPSPLIT_TITLES, HttpMethod.POST, new HttpEntity<Object>(param.get("nd"),this.httpHeaders), List.class);
 			JSONArray titles = JSON.parseArray(JSON.toJSONString(rs.getBody()));
-			
-			LayuiTableParam reqp = new LayuiTableParam();
-			reqp.getParam().put("budget_info_id", param.get("budget_info_id"));
-			reqp.setLimit(100);
-			reqp.setPage(1);
-			ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(BUDGET_GROUPSPLIT_ITEMS, HttpMethod.POST, new HttpEntity<LayuiTableParam>(reqp, this.httpHeaders), LayuiTableData.class);
-			LayuiTableData tableData = responseEntity.getBody();
 			
 			this.processExcelTitle(sheet, param, titles);
 			//从第六行开始数据
@@ -437,7 +429,7 @@ public class BudgetGroupSplitController extends BaseController {
 				}
 			}
 			//合计单元格合并
-			sheet.addMergedRegion(new CellRangeAddress(list.size()+5,list.size()+5,0,1));
+			sheet.addMergedRegion(new CellRangeAddress(tableData.getData().size()+5,tableData.getData().size()+5,0,1));
 			//写入新文件
 			FileOutputStream fos  = new FileOutputStream(outFile);
 			workbook.write(fos);
