@@ -150,6 +150,20 @@
 </script>
 
 <script>
+    function setWelder1(selectData){
+        console.log("父节点调用:");
+        selectData = eval(selectData);
+        console.log("----------"+selectData.length);
+        console.log(selectData);
+        var userId = "";
+        var userDisp = "";
+        for (var j = 0; j <selectData.length; j++) {
+            userId = userId+((j==0)?"":",")+selectData[j].userId;
+            userDisp = userDisp+((j==0)?"":",")+selectData[j].userDisp;
+        }
+        $('#workOrderAllotUserId').val(userId);
+        $('#workOrderAllotUserName').val(userDisp);
+    }
 
     var param = JSON.parse(window.localStorage.getItem("param"));
     var file_opt_flag = param.id;
@@ -258,9 +272,15 @@
                     sthTrObj.jsId = $(this).find("td").eq(7).text();
                     sthTrObj.dataCode = (dataCode++);
                 }
+                console.log(sthTrObj);
+                console.log(eval(sthTrObj));
                 sthTrArr.push(sthTrObj)
-                console.log(sthTrArr);
+
             });
+
+            console.log("sthTrArr");
+            console.log(eval(sthTrArr));
+
             var jsonData = data.field;
             jsonData.matterList = sthTrArr;
             console.log("------jsonData-------");
