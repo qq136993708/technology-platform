@@ -81,7 +81,7 @@
     }
     //从新加载树
     function loadUnitTree(unitId) {
-        ajaxPost("/unit/ztree-unit-list", {"name":$("#searchUnitName").val()}, function (dt) {
+        ajaxPost("/unit/ztree_unit_list_by_name", {"name":$("#searchUnitName").val()}, function (dt) {
             zTreeObj = $.fn.zTree.init($("#unitTree"), setting, dt);
             zTreeObj.expandAll(true);
         });
