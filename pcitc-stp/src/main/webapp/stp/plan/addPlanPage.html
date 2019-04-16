@@ -29,7 +29,7 @@
                 <div class="layui-row">
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">标题:<span class="must-fill">*</span></label>
+                            <label class="layui-form-label">标题<span class="must-fill">*</span></label>
                             <div class="layui-input-block">
                                 <input class="layui-input" name="workOrderName" id="workOrderName" lay-verify="title"
                                        placeholder="请输入标题" autocomplete="off" type="text">
@@ -50,7 +50,7 @@
                 <div class="layui-row">
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">类型:<span class="must-fill">*</span></label>
+                            <label class="layui-form-label">类型<span class="must-fill">*</span></label>
                             <div class="layui-input-block">
                                 <select id="workOrderType" name="workOrderType" lay-filter="select_filter"
                                         lay-search></select>
@@ -70,7 +70,7 @@
 
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label for="" class="layui-form-label">完成比例<span class="must-fill">*</span></label>
+                            <label for="" class="layui-form-label">完成比例<span class="must-fill"></span></label>
                             <div class="layui-input-block">
                                 <input class="layui-input" name="bl" id="bl"
                                        placeholder="完成比例" autocomplete="off" type="text">
@@ -150,7 +150,7 @@
 </script>
 
 <script>
-    function setWelder1(selectData){
+    function setWelder(selectData){
         console.log("父节点调用:");
         selectData = eval(selectData);
         console.log("----------"+selectData.length);
@@ -191,10 +191,10 @@
         });
         publicMethods = layui.publicMethods,
             form.render(null, 'component-form-group');
-        function setWelder(selectData) {
-            $('#workOrderAllotUserId').val(selectData.userId);
-            $('#workOrderAllotUserName').val(selectData.userDisp);
-        }
+        // function setWelder(selectData) {
+        //     $('#workOrderAllotUserId').val(selectData.userId);
+        //     $('#workOrderAllotUserName').val(selectData.userDisp);
+        // }
 
         window.setWelder = setWelder;
         var dataStatus = 0;
@@ -258,16 +258,16 @@
                 if ($(this).find("td").eq(3).find("input").length > 0) {
                     sthTrObj.dataId = $(this).find("td").eq(2).find("input").val();
                     sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
-                    sthTrObj.workOrderAllotUserName = $(".tdSelect dl dd.layui-this").html();
-                    sthTrObj.workOrderAllotUserId =$(".tdSelect dl dd.layui-this").attr("lay-value");
+                    sthTrObj.workOrderAllotUserName =  $(this).find(".tdSelect dl dd.layui-this").html();
+                    sthTrObj.workOrderAllotUserId = $(this).find(".tdSelect dl dd.layui-this").attr("lay-value");
                     sthTrObj.bl = $(this).find("td").eq(6).find("input").val();
                     sthTrObj.jsId = $(this).find("td").eq(7).find("input").val();
                     sthTrObj.dataCode = (dataCode++);
                 } else {
                     sthTrObj.dataId = $(this).find("td").eq(2).text();
                     sthTrObj.workOrderName = $(this).find("td").eq(3).text();
-                    sthTrObj.workOrderAllotUserName = $(".tdSelect dl dd.layui-this").html();
-                    sthTrObj.workOrderAllotUserId =$(".tdSelect dl dd.layui-this").attr("lay-value");
+                    sthTrObj.workOrderAllotUserName =  $(this).find(".tdSelect dl dd.layui-this").html();
+                    sthTrObj.workOrderAllotUserId = $(this).find(".tdSelect dl dd.layui-this").attr("lay-value");
                     sthTrObj.bl = $(this).find("td").eq(6).text();
                     sthTrObj.jsId = $(this).find("td").eq(7).text();
                     sthTrObj.dataCode = (dataCode++);
@@ -332,16 +332,16 @@
                 if ($(this).find("td").eq(3).find("input").length > 0) {
                     sthTrObj.dataId = $(this).find("td").eq(2).find("input").val();
                     sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
-                    sthTrObj.workOrderAllotUserName = $(".tdSelect dl dd.layui-this").html();
-                    sthTrObj.workOrderAllotUserId =$(".tdSelect dl dd.layui-this").attr("lay-value");
+                    sthTrObj.workOrderAllotUserName = $(this).find(".tdSelect dl dd.layui-this").html();
+                    sthTrObj.workOrderAllotUserId =$(this).find(".tdSelect dl dd.layui-this").attr("lay-value");
                     sthTrObj.bl = $(this).find("td").eq(6).find("input").val();
                     sthTrObj.jsId = $(this).find("td").eq(7).find("input").val();
                     sthTrObj.dataCode = (dataCode++);
                 } else {
                     sthTrObj.dataId = $(this).find("td").eq(2).text();
                     sthTrObj.workOrderName = $(this).find("td").eq(3).text();
-                    sthTrObj.workOrderAllotUserName = $(".tdSelect dl dd.layui-this").html();
-                    sthTrObj.workOrderAllotUserId =$(".tdSelect dl dd.layui-this").attr("lay-value");
+                    sthTrObj.workOrderAllotUserName = $(this).find(".tdSelect dl dd.layui-this").html();
+                    sthTrObj.workOrderAllotUserId =$(this).find(".tdSelect dl dd.layui-this").attr("lay-value");
                     sthTrObj.bl = $(this).find("td").eq(6).text();
                     sthTrObj.jsId = $(this).find("td").eq(7).text();
                     sthTrObj.dataCode = (dataCode++);

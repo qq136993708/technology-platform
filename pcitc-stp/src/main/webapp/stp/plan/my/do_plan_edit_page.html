@@ -25,7 +25,7 @@
                 <div class="layui-row">
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">标题:<span class="must-fill">*</span></label>
+                            <label class="layui-form-label">标题<span class="must-fill">*</span></label>
                             <div class="layui-input-block">
                                 <input readonly="readonly" class="layui-input readOnlyBox" name="workOrderName"
                                        id="workOrderName" lay-verify="title" placeholder="请输入标题" autocomplete="off"
@@ -46,7 +46,7 @@
                 <div class="layui-row">
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">类型:<span class="must-fill">*</span></label>
+                            <label class="layui-form-label">类型<span class="must-fill">*</span></label>
                             <div class="layui-input-block">
                                 <input class="layui-input readOnlyBox layui-hide" type="text" id="workOrderType"
                                        name="workOrderType" readonly="readonly">
@@ -69,7 +69,7 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">完成比例<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" name="bl" id="bl"
+                            <input class="layui-input" name="bl" id="bl" lay-verify="required"
                                    placeholder="完成比例" autocomplete="off" type="text">
                         </div>
                     </div>
@@ -415,6 +415,7 @@
                     width: '18%',
                     templet: function (d) {
                         var t = "<input type='text' value='" + d.workOrderEndDatatime + "' class='layui-input datetime inputVal' >";
+                        // var t = "<input type='text' value='" + d.workOrderEndDatatime + "' class='layui-input datetime inputVal' >";
                         return t;
                     }
                 },
@@ -452,7 +453,6 @@
                     {"column": 3, "element": "laydate"}
                 ]
             };
-            console.log(trParam);
             publicMethods.addTableTr(trParam);
             publicMethods.timeAdd();
         });
