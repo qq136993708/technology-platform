@@ -1092,6 +1092,9 @@
 			<if test="fileKind != null">
 				and sys_file.file_kind = #{fileKind}
 			</if>
+			<if test="fileMd5 != null">
+				and sys_file.file_md = #{fileMd5}
+			</if>
 			<if test="fileName != null">
 				and sys_file.file_name like '%${fileName}%'
 			</if>
