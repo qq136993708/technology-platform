@@ -71,7 +71,7 @@
 
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label for="" class="layui-form-label">完成比例<span class="must-fill">*</span></label>
+                            <label for="" class="layui-form-label">完成比例<span class="must-fill"></span></label>
                             <div class="layui-input-block">
                                 <input class="layui-input" name="bl" id="bl"
                                        placeholder="完成比例" autocomplete="off" type="text">
@@ -152,6 +152,21 @@
 
 <script>
 
+    function setWelder(){
+        console.log("父节点调用:");
+        selectData = eval(selectData);
+        console.log("----------"+selectData.length);
+        console.log(selectData);
+        var userId = "";
+        var userDisp = "";
+        for (var j = 0; j <selectData.length; j++) {
+            userId = userId+((j==0)?"":",")+selectData[j].userId;
+            userDisp = userDisp+((j==0)?"":",")+selectData[j].userDisp;
+        }
+        $('#workOrderAllotUserId').val(userId);
+        $('#workOrderAllotUserName').val(userDisp);
+    }
+
     var param = JSON.parse(window.localStorage.getItem("param"));
     var file_opt_flag = param.id;
     var i = 1;
@@ -178,12 +193,9 @@
         });
         publicMethods = layui.publicMethods,
             form.render(null, 'component-form-group');
-        function setWelder(selectData) {
-            $('#workOrderAllotUserId').val(selectData.userId);
-            $('#workOrderAllotUserName').val(selectData.userDisp);
-        }
 
-        window.setWelder = setWelder;
+
+
         var dataStatus = 0;
         console.log($('#workOrderAllotUserId').val)
         //显示文件上传部分
@@ -208,7 +220,7 @@
             type: 'datetime'
         });
         $.ajax({
-            url: '/pageCommon/dic/ROOT_SGGL_GDGL_GDLX',
+            url: '/pageCommon/dic/ROOT_RWGL_RWLX',
             dataType: 'json',
             type: 'post',
             success: function (data) {
@@ -266,6 +278,8 @@
                 }
                 sthTrArr.push(sthTrObj)
                 console.log(sthTrArr);
+                console.log("--------------sthTrObj------------");
+                console.log(sthTrObj);
             });
             var jsonData = data.field;
             jsonData.matterList = sthTrArr;

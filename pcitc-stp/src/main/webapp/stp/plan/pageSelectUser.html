@@ -73,12 +73,12 @@
                     cols: [[
                         {type: 'checkbox', event: 'changeEvents'}
                         , {title: '序号', type: 'numbers'}
-                        , {field: 'userName', title: '登录名称',  style: 'cursor: pointer;'}
-                        , {field: 'userDisp', title: '显示名称',  style: 'cursor: pointer;'}
-                        , {field: 'userKindDisp', title: '用户类型',  style: 'cursor: pointer;'}
-                        , {field: 'isDomainDisp', title: '域用户',  style: 'cursor: pointer;'}
-                        , {field: 'userUnitDisp', title: '所属机构',  style: 'cursor: pointer;'}
-                        , {field: 'userPostDisp', title: '所属岗位',  style: 'cursor: pointer;'}
+                        , {field: 'userName', title: '登录名称', style: 'cursor: pointer;'}
+                        , {field: 'userDisp', title: '显示名称', style: 'cursor: pointer;'}
+                        , {field: 'userKindDisp', title: '用户类型', style: 'cursor: pointer;'}
+                        , {field: 'isDomainDisp', title: '域用户', style: 'cursor: pointer;'}
+                        , {field: 'userUnitDisp', title: '所属机构', style: 'cursor: pointer;'}
+                        , {field: 'userPostDisp', title: '所属岗位', style: 'cursor: pointer;'}
                         // ,{field:'userMail',   title:'邮箱',	    width: '12%',  style:'cursor: pointer;'}
                         // ,{field:'userPhone',  title:'座机号',     width: '10%',  style:'cursor: pointer;'}
                         // ,{field:'userMobile', title:'手机号',  style:'cursor: pointer;'}
@@ -87,21 +87,41 @@
                         layer.close(lodingMsg);
                         // 点击行联动选择框--单选
                         $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
-                            var index = parseInt($(this).index() + 1);
-                            $('tr').removeClass('layui-table-click');
-                            $(this).addClass('layui-table-click');
-                            $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                            $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                            selectRowData = res.data[index - 1];
+                            //var index = parseInt($(this).index() + 1);
+                            //$('tr').removeClass('layui-table-click');
+                            //$(this).addClass('layui-table-click');
+                            //$('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                            //$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                            // selectRowData = res.data[index - 1];
                         });
                     }
                 });
                 renderfunc = function removeHeaderCheckbox() {
-                    $(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
+                    //$(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
                 }
                 renderfunc();
             }
 
+            //多选--开始
+            //单击行勾选checkbox事件——多选情况
+            $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
+                var index = $(this).attr('data-index');
+                var tableBox = $(this).parents('.layui-table-box');
+                //存在固定列
+                if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
+                    tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+                } else {
+                    tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+                }
+                var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+                if (checkCell.length > 0) {
+                    checkCell.click();
+                }
+            });
+            $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+                e.stopPropagation();
+            });
+            //多选-结束
             renderTable({
                 param: {
                     "userName": $("#userName").val(),
@@ -148,6 +168,15 @@
                         }
                     });
                 }
+                , getChecked: function () {//多选
+                    var ids = "";
+                    var selectedData = active.getCheckData();
+                    return selectedData;
+                }, getCheckData: function () { //获取选中数据
+                    var checkStatus = table.checkStatus('userTable')
+                        , data = checkStatus.data;
+                    return data;
+                }
                 , addEvent: function () {
                     //点击新增按钮
                     var temUrl = '/user/user_page_edit';
@@ -163,14 +192,20 @@
                     publicMethods.openBaseWinFull("编辑用户", temUrl);
                 }, okEvent: function () {
                     //点击编辑按钮
-                    if (!selectRowData) {
-                        layer.msg('请点击选择一行数据!');
-                        return;
-                    }
-                    var objSelected={};
+                    // if (!selectRowData) {
+                    //     layer.msg('请点击选择一行数据!');
+                    //     return;
+                    // }
+                    var objSelected = {};
                     // objSelected.userId = selectRowData.userId;
                     // objSelected.userDisp = selectRowData.userDisp;
-                    parent.setWelder(selectRowData);
+                    selectRowData = active.getChecked();
+                    console.log(selectRowData);
+                    try {
+                        parent.setWelder(eval(selectRowData));
+                    }catch (e) {
+                        console.log(e);
+                    }
                     var index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);
                 },
