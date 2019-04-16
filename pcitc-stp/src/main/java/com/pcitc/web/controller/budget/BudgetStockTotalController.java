@@ -50,7 +50,7 @@ import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
 /**
- * 资产预算总表
+ * 股份预算总表
  * @author fb
  *
  */
@@ -201,7 +201,6 @@ public class BudgetStockTotalController extends BaseController {
 	@ResponseBody
 	public Object saveBudgetStockTotalItem(@ModelAttribute("item") BudgetStockTotal item,HttpServletRequest request) throws IOException 
 	{
-		System.out.println(JSON.toJSONString(item));
 		ResponseEntity<BudgetStockTotal> rs = this.restTemplate.exchange(BUDGET_STOCKTOTAL_SAVE_ITEM, HttpMethod.POST, new HttpEntity<BudgetStockTotal>(item, this.httpHeaders), BudgetStockTotal.class);
 		if (rs.getBody() != null) {
 			return new Result(true,rs.getBody());
@@ -273,7 +272,6 @@ public class BudgetStockTotalController extends BaseController {
 	public Object submitBudgetStockTotal(@RequestParam(value = "budgetInfoId", required = true) String budgetInfoId,
 			@RequestParam(value = "functionId", required = true) String functionId,HttpServletRequest request) throws IOException 
 	{
-		System.out.println("start-budget-stocktotal-activity-----------------");
 		WorkflowVo vo = new WorkflowVo();
 		vo.setAuditUserIds(this.getUserProfile().getUserId());
 		vo.setFunctionId(functionId);
@@ -284,7 +282,6 @@ public class BudgetStockTotalController extends BaseController {
 		ResponseEntity<BudgetInfo> getRs = this.restTemplate.exchange(BUDGET_INFO_GET+budgetInfoId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), BudgetInfo.class);
 		BudgetInfo info =getRs.getBody();// JSON.toJavaObject(JSON.parseObject(getRs.getBody().toString()), BudgetInfo.class);
 		
-		System.out.println(JSON.toJSONString(info));
 		info.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 		info.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_START.getCode());//审批状态开始
 		ResponseEntity<Integer> upRs = this.restTemplate.exchange(BUDGET_INFO_UPDATE, HttpMethod.POST, new HttpEntity<Object>(info, this.httpHeaders), Integer.class);
