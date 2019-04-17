@@ -1,5 +1,7 @@
 package com.pcitc.service.equipment;
 
+
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -79,6 +81,9 @@ public interface EquipmentService {
 	//内部确认流程
 	public Result dealInnerTaskFlow(String id, Map map)throws Exception;
 	public Result dealUpTaskFlow(String id, Map map)throws Exception;
+	
+	
+	
 /**=========================================立项报告==========================================*/
 	
 	
@@ -167,6 +172,9 @@ public interface EquipmentService {
 	
 	/**===========================================任务关闭==========================================*/
 	public LayuiTableData getSreTaskClosurePage(LayuiTableParam paramsJson)throws Exception;
+
+
+	
 	
 	
 	

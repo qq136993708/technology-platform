@@ -379,4 +379,9 @@ public interface SysFileService {
      * 替换历史文件中的错误文件
      */
     public int historyErrorReplace(SysFile sysFile);
+	
+	/**
+     * 文档查询，和sys_file_kind关联查询
+     */
+	public LayuiTableData selectFileInfoList(LayuiTableParam param);
 }

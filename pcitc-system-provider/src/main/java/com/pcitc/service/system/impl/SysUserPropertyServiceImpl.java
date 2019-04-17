@@ -1,11 +1,15 @@
 package com.pcitc.service.system.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -13,13 +17,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
+import com.pcitc.base.system.SysFunctionProperty;
 import com.pcitc.base.system.SysUserProperty;
 import com.pcitc.base.system.vo.SysUserPropertyVo;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.mapper.system.SysUserPropertyMapper;
 import com.pcitc.service.system.SysUserPropertyService;
 
@@ -66,6 +73,7 @@ public class SysUserPropertyServiceImpl implements SysUserPropertyService {
 		return listOrg;
 	}
 
+	// 暂时停止redis
 	//@CacheEvict(value = "userPropertyCache", allEntries = true, beforeInvocation = true)
 	@Override
 	public Integer bantchInsertRelation(List<SysUserProperty> list, String dataType, List<String> userIds, List<String> currentPageList, String dataIds) throws Exception {
@@ -118,7 +126,8 @@ public class SysUserPropertyServiceImpl implements SysUserPropertyService {
 		}
 
 		// 删除redis中的缓存,模糊匹配删除
-		//String keys = "userProperty_";
+		String keys = "userProperty_";
+		// 暂时停止redis, 本方法恢复redis时恢复
 		//redisTemplate.delete(redisTemplate.keys(keys + "*"));
 
 		result = 200;
@@ -222,16 +231,63 @@ public class SysUserPropertyServiceImpl implements SysUserPropertyService {
 		return list;
 	}
 	
+	/**
+	 * 检索机构(树),通过岗位、菜单、配置项信息
+	 */
+	@Override
+	public List<TreeNode> selectUnitListForUnitDataConfig(HashMap<String,Object> paramMap) {
+		List<TreeNode> listOrg = userPropertyDao.selectUnitListForUnitDataConfig(paramMap);
+		return listOrg;
+	}
 	
-	public SysUserProperty getSysUserProperty(String userId, String dataType)
-	{
-
-		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("userId", userId);
-		paramMap.put("dataType", dataType);
-		SysUserProperty sysUserProperty = userPropertyDao.getSysUserProperty(paramMap);
+	/**
+	 * @param sysFunctionProperty
+	 * @return
+	 * 保存菜单、配置项、岗位三者和配置内容的关联
+	 */
+	public int saveFunctionConfigPost(SysFunctionProperty sysFunctionProperty) {
+		List<String> postIdList = JSON.parseArray(sysFunctionProperty.getPostId(), String.class);
 		
-		return sysUserProperty;
+		// 批量删除functionId、procode、postids对应的数据
+		HashMap<String,Object> paramMap = new HashMap<String,Object>();
+		paramMap.put("functionId", sysFunctionProperty.getFunctionId());
+		paramMap.put("proCode", sysFunctionProperty.getProCode());
+		paramMap.put("postIds", postIdList);
+		
+		userPropertyDao.bantchDeleteFunctionProperty(paramMap);
+		
+		// sysFunctionProperty,postid、postConfigValue是数组形式
+		List<SysFunctionProperty> sfpList = new ArrayList<SysFunctionProperty>();
+		String postIds = sysFunctionProperty.getPostId();
+		System.out.println("postIds============"+postIds);
+		
+		List<String> valueList = JSON.parseArray(sysFunctionProperty.getPostConfigValue(), String.class);
+		Date nowDate = new Date();
+		for (String postId : postIdList) {
+			SysFunctionProperty tem = new SysFunctionProperty();
+			tem.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+			tem.setFunctionId(sysFunctionProperty.getFunctionId());
+			tem.setPostId(postId);
+			tem.setProCode(sysFunctionProperty.getProCode());
+			tem.setPostConfigValue(StringUtils.join(valueList.toArray(), ","));
+			tem.setCreateDate(DateUtil.dateToStr(nowDate, DateUtil.FMT_SS));
+			tem.setCreateUserId(sysFunctionProperty.getCreateUserId());
+			tem.setIsAvailable(1);
+			System.out.println("postId11============"+postId);
+			System.out.println("postId21============"+StringUtils.join(valueList.toArray(), ","));
+			sfpList.add(tem);
+		}
+		if (sfpList.size() > 0) {
+			userPropertyDao.bantchInsertFunctionProperty(sfpList);
+		}
+		return 1;
+	}
+	
+	/**
+	 * 数据项控制，查询当前人所属岗位、菜单，对应的属性控制信息
+	 */
+	public List<SysFunctionProperty> dataFilterFunction(HashMap<String,Object> paramMap) {
+		return userPropertyDao.dataFilterFunction(paramMap);
 	}
 
 }

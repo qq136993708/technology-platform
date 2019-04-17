@@ -89,14 +89,14 @@
                     //附件文件配置ID
                     publicMethods.viewAtt(dataId,param.id);
                 });
-                var param={
+                var p1={
                     data:res.data,//数据
                     element:".layui-table-body table",// 当前的表格元素
                     column:5,//列数 从0开始
                     field:"workOrderType",//当前数据的字段
-                    url:"/pageCommon/dic/ROOT_SGGL_GDGL_GDLX"//接口
+                    url:"/pageCommon/dic/ROOT_RWGL_RWLX"//接口
                 };
-                publicMethods.dataDictionary(param);
+                publicMethods.dataDictionary(p1);
             });
              // table.render({
 	         // 	id:'tableList', //唯一即可
@@ -145,7 +145,7 @@
               //           element:".layui-table-body table",// 当前的表格元素
               //           column:6,//列数 从0开始
               //           field:"workOrderType",//当前数据的字段
-              //           url:"/pageCommon/dic/ROOT_SGGL_GDGL_GDLX"//接口
+              //           url:"/pageCommon/dic/ROOT_RWGL_RWLX"//接口
               //        };
               //        publicMethods.dataDictionary(param);
 	         //     }
@@ -200,14 +200,14 @@
                     //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                     maxmin: true,
                     //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                    area: ['70%','90%'],
+                    area: ['80%','90%'],
                     content:  '/plan/addPlanPage'
                 });
             },
             editEvent: function(){  //点击编辑按钮
             	var id;
             	if(selectRowData != undefined){
-            		// if(selectRowData.workOrderStatus == '0'){
+            		if(selectRowData.workOrderStatus == '0'||selectRowData.workOrderStatus == '1'){
             			id = selectRowData.dataId;
                 		layer.open({
     	                    title:param.name+'-编辑',
@@ -218,13 +218,13 @@
     	                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
     	                    maxmin: true,
     	                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-    	                    area: ['70%','90%'],
+                            area: ['80%','90%'],
     	                    content: '/plan/editPlanPage?dataId='+id
     	                });
-            		// }else{
-            		// 	layer.msg('只可操作未下发的数据');
-            		// 	return;
-            		// }
+            		}else{
+            			layer.msg('只可操作未下发的数据');
+            			return;
+            		}
 	            } else {
 	            	layer.msg('请选择一条数据');
 	            	return;
@@ -243,7 +243,7 @@
     	                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
     	                    maxmin: true,
     	                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-    	                    area: ['70%','90%'],
+    	                    area: ['80%','90%'],
     	                    content: '/plan/viewPlanPage?dataId='+dataId
     	                });
             		// }
@@ -368,7 +368,7 @@
                        element:".layui-table-body table",// 当前的表格元素
                        column:6,//列数 从0开始
                        field:"workOrderType",//当前数据的字段
-                       url:"/pageCommon/dic/ROOT_SGGL_GDGL_GDLX"//接口
+                       url:"/pageCommon/dic/ROOT_RWGL_RWLX"//接口
                     };
                     publicMethods.dataDictionary(param);
 	             }

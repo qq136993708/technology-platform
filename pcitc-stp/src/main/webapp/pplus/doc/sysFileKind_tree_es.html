@@ -102,7 +102,7 @@
 					}
 				});
 				//移除表头的复选框,去掉全选
-				// $(".layui-table-header table thead th input").remove();
+				$(".layui-table-header table thead th input").remove();
 			}
 			$(document).on("click", ".layui-table-body table.layui-table tbody tr", function() {
 				var index = $(this).attr('data-index');
@@ -133,13 +133,23 @@
 					renderTable();
 				},
 				downloadEvent : function() {
-					var ids = active.getChecked();
-					if (ids == "") {
-						layer.msg("请选择文档");
+					var selectedData = active.getCheckData();
+					if (selectedData.length != 1) {
+						layer.msg("请选择一个文档");
 						return;
 					}
-					$("#download").attr("href", "/sysfile/download/" + ids);
-					document.getElementById("download").click();
+					var md5 = selectedData[0].fileMd;
+					ajaxPost("/sysfile/md5/download/" + md5, {
+						"fileMd5" : md5
+					}, function(result) {
+						if (result.success) {
+							$("#download").attr("href", "/sysfile/download/" + result.data);
+							document.getElementById("download").click();
+						} else {
+							layer.msg('没有权限！');
+							return;
+						}
+					});
 				},
 				getChecked : function() {
 					var ids = "";

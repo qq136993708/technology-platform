@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.system.SysUser;
+import com.pcitc.base.system.SysUserExample;
 import com.pcitc.base.system.SysUserUnit;
 import com.pcitc.base.util.DataTableInfo;
 
@@ -97,6 +98,11 @@ public interface UserService {
 	
 	public LayuiTableData querySysUserListByPage(LayuiTableParam param);
 
+	public LayuiTableData getSysUserListByUserUnitPage(LayuiTableParam param);
 	
+	/**
+	 * mybatis自带查询用户信息
+	 */
+	public List<SysUser> selectByExample(SysUserExample example);
 
 }

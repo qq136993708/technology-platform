@@ -76,11 +76,12 @@
     function onClickMenu(event, treeId, treeNode, clickFlag) {
         unitId = treeNode.id;
         dParam = {param: {"unitId": unitId}};
+       // alert(unitId);
         renderTable();
     }
     //从新加载树
     function loadUnitTree(unitId) {
-        ajaxPost("/unit/ztree-unit-list", {"name":$("#searchUnitName").val()}, function (dt) {
+        ajaxPost("/unit/ztree_unit_list_by_name", {"name":$("#searchUnitName").val()}, function (dt) {
             zTreeObj = $.fn.zTree.init($("#unitTree"), setting, dt);
             zTreeObj.expandAll(true);
         });
@@ -115,9 +116,10 @@
         window.renderTable = function () {
             var lodingMsg = layer.msg('数据加载中....');
             var param = JSON.parse(window.localStorage.getItem("param"));
+            //alert(dParam);
             table.render({
                 elem: '#tableData',
-                url: '/user/querySysUserListByPage',
+                url: '/user/getSysUserListByUserUnitPage',
                 method: "POST",
                 where: dParam,
                 limit: param.selfRownum,
@@ -185,6 +187,14 @@
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
+        
+        
+        $("#closeBtn").click(function () {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        })
+        
+        
     });
 </script>
 </body>

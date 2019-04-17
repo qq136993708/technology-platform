@@ -89,11 +89,9 @@
 				
 				layer.confirm(showAlter, function() {
 					ajaxPost("/sysfilekind/auth/user/save", data.field, function(dt, status) {
-						layer.msg("操作成功");
-						parent.reloadtable('showTableId', null);
-						parent.initTree();
-						var index = parent.layer.getFrameIndex(window.name);
-						parent.layer.close(index);
+						parent.active.refresh();
+	                    var index = parent.layer.getFrameIndex(window.name);
+	                    parent.layer.close(index);
 					});
 				});
 				return false;
@@ -147,7 +145,7 @@
 					onCheck : orgTreeOnCheck,//勾选节点
 					beforeCheck : orgTreeBeforeCheck
 				}
-			}
+			};
 
 			//用户配置树节点
 			var orgTreeSettingNodes;
@@ -186,9 +184,8 @@
 			} else {
 				orgTree.cancelSelectedNode(treeNode);
 			}
-		};
-
-		//check之前回调
+        }
+        //check之前回调
 		function orgTreeBeforeCheck(treeId, treeNode) {
 			//取消选中
 			if (treeNode.checked) {
@@ -213,9 +210,8 @@
 				}
 			}
 			orgTree.hideNodes(hiddenNodes);
-		};
-
-		/**
+        }
+        /**
 		 * 遍历树节点，将 
 		 * 1.自身不满足搜索条件 
 		 * 2.其子节点不包含有满足条件的节点

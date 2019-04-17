@@ -70,6 +70,7 @@ public class DetailServiceImpl implements DetailService {
 		String placeUse=getTableParam(param,"placeUse","");
 		String placePeople=getTableParam(param,"placePeople","");
 		String receivePeople=getTableParam(param,"receivePeople","");
+
 		
 		Map map=new HashMap();
 		map.put("equipmentName", equipmentName);
@@ -90,6 +91,7 @@ public class DetailServiceImpl implements DetailService {
 		map.put("placePeople", placePeople);
 		map.put("receivePeople", receivePeople);
 	
+
 		
 		List<SreDetail> list = detailMapper.getList(map);
 		PageInfo<SreDetail> pageInfo = new PageInfo<SreDetail>(list);
@@ -99,6 +101,57 @@ public class DetailServiceImpl implements DetailService {
 		Long total = pageInfo.getTotal();
 		data.setCount(total.intValue());
 	    return data;
+	}
+
+
+	@Override
+	public Integer insertDetail(SreDetail sreDetail) {
+		// TODO Auto-generated method stub
+		return detailMapper.insert(sreDetail);
+	}
+
+
+	@Override
+	public Integer insertForApplication(SreDetail sreDetail) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public LayuiTableData getForApplicationView(LayuiTableParam param) {
+		
+			
+			//每页显示条数
+			int pageSize = param.getLimit();
+			//从第多少条开始
+			int pageStart = (param.getPage()-1)*pageSize;
+			//当前是第几页
+			int pageNum = pageStart/pageSize + 1;
+			// 1、设置分页信息，包括当前页数和每页显示的总计数
+			PageHelper.startPage(pageNum, pageSize);
+			String configure=getTableParam(param,"equipmentIds","");
+			
+			Map map=new HashMap();
+			map.put("configure", configure);
+		
+			
+			List<SreDetail> list = detailMapper.getList(map);
+			PageInfo<SreDetail> pageInfo = new PageInfo<SreDetail>(list);
+			System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
+			LayuiTableData data = new LayuiTableData();
+			data.setData(pageInfo.getList());
+			Long total = pageInfo.getTotal();
+			data.setCount(total.intValue());
+		    return data;
+		}
+
+	
+	//删除转资绑定装备
+	@Override
+	public Integer deleteDetail(String id) {
+		
+		return detailMapper.deleteByPrimaryKey(id);
 	}
 	
 	

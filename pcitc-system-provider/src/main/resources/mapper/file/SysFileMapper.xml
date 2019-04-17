@@ -1092,9 +1092,15 @@
 			<if test="fileKind != null">
 				and sys_file.file_kind = #{fileKind}
 			</if>
+			<if test="fileMd5 != null">
+				and sys_file.file_md = #{fileMd5}
+			</if>
 			<if test="fileName != null">
 				and sys_file.file_name like '%${fileName}%'
 			</if>
+			<if test="fileKindPath!=null and fileKindPath!=''.toString()">
+	            and sys_file_kind.kind_path like '${fileKindPath}%'
+	        </if>
 			group by sys_file.id
 		) temTable 
 	  where 
@@ -1252,5 +1258,30 @@
         </set>
         where bak3 = #{bak3,jdbcType=VARCHAR}
     </update>
+	
+	<!-- 文档查询，和sys_file_kind关联查询 -->
+    <select id="selectFileInfoList" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+        select sys_file.*
+        from sys_file,sys_file_kind
+        where 
+        	sys_file.deleted = '0' and 
+        	sys_file.file_kind = sys_file_kind.id
+	        <if test="fileId!=null and fileId!=''.toString()">
+	            and sys_file.id = '${fileId}'
+	        </if>
+	        <if test="fileKindId!=null and fileKindId!=''.toString()">
+	            and sys_file_kind.id = '${fileKindId}'
+	        </if>
+	        <if test="fileName!=null and fileName!=''.toString()">
+	            and sys_file.file_name like '%${fileName}%'
+	        </if>
+	        <if test="fileKindPath!=null and fileKindPath!=''.toString()">
+	            and sys_file_kind.kind_path like '${fileKindPath}%'
+	        </if>
+	        <if test="createUserId!=null and createUserId!=''.toString()">
+	            and sys_file.create_user_id like '${createUserId}'
+	        </if>
+        order by sys_file.file_name
+    </select>
 
 </mapper>

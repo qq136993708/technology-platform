@@ -34,7 +34,7 @@ public class SysFunctionPropertyServiceImpl implements SysFunctionPropertyServic
 		PageHelper.startPage(pageNum, pageSize);
 		// 2、执行查询
 		SysFunctionPropertyExample ex = new SysFunctionPropertyExample();
-		Criteria or = ex.or();
+		Criteria or = ex.createCriteria();
 		if (StringUtils.isNotEmpty(obj.getiSortCol())) {
 			if (StringUtils.isNotEmpty(obj.getsSortDir_0())) {
 				ex.setOrderByClause(obj.getiSortCol() + " " + obj.getsSortDir_0());
@@ -47,6 +47,7 @@ public class SysFunctionPropertyServiceImpl implements SysFunctionPropertyServic
 			//or.andNoticeTitleLike("%"+obj.getNoticeTitle()+"%");
 			or.andFunctionIdEqualTo(obj.getFunctionId());
 		}
+		or.andPostIdIsNull();
 		List<SysFunctionProperty> list = sysFunctionPropertyMapper.selectByExample(ex);
 		// 3、获取分页查询后的数据
 		PageInfo<SysFunctionProperty> pageInfo = new PageInfo<SysFunctionProperty>(list);

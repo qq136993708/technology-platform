@@ -39,15 +39,15 @@ public class SreScrapApplyServiceImpl implements SreScrapApplyService {
 		int pageNum = pageStart/pageSize + 1;
 		// 1、设置分页信息，包括当前页数和每页显示的总计数
 		PageHelper.startPage(pageNum, pageSize);
-//		String applicationState=getTableParam(param,"applicationState","");
+		String ApplyName=getTableParam(param,"name","");
 //		String applicationId=getTableParam(param,"applicationId","");
 //		String applicationName=getTableParam(param,"applicationName","");
 //		String applicationUserName=getTableParam(param,"applicationUserName","");
 //		String applicationTime=getTableParam(param,"applicationTime","");
 //		String applicationMoney=getTableParam(param,"applicationMoney","");
 //		
-//		Map map=new HashMap();
-//		map.put("applicationId", applicationId);
+		Map map=new HashMap();
+		map.put("ApplyName", ApplyName);
 //		map.put("applicationState", applicationState);
 //		map.put("applicationName", applicationName);
 //		map.put("applicationUserName", applicationUserName);
@@ -56,7 +56,7 @@ public class SreScrapApplyServiceImpl implements SreScrapApplyService {
 //		
 //		System.out.println(">>>>>>>>applicationState="+applicationState);
 		
-		List<SreScrapApply> list = sreScrapApplyMapper.getlist();
+		List<SreScrapApply> list = sreScrapApplyMapper.getlist(map);
 		PageInfo<SreScrapApply> pageInfo = new PageInfo<SreScrapApply>(list);
 		LayuiTableData data = new LayuiTableData();
 		data.setData(pageInfo.getList());
@@ -73,5 +73,17 @@ public class SreScrapApplyServiceImpl implements SreScrapApplyService {
 			resault=(String)object;
 		}
 		return resault;
+	}
+	public int insert(SreScrapApply record)throws Exception
+	{
+		return sreScrapApplyMapper.insert(record);
+	}
+	public SreScrapApply selectByPrimaryKey(String id)throws Exception
+	{
+		return sreScrapApplyMapper.selectByPrimaryKey(id);
+	}
+	public int updateByPrimaryKeySelective(SreScrapApply record)throws Exception
+	{
+		return sreScrapApplyMapper.updateByPrimaryKeySelective(record);
 	}
 }

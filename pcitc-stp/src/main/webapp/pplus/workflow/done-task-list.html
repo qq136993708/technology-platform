@@ -40,6 +40,7 @@
 				</button>
 
 				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent">查看</button>
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="recallEvent">撤回</button>
 			</div>
 		</div>
 		<table id="doneTable" class="layui-hide" lay-filter="tableData"></table>
@@ -186,6 +187,35 @@
 							area : [ '800px', '450px' ],
 							content : temUrl
 						});
+					}
+				},
+				recallEvent : function() { //任务撤回
+					if (typeof (selectRowData.id) == "undefined") {
+						layer.msg('请点击选择一行数据');
+					} else {
+						var lodingMsg = layer.msg('数据处理中....');
+						$.ajax({
+							url : '/task/recall/' + selectRowData.id,
+							type : 'post',
+							dataType : 'json',
+							headers : {
+								'Content-Type' : 'application/json',
+							},
+							error : function() {//请求失败处理函数  
+								layer.msg('操作失败！');
+								layer.close(lodingMsg);
+							},
+							success : function(data) { //请求成功后处理函数。
+								if (data.result) {
+									layer.msg('操作成功！');
+									renderTable();
+								} else {
+									layer.msg('下一步审批人已经审批，不允许撤回！');
+								}
+								layer.close(lodingMsg);
+							}
+						});
+						
 					}
 				},
 				threeEvent : function() { //点击三天内按钮

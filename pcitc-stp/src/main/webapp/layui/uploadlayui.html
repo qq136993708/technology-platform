@@ -24,10 +24,10 @@
             <div class="layui-tab-item layui-show">
                 <div class="tableToolBox">
                     <div class="tableBtns">
-                        <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" id="testList">选择文件</button>
+                        <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" id="testList">选择文件1</button>
                         <input class="layui-upload-file" type="file" accept="undefined" name="file" multiple="">
-                        <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save " id="testListAction">开始上传</button>
-                        <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save layui-btn-disabled" style="display: none;" id="testListActionDisabled">开始上传</button>
+                        <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save " id="testListAction">开始上传2</button>
+                        <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save layui-btn-disabled" style="display: none;" id="testListActionDisabled">开始上传disabled</button>
                     </div>
                 </div>
                 <div class="layui-upload-list">
@@ -86,7 +86,7 @@
         acceptMime: "*",//规定打开文件选择框时，筛选出的文件类型，值为用逗号隔开的 MIME 类型列表。如：acceptMime: 'image/*'（只显示图片文件）acceptMime: 'image/jpg, image/png'（只显示 jpg 和 png 文件）
         auto: false,
         field: "file",
-        size: "10240",
+        size: 0,
         file_table_id: "demoList",
         multiple: "true",
         number: "10",
@@ -174,6 +174,7 @@
                 pcitcFile.number = result.fileCount;
                 pcitcFile.size = result.fileSize;
                 pcitcFile.ext = result.fileType;
+                console.log(pcitcFile.size);
             });
         }, checkedAll: function () {
             if ($(".fileTableCheck_head").prop("checked") == false) {
@@ -313,6 +314,7 @@
             , accept: pcitcFile.accept
             , field: pcitcFile.field
             , acceptMime: pcitcFile.acceptMime
+            ,size: pcitcFile.size
             , data: {
                 filedflag: pcitcFile.filedflag
                 , flag: "0"

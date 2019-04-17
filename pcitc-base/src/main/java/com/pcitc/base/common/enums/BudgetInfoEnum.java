@@ -14,9 +14,23 @@ public enum BudgetInfoEnum
 	ITEM_TOTAL(200,"预算分解表总表"),
 	B2C_SPLIT(201,"预算分解表（炼油、化工事业部预算）"),
 	TECH_SPLIT(202,"预算分解表（专项预算）"),
-	GROUP_SPLIT(203,"预算分解表（集团预算分解）"),
-	ASSET_SPLIT(204,"预算分解表（资产预算分解）"),
-	STOCK_SPLIT(205,"预算分解表（股份预算分解）");
+	GROUP_SPLIT(203,"集团预算分解表（集团公司）"),
+	ASSET_SPLIT(204,"资产预算分解表（资产公司）"),
+	STOCK_ZSY_SPLIT(205,"股份预算分解表（直属院）"),
+	STOCK_XTY_SPLIT(206,"股份预算分解表（系统外及集团）"),
+	STOCK_ZGS_SPLIT(207,"股份预算分解表（分子公司）");
+	
+	public static BudgetInfoEnum getByCode(Integer code) 
+	{
+		for(BudgetInfoEnum v:BudgetInfoEnum.values()) 
+		{
+			if(v.getCode().equals(code)) 
+			{
+				return v;
+			}
+		}
+		return TOTAL;
+	}
 	
 	private BudgetInfoEnum(Integer code, String desc) {
 		this.code = code;

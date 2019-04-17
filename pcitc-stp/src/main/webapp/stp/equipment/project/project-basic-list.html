@@ -22,6 +22,7 @@
 <input  name="id"         id="id"          type="hidden" >
 <input type="hidden" name="applyUnitCode" id="applyUnitCode" value="${applyUnitCode}">
 <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
+<input type="hidden" name="specialAuditor0" id="specialAuditor0" value="">
 
 </form>
 
@@ -31,32 +32,32 @@
         <span>立项年度</span>
         <input type="text" name="setupYear" value="" readonly="readonly" placeholder="请选择立项年度" title="立项年度" autocomplete="off" class="form-control" id="setupYear">
     </label>
-
+    
     <label class="dateInput">
         <span>课题名称</span>
         <input type="text" name="name" title="课题名称" autocomplete="off" class="form-control" id="name">
     </label>
-
+    
      <label class="dateInput">
          <span>归属部门</span>
          <select name="belongDepartmentName" id="belongDepartmentName"  onchange="getDepartNameByUnitName(this.value)" class="form-control"  >
              <option value="" >--请选择归属部门--</option>
-             <#list unitFieldList as vo>
+             <#list unitFieldList as vo> 
 		          <option value="${vo.unitName}"  >${vo.unitName}</option>
 		      </#list>
 		 </select>
      </label>
-
+    
      <label class="dateInput">
          <span>专业处</span>
          <select id="professionalDepartName" name="professionalDepartName" onchange="getProfessionalNameListByUnitNameAndDept(this.value)" class="form-control" ></select>
      </label>
-
+    
       <label class="dateInput">
          <span>专业领域</span>
          <select id="professionalFieldName" name="professionalFieldName" class="form-control" ></select>
      </label>
-
+    
     <!--按钮组-->
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
@@ -67,7 +68,7 @@
 	<div class="tableToolBox">
         <div class="whiteLine"></div>
         <div  class="tableBtns">
-
+        
             <button id="allData" class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue active btnMyBgImg" data-type="allEvent">
 					<span class="btn-state btn-all-ryg"></span>
 					全部
@@ -93,10 +94,10 @@
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="applyEvent" data-type="applyEvent">上报</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" id="detailEvent" data-type="detailEvent">详情</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  id="deleteEvent" data-type="deleteEvent">删除</button>
-
+           
         </div>
     </div>
-   <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table>
+   <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table> 
 </div>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script type="text/javascript">
@@ -120,9 +121,9 @@
             return '';
         }
     }
-
-
-    function view_project(id)
+    
+    
+    function view_project(id) 
     {
     	 var temUrl="/sre-project-basic/get/" + id;
 		 layer.open({
@@ -136,8 +137,8 @@
             content:  temUrl
         });
     }
-
-
+    
+    
 </script>
 <script type="text/javascript">
 
@@ -152,26 +153,26 @@ function getDepartNameByUnitName(belongDepartmentName)
 			type : "post",
 			async: false,
 			dataType : "json",
-			success : function(data)
+			success : function(data) 
 			{
 				$("#professionalDepartName").append("<option value=''>--请选择--</option>");
-				$.each(data, function(i, el)
+				$.each(data, function(i, el) 
 				{
 					$("#professionalDepartName").append('<option value="'+ el.departmentName +'">' + el.departmentName+ '</option>');
 					/* if(cityId==el.departmentName)
 					{
-						$("#professionalDepartName ").val(departmentName);
+						$("#professionalDepartName ").val(departmentName);  
 					} */
-
+	  			  	
 				});
 			},
-			error : function()
+			error : function() 
 			{
 				alert("发生未知错误 ,请重新操作.");
 			}
 		});
-
-
+	 
+	 
 	 getProfessionalNameListByUnitNameAndDept(belongDepartmentName);
 }
 
@@ -183,7 +184,7 @@ function getDepartNameByUnitName(belongDepartmentName)
 
 function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
 {
-
+	
 	 var belongDepartmentName= $("#belongDepartmentName").val();
 	 $("#professionalFieldName").empty();
 	 var v_date=(new Date()).getTime();
@@ -192,16 +193,16 @@ function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
 			type : "post",
 			async: false,
 			dataType : "json",
-			success : function(data)
+			success : function(data) 
 			{
 				$("#professionalFieldName").append("<option value=''>--请选择--</option>");
-				$.each(data, function(i, el)
+				$.each(data, function(i, el) 
 				{
 					$("#professionalFieldName").append('<option value="'+ el.professionalFieldName +'">' + el.professionalFieldName+ '</option>');
-
+	  			  	
 				});
 			},
-			error : function()
+			error : function() 
 			{
 				alert("发生未知错误 ,请重新操作.");
 			}
@@ -232,19 +233,19 @@ var name=$('#name').val();
             form = layui.form,
             laypage = layui.laypage;
             publicMethods=layui.publicMethods;
-            //加载表格
+            //加载表格      
 	  	    renderTable();
 	  	    //移除表头的复选框,去掉全选
-	  	    $(".layui-table-header table thead th input").remove();
+	  	    $(".layui-table-header table thead th input").remove();  
 	  	    form.render();
-
-
+  	     
+  	     
   	   var setupYear = laydate.render({
            elem: '#setupYear'
            ,type: 'year'
        });
-
-
+  	   
+  	   
          // 触发不同的按钮事件
          var $ = layui.$, active = {
             searchEvent: function() { //点击查询按钮
@@ -257,9 +258,9 @@ var name=$('#name').val();
             	$('#belongDepartmentName').val("");
             	$('#professionalDepartName').val("");
             	$('#professionalFieldName').val("");
-
+             
             },
-
+            
             addEvent: function(){ //点击新增按钮
             		 layer.open({
                          title:'计划上报-新增',
@@ -273,14 +274,14 @@ var name=$('#name').val();
                          area: ['70%','90%'],
                          content:  '/sre-project-basic/add'
                      });
-
+                 
             }
             ,editEvent: function(){  //点击编辑按钮
-
+            	
             	if (typeof(selectRowData) == "undefined")
             	{
            			layer.msg('请点击选择一行数据');
-               	} else
+               	} else 
                	{
             		 var id=selectRowData.id;
            		     var url="/sre-project-basic/add?id="+id;
@@ -302,15 +303,15 @@ var name=$('#name').val();
 	                      area: ['70%', '90%'],
 	                      content:  url
 	                 });
-
+           		  
             	}
-
+               
             },deleteEvent: function(){  //点击删除按钮
                  console.log('点击了删除按钮')
-                 if (typeof(selectRowData) == "undefined")
+                 if (typeof(selectRowData) == "undefined") 
                  {
             		layer.msg('请点击选择一行数据');
-            	 } else
+            	 } else 
             	 {
             		  var id=selectRowData.id;
            		      var url="/sre-project-basic/delete/"+id;
@@ -320,15 +321,15 @@ var name=$('#name').val();
          		    	layer.alert('上报中或审核通过，不能删除');
          		    	return;
          		     }
-
+         		     
 	           		  layer.confirm('确定要删除吗？', { btn: ['确定','取消']}, function(){
 	         				 ajaxDeleteOpt(url,"post","删除成功","删除失败");
 	         			}, function(){
-
+	         			 
 	         			});
             	}
-
-
+            
+              
             },
             detailEvent: function(){  //点击详情按钮
             	if (typeof(selectRowData) == "undefined") {
@@ -349,19 +350,20 @@ var name=$('#name').val();
                          content:  temUrl
                      });
             	}
-
+            
             },
             applyEvent: function(){  //点击详情按钮
-
-            	if (typeof(selectRowData) == "undefined")
+            	
+            	if (typeof(selectRowData) == "undefined") 
             	{
             		layer.msg('请点击选择一行数据');
             	}
-            	else
+            	else 
             	{
-
+            		
             		 var auditStatus=selectRowData.auditStatus;
             		 var id=selectRowData.id;
+            		 var professionalDepartName=selectRowData.professionalDepartName;
             		 if(auditStatus!=='0')
            			 {
             			 layer.alert('请选择未上报的计划');
@@ -369,32 +371,32 @@ var name=$('#name').val();
            			 }else
            			 {
            				$('#id').val(id);
-                	 	dealFlow(id);
+                	 	dealFlow(id,professionalDepartName);
            			 }
-
+            		 
             	}
             },
-            allEvent: function(){
+            allEvent: function(){ 
             	$("#auditStatus").val("");
             	renderTable();
             },
-            draftEvent: function(){
+            draftEvent: function(){ 
             	$("#auditStatus").val("0");//0未审批(草稿), 1审批中(已提交)  2审批通过   0审批不通过
             	renderTable();
             },
-            submitEvent: function(){
+            submitEvent: function(){ 
             	$("#auditStatus").val("1");
             	renderTable();
             },
-            passEvent: function(){
+            passEvent: function(){ 
             	$("#auditStatus").val("2");
             	renderTable();
             },
-            rejectEvent: function(){
+            rejectEvent: function(){ 
             	$("#auditStatus").val("0");
             	renderTable();
             }
-
+            
         };
         //监听排序
         table.on('sort(model-table)', function(obj){
@@ -415,24 +417,24 @@ var name=$('#name').val();
         	var temUrl = '/sre-project-basic/get/'+obj.data.id;
         	openFullWin("详情",temUrl);
         });
-
+        
         //区别按钮属性
         $('.layui-btn').on('click', function(){
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
     });
-
-
+    
+    
     function renderTable()
-	{
+	{    
     	//渲染
         table.render({
             elem: '#processdef-table',
             url: '/sre-project-basic/list',
             method:"POST",
             where: {param: {"name":$("#name").val(),"auditStatus":$("#auditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"applyUnitCode":$("#applyUnitCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
-            limit: 15,
+            limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),
             page: {
@@ -473,9 +475,9 @@ var name=$('#name').val();
             }
         });
 	 }
-
+    
     /*formName：form表单名称，
-    type：post、get,delete,put
+    type：post、get,delete,put 
     backurl:操作成功后返回地址
     successMsg：成功提示
     failMsg：失败提示 */
@@ -485,54 +487,58 @@ var name=$('#name').val();
       	     type:type,
       	     url: url,
       	     dataType:"json",
-      	     async: false,
+      	     async: false, 
       	     cache: false,
       	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
              success:function(data,status)
-             {
-
+             {    
+    	          
             	  if(data.success==true ||data.success=='true')
     	          {
     	        	  layer.alert(
-    	        			  successMsg,
+    	        			  successMsg, 
     	                      {icon: 1,closeBtn: 0 },
-    	                      function ()
+    	                      function () 
     	                      {
     	                    	   renderTable();
     	                    	   layer.closeAll();
     	                      });
-
+    	       	   
     	          } else
     	          {
     	        	 layer.alert("操作失败");
     	          }
-
+    	     
     		   },
     		   error:function()
     		   {
     		    	layer.alert("网络访问错误");
     		   }
-
+        
       });
-    }
-
-
-
-
-
-
-
-    function dealFlow(id)
+    } 
+   
+    
+    
+    
+    
+    
+    
+    function dealFlow(id,professionalDepartName) 
     {
-
-    	var json = {functionId:functionId};
+    	
+    	var specialAuditor0 =getTaskSpecialAuditor0ByProfessionalDepartName(professionalDepartName);
+    	$("#specialAuditor0").val(specialAuditor0);
+    	//alert(specialAuditor0);
+    	//return;
+    	var json = {functionId:functionId,specialAuditor0:specialAuditor0};
     	 $.ajax({
              type : 'POST',
              url : "/workflow/start/audit-type",
              contentType: "application/json;charset=UTF-8",
              data : JSON.stringify(json),
              //json中有functionId（projectId、departmentId等）用来区别processDefine的属性
-             success : function(data)
+             success : function(data) 
              {
           	   if (data.code == 'role')
           	   {
@@ -552,18 +558,18 @@ var name=$('#name').val();
                           area: ['800px', '550px'],
                           content:  temUrl
                       });
-              	} else if (data.code == 'unit' || data.code == 'post')
+              	} else if (data.code == 'unit' || data.code == 'post') 
               	{
               		// 按部门/岗位选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
               		// unitCodes、postCodes，参数名必须一致，方便公共弹出页面调用
-    	          		if (data.code == 'unit')
+    	          		if (data.code == 'unit') 
     	          		{
     	          			unitCodes = data.data;  // 弹出页面的隐藏的查询条件
-    	          		} else
+    	          		} else 
     	          		{
     	          			postCodes = data.data;  // 弹出页面的隐藏的查询条件
     	          		}
-
+              		
               		   var temUrl="/task/deal/user/unit/ini";
                        layer.open({
                           title:'选择审批人',
@@ -577,30 +583,30 @@ var name=$('#name').val();
                           area: ['800px', '550px'],
                           content:  temUrl
                       });
-              	} else if (data.code == 'int')
+              	} else if (data.code == 'int') 
               	{
               		layer.msg('启动参数不足');
-              	} else if (data.code == 'con')
+              	} else if (data.code == 'con') 
               	{
               		layer.msg('请给此功能菜单配置流程');
-              	} else if (data.code == 'exist')
+              	} else if (data.code == 'exist') 
               	{
               		layer.msg('工作流部署异常，请联系管理员');
-              	} else
+              	} else 
               	{
               		// 直接处理此任务
               		handleTask('');
               	}
              },
-             error : function(msg) {//请求失败处理函数
+             error : function(msg) {//请求失败处理函数  
             }
          });
     }
 
     //处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
-    function handleTask(userIds)
+    function handleTask(userIds) 
     {
-
+    	
     	$('#userIds').val(userIds);
     	$('#applyEvent').attr("disabled",true);
     	var v_date=(new Date()).getTime();
@@ -609,7 +615,7 @@ var name=$('#name').val();
         ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
         $('#applyEvent').attr("disabled",false);
     }
-
+    
     function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
     {
     	 $.ajax({
@@ -617,39 +623,81 @@ var name=$('#name').val();
       	     url: url,
       	     dataType:"json",
       	     data:$("#"+formName).serialize(),
-      	     async: false,
+      	     async: false, 
       	     cache: false,
       	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
              success:function(data,status)
-             {
-
+             {    
+        	  
     	          if(data.success==true ||data.success=='true')
     	          {
 
-
+    	        	  
     	        	          layer.alert(
-    	        			  successMsg,
+    	        			  successMsg, 
     	                      {icon: 1,closeBtn: 0 },
-    	                      function ()
+    	                      function () 
     	                      {
     	                    	  renderTable();
    	                    	      layer.closeAll();
     	                      });
-
+    	        	  
     	          } else
     	          {
     	        	 layer.alert(failMsg);
     	          }
-
+    	     
     		   },
     		   error:function()
     		   {
     		    	layer.alert("网络访问错误");
     		   }
-
+        
       });
     }
-
+    
+    
+    function  getTaskSpecialAuditor0ByProfessionalDepartName(professionalDepartName)
+	{
+		var specialAuditor0="";
+		if(professionalDepartName.indexOf("勘探开发")!= -1)
+		{
+			specialAuditor0="";//关晓东
+		}
+		if(professionalDepartName.indexOf("石油工程")!= -1)
+		{
+			specialAuditor0="";//陈本池
+		}
+		if(professionalDepartName.indexOf("炼油")!= -1)
+		{
+			specialAuditor0="30130056_LYC_ZYCCZ";//潘煜
+		}
+		if(professionalDepartName.indexOf("化工")!= -1)
+		{
+			specialAuditor0="";//方志平
+		}
+		if(professionalDepartName.indexOf("合成材料")!= -1)
+		{
+			specialAuditor0="";//庄毅
+		}
+		if(professionalDepartName.indexOf("装备与储运")!= -1)
+		{
+			specialAuditor0="";//卢衍波
+		}
+		if(professionalDepartName.indexOf("知识产权")!= -1)
+		{
+			specialAuditor0="";//陈蓓艳
+		}
+		if(professionalDepartName.indexOf("三剂")!= -1)
+		{
+			specialAuditor0="30130062_SJC_ZYCCZ";//林雯
+		}
+		if(professionalDepartName.indexOf("技术监督")!= -1)
+		{
+			specialAuditor0="30130063_JSJDC_ZYCCZ";//秦士珍
+		}
+		return specialAuditor0;
+	}
 
 </script>
 

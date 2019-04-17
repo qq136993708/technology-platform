@@ -61,8 +61,25 @@ public class SreEquipment {
     private String supplierStr;
 
     private String supplierWillStr;
+    
+    private String purchaseStatus;
+    
+    
+    
+    
+    
+    
+    
 
-    public String getEquipmentId() {
+    public String getPurchaseStatus() {
+		return purchaseStatus;
+	}
+
+	public void setPurchaseStatus(String purchaseStatus) {
+		this.purchaseStatus = purchaseStatus;
+	}
+
+	public String getEquipmentId() {
         return equipmentId;
     }
 

@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>处理任务 - layui</title>
+<title>处理任务</title>
 <meta name="renderer" content="webkit">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -77,8 +77,8 @@
 			</div>
 			<div class="form-bottom">
 				<div class="form-bottom-btns">
-					<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="form-submit">提交</button>
-					<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="cancel">取消</button>
+					<button id="submitBtn" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="form-submit">提交</button>
+					<button id="cancel" type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white">取消</button>
 				</div>
 			</div>
 		</form>
@@ -151,9 +151,6 @@
 				parent.layer.close(index);
 			});
 
-			//var htmlobj = $.ajax({ url: auditDetailsPath, async: false });
-			//$("#ifrID").html(htmlobj.responseText);
-
 			/* 监听提交 */
 			form.on('submit(form-submit)', function(data) {
 				// 审批同意的情况下，先判断下一步是通过角色来进行的，还是直接通过选择框
@@ -169,8 +166,15 @@
 							'Content-Type' : 'application/json',
 						},
 						dataType : 'json',
+						beforeSend : function() {
+							$("#submitBtn").attr("disabled", "true");
+							$("#cancel").attr("disabled", "true");
+						},
 						error : function(data) {//请求失败处理函数  
-							layer.msg('操作失败' + data.code);
+							layer.msg("操作失败!",{time: 2000,icon: 2}, function(){
+	                            $("#submitBtn").removeAttr("disabled");
+	                            $("#cancel").removeAttr("disabled");
+	                        });
 						},
 						success : function(data) { //请求成功后处理函数。
 							if (data.code == 'role') {
@@ -214,7 +218,10 @@
 							} else if (data.code == 'common') { // 直接分配给某个角色、组织机构，不用提前选择
 								handleTask('');
 							} else {
-								layer.msg('操作异常');
+								layer.msg("操作失败!",{time: 2000,icon: 2}, function(){
+		                            $("#submitBtn").removeAttr("disabled");
+		                            $("#cancel").removeAttr("disabled");
+		                        });
 							}
 						}
 					});
@@ -247,11 +254,14 @@
 				data : json,
 				contentType : "application/json;charset=UTF-8",
 				error : function(data) {//请求失败处理函数  
-					layer.msg('操作失败' + data);
+					layer.msg("操作失败!",{time: 2000,icon: 2}, function(){
+                        $("#submitBtn").removeAttr("disabled");
+                        $("#cancel").removeAttr("disabled");
+                    });
 				},
 				success : function(data) { //请求成功后处理函数。
 					// 刷新表格
-					parent.updateFlag = true;
+					parent.active.alertEvent();
 					var index = parent.layer.getFrameIndex(window.name);
 					parent.layer.close(index);
 					return false;

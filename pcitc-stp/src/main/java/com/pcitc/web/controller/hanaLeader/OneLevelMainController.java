@@ -14,6 +14,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.base.system.SysNewsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -105,7 +106,7 @@ public class OneLevelMainController {
 		private static final String investment_03 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/plan-money/department";
 		
 		//新闻
-		private static final String get_news = "http://pcitc-zuul/system-proxy/news-provider/select_news_main";
+		private static final String get_news = "http://pcitc-zuul/stp-proxy/news-provider/select_news_main";
 		private static final String common_table = "http://pcitc-zuul/system-proxy/out-project-plna-provider/project-plan/page/list";
 		private static final String count_table_data = "http://pcitc-zuul/system-proxy/out-project-provider/common-project/list";
 		
@@ -1724,7 +1725,7 @@ public class OneLevelMainController {
   	
   	
           
-          @RequestMapping(method = RequestMethod.GET, value = "/contract_05")
+            @RequestMapping(method = RequestMethod.GET, value = "/contract_05")
 			@ResponseBody
 			public String contract_05(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -3004,10 +3005,10 @@ public class OneLevelMainController {
 											{
 												JSONArray jSONArray = responseEntity.getBody();
 												System.out.println(">>>>>>>>>>>>get_news jSONArray>>> " + jSONArray.toString());
-												List<SysNews> list = JSONObject.parseArray(jSONArray.toJSONString(), SysNews.class);
+												List<SysNewsVo> list = JSONObject.parseArray(jSONArray.toJSONString(), SysNewsVo.class);
 												for(int i=0;i<list.size();i++)
 												{
-													SysNews sysNews=list.get(i);
+                                                    SysNewsVo sysNews=list.get(i);
 													String str="";
 													String createtime=sysNews.getCreatetime();
 													if(createtime!=null)

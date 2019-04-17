@@ -43,34 +43,69 @@
 
 	<script>
 		var parentId = "xxxxxxxx";
-		var updateFlag = false;
-
-		function initTree() {
-			var zNodes;
-			ajaxPost("/sysfilekind/sysfilekind/tree-data", null, function(data) {
-				zNodes = data;
-			});
-			var setting = {
-				data : {
-					simpleData : {
-						enable : true
-					}
+		var zNodes;
+		var active;
+		
+		$(function() {
+			$.ajax({
+				url : "/sysfilekind/sysfilekind/tree-data",//这个就是请求地址对应sAjaxSource
+				type : 'get',
+				headers : {
+					'Content-Type' : 'application/json',
 				},
-				callback : {
-					onClick : onClickMenu
+				dataType : 'json',
+				async : false,
+				success : function(data) {
+					zNodes = data;
+				},
+				error : function(msg) {
+					layer.msg(msg);
 				}
-			};
+			});
+		});
+		
+		// 决定某个节点是否进行异步操作的关键是isParent属性，当isParent为true，是异步启动的必要条件
+		var temUrl = '/sysfilekind/sysfilekind/tree-data';
+		var setting = {
+			// 异步动态加载
+			async : {
+				enable : true,
+				url : temUrl,
+				dataType : 'json',
+				type : 'get',
+				//异步查询时，把节点code传递后台，查询此节点下的节点。
+				autoParam : [ "id" ]
+			},
+			data : {
+				simpleData : {
+					enable : true
+				}
+			},
+			view : {
+				showIcon : false
+			},
+			callback : {//请求成功后回调
+				onClick : onClickMenu,//点击相关节点触发的事件
+				onAsyncSuccess : ztreeOnAsyncSuccess,//异步加载成功后执行的方法
+			}
+		};
 
-			$.fn.zTree.init($("#funTree"), setting, zNodes);
+		//获取树成功后进行的回调操作。数据如果需要二次加工的话，调用此方法
+		function ztreeOnAsyncSuccess(event, treeId, treeNode) {
+
 		}
 
-		initTree();
-
+		// 点击树节点时，处理变量和右侧表格
 		function onClickMenu(event, treeId, treeNode, clickFlag) {
 			parentId = treeNode.id;
 			reloadtable();
 			$(".layui-table-header table thead th input").remove();
 		}
+
+		$(document).ready(function() {
+			$.fn.zTree.init($("#funTree"), setting, zNodes);
+		});
+
 
 		$(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
 		function reloadtable() {
@@ -82,10 +117,11 @@
 				}
 			});
 		}
-		
-		
+
 		var selectRowData;
-		layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element' ], function() {
+		layui.use([
+				'jquery', 'form', 'laydate', 'table', 'layer', 'element'
+		], function() {
 			var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
 			table = layui.table;
 			function renderTable() {
@@ -106,49 +142,57 @@
 					height : commonDislodgeTable(),
 					page : {
 						groups : 5,
-						limits : [ param.selfRownum, 15, 30, 45, 60 ],
-						layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
+						limits : [
+								param.selfRownum, 15, 30, 45, 60
+						],
+						layout : [
+								'count', 'limit', 'prev', 'page', 'next', 'skip'
+						], //自定义分页布局
 						first : '首页', //不显示首页
 						last : '尾页', //不显示尾页
 						theme : '#0F9EE0'
 					},
-					cols : [ [ {
-						type : 'checkbox',
-						event : 'changeEvents'
-					}, {
-						title : '序号',
-						type : 'numbers'
-					}, {
-						field : 'kindName',
-						title : '名称',
-						event : 'setActive',
-						style : 'cursor: pointer;'
-					}, {
-						field : 'createPersonName',
-						title : '创建人名称',
-						event : 'setActive',
-						style : 'cursor: pointer;'
-					}, {
-						field : 'createDate',
-						title : '创建时间',
-						event : 'setActive',
-						style : 'cursor: pointer;'
-					}, {
-						field : 'updatePersonName',
-						title : '修改人名称',
-						event : 'setActive',
-						style : 'cursor: pointer;'
-					}, {
-						field : 'updateDate',
-						title : '修改时间',
-						event : 'setActive',
-						style : 'cursor: pointer;'
-					}, {
-						field : 'ramarks',
-						title : '说明',
-						event : 'setActive',
-						style : 'cursor: pointer;'
-					}, ] ],
+					cols : [
+						[
+								{
+									type : 'checkbox',
+									event : 'changeEvents'
+								}, {
+									title : '序号',
+									type : 'numbers'
+								}, {
+									field : 'kindName',
+									title : '名称',
+									event : 'setActive',
+									style : 'cursor: pointer;'
+								}, {
+									field : 'createPersonName',
+									title : '创建人名称',
+									event : 'setActive',
+									style : 'cursor: pointer;'
+								}, {
+									field : 'createDate',
+									title : '创建时间',
+									event : 'setActive',
+									style : 'cursor: pointer;'
+								}, {
+									field : 'updatePersonName',
+									title : '修改人名称',
+									event : 'setActive',
+									style : 'cursor: pointer;'
+								}, {
+									field : 'updateDate',
+									title : '修改时间',
+									event : 'setActive',
+									style : 'cursor: pointer;'
+								}, {
+									field : 'ramarks',
+									title : '说明',
+									event : 'setActive',
+									style : 'cursor: pointer;'
+								},
+						]
+					],
 					done : function(res, curr, count) {
 						$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
 							var index = parseInt($(this).index() + 1);
@@ -166,7 +210,8 @@
 
 			renderTable();
 			// 触发不同的按钮事件
-			var $ = layui.$, active = {
+			var $ = layui.$;
+			active = {
 				searchEvent : function() { //点击查询按钮
 					table.reload('showTableId', {
 						where : {
@@ -229,15 +274,10 @@
 						//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
 						maxmin : true,
 						//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-						area : [ '800px', '440px' ],
-						content : temUrl,
-						end : function() {
-							if (updateFlag) {
-								initTree();
-								active.searchEvent();
-								layer.msg('操作成功');
-							} 
-						}
+						area : [
+								'800px', '440px'
+						],
+						content : temUrl
 					});
 				},
 				editEvent : function() { //点击编辑按钮
@@ -257,15 +297,10 @@
 						maxmin : true,
 						//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
 
-						area : [ '800px', '440px' ],
-						content : temUrl,
-						end : function() {
-							if (updateFlag) {
-								initTree();
-								active.searchEvent();
-								layer.msg('操作成功');
-							} 
-						}
+						area : [
+								'800px', '440px'
+						],
+						content : temUrl
 					});
 				},
 				deleteEvent : function() { //点击删除按钮
@@ -274,7 +309,9 @@
 						return;
 					}
 					layer.confirm('确定要删除吗?', {
-						btn : [ '确认', '取消' ],
+						btn : [
+								'确认', '取消'
+						],
 						title : "删除确认"
 					}, function(index) {
 						layer.close(index);
@@ -287,13 +324,18 @@
 						layer.msg(flag == "DEL_OK" ? "删除成功" : "删除失败！请删除此节点下子节点后再执行此操作！");
 					});
 				},
-				authEvent: function () {
+				authEvent : function() {
 					if (!selectRowData) {
 						layer.msg('请点击选择一行数据');
 						return;
 					}
-	                openBaseWin("文档分类权限配置", "/sysfilekind/auth/ini-config?sysFileKindId="+selectRowData.id);
-	            }
+					openBaseWin("文档分类权限配置", "/sysfilekind/auth/ini-config?sysFileKindId=" + selectRowData.id);
+				},
+				refresh : function() { 
+					initTree();
+					active.searchEvent();
+					layer.msg('操作成功');
+				},
 			};
 			$('.layui-btn').on('click', function() {
 				var type = $(this).data('type');

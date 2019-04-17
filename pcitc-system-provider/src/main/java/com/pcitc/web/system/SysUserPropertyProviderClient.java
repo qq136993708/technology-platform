@@ -1,5 +1,8 @@
 package com.pcitc.web.system;
 
+import io.swagger.annotations.ApiOperation;
+
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +22,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
+import com.pcitc.base.system.SysFunctionProperty;
 import com.pcitc.base.system.SysUserProperty;
 import com.pcitc.base.system.vo.SysUserPropertyVo;
 import com.pcitc.service.system.SysUserPropertyService;
@@ -123,6 +127,18 @@ public class SysUserPropertyProviderClient {
 		return json;
 	}
 	
+	/**
+	 * 数据项控制，查询当前人所属岗位、菜单，对应的属性控制信息
+	 */
+	@ApiOperation(value="数据项控制，查询当前人所属岗位、菜单，对应的属性控制信息",notes="")
+	@RequestMapping(value = "/userProperty-provider/function/data-filter", method = RequestMethod.POST)
+	public JSONArray dataFilterFunction(@RequestBody HashMap<String, Object> map) {
+		System.out.println("=============dataFilterFunction========"+map);
+		List<SysFunctionProperty> list = userPropertyService.dataFilterFunction(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+		return json;
+	}
+	
 	
 	@RequestMapping(value = "/userProperty-provider/select-unit-tree/{userId}", method = RequestMethod.POST)
 	@ResponseBody
@@ -154,16 +170,25 @@ public class SysUserPropertyProviderClient {
 		return list;
 	}
 	
-	
-	
-	
-	@RequestMapping(value = "/userProperty-provider/getSysUserProperty/{userId}/{dataType}", method = RequestMethod.GET)
-	public SysUserProperty getSysUserProperty(@PathVariable(value = "userId", required = true) String userId, @PathVariable(value = "dataType", required = true) String dataType) throws Exception {
-		System.out.println("=getSysUserProperty+++++++==="+userId+"========="+dataType);
-		SysUserProperty sysUserProperty  = userPropertyService.getSysUserProperty(userId, dataType);
-		return sysUserProperty;
+	/**
+	 * 检索机构(树),通过岗位、菜单、配置项信息
+	 */
+	@ApiOperation(value="检索机构(树),通过岗位、菜单、配置项信息",notes="")
+	@RequestMapping(value = "/userProperty-provider/units/tree/config", method = RequestMethod.POST)
+	public List<TreeNode> selectUnitListForUnitDataConfig(@RequestBody HashMap<String, Object> map) {
+		
+		List<TreeNode> list = userPropertyService.selectUnitListForUnitDataConfig(map);
+		return list;
 	}
 	
-	
+	/**
+	 * 保存菜单、配置项、岗位三者和配置内容的关联
+	 */
+	@ApiOperation(value="保存菜单、配置项、岗位三者和配置内容的关联",notes="")
+	@RequestMapping(value = "/userProperty-provider/function/config/post/save", method = RequestMethod.POST)
+	public int saveFunctionConfigPost(@RequestBody SysFunctionProperty sysFunctionProperty) {
+		
+		return userPropertyService.saveFunctionConfigPost(sysFunctionProperty);
+	}
 
 }

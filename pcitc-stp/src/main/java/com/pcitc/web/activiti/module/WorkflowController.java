@@ -141,11 +141,16 @@ public class WorkflowController extends BaseController {
 		// 对流程中出现的多个判断条件，比如money>100等，需要把事先把money条件输入
 		//variables.put("money", 50); // 环节1需要用到
 		//variables.put("departmentCode", "1005"); // 环节2需要用到
-		variables.put("specialAuditor", "ZSH_YFGCS_CJCXY"); // 环节n需要用到
+		variables.put("specialAuditor0", "ZSH_YFGCS_CJCXY"); // 环节n需要用到
+		variables.put("specialAuditor1", "ZSH_YFGCS_CJCXY"); // 环节n需要用到
+		variables.put("specialAuditor2", "ZSH_YFGCS_CJCXY"); // 环节n需要用到
+		variables.put("specialAuditor3", "ZSH_YFGCS_CJCXY"); // 环节n需要用到
+		
+		variables.put("branchFlag", "2"); 
 		
 		
 		// 会签时需要的属性，会签里所有的人，同意率（double类型）
-		//variables.put("signAuditRate", 1d); 
+		variables.put("signAuditRate", 1d); 
 
 		workflowVo.setVariables(variables);
 		ResponseEntity<String> status = this.restTemplate.exchange(START_WORKFLOW_URL, HttpMethod.POST, new HttpEntity<WorkflowVo>(workflowVo, this.httpHeaders), String.class);

@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.system.SysMessageMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.system.SysMessage" >
+    <result column="data_id" property="dataId" jdbcType="VARCHAR" />
+    <result column="message_code" property="messageCode" jdbcType="VARCHAR" />
+    <result column="message_url" property="messageUrl" jdbcType="VARCHAR" />
+    <result column="message_type" property="messageType" jdbcType="VARCHAR" />
+    <result column="message_title" property="messageTitle" jdbcType="VARCHAR" />
+    <result column="message_content" property="messageContent" jdbcType="VARCHAR" />
+    <result column="read_total" property="readTotal" jdbcType="INTEGER" />
+    <result column="is_read" property="isRead" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="post_code" property="postCode" jdbcType="VARCHAR" />
+    <result column="post_id" property="postId" jdbcType="VARCHAR" />
+    <result column="role_code" property="roleCode" jdbcType="VARCHAR" />
+    <result column="role_id" property="roleId" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="update_user_id" property="updateUserId" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
+    <result column="sts" property="sts" jdbcType="VARCHAR" />
+    <result column="bak1" property="bak1" jdbcType="VARCHAR" />
+    <result column="bak2" property="bak2" jdbcType="VARCHAR" />
+    <result column="bak3" property="bak3" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    data_id, message_code, message_url, message_type, message_title, message_content, 
+    read_total, is_read, user_id, user_name, post_code, post_id, role_code, role_id, 
+    create_date, create_user_id, update_user_id, update_date, remarks, audit_status, 
+    sts, bak1, bak2, bak3
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.system.SysMessageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from sys_message
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.system.SysMessageExample" >
+    delete from sys_message
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.system.SysMessage" >
+    insert into sys_message (data_id, message_code, message_url, 
+      message_type, message_title, message_content, 
+      read_total, is_read, user_id, 
+      user_name, post_code, post_id, 
+      role_code, role_id, create_date, 
+      create_user_id, update_user_id, update_date, 
+      remarks, audit_status, sts, 
+      bak1, bak2, bak3)
+    values (#{dataId,jdbcType=VARCHAR}, #{messageCode,jdbcType=VARCHAR}, #{messageUrl,jdbcType=VARCHAR}, 
+      #{messageType,jdbcType=VARCHAR}, #{messageTitle,jdbcType=VARCHAR}, #{messageContent,jdbcType=VARCHAR}, 
+      #{readTotal,jdbcType=INTEGER}, #{isRead,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{postCode,jdbcType=VARCHAR}, #{postId,jdbcType=VARCHAR}, 
+      #{roleCode,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=VARCHAR}, #{updateUserId,jdbcType=VARCHAR}, #{updateDate,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{auditStatus,jdbcType=VARCHAR}, #{sts,jdbcType=VARCHAR}, 
+      #{bak1,jdbcType=VARCHAR}, #{bak2,jdbcType=VARCHAR}, #{bak3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.system.SysMessage" >
+    insert into sys_message
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dataId != null" >
+        data_id,
+      </if>
+      <if test="messageCode != null" >
+        message_code,
+      </if>
+      <if test="messageUrl != null" >
+        message_url,
+      </if>
+      <if test="messageType != null" >
+        message_type,
+      </if>
+      <if test="messageTitle != null" >
+        message_title,
+      </if>
+      <if test="messageContent != null" >
+        message_content,
+      </if>
+      <if test="readTotal != null" >
+        read_total,
+      </if>
+      <if test="isRead != null" >
+        is_read,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="postCode != null" >
+        post_code,
+      </if>
+      <if test="postId != null" >
+        post_id,
+      </if>
+      <if test="roleCode != null" >
+        role_code,
+      </if>
+      <if test="roleId != null" >
+        role_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="auditStatus != null" >
+        audit_status,
+      </if>
+      <if test="sts != null" >
+        sts,
+      </if>
+      <if test="bak1 != null" >
+        bak1,
+      </if>
+      <if test="bak2 != null" >
+        bak2,
+      </if>
+      <if test="bak3 != null" >
+        bak3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dataId != null" >
+        #{dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="messageCode != null" >
+        #{messageCode,jdbcType=VARCHAR},
+      </if>
+      <if test="messageUrl != null" >
+        #{messageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="messageType != null" >
+        #{messageType,jdbcType=VARCHAR},
+      </if>
+      <if test="messageTitle != null" >
+        #{messageTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="messageContent != null" >
+        #{messageContent,jdbcType=VARCHAR},
+      </if>
+      <if test="readTotal != null" >
+        #{readTotal,jdbcType=INTEGER},
+      </if>
+      <if test="isRead != null" >
+        #{isRead,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null" >
+        #{postCode,jdbcType=VARCHAR},
+      </if>
+      <if test="postId != null" >
+        #{postId,jdbcType=VARCHAR},
+      </if>
+      <if test="roleCode != null" >
+        #{roleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null" >
+        #{auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="sts != null" >
+        #{sts,jdbcType=VARCHAR},
+      </if>
+      <if test="bak1 != null" >
+        #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null" >
+        #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="bak3 != null" >
+        #{bak3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.system.SysMessageExample" resultType="java.lang.Integer" >
+    select count(*) from sys_message
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sys_message
+    <set >
+      <if test="record.dataId != null" >
+        data_id = #{record.dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.messageCode != null" >
+        message_code = #{record.messageCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.messageUrl != null" >
+        message_url = #{record.messageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.messageType != null" >
+        message_type = #{record.messageType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.messageTitle != null" >
+        message_title = #{record.messageTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.messageContent != null" >
+        message_content = #{record.messageContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.readTotal != null" >
+        read_total = #{record.readTotal,jdbcType=INTEGER},
+      </if>
+      <if test="record.isRead != null" >
+        is_read = #{record.isRead,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postCode != null" >
+        post_code = #{record.postCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postId != null" >
+        post_id = #{record.postId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roleCode != null" >
+        role_code = #{record.roleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roleId != null" >
+        role_id = #{record.roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateUserId != null" >
+        update_user_id = #{record.updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null" >
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditStatus != null" >
+        audit_status = #{record.auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sts != null" >
+        sts = #{record.sts,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak1 != null" >
+        bak1 = #{record.bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak2 != null" >
+        bak2 = #{record.bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak3 != null" >
+        bak3 = #{record.bak3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sys_message
+    set data_id = #{record.dataId,jdbcType=VARCHAR},
+      message_code = #{record.messageCode,jdbcType=VARCHAR},
+      message_url = #{record.messageUrl,jdbcType=VARCHAR},
+      message_type = #{record.messageType,jdbcType=VARCHAR},
+      message_title = #{record.messageTitle,jdbcType=VARCHAR},
+      message_content = #{record.messageContent,jdbcType=VARCHAR},
+      read_total = #{record.readTotal,jdbcType=INTEGER},
+      is_read = #{record.isRead,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      post_code = #{record.postCode,jdbcType=VARCHAR},
+      post_id = #{record.postId,jdbcType=VARCHAR},
+      role_code = #{record.roleCode,jdbcType=VARCHAR},
+      role_id = #{record.roleId,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=VARCHAR},
+      create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      update_user_id = #{record.updateUserId,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=VARCHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      audit_status = #{record.auditStatus,jdbcType=VARCHAR},
+      sts = #{record.sts,jdbcType=VARCHAR},
+      bak1 = #{record.bak1,jdbcType=VARCHAR},
+      bak2 = #{record.bak2,jdbcType=VARCHAR},
+      bak3 = #{record.bak3,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

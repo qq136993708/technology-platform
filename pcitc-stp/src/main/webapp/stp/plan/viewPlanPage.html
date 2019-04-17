@@ -29,7 +29,7 @@
 				<div class="layui-row">
 					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 						<div class="layui-form-item">
-							<label class="layui-form-label">标题:<span class="must-fill">*</span></label>
+							<label class="layui-form-label">标题<span class="must-fill">*</span></label>
 							<div class="layui-input-block">
 								<input class="layui-input readOnlyBox" name="workOrderName" id="workOrderName" lay-verify="title" readonly="readonly"
 									   placeholder="请输入标题" autocomplete="off" type="text">
@@ -50,7 +50,7 @@
 				<div class="layui-row">
 					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 						<div class="layui-form-item">
-							<label class="layui-form-label">类型:<span class="must-fill">*</span></label>
+							<label class="layui-form-label">类型<span class="must-fill">*</span></label>
 							<div class="layui-input-block">
 								<input class="layui-input readOnlyBox layui-hide" type="text" id="workOrderType"
 									   name="workOrderType" readonly="readonly">
@@ -218,7 +218,7 @@
             type: 'datetime'
         });
         $.ajax({
-            url: '/pageCommon/dic/ROOT_SGGL_GDGL_GDLX',
+            url: '/pageCommon/dic/ROOT_RWGL_RWLX',
             dataType: 'json',
             type: 'post',
             success: function (data) {
@@ -402,6 +402,8 @@
                 {type: 'checkbox'},
                 {title: '序号', type: 'numbers'},
                 {field: 'dataId', title: '主键',  style: 'cursor: pointer;'},
+                {field: 'createDate', title: '处理时间',width:130},
+
                 {field: 'workOrderName', title: '事项内容',  style: 'cursor: pointer;'},
                 {
                     field: 'workOrderAllotUserName',

@@ -68,14 +68,9 @@ public class EquipmentController extends BaseController {
 	private static final String AUDIT_AGREE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/task/agree/";
 	// 流程操作--拒绝
 	private static final String AUDIT_REJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/task/reject/";
-
 	// 公司代码
 	private static final String GET_DIC_ASSET_TYPE = "http://pcitc-zuul/hana-proxy/hana/common/dic/asset_type";
 	private static final String GET_DIC_SUPPLYER = "http://pcitc-zuul/hana-proxy/hana/common/dic/supplyer";
-	
-	
-	
-	
 	private static final String chooseBusiness_data = "http://pcitc-zuul/hana-proxy/hana/common/dic/supplyer_table";
 	
 
@@ -308,7 +303,7 @@ public class EquipmentController extends BaseController {
 	
 	
 	
-	   @RequestMapping( value = "/chooseBusiness_data")
+	    @RequestMapping( value = "/chooseBusiness_data")
 		@ResponseBody
 		public String chooseBusiness_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 

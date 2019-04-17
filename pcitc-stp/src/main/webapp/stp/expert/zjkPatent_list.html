@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <!--<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">-->
+
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/common/js/base.js"></script>
+</head>
+<body>
+
+<div class="searchBox">
+    <!--查询条件-->
+    <label class="dateInput selectInput">
+    </label>
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
+        </button>
+        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
+                data-type="resetEvent">重置
+        </button>
+    </div>
+</div>
+<div class="tableToolBox">
+    <div class="whiteLine"></div>
+    <div class="tableBtns">
+        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
+                data-type="addEvent">新增
+        </button>
+        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
+                data-type="editEvent">编辑
+        </button>
+        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
+                data-type="detailEvent">查看
+        </button>
+        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
+                data-type="deleteEvent">删除
+        </button>
+    </div>
+</div>
+<table id="zjkPatentTableId" class="layui-hide" lay-filter="tableEvent"></table>
+
+<script>
+
+
+    var param = JSON.parse(window.localStorage.getItem("param"));
+    var table, selectRowData, workOrderStatus;
+    layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'publicMethods', 'element'], function () {
+        table = layui.table,
+            $ = layui.jquery,
+            layer = layui.layer,
+            publicMethods = layui.publicMethods,
+            laypage = layui.laypage;
+        var cols =
+            [
+                {type: 'checkbox', event: 'changeEvents', width: 55},
+                {title: '序号', type: 'numbers', width: 55},
+                // {
+                //     field: 'workOrderStatus',
+                //     title: '状态',
+                //     event: 'setActive',
+                //     align: 'center',
+                //     style: 'cursor: pointer;',
+                //     templet: '<div>{{ layui.laytpl.auditStatus(d.workOrderStatus) }}</div>',
+                //     width: 55
+                // },
+                // {
+                //     field: 'attachment',
+                //     title: '附件',
+                //     event: 'setActive',
+                //     align: 'center',
+                //     style: 'cursor: pointer;',
+                //     width: 55,
+                //     templet: '<div>{{ layui.laytpl.attToPic(d) }}</div>'
+                // },
+                {
+                    field: "userId",
+                    title: "用户id", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "expertId",
+                    title: "专家id", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "patentName",
+                    title: "专利名称", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "patentCode",
+                    title: "专利号", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "patentDesc",
+                    title: "专利描述", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "patentKeys",
+                    title: "专利关键字", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "patentePeopleName",
+                    title: "专利权人名称", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "patentePeopleId",
+                    title: "专利权人ID", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "inventPeopleId",
+                    title: "发明人ID", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "inventPeopleName",
+                    title: "发明人", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "applyPeople",
+                    title: "申请人", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "publicDate",
+                    title: "公开时间", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "applyDate",
+                    title: "申请日期", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "bak1",
+                    title: "所属技术分类名称", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "bak2",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "bak3",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "bak4",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "bak5",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "bak6",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "modifyUserDisp",
+                    title: "修改人姓名", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "ownerTechType",
+                    title: "所属技术分类", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "patenteBackground",
+                    title: "专利背景", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "ownerProjectName",
+                    title: "所属项目名称", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "expertNationality",
+                    title: "国籍", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "ownerProjectId",
+                    title: "所属项目ID", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "company",
+                    title: "所属公司（机构）", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "companId",
+                    title: "所属机构ID", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "sysFlag",
+                    title: "状态位", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "dataOrder",
+                    title: "排序", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "delFlag",
+                    title: "状态", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "createDate",
+                    title: "创建时间", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "createUser",
+                    title: "创建人id", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "createUserDisp",
+                    title: "创建人姓名", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "modifyDate",
+                    title: "修改时间", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "modifyUser",
+                    title: "修改人id", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "docId",
+                    title: "文档编号", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "nd",
+                    title: "年度", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "country",
+                    title: "授权国家", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "isResult",
+                    title: "是否形成工业化成果", event: 'setActive', style: 'cursor: pointer;'
+                },
+            ];
+
+        function renderTable() {
+
+            var where = {
+                param:
+                    {
+                        // "workOrderStatus":workOrderStatus
+                    }
+            };
+
+            publicMethods.tableRender('zjkPatentTableId', 'zjkPatentTableId', '/zjkPatent/getTableData', false, cols, where, true, function (res, curr, count) {
+                $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                    var index = parseInt($(this).index() + 1);
+                    $('tr').removeClass('layui-table-click');
+                    $(this).addClass('layui-table-click');
+                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                    $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                    selectRowData = res.data[index - 1];
+
+                    $(document).off("click").on("click", ".onClickImg", function () {
+                        var dataId = $(this).attr("id");
+                        //附件文件配置ID
+                        publicMethods.viewAtt(dataId, param.id);
+                    });
+                });
+
+                $(document).off("click").on("click", ".onClickImg", function () {
+                    var dataId = $(this).attr("id");
+                    //附件文件配置ID
+                    publicMethods.viewAtt(dataId, param.id);
+                });
+
+            });
+        }
+
+        renderTable();
+        window.renderTable = renderTable;
+        $(function () {
+            //propertychange监听input里面的字符变化,属性改变事件
+            $('.form-control').bind('input propertychange', function () {
+                var $this = $(this);
+                var text_length = $this.val().length;//获取当前文本框的长度
+                var current_width = parseInt(text_length) * 12;//该16是改变前的宽度除以当前字符串的长度,算出每个字符的长度
+                $this.css("width", current_width + "px");
+            });
+        })
+
+        var $ = layui.$, active = {
+            searchEvent: function () { //点击查询按钮
+                renderTable();
+            },
+            allEvent: function () { //点击查询按钮
+                workOrderStatus = '';
+                renderTable();
+            },
+            draftEvent: function () { //点击查询按钮
+                workOrderStatus = '0';
+                renderTable();
+            },
+            approvalEvent: function () { //点击查询按钮
+                workOrderStatus = '1';
+                renderTable();
+            },
+            approvedEvent: function () { //点击查询按钮
+                workOrderStatus = '2';
+                renderTable();
+            },
+            resetEvent: function () { //点击重置按钮
+                // $('#workOrderName').val("");
+                renderTable();
+            },
+            addEvent: function () { //点击新增按钮
+                layer.open({
+                    title: param.name + '-新增',
+                    skin: 'layui-layer-lan',
+                    shadeClose: false,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin: true,
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    area: ['70%', '90%'],
+                    content: "/zjkPatent/edit"
+                });
+            },
+            editEvent: function () {  //点击编辑按钮
+                var id;
+                if (selectRowData != undefined) {
+                    // if (selectRowData.workOrderStatus == '0') {
+                    id = selectRowData.dataId;
+                    layer.open({
+                        title: param.name + '-编辑',
+                        skin: 'layui-layer-lan',
+                        shadeClose: false,
+                        type: 2,
+                        fixed: false,
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        maxmin: true,
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        area: ['70%', '90%'],
+                        content: "/zjkPatent/edit?id=" + selectRowData.dataId
+                    });
+                    // } else {
+                    //     layer.msg('只可操作未下发的数据');
+                    //     return;
+                    // }
+                } else {
+                    layer.msg('请选择一条数据');
+                    return;
+                }
+            },
+            detailEvent: function () {  //点击详情按钮
+                var dataId;
+                if (selectRowData != undefined) {
+                    dataId = selectRowData.dataId;
+                    layer.open({
+                        title: param.name + '-查看',
+                        skin: 'layui-layer-lan',
+                        shadeClose: false,
+                        type: 2,
+                        fixed: false,
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        maxmin: true,
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        area: ['70%', '90%'],
+                        content: "/zjkPatent/view/" + selectRowData.dataId
+                        // content: '/plan/viewPlanPage?dataId='+dataId
+                    });
+                    // }
+                } else {
+                    layer.msg('请选择一条数据');
+                    return;
+                }
+            },
+            deleteEvent: function () { //点击删除按钮
+                var id;
+                if (selectRowData != undefined) {
+                    // if (selectRowData.workOrderStatus == '0') {
+                    id = selectRowData.dataId;
+                    layer.confirm('确认要删除选中的条数据吗？', {icon: 3, btn: ['确定', '取消']}, function (index) {
+                        layer.close(index);
+                        $.ajax({
+                            type: 'post',
+                            dataType: 'text',
+                            async: false,
+                            data: {"id": selectRowData.dataId},
+                            url: '/zjkPatent/del-real',
+                            success: function (data) {
+                                // if(data==200){
+                                layer.msg("删除成功");
+                                active.searchEvent();
+                                // }
+                            },
+                            error: function (e) {
+                                alert("出错了");
+                                console.log(e);
+                            }
+                        });
+                    });
+                    // } else {
+                    //     layer.msg('当前记录已经提交,不能进行删除操作！');
+                    //     return;
+                    // }
+                } else {
+                    layer.msg('请选择一条数据');
+                    return;
+                }
+            },
+            getCheckData: function () { //获取选中数据
+                var checkStatus = table.checkStatus('zjkPatentTableId')
+                    , data = checkStatus.data;
+            },
+            getCheckLength: function () { //获取选中数目
+                var checkStatus = table.checkStatus('zjkPatentTableId')
+                    , data = checkStatus.data;
+                layer.msg('选中了：' + data.length + ' 个');
+            },
+            isAll: function () { //验证是否全选
+                var checkStatus = table.checkStatus('zjkPatentTableId');
+                layer.msg(checkStatus.isAll ? '全选' : '未全选')
+            }
+        };
+
+        $('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
+</body>
+
+</html>

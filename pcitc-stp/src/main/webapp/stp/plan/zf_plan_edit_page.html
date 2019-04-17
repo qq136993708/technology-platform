@@ -30,7 +30,7 @@
                 <div class="layui-row">
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">标题:<span class="must-fill">*</span></label>
+                            <label class="layui-form-label">标题<span class="must-fill">*</span></label>
                             <div class="layui-input-block">
                                 <input class="layui-input" name="workOrderName" id="workOrderName" lay-verify="title"
                                        placeholder="请输入标题" autocomplete="off" type="text">
@@ -51,7 +51,7 @@
                 <div class="layui-row">
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">类型:<span class="must-fill">*</span></label>
+                            <label class="layui-form-label">类型<span class="must-fill">*</span></label>
                             <div class="layui-input-block">
                                 <input class="layui-input readOnlyBox layui-hide" type="text" id="workOrderType"
                                 name="workOrderType" readonly="readonly">
@@ -72,7 +72,7 @@
 
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label for="" class="layui-form-label">完成比例<span class="must-fill">*</span></label>
+                            <label for="" class="layui-form-label">完成比例<span class="must-fill"></span></label>
                             <div class="layui-input-block">
                                 <input class="layui-input" name="bl" id="bl"
                                        placeholder="完成比例" autocomplete="off" type="text">
@@ -83,7 +83,7 @@
                         <div class="layui-form-item">
                             <label for="" class="layui-form-label">转发<span class="must-fill">*</span></label>
                             <div class="layui-input-block">
-                                <input class="layui-input" name="bak3" id="bak3"
+                                <input class="layui-input" name="bak3" id="bak3" lay-verify="required"
                                        placeholder="转发给他人" autocomplete="off" type="text">
                             </div>
                         </div>
@@ -112,7 +112,7 @@
                 </div> -->
             </div>
         </div>
-        <div class="tableBox">
+        <div class="tableBox" id="matterTableDivParent">
             <div class="tableToolBox">
                 <div class="tableTitle">事项列表<span class="red">（请输入至少一项）</span>
                 </div>
@@ -186,8 +186,8 @@
             form.render(null, 'component-form-group');
 
         function setWelder(selectData) {
-            $('#bak2').val(selectData.userId);
-            $('#bak3').val(selectData.userDisp);
+            $('#bak2').val(selectData[0].userId);
+            $('#bak3').val(selectData[0].userDisp);
         }
 
         window.setWelder = setWelder;
@@ -215,7 +215,7 @@
             type: 'datetime'
         });
         $.ajax({
-            url: '/pageCommon/dic/ROOT_SGGL_GDGL_GDLX',
+            url: '/pageCommon/dic/ROOT_RWGL_RWLX',
             dataType: 'json',
             type: 'post',
             success: function (data) {
@@ -419,6 +419,9 @@
                 $(".layui-table").css("width","100%");
                 $("[data-field='dataId']").hide();
                 $("[data-field='jsId']").hide();
+                    if (res.data.length==0){
+                        document.getElementById("matterTableDivParent").style.display="none";
+                    }
             }
 
         });

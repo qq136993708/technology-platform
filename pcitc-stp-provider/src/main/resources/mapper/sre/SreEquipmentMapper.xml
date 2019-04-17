@@ -31,13 +31,18 @@
     <result column="parent_unit_path_ids" property="parentUnitPathIds" jdbcType="VARCHAR" />
     <result column="supplier_str" property="supplierStr" jdbcType="VARCHAR" />
     <result column="supplier_will_str" property="supplierWillStr" jdbcType="VARCHAR" />
+    <result column="purchase_status" property="purchaseStatus" jdbcType="VARCHAR" />
+    
+    
+    
+    
   </resultMap>
   <sql id="Base_Column_List" >
     equipment_id, equipment_code, is_linked_project, name, type, unit_price, all_price, 
     apply_acount, specification, notes, special_notes, attachment_doc, apply_depart_name, 
     apply_depart_code, first_apply_user, create_user_id, create_date, audit_status, update_user_id, 
     update_date, erp_no, origin_place, vote_count, unit_path_ids, unit_path_names, parent_unit_path_names, 
-    parent_unit_path_ids, supplier_str, supplier_will_str
+    parent_unit_path_ids, supplier_str, supplier_will_str,purchase_status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -59,7 +64,8 @@
       update_user_id, update_date, erp_no, 
       origin_place, vote_count, unit_path_ids, 
       unit_path_names, parent_unit_path_names, parent_unit_path_ids, 
-      supplier_str, supplier_will_str)
+      supplier_str, supplier_will_str,purchase_status
+      )
     values (#{equipmentId,jdbcType=VARCHAR}, #{equipmentCode,jdbcType=VARCHAR}, #{isLinkedProject,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{unitPrice,jdbcType=DECIMAL}, 
       #{allPrice,jdbcType=DECIMAL}, #{applyAcount,jdbcType=INTEGER}, #{specification,jdbcType=VARCHAR}, 
@@ -69,7 +75,8 @@
       #{updateUserId,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{erpNo,jdbcType=VARCHAR}, 
       #{originPlace,jdbcType=VARCHAR}, #{voteCount,jdbcType=INTEGER}, #{unitPathIds,jdbcType=VARCHAR}, 
       #{unitPathNames,jdbcType=VARCHAR}, #{parentUnitPathNames,jdbcType=VARCHAR}, #{parentUnitPathIds,jdbcType=VARCHAR}, 
-      #{supplierStr,jdbcType=VARCHAR}, #{supplierWillStr,jdbcType=VARCHAR})
+      #{supplierStr,jdbcType=VARCHAR}, #{supplierWillStr,jdbcType=VARCHAR}, #{purchaseStatus,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreEquipment" >
     insert into sre_equipment
@@ -161,6 +168,14 @@
       <if test="supplierWillStr != null" >
         supplier_will_str,
       </if>
+      <if test="purchaseStatus != null" >
+        purchase_status,
+      </if>
+      
+      
+      
+   
+    
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="equipmentId != null" >
@@ -250,6 +265,15 @@
       <if test="supplierWillStr != null" >
         #{supplierWillStr,jdbcType=VARCHAR},
       </if>
+      <if test="purchaseStatus != null" >
+        #{purchaseStatus,jdbcType=VARCHAR},
+      </if>
+      
+      
+      
+      
+      
+       
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.equipment.SreEquipment" >
@@ -339,6 +363,16 @@
       <if test="supplierWillStr != null" >
         supplier_will_str = #{supplierWillStr,jdbcType=VARCHAR},
       </if>
+      <if test="purchaseStatus != null" >
+        purchase_status = #{purchaseStatus,jdbcType=VARCHAR},
+      </if>
+      
+      
+      
+      
+      
+      
+      
     </set>
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </update>
@@ -348,6 +382,7 @@
       is_linked_project = #{isLinkedProject,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
+        purchase_status = #{purchaseStatus,jdbcType=VARCHAR},
       unit_price = #{unitPrice,jdbcType=DECIMAL},
       all_price = #{allPrice,jdbcType=DECIMAL},
       apply_acount = #{applyAcount,jdbcType=INTEGER},
@@ -391,6 +426,7 @@
 	     <if test="unitPathIds != null             and unitPathIds !=''  ">           AND t.unit_path_ids = #{unitPathIds}</if>
 	     <if test="isLinkedProject != null             and isLinkedProject !=''  ">           AND t.is_linked_project = #{isLinkedProject}</if>
 	     <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.parent_unit_path_ids = #{parentUnitPathIds}</if>
+	      <if test="purchaseStatus != null       and purchaseStatus !=''  ">     AND t.purchase_status = #{purchaseStatus}</if>
 	     <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
 	 </trim>
 	</sql>
@@ -423,7 +459,18 @@
        </foreach>
      </select>
      
-     
+     <select id="getForApplicationList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from sre_equipment t 
+     where t.purchase_status  >= 3
+     <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  create_date desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
      
      
 </mapper>

@@ -53,6 +53,8 @@ public class UserController extends BaseController {
 	private static final String USER_UNIQUE_CHECK_URL = "http://pcitc-zuul/system-proxy/user-provider/user/user-validate";
 	
 	private static final String QUERY_SYS_USER_LIST_BY_PAGE = "http://pcitc-zuul/system-proxy/user-provider/user/querySysUserListByPage/";
+	private static final String GET_SYS_USER_LIST_BY_UNIT = "http://pcitc-zuul/system-proxy/user-provider/user/getSysUserListByUserUnitPage/";
+	
 
 	// private static final String USER_GET_BY_UNIT =
 	// "http://pcitc-zuul/system-proxy/user-provider/user/get-user-by-unit";
@@ -434,6 +436,24 @@ public class UserController extends BaseController {
 	    JSONObject retJson = (JSONObject) JSON.toJSON(result);
 		return retJson;
 	}
+	
+	
+	
+	@RequestMapping(value = "/user/getSysUserListByUserUnitPage", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getSysUserListByUserUnitPage(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request) throws IOException {
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+	    ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(GET_SYS_USER_LIST_BY_UNIT, HttpMethod.POST, entity, LayuiTableData.class);
+	    LayuiTableData result = responseEntity.getBody();
+	    JSONObject retJson = (JSONObject) JSON.toJSON(result);
+		return retJson;
+	}
+
+	
+	
+	
+	
+	
 
 	
 	

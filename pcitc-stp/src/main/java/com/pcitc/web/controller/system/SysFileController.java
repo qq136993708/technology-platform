@@ -1,17 +1,12 @@
 package com.pcitc.web.controller.system;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.io.*;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.base.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -21,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,8 +41,6 @@ import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.system.SysFile;
 import com.pcitc.base.system.SysFileVo;
 import com.pcitc.base.system.SysUser;
-import com.pcitc.base.util.DataTableInfoVo;
-import com.pcitc.base.util.IdUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.feign.SysFileFeignClient;
 
@@ -140,6 +134,8 @@ public class SysFileController extends BaseController {
      * 查询用户信息
      */
     private static final String USER_DETAILS_URL = "http://pcitc-zuul/system-proxy/user-provider/user/user-details/";
+	
+	private static final String commonFileList = "http://pplus-zuul/system-proxy/file-common-provider/files/common/data-list";
 
     // 文件上传路径
     @Value("${uploaderPathTemp}")
@@ -189,6 +185,9 @@ public class SysFileController extends BaseController {
             for (int i = 0; i < files.length; i++) {
                 /** 转换文件 */
                 MultipartFile file = files[i];
+                System.out.println("----uploadMultipleFileLayui------");
+                System.out.println(file);
+
                 String tempFileName = file.getOriginalFilename();
                 if (tempFileName.indexOf("\\") > -1) {
                     tempFileName = tempFileName.substring(tempFileName.lastIndexOf("\\") + 1, tempFileName.length());
@@ -321,6 +320,32 @@ public class SysFileController extends BaseController {
         httpHeaders.add("x-frame-options", "ALLOW-FROM");
         response.addHeader("x-frame-options", "ALLOW-FROM");
         return responseEntity;
+    }
+	
+	/**
+     * 通过md5值，查询sys_file（存在多个），判断当前人，是否有这些file的权限，只要有权限，就能下载这个文件
+     */
+    @RequestMapping(value = "/sysfile/md5/download/{fileMd5}")
+    public Result downloadFileByMd5(@PathVariable("fileMd5") String fileMd5, HttpServletRequest request, HttpServletResponse response) {
+    	LayuiTableParam param = new LayuiTableParam();
+    	param.getParam().put("userId", sysUserInfo.getUserId());
+    	param.getParam().put("fileMd5", fileMd5);
+    	
+		LayuiTableData layuiTableData = new LayuiTableData();
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+		ResponseEntity<LayuiTableData> fileEntity = restTemplate.exchange(commonFileList, HttpMethod.POST, entity, LayuiTableData.class);
+		layuiTableData = fileEntity.getBody();
+		Result retJson = new Result();
+		retJson.setSuccess(false);
+		if (layuiTableData.getData().size() > 0) {
+			System.out.println("md51------------------------"+layuiTableData.getData().size());
+			JSONArray array = JSONArray.parseArray(JSON.toJSONString(layuiTableData.getData()));
+			String fileId = array.getJSONObject(0).getString("id");
+			System.out.println("md52------------------------"+fileId);
+			retJson.setSuccess(true);
+			retJson.setData(fileId);
+		} 
+		return retJson;
     }
 
     @RequestMapping(value = "/sysfile/viewPic/{id}", method = RequestMethod.GET)
@@ -874,4 +899,85 @@ public class SysFileController extends BaseController {
         return postForEntity.getBody().get("flag").toString();
     }
 
+    @Value("${ckfilepath}")
+    private String ckfilepath;
+
+    @RequestMapping(value = "/sysfile/ckupload", method = RequestMethod.POST)
+    public void ckupload(@RequestParam(value = "upload", required = false) MultipartFile files) {
+        PrintWriter out = null;
+        String originalFilename = files.getOriginalFilename();
+        String fileType = originalFilename.substring(originalFilename.lastIndexOf(".",originalFilename.length()));
+        String imageUrl = "ckupload";
+        String msg = "";
+        String fileName = "";
+        String strFilePath = "";
+        boolean isComplete = false;
+        JSONObject result = new JSONObject();
+        try {
+//            String filePrefixFormat = "yyyyMMddHHmmssS";
+//            String date = "";
+//            String date = DateUtil.format(new Date(), filePrefixFormat);
+//            File path = new File(ResourceUtils.getURL("classpath:").getPath());
+//            if(!path.exists()) path = new File("");
+//            File upload = new File(path.getAbsolutePath(),imageUrl);
+
+//            File upload = new File(serverPath+imageUrl);
+//            if(!upload.exists()) upload.mkdirs();
+
+            System.out.println("-----ckupload-----");
+            System.out.println(files);
+            String date = sysUserInfo.getUserId();
+            strFilePath = ckfilepath+imageUrl+File.separator+date+File.separator;
+            File filePath = new File(strFilePath);
+            if(!filePath.exists()) filePath.mkdirs();
+            fileName = UUID.randomUUID().toString()+fileType;
+            String savedName = strFilePath + File.separator + fileName;
+            isComplete = FileUtil.copyInputStreamToFile(files.getInputStream(), new File(savedName));
+            if (isComplete==true){
+                out = response.getWriter();
+                imageUrl = imageUrl+File.separator+date+File.separator+fileName;
+                imageUrl = imageUrl.replace("\\","/");
+                imageUrl = imageUrl.replace("\\\\","/");
+            }
+
+
+            //统一上传---文件不能传输到后台,使用独立上传
+//            String tempFileName = files.getOriginalFilename();
+//            if (tempFileName.indexOf("\\") > -1) {
+//                tempFileName = tempFileName.substring(tempFileName.lastIndexOf("\\") + 1, tempFileName.length());
+//            }
+//            String uuid = IdUtil.createIdByTime();
+//            JSONObject jsonObject = new JSONObject();
+//            jsonObject.put("bak10","");
+//            jsonObject.put("bak9","");
+//            jsonObject.put("flag","0");
+//            jsonObject.put("lastModifiedDate","");
+//            sysFileFeignClient.uploadFileSaveLayui(files, request, response, tempFileName, "ff8129325ed94773bfd9f33145ccd080", sysUserInfo.getUserId(), uuid, "ckupload", jsonObject.toJSONString());
+//            SysFile sysFile = this.restTemplate.exchange(GET + uuid, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysFile.class).getBody();
+
+
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("富文本编辑器上传图片时发生异常", e);
+            msg = "服务器异常";
+        } finally {
+            if (!StrUtil.isBlank(msg)) {
+                //上传失败
+                result.put("uploaded", 0);
+                JSONObject errorObj = new JSONObject();
+                errorObj.put("message", msg);
+                result.put("error", errorObj);
+            } else {
+                System.out.println(isComplete);
+                //上传成功
+                result.put("uploaded", 1);
+                result.put("fileName", fileName);
+                result.put("url", File.separator+imageUrl);
+            }
+            out.println(result.toJSONString());
+        }
+    }
 }

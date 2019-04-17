@@ -18,10 +18,6 @@
     <script src="/common/js/jquery-1.11.3.min.js"></script>
 
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-    <style>
-    	.layui-table-cell{overflow:visible !important;}
-    	td .layui-form-select{margin:-10px -15px 0;}
-    </style>
 </head>
 <body>
 <div class="layer-box">
@@ -53,6 +49,9 @@
                    type="hidden">
             <input name="yearFeeStrJoinUnit" id="yearFeeStrJoinUnit" value="${sreProjectBasic.yearFeeStrJoinUnit}"
                    type="hidden">
+               <input name="joinUnitIds" id="joinUnitIds" value="${sreProjectBasic.joinUnitIds}" type="hidden">     
+               <input type="hidden" name="varrra" id="varrra" value="">    
+                   
             <!--<input name="yearFeeStrJoinUnit" id="yearFeeStrJoinUnit"
                    value="2019-2020,苏州大学,014ef79138eb4fc49f24e4439419a5a9#2019,22,null#2020,0,null;2019-2020,北京经贸大学,01a180d1fac8465a9f283f7628dbf498#2019,0,null#2020,0,null" type="hidden">-->
             <div class="layui-row">
@@ -60,424 +59,173 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">转资名称<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" name="name" id="name" value="${sreProjectBasic.name}"
+                            <input class="layui-input" name="froappname" id="froappname" value="${sreProjectBasic.name}"
                                    lay-verify="required" autocomplete="off" type="text">
                         </div>
                     </div>
                 </div>
-                
-                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                    <div class="layui-form-item">
-                        <label for="" class="layui-form-label">采购计划名称</label>
-                        <div class="layui-input-block">
-                        <select name="purchaseName" id="purchaseName"  lay-filter="purchaseName"   style="width:200px" onchange="func()"  >
-				             <option>--请选择采购计划--</option>
-				              <#list purchaseList as vo>
-						          <option  value="${vo.equipmentId}" <#if vo.purchaseName == sreProjectBasic.purchaseName> selected="selected" </#if> >${vo.purchaseName}</option>
-						      </#list>
-						 </select>
-                        </div>
-                    </div>
-                </div>
             </div>
-            	
-            <div class="layui-form-item">
-                <label class="layui-form-label">已采购装备<span class="must-fill"></span></label>
+
+            <!--行有两个的情况-->
+            <div class="layui-form-item" id="equipment">
+                <label class="layui-form-label">选择装备<span class="must-fill">*</span></label>
                 <div class="layui-input-block">
                     <div class="tableBox">
                         <div class="tableToolBox">
                             <div class="whiteLine"></div>
                         </div>
-                        <table id="join_apply_table" class="layui-hide" lay-filter="JoinEvent"></table>
+                        <table id="notjoin_apply_table" class="layui-hide" lay-filter="JoinEvent"></table>
                     </div>
                 </div>
             </div>
-            	
+
+
+
 
                 <div class="form-bottom">
-                    <div class="form-bottom-btns">
-                        <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
-                                lay-submit="" lay-filter="sub">保存
-                        </button>
-                        <button type="button"
-                                class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
-                                id="closeBtn">关闭
-                        </button>
-                    </div>
+                <div class="form-bottom-btns">
+	                <a herf="javascript:void(0)" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"  data-type="addEvent" lay-filter="addEvent">确定</a>
+	             	<a herf="javascript:void(0)" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" lay-submit="" id="close" lay-filter="closeBtn">关闭</a>
+	             </div>
                 </div>
             </div>
         </form>
     </div>
 </div>
-
-<script type="text/html" id="selectTool">
-	<select style="display:none;" name="selectDemo" lay-filter="selectDemo" lay-search>
-				<option value="">请选择</option>
-				<option value="">1</option>
-				<option value="">2</option>
-	       
-	   </select>
-</script>
-
 <script type="text/javascript">
+
 </script>
-<script>
-    var publicMethods;
-    var form;
-    var param = JSON.parse(window.localStorage.getItem("param"));
-    var functionId = param.id;
-    $('#functionId').val(functionId);
-    var roleCodes = "";
-    var unitCodes = "";
-    var postCodes = "";
-    var belongDepartmentName="${sreProjectBasic.belongDepartmentName?default('')}";
-    var professionalDepartName="${sreProjectBasic.professionalDepartName?default('')}";
-    var professionalFieldName="${sreProjectBasic.professionalFieldName?default('')}";
-    var v_date = (new Date()).getTime();
-    var file_ids = "documentDoc";
-    //detail:详情，edit：编辑
-    file_edit_detail = "edit";
-    //统管理-附件管理-附件配置：页面标识
-    file_opt_flag = "b3a52bbe7087419c80813d7716f37674";
-    var equipmentIds = $("#equipmentIds").val();
-    var yearFeeStr = $("#yearFeeStr").val();
-    var beginYear = $("#beginYear").val();
-
-    var table, selectRowData;
-    layui.use(['form', 'table', 'laypage', 'layer', 'laydate', 'laytpl', 'jquery', "publicMethods"], function () {
-
-        var admin = layui.admin
-        element = layui.element
-            , table = layui.table
-            , layer = layui.layer
-            , laydate = layui.laydate
-            , laypage = layui.laypage
-            , $ = layui.jquery;
-
-        form = layui.form;
-        publicMethods = layui.publicMethods;
-        //form.render();
-        laydate.render({
-            elem: '#LAY-component-form-group-date'
-        });
-        
-        form.on('select(purchaseName)',function(data){
-        	getPurchaseName(data.value); //得到被选中的值
-
-            
-        	});
-        
-        getPurchaseName($("#purchaseName").val());	
-        function getPurchaseName(purchaseName) {
-            table.render({
-                elem: '#join_apply_table',
-                url: '/sre-forapplicatio/purchaseNameIds?purchaseNameIds=' + purchaseName,
-                limit: 15,
-                method: "GET",
-                id: 'join_apply_table',
-                height: 300,
-                //page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
-                cols: [[
-                        
-                    {title: '序号', type: 'numbers'},
-                    {field: 'name', title: '装备名称', style: 'cursor: pointer;', align: 'center', width: '30%'},
-                    {field: 'type', title: '装备分类', style: 'cursor: pointer;', align: 'center', width: '30%'},
-                    {field: 'unitPrice', title: '单价（万元）', style: 'cursor: pointer;', align: 'center', width: '30%'},
-                    {field: 'applyAcount', title: '申请数量', style: 'cursor: pointer;', align: 'center', width: '30%'},
-                    {
-                        field: 'allPrice',
-                        title: '总价￥（万元）',
-                        style: 'cursor: pointer;',
-                        align: 'center',
-                        width: '10%',
-                        templet: function (d) {
-                            return '<span style="color:red">' + d.allPrice + '</span>'
-                        }
-                    },
-                    {field : 'parentUnitPathNames', title : '申报单位', style : 'cursor: pointer;', align : 'left', width : '100%'},
-                    {field : 'applyDepartName', title : '申报部门', style : 'cursor: pointer;', align : 'left', width : '100%'},
-                    {field: 'firstApplyUser', title: '申报人', style: 'cursor: pointer;', align: 'center', width: '30%'},
-                    
-                    
-                    {field : 'configure', title : '配置', style : 'cursor: pointer;', align : 'left', edit: 'text'},  
-                    {field : 'measuringUnit', title : '计量单位', style : 'cursor: pointer;', width : '9%',templet : '#gUnit'},  
-                    {field : 'assetsClassification', title : '资产分类', style : 'cursor: pointer;', width : '9%',templet : '#iFication'},  
-                    {field : 'nationality', title : '国别', style : 'cursor: pointer;', width : '25%',templet: '#selectTool',edit:false},  
-                    {field : 'placeUse', title : '使用地点', style : 'cursor: pointer;', align : 'left', width : '15%',edit: 'text'},
-                    {field : 'placePeople', title : '使用人', style : 'cursor: pointer;', align : 'left', width : '15%',edit: 'text'}, 
-                    {field : 'receivePeople ', title : '领取人', style : 'cursor: pointer;', align : 'left', width : '9%',edit: 'text'}, 
-                    ]],
-                done: function (res, curr, count) {
-
-                    //项目分类，项目性质
-                    var dicMap = ['ROOT_UNIVERSAL_GJDQ'];
-                    var dicVal = {};
-                    publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys", {"parentCodes": JSON.stringify(dicMap)}, function (data) {
-                        $.each(data, function (key, val) {
-                            $.each(val, function (i, dt) {
-                                dicVal[dt.code] = dt.name;
-                            });
-                        });
-                    });
-                    $.each(res.data, function (i, dt) {
-                        $("tr[data-index='" + i + "'] td[data-field='nationality'] div").html(dicVal[res.data[i].nationality]);
-                    });
-
-                }
-            });
-        }
-        form.render("select","selectDemo");
-
-        form.on('select(getDepartNameByUnitName)',function(data){
-        	getDepartNameByUnitName(data.value);
-        })
-
-         form.on('select(getProfessionalNameListByUnitNameAndDept)',function(data){
-        	 getProfessionalNameListByUnitNameAndDept(data.value);
-        })
-         
-         
-			getDepartNameByUnitName($("#belongDepartmentName").val());	
-			function getDepartNameByUnitName(belongDepartmentName)
-			{
-				 $("#belongDepartmentName").val(belongDepartmentName);
-				 $("#professionalDepartName").empty();
-
-				 var v_date=(new Date()).getTime();
-				 $.ajax({
-						url : "/unitField/getDepartmentNameListByUnitName?v_date="+v_date+"&unitName="+belongDepartmentName,
-						type : "post",
-						async: false,
-						dataType : "json",
-						success : function(data)
-						{
-							$("#professionalDepartName").append("<option value=''>--请选择--</option>");
-							$.each(data, function(i, el)
-							{
-								var content='<option value="'+ el.departmentName +'" ';
-								if(professionalDepartName==el.departmentName)
-								{
-									content+=' selected="selected" ';
-								}
-								content+=' >' + el.departmentName+ '</option>';
-								$("#professionalDepartName").append(content);
-
-							});
-							form.render('select');
-						},
-						error : function()
-						{
-							alert("发生未知错误 ,请重新操作.");
-						}
-					});
-
-
-
-
-				getProfessionalNameListByUnitNameAndDept(professionalDepartName);
-			}
-
-
-			function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
-			{
-				 var belongDepartmentName= $("#belongDepartmentName").val();
-				 $("#professionalFieldName").empty();
-				 var v_date=(new Date()).getTime();
-				 $.ajax({
-						url : "/unitField/getProfessionalNameListByUnitNameAndDept?v_date="+v_date+"&unitName="+belongDepartmentName+"&departmentName="+professionalDepartName,
-						type : "post",
-						async: false,
-						dataType : "json",
-						success : function(data)
-						{
-							$("#professionalFieldName").append("<option value=''>--请选择--</option>");
-
-							$.each(data, function(i, el)
-							{
-								var content='<option value="'+ el.professionalFieldName +'" ';
-								if(professionalFieldName==el.professionalFieldName)
-								{
-									content+=' selected="selected" ';
-								}
-								content+=' >' + el.professionalFieldName+ '</option>';
-
-								$("#professionalFieldName").append(content);
-							});
-							form.render('select');
-						},
-						error : function()
-						{
-							alert("发生未知错误 ,请重新操作.");
-						}
-					});
-			}
-
-			
-			var $ = layui.$, active = {
-		            selectEvent: function () {
-		                //var temUrl = "/intl_project/plant_edit_selectapply?equipmentIds="+$("#equipmentIds").val();
-		                var temUrl = '/sre-equipment/chooseEquipmentByUser?equipmentIds=' + $("#equipmentIds").val()+"&isLinkedProject=0";
-		                publicMethods.openBaseWin("选择装备", temUrl, "90%", "80%");
-
-		            }
-
-		        }
-			
-        var equipmentIds = $("#equipmentIds").val();
-        renderTable(equipmentIds)
-
-        publicMethods.createTable($("#beginYear").val(), $("#endYear").val(), "yearTr", 2, yearFeeStr);
-
-
-        //添加到form.render()之后
-        $("#file_div").load('/common/public/uploadlayuiload.html');
-
-       
-        /* 监听提交 */
-        form.on('submit(sub)', function (data) {
-            //JSON.stringify(data.field)  提交信息json格式
-            /*parent.layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            })*/
-        	var purchaseName = $("#purchaseName").val();
-        	if (purchaseName == null || purchaseName == '')
-            {
-                layer.alert("请选择采购计划名称");
-            }
-            return false;
-        });
-
-    });
-
-   <!--
-    function renderTable(equipmentIds) {
-        $("#equipmentIds").val(equipmentIds);
-        table.render({
-            elem: '#join_apply_table',
-            url: '/sre-equipment/chooseEquipmentByIds?equipmentIds=' + equipmentIds,
-            limit: 15,
-            method: "GET",
-            id: 'join_apply_table',
-            height: commonDislodgeTable(),
-            //page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
-            cols: [[
-                    
-                {title: '序号', type: 'numbers'},
-                {field: 'name', title: '装备名称', style: 'cursor: pointer;', align: 'center', width: '30%'},
-                {field: 'type', title: '装备分类', style: 'cursor: pointer;', align: 'center', width: '10%'},
-                {field: 'unitPrice', title: '单价（万元）', style: 'cursor: pointer;', align: 'center', width: '10%'},
-                {field: 'applyAcount', title: '申请数量', style: 'cursor: pointer;', align: 'center', width: '10%'},
-                {
-                    field: 'allPrice',
-                    title: '总价￥（万元）',
-                    style: 'cursor: pointer;',
-                    align: 'center',
-                    width: '10%',
-                    templet: function (d) {
-                        return '<span style="color:red">' + d.allPrice + '</span>'
-                    }
+<script type="text/javascript">
+var publicMethods;
+    $(document).ready(function() {
+    	layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element','publicMethods' ],function() {
+ 			var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
+ 			publicMethods=layui.publicMethods;
+ 			var form = layui.form;
+ 			var table = layui.table;
+	    	table.render({
+	            elem: '#notjoin_apply_table',
+	            url: '/sre-forapplication/listfor',
+	            limit: 15,
+	            method:"POST",
+	            where: {param:{"equipmentIds":$("#equipmentIds").val(),"applyName":$("#applyName").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"isLinkedProject":$("#isLinkedProject").val()}},
+	        	id: 'notjoin_apply_table',
+	        	height: 360,
+	        	page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
+	            cols: [[
+	            	{type:'checkbox',event: 'changeEvents'}
+	             	,{title:'序号', type:'numbers'},
+	             	{field : 'auditStatus', title : '状态',    style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width : 55},
+	                {field : 'name',        title : '装备名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
+	                {field : 'unitPrice',   title : '单价（万元）', style : 'cursor: pointer;', align : 'center', width : '10%'},
+	                {field : 'applyAcount', title : '申请数量',    style : 'cursor: pointer;', align : 'center', width : '10%'},
+	                {field : 'allPrice',    title : '总价¥（万元）', style : 'cursor: pointer;', align : 'center', width : '10%',templet:function(d){return '<span style="color:red">'+d.allPrice+'</span>'}},
+	                {field : 'parentUnitPathNames', title : '申报单位', style : 'cursor: pointer;', align : 'left', width : '30%'},
+	                {field : 'applyDepartName', title : '申报部门', style : 'cursor: pointer;', align : 'left', width : '20%'},
+	                {field : 'firstApplyUser',  title : '第一申报人', style : 'cursor: pointer;', align : 'left', width : '10%'},
+	                {field : 'createDate',  title : '申报时间', style : 'cursor: pointer;', align : 'left', width : '15%', templet : '#dateTpl'},
+	                {field : 'assetNumber ', title : '资产编号', style : 'cursor: pointer;', align : 'left', width : '9%',edit: 'text'}
+	                ]],
+	            done: function (res, curr, count) {
+	            	var equipmentIds="";
+	            	for(var i;i<res.data.length;i++)
+	            	{
+	            		var equipmentId=res.data.equipmentId;
+	            	}
+	            	//alert(res.data.length);
+	            	
+	            	//项目分类，项目性质
+	                var dicMap = ['ROOT_ZBGL_ZBFL'];
+	                var dicVal = {};
+	 				publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
+	 					$.each(data,function(key,val){
+	 						$.each(val,function(i,dt){
+	 							dicVal[dt.code] = dt.name;
+	 						});
+	 					});
+	 			   	}); 
+	 				$.each(res.data,function(i,dt){
+	 					$("tr[data-index='"+i+"'] td[data-field='type'] div").html(dicVal[res.data[i].type]); 
+	 			   	});
+	 				
+	            }
+	        });
+	    	//多行点击事件
+	        $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
+	     	   	var checkCell = $(this).parent().find("tr[data-index=" + $(this).attr('data-index') + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox");
+	             if (checkCell.length > 0) {
+	                 checkCell.click();
+	             }
+	         });
+	         $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+	             e.stopPropagation();
+	         });
+	         var arr = [];
+	         table.on('edit(JoinEvent)',function(obj){
+   	        	 var arrIn = $(this).parent().parent().attr('data-index')
+   	        	 if(arr.length ==0) {
+   	        		 arr.push(obj.value);
+   	        	 }else {
+   		        	 for ( var i = 0; i <arr.length; i++){
+   		        		 if(arr.length > arrIn) {
+   		        			 arr[arrIn]=obj.value;
+   		        		 }else {
+   		        			 arr.push(obj.value);
+   		        		 }
+   		        		}
+   	        	 }
+//   	        	 console.log(vobjes)
+   	         })
+	         
+	    	var $ = layui.$, active = {
+	    		searchEvent: function() { 
+                    table.reload("notjoin_apply_table",{where:{param:{"equipmentIds":$("#equipmentIds").val(),"name":$("#name").val()}}});
                 },
-                {field : 'parentUnitPathNames', title : '申报单位', style : 'cursor: pointer;', align : 'left', width : '30%'},
-                {field : 'applyDepartName', title : '申报部门', style : 'cursor: pointer;', align : 'left', width : '20%'},
-                {field: 'firstApplyUser', title: '申报人', style: 'cursor: pointer;', align: 'center', width: '10%'},
-                {field : 'configure', title : '配置', style : 'cursor: pointer;', align : 'left', width : '9%',edit: 'text'},  
-                {field : 'measuringUnit', title : '计量单位', style : 'cursor: pointer;', width : '9%',templet : '#gUnit'},  
-                {field : 'assetsClassification', title : '资产分类', style : 'cursor: pointer;', width : '9%',templet : '#iFication'},  
-                {field : 'nationality', title : '国别', style : 'cursor: pointer;', width : '9%',templet : '#selectToolSSw'},  
-                {field : 'placeUse', title : '使用地点', style : 'cursor: pointer;', align : 'left', width : '9%',edit: 'text'},
-                {field : 'placePeople', title : '使用人', style : 'cursor: pointer;', align : 'left', width : '9%',edit: 'text'}, 
-                {field : 'receivePeople ', title : '领取人', style : 'cursor: pointer;', align : 'left', width : '9%',edit: 'text'}, 
-                ]],
-            done: function (res, curr, count) {
-
-                //项目分类，项目性质
-                var dicMap = ['ROOT_UNIVERSAL_GJDQ'];
-                var dicVal = {};
-                publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys", {"parentCodes": JSON.stringify(dicMap)}, function (data) {
-                    $.each(data, function (key, val) {
-                        $.each(val, function (i, dt) {
-                            dicVal[dt.code] = dt.name;
-                        });
-                    });
-                });
-                $.each(res.data, function (i, dt) {
-                    $("tr[data-index='" + i + "'] td[data-field='nationality'] div").html(dicVal[res.data[i].nationality]);
-                });
-
-            }
-        });
-    }
-   -->
-    var index_close;
-
-
-
-
-    //参加单位--多个
-    function choose_joinUnitName_callback(unitIds, unitNames) {
-        $("#joinUnitName").val(unitNames);
-        $("#joinUnitCode").val(unitIds);
-    }
-
-    function choose_belongDepartmentName_callback(unitId, unitName) {
-        $("#belongDepartmentName").val(unitName);
-        $("#belongDepartmentCode").val(unitId);
-    }
-
-    function choose_leadUnitName_callback(unitId, unitName) {
-    	alert(unitName);
-        $("#leadUnitName").val(unitName);
-        $("#leadUnitCode").val(unitId);
-    }
-
-    function clearNoNum(obj) {
-        obj.value = obj.value.replace(/[^\d.]/g, "");  //清除“数字”和“.”以外的字符
-        obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
-        obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
-        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');//只能输入两个小数
-        if (obj.value.indexOf(".") < 0 && obj.value != "") {//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额
-            obj.value = parseFloat(obj.value);
-        }
-    }
-
-    //关闭事件
-    $("#closeBtn").click(function () {
-        var index = parent.layer.getFrameIndex(window.name);
-        parent.layer.close(index);
-    })
-
-
-    //金额： 所选装备=牵头单位+参与单位
-    function checkAllMoney(mainUnitMoney, joinUnitMoney) {
-        var flag = false;
-        var url = "/sre-equipment/get_money_by_ids?v_date=" + v_date + "&equipmentIds=" + $("#equipmentIds").val();
-        $.ajax({
-            type: 'get',
-            url: url,
-            dataType: "json",
-            async: false,
-            cache: false,
-            contentType: "application/x-www-form-urlencoded; charset=utf-8",
-            success: function (data, status) {
-                if (data.success == true || data.success == 'true') {
-                    var money = data.data;
-                    alert(money);
-                    var temp = parseInt(mainUnitMoney) + parseInt(joinUnitMoney);//所选装备=牵头单位+参与单位
-                    if (money == temp) {
-                        flag = true;
-                    }
+	    		addEvent:function(){
+                	var check = table.checkStatus('notjoin_apply_table');
+                	if(check.data.length == 0)
+                	{
+                		layer.msg('请点击选择装备数据!');
+                		return;
+                	}
+                	var equipmentIds="";
+                	for(var dt in check.data)
+                	{
+                		equipmentIds=equipmentIds+check.data[dt].equipmentId+",";
+                	}
+                	var froname = $("#froappname").val();
+                	if(froname == null || froname == "") {
+                		layer.alert("转资名称不能为空");
+                		 return false;
+                	}
+                	$.ajax({
+                        type : "POST",
+                        url: "/sre-forapplicatio/save",
+                        data: {"arr": arr,"equipmentIds":equipmentIds,"froname":froname},
+                        traditional : true,
+                        async : true,   
+                        dataType:"json",
+                        success : function(data){
+                        	if(data.result == 1) {
+                        		alert("添加成功!!");
+                        		parent.location.href = '/sre-forapplication/to-list';
+                        	}else {
+                        		layer.alert("添加失败,请联系管理员!!");
+                        	}
+                        },
+                    });    
                 }
-
-            },
-            error: function () {
-                layer.alert("网络访问错误");
-            }
-
-        });
-        return flag;
-    }
-
-
+        	}
+        	$('.layui-btn').on('click', function(){
+            	var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+	    	$("#close").click(function () {
+			    var index = parent.layer.getFrameIndex(window.name);
+			    parent.layer.close(index);
+			});
+    	});
+    });
 </script>
 </body>
 </html>

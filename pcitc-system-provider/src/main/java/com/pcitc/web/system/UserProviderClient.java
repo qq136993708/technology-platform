@@ -197,4 +197,21 @@ public class UserProviderClient {
 		return data;
 	}
 	
+	@ApiOperation(value = "根据UserUnit查看用户列表")
+	@RequestMapping(value = "/user-provider/user/getSysUserListByUserUnitPage",method = RequestMethod.POST)
+	public LayuiTableData getSysUserListByUserUnitPage(@RequestBody LayuiTableParam param) {
+		LayuiTableData data = null;
+		try {
+			data = userService.getSysUserListByUserUnitPage(param);
+		} catch (Exception e) {
+			logger.error("[用户管理-查询用户列表失败：]", e);
+		}
+		return data;
+	}
+	
+	
+	
+	
+	
+	
 }

@@ -65,7 +65,12 @@ public class TaskController extends BaseController {
 	private static final String INI_DEAL_TASK = "http://pcitc-zuul/system-proxy/task-provider/deal/task/info";
 
 	private static final String TASK_PROCESS_INFO = "http://pcitc-zuul/system-proxy/task-provider/task/process/info";
+	
+	// 任务撤回操作
+	private static final String TASK_RECALL = "http://pcitc-zuul/system-proxy/task-provider/task/recall/";
 
+	// 消息列表
+	private static final String MESSAGE_LIST = "http://pcitc-zuul/system-proxy/message-provider/message/list";
 	/**
 	 * 判断是否需要选择审批人
 	 */
@@ -100,7 +105,42 @@ public class TaskController extends BaseController {
 
 		return "/pplus/workflow/deal-user-list";
 	}
+	
+	/**
+	 * 跳转消息列表
+	 */
+	@RequestMapping(value = "/task/message/list/ini")
+	public String iniMessageList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+		return "/pplus/workflow/message-list";
+	}
+	
+	/**
+	 * @author zhf
+	 * @date 2019年4月16日 上午10:28:42 消息列表数据
+	 */
+	@RequestMapping(value = "/task/message/list", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getMessageListData(@ModelAttribute("param") LayuiTableParam param) {
+
+		// 获取当前登录人信息
+		param.getParam().put("userId", sysUserInfo.getUserId());
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(MESSAGE_LIST, HttpMethod.POST, entity, LayuiTableData.class);
+		LayuiTableData retJson = responseEntity.getBody();
+
+		return JSON.toJSON(retJson).toString();
+	}
+	
+	/**
+	 * 跳转消息详情
+	 */
+	@RequestMapping(value = "/task/message/details")
+	public String messageDetails(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		return "/pplus/workflow/message-details";
+	}
+	
 	/**
 	 * 查询所有的下一个节点需要处理的人（角色用列表）
 	 * 
@@ -372,6 +412,26 @@ public class TaskController extends BaseController {
 			e.printStackTrace();
 		}
 		return "ok";
+	}
+	
+	/**
+	 * @param taskId
+	 * @param request
+	 * @return
+	 * 任务撤回
+	 */
+	@RequestMapping(value = "/task/recall/{taskId}", method = RequestMethod.POST)
+	@ResponseBody
+	public Object recallTask(@PathVariable("taskId") String taskId, HttpServletRequest request) {
+
+		MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
+		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, httpHeaders);
+
+		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(TASK_RECALL + taskId, HttpMethod.POST, entity, JSONObject.class);
+		JSONObject retJson = responseEntity.getBody();
+
+		System.out.println("2====processList====" + retJson.toString());
+		return retJson.toString();
 	}
 
 }

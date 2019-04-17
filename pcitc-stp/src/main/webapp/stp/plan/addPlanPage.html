@@ -12,6 +12,11 @@
     <script type="text/javascript" src="/layuiadmin/modules/selectTree.js?v=9"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <style>
+        /*.layui-table-body{overflow:-webkit-paged-x !important; }*/
+        .layui-form-selectup dl{top: 20px !important;
+            height: 180px;}
+    </style>
 </head>
 <body>
 <div class="form_tableAdd_container">
@@ -29,7 +34,7 @@
                 <div class="layui-row">
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">标题:<span class="must-fill">*</span></label>
+                            <label class="layui-form-label">标题<span class="must-fill">*</span></label>
                             <div class="layui-input-block">
                                 <input class="layui-input" name="workOrderName" id="workOrderName" lay-verify="title"
                                        placeholder="请输入标题" autocomplete="off" type="text">
@@ -50,7 +55,7 @@
                 <div class="layui-row">
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">类型:<span class="must-fill">*</span></label>
+                            <label class="layui-form-label">类型<span class="must-fill">*</span></label>
                             <div class="layui-input-block">
                                 <select id="workOrderType" name="workOrderType" lay-filter="select_filter"
                                         lay-search></select>
@@ -70,7 +75,7 @@
 
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label for="" class="layui-form-label">完成比例<span class="must-fill">*</span></label>
+                            <label for="" class="layui-form-label">完成比例<span class="must-fill"></span></label>
                             <div class="layui-input-block">
                                 <input class="layui-input" name="bl" id="bl"
                                        placeholder="完成比例" autocomplete="off" type="text">
@@ -150,6 +155,19 @@
 </script>
 
 <script>
+    function setWelder(selectData){
+        selectData = eval(selectData);
+        var userId = "";
+        var userDisp = "";
+        for (var j = 0; j <selectData.length; j++) {
+            // userId = userId+((j==0)?"":",")+selectData[j].userId;
+            userDisp = userDisp+((j==0)?"":",")+selectData[j].userDisp;
+            userId = selectData[j].userId+","+userId;
+            // userDisp = selectData[j].userDisp+","+userDisp;
+        }
+        $('#workOrderAllotUserId').val(userId);
+        $('#workOrderAllotUserName').val(userDisp);
+    }
 
     var param = JSON.parse(window.localStorage.getItem("param"));
     var file_opt_flag = param.id;
@@ -177,11 +195,18 @@
         });
         publicMethods = layui.publicMethods,
             form.render(null, 'component-form-group');
-        function setWelder(selectData) {
-            $('#workOrderAllotUserId').val(selectData.userId);
-            $('#workOrderAllotUserName').val(selectData.userDisp);
-        }
+        // function setWelder(selectData) {
+        //     $('#workOrderAllotUserId').val(selectData.userId);
+        //     $('#workOrderAllotUserName').val(selectData.userDisp);
+        // }
+        $(document).on("click", ".layui-select-title", function () {
+            if($(this).next().css("display")=="none"){
+                $(".layui-table-body").css("overflow","auto")
+            }else {
 
+                $(".layui-table-body").css("overflow","-webkit-paged-x")
+            }
+        });
         window.setWelder = setWelder;
         var dataStatus = 0;
         console.log($('#workOrderAllotUserId').val)
@@ -207,7 +232,7 @@
             type: 'datetime'
         });
         $.ajax({
-            url: '/pageCommon/dic/ROOT_SGGL_GDGL_GDLX',
+            url: '/pageCommon/dic/ROOT_RWGL_RWLX',
             dataType: 'json',
             type: 'post',
             success: function (data) {
@@ -244,23 +269,29 @@
                 if ($(this).find("td").eq(3).find("input").length > 0) {
                     sthTrObj.dataId = $(this).find("td").eq(2).find("input").val();
                     sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
-                    sthTrObj.workOrderAllotUserName = $(".tdSelect dl dd.layui-this").html();
-                    sthTrObj.workOrderAllotUserId =$(".tdSelect dl dd.layui-this").attr("lay-value");
+                    sthTrObj.workOrderAllotUserName =  $(this).find(".tdSelect dl dd.layui-this").html();
+                    sthTrObj.workOrderAllotUserId = $(this).find(".tdSelect dl dd.layui-this").attr("lay-value");
                     sthTrObj.bl = $(this).find("td").eq(6).find("input").val();
                     sthTrObj.jsId = $(this).find("td").eq(7).find("input").val();
                     sthTrObj.dataCode = (dataCode++);
                 } else {
                     sthTrObj.dataId = $(this).find("td").eq(2).text();
                     sthTrObj.workOrderName = $(this).find("td").eq(3).text();
-                    sthTrObj.workOrderAllotUserName = $(".tdSelect dl dd.layui-this").html();
-                    sthTrObj.workOrderAllotUserId =$(".tdSelect dl dd.layui-this").attr("lay-value");
+                    sthTrObj.workOrderAllotUserName =  $(this).find(".tdSelect dl dd.layui-this").html();
+                    sthTrObj.workOrderAllotUserId = $(this).find(".tdSelect dl dd.layui-this").attr("lay-value");
                     sthTrObj.bl = $(this).find("td").eq(6).text();
                     sthTrObj.jsId = $(this).find("td").eq(7).text();
                     sthTrObj.dataCode = (dataCode++);
                 }
+                console.log(sthTrObj);
+                console.log(eval(sthTrObj));
                 sthTrArr.push(sthTrObj)
-                console.log(sthTrArr);
+
             });
+
+            console.log("sthTrArr");
+            console.log(eval(sthTrArr));
+
             var jsonData = data.field;
             jsonData.matterList = sthTrArr;
             console.log("------jsonData-------");
@@ -312,16 +343,16 @@
                 if ($(this).find("td").eq(3).find("input").length > 0) {
                     sthTrObj.dataId = $(this).find("td").eq(2).find("input").val();
                     sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
-                    sthTrObj.workOrderAllotUserName = $(".tdSelect dl dd.layui-this").html();
-                    sthTrObj.workOrderAllotUserId =$(".tdSelect dl dd.layui-this").attr("lay-value");
+                    sthTrObj.workOrderAllotUserName = $(this).find(".tdSelect dl dd.layui-this").html();
+                    sthTrObj.workOrderAllotUserId =$(this).find(".tdSelect dl dd.layui-this").attr("lay-value");
                     sthTrObj.bl = $(this).find("td").eq(6).find("input").val();
                     sthTrObj.jsId = $(this).find("td").eq(7).find("input").val();
                     sthTrObj.dataCode = (dataCode++);
                 } else {
                     sthTrObj.dataId = $(this).find("td").eq(2).text();
                     sthTrObj.workOrderName = $(this).find("td").eq(3).text();
-                    sthTrObj.workOrderAllotUserName = $(".tdSelect dl dd.layui-this").html();
-                    sthTrObj.workOrderAllotUserId =$(".tdSelect dl dd.layui-this").attr("lay-value");
+                    sthTrObj.workOrderAllotUserName = $(this).find(".tdSelect dl dd.layui-this").html();
+                    sthTrObj.workOrderAllotUserId =$(this).find(".tdSelect dl dd.layui-this").attr("lay-value");
                     sthTrObj.bl = $(this).find("td").eq(6).text();
                     sthTrObj.jsId = $(this).find("td").eq(7).text();
                     sthTrObj.dataCode = (dataCode++);

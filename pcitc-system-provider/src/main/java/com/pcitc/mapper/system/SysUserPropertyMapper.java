@@ -1,11 +1,13 @@
 package com.pcitc.mapper.system;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
 import com.pcitc.base.common.TreeNode;
+import com.pcitc.base.system.SysFunctionProperty;
 import com.pcitc.base.system.SysUserProperty;
 import com.pcitc.base.system.SysUserPropertyExample;
 import com.pcitc.base.system.vo.SysUserPropertyVo;
@@ -125,8 +127,6 @@ public interface SysUserPropertyMapper {
 	 * 查询某个人在某些数据控制属性上的具体控制数据内容
 	 */
 	public List<SysUserProperty> selectUserPropertyByUserAndType(Map<String,Object> paramMap);
-	public SysUserProperty getSysUserProperty(Map<String,Object> paramMap);
-	
 	
 	/**
 	 * 根据userId 获取 data_id 长串
@@ -187,6 +187,28 @@ public interface SysUserPropertyMapper {
 	 * @return
 	 */
 	List<SysUserPropertyVo> selectUserPropertyDicList(SysUserPropertyVo userProperty);
+	
+	/**
+	 * 检索机构(树),通过岗位、菜单、配置项信息
+	 */
+	public List<TreeNode> selectUnitListForUnitDataConfig(HashMap<String,Object> paramMap);
+	
+	/**
+	 * @param sysFunctionProperty
+	 * @return
+	 * 保存菜单、配置项、岗位三者和配置内容的关联
+	 */
+	public int bantchInsertFunctionProperty(List<SysFunctionProperty> list);
+	
+	/**
+	 * 批量删除functionId、procode、postids对应的数据
+	 */
+	public int bantchDeleteFunctionProperty(HashMap<String,Object> paramMap);
+	
+	/**
+	 * 数据项控制，查询当前人所属岗位、菜单，对应的属性控制信息
+	 */
+	public List<SysFunctionProperty> dataFilterFunction(HashMap<String,Object> paramMap);
 	
 	
 }

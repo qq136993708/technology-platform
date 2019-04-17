@@ -307,7 +307,7 @@ public class UnitServiceImpl implements UnitService {
 		SysUnitExample.Criteria c = example.createCriteria();
 		c.andUnitRelationEqualTo(unit.getUnitRelation());
 		example.setOrderByClause("unit_path desc");
-		
+		Integer number;
 		//设置路径查找同一个父机构下的同级机构
 		List<SysUnit> units = unitMapper.selectByExample(example);
 		if(units == null || units.size()==0){
@@ -317,8 +317,13 @@ public class UnitServiceImpl implements UnitService {
 		}else{
 			//Integer path = new Integer(units.get(0).getUnitPath())+1;
 			String path = units.get(0).getUnitPath();
-			Integer number = new Integer("1"+path.substring(path.length()-4))+1;
-			return path.substring(0, path.length()-4)+number.toString().substring(1);
+			if(path.length()<4) {
+				number = new Integer("1"+path.substring(path.length()-3))+1;
+				return path.substring(0, path.length()-3)+number.toString().substring(1);
+			}else {
+				number = new Integer("1"+path.substring(path.length()-4))+1;
+				return path.substring(0, path.length()-4)+number.toString().substring(1);
+			}
 		}
 	}
 
@@ -363,7 +368,7 @@ public class UnitServiceImpl implements UnitService {
 		if(parentCode !=null) {
 			c.andUnitPathLike(parentCode+"%");
 		}
-		example.setOrderByClause("unit_path ASC");
+		example.setOrderByClause("unit_order ASC");
 		List<SysUnit> units = unitMapper.selectByExample(example);
 		List<TreeNode> nodes = new ArrayList<TreeNode>();
 		for(SysUnit unit:units) 
@@ -420,6 +425,27 @@ public class UnitServiceImpl implements UnitService {
 		return null;
 	}
 	
+	/**
+	 * 查询某种条件下的组织机构节点，有组织机构和岗位, 没有人员
+	 * @param unit
+	 * @return
+	 * @throws Exception
+	 */
+	public List<TreeNode> getUnitPostTree(HashMap<String,Object> paramMap) {
+		List<TreeNode> nodes = unitMapper.getUnitPostTree(paramMap);
+		for (int i = 0; i < nodes.size(); i++) {
+			TreeNode tree = nodes.get(i);
+			if (tree.getLevelCode() < 3) {
+				tree.setOpen("true");
+            } else {
+                tree.setOpen("false");
+            }
+		}
+		return nodes;
+	}
+	
+	
+	//根据UnitPath检索机构信息
 	public SysUnit getUnitByUnitPath(String unitPath)
 	{
 		SysUnitExample example = new SysUnitExample();
@@ -432,8 +458,8 @@ public class UnitServiceImpl implements UnitService {
 		return null;
 	}
 	
-
-	@Override
+	
+	
 	public String getUnitZTreeListByName(String name) {
 		//先检索出所有的数据
 		SysUnitExample example = new SysUnitExample();
@@ -487,4 +513,5 @@ public class UnitServiceImpl implements UnitService {
 		}
 		return JSONArray.toJSONString(nodes);
 	}
+	
 }

@@ -30,7 +30,7 @@
                 <div class="layui-row">
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">标题:<span class="must-fill">*</span></label>
+                            <label class="layui-form-label">标题<span class="must-fill">*</span></label>
                             <div class="layui-input-block">
                                 <input class="layui-input" name="workOrderName" id="workOrderName" lay-verify="title"
                                        placeholder="请输入标题" autocomplete="off" type="text">
@@ -51,7 +51,7 @@
                 <div class="layui-row">
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">类型:<span class="must-fill">*</span></label>
+                            <label class="layui-form-label">类型<span class="must-fill">*</span></label>
                             <div class="layui-input-block">
                                 <input class="layui-input readOnlyBox layui-hide" type="text" id="workOrderType"
                                         readonly="readonly" name="workOrderType">
@@ -72,7 +72,7 @@
 
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label for="" class="layui-form-label">完成比例<span class="must-fill">*</span></label>
+                            <label for="" class="layui-form-label">完成比例<span class="must-fill"></span></label>
                             <div class="layui-input-block">
                                 <input class="layui-input" name="bl" id="bl"
                                        placeholder="完成比例" autocomplete="off" type="text">
@@ -222,17 +222,17 @@
         publicMethods = layui.publicMethods,
             form.render(null, 'component-form-group');
 
-        function setWelder(selectData) {
-            $('#bak2').val(selectData.userId);
-            $('#bak3').val(selectData.userDisp);
-        }
+        // function setWelder(selectData) {
+        //     $('#bak2').val(selectData.userId);
+        //     $('#bak3').val(selectData.userDisp);
+        // }
         window.setWelder = setWelder;
         var dataStatus = 0;
 
         //人员选择回调
         function setWelder(selectData) {
-            $('#bak6').val(selectData.userId);
-            $('#bak4').val(selectData.userDisp);
+            $('#bak6').val(selectData[0].userId);
+            $('#bak4').val(selectData[0].userDisp);
         }
 
         //显示文件上传部分
@@ -257,7 +257,7 @@
             type: 'datetime'
         });
         $.ajax({
-            url: '/pageCommon/dic/ROOT_SGGL_GDGL_GDLX',
+            url: '/pageCommon/dic/ROOT_RWGL_RWLX',
             dataType: 'json',
             type: 'post',
             success: function (data) {

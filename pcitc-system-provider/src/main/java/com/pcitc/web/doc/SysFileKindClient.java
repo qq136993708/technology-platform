@@ -121,42 +121,23 @@ public class SysFileKindClient {
     	// 只查询公共的文档分类
     	HashMap<String, Object> map = new HashMap<String, Object>();
     	map.put("other", sysFileKind.getOther());
-        return sysFileKindService.selectTrees(map);
+    	map.put("createPersonId", sysFileKind.getCreatePersonId());
+    	map.put("kindLevel", sysFileKind.getKindLevel());
+    	map.put("parentId", sysFileKind.getParentId());
+    	
+    	List<TreeNode> list = sysFileKindService.selectTrees(map);
+    	for (int i = 0; i < list.size(); i++) {
+			TreeNode tree = list.get(i);
+			// 判断节点是否有孩子（异步加载用）
+			if (tree.getIsLeaf() == 1) {
+				tree.setIsParent(true);
+			} else {
+				tree.setIsParent(false);
+			}
+		}
+        return list;
     }
-//
-//    /**
-//     * 查询菜单相信信息-展示
-//     *
-//     * @param sysFileKindId
-//     * @return
-//     * @throws Exception
-//     */
-//    @RequestMapping(value = "/sysfilekind-provider/sysfilekind/get_sysfilekind/{sysFileKindId}")
-//    public SysFileKind selectSysFileKindByMenuId(@PathVariable(value = "sysFileKindId", required = true) String sysFileKindId) throws Exception {
-//        SysFileKind sysFileKind = sysFileKindService.selectByPrimaryKey(sysFileKindId);
-//        if ("".equals(sysFileKind.getParentId().trim())) {
-//            sysFileKind.setParentName("");
-//        } else {
-//        }
-//        SysFileKindExample sysFileKindExample = new SysFileKindExample();
-//        String strParentId = sysFileKindService.selectByExample(sysFileKindExample).get(0).getId();
-//        sysFileKind.setRootId(strParentId);
-//        return sysFileKind;
-//    }
-//
-//    /**
-//     * 更新菜单信息
-//     *
-//     * @param sysFileKind
-//     * @return
-//     */
-//    @RequestMapping(value = "/sysfilekind-provider/sysfilekind/update-sysfilekind")
-//    public Serializable updateSysFileKind(@RequestBody SysFileKind sysFileKind) {
-//        sysFileKindService.updateByPrimaryKey(sysFileKind);
-//        DataOperationStatusEnum status = DataOperationStatusEnum.UPD_OK;
-//        return status;
-//    }
-//
+
     /**
      * 删除菜单信息-false
      *

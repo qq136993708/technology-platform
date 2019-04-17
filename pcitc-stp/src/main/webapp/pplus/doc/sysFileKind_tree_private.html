@@ -57,34 +57,82 @@
 
 	<script>
 		var parentId = "xxxxxxxx";
+		var fileKindPath = "";
+		var zNodes;
 
-		function initTree() {
-			var zNodes;
-			ajaxPost("/sysfilekind/sysfilekind/tree-data", null, function(data) {
-				zNodes = data;
-			});
-			var setting = {
-				data : {
-					simpleData : {
-						enable : true
-					}
+		$(function() {
+			$.ajax({
+				url : "/sysfilekind/sysfilekind/tree-data",//这个就是请求地址对应sAjaxSource
+				type : 'get',
+				headers : {
+					'Content-Type' : 'application/json',
 				},
-				callback : {
-					onClick : onClickMenu
+				dataType : 'json',
+				async : false,
+				success : function(data) {
+					zNodes = data;
+				},
+				error : function(msg) {
+					layer.msg(msg);
 				}
-			};
+			});
+		});
 
-			$.fn.zTree.init($("#funTree"), setting, zNodes);
+		// 决定某个节点是否进行异步操作的关键是isParent属性，当isParent为true，是异步启动的必要条件
+		var temUrl = '/sysfilekind/sysfilekind/tree-data';
+		var setting = {
+			// 异步动态加载
+			async : {
+				enable : true,
+				url : temUrl,
+				dataType : 'json',
+				type : 'get',
+				//异步查询时，把节点code传递后台，查询此节点下的节点。
+				autoParam : [
+					"id"
+				]
+			},
+			data : {
+				simpleData : {
+					enable : true
+				}
+			},
+			view : {
+				showIcon : false
+			},
+			callback : {//请求成功后回调
+				onClick : onClickMenu,//点击相关节点触发的事件
+				onAsyncSuccess : ztreeOnAsyncSuccess,//异步加载成功后执行的方法
+			}
+		};
+
+		//获取树成功后进行的回调操作。数据如果需要二次加工的话，调用此方法
+		function ztreeOnAsyncSuccess(event, treeId, treeNode) {
+
 		}
 
-		initTree();
-
+		// 点击树节点时，处理变量和右侧表格
 		function onClickMenu(event, treeId, treeNode, clickFlag) {
 			parentId = treeNode.id;
-			active.resetEvent();
+			fileKindPath = treeNode.nodePath;
+			reloadtable();
 		}
+
+		$(document).ready(function() {
+			$.fn.zTree.init($("#funTree"), setting, zNodes);
+		});
+
 		function reloadtable() {
-			active.resetEvent();
+			$("#fileName").val("");
+			table.reload('sysFileId', {
+				where : {
+					param : {
+						"fileName" : $("#fileName").val(),
+						"fileKindPath" : fileKindPath,
+						"createUserId" : 'flag'
+					}
+				}
+			});
 		}
 
 		var active = '';
@@ -101,13 +149,13 @@
 				var lodingMsg = layer.msg('数据加载中....');
 				table.render({
 					elem : '#fileShowTable',
-					url : '/sysfile/getTableData',
+					url : '/file/kind/list',
 					method : "POST",
 					where : {
 						param : {
 							"fileName" : $("#fileName").val(),
-							"createUserId" : 'flag',
-							"fileKind" : parentId
+							"fileKindPath" : fileKindPath,
+							"createUserId" : 'flag'
 						}
 					},
 					limit : param.selfRownum,
@@ -329,13 +377,7 @@
 			});
 		});
 	</script>
-	<script type="text/html" id="powerShow">
-    {{#  if(d.bak1 == 'private'){ }}
-    私有
-    {{# } else if(d.bak1 == 'public'){ }}
-    公共
-    {{#  } }}
-</script>
+	
 </body>
 
 </html>

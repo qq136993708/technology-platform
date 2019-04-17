@@ -15,7 +15,9 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreForApplication;
+import com.pcitc.mapper.equipment.SreEquipmentMapper;
 import com.pcitc.mapper.equipment.SreForApplicationMapper;
 import com.pcitc.service.equipment.ForApplicationService;
 @Service("forapplicationService")
@@ -26,7 +28,8 @@ public  class ForApplicationServiceImpl implements ForApplicationService {
 	private final static Logger logger = LoggerFactory.getLogger(ForApplicationServiceImpl.class); 
 	@Autowired
 	private SreForApplicationMapper sreforapplicationMapper;
-	
+	@Autowired
+	private SreEquipmentMapper sreEquipmentMapper;
 	
 	private String getTableParam(LayuiTableParam param,String paramName,String defaultstr)
 	{
@@ -57,7 +60,8 @@ public  class ForApplicationServiceImpl implements ForApplicationService {
 		String applicationUserName=getTableParam(param,"applicationUserName","");
 		String applicationTime=getTableParam(param,"applicationTime","");
 		String applicationMoney=getTableParam(param,"applicationMoney","");
-		
+		String applyDepartCode=getTableParam(param,"applyDepartCode","");
+		String unitPathIds=getTableParam(param,"parentUnitPathIds","");
 		Map map=new HashMap();
 		map.put("applicationId", applicationId);
 		map.put("applicationState", applicationState);
@@ -65,9 +69,29 @@ public  class ForApplicationServiceImpl implements ForApplicationService {
 		map.put("applicationUserName", applicationUserName);
 		map.put("applicationTime", applicationTime);
 		map.put("applicationMoney", applicationMoney);
+		map.put("firstApplyUser", unitPathIds);
 		
 		System.out.println(">>>>>>>>applicationState="+applicationState);
+		StringBuffer applyUnitCodeStr=new StringBuffer();
+		if(!applyDepartCode.equals(""))
+		{
+			applyUnitCodeStr.append(" (");
+			String arr[]=applyDepartCode.split(",");
+			for(int i=0;i<arr.length;i++)
+			{
+				if(i>0)
+				{
+					applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
+				}else
+				{
+					applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
+				}
+				
+			}
+			applyUnitCodeStr.append(" )");
+		}
 		
+		map.put("sqlStr", applyUnitCodeStr.toString());
 		List<SreForApplication> list = sreforapplicationMapper.getList(map);
 		PageInfo<SreForApplication> pageInfo = new PageInfo<SreForApplication>(list);
 		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
@@ -91,6 +115,72 @@ public  class ForApplicationServiceImpl implements ForApplicationService {
 	}
 
 
+	@Override
+	public SreForApplication selectForApplication(String id) {
+		// TODO Auto-generated method stub
+		return sreforapplicationMapper.selectByPrimaryKey(id);
+	}
+
 	
+
+	public LayuiTableData getEquipmentPage(LayuiTableParam param)throws Exception
+	{
+		
+		//每页显示条数
+		int pageSize = param.getLimit();
+		//从第多少条开始
+		int pageStart = (param.getPage()-1)*pageSize;
+		//当前是第几页
+		int pageNum = pageStart/pageSize + 1;
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
+		String name=getTableParam(param,"name","");
+		String equipmentIds=getTableParam(param,"equipmentIds","");
+		String auditStatus=getTableParam(param,"auditStatus","");
+		String applyDepartName=getTableParam(param,"applyDepartName","");
+		String applyDepartCode=getTableParam(param,"applyDepartCode","");
+		String unitPathIds=getTableParam(param,"unitPathIds","");
+		String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
+		String isLinkedProject=getTableParam(param,"isLinkedProject","");
+		Map map=new HashMap();
+		map.put("name", name);
+		map.put("equipmentIds", equipmentIds);
+		map.put("auditStatus", auditStatus);
+		map.put("applyDepartName", applyDepartName);
+		map.put("unitPathIds", unitPathIds);
+		map.put("parentUnitPathIds", parentUnitPathIds);
+		map.put("isLinkedProject", isLinkedProject);
+		System.out.println(">>>>>>>>applyDepartCode="+applyDepartCode);
+		StringBuffer applyUnitCodeStr=new StringBuffer();
+		if(!applyDepartCode.equals(""))
+		{
+			applyUnitCodeStr.append(" (");
+			String arr[]=applyDepartCode.split(",");
+			for(int i=0;i<arr.length;i++)
+			{
+				if(i>0)
+				{
+					applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
+				}else
+				{
+					applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
+				}
+				
+			}
+			applyUnitCodeStr.append(" )");
+		}
+		
+		map.put("sqlStr", applyUnitCodeStr.toString());
+		
+		
+		List<SreEquipment> list = sreEquipmentMapper.getForApplicationList(map);
+		PageInfo<SreEquipment> pageInfo = new PageInfo<SreEquipment>(list);
+		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+	    return data;
+	}
 
 }

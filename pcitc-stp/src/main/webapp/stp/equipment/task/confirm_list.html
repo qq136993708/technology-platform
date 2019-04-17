@@ -25,7 +25,7 @@
 <input  name="parentUnitPathIds"  id="parentUnitPathIds"    value="${parentUnitPathIds}"        type="hidden" >
 <input  name="joinUnitCodes"  id="joinUnitCodes"           type="hidden" >
 <input  name="specialAuditor0"  id="specialAuditor0"           type="hidden" >
-
+<input  name="branchFlag"  id="branchFlag"           type="hidden" >
 
 </form>
     <!--查询条件-->
@@ -552,20 +552,35 @@ var name=$('#name').val();
     } 
     
     
-    
-    
-    
-    
-    
-    
        
 
     
 
     function dealFlow(id,joinUnitCodes) 
     {
-    	$('#specialAuditor0').val('unit--00000');
-    	var json = {functionId:functionId,specialAuditor0:'unit--00000'};
+    	var nunits="";
+    	var branchFlag="";
+    	if(joinUnitCodes!=null && joinUnitCodes!='')
+    	{
+    		branchFlag="1";
+    		var arr=joinUnitCodes.split(",");
+    		for(i=0;i<arr.length;i++) 
+    		{ 
+    			var str=arr[i];
+    			nunits=nunits+str+"-";
+    		} 
+    		nunits = nunits.substr(0, nunits.length - 1); 
+    		nunits="unit--"+nunits;
+    	}else
+   		{
+    		branchFlag="0";
+   		}
+    	// alert(nunits);
+    	 //return;
+    	 $('#specialAuditor0').val(nunits);
+    	 $('#branchFlag').val(branchFlag);
+    	 
+    	 var json = {functionId:functionId,specialAuditor0:nunits,branchFlag: branchFlag};//,branchFlag: branchFlag
     	 $.ajax({
              type : 'POST',
              url : "/workflow/start/audit-type",

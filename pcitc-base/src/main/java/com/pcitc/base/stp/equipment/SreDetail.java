@@ -39,7 +39,37 @@ public class SreDetail {
 
     private String receivePeople;
 
-    public String getId() {
+    private String specification;
+    
+    private Date arrivaldate;
+    
+    private String supplier;
+    
+    public String getSpecification() {
+		return specification;
+	}
+
+	public void setSpecification(String specification) {
+		this.specification = specification;
+	}
+
+	public Date getArrivaldate() {
+		return arrivaldate;
+	}
+
+	public void setArrivaldate(Date arrivaldate) {
+		this.arrivaldate = arrivaldate;
+	}
+
+	public String getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(String supplier) {
+		this.supplier = supplier;
+	}
+
+	public String getId() {
         return id;
     }
 
@@ -182,4 +212,16 @@ public class SreDetail {
     public void setReceivePeople(String receivePeople) {
         this.receivePeople = receivePeople;
     }
+
+	@Override
+	public String toString() {
+		return "SreDetail [id=" + id + ", equipmentId=" + equipmentId + ", equipmentName=" + equipmentName
+				+ ", equipmentType=" + equipmentType + ", equipmentPrice=" + equipmentPrice + ", equipmenNumber="
+				+ equipmenNumber + ", declareUnit=" + declareUnit + ", declareDepartment=" + declareDepartment
+				+ ", declarePeople=" + declarePeople + ", declareTime=" + declareTime + ", assetNumber=" + assetNumber
+				+ ", configure=" + configure + ", measuringUnit=" + measuringUnit + ", assetsClassification="
+				+ assetsClassification + ", nationality=" + nationality + ", placeUse=" + placeUse + ", placePeople="
+				+ placePeople + ", receivePeople=" + receivePeople + "]";
+	}
+    
 }

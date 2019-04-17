@@ -3,7 +3,9 @@ package com.pcitc.service.doc.impl;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -21,6 +23,7 @@ import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.doc.SysFileCollect;
 import com.pcitc.base.doc.SysFileCollectExample;
+import com.pcitc.base.doc.SysFileCollectExample.Criteria;
 import com.pcitc.base.system.SysFile;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
@@ -58,14 +61,15 @@ public class SysFileCollectServiceImpl implements SysFileCollectService {
         String fileIds = sysFileCollect.getFileId();
         String fileKinds = sysFileCollect.getFileKind();
         String bak1s = sysFileCollect.getBak1();
-        String[] fileId = fileIds.split(",");
-        
+        String[] fileId = fileIds.split("\\|");
         for (int i = 0; i < fileId.length; i++) {
         	String temFileId = fileId[i];
         	String[] fileKind = fileKinds.split(",");
         	String[] bak1 = bak1s.split(",");
-        	// 先把此文件之前配置的收藏记录
-        	sysFileCollectMapper.deleteObjByParam(temFileId);
+        	// 先把此文件之前配置的收藏记录删除（本人的收藏）
+        	SysFileCollectExample example = new SysFileCollectExample();
+        	example.createCriteria().andFileIdEqualTo(temFileId).andCreatePersonIdEqualTo(sysFileCollect.getCreatePersonId());
+        	sysFileCollectMapper.deleteByExample(example);
         	
         	for (int j = 0; j < fileKind.length; j++) {
         		SysFileCollect sfc = new SysFileCollect();
@@ -83,6 +87,23 @@ public class SysFileCollectServiceImpl implements SysFileCollectService {
         }
         result = 200;
         return result;
+    }
+    
+    public int deleteSysFileCollect(HashMap<String, Object> map) {
+    	SysFileCollectExample example = new SysFileCollectExample();
+    	Criteria cr = example.createCriteria();
+    	if (map.get("fileIds") != null) {
+    		String[] fileIds = String.valueOf(map.get("fileIds")).split("\\|");
+    		cr.andFileIdIn(Arrays.asList(fileIds));
+    	}
+    	if (map.get("fileKind") != null) {
+    		cr.andFileKindEqualTo(String.valueOf(map.get("fileKind")));
+    	}
+    	if (map.get("createUserId") != null) {
+    		cr.andCreatePersonIdEqualTo(String.valueOf(map.get("createUserId")));
+    	}
+    	sysFileCollectMapper.deleteByExample(example);
+    	return 1;
     }
 
     @Override
