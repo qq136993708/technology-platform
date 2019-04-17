@@ -94,6 +94,37 @@ public class EquipmentServiceImpl implements EquipmentService {
 	{
 		return sreEquipmentMapper.getEquipmentListByIds(list);
 	}
+	
+	public List<SreEquipment> getEquipmentListByMap(Map map)throws Exception
+	{
+		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(map));
+		System.out.println(">>>>>>>>>> getEquipmentListByMap 参数: "+parmamss.toJSONString());
+		String equipmentIds=(String)map.get("equipmentIds");
+		String purchaseStatus=(String)map.get("purchaseStatus");
+		StringBuffer applyUnitCodeStr=new StringBuffer();
+        if (!equipmentIds.equals("")) 
+		{
+			String chkbox[] = equipmentIds.split(",");
+			if (chkbox != null && chkbox.length > 0)
+			{
+				applyUnitCodeStr.append(" ( ");
+				for(int i=0;i<chkbox.length;i++)
+				{
+					if(i>0)
+					{
+						applyUnitCodeStr.append(",'"+chkbox[i]+"'");
+					}else
+					{
+						applyUnitCodeStr.append("'"+chkbox[i]+"'");
+					}
+				}
+				applyUnitCodeStr.append(" ) ");
+			}
+		}
+        map.put("sqlStr", applyUnitCodeStr.toString());
+    	List<SreEquipment> list = sreEquipmentMapper.getList(map);
+    	return list;
+	}
 
 	public Integer insertEquipment(SreEquipment record)throws Exception
 	{

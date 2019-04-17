@@ -13,10 +13,10 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.pcitc.base.stp.equipment.SreProject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -37,6 +37,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.hana.report.DicSupplyer;
 import com.pcitc.base.stp.equipment.SreEquipment;
+import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserProperty;
@@ -62,6 +63,11 @@ public class EquipmentController extends BaseController {
 	private static final String DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/delete/";
 	private static final String BATCH_DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/batch-delete/";
 	private static final String LIST_BY_IDS_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/list-by-ids/";
+	
+	private static final String chooseEquipmentByMap = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/list-by-map/";
+	
+	
+	
 	
 	public static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/get/";
 	// 流程操作--同意
@@ -433,7 +439,8 @@ public class EquipmentController extends BaseController {
 		ResponseEntity<List> responseEntity = null;
 		List returnlist = new ArrayList();
 		String ids = CommonUtil.getParameter(request, "equipmentIds", "");
-		if (!ids.equals("")) 
+		
+	   if (!ids.equals("")) 
 		{
 			String chkbox[] = ids.split(",");
 			if (chkbox != null && chkbox.length > 0)
@@ -446,6 +453,7 @@ public class EquipmentController extends BaseController {
 				if (statusCode == 200) 
 				{
 					returnlist = responseEntity.getBody();
+					
 				}
 			}
 		}
@@ -457,6 +465,40 @@ public class EquipmentController extends BaseController {
 		return result.toString();
 		
 	}
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/chooseEquipmentByMap")
+	@ResponseBody
+	public String chooseEquipmentByMap(HttpServletRequest request, HttpServletResponse response) {
+		LayuiTableData layuiTableData = new LayuiTableData();
+		ResponseEntity<List> responseEntity = null;
+		List returnlist = new ArrayList();
+		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+		String ids = CommonUtil.getParameter(request, "equipmentIds", "");
+		String purchaseStatus = CommonUtil.getParameter(request, "purchaseStatus", "");
+		
+		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+		paramMap.put("equipmentIds", ids);
+		paramMap.put("purchaseStatus", purchaseStatus);
+		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+		responseEntity = restTemplate.exchange(chooseEquipmentByMap, HttpMethod.POST, httpEntity, List.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200) 
+		{
+			returnlist = responseEntity.getBody();
+		}
+		layuiTableData.setData(returnlist);
+		layuiTableData.setCode(0);
+		layuiTableData.setCount(returnlist.size());
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+		return result.toString();
+		
+	}
+	
+	
 	
 	
 	
