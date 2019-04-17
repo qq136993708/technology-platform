@@ -124,7 +124,7 @@ public class BudgetAssetTotalController extends BaseController {
 		return "stp/budget/budget_history_view_assettotal";
 	}
 	
-	@RequestMapping(value = "/budget/budget_asset_info_list", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/budget-asset-info-list", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getBudgetAssetList(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
 	{
@@ -132,7 +132,7 @@ public class BudgetAssetTotalController extends BaseController {
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
-	@RequestMapping(value = "/budget/budget_asset_info_table", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/budget-asset-info-table", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getBudgetAssetTable(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request) throws IOException 
 	{

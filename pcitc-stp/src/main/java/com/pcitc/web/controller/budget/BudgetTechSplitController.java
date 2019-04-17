@@ -125,7 +125,7 @@ public class BudgetTechSplitController extends BaseController {
 		return "stp/budget/budget_history_view_techsplit";
 	}
 	
-	@RequestMapping(value = "/budget/budget_tech_info_list", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/budget-tech-info-list", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getBudgetTechList(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
 	{
@@ -133,7 +133,7 @@ public class BudgetTechSplitController extends BaseController {
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
-	@RequestMapping(value = "/budget/budget_tech_info_table", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/budget-tech-info-table", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getBudgetTechTable(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request) throws IOException 
 	{

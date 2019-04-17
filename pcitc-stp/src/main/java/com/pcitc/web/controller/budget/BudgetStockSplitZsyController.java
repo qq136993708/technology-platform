@@ -51,55 +51,55 @@ import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
 /**
- * 资产预算分解表
+ *  股份预算分解表
  * @author fb
  *
  */
 @Controller
-public class BudgetStockSplitController extends BaseController {
+public class BudgetStockSplitZsyController extends BaseController {
 
-	private static final String BUDGET_STOCKSPLIT_TABLE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-stocksplit-info-table";
-	private static final String BUDGET_STOCKSPLIT_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-stocksplit-info-list";	
-	private static final String BUDGET_STOCKSPLIT_INFO = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-stocksplit-info";	
-	private static final String BUDGET_STOCKSPLIT_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-stocksplit-items";
+	private static final String BUDGET_STOCKSPLIT_TABLE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-stocksplit-zsy-info-table";
+	private static final String BUDGET_STOCKSPLIT_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-stocksplit-zsy-info-list";	
+	private static final String BUDGET_STOCKSPLIT_INFO = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-stocksplit-zsy-info";	
+	private static final String BUDGET_STOCKSPLIT_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-stocksplit-zsy-items";
 	
-	private static final String BUDGET_STOCKSPLIT_TITLES = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-stocksplit-titles";
-	private static final String BUDGET_STOCKSPLIT_HISTORY_TITLES = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-stocksplit-history-titles";
-	private static final String BUDGET_STOCKSPLIT_DELETE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-stocksplit-del";
-	private static final String BUDGET_STOCKSPLIT_GET_ITEM = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-stocksplit-item";
-	private static final String BUDGET_STOCKSPLIT_SAVE_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-stocksplit-items";
-	private static final String BUDGET_STOCKSPLIT_SAVE_ITEM = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-stocksplit-item";
-	private static final String BUDGET_STOCKSPLIT_HISTORY_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-stocksplit-history-items";
+	private static final String BUDGET_STOCKSPLIT_TITLES = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-stocksplit-zsy-titles";
+	private static final String BUDGET_STOCKSPLIT_HISTORY_TITLES = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-stocksplit-zsy-history-titles";
+	private static final String BUDGET_STOCKSPLIT_DELETE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-stocksplit-zsy-del";
+	private static final String BUDGET_STOCKSPLIT_GET_ITEM = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-stocksplit-zsy-item";
+	private static final String BUDGET_STOCKSPLIT_SAVE_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-stocksplit-zsy-items";
+	private static final String BUDGET_STOCKSPLIT_SAVE_ITEM = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-stocksplit-zsy-item";
+	private static final String BUDGET_STOCKSPLIT_HISTORY_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-stocksplit-zsy-history-items";
 	
-	private static final String BUDGET_STOCKSPLIT_CREATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-create-blank-stocksplit";
-	private static final String BUDGET_STOCKSPLIT_FINAL_HISTORY_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-stocksplit-final-history-list";
-	private static final String BUDGET_STOCKSPLIT_COMPARE_PLAN = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-stocksplit-compare-plan";
-	private static final String BUDGET_STOCKSPLIT_COMPARE_PROJECT = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-stocksplit-compare-project";
+	private static final String BUDGET_STOCKSPLIT_CREATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-create-blank-stocksplit-zsy";
+	private static final String BUDGET_STOCKSPLIT_FINAL_HISTORY_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-stocksplit-zsy-final-history-list";
+	private static final String BUDGET_STOCKSPLIT_COMPARE_PLAN = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-stocksplit-zsy-compare-plan";
+	private static final String BUDGET_STOCKSPLIT_COMPARE_PROJECT = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-stocksplit-zsy-compare-project";
 	
 	private static final String BUDGET_INFO_UPDATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-update";
 	private static final String BUDGET_INFO_GET = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-get/";
-	private static final String PROJECT_NOTICE_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/budget/start-budget-stocksplit-activity/";
+	private static final String PROJECT_NOTICE_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/budget/start-budget-stocksplit-zsy-activity/";
 	
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_main_stocksplit")
+	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_main_stocksplit_zsy")
 	public Object toBudgetStockPage(HttpServletRequest request) throws IOException 
 	{
 		String nd = request.getParameter("nd")==null?DateUtil.format(new Date(), DateUtil.FMT_YYYY):request.getParameter("nd");
 		request.setAttribute("nd", nd);
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_STOCKSPLIT_TITLES, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), List.class);
 		request.setAttribute("items", infors.getBody());
-		return "stp/budget/budget_main_stocksplit";
+		return "stp/budget/budget_main_stocksplit_zsy";
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_create_stocksplit")
+	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_create_stocksplit_zsy")
 	public Object toBudgetStockAddPage(HttpServletRequest request) throws IOException 
 	{
 		//request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
 		request.setAttribute("nd", request.getParameter("nd"));
-		return "stp/budget/budget_create_stocksplit";
+		return "stp/budget/budget_create_stocksplit_zsy";
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_history_compare_stocksplit")
+	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_history_compare_stocksplit_zsy")
 	public Object toBudgetStockSplitHistoryPage(HttpServletRequest request) throws IOException 
 	{
 		String nd = request.getParameter("nd");
@@ -111,10 +111,10 @@ public class BudgetStockSplitController extends BaseController {
 		
 		infors = this.restTemplate.exchange(BUDGET_STOCKSPLIT_HISTORY_TITLES, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), Object.class);
 		request.setAttribute("history_items", infors.getBody());
-		return "stp/budget/budget_history_compare_stocksplit";
+		return "stp/budget/budget_history_compare_stocksplit_zsy";
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_history_view_stocksplit")
+	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_history_view_stocksplit_zsy")
 	public Object toBudgetStockSplitHistoryViews(HttpServletRequest request) throws IOException 
 	{
 		//检索数据
@@ -124,10 +124,10 @@ public class BudgetStockSplitController extends BaseController {
 		
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_STOCKSPLIT_HISTORY_TITLES, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), Object.class);
 		request.setAttribute("history_items", infors.getBody());
-		return "stp/budget/budget_history_view_stocksplit";
+		return "stp/budget/budget_history_view_stocksplit_zsy";
 	}
 	
-	@RequestMapping(value = "/budget/budget_stocksplit_info_list", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/budget-stocksplit-zsy-info-list", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getBudgetStockSplitList(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
 	{
@@ -135,7 +135,7 @@ public class BudgetStockSplitController extends BaseController {
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
-	@RequestMapping(value = "/budget/budget_stocksplit_info_table", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/budget-stocksplit-zsy-info-table", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getBudgetStockTable(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request) throws IOException 
 	{
@@ -143,7 +143,7 @@ public class BudgetStockSplitController extends BaseController {
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
-	@RequestMapping(value = "/budget/budget-stocksplit-items", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/budget-stocksplit-zsy-items", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getBudgetStockItems(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request) throws IOException 
 	{
@@ -151,7 +151,7 @@ public class BudgetStockSplitController extends BaseController {
 		System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
-	@RequestMapping(value = "/budget/budget-stocksplit-create", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/budget-stocksplit-zsy-create", method = RequestMethod.POST)
 	@ResponseBody
 	public Object createBudgetStockInfo(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
 	{
@@ -162,7 +162,7 @@ public class BudgetStockSplitController extends BaseController {
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
 	
-	@RequestMapping(value = "/budget/budget-stocksplit-del", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/budget-stocksplit-zsy-del", method = RequestMethod.POST)
 	@ResponseBody
 	public Object deleteBudgetStockInfo(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
 	{
@@ -171,7 +171,7 @@ public class BudgetStockSplitController extends BaseController {
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
 	
-	@RequestMapping(value = "/budget/get-stocksplit-item", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/get-stocksplit-zsy-item", method = RequestMethod.POST)
 	@ResponseBody
 	public Object selectBudgetStockSplitItem(@ModelAttribute("vo") BudgetSplitBaseDataVo vo,HttpServletRequest request) throws IOException 
 	{
@@ -180,7 +180,7 @@ public class BudgetStockSplitController extends BaseController {
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
 	
-	@RequestMapping(value = "/budget/get-stocksplit-history-items", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/get-stocksplit-zsy-history-items", method = RequestMethod.POST)
 	@ResponseBody
 	public Object selectBudgetStockSplitHistoryItems(@ModelAttribute("vo") BudgetSplitBaseDataVo vo,HttpServletRequest request) throws IOException 
 	{
@@ -190,7 +190,7 @@ public class BudgetStockSplitController extends BaseController {
 	}
 	
 	
-	@RequestMapping(value = "/budget/save-stocksplit-item", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/save-stocksplit-zsy-item", method = RequestMethod.POST)
 	@ResponseBody
 	public Object saveBudgetStockSplitItem(
 			@ModelAttribute("item") String item,
@@ -206,7 +206,7 @@ public class BudgetStockSplitController extends BaseController {
 			return new Result(false);
 		}
 	}
-	@RequestMapping(value = "/budget/save-stocksplit-items", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/save-stocksplit-zsy-items", method = RequestMethod.POST)
 	@ResponseBody
 	public Object saveBudgetStockSplitItems(
 			@ModelAttribute("items") String items,
@@ -224,12 +224,12 @@ public class BudgetStockSplitController extends BaseController {
 	}
 	
 	
-	@RequestMapping(value = "/budget/start-budget-stocksplit-activity", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/start-budget-stocksplit-zsy-activity", method = RequestMethod.POST)
 	@ResponseBody
 	public Object submitBudgetStockSplit(@RequestParam(value = "budgetInfoId", required = true) String budgetInfoId,
 			@RequestParam(value = "functionId", required = true) String functionId,HttpServletRequest request) throws IOException 
 	{
-		System.out.println("start-budget-stocksplit-activity-----------------");
+		System.out.println("start-budget-stocksplit-zsy-activity-----------------");
 		WorkflowVo vo = new WorkflowVo();
 		vo.setAuditUserIds(this.getUserProfile().getUserId());
 		vo.setFunctionId(functionId);
@@ -253,7 +253,7 @@ public class BudgetStockSplitController extends BaseController {
 		return startRs;
 	}
 	
-	@RequestMapping(value = "/budget/search-stocksplit-final-history-list", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/search-stocksplit-zsy-final-history-list", method = RequestMethod.POST)
 	@ResponseBody
 	public Object searchBudgetStockSplitFinalHistoryList(HttpServletRequest request) throws IOException 
 	{
@@ -263,7 +263,7 @@ public class BudgetStockSplitController extends BaseController {
 	}
 	
 	
-	@RequestMapping(value = "/budget/select-stocksplit-compare-plan", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/select-stocksplit-zsy-compare-plan", method = RequestMethod.POST)
 	@ResponseBody
 	public Object selectBudgetStockSplitComparePlan(@RequestParam(value="nd",required = false)String nd,@RequestParam(value="code",required = false)String code,HttpServletRequest request) throws IOException 
 	{
@@ -280,7 +280,7 @@ public class BudgetStockSplitController extends BaseController {
 		return infors.getBody();
 	}
 	
-	@RequestMapping(value = "/budget/select-stocksplit-compare-project", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/select-stocksplit-zsy-compare-project", method = RequestMethod.POST)
 	@ResponseBody
 	public Object selectBudgetStockSplitCompareProject(@RequestParam(value="nd",required = false)String nd,@RequestParam(value="code",required = false)String code,HttpServletRequest request) throws IOException 
 	{
@@ -298,14 +298,14 @@ public class BudgetStockSplitController extends BaseController {
 	}
 	
 	
-	@RequestMapping("/budget/budget_download/stocksplit/{dataId}")
+	@RequestMapping("/budget/budget_download/stocksplit-zsy/{dataId}")
 	public void downBudgetStockSplit(@PathVariable("dataId") String dataId,HttpServletResponse res) throws IOException 
 	{
 		LayuiTableParam param = new LayuiTableParam();
 		param.getParam().put("budget_info_id", dataId);
 		param.setLimit(100);
 		param.setPage(1);
-		System.out.println(JSON.toJSONString(param));
+		
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(BUDGET_STOCKSPLIT_ITEMS, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), LayuiTableData.class);
 		LayuiTableData tabldata = responseEntity.getBody();
 		//System.out.println(JSON.toJSONString(tabldata));
@@ -318,7 +318,7 @@ public class BudgetStockSplitController extends BaseController {
 		
 		
 		URL path = this.getClass().getResource("/");
-		File f = new File(path.getPath() + "static/budget/budget_stocksplit_template.xlsx");
+		File f = new File(path.getPath() + "static/budget/budget_stocksplit_zsy_template.xlsx");
 		//System.out.println(f.getAbsolutePath());
 		//写入新文件2019年集团公司总部科技经费预算
 		String newFilePath = path.getPath() + "static/budget/"+info.getNd()+"年资产经费预算明细表（建议稿）_"+DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss")+".xlsx";

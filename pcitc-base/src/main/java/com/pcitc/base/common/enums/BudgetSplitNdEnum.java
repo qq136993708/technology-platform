@@ -18,11 +18,20 @@ public enum BudgetSplitNdEnum
 	SPLIT_ASSET_2019("2019",BudgetSplitEnum.SPLIT_ASSET_LY,BudgetSplitEnum.SPLIT_ASSET_HG),
 	SPLIT_ASSET_2020("2020",BudgetSplitEnum.SPLIT_ASSET_LY,BudgetSplitEnum.SPLIT_ASSET_HG),
 	
+	//直属院
+	SPLIT_STOCK_ZSY_2018("2018", BudgetSplitEnum.SPLIT_STOCK_YJY_KTY, BudgetSplitEnum.SPLIT_STOCK_YJY_GCY,BudgetSplitEnum.SPLIT_STOCK_YJY_WTY, BudgetSplitEnum.SPLIT_STOCK_YJY_SKY,BudgetSplitEnum.SPLIT_STOCK_YJY_FSY, BudgetSplitEnum.SPLIT_STOCK_YJY_BHY,BudgetSplitEnum.SPLIT_STOCK_YJY_SHY, BudgetSplitEnum.SPLIT_STOCK_YJY_AGY),
+	SPLIT_STOCK_ZSY_2019("2019", BudgetSplitEnum.SPLIT_STOCK_YJY_KTY, BudgetSplitEnum.SPLIT_STOCK_YJY_GCY,BudgetSplitEnum.SPLIT_STOCK_YJY_WTY, BudgetSplitEnum.SPLIT_STOCK_YJY_SKY,BudgetSplitEnum.SPLIT_STOCK_YJY_FSY, BudgetSplitEnum.SPLIT_STOCK_YJY_BHY,BudgetSplitEnum.SPLIT_STOCK_YJY_SHY, BudgetSplitEnum.SPLIT_STOCK_YJY_AGY),
+	SPLIT_STOCK_ZSY_2020("2020", BudgetSplitEnum.SPLIT_STOCK_YJY_KTY, BudgetSplitEnum.SPLIT_STOCK_YJY_GCY,BudgetSplitEnum.SPLIT_STOCK_YJY_WTY, BudgetSplitEnum.SPLIT_STOCK_YJY_SKY,BudgetSplitEnum.SPLIT_STOCK_YJY_FSY, BudgetSplitEnum.SPLIT_STOCK_YJY_BHY,BudgetSplitEnum.SPLIT_STOCK_YJY_SHY, BudgetSplitEnum.SPLIT_STOCK_YJY_AGY),
+	//系统外
+	SPLIT_STOCK_XTW_2018("2018", BudgetSplitEnum.SPLIT_STOCK_JTDW, BudgetSplitEnum.SPLIT_STOCK_WBDW,BudgetSplitEnum.SPLIT_STOCK_YK),
+	SPLIT_STOCK_XTW_2019("2019", BudgetSplitEnum.SPLIT_STOCK_JTDW, BudgetSplitEnum.SPLIT_STOCK_WBDW,BudgetSplitEnum.SPLIT_STOCK_YK),
+	SPLIT_STOCK_XTW_2020("2020", BudgetSplitEnum.SPLIT_STOCK_JTDW, BudgetSplitEnum.SPLIT_STOCK_WBDW,BudgetSplitEnum.SPLIT_STOCK_YK),
 	
-	
-	SPLIT_2018("2018",BudgetSplitEnum.SPLIT_GROUP_YF,BudgetSplitEnum.SPLIT_GROUP_JX,BudgetSplitEnum.SPLIT_GROUP_QT,BudgetSplitEnum.SPLIT_ASSET_LY,BudgetSplitEnum.SPLIT_ASSET_HG,BudgetSplitEnum.SPLIT_STOCK_YJY,BudgetSplitEnum.SPLIT_STOCK_FZGS,BudgetSplitEnum.SPLIT_STOCK_JTDW,BudgetSplitEnum.SPLIT_STOCK_WBDW,BudgetSplitEnum.SPLIT_STOCK_YK,BudgetSplitEnum.SPLIT_STOCK_XSD,BudgetSplitEnum.SPLIT_STOCK_ZD,BudgetSplitEnum.SPLIT_STOCK_YJY_KTY,BudgetSplitEnum.SPLIT_STOCK_YJY_GCY,BudgetSplitEnum.SPLIT_STOCK_YJY_WTY,BudgetSplitEnum.SPLIT_STOCK_YJY_SKY,BudgetSplitEnum.SPLIT_STOCK_YJY_FSY,BudgetSplitEnum.SPLIT_STOCK_YJY_BHY,BudgetSplitEnum.SPLIT_STOCK_YJY_SHY,BudgetSplitEnum.SPLIT_STOCK_YJY_AGY),
-	SPLIT_2019("2019",BudgetSplitEnum.SPLIT_GROUP_YF,BudgetSplitEnum.SPLIT_GROUP_JX,BudgetSplitEnum.SPLIT_GROUP_QT,BudgetSplitEnum.SPLIT_ASSET_LY,BudgetSplitEnum.SPLIT_ASSET_HG,BudgetSplitEnum.SPLIT_STOCK_YJY,BudgetSplitEnum.SPLIT_STOCK_FZGS,BudgetSplitEnum.SPLIT_STOCK_JTDW,BudgetSplitEnum.SPLIT_STOCK_WBDW,BudgetSplitEnum.SPLIT_STOCK_YK,BudgetSplitEnum.SPLIT_STOCK_XSD,BudgetSplitEnum.SPLIT_STOCK_ZD,BudgetSplitEnum.SPLIT_STOCK_YJY_KTY,BudgetSplitEnum.SPLIT_STOCK_YJY_GCY,BudgetSplitEnum.SPLIT_STOCK_YJY_WTY,BudgetSplitEnum.SPLIT_STOCK_YJY_SKY,BudgetSplitEnum.SPLIT_STOCK_YJY_FSY,BudgetSplitEnum.SPLIT_STOCK_YJY_BHY,BudgetSplitEnum.SPLIT_STOCK_YJY_SHY,BudgetSplitEnum.SPLIT_STOCK_YJY_AGY),
-	SPLIT_2020("2020",BudgetSplitEnum.SPLIT_GROUP_YF,BudgetSplitEnum.SPLIT_GROUP_JX,BudgetSplitEnum.SPLIT_GROUP_QT,BudgetSplitEnum.SPLIT_ASSET_LY,BudgetSplitEnum.SPLIT_ASSET_HG,BudgetSplitEnum.SPLIT_STOCK_YJY,BudgetSplitEnum.SPLIT_STOCK_FZGS,BudgetSplitEnum.SPLIT_STOCK_JTDW,BudgetSplitEnum.SPLIT_STOCK_WBDW,BudgetSplitEnum.SPLIT_STOCK_YK,BudgetSplitEnum.SPLIT_STOCK_XSD,BudgetSplitEnum.SPLIT_STOCK_ZD,BudgetSplitEnum.SPLIT_STOCK_YJY_KTY,BudgetSplitEnum.SPLIT_STOCK_YJY_GCY,BudgetSplitEnum.SPLIT_STOCK_YJY_WTY,BudgetSplitEnum.SPLIT_STOCK_YJY_SKY,BudgetSplitEnum.SPLIT_STOCK_YJY_FSY,BudgetSplitEnum.SPLIT_STOCK_YJY_BHY,BudgetSplitEnum.SPLIT_STOCK_YJY_SHY,BudgetSplitEnum.SPLIT_STOCK_YJY_AGY);
+	//分子公司
+	SPLIT_STOCK_ZGS_2018("2018", BudgetSplitEnum.SPLIT_STOCK_FZGS),
+	SPLIT_STOCK_ZGS_2019("2019", BudgetSplitEnum.SPLIT_STOCK_FZGS),
+	SPLIT_STOCK_ZGS_2020("2020", BudgetSplitEnum.SPLIT_STOCK_FZGS);
+		
 	
 	private BudgetSplitNdEnum(String nd,BudgetSplitEnum ... splitList) 
 	{
@@ -34,19 +43,40 @@ public enum BudgetSplitNdEnum
 			}
 		}
 	}
-	public static BudgetSplitNdEnum getSplitByNd(String nd)
+	//直属院
+	public static BudgetSplitNdEnum getStockSplitZsyByNd(String nd)
 	{
 		for(BudgetSplitNdEnum v:BudgetSplitNdEnum.values()) 
 		{
-			if(v.getNd().equals(nd)) 
+			if(v.name().contains("SPLIT_STOCK_ZSY") && v.getNd().equals(nd)) 
 			{
 				return v;
 			}
 		}
-		return SPLIT_2018;
+		return SPLIT_STOCK_ZSY_2018;
 	}
-	
-	
+	public static BudgetSplitNdEnum getStockSplitXtwByNd(String nd)
+	{
+		for(BudgetSplitNdEnum v:BudgetSplitNdEnum.values()) 
+		{
+			if(v.name().contains("SPLIT_STOCK_XTW") && v.getNd().equals(nd)) 
+			{
+				return v;
+			}
+		}
+		return SPLIT_STOCK_XTW_2018;
+	}
+	public static BudgetSplitNdEnum getStockSplitZgsByNd(String nd)
+	{
+		for(BudgetSplitNdEnum v:BudgetSplitNdEnum.values()) 
+		{
+			if(v.name().contains("SPLIT_STOCK_ZGS") && v.getNd().equals(nd)) 
+			{
+				return v;
+			}
+		}
+		return SPLIT_STOCK_ZGS_2018;
+	}
 	private String nd;
 	private List<BudgetSplitEnum> splits;
 	public String getNd() {
