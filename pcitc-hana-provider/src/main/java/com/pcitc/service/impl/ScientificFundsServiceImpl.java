@@ -30,6 +30,16 @@ public class ScientificFundsServiceImpl implements IScientificFundsService {
   		List<ScientificFunds> list = scientificFundsMapper.getKtzjjfytjbData(map);
   	    return list;
   	}
+	 public List<ScientificFunds> getKtzjjfytjbData_detail(Map  map)throws Exception
+  	 {
+  		List<ScientificFunds> list = scientificFundsMapper.getKtzjjfytjbData_detail(map);
+  	    return list;
+  	}
+	 
+	 
+	 
+	 
+	 
 	 
 		//人工成本支出统计表
 	 public List<ScientificFunds> getRgcbzctjbData(Map  map)throws Exception
@@ -53,7 +63,11 @@ public class ScientificFundsServiceImpl implements IScientificFundsService {
   		List<ScientificFunds> list = scientificFundsMapper.getYclzctjbData(map);
   	    return list;
   	}
-	 
+	 public List<ScientificFunds> getYclzctjbData_Detail(Map  map)throws Exception
+  	 {
+  		List<ScientificFunds> list = scientificFundsMapper.getYclzctjbData_Detail(map);
+  	    return list;
+  	}
 	 
 	//能耗支出统计表
 	 public List<ScientificFunds> getNhzctjbData(Map  map)throws Exception
@@ -61,7 +75,11 @@ public class ScientificFundsServiceImpl implements IScientificFundsService {
   		List<ScientificFunds> list = scientificFundsMapper.getNhzctjbData(map);
   	    return list;
   	}
-	 
+	 public List<ScientificFunds> getNhzctjbData_detail(Map  map)throws Exception
+  	 {
+  		List<ScientificFunds> list = scientificFundsMapper.getNhzctjbData_detail(map);
+  	    return list;
+  	}
 	 
 	 
 	 
@@ -71,7 +89,11 @@ public class ScientificFundsServiceImpl implements IScientificFundsService {
 	  		List<ScientificFunds> list = scientificFundsMapper.getXmzjlxfxData(map);
 	  	    return list;
 	  	}
-		 
+		 public List<ScientificFunds> getXmzjlxfxData_detail(Map  map)throws Exception
+	  	 {
+	  		List<ScientificFunds> list = scientificFundsMapper.getXmzjlxfxData_detail(map);
+	  	    return list;
+	  	}
 		 
 	 
 		 /*

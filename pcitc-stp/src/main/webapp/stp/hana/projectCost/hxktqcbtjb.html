@@ -144,14 +144,25 @@ function myTable()
 			});
 	    
 	    
-	    
-	    
 	    //监听行单击事件
 	    table.on('row(myTable)', function(obj){
 	        console.log(obj.tr) //得到当前行元素对象
 	        console.log(obj.data) //得到当前行数据
 	        var selectRowData=obj.data;
-	        parent.layui.index.openTabsPage("/to_hxktqcbtjb_detail?month="+month+"&companyName="+selectRowData.g0GSJC, "横向课题详情");
+	        var url="/to_hxktqcbtjb_detail?month="+month+"&companyName="+selectRowData.g0GSJC;
+	        layer.open({
+                title:'横向课题-详情',
+                skin: 'layui-layer-lan',
+                shadeClose: true,
+                type: 2,
+                fixed: false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin: false,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                area: ['70%', '90%'],
+                content:  url
+            });
+	        //parent.layui.index.openTabsPage("/to_hxktqcbtjb_detail?month="+month+"&companyName="+selectRowData.g0GSJC, "横向课题详情");
 	        
 	    });
 	    
