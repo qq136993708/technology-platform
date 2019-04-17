@@ -2,7 +2,6 @@ package com.pcitc.web.controller.equipment;
 
 
 import java.io.PrintWriter;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -13,16 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
-import com.pcitc.base.stp.equipment.SreEquipment;
-import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.stp.equipment.SreProjectTask;
+import com.pcitc.base.stp.equipment.SrePurchase;
+import com.pcitc.base.system.SysDictionary;
+import com.pcitc.base.util.ResultsDate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
@@ -46,15 +44,25 @@ public class PurchaseController extends BaseController{
 	private static final String PAGE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/page";
 	private static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/get/";
     private static final String PAGE_URL_CHOOSE_PROJECT = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/page";
+    private static final String GET_BY_PROJECT_ID = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/getSreProject/";
+    private static final String GET_PROJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/get/";
 
-    private static final String ADD_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/add";
-    private static final String UPDATE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/update";
 
+    private static final String ADD_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/add";
+    private static final String UPDATE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/update";
+    private static final String DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/delete/";
+
+    // 流程操作--同意
+    private static final String AUDIT_AGREE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/task/agree/";
+    // 流程操作--拒绝
+    private static final String AUDIT_REJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/task/reject/";
 
     //跳转到采购申请页面
 	@RequestMapping(value = "/sre_purchase/to-list")
 	public String list(HttpServletRequest request, HttpServletResponse response) {
 
+        String departCode=sysUserInfo.getUnitCode();
+        request.setAttribute("departCode", departCode);
 		String	parentUnitPathIds="";
 		String unitPathIds =   sysUserInfo.getUnitPath();
 		if(!unitPathIds.equals(""))
@@ -69,6 +77,26 @@ public class PurchaseController extends BaseController{
 
 		return "/stp/equipment/purchase/purchase-list";
 	}
+    //跳转到到货签收页面
+    @RequestMapping(value = "/sre-purchase/to-arrive-goods-list")
+    public String arriveGoodsList(HttpServletRequest request, HttpServletResponse response) {
+
+        String departCode=sysUserInfo.getUnitCode();
+        request.setAttribute("departCode", departCode);
+        String	parentUnitPathIds="";
+        String unitPathIds =   sysUserInfo.getUnitPath();
+        if(!unitPathIds.equals(""))
+        {
+            if(unitPathIds.length()>4)
+            {
+                parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
+
+            }
+        }
+        request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+
+        return "/stp/equipment/purchase/arrive-goods-list";
+    }
 
 	/**
 	 * 查询列表
@@ -107,11 +135,18 @@ public class PurchaseController extends BaseController{
 	{
 
 
-		String leadUnitName =  "";
-		String leadUnitCode =  "";
-		String unitPathIds =   sysUserInfo.getUnitPath();
+		String leadUnitName = "";
+		String leadUnitCode = "";
+        String purchaseName = "";
+        String projectId    = "";
+        String name         = "";
+        String equipmentId  = "";
+        String sreProjectEquipmentIds = "";
+                String unitPathIds =   sysUserInfo.getUnitPath();
 		if(!unitPathIds.equals(""))
 		{
+
+
 			if(unitPathIds.length()>4)
 			{
 				String	parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
@@ -132,26 +167,33 @@ public class PurchaseController extends BaseController{
 		request.setAttribute("id", id);
 		if(!id.equals(""))
 		{
-			ResponseEntity<SreProject> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
-			int statusCode = responseEntity.getStatusCodeValue();
+            ResponseEntity<SrePurchase> srePurchaseResponseEntity= this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
+            int statusCode = srePurchaseResponseEntity.getStatusCodeValue();
+            SrePurchase srePurchase = srePurchaseResponseEntity.getBody();
+            projectId = srePurchase.getProjectId();
+            purchaseName = srePurchase.getPurchaseName();
+            equipmentId = srePurchase.getEquipmentId();
 
-			SreProject sreEquipment = responseEntity.getBody();
-			request.setAttribute("sreProjectBasic", sreEquipment);
+            ResponseEntity<SreProject> SreProjectResponseEntity = this.restTemplate.exchange(GET_BY_PROJECT_ID + projectId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
+            SreProject sreProject = SreProjectResponseEntity.getBody();
+            name = sreProject.getName();
+            sreProjectEquipmentIds = sreProject.getEquipmentIds();
 
-			leadUnitName = sreEquipment.getLeadUnitName();
-			leadUnitCode = sreEquipment.getLeadUnitCode();
-			createUserId= sreEquipment.getCreateUserId();
-			documentDoc=sreEquipment.getDocumentDoc();
-			beginYear		= sreEquipment.getBeginYear();
-			endYear		= sreEquipment.getEndYear();
-		}
+
+        }
 		request.setAttribute("createUserName",createUserName);
 		request.setAttribute("documentDoc", documentDoc);
 		request.setAttribute("leadUnitName", leadUnitName);
 		request.setAttribute("leadUnitCode", leadUnitCode);
 		request.setAttribute("createUserId", createUserId);
-		request.setAttribute("endYear", endYear);
-		request.setAttribute("beginYear", beginYear);
+        request.setAttribute("purchaseName", purchaseName);
+        request.setAttribute("topicId", projectId);
+        request.setAttribute("name", name);
+        request.setAttribute("equipmentIds",equipmentId);
+        request.setAttribute("sreProjectEquipmentIds",sreProjectEquipmentIds);
+
+
+
 		logger.info("============远程返回  beginYear " + beginYear);
 		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
 		request.setAttribute("unitFieldList", unitFieldList);
@@ -214,50 +256,21 @@ public class PurchaseController extends BaseController{
         // 业务ID
         String id = CommonUtil.getParameter(request, "id", "");
         // 流程状态-是保存还是提交
-        String auditStatus = CommonUtil.getParameter(request, "auditStatus", Constant.AUDIT_STATUS_DRAFT);
-        String userIds = CommonUtil.getParameter(request, "userIds", "");
-        String equipmentIds = CommonUtil.getParameter(request, "equipmentIds", "");
-        String remarks = CommonUtil.getParameter(request, "remarks", "");
-        String beginYear = CommonUtil.getParameter(request, "beginYear", "");
-        String endYear = CommonUtil.getParameter(request, "endYear", "");
-        String projectType = CommonUtil.getParameter(request, "projectType", "");
-        String keyWord = CommonUtil.getParameter(request, "keyWord", "");
-        String projectLeader = CommonUtil.getParameter(request, "projectLeader", "");
-        String erpNum = CommonUtil.getParameter(request, "erpNum", "");
-        String documentDoc = CommonUtil.getParameter(request, "documentDoc", "");
-        String joinUnitName = CommonUtil.getParameter(request, "joinUnitName", "");
-        String joinUnitCode = CommonUtil.getParameter(request, "joinUnitCode", "");
-        String leadLinkmansName = CommonUtil.getParameter(request, "leadLinkmansName", "");
-        String leadLinkmansCode = CommonUtil.getParameter(request, "leadLinkmansCode", "");
-        String leadUnitType = CommonUtil.getParameter(request, "leadUnitType", "");
-        String professional = CommonUtil.getParameter(request, "professional", "");
-        String projectChargesName = CommonUtil.getParameter(request, "projectChargesName", "");
-        String projectChargesCode = CommonUtil.getParameter(request, "projectChargesCode", "");
-        String contractNum = CommonUtil.getParameter(request, "contractNum", "");
-        String setupYear = CommonUtil.getParameter(request, "setupYear", "");
-        String leadUnitName = CommonUtil.getParameter(request, "leadUnitName", "");
-        String leadUnitCode = CommonUtil.getParameter(request, "leadUnitCode", "");
-        String entrustUnitCode = CommonUtil.getParameter(request, "entrustUnitCode", "");
-        String entrustUnitName = CommonUtil.getParameter(request, "entrustUnitName", "");
-        String isWorkFlow = CommonUtil.getParameter(request, "isWorkFlow", "0");
-        String functionId = CommonUtil.getParameter(request, "functionId", "");
-        String yearFeeStr = CommonUtil.getParameter(request, "yearFeeStr", "");
-
-        String belongDepartmentName = CommonUtil.getParameter(request, "belongDepartmentName", "");
-        String belongDepartmentCode = CommonUtil.getParameter(request, "belongDepartmentCode", "");
-        String professionalDepartName = CommonUtil.getParameter(request, "professionalDepartName", "");
-        String professionalDepartCode = CommonUtil.getParameter(request, "professionalDepartCode", "");
-        String taskWriteUserNames = CommonUtil.getParameter(request, "taskWriteUserNames", "");
+        String status = CommonUtil.getParameter(request, "status", Constant.PURCHASE_STATUS_DRAFT);
+        String stage = CommonUtil.getParameter(request, "stage", Constant.PURCHASE_REQUEST);
+        String topicId = CommonUtil.getParameter(request, "topicId", "");
         String taskWriteUsersIds = CommonUtil.getParameter(request, "taskWriteUsersIds", "");
-        String professionalFieldName = CommonUtil.getParameter(request, "professionalFieldName", "");
-        String professionalFieldCode = CommonUtil.getParameter(request, "professionalFieldCode", "");
+        String equipmentIds = CommonUtil.getParameter(request, "equipmentIds", "");
+        String leadUnitCode = CommonUtil.getParameter(request, "leadUnitCode", "");
+        String createUserName = CommonUtil.getParameter(request, "createUserName", "");
+        String createUserId = CommonUtil.getParameter(request, "createUserId", "");
+        /*CommonUtil.getParameter(request,"name","");*/
+        String leadUnitName = CommonUtil.getParameter(request, "leadUnitName", "");
+        String purchaseName = CommonUtil.getParameter(request, "purchaseName", "");
+        //状态  String auditStatus = CommonUtil.getParameter(request, "auditStatus", Constant.AUDIT_STATUS_DRAFT);
         String unitPathIds =   CommonUtil.getParameter(request, "unitPathIds",sysUserInfo.getUnitPath());
         String unitPathNames = CommonUtil.getParameter(request, "unitPathNames", sysUserInfo.getUnitName());
-        String yearFeeStrJoinUnit = CommonUtil.getParameter(request, "yearFeeStrJoinUnit", "");
-
-        String projectMoney = CommonUtil.getParameter(request, "projectMoney", "");
-
-
+        String unitPathCode = CommonUtil.getParameter(request, "unitPathCode", sysUserInfo.getUnitCode());
 
         String parentUnitPathIds ="";
         String parentUnitPathNames =  "";
@@ -273,111 +286,256 @@ public class PurchaseController extends BaseController{
                 }
             }
         }
-
-        SreProject sreProjectBasic = null;
+        SrePurchase srePurchase = null;
         ResponseEntity<String> responseEntity = null;
         // 判断是新增还是修改
             if (id.equals(""))
         {
-            sreProjectBasic = new SreProject();
-            sreProjectBasic.setCreateDate(new Date());
-            sreProjectBasic.setCreateUserId(sysUserInfo.getUserId());
-            sreProjectBasic.setCreateUserName(sysUserInfo.getUserDisp());
+            srePurchase = new SrePurchase();
+            srePurchase.setCreateDate(new Date());
 
             String idv = UUID.randomUUID().toString().replaceAll("-", "");
-            sreProjectBasic.setId(idv);
-            sreProjectBasic.setAuditStatus(auditStatus);
+            srePurchase.setId(idv);
+            srePurchase.setState(status);
+            srePurchase.setStage(stage);
         } else
         {
-            ResponseEntity<SreProject> se = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
-            sreProjectBasic = se.getBody();
+            ResponseEntity<SrePurchase> se = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
+            srePurchase = se.getBody();
         }
         // 流程状态
-            sreProjectBasic.setAuditStatus(auditStatus);
+            srePurchase.setState(status);
+            srePurchase.setPurchaseName(purchaseName);//采购名称
+            srePurchase.setProposerId(leadUnitCode);//采购员ID
+            srePurchase.setProposerName(createUserName);//采购员姓名
+            srePurchase.setParentUnitPathNames(leadUnitName);//单位名称
+            srePurchase.setDepartName(unitPathNames);//部门名称
+            srePurchase.setDepartCode(unitPathCode);//部门Code
+
+            srePurchase.setEquipmentId(equipmentIds);//装备ID
+            srePurchase.setProjectId(topicId);//课题ID
 
 
-            sreProjectBasic.setProjectMoney(new BigDecimal(projectMoney));
-            sreProjectBasic.setUnitPathIds(unitPathIds);
-            sreProjectBasic.setUnitPathNames(unitPathNames);
-            sreProjectBasic.setParentUnitPathIds(parentUnitPathIds);
-            sreProjectBasic.setParentUnitPathNames(parentUnitPathNames);
-            sreProjectBasic.setProfessionalFieldCode(professionalFieldCode);
-            sreProjectBasic.setProfessionalFieldName(professionalFieldName);
-            sreProjectBasic.setYearFeeStr(yearFeeStr);
-            sreProjectBasic.setDocumentDoc(documentDoc);
-            sreProjectBasic.setName(name);
-            sreProjectBasic.setEquipmentIds(equipmentIds);
-            sreProjectBasic.setSetupYear(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-            sreProjectBasic.setRemarks(remarks);
-            sreProjectBasic.setBeginYear(beginYear);
-            sreProjectBasic.setEndYear(endYear);
-            sreProjectBasic.setKeyWord(keyWord);
-            sreProjectBasic.setProjectType(projectType);
-            sreProjectBasic.setProjectLeader(projectLeader);
-            sreProjectBasic.setJoinUnitName(joinUnitName);
-            sreProjectBasic.setJoinUnitCode(joinUnitCode);
-            sreProjectBasic.setLeadLinkmansName(leadLinkmansName);
-            sreProjectBasic.setLeadLinkmansCode(leadLinkmansCode);
-            sreProjectBasic.setLeadUnitType(leadUnitType);
-            sreProjectBasic.setErpNum(erpNum);
-            sreProjectBasic.setProfessional(professional);
-            sreProjectBasic.setBelongDepartmentName(belongDepartmentName);
-            sreProjectBasic.setBelongDepartmentCode(belongDepartmentCode);
-            sreProjectBasic.setProfessionalDepartName(professionalDepartName);
-            sreProjectBasic.setProfessionalDepartCode(professionalDepartCode);
-            sreProjectBasic.setProjectChargesName(projectChargesName);
-            sreProjectBasic.setProjectChargesCode(projectChargesCode);
-            sreProjectBasic.setIsContract("0");
-            sreProjectBasic.setContractNum(contractNum);
-            sreProjectBasic.setSetupYear(setupYear);
-            sreProjectBasic.setLeadUnitName(leadUnitName);
-            sreProjectBasic.setLeadUnitCode(leadUnitCode);
-            sreProjectBasic.setEntrustUnitCode(entrustUnitCode);
-            sreProjectBasic.setEntrustUnitName(entrustUnitName);
-            sreProjectBasic.setApplyUnitCode(sysUserInfo.getUnitCode());
-            sreProjectBasic.setApplyUnitName(sysUserInfo.getUnitName());
-            sreProjectBasic.setTaskWriteUserNames(taskWriteUserNames);
-            sreProjectBasic.setTaskWriteUsersIds(taskWriteUsersIds);
-            sreProjectBasic.setSetupYear(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-            sreProjectBasic.setYearFeeStrJoinUnit(yearFeeStrJoinUnit);
         // 判断是新增还是修改
             if (id.equals(""))
         {
-            responseEntity = this.restTemplate.exchange(ADD_URL, HttpMethod.POST, new HttpEntity<SreProject>(sreProjectBasic, this.httpHeaders), String.class);
+            responseEntity = this.restTemplate.exchange(ADD_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
 
-        } else {
-            responseEntity = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SreProject>(sreProjectBasic, this.httpHeaders), String.class);
+        }
+        else {
+            responseEntity = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
         }
         // 返回结果代码
         int statusCode = responseEntity.getStatusCodeValue();
-            if (statusCode == 200)
-        {
-            //如果是提交
-            if(isWorkFlow.equals("1"))
+        if (statusCode == 200) {
+            resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
+        } else
             {
-                String dataId = sreProjectBasic.getId();
-                resultsDate.setData(dataId);
-                resultsDate.setSuccess(true);
-            }
-            String arr[]=equipmentIds.split(",");
-            if(arr!=null && arr.length>0)
-            {
-                for(int i=0;i<arr.length;i++)
-                {
-                    String tempid=arr[i];
-                    if(tempid!=null && !tempid.equals(""))
-                    {
-                        SreEquipment sreEquipment=EquipmentUtils.getSreEquipment(tempid, restTemplate, httpHeaders);
-                        sreEquipment.setIsLinkedProject("1");
-                        EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
-                    }
-                }
-            }
+            resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
+        }
 
+        return resultsDate;
+    }
+
+
+    /**
+     * 删除
+     *
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/sre-purchase/delete/{id}")
+    public String delete(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Result resultsDate = new Result();
+        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(DEL_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), Integer.class);
+        int statusCode = responseEntity.getStatusCodeValue();
+        int status = responseEntity.getBody();
+        logger.info("============远程返回  statusCode " + statusCode + "  status=" + status);
+        if (responseEntity.getBody() > 0) {
+            resultsDate = new Result(true);
+        } else {
+            resultsDate = new Result(false, "删除失败，请联系系统管理员！");
+        }
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+        out.println(ob.toString());
+        out.flush();
+        out.close();
+        return null;
+    }
+    /**
+     * 详情
+     *
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/sre-purchase/getParticulars/{id}", method = RequestMethod.GET)
+    public String getParticulars(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception
+    {
+        ResponseEntity<SrePurchase> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
+        int statusCode = responseEntity.getStatusCodeValue();
+        logger.info("============远程返回  statusCode " + statusCode);
+        SrePurchase srePurchase = responseEntity.getBody();
+        request.setAttribute("srePurchase",srePurchase);
+        String projectId = srePurchase.getProjectId();
+
+
+        ResponseEntity<SreProject> responseEntity1 = this.restTemplate.exchange(GET_PROJECT_URL + projectId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
+        int statusCode1 = responseEntity.getStatusCodeValue();
+        logger.info("============远程返回  statusCode " + statusCode);
+        SreProject sreProjectBasic = responseEntity1.getBody();
+        request.setAttribute("sreProjectBasic", sreProjectBasic);
+        String name = sreProjectBasic.getName();
+        System.out.println(name+"=================================");
+
+        String proposerName = srePurchase.getProposerName();
+        String departCode = srePurchase.getDepartCode();
+        String departName = srePurchase.getDepartName();
+        String parentUnitPathNames = srePurchase.getParentUnitPathNames();
+
+
+        request.setAttribute("proposerName", proposerName);
+        request.setAttribute("departCode", departCode);
+        request.setAttribute("departName", departName);
+        request.setAttribute("parentUnitPathNames", parentUnitPathNames);
+        List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
+        request.setAttribute("unitFieldList", unitFieldList);
+
+        List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+        request.setAttribute("dicList", dicList);
+
+
+        return "/stp/equipment/purchase/purchase-view";
+    }
+
+    @RequestMapping(value = "/sre-purchase/apply_list")
+    public String apply_list(HttpServletRequest request, HttpServletResponse response)throws Exception {
+
+
+
+        List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+        request.setAttribute("dicList", dicList);
+
+        List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
+        request.setAttribute("unitFieldList", unitFieldList);
+
+
+        String	parentUnitPathIds="";
+        String unitPathIds =   sysUserInfo.getUnitPath();
+        if(unitPathIds!=null && !unitPathIds.equals(""))
+        {
+            if(unitPathIds.length()>4)
+            {
+                parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
+
+            }
+        }
+        request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+
+        return "/stp/equipment/purchase/apply-list";
+    }
+    @RequestMapping(value = "/sre-purchase/upFileDoc")
+    public String upFileDoc(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+
+
+        String id = CommonUtil.getParameter(request, "id", "");
+        request.setAttribute("id", id);
+
+        if(!id.equals(""))
+        {
+            ResponseEntity<SrePurchase> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
+            SrePurchase srePurchase = responseEntity.getBody();
+            request.setAttribute("srePurchase", srePurchase);
+            String documentDoc = srePurchase.getDocumentDoc();
+            String docArriveGoods = srePurchase.getDocumentDocArriveGoods();
+            String stage = srePurchase.getStage();
+            if(stage.equals("2")){
+                if(documentDoc==null || documentDoc.equals(""))
+                {
+                    documentDoc= IdUtil.createFileIdByTime();
+                }
+                request.setAttribute("documentDoc", documentDoc);
+            }else if(stage.equals("3")){
+                if(docArriveGoods==null || docArriveGoods.equals(""))
+                {
+                    docArriveGoods= IdUtil.createFileIdByTime();
+                }
+                request.setAttribute("docArriveGoods", docArriveGoods);
+            }
+            request.setAttribute("stage", stage);
+
+        }
+
+        return "/stp/equipment/purchase/upFileDoc";
+    }
+    @RequestMapping(value = "/sre-purchase/updateFileDoc")
+    public String updateFileDoc(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        Result resultsDate = new Result();
+        String id = CommonUtil.getParameter(request, "id", "");
+        String stage = CommonUtil.getParameter(request, "stage", "");
+        String documentDoc = CommonUtil.getParameter(request, "documentDoc", "");
+        String docArriveGoods = CommonUtil.getParameter(request, "docArriveGoods", "");
+        String resutl="";
+
+        int statusCodeValue = 0;
+        if(!id.equals(""))
+        {
+            if(stage.equals("2")){
+                ResponseEntity<SrePurchase> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
+                SrePurchase srePurchase = responseEntity.getBody();
+                srePurchase.setDocumentDoc(documentDoc);
+                ResponseEntity<String>  exchange = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
+                statusCodeValue = responseEntity.getStatusCodeValue();
+            }else if (stage.equals("3")){
+                ResponseEntity<SrePurchase> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
+                SrePurchase srePurchase = responseEntity.getBody();
+                srePurchase.setDocumentDocArriveGoods(docArriveGoods);
+                ResponseEntity<String>  exchange = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
+                statusCodeValue = responseEntity.getStatusCodeValue();
+            }
+        }
+        if (statusCodeValue==200)
+        {
+            resultsDate.setSuccess(true);
         } else
         {
             resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
         }
-            return resultsDate;
+
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+        out.println(ob.toString());
+        out.flush();
+        out.close();
+        return null;
+    }
+    //updateState
+
+    @RequestMapping(value = "/sre-purchase/updateState/{id}")
+    @ResponseBody
+    public Result updateState(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Result resultsDate = new Result();
+        ResponseEntity<SrePurchase> exchange = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
+        SrePurchase srePurchase = exchange.getBody();
+        srePurchase.setState(Constant.PURCHASE_STATUS_SUBMIT);
+        srePurchase.setStage(Constant.PURCHASE_CONTRACT_DOCKING);
+
+        ResponseEntity<String> exchange1 = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
+        int statusCodeValue = exchange1.getStatusCodeValue();
+        if (statusCodeValue == 200) {
+            resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
+        } else
+        {
+            resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
+        }
+        return resultsDate;
     }
 }

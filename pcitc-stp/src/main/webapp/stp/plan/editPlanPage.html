@@ -12,6 +12,11 @@
     <script type="text/javascript" src="/layuiadmin/modules/selectTree.js?v=9"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <style>
+        /*.layui-table-body{overflow:-webkit-paged-x !important; }*/
+        .layui-form-selectup dl{top: 20px !important;
+            height: 180px;}
+    </style>
 </head>
 <body>
 <div class="form_tableAdd_container">
@@ -157,8 +162,10 @@
         var userId = "";
         var userDisp = "";
         for (var j = 0; j <selectData.length; j++) {
-            userId = userId+((j==0)?"":",")+selectData[j].userId;
+            // userId = userId+((j==0)?"":",")+selectData[j].userId;
             userDisp = userDisp+((j==0)?"":",")+selectData[j].userDisp;
+            userId = selectData[j].userId+","+userId;
+            // userDisp = selectData[j].userDisp+","+userDisp;
         }
         $('#workOrderAllotUserId').val(userId);
         $('#workOrderAllotUserName').val(userDisp);
@@ -191,7 +198,13 @@
         publicMethods = layui.publicMethods,
             form.render(null, 'component-form-group');
 
-
+        $(document).on("click", ".layui-select-title", function () {
+            if($(this).next().css("display")=="none"){
+                $(".layui-table-body").css("overflow","auto")
+            }else {
+                $(".layui-table-body").css("overflow","-webkit-paged-x")
+            }
+        });
 
         var dataStatus = 0;
         console.log($('#workOrderAllotUserId').val)
@@ -279,6 +292,9 @@
                 console.log(sthTrObj);
             });
             var jsonData = data.field;
+            if (jsonData.bl==100){
+                jsonData.workOrderStatus = 2;
+            }
             jsonData.matterList = sthTrArr;
             console.log("------jsonData-------");
             console.log(jsonData.matterList);
@@ -386,7 +402,10 @@
                 console.log(dataJson);
                 enhance.filling(dataJson);
                 selectData = data;
-                //$("#jobContent").val(data.jobContent);
+                console.log(dataJson.workOrderStatus);
+                if (dataJson.workOrderStatus != "0") {
+                    document.getElementById("btn_submit_xf").style.display="none";
+                }
             },
             error: function (e) {
                 console.log(e);
@@ -404,6 +423,7 @@
                 {type: 'checkbox',width:55},
                 {title: '序号', type: 'numbers',width:55},
                 {field: 'dataId', title: '主键', event: 'setActive', style: 'cursor: pointer;', edit: true},
+                {field: 'createDate', title: '处理时间',width:130},
                 {field: 'workOrderName', title: '事项内容', event: 'setActive', style: 'cursor: pointer;', edit: true},
                 {
                     field: 'workOrderAllotUserName',

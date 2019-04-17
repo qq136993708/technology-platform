@@ -261,7 +261,7 @@
 				},
 				success : function(data) { //请求成功后处理函数。
 					// 刷新表格
-					parent.updateFlag = true;
+					parent.active.alertEvent();
 					var index = parent.layer.getFrameIndex(window.name);
 					parent.layer.close(index);
 					return false;

@@ -12,6 +12,11 @@
     <script type="text/javascript" src="/layuiadmin/modules/selectTree.js?v=9"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <style>
+        /*.layui-table-body{overflow:-webkit-paged-x !important; }*/
+        .layui-form-selectup dl{top: 20px !important;
+            height: 180px;}
+    </style>
 </head>
 <body>
 <div class="form_tableAdd_container">
@@ -151,15 +156,14 @@
 
 <script>
     function setWelder(selectData){
-        console.log("父节点调用:");
         selectData = eval(selectData);
-        console.log("----------"+selectData.length);
-        console.log(selectData);
         var userId = "";
         var userDisp = "";
         for (var j = 0; j <selectData.length; j++) {
-            userId = userId+((j==0)?"":",")+selectData[j].userId;
+            // userId = userId+((j==0)?"":",")+selectData[j].userId;
             userDisp = userDisp+((j==0)?"":",")+selectData[j].userDisp;
+            userId = selectData[j].userId+","+userId;
+            // userDisp = selectData[j].userDisp+","+userDisp;
         }
         $('#workOrderAllotUserId').val(userId);
         $('#workOrderAllotUserName').val(userDisp);
@@ -195,7 +199,14 @@
         //     $('#workOrderAllotUserId').val(selectData.userId);
         //     $('#workOrderAllotUserName').val(selectData.userDisp);
         // }
+        $(document).on("click", ".layui-select-title", function () {
+            if($(this).next().css("display")=="none"){
+                $(".layui-table-body").css("overflow","auto")
+            }else {
 
+                $(".layui-table-body").css("overflow","-webkit-paged-x")
+            }
+        });
         window.setWelder = setWelder;
         var dataStatus = 0;
         console.log($('#workOrderAllotUserId').val)
