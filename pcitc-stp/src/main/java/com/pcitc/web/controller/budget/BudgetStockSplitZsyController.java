@@ -305,7 +305,7 @@ public class BudgetStockSplitZsyController extends BaseController {
 		param.getParam().put("budget_info_id", dataId);
 		param.setLimit(100);
 		param.setPage(1);
-		System.out.println(JSON.toJSONString(param));
+		
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(BUDGET_STOCKSPLIT_ITEMS, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), LayuiTableData.class);
 		LayuiTableData tabldata = responseEntity.getBody();
 		//System.out.println(JSON.toJSONString(tabldata));
@@ -318,7 +318,7 @@ public class BudgetStockSplitZsyController extends BaseController {
 		
 		
 		URL path = this.getClass().getResource("/");
-		File f = new File(path.getPath() + "static/budget/budget_stocksplit_template.xlsx");
+		File f = new File(path.getPath() + "static/budget/budget_stocksplit_zsy_template.xlsx");
 		//System.out.println(f.getAbsolutePath());
 		//写入新文件2019年集团公司总部科技经费预算
 		String newFilePath = path.getPath() + "static/budget/"+info.getNd()+"年资产经费预算明细表（建议稿）_"+DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss")+".xlsx";
