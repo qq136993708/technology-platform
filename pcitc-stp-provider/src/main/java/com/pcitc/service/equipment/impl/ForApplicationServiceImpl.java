@@ -126,7 +126,7 @@ public  class ForApplicationServiceImpl implements ForApplicationService {
 	public LayuiTableData getEquipmentPage(LayuiTableParam param)throws Exception
 	{
 		
-		//每页显示条数
+		///每页显示条数
 		int pageSize = param.getLimit();
 		//从第多少条开始
 		int pageStart = (param.getPage()-1)*pageSize;

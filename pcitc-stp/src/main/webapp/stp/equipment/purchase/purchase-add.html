@@ -396,7 +396,7 @@
         //$("#equipmentIds").val(equipmentIds);
         table.render({
             elem: '#join_apply_table',
-            url: '/sre-equipment/chooseEquipmentByIds?equipmentIds=' + equipmentIds,
+            url: '/sre-equipment/chooseEquipmentByMap?equipmentIds=' + equipmentIds+"&purchaseStatus=0",
             limit: 15,
             method: "GET",
             id: 'join_apply_table',

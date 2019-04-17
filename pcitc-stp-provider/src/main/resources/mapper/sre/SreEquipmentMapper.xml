@@ -32,6 +32,7 @@
     <result column="supplier_str" property="supplierStr" jdbcType="VARCHAR" />
     <result column="supplier_will_str" property="supplierWillStr" jdbcType="VARCHAR" />
     <result column="purchase_status" property="purchaseStatus" jdbcType="VARCHAR" />
+    <result column="for_status" property="forStatus" jdbcType="VARCHAR" />
     
     
     
@@ -42,7 +43,7 @@
     apply_acount, specification, notes, special_notes, attachment_doc, apply_depart_name, 
     apply_depart_code, first_apply_user, create_user_id, create_date, audit_status, update_user_id, 
     update_date, erp_no, origin_place, vote_count, unit_path_ids, unit_path_names, parent_unit_path_names, 
-    parent_unit_path_ids, supplier_str, supplier_will_str,purchase_status
+    parent_unit_path_ids, supplier_str, supplier_will_str,purchase_status,for_status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -64,7 +65,7 @@
       update_user_id, update_date, erp_no, 
       origin_place, vote_count, unit_path_ids, 
       unit_path_names, parent_unit_path_names, parent_unit_path_ids, 
-      supplier_str, supplier_will_str,purchase_status
+      supplier_str, supplier_will_str,purchase_status,for_status
       )
     values (#{equipmentId,jdbcType=VARCHAR}, #{equipmentCode,jdbcType=VARCHAR}, #{isLinkedProject,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{unitPrice,jdbcType=DECIMAL}, 
@@ -76,6 +77,7 @@
       #{originPlace,jdbcType=VARCHAR}, #{voteCount,jdbcType=INTEGER}, #{unitPathIds,jdbcType=VARCHAR}, 
       #{unitPathNames,jdbcType=VARCHAR}, #{parentUnitPathNames,jdbcType=VARCHAR}, #{parentUnitPathIds,jdbcType=VARCHAR}, 
       #{supplierStr,jdbcType=VARCHAR}, #{supplierWillStr,jdbcType=VARCHAR}, #{purchaseStatus,jdbcType=VARCHAR}
+      , #{forStatus,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreEquipment" >
@@ -171,9 +173,12 @@
       <if test="purchaseStatus != null" >
         purchase_status,
       </if>
+      <if test="forStatus != null" >
+        for_status,
+      </if>
       
-      
-      
+       
+    
    
     
     </trim>
@@ -268,7 +273,9 @@
       <if test="purchaseStatus != null" >
         #{purchaseStatus,jdbcType=VARCHAR},
       </if>
-      
+      <if test="forStatus != null" >
+        #{forStatus,jdbcType=VARCHAR},
+      </if>
       
       
       
@@ -366,7 +373,9 @@
       <if test="purchaseStatus != null" >
         purchase_status = #{purchaseStatus,jdbcType=VARCHAR},
       </if>
-      
+      <if test="forStatus != null" >
+        for_status = #{forStatus,jdbcType=VARCHAR},
+      </if>
       
       
       
@@ -381,6 +390,7 @@
     set equipment_code = #{equipmentCode,jdbcType=VARCHAR},
       is_linked_project = #{isLinkedProject,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
+       for_status = #{forStatus,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
         purchase_status = #{purchaseStatus,jdbcType=VARCHAR},
       unit_price = #{unitPrice,jdbcType=DECIMAL},
@@ -427,10 +437,10 @@
 	     <if test="isLinkedProject != null             and isLinkedProject !=''  ">           AND t.is_linked_project = #{isLinkedProject}</if>
 	     <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.parent_unit_path_ids = #{parentUnitPathIds}</if>
 	      <if test="purchaseStatus != null       and purchaseStatus !=''  ">     AND t.purchase_status = #{purchaseStatus}</if>
+	       <if test="forStatus != null       and forStatus !=''  ">     AND t.for_status = #{forStatus}</if>
 	     <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
 	 </trim>
 	</sql>
-	
 	
 	 
     
@@ -460,9 +470,8 @@
      </select>
      
      <select id="getForApplicationList" resultMap="BaseResultMap" parameterType="Map" >
-     select * from sre_equipment t 
-     where t.purchase_status  >= 3
-     <include refid="selectCondition" />    
+     select * from sre_equipment t <include refid="selectCondition" />  
+     where t.purchase_status >= 3
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>

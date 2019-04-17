@@ -11,19 +11,21 @@ public interface IScientificFundsService {
 	
 	    //课题直间接费用统计表
 	    public List<ScientificFunds> getKtzjjfytjbData(Map map)throws Exception;
+	    public List<ScientificFunds> getKtzjjfytjbData_detail(Map map)throws Exception;
 	    //人工成本支出统计表
 		public List<ScientificFunds> getRgcbzctjbData(Map map )throws Exception;
 		public List<ScientificFunds> getRgcbzctjbDataDetail(Map map )throws Exception;
 		
-		
-		
 		//原材料支出统计表
 		public List<ScientificFunds> getYclzctjbData(Map map )throws Exception;
+		public List<ScientificFunds> getYclzctjbData_Detail(Map map )throws Exception;
 		//能耗支出统计表
 		public List<ScientificFunds> getNhzctjbData(Map param)throws Exception;
+		public List<ScientificFunds> getNhzctjbData_detail(Map param)throws Exception;
 		//项目资金流向分析
 		public List<ScientificFunds> getXmzjlxfxData(Map param)throws Exception;
-				
+		public List<ScientificFunds> getXmzjlxfxData_detail(Map param)throws Exception;
+			
 		
 		
 		
