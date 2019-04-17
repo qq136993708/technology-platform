@@ -1,6 +1,7 @@
 package com.pcitc.service.equipment;
 
 import java.util.List;
+import java.util.Map;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
@@ -24,10 +25,9 @@ public interface ForApplicationService {
 
 	//根据转资ID获取数据
 	public SreForApplication selectForApplication(String id);
-
 	
-	
-	
+	//查询转资装备大于3的数据
+	public LayuiTableData getEquipmentPage(LayuiTableParam param)throws Exception;	
 	
 	
 	

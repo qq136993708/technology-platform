@@ -67,6 +67,13 @@ public class ForApplicationProviderClient
 		return forapplicationService.selectForApplication(id);
 	}
 	
+	@ApiOperation(value = "转资申请添加查询装备分页", notes = "转资申请添加查询装备分页")
+	@RequestMapping(value = "/sre-provider/forapplicationequipment/page", method = RequestMethod.POST)
+	public LayuiTableData getForapplicationequipmentList(@RequestBody LayuiTableParam param)throws Exception
+	{
+		LayuiTableData rageResult=forapplicationService.getEquipmentPage(param);
+		return rageResult;
+	}
 	
 	@ApiOperation(value = "转资详情分页", notes = "转资详情分页")
 	@RequestMapping(value = "/sre-provider/forapplication/pageview", method = RequestMethod.POST)
@@ -92,4 +99,6 @@ public class ForApplicationProviderClient
 		Integer count= detailService.insertDetail(sreDetail);
 		return sreDetail.getEquipmentId();
 	}
+	
+	
 }

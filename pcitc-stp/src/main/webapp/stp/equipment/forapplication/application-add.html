@@ -105,7 +105,7 @@ var publicMethods;
  			var table = layui.table;
 	    	table.render({
 	            elem: '#notjoin_apply_table',
-	            url: '/sre-equipment/list',
+	            url: '/sre-forapplication/listfor',
 	            limit: 15,
 	            method:"POST",
 	            where: {param:{"equipmentIds":$("#equipmentIds").val(),"applyName":$("#applyName").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"isLinkedProject":$("#isLinkedProject").val()}},

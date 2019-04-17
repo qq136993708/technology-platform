@@ -1,5 +1,6 @@
 package com.pcitc.service.equipment.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +56,7 @@ public  class InvestServiceImpl implements InvestService {
 	public LayuiTableData getInvestmentrogressPage(LayuiTableParam param)throws Exception
 	{
 		Map map = new HashMap<>();
-		List<SreInvestmentrogress> list = sreforapplicationMapper.getList(map);
+		List<SreInvestmentrogress> list = new ArrayList<SreInvestmentrogress>();
 		//每页显示条数
 		int pageSize = param.getLimit();
 		//从第多少条开始

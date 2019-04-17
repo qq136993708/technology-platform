@@ -22,6 +22,8 @@ public interface SreEquipmentMapper {
     int getCount(Map map);
     
     List getEquipmentListByIds(List list);
+
+	List getForApplicationList(Map map);
     
     
     
