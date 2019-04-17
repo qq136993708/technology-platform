@@ -197,9 +197,11 @@ var name=$('#name').val();
             		layer.msg('请点击选择一行数据');
             	 } else if(selectRowData.applicationState =="2"){
             		 layer.msg('转资申请已通过,不能删除');
+            	}else if(selectRowData.applicationState =="1"){
+            		layer.msg('转资申请正在审批,不能删除');
             	}else {
-            		  var applicationId=selectRowData.applicationId;
-         		      var url="/sre-forapplication/delete/"+applicationId;
+            		var applicationId=selectRowData.applicationId;
+            		var url="/sre-forapplication/delete/"+applicationId;
 	           		  layer.confirm('确定要删除吗？', { btn: ['确定','取消']}, function(){
 	         				 ajaxDeleteOpt(url,"post","删除成功","删除失败");
 	         			}, function(){

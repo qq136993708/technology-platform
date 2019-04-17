@@ -459,7 +459,18 @@
        </foreach>
      </select>
      
-     
+     <select id="getForApplicationList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from sre_equipment t 
+     where t.purchase_status  >= 3
+     <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  create_date desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
      
      
 </mapper>
