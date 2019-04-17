@@ -52,7 +52,7 @@ public class ForApplicationController extends BaseController {
 	private static final String LIST_BY_IDS_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/list-by-ids/";
 	private static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/forapplication/get/";
 	private static final String VIEW_URL = "http://pcitc-zuul/stp-proxy/sre-provider/forapplication/pageview";
-	private static final String EQU_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/page";
+	private static final String EQU_URL = "http://pcitc-zuul/stp-proxy/sre-provider/forapplicationequipment/page";
 	private static final String DETAIL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/Detail/add";
 	/**
 	 * 列表

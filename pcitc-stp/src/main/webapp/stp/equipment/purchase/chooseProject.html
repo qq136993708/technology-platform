@@ -84,12 +84,14 @@
                             var yearFeeStr=selectRowData.yearFeeStr;
                             var projectMoney=selectRowData.projectMoney;
                             var leadUnitName=selectRowData.leadUnitName;
+                            var equipmentIds=selectRowData.equipmentIds;
                             $("#topicId").val(id)
                             $("#name").val(name);
                             $("#yearFeeStrJoinUnit").val(yearFeeStrJoinUnit);
                             $("#yearFeeStr").val(yearFeeStr);
                             $("#projectMoney").val(projectMoney);
                             $("#leadUnitName").val(leadUnitName);
+                            $("#equipmentIds").val(equipmentIds);
                         });
                     }
 
@@ -121,11 +123,13 @@
                         var yearFeeStr=$("#yearFeeStr").val();
                         var projectMoney=$("#projectMoney").val();
                         var leadUnitName=$("#leadUnitName").val();
+                        var equipmentIds=$("#equipmentIds").val();
                         //alert(topicId);
                         parent.document.getElementById("topicId").value=topicId;
                         parent.document.getElementById("name").value=name;
+                        parent.document.getElementById("equipmentIds").value=equipmentIds;
                        //parent.document.getElementById("projectMoney").value=projectMoney;
-
+                        parent.call_back(equipmentIds);
 
                         //parent.setPorject(yearFeeStrJoinUnit,yearFeeStr,leadUnitName);
                         var index = parent.layer.getFrameIndex(window.name);
@@ -152,6 +156,7 @@
     <input type="hidden" name="yearFeeStr" id="yearFeeStr" value="">
     <input type="hidden" name="projectMoney" id="projectMoney" value="">
     <input type="hidden" name="leadUnitName" id="leadUnitName" value="">
+    <input type="hidden" name="equipmentIds" id="equipmentIds" value="">
 
 
     <div class="searchBox">
