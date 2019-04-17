@@ -164,7 +164,6 @@ public class ForApplicationController extends BaseController {
 		String applyDepartCode = sysUserInfo.getUnitCode();
 		String firstApplyUser=sysUserInfo.getUserDisp();
 		String attachmentDoc= IdUtil.createFileIdByTime();
-		
 		String equipmentId = CommonUtil.getParameter(request, "equipmentId", "");
 		request.setAttribute("equipmentId", equipmentId);
 		if(!equipmentId.equals(""))
@@ -184,19 +183,15 @@ public class ForApplicationController extends BaseController {
 		String leadUnitName =  "";
 		String leadUnitCode =  "";
 		String unitPathIds =   sysUserInfo.getUnitPath();
-		if(!unitPathIds.equals(""))
+		if(unitPathIds!=null && unitPathIds!=null && !unitPathIds.equals(""))
 		{
 			if(unitPathIds.length()>4)
 			{
-				String	parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-				SysUnit sysUnit=EquipmentUtils.getUnitByUnitPath(parentUnitPathIds, restTemplate, httpHeaders);
-				if(sysUnit!=null)
-				{
-					leadUnitName = sysUnit.getUnitName();
-					leadUnitCode =sysUnit.getUnitCode();
-				}
+				unitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
+				
 			}
 		}
+		request.setAttribute("parentUnitPathIds", unitPathIds);
 		request.setAttribute("leadUnitName", leadUnitName);
 		request.setAttribute("leadUnitCode", leadUnitCode);
 		request.setAttribute("attachmentDoc", attachmentDoc);
