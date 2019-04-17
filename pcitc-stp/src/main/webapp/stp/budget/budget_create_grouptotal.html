@@ -95,7 +95,7 @@
         });
 	    function reloadTable()
 	    {
-	    	publicMethods.ajaxPost("/budget/budget_group_info_table",{page:1,limit:100,param: {"nd":select_date}}, function (data) {
+	    	publicMethods.ajaxPost("/budget/budget-group-info-table",{page:1,limit:100,param: {"nd":select_date}}, function (data) {
 	        	curent_tabel_data = data.data;
 	        	table.reload('dataTable', {data: data.data});
 	        	//处理下拉框

@@ -126,7 +126,7 @@ public class BudgetStockTotalController extends BaseController {
 		return "stp/budget/budget_history_view_stocktotal";
 	}
 	
-	@RequestMapping(value = "/budget/budget_stock_info_list", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/budget-stock-info-list", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getBudgetStockList(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
 	{
@@ -134,7 +134,7 @@ public class BudgetStockTotalController extends BaseController {
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
-	@RequestMapping(value = "/budget/budget_stock_info_table", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/budget-stock-info-table", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getBudgetStockTable(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request) throws IOException 
 	{
