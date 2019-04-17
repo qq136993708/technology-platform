@@ -82,21 +82,10 @@
             <table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true}">
                 <thead>
 	                <tr>
-	                	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
-	                	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}" rowspan="2">序号</th>
+	                	<th lay-data="{type:'checkbox'}"></th>
+	                	<th lay-data="{field:'no',align: 'center', width: '5%',totalRowText: '合计'}" >序号</th>
 	                    <th lay-data="{field:'organName', width: '15%'}" rowspan="2">专业处/部门</th>
-	                    <th lay-data="{field:'total', align: 'right', width: '10%',totalRow: true}" rowspan="2">预算合计</th>
-	                   	<th lay-data="{align: 'center',totalRow: true}" colspan="${items?size+1}">${nd}年结转项目经费</th>
-	                    <th lay-data="{align: 'center', totalRow: true}" colspan="${items?size+1}">${nd}年新签项目经费</th>
-	                </tr>
-	                <tr>
-	                 	<th lay-data="{field:'total_jz', align: 'right',totalRow: true}">合计</th>
-	                 	<#list items as item>
-	                 		<#list item?keys as key> 
-	                    		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true}">${item[key]}</th>
-	                    	</#list>
-	                    </#list>
-	                    <th lay-data="{field:'total_xq', align: 'right',totalRow: true}">合计</th>
+	                    <th lay-data="{field:'total_xq', width: '10%',align: 'center',totalRow: true}">合计</th>
 	                    <#list items as item>
 	                    	<#list item?keys as key> 
 	                    		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true}">${item[key]}</th>
@@ -181,7 +170,7 @@
             		$("#info_status").html(curent_budget_info.auditStatusDesc);//状态
             		
             		var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});
-            		publicMethods.ajaxAsyncPost("/budget/budget-assetsplit-zsy-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
+            		publicMethods.ajaxAsyncPost("/budget/budget-stocksplit-zsy-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
 	                	layer.close(lodingMsg);
             			curent_tabel_data = data.data;
 	                	table.reload('dataTable', {data: data.data});
@@ -304,7 +293,7 @@
                 		return;
                 	}
                 	var lodingMsg = layer.msg('处理中....',{time: 15*1000});
-   					publicMethods.ajaxAsyncPost("/budget/save-stocksplit_zsy-items", {"info":JSON.stringify(curent_budget_info),"items":JSON.stringify(curent_tabel_data)}, function (data) {
+   					publicMethods.ajaxAsyncPost("/budget/save-stocksplit-zsy-items", {"info":JSON.stringify(curent_budget_info),"items":JSON.stringify(curent_tabel_data)}, function (data) {
    						if (data.success) {    	                    	
    	                    	layer.msg('保存成功!',{time: 500});
    	                    	//layer.close(lodingMsg);
@@ -320,7 +309,7 @@
                 	}  
                 	layer.confirm('提交后将不可再编辑！确定要提交审批吗？',{title:"提交确认"},function(index){
     					layer.close(index);
-    					publicMethods.ajaxAsyncPost("/budget/start-budget-stocksplit_zsy-activity", {"budgetInfoId":curent_budget_info.dataId,"functionId":param.id}, function (data) {
+    					publicMethods.ajaxAsyncPost("/budget/start-budget-stocksplit-zsy-activity", {"budgetInfoId":curent_budget_info.dataId,"functionId":param.id}, function (data) {
     	                     if (data.success) {    	                    	 
     	                    	 budget_info_map[data.data.dataVersion]=data.data; 
     	                    	 $("#data_version").trigger("change");
