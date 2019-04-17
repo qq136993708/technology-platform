@@ -97,6 +97,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 	
 	public List<SreEquipment> getEquipmentListByMap(Map map)throws Exception
 	{
+		
+		Map map_para=new HashMap();
 		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(map));
 		System.out.println(">>>>>>>>>> getEquipmentListByMap 参数: "+parmamss.toJSONString());
 		String equipmentIds=(String)map.get("equipmentIds");
@@ -107,7 +109,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 			String chkbox[] = equipmentIds.split(",");
 			if (chkbox != null && chkbox.length > 0)
 			{
-				applyUnitCodeStr.append(" ( ");
+				applyUnitCodeStr.append("  equipment_id IN ( ");
 				for(int i=0;i<chkbox.length;i++)
 				{
 					if(i>0)
@@ -121,8 +123,9 @@ public class EquipmentServiceImpl implements EquipmentService {
 				applyUnitCodeStr.append(" ) ");
 			}
 		}
-        map.put("sqlStr", applyUnitCodeStr.toString());
-    	List<SreEquipment> list = sreEquipmentMapper.getList(map);
+        map_para.put("purchaseStatus", purchaseStatus);
+        map_para.put("sqlStr", applyUnitCodeStr.toString());
+    	List<SreEquipment> list = sreEquipmentMapper.getList(map_para);
     	return list;
 	}
 

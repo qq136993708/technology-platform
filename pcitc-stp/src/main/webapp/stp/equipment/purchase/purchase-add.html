@@ -386,7 +386,7 @@
         alert(id)
         table.render({
             elem: '#join_apply_table',
-            url: '/sre-equipment/chooseEquipmentByIds?equipmentIds=' + equipmentIds,
+            url: '/sre-equipment/chooseEquipmentByMap?equipmentIds=' + equipmentIds+"&purchaseStatus=0",
             limit: 15,
             //where: {param: {"purchaseStatus":"1"}},
             method: "GET",
