@@ -84,7 +84,7 @@
 	                <tr>
 	                	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
 	                	<th lay-data="{field:'no',align: 'center', width: '5%',totalRowText: '合计'}" rowspan="2">序号</th>
-	                    <th lay-data="{field:'organName', width: '15%'}" rowspan="2">专业处/部门</th>
+	                    <th lay-data="{field:'organName', width: '10%'}" rowspan="2">专业处/部门</th>
 	                    <th lay-data="{field:'total', width: '10%',align: 'center',totalRow: true}" rowspan="2">合计</th>
 	                    <#list items as item>
 	                    	<#list item?keys as key> 
@@ -181,7 +181,7 @@
             		publicMethods.ajaxAsyncPost("/budget/budget-stocksplit-zsy-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
 	                	layer.close(lodingMsg);
             			curent_tabel_data = data.data;
-	                	table.reload('dataTable', {data: data.data});
+            			relaodTable('dataTable',data.data);
 	                	renderfunc();
 	                	//预分配数
 	                	calculationSurplusMoney();
@@ -195,7 +195,7 @@
 			//空数据初始化
 			window.initEmptyData = function()
 			{
-				table.reload('dataTable', {data: []});
+				relaodTable('dataTable',[]);
 				$("#budgetMoney").val(0);//可分配数
             	$("#surplusMoney").val(0);//剩余可分配数
         		$("#creater_name").html("");//创建人
@@ -231,7 +231,7 @@
             	//预分配数
             	calculationSurplusMoney();
             	//刷新表格数据
-            	table.reload('dataTable', {data: curent_tabel_data});
+            	relaodTable('dataTable',curent_tabel_data);
             	renderfunc();
             	
             });
@@ -239,6 +239,17 @@
 				curent_budget_info.budgetMoney = $("#budgetMoney").val();
 				calculationSurplusMoney();
 			});
+			//刷新数据
+			window.relaodTable = function(tableId,tableData){
+				table.reload(tableId, {data: tableData});
+				//格式化求和
+				$.each($(".layui-table-total tr td"),function(i,d){
+					if(i>=3){
+						var val = $(this).find("div").html();
+						$(this).find("div").html(parseInt(val));
+					}
+				});
+			}
           	//初始化数据版本
             window.initDataVersion =function(budget_id){
                 publicMethods.ajaxAsyncPost("/budget/budget-stocksplit-zsy-info-list",{"nd":cu_date}, function (dt) {

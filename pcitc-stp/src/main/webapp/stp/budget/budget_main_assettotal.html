@@ -179,7 +179,7 @@
             		publicMethods.ajaxAsyncPost("/budget/budget-assettotal-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
             			layer.close(lodingMsg);
             			curent_tabel_data = data.data;
-	                	table.reload('dataTable', {data: data.data});
+            			reloadTable('dataTable', data.data);
 	                	renderfunc();
 	                	//预分配数
 	                	calculationSurplusMoney();
@@ -193,7 +193,7 @@
 			//空数据初始化
 			function initEmptyData()
 			{
-				table.reload('dataTable', {data: []});
+				reloadTable('dataTable', []);
 				$("#budgetMoney").val(0);//可分配数
             	$("#surplusMoney").val(0);//剩余可分配数
         		$("#creater_name").html("");//创建人
@@ -233,7 +233,7 @@
             		}
             	});
             	//刷新表格数据
-            	table.reload('dataTable', {data: curent_tabel_data});
+            	reloadTable('dataTable', curent_tabel_data);
             	renderfunc();
             	//预分配数
             	calculationSurplusMoney();
@@ -242,6 +242,17 @@
 				curent_budget_info.budgetMoney = $("#budgetMoney").val();
 				calculationSurplusMoney();
 			});
+			//刷新数据
+			window.reloadTable = function(tableId,tableData){
+				table.reload(tableId, {data: tableData});
+				//格式化求和
+				$.each($(".layui-table-total tr td"),function(i,d){
+					if(i>=3){
+						var val = $(this).find("div").html();
+						$(this).find("div").html(parseInt(val));
+					}
+				});
+			}
           	//初始化数据版本
             function initDataVersion(budget_id){
                 publicMethods.ajaxPost("/budget/budget-asset-info-list",{"nd":cu_date}, function (dt) {
@@ -334,7 +345,7 @@
     					publicMethods.ajaxPost("/budget/del-asset-item/"+curent_tabel_data[selectIndex].dataId, null, function (data) {
     	                     if (data.success) {
     	                    	 curent_tabel_data.splice(selectIndex,1);
-    	                    	 table.reload('dataTable', {data: curent_tabel_data});
+    	                    	 reloadTable('dataTable', curent_tabel_data);
     	                     	 renderfunc();
     	                     	 calculationSurplusMoney();
     	                     } else {

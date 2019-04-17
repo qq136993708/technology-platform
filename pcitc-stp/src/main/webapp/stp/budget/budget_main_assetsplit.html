@@ -184,7 +184,7 @@
             		publicMethods.ajaxAsyncPost("/budget/budget-assetsplit-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
 	                	layer.close(lodingMsg);
             			curent_tabel_data = data.data;
-	                	table.reload('dataTable', {data: data.data});
+            			relaodTable('dataTable', data.data);
 	                	renderfunc();
 	                	//预分配数
 	                	calculationSurplusMoney();
@@ -198,7 +198,7 @@
 			//空数据初始化
 			window.initEmptyData = function()
 			{
-				table.reload('dataTable', {data: []});
+				relaodTable('dataTable', []);
 				$("#budgetMoney").val(0);//可分配数
             	$("#surplusMoney").val(0);//剩余可分配数
         		$("#creater_name").html("");//创建人
@@ -234,7 +234,7 @@
             	//预分配数
             	calculationSurplusMoney();
             	//刷新表格数据
-            	table.reload('dataTable', {data: curent_tabel_data});
+            	relaodTable('dataTable', curent_tabel_data);
             	renderfunc();
             	
             });
@@ -242,6 +242,17 @@
 				curent_budget_info.budgetMoney = $("#budgetMoney").val();
 				calculationSurplusMoney();
 			});
+			//刷新数据
+			window.relaodTable = function(tableId,tableData){
+				table.reload(tableId, {data: tableData});
+				//格式化求和
+				$.each($(".layui-table-total tr td"),function(i,d){
+					if(i>=3){
+						var val = $(this).find("div").html();
+						$(this).find("div").html(parseInt(val));
+					}
+				});
+			}
           	//初始化数据版本
             window.initDataVersion =function(budget_id){
                 publicMethods.ajaxAsyncPost("/budget/budget-assetsplit-info-list",{"nd":cu_date}, function (dt) {
