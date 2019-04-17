@@ -515,7 +515,7 @@ public class ProjectBasicController extends BaseController {
 	
 	@RequestMapping(value = "/start_workflow")
 	@ResponseBody
-	public Object start_workflow_new(HttpServletRequest request, HttpServletResponse response) throws Exception 
+	public Object start_workflow_new(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		
 		
