@@ -60,7 +60,17 @@ public class ScientificFundsContrller {
 	private static final String nhzctjb_data = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/nhzctjb";
 	private static final String xmzjlxfx_data = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/xmzjlxfx";
 	private static final String investment_02 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/money/complete-rate/institute";
-	private static final String rgcbzctjb_data_detail = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/rgcbzctjb_detail";
+	
+	//人工成本支出统计表-详情
+	private static final String getRgcbzctjbData_detail = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/rgcbzctjb_detail";
+	//课题直间接费用统计表-详情
+    private static final String getKtzjjfytjbData_detail = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/getKtzjjfytjbData_detail";
+    //原材料支出统计表-详情
+    private static final String getYclzctjbData_Detail = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/getYclzctjbData_Detail";
+    //能耗支出统计表-详情
+    private static final String getNhzctjbData_detail = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/getNhzctjbData_detail";
+    //项目资金流向分析-详情
+    private static final String getXmzjlxfxData_detail = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/getXmzjlxfxData_detail";
 	
 	
 	  //年度经费预算合同签订进度分析
@@ -199,7 +209,7 @@ public class ScientificFundsContrller {
 			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 			if (!companyCode.equals("")) {
-				// 科研经费预算投入年度趋势分析
+				// 课题直间接费用统计表
 				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(ktzjjfytjb_data, HttpMethod.POST, entity, JSONArray.class);
 				int statusCode = responseEntity.getStatusCodeValue();
 				if (statusCode == 200) {
@@ -219,10 +229,62 @@ public class ScientificFundsContrller {
 		}
 	  
 	  
-		
-		
-		
 	  
+	  @RequestMapping(method = RequestMethod.GET, value = "/sf/to_getKtzjjfytjbData_detail")
+	  public String to_ktzjjfytjbData_detail(HttpServletRequest request) throws Exception
+	  {
+
+		  String month = CommonUtil.getParameter(request, "month", "");
+		  String companyName = CommonUtil.getParameter(request, "companyName", HanaUtil.YJY_CODE_NOT_YINGKE);
+		  request.setAttribute("month", month);
+		  request.setAttribute("companyName", companyName);
+	      return "stp/hana/scientificFunds/getKtzjjfytjbData_detail";
+	  }
+	  
+	  
+	  
+	  
+		//课题直间接费用统计表-详情
+	    @RequestMapping(method = RequestMethod.GET, value = "/getKtzjjfytjbData_detail")
+		@ResponseBody
+		public String getKtzjjfytjbData_detail(HttpServletRequest request, HttpServletResponse response) throws Exception 
+	    {
+		    PageResult pageResult = new PageResult();
+			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+			String companyName = CommonUtil.getParameter(request, "companyName", HanaUtil.YJY_CODE_NOT_YINGKE);
+			List<CompanyCode> companyCodeList = HanaUtil.getCompanyCode(restTemplate, httpHeaders);
+			String companyCode =	HanaUtil.getCompanyCodeByName( companyCodeList,companyName);
+			if(companyCode.equals(""))
+			{
+				companyCode=HanaUtil.YJY_CODE_NOT_YINGKE;
+			}
+			 System.out.println(">>>>>>>>>>>>>>>>>>>>getKtzjjfytjbData_detail>参数      month = "+month+" companyCode="+companyCode+" companyName="+companyName);
+			
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("month", month);
+			paramsMap.put("companyCode", companyCode);
+			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+			if (!companyCode.equals("")) 
+			{
+				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getKtzjjfytjbData_detail, HttpMethod.POST, entity, JSONArray.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) 
+				{
+					JSONArray jSONArray = responseEntity.getBody();
+					List<ScientificFunds> list = JSONObject.parseArray(jSONArray.toJSONString(), ScientificFunds.class);
+					pageResult.setData(list);
+					pageResult.setCode(0);
+					pageResult.setCount(Long.valueOf(list.size()));
+					pageResult.setLimit(1000);
+					pageResult.setPage(1l);
+				}
+			} 
+			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
+			System.out.println(">>>>>>>>>>>>>>>>>getKtzjjfytjbData_detail " + resultObj.toString());
+			return resultObj.toString();
+
+		}
 	  
 	  
 
@@ -257,7 +319,6 @@ public class ScientificFundsContrller {
 			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 			if (!companyCode.equals("")) {
-				// 科研经费预算投入年度趋势分析
 				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(rgcbzctjb_data, HttpMethod.POST, entity, JSONArray.class);
 				int statusCode = responseEntity.getStatusCodeValue();
 				if (statusCode == 200) {
@@ -275,6 +336,24 @@ public class ScientificFundsContrller {
 			return resultObj.toString();
 
 		}
+	  
+	  
+	  @RequestMapping(method = RequestMethod.GET, value = "/sf/to_getRgcbzctjbData_detail")
+	  public String rgcbzctjb_data_detail(HttpServletRequest request) throws Exception
+	  {
+
+		  String month = CommonUtil.getParameter(request, "month", "");
+		  String companyName = CommonUtil.getParameter(request, "companyName", HanaUtil.YJY_CODE_NOT_YINGKE);
+		  request.setAttribute("month", month);
+		  request.setAttribute("companyName", companyName);
+		  
+		  System.out.println(">>>>>>>>>>>>>>>>>>>>to_getRgcbzctjbData_detail>参数      month = "+month+" companyName="+companyName);
+		  
+		  
+	      return "stp/hana/scientificFunds/getRgcbzctjbData_detail";
+	  }
+	  
+	  
 	  
 	    @RequestMapping(method = RequestMethod.GET, value = "/rgcbzctjb_data_detail")
 		@ResponseBody
@@ -299,7 +378,7 @@ public class ScientificFundsContrller {
 			if (!companyCode.equals("")) 
 			{
 				// 科研经费预算投入年度趋势分析
-				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(rgcbzctjb_data_detail, HttpMethod.POST, entity, JSONArray.class);
+				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getRgcbzctjbData_detail, HttpMethod.POST, entity, JSONArray.class);
 				int statusCode = responseEntity.getStatusCodeValue();
 				if (statusCode == 200) 
 				{
@@ -313,7 +392,7 @@ public class ScientificFundsContrller {
 				}
 			} 
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-			System.out.println(">>>>>>>>>>>>>>>>>rgcbzctjb_data_detail " + resultObj.toString());
+			System.out.println(">>>>>>>>>>>>>>>人工成本支出统计表>>rgcbzctjb_data_detail " + resultObj.toString());
 			return resultObj.toString();
 
 		}
@@ -354,7 +433,6 @@ public class ScientificFundsContrller {
 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 				if (!companyCode.equals("")) {
-					// 科研经费预算投入年度趋势分析
 					ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(yclzctjb_data, HttpMethod.POST, entity, JSONArray.class);
 					int statusCode = responseEntity.getStatusCodeValue();
 					if (statusCode == 200) {
@@ -372,6 +450,59 @@ public class ScientificFundsContrller {
 				return resultObj.toString();
 
 			}
+	  @RequestMapping(method = RequestMethod.GET, value = "/sf/to_getYclzctjbData_Detail")
+	  public String to_getYclzctjbData_Detail(HttpServletRequest request) throws Exception
+	  {
+
+		  String month = CommonUtil.getParameter(request, "month", "");
+		  String companyName = CommonUtil.getParameter(request, "companyName", HanaUtil.YJY_CODE_NOT_YINGKE);
+		  request.setAttribute("month", month);
+		  request.setAttribute("companyName", companyName);
+	      return "stp/hana/scientificFunds/getYclzctjbData_Detail";
+	  }
+	  
+	    @RequestMapping(method = RequestMethod.GET, value = "/getYclzctjbData_Detail")
+		@ResponseBody
+		public String getYclzctjbData_Detail(HttpServletRequest request, HttpServletResponse response) throws Exception 
+	    {
+		    PageResult pageResult = new PageResult();
+			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+			String companyName = CommonUtil.getParameter(request, "companyName", HanaUtil.YJY_CODE_NOT_YINGKE);
+			List<CompanyCode> companyCodeList = HanaUtil.getCompanyCode(restTemplate, httpHeaders);
+			String companyCode =	HanaUtil.getCompanyCodeByName( companyCodeList,companyName);
+			if(companyCode.equals(""))
+			{
+				companyCode=HanaUtil.YJY_CODE_NOT_YINGKE;
+			}
+			 System.out.println(">>>>>>>>>>>>>>>>>>>>getYclzctjbData_Detail>参数      month = "+month+" companyCode="+companyCode+" companyName="+companyName);
+			
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("month", month);
+			paramsMap.put("companyCode", companyCode);
+			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+			if (!companyCode.equals("")) 
+			{
+				// 科研经费预算投入年度趋势分析
+				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getYclzctjbData_Detail, HttpMethod.POST, entity, JSONArray.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) 
+				{
+					JSONArray jSONArray = responseEntity.getBody();
+					List<ScientificFunds> list = JSONObject.parseArray(jSONArray.toJSONString(), ScientificFunds.class);
+					pageResult.setData(list);
+					pageResult.setCode(0);
+					pageResult.setCount(Long.valueOf(list.size()));
+					pageResult.setLimit(1000);
+					pageResult.setPage(1l);
+				}
+			} 
+			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
+			System.out.println(">>>>>>>>>>>>>>>>>rgcbzctjb_data_detail " + resultObj.toString());
+			return resultObj.toString();
+
+		}
+	  
 	  
 	  
 	  
@@ -405,7 +536,6 @@ public class ScientificFundsContrller {
 			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 			if (!companyCode.equals("")) {
-				// 科研经费预算投入年度趋势分析
 				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(nhzctjb_data, HttpMethod.POST, entity, JSONArray.class);
 				int statusCode = responseEntity.getStatusCodeValue();
 				if (statusCode == 200) {
@@ -425,6 +555,57 @@ public class ScientificFundsContrller {
 		}
 
 	  
+	  @RequestMapping(method = RequestMethod.GET, value = "/sf/to_getNhzctjbData_detail")
+	  public String getNhzctjbData_detail(HttpServletRequest request) throws Exception
+	  {
+
+		  String month = CommonUtil.getParameter(request, "month", "");
+		  String companyName = CommonUtil.getParameter(request, "companyName", HanaUtil.YJY_CODE_NOT_YINGKE);
+		  request.setAttribute("month", month);
+		  request.setAttribute("companyName", companyName);
+	      return "stp/hana/scientificFunds/getNhzctjbData_detail";
+	  }
+	  
+	  @RequestMapping(method = RequestMethod.GET, value = "/getNhzctjbData_detail")
+		@ResponseBody
+		public String getNhzctjbData_detail(HttpServletRequest request, HttpServletResponse response) throws Exception 
+	    {
+		    PageResult pageResult = new PageResult();
+			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+			String companyName = CommonUtil.getParameter(request, "companyName", HanaUtil.YJY_CODE_NOT_YINGKE);
+			List<CompanyCode> companyCodeList = HanaUtil.getCompanyCode(restTemplate, httpHeaders);
+			String companyCode =	HanaUtil.getCompanyCodeByName( companyCodeList,companyName);
+			if(companyCode.equals(""))
+			{
+				companyCode=HanaUtil.YJY_CODE_NOT_YINGKE;
+			}
+			 System.out.println(">>>>>>>>>>>>>>>>>>>>getNhzctjbData_detail>参数      month = "+month+" companyCode="+companyCode+" companyName="+companyName);
+			
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("month", month);
+			paramsMap.put("companyCode", companyCode);
+			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+			if (!companyCode.equals("")) 
+			{
+				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getNhzctjbData_detail, HttpMethod.POST, entity, JSONArray.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) 
+				{
+					JSONArray jSONArray = responseEntity.getBody();
+					List<ScientificFunds> list = JSONObject.parseArray(jSONArray.toJSONString(), ScientificFunds.class);
+					pageResult.setData(list);
+					pageResult.setCode(0);
+					pageResult.setCount(Long.valueOf(list.size()));
+					pageResult.setLimit(1000);
+					pageResult.setPage(1l);
+				}
+			} 
+			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
+			System.out.println(">>>>>>>>>>>>能耗支出统计表>>>>>getNhzctjbData_detail " + resultObj.toString());
+			return resultObj.toString();
+
+		}
 	  
 	  
 	  
@@ -480,7 +661,62 @@ public class ScientificFundsContrller {
 			return resultObj.toString();
 		}
 
-	  
+	     
+	     
+	     
+	     @RequestMapping(method = RequestMethod.GET, value = "/sf/to_getXmzjlxfxData_detail")
+		  public String getXmzjlxfxData_detail(HttpServletRequest request) throws Exception
+		  {
+
+			  String month = CommonUtil.getParameter(request, "month", "");
+			  String companyName = CommonUtil.getParameter(request, "companyName", HanaUtil.YJY_CODE_NOT_YINGKE);
+			  request.setAttribute("month", month);
+			  request.setAttribute("companyName", companyName);
+		      return "stp/hana/scientificFunds/getXmzjlxfxData_detail";
+		  }
+	     
+	     
+	     
+	    @RequestMapping(method = RequestMethod.GET, value = "/getXmzjlxfxData_detail")
+		@ResponseBody
+		public String getXmzjlxfxData_detail(HttpServletRequest request, HttpServletResponse response) throws Exception 
+	    {
+		    PageResult pageResult = new PageResult();
+			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+			String companyName = CommonUtil.getParameter(request, "companyName", HanaUtil.YJY_CODE_NOT_YINGKE);
+			List<CompanyCode> companyCodeList = HanaUtil.getCompanyCode(restTemplate, httpHeaders);
+			String companyCode =	HanaUtil.getCompanyCodeByName( companyCodeList,companyName);
+			if(companyCode.equals(""))
+			{
+				companyCode=HanaUtil.YJY_CODE_NOT_YINGKE;
+			}
+			 System.out.println(">>>>>>>>>>>>>>>>>>>>getXmzjlxfxData_detail>参数      month = "+month+" companyCode="+companyCode+" companyName="+companyName);
+			
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("month", month);
+			paramsMap.put("companyCode", companyCode);
+			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+			if (!companyCode.equals("")) 
+			{
+				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getXmzjlxfxData_detail, HttpMethod.POST, entity, JSONArray.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) 
+				{
+					JSONArray jSONArray = responseEntity.getBody();
+					List<ScientificFunds> list = JSONObject.parseArray(jSONArray.toJSONString(), ScientificFunds.class);
+					pageResult.setData(list);
+					pageResult.setCode(0);
+					pageResult.setCount(Long.valueOf(list.size()));
+					pageResult.setLimit(1000);
+					pageResult.setPage(1l);
+				}
+			} 
+			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
+			System.out.println(">>>>>>>>>>>>项目资金流向分析>>>>>getXmzjlxfxData_detail " + resultObj.toString());
+			return resultObj.toString();
+
+		}
 	  
 	  
 	  //加计扣除模拟分析

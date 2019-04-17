@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+<div class="searchBox">
+<input  name="month"          id="month"        value="${month}"   type="hidden">
+<input  name="companyName"    id="companyName"  value="${companyName}"   type="hidden">
+
+<div class="tableBox">
+<h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt" ></label>${companyName}（${month}）</h3>
+<h3 style="font-weight: bold;text-align: right;margin: 10px 0;" id="stp_table_title"><label id="ttt" ></label>(单位：万元)</h3>
+<table id="myTable2" class="layui-table" lay-filter="myTable2" >
+    <thead>
+     <tr>
+         <th lay-data="{field:'k0BNYSJHJE',  width:'15%',align:'right'}">本年预算</th>
+         <th lay-data="{field:'k0BNKYFPQCB', width:'15%',align:'right'}">科研分配前成本</th>
+         <th lay-data="{field:'k0BNKYFPHCB', width:'15%',align:'right'}">科研分配后成本</th>
+         <th lay-data="{field:'k0BNGLFPHCB', width:'15%',align:'right'}">管理分配后成本</th>
+         <th lay-data="{field:'k0BNGLFPHJECB', width:'15%',align:'right'}">实际支出合计</th>
+         <th lay-data="{field:'k0BNSJCNJE',    width:'15%',align:'right'}">资金承诺</th>
+         <th lay-data="{field:'k0BNSJDJJE',    width:'15%',align:'right'}">定金</th>
+         <th lay-data="{field:'k0BNZJSYBL',    width:'15%',align:'right'}">资金使用%</th>
+         <th lay-data="{field:'k0BNYSJY',      width:'15%',align:'right'}">资金结余</th>
+     </tr>
+    </thead>
+</table>
+</div>
+
+<script id="dateTpl" type="text/html"> {{formatTime(d.SQRI)}} </script>
+<script type="text/javascript">
+    // 时间格式化
+      function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+</script>
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script>
+var table,selectRowData;
+var table2,selectRowData2;
+layui.config({
+    base: '/layuiadmin/module/modules/' //静态资源所在路径
+}).use(['jquery','form', 'laydate','table','laypage','layer'], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,table2 = layui.table
+      ,layer = layui.layer
+      ,form = layui.form
+      ,laydate = layui.laydate,
+	 form.render(null, 'component-form-group');
+	  laydate.render({
+          elem: '#month'
+          ,format: 'yyyyMM'
+          
+       });
+	  myTable2();
+     	     //移除表头的复选框,去掉全选
+     	     $(".layui-table-header table thead th input").remove();  
+
+        // 触发不同的按钮事件
+        var $ = layui.$, active = {
+           
+            
+        };
+
+        
+    });
+    
+function search_Event()
+{
+}
+
+
+
+function myTable2()
+{
+	
+	 var  month=$("#month").val();
+	 var  companyName=$("#companyName").val();
+	 var v_date=(new Date()).getTime();
+	 var url= '/getXmzjlxfxData_detail?month='+month+"&v_date="+v_date+"&companyName="+companyName;
+	 table2.init('myTable2', {
+			  url: url
+			  ,where: {} 
+			  
+			});
+	 
+}   
+    
+   
+   
+
+</script>
+
+</body>
+</html>

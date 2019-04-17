@@ -64,14 +64,22 @@ public class SreEquipment {
     
     private String purchaseStatus;
     
-    
+    private String forStatus;
     
     
     
     
     
 
-    public String getPurchaseStatus() {
+    public String getForStatus() {
+		return forStatus;
+	}
+
+	public void setForStatus(String forStatus) {
+		this.forStatus = forStatus;
+	}
+
+	public String getPurchaseStatus() {
 		return purchaseStatus;
 	}
 

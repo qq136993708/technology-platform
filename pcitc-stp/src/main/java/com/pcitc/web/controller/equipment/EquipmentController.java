@@ -639,12 +639,13 @@ public class EquipmentController extends BaseController {
 			String code = CommonUtil.getTableCode("XTBM_0016", restTemplate, httpHeaders);
 			sreEquipment.setEquipmentCode(code);
 			String id = UUID.randomUUID().toString().replaceAll("-", "");
-			System.out.println("---------------UUID-id:" + id);
 			sreEquipment.setEquipmentId(id);
 			sreEquipment.setAttachmentDoc(attachmentDoc);
 			sreEquipment.setApplyDepartName(applyDepartName);
 			sreEquipment.setApplyDepartCode(applyDepartCode);
 			sreEquipment.setIsLinkedProject("0");
+			sreEquipment.setPurchaseStatus("0");
+			sreEquipment.setForStatus("0");
 			System.out.println("---------------applyDepartCode:" + applyDepartCode + " applyDepartCode=" + applyDepartCode + " UserId=" + sysUserInfo.getUserId());
 
 		} else {
