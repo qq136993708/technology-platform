@@ -65,6 +65,8 @@
 						</div>
 					</div>
 
+                </div>
+                <div class="layui-row">
 					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 						<div class="layui-form-item">
 							<label for="" class="layui-form-label">完成比例<span class="must-fill">*</span></label>
@@ -92,6 +94,29 @@
                             </div>
                          </div>
                        </div> -->
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">权重<span class="must-fill"></span></label>
+                            <div class="layui-input-block">
+                                <input class="layui-input readOnlyBox" name="announcements" id="announcements"
+                                       placeholder="权重" autocomplete="off" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <div class="layui-row">
+                        <div class="layui-form-item layui-form-text">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">任务描述<span class="must-fill"></span></label>
+                                <div class="layui-input-block">
+                                    <textarea name="remarks" id="remarks" style="width: 40%;" readonly="readonly" class="readOnlyBox"></textarea>
+                                    <!--<textarea name="remarks" id="remarks" class="ckeditor"></textarea>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 				</div>
 			</div>
 
@@ -223,9 +248,8 @@
             url: '/plan/viewBotWorkOrder?dataId=' + dataId,
             success: function (data) {
                 dataJson = JSON.parse(JSON.stringify(data));
-                console.log("主表信息赋值");
-                console.log(dataJson);
                 enhance.filling(dataJson);
+                $("#remarks").val(dataJson.remarks);
                 selectData = data;
                 $("#file_upload_parent").load('/common/public/uploadlayuiload2.html');
             },
@@ -384,8 +408,9 @@
                     style: 'cursor: pointer;',
                     edit: true
                 },
-                {field: 'bl', title: '比例', event: 'setActive', style: 'cursor: pointer;', edit: true},
-                {field: 'jsId', title: '接收人', event: 'setActive', style: 'cursor: pointer;', edit: true}
+                {field: 'bl', title: '完成比例', event: 'setActive', style: 'cursor: pointer;', edit: true},
+                {field: 'jsId', title: '接收人', event: 'setActive', style: 'cursor: pointer;', edit: true},
+                {field: 'announcements', title: '权重(%)', event: 'setActive', style: 'cursor: pointer;', edit: true}
                 ,{fixed: 'right', title:'查看', toolbar: '#showDetail', width:150}
             ]]
         });

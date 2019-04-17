@@ -235,6 +235,11 @@ public class PlanServiceImpl implements PlanService {
                     planBase.setBl(listIn.get(0).getBl());
                     planBase.setWorkOrderType(listIn.get(0).getWorkOrderType());
                     planBase.setRedactUnitName(listIn.get(0).getRedactUnitName());
+                    planBase.setAnnouncements(listIn.get(0).getAnnouncements());
+
+                    planBase.setWorkOrderAllotUserId(listIn.get(0).getWorkOrderAllotUserId());
+                    planBase.setWorkOrderAllotUserName(listIn.get(0).getWorkOrderAllotUserName());
+
                     planBaseMapper.updateByPrimaryKey(planBase);
                     list.remove(index);
                 }else {
