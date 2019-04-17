@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 
@@ -26,6 +27,7 @@ import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetSplitData;
+import com.pcitc.base.stp.budget.BudgetStockTotal;
 import com.pcitc.base.stp.budget.vo.BudgetSplitBaseDataVo;
 import com.pcitc.base.stp.budget.vo.SplitItemVo;
 import com.pcitc.base.system.SysUser;
@@ -33,6 +35,7 @@ import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.service.budget.BudgetInfoService;
 import com.pcitc.service.budget.BudgetStockSplitZsySplitService;
+import com.pcitc.service.budget.BudgetStockTotalService;
 import com.pcitc.service.feign.SystemRemoteClient;
 
 import io.swagger.annotations.Api;
@@ -50,6 +53,9 @@ public class BudgetStockSplitZsyProviderClient
 	private BudgetStockSplitZsySplitService budgetStockSplitZsySplitService;
 	
 	@Autowired
+	private BudgetStockTotalService budgetStockTotalService;
+	
+	@Autowired
 	private BudgetInfoService budgetInfoService;
 	
 	@Resource
@@ -64,11 +70,15 @@ public class BudgetStockSplitZsyProviderClient
 		try
 		{
 			List<BudgetInfo> datalist = budgetInfoService.selectBudgetInfoList(info.getNd(),BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode());
-			//获取股份预算总表中可用分配数（审批通过的股份预算）
+			//获取股份预算总表中可用分配数（审批通过的股份预算,从预算项中获取直属院的预算数）
 			BudgetInfo finalBudgetInfo = budgetInfoService.selectFinalBudget(info.getNd(),BudgetInfoEnum.STOCK_TOTAL.getCode());
 			for(BudgetInfo dt:datalist) {
 				if(finalBudgetInfo !=null) {
-					dt.setBudgetMoney(finalBudgetInfo.getBudgetMoney());
+					List<BudgetStockTotal> totals = budgetStockTotalService.selectItemsByBudgetId(finalBudgetInfo.getDataId());
+					Optional<BudgetStockTotal> rs = totals.stream().filter(a -> "ROOT_JFYS_GFDWFL_ZSYJY".equals(a.getDisplayCode())).findFirst();
+					if(rs != null && rs.isPresent()) {
+						dt.setBudgetMoney(rs.get().getXmjfTotal());
+					}
 				}
 				Map<String,Object> map = MyBeanUtils.transBean2Map(dt);
 				map.put("auditStatusDesc", BudgetAuditStatusEnum.getStatusByCode(dt.getAuditStatus()).getDesc());
