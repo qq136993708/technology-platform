@@ -247,6 +247,124 @@
 	 </select>
 	 
 	 
+	 
+	 
+	 <select id="getKtzjjfytjbData_detail" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+	   SELECT 
+			"G0GSJC",
+			IFNULL("G0XMLXMS",'')   AS G0XMLXMS,
+			IFNULL("G0PROJCODE",'') AS G0PROJCODE,
+			IFNULL("G0PROJTXT",'')  AS G0PROJTXT ,
+			sum("K0BNGLFPHJECB") AS K0BNGLFPHJECB,
+			sum("K0BNKYFPQCB") AS K0BNKYFPQCB,
+			sum("K0BNJJCB")   as K0BNJJCB,	
+			sum("K0BNBL")      AS K0BNBL,
+
+			sum("K0SNLJJJCB")  AS K0SNLJJJCB,
+			sum("K0SNKYFPQCB") AS K0SNKYFPQCB,
+			sum("K0SNJJCB") AS K0SNJJCB,
+			sum("K0SNBL")   AS K0SNBL,
+			
+			sum("K0TBZJ")   AS K0TBZJ,  
+			sum("K0TBZJ2")  AS K0TBZJ2,
+			sum("K0TBJJ")   AS K0TBJJ,
+			sum("K0TBBL")   AS K0TBBL
+			
+			FROM
+			(
+			SELECT
+					     "G0GSJC",
+					     "G0GSOR",
+					     "G0XMLXMS",
+					     "G0PROJCODE",
+	                                     "G0PROJTXT",
+					     ROUND(IFNULL(sum("K0BNGLFPHJECB")/10000,0),2)            AS "K0BNGLFPHJECB",   
+					     ROUND(IFNULL(sum("K0BNKYFPQCB"),0)/10000,2)              AS "K0BNKYFPQCB",
+					     ROUND(IFNULL(sum("K0BNJJCB"),0)/10000,2)                 AS "K0BNJJCB",
+					     CASE 
+					         WHEN  IFNULL(sum("K0BNJJCB"),0)=0 THEN 0
+					         ELSE   ROUND(IFNULL(sum("K0BNKYFPQCB")/10000,0)/IFNULL(sum("K0BNJJCB")/10000,0),4)            
+					     END                                       AS "K0BNBL",
+					     
+					     ROUND(IFNULL(sum("K0SNLJJJCB")/10000,0),2)               AS "K0SNLJJJCB",
+					     ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0),2)              AS "K0SNKYFPQCB",
+					     ROUND(IFNULL(sum("K0SNJJCB"),0)/10000,2)                 AS "K0SNJJCB",
+					      CASE 
+					         WHEN  IFNULL(sum("K0SNJJCB"),0)=0 THEN 0
+					         ELSE   ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0)/IFNULL(sum("K0SNJJCB")/10000,0),4)          
+					     END                                       AS "K0SNBL",   
+					      
+					     ROUND(IFNULL(IFNULL(sum("K0BNGLFPHJECB")/10000,0)-IFNULL(sum("K0SNLJJJCB")/10000,0),0),2)
+					                                               AS "K0TBZJ",  
+					     ROUND(IFNULL(IFNULL(sum("K0BNKYFPQCB")/10000,0)-IFNULL(sum("K0SNKYFPQCB")/10000,0),0),2)
+					                                               AS "K0TBZJ2",
+					     ROUND(IFNULL(IFNULL(sum("K0BNJJCB")/10000,0)-IFNULL(sum("K0SNJJCB")/10000,0),0),2)
+					                                               AS "K0TBJJ",
+					     CASE 
+					         WHEN   IFNULL(sum("K0BNJJCB"),0)=0 OR IFNULL(sum("K0SNJJCB"),0)=0 THEN 0
+					         ELSE  ROUND(IFNULL(sum("K0BNKYFPQCB")/10000,0)/IFNULL(sum("K0BNJJCB")/10000,0),4) 
+					             - ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0)/IFNULL(sum("K0SNJJCB")/10000,0),4)           
+					     END                                        AS "K0TBBL"                                                                
+					FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1014_01"
+					(
+					'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+					'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+					) 
+					GROUP BY     "G0GSJC","G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS"
+			--		order by "G0GSOR"
+			
+			 union all 
+			 
+			SELECT
+					     '合计' as "G0GSJC",
+					     '0'    as  "G0GSOR",
+					     null as "G0XMLXMS",
+					     null as "G0PROJCODE",
+	                                     null as "G0PROJTXT",					     
+					     ROUND(IFNULL(sum("K0BNGLFPHJECB")/10000,0),2)            AS "K0BNGLFPHJECB",   
+					     ROUND(IFNULL(sum("K0BNKYFPQCB"),0)/10000,2)              AS "K0BNKYFPQCB",
+					     ROUND(IFNULL(sum("K0BNJJCB"),0)/10000,2)                 AS "K0BNJJCB",
+					     CASE 
+					         WHEN  IFNULL(sum("K0BNJJCB"),0)=0 THEN 0
+					         ELSE   ROUND(IFNULL(sum("K0BNKYFPQCB")/10000,0)/IFNULL(sum("K0BNJJCB")/10000,0),4)            
+					     END                                       AS "K0BNBL",
+					     
+					     ROUND(IFNULL(sum("K0SNLJJJCB")/10000,0),2)               AS "K0SNLJJJCB",
+					     ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0),2)              AS "K0SNKYFPQCB",
+					     ROUND(IFNULL(sum("K0SNJJCB"),0)/10000,2)                 AS "K0SNJJCB",
+					      CASE 
+					         WHEN  IFNULL(sum("K0SNJJCB"),0)=0 THEN 0
+					         ELSE   ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0)/IFNULL(sum("K0SNJJCB")/10000,0),4)          
+					     END                                       AS "K0SNBL",   
+					      
+					     ROUND(IFNULL(IFNULL(sum("K0BNGLFPHJECB")/10000,0)-IFNULL(sum("K0SNLJJJCB")/10000,0),0),2)
+					                                               AS "K0TBZJ",  
+					     ROUND(IFNULL(IFNULL(sum("K0BNKYFPQCB")/10000,0)-IFNULL(sum("K0SNKYFPQCB")/10000,0),0),2)
+					                                               AS "K0TBZJ2",
+					     ROUND(IFNULL(IFNULL(sum("K0BNJJCB")/10000,0)-IFNULL(sum("K0SNJJCB")/10000,0),0),2)
+					                                               AS "K0TBJJ",
+					     CASE 
+					         WHEN   IFNULL(sum("K0BNJJCB"),0)=0 OR IFNULL(sum("K0SNJJCB"),0)=0 THEN 0
+					         ELSE  ROUND(IFNULL(sum("K0BNKYFPQCB")/10000,0)/IFNULL(sum("K0BNJJCB")/10000,0),4) 
+					             - ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0)/IFNULL(sum("K0SNJJCB")/10000,0),4)           
+					     END                                        AS "K0TBBL"                                                                
+					FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1014_01"
+					(
+					'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+					'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+					) 
+					GROUP BY     "G0GSJC","G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS"
+			)
+			WHERE   K0BNGLFPHJECB != 0 OR 
+					K0BNKYFPQCB != 0 OR 
+					K0BNBL != 0 
+
+			GROUP BY "G0GSJC","G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS"
+			order by "G0GSOR","G0XMLXMS","G0PROJCODE","G0PROJTXT"
+	 </select>
+	 
+	 
+	 
 	  <!-- 人工成本支出统计表--> 
       <select id="getRgcbzctjbData" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
       
@@ -554,6 +672,104 @@
 			GROUP BY "G0GSJC","G0GSOR"
 			ORDER BY "G0GSOR"
       </select>
+       <select id="getYclzctjbData_Detail" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+          SELECT
+			     "G0GSJC",
+			      IFNULL("G0XMLXMS",'') as G0XMLXMS,
+			     IFNULL("G0PROJCODE",'') as G0PROJCODE,
+			     IFNULL("G0PROJTXT",'')  as  G0PROJTXT,
+			     --本年原材料支出
+			     ROUND(IFNULL(sum("K0BNCB_5"),0),2)   AS "K0BNCB_5",   --总计
+			     ROUND(IFNULL(sum("K0BNCB_510"),0),2) AS "K0BNCB_510", --原材料及主要材料
+			     ROUND(IFNULL(sum("K0BNCB_520"),0),2) AS "K0BNCB_520", --辅助材料
+
+			     --上年原材料支出
+			     ROUND(IFNULL(sum("K0SNCB_5"),0),2)   AS "K0SNCB_5",   --总计
+			     ROUND(IFNULL(sum("K0SNCB_510"),0),2) AS "K0SNCB_510", --原材料及主要材料
+			     ROUND(IFNULL(sum("K0SNCB_520"),0),2) AS "K0SNCB_520", --辅助材料
+			     -- 同比原材料支出
+			     ROUND(IFNULL(sum("K0BNCB_5"),0),2)
+			     - ROUND(IFNULL(sum("K0SNCB_5"),0),2)   
+			                                                AS "K0TBCB_5",   --总计
+			     ROUND(IFNULL(sum("K0BNCB_510"),0),2)
+			     - ROUND(IFNULL(sum("K0SNCB_510"),0),2) 
+			                                                AS "K0TBCB_510", --原材料及主要材料
+			     ROUND(IFNULL(sum("K0BNCB_520"),0),2)
+			     - ROUND(IFNULL(sum("K0SNCB_520"),0),2) 
+			                                                AS "K0TBCB_520",  --辅助材料
+			     -- 同比原材料支出%
+			    CASE 
+			        WHEN ROUND(IFNULL(sum("K0SNCB_5"),0),2) = 0 THEN 0 
+			             ELSE  ROUND((ROUND(IFNULL(sum("K0BNCB_5"),0),2)- ROUND(IFNULL(sum("K0SNCB_5"),0),2))
+			                   /ROUND(IFNULL(sum("K0SNCB_5"),0),2),4)   
+			    END                                         AS "K0TBBL_5",   --总计
+
+			    CASE 
+			        WHEN ROUND(IFNULL(sum("K0SNCB_510"),0),2) = 0 THEN 0 
+			          ELSE  ROUND((ROUND(IFNULL(sum("K0BNCB_510"),0),2)- ROUND(IFNULL(sum("K0SNCB_510"),0),2)) 
+			                /ROUND(IFNULL(sum("K0SNCB_510"),0),2),4) 
+			    END                                         AS "K0TBBL_510", --原材料及主要材料
+			    CASE 
+			        WHEN ROUND(IFNULL(sum("K0SNCB_520"),0),2) = 0 THEN 0 
+			          ELSE  ROUND((ROUND(IFNULL(sum("K0BNCB_520"),0),2)- ROUND(IFNULL(sum("K0SNCB_520"),0),2))
+			                /ROUND(IFNULL(sum("K0SNCB_520"),0),2),4) 
+			    END                                         AS "K0TBBL_520"  --辅助材料   
+			FROM
+			(
+			 SELECT
+			     "G0GSJC",
+			     "G0GSOR",
+			     "G0XMLXMS",
+                             "G0PROJCODE",
+			     G0PROJTXT,			     
+			     --本年原材料支出
+			     sum("K0BNCB_5") AS "K0BNCB_5",
+			     sum("K0BNCB_510") AS "K0BNCB_510",
+			     sum("K0BNCB_520") AS "K0BNCB_520",
+			     --上年原材料支出
+			     sum("K0SNCB_5") AS "K0SNCB_5",
+			     sum("K0SNCB_510") AS "K0SNCB_510",
+			     sum("K0SNCB_520") AS "K0SNCB_520" 
+			     
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1016_01"
+			(
+			  'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+			  'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+			 ) 
+			WHERE K0BNCB_5 != 0 OR K0SNCB_5 != 0
+			GROUP BY "G0GSJC","G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS"
+			
+			UNION ALL 
+			
+			 SELECT
+			     '总计'   AS  "G0GSJC",
+			     '0'     AS  "G0GSOR",
+			     null    as "G0XMLXMS",
+                             null as "G0PROJCODE",
+			     null    as "G0PROJTXT",
+			     --本年原材料支出
+			     sum("K0BNCB_5")   AS "K0BNCB_5",
+			     sum("K0BNCB_510") AS "K0BNCB_510",
+			     sum("K0BNCB_520") AS "K0BNCB_520",
+			     --上年原材料支出
+			     sum("K0SNCB_5")   AS "K0SNCB_5",
+			     sum("K0SNCB_510") AS "K0SNCB_510",
+			     sum("K0SNCB_520") AS "K0SNCB_520" 
+			     
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1016_01"
+			(
+			  'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+			  'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+			 ) 
+			 
+			 ) AS T
+			GROUP BY "G0GSJC","G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS"
+			ORDER BY "G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS" 
+      </select>
+      
+      
+      
+      
       
       
       <!-- 能耗支出统计表--> 
@@ -689,6 +905,151 @@
 			 )
 			 GROUP BY  "G0GSJC", "G0GSOR"
 			 ORDER BY "G0GSOR"
+       </select>
+       <select id="getNhzctjbData_detail" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+          SELECT
+			     "G0GSJC",
+			    IFNULL("G0XMLXMS",'') as G0XMLXMS ,
+			    IFNULL("G0PROJCODE",'') as G0PROJCODE ,
+			    IFNULL("G0PROJTXT",'') as  G0PROJTXT,
+			     --本年能耗支出
+			     ROUND(IFNULL(sum("K0BNCB_4"),0),2)   AS "K0BNCB_4",  --总计
+			     ROUND(IFNULL(sum("K0BNCB_431"),0),2) AS "K0BNCB_431",--燃料油
+			     ROUND(IFNULL(sum("K0BNCB_432"),0),2) AS "K0BNCB_432",--燃料气
+			     ROUND(IFNULL(sum("K0BNCB_433"),0),2) AS "K0BNCB_433",--其他燃料
+			     ROUND(IFNULL(sum("K0BNCB_440"),0),2) AS "K0BNCB_440",--动力
+			     ROUND(IFNULL(sum("K0BNCB_441"),0),2) AS "K0BNCB_441",--水
+			     ROUND(IFNULL(sum("K0BNCB_442"),0),2) AS "K0BNCB_442",--电
+			     ROUND(IFNULL(sum("K0BNCB_443"),0),2) AS "K0BNCB_443",--风
+			     ROUND(IFNULL(sum("K0BNCB_444"),0),2) AS "K0BNCB_444",--蒸汽
+			     ROUND(IFNULL(sum("K0BNCB_445"),0),2) AS "K0BNCB_445",--燃气
+			     ROUND(IFNULL(sum("K0BNCB_446"),0),2) AS "K0BNCB_446",--其他动力
+			     --上年能耗支出
+			     ROUND(IFNULL(sum("K0SNCB_4"),0),2)   AS "K0SNCB_4",  --总计
+			     ROUND(IFNULL(sum("K0SNCB_431"),0),2) AS "K0SNCB_431",--燃料油
+			     ROUND(IFNULL(sum("K0SNCB_432"),0),2) AS "K0SNCB_432",--燃料气
+			     ROUND(IFNULL(sum("K0SNCB_433"),0),2) AS "K0SNCB_433",--其他燃料
+			     ROUND(IFNULL(sum("K0SNCB_440"),0),2) AS "K0SNCB_440",--动力
+			     ROUND(IFNULL(sum("K0SNCB_441"),0),2) AS "K0SNCB_441",--水
+			     ROUND(IFNULL(sum("K0SNCB_442"),0),2) AS "K0SNCB_442",--电
+			     ROUND(IFNULL(sum("K0SNCB_443"),0),2) AS "K0SNCB_443",--风
+			     ROUND(IFNULL(sum("K0SNCB_444"),0),2) AS "K0SNCB_444",--蒸汽
+			     ROUND(IFNULL(sum("K0SNCB_445"),0),2) AS "K0SNCB_445",--燃气
+			     ROUND(IFNULL(sum("K0SNCB_446"),0),2) AS "K0SNCB_446",--其他动力
+			     --同比能耗支出
+			     ROUND(IFNULL(sum("K0BNCB_4"),0),2)
+			     - ROUND(IFNULL(sum("K0SNCB_4"),0),2)   
+			                                                AS "K0TBCB_4",  --总计
+			     ROUND(IFNULL(sum("K0BNCB_431"),0),2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_431"),0),2) 
+			                                                AS "K0TBCB_431",--燃料油
+			     ROUND(IFNULL(sum("K0BNCB_432"),0),2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_432"),0),2) 
+			                                                AS "K0TBCB_432",--燃料气
+			     ROUND(IFNULL(sum("K0BNCB_433"),0),2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_433"),0),2) 
+			                                                AS "K0TBCB_433",--其他燃料
+			     ROUND(IFNULL(sum("K0BNCB_440"),0),2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_440"),0),2) 
+			                                                AS "K0TBCB_440",--动力
+			     ROUND(IFNULL(sum("K0BNCB_441"),0),2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_441"),0),2) 
+			                                                AS "K0TBCB_441",--水
+			     ROUND(IFNULL(sum("K0BNCB_442"),0),2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_442"),0),2) 
+			                                                AS "K0TBCB_442",--电
+			     ROUND(IFNULL(sum("K0BNCB_443"),0),2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_443"),0),2) 
+			                                                AS "K0TBCB_443",--风
+			     ROUND(IFNULL(sum("K0BNCB_444"),0),2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_444"),0),2) 
+			                                                AS "K0TBCB_444",--蒸汽
+			     ROUND(IFNULL(sum("K0BNCB_445"),0),2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_445"),0),2) 
+			                                                AS "K0TBCB_445",--燃气
+			     ROUND(IFNULL(sum("K0BNCB_446"),0),2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_446"),0),2) 
+			                                                AS "K0TBCB_446" --其他动力    
+			FROM 
+			(
+			 SELECT
+			     "G0GSJC",
+			     "G0GSOR",
+				"G0XMLXMS",
+		        "G0PROJCODE",
+                "G0PROJTXT",			     
+			     --本年能耗支出
+			     sum("K0BNCB_4") AS "K0BNCB_4",
+			     sum("K0BNCB_431") AS "K0BNCB_431",
+			     sum("K0BNCB_432") AS "K0BNCB_432",
+			     sum("K0BNCB_433") AS "K0BNCB_433",
+			     sum("K0BNCB_440") AS "K0BNCB_440",
+			     sum("K0BNCB_441") AS "K0BNCB_441",
+			     sum("K0BNCB_442") AS "K0BNCB_442",
+			     sum("K0BNCB_443") AS "K0BNCB_443",
+			     sum("K0BNCB_444") AS "K0BNCB_444",
+			     sum("K0BNCB_445") AS "K0BNCB_445",
+			     sum("K0BNCB_446") AS "K0BNCB_446",
+			     --上年能耗支出
+			     sum("K0SNCB_4") AS "K0SNCB_4",
+			     sum("K0SNCB_431") AS "K0SNCB_431",
+			     sum("K0SNCB_432") AS "K0SNCB_432",
+			     sum("K0SNCB_433") AS "K0SNCB_433",
+			     sum("K0SNCB_440") AS "K0SNCB_440",
+			     sum("K0SNCB_441") AS "K0SNCB_441",
+			     sum("K0SNCB_442") AS "K0SNCB_442",
+			     sum("K0SNCB_443") AS "K0SNCB_443",
+			     sum("K0SNCB_444") AS "K0SNCB_444",
+			     sum("K0SNCB_445") AS "K0SNCB_445",
+			     sum("K0SNCB_446") AS "K0SNCB_446" 
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1018_01"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			     '${month}'),
+			     'PLACEHOLDER' = ('$$PR_GSDM$$',
+			     '${companyCode}')) 
+			GROUP BY  "G0GSJC", "G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS" 
+			
+			UNION ALL 
+			
+			 SELECT
+			     '总计'   AS  "G0GSJC",
+			     '0'     AS  "G0GSOR",
+		        null as "G0XMLXMS",
+		        null as "G0PROJCODE",
+                null as "G0PROJTXT",			     
+			     --本年能耗支出
+			     sum("K0BNCB_4") AS "K0BNCB_4",
+			     sum("K0BNCB_431") AS "K0BNCB_431",
+			     sum("K0BNCB_432") AS "K0BNCB_432",
+			     sum("K0BNCB_433") AS "K0BNCB_433",
+			     sum("K0BNCB_440") AS "K0BNCB_440",
+			     sum("K0BNCB_441") AS "K0BNCB_441",
+			     sum("K0BNCB_442") AS "K0BNCB_442",
+			     sum("K0BNCB_443") AS "K0BNCB_443",
+			     sum("K0BNCB_444") AS "K0BNCB_444",
+			     sum("K0BNCB_445") AS "K0BNCB_445",
+			     sum("K0BNCB_446") AS "K0BNCB_446",
+			     --上年能耗支出
+			     sum("K0SNCB_4") AS "K0SNCB_4",
+			     sum("K0SNCB_431") AS "K0SNCB_431",
+			     sum("K0SNCB_432") AS "K0SNCB_432",
+			     sum("K0SNCB_433") AS "K0SNCB_433",
+			     sum("K0SNCB_440") AS "K0SNCB_440",
+			     sum("K0SNCB_441") AS "K0SNCB_441",
+			     sum("K0SNCB_442") AS "K0SNCB_442",
+			     sum("K0SNCB_443") AS "K0SNCB_443",
+			     sum("K0SNCB_444") AS "K0SNCB_444",
+			     sum("K0SNCB_445") AS "K0SNCB_445",
+			     sum("K0SNCB_446") AS "K0SNCB_446" 
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1018_01"
+			(
+			'PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			     '${month}'),
+			     'PLACEHOLDER' = ('$$PR_GSDM$$',
+			     '${companyCode}')
+			     ) 
+			 )
+			 GROUP BY  "G0GSJC", "G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS" 
+			 ORDER BY "G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS" 		
       </select>
       
       
@@ -696,26 +1057,26 @@
       <select id="getXmzjlxfxData" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
           SELECT
 			  "G0GSJC",
-			 --本年
-			  sum("K0BNYSJHJE"),      --本年预算
-			  sum("K0BNKYFPQCB"),     --科研分配前成本-本年
-			  sum("K0BNKYFPHCB"),     --科研分配后成本-本年
-			  sum( "K0BNGLFPHCB"),     --管理分配后成本-本年
-			  sum("K0BNGLFPHJECB"),   --实际支出合计-本年
-			  sum("K0BNSJCNJE"),      --资金承诺-本年
-			  sum( "K0BNSJDJJE"),      --定金-本年
-			  sum("K0BNYSJY"),          --资金结余-本年
-			  sum("K0BNZJSYBL"),      --资金使用%
+			  --本年
+			  sum("K0BNYSJHJE") as K0BNYSJHJE,      --本年预算
+			  sum("K0BNKYFPQCB") as K0BNKYFPQCB,     --科研分配前成本-本年
+			  sum("K0BNKYFPHCB") AS K0BNKYFPHCB,     --科研分配后成本-本年
+			  sum( "K0BNGLFPHCB") AS K0BNGLFPHCB,     --管理分配后成本-本年
+			  sum("K0BNGLFPHJECB") AS K0BNGLFPHJECB,   --实际支出合计-本年
+			  sum("K0BNSJCNJE") AS K0BNSJCNJE,      --资金承诺-本年
+			  sum( "K0BNSJDJJE") AS  K0BNSJDJJE,      --定金-本年
+			  sum("K0BNYSJY") AS K0BNYSJY ,          --资金结余-本年
+			  sum("K0BNZJSYBL") AS K0BNZJSYBL,      --资金使用%
 			--累计
-			  sum("K0ZTYSJE"),        --总体预算 
-			  sum("K0LJKYFPQCB"),     --科研分配前成本-累计
-			  sum("K0LJKYFPHCB"),     --科研分配后成本-累计
-			  sum("K0LJGLFPHCB"),     --管理分配后成本-累计
-			  sum("K0LJGLFPHJECB"),   --实际支出合计-累计
-			  sum("K0LJSJCNJE"),      --资金承诺-累计
-			  sum("K0LJSJDJJE"),      --定金-累计
-			  sum( "K0LJYSJY"),       --资金结余-累计
-			  sum( "K0LJZJSYBL")      --资金使用%--累计
+			  sum("K0ZTYSJE") AS K0ZTYSJE,        --总体预算 
+			  sum("K0LJKYFPQCB") AS K0LJKYFPQCB,     --科研分配前成本-累计
+			  sum("K0LJKYFPHCB") AS K0LJKYFPHCB,     --科研分配后成本-累计
+			  sum("K0LJGLFPHCB") AS K0LJGLFPHCB,     --管理分配后成本-累计
+			  sum("K0LJGLFPHJECB") AS K0LJGLFPHJECB,   --实际支出合计-累计
+			  sum("K0LJSJCNJE") AS  K0LJSJCNJE,      --资金承诺-累计
+			  sum("K0LJSJDJJE") AS K0LJSJDJJE ,      --定金-累计
+			  sum( "K0LJYSJY") AS K0LJYSJY,       --资金结余-累计
+			  sum( "K0LJZJSYBL") AS K0LJZJSYBL      --资金使用%--累计
 			FROM
 			(
 			                SELECT
@@ -781,7 +1142,103 @@
 			ORDER BY  "G0GSOR"  
           
       </select>
-	
+	<select id="getXmzjlxfxData_detail" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+            SELECT
+			  "G0GSJC",
+			IFNULL("G0XMLXMS",'') ,
+			IFNULL("G0PROJCODE",'') ,
+			IFNULL("G0PROJTXT",'')  ,
+			 --本年
+			  sum("K0BNYSJHJE")    as K0BNYSJHJE,      --本年预算
+			  sum("K0BNKYFPQCB")   as K0BNKYFPQCB,     --科研分配前成本-本年
+			  sum("K0BNKYFPHCB")   as K0BNKYFPHCB,     --科研分配后成本-本年
+			  sum( "K0BNGLFPHCB")  as K0BNGLFPHCB,     --管理分配后成本-本年
+			  sum("K0BNGLFPHJECB") as K0BNGLFPHJECB,   --实际支出合计-本年
+			  sum("K0BNSJCNJE")    as K0BNSJCNJE,      --资金承诺-本年
+			  sum("K0BNSJDJJE")    as K0BNSJDJJE,      --定金-本年
+			  sum("K0BNYSJY")      as K0BNYSJY,          --资金结余-本年
+			  sum("K0BNZJSYBL")    as K0BNZJSYBL,      --资金使用%
+			--累计
+			  sum("K0ZTYSJE")      as K0ZTYSJE,        --总体预算 
+			  sum("K0LJKYFPQCB")   as K0LJKYFPQCB,     --科研分配前成本-累计
+			  sum("K0LJKYFPHCB")   as K0LJKYFPHCB,     --科研分配后成本-累计
+			  sum("K0LJGLFPHCB")   as K0LJGLFPHCB,     --管理分配后成本-累计
+			  sum("K0LJGLFPHJECB") as K0LJGLFPHJECB,   --实际支出合计-累计
+			  sum("K0LJSJCNJE")    as K0LJSJCNJE,      --资金承诺-累计
+			  sum("K0LJSJDJJE")    as K0LJSJDJJE,      --定金-累计
+			  sum( "K0LJYSJY")     as K0LJYSJY,       --资金结余-累计
+			  sum( "K0LJZJSYBL")   as  K0LJZJSYBL     --资金使用%--累计
+			FROM
+			(
+			                SELECT
+							"G0GSJC",
+							"G0GSOR" AS "G0GSOR",
+							"G0XMLXMS",
+					        "G0PROJCODE",
+	                        "G0PROJTXT",
+						     --本年
+						     0                         AS "K0BNYSJHJE",      --本年预算
+						     ROUND(IFNULL(sum("K0BNKYFPQCB"),0)/10000,2)        AS "K0BNKYFPQCB",     --科研分配前成本-本年
+						     ROUND(IFNULL(sum("K0BNKYFPHCB"),0)/10000,2)        AS "K0BNKYFPHCB",     --科研分配后成本-本年
+						     ROUND(IFNULL(sum("K0BNGLFPHCB"),0)/10000,2)        AS "K0BNGLFPHCB",     --管理分配后成本-本年
+						     ROUND(IFNULL(sum("K0BNGLFPHJECB"),0)/10000,2)      AS "K0BNGLFPHJECB",   --实际支出合计-本年
+						     ROUND(IFNULL(sum("K0BNSJCNJE"),0)/10000,2)         AS "K0BNSJCNJE",      --资金承诺-本年
+						     ROUND(IFNULL(sum("K0BNSJDJJE"),0)/10000,2)         AS "K0BNSJDJJE",      --定金-本年
+						     0                         AS "K0BNYSJY",          --资金结余-本年
+						     0                         AS "K0BNZJSYBL",      --资金使用%
+						    --累计
+						     0                         AS "K0ZTYSJE",        --总体预算 
+						     ROUND(IFNULL(sum("K0LJKYFPQCB"),0)/10000,2)        AS "K0LJKYFPQCB",     --科研分配前成本-累计
+						     ROUND(IFNULL(sum("K0LJKYFPHCB"),0)/10000,2)        AS "K0LJKYFPHCB",     --科研分配后成本-累计
+						     ROUND(IFNULL(sum("K0LJGLFPHCB"),0)/10000,2)        AS "K0LJGLFPHCB",     --管理分配后成本-累计
+						     ROUND(IFNULL(sum("K0LJGLFPHJECB"),0)/10000,2)      AS "K0LJGLFPHJECB",   --实际支出合计-累计
+						     ROUND(IFNULL(sum("K0LJSJCNJE"),0)/10000,2)         AS "K0LJSJCNJE",      --资金承诺-累计
+						     ROUND(IFNULL(sum("K0LJSJDJJE"),0)/10000,2)         AS "K0LJSJDJJE",      --定金-累计
+						     0                         AS "K0LJYSJY",          --资金结余-累计
+						     0                         AS "K0LJZJSYBL"       --资金使用%--累计
+						FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1017_01"
+						(
+						'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+						'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+						) 
+					GROUP BY   "G0GSJC", "G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS"
+			        UNION ALL 
+			                 SELECT
+							'合计' as "G0GSJC",
+							'0'    as  "G0GSOR",
+					        null as "G0XMLXMS",
+					        null as "G0PROJCODE",
+	                        null as "G0PROJTXT",							
+						     --本年
+						     0                         AS "K0BNYSJHJE",      --本年预算
+						     ROUND(IFNULL(sum("K0BNKYFPQCB"),0)/10000,2)        AS "K0BNKYFPQCB",     --科研分配前成本-本年
+						     ROUND(IFNULL(sum("K0BNKYFPHCB"),0)/10000,2)        AS "K0BNKYFPHCB",     --科研分配后成本-本年
+						     ROUND(IFNULL(sum("K0BNGLFPHCB"),0)/10000,2)        AS "K0BNGLFPHCB",     --管理分配后成本-本年
+						     ROUND(IFNULL(sum("K0BNGLFPHJECB"),0)/10000,2)      AS "K0BNGLFPHJECB",   --实际支出合计-本年
+						     ROUND(IFNULL(sum("K0BNSJCNJE"),0)/10000,2)         AS "K0BNSJCNJE",      --资金承诺-本年
+						     ROUND(IFNULL(sum("K0BNSJDJJE"),0)/10000,2)         AS "K0BNSJDJJE",      --定金-本年
+						     0                         AS "K0BNYSJY",          --资金结余-本年
+						     0                         AS "K0BNZJSYBL",      --资金使用%
+						    --累计
+						     0                         AS "K0ZTYSJE",        --总体预算 
+						     ROUND(IFNULL(sum("K0LJKYFPQCB"),0)/10000,2)        AS "K0LJKYFPQCB",     --科研分配前成本-累计
+						     ROUND(IFNULL(sum("K0LJKYFPHCB"),0)/10000,2)        AS "K0LJKYFPHCB",     --科研分配后成本-累计
+						     ROUND(IFNULL(sum("K0LJGLFPHCB"),0)/10000,2)        AS "K0LJGLFPHCB",     --管理分配后成本-累计
+						     ROUND(IFNULL(sum("K0LJGLFPHJECB"),0)/10000,2)      AS "K0LJGLFPHJECB",   --实际支出合计-累计
+						     ROUND(IFNULL(sum("K0LJSJCNJE"),0)/10000,2)         AS "K0LJSJCNJE",      --资金承诺-累计
+						     ROUND(IFNULL(sum("K0LJSJDJJE"),0)/10000,2)         AS "K0LJSJDJJE",      --定金-累计
+						     0                         AS "K0LJYSJY",          --资金结余-累计
+						     0                         AS "K0LJZJSYBL"       --资金使用%--累计
+						FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1017_01"
+						(
+						'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+						'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+						) 
+					GROUP BY   "G0GSJC", "G0GSOR" ,"G0PROJCODE","G0PROJTXT","G0XMLXMS"      
+			)GROUP BY   "G0GSJC", "G0GSOR" ,"G0PROJCODE","G0PROJTXT","G0XMLXMS" 
+			ORDER BY  "G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS" 		
+          
+      </select>
 	  
      
 </mapper>
