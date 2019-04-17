@@ -63,9 +63,9 @@ public class BudgetStockSplitZsyProviderClient
 		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
 		try
 		{
-			List<BudgetInfo> datalist = budgetInfoService.selectBudgetInfoList(info.getNd(),BudgetInfoEnum.ASSET_SPLIT.getCode());
+			List<BudgetInfo> datalist = budgetInfoService.selectBudgetInfoList(info.getNd(),BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode());
 			//获取股份预算总表中可用分配数（审批通过的股份预算）
-			BudgetInfo finalBudgetInfo = budgetInfoService.selectFinalBudget(info.getNd(),BudgetInfoEnum.ASSETS_TOTAL.getCode());
+			BudgetInfo finalBudgetInfo = budgetInfoService.selectFinalBudget(info.getNd(),BudgetInfoEnum.STOCK_TOTAL.getCode());
 			for(BudgetInfo dt:datalist) {
 				if(finalBudgetInfo !=null) {
 					dt.setBudgetMoney(finalBudgetInfo.getBudgetMoney());
@@ -89,7 +89,7 @@ public class BudgetStockSplitZsyProviderClient
 		LayuiTableData data = null;
 		try
 		{
-			param.getParam().put("budget_type", BudgetInfoEnum.ASSET_SPLIT.getCode());
+			param.getParam().put("budget_type", BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode());
 			data = budgetInfoService.selectBudgetInfoPage(param);
 			return data;
 		}
@@ -122,7 +122,7 @@ public class BudgetStockSplitZsyProviderClient
 		BudgetInfo rsbean = null;
 		try
 		{
-			info.setBudgetType(BudgetInfoEnum.ASSET_SPLIT.getCode());
+			info.setBudgetType(BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode());
 			rsbean = budgetInfoService.createBlankBudgetInfo(info.getNd(),info);
 		}
 		catch (Exception e)
@@ -268,7 +268,7 @@ public class BudgetStockSplitZsyProviderClient
 		List<Map<String,Object>> rsmap = new ArrayList<Map<String,Object>>();
 		try
 		{
-			List<BudgetInfo> rs = budgetInfoService.selectFinalBudgetInfoList(BudgetInfoEnum.ASSET_SPLIT.getCode());
+			List<BudgetInfo> rs = budgetInfoService.selectFinalBudgetInfoList(BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode());
 			for(BudgetInfo info:rs) {
 				Map<String,Object> map  = MyBeanUtils.transBean2Map(info);
 				List<Map<String,Object>> items =  budgetStockSplitZsySplitService.selectBudgetSplitDataList(info.getDataId());
