@@ -19,21 +19,25 @@ public class SrePurchase {
 
     private String departCode;
 
-    private Integer stage;
+    private String stage;
 
-    private Integer state;
+    private String state;
 
     private Date createDate;
 
     private String equipmentId;
 
-    private Integer ischeck;
+    private String ischeck;
 
     private String projectId;
 
     private String loginName;
 
     private String documentDoc;
+
+    private String documentDocArriveGoods;
+
+    private String documentDocContractualAcceptance;
 
     public String getId() {
         return id;
@@ -99,19 +103,19 @@ public class SrePurchase {
         this.departCode = departCode;
     }
 
-    public Integer getStage() {
+    public String getStage() {
         return stage;
     }
 
-    public void setStage(Integer stage) {
+    public void setStage(String stage) {
         this.stage = stage;
     }
 
-    public Integer getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(Integer state) {
+    public void setState(String state) {
         this.state = state;
     }
 
@@ -131,11 +135,11 @@ public class SrePurchase {
         this.equipmentId = equipmentId;
     }
 
-    public Integer getIscheck() {
+    public String getIscheck() {
         return ischeck;
     }
 
-    public void setIscheck(Integer ischeck) {
+    public void setIscheck(String ischeck) {
         this.ischeck = ischeck;
     }
 
@@ -161,5 +165,21 @@ public class SrePurchase {
 
     public void setDocumentDoc(String documentDoc) {
         this.documentDoc = documentDoc;
+    }
+
+    public String getDocumentDocArriveGoods() {
+        return documentDocArriveGoods;
+    }
+
+    public void setDocumentDocArriveGoods(String documentDocArriveGoods) {
+        this.documentDocArriveGoods = documentDocArriveGoods;
+    }
+
+    public String getDocumentDocContractualAcceptance() {
+        return documentDocContractualAcceptance;
+    }
+
+    public void setDocumentDocContractualAcceptance(String documentDocContractualAcceptance) {
+        this.documentDocContractualAcceptance = documentDocContractualAcceptance;
     }
 }

@@ -35,6 +35,8 @@
               lay-filter="component-form-group layui-container">
             <input name="id" id="id" value="${id}" type="hidden">
             <input name="documentDoc" id="documentDoc" value="${documentDoc}" type="hidden">
+            <input name="docArriveGoods" id="docArriveGoods" value="${docArriveGoods}" type="hidden">
+            <input name="stage" id="stage" value="${stage}" type="text">
 
             <div class="layui-form-item" style="padding:10px">
                 <label class="layui-form-label">附件</label>
@@ -69,6 +71,7 @@
 
     var v_date = (new Date()).getTime();
     var file_ids = "documentDoc";
+    var file_ids = "docArriveGoods";
     //detail:详情，edit：编辑
     file_edit_detail = "edit";
     //统管理-附件管理-附件配置：页面标识
@@ -110,8 +113,14 @@
         /* 监听提交 */
         form.on('submit(sub)', function (data)
         {
-            var url="/sre-purchase/updateFileDoc?v_date="+v_date;
-            var backurl="/sre-purchase/apply_list?v_date="+v_date;
+            var stage = $("#stage").val();
+            if(stage=="2"){
+                var url="/sre-purchase/updateFileDoc?v_date="+v_date;
+                var backurl="/sre-purchase/apply_list?v_date="+v_date;
+            }else if(stage=="3"){
+                var url="/sre-purchase/updateFileDoc?v_date="+v_date;
+                var backurl="/sre-purchase/to-arrive-goods-list?v_date="+v_date;
+            }
             ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
             return false;
         });

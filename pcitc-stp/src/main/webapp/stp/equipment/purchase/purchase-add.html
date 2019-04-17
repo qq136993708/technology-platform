@@ -38,9 +38,9 @@
               lay-filter="component-form-group layui-container">
             <input name="topicId" id="topicId" value="${topicId}" type="hidden">
             <input name="taskWriteUsersIds" id="taskWriteUsersIds" value="${taskWriteUsersIds}" type="hidden">
-            <input name="id" id="id" value="${id}" type="text">
+            <input name="id" id="id" value="${id}" type="hidden">
             <input name="equipmentIds" id="equipmentIds"  value="${equipmentIds}" type="text">
-            <input name="sreProjectEquipmentIds" id="sreProjectEquipmentIds"  value="${sreProjectEquipmentIds}" type="text">
+            <input name="sreProjectEquipmentIds" id="sreProjectEquipmentIds"  value="${sreProjectEquipmentIds}" type="hidden">
             <input name="leadUnitCode" id="leadUnitCode" value="${leadUnitCode}" type="hidden">
             <input name="createUserName" id="createUserName" value="${createUserName}" type="hidden">
             <input name="createUserId" id="createUserId" value="${createUserId}" type="hidden">
@@ -136,7 +136,7 @@
     }*/
 
     function call_back(equipmentIds)
-    {alert("XXX");
+    {
         renderTable(equipmentIds);
     }
     /*window.onload=function()
@@ -293,7 +293,6 @@
         });
         /*var $ = layui.$, active = {
             selectEvent: function () {
-                alert("AAA");
                 var temUrl = '/sre-equipment/chooseEquipmentByTopicId?equipmentIds=' + $("#equipmentIds").val() + "&topicId="+$("#topicId").val();
 
 
@@ -338,7 +337,6 @@
                 layer.alert("请点击选择装备数据");
             } else {
                 var equipmentIds="";
-                alert(equipmentIds)
                 for(var dt in check.data)
                 {
                     equipmentIds=equipmentIds+check.data[dt].equipmentId+",";
@@ -427,25 +425,40 @@
 
             ]],
             done: function (res, curr, count) {
-                console.log(res)
-                console.log(curr)
-                console.log(count)
+                // 点击行联动选择框--单选
+                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                    var index=parseInt($(this).index()+1);
+                    $('tr').removeClass('layui-table-click');
+                    $(this).addClass('layui-table-click');
+                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                    selectRowData=res.data[index-1];
+                    var state=selectRowData.state;
+                    //alert(state);
+                });
+                //获取已选中的装备id值
                 var equipmentIds="";
                 for(var i;i<res.data.length;i++)
                 {
-                    var equipmentIds=res.data.equipmentId;
+                    var equipmentId=res.data.equipmentId;
                 }
-                    var equipmentIds =  $("#equipmentIds").val().split(",");
+                //多选框默认勾选
+                var id = $("#id").val();
+                var equipmentIds =  $("#equipmentIds").val().split(",");
+                if(!id==null || !id==""){
                     for (var i=0; i<equipmentIds.length;i++){
                         for (var j = 0; j < res.data.length; j++) {
                             if (equipmentIds[i] == res.data[j].equipmentId) {
-                                //alert(equipmentIds[i] + "xiangdeng " + res.data[j].equipmentId)
-                                //alert("i=" + i + "=========" + "j=" + j)
-                                //$('tr:eq('+i+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
 
-                                res.data[i].equipmentId.checked=true;
+                                //这里才是真正的有效勾选
+                                res.data[i]["LAY_CHECKED"]='true';
+                                //找到对应数据改变勾选样式，呈现出选中效果
+                                var index= res.data[i]['LAY_TABLE_INDEX'];
+                                $('.layui-table tr[data-index=' + index + '] input[type="checkbox"]').prop('checked', true);
+                                $('.layui-table tr[data-index=' + index + '] input[type="checkbox"]').next().addClass('layui-form-checked');
                             }
                         }
+                    }
                 }
 
 

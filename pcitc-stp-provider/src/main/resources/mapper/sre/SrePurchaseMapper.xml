@@ -10,19 +10,21 @@
     <result column="parent_unit_path_names" jdbcType="VARCHAR" property="parentUnitPathNames" />
     <result column="depart_name" jdbcType="VARCHAR" property="departName" />
     <result column="depart_code" jdbcType="VARCHAR" property="departCode" />
-    <result column="stage" jdbcType="INTEGER" property="stage" />
-    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="stage" jdbcType="VARCHAR" property="stage" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
-    <result column="ischeck" jdbcType="INTEGER" property="ischeck" />
+    <result column="ischeck" jdbcType="VARCHAR" property="ischeck" />
     <result column="project_id" jdbcType="VARCHAR" property="projectId" />
     <result column="login_name" jdbcType="VARCHAR" property="loginName" />
     <result column="document_doc" jdbcType="VARCHAR" property="documentDoc" />
+    <result column="document_doc_arrive_goods" jdbcType="VARCHAR" property="documentDocArriveGoods" />
+    <result column="document_doc_contractual_acceptance" jdbcType="VARCHAR" property="documentDocContractualAcceptance" />
   </resultMap>
   <sql id="Base_Column_List">
     id, purchase_name, proposer_id, proposer_name, parent_unit_path_id, parent_unit_path_names, 
     depart_name, depart_code, stage, state, create_date, equipment_id, ischeck, project_id, 
-    login_name, document_doc
+    login_name, document_doc, document_doc_arrive_goods, document_doc_contractual_acceptance
   </sql>
   <sql id="selectCondition">
     <trim prefix="WHERE" prefixOverrides="AND|OR">
@@ -50,13 +52,15 @@
       depart_name, depart_code, stage, 
       state, create_date, equipment_id, 
       ischeck, project_id, login_name, 
-      document_doc)
+      document_doc, document_doc_arrive_goods, document_doc_contractual_acceptance
+      )
     values (#{id,jdbcType=VARCHAR}, #{purchaseName,jdbcType=VARCHAR}, #{proposerId,jdbcType=VARCHAR}, 
       #{proposerName,jdbcType=VARCHAR}, #{parentUnitPathId,jdbcType=VARCHAR}, #{parentUnitPathNames,jdbcType=VARCHAR}, 
-      #{departName,jdbcType=VARCHAR}, #{departCode,jdbcType=VARCHAR}, #{stage,jdbcType=INTEGER}, 
-      #{state,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{equipmentId,jdbcType=VARCHAR}, 
-      #{ischeck,jdbcType=INTEGER}, #{projectId,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, 
-      #{documentDoc,jdbcType=VARCHAR})
+      #{departName,jdbcType=VARCHAR}, #{departCode,jdbcType=VARCHAR}, #{stage,jdbcType=VARCHAR}, 
+      #{state,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{equipmentId,jdbcType=VARCHAR}, 
+      #{ischeck,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, 
+      #{documentDoc,jdbcType=VARCHAR}, #{documentDocArriveGoods,jdbcType=VARCHAR}, #{documentDocContractualAcceptance,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SrePurchase">
     insert into sre_purchase
@@ -109,6 +113,12 @@
       <if test="documentDoc != null">
         document_doc,
       </if>
+      <if test="documentDocArriveGoods != null">
+        document_doc_arrive_goods,
+      </if>
+      <if test="documentDocContractualAcceptance != null">
+        document_doc_contractual_acceptance,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -136,10 +146,10 @@
         #{departCode,jdbcType=VARCHAR},
       </if>
       <if test="stage != null">
-        #{stage,jdbcType=INTEGER},
+        #{stage,jdbcType=VARCHAR},
       </if>
       <if test="state != null">
-        #{state,jdbcType=INTEGER},
+        #{state,jdbcType=VARCHAR},
       </if>
       <if test="createDate != null">
         #{createDate,jdbcType=TIMESTAMP},
@@ -148,7 +158,7 @@
         #{equipmentId,jdbcType=VARCHAR},
       </if>
       <if test="ischeck != null">
-        #{ischeck,jdbcType=INTEGER},
+        #{ischeck,jdbcType=VARCHAR},
       </if>
       <if test="projectId != null">
         #{projectId,jdbcType=VARCHAR},
@@ -158,6 +168,12 @@
       </if>
       <if test="documentDoc != null">
         #{documentDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="documentDocArriveGoods != null">
+        #{documentDocArriveGoods,jdbcType=VARCHAR},
+      </if>
+      <if test="documentDocContractualAcceptance != null">
+        #{documentDocContractualAcceptance,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -186,10 +202,10 @@
         depart_code = #{departCode,jdbcType=VARCHAR},
       </if>
       <if test="stage != null">
-        stage = #{stage,jdbcType=INTEGER},
+        stage = #{stage,jdbcType=VARCHAR},
       </if>
       <if test="state != null">
-        state = #{state,jdbcType=INTEGER},
+        state = #{state,jdbcType=VARCHAR},
       </if>
       <if test="createDate != null">
         create_date = #{createDate,jdbcType=TIMESTAMP},
@@ -198,7 +214,7 @@
         equipment_id = #{equipmentId,jdbcType=VARCHAR},
       </if>
       <if test="ischeck != null">
-        ischeck = #{ischeck,jdbcType=INTEGER},
+        ischeck = #{ischeck,jdbcType=VARCHAR},
       </if>
       <if test="projectId != null">
         project_id = #{projectId,jdbcType=VARCHAR},
@@ -208,6 +224,12 @@
       </if>
       <if test="documentDoc != null">
         document_doc = #{documentDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="documentDocArriveGoods != null">
+        document_doc_arrive_goods = #{documentDocArriveGoods,jdbcType=VARCHAR},
+      </if>
+      <if test="documentDocContractualAcceptance != null">
+        document_doc_contractual_acceptance = #{documentDocContractualAcceptance,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -221,14 +243,16 @@
       parent_unit_path_names = #{parentUnitPathNames,jdbcType=VARCHAR},
       depart_name = #{departName,jdbcType=VARCHAR},
       depart_code = #{departCode,jdbcType=VARCHAR},
-      stage = #{stage,jdbcType=INTEGER},
-      state = #{state,jdbcType=INTEGER},
+      stage = #{stage,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       equipment_id = #{equipmentId,jdbcType=VARCHAR},
-      ischeck = #{ischeck,jdbcType=INTEGER},
+      ischeck = #{ischeck,jdbcType=VARCHAR},
       project_id = #{projectId,jdbcType=VARCHAR},
       login_name = #{loginName,jdbcType=VARCHAR},
-      document_doc = #{documentDoc,jdbcType=VARCHAR}
+      document_doc = #{documentDoc,jdbcType=VARCHAR},
+      document_doc_arrive_goods = #{documentDocArriveGoods,jdbcType=VARCHAR},
+      document_doc_contractual_acceptance = #{documentDocContractualAcceptance,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >

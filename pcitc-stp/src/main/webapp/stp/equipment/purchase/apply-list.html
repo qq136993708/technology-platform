@@ -16,14 +16,14 @@
 </head>
 <body>
 
-<div class="searchBox" style="height: 62px;">
+<div class="searchBox" style="height: 30px;">
     <form action=""  name="form1" id="form1" action="" method="POST">
         <input  name="functionId"     id="functionId"      type="hidden">
         <input  name="userIds"        id="userIds"         type="hidden">
-        <input  name="id"         id="id"          type="text" >
+        <input  name="id"         id="id"          type="hidden" >
         <input  name="leadUnitCode"   id="leadUnitCode"    value="${leadUnitCode}"        type="hidden" >
         <input  name="parentUnitPathIds"   id="parentUnitPathIds"    value="${parentUnitPathIds}"        type="hidden" >
-
+        <input  name="state"  id="state" value="${state}" type="hidden">
     </form>
 
     <!--查询条件-->
@@ -35,45 +35,6 @@
         <span>任务名称</span>
         <input type="text" name="topicName"  title="任务名称" autocomplete="off" class="form-control" id="topicName">
     </label>
-    <label class="dateInput">
-        <span>院内审核</span>
-        <select name="innerAuditStatus" id="innerAuditStatus"   class="form-control">
-            <option value="" >--请选择--</option>
-            <#list dicList as vo>
-            <option value="${vo.numValue}"  >${vo.name}</option>
-        </#list>
-        </select>
-    </label>
-    <label class="dateInput">
-        <span>总部审核</span>
-        <select name="auditStatus" id="auditStatus"   class="form-control">
-            <option value="" >--请选择--</option>
-            <#list dicList as vo>
-            <option value="${vo.numValue}"  >${vo.name}</option>
-        </#list>
-        </select>
-    </label>
-    <label class="dateInput">
-        <span>归属部门</span>
-        <select name="belongDepartmentName" id="belongDepartmentName"  onchange="getDepartNameByUnitName(this.value)"  class="form-control">
-            <option value="" >--请选择部门--</option>
-            <#list unitFieldList as vo>
-            <option value="${vo.unitName}"  >${vo.unitName}</option>
-        </#list>
-        </select>
-    </label>
-    <label class="dateInput">
-        <span>专业处</span>
-        <select id="professionalDepartName" name="professionalDepartName" onchange="getProfessionalNameListByUnitNameAndDept(this.value)"  class="form-control"></select>
-    </label>
-    <label class="dateInput" style="margin-top:10px;">
-        <span>专业领域</span>
-        <select id="professionalFieldName" name="professionalFieldName"  class="form-control"></select>
-    </label>
-
-
-
-
 
     <div class="btnGroup" style="margin-right:10px">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
@@ -84,18 +45,17 @@
     <div class="tableToolBox">
         <div class="whiteLine"></div>
         <div  class="tableBtns">
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" id="applyEvent" data-type="applyEvent">上报</button>
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" id="applyEvent" data-type="applyEvent">上报</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createWordEvent" data-type="createWordEvent">预览任务书WORD文档</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createSetupWordEvent" data-type="createSetupWordEvent">预览立项报告WORD文档</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createQianEvent" data-type="createQianEvent">预览签字盖章WORD模板</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="upQianEvent" data-type="upQianEvent">上传签字盖章页</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createErp" data-type="createErp">对接ERP号</button>
+            --><button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="upQianEvent" data-type="upQianEvent">上传附件</button>
         </div>
     </div>
     <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table>
 </div>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
-<script id="view_taskVersion" type="text/html"> {{view_taskVersion(d.taskVersion)}} </script>
 <script type="text/javascript">
     // 时间格式化
     function formatTime(d) {
@@ -117,63 +77,6 @@
             return '';
         }
     }
-
-    function view_taskVersion(taskVersion)
-    {
-        if (taskVersion==null || taskVersion==''|| taskVersion=='1')
-        {
-            return '<span style="color:green">主版本</span>';
-        } else
-        {
-            return '<span style="color:red">补充版本</span>';
-        }
-    }
-
-    function view_isWriteTask(isWriteTask)
-    {
-        var temUrl="/sre_project_task/get/" + isWriteTask;
-        layer.open({
-            title:'任务书详情',
-            skin: 'layui-layer-lan',
-            shadeClose: true,
-            type: 2,
-            fixed: false,
-            maxmin: false,
-            area: ['70%', '90%'],
-            content:  temUrl
-        });
-    }
-
-
-    function view_isWriteSetup(isWriteSetup)
-    {
-        var temUrl="/sre_project_setup/get/" + isWriteSetup;
-        layer.open({
-            title:'立项报告详情',
-            skin: 'layui-layer-lan',
-            shadeClose: true,
-            type: 2,
-            fixed: false,
-            maxmin: false,
-            area: ['70%', '90%'],
-            content:  temUrl
-        });
-    }
-    function view_project(id)
-    {
-        var temUrl="/sre-project-basic/get/" + id;
-        layer.open({
-            title:'课题详情',
-            skin: 'layui-layer-lan',
-            shadeClose: true,
-            type: 2,
-            fixed: false,
-            maxmin: false,
-            area: ['70%', '90%'],
-            content:  temUrl
-        });
-    }
-
 
 
 
@@ -260,19 +163,6 @@
     <button class="layui-btn layui-btn-primary layui-btn-xs">未上报</button>
     {{#  } }}
 </script>
-<script type="text/html" id="auditStatus_tepm">
-    {{#  if(d.auditStatus == '0'){ }}
-    <button class="layui-btn layui-btn-primary layui-btn-xs">未上报</button>
-    {{#  } else if(d.auditStatus == '1'){ }}
-    <button class="layui-btn  layui-btn-xs">已上报</button>
-    {{#  } else if(d.auditStatus == '2'){ }}
-    <button class="layui-btn layui-btn-normal layui-btn-xs">已通过</button>
-    {{#  } else if(d.auditStatus == '3'){ }}
-    <button class="layui-btn layui-btn-danger layui-btn-xs">已退回</button>
-    {{#  } else{ }}
-    <button class="layui-btn layui-btn-primary layui-btn-xs">未上报</button>
-    {{#  } }}
-</script>
 <!--表格数据操作js-->
 
 <script>
@@ -320,12 +210,8 @@
                 $('#belongDepartmentName').val("");
                 $('#professionalDepartName').val("");
                 $('#professionalFieldName').val("");
-
-
-
-
             },
-            applyEvent: function(){ //新增计划
+            applyEvent: function(){ //上报
                 if (typeof(selectRowData) == "undefined") {
                     layer.msg('请点击选择一行数据');
                 } else
@@ -427,42 +313,7 @@
                     }
 
                 }
-            },
-            createErp: function(){
-                if (typeof(selectRowData) == "undefined")
-                {
-                    layer.alert('请点击选择一个任务书');
-                }else
-                {
-                    var contractNum=selectRowData.contractNum;
-                    var erpNum=selectRowData.erpNum;
-                    if(contractNum==null || contractNum=='')
-                    {
-                        layer.alert('合同号未生成,不能选取ERP号');
-                    }else if(erpNum!=null && erpNum!='')
-                    {
-                        layer.alert('ERP号已对接成功,不能重复选取ERP号');
-                    }else
-                    {
-                        var id=selectRowData.id;
-                        var temUrl="/sre_project_task/getErpInfo?id=" + id;
-                        layer.open({
-                            title:'ERP号',
-                            skin: 'layui-layer-lan',
-                            shadeClose: true,
-                            type: 2,
-                            fixed: false,
-                            maxmin: false,
-                            area: ['70%', '90%'],
-                            content:  temUrl
-                        });
-                    }
-
-                }
             }
-
-
-
 
         };
         //监听排序
@@ -498,7 +349,7 @@
             elem: '#processdef-table',
             url: '/sre_purchase/list',
             method:"POST",
-            where: {param: {"topicName":$("#topicName").val(),"auditStatus":$("#auditStatus").val(),"innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {"topicName":$("#topicName").val(),"state":"1","innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
             limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),
@@ -770,13 +621,13 @@
         });
     }
 
-    function createErpBack(id,erpNum)
+    /*function createErpBack(id,erpNum)
     {
         var v_date=(new Date()).getTime();
         var url="/sre_project_task/updateErp?v_date="+v_date+"&id="+id+"&erpNum="+erpNum;
         var backurl="/sre_project_task/apply_list?v_date="+v_date;
         ajaxOpt(url,"form1","POST",backurl,"ERP号对接成功","ERP号对接失败");
-    }
+    }*/
 
 </script>
 

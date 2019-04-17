@@ -316,12 +316,25 @@ var name=$('#name').val();
             	{
             		layer.msg('请点击选择一行数据');
             	}
-            	else 
-            	{
+            	else
+                {
+                    var id=selectRowData.id;
+                    var url="/sre-purchase/updateState/"+id;
+                    var backurl="/sre_purchase/to-list";
+                    var state=selectRowData.state;
+                    if(state!='0')
+                    {
+                       layer.alert('请选择未上报的申请');
+                       return;
+                    }else{
+                        ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
+                    }
+                }
+            	/*{
             		
             		 var state=selectRowData.state;
             		 var id=selectRowData.id;
-            		 if(state!==10)
+            		 if(state!==0)
            			 {
             			 layer.alert('请选择未上报的计划');
             			 return;
@@ -330,18 +343,18 @@ var name=$('#name').val();
            				$('#id').val(id);
                 	 	dealFlow(id);
            			 }
-            	}
+            	}*/
             },
             allEvent: function(){ 
             	$("#state").val("");
             	renderTable();
             },
             draftEvent: function(){ 
-            	$("#state").val("10");// 10 未提交 20 已提交
+            	$("#state").val("0");// 0 未提交 1 已提交
             	renderTable();
             },
             submitEvent: function(){ 
-            	$("#state").val("20");
+            	$("#state").val("1");
             	renderTable();
             }
         };
@@ -467,7 +480,7 @@ var name=$('#name').val();
     
     
     
-    /*function dealFlow(id)
+    function dealFlow(id)
     {
     	
     	var json = {functionId:functionId};
@@ -540,10 +553,10 @@ var name=$('#name').val();
              error : function(msg) {//请求失败处理函数  
             }
          });
-    }*/
+    }
 
     //处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
-   /* function handleTask(userIds)
+   function handleTask(userIds)
     {
     	
     	$('#userIds').val(userIds);
@@ -553,7 +566,7 @@ var name=$('#name').val();
         var backurl="/sre-project-basic/to-list?v_date="+v_date;
         ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
         $('#applyEvent').attr("disabled",false);
-    }*/
+    }
     
     function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
     {
@@ -566,8 +579,8 @@ var name=$('#name').val();
       	     cache: false,
       	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
              success:function(data,status)
-             {    
-        	  
+             {
+
     	          if(data.success==true ||data.success=='true')
     	          {
 

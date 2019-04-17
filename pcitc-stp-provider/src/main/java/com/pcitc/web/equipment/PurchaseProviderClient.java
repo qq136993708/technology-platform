@@ -94,13 +94,13 @@ public class PurchaseProviderClient
 	 * @return
 	 * 业务系统处理审批流程都同意后业务
 	 */
-	@RequestMapping(value = "/sre-provider/purchase/success/{id}", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/sre-provider/purchase/success/{id}", method = RequestMethod.POST)
 	public Integer taskAgreeSreProject(@PathVariable(value = "id", required = true) String id)throws Exception {
 
 		SrePurchase srePurchase = purchaseService.selectSrePurchaseById(id);
-		srePurchase.setState(Integer.valueOf(Constant.PURCHASE_STATUS_SUBMIT));
+		srePurchase.setState(Constant.PURCHASE_STATUS_SUBMIT);
 		int count=purchaseService.updateSrePurchase(srePurchase);
 		System.out.println("======业务系统处理审批流程都 --同意 --后业务======="+id);
 		return count;
-	}
+	}*/
 }
