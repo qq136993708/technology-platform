@@ -291,15 +291,6 @@
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
-        /*var $ = layui.$, active = {
-            selectEvent: function () {
-                var temUrl = '/sre-equipment/chooseEquipmentByTopicId?equipmentIds=' + $("#equipmentIds").val() + "&topicId="+$("#topicId").val();
-
-
-                //publicMethods.openBaseWin("选择装备", temUrl, "90%", "80%");
-            }
-        }*/
-
 
         /* 监听提交 */
         form.on('submit(sub)', function (data) {
@@ -391,13 +382,13 @@
     }
 
     function renderTable(equipmentIds) {
-        //if(sreProjectEquipmentIds)
-
-        //$("#equipmentIds").val(equipmentIds);
+        var id = $("#id").val();
+        alert(id)
         table.render({
             elem: '#join_apply_table',
             url: '/sre-equipment/chooseEquipmentByIds?equipmentIds=' + equipmentIds,
             limit: 15,
+            //where: {param: {"purchaseStatus":"1"}},
             method: "GET",
             id: 'join_apply_table',
             height: 300,

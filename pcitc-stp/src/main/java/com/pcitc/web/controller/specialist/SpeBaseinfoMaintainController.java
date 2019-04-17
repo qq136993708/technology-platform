@@ -164,7 +164,7 @@ public class SpeBaseinfoMaintainController extends BaseController {
 		// variables.put("departmentCode", "1005"); //环节2需要用到
 		// variables.put("companyCode", "2006"); //环节n需要用到
 		workflowVo.setVariables(variables);
-		ResponseEntity<String> status = this.restTemplate.exchange(departName_URL, HttpMethod.POST, new HttpEntity<WorkflowVo>(workflowVo, this.httpHeaders), String.class);
+		ResponseEntity<String> status = this.restTemplate.exchange(START_WORKFLOW_URL, HttpMethod.POST, new HttpEntity<WorkflowVo>(workflowVo, this.httpHeaders), String.class);
 		System.out.println("123=================启动成功" + status.getBody());
 		if (status.getBody() != null && status.getBody().equals("true")) {
 			System.out.println("=================启动成功");

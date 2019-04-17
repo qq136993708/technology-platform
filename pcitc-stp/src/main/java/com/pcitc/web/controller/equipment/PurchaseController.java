@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
-import com.pcitc.base.stp.equipment.SreProjectTask;
-import com.pcitc.base.stp.equipment.SrePurchase;
+import com.pcitc.base.stp.equipment.*;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.ResultsDate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +25,6 @@ import org.springframework.web.bind.annotation.*;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.stp.equipment.SreProject;
-import com.pcitc.base.stp.equipment.UnitField;
 import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.IdUtil;
@@ -51,11 +49,15 @@ public class PurchaseController extends BaseController{
     private static final String ADD_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/add";
     private static final String UPDATE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/update";
     private static final String DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/delete/";
+    //
+    public static final String GET_EQUIPMENT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/get/";
+    public static final String UPDATE_EQUIPMENT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/update";
+
 
     // 流程操作--同意
-    private static final String AUDIT_AGREE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/task/agree/";
+    //private static final String AUDIT_AGREE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/task/agree/";
     // 流程操作--拒绝
-    private static final String AUDIT_REJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/task/reject/";
+    //private static final String AUDIT_REJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/task/reject/";
 
     //跳转到采购申请页面
 	@RequestMapping(value = "/sre_purchase/to-list")
@@ -179,7 +181,6 @@ public class PurchaseController extends BaseController{
             name = sreProject.getName();
             sreProjectEquipmentIds = sreProject.getEquipmentIds();
 
-
         }
 		request.setAttribute("createUserName",createUserName);
 		request.setAttribute("documentDoc", documentDoc);
@@ -298,6 +299,13 @@ public class PurchaseController extends BaseController{
             srePurchase.setId(idv);
             srePurchase.setState(status);
             srePurchase.setStage(stage);
+            String[] arr = equipmentIds.split(",");
+            for (int i = 0; i < arr.length; i++) {
+                System.err.println(arr[i]);
+                SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
+                sreEquipment.setPurchaseStatus("1");
+                EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
+            }
         } else
         {
             ResponseEntity<SrePurchase> se = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
@@ -517,17 +525,26 @@ public class PurchaseController extends BaseController{
         out.close();
         return null;
     }
-    //updateState
-
+    //采购申请单上报
     @RequestMapping(value = "/sre-purchase/updateState/{id}")
     @ResponseBody
     public Result updateState(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Result resultsDate = new Result();
+
         ResponseEntity<SrePurchase> exchange = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
         SrePurchase srePurchase = exchange.getBody();
+        String equipmentIds = srePurchase.getEquipmentId();
+
+        String[] arr = equipmentIds.split(",");
+        for (int i = 0; i < arr.length; i++) {
+            System.err.println(arr[i]);
+            SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
+            sreEquipment.setPurchaseStatus("2");
+            EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
+        }
+
         srePurchase.setState(Constant.PURCHASE_STATUS_SUBMIT);
         srePurchase.setStage(Constant.PURCHASE_CONTRACT_DOCKING);
-
         ResponseEntity<String> exchange1 = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
         int statusCodeValue = exchange1.getStatusCodeValue();
         if (statusCodeValue == 200) {
