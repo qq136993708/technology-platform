@@ -156,6 +156,21 @@ public class EquipmentProviderClient
 	}
 	
 	
+	
+	
+	@ApiOperation(value = "批量获取装备", notes = "根据IDS批量获取装备，返回LIST")
+	@RequestMapping(value = "/sre-provider/equipment/list-by-map", method = RequestMethod.POST)
+	public List<SreEquipment> getEquipmentListByMap(@RequestBody Map map)throws Exception 
+	{
+		return equipmentService.getEquipmentListByMap(map);
+	}
+	
+	
+	
+	
+	
+	
+	
 	@ApiOperation(value = "批量获取装备", notes = "根据IDS批量获取装备，返回json格式")
 	@RequestMapping(value = "/sre-provider/equipment/get_json_by_ids", method = RequestMethod.POST)
 	public JSONArray getlistEquipemntidsjSON(@RequestBody List<String> list)throws Exception{

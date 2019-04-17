@@ -38,7 +38,7 @@ public interface EquipmentService {
 	//public int batchDeleteEquipment(List<String> list)throws Exception;
 	
 	public List<SreEquipment> getEquipmentListByIds(List<String> list)throws Exception;
-	
+	public List<SreEquipment> getEquipmentListByMap(Map map)throws Exception;
 	
 	
 	/**===========================================项目==========================================*/
