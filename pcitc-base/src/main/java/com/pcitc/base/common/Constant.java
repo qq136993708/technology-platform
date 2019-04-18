@@ -16,15 +16,25 @@ public class Constant {
     public static String AUDIT_STATUS_PASS = "2";
     public static String AUDIT_STATUS_REJECT = "3";
 
-    //采购管理
-    public static String  PURCHASE_STATUS_DRAFT = "0";// 10 未提交 20 已提交
-    public static String PURCHASE_STATUS_SUBMIT = "1";
+    //采购管理状态
+    public static String PURCHASE_STATUS_DRAFT = "10";//10未审批  11审批中(已提交)  20审批通过 13审批不通过
+    public static String PURCHASE_STATUS_SUBMIT = "11";
+    public static String PURCHASE_STATUS_PASS = "20";
+    public static String PURCHASE_STATUS_REJECT = "13";
+
+    public static String PURCHASE_STATUS_COMPACT = "30";
+
 
     //采购阶段
     public static String  PURCHASE_REQUEST = "1";   // 阶段   1 采购申请  2 合同系统对接  3  到货验收 4合同验收
     public static String  PURCHASE_CONTRACT_DOCKING = "2";
     public static String  PURCHASE_ARRIVE_GOODS = "3";
     public static String  PURCHASE_CONTRACT_CHECK= "4";
+
+    //装备采购阶段
+    public static String  EQUIPMENT_PURCHASE_DRAFT  = "0";  //0未采购，1申请中... 2已采购
+    public static String  EQUIPMENT_PURCHASE_SUBMIT = "1";
+    public static String  EQUIPMENT_PURCHASE_PASS   = "2";
     /**
      * 默认文件上传类型
      */

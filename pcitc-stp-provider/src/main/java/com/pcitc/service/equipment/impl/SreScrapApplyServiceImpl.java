@@ -16,8 +16,12 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.equipment.SreForApplication;
+import com.pcitc.base.stp.equipment.SreProjectAudit;
+import com.pcitc.base.stp.equipment.SreProjectTask;
 import com.pcitc.base.stp.equipment.SreScrapApply;
 import com.pcitc.mapper.equipment.SreForApplicationMapper;
+import com.pcitc.mapper.equipment.SreProjectAuditMapper;
+import com.pcitc.mapper.equipment.SreProjectTaskMapper;
 import com.pcitc.mapper.equipment.SreScrapApplyMapper;
 import com.pcitc.service.equipment.SreScrapApplyService;
 @Service("sreScrapApplyService")
@@ -27,6 +31,11 @@ public class SreScrapApplyServiceImpl implements SreScrapApplyService {
 	private final static Logger logger = LoggerFactory.getLogger(SreScrapApplyServiceImpl.class); 
 	@Autowired
 	private SreScrapApplyMapper sreScrapApplyMapper;
+	
+	@Autowired
+	private SreProjectTaskMapper sreProjectTaskMapper;
+	@Autowired
+	private SreProjectAuditMapper sreProjectAuditMapper;
 	
 	public LayuiTableData getSreScrapApplyPage(LayuiTableParam param)throws Exception
 	{
@@ -85,5 +94,23 @@ public class SreScrapApplyServiceImpl implements SreScrapApplyService {
 	public int updateByPrimaryKeySelective(SreScrapApply record)throws Exception
 	{
 		return sreScrapApplyMapper.updateByPrimaryKeySelective(record);
+	}
+	
+	public String addAudit(SreProjectAudit sreProjectAudit)throws Exception
+	{
+		try {
+			if (sreProjectAudit != null && sreProjectAudit.getProjecttaskid() != null) {
+				SreProjectTask p =sreProjectTaskMapper.selectByPrimaryKey(sreProjectAudit.getProjecttaskid());
+				p.setIsCheck("2");
+				int i = sreProjectTaskMapper.updateByPrimaryKey(p);
+				if (i > 0) {
+					sreProjectAuditMapper.insert(sreProjectAudit);
+				}
+			} 
+			return "success";
+		} catch (Exception e) {
+			return "error";
+		}
+	
 	}
 }

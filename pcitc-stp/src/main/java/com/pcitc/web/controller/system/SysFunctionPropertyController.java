@@ -3,7 +3,6 @@ package com.pcitc.web.controller.system;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.Result;
+import com.pcitc.base.system.SysDataModel;
 import com.pcitc.base.system.SysFunctionProperty;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.OperationFilter;
@@ -40,6 +41,14 @@ public class SysFunctionPropertyController extends BaseController {
 	private static final String GET_FUNCTIONBYID = "http://pcitc-zuul/system-proxy/sysFunctionProperty-provider/getSysFunctionPropertyById/";
 	
 	private static final String GET_FUNCTION = "http://pcitc-zuul/system-proxy/sysFunctionProperty-provider/getSysFunctionProperty";
+	
+	private static final String DATA_MODEL_LIST = "http://pcitc-zuul/system-proxy/sysFunctionProperty-provider/data/model/list";
+	
+	private static final String DATA_MODEL_VALUE_LIST = "http://pcitc-zuul/system-proxy/sysFunctionProperty-provider/data/model/value/list";
+	
+	private static final String SAVE_DATA_MODEL = "http://pcitc-zuul/system-proxy/sysFunctionProperty-provider/data/model/save";
+	
+	private static final String INSTITUTE_LIST = "http://pcitc-zuul/system-proxy/sysFunctionProperty-provider/dictionary/data/control/list";
 	
 	/**
 	 * 跳转到菜单配置列表页
@@ -162,6 +171,103 @@ public class SysFunctionPropertyController extends BaseController {
 	    ResponseEntity<SysFunctionProperty> responseEntity = this.restTemplate.exchange(GET_FUNCTION, HttpMethod.POST, entity, SysFunctionProperty.class);
 	    SysFunctionProperty SysFunctionProperty = responseEntity.getBody();
 		return SysFunctionProperty;
+	}
+	
+	@RequestMapping(value = "/functionProperty/data/model", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONArray getDataModelList(HttpServletRequest request) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		if (request.getParameter("proCode")!= null) {
+			map.put("proCode", request.getParameter("proCode"));
+		}
+		if (request.getParameter("dataCode")!= null) {
+			map.put("dataCode", request.getParameter("dataCode"));
+		}
+		map.put("userId", sysUserInfo.getUserId());
+		HttpEntity<HashMap<String, Object>> entity = new HttpEntity<HashMap<String, Object>>(map, this.httpHeaders);
+
+		ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(DATA_MODEL_LIST, HttpMethod.POST, entity, JSONArray.class);
+		return responseEntity.getBody();
+	}
+	
+	@RequestMapping(value = "/functionProperty/data/model/value", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONArray getDataModelValueList(HttpServletRequest request) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		if (request.getParameter("proCode")!= null) {
+			map.put("proCode", request.getParameter("proCode"));
+		}
+		if (request.getParameter("dataCode")!= null) {
+			map.put("dataCode", request.getParameter("dataCode"));
+		}
+		map.put("userId", sysUserInfo.getUserId());
+		HttpEntity<HashMap<String, Object>> entity = new HttpEntity<HashMap<String, Object>>(map, this.httpHeaders);
+
+		ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(DATA_MODEL_VALUE_LIST, HttpMethod.POST, entity, JSONArray.class);
+		return responseEntity.getBody();
+	}
+	
+	/**
+	 * @author zhf
+	 * @date 2019年4月17日 下午8:09:37 
+	 * 初始化新增数据模板功能
+	 */
+	@RequestMapping(value = "/functionProperty/data/model/ini-add")
+	public String iniAddDataModel(HttpServletRequest request) throws Exception {
+
+		return "/base/property/data_model_add";
+	}
+	
+	/**
+	 * @author zhf
+	 * @date 2019年4月17日 下午8:09:37 
+	 * 初始化新增数据模板功能
+	 */
+	@RequestMapping(value = "/functionProperty/data/model/save")
+	@ResponseBody
+	public Result saveSysDataModel(@RequestBody SysDataModel sysDataModel) {
+
+		sysDataModel.setCreateUser(sysUserInfo.getUserDisp());
+		Integer retI = this.restTemplate.exchange(SAVE_DATA_MODEL, HttpMethod.POST, new HttpEntity<SysDataModel>(sysDataModel, this.httpHeaders), Integer.class).getBody();
+		System.out.println("------"+retI);
+		if (retI == 0) {
+			return new Result(false, "操作失败!");
+		} else {
+			return new Result(true, "操作成功!");
+		}
+	}
+	
+	/**
+	 * 查询已经某个菜单、某个配置项、某个岗位已经配置的研究院
+	 */
+	@RequestMapping(value = "/functionProperty/dictionary/data/control/list", method = RequestMethod.POST)
+	@ResponseBody
+	public Object selectInstituteData(HttpServletRequest request) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		if (request.getParameter("proCode")!= null) {
+			map.put("proCode", request.getParameter("proCode"));
+		}
+		if (request.getParameter("postId")!= null) {
+			map.put("postId", request.getParameter("postId"));
+		}
+		if (request.getParameter("functionId")!= null) {
+			map.put("functionId", request.getParameter("functionId"));
+		}
+		map.put("userId", sysUserInfo.getUserId());
+		HttpEntity<HashMap<String, Object>> entity = new HttpEntity<HashMap<String, Object>>(map, this.httpHeaders);
+
+		ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(INSTITUTE_LIST, HttpMethod.POST, entity, JSONArray.class);
+		System.out.println("======"+responseEntity.getBody().toJSONString());
+		
+		JSONArray jsonArr = responseEntity.getBody();
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("code", "0");
+		jsonObj.put("msg", "提示");
+		jsonObj.put("count", jsonArr.size());
+		jsonObj.put("data", jsonArr);
+		System.out.println("2====selectInstituteData====" + jsonObj.toString());
+		return jsonObj.toString();
 	}
 
 }

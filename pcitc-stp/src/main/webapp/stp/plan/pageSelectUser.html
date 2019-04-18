@@ -41,8 +41,18 @@
             border: 1px solid #ccc;
             padding-top: -2px;
         }
+        .tableBox{width: 80.8%;float: left;}
+        .tableUser{width: 16.2%;float: left;}
+        .tableBtnsL{text-align: left;text-indent: .5em;font-size: 14px;}
+        .tableUserB ul{height: 260px;border:1px solid #e6e6e6;border-top: 0;overflow-y: scroll;}
+        .tableUserB ul li {height: 36px;line-height: 46px;text-indent: .5em;}
+        .tableUserB ul li a{background: url(/layuiadmin/layui/images/icon_close.png) #ecf7f7 no-repeat 95% 3px;
+            color: #17a2b8 !important;border: 1px solid #17a2b8 !important;    padding: 3px 16px 3px 10px;
+            border-radius: 4px;
+        }
     </style>
     <script type="text/javascript">
+        var map = {};
         var table, selectRowData, renderfunc;
         layui.use(['jquery', 'selectTree', 'table', 'laypage', 'publicMethods'], function () {
             var $ = layui.jquery, element = layui.element, layer = layui.layer;
@@ -121,6 +131,15 @@
             $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
                 e.stopPropagation();
             });
+            $(document).on("click", "#checkedUsers li a", function () {
+                var keyValue=$(this).find("span").attr("value");
+                for (var key in map){
+                    if(keyValue==key){
+                        delete map[key];
+                    }
+                }
+                $(this).parent().remove();
+            });
             //多选-结束
             renderTable({
                 param: {
@@ -137,7 +156,6 @@
             // 触发不同的按钮事件
             var $ = layui.$, active = {
                 searchEvent: function () { //点击查询按钮
-                    console.log("点击了查询按钮");
                     renderTable({
                         param: {
                             "userName": $("#userName").val(),
@@ -177,7 +195,7 @@
                         , data = checkStatus.data;
                     return data;
                 }
-                , addEvent: function () {
+                , addEvent2: function () {
                     //点击新增按钮
                     var temUrl = '/user/user_page_edit';
                     publicMethods.openBaseWinFull("新增用户", temUrl);
@@ -190,23 +208,62 @@
                     }
                     var temUrl = '/user/user_page_edit?userId=' + selectRowData.userId;
                     publicMethods.openBaseWinFull("编辑用户", temUrl);
-                }, okEvent: function () {
+                },
+                addEvent: function () {
+                    selectRowData = active.getChecked();
+                    for (let i = 0; i < selectRowData.length; i++) {
+                        map[selectRowData[i].userId + ""] = selectRowData[i];
+                    }
+                    layer.msg("添加成功");
+                    var checkedUsers = "";
+                    $("#checkedUsers").html("");
+                     for(var key in map){
+                         checkedUsers=(checkedUsers==""?"":(checkedUsers+","))+map[key].userDisp;
+                         var liHtml='<li class="layui-nav-item">' +
+                             '<a href="javascript:void(0);">' +
+                             '<span value="'+key+'">'+map[key].userDisp+'</span><em></em></a></li>';
+                         $("#checkedUsers").append(liHtml);
+                     }
+                },dbaddEvent: function (data) {
+                    selectRowData = data;
+                    map[selectRowData.userId + ""] = selectRowData;
+                    layer.msg("添加成功");
+                    var checkedUsers = "";
+                    $("#checkedUsers").html("");
+                    for(var key in map){
+                        checkedUsers=(checkedUsers==""?"":(checkedUsers+","))+map[key].userDisp;
+                        var liHtml='<li class="layui-nav-item">' +
+                            '<a href="javascript:void(0);">' +
+                            '<span value="'+key+'">'+map[key].userDisp+'</span><em></em></a></li>';
+                        $("#checkedUsers").append(liHtml);
+                    }
+                },
+                okEvent: function () {
+                    var list = [];
+                    for (var key in map) {
+                        list.push(map[key]);
+                    }
+                    try {
+                        parent.setWelder(list);
+                    } catch (e) {
+                        console.log(e);
+                    }
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
                     //点击编辑按钮
                     // if (!selectRowData) {
                     //     layer.msg('请点击选择一行数据!');
                     //     return;
                     // }
-                    var objSelected = {};
-                    // objSelected.userId = selectRowData.userId;
-                    // objSelected.userDisp = selectRowData.userDisp;
-                    selectRowData = active.getChecked();
-                    try {
-                        parent.setWelder(eval(selectRowData));
-                    }catch (e) {
-                        console.log(e);
-                    }
-                    var index = parent.layer.getFrameIndex(window.name);
-                    parent.layer.close(index);
+
+                    // selectRowData = active.getChecked();
+                    // try {
+                    //     parent.setWelder(eval(selectRowData));
+                    // } catch (e) {
+                    //     console.log(e);
+                    // }
+                    // var index = parent.layer.getFrameIndex(window.name);
+                    // parent.layer.close(index);
                 },
                 deleteEvent: function () {  //点击删除按钮
                     //var dt = table.checkStatus('userTable').data;
@@ -341,6 +398,12 @@
                     selectTree.initHideMenu();  //不加此方法则默认打开下拉树
                 });
             });
+            //监听行双击事件
+            table.on('rowDouble(userEvent)', function(obj){
+                console.log("-----------------");
+                console.log(obj.data);
+                active.dbaddEvent(obj.data);
+            });
         });
     </script>
 </head>
@@ -375,18 +438,34 @@
     <div class="tableToolBox">
         <div class="whiteLine"></div>
         <div class="tableBtns">
+            <!--<span id="checkedUsers" style="color: red;"></span>-->
             <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent">新增</button>-->
             <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="editEvent">编辑</button>-->
             <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button>-->
             <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_reset2 btnMyBgImg" data-type="resetPassEvent">密码重置</button>-->
             <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_print btnMyBgImg" data-type="fileExportEvent">打印</button>-->
             <!--&lt;!&ndash;<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_print btnMyBgImg" data-type="fileExportEvent1">打印案例</button>&ndash;&gt;-->
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"
-                    data-type="okEvent">确定
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
+                    data-type="addEvent">添加
             </button>
         </div>
     </div>
     <table id="userTable" class="layui-hide" lay-filter="userEvent"></table>
+</div>
+<div class="tableUser">
+    <div class="tableToolBox">
+
+        <div class="whiteLine"></div>
+        <div class="tableBtns tableBtnsL"><button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_submit btnMyBgImg"
+                                                                  data-type="okEvent">确定
+        </button></div>
+    </div>
+    <div class="tableUserB">
+        <ul id="checkedUsers" style="font-size: 8px;">
+
+        </ul>
+        <!--<span id="checkedUsers" style="color: red;"></span>-->
+    </div>
 </div>
 </body>
 </html>

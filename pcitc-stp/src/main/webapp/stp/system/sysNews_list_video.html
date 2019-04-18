@@ -149,12 +149,12 @@
                 // },
                 {
                     field: "createDate",
-                    title: "创建时间", event: 'setActive', style: 'cursor: pointer;',width:160
-                },
-                {
-                    field: "stype",
-                    title: "新闻类型", event: 'setActive', style: 'cursor: pointer;'
-                },
+                    title: "创建时间", event: 'setActive', style: 'cursor: pointer;'
+                }
+                // {
+                //     field: "stype",
+                //     title: "新闻类型", event: 'setActive', style: 'cursor: pointer;'
+                // },
             ];
 
         function renderTable() {
@@ -174,8 +174,9 @@
 
                         "stype": $("input[name=stype]").val(),
 
+                        "bak1":"2"
+
                         // "workOrderStatus":workOrderStatus
-                        "bak1":"1"
                     }
             };
 

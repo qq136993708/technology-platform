@@ -97,6 +97,7 @@
                     url:"/pageCommon/dic/ROOT_RWGL_RWLX"//接口
                 };
                 publicMethods.dataDictionary(p1);
+                selectRowData="";
             });
              // table.render({
 	         // 	id:'tableList', //唯一即可
@@ -158,10 +159,8 @@
             //propertychange监听input里面的字符变化,属性改变事件
             $('.form-control').bind('input propertychange', function() {
                 var $this = $(this);
-                console.log($this);
                 var text_length = $this.val().length;//获取当前文本框的长度
                 var current_width = parseInt(text_length) *12;//该16是改变前的宽度除以当前字符串的长度,算出每个字符的长度
-                console.log(current_width)
                 $this.css("width",current_width+"px");
             });
         })
@@ -206,7 +205,7 @@
             },
             editEvent: function(){  //点击编辑按钮
             	var id;
-            	if(selectRowData != undefined){
+            	if(selectRowData != undefined&&selectRowData!=""){
             		if(selectRowData.workOrderStatus == '0'||selectRowData.workOrderStatus == '1'){
             			id = selectRowData.dataId;
                 		layer.open({
@@ -318,33 +317,6 @@
                 area: ['70%','90%'],
                 content: '/plan/viewPlanPage?dataId='+dataId
             });
-            // if(obj.data.workOrderStatus == '2'){
-    		// 	layer.open({
-             //        title:param.name+'-查看',
-             //        skin: 'layui-layer-lan',
-             //        shadeClose: false,
-             //        type: 2,
-             //        fixed: false,
-             //        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-             //        maxmin: true,
-             //        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-             //        area: ['70%','90%'],
-             //        content: '/plan/my/goViewBotWorkOrder?dataId='+dataId
-             //    });
-    		// }else{
-        		// layer.open({
-             //        title:param.name+'-查看',
-             //        skin: 'layui-layer-lan',
-             //        shadeClose: false,
-             //        type: 2,
-             //        fixed: false,
-             //        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-             //        maxmin: true,
-             //        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-             //        area: ['70%','90%'],
-             //        content: '/plan/goViewBotWorkOrder?dataId='+dataId
-             //    });
-    		// }
         });
         table.on('sort(tableData)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
             table.reload('tableList', { //testTable是表格容器id
@@ -371,7 +343,7 @@
                        url:"/pageCommon/dic/ROOT_RWGL_RWLX"//接口
                     };
                     publicMethods.dataDictionary(param);
-	             }
+                }
             });
         });
         //区别按钮属性

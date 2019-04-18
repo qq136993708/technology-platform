@@ -28,7 +28,7 @@ public interface DetailService {
 	public Integer deleteDetail(String id);
 	
 	
-	
+	public int updateByid(String id)throws Exception;
 	
 	
 	

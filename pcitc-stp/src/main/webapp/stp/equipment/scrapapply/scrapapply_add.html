@@ -28,8 +28,8 @@
         </div>
     </div>
     <div class="tableBox">
-        <div class="tableToolBox">
-        
+        <div class="tableToolBox" style="text-align:center">
+        资产台账
         </div>
         <table id="role_table" class="layui-hide" lay-filter="roleCheckboxEvent"></table>
     </div>
@@ -45,13 +45,14 @@
         </label>
         <!--按钮组-->
         <div class="btnGroup">
-            <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="userSearchEvent" onclick="save()">提交
+            <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="userSearchEvent" onclick="save()">保存
             </button>
         </div>
     </div>
     <div class="tableBox">
-        <div class="tableToolBox">
-          <span id="priceandnumber"></span>
+        <div class="tableToolBox" style="text-align:center">
+          本次报废资产
+         <span id="priceandnumber"></span>
         </div>
         <table id="user_table" class="layui-hide" lay-filter="tableDataTwo"></table>
     </div>
@@ -136,9 +137,17 @@
 	           dataType:"json",
 	           data : {"name":name,"ids":ids,"id":getid,"addorupdate":""},
 	           success : function(data) {
-	            alert("保存成功！");
-	         },
-	       });
+	           layer.alert("保存成功！", {icon: 1,closeBtn: 0 }, function () 
+	                       {
+	                           var index = parent.layer.getFrameIndex(window.name); 
+						       parent.layer.close(index); 
+						       var v_date = (new Date()).getTime();
+						       var backurl="/sre-sreScrapApply/to-list?v_date="+v_date;
+						       parent.location.href = backurl;
+	                      });
+			 
+	                 },
+	            });
     	  
 	}
 	layui.use(['jquery', 'table', 'laypage'], function () {
@@ -192,7 +201,8 @@
 	            	, {field: 'assetsClassification', title: '分类', style: 'cursor: pointer;'}
 	        ]]
 	        , done: function (res, curr, count) {
-	        //$("[data-field='id']").css('display','none');
+	        $("[data-field='equipmentPrice']").css('display','none');
+	         $("[data-field='equipmenNumber']").css('display','none');
 	            // 点击行联动选择框--单选
 	            $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
 	               
@@ -235,7 +245,7 @@
 	        	 {field: 'id', title: '编号', style: 'cursor: pointer;'}
 	           , {field: 'equipmentName', title: '装备名称', style: 'cursor: pointer;'}
 	           , {field: 'specification', title: '规格型号', style: 'cursor: pointer;'}
-	           , {field: 'del', title :'删除', style :'cursor: pointer;color: red;', align: 'center', width : '10%',templet:function(d){return '<span onclick="view_project('+d.id+')" style="color:red">删除</span>'}}
+	           , {field: 'del', title :'删除', style :'cursor: pointer;color: red;', align: 'center', width : '10%',templet:function(d){return '<span onclick="view_project(&#39;'+d.id+'&#39;)" style="color:red">删除</span>'}}
 	        ]],
 	        data:AddData
 	        , done: function (res, curr, count) {

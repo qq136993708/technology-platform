@@ -321,4 +321,25 @@
       create_user_id = #{createUserId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <!--数据控制-研究院配置-->
+  <select id="selectInstituteData" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+    select sys_dictionary.name,sys_dictionary.code,sys_dictionary.num_value,sys_function_property.is_available
+ 	from sys_dictionary left JOIN sys_function_property on (
+ 										sys_function_property.post_config_value LIKE CONCAT('%',sys_dictionary.num_value,'%')
+ 										<if test="functionId!=null and functionId!=''.toString">
+											and sys_function_property.function_id = #{functionId}
+										</if>
+										<if test="postId!=null and postId!=''.toString">
+											and sys_function_property.post_id = #{postId}
+										</if>
+										<if test="proCode!=null and proCode!=''.toString">
+											and sys_function_property.pro_code = #{proCode}
+										</if>
+ 									)
+ 	where 
+	 	sys_dictionary.parent_code = 'ROOT_XTGL_ZSYJY'
+ 	group by sys_dictionary.code
+ 	order by sys_dictionary.create_time
+  </select>
 </mapper>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+  <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+  <link rel="stylesheet" href="/layuiadmin/style/common.css">
+
+  <script src="/layuiadmin/layui/layui.js"></script>
+  <style type="text/css">
+  </style>
+</head>
+<body>
+<input type="hidden" id="id" name="id" value=${id}>
+<div  class="layer-box" style="padding:10px">
+    <div class="layui-form-item layui-form-text" >
+        <label for="" class="layui-form-label">验收描述<span class="must-fill">*</span></label>
+        <div class="layui-input-block">
+          <textarea placeholder="请输入验收描述" name="describe" id="describe" lay-verify="required"   class="layui-textarea">${sreEquipment.specification}</textarea>
+        </div>
+      </div>
+      
+	  	<div class="form-bottom">
+	  		<div class="form-bottom-btns">
+	    		<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="sub" lay-filter="sub" onclick="save()">提交</button>
+      	  		</div>
+		</div>
+		
+
+  </div>
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script>
+
+      //流程
+      function save(){
+
+    	  $.ajax({
+	           type : 'POST',
+	           url : "/sre_project_taskac/addAudit",
+	           dataType:"json",
+	           data : {id:$("#id").val(),content:$("#describe").val()},
+	           success : function(data) {
+	           if(data.success=="success")
+	           {
+	        	alert("操作成功！");
+	        	}
+	        	else
+	        	{
+	        		alert("操作失败！");
+	        	}
+	           },
+	           error : function(msg) {//请求失败处理函数  
+              }
+	       });
+    	  
+      }
+</script>
+</body>
+</html>
