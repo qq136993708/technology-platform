@@ -41,6 +41,15 @@
             border: 1px solid #ccc;
             padding-top: -2px;
         }
+        .tableBox{width: 80.8%;float: left;}
+        .tableUser{width: 16.2%;float: left;}
+        .tableBtnsL{text-align: left;text-indent: .5em;font-size: 14px;}
+        .tableUserB ul{height: 260px;border:1px solid #e6e6e6;border-top: 0;overflow-y: scroll;}
+        .tableUserB ul li {height: 36px;line-height: 46px;text-indent: .5em;}
+        .tableUserB ul li a{background: url(/layuiadmin/layui/images/icon_close.png) #ecf7f7 no-repeat 95% 3px;
+            color: #17a2b8 !important;border: 1px solid #17a2b8 !important;    padding: 3px 16px 3px 10px;
+            border-radius: 4px;
+        }
     </style>
     <script type="text/javascript">
         var map = {};
@@ -122,6 +131,15 @@
             $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
                 e.stopPropagation();
             });
+            $(document).on("click", "#checkedUsers li a", function () {
+                var keyValue=$(this).find("span").attr("value");
+                for (var key in map){
+                    if(keyValue==key){
+                        delete map[key];
+                    }
+                }
+                $(this).parent().remove();
+            });
             //多选-结束
             renderTable({
                 param: {
@@ -198,19 +216,27 @@
                     }
                     layer.msg("添加成功");
                     var checkedUsers = "";
+                    $("#checkedUsers").html("");
                      for(var key in map){
                          checkedUsers=(checkedUsers==""?"":(checkedUsers+","))+map[key].userDisp;
+                         var liHtml='<li class="layui-nav-item">' +
+                             '<a href="javascript:void(0);">' +
+                             '<span value="'+key+'">'+map[key].userDisp+'</span><em></em></a></li>';
+                         $("#checkedUsers").append(liHtml);
                      }
-                    $("#checkedUsers").html(checkedUsers);
                 },dbaddEvent: function (data) {
                     selectRowData = data;
                     map[selectRowData.userId + ""] = selectRowData;
                     layer.msg("添加成功");
                     var checkedUsers = "";
+                    $("#checkedUsers").html("");
                     for(var key in map){
                         checkedUsers=(checkedUsers==""?"":(checkedUsers+","))+map[key].userDisp;
+                        var liHtml='<li class="layui-nav-item">' +
+                            '<a href="javascript:void(0);">' +
+                            '<span value="'+key+'">'+map[key].userDisp+'</span><em></em></a></li>';
+                        $("#checkedUsers").append(liHtml);
                     }
-                    $("#checkedUsers").html(checkedUsers);
                 },
                 okEvent: function () {
                     var list = [];
@@ -412,7 +438,7 @@
     <div class="tableToolBox">
         <div class="whiteLine"></div>
         <div class="tableBtns">
-            <span id="checkedUsers" style="color: red;"></span>
+            <!--<span id="checkedUsers" style="color: red;"></span>-->
             <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent">新增</button>-->
             <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="editEvent">编辑</button>-->
             <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button>-->
@@ -428,6 +454,19 @@
         </div>
     </div>
     <table id="userTable" class="layui-hide" lay-filter="userEvent"></table>
+</div>
+<div class="tableUser">
+    <div class="tableToolBox">
+
+        <div class="whiteLine"></div>
+        <div class="tableBtns tableBtnsL">添加人</div>
+    </div>
+    <div class="tableUserB">
+        <ul id="checkedUsers">
+
+        </ul>
+        <!--<span id="checkedUsers" style="color: red;"></span>-->
+    </div>
 </div>
 </body>
 </html>
