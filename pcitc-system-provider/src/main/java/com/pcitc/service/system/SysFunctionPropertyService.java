@@ -1,5 +1,8 @@
 package com.pcitc.service.system;
 
+import java.util.HashMap;
+import java.util.List;
+
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.system.SysFunctionProperty;
 
@@ -46,4 +49,9 @@ public interface SysFunctionPropertyService {
      */
     SysFunctionProperty getSysFunctionProperty(SysFunctionProperty obj) throws Exception;
 
+    /**
+     * 查询已经某个菜单、某个配置项、某个岗位已经配置的研究院
+     * @return
+     */
+    public List selectInstituteData(HashMap<String, Object> hashmap);
 }

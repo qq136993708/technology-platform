@@ -9,6 +9,7 @@
 <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
 <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.exhide.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 
 </head>
@@ -17,7 +18,7 @@
 		<div class="treeBox">
 			<!--加标题-->
 			<div class="title-box">
-				<span>功能菜单</span>
+				<span>功能菜单&nbsp;&nbsp;&nbsp;<input id='functionKeyWord' name="functionKeyWord" type="text" autocomplete="off"/></span>
 			</div>
 			<div class="layui-side-scroll">
 				<!-- 左侧子菜单 -->
@@ -61,6 +62,7 @@
 		var temFunctionName;
 		var temFunUrl = '';
 		var updateFlag = false;
+		var funTree;
 		$(function() {
 			$.ajax({
 				url : "/function/getTreeByLevel",//这个就是请求地址对应sAjaxSource
@@ -125,8 +127,86 @@
 		}
 
 		$(document).ready(function() {
-			$.fn.zTree.init($("#funTree"), setting, zNodes);
+			funTree = $.fn.zTree.init($("#funTree"), setting, zNodes);
 		});
+		
+		<!--过滤树-->
+		// 树的查询功能
+		var hiddenNodes = []; //用于存储被隐藏的结点
+
+		//过滤ztree显示数据
+		function filterSearch(value, filterTree) {
+			var allNode = filterTree.transformToArray(filterTree.getNodes());
+			filterTree.showNodes(allNode);//显示所有节点
+			var root = filterTree.getNodesByParam("level", "0");
+			hiddenNodes = [];
+			if (!isBlank(root)) {
+				for (index in root) {
+					//筛选出要隐藏的企业
+					filterNodes(root[index], value, hiddenNodes);
+				}
+			}
+			filterTree.hideNodes(hiddenNodes);
+		}
+
+		/**
+		 * 遍历树节点，将 自身不满足搜索条件并且其孩子不符合条件的加入隐藏
+		 * 如果节点满足条件，不在遍历其孩子（都显示）
+		 * 
+		 * @param node 查询的节点
+		 * @param inputStr 搜索条件
+		 * @param filterResult 过滤的结果集
+		 * @return 该节点是否满足条件
+		 */
+		function filterNodes(node, inputStr, filterResult) {
+			if (!isBlank(node)) {
+				//自身是否符合搜索条件， 自身符合条件的孩子节点不用判断，都显示
+				var selfMatch = node.name.indexOf(inputStr) > -1;
+				
+				if (!selfMatch) {//判读他的子孙有没有满足条件的
+					//子节点是否有满足的条件的节点
+					var childMatch = false;
+					
+					var children = node.children;
+					if (!isBlank(children)) {
+						for (index in children) {
+							childMatch = filterNodes(children[index], inputStr, filterResult) || childMatch;
+						}
+					}
+					//自身不满足搜索条件 且其子节点不包含有满足条件的节点
+					if (!childMatch) {
+						filterResult.push(node);
+					}
+					return childMatch;
+				} else {
+					return true;
+				}
+			} else {
+				return true;
+			}
+		}
+		
+		$('#functionKeyWord').bind('keypress', function(event) {//监听sim卡回车事件
+			if (event.keyCode == "13") {
+				filterSearch($('#functionKeyWord').val(), funTree);
+			}
+		});
+		
+		function isBlank(str) {
+			if (str == null || typeof str == "undefined" || str == "" || trim(str) == "") {
+				return true;
+			}
+			return false;
+		}
+
+		function trim(str) {
+			if (str == null || typeof str == "undefined") {
+				return "";
+			}
+			return str.toString().replace(/(^\s+)|(\s+$)/g, "");
+		}
+		
+		<!--过滤树结束-->
 
 		<!--表格js-->
 		var table, active;

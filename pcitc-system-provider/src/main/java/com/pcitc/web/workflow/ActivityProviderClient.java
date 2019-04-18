@@ -74,6 +74,9 @@ public class ActivityProviderClient {
 			modelName = "%" + param.getParam().get("modelName").toString() + "%";
 			mq = mq.modelNameLike(modelName);
 		}
+		if (param.getParam().get("deploymentId") != null && !StrUtil.isBlankOrNull(param.getParam().get("deploymentId").toString())) {
+			mq = mq.deploymentId(param.getParam().get("deploymentId").toString());
+		}
 
 		List<Model> resultList = mq.orderByLastUpdateTime().desc().listPage(limit * (page - 1), limit);
 		LayuiTableData data = new LayuiTableData();
