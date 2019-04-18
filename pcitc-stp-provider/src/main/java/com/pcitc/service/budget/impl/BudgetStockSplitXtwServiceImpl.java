@@ -39,13 +39,13 @@ import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.mapper.budget.BudgetInfoMapper;
 import com.pcitc.mapper.budget.BudgetSplitDataMapper;
-import com.pcitc.service.budget.BudgetStockSplitZsySplitService;
+import com.pcitc.service.budget.BudgetStockSplitXtwSplitService;
 import com.pcitc.service.feign.SystemRemoteClient;
 
 
-@Service("budgetStockSplitZsySplitService")
+@Service("budgetStockSplitXtwSplitService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
-public class BudgetStockSplitZsyServiceImpl implements BudgetStockSplitZsySplitService
+public class BudgetStockSplitXtwServiceImpl implements BudgetStockSplitXtwSplitService
 {
 
 	@Autowired
@@ -152,6 +152,8 @@ public class BudgetStockSplitZsyServiceImpl implements BudgetStockSplitZsySplitS
 			total_jz += dt.getJz()==null?0:dt.getJz();
 			total_xq += dt.getXq()==null?0:dt.getXq();
 		}
+		
+		
 		map.put("total_jz", total_jz);
 		map.put("total_xq", total_xq);
 		map.put("total", total_jz+total_xq);
@@ -167,7 +169,7 @@ public class BudgetStockSplitZsyServiceImpl implements BudgetStockSplitZsySplitS
 	{
 		List<SysDictionary> dis = new ArrayList<SysDictionary>();
 		
-		List<BudgetSplitEnum> enums = BudgetSplitNdEnum.getStockSplitZsyByNd(nd).getSplits();
+		List<BudgetSplitEnum> enums = BudgetSplitNdEnum.getStockSplitXtwByNd(nd).getSplits();
 		for(BudgetSplitEnum em:enums) {
 			SysDictionary d = new SysDictionary();
 			d.setCode(em.getCode());
@@ -183,7 +185,7 @@ public class BudgetStockSplitZsyServiceImpl implements BudgetStockSplitZsySplitS
 		BudgetInfoExample.Criteria infoc = infoExample.createCriteria();
 		infoc.andAuditStatusEqualTo(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
 		infoc.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
-		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode());
+		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.STOCK_XTY_SPLIT.getCode());
 		infoc.andNdNotEqualTo(nd);
 		infoExample.setOrderByClause("nd desc");
 		
@@ -284,7 +286,7 @@ public class BudgetStockSplitZsyServiceImpl implements BudgetStockSplitZsySplitS
 		BudgetInfoExample.Criteria infoc = infoExample.createCriteria();
 		infoc.andAuditStatusEqualTo(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
 		infoc.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
-		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode());
+		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.STOCK_XTY_SPLIT.getCode());
 		infoc.andNdEqualTo(nd);
 		
 		List<BudgetInfo> infos = budgetInfoMapper.selectByExample(infoExample);

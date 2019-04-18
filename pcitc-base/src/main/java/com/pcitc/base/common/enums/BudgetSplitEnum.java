@@ -1,8 +1,5 @@
 package com.pcitc.base.common.enums;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 预算分解
  * @author uuy
@@ -32,20 +29,6 @@ public enum BudgetSplitEnum
 	SPLIT_STOCK_YK(305,"GFFYK","股份付盈科"),
 	SPLIT_STOCK_XSD(306,"GFFXSD","股份付休斯顿"),
 	SPLIT_STOCK_ZD(307,"GFFZD","股份付中东");						
-	
-	//股份公司分类
-	public static List<BudgetSplitEnum> getStockSplitTypes()
-	{
-		List<BudgetSplitEnum> enums = new ArrayList<BudgetSplitEnum>();
-		for(BudgetSplitEnum v:BudgetSplitEnum.values()) 
-		{
-			if(v.name().contains("SPLIT_STOCK") && v.getId()>300 && v.getId()<399) 
-			{
-				enums.add(v);
-			}
-		}
-		return enums;
-	}
 	
 	private BudgetSplitEnum(Integer id,String code, String name) {
 		this.id = id;

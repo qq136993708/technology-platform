@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>经费预算-股份经费预算分解-系统外</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        body{color: #666666;}
+        .headline-box{box-sizing: border-box;padding-top: 10px;height: 106px;width: 100%;margin-bottom: 15px;}
+        .headline-title{height: 58px;line-height: 58px;text-align: center;font-size: 20px;color: #000000;}
+        .headline-tool{position: relative;height: 52px;margin: 0 10px;}
+        .headline-tool .tool-left{position: absolute;left: 0;top: 12px;height: 28px;line-height: 28px;}
+        .tool-left input{width: 96px;border: 1px solid #e6e6e6;}
+        .tool-left select{width: 150px;border: 1px solid #e6e6e6;}
+        .tool-left .dateInput{position: relative;}
+        .dateInput i{position: absolute; top: -4px; right: 6px;}
+        .headline-tool .tool-center{position: absolute;left: 50%;top: 6px;margin-left: -47px;}
+        .headline-tool .tool-right{position: absolute;right: 0;top: 12px;}
+        .num-box{float: left;padding-left: 10px; color: red;margin-top: 4px;}
+        .num-box input{width: 90px;padding-left: 6px; background: #ffffff; border: 1px solid #e6e6e6;color: red;}
+        .content-box{height: 42px; line-height: 42px;margin: 0 10px;}
+        .content-box .items{float: left; margin-right: 18px;}
+        .content-box .items span{color: #000000;}
+        .doc-box{margin: 0 10px;}
+        .doc-box p {height: 26px;line-height: 26px;}
+        .doc-box ul li{line-height: 26px;}
+    </style>
+</head>
+<body>
+    <div class="headline-box">
+        <div class="headline-title" title="集团经费预算总表">
+            	<span class="nd">${nd}</span>年股份经费预算分解-系统外(建议稿)
+        </div>
+        <div class="headline-tool">
+            <div class="tool-left">
+                <label class="dateInput">
+                    <span>编制年度</span>
+                    <input type="text" id="choose-year">
+                    <i class="layui-icon layui-icon-date"></i>
+                </label>
+                <label class="selectInput" style="margin-left: 20px;">
+                    <span>预算版本</span>
+                    <select id="data_version" name="data_version" lay-verify="" lay-filter="test">
+                        <option value="">---请选择版本---</option>
+                    </select>
+                </label>
+            </div>
+            <div class="tool-center">
+                <button class="layui-btn btn-decision active" data-type="createEvent">编制预算</button>
+            </div>
+            <div class="tool-right">
+                <button class="layui-btn layui-btn-sm btn-decision" data-type="historyCompare">往年预算参考</button>
+                <button class="layui-btn layui-btn-sm btn-decision" data-type="historyView">历年参考数据</button>
+            </div>
+        </div>
+    </div>
+    <div class="tableBox">
+        <div class="tableToolBox">
+            <div class="num-box">
+             	<#list items as item>
+                	<#list item?keys as key> 
+                		<label class="dateInput">
+		                    <span>${item[key]}[可分配/剩余]:&nbsp;</span>
+		                    <input type="text" name="${key}" id="${key}" readonly="readonly" value="0/0">
+		                </label>
+                	</#list> 
+                </#list>
+            </div>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save2 btnMyBgImg"
+                    data-type="saveEvent">保存
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_submit btnMyBgImg"
+                    data-type="submitEvent">提交
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg"
+                    data-type="exportEvent">导出
+            </button>
+        </div>
+        <div id="tableBox">
+            <table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true}">
+                <thead>
+	                <tr>
+	                	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
+	                	<th lay-data="{field:'no',align: 'center', width: '4%',totalRowText: '合计'}" rowspan="2">序号</th>
+	                    <th lay-data="{field:'organName', width: '15%'}" rowspan="2">专业处/部门</th>
+	                    <!--  <th lay-data="{field:'total', width: '6%',align: 'center',totalRow: true}" rowspan="2">合计</th> -->
+	                    <#list items as item>
+	                    	<#list item?keys as key> 
+	                    		<th lay-data="{field:'${key}_total', edit:true,align: 'right',totalRow: true}" colspan="3">${item[key]}</th>
+	                    	</#list> 
+	                    </#list>
+	                </tr>
+	                 <tr>
+	                    <#list items as item>
+	                    	<#list item?keys as key> 
+	                    		<th lay-data="{field:'${key}_total',align: 'right',totalRow: true}">预算</th>
+	                    		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true}">老合同</th>
+	                    		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true}">可新签</th>
+	                    	</#list> 
+	                    </#list>
+	                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <div class="content-box">
+        <div class="items">
+            状态: <span id="info_status" style="color: red">&nbsp;</span>
+        </div>
+        <div class="items">
+            创建人: <span id="creater_name" style="color: red">&nbsp;</span>
+        </div>
+        <div class="items">
+            创建日期: <span id="create_time" style="color: red">&nbsp;</span>
+        </div>
+        <div class="items">
+            最后更新: <span id="update_time" style="color: red">&nbsp;</span>
+        </div>
+    </div>
+    <div class="doc-box">
+        <p>备注及问题:</p>
+        <ul>
+            <li>1、可分配数为股份预算总表中，对应年度直属院最新预算总数，分配时自动计算，不可更改</li>
+            <li>2、表格编制状态包含：编制中、审批中、初审驳回、审批通过、最终预算（预算可调整） 五种状态，审批完成则不可再编辑</li>
+            <li>3、预算按年度编制，编制年度可自定义，默认编制下一年度</li>
+            <li>4、预算表创建时生成一个版本号，版本号规则：vs-年度-三位类别编码-三位顺序号</li>
+            <li>5、历年参照预算数据中的数据为该年审批通过的预算版本</li>
+        </ul>
+    </div>
+
+    <script>
+	    var cu_date = "${nd}";
+	    var budget_info_map=null;
+	    var curent_tabel_data = null;//当前表格数据
+	    var curent_budget_info = null;//当前报表
+	    var table_titles=[];
+	    <#list items as item>
+	    	<#list item?keys as key> 
+	    		table_titles.push('${key}');
+	    	</#list> 
+	    </#list>
+	    //console.log(table_titles);
+        layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
+            var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods; 
+            var param = JSON.parse(window.localStorage.getItem("param"));
+            laydate.render({
+                elem: '#choose-year'
+                ,value: cu_date
+                ,type: 'year'
+                ,done:function (val, date, endDate) {
+                	window.location.href = "/budget/budget_main_stocksplit_xtw?nd="+val;
+                	//initDataVersion();//初始化预算版本
+                	//initEmptyData();//空数据初始化
+                	//initDateView();//初始化时间显示相关
+                }            
+            });
+            renderfunc = function removeHeaderCheckbox(){
+            	$(".layui-table-header table thead th i").remove();  //移除表头的复选框,去掉全选
+	        	//行单击选中事件绑定
+	        	$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+	              	  var index=parseInt($(this).index()+1);
+	                  $('tr').removeClass('layui-table-click');
+	                  $(this).addClass('layui-table-click');
+	                  $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+	                  $(this).find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+	            }); 
+	        }
+	        renderfunc();
+			//数据版本选择
+            $("#data_version").on("change",function(e){
+            	curent_budget_info = budget_info_map[$("#data_version").val()];            	
+            	if(curent_budget_info){
+            		<#list items as item>
+	                	<#list item?keys as key> 
+			            	$("#${key}").val(curent_budget_info.${key});//可分配数
+	                	</#list> 
+	                </#list>
+            		$("#creater_name").html(curent_budget_info.createrName);//创建人
+            		$("#create_time").html(curent_budget_info.createTime);//创建时间
+            		$("#update_time").html(curent_budget_info.updateTime);//最后更新时间
+            		$("#info_status").html(curent_budget_info.auditStatusDesc);//状态
+            		var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});
+            		publicMethods.ajaxAsyncPost("/budget/budget-stocksplit-xtw-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
+	                	layer.close(lodingMsg);
+            			curent_tabel_data = data.data;
+            			relaodTable('dataTable',data.data);
+	                	renderfunc();
+	                	//预分配数
+	                	calculationSurplusMoney();
+	                	initDateView();
+    		   		}); 
+            	}else{
+            		initEmptyData();
+            		initDateView();
+            	}
+            });
+			//空数据初始化
+			window.initEmptyData = function()
+			{
+				relaodTable('dataTable',[]);
+            	<#list items as item>
+	            	<#list item?keys as key> 
+		            	$("#${key}").val("0/0");//可分配数
+	            	</#list> 
+            	</#list>
+            	
+        		$("#creater_name").html("");//创建人
+        		$("#create_time").html("");//创建时间
+        		$("#update_time").html("");//最后更新时间
+        		$("#info_status").html("");//状态
+			}
+			//初始化时间选择
+			function initDateView(){
+				$(".nd").html(cu_date);
+            	
+            	//$(".layui-table-header .layui-table").find('th').eq(3).find('span').text((cu_date)+"年实际完成");
+            	//$(".layui-table-header .layui-table").find('th').eq(4).find('span').text(cu_date+"年合同计划");
+			}
+            // 点击按钮时激活
+            $('.tableBtns').children('button').on('click',function(){
+                $(this).addClass('active');
+                $(this).siblings().removeClass('active');
+            });
+            //区别按钮属性
+            $('.layui-btn').on('click', function () {
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+            table.on('edit(dataTable)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+            	$.each(curent_tabel_data,function(index,dt){
+            		if(obj.data.organCode == dt.organCode){
+            			curent_tabel_data[index][obj.field] = parseInt(obj.value);
+            		}
+            	});
+            	//计算求和
+            	calulationTotalMoney();
+            	//预分配数
+            	calculationSurplusMoney();
+            	//刷新表格数据
+            	relaodTable('dataTable',curent_tabel_data);
+            	renderfunc();
+            	
+            });
+			$("#budgetMoney").on("keyup",function(){
+				curent_budget_info.budgetMoney = $("#budgetMoney").val();
+				calculationSurplusMoney();
+			});
+			//刷新数据
+			window.relaodTable = function(tableId,tableData){
+				table.reload(tableId, {data: tableData});
+				//格式化求和
+				$.each($(".layui-table-total tr td"),function(i,d){
+					if(i>=3){
+						var val = $(this).find("div").html();
+						$(this).find("div").html(parseInt(val));
+					}
+				});
+			}
+          	//初始化数据版本
+            window.initDataVersion =function(budget_id){
+                publicMethods.ajaxAsyncPost("/budget/budget-stocksplit-xtw-info-list",{"nd":cu_date}, function (dt) {
+                	$("#data_version").html('<option value="">---请选择版本---</option>');
+                	budget_info_map = {};
+                	$.each(dt,function(index,data){
+                		budget_info_map[data.dataId] = data;
+                		$("#data_version").append('<option value="'+data.dataId+'">'+data.dataVersion+'</option>');
+                	});
+                	if(budget_id){
+                    	$("#data_version").val(budget_id);
+                    	$("#data_version").trigger("change");
+                    }
+    		   	});
+            }
+          	//计算合计、总计
+          	function calulationTotalMoney(){
+	           	$.each(curent_tabel_data,function(index,dt){
+	           		var row_total = 0;
+	           		var row_total_jz = 0;
+	           		var row_total_xq = 0;
+	           		$.each(table_titles,function(i,title){
+	           			row_total_jz += parseInt(curent_tabel_data[index][title+"_jz"]);
+	           			row_total_xq += parseInt(curent_tabel_data[index][title+"_xq"]);
+	           			
+	           			curent_tabel_data[index][title+"_total"]=parseInt(curent_tabel_data[index][title+"_jz"])+parseInt(curent_tabel_data[index][title+"_xq"]);
+	               	});
+	           		curent_tabel_data[index].total_jz = row_total_jz;
+	           		curent_tabel_data[index].total_xq = row_total_xq;
+	           		curent_tabel_data[index].total = row_total_jz+row_total_xq;
+	           	});
+          	}
+          	
+          	//计算剩余可分配数
+          	function calculationSurplusMoney(){
+            	var total_money = 0;
+            	$.each(curent_tabel_data,function(index,dt){
+            		total_money += parseInt(dt.total);
+            	});
+          		$("#surplusMoney").val(parseInt($("#budgetMoney").val())-total_money);
+          	}
+            initDataVersion();
+            // 触发不同的按钮事件
+            var $ = layui.$, active = {
+            	createEvent: function () { //点击查询按钮
+                    layer.open({
+                        title: cu_date+'集团公司经费预算编制管理-创建预算表'
+                        , skin: 'layui-layer-lan'
+                        , shadeClose: true
+                        , type: 2
+                        , fixed: false
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        , maxmin: false
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        , area: ['80%', '90%']
+                        , content: '/budget/budget_create_stocksplit_xtw?nd='+cu_date
+                    });
+                },
+                saveEvent:function(){
+                	if($("#data_version").val()==""){
+                		parent.layer.alert("请选择需要保存的预算版本", {title : '提示'});
+                		return;
+                	}
+                	var lodingMsg = layer.msg('处理中....',{time: 15*1000});
+   					publicMethods.ajaxAsyncPost("/budget/save-stocksplit-xtw-items", {"info":JSON.stringify(curent_budget_info),"items":JSON.stringify(curent_tabel_data)}, function (data) {
+   						if (data.success) {    	                    	
+   	                    	layer.msg('保存成功!',{time: 500});
+   	                    	//layer.close(lodingMsg);
+   	                    } else {
+   	                    	layer.msg('操作异常，请重试!',{time: 500});
+   	                    	//layer.close(lodingMsg);
+   	                    }
+   	                });                	
+                },submitEvent:function(){
+                	if($("#data_version").val()==""){
+                		parent.layer.alert("请选择需要提交的预算版本", {title : '提示'});
+                		return;
+                	}  
+                	layer.confirm('提交后将不可再编辑！确定要提交审批吗？',{title:"提交确认"},function(index){
+    					layer.close(index);
+    					publicMethods.ajaxAsyncPost("/budget/start-budget-stocksplit-xtw-activity", {"budgetInfoId":curent_budget_info.dataId,"functionId":param.id}, function (data) {
+    	                     if (data.success) {    	                    	 
+    	                    	 budget_info_map[data.data.dataVersion]=data.data; 
+    	                    	 $("#data_version").trigger("change");
+    	                    	 layer.msg('提交成功!');
+    	                     } else {
+    	                    	 layer.msg(data.message);
+    	                    	 
+    	                     }
+    	                });
+                	});
+                },exportEvent:function(){
+                	if($("#data_version").val()==""){
+                		parent.layer.alert("请选择需要导出的预算版本", {title : '提示'});
+                		return;
+                	} 
+                	window.open("/budget/budget_download/stocksplit-xtw/"+curent_budget_info.dataId);
+                },historyCompare:function(){
+                	var selectIndex = $(".layui-form-checked").parents("tr").attr("data-index");
+                	if(!selectIndex){
+                		parent.layer.alert("请选择历史数据项", {title : '提示'});
+                		return;
+                	}
+                	console.log(curent_budget_info);
+                	console.log(curent_tabel_data[selectIndex]);
+                	var url = '/budget/budget_history_compare_stocksplit_xtw?nd='+cu_date+'&organCode='+curent_tabel_data[selectIndex].organCode+"&budgetInfoId="+curent_budget_info.dataId;
+                   	layer.open({
+                        title: '系统外经费分解编制管理-往年预算参考'
+                        , skin: 'layui-layer-lan'
+                        , shadeClose: true
+                        , type: 2
+                        , fixed: false
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        , maxmin: false
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        , area: ['80%', '90%']
+                        , content: url
+                    });                	
+                },historyView:function(){
+                	if($("#data_version").val()==""){
+                		parent.layer.alert("请选择预算版本", {title : '提示'});
+                		return;
+                	} 
+                	var url = '/budget/budget_history_view_stocksplit_xtw?nd='+cu_date+'&budgetInfoId='+curent_budget_info.dataId;
+                   	layer.open({
+                        title: '系统外经费分解编制管理-历年参考数据'
+                        , skin: 'layui-layer-lan'
+                        , shadeClose: true
+                        , type: 2
+                        , fixed: false
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        , maxmin: false
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        , area: ['80%', '90%']
+                        , content: url
+                    });         
+                }
+            }
+        })
+    </script>
+</body>
+</html>
