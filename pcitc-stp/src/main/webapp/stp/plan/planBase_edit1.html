@@ -507,7 +507,6 @@
             });
             /* 监听提交 */
             form.on('submit(submitBtn)', function (data) {
-                console.log(data.field);
                 ajaxPost("/planBase/savePlanBase", data.field, function (dt, status) {
                     layer.msg("操作成功");
                     parent.layui.table.reload('planBaseTableId', {where: {param: {}}});

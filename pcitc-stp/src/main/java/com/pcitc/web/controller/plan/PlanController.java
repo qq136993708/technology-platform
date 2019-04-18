@@ -7,10 +7,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.plan.PlanBase;
 import com.pcitc.base.plan.PlanBaseDetail;
-import com.pcitc.base.util.CodeUtil;
-import com.pcitc.base.util.CommonUtil;
-import com.pcitc.base.util.DataTableInfoVo;
-import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.*;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.PageCommon;
 import org.springframework.http.HttpEntity;
@@ -333,6 +330,8 @@ public class PlanController extends BaseController {
 //                planBase.setCreateUser(sysUserInfo.getUserId());
 //                planBase.setCreateUserName(sysUserInfo.getUserName());
                 planBase.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
+                System.out.println("announcements = " + detail.get("announcements"));
+                planBase.setAnnouncements(StrUtil.objectToString(detail.get("announcements")));
                 //                Object objJsrId = detail.get("jsId");
 //                if (objJsrId != null && !"".equals(objJsrId)) {//
 //                    planBase.setJsId(objJsrId.toString());//指派给他人
@@ -479,6 +478,10 @@ public class PlanController extends BaseController {
                 planBase.setWorkOrderType(wjbvo.getWorkOrderType());
                 planBase.setRedactUnitName(wjbvo.getRedactUnitName());
                 planBase.setCreateDate(DateUtil.dateToStr(new Date(),DateUtil.FMT_SS));
+                planBase.setBl(StrUtil.objectToString(detail.get("bl")));
+                System.out.println("announcements = " + detail.get("announcements"));
+                System.out.println("bl = " + detail.get("bl"));
+                planBase.setAnnouncements(StrUtil.objectToString(detail.get("announcements")));
 //                Object objJsrId = detail.get("jsId");
 //                if (objJsrId != null && !"".equals(objJsrId)) {//
 //                    planBase.setJsId(objJsrId.toString());//指派给他人

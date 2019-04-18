@@ -6,6 +6,7 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
+    <script type="text/javascript" src="/plugins/ckeditor/ckeditor.js"></script>
     <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
     <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
@@ -14,8 +15,10 @@
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
     <style>
         /*.layui-table-body{overflow:-webkit-paged-x !important; }*/
-        .layui-form-selectup dl{top: 20px !important;
-            height: 180px;}
+        .layui-form-selectup dl {
+            top: 20px !important;
+            height: 180px;
+        }
     </style>
 </head>
 <body>
@@ -73,15 +76,15 @@
                         </div>
                     </div>
 
-                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                        <div class="layui-form-item">
-                            <label for="" class="layui-form-label">完成比例<span class="must-fill"></span></label>
-                            <div class="layui-input-block">
-                                <input class="layui-input" name="bl" id="bl"
-                                       placeholder="完成比例" autocomplete="off" type="text">
-                            </div>
-                        </div>
-                    </div>
+                    <!--<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">-->
+                    <!--<div class="layui-form-item">-->
+                    <!--<label for="" class="layui-form-label">完成比例<span class="must-fill"></span></label>-->
+                    <!--<div class="layui-input-block">-->
+                    <!--<input class="layui-input" name="bl" id="bl"-->
+                    <!--placeholder="完成比例" autocomplete="off" type="text">-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
                     <!-- <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                           <div class="layui-form-item">
                             <label class="layui-form-label">状态:<span class="must-fill">*</span></label>
@@ -90,6 +93,18 @@
                             </div>
                          </div>
                        </div> -->
+                </div>
+
+                <div class="layui-row">
+                    <div class="layui-form-item layui-form-text">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">任务描述<span class="must-fill"></span></label>
+                            <div class="layui-input-block">
+                                <textarea name="remarks" id="remarks" style="width: 40%;"></textarea>
+                                <!--<textarea name="remarks" id="remarks" class="ckeditor"></textarea>-->
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- <div class="layui-row">
 
@@ -155,14 +170,14 @@
 </script>
 
 <script>
-    function setWelder(selectData){
+    function setWelder(selectData) {
         selectData = eval(selectData);
         var userId = "";
         var userDisp = "";
-        for (var j = 0; j <selectData.length; j++) {
+        for (var j = 0; j < selectData.length; j++) {
             // userId = userId+((j==0)?"":",")+selectData[j].userId;
-            userDisp = userDisp+((j==0)?"":",")+selectData[j].userDisp;
-            userId = selectData[j].userId+","+userId;
+            userDisp = userDisp + ((j == 0) ? "" : ",") + selectData[j].userDisp;
+            userId = selectData[j].userId + "," + userId;
             // userDisp = selectData[j].userDisp+","+userDisp;
         }
         $('#workOrderAllotUserId').val(userId);
@@ -200,11 +215,11 @@
         //     $('#workOrderAllotUserName').val(selectData.userDisp);
         // }
         $(document).on("click", ".layui-select-title", function () {
-            if($(this).next().css("display")=="none"){
-                $(".layui-table-body").css("overflow","auto")
-            }else {
+            if ($(this).next().css("display") == "none") {
+                $(".layui-table-body").css("overflow", "auto")
+            } else {
 
-                $(".layui-table-body").css("overflow","-webkit-paged-x")
+                $(".layui-table-body").css("overflow", "-webkit-paged-x")
             }
         });
         window.setWelder = setWelder;
@@ -269,18 +284,20 @@
                 if ($(this).find("td").eq(3).find("input").length > 0) {
                     sthTrObj.dataId = $(this).find("td").eq(2).find("input").val();
                     sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
-                    sthTrObj.workOrderAllotUserName =  $(this).find(".tdSelect dl dd.layui-this").html();
+                    sthTrObj.workOrderAllotUserName = $(this).find(".tdSelect dl dd.layui-this").html();
                     sthTrObj.workOrderAllotUserId = $(this).find(".tdSelect dl dd.layui-this").attr("lay-value");
-                    sthTrObj.bl = $(this).find("td").eq(6).find("input").val();
-                    sthTrObj.jsId = $(this).find("td").eq(7).find("input").val();
+                    sthTrObj.bl = $(this).find("td").eq(5).find("input").val();
+                    sthTrObj.jsId = $(this).find("td").eq(6).find("input").val();
+                    sthTrObj.announcements = $(this).find("td").eq(7).find("input").val();
                     sthTrObj.dataCode = (dataCode++);
                 } else {
                     sthTrObj.dataId = $(this).find("td").eq(2).text();
                     sthTrObj.workOrderName = $(this).find("td").eq(3).text();
-                    sthTrObj.workOrderAllotUserName =  $(this).find(".tdSelect dl dd.layui-this").html();
+                    sthTrObj.workOrderAllotUserName = $(this).find(".tdSelect dl dd.layui-this").html();
                     sthTrObj.workOrderAllotUserId = $(this).find(".tdSelect dl dd.layui-this").attr("lay-value");
-                    sthTrObj.bl = $(this).find("td").eq(6).text();
-                    sthTrObj.jsId = $(this).find("td").eq(7).text();
+                    sthTrObj.bl = $(this).find("td").eq(5).text();
+                    sthTrObj.jsId = $(this).find("td").eq(6).text();
+                    sthTrObj.announcements = $(this).find("td").eq(7).text();
                     sthTrObj.dataCode = (dataCode++);
                 }
                 console.log(sthTrObj);
@@ -290,8 +307,7 @@
             });
 
             console.log("sthTrArr");
-            console.log(eval(sthTrArr));
-
+            // data.field.remarks = CKEDITOR.instances.remarks.getData();
             var jsonData = data.field;
             jsonData.matterList = sthTrArr;
             console.log("------jsonData-------");
@@ -344,17 +360,19 @@
                     sthTrObj.dataId = $(this).find("td").eq(2).find("input").val();
                     sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
                     sthTrObj.workOrderAllotUserName = $(this).find(".tdSelect dl dd.layui-this").html();
-                    sthTrObj.workOrderAllotUserId =$(this).find(".tdSelect dl dd.layui-this").attr("lay-value");
-                    sthTrObj.bl = $(this).find("td").eq(6).find("input").val();
-                    sthTrObj.jsId = $(this).find("td").eq(7).find("input").val();
+                    sthTrObj.workOrderAllotUserId = $(this).find(".tdSelect dl dd.layui-this").attr("lay-value");
+                    sthTrObj.bl = $(this).find("td").eq(5).find("input").val();
+                    sthTrObj.jsId = $(this).find("td").eq(6).find("input").val();
+                    sthTrObj.announcements = $(this).find("td").eq(7).find("input").val();
                     sthTrObj.dataCode = (dataCode++);
                 } else {
                     sthTrObj.dataId = $(this).find("td").eq(2).text();
                     sthTrObj.workOrderName = $(this).find("td").eq(3).text();
                     sthTrObj.workOrderAllotUserName = $(this).find(".tdSelect dl dd.layui-this").html();
-                    sthTrObj.workOrderAllotUserId =$(this).find(".tdSelect dl dd.layui-this").attr("lay-value");
-                    sthTrObj.bl = $(this).find("td").eq(6).text();
-                    sthTrObj.jsId = $(this).find("td").eq(7).text();
+                    sthTrObj.workOrderAllotUserId = $(this).find(".tdSelect dl dd.layui-this").attr("lay-value");
+                    sthTrObj.bl = $(this).find("td").eq(5).text();
+                    sthTrObj.jsId = $(this).find("td").eq(6).text();
+                    sthTrObj.announcements = $(this).find("td").eq(7).text();
                     sthTrObj.dataCode = (dataCode++);
                 }
                 sthTrArr.push(sthTrObj)
@@ -415,8 +433,8 @@
             method: "POST",
             where: {param: {"workOrderId": dataId}},
             cols: [[
-                {type: 'checkbox',width:55},
-                {title: '序号', type: 'numbers',width:55},
+                {type: 'checkbox', width: 55},
+                {title: '序号', type: 'numbers', width: 55},
                 {field: 'dataId', title: '主键', event: 'setActive', style: 'cursor: pointer;', edit: true},
                 {field: 'workOrderName', title: '事项内容', event: 'setActive', style: 'cursor: pointer;', edit: true},
                 {
@@ -433,13 +451,14 @@
                     style: 'cursor: pointer;',
                     edit: true
                 },*/
-                {field: 'bl', title: '比例', event: 'setActive', style: 'cursor: pointer;', edit: true},
-                {field: 'jsId', title: '接收人', event: 'setActive', style: 'cursor: pointer;', edit: true}
-                ,{fixed: 'right', title:'查看', toolbar: '#showDetail', width:150}
+                {field: 'bl', title: '完成比例', event: 'setActive', style: 'cursor: pointer;', edit: true},
+                {field: 'jsId', title: '接收人', event: 'setActive', style: 'cursor: pointer;', edit: true},
+                {field: 'announcements', title: '权重(%)', event: 'setActive', style: 'cursor: pointer;', edit: true}
+                , {fixed: 'right', title: '查看', toolbar: '#showDetail', width: 150}
 
             ]],
             done: function (res, curr, count) {
-                $(".layui-table").css("width","100%");
+                $(".layui-table").css("width", "100%");
                 $("[data-field='dataId']").hide();
                 $("[data-field='workOrderAllotUserId']").hide();
                 $("[data-field='jsId']").hide();
@@ -448,26 +467,71 @@
         });
         //动态添加事项
         $('#addMatter').click(function () {
+            if ($("#workOrderAllotUserName").val()==""){
+                layer.msg("请选择处理人");
+                return;
+            }
             var trParam = {
                 "id": "matterTableDiv",
-                "number": 8,
+                "number": 9,
                 "specialElement": [
-                    {hide:true,"column":2,"element":"input"},
-                    {"column":4,"element":"select","value":$("#workOrderAllotUserName").val(),"valueId":$("#workOrderAllotUserId").val()},
-                    {hide:true,"column":6,"element":"input"},
-                    {"column":5,"element":"input","disabled":true,"value":$(".bl").val()}
-                    ,{"column":7,"element":"a","value":'<a style="margin-left: 10px;" class="layui-btn layui-btn-xs" lay-event="showDetail">查看反馈</a>'}
+                    {hide: true, "column": 2, "element": "input"},
+                    {"column": 4, "element": "select", "value": $("#workOrderAllotUserName").val(), "valueId": $("#workOrderAllotUserId").val()},
+                    {hide: true, "column": 6, "element": "input"},
+                    {"column": 5, "element": "input", "disabled": true, "value": $(".bl").val()}
+                    , {"column": 8, "element": "a", "value": '<a style="margin-left: 10px;display: none;" class="layui-btn layui-btn-xs" lay-event="showDetail">查看反馈</a>'}
                 ]
             };
-            console.log(trParam);
             publicMethods.addTableTr(trParam);
+            calTableQz();
         });
+
+        function calTableQz() {
+            var sthTrArr = [];
+            var sthTrArrAll = [];
+            var matterLength = $("#matterTableDiv .layui-table-main  table tbody tr");
+            var qzTrue = 0;
+            $(matterLength).each(function () {
+                var sthTrObj = {};
+                if ($(this).find("td").eq(3).find("input").length > 0) {
+                    sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
+                    sthTrObj.announcements = $(this).find("td").eq(7).find("input").val();
+                    console.log(sthTrObj);
+                } else {
+                    sthTrObj.workOrderName = $(this).find("td").eq(3).text();
+                    sthTrObj.announcements = $(this).find("td").eq(7).text();
+                }
+                sthTrArrAll.push(sthTrObj)
+                if (sthTrObj.workOrderName == "") {
+                    sthTrArr.push(sthTrObj)
+                }else {
+                    qzTrue = qzTrue+(sthTrObj.announcements==""?0:sthTrObj.announcements)*1;
+                }
+            });
+            var qz = ((100-qzTrue)/(sthTrArr.length==0?1:sthTrArr.length)).toFixed(2);
+            console.log("qz:"+qz);
+            $(matterLength).each(function () {
+                var sthTrObj = {};
+                if ($(this).find("td").eq(3).find("input").length > 0) {
+                    sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
+                    if (sthTrObj.workOrderName == "") {
+                        $(this).find("td").eq(7).find("input").val(qz+"");
+                    }
+                } else {
+                    sthTrObj.workOrderName = $(this).find("td").eq(3).text();
+                    if (sthTrObj.workOrderName == "") {
+                        $(this).find("td").eq(7).text(qz);
+                    }
+                }
+            });
+        }
+
         //监听行工具事件
-        table.on('tool(tableData)', function(obj){
+        table.on('tool(tableData)', function (obj) {
             var data = obj.data;
-            if(obj.event === 'showDetail'){
+            if (obj.event === 'showDetail') {
                 layer.open({
-                    title:"任务反馈",
+                    title: "任务反馈",
                     skin: 'layui-layer-lan',
                     shadeClose: false,
                     type: 2,
@@ -475,8 +539,8 @@
                     //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                     maxmin: true,
                     //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                    area: ['70%','90%'],
-                    content: '/plan/my/viewPlanDetail?dataId='+data.dataId
+                    area: ['70%', '90%'],
+                    content: '/plan/my/viewPlanDetail?dataId=' + data.dataId
                 });
             }
         });
