@@ -24,8 +24,8 @@ public enum BudgetSplitEnum
 	SPLIT_STOCK_YJY_SHY(3017,"ZSY_SHY","上海院"),
 	SPLIT_STOCK_YJY_AGY(3018,"ZSY_AGY","安工院"),
 	SPLIT_STOCK_FZGS(302,"GFFFZGS","股份付分子公司"),
-	SPLIT_STOCK_JTDW(303,"GFFJTDW","股份付集团单位"),
-	SPLIT_STOCK_WBDW(304,"GFFWBDW","股份付外部单位"),
+	SPLIT_STOCK_JTDW(303,"GFFJT","股份付集团"),
+	SPLIT_STOCK_WBDW(304,"GFFXTW","股份付系统外"),
 	SPLIT_STOCK_YK(305,"GFFYK","股份付盈科"),
 	SPLIT_STOCK_XSD(306,"GFFXSD","股份付休斯顿"),
 	SPLIT_STOCK_ZD(307,"GFFZD","股份付中东");						

@@ -25,6 +25,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
 import com.pcitc.base.common.enums.BudgetSplitEnum;
+import com.pcitc.base.common.enums.BudgetSplitNdEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetSplitData;
 import com.pcitc.base.stp.budget.BudgetStockTotal;
@@ -75,19 +76,19 @@ public class BudgetStockSplitXtwProviderClient
 			for(BudgetInfo dt:datalist) {
 				Map<String,Object> map = MyBeanUtils.transBean2Map(dt);
 				map.put("auditStatusDesc", BudgetAuditStatusEnum.getStatusByCode(dt.getAuditStatus()).getDesc());
-				//[股份付集团:ROOT_JFYS_GFDWFL_JTDW,股份付系统外:ROOT_JFYS_GFDWFL_WBDW,股份付盈科:ROOT_JFYS_GFDWFL_YK] 来源字典表
-				String [] items = {BudgetSplitEnum.SPLIT_STOCK_JTDW.getCode(),BudgetSplitEnum.SPLIT_STOCK_WBDW.getCode(),BudgetSplitEnum.SPLIT_STOCK_YK.getCode()};
+				//[股份付集团:GFFZSY,股份付系统外:GFFWBDW,股份付盈科:GFFYK] 来源枚举
+				List<BudgetSplitEnum> enums = BudgetSplitNdEnum.getStockSplitXtwByNd(info.getNd()).getSplits();
 				//默认可分配为0
-				for(String item:items) {
-					map.put(item, 0);
+				for(BudgetSplitEnum item:enums) {
+					map.put(item.getCode(), 0);
 				}
 				//查找预算项中对应的预算值
 				if(finalBudgetInfo !=null) {
 					List<BudgetStockTotal> totals = budgetStockTotalService.selectItemsByBudgetId(finalBudgetInfo.getDataId());
-					for(String item:items) {
-						Optional<BudgetStockTotal> rs = totals.stream().filter(a -> item.equals(a.getDisplayCode())).findFirst();
+					for(BudgetSplitEnum item:enums) {
+						Optional<BudgetStockTotal> rs = totals.stream().filter(a -> item.getCode().equals(a.getDisplayCode())).findFirst();
 						if(rs != null && rs.isPresent()) {
-							map.put(item, rs.get().getXmjfTotal());
+							map.put(item.getCode(), rs.get().getXmjfTotal());
 						}
 					}
 				}
