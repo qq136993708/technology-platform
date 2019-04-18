@@ -173,7 +173,7 @@ public class SysUserPropertyController extends BaseController {
 		int result = responseEntity.getBody();
 		return result;
 	}
-
+	
 	/**
 	 * 跳转至用户配置页面
 	 * 

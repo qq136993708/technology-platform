@@ -34,7 +34,7 @@
                 </div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">类别<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">名称<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
                             <input type="text" name="displayName" id="displayName" placeholder="" lay-verify="required" autocomplete="off" class="layui-input">
                         </div>
@@ -44,9 +44,11 @@
             <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">类别简称<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">分类<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" id="simpleName" name="simpleName" placeholder="" lay-verify="required" autocomplete="off" type="text">
+                        	<select name="displayCode" id="displayCode" lay-verify="required"  lay-filter="displayCode">
+								<option value="">请选择</option>
+							</select>
                         </div>
                     </div>
                 </div>
@@ -173,7 +175,7 @@
         var unitSelectTree;
         //检索年度金额完成情况
         window.selectItemProjectMoney = function(nd,displayCode,callback){
-        	publicMethods.ajaxPost('/budget/select-stocktotal-compare-project',{"nd":nd,"code":displayCode}, function (data, status) {
+        	publicMethods.ajaxAsyncPost('/budget/select-stocktotal-compare-project',{"nd":nd,"code":displayCode}, function (data, status) {
    			  var ysje = 0;
    			  $.each(data,function(index,d){
    				 ysje += parseInt(d.ysje); 
@@ -183,7 +185,7 @@
         }
         //检索年度计划情况
         window.selectItemPlanMoney = function(nd,displayCode,callback){
-        	publicMethods.ajaxPost('/budget/select-stocktotal-compare-plan',{"nd":nd,"code":displayCode}, function (data, status) {
+        	publicMethods.ajaxAsyncPost('/budget/select-stocktotal-compare-plan',{"nd":nd,"code":displayCode}, function (data, status) {
    			  var ysje = 0;
    			  $.each(data,function(index,d){
    				 ysje += parseInt(d.ysje); 
@@ -191,6 +193,12 @@
    			  callback(ysje);
    		  	});
         }
+      	//股份公司分类编码字典 ROOT_JFYS_GFDWFL（动态字典，如果设置了年度字典则按年度字典获取）
+   		publicMethods.ajaxPost('/dictionary/list/ROOT_JFYS_GFDWFL', null, function (data, status) { 
+   	    	$.each(data,function(i,dt){
+   	    		$("#displayCode").append("<option value='"+data[i].code+"'>"+data[i].name+"</option>");
+   	    	});
+   	    });
         window.createTableData = function(node){
         	var newRow = {dataId: new Date().valueOf(),displayCode:node.id, displayName: node.name,last_year_end:0,plan_money: 0, xmjf: 0, zxjf: 0,parentDataId:parentDataId,budgetInfoId:budgetInfoId};
         	selectItemProjectMoney(parseInt(nd)-1,node.id,function(ysje){

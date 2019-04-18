@@ -65,6 +65,8 @@
                         </div>
                     </div>
 
+                </div>
+                <div class="layui-row">
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">完成比例<span class="must-fill">*</span></label>
@@ -73,11 +75,30 @@
                                    placeholder="完成比例" autocomplete="off" type="text">
                         </div>
                     </div>
+                    </div>
+                        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                            <div class="layui-form-item">
+                                <label for="" class="layui-form-label">权重<span class="must-fill"></span></label>
+                                <div class="layui-input-block">
+                                    <input class="layui-input readOnlyBox" name="announcements" id="announcements"
+                                           placeholder="权重" autocomplete="off" type="text">
+                                </div>
+                            </div>
+                        </div>
+
+
                 </div>
-
-
-
-
+                    <div class="layui-row">
+                        <div class="layui-form-item layui-form-text">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">任务描述<span class="must-fill"></span></label>
+                                <div class="layui-input-block">
+                                    <textarea name="remarks" id="remarks" style="width: 40%;"></textarea>
+                                    <!--<textarea name="remarks" id="remarks" class="ckeditor"></textarea>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                           <div class="layui-form-item">
@@ -101,7 +122,6 @@
                     </div>
                 </div>
             </div>
-        </div>
 
 
         <div class="tableBox" id="matterTableDivParent">
@@ -223,11 +243,9 @@
             url: '/plan/viewBotWorkOrder?dataId=' + dataId,
             success: function (data) {
                 dataJson = JSON.parse(JSON.stringify(data));
-                console.log("主表信息赋值");
-                console.log(dataJson);
                 enhance.filling(dataJson);
+                $("#remarks").val(dataJson.remarks);
                 selectData = data;
-
                 $("#file_upload_parent").load('/common/public/uploadlayuiload2.html');
             },
             error: function (e) {
@@ -245,7 +263,6 @@
                     }else {
                         $('#workOrderTypeS').append("<option value='"+item.code+"'>"+item.name+"</option>");//往下拉菜单里添加元素
                     }
-                    console.log( item.code)
                 })
                 form.render();
             }
@@ -300,8 +317,6 @@
             });
             var jsonData = data.field;
             jsonData.matterList = sthTrArr;
-            console.log("------saveMyBotWorkOrderMatterFeedBack-----");
-            console.log(jsonData.matterList);
             $.ajax({
                 type: 'post',
                 dataType: 'json',
@@ -386,7 +401,7 @@
                     // style: 'cursor: pointer;',
                     // edit: true
                 },
-                {field: 'bl', title: '比例', event: 'setActive', style: 'cursor: pointer;'},
+                {field: 'bl', title: '完成比例', event: 'setActive', style: 'cursor: pointer;'},
                 {field: 'jsId', title: '接收人', event: 'setActive', style: 'cursor: pointer;'}
             ]]
             ,done: function (res, curr, count) {

@@ -1,12 +1,11 @@
 package com.pcitc.service.system.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
@@ -19,7 +18,7 @@ import com.pcitc.mapper.system.SysFunctionPropertyMapper;
 import com.pcitc.service.system.SysFunctionPropertyService;
 
 @Service("sysFunctionPropertyService")
-@CacheConfig(cacheNames = "functionPropertyCache")
+//@CacheConfig(cacheNames = "functionPropertyCache")
 public class SysFunctionPropertyServiceImpl implements SysFunctionPropertyService {
 	@Autowired
 	private SysFunctionPropertyMapper sysFunctionPropertyMapper;
@@ -58,7 +57,7 @@ public class SysFunctionPropertyServiceImpl implements SysFunctionPropertyServic
 		return result;
 	}
 
-	@CacheEvict(value="functionPropertyCache", allEntries=true, beforeInvocation=true)
+	//@CacheEvict(value="functionPropertyCache", allEntries=true, beforeInvocation=true)
 	@Override
 	public int updateOrInsertSysFunctionProperty(SysFunctionProperty obj) throws Exception {
 		int result = 500;
@@ -73,7 +72,7 @@ public class SysFunctionPropertyServiceImpl implements SysFunctionPropertyServic
 		return result;
 	}
 
-	@CacheEvict(value="functionPropertyCache", allEntries=true, beforeInvocation=true)
+	//@CacheEvict(value="functionPropertyCache", allEntries=true, beforeInvocation=true)
 	@Override
 	public int deleteSysFunctionProperty(String id) throws Exception {
 		int result = 500;
@@ -109,5 +108,13 @@ public class SysFunctionPropertyServiceImpl implements SysFunctionPropertyServic
 		}
 		return obj;
 	}
+	
+	/**
+     * 查询已经某个菜单、某个配置项、某个岗位已经配置的研究院
+     * @return
+     */
+    public List selectInstituteData(HashMap<String, Object> hashmap) {
+    	return sysFunctionPropertyMapper.selectInstituteData(hashmap);
+    }
 
 }

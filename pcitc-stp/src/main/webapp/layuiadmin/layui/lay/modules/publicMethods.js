@@ -339,7 +339,8 @@ layui.define(['jquery','form','table','laydate'],
             */
             addTableTr:function(trParam){
                 var number=trParam.number;
-                var tbody=$("#"+trParam.id+" .layui-table-body table tbody");
+                var tbody=$("#"+trParam.id+" .layui-table-main table tbody");
+                console.log($(tbody).find("tr"))
                 var num =  $(tbody).find("tr").length + 1;
                 var tableHtml = "<tr data-index='"+(num-1)+"'></tr>";
                 var tableTdHtml='';
@@ -420,6 +421,8 @@ layui.define(['jquery','form','table','laydate'],
                             $(tbody).find("tr:last td").eq(columnNum).html("<div class='layui-table-cell'><input type='text' class='layui-input datetime inputVal' placeholder='请选择日期' style='width:92%'></div>");
                         }else  if(columnElement=="a"){
                             $(tbody).find("tr:last td").eq(columnNum).html(columnValue)
+                        }else if(columnElement=="td"){
+                            alert("td")
                         }
                     }
                 }

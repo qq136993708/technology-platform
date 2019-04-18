@@ -43,6 +43,7 @@
         }
     </style>
     <script type="text/javascript">
+        var map = {};
         var table, selectRowData, renderfunc;
         layui.use(['jquery', 'selectTree', 'table', 'laypage', 'publicMethods'], function () {
             var $ = layui.jquery, element = layui.element, layer = layui.layer;
@@ -137,7 +138,6 @@
             // 触发不同的按钮事件
             var $ = layui.$, active = {
                 searchEvent: function () { //点击查询按钮
-                    console.log("点击了查询按钮");
                     renderTable({
                         param: {
                             "userName": $("#userName").val(),
@@ -177,7 +177,7 @@
                         , data = checkStatus.data;
                     return data;
                 }
-                , addEvent: function () {
+                , addEvent2: function () {
                     //点击新增按钮
                     var temUrl = '/user/user_page_edit';
                     publicMethods.openBaseWinFull("新增用户", temUrl);
@@ -190,23 +190,54 @@
                     }
                     var temUrl = '/user/user_page_edit?userId=' + selectRowData.userId;
                     publicMethods.openBaseWinFull("编辑用户", temUrl);
-                }, okEvent: function () {
+                },
+                addEvent: function () {
+                    selectRowData = active.getChecked();
+                    for (let i = 0; i < selectRowData.length; i++) {
+                        map[selectRowData[i].userId + ""] = selectRowData[i];
+                    }
+                    layer.msg("添加成功");
+                    var checkedUsers = "";
+                     for(var key in map){
+                         checkedUsers=(checkedUsers==""?"":(checkedUsers+","))+map[key].userDisp;
+                     }
+                    $("#checkedUsers").html(checkedUsers);
+                },dbaddEvent: function (data) {
+                    selectRowData = data;
+                    map[selectRowData.userId + ""] = selectRowData;
+                    layer.msg("添加成功");
+                    var checkedUsers = "";
+                    for(var key in map){
+                        checkedUsers=(checkedUsers==""?"":(checkedUsers+","))+map[key].userDisp;
+                    }
+                    $("#checkedUsers").html(checkedUsers);
+                },
+                okEvent: function () {
+                    var list = [];
+                    for (var key in map) {
+                        list.push(map[key]);
+                    }
+                    try {
+                        parent.setWelder(list);
+                    } catch (e) {
+                        console.log(e);
+                    }
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
                     //点击编辑按钮
                     // if (!selectRowData) {
                     //     layer.msg('请点击选择一行数据!');
                     //     return;
                     // }
-                    var objSelected = {};
-                    // objSelected.userId = selectRowData.userId;
-                    // objSelected.userDisp = selectRowData.userDisp;
-                    selectRowData = active.getChecked();
-                    try {
-                        parent.setWelder(eval(selectRowData));
-                    }catch (e) {
-                        console.log(e);
-                    }
-                    var index = parent.layer.getFrameIndex(window.name);
-                    parent.layer.close(index);
+
+                    // selectRowData = active.getChecked();
+                    // try {
+                    //     parent.setWelder(eval(selectRowData));
+                    // } catch (e) {
+                    //     console.log(e);
+                    // }
+                    // var index = parent.layer.getFrameIndex(window.name);
+                    // parent.layer.close(index);
                 },
                 deleteEvent: function () {  //点击删除按钮
                     //var dt = table.checkStatus('userTable').data;
@@ -341,6 +372,12 @@
                     selectTree.initHideMenu();  //不加此方法则默认打开下拉树
                 });
             });
+            //监听行双击事件
+            table.on('rowDouble(userEvent)', function(obj){
+                console.log("-----------------");
+                console.log(obj.data);
+                active.dbaddEvent(obj.data);
+            });
         });
     </script>
 </head>
@@ -375,12 +412,16 @@
     <div class="tableToolBox">
         <div class="whiteLine"></div>
         <div class="tableBtns">
+            <span id="checkedUsers" style="color: red;"></span>
             <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent">新增</button>-->
             <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="editEvent">编辑</button>-->
             <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button>-->
             <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_reset2 btnMyBgImg" data-type="resetPassEvent">密码重置</button>-->
             <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_print btnMyBgImg" data-type="fileExportEvent">打印</button>-->
             <!--&lt;!&ndash;<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_print btnMyBgImg" data-type="fileExportEvent1">打印案例</button>&ndash;&gt;-->
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"
+                    data-type="addEvent">添加
+            </button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"
                     data-type="okEvent">确定
             </button>

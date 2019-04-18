@@ -6,6 +6,7 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
+    <script type="text/javascript" src="/plugins/ckeditor/ckeditor.js"></script>
     <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
     <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
@@ -16,6 +17,7 @@
         /*.layui-table-body{overflow:-webkit-paged-x !important; }*/
         .layui-form-selectup dl{top: 20px !important;
             height: 180px;}
+        .layui-table-cell{overflow: visible !important;}
     </style>
 </head>
 <body>
@@ -92,6 +94,18 @@
                          </div>
                        </div> -->
                 </div>
+
+                <div class="layui-row">
+                    <div class="layui-form-item layui-form-text">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">任务描述<span class="must-fill"></span></label>
+                            <div class="layui-input-block">
+                                <textarea name="remarks" id="remarks" style="width: 40%;"></textarea>
+                                <!--<textarea name="remarks" id="remarks" class="ckeditor"></textarea>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- <div class="layui-row">
 
                 </div> -->
@@ -141,7 +155,7 @@
                         lay-submit="" lay-filter="save">保存
                 </button>
                 <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
-                        lay-submit="" lay-filter="component-form-submit">下发
+                        lay-submit="" lay-filter="component-form-submit" id="btn_submit_xf">下发
                 </button>
                 <button type="button"
                         class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
@@ -207,7 +221,6 @@
         });
 
         var dataStatus = 0;
-        console.log($('#workOrderAllotUserId').val)
         //显示文件上传部分
         $("#file_upload").load('/common/public/uploadlayuiload.html');
         form.verify({
@@ -240,7 +253,6 @@
                     }else {
                         $('#workOrderTypeS').append("<option value='"+item.code+"'>"+item.name+"</option>");//往下拉菜单里添加元素
                     }
-                    console.log( item.code)
                 })
                 form.render();
             }
@@ -269,35 +281,41 @@
             var matterLength = $("#matterTableDiv .layui-table-main  table tbody tr");
             $(matterLength).each(function () {
                 var sthTrObj = {};
+
                 if ($(this).find("td").eq(3).find("input").length > 0) {
                     sthTrObj.dataId = $(this).find("td").eq(2).find("input").val();
-                    sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
-                    sthTrObj.workOrderAllotUserName =  $(this).find(".tdSelect dl dd.layui-this").html();
-                    sthTrObj.workOrderAllotUserId = $(this).find(".tdSelect dl dd.layui-this").attr("lay-value");
-                    sthTrObj.bl = $(this).find("td").eq(6).find("input").val();
-                    sthTrObj.jsId = $(this).find("td").eq(7).find("input").val();
+                    //sthTrObj.createDate = $(this).find("td").eq(3).find("input").val();
+                    sthTrObj.workOrderName = $(this).find("td").eq(4).find("input").val();
+                    sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
+                    sthTrObj.workOrderAllotUserId =$(this).find(" dl dd.layui-this").attr("lay-value");
+                    sthTrObj.bl = $(this).find("td").eq(5).text();
+                    sthTrObj.jsId = $(this).find("td").eq(6).find("input").val();
+
+                    sthTrObj.announcements = $(this).find("td").eq(7).find("input").val();
                     sthTrObj.dataCode = (dataCode++);
                 } else {
                     sthTrObj.dataId = $(this).find("td").eq(2).text();
                     sthTrObj.workOrderName = $(this).find("td").eq(3).text();
-                    sthTrObj.workOrderAllotUserName =  $(this).find(".tdSelect dl dd.layui-this").html();
-                    sthTrObj.workOrderAllotUserId = $(this).find(".tdSelect dl dd.layui-this").attr("lay-value");
-                    sthTrObj.bl = $(this).find("td").eq(6).text();
-                    sthTrObj.jsId = $(this).find("td").eq(7).text();
+                    //sthTrObj.createDate = $(this).find("td").eq(4).text();
+                    // sthTrObj.workOrderAllotUserName = $(".tdSelect dl dd.layui-this").html();
+                    // sthTrObj.workOrderAllotUserId =$(".tdSelect dl dd.layui-this").attr("lay-value");
+                    sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
+                    sthTrObj.workOrderAllotUserId =$(this).find(" dl dd.layui-this").attr("lay-value");
+                    sthTrObj.bl = $(this).find("td").eq(5).text();
+                    sthTrObj.jsId = $(this).find("td").eq(6).text();
+
+                    sthTrObj.announcements = $(this).find("td").eq(7).text();
                     sthTrObj.dataCode = (dataCode++);
                 }
                 sthTrArr.push(sthTrObj)
-                console.log(sthTrArr);
-                console.log("--------------sthTrObj------------");
-                console.log(sthTrObj);
             });
+            console.log("---------sthTrArr-------");
+            console.log(sthTrArr);
             var jsonData = data.field;
             if (jsonData.bl==100){
                 jsonData.workOrderStatus = 2;
             }
             jsonData.matterList = sthTrArr;
-            console.log("------jsonData-------");
-            console.log(jsonData.matterList);
             $.ajax({
                 type: 'post',
                 dataType: 'json',
@@ -316,7 +334,6 @@
                 },
                 error: function (e) {
                     modals.info("出错了");
-                    console.log(e);
                 }
             });
             return false;
@@ -344,19 +361,25 @@
                 var sthTrObj = {};
                 if ($(this).find("td").eq(3).find("input").length > 0) {
                     sthTrObj.dataId = $(this).find("td").eq(2).find("input").val();
+                    //sthTrObj.createDate = $(this).find("td").eq(3).find("input").val();
                     sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
-                    sthTrObj.workOrderAllotUserName = $(".tdSelect dl dd.layui-this").html();
-                    sthTrObj.workOrderAllotUserId =$(".tdSelect dl dd.layui-this").attr("lay-value");
-                    sthTrObj.bl = $(this).find("td").eq(6).find("input").val();
-                    sthTrObj.jsId = $(this).find("td").eq(7).find("input").val();
+                    sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
+                    sthTrObj.workOrderAllotUserId =$(this).find(" dl dd.layui-this").attr("lay-value");
+                    sthTrObj.bl = $(this).find("td").eq(5).text();
+                    sthTrObj.jsId = $(this).find("td").eq(6).find("input").val();
+
+                    sthTrObj.announcements = $(this).find("td").eq(7).find("input").val();
                     sthTrObj.dataCode = (dataCode++);
                 } else {
                     sthTrObj.dataId = $(this).find("td").eq(2).text();
                     sthTrObj.workOrderName = $(this).find("td").eq(3).text();
-                    sthTrObj.workOrderAllotUserName = $(".tdSelect dl dd.layui-this").html();
-                    sthTrObj.workOrderAllotUserId =$(".tdSelect dl dd.layui-this").attr("lay-value");
-                    sthTrObj.bl = $(this).find("td").eq(6).text();
-                    sthTrObj.jsId = $(this).find("td").eq(7).text();
+                    //sthTrObj.createDate = $(this).find("td").eq(4).text();
+                    sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
+                    sthTrObj.workOrderAllotUserId =$(this).find(" dl dd.layui-this").attr("lay-value");
+                    sthTrObj.bl = $(this).find("td").eq(5).text();
+                    sthTrObj.jsId = $(this).find("td").eq(6).text();
+
+                    sthTrObj.announcements = $(this).find("td").eq(7).text();
                     sthTrObj.dataCode = (dataCode++);
                 }
                 sthTrArr.push(sthTrObj)
@@ -391,7 +414,6 @@
 
         //添加修改取值
         var dataId = '${dataId}';
-        console.log("dataId:" + dataId);
         $.ajax({
             type: 'post',
             dataType: 'json',
@@ -399,16 +421,15 @@
             url: '/plan/viewBotWorkOrder?dataId=' + dataId,
             success: function (data) {
                 dataJson = JSON.parse(JSON.stringify(data));
-                console.log(dataJson);
                 enhance.filling(dataJson);
+                $("#remarks").val(dataJson.remarks);
+                // CKEDITOR.instances.remarks.setData(dataJson.remarks);
                 selectData = data;
-                console.log(dataJson.workOrderStatus);
-                if (dataJson.workOrderStatus != "0") {
+                if (dataJson.workOrderStatus == "1") {
                     document.getElementById("btn_submit_xf").style.display="none";
                 }
             },
             error: function (e) {
-                console.log(e);
                 // alertError("出错了！", e);
             }
         });
@@ -423,14 +444,36 @@
                 {type: 'checkbox',width:55},
                 {title: '序号', type: 'numbers',width:55},
                 {field: 'dataId', title: '主键', event: 'setActive', style: 'cursor: pointer;', edit: true},
-                {field: 'createDate', title: '处理时间',width:130},
+                /*{field: 'createDate', title: '处理时间',width:130},*/
                 {field: 'workOrderName', title: '事项内容', event: 'setActive', style: 'cursor: pointer;', edit: true},
                 {
                     field: 'workOrderAllotUserName',
                     title: '处理人',
                     event: 'setActive',
                     style: 'cursor: pointer;',
-                    edit: true
+                    templet: function(d){
+
+                        var certTypeStr;
+                        var columnValue=$("#workOrderAllotUserName").val();
+                        var columnValueId=$("#workOrderAllotUserId").val();
+                        if(columnValue.length>0){
+                            var columnValueArr=columnValue.split(",");
+                            var columnValueIdArr=columnValueId.split(",");
+                            console.log(columnValueArr)
+                            certTypeStr = "<select>";
+                            $.each(columnValueArr, function(index,val) {
+                                if(d.workOrderAllotUserName == val){
+                                    certTypeStr += "<option value='"+columnValueIdArr[index]+"' selected>"+columnValueArr[index]+"</option>";
+                                } else {
+                                    certTypeStr += "<option value='"+columnValueIdArr[index]+"'>"+columnValueArr[index]+"</option>";
+                                }
+                            });
+                        }else  {
+                            certTypeStr = "<select>";
+                        }
+                        certTypeStr += "</select>";
+                        return certTypeStr
+                    }
                 },
                 /*{
                     field: 'workOrderAllotUserId',
@@ -439,8 +482,10 @@
                     style: 'cursor: pointer;',
                     edit: true
                 },*/
-                {field: 'bl', title: '比例', event: 'setActive', style: 'cursor: pointer;', edit: true},
-                {field: 'jsId', title: '接收人', event: 'setActive', style: 'cursor: pointer;', edit: true}
+                {field: 'bl', title: '完成比例', event: 'setActive', style: 'cursor: pointer;'},
+                {field: 'jsId', title: '接收人', event: 'setActive', style: 'cursor: pointer;', edit: true},
+
+                {field: 'announcements', title: '权重(%)', event: 'setActive', style: 'cursor: pointer;', edit: true}
                 ,{fixed: 'right', title:'查看', toolbar: '#showDetail', width:150}
 
             ]],
@@ -454,19 +499,25 @@
         });
         //动态添加事项
         $('#addMatter').click(function () {
+            if ($("#workOrderAllotUserName").val()==""){
+                layer.msg("请选择处理人");
+                return;
+            }
             var trParam = {
                 "id": "matterTableDiv",
-                "number": 8,
+                "number": 9,
                 "specialElement": [
                     {hide:true,"column":2,"element":"input"},
+                    /*{"column": 3, "element": "laydate"},*/
                     {"column":4,"element":"select","value":$("#workOrderAllotUserName").val(),"valueId":$("#workOrderAllotUserId").val()},
-                    {hide:true,"column":6,"element":"input"},
+
                     {"column":5,"element":"input","disabled":true,"value":$(".bl").val()},
-                    {"column":7,"element":"a","value":'<a style="margin-left: 10px;" class="layui-btn layui-btn-xs" lay-event="showDetail">查看反馈</a>'}
+                    {hide:true,"column":6,"element":"input"},
+                    {"column":8,"element":"a","value":'<a style="margin-left: 10px;" class="layui-btn layui-btn-xs" lay-event="showDetail">查看反馈</a>'},
                 ]
             };
-            console.log(trParam);
             publicMethods.addTableTr(trParam);
+            calTableQz();
         });
         //监听行工具事件
         table.on('tool(tableData)', function(obj){
@@ -486,6 +537,47 @@
                 });
             }
         });
+
+        function calTableQz() {
+            var sthTrArr = [];
+            var sthTrArrAll = [];
+            var matterLength = $("#matterTableDiv .layui-table-main  table tbody tr");
+            var qzTrue = 0;
+            $(matterLength).each(function () {
+                var sthTrObj = {};
+                if ($(this).find("td").eq(3).find("input").length > 0) {
+                    sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
+                    sthTrObj.announcements = $(this).find("td").eq(7).find("input").val();
+                    console.log(sthTrObj);
+                } else {
+                    sthTrObj.workOrderName = $(this).find("td").eq(3).text();
+                    sthTrObj.announcements = $(this).find("td").eq(7).text();
+                }
+                sthTrArrAll.push(sthTrObj)
+                if (sthTrObj.workOrderName == "") {
+                    sthTrArr.push(sthTrObj)
+                }else {
+                    qzTrue = qzTrue+(sthTrObj.announcements==""?0:sthTrObj.announcements)*1;
+                }
+            });
+            var qz = ((100-qzTrue)/(sthTrArr.length==0?1:sthTrArr.length)).toFixed(2);
+            console.log("qz:"+qz);
+            $(matterLength).each(function () {
+                var sthTrObj = {};
+                if ($(this).find("td").eq(3).find("input").length > 0) {
+                    sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
+                    if (sthTrObj.workOrderName == "") {
+                        $(this).find("td").eq(7).find("input").val(qz+"");
+                    }
+                } else {
+                    sthTrObj.workOrderName = $(this).find("td").eq(3).text();
+                    if (sthTrObj.workOrderName == "") {
+                        $(this).find("td").eq(7).text(qz);
+                    }
+                }
+            });
+        }
+
         //动态移除事项
         $("#deleteMatter").click(function () {
             var index = $("#matterTableDiv table tbody tr.layui-table-click").index();

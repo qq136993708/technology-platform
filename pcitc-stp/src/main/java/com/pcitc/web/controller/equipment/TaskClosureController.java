@@ -76,7 +76,7 @@ public class TaskClosureController extends BaseController {
 		sreProjectTask.setCloseStatus(Constants.TASK_CLOUSE);
 		sreProjectTask.setCloseDate(new Date());
 		String  sre = EquipmentUtils.updateSreProjectTask(sreProjectTask, restTemplate, httpHeaders);
-		if(sre!=null && sre.equals(Constants.TASK_CLOUSE)) {
+		if(sre!=null && sre.equals(Constants.OK_CLOUSE)) {
 			resultsDate = new Result(true);
 		}else {
 			resultsDate = new Result(false, "关闭失败，请联系系统管理员！");
