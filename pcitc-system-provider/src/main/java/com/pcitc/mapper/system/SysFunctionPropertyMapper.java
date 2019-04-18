@@ -1,9 +1,12 @@
 package com.pcitc.mapper.system;
 
+import java.util.HashMap;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.pcitc.base.system.SysFunctionProperty;
 import com.pcitc.base.system.SysFunctionPropertyExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface SysFunctionPropertyMapper {
     int countByExample(SysFunctionPropertyExample example);
@@ -27,4 +30,10 @@ public interface SysFunctionPropertyMapper {
     int updateByPrimaryKeySelective(SysFunctionProperty record);
 
     int updateByPrimaryKey(SysFunctionProperty record);
+    
+    /**
+     * 查询已经某个菜单、某个配置项、某个岗位已经配置的研究院
+     * @return
+     */
+    public List selectInstituteData(HashMap<String, Object> hashmap);
 }

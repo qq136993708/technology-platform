@@ -19,6 +19,10 @@
 			<span>模型名称</span>
 			<input type="text" name="modelName" placeholder="请输入模型名称" title="模型名称" autocomplete="off" class="form-control" id="modelName">
 		</label>
+		<label class="dateInput">
+			<span>部署ID</span>
+			<input type="text" name="deploymentId" placeholder="请输入部署ID" title="部署ID" autocomplete="off" class="form-control" id="deploymentId">
+		</label>
 		<!--按钮组-->
 		<div class="btnGroup">
 			<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
@@ -53,7 +57,6 @@
 		layui.use([ 'jquery', 'table', 'laydate', 'laypage', 'laytpl' ], function() {
 			table = layui.table, $ = layui.jquery, laydate = layui.laydate, laypage = layui.laypage;
 			function renderTable() {
-				var modelName = $('#modelName').val();
 				// 查询是哪个菜单
 				var param = JSON.parse(window.localStorage.getItem("param"));
 				functionId = param.id;
@@ -66,7 +69,8 @@
 					method : "POST",
 					where : {
 						param : {
-							"modelName" : modelName,
+							"modelName" : $('#modelName').val(),
+							"deploymentId" : $('#deploymentId').val(),
 							"functionCode" : param.code
 						}
 					},
@@ -248,6 +252,7 @@
 				},
 				resetEvent : function() { //点击重置按钮
 					$('#modelName').val("");
+					$('#deploymentId').val("");
 					active.searchEvent();
 				},
 				editEvent : function() { //点击编辑按钮
@@ -279,6 +284,7 @@
 				},
 				alertEvent : function() { //点击重置按钮
 					$('#modelName').val("");
+					$('#deploymentId').val("");
 					layer.msg("操作成功！");
 					active.searchEvent();
 				}

@@ -135,7 +135,7 @@ public class SysFileController extends BaseController {
      */
     private static final String USER_DETAILS_URL = "http://pcitc-zuul/system-proxy/user-provider/user/user-details/";
 	
-	private static final String commonFileList = "http://pplus-zuul/system-proxy/file-common-provider/files/common/data-list";
+	private static final String commonFileList = "http://pcitc-zuul/system-proxy/file-common-provider/files/common/data-list";
 
     // 文件上传路径
     @Value("${uploaderPathTemp}")

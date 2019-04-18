@@ -47,26 +47,26 @@ import com.pcitc.web.common.OperationFilter;
 @Controller
 public class SysFileCollectController extends BaseController {
 
-	private static final String GET_INFO = "http://pplus-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/get-sysfilecollect/";
-	private static final String TREE_DATA = "http://pplus-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/tree-data";
-	private static final String ADD = "http://pplus-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/add-sysfilecollect";
-	private static final String UPDATE = "http://pplus-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/update-sysfilecollect";
-	private static final String DEL = "http://pplus-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/del-sysfilecollect/";
-	private static final String DEL_REAL = "http://pplus-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/del-sysfilecollect-real/";
+	private static final String GET_INFO = "http://pcitc-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/get-sysfilecollect/";
+	private static final String TREE_DATA = "http://pcitc-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/tree-data";
+	private static final String ADD = "http://pcitc-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/add-sysfilecollect";
+	private static final String UPDATE = "http://pcitc-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/update-sysfilecollect";
+	private static final String DEL = "http://pcitc-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/del-sysfilecollect/";
+	private static final String DEL_REAL = "http://pcitc-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/del-sysfilecollect-real/";
 
 	/**
 	 * 标准增删改查
 	 */
-	private static final String LIST = "http://pplus-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/sysfilecollect_list";
-	private static final String LISTPARAM = "http://pplus-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/sysfilecollect_list_param";
+	private static final String LIST = "http://pcitc-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/sysfilecollect_list";
+	private static final String LISTPARAM = "http://pcitc-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/sysfilecollect_list_param";
 
-	private static final String LISTPAGE = "http://pplus-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/sysfilecollect-page";
+	private static final String LISTPAGE = "http://pcitc-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/sysfilecollect-page";
 
-	private static final String SAVE = "http://pplus-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/save_sysfilecollect";
+	private static final String SAVE = "http://pcitc-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/save_sysfilecollect";
 
-	private static final String DELETE_COLLECT = "http://pplus-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/delete_sysfilecollect";
+	private static final String DELETE_COLLECT = "http://pcitc-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/delete_sysfilecollect";
 
-	private static final String GET = "http://pplus-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/get_sysfilecollect/";
+	private static final String GET = "http://pcitc-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/get_sysfilecollect/";
 	
 	
 	/**

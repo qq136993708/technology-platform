@@ -17,7 +17,8 @@
 	<div class="treeTableContainer">
 		<div class="treeBox">
 			<div class="title-box title-btns">
-				功能菜单
+				功能菜单&nbsp;&nbsp;&nbsp;
+				<input id='functionKeyWord' name="functionKeyWord" type="text" autocomplete="off" />
 				<span></span>
 			</div>
 			<div class="layui-side-scroll">
@@ -26,10 +27,12 @@
 		</div>
 		<div class="treeTableBox" style="margin-top: 10px;">
 			<div class="tableToolBox">
-				<input id='funcId' name="funcId" type="hidden" /> <input id='funcCode' name="funcCode" type="hidden" /> <input id='configUnitName' name="configUnitName" type="hidden" />
+				<input id='funcId' name="funcId" type="hidden" />
+				<input id='funcCode' name="funcCode" type="hidden" />
+				<input id='configUnitName' name="configUnitName" type="hidden" />
 				<div class="tableBtns">
 					<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg " data-type="addEvent">新增</button>
-					<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg " data-type="editEvent">编辑</button>
+					<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg " data-type="editEvent">编辑</button>
 					<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button>
 				</div>
 			</div>
@@ -38,7 +41,8 @@
 				<div class="treeTableContainer">
 					<div class="treeBox" style="left: 0; width: 49.2%; height: 100%;">
 						<div class="title-box title-btns">
-							组织机构
+							组织机构&nbsp;&nbsp;&nbsp;
+							<input id='unitKeyWord' name="unitKeyWord" type="text" autocomplete="off" />
 							<span></span>
 						</div>
 						<div class="layui-side-scroll">
@@ -46,26 +50,35 @@
 						</div>
 					</div>
 
-					<div class="treeBox" style="left: 50%; width: 50%; height: 100%;" name="configDiv" id="supervision_unit_code">
+					<div class="treeBox" style="display: none; left: 50%; width: 50%; height: 100%;" name="configDiv" id="supervision_unit_code">
 						<div class="title-box title-btns">
 							监理单位配置项
 							<span>
+								<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_import btnMyBgImg thirdBtn" data-type="saveUnitModelEvent">保存模板</button>
 								<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg thirdBtn" data-type="saveUnitConfigEvent">保存</button>
+							</span>
+							<span>
+								<select id="dataModel" name="dataModel" onchange="changeDataModel(this)">
+									<option value="">--数据模板--</option>
+								</select>
 							</span>
 						</div>
 						<div class="layui-side-scroll">
 							<ul id="configUnitTree" class="ztree"></ul>
 						</div>
 					</div>
-					
-					<div class="treeBox" style="display: none;" name="configDiv" id="other">
-						<div class="title-box title-btns">
-							其他的配置项
+
+					<div class="treeTableBox" style="display: none; margin-top: 6px;margin-left: 50%;margin-right: 0;" name="configDiv" id="G0DSM">
+						<div class="tableToolBox">
+							研究院配置项
 							<span>
-								<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg thirdBtn" data-type="saveUnitConfigEvent">保存</button>
+								<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg thirdBtn" data-type="saveInstituteEvent">保存</button>
 							</span>
 						</div>
+						<table id="instituteTable" class="layui-hide" lay-filter="instituteTableEvent"></table>
 					</div>
+
+
 				</div>
 			</div>
 		</div>
@@ -78,7 +91,10 @@
 		var configProCode;//要配置的数据项目
 		// 配置时，监理单位临时选中中值
 		var configSelectUnitIds = new Array();
-		
+
+		var unitTree;//组织机构（岗位）树定义
+		var funTree;//功能菜单树定义
+
 		var rightBotHeight;
 
 		var treeId;
@@ -89,9 +105,7 @@
 		var temFunUrl = '';
 		var isLeaf;
 		var table, functionId, functionCode;
-		layui.use([
-				'jquery', 'table'
-		], function() {
+		layui.use([ 'jquery', 'table' ], function() {
 
 			table = layui.table, $ = layui.jquery;
 			functionId = $('#funcId').val();
@@ -138,9 +152,14 @@
 					onClick : function(e, treeId, treeNode, clickFlag) {
 						configSelectPostId = treeNode.id;
 						// 显示当前这一个节点对应的已配置信息（functionId、postId、procode）
-						// 初始化要配置内容
-						initConfigUnitTree();
-
+						if (!isBlank(configProCode)) {
+							if (configProCode == 'supervision_unit_code') {
+								initConfigUnitTree();
+							}
+							if (configProCode == 'G0DSM') {
+								iniInstitute();
+							}
+						}
 					},
 					onCheck : unitPostTreeOnCheck,//勾选节点
 					beforeCheck : unitPostTreeBeforeCheck
@@ -184,48 +203,40 @@
 					height : commonDislodgeTable() / 2 - 10,
 					page : {
 						groups : 5,
-						limits : [
-								param.selfRownum, 15, 30, 45, 60
-						],
-						layout : [
-								'count', 'limit', 'prev', 'page', 'next', 'skip'
-						], //自定义分页布局
+						limits : [ param.selfRownum, 15, 30, 45, 60 ],
+						layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
 						first : '首页', //不显示首页
 						last : '尾页', //不显示尾页
 						theme : '#0F9EE0'
 					},
-					cols : [
-						[
-								{
-									type : 'checkbox',
-									event : 'changeEvents'
-								}, {
-									title : '序号',
-									type : 'numbers'
-								}, {
-									field : 'proName',
-									title : '配置名称',
-									width : '20%',
-									style : 'cursor: pointer;'
-								}, {
-									field : 'proCode',
-									title : '配置编码',
-									style : 'cursor: pointer;'
-								}, {
-									field : 'isAvailable',
-									title : '是否可用',
-									event : 'setActive',
-									style : 'cursor: pointer;',
-									templet : function(d) {
-										if (d.isAvailable == 1) {
-											return "是";
-										} else {
-											return "否";
-										}
-									}
-								}
-						]
-					],
+					cols : [ [ {
+						type : 'checkbox',
+						event : 'changeEvents'
+					}, {
+						title : '序号',
+						type : 'numbers'
+					}, {
+						field : 'proName',
+						title : '院所名称',
+						width : '20%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'proCode',
+						title : '配置编码',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'isAvailable',
+						title : '是否可用',
+						event : 'setActive',
+						style : 'cursor: pointer;',
+						templet : function(d) {
+							if (d.isAvailable == 1) {
+								return "是";
+							} else {
+								return "否";
+							}
+						}
+					} ] ],
 					done : function(res, curr, count) {
 						// 点击行联动选择框--单选
 						$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
@@ -241,15 +252,20 @@
 							var configDiv = document.getElementsByName("configDiv");
 							for (var i = 0; i < configDiv.length; i++) {
 								if (configDiv[i].id == selectRowData.proCode) {
-									configDiv[i].style.display="left: 50%; width: 50%; height: 100%;";
+									configDiv[i].style.display = "";
 								} else {
-									configDiv[i].style.display="none";
+									configDiv[i].style.display = "none";
 								}
 							}
-							
+
 							// 显示这次的div
 							configProCode = selectRowData.proCode;
-							
+							if (configProCode == 'supervision_unit_code') {
+								initConfigUnitTree();
+							}
+							if (configProCode == 'G0DSM') {
+								iniInstitute();
+							}
 						})
 					}
 				});
@@ -279,9 +295,7 @@
 							//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
 							maxmin : true,
 							//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-							area : [
-									'50%', '50%'
-							],
+							area : [ '50%', '50%' ],
 							content : temUrl
 						});
 					}
@@ -303,9 +317,7 @@
 							maxmin : true
 							//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
 							,
-							area : [
-									'50%', '50%'
-							],
+							area : [ '50%', '50%' ],
 							content : "/functionProperty/function_property_info?id=" + id + "&funcId=" + funcId + "&funcCode=" + funcCode,
 						});
 					} else {
@@ -320,9 +332,7 @@
 					}
 					layer.confirm('确认要删除吗？', {
 						icon : 3,
-						btn : [
-								'确定', '取消'
-						]
+						btn : [ '确定', '取消' ]
 					}, function(index) {
 						layer.close(index);
 						$.ajax({
@@ -360,6 +370,9 @@
 					$('#functionName').val("");
 					active.searchEvent();
 				},
+				saveUnitModelEvent : function() {
+					saveUnitModel();
+				},
 				saveUnitConfigEvent : function() {
 					saveFunctionProPostProperty();
 				}
@@ -384,7 +397,7 @@
 					}
 				});
 				//初始化树菜单
-				$.fn.zTree.init($("#funTree"), functionTreeSetting, functionTreeNodes);
+				funTree = $.fn.zTree.init($("#funTree"), functionTreeSetting, functionTreeNodes);
 
 				renderTable();
 			});
@@ -404,7 +417,7 @@
 					}
 				});
 				//初始化树菜单
-				$.fn.zTree.init($("#unitTree"), unitTreeSetting, unitTreeNodes);
+				unitTree = $.fn.zTree.init($("#unitTree"), unitTreeSetting, unitTreeNodes);
 			});
 		});
 
@@ -415,25 +428,7 @@
 
 		//勾选节点,如果是未展开的父节点则展开子节点
 		function unitPostTreeOnCheck(event, treeId, treeNode) {
-			/* if (treeNode.checked) {
-				//选中，在configPostIds添加所有选择的人员
-				if (treeNode.nodeType == 'post') {
-					if (JSON.stringify(configPostIds).indexOf(treeNode.id) < 0) {
-						configPostIds.push(treeNode.id);
-					}
-				} else {
-					//获取节点下的所有post节点,并push到configPostIds中
-					addAllPostsNodes(treeNode);
-				}
-			} else {
-				//取消选中,从configPostIds中去除节点下的所有人员
-				if (treeNode.nodeType == 'post') {
-					configPostIds.splice($.inArray(treeNode.id, configPostIds), 1);
-				} else {
-					//获取节点下的所有post节点,并从configPostIds中删除
-					delAllPostsNodes(treeNode);
-				}
-			} */
+
 		}
 
 		//check之前回调
@@ -458,13 +453,18 @@
 					addAllPostsNodes(treeNode);
 				}
 			}
-			// 如果此时configUnit还是没有初始化，用特殊值初始化，保证configUnit是空
-			
+			// 如果此时configUnit还是没有初始化，用特殊值初始化，保证configUnit不空
+
 			if (isBlank(configSelectPostId)) {
 				configSelectPostId = "xxxxxx";
-				initConfigUnitTree();
+				if (configProCode == 'supervision_unit_code') {
+					initConfigUnitTree();
+				}
+				if (configProCode == 'G0DSM') {
+					iniInstitute();
+				}
 			}
-			
+
 		}
 
 		//获取节点下的所有post节点,并push到configPostIds中
@@ -514,6 +514,89 @@
 			}
 			return str.toString().replace(/(^\s+)|(\s+$)/g, "");
 		}
+
+		// 岗位树的查询功能
+		var hiddenPostNodes = []; //用于存储被隐藏的结点
+
+		//过滤ztree显示数据
+		function filterSearch(value, filterTree) {
+			var allNode = filterTree.transformToArray(filterTree.getNodes());
+			filterTree.showNodes(allNode);//显示所有节点
+			var root = filterTree.getNodesByParam("level", "0");
+			hiddenPostNodes = [];
+			if (!isBlank(root)) {
+				for (index in root) {
+					//筛选出要隐藏的企业
+					filterNodes(root[index], value, hiddenPostNodes);
+				}
+			}
+			filterTree.hideNodes(hiddenPostNodes);
+		}
+
+		/**
+		 * 遍历树节点，将 自身不满足搜索条件并且其孩子不符合条件的加入隐藏
+		 * 如果节点满足条件，不在遍历其孩子（都显示）
+		 * 
+		 * @param node 查询的节点
+		 * @param inputStr 搜索条件
+		 * @param filterResult 过滤的结果集
+		 * @return 该节点是否满足条件
+		 */
+		function filterNodes(node, inputStr, filterResult) {
+			if (!isBlank(node)) {
+				//自身是否符合搜索条件， 自身符合条件的孩子节点不用判断，都显示
+				var selfMatch = node.name.indexOf(inputStr) > -1;
+
+				if (!selfMatch) {//判读他的子孙有没有满足条件的
+					//子节点是否有满足的条件的节点
+					var childMatch = false;
+
+					var children = node.children;
+					if (!isBlank(children)) {
+						for (index in children) {
+							childMatch = filterNodes(children[index], inputStr, filterResult) || childMatch;
+						}
+					}
+					//自身不满足搜索条件 且其子节点不包含有满足条件的节点
+					if (!childMatch) {
+						filterResult.push(node);
+					}
+					return childMatch;
+				} else {
+					return true;
+				}
+			} else {
+				return true;
+			}
+		}
+
+		$('#unitKeyWord').bind('keypress', function(event) {//监听sim卡回车事件
+			if (event.keyCode == "13") {
+				var root = unitTree.getNodesByParam("level", "0");
+				if (!isBlank(root)) {
+					for (index in root) {
+						//删除所有节点(岗位)
+						delAllPostsNodes(root[index]);
+					}
+				}
+				configPostIds.splice(0, configPostIds.length);
+				filterSearch($('#unitKeyWord').val(), unitTree);
+			}
+		});
+
+		$('#functionKeyWord').bind('keypress', function(event) {//监听sim卡回车事件
+			if (event.keyCode == "13") {
+				var root = funTree.getNodesByParam("level", "0");
+				if (!isBlank(root)) {
+					for (index in root) {
+						//删除所有节点(岗位)
+						delAllPostsNodes(root[index]);
+					}
+				}
+				configPostIds.splice(0, configPostIds.length);
+				filterSearch($('#functionKeyWord').val(), funTree);
+			}
+		});
 	</script>
 
 
@@ -601,7 +684,6 @@
 		//点击节点时，如果是父节点则不勾选
 		function configUnitTreeBeforeClick(treeId, treeNode) {
 			return true;
-
 		}
 
 		//勾选节点,如果是未展开的父节点则展开子节点
@@ -623,7 +705,67 @@
 			} else {
 				checked = true;
 			}
+		}
 
+		function iniDataModel() {
+			// 根据配置项，查询以前的模型
+			$.ajax({
+				url : "/functionProperty/data/model",
+				type : 'post',
+				dataType : 'json',
+				data : {
+					"proCode" : configProCode
+				},
+				async : false,
+				success : function(data) {
+					$("#dataModel").empty();
+					$("#dataModel").append(new Option("--数据模板--", ""));
+					$.each(data, function(index, item) {
+						$('#dataModel').append(new Option(item.modelName, item.dataCode));
+					});
+				},
+				error : function(msg) {
+				}
+			});
+		}
+
+		function changeDataModel(data) {
+			if (!isBlank(data.value)) {
+				$.ajax({
+					url : "/functionProperty/data/model/value",
+					type : 'post',
+					dataType : 'json',
+					data : {
+						"proCode" : configProCode,
+						"dataCode" : data.value
+					},
+					async : false,
+					success : function(result) {
+						// 先清空configUnitTree
+						if (!isBlank(configUnitTree)) {
+							configUnitTree.checkAllNodes(false);
+							$.each(result, function(index, node) {
+								var nodes = configUnitTree.getNodesByParam("id", node.modelDataId, null);
+								configUnitTree.checkNode(nodes[0], true, true, true);
+							});
+						}
+					},
+					error : function(msg) {
+					}
+				});
+			} else {
+				// 先清空configUnitTree
+				configUnitTree.checkAllNodes(false);
+			}
+
+		}
+
+		// 初始化下拉（数据模板）
+		iniDataModel();
+
+		function configUnitFresh() {
+			layer.msg('操作成功');
+			iniDataModel();
 		}
 
 		// 保存功能、配置项、岗位三者与 配置内容的关联（configUnit）
@@ -675,6 +817,131 @@
 			}
 		}
 
+		// 监理单位保存数据模板
+		function saveUnitModel() {
+
+			// 筛选当前选中的配置内容节点
+			configSelectUnitIds.splice(0, configSelectUnitIds.length);
+			var nodes = configUnitTree.getCheckedNodes(true);
+			$.each(nodes, function(i, node) {
+				configSelectUnitIds.push(nodes[i].id);
+			});
+			console.log(configSelectUnitIds);
+			if (isBlank(configSelectUnitIds)) {
+				layer.msg('请点击选择配置内容');
+				return false;
+			}
+
+			// 输入模板名称和模板显示排序
+			var temUrl = "/functionProperty/data/model/ini-add";
+			layer.open({
+				title : '新增数据模板',
+				skin : 'layui-layer-lan',
+				shadeClose : true,
+				type : 2,
+				fixed : false,
+				//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+				maxmin : true,
+				//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+				area : [ '800px', '450px' ],
+				content : temUrl
+			});
+		}
+	</script>
+	
+	<!-- 配置研究院 G0DSM  一个配置项一个js-->
+	<script type="text/javascript">
+	var instituteTable;
+	layui.use([ 'jquery', 'table' ], function() {
+
+		instituteTable = layui.table, $ = layui.jquery;
+		// 触发不同的按钮事件
+		var active = {
+			saveInstituteEvent : function() {
+				saveInstituteConfigEvent();
+			}
+		};
+		
+		//区别按钮属性
+		$('.layui-btn').on('click', function() {
+			var type = $(this).data('type');
+			active[type] ? active[type].call(this) : '';
+		});
+	});
+	
+	//渲染
+	function renderInstituteTable() {
+		var param = JSON.parse(window.localStorage.getItem("param"));
+		instituteTable.render({
+			elem : '#instituteTable',
+			url : '/functionProperty/dictionary/data/control/list',
+			method : "POST",
+			id : 'instituteTable',
+			height : commonDislodgeTable() / 2 - 10,
+			cols : [ [ {
+				type : 'checkbox',
+				event : 'changeEvents'
+			}, {
+				title : '序号',
+				type : 'numbers'
+			}, {
+				field : 'name',
+				title : '名称',
+				width : '20%',
+				style : 'cursor: pointer;'
+			}, {
+				field : 'num_value',
+				title : '编码',
+				style : 'cursor: pointer;'
+			} ] ],
+			done : function(res, curr, count) {
+			},
+		});
+	}
+	
+	function iniInstitute() {
+		renderInstituteTable();
+	}
+	
+	// 保存功能、配置项、岗位三者与 配置内容的关联（研究院）
+	function saveInstituteConfigEvent() {
+		if (isBlank($('#funcId').val())) {
+			layer.msg('请点击选择功能菜单');
+			return false;
+		}
+		if (isBlank(configProCode)) {
+			layer.msg('请点击选择配置项');
+			return false;
+		}
+		if (isBlank(configPostIds)) {
+			layer.msg('请点击选择岗位(复选框)');
+			return false;
+		}
+		
+		var instituteData = table.checkStatus('instituteTable').data;
+		var configValue = new Array();//要配置的功能
+		for (var i = 0; i < instituteData.length; i++) {
+			configValue.push(instituteData[i].num_value);
+		}
+		$.ajax({
+			type : 'post',
+			dataType : 'text',
+			data : {
+				"postId" : JSON.stringify(configPostIds),
+				"functionId" : $('#funcId').val(),
+				"proCode" : configProCode,
+				"postConfigValue" : JSON.stringify(configValue),
+			},
+			url : '/userProperty/function/config/post/save',
+			success : function(data) {
+				layer.msg("操作成功");
+			},
+			error : function(e) {
+				layer.msg("出错了！");
+			}
+		});
+	}
+	
 	</script>
 </body>
 </html>
