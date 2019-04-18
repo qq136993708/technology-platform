@@ -425,7 +425,7 @@
                 $("#remarks").val(dataJson.remarks);
                 // CKEDITOR.instances.remarks.setData(dataJson.remarks);
                 selectData = data;
-                if (dataJson.workOrderStatus != "0") {
+                if (dataJson.workOrderStatus == "1") {
                     document.getElementById("btn_submit_xf").style.display="none";
                 }
             },
