@@ -94,6 +94,40 @@ public class EquipmentServiceImpl implements EquipmentService {
 	{
 		return sreEquipmentMapper.getEquipmentListByIds(list);
 	}
+	
+	public List<SreEquipment> getEquipmentListByMap(Map map)throws Exception
+	{
+		
+		Map map_para=new HashMap();
+		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(map));
+		System.out.println(">>>>>>>>>> getEquipmentListByMap 参数: "+parmamss.toJSONString());
+		String equipmentIds=(String)map.get("equipmentIds");
+		String purchaseStatus=(String)map.get("purchaseStatus");
+		StringBuffer applyUnitCodeStr=new StringBuffer();
+        if (!equipmentIds.equals("")) 
+		{
+			String chkbox[] = equipmentIds.split(",");
+			if (chkbox != null && chkbox.length > 0)
+			{
+				applyUnitCodeStr.append("  equipment_id IN ( ");
+				for(int i=0;i<chkbox.length;i++)
+				{
+					if(i>0)
+					{
+						applyUnitCodeStr.append(",'"+chkbox[i]+"'");
+					}else
+					{
+						applyUnitCodeStr.append("'"+chkbox[i]+"'");
+					}
+				}
+				applyUnitCodeStr.append(" ) ");
+			}
+		}
+        map_para.put("purchaseStatus", purchaseStatus);
+        map_para.put("sqlStr", applyUnitCodeStr.toString());
+    	List<SreEquipment> list = sreEquipmentMapper.getList(map_para);
+    	return list;
+	}
 
 	public Integer insertEquipment(SreEquipment record)throws Exception
 	{
@@ -988,10 +1022,36 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String closeStatus = getTableParam(param, "closeStatus","");
 		String setupYear = getTableParam(param, "setupYear", "");
 		String topicName = getTableParam(param, "topicName", "");
+		String applyDepartName=getTableParam(param,"applyDepartName","");
+		String applyDepartCode=getTableParam(param,"applyDepartCode","");
+		String unitPathIds=getTableParam(param,"unitPathIds","");
+		String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
 		Map map = new HashMap();
 		map.put("closeStatus", closeStatus);
 		map.put("topicName", topicName);
 		map.put("setupYear", setupYear);
+		map.put("unitPathIds", unitPathIds);
+		map.put("parentUnitPathIds", parentUnitPathIds);
+		StringBuffer applyUnitCodeStr=new StringBuffer();
+		if(!applyDepartCode.equals(""))
+		{
+			applyUnitCodeStr.append(" (");
+			String arr[]=applyDepartCode.split(",");
+			for(int i=0;i<arr.length;i++)
+			{
+				if(i>0)
+				{
+					applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
+				}else
+				{
+					applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
+				}
+				
+			}
+			applyUnitCodeStr.append(" )");
+		}
+		
+		map.put("sqlStr", applyUnitCodeStr.toString());
 		List<SreProjectTask> list = sreProjectTaskMapper.getTaskClosureList(map);
 		PageInfo<SreProjectTask> pageInfo = new PageInfo<SreProjectTask>(list);
 		System.out.println(">>>>>>>>>任务书查询分页结果 "+pageInfo.getList().size());

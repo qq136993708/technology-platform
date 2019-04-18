@@ -126,7 +126,7 @@ public class BudgetGroupTotalController extends BaseController {
 		return "stp/budget/budget_history_view_grouptotal";
 	}
 	
-	@RequestMapping(value = "/budget/budget_group_info_list", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/budget-group-info-list", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getBudgetGroupList(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
 	{
@@ -134,7 +134,7 @@ public class BudgetGroupTotalController extends BaseController {
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
-	@RequestMapping(value = "/budget/budget_group_info_table", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/budget-group-info-table", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getBudgetGroupTable(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request) throws IOException 
 	{

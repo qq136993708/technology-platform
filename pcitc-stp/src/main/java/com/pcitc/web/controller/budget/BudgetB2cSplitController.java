@@ -126,7 +126,7 @@ public class BudgetB2cSplitController extends BaseController {
 		return "stp/budget/budget_history_view_b2csplit";
 	}
 	
-	@RequestMapping(value = "/budget/budget_b2c_info_list", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/budget-b2c-info-list", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getBudgetB2cList(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
 	{
@@ -134,7 +134,7 @@ public class BudgetB2cSplitController extends BaseController {
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
-	@RequestMapping(value = "/budget/budget_b2c_info_table", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/budget-b2c-info-table", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getBudgetB2cTable(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request) throws IOException 
 	{
