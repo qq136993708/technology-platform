@@ -39,7 +39,7 @@
             <input name="topicId" id="topicId" value="${topicId}" type="hidden">
             <input name="taskWriteUsersIds" id="taskWriteUsersIds" value="${taskWriteUsersIds}" type="hidden">
             <input name="id" id="id" value="${id}" type="hidden">
-            <input name="equipmentIds" id="equipmentIds"  value="${equipmentIds}" type="text">
+            <input name="equipmentIds" id="equipmentIds"  value="${equipmentIds}" type="hidden">
             <input name="sreProjectEquipmentIds" id="sreProjectEquipmentIds"  value="${sreProjectEquipmentIds}" type="hidden">
             <input name="leadUnitCode" id="leadUnitCode" value="${leadUnitCode}" type="hidden">
             <input name="createUserName" id="createUserName" value="${createUserName}" type="hidden">
@@ -291,15 +291,6 @@
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
-        /*var $ = layui.$, active = {
-            selectEvent: function () {
-                var temUrl = '/sre-equipment/chooseEquipmentByTopicId?equipmentIds=' + $("#equipmentIds").val() + "&topicId="+$("#topicId").val();
-
-
-                //publicMethods.openBaseWin("选择装备", temUrl, "90%", "80%");
-            }
-        }*/
-
 
         /* 监听提交 */
         form.on('submit(sub)', function (data) {
@@ -391,13 +382,16 @@
     }
 
     function renderTable(equipmentIds) {
-        //if(sreProjectEquipmentIds)
-
-        //$("#equipmentIds").val(equipmentIds);
+        var id = $("#id").val();
+        var  purchaseStatus="0";
+        if(equipmentIds==null || equipmentIds==""){
+            return;
+        }
         table.render({
             elem: '#join_apply_table',
             url: '/sre-equipment/chooseEquipmentByMap?equipmentIds=' + equipmentIds+"&purchaseStatus=0",
             limit: 15,
+            //where: {param: {"purchaseStatus":"1"}},
             method: "GET",
             id: 'join_apply_table',
             height: 300,

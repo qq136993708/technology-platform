@@ -59,14 +59,14 @@
                     data-type="submitEvent">
                 <span class="btn-state btn-green"></span>已提交
             </button>
-            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
                     data-type="passEvent">
                 <span class="btn-state btn-blue"></span>通过
             </button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
                     data-type="rejectEvent">
                 <span class="btn-state btn-yellow"></span>退回调整
-            </button>-->
+            </button>
 
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">新增</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" id="editEvent" data-type="editEvent">编辑</button>
@@ -173,6 +173,7 @@ function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
 </script>
 <!--表格数据操作js-->
 
+
 <script>
 var publicMethods;
 var param=JSON.parse(window.localStorage.getItem("param"));
@@ -220,7 +221,7 @@ var name=$('#name').val();
             
             addEvent: function(){ //点击新增按钮
             		 layer.open({
-                         title:'计划上报-新增',
+                         title:'采购申请-新增',
                          skin: 'layui-layer-lan',
                          shadeClose: true,
                          type: 2,
@@ -242,12 +243,12 @@ var name=$('#name').val();
                	{
             		 var id=selectRowData.id;
            		     var url="/sre-purchase/add?id="+id;
-           		     //var state=selectRowData.state;
-           		     /*if(state!='0')
+           		     var state=selectRowData.state;
+           		     if(state!='10')
            		     {
            		    	layer.alert('上报中或审核通过，不能修改');
            		    	return;
-           		     }*/
+           		     }
 	           		 layer.open({
 	                      title:'编辑',
 	                      skin: 'layui-layer-lan',
@@ -273,12 +274,12 @@ var name=$('#name').val();
             		  var id=selectRowData.id;
            		      var url="/sre-purchase/delete/"+id;
 
-           		     //var state=selectRowData.state;
-         		     /*if(state!='0')
+           		     var state=selectRowData.state;
+         		     if(state!='10')
          		     {
          		    	layer.alert('上报中或审核通过，不能删除');
          		    	return;
-         		     }*/
+         		     }
          		     
 	           		  layer.confirm('确定要删除吗？', { btn: ['确定','取消']}, function(){
 	         				 ajaxDeleteOpt(url,"get","删除成功","删除失败");
@@ -322,7 +323,7 @@ var name=$('#name').val();
                     var url="/sre-purchase/updateState/"+id;
                     var backurl="/sre_purchase/to-list";
                     var state=selectRowData.state;
-                    if(state!='0')
+                    if(state!='10')
                     {
                        layer.alert('请选择未上报的申请');
                        return;
@@ -330,33 +331,26 @@ var name=$('#name').val();
                         ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
                     }
                 }
-            	/*{
-            		
-            		 var state=selectRowData.state;
-            		 var id=selectRowData.id;
-            		 if(state!==0)
-           			 {
-            			 layer.alert('请选择未上报的计划');
-            			 return;
-           			 }else
-           			 {
-           				$('#id').val(id);
-                	 	dealFlow(id);
-           			 }
-            	}*/
             },
             allEvent: function(){ 
             	$("#state").val("");
             	renderTable();
-            },
-            draftEvent: function(){ 
-            	$("#state").val("0");// 0 未提交 1 已提交
-            	renderTable();
-            },
-            submitEvent: function(){ 
-            	$("#state").val("1");
-            	renderTable();
-            }
+            },draftEvent: function(){
+                 $("#state").val("10");// 10未审批 11审批中 20审批通过 13审批不通过
+                 renderTable();
+             },
+             submitEvent: function(){
+                 $("#state").val("11");
+                 renderTable();
+             },
+             passEvent: function(){
+                 $("#state").val("20");
+                 renderTable();
+             },
+             rejectEvent: function(){
+                 $("#state").val("13");
+                 renderTable();
+             }
         };
         //监听排序
         table.on('sort(model-table)', function(obj){
@@ -409,7 +403,7 @@ var name=$('#name').val();
             cols: [[
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
-            	{field : 'state', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.state) }}</div>', width : 55},
+            	{field : 'state', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.state_purchase(d.state) }}</div>', width : 55},
             	{field : 'purchaseName',     title : '采购名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
          	    {field : 'parentUnitPathNames',     title : '单位名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
          		{field : 'departName',     title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '20%'},

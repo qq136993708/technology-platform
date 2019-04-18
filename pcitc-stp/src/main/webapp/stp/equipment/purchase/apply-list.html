@@ -45,12 +45,8 @@
     <div class="tableToolBox">
         <div class="whiteLine"></div>
         <div  class="tableBtns">
-            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" id="applyEvent" data-type="applyEvent">上报</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createWordEvent" data-type="createWordEvent">预览任务书WORD文档</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createSetupWordEvent" data-type="createSetupWordEvent">预览立项报告WORD文档</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createQianEvent" data-type="createQianEvent">预览签字盖章WORD模板</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createErp" data-type="createErp">对接ERP号</button>
-            --><button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="upQianEvent" data-type="upQianEvent">上传附件</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" id="applyEvent" data-type="applyEvent">上报</button>
+           <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="upQianEvent" data-type="upQianEvent">上传附件</button>
         </div>
     </div>
     <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table>
@@ -211,7 +207,7 @@
                 $('#professionalDepartName').val("");
                 $('#professionalFieldName').val("");
             },
-            applyEvent: function(){ //上报
+           /* applyEvent: function(){ //上报
                 if (typeof(selectRowData) == "undefined") {
                     layer.msg('请点击选择一行数据');
                 } else
@@ -236,7 +232,7 @@
 
 
                 }
-            },
+            },*/
             createWordEvent: function(){  //任务书
                 if (typeof(selectRowData) == "undefined")
                 {
@@ -282,13 +278,13 @@
                         location.href=temUrl;
                     }
 
-
+sha
                 }
             },
-            upQianEvent: function(){ //上传签字模板
+            upQianEvent: function(){ //上传采购合同
                 if (typeof(selectRowData) == "undefined")
                 {
-                    layer.alert('请点击选择一个任务书');
+                    layer.msg('请点击选择一个采购单');
                 }else
                 {
                     var contractNum=selectRowData.contractNum;
@@ -301,7 +297,7 @@
                         var id=selectRowData.id;
                         var temUrl="/sre-purchase/upFileDoc?id=" + id;
                         layer.open({
-                            title:'上传签字页',
+                            title:'上传采购合同',
                             skin: 'layui-layer-lan',
                             shadeClose: true,
                             type: 2,
@@ -312,6 +308,26 @@
                         });
                     }
 
+                }
+            },applyEvent: function(){  //点击上报按钮
+
+                if (typeof(selectRowData) == "undefined")
+                {
+                    layer.msg('请点击选择一行数据');
+                }
+                else
+                {
+                    var id=selectRowData.id;
+                    var url="/sre-purchase/contractSubmission/"+id;
+                    var backurl="/sre-purchase/apply_list";
+                    var state=selectRowData.state;
+                    if(state!='20')
+                    {
+                        layer.alert('请选择未上报的申请');
+                        return;
+                    }else{
+                        ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
+                    }
                 }
             }
 
@@ -349,7 +365,7 @@
             elem: '#processdef-table',
             url: '/sre_purchase/list',
             method:"POST",
-            where: {param: {"topicName":$("#topicName").val(),"state":"1","innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {"topicName":$("#topicName").val(),"state":"20","innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
             limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),
@@ -364,7 +380,7 @@
             cols: [[
                 {type : 'checkbox', event : 'changeEvents', width : 55},
                 {title : '序号', type :'numbers', width : 55},
-                {field : 'state', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.state) }}</div>', width : 55},
+                //{field : 'state', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.state) }}</div>', width : 55},
                 {field : 'purchaseName',     title : '采购名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
                 {field : 'parentUnitPathNames',     title : '单位名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
                 {field : 'departName',     title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
@@ -384,23 +400,6 @@
                     var auditStatus=selectRowData.auditStatus;
                     //alert(auditStatus);
                 });
-
-
-                //项目分类，项目性质
-                /*   var dicMap = ['ROOT_UNIVERSAL_LCZT'];
-                  var dicVal = {};
-                   publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
-                       $.each(data,function(key,val){
-                           $.each(val,function(i,dt){
-                               dicVal[dt.numValue] = dt.name;
-                           });
-                       });
-                      });
-                   $.each(res.data,function(i,dt){
-                       $("tr[data-index='"+i+"'] td[data-field='innerAuditStatus'] div").html(dicVal[res.data[i].innerAuditStatus]);
-                      }); */
-
-
             }
         });
     }
