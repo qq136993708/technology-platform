@@ -172,10 +172,6 @@ public class BudgetStockSplitZsyServiceImpl implements BudgetStockSplitZsySplitS
 	 */
 	private List<SysDictionary> selectTitleDic(String nd)
 	{
-		/*List<SysDictionary> dis = systemRemoteClient.getDictionaryListByParentCode("ROOT_JFYS_ZCDWFL"+nd);
-		if(dis.size()==0) {
-			dis = systemRemoteClient.getDictionaryListByParentCode("ROOT_JFYS_ZCDWFL");
-		}*/
 		List<SysDictionary> dis = new ArrayList<SysDictionary>();
 		
 		List<BudgetSplitEnum> enums = BudgetSplitNdEnum.getStockSplitZsyByNd(nd).getSplits();
