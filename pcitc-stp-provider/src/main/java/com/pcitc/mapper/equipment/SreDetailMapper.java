@@ -19,4 +19,6 @@ public interface SreDetailMapper {
     int updateByPrimaryKey(SreDetail record);
     
     List<SreDetail> getList(Map map);
+    
+    int updateByid(String id);
 }

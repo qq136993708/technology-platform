@@ -16,8 +16,12 @@ public class SreScrapApply {
     private Date createDate;
 
     private String applicationNumber;
+    
+    private String updateUserId;
+    
+ 
 
-    private String updateUser;
+	private String updateUser;
 
     private Date updateTime;
 
@@ -112,4 +116,11 @@ public class SreScrapApply {
     public void setStatus(String status) {
         this.status = status;
     }
+    public String getUpdateUserId() {
+ 		return updateUserId;
+ 	}
+
+ 	public void setUpdateUserId(String updateUserId) {
+ 		this.updateUserId = updateUserId;
+ 	}
 }

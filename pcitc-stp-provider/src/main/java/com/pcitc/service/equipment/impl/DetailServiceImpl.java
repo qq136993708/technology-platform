@@ -155,4 +155,9 @@ public class DetailServiceImpl implements DetailService {
 	}
 	
 	
+	public int updateByid(String id)throws Exception
+	{
+		return detailMapper.updateByid(id);
+		
+	}
 }

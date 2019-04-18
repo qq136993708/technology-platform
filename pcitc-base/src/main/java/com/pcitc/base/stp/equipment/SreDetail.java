@@ -45,7 +45,17 @@ public class SreDetail {
     
     private String supplier;
     
-    public String getSpecification() {
+    private String isscrap;
+    
+    public String getIsscrap() {
+		return isscrap;
+	}
+
+	public void setIsscrap(String isscrap) {
+		this.isscrap = isscrap;
+	}
+
+	public String getSpecification() {
 		return specification;
 	}
 
