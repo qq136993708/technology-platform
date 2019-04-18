@@ -2,7 +2,6 @@ package com.pcitc.web.budget;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -253,23 +252,20 @@ public class BudgetStockSplitZsyProviderClient
 	@RequestMapping(value = "/stp-provider/budget/get-stocksplit-zsy-history-items", method = RequestMethod.POST)
 	public Object selectBudgetStockSplitHistoryItems(@RequestBody BudgetSplitBaseDataVo vo) 
 	{
-		Map<String,Object> rsmap = new LinkedHashMap<String,Object>();
+		List<Object> rslist = new ArrayList<Object>();
 		try
 		{
-			//查询有最终报告的报表
-			Map<String,List<SplitItemVo>> map = budgetStockSplitZsySplitService.selectBudgetSplitHistoryTableTitles(vo.getNd());
-			for(java.util.Iterator<String> iter = map.keySet().iterator();iter.hasNext();){
-				String cnd = iter.next();
-				rsmap.put(cnd, budgetStockSplitZsySplitService.selectAssetSplitFinalItem(cnd,vo.getOrganCode()));
+			List<BudgetInfo> infos = budgetInfoService.selectFinalBudgetInfoList(BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode());
+			for(BudgetInfo info:infos) {
+				//System.out.println("nd:"+info.getNd()+"  organCode:"+vo.getOrganCode());
+				rslist.add(budgetStockSplitZsySplitService.selectAssetSplitFinalItem(info.getNd(),vo.getOrganCode()));
 			}
-			System.out.println("**********");
-			System.out.println(JSON.toJSONString(rsmap));
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		return rsmap;
+		return rslist;
 	}
 	@ApiOperation(value="股份公司直属院预算分解-检索预算项历年数据",notes="检索预算项历年数据列表不包括子项")
 	@RequestMapping(value = "/stp-provider/budget/search-stocksplit-zsy-final-history-list", method = RequestMethod.POST)

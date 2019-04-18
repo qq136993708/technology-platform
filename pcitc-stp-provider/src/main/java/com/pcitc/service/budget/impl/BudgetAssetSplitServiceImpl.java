@@ -183,7 +183,7 @@ public class BudgetAssetSplitServiceImpl implements BudgetAssetSplitService
 		BudgetInfoExample.Criteria infoc = infoExample.createCriteria();
 		infoc.andAuditStatusEqualTo(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
 		infoc.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
-		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.GROUP_SPLIT.getCode());
+		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.ASSET_SPLIT.getCode());
 		infoc.andNdNotEqualTo(nd);
 		infoExample.setOrderByClause("nd desc");
 		
@@ -284,7 +284,7 @@ public class BudgetAssetSplitServiceImpl implements BudgetAssetSplitService
 		BudgetInfoExample.Criteria infoc = infoExample.createCriteria();
 		infoc.andAuditStatusEqualTo(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
 		infoc.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
-		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.GROUP_SPLIT.getCode());
+		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.ASSET_SPLIT.getCode());
 		infoc.andNdEqualTo(nd);
 		
 		List<BudgetInfo> infos = budgetInfoMapper.selectByExample(infoExample);

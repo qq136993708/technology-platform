@@ -194,7 +194,7 @@ public class BudgetStockSplitZsyServiceImpl implements BudgetStockSplitZsySplitS
 		BudgetInfoExample.Criteria infoc = infoExample.createCriteria();
 		infoc.andAuditStatusEqualTo(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
 		infoc.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
-		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.GROUP_SPLIT.getCode());
+		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode());
 		infoc.andNdNotEqualTo(nd);
 		infoExample.setOrderByClause("nd desc");
 		
@@ -295,7 +295,7 @@ public class BudgetStockSplitZsyServiceImpl implements BudgetStockSplitZsySplitS
 		BudgetInfoExample.Criteria infoc = infoExample.createCriteria();
 		infoc.andAuditStatusEqualTo(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
 		infoc.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
-		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.GROUP_SPLIT.getCode());
+		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode());
 		infoc.andNdEqualTo(nd);
 		
 		List<BudgetInfo> infos = budgetInfoMapper.selectByExample(infoExample);
@@ -308,7 +308,7 @@ public class BudgetStockSplitZsyServiceImpl implements BudgetStockSplitZsySplitS
 			c.andBudgetInfoIdEqualTo(info.getDataId());
 			List<BudgetSplitData> datas = budgetSplitDataMapper.selectByExample(example);
 			BudgetOrganEnum org = BudgetOrganEnum.getByCode(organCode);
-			List<SysDictionary> dis = this.selectTitleDic(nd);
+			List<SysDictionary> dis = this.selectTitleDic(info.getNd());
 			
 			return getRowData(info,org,dis,datas);
 		}else {
