@@ -21,9 +21,11 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.equipment.FindAppltid;
 import com.pcitc.base.stp.equipment.FindView;
+import com.pcitc.base.stp.equipment.SreProjectAudit;
 import com.pcitc.base.stp.equipment.SreScrapApply;
 import com.pcitc.base.stp.equipment.sre_scrap_apply_item;
 import com.pcitc.base.util.CommonUtil;
+import com.pcitc.service.equipment.DetailService;
 import com.pcitc.service.equipment.ForApplicationService;
 import com.pcitc.service.equipment.SreScrapApplyItemService;
 import com.pcitc.service.equipment.SreScrapApplyService;
@@ -39,6 +41,8 @@ public class SreScrapApplyClient {
     private SreScrapApplyService sreScrapApplyService; 
 	@Autowired
 	private SreScrapApplyItemService sreScrapApplyItemService;
+	@Autowired
+	private DetailService  detailService;
 	@ApiOperation(value = "报废分页", notes = "报废分页")
 	@RequestMapping(value = "/sre-provider/sreScrapApply/page", method = RequestMethod.POST)
 	public LayuiTableData getForApplicationList(@RequestBody LayuiTableParam param)throws Exception
@@ -63,6 +67,11 @@ public class SreScrapApplyClient {
 		return sreScrapApplyItemService.selectByAppltidList(id);
 	}
 	
+
+	@RequestMapping(value = "/sre-provider/project_task/audit", method = RequestMethod.POST)
+	public String addAudit(@RequestBody SreProjectAudit sreProjectAudit)throws Exception{
+		return sreScrapApplyService.addAudit(sreProjectAudit);
+	}
 	
 	
 	@RequestMapping(value = "/sre-provider/sreScrapApply/addApplyAndItem")
@@ -112,7 +121,8 @@ public class SreScrapApplyClient {
             sreScrapApply.setId(findview.getAddorupdate());
             sreScrapApply.setName(findview.getName());
             sreScrapApply.setAuditStatus("0");
-            sreScrapApply.setUpdateUser(findview.getUserId());
+            sreScrapApply.setUpdateUserId(findview.getUserId());
+            sreScrapApply.setUpdateUser(findview.getUserName());
             sreScrapApply.setUpdateTime(new Date());
             int i= sreScrapApplyService.updateByPrimaryKeySelective(sreScrapApply);
             if(i>0)
@@ -142,6 +152,34 @@ public class SreScrapApplyClient {
         			str="success"; 
 	         	}
 	  }
+		return str;
+	 }
+	@RequestMapping(value = "/sre-provider/sreScrapApply/submitInvalid/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public String submitInvalid(@PathVariable(value = "id", required = true) String id)throws Exception{
+		String  str="error";
+		try {
+			List<FindAppltid> f =  sreScrapApplyItemService.selectByAppltidList(id);
+			if(f!=null && f.size()!=0)
+			{
+				for(FindAppltid item :f)
+				{
+					if(item!=null && item.getDetailid()!=null)
+					{				
+						detailService.updateByid(item.getDetailid());
+					}
+				}
+				SreScrapApply sreScrapApply	= sreScrapApplyService.selectByPrimaryKey(id);
+				if(sreScrapApply!=null)
+				{
+					sreScrapApply.setStatus("1");
+					sreScrapApplyService.updateByPrimaryKeySelective(sreScrapApply);
+				}
+				str="success";
+			}
+		} catch (Exception e) {
+			str="error";
+		}
 		return str;
 	 }
 }

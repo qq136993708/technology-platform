@@ -23,12 +23,13 @@
       <result column="specification" property="specification" jdbcType="VARCHAR" />
     <result column="arrival_date" property="arrivaldate" jdbcType="TIMESTAMP" />
     <result column="supplier" property="supplier" jdbcType="VARCHAR" />
+     <result column="isscrap" property="isscrap" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, equipment_id, equipment_name, equipment_type, equipment_price, equipmen_number, 
     declare_unit, declare_department, declare_people, declare_time, asset_number, configure, 
     measuring_unit, assets_classification, nationality, place_use, place_people, receive_people,
-    specification,arrival_date,supplier 
+    specification,arrival_date,supplier,isscrap
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -269,6 +270,9 @@
         <if test="supplier != null" >
         supplier = #{supplier,jdbcType=VARCHAR},
       </if>
+        <if test="isscrap != null" >
+        isscrap = #{isscrap,jdbcType=VARCHAR},
+        </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -297,8 +301,14 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   
+  
+   <update id="updateByid" parameterType="java.lang.String" >
+    update sre_equipment_detail
+    set isscrap=1
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
-     select * from sre_equipment_detail    t <include refid="selectCondition" />    
+     select * from sre_equipment_detail    t  <include refid="selectCondition" />    
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
@@ -310,6 +320,7 @@
    
    <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     AND t.isscrap != 1
 	     <if test="equipmentName != null and equipmentName!='' ">               AND t.equipment_name   like CONCAT('%',#{equipmentName },'%')</if>
 	     <if test="declareDepartment    != null and declareDepartment!='' "> AND t.declare_department    like CONCAT('%',#{declareDepartment},'%')</if>
 	 </trim>

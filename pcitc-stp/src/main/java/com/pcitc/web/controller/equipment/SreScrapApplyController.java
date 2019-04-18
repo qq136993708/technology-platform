@@ -35,6 +35,7 @@ public class SreScrapApplyController extends BaseController {
 	private static final String INSERT_URL="http://pcitc-zuul/stp-proxy/sre-provider/sreScrapApply/addApplyAndItem";
 	private static final String GETVIEW_URL="http://pcitc-zuul/stp-proxy/sre-provider/sreScrapApply/getapplybyid/";
 	private static final String GETLIST_URL="http://pcitc-zuul/stp-proxy/sre-provider/sreScrapApply/selectByAppltidList/";
+	private static final String INVALID_URL="http://pcitc-zuul/stp-proxy/sre-provider/sreScrapApply/submitInvalid/";
 	@RequestMapping(value = "/sre-sreScrapApply/list")
 	@ResponseBody
 	public String ajaxlist(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
@@ -89,6 +90,7 @@ public class SreScrapApplyController extends BaseController {
 			System.out.println(id);
 			String name="";
 			ResponseEntity<SreScrapApply> sreScrapApply=restTemplate.exchange(GETVIEW_URL + id, HttpMethod.GET,new HttpEntity<Object>(this.httpHeaders), SreScrapApply.class);
+			
 			if(sreScrapApply!=null && sreScrapApply.getBody()!=null)
 			{
 				name=sreScrapApply.getBody().getName();				
@@ -140,4 +142,14 @@ public class SreScrapApplyController extends BaseController {
 		String success ="{\"success\":\"success\"}";
 		return success;
 	}
+	@RequestMapping(method = RequestMethod.GET,value = "/sre-sreScrapApply/submitInvalid")
+	@ResponseBody
+	public String submitInvalid(HttpServletRequest request)throws Exception{
+		ResponseEntity<String> responseEntity = null;
+		String id=CommonUtil.getParameter(request, "id", "");
+		responseEntity =restTemplate.exchange(INVALID_URL + id, HttpMethod.GET,new HttpEntity<Object>(this.httpHeaders),String.class);
+		String success ="{\"success\":\"success\"}";
+		return success;
+	}
+	
 }

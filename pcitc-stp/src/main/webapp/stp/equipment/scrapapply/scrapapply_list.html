@@ -40,6 +40,7 @@
         <div  class="tableBtns">
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"     data-type="addEvent"  id="addEvent" > 新增</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit"    data-type="editEvent"  id="editEvent" >编辑</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit"    data-type="submitEvent"  id="submitEvent" >提交</button>
              </div>
     </div>
     <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
@@ -68,6 +69,23 @@
         } else {
             return '';
         }
+    }
+        
+    function view(id) 
+    {
+    	var temUrl = '/sre-sreScrapApply/view?id='+id
+        	  layer.open({
+                      title:'资产台账报废-详情',
+                      skin: 'layui-layer-lan',
+                      shadeClose: true,
+                      type: 2,
+                      fixed: false,
+                      //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                      maxmin: false,
+                      //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                      area: ['100%', '100%'],
+                      content:  temUrl
+                  });
     }
 </script>
 <script type="text/html" id="buttonTpl">
@@ -125,9 +143,14 @@ var name=$('#name').val();
                 });
             }
             ,editEvent: function(){  //点击编辑按钮
-            	if (typeof(selectRowData.id) == "undefined") {
+            	if (typeof(selectRowData) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
+            	if(selectRowData.status=="1")
+            	{
+            	layer.alert("已经提交过了不许编辑！");
+            	return;
+            	}
             		 var applicationId=selectRowData.id;
            		     var url="/sre-sreScrapApply/add?id="+applicationId;
            		     
@@ -147,7 +170,7 @@ var name=$('#name').val();
                
             },deleteEvent: function(){  //点击删除按钮
                  console.log('点击了删除按钮')
-                 if (typeof(selectRowData.id) == "undefined") 
+                 if (typeof(selectRowData) == "undefined") 
                  {
             		layer.msg('请点击选择一行数据');
             	 } else 
@@ -164,7 +187,7 @@ var name=$('#name').val();
               
             },
             detailEvent: function(){  //点击详情按钮
-            	if (typeof(selectRowData.id) == "undefined") {
+            	if (typeof(selectRowData) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
             		 var equipmentId=selectRowData.applicationId;
@@ -184,32 +207,41 @@ var name=$('#name').val();
             	}
             
             },
-            acceptSoftEvent: function(){  //软件验收
-            	if (typeof(selectRowData.id) == "undefined") {
-            		layer.msg('请点击选择一行数据');
-            	} else {
-            		 var equipmentId=selectRowData.equipmentId;
-            		 layer.open({
-                         title:'软件验收-》新增'
-                         ,skin: 'layui-layer-lan'
-                         ,shadeClose: true
-                         ,type: 2
-                         ,fixed: false
-                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                         ,maxmin: false
-                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                         ,area: ['60%', '80%']
-                         ,content: "/sre-accept/software/add?equipmentId="+equipmentId
-                     });
-            	}
-            },
+        
             draftEvent: function(){ 
             	$("#applicationState").val("0");//0未上报,1已上报,2已通过
             	renderTable();
             },
             submitEvent: function(){ 
-            	$("#applicationState").val("1");
-            	renderTable();
+            	if (typeof(selectRowData) == "undefined") {
+            		layer.msg('请点击选择一行数据');
+            	} else {
+            	if(selectRowData.status=="1")
+            	{
+            	layer.alert("已经提交过了！");
+            	return;
+            	}
+            	 layer.confirm('是否提交？', { btn: ['确定','取消']}, function(){
+	         				 var applicationId=selectRowData.id;
+            		 $.ajax({
+			           type : 'GET',
+			           url : "/sre-sreScrapApply/submitInvalid?id="+applicationId,
+			       
+			           success : function(data) {
+			           layer.alert("保存成功！", {icon: 1,closeBtn: 0 }, function () 
+			                       {
+			                           var index = parent.layer.getFrameIndex(window.name); 
+								       parent.layer.close(index); 
+								       var v_date = (new Date()).getTime();
+								       var backurl="/sre-sreScrapApply/to-list?v_date="+v_date;
+								       location.href = backurl;
+			                      });
+					 
+	                      },
+	               });
+	         			})
+            		
+            	}
             },
             passEvent: function(){ 
             	$("#applicationState").val("2");
@@ -252,22 +284,6 @@ var name=$('#name').val();
             });
         });
       
-        //监听表格双击事件
-        table.on('rowDouble(processdef-table)', function(obj){
-        	var temUrl = '/sre-sreScrapApply/view?id='+obj.data.id
-        	  layer.open({
-                      title:'资产台账报废-详情',
-                      skin: 'layui-layer-lan',
-                      shadeClose: true,
-                      type: 2,
-                      fixed: false,
-                      //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                      maxmin: false,
-                      //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                      area: ['100%', '100%'],
-                      content:  temUrl
-                  });
-        });
 
         
         
@@ -309,14 +325,16 @@ var name=$('#name').val();
             {type : 'checkbox', event : 'changeEvents', width : 55},
            	{title : '序号', type : 'numbers', width : 55},
             {field : 'id', title : 'id', style : 'cursor: pointer;', align : 'center',width : '55'},
-            {field : 'name', title : '报废名称', style : 'cursor: pointer;', align : 'center',  width : '25%'},
+            {field : 'name',     title : '报废名称', style : 'cursor: pointer;', align : 'left', width : '30%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#17a2b8">'+d.name+'</span>'}},
             {field : 'createUser',     title : '创建人', style : 'cursor: pointer;', align : 'left', width : '15%' },
             {field : 'updateUser', title : '更新人', style : 'cursor: pointer;', align : 'center',width : '15%'},
-            {field : 'remarks', title : '备注', style : 'cursor: pointer;', align : 'center',width : '25%'}
+            {field : 'remarks', title : '备注', style : 'cursor: pointer;', align : 'center',width : '30%'},
+            {field : 'status', title : '状态', style : 'cursor: pointer;', align : 'center',width : '30%'},
                
            ]],
            done: function (res, curr, count) {
             $("[data-field='id']").css('display','none');
+            $("[data-field='status']").css('display','none');
                // 点击行联动选择框--单选
                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
                	var index=parseInt($(this).index()+1);

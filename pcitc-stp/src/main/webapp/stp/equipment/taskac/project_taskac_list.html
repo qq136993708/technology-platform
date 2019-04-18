@@ -33,6 +33,7 @@
 	<div class="tableToolBox">
         <div class="whiteLine"></div>
         <div  class="tableBtns">
+                    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">新增验收申请</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">提交</button>
            </div>
     </div>
@@ -134,6 +135,11 @@ var name=$('#name').val();
             	}
             },
             addEvent: function(){ //点击新增按钮
+            if (typeof(selectRowData.taskId) == "undefined") {
+            		layer.msg('请点击选择一行数据');
+            	}
+            	else
+            	{
             		 layer.open({
                          title:'验收申请',
                          skin: 'layui-layer-lan',
@@ -144,9 +150,9 @@ var name=$('#name').val();
                          maxmin: false,
                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                          area: ['70%','90%'],
-                         content:  ''
+                         content:  '/sre_project_taskac/project_audit?id='+selectRowData.taskId
                      });
-                 
+             }    
             }
             ,editEvent: function(){  //点击编辑按钮
             	if (typeof(selectRowData.taskId) == "undefined") {

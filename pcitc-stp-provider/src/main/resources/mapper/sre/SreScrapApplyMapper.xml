@@ -9,6 +9,7 @@
     <result column="create_user" property="createUser" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="application_number" property="applicationNumber" jdbcType="VARCHAR" />
+      <result column="update_user_id" property="updateUserId" jdbcType="VARCHAR" />
     <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
@@ -142,6 +143,9 @@
       </if>
       <if test="applicationNumber != null" >
         application_number = #{applicationNumber,jdbcType=VARCHAR},
+      </if>
+       <if test="updateUserId != null" >
+        update_user = #{updateUserId,jdbcType=VARCHAR},
       </if>
       <if test="updateUser != null" >
         update_user = #{updateUser,jdbcType=VARCHAR},

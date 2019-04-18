@@ -14,7 +14,7 @@ public interface DetailService {
 	
 	
 	
-	
+	public int updateByid(String id)throws Exception;
 	
 	
 	
