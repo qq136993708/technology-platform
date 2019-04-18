@@ -151,10 +151,10 @@
         </div>
         <div class="form-bottom">
             <div class="form-bottom-btns">
-                <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
+                <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue btn_save"
                         lay-submit="" lay-filter="save">保存
                 </button>
-                <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
+                <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue btn_submit"
                         lay-submit="" lay-filter="component-form-submit" id="btn_submit_xf">下发
                 </button>
                 <button type="button"
@@ -327,6 +327,7 @@
                         url = '/plan/editBotWorkOrder';
                         dataStatus = 1;
                         var index = parent.layer.getFrameIndex(window.name);
+                        parent.selectRowData="";
                         parent.layer.close(index);
                         parent.layer.msg("保存成功");
                         parent.layui.table.reload('tableList', {});

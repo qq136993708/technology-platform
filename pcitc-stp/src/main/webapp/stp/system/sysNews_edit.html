@@ -167,7 +167,8 @@
                 data.field.content = CKEDITOR.instances.content.getData();
                 ajaxPost("/sysNews/saveSysNews", data.field, function (dt, status) {
                     layer.msg("操作成功");
-                    parent.layui.table.reload('sysNewsTableId', {where: {param: {}}});
+                    // parent.layui.table.reload('sysNewsTableId', {where: {param: {}}});
+                    parent.renderTable();
                     var index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);
                 });
