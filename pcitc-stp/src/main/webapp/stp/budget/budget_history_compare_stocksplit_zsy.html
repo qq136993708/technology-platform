@@ -20,9 +20,9 @@
             <thead>
                 <tr>
                 	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
-             		<th lay-data="{field:'no',align: 'center', width: '5%',totalRowText: '合计'}" rowspan="2">序号</th>
+             		<th lay-data="{field:'nd',align: 'center', width: '5%',totalRowText: '合计'}" rowspan="2">年度</th>
                 	<th lay-data="{field:'organName', width: '15%'}" rowspan="2">专业处/部门</th>
-                	<th lay-data="{field:'total', align: 'right', width: '10%',totalRow: true}" rowspan="2">预算合计</th>
+                	<th lay-data="{field:'total', align: 'center', width: '10%',totalRow: true}" rowspan="2">预算合计</th>
                    	<#list items as item>
 	                   	<#list item?keys as key> 
 	                   		<th lay-data="{field:'${key}_total', edit:true,align: 'right',totalRow: true}" colspan="2">${item[key]}</th>
@@ -46,9 +46,9 @@
          <thead>
         	<tr>
              	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
-             	<th lay-data="{field:'no',align: 'center', width: '5%',totalRowText: '合计'}" rowspan="2">序号</th>
+             	<th lay-data="{field:'nd',align: 'center', width: '5%',totalRowText: '合计'}" rowspan="2">年度</th>
                 <th lay-data="{field:'organName', width: '15%'}" rowspan="2">专业处/部门</th>
-                <th lay-data="{field:'total', align: 'right', width: '10%',totalRow: true}" rowspan="2">预算合计</th>
+                <th lay-data="{field:'total', align: 'center', width: '10%',totalRow: true}" rowspan="2">预算合计</th>
             	<#list items as item>
                    	<#list item?keys as key> 
                    		<th lay-data="{field:'${key}_total', edit:true,align: 'right',totalRow: true}" colspan="2">${item[key]}</th>
@@ -104,13 +104,6 @@
             	table.reload('historyItemTable',{
                     data:historydata
                 });
-            	/* $.each(historydata,function(key,val){
-            		var tb_data = [];
-            		tb_data.push(val);
-		    		table.reload(key,{data:tb_data});
-		    		console.log(key);
-		    		console.log(val);
-            	}); */
        		});
             //预算项编辑事件监听
             table.on('edit(itemTable)', function(obj){ 
