@@ -70,12 +70,21 @@
     $('#functionId').val(functionId);
 
     var v_date = (new Date()).getTime();
-    var file_ids = "documentDoc";
-    var file_ids = "docArriveGoods";
-    //detail:详情，edit：编辑
-    file_edit_detail = "edit";
-    //统管理-附件管理-附件配置：页面标识
-    file_opt_flag = "22d87bd321a44332acbb7199756dbc98";
+    var stage = $("#stage").val();
+    if (stage=="2"){
+        var file_ids = "documentDoc";
+        //detail:详情，edit：编辑
+        file_edit_detail = "edit";
+        //统管理-附件管理-附件配置：页面标识
+        file_opt_flag = "22d87bd321a44332acbb7199756dbc98";
+    }else if (stage=="3") {
+        var file_ids = "docArriveGoods";
+        //detail:详情，edit：编辑
+        file_edit_detail = "edit";
+        //统管理-附件管理-附件配置：页面标识
+        file_opt_flag = "bf250d24bbee43f49e1be190c01653d1";
+    }
+
     var equipmentIds = $("#equipmentIds").val();
     var yearFeeStr = $("#yearFeeStr").val();
     var beginYear = $("#beginYear").val();

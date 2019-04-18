@@ -39,7 +39,7 @@
             <input name="topicId" id="topicId" value="${topicId}" type="hidden">
             <input name="taskWriteUsersIds" id="taskWriteUsersIds" value="${taskWriteUsersIds}" type="hidden">
             <input name="id" id="id" value="${id}" type="hidden">
-            <input name="equipmentIds" id="equipmentIds"  value="${equipmentIds}" type="text">
+            <input name="equipmentIds" id="equipmentIds"  value="${equipmentIds}" type="hidden">
             <input name="sreProjectEquipmentIds" id="sreProjectEquipmentIds"  value="${sreProjectEquipmentIds}" type="hidden">
             <input name="leadUnitCode" id="leadUnitCode" value="${leadUnitCode}" type="hidden">
             <input name="createUserName" id="createUserName" value="${createUserName}" type="hidden">
@@ -383,7 +383,10 @@
 
     function renderTable(equipmentIds) {
         var id = $("#id").val();
-        alert(id)
+        var  purchaseStatus="0";
+        if(equipmentIds==null || equipmentIds==""){
+            return;
+        }
         table.render({
             elem: '#join_apply_table',
             url: '/sre-equipment/chooseEquipmentByMap?equipmentIds=' + equipmentIds+"&purchaseStatus=0",

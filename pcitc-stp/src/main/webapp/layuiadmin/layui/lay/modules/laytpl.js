@@ -210,6 +210,19 @@ layui.define(['jquery'],function (e) {
         }
         return stateData;
     };
+    o.state_purchase = function(d){
+        var stateData;
+        if(d==10){
+            stateData="<span class='fontStateColor btnYellow'></span>"
+        }else if(d==11){
+            stateData="<span class='fontStateColor btn-green'></span>"
+        }else if(d==20){
+            stateData="<span class='fontStateColor btn-blue'></span>"
+        }else if(d==13){
+            stateData="<span class='fontStateColor btn-yellow'></span>"
+        }
+        return stateData;
+    };
     o.tableRowspan = function(d){
        var htmlData='';
        if(d.indexOf(",")!=-1){

@@ -29,6 +29,7 @@
     <div class="tableToolBox">
         <div class="whiteLine"></div>
         <div  class="tableBtns" >
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" id="applyEvent" data-type="applyEvent">上报</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="upQianEvent">上传到货验收单</button>
         </div>
     </div>
@@ -85,7 +86,7 @@
             upQianEvent: function(){ //上传到货签收单
                 if (typeof(selectRowData) == "undefined")
                 {
-                    layer.alert('请点击选择一个任务书');
+                    layer.msg('请点击选择采购单');
                 }else
                 {
                     var contractNum=selectRowData.contractNum;
@@ -98,7 +99,7 @@
                         var id=selectRowData.id;
                         var temUrl="/sre-purchase/upFileDoc?id=" + id;
                         layer.open({
-                            title:'上传签字页',
+                            title:'上传到货签收单',
                             skin: 'layui-layer-lan',
                             shadeClose: true,
                             type: 2,
@@ -143,7 +144,7 @@
             elem: '#processdef-table',
             url: '/sre_purchase/list',
             method:"POST",
-            where: {param: {"topicName":$("#topicName").val(),/*"state":"1",*/"innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {"topicName":$("#topicName").val(),"state":"30","innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
             limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),
@@ -158,7 +159,7 @@
             cols: [[
                 {type : 'checkbox', event : 'changeEvents', width : 55},
                 {title : '序号', type :'numbers', width : 55},
-                {field : 'state', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.state) }}</div>', width : 55},
+                //{field : 'state', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.state) }}</div>', width : 55},
                 {field : 'purchaseName',     title : '采购名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
                 {field : 'parentUnitPathNames',     title : '单位名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
                 {field : 'departName',     title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
