@@ -341,8 +341,14 @@ public class BudgetStockSplitZsyController extends BaseController {
 			sheet = workbook.getSheetAt(0);
 			
 			//处理标题 年度
-			String title = readCell(sheet.getRow(0).getCell(0));
-			sheet.getRow(0).getCell(0).setCellValue(title.replace("${nd}", param.get("nd")));
+			Cell c1 = sheet.getRow(0).getCell(0);
+			Cell c2 = sheet.getRow(20).getCell(1);
+			Cell c3 = sheet.getRow(21).getCell(1);
+			Cell c4 = sheet.getRow(22).getCell(1);
+			c1.setCellValue(c1.getStringCellValue().replace("${nd}", param.get("nd")));
+			c2.setCellValue(c2.getStringCellValue().replace("${nd}", param.get("nd")));
+			c3.setCellValue(c3.getStringCellValue().replace("${nd}", param.get("nd")));
+			c4.setCellValue(c4.getStringCellValue().replace("${nd}", param.get("nd")));
 			//获得标题
 			ResponseEntity<?> rs = this.restTemplate.exchange(BUDGET_STOCKSPLIT_TITLES, HttpMethod.POST, new HttpEntity<Object>(param.get("nd"),this.httpHeaders), List.class);
 			JSONArray titles = JSON.parseArray(JSON.toJSONString(rs.getBody()));
@@ -357,6 +363,7 @@ public class BudgetStockSplitZsyController extends BaseController {
 				Integer no = json.getIntValue("no");
 			
 				Integer total_xq = json.getInteger("total_xq");
+				Integer total_jz = json.getInteger("total_jz");
 				//Integer total = json.getInteger("total");
 				String organName = json.getString("organName");
 				
@@ -372,6 +379,10 @@ public class BudgetStockSplitZsyController extends BaseController {
 					String key = t.keySet().iterator().next();
 					row.createCell(i+3).setCellValue(json.getInteger(key+"_xq"));
 				}
+				Double val_xq = sheet.getRow(20).getCell(2).getNumericCellValue();
+				Double val_jz = sheet.getRow(21).getCell(2).getNumericCellValue();
+				sheet.getRow(20).getCell(2).setCellValue(val_xq+total_xq);
+				sheet.getRow(21).getCell(2).setCellValue(val_jz+total_jz);
 			}
 			
 			//指定第三行，第一列单元格为模板
@@ -388,13 +399,13 @@ public class BudgetStockSplitZsyController extends BaseController {
 			CellStyle tLeftStyle =workbook.createCellStyle();
 			tLeftStyle.cloneStyleFrom(tCenterStyle);
 			tLeftStyle.setAlignment(HorizontalAlignment.LEFT);
-			//汇总数据
+			//汇总求和数据
 			for(java.util.Iterator<Row> iter = sheet.iterator();iter.hasNext();) {
 				for(java.util.Iterator<Cell> citer = iter.next().iterator();citer.hasNext();) {
 					Cell cell = citer.next();
-					if(cell.getRowIndex()>=3 && cell.getRowIndex()<22 && cell.getColumnIndex()>=2) {
+					if(cell.getRowIndex()>=20 && cell.getRowIndex()<22 && cell.getColumnIndex()>=2) {
 						Double val = cell.getNumericCellValue();
-						//第23行为汇总行
+						//列汇总，第23行为汇总行
 						Double total = sheet.getRow(22).getCell(cell.getColumnIndex()).getNumericCellValue();
 						sheet.getRow(22).getCell(cell.getColumnIndex()).setCellValue(total+val);
 					}
@@ -413,13 +424,13 @@ public class BudgetStockSplitZsyController extends BaseController {
 						cell.setCellStyle(tLeftStyle);
 					}
 					//数值居右(合计除外)
-					if(cell.getRowIndex()>=3 && cell.getColumnIndex()>=3) {
+					if(cell.getRowIndex()>=3 && cell.getColumnIndex()>=2) {
 						cell.setCellStyle(tRightStyle);
 					}
 				}
 			}
 			//合计单元格合并
-			sheet.addMergedRegion(new CellRangeAddress(tableData.getData().size()+5,tableData.getData().size()+5,0,1));
+			//sheet.addMergedRegion(new CellRangeAddress(tableData.getData().size()+5,tableData.getData().size()+5,0,1));
 			//写入新文件
 			FileOutputStream fos  = new FileOutputStream(outFile);
 			workbook.write(fos);
@@ -497,7 +508,7 @@ public class BudgetStockSplitZsyController extends BaseController {
 			}
 		}
 	}
-	private String readCell(Cell cell) 
+	public String readCell(Cell cell) 
 	{
 		String  cellVal = null;
 		switch (cell.getCellTypeEnum()) 
