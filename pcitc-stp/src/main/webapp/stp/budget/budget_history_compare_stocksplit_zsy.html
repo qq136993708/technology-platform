@@ -19,7 +19,7 @@
         <table id="itemTable" class="layui-table" lay-filter="itemTable" lay-data="{totalRow: false}">
             <thead>
                 <tr>
-                	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
+                	
              		<th lay-data="{field:'nd',align: 'center', width: '5%',totalRowText: '合计'}" rowspan="2">年度</th>
                 	<th lay-data="{field:'organName', width: '15%'}" rowspan="2">专业处/部门</th>
                 	<th lay-data="{field:'total', align: 'center', width: '10%',totalRow: true}" rowspan="2">预算合计</th>
@@ -45,7 +45,7 @@
      <table id="historyItemTable" class="layui-table" lay-filter="historyItemTable" lay-data="{totalRow: false}">
          <thead>
         	<tr>
-             	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
+             	
              	<th lay-data="{field:'nd',align: 'center', width: '5%',totalRowText: '合计'}" rowspan="2">年度</th>
                 <th lay-data="{field:'organName', width: '15%'}" rowspan="2">专业处/部门</th>
                 <th lay-data="{field:'total', align: 'center', width: '10%',totalRow: true}" rowspan="2">预算合计</th>
@@ -84,6 +84,12 @@
             historyItemData: [
             ]
         }
+        var table_titles=[];
+	    <#list items as item>
+	    	<#list item?keys as key> 
+	    		table_titles.push('${key}');
+	    	</#list> 
+	    </#list>
        	layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
             var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
             var budgetInfoId = "${budgetInfoId}";
@@ -109,19 +115,33 @@
             table.on('edit(itemTable)', function(obj){ 
             	$.each(viewObj.itemData,function(index,dt){
             		if(obj.data.organCode == dt.organCode){
-            			viewObj.itemData[index][obj.field] = obj.value
+            			viewObj.itemData[index][obj.field] = obj.value;
             		}
             	});
+            	calulationTotalMoney();
             	//刷新表格数据
             	table.reload('itemTable', {data: viewObj.itemData});
             });
+          	//计算合计、总计
+          	function calulationTotalMoney(){
+           		var row_total = 0;
+           		var row_total_jz = 0;
+           		var row_total_xq = 0;
+           		$.each(table_titles,function(i,title){
+           			row_total_jz += parseInt(viewObj.itemData[0][title+"_jz"]);
+           			row_total_xq += parseInt(viewObj.itemData[0][title+"_xq"]);
+               	});
+           		viewObj.itemData[0].total_jz = row_total_jz;
+           		viewObj.itemData[0].total_xq = row_total_xq;
+           		viewObj.itemData[0].total = row_total_jz+row_total_xq;
+          	}
             $('.layui-btn').on('click', function () {
                 var type = $(this).data('type');
                 active[type] ? active[type].call(this) : '';
             });
             var $ = layui.$, active = {
            		saveEvent: function () {
-           			publicMethods.ajaxPost('/budget/save-stocksplit-zsy-item', viewObj.itemData[0], function (data, status) {
+           			publicMethods.ajaxPost('/budget/save-stocksplit-zsy-item', {"item":JSON.stringify(viewObj.itemData[0])}, function (data, status) {
        	                if (data.success) {
        	                	parent.initDataVersion("${budgetInfoId}");
        	                	var index = parent.layer.getFrameIndex(window.name);

@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
@@ -215,59 +214,14 @@ public class BudgetStockSplitZsyServiceImpl implements BudgetStockSplitZsySplitS
 	}
 	
 	@Override
-	public List<BudgetSplitData> saveBudgetSplitData(String items) {
+	public List<BudgetSplitData> saveBudgetSplitDataItems(String items) {
 		List<BudgetSplitData> rs = new ArrayList<BudgetSplitData>();
 		try
 		{
 			JSONArray array = JSON.parseArray(items);
 			for(java.util.Iterator<?> iter = array.iterator();iter.hasNext();) 
 			{
-				JSONObject json = JSON.parseObject(iter.next().toString());
-				Map<?, ?> map = JSON.toJavaObject(json, Map.class);
-				//System.out.println(JSON.toJSONString(map));
-				//System.out.println(JSON.toJSONString(json));
-				//BudgetSplitData splitInfo = JSON.toJavaObject(json, BudgetSplitData.class);
-				//System.out.println(JSON.toJSONString(splitInfo));
-				
-				
-				String budgetInfoId = map.get("budgetInfoId").toString();
-				Integer organId = new Integer(map.get("organId").toString());
-				String organCode = map.get("organCode").toString();
-				String nd = map.get("nd").toString();
-				Integer budgetType = new Integer(map.get("budgetType").toString());
-				String dataVersion = map.get("dataVersion").toString();
-				String budgetTypeName = map.get("budgetTypeName").toString();
-				
-				List<SysDictionary> dis = selectTitleDic(nd);
-				for(SysDictionary d:dis) 
-				{
-					String splitCode = d.getCode();
-					Double jz = new Double(map.get(splitCode+"_jz").toString());
-					Double xq = new Double(map.get(splitCode+"_xq").toString());
-					Double total = jz+xq;
-					BudgetSplitData split = selectBudgetSplitItemData(splitCode,organCode,budgetInfoId);
-					if(split == null) {
-						split = (BudgetSplitData)MyBeanUtils.createDefaultModel(BudgetSplitData.class);
-						//MyBeanUtils.copyPropertiesIgnoreNull(splitInfo, split);
-					}
-					
-					split.setNd(nd);
-					split.setDataVersion(dataVersion);
-					split.setBudgetType(budgetType);
-					split.setBudgetTypeName(budgetTypeName);
-					split.setBudgetInfoId(budgetInfoId);
-					split.setOrganCode(organCode);
-					split.setSplitCode(splitCode);
-					split.setOrganId(organId);
-					
-					split.setSplitName(d.getName());
-					split.setPaymentType(1);//1拨款
-					split.setJz(jz);
-					split.setXq(xq);
-					split.setTotal(total);
-					saveOrUpdateBudgetSplitData(split);
-					rs.add(split);
-				}
+				rs.addAll(saveBudgetSplitDataItem(JSON.toJSONString(iter.next())));
 			}
 		}
 		catch (Exception e)
@@ -276,7 +230,59 @@ public class BudgetStockSplitZsyServiceImpl implements BudgetStockSplitZsySplitS
 		}
 		return rs;
 	}
-
+	@Override
+	public List<BudgetSplitData> saveBudgetSplitDataItem(String item) 
+	{
+		List<BudgetSplitData> rs = new ArrayList<BudgetSplitData>();
+		try
+		{
+			Map<?, ?> map = JSON.toJavaObject(JSON.parseObject(item), Map.class);
+			
+			String budgetInfoId = map.get("budgetInfoId").toString();
+			Integer organId = new Integer(map.get("organId").toString());
+			String organCode = map.get("organCode").toString();
+			String nd = map.get("nd").toString();
+			Integer budgetType = new Integer(map.get("budgetType").toString());
+			String dataVersion = map.get("dataVersion").toString();
+			String budgetTypeName = map.get("budgetTypeName").toString();
+			
+			List<SysDictionary> dis = selectTitleDic(nd);
+			for(SysDictionary d:dis) 
+			{
+				String splitCode = d.getCode();
+				Double jz = new Double(map.get(splitCode+"_jz").toString());
+				Double xq = new Double(map.get(splitCode+"_xq").toString());
+				Double total = jz+xq;
+				BudgetSplitData split = selectBudgetSplitItemData(splitCode,organCode,budgetInfoId);
+				if(split == null) {
+					split = (BudgetSplitData)MyBeanUtils.createDefaultModel(BudgetSplitData.class);
+					//MyBeanUtils.copyPropertiesIgnoreNull(splitInfo, split);
+				}
+				
+				split.setNd(nd);
+				split.setDataVersion(dataVersion);
+				split.setBudgetType(budgetType);
+				split.setBudgetTypeName(budgetTypeName);
+				split.setBudgetInfoId(budgetInfoId);
+				split.setOrganCode(organCode);
+				split.setSplitCode(splitCode);
+				split.setOrganId(organId);
+				
+				split.setSplitName(d.getName());
+				split.setPaymentType(1);//1拨款
+				split.setJz(jz);
+				split.setXq(xq);
+				split.setTotal(total);
+				saveOrUpdateBudgetSplitData(split);
+				rs.add(split);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rs;
+	}
 	@Override
 	public Map<String,Object> selectAssetSplitFinalItem(String nd,String organCode) {
 		//检索已通过审核的预算

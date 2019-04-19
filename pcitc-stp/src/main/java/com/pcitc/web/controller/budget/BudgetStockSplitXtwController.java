@@ -192,14 +192,10 @@ public class BudgetStockSplitXtwController extends BaseController {
 	
 	@RequestMapping(value = "/budget/save-stocksplit-xtw-item", method = RequestMethod.POST)
 	@ResponseBody
-	public Object saveBudgetStockSplitItem(
-			@ModelAttribute("item") String item,
-			@ModelAttribute("info") String info,HttpServletRequest request) throws IOException 
+	public Object saveBudgetStockSplitItem(@RequestParam("item") String item,HttpServletRequest request) throws IOException 
 	{
-		BudgetInfo budget = JSON.toJavaObject(JSON.parseObject(info), BudgetInfo.class);
-		ResponseEntity<Integer> infors = this.restTemplate.exchange(BUDGET_INFO_UPDATE, HttpMethod.POST, new HttpEntity<Object>(budget, this.httpHeaders), Integer.class);
 		ResponseEntity<Integer> grouprs = this.restTemplate.exchange(BUDGET_STOCKSPLIT_SAVE_ITEM, HttpMethod.POST, new HttpEntity<Object>(item, this.httpHeaders), Integer.class);
-		if (infors.getBody() >= 0 && grouprs.getBody() >= 0) 
+		if (grouprs.getBody() >= 0) 
 		{
 			return new Result(true);
 		} else {

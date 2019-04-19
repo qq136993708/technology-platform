@@ -206,7 +206,24 @@ public class BudgetStockSplitXtwProviderClient
 		}
 		return data;
 	}
-	
+	@ApiOperation(value="股份公司直属院预算-保存年度预算项详情",notes="保存预算项不包括子项")
+	@RequestMapping(value = "/stp-provider/budget/save-stocksplit-xtw-item", method = RequestMethod.POST)
+	public Object saveBudgetStockSplitItem(@RequestBody String item) 
+	{
+		logger.info("budget-save-stocksplit-zsy-item...");
+		Integer rs = 0;
+		try
+		{
+			System.out.println(item);
+			List<BudgetSplitData> datas = budgetStockSplitXtwSplitService.saveBudgetSplitDataItem(item);
+			rs = datas.size();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rs;
+	}
 	@ApiOperation(value="股份公司付系统外预算-保存年度预算项详情",notes="保存预算项不包括子项")
 	@RequestMapping(value = "/stp-provider/budget/save-stocksplit-xtw-items", method = RequestMethod.POST)
 	public Object saveBudgetStockSplitItems(@RequestBody String items) 
@@ -215,7 +232,7 @@ public class BudgetStockSplitXtwProviderClient
 		Integer rs = 0;
 		try
 		{
-			List<BudgetSplitData> datas = budgetStockSplitXtwSplitService.saveBudgetSplitData(items);
+			List<BudgetSplitData> datas = budgetStockSplitXtwSplitService.saveBudgetSplitDataItems(items);
 			rs = datas.size();
 		}
 		catch (Exception e)
