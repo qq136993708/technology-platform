@@ -260,7 +260,7 @@ public class SysNewsController extends BaseController {
     @RequestMapping(value = "/toListPageVideo", method = {RequestMethod.GET})
     @OperationFilter(modelName = "系统新闻表", actionName = "跳转列表页toListPage")
     public String toListPageVideo() {
-        return "stp/system/sysNews_list_video";
+        return "stp/system/sysNews_list_videos";
     }
 
     /**
