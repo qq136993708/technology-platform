@@ -171,6 +171,20 @@ layui.define(['jquery'],function (e) {
         return stateData;
     };
 	
+	o.fprappStatus_equipment = function(d){
+        var stateData;
+        if(d==10){
+            stateData="<span class='fontStateColor btnYellow'></span>"
+        }else if(d==20){
+            stateData="<span class='fontStateColor btn-green'></span>"
+        }else if(d==30){
+            stateData="<span class='fontStateColor btn-blue'></span>"
+        }else if(d==3){
+            stateData="<span class='fontStateColor btn-yellow'></span>"
+        }
+        return stateData;
+    };
+	
 	o.contractStatus_equipment = function(d){
         var stateData;
         if(d!=""){

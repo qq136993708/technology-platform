@@ -138,14 +138,14 @@ var publicMethods;
 	        	page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
 	            cols: [[
 	             	{title:'序号', type:'numbers'},
+	             	{field : 'assetNumber', title : '资产编号', style : 'cursor: pointer;', align : 'left', width : '9%'},
 	                {field : 'equipmentName',        title : '装备名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
 	                {field : 'equipmentPrice',   title : '单价（万元）', style : 'cursor: pointer;', align : 'center', width : '10%'},
 	                {field : 'equipmenNumber', title : '申请数量',    style : 'cursor: pointer;', align : 'center', width : '10%'},
 	                {field : 'declareUnit', title : '申报单位', style : 'cursor: pointer;', align : 'left', width : '30%'},
 	                {field : 'declareDepartment', title : '申报部门', style : 'cursor: pointer;', align : 'left', width : '20%'},
 	                {field : 'declarePeople',  title : '第一申报人', style : 'cursor: pointer;', align : 'left', width : '10%'},
-	                {field : 'declareTime',  title : '申报时间', style : 'cursor: pointer;', align : 'left', width : '15%', templet:'#dateTpl'},
-	                {field : 'assetNumber', title : '资产编号', style : 'cursor: pointer;', align : 'left', width : '9%'}
+	                {field : 'declareTime',  title : '申报时间', style : 'cursor: pointer;', align : 'left', width : '15%', templet:'#dateTpl'}
 	                ]],
 	            done: function (res, curr, count) {
 	            	var equipmentIds="";

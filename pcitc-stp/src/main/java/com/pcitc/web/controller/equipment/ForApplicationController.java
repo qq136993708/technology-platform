@@ -54,6 +54,7 @@ public class ForApplicationController extends BaseController {
 	private static final String VIEW_URL = "http://pcitc-zuul/stp-proxy/sre-provider/forapplication/pageview";
 	private static final String EQU_URL = "http://pcitc-zuul/stp-proxy/sre-provider/forapplicationequipment/page";
 	private static final String DETAIL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/Detail/add";
+	private static final String UPFOR_URL = "http://pcitc-zuul/stp-proxy/sre-provider/forapplication/upfor/";
 	/**
 	 * 列表
 	 * 
@@ -277,7 +278,7 @@ public class ForApplicationController extends BaseController {
 		pplication.setApplicationTime(new Date());//申请时间
 		pplication.setApplicationUserName(applyDepartName);//当前操作人
 		pplication.setApplicationPurchaseid(equipmentIds);//装备ID
-		pplication.setApplicationState("0");//申请状态
+		pplication.setApplicationState(Constant.OK_ZERO);//申请状态
 		responseEntity = this.restTemplate.exchange(ADD_URL, HttpMethod.POST, new HttpEntity<SreForApplication>(pplication, this.httpHeaders), String.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if(statusCode == 200) {
@@ -299,6 +300,7 @@ public class ForApplicationController extends BaseController {
 			sreDeta.setDeclarePeople(squipment.getFirstApplyUser());//第一申报人
 			sreDeta.setDeclareTime(squipment.getCreateDate());//申报时间
 			sreDeta.setConfigure(id);//转资申请ID
+			sreDeta.setIsscrap(Constant.EQUME_ZERO);
 			if(arr!=null) {
 			for(int j=0;j<arr.length;j++){
 				if(i == j) {
@@ -367,5 +369,34 @@ public class ForApplicationController extends BaseController {
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
 		logger.info("============result" + result);
 		return result.toString();
+	}
+	
+	/**
+	 * 上报
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/sre-forapplication/upforapplication/{applicationId}")
+	public String upforapplication(@PathVariable("applicationId") String applicationId, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Result resultsDate = new Result();
+		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPFOR_URL + applicationId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		int status = responseEntity.getBody();
+		logger.info("============远程返回  statusCode " + statusCode + "  status=" + status);
+		if (responseEntity.getBody() > 0) {
+			resultsDate = new Result(true);
+		} else {
+			resultsDate = new Result(false, "上报失败失败，请联系系统管理员！");
+		}
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		out.println(ob.toString());
+		out.flush();
+		out.close();
+		return null;
 	}
 }
