@@ -269,12 +269,14 @@ public class SysUserPropertyServiceImpl implements SysUserPropertyService {
 			tem.setFunctionId(sysFunctionProperty.getFunctionId());
 			tem.setPostId(postId);
 			tem.setProCode(sysFunctionProperty.getProCode());
-			tem.setPostConfigValue(StringUtils.join(valueList.toArray(), ","));
+			if (sysFunctionProperty.getConnector() != null) {
+				tem.setPostConfigValue(StringUtils.join(valueList.toArray(), sysFunctionProperty.getConnector()));
+			} else {
+				tem.setPostConfigValue(StringUtils.join(valueList.toArray(), ","));
+			}
 			tem.setCreateDate(DateUtil.dateToStr(nowDate, DateUtil.FMT_SS));
 			tem.setCreateUserId(sysFunctionProperty.getCreateUserId());
 			tem.setIsAvailable(1);
-			System.out.println("postId11============"+postId);
-			System.out.println("postId21============"+StringUtils.join(valueList.toArray(), ","));
 			sfpList.add(tem);
 		}
 		if (sfpList.size() > 0) {

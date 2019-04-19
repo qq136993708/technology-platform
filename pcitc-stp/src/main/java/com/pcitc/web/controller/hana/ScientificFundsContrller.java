@@ -2,6 +2,7 @@ package com.pcitc.web.controller.hana;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +17,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,19 +24,14 @@ import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.pcitc.base.common.ChartBarLineResultData;
-import com.pcitc.base.common.ChartBarLineSeries;
 import com.pcitc.base.common.ChartPieDataValue;
 import com.pcitc.base.common.ChartPieResultData;
-import com.pcitc.base.common.LayuiTableData;
-import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.PageResult;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.hana.report.BudgetMysql;
 import com.pcitc.base.hana.report.CompanyCode;
-import com.pcitc.base.hana.report.Knowledge;
 import com.pcitc.base.hana.report.ScientificFunds;
-import com.pcitc.base.hana.report.TotalCostProjectPay01;
+import com.pcitc.base.system.SysFunctionProperty;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
@@ -71,7 +66,7 @@ public class ScientificFundsContrller {
     private static final String getNhzctjbData_detail = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/getNhzctjbData_detail";
     //项目资金流向分析-详情
     private static final String getXmzjlxfxData_detail = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/getXmzjlxfxData_detail";
-	
+    private static final String FUNCTION_FILTER_URL = "http://pcitc-zuul/system-proxy/userProperty-provider/function/data-filter";
 	
 	  //年度经费预算合同签订进度分析
 	  @RequestMapping(method = RequestMethod.GET, value = "/sf/ndjfyshtqdjdfx")
@@ -184,9 +179,8 @@ public class ScientificFundsContrller {
 	  @RequestMapping(method = RequestMethod.GET, value = "/sf/ktzjjfytjb")
 	  public String ktzjjfytjb(HttpServletRequest request) throws Exception
 	  {
-		  SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 			HanaUtil.setSearchParaForUser2(userInfo,restTemplate,httpHeaders,request);
-			
 			String month = HanaUtil.getCurrrent_Year_Moth();
 			request.setAttribute("month", month);
 	        return "stp/hana/scientificFunds/ktzjjfytjb";
@@ -198,6 +192,40 @@ public class ScientificFundsContrller {
 	  @RequestMapping(method = RequestMethod.GET, value = "/ktzjjfytjb_data")
 		@ResponseBody
 		public String ktzjjfytjb_data(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		  
+		   String functionId = CommonUtil.getParameter(request, "functionId", "");
+		   List<String> list_temp = httpHeaders.get("Authorization");
+		   if(!functionId.equals(""))
+		   {
+			   if (list_temp != null && list_temp.get(0) != null) 
+			   {
+			    SysUser userInfo = JwtTokenUtil.getUserFromTokenByValue(list_temp.get(0).split(" ")[1]);
+				HashMap<String, Object> paramMap = new HashMap<String, Object>();
+				paramMap.put("functionId", functionId);
+				String[] postArr = userInfo.getUserPost().split(",");
+				System.out.println("========getUserPost===============" + userInfo.getUserPost());
+				paramMap.put("postIds", Arrays.asList(postArr));
+				HttpEntity<HashMap<String, Object>> entityv = new HttpEntity<HashMap<String, Object>>(paramMap, this.httpHeaders);
+				ResponseEntity<JSONArray> response_Entity = this.restTemplate.exchange(FUNCTION_FILTER_URL , HttpMethod.POST, entityv, JSONArray.class);
+				JSONArray retJson = response_Entity.getBody();
+				if (retJson != null)
+				{
+					List<SysFunctionProperty> sfpList = JSONArray.parseArray(retJson.toString(), SysFunctionProperty.class);
+					for (int i=0;i<sfpList.size();i++ ) 
+					{
+						
+						SysFunctionProperty sysFunctionProperty=sfpList.get(i);
+						String proCode=sysFunctionProperty.getProCode();
+						String postConfigValue=sysFunctionProperty.getPostConfigValue();
+						System.out.println(proCode + "========>" + postConfigValue);
+					}
+				}
+			  }
+		   }
+		  
+			
+			
+			
 
 		  PageResult pageResult = new PageResult();
 			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
