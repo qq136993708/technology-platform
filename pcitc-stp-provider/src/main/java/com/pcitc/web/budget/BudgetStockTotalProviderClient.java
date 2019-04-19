@@ -29,12 +29,15 @@ import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
 import com.pcitc.base.common.enums.BudgetItemTypeEnum;
+import com.pcitc.base.common.enums.BudgetSplitEnum;
+import com.pcitc.base.common.enums.BudgetSplitNdEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetStockTotal;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.stp.out.OutUnit;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
@@ -690,5 +693,19 @@ public class BudgetStockTotalProviderClient
 			rsmap.put("items_total", 0);
 		}
 		return rsmap;
+	}
+	@ApiOperation(value="股份公司预算-获取指定年度最终预算表",notes="获取指定年度最终预算表信息及列表")
+	@RequestMapping(value = "/stp-provider/budget/get-stockitem-type-dictionary", method = RequestMethod.POST)
+	public Object getStockItemTypeDictionary(@RequestBody String nd) throws Exception 
+	{
+		List<SysDictionary> dis = new ArrayList<SysDictionary>();
+		List<BudgetSplitEnum> enums = BudgetSplitNdEnum.getStockTotalTypes(nd).getSplits();
+		for(BudgetSplitEnum em:enums) {
+			SysDictionary d = new SysDictionary();
+			d.setCode(em.getCode());
+			d.setName(em.getName());
+			dis.add(d);
+		}
+		return dis;
 	}
 }

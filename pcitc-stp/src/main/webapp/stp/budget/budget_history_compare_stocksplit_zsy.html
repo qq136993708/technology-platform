@@ -19,58 +19,53 @@
         <table id="itemTable" class="layui-table" lay-filter="itemTable" lay-data="{totalRow: false}">
             <thead>
                 <tr>
-                	<th lay-data="{field:'no',align: 'center', width: '10%',totalRowText: '合计'}" rowspan="2">序号</th>
-                    <th lay-data="{field:'organName', width: '15%'}" rowspan="2">专业处/部门</th>
-                    <th lay-data="{field:'total', align: 'right', width: '10%',totalRow: true}" rowspan="2">预算合计</th>
-                   	<th lay-data="{align: 'center',totalRow: true}" colspan="${items?size+1}">${nd}年结转项目经费</th>
-                    <th lay-data="{align: 'center', totalRow: true}" colspan="${items?size+1}">${nd}年新签项目经费</th>
+                	
+             		<th lay-data="{field:'nd',align: 'center', width: '5%',totalRowText: '合计'}" rowspan="2">年度</th>
+                	<th lay-data="{field:'organName', width: '15%'}" rowspan="2">专业处/部门</th>
+                	<th lay-data="{field:'total', align: 'center', width: '10%',totalRow: true}" rowspan="2">预算合计</th>
+                   	<#list items as item>
+	                   	<#list item?keys as key> 
+	                   		<th lay-data="{field:'${key}_total', edit:true,align: 'right',totalRow: true}" colspan="2">${item[key]}</th>
+	                   	</#list> 
+                	</#list>
                 </tr>
                  <tr>
-                 	 <th lay-data="{field:'total_jz', align: 'right',totalRow: true}">合计</th>
                  	<#list items as item>
                  		<#list item?keys as key> 
-                    		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true}">${item[key]}</th>
+                    		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true}">结转</th>
+                    		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true}">新签</th>
                     	</#list>
-                    </#list>
-                    <th lay-data="{field:'total_xq', align: 'right',totalRow: true}">合计</th>
-                    <#list items as item>
-                    	<#list item?keys as key> 
-                    		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true}">${item[key]}</th>
-                    	</#list> 
                     </#list>
                 </tr>
         	</thead>
         </table>
     </div>
-   	<#list history_items?keys as cnd>
-	    <div class="margin-bot30">
-	     <table id="${cnd}" class="layui-table" lay-filter="historyItemTable" lay-data="{totalRow: false}">
-	         <thead>
-	        	<tr>
-	             	<th lay-data="{field:'no',align: 'center', width: '10%',totalRowText: '合计'}" rowspan="2">序号</th>
-	                <th lay-data="{field:'organName', width: '15%'}" rowspan="2">专业处/部门</th>
-	                <th lay-data="{field:'total', align: 'right', width: '10%',totalRow: true}" rowspan="2">预算合计</th>
-	                <th lay-data="{align: 'center',totalRow: true}" colspan="${history_items[cnd]?size+1}">${cnd}年结转项目经费</th>
-	                <th lay-data="{align: 'center', totalRow: true}" colspan="${history_items[cnd]?size+1}">${cnd}年新签项目经费</th>
-	            </tr>
-	            <tr>
-	            	<th lay-data="{field:'total_jz', align: 'right',totalRow: true}">合计</th>
-		          	<#list history_items[cnd] as item>
-		          		<#list item?keys as key> 
-		             		<th lay-data="{field:'${key}_jz', align: 'right',totalRow: true}">${item[key]}</th>
-		             	</#list>
-		            </#list>
-		            <th lay-data="{field:'total_xq', align: 'right',totalRow: true}">合计</th>
-		            <#list history_items[cnd] as item>
-		            	<#list item?keys as key> 
-		             		<th lay-data="{field:'${key}_xq',align: 'right',totalRow: true}">${item[key]}</th>
-		             	</#list> 
-		            </#list>
-	            </tr>
-	         </thead>
-	     </table>
-	   </div>
-	</#list>
+   	
+    <div class="margin-bot30">
+     <table id="historyItemTable" class="layui-table" lay-filter="historyItemTable" lay-data="{totalRow: false}">
+         <thead>
+        	<tr>
+             	
+             	<th lay-data="{field:'nd',align: 'center', width: '5%',totalRowText: '合计'}" rowspan="2">年度</th>
+                <th lay-data="{field:'organName', width: '15%'}" rowspan="2">专业处/部门</th>
+                <th lay-data="{field:'total', align: 'center', width: '10%',totalRow: true}" rowspan="2">预算合计</th>
+            	<#list items as item>
+                   	<#list item?keys as key> 
+                   		<th lay-data="{field:'${key}_total', align: 'right',totalRow: true}" colspan="2">${item[key]}</th>
+                   	</#list> 
+                </#list>
+              </tr>
+              <tr>
+	          	<#list items as item>
+	          		<#list item?keys as key> 
+	             		<th lay-data="{field:'${key}_jz', align: 'right',totalRow: true}">结转</th>
+                    	<th lay-data="{field:'${key}_xq', align: 'right',totalRow: true}">新签</th>
+	             	</#list>
+	            </#list>
+            </tr>
+         </thead>
+     </table>
+   </div>
 </div>
 <div class="form-bottom">
     <div class="form-bottom-btns">
@@ -89,6 +84,12 @@
             historyItemData: [
             ]
         }
+        var table_titles=[];
+	    <#list items as item>
+	    	<#list item?keys as key> 
+	    		table_titles.push('${key}');
+	    	</#list> 
+	    </#list>
        	layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
             var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
             var budgetInfoId = "${budgetInfoId}";
@@ -96,7 +97,7 @@
             var nd = "${nd}";
             var groupTotalInfo = null;
             //加载预算项
-            publicMethods.ajaxAsyncPost("/budget/get-assetsplit-item",{"organCode":organCode,"budgetInfoId":budgetInfoId}, function (data) {
+            publicMethods.ajaxAsyncPost("/budget/get-stocksplit-zsy-item",{"organCode":organCode,"budgetInfoId":budgetInfoId}, function (data) {
             	$(".nd").html(data.nd);
             	groupTotalInfo = data;
             	viewObj.itemData.push(groupTotalInfo);
@@ -105,32 +106,42 @@
                 });
        		});
           	//加载历史
-            publicMethods.ajaxAsyncPost("/budget/get-assetsplit-history-items",{"organCode":organCode,"nd":nd}, function (historydata) {
-            	$.each(historydata,function(key,val){
-            		var tb_data = [];
-            		tb_data.push(val);
-		    		table.reload(key,{data:tb_data});
-		    		console.log(key);
-		    		console.log(val);
-            	});
+            publicMethods.ajaxAsyncPost("/budget/get-stocksplit-zsy-history-items",{"organCode":organCode,"nd":nd}, function (historydata) {
+            	table.reload('historyItemTable',{
+                    data:historydata
+                });
        		});
             //预算项编辑事件监听
             table.on('edit(itemTable)', function(obj){ 
             	$.each(viewObj.itemData,function(index,dt){
             		if(obj.data.organCode == dt.organCode){
-            			viewObj.itemData[index][obj.field] = obj.value
+            			viewObj.itemData[index][obj.field] = obj.value;
             		}
             	});
+            	calulationTotalMoney();
             	//刷新表格数据
             	table.reload('itemTable', {data: viewObj.itemData});
             });
+          	//计算合计、总计
+          	function calulationTotalMoney(){
+           		var row_total = 0;
+           		var row_total_jz = 0;
+           		var row_total_xq = 0;
+           		$.each(table_titles,function(i,title){
+           			row_total_jz += parseInt(viewObj.itemData[0][title+"_jz"]);
+           			row_total_xq += parseInt(viewObj.itemData[0][title+"_xq"]);
+               	});
+           		viewObj.itemData[0].total_jz = row_total_jz;
+           		viewObj.itemData[0].total_xq = row_total_xq;
+           		viewObj.itemData[0].total = row_total_jz+row_total_xq;
+          	}
             $('.layui-btn').on('click', function () {
                 var type = $(this).data('type');
                 active[type] ? active[type].call(this) : '';
             });
             var $ = layui.$, active = {
            		saveEvent: function () {
-           			publicMethods.ajaxPost('/budget/save-assetsplit-item', viewObj.itemData[0], function (data, status) {
+           			publicMethods.ajaxPost('/budget/save-stocksplit-zsy-item', {"item":JSON.stringify(viewObj.itemData[0])}, function (data, status) {
        	                if (data.success) {
        	                	parent.initDataVersion("${budgetInfoId}");
        	                	var index = parent.layer.getFrameIndex(window.name);
