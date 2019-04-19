@@ -18,6 +18,12 @@ public enum BudgetSplitNdEnum
 	SPLIT_ASSET_2019("2019",BudgetSplitEnum.SPLIT_ASSET_LY,BudgetSplitEnum.SPLIT_ASSET_HG),
 	SPLIT_ASSET_2020("2020",BudgetSplitEnum.SPLIT_ASSET_LY,BudgetSplitEnum.SPLIT_ASSET_HG),
 	
+	
+	//集团公司一级分类
+	TYPE_STOCK_2018("2018", BudgetSplitEnum.SPLIT_STOCK_YJY,BudgetSplitEnum.SPLIT_STOCK_FZGS,BudgetSplitEnum.SPLIT_STOCK_JTDW,BudgetSplitEnum.SPLIT_STOCK_WBDW,BudgetSplitEnum.SPLIT_STOCK_YK,BudgetSplitEnum.SPLIT_STOCK_XSD,BudgetSplitEnum.SPLIT_STOCK_ZD),
+	TYPE_STOCK_2019("2019", BudgetSplitEnum.SPLIT_STOCK_YJY,BudgetSplitEnum.SPLIT_STOCK_FZGS,BudgetSplitEnum.SPLIT_STOCK_JTDW,BudgetSplitEnum.SPLIT_STOCK_WBDW,BudgetSplitEnum.SPLIT_STOCK_YK,BudgetSplitEnum.SPLIT_STOCK_XSD,BudgetSplitEnum.SPLIT_STOCK_ZD),
+	TYPE_STOCK_2020("2020", BudgetSplitEnum.SPLIT_STOCK_YJY,BudgetSplitEnum.SPLIT_STOCK_FZGS,BudgetSplitEnum.SPLIT_STOCK_JTDW,BudgetSplitEnum.SPLIT_STOCK_WBDW,BudgetSplitEnum.SPLIT_STOCK_YK,BudgetSplitEnum.SPLIT_STOCK_XSD,BudgetSplitEnum.SPLIT_STOCK_ZD),
+	
 	//直属院
 	SPLIT_STOCK_ZSY_2018("2018", BudgetSplitEnum.SPLIT_STOCK_YJY_KTY, BudgetSplitEnum.SPLIT_STOCK_YJY_GCY,BudgetSplitEnum.SPLIT_STOCK_YJY_WTY, BudgetSplitEnum.SPLIT_STOCK_YJY_SKY,BudgetSplitEnum.SPLIT_STOCK_YJY_FSY, BudgetSplitEnum.SPLIT_STOCK_YJY_BHY,BudgetSplitEnum.SPLIT_STOCK_YJY_SHY, BudgetSplitEnum.SPLIT_STOCK_YJY_AGY),
 	SPLIT_STOCK_ZSY_2019("2019", BudgetSplitEnum.SPLIT_STOCK_YJY_KTY, BudgetSplitEnum.SPLIT_STOCK_YJY_GCY,BudgetSplitEnum.SPLIT_STOCK_YJY_WTY, BudgetSplitEnum.SPLIT_STOCK_YJY_SKY,BudgetSplitEnum.SPLIT_STOCK_YJY_FSY, BudgetSplitEnum.SPLIT_STOCK_YJY_BHY,BudgetSplitEnum.SPLIT_STOCK_YJY_SHY, BudgetSplitEnum.SPLIT_STOCK_YJY_AGY),
@@ -43,6 +49,19 @@ public enum BudgetSplitNdEnum
 			}
 		}
 	}
+	//股份公司分类
+	public static BudgetSplitNdEnum getStockTotalTypes(String nd)
+	{
+		for(BudgetSplitNdEnum v:BudgetSplitNdEnum.values()) 
+		{
+			if(v.name().contains("TYPE_STOCK") && v.getNd().equals(nd)) 
+			{
+				return v;
+			}
+		}
+		return TYPE_STOCK_2018;
+	}
+	
 	//直属院
 	public static BudgetSplitNdEnum getStockSplitZsyByNd(String nd)
 	{

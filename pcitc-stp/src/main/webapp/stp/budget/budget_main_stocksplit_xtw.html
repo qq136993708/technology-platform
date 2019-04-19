@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>经费预算-股份经费预算分解-直属院</title>
+    <title>经费预算-股份经费预算分解-系统外</title>
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
     <script src="/layuiadmin/layui/layui.js"></script>
@@ -19,7 +19,7 @@
         .headline-tool .tool-center{position: absolute;left: 50%;top: 6px;margin-left: -47px;}
         .headline-tool .tool-right{position: absolute;right: 0;top: 12px;}
         .num-box{float: left;padding-left: 10px; color: red;margin-top: 4px;}
-        .num-box input{width: 90px;padding-left: 6px; background: #ffffff; border: 1px solid #e6e6e6;color: red;}
+        .num-box input{width: 110px;padding-left: 6px; background: #ffffff; border: 1px solid #e6e6e6;color: red;}
         .content-box{height: 42px; line-height: 42px;margin: 0 10px;}
         .content-box .items{float: left; margin-right: 18px;}
         .content-box .items span{color: #000000;}
@@ -31,7 +31,7 @@
 <body>
     <div class="headline-box">
         <div class="headline-title" title="集团经费预算总表">
-            	<span class="nd">${nd}</span>年股份经费预算分解-直属院(建议稿)
+            	<span class="nd">${nd}</span>年股份支付集团、外系统及盈科经费预算表(建议稿)
         </div>
         <div class="headline-tool">
             <div class="tool-left">
@@ -59,14 +59,14 @@
     <div class="tableBox">
         <div class="tableToolBox">
             <div class="num-box">
-                <label class="dateInput">
-                    <span>可分配数</span>
-                    <input type="text" name="budgetMoney" id="budgetMoney" readonly="readonly" value="0">
-                </label>
-                <label class="dateInput">
-                    <span>剩余可分配</span>
-                    <input type="text" name="surplusMoney" id="surplusMoney"  readonly="readonly" value="0">
-                </label>
+             	<#list items as item>
+                	<#list item?keys as key> 
+                		<label class="dateInput">
+		                    <span>${item[key]}[可分配/剩余]:</span>
+		                    <input type="text" name="${key}" id="${key}" readonly="readonly" value="0/0">
+		                </label>
+                	</#list> 
+                </#list>
             </div>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save2 btnMyBgImg"
                     data-type="saveEvent">保存
@@ -85,18 +85,19 @@
 	                	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
 	                	<th lay-data="{field:'no',align: 'center', width: '4%',totalRowText: '合计'}" rowspan="2">序号</th>
 	                    <th lay-data="{field:'organName', width: '15%'}" rowspan="2">专业处/部门</th>
-	                    <th lay-data="{field:'total', width: '6%',align: 'center',totalRow: true}" rowspan="2">合计</th>
+	                    <!--  <th lay-data="{field:'total', width: '6%',align: 'center',totalRow: true}" rowspan="2">合计</th> -->
 	                    <#list items as item>
 	                    	<#list item?keys as key> 
-	                    		<th lay-data="{field:'${key}_total', edit:true,align: 'right',totalRow: true}" colspan="2">${item[key]}</th>
+	                    		<th lay-data="{field:'${key}_total', edit:true,align: 'right',totalRow: true}" colspan="3">${item[key]}</th>
 	                    	</#list> 
 	                    </#list>
 	                </tr>
 	                 <tr>
 	                    <#list items as item>
 	                    	<#list item?keys as key> 
-	                    		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true}">结转</th>
-	                    		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true}">新签</th>
+	                    		<th lay-data="{field:'${key}_total',align: 'right',totalRow: true}">预算</th>
+	                    		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true}">老合同</th>
+	                    		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true}">可新签</th>
 	                    	</#list> 
 	                    </#list>
 	                </tr>
@@ -149,7 +150,7 @@
                 ,value: cu_date
                 ,type: 'year'
                 ,done:function (val, date, endDate) {
-                	window.location.href = "/budget/budget_main_stocksplit_zsy?nd="+val;
+                	window.location.href = "/budget/budget_main_stocksplit_xtw?nd="+val;
                 	//initDataVersion();//初始化预算版本
                 	//initEmptyData();//空数据初始化
                 	//initDateView();//初始化时间显示相关
@@ -169,16 +170,15 @@
 	        renderfunc();
 			//数据版本选择
             $("#data_version").on("change",function(e){
-            	curent_budget_info = budget_info_map[$("#data_version").val()];            	
+            	curent_budget_info = budget_info_map[$("#data_version").val()];
+            	
             	if(curent_budget_info){
-            		$("#budgetMoney").val(curent_budget_info.budgetMoney);//可分配数
             		$("#creater_name").html(curent_budget_info.createrName);//创建人
             		$("#create_time").html(curent_budget_info.createTime);//创建时间
             		$("#update_time").html(curent_budget_info.updateTime);//最后更新时间
             		$("#info_status").html(curent_budget_info.auditStatusDesc);//状态
-            		
             		var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});
-            		publicMethods.ajaxAsyncPost("/budget/budget-stocksplit-zsy-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
+            		publicMethods.ajaxAsyncPost("/budget/budget-stocksplit-xtw-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
 	                	layer.close(lodingMsg);
             			curent_tabel_data = data.data;
             			relaodTable('dataTable',data.data);
@@ -186,6 +186,7 @@
 	                	//预分配数
 	                	calculationSurplusMoney();
 	                	initDateView();
+	                	
     		   		}); 
             	}else{
             		initEmptyData();
@@ -196,8 +197,12 @@
 			window.initEmptyData = function()
 			{
 				relaodTable('dataTable',[]);
-				$("#budgetMoney").val(0);//可分配数
-            	$("#surplusMoney").val(0);//剩余可分配数
+            	<#list items as item>
+	            	<#list item?keys as key> 
+		            	$("#${key}").val("0/0");//可分配数
+	            	</#list> 
+            	</#list>
+            	
         		$("#creater_name").html("");//创建人
         		$("#create_time").html("");//创建时间
         		$("#update_time").html("");//最后更新时间
@@ -235,10 +240,6 @@
             	renderfunc();
             	
             });
-			$("#budgetMoney").on("keyup",function(){
-				curent_budget_info.budgetMoney = $("#budgetMoney").val();
-				calculationSurplusMoney();
-			});
 			//刷新数据
 			window.relaodTable = function(tableId,tableData){
 				table.reload(tableId, {data: tableData});
@@ -252,7 +253,7 @@
 			}
           	//初始化数据版本
             window.initDataVersion =function(budget_id){
-                publicMethods.ajaxAsyncPost("/budget/budget-stocksplit-zsy-info-list",{"nd":cu_date}, function (dt) {
+                publicMethods.ajaxAsyncPost("/budget/budget-stocksplit-xtw-info-list",{"nd":cu_date}, function (dt) {
                 	$("#data_version").html('<option value="">---请选择版本---</option>');
                 	budget_info_map = {};
                 	$.each(dt,function(index,data){
@@ -274,20 +275,26 @@
 	           		$.each(table_titles,function(i,title){
 	           			row_total_jz += parseInt(curent_tabel_data[index][title+"_jz"]);
 	           			row_total_xq += parseInt(curent_tabel_data[index][title+"_xq"]);
+	           			
+	           			curent_tabel_data[index][title+"_total"]=parseInt(curent_tabel_data[index][title+"_jz"])+parseInt(curent_tabel_data[index][title+"_xq"]);
 	               	});
 	           		curent_tabel_data[index].total_jz = row_total_jz;
 	           		curent_tabel_data[index].total_xq = row_total_xq;
 	           		curent_tabel_data[index].total = row_total_jz+row_total_xq;
 	           	});
           	}
-          	
           	//计算剩余可分配数
           	function calculationSurplusMoney(){
-            	var total_money = 0;
-            	$.each(curent_tabel_data,function(index,dt){
-            		total_money += parseInt(dt.total);
-            	});
-          		$("#surplusMoney").val(parseInt($("#budgetMoney").val())-total_money);
+            	<#list items as item>
+	            	<#list item?keys as key> 
+	            	 	var ${key}_total_money = 0;
+	            	 	$.each(curent_tabel_data,function(index,dt){
+	            	 		${key}_total_money += parseInt(dt.${key}_total);
+	                	});
+	            	 	
+		            	$("#${key}").val(curent_budget_info.${key}+"/"+(curent_budget_info.${key}-${key}_total_money));//可分配数
+	            	</#list> 
+	        	</#list>
           	}
             initDataVersion();
             // 触发不同的按钮事件
@@ -303,7 +310,7 @@
                         , maxmin: false
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                         , area: ['80%', '90%']
-                        , content: '/budget/budget_create_stocksplit_zsy?nd='+cu_date
+                        , content: '/budget/budget_create_stocksplit_xtw?nd='+cu_date
                     });
                 },
                 saveEvent:function(){
@@ -312,7 +319,7 @@
                 		return;
                 	}
                 	var lodingMsg = layer.msg('处理中....',{time: 15*1000});
-   					publicMethods.ajaxAsyncPost("/budget/save-stocksplit-zsy-items", {"info":JSON.stringify(curent_budget_info),"items":JSON.stringify(curent_tabel_data)}, function (data) {
+   					publicMethods.ajaxAsyncPost("/budget/save-stocksplit-xtw-items", {"info":JSON.stringify(curent_budget_info),"items":JSON.stringify(curent_tabel_data)}, function (data) {
    						if (data.success) {    	                    	
    	                    	layer.msg('保存成功!',{time: 500});
    	                    	//layer.close(lodingMsg);
@@ -328,7 +335,7 @@
                 	}  
                 	layer.confirm('提交后将不可再编辑！确定要提交审批吗？',{title:"提交确认"},function(index){
     					layer.close(index);
-    					publicMethods.ajaxAsyncPost("/budget/start-budget-stocksplit-zsy-activity", {"budgetInfoId":curent_budget_info.dataId,"functionId":param.id}, function (data) {
+    					publicMethods.ajaxAsyncPost("/budget/start-budget-stocksplit-xtw-activity", {"budgetInfoId":curent_budget_info.dataId,"functionId":param.id}, function (data) {
     	                     if (data.success) {    	                    	 
     	                    	 budget_info_map[data.data.dataVersion]=data.data; 
     	                    	 $("#data_version").trigger("change");
@@ -344,7 +351,7 @@
                 		parent.layer.alert("请选择需要导出的预算版本", {title : '提示'});
                 		return;
                 	} 
-                	window.open("/budget/budget_download/stocksplit-zsy/"+curent_budget_info.dataId);
+                	window.open("/budget/budget_download/stocksplit-xtw/"+curent_budget_info.dataId);
                 },historyCompare:function(){
                 	var selectIndex = $(".layui-form-checked").parents("tr").attr("data-index");
                 	if(!selectIndex){
@@ -353,9 +360,9 @@
                 	}
                 	console.log(curent_budget_info);
                 	console.log(curent_tabel_data[selectIndex]);
-                	var url = '/budget/budget_history_compare_stocksplit_zsy?nd='+cu_date+'&organCode='+curent_tabel_data[selectIndex].organCode+"&budgetInfoId="+curent_budget_info.dataId;
+                	var url = '/budget/budget_history_compare_stocksplit_xtw?nd='+cu_date+'&organCode='+curent_tabel_data[selectIndex].organCode+"&budgetInfoId="+curent_budget_info.dataId;
                    	layer.open({
-                        title: '研究院经费分解编制管理-往年预算参考'
+                        title: '系统外经费分解编制管理-往年预算参考'
                         , skin: 'layui-layer-lan'
                         , shadeClose: true
                         , type: 2
@@ -371,9 +378,9 @@
                 		parent.layer.alert("请选择预算版本", {title : '提示'});
                 		return;
                 	} 
-                	var url = '/budget/budget_history_view_stocksplit_zsy?nd='+cu_date+'&budgetInfoId='+curent_budget_info.dataId;
+                	var url = '/budget/budget_history_view_stocksplit_xtw?nd='+cu_date+'&budgetInfoId='+curent_budget_info.dataId;
                    	layer.open({
-                        title: '研究院经费分解编制管理-历年参考数据'
+                        title: '系统外经费分解编制管理-历年参考数据'
                         , skin: 'layui-layer-lan'
                         , shadeClose: true
                         , type: 2

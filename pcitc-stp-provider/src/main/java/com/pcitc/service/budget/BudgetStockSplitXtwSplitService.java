@@ -14,7 +14,7 @@ import com.pcitc.base.stp.out.OutProjectPlan;
  * @author fb
  *
  */
-public interface BudgetStockSplitZsySplitService
+public interface BudgetStockSplitXtwSplitService
 {
 	/**
 	 * 查询当前预算表数据
