@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.pcitc.base.util.*;
+import com.pcitc.web.utils.RestfulHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -547,6 +548,44 @@ public class SysFileController extends BaseController {
         return "data:image/png;base64," + new sun.misc.BASE64Encoder().encode(responseEntity64.getBody());
     }
 
+    /**
+     *
+     * @param id
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/sysfile/getFilesLayuiByFormIdReturnBase64Image/{id}", method = RequestMethod.GET)
+    public String getFilesLayuiByFormIdReturnBase64Image(@PathVariable("id") String id, HttpServletRequest request) {
+        String str = "";
+        try {
+            this.httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
+            form.add("fileIds", id);
+            HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(form, httpHeaders);
+            ResponseEntity<FileResult> responseEntity = this.restTemplate.postForEntity(getFilesLayuiByFormId, httpEntity, FileResult.class);
+            FileResult fileResult = responseEntity.getBody();
+            if ((fileResult.getList().size() == 0)) {
+                return null;
+            }
+
+            String strId = fileResult.getList().get(0).getId();
+
+            MultiValueMap<String, String> form64 = new LinkedMultiValueMap<>();
+            System.out.println(strId);
+            form64.add("id", strId);
+            HttpEntity<MultiValueMap<String, String>> httpEntity64 = new HttpEntity<>(form64, this.httpHeaders);
+            ResponseEntity<byte[]> responseEntity64 = this.restTemplate.postForEntity(download + strId, httpEntity64, byte[].class);
+            byte[] bytes = responseEntity64.getBody();
+            String picBase64 = "data:image/png;base64,";
+            str = picBase64 + new sun.misc.BASE64Encoder().encode(bytes);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            return str;
+//            return "data:image/png;base64," + new sun.misc.BASE64Encoder().encode(responseEntity64.getBody());
+        }
+
+    }
     /**
      * 获取字体图标map,base-file控件使用
      */
