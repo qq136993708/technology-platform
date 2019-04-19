@@ -190,6 +190,10 @@ public class SysNewsServiceImpl implements SysNewsService {
             c.andStypeLike("%" + stype + "%");
 
         }
+        Object bak1 = param.getParam().get("bak1");
+        if (!StrUtil.isObjectEmpty(bak1)) {
+            c.andBak1EqualTo(bak1.toString());
+        }
 //        c.andStatusEqualTo("1");
 //        if(param.getParam().get("fileKind") !=null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("fileKind")+""))
 //        {
