@@ -14,6 +14,12 @@
     <result column="is_available" property="isAvailable" jdbcType="INTEGER" />
     <result column="create_date" property="createDate" jdbcType="VARCHAR" />
     <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    
+    <result column="dic_value" property="dicValue" jdbcType="VARCHAR" />
+    <result column="dic_all" property="dicAll" jdbcType="VARCHAR" />
+    
+    
+    
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -75,7 +81,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, function_id, function_code, pro_name, pro_code, post_id, post_name, post_code, 
-    post_config_value, is_available, create_date, create_user_id
+    post_config_value, is_available, create_date, create_user_id,dic_value,dic_all
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.system.SysFunctionPropertyExample" >
     select
@@ -112,14 +118,22 @@
     insert into sys_function_property (id, function_id, function_code, 
       pro_name, pro_code, post_id, 
       post_name, post_code, post_config_value, 
-      is_available, create_date, create_user_id
+      is_available, create_date, create_user_id,dic_value,dic_all
       )
     values (#{id,jdbcType=VARCHAR}, #{functionId,jdbcType=VARCHAR}, #{functionCode,jdbcType=VARCHAR}, 
       #{proName,jdbcType=VARCHAR}, #{proCode,jdbcType=VARCHAR}, #{postId,jdbcType=VARCHAR}, 
       #{postName,jdbcType=VARCHAR}, #{postCode,jdbcType=VARCHAR}, #{postConfigValue,jdbcType=VARCHAR}, 
       #{isAvailable,jdbcType=INTEGER}, #{createDate,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}
+      
+      , #{dicValue,jdbcType=VARCHAR}
+      , #{dicAll,jdbcType=VARCHAR}
       )
   </insert>
+  
+  
+  
+    
+    
   <insert id="insertSelective" parameterType="com.pcitc.base.system.SysFunctionProperty" >
     insert into sys_function_property
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -159,6 +173,15 @@
       <if test="createUserId != null" >
         create_user_id,
       </if>
+      
+      <if test="dicValue != null" >
+        dic_value,
+      </if>
+      <if test="dicAll != null" >
+        dic_all,
+      </if>
+      
+    
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -197,6 +220,15 @@
       <if test="createUserId != null" >
         #{createUserId,jdbcType=VARCHAR},
       </if>
+      <if test="dicValue != null" >
+        #{dicValue,jdbcType=VARCHAR},
+      </if>
+      <if test="dicAll != null" >
+        #{dicAll,jdbcType=VARCHAR},
+      </if>  
+      
+      
+    
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.pcitc.base.system.SysFunctionPropertyExample" resultType="java.lang.Integer" >
@@ -244,6 +276,19 @@
       <if test="record.createUserId != null" >
         create_user_id = #{record.createUserId,jdbcType=VARCHAR},
       </if>
+      
+      <if test="record.dicValue != null" >
+        dic_value = #{record.dicValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dicAll != null" >
+        dic_all = #{record.dicAll,jdbcType=VARCHAR},
+      </if>
+      
+      
+      
+      
+    
+    
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -258,6 +303,10 @@
       pro_code = #{record.proCode,jdbcType=VARCHAR},
       post_id = #{record.postId,jdbcType=VARCHAR},
       post_name = #{record.postName,jdbcType=VARCHAR},
+      
+      dic_value = #{record.dicValue,jdbcType=VARCHAR},
+      dic_all = #{record.dicAll,jdbcType=VARCHAR},
+    
       post_code = #{record.postCode,jdbcType=VARCHAR},
       post_config_value = #{record.postConfigValue,jdbcType=VARCHAR},
       is_available = #{record.isAvailable,jdbcType=INTEGER},
@@ -303,6 +352,13 @@
       <if test="createUserId != null" >
         create_user_id = #{createUserId,jdbcType=VARCHAR},
       </if>
+      <if test="dicValue != null" >
+        dic_value = #{dicValue,jdbcType=VARCHAR},
+      </if>
+      <if test="dicAll != null" >
+        dic_all = #{dicAll,jdbcType=VARCHAR},
+      </if>
+      
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -310,6 +366,8 @@
     update sys_function_property
     set function_id = #{functionId,jdbcType=VARCHAR},
       function_code = #{functionCode,jdbcType=VARCHAR},
+      pro_name = #{proName,jdbcType=VARCHAR},
+      dic_all = #{dicAll,jdbcType=VARCHAR},
       pro_name = #{proName,jdbcType=VARCHAR},
       pro_code = #{proCode,jdbcType=VARCHAR},
       post_id = #{postId,jdbcType=VARCHAR},

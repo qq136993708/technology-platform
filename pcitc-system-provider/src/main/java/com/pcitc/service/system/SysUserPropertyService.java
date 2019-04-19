@@ -91,4 +91,13 @@ public interface SysUserPropertyService {
 	 */
 	public List<SysFunctionProperty> dataFilterFunction(HashMap<String,Object> paramMap);
 	
+	/**
+	 * 数据项控制，查询当前人所属岗位、菜单，对应的属性控制信息
+	 */
+	public List<SysFunctionProperty> getPostDic(HashMap<String,Object> paramMap);
+	
+	
+	
+	
+	
 }
