@@ -17,9 +17,20 @@ public class SreInvestmentrogress {
 	private String  acceptanceState;//项目验收状态
 	
 	private String  taskCloseState;//任务关闭状态
-
+	
+	private String  purchaseState;//采购状态
+	
+	
 	public String getEquipmentName() {
 		return equipmentName;
+	}
+
+	public String getPurchaseState() {
+		return purchaseState;
+	}
+
+	public void setPurchaseState(String purchaseState) {
+		this.purchaseState = purchaseState;
 	}
 
 	public void setEquipmentName(String equipmentName) {

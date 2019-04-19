@@ -74,6 +74,7 @@ public  class InvestServiceImpl implements InvestService {
 			quipment = sreEquipmentMapper.selectByPrimaryKey(sreEqumimpId[i]);
 			mentrogress.setEquipmentName(quipment.getName());//获取装备名称
 			mentrogress.setUnitPrice(quipment.getUnitPrice());//获取装备金额
+			mentrogress.setPurchaseState(quipment.getPurchaseStatus());//获取采购状态
 			SreProjectTask sreProjectTask = sreProjectTaskMapper.selectByTopicKey(String.valueOf(sreProject.getId()));//通过课题ID获取任务数据
 			if(sreProjectTask!=null) {
 				mentrogress.setContractState(sreProjectTask.getContractNum());//获取合同编号
@@ -83,6 +84,21 @@ public  class InvestServiceImpl implements InvestService {
 				if(sreForApplication!=null) {
 					mentrogress.setForapplicationState(sreForApplication.getApplicationState());//获取转资状态
 				}
+			}
+			if(Integer.valueOf(mentrogress.getTaskCloseState())>=1) {
+				mentrogress.setPurchaseState("");//获取采购状态
+				mentrogress.setAcceptanceState("");//获取项目验收状态
+				mentrogress.setContractState("");//获取合同编号
+				mentrogress.setForapplicationState("");//获取转资状态
+			}else if(Integer.valueOf(mentrogress.getAcceptanceState())>=1) {
+				mentrogress.setContractState("");//获取合同编号
+				mentrogress.setPurchaseState("");//获取采购状态
+				mentrogress.setForapplicationState("");//获取转资状态
+			}else if(Integer.valueOf(mentrogress.getForapplicationState())>=20) {
+				mentrogress.setContractState("");//获取合同编号
+				mentrogress.setPurchaseState("");//获取采购状态
+			}else if(Integer.valueOf(mentrogress.getPurchaseState())>=1) {
+				mentrogress.setContractState("");//获取合同编号
 			}
 			list.add(mentrogress);
 		}
