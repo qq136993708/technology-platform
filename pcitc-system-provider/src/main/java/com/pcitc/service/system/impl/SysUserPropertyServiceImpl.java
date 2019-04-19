@@ -291,5 +291,10 @@ public class SysUserPropertyServiceImpl implements SysUserPropertyService {
 	public List<SysFunctionProperty> dataFilterFunction(HashMap<String,Object> paramMap) {
 		return userPropertyDao.dataFilterFunction(paramMap);
 	}
+	
+	
+	public List<SysFunctionProperty> getPostDic(HashMap<String,Object> paramMap) {
+		return userPropertyDao.getPostDic(paramMap);
+	}
 
 }
