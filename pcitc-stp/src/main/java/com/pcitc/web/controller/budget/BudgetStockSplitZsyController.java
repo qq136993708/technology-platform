@@ -375,10 +375,13 @@ public class BudgetStockSplitZsyController extends BaseController {
 					JSONObject t = JSON.parseObject(titles.getString(i));
 					String key = t.keySet().iterator().next();
 					row.createCell(i+3).setCellValue(json.getInteger(key+"_xq"));
+					
+					//预算项结转数
+					Double val_jz = sheet.getRow(21).getCell(i+3).getNumericCellValue();
+					sheet.getRow(21).getCell(i+3).setCellValue(val_jz+json.getInteger(key+"_jz"));
 				}
-				Double val_xq = sheet.getRow(20).getCell(2).getNumericCellValue();
+				//结转总数
 				Double val_jz = sheet.getRow(21).getCell(2).getNumericCellValue();
-				sheet.getRow(20).getCell(2).setCellValue(val_xq+total_xq);
 				sheet.getRow(21).getCell(2).setCellValue(val_jz+total_jz);
 			}
 			
@@ -400,6 +403,14 @@ public class BudgetStockSplitZsyController extends BaseController {
 			for(java.util.Iterator<Row> iter = sheet.iterator();iter.hasNext();) {
 				for(java.util.Iterator<Cell> citer = iter.next().iterator();citer.hasNext();) {
 					Cell cell = citer.next();
+					//计算新签求和
+					if(cell.getRowIndex()>=3 && cell.getRowIndex()<=19 && cell.getColumnIndex()>=2) {
+						Double val = cell.getNumericCellValue();
+						//列汇总，第23行为汇总行
+						Double total = sheet.getRow(20).getCell(cell.getColumnIndex()).getNumericCellValue();
+						sheet.getRow(20).getCell(cell.getColumnIndex()).setCellValue(total+val);
+					}
+					//第22行数据为21 和 20行的求和
 					if(cell.getRowIndex()>=20 && cell.getRowIndex()<22 && cell.getColumnIndex()>=2) {
 						Double val = cell.getNumericCellValue();
 						//列汇总，第23行为汇总行
@@ -408,8 +419,7 @@ public class BudgetStockSplitZsyController extends BaseController {
 					}
 				}
 			}
-			//单位栏水平居右
-			sheet.getRow(1).getCell(0).setCellStyle(tRightStyle);
+			
 			//设置格式
 			for(java.util.Iterator<Row> iter = sheet.iterator();iter.hasNext();) {
 				for(java.util.Iterator<Cell> citer = iter.next().iterator();citer.hasNext();) {
@@ -426,6 +436,8 @@ public class BudgetStockSplitZsyController extends BaseController {
 					}
 				}
 			}
+			//单位栏水平居右
+			sheet.getRow(1).getCell(0).setCellStyle(tRightStyle);
 			//合计单元格合并
 			//sheet.addMergedRegion(new CellRangeAddress(tableData.getData().size()+5,tableData.getData().size()+5,0,1));
 			//写入新文件

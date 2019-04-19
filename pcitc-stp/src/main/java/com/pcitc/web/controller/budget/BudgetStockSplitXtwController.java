@@ -317,7 +317,7 @@ public class BudgetStockSplitXtwController extends BaseController {
 		File f = new File(path.getPath() + "static/budget/budget_stocksplit_xtw_template.xlsx");
 		//System.out.println(f.getAbsolutePath());
 		//写入新文件2019年集团公司总部科技经费预算
-		String newFilePath = path.getPath() + "static/budget/"+info.getNd()+"年股份经费预算分解-直属院（建议稿）_"+DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss")+".xlsx";
+		String newFilePath = path.getPath() + "static/budget/"+info.getNd()+"年股份支付集团、外系统及盈科经费预算表（建议稿）_"+DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss")+".xlsx";
 		File outFile = new File(newFilePath);
 		
 		processDataAndDownload(f,tabldata,parammap,outFile);
@@ -338,28 +338,23 @@ public class BudgetStockSplitXtwController extends BaseController {
 			
 			//处理标题 年度
 			Cell c1 = sheet.getRow(0).getCell(0);
-			Cell c2 = sheet.getRow(20).getCell(1);
-			Cell c3 = sheet.getRow(21).getCell(1);
-			Cell c4 = sheet.getRow(22).getCell(1);
 			c1.setCellValue(c1.getStringCellValue().replace("${nd}", param.get("nd")));
-			c2.setCellValue(c2.getStringCellValue().replace("${nd}", param.get("nd")));
-			c3.setCellValue(c3.getStringCellValue().replace("${nd}", param.get("nd")));
-			c4.setCellValue(c4.getStringCellValue().replace("${nd}", param.get("nd")));
+			
 			//获得标题
 			ResponseEntity<?> rs = this.restTemplate.exchange(BUDGET_STOCKSPLIT_TITLES, HttpMethod.POST, new HttpEntity<Object>(param.get("nd"),this.httpHeaders), List.class);
 			JSONArray titles = JSON.parseArray(JSON.toJSONString(rs.getBody()));
 			//生成模板
 			this.processExcelTitle(sheet, param, titles);
-			//从第三行开始数据
-			int c_index = 3;
+			//从第四行开始数据
+			int c_index = 4;
 			for(java.util.Iterator<?> iter = tableData.getData().iterator();iter.hasNext();) 
 			{
 				JSONObject json = JSON.parseObject(JSON.toJSONString(iter.next()));
 				//序号，专业处，预算合计，【勘探院，工程院，....】
 				Integer no = json.getIntValue("no");
 			
-				Integer total_xq = json.getInteger("total_xq");
-				Integer total_jz = json.getInteger("total_jz");
+				//Integer total_xq = json.getInteger("total_xq");
+				//Integer total_jz = json.getInteger("total_jz");
 				//Integer total = json.getInteger("total");
 				String organName = json.getString("organName");
 				
@@ -367,18 +362,15 @@ public class BudgetStockSplitXtwController extends BaseController {
 				if(row == null) {row = sheet.createRow(c_index);}
 				row.createCell(0).setCellValue(no);
 				row.createCell(1).setCellValue(organName);
-				row.createCell(2).setCellValue(total_xq);
 				
 				for(int i=0;i<titles.size();i++) 
 				{
 					JSONObject t = JSON.parseObject(titles.getString(i));
 					String key = t.keySet().iterator().next();
-					row.createCell(i+3).setCellValue(json.getInteger(key+"_xq"));
+					row.createCell(i*3+2).setCellValue(json.getInteger(key+"_total"));
+					row.createCell(i*3+3).setCellValue(json.getInteger(key+"_jz"));
+					row.createCell(i*3+4).setCellValue(json.getInteger(key+"_xq"));
 				}
-				Double val_xq = sheet.getRow(20).getCell(2).getNumericCellValue();
-				Double val_jz = sheet.getRow(21).getCell(2).getNumericCellValue();
-				sheet.getRow(20).getCell(2).setCellValue(val_xq+total_xq);
-				sheet.getRow(21).getCell(2).setCellValue(val_jz+total_jz);
 			}
 			
 			//指定第三行，第一列单元格为模板
@@ -399,16 +391,14 @@ public class BudgetStockSplitXtwController extends BaseController {
 			for(java.util.Iterator<Row> iter = sheet.iterator();iter.hasNext();) {
 				for(java.util.Iterator<Cell> citer = iter.next().iterator();citer.hasNext();) {
 					Cell cell = citer.next();
-					if(cell.getRowIndex()>=20 && cell.getRowIndex()<22 && cell.getColumnIndex()>=2) {
+					if(cell.getRowIndex()>=5 && cell.getRowIndex()<21 && cell.getColumnIndex()>=2) {
 						Double val = cell.getNumericCellValue();
 						//列汇总，第23行为汇总行
-						Double total = sheet.getRow(22).getCell(cell.getColumnIndex()).getNumericCellValue();
-						sheet.getRow(22).getCell(cell.getColumnIndex()).setCellValue(total+val);
+						Double total = sheet.getRow(21).getCell(cell.getColumnIndex()).getNumericCellValue();
+						sheet.getRow(21).getCell(cell.getColumnIndex()).setCellValue(total+val);
 					}
 				}
 			}
-			//单位栏水平居右
-			sheet.getRow(1).getCell(0).setCellStyle(tRightStyle);
 			//设置格式
 			for(java.util.Iterator<Row> iter = sheet.iterator();iter.hasNext();) {
 				for(java.util.Iterator<Cell> citer = iter.next().iterator();citer.hasNext();) {
@@ -416,17 +406,19 @@ public class BudgetStockSplitXtwController extends BaseController {
 					//设置格式（默认水平垂直居中）
 					cell.setCellStyle(tCenterStyle);
 					//处部门居左
-					if(cell.getRowIndex()>=3 && cell.getColumnIndex()==1) {
+					if(cell.getRowIndex()>=4 && cell.getColumnIndex()==1) {
 						cell.setCellStyle(tLeftStyle);
 					}
 					//数值居右(合计除外)
-					if(cell.getRowIndex()>=3 && cell.getColumnIndex()>=2) {
+					if(cell.getRowIndex()>=4 && cell.getColumnIndex()>=2) {
 						cell.setCellStyle(tRightStyle);
 					}
 				}
 			}
+			//单位栏水平居右
+			sheet.getRow(1).getCell(0).setCellStyle(tRightStyle);
 			//合计单元格合并
-			//sheet.addMergedRegion(new CellRangeAddress(tableData.getData().size()+5,tableData.getData().size()+5,0,1));
+			sheet.addMergedRegion(new CellRangeAddress(tableData.getData().size()+4,tableData.getData().size()+4,0,1));
 			//写入新文件
 			FileOutputStream fos  = new FileOutputStream(outFile);
 			workbook.write(fos);
@@ -439,9 +431,9 @@ public class BudgetStockSplitXtwController extends BaseController {
 	}
 	
 	//处理标题
-	private void processExcelTitle(XSSFSheet sheet,Map<String,String> param,JSONArray dis){
-		int countcol = 3+dis.size();//序号，处部门，总计，研究院
-		for(int i = 0;i<23;i++) {
+	private void processExcelTitle(XSSFSheet sheet,Map<String,String> param,JSONArray titles){
+		int countcol = 2+titles.size()*3;//序号，处部门，XXX
+		for(int i = 0;i<22;i++) {
 			for(int j=0;j<countcol;j++) {
 				Cell cell = sheet.getRow(i).getCell(j);
 				if(cell == null) {
@@ -450,17 +442,31 @@ public class BudgetStockSplitXtwController extends BaseController {
 			}
 		}
 		//第三行标题
+		//第四行（预算，结转，可新签）
 		Row row2 = sheet.getRow(2);
-		for(int i = 0;i<dis.size();i++) {
-			JSONObject json = JSON.parseObject(dis.getString(i));
+		Row row3 = sheet.getRow(3);
+		for(int i = 0;i<titles.size();i++) {
+			JSONObject json = JSON.parseObject(titles.getString(i));
 			String key = json.keySet().iterator().next();
-			row2.createCell(3+i).setCellValue(json.getString(key));
+			row2.createCell(2+i*3).setCellValue(json.getString(key));
+			
+			row3.createCell(2+i*3).setCellValue("预算");
+			row3.createCell(3+i*3).setCellValue("老合同");
+			row3.createCell(4+i*3).setCellValue("可新签");
 		}
 		/**开始合并**/
 		//标题行
-		sheet.addMergedRegion(new CellRangeAddress(0,0,0,dis.size()+2));
+		sheet.addMergedRegion(new CellRangeAddress(0,0,0,titles.size()*3+1));
 		//单位行
-		sheet.addMergedRegion(new CellRangeAddress(1,1,0,dis.size()+2));
+		sheet.addMergedRegion(new CellRangeAddress(1,1,0,titles.size()*3+1));
+		//序号
+		sheet.addMergedRegion(new CellRangeAddress(2,3,0,0));
+		//专业处
+		sheet.addMergedRegion(new CellRangeAddress(2,3,1,1));
+		//标题行
+		for(int i = 0;i<titles.size();i++) {
+			sheet.addMergedRegion(new CellRangeAddress(2,2,i*3+2,i*3+4));
+		}
 	}
 	
 	
