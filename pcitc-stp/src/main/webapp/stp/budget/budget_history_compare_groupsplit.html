@@ -62,22 +62,22 @@
 	                <th lay-data="{align: 'center', totalRow: true}" colspan="${history_items[cnd]?size+2}">${cnd}年新签项目经费</th>
 	            </tr>
 	            <tr>
-	                 <th lay-data="{field:'total_jz', align: 'right',totalRow: true}"  rowspan="2">合计</th>
+	                 <th lay-data="{field:'total_jz',align: 'right',totalRow: true}"  rowspan="2">合计</th>
 	                 <th lay-data="{align: 'right',totalRow: true}"  colspan="${history_items[cnd]?size}">拨款</th>
-	                 <th lay-data="{field:'plan_jz', edit:true,align: 'right',totalRow: true}"  rowspan="2">计划</th>
-	                 <th lay-data="{field:'total_xq', align: 'right',totalRow: true}"  rowspan="2">合计</th>
+	                 <th lay-data="{field:'plan_jz', align: 'right',totalRow: true}"  rowspan="2">计划</th>
+	                 <th lay-data="{field:'total_xq',align: 'right',totalRow: true}"  rowspan="2">合计</th>
 	                 <th lay-data="{align: 'right',totalRow: true}"  colspan="${history_items[cnd]?size}">拨款</th>
-	                 <th lay-data="{field:'plan_xq', edit:true,align: 'right',totalRow: true}"  rowspan="2">计划</th>
+	                 <th lay-data="{field:'plan_xq', align: 'right',totalRow: true}"  rowspan="2">计划</th>
 	            </tr>
 	            <tr>
 		          	<#list history_items[cnd] as item>
 		          		<#list item?keys as key> 
-		             		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true}">${item[key]}</th>
+		             		<th lay-data="{field:'${key}_jz', align: 'right',totalRow: true}">${item[key]}</th>
 		             	</#list>
 		            </#list>
 		            <#list history_items[cnd] as item>
 		            	<#list item?keys as key> 
-		             		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true}">${item[key]}</th>
+		             		<th lay-data="{field:'${key}_xq', align: 'right',totalRow: true}">${item[key]}</th>
 		             	</#list> 
 		            </#list>
 	            </tr>

@@ -59,13 +59,13 @@
 	            	<th lay-data="{field:'total_jz', align: 'right',totalRow: true}">合计</th>
 		          	<#list history_items[cnd] as item>
 		          		<#list item?keys as key> 
-		             		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true}">${item[key]}</th>
+		             		<th lay-data="{field:'${key}_jz', align: 'right',totalRow: true}">${item[key]}</th>
 		             	</#list>
 		            </#list>
 		            <th lay-data="{field:'total_xq', align: 'right',totalRow: true}">合计</th>
 		            <#list history_items[cnd] as item>
 		            	<#list item?keys as key> 
-		             		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true}">${item[key]}</th>
+		             		<th lay-data="{field:'${key}_xq',align: 'right',totalRow: true}">${item[key]}</th>
 		             	</#list> 
 		            </#list>
 	            </tr>

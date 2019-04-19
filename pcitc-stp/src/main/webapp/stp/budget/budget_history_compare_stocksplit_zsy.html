@@ -51,15 +51,15 @@
                 <th lay-data="{field:'total', align: 'center', width: '10%',totalRow: true}" rowspan="2">预算合计</th>
             	<#list items as item>
                    	<#list item?keys as key> 
-                   		<th lay-data="{field:'${key}_total', edit:true,align: 'right',totalRow: true}" colspan="2">${item[key]}</th>
+                   		<th lay-data="{field:'${key}_total', align: 'right',totalRow: true}" colspan="2">${item[key]}</th>
                    	</#list> 
                 </#list>
               </tr>
               <tr>
 	          	<#list items as item>
 	          		<#list item?keys as key> 
-	             		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true}">结转</th>
-                    	<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true}">新签</th>
+	             		<th lay-data="{field:'${key}_jz', align: 'right',totalRow: true}">结转</th>
+                    	<th lay-data="{field:'${key}_xq', align: 'right',totalRow: true}">新签</th>
 	             	</#list>
 	            </#list>
             </tr>
