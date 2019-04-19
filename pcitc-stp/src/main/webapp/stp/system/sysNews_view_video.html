@@ -15,7 +15,6 @@
 <div class="formBox">
     <form id="sysNews-form" name="sysNews-form" lay-filter="sysNews-form" class="form-horizontal layui-form">
         <input type="hidden" name="groupId">
-        <input type="hidden" name="bak1" value="1">
         <div class="box-body">
             <input type="hidden" name="dataId" id="dataId"/>
             <div class="layui-row">
@@ -23,7 +22,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">标题<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="title" name="title" lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                            <input type="text" id="title" name="title" lay-verify="required" readonly="readonly" placeholder="请输入标题" autocomplete="off" class="layui-input readOnlyBox">
                         </div>
                     </div>
                 </div>
@@ -31,7 +30,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">是否发布<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <select name="sysFlag" id="sysFlag" lay-filter="sysFlag">
+                            <select name="status" id="status" lay-filter="status" disabled="disabled">
                             </select>
                         </div>
                     </div>
@@ -44,7 +43,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">发布人<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="author" name="author" value="管理员" lay-verify="required" placeholder="请输入发布人" autocomplete="off" class="layui-input">
+                            <input type="text" id="author" name="author" readonly="readonly"  lay-verify="required" placeholder="请输入发布人" autocomplete="off" class="layui-input readOnlyBox">
                         </div>
                     </div>
                 </div>
@@ -52,7 +51,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">发布时间<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" class="layui-input" id="publicDate" name="publicDate" placeholder="yyyy-MM-dd">
+                            <input type="text" class="layui-input readOnlyBox" id="publicDate" readonly="readonly"  name="publicDate" placeholder="yyyy-MM-dd">
                         </div>
                     </div>
                 </div>
@@ -64,7 +63,7 @@
                 <!--<div class="layui-form-item">-->
                 <!--<label class="layui-form-label">创建时间<span class="must-fill">*</span></label>-->
                 <!--<div class="layui-input-block">-->
-                <!--<input type="text" id="createDate" name="createDate" lay-verify="required" placeholder="请输入创建时间" autocomplete="off" class="layui-input">-->
+                <!--<input type="text" id="createDate" name="createDate" lay-verify="required" placeholder="请输入创建时间" autocomplete="off" class="layui-input readOnlyBox">-->
                 <!--</div>-->
                 <!--</div>-->
                 <!--</div>-->
@@ -73,37 +72,38 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">新闻类型<span class="must-fill">*</span></label>
                             <div class="layui-input-block">
-                                <select name="stype" id="stype" lay-filter="stype">
+                                <select name="stype" id="stype" lay-filter="stype" disabled="disabled">
                                 </select>
                             </div>
                         </div>
+
                     </div>
 
                     <div class="form-bottom">
                         <div class="form-bottom-btns">
-                            <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>
-                            <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">取消</button>
+                            <!--<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>-->
+                            <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
                         </div>
                     </div>
                 </div>
             </div>
-
             <div class="layui-row">
                 <div class="layui-form-item layui-form-text">
                     <div class="layui-form-item">
                         <label class="layui-form-label">内容<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <textarea name="content" id="content" class="ckeditor"></textarea>
+                            <textarea name="content" id="content" class="ckeditor"  readonly="readonly" ></textarea>
                         </div>
                     </div>
                 </div>
 
     </form>
 </div>
+
 <script>
     ajaxPost('/dictionary/list/ROOT_UNIVERSAL_WEHTHER', null, function (data, status) {
         $.each(data, function (i, dt) {
-            $("#sysFlag").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+            $("#status").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
         });
     });
     ajaxPost('/dictionary/list/ROOT_XTGL_XWLX', null, function (data, status) {
@@ -166,8 +166,7 @@
                 data.field.content = CKEDITOR.instances.content.getData();
                 ajaxPost("/sysNews/saveSysNews", data.field, function (dt, status) {
                     layer.msg("操作成功");
-                    // parent.layui.table.reload('sysNewsTableId', {where: {param: {}}});
-                    parent.renderTable();
+                    parent.layui.table.reload('sysNewsTableId', {where: {param: {}}});
                     var index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);
                 });

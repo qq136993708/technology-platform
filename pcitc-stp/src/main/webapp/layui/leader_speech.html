@@ -114,7 +114,7 @@
         <div class="layui-col-md3 layui-speech">
             <div class="news study">
                 <p>推荐学习</p>
-                <ul class="layui-row layui-col-space15">
+                <ul class="layui-row layui-col-space15" id="ROOT_XTGL_SPLX_PT">
                     <li class="layui-col-md6">
                         <a href="javascript:void(0);">
                             <img src="/layuiadmin/layui/images/img-new-1.png" alt="">
@@ -141,12 +141,17 @@
 </div>
 
 <script>
+    var publicMethods;
     layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element', 'publicMethods'],
         function () {
-            var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form, publicMethods = layui.publicMethods;
+            var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
+            publicMethods = layui.publicMethods;
             parent.$("html").css("background", "#fff");
-            var stype = "ROOT_XTGL_XWLX_KJBLDJH|ROOT_XTGL_XWLX_JTLDJH|ROOT_XTGL_XWLX_GJLDJH|ROOT_XTGL_XWLX_ZXJH";
+            var stype = "ROOT_XTGL_XWLX_KJBLDJH|ROOT_XTGL_XWLX_JTLDJH|ROOT_XTGL_XWLX_GJLDJH|ROOT_XTGL_XWLX_ZXJH|ROOT_XTGL_SPLX_PT";
 
+            var formIds = "";
+            var list = [];
+            var ROOT_XTGL_SPLX_PT = "";//视频
             publicMethods.ajaxPost("/sysNews/getNewsIndexType", {"stype": stype, "bak3": 8}, function (data) {
                 var ROOT_XTGL_XWLX_KJBLDJH = "";//科技部领导讲话
                 var ROOT_XTGL_XWLX_JTLDJH = "";//集团领导讲话
@@ -163,17 +168,83 @@
                     } else if (d.stype == "ROOT_XTGL_XWLX_ZXJH") {
                         ROOT_XTGL_XWLX_ZXJH = ROOT_XTGL_XWLX_ZXJH + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
                     }
+                    else if (d.stype == "ROOT_XTGL_SPLX_PT") {
+                        list.push(d);
+                        // ROOT_XTGL_SPLX_PT = ROOT_XTGL_SPLX_PT + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
+                    }
 
                 }
                 $("#ROOT_XTGL_XWLX_KJBLDJH").html(ROOT_XTGL_XWLX_KJBLDJH);
                 $("#ROOT_XTGL_XWLX_JTLDJH").html(ROOT_XTGL_XWLX_JTLDJH);
                 $("#ROOT_XTGL_XWLX_GJLDJH").html(ROOT_XTGL_XWLX_GJLDJH);
                 $("#ROOT_XTGL_XWLX_ZXJH").html(ROOT_XTGL_XWLX_ZXJH);
+                // $("#ROOT_XTGL_SPLX_PT").html(ROOT_XTGL_SPLX_PT);
             });
-
+            for (let i = 0; i < list.length; i++) {
+                var d = list[i];
+                var imgSrc = photoContent(d.bak4);
+                var a =" <li class=\"layui-col-md6\">" +
+                    "<a target='_blank' alt='"+d.title+"' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId="+  d.dataId +"\">"+
+                    "<img src='"+imgSrc+"' alt='"+d.title+"' />" +d.title+
+                    "</a>" +
+                    "</li>";
+                ROOT_XTGL_SPLX_PT = ROOT_XTGL_SPLX_PT + a;
+            }
+            $("#ROOT_XTGL_SPLX_PT").html(ROOT_XTGL_SPLX_PT);
         });
 
 
+    //根据图片路径获取图片流
+    function photoContent(picId) {
+        var ret = getFileResult(picId);
+        if (ret != null && ret.list.length > 0) {
+            picId = ret.list[0].id;
+        }
+        var base64 = "";
+        $.ajax({
+            type: 'get',
+            dataType: 'text',
+            async: false,
+            url: '/sysfile/viewPic/' + picId,
+            success: function (data) {
+                base64 = data;
+            },
+            error: function (e) {
+                alert("出错了");
+            }
+        });
+        return base64;
+    }
+
+    ////加载图片
+    function getFileResult(fileIds) {
+        var ret = null;
+        ajaxFile("/sysfile/getFilesLayuiByFormId", {fileIds: fileIds}, function (result) {
+            ret = result;
+        });
+        return ret;
+    }
+    function ajaxFile(url, data, callback) {
+        var result = null;
+        jQuery.ajax({
+            type: 'post',
+            async: false,
+            url: url,
+            data: data,
+            dataType: 'json',
+            success: function (data, status) {
+                result = data;
+                if (callback) {
+                    callback.call(this, data, status);
+                }
+            },
+            error: function (err, err1, err2) {
+                console.log("ajaxPost发生异常，请仔细检查请求url是否正确");
+            }
+        });
+        return result;
+    }
 </script>
+
 </body>
 </html>

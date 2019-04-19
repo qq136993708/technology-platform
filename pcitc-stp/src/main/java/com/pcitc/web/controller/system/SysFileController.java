@@ -1,6 +1,7 @@
 package com.pcitc.web.controller.system;
 
 import java.io.*;
+import java.net.URLEncoder;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -106,6 +107,7 @@ public class SysFileController extends BaseController {
      * 下载
      */
     private static final String download = "http://pcitc-zuul/system-proxy/sysfile-provider/sysfile/download/";
+    private static final String video = "http://pcitc-zuul/system-proxy/sysfile-provider/sysfile/video/";
     private static final String downloads = "http://pcitc-zuul/system-proxy/sysfile-provider/sysfile/downloads/";
     private static final String previewImgagByByteBase64 = "http://pcitc-zuul/system-proxy/sysfile-provider/sysfile/previewImgagByByteBase64/";
     private static final String showFlag = "http://pcitc-zuul/system-proxy/sysfile-provider/sysfile/showFlag/";
@@ -320,6 +322,80 @@ public class SysFileController extends BaseController {
         httpHeaders.add("x-frame-options", "ALLOW-FROM");
         response.addHeader("x-frame-options", "ALLOW-FROM");
         return responseEntity;
+    }
+
+//    @RequestMapping(value = "/sysfile/video/{id}", method = RequestMethod.GET, produces = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @RequestMapping(value = "/sysfile/video/{id}", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> videoFile(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response){
+
+
+        this.httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> form1 = new LinkedMultiValueMap<String, String>();
+        form1.add("fileIds", id);
+        HttpEntity<MultiValueMap<String, String>> httpEntity1 = new HttpEntity<>(form1, httpHeaders);
+        ResponseEntity<FileResult> responseEntity1 = this.restTemplate.postForEntity(getFilesLayuiByFormId, httpEntity1, FileResult.class);
+        FileResult fileResult = responseEntity1.getBody();
+        if ((fileResult.getList().size() == 0)) {
+            return null;
+        }
+        id = fileResult.getList().get(0).getId();
+
+
+        MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
+        form.add("id", id);
+        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(form, this.httpHeaders);
+        ResponseEntity<byte[]> responseEntity = this.restTemplate.postForEntity(video+ id, httpEntity, byte[].class);
+//        byte[] result = responseEntity.getBody();
+        httpHeaders.add("x-frame-options", "ALLOW-FROM");
+        response.addHeader("x-frame-options", "ALLOW-FROM");
+        return responseEntity;
+
+//        sysFileFeignClient.videoFiles(id,request,response);
+
+//        byte[] result = new byte[0];
+//        try {
+//            ResponseEntity<byte[]> responseEntity = sysFileFeignClient.videoFiles(id,request,response);
+//            result = responseEntity.getBody();
+//            System.out.println(result);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        response.setContentType("video/mp4");
+//        return result;
+//        OutputStream out = null;
+//        InputStream in = null;
+//        try
+//        {
+//            res.setHeader("content-type", "video/mp4");
+//            res.setContentType("application/octet-stream");
+//            res.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("mmmm", "UTF-8"));
+//
+//            out = res.getOutputStream();
+//            in = new FileInputStream("D:\\files\\m.mp4");
+//
+//            byte[] b = new byte[1000];
+//            int len;
+//            while ((len = in.read(b)) > 0)
+//            {
+//                out.write(b, 0, len);
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+//        MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
+//        form.add("id", id);
+//        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(form, this.httpHeaders);
+//        ResponseEntity<byte[]> responseEntity = this.restTemplate.postForEntity(video + id, httpEntity, byte[].class);
+//        byte[] result = responseEntity.getBody();
+////        httpHeaders.add("x-frame-options", "ALLOW-FROM");
+////        response.addHeader("x-frame-options", "ALLOW-FROM");
+//        response.setContentType("video/mp4");
+//        response.setHeader("Content-Disposition", "attachment; filename=\"" + new String("name".getBytes("GBK") + "\"" ));
+//        response.setHeader("Content-Range", "" + Integer.valueOf((int) (1111-1)));
+//        response.setHeader("Accept-Ranges", "bytes");
+//        response.setHeader("Etag", "W/\"9767057-1323779115364\"");
+//        return result;
     }
 	
 	/**

@@ -21,6 +21,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.base.util.*;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,12 +52,6 @@ import com.pcitc.base.system.SysFile;
 import com.pcitc.base.system.SysFileConfig;
 import com.pcitc.base.system.SysFileExample;
 import com.pcitc.base.system.SysFileVo;
-import com.pcitc.base.util.DataTableInfoVo;
-import com.pcitc.base.util.DateUtil;
-import com.pcitc.base.util.FileUtil;
-import com.pcitc.base.util.GetTextFromFile;
-import com.pcitc.base.util.JsonUtil;
-import com.pcitc.base.util.StrUtil;
 import com.pcitc.es.builder.BooleanCondtionBuilder;
 import com.pcitc.es.clientmanager.ClientFactoryBuilder;
 import com.pcitc.es.clientmanager.IndexHelperBuilder;
@@ -592,7 +587,7 @@ public class SysFileServiceImpl implements SysFileService {
 							dir.mkdirs();
 						// 这样也可以上传同名文件
 						String filePrefixFormat = "yyyyMMddHHmmssS";
-						String savedName = DateUtil.format(new Date(), filePrefixFormat) + "_" + filename;
+						String savedName = DateUtil.format(new Date(), filePrefixFormat) + "_" + IdUtil.createFileIdByTime();
 						String filePath = dir.getAbsolutePath() + File.separator + savedName;
 						File serverFile = new File(filePath);
 						// 将文件写入到服务器
@@ -1599,4 +1594,60 @@ public class SysFileServiceImpl implements SysFileService {
 		
 		return data;
 	}
+
+    public void videoFiles(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        InputStream is = null;
+        OutputStream os = null;
+        File file = null;
+        try {
+            SysFile sysfile = selectByPrimaryKey(id);
+            System.out.println("id");
+            System.out.println(id);
+            System.out.println(sysfile);
+            if (sysfile != null)
+                file = new File(sysfile.getFilePath());
+            System.out.println(sysfile.getFilePath());
+            System.out.println(file.exists());
+            System.out.println(file.isFile());
+            if (file != null && file.exists() && file.isFile()) {
+                long filelength = file.length();
+                is = new FileInputStream(file);
+                // 设置输出的格式
+                response.setContentType("video/mp4");
+                response.setHeader("Content-Disposition", "attachment; filename=\"" + new String(sysfile.getFileName().getBytes("GBK") + "\"" ));
+                response.setContentLength((int) filelength);
+                response.setHeader("Content-Range", "" + Integer.valueOf((int) (filelength-1)));
+                response.setHeader("Accept-Ranges", "bytes");
+                response.setHeader("Etag", "W/\"9767057-1323779115364\"");
+
+                os = response.getOutputStream();
+
+//                response.setContentType("application/x-msdownload");
+//                response.setContentLength((int) filelength);
+//                response.addHeader("Content-Disposition", "attachment; filename=\"" + new String(sysfile.getFileName().getBytes("GBK"),// 只有GBK才可以
+//                        "iso8859-1") + "\"");
+                // 循环取出流中的数据
+                byte[] b = new byte[4096];
+                int len;
+                while ((len = is.read(b)) > 0) {
+                    os.write(b, 0, len);
+                }
+            } else {
+                response.getWriter().println("<script>");
+                response.getWriter().println(" modals.info('文件不存在!');");
+                response.getWriter().println("</script>");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (is != null) {
+                is.close();
+            }
+            if (os != null) {
+                os.close();
+            }
+        }
+    }
+
 }
