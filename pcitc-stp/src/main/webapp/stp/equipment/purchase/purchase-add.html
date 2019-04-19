@@ -455,8 +455,7 @@
                     }
                 }
 
-
-                //项目分类，项目性质
+                /*//项目分类，项目性质
                 $('table.layui-table thead tr th:eq(0)').addClass('layui-hide');
                 var dicMap = ['ROOT_ZBGL_ZBFL'];
                 var dicVal = {};
@@ -469,7 +468,7 @@
                 });
                 $.each(res.data, function (i, dt) {
                     $("tr[data-index='" + i + "'] td[data-field='type'] div").html(dicVal[res.data[i].type]);
-                });
+                });*/
 
             }
         });
@@ -480,7 +479,7 @@
 
 
 
-    //参加单位--多个
+    /*//参加单位--多个
     function choose_joinUnitName_callback(unitIds, unitNames) {
         $("#joinUnitName").val(unitNames);
         $("#joinUnitCode").val(unitIds);
@@ -495,7 +494,7 @@
     	alert(unitName);
         $("#leadUnitName").val(unitName);
         $("#leadUnitCode").val(unitId);
-    }
+    }*/
 
     function clearNoNum(obj) {
         obj.value = obj.value.replace(/[^\d.]/g, "");  //清除“数字”和“.”以外的字符

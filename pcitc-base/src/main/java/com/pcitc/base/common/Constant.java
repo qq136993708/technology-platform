@@ -24,6 +24,7 @@ public class Constant {
 
     public static String PURCHASE_STATUS_COMPACT = "30";
 
+    public static String PURCHASE_STATUS_ARRIVE_GOODS = "40";
 
     //采购阶段
     public static String  PURCHASE_REQUEST = "1";   // 阶段   1 采购申请  2 合同系统对接  3  到货验收 4合同验收

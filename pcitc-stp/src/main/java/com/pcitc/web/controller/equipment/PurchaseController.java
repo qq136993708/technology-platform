@@ -1,10 +1,9 @@
 package com.pcitc.web.controller.equipment;
 
 
-import java.io.PrintWriter;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.io.*;
+import java.math.BigDecimal;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +13,9 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.stp.equipment.*;
 import com.pcitc.base.system.SysDictionary;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.ResultsDate;
+import com.pcitc.web.utils.WordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -49,10 +50,8 @@ public class PurchaseController extends BaseController{
     private static final String ADD_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/add";
     private static final String UPDATE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/update";
     private static final String DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/delete/";
-    //
-    public static final String GET_EQUIPMENT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/get/";
-    public static final String UPDATE_EQUIPMENT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/update";
-
+    //临时导出文件目录
+    private static final String TEMP_FILE_PATH = "src/main/resources/tem/";
 
     // 流程操作--同意
     //private static final String AUDIT_AGREE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/task/agree/";
@@ -98,6 +97,32 @@ public class PurchaseController extends BaseController{
         request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 
         return "/stp/equipment/purchase/arrive-goods-list";
+    }
+    @RequestMapping(value = "/sre-purchase/apply_list")
+    public String apply_list(HttpServletRequest request, HttpServletResponse response)throws Exception {
+
+
+
+        List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+        request.setAttribute("dicList", dicList);
+
+        List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
+        request.setAttribute("unitFieldList", unitFieldList);
+
+
+        String	parentUnitPathIds="";
+        String unitPathIds =   sysUserInfo.getUnitPath();
+        if(unitPathIds!=null && !unitPathIds.equals(""))
+        {
+            if(unitPathIds.length()>4)
+            {
+                parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
+
+            }
+        }
+        request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+
+        return "/stp/equipment/purchase/apply-list";
     }
 
 	/**
@@ -414,32 +439,6 @@ public class PurchaseController extends BaseController{
         return "/stp/equipment/purchase/purchase-view";
     }
 
-    @RequestMapping(value = "/sre-purchase/apply_list")
-    public String apply_list(HttpServletRequest request, HttpServletResponse response)throws Exception {
-
-
-
-        List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
-        request.setAttribute("dicList", dicList);
-
-        List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
-        request.setAttribute("unitFieldList", unitFieldList);
-
-
-        String	parentUnitPathIds="";
-        String unitPathIds =   sysUserInfo.getUnitPath();
-        if(unitPathIds!=null && !unitPathIds.equals(""))
-        {
-            if(unitPathIds.length()>4)
-            {
-                parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-
-            }
-        }
-        request.setAttribute("parentUnitPathIds", parentUnitPathIds);
-
-        return "/stp/equipment/purchase/apply-list";
-    }
     @RequestMapping(value = "/sre-purchase/upFileDoc")
     public String upFileDoc(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -548,7 +547,7 @@ public class PurchaseController extends BaseController{
         }
         return resultsDate;
     }
-    //合同系统对接
+    //合同系统对接上报
     @RequestMapping(value = "/sre-purchase/contractSubmission/{id}")
     @ResponseBody
     public Result contractSubmission(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -567,5 +566,158 @@ public class PurchaseController extends BaseController{
             resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
         }
         return resultsDate;
+    }//
+    //到货验收上报
+    @RequestMapping(value = "/sre-purchase/arriveGoodsSubmission/{id}")
+    @ResponseBody
+    public Result arriveGoodsSubmission(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Result resultsDate = new Result();
+
+        ResponseEntity<SrePurchase> exchange = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
+        SrePurchase srePurchase = exchange.getBody();
+        srePurchase.setState(Constant.PURCHASE_STATUS_ARRIVE_GOODS);
+        srePurchase.setStage(Constant.PURCHASE_CONTRACT_CHECK);
+        ResponseEntity<String> exchange1 = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
+        int statusCodeValue = exchange1.getStatusCodeValue();
+        if (statusCodeValue == 200) {
+            resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
+        } else
+        {
+            resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
+        }
+        return resultsDate;
     }
+
+
+
+    /* =================================生成word文档  START================================*/
+    //生成采购单模板
+    @RequestMapping(value = "/sre-purchase/createWord/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public String createWord(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception
+    {
+        Result resultsDate = new Result();
+        String fileName=createPurchaseWord( id,"purchase.ftl",  response);
+        if (!fileName.equals(""))
+        {
+            resultsDate = new Result(true);
+            download(TEMP_FILE_PATH+fileName, response);
+            deleteFile(TEMP_FILE_PATH+fileName);
+        } else {
+            resultsDate = new Result(false, "生成文件失败！");
+        }
+        return null;
+    }
+    //生成word文档--任务书签字盖章页
+    private String  createPurchaseWord(String id,String ftlName, HttpServletResponse response)
+    {
+
+        String  resutl="";
+        // 文件路径
+        String filePath = TEMP_FILE_PATH;
+        // 文件名称
+        String fileName =DateUtil.dateToStr(new Date(), DateUtil.FMT_SSS_02)+".doc";
+        try {
+            List<Map<String, Object>> purchaseEquipmentList = new ArrayList<Map<String, Object>>();
+            Map<String, Object> dataMap = new HashMap<String, Object>();
+            SrePurchase srePurchase = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class).getBody();
+            String purchaseName = srePurchase.getPurchaseName();
+            String equipmentIds = srePurchase.getEquipmentId();
+            SreEquipment sreEquipment = new SreEquipment();
+            String[] arr = equipmentIds.split(",");
+
+            for (int i = 0; i < arr.length; i++) {
+                sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
+                String name = sreEquipment.getName();
+                String specification = sreEquipment.getSpecification();
+                Integer applyAcount = sreEquipment.getApplyAcount();
+                BigDecimal unitPrice = sreEquipment.getUnitPrice();
+                String unitPathNames = sreEquipment.getUnitPathNames();
+
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("name",name);
+                map.put("specification",specification);
+                map.put("applyAcount",applyAcount);
+                map.put("unitPrice",unitPrice);
+                map.put("unitPathNames",unitPathNames);
+                purchaseEquipmentList.add(map);
+            }
+            dataMap.put("purchaseEquipmentList",purchaseEquipmentList);
+            dataMap.put("purchaseName",purchaseName);
+            
+            /** 生成word */
+            boolean flage= WordUtil.createWord(dataMap, ftlName, filePath, fileName);
+            if(flage==true)
+            {
+                resutl=fileName;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resutl;
+    }
+
+
+
+
+
+
+
+    public HttpServletResponse download(String path, HttpServletResponse response)
+    {
+        try {
+            // path是指欲下载的文件的路径。
+            File file = new File(path);
+            // 取得文件名。
+            String filename = file.getName();
+            // 取得文件的后缀名。
+            String ext = filename.substring(filename.lastIndexOf(".") + 1).toUpperCase();
+
+            // 以流的形式下载文件。
+            InputStream fis = new BufferedInputStream(new FileInputStream(path));
+            byte[] buffer = new byte[fis.available()];
+            fis.read(buffer);
+            fis.close();
+            // 清空response
+            response.reset();
+            // 设置response的Header
+            response.setCharacterEncoding("UTF-8");
+            response.addHeader("Content-Disposition", "attachment;filename=" + new String(filename.getBytes()));
+            response.addHeader("Content-Length", "" + file.length());
+            OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+            response.setContentType("application/octet-stream");
+            toClient.write(buffer);
+            toClient.flush();
+            toClient.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return response;
+    }
+
+
+
+
+    public  boolean deleteFile(String fileName)
+    {
+        File file = new File(fileName);
+        // 如果文件路径所对应的文件存在，并且是一个文件，则直接删除
+        if (file.exists() && file.isFile())
+        {
+            if (file.delete())
+            {
+                System.out.println("删除单个文件" + fileName + "成功！");
+                return true;
+            } else
+            {
+                System.out.println("删除单个文件" + fileName + "失败！");
+                return false;
+            }
+        } else
+        {
+            System.out.println("删除单个文件失败：" + fileName + "不存在！");
+            return false;
+        }
+    }
+    /* =================================生成word文档  END================================*/
 }

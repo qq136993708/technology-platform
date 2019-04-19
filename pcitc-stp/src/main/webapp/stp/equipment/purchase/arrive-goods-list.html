@@ -86,7 +86,7 @@
             upQianEvent: function(){ //上传到货签收单
                 if (typeof(selectRowData) == "undefined")
                 {
-                    layer.msg('请点击选择采购单');
+                    layer.msg('请点击选择一条数据');
                 }else
                 {
                     var contractNum=selectRowData.contractNum;
@@ -110,6 +110,27 @@
                         });
                     }
 
+                }
+            },applyEvent: function(){  //点击上报按钮
+
+                if (typeof(selectRowData) == "undefined")
+                {
+                    layer.msg('请点击选择一行数据');
+                }
+                else
+                {
+                    var id=selectRowData.id;
+                    var url="/sre-purchase/arriveGoodsSubmission/"+id;
+                    var backurl="/sre-purchase/to-arrive-goods-list";
+                    var state=selectRowData.state;
+                    if(state!='30')
+                    {
+                        layer.alert('请选择未上报的申请');
+                        return;
+                    }else{
+                        alert("XXX")
+                        ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
+                    }
                 }
             }
 
@@ -214,6 +235,45 @@
                 } else
                 {
                     layer.alert("操作失败");
+                }
+
+            },
+            error:function()
+            {
+                layer.alert("网络访问错误");
+            }
+
+        });
+    }
+    function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
+    {
+        $.ajax({
+            type:type,
+            url: url,
+            dataType:"json",
+            data:$("#"+formName).serialize(),
+            async: false,
+            cache: false,
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            success:function(data,status)
+            {
+
+                if(data.success==true ||data.success=='true')
+                {
+
+
+                    layer.alert(
+                        successMsg,
+                        {icon: 1,closeBtn: 0 },
+                        function ()
+                        {
+                            renderTable();
+                            layer.closeAll();
+                        });
+
+                } else
+                {
+                    layer.alert(failMsg);
                 }
 
             },

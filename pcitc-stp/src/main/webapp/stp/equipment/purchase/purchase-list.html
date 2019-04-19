@@ -67,13 +67,12 @@
                     data-type="rejectEvent">
                 <span class="btn-state btn-yellow"></span>退回调整
             </button>
-
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">新增</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" id="editEvent" data-type="editEvent">编辑</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="applyEvent" data-type="applyEvent">上报</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" id="detailEvent" data-type="detailEvent">详情</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  id="deleteEvent" data-type="deleteEvent">删除</button>
-           
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createWord" data-type="createWord">预览采购申请WORD文档</button>
         </div>
     </div>
    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table> 
@@ -331,7 +330,19 @@ var name=$('#name').val();
                         ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
                     }
                 }
-            },
+            },//预览采购申请单
+             createWord: function(){
+                 if (typeof(selectRowData) == "undefined")
+                 {
+                     layer.msg('请点击选择一行数据');
+                 }else
+                 {
+                     var id=selectRowData.id;
+                     var temUrl="/sre-purchase/createWord/" + id;
+                     location.href=temUrl;
+                     alert(temUrl);
+                 }
+             },
             allEvent: function(){ 
             	$("#state").val("");
             	renderTable();
