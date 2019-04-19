@@ -25,6 +25,8 @@ public class SysFunctionProperty {
 
     private String createUserId;
     
+    private String connector;
+    
     private String limit;
 
     private String page;
@@ -33,7 +35,15 @@ public class SysFunctionProperty {
 
     private String sSortDir_0;
     
-    public String getLimit() {
+    public String getConnector() {
+		return connector;
+	}
+
+	public void setConnector(String connector) {
+		this.connector = connector;
+	}
+
+	public String getLimit() {
 		return limit;
 	}
 
