@@ -53,6 +53,7 @@
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"     data-type="addEvent"  id="addEvent" > 新增</button>
             <!-- <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit"    data-type="editEvent"  id="editEvent" >编辑</button> -->
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent" id="detailEvent" >详情</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="upforEvent" id="upforEvent" >上报</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="deleteEvent" id="deleteEvent" >删除</button>
           <!--   <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="acceptSoftEvent" >软件验收</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="acceptHareEvent" >硬件验收</button> -->
@@ -195,10 +196,10 @@ var name=$('#name').val();
                  if (typeof(selectRowData) == "undefined") 
                  {
             		layer.msg('请点击选择一行数据');
-            	 } else if(selectRowData.applicationState =="2"){
+            	 } else if(selectRowData.applicationState =="30"){
             		 layer.msg('转资申请已通过,不能删除');
-            	}else if(selectRowData.applicationState =="1"){
-            		layer.msg('转资申请正在审批,不能删除');
+            	}else if(selectRowData.applicationState =="20"){
+            		layer.msg('转资申请已上报,不能删除');
             	}else {
             		var applicationId=selectRowData.applicationId;
             		var url="/sre-forapplication/delete/"+applicationId;
@@ -208,8 +209,25 @@ var name=$('#name').val();
 	         			});
             	}
               
-            },
-            detailEvent: function(){  //点击详情按钮
+            },upforEvent: function(){  //点击上报按钮
+                console.log('点击了上报按钮')
+                if (typeof(selectRowData) == "undefined") 
+                {
+           		layer.msg('请点击选择一行数据');
+           	 } else if(selectRowData.applicationState =="30"){
+           		 layer.msg('转资申请已通过,不能上报');
+           	}else if(selectRowData.applicationState =="20"){
+           		layer.msg('转资申请已上报,不能重复上报');
+           	}else {
+           		var applicationId=selectRowData.applicationId;
+           		var url="/sre-forapplication/upforapplication/"+applicationId;
+	           		  layer.confirm('确定要上报吗？', { btn: ['确定','取消']}, function(){
+	         				 ajaxDeleteOpt(url,"post","上报成功","上报失败");
+	         			}, function(){
+	         			});
+           	}
+             
+           },detailEvent: function(){  //点击详情按钮
             	if (typeof(selectRowData) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
@@ -300,7 +318,7 @@ var name=$('#name').val();
       
         //监听表格双击事件
         table.on('rowDouble(processdef-table)', function(obj){
-        	var temUrl = '/sre-forapplication/get/'+obj.data.equipmentId;
+        	var temUrl = '/sre-forapplication/get/'+obj.data.applicationId;
         	openFullWin("详情",temUrl);
         });
         
@@ -344,7 +362,7 @@ var name=$('#name').val();
            cols: [[
            	   {type : 'checkbox', event : 'changeEvents', width : 55},
            	{title : '序号', type : 'numbers', width : 55},
-            {field : 'applicationState', title : '转资申请状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.applicationState) }}</div>', width : '10%'},
+            {field : 'applicationState', title : '转资申请状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.fprappStatus_equipment(d.applicationState) }}</div>', width : '10%'},
             {field : 'applicationName',     title : '转资名称', style : 'cursor: pointer;', align : 'left', width : '30%',templet:function(d){return '<span onclick="view(\''+d.applicationId+'\')" style="color:#17a2b8">'+d.applicationName+'</span>'} },
             {field : 'applicationUserName', title : '转资申请人', style : 'cursor: pointer;', align : 'left', width : '29%'},
             {field : 'applicationTime', title : '转资时间', style : 'cursor: pointer;', align : 'center',width : '22%', templet : '#dateTpl'},
