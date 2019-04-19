@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.equipment.SreEquipment;
@@ -103,14 +104,32 @@ public  class ForApplicationServiceImpl implements ForApplicationService {
 	}
 	
 	public int deleteForapplication(String id)throws Exception
-	{
+	{	
+		SreForApplication srefor = sreforapplicationMapper.selectByPrimaryKey(id);
+		if(srefor!=null) {
+			String[] sre = srefor.getApplicationPurchaseid().split(",");
+			for(int i = 0 ;i<sre.length;i++) {
+				SreEquipment  equipmen = sreEquipmentMapper.selectByPrimaryKey(sre[i]);
+				if(equipmen!=null) {
+					equipmen.setForStatus(Constant.EQUME_ZERO);
+					sreEquipmentMapper.updateByPrimaryKeySelective(equipmen);
+				}
+			}
+		}
 		return sreforapplicationMapper.deleteByPrimaryKey(id);
 	}
 
 
 	@Override
 	public Integer insertForApplication(SreForApplication record) {
-		
+		String[] strp = record.getApplicationPurchaseid().split(",");
+		for(int i = 0 ;i<strp.length;i++) {
+			SreEquipment  equipmen = sreEquipmentMapper.selectByPrimaryKey(strp[i]);
+			if(equipmen!=null) {
+				equipmen.setForStatus(Constant.EQUME_ONE);
+				sreEquipmentMapper.updateByPrimaryKeySelective(equipmen);
+			}
+		}
 		return sreforapplicationMapper.insert(record);
 	}
 
@@ -181,6 +200,15 @@ public  class ForApplicationServiceImpl implements ForApplicationService {
 		Long total = pageInfo.getTotal();
 		data.setCount(total.intValue());
 	    return data;
+	}
+
+
+	@Override
+	public int upForapplication(String id) {
+		SreForApplication record = new SreForApplication();
+		record.setApplicationId(id);
+		record.setApplicationState(Constant.OK_NEO);
+		return sreforapplicationMapper.updateByPrimaryKeySelective(record);
 	}
 
 }

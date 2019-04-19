@@ -82,6 +82,11 @@ public class ForApplicationProviderClient
 		LayuiTableData rageResult=detailService.getForApplicationView(param);
 		return rageResult;
 	}
+	
+	@RequestMapping(value = "/sre-provider/forapplication/upfor/{id}", method = RequestMethod.POST)
+	public int upforSreForapplication(@PathVariable("id") String id)throws Exception{
+		return forapplicationService.upForapplication(id);
+	}
 	/**===============================================装备台账===================================================*/
 	
 	@ApiOperation(value = "装备台账分页", notes = "装备台账分页")
