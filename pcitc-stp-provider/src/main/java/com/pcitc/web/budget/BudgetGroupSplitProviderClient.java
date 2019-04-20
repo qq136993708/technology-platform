@@ -360,20 +360,4 @@ public class BudgetGroupSplitProviderClient
 		}
 		return null;
 	}
-	@ApiOperation(value="集团公司预算分解-获取指定年度最终预算表",notes="获取指定年度最终预算表信息及列表")
-	@RequestMapping(value = "/stp-provider/budget/get-final-groupsplit", method = RequestMethod.POST)
-	public Object selectFinalGroupSplitInfo(@RequestBody String nd) throws Exception 
-	{
-		BudgetInfo info = budgetInfoService.selectFinalBudget(nd, BudgetInfoEnum.GROUP_TOTAL.getCode());
-		Map<String,Object> rsmap = new HashMap<String,Object>();
-		if(info != null) {
-			rsmap = MyBeanUtils.transBean2Map(info);
-			
-			
-		}else {
-			rsmap.put("items", new ArrayList<BudgetGroupTotal>());
-			rsmap.put("items_total", 0);
-		}
-		return rsmap;
-	}
 }

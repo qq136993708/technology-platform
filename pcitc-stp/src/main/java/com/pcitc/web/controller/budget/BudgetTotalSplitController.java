@@ -66,27 +66,27 @@ public class BudgetTotalSplitController extends BaseController {
 		return "stp/budget/budget_main_totalsplit";
 	}
 	
-	@RequestMapping(value = "/budget/budget-group-split-final", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/get-final-groupsplit", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getFinalBudgetGroupAssetStockList(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
 	{
-		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_GROUP, HttpMethod.POST, new HttpEntity<String>(info.getNd(), this.httpHeaders), Object.class);
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_GROUP, HttpMethod.POST, new HttpEntity<Object>(info, this.httpHeaders), Object.class);
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
 	
-	@RequestMapping(value = "/budget/budget-asset-split-final", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/get-final-assetsplit", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getFinalBudgetAssetAssetStockList(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
 	{
-		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_ASSET, HttpMethod.POST, new HttpEntity<String>(info.getNd(), this.httpHeaders), Object.class);
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_ASSET, HttpMethod.POST, new HttpEntity<Object>(info, this.httpHeaders), Object.class);
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
 	
-	@RequestMapping(value = "/budget/budget-stock-split-final", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/get-final-stocksplit", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getFinalBudgetStockAssetStockList(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
 	{
-		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_STOCK, HttpMethod.POST, new HttpEntity<String>(info.getNd(), this.httpHeaders), Object.class);
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_STOCK, HttpMethod.POST, new HttpEntity<Object>(info, this.httpHeaders), Object.class);
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
 	
