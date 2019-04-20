@@ -53,15 +53,15 @@ public class BudgetSplitDataProviderClient
 	
 	@ApiOperation(value="预算分解总表-集团预算分解总表",notes="集团预算分解总表")
 	@RequestMapping(value = "/stp-provider/budget/get-final-groupsplit", method = RequestMethod.POST)
-	public Object selectBudgetGroupSplitDataList(@RequestBody BudgetInfo info) 
+	public Object selectBudgetGroupSplitDataList(@RequestBody String nd) 
 	{
 		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
 		try
 		{
 			//最终预算
-			BudgetInfo fInfo = budgetInfoService.selectFinalBudget(info.getNd(),BudgetInfoEnum.GROUP_SPLIT.getCode());
+			BudgetInfo fInfo = budgetInfoService.selectFinalBudget(nd,BudgetInfoEnum.GROUP_SPLIT.getCode());
 			if(fInfo == null) {
-				fInfo = budgetInfoService.selectBudgetInfoList(info.getNd(),BudgetInfoEnum.GROUP_SPLIT.getCode()).get(0);
+				fInfo = budgetInfoService.selectBudgetInfoList(nd,BudgetInfoEnum.GROUP_SPLIT.getCode()).get(0);
 			}
 			List<Map<String,Object>> list = budgetGroupSplitService.selectBudgetSplitDataList(fInfo == null?"xxx":fInfo.getDataId());
 			
@@ -85,15 +85,15 @@ public class BudgetSplitDataProviderClient
 	}
 	@ApiOperation(value="预算分解总表-资产预算分解总表",notes="资产预算分解总表")
 	@RequestMapping(value = "/stp-provider/budget/get-final-assetsplit", method = RequestMethod.POST)
-	public Object selectBudgetAssetSplitDataList(@RequestBody BudgetInfo info) 
+	public Object selectBudgetAssetSplitDataList(@RequestBody String nd) 
 	{
 		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
 		try
 		{
 			//最终预算
-			BudgetInfo fInfo = budgetInfoService.selectFinalBudget(info.getNd(),BudgetInfoEnum.ASSET_SPLIT.getCode());
+			BudgetInfo fInfo = budgetInfoService.selectFinalBudget(nd,BudgetInfoEnum.ASSET_SPLIT.getCode());
 			if(fInfo == null) {
-				fInfo = budgetInfoService.selectBudgetInfoList(info.getNd(),BudgetInfoEnum.ASSET_SPLIT.getCode()).get(0);
+				fInfo = budgetInfoService.selectBudgetInfoList(nd,BudgetInfoEnum.ASSET_SPLIT.getCode()).get(0);
 			}
 			
 			
@@ -119,20 +119,20 @@ public class BudgetSplitDataProviderClient
 	}
 	@ApiOperation(value="预算分解总表-股份预算分解总表",notes="股份预算分解总表")
 	@RequestMapping(value = "/stp-provider/budget/get-final-stocksplit", method = RequestMethod.POST)
-	public Object selectBudgetStockSplitDataList(@RequestBody BudgetInfo info) 
+	public Object selectBudgetStockSplitDataList(@RequestBody String nd) 
 	{
 		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
 		try
 		{
-			BudgetInfo xtwInfo = budgetInfoService.selectFinalBudget(info.getNd(),BudgetInfoEnum.STOCK_XTY_SPLIT.getCode());
-			BudgetInfo zgsInfo = budgetInfoService.selectFinalBudget(info.getNd(),BudgetInfoEnum.STOCK_ZGS_SPLIT.getCode());
-			BudgetInfo zsyInfo = budgetInfoService.selectFinalBudget(info.getNd(),BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode());
+			BudgetInfo xtwInfo = budgetInfoService.selectFinalBudget(nd,BudgetInfoEnum.STOCK_XTY_SPLIT.getCode());
+			BudgetInfo zgsInfo = budgetInfoService.selectFinalBudget(nd,BudgetInfoEnum.STOCK_ZGS_SPLIT.getCode());
+			BudgetInfo zsyInfo = budgetInfoService.selectFinalBudget(nd,BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode());
 			if(xtwInfo == null) {
-				xtwInfo = budgetInfoService.selectBudgetInfoList(info.getNd(),BudgetInfoEnum.STOCK_XTY_SPLIT.getCode()).get(0);
+				xtwInfo = budgetInfoService.selectBudgetInfoList(nd,BudgetInfoEnum.STOCK_XTY_SPLIT.getCode()).get(0);
 			}if(zgsInfo == null) {
-				zgsInfo = budgetInfoService.selectBudgetInfoList(info.getNd(),BudgetInfoEnum.STOCK_ZGS_SPLIT.getCode()).get(0);
+				zgsInfo = budgetInfoService.selectBudgetInfoList(nd,BudgetInfoEnum.STOCK_ZGS_SPLIT.getCode()).get(0);
 			}if(zsyInfo == null) {
-				zsyInfo = budgetInfoService.selectBudgetInfoList(info.getNd(),BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode()).get(0);
+				zsyInfo = budgetInfoService.selectBudgetInfoList(nd,BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode()).get(0);
 			}
 			
 			List<Map<String,Object>> xtw = budgetStockSplitXtwSplitService.selectBudgetSplitDataList(xtwInfo==null?"xxx":xtwInfo.getDataId());

@@ -11,7 +11,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,13 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.HttpEntity;
@@ -40,11 +36,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.pcitc.base.stp.budget.BudgetAssetTotal;
-import com.pcitc.base.stp.budget.BudgetGroupTotal;
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.stp.budget.BudgetInfo;
-import com.pcitc.base.stp.budget.BudgetStockTotal;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 /**
@@ -70,7 +63,7 @@ public class BudgetTotalSplitController extends BaseController {
 	@ResponseBody
 	public Object getFinalBudgetGroupAssetStockList(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
 	{
-		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_GROUP, HttpMethod.POST, new HttpEntity<Object>(info, this.httpHeaders), Object.class);
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_GROUP, HttpMethod.POST, new HttpEntity<String>(info.getNd(), this.httpHeaders), Object.class);
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
 	
@@ -78,7 +71,7 @@ public class BudgetTotalSplitController extends BaseController {
 	@ResponseBody
 	public Object getFinalBudgetAssetAssetStockList(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
 	{
-		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_ASSET, HttpMethod.POST, new HttpEntity<Object>(info, this.httpHeaders), Object.class);
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_ASSET, HttpMethod.POST, new HttpEntity<String>(info.getNd(), this.httpHeaders), Object.class);
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
 	
@@ -86,7 +79,7 @@ public class BudgetTotalSplitController extends BaseController {
 	@ResponseBody
 	public Object getFinalBudgetStockAssetStockList(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
 	{
-		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_STOCK, HttpMethod.POST, new HttpEntity<Object>(info, this.httpHeaders), Object.class);
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_STOCK, HttpMethod.POST, new HttpEntity<String>(info.getNd(), this.httpHeaders), Object.class);
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
 	
@@ -97,68 +90,29 @@ public class BudgetTotalSplitController extends BaseController {
 		List<Map<String,Object>> data = new ArrayList<Map<String,Object>>();
 		
 		
-		ResponseEntity<Map> responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_STOCK, HttpMethod.POST, new HttpEntity<String>(nd, this.httpHeaders), Map.class);
-		Map stockMap = responseEntity.getBody();
-		Object json = JSON.toJSON(stockMap.get("items"));
-		JSONArray array = JSON.parseArray(json.toString());
-		for(java.util.Iterator<Object> iter = array.iterator();iter.hasNext();) {
-			BudgetStockTotal total = JSON.toJavaObject(JSON.parseObject(iter.next().toString()), BudgetStockTotal.class);
-			Map<String,Object> map = new HashMap<String,Object>();
-			map.put("total", total.getXmjfTotal());
-			map.put("zbx", total.getXmjfZbx());
-			map.put("fyx", total.getXmjfFyx());
-			map.put("no", total.getNo());
-			map.put("displayName", total.getDisplayName());
-			map.put("level", total.getLevel());
-			
-			data.add(map);
+		ResponseEntity<List> responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_STOCK, HttpMethod.POST, new HttpEntity<String>(nd, this.httpHeaders), List.class);
+		List<Map<String,Object>> array = responseEntity.getBody();
+		for(java.util.Iterator<?> iter = array.iterator();iter.hasNext();) {
+			JSONObject json = JSON.parseObject(JSON.toJSONString(iter.next()));
+			data.add(JSON.toJavaObject(json, Map.class));
+		}
+		responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_GROUP, HttpMethod.POST, new HttpEntity<String>(nd, this.httpHeaders), List.class);
+		array = responseEntity.getBody();
+		for(int i = 0;i<array.size();i++) {
+			data.get(i).putAll(array.get(i));
 		}
 		
-		
-		responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_GROUP, HttpMethod.POST, new HttpEntity<String>(nd, this.httpHeaders), Map.class);
-		Map groupMap = responseEntity.getBody();
-		json = JSON.toJSON(groupMap.get("items"));
-		array = JSON.parseArray(json.toString());
-		Double fyx=0d;
-		for(java.util.Iterator<Object> iter = array.iterator();iter.hasNext();) {
-			BudgetGroupTotal group = JSON.toJavaObject(JSON.parseObject(iter.next().toString()), BudgetGroupTotal.class);
-			fyx += group.getXmjf()+group.getZxjf();
+		responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_ASSET, HttpMethod.POST, new HttpEntity<String>(nd, this.httpHeaders), List.class);
+		array = responseEntity.getBody();
+		for(int i = 0;i<array.size();i++) {
+			data.get(i).putAll(array.get(i));
 		}
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("total", fyx);
-		map.put("zbx", 0d);
-		map.put("fyx", fyx);
-		map.put("no", 0);
-		map.put("displayName", "二、集团公司合计");
-		map.put("level", -1);
-		
-		data.add(map);
-		
-		
-		responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_ASSET, HttpMethod.POST, new HttpEntity<String>(nd, this.httpHeaders), Map.class);
-		Map assetMap = responseEntity.getBody();
-		json = JSON.toJSON(assetMap.get("items"));
-		array = JSON.parseArray(json.toString());
-		fyx=0d;
-		for(java.util.Iterator<Object> iter = array.iterator();iter.hasNext();) {
-			BudgetAssetTotal asset = JSON.toJavaObject(JSON.parseObject(iter.next().toString()), BudgetAssetTotal.class);
-			fyx += asset.getXmjf();
-		}
-		map = new HashMap<String,Object>();
-		map.put("total", fyx);
-		map.put("zbx", 0d);
-		map.put("fyx", fyx);
-		map.put("no", 0);
-		map.put("displayName", "三、股份公司合计");
-		map.put("level", -1);
-		
-		data.add(map);
 		
 		URL path = this.getClass().getResource("/");
-		File f = new File(path.getPath() + "static/budget/budget_total_template.xlsx");
-		//System.out.println(f.getAbsolutePath());
+		File f = new File(path.getPath() + "static/budget/budget_totalsplit_template.xlsx");
+		System.out.println(JSON.toJSONString(data));
 		//写入新文件2019年集团公司总部科技经费预算
-		String newFilePath = path.getPath() + "static/budget/"+nd+"年总部科技经费预算（建议稿）_"+DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss")+".xlsx";
+		String newFilePath = path.getPath() + "static/budget/"+nd+"年各处、部门科技经费预算总表（建议稿）_"+DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss")+".xlsx";
 		File outFile = new File(newFilePath);
 		
 		processDataAndDownload(f,new ArrayList(data),nd,outFile);
@@ -179,10 +133,7 @@ public class BudgetTotalSplitController extends BaseController {
 			
 			//处理标题 年度
 			String title = readCell(sheet.getRow(0).getCell(0));
-			String itemTitleJfys = readCell(sheet.getRow(2).getCell(2));
-			
 			sheet.getRow(0).getCell(0).setCellValue(title.replace("${nd}", ndStr));
-			sheet.getRow(2).getCell(2).setCellValue(itemTitleJfys.replace("${nd}",ndStr));
 			
 			//从第四行开始，第五行是汇总数据
 			Row templateRow = sheet.getRow(4);
@@ -203,98 +154,73 @@ public class BudgetTotalSplitController extends BaseController {
 			rightCenterStyle.setAlignment(HorizontalAlignment.RIGHT);
 			rightCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 			
-			//合计
-			Row totalRow = sheet.getRow(4);
-			totalRow.createCell(0).setCellValue("");
-			totalRow.createCell(1).setCellValue("");
-			totalRow.createCell(2).setCellValue("");
-			totalRow.createCell(3).setCellValue("");
-			totalRow.createCell(4).setCellValue("");
 			
-			
-			
-			Double stock_total = 0d;
-			Double stock_zbx = 0d;
-			Double stock_fyx = 0d;
 			for(int i = 0;i<list.size();i++) {
 				
+				System.out.println(JSON.toJSONString(list.get(i)));
 				Integer no = (Integer)list.get(i).get("no");
-				String displayName = list.get(i).get("displayName").toString();
-				Integer level = (Integer)list.get(i).get("level");
-				Double total = (Double)list.get(i).get("total");
-				Double zbx = (Double)list.get(i).get("zbx");
-				Double fyx = (Double)list.get(i).get("fyx");
+				String displayName = list.get(i).get("organName").toString();
+				
+				Double group_jz = (Double)list.get(i).get("group_jz");
+				Double group_xq = (Double)list.get(i).get("group_xq");
+				Double group_total = (Double)list.get(i).get("group_total");
+				
+				Double asset_jz = (Double)list.get(i).get("asset_jz");
+				Double asset_xq = (Double)list.get(i).get("asset_xq");
+				Double asset_total = (Double)list.get(i).get("asset_total");
+				
+				
+				Double stock_jz = Double.parseDouble(list.get(i).get("stock_jz").toString());
+				Double stock_xq = Double.parseDouble(list.get(i).get("stock_xq").toString());
+				Double stock_total = Double.parseDouble(list.get(i).get("stock_total").toString());
+				
+				Double jz = group_jz + asset_jz+ stock_jz;
+				Double xq = group_xq + asset_xq+ stock_xq;
+				Double total = group_total + asset_total+ stock_total;
 			
-				if(level==0) {//只求集团总数
-					stock_total += total;
-					stock_zbx += zbx;
-					stock_fyx += fyx;
-				}
+				Row crow = sheet.getRow(i+4);
+				
+				crow.getCell(0).setCellValue(no);
+				crow.getCell(1).setCellValue(displayName);
+				crow.getCell(2).setCellValue(total);
+				crow.getCell(3).setCellValue(jz);
+				crow.getCell(4).setCellValue(xq);
+				
+				crow.getCell(5).setCellValue(group_total);
+				crow.getCell(6).setCellValue(group_jz);
+				crow.getCell(7).setCellValue(group_xq);
+				
+				crow.getCell(8).setCellValue(asset_total);
+				crow.getCell(9).setCellValue(asset_jz);
+				crow.getCell(10).setCellValue(asset_xq);
+				
+				crow.getCell(11).setCellValue(stock_total);
+				crow.getCell(12).setCellValue(stock_jz);
+				crow.getCell(13).setCellValue(stock_xq);
 				
 				
-				Row crow = sheet.getRow(i+5);
-				if(level == 0) {
-					crow.createCell(0).setCellValue(no);
-				}else {
-					crow.createCell(0).setCellValue("");
-				}
-				crow.createCell(1).setCellValue(displayName);
-				crow.createCell(2).setCellValue(total);
-				crow.createCell(3).setCellValue(zbx);
-				crow.createCell(4).setCellValue(fyx);
-				
-				
-				
-				crow.getCell(0).setCellStyle(centerStyle);
-				if(level == 0) {
-					crow.getCell(1).setCellStyle(leftCenterStyle);
-				}else {
-					crow.getCell(1).setCellStyle(rightCenterStyle);
-				}
-				crow.getCell(2).setCellStyle(rightCenterStyle);
-				crow.getCell(3).setCellStyle(rightCenterStyle);
-				crow.getCell(4).setCellStyle(rightCenterStyle);
+				//crow.getCell(0).setCellStyle(centerStyle);
+				//crow.getCell(1).setCellStyle(leftCenterStyle);
+				//crow.getCell(2).setCellStyle(rightCenterStyle);
+				//crow.getCell(3).setCellStyle(rightCenterStyle);
+				//crow.getCell(4).setCellStyle(rightCenterStyle);
 				
 			}
-			totalRow.getCell(0).setCellValue("一、股份公司合计");
-			totalRow.getCell(1).setCellValue("");
-			totalRow.getCell(2).setCellValue(stock_fyx+stock_zbx);
-			totalRow.getCell(3).setCellValue(stock_zbx);
-			totalRow.getCell(4).setCellValue(stock_fyx);
-			
-			
-			
-			sheet.getRow(list.size()+3).getCell(0).setCellValue("二、集团公司合计");
-			sheet.getRow(list.size()+4).getCell(0).setCellValue("三、资产公司合计");
+			//汇总求和数据
+			for(java.util.Iterator<Row> iter = sheet.iterator();iter.hasNext();) {
+				for(java.util.Iterator<Cell> citer = iter.next().iterator();citer.hasNext();) {
+					Cell cell = citer.next();
+					if(cell.getRowIndex()>=4 && cell.getRowIndex()<21 && cell.getColumnIndex()>=2) {
+						cell.setCellStyle(rightCenterStyle);
+						Double val = cell.getNumericCellValue();						
+						//列汇总，第23行为汇总行
+						Double total = sheet.getRow(21).getCell(cell.getColumnIndex()).getNumericCellValue();
+						sheet.getRow(21).getCell(cell.getColumnIndex()).setCellValue(total+val);
+					}
+				}
+			}
 			//合计单元格合并
-			sheet.addMergedRegion(new CellRangeAddress(4,4,0,1));
-			sheet.addMergedRegion(new CellRangeAddress(list.size()+3,list.size()+3,0,1));
 			sheet.addMergedRegion(new CellRangeAddress(list.size()+4,list.size()+4,0,1));
-			//设置背景色
-			//cs.setFillPattern(XSSFCellStyle.FINE_DOTS );
-			//cs.setFillBackgroundXSSFColor(IndexedColors.RED.getIndex());
-			Integer [] color_rows = new Integer[]{4,list.size()+3,list.size()+4};
-			
-			XSSFCellStyle yellCellCenter = workbook.createCellStyle();
-			yellCellCenter.cloneStyleFrom(centerStyle);
-			yellCellCenter.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
-			yellCellCenter.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-			
-			XSSFCellStyle yellCellRight = workbook.createCellStyle();
-			yellCellRight.cloneStyleFrom(rightCenterStyle);
-			yellCellRight.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
-			yellCellRight.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-			
-			
-			
-			for(Integer row:color_rows) {
-				sheet.getRow(row).getCell(0).setCellStyle(yellCellCenter);
-				sheet.getRow(row).getCell(1).setCellStyle(yellCellCenter);
-				sheet.getRow(row).getCell(2).setCellStyle(yellCellRight);
-				sheet.getRow(row).getCell(3).setCellStyle(yellCellRight);
-				sheet.getRow(row).getCell(4).setCellStyle(yellCellRight);
-			}
-			
 			//写入新文件
 			FileOutputStream fos  = new FileOutputStream(outFile);
 			workbook.write(fos);
