@@ -88,15 +88,16 @@
 	                    <th lay-data="{field:'total', width: '6%',align: 'center',totalRow: true}" rowspan="2">合计</th>
 	                    <#list items as item>
 	                    	<#list item?keys as key> 
-	                    		<th lay-data="{field:'${key}_total', edit:true,align: 'right',totalRow: true}" colspan="2">${item[key]}</th>
+	                    		<th lay-data="{align: 'center',totalRow: true}" colspan="3">${item[key]}</th>
 	                    	</#list> 
 	                    </#list>
 	                </tr>
 	                 <tr>
 	                    <#list items as item>
-	                    	<#list item?keys as key> 
-	                    		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true}">结转</th>
-	                    		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true}">新签</th>
+	                    	<#list item?keys as key>
+	                    		<th lay-data="{field:'${key}_total', edit:true,align: 'right',totalRow: true}">预算</th> 
+	                    		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true}">老合同</th>
+	                    		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true}">可新签</th>
 	                    	</#list> 
 	                    </#list>
 	                </tr>
@@ -274,6 +275,8 @@
 	           		$.each(table_titles,function(i,title){
 	           			row_total_jz += parseInt(curent_tabel_data[index][title+"_jz"]);
 	           			row_total_xq += parseInt(curent_tabel_data[index][title+"_xq"]);
+	           			
+	           			curent_tabel_data[index][title+"_total"]=parseInt(curent_tabel_data[index][title+"_jz"])+parseInt(curent_tabel_data[index][title+"_xq"]);
 	               	});
 	           		curent_tabel_data[index].total_jz = row_total_jz;
 	           		curent_tabel_data[index].total_xq = row_total_xq;
