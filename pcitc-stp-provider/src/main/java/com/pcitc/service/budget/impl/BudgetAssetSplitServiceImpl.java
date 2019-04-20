@@ -150,12 +150,6 @@ public class BudgetAssetSplitServiceImpl implements BudgetAssetSplitService
 			total_jz += dt.getJz()==null?0:dt.getJz();
 			total_xq += dt.getXq()==null?0:dt.getXq();
 		}
-		List<BudgetSplitData> lsData = datas.stream().filter(a -> a.getOrganCode().equals(org.getCode())).filter(a -> a.getOrganId().equals(org.getId()))
-				.filter(a -> a.getSplitCode().equals("plan")).collect(Collectors.toList());
-		//计划数据（结转、新签）
-		map.put("plan_jz", lsData.size()>0?lsData.get(0).getJz():0);
-		map.put("plan_xq", lsData.size()>0?lsData.get(0).getXq():0);
-		map.put("plan_total", new Double(map.get("plan_jz").toString())+new Double(map.get("plan_xq").toString()));
 		
 		map.put("total_jz", total_jz);
 		map.put("total_xq", total_xq);
