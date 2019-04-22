@@ -1,9 +1,11 @@
 package com.pcitc.service.equipment.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.pcitc.base.common.Constant;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.mapper.equipment.SreProjectMapper;
 import org.slf4j.Logger;
@@ -47,6 +49,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 	
 	public LayuiTableData getPurchasePage(LayuiTableParam param)throws Exception
 	{
+		List<SrePurchase> list = new ArrayList<SrePurchase>();
 		//每页显示条数
 		int pageSize = param.getLimit();
 		//从第多少条开始
@@ -63,8 +66,35 @@ public class PurchaseServiceImpl implements PurchaseService {
 		String proposerName=getTableParam(param,"proposerName","");
 		String parentUnitPathNames=getTableParam(param,"parentUnitPathNames","");
 		String createDate=getTableParam(param,"createDate","");
-		
-		
+		if(state.equals(Constant.PURCHASE_STATUS_PASS)){
+			Map map=new HashMap();
+			map.put("purchaseName", purchaseName);
+			map.put("departName", departName);
+			map.put("stage", stage);
+			map.put("state", state);
+			map.put("proposerName", proposerName);
+			map.put("parentUnitPathNames", parentUnitPathNames);
+			map.put("createDate", createDate);
+
+			System.out.println(">>>>>>>>applyDepartCode="+departCode);
+			StringBuffer applyUnitCodeStr=new StringBuffer(); if(!departCode.equals("")) {
+				applyUnitCodeStr.append(" ("); String arr[]=departCode.split(",");
+				for(int i=0;i<arr.length;i++) {
+					if(i>0) {
+						applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]
+								+"', t.`depart_code`)");
+					}else {
+						applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`depart_code`)");
+					}
+				}
+				applyUnitCodeStr.append(" )");
+			}
+
+			map.put("sqlStr", applyUnitCodeStr.toString());
+
+
+			 list = srePurchaseMapper.getPassList(map);
+		}else{
 		Map map=new HashMap();
 		map.put("purchaseName", purchaseName);
 		map.put("departName", departName);
@@ -90,8 +120,9 @@ public class PurchaseServiceImpl implements PurchaseService {
 
 		 map.put("sqlStr", applyUnitCodeStr.toString());
 
-		
-		List<SrePurchase> list = srePurchaseMapper.getList(map);
+
+			list = srePurchaseMapper.getList(map);
+		}
 		PageInfo<SrePurchase> pageInfo = new PageInfo<SrePurchase>(list);
 		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
 		LayuiTableData data = new LayuiTableData();

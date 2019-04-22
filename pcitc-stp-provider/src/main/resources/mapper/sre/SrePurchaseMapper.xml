@@ -265,4 +265,13 @@
     </choose>
     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>
   </select>
+  <select id="getPassList" resultMap="BaseResultMap" parameterType="Map" >
+    select * from sre_purchase t where t.state >=${state}
+    <if test="proposerName != null and proposerName  !='' ">               AND t.proposer_name like CONCAT('%',#{proposerName},'%')</if>
+    <if test="purchaseName != null and purchaseName  !='' ">               AND t.purchase_name like CONCAT('%',#{purchaseName},'%')</if>
+    <if test="createDate!= null       and createDate !=''  ">     AND t.create_date = #{createDate}</if>
+    <if test="departCode != null        and departCode !=''  ">       AND t.depart_code = #{departCode}</if>
+    <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
+    <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>
+  </select>
 </mapper>
