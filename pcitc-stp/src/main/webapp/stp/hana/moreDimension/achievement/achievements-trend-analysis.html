@@ -4,11 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/mainStp.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
+   <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
 </head>
 <body >
 <div class="layui-fluid">
@@ -20,17 +17,8 @@
                 <input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
             </label>
             <div class="layui-input-inline">
-                <select name="companyCode" id="companyCode" >
-                    <#list companyCodeList as vo>
-                        <#if vo.g0GSJC == '全部'>
-                            <option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
-                        </#if>
-                        <#if vo.g0GSJC != '全部'>
-                            <option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
-                        </#if>
-                    </#list>
-                </select>
-            </div>
+              <select id="companyCode" name="companyCode" class="form-control"></select>
+             </div>
             <form class="layui-form" style="    display: inline;padding-left: 10px;">
                 <div class="layui-input-inline">
                     <#list projectCodeList as vo>
@@ -110,7 +98,12 @@
 <script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
 <script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
+<script src="/stp/hana/common/hana_common.js"></script>
 <script type="text/javascript">
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
+
+
 layui.config({
 	 base: '/layuiadmin/lib/extend/'
 }).use(['jquery','form', 'laydate','table','laypage'], function(){
@@ -131,7 +124,7 @@ layui.config({
 
 function init()
 {
-	
+	init_companyCode(functionId);
 		var v_date=(new Date()).getTime();
 		var year=$('#year').val();
 		var companyCode=$('#companyCode').val();
