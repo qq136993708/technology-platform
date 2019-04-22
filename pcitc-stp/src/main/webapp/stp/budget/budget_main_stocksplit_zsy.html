@@ -145,6 +145,9 @@
         layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
             var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods; 
             var param = JSON.parse(window.localStorage.getItem("param"));
+            var dev_obj = document.getElementById('tableBox'); //table的父div;            //layui table 父div
+            var layuitable = null;  //当前的layui table
+            var scrollTop = 0;      //记录位置
             laydate.render({
                 elem: '#choose-year'
                 ,value: cu_date
@@ -227,6 +230,15 @@
             			curent_tabel_data[index][obj.field] = parseInt(obj.value);
             		}
             	});
+            	//记录位置
+            	if (dev_obj != null)
+	            {
+	                layuitable = dev_obj.getElementsByClassName("layui-table-main");
+	                if (layuitable != null && layuitable.length > 0)
+	                {
+	                    scrollTop = layuitable[0].scrollTop; //layuitable获取到的是 class=layui-table-main的集合
+	                }
+	            }
             	//计算求和
             	calulationTotalMoney();
             	//预分配数
@@ -242,7 +254,12 @@
 			});
 			//刷新数据
 			window.relaodTable = function(tableId,tableData){
-				table.reload(tableId, {data: tableData});
+				table.reload(tableId, {data: tableData,done:function(){
+					if (layuitable != null && layuitable.length > 0)
+	                {
+	                    layuitable[0].scrollTop = scrollTop;
+	                }
+				}});
 				//格式化求和
 				$.each($(".layui-table-total tr td"),function(i,d){
 					if(i>=3){
