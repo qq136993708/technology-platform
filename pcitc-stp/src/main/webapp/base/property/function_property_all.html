@@ -52,10 +52,21 @@
 
 					<div class="treeBox" style="display: none; left: 50%; width: 50%; height: 100%;" name="configDiv" id="supervision_unit_code">
 						<div class="title-box title-btns">
-							监理单位配置项
+							配置
 							<span>
 								<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_import btnMyBgImg thirdBtn" data-type="saveUnitModelEvent">保存模板</button>
 								<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg thirdBtn" data-type="saveUnitConfigEvent">保存配置</button>
+							</span>
+							
+							<span>
+								连接符
+								<select id="connectorConfigUnit" name="connectorConfigUnit">
+									<option value=",">,</option>
+									<option value="|">|</option>
+									<option value="*">*</option>
+									<option value="-">-</option>
+									<option value="&">&</option>
+								</select>
 							</span>
 							<span>
 								<select id="dataModel" name="dataModel" onchange="changeDataModel(this)">
@@ -76,7 +87,7 @@
 							</span>
 							连接符
 							<span>
-								<select id="connector" name="connector">
+								<select id="connectorInstitute" name="connectorInstitute">
 									<option value=",">,</option>
 									<option value="|">|</option>
 									<option value="*">*</option>
@@ -813,6 +824,7 @@
 						"functionId" : $('#funcId').val(),
 						"proCode" : configProCode,
 						"postConfigValue" : JSON.stringify(configSelectUnitIds),
+						"connector" : $("#connectorConfigUnit").val(),
 					},
 					url : '/userProperty/function/config/post/save',
 					success : function(data) {
@@ -941,7 +953,7 @@
 				"functionId" : $('#funcId').val(),
 				"proCode" : configProCode,
 				"postConfigValue" : JSON.stringify(configValue),
-				"connector" : $("#connector").val(),
+				"connector" : $("#connectorInstitute").val(),
 			},
 			url : '/userProperty/function/config/post/save',
 			success : function(data) {
