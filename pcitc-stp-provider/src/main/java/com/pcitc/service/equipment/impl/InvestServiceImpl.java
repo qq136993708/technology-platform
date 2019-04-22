@@ -19,12 +19,15 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreForApplication;
 import com.pcitc.base.stp.equipment.SreInvestmentrogress;
+import com.pcitc.base.stp.equipment.SreProcurementProgram;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectTask;
+import com.pcitc.base.stp.equipment.SrePurchase;
 import com.pcitc.mapper.equipment.SreEquipmentMapper;
 import com.pcitc.mapper.equipment.SreForApplicationMapper;
 import com.pcitc.mapper.equipment.SreProjectMapper;
 import com.pcitc.mapper.equipment.SreProjectTaskMapper;
+import com.pcitc.mapper.equipment.SrePurchaseMapper;
 import com.pcitc.service.equipment.InvestService;
 @Service("investService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
@@ -40,6 +43,8 @@ public  class InvestServiceImpl implements InvestService {
 	private SreEquipmentMapper sreEquipmentMapper;
 	@Autowired
 	private SreProjectTaskMapper sreProjectTaskMapper;
+	@Autowired
+	private SrePurchaseMapper srePurchaseMapper;
 	
 	private String getTableParam(LayuiTableParam param,String paramName,String defaultstr)
 	{
@@ -103,6 +108,39 @@ public  class InvestServiceImpl implements InvestService {
 			list.add(mentrogress);
 		}
 		PageInfo<SreInvestmentrogress> pageInfo = new PageInfo<SreInvestmentrogress>(list);
+		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+	    return data;
+	}
+
+
+	@Override
+	public LayuiTableData getProcurementProgramPage(LayuiTableParam param) {
+		SreProcurementProgram srerogram = new SreProcurementProgram();
+		List<SreProcurementProgram> list = new ArrayList<SreProcurementProgram>();
+		String purchaseId=getTableParam(param,"purchaseId","");
+		SrePurchase purchase = srePurchaseMapper.selectByPrimaryKey(purchaseId);//获取采购信息
+		if(purchase!=null) {
+			srerogram.setPurchaseName(purchase.getPurchaseName());//获取采购名称
+			if(Integer.valueOf(purchase.getState())>=20) {
+				srerogram.setPurchaseState(purchase.getState());//采购状态
+			}else if(Integer.valueOf(purchase.getState())>=30) {
+				srerogram.setContractDockingState(purchase.getState());//合同对接状态
+			}else if(Integer.valueOf(purchase.getState())>=40) {
+				srerogram.setArrivalReceiptState(purchase.getState());//到货签收状态
+			}else if(Integer.valueOf(purchase.getState())>=50) {
+				srerogram.setContractAcceptanceState(purchase.getState());//合同验收状态
+			}else if(Integer.valueOf(purchase.getState())>=60) {
+				srerogram.setInstallationState(purchase.getState());//安装调试状态
+			}else if(Integer.valueOf(purchase.getState())>=70) {
+				srerogram.setContractSlosureState(purchase.getState());//合同关闭状态
+			}
+			list.add(srerogram);
+		}
+		PageInfo<SreProcurementProgram> pageInfo = new PageInfo<SreProcurementProgram>(list);
 		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
 		LayuiTableData data = new LayuiTableData();
 		data.setData(pageInfo.getList());
