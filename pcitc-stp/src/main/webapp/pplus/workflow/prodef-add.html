@@ -45,6 +45,7 @@
 							</label>
 							<div class="layui-input-block">
 								<input id="prodefId" name="prodefId" type="hidden">
+								<input id="deploymentId" name="deploymentId" type="hidden">
 								<input class="layui-input readOnlyBox" id="prodefName" name="prodefName" lay-verify="required" readonly placeholder="请选择工作流" autocomplete="off" type="text">
 								<div class="formSearch">
 									<img id="prodefIdPng" src="/layuiadmin/layui/images/form_search.png">
@@ -174,15 +175,16 @@
 					data : JSON.stringify(data.field),
 					contentType : "application/json;charset=UTF-8",
 					dataType : "json",
+					async : false,
 					error : function(data) {//请求失败处理函数  
 					},
 					success : function(data) { //请求成功后处理函数。
-						parent.updateFlag = true;
+						parent.active.alertEvent();
+						var index = parent.layer.getFrameIndex(window.name);
+						parent.layer.close(index);
+						return false;
 					}
 				});
-				var index = parent.layer.getFrameIndex(window.name);
-				parent.layer.close(index);
-				return false;
 			});
 
 			$("#closeBtn").click(function() {
@@ -230,6 +232,7 @@
 		window.setWorkflow = function(data) {
 			console.info(data);
 			$('#prodefId').val(data.id);
+			$('#deploymentId').val(data.deploymentId);
 			if (typeof (data.name) == "undefined") {
 				$('#prodefName').val(' ');
 			} else {

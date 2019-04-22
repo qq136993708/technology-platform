@@ -426,6 +426,12 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 			processName = "%" + param.getParam().get("processName").toString() + "%";
 			query = query.processDefinitionNameLike(processName);
 		}
+		if (param.getParam().get("processDefinitionId") != null && !StrUtil.isBlankOrNull(param.getParam().get("processDefinitionId").toString())) {
+			query = query.processDefinitionId(param.getParam().get("processDefinitionId").toString());
+		}
+		if (param.getParam().get("deploymentId") != null && !StrUtil.isBlankOrNull(param.getParam().get("deploymentId").toString())) {
+			query = query.deploymentId(param.getParam().get("deploymentId").toString());
+		}
 		int dataCount = (int) query.count();
 		List<ProcessDefinition> processDefList = query.orderByProcessDefinitionName().desc().listPage(limit * (page - 1), limit);
 		List<ProcessDefVo> retList = new ArrayList<ProcessDefVo>();
