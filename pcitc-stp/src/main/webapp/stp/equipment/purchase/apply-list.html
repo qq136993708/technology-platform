@@ -22,6 +22,7 @@
         <input  name="userIds"        id="userIds"         type="hidden">
         <input  name="id"         id="id"          type="hidden" >
         <input  name="leadUnitCode"   id="leadUnitCode"    value="${leadUnitCode}"        type="hidden" >
+        <input  name="departCode"         id="departCode"  value="${departCode}"        type="hidden" >
         <input  name="parentUnitPathIds"   id="parentUnitPathIds"    value="${parentUnitPathIds}"        type="hidden" >
         <input  name="state"  id="state" value="${state}" type="hidden">
     </form>
@@ -233,58 +234,10 @@
 
                 }
             },*/
-            createWordEvent: function(){  //任务书
-                if (typeof(selectRowData) == "undefined")
-                {
-                    layer.alert('请点击选择一行数据');
-                }else
-                {
-                    var id=selectRowData.id;
-                    var temUrl="/sre_project_task/createWord/" + id;
-                    location.href=temUrl;
-                }
-            },
-            createSetupWordEvent: function(){  //立项报告
-                if (typeof(selectRowData) == "undefined")
-                {
-                    layer.alert('请点击选择一行数据');
-                }else
-                {
-                    var id=selectRowData.id;
-                    var setupId=selectRowData.setupId;
-                    if(setupId==null || setupId=='')
-                    {
-                        layer.alert('请先填写“立项报告”');
-                        return;
-                    }
-                    var temUrl="/sre_project_task/createWordSetup/" + setupId;
-                    location.href=temUrl;
-                }
-            },
-            createQianEvent: function(){ //生成签字模板
-                if (typeof(selectRowData) == "undefined")
-                {
-                    layer.alert('请点击选择一个任务书');
-                }else
-                {
-                    var contractNum=selectRowData.contractNum;
-                    if(contractNum==null || contractNum=='')
-                    {
-                        layer.alert('合同号未生成,不能生成签字页');
-                    }else
-                    {
-                        var id=selectRowData.id;
-                        var temUrl="/sre_project_task/createQianEvent/" + id;
-                        location.href=temUrl;
-                    }
-
-sha
-                }
-            },
             upQianEvent: function(){ //上传采购合同
                 if (typeof(selectRowData) == "undefined")
                 {
-                    layer.msg('请点击选择一个采购单');
+                    layer.msg('请点击选择一行数据');
                 }else
                 {
                     var contractNum=selectRowData.contractNum;
@@ -365,7 +318,7 @@ sha
             elem: '#processdef-table',
             url: '/sre_purchase/list',
             method:"POST",
-            where: {param: {"topicName":$("#topicName").val(),"state":"20","innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {/*"topicName":$("#topicName").val(),*/"state":"20","parentUnitPathIds":$("#parentUnitPathIds").val(),"departCode":$("#departCode").val()}},
             limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),
@@ -619,15 +572,6 @@ sha
 
         });
     }
-
-    /*function createErpBack(id,erpNum)
-    {
-        var v_date=(new Date()).getTime();
-        var url="/sre_project_task/updateErp?v_date="+v_date+"&id="+id+"&erpNum="+erpNum;
-        var backurl="/sre_project_task/apply_list?v_date="+v_date;
-        ajaxOpt(url,"form1","POST",backurl,"ERP号对接成功","ERP号对接失败");
-    }*/
-
 </script>
 
 </body>
