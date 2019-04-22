@@ -23,19 +23,9 @@
             <input type="text" name="month" placeholder="请选择月份"  value="${month}" title="月份" autocomplete="off" class="form-control" id="month">
         </label>
         
-        
-         <div class="layui-input-inline">
-         <select name="companyCode" id="companyCode" >
-              <#list companyCodeList as vo>
-              	 <#if vo.g0GSJC == '全部'>
-              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
-              	 </#if>
-                 <#if vo.g0GSJC != '全部'>
-              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
-              	 </#if>
-               </#list>
-            </select>
-       </div>
+        <div class="layui-input-inline">
+              <select id="companyCode" name="companyCode" class="form-control"></select>
+             </div>
         
         
     
@@ -45,12 +35,6 @@
     </div>
 </div>
 <div class="tableBox">
-	<!-- <div class="tableToolBox">
-        <div class="whiteLine"></div>
-        <div  class="tableBtns">
-        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_export" data-type="exportEvent" >导出</button>
-        </div>
-    </div> -->
     <table id="processdef-table" class="layui-hide" lay-filter="tableEvent">
 </div>
 
@@ -80,7 +64,10 @@
 
 <!--表格数据操作js-->
 <script src="/common/js/jquery-1.11.3.min.js"></script>
+<script src="/stp/hana/common/hana_common.js"></script>
 <script>
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
 var table,selectRowData;
 var g0TXT50=$('#g0TXT50').val();
 layui.config({
@@ -99,7 +86,7 @@ layui.config({
                ,format: 'yyyyMM'
                
             });
-            
+            init_companyCode(functionId);
             //加载表格      
      	     renderTable();
      	     //移除表头的复选框,去掉全选

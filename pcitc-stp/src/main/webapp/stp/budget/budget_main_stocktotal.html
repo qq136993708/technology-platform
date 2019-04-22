@@ -145,6 +145,10 @@
         layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
             var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods; 
             var param = JSON.parse(window.localStorage.getItem("param"));
+            var dev_obj = document.getElementById('tableBox'); //table的父div;            //layui table 父div
+            var layuitable = null;  //当前的layui table
+            var scrollTop = 0;      //记录位置
+
             laydate.render({
                 elem: '#choose-year'
                 ,value: cu_date
@@ -219,7 +223,12 @@
 			function reloadDataAndTableFormart(data)
 			{
 				var table_data = data?data:[];
-				table.reload('dataTable', {data:table_data});
+				table.reload('dataTable', {data:table_data,done:function(){
+					if (layuitable != null && layuitable.length > 0)
+	                {
+	                    layuitable[0].scrollTop = scrollTop;
+	                }
+				}});
 				renderfunc();
 				//二级预算项居右，序号为空
 				$.each(table_data,function(index,dt){
@@ -277,6 +286,15 @@
             			}
             		});
             	}
+            	//记录位置
+            	if (dev_obj != null)
+	            {
+	                layuitable = dev_obj.getElementsByClassName("layui-table-main");
+	                if (layuitable != null && layuitable.length > 0)
+	                {
+	                    scrollTop = layuitable[0].scrollTop; //layuitable获取到的是 class=layui-table-main的集合
+	                }
+	            }
             	//刷新表格数据
             	reloadDataAndTableFormart(curent_tabel_data);
             	//预分配数

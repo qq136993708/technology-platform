@@ -16,17 +16,8 @@
             <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control" id="month">
         </label>
        <div class="layui-input-inline">
-         <select name="companyCode" id="companyCode" >
-              <#list companyCodeList as vo>
-              	 <#if vo.g0GSJC == '全部'>
-              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
-              	 </#if>
-                 <#if vo.g0GSJC != '全部'>
-              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
-              	 </#if>
-               </#list>
-            </select>
-       </div>
+              <select id="companyCode" name="companyCode" class="form-control"></select>
+             </div>
        <form class="layui-form layui-form1">
             <div class="layui-input-inline">
                 <#list projectCodeList as vo>
@@ -84,7 +75,10 @@
 <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script src="/stp/hana/common/hana_common.js"></script>
 <script type="text/javascript">
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
 var data=new Array(); 
 var defaultpro="";
 var defaultproName="";
@@ -183,7 +177,7 @@ var  option_dot = {
 
 function init()
 {
-	
+	init_companyCode(functionId);
 		var allCode="${allCode?default('')}";
 		var allCode_text="全部院所";
 		var v_date=(new Date()).getTime();

@@ -23,6 +23,6 @@ public interface SrePurchaseMapper {
 
 	List<SrePurchase> getPurchaseNameIdList();
 
-	
-	
+
+    List<SrePurchase> getPassList(Map map);
 }

@@ -161,6 +161,66 @@ layui.define(['jquery'],function (e) {
         return stateData;
     };
 	
+	o.contractSlosureState = function(d){
+        var stateData;
+        if(d!=null){
+			stateData="<span class='fontStateColor  btn-green'></span>"
+        }else{
+             stateData="<span></span>"
+        }
+        return stateData;
+    };
+	
+	o.installationState = function(d){
+        var stateData;
+        if(d!=null){
+			stateData="<span class='fontStateColor  btn-green'></span>"
+        }else{
+             stateData="<span></span>"
+        }
+        return stateData;
+    };
+	
+	o.contractAcceptanceState = function(d){
+        var stateData;
+        if(d!=null){
+			stateData="<span class='fontStateColor  btn-green'></span>"
+        }else{
+             stateData="<span></span>"
+        }
+        return stateData;
+    };
+	
+	o.arrivalReceiptState = function(d){
+        var stateData;
+        if(d!=null){
+			stateData="<span class='fontStateColor  btn-green'></span>"
+        }else{
+             stateData="<span></span>"
+        }
+        return stateData;
+    };
+	
+	o.contractDockingState = function(d){
+        var stateData;
+        if(d!=null){
+			stateData="<span class='fontStateColor  btn-green'></span>"
+        }else{
+             stateData="<span></span>"
+        }
+        return stateData;
+    };
+	
+	o.purchaseState = function(d){
+        var stateData;
+        if(d!=null){
+			stateData="<span class='fontStateColor  btn-green'></span>"
+        }else{
+             stateData="<span></span>"
+        }
+        return stateData;
+    };
+	
 	o.acceptanceStatus_equipment = function(d){
         var stateData;
         if(d!=0){

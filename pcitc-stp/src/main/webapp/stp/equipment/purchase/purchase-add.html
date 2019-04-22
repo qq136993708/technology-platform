@@ -41,11 +41,11 @@
             <input name="id" id="id" value="${id}" type="hidden">
             <input name="equipmentIds" id="equipmentIds"  value="${equipmentIds}" type="hidden">
             <input name="sreProjectEquipmentIds" id="sreProjectEquipmentIds"  value="${sreProjectEquipmentIds}" type="hidden">
-            <input name="leadUnitCode" id="leadUnitCode" value="${leadUnitCode}" type="hidden">
-            <input name="createUserName" id="createUserName" value="${createUserName}" type="hidden">
-            <input name="createUserId" id="createUserId" value="${createUserId}" type="hidden">
-           <!-- <input name="documentDoc" id="documentDoc" value="${documentDoc}" type="text">-->
             <input name="yearFeeStr" id="yearFeeStr" value="${sreProjectBasic.yearFeeStr}" type="hidden">
+
+            <input name="parentUnitPathId" id="parentUnitPathId" value="${parentUnitPathId}" type="hidden">
+            <input name="departCode" id="departCode" value="${departCode}" type="hidden">
+            <input name="createUserId" id="createUserId" value="${createUserId}" type="hidden">
 
             <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
@@ -55,11 +55,15 @@
                             <input class="layui-input readOnlyBox" placeholder="请选择课题" name="name" id="name" value="${name}" readonly="readonly" onclick="choosePurchase('${topicId}')"
                                    autocomplete="off" type="text">
                         </div>
-                        <label for="" class="layui-form-label">所属单位<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">申报单位<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" name="leadUnitName" id="leadUnitName" value="${leadUnitName}"
-                                   lay-verify="required" autocomplete="off" type="text">
-                            <!--<input name="leadUnitCode" id="leadUnitCode1" value="${leadUnitCode}" type="text">-->
+                            <input class="layui-input" name="parentUnitPathName" readonly="readonly" id="parentUnitPathName"
+                                   value="${parentUnitPathName}" lay-verify="required" autocomplete="off" type="text">
+                        </div>
+                        <label for="" class="layui-form-label">申报人<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" name="createUserName" readonly="readonly" id="createUserName"
+                                   value="${createUserName}" lay-verify="required" autocomplete="off" type="text">
                         </div>
                     </div>
                 </div>
@@ -68,6 +72,13 @@
                         <label for="" class="layui-form-label">采购名称<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
                             <input class="layui-input" placeholder="请输入采购名称" name="purchaseName" id="purchaseName" value="${purchaseName}" autocomplete="off" type="text">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">申报部门<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" name="departName" readonly="readonly" id="departName"
+                                   value="${departName}" lay-verify="required" autocomplete="off" type="text">
                         </div>
                     </div>
                 </div>
@@ -383,7 +394,6 @@
 
     function renderTable(equipmentIds) {
         var id = $("#id").val();
-        var  purchaseStatus="0";
         if(equipmentIds==null || equipmentIds==""){
             return;
         }
@@ -391,7 +401,6 @@
             elem: '#join_apply_table',
             url: '/sre-equipment/chooseEquipmentByMap?equipmentIds=' + equipmentIds+"&purchaseStatus=0",
             limit: 15,
-            //where: {param: {"purchaseStatus":"1"}},
             method: "GET",
             id: 'join_apply_table',
             height: 300,
@@ -455,22 +464,6 @@
                     }
                 }
 
-
-                //项目分类，项目性质
-                $('table.layui-table thead tr th:eq(0)').addClass('layui-hide');
-                var dicMap = ['ROOT_ZBGL_ZBFL'];
-                var dicVal = {};
-                publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys", {"parentCodes": JSON.stringify(dicMap)}, function (data) {
-                    $.each(data, function (key, val) {
-                        $.each(val, function (i, dt) {
-                            dicVal[dt.code] = dt.name;
-                        });
-                    });
-                });
-                $.each(res.data, function (i, dt) {
-                    $("tr[data-index='" + i + "'] td[data-field='type'] div").html(dicVal[res.data[i].type]);
-                });
-
             }
         });
     }
@@ -478,24 +471,6 @@
     var index_close;
 
 
-
-
-    //参加单位--多个
-    function choose_joinUnitName_callback(unitIds, unitNames) {
-        $("#joinUnitName").val(unitNames);
-        $("#joinUnitCode").val(unitIds);
-    }
-
-    function choose_belongDepartmentName_callback(unitId, unitName) {
-        $("#belongDepartmentName").val(unitName);
-        $("#belongDepartmentCode").val(unitId);
-    }
-
-    function choose_leadUnitName_callback(unitId, unitName) {
-    	alert(unitName);
-        $("#leadUnitName").val(unitName);
-        $("#leadUnitCode").val(unitId);
-    }
 
     function clearNoNum(obj) {
         obj.value = obj.value.replace(/[^\d.]/g, "");  //清除“数字”和“.”以外的字符

@@ -63,8 +63,12 @@ public class EquipmentController extends BaseController {
 	private static final String DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/delete/";
 	private static final String BATCH_DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/batch-delete/";
 	private static final String LIST_BY_IDS_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/list-by-ids/";
+
 	private static final String chooseEquipmentByMap = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/list-by-map/";
 	
+
+
+
 	public static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/get/";
 	// 流程操作--同意
 	private static final String AUDIT_AGREE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/task/agree/";
