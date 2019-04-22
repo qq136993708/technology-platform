@@ -25,8 +25,14 @@
             <a href="/instituteIndex?url=/layui/leader_speech.html" target="_parent" id="twoIdShow">领导讲话&nbsp;&nbsp;>&nbsp;&nbsp;</a>
             <span id="stype">集团领导讲话</span>
         </div>
+
+        <div>
+
+
+        </div>
         <div class="layui-col-md12 layui-speech-d">
             <#if list.bak1!=1>
+            <!--<embed src="/plugins/ckplayer/ckplayer/ckplayer.swf" flashvars="video=/sysfile/video/${list.bak3}"  quality="high" width="480" height="400" align="middle" allowScriptAccess="always" allowFullscreen="true" type="application/x-shockwave-flash"></embed>-->
             <!--视频-->
             <h4>${list.title}</h4>
             <span id="time" class="time">${list.publicDate}</span>
@@ -55,15 +61,17 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="/plugins/ckplayer/ckplayer/ckplayer.min.js"></script>
+<script type="text/javascript" src="/plugins/ckplayer/ckplayer/ckplayer.js"></script>
 <script type="text/javascript">
     var videoObject = {
         container: '#video', //容器的ID或className
         variable: 'player',//播放函数名称
         // poster:'../material/poster.jpg',//封面图片
-        video: [//视频地址列表形式
-            ['/sysfile/video/${list.bak3}', 'video/mp4', '播放', 0]
-        ]
+        autoplay:true,
+        video: '/sysfile/video/${list.bak3}'
+        //     [//视频地址列表形式
+        //     ['/sysfile/video/${list.bak3}', 'video/mp4', '播放', 0]
+        // ]
     };
     var player = new ckplayer(videoObject);
 </script>

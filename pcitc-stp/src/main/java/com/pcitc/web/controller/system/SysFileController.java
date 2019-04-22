@@ -155,7 +155,6 @@ public class SysFileController extends BaseController {
         FileResult result = null;
 
         String param = request.getParameter("param");
-        System.out.println("param = " + param);
         JSONArray jsonArray = new JSONArray();
         if(param!=null&&!"".equals(param)){
             jsonArray = JSONArray.parseArray(param);
@@ -188,9 +187,6 @@ public class SysFileController extends BaseController {
             for (int i = 0; i < files.length; i++) {
                 /** 转换文件 */
                 MultipartFile file = files[i];
-                System.out.println("----uploadMultipleFileLayui------");
-                System.out.println(file);
-
                 String tempFileName = file.getOriginalFilename();
                 if (tempFileName.indexOf("\\") > -1) {
                     tempFileName = tempFileName.substring(tempFileName.lastIndexOf("\\") + 1, tempFileName.length());
@@ -283,7 +279,6 @@ public class SysFileController extends BaseController {
         //        FileResult result = null;
 //        String param = request.getParameter("param");
 //        String flag = request.getParameter("flag");
-//        System.out.println("param = " + param);
 //        JSONArray jsonArray = new JSONArray();
 //        if(param!=null&&!"".equals(param)){
 //            jsonArray = JSONArray.parseArray(param);
@@ -328,8 +323,6 @@ public class SysFileController extends BaseController {
 //    @RequestMapping(value = "/sysfile/video/{id}", method = RequestMethod.GET, produces = MediaType.MULTIPART_FORM_DATA_VALUE)
     @RequestMapping(value = "/sysfile/video/{id}", method = RequestMethod.GET)
     public ResponseEntity<byte[]> videoFile(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response){
-
-
         this.httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         MultiValueMap<String, String> form1 = new LinkedMultiValueMap<String, String>();
         form1.add("fileIds", id);
@@ -340,63 +333,13 @@ public class SysFileController extends BaseController {
             return null;
         }
         id = fileResult.getList().get(0).getId();
-
-
         MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
         form.add("id", id);
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(form, this.httpHeaders);
         ResponseEntity<byte[]> responseEntity = this.restTemplate.postForEntity(video+ id, httpEntity, byte[].class);
-//        byte[] result = responseEntity.getBody();
         httpHeaders.add("x-frame-options", "ALLOW-FROM");
         response.addHeader("x-frame-options", "ALLOW-FROM");
         return responseEntity;
-
-//        sysFileFeignClient.videoFiles(id,request,response);
-
-//        byte[] result = new byte[0];
-//        try {
-//            ResponseEntity<byte[]> responseEntity = sysFileFeignClient.videoFiles(id,request,response);
-//            result = responseEntity.getBody();
-//            System.out.println(result);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        response.setContentType("video/mp4");
-//        return result;
-//        OutputStream out = null;
-//        InputStream in = null;
-//        try
-//        {
-//            res.setHeader("content-type", "video/mp4");
-//            res.setContentType("application/octet-stream");
-//            res.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("mmmm", "UTF-8"));
-//
-//            out = res.getOutputStream();
-//            in = new FileInputStream("D:\\files\\m.mp4");
-//
-//            byte[] b = new byte[1000];
-//            int len;
-//            while ((len = in.read(b)) > 0)
-//            {
-//                out.write(b, 0, len);
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-//        MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
-//        form.add("id", id);
-//        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(form, this.httpHeaders);
-//        ResponseEntity<byte[]> responseEntity = this.restTemplate.postForEntity(video + id, httpEntity, byte[].class);
-//        byte[] result = responseEntity.getBody();
-////        httpHeaders.add("x-frame-options", "ALLOW-FROM");
-////        response.addHeader("x-frame-options", "ALLOW-FROM");
-//        response.setContentType("video/mp4");
-//        response.setHeader("Content-Disposition", "attachment; filename=\"" + new String("name".getBytes("GBK") + "\"" ));
-//        response.setHeader("Content-Range", "" + Integer.valueOf((int) (1111-1)));
-//        response.setHeader("Accept-Ranges", "bytes");
-//        response.setHeader("Etag", "W/\"9767057-1323779115364\"");
-//        return result;
     }
 	
 	/**
@@ -415,10 +358,8 @@ public class SysFileController extends BaseController {
 		Result retJson = new Result();
 		retJson.setSuccess(false);
 		if (layuiTableData.getData().size() > 0) {
-			System.out.println("md51------------------------"+layuiTableData.getData().size());
 			JSONArray array = JSONArray.parseArray(JSON.toJSONString(layuiTableData.getData()));
 			String fileId = array.getJSONObject(0).getString("id");
-			System.out.println("md52------------------------"+fileId);
 			retJson.setSuccess(true);
 			retJson.setData(fileId);
 		} 
@@ -481,7 +422,6 @@ public class SysFileController extends BaseController {
         // this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         this.httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
-        System.out.println("this.httpHeaders = " + this.httpHeaders);
         form.add("fileIds", fileIds);
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(form, httpHeaders);
         ResponseEntity<FileResult> responseEntity = this.restTemplate.postForEntity(getFiles, httpEntity, FileResult.class);
@@ -555,8 +495,9 @@ public class SysFileController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/sysfile/getFilesLayuiByFormIdReturnBase64Image/{id}", method = RequestMethod.GET)
-    public String getFilesLayuiByFormIdReturnBase64Image(@PathVariable("id") String id, HttpServletRequest request) {
+    public ResponseEntity<byte[]> getFilesLayuiByFormIdReturnBase64Image(@PathVariable("id") String id, HttpServletRequest request) {
         String str = "";
+        ResponseEntity<byte[]> responseEntity64 = null;
         try {
             this.httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
             MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
@@ -567,22 +508,16 @@ public class SysFileController extends BaseController {
             if ((fileResult.getList().size() == 0)) {
                 return null;
             }
-
             String strId = fileResult.getList().get(0).getId();
-
+            this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
             MultiValueMap<String, String> form64 = new LinkedMultiValueMap<>();
-            System.out.println(strId);
             form64.add("id", strId);
             HttpEntity<MultiValueMap<String, String>> httpEntity64 = new HttpEntity<>(form64, this.httpHeaders);
-            ResponseEntity<byte[]> responseEntity64 = this.restTemplate.postForEntity(download + strId, httpEntity64, byte[].class);
-            byte[] bytes = responseEntity64.getBody();
-            String picBase64 = "data:image/png;base64,";
-            str = picBase64 + new sun.misc.BASE64Encoder().encode(bytes);
+            responseEntity64 = this.restTemplate.postForEntity(download + strId, httpEntity64, byte[].class);
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
-            return str;
-//            return "data:image/png;base64," + new sun.misc.BASE64Encoder().encode(responseEntity64.getBody());
+            return responseEntity64;
         }
 
     }
@@ -665,7 +600,6 @@ public class SysFileController extends BaseController {
 
         HttpEntity<Object> entity = new HttpEntity<Object>(result, this.httpHeaders);
         FileResult rs = this.restTemplate.exchange(getPreivewSettings, HttpMethod.POST, entity, FileResult.class).getBody();
-        System.out.println(JSON.toJSONString(rs));
         return rs;
     }
 
@@ -1039,8 +973,6 @@ public class SysFileController extends BaseController {
 //            File upload = new File(serverPath+imageUrl);
 //            if(!upload.exists()) upload.mkdirs();
 
-            System.out.println("-----ckupload-----");
-            System.out.println(files);
             String date = sysUserInfo.getUserId();
             strFilePath = ckfilepath+imageUrl+File.separator+date+File.separator;
             File filePath = new File(strFilePath);
@@ -1086,7 +1018,6 @@ public class SysFileController extends BaseController {
                 errorObj.put("message", msg);
                 result.put("error", errorObj);
             } else {
-                System.out.println(isComplete);
                 //上传成功
                 result.put("uploaded", 1);
                 result.put("fileName", fileName);
