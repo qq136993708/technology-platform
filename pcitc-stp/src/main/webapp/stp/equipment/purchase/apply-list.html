@@ -22,6 +22,7 @@
         <input  name="userIds"        id="userIds"         type="hidden">
         <input  name="id"         id="id"          type="hidden" >
         <input  name="leadUnitCode"   id="leadUnitCode"    value="${leadUnitCode}"        type="hidden" >
+        <input  name="departCode"         id="departCode"  value="${departCode}"        type="hidden" >
         <input  name="parentUnitPathIds"   id="parentUnitPathIds"    value="${parentUnitPathIds}"        type="hidden" >
         <input  name="state"  id="state" value="${state}" type="hidden">
     </form>
@@ -317,7 +318,7 @@
             elem: '#processdef-table',
             url: '/sre_purchase/list',
             method:"POST",
-            where: {param: {"topicName":$("#topicName").val(),"state":"20","innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {/*"topicName":$("#topicName").val(),*/"state":"20","parentUnitPathIds":$("#parentUnitPathIds").val(),"departCode":$("#departCode").val()}},
             limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+
+<body>
+
+<div class="searchBox">
+    <!--查询条件-->
+    <label class="dateInput">
+        <span>合同编号</span>
+        <input type="text" name="contractCode" placeholder="请输入合同编号" title="合同编号" autocomplete="off" class="form-control" id="contractCode">
+    </label>
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
+    </div>
+</div>
+
+
+<div class="tableBox">
+    <div class="tableToolBox">
+        <div class="whiteLine"></div>
+        <div  class="tableBtns" >
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" id="applyEvent" data-type="applyEvent">上报</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="upQianEvent">上传到货验收单</button>
+        </div>
+    </div>
+    <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table>
+</div>
+
+
+<script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
+<script type="text/javascript">
+    // 时间格式化
+    function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+</script>
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script>
+    var table,selectRowData;
+    var contractCode=$('#contractCode').val();
+    layui.use(['jquery','table','laypage','layer','laytpl'], function(){
+        table = layui.table,
+            $ = layui.jquery,
+            layer = layui.layer,
+            laypage = layui.laypage;
+
+        renderTable();
+        $(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
+        // 触发不同的按钮事件
+        var $ = layui.$, active = {
+            searchEvent: function() { //点击查询按钮
+                renderTable();
+
+            },
+            resetEvent: function() { //点击重置按钮
+                $('#contractCode').val("");
+            },
+            upQianEvent: function(){ //上传到货签收单
+                if (typeof(selectRowData) == "undefined")
+                {
+                    layer.msg('请点击选择一条数据');
+                }else
+                {
+                    var contractNum=selectRowData.contractNum;
+                    //if(contractNum==null || contractNum=='')
+                    if(1!=1)
+                    {
+                        layer.alert('合同号未生成,不能上传签字页');
+                    }else
+                    {
+                        var id=selectRowData.id;
+                        var temUrl="/sre-purchase/upFileDoc?id=" + id;
+                        layer.open({
+                            title:'上传到货签收单',
+                            skin: 'layui-layer-lan',
+                            shadeClose: true,
+                            type: 2,
+                            fixed: false,
+                            maxmin: false,
+                            area: ['70%', '90%'],
+                            content:  temUrl
+                        });
+                    }
+
+                }
+            },applyEvent: function(){  //点击上报按钮
+
+                if (typeof(selectRowData) == "undefined")
+                {
+                    layer.msg('请点击选择一行数据');
+                }
+                else
+                {
+                    var id=selectRowData.id;
+                    var url="/sre-purchase/arriveGoodsSubmission/"+id;
+                    var backurl="/sre-purchase/to-arrive-goods-list";
+                    var state=selectRowData.state;
+                    if(state!='30')
+                    {
+                        layer.alert('请选择未上报的申请');
+                        return;
+                    }else{
+                        alert("XXX")
+                        ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
+                    }
+                }
+            }
+
+        };
+
+        //监听排序
+        table.on('sort(model-table)', function(obj){
+            console.log(this, obj.field, obj.type)
+            //return;
+            //服务端排序
+            table.reload('model-table', {
+                initSort: obj,
+                page: {curr: 1}, //重新从第一页开始
+                where: { //重新请求服务端
+                    key: obj.field, //排序字段
+                    order: obj.type //排序方式
+                }
+            });
+        });
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+    });
+
+    function renderTable()
+    {
+        //渲染
+        table.render({
+            elem: '#processdef-table',
+            url: '/sre_purchase/list',
+            method:"POST",
+            where: {param: {"topicName":$("#topicName").val(),"state":"40","innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            limit: 15,
+            id: 'processdef-table',
+            height: commonDislodgeTable(),
+            page: {
+                groups: 5,
+                limits: [15,30,45,60],
+                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                first: '首页', //不显示首页
+                last: '尾页', //不显示尾页
+                theme: '#0F9EE0'
+            },
+            cols: [[
+                {type : 'checkbox', event : 'changeEvents', width : 55},
+                {title : '序号', type :'numbers', width : 55},
+                //{field : 'state', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.state) }}</div>', width : 55},
+                {field : 'purchaseName',     title : '采购名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
+                {field : 'parentUnitPathNames',     title : '单位名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
+                {field : 'departName',     title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
+                {field : 'stage',      		title : '阶段',         style : 'cursor: pointer;', align: 'center',  width : '10%',},
+                {field : 'proposerName',      		title : '申请人',         style : 'cursor: pointer;', align: 'center',  width : '10%',},
+                {field : 'createDate',      title : '创建时间', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl', width : '10%'}
+            ]],
+            done: function (res, curr, count) {
+                // 点击行联动选择框--单选
+                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                    var index=parseInt($(this).index()+1);
+                    $('tr').removeClass('layui-table-click');
+                    $(this).addClass('layui-table-click');
+                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                    selectRowData=res.data[index-1];
+                    var auditStatus=selectRowData.auditStatus;
+                });
+
+            }
+        });
+    }
+
+    /*formName：form表单名称，
+    type：post、get,delete,put
+    backurl:操作成功后返回地址
+    successMsg：成功提示
+    failMsg：失败提示 */
+    function ajaxDeleteOpt(url,type,successMsg,failMsg)
+    {
+        $.ajax({
+            type:type,
+            url: url,
+            dataType:"json",
+            async: false,
+            cache: false,
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            success:function(data,status)
+            {
+
+                if(data.success==true ||data.success=='true')
+                {
+                    layer.alert(
+                        successMsg,
+                        {icon: 1,closeBtn: 0 },
+                        function ()
+                        {
+                            renderTable();
+                            layer.closeAll();
+                        });
+
+                } else
+                {
+                    layer.alert("操作失败");
+                }
+
+            },
+            error:function()
+            {
+                layer.alert("网络访问错误");
+            }
+
+        });
+    }
+    function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
+    {
+        $.ajax({
+            type:type,
+            url: url,
+            dataType:"json",
+            data:$("#"+formName).serialize(),
+            async: false,
+            cache: false,
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            success:function(data,status)
+            {
+
+                if(data.success==true ||data.success=='true')
+                {
+
+
+                    layer.alert(
+                        successMsg,
+                        {icon: 1,closeBtn: 0 },
+                        function ()
+                        {
+                            renderTable();
+                            layer.closeAll();
+                        });
+
+                } else
+                {
+                    layer.alert(failMsg);
+                }
+
+            },
+            error:function()
+            {
+                layer.alert("网络访问错误");
+            }
+
+        });
+    }
+
+
+
+
+
+</script>
+
+</body>
+</html>

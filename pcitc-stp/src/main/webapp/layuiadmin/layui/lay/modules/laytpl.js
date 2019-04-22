@@ -220,6 +220,8 @@ layui.define(['jquery'],function (e) {
             stateData="<span class='fontStateColor btn-blue'></span>"
         }else if(d==13){
             stateData="<span class='fontStateColor btn-yellow'></span>"
+        }else if(d>=20){
+            stateData="<span class='fontStateColor btn-blue'></span>"
         }
         return stateData;
     };

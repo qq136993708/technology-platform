@@ -101,18 +101,11 @@ public class PurchaseController extends BaseController{
     @RequestMapping(value = "/sre-purchase/apply_list")
     public String apply_list(HttpServletRequest request, HttpServletResponse response)throws Exception {
 
-
-
-        List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
-        request.setAttribute("dicList", dicList);
-
-        List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
-        request.setAttribute("unitFieldList", unitFieldList);
-
-
+        String departCode=sysUserInfo.getUnitCode();
+        request.setAttribute("departCode", departCode);
         String	parentUnitPathIds="";
         String unitPathIds =   sysUserInfo.getUnitPath();
-        if(unitPathIds!=null && !unitPathIds.equals(""))
+        if(!unitPathIds.equals(""))
         {
             if(unitPathIds.length()>4)
             {
@@ -123,6 +116,26 @@ public class PurchaseController extends BaseController{
         request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 
         return "/stp/equipment/purchase/apply-list";
+    }
+    //跳转到安装调试页面
+    @RequestMapping(value = "/sre-purchase/to-installation-list")
+    public String installationList(HttpServletRequest request, HttpServletResponse response) {
+
+        String departCode=sysUserInfo.getUnitCode();
+        request.setAttribute("departCode", departCode);
+        String	parentUnitPathIds="";
+        String unitPathIds =   sysUserInfo.getUnitPath();
+        if(!unitPathIds.equals(""))
+        {
+            if(unitPathIds.length()>4)
+            {
+                parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
+
+            }
+        }
+        request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+
+        return "/stp/equipment/purchase/installation-list";
     }
 
 	/**
@@ -162,8 +175,8 @@ public class PurchaseController extends BaseController{
 	{
 
 
-		String leadUnitName = "";
-		String leadUnitCode = "";
+		String parentUnitPathName = "";
+        String parentUnitPathId   = "";
         String purchaseName = "";
         String projectId    = "";
         String name         = "";
@@ -180,16 +193,15 @@ public class PurchaseController extends BaseController{
 				SysUnit sysUnit=EquipmentUtils.getUnitByUnitPath(parentUnitPathIds, restTemplate, httpHeaders);
 				if(sysUnit!=null)
 				{
-					leadUnitName = sysUnit.getUnitName();
-					leadUnitCode =sysUnit.getUnitCode();
+                    parentUnitPathName = sysUnit.getUnitName();
+                    parentUnitPathId =sysUnit.getUnitCode();
 				}
 			}
 		}
+        String departName = sysUserInfo.getUnitName();
+        String departCode = sysUserInfo.getUnitCode();
 		String createUserName=sysUserInfo.getUserDisp();
 		String createUserId=sysUserInfo.getUserName();
-		String documentDoc= IdUtil.createFileIdByTime();
-		String beginYear=EquipmentUtils.getCurrrentYear();
-		String endYear=String.valueOf(Integer.valueOf(beginYear).intValue()+1);
 		String id = CommonUtil.getParameter(request, "id", "");
 		request.setAttribute("id", id);
 		if(!id.equals(""))
@@ -207,10 +219,12 @@ public class PurchaseController extends BaseController{
             sreProjectEquipmentIds = sreProject.getEquipmentIds();
 
         }
-		request.setAttribute("createUserName",createUserName);
-		request.setAttribute("documentDoc", documentDoc);
-		request.setAttribute("leadUnitName", leadUnitName);
-		request.setAttribute("leadUnitCode", leadUnitCode);
+
+		request.setAttribute("parentUnitPathName", parentUnitPathName);
+		request.setAttribute("parentUnitPathId", parentUnitPathId);
+        request.setAttribute("departName", departName);
+        request.setAttribute("departCode", departCode);
+        request.setAttribute("createUserName",createUserName);
 		request.setAttribute("createUserId", createUserId);
         request.setAttribute("purchaseName", purchaseName);
         request.setAttribute("topicId", projectId);
@@ -220,7 +234,6 @@ public class PurchaseController extends BaseController{
 
 
 
-		logger.info("============远程返回  beginYear " + beginYear);
 		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
 		request.setAttribute("unitFieldList", unitFieldList);
 
@@ -286,17 +299,16 @@ public class PurchaseController extends BaseController{
         String stage = CommonUtil.getParameter(request, "stage", Constant.PURCHASE_REQUEST);
         String topicId = CommonUtil.getParameter(request, "topicId", "");
         String taskWriteUsersIds = CommonUtil.getParameter(request, "taskWriteUsersIds", "");
+        String purchaseName = CommonUtil.getParameter(request, "purchaseName", "");
         String equipmentIds = CommonUtil.getParameter(request, "equipmentIds", "");
-        String leadUnitCode = CommonUtil.getParameter(request, "leadUnitCode", "");
+        String parentUnitPathName = CommonUtil.getParameter(request, "parentUnitPathName", "");
+        String parentUnitPathId = CommonUtil.getParameter(request, "parentUnitPathId", "");
+        String departName = CommonUtil.getParameter(request, "departName", "");
+        String departCode = CommonUtil.getParameter(request, "departCode", "");
         String createUserName = CommonUtil.getParameter(request, "createUserName", "");
         String createUserId = CommonUtil.getParameter(request, "createUserId", "");
-        /*CommonUtil.getParameter(request,"name","");*/
-        String leadUnitName = CommonUtil.getParameter(request, "leadUnitName", "");
-        String purchaseName = CommonUtil.getParameter(request, "purchaseName", "");
-        //状态  String auditStatus = CommonUtil.getParameter(request, "auditStatus", Constant.AUDIT_STATUS_DRAFT);
+
         String unitPathIds =   CommonUtil.getParameter(request, "unitPathIds",sysUserInfo.getUnitPath());
-        String unitPathNames = CommonUtil.getParameter(request, "unitPathNames", sysUserInfo.getUnitName());
-        String unitPathCode = CommonUtil.getParameter(request, "unitPathCode", sysUserInfo.getUnitCode());
 
         String parentUnitPathIds ="";
         String parentUnitPathNames =  "";
@@ -332,11 +344,12 @@ public class PurchaseController extends BaseController{
         // 流程状态
             srePurchase.setState(status);
             srePurchase.setPurchaseName(purchaseName);//采购名称
-            srePurchase.setProposerId(leadUnitCode);//采购员ID
+            srePurchase.setParentUnitPathNames(parentUnitPathName);//单位名称
+            srePurchase.setParentUnitPathId(parentUnitPathId);//单位ID
+            srePurchase.setDepartName(departName);//部门名称
+            srePurchase.setDepartCode(departCode);//部门Code
             srePurchase.setProposerName(createUserName);//采购员姓名
-            srePurchase.setParentUnitPathNames(leadUnitName);//单位名称
-            srePurchase.setDepartName(unitPathNames);//部门名称
-            srePurchase.setDepartCode(unitPathCode);//部门Code
+            srePurchase.setProposerId(createUserId);//采购员ID
 
             srePurchase.setEquipmentId(equipmentIds);//装备ID
             srePurchase.setProjectId(topicId);//课题ID
@@ -576,7 +589,7 @@ public class PurchaseController extends BaseController{
         ResponseEntity<SrePurchase> exchange = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
         SrePurchase srePurchase = exchange.getBody();
         srePurchase.setState(Constant.PURCHASE_STATUS_ARRIVE_GOODS);
-        srePurchase.setStage(Constant.PURCHASE_CONTRACT_CHECK);
+        srePurchase.setStage(Constant.PURCHASE_INSTALL_DEBUG);
         ResponseEntity<String> exchange1 = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
         int statusCodeValue = exchange1.getStatusCodeValue();
         if (statusCodeValue == 200) {
