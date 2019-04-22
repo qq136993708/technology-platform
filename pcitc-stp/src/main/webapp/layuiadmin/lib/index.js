@@ -154,7 +154,10 @@ layui.extend({
       $(".layui-tab-title li").removeClass("layui-this");
   });
   $(document).on('click', '.layui-tab-close', function() {
-      if($("#LAY_app_tabsheader li").length==0){
+      if($("#LAY_app_body .layui-show").index()==1 && $("#LAY_app_tabsheader .layui-this").index()==-1){
+          $("#LAY_app_body .layadmin-tabsbody-item").eq(1).removeClass("layui-show");
+          $("#LAY_app_body .layadmin-tabsbody-item").eq(0).addClass("layui-show");
+      }else if($("#LAY_app_tabsheader li").length==0){
           $(".layadmin-tabsbody-item").addClass("layui-show");
           $(".index-fixed li").addClass("layui-this");
       }
