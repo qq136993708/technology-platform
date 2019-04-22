@@ -34,5 +34,12 @@ public class InvestmentProgressProviderClient
 		LayuiTableData rageResult=investService.getInvestmentrogressPage(param);
 		return rageResult;
 	}
-	
+	/*==================================采购计划进度分页=============================*/
+	@ApiOperation(value = "投资进度分页", notes = "投资进度分页")
+	@RequestMapping(value = "/sre-provider/Investmentrogress/prppage", method = RequestMethod.POST)
+	public LayuiTableData getProcurementProgramList(@RequestBody LayuiTableParam param)throws Exception
+	{
+		LayuiTableData rageResult=investService.getProcurementProgramPage(param);
+		return rageResult;
+	}
 }
