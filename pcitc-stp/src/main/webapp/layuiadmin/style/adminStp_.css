@@ -880,6 +880,8 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-header-index img{display: block;padding: 11px 0;margin: 0 auto}
 .layui-header-index .layui-tab-title { border: 0;}
 .layui-header-index .layui-tab-title .layui-this:after{border: 0;}
+.layui-header-index .layui-tab-bar{display: none;}
+.layui-header-index .layui-tab-title{height: 50px;}
 .layui-header-nav{width: 32.5%;height: auto;position: relative;}
 .layui-header-nav ul li{margin: 0 14px;}
 .layui-header-nav .layui-nav-item a{padding: 0;}
