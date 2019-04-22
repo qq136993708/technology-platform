@@ -6,12 +6,8 @@
 <meta
 	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
 	name="viewport">
-<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css"
-	media="all">
-<link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
-<link rel="stylesheet" href="/layuiadmin/style/mainStp.css" media="all">
-<link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
-<link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
 </head>
 <body>
 	<div class="layui-fluid">
@@ -23,17 +19,8 @@
 					autocomplete="off" class="form-control" id="month">
 				</label>
 				<div class="layui-input-inline">
-					<select name="companyCode" id="companyCode">
-					<#list companyCodeList as vo> 
-						<#if vo.g0GSJC=='全部'>
-							<option value="${vo.g0GSDM}" selected="selected">${vo.g0GSJC}</option>
-						</#if> 
-						<#if vo.g0GSJC !='全部'>
-							<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
-						</#if> 
-					</#list>
-					</select>
-				</div>
+              <select id="companyCode" name="companyCode" class="form-control"></select>
+             </div>
 				<!--按钮组-->
 				<div class="btnGroup">
 					<button
@@ -176,7 +163,12 @@
 	<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
 	<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
 	<script type="text/javascript" src="/stp/hana/common/stp_common_mult_bar.js"></script>
+	<script src="/stp/hana/common/hana_common.js"></script>
 	<script type="text/javascript">
+	var param=JSON.parse(window.localStorage.getItem("param"));
+	var functionId=param.id;
+	
+	
 		layui.config({
 			base : '/layuiadmin/module/modules/'
 		}).use(['jquery', 'form', 'laydate', 'table', 'laypage'], function(){
@@ -194,6 +186,10 @@
 
 		function init()
 		{
+			
+			init_companyCode(functionId);
+			
+			
 			var allCode = "${allCode?default('')}";
 			var allCode_text = "全部院所";
 			var v_date = (new Date()).getTime();

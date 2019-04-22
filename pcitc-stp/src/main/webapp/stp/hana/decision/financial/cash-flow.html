@@ -4,11 +4,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/mainStp.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
+     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" href="/common/css/echart-common.css">
 </head>
 <body >
 <div class="layui-fluid">
@@ -19,18 +17,9 @@
                 <span>月份</span>
                 <input type="text" name="month" placeholder="请选择月份" value="${month}"  title="月份" autocomplete="off" class="form-control" id="month">
             </label>
-            <div class="layui-input-inline">
-                <select name="companyCode" id="companyCode" >
-                    <#list companyCodeList as vo>
-                        <#if vo.g0GSJC == '全部'>
-                            <option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
-                        </#if>
-                        <#if vo.g0GSJC != '全部'>
-                            <option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
-                        </#if>
-                    </#list>
-                </select>
-            </div>
+           <div class="layui-input-inline">
+              <select id="companyCode" name="companyCode" class="form-control"></select>
+             </div>
             <!--按钮组-->
             <div class="btnGroup">
                 <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
@@ -173,9 +162,11 @@
 <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script src="/stp/hana/common/hana_common.js"></script>
 <script>
 
-
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
 var editObj=null,ptable=null,treeGridCom=null,tableId='processdef-table',layer=null;
 layui.config({
     base: '/layuiadmin/lib/extend/'
@@ -299,7 +290,7 @@ var allCode_text="全部院所";
 
 function initEchart()
 {
-	
+	init_companyCode(functionId);
 	var v_date=(new Date()).getTime();
 	var month=$('#month').val();
 	var companyCode=$('#companyCode').val();

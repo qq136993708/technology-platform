@@ -6,6 +6,8 @@
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
+     <script src="/common/js/jquery-1.11.3.min.js"></script>
+    <script src="/stp/hana/common/hana_common.js"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
 </head>
 <body>
@@ -16,17 +18,8 @@
             <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}" autocomplete="off" class="form-control" id="month">
         </label>
        <div class="layui-input-inline">
-         <select name="companyCode" id="companyCode" >
-              <#list companyCodeList as vo>
-              	 <#if vo.g0GSJC == '全部'>
-              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
-              	 </#if>
-                 <#if vo.g0GSJC != '全部'>
-              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
-              	 </#if>
-               </#list>
-            </select>
-       </div>
+           <select id="companyCode" name="companyCode" class="form-control"></select>
+        </div>
     <!--按钮组-->
     <div class="btnGroup">
      <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
@@ -84,8 +77,9 @@
 </script>
 
 <!--表格数据操作js-->
-<script src="/common/js/jquery-1.11.3.min.js"></script>
 <script>
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
 var table,selectRowData;
 var zlbm=$('#zlbm').val();
 
@@ -103,7 +97,8 @@ layui.config({
           ,format: 'yyyyMM'
           
        });
-
+	  init_companyCode(functionId);
+	  
      	     myTable();
      	     //移除表头的复选框,去掉全选
      	     $(".layui-table-header table thead th input").remove();  

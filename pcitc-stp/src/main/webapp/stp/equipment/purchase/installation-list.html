@@ -30,7 +30,7 @@
         <div class="whiteLine"></div>
         <div  class="tableBtns" >
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" id="applyEvent" data-type="applyEvent">上报</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="upQianEvent">上传到货验收单</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="upQianEvent">上传</button>
         </div>
     </div>
     <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table>
@@ -99,7 +99,7 @@
                         var id=selectRowData.id;
                         var temUrl="/sre-purchase/upFileDoc?id=" + id;
                         layer.open({
-                            title:'上传到货签收单',
+                            title:'上传',
                             skin: 'layui-layer-lan',
                             shadeClose: true,
                             type: 2,
@@ -164,7 +164,7 @@
             elem: '#processdef-table',
             url: '/sre_purchase/list',
             method:"POST",
-            where: {param: {"topicName":$("#topicName").val(),"state":"30","innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {"topicName":$("#topicName").val(),"state":"40","innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
             limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),
