@@ -921,3 +921,5 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-side-menu .layui-nav .layui-nav-item a.thirdChild:hover{line-height: 41px !important;height: 41px !important;}
 .news{position: fixed;top: 100px;right: 0;z-index: 999;}
 .news a{margin: 0 15px;display: inline-block;z-index: 9999;}
+.layui-side-menu .layui-nav .layui-nav-item.layui-this a{color: white !important;
+    background: url("/layuiadmin/layui/images/tree_05.png") 14px 14px no-repeat #1890ff !important;}
