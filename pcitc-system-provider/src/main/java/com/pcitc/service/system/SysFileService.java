@@ -384,4 +384,6 @@ public interface SysFileService {
      * 文档查询，和sys_file_kind关联查询
      */
 	public LayuiTableData selectFileInfoList(LayuiTableParam param);
+
+    public void videoFiles(String id, HttpServletRequest request, HttpServletResponse response) throws IOException;
 }

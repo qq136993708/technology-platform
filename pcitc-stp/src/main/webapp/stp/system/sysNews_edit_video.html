@@ -15,9 +15,13 @@
 <div class="formBox">
     <form id="sysNews-form" name="sysNews-form" lay-filter="sysNews-form" class="form-horizontal layui-form">
         <input type="hidden" name="groupId">
-        <input type="hidden" name="bak1" value="1">
+        <input type="hidden" name="bak1" value="2">
         <div class="box-body">
             <input type="hidden" name="dataId" id="dataId"/>
+            <div style="display: none">
+                <select name="stype" id="stype" lay-filter="stype" style="display: none">
+                </select>
+            </div>
             <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
@@ -57,38 +61,21 @@
                     </div>
                 </div>
 
-
             </div>
-            <div class="layui-row">
-                <!--<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">-->
-                <!--<div class="layui-form-item">-->
-                <!--<label class="layui-form-label">创建时间<span class="must-fill">*</span></label>-->
-                <!--<div class="layui-input-block">-->
-                <!--<input type="text" id="createDate" name="createDate" lay-verify="required" placeholder="请输入创建时间" autocomplete="off" class="layui-input">-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-                <div class="layui-row">
-                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">新闻类型<span class="must-fill">*</span></label>
-                            <div class="layui-input-block">
-                                <select name="stype" id="stype" lay-filter="stype">
-                                </select>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="form-bottom">
-                        <div class="form-bottom-btns">
-                            <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>
-                            <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">取消</button>
+            <div class="layui-row" style="display: none">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">视频类型<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <select name="bak2" id="bak2" lay-filter="bak2">
+                            </select>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="layui-row">
+            <div class="layui-row" style="display: none">
                 <div class="layui-form-item layui-form-text">
                     <div class="layui-form-item">
                         <label class="layui-form-label">内容<span class="must-fill">*</span></label>
@@ -97,6 +84,62 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="layui-row">
+                <div class="tableBox">
+                    <div class="tableToolBox">
+                        <div class="layui-form-item">
+                            <input type="hidden" name="bak4" id="bak4" value="">
+                            <div id="file_upload_img">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row" style="height: 100px">
+
+            </div>
+            <div class="layui-row">
+                <div class="tableBox">
+                    <div class="tableToolBox">
+                        <div class="layui-form-item">
+                            <input type="hidden" name="bak3" id="bak3" value="">
+                            <div id="file_upload">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="layui-row">-->
+            <!--<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">-->
+            <!--<div class="layui-form-item">-->
+            <!--<label class="layui-form-label">创建时间<span class="must-fill">*</span></label>-->
+            <!--<div class="layui-input-block">-->
+            <!--<input type="text" id="createDate" name="createDate" lay-verify="required" placeholder="请输入创建时间" autocomplete="off" class="layui-input">-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div class="layui-row" >-->
+            <!--<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">-->
+            <!--<div class="layui-form-item">-->
+            <!--<label class="layui-form-label">新闻类型<span class="must-fill">*</span></label>-->
+            <!--<div class="layui-input-block">-->
+            <!--<select name="stype" id="stype" lay-filter="stype">-->
+            <!--</select>-->
+            <!--</div>-->
+            <!--</div>-->
+
+            <!--</div>-->
+            <!--</div>-->
+            <div class="form-bottom">
+                <div class="form-bottom-btns">
+                    <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>
+                    <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">取消</button>
+                </div>
+            </div>
+            <!--</div>-->
+        </div>
+
 
     </form>
 </div>
@@ -106,7 +149,12 @@
             $("#sysFlag").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
         });
     });
-    ajaxPost('/dictionary/list/ROOT_XTGL_XWLX', null, function (data, status) {
+    ajaxPost('/dictionary/list/ROOT_XTGL_SPLX', null, function (data, status) {
+        $.each(data, function (i, dt) {
+            $("#bak2").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+        });
+    });
+    ajaxPost('/dictionary/list/ROOT_XTGL_SPLX', null, function (data, status) {
         $.each(data, function (i, dt) {
             $("#stype").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
         });
@@ -114,7 +162,23 @@
     var id = "${id?default(0)}";
     if (id != "0") {
         $("#id").val(id);
+    } else {
+        $("#bak3").val("${bak3}");
+        $("#bak4").val("${bak4}");
     }
+
+    //file-0
+    var param = JSON.parse(window.localStorage.getItem("param"));
+    var file_opt_flag = param.id;
+    var i = 1;
+    var file_ids = "bak3";
+    var file_edit_detail = "edit";
+
+    var file_opt_flag2= param.id;
+    var file_ids2 = "bak4";
+    var file_edit_detail2 = "edit";
+
+    //file-1
     layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element'],
         function () {
             var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
@@ -131,6 +195,8 @@
                     CKEDITOR.instances.content.setData(data.content);
                 });
             }
+            $("#file_upload_img").load('/common/public/uploadlayuiload2.html');
+            $("#file_upload").load('/common/public/uploadlayuiload.html');
             /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
             /* form.verify({
                 groupName : function(value,item) {
