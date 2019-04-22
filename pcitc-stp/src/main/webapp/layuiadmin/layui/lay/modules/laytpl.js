@@ -163,7 +163,7 @@ layui.define(['jquery'],function (e) {
 	
 	o.contractSlosureState = function(d){
         var stateData;
-        if(d!=""){
+        if(d!=null){
 			stateData="<span class='fontStateColor  btn-green'></span>"
         }else{
              stateData="<span></span>"
@@ -173,7 +173,7 @@ layui.define(['jquery'],function (e) {
 	
 	o.installationState = function(d){
         var stateData;
-        if(d!=""){
+        if(d!=null){
 			stateData="<span class='fontStateColor  btn-green'></span>"
         }else{
              stateData="<span></span>"
@@ -183,7 +183,7 @@ layui.define(['jquery'],function (e) {
 	
 	o.contractAcceptanceState = function(d){
         var stateData;
-        if(d!=""){
+        if(d!=null){
 			stateData="<span class='fontStateColor  btn-green'></span>"
         }else{
              stateData="<span></span>"
@@ -193,7 +193,7 @@ layui.define(['jquery'],function (e) {
 	
 	o.arrivalReceiptState = function(d){
         var stateData;
-        if(d!=""){
+        if(d!=null){
 			stateData="<span class='fontStateColor  btn-green'></span>"
         }else{
              stateData="<span></span>"
@@ -203,7 +203,7 @@ layui.define(['jquery'],function (e) {
 	
 	o.contractDockingState = function(d){
         var stateData;
-        if(d!=""){
+        if(d!=null){
 			stateData="<span class='fontStateColor  btn-green'></span>"
         }else{
              stateData="<span></span>"
@@ -213,7 +213,7 @@ layui.define(['jquery'],function (e) {
 	
 	o.purchaseState = function(d){
         var stateData;
-        if(d!=""){
+        if(d!=null){
 			stateData="<span class='fontStateColor  btn-green'></span>"
         }else{
              stateData="<span></span>"
@@ -304,8 +304,6 @@ layui.define(['jquery'],function (e) {
             stateData="<span class='fontStateColor btn-blue'></span>"
         }else if(d==13){
             stateData="<span class='fontStateColor btn-yellow'></span>"
-        }else if(d>=20){
-            stateData="<span class='fontStateColor btn-blue'></span>"
         }
         return stateData;
     };
