@@ -203,6 +203,36 @@ public class ScientificFundsContrller {
 				return resultsDate;
 				
 	       }
+		   
+		   
+		   
+
+			/*@RequestMapping(params="action=getAreaJson")
+			public String getAreaJson(HttpServletRequest request,HttpServletResponse response) throws Exception 
+			{
+				 
+				 Long parentId=CommonUtil.getParameterLong(request, "parentId", null);
+		         Area criteria=new Area();
+		         if(parentId==null)
+		         {
+		        	 criteria.setSqlStr(" t.`parent` IS NULL ");
+		         }else
+		         {
+		        	 criteria.setParent(parentId);
+		         }
+		         criteria.setOrderBySql("");
+				 List<Area> list=commonService.getAreaList(criteria); 
+				 response.setContentType("text/json;charset=utf-8");
+				 response.setHeader("Cache-Control", "no-cache");
+				 JSONArray ja=JSONArray.fromObject(list);
+			     PrintWriter out = response.getWriter();
+			     out.write(ja.toString());
+			     out.close();
+			     return null;
+			}
+			*/
+			
+			
 	  
 	       @RequestMapping(method = RequestMethod.GET, value = "/ktzjjfytjb_data")
 		   @ResponseBody
@@ -525,7 +555,7 @@ public class ScientificFundsContrller {
 	  public String nhzctjb(HttpServletRequest request) throws Exception
 	  {
 		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-			HanaUtil.setSearchParaForUser2(userInfo,restTemplate,httpHeaders,request);
+			//HanaUtil.setSearchParaForUser2(userInfo,restTemplate,httpHeaders,request);
 			
 			String month = HanaUtil.getCurrrent_Year_Moth();
 			request.setAttribute("month", month);

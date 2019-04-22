@@ -3,6 +3,8 @@ package com.pcitc.web.utils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,10 +18,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSON;
@@ -394,6 +392,7 @@ public class EquipmentUtils {
 			    			String str=arrayList.get(k);
 			    			if(str.equals(value))
 			    			{
+			    				sysDictionary.setLevelCode(v+1);
 			    				result.add(sysDictionary);
 			    			}
 						}
@@ -401,13 +400,52 @@ public class EquipmentUtils {
 			    	//System.out.println( "name=>" + name+" code=>" + code+"  value=>" + value);
 				}
 		}
-	    for(int v=0;v<result.size();v++ ) 
+		   
+		if(result.size()>0)
 		{
-	    	SysDictionary sysDictionary=result.get(v);
-	    	String name=sysDictionary.getName();
-	    	String value=sysDictionary.getNumValue();
-	    	System.out.println( "name=>" + name+"  value=>" + value);
+			SysDictionary sys_Dictionary=new SysDictionary();
+			StringBuffer sb=new StringBuffer();
+			for(int v=0;v<result.size();v++ ) 
+			{
+		    	SysDictionary sysDictionary=result.get(v);
+		    	String name=sysDictionary.getName();
+		    	String value=sysDictionary.getNumValue();
+		    	if(v>0)
+		    	{
+		    		sb.append(",");
+		    	}
+		    	sb.append(value);
+		    	
+			}
+			sys_Dictionary.setName("--全部--");
+			sys_Dictionary.setNumValue(sb.toString());
+			sys_Dictionary.setLevelCode(0);
+			result.add(sys_Dictionary);
+			
+			
+			
+			
+			  //直接在这里添加我们的排序规则
+	        Collections.sort(result, new Comparator<SysDictionary>() {
+	            public int compare(SysDictionary arg0, SysDictionary arg1) {
+	                return arg0.getLevelCode().compareTo(arg1.getLevelCode());
+	            }
+	        });
+	        
+	        
+			
+			for(int v=0;v<result.size();v++ ) 
+			{
+		    	SysDictionary sysDictionary=result.get(v);
+		    	String name=sysDictionary.getName();
+		    	String value=sysDictionary.getNumValue();
+		    	System.out.println( "name=>" + name+"  value=>" + value);
+			}
+			
 		}
+	    
+	    
+	    
 	    return result;
 	}
 	
