@@ -91,21 +91,23 @@ public  class InvestServiceImpl implements InvestService {
 				if(sreForApplication!=null) {
 					mentrogress.setForapplicationState(sreForApplication.getApplicationState());//获取转资状态
 				}
-					if(Integer.valueOf(mentrogress.getTaskCloseState())>=1) {
+					if(mentrogress.getTaskCloseState()!=null && Integer.valueOf(mentrogress.getTaskCloseState())>=1) {
 					mentrogress.setPurchaseState("");//获取采购状态
 					mentrogress.setAcceptanceState("");//获取项目验收状态
 					mentrogress.setContractState("");//获取合同编号
 					mentrogress.setForapplicationState("");//获取转资状态
-				}else if(Integer.valueOf(mentrogress.getAcceptanceState())>=1) {
+				}else if(mentrogress.getAcceptanceState()!=null && Integer.valueOf(mentrogress.getAcceptanceState())>=1) {
 					mentrogress.setContractState("");//获取合同编号
 					mentrogress.setPurchaseState("");//获取采购状态
 					mentrogress.setForapplicationState("");//获取转资状态
 				}else if(mentrogress.getForapplicationState()!=null && Integer.valueOf(mentrogress.getForapplicationState())>10) {
 					mentrogress.setContractState("");//获取合同编号
 					mentrogress.setPurchaseState("");//获取采购状态
-				}else if(Integer.valueOf(mentrogress.getPurchaseState())>=4) {
+				}else if(mentrogress.getPurchaseState()!=null && Integer.valueOf(mentrogress.getPurchaseState())>=4) {
 					mentrogress.setContractState("");//获取合同编号
-			}
+				}else {
+					mentrogress.setPurchaseState("");//获取采购状态
+				}
 			list.add(mentrogress);
 		}
 		}
