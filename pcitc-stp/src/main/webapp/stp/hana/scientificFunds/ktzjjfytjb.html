@@ -7,15 +7,17 @@
 	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <script src="/layuiadmin/layui/layui.js"></script>
+    <script src="/stp/hana/common/hana_common.js"></script>
 </head>
 <body>
 <div class="searchBox">
+<input name="functionId" id="functionId" value="${functionId}" type="hidden">
     <!--查询条件-->
         <label class="dateInput">
             <span>月份</span>
             <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}" autocomplete="off" class="form-control" id="month">
         </label>
-       <div class="layui-input-inline">
+       <!-- <div class="layui-input-inline">
          <select name="companyCode" id="companyCode" >
               <#list companyCodeList as vo>
               	 <#if vo.g0GSJC == '全部'>
@@ -26,7 +28,14 @@
               	 </#if>
                </#list>
             </select>
-       </div>
+       </div> -->
+         <div class="layui-input-inline">
+           <select id="companyCode" name="companyCode" class="form-control"></select>
+        </div>
+       
+       
+         
+         
     <!--按钮组-->
     <div class="btnGroup">
      <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
@@ -89,6 +98,10 @@
 <!--表格数据操作js-->
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script>
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
+$('#functionId').val(functionId);
+//alert(functionId);
 var table,selectRowData;
 var zlbm=$('#zlbm').val();
 
@@ -106,6 +119,7 @@ layui.config({
           ,format: 'yyyyMM'
           
        });
+	  init_companyCode(functionId);
 
      	     myTable();
      	     //移除表头的复选框,去掉全选
@@ -160,8 +174,9 @@ function myTable()
 	layer.load(2);
 	 var month=$("#month").val();
 	 var companyCode=$("#companyCode").val();
+	 // alert(companyCode);
 	 var v_date=(new Date()).getTime();
-	 var url= '/ktzjjfytjb_data?month='+month+"&v_date="+v_date+"&companyCode="+companyCode;
+	 var url= '/ktzjjfytjb_data?month='+month+"&v_date="+v_date+"&companyCode="+companyCode+"&functionId="+functionId;
 	    table.init('myTable', {
 			  url: url
 			  ,where: {} ,
@@ -170,12 +185,11 @@ function myTable()
 			});
 	 
 }
+   
 
-   
-    
-   
+
+
 
 </script>
-
 </body>
 </html>

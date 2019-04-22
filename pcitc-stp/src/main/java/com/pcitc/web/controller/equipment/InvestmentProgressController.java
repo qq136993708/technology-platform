@@ -18,11 +18,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreProject;
+import com.pcitc.base.stp.equipment.SreProjectTask;
 import com.pcitc.base.stp.equipment.UnitField;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.utils.EquipmentUtils;
 
 @Controller
 public class InvestmentProgressController extends BaseController {
@@ -78,6 +81,16 @@ public class InvestmentProgressController extends BaseController {
 	@RequestMapping(value = "/sre-Investmentrogress/get/{InvestmentrogressId}", method = RequestMethod.GET)
 	public String get(@PathVariable("InvestmentrogressId") String InvestmentrogressId, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
+		String equipmentmoney="";
+		SreProject sreProject=EquipmentUtils.getSreProject(InvestmentrogressId, restTemplate, httpHeaders);
+		String[] sre = sreProject.getEquipmentIds().split(",");
+		for(int i =0;i<sre.length;i++) {
+			SreEquipment  sreEquipment= EquipmentUtils.getSreEquipment(sre[i], restTemplate, httpHeaders);
+			if(sreEquipment!=null) {
+				equipmentmoney+=sreEquipment.getUnitPrice();
+			}
+		}
+		request.setAttribute("equipmentmoney", equipmentmoney);
 		return "/stp/equipment/Investmentrogress/Investmentrogress-view";
 	}
 	

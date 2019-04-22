@@ -83,20 +83,21 @@
                 <thead>
 	                <tr>
 	                	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
-	                	<th lay-data="{field:'no',align: 'center', width: '5%',totalRowText: '合计'}" rowspan="2">序号</th>
-	                    <th lay-data="{field:'organName', width: '10%'}" rowspan="2">专业处/部门</th>
-	                    <th lay-data="{field:'total', width: '10%',align: 'center',totalRow: true}" rowspan="2">合计</th>
+	                	<th lay-data="{field:'no',align: 'center', width: '4%',totalRowText: '合计'}" rowspan="2">序号</th>
+	                    <th lay-data="{field:'organName', width: '15%'}" rowspan="2">专业处/部门</th>
+	                    <th lay-data="{field:'total', width: '6%',align: 'center',totalRow: true}" rowspan="2">合计</th>
 	                    <#list items as item>
 	                    	<#list item?keys as key> 
-	                    		<th lay-data="{field:'${key}_total', edit:true,align: 'right',totalRow: true}" colspan="2">${item[key]}</th>
+	                    		<th lay-data="{align: 'center',totalRow: true}" colspan="3">${item[key]}</th>
 	                    	</#list> 
 	                    </#list>
 	                </tr>
 	                 <tr>
 	                    <#list items as item>
-	                    	<#list item?keys as key> 
-	                    		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true}">结转</th>
-	                    		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true}">新签</th>
+	                    	<#list item?keys as key>
+	                    		<th lay-data="{field:'${key}_total', edit:true,align: 'right',totalRow: true}">预算</th> 
+	                    		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true}">老合同</th>
+	                    		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true}">可新签</th>
 	                    	</#list> 
 	                    </#list>
 	                </tr>
@@ -274,6 +275,8 @@
 	           		$.each(table_titles,function(i,title){
 	           			row_total_jz += parseInt(curent_tabel_data[index][title+"_jz"]);
 	           			row_total_xq += parseInt(curent_tabel_data[index][title+"_xq"]);
+	           			
+	           			curent_tabel_data[index][title+"_total"]=parseInt(curent_tabel_data[index][title+"_jz"])+parseInt(curent_tabel_data[index][title+"_xq"]);
 	               	});
 	           		curent_tabel_data[index].total_jz = row_total_jz;
 	           		curent_tabel_data[index].total_xq = row_total_xq;
@@ -344,7 +347,7 @@
                 		parent.layer.alert("请选择需要导出的预算版本", {title : '提示'});
                 		return;
                 	} 
-                	window.open("/budget/budget_download/stocksplit_zsy/"+curent_budget_info.dataId);
+                	window.open("/budget/budget_download/stocksplit-zsy/"+curent_budget_info.dataId);
                 },historyCompare:function(){
                 	var selectIndex = $(".layui-form-checked").parents("tr").attr("data-index");
                 	if(!selectIndex){
@@ -355,7 +358,7 @@
                 	console.log(curent_tabel_data[selectIndex]);
                 	var url = '/budget/budget_history_compare_stocksplit_zsy?nd='+cu_date+'&organCode='+curent_tabel_data[selectIndex].organCode+"&budgetInfoId="+curent_budget_info.dataId;
                    	layer.open({
-                        title: '集团公司经费预算编制管理-往年预算参考'
+                        title: '研究院经费分解编制管理-往年预算参考'
                         , skin: 'layui-layer-lan'
                         , shadeClose: true
                         , type: 2
@@ -373,7 +376,7 @@
                 	} 
                 	var url = '/budget/budget_history_view_stocksplit_zsy?nd='+cu_date+'&budgetInfoId='+curent_budget_info.dataId;
                    	layer.open({
-                        title: '集团公司经费预算编制管理-历年参考数据'
+                        title: '研究院经费分解编制管理-历年参考数据'
                         , skin: 'layui-layer-lan'
                         , shadeClose: true
                         , type: 2

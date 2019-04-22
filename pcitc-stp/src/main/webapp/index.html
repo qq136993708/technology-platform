@@ -8,45 +8,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico" />
 <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
-<link rel="stylesheet" href="/layuiadmin/style/adminStp.css?+Math.random()" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/adminStp_.css?+Math.random()" media="all">
 </head>
 <body class="layui-layout-body">
 
 	<div id="LAY_app">
 		<div class="layui-layout layui-layout-admin">
+			<!--top-->
 			<div class="layui-header">
-				<!--搜索框-->
-				<div class="stpSearchBox">
-					<span class="selectBox-span">
-						<small style="font-size: 14px;">本地</small>
-						<img src="/layuiadmin/layui/images/stpicon_07.png" alt="">
-						<dl class="layui-nav-child-span layui-hide">
-							<dd>
-								<a href="javascript:void(0)">本地</a>
-							</dd>
-							<dd>
-								<a href="javascript:void(0)">知识管理</a>
-							</dd>
-						</dl>
-					</span>
-
-					<div class="seacrhBox">
-						<input type="text" placeholder="搜索">
-						<img src="/layuiadmin/layui/images/icon-stpicon-06.png" alt="">
-					</div>
-				</div>
-				<!-- 导航 -->
-				<div class="layui-header-div">
+				<!--logo-->
+				<div class="layui-header-logo inline-block">
+					<img src="/layuiadmin/layui/images/header-logo.png"/> </div>
+				<!--首页-->
+				<div class="layui-header-index inline-block"><img src="/layuiadmin/layui/images/header-index.png"/></div>
+				<!--导航-->
+				<div class="layui-header-nav inline-block">
 					<ul class="layui-nav layui-layout-left">
 						<#if upList?exists> <#list upList as p>
-						<li class="layui-nav-item" id="up${p.id}">
+						<li class="layui-nav-item ${p_index}" id="up${p.id}">
 							<a href="javascript:;" id="${p.id}">${p.name}</a>
 						</li>
 						</#list> </#if>
 					</ul>
+					<div class="layui-icon layadmin-tabs-control layui-icon-prev layui-hide" id="navPrev">
+						<ul class="layui-nav layui-layout-left layui-hide"></ul>
+					</div>
 				</div>
-				<div class="layui-icon layadmin-tabs-control layui-icon-prev layui-hide"></div>
-				<!--通知-->
+				<!--搜索-->
+				<div class="layui-header-search inline-block">
+					<div class="seacrhBox">
+						<input type="text" placeholder="搜索">
+						<img src="/layuiadmin/layui/images/icon-s.png" alt="">
+					</div>
+				</div>
+				<!--右侧-->
 				<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
 					<li class="layui-nav-item layui-nav-itemnew chat" title="通知">
 						<a id="numberChat" lay-href="/task/pending/list/ini" lay-text="会话"><span id="pendingCount" style="visibility: hidden"></span></a>
@@ -148,16 +143,15 @@
 			<div class="layui-side layui-side-menu layui-side-menu-div" style="background: #fff !important; box-shadow: 0 10px 10px rgba(0, 0, 0, 0.6) !important;">
 				<div class="layui-side-scroll">
 					<!--logo-->
-					<div class="layui-logo" style="background: #17a2b8;">
+					<!--<div class="layui-logo" style="background: #17a2b8;">
 						<span>
 							<img src="/layuiadmin/layui/images/logo-stp.png" />
 						</span>
-					</div>
+					</div>-->
 					<!--左侧导航-->
 
 					<ul class="layui-nav layui-nav-tree" lay-shrink="all" lay-filter="layadmin-system-side-menu" id="nav${p.id}">
 						<li class="layadmin-flexible">
-							个人工作台
 							<div></div>
 						</li>
 						<li class="layui-nav-item layui-nav-itemed">
@@ -191,20 +185,19 @@
 									</#list>
 								</dl>
 							</li>
-						</#if> 
-																		
+						</#if>
+
 					</ul>
 
-					<#if upList?exists> 
+					<#if upList?exists>
 						<#list upList as p>
 							<ul class="layui-nav layui-nav-tree layui-hide" lay-shrink="all" lay-filter="layadmin-system-side-menu" id="nav${p.id}">
 								<li class="layadmin-flexible">
-									${p.name}
 									<div></div>
 								</li>
-								<#assign openFlag="0"> 
-								<#list funList as s> 
-									<#if s.parentId == p.id && s.url=='#'> 
+								<#assign openFlag="0">
+								<#list funList as s>
+									<#if s.parentId == p.id && s.url=='#'>
 										<#if openFlag=="0">
 											<li class="layui-nav-item layui-nav-itemed">
 												<a href="#" title="${s.name}">
@@ -213,21 +206,21 @@
 													<i class="fa fa-angle-left pull-right"></i>
 												</a>
 												<dl class="layui-nav-child">
-													<#list funList as t> 
+													<#list funList as t>
 														<#if t.parentId == s.id>
 															<dd>
 																<#if t.url != '#'>
 																	<a lay-href="${t.url}" lay-text="${t.name}" data-id="${t.id}" data-code="${t.code}" data-functionbuttons="${t.functionButtons}">${t.name}</a>
-																</#if> 
+																</#if>
 																<#if t.url == '#'>
 																	<a href="${t.url}" title="${t.name}">${t.name}</a>
 																	<dl class="layui-nav-child">
-																		<#list funList as k> 
+																		<#list funList as k>
 																			<#if k.parentId == t.id>
 																				<dd>
 																					<a class="thirdChild" lay-href="${k.url}" lay-text="${k.name}" data-id="${k.id}" data-code="${k.code}" data-functionbuttons="${k.functionButtons}" title="${k.name}">${k.name}</a>
 																				</dd>
-																			</#if> 
+																			</#if>
 																		</#list>
 																	</dl>
 																</#if>
@@ -236,7 +229,7 @@
 													</#list>
 												</dl>
 											</li>
-										</#if> 
+										</#if>
 										<#if openFlag!="0">
 											<li class="layui-nav-item">
 												<a href="#" title="${s.name}">
@@ -245,47 +238,54 @@
 													<i class="fa fa-angle-left pull-right"></i>
 												</a>
 												<dl class="layui-nav-child">
-													<#list funList as t> 
+													<#list funList as t>
 														<#if t.parentId == s.id>
 															<dd>
 																<#if t.url != '#'>
 																	<a lay-href="${t.url}" lay-text="${t.name}" data-id="${t.id}" data-code="${t.code}" data-functionbuttons="${t.functionButtons}">${t.name}</a>
-																</#if> 
+																</#if>
 																<#if t.url == '#'>
 																	<a href="${t.url}" title="${t.name}">${t.name}</a>
 																	<dl class="layui-nav-child">
-																		<#list funList as k> 
+																		<#list funList as k>
 																			<#if k.parentId == t.id>
 																				<dd>
 																					<a class="thirdChild" lay-href="${k.url}" lay-text="${k.name}" data-id="${k.id}" data-code="${k.code}" data-functionbuttons="${k.functionButtons}" title="${k.name}">${k.name}</a>
 																				</dd>
-																			</#if> 
+																			</#if>
 																		</#list>
 																	</dl>
 																</#if>
 															</dd>
-														</#if> 
+														</#if>
 													</#list>
 												</dl>
 											</li>
-										</#if> 
-										<#assign openFlag="1"> 
-									</#if> 
+										</#if>
+										<#assign openFlag="1">
+									</#if>
 									<#if s.parentId == p.id && s.url!='#'>
 										<li class="layui-nav-item">
 											<a lay-href="${s.url}" lay-text="${s.name}"  data-id="${s.id}" data-code="${s.code}" data-functionbuttons="${s.functionButtons}">
 												<span>${s.name}</span>
 											</a>
 										</li>
-									</#if> 
+									</#if>
 								</#list>
 							</ul>
-						</#list> 
+						</#list>
 					</#if>
 				</div>
 			</div>
 
 			<!-- 页面标签 -->
+			<div class="dowebok news">
+				<a href="http://www.dowebok.com/187.html">Smoothslides – 可平移的jQuery幻灯片插件</a>
+				<a href="http://www.dowebok.com/77.html">jQuery全屏滚动插件fullPage.js</a>
+				<a href="http://www.dowebok.com/131.html">WOW.js – 让页面滚动更有趣</a>
+				<a href="http://www.dowebok.com/139.html">让IE7 IE8支持CSS3 background-size属性</a>
+				<a href="http://www.dowebok.com/117.html">shCircleLoader – jQuery Loading效果插件</a>
+			</div>
 			<div class="layadmin-pagetabs" id="LAY_app_tabs">
 				<div class="layui-icon layadmin-tabs-control layui-icon-prev" layadmin-event="leftPage"></div>
 				<div class="layui-icon layadmin-tabs-control layui-icon-next" layadmin-event="rightPage"></div>
@@ -342,6 +342,7 @@
 		<#include "/common/public/bottomTips.html"/>
 	</div>
 
+	<script src="/layuiadmin/javascript/jquery.liMarquee.js"></script>
 	<script src="/layuiadmin/layui/layui.js"></script>
 	<script>
 		layui.config({
@@ -351,40 +352,44 @@
 		}).use([ 'index', 'jquery' ], function() {
 			var $ = layui.jquery;
 
-			/*导航宽度*/
-			var layuiHeaderWidth = parseInt($(".layui-header").width());
-			var layuiHeaderUlActualWidth = 0, DValue = 0, ulLiNumber = 0;
-			var layuiHeaderUlMustWidth = layuiHeaderWidth - 250;
-			$(".layui-header-div .layui-layout-left li a").each(function() {
-                layuiHeaderUlActualWidth += parseInt($(this).html().length *14+40);
-				DValue = layuiHeaderUlActualWidth - layuiHeaderUlMustWidth;
-				if (DValue > 0) {
-					ulLiNumber = $(this).parent().index();
-					return false;
+			var headerNav= $(".layui-header-nav ul").html();
+			var navLeft=36;
+            $(".layui-header-nav ul li").each(function (i, val) {
+				if(i>3){
+                    $(".layui-header .layui-icon-prev").removeClass("layui-hide");
+                    $(val).remove();
+				}else {
+                    navLeft+=$(val).width()+24;
 				}
-			});
-			$(".layui-header-div").css("width", layuiHeaderUlMustWidth + "px");
-			if (DValue > 0) {
-				$(".layui-layout-left").css("left", "0px");
-				$(".layui-header .layui-icon-prev").removeClass("layui-hide");
-				var html = $(".layui-header-div").html();
-				$(".layui-header .layui-icon-prev").append(html);
-				$(".layui-layout-left").eq(1).addClass("layui-hide layui-layout-left-over");
-				$(".layui-layout-left:eq(1) li:lt(" + (ulLiNumber) + ")").remove();
-				$(".layui-header .layui-icon-prev").on({
-					mouseover : function() {
-						$(".layui-layout-left").eq(1).removeClass("layui-hide");
-					},
-					mouseout : function() {
-						$(".layui-layout-left").eq(1).toggleClass("layui-hide");
-					}
+            });
+            $(".layui-header .layui-icon-prev").css("left",navLeft+"px");
+            if(!$(".layui-header .layui-icon-prev").hasClass("layui-hide")){
+                $("#navPrev ul").append(headerNav);
+                $("#navPrev ul span").remove();
+                $("#navPrev ul li").each(function (i, val) {
+                    if(i<3){
+                        $(".layui-header .layui-icon-prev").removeClass("layui-hide");
+                        $(val).remove();
+                    }
+                });
+                $(".layui-header .layui-icon-prev").on({
+                    mouseover : function() {
+                        $(".layui-layout-left").eq(1).removeClass("layui-hide");
+                    },
+                    mouseout : function() {
+                        $(".layui-layout-left").eq(1).toggleClass("layui-hide");
+                    }
 
-				});
-			}
+                });
+            }
 			$(".layui-header .layui-layout-left li a").on("click", function() {
 				var id = $(this).attr("id")
 				$(".layui-nav-tree").addClass("layui-hide");
 				$("#nav" + id).removeClass("layui-hide");
+                $(".layui-header .layui-layout-left li").removeClass("layui-this");
+				if(!$(this).parent().hasClass("layui-this")){
+                    $(this).parent().addClass("layui-this");
+				}
 			});
 			function initNoticeSocket() {
 				//初始化websocket
@@ -485,7 +490,7 @@
 					content : "/user/upd-pass?userId=${userInfo.userId}"
 				});
 			});
-			
+
 			$("#selfConfig").on("click", function() {
 				layer.open({
 					title : "个人设置",
@@ -500,7 +505,7 @@
 					content : "/user/ini-self-config"
 				});
 			});
-			
+
 			$("#changeIndex").on("click", function() {
 				var host = window.location.host;
 	        	window.location.href="http://"+host+"/work";
@@ -522,7 +527,7 @@
                                     var collectMenu = document.getElementById("dlCollect").innerHTML;
                                     collectMenu = collectMenu + "<dd id='"+obj.dataId+"'><a lay-href='"+obj.collectUrl+"' lay-text='"+obj.collectName+"' data-id='"+obj.functionId+"' data-code='"+obj.functionCode+"' data-functionbuttons='ALL'>"+obj.collectName+"<img title=\"取消收藏\"  src=\"/layuiadmin/layui/images/icon_collection.png\" class=\"layui-hide\"/></a></dd>"
                                     document.getElementById("dlCollect").innerHTML = collectMenu;
-                                    
+
                                 } else if (obj.status == '0') {
                                     var dl = document.getElementById("dlCollect");
                                     // 查找dl里的所有dd
@@ -556,7 +561,7 @@
 					url : '/admin/collect?functionCode='+param.code+"&functionName="+param.name+"&functionId="+param.id,
 					success : function(data) {
 						layer.msg(data.message);
-						
+
 						if (data.success) {
 							// 动态修改当前我的收藏
 							var obj = eval('(' + data.data + ')');
@@ -574,9 +579,9 @@
 								    }
 								}
 							}
-							
+
 						}
-						
+
 					},
 					error : function(e) {
 						console.log(e);
@@ -613,7 +618,7 @@
 				getUserNoticeCount();
 			});
 		});
-		
+
 	</script>
 </body>
 </html>

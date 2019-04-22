@@ -40,6 +40,15 @@ public class Constant {
     public static String  EQUIPMENT_PURCHASE_PASS   = "2";
     public static String  EQUIPMENT_PURCHASE_COMPACT   = "3";
     public static String  EQUIPMENT_PURCHASE_ARRIVE_GOODS   = "4";
+
+    //装备转资变量
+    public static final String EQUME_ZERO="0"; //开启状态
+    public static final String EQUME_ONE="1"; //关闭状态
+
+    //转资申请状态变量
+    public static final String OK_ZERO="10"; //保存状态
+    public static final String OK_NEO="20"; //上报状态
+    public static final String OK_THRRE="30"; //通过状态
     /**
      * 默认文件上传类型
      */

@@ -37,16 +37,16 @@ public enum BudgetSplitEnum
 	public static List<BudgetSplitEnum> getStockSplitTypes()
 	{
 		List<BudgetSplitEnum> enums = new ArrayList<BudgetSplitEnum>();
-		for(BudgetSplitEnum v:BudgetSplitEnum.values()) 
+		for(BudgetSplitEnum v:BudgetSplitEnum.values())
 		{
-			if(v.name().contains("SPLIT_STOCK") && v.getId()>300 && v.getId()<399) 
+			if(v.name().contains("SPLIT_STOCK") && v.getId()>300 && v.getId()<399)
 			{
 				enums.add(v);
 			}
 		}
 		return enums;
 	}
-	
+
 	private BudgetSplitEnum(Integer id,String code, String name) {
 		this.id = id;
 		this.code = code;

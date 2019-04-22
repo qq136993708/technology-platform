@@ -117,7 +117,7 @@ public class PurchaseController extends BaseController{
 
         return "/stp/equipment/purchase/apply-list";
     }
-    //跳转到安装调试页面
+    //跳转到安装调试页面123
     @RequestMapping(value = "/sre-purchase/to-installation-list")
     public String installationList(HttpServletRequest request, HttpServletResponse response) {
 
@@ -452,6 +452,13 @@ public class PurchaseController extends BaseController{
         return "/stp/equipment/purchase/purchase-view";
     }
 
+    /**
+     * 上传附件
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/sre-purchase/upFileDoc")
     public String upFileDoc(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -467,6 +474,7 @@ public class PurchaseController extends BaseController{
             request.setAttribute("srePurchase", srePurchase);
             String documentDoc = srePurchase.getDocumentDoc();
             String docArriveGoods = srePurchase.getDocumentDocArriveGoods();
+            String documentDocInstallDebug = srePurchase.getDocumentDocInstallDebug();
             String stage = srePurchase.getStage();
             if(stage.equals(Constant.PURCHASE_CONTRACT_DOCKING)){//合同系统对接 阶段
                 if(documentDoc==null || documentDoc.equals(""))
@@ -480,6 +488,12 @@ public class PurchaseController extends BaseController{
                     docArriveGoods= IdUtil.createFileIdByTime();
                 }
                 request.setAttribute("docArriveGoods", docArriveGoods);
+            }else if(stage.equals(Constant.PURCHASE_INSTALL_DEBUG)){
+                if(docArriveGoods==null || docArriveGoods.equals(""))
+                {
+                    docArriveGoods= IdUtil.createFileIdByTime();
+                }
+                request.setAttribute("documentDocInstallDebug", documentDocInstallDebug);
             }
             request.setAttribute("stage", stage);
 

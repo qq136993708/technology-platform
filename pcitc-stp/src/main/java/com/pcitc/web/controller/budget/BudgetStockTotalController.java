@@ -76,6 +76,9 @@ public class BudgetStockTotalController extends BaseController {
 	private static final String BUDGET_STOCKTOTAL_FINAL_HISTORY_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-stocktotal-final-history-list";
 	private static final String BUDGET_STOCKTOTAL_COMPARE_PLAN = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-stocktotal-compare-plan";
 	private static final String BUDGET_STOCKTOTAL_COMPARE_PROJECT = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-stocktotal-compare-project";
+	private static final String BUDGET_STOCKTOTAL_TYPE_DICTIONARY = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-stockitem-type-dictionary";
+	
+	
 	
 	private static final String BUDGET_INFO_UPDATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-update";
 	private static final String BUDGET_INFO_GET = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-get/";
@@ -352,7 +355,14 @@ public class BudgetStockTotalController extends BaseController {
 		//System.out.println(JSON.toJSONString(infors.getBody()));
 		return infors.getBody();
 	}
-	
+	@RequestMapping(value = "/budget/get-stockitem-type-dictionary", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getStockitemTypeDictionary(@RequestParam(value="nd",required = false)String nd,HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_STOCKTOTAL_TYPE_DICTIONARY, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), Object.class);
+		//System.out.println(JSON.toJSONString(infors.getBody()));
+		return infors.getBody();
+	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping("/budget/budget_download/stocktotal/{dataId}")
 	public void downBudgetStockTotal(@PathVariable("dataId") String dataId,HttpServletResponse res) throws IOException 

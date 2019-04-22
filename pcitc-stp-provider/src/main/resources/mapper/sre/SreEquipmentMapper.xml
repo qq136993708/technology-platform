@@ -470,15 +470,12 @@
      </select>
      
      <select id="getForApplicationList" resultMap="BaseResultMap" parameterType="Map" >
-     select * from sre_equipment t <include refid="selectCondition" />  
-     where t.purchase_status >= 3
-     <choose>
-      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
-      <otherwise>
-        ORDER BY  create_date desc
-      </otherwise>
-     </choose>
-     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+       select * from sre_equipment t  where t.purchase_status >= 4 and t.for_status ='0'
+         <if test="applyDepartCode != null        and applyDepartCode !=''  ">       AND t.apply_depart_code = #{applyDepartCode}</if>
+	     <if test="unitPathIds != null             and unitPathIds !=''  ">           AND t.unit_path_ids = #{unitPathIds}</if>
+	     <if test="isLinkedProject != null             and isLinkedProject !=''  ">           AND t.is_linked_project = #{isLinkedProject}</if>
+	     <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.parent_unit_path_ids = #{parentUnitPathIds}</if>
+         <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
    </select>
      
      

@@ -575,6 +575,26 @@
 				</foreach>
 		group by pro_code
 	</select>
+	
+	
+	
+	
+	
+	
+	
+	<!-- 数据项控制，查询当前人所属岗位、菜单，对应的属性控制信息 -->
+	<select id="getPostDic" resultType="com.pcitc.base.system.SysFunctionProperty" parameterType="java.util.HashMap">
+		select pro_code as proCode,GROUP_CONCAT(post_config_value SEPARATOR  '$') as postConfigValue 
+		from sys_function_property
+		where 
+			post_id is not null and 
+			function_id = '${functionId}' and 
+			post_id in
+				<foreach collection="postIds" item="postId" open="(" separator="," close=")">
+					#{postId,jdbcType=VARCHAR}
+				</foreach>
+		group by pro_code
+	</select>
 
 
 </mapper>

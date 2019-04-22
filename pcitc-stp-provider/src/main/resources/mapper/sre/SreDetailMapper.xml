@@ -58,7 +58,7 @@
       declare_time, asset_number, configure, 
       measuring_unit, assets_classification, nationality, 
       place_use, place_people, receive_people,
-      specification,arrival_date,supplier
+      specification,arrival_date,supplier,isscrap
       )
     values (#{id,jdbcType=VARCHAR}, #{equipmentId,jdbcType=VARCHAR}, #{equipmentName,jdbcType=VARCHAR}, 
       #{equipmentType,jdbcType=VARCHAR}, #{equipmentPrice,jdbcType=VARCHAR}, #{equipmenNumber,jdbcType=VARCHAR}, 
@@ -66,7 +66,8 @@
       #{declareTime,jdbcType=TIMESTAMP}, #{assetNumber,jdbcType=VARCHAR}, #{configure,jdbcType=VARCHAR}, 
       #{measuringUnit,jdbcType=VARCHAR}, #{assetsClassification,jdbcType=VARCHAR}, #{nationality,jdbcType=VARCHAR}, 
       #{placeUse,jdbcType=VARCHAR}, #{placePeople,jdbcType=VARCHAR}, #{receivePeople,jdbcType=VARCHAR},
-      #{specification,jdbcType=VARCHAR},#{arrivaldate,jdbcType=TIMESTAMP},#{supplier,jdbcType=VARCHAR}
+      #{specification,jdbcType=VARCHAR},#{arrivaldate,jdbcType=TIMESTAMP},#{supplier,jdbcType=VARCHAR},
+      #{isscrap,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreDetail" >
@@ -136,6 +137,9 @@
       </if>
         <if test="supplier != null" >
         supplier,
+      </if>
+      <if test="isscrap != null" >
+        isscrap,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -297,7 +301,8 @@
       receive_people = #{receivePeople,jdbcType=VARCHAR},
       specification= #{specification,jdbcType=VARCHAR},
       arrival_date= #{arrivaldate,jdbcType=TIMESTAMP},
-      supplier = #{supplier,jdbcType=VARCHAR}
+      supplier = #{supplier,jdbcType=VARCHAR},
+      isscrap = #{isscrap,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   

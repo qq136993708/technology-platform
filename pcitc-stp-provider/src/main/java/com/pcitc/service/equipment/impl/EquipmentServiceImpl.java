@@ -103,6 +103,9 @@ public class EquipmentServiceImpl implements EquipmentService {
 		System.out.println(">>>>>>>>>> getEquipmentListByMap 参数: "+parmamss.toJSONString());
 		String equipmentIds=(String)map.get("equipmentIds");
 		String purchaseStatus=(String)map.get("purchaseStatus");
+		
+		
+		
 		StringBuffer applyUnitCodeStr=new StringBuffer();
         if (!equipmentIds.equals("")) 
 		{
@@ -123,6 +126,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 				applyUnitCodeStr.append(" ) ");
 			}
 		}
+        
+       
         map_para.put("purchaseStatus", purchaseStatus);
         map_para.put("sqlStr", applyUnitCodeStr.toString());
     	List<SreEquipment> list = sreEquipmentMapper.getList(map_para);

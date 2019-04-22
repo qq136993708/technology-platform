@@ -70,7 +70,7 @@ html{background-color: #f2f2f2; color: #666;}
 .notify{background: url("/layuiadmin/layui/images/stpicon_03.png")  0px 16px no-repeat;}
 
 .collection{background:#009ab0 url("/layuiadmin/layui/images/icon-collection.png")  center 15px no-repeat;
-width: 56px;}
+    width: 56px;}
 
 .QRCode{background: url("/layuiadmin/layui/images/stpicon_04.png") center center no-repeat;
     display: inline-block; float: left;margin-top: 16px;cursor: pointer;width: 19px;height: 19px;}
@@ -142,21 +142,21 @@ width: 56px;}
 
 /* 重置表格风格 */
 /*
-.layui-table th, 
-.layui-table td, 
+.layui-table th,
+.layui-table td,
 .layui-table[lay-skin="line"],
-.layui-table[lay-skin="row"], 
-.layui-table-view, 
+.layui-table[lay-skin="row"],
+.layui-table-view,
 .layui-table-header,
 .layui-table-tool,
 .layui-table-page,
 .layui-table-fixed-r,
 .layui-table-tips-main{border-color: #f6f6f6;}
 
-.layui-table thead tr, 
-.layui-table-header, 
+.layui-table thead tr,
+.layui-table-header,
 .layui-table-tool,
-.layui-table-patch, 
+.layui-table-patch,
 .layui-table-mend{background-color: #fff;}
 
 .layui-table[lay-even] tr:nth-child(even),
@@ -169,14 +169,14 @@ width: 56px;}
 .layui-form[wid100] .layui-form-label{width: 100px;}
 .layui-form[wid100] .layui-input-block{margin-left: 130px;}
 @media screen and (max-width: 450px){
-  .layui-form[wid100] .layui-form-item .layui-input-inline{margin-left: 132px;}
-  .layui-form[wid100] .layui-form-item .layui-input-inline+.layui-form-mid{margin-left: 130px;}
+    .layui-form[wid100] .layui-form-item .layui-input-inline{margin-left: 132px;}
+    .layui-form[wid100] .layui-form-item .layui-input-inline+.layui-form-mid{margin-left: 130px;}
 }
 .layui-form-item .layui-input-company{width: auto; padding-right: 10px; line-height: 38px;}
 
 /* 辅助 */
 .layadmin-flexible div{background:url("/layuiadmin/layui/images/stpicon_08.png") no-repeat;width: 16px;height: 12px;
-  position: absolute;right: 20px;top: 30%;cursor: pointer;}
+    position: absolute;right: 20px;top: 30%;cursor: pointer;}
 
 .layui-bg-white{background-color: #fff;}
 .layadmin-loading{position: absolute; left: 50%; top: 50%; margin: -16px -15px; font-size: 30px; color: #c2c2c2;}
@@ -227,7 +227,7 @@ width: 56px;}
 .layui-side-menu .layui-side-scroll{width: 250px;}
 .layui-side-menu .layui-nav{width: 230px; margin-top: 49px; background: none;}
 .layui-side-menu .layui-nav .layui-nav-item a{height: 40px; line-height: 40px; padding-left: 45px;
-  color:#000;padding-right: 30px;font-size: 12px;}
+    color:#000;padding-right: 30px;font-size: 12px;}
 .layui-side-menu .layui-nav .layui-nav-item dl a{text-indent: 1em;color: #212529;width: 60%;}
 .layui-side-menu .layui-nav .layui-nav-item > a{color: #000 !important; border-radius: 6px; width: 60%; margin: 0 auto;}
 .layui-side-menu .layui-nav .layui-nav-item a:hover{background: url("/layuiadmin/layui/images/stpicon_10.png") #EEEDEB no-repeat 14px center;}
@@ -263,7 +263,7 @@ width: 56px;}
 .layui-nav-child dd > a{ width: 60%;margin: 0 auto; border-radius: 6px;background: url("/layuiadmin/layui/images/stpicon_10.png") no-repeat 14px center; }
 .layui-nav-child dd>a:hover{ background: url("/layuiadmin/layui/images/stpicon_10.png") no-repeat 14px center; }
 .layui-side .layui-nav .layadmin-flexible{position: fixed;width: 230px;z-index: 9999;top: 49px;color: #000; font-size: 16px;
-  font-weight: bold;text-indent: 14px;height: 50px; line-height: 50px;background-color: #fff;border-bottom: 1px solid #eee;}
+    font-weight: bold;text-indent: 14px;height: 50px; line-height: 50px;background-color: #fff;border-bottom: 1px solid #eee;}
 .layui-side .layui-nav .layadmin-flexible img{position: absolute;right: 20px;top: 31%;cursor: pointer;}
 .layui-nav-tree .layui-nav-item{top: 50px;}
 .layui-leader-admin .layui-nav-tree .layui-nav-item:nth-child(1){
@@ -274,7 +274,7 @@ width: 56px;}
 .layui-leader-admin .layui-nav-tree .layui-nav-item{top: 10px;}
 .layui-leader-admin .layui-nav-more{display: none;}
 .layui-leader-admin .layui-side-menu .layui-nav .layui-nav-item dl dd a{
-font-size: 14px;color: #212529;text-indent: 0;
+    font-size: 14px;color: #212529;text-indent: 0;
 }
 .layui-leader-admin .layui-side-menu .layui-nav .layui-nav-item:nth-child(2){
     background: url("/layuiadmin/layui/images/tree_15.png") 22px 14px no-repeat;
@@ -454,7 +454,7 @@ font-size: 14px;color: #212529;text-indent: 0;
 
 /* 底部固定区域 */
 .layui-layout-admin .layui-footer{padding: 10px 0; text-align: center;box-shadow: 0 -1px 2px 0 rgba(0,0,0,.1);
-  z-index: 11111;position: absolute;height: 10px;line-height: 10px;color: #aaa;font-size: 12px;}
+    z-index: 11111;position: absolute;height: 10px;line-height: 10px;color: #aaa;font-size: 12px;}
 
 /* 默认主题修饰 */
 .layui-layout-admin .layui-header{border-bottom: 1px solid #e6e6e6; box-sizing: border-box; background-color: #17a2b8;}
@@ -481,9 +481,9 @@ font-size: 14px;color: #212529;text-indent: 0;
 
 
 /*
- 
+
  格局
- 
+
 */
 
 .layui-fluid{padding:0 10px 0 0;}
@@ -497,9 +497,9 @@ font-size: 14px;color: #212529;text-indent: 0;
 
 
 /*
- 
+
  控制台
- 
+
 */
 
 
@@ -573,9 +573,9 @@ font-size: 14px;color: #212529;text-indent: 0;
 
 
 /********************************
- 
+
   其它主页开始 By star1029
- 
+
 *******************************/
 
 /* 主页示例一 by star1029 */
@@ -647,7 +647,7 @@ font-size: 14px;color: #212529;text-indent: 0;
 /*
 
  应用
- 
+
 */
 
 
@@ -668,9 +668,9 @@ font-size: 14px;color: #212529;text-indent: 0;
 
 
 /*
- 
+
  系统
- 
+
 */
 
 
@@ -707,22 +707,22 @@ font-size: 14px;color: #212529;text-indent: 0;
 
 /* 动画 */
 @-webkit-keyframes layui-rl{ /* 从右往左滑入 */
-  from {-webkit-transform: translate3d(100%, 0, 0);}
-  to {-webkit-transform: translate3d(0, 0, 0);}
+    from {-webkit-transform: translate3d(100%, 0, 0);}
+    to {-webkit-transform: translate3d(0, 0, 0);}
 }
 @keyframes layui-rl{
-  from {transform: translate3d(100%, 0, 0);}
-  to {transform: translate3d(0, 0, 0);}
+    from {transform: translate3d(100%, 0, 0);}
+    to {transform: translate3d(0, 0, 0);}
 }
 .layui-anim-rl{-webkit-animation-name: layui-rl; animation-name: layui-rl;}
 
 @-webkit-keyframes layui-lr{ /* 从右往左滑入 */
-  from {-webkit-transform: translate3d(0 ,0, 0); opacity: 1;}
-  to {-webkit-transform: translate3d(100%, 0, 0); opacity: 1;}
+    from {-webkit-transform: translate3d(0 ,0, 0); opacity: 1;}
+    to {-webkit-transform: translate3d(100%, 0, 0); opacity: 1;}
 }
 @keyframes layui-lr{
-  from {transform: translate3d(0, 0, 0);}
-  to {transform: translate3d(100%, 0, 0);}
+    from {transform: translate3d(0, 0, 0);}
+    to {transform: translate3d(100%, 0, 0);}
 }
 .layui-anim-lr{-webkit-animation-name: layui-lr; animation-name: layui-lr;}
 
@@ -744,15 +744,15 @@ font-size: 14px;color: #212529;text-indent: 0;
 */
 
 @media screen and (max-width: 768px) {
-  
-  /* 产品清单模板 */
-  .layadmin-panel-selection{margin: 0; width: auto;}
-  
-  /* 导航 */
-  .layui-body .layui-nav .layui-nav-item{display: block;}
-  
-  /* 主体容器 */
-  .layui-layout-admin .layui-body .layadmin-tabsbody-item{-webkit-overflow-scrolling: touch; overflow: auto;}
+
+    /* 产品清单模板 */
+    .layadmin-panel-selection{margin: 0; width: auto;}
+
+    /* 导航 */
+    .layui-body .layui-nav .layui-nav-item{display: block;}
+
+    /* 主体容器 */
+    .layui-layout-admin .layui-body .layadmin-tabsbody-item{-webkit-overflow-scrolling: touch; overflow: auto;}
 }
 .layui-card-body{height: auto;overflow: hidden;}
 /*代办*/
@@ -790,7 +790,7 @@ font-size: 14px;color: #212529;text-indent: 0;
 .visualization-title li{width: 100%;margin: 0 0 6px 0 !important;background: #f9f9f9;}
 .visualization-title li.layui-this{background: #dbeff8;}
 .layui-tab-brief>.layui-tab-more li.layui-this:after, .layui-tab-brief>.layui-tab-title .layui-this:after{
-  border: none;
+    border: none;
 }
 .visualization-content{width: 80.5%;}
 .visualization-content img{width: 100%;}
@@ -806,7 +806,7 @@ font-size: 14px;color: #212529;text-indent: 0;
 .mail li{height: auto;overflow: hidden;border-bottom: 1px solid #eaeaea;margin-bottom: 10px;padding-bottom: 10px;}
 .mail li:last-child{border-bottom: 0;}
 .mail li .mail-close{background: url("/layuiadmin/layui/images/mail-close.png") no-repeat;width: 19px; height: 14px;
-display: inline-block;vertical-align: top;margin: 6px 10px 0 0;}
+    display: inline-block;vertical-align: top;margin: 6px 10px 0 0;}
 .mail li .mail-open{background: url("/layuiadmin/layui/images/mail-open.png") no-repeat;width: 19px;
     display: inline-block;vertical-align: top;margin: 3px 10px 0 0;height: 19px}
 .mail li .span-time{float: right;color: #b9b9b9;}

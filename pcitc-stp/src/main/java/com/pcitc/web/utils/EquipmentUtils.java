@@ -1,9 +1,13 @@
 package com.pcitc.web.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -25,11 +29,14 @@ import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectSetup;
 import com.pcitc.base.stp.equipment.SreProjectTask;
+import com.pcitc.base.system.SysDictionary;
+import com.pcitc.base.system.SysFunctionProperty;
 import com.pcitc.base.system.SysPost;
 import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserProperty;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.web.common.JwtTokenUtil;
 
 
 public class EquipmentUtils {
@@ -63,7 +70,7 @@ public class EquipmentUtils {
      private static final String USER_GET_URL = "http://pcitc-zuul/system-proxy/user-provider/user/get-user/";
      
      
-   
+     private static final String FUNCTION_FILTER_URL = "http://pcitc-zuul/system-proxy/userProperty-provider/function/getPostDic";
      
      
 	
@@ -282,6 +289,166 @@ public class EquipmentUtils {
 		}
 		return str;
 	}
+	
+	public static List<SysDictionary>  getSysDictionaryListByParentCode(String parentCode ,RestTemplate restTemplate,HttpHeaders httpHeaders)
+	{
+		
+		String DICTIONARY_CODE = "http://pcitc-zuul/system-proxy/dictionary-provider/dicjson/";
+		JSONArray array =restTemplate.exchange(DICTIONARY_CODE + parentCode, HttpMethod.POST, new HttpEntity<Object>(httpHeaders), JSONArray.class).getBody();
+		List<SysDictionary> returnlist = JSONObject.parseArray(array.toJSONString(), SysDictionary.class);
+		return returnlist;
+		
+	}
+	
+	
+	//数据控制配置（直属院）
+	public static  List<String>  getPostDic(String functionId ,RestTemplate restTemplate,HttpHeaders httpHeaders)
+	{
+		   List<String> list_temp = httpHeaders.get("Authorization");
+		   List<String> arrayList = new ArrayList<String>();
+		   if(!functionId.equals(""))
+		   {
+			   if (list_temp != null && list_temp.get(0) != null) 
+			   {
+			    SysUser userInfo = JwtTokenUtil.getUserFromTokenByValue(list_temp.get(0).split(" ")[1]);
+				HashMap<String, Object> paramMap = new HashMap<String, Object>();
+				paramMap.put("functionId", functionId);
+				String[] postArr = userInfo.getUserPost().split(",");
+				System.out.println("========getUserPost===============" + userInfo.getUserPost()+" functionId="+functionId);
+				paramMap.put("postIds", Arrays.asList(postArr));
+				HttpEntity<HashMap<String, Object>> entityv = new HttpEntity<HashMap<String, Object>>(paramMap, httpHeaders);
+				ResponseEntity<JSONArray> response_Entity = restTemplate.exchange(FUNCTION_FILTER_URL , HttpMethod.POST, entityv, JSONArray.class);
+				JSONArray retJson = response_Entity.getBody();
+				if (retJson != null)
+				{
+					List<SysFunctionProperty> sfpList = JSONArray.parseArray(retJson.toString(), SysFunctionProperty.class);
+					for (int i=0;i<sfpList.size();i++ ) 
+					{
+						
+						SysFunctionProperty sysFunctionProperty=sfpList.get(i);
+						String proCode=sysFunctionProperty.getProCode();
+						String postConfigValue=sysFunctionProperty.getPostConfigValue();
+						System.out.println(proCode + "========>" + postConfigValue);
+						if(proCode.equals("G0DSM"))
+						{
+							String arr[]=postConfigValue.split("\\$");
+							if(arr!=null)
+							{
+								for (int j=0;j<arr.length;j++ ) 
+								{
+									String str=arr[j];//1020#1040,1041#1060,1061#1080
+									if(str!=null)
+									{
+										String arr2[]=str.split("&");
+										if(arr2!=null)
+										{
+											for (int v=0;v<arr2.length;v++ ) 
+											{
+												arrayList.add(arr2[v]);
+											}
+											
+										}
+									}
+								}
+							}
+						}
+						
+					}
+				}
+				
+			   if(arrayList.size()>0)
+			   {
+				   arrayList = new ArrayList<>(new HashSet<String>(arrayList));//用set元素不重复性
+			   }
+			   
+			  }
+		   }
+		   
+		   return arrayList;
+		
+	}
+	
+	
+	
+	//数据控制配置（直属院）
+	public static List<SysDictionary>  getDirDeparetMentList(String functionId ,RestTemplate restTemplate,HttpHeaders httpHeaders)
+	{
+		   List<String> arrayList = getPostDic( functionId , restTemplate, httpHeaders);
+		   //与字典表匹配
+		   List<SysDictionary> result=new ArrayList<SysDictionary> ();
+		   List<SysDictionary>  sysDictionaryList=  EquipmentUtils.getSysDictionaryListByParentCode("ROOT_XTGL_ZSYJY",  restTemplate, httpHeaders);
+		   if(sysDictionaryList!=null && sysDictionaryList.size()>0)
+		   {
+			    for(int v=0;v<sysDictionaryList.size();v++ ) 
+				{
+			    	SysDictionary sysDictionary=sysDictionaryList.get(v);
+			    	String name=sysDictionary.getName();
+			    	String code=sysDictionary.getCode();
+			    	String value=sysDictionary.getNumValue();
+			    	if(arrayList!=null && arrayList.size()>0)
+			    	{
+			    		for(int k=0;k<arrayList.size();k++ ) 
+						{
+			    			String str=arrayList.get(k);
+			    			if(str.equals(value))
+			    			{
+			    				sysDictionary.setLevelCode(v+1);
+			    				result.add(sysDictionary);
+			    			}
+						}
+			    	}
+			    	//System.out.println( "name=>" + name+" code=>" + code+"  value=>" + value);
+				}
+		}
+		   
+		if(result.size()>0)
+		{
+			SysDictionary sys_Dictionary=new SysDictionary();
+			StringBuffer sb=new StringBuffer();
+			for(int v=0;v<result.size();v++ ) 
+			{
+		    	SysDictionary sysDictionary=result.get(v);
+		    	String name=sysDictionary.getName();
+		    	String value=sysDictionary.getNumValue();
+		    	if(v>0)
+		    	{
+		    		sb.append(",");
+		    	}
+		    	sb.append(value);
+		    	
+			}
+			sys_Dictionary.setName("--全部--");
+			sys_Dictionary.setNumValue(sb.toString());
+			sys_Dictionary.setLevelCode(0);
+			result.add(sys_Dictionary);
+			
+			
+			
+			
+			  //直接在这里添加我们的排序规则
+	        Collections.sort(result, new Comparator<SysDictionary>() {
+	            public int compare(SysDictionary arg0, SysDictionary arg1) {
+	                return arg0.getLevelCode().compareTo(arg1.getLevelCode());
+	            }
+	        });
+	        
+	        
+			
+			for(int v=0;v<result.size();v++ ) 
+			{
+		    	SysDictionary sysDictionary=result.get(v);
+		    	String name=sysDictionary.getName();
+		    	String value=sysDictionary.getNumValue();
+		    	System.out.println( "name=>" + name+"  value=>" + value);
+			}
+			
+		}
+	    
+	    
+	    
+	    return result;
+	}
+	
 	
 	
 	public static SysUser getSysUser(String userId,RestTemplate restTemplate,HttpHeaders httpHeaders)throws Exception
@@ -845,20 +1012,15 @@ public class EquipmentUtils {
 	}
 	
 	
-	/*public static void main(String[] args) 
+/*	public static void main(String[] args) 
 	{
+		String str="1040,1041&1060,1061&1080$1040,1041&1060,1061&1080";
 		
+		String arr[]=str.split("\\$");
 		
-		for(int i=0;i<joinUnitWordlist.size();i++)
+		for(int i=0;i<arr.length;i++)
 		{
-			JoinUnitWord joinUnitWord=joinUnitWordlist.get(i);
-			System.out.println("--------- "+joinUnitWord.getNuitName());
-			List<Map<String, Object>> list=	joinUnitWord.getNuitList();
-			for(int j=0;j<list.size();j++)
-			{
-				Map map=list.get(j);
-				System.out.println("---------map ept2: "+map.get("ept2")+" "+map.get("ept3")+" "+map.get("ept4")+" "+map.get("ept5"));
-			}
+			System.out.println("--------arr: "+arr[i]);
 			
 		}
 		

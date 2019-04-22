@@ -32,11 +32,7 @@
 <div  class="tableBtns">
     <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
             data-type="draftEvent">
-        <span class="btn-state btnYellow"></span>未通过
-    </button>
-    <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
-            data-type="passEvent">
-        <span class="btn-state btn-blue"></span>通过
+    <span>装备总金额:${equipmentmoney}万元</span>
     </button>
         <!-- <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">新增</button>
         <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  id="deleteEvent" data-type="deleteEvent">删除</button>
@@ -171,8 +167,9 @@ var name=$('#name').val();
             cols: [[
             	{title : '序号', type :'numbers', width : 55},
             	{field : 'equipmentName',           title : '单项名称',        style : 'cursor: pointer;', align: 'left',    width : '20%'},
-            	{field : 'unitPrice',           title : '单价（万元）',      style : 'cursor: pointer;', align: 'left',    width : '20%'},
+            	{field : 'unitPrice',           title : '单价（万元）',      style : 'cursor: pointer;', align: 'right',    width : '10%'},
                 {field : 'contractState',      title : '商务谈判及合同',    style : 'cursor: pointer;', align: 'center',  width : '10%',templet : '<div>{{ layui.laytpl.contractStatus_equipment(d.contractState) }}</div>'},
+                {field : 'purchaseState',   title : '采购申请',      style : 'cursor: pointer;', align: 'center',  width : '11%',templet : '<div>{{ layui.laytpl.purchaseState_equipment(d.purchaseState) }}</div>'},
                 {field : 'forapplicationState',   title : '到货付款转资',      style : 'cursor: pointer;', align: 'center',  width : '11%',templet : '<div>{{ layui.laytpl.forapplicationStatus_equipment(d.forapplicationState) }}</div>'},
                 {field : 'acceptanceState',   title : '项目验收',         style : 'cursor: pointer;', align: 'left', width : '17%',templet : '<div>{{ layui.laytpl.acceptanceStatus_equipment(d.acceptanceState) }}</div>'},
                 {field : 'taskCloseState',    title : '任务关闭', style : 'cursor: pointer;', align: 'left', width : '15%', templet : '<div>{{ layui.laytpl.taskStatus_equipment(d.taskCloseState) }}</div>'}

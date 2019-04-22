@@ -140,6 +140,21 @@ public class SysUserPropertyProviderClient {
 	}
 	
 	
+	/**
+	 * 数据项控制，查询当前人所属岗位、菜单，对应的属性控制信息
+	 */
+	@ApiOperation(value="数据项控制，查询当前人所属岗位、菜单，对应的属性控制信息",notes="")
+	@RequestMapping(value = "/userProperty-provider/function/getPostDic", method = RequestMethod.POST)
+	public JSONArray getPostDic(@RequestBody HashMap<String, Object> map) {
+		System.out.println("=============dataFilterFunction========"+map);
+		List<SysFunctionProperty> list = userPropertyService.getPostDic(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+		return json;
+	}
+	
+	
+	
+	
 	@RequestMapping(value = "/userProperty-provider/select-unit-tree/{userId}", method = RequestMethod.POST)
 	@ResponseBody
 	public List selectUnitTreeForProperty(@PathVariable(value = "userId", required = true) String userId) {

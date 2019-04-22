@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
@@ -43,7 +42,7 @@ import com.pcitc.service.budget.BudgetStockSplitZsySplitService;
 import com.pcitc.service.feign.SystemRemoteClient;
 
 
-@Service("budgetStockSplitZsyService")
+@Service("budgetStockSplitZsySplitService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
 public class BudgetStockSplitZsyServiceImpl implements BudgetStockSplitZsySplitService
 {
@@ -152,13 +151,6 @@ public class BudgetStockSplitZsyServiceImpl implements BudgetStockSplitZsySplitS
 			total_jz += dt.getJz()==null?0:dt.getJz();
 			total_xq += dt.getXq()==null?0:dt.getXq();
 		}
-		List<BudgetSplitData> lsData = datas.stream().filter(a -> a.getOrganCode().equals(org.getCode())).filter(a -> a.getOrganId().equals(org.getId()))
-				.filter(a -> a.getSplitCode().equals("plan")).collect(Collectors.toList());
-		//计划数据（结转、新签）
-		map.put("plan_jz", lsData.size()>0?lsData.get(0).getJz():0);
-		map.put("plan_xq", lsData.size()>0?lsData.get(0).getXq():0);
-		map.put("plan_total", new Double(map.get("plan_jz").toString())+new Double(map.get("plan_xq").toString()));
-		
 		map.put("total_jz", total_jz);
 		map.put("total_xq", total_xq);
 		map.put("total", total_jz+total_xq);
@@ -172,10 +164,6 @@ public class BudgetStockSplitZsyServiceImpl implements BudgetStockSplitZsySplitS
 	 */
 	private List<SysDictionary> selectTitleDic(String nd)
 	{
-		/*List<SysDictionary> dis = systemRemoteClient.getDictionaryListByParentCode("ROOT_JFYS_ZCDWFL"+nd);
-		if(dis.size()==0) {
-			dis = systemRemoteClient.getDictionaryListByParentCode("ROOT_JFYS_ZCDWFL");
-		}*/
 		List<SysDictionary> dis = new ArrayList<SysDictionary>();
 		
 		List<BudgetSplitEnum> enums = BudgetSplitNdEnum.getStockSplitZsyByNd(nd).getSplits();
@@ -194,7 +182,7 @@ public class BudgetStockSplitZsyServiceImpl implements BudgetStockSplitZsySplitS
 		BudgetInfoExample.Criteria infoc = infoExample.createCriteria();
 		infoc.andAuditStatusEqualTo(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
 		infoc.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
-		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.GROUP_SPLIT.getCode());
+		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode());
 		infoc.andNdNotEqualTo(nd);
 		infoExample.setOrderByClause("nd desc");
 		
@@ -226,59 +214,14 @@ public class BudgetStockSplitZsyServiceImpl implements BudgetStockSplitZsySplitS
 	}
 	
 	@Override
-	public List<BudgetSplitData> saveBudgetSplitData(String items) {
+	public List<BudgetSplitData> saveBudgetSplitDataItems(String items) {
 		List<BudgetSplitData> rs = new ArrayList<BudgetSplitData>();
 		try
 		{
 			JSONArray array = JSON.parseArray(items);
 			for(java.util.Iterator<?> iter = array.iterator();iter.hasNext();) 
 			{
-				JSONObject json = JSON.parseObject(iter.next().toString());
-				Map<?, ?> map = JSON.toJavaObject(json, Map.class);
-				//System.out.println(JSON.toJSONString(map));
-				//System.out.println(JSON.toJSONString(json));
-				//BudgetSplitData splitInfo = JSON.toJavaObject(json, BudgetSplitData.class);
-				//System.out.println(JSON.toJSONString(splitInfo));
-				
-				
-				String budgetInfoId = map.get("budgetInfoId").toString();
-				Integer organId = new Integer(map.get("organId").toString());
-				String organCode = map.get("organCode").toString();
-				String nd = map.get("nd").toString();
-				Integer budgetType = new Integer(map.get("budgetType").toString());
-				String dataVersion = map.get("dataVersion").toString();
-				String budgetTypeName = map.get("budgetTypeName").toString();
-				
-				List<SysDictionary> dis = selectTitleDic(nd);
-				for(SysDictionary d:dis) 
-				{
-					String splitCode = d.getCode();
-					Double jz = new Double(map.get(splitCode+"_jz").toString());
-					Double xq = new Double(map.get(splitCode+"_xq").toString());
-					Double total = jz+xq;
-					BudgetSplitData split = selectBudgetSplitItemData(splitCode,organCode,budgetInfoId);
-					if(split == null) {
-						split = (BudgetSplitData)MyBeanUtils.createDefaultModel(BudgetSplitData.class);
-						//MyBeanUtils.copyPropertiesIgnoreNull(splitInfo, split);
-					}
-					
-					split.setNd(nd);
-					split.setDataVersion(dataVersion);
-					split.setBudgetType(budgetType);
-					split.setBudgetTypeName(budgetTypeName);
-					split.setBudgetInfoId(budgetInfoId);
-					split.setOrganCode(organCode);
-					split.setSplitCode(splitCode);
-					split.setOrganId(organId);
-					
-					split.setSplitName(d.getName());
-					split.setPaymentType(1);//1拨款
-					split.setJz(jz);
-					split.setXq(xq);
-					split.setTotal(total);
-					saveOrUpdateBudgetSplitData(split);
-					rs.add(split);
-				}
+				rs.addAll(saveBudgetSplitDataItem(JSON.toJSONString(iter.next())));
 			}
 		}
 		catch (Exception e)
@@ -287,7 +230,59 @@ public class BudgetStockSplitZsyServiceImpl implements BudgetStockSplitZsySplitS
 		}
 		return rs;
 	}
-
+	@Override
+	public List<BudgetSplitData> saveBudgetSplitDataItem(String item) 
+	{
+		List<BudgetSplitData> rs = new ArrayList<BudgetSplitData>();
+		try
+		{
+			Map<?, ?> map = JSON.toJavaObject(JSON.parseObject(item), Map.class);
+			
+			String budgetInfoId = map.get("budgetInfoId").toString();
+			Integer organId = new Integer(map.get("organId").toString());
+			String organCode = map.get("organCode").toString();
+			String nd = map.get("nd").toString();
+			Integer budgetType = new Integer(map.get("budgetType").toString());
+			String dataVersion = map.get("dataVersion").toString();
+			String budgetTypeName = map.get("budgetTypeName").toString();
+			
+			List<SysDictionary> dis = selectTitleDic(nd);
+			for(SysDictionary d:dis) 
+			{
+				String splitCode = d.getCode();
+				Double jz = new Double(map.get(splitCode+"_jz").toString());
+				Double xq = new Double(map.get(splitCode+"_xq").toString());
+				Double total = jz+xq;
+				BudgetSplitData split = selectBudgetSplitItemData(splitCode,organCode,budgetInfoId);
+				if(split == null) {
+					split = (BudgetSplitData)MyBeanUtils.createDefaultModel(BudgetSplitData.class);
+					//MyBeanUtils.copyPropertiesIgnoreNull(splitInfo, split);
+				}
+				
+				split.setNd(nd);
+				split.setDataVersion(dataVersion);
+				split.setBudgetType(budgetType);
+				split.setBudgetTypeName(budgetTypeName);
+				split.setBudgetInfoId(budgetInfoId);
+				split.setOrganCode(organCode);
+				split.setSplitCode(splitCode);
+				split.setOrganId(organId);
+				
+				split.setSplitName(d.getName());
+				split.setPaymentType(1);//1拨款
+				split.setJz(jz);
+				split.setXq(xq);
+				split.setTotal(total);
+				saveOrUpdateBudgetSplitData(split);
+				rs.add(split);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rs;
+	}
 	@Override
 	public Map<String,Object> selectAssetSplitFinalItem(String nd,String organCode) {
 		//检索已通过审核的预算
@@ -295,7 +290,7 @@ public class BudgetStockSplitZsyServiceImpl implements BudgetStockSplitZsySplitS
 		BudgetInfoExample.Criteria infoc = infoExample.createCriteria();
 		infoc.andAuditStatusEqualTo(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
 		infoc.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
-		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.GROUP_SPLIT.getCode());
+		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode());
 		infoc.andNdEqualTo(nd);
 		
 		List<BudgetInfo> infos = budgetInfoMapper.selectByExample(infoExample);
@@ -308,7 +303,7 @@ public class BudgetStockSplitZsyServiceImpl implements BudgetStockSplitZsySplitS
 			c.andBudgetInfoIdEqualTo(info.getDataId());
 			List<BudgetSplitData> datas = budgetSplitDataMapper.selectByExample(example);
 			BudgetOrganEnum org = BudgetOrganEnum.getByCode(organCode);
-			List<SysDictionary> dis = this.selectTitleDic(nd);
+			List<SysDictionary> dis = this.selectTitleDic(info.getNd());
 			
 			return getRowData(info,org,dis,datas);
 		}else {
