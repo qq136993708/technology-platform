@@ -27,7 +27,9 @@ public interface ForApplicationService {
 	public SreForApplication selectForApplication(String id);
 	
 	//查询转资装备大于3的数据
-	public LayuiTableData getEquipmentPage(LayuiTableParam param)throws Exception;	
+	public LayuiTableData getEquipmentPage(LayuiTableParam param)throws Exception;
+
+	public int upForapplication(String id);	
 	
 	
 	

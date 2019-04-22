@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>历年参考数据</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        .con-box{margin: auto 20px;}
+        .table-title{height: 30px;line-height: 30px;}
+        .margin-bot30{margin-bottom: 30px;}
+    </style>
+</head>
+<body>
+<div class="con-box">
+    <p class="table-title">&nbsp;&nbsp;</p>
+    <div class="margin-bot30">
+        <table id="itemTable" class="layui-table" lay-filter="itemTable" lay-data="{totalRow: false}">
+            <thead>
+                <tr>
+             		<th lay-data="{field:'nd',align: 'center', width: '5%',totalRowText: '合计'}" rowspan="2">年度</th>
+                	<th lay-data="{field:'organName', width: '15%'}" rowspan="2">专业处/部门</th>
+                   	<#list items as item>
+	                   	<#list item?keys as key> 
+	                   		<th lay-data="{field:'${key}_total', edit:true,align: 'right',totalRow: true}" colspan="3">${item[key]}</th>
+	                   	</#list> 
+                	</#list>
+                </tr>
+                 <tr>
+                 	<#list items as item>
+                 		<#list item?keys as key> 
+                    		<th lay-data="{field:'${key}_total', align: 'right',totalRow: true}">预算</th>
+	             			<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true}">老合同</th>
+                    		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true}">可新签</th>
+                    	</#list>
+                    </#list>
+                </tr>
+        	</thead>
+        </table>
+    </div>
+   	
+    <div class="margin-bot30">
+     <table id="historyItemTable" class="layui-table" lay-filter="historyItemTable" lay-data="{totalRow: false}">
+         <thead>
+        	<tr>
+             	<th lay-data="{field:'nd',align: 'center', width: '5%',totalRowText: '合计'}" rowspan="2">年度</th>
+                <th lay-data="{field:'organName', width: '15%'}" rowspan="2">专业处/部门</th>
+            	<#list items as item>
+                   	<#list item?keys as key> 
+                   		<th lay-data="{field:'${key}_total', align: 'right',totalRow: true}" colspan="3">${item[key]}</th>
+                   	</#list> 
+                </#list>
+              </tr>
+              <tr>
+	          	<#list items as item>
+	          		<#list item?keys as key> 
+	          			<th lay-data="{field:'${key}_total', align: 'right',totalRow: true}">预算</th>
+	             		<th lay-data="{field:'${key}_jz', align: 'right',totalRow: true}">老合同</th>
+                    	<th lay-data="{field:'${key}_xq', align: 'right',totalRow: true}">可新签</th>
+	             	</#list>
+	            </#list>
+            </tr>
+         </thead>
+     </table>
+   </div>
+</div>
+<div class="form-bottom">
+    <div class="form-bottom-btns">
+        <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" data-type="saveEvent">保存
+        </button>
+        <button type="button"
+                class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
+                id="cancel">取消
+        </button>
+    </div>
+</div>
+    <script>
+        window.viewObj = {
+            itemData: [
+            ],
+            historyItemData: [
+            ]
+        }
+        var table_titles=[];
+	    <#list items as item>
+	    	<#list item?keys as key> 
+	    		table_titles.push('${key}');
+	    	</#list> 
+	    </#list>
+       	layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
+            var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
+            var budgetInfoId = "${budgetInfoId}";
+            var organCode = "${organCode}";
+            var nd = "${nd}";
+            var groupTotalInfo = null;
+            //加载预算项
+            publicMethods.ajaxAsyncPost("/budget/get-stocksplit-xtw-item",{"organCode":organCode,"budgetInfoId":budgetInfoId}, function (data) {
+            	$(".nd").html(data.nd);
+            	groupTotalInfo = data;
+            	viewObj.itemData.push(groupTotalInfo);
+    			table.reload('itemTable',{
+                    data:viewObj.itemData
+                });
+       		});
+          	//加载历史
+            publicMethods.ajaxAsyncPost("/budget/get-stocksplit-xtw-history-items",{"organCode":organCode,"nd":nd}, function (historydata) {
+            	table.reload('historyItemTable',{
+                    data:historydata
+                });
+       		});
+            //预算项编辑事件监听
+            table.on('edit(itemTable)', function(obj){ 
+            	$.each(viewObj.itemData,function(index,dt){
+            		if(obj.data.organCode == dt.organCode){
+            			viewObj.itemData[index][obj.field] = obj.value;
+            		}
+            	});
+            	calulationTotalMoney();
+            	//刷新表格数据
+            	table.reload('itemTable', {data: viewObj.itemData});
+            });
+          	//计算合计、总计
+          	function calulationTotalMoney(){
+           		var row_total = 0;
+           		var row_total_jz = 0;
+           		var row_total_xq = 0;
+           		$.each(table_titles,function(i,title){
+           			row_total_jz += parseInt(viewObj.itemData[0][title+"_jz"]);
+           			row_total_xq += parseInt(viewObj.itemData[0][title+"_xq"]);
+           			
+           			viewObj.itemData[0][title+"_total"]=parseInt(viewObj.itemData[0][title+"_jz"])+parseInt(viewObj.itemData[0][title+"_xq"]);
+               	});
+           		viewObj.itemData[0].total_jz = row_total_jz;
+           		viewObj.itemData[0].total_xq = row_total_xq;
+           		viewObj.itemData[0].total = row_total_jz+row_total_xq;
+          	}
+            $('.layui-btn').on('click', function () {
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+            var $ = layui.$, active = {
+           		saveEvent: function () {
+           			publicMethods.ajaxPost('/budget/save-stocksplit-xtw-item', {"item":JSON.stringify(viewObj.itemData[0])}, function (data, status) {
+       	                if (data.success) {
+       	                	parent.initDataVersion("${budgetInfoId}");
+       	                	var index = parent.layer.getFrameIndex(window.name);
+        			       	parent.layer.close(index);
+       	                }else{
+       	                	parent.layer.alert("操作失败请重试", {
+       							title : '信息'
+       						});
+       						return;
+       	                }
+        	        }); 
+               	}
+            }
+            /*点击取消按钮*/
+            $("#cancel").click(function () {
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+            }); 
+        })
+    </script>
+</body>
+</html>

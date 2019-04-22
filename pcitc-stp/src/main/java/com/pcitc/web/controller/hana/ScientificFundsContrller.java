@@ -1,9 +1,12 @@
 package com.pcitc.web.controller.hana;
 
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +19,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,23 +26,20 @@ import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.pcitc.base.common.ChartBarLineResultData;
-import com.pcitc.base.common.ChartBarLineSeries;
 import com.pcitc.base.common.ChartPieDataValue;
 import com.pcitc.base.common.ChartPieResultData;
-import com.pcitc.base.common.LayuiTableData;
-import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.PageResult;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.hana.report.BudgetMysql;
 import com.pcitc.base.hana.report.CompanyCode;
-import com.pcitc.base.hana.report.Knowledge;
 import com.pcitc.base.hana.report.ScientificFunds;
-import com.pcitc.base.hana.report.TotalCostProjectPay01;
+import com.pcitc.base.system.SysDictionary;
+import com.pcitc.base.system.SysFunctionProperty;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.JwtTokenUtil;
+import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
 
 //科技经费
@@ -71,7 +70,6 @@ public class ScientificFundsContrller {
     private static final String getNhzctjbData_detail = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/getNhzctjbData_detail";
     //项目资金流向分析-详情
     private static final String getXmzjlxfxData_detail = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/getXmzjlxfxData_detail";
-	
 	
 	  //年度经费预算合同签订进度分析
 	  @RequestMapping(method = RequestMethod.GET, value = "/sf/ndjfyshtqdjdfx")
@@ -184,22 +182,37 @@ public class ScientificFundsContrller {
 	  @RequestMapping(method = RequestMethod.GET, value = "/sf/ktzjjfytjb")
 	  public String ktzjjfytjb(HttpServletRequest request) throws Exception
 	  {
-		  SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 			HanaUtil.setSearchParaForUser2(userInfo,restTemplate,httpHeaders,request);
-			
 			String month = HanaUtil.getCurrrent_Year_Moth();
 			request.setAttribute("month", month);
 	        return "stp/hana/scientificFunds/ktzjjfytjb";
 	  }
 	  
 	  
+	        ////数据控制配置（直属院）
+		   @RequestMapping(method = RequestMethod.GET, value = "/getDirDeparetMentList")
+		   @ResponseBody
+		   public Result getDirDeparetMentList(HttpServletRequest request, HttpServletResponse response) throws Exception 
+	       {
+			    Result resultsDate = new Result();
+			    String functionId = CommonUtil.getParameter(request, "functionId", "");
+			    List<SysDictionary>  sysDictionaryList=EquipmentUtils.getDirDeparetMentList( functionId , restTemplate, httpHeaders);
+			    resultsDate.setData(sysDictionaryList);
+			    resultsDate.setSuccess(true);
+				return resultsDate;
+				
+	       }
 	  
-	  
-	  @RequestMapping(method = RequestMethod.GET, value = "/ktzjjfytjb_data")
-		@ResponseBody
-		public String ktzjjfytjb_data(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		  PageResult pageResult = new PageResult();
+	       @RequestMapping(method = RequestMethod.GET, value = "/ktzjjfytjb_data")
+		   @ResponseBody
+		   public String ktzjjfytjb_data(HttpServletRequest request, HttpServletResponse response) throws Exception 
+	       {
+	    	   
+	    	   String functionId = CommonUtil.getParameter(request, "functionId", "");
+			    List<SysDictionary>  sysDictionaryList=EquipmentUtils.getDirDeparetMentList( functionId , restTemplate, httpHeaders);
+		    
+		    PageResult pageResult = new PageResult();
 			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 			String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 			// System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);

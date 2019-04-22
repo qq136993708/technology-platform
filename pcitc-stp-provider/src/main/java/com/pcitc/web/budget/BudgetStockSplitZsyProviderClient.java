@@ -2,7 +2,6 @@ package com.pcitc.web.budget;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -25,6 +24,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
+import com.pcitc.base.common.enums.BudgetSplitEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetSplitData;
 import com.pcitc.base.stp.budget.BudgetStockTotal;
@@ -75,7 +75,7 @@ public class BudgetStockSplitZsyProviderClient
 			for(BudgetInfo dt:datalist) {
 				if(finalBudgetInfo !=null) {
 					List<BudgetStockTotal> totals = budgetStockTotalService.selectItemsByBudgetId(finalBudgetInfo.getDataId());
-					Optional<BudgetStockTotal> rs = totals.stream().filter(a -> "ROOT_JFYS_GFDWFL_ZSYJY".equals(a.getDisplayCode())).findFirst();
+					Optional<BudgetStockTotal> rs = totals.stream().filter(a -> BudgetSplitEnum.SPLIT_STOCK_YJY.getCode().equals(a.getDisplayCode())).findFirst();
 					if(rs != null && rs.isPresent()) {
 						dt.setBudgetMoney(rs.get().getXmjfTotal());
 					}
@@ -196,7 +196,24 @@ public class BudgetStockSplitZsyProviderClient
 		}
 		return data;
 	}
-	
+	@ApiOperation(value="股份公司直属院预算-保存年度预算项详情",notes="保存预算项不包括子项")
+	@RequestMapping(value = "/stp-provider/budget/save-stocksplit-zsy-item", method = RequestMethod.POST)
+	public Object saveBudgetStockSplitItem(@RequestBody String item) 
+	{
+		logger.info("budget-save-stocksplit-zsy-item...");
+		Integer rs = 0;
+		try
+		{
+			System.out.println(item);
+			List<BudgetSplitData> datas = budgetStockSplitZsySplitService.saveBudgetSplitDataItem(item);
+			rs = datas.size();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rs;
+	}
 	@ApiOperation(value="股份公司直属院预算-保存年度预算项详情",notes="保存预算项不包括子项")
 	@RequestMapping(value = "/stp-provider/budget/save-stocksplit-zsy-items", method = RequestMethod.POST)
 	public Object saveBudgetStockSplitItems(@RequestBody String items) 
@@ -205,7 +222,7 @@ public class BudgetStockSplitZsyProviderClient
 		Integer rs = 0;
 		try
 		{
-			List<BudgetSplitData> datas = budgetStockSplitZsySplitService.saveBudgetSplitData(items);
+			List<BudgetSplitData> datas = budgetStockSplitZsySplitService.saveBudgetSplitDataItems(items);
 			rs = datas.size();
 		}
 		catch (Exception e)
@@ -253,23 +270,20 @@ public class BudgetStockSplitZsyProviderClient
 	@RequestMapping(value = "/stp-provider/budget/get-stocksplit-zsy-history-items", method = RequestMethod.POST)
 	public Object selectBudgetStockSplitHistoryItems(@RequestBody BudgetSplitBaseDataVo vo) 
 	{
-		Map<String,Object> rsmap = new LinkedHashMap<String,Object>();
+		List<Object> rslist = new ArrayList<Object>();
 		try
 		{
-			//查询有最终报告的报表
-			Map<String,List<SplitItemVo>> map = budgetStockSplitZsySplitService.selectBudgetSplitHistoryTableTitles(vo.getNd());
-			for(java.util.Iterator<String> iter = map.keySet().iterator();iter.hasNext();){
-				String cnd = iter.next();
-				rsmap.put(cnd, budgetStockSplitZsySplitService.selectAssetSplitFinalItem(cnd,vo.getOrganCode()));
+			List<BudgetInfo> infos = budgetInfoService.selectFinalBudgetInfoList(BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode());
+			for(BudgetInfo info:infos) {
+				//System.out.println("nd:"+info.getNd()+"  organCode:"+vo.getOrganCode());
+				rslist.add(budgetStockSplitZsySplitService.selectAssetSplitFinalItem(info.getNd(),vo.getOrganCode()));
 			}
-			System.out.println("**********");
-			System.out.println(JSON.toJSONString(rsmap));
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		return rsmap;
+		return rslist;
 	}
 	@ApiOperation(value="股份公司直属院预算分解-检索预算项历年数据",notes="检索预算项历年数据列表不包括子项")
 	@RequestMapping(value = "/stp-provider/budget/search-stocksplit-zsy-final-history-list", method = RequestMethod.POST)

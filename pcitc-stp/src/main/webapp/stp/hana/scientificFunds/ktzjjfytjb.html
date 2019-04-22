@@ -10,6 +10,7 @@
 </head>
 <body>
 <div class="searchBox">
+<input name="functionId" id="functionId" value="${functionId}" type="hidden">
     <!--查询条件-->
         <label class="dateInput">
             <span>月份</span>
@@ -89,6 +90,10 @@
 <!--表格数据操作js-->
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script>
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
+$('#functionId').val(functionId);
+alert(functionId);
 var table,selectRowData;
 var zlbm=$('#zlbm').val();
 
@@ -161,7 +166,7 @@ function myTable()
 	 var month=$("#month").val();
 	 var companyCode=$("#companyCode").val();
 	 var v_date=(new Date()).getTime();
-	 var url= '/ktzjjfytjb_data?month='+month+"&v_date="+v_date+"&companyCode="+companyCode;
+	 var url= '/ktzjjfytjb_data?month='+month+"&v_date="+v_date+"&companyCode="+companyCode+"&functionId="+functionId;
 	    table.init('myTable', {
 			  url: url
 			  ,where: {} ,

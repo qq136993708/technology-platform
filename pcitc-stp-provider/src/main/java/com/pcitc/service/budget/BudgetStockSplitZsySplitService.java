@@ -45,7 +45,13 @@ public interface BudgetStockSplitZsySplitService
 	 * @param dataId
 	 * @return
 	 */
-	public List<BudgetSplitData> saveBudgetSplitData(String data);
+	public List<BudgetSplitData> saveBudgetSplitDataItems(String items);
+	/**
+	 * 保存预算数据
+	 * @param dataId
+	 * @return
+	 */
+	public List<BudgetSplitData> saveBudgetSplitDataItem(String item);
 	/**
 	 * 持久化预算项
 	 * @param budgetGroupTotal

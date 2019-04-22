@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
@@ -186,6 +188,26 @@ public class SysDictionaryProviderClient {
 		}
 		return dictionary;
 	}
+	
+	
+	
+	@RequestMapping(value = "/dictionary-provider/dicjson/{parentCode}", method = RequestMethod.POST)
+	public JSONArray getDictionaryJsonByParentCode(@PathVariable(value="parentCode", required=false) String parentCode){
+		List<SysDictionary> dictionary = null;
+		JSONArray json =new JSONArray();
+		try {
+			dictionary = dictionaryService.getDictionaryListByParentCode(parentCode);
+			
+			json = JSONArray.parseArray(JSON.toJSONString(dictionary));
+			
+			logger.info("=============数据字典-根据父编码获取子集"+dictionary.size()); 
+		} catch (Exception e) {
+			logger.error("[数据字典-根据父编码获取子集失败：]", e);
+		}
+		return json;
+	}
+	
+	
 	
 	/**
 	 * 生成code码

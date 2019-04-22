@@ -141,32 +141,56 @@ layui.define(['jquery'],function (e) {
         return stateData;
     };
 	
+	o.purchaseState_equipment = function(d){
+        var stateData;
+         if(d!=0){
+			stateData="<span class='fontStateColor  btn-green'></span>"
+        }else{
+             stateData="<span></span>"
+        }
+        return stateData;
+    };
+	
 	o.taskStatus_equipment = function(d){
         var stateData;
-        if(d==1){
-			 stateData="<span class='fontStateColor  btn-blue'></span>"
+         if(d!=0){
+			stateData="<span class='fontStateColor  btn-green'></span>"
         }else{
-             stateData="<span class='fontStateColor btnYellow'></span>"
+             stateData="<span></span>"
         }
         return stateData;
     };
 	
 	o.acceptanceStatus_equipment = function(d){
         var stateData;
-        if(d==1){
-			 stateData="<span class='fontStateColor  btn-blue'></span>"
+        if(d!=0){
+			stateData="<span class='fontStateColor  btn-green'></span>"
         }else{
-             stateData="<span class='fontStateColor btnYellow'></span>"
+             stateData="<span></span>"
         }
         return stateData;
     };
 	
 	o.forapplicationStatus_equipment = function(d){
         var stateData;    
-		if(d==2){
-			stateData="<span class='fontStateColor  btn-blue'></span>"
+		if(d>=20){
+			stateData="<span class='fontStateColor  btn-green'></span>"
         }else{
-             stateData="<span class='fontStateColor btnYellow'></span>"
+             stateData="<span></span>"
+        }
+        return stateData;
+    };
+	
+	o.fprappStatus_equipment = function(d){
+        var stateData;
+        if(d==10){
+            stateData="<span class='fontStateColor btnYellow'></span>"
+        }else if(d==20){
+            stateData="<span class='fontStateColor btn-green'></span>"
+        }else if(d==30){
+            stateData="<span class='fontStateColor btn-blue'></span>"
+        }else if(d==3){
+            stateData="<span class='fontStateColor btn-yellow'></span>"
         }
         return stateData;
     };
@@ -174,9 +198,9 @@ layui.define(['jquery'],function (e) {
 	o.contractStatus_equipment = function(d){
         var stateData;
         if(d!=""){
-			stateData="<span class='fontStateColor  btn-blue'></span>"
+			stateData="<span class='fontStateColor  btn-green'></span>"
         }else{
-             stateData="<span class='fontStateColor btnYellow'></span>"
+              stateData="<span></span>"
         }
         return stateData;
     };
