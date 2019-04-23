@@ -52,7 +52,7 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-layout-admin .layui-footer{left: 220px;}
 .layadmin-pagetabs{position: fixed; top: 100px; right: 0; z-index: 999;}
 .layadmin-pagetabs .layui-breadcrumb{padding: 0 15px;}
-.layui-layout-admin .layui-body{top: 180px; bottom: 40px;}
+.layui-layout-admin .layui-body{top: 164px; bottom: 40px;}
 .layui-leader-admin .layui-body{top: 50px;}
 .layui-body{ margin: 10px 0 0 0px;background: #fff;}
 .layui-layout-admin .layui-header .layui-nav-img{width: 26px; height: 26px;}
@@ -403,7 +403,7 @@ html{background-color: #f2f2f2; color: #666;}
 
 /* 页面标签 */
 .layadmin-pagetabs{height: 40px; line-height: 40px; padding: 0 120px 0 0px; /*border-bottom: 2px solid #292B34;*/
-    background-color: #fff; box-sizing: border-box; box-shadow: 0 1px 2px 0 rgba(0,0,0,.1);margin-top: 40px;}
+    background-color: #fff; box-sizing: border-box; box-shadow: 0 1px 2px 0 rgba(0,0,0,.1);margin-top: 24px;}
 .layadmin-pagetabs .layadmin-tabs-control{position: absolute; top: 0; width: 40px; height: 100%; text-align: center; cursor: pointer; transition: all .3s; -webkit-transition: all .3s; box-sizing: border-box; border-left: 1px solid #f6f6f6;}
 .layadmin-pagetabs .layadmin-tabs-control:hover{background-color: #f6f6f6;}
 .layadmin-pagetabs .layui-icon-prev{right: 80px; border-left: 1px solid #f6f6f6; border-right: none;}
@@ -919,7 +919,7 @@ html{background-color: #f2f2f2; color: #666;}
     background: url("/layuiadmin/layui/images/icon-f-b.png") no-repeat 46px center !important;
     text-indent: 25px !important;}
 .layui-side-menu .layui-nav .layui-nav-item a.thirdChild:hover{line-height: 41px !important;height: 41px !important;}
-.news{position: fixed;top: 100px;right: 0;z-index: 999;}
+.news{position: fixed;top: 94px;right: 0;z-index: 999;}
 .news a{margin: 0 15px;display: inline-block;z-index: 9999;}
 .layui-side-menu .layui-nav .layui-nav-item.layui-this a{color: white !important;
     background: url("/layuiadmin/layui/images/tree_05.png") 14px 14px no-repeat #1890ff !important;}
