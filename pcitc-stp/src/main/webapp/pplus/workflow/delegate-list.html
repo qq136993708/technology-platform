@@ -232,7 +232,7 @@
 							layer.msg('请点击选择要删除的数据!');
 						} else {
 							$.ajax({
-								type : "DELETE",
+								type : "POST",
 								contentType : "application/json",
 								dataType : "json",
 								data : JSON.stringify(jsonstr),

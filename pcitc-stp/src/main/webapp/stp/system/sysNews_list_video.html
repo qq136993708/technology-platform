@@ -285,7 +285,7 @@
                     maxmin: true,
                     //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                     area: ['80%', '100%'],
-                    content: "/sysNews/edit"
+                    content: "/sysNews/editvideo"
                 });
             },
             editEvent: function () {  //点击编辑按钮
@@ -303,7 +303,7 @@
                         maxmin: true,
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                         area: ['80%', '100%'],
-                        content: "/sysNews/edit?id=" + selectRowData.dataId
+                        content: "/sysNews/editvideo?id=" + selectRowData.dataId
                     });
                     // } else {
                     //     layer.msg('只可操作未下发的数据');
@@ -328,7 +328,7 @@
                         maxmin: true,
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                         area: ['80%', '100%'],
-                        content: "/sysNews/view/" + selectRowData.dataId
+                        content: "/sysNews/viewvideo/" + selectRowData.dataId
                         // content: '/plan/viewPlanPage?dataId='+dataId
                     });
                     // }
@@ -349,7 +349,7 @@
                             dataType: 'text',
                             async: false,
                             data: {"id": selectRowData.dataId},
-                            url: '/sysNews/del-real',
+                            url: '/sysNews/del-realvideo',
                             success: function (data) {
                                 // if(data==200){
                                 selectRowData="";
@@ -404,7 +404,7 @@
                 maxmin: true,
                 //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                 area: ['70%','90%'],
-                content: "/sysNews/view/" + selectRowData.dataId
+                content: "/sysNews/viewvideo/" + selectRowData.dataId
             });
         });
     });

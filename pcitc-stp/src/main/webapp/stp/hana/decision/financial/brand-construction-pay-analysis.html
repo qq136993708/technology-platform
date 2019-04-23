@@ -15,18 +15,9 @@
             <span>月份</span>
             <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}" autocomplete="off" class="form-control" id="month">
         </label>
-       <div class="layui-input-inline">
-         <select name="companyCode" id="companyCode" >
-              <#list companyCodeList as vo>
-              	 <#if vo.g0GSJC == '全部'>
-              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
-              	 </#if>
-                 <#if vo.g0GSJC != '全部'>
-              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
-              	 </#if>
-               </#list>
-            </select>
-       </div>
+      <div class="layui-input-inline">
+           <select id="companyCode" name="companyCode" class="form-control"></select>
+        </div>
        
        
     <!--按钮组-->
@@ -84,7 +75,10 @@
 <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script src="/stp/hana/common/hana_common.js"></script>
 <script type="text/javascript">
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
 var foreachIn="";
 var form;
 layui.config({
@@ -218,7 +212,8 @@ function load_mutl_bar_t(url,id,title,subtext)
 }
 function init()
 {
-		
+	    
+	    init_companyCode(functionId);
 		var v_date=(new Date()).getTime();
 		var month=$('#month').val();
 		var companyCode=$('#companyCode').val();
@@ -231,11 +226,6 @@ function init()
 		
 		var url_main1="/financial-decision/scientific_brand_construction_trand?companyCode="+companyCode+"&month="+month+"&v_date="+v_date;
 		load_mutl_bar_t(url_main1,"main1","品牌建设支出年度趋势分析",monthstr);
-		
-		
-		
-		
-		
 		
 }	
 
