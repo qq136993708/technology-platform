@@ -6,10 +6,38 @@ public class SreProjectAudit {
     private String id;
 
     private String projecttaskid;
+	private String projecttask;
+	  
 
-    private String content;
+	private String content;
+    private String createUserid;
+    private String documentdoc;
+    private String documentdoctwo;
+    public String getDocumentdoc() {
+		return documentdoc;
+	}
 
-    private String createUser;
+	public void setDocumentdoc(String documentdoc) {
+		this.documentdoc = documentdoc;
+	}
+
+	public String getDocumentdoctwo() {
+		return documentdoctwo;
+	}
+
+	public void setDocumentdoctwo(String documentdoctwo) {
+		this.documentdoctwo = documentdoctwo;
+	}
+
+	public String getCreateUserid() {
+		return createUserid;
+	}
+
+	public void setCreateUserid(String createUserid) {
+		this.createUserid = createUserid;
+	}
+
+	private String createUser;
 
     private Date createDate;
 
@@ -30,7 +58,13 @@ public class SreProjectAudit {
     public void setProjecttaskid(String projecttaskid) {
         this.projecttaskid = projecttaskid;
     }
-
+    public String getProjecttask() {
+  		return projecttask;
+  	}
+  	
+  	public void setProjecttask(String projecttask) {
+  		this.projecttask = projecttask;
+  	}
     public String getContent() {
         return content;
     }

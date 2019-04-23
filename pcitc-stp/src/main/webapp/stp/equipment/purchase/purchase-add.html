@@ -439,6 +439,19 @@
                     var state=selectRowData.state;
                     //alert(state);
                 });
+                //项目分类，项目性质
+                var dicMap = ['ROOT_ZBGL_ZBFL'];
+                var dicVal = {};
+                publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
+                    $.each(data,function(key,val){
+                        $.each(val,function(i,dt){
+                            dicVal[dt.code] = dt.name;
+                        });
+                    });
+                });
+                $.each(res.data,function(i,dt){
+                    $("tr[data-index='"+i+"'] td[data-field='type'] div").html(dicVal[res.data[i].type]);
+                });
                 //获取已选中的装备id值
                 var equipmentIds="";
                 for(var i;i<res.data.length;i++)

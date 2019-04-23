@@ -49,19 +49,18 @@
         
         function renderTable(){
         	var modelName=$('#modelName').val();
-        	var param = JSON.parse(window.localStorage.getItem("param"));
 	        //渲染
 	        table.render({
 	            elem: '#model-table',
 	            url: '/restfulapi/sys_restfulapi/show-list',
 	            method:"POST",
 	            where: {modelName: modelName},
-	            limit: param.selfRownum,
+	            limit: 15,
 	            id: 'model-table',
 	            height: commonDislodgeTable(),
 	            page: {
 	                groups: 5,
-	                limits: [ param.selfRownum, 15, 30, 45, 60 ],
+	                limits: [15,30,45,60],
 	                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
 	                first: '首页', //不显示首页
 	                last: '尾页', //不显示尾页
@@ -128,7 +127,7 @@
             	checkData = selectRowData;
             	if(checkData){
             		$.ajax({
-            			type : "DELETE",
+            			type : "POST",
                         contentType : "application/json",
                         dataType : "json",
                         data : JSON.stringify(jsonstr),

@@ -8,6 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico" />
 <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/liMarquee.css">
 <link rel="stylesheet" href="/layuiadmin/style/adminStp_.css?+Math.random()" media="all">
 </head>
 <body class="layui-layout-body">
@@ -20,7 +21,15 @@
 				<div class="layui-header-logo inline-block">
 					<img src="/layuiadmin/layui/images/header-logo.png"/> </div>
 				<!--首页-->
-				<div class="layui-header-index inline-block"><img src="/layuiadmin/layui/images/header-index.png"/></div>
+				<div class="layui-header-index inline-block">
+					<div class="layui-tab index-fixed-tab">
+						<ul class="layui-tab-title index-fixed">
+							<li lay-id="" lay-attr="" class="layui-this">
+								<img src="/layuiadmin/layui/images/header-index.png"/>
+							</li>
+						</ul>
+					</div>
+				</div>
 				<!--导航-->
 				<div class="layui-header-nav inline-block">
 					<ul class="layui-nav layui-layout-left">
@@ -280,11 +289,10 @@
 
 			<!-- 页面标签 -->
 			<div class="dowebok news">
-				<a href="http://www.dowebok.com/187.html">Smoothslides – 可平移的jQuery幻灯片插件</a>
-				<a href="http://www.dowebok.com/77.html">jQuery全屏滚动插件fullPage.js</a>
-				<a href="http://www.dowebok.com/131.html">WOW.js – 让页面滚动更有趣</a>
-				<a href="http://www.dowebok.com/139.html">让IE7 IE8支持CSS3 background-size属性</a>
-				<a href="http://www.dowebok.com/117.html">shCircleLoader – jQuery Loading效果插件</a>
+				<a href="javascript:;"><span>最新消息:</span>国家主席习近平发表二零一九年新年贺词。</a>
+				<a href="javascript:;"><span>最新消息:</span>马永生会见国外公司客人。</a>
+				<a href="javascript:;"><span>最新消息:</span>扬子石化乙烯产量创历史新记录。</a>
+				<a href="javascript:;"><span>最新消息:</span>马永生会见国外公司客人。</a>
 			</div>
 			<div class="layadmin-pagetabs" id="LAY_app_tabs">
 				<div class="layui-icon layadmin-tabs-control layui-icon-prev" layadmin-event="leftPage"></div>
@@ -307,13 +315,6 @@
 									<a id="collectFunction" href="javascript:void(0)">收藏/取消</a>
 								</dd>
 							</dl>
-						</li>
-					</ul>
-				</div>
-				<div class="layui-tab index-fixed-tab">
-					<ul class="layui-tab-title index-fixed">
-						<li lay-id="home/console.html" lay-attr="home/console.html" class="layui-this">
-							<i class="layui-icon layui-icon-home"></i>
 						</li>
 					</ul>
 				</div>
@@ -351,7 +352,7 @@
 			index : 'lib/index' //主入口模块
 		}).use([ 'index', 'jquery' ], function() {
 			var $ = layui.jquery;
-
+            $('.dowebok').liMarquee();
 			var headerNav= $(".layui-header-nav ul").html();
 			var navLeft=36;
             $(".layui-header-nav ul li").each(function (i, val) {

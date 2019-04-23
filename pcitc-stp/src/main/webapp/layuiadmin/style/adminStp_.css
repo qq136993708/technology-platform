@@ -52,7 +52,7 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-layout-admin .layui-footer{left: 220px;}
 .layadmin-pagetabs{position: fixed; top: 100px; right: 0; z-index: 999;}
 .layadmin-pagetabs .layui-breadcrumb{padding: 0 15px;}
-.layui-layout-admin .layui-body{top: 140px; bottom: 40px;}
+.layui-layout-admin .layui-body{top: 161px; bottom: 40px;}
 .layui-leader-admin .layui-body{top: 50px;}
 .layui-body{ margin: 10px 0 0 0px;background: #fff;}
 .layui-layout-admin .layui-header .layui-nav-img{width: 26px; height: 26px;}
@@ -402,7 +402,9 @@ html{background-color: #f2f2f2; color: #666;}
 
 
 /* 页面标签 */
-.layadmin-pagetabs{height: 40px; line-height: 40px; padding: 0 120px 0 0px; /*border-bottom: 2px solid #292B34;*/ background-color: #fff; box-sizing: border-box; box-shadow: 0 1px 2px 0 rgba(0,0,0,.1);}
+.layadmin-pagetabs{height: 40px; line-height: 40px; padding: 0 120px 0 0px; border: 1px solid #dfdfdf;
+    background-color: #fff; box-sizing: border-box;
+    margin-right: 19px;margin-top: 24px;}
 .layadmin-pagetabs .layadmin-tabs-control{position: absolute; top: 0; width: 40px; height: 100%; text-align: center; cursor: pointer; transition: all .3s; -webkit-transition: all .3s; box-sizing: border-box; border-left: 1px solid #f6f6f6;}
 .layadmin-pagetabs .layadmin-tabs-control:hover{background-color: #f6f6f6;}
 .layadmin-pagetabs .layui-icon-prev{right: 80px; border-left: 1px solid #f6f6f6; border-right: none;}
@@ -442,14 +444,17 @@ html{background-color: #f2f2f2; color: #666;}
 
 .layadmin-pagetabs .layui-tab{margin: 0; overflow: hidden;}
 .layadmin-pagetabs .layui-tab-title{height: 40px; border: none;}
-.layadmin-pagetabs .layui-tab-title li{min-width: 0; line-height: 40px; max-width: 160px; text-overflow: ellipsis; padding-right: 40px; overflow: hidden; border-right: 1px solid #f6f6f6; vertical-align: top;}
+.layadmin-pagetabs .layui-tab-title li{min-width: 0; line-height: 26px; max-width: 160px;
+    text-overflow: ellipsis; padding-right: 40px; overflow: hidden;background: #f4f4f4;
+    vertical-align: top;margin: 7px;font-size: 12px;}
 .index-fixed li:first-child{ padding-right: 15px;}
-.index-fixed-tab{width: 47px;float: left;}
+/*.index-fixed-tab{width: 47px;float: left;}*/
 .layadmin-pagetabs .layui-tab-title li .layui-tab-close{position: absolute; right: 8px; top: 50%; margin: -7px 0 0 0; width: 16px; height: 16px; line-height: 16px; border-radius: 50%; font-size: 12px;}
 .layadmin-pagetabs .layui-tab-title li:after{content:''; position: absolute; top: 0; left: 0; width: 0; height: 2px; border-radius: 0; background-color: #292B34; transition: all .3s; -webkit-transition: all .3s;}
 .layadmin-pagetabs .layui-tab-title li:hover:after{width: 100%;}
 .layadmin-pagetabs .layui-tab-title li:hover,
-.layadmin-pagetabs .layui-tab-title li.layui-this{background-color: #f6f6f6;}
+.layadmin-pagetabs .layui-tab-title li.layui-this{background-color: #e6f7ff;color: #1890ff;}
+.layui-tab-title li .layui-tab-close:hover{background: none;color: #1890ff;}
 .layadmin-pagetabs .layui-tab-title li.layui-this:after{width: 100%; border: none; height: 2px; background-color: #f6f6f6 !important;}
 
 /* 不开启页面标签时 */
@@ -873,7 +878,11 @@ html{background-color: #f2f2f2; color: #666;}
 .inline-block{display: block;float: left;}
 .layui-header-logo{width: 24.7%;}
 .layui-header-index{width: 6.5%;}
-.layui-header-index img{display: block;padding: 21px 0;margin: 0 auto}
+.layui-header-index img{display: block;padding: 11px 0;margin: 0 auto}
+.layui-header-index .layui-tab-title { border: 0;}
+.layui-header-index .layui-tab-title .layui-this:after{border: 0;}
+.layui-header-index .layui-tab-bar{display: none;}
+.layui-header-index .layui-tab-title{height: 50px;}
 .layui-header-nav{width: 32.5%;height: auto;position: relative;}
 .layui-header-nav ul li{margin: 0 14px;}
 .layui-header-nav .layui-nav-item a{padding: 0;}
@@ -888,10 +897,10 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-header-nav .layadmin-tabs-control ul li a{text-align: left;text-indent: 2em;}
 .layui-header-nav .layui-icon-prev ul li {height: 32px !important;line-height: 32px !important;}
 .layui-header-search .seacrhBox {position: relative;top: 29px;}
-.layui-header-search .seacrhBox input{width: 148px;height: 22px;background: rgba(255,255,255,.35);border: none;
+.layui-header-search .seacrhBox input{width: 100%;height: 22px;background: rgba(255,255,255,.35);border: none;
     border-radius: 3px;color: rgba(255,255,255,.7);text-indent: .3em;}
 .layui-header-search .seacrhBox input::-webkit-input-placeholder{color: rgba(255,255,255,.7);text-indent: .3em;}
-.layui-header-search .seacrhBox img{position: absolute;right: 14px;top: 5px;}
+.layui-header-search .seacrhBox img{position: absolute;right: 4px;top: 5px;}
 .layui-layout-right li:after{height: 0;}
 .layui-header-nav .layui-nav-bar{top: 55px !important;}
 .layui-layout-right .information a{color: #666 !important;}
@@ -899,9 +908,9 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-side-menu-div ul li span{padding-left: 15px;}
 .layui-side-menu-div ul li dl dd a{border-radius: 0 !important;}
 .layui-side-menu-div ul li dl dd a:hover{border-left: 3px solid #1890ff;background-color: #e6f7ff !important;
-    text-indent: 0.8em !important;}
+    text-indent: 0.88em !important;}
 .layui-side-menu-div ul li dl dd.layui-this a,.layui-nav-itemed>dl>.layui-nav-itemed>a{
-    text-indent: 0.8em !important;
+    text-indent: 0.88em !important;
     border-left: 3px solid #1890ff !important;background: #e6f7ff !important;color: #666666 !important;}
 .layui-side-menu-div ul li dl dd dl dd a{text-indent: 25px !important;
     background: url("/layuiadmin/layui/images/icon-f-r.png") no-repeat 46px center !important;}
@@ -910,7 +919,8 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-side-menu-div .layui-nav-tree .layui-this .thirdChild{color: #1890ff !important;border: none !important;
     background: url("/layuiadmin/layui/images/icon-f-b.png") no-repeat 46px center !important;
     text-indent: 25px !important;}
-.news{position: fixed;
-    top: 100px;
-    right: 0;
-    z-index: 999;}
+.layui-side-menu .layui-nav .layui-nav-item a.thirdChild:hover{line-height: 41px !important;height: 41px !important;}
+.news{position: fixed;top: 94px;right: 0;z-index: 999;}
+.news a{margin: 0 15px;display: inline-block;z-index: 9999;}
+.layui-side-menu .layui-nav .layui-nav-item.layui-this a{color: white !important;
+    background: url("/layuiadmin/layui/images/tree_05.png") 14px 14px no-repeat #1890ff !important;}

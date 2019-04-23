@@ -255,6 +255,14 @@
 						title : '流程名称',
 						style : 'cursor: pointer;'
 					}, {
+						field : 'prodefId',
+						title : '流程定义id',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'deploymentId',
+						title : '部署id',
+						style : 'cursor: pointer;'
+					}, {
 						field : 'projectName',
 						title : '项目名称',
 						style : 'cursor: pointer;'
@@ -336,7 +344,7 @@
 					} else {
 						layer.confirm('确定要删除吗？', function() {
 							$.ajax({
-								type : "DELETE",
+								type : "POST",
 								contentType : "application/json",
 								dataType : "json",
 								data : JSON.stringify(jsonstr),

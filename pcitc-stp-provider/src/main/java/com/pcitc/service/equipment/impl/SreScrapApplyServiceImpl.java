@@ -100,12 +100,7 @@ public class SreScrapApplyServiceImpl implements SreScrapApplyService {
 	{
 		try {
 			if (sreProjectAudit != null && sreProjectAudit.getProjecttaskid() != null) {
-				SreProjectTask p =sreProjectTaskMapper.selectByPrimaryKey(sreProjectAudit.getProjecttaskid());
-				p.setIsCheck("2");
-				int i = sreProjectTaskMapper.updateByPrimaryKey(p);
-				if (i > 0) {
-					sreProjectAuditMapper.insert(sreProjectAudit);
-				}
+			sreProjectAuditMapper.insert(sreProjectAudit);
 			} 
 			return "success";
 		} catch (Exception e) {
