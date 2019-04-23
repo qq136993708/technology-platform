@@ -2,6 +2,7 @@ package com.pcitc.web.controller.hana;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,6 +50,141 @@ public class BudgetAllocationController {
 	private static final String gflysybhgsybB2Clkjjfysb_data = "http://pcitc-zuul/system-proxy/out-decision-provider/budget-proposals/b2c/stp-money";
 	private static final String gfgskjzxjfysb_data = "http://pcitc-zuul/system-proxy/out-decision-provider/budget-proposals/tech/stp-money";
 
+	
+	private static final String jtjffj = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-groupsplit-titles";
+	private static final String BUDGET_STOCKSPLIT_TITLES = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-stocksplit-zgs-titles";
+	private static final String gfjffjxtw = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-stocksplit-xtw-titles";
+	
+	private static final String gfjffjzsy = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-stocksplit-zsy-titles";
+	private static final String zcjffj = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-assetsplit-titles";
+	
+	
+	
+	  //集团公司经费预算
+	  @RequestMapping(method = RequestMethod.GET, value = "/ba/jtgsjfys")
+	  public String jtgsjfys(HttpServletRequest request) throws Exception
+	  {
+		    String year= HanaUtil.getCurrrentYear();
+		    request.setAttribute("year", year);
+		    request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
+		    
+	        return "stp/hana/budget/jtgsjfys";
+	  }
+	  //资产公司经费预算
+	  @RequestMapping(method = RequestMethod.GET, value = "/ba/zcgsjfys")
+	  public String zcgsjfys(HttpServletRequest request) throws Exception
+	  {
+		    String year= HanaUtil.getCurrrentYear();
+		    request.setAttribute("year", year);
+		    request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
+	        return "stp/hana/budget/zcgsjfys";
+	  }
+	
+	  //股份公司经费预算
+	  @RequestMapping(method = RequestMethod.GET, value = "/ba/gfgsjfys")
+	  public String gfgsjfys(HttpServletRequest request) throws Exception
+	  {
+		    String year= HanaUtil.getCurrrentYear();
+		    request.setAttribute("year", year);
+		    request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
+	        return "stp/hana/budget/gfgsjfys";
+	  }
+	  //年度经费预算总表
+	  @RequestMapping(method = RequestMethod.GET, value = "/ba/ndjfyszb")
+	  public String ndjfyszb(HttpServletRequest request) throws Exception
+	  {
+		    String year= HanaUtil.getCurrrentYear();
+		    request.setAttribute("year", year);
+		    request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
+	        return "stp/hana/budget/ndjfyszb";
+	  }
+	  //事业部预算
+	  @RequestMapping(method = RequestMethod.GET, value = "/ba/sybys")
+	  public String sybys(HttpServletRequest request) throws Exception
+	  {
+		    String year= HanaUtil.getCurrrentYear();
+		    request.setAttribute("year", year);
+		    request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
+	        return "stp/hana/budget/sybys";
+	  }
+	  //专项经费预算
+	  @RequestMapping(method = RequestMethod.GET, value = "/ba/zxjfys")
+	  public String zxjfys(HttpServletRequest request) throws Exception
+	  {
+		    request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
+	        return "stp/hana/budget/zxjfys";
+	  }
+	  //集团经费分解
+	  @RequestMapping(method = RequestMethod.GET, value = "/ba/jtjffj")
+	  public String jtjffj(HttpServletRequest request) throws Exception
+	  {
+		    String nd = request.getParameter("nd")==null?DateUtil.format(new Date(), DateUtil.FMT_YYYY):request.getParameter("nd");
+			request.setAttribute("nd", nd);
+			ResponseEntity<?> infors = this.restTemplate.exchange(jtjffj, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), List.class);
+			request.setAttribute("items", infors.getBody());
+	        return "stp/hana/budget/jtjffj";
+	  }
+	  
+	  //资产经费分解
+	  @RequestMapping(method = RequestMethod.GET, value = "/ba/zcjffj")
+	  public String zcjffj(HttpServletRequest request) throws Exception
+	  {
+		    String nd = request.getParameter("nd")==null?DateUtil.format(new Date(), DateUtil.FMT_YYYY):request.getParameter("nd");
+			request.setAttribute("nd", nd);
+			ResponseEntity<?> infors = this.restTemplate.exchange(zcjffj, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), List.class);
+			request.setAttribute("items", infors.getBody());
+	        return "stp/hana/budget/zcjffj";
+	  }
+	  
+	  
+	  
+	  
+	  //股份经费分解-直属院
+	  @RequestMapping(method = RequestMethod.GET, value = "/ba/gfjffjzsy")
+	  public String gfjffjzsy(HttpServletRequest request) throws Exception
+	  {
+		  String nd = request.getParameter("nd")==null?DateUtil.format(new Date(), DateUtil.FMT_YYYY):request.getParameter("nd");
+			request.setAttribute("nd", nd);
+			ResponseEntity<?> infors = this.restTemplate.exchange(gfjffjzsy, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), List.class);
+			request.setAttribute("items", infors.getBody());
+	        return "stp/hana/budget/gfjffjzsy";
+	  }
+	  
+	  //股份经费分解-系统外
+	  @RequestMapping(method = RequestMethod.GET, value = "/ba/gfjffjxtw")
+	  public String gfjffjxtw(HttpServletRequest request) throws Exception
+	  {
+		  String nd = request.getParameter("nd")==null?DateUtil.format(new Date(), DateUtil.FMT_YYYY):request.getParameter("nd");
+			request.setAttribute("nd", nd);
+			ResponseEntity<?> infors = this.restTemplate.exchange(gfjffjxtw, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), List.class);
+			request.setAttribute("items", infors.getBody());
+	        return "stp/hana/budget/gfjffjxtw";
+	  }
+	
+	  
+	  //股份经费分解-子公司
+	  @RequestMapping(method = RequestMethod.GET, value = "/ba/gfjffjzgs")
+	  public String gfjffjzgs(HttpServletRequest request) throws Exception
+	  {
+		  String nd = request.getParameter("nd")==null?DateUtil.format(new Date(), DateUtil.FMT_YYYY):request.getParameter("nd");
+			request.setAttribute("nd", nd);
+			ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_STOCKSPLIT_TITLES, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), List.class);
+			request.setAttribute("items", infors.getBody());
+	        return "stp/hana/budget/gfjffjzgs";
+	  }
+	
+	  //预算经费分解总表
+	  @RequestMapping(method = RequestMethod.GET, value = "/ba/ysjffjzb")
+	  public String ysjffjzb(HttpServletRequest request) throws Exception
+	  {
+		    String year= HanaUtil.getCurrrentYear();
+		    request.setAttribute("year", year);
+		    request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
+	        return "stp/hana/budget/ysjffjzb";
+	  }
+	
+	
+	
 	
 	
 	
