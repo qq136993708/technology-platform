@@ -33,10 +33,10 @@ import com.pcitc.web.common.OperationFilter;
 public class DelegateController extends BaseController {
 
 	// 委托单列表
-	private static final String DELEGATE_PAGE_URL = "http://pcitc-zuul/system-proxy/task-provider/assignees/delegates";
+	private static final String DELEGATE_PAGE_URL = "http://pplus-zuul/system-proxy/task-provider/assignees/delegates";
 
 	// 新增委托
-	private static final String DELEGATE_ADD_URL = "http://pcitc-zuul/system-proxy/task-provider/delegate";
+	private static final String DELEGATE_ADD_URL = "http://pplus-zuul/system-proxy/task-provider/delegate";
 
 	/**
 	 * @author zhf
@@ -64,7 +64,7 @@ public class DelegateController extends BaseController {
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public Object getDelegateListForTable(@ModelAttribute("param") LayuiTableParam param) {
-		System.out.println("====--------/delegate/list");
+		System.out.println("====--------/delegate/list---"+param.getParam().toString());
 		param.getParam().put("assigneeCode", sysUserInfo.getUserId());
 		param.getParam().put("status", "1");
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
@@ -112,12 +112,12 @@ public class DelegateController extends BaseController {
 	 * @author zhf
 	 * @date 2018年5月2日 下午4:30:15
 	 */
-	@RequestMapping(value = "/delegates", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/delegates", method = RequestMethod.POST)
 	@ResponseBody
 	@OperationFilter(modelName = "系统管理--工作流--委托管理", actionName = "取消委托")
 	public Result cancelDelegate(@RequestBody SysDelegate delegate) {
 
-		String queryUrl = "http://pcitc-zuul/system-proxy/task-provider/delegates";
+		String queryUrl = "http://pplus-zuul/system-proxy/task-provider/delegates";
 		HttpEntity<SysDelegate> entity = new HttpEntity<SysDelegate>(delegate, this.httpHeaders);
 
 		Integer retI = this.restTemplate.exchange(queryUrl, HttpMethod.DELETE, entity, Integer.class).getBody();

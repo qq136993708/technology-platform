@@ -19,6 +19,14 @@
 			<span>流程名称</span>
 			<input type="text" name="processName" placeholder="请输入流程名称" title="流程名称" autocomplete="off" class="form-control" id="processName">
 		</label>
+		<label class="dateInput">
+			<span>流程定义id</span>
+			<input type="text" name="processDefinitionId" placeholder="请输入流程定义id" title="流程名称id" autocomplete="off" class="form-control" id="processDefinitionId">
+		</label>
+		<label class="dateInput">
+			<span>部署ID</span>
+			<input type="text" name="deploymentId" placeholder="请输入部署ID" title="部署ID" autocomplete="off" class="form-control" id="deploymentId">
+		</label>
 		<!--按钮组-->
 		<div class="btnGroup">
 			<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
@@ -47,7 +55,6 @@
 		layui.use([ 'jquery', 'table', 'laypage', 'laytpl' ], function() {
 			table = layui.table, $ = layui.jquery, laypage = layui.laypage;
 			function renderTable() {
-				var processName = $('#processName').val();
 				var param = JSON.parse(window.localStorage.getItem("param"));
 				var lodingMsg = layer.msg('数据加载中....');
 				//渲染
@@ -57,7 +64,9 @@
 					method : "POST",
 					where : {
 						param : {
-							"processName" : processName,
+							"processName" : $('#processName').val(),
+							"deploymentId" : $('#deploymentId').val(),
+							"processDefinitionId" : $('#processDefinitionId').val(),
 							"functionCode" : param.code
 						}
 					},
@@ -152,6 +161,8 @@
 				},
 				resetEvent : function() { //点击重置按钮
 					$('#processName').val("");
+					$('#deploymentId').val("");
+					$('#processDefinitionId').val("");
 					active.searchEvent();
 				},
 				detailEvent : function() { //点击详情按钮
