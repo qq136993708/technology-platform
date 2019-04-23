@@ -257,7 +257,7 @@ var name=$('#name').val();
 	         				 var applicationId=selectRowData.id;
             		 $.ajax({
 			           type : 'GET',
-			           url : "/sre_project_taskac/submitAudit?id="+applicationId+"&status="+"30",
+			           url : "/sre_project_taskac/submitAudit?id="+applicationId+"&status="+"50",
 			       
 			           success : function(data) {
 			           layer.alert("保存成功！", {icon: 1,closeBtn: 0 }, function () 
@@ -301,9 +301,9 @@ var name=$('#name').val();
         });
         //监听表格双击事件
        // table.on('rowDouble(processdef-table)', function(obj){
-        //	var temUrl = '/sre_project_taskac/get/'+obj.data.id;
-        //	openFullWin("详情",temUrl);
-        //});
+      //  	var temUrl = '/sre_project_taskac/get/'+obj.data.id;
+      //  	openFullWin("详情",temUrl);
+      //  });
         
         //区别按钮属性
         $('.layui-btn').on('click', function(){
@@ -320,7 +320,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre_project_taskac/list',
             method:"POST",
-            where: {param: {"projecttask":$("#name").val(),"status":"20"}},
+            where: {param: {"projecttask":$("#name").val(),"status":"40"}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),
