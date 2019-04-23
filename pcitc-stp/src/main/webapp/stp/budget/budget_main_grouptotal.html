@@ -221,17 +221,12 @@
             table.on('edit(dataTable)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
             	$.each(curent_tabel_data,function(index,dt){
             		if(obj.data.dataId == dt.dataId){
-            			if(obj.field=="xmjf"){
-            				dt.xmjf = obj.value;
-            			}else if(obj.field=="zxjf")
-            			{
-            				dt.zxjf = obj.value;
-            			}
+            			curent_tabel_data[index][obj.field] = parseInt(obj.value);
             			dt.total = parseInt(dt.xmjf)+parseInt(dt.zxjf);
             		}
             	});
             	//刷新表格数据
-            	relaodTable('dataTable', curent_tabel_data);
+            	reloadTable('dataTable', curent_tabel_data);
             	renderfunc();
             	//预分配数
             	calculationSurplusMoney();

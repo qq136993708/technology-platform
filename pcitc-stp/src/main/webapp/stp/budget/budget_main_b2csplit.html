@@ -237,15 +237,8 @@
             	var lyJz=lyXq=hgJz=hgXq=0;
             	$.each(curent_tabel_data,function(index,dt){
             		if(obj.data.dataId == dt.dataId){
-            			if(obj.field=="lyJz"){
-            				dt.lyJz = obj.value;
-            			}else if(obj.field=="lyXq"){
-            				dt.lyXq = obj.value;
-            			}else if(obj.field=="hgJz"){
-            				dt.hgJz = obj.value;
-            			}else if(obj.field=="hgXq"){
-            				dt.hgXq = obj.value;
-            			}
+            			curent_tabel_data[index][obj.field] = parseInt(obj.value);
+            			
             			dt.lyTotal = parseInt(dt.lyJz)+parseInt(dt.lyXq);
             			dt.hgTotal = parseInt(dt.hgJz)+parseInt(dt.hgXq);
             		}
