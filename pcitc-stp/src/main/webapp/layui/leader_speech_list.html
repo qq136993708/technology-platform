@@ -52,7 +52,7 @@
         <div class="layui-col-md4 layui-speech">
             <div class="news study">
                 <p>推荐学习</p>
-                <ul class="layui-row layui-col-space15">
+                <ul class="layui-row layui-col-space15"  id="ROOT_XTGL_SPLX_PT">
                     <li class="layui-col-md6">
                         <a href="javascript:void(0);">
                             <img src="/layuiadmin/layui/images/img-new-1.png" alt="">
@@ -78,6 +78,8 @@
     </div>
 </div>
 <script>
+
+
 
     layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'publicMethods', 'element'], function () {
         var table = layui.table,
@@ -300,6 +302,36 @@
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
+
+        //视频
+        var stype = "ROOT_XTGL_XWLX_KJBLDJH|ROOT_XTGL_XWLX_JTLDJH|ROOT_XTGL_XWLX_GJLDJH|ROOT_XTGL_XWLX_ZXJH|ROOT_XTGL_SPLX_PT";
+
+        var formIds = "";
+        var list = [];
+        var ROOT_XTGL_SPLX_PT = "";//视频
+        publicMethods.ajaxPost("/sysNews/getNewsIndexType", {"stype": stype, "bak3": 8}, function (data) {
+            for (var i = data.length-1; i >0 ; i--) {
+                var d = data[i];
+                 if (d.stype == "ROOT_XTGL_SPLX_PT") {
+                    list.push(d);
+                }
+            }
+        });
+        console.log(list);
+        for (let i = 0; i < list.length; i++) {
+            var d = list[i];
+            // var imgSrc = photoContent(d.bak4);
+            var a =" <li class=\"layui-col-md6\">" +
+                "<a target='_blank' alt='"+d.title+"' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId="+  d.dataId +"\">"+
+                // "<img src='/common/images/icon-videos.png' alt='"+d.title+"' width='200px' height='200px'/>" +d.title+
+                "<img src='/sysfile/getFilesLayuiByFormIdReturnBase64Image/"+d.bak4+"' alt='"+d.title+"' />" +d.title+
+                // "<img src='"+imgSrc+"' alt='"+d.title+"' />" +d.title+
+                "</a>" +
+                "</li>";
+            ROOT_XTGL_SPLX_PT = ROOT_XTGL_SPLX_PT + a;
+        }
+        $("#ROOT_XTGL_SPLX_PT").html(ROOT_XTGL_SPLX_PT);
+
     });
 
 </script>
