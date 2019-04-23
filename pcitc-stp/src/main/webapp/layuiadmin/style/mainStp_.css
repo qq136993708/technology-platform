@@ -216,6 +216,9 @@ background: url("/layuiadmin/layui/images/icon-leader-aw.png") right no-repeat;
 .work-collect ul li{width: 47%;margin: 0 5px;float: left;text-align: center;background-color: #58bdfc;
     border-radius: 4px;box-shadow:#2ca6f7 0 0 4px;height: 35px;line-height: 35px;margin-bottom: 10px;}
 .work-collect ul li a{color: white;font-size: 14px;}
+.implement .layui-table-cell{ font-size: 12px !important;}
+.implement th{background-color: #ecf8ff !important;}
+.implement th .layui-table-cell{color: black;}
 /*放大*/
 .layui-col-md15:hover {
     transform:scale(1.6);
