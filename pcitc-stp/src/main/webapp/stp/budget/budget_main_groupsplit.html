@@ -101,6 +101,10 @@
 	                 	<#list items as item>
 	                 		<#list item?keys as key> 
 	                    		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true}">${item[key]}</th>
+	                    	</#list>
+	                    </#list>
+	                    <#list items as item>
+	                 		<#list item?keys as key> 
 	                    		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true}">${item[key]}</th>
 	                    	</#list>
 	                    </#list>
