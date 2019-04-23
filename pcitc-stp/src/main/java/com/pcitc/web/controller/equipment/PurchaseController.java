@@ -476,7 +476,7 @@ public class PurchaseController extends BaseController{
             String docArriveGoods = srePurchase.getDocumentDocArriveGoods();
             String documentDocInstallDebug = srePurchase.getDocumentDocInstallDebug();
             String stage = srePurchase.getStage();
-            if(stage.equals(Constant.PURCHASE_CONTRACT_DOCKING)){//合同系统对接 阶段
+            if(stage.equals(Constant.PURCHASE_CONTRACT_DOCKING)){
                 if(documentDoc==null || documentDoc.equals(""))
                 {
                     documentDoc= IdUtil.createFileIdByTime();
@@ -489,9 +489,9 @@ public class PurchaseController extends BaseController{
                 }
                 request.setAttribute("docArriveGoods", docArriveGoods);
             }else if(stage.equals(Constant.PURCHASE_INSTALL_DEBUG)){
-                if(docArriveGoods==null || docArriveGoods.equals(""))
+                if(documentDocInstallDebug==null || documentDocInstallDebug.equals(""))
                 {
-                    docArriveGoods= IdUtil.createFileIdByTime();
+                    documentDocInstallDebug= IdUtil.createFileIdByTime();
                 }
                 request.setAttribute("documentDocInstallDebug", documentDocInstallDebug);
             }
@@ -509,6 +509,7 @@ public class PurchaseController extends BaseController{
         String stage = CommonUtil.getParameter(request, "stage", "");
         String documentDoc = CommonUtil.getParameter(request, "documentDoc", "");
         String docArriveGoods = CommonUtil.getParameter(request, "docArriveGoods", "");
+        String documentDocInstallDebug = CommonUtil.getParameter(request, "documentDocInstallDebug", "");
         String resutl="";
 
         int statusCodeValue = 0;
@@ -524,6 +525,12 @@ public class PurchaseController extends BaseController{
                 ResponseEntity<SrePurchase> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
                 SrePurchase srePurchase = responseEntity.getBody();
                 srePurchase.setDocumentDocArriveGoods(docArriveGoods);
+                ResponseEntity<String>  exchange = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
+                statusCodeValue = responseEntity.getStatusCodeValue();
+            }else if (stage.equals(Constant.PURCHASE_INSTALL_DEBUG)){
+                ResponseEntity<SrePurchase> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
+                SrePurchase srePurchase = responseEntity.getBody();
+                srePurchase.setDocumentDocInstallDebug(documentDocInstallDebug);
                 ResponseEntity<String>  exchange = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
                 statusCodeValue = responseEntity.getStatusCodeValue();
             }
@@ -602,8 +609,17 @@ public class PurchaseController extends BaseController{
 
         ResponseEntity<SrePurchase> exchange = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
         SrePurchase srePurchase = exchange.getBody();
+        String equipmentIds = srePurchase.getEquipmentId();
+        String[] arr = equipmentIds.split(",");
+        for (int i = 0; i < arr.length; i++) {
+            System.err.println(arr[i]);
+            SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
+            sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_ARRIVE_GOODS);
+            EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
+        }
         srePurchase.setState(Constant.PURCHASE_STATUS_ARRIVE_GOODS);
         srePurchase.setStage(Constant.PURCHASE_INSTALL_DEBUG);
+
         ResponseEntity<String> exchange1 = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
         int statusCodeValue = exchange1.getStatusCodeValue();
         if (statusCodeValue == 200) {

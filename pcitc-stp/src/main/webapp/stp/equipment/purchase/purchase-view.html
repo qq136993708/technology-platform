@@ -29,17 +29,6 @@
               lay-filter="component-form-group layui-container">
             <input name="id" id="id" value="${id}" type="hidden">
             <input name="equipmentIds" id="equipmentIds" value="${srePurchase.equipmentId}" type="hidden">
-
-            <!--<input name="documentDoc" id="documentDoc" value="${documentDoc}" type="hidden">
-            <input name="yearFeeStr" id="yearFeeStr" value="${sreProjectBasic.yearFeeStr}" type="hidden">
-            <input name="functionId" id="functionId" type="hidden">
-            <input name="userIds" id="userIds" type="hidden">
-            <input name="participatingUnitsCode" id="participatingUnitsCode"
-                   value="${sreProjectBasic.participatingUnitsCode}"
-                   type="hidden">-->
-            <!--<input name="participatingUnitsCode" id="participatingUnitsCode"
-                               value="2019-2020,苏州大学,014ef79138eb4fc49f24e4439419a5a9#2019,22,null#2020,0,null;2019-2020,北京经贸大学,01a180d1fac8465a9f283f7628dbf498#2019,0,null#2020,0,null" type="hidden">
--->
             <div class="layer-box">
                 <input name="leadUnitCode" id="leadUnitCode" value="${leadUnitCode}" type="hidden">
                 <input name="joinUnitCode" id="joinUnitCode" value="${sreProjectBasic.joinUnitCode}" type="hidden">
@@ -51,8 +40,6 @@
                 <input name="yearFeeStrJoinUnit" id="yearFeeStrJoinUnit"
                        value="${sreProjectBasic.yearFeeStrJoinUnit}"
                        type="hidden">
-                <!--<input name="yearFeeStrJoinUnit" id="yearFeeStrJoinUnit"
-                       value="2019-2020,苏州大学,014ef79138eb4fc49f24e4439419a5a9#2019,22,null#2020,0,null;2019-2020,北京经贸大学,01a180d1fac8465a9f283f7628dbf498#2019,0,null#2020,0,null" type="hidden">-->
                 <div class="layui-row">
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
@@ -91,102 +78,6 @@
                     </div>
                 </div>
 
-
-                <!--<div class="layui-form-item layui-form-text">
-                    <label class="layui-form-label">建设年限</label>
-                    <div class="layui-input-block">
-                        <div class="layui-input-inline" style="float:left">
-                            <input type="text" class="layui-input readOnlyBox" name="beginYear" id="beginYear"
-                                   value="${beginYear}"
-                                   style="width:80px;float:left" placeholder="开始年份">
-                            <div class="layui-form-mid" style="width:8px;float:left"> -</div>
-                            <input type="text" class="layui-input readOnlyBox" id="endYear" name="endYear"
-                                   value="${endYear}"
-                                   style="width:80px;float:left" placeholder="结束年份">
-                        </div>
-                    </div>
-                </div>-->
-                
-                
-                 <div class="layui-form-item layui-form-text">
-                    <label class="layui-form-label">牵头单位</label>
-                    <div class="layui-input-block" style="margin-bottom: 10px;">
-                        <input class="layui-input readOnlyBox" name="leadUnitName" id="leadUnitName"
-                                       value="${leadUnitName}"
-                                       autocomplete="off" type="text">
-                    </div>
-                </div>
-                
-
-
-                <!--<div class="layui-form-item layui-form-text">
-                    <label class="layui-form-label"></label>
-                    <div class="layui-input-block" id="yearTr">
-                        <table class="layui-table">
-                            <thead>
-                            <tr>
-                                <td width="20%">年 度</td>
-                                <td width="8%">费用性支出(万元)</td>
-                                <td width="8%">资本性支出(万元)</td>
-                                <td width="8%">小 计(万元)</td>
-                            </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                </div>-->
-
-                <div class="layui-form-item layui-form-text">
-                    <label class="layui-form-label">参加单位</label>
-                    <div class="layui-input-block" style="margin-bottom: 10px;">
-                        <input class="layui-input readOnlyBox" name="joinUnitName" id="joinUnitName"
-                               value="${sreProjectBasic.joinUnitName}" autocomplete="off" type="text">
-                    </div>
-                    <div id="units"></div>
-                </div>
-
-
-                <!--<div class="layui-row">
-                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">归属部门</label>
-                            <div class="layui-input-block">
-                                <select name="belongDepartmentName" id="belongDepartmentName" disabled="disabled"
-                                        lay-filter="getDepartNameByUnitName" style="width:200px">
-                                    <option value="">&#45;&#45;请选择部门&#45;&#45;</option>
-                                    <#list unitFieldList as vo>
-                                    <option value="${vo.unitName}"
-                                    <#if vo.unitName == sreProjectBasic.belongDepartmentName> selected="selected" </#if> >${vo.unitName}</option>
-                            </#list>
-                            </select>
-                        </div>
-                    </div>
-                </div>-->
-
-
-                <!--<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                    <div class="layui-form-item">
-                        <label for="" class="layui-form-label">专业处</label>
-                        <div class="layui-input-block">
-                            <select id="professionalDepartName" name="professionalDepartName"  disabled="disabled"
-                                    lay-filter="getProfessionalNameListByUnitNameAndDept"
-                                    style="width:200px"></select>
-                        </div>
-                    </div>
-                </div>-->
-
-                <!--<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                    <div class="layui-form-item">
-                        <label for="" class="layui-form-label">专业领域</label>
-                        <div class="layui-input-block">
-                            <select id="professionalFieldName" name="professionalFieldName"  disabled="disabled"
-                                    style="width:200px"></select>
-                        </div>
-                    </div>
-                </div>-->
-                
-                
-                
                 <div class="layui-row">
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
@@ -235,40 +126,6 @@
                     </div>
                 </div>
                 
-                
-                
-                <!-- <div class="layui-row">
-                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                        <div class="layui-form-item">
-                            <label for="" class="layui-form-label">安排任务填写人</label>
-                            <div class="layui-input-block">
-                                 <input class="layui-input readOnlyBox" name="taskWriteUserNames" id="taskWriteUserNames"
-                                       value="${sreProjectBasic.taskWriteUserNames}"
-                                       autocomplete="off" type="text">
-                            </div>
-                        </div>
-                    </div>
-                </div>-->
-                
-                
-                
-                 <!--<div class="layui-row">
-					                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-					                    <div class="layui-form-item">
-					                        <label for="" class="layui-form-label">课题审核状态</label>
-					                        <div class="layui-input-block">
-					                           <select name="auditStatus" id="auditStatus" disabled="disabled"  style="color:red;width:200px">
-					                                          <option value="">&#45;&#45;未上报&#45;&#45;</option>
-					                                           <#list dicList as vo> 
-																  <option value="${vo.numValue}" <#if vo.numValue ==sreProjectBasic.auditStatus> selected="selected" </#if> >${vo.name}</option>
-																</#list>
-					                            </select>
-					                        </div>
-					                    </div>
-					                </div>-->
-					            </div>
-
-
                 <!--<div class="layui-form-item">
                     <label class="layui-form-label">附件</label>
                     <div id="file_div" class="layui-input-block"></div>
@@ -433,34 +290,6 @@
                 var index = parent.layer.getFrameIndex(window.name);
                 parent.layer.close(index);
             })
-            /*var arrD = yearFeeStrJoinUnit.split(";");
-            // alert(arrD)
-            if (arrD == '') {
-
-            } else {
-                $.each(arrD, function (i, val) {
-                    var arrDV = arrD[i].split("#");
-                    var yearFeeStrN = arrD[i].substring(arrD[i].indexOf('#') + 1);
-                    var html = ' <div class="layui-form-item layui-form-text" >' +
-                        '        <div class="layui-input-block" id="yearTr' + i + '">' +
-                        '        <label class="layui-form-label" style="width: 100%;margin-left: 0;text-align: left;">' + arrDV[0].split(",")[1] + '</label>' +
-                        '            <table class="layui-table">' +
-                        '             <thead>' +
-                        '             <tr>' +
-                        '                <td width="20%">年  度</td>' +
-                        '                <td width="8%">费用性支出(万元)</td>' +
-                        '                <td width="8%">资本性支出(万元)</td>' +
-                        '                <td width="8%">小  计(万元)</td>' +
-                        '             </tr>' +
-                        '            </thead>' +
-                        '            <tbody></tbody>' +
-                        '          </table>' +
-                        '        </div>' +
-                        '       </div>';
-                    $("#units").append(html);
-                    publicMethods.createTable($("#beginYear").val(), $("#endYear").val(), "yearTr" + i, 2, yearFeeStrN, true);
-                });
-            }*/
         });
 
 

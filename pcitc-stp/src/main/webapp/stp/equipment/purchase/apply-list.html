@@ -25,6 +25,7 @@
         <input  name="departCode"         id="departCode"  value="${departCode}"        type="hidden" >
         <input  name="parentUnitPathIds"   id="parentUnitPathIds"    value="${parentUnitPathIds}"        type="hidden" >
         <input  name="state"  id="state" value="${state}" type="hidden">
+        <input  name="stage"  id="stage" value="${state}" type="hidden">
     </form>
 
     <!--查询条件-->
@@ -318,7 +319,7 @@
             elem: '#processdef-table',
             url: '/sre_purchase/list',
             method:"POST",
-            where: {param: {/*"topicName":$("#topicName").val(),*/"state":"20","parentUnitPathIds":$("#parentUnitPathIds").val(),"departCode":$("#departCode").val()}},
+            where: {param: {"state":"20","stage":"2","parentUnitPathIds":$("#parentUnitPathIds").val(),"departCode":$("#departCode").val()}},
             limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),
