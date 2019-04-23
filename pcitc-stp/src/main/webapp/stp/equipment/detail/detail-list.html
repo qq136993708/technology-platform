@@ -246,12 +246,6 @@ var name=$('#name').val();
             });
         });
       
-        //监听表格双击事件
-        table.on('rowDouble(processdef-table)', function(obj){
-        	var temUrl = '/sre-equipment/get/'+obj.data.equipmentId;
-        	openFullWin("详情",temUrl);
-        });
-        
         
         
         

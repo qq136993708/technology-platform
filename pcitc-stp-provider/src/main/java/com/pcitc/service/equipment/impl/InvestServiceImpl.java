@@ -108,8 +108,8 @@ public  class InvestServiceImpl implements InvestService {
 				}else {
 					mentrogress.setPurchaseState("");//获取采购状态
 				}
-			list.add(mentrogress);
 		}
+			list.add(mentrogress);
 		}
 		PageInfo<SreInvestmentrogress> pageInfo = new PageInfo<SreInvestmentrogress>(list);
 		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
