@@ -233,29 +233,7 @@
             table.on('edit(dataTable)', function(obj){
             	$.each(curent_tabel_data,function(index,dt){
             		if(obj.data.dataId == dt.dataId){
-            			if(obj.field=="jtgs"){
-            				dt.jtgs = obj.value;
-            			}else if(obj.field=="gfZsyKty"){
-            				dt.gfZsyKty = obj.value;
-            			}else if(obj.field=="gfZsyGcy"){
-            				dt.gfZsyGcy = obj.value;
-            			}else if(obj.field=="gfZsyWty"){
-            				dt.gfZsyWty = obj.value;
-            			}else if(obj.field=="gfZsySky"){
-            				dt.gfZsySky = obj.value;
-            			}else if(obj.field=="gfZsyBhy"){
-            				dt.gfZsyBhy = obj.value;
-            			}else if(obj.field=="gfZsyFyy"){
-            				dt.gfZsyFyy = obj.value;
-            			}else if(obj.field=="gfZsyShy"){
-            				dt.gfZsyShy = obj.value;
-            			}else if(obj.field=="gfZsyQdy"){
-            				dt.gfZsyQdy = obj.value;
-            			}else if(obj.field=="gfFzgs"){
-            				dt.gfFzgs = obj.value;
-            			}else if(obj.field=="xtw"){
-            				dt.xtw = obj.value;
-            			}
+            			curent_tabel_data[index][obj.field] = parseInt(obj.value);
             		}
             	});
             	//刷新表格数据

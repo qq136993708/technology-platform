@@ -85,7 +85,7 @@ public class BudgetGroupTotalController extends BaseController {
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_main_grouptotal")
 	public Object toBudgetGroupPage(HttpServletRequest request) throws IOException 
 	{
-		request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
+		request.setAttribute("nd", DateUtil.format(DateUtil.getNextYearDay(new Date()), DateUtil.FMT_YYYY));
 		return "stp/budget/budget_main_grouptotal";
 	}
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_edit_grouptotal")
