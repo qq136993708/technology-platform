@@ -129,17 +129,17 @@ public  class InvestServiceImpl implements InvestService {
 		SrePurchase purchase = srePurchaseMapper.selectByPrimaryKey(purchaseId);//获取采购信息
 		if(purchase!=null) {
 			srerogram.setPurchaseName(purchase.getPurchaseName());//获取采购名称
-			if(Integer.valueOf(purchase.getState())>=20) {
+			if(Integer.valueOf(purchase.getState())==20) {
 				srerogram.setPurchaseState(purchase.getState());//采购状态
-			}else if(Integer.valueOf(purchase.getState())>=30) {
+			}else if(Integer.valueOf(purchase.getState())==30) {
 				srerogram.setContractDockingState(purchase.getState());//合同对接状态
-			}else if(Integer.valueOf(purchase.getState())>=40) {
+			}else if(Integer.valueOf(purchase.getState())==40) {
 				srerogram.setArrivalReceiptState(purchase.getState());//到货签收状态
-			}else if(Integer.valueOf(purchase.getState())>=50) {
+			}else if(Integer.valueOf(purchase.getState())==50) {
 				srerogram.setContractAcceptanceState(purchase.getState());//合同验收状态
-			}else if(Integer.valueOf(purchase.getState())>=60) {
+			}else if(Integer.valueOf(purchase.getState())==60) {
 				srerogram.setInstallationState(purchase.getState());//安装调试状态
-			}else if(Integer.valueOf(purchase.getState())>=70) {
+			}else if(Integer.valueOf(purchase.getState())==70) {
 				srerogram.setContractSlosureState(purchase.getState());//合同关闭状态
 			}
 			list.add(srerogram);
