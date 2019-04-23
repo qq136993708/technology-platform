@@ -158,6 +158,16 @@ public class SysFileClient {
         sysFileService.downloadFiles(id, request, response);
     }
 
+    @ApiOperation(value = "视频播放", notes = "根据文件ID播放文件流,返回字节流")
+    @RequestMapping(value = "/sysfile-provider/sysfile/video/{id}")
+    public void videoFiles(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            sysFileService.videoFiles(id, request, response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @ApiOperation(value = "文件预览", notes = "根据文件ID获取文件,返回字节流")
     @RequestMapping(value = "/sysfile-provider/sysfile/previewImgagByByteBase64/{id}")
     public void previewImgagByByteBase64(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws IOException {

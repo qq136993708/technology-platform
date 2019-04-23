@@ -37,7 +37,11 @@ public class SrePurchase {
 
     private String documentDocArriveGoods;
 
-    private String documentDocContractualAcceptance;
+    private String documentDocContractAcceptance;
+
+    private String documentDocInstallDebug;
+
+    private String documentDocContractClose;
 
     public String getId() {
         return id;
@@ -175,11 +179,27 @@ public class SrePurchase {
         this.documentDocArriveGoods = documentDocArriveGoods;
     }
 
-    public String getDocumentDocContractualAcceptance() {
-        return documentDocContractualAcceptance;
+    public String getDocumentDocContractAcceptance() {
+        return documentDocContractAcceptance;
     }
 
-    public void setDocumentDocContractualAcceptance(String documentDocContractualAcceptance) {
-        this.documentDocContractualAcceptance = documentDocContractualAcceptance;
+    public void setDocumentDocContractAcceptance(String documentDocContractAcceptance) {
+        this.documentDocContractAcceptance = documentDocContractAcceptance;
+    }
+
+    public String getDocumentDocInstallDebug() {
+        return documentDocInstallDebug;
+    }
+
+    public void setDocumentDocInstallDebug(String documentDocInstallDebug) {
+        this.documentDocInstallDebug = documentDocInstallDebug;
+    }
+
+    public String getDocumentDocContractClose() {
+        return documentDocContractClose;
+    }
+
+    public void setDocumentDocContractClose(String documentDocContractClose) {
+        this.documentDocContractClose = documentDocContractClose;
     }
 }

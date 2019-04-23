@@ -849,6 +849,7 @@ layui.define(['jquery','form','table','laydate'],
                 columnSC=columnSC.substring(0,columnSC.length-1);
                 return columnSC;
             },
+
         };
         
         

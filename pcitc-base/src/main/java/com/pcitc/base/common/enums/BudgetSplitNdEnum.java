@@ -34,9 +34,9 @@ public enum BudgetSplitNdEnum
 	SPLIT_STOCK_XTW_2020("2020", BudgetSplitEnum.SPLIT_STOCK_JTDW, BudgetSplitEnum.SPLIT_STOCK_WBDW,BudgetSplitEnum.SPLIT_STOCK_YK),
 	
 	//分子公司
-	SPLIT_STOCK_ZGS_2018("2018", BudgetSplitEnum.SPLIT_STOCK_FZGS),
-	SPLIT_STOCK_ZGS_2019("2019", BudgetSplitEnum.SPLIT_STOCK_FZGS),
-	SPLIT_STOCK_ZGS_2020("2020", BudgetSplitEnum.SPLIT_STOCK_FZGS);
+	SPLIT_STOCK_ZGS_2018("2018", BudgetSplitEnum.SPLIT_STOCK_FZGS,BudgetSplitEnum.SPLIT_STOCK_XSD,BudgetSplitEnum.SPLIT_STOCK_ZD),
+	SPLIT_STOCK_ZGS_2019("2019", BudgetSplitEnum.SPLIT_STOCK_FZGS,BudgetSplitEnum.SPLIT_STOCK_XSD,BudgetSplitEnum.SPLIT_STOCK_ZD),
+	SPLIT_STOCK_ZGS_2020("2020", BudgetSplitEnum.SPLIT_STOCK_FZGS,BudgetSplitEnum.SPLIT_STOCK_XSD,BudgetSplitEnum.SPLIT_STOCK_ZD);
 		
 	
 	private BudgetSplitNdEnum(String nd,BudgetSplitEnum ... splitList) 

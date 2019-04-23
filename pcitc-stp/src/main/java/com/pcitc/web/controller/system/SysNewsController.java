@@ -112,6 +112,13 @@ public class SysNewsController extends BaseController {
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(getNewsIndexType, HttpMethod.POST, new HttpEntity<SysNews>(sysNews, this.httpHeaders), JSONObject.class);
         JSONObject retJson = responseEntity.getBody();
         List<SysNews> list = (List<SysNews>) retJson.get("list");
+//        String formIds = "";
+//        for (int i = 0; i < list.size(); i++) {
+//            if ("ROOT_XTGL_SPLX_PT".equals(list.get(i).getStype())){
+//                //视频查询图片
+//                formIds = formIds+(i==0?"":",")+list.get(i).getDataId();
+//            }
+//        }
         return list;
     }
 
@@ -200,6 +207,16 @@ public class SysNewsController extends BaseController {
         return "stp/system/sysNews_edit";
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/editvideo")
+    @OperationFilter(modelName = "系统新闻表", actionName = "跳转编辑页面pageEdit")
+    public String pageEditVideo(String id, Model model, String opt) {
+        model.addAttribute("id", id);
+        model.addAttribute("opt", opt);
+        model.addAttribute("bak3",StrUtil.isBlank(id)?UUID.randomUUID().toString():id);
+        model.addAttribute("bak4",StrUtil.isBlank(id)?UUID.randomUUID().toString():id);
+        return "stp/system/sysNews_edit_video";
+    }
+
     /**
      * 详情页面-系统新闻表
      *
@@ -215,6 +232,15 @@ public class SysNewsController extends BaseController {
         return "stp/system/sysNews_view";
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/viewvideo/{dataId}")
+    @OperationFilter(modelName = "系统新闻表", actionName = "跳转详情页面pageView")
+    public String pageViewVideo(@PathVariable("dataId") String dataId, Model model) {
+        model.addAttribute("id", dataId);
+        model.addAttribute("opt", "");
+        model.addAttribute("dataId", (dataId == null || "".equals(dataId)) ? UUID.randomUUID().toString().replace("-", "") : dataId);
+        return "stp/system/sysNews_view_video";
+    }
+
     /**
      * 跳转至系统新闻表列表页面
      *
@@ -224,6 +250,17 @@ public class SysNewsController extends BaseController {
     @OperationFilter(modelName = "系统新闻表", actionName = "跳转列表页toListPage")
     public String toListPage() {
         return "stp/system/sysNews_list";
+    }
+
+    /**
+     * 跳转至系统新闻表列表页面
+     *
+     * @return
+     */
+    @RequestMapping(value = "/toListPageVideo", method = {RequestMethod.GET})
+    @OperationFilter(modelName = "系统新闻表", actionName = "跳转列表页toListPage")
+    public String toListPageVideo() {
+        return "stp/system/sysNews_list_video";
     }
 
     /**
@@ -284,6 +321,18 @@ public class SysNewsController extends BaseController {
     @RequestMapping(value = "/del-real", method = RequestMethod.POST)
     @ResponseBody
     public Object delSysNewsReal() throws Exception {
+        Integer rs = this.restTemplate.exchange(DEL_REAL + request.getParameter("id"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
+        if (rs > 0) {
+            return new Result(true, "操作成功！");
+        } else {
+            return new Result(false, "保存失败请重试！");
+        }
+    }
+
+    @OperationFilter(modelName = "物理删除系统新闻表", actionName = "根据ID物理删除系统新闻表")
+    @RequestMapping(value = "/del-realvideo", method = RequestMethod.POST)
+    @ResponseBody
+    public Object delSysNewsRealVideo() throws Exception {
         Integer rs = this.restTemplate.exchange(DEL_REAL + request.getParameter("id"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
         if (rs > 0) {
             return new Result(true, "操作成功！");
