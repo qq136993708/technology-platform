@@ -7,11 +7,32 @@
 ::-webkit-scrollbar-thumb:vertical:active{background-color: rgba(0,0,0,.38);}
 .layui-col-space10>*{padding: 4px;}
 .layui-col-space10{margin: -4px;}
-.layui-card-header{background: white;font-weight: bold;}
+.layui-card-header{background: white;font-weight: normal !important;font-size: 14px;color: #666666;}
+.layui-card-header p{height: 14px;line-height: 14px;margin: 10px 0;display: inline-block;border-left: 3px solid #1890ff;
+    text-indent: 5px;}
 .layui-box-text{font-weight: bold;}
+.arrange{padding-left: 4px;padding-right: 30px;}
+.arrange-title{border-bottom: 1px solid #b9ddff;margin-bottom: 20px;}
+.arrange-title span{font-size: 14px;color: #666666;border-bottom: 2px solid #1890ff;position: relative;
+    bottom: -1px;}
+.arrange-title button{height: 22px;line-height: 22px;background-color: #1890ff;border-radius: 3px 3px 0 0;
+    position: relative;left: 10px;bottom: -2px;}
+.arrange-title a,.accept-title a{background: none !important;color:#666666;text-align: right !important;
+    height: 22px;line-height: 22px; float: right;padding: 0;margin: 0;position: relative;bottom: -3px;}
+.accept{padding-right: 10px;}
+.accept-title{border-bottom: 1px solid #bce6d0;margin-bottom: 20px;}
+.accept-title span{font-size: 14px;color: #666666;border-bottom: 2px solid #7acea1;position: relative;
+    bottom: -1px;}
+.project .layui-table th{background-color:white;}
+.project .layui-table tr:nth-child(odd){background-color: #f6f9fb;}
+.project .layui-table-header{border-top: 0;}
+.arrange .layui-table-view{border-top: 2px solid #1890ff;}
+.arrange .layui-table tbody tr:hover{background-color:#f6f9fb;border-left: 1px solid #1890ff;}
+.accept .layui-table-view{border-top: 2px solid #42b678;}
+.accept .layui-table tbody tr:hover{background-color:#f6f9fb;}
 /*第一块*/
 .layui-top{display: flex;background: #fff;border: 1px solid #dfdfdf;
-    padding: 10px;margin: 7px 0 0 7px;width: 99.2%;border-radius: 4px;}
+    padding: 10px;margin: 7px 0 0 5px;width: 99.2%;border-radius: 4px;}
 .layui-col-md15{width: 12.5%;float: left;height: auto;overflow: hidden;background: #f4f4f4;
     border-radius: 5px;padding: 8px;cursor: pointer;
     margin-right: 10px;}
@@ -179,13 +200,32 @@ background: url("/layuiadmin/layui/images/icon-leader-aw.png") right no-repeat;
 .text-total {text-align: center;}
 .text-total span{color: #000;padding: 0 2px;}
 .text-total .text-total-blue{color: #53b7e8;}
+/*处室*/
+.stay-do{background: url("/layuiadmin/layui/images/stay-b.png") no-repeat;
+    background-size: cover; height: 177px;border: 1px solid #dddddd;margin-right: 10px;}
+.work{margin: 7px 0;}
+.work-title{ margin: 17px 17px 10px;color: white;font-size: 14px;border-left: 1px solid white;
+    text-indent: 5px;font-family: "PingFang SC";    height: 14px;line-height: 14px;}
+.stay-doz-n{text-align: center;margin: 25px 0 14px;font-size: 36px;color: white;font-family:"Helvetica Neue"}
+.stay-doz-i{text-align: right;padding-right: 20px;}
+.work-summary{background: url("/layuiadmin/layui/images/stay-work.png") no-repeat;
+    background-size: cover; height: 177px;border: 1px solid #dddddd;margin-right: 10px;}
+.work-collect{background: url("/layuiadmin/layui/images/stay-collect.png") no-repeat;
+    background-size: cover; height: 177px;border: 1px solid #dddddd;}
+.work-collect ul{margin: 0 10px;}
+.work-collect ul li{width: 47%;margin: 0 5px;float: left;text-align: center;background-color: #58bdfc;
+    border-radius: 4px;box-shadow:#2ca6f7 0 0 4px;height: 35px;line-height: 35px;margin-bottom: 10px;}
+.work-collect ul li a{color: white;font-size: 14px;}
+.implement .layui-table-cell{ font-size: 12px !important;}
+.implement th{background-color: #ecf8ff !important;}
+.implement th .layui-table-cell{color: black;}
 /*放大*/
 .layui-col-md15:hover {
-    transform:scale(1.5);
-    -webkit-transform:scale(1.5);
-    -moz-transform:scale(1.5);
-    -o-transform:scale(1.5);
-    -ms-transform:scale(1.5);
+    transform:scale(1.6);
+    -webkit-transform:scale(1.6);
+    -moz-transform:scale(1.6);
+    -o-transform:scale(1.6);
+    -ms-transform:scale(1.6);
     transform-origin: 0 0 0;
     -webkit-transform-origin: 0 0 0;
     z-index: 9999;
