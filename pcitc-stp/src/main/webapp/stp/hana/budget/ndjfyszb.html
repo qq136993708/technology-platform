@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>经费预算-经费预算总表</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        body{color: #666666;}
+        .headline-box{box-sizing: border-box;padding-top: 10px;height: 106px;width: 100%;margin-bottom: 15px;}
+        .headline-title{height: 58px;line-height: 58px;text-align: center;font-size: 20px;color: #000000;}
+        .headline-tool{position: relative;height: 52px;margin: 0 10px;}
+        .headline-tool .tool-left{position: absolute;left: 0;top: 12px;height: 28px;line-height: 28px;}
+        .tool-left input{width: 96px;border: 1px solid #e6e6e6;}
+        .tool-left select{width: 150px;border: 1px solid #e6e6e6;}
+        .tool-left .dateInput{position: relative;}
+        .dateInput i{position: absolute; top: -4px; right: 6px;}
+        .headline-tool .tool-center{position: absolute;left: 50%;top: 6px;margin-left: -47px;}
+        .headline-tool .tool-right{position: absolute;right: 0;top: 12px;}
+        .num-box{float: left;padding-left: 10px; color: red;margin-top: 4px;}
+        .num-box input{width: 90px;padding-left: 6px; background: #ffffff; border: 1px solid #e6e6e6;color: red;}
+        .content-box{height: 42px; line-height: 42px;margin: 0 10px;}
+        .content-box .items{float: left; margin-right: 18px;}
+        .content-box .items span{color: #000000;}
+        .doc-box{margin: 0 10px;}
+        .doc-box p {height: 26px;line-height: 26px;}
+        .doc-box ul li{line-height: 26px;}
+    </style>
+</head>
+<body>
+    <div class="headline-box">
+        <div class="headline-title" title="股份经费预算总表">
+            	<span class="nd">${nd}</span>年股份公司总部科技经费预算（建议稿）
+        </div>
+        <div class="headline-tool">
+            <div class="tool-left">
+                <label class="dateInput">
+                    <span>预算年度</span>
+                    <input type="text" id="choose-year">
+                    <i class="layui-icon layui-icon-date"></i>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="tableBox">
+        <div class="tableToolBox">
+            <div class="num-box">
+                <label class="dateInput">
+                    <span>集团预算：</span><span id="budgetGroupMoney">&nbsp;</span>万元&nbsp;&nbsp;
+                </label>
+                <label class="dateInput">
+                    <span>资产预算：</span><span id="budgetAssetMoney">&nbsp;</span>万元&nbsp;&nbsp;
+                </label>
+                <label class="dateInput">
+                    <span>股份预算：</span><span id="budgetStockMoney">&nbsp;</span>万元&nbsp;&nbsp;
+                </label>
+            </div>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg"
+                    data-type="exportEvent">导出
+            </button>
+        </div>
+        <div id="tableBox">
+            <table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true}">
+                <thead>
+                <tr>
+                	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}" rowspan="2">序号</th>
+                    <th lay-data="{field:'displayName', width: '40%'}" rowspan="2">类别</th>
+                    <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年科技经费预算</th>
+                </tr>
+                <tr>
+                    <th lay-data="{field:'xmjfTotal',align: 'right',totalRow: true}">合计</th>
+                    <th lay-data="{field:'xmjfZbx', align: 'right',totalRow: true}">资本性</th>
+                    <th lay-data="{field:'xmjfFyx', align: 'right',totalRow: true}">费用性</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+   
+
+    <script>
+	    var cu_date = "${nd}";
+	    var budget_info_map=null;
+	    var curent_tabel_data = null;//当前表格数据
+	    var curent_budget_info = null;//当前报表
+	    var table_data=[];
+        layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
+            var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods; 
+            var param = JSON.parse(window.localStorage.getItem("param"));
+            laydate.render({
+                elem: '#choose-year'
+                ,value: cu_date
+                ,type: 'year'
+                ,done:function (val, date, endDate) {
+                	cu_date = val;
+                	initEmptyData();//空数据初始化
+                	loadData();//初始化数据
+                	initDateView();//初始化时间显示相关
+                }            
+            });
+            
+            function loadData()
+            {
+            	table_data=[]
+            	var total_fee=zbx_fee=fyx_fee=0;
+            	publicMethods.ajaxPost("/budget/budget-stock-total-final",{"nd":cu_date}, function(dt,status){
+                	//计算股份合计
+                	table_data.push({"dataId": new Date().valueOf(),"no":"","displayName":"一、股份公司合计","level":-1,"xmjfTotal":0,"xmjfZbx":0,"xmjfFyx":0});
+            		var xmjfTotal=xmjfZbx=xmjfFyx=0;
+            		$.each(dt.items,function(i,d){
+            			if(d.level==0){
+            				xmjfTotal += d.xmjfTotal;
+            				xmjfZbx += d.xmjfZbx;
+            				xmjfFyx += d.xmjfFyx;
+            			}
+            			table_data.push({"dataId": new Date().valueOf(),"no":d.no,"displayName":d.displayName,"level":d.level,"xmjfTotal":d.xmjfTotal,"xmjfZbx":d.xmjfZbx,"xmjfFyx":d.xmjfFyx});
+            			table_data[0].xmjfTotal = total_fee = xmjfTotal;
+            			table_data[0].xmjfZbx = zbx_fee= xmjfZbx;
+            			table_data[0].xmjfFyx = fyx_fee = xmjfFyx;
+            			$("#budgetStockMoney").text(xmjfTotal);
+            		});
+            		//计算集团公司
+                	publicMethods.ajaxPost("/budget/budget-group-total-final",{"nd":cu_date}, function(dt,status){
+                     	var xmjfTotal=xmjfZbx=xmjfFyx=0;
+                     	$.each(dt.items,function(i,d){
+                     		xmjfFyx = xmjfTotal +=(d.xmjf+d.zxjf);
+                     	});
+                     	total_fee += xmjfTotal;
+                     	zbx_fee += xmjfZbx;
+                     	fyx_fee += xmjfFyx;
+                     	table_data.push({"dataId": new Date().valueOf(),"no":"","displayName":"二、集团公司合计","level":-1,"xmjfTotal":xmjfTotal,"xmjfZbx":xmjfZbx,"xmjfFyx":xmjfFyx});
+                     	$("#budgetGroupMoney").text(xmjfTotal);
+                     	//计算资产公司
+                     	publicMethods.ajaxPost("/budget/budget-asset-total-final",{"nd":cu_date}, function(dt,status){
+                     		var xmjfTotal=xmjfZbx=xmjfFyx=0;
+                         	$.each(dt.items,function(i,d){
+                         		xmjfFyx = xmjfTotal += d.xmjf;
+                         	});
+                         	total_fee += xmjfTotal;
+                         	zbx_fee += xmjfZbx;
+                         	fyx_fee += xmjfFyx;
+                         	table_data.push({"dataId": new Date().valueOf(),"no":"","displayName":"三、资产公司合计","level":-1,"xmjfTotal":xmjfTotal,"xmjfZbx":xmjfZbx,"xmjfFyx":xmjfFyx});
+                         	$("#budgetAssetMoney").text(xmjfTotal);
+                     	});
+                	});
+           		});  
+                table.reload('dataTable',{data:table_data,done: function(res, curr, count){
+                		var colsArr = [0,table_data.length-2,table_data.length-1];
+                    	merge(colsArr);
+                	}
+                });
+                function merge(colsArr) {
+                    for(var i=0;i<colsArr.length;i++){
+                        var tableBox = $('.layui-table-box').find(".layui-table-body.layui-table-main");
+                        var bgTr = tableBox.find("tr[data-index=" + colsArr[i] + "]").css('background','yellow');
+                        bgTr.children().eq(1).attr('colspan','2')
+                            //.find('div').removeClass('laytable-cell-2-0-0')
+                            //.addClass('laytable-cell-2-2-0')
+                            .css('textAlign','center');
+                        bgTr.children().eq(0).css('display','none');
+                    }
+                }
+                //处理格式
+             	$.each(table_data,function(index,dt){
+    				var align ="center";
+    				var no = dt.no;
+    				if(dt.level == 0){
+    					align = "left";
+    					no = dt.no;
+    				}else if(dt.level ==1){
+    					align = "right";
+    					no = "";
+    				}
+    				$(".layui-table-body").find("tr").eq(index).find('td').eq(1).attr("align",align);
+    				$(".layui-table-body").find("tr").eq(index).find('td').eq(0).find("div").html(no);
+    			});
+             	$(".layui-table-total").find("tr").find('td').eq(2).find("div").html(total_fee);
+      			$(".layui-table-total").find("tr").find('td').eq(3).find("div").html(zbx_fee);
+      			$(".layui-table-total").find("tr").find('td').eq(4).find("div").html(fyx_fee);
+            }
+            loadData();
+			//数据版本选择
+            
+			//空数据初始化
+			function initEmptyData()
+			{
+				$("#budgetGroupMoney").text(0);
+				$("#budgetAssetMoney").text(0);
+            	$("#budgetStockMoney").text(0);
+			}
+			//初始化时间选择
+			function initDateView(){
+				$(".nd").html(cu_date);
+            	$(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(2).find('span').text(cu_date+"年科技经费预算");
+			}
+			
+            // 点击按钮时激活
+            $('.tableBtns').children('button').on('click',function(){
+                $(this).addClass('active');
+                $(this).siblings().removeClass('active');
+            });
+            //区别按钮属性
+            $('.layui-btn').on('click', function () {
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+            // 触发不同的按钮事件
+            var $ = layui.$, active = {
+            	exportEvent:function(){
+                	window.open("/budget/budget_download/total/"+cu_date);
+                }
+            }
+        })
+    </script>
+</body>
+</html>
