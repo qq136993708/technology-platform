@@ -3,71 +3,71 @@
 
 <mapper namespace="com.pcitc.mapper.plan.PlanBaseMapper">
 
-<resultMap id="BaseResultMap" type="com.pcitc.base.plan.PlanBase">
+    <resultMap id="BaseResultMap" type="com.pcitc.base.plan.PlanBase">
 
-    <id column="DATA_ID" jdbcType="VARCHAR" property="dataId" />
-    <result column="DATA_CODE" jdbcType="VARCHAR" property="dataCode" />
-    <result column="SYS_FLAG" jdbcType="VARCHAR" property="sysFlag" />
-    <result column="DATA_ORDER" jdbcType="VARCHAR" property="dataOrder" />
-    <result column="STATUS" jdbcType="VARCHAR" property="status" />
-    <result column="DEL_FLAG" jdbcType="VARCHAR" property="delFlag" />
-    <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
-    <result column="CREATE_USER" jdbcType="VARCHAR" property="createUser" />
-    <result column="CREATE_USER_NAME" jdbcType="VARCHAR" property="createUserName" />
-    <result column="UPDATE_DATE" jdbcType="VARCHAR" property="updateDate" />
-    <result column="UPDATE_USER" jdbcType="VARCHAR" property="updateUser" />
-    <result column="UPDATE_USER_NAME" jdbcType="VARCHAR" property="updateUserName" />
-    <result column="PROJECT_CODE" jdbcType="VARCHAR" property="projectCode" />
-    <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
-    <result column="PROJECT_NAME" jdbcType="VARCHAR" property="projectName" />
-    <result column="AUDIT_STS" jdbcType="VARCHAR" property="auditSts" />
-    <result column="UNIT_CODE" jdbcType="VARCHAR" property="unitCode" />
-    <result column="UNIT_NAME" jdbcType="VARCHAR" property="unitName" />
-    <result column="UNIT_ID" jdbcType="VARCHAR" property="unitId" />
-    <result column="ENGIN_NAME" jdbcType="VARCHAR" property="enginName" />
-    <result column="ENGIN_CODE" jdbcType="VARCHAR" property="enginCode" />
-    <result column="ENGIN_ID" jdbcType="VARCHAR" property="enginId" />
-    <result column="REMARKS" jdbcType="VARCHAR" property="remarks" />
-    <result column="WORKFLOW_STATE" jdbcType="VARCHAR" property="workflowState" />
-    <result column="WBS_NAME" jdbcType="VARCHAR" property="wbsName" />
-    <result column="WBS_CODE" jdbcType="VARCHAR" property="wbsCode" />
-    <result column="WBS_ID" jdbcType="VARCHAR" property="wbsId" />
-    <result column="COMPACT_NAME" jdbcType="VARCHAR" property="compactName" />
-    <result column="COMPACT_CODE" jdbcType="VARCHAR" property="compactCode" />
-    <result column="SUPERVISION_UNIT_NAME" jdbcType="VARCHAR" property="supervisionUnitName" />
-    <result column="SUPERVISION_UNIT_CODE" jdbcType="VARCHAR" property="supervisionUnitCode" />
-    <result column="SUPERVISION_UNIT_ID" jdbcType="VARCHAR" property="supervisionUnitId" />
-    <result column="BUILD_UNIT_NAME" jdbcType="VARCHAR" property="buildUnitName" />
-    <result column="BUILD_UNIT_CODE" jdbcType="VARCHAR" property="buildUnitCode" />
-    <result column="BUILD_UNIT_ID" jdbcType="VARCHAR" property="buildUnitId" />
-    <result column="REDACT_UNIT_NAME" jdbcType="VARCHAR" property="redactUnitName" />
-    <result column="REDACT_UNIT_CODE" jdbcType="VARCHAR" property="redactUnitCode" />
-    <result column="REDACT_UNIT_ID" jdbcType="VARCHAR" property="redactUnitId" />
-    <result column="REDACT_DATE" jdbcType="VARCHAR" property="redactDate" />
-    <result column="WORK_ORDER_NAME" jdbcType="VARCHAR" property="workOrderName" />
-    <result column="WORK_ORDER_CODE" jdbcType="VARCHAR" property="workOrderCode" />
-    <result column="WORK_ORDER_START_DATATIME" jdbcType="VARCHAR" property="workOrderStartDatatime" />
-    <result column="WORK_ORDER_END_DATATIME" jdbcType="VARCHAR" property="workOrderEndDatatime" />
-    <result column="WORK_ORDER_PLAN_START_DATATIME" jdbcType="VARCHAR" property="workOrderPlanStartDatatime" />
-    <result column="WORK_ORDER_PLAN_END_DATATIME" jdbcType="VARCHAR" property="workOrderPlanEndDatatime" />
-    <result column="IMPLEMENTATION_PROGRAM" jdbcType="VARCHAR" property="implementationProgram" />
-    <result column="ANNOUNCEMENTS" jdbcType="VARCHAR" property="announcements" />
-    <result column="WORK_ORDER_TYPE" jdbcType="VARCHAR" property="workOrderType" />
-    <result column="WORK_ORDER_STATUS" jdbcType="VARCHAR" property="workOrderStatus" />
-    <result column="WORK_ORDER_ALLOT_USER_NAME" jdbcType="VARCHAR" property="workOrderAllotUserName" />
-    <result column="WORK_ORDER_ALLOT_USER_ID" jdbcType="VARCHAR" property="workOrderAllotUserId" />
-    <result column="PARENT_ID" jdbcType="VARCHAR" property="parentId" />
-    <result column="JS_ID" jdbcType="VARCHAR" property="jsId" />
-    <result column="ZP_NAME" jdbcType="VARCHAR" property="zpName" />
-    <result column="BL" jdbcType="VARCHAR" property="bl" />
-    <result column="XBR" jdbcType="VARCHAR" property="xbr" />
-    <result column="bak1" jdbcType="VARCHAR" property="bak1" />
-    <result column="bak2" jdbcType="VARCHAR" property="bak2" />
-    <result column="bak3" jdbcType="VARCHAR" property="bak3" />
-    <result column="bak4" jdbcType="VARCHAR" property="bak4" />
-    <result column="bak5" jdbcType="VARCHAR" property="bak5" />
-    <result column="bak6" jdbcType="VARCHAR" property="bak6" />
-</resultMap>
+        <id column="DATA_ID" jdbcType="VARCHAR" property="dataId"/>
+        <result column="DATA_CODE" jdbcType="VARCHAR" property="dataCode"/>
+        <result column="SYS_FLAG" jdbcType="VARCHAR" property="sysFlag"/>
+        <result column="DATA_ORDER" jdbcType="VARCHAR" property="dataOrder"/>
+        <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+        <result column="DEL_FLAG" jdbcType="VARCHAR" property="delFlag"/>
+        <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate"/>
+        <result column="CREATE_USER" jdbcType="VARCHAR" property="createUser"/>
+        <result column="CREATE_USER_NAME" jdbcType="VARCHAR" property="createUserName"/>
+        <result column="UPDATE_DATE" jdbcType="VARCHAR" property="updateDate"/>
+        <result column="UPDATE_USER" jdbcType="VARCHAR" property="updateUser"/>
+        <result column="UPDATE_USER_NAME" jdbcType="VARCHAR" property="updateUserName"/>
+        <result column="PROJECT_CODE" jdbcType="VARCHAR" property="projectCode"/>
+        <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId"/>
+        <result column="PROJECT_NAME" jdbcType="VARCHAR" property="projectName"/>
+        <result column="AUDIT_STS" jdbcType="VARCHAR" property="auditSts"/>
+        <result column="UNIT_CODE" jdbcType="VARCHAR" property="unitCode"/>
+        <result column="UNIT_NAME" jdbcType="VARCHAR" property="unitName"/>
+        <result column="UNIT_ID" jdbcType="VARCHAR" property="unitId"/>
+        <result column="ENGIN_NAME" jdbcType="VARCHAR" property="enginName"/>
+        <result column="ENGIN_CODE" jdbcType="VARCHAR" property="enginCode"/>
+        <result column="ENGIN_ID" jdbcType="VARCHAR" property="enginId"/>
+        <result column="REMARKS" jdbcType="VARCHAR" property="remarks"/>
+        <result column="WORKFLOW_STATE" jdbcType="VARCHAR" property="workflowState"/>
+        <result column="WBS_NAME" jdbcType="VARCHAR" property="wbsName"/>
+        <result column="WBS_CODE" jdbcType="VARCHAR" property="wbsCode"/>
+        <result column="WBS_ID" jdbcType="VARCHAR" property="wbsId"/>
+        <result column="COMPACT_NAME" jdbcType="VARCHAR" property="compactName"/>
+        <result column="COMPACT_CODE" jdbcType="VARCHAR" property="compactCode"/>
+        <result column="SUPERVISION_UNIT_NAME" jdbcType="VARCHAR" property="supervisionUnitName"/>
+        <result column="SUPERVISION_UNIT_CODE" jdbcType="VARCHAR" property="supervisionUnitCode"/>
+        <result column="SUPERVISION_UNIT_ID" jdbcType="VARCHAR" property="supervisionUnitId"/>
+        <result column="BUILD_UNIT_NAME" jdbcType="VARCHAR" property="buildUnitName"/>
+        <result column="BUILD_UNIT_CODE" jdbcType="VARCHAR" property="buildUnitCode"/>
+        <result column="BUILD_UNIT_ID" jdbcType="VARCHAR" property="buildUnitId"/>
+        <result column="REDACT_UNIT_NAME" jdbcType="VARCHAR" property="redactUnitName"/>
+        <result column="REDACT_UNIT_CODE" jdbcType="VARCHAR" property="redactUnitCode"/>
+        <result column="REDACT_UNIT_ID" jdbcType="VARCHAR" property="redactUnitId"/>
+        <result column="REDACT_DATE" jdbcType="VARCHAR" property="redactDate"/>
+        <result column="WORK_ORDER_NAME" jdbcType="VARCHAR" property="workOrderName"/>
+        <result column="WORK_ORDER_CODE" jdbcType="VARCHAR" property="workOrderCode"/>
+        <result column="WORK_ORDER_START_DATATIME" jdbcType="VARCHAR" property="workOrderStartDatatime"/>
+        <result column="WORK_ORDER_END_DATATIME" jdbcType="VARCHAR" property="workOrderEndDatatime"/>
+        <result column="WORK_ORDER_PLAN_START_DATATIME" jdbcType="VARCHAR" property="workOrderPlanStartDatatime"/>
+        <result column="WORK_ORDER_PLAN_END_DATATIME" jdbcType="VARCHAR" property="workOrderPlanEndDatatime"/>
+        <result column="IMPLEMENTATION_PROGRAM" jdbcType="VARCHAR" property="implementationProgram"/>
+        <result column="ANNOUNCEMENTS" jdbcType="VARCHAR" property="announcements"/>
+        <result column="WORK_ORDER_TYPE" jdbcType="VARCHAR" property="workOrderType"/>
+        <result column="WORK_ORDER_STATUS" jdbcType="VARCHAR" property="workOrderStatus"/>
+        <result column="WORK_ORDER_ALLOT_USER_NAME" jdbcType="VARCHAR" property="workOrderAllotUserName"/>
+        <result column="WORK_ORDER_ALLOT_USER_ID" jdbcType="VARCHAR" property="workOrderAllotUserId"/>
+        <result column="PARENT_ID" jdbcType="VARCHAR" property="parentId"/>
+        <result column="JS_ID" jdbcType="VARCHAR" property="jsId"/>
+        <result column="ZP_NAME" jdbcType="VARCHAR" property="zpName"/>
+        <result column="BL" jdbcType="VARCHAR" property="bl"/>
+        <result column="XBR" jdbcType="VARCHAR" property="xbr"/>
+        <result column="bak1" jdbcType="VARCHAR" property="bak1"/>
+        <result column="bak2" jdbcType="VARCHAR" property="bak2"/>
+        <result column="bak3" jdbcType="VARCHAR" property="bak3"/>
+        <result column="bak4" jdbcType="VARCHAR" property="bak4"/>
+        <result column="bak5" jdbcType="VARCHAR" property="bak5"/>
+        <result column="bak6" jdbcType="VARCHAR" property="bak6"/>
+    </resultMap>
     <sql id="Example_Where_Clause">
         <where>
             <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -87,7 +87,7 @@
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
                                     <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                                    #{listItem}
+                                        #{listItem}
                                     </foreach>
                                 </when>
                             </choose>
@@ -116,7 +116,7 @@
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
                                     <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                                    #{listItem}
+                                        #{listItem}
                                     </foreach>
                                 </when>
                             </choose>
@@ -126,7 +126,7 @@
             </foreach>
         </where>
     </sql>
-<sql id="Base_Column_List">
+    <sql id="Base_Column_List">
         DATA_ID,
         DATA_CODE,
         SYS_FLAG,
@@ -196,10 +196,10 @@
         <if test="distinct">
             distinct
         </if>
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from plan_base
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause" />
+            <include refid="Example_Where_Clause"/>
         </if>
         <if test="orderByClause != null">
             order by ${orderByClause}
@@ -215,7 +215,7 @@
     </select>
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from plan_base
         where DATA_ID = #{dataId,jdbcType=VARCHAR}
     </select>
@@ -226,7 +226,7 @@
     <delete id="deleteByExample" parameterType="com.pcitc.base.plan.PlanBaseExample">
         delete from plan_base
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause" />
+            <include refid="Example_Where_Clause"/>
         </if>
     </delete>
     <insert id="insert" parameterType="com.pcitc.base.plan.PlanBase">
@@ -365,387 +365,387 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
 
             <if test="dataId != null">
-            DATA_ID,
+                DATA_ID,
             </if>
             <if test="dataCode != null">
-            DATA_CODE,
+                DATA_CODE,
             </if>
             <if test="sysFlag != null">
-            SYS_FLAG,
+                SYS_FLAG,
             </if>
             <if test="dataOrder != null">
-            DATA_ORDER,
+                DATA_ORDER,
             </if>
             <if test="status != null">
-            STATUS,
+                STATUS,
             </if>
             <if test="delFlag != null">
-            DEL_FLAG,
+                DEL_FLAG,
             </if>
             <if test="createDate != null">
-            CREATE_DATE,
+                CREATE_DATE,
             </if>
             <if test="createUser != null">
-            CREATE_USER,
+                CREATE_USER,
             </if>
             <if test="createUserName != null">
-            CREATE_USER_NAME,
+                CREATE_USER_NAME,
             </if>
             <if test="updateDate != null">
-            UPDATE_DATE,
+                UPDATE_DATE,
             </if>
             <if test="updateUser != null">
-            UPDATE_USER,
+                UPDATE_USER,
             </if>
             <if test="updateUserName != null">
-            UPDATE_USER_NAME,
+                UPDATE_USER_NAME,
             </if>
             <if test="projectCode != null">
-            PROJECT_CODE,
+                PROJECT_CODE,
             </if>
             <if test="projectId != null">
-            PROJECT_ID,
+                PROJECT_ID,
             </if>
             <if test="projectName != null">
-            PROJECT_NAME,
+                PROJECT_NAME,
             </if>
             <if test="auditSts != null">
-            AUDIT_STS,
+                AUDIT_STS,
             </if>
             <if test="unitCode != null">
-            UNIT_CODE,
+                UNIT_CODE,
             </if>
             <if test="unitName != null">
-            UNIT_NAME,
+                UNIT_NAME,
             </if>
             <if test="unitId != null">
-            UNIT_ID,
+                UNIT_ID,
             </if>
             <if test="enginName != null">
-            ENGIN_NAME,
+                ENGIN_NAME,
             </if>
             <if test="enginCode != null">
-            ENGIN_CODE,
+                ENGIN_CODE,
             </if>
             <if test="enginId != null">
-            ENGIN_ID,
+                ENGIN_ID,
             </if>
             <if test="remarks != null">
-            REMARKS,
+                REMARKS,
             </if>
             <if test="workflowState != null">
-            WORKFLOW_STATE,
+                WORKFLOW_STATE,
             </if>
             <if test="wbsName != null">
-            WBS_NAME,
+                WBS_NAME,
             </if>
             <if test="wbsCode != null">
-            WBS_CODE,
+                WBS_CODE,
             </if>
             <if test="wbsId != null">
-            WBS_ID,
+                WBS_ID,
             </if>
             <if test="compactName != null">
-            COMPACT_NAME,
+                COMPACT_NAME,
             </if>
             <if test="compactCode != null">
-            COMPACT_CODE,
+                COMPACT_CODE,
             </if>
             <if test="supervisionUnitName != null">
-            SUPERVISION_UNIT_NAME,
+                SUPERVISION_UNIT_NAME,
             </if>
             <if test="supervisionUnitCode != null">
-            SUPERVISION_UNIT_CODE,
+                SUPERVISION_UNIT_CODE,
             </if>
             <if test="supervisionUnitId != null">
-            SUPERVISION_UNIT_ID,
+                SUPERVISION_UNIT_ID,
             </if>
             <if test="buildUnitName != null">
-            BUILD_UNIT_NAME,
+                BUILD_UNIT_NAME,
             </if>
             <if test="buildUnitCode != null">
-            BUILD_UNIT_CODE,
+                BUILD_UNIT_CODE,
             </if>
             <if test="buildUnitId != null">
-            BUILD_UNIT_ID,
+                BUILD_UNIT_ID,
             </if>
             <if test="redactUnitName != null">
-            REDACT_UNIT_NAME,
+                REDACT_UNIT_NAME,
             </if>
             <if test="redactUnitCode != null">
-            REDACT_UNIT_CODE,
+                REDACT_UNIT_CODE,
             </if>
             <if test="redactUnitId != null">
-            REDACT_UNIT_ID,
+                REDACT_UNIT_ID,
             </if>
             <if test="redactDate != null">
-            REDACT_DATE,
+                REDACT_DATE,
             </if>
             <if test="workOrderName != null">
-            WORK_ORDER_NAME,
+                WORK_ORDER_NAME,
             </if>
             <if test="workOrderCode != null">
-            WORK_ORDER_CODE,
+                WORK_ORDER_CODE,
             </if>
             <if test="workOrderStartDatatime != null">
-            WORK_ORDER_START_DATATIME,
+                WORK_ORDER_START_DATATIME,
             </if>
             <if test="workOrderEndDatatime != null">
-            WORK_ORDER_END_DATATIME,
+                WORK_ORDER_END_DATATIME,
             </if>
             <if test="workOrderPlanStartDatatime != null">
-            WORK_ORDER_PLAN_START_DATATIME,
+                WORK_ORDER_PLAN_START_DATATIME,
             </if>
             <if test="workOrderPlanEndDatatime != null">
-            WORK_ORDER_PLAN_END_DATATIME,
+                WORK_ORDER_PLAN_END_DATATIME,
             </if>
             <if test="implementationProgram != null">
-            IMPLEMENTATION_PROGRAM,
+                IMPLEMENTATION_PROGRAM,
             </if>
             <if test="announcements != null">
-            ANNOUNCEMENTS,
+                ANNOUNCEMENTS,
             </if>
             <if test="workOrderType != null">
-            WORK_ORDER_TYPE,
+                WORK_ORDER_TYPE,
             </if>
             <if test="workOrderStatus != null">
-            WORK_ORDER_STATUS,
+                WORK_ORDER_STATUS,
             </if>
             <if test="workOrderAllotUserName != null">
-            WORK_ORDER_ALLOT_USER_NAME,
+                WORK_ORDER_ALLOT_USER_NAME,
             </if>
             <if test="workOrderAllotUserId != null">
-            WORK_ORDER_ALLOT_USER_ID,
+                WORK_ORDER_ALLOT_USER_ID,
             </if>
             <if test="parentId != null">
-            PARENT_ID,
+                PARENT_ID,
             </if>
             <if test="jsId != null">
-            JS_ID,
+                JS_ID,
             </if>
             <if test="zpName != null">
-            ZP_NAME,
+                ZP_NAME,
             </if>
             <if test="bl != null">
-            BL,
+                BL,
             </if>
             <if test="xbr != null">
-            XBR,
+                XBR,
             </if>
             <if test="bak1 != null">
-            bak1,
+                bak1,
             </if>
             <if test="bak2 != null">
-            bak2,
+                bak2,
             </if>
             <if test="bak3 != null">
-            bak3,
+                bak3,
             </if>
             <if test="bak4 != null">
-            bak4,
+                bak4,
             </if>
             <if test="bak5 != null">
-            bak5,
+                bak5,
             </if>
             <if test="bak6 != null">
-            bak6
+                bak6
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
 
 
             <if test="dataId != null">
-            #{dataId ,jdbcType=VARCHAR},
+                #{dataId ,jdbcType=VARCHAR},
             </if>
             <if test="dataCode != null">
-            #{dataCode ,jdbcType=VARCHAR},
+                #{dataCode ,jdbcType=VARCHAR},
             </if>
             <if test="sysFlag != null">
-            #{sysFlag ,jdbcType=VARCHAR},
+                #{sysFlag ,jdbcType=VARCHAR},
             </if>
             <if test="dataOrder != null">
-            #{dataOrder ,jdbcType=VARCHAR},
+                #{dataOrder ,jdbcType=VARCHAR},
             </if>
             <if test="status != null">
-            #{status ,jdbcType=VARCHAR},
+                #{status ,jdbcType=VARCHAR},
             </if>
             <if test="delFlag != null">
-            #{delFlag ,jdbcType=VARCHAR},
+                #{delFlag ,jdbcType=VARCHAR},
             </if>
             <if test="createDate != null">
-            #{createDate ,jdbcType=VARCHAR},
+                #{createDate ,jdbcType=VARCHAR},
             </if>
             <if test="createUser != null">
-            #{createUser ,jdbcType=VARCHAR},
+                #{createUser ,jdbcType=VARCHAR},
             </if>
             <if test="createUserName != null">
-            #{createUserName ,jdbcType=VARCHAR},
+                #{createUserName ,jdbcType=VARCHAR},
             </if>
             <if test="updateDate != null">
-            #{updateDate ,jdbcType=VARCHAR},
+                #{updateDate ,jdbcType=VARCHAR},
             </if>
             <if test="updateUser != null">
-            #{updateUser ,jdbcType=VARCHAR},
+                #{updateUser ,jdbcType=VARCHAR},
             </if>
             <if test="updateUserName != null">
-            #{updateUserName ,jdbcType=VARCHAR},
+                #{updateUserName ,jdbcType=VARCHAR},
             </if>
             <if test="projectCode != null">
-            #{projectCode ,jdbcType=VARCHAR},
+                #{projectCode ,jdbcType=VARCHAR},
             </if>
             <if test="projectId != null">
-            #{projectId ,jdbcType=VARCHAR},
+                #{projectId ,jdbcType=VARCHAR},
             </if>
             <if test="projectName != null">
-            #{projectName ,jdbcType=VARCHAR},
+                #{projectName ,jdbcType=VARCHAR},
             </if>
             <if test="auditSts != null">
-            #{auditSts ,jdbcType=VARCHAR},
+                #{auditSts ,jdbcType=VARCHAR},
             </if>
             <if test="unitCode != null">
-            #{unitCode ,jdbcType=VARCHAR},
+                #{unitCode ,jdbcType=VARCHAR},
             </if>
             <if test="unitName != null">
-            #{unitName ,jdbcType=VARCHAR},
+                #{unitName ,jdbcType=VARCHAR},
             </if>
             <if test="unitId != null">
-            #{unitId ,jdbcType=VARCHAR},
+                #{unitId ,jdbcType=VARCHAR},
             </if>
             <if test="enginName != null">
-            #{enginName ,jdbcType=VARCHAR},
+                #{enginName ,jdbcType=VARCHAR},
             </if>
             <if test="enginCode != null">
-            #{enginCode ,jdbcType=VARCHAR},
+                #{enginCode ,jdbcType=VARCHAR},
             </if>
             <if test="enginId != null">
-            #{enginId ,jdbcType=VARCHAR},
+                #{enginId ,jdbcType=VARCHAR},
             </if>
             <if test="remarks != null">
-            #{remarks ,jdbcType=VARCHAR},
+                #{remarks ,jdbcType=VARCHAR},
             </if>
             <if test="workflowState != null">
-            #{workflowState ,jdbcType=VARCHAR},
+                #{workflowState ,jdbcType=VARCHAR},
             </if>
             <if test="wbsName != null">
-            #{wbsName ,jdbcType=VARCHAR},
+                #{wbsName ,jdbcType=VARCHAR},
             </if>
             <if test="wbsCode != null">
-            #{wbsCode ,jdbcType=VARCHAR},
+                #{wbsCode ,jdbcType=VARCHAR},
             </if>
             <if test="wbsId != null">
-            #{wbsId ,jdbcType=VARCHAR},
+                #{wbsId ,jdbcType=VARCHAR},
             </if>
             <if test="compactName != null">
-            #{compactName ,jdbcType=VARCHAR},
+                #{compactName ,jdbcType=VARCHAR},
             </if>
             <if test="compactCode != null">
-            #{compactCode ,jdbcType=VARCHAR},
+                #{compactCode ,jdbcType=VARCHAR},
             </if>
             <if test="supervisionUnitName != null">
-            #{supervisionUnitName ,jdbcType=VARCHAR},
+                #{supervisionUnitName ,jdbcType=VARCHAR},
             </if>
             <if test="supervisionUnitCode != null">
-            #{supervisionUnitCode ,jdbcType=VARCHAR},
+                #{supervisionUnitCode ,jdbcType=VARCHAR},
             </if>
             <if test="supervisionUnitId != null">
-            #{supervisionUnitId ,jdbcType=VARCHAR},
+                #{supervisionUnitId ,jdbcType=VARCHAR},
             </if>
             <if test="buildUnitName != null">
-            #{buildUnitName ,jdbcType=VARCHAR},
+                #{buildUnitName ,jdbcType=VARCHAR},
             </if>
             <if test="buildUnitCode != null">
-            #{buildUnitCode ,jdbcType=VARCHAR},
+                #{buildUnitCode ,jdbcType=VARCHAR},
             </if>
             <if test="buildUnitId != null">
-            #{buildUnitId ,jdbcType=VARCHAR},
+                #{buildUnitId ,jdbcType=VARCHAR},
             </if>
             <if test="redactUnitName != null">
-            #{redactUnitName ,jdbcType=VARCHAR},
+                #{redactUnitName ,jdbcType=VARCHAR},
             </if>
             <if test="redactUnitCode != null">
-            #{redactUnitCode ,jdbcType=VARCHAR},
+                #{redactUnitCode ,jdbcType=VARCHAR},
             </if>
             <if test="redactUnitId != null">
-            #{redactUnitId ,jdbcType=VARCHAR},
+                #{redactUnitId ,jdbcType=VARCHAR},
             </if>
             <if test="redactDate != null">
-            #{redactDate ,jdbcType=VARCHAR},
+                #{redactDate ,jdbcType=VARCHAR},
             </if>
             <if test="workOrderName != null">
-            #{workOrderName ,jdbcType=VARCHAR},
+                #{workOrderName ,jdbcType=VARCHAR},
             </if>
             <if test="workOrderCode != null">
-            #{workOrderCode ,jdbcType=VARCHAR},
+                #{workOrderCode ,jdbcType=VARCHAR},
             </if>
             <if test="workOrderStartDatatime != null">
-            #{workOrderStartDatatime ,jdbcType=VARCHAR},
+                #{workOrderStartDatatime ,jdbcType=VARCHAR},
             </if>
             <if test="workOrderEndDatatime != null">
-            #{workOrderEndDatatime ,jdbcType=VARCHAR},
+                #{workOrderEndDatatime ,jdbcType=VARCHAR},
             </if>
             <if test="workOrderPlanStartDatatime != null">
-            #{workOrderPlanStartDatatime ,jdbcType=VARCHAR},
+                #{workOrderPlanStartDatatime ,jdbcType=VARCHAR},
             </if>
             <if test="workOrderPlanEndDatatime != null">
-            #{workOrderPlanEndDatatime ,jdbcType=VARCHAR},
+                #{workOrderPlanEndDatatime ,jdbcType=VARCHAR},
             </if>
             <if test="implementationProgram != null">
-            #{implementationProgram ,jdbcType=VARCHAR},
+                #{implementationProgram ,jdbcType=VARCHAR},
             </if>
             <if test="announcements != null">
-            #{announcements ,jdbcType=VARCHAR},
+                #{announcements ,jdbcType=VARCHAR},
             </if>
             <if test="workOrderType != null">
-            #{workOrderType ,jdbcType=VARCHAR},
+                #{workOrderType ,jdbcType=VARCHAR},
             </if>
             <if test="workOrderStatus != null">
-            #{workOrderStatus ,jdbcType=VARCHAR},
+                #{workOrderStatus ,jdbcType=VARCHAR},
             </if>
             <if test="workOrderAllotUserName != null">
-            #{workOrderAllotUserName ,jdbcType=VARCHAR},
+                #{workOrderAllotUserName ,jdbcType=VARCHAR},
             </if>
             <if test="workOrderAllotUserId != null">
-            #{workOrderAllotUserId ,jdbcType=VARCHAR},
+                #{workOrderAllotUserId ,jdbcType=VARCHAR},
             </if>
             <if test="parentId != null">
-            #{parentId ,jdbcType=VARCHAR},
+                #{parentId ,jdbcType=VARCHAR},
             </if>
             <if test="jsId != null">
-            #{jsId ,jdbcType=VARCHAR},
+                #{jsId ,jdbcType=VARCHAR},
             </if>
             <if test="zpName != null">
-            #{zpName ,jdbcType=VARCHAR},
+                #{zpName ,jdbcType=VARCHAR},
             </if>
             <if test="bl != null">
-            #{bl ,jdbcType=VARCHAR},
+                #{bl ,jdbcType=VARCHAR},
             </if>
             <if test="xbr != null">
-            #{xbr ,jdbcType=VARCHAR},
+                #{xbr ,jdbcType=VARCHAR},
             </if>
             <if test="bak1 != null">
-            #{bak1 ,jdbcType=VARCHAR},
+                #{bak1 ,jdbcType=VARCHAR},
             </if>
             <if test="bak2 != null">
-            #{bak2 ,jdbcType=VARCHAR},
+                #{bak2 ,jdbcType=VARCHAR},
             </if>
             <if test="bak3 != null">
-            #{bak3 ,jdbcType=VARCHAR},
+                #{bak3 ,jdbcType=VARCHAR},
             </if>
             <if test="bak4 != null">
-            #{bak4 ,jdbcType=VARCHAR},
+                #{bak4 ,jdbcType=VARCHAR},
             </if>
             <if test="bak5 != null">
-            #{bak5 ,jdbcType=VARCHAR},
+                #{bak5 ,jdbcType=VARCHAR},
             </if>
             <if test="bak6 != null">
-            #{bak6 ,jdbcType=VARCHAR}
+                #{bak6 ,jdbcType=VARCHAR}
             </if>
         </trim>
     </insert>
     <select id="countByExample" parameterType="com.pcitc.base.plan.PlanBaseExample" resultType="java.lang.Long">
         select count(*) from plan_base
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause" />
+            <include refid="Example_Where_Clause"/>
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
@@ -941,7 +941,7 @@
 
         </set>
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause" />
+            <include refid="Update_By_Example_Where_Clause"/>
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
@@ -1010,7 +1010,7 @@
         bak5=#{record.bak5,jdbcType=VARCHAR},
         bak6=#{record.bak6,jdbcType=VARCHAR}
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause" />
+            <include refid="Update_By_Example_Where_Clause"/>
         </if>
     </update>
     <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.plan.PlanBase">
@@ -1018,187 +1018,187 @@
         <set>
 
             <if test="dataCode != null">
-            DATA_CODE=#{dataCode ,jdbcType=VARCHAR},
+                DATA_CODE=#{dataCode ,jdbcType=VARCHAR},
             </if>
             <if test="sysFlag != null">
-            SYS_FLAG=#{sysFlag ,jdbcType=VARCHAR},
+                SYS_FLAG=#{sysFlag ,jdbcType=VARCHAR},
             </if>
             <if test="dataOrder != null">
-            DATA_ORDER=#{dataOrder ,jdbcType=VARCHAR},
+                DATA_ORDER=#{dataOrder ,jdbcType=VARCHAR},
             </if>
             <if test="status != null">
-            STATUS=#{status ,jdbcType=VARCHAR},
+                STATUS=#{status ,jdbcType=VARCHAR},
             </if>
             <if test="delFlag != null">
-            DEL_FLAG=#{delFlag ,jdbcType=VARCHAR},
+                DEL_FLAG=#{delFlag ,jdbcType=VARCHAR},
             </if>
             <if test="createDate != null">
-            CREATE_DATE=#{createDate ,jdbcType=VARCHAR},
+                CREATE_DATE=#{createDate ,jdbcType=VARCHAR},
             </if>
             <if test="createUser != null">
-            CREATE_USER=#{createUser ,jdbcType=VARCHAR},
+                CREATE_USER=#{createUser ,jdbcType=VARCHAR},
             </if>
             <if test="createUserName != null">
-            CREATE_USER_NAME=#{createUserName ,jdbcType=VARCHAR},
+                CREATE_USER_NAME=#{createUserName ,jdbcType=VARCHAR},
             </if>
             <if test="updateDate != null">
-            UPDATE_DATE=#{updateDate ,jdbcType=VARCHAR},
+                UPDATE_DATE=#{updateDate ,jdbcType=VARCHAR},
             </if>
             <if test="updateUser != null">
-            UPDATE_USER=#{updateUser ,jdbcType=VARCHAR},
+                UPDATE_USER=#{updateUser ,jdbcType=VARCHAR},
             </if>
             <if test="updateUserName != null">
-            UPDATE_USER_NAME=#{updateUserName ,jdbcType=VARCHAR},
+                UPDATE_USER_NAME=#{updateUserName ,jdbcType=VARCHAR},
             </if>
             <if test="projectCode != null">
-            PROJECT_CODE=#{projectCode ,jdbcType=VARCHAR},
+                PROJECT_CODE=#{projectCode ,jdbcType=VARCHAR},
             </if>
             <if test="projectId != null">
-            PROJECT_ID=#{projectId ,jdbcType=VARCHAR},
+                PROJECT_ID=#{projectId ,jdbcType=VARCHAR},
             </if>
             <if test="projectName != null">
-            PROJECT_NAME=#{projectName ,jdbcType=VARCHAR},
+                PROJECT_NAME=#{projectName ,jdbcType=VARCHAR},
             </if>
             <if test="auditSts != null">
-            AUDIT_STS=#{auditSts ,jdbcType=VARCHAR},
+                AUDIT_STS=#{auditSts ,jdbcType=VARCHAR},
             </if>
             <if test="unitCode != null">
-            UNIT_CODE=#{unitCode ,jdbcType=VARCHAR},
+                UNIT_CODE=#{unitCode ,jdbcType=VARCHAR},
             </if>
             <if test="unitName != null">
-            UNIT_NAME=#{unitName ,jdbcType=VARCHAR},
+                UNIT_NAME=#{unitName ,jdbcType=VARCHAR},
             </if>
             <if test="unitId != null">
-            UNIT_ID=#{unitId ,jdbcType=VARCHAR},
+                UNIT_ID=#{unitId ,jdbcType=VARCHAR},
             </if>
             <if test="enginName != null">
-            ENGIN_NAME=#{enginName ,jdbcType=VARCHAR},
+                ENGIN_NAME=#{enginName ,jdbcType=VARCHAR},
             </if>
             <if test="enginCode != null">
-            ENGIN_CODE=#{enginCode ,jdbcType=VARCHAR},
+                ENGIN_CODE=#{enginCode ,jdbcType=VARCHAR},
             </if>
             <if test="enginId != null">
-            ENGIN_ID=#{enginId ,jdbcType=VARCHAR},
+                ENGIN_ID=#{enginId ,jdbcType=VARCHAR},
             </if>
             <if test="remarks != null">
-            REMARKS=#{remarks ,jdbcType=VARCHAR},
+                REMARKS=#{remarks ,jdbcType=VARCHAR},
             </if>
             <if test="workflowState != null">
-            WORKFLOW_STATE=#{workflowState ,jdbcType=VARCHAR},
+                WORKFLOW_STATE=#{workflowState ,jdbcType=VARCHAR},
             </if>
             <if test="wbsName != null">
-            WBS_NAME=#{wbsName ,jdbcType=VARCHAR},
+                WBS_NAME=#{wbsName ,jdbcType=VARCHAR},
             </if>
             <if test="wbsCode != null">
-            WBS_CODE=#{wbsCode ,jdbcType=VARCHAR},
+                WBS_CODE=#{wbsCode ,jdbcType=VARCHAR},
             </if>
             <if test="wbsId != null">
-            WBS_ID=#{wbsId ,jdbcType=VARCHAR},
+                WBS_ID=#{wbsId ,jdbcType=VARCHAR},
             </if>
             <if test="compactName != null">
-            COMPACT_NAME=#{compactName ,jdbcType=VARCHAR},
+                COMPACT_NAME=#{compactName ,jdbcType=VARCHAR},
             </if>
             <if test="compactCode != null">
-            COMPACT_CODE=#{compactCode ,jdbcType=VARCHAR},
+                COMPACT_CODE=#{compactCode ,jdbcType=VARCHAR},
             </if>
             <if test="supervisionUnitName != null">
-            SUPERVISION_UNIT_NAME=#{supervisionUnitName ,jdbcType=VARCHAR},
+                SUPERVISION_UNIT_NAME=#{supervisionUnitName ,jdbcType=VARCHAR},
             </if>
             <if test="supervisionUnitCode != null">
-            SUPERVISION_UNIT_CODE=#{supervisionUnitCode ,jdbcType=VARCHAR},
+                SUPERVISION_UNIT_CODE=#{supervisionUnitCode ,jdbcType=VARCHAR},
             </if>
             <if test="supervisionUnitId != null">
-            SUPERVISION_UNIT_ID=#{supervisionUnitId ,jdbcType=VARCHAR},
+                SUPERVISION_UNIT_ID=#{supervisionUnitId ,jdbcType=VARCHAR},
             </if>
             <if test="buildUnitName != null">
-            BUILD_UNIT_NAME=#{buildUnitName ,jdbcType=VARCHAR},
+                BUILD_UNIT_NAME=#{buildUnitName ,jdbcType=VARCHAR},
             </if>
             <if test="buildUnitCode != null">
-            BUILD_UNIT_CODE=#{buildUnitCode ,jdbcType=VARCHAR},
+                BUILD_UNIT_CODE=#{buildUnitCode ,jdbcType=VARCHAR},
             </if>
             <if test="buildUnitId != null">
-            BUILD_UNIT_ID=#{buildUnitId ,jdbcType=VARCHAR},
+                BUILD_UNIT_ID=#{buildUnitId ,jdbcType=VARCHAR},
             </if>
             <if test="redactUnitName != null">
-            REDACT_UNIT_NAME=#{redactUnitName ,jdbcType=VARCHAR},
+                REDACT_UNIT_NAME=#{redactUnitName ,jdbcType=VARCHAR},
             </if>
             <if test="redactUnitCode != null">
-            REDACT_UNIT_CODE=#{redactUnitCode ,jdbcType=VARCHAR},
+                REDACT_UNIT_CODE=#{redactUnitCode ,jdbcType=VARCHAR},
             </if>
             <if test="redactUnitId != null">
-            REDACT_UNIT_ID=#{redactUnitId ,jdbcType=VARCHAR},
+                REDACT_UNIT_ID=#{redactUnitId ,jdbcType=VARCHAR},
             </if>
             <if test="redactDate != null">
-            REDACT_DATE=#{redactDate ,jdbcType=VARCHAR},
+                REDACT_DATE=#{redactDate ,jdbcType=VARCHAR},
             </if>
             <if test="workOrderName != null">
-            WORK_ORDER_NAME=#{workOrderName ,jdbcType=VARCHAR},
+                WORK_ORDER_NAME=#{workOrderName ,jdbcType=VARCHAR},
             </if>
             <if test="workOrderCode != null">
-            WORK_ORDER_CODE=#{workOrderCode ,jdbcType=VARCHAR},
+                WORK_ORDER_CODE=#{workOrderCode ,jdbcType=VARCHAR},
             </if>
             <if test="workOrderStartDatatime != null">
-            WORK_ORDER_START_DATATIME=#{workOrderStartDatatime ,jdbcType=VARCHAR},
+                WORK_ORDER_START_DATATIME=#{workOrderStartDatatime ,jdbcType=VARCHAR},
             </if>
             <if test="workOrderEndDatatime != null">
-            WORK_ORDER_END_DATATIME=#{workOrderEndDatatime ,jdbcType=VARCHAR},
+                WORK_ORDER_END_DATATIME=#{workOrderEndDatatime ,jdbcType=VARCHAR},
             </if>
             <if test="workOrderPlanStartDatatime != null">
-            WORK_ORDER_PLAN_START_DATATIME=#{workOrderPlanStartDatatime ,jdbcType=VARCHAR},
+                WORK_ORDER_PLAN_START_DATATIME=#{workOrderPlanStartDatatime ,jdbcType=VARCHAR},
             </if>
             <if test="workOrderPlanEndDatatime != null">
-            WORK_ORDER_PLAN_END_DATATIME=#{workOrderPlanEndDatatime ,jdbcType=VARCHAR},
+                WORK_ORDER_PLAN_END_DATATIME=#{workOrderPlanEndDatatime ,jdbcType=VARCHAR},
             </if>
             <if test="implementationProgram != null">
-            IMPLEMENTATION_PROGRAM=#{implementationProgram ,jdbcType=VARCHAR},
+                IMPLEMENTATION_PROGRAM=#{implementationProgram ,jdbcType=VARCHAR},
             </if>
             <if test="announcements != null">
-            ANNOUNCEMENTS=#{announcements ,jdbcType=VARCHAR},
+                ANNOUNCEMENTS=#{announcements ,jdbcType=VARCHAR},
             </if>
             <if test="workOrderType != null">
-            WORK_ORDER_TYPE=#{workOrderType ,jdbcType=VARCHAR},
+                WORK_ORDER_TYPE=#{workOrderType ,jdbcType=VARCHAR},
             </if>
             <if test="workOrderStatus != null">
-            WORK_ORDER_STATUS=#{workOrderStatus ,jdbcType=VARCHAR},
+                WORK_ORDER_STATUS=#{workOrderStatus ,jdbcType=VARCHAR},
             </if>
             <if test="workOrderAllotUserName != null">
-            WORK_ORDER_ALLOT_USER_NAME=#{workOrderAllotUserName ,jdbcType=VARCHAR},
+                WORK_ORDER_ALLOT_USER_NAME=#{workOrderAllotUserName ,jdbcType=VARCHAR},
             </if>
             <if test="workOrderAllotUserId != null">
-            WORK_ORDER_ALLOT_USER_ID=#{workOrderAllotUserId ,jdbcType=VARCHAR},
+                WORK_ORDER_ALLOT_USER_ID=#{workOrderAllotUserId ,jdbcType=VARCHAR},
             </if>
             <if test="parentId != null">
-            PARENT_ID=#{parentId ,jdbcType=VARCHAR},
+                PARENT_ID=#{parentId ,jdbcType=VARCHAR},
             </if>
             <if test="jsId != null">
-            JS_ID=#{jsId ,jdbcType=VARCHAR},
+                JS_ID=#{jsId ,jdbcType=VARCHAR},
             </if>
             <if test="zpName != null">
-            ZP_NAME=#{zpName ,jdbcType=VARCHAR},
+                ZP_NAME=#{zpName ,jdbcType=VARCHAR},
             </if>
             <if test="bl != null">
-            BL=#{bl ,jdbcType=VARCHAR},
+                BL=#{bl ,jdbcType=VARCHAR},
             </if>
             <if test="xbr != null">
-            XBR=#{xbr ,jdbcType=VARCHAR},
+                XBR=#{xbr ,jdbcType=VARCHAR},
             </if>
             <if test="bak1 != null">
-            bak1=#{bak1 ,jdbcType=VARCHAR},
+                bak1=#{bak1 ,jdbcType=VARCHAR},
             </if>
             <if test="bak2 != null">
-            bak2=#{bak2 ,jdbcType=VARCHAR},
+                bak2=#{bak2 ,jdbcType=VARCHAR},
             </if>
             <if test="bak3 != null">
-            bak3=#{bak3 ,jdbcType=VARCHAR},
+                bak3=#{bak3 ,jdbcType=VARCHAR},
             </if>
             <if test="bak4 != null">
-            bak4=#{bak4 ,jdbcType=VARCHAR},
+                bak4=#{bak4 ,jdbcType=VARCHAR},
             </if>
             <if test="bak5 != null">
-            bak5=#{bak5 ,jdbcType=VARCHAR},
+                bak5=#{bak5 ,jdbcType=VARCHAR},
             </if>
             <if test="bak6 != null">
-            bak6=#{bak6 ,jdbcType=VARCHAR}
+                bak6=#{bak6 ,jdbcType=VARCHAR}
             </if>
         </set>
         where DATA_ID = #{dataId,jdbcType=VARCHAR}
@@ -1270,259 +1270,259 @@
         where DATA_ID = #{dataId,jdbcType=VARCHAR}
     </update>
     <!-- 分页查询 -->
-        <select id="findSysFileKindByPage" parameterType="com.pcitc.base.plan.PlanBase"  resultMap="BaseResultMap">
+    <select id="findSysFileKindByPage" parameterType="com.pcitc.base.plan.PlanBase" resultMap="BaseResultMap">
 
         select
-                    DATA_ID,
-                    DATA_CODE,
-                    SYS_FLAG,
-                    DATA_ORDER,
-                    STATUS,
-                    DEL_FLAG,
-                    CREATE_DATE,
-                    CREATE_USER,
-                    CREATE_USER_NAME,
-                    UPDATE_DATE,
-                    UPDATE_USER,
-                    UPDATE_USER_NAME,
-                    PROJECT_CODE,
-                    PROJECT_ID,
-                    PROJECT_NAME,
-                    AUDIT_STS,
-                    UNIT_CODE,
-                    UNIT_NAME,
-                    UNIT_ID,
-                    ENGIN_NAME,
-                    ENGIN_CODE,
-                    ENGIN_ID,
-                    REMARKS,
-                    WORKFLOW_STATE,
-                    WBS_NAME,
-                    WBS_CODE,
-                    WBS_ID,
-                    COMPACT_NAME,
-                    COMPACT_CODE,
-                    SUPERVISION_UNIT_NAME,
-                    SUPERVISION_UNIT_CODE,
-                    SUPERVISION_UNIT_ID,
-                    BUILD_UNIT_NAME,
-                    BUILD_UNIT_CODE,
-                    BUILD_UNIT_ID,
-                    REDACT_UNIT_NAME,
-                    REDACT_UNIT_CODE,
-                    REDACT_UNIT_ID,
-                    REDACT_DATE,
-                    WORK_ORDER_NAME,
-                    WORK_ORDER_CODE,
-                    WORK_ORDER_START_DATATIME,
-                    WORK_ORDER_END_DATATIME,
-                    WORK_ORDER_PLAN_START_DATATIME,
-                    WORK_ORDER_PLAN_END_DATATIME,
-                    IMPLEMENTATION_PROGRAM,
-                    ANNOUNCEMENTS,
-                    WORK_ORDER_TYPE,
-                    WORK_ORDER_STATUS,
-                    WORK_ORDER_ALLOT_USER_NAME,
-                    WORK_ORDER_ALLOT_USER_ID,
-                    PARENT_ID,
-                    JS_ID,
-                    ZP_NAME,
-                    BL,
-                    XBR,
-                    bak1,
-                    bak2,
-                    bak3,
-                    bak4,
-                    bak5,
-                    bak6
+        DATA_ID,
+        DATA_CODE,
+        SYS_FLAG,
+        DATA_ORDER,
+        STATUS,
+        DEL_FLAG,
+        CREATE_DATE,
+        CREATE_USER,
+        CREATE_USER_NAME,
+        UPDATE_DATE,
+        UPDATE_USER,
+        UPDATE_USER_NAME,
+        PROJECT_CODE,
+        PROJECT_ID,
+        PROJECT_NAME,
+        AUDIT_STS,
+        UNIT_CODE,
+        UNIT_NAME,
+        UNIT_ID,
+        ENGIN_NAME,
+        ENGIN_CODE,
+        ENGIN_ID,
+        REMARKS,
+        WORKFLOW_STATE,
+        WBS_NAME,
+        WBS_CODE,
+        WBS_ID,
+        COMPACT_NAME,
+        COMPACT_CODE,
+        SUPERVISION_UNIT_NAME,
+        SUPERVISION_UNIT_CODE,
+        SUPERVISION_UNIT_ID,
+        BUILD_UNIT_NAME,
+        BUILD_UNIT_CODE,
+        BUILD_UNIT_ID,
+        REDACT_UNIT_NAME,
+        REDACT_UNIT_CODE,
+        REDACT_UNIT_ID,
+        REDACT_DATE,
+        WORK_ORDER_NAME,
+        WORK_ORDER_CODE,
+        WORK_ORDER_START_DATATIME,
+        WORK_ORDER_END_DATATIME,
+        WORK_ORDER_PLAN_START_DATATIME,
+        WORK_ORDER_PLAN_END_DATATIME,
+        IMPLEMENTATION_PROGRAM,
+        ANNOUNCEMENTS,
+        WORK_ORDER_TYPE,
+        WORK_ORDER_STATUS,
+        WORK_ORDER_ALLOT_USER_NAME,
+        WORK_ORDER_ALLOT_USER_ID,
+        PARENT_ID,
+        JS_ID,
+        ZP_NAME,
+        BL,
+        XBR,
+        bak1,
+        bak2,
+        bak3,
+        bak4,
+        bak5,
+        bak6
         from plan_base
         where 1=1
-                        <if test="dataId!=null and dataId!=''.toString()">
-                            and DATA_ID like '%${dataId}%'
-                        </if>
-                        <if test="dataCode!=null and dataCode!=''.toString()">
-                            and DATA_CODE like '%${dataCode}%'
-                        </if>
-                        <if test="sysFlag!=null and sysFlag!=''.toString()">
-                            and SYS_FLAG like '%${sysFlag}%'
-                        </if>
-                        <if test="dataOrder!=null and dataOrder!=''.toString()">
-                            and DATA_ORDER like '%${dataOrder}%'
-                        </if>
-                        <if test="status!=null and status!=''.toString()">
-                            and STATUS like '%${status}%'
-                        </if>
-                        <if test="delFlag!=null and delFlag!=''.toString()">
-                            and DEL_FLAG like '%${delFlag}%'
-                        </if>
-                        <if test="createDate!=null and createDate!=''.toString()">
-                            and CREATE_DATE like '%${createDate}%'
-                        </if>
-                        <if test="createUser!=null and createUser!=''.toString()">
-                            and CREATE_USER like '%${createUser}%'
-                        </if>
-                        <if test="createUserName!=null and createUserName!=''.toString()">
-                            and CREATE_USER_NAME like '%${createUserName}%'
-                        </if>
-                        <if test="updateDate!=null and updateDate!=''.toString()">
-                            and UPDATE_DATE like '%${updateDate}%'
-                        </if>
-                        <if test="updateUser!=null and updateUser!=''.toString()">
-                            and UPDATE_USER like '%${updateUser}%'
-                        </if>
-                        <if test="updateUserName!=null and updateUserName!=''.toString()">
-                            and UPDATE_USER_NAME like '%${updateUserName}%'
-                        </if>
-                        <if test="projectCode!=null and projectCode!=''.toString()">
-                            and PROJECT_CODE like '%${projectCode}%'
-                        </if>
-                        <if test="projectId!=null and projectId!=''.toString()">
-                            and PROJECT_ID like '%${projectId}%'
-                        </if>
-                        <if test="projectName!=null and projectName!=''.toString()">
-                            and PROJECT_NAME like '%${projectName}%'
-                        </if>
-                        <if test="auditSts!=null and auditSts!=''.toString()">
-                            and AUDIT_STS like '%${auditSts}%'
-                        </if>
-                        <if test="unitCode!=null and unitCode!=''.toString()">
-                            and UNIT_CODE like '%${unitCode}%'
-                        </if>
-                        <if test="unitName!=null and unitName!=''.toString()">
-                            and UNIT_NAME like '%${unitName}%'
-                        </if>
-                        <if test="unitId!=null and unitId!=''.toString()">
-                            and UNIT_ID like '%${unitId}%'
-                        </if>
-                        <if test="enginName!=null and enginName!=''.toString()">
-                            and ENGIN_NAME like '%${enginName}%'
-                        </if>
-                        <if test="enginCode!=null and enginCode!=''.toString()">
-                            and ENGIN_CODE like '%${enginCode}%'
-                        </if>
-                        <if test="enginId!=null and enginId!=''.toString()">
-                            and ENGIN_ID like '%${enginId}%'
-                        </if>
-                        <if test="remarks!=null and remarks!=''.toString()">
-                            and REMARKS like '%${remarks}%'
-                        </if>
-                        <if test="workflowState!=null and workflowState!=''.toString()">
-                            and WORKFLOW_STATE like '%${workflowState}%'
-                        </if>
-                        <if test="wbsName!=null and wbsName!=''.toString()">
-                            and WBS_NAME like '%${wbsName}%'
-                        </if>
-                        <if test="wbsCode!=null and wbsCode!=''.toString()">
-                            and WBS_CODE like '%${wbsCode}%'
-                        </if>
-                        <if test="wbsId!=null and wbsId!=''.toString()">
-                            and WBS_ID like '%${wbsId}%'
-                        </if>
-                        <if test="compactName!=null and compactName!=''.toString()">
-                            and COMPACT_NAME like '%${compactName}%'
-                        </if>
-                        <if test="compactCode!=null and compactCode!=''.toString()">
-                            and COMPACT_CODE like '%${compactCode}%'
-                        </if>
-                        <if test="supervisionUnitName!=null and supervisionUnitName!=''.toString()">
-                            and SUPERVISION_UNIT_NAME like '%${supervisionUnitName}%'
-                        </if>
-                        <if test="supervisionUnitCode!=null and supervisionUnitCode!=''.toString()">
-                            and SUPERVISION_UNIT_CODE like '%${supervisionUnitCode}%'
-                        </if>
-                        <if test="supervisionUnitId!=null and supervisionUnitId!=''.toString()">
-                            and SUPERVISION_UNIT_ID like '%${supervisionUnitId}%'
-                        </if>
-                        <if test="buildUnitName!=null and buildUnitName!=''.toString()">
-                            and BUILD_UNIT_NAME like '%${buildUnitName}%'
-                        </if>
-                        <if test="buildUnitCode!=null and buildUnitCode!=''.toString()">
-                            and BUILD_UNIT_CODE like '%${buildUnitCode}%'
-                        </if>
-                        <if test="buildUnitId!=null and buildUnitId!=''.toString()">
-                            and BUILD_UNIT_ID like '%${buildUnitId}%'
-                        </if>
-                        <if test="redactUnitName!=null and redactUnitName!=''.toString()">
-                            and REDACT_UNIT_NAME like '%${redactUnitName}%'
-                        </if>
-                        <if test="redactUnitCode!=null and redactUnitCode!=''.toString()">
-                            and REDACT_UNIT_CODE like '%${redactUnitCode}%'
-                        </if>
-                        <if test="redactUnitId!=null and redactUnitId!=''.toString()">
-                            and REDACT_UNIT_ID like '%${redactUnitId}%'
-                        </if>
-                        <if test="redactDate!=null and redactDate!=''.toString()">
-                            and REDACT_DATE like '%${redactDate}%'
-                        </if>
-                        <if test="workOrderName!=null and workOrderName!=''.toString()">
-                            and WORK_ORDER_NAME like '%${workOrderName}%'
-                        </if>
-                        <if test="workOrderCode!=null and workOrderCode!=''.toString()">
-                            and WORK_ORDER_CODE like '%${workOrderCode}%'
-                        </if>
-                        <if test="workOrderStartDatatime!=null and workOrderStartDatatime!=''.toString()">
-                            and WORK_ORDER_START_DATATIME like '%${workOrderStartDatatime}%'
-                        </if>
-                        <if test="workOrderEndDatatime!=null and workOrderEndDatatime!=''.toString()">
-                            and WORK_ORDER_END_DATATIME like '%${workOrderEndDatatime}%'
-                        </if>
-                        <if test="workOrderPlanStartDatatime!=null and workOrderPlanStartDatatime!=''.toString()">
-                            and WORK_ORDER_PLAN_START_DATATIME like '%${workOrderPlanStartDatatime}%'
-                        </if>
-                        <if test="workOrderPlanEndDatatime!=null and workOrderPlanEndDatatime!=''.toString()">
-                            and WORK_ORDER_PLAN_END_DATATIME like '%${workOrderPlanEndDatatime}%'
-                        </if>
-                        <if test="implementationProgram!=null and implementationProgram!=''.toString()">
-                            and IMPLEMENTATION_PROGRAM like '%${implementationProgram}%'
-                        </if>
-                        <if test="announcements!=null and announcements!=''.toString()">
-                            and ANNOUNCEMENTS like '%${announcements}%'
-                        </if>
-                        <if test="workOrderType!=null and workOrderType!=''.toString()">
-                            and WORK_ORDER_TYPE like '%${workOrderType}%'
-                        </if>
-                        <if test="workOrderStatus!=null and workOrderStatus!=''.toString()">
-                            and WORK_ORDER_STATUS like '%${workOrderStatus}%'
-                        </if>
-                        <if test="workOrderAllotUserName!=null and workOrderAllotUserName!=''.toString()">
-                            and WORK_ORDER_ALLOT_USER_NAME like '%${workOrderAllotUserName}%'
-                        </if>
-                        <if test="workOrderAllotUserId!=null and workOrderAllotUserId!=''.toString()">
-                            and WORK_ORDER_ALLOT_USER_ID like '%${workOrderAllotUserId}%'
-                        </if>
-                        <if test="parentId!=null and parentId!=''.toString()">
-                            and PARENT_ID like '%${parentId}%'
-                        </if>
-                        <if test="jsId!=null and jsId!=''.toString()">
-                            and JS_ID like '%${jsId}%'
-                        </if>
-                        <if test="zpName!=null and zpName!=''.toString()">
-                            and ZP_NAME like '%${zpName}%'
-                        </if>
-                        <if test="bl!=null and bl!=''.toString()">
-                            and BL like '%${bl}%'
-                        </if>
-                        <if test="xbr!=null and xbr!=''.toString()">
-                            and XBR like '%${xbr}%'
-                        </if>
-                        <if test="bak1!=null and bak1!=''.toString()">
-                            and bak1 like '%${bak1}%'
-                        </if>
-                        <if test="bak2!=null and bak2!=''.toString()">
-                            and bak2 like '%${bak2}%'
-                        </if>
-                        <if test="bak3!=null and bak3!=''.toString()">
-                            and bak3 like '%${bak3}%'
-                        </if>
-                        <if test="bak4!=null and bak4!=''.toString()">
-                            and bak4 like '%${bak4}%'
-                        </if>
-                        <if test="bak5!=null and bak5!=''.toString()">
-                            and bak5 like '%${bak5}%'
-                        </if>
-                        <if test="bak6!=null and bak6!=''.toString()">
-                            and bak6 like '%${bak6}%'
-                        </if>
+        <if test="dataId!=null and dataId!=''.toString()">
+            and DATA_ID like '%${dataId}%'
+        </if>
+        <if test="dataCode!=null and dataCode!=''.toString()">
+            and DATA_CODE like '%${dataCode}%'
+        </if>
+        <if test="sysFlag!=null and sysFlag!=''.toString()">
+            and SYS_FLAG like '%${sysFlag}%'
+        </if>
+        <if test="dataOrder!=null and dataOrder!=''.toString()">
+            and DATA_ORDER like '%${dataOrder}%'
+        </if>
+        <if test="status!=null and status!=''.toString()">
+            and STATUS like '%${status}%'
+        </if>
+        <if test="delFlag!=null and delFlag!=''.toString()">
+            and DEL_FLAG like '%${delFlag}%'
+        </if>
+        <if test="createDate!=null and createDate!=''.toString()">
+            and CREATE_DATE like '%${createDate}%'
+        </if>
+        <if test="createUser!=null and createUser!=''.toString()">
+            and CREATE_USER like '%${createUser}%'
+        </if>
+        <if test="createUserName!=null and createUserName!=''.toString()">
+            and CREATE_USER_NAME like '%${createUserName}%'
+        </if>
+        <if test="updateDate!=null and updateDate!=''.toString()">
+            and UPDATE_DATE like '%${updateDate}%'
+        </if>
+        <if test="updateUser!=null and updateUser!=''.toString()">
+            and UPDATE_USER like '%${updateUser}%'
+        </if>
+        <if test="updateUserName!=null and updateUserName!=''.toString()">
+            and UPDATE_USER_NAME like '%${updateUserName}%'
+        </if>
+        <if test="projectCode!=null and projectCode!=''.toString()">
+            and PROJECT_CODE like '%${projectCode}%'
+        </if>
+        <if test="projectId!=null and projectId!=''.toString()">
+            and PROJECT_ID like '%${projectId}%'
+        </if>
+        <if test="projectName!=null and projectName!=''.toString()">
+            and PROJECT_NAME like '%${projectName}%'
+        </if>
+        <if test="auditSts!=null and auditSts!=''.toString()">
+            and AUDIT_STS like '%${auditSts}%'
+        </if>
+        <if test="unitCode!=null and unitCode!=''.toString()">
+            and UNIT_CODE like '%${unitCode}%'
+        </if>
+        <if test="unitName!=null and unitName!=''.toString()">
+            and UNIT_NAME like '%${unitName}%'
+        </if>
+        <if test="unitId!=null and unitId!=''.toString()">
+            and UNIT_ID like '%${unitId}%'
+        </if>
+        <if test="enginName!=null and enginName!=''.toString()">
+            and ENGIN_NAME like '%${enginName}%'
+        </if>
+        <if test="enginCode!=null and enginCode!=''.toString()">
+            and ENGIN_CODE like '%${enginCode}%'
+        </if>
+        <if test="enginId!=null and enginId!=''.toString()">
+            and ENGIN_ID like '%${enginId}%'
+        </if>
+        <if test="remarks!=null and remarks!=''.toString()">
+            and REMARKS like '%${remarks}%'
+        </if>
+        <if test="workflowState!=null and workflowState!=''.toString()">
+            and WORKFLOW_STATE like '%${workflowState}%'
+        </if>
+        <if test="wbsName!=null and wbsName!=''.toString()">
+            and WBS_NAME like '%${wbsName}%'
+        </if>
+        <if test="wbsCode!=null and wbsCode!=''.toString()">
+            and WBS_CODE like '%${wbsCode}%'
+        </if>
+        <if test="wbsId!=null and wbsId!=''.toString()">
+            and WBS_ID like '%${wbsId}%'
+        </if>
+        <if test="compactName!=null and compactName!=''.toString()">
+            and COMPACT_NAME like '%${compactName}%'
+        </if>
+        <if test="compactCode!=null and compactCode!=''.toString()">
+            and COMPACT_CODE like '%${compactCode}%'
+        </if>
+        <if test="supervisionUnitName!=null and supervisionUnitName!=''.toString()">
+            and SUPERVISION_UNIT_NAME like '%${supervisionUnitName}%'
+        </if>
+        <if test="supervisionUnitCode!=null and supervisionUnitCode!=''.toString()">
+            and SUPERVISION_UNIT_CODE like '%${supervisionUnitCode}%'
+        </if>
+        <if test="supervisionUnitId!=null and supervisionUnitId!=''.toString()">
+            and SUPERVISION_UNIT_ID like '%${supervisionUnitId}%'
+        </if>
+        <if test="buildUnitName!=null and buildUnitName!=''.toString()">
+            and BUILD_UNIT_NAME like '%${buildUnitName}%'
+        </if>
+        <if test="buildUnitCode!=null and buildUnitCode!=''.toString()">
+            and BUILD_UNIT_CODE like '%${buildUnitCode}%'
+        </if>
+        <if test="buildUnitId!=null and buildUnitId!=''.toString()">
+            and BUILD_UNIT_ID like '%${buildUnitId}%'
+        </if>
+        <if test="redactUnitName!=null and redactUnitName!=''.toString()">
+            and REDACT_UNIT_NAME like '%${redactUnitName}%'
+        </if>
+        <if test="redactUnitCode!=null and redactUnitCode!=''.toString()">
+            and REDACT_UNIT_CODE like '%${redactUnitCode}%'
+        </if>
+        <if test="redactUnitId!=null and redactUnitId!=''.toString()">
+            and REDACT_UNIT_ID like '%${redactUnitId}%'
+        </if>
+        <if test="redactDate!=null and redactDate!=''.toString()">
+            and REDACT_DATE like '%${redactDate}%'
+        </if>
+        <if test="workOrderName!=null and workOrderName!=''.toString()">
+            and WORK_ORDER_NAME like '%${workOrderName}%'
+        </if>
+        <if test="workOrderCode!=null and workOrderCode!=''.toString()">
+            and WORK_ORDER_CODE like '%${workOrderCode}%'
+        </if>
+        <if test="workOrderStartDatatime!=null and workOrderStartDatatime!=''.toString()">
+            and WORK_ORDER_START_DATATIME like '%${workOrderStartDatatime}%'
+        </if>
+        <if test="workOrderEndDatatime!=null and workOrderEndDatatime!=''.toString()">
+            and WORK_ORDER_END_DATATIME like '%${workOrderEndDatatime}%'
+        </if>
+        <if test="workOrderPlanStartDatatime!=null and workOrderPlanStartDatatime!=''.toString()">
+            and WORK_ORDER_PLAN_START_DATATIME like '%${workOrderPlanStartDatatime}%'
+        </if>
+        <if test="workOrderPlanEndDatatime!=null and workOrderPlanEndDatatime!=''.toString()">
+            and WORK_ORDER_PLAN_END_DATATIME like '%${workOrderPlanEndDatatime}%'
+        </if>
+        <if test="implementationProgram!=null and implementationProgram!=''.toString()">
+            and IMPLEMENTATION_PROGRAM like '%${implementationProgram}%'
+        </if>
+        <if test="announcements!=null and announcements!=''.toString()">
+            and ANNOUNCEMENTS like '%${announcements}%'
+        </if>
+        <if test="workOrderType!=null and workOrderType!=''.toString()">
+            and WORK_ORDER_TYPE like '%${workOrderType}%'
+        </if>
+        <if test="workOrderStatus!=null and workOrderStatus!=''.toString()">
+            and WORK_ORDER_STATUS like '%${workOrderStatus}%'
+        </if>
+        <if test="workOrderAllotUserName!=null and workOrderAllotUserName!=''.toString()">
+            and WORK_ORDER_ALLOT_USER_NAME like '%${workOrderAllotUserName}%'
+        </if>
+        <if test="workOrderAllotUserId!=null and workOrderAllotUserId!=''.toString()">
+            and WORK_ORDER_ALLOT_USER_ID like '%${workOrderAllotUserId}%'
+        </if>
+        <if test="parentId!=null and parentId!=''.toString()">
+            and PARENT_ID like '%${parentId}%'
+        </if>
+        <if test="jsId!=null and jsId!=''.toString()">
+            and JS_ID like '%${jsId}%'
+        </if>
+        <if test="zpName!=null and zpName!=''.toString()">
+            and ZP_NAME like '%${zpName}%'
+        </if>
+        <if test="bl!=null and bl!=''.toString()">
+            and BL like '%${bl}%'
+        </if>
+        <if test="xbr!=null and xbr!=''.toString()">
+            and XBR like '%${xbr}%'
+        </if>
+        <if test="bak1!=null and bak1!=''.toString()">
+            and bak1 like '%${bak1}%'
+        </if>
+        <if test="bak2!=null and bak2!=''.toString()">
+            and bak2 like '%${bak2}%'
+        </if>
+        <if test="bak3!=null and bak3!=''.toString()">
+            and bak3 like '%${bak3}%'
+        </if>
+        <if test="bak4!=null and bak4!=''.toString()">
+            and bak4 like '%${bak4}%'
+        </if>
+        <if test="bak5!=null and bak5!=''.toString()">
+            and bak5 like '%${bak5}%'
+        </if>
+        <if test="bak6!=null and bak6!=''.toString()">
+            and bak6 like '%${bak6}%'
+        </if>
 
         <if test="iSortCol!=null and iSortCol!=''.toString()">
             order by ${iSortCol} ${sSortDir_0}
@@ -1531,256 +1531,256 @@
     <!-- 查询列表 -->
     <select id="findPlanBaseList" parameterType="com.pcitc.base.plan.PlanBase" resultMap="BaseResultMap">
         select
-                    DATA_ID,
-                    DATA_CODE,
-                    SYS_FLAG,
-                    DATA_ORDER,
-                    STATUS,
-                    DEL_FLAG,
-                    CREATE_DATE,
-                    CREATE_USER,
-                    CREATE_USER_NAME,
-                    UPDATE_DATE,
-                    UPDATE_USER,
-                    UPDATE_USER_NAME,
-                    PROJECT_CODE,
-                    PROJECT_ID,
-                    PROJECT_NAME,
-                    AUDIT_STS,
-                    UNIT_CODE,
-                    UNIT_NAME,
-                    UNIT_ID,
-                    ENGIN_NAME,
-                    ENGIN_CODE,
-                    ENGIN_ID,
-                    REMARKS,
-                    WORKFLOW_STATE,
-                    WBS_NAME,
-                    WBS_CODE,
-                    WBS_ID,
-                    COMPACT_NAME,
-                    COMPACT_CODE,
-                    SUPERVISION_UNIT_NAME,
-                    SUPERVISION_UNIT_CODE,
-                    SUPERVISION_UNIT_ID,
-                    BUILD_UNIT_NAME,
-                    BUILD_UNIT_CODE,
-                    BUILD_UNIT_ID,
-                    REDACT_UNIT_NAME,
-                    REDACT_UNIT_CODE,
-                    REDACT_UNIT_ID,
-                    REDACT_DATE,
-                    WORK_ORDER_NAME,
-                    WORK_ORDER_CODE,
-                    WORK_ORDER_START_DATATIME,
-                    WORK_ORDER_END_DATATIME,
-                    WORK_ORDER_PLAN_START_DATATIME,
-                    WORK_ORDER_PLAN_END_DATATIME,
-                    IMPLEMENTATION_PROGRAM,
-                    ANNOUNCEMENTS,
-                    WORK_ORDER_TYPE,
-                    WORK_ORDER_STATUS,
-                    WORK_ORDER_ALLOT_USER_NAME,
-                    WORK_ORDER_ALLOT_USER_ID,
-                    PARENT_ID,
-                    JS_ID,
-                    ZP_NAME,
-                    BL,
-                    XBR,
-                    bak1,
-                    bak2,
-                    bak3,
-                    bak4,
-                    bak5,
-                    bak6
+        DATA_ID,
+        DATA_CODE,
+        SYS_FLAG,
+        DATA_ORDER,
+        STATUS,
+        DEL_FLAG,
+        CREATE_DATE,
+        CREATE_USER,
+        CREATE_USER_NAME,
+        UPDATE_DATE,
+        UPDATE_USER,
+        UPDATE_USER_NAME,
+        PROJECT_CODE,
+        PROJECT_ID,
+        PROJECT_NAME,
+        AUDIT_STS,
+        UNIT_CODE,
+        UNIT_NAME,
+        UNIT_ID,
+        ENGIN_NAME,
+        ENGIN_CODE,
+        ENGIN_ID,
+        REMARKS,
+        WORKFLOW_STATE,
+        WBS_NAME,
+        WBS_CODE,
+        WBS_ID,
+        COMPACT_NAME,
+        COMPACT_CODE,
+        SUPERVISION_UNIT_NAME,
+        SUPERVISION_UNIT_CODE,
+        SUPERVISION_UNIT_ID,
+        BUILD_UNIT_NAME,
+        BUILD_UNIT_CODE,
+        BUILD_UNIT_ID,
+        REDACT_UNIT_NAME,
+        REDACT_UNIT_CODE,
+        REDACT_UNIT_ID,
+        REDACT_DATE,
+        WORK_ORDER_NAME,
+        WORK_ORDER_CODE,
+        WORK_ORDER_START_DATATIME,
+        WORK_ORDER_END_DATATIME,
+        WORK_ORDER_PLAN_START_DATATIME,
+        WORK_ORDER_PLAN_END_DATATIME,
+        IMPLEMENTATION_PROGRAM,
+        ANNOUNCEMENTS,
+        WORK_ORDER_TYPE,
+        WORK_ORDER_STATUS,
+        WORK_ORDER_ALLOT_USER_NAME,
+        WORK_ORDER_ALLOT_USER_ID,
+        PARENT_ID,
+        JS_ID,
+        ZP_NAME,
+        BL,
+        XBR,
+        bak1,
+        bak2,
+        bak3,
+        bak4,
+        bak5,
+        bak6
         from plan_base
         where 1=1
-                        <if test="dataId!=null">
-                            and DATA_ID = #{dataId,jdbcType=VARCHAR}
-                        </if>
-                        <if test="dataCode!=null">
-                            and DATA_CODE = #{dataCode,jdbcType=VARCHAR}
-                        </if>
-                        <if test="sysFlag!=null">
-                            and SYS_FLAG = #{sysFlag,jdbcType=VARCHAR}
-                        </if>
-                        <if test="dataOrder!=null">
-                            and DATA_ORDER = #{dataOrder,jdbcType=VARCHAR}
-                        </if>
-                        <if test="status!=null">
-                            and STATUS = #{status,jdbcType=VARCHAR}
-                        </if>
-                        <if test="delFlag!=null">
-                            and DEL_FLAG = #{delFlag,jdbcType=VARCHAR}
-                        </if>
-                        <if test="createDate!=null">
-                            and CREATE_DATE = #{createDate,jdbcType=VARCHAR}
-                        </if>
-                        <if test="createUser!=null">
-                            and CREATE_USER = #{createUser,jdbcType=VARCHAR}
-                        </if>
-                        <if test="createUserName!=null">
-                            and CREATE_USER_NAME = #{createUserName,jdbcType=VARCHAR}
-                        </if>
-                        <if test="updateDate!=null">
-                            and UPDATE_DATE = #{updateDate,jdbcType=VARCHAR}
-                        </if>
-                        <if test="updateUser!=null">
-                            and UPDATE_USER = #{updateUser,jdbcType=VARCHAR}
-                        </if>
-                        <if test="updateUserName!=null">
-                            and UPDATE_USER_NAME = #{updateUserName,jdbcType=VARCHAR}
-                        </if>
-                        <if test="projectCode!=null">
-                            and PROJECT_CODE = #{projectCode,jdbcType=VARCHAR}
-                        </if>
-                        <if test="projectId!=null">
-                            and PROJECT_ID = #{projectId,jdbcType=VARCHAR}
-                        </if>
-                        <if test="projectName!=null">
-                            and PROJECT_NAME = #{projectName,jdbcType=VARCHAR}
-                        </if>
-                        <if test="auditSts!=null">
-                            and AUDIT_STS = #{auditSts,jdbcType=VARCHAR}
-                        </if>
-                        <if test="unitCode!=null">
-                            and UNIT_CODE = #{unitCode,jdbcType=VARCHAR}
-                        </if>
-                        <if test="unitName!=null">
-                            and UNIT_NAME = #{unitName,jdbcType=VARCHAR}
-                        </if>
-                        <if test="unitId!=null">
-                            and UNIT_ID = #{unitId,jdbcType=VARCHAR}
-                        </if>
-                        <if test="enginName!=null">
-                            and ENGIN_NAME = #{enginName,jdbcType=VARCHAR}
-                        </if>
-                        <if test="enginCode!=null">
-                            and ENGIN_CODE = #{enginCode,jdbcType=VARCHAR}
-                        </if>
-                        <if test="enginId!=null">
-                            and ENGIN_ID = #{enginId,jdbcType=VARCHAR}
-                        </if>
-                        <if test="remarks!=null">
-                            and REMARKS = #{remarks,jdbcType=VARCHAR}
-                        </if>
-                        <if test="workflowState!=null">
-                            and WORKFLOW_STATE = #{workflowState,jdbcType=VARCHAR}
-                        </if>
-                        <if test="wbsName!=null">
-                            and WBS_NAME = #{wbsName,jdbcType=VARCHAR}
-                        </if>
-                        <if test="wbsCode!=null">
-                            and WBS_CODE = #{wbsCode,jdbcType=VARCHAR}
-                        </if>
-                        <if test="wbsId!=null">
-                            and WBS_ID = #{wbsId,jdbcType=VARCHAR}
-                        </if>
-                        <if test="compactName!=null">
-                            and COMPACT_NAME = #{compactName,jdbcType=VARCHAR}
-                        </if>
-                        <if test="compactCode!=null">
-                            and COMPACT_CODE = #{compactCode,jdbcType=VARCHAR}
-                        </if>
-                        <if test="supervisionUnitName!=null">
-                            and SUPERVISION_UNIT_NAME = #{supervisionUnitName,jdbcType=VARCHAR}
-                        </if>
-                        <if test="supervisionUnitCode!=null">
-                            and SUPERVISION_UNIT_CODE = #{supervisionUnitCode,jdbcType=VARCHAR}
-                        </if>
-                        <if test="supervisionUnitId!=null">
-                            and SUPERVISION_UNIT_ID = #{supervisionUnitId,jdbcType=VARCHAR}
-                        </if>
-                        <if test="buildUnitName!=null">
-                            and BUILD_UNIT_NAME = #{buildUnitName,jdbcType=VARCHAR}
-                        </if>
-                        <if test="buildUnitCode!=null">
-                            and BUILD_UNIT_CODE = #{buildUnitCode,jdbcType=VARCHAR}
-                        </if>
-                        <if test="buildUnitId!=null">
-                            and BUILD_UNIT_ID = #{buildUnitId,jdbcType=VARCHAR}
-                        </if>
-                        <if test="redactUnitName!=null">
-                            and REDACT_UNIT_NAME = #{redactUnitName,jdbcType=VARCHAR}
-                        </if>
-                        <if test="redactUnitCode!=null">
-                            and REDACT_UNIT_CODE = #{redactUnitCode,jdbcType=VARCHAR}
-                        </if>
-                        <if test="redactUnitId!=null">
-                            and REDACT_UNIT_ID = #{redactUnitId,jdbcType=VARCHAR}
-                        </if>
-                        <if test="redactDate!=null">
-                            and REDACT_DATE = #{redactDate,jdbcType=VARCHAR}
-                        </if>
-                        <if test="workOrderName!=null">
-                            and WORK_ORDER_NAME = #{workOrderName,jdbcType=VARCHAR}
-                        </if>
-                        <if test="workOrderCode!=null">
-                            and WORK_ORDER_CODE = #{workOrderCode,jdbcType=VARCHAR}
-                        </if>
-                        <if test="workOrderStartDatatime!=null">
-                            and WORK_ORDER_START_DATATIME = #{workOrderStartDatatime,jdbcType=VARCHAR}
-                        </if>
-                        <if test="workOrderEndDatatime!=null">
-                            and WORK_ORDER_END_DATATIME = #{workOrderEndDatatime,jdbcType=VARCHAR}
-                        </if>
-                        <if test="workOrderPlanStartDatatime!=null">
-                            and WORK_ORDER_PLAN_START_DATATIME = #{workOrderPlanStartDatatime,jdbcType=VARCHAR}
-                        </if>
-                        <if test="workOrderPlanEndDatatime!=null">
-                            and WORK_ORDER_PLAN_END_DATATIME = #{workOrderPlanEndDatatime,jdbcType=VARCHAR}
-                        </if>
-                        <if test="implementationProgram!=null">
-                            and IMPLEMENTATION_PROGRAM = #{implementationProgram,jdbcType=VARCHAR}
-                        </if>
-                        <if test="announcements!=null">
-                            and ANNOUNCEMENTS = #{announcements,jdbcType=VARCHAR}
-                        </if>
-                        <if test="workOrderType!=null">
-                            and WORK_ORDER_TYPE = #{workOrderType,jdbcType=VARCHAR}
-                        </if>
-                        <if test="workOrderStatus!=null">
-                            and WORK_ORDER_STATUS = #{workOrderStatus,jdbcType=VARCHAR}
-                        </if>
-                        <if test="workOrderAllotUserName!=null">
-                            and WORK_ORDER_ALLOT_USER_NAME = #{workOrderAllotUserName,jdbcType=VARCHAR}
-                        </if>
-                        <if test="workOrderAllotUserId!=null">
-                            and WORK_ORDER_ALLOT_USER_ID = #{workOrderAllotUserId,jdbcType=VARCHAR}
-                        </if>
-                        <if test="parentId!=null">
-                            and PARENT_ID = #{parentId,jdbcType=VARCHAR}
-                        </if>
-                        <if test="jsId!=null">
-                            and JS_ID = #{jsId,jdbcType=VARCHAR}
-                        </if>
-                        <if test="zpName!=null">
-                            and ZP_NAME = #{zpName,jdbcType=VARCHAR}
-                        </if>
-                        <if test="bl!=null">
-                            and BL = #{bl,jdbcType=VARCHAR}
-                        </if>
-                        <if test="xbr!=null">
-                            and XBR = #{xbr,jdbcType=VARCHAR}
-                        </if>
-                        <if test="bak1!=null">
-                            and bak1 = #{bak1,jdbcType=VARCHAR}
-                        </if>
-                        <if test="bak2!=null">
-                            and bak2 = #{bak2,jdbcType=VARCHAR}
-                        </if>
-                        <if test="bak3!=null">
-                            and bak3 = #{bak3,jdbcType=VARCHAR}
-                        </if>
-                        <if test="bak4!=null">
-                            and bak4 = #{bak4,jdbcType=VARCHAR}
-                        </if>
-                        <if test="bak5!=null">
-                            and bak5 = #{bak5,jdbcType=VARCHAR}
-                        </if>
-                        <if test="bak6!=null">
-                            and bak6 = #{bak6,jdbcType=VARCHAR}
-                        </if>
+        <if test="dataId!=null">
+            and DATA_ID = #{dataId,jdbcType=VARCHAR}
+        </if>
+        <if test="dataCode!=null">
+            and DATA_CODE = #{dataCode,jdbcType=VARCHAR}
+        </if>
+        <if test="sysFlag!=null">
+            and SYS_FLAG = #{sysFlag,jdbcType=VARCHAR}
+        </if>
+        <if test="dataOrder!=null">
+            and DATA_ORDER = #{dataOrder,jdbcType=VARCHAR}
+        </if>
+        <if test="status!=null">
+            and STATUS = #{status,jdbcType=VARCHAR}
+        </if>
+        <if test="delFlag!=null">
+            and DEL_FLAG = #{delFlag,jdbcType=VARCHAR}
+        </if>
+        <if test="createDate!=null">
+            and CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+        </if>
+        <if test="createUser!=null">
+            and CREATE_USER = #{createUser,jdbcType=VARCHAR}
+        </if>
+        <if test="createUserName!=null">
+            and CREATE_USER_NAME = #{createUserName,jdbcType=VARCHAR}
+        </if>
+        <if test="updateDate!=null">
+            and UPDATE_DATE = #{updateDate,jdbcType=VARCHAR}
+        </if>
+        <if test="updateUser!=null">
+            and UPDATE_USER = #{updateUser,jdbcType=VARCHAR}
+        </if>
+        <if test="updateUserName!=null">
+            and UPDATE_USER_NAME = #{updateUserName,jdbcType=VARCHAR}
+        </if>
+        <if test="projectCode!=null">
+            and PROJECT_CODE = #{projectCode,jdbcType=VARCHAR}
+        </if>
+        <if test="projectId!=null">
+            and PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+        </if>
+        <if test="projectName!=null">
+            and PROJECT_NAME = #{projectName,jdbcType=VARCHAR}
+        </if>
+        <if test="auditSts!=null">
+            and AUDIT_STS = #{auditSts,jdbcType=VARCHAR}
+        </if>
+        <if test="unitCode!=null">
+            and UNIT_CODE = #{unitCode,jdbcType=VARCHAR}
+        </if>
+        <if test="unitName!=null">
+            and UNIT_NAME = #{unitName,jdbcType=VARCHAR}
+        </if>
+        <if test="unitId!=null">
+            and UNIT_ID = #{unitId,jdbcType=VARCHAR}
+        </if>
+        <if test="enginName!=null">
+            and ENGIN_NAME = #{enginName,jdbcType=VARCHAR}
+        </if>
+        <if test="enginCode!=null">
+            and ENGIN_CODE = #{enginCode,jdbcType=VARCHAR}
+        </if>
+        <if test="enginId!=null">
+            and ENGIN_ID = #{enginId,jdbcType=VARCHAR}
+        </if>
+        <if test="remarks!=null">
+            and REMARKS = #{remarks,jdbcType=VARCHAR}
+        </if>
+        <if test="workflowState!=null">
+            and WORKFLOW_STATE = #{workflowState,jdbcType=VARCHAR}
+        </if>
+        <if test="wbsName!=null">
+            and WBS_NAME = #{wbsName,jdbcType=VARCHAR}
+        </if>
+        <if test="wbsCode!=null">
+            and WBS_CODE = #{wbsCode,jdbcType=VARCHAR}
+        </if>
+        <if test="wbsId!=null">
+            and WBS_ID = #{wbsId,jdbcType=VARCHAR}
+        </if>
+        <if test="compactName!=null">
+            and COMPACT_NAME = #{compactName,jdbcType=VARCHAR}
+        </if>
+        <if test="compactCode!=null">
+            and COMPACT_CODE = #{compactCode,jdbcType=VARCHAR}
+        </if>
+        <if test="supervisionUnitName!=null">
+            and SUPERVISION_UNIT_NAME = #{supervisionUnitName,jdbcType=VARCHAR}
+        </if>
+        <if test="supervisionUnitCode!=null">
+            and SUPERVISION_UNIT_CODE = #{supervisionUnitCode,jdbcType=VARCHAR}
+        </if>
+        <if test="supervisionUnitId!=null">
+            and SUPERVISION_UNIT_ID = #{supervisionUnitId,jdbcType=VARCHAR}
+        </if>
+        <if test="buildUnitName!=null">
+            and BUILD_UNIT_NAME = #{buildUnitName,jdbcType=VARCHAR}
+        </if>
+        <if test="buildUnitCode!=null">
+            and BUILD_UNIT_CODE = #{buildUnitCode,jdbcType=VARCHAR}
+        </if>
+        <if test="buildUnitId!=null">
+            and BUILD_UNIT_ID = #{buildUnitId,jdbcType=VARCHAR}
+        </if>
+        <if test="redactUnitName!=null">
+            and REDACT_UNIT_NAME = #{redactUnitName,jdbcType=VARCHAR}
+        </if>
+        <if test="redactUnitCode!=null">
+            and REDACT_UNIT_CODE = #{redactUnitCode,jdbcType=VARCHAR}
+        </if>
+        <if test="redactUnitId!=null">
+            and REDACT_UNIT_ID = #{redactUnitId,jdbcType=VARCHAR}
+        </if>
+        <if test="redactDate!=null">
+            and REDACT_DATE = #{redactDate,jdbcType=VARCHAR}
+        </if>
+        <if test="workOrderName!=null">
+            and WORK_ORDER_NAME = #{workOrderName,jdbcType=VARCHAR}
+        </if>
+        <if test="workOrderCode!=null">
+            and WORK_ORDER_CODE = #{workOrderCode,jdbcType=VARCHAR}
+        </if>
+        <if test="workOrderStartDatatime!=null">
+            and WORK_ORDER_START_DATATIME = #{workOrderStartDatatime,jdbcType=VARCHAR}
+        </if>
+        <if test="workOrderEndDatatime!=null">
+            and WORK_ORDER_END_DATATIME = #{workOrderEndDatatime,jdbcType=VARCHAR}
+        </if>
+        <if test="workOrderPlanStartDatatime!=null">
+            and WORK_ORDER_PLAN_START_DATATIME = #{workOrderPlanStartDatatime,jdbcType=VARCHAR}
+        </if>
+        <if test="workOrderPlanEndDatatime!=null">
+            and WORK_ORDER_PLAN_END_DATATIME = #{workOrderPlanEndDatatime,jdbcType=VARCHAR}
+        </if>
+        <if test="implementationProgram!=null">
+            and IMPLEMENTATION_PROGRAM = #{implementationProgram,jdbcType=VARCHAR}
+        </if>
+        <if test="announcements!=null">
+            and ANNOUNCEMENTS = #{announcements,jdbcType=VARCHAR}
+        </if>
+        <if test="workOrderType!=null">
+            and WORK_ORDER_TYPE = #{workOrderType,jdbcType=VARCHAR}
+        </if>
+        <if test="workOrderStatus!=null">
+            and WORK_ORDER_STATUS = #{workOrderStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="workOrderAllotUserName!=null">
+            and WORK_ORDER_ALLOT_USER_NAME = #{workOrderAllotUserName,jdbcType=VARCHAR}
+        </if>
+        <if test="workOrderAllotUserId!=null">
+            and WORK_ORDER_ALLOT_USER_ID = #{workOrderAllotUserId,jdbcType=VARCHAR}
+        </if>
+        <if test="parentId!=null">
+            and PARENT_ID = #{parentId,jdbcType=VARCHAR}
+        </if>
+        <if test="jsId!=null">
+            and JS_ID = #{jsId,jdbcType=VARCHAR}
+        </if>
+        <if test="zpName!=null">
+            and ZP_NAME = #{zpName,jdbcType=VARCHAR}
+        </if>
+        <if test="bl!=null">
+            and BL = #{bl,jdbcType=VARCHAR}
+        </if>
+        <if test="xbr!=null">
+            and XBR = #{xbr,jdbcType=VARCHAR}
+        </if>
+        <if test="bak1!=null">
+            and bak1 = #{bak1,jdbcType=VARCHAR}
+        </if>
+        <if test="bak2!=null">
+            and bak2 = #{bak2,jdbcType=VARCHAR}
+        </if>
+        <if test="bak3!=null">
+            and bak3 = #{bak3,jdbcType=VARCHAR}
+        </if>
+        <if test="bak4!=null">
+            and bak4 = #{bak4,jdbcType=VARCHAR}
+        </if>
+        <if test="bak5!=null">
+            and bak5 = #{bak5,jdbcType=VARCHAR}
+        </if>
+        <if test="bak6!=null">
+            and bak6 = #{bak6,jdbcType=VARCHAR}
+        </if>
 
         <if test="iSortCol!=null and iSortCol!=''.toString()">
             order by ${iSortCol} ${sSortDir_0}
@@ -1799,7 +1799,7 @@
     </update>
     <select id="queryBotWorkOrderListByPage" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from plan_base where STATUS = '0'
         <if test="workOrderName != null and workOrderName != ''">
             and (WORK_ORDER_NAME like '%${workOrderName}%' OR WORK_ORDER_CODE like '%${workOrderName}%')
@@ -1850,7 +1850,7 @@
     </update>
     <select id="queryMyBotWorkOrderListByPage" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from plan_base where STATUS = '0'
         <if test="workOrderName != null and workOrderName != ''">
             and (WORK_ORDER_NAME like '%${workOrderName}%' OR WORK_ORDER_CODE like '%${workOrderName}%')
@@ -1901,4 +1901,13 @@
             DATA_ID = #{dataId,jdbcType=VARCHAR}
         </where>
     </update>
+    <select id="selectSonPlanBasesByCreateUserId" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+        <include refid="Base_Column_List"/>
+        from plan_base p where p.PARENT_ID in(
+        SELECT DATA_ID FROM plan_base
+        where DEL_FLAG='0' and WORK_ORDER_STATUS='1' and CREATE_USER='${createUserId}'
+        )
+    </select>
 </mapper>

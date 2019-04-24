@@ -1,5 +1,6 @@
 package com.pcitc.service.plan;
 
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
@@ -8,6 +9,7 @@ import com.pcitc.base.plan.PlanBaseExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>接口类</p>
@@ -179,4 +181,12 @@ public interface PlanBaseService {
      * @return
      */
     List<TreeNode> selectObjectByTree();
+
+    /**
+     * 首页查询当前登录用户分配给其他人的任务列表
+     * @param jsonObject
+     * @return
+     */
+    List<PlanBase> selectSonPlanBasesByCreateUserId(JSONObject jsonObject);
+
 }
