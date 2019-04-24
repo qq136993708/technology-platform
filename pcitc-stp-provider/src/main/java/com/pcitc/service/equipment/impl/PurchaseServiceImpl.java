@@ -5,9 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Constant;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.equipment.SreProject;
+import com.pcitc.base.stp.equipment.SreProjectTask;
 import com.pcitc.mapper.equipment.SreProjectMapper;
+import com.pcitc.service.feign.WorkflowRemoteClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +36,8 @@ public class PurchaseServiceImpl implements PurchaseService {
 	private SrePurchaseMapper  srePurchaseMapper;
     @Autowired
 	private SreProjectMapper   sreProjectMapper;
-
+    @Autowired
+    private WorkflowRemoteClient workflowRemoteClient;
 	
 	
 	private String getTableParam(LayuiTableParam param,String paramName,String defaultstr)
@@ -194,4 +199,64 @@ public class PurchaseServiceImpl implements PurchaseService {
 
 		return sreProjectMapper.selectByPrimaryKey(id);
 	}
+
+    //内部确认流程
+    public Result dealInnerPurchaseFlow(String id, Map map) throws Exception
+    {
+
+
+        JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(map));
+        System.out.println(">>>>>>>>>>内部确认流程 dealInnerTaskFlow 参数: "+parmamss.toJSONString());
+
+
+        SrePurchase srePurchase = srePurchaseMapper.selectByPrimaryKey(id);
+
+        String processInstanceName=(String)map.get("processInstanceName");
+        String authenticatedUserId=(String)map.get("authenticatedUserId");
+        String authenticatedUserName=(String)map.get("authenticatedUserName");
+        String functionId=(String)map.get("functionId");
+        String auditor=(String)map.get("auditor");
+        //申请者机构信息
+        String applyUnitCode=(String)map.get("applyUnitCode");
+        String parentApplyUnitCode=(String)map.get("parentApplyUnitCode");
+        String applyUnitName=(String)map.get("applyUnitName");
+        /*String applyUserId=(String)map.get("applyUserId");
+        String applyUserName=(String)map.get("applyUserName");
+        String applyUnitPathCode=(String)map.get("applyUnitPathCode");
+        String parentApplyUnitPathCode=(String)map.get("parentApplyUnitPathCode");
+        String parentApplyUnitPathName=(String)map.get("parentApplyUnitPathName");*/
+
+
+
+
+        // 调用审批流程，此处调用同时实现事务
+        JSONObject flowJson = new JSONObject();
+        // 业务主键id
+        flowJson.put("businessId", id);
+        flowJson.put("processInstanceName", processInstanceName);
+        // 发起者信息
+        flowJson.put("authenticatedUserId", authenticatedUserId);
+        flowJson.put("authenticatedUserName", authenticatedUserName);
+        // 菜单id（functionId），部门/组织ID（orgId），项目id（projectId）。其中菜单id必填（和ProcessDefineId两选一）
+        flowJson.put("functionId", functionId);
+        // 待办业务详情、最终审批同意、最终审批不同意路径
+        flowJson.put("auditDetailsPath", "/sre-purchase/getParticulars/" + id);
+        flowJson.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/sre-provider/purchase/agree_purchase/" + id);
+        flowJson.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/sre-provider/project_task/task/reject_purchase/" + id);
+
+
+        // 远程调用
+        System.out.println("=====远程调用开始");
+        String str=workflowRemoteClient.startCommonWorkflow(flowJson.toJSONString());
+        System.out.println("=====远程调用结束");
+        if("true".equals(str))
+        {
+            srePurchase.setState(Constant.PURCHASE_STATUS_SUBMIT);
+            srePurchaseMapper.updateByPrimaryKeySelective(srePurchase);
+            return new Result(true,"操作成功!");
+        }else
+        {
+            return new Result(false,"操作失败!");
+        }
+    }
 }
