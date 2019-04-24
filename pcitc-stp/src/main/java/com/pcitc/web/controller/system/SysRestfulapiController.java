@@ -31,11 +31,11 @@ import com.pcitc.web.common.BaseController;
 @RequestMapping("restfulapi")
 public class SysRestfulapiController extends BaseController {
 
-	private static final String RESTFULAPI_LIST_DATA = "http://pplus-zuul/system-proxy/sys_restfulapi/show-list";
-	private static final String RESTFULAPI_INSERT_DATA = "http://pplus-zuul/system-proxy/sys_restfulapi/insert-data";
-	private static final String RESTFULAPI_UPDATE_DATA = "http://pplus-zuul/system-proxy/sys_restfulapi/update-data";
-	private static final String RESTFULAPI_SHOWBYID_DATA = "http://pplus-zuul/system-proxy/sys_restfulapi/showById-data/";
-	private static final String RESTFULAPI_DELETEE_DATA = "http://pplus-zuul/system-proxy/sys_restfulapi/delete-data";
+	private static final String RESTFULAPI_LIST_DATA = "http://pcitc-zuul/system-proxy/sys_restfulapi/show-list";
+	private static final String RESTFULAPI_INSERT_DATA = "http://pcitc-zuul/system-proxy/sys_restfulapi/insert-data";
+	private static final String RESTFULAPI_UPDATE_DATA = "http://pcitc-zuul/system-proxy/sys_restfulapi/update-data";
+	private static final String RESTFULAPI_SHOWBYID_DATA = "http://pcitc-zuul/system-proxy/sys_restfulapi/showById-data/";
+	private static final String RESTFULAPI_DELETEE_DATA = "http://pcitc-zuul/system-proxy/sys_restfulapi/delete-data";
 
 	/**
 	 * 跳转页面
