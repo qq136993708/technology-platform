@@ -98,18 +98,35 @@ public class PurchaseProviderClient
 		return purchaseService.dealInnerPurchaseFlow(id,map);
 	}
 
-	/**
-	 * @param id
-	 * @return
-	 * 业务系统处理审批流程都同意后业务
-	 */
-	/*@RequestMapping(value = "/sre-provider/purchase/success/{id}", method = RequestMethod.POST)
-	public Integer taskAgreeSreProject(@PathVariable(value = "id", required = true) String id)throws Exception {
+    /**
+     * @param id
+     * @return
+     * @throws Exception
+     * 采购管理--审批流程都同意后业务
+     */
+	@RequestMapping(value = "/sre-provider/purchase/agree_purchase/{id}", method = RequestMethod.POST)
+	public Integer purchaseAgreeSrePurchase(@PathVariable(value = "id", required = true) String id)throws Exception {
 
 		SrePurchase srePurchase = purchaseService.selectSrePurchaseById(id);
-		srePurchase.setState(Constant.PURCHASE_STATUS_SUBMIT);
+		srePurchase.setState(Constant.PURCHASE_STATUS_PASS);
 		int count=purchaseService.updateSrePurchase(srePurchase);
 		System.out.println("======业务系统处理审批流程都 --同意 --后业务======="+id);
 		return count;
-	}*/
+	}
+
+    /**
+     * @param id
+     * @return
+     * @throws Exception
+     * 采购管理--驳回后业务
+     */
+    @RequestMapping(value = "/sre-provider/purchase/reject_purchase/{id}", method = RequestMethod.POST)
+    public Integer purchaseRejectSrePurchase(@PathVariable(value = "id", required = true) String id)throws Exception {
+
+        SrePurchase srePurchase = purchaseService.selectSrePurchaseById(id);
+        srePurchase.setState(Constant.PURCHASE_STATUS_REJECT);
+        int count=purchaseService.updateSrePurchase(srePurchase);
+        System.out.println("======业务系统处理--驳回 --后业务======="+id);
+        return count;
+    }
 }

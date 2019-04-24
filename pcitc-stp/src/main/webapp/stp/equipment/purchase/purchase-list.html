@@ -347,7 +347,6 @@ var name=$('#name').val();
                          layer.alert('请选择未上报的申请');
                          return;
                      }else
-                         alert("-2")
                          $('#id').val(id);
                          dealFlow(id);
                      }
@@ -569,7 +568,7 @@ var name=$('#name').val();
               	{
               		layer.msg('工作流部署异常，请联系管理员');
               	} else 
-              	{alert("==1")
+              	{
               		// 直接处理此任务
               		handleTask('');
               	}
@@ -582,7 +581,6 @@ var name=$('#name').val();
     //处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
    function handleTask(userIds)
     {
-        alert(userIds)
         $('#userIds').val(userIds);
         var v_date=(new Date()).getTime();
         var url="/sre-purchase/start_purchase_workflow?v_date="+v_date;
@@ -602,7 +600,6 @@ var name=$('#name').val();
       	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
              success:function(data,status)
              {
-
     	          if(data.success==true ||data.success=='true')
     	          {
 
