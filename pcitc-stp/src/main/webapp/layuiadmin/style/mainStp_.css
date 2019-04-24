@@ -201,13 +201,13 @@ background: url("/layuiadmin/layui/images/icon-leader-aw.png") right no-repeat;
 .text-total span{color: #000;padding: 0 2px;}
 .text-total .text-total-blue{color: #53b7e8;}
 /*处室*/
-.stay-do{background: url("/layuiadmin/layui/images/stay-b.png") no-repeat;
+.stay-do{background: url("/layuiadmin/layui/images/stay-b.png") no-repeat;position: relative;
     background-size: cover; height: 177px;border: 1px solid #dddddd;margin-right: 10px;}
 .work{margin: 7px 0;}
 .work-title{ margin: 17px 17px 10px;color: white;font-size: 14px;border-left: 1px solid white;
     text-indent: 5px;font-family: "PingFang SC";    height: 14px;line-height: 14px;}
 .stay-doz-n{text-align: center;margin: 25px 0 14px;font-size: 36px;color: white;font-family:"Helvetica Neue"}
-.stay-doz-i{text-align: right;padding-right: 20px;}
+.stay-doz-i{text-align: right;padding-right: 20px;position: relative;}
 .work-summary{background: url("/layuiadmin/layui/images/stay-work.png") no-repeat;
     background-size: cover; height: 177px;border: 1px solid #dddddd;margin-right: 10px;}
 .work-collect{background: url("/layuiadmin/layui/images/stay-collect.png") no-repeat;
@@ -219,7 +219,22 @@ background: url("/layuiadmin/layui/images/icon-leader-aw.png") right no-repeat;
 .implement .layui-table-cell{ font-size: 12px !important;}
 .implement th{background-color: #ecf8ff !important;}
 .implement th .layui-table-cell{color: black;}
-/*放大*/
+.stay-do-m p{transition: transform 0.9s;}
+.stay-do-m:hover .stay-doz-i{ -webkit-transform:translateY(-80px);}
+.stay-do-m:hover .stay-doz-n{ -webkit-transform:translate(168px,64px);}
+.stay-do-m>div{position: absolute;top: 40px;left: 14px;display: none;}
+.stay-do-m>div ul li{height: 24px;line-height: 24px;color: #fff;font-size: 12px;}
+.stay-do-m>div a{color: white;font-size: 12px;}
+.work-summary-left{margin-left: 14px;border-right: 1px dashed rgba(255,255,255,.7);width: 46% !important;position: relative;}
+.work-summary-right{margin-right: 14px;width: 46% !important;position: relative;}
+.work-summary>div canvas{margin: 10px 26%;}
+.work-summary span{position: absolute;top: 44px;
+    left: 42.5%;color: rgba(255,255,255,.8);}
+.work-summary>div p{text-align: center;color: #fff;height: 14px;line-height: 14px;font-size: 14px;}
+    /*放大*/
+.layui-col-md15{
+    -webkit-transform-origin: 0 0 0;
+    transition: transform 0.9s;}
 .layui-col-md15:hover {
     transform:scale(1.6);
     -webkit-transform:scale(1.6);
