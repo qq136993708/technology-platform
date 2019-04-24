@@ -58,10 +58,17 @@ public class ScientificFundsProvideClient {
 		JSONObject jo = JSONObject.parseObject(paramsJson);
 		String month = jo.getString("month");
 		String companyCode = jo.getString("companyCode");
+		
+		
+		String g0PROJCODE = jo.getString("g0PROJCODE");
+		String g0PROJTXT = jo.getString("g0PROJTXT");
+		
 
 		Map map = new HashMap();
 		map.put("month", month);
 		map.put("companyCode", companyCode);
+		map.put("g0PROJCODE", g0PROJCODE);
+		map.put("g0PROJTXT", g0PROJTXT);
 		List<ScientificFunds> list = scientificFundsService.getKtzjjfytjbData_detail(map);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
 		return json;
@@ -98,9 +105,15 @@ public class ScientificFundsProvideClient {
 		String month = jo.getString("month");
 		String companyCode = jo.getString("companyCode");
 
+		String g0PROJCODE = jo.getString("g0PROJCODE");
+		String g0PROJTXT = jo.getString("g0PROJTXT");
+		
+
 		Map map = new HashMap();
 		map.put("month", month);
 		map.put("companyCode", companyCode);
+		map.put("g0PROJCODE", g0PROJCODE);
+		map.put("g0PROJTXT", g0PROJTXT);
 		List<ScientificFunds> list = scientificFundsService.getRgcbzctjbDataDetail(map);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
 		return json;
@@ -140,10 +153,15 @@ public class ScientificFundsProvideClient {
 		JSONObject jo = JSONObject.parseObject(paramsJson);
 		String month = jo.getString("month");
 		String companyCode = jo.getString("companyCode");
+		String g0PROJCODE = jo.getString("g0PROJCODE");
+		String g0PROJTXT = jo.getString("g0PROJTXT");
+		
 
 		Map map = new HashMap();
 		map.put("month", month);
 		map.put("companyCode", companyCode);
+		map.put("g0PROJCODE", g0PROJCODE);
+		map.put("g0PROJTXT", g0PROJTXT);
 		List<ScientificFunds> list = scientificFundsService.getYclzctjbData_Detail(map);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
 		return json;
@@ -178,9 +196,15 @@ public class ScientificFundsProvideClient {
 		String month = jo.getString("month");
 		String companyCode = jo.getString("companyCode");
 
+		String g0PROJCODE = jo.getString("g0PROJCODE");
+		String g0PROJTXT = jo.getString("g0PROJTXT");
+		
+
 		Map map = new HashMap();
 		map.put("month", month);
 		map.put("companyCode", companyCode);
+		map.put("g0PROJCODE", g0PROJCODE);
+		map.put("g0PROJTXT", g0PROJTXT);
 		List<ScientificFunds> list = scientificFundsService.getNhzctjbData_detail(map);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
 		return json;

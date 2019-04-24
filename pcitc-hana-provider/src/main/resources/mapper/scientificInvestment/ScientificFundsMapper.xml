@@ -146,7 +146,13 @@
        
      </resultMap>
 	
-     
+     <sql id="selectCondition_zc_detail">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	      <if test="g0PROJTXT != null  and g0PROJTXT !='' ">            AND G0PROJTXT like '%${g0PROJTXT}%'</if>
+	      <if test="g0PROJCODE != null   and g0PROJCODE !=''  ">                AND G0PROJCODE  = '${g0PROJCODE}'</if>
+	   </trim>
+	 </sql>
+	 
       <!-- 课题直间接费用统计表--> 
 	 <select id="getKtzjjfytjbData" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
 	 SELECT 
@@ -355,10 +361,11 @@
 					) 
 					GROUP BY     "G0GSJC","G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS"
 			)
-			WHERE   K0BNGLFPHJECB != 0 OR 
+			WHERE   (K0BNGLFPHJECB != 0 OR 
 					K0BNKYFPQCB != 0 OR 
-					K0BNBL != 0 
-
+					K0BNBL != 0 )
+              <if test="g0PROJTXT != null  and g0PROJTXT !='' ">            AND G0PROJTXT like '%${g0PROJTXT}%'</if>
+	         <if test="g0PROJCODE != null   and g0PROJCODE !=''  ">                AND G0PROJCODE  = '${g0PROJCODE}'</if>
 			GROUP BY "G0GSJC","G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS"
 			order by "G0GSOR","G0XMLXMS","G0PROJCODE","G0PROJTXT"
 	 </select>
@@ -763,6 +770,8 @@
 			 ) 
 			 
 			 ) AS T
+			 
+			 <include refid="selectCondition_zc_detail" />
 			GROUP BY "G0GSJC","G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS"
 			ORDER BY "G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS" 
       </select>
@@ -1048,6 +1057,7 @@
 			     '${companyCode}')
 			     ) 
 			 )
+			 <include refid="selectCondition_zc_detail" />
 			 GROUP BY  "G0GSJC", "G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS" 
 			 ORDER BY "G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS" 		
       </select>
@@ -1235,7 +1245,9 @@
 						'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
 						) 
 					GROUP BY   "G0GSJC", "G0GSOR" ,"G0PROJCODE","G0PROJTXT","G0XMLXMS"      
-			)GROUP BY   "G0GSJC", "G0GSOR" ,"G0PROJCODE","G0PROJTXT","G0XMLXMS" 
+			)
+			<include refid="selectCondition_zc_detail" />
+			GROUP BY   "G0GSJC", "G0GSOR" ,"G0PROJCODE","G0PROJTXT","G0XMLXMS" 
 			ORDER BY  "G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS" 		
           
       </select>

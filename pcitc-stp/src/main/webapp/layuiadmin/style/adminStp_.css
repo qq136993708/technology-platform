@@ -52,7 +52,7 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-layout-admin .layui-footer{left: 220px;}
 .layadmin-pagetabs{position: fixed; top: 100px; right: 0; z-index: 999;}
 .layadmin-pagetabs .layui-breadcrumb{padding: 0 15px;}
-.layui-layout-admin .layui-body{top: 161px; bottom: 40px;}
+.layui-layout-admin .layui-body{top: 161px; bottom: 40px;right: 19px;}
 .layui-leader-admin .layui-body{top: 50px;}
 .layui-body{ margin: 10px 0 0 0px;background: #fff;}
 .layui-layout-admin .layui-header .layui-nav-img{width: 26px; height: 26px;}
