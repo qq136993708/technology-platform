@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
 <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
 
-<script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 </head>
 <body>
@@ -88,9 +88,9 @@
 		var taskId = "${taskId?default(0)}";
 		var id = "${id?default(0)}";
 
-		var roleCodes = "";
-		var unitCodes = "";
-		var postCodes = "";
+		var specialRoleCodes = "";
+		var specialUnitCodes = "";
+		var specialPostCodes = "";
 		layui.config({
 			base : '../../../../' //静态资源所在路径
 		}).use([ 'form', 'laydate', 'table', 'jquery', 'layer' ], function() {
@@ -179,7 +179,7 @@
 						success : function(data) { //请求成功后处理函数。
 							if (data.code == 'role') {
 								// 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
-								roleCodes = data.data; // 弹出页面的隐藏的查询条件
+								specialRoleCodes = data.data; // 弹出页面的隐藏的查询条件
 								var temUrl = "/task/deal/users/ini";
 								layer.open({
 									title : '选择审批人',
@@ -195,11 +195,11 @@
 								});
 							} else if (data.code == 'unit' || data.code == 'post') {
 								// 按部门选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
-								// unitCodes、postCodes，参数名必须一致，方便公共弹出页面调用
+								// specialUnitCodes、specialPostCodes，参数名必须一致，方便公共弹出页面调用
 								if (data.code == 'unit') {
-									unitCodes = data.data; // 弹出页面的隐藏的查询条件
+									specialUnitCodes = data.data; // 弹出页面的隐藏的查询条件
 								} else {
-									postCodes = data.data; // 弹出页面的隐藏的查询条件
+									specialPostCodes = data.data; // 弹出页面的隐藏的查询条件
 								}
 								var temUrl = "/task/deal/user/unit/ini";
 								layer.open({
@@ -233,25 +233,23 @@
 			});
 		});
 
-		var DataDeal = {
-			//将从form中通过$('#form').serialize()获取的值转成json  
-			formToJson : function(data) {
-				data = data.replace(/&/g, "\",\"");
-				data = data.replace(/=/g, "\":\"");
-				data = "{\"" + data + "\"}";
-				return data;
-			}
-		};
+		function getFormData(formId) {
+			var unindexed_array = $('#'+formId).serializeArray();
+			var indexed_array = {};
+
+			$.map(unindexed_array, function(n, i) {
+				indexed_array[n['name']] = n['value'];
+			});
+			return indexed_array;
+		}
+		
 		// 处理任务
 		function handleTask(userIds) {
 			$('#userIds').val(userIds);
-			var data = $('#task-form').serialize();//获取值  
-			data = decodeURIComponent(data, true);//防止中文乱码  
-			var json = DataDeal.formToJson(data);//转化为json
 			$.ajax({
 				type : 'POST',
 				url : "/task/complete/" + taskId,
-				data : json,
+				data : JSON.stringify(getFormData('task-form')),
 				contentType : "application/json;charset=UTF-8",
 				error : function(data) {//请求失败处理函数  
 					layer.msg("操作失败!",{time: 2000,icon: 2}, function(){

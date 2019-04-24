@@ -115,7 +115,6 @@
 			var selectRowData = '';
 
 			function renderTableLeft() {
-				var param = JSON.parse(window.localStorage.getItem("param"));
 				//渲染第一个表格
 				table.render({
 					elem : '#userShowTable', //表格容器
@@ -125,9 +124,8 @@
 					id : 'userShowTable',
 					where : {
 						param : {
-							"roleCodes" : parent.roleCodes,
-							"userDisp" : $("#userDisp").val(),
-							"functionCode" : param.code
+							"roleCodes" : parent.specialRoleCodes,
+							"userDisp" : $("#userDisp").val()
 						}
 					},
 					height : 'full-100',

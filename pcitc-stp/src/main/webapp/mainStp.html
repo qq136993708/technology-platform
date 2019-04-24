@@ -142,7 +142,7 @@
                         <p class="work-title">我的待办</p>
                         <p class="stay-doz-n">12</p>
                         <p class="stay-doz-i"><img src="/layuiadmin/layui/images/stay-i.png"/> </p>
-                        <div class="layui-hide">
+                        <div>
                             <ul>
                                 <li><span class="date">04/01</span>
                                     <span class="time">09：00</span>
@@ -150,6 +150,9 @@
                                 <li><span class="date">03/28</span>
                                     <span class="time">09：00</span>
                                     <span class="content">组内工作安排</span></li>
+                                <li><span class="date">03/26</span>
+                                    <span class="time">09：00</span>
+                                    <span class="content">复查工作进度</span></li>
                                 <li><span class="date">03/26</span>
                                     <span class="time">09：00</span>
                                     <span class="content">复查工作进度</span></li>
@@ -162,11 +165,18 @@
             <div class="layui-col-md4">
                 <div class="work-summary">
                     <p class="work-title">工作总结</p>
-                    <div class="work-summary-left">
-
-
+                    <div class="work-summary-left layui-col-md5">
+                        <div id="circleOne">
+                            <span></span>
+                        </div>
+                        <p>上周工作完成度</p>
                     </div>
-                    <div class="work-summary-right"></div>
+                    <div class="work-summary-right layui-col-md5">
+                        <div id="circleTwo">
+                            <span></span>
+                        </div>
+                        <p>本周工作安排度</p>
+                    </div>
                 </div>
             </div>
             <div class="layui-col-md4">
@@ -399,6 +409,7 @@
         <script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
         <script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
         <script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
+        <script type="text/javascript" src="/layuiadmin/javascript/circle-progress.min.js"></script>
         <script>
             var companyCode = $("#companyCode").val();
             var element;
@@ -451,12 +462,40 @@
                 $(".collapse").on("click", function () {
                     $(this).parent().parent().nextAll().slideToggle(400);
                 });
+                /*table*/
                 table.init('demo', {
                     limit: 5
                 });
-
+                /*动画*/
+                $(".stay-do-m").hover(function () {
+                    $(this).find("div").fadeIn(900);
+                },function () {
+                    $(this).find("div").fadeOut(900);
+                });
+                circle("circleOne",0,"3/9");
+                circle("circleTwo",0,"7/10");
+                $(".work-summary").hover(function(){
+                    circle("circleOne",(3/9).toFixed(2),"3/9");
+                    circle("circleTwo",(7/10).toFixed(2),"7/10");
+                },function(){
+                    circle("circleOne",0,"3/9");
+                    circle("circleTwo",0,"7/10");
+                });
             });
-
+            function circle(id,value,number){
+                $("#"+id).circleProgress({
+                    value: value,
+                    size: 85,
+                    startAngle: -Math.PI / 2,
+                    thickness: '15',
+                    fill: {
+                        gradient: ["#ffffff","#79dcd5"]
+                    },
+                    emptyFill:"rgba(255,255,255,.3)"
+                }).on('circle-animation-progress', function (event, progress, stepValue) {
+                    $(this).find('span').html(number);
+                });
+            }
 
             function init() {
 
