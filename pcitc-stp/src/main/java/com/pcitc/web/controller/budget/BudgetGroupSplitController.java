@@ -84,7 +84,7 @@ public class BudgetGroupSplitController extends BaseController {
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_main_groupsplit")
 	public Object toBudgetGroupPage(HttpServletRequest request) throws IOException 
 	{
-		String nd = request.getParameter("nd")==null?DateUtil.format(new Date(), DateUtil.FMT_YYYY):request.getParameter("nd");
+		String nd = request.getParameter("nd")==null? DateUtil.format(DateUtil.getNextYearDay(new Date()), DateUtil.FMT_YYYY):request.getParameter("nd");
 		request.setAttribute("nd", nd);
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPSPLIT_TITLES, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), List.class);
 		request.setAttribute("items", infors.getBody());

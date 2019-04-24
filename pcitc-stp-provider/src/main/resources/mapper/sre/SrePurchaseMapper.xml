@@ -32,6 +32,7 @@
   <sql id="selectCondition">
     <trim prefix="WHERE" prefixOverrides="AND|OR">
       <if test="state != null     and state !=''  ">   AND t.state = #{state}</if>
+      <if test="stage != null     and stage !=''  ">   AND t.stage = #{stage}</if>
       <if test="proposerName != null and proposerName  !='' ">               AND t.proposer_name like CONCAT('%',#{proposerName},'%')</if>
       <if test="purchaseName != null and purchaseName  !='' ">               AND t.purchase_name like CONCAT('%',#{purchaseName},'%')</if>
       <if test="createDate!= null       and createDate !=''  ">     AND t.create_date = #{createDate}</if>
