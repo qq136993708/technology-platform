@@ -120,6 +120,9 @@ public class ProjectCostController {
 			request.setAttribute("companyCode", companyCode);
 			request.setAttribute("month", month);
 			
+			String monthstr =DateUtil.dateToStr(DateUtil.strToDate(month, DateUtil.FMT_MM), DateUtil.FMT_YYYY_ZH);
+			request.setAttribute("monthstr", monthstr);
+			
 	        return "stp/hana/projectCost/kytztjb_detail";
 	  }
 	  
@@ -212,6 +215,9 @@ public class ProjectCostController {
 				request.setAttribute("companyName", companyName);
 				request.setAttribute("companyCode", companyCode);
 				request.setAttribute("month", month);
+				
+				String monthstr =DateUtil.dateToStr(DateUtil.strToDate(month, DateUtil.FMT_MM), DateUtil.FMT_YYYY_ZH);
+				request.setAttribute("monthstr", monthstr);
 		        return "stp/hana/projectCost/kjjftjb_detail";
 		  }
 	     
@@ -306,6 +312,9 @@ public class ProjectCostController {
 				request.setAttribute("companyName", companyName);
 				request.setAttribute("companyCode", companyCode);
 				request.setAttribute("month", month);
+				
+				String monthstr =DateUtil.dateToStr(DateUtil.strToDate(month, DateUtil.FMT_MM), DateUtil.FMT_YYYY_ZH);
+				request.setAttribute("monthstr", monthstr);
 		        return "stp/hana/projectCost/hxktqcbtjb_detail";
 		  }
 	     

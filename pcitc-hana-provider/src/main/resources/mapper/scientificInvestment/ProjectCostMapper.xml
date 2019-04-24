@@ -33,16 +33,21 @@
        <result column="K0BNKYFPQCB"       property="k0BNKYFPQCB"      jdbcType="DECIMAL" />
        <result column="K0LJGLFPHJESR"     property="k0LJGLFPHJESR"      jdbcType="DECIMAL" />
        
-       
        <result column="K0BNGLFPHJESR"     property="k0BNGLFPHJESR"      jdbcType="DECIMAL" />
        
-       
-       
-	    
-	    
-       
-       
      </resultMap>
+     
+     
+     <sql id="selectCondition_getProject_detail">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	      <if test="g0PROJTXT != null  and g0PROJTXT !='' ">            AND G0PROJTXT like '%${g0PROJTXT}%'</if>
+	      <if test="g0PROJCODE != null   and g0PROJCODE !=''  ">                AND G0PROJCODE  = '${g0PROJCODE}'</if>
+	   </trim>
+	 </sql>
+	 
+	 
+	 
+	 
 	
      
       <!-- 科研投资统计表--> 
@@ -189,7 +194,7 @@
 				'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
 				) 
 				GROUP BY "G0XMBK", "G0GSJC", "G0GSOR", "G0XMLXMS","G0PROJCODE","G0PROJTXT"
-				)
+				)<include refid="selectCondition_getProject_detail" />
 			GROUP BY "G0XMBK", "G0GSJC", "G0GSOR", "G0XMLXMS","G0PROJCODE","G0PROJTXT"
 			ORDER BY "G0XMBK","G0XMLXMS" ,"G0GSOR"
 	  </sql>
@@ -291,6 +296,13 @@
 			ORDER BY "G0GSOR"
 	 </select>
 	 
+	 
+	 
+	 
+	 
+	
+	
+	
 	 <sql id="getKjjftjbData_detail_id">
 	 
 					 SELECT
@@ -353,13 +365,17 @@
 				) 
 				GROUP BY "G0XMBK", "G0GSJC", "G0GSOR", "G0XMLXMS","G0PROJCODE","G0PROJTXT"
 				)
+				<include refid="selectCondition_getProject_detail" />
 				GROUP BY "G0XMBK", "G0GSJC", "G0GSOR", "G0XMLXMS","G0PROJCODE","G0PROJTXT"
 				ORDER BY "G0XMBK","G0XMLXMS" ,"G0GSOR"
 	 
 	 </sql>
+	 
+	
+	
 	  
 	 <select id="getKjjftjbData_detail" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
-	  <include refid="getKjjftjbData_detail_id" />
+	   <include refid="getKjjftjbData_detail_id" />
 	 </select>
 	   
 	 <select id="getKjjftjbData_detail_count"  resultType="int" parameterType="java.util.Map" >
@@ -519,6 +535,7 @@
 				) 
 				GROUP BY "G0XMBK", "G0GSJC", "G0GSOR", "G0XMLXMS","G0PROJCODE","G0PROJTXT"
 				)
+				 <include refid="selectCondition_getProject_detail" />
 				GROUP BY "G0XMBK", "G0GSJC", "G0GSOR", "G0XMLXMS","G0PROJCODE","G0PROJTXT"
 				ORDER BY "G0XMBK","G0XMLXMS" ,"G0GSOR"
 	  
