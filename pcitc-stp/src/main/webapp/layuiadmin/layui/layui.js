@@ -245,7 +245,7 @@
 	var specialUnitCodes = "";
 	var specialPostCodes = "";
 	
-    function workflowCommit(dataField) {
+    function workflowAuditorSelector(dataField) {
     	layui.config({
 			base : '../../../../' //静态资源所在路径
 		}).use([ 'jquery', 'form', 'table', 'layer', 'element' ], function() {
