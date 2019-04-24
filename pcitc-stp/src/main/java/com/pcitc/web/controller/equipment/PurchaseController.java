@@ -13,12 +13,14 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.stp.equipment.*;
 import com.pcitc.base.system.SysDictionary;
+import com.pcitc.base.system.SysPost;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.ResultsDate;
 import com.pcitc.web.utils.WordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -52,7 +54,7 @@ public class PurchaseController extends BaseController{
     private static final String DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/delete/";
     //临时导出文件目录
     private static final String TEMP_FILE_PATH = "src/main/resources/tem/";
-
+    private static final String PURCHASE_INNER_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/purchase/start_inner_activity/";
     // 流程操作--同意
     //private static final String AUDIT_AGREE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/task/agree/";
     // 流程操作--拒绝
@@ -632,7 +634,133 @@ public class PurchaseController extends BaseController{
     }
 
 
+    //内部确认流程
+    @RequestMapping(value = "/start_purchase_workflow")
+    @ResponseBody
+    public Object start_purchase_workflow(HttpServletRequest request, HttpServletResponse response) throws Exception
+    {
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+        String id = CommonUtil.getParameter(request, "id", "");
+        String functionId = CommonUtil.getParameter(request, "functionId", "");
+        String userIds = CommonUtil.getParameter(request, "userIds", "");
+        System.out.println("============start_purchase_workflow userIds="+userIds+" functionId="+functionId+" id="+id);
 
+        SrePurchase srePurchase = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class).getBody();
+        //SreProjectTask sreProjectTask=EquipmentUtils.getSreProjectTask(id, restTemplate, httpHeaders);
+
+       /* String branchFlag="0";
+        String joinUnitCode=sreProjectTask.getJoinUnitCode();
+        if(joinUnitCode!=null && !joinUnitCode.equals(""))
+        {
+            branchFlag="1";
+        }*/
+
+        Map<String ,Object> paramMap = new HashMap<String ,Object>();
+        paramMap.put("id", id);
+        paramMap.put("functionId", functionId);
+        paramMap.put("processInstanceName", "计划院内确认->"+srePurchase.getPurchaseName());
+        paramMap.put("authenticatedUserId", sysUserInfo.getUserId());
+        paramMap.put("authenticatedUserName", sysUserInfo.getUserDisp());
+        paramMap.put("auditor", userIds);
+        //paramMap.put("branchFlag", branchFlag);
+        /*//申请者机构信息
+        paramMap.put("applyUnitCode", sysUserInfo.getUnitCode());
+        String parentApplyUnitCode=EquipmentUtils.getUnitParentCodesByUnitCodes(sysUserInfo.getUnitCode(), restTemplate, httpHeaders);
+        paramMap.put("parentApplyUnitCode", parentApplyUnitCode);
+*/
+        /*paramMap.put("applyUnitName", sysUserInfo.getUnitName());
+        paramMap.put("applyUserId", sysUserInfo.getUserId());
+        paramMap.put("applyUserName", sysUserInfo.getUserDisp());
+        paramMap.put("applyUnitPathCode", sysUserInfo.getUnitPath());
+        String unitPathIds =   sysUserInfo.getUnitPath();
+        String parentApplyUnitPathCode ="";
+        String parentApplyUnitPathName =  "";
+        if(unitPathIds!=null && !unitPathIds.equals(""))
+        {
+            if(unitPathIds.length()>4)
+            {
+                parentApplyUnitPathCode=unitPathIds.substring(0, unitPathIds.length()-4);
+                SysUnit sysUnit=EquipmentUtils.getUnitByUnitPath(parentApplyUnitPathCode, restTemplate, httpHeaders);
+                if(sysUnit!=null)
+                {
+                    parentApplyUnitPathName = sysUnit.getUnitName();
+                }
+            }
+        }
+        paramMap.put("parentApplyUnitPathCode", parentApplyUnitPathCode);
+        paramMap.put("parentApplyUnitPathName", parentApplyUnitPathName);
+*/
+
+        //指定岗位
+        /*String specialAuditor1 = "";//xxx_装备_企业科研主管-岗位代码
+        StringBuffer specialAuditor1_sb = new StringBuffer();
+        String specialAuditor2 = "";//xxx_装备_负责单位科技处长-岗位代码
+        StringBuffer specialAuditor2_sb = new StringBuffer();
+        String specialAuditor3 = "";//xxx_装备_负责单位主管领导-岗位代码
+        StringBuffer specialAuditor3_sb = new StringBuffer();
+
+        String unitIds=sysUserInfo.getUnitId();
+        System.out.println("============unitIds ="+unitIds+" applyUnitName="+sysUserInfo.getUnitName());
+        if(unitIds!=null && !unitIds.equals(""))
+        {
+            String arr[]=unitIds.split(",");
+            if(arr!=null && arr.length>0)
+            {
+                for(int i=0;i<arr.length;i++)
+                {
+                    String unitId=arr[i];
+
+                    List<SysPost> list = EquipmentUtils.getPostListByUnitId(unitId, restTemplate, httpHeaders);
+                    if(list!=null && list.size()>0)
+                    {
+                        for(int j=0;j<list.size();j++)
+                        {
+                            SysPost sysPost=list.get(j);
+                            String postCode=sysPost.getPostCode();
+                            String postName=sysPost.getPostName();
+                            System.out.println("============ postName ="+ postName);
+                            if(postName.contains("企业科研主管"))
+                            {
+                                specialAuditor1_sb.append(postCode).append("-");
+                            }
+                            if(postName.contains("负责单位科技处长"))
+                            {
+                                specialAuditor2_sb.append(postCode).append("-");
+                            }
+                            if(postName.contains("负责单位主管领导"))
+                            {
+                                specialAuditor3_sb.append(postCode).append("-");
+                            }
+                        }
+                    }
+                }
+
+            }
+            specialAuditor1=specialAuditor1_sb.toString();
+            specialAuditor2=specialAuditor2_sb.toString();
+            specialAuditor3=specialAuditor3_sb.toString();
+            if(!specialAuditor1.equals(""))
+            {
+                specialAuditor1= specialAuditor1.substring(0,specialAuditor1.length() - 1);
+            }
+            if(!specialAuditor2.equals(""))
+            {
+                specialAuditor2= specialAuditor2.substring(0,specialAuditor2.length() - 1);
+            }
+            if(!specialAuditor3.equals(""))
+            {
+                specialAuditor3= specialAuditor3.substring(0,specialAuditor3.length() - 1);
+            }
+        }
+        paramMap.put("specialAuditor1", specialAuditor1);
+        paramMap.put("specialAuditor2", specialAuditor2);
+        paramMap.put("specialAuditor3", specialAuditor3);
+        System.out.println("============specialAuditor1 ="+specialAuditor1+" specialAuditor2="+specialAuditor2+" specialAuditor3="+specialAuditor3);
+        */HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+        //return null;
+        Result rs = this.restTemplate.exchange(PURCHASE_INNER_WORKFLOW_URL + id, HttpMethod.POST, httpEntity, Result.class).getBody();
+        return rs;
+    }
     /* =================================生成word文档  START================================*/
     //生成采购单模板
     @RequestMapping(value = "/sre-purchase/createWord/{id}", method = RequestMethod.GET)

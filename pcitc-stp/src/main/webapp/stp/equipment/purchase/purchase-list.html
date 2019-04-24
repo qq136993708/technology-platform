@@ -310,7 +310,7 @@ var name=$('#name').val();
             	}
             
             },
-           applyEvent: function(){  //点击上报按钮
+           /*applyEvent: function(){  //点击上报按钮
             	
             	if (typeof(selectRowData) == "undefined") 
             	{
@@ -330,8 +330,29 @@ var name=$('#name').val();
                         ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
                     }
                 }
-            },//预览采购申请单
-             createWord: function(){
+            },*/
+             applyEvent: function(){
+                 if (typeof(selectRowData) == "undefined")
+                 {
+                     layer.msg('请点击选择一行数据');
+                 } else
+                 {
+                     var id=selectRowData.id;
+                     var state=selectRowData.state;
+                     /*var innerAuditStatus=selectRowData.innerAuditStatus;
+                     var setupId=selectRowData.setupId;
+                     var joinUnitCodes=selectRowData.joinUnitCode;*/
+                     if(state!='10')
+                     {
+                         layer.alert('请选择未上报的申请');
+                         return;
+                     }else
+                         alert("-2")
+                         $('#id').val(id);
+                         dealFlow(id);
+                     }
+             },
+             createWord: function(){//预览采购申请单
                  if (typeof(selectRowData) == "undefined")
                  {
                      layer.msg('请点击选择一行数据');
@@ -486,7 +507,6 @@ var name=$('#name').val();
     
     function dealFlow(id)
     {
-    	
     	var json = {functionId:functionId};
     	 $.ajax({
              type : 'POST',
@@ -549,7 +569,7 @@ var name=$('#name').val();
               	{
               		layer.msg('工作流部署异常，请联系管理员');
               	} else 
-              	{
+              	{alert("==1")
               		// 直接处理此任务
               		handleTask('');
               	}
@@ -562,14 +582,12 @@ var name=$('#name').val();
     //处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
    function handleTask(userIds)
     {
-    	
-    	$('#userIds').val(userIds);
-    	$('#applyEvent').attr("disabled",true);
-    	var v_date=(new Date()).getTime();
-        var url="/sre-project-basic/departName?v_date="+v_date;
-        var backurl="/sre-project-basic/to-list?v_date="+v_date;
+        alert(userIds)
+        $('#userIds').val(userIds);
+        var v_date=(new Date()).getTime();
+        var url="/sre-purchase/start_purchase_workflow?v_date="+v_date;
+        var backurl="/sre_purchase/to-list?v_date="+v_date;
         ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
-        $('#applyEvent').attr("disabled",false);
     }
     
     function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)

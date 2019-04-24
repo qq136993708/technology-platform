@@ -2,9 +2,11 @@ package com.pcitc.web.equipment;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import com.pcitc.base.common.Constant;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.equipment.*;
 import com.pcitc.base.workflow.Constants;
 import org.slf4j.Logger;
@@ -89,6 +91,13 @@ public class PurchaseProviderClient
         logger.info("===============================get SreProject id "+id+"===========");
         return purchaseService.selectProjectBasic(id);
     }
+	@ApiOperation(value="采购申请确认流程",notes="采购申请确认流程")
+	@RequestMapping(value = "/stp-provider/purchase/start_inner_activity/{id}", method = RequestMethod.POST)
+	public Result start_inner_activity(@PathVariable("id") String id, @RequestBody Map map)throws Exception
+	{
+		return purchaseService.dealInnerPurchaseFlow(id,map);
+	}
+
 	/**
 	 * @param id
 	 * @return
