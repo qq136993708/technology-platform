@@ -237,3 +237,78 @@
             }), i)
         }, e.layui = new o
     }(window);
+    
+    
+    
+    
+    var specialRoleCodes = "";
+	var specialUnitCodes = "";
+	var specialPostCodes = "";
+	
+    function workflowCommit(dataField) {
+    	layui.config({
+			base : '../../../../' //静态资源所在路径
+		}).use([ 'jquery', 'form', 'table', 'layer', 'element' ], function() {
+			var $ = layui.jquery, element = layui.element, layer = layui.layer;
+			$.ajax({
+				type : 'POST',
+				url : "/workflow/start/audit-type",
+				contentType : "application/json;charset=UTF-8",
+				data : dataField,//json类型
+				//json中有functionId（projectId、departmentId等）用来区别processDefine的属性
+				success : function(data) {
+					if (data.code == 'role') {
+						// 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
+						// specialRoleCodes，参数名必须一致，方便公共弹出页面调用
+						specialRoleCodes = data.data; // 弹出页面的隐藏的查询条件
+						var temUrl = "/task/deal/users/ini";
+						layer.open({
+							title : '选择审批人',
+							skin : 'layui-layer-lan',
+							shadeClose : true,
+							type : 2,
+							fixed : false,
+							//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+							maxmin : false,
+							//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+							area : [ '100%', '100%' ],
+							content : temUrl
+						});
+					} else if (data.code == 'unit' || data.code == 'post') {
+						// 按部门/岗位选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
+						// unitCodes、postCodes，参数名必须一致，方便公共弹出页面调用
+						if (data.code == 'unit') {
+							specialUnitCodes = data.data; // 弹出页面的隐藏的查询条件
+						} else {
+							specialPostCodes = data.data; // 弹出页面的隐藏的查询条件
+						}
+
+						var temUrl = "/task/deal/user/unit/ini";
+						layer.open({
+							title : '选择审批人',
+							skin : 'layui-layer-lan',
+							shadeClose : true,
+							type : 2,
+							fixed : false,
+							//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+							maxmin : false,
+							//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+							area : [ '100%', '100%' ],
+							content : temUrl
+						});
+					} else if (data.code == 'int') {
+						layer.msg('启动参数不足');
+					} else if (data.code == 'con') {
+						layer.msg('请给此功能菜单配置流程');
+					} else if (data.code == 'exist') {
+						layer.msg('工作流部署异常，请联系管理员');
+					} else {
+						// 直接处理此任务
+						handleTask('');
+					}
+				},
+				error : function(msg) {//请求失败处理函数  
+				}
+			});
+		});
+    }
