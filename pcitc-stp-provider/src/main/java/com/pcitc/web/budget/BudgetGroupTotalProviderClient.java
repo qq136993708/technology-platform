@@ -132,7 +132,7 @@ public class BudgetGroupTotalProviderClient
 			data = budgetGroupTotalService.selectBudgetGroupTotalPage(param);
 			//获取二级机构的计划数据
 			List<BudgetGroupTotal> totals = budgetGroupTotalService.selectBudgetGroupTotalByInfoId(param.getParam().get("budget_info_id").toString());
-			//map<dataId,Set<displayCode>>
+			
 			Map<String,Set<String>> itemMap = new HashMap<String,Set<String>>();
 			Set<String> codes = new HashSet<String>();
 			for(BudgetGroupTotal total:totals) {
@@ -156,7 +156,7 @@ public class BudgetGroupTotalProviderClient
 			//处理计划数据
 			Map<String,List<OutProjectPlan>> planMap = budgetGroupTotalService.selectComparePlanData(codes,nd);
 			for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) {
-				Map<String,Object> map = (Map<String,Object>)iter.next();
+				Map<String,Object> map = MyBeanUtils.java2Map(iter.next());
 				String dataId = map.get("dataId").toString();
 				if(itemMap.get(dataId) != null && itemMap.get(dataId).size()>0) {
 					Double ysjes = 0d;
@@ -166,7 +166,7 @@ public class BudgetGroupTotalProviderClient
 						List<OutProjectPlan> plans = planMap.get(code);
 						if(plans != null && plans.size()>0) {
 							for(OutProjectPlan plan:plans) {
-								ysjes += new Double(plan.getYsje());
+								ysjes += new Double(plan.getYsje()==null?"0":plan.getYsje());
 							}
 						}
 					}
@@ -178,7 +178,7 @@ public class BudgetGroupTotalProviderClient
 			//处理项目完成金额
 			Map<String,List<OutProjectInfo>> projectMap = budgetGroupTotalService.selectCompareProjectInfoData(codes,(new Integer(nd)-1)+"");
 			for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) {
-				Map<String,Object> map = (Map<String,Object>)iter.next();
+				Map<String,Object> map = MyBeanUtils.java2Map(iter.next());
 				String dataId = map.get("dataId").toString();
 				if(itemMap.get(dataId) != null && itemMap.get(dataId).size()>0) {
 					Double jhjes = 0d;
@@ -188,7 +188,7 @@ public class BudgetGroupTotalProviderClient
 						List<OutProjectInfo> plans = projectMap.get(code);
 						if(plans != null && plans.size()>0) {
 							for(OutProjectInfo plan:plans) {
-								jhjes += new Double(plan.getYsje());
+								jhjes += new Double(plan.getYsje()==null?"0":plan.getYsje());
 							}
 						}
 					}
