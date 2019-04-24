@@ -52,19 +52,19 @@ public class SysConfigController extends BaseController {
 	private RestTemplate restTemplate;
 
 	// 系统配置列表
-	private static final String SYS_CONFIG_URL = "http://pplus-zuul/system-proxy/sysconfig-provider/sys_config/list";
+	private static final String SYS_CONFIG_URL = "http://pcitc-zuul/system-proxy/sysconfig-provider/sys_config/list";
 
 	// 新增配置
-	private static final String SYS_CONFIG_ADD_URL = "http://pplus-zuul/system-proxy/sysconfig-provider/sys_config/add";
+	private static final String SYS_CONFIG_ADD_URL = "http://pcitc-zuul/system-proxy/sysconfig-provider/sys_config/add";
 
 	// 根据id获取配置
-	private static final String GET_SYS_CONFIG = "http://pplus-zuul/system-proxy/sysconfig-provider/sys_config/getsysconfig/";
+	private static final String GET_SYS_CONFIG = "http://pcitc-zuul/system-proxy/sysconfig-provider/sys_config/getsysconfig/";
 
 	// 保存修改
-	private static final String SAVE_SYS_CONFIG = "http://pplus-zuul/system-proxy/sysconfig-provider/sys_config/saveSysConfig";
+	private static final String SAVE_SYS_CONFIG = "http://pcitc-zuul/system-proxy/sysconfig-provider/sys_config/saveSysConfig";
 
 	// 删除数据
-	private static final String DELETE_SYS_CONFIG = "http://pplus-zuul/system-proxy/sysconfig-provider/sys_config/deleteSysConfig";
+	private static final String DELETE_SYS_CONFIG = "http://pcitc-zuul/system-proxy/sysconfig-provider/sys_config/deleteSysConfig";
 
 	/**
 	 * @author Nishikino 初始化查询页面

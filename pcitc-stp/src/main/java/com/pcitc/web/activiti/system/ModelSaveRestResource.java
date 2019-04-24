@@ -20,7 +20,7 @@ import com.pcitc.web.common.BaseController;
 @RestController
 public class ModelSaveRestResource extends BaseController {
 	
-	private static final String ACTIVITI_MODEL_SAVE = "http://pplus-zuul/system-proxy/modeler-provider/model/save";
+	private static final String ACTIVITI_MODEL_SAVE = "http://pcitc-zuul/system-proxy/modeler-provider/model/save";
 
 	@RequestMapping(value = "/service/model/{modelId}/save", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)
