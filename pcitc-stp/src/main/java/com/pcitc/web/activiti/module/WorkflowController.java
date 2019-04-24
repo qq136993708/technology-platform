@@ -148,7 +148,7 @@ public class WorkflowController extends BaseController {
 		
 		
 		// 会签时需要的属性，会签里所有的人，同意率（double类型）
-		variables.put("signAuditRate", 1d); 
+		//variables.put("signAuditRate", 1d); 
 
 		workflowVo.setVariables(variables);
 		ResponseEntity<String> status = this.restTemplate.exchange(START_WORKFLOW_URL, HttpMethod.POST, new HttpEntity<WorkflowVo>(workflowVo, this.httpHeaders), String.class);
