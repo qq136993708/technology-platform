@@ -12,12 +12,35 @@
 
 
 <div class="searchBox">
-<input name="month" id="month" type="hidden" value="${month}" >
 <input name="companyCode" id="companyCode" type="hidden" value="${companyCode}" >
+<input name="month" id="month" type="hidden" value="${month}" >
+
+
+
+<!--查询条件-->
+
+        
+        
+        <label class="dateInput">
+            <span>项目编号</span>
+            <input type="text" name="g0PROJCODE"  title="编号" value="${g0PROJCODE}" autocomplete="off" class="form-control" id="g0PROJCODE">
+        </label>
+       <label class="dateInput">
+            <span>项目名称</span>
+            <input type="text" name="g0PROJTXT"  title="名称" value="${g0PROJTXT}" autocomplete="off" class="form-control" id="g0PROJTXT">
+        </label>
+       
+       
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="renderTable()" data-type="searchEvent">查询</button>
+    </div><span style="float:right;margin-right:20px">(单位：万元)</<span>
+    
+    
 </div>
 
 <div class="tableBox" >
-    <h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt"></label>${companyName}详情表(单位：万元)</h3>
+    <h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt"></label>${monthstr}${companyName}详情表</h3>
     <table id="processdef-table" class="layui-hide" lay-filter="tableEvent">
 </div>
 
@@ -118,7 +141,9 @@ layui.config({
         method:"POST",
         where: {param: {
         	      "month":$("#month").val(),
-        	      "companyCode":$("#companyCode").val()
+        	      "companyCode":$("#companyCode").val(),
+        	      "g0PROJCODE":$("#g0PROJCODE").val(),
+        	      "g0PROJTXT":$("#g0PROJTXT").val()
         	      
         	
                }},

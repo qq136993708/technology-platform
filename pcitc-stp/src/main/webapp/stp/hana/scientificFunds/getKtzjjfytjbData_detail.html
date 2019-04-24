@@ -7,15 +7,32 @@
 	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <script src="/layuiadmin/layui/layui.js"></script>
-</head>
+</head> 
 <body>
 <div class="searchBox">
 <input  name="month"          id="month"        value="${month}"   type="hidden">
 <input  name="companyName"    id="companyName"  value="${companyName}"   type="hidden">
+  <label class="dateInput">
+            <span>项目编号</span>
+            <input type="text" name="g0PROJCODE"  title="编号" value="${g0PROJCODE}" autocomplete="off" class="form-control" id="g0PROJCODE">
+        </label>
+       <label class="dateInput">
+            <span>项目名称</span>
+            <input type="text" name="g0PROJTXT"  title="名称" value="${g0PROJTXT}" autocomplete="off" class="form-control" id="g0PROJTXT">
+        </label>
+       
+       
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="myTable2()" >查询</button>
+    </div><span style="float:right;margin-right:20px">(单位：万元)</<span>
+    
+    
+
+</div>
 
 <div class="tableBox">
 <h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt" ></label>${companyName}（${month}）</h3>
-<h3 style="font-weight: bold;text-align: right;margin: 10px 0;" id="stp_table_title"><label id="ttt" ></label>(单位：万元)</h3>
 <table id="myTable2" class="layui-table" lay-filter="myTable2" style="width:1200px">
     <thead>
      <tr>
@@ -97,9 +114,6 @@ layui.config({
         
     });
     
-function search_Event()
-{
-}
 
 
 
@@ -108,8 +122,13 @@ function myTable2()
 	
 	 var  month=$("#month").val();
 	 var  companyName=$("#companyName").val();
+	 
+	 var  g0PROJCODE=$("#g0PROJCODE").val();
+	 var  g0PROJTXT=$("#g0PROJTXT").val();
+	 
+	 
 	 var v_date=(new Date()).getTime();
-	 var url= '/getKtzjjfytjbData_detail?month='+month+"&v_date="+v_date+"&companyName="+companyName;
+	 var url= '/getKtzjjfytjbData_detail?month='+month+"&v_date="+v_date+"&companyName="+companyName+"&g0PROJCODE="+g0PROJCODE+"&g0PROJTXT="+g0PROJTXT;
 	 table2.init('myTable2', {
 			  url: url
 			  ,where: {} 

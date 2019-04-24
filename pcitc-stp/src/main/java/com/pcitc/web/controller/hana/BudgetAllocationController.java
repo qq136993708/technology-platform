@@ -52,9 +52,8 @@ public class BudgetAllocationController {
 
 	
 	private static final String jtjffj = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-groupsplit-titles";
-	private static final String BUDGET_STOCKSPLIT_TITLES = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-stocksplit-zgs-titles";
+	private static final String gfjffjzgs = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-stocksplit-zgs-titles";
 	private static final String gfjffjxtw = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-stocksplit-xtw-titles";
-	
 	private static final String gfjffjzsy = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-stocksplit-zsy-titles";
 	private static final String zcjffj = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-assetsplit-titles";
 	
@@ -168,7 +167,7 @@ public class BudgetAllocationController {
 	  {
 		  String nd = request.getParameter("nd")==null?DateUtil.format(new Date(), DateUtil.FMT_YYYY):request.getParameter("nd");
 			request.setAttribute("nd", nd);
-			ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_STOCKSPLIT_TITLES, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), List.class);
+			ResponseEntity<?> infors = this.restTemplate.exchange(gfjffjzgs, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), List.class);
 			request.setAttribute("items", infors.getBody());
 	        return "stp/hana/budget/gfjffjzgs";
 	  }
