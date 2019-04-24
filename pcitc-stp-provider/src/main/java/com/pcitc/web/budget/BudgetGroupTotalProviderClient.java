@@ -337,6 +337,48 @@ public class BudgetGroupTotalProviderClient
 		}
 		return map;
 	}
+	@ApiOperation(value="集团公司预算-预算明细检索",notes="检索集团预算表明细信息（分页列表）。")
+	@RequestMapping(value = "/stp-provider/budget/get-final-grouptotal-itemcompnays", method = RequestMethod.POST)
+	public Object getGroupTotalFinalItems(@RequestBody String nd) 
+	{
+		logger.info("select-budget-grouptotal-items...");
+		Map<String,Set<String>> itemMap = new HashMap<String,Set<String>>();
+		try
+		{
+			BudgetInfo info = budgetInfoService.selectFinalBudget(nd, BudgetInfoEnum.GROUP_TOTAL.getCode());
+			//获取二级机构的计划数据
+			List<BudgetGroupTotal> totals = budgetGroupTotalService.selectBudgetGroupTotalByInfoId(info.getDataId());
+			
+			
+			Set<String> codes = new HashSet<String>();
+			for(BudgetGroupTotal total:totals) {
+				if(total.getLevel() > 0) {
+					if(StringUtils.isNotBlank(total.getDisplayCode())) {
+						codes.add(total.getDisplayCode());
+					}
+				}else {
+					//一级item下包含的二级item列表
+					itemMap.put(total.getSimpleCode(), new HashSet<String>());
+					for(BudgetGroupTotal t:totals) {
+						if(t.getParentDataId() != null && t.getParentDataId().equals(total.getDataId())) {
+							if(StringUtils.isNotBlank(t.getDisplayCode())) {
+								itemMap.get(total.getSimpleCode()).add(t.getDisplayCode());
+							}
+						}
+					}
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return itemMap;
+	}
+	
+	
+	
+	
 	@ApiOperation(value="集团公司预算-保存年度预算项详情",notes="保存预算项包括子项详情")
 	@RequestMapping(value = "/stp-provider/budget/save-grouptotal-item", method = RequestMethod.POST)
 	public Object saveBudgetGroupTotalInfo(@RequestBody BudgetGroupTotal item) 
