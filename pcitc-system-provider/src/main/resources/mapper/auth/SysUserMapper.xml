@@ -600,11 +600,14 @@
 		order by sys_user.user_id
 	</select>
 
-	<select id="findUserByGroupIdFromACT" resultType="java.lang.String" parameterType="java.lang.String">
+	<select id="findUserByGroupIdFromACT" resultType="java.lang.String" parameterType="java.util.List">
 		select USER_ID_
 		from act_id_membership
 		where
-		GROUP_ID_ = #{groupId,jdbcType=VARCHAR}
+		GROUP_ID_ in
+		<foreach collection="list" item="beanItem" index="index" open="(" close=")" separator=",">
+			#{beanItem}
+		</foreach>
 	</select>
 
 	<select id="selectUserDetail" resultMap="BaseResultMap" parameterType="java.util.Map">

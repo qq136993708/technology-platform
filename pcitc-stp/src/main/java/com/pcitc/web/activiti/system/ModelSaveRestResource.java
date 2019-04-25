@@ -22,7 +22,7 @@ public class ModelSaveRestResource extends BaseController {
 	
 	private static final String ACTIVITI_MODEL_SAVE = "http://pcitc-zuul/system-proxy/modeler-provider/model/save";
 
-	@RequestMapping(value = "/service/model/{modelId}/save", method = RequestMethod.POST)
+	@RequestMapping(value = "/service/model/{modelId}/save")
 	@ResponseStatus(value = HttpStatus.OK)
 	public void saveModel(@PathVariable String modelId, @RequestParam("name") String name, @RequestParam("json_xml") String json_xml, @RequestParam("svg_xml") String svg_xml, @RequestParam("description") String description) {// 对接收参数进行了修改
 		WorkflowVo workflowVo = new WorkflowVo();

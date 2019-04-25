@@ -45,7 +45,6 @@ import org.activiti.engine.repository.ProcessDefinitionQuery;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.DelegationState;
 import org.activiti.engine.task.Task;
-import org.activiti.engine.task.TaskQuery;
 import org.activiti.explorer.util.XmlUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -210,14 +209,7 @@ public class WorkflowProviderClient {
 			if (json.getString(taskDef.getKey()) != null) {
 				Set<String> userIds = new LinkedHashSet<String>();
 				String[] groups = json.getString(taskDef.getKey()).toString().split("-");
-				for (int i = 0; i < groups.length; i++) {
-					
-					List<String> userList = sysUserMapper.findUserByGroupIdFromACT(groups[i]);
-					for (int j = 0; j < userList.size(); j++) {
-						System.out.println(j+"1=========TaskDefinition======="+userList.get(j));
-					}
-					userIds.addAll(userList);
-				}
+				userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(Arrays.asList(groups)));
 				taskVar.put("auditor", userIds);
 			}
 		}
@@ -350,15 +342,10 @@ public class WorkflowProviderClient {
 		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor") && (taskVar.get("auditor") == null || taskVar.get("auditor").equals(""))) {
 			// 特殊节点，获取当初传递的值
 			Set<String> userIds = new LinkedHashSet<String>();
-			System.out.println("1=========TaskDefinition======="+taskDef.getKey());
-			System.out.println("1=========TaskDefinition======="+taskVar.get(taskDef.getKey()));
 			if (taskVar.get(taskDef.getKey()) != null) {
 				// 分解group
 				String[] groups = taskVar.get(taskDef.getKey()).toString().split("-");
-				for (int i = 0; i < groups.length; i++) {
-					userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(groups[i]));
-					System.out.println("2=========TaskDefinition======="+userIds.size());
-				}
+				userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(Arrays.asList(groups)));
 				System.out.println("3=========TaskDefinition======="+userIds);
 				taskVar.put("auditor", userIds);
 			}

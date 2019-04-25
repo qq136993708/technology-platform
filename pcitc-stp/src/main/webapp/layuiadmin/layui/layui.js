@@ -241,10 +241,10 @@
     
     
     
-    var specialRoleCodes = "";
-	var specialUnitCodes = "";
-	var specialPostCodes = "";
-	
+    var roleCodes = "";
+	var unitCodes = "";
+	var postCodes = "";
+	// 提交审批时，判断是否下一步需要选择审批人，如果需要把选择到的审批人放到userIds中
     function workflowAuditorSelector(dataField) {
     	layui.config({
 			base : '../../../../' //静态资源所在路径
@@ -260,7 +260,7 @@
 					if (data.code == 'role') {
 						// 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
 						// specialRoleCodes，参数名必须一致，方便公共弹出页面调用
-						specialRoleCodes = data.data; // 弹出页面的隐藏的查询条件
+						roleCodes = data.data; // 弹出页面的隐藏的查询条件
 						var temUrl = "/task/deal/users/ini";
 						layer.open({
 							title : '选择审批人',
@@ -278,9 +278,9 @@
 						// 按部门/岗位选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
 						// unitCodes、postCodes，参数名必须一致，方便公共弹出页面调用
 						if (data.code == 'unit') {
-							specialUnitCodes = data.data; // 弹出页面的隐藏的查询条件
+							unitCodes = data.data; // 弹出页面的隐藏的查询条件
 						} else {
-							specialPostCodes = data.data; // 弹出页面的隐藏的查询条件
+							postCodes = data.data; // 弹出页面的隐藏的查询条件
 						}
 
 						var temUrl = "/task/deal/user/unit/ini";
