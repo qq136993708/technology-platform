@@ -3,6 +3,7 @@ package com.pcitc.web.feign;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import feign.Response;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,6 @@ public interface SysFileFeignClient {
                                       @RequestParam("filename") String filename, @RequestParam("filepathconfig") String filepathconfig, @RequestParam("userid") String userid, @RequestParam("uuid") String uuid, @RequestParam("formId") String formId, @RequestParam("flag") String flag);
 
     @RequestMapping(value = "/sysfile-provider/sysfile/video/{id}")
-    public void videoFiles(@PathVariable("id") String id, @RequestParam("request") HttpServletRequest request, @RequestParam("response") HttpServletResponse response);
+    public Response videoFiles(@RequestParam("id") String id, @RequestParam("request") HttpServletRequest request, @RequestParam("response") HttpServletResponse response);
 //    public ResponseEntity<byte[]> videoFiles(@PathVariable("id") String id, @RequestParam("request") HttpServletRequest request, @RequestParam("response") HttpServletResponse response);
 }
