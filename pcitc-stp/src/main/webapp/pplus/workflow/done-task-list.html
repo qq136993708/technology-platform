@@ -12,8 +12,9 @@
 <body>
 	<div class="searchBox">
 		<!--查询条件-->
-		<label class="dateInput"> <span>流程名称</span> <input type="hidden" id="dateFlag" name="dateFlag" value="7"> <input type="text" name="processName"
-			placeholder="请输入流程名称" title="流程名称" autocomplete="off" class="form-control" id="processName">
+		<label class="dateInput">
+			<span>流程名称</span>
+			<input type="hidden" id="dateFlag" name="dateFlag" value="7"> <input type="text" name="processName" placeholder="请输入流程名称" title="流程名称" autocomplete="off" class="form-control" id="processName">
 		</label>
 		<!--按钮组-->
 		<div class="btnGroup">
@@ -27,16 +28,20 @@
 			<div class="whiteLine"></div>
 			<div class="tableBtns">
 				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="allEvent">
-					<span class="btn-state btn-all"></span> 全部
+					<span class="btn-state btn-all"></span>
+					全部
 				</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="threeEvent">
-					<span class="btn-state btn-blue"></span> 三天内
+					<span class="btn-state btn-blue"></span>
+					三天内
 				</button>
 				<button id="weekData" class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue active btnMyBgImg" data-type="weekEvent">
-					<span class="btn-state btn-maize"></span> 一周内
+					<span class="btn-state btn-maize"></span>
+					一周内
 				</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="monthEvent">
-					<span class="btn-state btn-yellow"></span> 一周以上
+					<span class="btn-state btn-yellow"></span>
+					一周以上
 				</button>
 
 				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent">查看</button>
@@ -50,7 +55,9 @@
 	<script>
 		var functionId = "${functionId}";
 		var table, active, selectRowData = '';
-		layui.use([ 'jquery', 'table', 'laypage', 'laytpl', 'laydate' ], function() {
+		layui.use([
+				'jquery', 'table', 'laypage', 'laytpl', 'laydate'
+		], function() {
 			table = layui.table, $ = layui.jquery, laypage = layui.laypage, laydate = layui.laydate;
 			function renderTable() {
 				var processName = $('#processName').val();
@@ -75,66 +82,74 @@
 					height : commonDislodgeTable(),
 					page : {
 						groups : 5,
-						limits : [ param.selfRownum, 15, 30, 45, 60 ],
-						layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
+						limits : [
+								param.selfRownum, 15, 30, 45, 60
+						],
+						layout : [
+								'count', 'limit', 'prev', 'page', 'next', 'skip'
+						], //自定义分页布局
 						first : '首页', //不显示首页
 						last : '尾页', //不显示尾页
 						theme : '#0F9EE0'
 					},
-					cols : [ [ {
-						type : 'checkbox',
-						event : 'changeEvents',
-						width : 55
-					}, {
-						title : '序号',
-						type : 'numbers',
-						width : 55
-					}, {
-						field : 'flowState',
-						title : '状态',
-						width : 55,
-						style : 'cursor: pointer;',
-						align : 'center',
-						templet : function(d) {
-							var crTime = new Date(d.createTime);
-							var nowDate = new Date();
-							if ((nowDate.getTime() - crTime.getTime()) < 86400000 * 3) {
-								return '<img src="/layuiadmin/layui/images/Red_Ball.png">';
-							} else if ((nowDate.getTime() - crTime.getTime()) > 86400000 * 3 && (nowDate.getTime() - crTime.getTime()) < 86400000 * 7) {
-								return '<img src="/layuiadmin/layui/images/Yellow_Ball.png">';
-							} else {
-								return '<img src="/layuiadmin/layui/images/Green_Ball.png">';
-							}
-						}
-					}, {
-						field : 'name',
-						title : '任务节点名称',
-						width : '20%',
-						style : 'cursor: pointer;'
-					}, {
-						field : 'processDefinitionName',
-						title : '任务名称',
-						width : '20%',
-						style : 'cursor: pointer;'
-					}, {
-						field : 'startTime',
-						title : '任务发起时间',
-						width : '15%',
-						style : 'cursor: pointer;',
-						templet : '<div>{{ layui.laytpl.toDateString(d.startTime) }}</div>',
-						align : 'center'
-					}, {
-						field : 'endTime',
-						title : '任务处理时间',
-						width : '15%',
-						style : 'cursor: pointer;',
-						templet : '<div>{{ layui.laytpl.toDateString(d.endTime) }}</div>',
-						align : 'center'
-					}, {
-						field : 'auditRemarks',
-						title : '审批意见',
-						style : 'cursor: pointer;'
-					} ] ],
+					cols : [
+						[
+								{
+									type : 'checkbox',
+									event : 'changeEvents',
+									width : 55
+								}, {
+									title : '序号',
+									type : 'numbers',
+									width : 55
+								}, {
+									field : 'flowState',
+									title : '状态',
+									width : 55,
+									style : 'cursor: pointer;',
+									align : 'center',
+									templet : function(d) {
+										var crTime = new Date(d.createTime);
+										var nowDate = new Date();
+										if ((nowDate.getTime() - crTime.getTime()) < 86400000 * 3) {
+											return '<img src="/layuiadmin/layui/images/Red_Ball.png">';
+										} else if ((nowDate.getTime() - crTime.getTime()) > 86400000 * 3 && (nowDate.getTime() - crTime.getTime()) < 86400000 * 7) {
+											return '<img src="/layuiadmin/layui/images/Yellow_Ball.png">';
+										} else {
+											return '<img src="/layuiadmin/layui/images/Green_Ball.png">';
+										}
+									}
+								}, {
+									field : 'name',
+									title : '任务节点名称',
+									width : '20%',
+									style : 'cursor: pointer;'
+								}, {
+									field : 'processDefinitionName',
+									title : '任务名称',
+									width : '20%',
+									style : 'cursor: pointer;'
+								}, {
+									field : 'startTime',
+									title : '任务发起时间',
+									width : '15%',
+									style : 'cursor: pointer;',
+									templet : '<div>{{ layui.laytpl.toDateString(d.startTime) }}</div>',
+									align : 'center'
+								}, {
+									field : 'endTime',
+									title : '任务处理时间',
+									width : '15%',
+									style : 'cursor: pointer;',
+									templet : '<div>{{ layui.laytpl.toDateString(d.endTime) }}</div>',
+									align : 'center'
+								}, {
+									field : 'auditRemarks',
+									title : '审批意见',
+									style : 'cursor: pointer;'
+								}
+						]
+					],
 					done : function(res, curr, count) {
 						// 关闭等待刷新
 						layer.close(lodingMsg);
@@ -184,38 +199,42 @@
 							//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
 							maxmin : true,
 							//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-							area : [ '800px', '450px' ],
+							area : [
+									'800px', '450px'
+							],
 							content : temUrl
 						});
 					}
 				},
 				recallEvent : function() { //任务撤回
+
 					if (typeof (selectRowData.id) == "undefined") {
 						layer.msg('请点击选择一行数据');
 					} else {
-						var lodingMsg = layer.msg('数据处理中....');
-						$.ajax({
-							url : '/task/recall/' + selectRowData.id,
-							type : 'post',
-							dataType : 'json',
-							headers : {
-								'Content-Type' : 'application/json',
-							},
-							error : function() {//请求失败处理函数  
-								layer.msg('操作失败！');
-								layer.close(lodingMsg);
-							},
-							success : function(data) { //请求成功后处理函数。
-								if (data.result) {
-									layer.msg('操作成功！');
-									renderTable();
-								} else {
-									layer.msg('下一步审批人已经审批，不允许撤回！');
+						layer.confirm('确定召回吗？', function() {
+							var lodingMsg = layer.msg('数据处理中....');
+							$.ajax({
+								url : '/task/recall/' + selectRowData.id,
+								type : 'post',
+								dataType : 'json',
+								headers : {
+									'Content-Type' : 'application/json',
+								},
+								error : function() {//请求失败处理函数  
+									layer.msg('操作失败！');
+									layer.close(lodingMsg);
+								},
+								success : function(data) { //请求成功后处理函数。
+									if (data.result) {
+										layer.msg('操作成功！');
+										renderTable();
+									} else {
+										layer.msg('下一步审批人已经审批，不允许撤回！');
+									}
+									layer.close(lodingMsg);
 								}
-								layer.close(lodingMsg);
-							}
+							});
 						});
-						
 					}
 				},
 				threeEvent : function() { //点击三天内按钮
@@ -279,7 +298,9 @@
 					//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
 					maxmin : true,
 					//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-					area : [ '800px', '450px' ],
+					area : [
+							'800px', '450px'
+					],
 					content : temUrl
 				});
 			});

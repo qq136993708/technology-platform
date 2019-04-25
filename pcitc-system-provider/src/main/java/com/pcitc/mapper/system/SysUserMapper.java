@@ -43,7 +43,7 @@ public interface SysUserMapper {
 	 * @return
 	 * 在act的视图表中，查询某个groupid对应的用户
 	 */
-	public List<String> findUserByGroupIdFromACT(String groupId);
+	public List<String> findUserByGroupIdFromACT(List list);
 	
 	/**
 	 * @param roleCodes

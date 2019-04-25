@@ -649,9 +649,7 @@ public class TaskProviderClient {
 				if (!realAuth.startsWith("post") && !realAuth.startsWith("role") && !realAuth.startsWith("unit")) {
 					String[] groups = realAuth.split("-");
 					Set<String> userIds = new LinkedHashSet<String>();
-					for (int i = 0; i < groups.length; i++) {
-						userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(groups[i]));
-					}
+					userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(Arrays.asList(groups)));
 					nextVar.put("auditor", userIds);
 				} else {
 					// 此时前台应该已经选择好auditor
@@ -811,6 +809,77 @@ public class TaskProviderClient {
 
 	}
 
+	/**
+	 * 生成流程实例的流程图片，并重点高亮当前节点，高亮已经执行的链路
+	 * 
+	 * @author zhf
+	 * @date 2018年4月23日 下午5:42:11
+	 */
+	@ApiOperation(value = "查詢流程实例的流程图片", notes = "重点高亮当前节点，高亮已经执行的链路")
+	@RequestMapping(value = "/task-provider/task/business/audit/image", method = RequestMethod.POST)
+	public byte[] getBusinessImageInfo(@RequestBody WorkflowVo workflowVo) {
+		try {
+			ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceBusinessKey(workflowVo.getBusinessId()).singleResult();
+			BpmnModel bpmnModel;
+			List<String> activeActivityIds = new ArrayList<String>();
+			String processDefinitionId;
+			// 存在活动节点，流程正在进行中
+			if (processInstance != null) {
+				processDefinitionId = processInstance.getProcessDefinitionId();
+				// 流程定义-正在活动的节点
+				activeActivityIds = runtimeService.getActiveActivityIds(processInstance.getId());
+			} else {
+				// 流程已经结束
+				HistoricProcessInstance instance = historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstance.getId()).singleResult();
+				processDefinitionId = instance.getProcessDefinitionId();
+			}
+
+			bpmnModel = repositoryService.getBpmnModel(processDefinitionId);
+
+			ProcessDiagramGenerator pdg = processEngine.getProcessEngineConfiguration().getProcessDiagramGenerator();
+
+			// -------------------------------executedActivityIdList已经执行的节点------------------------------------
+			List<HistoricActivityInstance> historicActivityInstanceList = historyService.createHistoricActivityInstanceQuery().processInstanceId(processInstance.getId()).orderByHistoricActivityInstanceStartTime().asc().list();
+
+			// 已执行的节点ID集合
+			List<String> executedActivityIdList = new ArrayList<String>();
+			for (HistoricActivityInstance activityInstance : historicActivityInstanceList) {
+				executedActivityIdList.add(activityInstance.getActivityId());
+			}
+
+			ProcessDefinition processDefinition = repositoryService.getProcessDefinition(processDefinitionId);
+			String resourceName = workflowVo.getInstanceId() + "_" + processDefinition.getDiagramResourceName();
+
+			List<String> highLightedFlows = getHighLightedFlows((ProcessDefinitionEntity) processDefinition, historicActivityInstanceList);
+
+			// 生成流图片 所有走过的节点高亮 第三个参数
+			// activeActivityIds=当前活动节点点高亮;executedActivityIdList=已经执行过的节点高亮
+			// processEngine.getProcessEngineConfiguration().getActivityFontName(),
+			// processEngine.getProcessEngineConfiguration().getLabelFontName()
+			InputStream inputStream = pdg.generateDiagram(bpmnModel, "PNG", activeActivityIds, highLightedFlows, "宋体", "宋体", "宋体", processEngine.getProcessEngineConfiguration().getProcessEngineConfiguration().getClassLoader(), 1);
+			/*
+			 * resourceName = DateUtil.format(new Date(), "yyyyMMddHHmmss") +
+			 * "_" + resourceName; // 生成本地图片 String realPath = uploadPath +
+			 * resourceName; realPath = realPath.replaceAll("\\\\", "/"); File
+			 * file = new File(realPath); if (file.exists()) { file.delete(); }
+			 * FileUtil.copyInputStreamToFile(inputStream, file); String
+			 * realName = ("" + File.separator +
+			 * resourceName).replaceAll("\\\\", "/"); inputStream.close();
+			 */
+
+			ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
+			byte[] buff = new byte[100]; // buff用于存放循环读取的临时数据
+			int rc = 0;
+			while ((rc = inputStream.read(buff, 0, 100)) > 0) {
+				swapStream.write(buff, 0, rc);
+			}
+			byte[] in_b = swapStream.toByteArray(); // in_b为转换之后的结果
+			return in_b;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
 	/**
 	 * 生成流程实例的流程图片，并重点高亮当前节点，高亮已经执行的链路
 	 * 
@@ -1305,6 +1374,97 @@ public class TaskProviderClient {
 		ValueExpression e = factory.createValueExpression(context, el, boolean.class);
 		return (Boolean) e.getValue(context);
 	}
+	
+	/**
+	 * 通过业务详情查询审批详情
+	 * 
+	 * @author zhf
+	 * @date 2019年4月24日 下午2:14:37
+	 */
+	@ApiOperation(value = "通过业务详情查询审批详情", notes = "")
+	@RequestMapping(value = "/task-provider/task/business/audit/{dataId}", method = RequestMethod.POST)
+	public JSONObject businessAuditDetail(@PathVariable("dataId") String dataId, @RequestParam(value = "jsonStr", required = false) String jsonStr) {
+		
+		ProcessInstance  pi = runtimeService.createProcessInstanceQuery().processInstanceBusinessKey(dataId).singleResult();
+		// 已执行的流程节点
+		List<HistoricActivityInstance> historicActivityInstanceList = historyService.createHistoricActivityInstanceQuery().processInstanceId(pi.getId()).orderByHistoricActivityInstanceStartTime().asc().list();
+		
+		// 历史流程中用过的变量信息
+		HistoricVariableInstanceQuery hviq = historyService.createHistoricVariableInstanceQuery().processInstanceId(pi.getId());
+		
+		// voList=处理历史上已经发生过的任务节点
+		List<ActivityVo> voList = new ArrayList<ActivityVo>();
+		// 处理历史上已经发生过的节点，包括开始节点
+		for (HistoricActivityInstance historicActivityInstance : historicActivityInstanceList) {
+			// 过滤掉非用户任务
+			if (!historicActivityInstance.getActivityType().equals("userTask"))
+				continue;
+			ActivityVo vo = new ActivityVo();
+			System.out.println("====" + historicActivityInstance);
+			BeanUtils.copyProperties(historicActivityInstance, vo);
+			if (historicActivityInstance.getActivityType().equals("userTask") && historicActivityInstance.getTaskId() != null) {
+				// 获取审批意见、审批时间
+				List<Comment> comments = taskService.getTaskComments(historicActivityInstance.getTaskId());
+				if (comments != null && comments.size() > 0) {
+					for (Comment comment : comments) {
+						vo.setSuggestion(comment.getFullMessage());
+						if (comment.getFullMessage() != null)
+							break;
+					}
+				}
+				
+				
+				HistoricVariableInstance hvi = hviq.variableName(historicActivityInstance.getTaskId()).singleResult();
+				
+				if (hvi == null) {
+					// 当前任务，在历史任务中没有此属性
+					List<IdentityLink> identityLinks = taskService.getIdentityLinksForTask(historicActivityInstance.getTaskId());
+					Set<String> userIds = taskInstanceService.getCandidateUserForTask(identityLinks);
+					List<String> userList = new ArrayList<>(userIds);
+					System.out.println("userIds==========="+String.join("", userIds));
+					String userNames = "";
+					if (userList != null && userList.size() > 0) {
+						SysUserExample example = new SysUserExample();
+						example.createCriteria().andUserIdIn(userList);
+						List<SysUser> users = userService.selectByExample(example);
+						
+						for (int i = 0; i < users.size(); i++) {
+							if (i == 0) {
+								userNames = users.get(i).getUserDisp();
+							} else {
+								userNames = userNames + "," + users.get(i).getUserDisp();
+							}
+						}
+					} 
+					vo.setAssigneeName(userNames);
+				} else {
+					vo.setAssigneeName(hvi.getValue() == null ? "" : hvi.getValue().toString());
+				}
+			}
+
+			// 节点状态
+			if (vo.getEndTime() != null)
+				vo.setActivityState("已执行");
+			else
+				vo.setActivityState("正在执行");
+
+			vo.setApproved("当前已办理任务的是否已办理");
+
+			voList.add(vo);
+		}
+
+		// 获取任务名称（从历史流程实例中获取，因为现有流程实例可能已经结束）
+		HistoricProcessInstance instance = historyService.createHistoricProcessInstanceQuery().processInstanceId(pi.getId()).singleResult();
+
+		for (ActivityVo vo : voList) {
+			vo.setTaskName(instance != null ? instance.getName() : "");
+		}
+		JSONObject retJson = new JSONObject();
+		// 封装需要返回的分页实体
+		retJson.put("totalCount", voList.size());
+		retJson.put("list", voList);
+		return retJson;
+	}
 
 	/**
 	 * usertask任务列表
@@ -1346,7 +1506,7 @@ public class TaskProviderClient {
 				HistoricVariableInstance hvi = hviq.variableName(historicActivityInstance.getTaskId()).singleResult();
 				
 				if (hvi == null) {
-					// 当前任务，在历史任务中没有此属性
+					// 当前任务，在历史任务中没有此属性。说明此任务是正在执行的任务
 					List<IdentityLink> identityLinks = taskService.getIdentityLinksForTask(historicActivityInstance.getTaskId());
 					Set<String> userIds = taskInstanceService.getCandidateUserForTask(identityLinks);
 					List<String> userList = new ArrayList<>(userIds);
