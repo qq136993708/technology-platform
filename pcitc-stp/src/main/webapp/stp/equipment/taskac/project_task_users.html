@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>左树右表</title>
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+</head>
+<style>
+    .rowForm {
+        height: 226px;
+        border-top: 1px solid #e6e6e6;
+        padding-right: 30px;
+    }
+
+    .layui-textarea {
+        min-height: 28px;
+    }
+
+    .treeBox {
+        height: 100%;
+        top: 0;
+    }
+
+    .layui-input, .layui-select {
+        height: 28px;
+    }
+
+    .layui-input-block {
+        min-height: 28px;
+    }
+</style>
+<body>
+  <input type="hidden" name="id" id="id" value="${id}">
+<div class="treeTableContainer">
+    <div class="treeBox">
+        <div class="title-box title-btns">组织机构
+        </div>
+        <div class="layui-side-scroll">
+         <input type="text" name="searchUnitName" id="searchUnitName" placeholder="机构名称" autocomplete="off" class="form-control"> 
+         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="loadUnitTree('')"  >查询</button>
+         <ul id="unitTree" class="ztree"></ul>
+        </div>
+    </div>
+    <div class="treeTableBox" style="margin-top: 10px; width:500px;">
+        <div class="tableToolBox"></div>
+        <table id="tableData" class="layui-hide" lay-filter="tableData"></table>
+    </div>
+       <div class="treeBox" style="margin-left: 770px;">
+        <div class="title-box title-btns">通知内容
+        </div>
+        <div class="layui-side-scroll">
+           <textarea placeholder="请输入通知内容" name="describe" id="describe" lay-verify="required"   class="layui-textarea" style="height:100%"></textarea>
+        </div>
+    </div>
+    <div class="form-bottom">
+       <div class="form-bottom-btns">
+           <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
+            lay-filter="component-form-demo1" id="sureBtn" data-type="addEvent">确定
+       		</button>
+           <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
+                   id="closeBtn">关闭
+           </button>
+       </div>
+	</div>
+</div>
+<script type="text/javascript">
+    var unitId, zTreeObj, table, form, unitType = {}, postType = {}, selectRowData;
+    var usersMessage="";
+    var dParam = {};
+    var setting =
+    {
+        //check: { enable: true, chkStyle: "radio", radioType: "level" },//单选按钮
+        data: {simpleData: {enable: true}},
+        callback: {onClick: onClickMenu}
+    };
+    //单击选择
+    function onClickMenu(event, treeId, treeNode, clickFlag) {
+        unitId = treeNode.id;
+        dParam = {param: {"unitId": unitId}};
+       // alert(unitId);
+        renderTable();
+    }
+    //从新加载树
+    function loadUnitTree(unitId) {
+        ajaxPost("/unit/ztree_unit_list_by_name", {"name":$("#searchUnitName").val()}, function (dt) {
+            zTreeObj = $.fn.zTree.init($("#unitTree"), setting, dt);
+            zTreeObj.expandAll(true);
+        });
+        //如果指定某个节点，则选中出发选中事件
+        if (unitId) {
+            var node = zTreeObj.getNodeByParam("id", unitId);
+            if (node) {
+                //参数 1是否单独选中（追加选中true，单独选中false） 2滚动到可视区域（是false，否true）
+                zTreeObj.selectNode(node, false, true);
+            }
+        }
+    }
+    
+  
+  
+    //初始化树型结构
+    $(document).ready(function () {
+        //初始机构类型
+        ajaxPost("/dictionary/list/ROOT_XTGL_JGLX", null, function (data) {
+            $.each(data, function (i, dt) {
+                unitType[data[i].code] = data[i].name;
+            });
+        });
+        //加载机构树
+        loadUnitTree();
+    });
+    layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element'], function () {
+        var $ = layui.jquery, element = layui.element, layer = layui.layer;
+        table = layui.table;
+        form = layui.form;
+        form.render();
+        window.renderTable = function () {
+            var lodingMsg = layer.msg('数据加载中....');
+            var param = JSON.parse(window.localStorage.getItem("param"));
+            //alert(dParam);
+            table.render({
+                elem: '#tableData',
+                url: '/user/getSysUserListByUserUnitPage',
+                method: "POST",
+                where: dParam,
+                limit: param.selfRownum,
+                id: 'tableData',
+                height: commonDislodgeTable()-20,
+                page: {
+                    groups: 5,
+                    limits: [param.selfRownum, 30, 45, 60],
+                    layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                    first: '首页', //不显示首页
+                    last: '尾页', //不显示尾页
+                    theme: '#0F9EE0'
+                },
+                cols: [[
+                    {type: 'checkbox',event : 'changeEvents', width : 55},
+                    {title: '序号', type: 'numbers'},
+                    {field: 'userDisp', title: '人员名称', style: 'cursor:pointer;'},
+                    {field: 'userId', title: '人员ID', style: 'cursor:pointer;'}
+                ]],
+                done: function (res, curr, count) {
+                    layer.close(lodingMsg);
+                    $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+  	                	//var index=parseInt($(this).index()+1);
+  	                    //$('tr').removeClass('layui-table-click');
+  	                   // $(this).addClass('layui-table-click');
+  	                   // $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+  	                  //  $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+  	                   // selectRowData=res.data[index-1];
+  
+  	                });
+                }
+            });
+        }
+        renderTable();
+        var $ = layui.$, active = {
+	        addEvent: function() { 
+	         var checkStatus = table.checkStatus('tableData')
+		      ,data = checkStatus.data;
+		        usersMessage="";
+				for(var i=0;i<data.length;i++)
+				{
+						if(i==0)
+						{
+						usersMessage=data[i].userId;
+						}
+						else
+						{
+						usersMessage=usersMessage+","+data[i].userId;
+						}
+				}
+	        	if (data.length == 0){
+           			layer.msg('请选择数据');
+               	} 
+               	else{
+               	       $.ajax({
+			           type : 'GET',
+			           url : "/sre_project_taskac/addUsers?id="+$("#id").val()+"&usersid="+usersMessage+"&informcontent="+$("#describe").val(),
+			       
+			           success : function(data) {
+			           layer.alert("保存成功！", {icon: 1,closeBtn: 0 }, function () 
+			                       {
+			                           var index = parent.layer.getFrameIndex(window.name); 
+								       parent.layer.close(index); 
+								       var v_date = (new Date()).getTime();
+								       var backurl="/sre_project_taskac/to_list?v_date="+v_date;
+								       location.href = backurl;
+			                      });
+					 
+	                      },
+	               });
+                 
+               	}
+        	},
+    	};
+        //区别按钮属性
+        $('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        $(".layui-table-header table thead th input").remove();
+        
+        
+        
+        $('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        
+        
+        $("#closeBtn").click(function () {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        })
+        
+        
+    });
+</script>
+</body>
+</html>
