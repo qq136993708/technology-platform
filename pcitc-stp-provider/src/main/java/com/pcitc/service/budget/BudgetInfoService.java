@@ -1,10 +1,13 @@
 package com.pcitc.service.budget;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.budget.BudgetInfo;
+import com.pcitc.base.stp.out.OutProjectPlan;
 
 /**
  * 集团预算信息表
@@ -84,4 +87,11 @@ public interface BudgetInfoService
 	 * @return
 	 */
 	public BudgetInfo selectFinalBudget(String nd,Integer budgetType);
+	/**
+	 * 获取计划参考数据
+	 * @param budgetInfoId
+	 * @param nd
+	 * @return
+	 */
+	public Map<String,List<OutProjectPlan>> selectBudgetPlanData(Set<String> codes,String nd);
 }
