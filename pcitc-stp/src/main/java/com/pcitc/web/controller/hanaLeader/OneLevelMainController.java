@@ -2702,7 +2702,7 @@ public class OneLevelMainController {
 											if (statusCode == 200) 
 											{
 												JSONArray jSONArray = responseEntity.getBody();
-												System.out.println(">>>>>>>>>>>>investment_01_01 jSONArray>>> " + jSONArray.toString());
+												//System.out.println(">>>>>>>>>>>>investment_01_01 jSONArray>>> " + jSONArray.toString());
 												List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 												
 												for(int i=0;i<list.size();i++)
@@ -2713,7 +2713,7 @@ public class OneLevelMainController {
 													Object zbxRate= budgetMysql.getZbxRate();
 													Object zRate= budgetMysql.getzRate();
 													
-													System.out.println(">>>>>>>>>>>> fyxRate>>> " + fyxRate);
+													//System.out.println(">>>>>>>>>>>> fyxRate>>> " + fyxRate);
 													
 													Object fyxRate_str="0";
 													if(fyxRate==null)
@@ -2780,7 +2780,7 @@ public class OneLevelMainController {
 											
 										
 										JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-										System.out.println(">>>>>>>>>>>>>>>investment_01_01 " + resultObj.toString());
+										//System.out.println(">>>>>>>>>>>>>>>investment_01_01 " + resultObj.toString());
 										return resultObj.toString();
 									}
 									
