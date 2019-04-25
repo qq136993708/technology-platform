@@ -95,8 +95,8 @@
                 	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}" rowspan="2">序号</th>
                     <th lay-data="{field:'displayName', width: '25%'}" rowspan="2">承担单位</th>
                     <!-- <th lay-data="{field:'remark', width: '30%'}" rowspan="2">研究方向</th> -->
-                   	<th lay-data="{field:'last_year_end',align: 'right', width: '15%',totalRow: true}" rowspan="2">2018年实际完成</th>
-                    <th lay-data="{field:'plan_money',align: 'right', width: '15%',totalRow: true}" rowspan="2">2019年合同计划</th>
+                   	<th lay-data="{field:'last_year_end',align: 'right', width: '15%',totalRow: true}" rowspan="2">年预计完成</th>
+                    <th lay-data="{field:'plan_money',align: 'right', width: '15%',totalRow: true}" rowspan="2">年合同计划</th>
                     <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年度经费预算</th>
                 </tr>
                 <tr>
@@ -165,6 +165,7 @@
 	            }); 
 	        }
 	        renderfunc();
+	        initDateView();
 			//数据版本选择
             $("#data_version").on("change",function(e){
             	curent_budget_info = budget_info_map[$("#data_version").val()];            	
@@ -205,7 +206,7 @@
 			function initDateView(){
 				$(".nd").html(cu_date);
             	$('.layui-table-cell .laytable-cell-group').find('span').text(cu_date+"年度经费预算");
-            	$(".layui-table-header .layui-table").find('th').eq(3).find('span').text((cu_date-1)+"年实际完成");
+            	$(".layui-table-header .layui-table").find('th').eq(3).find('span').text((cu_date-1)+"年预计完成");
             	$(".layui-table-header .layui-table").find('th').eq(4).find('span').text(cu_date+"年合同计划");
 			}
             // 点击按钮时激活
@@ -221,17 +222,12 @@
             table.on('edit(dataTable)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
             	$.each(curent_tabel_data,function(index,dt){
             		if(obj.data.dataId == dt.dataId){
-            			if(obj.field=="xmjf"){
-            				dt.xmjf = obj.value;
-            			}else if(obj.field=="zxjf")
-            			{
-            				dt.zxjf = obj.value;
-            			}
+            			curent_tabel_data[index][obj.field] = parseInt(obj.value);
             			dt.total = parseInt(dt.xmjf)+parseInt(dt.zxjf);
             		}
             	});
             	//刷新表格数据
-            	relaodTable('dataTable', curent_tabel_data);
+            	reloadTable('dataTable', curent_tabel_data);
             	renderfunc();
             	//预分配数
             	calculationSurplusMoney();

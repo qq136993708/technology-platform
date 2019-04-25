@@ -52,7 +52,7 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-layout-admin .layui-footer{left: 220px;}
 .layadmin-pagetabs{position: fixed; top: 100px; right: 0; z-index: 999;}
 .layadmin-pagetabs .layui-breadcrumb{padding: 0 15px;}
-.layui-layout-admin .layui-body{top: 164px; bottom: 40px;}
+.layui-layout-admin .layui-body{top: 161px; bottom: 40px;right: 19px;}
 .layui-leader-admin .layui-body{top: 50px;}
 .layui-body{ margin: 10px 0 0 0px;background: #fff;}
 .layui-layout-admin .layui-header .layui-nav-img{width: 26px; height: 26px;}
@@ -253,7 +253,8 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-nav-tree .layui-nav-item:nth-child(7){background: url("/layuiadmin/layui/images/tree_25.png") 22px 14px  no-repeat;}
 .layui-nav-tree .layui-nav-item:nth-child(8){background: url("/layuiadmin/layui/images/tree_29.png") 22px 14px no-repeat;}
 .layui-nav-itemed>a span,.layui-nav-tree .layui-nav-item>a:hover span{color: white;}
-.layui-nav-tree .layui-nav-item>a:hover,.layui-nav-itemed>a{background: url("/layuiadmin/layui/images/tree_w_m.png") 14px 14px no-repeat #00A3B5 !important;}
+.layui-nav-tree .layui-nav-item>a:hover,.layui-nav-itemed>a{
+    background: url("/layuiadmin/layui/images/tree_w_m.png") 14px 14px no-repeat #1890ff !important;}
 .layui-nav-tree .layui-nav-item:nth-child(1)>a:hover,.layui-nav-itemed:nth-child(1)>a{background: url("/layuiadmin/layui/images/stpicon_10.png") 14px 14px no-repeat #ededed !important;color: #000 !important;}
 .layui-nav-tree .layui-nav-item:nth-child(2)>a:hover,.layui-nav-itemed:nth-child(2)>a{background: url("/layuiadmin/layui/images/tree_05.png") 14px 14px no-repeat #1890ff !important;}
 /*.layui-nav-itemed>dl>.layui-nav-itemed>a{
@@ -402,8 +403,9 @@ html{background-color: #f2f2f2; color: #666;}
 
 
 /* 页面标签 */
-.layadmin-pagetabs{height: 40px; line-height: 40px; padding: 0 120px 0 0px; /*border-bottom: 2px solid #292B34;*/
-    background-color: #fff; box-sizing: border-box; box-shadow: 0 1px 2px 0 rgba(0,0,0,.1);margin-top: 24px;}
+.layadmin-pagetabs{height: 40px; line-height: 40px; padding: 0 120px 0 0px; border: 1px solid #dfdfdf;
+    background-color: #fff; box-sizing: border-box;
+    margin-right: 19px;margin-top: 24px;}
 .layadmin-pagetabs .layadmin-tabs-control{position: absolute; top: 0; width: 40px; height: 100%; text-align: center; cursor: pointer; transition: all .3s; -webkit-transition: all .3s; box-sizing: border-box; border-left: 1px solid #f6f6f6;}
 .layadmin-pagetabs .layadmin-tabs-control:hover{background-color: #f6f6f6;}
 .layadmin-pagetabs .layui-icon-prev{right: 80px; border-left: 1px solid #f6f6f6; border-right: none;}
@@ -444,8 +446,9 @@ html{background-color: #f2f2f2; color: #666;}
 .layadmin-pagetabs .layui-tab{margin: 0; overflow: hidden;}
 .layadmin-pagetabs .layui-tab-title{height: 40px; border: none;}
 .layadmin-pagetabs .layui-tab-title li{min-width: 0; line-height: 26px; max-width: 160px;
-    text-overflow: ellipsis; padding-right: 40px; overflow: hidden;background: #f4f4f4;
-    vertical-align: top;margin: 7px;font-size: 12px;}
+    text-overflow: ellipsis; padding-right: 30px; overflow: hidden;background: #f4f4f4;
+    vertical-align: top;margin: 7px 4px;font-size: 12px;}
+.layadmin-pagetabs .layui-tab-title li:nth-child(1){margin-left: 7px;}
 .index-fixed li:first-child{ padding-right: 15px;}
 /*.index-fixed-tab{width: 47px;float: left;}*/
 .layadmin-pagetabs .layui-tab-title li .layui-tab-close{position: absolute; right: 8px; top: 50%; margin: -7px 0 0 0; width: 16px; height: 16px; line-height: 16px; border-radius: 50%; font-size: 12px;}
@@ -921,5 +924,20 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-side-menu .layui-nav .layui-nav-item a.thirdChild:hover{line-height: 41px !important;height: 41px !important;}
 .news{position: fixed;top: 94px;right: 0;z-index: 999;}
 .news a{margin: 0 15px;display: inline-block;z-index: 9999;}
-.layui-side-menu .layui-nav .layui-nav-item.layui-this a{color: white !important;
-    background: url("/layuiadmin/layui/images/tree_05.png") 14px 14px no-repeat #1890ff !important;}
+.layui-side-menu .layui-nav-tree .layui-nav-item.layui-this>a{color: white !important;
+    background: url(/layuiadmin/layui/images/tree_w_m.png) 14px 14px no-repeat #1890ff;}
+.layui-nav-tree>li:nth-child(2).layui-this>a{
+    background: url(/layuiadmin/layui/images/tree_05.png) 14px 14px no-repeat #1890ff !important;}
+.layui-nav-tree>li:nth-child(3).layui-this>a{
+    background: url(/layuiadmin/layui/images/tree_10.png) 14px 14px no-repeat #1890ff !important;}
+.layui-nav-tree>li:nth-child(4).layui-this>a{
+    background: url(/layuiadmin/layui/images/tree_14.png) 14px 14px no-repeat #1890ff !important;}
+.layui-nav-tree>li:nth-child(5).layui-this>a{
+    background: url(/layuiadmin/layui/images/tree_18.png) 14px 14px no-repeat #1890ff !important;}
+.layui-nav-tree>li:nth-child(6).layui-this>a{
+    background: url(/layuiadmin/layui/images/tree_22.png) 14px 14px no-repeat #1890ff !important;}
+.layui-nav-tree>li:nth-child(7).layui-this>a{
+    background: url(/layuiadmin/layui/images/tree_26.png) 14px 14px no-repeat #1890ff !important;}
+.layui-nav-tree>li:nth-child(8).layui-this>a{
+    background: url(/layuiadmin/layui/images/tree_30.png) 14px 14px no-repeat #1890ff !important;}
+.layadmin-pagetabs .layui-tab-title li:after{background-color: #e6f7ff !important;}

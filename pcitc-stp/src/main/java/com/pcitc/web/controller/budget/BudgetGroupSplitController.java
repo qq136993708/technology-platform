@@ -75,6 +75,10 @@ public class BudgetGroupSplitController extends BaseController {
 	private static final String BUDGET_GROUPSPLIT_FINAL_HISTORY_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-groupsplit-final-history-list";
 	private static final String BUDGET_GROUPSPLIT_COMPARE_PLAN = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-groupsplit-compare-plan";
 	private static final String BUDGET_GROUPSPLIT_COMPARE_PROJECT = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-groupsplit-compare-project";
+	private static final String BUDGET_GROUPSPLIT_ITEMCOMPNAYS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-final-grouptotal-itemcompnays";
+	private static final String BUDGET_GROUPSPLIT_PLAN_DATA = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-split-plandata/";
+	
+	
 	
 	private static final String BUDGET_INFO_UPDATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-update";
 	private static final String BUDGET_INFO_GET = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-get/";
@@ -84,7 +88,7 @@ public class BudgetGroupSplitController extends BaseController {
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_main_groupsplit")
 	public Object toBudgetGroupPage(HttpServletRequest request) throws IOException 
 	{
-		String nd = request.getParameter("nd")==null?DateUtil.format(new Date(), DateUtil.FMT_YYYY):request.getParameter("nd");
+		String nd = request.getParameter("nd")==null? DateUtil.format(DateUtil.getNextYearDay(new Date()), DateUtil.FMT_YYYY):request.getParameter("nd");
 		request.setAttribute("nd", nd);
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPSPLIT_TITLES, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), List.class);
 		request.setAttribute("items", infors.getBody());
@@ -296,7 +300,17 @@ public class BudgetGroupSplitController extends BaseController {
 		//System.out.println(JSON.toJSONString(infors.getBody()));
 		return infors.getBody();
 	}
-	
+	@RequestMapping(value = "/budget/select-groupsplit-plan-data", method = RequestMethod.POST)
+	@ResponseBody
+	public Object selectBudgetGroupSplitJz(@RequestParam(value="nd",required = false)String nd,HttpServletRequest request) throws IOException 
+	{
+		//获取预算项代码和公司映射关系
+		ResponseEntity<?> rs = this.restTemplate.exchange(BUDGET_GROUPSPLIT_ITEMCOMPNAYS, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), Object.class);
+		System.out.println(JSON.toJSONString(rs.getBody()));
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_GROUPSPLIT_PLAN_DATA+nd, HttpMethod.POST, new HttpEntity<Object>(rs.getBody(), this.httpHeaders), Object.class);
+		System.out.println(JSON.toJSONString(responseEntity.getBody()));
+		return responseEntity.getBody();
+	}
 	
 	@RequestMapping("/budget/budget_download/groupsplit/{dataId}")
 	public void downBudgetGroupSplit(@PathVariable("dataId") String dataId,HttpServletResponse res) throws IOException 

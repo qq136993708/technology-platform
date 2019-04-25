@@ -41,20 +41,20 @@ import com.pcitc.web.common.OperationFilter;
 @Controller
 public class WorkflowController extends BaseController {
 
-	private static final String GET_FUNCTION_COMPLETE_TREE = "http://pplus-zuul/system-proxy/function-provider/function/complete-function-tree";
+	private static final String GET_FUNCTION_COMPLETE_TREE = "http://pcitc-zuul/system-proxy/function-provider/function/complete-function-tree";
 
-	private static final String FUNCTION_PROCESS_DEFINE_PAGE = "http://pplus-zuul/system-proxy/workflow-provider/function/process-list";
-	private static final String FUNCTION_PROCESS_DEFINE_ADD = "http://pplus-zuul/system-proxy/workflow-provider/function/add-config";
+	private static final String FUNCTION_PROCESS_DEFINE_PAGE = "http://pcitc-zuul/system-proxy/workflow-provider/function/process-list";
+	private static final String FUNCTION_PROCESS_DEFINE_ADD = "http://pcitc-zuul/system-proxy/workflow-provider/function/add-config";
 
-	private static final String FUNCTION_CONFIG_DEL = "http://pplus-zuul/system-proxy/workflow-provider/function/configures";
+	private static final String FUNCTION_CONFIG_DEL = "http://pcitc-zuul/system-proxy/workflow-provider/function/configures";
 
-	private final static String PROCESS_DEF_LIST = "http://pplus-zuul/system-proxy/workflow-provider/process/defines/list";
+	private final static String PROCESS_DEF_LIST = "http://pcitc-zuul/system-proxy/workflow-provider/process/defines/list";
 
-	private static final String START_WORKFLOW_URL = "http://pplus-zuul/system-proxy/workflow-provider/workflow/start";
+	private static final String START_WORKFLOW_URL = "http://pcitc-zuul/system-proxy/workflow-provider/workflow/start";
 
-	private static final String AUDIT_FLAG_URL = "http://pplus-zuul/system-proxy/task-provider/workflow/start/audit-type";
+	private static final String AUDIT_FLAG_URL = "http://pcitc-zuul/system-proxy/task-provider/workflow/start/audit-type";
 
-	private static final String PROJECT_LIST = "http://pplus-zuul/epms-proxy/engin/preparation/Project-provider/project_list";
+	private static final String PROJECT_LIST = "http://pcitc-zuul/epms-proxy/engin/preparation/Project-provider/project_list";
 	
 	/**
 	 * 判断是否需要选择审批人,判断流程图的第一个审批节点的类型（通过id来区分）
@@ -133,10 +133,10 @@ public class WorkflowController extends BaseController {
 		variables.put("auditDetailsPath", "/task/test/details/" + businessId);
 
 		// 流程完全审批通过时，调用的方法
-		variables.put("auditAgreeMethod", "http://pplus-zuul/system-proxy/workflow-provider/task/agree/" + businessId);
+		variables.put("auditAgreeMethod", "http://pcitc-zuul/system-proxy/workflow-provider/task/agree/" + businessId);
 
 		// 流程驳回时，调用的方法（可能驳回到第一步，也可能驳回到第1+n步
-		variables.put("auditRejectMethod", "http://pplus-zuul/system-proxy/workflow-provider/task/reject/" + businessId);
+		variables.put("auditRejectMethod", "http://pcitc-zuul/system-proxy/workflow-provider/task/reject/" + businessId);
 
 		// 对流程中出现的多个判断条件，比如money>100等，需要把事先把money条件输入
 		//variables.put("money", 50); // 环节1需要用到
@@ -160,7 +160,6 @@ public class WorkflowController extends BaseController {
 			System.out.println("=================启动失败");
 			return new Result(false, "启动失败");
 		}
-
 	}
 
 	/**

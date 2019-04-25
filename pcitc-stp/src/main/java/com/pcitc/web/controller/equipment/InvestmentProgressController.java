@@ -1,5 +1,6 @@
 package com.pcitc.web.controller.equipment;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -81,13 +82,13 @@ public class InvestmentProgressController extends BaseController {
 	@RequestMapping(value = "/sre-Investmentrogress/get/{InvestmentrogressId}", method = RequestMethod.GET)
 	public String get(@PathVariable("InvestmentrogressId") String InvestmentrogressId, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
-		String equipmentmoney="";
+		BigDecimal equipmentmoney = new BigDecimal(0);
 		SreProject sreProject=EquipmentUtils.getSreProject(InvestmentrogressId, restTemplate, httpHeaders);
 		String[] sre = sreProject.getEquipmentIds().split(",");
 		for(int i =0;i<sre.length;i++) {
 			SreEquipment  sreEquipment= EquipmentUtils.getSreEquipment(sre[i], restTemplate, httpHeaders);
 			if(sreEquipment!=null) {
-				equipmentmoney+=sreEquipment.getUnitPrice();
+				equipmentmoney = equipmentmoney.add(sreEquipment.getUnitPrice());
 			}
 		}
 		request.setAttribute("equipmentmoney", equipmentmoney);

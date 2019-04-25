@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
 <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
 
-<script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 </head>
 <body>
@@ -233,25 +233,23 @@
 			});
 		});
 
-		var DataDeal = {
-			//将从form中通过$('#form').serialize()获取的值转成json  
-			formToJson : function(data) {
-				data = data.replace(/&/g, "\",\"");
-				data = data.replace(/=/g, "\":\"");
-				data = "{\"" + data + "\"}";
-				return data;
-			}
-		};
+		function getFormData(formId) {
+			var unindexed_array = $('#'+formId).serializeArray();
+			var indexed_array = {};
+
+			$.map(unindexed_array, function(n, i) {
+				indexed_array[n['name']] = n['value'];
+			});
+			return indexed_array;
+		}
+		
 		// 处理任务
 		function handleTask(userIds) {
 			$('#userIds').val(userIds);
-			var data = $('#task-form').serialize();//获取值  
-			data = decodeURIComponent(data, true);//防止中文乱码  
-			var json = DataDeal.formToJson(data);//转化为json
 			$.ajax({
 				type : 'POST',
 				url : "/task/complete/" + taskId,
-				data : json,
+				data : JSON.stringify(getFormData('task-form')),
 				contentType : "application/json;charset=UTF-8",
 				error : function(data) {//请求失败处理函数  
 					layer.msg("操作失败!",{time: 2000,icon: 2}, function(){

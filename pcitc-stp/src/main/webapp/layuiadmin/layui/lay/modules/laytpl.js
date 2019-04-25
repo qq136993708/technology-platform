@@ -143,7 +143,7 @@ layui.define(['jquery'],function (e) {
 	
 	o.purchaseState_equipment = function(d){
         var stateData;
-         if(d!=0){
+         if(d!=0&&d!=null){
 			stateData="<span class='fontStateColor  btn-green'></span>"
         }else{
              stateData="<span></span>"
@@ -153,7 +153,7 @@ layui.define(['jquery'],function (e) {
 	
 	o.taskStatus_equipment = function(d){
         var stateData;
-         if(d!=0){
+         if(d!=0&&d!=null){
 			stateData="<span class='fontStateColor  btn-green'></span>"
         }else{
              stateData="<span></span>"
@@ -223,7 +223,7 @@ layui.define(['jquery'],function (e) {
 	
 	o.acceptanceStatus_equipment = function(d){
         var stateData;
-        if(d!=0){
+        if(d!=0&&d!=null){
 			stateData="<span class='fontStateColor  btn-green'></span>"
         }else{
              stateData="<span></span>"
@@ -257,7 +257,7 @@ layui.define(['jquery'],function (e) {
 	
 	o.contractStatus_equipment = function(d){
         var stateData;
-        if(d!=""){
+        if(d!=""&&d!=null){
 			stateData="<span class='fontStateColor  btn-green'></span>"
         }else{
               stateData="<span></span>"
@@ -304,6 +304,8 @@ layui.define(['jquery'],function (e) {
             stateData="<span class='fontStateColor btn-blue'></span>"
         }else if(d==13){
             stateData="<span class='fontStateColor btn-yellow'></span>"
+        }else if(d>=20){
+            stateData="<span class='fontStateColor btn-blue'></span>"
         }
         return stateData;
     };

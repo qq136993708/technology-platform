@@ -27,7 +27,7 @@ public class DateUtil {
 	
 	
 	public static String FMT_YYYY_DD_ZN = "yyyy年MM月dd日";
-	
+	public static String FMT_YYYY_ZH = "yyyy年MM月";
 
 	public static String dateToStr(Date date, String formatStyle) {
 		String str = "";
@@ -138,6 +138,18 @@ public class DateUtil {
 		Calendar c = Calendar.getInstance();
 		c.setTime(day);
 		c.add(Calendar.DAY_OF_YEAR, -365);
+		return c.getTime();
+	}
+	/**
+	 * 获得去年的同一天
+	 * @param day
+	 * @return
+	 */
+	public static Date getNextYearDay(Date day) 
+	{
+		Calendar c = Calendar.getInstance();
+		c.setTime(day);
+		c.add(Calendar.DAY_OF_YEAR, 365);
 		return c.getTime();
 	}
 	/*public static void main(String[] args) {

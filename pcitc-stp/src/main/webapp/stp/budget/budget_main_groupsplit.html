@@ -68,6 +68,9 @@
                     <input type="text" name="surplusMoney" id="surplusMoney"  readonly="readonly" value="0">
                 </label>
             </div>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_reset2 btnMyBgImg"
+                    data-type="resetJzEvent">重置结转经费
+            </button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save2 btnMyBgImg"
                     data-type="saveEvent">保存
             </button>
@@ -101,6 +104,10 @@
 	                 	<#list items as item>
 	                 		<#list item?keys as key> 
 	                    		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true}">${item[key]}</th>
+	                    	</#list>
+	                    </#list>
+	                    <#list items as item>
+	                 		<#list item?keys as key> 
 	                    		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true}">${item[key]}</th>
 	                    	</#list>
 	                    </#list>
@@ -189,7 +196,7 @@
             		publicMethods.ajaxAsyncPost("/budget/budget-groupsplit-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
 	                	layer.close(lodingMsg);
             			curent_tabel_data = data.data;
-	                	relaodTable('dataTable',data.data);
+	                	reloadTable('dataTable',data.data);
 	                	renderfunc();
 	                	//预分配数
 	                	calculationSurplusMoney();
@@ -203,7 +210,7 @@
 			//空数据初始化
 			window.initEmptyData = function()
 			{
-				relaodTable('dataTable',[]);
+				reloadTable('dataTable',[]);
 				$("#budgetMoney").val(0);//可分配数
             	$("#surplusMoney").val(0);//剩余可分配数
         		$("#creater_name").html("");//创建人
@@ -248,7 +255,7 @@
             	//预分配数
             	calculationSurplusMoney();
             	//刷新表格数据
-            	relaodTable('dataTable',curent_tabel_data);
+            	reloadTable('dataTable',curent_tabel_data);
             	renderfunc();
             	
             });
@@ -257,7 +264,7 @@
 				calculationSurplusMoney();
 			});
 			//刷新数据
-			window.relaodTable = function(tableId,tableData){
+			window.reloadTable = function(tableId,tableData){
 				table.reload(tableId, {data: tableData,done:function(){
 					if (layuitable != null && layuitable.length > 0)
 	                {
@@ -327,6 +334,23 @@
                         , area: ['80%', '90%']
                         , content: '/budget/budget_create_groupsplit?nd='+cu_date
                     });
+                },
+                resetJzEvent:function(){
+               		var lodingMsg = layer.msg('处理中....',{time: 15*1000});
+   					publicMethods.ajaxAsyncPost("/budget/select-groupsplit-plan-data", {"nd":cu_date}, function (data) {
+   						layer.msg('加载成功!',{time: 500});
+   	                    $.each(data,function(index,dt){
+   	                    	$.each(table_titles,function(titleIndex,titleName){
+   	                    		curent_tabel_data[index][titleName+"_jz"] = data[index][titleName+"_jz"];
+   	                    	});
+   	                    });
+	   	             	//计算求和
+	   	             	calulationTotalMoney();
+	   	             	//预分配数
+	   	             	calculationSurplusMoney();
+						//刷新表格
+   	                  	reloadTable('dataTable',curent_tabel_data);
+   	                });
                 },
                 saveEvent:function(){
                 	if($("#data_version").val()==""){

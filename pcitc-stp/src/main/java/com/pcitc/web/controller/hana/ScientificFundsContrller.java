@@ -281,6 +281,8 @@ public class ScientificFundsContrller {
 		  String companyName = CommonUtil.getParameter(request, "companyName", HanaUtil.YJY_CODE_NOT_YINGKE);
 		  request.setAttribute("month", month);
 		  request.setAttribute("companyName", companyName);
+		  String monthstr =DateUtil.dateToStr(DateUtil.strToDate(month, DateUtil.FMT_MM), DateUtil.FMT_YYYY_ZH);
+			request.setAttribute("monthstr", monthstr);
 	      return "stp/hana/scientificFunds/getKtzjjfytjbData_detail";
 	  }
 	  
@@ -303,9 +305,16 @@ public class ScientificFundsContrller {
 			}
 			 System.out.println(">>>>>>>>>>>>>>>>>>>>getKtzjjfytjbData_detail>参数      month = "+month+" companyCode="+companyCode+" companyName="+companyName);
 			
+
+			 String g0PROJCODE = CommonUtil.getParameter(request, "g0PROJCODE", "");
+			 String g0PROJTXT = CommonUtil.getParameter(request, "g0PROJTXT", "");
+			 
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
 			paramsMap.put("month", month);
 			paramsMap.put("companyCode", companyCode);
+			
+			paramsMap.put("g0PROJCODE", g0PROJCODE);
+			paramsMap.put("g0PROJTXT", g0PROJTXT);
 			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 			if (!companyCode.equals("")) 
@@ -392,7 +401,8 @@ public class ScientificFundsContrller {
 		  
 		  System.out.println(">>>>>>>>>>>>>>>>>>>>to_getRgcbzctjbData_detail>参数      month = "+month+" companyName="+companyName);
 		  
-		  
+		  String monthstr =DateUtil.dateToStr(DateUtil.strToDate(month, DateUtil.FMT_MM), DateUtil.FMT_YYYY_ZH);
+			request.setAttribute("monthstr", monthstr);
 	      return "stp/hana/scientificFunds/getRgcbzctjbData_detail";
 	  }
 	  
@@ -413,9 +423,18 @@ public class ScientificFundsContrller {
 			}
 			 System.out.println(">>>>>>>>>>>>>>>>>>>>rgcbzctjb_data_detail>参数      month = "+month+" companyCode="+companyCode+" companyName="+companyName);
 			
+			
+			 String g0PROJCODE = CommonUtil.getParameter(request, "g0PROJCODE", "");
+			 String g0PROJTXT = CommonUtil.getParameter(request, "g0PROJTXT", "");
+			 
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
 			paramsMap.put("month", month);
 			paramsMap.put("companyCode", companyCode);
+			
+			paramsMap.put("g0PROJCODE", g0PROJCODE);
+			paramsMap.put("g0PROJTXT", g0PROJTXT);
+			
+			
 			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 			if (!companyCode.equals("")) 
@@ -501,6 +520,8 @@ public class ScientificFundsContrller {
 		  String companyName = CommonUtil.getParameter(request, "companyName", HanaUtil.YJY_CODE_NOT_YINGKE);
 		  request.setAttribute("month", month);
 		  request.setAttribute("companyName", companyName);
+		  String monthstr =DateUtil.dateToStr(DateUtil.strToDate(month, DateUtil.FMT_MM), DateUtil.FMT_YYYY_ZH);
+			request.setAttribute("monthstr", monthstr);
 	      return "stp/hana/scientificFunds/getYclzctjbData_Detail";
 	  }
 	  
@@ -519,9 +540,17 @@ public class ScientificFundsContrller {
 			}
 			 System.out.println(">>>>>>>>>>>>>>>>>>>>getYclzctjbData_Detail>参数      month = "+month+" companyCode="+companyCode+" companyName="+companyName);
 			
+			 
+			 String g0PROJCODE = CommonUtil.getParameter(request, "g0PROJCODE", "");
+			 String g0PROJTXT = CommonUtil.getParameter(request, "g0PROJTXT", "");
+			 
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
 			paramsMap.put("month", month);
 			paramsMap.put("companyCode", companyCode);
+			
+			paramsMap.put("g0PROJCODE", g0PROJCODE);
+			paramsMap.put("g0PROJTXT", g0PROJTXT);
+			
 			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 			if (!companyCode.equals("")) 
@@ -606,6 +635,8 @@ public class ScientificFundsContrller {
 		  String companyName = CommonUtil.getParameter(request, "companyName", HanaUtil.YJY_CODE_NOT_YINGKE);
 		  request.setAttribute("month", month);
 		  request.setAttribute("companyName", companyName);
+		  String monthstr =DateUtil.dateToStr(DateUtil.strToDate(month, DateUtil.FMT_MM), DateUtil.FMT_YYYY_ZH);
+			request.setAttribute("monthstr", monthstr);
 	      return "stp/hana/scientificFunds/getNhzctjbData_detail";
 	  }
 	  
@@ -624,9 +655,16 @@ public class ScientificFundsContrller {
 			}
 			 System.out.println(">>>>>>>>>>>>>>>>>>>>getNhzctjbData_detail>参数      month = "+month+" companyCode="+companyCode+" companyName="+companyName);
 			
+
+			 String g0PROJCODE = CommonUtil.getParameter(request, "g0PROJCODE", "");
+			 String g0PROJTXT = CommonUtil.getParameter(request, "g0PROJTXT", "");
+			 
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
 			paramsMap.put("month", month);
 			paramsMap.put("companyCode", companyCode);
+			
+			paramsMap.put("g0PROJCODE", g0PROJCODE);
+			paramsMap.put("g0PROJTXT", g0PROJTXT);
 			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 			if (!companyCode.equals("")) 
@@ -715,6 +753,8 @@ public class ScientificFundsContrller {
 			  String companyName = CommonUtil.getParameter(request, "companyName", HanaUtil.YJY_CODE_NOT_YINGKE);
 			  request.setAttribute("month", month);
 			  request.setAttribute("companyName", companyName);
+			  String monthstr =DateUtil.dateToStr(DateUtil.strToDate(month, DateUtil.FMT_MM), DateUtil.FMT_YYYY_ZH);
+				request.setAttribute("monthstr", monthstr);
 		      return "stp/hana/scientificFunds/getXmzjlxfxData_detail";
 		  }
 	     
@@ -735,9 +775,16 @@ public class ScientificFundsContrller {
 			}
 			 System.out.println(">>>>>>>>>>>>>>>>>>>>getXmzjlxfxData_detail>参数      month = "+month+" companyCode="+companyCode+" companyName="+companyName);
 			
+
+			 String g0PROJCODE = CommonUtil.getParameter(request, "g0PROJCODE", "");
+			 String g0PROJTXT = CommonUtil.getParameter(request, "g0PROJTXT", "");
+			 
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
 			paramsMap.put("month", month);
 			paramsMap.put("companyCode", companyCode);
+			
+			paramsMap.put("g0PROJCODE", g0PROJCODE);
+			paramsMap.put("g0PROJTXT", g0PROJTXT);
 			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 			if (!companyCode.equals("")) 

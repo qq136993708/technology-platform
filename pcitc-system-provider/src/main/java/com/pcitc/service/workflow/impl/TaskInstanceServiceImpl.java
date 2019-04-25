@@ -1,5 +1,6 @@
 package com.pcitc.service.workflow.impl;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -175,17 +176,41 @@ public class TaskInstanceServiceImpl implements TaskInstanceService {
     * 获取当前审批节点的候选用户
     */
     public Set<String> getCandidateUserForTask(List<IdentityLink> identityLinks) {
-    	System.out.println("1getCandidateUserForTask========================================="+identityLinks);
-    	
         //使用Set过滤掉重复候选组的重复用户
         Set<String> userIds = new HashSet<String>();
         for (IdentityLink identityLink : identityLinks) {
             if (identityLink.getType().equals(IdentityLinkType.CANDIDATE)) {
-                if (!StrUtil.isEmpty(identityLink.getUserId())) {
-                    userIds.add(identityLink.getUserId());
+            	if (!StrUtil.isEmpty(identityLink.getUserId())) {
+            		System.out.println("1getCandidateUserForTask====="+identityLink.getUserId());
+            		if (identityLink.getUserId().startsWith("post")) {
+            			String[] posts = identityLink.getUserId().split("--")[1].split("-");
+            			userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(Arrays.asList(posts)));
+            		} else if (identityLink.getUserId().startsWith("role")) {
+            			String[] roles = identityLink.getUserId().split("--")[1].split("-");
+            			userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(Arrays.asList(roles)));
+            		} else if (identityLink.getUserId().startsWith("unit")) {
+            			String[] units = identityLink.getUserId().split("--")[1].split("-");
+            			userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(Arrays.asList(units)));
+            		} else {
+            			String[] users = identityLink.getUserId().split(",");
+            			userIds.addAll(Arrays.asList(users));
+            		}
                 } else if (!StrUtil.isEmpty(identityLink.getGroupId())) {
                     // 分配的是组，获取，从act视图表act_id_membership中的获取用户
-                	userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(identityLink.getGroupId()));
+                	System.out.println("2getCandidateUserForTask====="+identityLink.getGroupId());
+                	if (identityLink.getGroupId().startsWith("post")) {
+            			String[] posts = identityLink.getGroupId().split("--")[1].split("-");
+            			userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(Arrays.asList(posts)));
+            		} else if (identityLink.getGroupId().startsWith("role")) {
+            			String[] roles = identityLink.getGroupId().split("--")[1].split("-");
+            			userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(Arrays.asList(roles)));
+            		} else if (identityLink.getGroupId().startsWith("unit")) {
+            			String[] units = identityLink.getGroupId().split("--")[1].split("-");
+            			userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(Arrays.asList(units)));
+            		} else {
+            			String[] units = identityLink.getGroupId().split("-");
+            			userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(Arrays.asList(units)));
+            		}
                 }
             }
         }
@@ -274,17 +299,17 @@ public class TaskInstanceServiceImpl implements TaskInstanceService {
     	// flowJson.put("flowUnitId", "");
     	
     	// 非必填选项，当下一步审批者需要本次任务执行人（启动者）手动选择的时候，需要auditUserIds属性
-    	//String auditor = "16622d9cfc5_94712f71,16622e3f0df_1370e873";
-    	//flowJson.put("auditor", auditor);
+    	String auditor = "16622d9cfc5_94712f71,16622e3f0df_1370e873";
+    	flowJson.put("auditor", auditor);
     	
     	// 特殊审批环节。当任务节点存在某个不确定的审批人，在流程图任务节点id设置为specialAuditor，同时提交时specialAuditor写入unit/role/post
-    	flowJson.put("specialAuditor0", "ZSH_YFGCS_CJCXY");
+    	// flowJson.put("specialAuditor", "ZSH_YFGCS_CJCXY");
     	flowJson.put("specialAuditor1", "ZBGL_KTY_QYKYZG");
 		flowJson.put("specialAuditor2", "ZBGL_KTY_FZDWKJCZ");
     	flowJson.put("specialAuditor3", "ZBGL_KTY_FZDWZGLD");
     	
 		// 非必填选项, 对流程中出现的多个判断条件，比如money>100等，需要把事先把money条件输入
-		// flowJson.put("money", 50); // 环节1需要用到
+		// flowJson.put("involoFlag", 1); // 环节1需要用到
 		// flowJson.put("departmentCode", "1005"); // 环节2需要用到
 		// flowJson.put("companyCode", "2006"); // 环节n需要用到
 		

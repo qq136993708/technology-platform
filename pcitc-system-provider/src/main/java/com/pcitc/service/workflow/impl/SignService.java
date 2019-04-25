@@ -1,25 +1,15 @@
 package com.pcitc.service.workflow.impl;
 
-import java.util.HashSet;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.activiti.engine.impl.pvm.delegate.ActivityExecution;
-import org.activiti.engine.task.IdentityLink;
-import org.activiti.engine.task.IdentityLinkType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.pcitc.base.system.SysRole;
-import com.pcitc.base.system.SysRoleExample;
-import com.pcitc.base.system.SysUserRole;
-import com.pcitc.base.system.SysUserRoleExample;
-import com.pcitc.base.util.StrUtil;
 import com.pcitc.mapper.system.SysRoleMapper;
 import com.pcitc.mapper.system.SysUserMapper;
 import com.pcitc.mapper.system.SysUserRoleMapper;
@@ -52,9 +42,7 @@ public class SignService {
 
 		// 分解group
 		String[] groups = group_id.split("-");
-		for (int i = 0; i < groups.length; i++) {
-			userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(groups[i]));
-		}
+		userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(Arrays.asList(groups)));
 
 		execution.setVariable("signUser_" + nodeId, userIds);
 		System.out.println("3=============CountersignService=getUsers"+userIds);
