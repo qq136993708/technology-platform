@@ -9,6 +9,7 @@ import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.equipment.*;
 import com.pcitc.base.workflow.Constants;
+import com.pcitc.mapper.equipment.SreEquipmentMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,14 +35,13 @@ public class PurchaseProviderClient
 	private final static Logger logger = LoggerFactory.getLogger(PurchaseProviderClient.class);
 	@Autowired
 	private PurchaseService purchaseService;
-	
-   private final static String WORKFLOW_DEFINE_ID = "intl_notice:3:1117555";
-	
+    @Autowired
+    private SreEquipmentMapper sreEquipmentMapper;
 	@Autowired
 	private MailSentService mailSentService;
 	
-	@Autowired
-	private SystemRemoteClient systemRemoteClient;
+	/*@Autowired
+	private SystemRemoteClient systemRemoteClient;*/
 	
 	@ApiOperation(value = "采购分页", notes = "采购分页")
 	@RequestMapping(value = "/sre-provider/purchase/page", method = RequestMethod.POST)
@@ -92,10 +92,10 @@ public class PurchaseProviderClient
         return purchaseService.selectProjectBasic(id);
     }
 	@ApiOperation(value="采购申请确认流程",notes="采购申请确认流程")
-	@RequestMapping(value = "/stp-provider/purchase/start_inner_activity/{id}", method = RequestMethod.POST)
-	public Result start_inner_activity(@PathVariable("id") String id, @RequestBody Map map)throws Exception
+	@RequestMapping(value = "/stp-provider/purchase/start_purchase_activity/{id}", method = RequestMethod.POST)
+	public Result start_purchase_activity(@PathVariable("id") String id, @RequestBody Map map)throws Exception
 	{
-		return purchaseService.dealInnerPurchaseFlow(id,map);
+		return purchaseService.dealPurchaseFlow(id,map);
 	}
 
     /**
@@ -108,7 +108,15 @@ public class PurchaseProviderClient
 	public Integer purchaseAgreeSrePurchase(@PathVariable(value = "id", required = true) String id)throws Exception {
 
 		SrePurchase srePurchase = purchaseService.selectSrePurchaseById(id);
-		srePurchase.setState(Constant.PURCHASE_STATUS_PASS);
+        String equipmentIds = srePurchase.getEquipmentId();
+        String[] arr = equipmentIds.split(",");
+        for (int i = 0; i < arr.length; i++) {
+            SreEquipment sreEquipment = sreEquipmentMapper.selectByPrimaryKey(arr[i]);
+            sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_PASS);
+            sreEquipmentMapper.updateByPrimaryKeySelective(sreEquipment);
+        }
+        srePurchase.setStage(Constant.PURCHASE_CONTRACT_DOCKING);
+        srePurchase.setState(Constant.PURCHASE_STATUS_PASS);
 		int count=purchaseService.updateSrePurchase(srePurchase);
 		System.out.println("======业务系统处理审批流程都 --同意 --后业务======="+id);
 		return count;
@@ -124,6 +132,13 @@ public class PurchaseProviderClient
     public Integer purchaseRejectSrePurchase(@PathVariable(value = "id", required = true) String id)throws Exception {
 
         SrePurchase srePurchase = purchaseService.selectSrePurchaseById(id);
+        String equipmentIds = srePurchase.getEquipmentId();
+        String[] arr = equipmentIds.split(",");
+        for (int i = 0; i < arr.length; i++) {
+            SreEquipment sreEquipment = sreEquipmentMapper.selectByPrimaryKey(arr[i]);
+            sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_DRAFT);
+            sreEquipmentMapper.updateByPrimaryKeySelective(sreEquipment);
+        }
         srePurchase.setState(Constant.PURCHASE_STATUS_REJECT);
         int count=purchaseService.updateSrePurchase(srePurchase);
         System.out.println("======业务系统处理--驳回 --后业务======="+id);

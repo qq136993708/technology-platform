@@ -27,5 +27,5 @@ public interface PurchaseService {
 
     SreProject selectProjectBasic(String id)throws Exception;
 
-	Result dealInnerPurchaseFlow(String id, Map map)throws Exception;
+	Result dealPurchaseFlow(String id, Map map)throws Exception;
 }

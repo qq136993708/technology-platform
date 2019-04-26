@@ -18,7 +18,8 @@
 <input  name="id"         id="id"          type="hidden" >
 <input type="hidden" name="departCode" id="departCode" value="${departCode}">
 <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
-
+    <input  name="specialAuditor0"  id="specialAuditor0"           type="hidden" >
+    <input  name="branchFlag"  id="branchFlag"           type="hidden" >
 
 </form>
 
@@ -339,9 +340,7 @@ var name=$('#name').val();
                  {
                      var id=selectRowData.id;
                      var state=selectRowData.state;
-                     /*var innerAuditStatus=selectRowData.innerAuditStatus;
-                     var setupId=selectRowData.setupId;
-                     var joinUnitCodes=selectRowData.joinUnitCode;*/
+                     //var joinUnitCodes = selectRowData.departCode;
                      if(state!='10')
                      {
                          layer.alert('请选择未上报的申请');
@@ -506,15 +505,37 @@ var name=$('#name').val();
     
     function dealFlow(id)
     {
-    	var json = {functionId:functionId};
+        /*var nunits="";
+        var branchFlag="";
+        if(joinUnitCodes!=null && joinUnitCodes!='')
+        {
+            branchFlag="1";
+            var arr=joinUnitCodes.split(",");
+            for(i=0;i<arr.length;i++)
+            {
+                var str=arr[i];
+                nunits=nunits+str+"-";
+            }
+            nunits = nunits.substr(0, nunits.length - 1);
+            nunits="unit--"+nunits;
+        }else
+        {
+            branchFlag="0";
+        }*/
+        // alert(nunits);
+        //return;
+        //$('#specialAuditor0').val("role--ZBGL_KJB_JHCGLY");
+       // $('#branchFlag').val("1");
+
+        var json = {functionId:functionId};
     	 $.ajax({
              type : 'POST',
              url : "/workflow/start/audit-type",
              contentType: "application/json;charset=UTF-8",
              data : JSON.stringify(json),
              //json中有functionId（projectId、departmentId等）用来区别processDefine的属性
-             success : function(data) 
-             {
+             success : function(data)
+             {console.log(data)
           	   if (data.code == 'role')
           	   {
               		// 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
