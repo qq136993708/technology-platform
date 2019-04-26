@@ -327,7 +327,7 @@ public class SysFileController extends BaseController {
     public ResponseEntity<InputStreamResource> videoFile(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) {
 //    public ResponseEntity<byte[]> videoFile(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response){
 
-                this.httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        this.httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         MultiValueMap<String, String> form1 = new LinkedMultiValueMap<String, String>();
         form1.add("fileIds", id);
         HttpEntity<MultiValueMap<String, String>> httpEntity1 = new HttpEntity<>(form1, httpHeaders);
@@ -343,10 +343,10 @@ public class SysFileController extends BaseController {
         try {
             InputStream inputStream = body.asInputStream();
             InputStreamResource resource = new InputStreamResource(inputStream);
-            inputStreamResource=  ResponseEntity.ok().contentType(MediaType.APPLICATION_OCTET_STREAM).headers(httpHeaders).body(resource);
+            inputStreamResource = ResponseEntity.ok().contentType(MediaType.APPLICATION_OCTET_STREAM).headers(httpHeaders).body(resource);
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             return inputStreamResource;
         }
 
