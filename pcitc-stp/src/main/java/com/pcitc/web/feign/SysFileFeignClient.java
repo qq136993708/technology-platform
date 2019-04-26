@@ -33,5 +33,4 @@ public interface SysFileFeignClient {
 
     @RequestMapping(value = "/sysfile-provider/sysfile/video/{id}")
     public Response videoFiles(@RequestParam("id") String id, @RequestParam("request") HttpServletRequest request, @RequestParam("response") HttpServletResponse response);
-//    public ResponseEntity<byte[]> videoFiles(@PathVariable("id") String id, @RequestParam("request") HttpServletRequest request, @RequestParam("response") HttpServletResponse response);
 }
