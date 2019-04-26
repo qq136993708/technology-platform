@@ -13,7 +13,52 @@ public class SreProjectAudit {
     private String createUserid;
     private String documentdoc;
     private String documentdoctwo;
-    public String getDocumentdoc() {
+    private String usersid;
+    private String informcontent;
+    private Date testdate;
+    private Date informdate;
+    private String informuser;
+    public String getUsersid() {
+		return usersid;
+	}
+
+	public void setUsersid(String usersid) {
+		this.usersid = usersid;
+	}
+
+	public String getInformcontent() {
+		return informcontent;
+	}
+
+	public void setInformcontent(String informcontent) {
+		this.informcontent = informcontent;
+	}
+
+	public Date getTestdate() {
+		return testdate;
+	}
+
+	public void setTestdate(Date testdate) {
+		this.testdate = testdate;
+	}
+
+	public Date getInformdate() {
+		return informdate;
+	}
+
+	public void setInformdate(Date informdate) {
+		this.informdate = informdate;
+	}
+
+	public String getInformuser() {
+		return informuser;
+	}
+
+	public void setInformuser(String informuser) {
+		this.informuser = informuser;
+	}
+
+	public String getDocumentdoc() {
 		return documentdoc;
 	}
 

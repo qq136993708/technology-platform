@@ -2,14 +2,19 @@ package com.pcitc.service.budget.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
@@ -18,10 +23,12 @@ import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetInfoExample;
+import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.mapper.budget.BudgetInfoMapper;
 import com.pcitc.service.budget.BudgetInfoService;
+import com.pcitc.service.feign.SystemRemoteClient;
 
 @Service("budGetInfoService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
@@ -30,6 +37,10 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 
 	@Autowired
 	private BudgetInfoMapper budgetInfoMapper;
+	
+	@Resource
+	private SystemRemoteClient systemRemoteClient;
+	
 	
 	@Override
 	public BudgetInfo selectBudgetInfo(String dataId) throws Exception
@@ -177,5 +188,35 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		}
 		return null;
 	}
+	@Override
+	public Map<String, List<OutProjectPlan>> selectBudgetPlanData(Set<String> codes, String nd) {
+		if(codes == null || codes.size() == 0) {
+			return new HashMap<String,List<OutProjectPlan>>();
+		}
+		
+		StringBuffer sb = new StringBuffer();
+		for (String code : codes) {
+			sb.append(code + ",");
+		}
+		LayuiTableParam layuiParam = new LayuiTableParam();
+		Map<String, Object> p = new HashMap<String, Object>();
+		p.put("ysnd", nd);
+		p.put("define9", sb.toString().substring(0, sb.length() - 1));
+		layuiParam.setLimit(1000);
+		layuiParam.setPage(1);
+		layuiParam.setParam(p);
 
+		LayuiTableData dt = systemRemoteClient.selectProjectPlanByCond(layuiParam);
+		Map<String, List<OutProjectPlan>> rs = new HashMap<String,List<OutProjectPlan>>();
+		for (java.util.Iterator<?> iter = dt.getData().iterator(); iter.hasNext();) {
+			String planStr = JSON.toJSON(iter.next()).toString();
+			OutProjectPlan plan = JSON.toJavaObject(JSON.parseObject(planStr), OutProjectPlan.class);
+
+			if(!rs.containsKey(plan.getDefine9())) {
+				rs.put(plan.getDefine9(), new ArrayList<OutProjectPlan>());
+			}
+			rs.get(plan.getDefine9()).add(plan);
+		}
+		return rs;
+	}
 }

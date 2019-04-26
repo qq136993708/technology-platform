@@ -91,7 +91,8 @@ public class AdminController extends BaseController {
 	public String indexStp(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		//System.out.println("进入indexStp....");
 		SSOPrincipal ssoPrincipal = ((SSOPrincipal) request.getSession().getAttribute(SSOPrincipal.NAME_OF_SESSION_ATTR));
-		//System.out.println("ssoPrincipal==========" + ssoPrincipal);
+		System.out.println("ssoPrincipal==========");
+		System.out.println(JSON.toJSONString(ssoPrincipal));
 		String uAccount = "";
 
 		SysUser rsUser = new SysUser();

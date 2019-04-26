@@ -64,6 +64,17 @@ public class ProjectTaskAcController extends BaseController{
 		return "/stp/equipment/taskac/project_task_list";
 	}
 	
+	@RequestMapping(value = "/notice_list")
+	public String noticelist(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		return "/stp/equipment/taskac/project_tasknotice_list";
+	}
+	@RequestMapping(value = "/projectusers")
+	public String projectusers(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String id = CommonUtil.getParameter(request, "id", "");
+		request.setAttribute("id", id);
+		return "/stp/equipment/taskac/project_task_users";
+	}
 	
 	@RequestMapping(value = "/projectlist")
 	@ResponseBody
@@ -234,4 +245,22 @@ public class ProjectTaskAcController extends BaseController{
 	        out.close();
 	        return null;
 	    }
-}
+	  
+	  
+	    @RequestMapping(value = "/addUsers")
+	    @ResponseBody
+		public String addUsers(HttpServletRequest request) throws Exception {
+	    	String id = CommonUtil.getParameter(request, "id", "");
+			String usersid = CommonUtil.getParameter(request, "usersid", "");
+			String informcontent = CommonUtil.getParameter(request, "informcontent", "");
+			 ResponseEntity<SreProjectAudit> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProjectAudit.class);
+             SreProjectAudit sreProjectAudit = responseEntity.getBody();
+             sreProjectAudit.setId(id);
+             sreProjectAudit.setUsersid(usersid);
+             sreProjectAudit.setInformcontent(informcontent);
+             sreProjectAudit.setTestdate(new Date());
+             sreProjectAudit.setInformuser(sysUserInfo.getUserId());
+             ResponseEntity<String>  exchange = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SreProjectAudit>(sreProjectAudit, this.httpHeaders), String.class);
+           return "";	
+	       }
+	    }

@@ -65,12 +65,17 @@ public class TaskController extends BaseController {
 	private static final String INI_DEAL_TASK = "http://pcitc-zuul/system-proxy/task-provider/deal/task/info";
 
 	private static final String TASK_PROCESS_INFO = "http://pcitc-zuul/system-proxy/task-provider/task/process/info";
+	private static final String BUSINESS_AUDIT_IMAGE = "http://pcitc-zuul/system-proxy/task-provider/task/business/audit/image";
 	
 	// 任务撤回操作
 	private static final String TASK_RECALL = "http://pcitc-zuul/system-proxy/task-provider/task/recall/";
 
 	// 消息列表
 	private static final String MESSAGE_LIST = "http://pcitc-zuul/system-proxy/message-provider/message/list";
+	
+	// 事例任务列表
+	private static final String BUSINESS_AUDIT_DETAIL = "http://pcitc-zuul/system-proxy/task-provider/task/business/audit/";
+	
 	/**
 	 * 判断是否需要选择审批人
 	 */
@@ -323,6 +328,17 @@ public class TaskController extends BaseController {
 		}
 
 	}
+	
+	/**
+	 * 通过业务id，查看此单据的审批信息
+	 * 
+	 * @author zhf
+	 * @date 2019年4月23日 下午5:19:28
+	 */
+	@RequestMapping(value = "/task/business/audit/{dataId}", method = RequestMethod.GET)
+	public String businessAuditDetail(@PathVariable("dataId") String dataId, HttpServletRequest request) {
+		return "/pplus/workflow/business-audit-detail";
+	}
 
 	/**
 	 * 流程监控--已审批、待审批/流程图片
@@ -371,6 +387,41 @@ public class TaskController extends BaseController {
 		System.out.println("2====processList====" + jsonObj.toString());
 		return jsonObj.toString();
 	}
+	
+	/**
+	 * 显示流程的列表
+	 * 
+	 * @author zhf
+	 * @date 2018年4月23日 下午5:19:25
+	 */
+	@RequestMapping(value = "/task/business/audit/detail/{dataId}", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getBusinessAuditDetail(@PathVariable("dataId") String dataId, HttpServletRequest request) {
+
+		httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		// 获取当前登录人信息
+		JSONObject jsonStr = new JSONObject();
+		jsonStr.put("page", request.getParameter("page")); // 起始索引
+		jsonStr.put("limit", request.getParameter("limit")); // 每页显示的行数
+
+		MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
+		requestBody.add("jsonStr", jsonStr.toJSONString());
+		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, httpHeaders);
+
+		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(BUSINESS_AUDIT_DETAIL + dataId, HttpMethod.POST, entity, JSONObject.class);
+		JSONObject retJson = responseEntity.getBody();
+
+		Long totalCount = retJson.get("totalCount") != null ? Long.parseLong(retJson.get("totalCount").toString()) : 0l;
+		List<ActivityVo> auditList = JSONArray.parseArray(retJson.getJSONArray("list").toString(), ActivityVo.class);
+
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("code", "0");
+		jsonObj.put("msg", "提示");
+		jsonObj.put("count", totalCount);
+		jsonObj.put("data", auditList);
+		System.out.println("====getBusinessAuditDetail====" + jsonObj.toString());
+		return jsonObj.toString();
+	}
 
 	/**
 	 * @author zhf
@@ -397,6 +448,35 @@ public class TaskController extends BaseController {
 		WorkflowVo workflowVo = new WorkflowVo();
 		workflowVo.setInstanceId(instanceId);
 		ResponseEntity<byte[]> fileStream = this.restTemplate.exchange(TASK_PROCESS_INFO, HttpMethod.POST, new HttpEntity<WorkflowVo>(workflowVo, this.httpHeaders), byte[].class);
+		byte[] image = fileStream.getBody();
+		OutputStream os = null;
+		try {
+			os = response.getOutputStream();
+			os.write(image);
+			os.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			os.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "ok";
+	}
+	
+	/**
+	 * 生成流程实例的流程图片，并重点高亮当前节点，高亮已经执行的链路
+	 * 
+	 * @author zhf
+	 * @date 2018年4月23日 下午5:42:11
+	 */
+	@RequestMapping(value = "/task/business/image/{dataId}", method = RequestMethod.GET)
+	@ResponseBody
+	public String getBusinessImageInfo(@PathVariable("dataId") String dataId, HttpServletRequest request) {
+		WorkflowVo workflowVo = new WorkflowVo();
+		workflowVo.setBusinessId(dataId);
+		ResponseEntity<byte[]> fileStream = this.restTemplate.exchange(BUSINESS_AUDIT_IMAGE, HttpMethod.POST, new HttpEntity<WorkflowVo>(workflowVo, this.httpHeaders), byte[].class);
 		byte[] image = fileStream.getBody();
 		OutputStream os = null;
 		try {
