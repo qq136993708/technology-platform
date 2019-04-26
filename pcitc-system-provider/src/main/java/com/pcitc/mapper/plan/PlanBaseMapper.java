@@ -43,6 +43,8 @@ public interface PlanBaseMapper {
 
     List<PlanBase> queryBotWorkOrderListByPage(PlanBase vo);
 
+    List<PlanBase> selectSonPlanBasesByCreateUserId(Map<String, Object> map);
+
     Long countByBotWorkOrder(PlanBase vo);
 
     int submitBotWorkOrder(String dataId);

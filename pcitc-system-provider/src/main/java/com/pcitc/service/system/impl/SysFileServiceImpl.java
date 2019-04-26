@@ -587,11 +587,12 @@ public class SysFileServiceImpl implements SysFileService {
                             dir.mkdirs();
                         // 这样也可以上传同名文件
                         String filePrefixFormat = "yyyyMMddHHmmssS";
-                        String savedName = DateUtil.format(new Date(), filePrefixFormat) + "_" + IdUtil.createFileIdByTime();
+                        String strSuffix = filename.substring(filename.lastIndexOf(".") + 1);
+
+                        String savedName = DateUtil.format(new Date(), filePrefixFormat) + "_" + IdUtil.createFileIdByTime()+"."+strSuffix;
                         String filePath = dir.getAbsolutePath() + File.separator + savedName;
                         File serverFile = new File(filePath);
                         // 将文件写入到服务器
-                        String strSuffix = filename.substring(filename.lastIndexOf(".") + 1);
                         FileUtil.copyInputStreamToFile(file.getInputStream(), serverFile);
                         sysFile = new SysFile();
                         sysFile.setId(uuid);
@@ -1607,9 +1608,6 @@ public class SysFileServiceImpl implements SysFileService {
         File file = null;
         try {
             SysFile sysfile = selectByPrimaryKey(id);
-            System.out.println("id");
-            System.out.println(id);
-            System.out.println(sysfile);
             if (sysfile != null)
                 file = new File(sysfile.getFilePath());
             System.out.println(sysfile.getFilePath());

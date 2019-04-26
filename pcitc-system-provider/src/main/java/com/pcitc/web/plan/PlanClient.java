@@ -1,9 +1,11 @@
 package com.pcitc.web.plan;
 
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.plan.PlanBase;
 import com.pcitc.base.plan.PlanBaseDetail;
+import com.pcitc.service.plan.PlanBaseService;
 import com.pcitc.service.plan.PlanService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -271,4 +273,20 @@ public class PlanClient {
 		}
 		return result;
 	}
+
+    @Autowired
+    private PlanBaseService baseService;
+
+    @ApiOperation(value = "查询当前用户分配给其他人的任务", notes = "查询当前用户分配给其他人的任务")
+    @RequestMapping(value = "/selectSonPlanBasesByCreateUserId", method = RequestMethod.POST)
+    public JSONObject selectSonPlanBasesByCreateUserId(@RequestBody JSONObject jsonObject) {
+        JSONObject retJson = new JSONObject();
+        try {
+            List<PlanBase> list = baseService.selectSonPlanBasesByCreateUserId(jsonObject);
+            retJson.put("list", list);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return retJson;
+    }
 }
