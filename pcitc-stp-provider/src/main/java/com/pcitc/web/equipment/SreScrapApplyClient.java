@@ -89,6 +89,7 @@ public class SreScrapApplyClient {
 		sreScrapApply.setId(id);
 		sreScrapApply.setName(findview.getName());
 		sreScrapApply.setAuditStatus("0");
+		sreScrapApply.setStatus("0");
 		sreScrapApply.setCreateUserId(findview.getUserId());
 		sreScrapApply.setCreateUser(findview.getUserName());
 		sreScrapApply.setCreateDate(new Date());
@@ -110,7 +111,6 @@ public class SreScrapApplyClient {
 					String Userid=findview.getUserId();
 					s.setCreateUserId(Userid);
 					s.setUpdateDate(new Date());
-					s.setCreateUserId("1");
 					System.out.println(s);
 					sreScrapApplyItemService.insert(s);
 				}
