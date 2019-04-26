@@ -54,11 +54,7 @@ public class PurchaseController extends BaseController{
     private static final String DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/delete/";
     //临时导出文件目录
     private static final String TEMP_FILE_PATH = "src/main/resources/tem/";
-    private static final String PURCHASE_INNER_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/purchase/start_inner_activity/";
-    // 流程操作--同意
-    //private static final String AUDIT_AGREE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/task/agree/";
-    // 流程操作--拒绝
-    //private static final String AUDIT_REJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/task/reject/";
+    private static final String PURCHASE_INNER_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/purchase/start_purchase_activity/";
 
     //跳转到采购申请页面
 	@RequestMapping(value = "/sre_purchase/to-list")
@@ -100,6 +96,7 @@ public class PurchaseController extends BaseController{
 
         return "/stp/equipment/purchase/arrive-goods-list";
     }
+    //跳转到合同系统对接
     @RequestMapping(value = "/sre-purchase/apply_list")
     public String apply_list(HttpServletRequest request, HttpServletResponse response)throws Exception {
 
@@ -119,7 +116,7 @@ public class PurchaseController extends BaseController{
 
         return "/stp/equipment/purchase/apply-list";
     }
-    //跳转到安装调试页面123
+    //跳转到安装调试页面
     @RequestMapping(value = "/sre-purchase/to-installation-list")
     public String installationList(HttpServletRequest request, HttpServletResponse response) {
 
