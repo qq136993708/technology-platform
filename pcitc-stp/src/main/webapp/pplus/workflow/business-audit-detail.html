@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>业务审批详情</title>
+<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
+
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+	<div class="formBox formBoxTab">
+		<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+			<ul class="layui-tab-title">
+				<li class="layui-this">审批列表</li>
+				<li>流程图追踪</li>
+			</ul>
+			<div class="layui-tab-content" style="height: 100px;">
+				<div class="layui-tab-item layui-show">
+					<table id="tableShow" class="layui-hide" lay-filter="tableEvent"></table>
+				</div>
+				<div class="layui-tab-item">
+					<div id="imageContainer" align="center">
+						<img src="/task/business/image/${dataId}" style="width: 80%; height: 80%">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--表格js-->
+	<script>
+		var dataId = "${dataId?default(0)}";
+		var table;
+		layui.use([ 'jquery', 'table', 'laypage', 'laytpl' ], function() {
+			table = layui.table, $ = layui.jquery, laypage = layui.laypage;
+
+			//渲染
+			table.render({
+				elem : '#tableShow',
+				url : '/task/business/audit/detail/' + dataId,
+				method : "POST",
+				id : 'tableShow',
+				height : commonDislodgeTable(),
+				cols : [ [ {
+					title : '序号',
+					type : 'numbers',
+					width : 55
+				}, {
+					field : 'activityState',
+					title : '状态',
+					style : 'cursor: pointer;',
+					align : 'center'
+				}, {
+					field : 'activityName',
+					title : '任务节点名称',
+					width : '15%',
+					style : 'cursor: pointer;'
+				}, {
+					field : 'taskName',
+					title : '任务名称',
+					width : '20%',
+					style : 'cursor: pointer;'
+				}, {
+					field : 'assigneeName',
+					title : '处理人',
+					width : '15%',
+					style : 'cursor: pointer;'
+				}, {
+					field : 'endTime',
+					title : '处理时间',
+					width : '20%',
+					style : 'cursor: pointer;',
+					templet : '<div>{{ layui.laytpl.toDateString(d.endTime) }}</div>',
+					align : 'center'
+				}, {
+					field : 'suggestion',
+					title : '处理意见',
+					style : 'cursor: pointer;'
+				}
+
+				] ],
+				done : function(res, curr, count) {
+					// 点击行联动选择框--单选
+					$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
+						var index = parseInt($(this).index() + 1);
+						$('tr').removeClass('layui-table-click');
+						$(this).addClass('layui-table-click');
+						$('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+						$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+					});
+				}
+			});
+
+			//监听排序
+			table.on('sort(tableShow)', function(obj) {
+				console.log(this, obj.field, obj.type)
+				//return;
+				//服务端排序
+				table.reload('tableShow', {
+					initSort : obj,
+					page : {
+						curr : 1
+					}, //重新从第一页开始
+					where : { //重新请求服务端
+						key : obj.field, //排序字段
+						order : obj.type
+					//排序方式
+					}
+				});
+			});
+			//区别按钮属性
+			$('.layui-btn').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+		});
+
+		layui.use('element', function() {
+			var $ = layui.jquery, element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+		});
+
+	</script>
+</body>
+</html>

@@ -88,9 +88,9 @@
 		var taskId = "${taskId?default(0)}";
 		var id = "${id?default(0)}";
 
-		var specialRoleCodes = "";
-		var specialUnitCodes = "";
-		var specialPostCodes = "";
+		var roleCodes = "";
+		var unitCodes = "";
+		var postCodes = "";
 		layui.config({
 			base : '../../../../' //静态资源所在路径
 		}).use([ 'form', 'laydate', 'table', 'jquery', 'layer' ], function() {
@@ -179,7 +179,7 @@
 						success : function(data) { //请求成功后处理函数。
 							if (data.code == 'role') {
 								// 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
-								specialRoleCodes = data.data; // 弹出页面的隐藏的查询条件
+								roleCodes = data.data; // 弹出页面的隐藏的查询条件
 								var temUrl = "/task/deal/users/ini";
 								layer.open({
 									title : '选择审批人',
@@ -195,11 +195,11 @@
 								});
 							} else if (data.code == 'unit' || data.code == 'post') {
 								// 按部门选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
-								// specialUnitCodes、specialPostCodes，参数名必须一致，方便公共弹出页面调用
+								// unitCodes、postCodes，参数名必须一致，方便公共弹出页面调用
 								if (data.code == 'unit') {
-									specialUnitCodes = data.data; // 弹出页面的隐藏的查询条件
+									unitCodes = data.data; // 弹出页面的隐藏的查询条件
 								} else {
-									specialPostCodes = data.data; // 弹出页面的隐藏的查询条件
+									postCodes = data.data; // 弹出页面的隐藏的查询条件
 								}
 								var temUrl = "/task/deal/user/unit/ini";
 								layer.open({

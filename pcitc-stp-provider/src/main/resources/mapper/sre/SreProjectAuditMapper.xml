@@ -12,6 +12,11 @@
     <result column="status" property="status" jdbcType="VARCHAR" />
      <result column="documentdoc" property="documentdoc" jdbcType="VARCHAR" />
       <result column="documentdoctwo" property="documentdoctwo" jdbcType="VARCHAR" />
+            <result column="usersid" property="usersid" jdbcType="VARCHAR" />
+      <result column="informcontent" property="informcontent" jdbcType="VARCHAR" />
+       <result column="testdate" property="testdate" jdbcType="TIMESTAMP" />
+       <result column="informdate" property="informdate" jdbcType="TIMESTAMP" />
+      <result column="informuser" property="informuser" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, projecttaskid,projecttask, content, create_user, create_date, status,documentdoc,documentdoctwo
@@ -129,7 +134,14 @@
       create_date = #{createDate,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=VARCHAR},
       documentdoc=#{documentdoc,jdbcType=VARCHAR},
-      documentdoctwo=#{documentdoctwo,jdbcType=VARCHAR}
+      documentdoctwo=#{documentdoctwo,jdbcType=VARCHAR},
+      usersid=#{usersid,jdbcType=VARCHAR},
+      informcontent=#{informcontent,jdbcType=VARCHAR},
+      testdate= #{testdate,jdbcType=TIMESTAMP},
+      informdate= #{informdate,jdbcType=TIMESTAMP},
+      informuser=#{informuser,jdbcType=VARCHAR}
+      
+      
     where id = #{id,jdbcType=VARCHAR}
   </update>
   
