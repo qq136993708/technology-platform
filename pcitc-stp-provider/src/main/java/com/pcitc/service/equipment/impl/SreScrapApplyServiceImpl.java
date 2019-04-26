@@ -1,5 +1,6 @@
 package com.pcitc.service.equipment.impl;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -125,7 +126,7 @@ public class SreScrapApplyServiceImpl implements SreScrapApplyService {
 
 
         SreScrapApply sreScrapApply = sreScrapApplyMapper.selectByPrimaryKey(id);
-
+        String equipmentIds = sreScrapApply.getId();
         String processInstanceName=(String)map.get("processInstanceName");
         String authenticatedUserId=(String)map.get("authenticatedUserId");
         String authenticatedUserName=(String)map.get("authenticatedUserName");
@@ -135,14 +136,6 @@ public class SreScrapApplyServiceImpl implements SreScrapApplyService {
         String applyUnitCode=(String)map.get("applyUnitCode");
         String parentApplyUnitCode=(String)map.get("parentApplyUnitCode");
         String applyUnitName=(String)map.get("applyUnitName");
-        /*String applyUserId=(String)map.get("applyUserId");
-        String applyUserName=(String)map.get("applyUserName");
-        String applyUnitPathCode=(String)map.get("applyUnitPathCode");
-        String parentApplyUnitPathCode=(String)map.get("parentApplyUnitPathCode");
-        String parentApplyUnitPathName=(String)map.get("parentApplyUnitPathName");*/
-
-
-
 
         // 调用审批流程，此处调用同时实现事务
         JSONObject flowJson = new JSONObject();
@@ -154,12 +147,25 @@ public class SreScrapApplyServiceImpl implements SreScrapApplyService {
         flowJson.put("authenticatedUserName", authenticatedUserName);
         // 菜单id（functionId），部门/组织ID（orgId），项目id（projectId）。其中菜单id必填（和ProcessDefineId两选一）
         flowJson.put("functionId", functionId);
-        // 待办业务详情、最终审批同意、最终审批不同意路径
+
+        // 发起人之后的审批环节，如果是需要选择审批人的话，此处获取选择的userIds赋值给auditor变量
+        if (auditor != null && !auditor.equals("")) {
+            String[] userIdsArr = auditor.split(",");
+            flowJson.put("auditor", Arrays.asList(userIdsArr));
+        }
+
         flowJson.put("auditDetailsPath", "/sre-sreScrapApply/view/" + id);
         flowJson.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/sre-provider/sreScrapApply/agree_purchase/" + id);
         flowJson.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/sre-provider/sreScrapApply/reject_purchase/" + id);
 
+        // 非必填选项，当下一步审批者需要本次任务执行人（启动者）手动选择的时候，需要auditUserIds属性
+        flowJson.put("specialAuditor0", "post--30130054_JHCBSY");
+        flowJson.put("specialAuditor1", "role--ZBGL_KJB_ZYCCZ");
 
+
+
+
+     
         // 远程调用
         System.out.println("=====远程调用开始");
         String str=workflowRemoteClient.startCommonWorkflow(flowJson.toJSONString());

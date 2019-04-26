@@ -76,7 +76,7 @@
         
     function view(id) 
     {
-    	var temUrl = '/sre-sreScrapApply/view?id='+id
+    	var temUrl = '/sre-sreScrapApply/view/'+id
         	  layer.open({
                       title:'资产台账报废-详情',
                       skin: 'layui-layer-lan',
@@ -152,7 +152,7 @@ var name=$('#name').val();
             	if (typeof(selectRowData) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
-            	if(selectRowData.status=="1")
+            	if(selectRowData.status!="0")
             	{
             	layer.alert("已经提交过了不许编辑！");
             	return;
@@ -222,7 +222,7 @@ var name=$('#name').val();
             	if (typeof(selectRowData) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
-            	if(selectRowData.status=="1")
+            	if(selectRowData.status!="0")
             	{
             	layer.alert("已经提交过了！");
             	return;
