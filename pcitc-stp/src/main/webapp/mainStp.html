@@ -32,6 +32,9 @@
         .anchorBL {
             display: none
         }
+        .layui-table-body .layui-none{
+            padding: 0;
+        }
     </style>
 </head>
 <body onload="init()">
@@ -213,7 +216,7 @@
                         <table lay-filter="demo">
                             <thead>
                             <tr>
-                                <th lay-data="{field:'username', width:20}"></th>
+                                <th lay-data="{field:'username', width:32}"></th>
                                 <th lay-data="{field:'experience'}">工作受理人</th>
                                 <th lay-data="{field:'sign'}">安排时间</th>
                                 <th lay-data="{field:'sign1'}">工作内容</th>
@@ -274,10 +277,10 @@
                                 <span>工作受理列表</span>
                                 <a href="javascript:parent.layui.index.openTabsPage('/plan/my/goBotWorkOrderListPage', '我的任务');">更多></a>
                             </div>
-                            <table lay-filter="demo">
+                            <table lay-filter="demo1">
                                 <thead>
                                 <tr>
-                                    <th lay-data="{field:'username', width:20}"></th>
+                                    <th lay-data="{field:'username', width:32}"></th>
                                     <th lay-data="{field:'experience'}">工作受理人</th>
                                     <th lay-data="{field:'sign'}">安排时间</th>
                                     <th lay-data="{field:'sign1'}">工作内容</th>
@@ -295,13 +298,13 @@
                                 </tr>
                                 </#list>
                                 <!---->
-                                <!--<tr>-->
-                                    <!--<td>1</td>-->
-                                    <!--<td>张三</td>-->
-                                    <!--<td>2019-03-28</td>-->
-                                    <!--<td>处理集团所有预算统计</td>-->
-                                    <!--<td></td>-->
-                                <!--</tr>-->
+                                <!--<tr>
+                                    <td>1</td>
+                                    <td>张三</td>
+                                    <td>2019-03-28</td>
+                                    <td>处理集团所有预算统计</td>
+                                    <td></td>
+                                </tr>-->
                                 <!--<tr>-->
                                     <!--<td>2</td>-->
                                     <!--<td>李四</td>-->
@@ -463,9 +466,26 @@
                     $(this).parent().parent().nextAll().slideToggle(400);
                 });
                 /*table*/
+                var arrangeC=0;
                 table.init('demo', {
-                    limit: 5
+                    limit: 5,
+                    done:function(res, curr, count){
+                        arrangeC=count;
+                    }
                 });
+                table.init('demo1', {
+                    limit: 5,
+                    done:function(res, curr, count){
+                        var trLength=$(".arrange .layui-table-body table tbody tr").length;
+                        if(count==0 && trLength!=0){
+                            $(".accept .layui-table-body .layui-none").css("height",(trLength*32.8)+"px");
+                        }
+                    }
+                });
+                var trLength=$(".accept .layui-table-body table tbody tr").length;
+                if(arrangeC==0 && trLength!=0){
+                    $(".arrange .layui-table-body .layui-none").css("height",(trLength*32.8)+"px");
+                }
                 /*动画*/
                 $(".stay-do-m").hover(function () {
                     $(this).find("div").fadeIn(900);

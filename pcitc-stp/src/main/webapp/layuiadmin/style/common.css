@@ -15,8 +15,7 @@
     padding: 2px; color: #666; font-size: 12px;min-width: 130px;}
 /*表格*/
 .layui-table, .layui-table-view{margin: 0;}
-.layui-table-cell{height:32px;line-height: 32px;padding: 0 4px;}
-.layui-table thead tr th .layui-table-cell{text-align: center;}
+.layui-table-cell{height:32px;line-height: 32px;padding: 0 10px;}
 .tableToolBox {background: #EBF5FA;height: 34px;line-height: 27px;text-align: right;border: 1px solid #e6e6e6;border-bottom: 0px;}
 .layui-table-page{background: #ffffff;}
 .layui-table-view .layui-table td, .layui-table-view .layui-table th{padding: 0;}
