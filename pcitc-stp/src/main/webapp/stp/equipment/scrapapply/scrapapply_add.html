@@ -106,14 +106,22 @@
 		        {
 			        if(AddData[i]!="undefined" && AddData[i]!=null && AddData[i]!="")
 			        {
-			        k.unshift({id:AddData[i].id,equipmentName:AddData[i].equipmentName,specification:AddData[i].specification,del:"删除"});
+			        k.unshift({id:AddData[i].id,equipmentName:AddData[i].equipmentName,specification:AddData[i].specification,del:"删除",p:selectRowData.equipmentPrice,n:selectRowData.equipmenNumber});
 			        }
 		        }
 		        AddData=k;
 		    table.reload('userListTable',{
 						data : AddData
 			}) 
-				$("#priceandnumber").html("合计100数量100"); 
+	        var p=0;
+			var n=0; 
+			for(var k =0; k<AddData.length;k++)
+			{
+			p=parseInt(p)+parseInt(AddData[k].p);
+			n=parseInt(n)+parseInt(AddData[k].n);
+			}
+			var c="合计:"+p+"数量:"+n;
+			$("#priceandnumber").html(c);      
 								 
     }
     
@@ -221,12 +229,20 @@
 	                  }
 	                  if(bo==false)
 	                  {
-						AddData.unshift({id:selectRowData.id,equipmentName:selectRowData.equipmentName,specification:selectRowData.specification,del:"删除"});
+						AddData.unshift({id:selectRowData.id,equipmentName:selectRowData.equipmentName,specification:selectRowData.specification,del:"删除",p:selectRowData.equipmentPrice,n:selectRowData.equipmenNumber});
 					  }
 						table.reload('userListTable',{
 						data : AddData
-						}) 
-						$("#priceandnumber").html("合计100数量100");       
+						})
+						var p=0;
+						var n=0; 
+						for(var k =0; k<AddData.length;k++)
+						{
+						p=parseInt(p)+parseInt(AddData[k].p);
+						n=parseInt(n)+parseInt(AddData[k].n);
+						}
+						var c="合计:"+p+"数量:"+n;
+						$("#priceandnumber").html(c);       
 	            })
 	        }
 	    });
