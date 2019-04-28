@@ -130,7 +130,7 @@ public class WorkflowController extends BaseController {
 
 		// 必须设置，统一流程待办任务中需要的业务详情
 		variables.put("auditDetailsPath", "/task/test/details/" + businessId);
-
+		
 		// 流程完全审批通过时，调用的方法
 		variables.put("auditAgreeMethod", "http://pcitc-zuul/system-proxy/workflow-provider/task/agree/" + businessId);
 
