@@ -245,11 +245,17 @@
 		
 		// 处理任务
 		function handleTask(userIds) {
+			var datas=[];
+			datas.push(getFormData('task-form'));
+			if($("#audit-update-form").length > 0) {
+				// 其他的审批表单（业务过程中要修改业务数据）
+				datas.push(getFormData('audit-update-form'));
+			}
 			$('#userIds').val(userIds);
 			$.ajax({
 				type : 'POST',
 				url : "/task/complete/" + taskId,
-				data : JSON.stringify(getFormData('task-form')),
+				data : JSON.stringify(datas),
 				contentType : "application/json;charset=UTF-8",
 				error : function(data) {//请求失败处理函数  
 					layer.msg("操作失败!",{time: 2000,icon: 2}, function(){
