@@ -1184,6 +1184,126 @@ public class BudgetGroupTotalExample {
             return (Criteria) this;
         }
 
+        public Criteria andXmjfJzIsNull() {
+            addCriterion("xmjf_jz is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfJzIsNotNull() {
+            addCriterion("xmjf_jz is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfJzEqualTo(Double value) {
+            addCriterion("xmjf_jz =", value, "xmjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfJzNotEqualTo(Double value) {
+            addCriterion("xmjf_jz <>", value, "xmjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfJzGreaterThan(Double value) {
+            addCriterion("xmjf_jz >", value, "xmjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfJzGreaterThanOrEqualTo(Double value) {
+            addCriterion("xmjf_jz >=", value, "xmjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfJzLessThan(Double value) {
+            addCriterion("xmjf_jz <", value, "xmjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfJzLessThanOrEqualTo(Double value) {
+            addCriterion("xmjf_jz <=", value, "xmjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfJzIn(List<Double> values) {
+            addCriterion("xmjf_jz in", values, "xmjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfJzNotIn(List<Double> values) {
+            addCriterion("xmjf_jz not in", values, "xmjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfJzBetween(Double value1, Double value2) {
+            addCriterion("xmjf_jz between", value1, value2, "xmjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfJzNotBetween(Double value1, Double value2) {
+            addCriterion("xmjf_jz not between", value1, value2, "xmjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfXqIsNull() {
+            addCriterion("xmjf_xq is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfXqIsNotNull() {
+            addCriterion("xmjf_xq is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfXqEqualTo(Double value) {
+            addCriterion("xmjf_xq =", value, "xmjfXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfXqNotEqualTo(Double value) {
+            addCriterion("xmjf_xq <>", value, "xmjfXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfXqGreaterThan(Double value) {
+            addCriterion("xmjf_xq >", value, "xmjfXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfXqGreaterThanOrEqualTo(Double value) {
+            addCriterion("xmjf_xq >=", value, "xmjfXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfXqLessThan(Double value) {
+            addCriterion("xmjf_xq <", value, "xmjfXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfXqLessThanOrEqualTo(Double value) {
+            addCriterion("xmjf_xq <=", value, "xmjfXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfXqIn(List<Double> values) {
+            addCriterion("xmjf_xq in", values, "xmjfXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfXqNotIn(List<Double> values) {
+            addCriterion("xmjf_xq not in", values, "xmjfXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfXqBetween(Double value1, Double value2) {
+            addCriterion("xmjf_xq between", value1, value2, "xmjfXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfXqNotBetween(Double value1, Double value2) {
+            addCriterion("xmjf_xq not between", value1, value2, "xmjfXq");
+            return (Criteria) this;
+        }
+
         public Criteria andZxjfIsNull() {
             addCriterion("zxjf is null");
             return (Criteria) this;
@@ -1241,6 +1361,126 @@ public class BudgetGroupTotalExample {
 
         public Criteria andZxjfNotBetween(Double value1, Double value2) {
             addCriterion("zxjf not between", value1, value2, "zxjf");
+            return (Criteria) this;
+        }
+
+        public Criteria andZxjfJzIsNull() {
+            addCriterion("zxjf_jz is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andZxjfJzIsNotNull() {
+            addCriterion("zxjf_jz is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andZxjfJzEqualTo(Double value) {
+            addCriterion("zxjf_jz =", value, "zxjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andZxjfJzNotEqualTo(Double value) {
+            addCriterion("zxjf_jz <>", value, "zxjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andZxjfJzGreaterThan(Double value) {
+            addCriterion("zxjf_jz >", value, "zxjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andZxjfJzGreaterThanOrEqualTo(Double value) {
+            addCriterion("zxjf_jz >=", value, "zxjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andZxjfJzLessThan(Double value) {
+            addCriterion("zxjf_jz <", value, "zxjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andZxjfJzLessThanOrEqualTo(Double value) {
+            addCriterion("zxjf_jz <=", value, "zxjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andZxjfJzIn(List<Double> values) {
+            addCriterion("zxjf_jz in", values, "zxjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andZxjfJzNotIn(List<Double> values) {
+            addCriterion("zxjf_jz not in", values, "zxjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andZxjfJzBetween(Double value1, Double value2) {
+            addCriterion("zxjf_jz between", value1, value2, "zxjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andZxjfJzNotBetween(Double value1, Double value2) {
+            addCriterion("zxjf_jz not between", value1, value2, "zxjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andZxjfXqIsNull() {
+            addCriterion("zxjf_xq is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andZxjfXqIsNotNull() {
+            addCriterion("zxjf_xq is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andZxjfXqEqualTo(Double value) {
+            addCriterion("zxjf_xq =", value, "zxjfXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andZxjfXqNotEqualTo(Double value) {
+            addCriterion("zxjf_xq <>", value, "zxjfXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andZxjfXqGreaterThan(Double value) {
+            addCriterion("zxjf_xq >", value, "zxjfXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andZxjfXqGreaterThanOrEqualTo(Double value) {
+            addCriterion("zxjf_xq >=", value, "zxjfXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andZxjfXqLessThan(Double value) {
+            addCriterion("zxjf_xq <", value, "zxjfXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andZxjfXqLessThanOrEqualTo(Double value) {
+            addCriterion("zxjf_xq <=", value, "zxjfXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andZxjfXqIn(List<Double> values) {
+            addCriterion("zxjf_xq in", values, "zxjfXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andZxjfXqNotIn(List<Double> values) {
+            addCriterion("zxjf_xq not in", values, "zxjfXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andZxjfXqBetween(Double value1, Double value2) {
+            addCriterion("zxjf_xq between", value1, value2, "zxjfXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andZxjfXqNotBetween(Double value1, Double value2) {
+            addCriterion("zxjf_xq not between", value1, value2, "zxjfXq");
             return (Criteria) this;
         }
 

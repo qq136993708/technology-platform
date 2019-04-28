@@ -33,7 +33,15 @@ public class BudgetGroupTotal {
 
     private Double xmjf;
 
+    private Double xmjfJz;
+
+    private Double xmjfXq;
+
     private Double zxjf;
+
+    private Double zxjfJz;
+
+    private Double zxjfXq;
 
     private Integer itemType;
 
@@ -175,12 +183,44 @@ public class BudgetGroupTotal {
         this.xmjf = xmjf;
     }
 
+    public Double getXmjfJz() {
+        return xmjfJz;
+    }
+
+    public void setXmjfJz(Double xmjfJz) {
+        this.xmjfJz = xmjfJz;
+    }
+
+    public Double getXmjfXq() {
+        return xmjfXq;
+    }
+
+    public void setXmjfXq(Double xmjfXq) {
+        this.xmjfXq = xmjfXq;
+    }
+
     public Double getZxjf() {
         return zxjf;
     }
 
     public void setZxjf(Double zxjf) {
         this.zxjf = zxjf;
+    }
+
+    public Double getZxjfJz() {
+        return zxjfJz;
+    }
+
+    public void setZxjfJz(Double zxjfJz) {
+        this.zxjfJz = zxjfJz;
+    }
+
+    public Double getZxjfXq() {
+        return zxjfXq;
+    }
+
+    public void setZxjfXq(Double zxjfXq) {
+        this.zxjfXq = zxjfXq;
     }
 
     public Integer getItemType() {

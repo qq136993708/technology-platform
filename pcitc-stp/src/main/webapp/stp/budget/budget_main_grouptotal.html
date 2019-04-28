@@ -94,14 +94,19 @@
                 	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
                 	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}" rowspan="2">序号</th>
                     <th lay-data="{field:'displayName', width: '25%'}" rowspan="2">承担单位</th>
-                   	<th lay-data="{field:'last_year_end',align: 'right', width: '15%',totalRow: true}" rowspan="2">2019经费预算</th>
+                   	<th lay-data="{field:'last_year_end',align: 'right', width: '15%',totalRow: true}" rowspan="2">2018经费预算</th>
                     <th lay-data="{field:'plan_money',align: 'right', width: '15%',totalRow: true}" rowspan="2">年合同计划</th>
-                    <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年度经费预算</th>
+                    <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>项目经费</th>
+                    <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>重点实验室专项经费</th>
                 </tr>
                 <tr>
-                    <th lay-data="{field:'total', width: '10%',align: 'right',totalRow: true}">合计</th>
-                    <th lay-data="{field:'xmjf', edit:true,align: 'right',totalRow: true}">项目经费</th>
-                    <th lay-data="{field:'zxjf', edit:true,align: 'right',totalRow: true}">重点实验室专项经费</th>
+                    <th lay-data="{field:'xmjf', align: 'right',totalRow: true}">预算</th>
+                    <th lay-data="{field:'xmjfJz', edit:true,align: 'right',totalRow: true}">老合同</th>
+                    <th lay-data="{field:'xmjfXq', edit:true,align: 'right',totalRow: true}">可新签</th>
+                    
+                     <th lay-data="{field:'zxjf', align: 'right',totalRow: true}">预算</th>
+                    <th lay-data="{field:'zxjfJz', edit:true,align: 'right',totalRow: true}">老合同</th>
+                    <th lay-data="{field:'zxjfXq', edit:true,align: 'right',totalRow: true}">可新签</th>
                 </tr>
                 </thead>
             </table>
@@ -222,6 +227,9 @@
             	$.each(curent_tabel_data,function(index,dt){
             		if(obj.data.dataId == dt.dataId){
             			curent_tabel_data[index][obj.field] = parseInt(obj.value);
+            			
+            			dt.xmjf = parseInt(dt.xmjfJz)+parseInt(dt.xmjfXq);
+            			dt.zxjf = parseInt(dt.zxjfJz)+parseInt(dt.zxjfXq);
             			dt.total = parseInt(dt.xmjf)+parseInt(dt.zxjf);
             		}
             	});
