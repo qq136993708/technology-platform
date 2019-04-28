@@ -280,9 +280,10 @@ public class TaskController extends BaseController {
 	@ResponseBody
 	@OperationFilter(modelName = "系统管理", actionName = "处理待办任务")
 	public Result completeTask(@PathVariable("taskId") String taskId, @RequestBody String param, HttpServletRequest request) {
-
-		JSONObject json = JSONObject.parseObject(param);
-		System.out.println("动态获取的前台页面审批意见======" + json.getString("agree"));
+		System.out.println("动态获取的前台页面审批意见======" + param);
+		JSONArray jsArr = JSONObject.parseArray(param);
+		System.out.println("动态获取的前台页面审批意见======" + jsArr.getJSONObject(0));
+		JSONObject json = jsArr.getJSONObject(0);
 		WorkflowVo workflowVo = new WorkflowVo();
 		workflowVo.setTaskId(taskId);
 		// 本步审批人(名称为了以后查询方便)

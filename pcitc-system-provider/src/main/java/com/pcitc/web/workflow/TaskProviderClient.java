@@ -1678,6 +1678,7 @@ public class TaskProviderClient {
 		Task task = taskService.createTaskQuery().taskId(workflowVo.getTaskId()).singleResult();
 		ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
 		String businessKey = pi.getBusinessKey();
+		//pi.getActivityId()
 		JSONObject retJson = new JSONObject();
 		retJson.put("auditDetailsPath", auditDetailsPath);
 		retJson.put("id", businessKey);
