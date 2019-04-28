@@ -257,7 +257,7 @@ public  class ForApplicationServiceImpl implements ForApplicationService {
         }
 
         // 待办业务详情、最终审批同意、最终审批不同意路径
-        flowJson.put("auditDetailsPath", "/sre-forapplication/listView" + id);
+        flowJson.put("auditDetailsPath", "/sre-forapplication/get" + id);
         flowJson.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/sre-provider/forapplication/agree_forapplication/" + id);
         flowJson.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/sre-provider/forapplication/reject_forapplication/" + id);
 

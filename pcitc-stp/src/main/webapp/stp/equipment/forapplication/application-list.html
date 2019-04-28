@@ -12,19 +12,20 @@
 </head>
 
 <body>
-
 <div class="searchBox">
 <form action=""  name="form1" id="form1" action="" method="POST">
+<input  name="functionId"     id="functionId"      type="hidden">
+<input  name="userIds"        id="userIds"         type="hidden">
+<input  name="id"         id="id"          type="hidden" >
+<input type="hidden" name="departCode" id="departCode" value="${departCode}">
+<input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
+<input  name="specialAuditor0"  id="specialAuditor0"           type="hidden" >
+<input  name="branchFlag"  id="branchFlag"           type="hidden" >
+
+</form>
  <input type="hidden" name="applicationState" id="applicationState" value="${applicationState}">
  <input type="hidden" name="applyDepartCode" id="applyDepartCode" value="${applyDepartCode}">
  <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
- 
- <input  name="functionId"     id="functionId"      type="hidden">
- <input  name="userIds"        id="userIds"         type="hidden">
- <input  name="id"         id="id"          type="hidden" >
- <input  name="specialAuditor0"  id="specialAuditor0"           type="hidden" >
- <input  name="branchFlag"  id="branchFlag"           type="hidden" >
- </form>
     <!--查询条件-->
     <label class="dateInput">
         <span>转资名称</span>
@@ -140,6 +141,9 @@
 
 <script>
 var table,selectRowData;
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
+$('#functionId').val(functionId);
 var publicMethods;
 var name=$('#name').val();
     layui.use(['jquery','table','laypage','layer','laytpl',"publicMethods"], function(){
@@ -219,19 +223,22 @@ var name=$('#name').val();
                 if (typeof(selectRowData) == "undefined")
                 {
                     layer.msg('请点击选择一行数据');
-                } else
-                {
-                    var id=selectRowData.id;
+                }else{
+                    var id=selectRowData.applicationId;
                     var state=selectRowData.state;
                     //var joinUnitCodes = selectRowData.departCode;
-                    if(state!='10')
-                    {
-                        layer.alert('请选择未上报的申请');
+                    if(state=='20') {
+                   	 layer.alert('请选择未上报的申请');
                         return;
-                    }else
-                        $('#id').val(id);
-                        dealFlow(id);
-                    }
+                   }
+                if(state=='10')
+                {
+                    layer.alert('请选择未上报的申请');
+                    return;
+                }
+                    $('#id').val(id);
+                    dealFlow(id);
+                }
             },detailEvent: function(){  //点击详情按钮
             	if (typeof(selectRowData) == "undefined") {
             		layer.msg('请点击选择一行数据');
@@ -519,16 +526,53 @@ var name=$('#name').val();
 
     //处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
    function handleTask(userIds)
-    {
-        $('#userIds').val(userIds);
-        var v_date=(new Date()).getTime();
-        var url="/sre-forapplication/forapplication_workflow?v_date="+v_date;
-        var backurl="/sre-forapplication/to-list?v_date="+v_date;
-        ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
-    }
+   {
+       $('#userIds').val(userIds);
+       var v_date=(new Date()).getTime();
+       var url="/sre-forapplication/forapplication_workflow?v_date="+v_date;
+       var backurl="/sre-forapplication/to-list?v_date="+v_date;
+       ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
+   }
    
-   
+   function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
+   {
+   	 $.ajax({
+     	     type:type,
+     	     url: url,
+     	     dataType:"json",
+     	     data:$("#"+formName).serialize(),
+     	     async: false, 
+     	     cache: false,
+     	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            success:function(data,status)
+            {
+   	          if(data.success==true ||data.success=='true')
+   	          {
 
+   	        	  
+   	        	          layer.alert(
+   	        			  successMsg, 
+   	                      {icon: 1,closeBtn: 0 },
+   	                      function () 
+   	                      {
+   	                    	  renderTable();
+  	                    	      layer.closeAll();
+   	                      });
+   	        	  
+   	          } else
+   	          {
+   	        	 layer.alert(failMsg);
+   	          }
+   	     
+   		   },
+   		   error:function()
+   		   {
+   		    	layer.alert("网络访问错误");
+   		   }
+       
+     });
+   }
+  
 </script>
 
 </body>

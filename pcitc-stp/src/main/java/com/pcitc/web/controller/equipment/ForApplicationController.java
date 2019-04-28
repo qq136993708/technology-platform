@@ -407,7 +407,7 @@ public class ForApplicationController extends BaseController {
 	//启动采购管理-采购申请 确认流程
     @RequestMapping(value = "/sre-forapplication/forapplication_workflow")
     @ResponseBody
-    public Object start_purchase_workflow(HttpServletRequest request, HttpServletResponse response) throws Exception
+    public Object forapplicationWorkflow(HttpServletRequest request, HttpServletResponse response) throws Exception
     {
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
         String id = CommonUtil.getParameter(request, "id", "");
