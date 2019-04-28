@@ -14,11 +14,17 @@
 <body>
 
 <div class="searchBox">
+<form action=""  name="form1" id="form1" action="" method="POST">
  <input type="hidden" name="applicationState" id="applicationState" value="${applicationState}">
  <input type="hidden" name="applyDepartCode" id="applyDepartCode" value="${applyDepartCode}">
  <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
  
- 
+ <input  name="functionId"     id="functionId"      type="hidden">
+ <input  name="userIds"        id="userIds"         type="hidden">
+ <input  name="id"         id="id"          type="hidden" >
+ <input  name="specialAuditor0"  id="specialAuditor0"           type="hidden" >
+ <input  name="branchFlag"  id="branchFlag"           type="hidden" >
+ </form>
     <!--查询条件-->
     <label class="dateInput">
         <span>转资名称</span>
@@ -209,25 +215,24 @@ var name=$('#name').val();
 	         			});
             	}
               
-            },upforEvent: function(){  //点击上报按钮
-                console.log('点击了上报按钮')
-                if (typeof(selectRowData) == "undefined") 
+            },upforEvent: function(){
+                if (typeof(selectRowData) == "undefined")
                 {
-           		layer.msg('请点击选择一行数据');
-           	 } else if(selectRowData.applicationState =="30"){
-           		 layer.msg('转资申请已通过,不能上报');
-           	}else if(selectRowData.applicationState =="20"){
-           		layer.msg('转资申请已上报,不能重复上报');
-           	}else {
-           		var applicationId=selectRowData.applicationId;
-           		var url="/sre-forapplication/upforapplication/"+applicationId;
-	           		  layer.confirm('确定要上报吗？', { btn: ['确定','取消']}, function(){
-	         				 ajaxDeleteOpt(url,"post","上报成功","上报失败");
-	         			}, function(){
-	         			});
-           	}
-             
-           },detailEvent: function(){  //点击详情按钮
+                    layer.msg('请点击选择一行数据');
+                } else
+                {
+                    var id=selectRowData.id;
+                    var state=selectRowData.state;
+                    //var joinUnitCodes = selectRowData.departCode;
+                    if(state!='10')
+                    {
+                        layer.alert('请选择未上报的申请');
+                        return;
+                    }else
+                        $('#id').val(id);
+                        dealFlow(id);
+                    }
+            },detailEvent: function(){  //点击详情按钮
             	if (typeof(selectRowData) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
@@ -438,7 +443,89 @@ var name=$('#name').val();
       });
     } 
     
-    
+    function dealFlow(id)
+    {
+        var json = {functionId:functionId};
+    	 $.ajax({
+             type : 'POST',
+             url : "/workflow/start/audit-type",
+             contentType: "application/json;charset=UTF-8",
+             data : JSON.stringify(json),
+             //json中有functionId（projectId、departmentId等）用来区别processDefine的属性
+             success : function(data)
+             {console.log(data)
+          	   if (data.code == 'role')
+          	   {
+              		// 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
+              		// roleCodes，参数名必须一致，方便公共弹出页面调用
+              		   roleCodes = data.data;  // 弹出页面的隐藏的查询条件
+              		  var temUrl="/task/deal/users/ini";
+                      layer.open({
+                          title:'选择审批人',
+                          skin: 'layui-layer-lan',
+                          shadeClose: true,
+                          type: 2,
+                          fixed: false,
+                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                          maxmin: true,
+                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                          area: ['800px', '550px'],
+                          content:  temUrl
+                      });
+              	} else if (data.code == 'unit' || data.code == 'post') 
+              	{
+              		// 按部门/岗位选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
+              		// unitCodes、postCodes，参数名必须一致，方便公共弹出页面调用
+    	          		if (data.code == 'unit') 
+    	          		{
+    	          			unitCodes = data.data;  // 弹出页面的隐藏的查询条件
+    	          		} else 
+    	          		{
+    	          			postCodes = data.data;  // 弹出页面的隐藏的查询条件
+    	          		}
+              		
+              		   var temUrl="/task/deal/user/unit/ini";
+                       layer.open({
+                          title:'选择审批人',
+                          skin: 'layui-layer-lan',
+                          shadeClose: true,
+                          type: 2,
+                          fixed: false,
+                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                          maxmin: true,
+                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                          area: ['800px', '550px'],
+                          content:  temUrl
+                      });
+              	} else if (data.code == 'int') 
+              	{
+              		layer.msg('启动参数不足');
+              	} else if (data.code == 'con') 
+              	{
+              		layer.msg('请给此功能菜单配置流程');
+              	} else if (data.code == 'exist') 
+              	{
+              		layer.msg('工作流部署异常，请联系管理员');
+              	} else 
+              	{
+              		// 直接处理此任务
+              		handleTask('');
+              	}
+             },
+             error : function(msg) {//请求失败处理函数  
+            }
+         });
+    }
+
+    //处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
+   function handleTask(userIds)
+    {
+        $('#userIds').val(userIds);
+        var v_date=(new Date()).getTime();
+        var url="/sre-forapplication/forapplication_workflow?v_date="+v_date;
+        var backurl="/sre-forapplication/to-list?v_date="+v_date;
+        ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
+    }
    
    
 

@@ -6,7 +6,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -55,6 +58,7 @@ public class ForApplicationController extends BaseController {
 	private static final String EQU_URL = "http://pcitc-zuul/stp-proxy/sre-provider/forapplicationequipment/page";
 	private static final String DETAIL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/Detail/add";
 	private static final String UPFOR_URL = "http://pcitc-zuul/stp-proxy/sre-provider/forapplication/upfor/";
+	 private static final String PURCHASE_INNER_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/forapplication/forapplication_activity/";
 	/**
 	 * 列表
 	 * 
@@ -399,4 +403,36 @@ public class ForApplicationController extends BaseController {
 		out.close();
 		return null;
 	}
+	
+	//启动采购管理-采购申请 确认流程
+    @RequestMapping(value = "/sre-forapplication/forapplication_workflow")
+    @ResponseBody
+    public Object start_purchase_workflow(HttpServletRequest request, HttpServletResponse response) throws Exception
+    {
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+        String id = CommonUtil.getParameter(request, "id", "");
+        String functionId = CommonUtil.getParameter(request, "functionId", "");
+        String userIds = CommonUtil.getParameter(request, "userIds", "");
+        System.out.println("============start_purchase_workflow userIds="+userIds+" functionId="+functionId+" id="+id);
+
+        SreForApplication pplication = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreForApplication.class).getBody();
+
+        Map<String ,Object> paramMap = new HashMap<String ,Object>();
+        paramMap.put("id", id);
+        paramMap.put("functionId", functionId);
+        paramMap.put("processInstanceName", "转资申请确认->"+pplication.getApplicationName());
+        paramMap.put("authenticatedUserId", sysUserInfo.getUserId());
+        paramMap.put("authenticatedUserName", sysUserInfo.getUserDisp());
+        paramMap.put("auditor", userIds);
+        //申请者机构信息
+        paramMap.put("applyUnitCode", sysUserInfo.getUnitCode());
+        String parentApplyUnitCode=EquipmentUtils.getUnitParentCodesByUnitCodes(sysUserInfo.getUnitCode(), restTemplate, httpHeaders);
+        paramMap.put("parentApplyUnitCode", parentApplyUnitCode);
+
+
+     HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+        //return null;
+        Result rs = this.restTemplate.exchange(PURCHASE_INNER_WORKFLOW_URL + id, HttpMethod.POST, httpEntity, Result.class).getBody();
+        return rs;
+    }
 }
