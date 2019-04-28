@@ -413,7 +413,7 @@ html{background-color: #f2f2f2; color: #666;}
 
 .layui-icon-next:before{content: url("/layuiadmin/layui/images/icon-right.png");}
 .layui-header-div{height: 50px;overflow: hidden;left: 230px;top: 50px;position: absolute;}
-.layui-header-div .layui-nav .layui-nav-item a,.layui-nav .layui-nav-item a{padding: 0 20px;width: auto;transition: none;-webkit-transition: none;}
+.layui-header-div .layui-nav .layui-nav-item a,.layui-nav .layui-nav-item a{padding: 0 20px 0 0;width: auto;transition: none;-webkit-transition: none;}
 .layui-header-div .layui-nav .layui-nav-item a{height: 34px !important;line-height: 34px !important;margin-top: 8px !important;}
 .layui-header-div ul li.layui-this a,.layui-header-div .layui-nav .layui-nav-item a:hover{background: #17a2b8;height: 34px !important;
     line-height:34px !important;border-radius: 4px;margin-top: 8px;}
@@ -905,7 +905,8 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-header-search .seacrhBox img{position: absolute;right: 4px;top: 5px;}
 .layui-layout-right li:after{height: 0;}
 .layui-header-nav .layui-nav-bar{top: 55px !important;}
-.layui-layout-right .information a{color: #666 !important;}
+.information{position: absolute;width: 110px;right: 0;}
+.layui-layout-right .information a{color: #666 !important;padding: 0 20px;}
 #navPrev .layui-this:after{height: 0;}
 .layui-side-menu-div ul li span{padding-left: 15px;}
 .layui-side-menu-div ul li dl dd a{border-radius: 0 !important;}
