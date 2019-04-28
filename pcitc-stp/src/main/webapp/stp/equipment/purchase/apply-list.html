@@ -209,32 +209,6 @@
                 $('#professionalDepartName').val("");
                 $('#professionalFieldName').val("");
             },
-           /* applyEvent: function(){ //上报
-                if (typeof(selectRowData) == "undefined") {
-                    layer.msg('请点击选择一行数据');
-                } else
-                {
-                    var id=selectRowData.id;
-                    $('#id').val(id);
-                    var auditStatus=selectRowData.auditStatus;
-                    var innerAuditStatus=selectRowData.innerAuditStatus;
-                    if(innerAuditStatus!=='2')
-                    {
-                        layer.alert('院内审核未通过,不能上报');
-                        return;
-                    }else if(auditStatus!=='0')
-                    {
-                        layer.alert('请选择未上报的任务');
-                        return;
-                    }else
-                    {
-                        $('#id').val(id);
-                        dealFlow(id);
-                    }
-
-
-                }
-            },*/
             upQianEvent: function(){ //上传采购合同
                 if (typeof(selectRowData) == "undefined")
                 {
