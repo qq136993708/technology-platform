@@ -1,5 +1,6 @@
 package com.pcitc.service.workflow.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,7 +17,6 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
@@ -175,7 +175,7 @@ public class TaskInstanceServiceImpl implements TaskInstanceService {
     * @date 2018年5月7日 下午2:48:43 
     * 获取当前审批节点的候选用户
     */
-    public Set<String> getCandidateUserForTask(List<IdentityLink> identityLinks) {
+    public List<String> getCandidateUserForTask(List<IdentityLink> identityLinks) {
         //使用Set过滤掉重复候选组的重复用户
         Set<String> userIds = new HashSet<String>();
         for (IdentityLink identityLink : identityLinks) {
@@ -214,7 +214,8 @@ public class TaskInstanceServiceImpl implements TaskInstanceService {
                 }
             }
         }
-        return userIds;
+        List<String> userList = new ArrayList<>(userIds);
+        return userList;
     }
 	
     /** 
@@ -276,7 +277,7 @@ public class TaskInstanceServiceImpl implements TaskInstanceService {
     	//新增委托单的时候，需要处理目前的已有待办任务
     	int returnInt = sysDelegateMapper.insert(delegate);
     	
-    	// 调用审批流程，此处调用同时实现事务
+    	/*// 调用审批流程，此处调用同时实现事务
     	JSONObject flowJson = new JSONObject();
     	// 业务主键id
     	flowJson.put("businessId", uuid);
@@ -320,9 +321,26 @@ public class TaskInstanceServiceImpl implements TaskInstanceService {
     	// 远程调用
     	System.out.println("=====远程调用开始");
     	workflowRemoteClient.startCommonWorkflow(flowJson.toJSONString());
-    	System.out.println("=====远程调用结束");
+    	System.out.println("=====远程调用结束");*/
     	
     	return returnInt;
+    }
+    
+    /**
+     * 查询委托单
+     * @param delegate
+     * @return
+     */
+    public List<SysDelegate> getSysDelegateInfo(HashMap<String, String> hashmap) {
+    	SysDelegateExample sysDelegateExample = new SysDelegateExample();
+    	Criteria criteria = sysDelegateExample.createCriteria();
+    	if (hashmap.get("delegateId") != null) {
+    		criteria.andDelegateIdEqualTo(hashmap.get("delegateId"));
+    	}
+    	criteria.andStatusEqualTo("1");
+    	
+    	List<SysDelegate> list = sysDelegateMapper.selectByExample(sysDelegateExample);
+    	return list;
     }
     
 }

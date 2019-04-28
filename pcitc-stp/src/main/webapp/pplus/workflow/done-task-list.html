@@ -53,6 +53,7 @@
 
 	<!--表格数据操作js-->
 	<script>
+		var operMSG = "数据加载中....";
 		var functionId = "${functionId}";
 		var table, active, selectRowData = '';
 		layui.use([
@@ -63,8 +64,7 @@
 				var processName = $('#processName').val();
 				var dateFlag = $('#dateFlag').val();
 				var param = JSON.parse(window.localStorage.getItem("param"));
-
-				var lodingMsg = layer.msg('数据加载中....');
+				var lodingMsg = layer.msg(operMSG);
 				//渲染
 				table.render({
 					elem : '#doneTable',
@@ -176,6 +176,7 @@
 			active = {
 				searchEvent : function() { //点击查询按钮
 					selectRowData = '';
+					operMSG = '数据加载中....';
 					renderTable();
 				},
 				resetEvent : function() { //点击重置按钮
@@ -211,7 +212,7 @@
 					if (typeof (selectRowData.id) == "undefined") {
 						layer.msg('请点击选择一行数据');
 					} else {
-						layer.confirm('确定召回吗？', function() {
+						layer.confirm('确定撤回此任务吗？', function() {
 							var lodingMsg = layer.msg('数据处理中....');
 							$.ajax({
 								url : '/task/recall/' + selectRowData.id,
@@ -222,16 +223,22 @@
 								},
 								error : function() {//请求失败处理函数  
 									layer.msg('操作失败！');
-									layer.close(lodingMsg);
 								},
 								success : function(data) { //请求成功后处理函数。
-									if (data.result) {
-										layer.msg('操作成功！');
+									if (data.result && data.statusCode == 200) {
+										operMSG = '操作成功! 数据加载中....';
 										renderTable();
+									} else if (data.statusCode == 100) {
+										layer.msg('操作失败! 流程目前处于当前任务节点上！');
+									} else if (data.statusCode == 400) {
+										layer.msg('操作失败! 数据异常！');
+									} else if (data.statusCode == 300) {
+										layer.msg('操作失败! 下一步审批已经完成！');
+									} else if (data.statusCode == 500) {
+										layer.msg('操作失败! 流程已经结束，不允许撤回');
 									} else {
-										layer.msg('下一步审批人已经审批，不允许撤回！');
+										layer.msg('操作失败！');
 									}
-									layer.close(lodingMsg);
 								}
 							});
 						});

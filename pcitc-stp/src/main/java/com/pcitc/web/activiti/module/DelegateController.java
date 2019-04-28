@@ -36,7 +36,10 @@ public class DelegateController extends BaseController {
 	private static final String DELEGATE_PAGE_URL = "http://pcitc-zuul/system-proxy/task-provider/assignees/delegates";
 
 	// 新增委托
-	private static final String DELEGATE_ADD_URL = "http://pcitc-zuul/system-proxy/task-provider/delegate";
+	private static final String DELEGATE_ADD_URL = "http://pcitc-zuul/system-proxy/task-provider/delegate/add";
+	
+	// 新增委托
+	private static final String DELEGATE_DEL_URL = "http://pcitc-zuul/system-proxy/task-provider/delegates/delete";
 
 	/**
 	 * @author zhf
@@ -112,15 +115,14 @@ public class DelegateController extends BaseController {
 	 * @author zhf
 	 * @date 2018年5月2日 下午4:30:15
 	 */
-	@RequestMapping(value = "/delegates", method = RequestMethod.POST)
+	@RequestMapping(value = "/delegates/cancel", method = RequestMethod.POST)
 	@ResponseBody
 	@OperationFilter(modelName = "系统管理--工作流--委托管理", actionName = "取消委托")
 	public Result cancelDelegate(@RequestBody SysDelegate delegate) {
 
-		String queryUrl = "http://pcitc-zuul/system-proxy/task-provider/delegates";
 		HttpEntity<SysDelegate> entity = new HttpEntity<SysDelegate>(delegate, this.httpHeaders);
 
-		Integer retI = this.restTemplate.exchange(queryUrl, HttpMethod.DELETE, entity, Integer.class).getBody();
+		Integer retI = this.restTemplate.exchange(DELEGATE_DEL_URL, HttpMethod.POST, entity, Integer.class).getBody();
 		if (retI == 0) {
 			return new Result(false, "操作失败!");
 		} else {

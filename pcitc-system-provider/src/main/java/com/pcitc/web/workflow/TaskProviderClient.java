@@ -11,7 +11,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -59,14 +58,22 @@ import org.activiti.image.ProcessDiagramGenerator;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
@@ -123,6 +130,9 @@ public class TaskProviderClient {
 
 	@Autowired
 	private SysUserMapper sysUserMapper;
+	
+	@Autowired
+    public RestTemplate restTemplate;
 
 	/**
 	 * 查询任务委托单信息
@@ -189,29 +199,34 @@ public class TaskProviderClient {
 	 * @date 2018年5月3日 下午2:08:57
 	 */
 	@ApiOperation(value = "删除委托单", notes = "支持删除多个委托单，delegateId通过‘,’隔开")
-	@RequestMapping(value = "/task-provider/delegates", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/task-provider/delegates/delete", method = RequestMethod.POST)
 	public Integer deleteDelegate(@RequestBody SysDelegate delegate) {
-
+		System.out.println("deleteDelegate============"+delegate);
 		String[] delegateIds = delegate.getDelegateId().split(",");
 		int rInt = 0;
+		HashMap<String, String> hashmap = new HashMap<String, String>();
+		
 		// 因为不存在太多委托，所以暂时不考虑批量删除的效率
 		for (int i = 0; i < delegateIds.length; i++) {
 			delegate.setDelegateId(delegateIds[i]);
-			delegate.setStatus("0");
-
-			rInt = rInt + taskInstanceService.deleteDelegate(delegate);
-
+			hashmap.put("delegateId", delegateIds[i]);
+			List<SysDelegate> temList = taskInstanceService.getSysDelegateInfo(hashmap);
+			SysDelegate temObj = temList.get(0);
+			temObj.setStatus("0");
+			System.out.println("deleteDelegate============"+i+"------"+temObj);
+			rInt = rInt + taskInstanceService.deleteDelegate(temObj);
+			System.out.println("deleteDelegate============"+i+"------"+rInt);
 			// 当初委托时（之前）的待办任务都分配给被委托人了，现在把这些待办任务重新归到委托人名下
 			// 如果在取消委托之前，已经办理的委托任务就不处理了
 			// 获取委托时，被委托人接收的所有任务和委托后监听器分配给被委托人的任务。这些任务已经处理的不能回收，其他的取消重新指派给委托人
-			List<SysTaskDelegate> list = taskInstanceService.getDelegateHistoryTask(delegate.getDelegateId());
+			List<SysTaskDelegate> list = taskInstanceService.getDelegateHistoryTask(temObj.getDelegateId());
 			for (SysTaskDelegate std : list) {
+				System.out.println("2deleteDelegate============"+i+"------"+list);
 				// 查询taskId是否已经处理
-				List<Task> taskList = taskService.createTaskQuery().taskId(std.getTaskId()).active().list();
-				if (taskList == null || taskList.size() == 0) {
-				} else {
-					// 把任务还原成原委托人
-					taskService.setAssignee(taskList.get(0).getId(), delegate.getAssigneeCode());
+				Task task = taskService.createTaskQuery().taskId(std.getTaskId()).active().singleResult();
+				if (task != null) {
+					System.out.println("4deleteDelegate============------"+list);
+					taskService.deleteCandidateUser(std.getTaskId(), temObj.getAttorneyCode());
 					std.setStatus("0");
 					taskInstanceService.deleteTaskDelegate(std);
 				}
@@ -627,12 +642,25 @@ public class TaskProviderClient {
 		Integer nrOfCompletedInstances = 0;
 
 		Task task = taskService.createTaskQuery().taskId(workflowVo.getTaskId()).singleResult();
-
+		
 		// 下一个环节需要用的变量等属性，此次审批人选项的agree属性等属性
 		Map<String, Object> nextVar = workflowVo.getVariables();
-
+		
+		String processInstanceId = taskService.createTaskQuery().taskId(workflowVo.getTaskId()).singleResult().getProcessInstanceId();
+		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).orderByProcessInstanceId().active().desc().singleResult();
+		// String businessKey = processInstance.getBusinessKey();BusinessKey一般放(业务模块名称_id)
 		// 本次任务的可用变量
 		Map<String, Object> taskVar = taskService.getVariables(workflowVo.getTaskId());
+		
+		// 回退时，方便回到当初指定的审批人
+		List currAuditUser = (List) taskVar.get("auditor");
+		if (!currAuditUser.contains(workflowVo.getAuditorId())) {
+			// 本次任务审批人如果不包含当前人，可能当前人是被委托人
+			currAuditUser.add(workflowVo.getAuditorId());
+		}
+		nextVar.put(processInstance.getActivityId() + "-auditor", currAuditUser);
+		System.out.println("=========3回退时=======----------" + processInstance.getActivityId());
+		System.out.println("=========3回退时=======----------" + taskVar.get("auditor"));
 		for (String key : taskVar.keySet()) {
 			if (!key.equals("agree") && !key.equals("comment") && !key.equals("auditor")) {
 				nextVar.put(key, taskVar.get(key));
@@ -644,13 +672,14 @@ public class TaskProviderClient {
 		temMap.put("agree", "1");
 		TaskDefinition taskDef = getNextTaskInfo(workflowVo.getTaskId(), temMap);
 		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor")) {
+			//nextVar.put(processInstance.getActivityId() + "-auditor", nextVar.get("auditor"));
+			System.out.println("=========2回退时=======----------" + processInstance.getActivityId());
+			System.out.println("=========2回退时=======----------" + nextVar.get("auditor"));
 			if (nextVar.get(taskDef.getKey()) != null) {
 				String realAuth = nextVar.get(taskDef.getKey()).toString();
 				if (!realAuth.startsWith("post") && !realAuth.startsWith("role") && !realAuth.startsWith("unit")) {
 					String[] groups = realAuth.split("-");
-					Set<String> userIds = new LinkedHashSet<String>();
-					userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(Arrays.asList(groups)));
-					nextVar.put("auditor", userIds);
+					nextVar.put("auditor", sysUserMapper.findUserByGroupIdFromACT(Arrays.asList(groups)));
 				} else {
 					// 此时前台应该已经选择好auditor
 				}
@@ -738,7 +767,9 @@ public class TaskProviderClient {
 		
 		// 为回退添加标识位
 		nextVar.put("rejectFlag", workflowVo.getTaskId());
-
+		System.out.println("=========2回退时=======----------" + processInstance.getActivityId());
+		System.out.println("=========2回退时=======----------" + nextVar.get("auditor"));
+		
 		// 完成本次任务
 		taskService.complete(workflowVo.getTaskId(), nextVar);
 		JSONObject retJson = new JSONObject();
@@ -748,17 +779,18 @@ public class TaskProviderClient {
 			if (nextVar.get("agree") != null && nextVar.get("agree").toString().equals("0")) {
 				// 把agree属性，在全局变量中删除
 				// 审批驳回
-				retJson.put("result", "2");
-				retJson.put("auditRejectMethod", nextVar.get("auditRejectMethod").toString());
+				//retJson.put("result", "2");
+				//retJson.put("auditRejectMethod", nextVar.get("auditRejectMethod").toString());
+				retJson.put("statusCode", handleBusinessInfo(nextVar.get("auditRejectMethod").toString()));
 				return retJson;
 			} else {
 				System.out.println("=========审批同意=======----------");
 				ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
 				if (pi == null) {
 					// 流程结束
-					retJson.put("result", "1");
-					retJson.put("auditAgreeMethod", nextVar.get("auditAgreeMethod").toString());
-					System.out.println("=========流程结束=======----------");
+					//retJson.put("result", "1");
+					//retJson.put("auditAgreeMethod", nextVar.get("auditAgreeMethod").toString());
+					retJson.put("statusCode", handleBusinessInfo(nextVar.get("auditAgreeMethod").toString()));
 					return retJson;
 				}
 				retJson.put("result", "0");
@@ -779,9 +811,10 @@ public class TaskProviderClient {
 						ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
 						if (pi == null) {
 							// 流程结束
-							retJson.put("result", "1");
-							retJson.put("auditAgreeMethod", nextVar.get("auditAgreeMethod").toString());
+							//retJson.put("result", "1");
+							//retJson.put("auditAgreeMethod", nextVar.get("auditAgreeMethod").toString());
 							System.out.println("=========会签流程结束=======流程结束----------");
+							retJson.put("statusCode", handleBusinessInfo(nextVar.get("auditAgreeMethod").toString()));
 							return retJson;
 						}
 						System.out.println("=========会签流程结束=======流程未结束----------");
@@ -790,8 +823,9 @@ public class TaskProviderClient {
 					} else {// 审批不通过 ，直接打回
 						// 审批驳回
 						System.out.println("=========会签流程结束=======审批驳回----------");
-						retJson.put("result", "2");
-						retJson.put("auditRejectMethod", nextVar.get("auditRejectMethod").toString());
+						//retJson.put("result", "2");
+						//retJson.put("auditRejectMethod", nextVar.get("auditRejectMethod").toString());
+						retJson.put("statusCode", handleBusinessInfo(nextVar.get("auditRejectMethod").toString()));
 						return retJson;
 					}
 				} else { // 会签还没完全走完（之后可以逻辑细分）
@@ -819,27 +853,34 @@ public class TaskProviderClient {
 	@RequestMapping(value = "/task-provider/task/business/audit/image", method = RequestMethod.POST)
 	public byte[] getBusinessImageInfo(@RequestBody WorkflowVo workflowVo) {
 		try {
-			ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceBusinessKey(workflowVo.getBusinessId()).singleResult();
+			System.out.println("6getBusinessImageInfo==========="+workflowVo.getBusinessId());
+			// 获取任务名称（从历史流程实例中获取，因为现有流程实例可能已经结束）
+			HistoricProcessInstance instance = historyService.createHistoricProcessInstanceQuery().processInstanceBusinessKey(workflowVo.getBusinessId()).singleResult();
+			if (instance == null) {
+				return null;
+			}
+			System.out.println("5getBusinessImageInfo==========="+instance);
+			ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(instance.getId()).singleResult();
 			BpmnModel bpmnModel;
 			List<String> activeActivityIds = new ArrayList<String>();
 			String processDefinitionId;
 			// 存在活动节点，流程正在进行中
+			System.out.println("4getBusinessImageInfo==========="+processInstance);
 			if (processInstance != null) {
 				processDefinitionId = processInstance.getProcessDefinitionId();
 				// 流程定义-正在活动的节点
 				activeActivityIds = runtimeService.getActiveActivityIds(processInstance.getId());
 			} else {
 				// 流程已经结束
-				HistoricProcessInstance instance = historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstance.getId()).singleResult();
 				processDefinitionId = instance.getProcessDefinitionId();
 			}
-
+			System.out.println("3getBusinessImageInfo==========="+processDefinitionId);
 			bpmnModel = repositoryService.getBpmnModel(processDefinitionId);
-
+			System.out.println("2getBusinessImageInfo==========="+bpmnModel);
 			ProcessDiagramGenerator pdg = processEngine.getProcessEngineConfiguration().getProcessDiagramGenerator();
 
 			// -------------------------------executedActivityIdList已经执行的节点------------------------------------
-			List<HistoricActivityInstance> historicActivityInstanceList = historyService.createHistoricActivityInstanceQuery().processInstanceId(processInstance.getId()).orderByHistoricActivityInstanceStartTime().asc().list();
+			List<HistoricActivityInstance> historicActivityInstanceList = historyService.createHistoricActivityInstanceQuery().processInstanceId(instance.getId()).orderByHistoricActivityInstanceStartTime().asc().list();
 
 			// 已执行的节点ID集合
 			List<String> executedActivityIdList = new ArrayList<String>();
@@ -848,7 +889,7 @@ public class TaskProviderClient {
 			}
 
 			ProcessDefinition processDefinition = repositoryService.getProcessDefinition(processDefinitionId);
-			String resourceName = workflowVo.getInstanceId() + "_" + processDefinition.getDiagramResourceName();
+			//String resourceName = workflowVo.getInstanceId() + "_" + processDefinition.getDiagramResourceName();
 
 			List<String> highLightedFlows = getHighLightedFlows((ProcessDefinitionEntity) processDefinition, historicActivityInstanceList);
 
@@ -874,6 +915,7 @@ public class TaskProviderClient {
 				swapStream.write(buff, 0, rc);
 			}
 			byte[] in_b = swapStream.toByteArray(); // in_b为转换之后的结果
+			System.out.println("1getBusinessImageInfo==========="+in_b.length);
 			return in_b;
 		} catch (Exception e) {
 			return null;
@@ -1385,12 +1427,16 @@ public class TaskProviderClient {
 	@RequestMapping(value = "/task-provider/task/business/audit/{dataId}", method = RequestMethod.POST)
 	public JSONObject businessAuditDetail(@PathVariable("dataId") String dataId, @RequestParam(value = "jsonStr", required = false) String jsonStr) {
 		
-		ProcessInstance  pi = runtimeService.createProcessInstanceQuery().processInstanceBusinessKey(dataId).singleResult();
+		// 获取任务名称（从历史流程实例中获取，因为现有流程实例可能已经结束）
+		HistoricProcessInstance instance = historyService.createHistoricProcessInstanceQuery().processInstanceBusinessKey(dataId).singleResult();
+		if (instance == null) {
+			return null;
+		}
 		// 已执行的流程节点
-		List<HistoricActivityInstance> historicActivityInstanceList = historyService.createHistoricActivityInstanceQuery().processInstanceId(pi.getId()).orderByHistoricActivityInstanceStartTime().asc().list();
+		List<HistoricActivityInstance> historicActivityInstanceList = historyService.createHistoricActivityInstanceQuery().processInstanceId(instance.getId()).orderByHistoricActivityInstanceStartTime().asc().list();
 		
 		// 历史流程中用过的变量信息
-		HistoricVariableInstanceQuery hviq = historyService.createHistoricVariableInstanceQuery().processInstanceId(pi.getId());
+		HistoricVariableInstanceQuery hviq = historyService.createHistoricVariableInstanceQuery().processInstanceId(instance.getId());
 		
 		// voList=处理历史上已经发生过的任务节点
 		List<ActivityVo> voList = new ArrayList<ActivityVo>();
@@ -1419,9 +1465,7 @@ public class TaskProviderClient {
 				if (hvi == null) {
 					// 当前任务，在历史任务中没有此属性
 					List<IdentityLink> identityLinks = taskService.getIdentityLinksForTask(historicActivityInstance.getTaskId());
-					Set<String> userIds = taskInstanceService.getCandidateUserForTask(identityLinks);
-					List<String> userList = new ArrayList<>(userIds);
-					System.out.println("userIds==========="+String.join("", userIds));
+					List<String> userList = taskInstanceService.getCandidateUserForTask(identityLinks);
 					String userNames = "";
 					if (userList != null && userList.size() > 0) {
 						SysUserExample example = new SysUserExample();
@@ -1440,6 +1484,7 @@ public class TaskProviderClient {
 				} else {
 					vo.setAssigneeName(hvi.getValue() == null ? "" : hvi.getValue().toString());
 				}
+				vo.setTaskName(instance != null ? instance.getName() : "");
 			}
 
 			// 节点状态
@@ -1449,16 +1494,9 @@ public class TaskProviderClient {
 				vo.setActivityState("正在执行");
 
 			vo.setApproved("当前已办理任务的是否已办理");
-
 			voList.add(vo);
 		}
 
-		// 获取任务名称（从历史流程实例中获取，因为现有流程实例可能已经结束）
-		HistoricProcessInstance instance = historyService.createHistoricProcessInstanceQuery().processInstanceId(pi.getId()).singleResult();
-
-		for (ActivityVo vo : voList) {
-			vo.setTaskName(instance != null ? instance.getName() : "");
-		}
 		JSONObject retJson = new JSONObject();
 		// 封装需要返回的分页实体
 		retJson.put("totalCount", voList.size());
@@ -1508,9 +1546,7 @@ public class TaskProviderClient {
 				if (hvi == null) {
 					// 当前任务，在历史任务中没有此属性。说明此任务是正在执行的任务
 					List<IdentityLink> identityLinks = taskService.getIdentityLinksForTask(historicActivityInstance.getTaskId());
-					Set<String> userIds = taskInstanceService.getCandidateUserForTask(identityLinks);
-					List<String> userList = new ArrayList<>(userIds);
-					System.out.println("userIds==========="+String.join("", userIds));
+					List<String> userList = taskInstanceService.getCandidateUserForTask(identityLinks);
 					String userNames = "";
 					if (userList != null && userList.size() > 0) {
 						SysUserExample example = new SysUserExample();
@@ -1560,7 +1596,7 @@ public class TaskProviderClient {
 	 * @date 2018年5月8日 下午7:26:49 新增委托单
 	 */
 	@ApiOperation(value = "新增委托单", notes = "委托人和被委托人、生效时间范围是必选项，当前的待办任务委托给第一个被委托人")
-	@RequestMapping(value = "/task-provider/delegate", method = RequestMethod.POST)
+	@RequestMapping(value = "/task-provider/delegate/add", method = RequestMethod.POST)
 	public Integer insertDelegate(@RequestBody SysDelegate delegate) {
 		// System.out.println("add-delegate=================="+delegate);
 
@@ -1603,12 +1639,14 @@ public class TaskProviderClient {
 				// 单个候选人的情况下，代理任务，防止无法审批的情况下任务无人处理；多个候选人的情况下不代理（让其他人处理）
 				// System.out.println(assignee+"=========112==========="+taskEntity);
 				List<IdentityLink> identityLinks = taskService.getIdentityLinksForTask(taskEntity.getId());
-				Set<String> userIds = taskInstanceService.getCandidateUserForTask(identityLinks);
+				List<String> userIds = taskInstanceService.getCandidateUserForTask(identityLinks);
 				// System.out.println(assignee+"=========1124==========="+userIds.size());
 				if (userIds.size() == 1) {
-					String candidateUser = userIds.iterator().next();
-					taskService.claim(task.getId(), candidateUser);
-					taskService.delegateTask(task.getId(), attorney);
+					// String candidateUser = userIds.iterator().next();
+					// taskService.claim(task.getId(), candidateUser);
+					//不调用delegateTask，delegateTask会把原审批人的待办任务去掉。调用addCandidateUser，本质上只是动态添加一个审批人
+					// taskService.delegateTask(task.getId(), attorney);
+					taskService.addCandidateUser(task.getId(), attorney);
 					// System.out.println(attorney+"=========1125==========="+userIds.size());
 					// 把委托的任务记录下来，取消委托的时候用
 					SysTaskDelegate record = new SysTaskDelegate();
@@ -1653,39 +1691,54 @@ public class TaskProviderClient {
 	@RequestMapping(value = "/task-provider/task/recall/{taskId}", method = RequestMethod.POST)
 	public JSONObject taskRecall(@PathVariable("taskId") String taskId) throws Exception {
 		JSONObject retJson = new JSONObject();
+		boolean startNodeFlag = false;
 		
 		HistoricTaskInstanceQuery htiq = historyService.createHistoricTaskInstanceQuery();
-		// 要撤回的任务id对应的任务实例
+		// 要撤回的任务id对应的任务实例。撤回的节点如果是发起人节点的话，最终再执行一次审批不通过的方法
 		HistoricTaskInstance historicTaskInstance = htiq.taskId(taskId).singleResult();
+		
+		// 取得流程实例
+		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(historicTaskInstance.getProcessInstanceId()).singleResult();
+		
+		if (processInstance == null) {
+			// 当前流程已经结束，不允许撤回
+			retJson.put("result", false);
+			retJson.put("statusCode", 500);
+			return retJson;
+		}
+		// 当前任务的活动节点id
+		String activitiId = processInstance.getActivityId();
+		if (activitiId.equals(historicTaskInstance.getTaskDefinitionKey())) {
+			// 同一个节点，不需要多次退回
+			retJson.put("result", false);
+			retJson.put("statusCode", 100);
+			return retJson;
+		}
 		
 		// 查询历史变量中rejectFlag属性，判断要撤回的任务，下一步任务是否已经执行。已经执行就不能撤回。
 		HistoricVariableInstanceQuery hviq = historyService.createHistoricVariableInstanceQuery().processInstanceId(historicTaskInstance.getProcessInstanceId());
 		HistoricVariableInstance hvi = hviq.variableName("rejectFlag").singleResult();
+		
 		String auditor = "";
 		if (hvi == null) {
 			// 异常
 			retJson.put("result", false);
+			retJson.put("statusCode", 400);
 			return retJson;
 		} else {
-			// 此历史变量大于任务id
+			// 此历史变量大于任务id，变量值是提前置入的，为了撤回功能新加的变量
 			Long lTaskId = Long.parseLong(taskId);
 			Long lRejectFlag = Long.parseLong(hvi.getValue().toString());
 			if (lRejectFlag > lTaskId) {
-				System.out.println(taskId+"---此历史变量大于任务id----"+hvi.getValue());
+				System.out.println(taskId+"---下一步审批已经执行----"+hvi.getValue());
 				retJson.put("result", false);
+				retJson.put("statusCode", 300);
 				return retJson;
 			}
 			
 			HistoricVariableInstance hviAuditor = hviq.variableName("flowAuditorName").singleResult();
 			auditor = hviAuditor.getValue().toString();
-			System.out.println(taskId+"---测试回退----"+hvi.getValue());
 		}
-		
-		System.out.println("当前任务的实例数据---测试----"+hvi);
-		
-		// 取得流程实例
-		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(historicTaskInstance.getProcessInstanceId()).singleResult();
-		System.out.println(processInstance.getId());
 		
 		Map<String, Object> variables = runtimeService.getVariables(historicTaskInstance.getExecutionId());
 		for (String key : variables.keySet()) {
@@ -1695,18 +1748,22 @@ public class TaskProviderClient {
 		ProcessDefinitionEntity definitionEntity = (ProcessDefinitionEntity) repositoryService.getProcessDefinition(historicTaskInstance.getProcessDefinitionId());
 		System.out.println("definitionEntity---------"+definitionEntity);
 		
-		// 当前任务的活动节点id
-		String activitiId = processInstance.getActivityId();
-		
 		// 通过当前任务活动ID在流程定义中找到对应的活动对象
 		ActivityImpl currActivity = definitionEntity.findActivity(activitiId);
-		
-		System.out.println("当前任务活动ID---------"+currActivity);
 
 		// 取得上一步活动(要撤回审批的这个活动节点)
 		ActivityImpl hisActivity = definitionEntity.findActivity(historicTaskInstance.getTaskDefinitionKey());
 		System.out.println("撤回审批的这个活动节点---------"+hisActivity);
 		
+		// 撤回节点的来源如果是开始节点，说明是发起人节点，撤回此节点需要执行审批不同意方法
+		List<PvmTransition> hisTransList = hisActivity.getIncomingTransitions();
+		for (PvmTransition pvm :hisTransList) {
+			PvmActivity sourceLine = pvm.getSource(); // 获取线路的终点节点
+			if ("startEvent".equals(sourceLine.getProperty("type"))) {
+				startNodeFlag = true;
+				break;
+			}
+		}
 		// 要回退到的节点、当前节点是会签节点，不允许回退
 		if (currActivity.getActivityBehavior().getClass().getName().contains("MultiInstanceBehavior") || hisActivity.getActivityBehavior().getClass().getName().contains("MultiInstanceBehavior")) {
 			retJson.put("result", false);
@@ -1736,6 +1793,11 @@ public class TaskProviderClient {
 			// 正在待办的任务都处理了，处理前，强行把当前任务的下一个节点设置成要恢复的任务节点
 			taskService.claim(currTask.getId(), null);
 			variables.put(currTask.getId(), auditor+"审批撤回");
+			System.out.println(historicTaskInstance.getTaskDefinitionKey() + "---------删除的任务节点id---------"+variables.get(historicTaskInstance.getTaskDefinitionKey() + "-auditor"));
+			//variables.put("auditor", variables.get(historicTaskInstance.getTaskDefinitionKey() + "-auditor"));
+			List temList = (ArrayList)variables.get(historicTaskInstance.getTaskDefinitionKey() + "-auditor");
+			variables.put("auditor", temList);
+			
 			taskService.complete(currTask.getId(), variables);
 			historyService.deleteHistoricTaskInstance(currTask.getId());
 			
@@ -1757,8 +1819,40 @@ public class TaskProviderClient {
 		
 		System.out.println("撤回节点的历史实例不撤回，用于记录节点----------------"+historicTaskInstance.getId());
 		//historyService.deleteHistoricTaskInstance(historicTaskInstance.getId());
+
+		if (startNodeFlag) { //要恢复的节点是发起节点
+			HistoricVariableInstance arm = hviq.variableName("auditRejectMethod").singleResult();
+			if (arm != null) {
+				String auditRejectMethod = arm.getValue().toString();
+				retJson.put("statusCode", handleBusinessInfo(auditRejectMethod));
+			}
+		}
+		System.out.println("statusCode---------"+retJson.getInteger("statusCode"));
+		if (retJson.getInteger("statusCode") == null) {
+			retJson.put("statusCode", 200);
+		}
 		retJson.put("result", true);
+		
 		return retJson;
 	}
+	
+	/**
+	 * 执行审批同意后的业务方法
+	 * @param methodName
+	 * @return
+	 */
+	public int handleBusinessInfo(String methodName) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
+		// 传递参数
+		//form.add("xxx", "xxx");
+		HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(form, headers);
+		
+		ResponseEntity<Object> responseEntity = this.restTemplate.postForEntity(methodName, httpEntity, Object.class);
+		HttpStatus statusCode = responseEntity.getStatusCode();
+		return statusCode.value();
+	}
+	
 	
 }

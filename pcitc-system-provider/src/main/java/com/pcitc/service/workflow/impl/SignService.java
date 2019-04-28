@@ -1,8 +1,7 @@
 package com.pcitc.service.workflow.impl;
 
 import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.List;
 
 import org.activiti.engine.impl.pvm.delegate.ActivityExecution;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +30,10 @@ public class SignService {
 
 	// group_id 对应act视图里面的act_id_membership中的group_id
 	//@Cacheable(key = "'sign_'+#role", value = "signCache")
-	public Set<String> getUsers(ActivityExecution execution, String group_id) {
+	public List<String> getUsers(ActivityExecution execution, String group_id) {
 		System.out.println("0=============CountersignService=getUsers");
 		System.out.println("1=============CountersignService=getUsers===========" + group_id);
-		Set<String> userIds = new LinkedHashSet<String>();
+		//Set<String> userIds = new LinkedHashSet<String>();
 		String nodeId = execution.getActivity().getId();
 		if (execution.getVariable("signUser_" + nodeId) == null) {
 			System.out.println("2=============CountersignService=getUsers===" + nodeId);
@@ -42,13 +41,14 @@ public class SignService {
 
 		// 分解group
 		String[] groups = group_id.split("-");
-		userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(Arrays.asList(groups)));
+		//userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(Arrays.asList(groups)));
 
-		execution.setVariable("signUser_" + nodeId, userIds);
-		System.out.println("3=============CountersignService=getUsers"+userIds);
-		System.out.println("4=============CountersignService=getUsers"+userIds.size());
+		List<String> userList = sysUserMapper.findUserByGroupIdFromACT(Arrays.asList(groups));
+		execution.setVariable("signUser_" + nodeId, userList);
+		System.out.println("3=============CountersignService=getUsers"+userList);
+		System.out.println("4=============CountersignService=getUsers"+userList.size());
 		
-		return userIds;
+		return userList;
 	}
 
 }

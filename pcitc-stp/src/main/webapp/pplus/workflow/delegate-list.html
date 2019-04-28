@@ -36,7 +36,7 @@
 	</div>
 	<script>
 		var table, active, showMessage, selectRowData;
-		var updateFlag = false;
+		var operMSG = "数据加载中....";
 
 		layui.use([ 'jquery', 'table', 'laypage', 'laytpl' ], function() {
 			var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
@@ -52,7 +52,7 @@
 				if (param.functionbuttons.indexOf("delete") < 0 && param.functionbuttons.indexOf("ALL") < 0) {
 					$('.btn_delete').css("display", "none");
 				}
-				var lodingMsg = layer.msg('数据加载中....');
+				var lodingMsg = layer.msg(operMSG);
 				//渲染
 				table.render({
 					elem : '#showTable',
@@ -189,6 +189,7 @@
 			active = {
 				searchEvent : function() { //点击查询按钮
 					selectRowData = '';
+					operMSG = '数据加载中....';
 					renderTable();
 				},
 				resetEvent : function() { //点击重置按钮
@@ -236,12 +237,12 @@
 								contentType : "application/json",
 								dataType : "json",
 								data : JSON.stringify(jsonstr),
-								url : "/delegates",
+								url : "/delegates/cancel",
 								error : function(data) {
 									layer.msg('操作失败!');
 								},
 								success : function(data) {
-									layer.msg('操作成功!');
+									operMSG = '操作成功! 数据加载中....';
 									renderTable();
 								}
 							});
