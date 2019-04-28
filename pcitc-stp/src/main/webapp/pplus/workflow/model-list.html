@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
 <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 </head>
 
@@ -17,7 +18,7 @@
 		<!--查询条件-->
 		<label class="dateInput">
 			<span>模型名称</span>
-			<input type="hidden" name="uploadFlag" id="uploadFlag" value="uploadFlag">
+			<input type="hidden" name="uploadFlag" id="uploadFlag" value="uploadFlag6">
 			<input type="text" name="modelName" placeholder="请输入模型名称" title="模型名称" autocomplete="off" class="form-control" id="modelName">
 		</label>
 		<label class="dateInput">
@@ -51,9 +52,8 @@
 	<!--表格数据操作js-->
 	<script>
 		var table, active, selectRowData = '';
-
+		var operMSG = "数据加载中....";
 		var functionId;
-		var uploadUrl = "/activiti-model/file/upload";
 
 		layui.use([ 'jquery', 'table', 'laydate', 'laypage', 'laytpl' ], function() {
 			table = layui.table, $ = layui.jquery, laydate = layui.laydate, laypage = layui.laypage;
@@ -62,7 +62,7 @@
 				var param = JSON.parse(window.localStorage.getItem("param"));
 				functionId = param.id;
 
-				var lodingMsg = layer.msg('数据加载中....');
+				var lodingMsg = layer.msg(operMSG);
 				//渲染
 				table.render({
 					elem : '#model-table',
@@ -159,6 +159,7 @@
 				searchEvent : function() { //点击查询按钮
 					selectRowData = '';
 					renderTable();
+					operMSG = "数据加载中....";
 				},
 				addEvent : function() { //点击新增按钮
 					window.open("/activiti/create", "_blank");
@@ -174,29 +175,8 @@
 					}
 				},
 				importEvent : function() { //点击导入按钮
-					upload_File('uploadFlag','','edit','importBpmnFile');
-					var temUrl = "/base/common/fileUpload.html";
-					/* layer.open({
-						title : '流程导入',
-						skin : 'layui-layer-lan',
-						shadeClose : true,
-						type : 2,
-						fixed : false,
-						//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-						maxmin : false,
-						//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-						area : [ '700px', '400px' ],
-						content : temUrl
-					}); */
-					
-					/* var param = {};
-			        param.file_id_name = "filetextA";//字段ID名称
-			        param.callback = "importBpmnFile";//回调函数名称
-			        param.file_opt_flag = functionId;//文件配置ID
-			        param.file_edit_detail = "edit";//新增、修改用edit, 显示用detail
-			        //param.file_ids_value = $("#" + param.file_id_name).val();
-			        var temUrl = "/sysFilePage/uploadFile?param=" + encodeURIComponent(JSON.stringify(param));
-			        openBaseWin("文件上传", temUrl); */
+					var randomInt = Math.random();
+					upload_File(randomInt,'','edit','importBpmnFile');
 				},
 				deleteEvent : function() { //点击删除按钮
 					if (typeof (selectRowData.id) == "undefined") {
@@ -215,10 +195,10 @@
 							},
 							success : function(data) { //请求成功后处理函数。
 								if (data.success) {
+									operMSG = '操作成功! 数据加载中....';
 									active.searchEvent();
-									layer.msg('操作成功！');
 								} else {
-									layer.msg('操作失败！');
+									layer.msg('操作失败！'+data.message);
 								}
 							}
 						});
@@ -242,8 +222,8 @@
 								},
 								success : function(data) { //请求成功后处理函数。
 									if (data.success) {
+										operMSG = '操作成功! 数据加载中....';
 										active.searchEvent();
-										layer.msg('操作成功！');
 									} else {
 										layer.msg('操作失败！');
 									}
@@ -255,6 +235,7 @@
 				resetEvent : function() { //点击重置按钮
 					$('#modelName').val("");
 					$('#deploymentId').val("");
+					operMSG = '数据加载中....';
 					active.searchEvent();
 				},
 				editEvent : function() { //点击编辑按钮
@@ -287,7 +268,7 @@
 				alertEvent : function() { //点击重置按钮
 					$('#modelName').val("");
 					$('#deploymentId').val("");
-					layer.msg("操作成功！");
+					operMSG = '数据加载中....';
 					active.searchEvent();
 				}
 
@@ -337,15 +318,28 @@
 		
 		function importBpmnFile(data, param) {
 	        //param:返回上面拼装的参数json字符串，data：json文件数组
-	        console.log("-------------call_fun___________");
-	        console.log(data);
-	        console.log(param);
+	        var fileDatas=[];
 	        for (var key in data) {
-	            console.log(key);
 	            var obj_file = data[key];
-	            console.log("文件名称：" + obj_file.fileName + "  文件大小：" + obj_file.fileSize + "  文件绝对路径:" + obj_file.filePath + "文件相对路径:" + obj_file.bak5);
-	            var uploadUrl = "/activiti-model/file/upload";
+	            fileDatas.push(obj_file);
 	        }
+	        var uploadUrl = "/activiti-model/file/upload";
+	        $.ajax({
+				url : uploadUrl,
+				type : 'post',
+				data : JSON.stringify(fileDatas),
+				contentType : "application/json;charset=UTF-8",
+				error : function() {
+				},
+				success : function(data) {
+					if (data.success) {
+						operMSG = '操作成功! 数据加载中....';
+						active.searchEvent();
+					} else {
+						layer.msg('操作失败！'+data.message);
+					}
+				}
+			});
 	    }
 	</script>
 

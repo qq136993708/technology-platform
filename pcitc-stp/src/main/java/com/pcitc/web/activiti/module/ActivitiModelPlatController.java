@@ -1,6 +1,5 @@
 package com.pcitc.web.activiti.module;
 
-import java.io.ByteArrayInputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -8,23 +7,22 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.poi.util.IOUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
-import com.pcitc.base.common.FileResult;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
@@ -194,15 +192,17 @@ public class ActivitiModelPlatController extends BaseController {
 	@RequestMapping(value = "/activiti-model/file/upload")
 	@ResponseBody
 	@OperationFilter(modelName = "系统管理", actionName = "上传工作流文件")
-	public Result saveWorkflowUpload(String fileIds) {
-		System.out.println("saveWorkflowUpload---------" + fileIds);
-		// 根据文件id获取文件相关信息，进行解析
+	public Result saveWorkflowUpload(@RequestBody String param) {
+		System.out.println("saveWorkflowUpload---------" + param);
+		JSONArray jsArr = JSONObject.parseArray(param);
+		List<SysFile> fileList = JSONObject.parseArray(jsArr.toJSONString(), SysFile.class);
+		/*// 根据文件id获取文件相关信息，进行解析
 		this.httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
 		form.add("fileIds", fileIds);
 		HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(form, httpHeaders);
 		ResponseEntity<FileResult> responseEntity = this.restTemplate.postForEntity(getFilesLayui, httpEntity, FileResult.class);
-		List<SysFile> fileList = responseEntity.getBody().getList();
+		List<SysFile> fileList = responseEntity.getBody().getList();*/
 
 		WorkflowVo workflowVo = new WorkflowVo();
 		workflowVo.setFileList(fileList);
