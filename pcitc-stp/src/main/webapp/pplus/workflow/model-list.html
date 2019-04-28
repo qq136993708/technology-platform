@@ -17,6 +17,7 @@
 		<!--查询条件-->
 		<label class="dateInput">
 			<span>模型名称</span>
+			<input type="hidden" name="uploadFlag" id="uploadFlag" value="uploadFlag">
 			<input type="text" name="modelName" placeholder="请输入模型名称" title="模型名称" autocomplete="off" class="form-control" id="modelName">
 		</label>
 		<label class="dateInput">
@@ -150,7 +151,7 @@
 
 			renderTable();
 
-			$(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
+			//$(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
 
 			// 触发不同的按钮事件
 			var $ = layui.$;
@@ -173,6 +174,7 @@
 					}
 				},
 				importEvent : function() { //点击导入按钮
+					upload_File('uploadFlag','','edit','importBpmnFile');
 					var temUrl = "/base/common/fileUpload.html";
 					/* layer.open({
 						title : '流程导入',
@@ -187,14 +189,14 @@
 						content : temUrl
 					}); */
 					
-					var param = {};
+					/* var param = {};
 			        param.file_id_name = "filetextA";//字段ID名称
 			        param.callback = "importBpmnFile";//回调函数名称
 			        param.file_opt_flag = functionId;//文件配置ID
 			        param.file_edit_detail = "edit";//新增、修改用edit, 显示用detail
 			        //param.file_ids_value = $("#" + param.file_id_name).val();
 			        var temUrl = "/sysFilePage/uploadFile?param=" + encodeURIComponent(JSON.stringify(param));
-			        openBaseWin("文件上传", temUrl);
+			        openBaseWin("文件上传", temUrl); */
 				},
 				deleteEvent : function() { //点击删除按钮
 					if (typeof (selectRowData.id) == "undefined") {
