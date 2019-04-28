@@ -41,7 +41,7 @@ public interface TaskInstanceService {
     * @date 2018年5月7日 下午2:48:43 
     * 获取当前审批节点的候选用户
     */
-    public Set<String> getCandidateUserForTask(List<IdentityLink> identityLinks);
+    public List<String> getCandidateUserForTask(List<IdentityLink> identityLinks);
     
     /**
      * 查询委托单
@@ -82,6 +82,13 @@ public interface TaskInstanceService {
      * 获取流程定义信息
      */
     public List<SysFunctionProdef> getProcessDefineInfo(HashMap<String, String> hashmap);
+    
+    /**
+     * 查询委托单
+     * @param delegate
+     * @return
+     */
+    public List<SysDelegate> getSysDelegateInfo(HashMap<String, String> hashmap);
     
     
 	
