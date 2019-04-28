@@ -351,10 +351,8 @@ public class FileUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
-
+            return bi.toString(16);
         }
-        return bi.toString(16);
-
     }
 
     public static String getFileCreate(){
