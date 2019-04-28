@@ -122,11 +122,18 @@
         AddData=[];
         var str=$("#getList").val();
         var s =  JSON.parse(str);
+        var sprice=0;
+       for( var i=0;i<s.length;i++)
+       {
+         sprice=sprice+parseInt(s[i].sumprice);
+         }
+        AddData.unshift({id:"合计",equipmentName:"",specification:"",assetnumber:"",placepeople:"",sumprice:sprice});
         for( var i=0;i<s.length;i++)
         {
-        AddData.unshift({id:s[i].detailid,equipmentName:s[i].equipmentName,specification:s[i].specification,del:"删除"})
+       
+        AddData.unshift({id:s[i].detailid,equipmentName:s[i].equipmentName,specification:s[i].specification,assetnumber:s[i].assetnumber,placepeople:s[i].placepeople,sumprice:s[i].sumprice})
         }
-         
+       
     	var lodingMsg = layer.msg('数据加载中....');
     	var param = JSON.parse(window.localStorage.getItem("param"));
 	    //渲染第一个表格
@@ -151,9 +158,12 @@
 	            	 {type: 'checkbox', event: 'roleCheckboxEvent'}
 	            	,{title:'序号', type:'numbers'}
 	            	, {field: 'id', title: 'id', style: 'cursor: pointer;'}
+	            	, {field: 'assetnumber', title: '资产编号', style: 'cursor: pointer;'}
+	            	, {field: 'equipmentName', title: '资产名称', style: 'cursor: pointer;'}
+	            	, {field: 'sumprice', title: '资产价值', style: 'cursor: pointer;'}
+	            	, {field: 'placepeople', title: '使用人', style: 'cursor: pointer;'}	
 	            	, {field: 'equipmentPrice', title: '装备单价', style: 'cursor: pointer;'}
 	            	, {field: 'equipmenNumber', title: '规格数量', style: 'cursor: pointer;'}
-	            	, {field: 'equipmentName', title: '装备名称', style: 'cursor: pointer;'}
 	            	, {field: 'specification', title: '规格型号', style: 'cursor: pointer;'}
 	            	, {field: 'arrivaldate', title: '到货日期', style: 'cursor: pointer;', templet :function (row){
                         return formatTime(row.arrivaldate);
@@ -202,9 +212,12 @@
 	        , height: commonDislodgeTable()
 	        , loading: true
 	        , cols: [[
-	        	 {field: 'id', title: '编号', style: 'cursor: pointer;'}
-	           , {field: 'equipmentName', title: '装备名称', style: 'cursor: pointer;'}
-	           , {field: 'specification', title: '规格型号', style: 'cursor: pointer;'}
+	              {title:'序号', type:'numbers'}
+	        	, {field: 'id', title: '编号', style: 'cursor: pointer;'}
+	        	, {field: 'assetnumber', title: '资产编号', style: 'cursor: pointer;'}
+	            , {field: 'equipmentName', title: '资产名称', style: 'cursor: pointer;'}
+	            , {field: 'sumprice', title: '资产价值', style: 'cursor: pointer;'}
+	            , {field: 'placepeople', title: '使用人', style: 'cursor: pointer;'}	
 	        	        ]],
 	        data:AddData
 	        , done: function (res, curr, count) {
