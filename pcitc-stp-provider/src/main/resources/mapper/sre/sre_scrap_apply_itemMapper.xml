@@ -28,8 +28,13 @@
   <select id="selectByAppltidList" resultMap="AppltidListMap" parameterType="java.lang.String" >
     select 
     sre_equipment_detail.id as detailid ,
+    asset_number as assetnumber,
+		place_people as placepeople,
+		(CONVERT(equipmen_number,SIGNED)*CONVERT(equipment_price,SIGNED))as sumprice,
     sre_equipment_detail.equipment_name as equipmentName,
-    sre_equipment_detail.specification as specification
+    sre_equipment_detail.specification as specification,
+    sre_equipment_detail.equipment_price as price,
+    sre_equipment_detail.equipmen_number as number
     from sre_scrap_apply_item left join sre_equipment_detail on 
     sre_scrap_apply_item.eqdetailid=sre_equipment_detail.id where sre_scrap_apply_item.applyid = #{id,jdbcType=VARCHAR}
   </select> 
