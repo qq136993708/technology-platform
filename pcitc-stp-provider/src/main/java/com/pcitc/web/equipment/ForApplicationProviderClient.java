@@ -1,6 +1,7 @@
 package com.pcitc.web.equipment;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,11 +12,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.equipment.SreDetail;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreForApplication;
+import com.pcitc.base.stp.equipment.SrePurchase;
+import com.pcitc.mapper.equipment.SreForApplicationMapper;
 import com.pcitc.service.equipment.DetailService;
 import com.pcitc.service.equipment.ForApplicationService;
 
@@ -32,6 +37,9 @@ public class ForApplicationProviderClient
 	
 	@Autowired
     private DetailService detailService; 
+	
+	@Autowired
+	private SreForApplicationMapper sreforapplicationMapper;
 	
     private final static String WORKFLOW_DEFINE_ID = "intl_notice:3:1117555";
 	
@@ -87,6 +95,13 @@ public class ForApplicationProviderClient
 	public int upforSreForapplication(@PathVariable("id") String id)throws Exception{
 		return forapplicationService.upForapplication(id);
 	}
+	
+	@ApiOperation(value="转资申请确认流程",notes="转资申请确认流程")
+	@RequestMapping(value = "/stp-provider/forapplication/forapplication_activity/{id}", method = RequestMethod.POST)
+	public Result start_purchase_activity(@PathVariable("id") String id, @RequestBody Map map)throws Exception
+	{
+		return forapplicationService.dealPurchaseFlow(id,map);
+	}
 	/**===============================================装备台账===================================================*/
 	
 	@ApiOperation(value = "装备台账分页", notes = "装备台账分页")
@@ -105,5 +120,35 @@ public class ForApplicationProviderClient
 		return sreDetail.getEquipmentId();
 	}
 	
-	
+	 /**
+     * @param id
+     * @return
+     * @throws Exception
+     * 采购管理--审批流程都同意后业务
+     */
+	@RequestMapping(value = "/sre-provider/forapplication/agree_forapplication/{id}", method = RequestMethod.POST)
+	public Integer agreeSreForapplication(@PathVariable(value = "id", required = true) String id)throws Exception {
+
+		SreForApplication forrecord = sreforapplicationMapper.selectByPrimaryKey(id);
+    	forrecord.setApplicationState(Constant.OK_THREE);
+    	int count=sreforapplicationMapper.updateByPrimaryKeySelective(forrecord);
+		System.out.println("======业务系统处理审批流程都 --同意 --后业务======="+id);
+		return count;
+	}
+
+    /**
+     * @param id
+     * @return
+     * @throws Exception
+     * 采购管理--驳回后业务
+     */
+    @RequestMapping(value = "/sre-provider/forapplication/reject_forapplication/{id}", method = RequestMethod.POST)
+    public Integer rejectForapplication(@PathVariable(value = "id", required = true) String id)throws Exception {
+
+    	SreForApplication forrecord = sreforapplicationMapper.selectByPrimaryKey(id);
+    	forrecord.setApplicationState(Constant.OK_SREE);
+    	int count=sreforapplicationMapper.updateByPrimaryKeySelective(forrecord);
+		System.out.println("======业务系统处理审批流程都 --同意 --后业务======="+id);
+        return count;
+    }
 }

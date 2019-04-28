@@ -205,6 +205,22 @@ public class SreScrapApplyClient {
 		SreScrapApply sreScrapApply = sreScrapApplyService.selectByPrimaryKey(id);
 		sreScrapApply.setStatus(Constant.OKSRE_SCARP_APPLY_STATUS);
 		int count=sreScrapApplyService.updateByPrimaryKeySelective(sreScrapApply);
+		
+		List<FindAppltid> f =  sreScrapApplyItemService.selectByAppltidList(id);
+		if(f!=null && f.size()!=0)
+		{
+			for(FindAppltid item :f)
+			{
+				if(item!=null && item.getDetailid()!=null)
+				{				
+					detailService.updateByid(item.getDetailid());
+				}
+			}
+		}
+		
+		
+		
+		
 		System.out.println("======业务系统处理审批流程都 --同意 --后业务======="+id);
 		return count;
 	}
