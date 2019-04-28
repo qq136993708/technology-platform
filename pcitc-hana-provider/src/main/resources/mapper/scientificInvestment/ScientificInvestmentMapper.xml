@@ -6,13 +6,13 @@
 	
 	
      <resultMap id="brandConstructionPayResultMap" type="com.pcitc.base.hana.report.ScientificInvestment" >
-       <result column="G0GSDM"       property="g0GSDM"      jdbcType="VARCHAR" />
-       <result column="G0GSJC"       property="g0GSJC"      jdbcType="VARCHAR" />
-       <result column="G0PROJCODE"   property="g0PROJCODE"  jdbcType="VARCHAR" />
-       <result column="G0YEARXM"     property="g0YEARXM"    jdbcType="VARCHAR" />
-       <result column="G0PROJTXT"    property="g0PROJTXT"   jdbcType="VARCHAR" />
-       <result column="G0XMGLLX"     property="g0XMGLLX"    jdbcType="VARCHAR" />
-       <result column="G0XMGLLY"     property="g0XMGLLY"    jdbcType="VARCHAR" />
+       <result column="G0GSDM"       property="g0GSDM"          jdbcType="VARCHAR" />
+       <result column="G0GSJC"       property="g0GSJC"          jdbcType="VARCHAR" />
+       <result column="G0PROJCODE"   property="g0PROJCODE"      jdbcType="VARCHAR" />
+       <result column="G0YEARXM"     property="g0YEARXM"        jdbcType="VARCHAR" />
+       <result column="G0PROJTXT"    property="g0PROJTXT"       jdbcType="VARCHAR" />
+       <result column="G0XMGLLX"     property="g0XMGLLX"        jdbcType="VARCHAR" />
+       <result column="G0XMGLLY"     property="g0XMGLLY"        jdbcType="VARCHAR" />
        <result column="G0XMGLJB"     property="g0XMGLJB"        jdbcType="VARCHAR" />
        <result column="G0XMLX"       property="g0XMLX"          jdbcType="VARCHAR" />
        <result column="G0XMZT"       property="g0XMZT"          jdbcType="VARCHAR" />
@@ -50,16 +50,12 @@
        <result column="K0YQJE"     property="k0YQJE"        jdbcType="DECIMAL" />
        <result column="K0ZBJE"     property="k0ZBJE"        jdbcType="DECIMAL" />
        
-       <result column="K0NCGZYZLJJE"     property="k0NCGZYZLJJE"        jdbcType="DECIMAL" />
+       <result column="K0NCGZYZLJJE"       property="k0NCGZYZLJJE"          jdbcType="DECIMAL" />
        <result column="K0NCGZYZLJGZJE"     property="k0NCGZYZLJGZJE"        jdbcType="DECIMAL" />
        <result column="K0NCGZYZLJZJJE"     property="k0NCGZYZLJZJJE"        jdbcType="DECIMAL" />
-       <result column="K0NCGZYZBNJE"     property="k0NCGZYZBNJE"        jdbcType="DECIMAL" />
+       <result column="K0NCGZYZBNJE"       property="k0NCGZYZBNJE"          jdbcType="DECIMAL" />
        <result column="K0NCGZYZBNGZJE"     property="k0NCGZYZBNGZJE"        jdbcType="DECIMAL" />
        <result column="K0NCGZYZBNZJJE"     property="k0NCGZYZBNZJJE"        jdbcType="DECIMAL" />
-	    
-       
-       
-       
      </resultMap>
      
       <!-- 投资项目完成情况统计表--> 

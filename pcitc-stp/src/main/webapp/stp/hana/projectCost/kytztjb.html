@@ -18,18 +18,8 @@
             <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}" autocomplete="off" class="form-control" id="month">
         </label>
        <div class="layui-input-inline">
-         <select name="companyCode" id="companyCode" >
-              <#list companyCodeList as vo>
-              	 <#if vo.g0GSJC == '全部'>
-              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
-              	 </#if>
-                 <#if vo.g0GSJC != '全部'>
-              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
-              	 </#if>
-               </#list>
-            </select>
-       </div>
-       
+           <select id="companyCode" name="companyCode" class="form-control"></select>
+        </div>
        
     <!--按钮组-->
     <div class="btnGroup">
@@ -70,10 +60,12 @@
 
 <!--表格数据操作js-->
 <script src="/common/js/jquery-1.11.3.min.js"></script>
+ <script src="/stp/hana/common/hana_common.js"></script>
 <script>
 var table,selectRowData;
 var zlbm=$('#zlbm').val();
-
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
 layui.config({
     base: '/layuiadmin/' //静态资源所在路径
 }).extend({
@@ -89,17 +81,16 @@ layui.config({
           elem: '#month'
           ,format: 'yyyyMM'
        });
-
-            
+	  init_companyCode(functionId);
           //加载表格      
    	     renderTable();
    	     //移除表头的复选框,去掉全选
    	     $(".layui-table-header table thead th input").remove();  
 
-        // 触发不同的按钮事件
-        var $ = layui.$, active = {
+         // 触发不同的按钮事件
+         var $ = layui.$, active = {
             
-        };
+         };
         //监听排序
         table.on('sort(model-table)', function(obj){
             console.log(this, obj.field, obj.type)
@@ -125,39 +116,36 @@ layui.config({
     
     function renderTable()
     {
-    	
+    	var companyCode=$("#companyCode").val();
+    	// alert(companyCode);
     	var index = layer.load(1, {
     		  shade: [0.1,'#fff'] 
     		}); 
       //渲染
       table.render({
         elem: '#processdef-table',
-        url: '/kytztjb_data',
+        url: '/kytztjb_data?companyCode='+companyCode,
         method:"POST",
         where: {param: {
-        	      "month":$("#month").val(),
-        	      "companyCode":$("#companyCode").val()
+        	      "month":$("#month").val(),"companyCode":companyCode
                }},
         id: 'processdef-table',
         cols: [[
-            {field:'g0GSJC',               title:'直属研究院',            style:'cursor: pointer;',align: 'left', width: '8%'},
-            {field:'k0ZTYSJE',             title:'计划总投资',            style:'cursor: pointer;',align: 'right', width: '6%'},
-            {field:'k0LJGLFPHJECB',        title:'累计下达投资额  ',         style:'cursor: pointer;',align: 'right', width: '6%'},
-            {field:'k0LJSJCNJE',           title:'承诺',                style:'cursor: pointer;',align: 'right', width: '6%'},
-            {field:'k0LJSJDJJE',           title:'预付余额',              style:'cursor: pointer;',align: 'right', width: '6%'},
-            {field:'k0LJSJJE',             title:'累计投资完成额',          style:'cursor: pointer;',align: 'right', width: '10%'},
-            {field:'k0LJYSJY',             title:'项目资金计划结余',         style:'cursor: pointer;',align: 'right', width: '10%'},
-            {field:'k0LJZJSYBL',           title:'资金使用%',             style:'cursor: pointer;',align: 'right', width: '6%'},
-            {field:'k0BNYSJHJE',           title:'本年投资计划',            style:'cursor: pointer;',align: 'right', width: '6%'},
-            {field:'k0BNGLFPHJECB',        title:'本年累计支出',            style:'cursor: pointer;',align: 'right', width: '6%'},
-            
-            {field:'k0BNSJCNJE',           title:'承诺 ',              style:'cursor: pointer;',align: 'right', width: '6%'},
-            {field:'k0BNSJDJJE',           title:'本年预付款',          style:'cursor: pointer;',align: 'right', width: '6%'},
-            {field:'k0BNSJJE',             title:'本年投资完成额',       style:'cursor: pointer;',align: 'right', width: '6%'},
-            {field:'k0BNYSJY',             title:'本年资金计划结余',      style:'cursor: pointer;',align: 'right', width: '6%'},
-            {field:'k0BNZJSYBL',           title:'资金使用%',          style:'cursor: pointer;',align: 'right', width: '6%'}
-            
-            
+            {field:'g0GSJC',               title:'直属研究院',              style:'cursor: pointer;',align: 'left', width: '8%'},
+            {field:'k0ZTYSJE',             title:'计划总投资',              style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'k0LJGLFPHJECB',        title:'累计下达投资额  ',          style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'k0LJSJCNJE',           title:'承诺',                  style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'k0LJSJDJJE',           title:'预付余额',               style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'k0LJSJJE',             title:'累计投资完成额',           style:'cursor: pointer;',align: 'right', width: '10%'},
+            {field:'k0LJYSJY',             title:'项目资金计划结余',          style:'cursor: pointer;',align: 'right', width: '10%'},
+            {field:'k0LJZJSYBL',           title:'资金使用%',               style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'k0BNYSJHJE',           title:'本年投资计划',             style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'k0BNGLFPHJECB',        title:'本年累计支出',             style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'k0BNSJCNJE',           title:'承诺 ',                  style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'k0BNSJDJJE',           title:'本年预付款',              style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'k0BNSJJE',             title:'本年投资完成额',            style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'k0BNYSJY',             title:'本年资金计划结余',           style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'k0BNZJSYBL',           title:'资金使用%',               style:'cursor: pointer;',align: 'right', width: '6%'}
         ]],
         done: function (res, curr, count) {
             // 点击行联动选择框--单选
@@ -196,7 +184,7 @@ layui.config({
             });
 	        //parent.layui.index.openTabsPage("/to_kytztjb_detail?month="+$("#month").val()+"&companyName="+selectRowData.g0GSJC, "投资项目支出");
 	        
-	    });
+	     });
       
 }
    

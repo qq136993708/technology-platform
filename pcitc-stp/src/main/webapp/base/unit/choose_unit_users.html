@@ -181,13 +181,10 @@
         });
         $(".layui-table-header table thead th input").remove();
         
-        
-        
         $('.layui-btn').on('click', function () {
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
-        
         
         $("#closeBtn").click(function () {
             var index = parent.layer.getFrameIndex(window.name);

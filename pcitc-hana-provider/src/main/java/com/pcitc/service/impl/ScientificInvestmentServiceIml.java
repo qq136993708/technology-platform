@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
@@ -58,6 +60,16 @@ public class ScientificInvestmentServiceIml implements IScientificInvestmentServ
 	
 	
 	
+	public JSONArray getTzxmwcqktjbDataList(Map map)throws Exception
+	{
+  		logger.info("===明细查询参数 getTzxmwcqktjbDataList: "+JSONObject.toJSONString(map));
+  		List<ScientificInvestment> list = scientificInvestmentMapper.getTzxmwcqktjbDataList(map);
+  		
+  		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+  		return json;
+	}
+	
+	
 	
 	    //投资项目采购进度统计表
 		public LayuiTableData getTzxmcgjdtjbData(LayuiTableParam param)throws Exception
@@ -89,6 +101,13 @@ public class ScientificInvestmentServiceIml implements IScientificInvestmentServ
 	  	}
 		
 		
+		public JSONArray  getTzxmcgjdtjbDataList(Map map)throws Exception
+		{
+			List<ScientificInvestment> list = scientificInvestmentMapper.getTzxmcgjdtjbDataList(map);
+			JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+	  		return json;
+		}
+		
 		
 		//投资项目转出情况表
 		public LayuiTableData getTzxmzcqkbData(LayuiTableParam param)throws Exception
@@ -117,6 +136,13 @@ public class ScientificInvestmentServiceIml implements IScientificInvestmentServ
 	  		data.setCount(1000);
 	  	    return data;
 	  	}
+		
+		public JSONArray getTzxmzcqkbDataList(Map map)throws Exception
+		{
+			List<ScientificInvestment> list = scientificInvestmentMapper.getTzxmzcqkbDataList(map);
+			JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+	  		return json;
+		}
 
 
 }
