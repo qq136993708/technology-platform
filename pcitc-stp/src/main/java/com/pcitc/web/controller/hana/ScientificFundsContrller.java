@@ -239,8 +239,7 @@ public class ScientificFundsContrller {
 		   public String ktzjjfytjb_data(HttpServletRequest request, HttpServletResponse response) throws Exception 
 	       {
 	    	   
-	    	   String functionId = CommonUtil.getParameter(request, "functionId", "");
-			    List<SysDictionary>  sysDictionaryList=EquipmentUtils.getDirDeparetMentList( functionId , restTemplate, httpHeaders);
+	    	   
 		    
 		    PageResult pageResult = new PageResult();
 			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
