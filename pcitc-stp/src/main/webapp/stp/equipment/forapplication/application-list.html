@@ -57,6 +57,10 @@
                     data-type="passEvent">
                 <span class="btn-state btn-blue"></span>已通过
             </button>
+           <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                data-type="rejectEvent">
+            <span class="btn-state btn-yellow"></span>退回调整
+            </button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"     data-type="addEvent"  id="addEvent" > 新增</button>
             <!-- <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit"    data-type="editEvent"  id="editEvent" >编辑</button> -->
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent" id="detailEvent" >详情</button>
@@ -280,15 +284,19 @@ var name=$('#name').val();
             	}
             },
             draftEvent: function(){ 
-            	$("#applicationState").val("0");//0未上报,1已上报,2已通过
+            	$("#applicationState").val("10");//10未上报,20已上报,30已通过,40退回调整
             	renderTable();
             },
             submitEvent: function(){ 
-            	$("#applicationState").val("1");
+            	$("#applicationState").val("20");
             	renderTable();
             },
             passEvent: function(){ 
-            	$("#applicationState").val("2");
+            	$("#applicationState").val("30");
+            	renderTable();
+            },
+            rejectEvent: function(){ 
+            	$("#applicationState").val("40");
             	renderTable();
             },
             acceptHareEvent: function(){  //硬件验收
