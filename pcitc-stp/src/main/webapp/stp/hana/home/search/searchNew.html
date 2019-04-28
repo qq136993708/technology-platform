@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/adminStp.css?+Math.random()" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <style>
+        .information{top: 56px;}
+    </style>
 </head>
 <body class="layui-layout-body">
 <input name="url" id="url" value="${url}" type="hidden" >
@@ -102,7 +105,6 @@
                 </li>
                 <li class="layui-nav-item">
                     <a href="javascript:;" style="color: #fff;" class="layui-nav-item-a">
-                        <img src="${userInfo.userExtend!'http://t.cn/RCzsdCq'}" class="layui-nav-img">
                         ${userInfo.userDisp!}
                         <span class="layui-nav-more"></span>
                     </a>

@@ -50,8 +50,9 @@ public class Constant {
     public static final String OK_NEO="20"; //上报状态
     public static final String OK_THRRE="30"; //通过状态
     
-    
-    
+    //转资申请状态变量
+    public static final String OK_THREE="30"; //通过状态
+    public static final String OK_SREE="40"; //退回状态
     
     //报废管理状态变量
     public static final String SRE_SCARP_APPLY_STATUS="10"; //上报状态
