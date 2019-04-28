@@ -207,7 +207,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 
 
         JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(map));
-        System.out.println(">>>>>>>>>>内部确认流程 dealInnerTaskFlow 参数: "+parmamss.toJSONString());
+        System.out.println(">>>>>>>>>>内部确认流程 dealPurchaseFlow 参数: "+parmamss.toJSONString());
 
 
         SrePurchase srePurchase = srePurchaseMapper.selectByPrimaryKey(id);

@@ -12,6 +12,13 @@
 <body>
 
 <div class="searchBox">
+    <form action=""  name="form1" id="form1" action="" method="POST">
+        <input  name="functionId"     id="functionId"      type="hidden">
+        <input  name="userIds"        id="userIds"         type="hidden">
+        <input  name="id"         id="id"          type="hidden" >
+        <input type="hidden" name="departCode" id="departCode" value="${departCode}">
+        <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
+    </form>
     <!--查询条件-->
     <label class="dateInput">
         <span>合同编号</span>
@@ -29,8 +36,8 @@
     <div class="tableToolBox">
         <div class="whiteLine"></div>
         <div  class="tableBtns" >
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" id="applyEvent" data-type="applyEvent">上报</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="upQianEvent">上传到货验收单</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" id="applyEvent" data-type="applyEvent">上报</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="upQianEvent">上传到货验收单</button>
         </div>
     </div>
     <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table>
@@ -164,7 +171,7 @@
             elem: '#processdef-table',
             url: '/sre_purchase/list',
             method:"POST",
-            where: {param: {"topicName":$("#topicName").val(),"state":"30","innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {"departCode":$("#departCode").val(),"state":"30","innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
             limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),
