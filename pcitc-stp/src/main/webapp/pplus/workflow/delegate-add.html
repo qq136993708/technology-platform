@@ -199,7 +199,8 @@
 					},
 					success : function(data) { //请求成功后处理函数。
 						layer.close(lodingMsg);
-						parent.updateFlag = true;
+						parent.operMSG = "操作成功！数据加载中...";
+						parent.active.alertEvent();
 						var index = parent.layer.getFrameIndex(window.name);
 						parent.layer.close(index);
 					}

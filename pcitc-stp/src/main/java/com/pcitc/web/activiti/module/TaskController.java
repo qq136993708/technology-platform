@@ -510,6 +510,7 @@ public class TaskController extends BaseController {
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(TASK_RECALL + taskId, HttpMethod.POST, entity, JSONObject.class);
 		JSONObject retJson = responseEntity.getBody();
 
+		// 撤回的节点如果是开始节点，执行审批不同意的方法
 		System.out.println("2====processList====" + retJson.toString());
 		return retJson.toString();
 	}
