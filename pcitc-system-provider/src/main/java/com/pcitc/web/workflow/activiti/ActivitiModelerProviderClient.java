@@ -353,14 +353,13 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 				// 将xml文件转换成BpmnModel
 				BpmnModel bpmnModel = converter.convertToBpmnModel(reader);
 				mq = mq.modelName(fileList.get(i).getFileName().substring(0, fileList.get(i).getFileName().indexOf(".")));
-
 				if (mq.count() > 0) {
-					msg = fileList.get(i).getFileName().substring(0, fileList.get(i).getFileName().indexOf(".")) + "已经上传，请重新选择！";
+					msg = fileList.get(i).getFileName().substring(0, fileList.get(i).getFileName().indexOf(".")) + "-->已经上传，请重新选择！";
 					bpmnFlag = false;
 					break;
 				}
 				if (bpmnModel.getMainProcess() == null || bpmnModel.getMainProcess().getId() == null) {
-					msg = fileList.get(i).getFileName().substring(0, fileList.get(i).getFileName().indexOf(".")) + "流程文件解析有问题！";
+					msg = fileList.get(i).getFileName().substring(0, fileList.get(i).getFileName().indexOf(".")) + "-->流程文件解析有问题！";
 					bpmnFlag = false;
 					break;
 				}
@@ -369,12 +368,11 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 				e.printStackTrace();
 			}
 		}
-
+		System.out.println("3uploadModel===="+msg);
 		if (!bpmnFlag) {
 			// 上传的文件有问题
 			return new Result(false, "部署失败", msg);
 		}
-
 		for (int i = 0; i < fileList.size(); i++) {
 
 			try {
@@ -397,7 +395,6 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 				modelData.setMetaInfo(modelObjectNode.toString());
 				modelData.setName(fileList.get(i).getFileName().substring(0, fileList.get(i).getFileName().indexOf(".")));
 				repositoryService.saveModel(modelData);
-
 				repositoryService.addModelEditorSource(modelData.getId(), modelNode.toString().getBytes(StandardCharsets.UTF_8));
 
 			} catch (Exception e) {
