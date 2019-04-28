@@ -732,4 +732,22 @@ public class ExpertController extends BaseController {
         request.setAttribute("expert",responseEntity.getBody());
         return "chart/detail";
     }
+
+    /**
+     * 科研人才页面跳转
+     * @return
+     */
+    @RequestMapping(value = "/personnel", method = RequestMethod.GET)
+    public String personnel() {
+        return "chart/personnel";
+    }
+
+    /**
+     * 新闻跳转
+     * @return
+     */
+    @RequestMapping(value = "/leader_speech", method = RequestMethod.GET)
+    public String leader_speech() {
+        return "layui/leader_speech";
+    }
 }

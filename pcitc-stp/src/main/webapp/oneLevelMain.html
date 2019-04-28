@@ -49,7 +49,7 @@
                         </div>
                     </div>
                     <div class="layui-news">
-                        <p>科技要闻<span><a href="/instituteIndex?url=/layui/leader_speech.html" target="_blank">更多></a></span></p>
+                        <p>科技要闻<span><a href="/expertController/leader_speech" target="_blank">更多></a></span></p>
                         <ul id="news">
                           <!--   <li><a href="javascript:void(0);">武汉石化开发监控模块强化安全生产管控</a>
                                 <span>2018-11-12 </span></li>
@@ -226,7 +226,7 @@ var nd=$("#month").val().substring(4,0);
 
                 //领导讲话
                 $("#layui_leader").on("click",function () {
-                    window.open("/instituteIndex?url="+"/layui/leader_speech.html","_target");
+                    window.open("/expertController/leader_speech","_target");
                 });
                 //直属研究院
                 $("#mainLeader").on("click",function () {
@@ -262,7 +262,7 @@ var nd=$("#month").val().substring(4,0);
                 });
                 //科研人才
                 $("#personnel").on("click",function () {
-                    window.open("/instituteIndex?url=/chart/personnel.html","_target");
+                    window.open("expertController/personnel","_target");
                 });
 	            init();
                 $("#textBottomTwo").html("48");

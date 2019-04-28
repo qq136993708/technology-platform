@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -143,10 +144,9 @@ public class SreScrapApplyController extends BaseController {
 		}
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/sre-sreScrapApply/view")
-	public String view(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String id = CommonUtil.getParameter(request, "id", "");
-		request.setAttribute("id",id);
+	@RequestMapping(method = RequestMethod.GET, value = "/sre-sreScrapApply/view/{id}")
+	public String view(@PathVariable("id") String id,HttpServletRequest request, HttpServletResponse response) throws Exception {
+		//request.setAttribute("id",id);
 			System.out.println(id);
 			String name="";
 			ResponseEntity<SreScrapApply> sreScrapApply=restTemplate.exchange(GETVIEW_URL + id, HttpMethod.GET,new HttpEntity<Object>(this.httpHeaders), SreScrapApply.class);

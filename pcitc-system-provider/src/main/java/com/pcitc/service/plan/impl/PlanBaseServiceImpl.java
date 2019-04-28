@@ -1,6 +1,7 @@
 package com.pcitc.service.plan.impl;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
@@ -22,8 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 /**
  * <p>接口实现类</p>
@@ -220,4 +222,11 @@ public class PlanBaseServiceImpl implements PlanBaseService {
 
         return orderNodes;
     }
+
+    public List<PlanBase> selectSonPlanBasesByCreateUserId(JSONObject jsonObject){
+        Map<String, Object> map = new HashMap<>();
+        map.put("createUserId",jsonObject.get("createUserId"));
+        return planBaseMapper.selectSonPlanBasesByCreateUserId(map);
+    }
+
 }

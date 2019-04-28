@@ -9,9 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.pcitc.base.util.*;
 import com.pcitc.web.utils.RestfulHttpClient;
+import feign.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -137,8 +139,8 @@ public class SysFileController extends BaseController {
      * 查询用户信息
      */
     private static final String USER_DETAILS_URL = "http://pcitc-zuul/system-proxy/user-provider/user/user-details/";
-	
-	private static final String commonFileList = "http://pcitc-zuul/system-proxy/file-common-provider/files/common/data-list";
+
+    private static final String commonFileList = "http://pcitc-zuul/system-proxy/file-common-provider/files/common/data-list";
 
     // 文件上传路径
     @Value("${uploaderPathTemp}")
@@ -156,25 +158,25 @@ public class SysFileController extends BaseController {
 
         String param = request.getParameter("param");
         JSONArray jsonArray = new JSONArray();
-        if(param!=null&&!"".equals(param)){
+        if (param != null && !"".equals(param)) {
             jsonArray = JSONArray.parseArray(param);
         }
-		try {
-			List<SysFile> fileList = new ArrayList<>();
-			for (int i = 0; i < files.length; i++) {
-				MultipartFile file = files[i];
-				String uuid = IdUtil.createIdByTime();
-                JSONObject jsonObjects  = (jsonArray.size()==0)?(new JSONObject()):(JSONObject) jsonArray.get(i);
-                jsonObjects.put("flag",flag);
-				sysFileFeignClient.uploadFileSaveLayui(file, request, response, tempFileName, filedflag, sysUserInfo.getUserId(), uuid,formId, jsonObjects.toJSONString());
-				SysFile sysFile = this.restTemplate.exchange(GET + uuid, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysFile.class).getBody();
-				fileList.add(sysFile);
-			}
-			result = new FileResult();
-			result.setList(fileList);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+        try {
+            List<SysFile> fileList = new ArrayList<>();
+            for (int i = 0; i < files.length; i++) {
+                MultipartFile file = files[i];
+                String uuid = IdUtil.createIdByTime();
+                JSONObject jsonObjects = (jsonArray.size() == 0) ? (new JSONObject()) : (JSONObject) jsonArray.get(i);
+                jsonObjects.put("flag", flag);
+                sysFileFeignClient.uploadFileSaveLayui(file, request, response, tempFileName, filedflag, sysUserInfo.getUserId(), uuid, formId, jsonObjects.toJSONString());
+                SysFile sysFile = this.restTemplate.exchange(GET + uuid, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysFile.class).getBody();
+                fileList.add(sysFile);
+            }
+            result = new FileResult();
+            result.setList(fileList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return result;
     }
 
@@ -193,7 +195,7 @@ public class SysFileController extends BaseController {
                 }
                 String uuid = IdUtil.createIdByTime();
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("flag",request.getParameter("flag"));
+                jsonObject.put("flag", request.getParameter("flag"));
                 sysFileFeignClient.uploadFileSaveLayui(file, request, response, tempFileName, request.getParameter("filedflag"), sysUserInfo.getUserId(), uuid, request.getParameter("formId"), jsonObject.toJSONString());
                 SysFile sysFile = this.restTemplate.exchange(GET + uuid, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysFile.class).getBody();
                 fileList.add(sysFile);
@@ -206,7 +208,7 @@ public class SysFileController extends BaseController {
         response.addHeader("Access-Control-Allow-Origin", "*");
         return result;
     }
-    
+
     @RequestMapping(value = "/sysfile/mobileUploadMultipleFileLayui", method = RequestMethod.POST)
     @ResponseBody
     public Object mobileUploadMultipleFileLayui(@RequestParam(value = "file", required = false) MultipartFile[] files, HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -221,8 +223,8 @@ public class SysFileController extends BaseController {
                 if (tempFileName.indexOf("\\") > -1) {
                     tempFileName = tempFileName.substring(tempFileName.lastIndexOf("\\") + 1, tempFileName.length());
                 }
-                JSONObject jsonObjects  = (JSONObject) jsonArray.get(i);
-                jsonObjects.put("flag",request.getParameter("flag"));
+                JSONObject jsonObjects = (JSONObject) jsonArray.get(i);
+                jsonObjects.put("flag", request.getParameter("flag"));
                 String uuid = IdUtil.createIdByTime();
                 sysFileFeignClient.uploadFileSaveLayui(file, request, response, tempFileName, request.getParameter("filedflag"), "mobile", uuid, request.getParameter("formId"), jsonObjects.toJSONString());
                 SysFile sysFile = this.restTemplate.exchange(GET + uuid, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysFile.class).getBody();
@@ -235,16 +237,16 @@ public class SysFileController extends BaseController {
         }
         response.addHeader("Access-Control-Allow-Origin", "*");
         JSONObject retuJson = new JSONObject();
-        if(result==null || result.getList().size()==0){
-        	retuJson.put("status", "fail");
-        }else{
-			retuJson.put("picId", fileList.get(0).getId());
-			retuJson.put("picName", fileList.get(0).getFileName());
-			String createDateTime=fileList.get(0).getCreateDateTime();
-			retuJson.put("createDateTime", createDateTime.substring(0, createDateTime.lastIndexOf(" ")));
-			retuJson.put("picPath", fileList.get(0).getFilePath());
-			retuJson.put("bak8", fileList.get(0).getBak8());
-        	retuJson.put("status", "success");
+        if (result == null || result.getList().size() == 0) {
+            retuJson.put("status", "fail");
+        } else {
+            retuJson.put("picId", fileList.get(0).getId());
+            retuJson.put("picName", fileList.get(0).getFileName());
+            String createDateTime = fileList.get(0).getCreateDateTime();
+            retuJson.put("createDateTime", createDateTime.substring(0, createDateTime.lastIndexOf(" ")));
+            retuJson.put("picPath", fileList.get(0).getFilePath());
+            retuJson.put("bak8", fileList.get(0).getBak8());
+            retuJson.put("status", "success");
         }
         return retuJson;
     }
@@ -264,7 +266,7 @@ public class SysFileController extends BaseController {
                 }
                 String uuid = IdUtil.createIdByTime();
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("flag",request.getParameter("flag"));
+                jsonObject.put("flag", request.getParameter("flag"));
                 sysFileFeignClient.uploadFileSaveLayui(file, request, response, tempFileName, request.getParameter("filedflag"), sysUserInfo.getUserId(), uuid, request.getParameter("formId"), jsonObject.toJSONString());
                 SysFile sysFile = this.restTemplate.exchange(GET + uuid, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysFile.class).getBody();
                 fileList.add(sysFile);
@@ -320,9 +322,11 @@ public class SysFileController extends BaseController {
         return responseEntity;
     }
 
-//    @RequestMapping(value = "/sysfile/video/{id}", method = RequestMethod.GET, produces = MediaType.MULTIPART_FORM_DATA_VALUE)
+    //    @RequestMapping(value = "/sysfile/video/{id}", method = RequestMethod.GET, produces = MediaType.MULTIPART_FORM_DATA_VALUE)
     @RequestMapping(value = "/sysfile/video/{id}", method = RequestMethod.GET)
-    public ResponseEntity<byte[]> videoFile(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response){
+    public ResponseEntity<InputStreamResource> videoFile(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) {
+//    public ResponseEntity<byte[]> videoFile(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response){
+
         this.httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         MultiValueMap<String, String> form1 = new LinkedMultiValueMap<String, String>();
         form1.add("fileIds", id);
@@ -333,37 +337,60 @@ public class SysFileController extends BaseController {
             return null;
         }
         id = fileResult.getList().get(0).getId();
-        MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
-        form.add("id", id);
-        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(form, this.httpHeaders);
-        ResponseEntity<byte[]> responseEntity = this.restTemplate.postForEntity(video+ id, httpEntity, byte[].class);
-        httpHeaders.add("x-frame-options", "ALLOW-FROM");
-        response.addHeader("x-frame-options", "ALLOW-FROM");
-        return responseEntity;
+        ResponseEntity<InputStreamResource> inputStreamResource = null;
+        Response res = sysFileFeignClient.videoFiles(id, request, response);
+        Response.Body body = res.body();
+        try {
+            InputStream inputStream = body.asInputStream();
+            InputStreamResource resource = new InputStreamResource(inputStream);
+            inputStreamResource = ResponseEntity.ok().contentType(MediaType.APPLICATION_OCTET_STREAM).headers(httpHeaders).body(resource);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            return inputStreamResource;
+        }
+
+//        this.httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+//        MultiValueMap<String, String> form1 = new LinkedMultiValueMap<String, String>();
+//        form1.add("fileIds", id);
+//        HttpEntity<MultiValueMap<String, String>> httpEntity1 = new HttpEntity<>(form1, httpHeaders);
+//        ResponseEntity<FileResult> responseEntity1 = this.restTemplate.postForEntity(getFilesLayuiByFormId, httpEntity1, FileResult.class);
+//        FileResult fileResult = responseEntity1.getBody();
+//        if ((fileResult.getList().size() == 0)) {
+//            return null;
+//        }
+//        id = fileResult.getList().get(0).getId();
+//        MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
+//        form.add("id", id);
+//        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(form, this.httpHeaders);
+//        ResponseEntity<byte[]> responseEntity = this.restTemplate.postForEntity(video+ id, httpEntity, byte[].class);
+//        httpHeaders.add("x-frame-options", "ALLOW-FROM");
+//        response.addHeader("x-frame-options", "ALLOW-FROM");
+//        return responseEntity;
     }
-	
-	/**
+
+    /**
      * 通过md5值，查询sys_file（存在多个），判断当前人，是否有这些file的权限，只要有权限，就能下载这个文件
      */
     @RequestMapping(value = "/sysfile/md5/download/{fileMd5}")
     public Result downloadFileByMd5(@PathVariable("fileMd5") String fileMd5, HttpServletRequest request, HttpServletResponse response) {
-    	LayuiTableParam param = new LayuiTableParam();
-    	param.getParam().put("userId", sysUserInfo.getUserId());
-    	param.getParam().put("fileMd5", fileMd5);
-    	
-		LayuiTableData layuiTableData = new LayuiTableData();
-		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-		ResponseEntity<LayuiTableData> fileEntity = restTemplate.exchange(commonFileList, HttpMethod.POST, entity, LayuiTableData.class);
-		layuiTableData = fileEntity.getBody();
-		Result retJson = new Result();
-		retJson.setSuccess(false);
-		if (layuiTableData.getData().size() > 0) {
-			JSONArray array = JSONArray.parseArray(JSON.toJSONString(layuiTableData.getData()));
-			String fileId = array.getJSONObject(0).getString("id");
-			retJson.setSuccess(true);
-			retJson.setData(fileId);
-		} 
-		return retJson;
+        LayuiTableParam param = new LayuiTableParam();
+        param.getParam().put("userId", sysUserInfo.getUserId());
+        param.getParam().put("fileMd5", fileMd5);
+
+        LayuiTableData layuiTableData = new LayuiTableData();
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+        ResponseEntity<LayuiTableData> fileEntity = restTemplate.exchange(commonFileList, HttpMethod.POST, entity, LayuiTableData.class);
+        layuiTableData = fileEntity.getBody();
+        Result retJson = new Result();
+        retJson.setSuccess(false);
+        if (layuiTableData.getData().size() > 0) {
+            JSONArray array = JSONArray.parseArray(JSON.toJSONString(layuiTableData.getData()));
+            String fileId = array.getJSONObject(0).getString("id");
+            retJson.setSuccess(true);
+            retJson.setData(fileId);
+        }
+        return retJson;
     }
 
     @RequestMapping(value = "/sysfile/viewPic/{id}", method = RequestMethod.GET)
@@ -407,7 +434,6 @@ public class SysFileController extends BaseController {
         String picBase64 = "data:image/png;base64,";
         return picBase64 + new sun.misc.BASE64Encoder().encode(bytes);
     }
-
 
     /**
      * 根据附件IDS 获取文件
@@ -469,7 +495,7 @@ public class SysFileController extends BaseController {
 
     @RequestMapping(value = "/sysfile/getFilesLayuiByFormIdReturnBase64", method = RequestMethod.GET)
     public String getFilesLayuiByFormIdReturnBase64(String fileIds, HttpServletRequest request) {
-		this.httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        this.httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
         fileIds = (request.getParameter("fileIds"));
         form.add("fileIds", fileIds);
@@ -489,7 +515,6 @@ public class SysFileController extends BaseController {
     }
 
     /**
-     *
      * @param id
      * @param request
      * @return
@@ -516,11 +541,12 @@ public class SysFileController extends BaseController {
             responseEntity64 = this.restTemplate.postForEntity(download + strId, httpEntity64, byte[].class);
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             return responseEntity64;
         }
 
     }
+
     /**
      * 获取字体图标map,base-file控件使用
      */
@@ -955,7 +981,7 @@ public class SysFileController extends BaseController {
     public void ckupload(@RequestParam(value = "upload", required = false) MultipartFile files) {
         PrintWriter out = null;
         String originalFilename = files.getOriginalFilename();
-        String fileType = originalFilename.substring(originalFilename.lastIndexOf(".",originalFilename.length()));
+        String fileType = originalFilename.substring(originalFilename.lastIndexOf(".", originalFilename.length()));
         String imageUrl = "ckupload";
         String msg = "";
         String fileName = "";
@@ -974,19 +1000,18 @@ public class SysFileController extends BaseController {
 //            if(!upload.exists()) upload.mkdirs();
 
             String date = sysUserInfo.getUserId();
-            strFilePath = ckfilepath+imageUrl+File.separator+date+File.separator;
+            strFilePath = ckfilepath + imageUrl + File.separator + date + File.separator;
             File filePath = new File(strFilePath);
-            if(!filePath.exists()) filePath.mkdirs();
-            fileName = UUID.randomUUID().toString()+fileType;
+            if (!filePath.exists()) filePath.mkdirs();
+            fileName = UUID.randomUUID().toString() + fileType;
             String savedName = strFilePath + File.separator + fileName;
             isComplete = FileUtil.copyInputStreamToFile(files.getInputStream(), new File(savedName));
-            if (isComplete==true){
+            if (isComplete == true) {
                 out = response.getWriter();
-                imageUrl = imageUrl+File.separator+date+File.separator+fileName;
-                imageUrl = imageUrl.replace("\\","/");
-                imageUrl = imageUrl.replace("\\\\","/");
+                imageUrl = imageUrl + File.separator + date + File.separator + fileName;
+                imageUrl = imageUrl.replace("\\", "/");
+                imageUrl = imageUrl.replace("\\\\", "/");
             }
-
 
             //统一上传---文件不能传输到后台,使用独立上传
 //            String tempFileName = files.getOriginalFilename();
@@ -1001,10 +1026,6 @@ public class SysFileController extends BaseController {
 //            jsonObject.put("lastModifiedDate","");
 //            sysFileFeignClient.uploadFileSaveLayui(files, request, response, tempFileName, "ff8129325ed94773bfd9f33145ccd080", sysUserInfo.getUserId(), uuid, "ckupload", jsonObject.toJSONString());
 //            SysFile sysFile = this.restTemplate.exchange(GET + uuid, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysFile.class).getBody();
-
-
-
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -1021,7 +1042,7 @@ public class SysFileController extends BaseController {
                 //上传成功
                 result.put("uploaded", 1);
                 result.put("fileName", fileName);
-                result.put("url", File.separator+imageUrl);
+                result.put("url", File.separator + imageUrl);
             }
             out.println(result.toJSONString());
         }
