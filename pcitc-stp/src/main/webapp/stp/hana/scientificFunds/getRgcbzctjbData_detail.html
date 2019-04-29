@@ -101,9 +101,14 @@ function myTable2()
 	 var  companyName=$("#companyName").val();
 	 var v_date=(new Date()).getTime();
 	 var url= '/rgcbzctjb_data_detail?month='+month+"&v_date="+v_date+"&companyName="+companyName;
+	 layer.load(2);
 	 table2.init('myTable2', {
 			  url: url
-			  ,where: {} 
+			  ,where: {}  ,
+               done: function (res, curr, count) {
+				  
+				  layer.closeAll();
+			  }
 			  
 			});
 	 

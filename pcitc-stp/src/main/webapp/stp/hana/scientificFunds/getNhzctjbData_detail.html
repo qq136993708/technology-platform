@@ -128,12 +128,16 @@ function myTable2()
 	 var v_date=(new Date()).getTime();
 	 var  g0PROJCODE=$("#g0PROJCODE").val();
 	 var  g0PROJTXT=$("#g0PROJTXT").val();
-	 
+	 layer.load(2);
 	 var url= '/getNhzctjbData_detail?month='+month+"&v_date="+v_date+"&companyName="+companyName+"&g0PROJCODE="+g0PROJCODE+"&g0PROJTXT="+g0PROJTXT;
 	 table2.init('myTable2', {
 			  url: url
 			  ,width:1900
-			  ,where: {} 
+			  ,where: {}  ,
+               done: function (res, curr, count) {
+				  
+				  layer.closeAll();
+			  }
 			  
 			});
 	 
