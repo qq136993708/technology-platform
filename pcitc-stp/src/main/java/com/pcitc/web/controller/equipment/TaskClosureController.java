@@ -57,6 +57,17 @@ public class TaskClosureController extends BaseController {
 
 	@RequestMapping(value = "/sre-task-closure/to-list")
 	public String list(HttpServletRequest request, HttpServletResponse response) {
+		String	parentUnitPathIds="";
+		String unitPathIds =   sysUserInfo.getUnitPath();
+		if(unitPathIds!=null && !unitPathIds.equals(""))
+		{
+			if(unitPathIds.length()>4)
+			{
+				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
+				
+			}
+		}
+		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		return "/stp/equipment/taskclosure/task_closure_list";
 	}
 	
