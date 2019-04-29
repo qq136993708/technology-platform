@@ -369,7 +369,7 @@ var name=$('#name').val();
             cols: [[
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
-            	 {field : 'name',           title : '课题名称',         style : 'cursor: pointer;', align: 'left',    width : '20%',templet:function(d){return '<span onclick="view_project(\''+d.id+'\')" style="color:#17a2b8">'+d.name+'</span>'}},
+            	 {field : 'name',           title : '课题名称',         style : 'cursor: pointer;', align: 'left',    width : '20%',templet:function(d){return '<span onclick="view_project(\''+d.id+'\')" style="color:#1890ff">'+d.name+'</span>'}},
             	 {field : 'taskWriteUserNames', title : '安排填写人名称', style : 'cursor: pointer;', align: 'center', width : '10%',templet : '#taskWrite_UserNames'},
             	 {field : 'setupYear', title : '立项年份', style : 'cursor: pointer;', align: 'center', width : '10%'},
                 {field : 'projectMoney', title : '总经费(万元)', style : 'cursor: pointer;', align: 'center', width : '10%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},

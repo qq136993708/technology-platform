@@ -68,6 +68,14 @@ public class ScientificInvestmentServiceIml implements IScientificInvestmentServ
   		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
   		return json;
 	}
+	public JSONArray getTzxmwcqktjbDetailList(Map map)throws Exception
+	{
+		logger.info("===明细查询参数 getTzxmwcqktjbDetailList: "+JSONObject.toJSONString(map));
+  		List<ScientificInvestment> list = scientificInvestmentMapper.getTzxmwcqktjbDetailList(map);
+  		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+  		return json;
+		
+	}
 	
 	
 	
@@ -109,6 +117,18 @@ public class ScientificInvestmentServiceIml implements IScientificInvestmentServ
 		}
 		
 		
+		public JSONArray getTzxmcgjdtjbDetailList(Map map)throws Exception
+		{
+			logger.info("===明细查询参数 getTzxmcgjdtjbDetailList: "+JSONObject.toJSONString(map));
+	  		List<ScientificInvestment> list = scientificInvestmentMapper.getTzxmcgjdtjbDetailList(map);
+	  		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+	  		return json;
+			
+		}
+		
+		
+		
+		
 		//投资项目转出情况表
 		public LayuiTableData getTzxmzcqkbData(LayuiTableParam param)throws Exception
 	  	{
@@ -143,6 +163,18 @@ public class ScientificInvestmentServiceIml implements IScientificInvestmentServ
 			JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
 	  		return json;
 		}
+		
+		
+		
+		public JSONArray getTzxmzcqkbDetailList(Map map)throws Exception
+		{
+			logger.info("===明细查询参数 getTzxmzcqkbDetailList: "+JSONObject.toJSONString(map));
+	  		List<ScientificInvestment> list = scientificInvestmentMapper.getTzxmzcqkbDetailList(map);
+	  		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+	  		return json;
+			
+		}
+		
 
 
 }

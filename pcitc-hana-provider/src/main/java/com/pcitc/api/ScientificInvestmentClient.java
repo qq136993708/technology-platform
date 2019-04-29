@@ -48,6 +48,17 @@ public class ScientificInvestmentClient {
 	
 	
 	
+	@ApiOperation(value = "详情-投资项目完成情况统计表", notes = "详情-投资项目完成情况统计表")
+	@RequestMapping(value = "/tzxmwcqktjb_detail_data", method = RequestMethod.POST)
+	public JSONArray tzxmwcqktjb_detail_data(@RequestBody Map map)throws Exception
+	{
+		return decisionFinancialService.getTzxmwcqktjbDetailList(map);
+	}
+	
+	
+	
+	
+	
 	
 	@ApiOperation(value = "投资项目采购进度统计表", notes = "投资项目采购进度统计表")
 	@RequestMapping(value = "/tzxmcgjdtjb", method = RequestMethod.POST)
@@ -63,6 +74,19 @@ public class ScientificInvestmentClient {
 	{
 		return decisionFinancialService.getTzxmcgjdtjbDataList(map);
 	}
+	
+	
+	@ApiOperation(value = "详情-采购进度统计表", notes = "详情-采购进度统计表")
+	@RequestMapping(value = "/tzxmcgjdtjb_detail_data", method = RequestMethod.POST)
+	public JSONArray tzxmcgjdtjb_detail_data(@RequestBody Map map)throws Exception
+	{
+		return decisionFinancialService.getTzxmcgjdtjbDetailList(map);
+	}
+	
+	
+	
+	
+	
 	
 	
 	@ApiOperation(value = "投资项目转出情况表", notes = "投资项目转出情况表")
@@ -81,6 +105,16 @@ public class ScientificInvestmentClient {
 	{
 		return decisionFinancialService.getTzxmzcqkbDataList(map);
 	}
+	
+	
+	@ApiOperation(value = "详情-转出情况表", notes = "详情-转出情况表")
+	@RequestMapping(value = "/tzxmzcqkb_detail_data", method = RequestMethod.POST)
+	public JSONArray tzxmzcqkb_detail_data(@RequestBody Map map)throws Exception
+	{
+		return decisionFinancialService.getTzxmzcqkbDetailList(map);
+	}
+	
+	
 	
 	
 }

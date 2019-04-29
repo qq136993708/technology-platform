@@ -50,6 +50,10 @@ public class ScientificFundsProvideClient {
 	
 	
 	
+	
+	
+	
+	
 	@ApiOperation(value = "课题直间接费用统计表-详细", notes = "课题直间接费用统计表-详细")
 	@RequestMapping(value = "/hana/scientific_funds/getKtzjjfytjbData_detail", method = RequestMethod.POST)
 	public JSONArray getKtzjjfytjbData_detail(@ApiParam(value="月份:month如201812,公司代码:companyCode",required=true)@RequestBody String paramsJson) throws Exception {

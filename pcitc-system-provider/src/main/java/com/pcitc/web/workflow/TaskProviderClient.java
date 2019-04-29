@@ -947,6 +947,7 @@ public class TaskProviderClient {
 				processDefinitionId = instance.getProcessDefinitionId();
 			}
 
+			System.out.println("getTaskProcessInfo======"+processDefinitionId);
 			bpmnModel = repositoryService.getBpmnModel(processDefinitionId);
 
 			ProcessDiagramGenerator pdg = processEngine.getProcessEngineConfiguration().getProcessDiagramGenerator();

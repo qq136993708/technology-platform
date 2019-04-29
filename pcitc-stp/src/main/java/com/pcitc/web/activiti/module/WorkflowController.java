@@ -141,13 +141,13 @@ public class WorkflowController extends BaseController {
 		//variables.put("money", 50); // 环节1需要用到
 		//variables.put("departmentCode", "1005"); // 环节2需要用到
 		variables.put("specialAuditor0", "ZSH_YFGCS_CJCXY"); // 环节n需要用到
-		variables.put("specialAuditor1", "ZSH_YFGCS_CJCXY"); // 环节n需要用到
-		variables.put("specialAuditor2", "ZSH_YFGCS_CJCXY"); // 环节n需要用到
-		variables.put("specialAuditor3", "ZSH_YFGCS_CJCXY"); // 环节n需要用到
 		
-		
+		variables.put("specialAuditor1", "role--ZBGL_KJB_ZYCCZ");
+		variables.put("specialAuditor2", "role--ZBGL_KJB_JHCCZ");
+		variables.put("specialAuditor3", "role--ZBGL_KJB_ZGZR");
+		variables.put("specialAuditor4", "role--ZBGL_KJB_ZR");
 		// 会签时需要的属性，会签里所有的人，同意率（double类型）
-		variables.put("signAuditRate", 1d); 
+		//variables.put("signAuditRate", 1d); 
 
 		workflowVo.setVariables(variables);
 		ResponseEntity<String> status = this.restTemplate.exchange(START_WORKFLOW_URL, HttpMethod.POST, new HttpEntity<WorkflowVo>(workflowVo, this.httpHeaders), String.class);

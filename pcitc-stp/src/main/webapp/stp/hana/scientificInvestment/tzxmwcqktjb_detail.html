@@ -21,28 +21,21 @@
 <table id="myTable2" class="layui-table" lay-filter="myTable2" >
     <thead>
      <tr>
-          <th lay-data="{field:'g0GSJC',       width:'15%',align:'left'}">院所</th>
-         <th lay-data="{field:'g0XMLXMS',      width:'15%',align:'left'}">项目类别</th>
-         <th lay-data="{field:'g0PROJCODE',    width:'15%',align:'left'}">项目编码</th>
-         <th lay-data="{field:'g0PROJTXT',     width:'15%',align:'left'}">项目名称</th>
-         <th lay-data="{field:'k0BNYSJHJE',    width:'15%',align:'right'}">本年预算</th>
-         <th lay-data="{field:'k0BNKYFPQCB',   width:'15%',align:'right'}">科研分配前成本</th>
-         <th lay-data="{field:'k0BNKYFPHCB',   width:'15%',align:'right'}">科研分配后成本</th>
-         <th lay-data="{field:'k0BNGLFPHCB',   width:'15%',align:'right'}">管理分配后成本</th>
-         <th lay-data="{field:'k0BNGLFPHJECB', width:'15%',align:'right'}">实际支出合计</th>
-         <th lay-data="{field:'k0BNSJCNJE',    width:'15%',align:'right'}">资金承诺</th>
-         <th lay-data="{field:'k0BNSJDJJE',    width:'15%',align:'right'}">定金-本年</th>
-         <th lay-data="{field:'k0BNZJSYBL',    width:'15%',align:'right'}">资金使用%</th>
-         <th lay-data="{field:'k0ZTYSJE',      width:'15%',align:'right'}">总体预算</th>
-         <th lay-data="{field:'k0LJKYFPQCB',   width:'15%',align:'right'}">科研分配前成本-累计</th>
-         <th lay-data="{field:'k0LJKYFPHCB',   width:'15%',align:'right'}">科研分配后成本-累计</th>
-         <th lay-data="{field:'k0LJGLFPHCB',   width:'15%',align:'right'}">管理分配后成本-累计</th>
-         <th lay-data="{field:'k0LJGLFPHJECB', width:'15%',align:'right'}">实际支出合计-累计</th>
-         <th lay-data="{field:'k0LJSJCNJE',    width:'15%',align:'right'}">资金承诺-累计</th>
-         <th lay-data="{field:'k0LJSJDJJE',    width:'15%',align:'right'}">定金-累计</th>
-         <th lay-data="{field:'k0LJYSJY',      width:'15%',align:'right'}">资金结余-累计</th>
-         <th lay-data="{field:'k0LJZJSYBL',    width:'15%',align:'right'}">资金使用%--累计</th>
+         <th lay-data="{field:'g0GSJC',  width:'15%',align:'left'}">院所</th>
+         <th lay-data="{field:'g0XMLXMS',  width:'15%',align:'left'}">项目类别</th>
+         <th lay-data="{field:'g0PROJCODE',  width:'15%',align:'left'}">项目编码</th>
+         <th lay-data="{field:'g0PROJTXT',  width:'15%',align:'left'}">项目名称</th>
          
+         <th lay-data="{field:'k0ZTYSJE', width:'15%',align:'right'}">计划总投资</th>
+         <th lay-data="{field:'k0LJGLFPHJECB', width:'15%',align:'right'}">累计支出额</th>
+         <th lay-data="{field:'k0LJSJDJJE', width:'15%',align:'right'}">预付余额</th>
+         <th lay-data="{field:'aDD1', width:'15%',align:'right'}">累计投资完成额</th>
+         <th lay-data="{field:'k0LJYSJY',    width:'15%',align:'right'}">项目资金计划结余</th>
+         <th lay-data="{field:'k0BNYSJHJE',    width:'15%',align:'right'}">本年投资计划</th>
+         <th lay-data="{field:'k0BNGLFPHJECB',    width:'15%',align:'right'}">本年累计支出</th>
+         <th lay-data="{field:'k0BNSJDJJE',      width:'15%',align:'right'}">本年预付款</th>
+         <th lay-data="{field:'aDD2',      width:'15%',align:'right'}">本年投资完成额</th>
+         <th lay-data="{field:'k0BNYSJY',      width:'15%',align:'right'}">本年资金计划结余</th>
      </tr>
     </thead>
 </table>
@@ -117,7 +110,7 @@ function myTable2()
 	 var  month=$("#month").val();
 	 var  companyCode=$("#companyCode").val();
 	 var v_date=(new Date()).getTime();
-	 var url= '/getXmzjlxfxData_detail?month='+month+"&v_date="+v_date+"&companyCode="+companyCode;
+	 var url= '/tzxmwcqktjb_detail_data?month='+month+"&v_date="+v_date+"&companyCode="+companyCode;
 	 layer.load(2);
 	 table2.init('myTable2', {
 			  url: url
@@ -135,7 +128,7 @@ function exput_excel()
 {
 	var companyCode=$('#companyCode').val();
 	var month=$('#month').val();
-	window.open("/getXmzjlxfxData_detail_exput_excel?month="+month+"&companyCode="+companyCode);
+	window.open("/tzxmwcqktjb_detail_data_exput_excel?month="+month+"&companyCode="+companyCode);
 } 
    
 
