@@ -246,11 +246,13 @@
 		// 处理任务
 		function handleTask(userIds) {
 			var datas=[];
+			$('#userIds').val(userIds);
 			datas.push(getFormData('task-form'));
 			if($("#audit-update-form").length > 0) {
 				// 其他的审批表单（业务过程中要修改业务数据）
 				datas.push(getFormData('audit-update-form'));
 			}
+			
 			$('#userIds').val(userIds);
 			$.ajax({
 				type : 'POST',
@@ -271,7 +273,6 @@
 					return false;
 				}
 			});
-			
 		}
 		
 		

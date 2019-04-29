@@ -237,8 +237,12 @@ public class SysFunctionController extends BaseController {
 	
 	@RequestMapping(value = "/function_edit_desk")
 	public String iniFunctionEditDesk(String id, String parentId, String parentCode, String levelCode, String parentName, Model model) {
-		if (StringUtils.isEmpty(id))
+		if (StringUtils.isEmpty(id)) {
 			id = "";
+			model.addAttribute("clickStatus", "1");
+		} else {
+			model.addAttribute("clickStatus", "2");
+		}
 		if (StringUtils.isEmpty(parentId))
 			parentId = "";
 		if (StringUtils.isEmpty(parentCode))
