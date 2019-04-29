@@ -854,9 +854,10 @@ html{background-color: #f2f2f2; color: #666;}
 .visualizationSearchBox .btn-function a:nth-child(3n){background: #aec95b}
 .visualizationSearchBox .btn-function a:nth-child(3n+1){background: #f7a35c}
 .paiNumber{font-size: 14px;}
-.layui-layer-lan .layui-layer-title{background-color: #00a3b4 !important}
+.layui-layer-lan .layui-layer-title{background-color: #1890ff !important}
 .layui-nav-tree .layui-this{background: none !important;}
-.layui-layer-btn .layui-layer-btn0 {border-color: #00a3b4 !important;background-color: #00a3b4 !important;color: #fff !important;}
+.layui-layer-btn .layui-layer-btn0 {border-color: #1890ff !important;
+    background-color: #1890ff !important;color: #fff !important;}
 
 .thirdChild {background: none !important;border-top:1px solid #ffffff;}
 .layui-nav-tree .layui-this .thirdChild{color: #666 !important; background: #ededed !important;
