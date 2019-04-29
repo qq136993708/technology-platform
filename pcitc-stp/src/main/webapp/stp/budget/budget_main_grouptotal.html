@@ -92,19 +92,23 @@
                 <thead>
                 <tr>
                 	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
-                	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}" rowspan="2">序号</th>
-                    <th lay-data="{field:'displayName', width: '25%'}" rowspan="2">承担单位</th>
-                   	<th lay-data="{field:'last_year_end',align: 'right', width: '15%',totalRow: true}" rowspan="2">2018经费预算</th>
-                    <th lay-data="{field:'plan_money',align: 'right', width: '15%',totalRow: true}" rowspan="2">年合同计划</th>
-                    <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>项目经费</th>
-                    <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>重点实验室专项经费</th>
+                	<th lay-data="{field:'no',align: 'center', totalRowText: '合计'}" rowspan="2">序号</th>
+                    <th lay-data="{field:'displayName', width: '20%'}" rowspan="2">承担单位</th>
+                   	<th lay-data="{align: 'center', width: '25%',totalRow: true}" colspan="3">${cnd}年经费预算</th>
+                    <th lay-data="{field:'total',align: 'right',totalRow: true}" rowspan="2">预算合计</th>
+                    <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年项目经费</th>
+                    <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年重点实验室专项经费</th>
                 </tr>
                 <tr>
+                 	<th lay-data="{field:'last_year_total', align: 'right',totalRow: true}">预算</th>
+                    <th lay-data="{field:'last_year_xmjf', align: 'right',totalRow: true}">项目经费</th>
+                    <th lay-data="{field:'last_year_zxjf', align: 'right',totalRow: true}">重点实验室专项经费</th>
+                
                     <th lay-data="{field:'xmjf', align: 'right',totalRow: true}">预算</th>
                     <th lay-data="{field:'xmjfJz', edit:true,align: 'right',totalRow: true}">老合同</th>
                     <th lay-data="{field:'xmjfXq', edit:true,align: 'right',totalRow: true}">可新签</th>
                     
-                     <th lay-data="{field:'zxjf', align: 'right',totalRow: true}">预算</th>
+                    <th lay-data="{field:'zxjf', align: 'right',totalRow: true}">预算</th>
                     <th lay-data="{field:'zxjfJz', edit:true,align: 'right',totalRow: true}">老合同</th>
                     <th lay-data="{field:'zxjfXq', edit:true,align: 'right',totalRow: true}">可新签</th>
                 </tr>
@@ -209,9 +213,12 @@
 			//初始化时间选择
 			function initDateView(){
 				$(".nd").html(cu_date);
-            	$('.layui-table-cell .laytable-cell-group').find('span').text(cu_date+"年度经费预算");
-            	$(".layui-table-header .layui-table").find('th').eq(3).find('span').text((cu_date-1)+"年预计完成");
-            	$(".layui-table-header .layui-table").find('th').eq(4).find('span').text(cu_date+"年合同计划");
+				
+            	$('.laytable-cell-group').eq(0).find('span').text((cu_date-1)+"年经费预算");
+            	$('.laytable-cell-group').eq(1).find('span').text((cu_date)+"年项目经费");
+            	$('.laytable-cell-group').eq(2).find('span').text((cu_date)+"年重点实验室专项经费");
+            	//$(".layui-table-header .layui-table").find('th').eq(3).find('span').text((cu_date-1)+"年预计完成");
+            	//$(".layui-table-header .layui-table").find('th').eq(4).find('span').text(cu_date+"年合同计划");
 			}
             // 点击按钮时激活
             $('.tableBtns').children('button').on('click',function(){

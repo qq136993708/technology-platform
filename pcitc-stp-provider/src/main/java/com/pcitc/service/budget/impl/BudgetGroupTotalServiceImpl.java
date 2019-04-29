@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
@@ -30,10 +31,12 @@ import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.stp.out.OutUnit;
 import com.pcitc.base.util.MyBeanUtils;
+import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.mapper.budget.BudgetGroupTotalMapper;
 import com.pcitc.mapper.budget.BudgetInfoMapper;
 import com.pcitc.service.budget.BudgetGroupTotalService;
 import com.pcitc.service.feign.SystemRemoteClient;
+import com.pcitc.service.feign.WorkflowRemoteClient;
 
 @Service("budgetGroupTotalService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
@@ -48,6 +51,9 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 	
 	@Resource
 	private SystemRemoteClient systemRemoteClient;
+	
+	@Autowired
+	private WorkflowRemoteClient workflowRemoteClient;
 	
 	@Override
 	public BudgetGroupTotal selectBudgetGroupTotal(String dataId) throws Exception
@@ -291,5 +297,62 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 			rs.get(plan.getDefine9()).add(plan);
 		}
 		return rs;
+	}
+
+	@Override
+	public Boolean startWorkFlow(BudgetInfo info,WorkflowVo workflowVo) 
+	{
+		try {
+	    	// 调用审批流程，此处调用同时实现事务
+	    	JSONObject flowJson = new JSONObject();
+	    	// 业务主键id
+	    	flowJson.put("businessId", info.getDataId());
+	    	flowJson.put("processInstanceName", "集团预算总表审批");
+	    	
+	    	// 发起者信息
+	    	flowJson.put("authenticatedUserId", info.getCreaterId());
+	    	flowJson.put("authenticatedUserName", info.getCreaterName());
+	
+			// 菜单id（functionId），部门/组织ID（orgId），项目id（projectId）。其中菜单id必填（和ProcessDefineId两选一）
+	    	flowJson.put("functionId", workflowVo.getFunctionId());
+	    	
+	    	// 待办业务详情、最终审批同意、最终审批不同意路径
+	    	flowJson.put("auditDetailsPath", "/budget/budget_main_grouptotal?budgetId"+info.getDataId());
+	    	flowJson.put("auditAgreeMethod", "http://pcitc-zuul/stp-provider/budget/callback-workflow-grouptotal-notice?budgetId=" + info.getDataId()+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
+	    	flowJson.put("auditRejectMethod", "http://pcitc-zuul/stp-provider/budget/callback-workflow-grouptotal-notice?budgetId=" + info.getDataId()+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_REFUSE.getCode());
+	
+	    	System.out.println(JSON.toJSONString(flowJson));
+	    	// 非必填选项， 菜单功能需要根据不同单位、不同项目选择不同流程图的时候使用。（也可以在单个流程图中，用判断来做）
+	    	// flowJson.put("flowProjectId", "");
+	    	// flowJson.put("flowUnitId", "");
+	    	
+	    	// 非必填选项，当下一步审批者需要本次任务执行人（启动者）手动选择的时候，需要auditUserIds属性
+	    	//String auditor = "16622d9cfc5_94712f71,16622e3f0df_1370e873";
+	    	//flowJson.put("auditor", auditor);
+	    	
+	    	// 特殊审批环节。当任务节点存在某个不确定的审批人，在流程图任务节点id设置为specialAuditor，同时提交时specialAuditor写入unit/role/post
+	    	// flowJson.put("specialAuditor", "ZSH_YFGCS_CJCXY");
+	    	//flowJson.put("specialAuditor1", "ZBGL_KTY_QYKYZG");
+			//flowJson.put("specialAuditor2", "ZBGL_KTY_FZDWKJCZ");
+	    	//flowJson.put("specialAuditor3", "ZBGL_KTY_FZDWZGLD");
+	    	
+			// 非必填选项, 对流程中出现的多个判断条件，比如money>100等，需要把事先把money条件输入
+			// flowJson.put("involoFlag", 1); // 环节1需要用到
+			// flowJson.put("departmentCode", "1005"); // 环节2需要用到
+			// flowJson.put("companyCode", "2006"); // 环节n需要用到
+			
+			
+	    	// 非必填选项, 会签时需要的属性，会签里所有的人，同意率（double类型）
+	    	//flowJson.put("signAuditRate", 1d); 
+	    	
+	    	// 远程调用
+	    	System.out.println("=====远程调用开始");
+	    	workflowRemoteClient.startCommonWorkflow(flowJson.toJSONString());
+	    	System.out.println("=====远程调用结束");
+			return true;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 }
