@@ -229,17 +229,17 @@ var name=$('#name').val();
                     layer.msg('请点击选择一行数据');
                 }else{
                     var id=selectRowData.applicationId;
-                    var state=selectRowData.state;
+                    var state=selectRowData.applicationState;
                     //var joinUnitCodes = selectRowData.departCode;
                     if(state=='20') {
                    	 layer.alert('请选择未上报的申请');
                         return;
                    }
-                if(state=='10')
-                {
-                    layer.alert('请选择未上报的申请');
-                    return;
-                }
+	                if(state=='40')
+	                {
+	                    layer.alert('请选择未上报的申请');
+	                    return;
+	                }
                     $('#id').val(id);
                     dealFlow(id);
                 }
