@@ -404,7 +404,7 @@ public class ForApplicationController extends BaseController {
 		return null;
 	}
 	
-	//启动采购管理-采购申请 确认流程
+	//转资申请审批工作流
     @RequestMapping(value = "/sre-forapplication/forapplication_workflow")
     @ResponseBody
     public Object forapplicationWorkflow(HttpServletRequest request, HttpServletResponse response) throws Exception
