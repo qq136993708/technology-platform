@@ -2,7 +2,6 @@ package com.pcitc.listener;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import org.activiti.engine.ProcessEngine;
@@ -44,24 +43,8 @@ public class TaskCreatedListener implements ActivitiEventListener {
 		
 		ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().processDefinitionId(taskEntity.getProcessDefinitionId()).singleResult();
 		
-		/*// 任务完成的时候，直接就指定了下一个待办任务的处理人。不用获取下一个任务节点。
-		RuntimeService runtimeService = SpringContextUtil.getApplicationContext().getBean(RuntimeService.class);
-		
-		// 当前任务节点
-		PvmActivity curActivity = null;
-		List<String> activeIds = runtimeService.getActiveActivityIds(taskEntity.getProcessInstanceId());
-		ProcessDefinitionEntity processDefinitionEntity = (ProcessDefinitionEntity) repositoryService.getProcessDefinition(taskEntity.getProcessInstanceId());
-        for (String activeId : activeIds) {
-            ActivityImpl activityImpl = processDefinitionEntity.findActivity(activeId);
-            if (activityImpl != null) {
-            	curActivity = activityImpl;
-            	
-            	System.out.println("------============================="+curActivity.getId());
-            }
-        }*/
-		
 		if (!StrUtil.isEmpty(taskEntity.getAssignee())) {
-			// 指定了受理人后代理
+			// 目前系统的审批节点不支持直接指定固定审批人，都是通过岗位、角色、机构进行的配置
 			// String attorney =
 			// delegateService.getAttorneyByAssignee(taskEntity.getAssignee(),processDefinition.getCategory());
 			String attorney = "";
@@ -76,20 +59,27 @@ public class TaskCreatedListener implements ActivitiEventListener {
 			} else {
 				
 			}*/
+			System.out.println("------1受理人任务委托------任务ID:" + taskEntity.getId());
 			// 只有一个候选人的代理
 			List<IdentityLink> identityLinks = processEngine.getTaskService().getIdentityLinksForTask(taskEntity.getId());
-			Set<String> userIds = taskInstanceService.getCandidateUserForTask(identityLinks);
+			List<String> userIds = taskInstanceService.getCandidateUserForTask(identityLinks);
 			if (userIds.size() == 1) {
-				String assignee = userIds.iterator().next();
+				System.out.println("------2受理人任务委托------任务ID:" + userIds);
+				String assignee = userIds.get(0);
 				List<SysDelegate> attorneyList = taskInstanceService.getAttorneyByAssignee(assignee, processDefinition.getCategory());
 				// 查询这个时间段是否有被委托人，如果没有的话，此任务还是默认到委托人待办列表中
 				if (attorneyList != null && attorneyList.size() > 0) {
+					
 					String attorney = attorneyList.get(0).getAttorneyCode();
 					String delegateId = attorneyList.get(0).getDelegateId();
+					System.out.println("------3受理人任务委托------任务ID:" + attorney);
+					System.out.println("------4受理人任务委托------任务ID:" + assignee);
 					if (!StrUtil.isEmpty(attorney)) {
-						taskService.claim(taskEntity.getId(), assignee);
-						taskEntity.delegate(attorney);
-						
+						taskService.addCandidateUser(taskEntity.getId(), attorney);
+						//不调用delegateTask，delegateTask会把原审批人的待办任务去掉。调用addCandidateUser，本质上只是动态添加一个审批人
+						//taskService.delegateTask(taskEntity.getId(), assignee);
+						//taskEntity.delegate(attorney);
+						System.out.println("------5受理人任务委托------任务ID:" + attorney);
 						// 把委托后，调用此监听器产生的委托任务都保存起来
 						SysTaskDelegate record = new SysTaskDelegate();
 						record.setTaskId(taskEntity.getId());

@@ -58,7 +58,7 @@ public class ActivityProviderClient {
 
 	@ApiOperation(value = "查询所有流程模型", notes = "查询条件：模型名称；分页查询")
 	@RequestMapping(value = "/activity-provider/model/list", method = RequestMethod.POST)
-	public Object selectPendingList(@RequestBody LayuiTableParam param) {
+	public Object selectModelList(@RequestBody LayuiTableParam param) {
 		int limit = 15;
 		int page = 1;
 		String modelName = null;

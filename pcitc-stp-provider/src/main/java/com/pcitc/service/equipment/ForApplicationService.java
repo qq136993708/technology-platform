@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-
+import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.equipment.SreForApplication;
 
 public interface ForApplicationService {
@@ -29,7 +29,10 @@ public interface ForApplicationService {
 	//查询转资装备大于3的数据
 	public LayuiTableData getEquipmentPage(LayuiTableParam param)throws Exception;
 
-	public int upForapplication(String id);	
+	public int upForapplication(String id);
+
+	public Result dealPurchaseFlow(String id, Map map)throws Exception;
+
 	
 	
 	

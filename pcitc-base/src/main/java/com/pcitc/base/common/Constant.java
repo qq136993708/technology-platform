@@ -49,6 +49,15 @@ public class Constant {
     public static final String OK_ZERO="10"; //保存状态
     public static final String OK_NEO="20"; //上报状态
     public static final String OK_THRRE="30"; //通过状态
+    
+    //转资申请状态变量
+    public static final String OK_THREE="30"; //通过状态
+    public static final String OK_SREE="40"; //退回状态
+    
+    //报废管理状态变量
+    public static final String SRE_SCARP_APPLY_STATUS="10"; //上报状态
+    public static final String OKSRE_SCARP_APPLY_STATUS="20"; //通过状态
+    public static final String NOSRE_SCARP_APPLY_STATUS="30"; //不通过状态
     /**
      * 默认文件上传类型
      */

@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipInputStream;
@@ -115,7 +116,7 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 		repositoryService.saveModel(model);
 
 		String id = model.getId();
-		repositoryService.addModelEditorSource(id, editorNode.toString().getBytes("utf-8"));
+		repositoryService.addModelEditorSource(id, editorNode.toString().getBytes(StandardCharsets.UTF_8));
 
 		return id;
 	}
@@ -136,7 +137,7 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 					modelNode.put(MODEL_NAME, model.getName());
 				}
 				modelNode.put(MODEL_ID, model.getId());
-				ObjectNode editorJsonNode = (ObjectNode) objectMapper.readTree(new String(repositoryService.getModelEditorSource(model.getId()), "utf-8"));
+				ObjectNode editorJsonNode = (ObjectNode) objectMapper.readTree(new String(repositoryService.getModelEditorSource(model.getId()), StandardCharsets.UTF_8));
 				modelNode.put("model", editorJsonNode);
 
 			} catch (Exception e) {
@@ -160,9 +161,9 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 			model.setName(workflowVo.getModelName());
 
 			repositoryService.saveModel(model);
-			repositoryService.addModelEditorSource(model.getId(), workflowVo.getJsonXml().getBytes("utf-8"));
+			repositoryService.addModelEditorSource(model.getId(), workflowVo.getJsonXml().getBytes(StandardCharsets.UTF_8));
 
-			InputStream svgStream = new ByteArrayInputStream(workflowVo.getSvgXml().getBytes("utf-8"));
+			InputStream svgStream = new ByteArrayInputStream(workflowVo.getSvgXml().getBytes(StandardCharsets.UTF_8));
 			TranscoderInput input = new TranscoderInput(svgStream);
 
 			PNGTranscoder transcoder = new PNGTranscoder();
@@ -305,7 +306,7 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 			repositoryService.saveModel(modelData);
 			return new Result(true);
 		} catch (Exception ex) {
-			return new Result(false, "部署失败", ex.getMessage().toString());
+			return new Result(false, "部署失败", ex.getMessage());
 		}
 	}
 
@@ -352,14 +353,13 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 				// 将xml文件转换成BpmnModel
 				BpmnModel bpmnModel = converter.convertToBpmnModel(reader);
 				mq = mq.modelName(fileList.get(i).getFileName().substring(0, fileList.get(i).getFileName().indexOf(".")));
-
 				if (mq.count() > 0) {
-					msg = fileList.get(i).getFileName().substring(0, fileList.get(i).getFileName().indexOf(".")) + "已经上传，请重新选择！";
+					msg = fileList.get(i).getFileName().substring(0, fileList.get(i).getFileName().indexOf(".")) + "-->已经上传，请重新选择！";
 					bpmnFlag = false;
 					break;
 				}
 				if (bpmnModel.getMainProcess() == null || bpmnModel.getMainProcess().getId() == null) {
-					msg = fileList.get(i).getFileName().substring(0, fileList.get(i).getFileName().indexOf(".")) + "流程文件解析有问题！";
+					msg = fileList.get(i).getFileName().substring(0, fileList.get(i).getFileName().indexOf(".")) + "-->流程文件解析有问题！";
 					bpmnFlag = false;
 					break;
 				}
@@ -368,12 +368,11 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 				e.printStackTrace();
 			}
 		}
-
+		System.out.println("3uploadModel===="+msg);
 		if (!bpmnFlag) {
 			// 上传的文件有问题
 			return new Result(false, "部署失败", msg);
 		}
-
 		for (int i = 0; i < fileList.size(); i++) {
 
 			try {
@@ -396,8 +395,7 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 				modelData.setMetaInfo(modelObjectNode.toString());
 				modelData.setName(fileList.get(i).getFileName().substring(0, fileList.get(i).getFileName().indexOf(".")));
 				repositoryService.saveModel(modelData);
-
-				repositoryService.addModelEditorSource(modelData.getId(), modelNode.toString().getBytes("utf-8"));
+				repositoryService.addModelEditorSource(modelData.getId(), modelNode.toString().getBytes(StandardCharsets.UTF_8));
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

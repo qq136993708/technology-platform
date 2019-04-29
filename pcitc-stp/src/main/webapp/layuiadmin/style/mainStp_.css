@@ -12,6 +12,7 @@
     text-indent: 5px;}
 .layui-box-text{font-weight: bold;}
 .arrange{padding-left: 4px;padding-right: 30px;}
+.arrange .layui-table-body,.accept .layui-table-body{overflow: hidden !important;}
 .arrange-title{border-bottom: 1px solid #b9ddff;margin-bottom: 20px;}
 .arrange-title span{font-size: 14px;color: #666666;border-bottom: 2px solid #1890ff;position: relative;
     bottom: -1px;}
@@ -29,7 +30,7 @@
 .arrange .layui-table-view{border-top: 2px solid #1890ff;}
 .arrange .layui-table tbody tr:hover{background-color:#f6f9fb;border-left: 1px solid #1890ff;}
 .accept .layui-table-view{border-top: 2px solid #42b678;}
-.accept .layui-table tbody tr:hover{background-color:#f6f9fb;}
+.accept .layui-table tbody tr:hover{background-color:#f6f9fb;border-left: 1px solid #42b678;}
 /*第一块*/
 .layui-top{display: flex;background: #fff;border: 1px solid #dfdfdf;
     padding: 10px;margin: 7px 0 0 5px;width: 99.2%;border-radius: 4px;}

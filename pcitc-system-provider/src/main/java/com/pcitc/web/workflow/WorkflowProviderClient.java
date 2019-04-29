@@ -10,10 +10,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamReader;
@@ -207,10 +205,8 @@ public class WorkflowProviderClient {
 			System.out.println("1=========TaskDefinition======="+taskDef.getKey());
 			System.out.println("1=========TaskDefinition======="+json.getString(taskDef.getKey()));
 			if (json.getString(taskDef.getKey()) != null) {
-				Set<String> userIds = new LinkedHashSet<String>();
 				String[] groups = json.getString(taskDef.getKey()).toString().split("-");
-				userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(Arrays.asList(groups)));
-				taskVar.put("auditor", userIds);
+				taskVar.put("auditor", sysUserMapper.findUserByGroupIdFromACT(Arrays.asList(groups)));
 			}
 		}
 		
@@ -245,6 +241,10 @@ public class WorkflowProviderClient {
 		
 		// 为回退添加标识位
 		taskVar.put("rejectFlag", task.getId());
+		// 回退时，方便回到当初指定的审批人（发起人节点固定，不用处理）
+		// taskVar.put(processInstance.getActivityId() + "-auditor", taskVar.get("auditor"));
+		System.out.println("=========回退时=======----------" + processInstance.getActivityId());
+		System.out.println("=========回退时=======----------" + taskVar.get("auditor"));
 		
 		System.out.println("开始执行任务----------------"+task.getId());
 		taskService.complete(task.getId(), taskVar);
@@ -341,13 +341,10 @@ public class WorkflowProviderClient {
 		// System.out.println("1=========TaskDefinition======="+taskDef);
 		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor") && (taskVar.get("auditor") == null || taskVar.get("auditor").equals(""))) {
 			// 特殊节点，获取当初传递的值
-			Set<String> userIds = new LinkedHashSet<String>();
 			if (taskVar.get(taskDef.getKey()) != null) {
 				// 分解group
 				String[] groups = taskVar.get(taskDef.getKey()).toString().split("-");
-				userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(Arrays.asList(groups)));
-				System.out.println("3=========TaskDefinition======="+userIds);
-				taskVar.put("auditor", userIds);
+				taskVar.put("auditor", sysUserMapper.findUserByGroupIdFromACT(Arrays.asList(groups)));
 			}
 		}
 		
@@ -379,7 +376,10 @@ public class WorkflowProviderClient {
 		
 		// 为回退添加标识位
 		taskVar.put("rejectFlag", task.getId());
-		
+		// 回退时，方便回到当初指定的审批人（发起人节点固定，不用处理）
+		// taskVar.put(processInstance.getActivityId() + "-auditor", taskVar.get("auditor"));
+		System.out.println("=========回退时=======----------" + processInstance.getActivityId());
+		System.out.println("=========回退时=======----------" + taskVar.get("auditor"));
 		// 处理本次任务，同时指定下一次任务可用的变量(taskVar)
 		taskService.complete(task.getId(), taskVar);
 		return "true";

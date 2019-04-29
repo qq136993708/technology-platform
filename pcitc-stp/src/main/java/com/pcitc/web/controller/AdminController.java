@@ -1,16 +1,13 @@
 package com.pcitc.web.controller;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.base.common.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -26,9 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.pcitc.base.common.ChartBarLineResultData;
-import com.pcitc.base.common.ChartBarLineSeries;
-import com.pcitc.base.common.Result;
 import com.pcitc.base.hana.report.HanaConstant;
 import com.pcitc.base.system.SysCollect;
 import com.pcitc.base.system.SysFunction;
@@ -619,11 +613,15 @@ public class AdminController extends BaseController {
 			
 		
 	}
-	
-	
-	
 
-	/**
+
+
+    private static final String MY_BOT_WORK_ORDER_LIST = "http://pcitc-zuul/system-proxy/PlanClient-provider/my/botWorkOrder_list";
+    private static final String BOT_WORK_ORDER_LIST = "http://pcitc-zuul/system-proxy/PlanClient-provider/botWorkOrder_list";
+
+    private static final String selectSonPlanBasesByCreateUserId = "http://pcitc-zuul/system-proxy/PlanClient-provider/selectSonPlanBasesByCreateUserId";
+
+    /**
 	 * 首页的具体内容
 	 * 
 	 * @param request
@@ -641,7 +639,31 @@ public class AdminController extends BaseController {
 
 		String unitCode = sysUserInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
-		return "/mainStp";
+
+		//获取任务
+        LayuiTableParam param = new LayuiTableParam();
+//        param.getParam().put("createUser", sysUserInfo.getUserId());
+//        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+//        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(BOT_WORK_ORDER_LIST, HttpMethod.POST, entity, LayuiTableData.class);
+//        LayuiTableData result = responseEntity.getBody();
+//        request.setAttribute("taskList",result.getData());
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("createUserId", sysUserInfo.getUserId());
+        HttpEntity<JSONObject> entity = new HttpEntity<JSONObject>(jsonObject, this.httpHeaders);
+        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(selectSonPlanBasesByCreateUserId, HttpMethod.POST, entity, JSONObject.class);
+        JSONObject result = responseEntity.getBody();
+        request.setAttribute("taskList",result.get("list"));
+
+        param = new LayuiTableParam();
+        Map<String, Object> map = param.getParam();
+        map.put("workOrderAllotUserId", sysUserInfo.getUserId());
+        map.put("workOrderStatus", "1");
+        param.setParam(map);
+        HttpEntity<LayuiTableParam> entityMy = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntityMy = this.restTemplate.exchange(MY_BOT_WORK_ORDER_LIST, HttpMethod.POST, entityMy, LayuiTableData.class);
+        LayuiTableData resultMy = responseEntityMy.getBody();
+        request.setAttribute("taskListMy",resultMy.getData());
+        return "/mainStp";
 	}
 
 	/**

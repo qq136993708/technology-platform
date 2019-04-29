@@ -14,11 +14,14 @@
 <body>
 
 <div class="searchBox">
+<form  action=""  name="form1" id="form1" action="" method="POST">
  <input type="hidden" name="auditStatus" id="auditStatus" value="${auditStatus}">
  <input type="hidden" name="applyDepartCode" id="applyDepartCode" value="${applyDepartCode}">
  <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
- 
- 
+ <input type="hidden" name="id" id="id" value="">
+ <input  name="functionId"     id="functionId"      type="hidden">
+ <input  name="userIds"     id="userIds"      type="hidden">
+ </form>
     <!--查询条件-->
     <label class="dateInput">
         <span>名称</span>
@@ -73,7 +76,7 @@
         
     function view(id) 
     {
-    	var temUrl = '/sre-sreScrapApply/view?id='+id
+    	var temUrl = '/sre-sreScrapApply/view/'+id
         	  layer.open({
                       title:'资产台账报废-详情',
                       skin: 'layui-layer-lan',
@@ -105,6 +108,9 @@
 <!--表格数据操作js-->
 
 <script>
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
+$('#functionId').val(functionId);
 var table,selectRowData;
 var publicMethods;
 var name=$('#name').val();
@@ -146,7 +152,7 @@ var name=$('#name').val();
             	if (typeof(selectRowData) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
-            	if(selectRowData.status=="1")
+            	if(selectRowData.status!="0")
             	{
             	layer.alert("已经提交过了不许编辑！");
             	return;
@@ -216,13 +222,18 @@ var name=$('#name').val();
             	if (typeof(selectRowData) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
-            	if(selectRowData.status=="1")
+            	if(selectRowData.status!="0")
             	{
             	layer.alert("已经提交过了！");
             	return;
             	}
             	 layer.confirm('是否提交？', { btn: ['确定','取消']}, function(){
-	         				 var applicationId=selectRowData.id;
+            			 var id=selectRowData.id;
+            			 $('#id').val(id);
+                         dealFlow(id);
+            	 
+            	 
+	         		 /*var applicationId=selectRowData.id;
             		 $.ajax({
 			           type : 'GET',
 			           url : "/sre-sreScrapApply/submitInvalid?id="+applicationId,
@@ -238,7 +249,7 @@ var name=$('#name').val();
 			                      });
 					 
 	                      },
-	               });
+	               });*/
 	         			})
             		
             	}
@@ -299,8 +310,126 @@ var name=$('#name').val();
     });
     
     
-    
-    
+      function dealFlow(id)
+    {
+    	var json = {functionId:functionId};
+    	 $.ajax({
+             type : 'POST',
+             url : "/workflow/start/audit-type",
+             contentType: "application/json;charset=UTF-8",
+             data : JSON.stringify(json),
+             //json中有functionId（projectId、departmentId等）用来区别processDefine的属性
+             success : function(data) 
+             {
+          	   if (data.code == 'role')
+          	   {
+              		// 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
+              		// roleCodes，参数名必须一致，方便公共弹出页面调用
+              		   roleCodes = data.data;  // 弹出页面的隐藏的查询条件
+              		  var temUrl="/task/deal/users/ini";
+                      layer.open({
+                          title:'选择审批人',
+                          skin: 'layui-layer-lan',
+                          shadeClose: true,
+                          type: 2,
+                          fixed: false,
+                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                          maxmin: true,
+                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                          area: ['800px', '550px'],
+                          content:  temUrl
+                      });
+              	} else if (data.code == 'unit' || data.code == 'post') 
+              	{
+              		// 按部门/岗位选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
+              		// unitCodes、postCodes，参数名必须一致，方便公共弹出页面调用
+    	          		if (data.code == 'unit') 
+    	          		{
+    	          			unitCodes = data.data;  // 弹出页面的隐藏的查询条件
+    	          		} else 
+    	          		{
+    	          			postCodes = data.data;  // 弹出页面的隐藏的查询条件
+    	          		}
+              		
+              		   var temUrl="/task/deal/user/unit/ini";
+                       layer.open({
+                          title:'选择审批人',
+                          skin: 'layui-layer-lan',
+                          shadeClose: true,
+                          type: 2,
+                          fixed: false,
+                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                          maxmin: true,
+                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                          area: ['800px', '550px'],
+                          content:  temUrl
+                      });
+              	} else if (data.code == 'int') 
+              	{
+              		layer.msg('启动参数不足');
+              	} else if (data.code == 'con') 
+              	{
+              		layer.msg('请给此功能菜单配置流程');
+              	} else if (data.code == 'exist') 
+              	{
+              		layer.msg('工作流部署异常，请联系管理员');
+              	} else 
+              	{
+              		// 直接处理此任务
+              		handleTask('');
+              	}
+             },
+             error : function(msg) {//请求失败处理函数  
+            }
+         });
+    }
+    //处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
+   function handleTask(userIds)
+    {
+        $('#userIds').val(userIds);
+        var v_date=(new Date()).getTime();
+        var url="/sre-sreScrapApply/start_purchase_workflow?v_date="+v_date;
+        var backurl="/sre-sreScrapApply/to-list?v_date="+v_date;
+        ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
+    }
+    function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
+    {
+    	 $.ajax({
+      	     type:type,
+      	     url: url,
+      	     dataType:"json",
+      	     data:$("#"+formName).serialize(),
+      	     async: false, 
+      	     cache: false,
+      	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+             success:function(data,status)
+             {
+    	          if(data.success==true ||data.success=='true')
+    	          {
+
+    	        	  
+    	        	          layer.alert(
+    	        			  successMsg, 
+    	                      {icon: 1,closeBtn: 0 },
+    	                      function () 
+    	                      {
+    	                    	  renderTable();
+   	                    	      layer.closeAll();
+    	                      });
+    	        	  
+    	          } else
+    	          {
+    	        	 layer.alert(failMsg);
+    	          }
+    	     
+    		   },
+    		   error:function()
+    		   {
+    		    	layer.alert("网络访问错误");
+    		   }
+        
+      });
+    }
     function renderTable()
     { 
     	

@@ -249,7 +249,7 @@ layui.define(['jquery'],function (e) {
             stateData="<span class='fontStateColor btn-green'></span>"
         }else if(d==30){
             stateData="<span class='fontStateColor btn-blue'></span>"
-        }else if(d==3){
+        }else if(d==40){
             stateData="<span class='fontStateColor btn-yellow'></span>"
         }
         return stateData;

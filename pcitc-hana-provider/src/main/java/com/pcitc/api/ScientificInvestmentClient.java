@@ -1,11 +1,14 @@
 package com.pcitc.api;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.service.ICommonService;
@@ -34,6 +37,18 @@ public class ScientificInvestmentClient {
 	
 	
 	
+	
+	@ApiOperation(value = "导出-投资项目完成情况统计表", notes = "导出-投资项目完成情况统计表")
+	@RequestMapping(value = "/tzxmwcqktjb_out_excel", method = RequestMethod.POST)
+	public JSONArray tzxmwcqktjb_out_excel(@RequestBody Map map)throws Exception
+	{
+		return decisionFinancialService.getTzxmwcqktjbDataList(map);
+	}
+	
+	
+	
+	
+	
 	@ApiOperation(value = "投资项目采购进度统计表", notes = "投资项目采购进度统计表")
 	@RequestMapping(value = "/tzxmcgjdtjb", method = RequestMethod.POST)
 	public LayuiTableData tzxmcgjdtjb(@RequestBody LayuiTableParam param)throws Exception
@@ -42,12 +57,29 @@ public class ScientificInvestmentClient {
 	}
 	
 	
+	@ApiOperation(value = "导出-投资项目采购进度统计表", notes = "导出-投资项目采购进度统计表")
+	@RequestMapping(value = "/tzxmcgjdtjb_out_excel", method = RequestMethod.POST)
+	public JSONArray tzxmcgjdtjb_out_excel(@RequestBody Map map)throws Exception
+	{
+		return decisionFinancialService.getTzxmcgjdtjbDataList(map);
+	}
+	
 	
 	@ApiOperation(value = "投资项目转出情况表", notes = "投资项目转出情况表")
 	@RequestMapping(value = "/tzxmzcqkb", method = RequestMethod.POST)
 	public LayuiTableData tzxmzcqkb(@RequestBody LayuiTableParam param)throws Exception
 	{
 		return decisionFinancialService.getTzxmzcqkbData(param);
+	}
+	
+	
+	
+	
+	@ApiOperation(value = "导出-投资项目转出情况表", notes = "导出-投资项目转出情况表")
+	@RequestMapping(value = "/tzxmzcqkb_out_excel", method = RequestMethod.POST)
+	public JSONArray tzxmzcqkb_out_excel(@RequestBody Map map)throws Exception
+	{
+		return decisionFinancialService.getTzxmzcqkbDataList(map);
 	}
 	
 	

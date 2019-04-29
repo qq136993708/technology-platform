@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <script src="/layuiadmin/layui/layui.js"></script>
-    <script src="/stp/hana/common/hana_common.js"></script>
+   
 </head>
 <body>
 <div class="searchBox">
@@ -97,6 +97,7 @@
 
 <!--表格数据操作js-->
 <script src="/common/js/jquery-1.11.3.min.js"></script>
+ <script src="/stp/hana/common/hana_common.js"></script>
 <script>
 var param=JSON.parse(window.localStorage.getItem("param"));
 var functionId=param.id;
@@ -104,16 +105,18 @@ $('#functionId').val(functionId);
 //alert(functionId);
 var table,selectRowData;
 var zlbm=$('#zlbm').val();
-
+var layer;
 layui.config({
     base: '/layuiadmin/module/modules/' //静态资源所在路径
 }).use(['jquery','form', 'laydate','table','laypage','layer'], function(){
 	  $ = layui.jquery
       ,table = layui.table
-      ,layer = layui.layer
+      
       ,form = layui.form
       ,laydate = layui.laydate,
 	 form.render(null, 'component-form-group');
+	  
+	  layer = layui.layer;
 	  laydate.render({
           elem: '#month'
           ,format: 'yyyyMM'
@@ -171,19 +174,20 @@ function search_Event()
 
 function myTable()
 {
-	layer.load(2);
+	 layer.load(2);
 	 var month=$("#month").val();
 	 var companyCode=$("#companyCode").val();
 	 // alert(companyCode);
 	 var v_date=(new Date()).getTime();
 	 var url= '/ktzjjfytjb_data?month='+month+"&v_date="+v_date+"&companyCode="+companyCode+"&functionId="+functionId;
-	    table.init('myTable', {
-			  url: url
-			  ,where: {} ,
-			  done: function (res, curr, count) {layer.closeAll('loading');}
-			  
-			});
-	 
+     table.init('myTable', {
+		  url: url
+		  ,where: {} ,
+		  done: function (res, curr, count) {
+			  layer.closeAll();
+		  }
+	 });
+	   
 }
    
 
