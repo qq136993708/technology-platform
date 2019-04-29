@@ -1,22 +1,22 @@
 package com.pcitc.web.controller.hana;
 
-import java.io.PrintWriter;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,19 +28,20 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.ChartPieDataValue;
 import com.pcitc.base.common.ChartPieResultData;
+import com.pcitc.base.common.ExcelException;
 import com.pcitc.base.common.PageResult;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.hana.report.BudgetMysql;
 import com.pcitc.base.hana.report.CompanyCode;
 import com.pcitc.base.hana.report.ScientificFunds;
 import com.pcitc.base.system.SysDictionary;
-import com.pcitc.base.system.SysFunctionProperty;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
+import com.pcitc.web.utils.PoiExcelExportUitl;
 
 //科技经费
 @Controller
@@ -52,18 +53,29 @@ public class ScientificFundsContrller {
 	@Autowired
 	private RestTemplate restTemplate;
 	
-	
+	//课题直间接费用统计表
 	private static final String ktzjjfytjb_data = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/ktzjjfytjb";
+	
+	//人工成本支出统计表
 	private static final String rgcbzctjb_data = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/rgcbzctjb";
+	
+	//原材料支出统计表
 	private static final String yclzctjb_data = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/yclzctjb";
+	
+	//能耗支出统计表
 	private static final String nhzctjb_data = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/nhzctjb";
+	
+	 //项目资金流向分析
 	private static final String xmzjlxfx_data = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/xmzjlxfx";
+	
+	
 	private static final String investment_02 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/money/complete-rate/institute";
 	
 	//人工成本支出统计表-详情
 	private static final String getRgcbzctjbData_detail = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/rgcbzctjb_detail";
 	//课题直间接费用统计表-详情
     private static final String getKtzjjfytjbData_detail = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/getKtzjjfytjbData_detail";
+    
     //原材料支出统计表-详情
     private static final String getYclzctjbData_Detail = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/getYclzctjbData_Detail";
     //能耗支出统计表-详情
@@ -204,34 +216,6 @@ public class ScientificFundsContrller {
 				
 	       }
 		   
-		   
-		   
-
-			/*@RequestMapping(params="action=getAreaJson")
-			public String getAreaJson(HttpServletRequest request,HttpServletResponse response) throws Exception 
-			{
-				 
-				 Long parentId=CommonUtil.getParameterLong(request, "parentId", null);
-		         Area criteria=new Area();
-		         if(parentId==null)
-		         {
-		        	 criteria.setSqlStr(" t.`parent` IS NULL ");
-		         }else
-		         {
-		        	 criteria.setParent(parentId);
-		         }
-		         criteria.setOrderBySql("");
-				 List<Area> list=commonService.getAreaList(criteria); 
-				 response.setContentType("text/json;charset=utf-8");
-				 response.setHeader("Cache-Control", "no-cache");
-				 JSONArray ja=JSONArray.fromObject(list);
-			     PrintWriter out = response.getWriter();
-			     out.write(ja.toString());
-			     out.close();
-			     return null;
-			}
-			*/
-			
 			
 	  
 	       @RequestMapping(method = RequestMethod.GET, value = "/ktzjjfytjb_data")
@@ -269,6 +253,13 @@ public class ScientificFundsContrller {
 			return resultObj.toString();
 
 		}
+	       
+	       
+	       
+	       
+	       
+	    
+	       
 	  
 	  
 	  
@@ -282,6 +273,17 @@ public class ScientificFundsContrller {
 		  request.setAttribute("companyName", companyName);
 		  String monthstr =DateUtil.dateToStr(DateUtil.strToDate(month, DateUtil.FMT_MM), DateUtil.FMT_YYYY_ZH);
 			request.setAttribute("monthstr", monthstr);
+			
+			
+			
+			List<CompanyCode> companyCodeList = HanaUtil.getCompanyCode(restTemplate, httpHeaders);
+			String companyCode =	HanaUtil.getCompanyCodeByName( companyCodeList,companyName);
+			if(companyCode.equals(""))
+			{
+				companyCode=HanaUtil.YJY_CODE_NOT_YINGKE;
+			}
+			request.setAttribute("companyCode", companyCode);
+			
 	      return "stp/hana/scientificFunds/getKtzjjfytjbData_detail";
 	  }
 	  
@@ -295,14 +297,8 @@ public class ScientificFundsContrller {
 	    {
 		    PageResult pageResult = new PageResult();
 			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-			String companyName = CommonUtil.getParameter(request, "companyName", HanaUtil.YJY_CODE_NOT_YINGKE);
-			List<CompanyCode> companyCodeList = HanaUtil.getCompanyCode(restTemplate, httpHeaders);
-			String companyCode =	HanaUtil.getCompanyCodeByName( companyCodeList,companyName);
-			if(companyCode.equals(""))
-			{
-				companyCode=HanaUtil.YJY_CODE_NOT_YINGKE;
-			}
-			 System.out.println(">>>>>>>>>>>>>>>>>>>>getKtzjjfytjbData_detail>参数      month = "+month+" companyCode="+companyCode+" companyName="+companyName);
+			String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+			 System.out.println(">>>>>>>>>>>>>>>>>>>>getKtzjjfytjbData_detail>参数      month = "+month+" companyCode="+companyCode);
 			
 
 			 String g0PROJCODE = CommonUtil.getParameter(request, "g0PROJCODE", "");
@@ -336,6 +332,69 @@ public class ScientificFundsContrller {
 			return resultObj.toString();
 
 		}
+	    
+	    
+	    @RequestMapping(method = RequestMethod.GET, value = "/getKtzjjfytjbData_detail_exput_excel")
+	   	@ResponseBody
+	   	public String getKtzjjfytjbData_detail_exput_excel(HttpServletRequest request, HttpServletResponse response) throws Exception
+	   	{
+	   		
+	   		
+	   		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+	   		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+	   		String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+	   		paramMap.put("month", month);
+	   		paramMap.put("companyCode", companyCode);
+	   		System.out.println(">getKtzjjfytjbData_detail>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+	   		
+	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getKtzjjfytjbData_detail, HttpMethod.POST, httpEntity, JSONArray.class);
+	   		int statusCode = responseEntity.getStatusCodeValue();
+	   		List<ScientificFunds> list =new ArrayList();
+	   		JSONArray jSONArray=null;
+	   		if (statusCode == 200)
+	   		{
+	   			jSONArray = responseEntity.getBody();
+	   			list = JSONObject.parseArray(jSONArray.toJSONString(), ScientificFunds.class);
+	   		}
+	   		
+	   		
+	   		
+	          
+	          
+	   		
+	   		    String[] headers = { "院所", "课题类型", "课题名称",       "总计",     "直接费用", "间接费用", "直间接%"};
+	   		    String[] cols =    {"g0GSJC","g0XMLXMS","g0PROJTXT","k0BNGLFPHJECB","k0BNKYFPQCB",       "k0BNJJCB",       "k0BNBL"};
+	   		   
+	   	        // 文件名默认设置为当前时间：年月日时分秒
+	   	        String fileName = DateFormatUtils.format(new Date(), "yyyyMMddhhmmss");
+	   	        // 设置response头信息
+	   	        response.reset();
+	   	        response.setContentType("application/vnd.ms-excel");
+	   	        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xls");
+	   	        try {
+	   		        OutputStream os = response.getOutputStream();
+	   		        PoiExcelExportUitl<ScientificFunds>  pee = new PoiExcelExportUitl<ScientificFunds>(fileName, headers, cols, list,os);
+	   		        pee.exportExcel();
+	   	            
+	   	        } catch (Exception e)
+	   	        {
+	   	            e.printStackTrace();
+	   	            // 如果是ExcelException,则直接抛出
+	   	            if (e instanceof ExcelException) 
+	   	            {
+	   	                throw (ExcelException) e;
+	   	            } else 
+	   	            {
+	   	                // 否则将其他异常包装成ExcelException再抛出
+	   	                throw new ExcelException("导出excel失败");
+	   	            }
+	   	        }
+	   		   return null;
+	   	}
+	    
+	    
 	  
 	  
 
@@ -389,6 +448,10 @@ public class ScientificFundsContrller {
 		}
 	  
 	  
+	  
+	  
+	  
+	  
 	  @RequestMapping(method = RequestMethod.GET, value = "/sf/to_getRgcbzctjbData_detail")
 	  public String rgcbzctjb_data_detail(HttpServletRequest request) throws Exception
 	  {
@@ -402,8 +465,22 @@ public class ScientificFundsContrller {
 		  
 		  String monthstr =DateUtil.dateToStr(DateUtil.strToDate(month, DateUtil.FMT_MM), DateUtil.FMT_YYYY_ZH);
 			request.setAttribute("monthstr", monthstr);
+			
+			
+			
+			List<CompanyCode> companyCodeList = HanaUtil.getCompanyCode(restTemplate, httpHeaders);
+			String companyCode =	HanaUtil.getCompanyCodeByName( companyCodeList,companyName);
+			if(companyCode.equals(""))
+			{
+				companyCode=HanaUtil.YJY_CODE_NOT_YINGKE;
+			}
+			request.setAttribute("companyCode", companyCode);
+			
 	      return "stp/hana/scientificFunds/getRgcbzctjbData_detail";
 	  }
+	  
+	  
+	  
 	  
 	  
 	  
@@ -459,7 +536,66 @@ public class ScientificFundsContrller {
 		}
 	  
 	  
-	  
+	    @RequestMapping(method = RequestMethod.GET, value = "/getRgcbzctjbData_detail_exput_excel")
+	   	@ResponseBody
+	   	public String getRgcbzctjbData_detail_exput_excel(HttpServletRequest request, HttpServletResponse response) throws Exception
+	   	{
+	   		
+	   		
+	   		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+	   		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+	   		String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+	   		paramMap.put("month", month);
+	   		paramMap.put("companyCode", companyCode);
+	   		System.out.println(">rgcbzctjb_data_detail_exput_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+	   		
+	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getRgcbzctjbData_detail, HttpMethod.POST, httpEntity, JSONArray.class);
+	   		int statusCode = responseEntity.getStatusCodeValue();
+	   		List<ScientificFunds> list =new ArrayList();
+	   		JSONArray jSONArray=null;
+	   		if (statusCode == 200)
+	   		{
+	   			jSONArray = responseEntity.getBody();
+	   			list = JSONObject.parseArray(jSONArray.toJSONString(), ScientificFunds.class);
+	   		}
+	   		
+	   		
+	   		
+	   		
+	         
+	   		
+	   		
+	   		    String[] headers = { "项目", "本年累计分配", "本年累计分配",       "同比成本",     "同比成本_比例"};
+	   		    String[] cols =    {"g0FYXLMS","k0BNCB","k0SNCB","k0TBCB","k0TBBL"};
+	   		   
+	   	        // 文件名默认设置为当前时间：年月日时分秒
+	   	        String fileName = DateFormatUtils.format(new Date(), "yyyyMMddhhmmss");
+	   	        // 设置response头信息
+	   	        response.reset();
+	   	        response.setContentType("application/vnd.ms-excel");
+	   	        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xls");
+	   	        try {
+	   		        OutputStream os = response.getOutputStream();
+	   		        PoiExcelExportUitl<ScientificFunds>  pee = new PoiExcelExportUitl<ScientificFunds>(fileName, headers, cols, list,os);
+	   		        pee.exportExcel();
+	   	            
+	   	        } catch (Exception e)
+	   	        {
+	   	            e.printStackTrace();
+	   	            // 如果是ExcelException,则直接抛出
+	   	            if (e instanceof ExcelException) 
+	   	            {
+	   	                throw (ExcelException) e;
+	   	            } else 
+	   	            {
+	   	                // 否则将其他异常包装成ExcelException再抛出
+	   	                throw new ExcelException("导出excel失败");
+	   	            }
+	   	        }
+	   		   return null;
+	   	}
 	  
 	  
 	  
@@ -507,10 +643,14 @@ public class ScientificFundsContrller {
 					}
 				} 
 				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-				System.out.println(">>>>>>>>>>>>>>>>>yclzctjb_data " + resultObj.toString());
+//				System.out.println(">>>>>>>>>>>>>>>>>yclzctjb_data " + resultObj.toString());
 				return resultObj.toString();
 
 			}
+	  
+	  
+	  
+	  
 	  @RequestMapping(method = RequestMethod.GET, value = "/sf/to_getYclzctjbData_Detail")
 	  public String to_getYclzctjbData_Detail(HttpServletRequest request) throws Exception
 	  {
@@ -521,6 +661,17 @@ public class ScientificFundsContrller {
 		  request.setAttribute("companyName", companyName);
 		  String monthstr =DateUtil.dateToStr(DateUtil.strToDate(month, DateUtil.FMT_MM), DateUtil.FMT_YYYY_ZH);
 			request.setAttribute("monthstr", monthstr);
+			
+			
+			List<CompanyCode> companyCodeList = HanaUtil.getCompanyCode(restTemplate, httpHeaders);
+			String companyCode =	HanaUtil.getCompanyCodeByName( companyCodeList,companyName);
+			if(companyCode.equals(""))
+			{
+				companyCode=HanaUtil.YJY_CODE_NOT_YINGKE;
+			}
+			request.setAttribute("companyCode", companyCode);
+			
+			
 	      return "stp/hana/scientificFunds/getYclzctjbData_Detail";
 	  }
 	  
@@ -569,11 +720,72 @@ public class ScientificFundsContrller {
 				}
 			} 
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-			System.out.println(">>>>>>>>>>>>>>>>>rgcbzctjb_data_detail " + resultObj.toString());
+			System.out.println(">>>>>>>>>>>>>>>>>getYclzctjbData_Detail " + resultObj.toString());
 			return resultObj.toString();
 
 		}
 	  
+	    
+	    
+	    @RequestMapping(method = RequestMethod.GET, value = "/getYclzctjbData_Detail_exput_excel")
+	   	@ResponseBody
+	   	public String getYclzctjbData_Detail_exput_excel(HttpServletRequest request, HttpServletResponse response) throws Exception
+	   	{
+	   		
+	   		
+	   		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+	   		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+	   		String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+	   		paramMap.put("month", month);
+	   		paramMap.put("companyCode", companyCode);
+	   		System.out.println(">yclzctjb_exput_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+	   		
+	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getYclzctjbData_Detail, HttpMethod.POST, httpEntity, JSONArray.class);
+	   		int statusCode = responseEntity.getStatusCodeValue();
+	   		List<ScientificFunds> list =new ArrayList();
+	   		JSONArray jSONArray=null;
+	   		if (statusCode == 200)
+	   		{
+	   			jSONArray = responseEntity.getBody();
+	   			list = JSONObject.parseArray(jSONArray.toJSONString(), ScientificFunds.class);
+	   		}
+	   		
+	   		
+        
+	   		
+	   		    String[] headers = { "院所", "课题类型", "课题编号",       "课题名称",     "总计", "原材料及主要材料",     "辅助材料"};
+	   		    String[] cols =    {"g0GSJC","g0XMLXMS","g0PROJCODE","g0PROJTXT","k0BNCB_5",       "k0BNCB_510",       "k0BNCB_520"};
+	   		   
+	   	        // 文件名默认设置为当前时间：年月日时分秒
+	   	        String fileName = DateFormatUtils.format(new Date(), "yyyyMMddhhmmss");
+	   	        // 设置response头信息
+	   	        response.reset();
+	   	        response.setContentType("application/vnd.ms-excel");
+	   	        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xls");
+	   	        try {
+	   		        OutputStream os = response.getOutputStream();
+	   		        PoiExcelExportUitl<ScientificFunds>  pee = new PoiExcelExportUitl<ScientificFunds>(fileName, headers, cols, list,os);
+	   		        pee.exportExcel();
+	   	            
+	   	        } catch (Exception e)
+	   	        {
+	   	            e.printStackTrace();
+	   	            // 如果是ExcelException,则直接抛出
+	   	            if (e instanceof ExcelException) 
+	   	            {
+	   	                throw (ExcelException) e;
+	   	            } else 
+	   	            {
+	   	                // 否则将其他异常包装成ExcelException再抛出
+	   	                throw new ExcelException("导出excel失败");
+	   	            }
+	   	        }
+	   		   return null;
+	   	}
+	    
+	    
 	  
 	  
 	  
@@ -636,6 +848,17 @@ public class ScientificFundsContrller {
 		  request.setAttribute("companyName", companyName);
 		  String monthstr =DateUtil.dateToStr(DateUtil.strToDate(month, DateUtil.FMT_MM), DateUtil.FMT_YYYY_ZH);
 			request.setAttribute("monthstr", monthstr);
+			
+			
+			List<CompanyCode> companyCodeList = HanaUtil.getCompanyCode(restTemplate, httpHeaders);
+			String companyCode =	HanaUtil.getCompanyCodeByName( companyCodeList,companyName);
+			if(companyCode.equals(""))
+			{
+				companyCode=HanaUtil.YJY_CODE_NOT_YINGKE;
+			}
+			request.setAttribute("companyCode", companyCode);
+			
+			
 	      return "stp/hana/scientificFunds/getNhzctjbData_detail";
 	  }
 	  
@@ -688,6 +911,61 @@ public class ScientificFundsContrller {
 		}
 	  
 	  
+	    @RequestMapping(method = RequestMethod.GET, value = "/getNhzctjbData_detail_exput_excel")
+	   	@ResponseBody
+	   	public String getNhzctjbData_detail_exput_excel(HttpServletRequest request, HttpServletResponse response) throws Exception
+	   	{
+	   		
+	   		
+	   		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+	   		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+	   		String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+	   		paramMap.put("month", month);
+	   		paramMap.put("companyCode", companyCode);
+	   		System.out.println(">getNhzctjbData_detail_exput_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+	   		
+	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getNhzctjbData_detail, HttpMethod.POST, httpEntity, JSONArray.class);
+	   		int statusCode = responseEntity.getStatusCodeValue();
+	   		List<ScientificFunds> list =new ArrayList();
+	   		JSONArray jSONArray=null;
+	   		if (statusCode == 200)
+	   		{
+	   			jSONArray = responseEntity.getBody();
+	   			list = JSONObject.parseArray(jSONArray.toJSONString(), ScientificFunds.class);
+	   		}
+	   		
+	   		    String[] headers = { "院所", "课题类型", "课题编号",       "课题名称",     "总计",           "燃料油",      "燃料气","其他燃料","动力",   "水","电","风","蒸汽","燃气","其他动力"};
+	   		    String[] cols =    {"g0GSJC","g0XMLXMS","g0PROJCODE","g0PROJTXT","k0BNCB_4",       "k0BNCB_431","k0BNCB_432","k0BNCB_433","k0BNCB_440","k0BNCB_441","k0BNCB_442","k0BNCB_443","k0BNCB_444","k0BNCB_445","k0BNCB_446"};
+	   		   
+	   	        // 文件名默认设置为当前时间：年月日时分秒
+	   	        String fileName = DateFormatUtils.format(new Date(), "yyyyMMddhhmmss");
+	   	        // 设置response头信息
+	   	        response.reset();
+	   	        response.setContentType("application/vnd.ms-excel");
+	   	        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xls");
+	   	        try {
+	   		        OutputStream os = response.getOutputStream();
+	   		        PoiExcelExportUitl<ScientificFunds>  pee = new PoiExcelExportUitl<ScientificFunds>(fileName, headers, cols, list,os);
+	   		        pee.exportExcel();
+	   	            
+	   	        } catch (Exception e)
+	   	        {
+	   	            e.printStackTrace();
+	   	            // 如果是ExcelException,则直接抛出
+	   	            if (e instanceof ExcelException) 
+	   	            {
+	   	                throw (ExcelException) e;
+	   	            } else 
+	   	            {
+	   	                // 否则将其他异常包装成ExcelException再抛出
+	   	                throw new ExcelException("导出excel失败");
+	   	            }
+	   	        }
+	   		   return null;
+	   	}
+	  
 	  
 	  
 	  
@@ -700,9 +978,10 @@ public class ScientificFundsContrller {
 		    
 		  
 		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-			HanaUtil.setSearchParaForUser2(userInfo,restTemplate,httpHeaders,request);
 			String month = HanaUtil.getCurrrent_Year_Moth();
 			request.setAttribute("month", month);
+			
+			  
 	        return "stp/hana/scientificFunds/xmzjlxfx";
 	  }
 	  
@@ -744,6 +1023,10 @@ public class ScientificFundsContrller {
 	     
 	     
 	     
+	     
+	     
+	     
+	     
 	     @RequestMapping(method = RequestMethod.GET, value = "/sf/to_getXmzjlxfxData_detail")
 		  public String getXmzjlxfxData_detail(HttpServletRequest request) throws Exception
 		  {
@@ -754,6 +1037,16 @@ public class ScientificFundsContrller {
 			  request.setAttribute("companyName", companyName);
 			  String monthstr =DateUtil.dateToStr(DateUtil.strToDate(month, DateUtil.FMT_MM), DateUtil.FMT_YYYY_ZH);
 				request.setAttribute("monthstr", monthstr);
+				
+				
+				
+				List<CompanyCode> companyCodeList = HanaUtil.getCompanyCode(restTemplate, httpHeaders);
+				String companyCode =	HanaUtil.getCompanyCodeByName( companyCodeList,companyName);
+				if(companyCode.equals(""))
+				{
+					companyCode=HanaUtil.YJY_CODE_NOT_YINGKE;
+				}
+				request.setAttribute("companyCode", companyCode);
 		      return "stp/hana/scientificFunds/getXmzjlxfxData_detail";
 		  }
 	     
@@ -765,14 +1058,8 @@ public class ScientificFundsContrller {
 	    {
 		    PageResult pageResult = new PageResult();
 			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-			String companyName = CommonUtil.getParameter(request, "companyName", HanaUtil.YJY_CODE_NOT_YINGKE);
-			List<CompanyCode> companyCodeList = HanaUtil.getCompanyCode(restTemplate, httpHeaders);
-			String companyCode =	HanaUtil.getCompanyCodeByName( companyCodeList,companyName);
-			if(companyCode.equals(""))
-			{
-				companyCode=HanaUtil.YJY_CODE_NOT_YINGKE;
-			}
-			 System.out.println(">>>>>>>>>>>>>>>>>>>>getXmzjlxfxData_detail>参数      month = "+month+" companyCode="+companyCode+" companyName="+companyName);
+			String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+			 System.out.println(">>>>>>>>>>>>>>>>>>>>getXmzjlxfxData_detail>参数      month = "+month+" companyCode="+companyCode);
 			
 
 			 String g0PROJCODE = CommonUtil.getParameter(request, "g0PROJCODE", "");
@@ -807,6 +1094,67 @@ public class ScientificFundsContrller {
 
 		}
 	  
+	    
+	    
+	    @RequestMapping(method = RequestMethod.GET, value = "/getXmzjlxfxData_detail_exput_excel")
+	   	@ResponseBody
+	   	public String getXmzjlxfxData_detail_exput_excel(HttpServletRequest request, HttpServletResponse response) throws Exception
+	   	{
+	   		
+	   		
+	   		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+	   		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+	   		String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+	   		paramMap.put("month", month);
+	   		paramMap.put("companyCode", companyCode);
+	   		System.out.println(">getXmzjlxfxData_detail_exput_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+	   		
+	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getXmzjlxfxData_detail, HttpMethod.POST, httpEntity, JSONArray.class);
+	   		int statusCode = responseEntity.getStatusCodeValue();
+	   		List<ScientificFunds> list =new ArrayList();
+	   		JSONArray jSONArray=null;
+	   		if (statusCode == 200)
+	   		{
+	   			jSONArray = responseEntity.getBody();
+	   			list = JSONObject.parseArray(jSONArray.toJSONString(), ScientificFunds.class);
+	   		}
+	   		
+	   		
+	   		
+	   		    String[] headers = { "院所",   "项目类别",   "项目编码",     "项目名称",   "本年预算",      "科研分配前成本",  "科研分配后成本",  "实际支出合计",    "资金承诺",     "定金-本年",     "资金使用%",     "总体预算",     "科研分配前成本-累计",     "科研分配后成本-累计",     "管理分配后成本-累计",     "实际支出合计-累计",     "资金承诺-累计",     "定金-累计",       "资金结余-累计",   "资金使用%--累计"};
+	   		    String[] cols =    {"g0GSJC", "g0XMLXMS","g0PROJCODE","g0PROJTXT","k0BNYSJHJE",  "k0BNKYFPQCB","k0BNKYFPHCB","k0BNGLFPHJECB","k0BNSJCNJE","k0BNSJDJJE",  "k0BNZJSYBL",  "k0ZTYSJE",  "k0LJKYFPQCB",       "k0LJKYFPHCB",       "k0LJGLFPHCB",        "k0LJGLFPHJECB",   "k0LJSJCNJE",    "k0LJSJDJJE",    "k0LJYSJY",    "k0LJZJSYBL"};
+	   		   
+	   	        // 文件名默认设置为当前时间：年月日时分秒
+	   	        String fileName = DateFormatUtils.format(new Date(), "yyyyMMddhhmmss");
+	   	        // 设置response头信息
+	   	        response.reset();
+	   	        response.setContentType("application/vnd.ms-excel");
+	   	        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xls");
+	   	        try {
+	   		        OutputStream os = response.getOutputStream();
+	   		        PoiExcelExportUitl<ScientificFunds>  pee = new PoiExcelExportUitl<ScientificFunds>(fileName, headers, cols, list,os);
+	   		        pee.exportExcel();
+	   	            
+	   	        } catch (Exception e)
+	   	        {
+	   	            e.printStackTrace();
+	   	            // 如果是ExcelException,则直接抛出
+	   	            if (e instanceof ExcelException) 
+	   	            {
+	   	                throw (ExcelException) e;
+	   	            } else 
+	   	            {
+	   	                // 否则将其他异常包装成ExcelException再抛出
+	   	                throw new ExcelException("导出excel失败");
+	   	            }
+	   	        }
+	   		   return null;
+	   	}
+     
+	    
+	    
 	  
 	  //加计扣除模拟分析
 	  @RequestMapping(method = RequestMethod.GET, value = "/sf/jjkcmnfx")

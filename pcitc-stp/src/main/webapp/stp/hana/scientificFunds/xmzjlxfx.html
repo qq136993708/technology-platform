@@ -157,13 +157,14 @@ layui.config({
     		  shade: [0.1,'#fff'] 
     		}); 
       //渲染
+      var companyCode=$("#companyCode").val();
+      //alert($("#companyCode").val());
       table.render({
         elem: '#processdef-table',
-        url: '/xmzjlxfx_data',
+        url: '/xmzjlxfx_data?companyCode='+companyCode,
         method:"POST",
         where: {param: {
-        	      "month":$("#month").val(),
-        	      "companyCode":$("#companyCode").val()
+        	      "month":$("#month").val()
                }},
         id: 'processdef-table',
         cols: [[

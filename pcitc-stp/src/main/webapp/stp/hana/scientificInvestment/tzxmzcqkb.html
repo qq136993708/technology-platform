@@ -31,8 +31,9 @@
 
 
 <div class="tableBox">
+<div class="btnGroup" style="float:right;margin-right:20px"><button  onclick="exput_excel()" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg" >导出EXCEL</<button></div>
 <h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt"></label>投资项目转出情况表</h3>
-    <table id="processdef-table" class="layui-hide" lay-filter="tableEvent">
+    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table">
 </div>
 
 <script id="dateTpl" type="text/html"> {{formatTime(d.SQRI)}} </script>
@@ -96,11 +97,11 @@ layui.config({
             
         };
         //监听排序
-        table.on('sort(model-table)', function(obj){
+        table.on('sort(processdef-table)', function(obj){
             console.log(this, obj.field, obj.type)
             //return;
             //服务端排序
-            table.reload('model-table', {
+            table.reload('processdef-table', {
                 initSort: obj,
                 page: {curr: 1}, //重新从第一页开始
                 where: { //重新请求服务端
@@ -115,7 +116,31 @@ layui.config({
             active[type] ? active[type].call(this) : '';
         });
 
-         
+        //监听行单击事件
+        table.on('row(processdef-table)', function(obj){
+            console.log(obj.tr) //得到当前行元素对象
+            console.log(obj.data) //得到当前行数据
+            //obj.del(); //删除当前行
+            //obj.update(fields) //修改当前行数据
+            selectRowData=obj.data;
+            var companyName=selectRowData.g0GSJC;
+            var month=$("#month").val();
+       	    var v_date=(new Date()).getTime();
+       	    //alert(companyName+"="+month);
+       	    var url= '/si/tzxmzcqkb_detail?month='+month+"&v_date="+v_date+"&companyName="+companyName;
+            layer.open({
+                title:'投资项目转出-详情',
+                skin: 'layui-layer-lan',
+                shadeClose: true,
+                type: 2,
+                fixed: false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin: false,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                area: ['70%', '90%'],
+                content:  url
+            });
+        });
         
         
     });
@@ -172,7 +197,13 @@ layui.config({
 }
    
     
-   
+    function exput_excel()
+    {
+    	var companyCode=$('#companyCode').val();
+    	var month=$('#month').val();
+    	window.open("/tzxmzcqkb_exput_excel?month="+month+"&companyCode="+companyCode);
+    } 
+        
    
 
 </script>
