@@ -406,7 +406,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre-task-closure/list',
             method:"POST",
-            where: {param: {"topicName":$("#topicName").val(),"setupYear":$("#setupYear").val(),"name":$("#name").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"applyUnitCode":$("#applyUnitCode").val(),"closeStatus":$("#closeStatus").val()}},
+            where: {param: {"topicName":$("#topicName").val(),"setupYear":$("#setupYear").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"applyUnitCode":$("#applyUnitCode").val(),"closeStatus":$("#closeStatus").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),
