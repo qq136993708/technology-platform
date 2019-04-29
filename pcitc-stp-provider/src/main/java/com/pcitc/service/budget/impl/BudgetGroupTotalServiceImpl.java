@@ -318,8 +318,8 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 	    	
 	    	// 待办业务详情、最终审批同意、最终审批不同意路径
 	    	flowJson.put("auditDetailsPath", "/budget/budget_main_grouptotal?budgetId"+info.getDataId());
-	    	flowJson.put("auditAgreeMethod", "http://pcitc-zuul/stp-provider/budget/callback-workflow-grouptotal-notice?budgetId=" + info.getDataId()+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
-	    	flowJson.put("auditRejectMethod", "http://pcitc-zuul/stp-provider/budget/callback-workflow-grouptotal-notice?budgetId=" + info.getDataId()+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_REFUSE.getCode());
+	    	flowJson.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-grouptotal-notice?budgetId=" + info.getDataId()+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
+	    	flowJson.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-grouptotal-notice?budgetId=" + info.getDataId()+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_REFUSE.getCode());
 	
 	    	System.out.println(JSON.toJSONString(flowJson));
 	    	// 非必填选项， 菜单功能需要根据不同单位、不同项目选择不同流程图的时候使用。（也可以在单个流程图中，用判断来做）
