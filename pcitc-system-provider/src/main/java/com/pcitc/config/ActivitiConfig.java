@@ -29,9 +29,9 @@ import com.pcitc.listener.TaskCreatedListener;
 
 
 /**
- * Redis缓存配置类
+ * 工作流配置类
  * @author zhf
- * 2017-11-28
+ * 2018-11-28
  *
  */
 @Configuration
@@ -62,6 +62,8 @@ public class ActivitiConfig {
 		configuration.setTransactionManager(transactionManager);
 		configuration.setDatabaseType("mysql");
 		configuration.setDatabaseSchemaUpdate("true");
+		configuration.setLabelFontName("宋体");
+		configuration.setActivityFontName("宋体");
 		
 		// 不使用activiti自动的四个表（ACT_ID_*），用四个视图表代替
 		configuration.setDbIdentityUsed(false);
