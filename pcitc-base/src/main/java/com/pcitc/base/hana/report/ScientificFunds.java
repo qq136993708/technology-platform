@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 
 public class ScientificFunds implements Serializable{
 
-	    private static final long serialVersionUID = 1L;
 	    private String g0GSDM;//公司代码
 	    private String g0GSJC;//公司简称
 	    private String g0PROJCODE;//项目编码

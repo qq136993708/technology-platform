@@ -12,6 +12,7 @@
 <div class="searchBox">
 <input  name="month"          id="month"        value="${month}"   type="hidden">
 <input  name="companyName"    id="companyName"  value="${companyName}"   type="hidden">
+<input  name="companyCode"    id="companyCode"  value="${companyCode}"   type="hidden">
 <label class="dateInput">
             <span>项目编号</span>
             <input type="text" name="g0PROJCODE"  title="编号" value="${g0PROJCODE}" autocomplete="off" class="form-control" id="g0PROJCODE">
@@ -31,6 +32,7 @@
 
 </div>
 <div class="tableBox">
+<div class="btnGroup" style="float:right;margin-right:20px"><button  onclick="exput_excel()" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg" >导出EXCEL</<button></div>
 <h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt" ></label>${companyName}（${month}）</h3>
 <table id="myTable2" class="layui-table" lay-filter="myTable2" >
     <thead>
@@ -131,7 +133,12 @@ function myTable2()
 }   
     
    
-   
+function exput_excel()
+{
+	var companyCode=$('#companyCode').val();
+	var month=$('#month').val();
+	window.open("/getYclzctjbData_Detail_exput_excel?month="+month+"&companyCode="+companyCode);
+} 
 
 </script>
 

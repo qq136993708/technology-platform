@@ -1155,9 +1155,9 @@
 	<select id="getXmzjlxfxData_detail" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
             SELECT
 			  "G0GSJC",
-			IFNULL("G0XMLXMS",'') ,
-			IFNULL("G0PROJCODE",'') ,
-			IFNULL("G0PROJTXT",'')  ,
+			IFNULL("G0XMLXMS",'') as G0XMLXMS,
+			IFNULL("G0PROJCODE",'') as G0PROJCODE ,
+			IFNULL("G0PROJTXT",'')  as G0PROJTXT,
 			 --本年
 			  sum("K0BNYSJHJE")    as K0BNYSJHJE,      --本年预算
 			  sum("K0BNKYFPQCB")   as K0BNKYFPQCB,     --科研分配前成本-本年

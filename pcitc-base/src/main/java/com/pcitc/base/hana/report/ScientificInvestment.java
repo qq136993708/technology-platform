@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 public class ScientificInvestment implements Serializable{
-	 private static final long serialVersionUID = 1L;
+	
 	
 	    private String g0GSDM;//公司代码
 	    private String g0GSJC;//公司简称
@@ -44,8 +44,8 @@ public class ScientificInvestment implements Serializable{
 	    private BigDecimal k0LJSJDJJE;
 	    private BigDecimal k0LJYSJY;
 	    private BigDecimal k0LJZJSYBL;
-	    private BigDecimal aDD1;
-	    private BigDecimal aDD2;
+	    //private BigDecimal aDD1;
+	   // private BigDecimal aDD2;
 	    private BigDecimal k0ZTYSJE;
 	    
 	    
@@ -319,7 +319,7 @@ public class ScientificInvestment implements Serializable{
 		public void setK0LJZJSYBL(BigDecimal k0ljzjsybl) {
 			k0LJZJSYBL = k0ljzjsybl;
 		}
-		public BigDecimal getaDD1() {
+		/*public BigDecimal getaDD1() {
 			return aDD1;
 		}
 		public void setaDD1(BigDecimal aDD1) {
@@ -330,7 +330,7 @@ public class ScientificInvestment implements Serializable{
 		}
 		public void setaDD2(BigDecimal aDD2) {
 			this.aDD2 = aDD2;
-		}
+		}*/
 		public BigDecimal getK0ZTYSJE() {
 			return k0ZTYSJE;
 		}
