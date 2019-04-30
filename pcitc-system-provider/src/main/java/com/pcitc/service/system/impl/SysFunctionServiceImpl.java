@@ -464,4 +464,9 @@ public class SysFunctionServiceImpl implements SysFunctionService{
 		
 		return weight.toString();
 	}
+
+    @Override
+    public List<SysFunction> selectByExample(SysFunctionExample example) {
+        return functionDao.selectByExample(example);
+    }
 }

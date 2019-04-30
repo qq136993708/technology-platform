@@ -21,7 +21,9 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.netflix.discovery.converters.Auto;
 import com.pcitc.base.util.*;
+import com.pcitc.service.system.FileService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -78,6 +80,9 @@ import com.pcitc.utils.StringUtils;
 @Service("sysFile")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
 public class SysFileServiceImpl implements SysFileService {
+
+    @Autowired
+    private FileService fileService;
 
     @Autowired
     private SysFileMapper sysFileMapper;
@@ -548,7 +553,7 @@ public class SysFileServiceImpl implements SysFileService {
                 String strFileSuffix = "";
                 try {
                     // 获取文件MD5
-                    String strMd5 = FileUtil.getMD5ByInputStream(file.getInputStream());
+                    String strMd5 = fileService.getMD5ByInputStream(file.getInputStream());
                     // 查询数量
                     List<SysFile> sysFiles = getSysFileByMd5(strMd5);
                     if (sysFiles != null && sysFiles.size() > 0) {
@@ -593,7 +598,8 @@ public class SysFileServiceImpl implements SysFileService {
                         String filePath = dir.getAbsolutePath() + File.separator + savedName;
                         File serverFile = new File(filePath);
                         // 将文件写入到服务器
-                        FileUtil.copyInputStreamToFile(file.getInputStream(), serverFile);
+                        fileService.copyInputStreamToFile(file.getInputStream(), serverFile);
+//                        FileUtil.copyInputStreamToFile(file.getInputStream(), serverFile);
                         sysFile = new SysFile();
                         sysFile.setId(uuid);
                         sysFile.setFileName(filename);
@@ -623,7 +629,7 @@ public class SysFileServiceImpl implements SysFileService {
                         // 获取文件经纬度,创建时间
                         sysFile.setBak6(strCjsj);// 文件实际创建时间
                         if ("jpg".equals(strSuffix) || "jpeg".equals(strSuffix)) {
-                            String[] strings = FileUtil.getFileLatAndLong(sysFile.getFilePath(), new String[]{"GPS Longitude", "GPS Latitude", "Date/Time"});
+                            String[] strings = fileService.getFileLatAndLong(sysFile.getFilePath(), new String[]{"GPS Longitude", "GPS Latitude", "Date/Time"});
                             if (strings[0] != null && !"".equals(strings[0])) {
                                 sysFile.setBak8(strings[0] + "," + strings[1]);// 文件经纬度
                                 sysFile.setBak7(GetLocation.getLocationPosition(strings[0], strings[1]));// 地址
@@ -766,7 +772,7 @@ public class SysFileServiceImpl implements SysFileService {
         for (SysFile sysFile : fileList) {
             // 上传后预览 TODO 该预览样式暂时不支持theme:explorer的样式，后续可以再次扩展
             // 如果其他文件可预览txt、xml、html、pdf等 可在此配置
-            if (FileUtil.isImage(uploaderPath + File.separator + sysFile.getSavedName())) {
+            if (fileService.isImage(uploaderPath + File.separator + sysFile.getSavedName())) {
                 previews.add("<img src='." + sysFile.getFilePath().replace(File.separator, "/") + "' class='file-preview-image kv-preview-data' " + "style='width:auto;height:160px' alt='" + sysFile.getFileName() + " title='" + sysFile.getFileName() + "''>");
             } else {
                 previews.add("<div class='kv-preview-data file-preview-other-frame'><div class='file-preview-other'>" + "<span class='file-other-icon'>" + getFileIcon(sysFile.getFileName()) + "</span></div></div>");
@@ -799,7 +805,7 @@ public class SysFileServiceImpl implements SysFileService {
         for (SysFile sysFile : fileList) {
             // 上传后预览 TODO 该预览样式暂时不支持theme:explorer的样式，后续可以再次扩展
             // 如果其他文件可预览txt、xml、html、pdf等 可在此配置
-            if (FileUtil.isImage(uploaderPath + File.separator + sysFile.getSavedName())) {
+            if (fileService.isImage(uploaderPath + File.separator + sysFile.getSavedName())) {
                 previews.add("<img src='." + sysFile.getFilePath().replace(File.separator, "/") + "' class='file-preview-image kv-preview-data' " + "style='width:auto;height:160px' alt='" + sysFile.getFileName() + " title='" + sysFile.getFileName() + "''>");
             } else {
                 previews.add("<div class='kv-preview-data file-preview-other-frame'><div class='file-preview-other'>" + "<span class='file-other-icon'>" + getFileIcon(sysFile.getFileName()) + "</span></div></div>");
@@ -897,7 +903,7 @@ public class SysFileServiceImpl implements SysFileService {
                 fileNames[i] = sysFile.getFilePath();
             }
             // 文件压缩
-            String zipFileName = FileUtil.generateZipFileZdy(uploaderPath + File.separator + dir, dir + ".zip", fileNames);
+            String zipFileName = fileService.generateZipFileZdy(uploaderPath + File.separator + dir, dir + ".zip", fileNames);
             if (zipFileName != null) {
                 jsonObject.put("flag", "true");
             } else {
@@ -1073,7 +1079,7 @@ public class SysFileServiceImpl implements SysFileService {
             fileNames[i] = sysFile.getFilePath();
         }
         // 文件压缩
-        String zipFileName = FileUtil.generateZipFileZdy(uploaderPath + File.separator + dir, dir + ".zip", fileNames);
+        String zipFileName = fileService.generateZipFileZdy(uploaderPath + File.separator + dir, dir + ".zip", fileNames);
         // 文件发送
         InputStream is = null;
         OutputStream os = null;
@@ -1132,7 +1138,7 @@ public class SysFileServiceImpl implements SysFileService {
             deleteByPrimaryKey(sysFiles.get(i).getId());
             List<SysFile> sysFileByMd5 = this.getSysFileByMd5(sysFiles.get(i).getFileMd());
             if (sysFileByMd5 != null && sysFileByMd5.size() < 2) {
-                FileUtil.delFile(sysFiles.get(i).getFilePath());
+                fileService.delFile(sysFiles.get(i).getFilePath());
             }
         }
     }
@@ -1343,7 +1349,7 @@ public class SysFileServiceImpl implements SysFileService {
                     String filePath = dir.getAbsolutePath() + File.separator + savedName;
                     File serverFile = new File(filePath);
                     // 将文件写入到服务器
-                    FileUtil.copyInputStreamToFile(file.getInputStream(), serverFile);
+                    fileService.copyInputStreamToFile(file.getInputStream(), serverFile);
 
                     // file.transferTo(serverFile);
                     SysFile sysFile = new SysFile();

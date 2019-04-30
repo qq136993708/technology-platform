@@ -113,6 +113,21 @@
                 parent.$("#report").html(count);
                 console.log("report table");
                 console.log(res.data);
+                $(".openUrl").click(function () {
+                    var index=$(this).parents("tr").attr("data-index");
+                    layer.open({
+                        title : res.data[index].name,
+                        skin : 'layui-layer-lan',
+                        shadeClose : true,
+                        type : 2,
+                        fixed : false,
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        maxmin : false,
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        area : [ '70%', '60%' ],
+                        content : res.data[index].url
+                    });
+                });
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     var index = parseInt($(this).index() + 1);
                     $('tr').removeClass('layui-table-click');
@@ -128,22 +143,21 @@
                     });
                 });
 
-                $(document).off("click").on("click", ".onClickImg", function () {
-                    var dataId = $(this).attr("id");
-                    //附件文件配置ID
-                    publicMethods.viewAtt(dataId, param.id);
-                });
-                var param = {
-                    data: res.data,//数据
-                    element: ".layui-table-body table",// 当前的表格元素
-                    column: 5,//列数 从0开始
-                    field: "workOrderType",//当前数据的字段
-                    url: "/pageCommon/dic/ROOT_SGGL_GDGL_GDLX"//接口
-                };
-                publicMethods.dataDictionary(param);
+                // $(document).off("click").on("click", ".onClickImg", function () {
+                //     var dataId = $(this).attr("id");
+                //     //附件文件配置ID
+                //     publicMethods.viewAtt(dataId, param.id);
+                // });
+                // var param = {
+                //     data: res.data,//数据
+                //     element: ".layui-table-body table",// 当前的表格元素
+                //     column: 5,//列数 从0开始
+                //     field: "workOrderType",//当前数据的字段
+                //     url: "/pageCommon/dic/ROOT_SGGL_GDGL_GDLX"//接口
+                // };
+                // publicMethods.dataDictionary(param);
             });
         }
-
         renderTable();
         window.renderTable = renderTable;
         $(function () {
