@@ -86,6 +86,7 @@ public class JwtTokenUtil implements Serializable {
 	*/
 	public static SysUser getUserFromTokenByValue(String token) {
 		//token = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyTmFtZSI6IjEyMzQ1NiIsInJvbGVMaXN0IjpbXSwiZXhwIjoxNTM2MTMyODgxLCJ1c2VySWQiOiIxMjMifQ.g43ZCnLCty3Whzr4gb3jnS3bRxWxbujIFFQuru5Yxcs3GszG1R8MX4Axo2S-psRigIKrD8o4CTTk2nBmBHMhHw";
+		System.out.println("========token>" + token);
 		Claims claims;
 		try {
 			claims = Jwts.parser().setSigningKey("pcitcKey").parseClaimsJws(token).getBody();
