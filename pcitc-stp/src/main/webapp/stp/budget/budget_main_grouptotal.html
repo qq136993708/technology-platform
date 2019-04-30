@@ -26,6 +26,7 @@
         .doc-box{margin: 0 10px;}
         .doc-box p {height: 26px;line-height: 26px;}
         .doc-box ul li{line-height: 26px;}
+        .layui-table-header table thead tr th div{text-align: center;}
     </style>
 </head>
 <body>
@@ -94,8 +95,8 @@
                 	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
                 	<th lay-data="{field:'no',align: 'center', totalRowText: '合计'}" rowspan="2">序号</th>
                     <th lay-data="{field:'displayName', width: '20%'}" rowspan="2">承担单位</th>
-                   	<th lay-data="{align: 'center', width: '25%',totalRow: true}" colspan="3">${cnd}年经费预算</th>
-                    <th lay-data="{field:'total',align: 'right',totalRow: true}" rowspan="2">预算合计</th>
+                   	<th lay-data="{align:'center',width: '25%',totalRow: true}" colspan="3">${cnd}年经费预算</th>
+                    <th lay-data="{align:'right'field:'total',totalRow: true}" rowspan="2">预算合计</th>
                     <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年项目经费</th>
                     <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年重点实验室专项经费</th>
                 </tr>
