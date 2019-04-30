@@ -84,7 +84,7 @@ public class TaskClosureController extends BaseController {
 		Result resultsDate = new Result();
 		//ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPP_URL + taskId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
 		SreProjectTask sreProjectTask=EquipmentUtils.getSreProjectTask(taskId, restTemplate, httpHeaders);
-		sreProjectTask.setCloseStatus(Constants.TASK_CLOUSE);
+		sreProjectTask.setCloseStatus(Constants.OK_CLOUSE);
 		sreProjectTask.setCloseDate(new Date());
 		String  sre = EquipmentUtils.updateSreProjectTask(sreProjectTask, restTemplate, httpHeaders);
 		if(sre!=null && sre.equals(Constants.OK_CLOUSE)) {
