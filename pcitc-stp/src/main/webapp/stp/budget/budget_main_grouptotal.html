@@ -54,6 +54,7 @@
             <div class="tool-right">
                 <button class="layui-btn layui-btn-sm btn-decision" data-type="historyCompare">往年预算参考</button>
                 <button class="layui-btn layui-btn-sm btn-decision" data-type="historyView">历年参考数据</button>
+                <button class="layui-btn layui-btn-sm btn-decision" data-type="resetJzEvent">重置结转经费</button>
             </div>
         </div>
     </div>
@@ -96,7 +97,7 @@
                 	<th lay-data="{field:'no',align: 'center', totalRowText: '合计'}" rowspan="2">序号</th>
                     <th lay-data="{field:'displayName', width: '20%'}" rowspan="2">承担单位</th>
                    	<th lay-data="{align:'center',width: '25%',totalRow: true}" colspan="3">${cnd}年经费预算</th>
-                    <th lay-data="{align:'right'field:'total',totalRow: true}" rowspan="2">预算合计</th>
+                    <th lay-data="{align:'right',field:'total',totalRow: true}" rowspan="2">预算合计</th>
                     <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年项目经费</th>
                     <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年重点实验室专项经费</th>
                 </tr>
@@ -303,6 +304,19 @@
                         , area: ['80%', '90%']
                         , content: '/budget/budget_create_grouptotal?nd='+cu_date
                     });
+                },
+                resetJzEvent:function(){
+               		var lodingMsg = layer.msg('处理中....',{time: 15*1000});
+   					publicMethods.ajaxAsyncPost("/budget/select-grouptotal-plandata", {"budget_info_id":curent_budget_info.dataId}, function (data) {
+   						layer.msg('加载成功!',{time: 500});
+   	                    $.each(data,function(index,dt){
+   	                    	console.log(data[index]);
+   	                    });
+	                	//预分配数
+	                	calculationSurplusMoney();
+						//刷新表格
+   	                  	reloadTable('dataTable',curent_tabel_data);
+   	                });
                 },
                 addEvent: function() {
                 	if($("#data_version").val()==""){

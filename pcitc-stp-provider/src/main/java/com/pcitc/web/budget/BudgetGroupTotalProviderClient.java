@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -154,32 +155,48 @@ public class BudgetGroupTotalProviderClient
 					map.put("last_year_zxjf", "无");
 				}
 			}
-			/*//获取二级机构的计划数据
-			List<BudgetGroupTotal> totals = budgetGroupTotalService.selectBudgetGroupTotalByInfoId(param.getParam().get("budget_info_id").toString());
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return data;
+	}
+	@ApiOperation(value="集团公司预算-预算计划数据",notes="检索集团预算表计划数据")
+	@RequestMapping(value = "/stp-provider/budget/select-grouptotal-plandata/{budgetInfoId}", method = RequestMethod.POST)
+	public Object selectLastGroupTotalItemJz(@PathVariable("budgetInfoId") String budgetInfoId) 
+	{
+		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
+		try 
+		{
+			BudgetInfo info = budgetInfoService.selectBudgetInfo(budgetInfoId);
+			List<BudgetGroupTotal> totals = budgetGroupTotalService.selectBudgetGroupTotalByInfoId(budgetInfoId);
+			
+			List<BudgetGroupTotal> items = totals.stream().filter(a -> a.getLevel()==0).collect(Collectors.toList());
+			List<BudgetGroupTotal> compnays = totals.stream().filter(a -> a.getLevel()>0).collect(Collectors.toList());
+			
+			System.out.println("items："+JSON.toJSONString(items));
+			System.out.println("compnays："+JSON.toJSONString(compnays));
 			
 			Map<String,Set<String>> itemMap = new HashMap<String,Set<String>>();
 			Set<String> codes = new HashSet<String>();
-			for(BudgetGroupTotal total:totals) {
-				if(total.getLevel() > 0) {
-					if(StringUtils.isNotBlank(total.getDisplayCode())) {
-						codes.add(total.getDisplayCode());
-					}
-				}else {
-					//一级item下包含的二级item列表
-					itemMap.put(total.getDataId(), new HashSet<String>());
-					for(BudgetGroupTotal t:totals) {
-						if(t.getParentDataId() != null && t.getParentDataId().equals(total.getDataId())) {
-							if(StringUtils.isNotBlank(t.getDisplayCode())) {
-								itemMap.get(total.getDataId()).add(t.getDisplayCode());
-							}
-						}
+			for(BudgetGroupTotal compnay:compnays) {
+				if(StringUtils.isNotBlank(compnay.getDisplayCode())) {
+					codes.add(compnay.getDisplayCode());
+				}
+			}
+			for(BudgetGroupTotal item:items) {
+				itemMap.put(item.getDataId(), new HashSet<String>());
+				for(BudgetGroupTotal compnay:compnays) {
+					if(item.getDataId().equals(compnay.getParentDataId())) {
+						itemMap.get(item.getDataId()).add(compnay.getDisplayCode());
 					}
 				}
 			}
-			String nd = param.getParam().get("nd").toString();
-			//处理计划数据
-			Map<String,List<OutProjectPlan>> planMap = budgetGroupTotalService.selectComparePlanData(codes,nd);
-			for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) {
+			System.out.println("itemMap："+JSON.toJSONString(itemMap));
+			
+			Map<String,List<OutProjectPlan>> planMap = budgetGroupTotalService.selectComparePlanData(codes,info.getNd());
+			for(java.util.Iterator<BudgetGroupTotal> iter = items.iterator();iter.hasNext();) {
 				Map<String,Object> map = MyBeanUtils.java2Map(iter.next());
 				String dataId = map.get("dataId").toString();
 				if(itemMap.get(dataId) != null && itemMap.get(dataId).size()>0) {
@@ -194,40 +211,22 @@ public class BudgetGroupTotalProviderClient
 							}
 						}
 					}
-					map.put("plan_money", ysjes.intValue());
+					map.put("xmjfJz", ysjes.intValue());
 				}else {
-					map.put("plan_money", "无");
+					map.put("xmjfJz", "无");
 				}
+				rsdata.add(map);
 			}
-			//处理项目完成金额
-			Map<String,List<OutProjectInfo>> projectMap = budgetGroupTotalService.selectCompareProjectInfoData(codes,(new Integer(nd)-1)+"");
-			for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) {
-				Map<String,Object> map = MyBeanUtils.java2Map(iter.next());
-				String dataId = map.get("dataId").toString();
-				if(itemMap.get(dataId) != null && itemMap.get(dataId).size()>0) {
-					Double jhjes = 0d;
-					Set<String> codeset = itemMap.get(dataId);
-					for(String code:codeset) 
-					{
-						List<OutProjectInfo> plans = projectMap.get(code);
-						if(plans != null && plans.size()>0) {
-							for(OutProjectInfo plan:plans) {
-								jhjes += new Double(plan.getYsje()==null?"0":plan.getYsje());
-							}
-						}
-					}
-					map.put("last_year_end", jhjes.intValue());
-				}else {
-					map.put("last_year_end", "无");
-				}
-			}*/
-		}
-		catch (Exception e)
+			System.out.println("rsdata："+JSON.toJSONString(rsdata));
+		} 
+		catch (Exception e) 
 		{
 			e.printStackTrace();
 		}
-		return data;
+		return rsdata;
 	}
+	
+	
 	
 	@ApiOperation(value="集团公司预算-持久化预算项",notes="添加或更新集团预算表项目。")
 	@RequestMapping(value = "/stp-provider/budget/budget-persistence-grouptotal-item", method = RequestMethod.POST)
