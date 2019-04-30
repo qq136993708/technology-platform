@@ -35,6 +35,7 @@
 </div>
 
 <div class="tableBox" >
+<div class="btnGroup" style="float:right;margin-right:20px"><button  onclick="exput_excel()" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg" >导出EXCEL</<button></div>
 <h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt"></label>${monthstr}${companyName}详情表</h3>
     <table id="processdef-table" class="layui-hide" lay-filter="tableEvent">
 </div>
@@ -125,6 +126,7 @@ layui.config({
     		  shade: [0.1,'#fff'] 
     		}); 
     	
+        
       //渲染
       table.render({
         elem: '#processdef-table',
@@ -154,7 +156,6 @@ layui.config({
             {field:'g0GSJC',            title:'院所',        style:'cursor: pointer;',align: 'center', width: '100'},
             {field:'g0PROJCODE',        title:'项目编号',        style:'cursor: pointer;',align: 'center', width: '100'},
             {field:'g0PROJTXT',         title:'项目名称',        style:'cursor: pointer;',align: 'left', width: '300'},
-          
             {field:'k0LJGLFPHJESR',     title:'累计收入',        style:'cursor: pointer;',align: 'right', width: '100'},
             {field:'k0ZTYSJE',          title:'计划总投资 ',        style:'cursor: pointer;',align: 'right', width: '100'},
             {field:'k0LJGLFPHJECB',     title:'累计下达投资额 ',        style:'cursor: pointer;',align: 'right', width: '100'},
@@ -192,7 +193,19 @@ layui.config({
       
 }
    
-    
+
+    function exput_excel()
+    {
+    	var companyCode=$('#companyCode').val();
+    	var month=$('#month').val();
+    	var g0PROJCODE=$('#g0PROJCODE').val();
+    	var g0PROJTXT=$('#g0PROJTXT').val();
+    	
+	      
+	      
+    	window.open("/hxktqcbtjb_detail_out_excel?month="+month+"&companyCode="+companyCode+"&g0PROJCODE="+g0PROJCODE+"&g0PROJTXT="+g0PROJTXT);
+    } 
+       
    
    
 

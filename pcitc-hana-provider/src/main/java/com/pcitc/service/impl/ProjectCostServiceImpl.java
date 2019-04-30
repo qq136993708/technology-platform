@@ -67,6 +67,13 @@ public class ProjectCostServiceImpl implements IProjectCostService {
 	  	}
 	  
 	  
+	  public List<ProjectCost>    getKytztjbData_detail_excel(Map map)throws Exception
+	  {
+		  List<ProjectCost> list = projectCostMapper.getKytztjbData_detail(map);
+		  
+		  return list;
+	  }
+	  
 	  
 	  //科技经费统计表
 	  public List<ProjectCost> getKjjftjbData(Map map)throws Exception
@@ -105,6 +112,13 @@ public class ProjectCostServiceImpl implements IProjectCostService {
 	  		data.setCount(totalRecords);
 	  	    return data;
 	  	}
+	  
+	  public List<ProjectCost>    getKjjftjbData_detail_excel(Map map)throws Exception
+	  {
+		  List<ProjectCost> list = projectCostMapper.getKjjftjbData_detail(map);
+		  return list;
+	  }
+	  
 	  
 	  //横向课题全成本统计表
 	  public List<ProjectCost> getHxktqcbtjbData(Map map)throws Exception
@@ -146,7 +160,12 @@ public class ProjectCostServiceImpl implements IProjectCostService {
 	  		data.setCount(totalRecords);
 	  	    return data;
 	  	}
-	  
+	  public List<ProjectCost>    getHxktqcbtjbData_detail_excel(Map map)throws Exception
+	  {
+		  List<ProjectCost> list = projectCostMapper.getHxktqcbtjbData_detail(map);
+		  
+		  return list;
+	  }
 	 
 	  
 	 
