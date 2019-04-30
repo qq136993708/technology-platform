@@ -4,7 +4,7 @@
  @Author：贤心
  @Site：http://www.layui.com/admin/
  @License：LPPL
- 
+
  */
 *{font-family: "arial-black", "微软雅黑", "黑体"}
 html #layuicss-layuiAdmin{display: none; position: absolute; width: 1989px;}
@@ -854,9 +854,10 @@ html{background-color: #f2f2f2; color: #666;}
 .visualizationSearchBox .btn-function a:nth-child(3n){background: #aec95b}
 .visualizationSearchBox .btn-function a:nth-child(3n+1){background: #f7a35c}
 .paiNumber{font-size: 14px;}
-.layui-layer-lan .layui-layer-title{background-color: #00a3b4 !important}
+.layui-layer-lan .layui-layer-title{background-color: #1890ff !important}
 .layui-nav-tree .layui-this{background: none !important;}
-.layui-layer-btn .layui-layer-btn0 {border-color: #00a3b4 !important;background-color: #00a3b4 !important;color: #fff !important;}
+.layui-layer-btn .layui-layer-btn0 {border-color: #1890ff !important;
+    background-color: #1890ff !important;color: #fff !important;}
 
 .thirdChild {background: none !important;border-top:1px solid #ffffff;}
 .layui-nav-tree .layui-this .thirdChild{color: #666 !important; background: #ededed !important;
@@ -942,3 +943,8 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-nav-tree>li:nth-child(8).layui-this>a{
     background: url(/layuiadmin/layui/images/tree_30.png) 14px 14px no-repeat #1890ff !important;}
 .layadmin-pagetabs .layui-tab-title li:after{background-color: #e6f7ff !important;}
+.layui-leader .layui-header .layui-nav .layui-nav-item{height: 56px;line-height: 56px;}
+.layui-leader .chat{background: url("/layuiadmin/layui/images/stpicon_01.png")  0px 22px no-repeat;}
+.layui-leader .deal{background: url("/layuiadmin/layui/images/stpicon_02.png")  0px 22px no-repeat;}
+.layui-leader .notify{background: url("/layuiadmin/layui/images/stpicon_03.png")  0px 22px no-repeat;}
+.layui-leader .QRCode{margin-top: 6px;}
