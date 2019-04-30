@@ -395,15 +395,14 @@ layui.define(['jquery'],function (e) {
         return html;
     };
     o.searchE = function(d){
-        console.log(d)
         var html=" <div class='layui-div'>" +
-            "        <a href='"+d.reportUrl+"' target='_blank'>"+d.reportName+"</a>" +
+            "        <a class='openUrl'>"+d.name+"</a>" +
             "        <div class='c-row c-gap-top-small'>" +
-            "            <a href='"+d.reportUrl+"' target='_blank'>" +
+            "            <a class='openUrl'>" +
             "                <img src='/layuiadmin/layui/images/icon-seach-j.png' alt=''>" +
             "            </a>" +
             "            <div class='c-span18 c-span-last'>" +
-            "                <p>"+d.reportDesc+"</p>" +
+            "                <p>"+"</p>" +
             "            </div>" +
             "        </div>" +
             "    </div>";
