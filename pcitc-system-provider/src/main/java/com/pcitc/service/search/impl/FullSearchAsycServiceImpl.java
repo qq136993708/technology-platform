@@ -11,6 +11,8 @@ import com.pcitc.base.hana.report.H1AMKYSY100117;
 import com.pcitc.base.report.SysReportStp;
 import com.pcitc.base.report.SysReportStpExample;
 import com.pcitc.base.stp.out.*;
+import com.pcitc.base.system.SysFunction;
+import com.pcitc.base.system.SysFunctionExample;
 import com.pcitc.mapper.out.OutAppraisalMapper;
 import com.pcitc.mapper.out.OutProjectInfoMapper;
 import com.pcitc.mapper.out.OutRewardMapper;
@@ -18,6 +20,7 @@ import com.pcitc.service.expert.TfmTypeService;
 import com.pcitc.service.report.SysReportStpService;
 import com.pcitc.service.search.FullSearchAsycService;
 import com.pcitc.service.search.FullSearchService;
+import com.pcitc.service.system.SysFunctionService;
 import com.pcitc.utils.StringUtils;
 import com.pcitc.web.feign.HomeProviderClient;
 import com.pcitc.web.feign.ZjkBaseInfoServiceClient;
@@ -178,29 +181,38 @@ public class FullSearchAsycServiceImpl implements FullSearchAsycService {
         return new AsyncResult<LayuiTableData>(data);
     }
 
+
+    @Autowired
+    private SysFunctionService sysFunctionService;
+
     @Override
     @Async
     public Future<LayuiTableData> getTableDataReport(LayuiTableParam param) {
-        SysReportStpExample example = new SysReportStpExample();
-        SysReportStpExample.Criteria c = example.createCriteria();
+        SysFunctionExample example = new SysFunctionExample();
+        SysFunctionExample.Criteria c = example.createCriteria();
 
         Object keywords = param.getParam().get("keyword");
         if (keywords != null && !"".equals(keywords)) {
 //            String[] strings = {"report_name","report_desc","report_module"};
 //            c.andOrColumn(keywords.toString(),strings,"like");
 //            c.andReportNameLike("%"+keywords.toString()+"%");
-            example.or().andReportNameLike("%" + keywords.toString() + "%");
-            example.or().andReportModuleLike("%" + keywords.toString() + "%");
-            example.or().andReportDescLike("%" + keywords.toString() + "%");
+//            example.or().andReportNameLike("%" + keywords.toString() + "%");
+//            example.or().andReportModuleLike("%" + keywords.toString() + "%");
+//            example.or().andReportDescLike("%" + keywords.toString() + "%");
+//            example.or().andCodeLike("%"+keywords.toString()+"%");
+//            example.or().andNameLike("%"+keywords.toString()+"%");
+            c.andNameLike("%"+keywords.toString()+"%");
         }
+        c.andCodeLike( "1004%");
+        c.andUrlNotEqualTo("#");
 
         int pageSize = param.getLimit();
         int pageStart = (param.getPage() - 1) * pageSize;
         int pageNum = pageStart / pageSize + 1;
         PageHelper.startPage(pageNum, pageSize);
-        List<SysReportStp> list = sysReportStpService.selectByExample(example);
+        List<SysFunction> list = sysFunctionService.selectByExample(example);
 
-        PageInfo<SysReportStp> pageInfo = new PageInfo<SysReportStp>(list);
+        PageInfo<SysFunction> pageInfo = new PageInfo<SysFunction>(list);
 
 //        for (int i = 0; i < pageInfo.getList().size(); i++) {
 //            pageInfo.getList().get(i).setBak1("report");

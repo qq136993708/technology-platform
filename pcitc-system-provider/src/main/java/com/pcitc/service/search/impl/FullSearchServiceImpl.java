@@ -15,6 +15,8 @@ import com.pcitc.base.report.SysReportStpExample;
 import com.pcitc.base.stp.out.*;
 import com.pcitc.base.system.SysFile;
 import com.pcitc.base.system.SysFileVo;
+import com.pcitc.base.system.SysFunction;
+import com.pcitc.base.system.SysFunctionExample;
 import com.pcitc.base.util.*;
 import com.pcitc.mapper.out.OutAppraisalMapper;
 import com.pcitc.mapper.out.OutProjectInfoMapper;
@@ -25,6 +27,7 @@ import com.pcitc.service.report.SysReportStpService;
 import com.pcitc.service.search.FullSearchAsycService;
 import com.pcitc.service.search.FullSearchService;
 import com.pcitc.service.system.SysFileService;
+import com.pcitc.service.system.SysFunctionService;
 import com.pcitc.utils.StringUtils;
 import com.pcitc.web.feign.HomeProviderClient;
 import com.pcitc.web.feign.ZjkBaseInfoServiceClient;
@@ -381,29 +384,37 @@ public class FullSearchServiceImpl implements FullSearchService {
 
     @Autowired
     private SysReportStpService sysReportStpService;
+    @Autowired
+    private SysFunctionService sysFunctionService;
 
     @Override
     public LayuiTableData getTableDataReport(LayuiTableParam param) {
-        SysReportStpExample example = new SysReportStpExample();
-        SysReportStpExample.Criteria c = example.createCriteria();
+        SysFunctionExample example = new SysFunctionExample();
+        SysFunctionExample.Criteria c = example.createCriteria();
 
         Object keywords = param.getParam().get("keyword");
         if (keywords != null && !"".equals(keywords)) {
 //            String[] strings = {"report_name","report_desc","report_module"};
 //            c.andOrColumn(keywords.toString(),strings,"like");
 //            c.andReportNameLike("%"+keywords.toString()+"%");
-            example.or().andReportNameLike("%" + keywords.toString() + "%");
-            example.or().andReportModuleLike("%" + keywords.toString() + "%");
-            example.or().andReportDescLike("%" + keywords.toString() + "%");
+//            example.or().andReportNameLike("%" + keywords.toString() + "%");
+//            example.or().andReportModuleLike("%" + keywords.toString() + "%");
+//            example.or().andReportDescLike("%" + keywords.toString() + "%");
+//            example.or().andCodeLike("%"+keywords.toString()+"%");
+//            c.andCodeLike( keywords.toString() + "%");
+//            example.or().andNameLike("%"+keywords.toString()+"%");
+            c.andNameLike("%"+keywords.toString()+"%");
         }
+        c.andCodeLike( "1004%");
+        c.andUrlNotEqualTo("#");
 
         int pageSize = param.getLimit();
         int pageStart = (param.getPage() - 1) * pageSize;
         int pageNum = pageStart / pageSize + 1;
         PageHelper.startPage(pageNum, pageSize);
-        List<SysReportStp> list = sysReportStpService.selectByExample(example);
+        List<SysFunction> list = sysFunctionService.selectByExample(example);
 
-        PageInfo<SysReportStp> pageInfo = new PageInfo<SysReportStp>(list);
+        PageInfo<SysFunction> pageInfo = new PageInfo<SysFunction>(list);
 
 //        for (int i = 0; i < pageInfo.getList().size(); i++) {
 //            pageInfo.getList().get(i).setBak1("report");
@@ -515,30 +526,30 @@ public class FullSearchServiceImpl implements FullSearchService {
         HashMap<String, Object> hashmap = new HashMap<String, Object>();
         listInfo = getListInfo(info);
 
-        if (param.getOrderKey()!=null&&!StrUtil.isBlankOrNull(param.getOrderKey().toString())) {
+        if (param.getOrderKey() != null && !StrUtil.isBlankOrNull(param.getOrderKey().toString())) {
             // 排序，因为select后有关键字，自己手动在sql中调整。否则直接PageHelper.orderBy(param.getOrderKey().toString()
             // + " " + param.getOrderType());
             hashmap.put("orderKey", param.getOrderKey());
             hashmap.put("orderType", param.getOrderType());
         }
-        if (param.getParam().get("xmmc")!=null&&!StringUtils.isBlank(param.getParam().get("xmmc")+"")) {
+        if (param.getParam().get("xmmc") != null && !StringUtils.isBlank(param.getParam().get("xmmc") + "")) {
             hashmap.put("xmmc", param.getParam().get("xmmc"));
             listInfo.removeIf(value -> value.equals("xmmc"));
         }
 
-        if (param.getParam().get("hth")!=null&&!StringUtils.isBlank(param.getParam().get("hth")+"")) {
+        if (param.getParam().get("hth") != null && !StringUtils.isBlank(param.getParam().get("hth") + "")) {
             hashmap.put("hth", param.getParam().get("hth"));
             listInfo.removeIf(value -> value.equals("hth"));
         }
-        if (param.getParam().get("qdbz")!=null&&!StringUtils.isBlank(param.getParam().get("qdbz")+"")) {
+        if (param.getParam().get("qdbz") != null && !StringUtils.isBlank(param.getParam().get("qdbz") + "")) {
             hashmap.put("qdbz", param.getParam().get("qdbz"));
             listInfo.removeIf(value -> value.equals("qdbz"));
         }
         // 资本性、费用性
-        if (param.getParam().get("define1")!=null&&!StringUtils.isBlank(param.getParam().get("define1")+"")) {
+        if (param.getParam().get("define1") != null && !StringUtils.isBlank(param.getParam().get("define1") + "")) {
             List define1 = new ArrayList();
             String[] temS = param.getParam().get("define1").toString().split(",");
-            for (int i = 0; i<temS.length; i++) {
+            for (int i = 0; i < temS.length; i++) {
                 define1.add(temS[i]);
             }
             hashmap.put("define1", define1);
@@ -547,10 +558,10 @@ public class FullSearchServiceImpl implements FullSearchService {
         }
 
         // 8大院等细分结构
-        if (param.getParam().get("define2")!=null&&!StringUtils.isBlank(param.getParam().get("define2")+"")) {
+        if (param.getParam().get("define2") != null && !StringUtils.isBlank(param.getParam().get("define2") + "")) {
             List define2 = new ArrayList();
             String[] temS = param.getParam().get("define2").toString().split(",");
-            for (int i = 0; i<temS.length; i++) {
+            for (int i = 0; i < temS.length; i++) {
                 define2.add(temS[i]);
             }
             hashmap.put("define2", define2);
@@ -558,10 +569,10 @@ public class FullSearchServiceImpl implements FullSearchService {
 
         }
         // 各个专业处
-        if (param.getParam().get("define10")!=null&&!StringUtils.isBlank(param.getParam().get("define10")+"")) {
+        if (param.getParam().get("define10") != null && !StringUtils.isBlank(param.getParam().get("define10") + "")) {
             List define10 = new ArrayList();
             String[] temS = param.getParam().get("define10").toString().split(",");
-            for (int i = 0; i<temS.length; i++) {
+            for (int i = 0; i < temS.length; i++) {
                 define10.add(temS[i]);
             }
             hashmap.put("define10", define10);
@@ -570,10 +581,10 @@ public class FullSearchServiceImpl implements FullSearchService {
         }
 
         // 费用来源
-        if (param.getParam().get("define11")!=null&&!StringUtils.isBlank(param.getParam().get("define11")+"")) {
+        if (param.getParam().get("define11") != null && !StringUtils.isBlank(param.getParam().get("define11") + "")) {
             List define11 = new ArrayList();
             String[] temS = param.getParam().get("define11").toString().split(",");
-            for (int i = 0; i<temS.length; i++) {
+            for (int i = 0; i < temS.length; i++) {
                 define11.add(temS[i]);
             }
             hashmap.put("define11", define11);
@@ -582,10 +593,10 @@ public class FullSearchServiceImpl implements FullSearchService {
         }
 
         // 公司性质，和out_unit本质一致，公司本质的属性，和合同没关系
-        if (param.getParam().get("define12")!=null&&!StringUtils.isBlank(param.getParam().get("define12")+"")) {
+        if (param.getParam().get("define12") != null && !StringUtils.isBlank(param.getParam().get("define12") + "")) {
             List define12 = new ArrayList();
             String[] temS = param.getParam().get("define12").toString().split(",");
-            for (int i = 0; i<temS.length; i++) {
+            for (int i = 0; i < temS.length; i++) {
                 define12.add(temS[i]);
             }
             hashmap.put("define12", define12);
@@ -594,10 +605,10 @@ public class FullSearchServiceImpl implements FullSearchService {
         }
 
         // 国家项目、重大专项、重点项目、其他项目
-        if (param.getParam().get("project_property")!=null&&!StringUtils.isBlank(param.getParam().get("project_property")+"")) {
+        if (param.getParam().get("project_property") != null && !StringUtils.isBlank(param.getParam().get("project_property") + "")) {
             List project_property = new ArrayList();
             String[] temS = param.getParam().get("project_property").toString().split(",");
-            for (int i = 0; i<temS.length; i++) {
+            for (int i = 0; i < temS.length; i++) {
                 project_property.add(temS[i]);
             }
             hashmap.put("project_property", project_property);
@@ -606,11 +617,11 @@ public class FullSearchServiceImpl implements FullSearchService {
         }
 
         // 一级单位（直属院、分子公司等）
-        if (param.getParam().get("type_flag")!=null&&!StringUtils.isBlank(param.getParam().get("type_flag")+"")) {
+        if (param.getParam().get("type_flag") != null && !StringUtils.isBlank(param.getParam().get("type_flag") + "")) {
 
             List type_flag = new ArrayList();
             String[] temS = param.getParam().get("type_flag").toString().split(",");
-            for (int i = 0; i<temS.length; i++) {
+            for (int i = 0; i < temS.length; i++) {
                 type_flag.add(temS[i]);
             }
             hashmap.put("type_flag", type_flag);
@@ -619,10 +630,10 @@ public class FullSearchServiceImpl implements FullSearchService {
         }
 
         // 装备的各种技术类型
-        if (param.getParam().get("zylb")!=null&&!StringUtils.isBlank(param.getParam().get("zylb")+"")) {
+        if (param.getParam().get("zylb") != null && !StringUtils.isBlank(param.getParam().get("zylb") + "")) {
             List zylb = new ArrayList();
             String[] temS = param.getParam().get("zylb").toString().split(",");
-            for (int i = 0; i<temS.length; i++) {
+            for (int i = 0; i < temS.length; i++) {
                 zylb.add(temS[i]);
             }
             hashmap.put("zylb", zylb);
@@ -631,10 +642,10 @@ public class FullSearchServiceImpl implements FullSearchService {
         }
 
         // 各个处室
-        if (param.getParam().get("zycmc")!=null&&!StringUtils.isBlank(param.getParam().get("zycmc")+"")) {
+        if (param.getParam().get("zycmc") != null && !StringUtils.isBlank(param.getParam().get("zycmc") + "")) {
             List zycmc = new ArrayList();
             String[] temS = param.getParam().get("zycmc").toString().split(",");
-            for (int i = 0; i<temS.length; i++) {
+            for (int i = 0; i < temS.length; i++) {
                 zycmc.add(temS[i]);
             }
             hashmap.put("zycmc", zycmc);
@@ -642,36 +653,36 @@ public class FullSearchServiceImpl implements FullSearchService {
 
         }
 
-        if (param.getParam().get("nd")!=null&&!StringUtils.isBlank(param.getParam().get("nd")+"")) {
+        if (param.getParam().get("nd") != null && !StringUtils.isBlank(param.getParam().get("nd") + "")) {
             hashmap.put("nd", param.getParam().get("nd"));
             listInfo.removeIf(value -> value.equals("nd"));
 
         }
-        System.out.println("1234>>>>>>>>>ysnd"+param.getParam().get("ysnd"));
-        System.out.println("1234>>>>>>>>>zycmc"+param.getParam().get("zycmc"));
-        System.out.println("1234>>>>>>>>>zylb"+param.getParam().get("zylb"));
-        System.out.println("1234>>>>>>>>>type_flag"+param.getParam().get("type_flag"));
-        System.out.println("1234>>>>>>>>>define1"+param.getParam().get("define1"));
-        System.out.println("1234>>>>>>>>>define2"+param.getParam().get("define2"));
-        System.out.println("1234>>>>>>>>>qdbz"+param.getParam().get("qdbz"));
+        System.out.println("1234>>>>>>>>>ysnd" + param.getParam().get("ysnd"));
+        System.out.println("1234>>>>>>>>>zycmc" + param.getParam().get("zycmc"));
+        System.out.println("1234>>>>>>>>>zylb" + param.getParam().get("zylb"));
+        System.out.println("1234>>>>>>>>>type_flag" + param.getParam().get("type_flag"));
+        System.out.println("1234>>>>>>>>>define1" + param.getParam().get("define1"));
+        System.out.println("1234>>>>>>>>>define2" + param.getParam().get("define2"));
+        System.out.println("1234>>>>>>>>>qdbz" + param.getParam().get("qdbz"));
 
-        if (param.getParam().get("ysnd")!=null&&!StringUtils.isBlank(param.getParam().get("ysnd")+"")) {
+        if (param.getParam().get("ysnd") != null && !StringUtils.isBlank(param.getParam().get("ysnd") + "")) {
             hashmap.put("ysnd", param.getParam().get("ysnd"));
             listInfo.removeIf(value -> value.equals("ysnd"));
 
         }
 
         // 新开课题结转课题标志
-        if (param.getParam().get("ktlx")!=null&&!StringUtils.isBlank(param.getParam().get("ktlx")+"")) {
+        if (param.getParam().get("ktlx") != null && !StringUtils.isBlank(param.getParam().get("ktlx") + "")) {
             hashmap.put("ktlx", param.getParam().get("ktlx"));
             listInfo.removeIf(value -> value.equals("ktlx"));
 
         }
 
         list = outProjectPlanMapper.selectProjectPlanByCond(hashmap);
-        System.out.println("1>>>>>>>>>查询分页结果"+list.size());
+        System.out.println("1>>>>>>>>>查询分页结果" + list.size());
         PageInfo<OutProjectPlan> pageInfo = new PageInfo<OutProjectPlan>(list);
-        System.out.println("2>>>>>>>>>查询分页结果"+pageInfo.getList().size());
+        System.out.println("2>>>>>>>>>查询分页结果" + pageInfo.getList().size());
 
         LayuiTableData data = new LayuiTableData();
         if (keywords != null && !"".equals(keywords) && listInfo.size() > 0) {
