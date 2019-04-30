@@ -138,11 +138,11 @@ public class BudgetGroupTotalProviderClient
 			if(lastInfo != null) {
 				lastTotals = budgetGroupTotalService.selectBudgetGroupTotalByInfoId(lastInfo.getDataId());
 			}
-			System.out.println(JSON.toJSONString(lastTotals));
+			//System.out.println(JSON.toJSONString(lastTotals));
 			for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) {
 				Map<String,Object> map = MyBeanUtils.java2Map(iter.next());
 				String displayName = map.get("displayName").toString();
-				System.out.println("displayName:"+displayName);
+				//System.out.println("displayName:"+displayName);
 				Optional<BudgetGroupTotal> rs = lastTotals.stream().filter(a -> displayName.equals(a.getDisplayName())).findFirst();
 				if(rs != null && rs.isPresent()) {
 					map.put("last_year_total", rs.get().getTotal());
