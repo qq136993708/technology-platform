@@ -654,11 +654,14 @@ public class TaskProviderClient {
 		
 		// 回退时，方便回到当初指定的审批人
 		List currAuditUser = (List) taskVar.get("auditor");
-		if (!currAuditUser.contains(workflowVo.getAuditorId())) {
-			// 本次任务审批人如果不包含当前人，可能当前人是被委托人
-			currAuditUser.add(workflowVo.getAuditorId());
+		if (currAuditUser != null) {
+			if (!currAuditUser.contains(workflowVo.getAuditorId())) {
+				// 本次任务审批人如果不包含当前人，可能当前人是被委托人
+				currAuditUser.add(workflowVo.getAuditorId());
+			}
+			nextVar.put(processInstance.getActivityId() + "-auditor", currAuditUser);
 		}
-		nextVar.put(processInstance.getActivityId() + "-auditor", currAuditUser);
+		
 		System.out.println("=========3回退时=======----------" + processInstance.getActivityId());
 		System.out.println("=========3回退时=======----------" + taskVar.get("auditor"));
 		for (String key : taskVar.keySet()) {
@@ -1795,10 +1798,13 @@ public class TaskProviderClient {
 			// 正在待办的任务都处理了，处理前，强行把当前任务的下一个节点设置成要恢复的任务节点
 			taskService.claim(currTask.getId(), null);
 			variables.put(currTask.getId(), auditor+"审批撤回");
-			System.out.println(historicTaskInstance.getTaskDefinitionKey() + "---------删除的任务节点id---------"+variables.get(historicTaskInstance.getTaskDefinitionKey() + "-auditor"));
-			//variables.put("auditor", variables.get(historicTaskInstance.getTaskDefinitionKey() + "-auditor"));
-			List temList = (ArrayList)variables.get(historicTaskInstance.getTaskDefinitionKey() + "-auditor");
-			variables.put("auditor", temList);
+			Object temObj = variables.get(historicTaskInstance.getTaskDefinitionKey() + "-auditor");
+			
+			if (temObj != null) {
+				List temList = (ArrayList)variables.get(historicTaskInstance.getTaskDefinitionKey() + "-auditor");
+				variables.put("auditor", temList);
+			}
+			
 			
 			taskService.complete(currTask.getId(), variables);
 			historyService.deleteHistoricTaskInstance(currTask.getId());
