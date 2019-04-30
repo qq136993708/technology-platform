@@ -52,6 +52,40 @@ public class ProjectCostProvideClient
 	}
 	
 	
+	@ApiOperation(value = "科研投资统计表-excel", notes = "科研投资统计表-excel")
+	@RequestMapping(value = "/kytztjb_detail_out_excel", method = RequestMethod.POST)
+	public JSONArray kytztjb_detail_out_excel(@ApiParam(value="月份:month如201812,公司代码:companyCode",required=true)@RequestBody String paramsJson) throws Exception {
+		
+		System.out.println(" paramsJson=" + paramsJson);
+		JSONObject jo = JSONObject.parseObject(paramsJson);
+		String month = jo.getString("month");
+		String companyCode = jo.getString("companyCode");
+		String g0PROJCODE=getJSONObjectParam(jo, "g0PROJCODE","");
+		String g0PROJTXT=getJSONObjectParam(jo, "g0PROJTXT","");
+
+		Map map = new HashMap();
+		map.put("month", month);
+		map.put("companyCode", companyCode);
+		map.put("g0PROJCODE", g0PROJCODE);
+		map.put("g0PROJTXT", g0PROJTXT);
+		
+		List<ProjectCost> list = scientificFundsService.getKytztjbData_detail_excel(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+		return json;
+	}
+	private String getJSONObjectParam(JSONObject jo,String paramName,String defaultstr)
+	{
+		String resault=defaultstr;
+		Object object=jo.get(paramName);
+		if(object!=null)
+		{
+			resault=(String)object;
+		}
+		return resault;
+	}
+	
+	
+	
 	
 	@ApiOperation(value = "科技经费统计表", notes = "科技经费统计表")
 	@RequestMapping(value = "/kjjftjb", method = RequestMethod.POST)
@@ -76,6 +110,32 @@ public class ProjectCostProvideClient
 	public LayuiTableData kjjftjb_detail(@RequestBody LayuiTableParam param)throws Exception
 	{
 		return scientificFundsService.getKjjftjbData_detail(param);
+	}
+	
+	
+	
+	
+	
+	@ApiOperation(value = "科技经费统计表-excel", notes = "科技经费统计表-excel")
+	@RequestMapping(value = "/kjjftjb_detail_out_excel", method = RequestMethod.POST)
+	public JSONArray kjjftjb_detail_out_excel(@ApiParam(value="月份:month如201812,公司代码:companyCode",required=true)@RequestBody String paramsJson) throws Exception {
+		
+		System.out.println(" paramsJson=" + paramsJson);
+		JSONObject jo = JSONObject.parseObject(paramsJson);
+		String month = jo.getString("month");
+		String companyCode = jo.getString("companyCode");
+		String g0PROJCODE=getJSONObjectParam(jo, "g0PROJCODE","");
+		String g0PROJTXT=getJSONObjectParam(jo, "g0PROJTXT","");
+		Map map = new HashMap();
+		map.put("month", month);
+		map.put("companyCode", companyCode);
+		map.put("g0PROJCODE", g0PROJCODE);
+		map.put("g0PROJTXT", g0PROJTXT);
+		
+		
+		List<ProjectCost> list = scientificFundsService.getKjjftjbData_detail_excel(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+		return json;
 	}
 	
 	
@@ -104,6 +164,30 @@ public class ProjectCostProvideClient
 	{
 		return scientificFundsService.getHxktqcbtjbData_detail(param);
 	}
+	
+	
+	
+	
+	@ApiOperation(value = "横向课题-excel", notes = "横向课题-excel")
+	@RequestMapping(value = "/hxktqcbtjb_detail_out_excel", method = RequestMethod.POST)
+	public JSONArray hxktqcbtjb_detail_out_excel(@ApiParam(value="月份:month如201812,公司代码:companyCode",required=true)@RequestBody String paramsJson) throws Exception {
+		
+		System.out.println(" paramsJson=" + paramsJson);
+		JSONObject jo = JSONObject.parseObject(paramsJson);
+		String month = jo.getString("month");
+		String companyCode = jo.getString("companyCode");
+		String g0PROJCODE=getJSONObjectParam(jo, "g0PROJCODE","");
+		String g0PROJTXT=getJSONObjectParam(jo, "g0PROJTXT","");
+		Map map = new HashMap();
+		map.put("month", month);
+		map.put("companyCode", companyCode);
+		map.put("g0PROJCODE", g0PROJCODE);
+		map.put("g0PROJTXT", g0PROJTXT);
+		List<ProjectCost> list = scientificFundsService.getHxktqcbtjbData_detail_excel(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+		return json;
+	}
+	
 	
 	
 }

@@ -540,6 +540,7 @@ public class UserServiceImpl implements UserService {
 
 		List<SysUser> list = userMapper.selectUserDetail(paramMap);
 		
+		/*
 		List<String> instituteNameList = new ArrayList<String>();
 		List<String> instituteCodeList = new ArrayList<String>();
 		// 本人管理的研究院
@@ -582,7 +583,7 @@ public class UserServiceImpl implements UserService {
 			}
 			su.setInstituteCodes(instituteCodeList);
 			su.setInstituteNames(instituteNameList);
-		}
+		}*/
 		
 		JSONObject retJson = new JSONObject();
 		retJson.put("list", list);

@@ -310,9 +310,17 @@ public class EquipmentUtils {
 		   {
 			   if (list_temp != null && list_temp.get(0) != null) 
 			   {
+				   
+				   System.out.println("========list_temp.get(0)>" + list_temp.get(0));
+				   
 			    SysUser userInfo = JwtTokenUtil.getUserFromTokenByValue(list_temp.get(0).split(" ")[1]);
+			    
+			    System.out.println("========userInfo>" + userInfo.getUserName());
+			    
 				HashMap<String, Object> paramMap = new HashMap<String, Object>();
 				paramMap.put("functionId", functionId);
+				System.out.println("========userInfo.getUserPost()>" + userInfo.getUserPost());
+				
 				String[] postArr = userInfo.getUserPost().split(",");
 				System.out.println("========getUserPost===============" + userInfo.getUserPost()+" functionId="+functionId);
 				paramMap.put("postIds", Arrays.asList(postArr));
@@ -362,9 +370,7 @@ public class EquipmentUtils {
 			   }
 			  }
 		   }
-		   
 		   return arrayList;
-		
 	}
 	
 	
