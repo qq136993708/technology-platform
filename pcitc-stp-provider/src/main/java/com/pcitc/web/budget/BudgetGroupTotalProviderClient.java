@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -129,7 +130,31 @@ public class BudgetGroupTotalProviderClient
 		try
 		{
 			data = budgetGroupTotalService.selectBudgetGroupTotalPage(param);
-			//获取二级机构的计划数据
+			BudgetInfo info = budgetInfoService.selectBudgetInfo(param.getParam().get("budget_info_id").toString());
+			
+			//获取去年数据
+			BudgetInfo lastInfo = budgetInfoService.selectFinalBudget((new Integer(info.getNd())-1)+"", BudgetInfoEnum.GROUP_TOTAL.getCode());
+			List<BudgetGroupTotal> lastTotals = new ArrayList<BudgetGroupTotal>();
+			if(lastInfo != null) {
+				lastTotals = budgetGroupTotalService.selectBudgetGroupTotalByInfoId(lastInfo.getDataId());
+			}
+			System.out.println(JSON.toJSONString(lastTotals));
+			for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) {
+				Map<String,Object> map = MyBeanUtils.java2Map(iter.next());
+				String displayName = map.get("displayName").toString();
+				System.out.println("displayName:"+displayName);
+				Optional<BudgetGroupTotal> rs = lastTotals.stream().filter(a -> displayName.equals(a.getDisplayName())).findFirst();
+				if(rs != null && rs.isPresent()) {
+					map.put("last_year_total", rs.get().getTotal());
+					map.put("last_year_xmjf", rs.get().getXmjf());
+					map.put("last_year_zxjf", rs.get().getZxjf());
+				}else {
+					map.put("last_year_total", "无");
+					map.put("last_year_xmjf", "无");
+					map.put("last_year_zxjf", "无");
+				}
+			}
+			/*//获取二级机构的计划数据
 			List<BudgetGroupTotal> totals = budgetGroupTotalService.selectBudgetGroupTotalByInfoId(param.getParam().get("budget_info_id").toString());
 			
 			Map<String,Set<String>> itemMap = new HashMap<String,Set<String>>();
@@ -195,7 +220,7 @@ public class BudgetGroupTotalProviderClient
 				}else {
 					map.put("last_year_end", "无");
 				}
-			}
+			}*/
 		}
 		catch (Exception e)
 		{
