@@ -17,8 +17,14 @@
 <script src="/layuiadmin/layui/layui.js"></script>
 </head>
 <body>
+<div class="layer-box">
 	<div class="formBox">
 		<form class="layui-form" id="task-form" action="" lay-filter="dealTaskForm layui-container">
+			<div class="tableToolBox">
+				<div class="tableBtns">
+					<div class="tableTitle">审批信息</div>
+				</div>
+			</div>
 			<div class="box-body">
 				<div class="layui-row">
 					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
@@ -68,12 +74,10 @@
 						<textarea placeholder="请输入审批意见" class="layui-textarea" name="auditRemarks" id="auditRemarks"></textarea>
 					</div>
 				</div>
-
-				<!--在添加另一个页面的html，所有业务的详情页面-->
-				<div id="ifrID">
-					<iframe src="" id="detailsInfo" style="border: 0; width: 100%;"></iframe>
-				</div>
-
+			</div>
+			<!--在添加另一个页面的html，所有业务的详情页面-->
+			<div id="ifrID">
+				<iframe src="" id="detailsInfo" style="border: 0; width: 100%;"></iframe>
 			</div>
 			<div class="form-bottom">
 				<div class="form-bottom-btns">
@@ -83,7 +87,7 @@
 			</div>
 		</form>
 	</div>
-
+</div>
 	<script>
 		var taskId = "${taskId?default(0)}";
 		var id = "${id?default(0)}";
@@ -97,19 +101,19 @@
 			var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
 
 			form.render(null, 'dealTaskForm');
-			
+
 			//延迟加载，加载后计算业务详情页面的高度
 			var $iFrame = $("#detailsInfo");
 			var index_close; //添加laoding,0-2两种方式
-			$($iFrame).attr("src","${auditDetailsPath?default('')}");
+			$($iFrame).attr("src", "${auditDetailsPath?default('')}");
 			if ($iFrame[0].attachEvent) {
 				//alert("加载中");
 				index_close = layer.load(1);
 				$iFrame[0].attachEvent("onload", function() { // IE
 					//alert("加载完毕1");
 					var iframeHeight = $("#detailsInfo").contents().find("html").outerHeight(true);
-					var btn = $("#detailsInfo").contents().find(".form-bottom").css('display','none');
-					$("#detailsInfo").css("height", iframeHeight);
+					var btn = $("#detailsInfo").contents().find(".form-bottom").css('display', 'none');
+					$("#detailsInfo").css("height", iframeHeight + 300);
 					layer.close(index_close);
 				});
 			} else {
@@ -117,11 +121,11 @@
 				index_close = layer.load(1);
 				$iFrame[0].onload = function() { // 非IE
 					var iframeHeight = $("#detailsInfo").contents().find("html").outerHeight(true);
-					var btn = $("#detailsInfo").contents().find(".form-bottom").css('display','none');
-					$("#detailsInfo").css("height", iframeHeight);
+					var btn = $("#detailsInfo").contents().find(".form-bottom").css('display', 'none');
+					$("#detailsInfo").css("height", iframeHeight + 300);
 					layer.close(index_close);
 				};
-            }
+			}
 
 			laydate.render({
 				elem : '#auditDate',
@@ -154,7 +158,7 @@
 			/* 监听提交 */
 			form.on('submit(form-submit)', function(data) {
 				// 审批同意的情况下，先判断下一步是通过角色来进行的，还是直接通过选择框
-				
+
 				var agree = $("input[name='agree']:checked").val();
 				if (agree == "1") {
 					// 判断是否需要弹出选择框
@@ -171,10 +175,13 @@
 							$("#cancel").attr("disabled", "true");
 						},
 						error : function(data) {//请求失败处理函数  
-							layer.msg("操作失败!",{time: 2000,icon: 2}, function(){
-	                            $("#submitBtn").removeAttr("disabled");
-	                            $("#cancel").removeAttr("disabled");
-	                        });
+							layer.msg("操作失败!", {
+								time : 2000,
+								icon : 2
+							}, function() {
+								$("#submitBtn").removeAttr("disabled");
+								$("#cancel").removeAttr("disabled");
+							});
 						},
 						success : function(data) { //请求成功后处理函数。
 							if (data.code == 'role') {
@@ -218,10 +225,13 @@
 							} else if (data.code == 'common') { // 直接分配给某个角色、组织机构，不用提前选择
 								handleTask('');
 							} else {
-								layer.msg("操作失败!",{time: 2000,icon: 2}, function(){
-		                            $("#submitBtn").removeAttr("disabled");
-		                            $("#cancel").removeAttr("disabled");
-		                        });
+								layer.msg("操作失败!", {
+									time : 2000,
+									icon : 2
+								}, function() {
+									$("#submitBtn").removeAttr("disabled");
+									$("#cancel").removeAttr("disabled");
+								});
 							}
 						}
 					});
@@ -234,7 +244,7 @@
 		});
 
 		function getFormData(formId) {
-			var unindexed_array = $('#'+formId).serializeArray();
+			var unindexed_array = $('#' + formId).serializeArray();
 			var indexed_array = {};
 
 			$.map(unindexed_array, function(n, i) {
@@ -242,27 +252,30 @@
 			});
 			return indexed_array;
 		}
-		
+
 		// 处理任务
 		function handleTask(userIds) {
-			var datas=[];
+			var datas = [];
 			$('#userIds').val(userIds);
 			datas.push(getFormData('task-form'));
-			if($("#audit-update-form").length > 0) {
+			if ($("#audit-update-form").length > 0) {
 				// 其他的审批表单（业务过程中要修改业务数据）
 				datas.push(getFormData('audit-update-form'));
 			}
-			
+
 			$.ajax({
 				type : 'POST',
 				url : "/task/complete/" + taskId,
 				data : JSON.stringify(datas),
 				contentType : "application/json;charset=UTF-8",
 				error : function(data) {//请求失败处理函数  
-					layer.msg("操作失败!",{time: 2000,icon: 2}, function(){
-                        $("#submitBtn").removeAttr("disabled");
-                        $("#cancel").removeAttr("disabled");
-                    });
+					layer.msg("操作失败!", {
+						time : 2000,
+						icon : 2
+					}, function() {
+						$("#submitBtn").removeAttr("disabled");
+						$("#cancel").removeAttr("disabled");
+					});
 				},
 				success : function(data) { //请求成功后处理函数。
 					// 刷新表格
@@ -273,9 +286,6 @@
 				}
 			});
 		}
-		
-		
-		
 	</script>
 </body>
 </html>

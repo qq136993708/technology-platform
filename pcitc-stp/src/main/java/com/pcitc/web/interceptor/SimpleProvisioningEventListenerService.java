@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserUnit;
@@ -60,7 +61,7 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
     
 	@Override
 	public void process(ProvisioningEvents events) {
-		System.out.println("调用统一身份认证调用统一身份认证调用统一身份认证调用统一身份认证调用统一身份认证调用统一身份认证调用统一身份认证调用统一身份认证");
+		System.out.println("统一身份认证消息接口");
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		httpHeaders.set("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyVW5pdCI6IjEwMDAxLDE2NDFiM2I5MzQxXzlhM2ZkMWFhIiwidXNlckRpc3AiOiLotoXnuqfnrqHnkIblkZgiLCJ1c2VyTmFtZSI6ImFkbWluIiwicm9sZUxpc3QiOltdLCJleHAiOjE1NDA0NTA0OTYsInVzZXJJZCI6IjEyMyIsImVtYWlsIjoiNjc4MTA1NTk1OUBzaW5hLmNvbSJ9.L2ZxhelS9i-uOxl5Wzdjs2WubCMzs_NxTn4PizeVq6YjVg2FXG-6y_4B4Gun2LwOa2kXjOYcK2XBep0XAs76sA");
@@ -91,10 +92,11 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 			    	@SuppressWarnings("unchecked")
 			    	List<Attribute> originalAttributes = originalEntity.getAttributes();
 			    	System.out.println("组织机构属性集合:");
+			    	System.out.println("originalEntity============="+JSONObject.toJSONString(originalEntity));
 			    	for (Attribute attribute : originalAttributes) {
-			    		System.out.println(attribute);
 			    		String keyName = attribute.getName();
 			    		List valueList = attribute.getValues();
+			    		System.out.println("attribute============="+JSONObject.toJSONString(attribute));
 			    		if(valueList != null && valueList.size()>0) {
 			    			vlaue = attribute.getValues().get(0).toString();
 			    		}else {
@@ -107,16 +109,17 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 							sysUnit.setUnitId(vlaue);//接口传来的编码为本系统主键ID（接口所传数据中无主键ID）
 						}
 			    		if("spfullname".equals(keyName)){
-							sysUnit.setUnitAbbr(vlaue);//机构全路径名称
+							sysUnit.setUnitExtend(vlaue);//机构全路径名称,暂时存放UnitExtend
 						}
 			    		if("spOutype".equals(keyName)){
 							sysUnit.setUnitKind(vlaue);//机构类别
 						}
 			    		if("spOrgLevel".equals(keyName)){
-							sysUnit.setUnitLevel(4);//机构级别
+							//sysUnit.setUnitLevel(4);//机构级别
 						}
 			    		if("spparents".equals(keyName)){
-							//因和上级编码重复  暂时不存储sysUnit.setUnitRelation(vlaue);
+							//因和上级编码重复  暂时不存储
+			    			sysUnit.setUnitRelation(vlaue);
 						}
 			    		if("spOrgNamePath".equals(keyName)){
 			    			//暂无存储位置（机构名称全路径）
@@ -125,7 +128,7 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 							sysUnit.setUnitPath(vlaue);//机构编码全路径
 						}
 			    		if("spSupervisoryDepartment".equals(keyName)){
-							sysUnit.setUnitRelation(vlaue);//机构上级编码因真实数据报错  暂时用0代替
+							//sysUnit.setUnitRelation(vlaue);//机构上级编码因真实数据报错  暂时用0代替
 						}
 			    		if("spEntryStatus".equals(keyName)){
 			    			//因类型不符合  暂时用0
@@ -143,7 +146,7 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 		    		sysUnit.setUnitManager("负责人");
 		    		sysUnit.setUnitControl("控制者");
 		    		sysUnit.setUnitAccount("机构账户");
-		    		sysUnit.setUnitCode("ABC");
+		    		//sysUnit.setUnitCode("ABC");
 			    	HttpEntity<Object> entit = new HttpEntity<Object>(sysUnit, httpHeaders);
 		            restTemplate.exchange(UNIT_ADD_UNIT, HttpMethod.POST, entit, Object.class);
 			    }
@@ -234,10 +237,12 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 			        System.out.println("应用账号属性集合:");
 			        @SuppressWarnings("unchecked")
 			        List<Attribute> attributes = targetEntity.getAttributes();
+			        System.out.println("targetEntity============="+JSONObject.toJSONString(targetEntity));
 			        SysUser sysUser = new SysUser();
 			        for (Attribute attribute : attributes) {
 			        	String keyName = attribute.getName();
 			        	List valueList = attribute.getValues();
+			        	System.out.println("attribute============="+JSONObject.toJSONString(attribute));
 			    		if(valueList != null && valueList.size()>0) {
 			    			vlaue = attribute.getValues().get(0).toString();
 			    		}else {
