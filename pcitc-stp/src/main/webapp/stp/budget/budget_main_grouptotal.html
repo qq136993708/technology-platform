@@ -52,9 +52,9 @@
                 <button class="layui-btn btn-decision active" data-type="createEvent">编制预算</button>
             </div>
             <div class="tool-right">
+            	<button class="layui-btn layui-btn-sm btn-decision active" data-type="resetJzEvent">重置结转经费</button>
                 <button class="layui-btn layui-btn-sm btn-decision" data-type="historyCompare">往年预算参考</button>
                 <button class="layui-btn layui-btn-sm btn-decision" data-type="historyView">历年参考数据</button>
-                <button class="layui-btn layui-btn-sm btn-decision" data-type="resetJzEvent">重置结转经费</button>
             </div>
         </div>
     </div>
@@ -282,7 +282,11 @@
           	function calculationSurplusMoney(){
             	var total_money = 0;
             	$.each(curent_tabel_data,function(index,dt){
-            		total_money += parseInt(dt.total);
+            		dt.xmjf = parseInt(dt.xmjfJz)+parseInt(dt.xmjfXq);
+        			dt.zxjf = parseInt(dt.zxjfJz)+parseInt(dt.zxjfXq);
+        			dt.total = parseInt(dt.xmjf)+parseInt(dt.zxjf);
+        			
+        			total_money += parseInt(dt.total);
             	});
           		$("#surplusMoney").val(parseInt($("#budgetMoney").val())-total_money);
           	}
@@ -306,11 +310,18 @@
                     });
                 },
                 resetJzEvent:function(){
-               		var lodingMsg = layer.msg('处理中....',{time: 15*1000});
+               		var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});
    					publicMethods.ajaxAsyncPost("/budget/select-grouptotal-plandata", {"budget_info_id":curent_budget_info.dataId}, function (data) {
    						layer.msg('加载成功!',{time: 500});
-   	                    $.each(data,function(index,dt){
+   	                    console.log(curent_tabel_data);
+   						$.each(data,function(index,dt){
    	                    	console.log(data[index]);
+   	                    	$.each(curent_tabel_data,function(i,d){
+   	                    		if(data[index].dataId == curent_tabel_data[i].dataId){
+   	                    			curent_tabel_data[i].xmjfJz = data[index].xmjfJz;
+   	                    			curent_tabel_data[i].zxjfJz = data[index].zxjfJz;
+   	                    		}
+   	                    	});
    	                    });
 	                	//预分配数
 	                	calculationSurplusMoney();

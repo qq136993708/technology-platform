@@ -197,23 +197,31 @@ public class BudgetGroupTotalProviderClient
 			
 			Map<String,List<OutProjectPlan>> planMap = budgetGroupTotalService.selectComparePlanData(codes,info.getNd());
 			for(java.util.Iterator<BudgetGroupTotal> iter = items.iterator();iter.hasNext();) {
-				Map<String,Object> map = MyBeanUtils.java2Map(iter.next());
-				String dataId = map.get("dataId").toString();
+				//Map<String,Object> map = MyBeanUtils.java2Map(iter.next());
+				//String dataId = map.get("dataId").toString();
+				Map<String,Object> map = new HashMap<String,Object>();
+				String dataId = iter.next().getDataId();
+				map.put("dataId", dataId);
+				
 				if(itemMap.get(dataId) != null && itemMap.get(dataId).size()>0) {
-					Double ysjes = 0d;
+					Double xmjfJz = 0d;
+					Double zxjfJz = 0d;
 					Set<String> codeset = itemMap.get(dataId);
 					for(String code:codeset) 
 					{
 						List<OutProjectPlan> plans = planMap.get(code);
 						if(plans != null && plans.size()>0) {
 							for(OutProjectPlan plan:plans) {
-								ysjes += new Double(plan.getYsje()==null?"0":plan.getYsje());
+								xmjfJz += new Double(plan.getYsje()==null?"0":plan.getYsje());
+								zxjfJz += new Double(plan.getYsje()==null?"0":plan.getYsje());
 							}
 						}
 					}
-					map.put("xmjfJz", ysjes.intValue());
+					map.put("xmjfJz", xmjfJz.intValue());
+					map.put("zxjfJz", zxjfJz.intValue());
 				}else {
 					map.put("xmjfJz", "无");
+					map.put("zxjfJz", "无");
 				}
 				rsdata.add(map);
 			}
