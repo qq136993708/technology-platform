@@ -117,8 +117,8 @@ public class JwtTokenUtil implements Serializable {
 		//claims.put(CLAIM_KEY_CREATED, new Date());
 		claims.put(CLAIM_KEY_EMAIL, user.getUserMail());
 		
-		claims.put(INSTITUTE_CODE, user.getInstituteCodes());
-		claims.put(INSTITUTE_NAME, user.getInstituteNames());
+		//claims.put(INSTITUTE_CODE, user.getInstituteCodes());
+		//claims.put(INSTITUTE_NAME, user.getInstituteNames());
 		claims.put(CLAIM_KEY_POSTID, user.getUserPost());
 		// claims.put(CLAIM_KEY_FUNCTIONLIST, user.getFunList());
 		///System.out.println("142==---====generateToken------" + user.getFunList().size());

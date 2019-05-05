@@ -90,8 +90,8 @@
                 <span class="btn-state btn-yellow"></span>退回调整
             </button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">新增</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" id="editEvent" data-type="editEvent">编辑</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="applyEvent" data-type="applyEvent">上报</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" id="editEvent" data-type="editEvent">编辑</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_submit btnMyBgImg"  id="applyEvent" data-type="applyEvent">上报</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" id="detailEvent" data-type="detailEvent">详情</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  id="deleteEvent" data-type="deleteEvent">删除</button>
            
@@ -449,7 +449,7 @@ var name=$('#name').val();
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
                 {field : 'status',         title : '状态',            style : 'cursor: pointer;', align: 'center', width : '10%', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width : 55},
-                {field : 'name',           title : '课题名称',         style : 'cursor: pointer;', align: 'left',    width : '20%',templet:function(d){return '<span onclick="view_project(\''+d.id+'\')" style="color:#17a2b8">'+d.name+'</span>'}},
+                {field : 'name',           title : '课题名称',         style : 'cursor: pointer;', align: 'left',    width : '20%',templet:function(d){return '<span onclick="view_project(\''+d.id+'\')" style="color:#1890ff">'+d.name+'</span>'}},
                 {field : 'beginYear',      title : '投资期限',         style : 'cursor: pointer;', align: 'center',  width : '10%',templet:function(d){return '<div style="">'+d.beginYear+'-'+d.endYear+'</div><br/><div style="color:red">'+d.beginYear+'</div>'}},
                 {field : 'projectMoney',   title : '总经费(万元)',      style : 'cursor: pointer;', align: 'center',  width : '10%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
                 {field : 'leadUnitName',   title : '牵头单位',         style : 'cursor: pointer;', align: 'left', width : '20%'},

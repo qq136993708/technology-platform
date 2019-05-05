@@ -354,23 +354,23 @@ function formatDateTime(fDate) {
 	if(typeof(fDate)=="undefined"){
         return "";
     }
-    var oDate = new Date(fDate),  
-    oYear = oDate.getFullYear(),  
-    oMonth = oDate.getMonth()+1,  
-    oDay = oDate.getDate(),  
-    oHour = oDate.getHours(),  
-    oMin = oDate.getMinutes(),  
-    oSen = oDate.getSeconds(),  
-    oTime = oYear +'-'+ getzf(oMonth) +'-'+ getzf(oDay) +' '+ getzf(oHour) +':'+ getzf(oMin) +':'+getzf(oSen);//最后拼接时间  
-    return oTime; 
+    var oDate = new Date(fDate),
+    oYear = oDate.getFullYear(),
+    oMonth = oDate.getMonth()+1,
+    oDay = oDate.getDate(),
+    oHour = oDate.getHours(),
+    oMin = oDate.getMinutes(),
+    oSen = oDate.getSeconds(),
+    oTime = oYear +'-'+ getzf(oMonth) +'-'+ getzf(oDay) +' '+ getzf(oHour) +':'+ getzf(oMin) +':'+getzf(oSen);//最后拼接时间
+    return oTime;
 }
 
-//补0操作,当时间数据小于10的时候，给该数据前面加一个0  
-function getzf(num){  
-    if(parseInt(num) < 10){  
-        num = '0'+num;  
-    }  
-    return num;  
+//补0操作,当时间数据小于10的时候，给该数据前面加一个0
+function getzf(num){
+    if(parseInt(num) < 10){
+        num = '0'+num;
+    }
+    return num;
 }
 
 
@@ -549,7 +549,7 @@ function openBaseWin(title,temUrl)
 	layer.open({
         title:title,
         skin: 'layui-layer-lan',
-        shadeClose: true,
+        shadeClose: false,
         type: 2,
         fixed: false,
         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
@@ -570,7 +570,7 @@ function openFullWin(title,temUrl)
 	layer.open({
 	    title:title
 	    ,skin: 'layui-layer-lan'
-	    ,shadeClose: true
+	    ,shadeClose: false
 	    ,type: 2
 	    ,fixed: false
 	    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
@@ -727,7 +727,7 @@ function chooseUnitMulti(choose_leadUnitName_callback)
 	layer.open({
 	   title:'选择机构',
 	   skin: 'layui-layer-lan',
-	   shadeClose: true,
+	   shadeClose: false,
 	   type: 2,
 	   fixed: false,
 	   //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
