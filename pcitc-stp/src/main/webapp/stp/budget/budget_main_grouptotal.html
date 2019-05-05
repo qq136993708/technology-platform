@@ -310,6 +310,10 @@
                     });
                 },
                 resetJzEvent:function(){
+                	if($("#data_version").val()==""){
+                		parent.layer.alert("请选择预算版本", {title : '提示'});
+                		return;
+                	} 
                		var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});
    					publicMethods.ajaxAsyncPost("/budget/select-grouptotal-plandata", {"budget_info_id":curent_budget_info.dataId}, function (data) {
    						layer.msg('加载成功!',{time: 500});
