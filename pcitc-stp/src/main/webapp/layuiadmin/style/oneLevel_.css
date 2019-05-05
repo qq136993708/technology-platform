@@ -74,11 +74,25 @@
 .layui-news p span{font-size: 12px;float: right;}
 .layui-news p span a{color:#fff;}
 .layui-news ul{height: auto;overflow: hidden;}
-.layui-news ul li{height: 36px;line-height: 36px;padding-left: 10px;text-align: left;
-    background: url("/layuiadmin/layui/images/icon-li.png") no-repeat center left;}
-.layui-news ul li a{width: 73%;display: inline-block;overflow: hidden;color: white;
-    text-overflow: ellipsis;white-space: nowrap;font-size: 16px;}
-.layui-news ul li span{color:#a8ffd5;font-size:16px;position: relative;right:-30px;top: -10px;}
+.layui-news ul li{height: 36px;line-height: 36px;text-align: left;}
+.layui-news ul li a{font-size: 12px;color: white;}
+.layui-news ul li>a{float: right;width: 84%;
+    background: url("/layuiadmin/layui/images/icon-news-r.png") no-repeat center right;}
+.layui-news ul li>.time{width: 56px;color: white;text-align: center;display: inline-block;font-size: 12px;}
+.layui-news ul li:first-child{height: 56px;margin: 10px 0px;}
+.layui-news ul li:first-child .time{background: url("/layuiadmin/layui/images/icon-time-bg.png") no-repeat;
+    width: 56px;height: 56px;text-align: center;display: inline-block;}
+.layui-news ul li:first-child .date{color: white;font-size: 26px;font-family: "Helvetica Neue";
+    position: relative;top: 1px;}
+.layui-news ul li:first-child .yearM{color: white;font-size: 12px;font-family: "Helvetica Neue";
+    position: relative;top: -16px;}
+.layui-news ul li:first-child .content{float: right;width: 84%;height: 56px;}
+.layui-news ul li:first-child a{width: 100%;display: inline-block;position: relative;top: -11px;}
+.layui-news ul li:first-child .content span{height: 35px;display: inline-block;font-size: 12px;
+    color: white;position: relative;top: -16px;line-height: 16px;padding-top: 2px;overflow: hidden;
+    border-top: 1px dashed rgba(255,255,255,.8);width: 100%;}
+/*.layui-news ul li a{width: 73%;display: inline-block;overflow: hidden;color: white;
+    text-overflow: ellipsis;white-space: nowrap;font-size: 16px;}*/
 .news ul{min-height: 272px;}
 .group ul{min-height: auto;}
 .layui-agency-left{background-color: #0094d3;height: 128px;}
