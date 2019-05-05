@@ -83,21 +83,6 @@
                     </div>
                 </div>
             </div>
-            <!--<div class="layui-row">
-                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                    <div class="layui-form-item">
-                        <label for="" class="layui-form-label">所属单位<span class="must-fill">*</span></label>
-                        <div class="layui-input-block">
-                            <input class="layui-input" name="leadUnitName" id="leadUnitName" value="${leadUnitName}"
-                                   lay-verify="required" autocomplete="off" type="text">
-                        </div>
-                        <label for="" class="layui-form-label">采购名称<span class="must-fill">*</span></label>
-                        <div class="layui-input-block">
-                            <input class="layui-input" placeholder="请输入采购名称" name="purchaseName"  value="" autocomplete="off" type="text">
-                        </div>
-                    </div>
-                </div>
-            </div>-->
             <div class="layui-form-item">
                 <label class="layui-form-label">选择装备<span class="must-fill">*</span></label>
                 <div class="layui-input-block">
@@ -114,13 +99,6 @@
                     </div>
                 </div>
             </div>
-
-             <!--   <div class="layui-form-item">
-                    <label class="layui-form-label">附件</label>
-                    <div id="file_div" class="layui-input-block"></div>
-                </div>-->
-
-
                 <div class="form-bottom">
                     <div class="form-bottom-btns">
                         <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
@@ -140,24 +118,10 @@
 
 </script>
 <script>
-    /*for (var i = 0; i < animals.length; i++) {
-        if(arr[i]=arr2[i]){
-            $("#openTakeaway").attr("checked", "checked");
-        }
-    }*/
-
     function call_back(equipmentIds)
     {
         renderTable(equipmentIds);
     }
-    /*window.onload=function()
-    {
-        var  equipmentIds  = $("#sreProjectEquipmentIds").val();
-        renderTable(equipmentIds);
-    }*/
-
-
-
     function choosePurchase(id)
     {
         var temUrl = '/sre-purchase/chooseProject?taskWriteUsersIds='+$("#taskWriteUsersIds").val()+"&id="+id;
@@ -298,17 +262,13 @@
         $("#file_div").load('/common/public/uploadlayuiload.html');
 
 
-        $('.layui-btn').on('click', function () {
+        /*$('.layui-btn').on('click', function () {
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
-        });
+        });*/
 
         /* 监听提交 */
         form.on('submit(sub)', function (data) {
-            //JSON.stringify(data.field)  提交信息json格式
-            /*parent.layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            })*/
             /*获取参与单位的数据*/
             /*var joinUnitName= $("#joinUnitName").val();
             //alert(joinUnitName);
@@ -336,6 +296,7 @@
                 layer.alert("请输入采购名称");
             }else if(check.data.length == 0)
             {
+                console.log(check.data.length);
                 layer.alert("请点击选择装备数据");
             } else {
                 var equipmentIds="";
@@ -428,7 +389,7 @@
 
             ]],
             done: function (res, curr, count) {
-                // 点击行联动选择框--单选
+                /*// 点击行联动选择框--单选
                 $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
                     var index=parseInt($(this).index()+1);
                     $('tr').removeClass('layui-table-click');
@@ -436,9 +397,9 @@
                     $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
                     $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                     selectRowData=res.data[index-1];
-                    var state=selectRowData.state;
+                    var state=selectRowData.equipmentId;
                     //alert(state);
-                });
+                });*/
                 //项目分类，项目性质
                 var dicMap = ['ROOT_ZBGL_ZBFL'];
                 var dicVal = {};

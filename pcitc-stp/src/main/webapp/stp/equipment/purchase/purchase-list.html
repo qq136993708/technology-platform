@@ -436,9 +436,8 @@ var name=$('#name').val();
             	{field : 'purchaseName',     title : '采购名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
          	    {field : 'parentUnitPathNames',     title : '单位名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
          		{field : 'departName',     title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
-                {field : 'stage',      		title : '阶段',         style : 'cursor: pointer;', align: 'center',  width : '10%',},
-                {field : 'proposerName',      		title : '申请人',         style : 'cursor: pointer;', align: 'center',  width : '10%',},
-                {field : 'createDate',      title : '创建时间', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl', width : '10%'}
+                {field : 'proposerName',      		title : '申请人',         style : 'cursor: pointer;', align: 'center',  width : '15%',},
+                {field : 'createDate',      title : '创建时间', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl', width : '15%'}
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选
@@ -450,7 +449,7 @@ var name=$('#name').val();
                     $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                     selectRowData=res.data[index-1];
                     var state=selectRowData.state;
-                    //alert(state);
+                   // alert(state);
                 });
             }
         });
