@@ -1027,7 +1027,6 @@
                 for (var i = 0; i < data.length; i++) {
                     if (global_hos.province == data[i].dataId && global_hos != '') {
                         $("#province").append('<option value="' + data[i].dataId + '" selected>' + data[i].cityname + '</option>');
-                        console.log('<option value="' + data[i].dataId + '" selected>' + data[i].cityname + '</option>');
                         cityAddress(global_hos.province);//通过省id获取市列表
                     } else {
                         $("#province").append('<option value="' + data[i].dataId + '">' + data[i].cityname + '</option>');
