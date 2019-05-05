@@ -140,6 +140,39 @@ function ajaxPost(url, params, callback) {
     return result;
 }
 
+function ajaxPostAsyncTrue(url, params, callback) {
+    var result = null;
+    var headers = {
+        //'Content-Type':'application/json',
+        //'access-token':getCookie("token")
+    };
+    if (params && typeof params == "object") {
+        params = deleteEmptyProp(params);
+    }
+    jQuery.ajax({
+        type: 'post',
+        async: true,
+        url: url,
+        data: params,
+        dataType: 'json',
+        headers: headers,
+        success: function (data, status) {
+            result = data;
+            if (data && data.code && data.code == '101') {
+                console.log("操作失败，请刷新重试，具体错误：" + data.message);
+                return false;
+            }
+            if (callback) {
+                callback.call(this, data, status);
+            }
+        },
+        error: function (err, err1, err2) {
+            console.log("ajaxPost发生异常，请仔细检查请求url是否正确");
+        }
+    });
+    return result;
+}
+
 function ajaxGet(url, params, callback) {
     var result = null;
     var headers = {
