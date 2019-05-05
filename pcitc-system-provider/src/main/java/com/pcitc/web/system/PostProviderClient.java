@@ -1,6 +1,7 @@
 package com.pcitc.web.system;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.system.SysFunction;
 import com.pcitc.base.system.SysPost;
 import com.pcitc.base.system.SysPostFunction;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.service.system.PostService;
@@ -122,6 +124,7 @@ public class PostProviderClient
 				function.setPostId(postId);
 				function.setFunctionId(functionId);
 				function.setFunctionButtons(sb.toString());
+				function.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				
 				fs.add(function);
 			}
