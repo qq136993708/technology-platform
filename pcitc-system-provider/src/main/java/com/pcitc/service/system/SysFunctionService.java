@@ -7,6 +7,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.system.SysButton;
 import com.pcitc.base.system.SysFunction;
+import com.pcitc.base.system.SysFunctionExample;
 import com.pcitc.base.system.SysRoleFunction;
 import com.pcitc.base.system.vo.SysFunctionVo;
 
@@ -132,5 +133,7 @@ public interface SysFunctionService {
 	 * @throws Exception
 	 */
 	String createWeight(SysFunction function) throws Exception;
-	
+
+    List<SysFunction> selectByExample(SysFunctionExample example);
+
 }
