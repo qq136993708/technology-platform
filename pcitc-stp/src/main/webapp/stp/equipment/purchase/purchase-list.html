@@ -33,10 +33,10 @@
         <span>采购名称</span>
         <input type="text" name="purchaseName" value="" placeholder="请输入采购名称" title="采购名称" autocomplete="off" class="form-control" id="purchaseName">
     </label>
-    <label class="dateInput">
+    <!--<label class="dateInput">
         <span>立项年度</span>
         <input type="text" name="createDate" value="" placeholder="请输入立项年度" title="申请开始时间" autocomplete="off" class="form-control" id="createDate">
-    </label>
+    </label>-->
     <!--按钮组-->
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
@@ -311,28 +311,7 @@ var name=$('#name').val();
             	}
             
             },
-           /*applyEvent: function(){  //点击上报按钮
-            	
-            	if (typeof(selectRowData) == "undefined") 
-            	{
-            		layer.msg('请点击选择一行数据');
-            	}
-            	else
-                {
-                    var id=selectRowData.id;
-                    var url="/sre-purchase/updateState/"+id;
-                    var backurl="/sre_purchase/to-list";
-                    var state=selectRowData.state;
-                    if(state!='10')
-                    {
-                       layer.alert('请选择未上报的申请');
-                       return;
-                    }else{
-                        ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
-                    }
-                }
-            },*/
-             applyEvent: function(){
+             applyEvent: function(){//上报
                  if (typeof(selectRowData) == "undefined")
                  {
                      layer.msg('请点击选择一行数据');
