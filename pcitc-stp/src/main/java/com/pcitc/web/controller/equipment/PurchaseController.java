@@ -243,10 +243,24 @@ public class PurchaseController extends BaseController{
     @RequestMapping(method = RequestMethod.GET, value = "/sre-purchase/chooseProject")
     private String chooseProject(HttpServletRequest request)
     {
-        String taskWriteUsersIds=sysUserInfo.getUserId();
+        String applyUnitCode=sysUserInfo.getUnitCode();
+        request.setAttribute("applyUnitCode", applyUnitCode);
+        String	parentUnitPathIds="";
+        String unitPathIds =   sysUserInfo.getUnitPath();
+        if(!unitPathIds.equals(""))
+        {
+            if(unitPathIds.length()>4)
+            {
+                parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
+
+            }
+        }
+        request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+
+        /*String taskWriteUsersIds=sysUserInfo.getUserId();
         request.setAttribute("taskWriteUsersIds",taskWriteUsersIds);
         String topicId = request.getParameter("topicId");
-        request.setAttribute("topicId",topicId);
+        request.setAttribute("topicId",topicId);*/
         return "/stp/equipment/purchase/chooseProject";
     }
     @RequestMapping(value = "/sre-purchase/chooseProject_data")
