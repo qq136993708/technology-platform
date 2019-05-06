@@ -13,6 +13,7 @@
         .btn-line {height: 36px;line-height: 36px;}
         .btn-line a{float: left;margin-left: 20px;}
         .layui-textarea {min-height: 50px;}
+        .layui-table-header table thead tr th div{text-align: center;}
         
     </style>
 </head>
@@ -183,35 +184,6 @@
     		});  
            	viewObj.tbData.push(newRow);
         }
-        //集团分类编码字典 ROOT_JFYS_JTDWFL（动态字典，如果设置了年度字典则按年度字典获取）
-        publicMethods.ajaxPost('/dictionary/list/ROOT_JFYS_JTDWFL'+nd, null, function (data, status) {
-      		$.each(data,function(i,dt){
-  	    		$("#simpleCode").append("<option value='"+data[i].code+"'>"+data[i].name+"</option>");
-  	    	});
-	    });
-		publicMethods.ajaxPost("/budget/get-grouptotal-item/${dataId}",null, function (data) {
-			form.val("budget-form",data);
-			parentInfo = data;
-			$.each(data.groups,function(index,dt){
-				selectItemProjectMoney(parseInt(dt.nd)-1,dt.displayCode,function(ysje){
-					dt.last_year_end = ysje;
-				});
-				selectItemPlanMoney(dt.nd,dt.displayCode,function(ysje){
-					dt.plan_money = ysje;
-				});
-				viewObj.tbData.push(dt);
-			});
-			//table.reload({data : viewObj.tbData});
-   		});
-        //检索公司
-       publicMethods.ajaxPost("/budget/search-group-company-items",null, function (data) {
-        	//$("#company_list").html('<option value="">请选择单位！</option>');
-        	$.each(data,function(index,dt){
-        		company_map[dt.unitCode] = dt.unitName;
-        		//$("#company_list").append('<option value="'+dt.unitCode+'">'+dt.unitName+'</option>');
-        	});
-        	form.render(); 
-   		});
         //渲染
         table.render({
             elem: '#dataTable' //表格容器
@@ -222,8 +194,8 @@
             , totalRow: true
             , cols: [[
                 {field: 'displayName', title: '单位名称',edit:true,totalRowText: '合计'}
-                , {field: 'last_year_end', title: '${nd}年预计完成', align: 'right',style: 'cursor: pointer;', width: '25%',totalRow: true}
-                , {field: 'plan_money', title: '${nd}年合同计划', align: 'right',style: 'cursor: pointer;', width: '25%',totalRow: true}
+                , {field: 'xmjfJz', title: '${nd}年结转(老合同)项目经费', align: 'right',style: 'cursor: pointer;', width: '25%',totalRow: true}
+                , {field: 'zxjfJz', title: '${nd}年结转(老合同)专项经费', align: 'right',style: 'cursor: pointer;', width: '25%',totalRow: true}
                 //, {field: 'xmjf', title: '项目经费', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%',totalRow: true}
                 //, {field: 'zxjf', title: '重点实验室专项经费', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%',totalRow: true}
                 , {title: '操作', style: 'cursor: pointer;', align: 'center', width: '10%', templet: function(d){
@@ -232,10 +204,10 @@
             ]]
             ,done: function (res, curr, count) {
             	 var ysnd = parseInt($("#nd").val());
-            	 $(".layui-table-header .layui-table").find('th').eq(1).find('span').text((ysnd-1)+"实际完成");
-            	 $(".layui-table-header .layui-table").find('th').eq(2).find('span').text(ysnd+"合同计划");
+            	 //$(".layui-table-header .layui-table").find('th').eq(1).find('span').text((ysnd-1)+"实际完成");
+            	 //$(".layui-table-header .layui-table").find('th').eq(2).find('span').text(ysnd+"合同计划");
             }
-        })
+        });
         table.on('tool(dataTable)', function (obj) {
             var data = obj.data, event = obj.event, tr = obj.tr; //获得当前行 tr 的DOM对象;
             switch(event){
@@ -262,31 +234,29 @@
         	});
         	table.reload('dataTable', {data: viewObj.tbData});
         });
-        var companyName;
-        var companyCode;
-        // 监听select--如果需要通过select的形式进行选择
-        form.on('select(search)', function(data){
-            form.render('select', 'search'); //更新 lay-filter="search" 所在容器内的全部 select 状态
-            companyCode = data.value;
-            companyName = company_map[data.value];
-        });
+      	
+      	//集团分类编码字典 ROOT_JFYS_JTDWFL（动态字典，如果设置了年度字典则按年度字典获取）
+        publicMethods.ajaxPost('/dictionary/list/ROOT_JFYS_JTDWFL'+nd, null, function (data, status) {
+      		$.each(data,function(i,dt){
+  	    		$("#simpleCode").append("<option value='"+data[i].code+"'>"+data[i].name+"</option>");
+  	    	});
+	    });
+        publicMethods.ajaxPost("/budget/get-grouptotal-item/${dataId}",null, function (data) {
+			form.val("budget-form",data);
+			parentInfo = data;
+			$.each(data.groups,function(index,dt){
+				viewObj.tbData.push(dt);
+			});
+			table.reload('dataTable', {data: viewObj.tbData});
+   		});
+        //检索公司
+       /* 	publicMethods.ajaxPost("/budget/search-group-company-items",null, function (data) {
+        	$.each(data,function(index,dt){
+        		company_map[dt.unitCode] = dt.unitName;
+        	});
+   		}); */
         //定义事件集合
         var active = {
-            addRow: function(){	//添加一行
-                if(!companyName){
-                    layer.msg("请选择单位！", { icon: 5 }); //提示
-                    return;
-                }
-                var newRow = {dataId: new Date().valueOf(),displayCode:companyCode, displayName: companyName,last_year_end:0,plan_money: 0, xmjf: 0, zxjf: 0,parentDataId:parentDataId,budgetInfoId:budgetInfoId};
-                selectItemProjectMoney(parseInt($("#nd").val())-1,companyCode,function(ysje){
-                	newRow.last_year_end = ysje;
-				});
-				selectItemPlanMoney($("#nd").val(),companyCode,function(ysje){
-					newRow.plan_money = ysje;
-				});
-               	viewObj.tbData.push(newRow);
-               	table.reload("dataTable",{data : viewObj.tbData});
-            },
             removeEmptyTableCache: function(){
             	  var oldData = table.cache[layTableId];
                   for(var i=0, row; i < oldData.length; i++){
@@ -357,11 +327,11 @@
                 	parent.initDataVersion("${budgetInfoId}");
                 	parentInfo = data.data;
                 	//保存前如果预算项中的名称被改变了，则ID将移除
-                	$.each(viewObj.tbData,function(index,dt){
+                	/* $.each(viewObj.tbData,function(index,dt){
                 		if(company_map[dt.displayCode] != dt.displayName){
                 			viewObj.tbData[index].displayCode = null;
                 		}
-                	});
+                	}); */
                 	//保存预算项目子项
                 	publicMethods.ajaxPost('/budget/save-grouptotal-childitems', {"items":JSON.stringify(viewObj.tbData),"item":JSON.stringify(parentInfo)}, function (dt, status) {
                 		var index = parent.layer.getFrameIndex(window.name);

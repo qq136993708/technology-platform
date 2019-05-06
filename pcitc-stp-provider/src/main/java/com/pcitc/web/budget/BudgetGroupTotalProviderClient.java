@@ -203,23 +203,27 @@ public class BudgetGroupTotalProviderClient
 				String dataId = iter.next().getDataId();
 				map.put("dataId", dataId);
 				
+				List<OutProjectPlan> plans = new ArrayList<OutProjectPlan>();
 				if(itemMap.get(dataId) != null && itemMap.get(dataId).size()>0) {
 					Double xmjfJz = 0d;
 					Double zxjfJz = 0d;
-					Set<String> codeset = itemMap.get(dataId);
-					for(String code:codeset) 
+					
+					for(String code:itemMap.get(dataId)) 
 					{
-						List<OutProjectPlan> plans = planMap.get(code);
-						if(plans != null && plans.size()>0) {
-							for(OutProjectPlan plan:plans) {
-								xmjfJz += new Double(plan.getYsje()==null?"0":plan.getYsje());
-								zxjfJz += new Double(plan.getYsje()==null?"0":plan.getYsje());
-							}
+						List<OutProjectPlan> ps = planMap.get(code);
+						if(ps != null && ps.size()>0) {
+							plans.addAll(ps);
 						}
 					}
+					for(OutProjectPlan plan:plans) {
+						xmjfJz += new Double(plan.getYsje()==null?"0":plan.getYsje());
+						zxjfJz += new Double(plan.getYsje()==null?"0":plan.getYsje());
+					}
+					map.put("plans", plans);
 					map.put("xmjfJz", xmjfJz.intValue());
 					map.put("zxjfJz", zxjfJz.intValue());
 				}else {
+					map.put("plans", plans);
 					map.put("xmjfJz", "无");
 					map.put("zxjfJz", "无");
 				}
@@ -348,12 +352,31 @@ public class BudgetGroupTotalProviderClient
 		{
 			BudgetGroupTotal groupTotal = budgetGroupTotalService.selectBudgetGroupTotal(itemId);
 			if(groupTotal != null) {
-				List<BudgetGroupTotal> childGroups = budgetGroupTotalService.selectChildBudgetGroupTotal(itemId);
+				List<BudgetGroupTotal> compnays = budgetGroupTotalService.selectChildBudgetGroupTotal(itemId);
+				//获取计划数据
+				Set<String> codes = new HashSet<String>();
+				for(BudgetGroupTotal compnay:compnays) {
+					if(StringUtils.isNotBlank(compnay.getDisplayCode())) {
+						codes.add(compnay.getDisplayCode());
+					}
+				}
+				Map<String,List<OutProjectPlan>> planMap = budgetGroupTotalService.selectComparePlanData(codes,groupTotal.getNd());
+				System.out.println(JSON.toJSONString(planMap));
 				List<Map<String,Object>> groupMaps = new ArrayList<Map<String,Object>>();
-				for(BudgetGroupTotal total:childGroups) {
+				for(BudgetGroupTotal total:compnays) {
 					Map<String,Object> mp = MyBeanUtils.transBean2Map(total);
-					map.put("last_year_end", 0);
-					map.put("plan_money", 0);
+					List<OutProjectPlan> plans = planMap.get(total.getDisplayCode());
+					
+					Double xmjfJz = 0d;
+					Double zxjfJz = 0d;
+					if(plans != null) {
+						for(OutProjectPlan plan:plans) {
+							xmjfJz += new Double(plan.getYsje()==null?"0":plan.getYsje());
+							zxjfJz += new Double(plan.getYsje()==null?"0":plan.getYsje());
+						}
+					}
+					mp.put("xmjfJz", xmjfJz);
+					mp.put("zxjfJz", zxjfJz);
 					groupMaps.add(mp);
 				}
 				
