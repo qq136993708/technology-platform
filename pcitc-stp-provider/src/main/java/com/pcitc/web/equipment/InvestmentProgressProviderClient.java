@@ -1,5 +1,8 @@
 package com.pcitc.web.equipment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.stp.equipment.SreProjectTask;
 import com.pcitc.service.equipment.InvestService;
 
 import io.swagger.annotations.Api;
@@ -41,5 +45,17 @@ public class InvestmentProgressProviderClient
 	{
 		LayuiTableData rageResult=investService.getProcurementProgramPage(param);
 		return rageResult;
+	}
+	
+	@ApiOperation(value = "管理台账", notes = "管理台账")
+	@RequestMapping(value = "/sre-provider/Investmentrogress/management", method = RequestMethod.POST)
+	public int getProcurementProgramList()throws Exception
+	{
+		List<SreProjectTask> ProjectTask = investService.getSelectProjectTask();
+		int count = 0;
+		for(int i =0;i<ProjectTask.size();i++) {
+			count++;
+		}
+		return count;
 	}
 }
