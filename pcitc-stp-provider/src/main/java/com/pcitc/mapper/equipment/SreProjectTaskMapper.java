@@ -36,4 +36,6 @@ public interface SreProjectTaskMapper {
 	List<SreProjectTask> getClosedList(Map map);
 	
 	SreProjectTask selectByTopicKey(String taskId);
+
+	List<SreProjectTask> getSelectDate(Map map);
 }
