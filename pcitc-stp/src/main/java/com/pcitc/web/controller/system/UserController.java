@@ -341,6 +341,7 @@ public class UserController extends BaseController {
 	 * return data; }
 	 */
 	@RequestMapping(value = "/user/delete-users", method = RequestMethod.POST)
+	@ResponseBody
 	public Object delUsers(@RequestParam(value = "userIds", required = false) String userIds) throws IOException {
 		JSONArray array = JSONArray.parseArray(userIds);
 		List<?> ids = JSONObject.parseArray(array.toJSONString());

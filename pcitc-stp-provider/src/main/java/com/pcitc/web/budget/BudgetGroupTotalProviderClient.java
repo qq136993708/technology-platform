@@ -195,7 +195,7 @@ public class BudgetGroupTotalProviderClient
 			}
 			System.out.println("itemMap："+JSON.toJSONString(itemMap));
 			
-			Map<String,List<OutProjectPlan>> planMap = budgetGroupTotalService.selectComparePlanData(codes,info.getNd());
+			Map<String,List<OutProjectInfo>> projectMap = budgetGroupTotalService.selectCompareProjectInfoData(codes,info.getNd());
 			for(java.util.Iterator<BudgetGroupTotal> iter = items.iterator();iter.hasNext();) {
 				//Map<String,Object> map = MyBeanUtils.java2Map(iter.next());
 				//String dataId = map.get("dataId").toString();
@@ -203,27 +203,27 @@ public class BudgetGroupTotalProviderClient
 				String dataId = iter.next().getDataId();
 				map.put("dataId", dataId);
 				
-				List<OutProjectPlan> plans = new ArrayList<OutProjectPlan>();
+				List<OutProjectInfo> projects = new ArrayList<OutProjectInfo>();
 				if(itemMap.get(dataId) != null && itemMap.get(dataId).size()>0) {
 					Double xmjfJz = 0d;
 					Double zxjfJz = 0d;
 					
 					for(String code:itemMap.get(dataId)) 
 					{
-						List<OutProjectPlan> ps = planMap.get(code);
+						List<OutProjectInfo> ps = projectMap.get(code);
 						if(ps != null && ps.size()>0) {
-							plans.addAll(ps);
+							projects.addAll(ps);
 						}
 					}
-					for(OutProjectPlan plan:plans) {
+					for(OutProjectInfo plan:projects) {
 						xmjfJz += new Double(plan.getYsje()==null?"0":plan.getYsje());
 						zxjfJz += new Double(plan.getYsje()==null?"0":plan.getYsje());
 					}
-					map.put("plans", plans);
+					map.put("plans", projects);
 					map.put("xmjfJz", xmjfJz.intValue());
 					map.put("zxjfJz", zxjfJz.intValue());
 				}else {
-					map.put("plans", plans);
+					map.put("plans", projects);
 					map.put("xmjfJz", "无");
 					map.put("zxjfJz", "无");
 				}
@@ -360,19 +360,19 @@ public class BudgetGroupTotalProviderClient
 						codes.add(compnay.getDisplayCode());
 					}
 				}
-				Map<String,List<OutProjectPlan>> planMap = budgetGroupTotalService.selectComparePlanData(codes,groupTotal.getNd());
-				System.out.println(JSON.toJSONString(planMap));
+				Map<String,List<OutProjectInfo>> projectMap = budgetGroupTotalService.selectCompareProjectInfoData(codes,groupTotal.getNd());
+				System.out.println(JSON.toJSONString(projectMap));
 				List<Map<String,Object>> groupMaps = new ArrayList<Map<String,Object>>();
 				for(BudgetGroupTotal total:compnays) {
 					Map<String,Object> mp = MyBeanUtils.transBean2Map(total);
-					List<OutProjectPlan> plans = planMap.get(total.getDisplayCode());
+					List<OutProjectInfo> projects = projectMap.get(total.getDisplayCode());
 					
 					Double xmjfJz = 0d;
 					Double zxjfJz = 0d;
-					if(plans != null) {
-						for(OutProjectPlan plan:plans) {
-							xmjfJz += new Double(plan.getYsje()==null?"0":plan.getYsje());
-							zxjfJz += new Double(plan.getYsje()==null?"0":plan.getYsje());
+					if(projects != null) {
+						for(OutProjectInfo project:projects) {
+							xmjfJz += new Double(project.getYsje()==null?"0":project.getYsje());
+							zxjfJz += new Double(project.getYsje()==null?"0":project.getYsje());
 						}
 					}
 					mp.put("xmjfJz", xmjfJz);
