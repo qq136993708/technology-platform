@@ -374,9 +374,9 @@
 
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">联系方式<span class="must-fill">*</span></label>
+                        <label class="layui-form-label">联系方式<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input type="tel" id="mobile" name="mobile" lay-verify="required" placeholder="请输入手机" autocomplete="off" class="layui-input">
+                            <input type="tel" id="mobile" name="mobile"  placeholder="请输入手机" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -610,46 +610,64 @@
     //         }
     //     });
     // });
-    ajaxPost('/dictionary/list/ZJK_ZCXX', null, function (data, status) {
-        $.each(data, function (i, dt) {
-            $("#expertProfessinal").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+
+    var map = {};
+    map["ZJK_ZCXX"]="expertProfessinal";
+    map["ZJK_XYLY"]="industryId";
+    map["ZJK_ZYFL"]="expertProfessionalField";
+    map["ROOT_UNIVERSAL_XB"]="sex";
+    map["ROOT_UNIVERSAL_GJDQ"]="expertNationality";
+    map["ROOT_UNIVERSAL_ZJLX"]="cardType";
+    map["ROOT_UNIVERSAL_XL"]="education";
+    map["ZJK_ZJLX"]="bak3";
+    ajaxPostAsyncTrue("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(Object.keys(map))}, function (data) {
+        $.each(data, function (key, val) {
+            $.each(val, function (i, dt) {
+                $("#"+eval("map."+key)).append("<option value='" + dt.code + "'>" + dt.name + "</option>");
+            });
         });
     });
-    ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
-        $.each(data, function (i, dt) {
-            $("#industryId").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
-        });
-    });
-    ajaxPost('/dictionary/list/ZJK_ZYFL', null, function (data, status) {
-        $.each(data, function (i, dt) {
-            $("#expertProfessionalField").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
-        });
-    });
-    ajaxPost('/dictionary/list/ROOT_UNIVERSAL_XB', null, function (data, status) {
-        $.each(data, function (i, dt) {
-            $("#sex").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
-        });
-    });
-    ajaxPost('/dictionary/list/ROOT_UNIVERSAL_GJDQ', null, function (data, status) {
-        $.each(data, function (i, dt) {
-            $("#expertNationality").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
-        });
-    });
-    ajaxPost('/dictionary/list/ROOT_UNIVERSAL_ZJLX', null, function (data, status) {
-        $.each(data, function (i, dt) {
-            $("#cardType").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
-        });
-    });
-    ajaxPost('/dictionary/list/ROOT_UNIVERSAL_XL', null, function (data, status) {
-        $.each(data, function (i, dt) {
-            $("#education").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
-        });
-    });
-    ajaxPost('/dictionary/list/ZJK_ZJLX', null, function (data, status) {
-        $.each(data, function (i, dt) {
-            $("#bak3").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
-        });
-    });
+
+    //     ajaxPost('/dictionary/list/ZJK_ZCXX', null, function (data, status) {
+    //     $.each(data, function (i, dt) {
+    //         $("#expertProfessinal").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+    //     });
+    // });
+    // ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
+    //     $.each(data, function (i, dt) {
+    //         $("#industryId").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+    //     });
+    // });
+    // ajaxPost('/dictionary/list/ZJK_ZYFL', null, function (data, status) {
+    //     $.each(data, function (i, dt) {
+    //         $("#expertProfessionalField").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+    //     });
+    // });
+    // ajaxPost('/dictionary/list/ROOT_UNIVERSAL_XB', null, function (data, status) {
+    //     $.each(data, function (i, dt) {
+    //         $("#sex").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+    //     });
+    // });
+    // ajaxPost('/dictionary/list/ROOT_UNIVERSAL_GJDQ', null, function (data, status) {
+    //     $.each(data, function (i, dt) {
+    //         $("#expertNationality").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+    //     });
+    // });
+    // ajaxPost('/dictionary/list/ROOT_UNIVERSAL_ZJLX', null, function (data, status) {
+    //     $.each(data, function (i, dt) {
+    //         $("#cardType").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+    //     });
+    // });
+    // ajaxPost('/dictionary/list/ROOT_UNIVERSAL_XL', null, function (data, status) {
+    //     $.each(data, function (i, dt) {
+    //         $("#education").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+    //     });
+    // });
+    // ajaxPost('/dictionary/list/ZJK_ZJLX', null, function (data, status) {
+    //     $.each(data, function (i, dt) {
+    //         $("#bak3").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+    //     });
+    // });
     var DataDeal = {
         //将从form中通过$('#form').serialize()获取的值转成json
         formToJson: function (data) {
@@ -1000,7 +1018,7 @@
     function takeAddress() {
         $.ajax({
             contentType: 'application/json;charset=utf-8',
-            async: false,
+            async: true,
             type: "POST",
             url: "/sysAddress/list",
             data: JSON.stringify({"depth": "1"}),
@@ -1041,7 +1059,7 @@
                 }
             },
             error: function (data) {
-                alert(data.message);
+                console.log(data.message);
             }
         });
     }
@@ -1125,7 +1143,7 @@
             //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
             maxmin: true,
             //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-            area: ['500px', '500px'],
+            area: ['60%', '80%'],
             content: temUrl
             // end: function () {
             //     var arrJ = $("#joinUnitName").val().split(",");
