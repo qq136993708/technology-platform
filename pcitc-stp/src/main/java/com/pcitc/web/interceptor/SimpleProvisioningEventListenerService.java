@@ -31,7 +31,6 @@ import com.sinopec.siam.provisioning.listener.ProvisioningEventListener;
  * @Description: 统一身份认证的监听服务，监听器监听到服务后，把相关修改调整到后台组织机构/用户中
  * @author zhf
  * @date 2018年8月07日 上午10:21:11
- * 
  */
 @Component
 public class SimpleProvisioningEventListenerService implements ProvisioningEventListener {
