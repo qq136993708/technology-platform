@@ -99,20 +99,30 @@
                     </div>
                 </div>
                 <div class="layui-news">
-                    <p>科技要闻<span><a href="/expertController/leader_speech" target="_blank">更多></a></span></p>
+                    <p>科技要闻<span><a href="/instituteIndex?url=/expertController/leader_speech" target="_blank">更多></a></span></p>
                     <ul id="news">
-                        <li>
-                            <span>2018-11-12 </span>
-                            <div class="content">
-                                <a href="javascript:void(0);">武汉石化开发监控模块强化安全生产管控</a>
-                                <p>中国石化新闻网讯 历时一年多实践，武汉石化开发制作出调度监控模块，绘制了150多
-                                    幅组态监控图，挂在该公司实时数据平台上，成为调度人员监控</p>
-                            </div>
-                        </li>
                     </ul>
                 </div>
             </div>
-            <div class="main-right"></div>
+            <div class="main-right">
+                <div class="laboratory">
+                    <div class=""></div>
+                </div>
+                <div class="equipment">
+
+                </div>
+                <div class="contract"></div>
+
+                <div class="investment"></div>
+
+                <div class="project"></div>
+
+                <div class="institute"></div>
+
+                <div class="personnel"></div>
+
+                <div class="achievement"></div>
+            </div>
            <!-- <div class="layui-row">
                 <div class="layui-left">
                     <div class="layui-row-pic">
@@ -505,7 +515,7 @@ var nd=$("#month").val().substring(4,0);
 	}
 
 	//新闻
-	/*function get_news() {
+	function get_news() {
 		$.ajax({
 			type : 'GET',
 			url : "/one_level_main/get_news",
@@ -519,16 +529,36 @@ var nd=$("#month").val().substring(4,0);
 			success : function(data) {
 				 var list = data.data;
 				 $.each(list, function(index, dt) {
-					if (index < 6) {
-						var html = "<li><a href='/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId="+dt.id+"' target='_blank'>"
-								+ dt.title + "</a><span>" + dt.createtimestr
-								+ "</span></li>"
+					if (index < 5) {
+					    var time=(dt.createtimestr).split("-");
+					    var md=time[1]+"/"+time[2];
+					    var ym=time[0]+"/"+time[1];
+					    if(dt.content==undefined){
+					        var content="详情请点击查看...";
+                        }else {
+					        var content=(dt.content).substr(3,70)+"...";
+                        }
+					    if(index==0){
+                            var html = '<li>' +
+                                '           <span class="time">' +
+                                '               <span class="date">'+time[2]+'</span>' +
+                                '               <span class="yearM">'+ym+'</span>' +
+                                '           </span>' +
+                                '           <span class="content">' +
+                                '               <a href="/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId='+dt.id+'" target="_blank">'+dt.title+'</a>' +
+                                '               <span>'+content+'</span>' +
+                                '      </li>';
+                        }else {
+                            var html = "<li><span class='time'>"+md+"</span><a href='/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId="+dt.id+"' target='_blank'>"
+                                + dt.title + "</a></li>"
+                        }
+
 						$("#news").append(html);
 					}
 				}); 
 			}
 		});
-	}*/
+	}
 
 	function init() {
 		appraisalCount();
