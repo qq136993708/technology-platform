@@ -3,6 +3,7 @@ package com.pcitc.web.interceptor;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -302,20 +303,18 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					sysUser.setLoginCheckCode("验证码");
 					sysUser.setUserCreateTime(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
 					// 获取用户所在机构部门
-					SysUnit unit = this.restTemplate.exchange(UNIT_GET_UNIT+sysUser.getUserUnit(), HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysUnit.class).getBody();
-					sysUser.setUserId(IdUtil.createIdByTime());
+					System.out.println(restTemplate+"---restTemplate======");
+					System.out.println(sysUser+"---sysUser======");
+					System.out.println(sysUser.getUserUnit()+"---getUserUnit======");
+					//SysUnit unit = this.restTemplate.exchange(UNIT_GET_UNIT+sysUser.getUserUnit(), HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysUnit.class).getBody();
+					sysUser.setUserId(UUID.randomUUID().toString().replaceAll("-", ""));
 					// 插入用户数据
 					this.restTemplate.exchange(USER_ADD_URL, HttpMethod.POST, new HttpEntity<SysUser>(sysUser, httpHeaders), Integer.class);
 					// 插入用户机构关联表数据
 					SysUserUnit sur = new SysUserUnit();
-					sur.setRelId(IdUtil.createIdByTime());
-					if (unit!=null) {
-						sur.setUnitId(unit.getUnitId());
-					} else {
-						sur.setUnitId(sysUser.getUserUnit());
-					}
+					sur.setRelId(UUID.randomUUID().toString().replaceAll("-", ""));
 					sur.setUserId(sysUser.getUserId());
-					this.restTemplate.exchange(USER_UNIT_ADD_URL, HttpMethod.POST, new HttpEntity<SysUserUnit>(sur, httpHeaders), Integer.class);
+					//this.restTemplate.exchange(USER_UNIT_ADD_URL, HttpMethod.POST, new HttpEntity<SysUserUnit>(sur, httpHeaders), Integer.class);
 					
 					// 创建完人员，赋值初始的岗位权限
 				}
