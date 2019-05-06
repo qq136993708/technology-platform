@@ -54,7 +54,7 @@
                     url: '/sre-purchase/chooseProject_data',
                     limit: 15,
                     method:"POST",
-                    where: {param:{"auditStatus":"2","name":$("#name").val(),"id":$("#topicId").val()}},
+                    where: {param:{"applyUnitCode":$("#applyUnitCode").val(),"auditStatus":"2","name":$("#name").val(),"id":$("#topicId").val()}},
                     id: 'notjoin_apply_table',
                     height: 350,
                     page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
@@ -157,7 +157,7 @@
     <input type="hidden" name="projectMoney" id="projectMoney" value="">
     <input type="hidden" name="leadUnitName" id="leadUnitName" value="">
     <input type="hidden" name="equipmentIds" id="equipmentIds" value="">
-
+    <input type="hidden" name="applyUnitCode" id="applyUnitCode" value="${applyUnitCode}">
 
     <div class="searchBox">
         <label class="dateInput">

@@ -3,6 +3,7 @@ package com.pcitc.web.interceptor;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -17,7 +18,7 @@ import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserUnit;
 import com.pcitc.base.util.DateUtil;
-import com.pcitc.base.util.IdUtil;
+import com.pcitc.web.config.SpringContextUtil;
 import com.sinopec.siam.provisioning.entity.Attribute;
 import com.sinopec.siam.provisioning.entity.EventType;
 import com.sinopec.siam.provisioning.entity.ProvisioningEvent;
@@ -34,6 +35,10 @@ import com.sinopec.siam.provisioning.listener.ProvisioningEventListener;
  */
 @Component
 public class SimpleProvisioningEventListenerService implements ProvisioningEventListener {
+	
+    private RestTemplate restTemplate;
+    private HttpHeaders httpHeaders;
+    
 	private static final String	UNIT_GET_UNIT		= "http://pcitc-zuul/system-proxy/unit-provider/unit/get-unit/";
 	private static final String	UNIT_ADD_UNIT		= "http://pcitc-zuul/system-proxy/unit-provider/unit/add-unit";
 	private static final String	UNIT_UPDATE_UNIT	= "http://pcitc-zuul/system-proxy/unit-provider/unit/upd-unit";
@@ -64,10 +69,20 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 	@Override
 	public void process(ProvisioningEvents events) {
 		System.out.println("统一身份认证消息接口");
-		HttpHeaders httpHeaders = new HttpHeaders();
+		System.out.println("统一身份认证消息接口=========="+httpHeaders);
+		if (httpHeaders == null) {
+			httpHeaders = SpringContextUtil.getApplicationContext().getBean(HttpHeaders.class);
+		}
+		//HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-		httpHeaders.set("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyVW5pdCI6IjEwMDAxLDE2NDFiM2I5MzQxXzlhM2ZkMWFhIiwidXNlckRpc3AiOiLotoXnuqfnrqHnkIblkZgiLCJ1c2VyTmFtZSI6ImFkbWluIiwicm9sZUxpc3QiOltdLCJleHAiOjE1NDA0NTA0OTYsInVzZXJJZCI6IjEyMyIsImVtYWlsIjoiNjc4MTA1NTk1OUBzaW5hLmNvbSJ9.L2ZxhelS9i-uOxl5Wzdjs2WubCMzs_NxTn4PizeVq6YjVg2FXG-6y_4B4Gun2LwOa2kXjOYcK2XBep0XAs76sA");
-		RestTemplate restTemplate = new RestTemplate();
+		// 初始化时没有token
+		httpHeaders.set("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpbnN0aXR1dGVOYW1lcyI6WyLli5jmjqLpmaIiLCLnianmjqLpmaIiLCLlt6XnqIvpmaIiLCLnn7Pnp5HpmaIiLCLlpKfov57pmaIiLCLljJfljJbpmaIiLCLkuIrmtbfpmaIiLCLlronlt6XpmaIiXSwidW5pdE5hbWUiOiLkuK3lm73nn7PmsrnljJblt6Xpm4blm6Is5YuY5o6i5byA5Y-R56CU56m26ZmiLOenkeaKgOmDqOe7vOWQiOiuoeWIkuWkhCIsInVuaXRDb2RlIjoiMDAwMDAsMTAwNDAxMDAxLDMwMTMwMDU0IiwidW5pdElkIjoiNDZiN2U0NTc1NmVmNGRiODhiNmFjYjcxMWY5MTZlNDMsNDVkYjJkZDNlMTQyNDk1YzkxYmM5NGYyMGVmNDk5ZTgsYTgyMjNjY2EyYjkwNDczOWJmMjhhN2Y0MGQ3MzJjNzMiLCJ1c2VyRGlzcCI6IuiSi-a2myIsInVzZXJOYW1lIjoiYWFhYWEiLCJyb2xlTGlzdCI6W10sImV4cCI6MTU2MjYzOTMwOSwidXNlcklkIjoiMTY1NTUzNDM2ZWRfZGZkNWUxMzciLCJlbWFpbCI6IjEyMzQ1NjY2NjZAeHh4LmNvbSIsImluc3RpdHV0ZUNvZGVzIjpbIjExMjAsMTEyMywxMTI0LDExMjciLCIxMTMwIiwiNDM2MCIsIjEwMjAiLCIxMDYwLDEwNjEiLCIxMDQwLDEwNDEiLCIxMDgwIiwiMTEwMCwxMTAxIl19.2crRnr6GlN1BjFnVKW76Kd5BDyF1zg7MZ1rZzNZG_Oa3BFtny3X9bSTRGr9zcxHpPMsBTnoTx_rNYVT39EVmog");
+		
+		if (restTemplate == null) {
+			restTemplate = SpringContextUtil.getApplicationContext().getBean(RestTemplate.class);
+		}
+		
+		//RestTemplate restTemplate = new RestTemplate();
 		List<ProvisioningEvent> list = events.getEvent();
 		String vlaue;
 		for (int i = 0; i<list.size(); i++) {
@@ -151,7 +166,7 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					sysUnit.setUnitAccount("机构账户");
 					// sysUnit.setUnitCode("ABC");
 					HttpEntity<Object> entit = new HttpEntity<Object>(sysUnit, httpHeaders);
-					restTemplate.exchange(UNIT_ADD_UNIT, HttpMethod.POST, entit, Object.class);
+					this.restTemplate.exchange(UNIT_ADD_UNIT, HttpMethod.POST, entit, Object.class);
 				}
 			}
 			/**
@@ -163,7 +178,7 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 				if (originalEntity!=null) {
 					TargetSubject originalSubject = originalEntity.getSubject();
 					System.out.println("组织机构主题:"+originalSubject);
-					SysUnit sysUnit = restTemplate.exchange(UNIT_GET_UNIT+originalSubject.getSubject(), HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysUnit.class).getBody();
+					SysUnit sysUnit = this.restTemplate.exchange(UNIT_GET_UNIT+originalSubject.getSubject(), HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysUnit.class).getBody();
 					@SuppressWarnings("unchecked")
 					List<Attribute> originalAttributes = originalEntity.getAttributes();
 					System.out.println("组织机构属性集合:");
@@ -213,7 +228,7 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 						}
 					}
 					HttpEntity<Object> entit = new HttpEntity<Object>(sysUnit, httpHeaders);
-					restTemplate.exchange(UNIT_UPDATE_UNIT, HttpMethod.POST, entit, Object.class);
+					this.restTemplate.exchange(UNIT_UPDATE_UNIT, HttpMethod.POST, entit, Object.class);
 				}
 			}
 			/**
@@ -224,10 +239,10 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 				if (originalEntity!=null) {
 					TargetSubject originalSubject = originalEntity.getSubject();
 					System.out.println("组织机构主题:"+originalSubject);
-					SysUnit sysUnit = restTemplate.exchange(UNIT_GET_UNIT+originalSubject.getSubject(), HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysUnit.class).getBody();
+					SysUnit sysUnit = this.restTemplate.exchange(UNIT_GET_UNIT+originalSubject.getSubject(), HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysUnit.class).getBody();
 					sysUnit.setUnitDelflag(1);
 					HttpEntity<Object> entit = new HttpEntity<Object>(sysUnit, httpHeaders);
-					restTemplate.exchange(UNIT_UPDATE_UNIT, HttpMethod.POST, entit, Object.class);
+					this.restTemplate.exchange(UNIT_UPDATE_UNIT, HttpMethod.POST, entit, Object.class);
 				}
 			}
 			/**
@@ -297,20 +312,18 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					sysUser.setLoginCheckCode("验证码");
 					sysUser.setUserCreateTime(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
 					// 获取用户所在机构部门
-					SysUnit unit = restTemplate.exchange(UNIT_GET_UNIT+sysUser.getUserUnit(), HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysUnit.class).getBody();
-					sysUser.setUserId(IdUtil.createIdByTime());
+					System.out.println(restTemplate+"---restTemplate======");
+					System.out.println(sysUser+"---sysUser======");
+					System.out.println(sysUser.getUserUnit()+"---getUserUnit======");
+					//SysUnit unit = this.restTemplate.exchange(UNIT_GET_UNIT+sysUser.getUserUnit(), HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysUnit.class).getBody();
+					sysUser.setUserId(UUID.randomUUID().toString().replaceAll("-", ""));
 					// 插入用户数据
-					restTemplate.exchange(USER_ADD_URL, HttpMethod.POST, new HttpEntity<SysUser>(sysUser, httpHeaders), Integer.class);
+					this.restTemplate.exchange(USER_ADD_URL, HttpMethod.POST, new HttpEntity<SysUser>(sysUser, httpHeaders), Integer.class);
 					// 插入用户机构关联表数据
 					SysUserUnit sur = new SysUserUnit();
-					sur.setRelId(IdUtil.createIdByTime());
-					if (unit!=null) {
-						sur.setUnitId(unit.getUnitId());
-					} else {
-						sur.setUnitId(sysUser.getUserUnit());
-					}
+					sur.setRelId(UUID.randomUUID().toString().replaceAll("-", ""));
 					sur.setUserId(sysUser.getUserId());
-					restTemplate.exchange(USER_UNIT_ADD_URL, HttpMethod.POST, new HttpEntity<SysUserUnit>(sur, httpHeaders), Integer.class);
+					//this.restTemplate.exchange(USER_UNIT_ADD_URL, HttpMethod.POST, new HttpEntity<SysUserUnit>(sur, httpHeaders), Integer.class);
 					
 					// 创建完人员，赋值初始的岗位权限
 				}
@@ -336,11 +349,11 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					 * vlaue;//登录账号 } }
 					 */
 					username = targetSubject.getSubject();
-					ResponseEntity<SysUser> rsEntity = restTemplate.exchange(GET_USER_INFO+username, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SysUser.class);
+					ResponseEntity<SysUser> rsEntity = this.restTemplate.exchange(GET_USER_INFO+username, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SysUser.class);
 					SysUser rsUser = rsEntity.getBody();
 					rsUser.setUserDelflag(1);
 					// 禁用用户数据（userdelfag改成1）
-					restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(rsUser, httpHeaders), Integer.class);
+					this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(rsUser, httpHeaders), Integer.class);
 				}
 			}
 			/**
@@ -364,11 +377,11 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					 * } }
 					 */
 					username = targetSubject.getSubject();
-					ResponseEntity<SysUser> rsEntity = restTemplate.exchange(GET_USER_INFO+username, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SysUser.class);
+					ResponseEntity<SysUser> rsEntity = this.restTemplate.exchange(GET_USER_INFO+username, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SysUser.class);
 					SysUser rsUser = rsEntity.getBody();
 					rsUser.setUserDelflag(0);
 					// 启用用户数据（userdelfag改成0）
-					restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(rsUser, httpHeaders), Integer.class);
+					this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(rsUser, httpHeaders), Integer.class);
 				}
 			}
 			/**
@@ -392,11 +405,11 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					 * } }
 					 */
 					username = targetSubject.getSubject();
-					ResponseEntity<SysUser> rsEntity = restTemplate.exchange(GET_USER_INFO+username, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SysUser.class);
+					ResponseEntity<SysUser> rsEntity = this.restTemplate.exchange(GET_USER_INFO+username, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SysUser.class);
 					SysUser rsUser = rsEntity.getBody();
 					rsUser.setUserDelflag(1);
 					// 禁用用户数据（userdelfag改成1）
-					restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(rsUser, httpHeaders), Integer.class);
+					this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(rsUser, httpHeaders), Integer.class);
 				}
 			}
 		}
