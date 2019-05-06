@@ -171,6 +171,19 @@ line-height: 60px;font-size: 22px;}
 .main-left ul li p{margin-top: 4px;}
 .layui-level-main .main-midd{ width: 484px;margin-right: 24px;}
 .layui-level-main .main-right{width: 432px;}
+.laboratory{height: 131px;width: 283px;position: relative;
+    float: left;}
+.laboratory-front{height: 100%;position: absolute;top:0;width: 100%;z-index: 1;}
+.laboratory-cont {background:url("/layuiadmin/layui/images/laboratory-front-bg.png") no-repeat right bottom;
+    height: 100%;}
+.laboratory-color{width: 100%;height: 100%;background-color: #b4a050;
+    margin: 0 auto;position: relative;z-index: 1;
+    }
+.main-right .title{font-size: 16px;color: white;padding: 15px 0 0 12px;}
+.main-right .number{text-align: center;color: white;font-size: 24px;height: 24px;line-height: 24px;}
+.main-right .laboratory-cont .number{margin-top: 32px;}
+.laboratory-back{width: 100%;height: 128px;border: 1px solid rgba(255,255,255,0);z-index: 0;
+    background: url("/layuiadmin/layui/images/laboratory-back.png") no-repeat;position: absolute;top: 0;}
 .layui-speech-m{margin-bottom: 50px;font-size: 14px;}
 .layui-speech-m a{color: #999999;}
 .layui-speech-m span{color: #000000;}
@@ -218,3 +231,131 @@ line-height: 60px;font-size: 22px;}
 .layui-speech-d .title{margin-top: 26px;}
 .layui-speech-d .title-time{margin-top: 20px;}
 .layui-speech-d .time{margin-right: 10px;}
+/*首页动画效果*/
+.contentH{animation:oneAHText 1s;animation-fill-mode:forwards;
+    -webkit-animation-fill-mode:forwards;}
+.contentC{animation:oneAnimationColor 1s;animation-fill-mode:forwards;
+    -webkit-animation-fill-mode:forwards;}
+.contentB{animation:oneAnimationB 1s;animation-fill-mode:forwards;
+    -webkit-animation-fill-mode:forwards;}
+.contentHO{animation:oneAHTO 1s;animation-fill-mode:forwards;
+    -webkit-animation-fill-mode:forwards;}
+.contentCO{animation:oneAnimationCO 1s;animation-fill-mode:forwards;
+    -webkit-animation-fill-mode:forwards;}
+.contentBO{animation:oneAnimationBO 1s;animation-fill-mode:forwards;
+    -webkit-animation-fill-mode:forwards;}
+/*hover文字与图标透明*/
+@keyframes oneAHText {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+}
+@-webkit-keyframes oneAHText {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+}
+@keyframes oneAnimationColor {
+    0%{width: 100%}
+    5%{width: 90%}
+    10%{width: 80%}
+    20%{width: 70%}
+    30%{width: 60%}
+    40%{width: 50%}
+    50%{width: 60%}
+    60%{width: 60%}
+    70%{width: 70%}
+    80%{width: 80%}
+    90%{width: 70%}
+    95%{width: 60%}
+    100%{width: 0%;}
+}
+@-webkit-keyframes oneAnimationColor /* Safari 与 Chrome */{
+    0%{width: 100%}
+    5%{width: 90%}
+    10%{width: 80%}
+    20%{width: 70%}
+    30%{width: 60%}
+    40%{width: 50%}
+    50%{width: 60%}
+    60%{width: 60%}
+    70%{width: 70%}
+    80%{width: 80%}
+    90%{width: 70%}
+    95%{width: 60%}
+    100%{width: 0%;}
+}
+@keyframes oneAnimationB {
+    0%{}
+    5%{border: 1px solid #ccd7df;
+        box-shadow: 0 0 10px #0155dc;}
+    100%{border: 1px solid #ccd7df;
+        box-shadow: 0 0 10px #0155dc;}
+}
+@-webkit-keyframes oneAnimationB /* Safari 与 Chrome */{
+    0%{}
+    5%{border: 1px solid #ccd7df;
+        box-shadow: 0 0 10px #0155dc;}
+    100%{border: 1px solid #ccd7df;
+        box-shadow: 0 0 10px #0155dc;}
+}
+@keyframes oneAHTO {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+@-webkit-keyframes oneAHTO {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+@keyframes oneAnimationCO {
+    0%{transform:scale(.3,1);}
+    /*5%{width: 80%}
+    10%{width: 100%}
+    15%{width: 120%;left: -10%;}
+    20%{width: 130%;left: -15%;}
+    25%{width: 120%;left: -10%;}
+    30%{width: 100%}
+    35%{width: 90%}
+    40%{width: 80%}
+    45%{width: 90%}
+    50%{width: 95%}
+    55%{width: 100%}
+    60%{width: 120%;left: -10%;}
+    65%{width: 110%;left: -5%;}
+    70%{width: 95%}
+    75%{width: 90%}
+    80%{width: 92%}
+    85%{width: 94%}
+    90%{width: 96%}
+    95%{width: 100%}
+    100%{width: 100%;}*/
+}
+@-webkit-keyframes oneAnimationCO /* Safari 与 Chrome */{
+    0%{transform:scale(.4,1);}
+    /*5%{width: 80%}
+    10%{width: 100%}
+    15%{width: 120%;left: -10%;}
+    20%{width: 130%;left: -15%;}
+    25%{width: 120%;left: -10%;}
+    30%{width: 100%}
+    35%{width: 90%}
+    40%{width: 80%}
+    45%{width: 90%}
+    50%{width: 95%}
+    55%{width: 100%}
+    60%{width: 120%;left: -10%;}
+    65%{width: 110%;left: -5%;}
+    70%{width: 95%}
+    75%{width: 90%}
+    80%{width: 92%}
+    85%{width: 94%}
+    90%{width: 96%}
+    95%{width: 100%}
+    100%{width: 100%;}*/
+}
+@keyframes oneAnimationBO {
+    0%{border: 1px solid rgba(255,255,255,0);box-shadow: none;}
+    100%{border: 1px solid rgba(255,255,255,0);box-shadow: none;}
+}
+@-webkit-keyframes oneAnimationBO /* Safari 与 Chrome */{
+    0%{border: 1px solid rgba(255,255,255,0);box-shadow: none;}
+    100%{border: 1px solid rgba(255,255,255,0);box-shadow: none;}
+}

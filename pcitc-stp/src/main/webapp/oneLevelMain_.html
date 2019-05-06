@@ -106,7 +106,14 @@
             </div>
             <div class="main-right">
                 <div class="laboratory">
-                    <div class=""></div>
+                    <div class="laboratory-color"></div>
+                    <div class="laboratory-front">
+                        <div class="laboratory-cont">
+                            <p class="title">重点实验室</p>
+                            <p class="number">33</p>
+                        </div>
+                    </div>
+                    <div class="laboratory-back"></div>
                 </div>
                 <div class="equipment">
 
@@ -375,6 +382,17 @@ var nd=$("#month").val().substring(4,0);
             error : function(err, err1, err2) {
                 console.log("ajaxPost发生异常，请仔细检查请求url是否正确");
             }
+        });
+        /*执行动画*/
+        $(".laboratory").mouseover(function () {
+            $(".laboratory-cont").addClass("contentH");
+            $(".laboratory-color").addClass("contentC");
+            $(".laboratory-back").addClass("contentB");
+        });
+        $(".laboratory").mouseout(function () {
+            $(".laboratory-cont").addClass("contentHO");
+            $(".laboratory-color").addClass("contentCO");
+            $(".laboratory-back").addClass("contentBO");
         });
     });
 
