@@ -71,6 +71,7 @@ public class BudgetGroupTotalController extends BaseController {
 	private static final String BUDGET_GROUPTOTAL_SAVE_CHILDITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-grouptotal-childitems";
 	private static final String BUDGET_GROUPTOTAL_COMPANY_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-group-company-items";
 	private static final String BUDGET_GROUPTOTAL_COMPANY_TREE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-group-company-tree";
+	private static final String BUDGET_GROUPTOTAL_PLANDATA = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-grouptotal-plandata/";
 	
 	private static final String BUDGET_GROUPTOTAL_HISTORY_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-grouptotal-history-items";
 	private static final String BUDGET_GROUPTOTAL_FINAL_HISTORY_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-grouptotal-final-history-list";
@@ -86,6 +87,7 @@ public class BudgetGroupTotalController extends BaseController {
 	public Object toBudgetGroupPage(HttpServletRequest request) throws IOException 
 	{
 		request.setAttribute("nd", DateUtil.format(DateUtil.getNextYearDay(new Date()), DateUtil.FMT_YYYY));
+		request.setAttribute("cnd", DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		return "stp/budget/budget_main_grouptotal";
 	}
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_edit_grouptotal")
@@ -340,19 +342,14 @@ public class BudgetGroupTotalController extends BaseController {
 		//System.out.println(JSON.toJSONString(infors.getBody()));
 		return infors.getBody();
 	}
-	/*@RequestMapping(value = "/budget/start-budget-grouptotal-activity")
-	public Object startBudgetGrouptotatlWorkflow(@RequestParam(value = "budget", required = true) String noticeId,
-			@RequestParam(value = "functionId", required = true) String functionId,
+	@RequestMapping(value = "/budget/select-grouptotal-plandata", method = RequestMethod.POST)
+	@ResponseBody
+	public Object selectGrouptotalPlandata(@RequestParam(value = "budget_info_id", required = true) String budget_info_id,
 			HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
-		WorkflowVo vo = new WorkflowVo();
-		vo.setAuditUserIds(this.getUserProfile().getUserId());
-		vo.setFunctionId(functionId);
-		vo.setAuthenticatedUserId(this.getUserProfile().getUserId());
-		HttpEntity<WorkflowVo> entity = new HttpEntity<WorkflowVo>(vo, this.httpHeaders);
-		Result rs = this.restTemplate.exchange(PROJECT_NOTICE_WORKFLOW_URL + noticeId, HttpMethod.POST, entity, Result.class).getBody();
-		return rs;
-	}*/
+		ResponseEntity<?> rs = this.restTemplate.exchange(BUDGET_GROUPTOTAL_PLANDATA + budget_info_id, HttpMethod.POST,  new HttpEntity<Object>(this.httpHeaders), Object.class);
+		return rs.getBody();
+	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping("/budget/budget_download/grouptotal/{dataId}")

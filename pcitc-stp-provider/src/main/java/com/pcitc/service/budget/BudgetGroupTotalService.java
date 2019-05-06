@@ -7,9 +7,12 @@ import java.util.Set;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
+import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.stp.out.OutUnit;
+import com.pcitc.base.workflow.SysDelegate;
+import com.pcitc.base.workflow.WorkflowVo;
 
 /**
  * 集团预算总表业务
@@ -118,4 +121,10 @@ public interface BudgetGroupTotalService
 	 * @return
 	 */
 	public Map<String,List<OutProjectInfo>> selectCompareProjectInfoData(Set<String> codes,String nd);
+	/**
+	 * 发起工作流
+	 * @param delegate
+	 * @return
+	 */
+	public Boolean startWorkFlow(BudgetInfo info,WorkflowVo workflowVo);
 }

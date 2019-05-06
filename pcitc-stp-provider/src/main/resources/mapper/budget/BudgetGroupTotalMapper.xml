@@ -18,7 +18,11 @@
     <result column="level" jdbcType="INTEGER" property="level" />
     <result column="total" jdbcType="DOUBLE" property="total" />
     <result column="xmjf" jdbcType="DOUBLE" property="xmjf" />
+    <result column="xmjf_jz" jdbcType="DOUBLE" property="xmjfJz" />
+    <result column="xmjf_xq" jdbcType="DOUBLE" property="xmjfXq" />
     <result column="zxjf" jdbcType="DOUBLE" property="zxjf" />
+    <result column="zxjf_jz" jdbcType="DOUBLE" property="zxjfJz" />
+    <result column="zxjf_xq" jdbcType="DOUBLE" property="zxjfXq" />
     <result column="item_type" jdbcType="INTEGER" property="itemType" />
     <result column="company_code" jdbcType="VARCHAR" property="companyCode" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -87,7 +91,8 @@
   <sql id="Base_Column_List">
     data_id, parent_data_id, nd, data_version, create_time, update_time, creater_name, 
     creater_id, no, display_name, simple_name, display_code, simple_code, level, total, 
-    xmjf, zxjf, item_type, company_code, remark, budget_info_id, del_flag, append_files
+    xmjf, xmjf_jz, xmjf_xq, zxjf, zxjf_jz, zxjf_xq, item_type, company_code, remark, 
+    budget_info_id, del_flag, append_files
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.stp.budget.BudgetGroupTotalExample" resultMap="BaseResultMap">
     select
@@ -126,17 +131,21 @@
       creater_name, creater_id, no, 
       display_name, simple_name, display_code, 
       simple_code, level, total, 
-      xmjf, zxjf, item_type, 
-      company_code, remark, budget_info_id, 
-      del_flag, append_files)
+      xmjf, xmjf_jz, xmjf_xq, 
+      zxjf, zxjf_jz, zxjf_xq, 
+      item_type, company_code, remark, 
+      budget_info_id, del_flag, append_files
+      )
     values (#{dataId,jdbcType=VARCHAR}, #{parentDataId,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, 
       #{dataVersion,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}, 
       #{createrName,jdbcType=VARCHAR}, #{createrId,jdbcType=VARCHAR}, #{no,jdbcType=INTEGER}, 
       #{displayName,jdbcType=VARCHAR}, #{simpleName,jdbcType=VARCHAR}, #{displayCode,jdbcType=VARCHAR}, 
       #{simpleCode,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{total,jdbcType=DOUBLE}, 
-      #{xmjf,jdbcType=DOUBLE}, #{zxjf,jdbcType=DOUBLE}, #{itemType,jdbcType=INTEGER}, 
-      #{companyCode,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{budgetInfoId,jdbcType=VARCHAR}, 
-      #{delFlag,jdbcType=INTEGER}, #{appendFiles,jdbcType=VARCHAR})
+      #{xmjf,jdbcType=DOUBLE}, #{xmjfJz,jdbcType=DOUBLE}, #{xmjfXq,jdbcType=DOUBLE}, 
+      #{zxjf,jdbcType=DOUBLE}, #{zxjfJz,jdbcType=DOUBLE}, #{zxjfXq,jdbcType=DOUBLE}, 
+      #{itemType,jdbcType=INTEGER}, #{companyCode,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{budgetInfoId,jdbcType=VARCHAR}, #{delFlag,jdbcType=INTEGER}, #{appendFiles,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.budget.BudgetGroupTotal">
     insert into out_tem_money_group_total
@@ -189,8 +198,20 @@
       <if test="xmjf != null">
         xmjf,
       </if>
+      <if test="xmjfJz != null">
+        xmjf_jz,
+      </if>
+      <if test="xmjfXq != null">
+        xmjf_xq,
+      </if>
       <if test="zxjf != null">
         zxjf,
+      </if>
+      <if test="zxjfJz != null">
+        zxjf_jz,
+      </if>
+      <if test="zxjfXq != null">
+        zxjf_xq,
       </if>
       <if test="itemType != null">
         item_type,
@@ -260,8 +281,20 @@
       <if test="xmjf != null">
         #{xmjf,jdbcType=DOUBLE},
       </if>
+      <if test="xmjfJz != null">
+        #{xmjfJz,jdbcType=DOUBLE},
+      </if>
+      <if test="xmjfXq != null">
+        #{xmjfXq,jdbcType=DOUBLE},
+      </if>
       <if test="zxjf != null">
         #{zxjf,jdbcType=DOUBLE},
+      </if>
+      <if test="zxjfJz != null">
+        #{zxjfJz,jdbcType=DOUBLE},
+      </if>
+      <if test="zxjfXq != null">
+        #{zxjfXq,jdbcType=DOUBLE},
       </if>
       <if test="itemType != null">
         #{itemType,jdbcType=INTEGER},
@@ -340,8 +373,20 @@
       <if test="record.xmjf != null">
         xmjf = #{record.xmjf,jdbcType=DOUBLE},
       </if>
+      <if test="record.xmjfJz != null">
+        xmjf_jz = #{record.xmjfJz,jdbcType=DOUBLE},
+      </if>
+      <if test="record.xmjfXq != null">
+        xmjf_xq = #{record.xmjfXq,jdbcType=DOUBLE},
+      </if>
       <if test="record.zxjf != null">
         zxjf = #{record.zxjf,jdbcType=DOUBLE},
+      </if>
+      <if test="record.zxjfJz != null">
+        zxjf_jz = #{record.zxjfJz,jdbcType=DOUBLE},
+      </if>
+      <if test="record.zxjfXq != null">
+        zxjf_xq = #{record.zxjfXq,jdbcType=DOUBLE},
       </if>
       <if test="record.itemType != null">
         item_type = #{record.itemType,jdbcType=INTEGER},
@@ -384,7 +429,11 @@
       level = #{record.level,jdbcType=INTEGER},
       total = #{record.total,jdbcType=DOUBLE},
       xmjf = #{record.xmjf,jdbcType=DOUBLE},
+      xmjf_jz = #{record.xmjfJz,jdbcType=DOUBLE},
+      xmjf_xq = #{record.xmjfXq,jdbcType=DOUBLE},
       zxjf = #{record.zxjf,jdbcType=DOUBLE},
+      zxjf_jz = #{record.zxjfJz,jdbcType=DOUBLE},
+      zxjf_xq = #{record.zxjfXq,jdbcType=DOUBLE},
       item_type = #{record.itemType,jdbcType=INTEGER},
       company_code = #{record.companyCode,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
@@ -443,8 +492,20 @@
       <if test="xmjf != null">
         xmjf = #{xmjf,jdbcType=DOUBLE},
       </if>
+      <if test="xmjfJz != null">
+        xmjf_jz = #{xmjfJz,jdbcType=DOUBLE},
+      </if>
+      <if test="xmjfXq != null">
+        xmjf_xq = #{xmjfXq,jdbcType=DOUBLE},
+      </if>
       <if test="zxjf != null">
         zxjf = #{zxjf,jdbcType=DOUBLE},
+      </if>
+      <if test="zxjfJz != null">
+        zxjf_jz = #{zxjfJz,jdbcType=DOUBLE},
+      </if>
+      <if test="zxjfXq != null">
+        zxjf_xq = #{zxjfXq,jdbcType=DOUBLE},
       </if>
       <if test="itemType != null">
         item_type = #{itemType,jdbcType=INTEGER},
@@ -484,7 +545,11 @@
       level = #{level,jdbcType=INTEGER},
       total = #{total,jdbcType=DOUBLE},
       xmjf = #{xmjf,jdbcType=DOUBLE},
+      xmjf_jz = #{xmjfJz,jdbcType=DOUBLE},
+      xmjf_xq = #{xmjfXq,jdbcType=DOUBLE},
       zxjf = #{zxjf,jdbcType=DOUBLE},
+      zxjf_jz = #{zxjfJz,jdbcType=DOUBLE},
+      zxjf_xq = #{zxjfXq,jdbcType=DOUBLE},
       item_type = #{itemType,jdbcType=INTEGER},
       company_code = #{companyCode,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},

@@ -27,4 +27,6 @@ public interface BudgetSplitDataMapper {
     int updateByPrimaryKeySelective(BudgetSplitData record);
 
     int updateByPrimaryKey(BudgetSplitData record);
+    
+    int insertList(List<BudgetSplitData> list);
 }

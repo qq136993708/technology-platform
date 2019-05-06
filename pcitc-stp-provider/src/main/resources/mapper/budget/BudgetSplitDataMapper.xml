@@ -128,6 +128,23 @@
       #{jz,jdbcType=DOUBLE}, #{xq,jdbcType=DOUBLE}, #{paymentType,jdbcType=INTEGER}, 
       #{budgetInfoId,jdbcType=VARCHAR}, #{delFlag,jdbcType=INTEGER})
   </insert>
+  <insert id="insertList" parameterType="java.util.List">
+    insert into out_tem_budget_split_data (data_id, data_version, create_time, 
+      update_time, organ_id, organ_code, 
+      nd, budget_type, budget_type_name, 
+      split_code, split_name, total, 
+      jz, xq, payment_type, 
+      budget_info_id, del_flag)
+    values 
+    	<foreach collection="list" item="item" index="index" separator=",">
+	    (#{item.dataId,jdbcType=VARCHAR}, #{item.dataVersion,jdbcType=VARCHAR}, #{item.createTime,jdbcType=VARCHAR}, 
+	      #{item.updateTime,jdbcType=VARCHAR}, #{item.organId,jdbcType=INTEGER}, #{item.organCode,jdbcType=VARCHAR}, 
+	      #{item.nd,jdbcType=VARCHAR}, #{item.budgetType,jdbcType=INTEGER}, #{item.budgetTypeName,jdbcType=VARCHAR}, 
+	      #{item.splitCode,jdbcType=VARCHAR}, #{item.splitName,jdbcType=VARCHAR}, #{item.total,jdbcType=DOUBLE}, 
+	      #{item.jz,jdbcType=DOUBLE}, #{item.xq,jdbcType=DOUBLE}, #{item.paymentType,jdbcType=INTEGER}, 
+	      #{item.budgetInfoId,jdbcType=VARCHAR}, #{item.delFlag,jdbcType=INTEGER})
+		</foreach>
+  </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.budget.BudgetSplitData">
     insert into out_tem_budget_split_data
     <trim prefix="(" suffix=")" suffixOverrides=",">

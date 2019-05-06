@@ -7,7 +7,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -35,7 +37,6 @@ import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.stp.out.OutUnit;
-import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
@@ -53,7 +54,7 @@ public class BudgetGroupTotalProviderClient
 {
 	
 	private final static Logger logger = LoggerFactory.getLogger(BudgetGroupTotalProviderClient.class);
-	private final static String WORKFLOW_DEFINE_ID = "xxxx:x:xxxxx";
+	//private final static String WORKFLOW_DEFINE_ID = "xxxx:x:xxxxx";
 	
 	@Autowired
 	private BudgetGroupTotalService budgetGroupTotalService;
@@ -130,71 +131,28 @@ public class BudgetGroupTotalProviderClient
 		try
 		{
 			data = budgetGroupTotalService.selectBudgetGroupTotalPage(param);
-			//获取二级机构的计划数据
-			List<BudgetGroupTotal> totals = budgetGroupTotalService.selectBudgetGroupTotalByInfoId(param.getParam().get("budget_info_id").toString());
+			BudgetInfo info = budgetInfoService.selectBudgetInfo(param.getParam().get("budget_info_id").toString());
 			
-			Map<String,Set<String>> itemMap = new HashMap<String,Set<String>>();
-			Set<String> codes = new HashSet<String>();
-			for(BudgetGroupTotal total:totals) {
-				if(total.getLevel() > 0) {
-					if(StringUtils.isNotBlank(total.getDisplayCode())) {
-						codes.add(total.getDisplayCode());
-					}
-				}else {
-					//一级item下包含的二级item列表
-					itemMap.put(total.getDataId(), new HashSet<String>());
-					for(BudgetGroupTotal t:totals) {
-						if(t.getParentDataId() != null && t.getParentDataId().equals(total.getDataId())) {
-							if(StringUtils.isNotBlank(t.getDisplayCode())) {
-								itemMap.get(total.getDataId()).add(t.getDisplayCode());
-							}
-						}
-					}
-				}
+			//获取去年数据
+			BudgetInfo lastInfo = budgetInfoService.selectFinalBudget((new Integer(info.getNd())-1)+"", BudgetInfoEnum.GROUP_TOTAL.getCode());
+			List<BudgetGroupTotal> lastTotals = new ArrayList<BudgetGroupTotal>();
+			if(lastInfo != null) {
+				lastTotals = budgetGroupTotalService.selectBudgetGroupTotalByInfoId(lastInfo.getDataId());
 			}
-			String nd = param.getParam().get("nd").toString();
-			//处理计划数据
-			Map<String,List<OutProjectPlan>> planMap = budgetGroupTotalService.selectComparePlanData(codes,nd);
+			//System.out.println(JSON.toJSONString(lastTotals));
 			for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) {
 				Map<String,Object> map = MyBeanUtils.java2Map(iter.next());
-				String dataId = map.get("dataId").toString();
-				if(itemMap.get(dataId) != null && itemMap.get(dataId).size()>0) {
-					Double ysjes = 0d;
-					Set<String> codeset = itemMap.get(dataId);
-					for(String code:codeset) 
-					{
-						List<OutProjectPlan> plans = planMap.get(code);
-						if(plans != null && plans.size()>0) {
-							for(OutProjectPlan plan:plans) {
-								ysjes += new Double(plan.getYsje()==null?"0":plan.getYsje());
-							}
-						}
-					}
-					map.put("plan_money", ysjes.intValue());
+				String displayName = map.get("displayName").toString();
+				//System.out.println("displayName:"+displayName);
+				Optional<BudgetGroupTotal> rs = lastTotals.stream().filter(a -> displayName.equals(a.getDisplayName())).findFirst();
+				if(rs != null && rs.isPresent()) {
+					map.put("last_year_total", rs.get().getTotal());
+					map.put("last_year_xmjf", rs.get().getXmjf());
+					map.put("last_year_zxjf", rs.get().getZxjf());
 				}else {
-					map.put("plan_money", "无");
-				}
-			}
-			//处理项目完成金额
-			Map<String,List<OutProjectInfo>> projectMap = budgetGroupTotalService.selectCompareProjectInfoData(codes,(new Integer(nd)-1)+"");
-			for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) {
-				Map<String,Object> map = MyBeanUtils.java2Map(iter.next());
-				String dataId = map.get("dataId").toString();
-				if(itemMap.get(dataId) != null && itemMap.get(dataId).size()>0) {
-					Double jhjes = 0d;
-					Set<String> codeset = itemMap.get(dataId);
-					for(String code:codeset) 
-					{
-						List<OutProjectInfo> plans = projectMap.get(code);
-						if(plans != null && plans.size()>0) {
-							for(OutProjectInfo plan:plans) {
-								jhjes += new Double(plan.getYsje()==null?"0":plan.getYsje());
-							}
-						}
-					}
-					map.put("last_year_end", jhjes.intValue());
-				}else {
-					map.put("last_year_end", "无");
+					map.put("last_year_total", "无");
+					map.put("last_year_xmjf", "无");
+					map.put("last_year_zxjf", "无");
 				}
 			}
 		}
@@ -204,6 +162,83 @@ public class BudgetGroupTotalProviderClient
 		}
 		return data;
 	}
+	@ApiOperation(value="集团公司预算-预算计划数据",notes="检索集团预算表计划数据")
+	@RequestMapping(value = "/stp-provider/budget/select-grouptotal-plandata/{budgetInfoId}", method = RequestMethod.POST)
+	public Object selectLastGroupTotalItemJz(@PathVariable("budgetInfoId") String budgetInfoId) 
+	{
+		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
+		try 
+		{
+			BudgetInfo info = budgetInfoService.selectBudgetInfo(budgetInfoId);
+			List<BudgetGroupTotal> totals = budgetGroupTotalService.selectBudgetGroupTotalByInfoId(budgetInfoId);
+			
+			List<BudgetGroupTotal> items = totals.stream().filter(a -> a.getLevel()==0).collect(Collectors.toList());
+			List<BudgetGroupTotal> compnays = totals.stream().filter(a -> a.getLevel()>0).collect(Collectors.toList());
+			
+			System.out.println("items："+JSON.toJSONString(items));
+			System.out.println("compnays："+JSON.toJSONString(compnays));
+			
+			Map<String,Set<String>> itemMap = new HashMap<String,Set<String>>();
+			Set<String> codes = new HashSet<String>();
+			for(BudgetGroupTotal compnay:compnays) {
+				if(StringUtils.isNotBlank(compnay.getDisplayCode())) {
+					codes.add(compnay.getDisplayCode());
+				}
+			}
+			for(BudgetGroupTotal item:items) {
+				itemMap.put(item.getDataId(), new HashSet<String>());
+				for(BudgetGroupTotal compnay:compnays) {
+					if(item.getDataId().equals(compnay.getParentDataId())) {
+						itemMap.get(item.getDataId()).add(compnay.getDisplayCode());
+					}
+				}
+			}
+			System.out.println("itemMap："+JSON.toJSONString(itemMap));
+			
+			Map<String,List<OutProjectInfo>> projectMap = budgetGroupTotalService.selectCompareProjectInfoData(codes,info.getNd());
+			for(java.util.Iterator<BudgetGroupTotal> iter = items.iterator();iter.hasNext();) {
+				//Map<String,Object> map = MyBeanUtils.java2Map(iter.next());
+				//String dataId = map.get("dataId").toString();
+				Map<String,Object> map = new HashMap<String,Object>();
+				String dataId = iter.next().getDataId();
+				map.put("dataId", dataId);
+				
+				List<OutProjectInfo> projects = new ArrayList<OutProjectInfo>();
+				if(itemMap.get(dataId) != null && itemMap.get(dataId).size()>0) {
+					Double xmjfJz = 0d;
+					Double zxjfJz = 0d;
+					
+					for(String code:itemMap.get(dataId)) 
+					{
+						List<OutProjectInfo> ps = projectMap.get(code);
+						if(ps != null && ps.size()>0) {
+							projects.addAll(ps);
+						}
+					}
+					for(OutProjectInfo plan:projects) {
+						xmjfJz += new Double(plan.getYsje()==null?"0":plan.getYsje());
+						zxjfJz += new Double(plan.getYsje()==null?"0":plan.getYsje());
+					}
+					map.put("plans", projects);
+					map.put("xmjfJz", xmjfJz.intValue());
+					map.put("zxjfJz", zxjfJz.intValue());
+				}else {
+					map.put("plans", projects);
+					map.put("xmjfJz", "无");
+					map.put("zxjfJz", "无");
+				}
+				rsdata.add(map);
+			}
+			System.out.println("rsdata："+JSON.toJSONString(rsdata));
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		return rsdata;
+	}
+	
+	
 	
 	@ApiOperation(value="集团公司预算-持久化预算项",notes="添加或更新集团预算表项目。")
 	@RequestMapping(value = "/stp-provider/budget/budget-persistence-grouptotal-item", method = RequestMethod.POST)
@@ -317,12 +352,31 @@ public class BudgetGroupTotalProviderClient
 		{
 			BudgetGroupTotal groupTotal = budgetGroupTotalService.selectBudgetGroupTotal(itemId);
 			if(groupTotal != null) {
-				List<BudgetGroupTotal> childGroups = budgetGroupTotalService.selectChildBudgetGroupTotal(itemId);
+				List<BudgetGroupTotal> compnays = budgetGroupTotalService.selectChildBudgetGroupTotal(itemId);
+				//获取计划数据
+				Set<String> codes = new HashSet<String>();
+				for(BudgetGroupTotal compnay:compnays) {
+					if(StringUtils.isNotBlank(compnay.getDisplayCode())) {
+						codes.add(compnay.getDisplayCode());
+					}
+				}
+				Map<String,List<OutProjectInfo>> projectMap = budgetGroupTotalService.selectCompareProjectInfoData(codes,groupTotal.getNd());
+				System.out.println(JSON.toJSONString(projectMap));
 				List<Map<String,Object>> groupMaps = new ArrayList<Map<String,Object>>();
-				for(BudgetGroupTotal total:childGroups) {
+				for(BudgetGroupTotal total:compnays) {
 					Map<String,Object> mp = MyBeanUtils.transBean2Map(total);
-					map.put("last_year_end", 0);
-					map.put("plan_money", 0);
+					List<OutProjectInfo> projects = projectMap.get(total.getDisplayCode());
+					
+					Double xmjfJz = 0d;
+					Double zxjfJz = 0d;
+					if(projects != null) {
+						for(OutProjectInfo project:projects) {
+							xmjfJz += new Double(project.getYsje()==null?"0":project.getYsje());
+							zxjfJz += new Double(project.getYsje()==null?"0":project.getYsje());
+						}
+					}
+					mp.put("xmjfJz", xmjfJz);
+					mp.put("zxjfJz", zxjfJz);
 					groupMaps.add(mp);
 				}
 				
@@ -645,39 +699,13 @@ public class BudgetGroupTotalProviderClient
 		BudgetInfo info = null;
 		try {
 			info = budgetInfoService.selectBudgetInfo(budgetInfoId);
-		
 			//如果审批已发起则不能再次发起(只有编制中，获取审批驳回可再发起)
 			if(!(BudgetAuditStatusEnum.AUDIT_STATUS_NO_START.getCode().equals(info.getAuditStatus()) || BudgetAuditStatusEnum.AUDIT_STATUS_REFUSE.getCode().equals(info.getAuditStatus())))
 			{
 				return new Result(false,"审批中或者已完成审批不可重复发起！");
 			}
-			//workflowVo.setAuthenticatedUserId("111");
-			workflowVo.setProcessDefineId(WORKFLOW_DEFINE_ID); 
-			workflowVo.setBusinessId(info.getDataId());
-			workflowVo.setProcessInstanceName("集团预算表审批："+info.getDataVersion());
-			Map<String, Object> variables = new HashMap<String, Object>();  
-			//starter为必填项。流程图的第一个节点待办人变量必须为starter
-	        variables.put("starter", workflowVo.getAuthenticatedUserId());
-	        
-	        //必须设置。流程中，需要的第二个节点的指派人；除starter外，所有待办人变量都指定为auditor(处长审批)
-	        //处长审批 ZSH_JTZSZYC_GJHZC_CZ
-	        List<SysUser> users = systemRemoteClient.selectUsersByPostCode("ZSH_JTZSZYC_GJHZC_CZ");
-	        System.out.println("start userIds ... "+JSON.toJSONString(users));
-	        variables.put("auditor", workflowVo.getAuthenticatedUserId());
-	        if(users != null && users.size()>0) {
-	        	variables.put("auditor", users.get(0).getUserId());
-	        }
-	        //必须设置，统一流程待办任务中需要的业务详情
-	        variables.put("auditDetailsPath", "/budget/notice_view?noticeId="+info.getDataId());
-	        //流程完全审批通过时，调用的方法（通过版本即为当前预算最终版本）
-	        variables.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-grouptotal-notice?budgetId="+info.getDataId()+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
-	        //流程驳回时，调用的方法（可能驳回到第一步，也可能驳回到第1+n步
-	        variables.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-grouptotal-notice?budgetId="+info.getDataId()+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_REFUSE.getCode());
-	        
-	        workflowVo.setVariables(variables);
-			String rs = systemRemoteClient.startWorkflowByProcessDefinitionId(workflowVo);
-			System.out.println("startwork  rs...."+rs);
-			if("true".equals(rs)) 
+			Boolean rs = budgetGroupTotalService.startWorkFlow(info,workflowVo);
+			if(rs) 
 			{
 				info.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_START.getCode());
 				budgetInfoService.updateBudgetInfo(info);
