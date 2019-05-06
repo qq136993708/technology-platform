@@ -19,7 +19,7 @@ import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserUnit;
 import com.pcitc.base.util.DateUtil;
-import com.pcitc.base.util.IdUtil;
+import com.pcitc.web.common.BaseController;
 import com.sinopec.siam.provisioning.entity.Attribute;
 import com.sinopec.siam.provisioning.entity.EventType;
 import com.sinopec.siam.provisioning.entity.ProvisioningEvent;
@@ -35,9 +35,7 @@ import com.sinopec.siam.provisioning.listener.ProvisioningEventListener;
  * @date 2018年8月07日 上午10:21:11
  */
 @Component
-public class SimpleProvisioningEventListenerService implements ProvisioningEventListener {
-	@Autowired
-    public RestTemplate restTemplate;
+public class SimpleProvisioningEventListenerService extends BaseController implements ProvisioningEventListener {
 	
 	private static final String	UNIT_GET_UNIT		= "http://pcitc-zuul/system-proxy/unit-provider/unit/get-unit/";
 	private static final String	UNIT_ADD_UNIT		= "http://pcitc-zuul/system-proxy/unit-provider/unit/add-unit";
@@ -69,7 +67,8 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 	@Override
 	public void process(ProvisioningEvents events) {
 		System.out.println("统一身份认证消息接口");
-		HttpHeaders httpHeaders = new HttpHeaders();
+		System.out.println("统一身份认证消息接口=========="+httpHeaders);
+		//HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		// 初始化时没有token
 		httpHeaders.set("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpbnN0aXR1dGVOYW1lcyI6WyLli5jmjqLpmaIiLCLnianmjqLpmaIiLCLlt6XnqIvpmaIiLCLnn7Pnp5HpmaIiLCLlpKfov57pmaIiLCLljJfljJbpmaIiLCLkuIrmtbfpmaIiLCLlronlt6XpmaIiXSwidW5pdE5hbWUiOiLkuK3lm73nn7PmsrnljJblt6Xpm4blm6Is5YuY5o6i5byA5Y-R56CU56m26ZmiLOenkeaKgOmDqOe7vOWQiOiuoeWIkuWkhCIsInVuaXRDb2RlIjoiMDAwMDAsMTAwNDAxMDAxLDMwMTMwMDU0IiwidW5pdElkIjoiNDZiN2U0NTc1NmVmNGRiODhiNmFjYjcxMWY5MTZlNDMsNDVkYjJkZDNlMTQyNDk1YzkxYmM5NGYyMGVmNDk5ZTgsYTgyMjNjY2EyYjkwNDczOWJmMjhhN2Y0MGQ3MzJjNzMiLCJ1c2VyRGlzcCI6IuiSi-a2myIsInVzZXJOYW1lIjoiYWFhYWEiLCJyb2xlTGlzdCI6W10sImV4cCI6MTU2MjYzOTMwOSwidXNlcklkIjoiMTY1NTUzNDM2ZWRfZGZkNWUxMzciLCJlbWFpbCI6IjEyMzQ1NjY2NjZAeHh4LmNvbSIsImluc3RpdHV0ZUNvZGVzIjpbIjExMjAsMTEyMywxMTI0LDExMjciLCIxMTMwIiwiNDM2MCIsIjEwMjAiLCIxMDYwLDEwNjEiLCIxMDQwLDEwNDEiLCIxMDgwIiwiMTEwMCwxMTAxIl19.2crRnr6GlN1BjFnVKW76Kd5BDyF1zg7MZ1rZzNZG_Oa3BFtny3X9bSTRGr9zcxHpPMsBTnoTx_rNYVT39EVmog");
