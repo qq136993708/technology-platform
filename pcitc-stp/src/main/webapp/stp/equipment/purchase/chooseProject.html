@@ -54,7 +54,7 @@
                     url: '/sre-purchase/chooseProject_data',
                     limit: 15,
                     method:"POST",
-                    where: {param:{"taskWriteUsersIds":$("#taskWriteUsersIds").val(),"name":$("#name").val(),"id":$("#topicId").val()}},
+                    where: {param:{"auditStatus":"2","name":$("#name").val(),"id":$("#topicId").val()}},
                     id: 'notjoin_apply_table',
                     height: 350,
                     page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
