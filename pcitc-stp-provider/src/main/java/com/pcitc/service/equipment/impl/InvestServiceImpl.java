@@ -152,5 +152,13 @@ public  class InvestServiceImpl implements InvestService {
 		data.setCount(total.intValue());
 	    return data;
 	}
+
+
+	@Override
+	public List<SreProjectTask> getSelectProjectTask() {
+		Map  map = new HashMap<>(); 
+		System.err.println(sreProjectTaskMapper.getSelectDate(map));
+		return sreProjectTaskMapper.getSelectDate(map);
+	}
 	
 	}

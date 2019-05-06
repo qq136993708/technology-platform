@@ -3,8 +3,8 @@ package com.pcitc.web.interceptor;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -18,7 +18,7 @@ import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserUnit;
 import com.pcitc.base.util.DateUtil;
-import com.pcitc.base.util.IdUtil;
+import com.pcitc.web.config.SpringContextUtil;
 import com.sinopec.siam.provisioning.entity.Attribute;
 import com.sinopec.siam.provisioning.entity.EventType;
 import com.sinopec.siam.provisioning.entity.ProvisioningEvent;
@@ -35,9 +35,10 @@ import com.sinopec.siam.provisioning.listener.ProvisioningEventListener;
  */
 @Component
 public class SimpleProvisioningEventListenerService implements ProvisioningEventListener {
-	@Autowired
-    public RestTemplate restTemplate;
 	
+    private RestTemplate restTemplate;
+    private HttpHeaders httpHeaders;
+    
 	private static final String	UNIT_GET_UNIT		= "http://pcitc-zuul/system-proxy/unit-provider/unit/get-unit/";
 	private static final String	UNIT_ADD_UNIT		= "http://pcitc-zuul/system-proxy/unit-provider/unit/add-unit";
 	private static final String	UNIT_UPDATE_UNIT	= "http://pcitc-zuul/system-proxy/unit-provider/unit/upd-unit";
@@ -68,10 +69,19 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 	@Override
 	public void process(ProvisioningEvents events) {
 		System.out.println("统一身份认证消息接口");
-		HttpHeaders httpHeaders = new HttpHeaders();
+		System.out.println("统一身份认证消息接口=========="+httpHeaders);
+		if (httpHeaders == null) {
+			httpHeaders = SpringContextUtil.getApplicationContext().getBean(HttpHeaders.class);
+		}
+		//HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		// 初始化时没有token
 		httpHeaders.set("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpbnN0aXR1dGVOYW1lcyI6WyLli5jmjqLpmaIiLCLnianmjqLpmaIiLCLlt6XnqIvpmaIiLCLnn7Pnp5HpmaIiLCLlpKfov57pmaIiLCLljJfljJbpmaIiLCLkuIrmtbfpmaIiLCLlronlt6XpmaIiXSwidW5pdE5hbWUiOiLkuK3lm73nn7PmsrnljJblt6Xpm4blm6Is5YuY5o6i5byA5Y-R56CU56m26ZmiLOenkeaKgOmDqOe7vOWQiOiuoeWIkuWkhCIsInVuaXRDb2RlIjoiMDAwMDAsMTAwNDAxMDAxLDMwMTMwMDU0IiwidW5pdElkIjoiNDZiN2U0NTc1NmVmNGRiODhiNmFjYjcxMWY5MTZlNDMsNDVkYjJkZDNlMTQyNDk1YzkxYmM5NGYyMGVmNDk5ZTgsYTgyMjNjY2EyYjkwNDczOWJmMjhhN2Y0MGQ3MzJjNzMiLCJ1c2VyRGlzcCI6IuiSi-a2myIsInVzZXJOYW1lIjoiYWFhYWEiLCJyb2xlTGlzdCI6W10sImV4cCI6MTU2MjYzOTMwOSwidXNlcklkIjoiMTY1NTUzNDM2ZWRfZGZkNWUxMzciLCJlbWFpbCI6IjEyMzQ1NjY2NjZAeHh4LmNvbSIsImluc3RpdHV0ZUNvZGVzIjpbIjExMjAsMTEyMywxMTI0LDExMjciLCIxMTMwIiwiNDM2MCIsIjEwMjAiLCIxMDYwLDEwNjEiLCIxMDQwLDEwNDEiLCIxMDgwIiwiMTEwMCwxMTAxIl19.2crRnr6GlN1BjFnVKW76Kd5BDyF1zg7MZ1rZzNZG_Oa3BFtny3X9bSTRGr9zcxHpPMsBTnoTx_rNYVT39EVmog");
+		
+		if (restTemplate == null) {
+			restTemplate = SpringContextUtil.getApplicationContext().getBean(RestTemplate.class);
+		}
+		
 		//RestTemplate restTemplate = new RestTemplate();
 		List<ProvisioningEvent> list = events.getEvent();
 		String vlaue;
@@ -302,20 +312,18 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					sysUser.setLoginCheckCode("验证码");
 					sysUser.setUserCreateTime(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
 					// 获取用户所在机构部门
-					SysUnit unit = this.restTemplate.exchange(UNIT_GET_UNIT+sysUser.getUserUnit(), HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysUnit.class).getBody();
-					sysUser.setUserId(IdUtil.createIdByTime());
+					System.out.println(restTemplate+"---restTemplate======");
+					System.out.println(sysUser+"---sysUser======");
+					System.out.println(sysUser.getUserUnit()+"---getUserUnit======");
+					//SysUnit unit = this.restTemplate.exchange(UNIT_GET_UNIT+sysUser.getUserUnit(), HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysUnit.class).getBody();
+					sysUser.setUserId(UUID.randomUUID().toString().replaceAll("-", ""));
 					// 插入用户数据
 					this.restTemplate.exchange(USER_ADD_URL, HttpMethod.POST, new HttpEntity<SysUser>(sysUser, httpHeaders), Integer.class);
 					// 插入用户机构关联表数据
 					SysUserUnit sur = new SysUserUnit();
-					sur.setRelId(IdUtil.createIdByTime());
-					if (unit!=null) {
-						sur.setUnitId(unit.getUnitId());
-					} else {
-						sur.setUnitId(sysUser.getUserUnit());
-					}
+					sur.setRelId(UUID.randomUUID().toString().replaceAll("-", ""));
 					sur.setUserId(sysUser.getUserId());
-					this.restTemplate.exchange(USER_UNIT_ADD_URL, HttpMethod.POST, new HttpEntity<SysUserUnit>(sur, httpHeaders), Integer.class);
+					//this.restTemplate.exchange(USER_UNIT_ADD_URL, HttpMethod.POST, new HttpEntity<SysUserUnit>(sur, httpHeaders), Integer.class);
 					
 					// 创建完人员，赋值初始的岗位权限
 				}

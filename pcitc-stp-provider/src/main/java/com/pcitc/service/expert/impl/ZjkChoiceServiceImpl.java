@@ -480,11 +480,11 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
             for (int i = 0; i < j; i++) {
                 ZjkChoice obj = zjkChoice.get(i);
                 MailSenderInfo m = new MailSenderInfo();
-                m.setToAddress(new String[]{"635447170@qq.com"});
-//                m.setToAddress(new String[]{obj.getBak3()});
+//                m.setToAddress(new String[]{"635447170@qq.com"});
+                m.setToAddress(new String[]{obj.getBak3()});
                 m.setContent("尊敬的" + obj.getBak2() + "你好：<br>项目'" + obj.getXmName() + "'特邀您进行进行评审，评审日期:" + obj.getBak4() + "请及时回复是否能准时参加！！！联系方式：" + obj.getBak5() + "<br>&nbsp;&nbsp;&nbsp;&nbsp;谢谢");
                 m.setSubject("项目评审邀请");
-//               mailSentService.sendMail(m);
+               mailSentService.sendMail(m);
             }
         } catch (Exception e) {
         }
