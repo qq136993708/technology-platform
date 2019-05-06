@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -19,7 +18,7 @@ import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserUnit;
 import com.pcitc.base.util.DateUtil;
-import com.pcitc.web.common.BaseController;
+import com.pcitc.web.config.SpringContextUtil;
 import com.sinopec.siam.provisioning.entity.Attribute;
 import com.sinopec.siam.provisioning.entity.EventType;
 import com.sinopec.siam.provisioning.entity.ProvisioningEvent;
@@ -35,8 +34,11 @@ import com.sinopec.siam.provisioning.listener.ProvisioningEventListener;
  * @date 2018年8月07日 上午10:21:11
  */
 @Component
-public class SimpleProvisioningEventListenerService extends BaseController implements ProvisioningEventListener {
+public class SimpleProvisioningEventListenerService implements ProvisioningEventListener {
 	
+    private RestTemplate restTemplate;
+    private HttpHeaders httpHeaders;
+    
 	private static final String	UNIT_GET_UNIT		= "http://pcitc-zuul/system-proxy/unit-provider/unit/get-unit/";
 	private static final String	UNIT_ADD_UNIT		= "http://pcitc-zuul/system-proxy/unit-provider/unit/add-unit";
 	private static final String	UNIT_UPDATE_UNIT	= "http://pcitc-zuul/system-proxy/unit-provider/unit/upd-unit";
@@ -68,10 +70,18 @@ public class SimpleProvisioningEventListenerService extends BaseController imple
 	public void process(ProvisioningEvents events) {
 		System.out.println("统一身份认证消息接口");
 		System.out.println("统一身份认证消息接口=========="+httpHeaders);
+		if (httpHeaders == null) {
+			httpHeaders = SpringContextUtil.getApplicationContext().getBean(HttpHeaders.class);
+		}
 		//HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		// 初始化时没有token
 		httpHeaders.set("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpbnN0aXR1dGVOYW1lcyI6WyLli5jmjqLpmaIiLCLnianmjqLpmaIiLCLlt6XnqIvpmaIiLCLnn7Pnp5HpmaIiLCLlpKfov57pmaIiLCLljJfljJbpmaIiLCLkuIrmtbfpmaIiLCLlronlt6XpmaIiXSwidW5pdE5hbWUiOiLkuK3lm73nn7PmsrnljJblt6Xpm4blm6Is5YuY5o6i5byA5Y-R56CU56m26ZmiLOenkeaKgOmDqOe7vOWQiOiuoeWIkuWkhCIsInVuaXRDb2RlIjoiMDAwMDAsMTAwNDAxMDAxLDMwMTMwMDU0IiwidW5pdElkIjoiNDZiN2U0NTc1NmVmNGRiODhiNmFjYjcxMWY5MTZlNDMsNDVkYjJkZDNlMTQyNDk1YzkxYmM5NGYyMGVmNDk5ZTgsYTgyMjNjY2EyYjkwNDczOWJmMjhhN2Y0MGQ3MzJjNzMiLCJ1c2VyRGlzcCI6IuiSi-a2myIsInVzZXJOYW1lIjoiYWFhYWEiLCJyb2xlTGlzdCI6W10sImV4cCI6MTU2MjYzOTMwOSwidXNlcklkIjoiMTY1NTUzNDM2ZWRfZGZkNWUxMzciLCJlbWFpbCI6IjEyMzQ1NjY2NjZAeHh4LmNvbSIsImluc3RpdHV0ZUNvZGVzIjpbIjExMjAsMTEyMywxMTI0LDExMjciLCIxMTMwIiwiNDM2MCIsIjEwMjAiLCIxMDYwLDEwNjEiLCIxMDQwLDEwNDEiLCIxMDgwIiwiMTEwMCwxMTAxIl19.2crRnr6GlN1BjFnVKW76Kd5BDyF1zg7MZ1rZzNZG_Oa3BFtny3X9bSTRGr9zcxHpPMsBTnoTx_rNYVT39EVmog");
+		
+		if (restTemplate == null) {
+			restTemplate = SpringContextUtil.getApplicationContext().getBean(RestTemplate.class);
+		}
+		
 		//RestTemplate restTemplate = new RestTemplate();
 		List<ProvisioningEvent> list = events.getEvent();
 		String vlaue;
