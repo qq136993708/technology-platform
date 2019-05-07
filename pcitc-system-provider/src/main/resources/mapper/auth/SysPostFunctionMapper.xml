@@ -162,6 +162,30 @@
       #{functionCode,jdbcType=VARCHAR}, #{functionButtons,jdbcType=VARCHAR}, #{createPersonId,jdbcType=VARCHAR}, 
       #{createDate,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR})
   </insert>
+  <insert id="insertBatch" parameterType="java.util.List">
+   insert into sys_post_function (rel_id, unit_id, unit_code, 
+      post_id, post_code, function_id, 
+      function_code, function_buttons, create_person_id, 
+      create_date, remarks)
+    values 
+    <foreach collection="list" item="item" index="index" separator=",">
+    (
+      #{item.relId,jdbcType=VARCHAR}, 
+      #{item.unitId,jdbcType=VARCHAR}, 
+      #{item.unitCode,jdbcType=VARCHAR}, 
+      #{item.postId,jdbcType=VARCHAR}, 
+      #{item.postCode,jdbcType=VARCHAR}, 
+      #{item.functionId,jdbcType=VARCHAR}, 
+      #{item.functionCode,jdbcType=VARCHAR}, 
+      #{item.functionButtons,jdbcType=VARCHAR}, 
+      #{item.createPersonId,jdbcType=VARCHAR}, 
+      #{item.createDate,jdbcType=VARCHAR}, 
+      #{item.remarks,jdbcType=VARCHAR}
+    )
+    </foreach>
+  </insert>
+  
+  
   <insert id="insertSelective" parameterType="com.pcitc.base.system.SysPostFunction">
     <!--
       WARNING - @mbg.generated

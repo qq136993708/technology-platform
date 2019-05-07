@@ -850,4 +850,8 @@
     from sre_project_task
     where topic_id = #{taskId,jdbcType=VARCHAR}
   </select>
+  
+  <select id="getSelectDate" resultMap="BaseResultMap" parameterType="Map" >
+    select *  from sre_project_task
+  </select>
 </mapper>

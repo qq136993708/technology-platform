@@ -2,7 +2,6 @@ package com.pcitc.service.system.impl;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -30,9 +29,7 @@ import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserExample;
 import com.pcitc.base.system.SysUserPost;
 import com.pcitc.base.system.SysUserPostExample;
-import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.HanyuPinyinHelper;
-import com.pcitc.base.util.IdUtil;
 import com.pcitc.mapper.system.SysFunctionMapper;
 import com.pcitc.mapper.system.SysPostFunctionMapper;
 import com.pcitc.mapper.system.SysPostMapper;
@@ -201,15 +198,14 @@ public class PostServiceImpl implements PostService
 		c.andPostIdEqualTo(postId);
 		//删除关系
 		postFunctionMapper.deleteByExample(example);
-		
-		Integer rs = 0;
-		for(SysPostFunction spf:functions)
+		Integer rs = postFunctionMapper.insertBatch(functions);
+		/*for(SysPostFunction spf:functions)
 		{
 			spf.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
 			spf.setRelId(IdUtil.createUUID());
 			spf.setPostId(postId);
 			rs += postFunctionMapper.insert(spf);
-		}
+		}*/
 		return rs;
 	}
 

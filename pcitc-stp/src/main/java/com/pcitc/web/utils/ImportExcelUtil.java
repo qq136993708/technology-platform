@@ -27,31 +27,24 @@ public class ImportExcelUtil {
 	 */
 	public  List<List<Object>> getBankListByExcel(InputStream in,String fileName) throws Exception{
 		List<List<Object>> list = null;
-		
 		//创建Excel工作薄
 		Workbook work = this.getWorkbook(in,fileName);
 		if(null == work){
 			throw new Exception("创建Excel工作薄为空！");
 		}
-		Sheet sheet = null;
-		Row row = null;
-		Cell cell = null;
-		
 		list = new ArrayList<List<Object>>();
 		//遍历Excel中所有的sheet
 		for (int i = 0; i < work.getNumberOfSheets(); i++) {
-			sheet = work.getSheetAt(i);
+			Sheet sheet = work.getSheetAt(i);
 			if(sheet==null){continue;}
-			
 			//遍历当前sheet中的所有行
 			for (int j = sheet.getFirstRowNum(); j < sheet.getLastRowNum(); j++) {
-				row = sheet.getRow(j);
+				Row row = sheet.getRow(j);
 				if(row==null||row.getFirstCellNum()==j){continue;}
-				
 				//遍历所有的列
 				List<Object> li = new ArrayList<Object>();
 				for (int y = row.getFirstCellNum(); y < row.getLastCellNum(); y++) {
-					cell = row.getCell(y);
+					Cell cell = row.getCell(y);
 					li.add(this.getCellValue(cell));
 				}
 				list.add(li);
@@ -59,6 +52,7 @@ public class ImportExcelUtil {
 		}
 		return list;
 	}
+	
 	
 	/**
 	 * 描述：根据文件后缀，自适应上传文件的版本 
@@ -78,7 +72,7 @@ public class ImportExcelUtil {
 		}
 		return wb;
 	}
-
+	
 	/**
 	 * 描述：对表格中数值进行格式化
 	 * @param cell
@@ -89,12 +83,14 @@ public class ImportExcelUtil {
 		DecimalFormat df = new DecimalFormat("0");  //格式化number String字符
 		SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");  //日期格式化
 		DecimalFormat df2 = new DecimalFormat("0.00");  //格式化数字
-		
-		switch (cell.getCellType()) {
-		case Cell.CELL_TYPE_STRING:
+		if(cell == null) {
+			return null;
+		}
+		switch (cell.getCellTypeEnum()) {
+		case STRING:
 			value = cell.getRichStringCellValue().getString();
 			break;
-		case Cell.CELL_TYPE_NUMERIC:
+		case NUMERIC:
 			if("General".equals(cell.getCellStyle().getDataFormatString())){
 				value = df.format(cell.getNumericCellValue());
 			}else if("m/d/yy".equals(cell.getCellStyle().getDataFormatString())){
@@ -103,10 +99,10 @@ public class ImportExcelUtil {
 				value = df2.format(cell.getNumericCellValue());
 			}
 			break;
-		case Cell.CELL_TYPE_BOOLEAN:
+		case BOOLEAN:
 			value = cell.getBooleanCellValue();
 			break;
-		case Cell.CELL_TYPE_BLANK:
+		case BLANK:
 			value = "";
 			break;
 		default:
@@ -114,6 +110,4 @@ public class ImportExcelUtil {
 		}
 		return value;
 	}
-	
-
 }

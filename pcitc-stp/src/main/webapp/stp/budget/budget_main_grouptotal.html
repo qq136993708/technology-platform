@@ -26,6 +26,7 @@
         .doc-box{margin: 0 10px;}
         .doc-box p {height: 26px;line-height: 26px;}
         .doc-box ul li{line-height: 26px;}
+        .layui-table-header table thead tr th div{text-align: center;}
     </style>
 </head>
 <body>
@@ -51,6 +52,7 @@
                 <button class="layui-btn btn-decision active" data-type="createEvent">编制预算</button>
             </div>
             <div class="tool-right">
+            	<button class="layui-btn layui-btn-sm btn-decision active" data-type="resetJzEvent">统计老合同预算</button>
                 <button class="layui-btn layui-btn-sm btn-decision" data-type="historyCompare">往年预算参考</button>
                 <button class="layui-btn layui-btn-sm btn-decision" data-type="historyView">历年参考数据</button>
             </div>
@@ -92,16 +94,25 @@
                 <thead>
                 <tr>
                 	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
-                	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}" rowspan="2">序号</th>
-                    <th lay-data="{field:'displayName', width: '25%'}" rowspan="2">承担单位</th>
-                   	<th lay-data="{field:'last_year_end',align: 'right', width: '15%',totalRow: true}" rowspan="2">2019经费预算</th>
-                    <th lay-data="{field:'plan_money',align: 'right', width: '15%',totalRow: true}" rowspan="2">年合同计划</th>
-                    <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年度经费预算</th>
+                	<th lay-data="{field:'no',align: 'center', totalRowText: '合计'}" rowspan="2">序号</th>
+                    <th lay-data="{field:'displayName', width: '20%'}" rowspan="2">承担单位</th>
+                   	<th lay-data="{align:'center',width: '30%',totalRow: true}" colspan="3">${cnd}年经费预算</th>
+                    <th lay-data="{align:'right',field:'total',totalRow: true}" rowspan="2">预算合计</th>
+                    <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年项目经费</th>
+                    <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年重点实验室专项经费</th>
                 </tr>
                 <tr>
-                    <th lay-data="{field:'total', width: '10%',align: 'right',totalRow: true}">合计</th>
-                    <th lay-data="{field:'xmjf', edit:true,align: 'right',totalRow: true}">项目经费</th>
-                    <th lay-data="{field:'zxjf', edit:true,align: 'right',totalRow: true}">重点实验室专项经费</th>
+                 	<th lay-data="{field:'last_year_total', align: 'right',totalRow: true}">预算</th>
+                    <th lay-data="{field:'last_year_xmjf', align: 'right',totalRow: true}">项目经费</th>
+                    <th lay-data="{field:'last_year_zxjf', align: 'right',totalRow: true}">重点实验室专项</th>
+                
+                    <th lay-data="{field:'xmjf', align: 'right',totalRow: true}">预算</th>
+                    <th lay-data="{field:'xmjfJz', edit:true,align: 'right',totalRow: true}">老合同</th>
+                    <th lay-data="{field:'xmjfXq', edit:true,align: 'right',totalRow: true}">可新签</th>
+                    
+                    <th lay-data="{field:'zxjf', align: 'right',totalRow: true}">预算</th>
+                    <th lay-data="{field:'zxjfJz', edit:true,align: 'right',totalRow: true}">老合同</th>
+                    <th lay-data="{field:'zxjfXq', edit:true,align: 'right',totalRow: true}">可新签</th>
                 </tr>
                 </thead>
             </table>
@@ -204,9 +215,12 @@
 			//初始化时间选择
 			function initDateView(){
 				$(".nd").html(cu_date);
-            	$('.layui-table-cell .laytable-cell-group').find('span').text(cu_date+"年度经费预算");
-            	$(".layui-table-header .layui-table").find('th').eq(3).find('span').text((cu_date-1)+"年预计完成");
-            	$(".layui-table-header .layui-table").find('th').eq(4).find('span').text(cu_date+"年合同计划");
+				
+            	$('.laytable-cell-group').eq(0).find('span').text((cu_date-1)+"年经费预算");
+            	$('.laytable-cell-group').eq(1).find('span').text((cu_date)+"年项目经费");
+            	$('.laytable-cell-group').eq(2).find('span').text((cu_date)+"年重点实验室专项经费");
+            	//$(".layui-table-header .layui-table").find('th').eq(3).find('span').text((cu_date-1)+"年预计完成");
+            	//$(".layui-table-header .layui-table").find('th').eq(4).find('span').text(cu_date+"年合同计划");
 			}
             // 点击按钮时激活
             $('.tableBtns').children('button').on('click',function(){
@@ -222,6 +236,9 @@
             	$.each(curent_tabel_data,function(index,dt){
             		if(obj.data.dataId == dt.dataId){
             			curent_tabel_data[index][obj.field] = parseInt(obj.value);
+            			
+            			dt.xmjf = parseInt(dt.xmjfJz)+parseInt(dt.xmjfXq);
+            			dt.zxjf = parseInt(dt.zxjfJz)+parseInt(dt.zxjfXq);
             			dt.total = parseInt(dt.xmjf)+parseInt(dt.zxjf);
             		}
             	});
@@ -265,7 +282,11 @@
           	function calculationSurplusMoney(){
             	var total_money = 0;
             	$.each(curent_tabel_data,function(index,dt){
-            		total_money += parseInt(dt.total);
+            		dt.xmjf = parseInt(dt.xmjfJz)+parseInt(dt.xmjfXq);
+        			dt.zxjf = parseInt(dt.zxjfJz)+parseInt(dt.zxjfXq);
+        			dt.total = parseInt(dt.xmjf)+parseInt(dt.zxjf);
+        			
+        			total_money += parseInt(dt.total);
             	});
           		$("#surplusMoney").val(parseInt($("#budgetMoney").val())-total_money);
           	}
@@ -287,6 +308,32 @@
                         , area: ['80%', '90%']
                         , content: '/budget/budget_create_grouptotal?nd='+cu_date
                     });
+                },
+                resetJzEvent:function(){
+                	if($("#data_version").val()==""){
+                		parent.layer.alert("请选择预算版本", {title : '提示'});
+                		return;
+                	} 
+               		var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});
+   					publicMethods.ajaxAsyncPost("/budget/select-grouptotal-plandata", {"budget_info_id":curent_budget_info.dataId}, function (data) {
+   						layer.msg('加载成功!',{time: 500});
+   	                    //console.log(curent_tabel_data);
+   						$.each(data,function(index,dt){
+   	                    	//console.log(data[index]);
+   	                    	$.each(curent_tabel_data,function(i,d){
+   	                    		if(data[index].dataId == curent_tabel_data[i].dataId){
+   	                    			curent_tabel_data[i].xmjfJz = data[index].xmjfJz;
+   	                    			curent_tabel_data[i].zxjfJz = data[index].zxjfJz;
+   	                    		}
+   	                    	});
+   	                    });
+	                	//预分配数
+	                	calculationSurplusMoney();
+						//刷新表格
+   	                  	reloadTable('dataTable',curent_tabel_data);
+   	                 	renderfunc();
+   	                 	initDateView();
+   	                });
                 },
                 addEvent: function() {
                 	if($("#data_version").val()==""){
