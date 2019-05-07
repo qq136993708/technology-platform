@@ -16,18 +16,25 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.stp.equipment.SreDetail;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreForApplication;
 import com.pcitc.base.stp.equipment.SreInvestmentrogress;
+import com.pcitc.base.stp.equipment.SrePlanCompletion;
 import com.pcitc.base.stp.equipment.SreProcurementProgram;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectTask;
 import com.pcitc.base.stp.equipment.SrePurchase;
+import com.pcitc.base.stp.equipment.SreScrapApply;
+import com.pcitc.base.stp.equipment.sre_scrap_apply_item;
+import com.pcitc.mapper.equipment.SreDetailMapper;
 import com.pcitc.mapper.equipment.SreEquipmentMapper;
 import com.pcitc.mapper.equipment.SreForApplicationMapper;
 import com.pcitc.mapper.equipment.SreProjectMapper;
 import com.pcitc.mapper.equipment.SreProjectTaskMapper;
 import com.pcitc.mapper.equipment.SrePurchaseMapper;
+import com.pcitc.mapper.equipment.SreScrapApplyMapper;
+import com.pcitc.mapper.equipment.sre_scrap_apply_itemMapper;
 import com.pcitc.service.equipment.InvestService;
 @Service("investService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
@@ -45,6 +52,10 @@ public  class InvestServiceImpl implements InvestService {
 	private SreProjectTaskMapper sreProjectTaskMapper;
 	@Autowired
 	private SrePurchaseMapper srePurchaseMapper;
+	@Autowired
+	private SreDetailMapper sreDetailMapper;
+	@Autowired
+	private sre_scrap_apply_itemMapper srescrapapplyitemMapper;
 	
 	private String getTableParam(LayuiTableParam param,String paramName,String defaultstr)
 	{
@@ -159,6 +170,95 @@ public  class InvestServiceImpl implements InvestService {
 		Map  map = new HashMap<>(); 
 		System.err.println(sreProjectTaskMapper.getSelectDate(map));
 		return sreProjectTaskMapper.getSelectDate(map);
+	}
+
+	
+	/**
+	 * 计划完成管理台账查询数据方法
+	 */
+	@Override
+	public LayuiTableData getManagementLedgerPage(LayuiTableParam param) throws Exception {
+		String applyDepartCode=getTableParam(param,"applyDepartCode","");
+		String unitPathIds=getTableParam(param,"parentUnitPathIds","");
+		String projectName=getTableParam(param,"projectName","");
+		String equipmentName=getTableParam(param,"equipmentName","");
+		Map map=new HashMap();
+		map.put("firstApplyUser", unitPathIds);
+		map.put("name", projectName);
+		StringBuffer applyUnitCodeStr=new StringBuffer();
+		if(!applyDepartCode.equals(""))
+		{
+			applyUnitCodeStr.append(" (");
+			String arr[]=applyDepartCode.split(",");
+			for(int i=0;i<arr.length;i++)
+			{
+				if(i>0)
+				{
+					applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
+				}else
+				{
+					applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
+				}
+				
+			}
+			applyUnitCodeStr.append(" )");
+		}
+		
+		map.put("sqlStr", applyUnitCodeStr.toString());
+		List<SreProject> list = sreProjectMapper.getList(map);
+		List<SrePlanCompletion> plancompletionlist = new ArrayList<SrePlanCompletion>();
+		if(list.size()!=0) {
+			for(SreProject sretask :list) {
+				String[] sreEqumimpId =  sretask.getEquipmentIds().split(",");
+				for(int i=0;i<sreEqumimpId.length;i++) {
+					SreEquipment quipment = sreEquipmentMapper.selectByPrimaryKey(sreEqumimpId[i]);
+					if(quipment!=null) {
+						SrePlanCompletion plancompletion = new SrePlanCompletion();
+						plancompletion.setProjectName(sretask.getName());//获取项目名称
+						plancompletion.setEquipmentName(quipment.getName());//获取装备名称
+						plancompletion.setProjectPrice(sretask.getProjectMoney());//获取计划金额
+						if(quipment.getType().equals("ROOT_ZBGL_ZBFL_YJ")) {
+							plancompletion.setEquipmentType("硬件");//获取装备分类
+						}else {
+							plancompletion.setEquipmentType("软件");//获取装备分类
+						}
+						plancompletion.setDeclarationUnit(sretask.getApplyUnitName());//获取申报单位
+						SreProjectTask sreProjectTask = sreProjectTaskMapper.selectByTopicKey(sretask.getId());//查询合同号
+						if(sreProjectTask!=null) {
+							plancompletion.setContractNumber(sreProjectTask.getContractNum());//获取合同编号
+							plancompletion.setContractPrice(sreProjectTask.getProjectMoney());//获取合同金额
+						}
+						plancompletion.setSupplier(quipment.getSupplierWillStr());//获取意向供应商
+						plancompletion.setPrice(quipment.getUnitPrice());//获取装备单价
+						plancompletion.setNumber(quipment.getApplyAcount());//获取装备数量
+						plancompletion.setTotalPrice(quipment.getAllPrice());//获取装备总价
+						SreDetail sredetail = sreDetailMapper.selectaRchaseidKey(quipment.getEquipmentId());//根据装备ID查询转资编号
+						if(sredetail!=null) {
+							plancompletion.setFixedAssetsNumber(sredetail.getAssetNumber());//获取资产编号
+							plancompletion.setTransferFunds("已转资");
+							sre_scrap_apply_item srescra = srescrapapplyitemMapper.scrpeqdetailid(sredetail.getId());//根据台账ID获取报废信息
+							if(srescra!=null) {
+								plancompletion.setScrap("已报废");
+							}else {
+								plancompletion.setScrap("未报废");
+							}
+						}else {
+							plancompletion.setTransferFunds("未转资");
+							plancompletion.setScrap("未报废");
+						}
+						plancompletionlist.add(plancompletion);
+					}
+				}
+			}
+		}
+		
+		PageInfo<SrePlanCompletion> pageInfo = new PageInfo<SrePlanCompletion>(plancompletionlist);
+		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+	    return data;
 	}
 	
 	}
