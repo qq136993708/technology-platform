@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
+import com.pcitc.base.system.SysUserPost;
 import com.pcitc.base.system.SysUserUnit;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.config.SpringContextUtil;
@@ -35,10 +36,10 @@ import com.sinopec.siam.provisioning.listener.ProvisioningEventListener;
  */
 @Component
 public class SimpleProvisioningEventListenerService implements ProvisioningEventListener {
-	
-    private RestTemplate restTemplate;
-    private HttpHeaders httpHeaders;
-    
+
+	private RestTemplate		restTemplate;
+	private HttpHeaders			httpHeaders;
+
 	private static final String	UNIT_GET_UNIT		= "http://pcitc-zuul/system-proxy/unit-provider/unit/get-unit/";
 	private static final String	UNIT_ADD_UNIT		= "http://pcitc-zuul/system-proxy/unit-provider/unit/add-unit";
 	private static final String	UNIT_UPDATE_UNIT	= "http://pcitc-zuul/system-proxy/unit-provider/unit/upd-unit";
@@ -48,6 +49,7 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 	private static final String	USER_UNIT_ADD_URL	= "http://pcitc-zuul/system-proxy/user-provider/user/add-user_unit";
 	private static final String	USER_UPDATE_URL		= "http://pcitc-zuul/system-proxy/user-provider/user/update-user";
 
+	private static final String	UNIT_CODE_GET_UNIT		= "http://pcitc-zuul/system-proxy/unit-provider/unit/get-unit-bycode/";
 	public SimpleProvisioningEventListenerService() {
 		super();
 	}
@@ -70,19 +72,21 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 	public void process(ProvisioningEvents events) {
 		System.out.println("统一身份认证消息接口");
 		System.out.println("统一身份认证消息接口=========="+httpHeaders);
-		if (httpHeaders == null) {
+		if (httpHeaders==null) {
 			httpHeaders = SpringContextUtil.getApplicationContext().getBean(HttpHeaders.class);
 		}
-		//HttpHeaders httpHeaders = new HttpHeaders();
+		// HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		// 初始化时没有token
-		httpHeaders.set("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpbnN0aXR1dGVOYW1lcyI6WyLli5jmjqLpmaIiLCLnianmjqLpmaIiLCLlt6XnqIvpmaIiLCLnn7Pnp5HpmaIiLCLlpKfov57pmaIiLCLljJfljJbpmaIiLCLkuIrmtbfpmaIiLCLlronlt6XpmaIiXSwidW5pdE5hbWUiOiLkuK3lm73nn7PmsrnljJblt6Xpm4blm6Is5YuY5o6i5byA5Y-R56CU56m26ZmiLOenkeaKgOmDqOe7vOWQiOiuoeWIkuWkhCIsInVuaXRDb2RlIjoiMDAwMDAsMTAwNDAxMDAxLDMwMTMwMDU0IiwidW5pdElkIjoiNDZiN2U0NTc1NmVmNGRiODhiNmFjYjcxMWY5MTZlNDMsNDVkYjJkZDNlMTQyNDk1YzkxYmM5NGYyMGVmNDk5ZTgsYTgyMjNjY2EyYjkwNDczOWJmMjhhN2Y0MGQ3MzJjNzMiLCJ1c2VyRGlzcCI6IuiSi-a2myIsInVzZXJOYW1lIjoiYWFhYWEiLCJyb2xlTGlzdCI6W10sImV4cCI6MTU2MjYzOTMwOSwidXNlcklkIjoiMTY1NTUzNDM2ZWRfZGZkNWUxMzciLCJlbWFpbCI6IjEyMzQ1NjY2NjZAeHh4LmNvbSIsImluc3RpdHV0ZUNvZGVzIjpbIjExMjAsMTEyMywxMTI0LDExMjciLCIxMTMwIiwiNDM2MCIsIjEwMjAiLCIxMDYwLDEwNjEiLCIxMDQwLDEwNDEiLCIxMDgwIiwiMTEwMCwxMTAxIl19.2crRnr6GlN1BjFnVKW76Kd5BDyF1zg7MZ1rZzNZG_Oa3BFtny3X9bSTRGr9zcxHpPMsBTnoTx_rNYVT39EVmog");
-		
-		if (restTemplate == null) {
+		httpHeaders
+				.set("Authorization",
+						"Bearer eyJhbGciOiJIUzUxMiJ9.eyJpbnN0aXR1dGVOYW1lcyI6WyLli5jmjqLpmaIiLCLnianmjqLpmaIiLCLlt6XnqIvpmaIiLCLnn7Pnp5HpmaIiLCLlpKfov57pmaIiLCLljJfljJbpmaIiLCLkuIrmtbfpmaIiLCLlronlt6XpmaIiXSwidW5pdE5hbWUiOiLkuK3lm73nn7PmsrnljJblt6Xpm4blm6Is5YuY5o6i5byA5Y-R56CU56m26ZmiLOenkeaKgOmDqOe7vOWQiOiuoeWIkuWkhCIsInVuaXRDb2RlIjoiMDAwMDAsMTAwNDAxMDAxLDMwMTMwMDU0IiwidW5pdElkIjoiNDZiN2U0NTc1NmVmNGRiODhiNmFjYjcxMWY5MTZlNDMsNDVkYjJkZDNlMTQyNDk1YzkxYmM5NGYyMGVmNDk5ZTgsYTgyMjNjY2EyYjkwNDczOWJmMjhhN2Y0MGQ3MzJjNzMiLCJ1c2VyRGlzcCI6IuiSi-a2myIsInVzZXJOYW1lIjoiYWFhYWEiLCJyb2xlTGlzdCI6W10sImV4cCI6MTU2MjYzOTMwOSwidXNlcklkIjoiMTY1NTUzNDM2ZWRfZGZkNWUxMzciLCJlbWFpbCI6IjEyMzQ1NjY2NjZAeHh4LmNvbSIsImluc3RpdHV0ZUNvZGVzIjpbIjExMjAsMTEyMywxMTI0LDExMjciLCIxMTMwIiwiNDM2MCIsIjEwMjAiLCIxMDYwLDEwNjEiLCIxMDQwLDEwNDEiLCIxMDgwIiwiMTEwMCwxMTAxIl19.2crRnr6GlN1BjFnVKW76Kd5BDyF1zg7MZ1rZzNZG_Oa3BFtny3X9bSTRGr9zcxHpPMsBTnoTx_rNYVT39EVmog");
+
+		if (restTemplate==null) {
 			restTemplate = SpringContextUtil.getApplicationContext().getBean(RestTemplate.class);
 		}
-		
-		//RestTemplate restTemplate = new RestTemplate();
+
+		// RestTemplate restTemplate = new RestTemplate();
 		List<ProvisioningEvent> list = events.getEvent();
 		String vlaue;
 		for (int i = 0; i<list.size(); i++) {
@@ -270,10 +274,9 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 						if ("cn".equals(keyName)) {
 							sysUser.setUserDisp(vlaue);// 用户姓名
 						}
-						/*
-						 * if("account_uid".equals(keyName)){
-						 * sysUser.setUserName(vlaue);//登录账号 }
-						 */
+						if ("uid".equals(keyName)) {
+							sysUser.setUserExtend(vlaue);// 统一身份账号，暂存
+						}
 						if ("employeenumber".equals(keyName)) {
 							sysUser.setUserComment(vlaue);// 员工编码
 						}
@@ -281,8 +284,9 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 							sysUser.setUserKind(vlaue);// 用户类型
 						}
 						if ("departmentnumber".equals(keyName)) {
-							sysUser.setUserUnit(vlaue);// 用户所属机构
-
+							// sysUser.setUserUnit(vlaue);// 用户所属机构
+							// 初始给他默认的机构和岗位
+							// sysUser.setUserUnit(vlaue);
 						}
 						if ("mail".equals(keyName)) {
 							sysUser.setUserMail(vlaue);// 用户邮箱
@@ -296,36 +300,122 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 						if ("sptitlelevel".equals(keyName)) {
 							sysUser.setUserLevel(1);// 用户姓名-类型不同存储固定值
 						}
+
+						if ("sporgcodepath".equals(keyName)) {
+							sysUser.setUserRelation(vlaue);// 临时存组织机构路径
+						}
+						if ("sporgnamepath".equals(keyName)) {
+							// 科技部及八大院的特殊处理
+							System.out.println("sporgnamepath==========="+vlaue);
+							if (vlaue.contains("化工处")) {
+								sysUser.setUserUnit("30130057");
+							}
+							if (vlaue.contains("装备与储运处")) {
+								sysUser.setUserUnit("30130059");
+							}
+							if (vlaue.contains("三剂处")) {
+								sysUser.setUserUnit("30130062");
+							}
+							if (vlaue.contains("知识产权处")) {
+								sysUser.setUserUnit("30130061");
+							}
+							if (vlaue.contains("油田处")) {
+								sysUser.setUserUnit("30130055");
+							}
+							if (vlaue.contains("计划处")) {
+								sysUser.setUserUnit("30130054");
+							}
+							if (vlaue.contains("炼油处")) {
+								sysUser.setUserUnit("30130056");
+							}
+							if (vlaue.contains("科技部办公室")) {
+								sysUser.setUserUnit("30130053");
+							}
+							if (vlaue.contains("材料处")) {
+								sysUser.setUserUnit("30130058");
+							}
+							if (vlaue.contains("科技部国际合作处")) {
+								sysUser.setUserUnit("30130060");
+							}
+							if (vlaue.contains("技术监督处")) {
+								sysUser.setUserUnit("30130063");
+							}
+							if (vlaue.contains("油田企业经营管理部")) {
+								sysUser.setUserUnit("118801");
+							}
+							if (vlaue.contains("北京化工研究院")) {
+								sysUser.setUserUnit("109011");
+							}
+							if (vlaue.contains("石油勘探开发研究院")) {
+								sysUser.setUserUnit("108811");
+							}
+							if (vlaue.contains("上海石油化工研究院")) {
+								sysUser.setUserUnit("109211");
+							}
+							if (vlaue.contains("石油化工科学研究院")) {
+								sysUser.setUserUnit("108911");
+							}
+							if (vlaue.contains("大连石油化工研究院")) {
+								sysUser.setUserUnit("109112");
+							}
+							if (vlaue.contains("抚顺石油化工研究院")) {
+								sysUser.setUserUnit("109111");
+							}
+							if (vlaue.contains("青岛安全工程研究院")) {
+								sysUser.setUserUnit("109311");
+							}
+							if (vlaue.contains("石油物探技术研究院")) {
+								sysUser.setUserUnit("126211");
+							}
+							
+							if (vlaue.contains("盈科")) {
+								sysUser.setUserUnit("109511002");
+							}
+						}
+
 					}
+					
+					System.out.println("getSubject==========="+targetSubject.getSubject());
 					sysUser.setUserName(targetSubject.getSubject());
 					sysUser.setUserPassword("2cbb78c76ed2edecca69b7d6c0e0e578");
+					if (sysUser.getUserKind()==null || sysUser.getUserKind().equals("")) {
+						sysUser.setUserKind("ROOT_XTGL_YHLX_ZZNYH");// 用户类型
+					}
+
+					if (sysUser.getUserUnit()==null || sysUser.getUserUnit().equals("")) {
+						// 盈科
+						sysUser.setUserUnit("109511002");
+					}
 					sysUser.setUserFlag("1");// 暂时写常量（也可在消息队列中查询）
 					sysUser.setUserOrder(1);
 					sysUser.setUserSign("用户签章");
 					sysUser.setIsDomain(0);
 					sysUser.setUserPost("1");
-					sysUser.setUserRole("1");
+					sysUser.setUserRole(null);
 					sysUser.setUserDelflag(0);
-					sysUser.setUserRelation("用户关系");
-					sysUser.setUserExtend("扩展信息");
 					sysUser.setLoginErrorNumber(3);
-					sysUser.setLoginCheckCode("验证码");
+					sysUser.setLoginCheckCode(UUID.randomUUID().toString().substring(0, 4));
 					sysUser.setUserCreateTime(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
 					// 获取用户所在机构部门
-					System.out.println(restTemplate+"---restTemplate======");
-					System.out.println(sysUser+"---sysUser======");
+					System.out.println(targetSubject.getSubject()+"---targetSubject.getSubject()======");
 					System.out.println(sysUser.getUserUnit()+"---getUserUnit======");
-					//SysUnit unit = this.restTemplate.exchange(UNIT_GET_UNIT+sysUser.getUserUnit(), HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysUnit.class).getBody();
+					SysUnit unit = this.restTemplate.exchange(UNIT_CODE_GET_UNIT+sysUser.getUserUnit(), HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysUnit.class).getBody();
+					String unitId = "";
+					if (unit==null) {
+						unitId = "fc1c18a6b5ac461a82c0ecaf09722e17";
+					} else {
+						unitId = unit.getUnitId();
+					}
+					
+					sysUser.setUserUnit(unitId); //用户的组织机构信息，保存用户时会直接保存关系表
+					sysUser.setUserPost("16a85a3983c_6746debf"); //用户的岗位信息，保存用户时会直接保存关系表
 					sysUser.setUserId(UUID.randomUUID().toString().replaceAll("-", ""));
+					
+					System.out.println("用户保存前信息==========="+JSONObject.toJSONString(sysUser));
+					
 					// 插入用户数据
 					this.restTemplate.exchange(USER_ADD_URL, HttpMethod.POST, new HttpEntity<SysUser>(sysUser, httpHeaders), Integer.class);
-					// 插入用户机构关联表数据
-					SysUserUnit sur = new SysUserUnit();
-					sur.setRelId(UUID.randomUUID().toString().replaceAll("-", ""));
-					sur.setUserId(sysUser.getUserId());
-					//this.restTemplate.exchange(USER_UNIT_ADD_URL, HttpMethod.POST, new HttpEntity<SysUserUnit>(sur, httpHeaders), Integer.class);
 					
-					// 创建完人员，赋值初始的岗位权限
 				}
 			}
 			/**
@@ -351,9 +441,12 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					username = targetSubject.getSubject();
 					ResponseEntity<SysUser> rsEntity = this.restTemplate.exchange(GET_USER_INFO+username, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SysUser.class);
 					SysUser rsUser = rsEntity.getBody();
-					rsUser.setUserDelflag(1);
-					// 禁用用户数据（userdelfag改成1）
-					this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(rsUser, httpHeaders), Integer.class);
+					if (rsUser != null) {
+						rsUser.setUserDelflag(1);
+						// 禁用用户数据（userdelfag改成1）
+						this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(rsUser, httpHeaders), Integer.class);
+					}
+					
 				}
 			}
 			/**
@@ -379,9 +472,13 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					username = targetSubject.getSubject();
 					ResponseEntity<SysUser> rsEntity = this.restTemplate.exchange(GET_USER_INFO+username, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SysUser.class);
 					SysUser rsUser = rsEntity.getBody();
-					rsUser.setUserDelflag(0);
-					// 启用用户数据（userdelfag改成0）
-					this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(rsUser, httpHeaders), Integer.class);
+					
+					if (rsUser != null) {
+						rsUser.setUserDelflag(0);
+						// 启用用户数据（userdelfag改成0）
+						this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(rsUser, httpHeaders), Integer.class);
+					}
+					
 				}
 			}
 			/**
@@ -407,9 +504,12 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					username = targetSubject.getSubject();
 					ResponseEntity<SysUser> rsEntity = this.restTemplate.exchange(GET_USER_INFO+username, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SysUser.class);
 					SysUser rsUser = rsEntity.getBody();
-					rsUser.setUserDelflag(1);
-					// 禁用用户数据（userdelfag改成1）
-					this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(rsUser, httpHeaders), Integer.class);
+					if (rsUser != null) {
+						rsUser.setUserDelflag(1);
+						// 禁用用户数据（userdelfag改成1）
+						this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(rsUser, httpHeaders), Integer.class);
+					}
+					
 				}
 			}
 		}

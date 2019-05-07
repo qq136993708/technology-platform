@@ -58,4 +58,13 @@ public class InvestmentProgressProviderClient
 		}
 		return count;
 	}
+	
+	/*==================================计划完成管理台账=============================*/
+	@ApiOperation(value = "投资进度分页", notes = "投资进度分页")
+	@RequestMapping(value = "/sre-provider/mana/page", method = RequestMethod.POST)
+	public LayuiTableData getManagementLedgerList(@RequestBody LayuiTableParam param)throws Exception
+	{
+		LayuiTableData rageResult=investService.getManagementLedgerPage(param);
+		return rageResult;
+	}
 }
