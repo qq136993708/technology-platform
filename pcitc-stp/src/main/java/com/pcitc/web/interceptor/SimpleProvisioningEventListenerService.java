@@ -48,8 +48,8 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 	private static final String	USER_ADD_URL		= "http://pcitc-zuul/system-proxy/user-provider/user/add-user";
 	private static final String	USER_UNIT_ADD_URL	= "http://pcitc-zuul/system-proxy/user-provider/user/add-user_unit";
 	private static final String	USER_UPDATE_URL		= "http://pcitc-zuul/system-proxy/user-provider/user/update-user";
-	private static final String	POST_ADD_URL		= "http://pcitc-zuul/system-proxy/post-provider/post/add-post";
 
+	private static final String	UNIT_CODE_GET_UNIT		= "http://pcitc-zuul/system-proxy/unit-provider/unit/get-unit-bycode/";
 	public SimpleProvisioningEventListenerService() {
 		super();
 	}
@@ -274,7 +274,7 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 						if ("cn".equals(keyName)) {
 							sysUser.setUserDisp(vlaue);// 用户姓名
 						}
-						if ("account_uid".equals(keyName)) {
+						if ("uid".equals(keyName)) {
 							sysUser.setUserExtend(vlaue);// 统一身份账号，暂存
 						}
 						if ("employeenumber".equals(keyName)) {
@@ -306,6 +306,7 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 						}
 						if ("sporgnamepath".equals(keyName)) {
 							// 科技部及八大院的特殊处理
+							System.out.println("sporgnamepath==========="+vlaue);
 							if (vlaue.contains("化工处")) {
 								sysUser.setUserUnit("30130057");
 							}
@@ -373,13 +374,16 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 						}
 
 					}
+					
+					System.out.println("getSubject==========="+targetSubject.getSubject());
+					sysUser.setUserName(targetSubject.getSubject());
 					sysUser.setUserPassword("2cbb78c76ed2edecca69b7d6c0e0e578");
-					if (sysUser.getUserKind()==null) {
+					if (sysUser.getUserKind()==null || sysUser.getUserKind().equals("")) {
 						sysUser.setUserKind("ROOT_XTGL_YHLX_ZZNYH");// 用户类型
 					}
 
-					if (sysUser.getUserUnit()==null) {
-						// 科技部
+					if (sysUser.getUserUnit()==null || sysUser.getUserUnit().equals("")) {
+						// 盈科
 						sysUser.setUserUnit("109511002");
 					}
 					sysUser.setUserFlag("1");// 暂时写常量（也可在消息队列中查询）
@@ -393,10 +397,9 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					sysUser.setLoginCheckCode(UUID.randomUUID().toString().substring(0, 4));
 					sysUser.setUserCreateTime(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
 					// 获取用户所在机构部门
-					System.out.println(restTemplate+"---restTemplate======");
-					System.out.println(sysUser+"---sysUser======");
+					System.out.println(targetSubject.getSubject()+"---targetSubject.getSubject()======");
 					System.out.println(sysUser.getUserUnit()+"---getUserUnit======");
-					SysUnit unit = this.restTemplate.exchange(UNIT_GET_UNIT+sysUser.getUserUnit(), HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysUnit.class).getBody();
+					SysUnit unit = this.restTemplate.exchange(UNIT_CODE_GET_UNIT+sysUser.getUserUnit(), HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysUnit.class).getBody();
 					String unitId = "";
 					if (unit==null) {
 						unitId = "fc1c18a6b5ac461a82c0ecaf09722e17";
@@ -407,6 +410,9 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					sysUser.setUserUnit(unitId); //用户的组织机构信息，保存用户时会直接保存关系表
 					sysUser.setUserPost("16a85a3983c_6746debf"); //用户的岗位信息，保存用户时会直接保存关系表
 					sysUser.setUserId(UUID.randomUUID().toString().replaceAll("-", ""));
+					
+					System.out.println("用户保存前信息==========="+JSONObject.toJSONString(sysUser));
+					
 					// 插入用户数据
 					this.restTemplate.exchange(USER_ADD_URL, HttpMethod.POST, new HttpEntity<SysUser>(sysUser, httpHeaders), Integer.class);
 					
