@@ -435,9 +435,12 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					username = targetSubject.getSubject();
 					ResponseEntity<SysUser> rsEntity = this.restTemplate.exchange(GET_USER_INFO+username, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SysUser.class);
 					SysUser rsUser = rsEntity.getBody();
-					rsUser.setUserDelflag(1);
-					// 禁用用户数据（userdelfag改成1）
-					this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(rsUser, httpHeaders), Integer.class);
+					if (rsUser != null) {
+						rsUser.setUserDelflag(1);
+						// 禁用用户数据（userdelfag改成1）
+						this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(rsUser, httpHeaders), Integer.class);
+					}
+					
 				}
 			}
 			/**
@@ -463,9 +466,13 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					username = targetSubject.getSubject();
 					ResponseEntity<SysUser> rsEntity = this.restTemplate.exchange(GET_USER_INFO+username, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SysUser.class);
 					SysUser rsUser = rsEntity.getBody();
-					rsUser.setUserDelflag(0);
-					// 启用用户数据（userdelfag改成0）
-					this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(rsUser, httpHeaders), Integer.class);
+					
+					if (rsUser != null) {
+						rsUser.setUserDelflag(0);
+						// 启用用户数据（userdelfag改成0）
+						this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(rsUser, httpHeaders), Integer.class);
+					}
+					
 				}
 			}
 			/**
@@ -491,9 +498,12 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					username = targetSubject.getSubject();
 					ResponseEntity<SysUser> rsEntity = this.restTemplate.exchange(GET_USER_INFO+username, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SysUser.class);
 					SysUser rsUser = rsEntity.getBody();
-					rsUser.setUserDelflag(1);
-					// 禁用用户数据（userdelfag改成1）
-					this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(rsUser, httpHeaders), Integer.class);
+					if (rsUser != null) {
+						rsUser.setUserDelflag(1);
+						// 禁用用户数据（userdelfag改成1）
+						this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(rsUser, httpHeaders), Integer.class);
+					}
+					
 				}
 			}
 		}
