@@ -123,21 +123,30 @@ public class StandardBaseExpertController extends BaseController {
     @RequestMapping(value = "/saveStandardBase")
     @ResponseBody
     @OperationFilter(modelName = "标准化", actionName = "保存saveRecord")
-    public int saveRecord(StandardBase record) {
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        if (record.getDataId() == null || "".equals(record.getDataId())) {
-            record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
-            record.setCreateUser(sysUserInfo.getUserId());
-            record.setCreateUserDisp(sysUserInfo.getUserName());
-        } else {
-            record.setUpdateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
-            record.setUpdatePersonId(sysUserInfo.getUserId());
-            record.setUpdatePersonName(sysUserInfo.getUserName());
+    public String saveRecord(StandardBase record) {
+        String msg = "";
+        String success = "true";
+        String strReturn = "";
+        try {
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+            if (record.getDataId() == null || "".equals(record.getDataId())) {
+                record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
+                record.setCreateUser(sysUserInfo.getUserId());
+                record.setCreateUserDisp(sysUserInfo.getUserName());
+            } else {
+                record.setUpdateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
+                record.setUpdatePersonId(sysUserInfo.getUserId());
+                record.setUpdatePersonName(sysUserInfo.getUserName());
+            }
+            record.setStatus("0");
+            ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVE, HttpMethod.POST, new HttpEntity<StandardBase>(record, this.httpHeaders), Integer.class);
+        } catch (Exception e) {
+            msg = "保存异常";
+            success="false";
+            e.printStackTrace();
+        }finally {
+            return "{\"msg\":"+msg+",\"success\":"+success+"}";
         }
-        record.setStatus("0");
-        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVE, HttpMethod.POST, new HttpEntity<StandardBase>(record, this.httpHeaders), Integer.class);
-        Integer result = responseEntity.getBody();
-        return result;
     }
 
     /**
