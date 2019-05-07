@@ -19,13 +19,17 @@
  <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
  
  
-    <!--查询条件-->
+    <!--查询条件 -->
     <label class="dateInput">
-        <span>装备名称</span>
-        <input type="text" name="name" id="name" placeholder="请输入装备名称" title="装备名称" autocomplete="off" class="form-control" >
+        <span>项目名称</span>
+        <input type="text" name="projectName" id="projectName" placeholder="请输入项目名称" title="项目名称" autocomplete="off" class="form-control" >
     </label>
-    
-    
+    <!--查询条件
+    <label class="dateInput">
+    <span>装备名称</span>
+    <input type="text" name="name" id="name" placeholder="请输入装备名称" title="装备名称" autocomplete="off" class="form-control" >
+    </label>
+    -->
     <!--按钮组-->
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
@@ -33,18 +37,17 @@
     </div>
 </div>
 
-<!--
+
 <div class="tableBox">
 	<div class="tableToolBox">
         <div class="whiteLine"></div>
         <div  class="tableBtns">
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"     data-type="addEvent"  id="addEvent" > 新增</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit"    data-type="editEvent"  id="editEvent" >编辑</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent" id="detailEvent" >详情</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="deleteEvent" id="deleteEvent" >删除</button>
-        </div>
-    </div>
-    -->
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg">   
+            <span></span>${dateStr}年资本化投资    &nbsp;&nbsp;&nbsp;合计${count}
+            </button>
+            </div>
+            </div>
+
     <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
     
 </div>
@@ -269,9 +272,9 @@ var name=$('#name').val();
        //渲染
        table.render({
            elem: '#processdef-table',
-           url: '/sre-detail/list',
+           url: '/sre-mana/list',
            method:"POST",
-           where: {param: {"equipmentName":$("#name").val(),"auditStatus":$("#auditStatus").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+           where: {param: {"equipmentName":$("#name").val(),"projectName":$("#projectName").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
            limit: 15,
            id: 'processdef-table',
            height: commonDislodgeTable(),
@@ -285,17 +288,33 @@ var name=$('#name').val();
            },
            cols: [[
                {title : '序号', type : 'numbers', width : 55},
+               {field : 'projectName',     title : '项目名称', style : 'cursor: pointer;', align : 'center', width : '10%'},
                {field : 'equipmentName',     title : '装备名称', style : 'cursor: pointer;', align : 'center', width : '10%'},
-               {field : 'equipmentType',     title : '装备分类', style : 'cursor: pointer;', align : 'center', width : '10%'},
-               {field : 'equipmentPrice', title : '单价（万元）', style : 'cursor: pointer;', align : 'center', width : '10%'},
-               {field : 'equipmenNumber', title : '装备数量', style : 'cursor: pointer;', align : 'center', width : '10%'},
-               {field : 'declareUnit', title : '申报单位', style : 'cursor: pointer;', align : 'left', width : '20%'},
-               {field : 'declareDepartment', title : '申报部门', style : 'cursor: pointer;', align : 'left', width : '20%'},
-               {field : 'declarePeople', title : '第一申报人', style : 'cursor: pointer;', align : 'left', width : '10%'},
-               {field : 'declareTime', title : '申请时间', style : 'cursor: pointer;', align : 'center',width : '10%', templet : '#dateTpl'},
-               {field : 'assetNumber', title : '资产编号', style : 'cursor: pointer;', align : 'left', width : '20%'},
-              
-               
+               {field : 'projectPrice', title : '计划万元', style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'erpNetwork', title : 'ERP网络号', style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'equipmentType', title : '科研装备分类', style : 'cursor: pointer;', align : 'left', width : '20%'},
+               {field : 'declarationUnit', title : '申报单位', style : 'cursor: pointer;', align : 'left', width : '20%'},
+               {field : 'surplusFund',     title : '结余资金', style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'erpPurchase',     title : 'ERP采购申请', style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'purchaseOrder', title : 'ERP采购订单', style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'contractNumber', title : '合同号', style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'supplier', title : '供应商', style : 'cursor: pointer;', align : 'left', width : '20%'},
+               {field : 'contractPrice', title : '合同额(万元)', style : 'cursor: pointer;', align : 'left', width : '20%'},
+               {field : 'delivery',     title : '预付', style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'metaphase',     title : '中期', style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'arrears', title : '尾款', style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'accumulative', title : '累计', style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'equipmentClassification', title : '设备分类', style : 'cursor: pointer;', align : 'left', width : '20%'},
+               {field : 'versionSpecificationModel', title : '版本、规格型号', style : 'cursor: pointer;', align : 'left', width : '20%'},
+               {field : 'price',     title : '单价', style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'number',     title : '数量', style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'totalPrice', title : '总价', style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'useDepartment', title : '使用部门', style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'use', title : '使用人、管理人', style : 'cursor: pointer;', align : 'left', width : '20%'},
+               {field : 'fixedAssetsNumber', title : '固定资产编号', style : 'cursor: pointer;', align : 'left', width : '20%'},
+               {field : 'transferFunds',     title : '转资情况', style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'installationLocation',     title : '安装地点', style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'scrap', title : '报废情况', style : 'cursor: pointer;', align : 'center', width : '10%'},
            ]],
            done: function (res, curr, count) {
                // 点击行联动选择框--单选

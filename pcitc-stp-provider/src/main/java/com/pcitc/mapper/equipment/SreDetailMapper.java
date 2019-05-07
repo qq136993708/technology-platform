@@ -21,4 +21,7 @@ public interface SreDetailMapper {
     List<SreDetail> getList(Map map);
     
     int updateByid(String id);
+
+	SreDetail selectaRchaseidKey(String equipmentId);
+	
 }
