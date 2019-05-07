@@ -65,14 +65,8 @@ public class EquipmentUtils {
 	
 	
      private static final String GET_USERPROPERTY = "http://pcitc-zuul/system-proxy/userProperty-provider/getSysUserProperty/";
-	
-
      private static final String USER_GET_URL = "http://pcitc-zuul/system-proxy/user-provider/user/get-user/";
-     
-     
      private static final String FUNCTION_FILTER_URL = "http://pcitc-zuul/system-proxy/userProperty-provider/function/getPostDic";
-     
-     
 	
 	public static String getCurrrentYear() throws Exception {
 		Calendar cal = Calendar.getInstance();

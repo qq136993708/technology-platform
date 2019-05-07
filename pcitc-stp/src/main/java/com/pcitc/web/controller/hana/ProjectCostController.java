@@ -70,7 +70,6 @@ public class ProjectCostController {
 	  public String xmzctjb(HttpServletRequest request) throws Exception
 	  {
 		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		    HanaUtil.setSearchParaForUser2(userInfo,restTemplate,httpHeaders,request);
 	        return "stp/hana/projectCost/xmzctjb";
 	  }
 	  
@@ -80,7 +79,6 @@ public class ProjectCostController {
 	  public String kytztjb(HttpServletRequest request) throws Exception
 	  {
 		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-			HanaUtil.setSearchParaForUser2(userInfo,restTemplate,httpHeaders,request);
 			String month = HanaUtil.getCurrrent_Year_Moth();
 			request.setAttribute("month", month);
 	        return "stp/hana/projectCost/kytztjb";
@@ -241,7 +239,6 @@ public class ProjectCostController {
 	  public String kjjftjb(HttpServletRequest request) throws Exception
 	  {
 		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-			HanaUtil.setSearchParaForUser2(userInfo,restTemplate,httpHeaders,request);
 			String month = HanaUtil.getCurrrent_Year_Moth();
 			request.setAttribute("month", month);
 	        return "stp/hana/projectCost/kjjftjb";
@@ -403,7 +400,6 @@ public class ProjectCostController {
 	  public String hxktqcbtjb(HttpServletRequest request) throws Exception
 	  {
 		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-			HanaUtil.setSearchParaForUser2(userInfo,restTemplate,httpHeaders,request);
 			String month = HanaUtil.getCurrrent_Year_Moth();
 			request.setAttribute("month", month);
 	        return "stp/hana/projectCost/hxktqcbtjb";
