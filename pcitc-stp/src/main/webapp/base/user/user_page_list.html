@@ -163,7 +163,7 @@
 					layer.close(index);
 					var userIds = [];
 	                userIds.push(selectRowData.userId);
-	            	ajaxPost("/user/delete-users", {"userIds":JSON.stringify(userIds)}, function (data) {
+	                publicMethods.ajaxPost("/user/delete-users", {"userIds":JSON.stringify(userIds)}, function (data) {
 	                     if (data.success) {
 	                         renderTable({param: {
 	                         	"userName":$("#userName").val(),
@@ -187,7 +187,7 @@
 				layer.confirm('确定要密码重置吗？',{title:"密码重置确认"},function(index){
 					layer.close(index);
 					var userIds = [];
-	            	ajaxPost("/user/resetPassword-users", {"userId":selectRowData.userId}, function (data) {
+					publicMethods.ajaxPost("/user/resetPassword-users", {"userId":selectRowData.userId}, function (data) {
 	                     if (data.success) {
 	                         renderTable({param: {
 		                         	"userName":$("#userName").val(),
