@@ -373,12 +373,13 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 						}
 
 					}
+					sysUser.setUserName(targetSubject.getSubject());
 					sysUser.setUserPassword("2cbb78c76ed2edecca69b7d6c0e0e578");
-					if (sysUser.getUserKind()==null) {
+					if (sysUser.getUserKind()==null || sysUser.getUserKind().equals("")) {
 						sysUser.setUserKind("ROOT_XTGL_YHLX_ZZNYH");// 用户类型
 					}
 
-					if (sysUser.getUserUnit()==null) {
+					if (sysUser.getUserUnit()==null || sysUser.getUserUnit().equals("")) {
 						// 科技部
 						sysUser.setUserUnit("109511002");
 					}
