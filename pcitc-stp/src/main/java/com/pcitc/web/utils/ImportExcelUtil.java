@@ -254,7 +254,7 @@ public class ImportExcelUtil {
 	}
 	public static void main(String [] args) 
 	{
-		File file = new File("D:\\project\\石化盈科\\数据表结构_20180411_v1.0.xlsx");
+		File file = new File("D:\\data.xlsx");
 		try {
 			List<Map<Point,Object>> rss = new ImportExcelUtil().readExcelAllCellVal(file);
 			for(java.util.Iterator<Map<Point,Object>> iter = rss.iterator();iter.hasNext();) {
