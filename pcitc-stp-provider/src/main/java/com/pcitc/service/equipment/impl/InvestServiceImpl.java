@@ -88,10 +88,12 @@ public  class InvestServiceImpl implements InvestService {
 		for(int i =0;i<sreEqumimpId.length; i++) {
 			SreInvestmentrogress mentrogress = new SreInvestmentrogress();//创建投资进度对象
 			quipment = sreEquipmentMapper.selectByPrimaryKey(sreEqumimpId[i]);
-			mentrogress.setEquipmentName(quipment.getName());//获取装备名称
-			mentrogress.setUnitPrice(quipment.getUnitPrice());//获取装备金额
-			if(Integer.valueOf(quipment.getPurchaseStatus())>=4) {
-				mentrogress.setPurchaseState(quipment.getPurchaseStatus());//获取采购状态
+			if(quipment!=null) {
+				mentrogress.setEquipmentName(quipment.getName());//获取装备名称
+				mentrogress.setUnitPrice(quipment.getUnitPrice());//获取装备金额
+				if(Integer.valueOf(quipment.getPurchaseStatus())>=4) {
+					mentrogress.setPurchaseState(quipment.getPurchaseStatus());//获取采购状态
+				}
 			}
 			SreProjectTask sreProjectTask = sreProjectTaskMapper.selectByTopicKey(String.valueOf(sreProject.getId()));//通过课题ID获取任务数据
 			if(sreProjectTask!=null) {
