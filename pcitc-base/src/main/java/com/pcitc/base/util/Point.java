@@ -1,4 +1,4 @@
-package com.pcitc.web.utils;
+package com.pcitc.base.util;
 
 public class Point 
 {
