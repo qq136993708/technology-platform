@@ -141,4 +141,10 @@
       update_date = #{updateDate,jdbcType=TIMESTAMP}
     where account_id = #{accountId,jdbcType=VARCHAR}
   </update>
+  
+  <select id="eqdetailid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select *
+    from sre_scrap_apply_item
+    where eqdetailid = #{eqdetailid,jdbcType=VARCHAR}
+  </select>
 </mapper>
