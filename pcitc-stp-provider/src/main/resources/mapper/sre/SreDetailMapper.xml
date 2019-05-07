@@ -337,6 +337,6 @@
     select 
 			*
     from sre_equipment_detail
-    where application_purchaseid like CONCAT('%',#{equipmentId},'%')
+    where equipment_id like CONCAT('%',#{equipmentId},'%')
   </select>
 </mapper>

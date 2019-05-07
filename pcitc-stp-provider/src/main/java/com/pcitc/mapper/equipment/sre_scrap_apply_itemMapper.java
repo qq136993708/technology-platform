@@ -23,6 +23,6 @@ public interface sre_scrap_apply_itemMapper {
     
     List<FindAppltid> selectByAppltidList(String id);
 
-	SreScrapApply eqdetailid(String id);
+    sre_scrap_apply_item scrpeqdetailid(String id);
 	
 }

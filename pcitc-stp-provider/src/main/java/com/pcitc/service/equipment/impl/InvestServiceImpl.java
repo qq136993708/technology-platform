@@ -26,6 +26,7 @@ import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectTask;
 import com.pcitc.base.stp.equipment.SrePurchase;
 import com.pcitc.base.stp.equipment.SreScrapApply;
+import com.pcitc.base.stp.equipment.sre_scrap_apply_item;
 import com.pcitc.mapper.equipment.SreDetailMapper;
 import com.pcitc.mapper.equipment.SreEquipmentMapper;
 import com.pcitc.mapper.equipment.SreForApplicationMapper;
@@ -179,8 +180,11 @@ public  class InvestServiceImpl implements InvestService {
 	public LayuiTableData getManagementLedgerPage(LayuiTableParam param) throws Exception {
 		String applyDepartCode=getTableParam(param,"applyDepartCode","");
 		String unitPathIds=getTableParam(param,"parentUnitPathIds","");
+		String projectName=getTableParam(param,"projectName","");
+		String equipmentName=getTableParam(param,"equipmentName","");
 		Map map=new HashMap();
 		map.put("firstApplyUser", unitPathIds);
+		map.put("name", projectName);
 		StringBuffer applyUnitCodeStr=new StringBuffer();
 		if(!applyDepartCode.equals(""))
 		{
@@ -213,7 +217,7 @@ public  class InvestServiceImpl implements InvestService {
 						plancompletion.setProjectName(sretask.getName());//获取项目名称
 						plancompletion.setEquipmentName(quipment.getName());//获取装备名称
 						plancompletion.setProjectPrice(sretask.getProjectMoney());//获取计划金额
-						if(quipment.getType().equals("1")) {
+						if(quipment.getType().equals("ROOT_ZBGL_ZBFL_YJ")) {
 							plancompletion.setEquipmentType("硬件");//获取装备分类
 						}else {
 							plancompletion.setEquipmentType("软件");//获取装备分类
@@ -222,9 +226,9 @@ public  class InvestServiceImpl implements InvestService {
 						SreProjectTask sreProjectTask = sreProjectTaskMapper.selectByTopicKey(sretask.getId());//查询合同号
 						if(sreProjectTask!=null) {
 							plancompletion.setContractNumber(sreProjectTask.getContractNum());//获取合同编号
+							plancompletion.setContractPrice(sreProjectTask.getProjectMoney());//获取合同金额
 						}
 						plancompletion.setSupplier(quipment.getSupplierWillStr());//获取意向供应商
-						plancompletion.setContractPrice(sreProjectTask.getProjectMoney());//获取合同金额
 						plancompletion.setPrice(quipment.getUnitPrice());//获取装备单价
 						plancompletion.setNumber(quipment.getApplyAcount());//获取装备数量
 						plancompletion.setTotalPrice(quipment.getAllPrice());//获取装备总价
@@ -232,13 +236,14 @@ public  class InvestServiceImpl implements InvestService {
 						if(sredetail!=null) {
 							plancompletion.setFixedAssetsNumber(sredetail.getAssetNumber());//获取资产编号
 							plancompletion.setTransferFunds("已转资");
+							sre_scrap_apply_item srescra = srescrapapplyitemMapper.scrpeqdetailid(sredetail.getId());//根据台账ID获取报废信息
+							if(srescra!=null) {
+								plancompletion.setScrap("已报废");
+							}else {
+								plancompletion.setScrap("未报废");
+							}
 						}else {
 							plancompletion.setTransferFunds("未转资");
-						}
-						SreScrapApply srescra = srescrapapplyitemMapper.eqdetailid(sredetail.getId());//根据台账ID获取报废信息
-						if(srescra!=null) {
-							plancompletion.setScrap("已报废");
-						}else {
 							plancompletion.setScrap("未报废");
 						}
 						plancompletionlist.add(plancompletion);
