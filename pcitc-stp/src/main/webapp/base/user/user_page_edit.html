@@ -317,7 +317,9 @@
 				publicMethods.ajaxPost('/user/get-user', {"userId":userId}, function (data, status) {
 					//回显角色、机构、岗位
 					var roleText=unitText=postText= "";
-					var roleArray = data.userRole.split(","),unitArray= data.userUnit.split(","),postArray=data.userPost.split(",");
+					var roleArray = data.userRole==null?[]:data.userRole.split(",");
+					var unitArray = data.userUnit==null?[]:data.userUnit.split(",");
+					var postArray = data.userPost==null?[]:data.userPost.split(",");
 					$.each(roleArray,function(i,dt){
 						if(roleMap[roleArray[i]]){
 							roleText += ","+roleMap[roleArray[i]].roleName;
