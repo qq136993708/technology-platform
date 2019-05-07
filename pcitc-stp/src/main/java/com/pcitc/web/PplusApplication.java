@@ -112,7 +112,7 @@ public class PplusApplication extends SpringBootServletInitializer {
         registration.setFilter(access);
         registration.addUrlPatterns("/*");
         //registration.addInitParameter("spSimpleConfigFile", "classpath:/conf/sp-simple-config.properties");
-        registration.addInitParameter("noFilterURLs", "/;/index.html;/error;/mobile/*;/layuiadmin/*;/layuicommon/*;/plugins/*;/common/js/*;/styles/*;/init.jsp;/spversion.html");
+        registration.addInitParameter("noFilterURLs", "/;/login;/index.html;/error;/mobile/*;/layuiadmin/*;/layuicommon/*;/plugins/*;/common/js/*;/styles/*;/init.jsp;/spversion.html");
         registration.setName("AccessEnforcer");
         registration.setOrder(1);
         return registration;
