@@ -192,7 +192,10 @@
         }
 
         renderTable();
-
+        laydate.render({
+            elem: '#nd'
+            ,type: 'year'
+        });
         $(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
 
         // 触发不同的按钮事件
