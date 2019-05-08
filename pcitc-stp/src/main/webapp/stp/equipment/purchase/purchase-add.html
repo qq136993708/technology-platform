@@ -287,7 +287,7 @@
             var check = table.checkStatus('join_apply_table');
             var topicId = $("#topicId").val();
             var purchaseName = $("#purchaseName").val();
-            var equipmentIds = $("#equipmentIds").val();
+            //var equipmentIds = $("#equipmentIds").val();
             if (topicId == null || topicId == '')
             {
                 layer.alert("请选择课题");
@@ -355,12 +355,17 @@
 
     function renderTable(equipmentIds) {
         var id = $("#id").val();
+        if(id != null && id != ""){
+            var purchaseStatus = "5";
+        }else{
+            var purchaseStatus = "0";
+        }
         if(equipmentIds==null || equipmentIds==""){
             return;
         }
         table.render({
             elem: '#join_apply_table',
-            url: '/sre-equipment/chooseEquipmentByMap?equipmentIds=' + equipmentIds+"&purchaseStatus=0",
+            url: '/sre-equipment/chooseEquipmentByMap?equipmentIds=' + equipmentIds+"&purchaseStatus="+purchaseStatus,
             limit: 15,
             method: "GET",
             id: 'join_apply_table',
@@ -388,17 +393,24 @@
 
             ]],
             done: function (res, curr, count) {
-                /*// 点击行联动选择框--单选
-                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-                    var index=parseInt($(this).index()+1);
-                    $('tr').removeClass('layui-table-click');
-                    $(this).addClass('layui-table-click');
-                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                    selectRowData=res.data[index-1];
-                    var state=selectRowData.equipmentId;
-                    //alert(state);
-                });*/
+                // 点击行联动选择框--多选
+                $(document).on("click", ".layui-table-body table.layui-table tbody tr", function() {
+                    var index = $(this).attr('data-index');
+                    var tableBox = $(this).parents('.layui-table-box');
+                    //存在固定列
+                    if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
+                        tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+                    } else {
+                        tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+                    }
+                    var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+                    if (checkCell.length > 0) {
+                        checkCell.click();
+                    }
+                });
+                $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function(e) {
+                    e.stopPropagation();
+                });
                 //项目分类，项目性质
                 var dicMap = ['ROOT_ZBGL_ZBFL'];
                 var dicVal = {};

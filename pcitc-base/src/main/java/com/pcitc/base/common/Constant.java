@@ -40,6 +40,7 @@ public class Constant {
     public static String  EQUIPMENT_PURCHASE_PASS   = "2";
     public static String  EQUIPMENT_PURCHASE_COMPACT   = "3";
     public static String  EQUIPMENT_PURCHASE_ARRIVE_GOODS   = "4";
+    public static String  EQUIPMENT_PURCHASE_PRE_PURCHASE = "5";
 
     //装备转资变量
     public static final String EQUME_ZERO="0"; //开启状态
