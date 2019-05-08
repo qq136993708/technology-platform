@@ -7,7 +7,8 @@ import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -19,6 +20,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.alibaba.fastjson.JSON;
 
 
 public class ExcelReadUtil {
@@ -44,6 +47,75 @@ public class ExcelReadUtil {
 	public List<Map<Point,Object>> readExcelAllCellVal(File file) throws Exception
 	{
 		return readWorkBook(new FileInputStream(file),file.getName());
+	}
+	/**
+	 * 查找指定单元格的数值
+	 * @param data
+	 * @param point
+	 * @return
+	 */
+	public Object selectCellVal(Map<Point,Object> data,Point index) {
+		List<Point> keys = new ArrayList<Point>(data.keySet());
+		Optional<Point> point = keys.stream().filter(a -> a.getRowIndex().equals(0)).filter(a -> a.getColIndex().equals(0)).findFirst();
+		Object val = null;
+		if(point != null && point.isPresent()) {
+			Point p = point.get();
+			val = data.get(p);
+			System.out.println("坐标："+p.toString()+" 值："+val);
+		}
+		return val;
+	}
+	/**
+	 * 
+	 * @param data
+	 * @return
+	 */
+	public List<List<Object>> getValByRow(Map<Point,Object> data){
+		List<Point> keys = new ArrayList<Point>(data.keySet());
+		
+		//int lastrow = keys.get(keys.size()-1).getRowIndex();
+		//int lastcol = keys.get(keys.size()-1).getColIndex();
+		
+		List<List<Object>> rs = new ArrayList<List<Object>>();
+		for(Point p:keys) 
+		{
+			if(p.getColIndex() == 0) {
+				rs.add(new ArrayList<Object>());
+			}
+			rs.get(p.getRowIndex()).add(data.get(p));
+		}
+		return rs;
+	}
+	/**
+	 * 将 sheet内的数据封装为行列对象
+	 * @param data
+	 * @return
+	 */
+	public Map<Point,Object> sortSheetDataByRow(Map<Point,Object> data)
+	{
+		Map<Point,Object> newdata = new LinkedHashMap<Point,Object>();
+		List<Point> ps = new ArrayList<Point>(data.keySet());
+		java.util.Collections.sort(ps, new Comparator<Point>() {
+			@Override
+			public int compare(Point o1, Point o2) {
+				int rs = o1.getRowIndex()-o2.getRowIndex();
+				if(rs > 0)
+				{
+					return 1;
+				}
+				else if(rs <0)
+				{
+					return -1;
+				}
+				else {
+					return 0;
+				}
+			}
+		});
+		for(Point p:ps) {
+			newdata.put(p, data.get(p));
+		}
+		return newdata;
 	}
 	/**
 	 * 描述：获取IO流中的数据，组装成List<List<Object>>对象
@@ -85,7 +157,7 @@ public class ExcelReadUtil {
 	 */
 	public Map<Point,Object> readSheetVal(Sheet sheet)
 	{
-		Map<Point,Object> map = new HashMap<Point,Object>();
+		Map<Point,Object> map = new LinkedHashMap<Point,Object>();
 		for(int r = 0;r<sheet.getLastRowNum();r++) {
 			for(int c = 0;c<sheet.getRow(r).getLastCellNum();c++) {
 				map.put(new Point(r,c), getCellValue(sheet.getRow(r).getCell(c)));
@@ -254,8 +326,9 @@ public class ExcelReadUtil {
 	public static void main(String [] args) 
 	{
 		File file = new File("D:\\group_total_data.xlsx");
+		ExcelReadUtil util = new ExcelReadUtil();
 		try {
-			List<Map<Point,Object>> rss = new ExcelReadUtil().readExcelAllCellVal(file);
+			List<Map<Point,Object>> rss =util.readExcelAllCellVal(file);
 			for(java.util.Iterator<Map<Point,Object>> iter = rss.iterator();iter.hasNext();) {
 				//map 为sheet页数据对象，key 为单元格坐标，val为值
 				Map<Point,Object> map = iter.next();
@@ -269,7 +342,7 @@ public class ExcelReadUtil {
 				/****遍历所有单元格 end ****/
 				
 				
-				/****查找Sheet中指定行，列的值【0,0】 start ****/
+				/****查找Sheet中指定单元格的值【0,0】 start ****/
 				List<Point> keys = new ArrayList<Point>(map.keySet());
 				Optional<Point> point = keys.stream().filter(a -> a.getRowIndex().equals(0)).filter(a -> a.getColIndex().equals(0)).findFirst();
 				if(point != null && point.isPresent()) {
@@ -278,8 +351,12 @@ public class ExcelReadUtil {
 					System.out.println("坐标："+p.toString()+" 值："+val);
 				}
 				/****查找Sheet中指定行，列的值【0,0】  end ****/
+				
+				List<List<Object>> obj = util.getValByRow(map);
+				System.out.println(JSON.toJSONString(obj));
+				
+				System.out.println(JSON.toJSONString(keys));
 			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
