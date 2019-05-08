@@ -322,27 +322,6 @@
 		#{dataId}
 	</delete>
 
-	<!-- 初始化人员项目对应配置关系列表 （多对一回显） -->
-
-	<select id="selectUserPropertyList" resultType="com.pcitc.base.system.vo.SysUserPropertyVo">
-		SELECT p.data_id as projectId,project_name as
-		projectName,project_code as projectCode,up.permission
-		from epms_project p LEFT JOIN sys_user_property up on up.data_id LIKE CONCAT('%,',p.data_id,',%') 
-		<if test="userId!=null and userId!=''.toString">
-			and up.user_id = #{userId}
-		</if>
-		<if test="dataType!=null and dataType!=''.toString">
-			and up.data_type = #{dataType}
-		</if>
-		<if test="projectName!= null and projectName!= ''.toString">
-			where p.project_name like '%${projectName}%'
-		</if>
-		group by p.data_id
-		order by p.project_code
-		<!-- <if test="iSortCol!=null and iSortCol!=''.toString()"> order by ${iSortCol} 
-			${sSortDir_0} </if> -->
-	</select>
-
 	<!-- 初始化人员部门对应配置关系列表（多对一回显） -->
 	<select id="selectUserPropertyUnitList" resultType="com.pcitc.base.system.vo.SysUserPropertyVo">
 		SELECT u.unit_id as projectId,u.unit_name as projectName,u.unit_code
@@ -362,22 +341,6 @@
 		order by u.unit_code
 		<!-- <if test="iSortCol!=null and iSortCol!=''.toString()"> order by ${iSortCol} 
 			${sSortDir_0} </if> -->
-	</select>
-
-	<!-- 一对一回显 -->
-	<select id="selectUserPropertyList1" resultType="com.pcitc.base.system.vo.SysUserPropertyVo">
-		select p.data_id as projectId,project_name as
-		projectName,project_code as projectCode,up.permission from
-		epms_project p left join sys_user_property up on p.project_id = up.data_id
-		<if test="userId!=null and userId!=''.toString">
-			and up.user_id = #{userId}
-		</if>
-		<if test="dataType!=null and dataType!=''.toString">
-			and up.data_type = #{dataType}
-		</if>
-		<if test="iSortCol!=null and iSortCol!=''.toString()">
-			order by ${iSortCol} ${sSortDir_0}
-		</if>
 	</select>
 
 	<!-- 查询某个人在某些数据控制属性上的具体控制数据内容 -->
