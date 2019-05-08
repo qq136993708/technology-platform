@@ -380,6 +380,13 @@ public class PurchaseController extends BaseController{
         // 返回结果代码
         int statusCode = responseEntity.getStatusCodeValue();
         if (statusCode == 200) {
+            String[] arr = equipmentIds.split(",");
+            for (int i = 0; i < arr.length; i++) {
+                System.err.println(arr[i]);
+                SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
+                sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_PRE_PURCHASE);
+                EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
+            }
             resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
         } else
             {
@@ -406,6 +413,15 @@ public class PurchaseController extends BaseController{
         int status = responseEntity.getBody();
         logger.info("============远程返回  statusCode " + statusCode + "  status=" + status);
         if (responseEntity.getBody() > 0) {
+            SrePurchase srePurchase = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class).getBody();
+            String equipmentIds = srePurchase.getEquipmentId();
+            String[] arr = equipmentIds.split(",");
+            for (int i = 0; i < arr.length; i++) {
+                System.err.println(arr[i]);
+                SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
+                sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_DRAFT);
+                EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
+            }
             resultsDate = new Result(true);
         } else {
             resultsDate = new Result(false, "删除失败，请联系系统管理员！");
