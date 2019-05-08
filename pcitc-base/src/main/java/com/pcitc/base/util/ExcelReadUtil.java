@@ -247,11 +247,11 @@ public class ExcelReadUtil {
 		if(cell == null) {
 			return null;
 		}
-		switch (cell.getCellTypeEnum()) {
-		case STRING:
+		switch (cell.getCellType()) {
+		case Cell.CELL_TYPE_STRING:
 			value = cell.getRichStringCellValue().getString();
 			break;
-		case NUMERIC:
+		case Cell.CELL_TYPE_NUMERIC:
 			if("General".equals(cell.getCellStyle().getDataFormatString())){
 				value = df.format(cell.getNumericCellValue());
 			}else if("m/d/yy".equals(cell.getCellStyle().getDataFormatString())){
@@ -260,10 +260,10 @@ public class ExcelReadUtil {
 				value = df2.format(cell.getNumericCellValue());
 			}
 			break;
-		case BOOLEAN:
+		case Cell.CELL_TYPE_BOOLEAN:
 			value = cell.getBooleanCellValue();
 			break;
-		case BLANK:
+		case Cell.CELL_TYPE_BLANK:
 			value = "";
 			break;
 		default:
