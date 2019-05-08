@@ -5,6 +5,7 @@ public class Point
 	private Integer rowIndex;//行号
 	private Integer colIndex;//列号
 	
+	
 	public Point() {
 		super();
 	}
@@ -29,5 +30,6 @@ public class Point
 	public String toString() {
 		return this.rowIndex+"_"+this.colIndex;
 	}
+	
 	
 }
