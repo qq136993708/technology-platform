@@ -107,13 +107,6 @@ public interface SysUserPropertyMapper {
     Integer deleteCurrentPage(SysUserProperty property);
     
     /**
-     * 查询人员配置列表（项目）
-     * @param userId
-     * @return
-     */
-    List<SysUserPropertyVo> selectUserPropertyList(SysUserPropertyVo userProperty);
-    
-    /**
      * 查询人员配置列表（部门）
      * @param userProperty
      * @return
