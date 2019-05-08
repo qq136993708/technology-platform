@@ -1,0 +1,722 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.outApi.OutProjectRequireMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.out.OutProjectRequire" >
+    <id column="data_id" property="dataId" jdbcType="VARCHAR" />
+    <result column="data_code" property="dataCode" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="VARCHAR" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="sts" property="sts" jdbcType="VARCHAR" />
+    <result column="audit_sts" property="auditSts" jdbcType="VARCHAR" />
+    <result column="project_require_code" property="projectRequireCode" jdbcType="VARCHAR" />
+    <result column="project_content" property="projectContent" jdbcType="VARCHAR" />
+    <result column="project_commit_user" property="projectCommitUser" jdbcType="VARCHAR" />
+    <result column="project_commit_user_id" property="projectCommitUserId" jdbcType="VARCHAR" />
+    <result column="project_require_type" property="projectRequireType" jdbcType="VARCHAR" />
+    <result column="project_start_date" property="projectStartDate" jdbcType="VARCHAR" />
+    <result column="project_end_date" property="projectEndDate" jdbcType="VARCHAR" />
+    <result column="project_nd" property="projectNd" jdbcType="VARCHAR" />
+    <result column="project_money" property="projectMoney" jdbcType="VARCHAR" />
+    <result column="project_nd_money" property="projectNdMoney" jdbcType="VARCHAR" />
+    <result column="project_major_unit" property="projectMajorUnit" jdbcType="VARCHAR" />
+    <result column="project_major_unit_code" property="projectMajorUnitCode" jdbcType="VARCHAR" />
+    <result column="project_secondary_unit" property="projectSecondaryUnit" jdbcType="VARCHAR" />
+    <result column="project_secondary_unit_code" property="projectSecondaryUnitCode" jdbcType="VARCHAR" />
+    <result column="project_contract_code" property="projectContractCode" jdbcType="VARCHAR" />
+    <result column="project_backgroup" property="projectBackgroup" jdbcType="VARCHAR" />
+    <result column="project_profession" property="projectProfession" jdbcType="VARCHAR" />
+    <result column="project_remarks" property="projectRemarks" jdbcType="VARCHAR" />
+    <result column="bak1" property="bak1" jdbcType="VARCHAR" />
+    <result column="bak2" property="bak2" jdbcType="VARCHAR" />
+    <result column="bak3" property="bak3" jdbcType="VARCHAR" />
+    <result column="bak4" property="bak4" jdbcType="VARCHAR" />
+    <result column="bak5" property="bak5" jdbcType="VARCHAR" />
+    <result column="bak6" property="bak6" jdbcType="VARCHAR" />
+    <result column="bak7" property="bak7" jdbcType="VARCHAR" />
+    <result column="bak8" property="bak8" jdbcType="VARCHAR" />
+    <result column="bak9" property="bak9" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    data_id, data_code, create_date, create_user, create_user_id, update_date, update_user, 
+    remarks, sts, audit_sts, project_require_code, project_content, project_commit_user, 
+    project_commit_user_id, project_require_type, project_start_date, project_end_date, 
+    project_nd, project_money, project_nd_money, project_major_unit, project_major_unit_code, 
+    project_secondary_unit, project_secondary_unit_code, project_contract_code, project_backgroup, 
+    project_profession, project_remarks, bak1, bak2, bak3, bak4, bak5, bak6, bak7, bak8, 
+    bak9
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.out.OutProjectRequireExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from out_project_require
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from out_project_require
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from out_project_require
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.out.OutProjectRequireExample" >
+    delete from out_project_require
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.out.OutProjectRequire" >
+    insert into out_project_require (data_id, data_code, create_date, 
+      create_user, create_user_id, update_date, 
+      update_user, remarks, sts, 
+      audit_sts, project_require_code, project_content, 
+      project_commit_user, project_commit_user_id, 
+      project_require_type, project_start_date, project_end_date, 
+      project_nd, project_money, project_nd_money, 
+      project_major_unit, project_major_unit_code, 
+      project_secondary_unit, project_secondary_unit_code, 
+      project_contract_code, project_backgroup, 
+      project_profession, project_remarks, bak1, 
+      bak2, bak3, bak4, bak5, 
+      bak6, bak7, bak8, bak9
+      )
+    values (#{dataId,jdbcType=VARCHAR}, #{dataCode,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, #{updateDate,jdbcType=VARCHAR}, 
+      #{updateUser,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{sts,jdbcType=VARCHAR}, 
+      #{auditSts,jdbcType=VARCHAR}, #{projectRequireCode,jdbcType=VARCHAR}, #{projectContent,jdbcType=VARCHAR}, 
+      #{projectCommitUser,jdbcType=VARCHAR}, #{projectCommitUserId,jdbcType=VARCHAR}, 
+      #{projectRequireType,jdbcType=VARCHAR}, #{projectStartDate,jdbcType=VARCHAR}, #{projectEndDate,jdbcType=VARCHAR}, 
+      #{projectNd,jdbcType=VARCHAR}, #{projectMoney,jdbcType=VARCHAR}, #{projectNdMoney,jdbcType=VARCHAR}, 
+      #{projectMajorUnit,jdbcType=VARCHAR}, #{projectMajorUnitCode,jdbcType=VARCHAR}, 
+      #{projectSecondaryUnit,jdbcType=VARCHAR}, #{projectSecondaryUnitCode,jdbcType=VARCHAR}, 
+      #{projectContractCode,jdbcType=VARCHAR}, #{projectBackgroup,jdbcType=VARCHAR}, 
+      #{projectProfession,jdbcType=VARCHAR}, #{projectRemarks,jdbcType=VARCHAR}, #{bak1,jdbcType=VARCHAR}, 
+      #{bak2,jdbcType=VARCHAR}, #{bak3,jdbcType=VARCHAR}, #{bak4,jdbcType=VARCHAR}, #{bak5,jdbcType=VARCHAR}, 
+      #{bak6,jdbcType=VARCHAR}, #{bak7,jdbcType=VARCHAR}, #{bak8,jdbcType=VARCHAR}, #{bak9,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.out.OutProjectRequire" >
+    insert into out_project_require
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dataId != null" >
+        data_id,
+      </if>
+      <if test="dataCode != null" >
+        data_code,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="sts != null" >
+        sts,
+      </if>
+      <if test="auditSts != null" >
+        audit_sts,
+      </if>
+      <if test="projectRequireCode != null" >
+        project_require_code,
+      </if>
+      <if test="projectContent != null" >
+        project_content,
+      </if>
+      <if test="projectCommitUser != null" >
+        project_commit_user,
+      </if>
+      <if test="projectCommitUserId != null" >
+        project_commit_user_id,
+      </if>
+      <if test="projectRequireType != null" >
+        project_require_type,
+      </if>
+      <if test="projectStartDate != null" >
+        project_start_date,
+      </if>
+      <if test="projectEndDate != null" >
+        project_end_date,
+      </if>
+      <if test="projectNd != null" >
+        project_nd,
+      </if>
+      <if test="projectMoney != null" >
+        project_money,
+      </if>
+      <if test="projectNdMoney != null" >
+        project_nd_money,
+      </if>
+      <if test="projectMajorUnit != null" >
+        project_major_unit,
+      </if>
+      <if test="projectMajorUnitCode != null" >
+        project_major_unit_code,
+      </if>
+      <if test="projectSecondaryUnit != null" >
+        project_secondary_unit,
+      </if>
+      <if test="projectSecondaryUnitCode != null" >
+        project_secondary_unit_code,
+      </if>
+      <if test="projectContractCode != null" >
+        project_contract_code,
+      </if>
+      <if test="projectBackgroup != null" >
+        project_backgroup,
+      </if>
+      <if test="projectProfession != null" >
+        project_profession,
+      </if>
+      <if test="projectRemarks != null" >
+        project_remarks,
+      </if>
+      <if test="bak1 != null" >
+        bak1,
+      </if>
+      <if test="bak2 != null" >
+        bak2,
+      </if>
+      <if test="bak3 != null" >
+        bak3,
+      </if>
+      <if test="bak4 != null" >
+        bak4,
+      </if>
+      <if test="bak5 != null" >
+        bak5,
+      </if>
+      <if test="bak6 != null" >
+        bak6,
+      </if>
+      <if test="bak7 != null" >
+        bak7,
+      </if>
+      <if test="bak8 != null" >
+        bak8,
+      </if>
+      <if test="bak9 != null" >
+        bak9,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dataId != null" >
+        #{dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="dataCode != null" >
+        #{dataCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="sts != null" >
+        #{sts,jdbcType=VARCHAR},
+      </if>
+      <if test="auditSts != null" >
+        #{auditSts,jdbcType=VARCHAR},
+      </if>
+      <if test="projectRequireCode != null" >
+        #{projectRequireCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectContent != null" >
+        #{projectContent,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCommitUser != null" >
+        #{projectCommitUser,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCommitUserId != null" >
+        #{projectCommitUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectRequireType != null" >
+        #{projectRequireType,jdbcType=VARCHAR},
+      </if>
+      <if test="projectStartDate != null" >
+        #{projectStartDate,jdbcType=VARCHAR},
+      </if>
+      <if test="projectEndDate != null" >
+        #{projectEndDate,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNd != null" >
+        #{projectNd,jdbcType=VARCHAR},
+      </if>
+      <if test="projectMoney != null" >
+        #{projectMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNdMoney != null" >
+        #{projectNdMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="projectMajorUnit != null" >
+        #{projectMajorUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="projectMajorUnitCode != null" >
+        #{projectMajorUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectSecondaryUnit != null" >
+        #{projectSecondaryUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="projectSecondaryUnitCode != null" >
+        #{projectSecondaryUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectContractCode != null" >
+        #{projectContractCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectBackgroup != null" >
+        #{projectBackgroup,jdbcType=VARCHAR},
+      </if>
+      <if test="projectProfession != null" >
+        #{projectProfession,jdbcType=VARCHAR},
+      </if>
+      <if test="projectRemarks != null" >
+        #{projectRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="bak1 != null" >
+        #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null" >
+        #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="bak3 != null" >
+        #{bak3,jdbcType=VARCHAR},
+      </if>
+      <if test="bak4 != null" >
+        #{bak4,jdbcType=VARCHAR},
+      </if>
+      <if test="bak5 != null" >
+        #{bak5,jdbcType=VARCHAR},
+      </if>
+      <if test="bak6 != null" >
+        #{bak6,jdbcType=VARCHAR},
+      </if>
+      <if test="bak7 != null" >
+        #{bak7,jdbcType=VARCHAR},
+      </if>
+      <if test="bak8 != null" >
+        #{bak8,jdbcType=VARCHAR},
+      </if>
+      <if test="bak9 != null" >
+        #{bak9,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.stp.out.OutProjectRequireExample" resultType="java.lang.Integer" >
+    select count(*) from out_project_require
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update out_project_require
+    <set >
+      <if test="record.dataId != null" >
+        data_id = #{record.dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataCode != null" >
+        data_code = #{record.dataCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null" >
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateUser != null" >
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null" >
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sts != null" >
+        sts = #{record.sts,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditSts != null" >
+        audit_sts = #{record.auditSts,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectRequireCode != null" >
+        project_require_code = #{record.projectRequireCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectContent != null" >
+        project_content = #{record.projectContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectCommitUser != null" >
+        project_commit_user = #{record.projectCommitUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectCommitUserId != null" >
+        project_commit_user_id = #{record.projectCommitUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectRequireType != null" >
+        project_require_type = #{record.projectRequireType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectStartDate != null" >
+        project_start_date = #{record.projectStartDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectEndDate != null" >
+        project_end_date = #{record.projectEndDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectNd != null" >
+        project_nd = #{record.projectNd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectMoney != null" >
+        project_money = #{record.projectMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectNdMoney != null" >
+        project_nd_money = #{record.projectNdMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectMajorUnit != null" >
+        project_major_unit = #{record.projectMajorUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectMajorUnitCode != null" >
+        project_major_unit_code = #{record.projectMajorUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectSecondaryUnit != null" >
+        project_secondary_unit = #{record.projectSecondaryUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectSecondaryUnitCode != null" >
+        project_secondary_unit_code = #{record.projectSecondaryUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectContractCode != null" >
+        project_contract_code = #{record.projectContractCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectBackgroup != null" >
+        project_backgroup = #{record.projectBackgroup,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectProfession != null" >
+        project_profession = #{record.projectProfession,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectRemarks != null" >
+        project_remarks = #{record.projectRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak1 != null" >
+        bak1 = #{record.bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak2 != null" >
+        bak2 = #{record.bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak3 != null" >
+        bak3 = #{record.bak3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak4 != null" >
+        bak4 = #{record.bak4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak5 != null" >
+        bak5 = #{record.bak5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak6 != null" >
+        bak6 = #{record.bak6,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak7 != null" >
+        bak7 = #{record.bak7,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak8 != null" >
+        bak8 = #{record.bak8,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak9 != null" >
+        bak9 = #{record.bak9,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update out_project_require
+    set data_id = #{record.dataId,jdbcType=VARCHAR},
+      data_code = #{record.dataCode,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=VARCHAR},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      sts = #{record.sts,jdbcType=VARCHAR},
+      audit_sts = #{record.auditSts,jdbcType=VARCHAR},
+      project_require_code = #{record.projectRequireCode,jdbcType=VARCHAR},
+      project_content = #{record.projectContent,jdbcType=VARCHAR},
+      project_commit_user = #{record.projectCommitUser,jdbcType=VARCHAR},
+      project_commit_user_id = #{record.projectCommitUserId,jdbcType=VARCHAR},
+      project_require_type = #{record.projectRequireType,jdbcType=VARCHAR},
+      project_start_date = #{record.projectStartDate,jdbcType=VARCHAR},
+      project_end_date = #{record.projectEndDate,jdbcType=VARCHAR},
+      project_nd = #{record.projectNd,jdbcType=VARCHAR},
+      project_money = #{record.projectMoney,jdbcType=VARCHAR},
+      project_nd_money = #{record.projectNdMoney,jdbcType=VARCHAR},
+      project_major_unit = #{record.projectMajorUnit,jdbcType=VARCHAR},
+      project_major_unit_code = #{record.projectMajorUnitCode,jdbcType=VARCHAR},
+      project_secondary_unit = #{record.projectSecondaryUnit,jdbcType=VARCHAR},
+      project_secondary_unit_code = #{record.projectSecondaryUnitCode,jdbcType=VARCHAR},
+      project_contract_code = #{record.projectContractCode,jdbcType=VARCHAR},
+      project_backgroup = #{record.projectBackgroup,jdbcType=VARCHAR},
+      project_profession = #{record.projectProfession,jdbcType=VARCHAR},
+      project_remarks = #{record.projectRemarks,jdbcType=VARCHAR},
+      bak1 = #{record.bak1,jdbcType=VARCHAR},
+      bak2 = #{record.bak2,jdbcType=VARCHAR},
+      bak3 = #{record.bak3,jdbcType=VARCHAR},
+      bak4 = #{record.bak4,jdbcType=VARCHAR},
+      bak5 = #{record.bak5,jdbcType=VARCHAR},
+      bak6 = #{record.bak6,jdbcType=VARCHAR},
+      bak7 = #{record.bak7,jdbcType=VARCHAR},
+      bak8 = #{record.bak8,jdbcType=VARCHAR},
+      bak9 = #{record.bak9,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.out.OutProjectRequire" >
+    update out_project_require
+    <set >
+      <if test="dataCode != null" >
+        data_code = #{dataCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="sts != null" >
+        sts = #{sts,jdbcType=VARCHAR},
+      </if>
+      <if test="auditSts != null" >
+        audit_sts = #{auditSts,jdbcType=VARCHAR},
+      </if>
+      <if test="projectRequireCode != null" >
+        project_require_code = #{projectRequireCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectContent != null" >
+        project_content = #{projectContent,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCommitUser != null" >
+        project_commit_user = #{projectCommitUser,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCommitUserId != null" >
+        project_commit_user_id = #{projectCommitUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectRequireType != null" >
+        project_require_type = #{projectRequireType,jdbcType=VARCHAR},
+      </if>
+      <if test="projectStartDate != null" >
+        project_start_date = #{projectStartDate,jdbcType=VARCHAR},
+      </if>
+      <if test="projectEndDate != null" >
+        project_end_date = #{projectEndDate,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNd != null" >
+        project_nd = #{projectNd,jdbcType=VARCHAR},
+      </if>
+      <if test="projectMoney != null" >
+        project_money = #{projectMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNdMoney != null" >
+        project_nd_money = #{projectNdMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="projectMajorUnit != null" >
+        project_major_unit = #{projectMajorUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="projectMajorUnitCode != null" >
+        project_major_unit_code = #{projectMajorUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectSecondaryUnit != null" >
+        project_secondary_unit = #{projectSecondaryUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="projectSecondaryUnitCode != null" >
+        project_secondary_unit_code = #{projectSecondaryUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectContractCode != null" >
+        project_contract_code = #{projectContractCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectBackgroup != null" >
+        project_backgroup = #{projectBackgroup,jdbcType=VARCHAR},
+      </if>
+      <if test="projectProfession != null" >
+        project_profession = #{projectProfession,jdbcType=VARCHAR},
+      </if>
+      <if test="projectRemarks != null" >
+        project_remarks = #{projectRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="bak1 != null" >
+        bak1 = #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null" >
+        bak2 = #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="bak3 != null" >
+        bak3 = #{bak3,jdbcType=VARCHAR},
+      </if>
+      <if test="bak4 != null" >
+        bak4 = #{bak4,jdbcType=VARCHAR},
+      </if>
+      <if test="bak5 != null" >
+        bak5 = #{bak5,jdbcType=VARCHAR},
+      </if>
+      <if test="bak6 != null" >
+        bak6 = #{bak6,jdbcType=VARCHAR},
+      </if>
+      <if test="bak7 != null" >
+        bak7 = #{bak7,jdbcType=VARCHAR},
+      </if>
+      <if test="bak8 != null" >
+        bak8 = #{bak8,jdbcType=VARCHAR},
+      </if>
+      <if test="bak9 != null" >
+        bak9 = #{bak9,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.out.OutProjectRequire" >
+    update out_project_require
+    set data_code = #{dataCode,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      sts = #{sts,jdbcType=VARCHAR},
+      audit_sts = #{auditSts,jdbcType=VARCHAR},
+      project_require_code = #{projectRequireCode,jdbcType=VARCHAR},
+      project_content = #{projectContent,jdbcType=VARCHAR},
+      project_commit_user = #{projectCommitUser,jdbcType=VARCHAR},
+      project_commit_user_id = #{projectCommitUserId,jdbcType=VARCHAR},
+      project_require_type = #{projectRequireType,jdbcType=VARCHAR},
+      project_start_date = #{projectStartDate,jdbcType=VARCHAR},
+      project_end_date = #{projectEndDate,jdbcType=VARCHAR},
+      project_nd = #{projectNd,jdbcType=VARCHAR},
+      project_money = #{projectMoney,jdbcType=VARCHAR},
+      project_nd_money = #{projectNdMoney,jdbcType=VARCHAR},
+      project_major_unit = #{projectMajorUnit,jdbcType=VARCHAR},
+      project_major_unit_code = #{projectMajorUnitCode,jdbcType=VARCHAR},
+      project_secondary_unit = #{projectSecondaryUnit,jdbcType=VARCHAR},
+      project_secondary_unit_code = #{projectSecondaryUnitCode,jdbcType=VARCHAR},
+      project_contract_code = #{projectContractCode,jdbcType=VARCHAR},
+      project_backgroup = #{projectBackgroup,jdbcType=VARCHAR},
+      project_profession = #{projectProfession,jdbcType=VARCHAR},
+      project_remarks = #{projectRemarks,jdbcType=VARCHAR},
+      bak1 = #{bak1,jdbcType=VARCHAR},
+      bak2 = #{bak2,jdbcType=VARCHAR},
+      bak3 = #{bak3,jdbcType=VARCHAR},
+      bak4 = #{bak4,jdbcType=VARCHAR},
+      bak5 = #{bak5,jdbcType=VARCHAR},
+      bak6 = #{bak6,jdbcType=VARCHAR},
+      bak7 = #{bak7,jdbcType=VARCHAR},
+      bak8 = #{bak8,jdbcType=VARCHAR},
+      bak9 = #{bak9,jdbcType=VARCHAR}
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+</mapper>
