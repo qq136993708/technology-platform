@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectTask;
 import com.pcitc.service.equipment.InvestService;
 
@@ -51,7 +52,7 @@ public class InvestmentProgressProviderClient
 	@RequestMapping(value = "/sre-provider/Investmentrogress/management", method = RequestMethod.POST)
 	public int getProcurementProgramList()throws Exception
 	{
-		List<SreProjectTask> ProjectTask = investService.getSelectProjectTask();
+		List<SreProject> ProjectTask = investService.getSelectProject();
 		int count = 0;
 		for(int i =0;i<ProjectTask.size();i++) {
 			count++;
@@ -60,7 +61,7 @@ public class InvestmentProgressProviderClient
 	}
 	
 	/*==================================计划完成管理台账=============================*/
-	@ApiOperation(value = "投资进度分页", notes = "投资进度分页")
+	@ApiOperation(value = "计划完成管理台账分页", notes = "计划完成管理台账分页")
 	@RequestMapping(value = "/sre-provider/mana/page", method = RequestMethod.POST)
 	public LayuiTableData getManagementLedgerList(@RequestBody LayuiTableParam param)throws Exception
 	{
