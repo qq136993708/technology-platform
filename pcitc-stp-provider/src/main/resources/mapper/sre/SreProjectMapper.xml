@@ -760,6 +760,8 @@
       SELECT count(*) FROM sre_project t <include refid="selectCondition"/>
     </select>
     
-    
+    <select id="getSelectDate" resultMap="BaseResultMap" parameterType="Map" >
+    select *  from sre_project
+  </select>
     
 </mapper>
