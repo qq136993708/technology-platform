@@ -221,8 +221,8 @@ background: url("/layuiadmin/layui/images/icon-leader-aw.png") right no-repeat;
 .implement th{background-color: #ecf8ff !important;}
 .implement th .layui-table-cell{color: black;}
 .stay-do-m p{transition: transform 0.9s;}
-.stay-do-m:hover .stay-doz-i{ -webkit-transform:translateY(-80px);}
-.stay-do-m:hover .stay-doz-n{ -webkit-transform:translate(168px,64px);}
+.stay-do-m:hover .stay-doz-i{ -webkit-transform:translateY(-80px);transform:translateY(-80px);}
+.stay-do-m:hover .stay-doz-n{ -webkit-transform:translate(168px,64px);transform:translate(168px,64px);}
 .stay-do-m>div{position: absolute;top: 40px;left: 14px;display: none;}
 .stay-do-m>div ul li{height: 24px;line-height: 24px;color: #fff;font-size: 12px;}
 .stay-do-m>div a{color: white;font-size: 12px;}
