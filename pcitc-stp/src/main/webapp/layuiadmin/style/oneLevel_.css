@@ -150,8 +150,8 @@ line-height: 60px;font-size: 22px;}
 /*领导页面*/
 .layui-level-main>div{float: left;}
 .layui-level-main .main-left{width: 183px;margin-right: 24px;}
-.main-left>div{height: 278px;box-sizing: border-box;background-color: #0068b7;border: 1px solid #0068b7;}
-.main-left>div:hover{border: 1px solid #ccd7df;box-shadow: 0 0 10px #0155dc;box-sizing: border-box;}
+.main-one .main-left>div{height: 278px;box-sizing: border-box;background-color: #0068b7;border: 1px solid #0068b7;}
+.main-one .main-left>div:hover{border: 1px solid #ccd7df;box-shadow: 0 0 10px #0155dc;box-sizing: border-box;}
 .main-left .main-agency{margin-bottom: 12px;}
 .main-left .main-left-p{font-size: 16px; color: white;border-bottom: 1px solid #5296d6;margin: 17px 14px 0px 12px;
     padding-bottom: 4px;}
@@ -171,50 +171,95 @@ line-height: 60px;font-size: 22px;}
 .main-left ul li p{margin-top: 4px;}
 .layui-level-main .main-midd{ width: 484px;margin-right: 24px;}
 .layui-level-main .main-right{width: 432px;position: relative;}
+.main-right>div,.main-two .main-left>div{cursor: pointer;}
+.main-right .title{font-size: 16px;color: white;padding: 15px 0 0 12px;}
+.main-right .number{text-align: center;color: white;font-size: 24px;height: 24px;line-height: 24px;}
 .laboratory{height: 131px;width: 283px;position: relative;
     float: left;}
+.laboratory:hover .laboratory-front{    border: 1px solid #ccd7df;
+    box-shadow: 0 0 10px #0155dc;box-sizing: border-box;}
 .laboratory-front{height: 100%;position: absolute;top:0;width: 100%;z-index: 1;}
 .laboratory-cont {background:url("/layuiadmin/layui/images/laboratory-front-bg.png") no-repeat right bottom;
     height: 100%;}
 .laboratory-color{width: 100%;height: 100%;background-color: #b4a050;
-    margin: 0 auto;position: relative;z-index: 1;
-    }
-.main-right .title{font-size: 16px;color: white;padding: 15px 0 0 12px;}
-.main-right .number{text-align: center;color: white;font-size: 24px;height: 24px;line-height: 24px;}
-.main-right .laboratory-cont .number{margin-top: 32px;}
+    margin: 0 auto;position: relative;z-index: 1;}
 .laboratory-back{width: 100%;height: 128px;border: 1px solid rgba(255,255,255,0);z-index: 0;
     background: url("/layuiadmin/layui/images/laboratory-back.png") no-repeat;position: absolute;top: 0;}
+.main-right .laboratory-cont .number{margin-top: 32px;}
 .equipment{position: absolute;right: 0;width: 134px;height: 278px;box-sizing: border-box;
     background-color: #01bca9;border: 1px solid #01bca9;}
 .equipment-front{height: 100%;position: relative;
     background: url("/layuiadmin/layui/images/equipment-bg.png") no-repeat right bottom;}
 .equipment-front img{position: absolute;right: 6px;bottom: 4px;}
 .equipment .number{margin-top: 96px;}
-.equipment:hover{border: 1px solid #ccd7df;
-    box-shadow: 0 0 10px #0155dc;}
+.equipment:hover{border: 1px solid #ccd7df;box-shadow: 0 0 10px #0155dc;}
 .equipment img{transition: transform 1s;}
 .equipment:hover img{animation:imgAnimation 1s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-
 .contract{position: absolute;top: 146px;left: 0;height: 132px;width: 134px;    perspective: 1000px; }
 .contract-cont{height: 100%;width: 100%;position: relative;}
-.contract .contract-color{background-color: #b265fb;height: 100%;
-
-    width: 100%;position: absolute;top: 0;}
 .contract .contract-front{height: 100%;width: 100%;position: absolute;top: 0;
     background: url("/layuiadmin/layui/images/contract-img.png") no-repeat right bottom;z-index: 1;}
 .contract .contract-img{height: 100%;width: 100%;position: absolute;top: 0;
-
     background: url("/layuiadmin/layui/images/contract-bg.png") no-repeat;}
+.contract .contract-color{background-color: #b265fb;height: 100%;
+    width: 100%;position: absolute;top: 0;}
+.investment .number,.contract .number,.project .number,.personnel .number,.achievement .number{margin-top: 24px;}
+.investment{position: absolute;top: 146px;left: 149px;height: 132px;width: 134px;perspective: 1000px; }
+.investment-cont{height: 100%;width: 100%;position: relative;}
+.investment .investment-front{height: 100%;width: 100%;position: absolute;top: 0;
+    background: url("/layuiadmin/layui/images/investment-img.png") no-repeat right bottom;z-index: 1;}
+.investment .investment-img{height: 100%;width: 100%;position: absolute;top: 0;
+    background: url("/layuiadmin/layui/images/investment-bg.png") no-repeat;}
+.investment .investment-color{background-color: #26bae6;height: 100%;
+    width: 100%;position: absolute;top: 0;}
+.project{height: 132px;width: 100%;position: absolute;top: 291px;}
+.project-front{height: 100%;position: absolute;top:0;width: 100%;z-index: 1;}
+.project-cont {background:url("/layuiadmin/layui/images/project-bg.png") no-repeat right bottom;
+    height: 100%;}
+.project-color{width: 100%;height: 100%;background-color: #8cb853;margin: 0 auto;position: relative;z-index: 1;}
+.project-back{width: 99.5%;height: 128px;border: 1px solid rgba(255,255,255,0);z-index: 0;
+    background: url("/layuiadmin/layui/images/project-back.png") no-repeat;position: absolute;top: 0;}
+.project:hover .project-front{    border: 1px solid #ccd7df;
+    box-shadow: 0 0 10px #0155dc;box-sizing: border-box;}
 
-.contract:hover .contract-color{animation:rotateX 1s;animation-fill-mode:forwards;
+.institute{position: absolute;top: 438px;left: 0;height: 132px;width: 134px;    perspective: 1000px; }
+.institute-cont{height: 100%;width: 100%;position: relative;}
+.institute .institute-front{height: 100%;width: 100%;position: absolute;top: 0;
+    background: url("/layuiadmin/layui/images/institute-img.png") no-repeat right bottom;z-index: 1;}
+.institute .institute-img{height: 100%;width: 100%;position: absolute;top: 0;
+    background: url("/layuiadmin/layui/images/institute-bg.png") no-repeat;}
+.institute .institute-color{background-color: #a3285f;height: 100%;
+    width: 100%;position: absolute;top: 0;}
+
+.personnel{position: absolute;left: 149px;width: 134px;height: 132px;top:438px;box-sizing: border-box;
+    background-color: #b28850;border: 1px solid #b28850;}
+.personnel-front{height: 100%;position: relative;
+    background: url("/layuiadmin/layui/images/equipment-bg.png") no-repeat right bottom;}
+.personnel-front img{position: absolute;right: 6px;bottom: 4px;}
+.personnel:hover{border: 1px solid #ccd7df;box-shadow: 0 0 10px #0155dc;}
+.personnel img{transition: transform 1s;}
+.personnel:hover img{animation:imgAnimationT 1s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.contract:hover .contract-img{animation:rotateXX 1s;animation-fill-mode:forwards;
+
+.achievement{position: absolute;right: 0;width: 134px;height: 132px;top:438px;box-sizing: border-box;
+    background-color: #0089c7;border: 1px solid #0089c7;}
+.achievement-front{height: 100%;position: relative;
+    background: url("/layuiadmin/layui/images/equipment-bg.png") no-repeat right bottom;}
+.achievement-front img{position: absolute;right: 6px;bottom: 4px;}
+.achievement:hover{border: 1px solid #ccd7df;box-shadow: 0 0 10px #0155dc;}
+.achievement img{transition: transform 1s;}
+.achievement:hover img{animation:imgAnimationT 1s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-
-
-.investment{position: absolute;top: 146px;left: 149px;height: 132px;width: 134px;background-color: #b265fb;}
-
+/*第二屏*/
+.property{background:#f58b9c url("/layuiadmin/layui/images/unify.png") no-repeat right bottom;width: 100%;
+    height: 131px;margin-bottom: 14px;}
+.main-two .title{font-size: 16px;color: white;padding: 15px 0 0 12px;}
+.main-two .number{text-align: center;color: white;font-size: 24px;height: 24px;line-height: 24px;}
+.petrification{background:#b265fb url("/layuiadmin/layui/images/unify.png") no-repeat right bottom;width: 100%;
+    height: 131px;margin-bottom: 14px;}
+.add{height: 131px;width: 183px;background:#345e80 url("/layuiadmin/layui/images/add.png") no-repeat center center;}
+.main-two{display: none;}
 
 
 
@@ -266,26 +311,42 @@ line-height: 60px;font-size: 22px;}
 .layui-speech-d .title-time{margin-top: 20px;}
 .layui-speech-d .time{margin-right: 10px;}
 /*首页动画效果*/
-.contentH{animation:oneAHText 1s;animation-fill-mode:forwards;
+.laboratoryH,.projectH{animation:oneAHText 1s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.contentC{animation:oneAnimationColor 1s;animation-fill-mode:forwards;
+.laboratoryC,.projectC{animation:oneAnimationColor 1s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.contentB{animation:oneAnimationB 1s;animation-fill-mode:forwards;
+.laboratoryB,.projectB{animation:oneAnimationB 1s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.contentHO{animation:oneAHTO 1s;animation-fill-mode:forwards;
+.laboratoryHO,.projectHO{animation:oneAHTO 1s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.contentCO{animation:oneAnimationCO 1s;animation-fill-mode:forwards;
+.laboratoryCO,.projectCO{animation:oneAnimationCO 1s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.contentBO{animation:oneAnimationBO 1s;animation-fill-mode:forwards;
+.laboratoryBO,.projectBO{animation:oneAnimationBO 1s;animation-fill-mode:forwards;
+    -webkit-animation-fill-mode:forwards;}
+.contractH,.investmentH,.instituteH{animation:oneAHText 1s;animation-fill-mode:forwards;
+    -webkit-animation-fill-mode:forwards;}
+.contractC,.investmentC,.instituteC{animation:rotateX 1s;animation-fill-mode:forwards;
+    -webkit-animation-fill-mode:forwards;}
+.contractB,.investmentB,.instituteB{animation:rotateXX 1s;animation-fill-mode:forwards;
+    -webkit-animation-fill-mode:forwards;}
+.contractHO,.investmentHO,.instituteHO{animation:oneAHTO 1s;animation-fill-mode:forwards;
+    -webkit-animation-fill-mode:forwards;}
+.contractCO,.investmentCO,.instituteCO{animation:rotateXO 1s;animation-fill-mode:forwards;
+    -webkit-animation-fill-mode:forwards;}
+.contractBO,.investmentBO,.instituteBO{animation:rotateXXO 1s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
 /*hover文字与图标透明*/
 @keyframes oneAHText {
-    0% {opacity: 1;}
-    100% {opacity: 0;}
+    0% {opacity: 1;    border: 1px solid #ccd7df;
+        box-shadow: 0 0 10px #0155dc;
+        box-sizing: border-box;}
+    100% {opacity: 0;    border: 1px solid #ccd7df;
+        box-shadow: 0 0 10px #0155dc;
+        box-sizing: border-box;}
 }
 @-webkit-keyframes oneAHText {
-    0% {opacity: 1;}
-    100% {opacity: 0;}
+    0% {opacity: 1; }
+    100% {opacity: 0; }
 }
 @keyframes oneAnimationColor {
     0%{transform:scale(1,1);}
@@ -449,48 +510,187 @@ line-height: 60px;font-size: 22px;}
     90%{transform:scale(1.1) translate(-1px,-1px);}
     100%{transform:scale(1);}
 }
+@keyframes imgAnimationT {
+    0%{transform:scale(1,1);}
+    6%{transform:scale(1.1) translate(-1px,-1px);}
+    12%{transform:scale(1.2) translate(-6px,-6px);}
+    18%{transform:scale(1.3) translate(-8px,-8px);}
+    24%{transform:scale(1.4) translate(-10px,-10px);}
+    30%{transform:scale(1.5) translate(-12px,-12px);}
+    36%{transform:scale(1.6) translate(-14px,-14px);}
+    42%{transform:scale(1.7) translate(-16px,-16px);}
+    50%{transform:scale(1.8) translate(-18px,-18px);}
+    54%{transform:scale(1.7) translate(-16px,-16px);}
+    60%{transform:scale(1.6) translate(-14px,-14px);}
+    66%{transform:scale(1.5) translate(-12px,-12px);}
+    72%{transform:scale(1.4) translate(-10px,-10px);}
+    78%{transform:scale(1.3) translate(-8px,-8px);}
+    84%{transform:scale(1.2) translate(-6px,-6px);}
+    90%{transform:scale(1.1) translate(-1px,-1px);}
+    100%{transform:scale(1);}
+}
+@-webkit-keyframes imgAnimationT /* Safari 与 Chrome */{
+    0%{transform:scale(1,1);}
+    6%{transform:scale(1.1) translate(-1px,-1px);}
+    12%{transform:scale(1.2) translate(-6px,-6px);}
+    18%{transform:scale(1.3) translate(-8px,-8px);}
+    24%{transform:scale(1.4) translate(-10px,-10px);}
+    30%{transform:scale(1.5) translate(-12px,-12px);}
+    36%{transform:scale(1.6) translate(-14px,-14px);}
+    42%{transform:scale(1.7) translate(-16px,-16px);}
+    50%{transform:scale(1.8) translate(-18px,-18px);}
+    54%{transform:scale(1.7) translate(-16px,-16px);}
+    60%{transform:scale(1.6) translate(-14px,-14px);}
+    66%{transform:scale(1.5) translate(-12px,-12px);}
+    72%{transform:scale(1.4) translate(-10px,-10px);}
+    78%{transform:scale(1.3) translate(-8px,-8px);}
+    84%{transform:scale(1.2) translate(-6px,-6px);}
+    90%{transform:scale(1.1) translate(-1px,-1px);}
+    100%{transform:scale(1);}
+}
 /*旋转*/
 @keyframes rotateX {
     0%{transform:rotateX(0deg);}
-    20%{transform: rotateX(20deg);}
-
-    40%{transform: rotateX(40deg);}
-
-    60%{transform: rotateX(60deg);}
-
-    80%{transform: rotateX(80deg);}
+    20%{transform: rotateX(20deg);opacity: 0.8;}
+    40%{transform: rotateX(40deg);opacity: 0.6;}
+    60%{transform: rotateX(60deg);opacity: 0.4;}
+    80%{transform: rotateX(80deg);opacity: 0.2;}
     100%{transform:rotateX(180deg);opacity: 0;}
 }
 @-webkit-keyframes rotateX /* Safari 与 Chrome */{
     0%{transform:rotateX(0deg);}
-    20%{transform: rotateX(20deg);}
-
-    40%{transform: rotateX(40deg);}
-
-    60%{transform: rotateX(60deg);}
-
-    80%{transform: rotateX(80deg);}
+    20%{transform: rotateX(20deg);opacity: 0.8;}
+    40%{transform: rotateX(40deg);opacity: 0.6;}
+    60%{transform: rotateX(60deg);opacity: 0.4;}
+    80%{transform: rotateX(80deg);opacity: 0.2;}
     100%{transform:rotateX(180deg);opacity: 0;}
 }
 @keyframes rotateXX {
     0%{transform:rotateX(0deg);}
-    20%{transform: rotateX(-20deg);}
-
-    40%{transform: rotateX(-40deg);}
-
-    60%{transform: rotateX(-60deg);}
-
-    80%{transform: rotateX(-80deg);}
-    100%{transform:rotateX(-180deg);}
+    4%{transform: rotateX(-20deg);}
+    8%{transform: rotateX(-60deg);}
+    12%{transform: rotateX(-60deg);}
+    16%{transform: rotateX(-180deg);}
+    20%{transform: rotateX(-80deg);}
+    24%{transform: rotateX(-60deg);}
+    28%{transform: rotateX(-40deg);}
+    32%{transform: rotateX(-20deg);}
+    36%{transform: rotateX(0deg);}
+    40%{transform: rotateX(-20deg);}
+    44%{transform: rotateX(-60deg);}
+    48%{transform: rotateX(-180deg);}
+    52%{transform: rotateX(-80deg);}
+    56%{transform: rotateX(-60deg);}
+    70%{transform: rotateX(-40deg);}
+    74%{transform: rotateX(-20deg);}
+    78%{transform: rotateX(0deg);}
+    82%{transform: rotateX(-3deg);}
+    86%{transform: rotateX(-6deg);}
+    90%{transform: rotateX(-9deg);}
+    94%{transform: rotateX(3deg);}
+    98%{transform: rotateX(6deg);}
+    99%{transform: rotateX(9deg);}
+    100%{transform:rotateX(0deg);}
 }
 @-webkit-keyframes rotateXX /* Safari 与 Chrome */{
     0%{transform:rotateX(0deg);}
-    20%{transform: rotateX(-20deg);}
+    4%{transform: rotateX(-20deg);}
+    8%{transform: rotateX(-60deg);}
+    12%{transform: rotateX(-60deg);}
+    16%{transform: rotateX(-180deg);}
+    20%{transform: rotateX(-80deg);}
+    24%{transform: rotateX(-60deg);}
+    28%{transform: rotateX(-40deg);}
+    32%{transform: rotateX(-20deg);}
+    36%{transform: rotateX(0deg);}
+    40%{transform: rotateX(-20deg);}
+    44%{transform: rotateX(-60deg);}
+    48%{transform: rotateX(-180deg);}
+    52%{transform: rotateX(-80deg);}
+    56%{transform: rotateX(-60deg);}
+    70%{transform: rotateX(-40deg);}
+    74%{transform: rotateX(-20deg);}
+    78%{transform: rotateX(0deg);}
+    82%{transform: rotateX(-3deg);}
+    86%{transform: rotateX(-6deg);}
+    90%{transform: rotateX(-9deg);}
+    94%{transform: rotateX(3deg);}
+    98%{transform: rotateX(6deg);}
+    99%{transform: rotateX(9deg);}
+    100%{transform:rotateX(0deg);}
+}
+@keyframes rotateXO {
+    0%{opacity: 0;}
+    48%{opacity: 0;}
+    50%{opacity: 1;}
+    52%{transform:scale(1,.5);transform-origin:0 0;}
+    54%{transform:scale(1,.55);transform-origin:100% 100%;}
+    56%{transform:scale(1,.6);transform-origin:100% 100%;}
+    58%{transform:scale(1,.6);transform-origin:0 0;}
+    60%{transform:scale(1,.55);transform-origin:0 0;}
+    62%{transform:scale(1,.6);transform-origin:0 0;}
+    64%{transform:scale(1,.65);transform-origin:0 0;}
+    66%{transform:scale(1,.65);transform-origin:100% 100%;}
+    68%{transform:scale(1,.55);transform-origin:100% 100%;}
+    70%{transform:scale(1,.65);transform-origin:100% 100%;}
+    72%{transform:scale(1,.7);transform-origin:100% 100%;}
+    74%{transform:scale(1,.8);transform-origin:0 0;}
+    76%{transform:scale(1,.6);transform-origin:0 0;}
+    78%{transform:scale(1,.63);transform-origin:0 0;}
+    80%{transform:scale(1,.75);transform-origin:0 0;}
+    82%{transform:scale(1,1);transform-origin:0 0;}
+    84%{transform:scale(1,.8);transform-origin:100% 100%;}
+    88%{transform:scale(1,.7);transform-origin:100% 100%;}
+    100%{transform:scale(1,1);transform-origin:100% 100%;}
+}
+@-webkit-keyframes rotateXO /* Safari 与 Chrome */{
+    0%{opacity: 0;}
+    48%{opacity: 0;}
+    50%{opacity: 0.2;}
+    60%{opacity: 0.4;}
+    70%{opacity: 0.6;}
+    80%{opacity: 0.8;}
+    90%{opacity: 1;}
+    100%{opacity: 1;}
+}
 
-    40%{transform: rotateX(-40deg);}
-
-    60%{transform: rotateX(-60deg);}
-
-    80%{transform: rotateX(-80deg);}
+@keyframes rotateXXO {
+    0%{transform:rotateX(0deg);}
+    4%{transform: rotateX(20deg);}
+    8%{transform: rotateX(40deg);}
+    12%{transform: rotateX(60deg);}
+    16%{transform: rotateX(180deg);}
+    20%{transform: rotateX(80deg);}
+    24%{transform: rotateX(60deg);}
+    28%{transform: rotateX(40deg);}
+    32%{transform: rotateX(20deg);}
+    36%{transform: rotateX(180deg);}
+    40%{transform: rotateX(20deg);}
+    44%{transform: rotateX(60deg);}
+    48%{transform: rotateX(180deg);}
+    52%{transform: rotateX(80deg);}
+    56%{transform: rotateX(60deg);}
+    70%{transform: rotateX(40deg);}
+    74%{transform: rotateX(20deg);}
+    100%{transform:rotateX(0deg);}
+}
+@-webkit-keyframes rotateXXO /* Safari 与 Chrome */{
+    0%{transform:rotateX(0deg);}
+    4%{transform: rotateX(20deg);}
+    8%{transform: rotateX(60deg);}
+    12%{transform: rotateX(60deg);}
+    16%{transform: rotateX(180deg);}
+    20%{transform: rotateX(80deg);}
+    24%{transform: rotateX(60deg);}
+    28%{transform: rotateX(40deg);}
+    32%{transform: rotateX(20deg);}
+    36%{transform: rotateX(180deg);}
+    40%{transform: rotateX(20deg);}
+    44%{transform: rotateX(60deg);}
+    48%{transform: rotateX(180deg);}
+    52%{transform: rotateX(80deg);}
+    56%{transform: rotateX(60deg);}
+    70%{transform: rotateX(40deg);}
+    74%{transform: rotateX(20deg);}
     100%{transform:rotateX(0deg);}
 }
