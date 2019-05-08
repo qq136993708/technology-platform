@@ -127,8 +127,11 @@ public class EquipmentServiceImpl implements EquipmentService {
 			}
 		}
         
-       
-        map_para.put("purchaseStatus", purchaseStatus);
+       if(purchaseStatus.equals(Constant.EQUIPMENT_PURCHASE_DRAFT)){
+		   map_para.put("purchaseStatus", purchaseStatus);
+	   }else if (purchaseStatus.equals(Constant.EQUIPMENT_PURCHASE_PRE_PURCHASE)){
+		map_para.put("purchaseStatus"+"or purchaseStatus=0", purchaseStatus);
+		}
         map_para.put("sqlStr", applyUnitCodeStr.toString());
     	List<SreEquipment> list = sreEquipmentMapper.getList(map_para);
     	return list;
