@@ -289,7 +289,8 @@
                 document.getElementById("templateDownloadhref").click();
             },
             dataExpert: function () {
-                document.getElementById("templateDownloadhref").click();
+                var randomInt = Math.random();
+                upload_File(randomInt,'','edit','importFileStandard');
             },
             getCheckData: function () { //获取选中数据
                 var checkStatus = table.checkStatus('standardBaseTableId')
@@ -327,6 +328,18 @@
             });
         });
     });
+    function importFileStandard(data, param) {
+        //param:返回上面拼装的参数json字符串，data：json文件数组
+        var fileDatas=[];
+        for (var key in data) {
+            var obj_file = data[key];
+            fileDatas.push(obj_file);
+        }
+        ajaxPost("/standardBaseExpert/importFileStandard", {"param": JSON.stringify(fileDatas)}, function (data) {
+            renderTable();
+        });
+        renderTable();
+    }
 </script>
 </body>
 

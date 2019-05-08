@@ -2,12 +2,14 @@ package com.pcitc.web.controller.system;
 
 import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.system.StandardBase;
+import com.pcitc.base.system.SysFile;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.OperationFilter;
@@ -71,10 +73,24 @@ public class StandardBaseExpertController extends BaseController {
     private static final String SAVE = "http://pcitc-zuul/system-proxy/standardbase-provider/standardbase/save_standardbase";
 
 
+    private static final String importFileStandard = "http://pcitc-zuul/system-proxy/PlanClient-provider/importFileStandard";
 
 
 
-    //
+
+
+    @RequestMapping(value = "/importFileStandard")
+    @ResponseBody
+    @OperationFilter(modelName = "标准管理", actionName = "导入excel文件")
+    public String importFileStandard() {
+//        JSONArray jsArr = JSONObject.parseArray(request.getParameter("param"));
+//        List<SysFile> fileList = JSONObject.parseArray(jsArr.toJSONString(), SysFile.class);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("fileList",request.getParameter("param"));
+        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(importFileStandard, HttpMethod.POST, new HttpEntity<JSONObject>(jsonObject, this.httpHeaders), JSONObject.class);
+        return "ok";
+    }
+    //文件导入
 
 
     /**
