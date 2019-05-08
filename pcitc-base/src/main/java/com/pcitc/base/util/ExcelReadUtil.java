@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -18,8 +19,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.alibaba.fastjson.JSON;
 
 
 public class ExcelReadUtil {
@@ -254,17 +253,31 @@ public class ExcelReadUtil {
 	}
 	public static void main(String [] args) 
 	{
-		File file = new File("D:\\data.xlsx");
+		File file = new File("D:\\group_total_data.xlsx");
 		try {
 			List<Map<Point,Object>> rss = new ExcelReadUtil().readExcelAllCellVal(file);
 			for(java.util.Iterator<Map<Point,Object>> iter = rss.iterator();iter.hasNext();) {
+				//map 为sheet页数据对象，key 为单元格坐标，val为值
 				Map<Point,Object> map = iter.next();
-				Map<String,Object> tomap = new HashMap<String,Object>();
+				/****遍历所有单元格 start ****/
 				for(java.util.Iterator<Point> miter = map.keySet().iterator();miter.hasNext();) {
 					Point p = miter.next();
-					tomap.put(p.toString(), map.get(p));
+					Object val = map.get(p);
+				
+					System.out.println("坐标："+p.toString()+" 值："+val);
 				}
-				System.out.println(JSON.toJSONString(tomap));
+				/****遍历所有单元格 end ****/
+				
+				
+				/****查找Sheet中指定行，列的值【0,0】 start ****/
+				List<Point> keys = new ArrayList<Point>(map.keySet());
+				Optional<Point> point = keys.stream().filter(a -> a.getRowIndex().equals(0)).filter(a -> a.getColIndex().equals(0)).findFirst();
+				if(point != null && point.isPresent()) {
+					Point p = point.get();
+					Object val = map.get(p);
+					System.out.println("坐标："+p.toString()+" 值："+val);
+				}
+				/****查找Sheet中指定行，列的值【0,0】  end ****/
 			}
 			
 		} catch (Exception e) {
