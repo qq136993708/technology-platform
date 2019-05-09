@@ -76,13 +76,13 @@
         //detail:详情，edit：编辑
         file_edit_detail = "edit";
         //统管理-附件管理-附件配置：页面标识
-        file_opt_flag = "a605efbdacd04a27bac557004eddf0ec";
+        file_opt_flag = "e1ef9a45625c4e17abc9bd7014a69666";
     }else if (stage=="40") {
         var file_ids = "docArriveGoods";
         //detail:详情，edit：编辑
         file_edit_detail = "edit";
         //统管理-附件管理-附件配置：页面标识
-        file_opt_flag = "5f58df0018634ababa6011cc616bba09";
+        file_opt_flag = "60ab8d2a219141f4904699632f2e21ce";
     }
 
     var equipmentIds = $("#equipmentIds").val();
@@ -124,11 +124,11 @@
         {
             var stage = $("#stage").val();
             if(stage=="20"){
-                var url="/sre_project_taskac/updateFileDoc?v_date="+v_date;
-                var backurl="/sre_project_taskac/to_prlist?v_date="+v_date;
+                var url="/sre_project_assess/updateFileDoc?v_date="+v_date;
+                var backurl="/sre_project_assess/to_prlist?v_date="+v_date;
             }else if(stage=="40"){
-                var url="/sre_project_taskac/updateFileDoc?v_date="+v_date;
-                var backurl="/sre_project_taskac/to_reportlist?v_date="+v_date;
+                var url="/sre_project_assess/updateFileDoc?v_date="+v_date;
+                var backurl="/sre_project_assess/to_reportlist?v_date="+v_date;
             }
             ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
             return false;

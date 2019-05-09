@@ -53,7 +53,7 @@ var publicMethods;
 	           elem: '#notjoin_apply_table',
             url: '/sre_project_assess/projectlist',
             method:"POST",
-            where: {param: {"name":$("#name").val(),"auditStatus":2,"isCheck":0}},
+            where: {param: {"topicName":$("#name").val(),"auditStatus":2,"isCheck":0}},
             limit: 15,	
             id: 'notjoin_apply_table',
             height: commonDislodgeTable(),
@@ -107,7 +107,7 @@ var publicMethods;
 	         });
 	    	var $ = layui.$, active = {
 	    		searchEvent: function() { 
-                    table.reload("notjoin_apply_table",{where:{param:{"id":$("#topicId").val(),"name":$("#name").val(),"taskWriteUsersIds":$("#taskWriteUsersIds").val()}}});
+                    table.reload("notjoin_apply_table",{where:{param:{"id":$("#topicId").val(),"topicName":$("#name").val(),"taskWriteUsersIds":$("#taskWriteUsersIds").val()}}});
                 },
                 addEvent:function(){
                 	var check = table.checkStatus('notjoin_apply_table');
