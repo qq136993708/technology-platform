@@ -224,7 +224,7 @@
 	  where is_leaf = 0
 	  and level_code &lt;= 10
 	  <if test="menuType != null" >
-        and  menu_type = #{menuType,jdbcType=VARCHAR}
+        and  (menu_type = #{menuType,jdbcType=VARCHAR} or menu_type ='' or menu_type is null)
       </if>
 	  order by create_time
   </select>
@@ -239,6 +239,9 @@
 	  <if test="name != null and name !=''.toString">
 	  and name like '%${name}%'
 	  </if>
+	  <if test="menuType != null" >
+        and  menu_type = #{menuType,jdbcType=VARCHAR}
+      </if>
 	  order by create_time
 	  <!-- <if test="iSortCol!=null and iSortCol!=''.toString()">
     	order by ${iSortCol} ${sSortDir_0}
@@ -276,6 +279,11 @@
 	  <if test="name != null and name !=''.toString">
 	  and name like '%${name}%'
 	  </if>
+	  
+	  <if test="menuType != null" >
+        and  menu_type = #{menuType,jdbcType=VARCHAR}
+      </if>
+      
 	  order by create_time
 	 <!--  <if test="iSortCol!=null and iSortCol!=''.toString()">
     	order by ${iSortCol} ${sSortDir_0}

@@ -77,6 +77,8 @@
 <script type="text/javascript" src="/stp/hana/common/stp_common_pie.js?v=2"></script>
 <script src="/stp/hana/common/hana_common.js"></script>
 <script type="text/javascript">
+var chart1;
+var chart2;
 layui.config({
     base: '/layuiadmin/lib/extend/'
 }).extend({
@@ -113,14 +115,24 @@ function initEchart()
 	var url_cash_flow_01="/financial-decision/cash-flow-01?companyCode="+companyCode+"&month="+month+"&v_date="+v_date;
 	
 	//alert(url_cash_flow_01);
-	load_single_line(url_cash_flow_01,"cash-flow-01","","",true);
+	 chart1=load_single_line(url_cash_flow_01,"cash-flow-01","","",true);
 	
 	var url_cash_flow_03_46="/financial-decision/cash-flow-03?month="+month+"&v_date="+v_date+"&type=46&companyCode="+allCode;
-	loadPie(url_cash_flow_03_46,"cash_flow_03_46","","");
+	 chart2=loadPie(url_cash_flow_03_46,"cash_flow_03_46","","");
 }
 
 //初始化图形
 initEchart();
+
+
+window.onresize = function()
+{
+	chart1.resize();       
+	chart2.resize();       
+}
+
+
+
 //查询
 function search_Event()
 {
