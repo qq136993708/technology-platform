@@ -161,7 +161,7 @@ public class SysUserPropertyServiceImpl implements SysUserPropertyService {
 
 		List<SysUserPropertyVo> list = null;
 		if (((String) param.getParam().get("dataType")).equals("project_id")) {
-			list = userPropertyDao.selectUserPropertyList(property);
+			//list = userPropertyDao.selectUserPropertyList(property);
 		} else if (((String) param.getParam().get("dataType")).equals("UNITCODE")) {
 			list = userPropertyDao.selectUserPropertyUnitList(property);
 		} else if (((String) param.getParam().get("dataType")).equals("G0DSM")) {

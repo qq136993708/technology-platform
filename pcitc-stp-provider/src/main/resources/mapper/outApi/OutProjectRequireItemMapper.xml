@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.outApi.OutProjectRequireItemMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.out.OutProjectRequireItem" >
+    <id column="data_id" property="dataId" jdbcType="VARCHAR" />
+    <result column="data_code" property="dataCode" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="VARCHAR" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="sts" property="sts" jdbcType="VARCHAR" />
+    <result column="audit_sts" property="auditSts" jdbcType="VARCHAR" />
+    <result column="require_id" property="requireId" jdbcType="VARCHAR" />
+    <result column="require_item_name" property="requireItemName" jdbcType="VARCHAR" />
+    <result column="require_item_code" property="requireItemCode" jdbcType="VARCHAR" />
+    <result column="require_item_count" property="requireItemCount" jdbcType="VARCHAR" />
+    <result column="require_item_remarks" property="requireItemRemarks" jdbcType="VARCHAR" />
+    <result column="require_item_url" property="requireItemUrl" jdbcType="VARCHAR" />
+    <result column="require_item_file" property="requireItemFile" jdbcType="VARCHAR" />
+    <result column="require_item_order" property="requireItemOrder" jdbcType="VARCHAR" />
+    <result column="require_item_index" property="requireItemIndex" jdbcType="VARCHAR" />
+    <result column="bak1" property="bak1" jdbcType="VARCHAR" />
+    <result column="bak2" property="bak2" jdbcType="VARCHAR" />
+    <result column="bak3" property="bak3" jdbcType="VARCHAR" />
+    <result column="bak4" property="bak4" jdbcType="VARCHAR" />
+    <result column="bak5" property="bak5" jdbcType="VARCHAR" />
+    <result column="bak6" property="bak6" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    data_id, data_code, create_user, create_user_id, update_date, update_user, remarks, 
+    sts, audit_sts, require_id, require_item_name, require_item_code, require_item_count, 
+    require_item_remarks, require_item_url, require_item_file, require_item_order, require_item_index, 
+    bak1, bak2, bak3, bak4, bak5, bak6
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.out.OutProjectRequireItemExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from out_project_require_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from out_project_require_item
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from out_project_require_item
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.out.OutProjectRequireItemExample" >
+    delete from out_project_require_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.out.OutProjectRequireItem" >
+    insert into out_project_require_item (data_id, data_code, create_user, 
+      create_user_id, update_date, update_user, 
+      remarks, sts, audit_sts, 
+      require_id, require_item_name, require_item_code, 
+      require_item_count, require_item_remarks, require_item_url, 
+      require_item_file, require_item_order, require_item_index, 
+      bak1, bak2, bak3, bak4, 
+      bak5, bak6)
+    values (#{dataId,jdbcType=VARCHAR}, #{dataCode,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=VARCHAR}, #{updateDate,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{sts,jdbcType=VARCHAR}, #{auditSts,jdbcType=VARCHAR}, 
+      #{requireId,jdbcType=VARCHAR}, #{requireItemName,jdbcType=VARCHAR}, #{requireItemCode,jdbcType=VARCHAR}, 
+      #{requireItemCount,jdbcType=VARCHAR}, #{requireItemRemarks,jdbcType=VARCHAR}, #{requireItemUrl,jdbcType=VARCHAR}, 
+      #{requireItemFile,jdbcType=VARCHAR}, #{requireItemOrder,jdbcType=VARCHAR}, #{requireItemIndex,jdbcType=VARCHAR}, 
+      #{bak1,jdbcType=VARCHAR}, #{bak2,jdbcType=VARCHAR}, #{bak3,jdbcType=VARCHAR}, #{bak4,jdbcType=VARCHAR}, 
+      #{bak5,jdbcType=VARCHAR}, #{bak6,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.out.OutProjectRequireItem" >
+    insert into out_project_require_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dataId != null" >
+        data_id,
+      </if>
+      <if test="dataCode != null" >
+        data_code,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="sts != null" >
+        sts,
+      </if>
+      <if test="auditSts != null" >
+        audit_sts,
+      </if>
+      <if test="requireId != null" >
+        require_id,
+      </if>
+      <if test="requireItemName != null" >
+        require_item_name,
+      </if>
+      <if test="requireItemCode != null" >
+        require_item_code,
+      </if>
+      <if test="requireItemCount != null" >
+        require_item_count,
+      </if>
+      <if test="requireItemRemarks != null" >
+        require_item_remarks,
+      </if>
+      <if test="requireItemUrl != null" >
+        require_item_url,
+      </if>
+      <if test="requireItemFile != null" >
+        require_item_file,
+      </if>
+      <if test="requireItemOrder != null" >
+        require_item_order,
+      </if>
+      <if test="requireItemIndex != null" >
+        require_item_index,
+      </if>
+      <if test="bak1 != null" >
+        bak1,
+      </if>
+      <if test="bak2 != null" >
+        bak2,
+      </if>
+      <if test="bak3 != null" >
+        bak3,
+      </if>
+      <if test="bak4 != null" >
+        bak4,
+      </if>
+      <if test="bak5 != null" >
+        bak5,
+      </if>
+      <if test="bak6 != null" >
+        bak6,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dataId != null" >
+        #{dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="dataCode != null" >
+        #{dataCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="sts != null" >
+        #{sts,jdbcType=VARCHAR},
+      </if>
+      <if test="auditSts != null" >
+        #{auditSts,jdbcType=VARCHAR},
+      </if>
+      <if test="requireId != null" >
+        #{requireId,jdbcType=VARCHAR},
+      </if>
+      <if test="requireItemName != null" >
+        #{requireItemName,jdbcType=VARCHAR},
+      </if>
+      <if test="requireItemCode != null" >
+        #{requireItemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="requireItemCount != null" >
+        #{requireItemCount,jdbcType=VARCHAR},
+      </if>
+      <if test="requireItemRemarks != null" >
+        #{requireItemRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="requireItemUrl != null" >
+        #{requireItemUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="requireItemFile != null" >
+        #{requireItemFile,jdbcType=VARCHAR},
+      </if>
+      <if test="requireItemOrder != null" >
+        #{requireItemOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="requireItemIndex != null" >
+        #{requireItemIndex,jdbcType=VARCHAR},
+      </if>
+      <if test="bak1 != null" >
+        #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null" >
+        #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="bak3 != null" >
+        #{bak3,jdbcType=VARCHAR},
+      </if>
+      <if test="bak4 != null" >
+        #{bak4,jdbcType=VARCHAR},
+      </if>
+      <if test="bak5 != null" >
+        #{bak5,jdbcType=VARCHAR},
+      </if>
+      <if test="bak6 != null" >
+        #{bak6,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.stp.out.OutProjectRequireItemExample" resultType="java.lang.Integer" >
+    select count(*) from out_project_require_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update out_project_require_item
+    <set >
+      <if test="record.dataId != null" >
+        data_id = #{record.dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataCode != null" >
+        data_code = #{record.dataCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null" >
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateUser != null" >
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null" >
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sts != null" >
+        sts = #{record.sts,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditSts != null" >
+        audit_sts = #{record.auditSts,jdbcType=VARCHAR},
+      </if>
+      <if test="record.requireId != null" >
+        require_id = #{record.requireId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.requireItemName != null" >
+        require_item_name = #{record.requireItemName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.requireItemCode != null" >
+        require_item_code = #{record.requireItemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.requireItemCount != null" >
+        require_item_count = #{record.requireItemCount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.requireItemRemarks != null" >
+        require_item_remarks = #{record.requireItemRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.requireItemUrl != null" >
+        require_item_url = #{record.requireItemUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.requireItemFile != null" >
+        require_item_file = #{record.requireItemFile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.requireItemOrder != null" >
+        require_item_order = #{record.requireItemOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="record.requireItemIndex != null" >
+        require_item_index = #{record.requireItemIndex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak1 != null" >
+        bak1 = #{record.bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak2 != null" >
+        bak2 = #{record.bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak3 != null" >
+        bak3 = #{record.bak3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak4 != null" >
+        bak4 = #{record.bak4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak5 != null" >
+        bak5 = #{record.bak5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak6 != null" >
+        bak6 = #{record.bak6,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update out_project_require_item
+    set data_id = #{record.dataId,jdbcType=VARCHAR},
+      data_code = #{record.dataCode,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=VARCHAR},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      sts = #{record.sts,jdbcType=VARCHAR},
+      audit_sts = #{record.auditSts,jdbcType=VARCHAR},
+      require_id = #{record.requireId,jdbcType=VARCHAR},
+      require_item_name = #{record.requireItemName,jdbcType=VARCHAR},
+      require_item_code = #{record.requireItemCode,jdbcType=VARCHAR},
+      require_item_count = #{record.requireItemCount,jdbcType=VARCHAR},
+      require_item_remarks = #{record.requireItemRemarks,jdbcType=VARCHAR},
+      require_item_url = #{record.requireItemUrl,jdbcType=VARCHAR},
+      require_item_file = #{record.requireItemFile,jdbcType=VARCHAR},
+      require_item_order = #{record.requireItemOrder,jdbcType=VARCHAR},
+      require_item_index = #{record.requireItemIndex,jdbcType=VARCHAR},
+      bak1 = #{record.bak1,jdbcType=VARCHAR},
+      bak2 = #{record.bak2,jdbcType=VARCHAR},
+      bak3 = #{record.bak3,jdbcType=VARCHAR},
+      bak4 = #{record.bak4,jdbcType=VARCHAR},
+      bak5 = #{record.bak5,jdbcType=VARCHAR},
+      bak6 = #{record.bak6,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.out.OutProjectRequireItem" >
+    update out_project_require_item
+    <set >
+      <if test="dataCode != null" >
+        data_code = #{dataCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="sts != null" >
+        sts = #{sts,jdbcType=VARCHAR},
+      </if>
+      <if test="auditSts != null" >
+        audit_sts = #{auditSts,jdbcType=VARCHAR},
+      </if>
+      <if test="requireId != null" >
+        require_id = #{requireId,jdbcType=VARCHAR},
+      </if>
+      <if test="requireItemName != null" >
+        require_item_name = #{requireItemName,jdbcType=VARCHAR},
+      </if>
+      <if test="requireItemCode != null" >
+        require_item_code = #{requireItemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="requireItemCount != null" >
+        require_item_count = #{requireItemCount,jdbcType=VARCHAR},
+      </if>
+      <if test="requireItemRemarks != null" >
+        require_item_remarks = #{requireItemRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="requireItemUrl != null" >
+        require_item_url = #{requireItemUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="requireItemFile != null" >
+        require_item_file = #{requireItemFile,jdbcType=VARCHAR},
+      </if>
+      <if test="requireItemOrder != null" >
+        require_item_order = #{requireItemOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="requireItemIndex != null" >
+        require_item_index = #{requireItemIndex,jdbcType=VARCHAR},
+      </if>
+      <if test="bak1 != null" >
+        bak1 = #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null" >
+        bak2 = #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="bak3 != null" >
+        bak3 = #{bak3,jdbcType=VARCHAR},
+      </if>
+      <if test="bak4 != null" >
+        bak4 = #{bak4,jdbcType=VARCHAR},
+      </if>
+      <if test="bak5 != null" >
+        bak5 = #{bak5,jdbcType=VARCHAR},
+      </if>
+      <if test="bak6 != null" >
+        bak6 = #{bak6,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.out.OutProjectRequireItem" >
+    update out_project_require_item
+    set data_code = #{dataCode,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      sts = #{sts,jdbcType=VARCHAR},
+      audit_sts = #{auditSts,jdbcType=VARCHAR},
+      require_id = #{requireId,jdbcType=VARCHAR},
+      require_item_name = #{requireItemName,jdbcType=VARCHAR},
+      require_item_code = #{requireItemCode,jdbcType=VARCHAR},
+      require_item_count = #{requireItemCount,jdbcType=VARCHAR},
+      require_item_remarks = #{requireItemRemarks,jdbcType=VARCHAR},
+      require_item_url = #{requireItemUrl,jdbcType=VARCHAR},
+      require_item_file = #{requireItemFile,jdbcType=VARCHAR},
+      require_item_order = #{requireItemOrder,jdbcType=VARCHAR},
+      require_item_index = #{requireItemIndex,jdbcType=VARCHAR},
+      bak1 = #{bak1,jdbcType=VARCHAR},
+      bak2 = #{bak2,jdbcType=VARCHAR},
+      bak3 = #{bak3,jdbcType=VARCHAR},
+      bak4 = #{bak4,jdbcType=VARCHAR},
+      bak5 = #{bak5,jdbcType=VARCHAR},
+      bak6 = #{bak6,jdbcType=VARCHAR}
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+</mapper>
