@@ -42,34 +42,35 @@
         <div class="main-card-header">辅助决策中心</div>
         <div class="main-card-body">
             <ul class="main-card-body-ul main-card-body-decision">
-                <li class="layui-col-xs4">
+                <li class="layui-col-xs4" id="kytr">
                     <span class="icon-decision icon-decision_01"></span>
-                    <span>财务决策</span>
+                    <span>科研投入</span>
                 </li>
-                <li class="layui-col-xs4">
+                <li class="layui-col-xs4" id="kyht">
                     <span class="icon-decision icon-decision_02"></span>
-                    <span>全成本决策</span>
+                    <span>科研合同</span>
                 </li>
-                <li class="layui-col-xs4">
+                <li class="layui-col-xs4" id="kyzb">
                     <span class="icon-decision icon-decision_03"></span>
-                    <span>项目经费决策</span>
+                    <span>科研装备</span>
                 </li>
-                <li class="layui-col-xs4">
+                <li class="layui-col-xs4" id="kyzc">
                     <span class="icon-decision icon-decision_04"></span>
-                    <span id="projectDecision">项目决策</span>
+                    <span id="projectDecision">科研支出</span>
                 </li>
-                <li class="layui-col-xs4">
+                <li class="layui-col-xs4" id="xjll">
                     <span class="icon-decision icon-decision_05"></span>
-                    <span>多维分析</span>
+                    <span>现金流量</span>
                 </li>
-                <li class="layui-col-xs4">
+                <li class="layui-col-xs4" id="cgzl">
                     <span class="icon-decision icon-decision_06"></span>
-                    <span>科技统计</span>
+                    <span>成果专利</span>
                 </li>
             </ul>
         </div>
     </div>
 </main>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script>
     (function(doc, win) {
@@ -112,6 +113,43 @@
            })
         });
     });
+    
+    
+    //科研投入
+    $("#kytr").click(function () {
+    	location.href="/mobile/kytr";
+    });
+    
+    
+    //科研合同 
+    $("#kyht").click(function () {
+    	location.href="/mobile/kyht";
+    });
+  
+  
+    //科研装备 
+    $("#kyzb").click(function () {
+    	location.href="/mobile/kyzb";
+    });
+  
+  
+    //科研支出  
+    $("#kyzc").click(function () {
+    	location.href="/mobile/kyzc";
+    });
+    
+    
+    //现金流量
+    $("#xjll").click(function () {
+    	location.href="/mobile/xjll";
+    });
+    
+    
+    //成果专利
+    $("#cgzl").click(function () {
+    	location.href="/mobile/cgzl";
+    });
+  
 </script>
 </body>
 </html>

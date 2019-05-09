@@ -25,37 +25,21 @@
                 <span>年份</span>
                 <input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
             </label>
-            <!-- <div class="layui-input-inline">
-                <select name="companyCode" id="companyCode"  >
-                    <#list companyCodeList as vo>
-                    <#if vo.g0GSJC == '全部'>
-                    <option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
-                </#if>
-                <#if vo.g0GSJC != '全部'>
-                <option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
-                    </#if>
-                </#list>
-                </select>
-            </div> -->
-            <!--按钮组-->
-            <!--<div class="btnGroup">
-                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()">查询</button>
-            </div>-->
-            <div class="btnGroup">
-                <button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
-                >明细</button>
-            </div>
             <div class="breadcrumb">
-                <a href="/index" target="_parent">首页 > </a><span>科研投入</span>
+                <a href="/mobile/index" >首页 > </a><span>科研投入</span>
             </div>
         </div>
-        <div class="layui-row layui-col-space15">
-            <div class="layui-col-md6">
+        
+        
+        
+        
+         <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
                 <div class="layui-card">
-                    <div class="layui-card-header" title="包括新开和结转的所有资本性、费用性预算。科研投入是实际签订且当年预算分配的金额（暂时不包括新增基金、科技部、信息部、炼油军工、专项、机动等）。以股份公司（直属研究院、分子公司、资产单位、集团单位、休斯顿、中东、外部单位、盈科）、资产公司、集团公司为维度">
-                       <span class="layui-time"></span>科研预算执行率
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>科研预算执行率
                     </div>
-                    <div class="layui-card-body btn-function">
+                    <div class="layui-row-main">
                         <div class="text-total" style="font-size: 13px;">
                             <span>年度预算总计:<span class="text-total-blue"    id="chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>费用性科研投入:<span class="text-total-blue"   id="chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
@@ -66,40 +50,46 @@
                     </div>
                 </div>
             </div>
-
-            <div class="layui-col-md6">
+        </div>
+        
+          
+         <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
                 <div class="layui-card">
-                    <div class="layui-card-header"   title="包括新开和结转的所有资本性、费用性预算。科研投入是实际签订且当年预算分配的金额（暂时不包括新增基金、科技部、信息部、炼油军工、专项、机动等）。以股份公司（直属研究院、分子公司、资产单位、集团单位、休斯顿、中东、外部单位、盈科）、资产公司、集团公司为维度">
-                       <span class="layui-time"></span>科研预算执行率（万元）
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>科研预算执行率（万元）
                     </div>
-                    <div class="layui-row-main" >
+                    <div class="layui-row-main">
                         <table id="myTable" class="layui-table" lay-filter="myTable" >
                             <thead>
 	                            <tr>
-	                                <th lay-data="{field:'define3', width:'16%'}" rowspan="2" >企业类型</th>
+	                                <th lay-data="{field:'define3', width:'20%'}" rowspan="2" >企业类型</th>
 	                                <th lay-data="{align:'center'}" colspan="3">总计</th>
-	                                <th lay-data="{align:'center'}" colspan="3">费用性</th>
-	                                <th lay-data="{align:'center'}" colspan="3">资本性</th>
+	                                <!-- <th lay-data="{align:'center'}" colspan="3">费用性</th>
+	                                <th lay-data="{align:'center'}" colspan="3">资本性</th> -->
 	                            </tr>
 	                            <tr>
-	                                <th lay-data="{field:'zysje', width:'10%',align:'right'}">年度预算</th>
-	                                <th lay-data="{field:'zsjje', width:'10%',align:'right'}">实际签订</th>
-	                                <th lay-data="{field:'zRate', width:'8%',align:'right',templet:function(d){return d.zRate+'%'}}">执行率</th>
+	                                <th lay-data="{field:'zysje', width:'28%',align:'right'}">年度预算</th>
+	                                <th lay-data="{field:'zsjje', width:'26%',align:'right'}">实际签订</th>
+	                                <th lay-data="{field:'zRate', width:'26%',align:'right',templet:function(d){return d.zRate+'%'}}">执行率</th>
 	
-	                                <th lay-data="{field:'fyxysje', width:'10%',align:'right'}">年度预算</th>
+	                               <!--  <th lay-data="{field:'fyxysje', width:'10%',align:'right'}">年度预算</th>
 	                                <th lay-data="{field:'fyxsjje', width:'10%',align:'right'}">实际签订</th>
 	                                <th lay-data="{field:'fyxRate', width:'8%',align:'right',templet:function(d){return d.fyxRate+'%'}}">执行率</th>
 	
 	                                <th lay-data="{field:'zbxysje', width:'10%',align:'right'}">年度预算</th>
 	                                <th lay-data="{field:'zbxsjje', width:'10%',align:'right'}">实际签订</th>
-	                                <th lay-data="{field:'zbxRate', width:'8%',align:'right',templet:function(d){return d.zbxRate+'%'}}">执行率</th>
-	                            </tr>
+	                                <th lay-data="{field:'zbxRate', width:'8%',align:'right',templet:function(d){return d.zbxRate+'%'}}">执行率</th> -->
+	                            </tr> 
                             </thead>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
+        
+        
+        
         
          <div class="layui-row layui-col-space15">
             <div class="layui-col-md12">
@@ -153,7 +143,11 @@
 <script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
 <script type="text/javascript" src="/stp/hana/home/oneLevelMain/investment.js"></script>
 <script type="text/javascript">
+var echart; 
+var echart6;
+var echart7;
 var tableOne=null,tableTwo=null,selectRowData;
+
 layui.config({
     base: '/layuiadmin/lib/extend/'
 }).extend({
@@ -178,17 +172,12 @@ layui.config({
         }
     });
     myTable();
-    $("#knowledge_table").click(function () {
-    	window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
-        // parent.layui.index.openTabsPage("/home/project-list?define1=费用性", "科研项目明细"); 
-    });
   
 });
 
 
 function initEchart()
 {
-	  var companyCode=$("#companyCode").val();
 	  var v_date=(new Date()).getTime();
 	  var month=$('#year').val();
 	  var nd=$('#year').val();
@@ -280,10 +269,12 @@ function initEchart()
         $("#chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
         
         
-		var chart1_url="/one_level_main/investment_01?nd="+nd+"&v_date="+v_date+"&companyCode="+companyCode;
+		var chart1_url="/one_level_main/investment_01?nd="+nd+"&v_date="+v_date;
 		var color=["#bee5d2","#6bdf9e"];
 	
-	    var echart=load_mutl_bar_down(chart1_url,"chart1","","",yAxis4,"");
+	   // echart=       load_mutl_bar_down(chart1_url,"chart1","","",yAxis4,"");
+	    echart=load_mutl_bar_down_rotate(chart1_url,"chart1","","",yAxis3,10,colorNew2,true);
+	    
 		echart.on('click', function (params) {
 			var xName=params.name;//ysnd、type_flag（直属研究院、分子公司等）、define1（费用性、资本性）、define2 各个研究院名称
 			var legentName=params.seriesName;
@@ -299,16 +290,16 @@ function initEchart()
 			//alert(str);
 			window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=G0_YSND="+nd+",G0_TYPE_FLAG="+xName+",G0_DEFINE1="+str); 
 	    }); 
-		var investment_0101_url="/one_level_main/investment_0101?nd="+nd+"&v_date="+v_date+"&companyCode="+companyCode;
+		var investment_0101_url="/one_level_main/investment_0101?nd="+nd+"&v_date="+v_date;
 		setinvestmentCount(investment_0101_url);
 		
 		
 		
 
 		
-		var chart6_url="/one_level_main/investment_03?nd="+nd+"&v_date="+v_date+"&companyCode="+companyCode+"&type=1";
+		var chart6_url="/one_level_main/investment_03?nd="+nd+"&v_date="+v_date+"&type=1";
         var colorNew2=["#f4974a","#f3cc41","#95c740"];
-        var echart6=load_mutl_bar_down_rotate(chart6_url,"investment_chart6","","",yAxis3,30,colorNew2,true);
+        echart6=load_mutl_bar_down_rotate(chart6_url,"investment_chart6","","",yAxis3,10,colorNew2,true);
         echart6.on('click', function (params) {
             var xName=params.name;
             var legentName=params.seriesName;
@@ -319,16 +310,16 @@ function initEchart()
         $("#chart7_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
         $("#chart7_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
         $("#chart7_04").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-		var chart7_url="/one_level_main/investment_02?nd="+nd+"&v_date="+v_date+"&companyCode="+companyCode;
+		var chart7_url="/one_level_main/investment_02?nd="+nd+"&v_date="+v_date;
 		var color=["#f3655b","#8ab3cf","#f19049"];
-		var echart7=load_mutl_bar_investment(chart7_url,"chart7","","",yAxis2,color,60,function (data){
+		echart7=load_mutl_bar_investment(chart7_url,"chart7","","",yAxis2,color,15,function (data){
 		});
 		echart7.on('click', function (params){
 			var xName=params.name;
 			var legentName=params.seriesName;
 			 window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=G0_YSND="+nd+",G0_DEFINE2="+xName); 
 	    });
-		var investment_02_count_url="/one_level_main/investment_02_count?nd="+nd+"&v_date="+v_date+"&companyCode="+companyCode;
+		var investment_02_count_url="/one_level_main/investment_02_count?nd="+nd+"&v_date="+v_date;
 		setInvestment_02_count(investment_02_count_url);
 }
 
@@ -354,12 +345,12 @@ function myTable()
 {
 	
 	 var nd=$("#year").val();
-	 var companyCode=$("#companyCode").val();
+	// var companyCode=$("#companyCode").val();
 	 var v_date=(new Date()).getTime();
 	 var url= '/one_level_main/investment_01_01?nd='+nd+"&v_date="+v_date;
 	    table.init('myTable', {
 			  url: url
-			  ,height:"285px"
+			  ,height:"370px"
 			  ,where: {} 
 			  
 			});
