@@ -3004,7 +3004,6 @@ public class OneLevelMainController {
 											if (statusCode == 200) 
 											{
 												JSONArray jSONArray = responseEntity.getBody();
-												System.out.println(">>>>>>>>>>>>get_news jSONArray>>> " + jSONArray.toString());
 												List<SysNewsVo> list = JSONObject.parseArray(jSONArray.toJSONString(), SysNewsVo.class);
 												for(int i=0;i<list.size();i++)
 												{
