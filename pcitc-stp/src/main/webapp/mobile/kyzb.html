@@ -140,7 +140,8 @@
 <script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
 
 <script type="text/javascript">
-
+var echart1;
+var data7;
 var table;
 layui.config({
     base: '/layuiadmin/'
@@ -216,19 +217,10 @@ function initEchart()
 
 
 	var chart1_url="/direct/equipment_01?type=1&nd="+nd+"&v_date="+v_date+"&xmlbbm=kyzb";
-	var echart1=load_mutl_bar_down_color(chart1_url,"equipment_chart1","","",yAxis);
-	echart1.on('click', function (params) {
-		var xName=params.name;
-		var legentName=params.seriesName;
-		//
-		var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+nd+"&ysnd="+nd+"&define1=资本性&ktlx="+legentName);
-        window.open("/instituteIndex?url="+url);
-
-
-    });
+	echart1=load_mutl_bar_down_color(chart1_url,"equipment_chart1","","",yAxis);
 
 	var url_01="/direct/equipment_02?type=1&companyCode="+companyCode+"&month="+month+"&v_date="+v_date;
-	var data7=load_bar_zhengfu_callback(url_01,"equipment_chart3","","",function(data){
+	data7=load_bar_zhengfu_callback(url_01,"equipment_chart3","","",function(data){
 
 		var bCount_4=getDataCountForName_t(data,'大型分析仪器');
     	var zCount_4=getDataCountForName_t(data,'中型实验装置');
@@ -242,11 +234,6 @@ function initEchart()
         $("#bar4_4_count").html(zyCount_4+"套");
 
 	});
-	data7.on('click', function (params) {
-		var xName=params.name;
-		var legentName=params.seriesName;
-		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
-    });
 
 
 }
@@ -299,6 +286,13 @@ function equipment_chart1(ktlx)
 
 //初始化图形
 initEchart();
+
+window.onresize = function()
+{
+	echart1.resize();       
+	data7.resize();       
+}
+
 //查询
 function search_Event()
 {
@@ -345,7 +339,6 @@ function renderTable2()
 	          $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
 	          $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
 	          selectRowData=res.data[index-1];
-	          window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
 	      });
 	  }
 	});
@@ -365,14 +358,7 @@ function myTable()
 	});
 
 
-    //监听行单击事件
-    table.on('row(myTable)', function(obj){
-        console.log(obj.tr) //得到当前行元素对象
-        console.log(obj.data) //得到当前行数据
-        var selectRowData=obj.data;
-		var url=　encodeURIComponent("/one_level_main/count_table?define2="+selectRowData.define2+"&nd="+nd+"&ysnd="+nd+"&define1=资本性&v_date="+v_date);
-        window.open("/instituteIndex?url="+url);
-    });
+    
     
 }
 

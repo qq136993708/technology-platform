@@ -111,6 +111,10 @@
 <script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
 
 <script type="text/javascript">
+var echart1;
+var echart4;
+var echart7;
+var echart1;
 var editObj=null,ptable=null,treeGridCom=null,layer=null;
 var ptable02=null,treeGridCom=null,tableId02='processdef_table_02';
 layui.config({
@@ -170,24 +174,12 @@ function initEchart()
     $("#knowldege_chart4_04").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
     
     var chart1_url="/direct/getKnowledgeBar_01?type=1&nd="+nd+"&v_date="+v_date;
-	var echart1=load_mutl_bar_down(chart1_url,"knowldege_chart1","","",yAxis,20);
-	echart1.on('click', function (params) {
-		var xName=params.name;
-		var legentName=params.seriesName;
-		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
-          
-    });
+	echart1=load_mutl_bar_down(chart1_url,"knowldege_chart1","","",yAxis,20);
 	
 	
 	var chart4_url="/direct/getKnowledgeBar_02?nd="+nd+"&v_date="+v_date;
 	var color=["#37a1da","#ff9f7f","#fedb5b"];
-	var echart4=load_mutl_bar_down(chart4_url,"knowldege_chart4","","",yAxis,20,color);
-	echart4.on('click', function (params) {
-		var xName=params.name;
-		var legentName=params.seriesName;
-		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
-          
-    });
+	echart4=load_mutl_bar_down(chart4_url,"knowldege_chart4","","",yAxis,20,color);
 	
 	
 	
@@ -201,43 +193,43 @@ function initEchart()
     
     
 	var chart1_url="/direct_second/direct_second_data_01?nd="+nd+"&v_date="+v_date;
-	var echart1=load_single_bar(chart1_url,"chart1","","",yAxis,["#87d359"],20,"",function(data){
+	echart1t=load_single_bar(chart1_url,"chart1","","",yAxis,["#87d359"],20,"",function(data){
 		var total_count = 0;
 		$.each(data.data.seriesDataList,function(index,dt){
 			total_count += dt;
 		});
 		$("#chart_title_01").html(total_count+"个");
 	});
-	 echart1.on('click', function (params) {
-		var xName=params.name;
-		var legentName=params.seriesName;
-		var url=　encodeURIComponent("/one_level_main/achievement_table?define1="+xName+"&nd="+nd);
-	     window.open("/instituteIndex?url="+url);
-          
-    }); 
 	
 	
 	var colorNew2=["#f4974a","#f3cc41","#95c740"];
 	var chart7_url="/direct_second/direct_second_data_05?nd="+nd+"&v_date="+v_date;
-	 var echart7=load_single_bar(chart7_url,"chart7","","",yAxis,["#9799ec"],20,true,function(data){
+	 echart7=load_single_bar(chart7_url,"chart7","","",yAxis,["#9799ec"],20,true,function(data){
 		var total_count = 0;
 		$.each(data.data.seriesDataList,function(index,dt){
 			total_count += dt;
 		});
 		$("#chart_title_05").html(total_count+"个");
 	});
-	echart7.on('click', function (params) {
-		var xName=params.name;
-		var legentName=params.seriesName;
-		var url=　encodeURIComponent("/one_level_main/achievement_table?zy="+xName+"&nd="+nd);
-	     window.open("/instituteIndex?url="+url);
-          
-    });  
 	
 }
 
 //初始化图形
 initEchart();
+
+window.onresize = function()
+{
+	
+	
+	echart1.resize();       
+	echart4.resize();       
+	echart7.resize();       
+	echart1t.resize();       
+}
+
+
+
+
 //查询
 function search_Event()
 {
