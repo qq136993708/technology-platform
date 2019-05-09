@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css"  media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/mainStp.css"   media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css"    media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/second.css"    media="all">
+    <link rel="stylesheet" href="/mobile/css/mobile.css">
+    
+    <style>
+        .btn_details{background:url(/layuiadmin/layui/images/operation_03.png) 2px 4px #fff no-repeat;}
+        .btnMyBgImg:hover{background-size:inherit;background-position: 2px;}
+        .searchBox{background:none;}
+    </style>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="">
+        <div class="searchBox">
+            <label class="dateInput">
+                <span>年份</span>
+                <input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
+            </label>
+            <!--按钮组-->
+            <!--<div class="btnGroup">
+                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"
+                        onclick="search_Event()">查询</button>
+            </div>-->
+            <div class="breadcrumb">
+                <a href="/mobile/index" target="_parent">首页 > </a><span>科研合同</span>
+            </div>
+        </div>
+        
+        
+        
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>年新开课题合同（任务书）签订率
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="text-total">
+                                <span>计划签订数:<span class="text-total-blue"      id="vdirect_contract_01_01" onclick="contract_chart_oneLevel('')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                                <span>实际签订数:<span class="text-total-blue"      id="vdirect_contract_01_02" onclick="contract_chart_oneLevel('已签订')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                                <span>签订率:<span class="text-total-blue"         id="vdirect_contract_01_03" onclick="contract_chart_oneLevel('已签订')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            </div>
+                        <div class="main-chart" id="direct_contract_01" style="height:270px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>年新开课题合同（任务书）签订率
+                    </div>
+                    <div class="layui-row-main">
+                    <div class="main-chart" id="direct_contract_01_01" style="height:270px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+ <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                       <span class="layui-time"></span>年新开课题合同（任务书）签订率
+                    </div>
+                    <div class="layui-row-main">
+                     <div class="main-chart" id="direct_contract_04" style="height:270px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>年直属研究院开课题合同（任务书）签订率
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="text-total">
+                            <span>已签订数:<span class="text-total-blue"    id="direct_contract_chart_01" onclick="contract_chart1('已签订')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>未签订数:<span class="text-total-blue"    id="direct_contract_chart_02" onclick="contract_chart1('未签订')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>签订率:<span class="text-total-blue"      id="direct_contract_chart_03" onclick="contract_chart1('已签订')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                        </div>
+                        <div class="main-chart" id="direct_contract_chart" style="height:270px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>
+
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
+<script type="text/javascript" src="/stp/hana/home/oneLevelMain/investment.js"></script>
+
+<script type="text/javascript">
+    var table,treeGridCom;
+    layui.config({
+        base: '/layuiadmin/lib/extend/'
+    }).extend({
+        treeGridCom:'treeGridCom'
+    }).use(['jquery','form','treeGridCom', 'laydate','table','laypage'], function(){
+        table = layui.table;
+        treeGridCom = layui.treeGridCom;
+        var $ = layui.jquery
+            ,form = layui.form
+            ,laydate = layui.laydate
+        form.render(null, 'component-form-group');
+        laydate.render({
+        	      elem: '#year',min: '2016-10-14'
+         	      ,type: 'year'
+            ,done: function(value, date, endDate){
+                $(".layui-time").html(date.year);
+                $("#year").val(date.year); 
+                search_Event();
+            }
+        });
+        $(".layui-time").html($("#year").val());
+        var nd=$("#year").val();
+    });
+    var v_date=(new Date()).getTime();
+    var nd=$('#year').val();
+    function initEchart()
+    {
+
+       
+        var ndstr=nd+"年";
+        var yAxis= [
+            {
+                type: 'value',
+                name: '数量（个）',
+                position: 'left',
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            }
+        ];
+        
+       var  yAxis2= [
+            {
+            	 type: 'value',
+                 name: '数量（个）',
+                 position: 'left',
+                 axisLabel: {
+                     formatter: '{value}'
+                 }
+            },
+            {
+                type: 'value',
+                show: true ,
+                name: '百分比',
+                position: 'right',
+                axisLabel: {
+                    formatter: '{value}%'
+                }
+                ,splitLine:{show: false},//去除网格线
+
+            }
+        ];
+        
+        //表盘
+        setGauge("direct_contract_01");
+        setGauge_count();
+        var chart_01_01="/one_level_main/contract_01_01?type=1&nd="+nd+"&v_date="+v_date+"";
+        var echartchart_01_01=load_mutl_bar_down(chart_01_01,"direct_contract_01_01","","",yAxis2,30,"");
+        echartchart_01_01.on('click', function (params) {
+            var xName=params.name;
+            var legentName=params.seriesName;
+            //alert("xName="+xName+" legentName="+legentName);
+            var qdbz="";
+            if(legentName=='计划签订数')
+            {
+            	qdbz="";
+            }
+            if(legentName=='实际签订数')
+            {
+            	qdbz="已签订";
+            }
+            
+            var url=　encodeURIComponent("/one_level_main/common_table?define1="+xName+"&qdbz="+qdbz+"&nd="+nd+"&ysnd="+nd);
+            window.open("/instituteIndex?url="+url);
+
+        });
+
+        //
+        var chart2_url="/one_level_main/contract_02?type=1&nd="+nd+"&v_date="+v_date+"";
+        var echart2=load_single_line(chart2_url,"direct_contract_04","","",yAxis);
+        echart2.on('click', function (params) {
+            var xName=params.name;
+            var legentName=params.seriesName;
+           // alert("xName="+xName+" legentName="+legentName);
+            var projectId="";
+            if(legentName=='已签合同')
+            {
+            	 projectId="1";
+            }
+            if(legentName=='未签合同')
+            {
+            	 projectId="2";
+            }
+            if(legentName=='计划合同')
+            {
+            	 projectId="0";
+            }
+            // alert(xName+"------"+projectId);
+            var define12="";
+            var define11="";
+            if(xName=='资产公司' || xName=='集团公司')
+            {
+            	define12="";
+            	define11=xName;
+
+            }else if(xName=='集团单位')
+            {
+            	define11="股份公司";
+            	define12="集团公司";
+            }else if(xName=='资产单位')
+            {
+            	define11="股份公司";
+            	define12="资产公司";
+            }
+            else
+           	{
+            	define12=xName;
+            	define11="股份公司";
+           	}
+            
+            window.open("/one_level_main/common_table?projectId="+projectId+"&nd="+nd+"&ysnd="+nd+"&define12="+define12+"&define11="+define11);
+        });
+
+
+        //直属研究院签订率
+        $("#direct_contract_chart_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+        $("#direct_contract_chart_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+        $("#direct_contract_chart_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+        
+        
+        var chart6_url="/one_level_main/contract_03?type=1&nd="+nd+"&v_date="+v_date+"";
+        var color2=["#f3655b","#8ab3cf","#f19049"];
+        var echart6=load_mutl_bar_down(chart6_url,"direct_contract_chart","","",yAxis,30,color2);
+        echart6.on('click', function (params) {
+            var xName=params.name;
+            var legentName=params.seriesName;
+            //alert("xName="+xName+" legentName="+legentName);
+            var projectId="";
+            if(legentName=='已签合同')
+            {
+            	 projectId="1";
+            }
+            if(legentName=='未签合同')
+            {
+            	 projectId="2";
+            }
+            if(legentName=='计划合同')
+            {
+            	 projectId="0";
+            }
+            window.open("/one_level_main/common_table?define2="+xName+"&projectId="+projectId+"&nd="+nd+"&ysnd="+nd);
+        });
+
+
+    }
+
+    
+    
+    
+
+    function contract_chart1(qdbz)
+    {
+    	 var url=　encodeURIComponent("/one_level_main/common_table?define3=直属研究院&qdbz="+qdbz+"&nd="+nd+"&ysnd="+nd);
+         window.open("/instituteIndex?url="+url);
+    }
+    
+    function contract_chart_oneLevel(qdbz)
+    {
+    	 var url=　encodeURIComponent("/one_level_main/common_table?qdbz="+qdbz+"&nd="+nd+"&ysnd="+nd);
+         window.open("/instituteIndex?url="+url);
+    }
+    
+    
+    //初始化图形
+    initEchart();
+    //查询
+    function search_Event()
+    {
+        initEchart();
+        
+    }
+
+
+    function setGauge_count()
+    {
+    	
+    	$("#vdirect_contract_01_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+        $("#vdirect_contract_01_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+        $("#vdirect_contract_01_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+        
+        var nd=$('#year').val();
+        var series=[];
+        $.ajax({
+            type:"get",
+            url: "/one_level_main/contract_01?type=1&nd="+nd+"",
+            timeout : 9000,
+            dataType:"json",
+            cache: false,
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            success:function(data,status)
+            {
+                if(data.success==true ||data.success=='true')
+                {
+                    $("#vdirect_contract_01_01").html(data.data.zsl+"个");
+                    
+                    if (typeof(data.data.yqht) == "undefined")
+				    {
+                    	 $("#vdirect_contract_01_02").html("0个");
+				    }else
+			    	{
+				    	 $("#vdirect_contract_01_02").html(data.data.yqht+"个");
+			    	}
+                    
+                    
+                   
+                    $("#vdirect_contract_01_03").html(data.data.qdl+"%");
+                }
+            },
+            error:function()
+            {
+            },
+            complete: function (XMLHttpRequest, status) {
+            }
+        });
+
+    }
+    
+
+    function setGauge(id)
+    {
+        var myChart2 = echarts.init(document.getElementById(id));
+        var options = {
+            title: {
+                text: '',
+                x:'center',
+                y: '10px',
+                textStyle: {
+                    fontSize: 15,
+                    fontWeight: 'normal',
+                    color: '#000000'
+                },
+                subtextStyle: {
+                    color: '#7B7B7B'
+                },
+                subtext:''
+            },
+            tooltip : {
+                formatter: "{a} <br/>{b} : {c}%"
+            },
+            toolbox: {
+                feature: {
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            series: [
+                {
+
+                    data: []
+                }
+            ]
+        };
+        var nd=$('#year').val();
+        ajax_getGauge("/one_level_main/contract_01?type=2&nd="+nd+"", myChart2, options);
+    }
+
+    function ajax_getGauge(url, echartsobj, options)
+    {
+        var series=[];
+        $.ajax({
+            type:"get",
+            url: url,
+            timeout : 9000,
+            dataType:"json",
+            cache: false,
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            success:function(data,status)
+            {
+                if(data.success==true ||data.success=='true')
+                {
+                    echartsobj.hideLoading();
+                    var data=data.data;
+                    echartsobj.setOption({
+                        series: [{
+                            data: [{value: data.value, name: '完成率'}],
+                            name: '签订率',
+                            type: 'gauge',
+                            radius: "110%",
+                            center: ['50%', '61%'],
+                            detail: {formatter:'{value}%'},
+                        }]
+                    });
+                }
+            },
+            error:function()
+            {
+                layer.msg('图表加载失败');
+            },
+            complete: function (XMLHttpRequest, status) {
+                if(status == 'timeout'){
+                    layer.msg('超时');
+                }
+            }
+        });
+
+    }
+
+
+    
+    
+    
+    
+
+
+
+</script>
+
+</body>
+</html>
