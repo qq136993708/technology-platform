@@ -47,8 +47,22 @@ public class SysDictionary extends SearchInfo implements Serializable {
     
     //数值
     private String numValue;
+    
+    //分类
+    private String menuType;
+    
+    
+    
 
-    private static final long serialVersionUID = 1L;
+    public String getMenuType() {
+		return menuType;
+	}
+
+	public void setMenuType(String menuType) {
+		this.menuType = menuType;
+	}
+
+	private static final long serialVersionUID = 1L;
 
     public String getId() {
         return id;
