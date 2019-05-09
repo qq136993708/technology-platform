@@ -20,6 +20,7 @@ import com.pcitc.base.util.TreeNodeUtil;
 import com.pcitc.mapper.plan.PlanBaseMapper;
 import com.pcitc.service.plan.PlanBaseService;
 import com.pcitc.service.system.StandardBaseService;
+import com.pcitc.service.system.SysFileService;
 import org.apache.ibatis.annotations.Param;
 import org.olap4j.Axis;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -254,6 +255,8 @@ public class PlanBaseServiceImpl implements PlanBaseService {
         System.out.println(maps);*/
     }
 
+    @Autowired
+    private SysFileService sysFileService;
     public void importFileStandard(JSONObject jsonObject) {
         try {
 
@@ -280,6 +283,8 @@ public class PlanBaseServiceImpl implements PlanBaseService {
                         standardBaseService.insert(standardBase);
                     }
                 }
+                //删除
+//                sysFileService.deleteByPrimaryKey(sysFiles.get(a).getId());
             }
         } catch (Exception e) {
             e.printStackTrace();
