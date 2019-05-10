@@ -72,12 +72,7 @@ public class StandardBaseExpertController extends BaseController {
      */
     private static final String SAVE = "http://pcitc-zuul/system-proxy/standardbase-provider/standardbase/save_standardbase";
 
-
     private static final String importFileStandard = "http://pcitc-zuul/system-proxy/PlanClient-provider/importFileStandard";
-
-
-
-
 
     @RequestMapping(value = "/importFileStandard")
     @ResponseBody
@@ -86,12 +81,11 @@ public class StandardBaseExpertController extends BaseController {
 //        JSONArray jsArr = JSONObject.parseArray(request.getParameter("param"));
 //        List<SysFile> fileList = JSONObject.parseArray(jsArr.toJSONString(), SysFile.class);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("fileList",request.getParameter("param"));
+        jsonObject.put("fileList", request.getParameter("param"));
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(importFileStandard, HttpMethod.POST, new HttpEntity<JSONObject>(jsonObject, this.httpHeaders), JSONObject.class);
         return "ok";
     }
     //文件导入
-
 
     /**
      * 标准化-查询列表
@@ -165,10 +159,10 @@ public class StandardBaseExpertController extends BaseController {
             ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVE, HttpMethod.POST, new HttpEntity<StandardBase>(record, this.httpHeaders), Integer.class);
         } catch (Exception e) {
             msg = "保存异常";
-            success="false";
+            success = "false";
             e.printStackTrace();
-        }finally {
-            return "{\"msg\":"+msg+",\"success\":"+success+"}";
+        } finally {
+            return "{\"msg\":" + msg + ",\"success\":" + success + "}";
         }
     }
 
