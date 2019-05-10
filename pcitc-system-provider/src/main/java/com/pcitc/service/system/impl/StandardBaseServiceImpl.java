@@ -30,7 +30,7 @@ import java.util.Map;
  * <p>接口实现类</p>
  * <p>Table: standard_base - 标准化</p>
  *
- * @since 2019-05-07 10:08:25
+ * @since 2019-05-10 03:07:51
  */
 @Service("standardBaseService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
@@ -163,6 +163,21 @@ public class StandardBaseServiceImpl implements StandardBaseService {
         Object standardName = param.getParam().get("standardName");
         if (!StrUtil.isObjectEmpty(standardName)) {
             c.andStandardNameLike("%" + standardName + "%");
+
+        }
+        Object standardKeys = param.getParam().get("standardKeys");
+        if (!StrUtil.isObjectEmpty(standardKeys)) {
+            c.andStandardKeysLike("%" + standardKeys + "%");
+
+        }
+        Object standardNum = param.getParam().get("standardNum");
+        if (!StrUtil.isObjectEmpty(standardNum)) {
+            c.andStandardNumLike("%" + standardNum + "%");
+
+        }
+        Object standardStatus = param.getParam().get("standardStatus");
+        if (!StrUtil.isObjectEmpty(standardStatus)) {
+            c.andStandardStatusLike("%" + standardStatus + "%");
 
         }
 //        c.andStatusEqualTo("1");

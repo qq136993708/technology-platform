@@ -10,7 +10,7 @@ import java.io.Serializable;
  * <p>实体类</p>
  * <p>Table: standard_base - 标准化</p>
  *
- * @since 2019-05-07 10:08:25
+ * @since 2019-05-10 03:07:51
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class StandardBase extends DataEntity implements Serializable {
@@ -146,6 +146,41 @@ public class StandardBase extends DataEntity implements Serializable {
      * remark - 备注
      */
     private String remark;
+
+    /**
+     * org_type - 组织类别
+     */
+    private String orgType;
+
+    /**
+     * standard_keys - 关键字
+     */
+    private String standardKeys;
+
+    /**
+     * standard_num - 标准号
+     */
+    private String standardNum;
+
+    /**
+     * standard_status - 标准状态
+     */
+    private String standardStatus;
+
+    /**
+     * ics_type - ICS分类
+     */
+    private String icsType;
+
+    /**
+     * choice_type - 选择分类
+     */
+    private String choiceType;
+
+    /**
+     * year_num - 年代号
+     */
+    private String yearNum;
 
     public String getDataId() {
         return this.dataId;
@@ -355,6 +390,62 @@ public class StandardBase extends DataEntity implements Serializable {
         this.remark = remark;
     }
 
+    public String getOrgType() {
+        return this.orgType;
+    }
+
+    public void setOrgType(String orgType) {
+        this.orgType = orgType;
+    }
+
+    public String getStandardKeys() {
+        return this.standardKeys;
+    }
+
+    public void setStandardKeys(String standardKeys) {
+        this.standardKeys = standardKeys;
+    }
+
+    public String getStandardNum() {
+        return this.standardNum;
+    }
+
+    public void setStandardNum(String standardNum) {
+        this.standardNum = standardNum;
+    }
+
+    public String getStandardStatus() {
+        return this.standardStatus;
+    }
+
+    public void setStandardStatus(String standardStatus) {
+        this.standardStatus = standardStatus;
+    }
+
+    public String getIcsType() {
+        return this.icsType;
+    }
+
+    public void setIcsType(String icsType) {
+        this.icsType = icsType;
+    }
+
+    public String getChoiceType() {
+        return this.choiceType;
+    }
+
+    public void setChoiceType(String choiceType) {
+        this.choiceType = choiceType;
+    }
+
+    public String getYearNum() {
+        return this.yearNum;
+    }
+
+    public void setYearNum(String yearNum) {
+        this.yearNum = yearNum;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -420,7 +511,21 @@ public class StandardBase extends DataEntity implements Serializable {
 
                         (this.getPid() == null ? other.getPid() == null : this.getPid().equals(other.getPid())) &&
 
-                        (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark()));
+                        (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark())) &&
+
+                        (this.getOrgType() == null ? other.getOrgType() == null : this.getOrgType().equals(other.getOrgType())) &&
+
+                        (this.getStandardKeys() == null ? other.getStandardKeys() == null : this.getStandardKeys().equals(other.getStandardKeys())) &&
+
+                        (this.getStandardNum() == null ? other.getStandardNum() == null : this.getStandardNum().equals(other.getStandardNum())) &&
+
+                        (this.getStandardStatus() == null ? other.getStandardStatus() == null : this.getStandardStatus().equals(other.getStandardStatus())) &&
+
+                        (this.getIcsType() == null ? other.getIcsType() == null : this.getIcsType().equals(other.getIcsType())) &&
+
+                        (this.getChoiceType() == null ? other.getChoiceType() == null : this.getChoiceType().equals(other.getChoiceType())) &&
+
+                        (this.getYearNum() == null ? other.getYearNum() == null : this.getYearNum().equals(other.getYearNum()));
     }
 
     @Override
@@ -453,6 +558,13 @@ public class StandardBase extends DataEntity implements Serializable {
         result = prime * result + ((getBak5() == null) ? 0 : getBak5().hashCode());
         result = prime * result + ((getPid() == null) ? 0 : getPid().hashCode());
         result = prime * result + ((getRemark() == null) ? 0 : getRemark().hashCode());
+        result = prime * result + ((getOrgType() == null) ? 0 : getOrgType().hashCode());
+        result = prime * result + ((getStandardKeys() == null) ? 0 : getStandardKeys().hashCode());
+        result = prime * result + ((getStandardNum() == null) ? 0 : getStandardNum().hashCode());
+        result = prime * result + ((getStandardStatus() == null) ? 0 : getStandardStatus().hashCode());
+        result = prime * result + ((getIcsType() == null) ? 0 : getIcsType().hashCode());
+        result = prime * result + ((getChoiceType() == null) ? 0 : getChoiceType().hashCode());
+        result = prime * result + ((getYearNum() == null) ? 0 : getYearNum().hashCode());
         return result;
     }
 
@@ -488,6 +600,13 @@ public class StandardBase extends DataEntity implements Serializable {
         sb.append(", bak5=").append(bak5);
         sb.append(", pid=").append(pid);
         sb.append(", remark=").append(remark);
+        sb.append(", orgType=").append(orgType);
+        sb.append(", standardKeys=").append(standardKeys);
+        sb.append(", standardNum=").append(standardNum);
+        sb.append(", standardStatus=").append(standardStatus);
+        sb.append(", icsType=").append(icsType);
+        sb.append(", choiceType=").append(choiceType);
+        sb.append(", yearNum=").append(yearNum);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

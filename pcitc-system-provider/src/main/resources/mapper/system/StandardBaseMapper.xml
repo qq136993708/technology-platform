@@ -7,7 +7,7 @@
 
         <id column="data_id" jdbcType="VARCHAR" property="dataId"/>
         <result column="standard_name" jdbcType="VARCHAR" property="standardName"/>
-        <result column="standard_desc" jdbcType="LONGVARCHAR" property="standardDesc"/>
+        <result column="standard_desc" jdbcType="VARCHAR" property="standardDesc"/>
         <result column="sys_flag" jdbcType="VARCHAR" property="sysFlag"/>
         <result column="data_order" jdbcType="INTEGER" property="dataOrder"/>
         <result column="del_flag" jdbcType="INTEGER" property="delFlag"/>
@@ -31,6 +31,13 @@
         <result column="bak5" jdbcType="VARCHAR" property="bak5"/>
         <result column="pid" jdbcType="VARCHAR" property="pid"/>
         <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="org_type" jdbcType="VARCHAR" property="orgType"/>
+        <result column="standard_keys" jdbcType="VARCHAR" property="standardKeys"/>
+        <result column="standard_num" jdbcType="VARCHAR" property="standardNum"/>
+        <result column="standard_status" jdbcType="VARCHAR" property="standardStatus"/>
+        <result column="ics_type" jdbcType="VARCHAR" property="icsType"/>
+        <result column="choice_type" jdbcType="VARCHAR" property="choiceType"/>
+        <result column="year_num" jdbcType="VARCHAR" property="yearNum"/>
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -116,7 +123,14 @@
         bak4,
         bak5,
         pid,
-        remark
+        remark,
+        org_type,
+        standard_keys,
+        standard_num,
+        standard_status,
+        ics_type,
+        choice_type,
+        year_num
 </sql>
 
     <select id="selectByExample" parameterType="com.pcitc.base.system.StandardBaseExample" resultMap="BaseResultMap">
@@ -184,13 +198,20 @@
             bak4,
             bak5,
             pid,
-            remark
+            remark,
+            org_type,
+            standard_keys,
+            standard_num,
+            standard_status,
+            ics_type,
+            choice_type,
+            year_num
         )
         values (
 
     #{dataId,jdbcType=VARCHAR},
     #{standardName,jdbcType=VARCHAR},
-    #{standardDesc,jdbcType=LONGVARCHAR},
+    #{standardDesc,jdbcType=VARCHAR},
     #{sysFlag,jdbcType=VARCHAR},
     #{dataOrder,jdbcType=INTEGER},
     #{delFlag,jdbcType=INTEGER},
@@ -213,7 +234,14 @@
     #{bak4,jdbcType=VARCHAR},
     #{bak5,jdbcType=VARCHAR},
     #{pid,jdbcType=VARCHAR},
-    #{remark,jdbcType=VARCHAR}
+    #{remark,jdbcType=VARCHAR},
+    #{orgType,jdbcType=VARCHAR},
+    #{standardKeys,jdbcType=VARCHAR},
+    #{standardNum,jdbcType=VARCHAR},
+    #{standardStatus,jdbcType=VARCHAR},
+    #{icsType,jdbcType=VARCHAR},
+    #{choiceType,jdbcType=VARCHAR},
+    #{yearNum,jdbcType=VARCHAR}
         )
     </insert>
     <insert id="insertSelective" parameterType="com.pcitc.base.system.StandardBase">
@@ -296,7 +324,28 @@
                 pid,
             </if>
             <if test="remark != null">
-                remark
+                remark,
+            </if>
+            <if test="orgType != null">
+                org_type,
+            </if>
+            <if test="standardKeys != null">
+                standard_keys,
+            </if>
+            <if test="standardNum != null">
+                standard_num,
+            </if>
+            <if test="standardStatus != null">
+                standard_status,
+            </if>
+            <if test="icsType != null">
+                ics_type,
+            </if>
+            <if test="choiceType != null">
+                choice_type,
+            </if>
+            <if test="yearNum != null">
+                year_num
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -309,7 +358,7 @@
                 #{standardName ,jdbcType=VARCHAR},
             </if>
             <if test="standardDesc != null">
-                #{standardDesc ,jdbcType=LONGVARCHAR},
+                #{standardDesc ,jdbcType=VARCHAR},
             </if>
             <if test="sysFlag != null">
                 #{sysFlag ,jdbcType=VARCHAR},
@@ -378,7 +427,28 @@
                 #{pid ,jdbcType=VARCHAR},
             </if>
             <if test="remark != null">
-                #{remark ,jdbcType=VARCHAR}
+                #{remark ,jdbcType=VARCHAR},
+            </if>
+            <if test="orgType != null">
+                #{orgType ,jdbcType=VARCHAR},
+            </if>
+            <if test="standardKeys != null">
+                #{standardKeys ,jdbcType=VARCHAR},
+            </if>
+            <if test="standardNum != null">
+                #{standardNum ,jdbcType=VARCHAR},
+            </if>
+            <if test="standardStatus != null">
+                #{standardStatus ,jdbcType=VARCHAR},
+            </if>
+            <if test="icsType != null">
+                #{icsType ,jdbcType=VARCHAR},
+            </if>
+            <if test="choiceType != null">
+                #{choiceType ,jdbcType=VARCHAR},
+            </if>
+            <if test="yearNum != null">
+                #{yearNum ,jdbcType=VARCHAR}
             </if>
         </trim>
     </insert>
@@ -399,7 +469,7 @@
                 standard_name=#{record.standardName,jdbcType=VARCHAR},
             </if>
             <if test="record.standardDesc != null">
-                standard_desc=#{record.standardDesc,jdbcType=LONGVARCHAR},
+                standard_desc=#{record.standardDesc,jdbcType=VARCHAR},
             </if>
             <if test="record.sysFlag != null">
                 sys_flag=#{record.sysFlag,jdbcType=VARCHAR},
@@ -468,7 +538,28 @@
                 pid=#{record.pid,jdbcType=VARCHAR},
             </if>
             <if test="record.remark != null">
-                remark=#{record.remark,jdbcType=VARCHAR}
+                remark=#{record.remark,jdbcType=VARCHAR},
+            </if>
+            <if test="record.orgType != null">
+                org_type=#{record.orgType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.standardKeys != null">
+                standard_keys=#{record.standardKeys,jdbcType=VARCHAR},
+            </if>
+            <if test="record.standardNum != null">
+                standard_num=#{record.standardNum,jdbcType=VARCHAR},
+            </if>
+            <if test="record.standardStatus != null">
+                standard_status=#{record.standardStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="record.icsType != null">
+                ics_type=#{record.icsType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.choiceType != null">
+                choice_type=#{record.choiceType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.yearNum != null">
+                year_num=#{record.yearNum,jdbcType=VARCHAR}
             </if>
 
         </set>
@@ -481,7 +572,7 @@
         set
         data_id=#{record.dataId,jdbcType=VARCHAR},
         standard_name=#{record.standardName,jdbcType=VARCHAR},
-        standard_desc=#{record.standardDesc,jdbcType=LONGVARCHAR},
+        standard_desc=#{record.standardDesc,jdbcType=VARCHAR},
         sys_flag=#{record.sysFlag,jdbcType=VARCHAR},
         data_order=#{record.dataOrder,jdbcType=INTEGER},
         del_flag=#{record.delFlag,jdbcType=INTEGER},
@@ -504,7 +595,14 @@
         bak4=#{record.bak4,jdbcType=VARCHAR},
         bak5=#{record.bak5,jdbcType=VARCHAR},
         pid=#{record.pid,jdbcType=VARCHAR},
-        remark=#{record.remark,jdbcType=VARCHAR}
+        remark=#{record.remark,jdbcType=VARCHAR},
+        org_type=#{record.orgType,jdbcType=VARCHAR},
+        standard_keys=#{record.standardKeys,jdbcType=VARCHAR},
+        standard_num=#{record.standardNum,jdbcType=VARCHAR},
+        standard_status=#{record.standardStatus,jdbcType=VARCHAR},
+        ics_type=#{record.icsType,jdbcType=VARCHAR},
+        choice_type=#{record.choiceType,jdbcType=VARCHAR},
+        year_num=#{record.yearNum,jdbcType=VARCHAR}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
@@ -517,7 +615,7 @@
                 standard_name=#{standardName ,jdbcType=VARCHAR},
             </if>
             <if test="standardDesc != null">
-                standard_desc=#{standardDesc ,jdbcType=LONGVARCHAR},
+                standard_desc=#{standardDesc ,jdbcType=VARCHAR},
             </if>
             <if test="sysFlag != null">
                 sys_flag=#{sysFlag ,jdbcType=VARCHAR},
@@ -586,7 +684,28 @@
                 pid=#{pid ,jdbcType=VARCHAR},
             </if>
             <if test="remark != null">
-                remark=#{remark ,jdbcType=VARCHAR}
+                remark=#{remark ,jdbcType=VARCHAR},
+            </if>
+            <if test="orgType != null">
+                org_type=#{orgType ,jdbcType=VARCHAR},
+            </if>
+            <if test="standardKeys != null">
+                standard_keys=#{standardKeys ,jdbcType=VARCHAR},
+            </if>
+            <if test="standardNum != null">
+                standard_num=#{standardNum ,jdbcType=VARCHAR},
+            </if>
+            <if test="standardStatus != null">
+                standard_status=#{standardStatus ,jdbcType=VARCHAR},
+            </if>
+            <if test="icsType != null">
+                ics_type=#{icsType ,jdbcType=VARCHAR},
+            </if>
+            <if test="choiceType != null">
+                choice_type=#{choiceType ,jdbcType=VARCHAR},
+            </if>
+            <if test="yearNum != null">
+                year_num=#{yearNum ,jdbcType=VARCHAR}
             </if>
         </set>
         where data_id = #{dataId,jdbcType=VARCHAR}
@@ -595,7 +714,7 @@
         update standard_base
         set
             standard_name=#{standardName,jdbcType=VARCHAR},
-            standard_desc=#{standardDesc,jdbcType=LONGVARCHAR},
+            standard_desc=#{standardDesc,jdbcType=VARCHAR},
             sys_flag=#{sysFlag,jdbcType=VARCHAR},
             data_order=#{dataOrder,jdbcType=INTEGER},
             del_flag=#{delFlag,jdbcType=INTEGER},
@@ -618,7 +737,14 @@
             bak4=#{bak4,jdbcType=VARCHAR},
             bak5=#{bak5,jdbcType=VARCHAR},
             pid=#{pid,jdbcType=VARCHAR},
-            remark=#{remark,jdbcType=VARCHAR}
+            remark=#{remark,jdbcType=VARCHAR},
+            org_type=#{orgType,jdbcType=VARCHAR},
+            standard_keys=#{standardKeys,jdbcType=VARCHAR},
+            standard_num=#{standardNum,jdbcType=VARCHAR},
+            standard_status=#{standardStatus,jdbcType=VARCHAR},
+            ics_type=#{icsType,jdbcType=VARCHAR},
+            choice_type=#{choiceType,jdbcType=VARCHAR},
+            year_num=#{yearNum,jdbcType=VARCHAR}
         where data_id = #{dataId,jdbcType=VARCHAR}
     </update>
     <!-- 分页查询 -->
@@ -650,7 +776,14 @@
         bak4,
         bak5,
         pid,
-        remark
+        remark,
+        org_type,
+        standard_keys,
+        standard_num,
+        standard_status,
+        ics_type,
+        choice_type,
+        year_num
         from standard_base
         where 1=1
         <if test="dataId!=null and dataId!=''.toString()">
@@ -731,6 +864,27 @@
         <if test="remark!=null and remark!=''.toString()">
             and remark like '%${remark}%'
         </if>
+        <if test="orgType!=null and orgType!=''.toString()">
+            and org_type like '%${orgType}%'
+        </if>
+        <if test="standardKeys!=null and standardKeys!=''.toString()">
+            and standard_keys like '%${standardKeys}%'
+        </if>
+        <if test="standardNum!=null and standardNum!=''.toString()">
+            and standard_num like '%${standardNum}%'
+        </if>
+        <if test="standardStatus!=null and standardStatus!=''.toString()">
+            and standard_status like '%${standardStatus}%'
+        </if>
+        <if test="icsType!=null and icsType!=''.toString()">
+            and ics_type like '%${icsType}%'
+        </if>
+        <if test="choiceType!=null and choiceType!=''.toString()">
+            and choice_type like '%${choiceType}%'
+        </if>
+        <if test="yearNum!=null and yearNum!=''.toString()">
+            and year_num like '%${yearNum}%'
+        </if>
 
         <if test="iSortCol!=null and iSortCol!=''.toString()">
             order by ${iSortCol} ${sSortDir_0}
@@ -764,7 +918,14 @@
         bak4,
         bak5,
         pid,
-        remark
+        remark,
+        org_type,
+        standard_keys,
+        standard_num,
+        standard_status,
+        ics_type,
+        choice_type,
+        year_num
         from standard_base
         where 1=1
         <if test="dataId!=null">
@@ -844,6 +1005,27 @@
         </if>
         <if test="remark!=null">
             and remark = #{remark,jdbcType=VARCHAR}
+        </if>
+        <if test="orgType!=null">
+            and org_type = #{orgType,jdbcType=VARCHAR}
+        </if>
+        <if test="standardKeys!=null">
+            and standard_keys = #{standardKeys,jdbcType=VARCHAR}
+        </if>
+        <if test="standardNum!=null">
+            and standard_num = #{standardNum,jdbcType=VARCHAR}
+        </if>
+        <if test="standardStatus!=null">
+            and standard_status = #{standardStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="icsType!=null">
+            and ics_type = #{icsType,jdbcType=VARCHAR}
+        </if>
+        <if test="choiceType!=null">
+            and choice_type = #{choiceType,jdbcType=VARCHAR}
+        </if>
+        <if test="yearNum!=null">
+            and year_num = #{yearNum,jdbcType=VARCHAR}
         </if>
 
         <if test="iSortCol!=null and iSortCol!=''.toString()">

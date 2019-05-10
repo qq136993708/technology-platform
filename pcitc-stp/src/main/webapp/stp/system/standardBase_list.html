@@ -22,6 +22,22 @@
                placeholder="请输入标准名称"
                title="标准名称" autocomplete="off"
                class="form-control" id="standardNameName"/>
+
+        <span>关键字</span>
+        <input type="text" name="standardKeys" id="standardKeys"
+               placeholder="请输入关键字"
+               title="关键字" autocomplete="off"
+               class="form-control" id="standardKeysName"/>
+
+        <span>标准号</span>
+        <input type="text" name="standardNum" id="standardNum"
+               placeholder="请输入标准号"
+               title="标准号" autocomplete="off"
+               class="form-control" id="standardNumName"/>
+        <span>标准状态</span>
+        <select name="standardStatus" id="standardStatus" lay-filter="standardStatus">
+            <option value="">请选择</option>
+        </select>
     </label>
     <!--按钮组-->
     <div class="btnGroup">
@@ -50,14 +66,20 @@
         <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg"
                 data-type="detailEvent">查看
         </button>
-        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
-        <!--data-type="deleteEvent">删除-->
-        <!--</button>-->
+        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
+                data-type="deleteEvent">删除
+        </button>
     </div>
 </div>
 <table id="standardBaseTableId" class="layui-hide" lay-filter="tableEvent"></table>
 <a id="templateDownloadhref" name="templateDownloadhref" href="/template/standardTemplate.xls" target="_top"></a>
+
 <script>
+    ajaxPost('/dictionary/list/ROOT_RWGL_BZZT', null, function (data, status) {
+        $.each(data, function (i, dt) {
+            $("#standardStatus").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+        });
+    });
 
 
     var param = JSON.parse(window.localStorage.getItem("param"));
@@ -98,10 +120,22 @@
                 //     field: "standardDesc",
                 //     title: "标准内容", event: 'setActive', style: 'cursor: pointer;'
                 // },
+                // {
+                //     field: "remark",
+                //     title: "备注", event: 'setActive', style: 'cursor: pointer;'
+                // },
                 {
-                    field: "remark",
-                    title: "备注", event: 'setActive', style: 'cursor: pointer;'
+                    field: "standardKeys",
+                    title: "关键字", event: 'setActive', style: 'cursor: pointer;'
                 },
+                {
+                    field: "standardNum",
+                    title: "标准号", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "standardStatus",
+                    title: "标准状态", event: 'setActive', style: 'cursor: pointer;'
+                }
             ];
 
         function renderTable() {
@@ -110,6 +144,12 @@
                 param:
                     {
                         "standardName": $("input[name=standardName]").val(),
+
+                        "standardKeys": $("input[name=standardKeys]").val(),
+
+                        "standardNum": $("input[name=standardNum]").val(),
+
+                        "standardStatus": $("#standardStatus").val(),
 
                         // "workOrderStatus":workOrderStatus
                     }
@@ -137,12 +177,21 @@
                     publicMethods.viewAtt(dataId, param.id);
                 });
 
+                // var param = {
+                //     data: res.data,//数据
+                //     element: ".layui-table-body table",// 当前的表格元素
+                //     column: 3,//列数 从0开始
+                //     field: "standardDesc",//当前数据的字段
+                //     url: "/pageCommon/dic/ck"//接口
+                // };
+                // publicMethods.dataDictionary(param);
+
                 var param = {
                     data: res.data,//数据
                     element: ".layui-table-body table",// 当前的表格元素
-                    column: 3,//列数 从0开始
-                    field: "standardDesc",//当前数据的字段
-                    url: "/pageCommon/dic/ck"//接口
+                    column: 5,//列数 从0开始
+                    field: "standardStatus",//当前数据的字段
+                    url: "/pageCommon/dic/ROOT_RWGL_BZZT"//接口
                 };
                 publicMethods.dataDictionary(param);
 
@@ -184,6 +233,9 @@
             },
             resetEvent: function () { //点击重置按钮
                 $("input[name=standardName]").val("");
+                $("input[name=standardKeys]").val("");
+                $("input[name=standardNum]").val("");
+                $("#standardStatus").val("");
                 // $('#workOrderName').val("");
                 renderTable();
             },
@@ -290,7 +342,7 @@
             },
             dataExpert: function () {
                 var randomInt = Math.random();
-                upload_File(randomInt,'','edit','importFileStandard');
+                upload_File(randomInt, '', 'edit', 'importFileStandard');
             },
             getCheckData: function () { //获取选中数据
                 var checkStatus = table.checkStatus('standardBaseTableId')
@@ -328,9 +380,10 @@
             });
         });
     });
+
     function importFileStandard(data, param) {
         //param:返回上面拼装的参数json字符串，data：json文件数组
-        var fileDatas=[];
+        var fileDatas = [];
         for (var key in data) {
             var obj_file = data[key];
             fileDatas.push(obj_file);

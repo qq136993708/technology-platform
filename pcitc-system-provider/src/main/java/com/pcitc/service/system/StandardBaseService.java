@@ -15,7 +15,7 @@ import java.util.List;
  * <p>接口类</p>
  * <p>Table: standard_base - 标准化</p>
  *
- * @since 2019-05-07 10:08:25
+ * @since 2019-05-10 03:07:51
  */
 public interface StandardBaseService {
 
