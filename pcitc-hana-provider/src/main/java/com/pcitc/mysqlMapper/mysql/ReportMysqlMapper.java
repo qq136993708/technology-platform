@@ -1,10 +1,5 @@
 package com.pcitc.mysqlMapper.mysql;
 
-import com.pcitc.base.report.ReportColumn;
-import com.pcitc.base.report.ReportColumnExample;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
 import java.util.Map;
 
