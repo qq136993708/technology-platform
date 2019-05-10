@@ -529,3 +529,27 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .c-span-last{}
 .stpSearchBox .seacrhBox input:-ms-input-placeholder{color: #e0e4e8;}
 .stpSearchBox .seacrhBox input::-webkit-input-placeholder{color: #e0e4e8;}
+
+/*生命周期*/
+.cycle-title{font-size: 14px;height: 14px;line-height: 14px;color: #666;text-indent: 4px;margin: 20px 0 10px 11px;
+    border-left: 3px solid #1890ff;}
+.cycle-search{background-color: #fff;border: 1px solid #e4e4e6;padding: 20px 10px;}
+.cycle-search>div{margin-right: 20px;}
+.cycle-search select{border: 1px solid #999999;border-radius: 3px;color: #999999;height: 32px;padding-left: 8px}
+.cycle-search select option{font-size: 14px;}
+.cycle-search .btnMyBgImg{height: 32px;line-height: 32px;font-size: 14px;padding: 0 15px;}
+.cycle-search .btn_search{background: #1890ff;}
+.cycle-search .btn_reset{background: #f3f3f3;margin-left: 20px;}
+.cycle-title .layui-input, .layui-select{height: 32px;line-height: 32px;border: 1px solid #999999;
+    font-size: 14px;border-radius: 3px;padding-left: 8px;}
+.cycle-c{margin-top: 12px; background: #fff;border-radius: 3px;border: 1px solid #dfdfdf;}
+.cycle-cont{overflow-y: scroll;margin: 10px;}
+.cycle-item{width: 99%;border: 1px solid #eaeaea;background-color: #f6f9fb;height: 83px;margin-bottom: 10px;}
+.cycle-cont-left{width: 14%;float: left;margin: 10px 0;}
+.cycle-cont-mid{width: 43%;float: left;}
+.cycle-cont-right{width: 43%;float: left;}
+.cycle-cont-left p{text-align: center;font-size: 12px;}
+.cycle-cont-left p:nth-child(1){background-color: #1890ff;width: 26px;height: 26px;line-height: 26px;
+    margin:  0 auto;border-radius: 13px;color: white;font-size: 14px;}
+.cycle-cont-left p:nth-child(2){color: #666666;margin:4px 0;}
+.cycle-cont-left p:nth-child(3){color: #1890ff;}
