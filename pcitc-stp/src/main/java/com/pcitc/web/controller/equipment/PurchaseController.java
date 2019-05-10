@@ -213,10 +213,11 @@ public class PurchaseController extends BaseController{
             equipmentId = srePurchase.getEquipmentId();
 
             ResponseEntity<SreProject> SreProjectResponseEntity = this.restTemplate.exchange(GET_BY_PROJECT_ID + projectId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
-            SreProject sreProject = SreProjectResponseEntity.getBody();
-            name = sreProject.getName();
-            sreProjectEquipmentIds = sreProject.getEquipmentIds();
-
+                if(SreProjectResponseEntity!=null){
+                    SreProject sreProject = SreProjectResponseEntity.getBody();
+                    name = sreProject.getName();
+                    sreProjectEquipmentIds = sreProject.getEquipmentIds();
+                }
         }
 
 		request.setAttribute("parentUnitPathName", parentUnitPathName);
@@ -379,8 +380,10 @@ public class PurchaseController extends BaseController{
             for (int i = 0; i < arr.length; i++) {
                 System.err.println(arr[i]);
                 SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
-                sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_PRE_PURCHASE);
-                EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
+                if(sreEquipment!=null){
+                    sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_PRE_PURCHASE);
+                    EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
+                }
             }
             resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
         } else
@@ -405,13 +408,15 @@ public class PurchaseController extends BaseController{
         Result resultsDate = new Result();
         if(id!=null && id!=""){
             SrePurchase srePurchase = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class).getBody();
-            String equipmentIds = srePurchase.getEquipmentId();
-            String[] arr = equipmentIds.split(",");
-            for (int i = 0; i < arr.length; i++) {
-                System.err.println(arr[i]);
-                SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
-                sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_DRAFT);
-                EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
+            if(srePurchase!=null){
+                String equipmentIds = srePurchase.getEquipmentId();
+                String[] arr = equipmentIds.split(",");
+                for (int i = 0; i < arr.length; i++) {
+                    System.err.println(arr[i]);
+                    SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
+                    sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_DRAFT);
+                    EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
+                }
             }
         }
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(DEL_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), Integer.class);
@@ -482,6 +487,7 @@ public class PurchaseController extends BaseController{
     @ResponseBody
     public Object start_purchase_workflow(HttpServletRequest request, HttpServletResponse response) throws Exception
     {
+        Result rs = null;
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
         String id = CommonUtil.getParameter(request, "id", "");
         String functionId = CommonUtil.getParameter(request, "functionId", "");
@@ -489,23 +495,22 @@ public class PurchaseController extends BaseController{
         System.out.println("============start_purchase_workflow userIds="+userIds+" functionId="+functionId+" id="+id);
 
         SrePurchase srePurchase = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class).getBody();
+        if(srePurchase!=null){
+            Map<String ,Object> paramMap = new HashMap<String ,Object>();
+            paramMap.put("id", id);
+            paramMap.put("functionId", functionId);
+            paramMap.put("processInstanceName", "采购申请确认->"+srePurchase.getPurchaseName());
+            paramMap.put("authenticatedUserId", sysUserInfo.getUserId());
+            paramMap.put("authenticatedUserName", sysUserInfo.getUserDisp());
+            paramMap.put("auditor", userIds);
+            //申请者机构信息
+            paramMap.put("applyUnitCode", sysUserInfo.getUnitCode());
+            String parentApplyUnitCode=EquipmentUtils.getUnitParentCodesByUnitCodes(sysUserInfo.getUnitCode(), restTemplate, httpHeaders);
+            paramMap.put("parentApplyUnitCode", parentApplyUnitCode);
 
-        Map<String ,Object> paramMap = new HashMap<String ,Object>();
-        paramMap.put("id", id);
-        paramMap.put("functionId", functionId);
-        paramMap.put("processInstanceName", "采购申请确认->"+srePurchase.getPurchaseName());
-        paramMap.put("authenticatedUserId", sysUserInfo.getUserId());
-        paramMap.put("authenticatedUserName", sysUserInfo.getUserDisp());
-        paramMap.put("auditor", userIds);
-        //申请者机构信息
-        paramMap.put("applyUnitCode", sysUserInfo.getUnitCode());
-        String parentApplyUnitCode=EquipmentUtils.getUnitParentCodesByUnitCodes(sysUserInfo.getUnitCode(), restTemplate, httpHeaders);
-        paramMap.put("parentApplyUnitCode", parentApplyUnitCode);
-
-
-        HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
-        //return null;
-        Result rs = this.restTemplate.exchange(PURCHASE_INNER_WORKFLOW_URL + id, HttpMethod.POST, httpEntity, Result.class).getBody();
+            HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+            rs = this.restTemplate.exchange(PURCHASE_INNER_WORKFLOW_URL + id, HttpMethod.POST, httpEntity, Result.class).getBody();
+        }
         return rs;
     }
     //合同系统对接上报
@@ -541,8 +546,10 @@ public class PurchaseController extends BaseController{
         for (int i = 0; i < arr.length; i++) {
             System.err.println(arr[i]);
             SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
-            sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_ARRIVE_GOODS);
-            EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
+            if(sreEquipment!=null){
+                sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_ARRIVE_GOODS);
+                EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
+            }
         }
         srePurchase.setState(Constant.PURCHASE_STATUS_ARRIVE_GOODS);
         srePurchase.setStage(Constant.PURCHASE_INSTALL_DEBUG);
@@ -598,19 +605,22 @@ public class PurchaseController extends BaseController{
 
             for (int i = 0; i < arr.length; i++) {
                 sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
-                String name = sreEquipment.getName();
-                String specification = sreEquipment.getSpecification();
-                Integer applyAcount = sreEquipment.getApplyAcount();
-                BigDecimal unitPrice = sreEquipment.getUnitPrice();
-                String unitPathNames = sreEquipment.getUnitPathNames();
+                if(sreEquipment!=null){
+                    String name = sreEquipment.getName();
+                    String specification = sreEquipment.getSpecification();
+                    Integer applyAcount = sreEquipment.getApplyAcount();
+                    BigDecimal unitPrice = sreEquipment.getUnitPrice();
+                    String unitPathNames = sreEquipment.getUnitPathNames();
 
-                Map<String, Object> map = new HashMap<String, Object>();
-                map.put("name",name);
-                map.put("specification",specification);
-                map.put("applyAcount",applyAcount);
-                map.put("unitPrice",unitPrice);
-                map.put("unitPathNames",unitPathNames);
-                purchaseEquipmentList.add(map);
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    map.put("name",name);
+                    map.put("specification",specification);
+                    map.put("applyAcount",applyAcount);
+                    map.put("unitPrice",unitPrice);
+                    map.put("unitPathNames",unitPathNames);
+                    purchaseEquipmentList.add(map);
+                }
+
             }
             dataMap.put("purchaseEquipmentList",purchaseEquipmentList);
             dataMap.put("purchaseName",purchaseName);

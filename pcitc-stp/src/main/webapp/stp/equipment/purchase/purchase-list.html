@@ -33,10 +33,6 @@
         <span>采购名称</span>
         <input type="text" name="purchaseName" value="" placeholder="请输入采购名称" title="采购名称" autocomplete="off" class="form-control" id="purchaseName">
     </label>
-    <!--<label class="dateInput">
-        <span>立项年度</span>
-        <input type="text" name="createDate" value="" placeholder="请输入立项年度" title="申请开始时间" autocomplete="off" class="form-control" id="createDate">
-    </label>-->
     <!--按钮组-->
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
@@ -483,28 +479,6 @@ var name=$('#name').val();
     
     function dealFlow(id)
     {
-        /*var nunits="";
-        var branchFlag="";
-        if(joinUnitCodes!=null && joinUnitCodes!='')
-        {
-            branchFlag="1";
-            var arr=joinUnitCodes.split(",");
-            for(i=0;i<arr.length;i++)
-            {
-                var str=arr[i];
-                nunits=nunits+str+"-";
-            }
-            nunits = nunits.substr(0, nunits.length - 1);
-            nunits="unit--"+nunits;
-        }else
-        {
-            branchFlag="0";
-        }*/
-        // alert(nunits);
-        //return;
-        //$('#specialAuditor0').val("role--ZBGL_KJB_JHCGLY");
-       // $('#branchFlag').val("1");
-
         var json = {functionId:functionId};
     	 $.ajax({
              type : 'POST',
