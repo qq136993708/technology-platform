@@ -1925,4 +1925,16 @@ public class OutProjectInfoClient {
     public LayuiTableData getOutProjectListPageExpert(@RequestBody LayuiTableParam param) throws Exception {
         return outProjectService.getOutProjectPageExpert(param);
     }
+   
+    @ApiOperation(value = "检索项目数据", notes = "检索所有项目数据")
+    @RequestMapping(value = "/out-provider/select-all-project-info", method = RequestMethod.POST)
+    public Object selectAllOutProjectInfo(@RequestBody HashMap<String, String> param) throws Exception {
+        return outProjectService.selectAllProjectInfo();
+    }
+    
+    @ApiOperation(value = "更新项目数据", notes = "更新项目数据")
+    @RequestMapping(value = "/out-provider/update-project-info", method = RequestMethod.POST)
+    public Integer updOutProjectInfo(@RequestBody OutProjectInfo project) throws Exception {
+        return outProjectService.updateProjectInfoByKey(project);
+    }
 }
