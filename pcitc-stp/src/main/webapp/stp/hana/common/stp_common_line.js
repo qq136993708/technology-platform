@@ -128,6 +128,47 @@ function load_single_line(url,id,title,subtext)
 }
 
 
+function load_single_line(url,id,title,subtext,rotate)
+{
+	var echartsobj = echarts.init(document.getElementById(id));
+	line_single_option.title.text=title;
+	line_single_option.title.subtext=subtext;
+	
+	
+	line_single_option.grid={
+	        top:"12%",
+	        left: '3%',
+	        right: '2%',
+	        bottom: '0%',
+	        containLabel: true
+	    };
+	
+	if(rotate==undefined || rotate==""){
+		line_single_option.xAxis=[{
+            type: 'category',
+            axisLabel:{
+                interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
+                rotate:0,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+            }
+        }]
+    }else {
+    	line_single_option.xAxis=[{
+            type: 'category',
+            axisLabel:{
+                interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
+                rotate:30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+            }
+        }]
+    }
+	
+	echartsobj.setOption(line_single_option);
+	echartsobj.showLoading();
+	lineSingleAjax(url, echartsobj, line_single_option);
+	return echartsobj;
+}
+
+
+
 function load_single_line_tt(id,title,xAxisData,seriesData,subtext)
 {
 	var echartsobj = echarts.init(document.getElementById(id));

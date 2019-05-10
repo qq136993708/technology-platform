@@ -102,6 +102,9 @@ public class SysDictionaryController extends BaseController {
 	@RequestMapping(value = "/dictionary/saveDictionary")
 	@ResponseBody
 	public int saveDictionary(@RequestBody SysDictionary dictionary) {
+		
+		
+		System.out.println(">>>>>getMenuType=" + dictionary.getMenuType());
 		HttpEntity<SysDictionary> entity = new HttpEntity<SysDictionary>(dictionary, this.httpHeaders);
 		ResponseEntity<Integer> responseEntity = restTemplate.exchange(SAVE_TREENODE, HttpMethod.POST, entity, Integer.class);
 		int result = responseEntity.getBody();
@@ -135,8 +138,10 @@ public class SysDictionaryController extends BaseController {
 	@ResponseBody
 	public String getTreeByLevel(HttpServletRequest request) throws Exception {
 		String levelCode = request.getParameter("levelCode");
+		String menuType = request.getParameter("menuType");
 		SysDictionary dictionary = new SysDictionary();
 		dictionary.setLevelCode(levelCode == null ? null : Integer.valueOf(levelCode));
+		dictionary.setMenuType(menuType);
 		ResponseEntity<List> responseEntity = restTemplate.exchange(LEVEL_NODE, HttpMethod.POST, new HttpEntity<SysDictionary>(dictionary, this.httpHeaders), List.class);
 		List treeNodes = responseEntity.getBody();
 		return JSONUtils.toJSONString(treeNodes);
@@ -178,8 +183,16 @@ public class SysDictionaryController extends BaseController {
 	 */
 	@RequestMapping(value = { "/dictionary/toDictionaryList" }, method = RequestMethod.GET)
 	public String toFuntionList() {
+		
+		
+		String menuType = request.getParameter("menuType");
+		request.setAttribute("menuType", menuType);
 		return "base/system/dictionary";
 	}
+	
+	
+	
+	
 
 	/**
 	 * 弹出数据字典模态框
@@ -203,6 +216,8 @@ public class SysDictionaryController extends BaseController {
 		model.addAttribute("parentCode", parentCode);
 		model.addAttribute("levelCode", levelCode);
 		model.addAttribute("parentName", parentName);
+		String menuType = request.getParameter("menuType");
+		request.setAttribute("menuType", menuType);
 		return "base/system/dictionary_info";
 	}
 
