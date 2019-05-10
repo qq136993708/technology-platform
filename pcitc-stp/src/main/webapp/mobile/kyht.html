@@ -194,7 +194,7 @@ var echart6;
         setGauge("direct_contract_01");
         setGauge_count();
         var chart_01_01="/one_level_main/contract_01_01?type=1&nd="+nd+"&v_date="+v_date+"";
-        echartchart_01_01=load_mutl_bar_down(chart_01_01,"direct_contract_01_01","","",yAxis2,30,"");
+        echartchart_01_01=load_mutl_bar_down(chart_01_01,"direct_contract_01_01","","",yAxis2,20,"");
 
         //
         var chart2_url="/one_level_main/contract_02?type=1&nd="+nd+"&v_date="+v_date+"";
@@ -209,7 +209,12 @@ var echart6;
         
         var chart6_url="/one_level_main/contract_03?type=1&nd="+nd+"&v_date="+v_date+"";
         var color2=["#f3655b","#8ab3cf","#f19049"];
-        echart6=load_mutl_bar_down(chart6_url,"direct_contract_chart","","",yAxis,30,color2);
+       // echart6=load_mutl_bar_down(chart6_url,"direct_contract_chart","","",yAxis,15,color2);
+        
+        var color=[];
+        echart6=     load_mutl_bar_down_r(chart6_url,"direct_contract_chart","","",yAxis,true,20,color2);
+    	
+    	
 
 
     }
