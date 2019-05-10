@@ -523,13 +523,13 @@
                   {    
         	            if(callback)
 	                    {
-	                    	console.log(url+" 调用 成功,得到数据："+data); 
+	                    	console.log(url+" 调用 成功,得到数据："+JSON.stringify(data)); 
 	                    	callback(data);
 	                    }
 	       		   },
 	       		   error:function(data)
 	       		   {
-	       			  console.log(url+" 远程调用失败 .....");
+	       			  console.log(url+" 远程调用失败  "+JSON.stringify(data));
        			      if(callback)
                       {
        				    //alert(JSON.stringify(data) );
