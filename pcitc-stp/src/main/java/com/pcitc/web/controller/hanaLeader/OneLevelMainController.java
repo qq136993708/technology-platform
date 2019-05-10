@@ -2799,7 +2799,7 @@ public class OneLevelMainController {
 										paramsMap.put("companyCode", companyCode);
 										JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 										HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-										if (!companyCode.equals(""))
+										if (!nd.equals(""))
 										{
 											ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_02, HttpMethod.POST, entity, JSONArray.class);
 											int statusCode = responseEntity.getStatusCodeValue();
@@ -2858,7 +2858,7 @@ public class OneLevelMainController {
 										paramsMap.put("companyCode", companyCode);
 										JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 										HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-										if (!companyCode.equals(""))
+										if (!nd.equals(""))
 										{
 											ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_03, HttpMethod.POST, entity, JSONArray.class);
 											int statusCode = responseEntity.getStatusCodeValue();
@@ -2921,7 +2921,7 @@ public class OneLevelMainController {
 										paramsMap.put("companyCode", companyCode);
 										JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 										HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-										if (!companyCode.equals(""))
+										if (!nd.equals(""))
 										{
 											ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_02, HttpMethod.POST, entity, JSONArray.class);
 											int statusCode = responseEntity.getStatusCodeValue();

@@ -210,6 +210,17 @@
             <div class="main-right"></div>
         </div>
     </div>
+    <div class="menu-right">
+        <div class="open menu-open"></div>
+        <div class="menu">
+            <div class="menu-index">
+                <div class="menu-index-icon"></div>
+            </div>
+            <div class="menu-two">
+                <div class="menu-two-icon"></div>
+            </div>
+        </div>
+    </div>
 </div>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/lib/extend/Sortable.min.js"></script>
@@ -331,6 +342,49 @@
         });
         $(".institute").mouseout(function () {
             mouseOut("institute");
+        });
+        $(".open").click(function () {
+            if($(".open").hasClass("menu-open")){
+                $(".open").removeClass("menu-open")
+                $(".open").addClass("menu-retract")
+                animationAdd("menu-index","menuIndex");
+                animationAdd("menu-retract","menuOpen");
+                animationAdd("menu-two","menuTwo");
+                animationAdd("menu-index-icon","indexIcon");
+                animationAdd("menu-two-icon","indexIcon");
+            }else {
+                $(".open").removeClass("menu-retract")
+                $(".open").addClass("menu-open")
+                animationRem("menu-index","menuIndex");
+                animationRem("menu-index","indexAdd");
+                animationRem("open","openAdd");
+                animationRem("open","menuOpen");
+                animationRem("menu-two","menuTwo");
+                animationRem("menu-index-icon","indexIcon");
+                animationRem("menu-two-icon","indexIcon");
+            }
+        });
+        $(".menu-two").mouseover(function () {
+            animationRem("open","menuOpen");
+            animationRem("open","openAdd");
+            animationRem("menu-index","indexAdd");
+            animationAdd("menu-index","indexReduce");
+            animationAdd("open","openReduce");
+        });
+        $(".menu-index").mouseover(function () {
+            animationRem("open","menuOpen");
+            animationRem("menu-index","indexReduce");
+            animationRem("open","openReduce");
+            animationAdd("menu-index","indexAdd");
+            animationAdd("open","openAdd");
+        });
+        $(".menu-index").click(function () {
+            $(".main-one").fadeIn("slow");
+            $(".main-two").fadeOut("slow");
+        });
+        $(".menu-two").click(function () {
+            $(".main-one").fadeOut("slow");
+            $(".main-two").fadeIn("slow");
         });
     });
     /*动画*/

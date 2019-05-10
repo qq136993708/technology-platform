@@ -1013,6 +1013,17 @@ public class EquipmentUtils {
 	}
 	
 	
+	public static SysUser getSysUserByUserId(String userId,RestTemplate restTemplate,HttpHeaders httpHeaders)
+	{
+		String USER_DETAILS_URL = "http://pcitc-zuul/system-proxy/user-provider/user/user-details/";
+		SysUser userDetails = restTemplate.exchange(USER_DETAILS_URL + userId, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SysUser.class).getBody();
+		return userDetails;
+	}
+	
+	
+	
+	
+	
 /*	public static void main(String[] args) 
 	{
 		String str="1040,1041&1060,1061&1080$1040,1041&1060,1061&1080";

@@ -30,7 +30,7 @@ public class AdminMobileController extends BaseController {
 	 * 
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/mobile/index")
+	@RequestMapping(value = "/mobile/index2")
 	public String indexMobileStp(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("进入indexMobileStp....");
 		

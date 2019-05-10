@@ -1,4 +1,4 @@
-.layui-fluid{padding: 0;background: #013660;}
+.layui-fluid{padding: 0;background: #013660;position: relative;}
 .layui-header{height: 90px;width: 1156px;margin: 0 auto;}
 .layui-main{height: auto;overflow: hidden;width: 100%;}
 .layui-level-main{width: 1156px;margin: 0 auto;padding: 44px 10px 14px;height: auto;overflow: hidden;}
@@ -260,6 +260,41 @@ line-height: 60px;font-size: 22px;}
     height: 131px;margin-bottom: 14px;}
 .add{height: 131px;width: 183px;background:#345e80 url("/layuiadmin/layui/images/add.png") no-repeat center center;}
 .main-two{display: none;}
+/*快捷导航*/
+.menu-right{position: absolute;right: 0;top: 124px;padding-top:10px; }
+.menu-right .menu-open,.menu-right .menu-index,.menu-right .menu-two{box-shadow: 0 0 15px #012f56;}
+.menu-right .menu-open{background: url("/layuiadmin/layui/images/menu-open.png") no-repeat;
+    width: 14px;height: 40px;margin: 0 0 10px 10px;position: relative}
+.menu-right .menu-retract{background: url("/layuiadmin/layui/images/menu-retract.png") no-repeat;
+    width: 14px;height: 40px;margin: 0 0 10px 10px;position: relative}
+.menu{position: relative;}
+.menu p{font-size: 14px;color: #66b0e8;text-align: center;margin-top: 80px;width: 80px;}
+.menu-right .menu-index{background: url("/layuiadmin/layui/images/menu-index.png") no-repeat;
+    height: 131px;position: absolute;z-index: 1;right: 0;top:-50px;}
+.menu-right .menu-two{background: url("/layuiadmin/layui/images/menu-two.png") no-repeat;
+    height: 131px;position: absolute;right: 0;z-index: 0;top: 81px;}
+.menu-index-icon{background: url("/layuiadmin/layui/images/menu-index-icon.png") no-repeat;position: absolute;
+    top: 53px;left: 45px;height: 13px;}
+.menu-two-icon{background: url("/layuiadmin/layui/images/menu-two-icon.png") no-repeat;position: absolute;
+    top: 33px;left: 43px;height: 11px;}
+.menuOpen{animation:rightPx 1s;animation-fill-mode:forwards;
+    -webkit-animation-fill-mode:forwards;}
+.menuIndex{animation:widthPx 1s;animation-fill-mode:forwards;
+    -webkit-animation-fill-mode:forwards;}
+.menuTwo{animation:widthIPx 1s;animation-fill-mode:forwards;
+    -webkit-animation-fill-mode:forwards;}
+.indexIcon{animation:cPx 1s;animation-fill-mode:forwards;
+    -webkit-animation-fill-mode:forwards;}
+.indexReduce{animation:reducePx 1s;animation-fill-mode:forwards;
+    -webkit-animation-fill-mode:forwards;}
+.indexAdd{animation:TPx 1s;animation-fill-mode:forwards;
+    -webkit-animation-fill-mode:forwards;}
+.openAdd{animation:rPx 1s;animation-fill-mode:forwards;
+    -webkit-animation-fill-mode:forwards;}
+.openReduce{animation:raPx 1s;animation-fill-mode:forwards;
+    -webkit-animation-fill-mode:forwards;}
+.translateM{animation:trPx 1s;animation-fill-mode:forwards;
+    -webkit-animation-fill-mode:forwards;}
 
 
 
@@ -693,4 +728,216 @@ line-height: 60px;font-size: 22px;}
     70%{transform: rotateX(40deg);}
     74%{transform: rotateX(20deg);}
     100%{transform:rotateX(0deg);}
+}
+/*width*/
+
+@keyframes widthPx {
+    0%{width: 0px;}
+    6.5%{width: 8px;}
+    13%{width: 16px;}
+    19.5%{width: 32px;}
+    26%{width: 48px;}
+    32.5%{width: 64px;}
+    39%{width: 80px;}
+    45.5%{width: 96px;}
+    52%{width: 102px;}
+    58.5%{width: 110px;}
+    65%{width: 118px;}
+    71.5%{width: 110px;}
+    78%{width: 102px;}
+    84.5%{width: 96px;}
+    91%{width: 90px;}
+    97.5%{width: 96px;}
+    100%{width: 102px;}
+
+}
+@-webkit-keyframes widthPx {
+    0%{width: 0px;}
+    6.5%{width: 8px;}
+    13%{width: 16px;}
+    19.5%{width: 32px;}
+    26%{width: 48px;}
+    32.5%{width: 64px;}
+    39%{width: 80px;}
+    45.5%{width: 96px;}
+    52%{width: 102px;}
+    58.5%{width: 110px;}
+    65%{width: 118px;}
+    71.5%{width: 110px;}
+    78%{width: 102px;}
+    84.5%{width: 96px;}
+    91%{width: 90px;}
+    97.5%{width: 96px;}
+    100%{width: 102px;}
+}
+@keyframes widthIPx {
+    0%{width: 0px;}
+    6.5%{width: 0px;}
+    13%{width: 8px;}
+    19.5%{width: 24px;}
+    26%{width: 40px;}
+    32.5%{width: 56px;}
+    39%{width: 72px;}
+    45.5%{width: 88px;}
+    52%{width: 94px;}
+    58.5%{width: 102px;}
+    65%{width: 110px;}
+    71.5%{width: 102px;}
+    78%{width: 94px;}
+    84.5%{width: 88px;}
+    91%{width: 82px;}
+    97.5%{width: 88px;}
+    100%{width: 94px;}
+
+}
+@-webkit-keyframes widthIPx {
+    0%{width: 0px;}
+    6.5%{width: 0px;}
+    13%{width: 8px;}
+    19.5%{width: 24px;}
+    26%{width: 40px;}
+    32.5%{width: 56px;}
+    39%{width: 72px;}
+    45.5%{width: 88px;}
+    52%{width: 94px;}
+    58.5%{width: 102px;}
+    65%{width: 110px;}
+    71.5%{width: 102px;}
+    78%{width: 94px;}
+    84.5%{width: 88px;}
+    91%{width: 82px;}
+    97.5%{width: 88px;}
+    100%{width: 94px;}
+}
+@keyframes rightPx {
+    0%{right: 0px;}
+    6.5%{right: 8px;}
+    13%{right: 16px;}
+    19.5%{right: 32px;}
+    26%{right: 48px;}
+    32.5%{right: 64px;}
+    39%{right: 80px;}
+    45.5%{right: 96px;}
+    52%{right: 102px;}
+    58.5%{right: 110px;}
+    65%{right: 118px;}
+    71.5%{right: 110px;}
+    78%{right: 102px;}
+    84.5%{right: 96px;}
+    91%{right: 90px;}
+    97.5%{right: 96px;}
+    100%{right: 102px;}
+
+}
+@-webkit-keyframes rightPx {
+    0%{right: 0px;}
+    6.5%{right: 8px;}
+    13%{right: 16px;}
+    19.5%{right: 32px;}
+    26%{right: 48px;}
+    32.5%{right: 64px;}
+    39%{right: 80px;}
+    45.5%{right: 96px;}
+    52%{right: 102px;}
+    58.5%{right: 110px;}
+    65%{right: 118px;}
+    71.5%{right: 110px;}
+    78%{right: 102px;}
+    84.5%{right: 96px;}
+    91%{right: 90px;}
+    97.5%{right: 96px;}
+    100%{right: 102px;}
+}
+@keyframes cPx {
+    0%{right: 0px;}
+    6.5%{right: 0;}
+    13%{right: 0px;}
+    19.5%{right: 0px;}
+    26%{right: 2px;}
+    32.5%{right: 13px;}
+    100%{right: 13px;}
+
+}
+@-webkit-keyframes cPx {
+    0%{right: 0px;}
+    6.5%{right: 0;}
+    13%{right: 0px;}
+    19.5%{right: 0px;}
+    26%{right: 2px;}
+    32.5%{right: 13px;}
+    100%{right: 13px;}
+}
+@-webkit-keyframes reducePx {
+    0%{width: 102px;}
+    100%{width: 94px;}
+}
+@-webkit-keyframes reducePx {
+    0%{width: 102px;}
+    100%{width: 94px;}
+}
+@-webkit-keyframes addPx {
+    0%{width: 94px;}
+    100%{width: 102px;}
+}
+@-webkit-keyframes addPx {
+    0%{width: 94px;}
+    100%{width: 102px;}
+}
+@-webkit-keyframes TPx {
+    0%{width: 94px;}
+    100%{width: 102px;}
+}
+@-webkit-keyframes TPx {
+    0%{width: 94px;}
+    100%{width: 102px;}
+}
+@-webkit-keyframes rPx {
+    0%{right: 94px;}
+    100%{right: 102px;}
+}
+@-webkit-keyframes rPx {
+    0%{right: 94px;}
+    100%{right: 102px;}
+}
+@-webkit-keyframes raPx {
+    0%{right: 102px;}
+    100%{right: 94px;}
+}
+@-webkit-keyframes raPx {
+    0%{right: 102px;}
+    100%{right: 94px;}
+}
+@-webkit-keyframes trPx {
+    0%{transform: translate(0px,0px);}
+    8%{transform: translate(0px,-2px);}
+    16%{transform: translate(0px,-4px);}
+    24%{transform: translate(0px,-6px);}
+    32%{transform: translate(0px,-8px);}
+    40%{transform: translate(0px,-6px);}
+    48%{transform: translate(0px,-4px);}
+    56%{transform: translate(0px,-2px);}
+    64%{transform: translate(0px,0px);}
+    72%{transform: translate(0px,1px);}
+    80%{transform: translate(0px,2px);}
+    88%{transform: translate(0px,3px);}
+    96%{transform: translate(0px,2px);}
+    99%{transform: translate(0px,1px);}
+    100%{transform: translate(0px,0px);}
+}
+@-webkit-keyframes trPx {
+    0%{transform: translate(0px,0px);}
+    8%{transform: translate(0px,-2px);}
+    16%{transform: translate(0px,-4px);}
+    24%{transform: translate(0px,-6px);}
+    32%{transform: translate(0px,-8px);}
+    40%{transform: translate(0px,-6px);}
+    48%{transform: translate(0px,-4px);}
+    56%{transform: translate(0px,-2px);}
+    64%{transform: translate(0px,0px);}
+    72%{transform: translate(0px,1px);}
+    80%{transform: translate(0px,2px);}
+    88%{transform: translate(0px,3px);}
+    96%{transform: translate(0px,2px);}
+    99%{transform: translate(0px,1px);}
+    100%{transform: translate(0px,0px);}
 }

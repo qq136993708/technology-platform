@@ -34,6 +34,7 @@ import com.pcitc.base.util.MD5Util;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.common.OperationFilter;
+import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
 import com.sinopec.siam.agent.common.SSOPrincipal;
 import com.sinopec.siam.agent.sp.config.SysConfig;
@@ -663,6 +664,10 @@ public class AdminController extends BaseController {
         ResponseEntity<LayuiTableData> responseEntityMy = this.restTemplate.exchange(MY_BOT_WORK_ORDER_LIST, HttpMethod.POST, entityMy, LayuiTableData.class);
         LayuiTableData resultMy = responseEntityMy.getBody();
         request.setAttribute("taskListMy",resultMy.getData());
+        
+        SysUser  sysUser=   EquipmentUtils.getSysUserByUserId(sysUserInfo.getUserId(), restTemplate, httpHeaders);
+        List scList= sysUser.getScList();
+        request.setAttribute("scList",scList);
         return "/mainStp";
 	}
 
