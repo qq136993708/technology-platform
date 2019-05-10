@@ -64,21 +64,21 @@
                        <table id="myTable" class="layui-table" lay-filter="myTable"  >
                             <thead>
                             <tr>
-                                <th lay-data="{field:'define2', width:'22%',align:'center'}" rowspan="2">项目</th>
+                                <th lay-data="{field:'define2', width:'30%',align:'center'}" rowspan="2">项目</th>
                                 <th lay-data="{align:'center'}" colspan="2">总计</th>
-                                <th lay-data="{align:'center'}" colspan="2">新开课题</th>
-                                <th lay-data="{align:'center'}" colspan="2">结转课题</th>
+                               <!--  <th lay-data="{align:'center'}" colspan="2">新开课题</th>
+                                <th lay-data="{align:'center'}" colspan="2">结转课题</th> -->
                             </tr>
                             <tr>
-                                <th lay-data="{field:'zsl', width:'13%',align:'right'}">数量（个）</th>
-                                <th lay-data="{field:'zslRate', width:'13%',align:'right',templet:function(d){return d.zslRate.toFixed(2)+'%'}}">占比</th>
+                                <th lay-data="{field:'zsl', width:'30%',align:'right'}">数量（个）</th>
+                                <th lay-data="{field:'zslRate', width:'30%',align:'right',templet:function(d){return d.zslRate.toFixed(2)+'%'}}">占比</th>
 
-                                <th lay-data="{field:'xksl', width:'13%',align:'right'}">数量（个）</th>
+                              <!--   <th lay-data="{field:'xksl', width:'13%',align:'right'}">数量（个）</th>
                                 <th lay-data="{field:'xkRate', width:'13%',align:'right',templet:function(d){return d.xkRate.toFixed(2)+'%'}}">占比</th>
 
                                 <th lay-data="{field:'xjsl', width:'13%',align:'right'}">数量（个）</th>
                                 <th lay-data="{field:'xjRate', width:'13%',align:'right',templet:function(d){return d.xjRate.toFixed(2)+'%'}}">占比</th>
-
+ -->
                             </tr>
 
                             </thead>
@@ -217,7 +217,8 @@ function initEchart()
 
 
 	var chart1_url="/direct/equipment_01?type=1&nd="+nd+"&v_date="+v_date+"&xmlbbm=kyzb";
-	echart1=load_mutl_bar_down_color(chart1_url,"equipment_chart1","","",yAxis);
+	var color=[];
+	echart1=     load_mutl_bar_down_r(chart1_url,"equipment_chart1","","",yAxis,true,15,color)
 
 	var url_01="/direct/equipment_02?type=1&companyCode="+companyCode+"&month="+month+"&v_date="+v_date;
 	data7=load_bar_zhengfu_callback(url_01,"equipment_chart3","","",function(data){
@@ -320,10 +321,10 @@ function renderTable2()
 
 	  cols: [[
 	  	   {field:'g0GSJC',           title: '研究院',    edit:'text', width: '20%',align: 'center'},
-	       {field:'g0SBSL1',          title:'大型分析仪器（套）',style:'cursor: pointer;',align: 'right', width: '20%',templet:function(d){return parseInt(d.g0SBSL1)}},
-	       {field:'g0SBSL2',          title:'中型实验装置（台）',style:'cursor: pointer;',align: 'right', width: '20%',templet:function(d){return parseInt(d.g0SBSL2)}},
-	       {field:'g0SBSL3',          title:'单台值大于500万（台）',   style:'cursor: pointer;',align: 'right', width: '20%',templet:function(d){return parseInt(d.g0SBSL3)}},
-	       {field:'g0SBSL4',          title:'外购专业软件（套）',   style:'cursor: pointer;',align: 'right', width: '20%',templet:function(d){return parseInt(d.g0SBSL4)}}
+	       {field:'g0SBSL1',          title:'大型分析仪器（套）',style:'cursor: pointer;',align: 'right', width: '25%',templet:function(d){return parseInt(d.g0SBSL1)}},
+	       {field:'g0SBSL2',          title:'中型实验装置（台）',style:'cursor: pointer;',align: 'right', width: '25%',templet:function(d){return parseInt(d.g0SBSL2)}},
+	       //{field:'g0SBSL3',          title:'单台值大于500万（台）',   style:'cursor: pointer;',align: 'right', width: '20%',templet:function(d){return parseInt(d.g0SBSL3)}},
+	       {field:'g0SBSL4',          title:'外购专业软件（套）',   style:'cursor: pointer;',align: 'right', width: '25%',templet:function(d){return parseInt(d.g0SBSL4)}}
 
 
 
@@ -353,7 +354,7 @@ function myTable()
 	var url= '/direct/equipment_01?type=2&v_date='+v_date+"&nd="+nd+"&xmlbbm=kyzb";
     table.init('myTable', {
 		  url: url
-		  ,height:"298px"
+		  ,height:"370px"
 		  ,where: {}
 	});
 
