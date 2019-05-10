@@ -179,8 +179,8 @@ function initEchart()
 	
 	var chart4_url="/direct/getKnowledgeBar_02?nd="+nd+"&v_date="+v_date;
 	var color=["#37a1da","#ff9f7f","#fedb5b"];
-	echart4=load_mutl_bar_down(chart4_url,"knowldege_chart4","","",yAxis,20,color);
-	
+	//echart4=load_mutl_bar_down(chart4_url,"knowldege_chart4","","",yAxis,20,color);
+	   echart4=   load_mutl_bar_down_r(chart4_url,"knowldege_chart4","","",yAxis,true,20,color)
 	
 	
     $("#chart_title_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
@@ -193,7 +193,7 @@ function initEchart()
     
     
 	var chart1_url="/direct_second/direct_second_data_01?nd="+nd+"&v_date="+v_date;
-	echart1t=load_single_bar(chart1_url,"chart1","","",yAxis,["#87d359"],20,"",function(data){
+	echart1t=load_single_bar(chart1_url,"chart1","","",yAxis,["#87d359"],20,true,function(data){
 		var total_count = 0;
 		$.each(data.data.seriesDataList,function(index,dt){
 			total_count += dt;

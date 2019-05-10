@@ -1552,7 +1552,7 @@ function load_bar_zhengfu_callback(url,id,title,subtext,callback)
         top:"5%",
         left: '0%',
         right: '3%',
-        bottom: '10%',
+        bottom: '20%',
         containLabel: true
     };
     echartsobj.setOption(option_zhengfu);
