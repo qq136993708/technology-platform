@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>首页</title>
     <meta name="renderer" content="webkit">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -173,6 +174,9 @@
                         <div id="circleOne">
                             <span></span>
                         </div>
+                        
+					
+					
                         <p>上周工作完成度</p>
                     </div>
                     <div class="work-summary-right layui-col-md5">
@@ -207,7 +211,8 @@
         <div class="layui-col-md12 project">
             <div class="layui-card" style="margin: 0;">
                 <div class="layui-card-header">
-                    <p>工作安排</p>
+                    <p>工作安排
+                    </p>
                     <div class="layui-tool">
                         <button type="button" class="btn btn-tool collapse"></button>
                         <button type="button" class="btn btn-tool remove"></button>
@@ -397,6 +402,27 @@
                 
             </div>
         </div>
+        
+        
+        
+        <div>
+                  <table class="message_outside" border="0" cellpadding="0" cellspacing="0" >
+						<tr>
+					        <td align="center"></td>
+							<td align="center"><span>办公自动化：
+							<a href="http://10.1.4.10/kjb/_layouts/15/ZBAppPage/oalogin.aspx"  target="_blank" style="text-decoration:none;color:blue;"><b><font  id="kjb_oadb" style="color:red">0</font></b>条待办</a> 
+							<a href="http://10.1.4.10/kjb/_layouts/15/ZBAppPage/oalogin.aspx"  target="_blank" style="text-decoration:none;color:blue;"><b><font  id="kjb_oady" style="color:red">0</font></b>条待阅</a> 
+							&nbsp;&nbsp;电子邮件：
+							<a href="http://10.1.4.10/kjb/_layouts/15/ZBAppPage/owalogin.aspx"  target="_blank" style="text-decoration:none;color:blue;"><b><font id="kjb_owa" style="color:red">0</font></b>条未读</a> 
+							</span></td>
+					        <td align="center">&nbsp;&nbsp;督办管理：
+					        <a href="http://10.1.4.10/_layouts/15/autologon?appid=61&amp;step=1"  target="_blank" style="text-decoration:none;color:blue;"><b><font  id="smdb" style="color:red">0</font></b>条待办</a> 
+					        <a href="http://10.1.4.10/_layouts/15/autologon?appid=61&amp;step=1"  target="_blank" style="text-decoration:none;color:blue;"><b><font  id="smdy" style="color:red">0</font></b>条待阅</a></td>
+					    </tr>
+					</table>
+                
+                </div>
+                
 
         <script src="/common/js/jquery-1.11.3.min.js"></script>
         <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
@@ -408,6 +434,114 @@
         <script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
         <script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
         <script type="text/javascript" src="/layuiadmin/javascript/circle-progress.min.js"></script>
+        
+        <script type="text/javascript">
+        var host="http://10.1.4.10:80";
+        //办公自动化待办
+        var url=host+"/kjb/_layouts/15/ZBAppPage/oacount.aspx";
+        sendPost(url,"POST", function (data){
+        	$("#kjb_oadb").html(data);
+        }); 
+       //电子邮件管理
+        var url=host+"/kjb/_layouts/15/ZBAppPage/owacount.aspx";
+        sendPost(url,"POST", function (data){
+        	$("#kjb_owa").html(data);
+        });
+        //办公自动化待阅
+        var url=host+"/kjb/_layouts/15/ZBAppPage/oadycount.aspx";
+        sendPost(url,"POST", function (data){
+        	$("#kjb_oady").html(data);
+        });
+        
+      //督办管理待办
+        var url=host+"/_layouts/15/autologon/?appid=62&step=1";
+        sendPost(url,"POST", function (data){
+        	if(data>=0)
+            {
+            	$("#smdb").html(data);
+            	}else{
+            	$("#smdb").html("0");
+            }
+        });
+        
+        //督办管理待阅
+        var url=host+"/_layouts/15/autologon/?appid=63&step=1";
+        sendPost(url,"POST", function (data){
+        	if(data>=0)
+        	{
+            	$("#smdy").html(data);
+            }else
+            	{
+            	  $("#smdy").html("0");
+            	}
+        });
+        
+        
+        
+                     　 /* $.post(url,"",function(data){
+    	　　　　alert(data);
+    	　　},"jsonp");
+    	   */
+    	  
+        //办公自动化待办
+        /* $.post(host+"/kjb/_layouts/15/ZBAppPage/oacount.aspx", function(data1) {
+        	
+        	alert(data1);
+        	jQuery("#kjb_oadb").html(data1);
+        	
+        }); */
+        
+        /* jQuery.post(host+"/kjb/_layouts/15/ZBAppPage/owacount.aspx", function(data1) {jQuery("#kjb_owa").html(data1);});//电子邮件管理
+        jQuery.post(host+"/kjb/_layouts/15/ZBAppPage/oadycount.aspx", function(data1) {jQuery("#kjb_oady").html(data1);});//办公自动化待阅
+        //督办管理待办
+        jQuery.post(host+"/_layouts/15/autologon/?appid=62&step=1", function(data1) {
+        if(data1>=0)
+        {
+        	jQuery("#smdb").html(data1);
+        	}else{
+        	jQuery("#smdb").html("0");
+        	}
+        });
+        
+        //督办管理待阅
+        jQuery.post(host+"/_layouts/15/autologon/?appid=63&step=1", function(data1) {
+        	if(data1>=0){
+        	jQuery("#smdy").html(data1);
+        	}else{
+        	jQuery("#smdy").html("0");
+        	}
+        });
+         */
+        
+        function sendPost(url,type,callback)
+        {
+        	 $.ajax({
+          	      type:type,
+          	      url: url,
+          	      dataType:"jsonp",
+                  success:function(data,status)
+                  {    
+        	            if(callback)
+	                    {
+	                    	console.log(url+" 调用 成功,得到数据："+JSON.stringify(data)); 
+	                    	callback(data);
+	                    }
+	       		   },
+	       		   error:function(data)
+	       		   {
+	       			  console.log(url+" 远程调用失败  "+JSON.stringify(data));
+       			      if(callback)
+                      {
+       				    //alert(JSON.stringify(data) );
+                     	//callback(data);
+                      }
+	       		   }
+            
+          });
+        } 
+        
+        
+        </script>
         <script>
             var companyCode = $("#companyCode").val();
             var element ;

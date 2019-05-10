@@ -82,7 +82,7 @@ public class AdminController extends BaseController {
 	 * 
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/indexStp")
+	@RequestMapping(value = "/stpHome")
 	public String indexStp(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		//System.out.println("进入indexStp....");
 		SSOPrincipal ssoPrincipal = ((SSOPrincipal) request.getSession().getAttribute(SSOPrincipal.NAME_OF_SESSION_ATTR));
