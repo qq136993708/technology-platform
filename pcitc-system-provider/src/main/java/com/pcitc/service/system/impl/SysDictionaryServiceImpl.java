@@ -122,8 +122,10 @@ public class SysDictionaryServiceImpl implements SysDictionaryService{
 	  //选中的树节点（叶子节点）
   		String parentId = (String) param.getParam().get("parentId");
   		String parentCode = (String) param.getParam().get("parentCode");
+  		String menuType = (String) param.getParam().get("menuType");
   		record.setParentCode(parentCode);
   		record.setParentId(parentId);
+  		record.setMenuType(menuType);
 	    //模糊查询条件
 	    record.setName((String) param.getParam().get("name"));
 	    if(StrUtil.isNotBlank(parentId)){

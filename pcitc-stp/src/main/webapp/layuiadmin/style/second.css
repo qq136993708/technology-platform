@@ -261,7 +261,7 @@ span{display: inline-block;}
 .search input{width: 150px;height: 28px;line-height: 28px;border: 1px solid #dddddd;color: #666666;margin:0 10px;
     text-indent: 6px;}
 .search a{padding-right: 15px;margin-left:10px;height: 29px;line-height: 29px;color: white;font-size: 16px;display: inline-block;cursor: pointer;
-    text-indent: 40px;border-radius: 3px;background: url("/layuiadmin/layui/images/icon-search-z.png") no-repeat 10px center #00a3b5;}
+    text-indent: 40px;border-radius: 3px;background: url("/layuiadmin/layui/images/icon-search-z.png") no-repeat 10px center #1890ff;}
 .layui-expert{border: 0;box-shadow: none;padding: 0;}
 .layui-expert .layui-card{ border: 1px solid #e5e5e5;border-radius: 3px;height: auto;overflow: hidden;}
 .layui-expert .layui-card-header{background-color: #eeeeee;}
@@ -339,7 +339,7 @@ background: white;box-shadow: 0 0 5px #dadcde;}
 .searchOption a{padding: 0 22px; background: white;height: 38px;line-height: 38px;border-radius: 3px;
     color: #222323;font-size: 16px;display: inline-block;margin-right: 15px;}
 .searchOption a:nth-child(1){margin-left: 0;}
-.searchOption a:hover,.searchOption a.layui-this{color: white;background: #17a2b8;}
+.searchOption a:hover,.searchOption a.layui-this{color: white;background: #1890ff;}
 @media screen and (max-width: 1920px) {
     .work-report{padding: 18px 80px 17px;}
     .work-report ul li {width: 130px; height: 132px;float: left;margin-left: 70px;line-height: 159px;font-size: 18px;}

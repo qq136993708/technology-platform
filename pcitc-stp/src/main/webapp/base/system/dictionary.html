@@ -25,8 +25,8 @@
             <ul id="dicTree" class="ztree"></ul>
         </div>
 </div>
-
 <div class="treeTableBox">
+<input type="hidden" name="menuType" id="menuType" value="${menuType}" >
     <div class="searchBox">
         <!--查询条件-->
         <label class="dateInput">
@@ -57,7 +57,7 @@
 </div>
 
 	<script>
-	
+	var menuType=$("#menuType").val();
 	var zNodes;
 	var treeId;
 	var treeName;
@@ -75,8 +75,9 @@
 	
 	var dictionaryTree;
 	function initTree(){
+		
 		$.ajax({
-			url: "/dictionary/getTreeByLevel",//这个就是请求地址对应sAjaxSource
+			url: "/dictionary/getTreeByLevel?menuType="+menuType,//这个就是请求地址对应sAjaxSource
             type : 'get',
             headers: {
             	'Content-Type' : 'application/json'
@@ -123,7 +124,7 @@
 		parentName = treeNode.name;
 		
 	   	table.reload('dictionary', {
-	       where: {param: {"parentId": parentId}}
+	       where: {param: {"parentId": parentId,"menuType":menuType}}
 	    });
 	   	// $(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
     }
@@ -216,7 +217,7 @@
             	if (typeof(parentId) == "undefined") {
             		layer.msg("请先选择一个树节点字典");
             	} else {
-            		var temUrl="/dictionary/dictionary_info?parentCode="+parentCode+"&parentId="+parentId+"&levelCode="+levelCode+"&parentName="+parentName;
+            		var temUrl="/dictionary/dictionary_info?parentCode="+parentCode+"&parentId="+parentId+"&levelCode="+levelCode+"&parentName="+parentName+"&menuType="+menuType;
             		temUrl = encodeURI(temUrl);
                     layer.open({
                         title:'新增',
@@ -250,7 +251,7 @@
             	if (typeof(temFunctionId) == "undefined" || temFunctionId.length> 32) {
             		layer.msg("请选择一个字典");
             	} else {
-            		var temUrl="/dictionary/dictionary_info?id="+temFunctionId;
+            		var temUrl="/dictionary/dictionary_info?id="+temFunctionId+"&menuType="+menuType;
                     layer.open({
                         title:'编辑',
                         skin: 'layui-layer-lan',

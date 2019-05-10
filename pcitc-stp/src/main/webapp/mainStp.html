@@ -143,13 +143,14 @@
                 <div class="stay-do">
                     <div class="stay-do-m">
                         <p class="work-title">我的待办</p>
-                        <p class="stay-doz-n">12</p>
+                        <p class="stay-doz-n" id="wait_work_id_count">
+                          <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                        </p>
                         <p class="stay-doz-i"><img src="/layuiadmin/layui/images/stay-i.png"/> </p>
                         <div>
-                            <ul>
-                                <li><span class="date">04/01</span>
-                                    <span class="time">09：00</span>
-                                    <span class="content">项目组组建</span></li>
+                            <ul id="wait_work_id_list">
+                            
+                                <!-- <li><span class="date">04/01</span><span class="time">09：00</span><span class="content">项目组组建</span></li>
                                 <li><span class="date">03/28</span>
                                     <span class="time">09：00</span>
                                     <span class="content">组内工作安排</span></li>
@@ -158,9 +159,9 @@
                                     <span class="content">复查工作进度</span></li>
                                 <li><span class="date">03/26</span>
                                     <span class="time">09：00</span>
-                                    <span class="content">复查工作进度</span></li>
+                                    <span class="content">复查工作进度</span></li> -->
                             </ul>
-                            <a href="javascript:;">更多... ...</a>
+                            <a href="/task/pending/list/ini">更多... ...</a>
                         </div>
                     </div>
                 </div>
@@ -185,13 +186,20 @@
             <div class="layui-col-md4">
                 <div class="work-collect">
                     <p class="work-title">我的收藏</p>
-                    <ul>
-                        <li><a href="javascript:;">科技资金现金流分析</a></li>
+                    <ul id="work-title_id">
+                                  <#list scList as sc>
+											<li>
+												<a href="${sc.collectUrl}"  data-id="${sc.functionId}" >
+												  ${sc.collectName}
+												</a>
+											</li>
+									</#list>
+                      <!--   <li><a href="javascript:;">科技资金现金流分析</a></li>
                         <li><a href="javascript:;">重大科研项目分析</a></li>
                         <li><a href="javascript:;">十条龙项目分析</a></li>
                         <li><a href="javascript:;">装备上报</a></li>
                         <li><a href="javascript:;">装备计划上报</a></li>
-                        <li><a href="javascript:;">课题研发支出分析</a></li>
+                        <li><a href="javascript:;">课题研发支出分析</a></li> -->
                     </ul>
                 </div>
             </div>
@@ -340,6 +348,27 @@
                 </div>
             </div>
             <div class="layui-row layui-col-space15" style="margin-top:10px">
+            
+            
+            
+            <div class="layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header" >
+                            <p><span class="layui-time"></span>${year}年新开课题合同（任务书）签订率</p>
+                        </div> 
+                        <div class="layui-row-main implement">
+                            <div class="text-total">
+                                <span>计划签订数:<span class="text-total-blue"      id="vdirect_contract_01_01" onclick="contract_chart_oneLevel('')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                                <span>实际签订数:<span class="text-total-blue"      id="vdirect_contract_01_02" onclick="contract_chart_oneLevel('已签订')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                                <span>签订率:<span class="text-total-blue"         id="vdirect_contract_01_03" onclick="contract_chart_oneLevel('已签订')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            </div>
+                            <div class="main-chart" id="direct_contract_01" style="height:272px;width: 100%;"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
                 <div class="layui-col-md6">
                     <div class="layui-card">
                         <div class="layui-card-header"
@@ -361,45 +390,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="layui-col-md6">
-                    <div class="layui-card">
-                        <div class="layui-card-header"
-                             title="包括新开和结转的所有资本性、费用性预算。科研投入是实际签订且当年预算分配的金额（暂时不包括新增基金、科技部、信息部、炼油军工、专项、机动等）。以股份公司（直属研究院、分子公司、资产单位、集团单位、休斯顿、中东、外部单位、盈科）、资产公司、集团公司为维度">
-                            <p><span class="layui-time"></span>${year}年科研预算执行率（万元）</p>
-                        </div>
-                        <div class="layui-row-main implement">
-                            <table id="myTable" class="layui-table" lay-filter="myTable">
-                                <thead>
-                                <tr>
-                                    <th lay-data="{field:'define3', width:'16%'}" rowspan="2">企业类型</th>
-                                    <th lay-data="{align:'center'}" colspan="3">总计</th>
-                                    <th lay-data="{align:'center'}" colspan="3">费用性</th>
-                                    <th lay-data="{align:'center'}" colspan="3">资本性</th>
-                                </tr>
-                                <tr>
-                                    <th lay-data="{field:'zysje', width:'10%',align:'right'}">年度预算</th>
-                                    <th lay-data="{field:'zsjje', width:'10%',align:'right'}">实际签订</th>
-                                    <th lay-data="{field:'zRate', width:'8%',align:'right',templet:function(d){return d.zRate+'%'}}">
-                                        执行率
-                                    </th>
-
-                                    <th lay-data="{field:'fyxysje', width:'10%',align:'right'}">年度预算</th>
-                                    <th lay-data="{field:'fyxsjje', width:'10%',align:'right'}">实际签订</th>
-                                    <th lay-data="{field:'fyxRate', width:'8%',align:'right',templet:function(d){return d.fyxRate+'%'}}">
-                                        执行率
-                                    </th>
-
-                                    <th lay-data="{field:'zbxysje', width:'10%',align:'right'}">年度预算</th>
-                                    <th lay-data="{field:'zbxsjje', width:'10%',align:'right'}">实际签订</th>
-                                    <th lay-data="{field:'zbxRate', width:'8%',align:'right',templet:function(d){return d.zbxRate+'%'}}">
-                                        执行率
-                                    </th>
-                                </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+                
+                
+                
+                
+                
             </div>
         </div>
 
@@ -415,7 +410,8 @@
         <script type="text/javascript" src="/layuiadmin/javascript/circle-progress.min.js"></script>
         <script>
             var companyCode = $("#companyCode").val();
-            var element;
+            var element ;
+            var layer;
             layui.config({
                 base: '/layuiadmin/lib/extend/'
             }).use(['jquery', 'table', 'layer', 'laydate'], function () {
@@ -453,7 +449,7 @@
                 });
 
 
-                myTable();
+                //myTable();
 
                 var md4Height = $(".layui-col-md4").height() - 2;
                 var headerHeight = $(".layui-card-header").outerHeight(true);
@@ -907,7 +903,7 @@
                 });
             }
 
-            function myTable() {
+            /* function myTable() {
 
                 var nd = $("#year").val();
                 var v_date = (new Date()).getTime();
@@ -919,7 +915,7 @@
 
                 });
 
-            }
+            } */
 
 
             /**----------------=======================-第三行 end ==============---------------*/
@@ -1010,6 +1006,210 @@
                     content: '/plan/addPlanPage'
                 });
             }
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            function set_wait_work_id_count() 
+            {
+            	var url="/task/pending-list";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    dataType: "json",
+                    timeout: 11000,
+                    cache: false,
+                    contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                    success: function (data, status) {
+                      
+                            $("#wait_work_id_count").html(data.count + "");
+                            var list = data.data;
+                            for (var i = 0; i < list.length; i++) 
+                            {
+                                var createTime = list[i].createTime;
+                                var processDefinitionName = list[i].processDefinitionName;
+                                var tt=layui.laytpl.toDateString(createTime)
+                                var processInstanceId= list[i].processInstanceId;
+                                //alert(processInstanceId);
+                                if(i<4)
+                                {
+                                	$("#wait_work_id_list").append("<li onclick=\"wait_work('"+processInstanceId+"')\"><span class='date'>"+tt+"</span> <span class='content'>"+processDefinitionName+"</span></li>");
+                                }
+                                
+                            }
+                            
+                    },
+                    error: function () {
+                    },
+                    complete: function (XMLHttpRequest, status) {
+
+                    }
+
+                });
+            }
+            set_wait_work_id_count();
+            
+            
+            
+            
+           function wait_work(processInstanceId) 
+           { 
+        	       //alert(processInstanceId);
+        	        var temUrl = "/task/process/" + processInstanceId;
+					layer.open({
+						title : '详情',
+						skin : 'layui-layer-lan',
+						shadeClose : true,
+						type : 2,
+						fixed : false,
+						//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+						maxmin : true,
+						//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+						area : [ '70%', '90%' ],
+						content : temUrl,
+						end : function() {
+						}
+					});
+			} 
+			
+           
+           setGauge("direct_contract_01");
+           setGauge_count();
+           
+           
+           
+           
+           function setGauge_count()
+           {
+           	
+           	$("#vdirect_contract_01_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+               $("#vdirect_contract_01_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+               $("#vdirect_contract_01_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+               
+               var nd=$('#year').val();
+               var series=[];
+               $.ajax({
+                   type:"get",
+                   url: "/one_level_main/contract_01?type=1&nd="+nd+"",
+                   timeout : 9000,
+                   dataType:"json",
+                   cache: false,
+                   contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                   success:function(data,status)
+                   {
+                       if(data.success==true ||data.success=='true')
+                       {
+                           $("#vdirect_contract_01_01").html(data.data.zsl+"个");
+                           
+                           if (typeof(data.data.yqht) == "undefined")
+       				    {
+                           	 $("#vdirect_contract_01_02").html("0个");
+       				    }else
+       			    	{
+       				    	 $("#vdirect_contract_01_02").html(data.data.yqht+"个");
+       			    	}
+                           
+                           
+                          
+                           $("#vdirect_contract_01_03").html(data.data.qdl+"%");
+                       }
+                   },
+                   error:function()
+                   {
+                   },
+                   complete: function (XMLHttpRequest, status) {
+                   }
+               });
+
+           }
+           
+
+           function setGauge(id)
+           {
+               var myChart2 = echarts.init(document.getElementById(id));
+               var options = {
+                   title: {
+                       text: '',
+                       x:'center',
+                       y: '10px',
+                       textStyle: {
+                           fontSize: 15,
+                           fontWeight: 'normal',
+                           color: '#000000'
+                       },
+                       subtextStyle: {
+                           color: '#7B7B7B'
+                       },
+                       subtext:''
+                   },
+                   tooltip : {
+                       formatter: "{a} <br/>{b} : {c}%"
+                   },
+                   toolbox: {
+                       feature: {
+                           restore: {},
+                           saveAsImage: {}
+                       }
+                   },
+                   series: [
+                       {
+
+                           data: []
+                       }
+                   ]
+               };
+               var nd=$('#year').val();
+               ajax_getGauge("/one_level_main/contract_01?type=2&nd="+nd+"", myChart2, options);
+           }
+
+           function ajax_getGauge(url, echartsobj, options)
+           {
+               var series=[];
+               $.ajax({
+                   type:"get",
+                   url: url,
+                   timeout : 9000,
+                   dataType:"json",
+                   cache: false,
+                   contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                   success:function(data,status)
+                   {
+                       if(data.success==true ||data.success=='true')
+                       {
+                           echartsobj.hideLoading();
+                           var data=data.data;
+                           echartsobj.setOption({
+                               series: [{
+                                   data: [{value: data.value, name: '完成率'}],
+                                   name: '签订率',
+                                   type: 'gauge',
+                                   radius: "110%",
+                                   center: ['50%', '61%'],
+                                   detail: {formatter:'{value}%'},
+                               }]
+                           });
+                       }
+                   },
+                   error:function()
+                   {
+                       layer.msg('图表加载失败');
+                   },
+                   complete: function (XMLHttpRequest, status) {
+                       if(status == 'timeout'){
+                           layer.msg('超时');
+                       }
+                   }
+               });
+
+           }
+
+           
+            
         </script>
 </body>
 </html>

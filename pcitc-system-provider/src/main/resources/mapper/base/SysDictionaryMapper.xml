@@ -14,13 +14,16 @@
     <result column="level_code" property="levelCode" jdbcType="INTEGER" />
     <result column="is_leaf" property="isLeaf" jdbcType="INTEGER" />
     <result column="num_value" property="numValue" jdbcType="VARCHAR" />
+    <result column="menu_type" property="menuType" jdbcType="VARCHAR" />
+    
+    
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.pcitc.base.system.SysDictionary" extends="BaseResultMap" >
     <result column="remark" property="remark" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     <if test="fields == null" >
-      id, name, code, parent_id, parent_code, isparent, create_time, update_time, isdelete,level_code,is_leaf,num_value
+      id, name, code, parent_id, parent_code, isparent, create_time, update_time, isdelete,level_code,is_leaf,num_value,menu_type
     </if>
     <if test="fields != null" >
       ${fields}
@@ -32,7 +35,7 @@
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
     select 
     id,name,code,parent_id,parent_code,isparent,create_time,update_time,isdelete,remark
-    ,is_leaf,num_value,
+    ,is_leaf,num_value,menu_type,
     <include refid="Blob_Column_List" />
     from sys_dictionary
     where id = #{id,jdbcType=VARCHAR}
@@ -84,6 +87,10 @@
        <if test="numValue!= null" >
         num_value,
       </if>
+      <if test="menuType != null" >
+        menu_type,
+      </if>
+      
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -125,6 +132,16 @@
       <if test="numValue != null" >
         #{numValue,jdbcType=VARCHAR},
       </if>
+      <if test="menuType != null" >
+        #{menuType,jdbcType=VARCHAR},
+      </if>
+      
+      
+      
+      
+      
+      
+      
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.system.SysDictionary" >
@@ -166,6 +183,11 @@
        <if test="numValue != null" >
        num_value= #{numValue,jdbcType=VARCHAR},
       </if>
+       <if test="menuType != null" >
+       menu_type= #{menuType,jdbcType=VARCHAR},
+      </if>
+      
+      
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -196,11 +218,14 @@
 	  </if>
   </select>
   <!-- 树只显示10级 -->
-   <select id="selectTreeNodeByLevel" resultType="com.pcitc.base.common.TreeNode">
+   <select id="selectTreeNodeByLevel" resultType="com.pcitc.base.common.TreeNode" parameterType="com.pcitc.base.system.SysDictionary">
 	  select id,parent_id as pId ,name ,level_code as levelCode,is_leaf as isLeaf,isparent,code
 	  from sys_dictionary 
 	  where is_leaf = 0
 	  and level_code &lt;= 10
+	  <if test="menuType != null" >
+        and  (menu_type = #{menuType,jdbcType=VARCHAR} or menu_type ='' or menu_type is null)
+      </if>
 	  order by create_time
   </select>
   
@@ -214,6 +239,9 @@
 	  <if test="name != null and name !=''.toString">
 	  and name like '%${name}%'
 	  </if>
+	  <if test="menuType != null" >
+        and  menu_type = #{menuType,jdbcType=VARCHAR}
+      </if>
 	  order by create_time
 	  <!-- <if test="iSortCol!=null and iSortCol!=''.toString()">
     	order by ${iSortCol} ${sSortDir_0}
@@ -251,6 +279,11 @@
 	  <if test="name != null and name !=''.toString">
 	  and name like '%${name}%'
 	  </if>
+	  
+	  <if test="menuType != null" >
+        and  menu_type = #{menuType,jdbcType=VARCHAR}
+      </if>
+      
 	  order by create_time
 	 <!--  <if test="iSortCol!=null and iSortCol!=''.toString()">
     	order by ${iSortCol} ${sSortDir_0}
