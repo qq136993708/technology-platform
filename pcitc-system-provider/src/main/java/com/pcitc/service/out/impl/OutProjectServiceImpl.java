@@ -405,6 +405,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 		// 国家项目、重大专项、重点项目、其他项目
 		if (param.getParam().get("project_property")!=null&&!StringUtils.isBlank(param.getParam().get("project_property")+"")) {
 			opi.setProjectProperty((String) param.getParam().get("project_property"));
+			System.out.println("project_property------------------------"+opi.getProjectProperty());
 		}
 
 		// 新开项目、续建项目、完工项目
@@ -1130,5 +1131,45 @@ public class OutProjectServiceImpl implements OutProjectService {
 	public List<OutProjectInfo> selectAllProjectInfo() {
 		OutProjectInfoExample example = new OutProjectInfoExample();
 		return outProjectInfoMapper.selectByExample(example);
+	}
+
+	@Override
+	public LayuiTableData selectOutProjectInfoList(LayuiTableParam param) {
+		 // 每页显示条数
+        int pageSize = param.getLimit();
+        // 当前是第几页
+        int pageNum = param.getPage();
+        // 1、设置分页信息，包括当前页数和每页显示的总计数
+        PageHelper.startPage(pageNum, pageSize);
+
+        OutProjectInfo opi = new OutProjectInfo();
+        //项目名称
+        if (param.getParam().get("xmmc")!=null&&!StringUtils.isBlank(param.getParam().get("xmmc")+"")) {
+            opi.setXmmc((String) param.getParam().get("xmmc"));
+        }
+        //合同号
+        if (param.getParam().get("hth")!=null&&!StringUtils.isBlank(param.getParam().get("hth")+"")) {
+            opi.setHth((String) param.getParam().get("hth"));
+        }
+  
+        // 国家项目、重大专项、重点项目、其他项目
+        if (param.getParam().get("project_property")!=null&&!StringUtils.isBlank(param.getParam().get("project_property")+"")) {
+            opi.setProjectProperty((String) param.getParam().get("project_property"));
+        }
+        // 年度，
+        if (param.getParam().get("nd")!=null&&!StringUtils.isBlank(param.getParam().get("nd")+"")) {
+            opi.setNd((String) param.getParam().get("nd"));
+        }
+
+        List<OutProjectInfo> list = outProjectInfoMapper.selectProjectInfoByCond(opi);
+        System.out.println("1>>>>>>>>>查询分页结果"+list.size());
+        PageInfo<OutProjectInfo> pageInfo = new PageInfo<OutProjectInfo>(list);
+        System.out.println("2>>>>>>>>>查询分页结果"+pageInfo.getList().size());
+
+        LayuiTableData data = new LayuiTableData();
+        data.setData(pageInfo.getList());
+        Long total = pageInfo.getTotal();
+        data.setCount(total.intValue());
+        return data;
 	}
 }

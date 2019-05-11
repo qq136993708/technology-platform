@@ -43,6 +43,8 @@ public interface OutProjectInfoMapper {
 
 	public List<OutProjectInfo> selectProjectByCond(OutProjectInfo opi);
 	
+	public List<OutProjectInfo> selectProjectInfoByCond(OutProjectInfo opi);
+	
 	/**
      * 分页显示项目数据数据,统计的第三级展示
      */
