@@ -1,53 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
-	<classPathEntry location="E:\maven\mavenku\mysql\mysql-connector-java\5.1.25\mysql-connector-java-5.1.25.jar" />
+	<classPathEntry location="D:\test\mysql-connector-java-8.0.16.jar" />
 	<context id="context1">
-        <commentGenerator>
+		<commentGenerator>
 			<property name="suppressAllComments" value="true" />
 		</commentGenerator>
-		<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://10.246.94.11:3306/pcitc_stp" userId="root" password="root" />
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://10.246.94.11:3306/pcitc_stp" userId="pcitc" password="Pcitc@123" />
 		<javaTypeResolver>
-          <property name="forceBigDecimals" value="true" />
-        </javaTypeResolver>
-			
-			<javaModelGenerator  targetPackage="com.pcitc.base.stp.equipment" targetProject="pcitc-base" />
-		    <sqlMapGenerator     targetPackage="com.pcitc.mapper.equipment"   targetProject="pcitc-stp-provider" />
-		    <javaClientGenerator targetPackage="com.pcitc.mapper.equipment"   targetProject="pcitc-stp-provider" type="XMLMAPPER" />
-		    
-		    
+			<property name="forceBigDecimals" value="true" />
+		</javaTypeResolver>
 
-	  
+		<javaModelGenerator targetPackage="com.pcitc.base.stp.equipment" targetProject="pcitc-base" />
+		<sqlMapGenerator targetPackage="com.pcitc.mapper.equipment" targetProject="pcitc-stp-provider" />
+		<javaClientGenerator targetPackage="com.pcitc.mapper.equipment" targetProject="pcitc-stp-provider" type="XMLMAPPER" />
 
-	   <table schema="pcitc-stp-provider" tableName="sre_for_application" domainObjectName="SreForApplication"
-			enableCountByExample="false" 
-			enableUpdateByExample="false"
-			enableDeleteByExample="false" 
-			enableSelectByExample="false"
-			selectByExampleQueryId="false">
+		<table schema="pcitc-stp-provider" tableName="sre_for_application" domainObjectName="SreForApplication" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
 		</table>
-		<!-- <table schema="pcitc-stp-provider" tableName="sre_project_task" domainObjectName="SreProjectTask"
-			enableCountByExample="false" 
-			enableUpdateByExample="false"
-			enableDeleteByExample="false" 
-			enableSelectByExample="false"
-			selectByExampleQueryId="false">
-		</table>
-		<table schema="pcitc-stp-provider" tableName="sre_project" domainObjectName="SreProject"
-			enableCountByExample="false" 
-			enableUpdateByExample="false"
-			enableDeleteByExample="false" 
-			enableSelectByExample="false"
-			selectByExampleQueryId="false">
-		</table>
-	   <table schema="pcitc-stp-provider" tableName="sre_equipment" domainObjectName="SreEquipment"
-			enableCountByExample="false" 
-			enableUpdateByExample="false"
-			enableDeleteByExample="false" 
-			enableSelectByExample="false"
-			selectByExampleQueryId="false">
-		</table> -->
-	
-	
+		<!-- <table schema="pcitc-stp-provider" tableName="sre_project_task" domainObjectName="SreProjectTask" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"> </table> <table schema="pcitc-stp-provider" 
+			tableName="sre_project" domainObjectName="SreProject" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"> </table> <table schema="pcitc-stp-provider" tableName="sre_equipment" domainObjectName="SreEquipment" 
+			enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"> </table> -->
+
+
 	</context>
 </generatorConfiguration>

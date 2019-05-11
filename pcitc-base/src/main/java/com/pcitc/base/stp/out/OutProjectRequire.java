@@ -1,5 +1,7 @@
 package com.pcitc.base.stp.out;
 
+import java.util.List;
+
 public class OutProjectRequire {
     private String dataId;
 
@@ -74,8 +76,20 @@ public class OutProjectRequire {
     private String bak8;
 
     private String bak9;
+    
+    private List<OutProjectRequireItem> itemList;
+    
+    
 
-    public String getDataId() {
+    public List<OutProjectRequireItem> getItemList() {
+		return itemList;
+	}
+
+	public void setItemList(List<OutProjectRequireItem> itemList) {
+		this.itemList = itemList;
+	}
+
+	public String getDataId() {
         return dataId;
     }
 
