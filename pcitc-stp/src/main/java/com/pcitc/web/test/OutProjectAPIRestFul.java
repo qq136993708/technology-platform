@@ -15,10 +15,9 @@ public class OutProjectAPIRestFul {
 	public static void main(String[] args) {
 		try {
 
-			String TEST_URL = "http://127.0.0.1:8764/stp-proxy/project-require-provider/out/add";
-			System.out.println("=====开始访问===" + TEST_URL);
+			String url = "http://127.0.0.1:8764/stp-proxy/project-api/require/add";
 			// 创建一个请求客户端
-			RestfulHttpClient.HttpClient client = RestfulHttpClient.getClient(TEST_URL);
+			RestfulHttpClient.HttpClient client = RestfulHttpClient.getClient(url);
 			client.post();
 
 			Map<String, String> headerMap = new HashMap<String, String>();
@@ -46,16 +45,11 @@ public class OutProjectAPIRestFul {
 			
 			jo.addProperty("itemList", ja.toString());
 			
-			System.out.println(jo.toString());
-			// 添加多个参数
+			// 添加请求体
 			client.body(jo.toString());
 			
-			System.out.println("马上要访问--------" + client);
-			// 最终访问路径是：http://10.1.19.131:9001/DataService/BasicQuery/Sql?sqlName=SelectAllProjectInfo&nd=2008
 			RestfulHttpClient.HttpResponse response = client.request();
 
-			System.out.println("1返回--------" + response);
-			System.out.println("2返回--------" + response.getCode());
 			// 根据状态码判断请求是否成功
 			if (response.getCode() == 200) {
 				// 获取响应内容
