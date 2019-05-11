@@ -1,28 +1,31 @@
 package com.pcitc.base.util;
 
+import java.awt.Image;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+import javax.imageio.ImageIO;
+
 import com.drew.imaging.jpeg.JpegMetadataReader;
 import com.drew.imaging.jpeg.JpegProcessingException;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.Tag;
 import com.drew.metadata.exif.ExifDirectoryBase;
-import com.drew.metadata.exif.ExifImageDirectory;
-import com.pcitc.base.common.CoordinateConversion;
-import com.pcitc.base.common.enums.FieldType;
-
-import java.awt.Image;
-import java.io.*;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
-import javax.imageio.ImageIO;
 
 
 /**
@@ -96,7 +99,6 @@ public class FileUtil {
                 InputStream inStream = new FileInputStream(oldPath); //读入原文件
                 FileOutputStream fs = new FileOutputStream(newPath);
                 byte[] buffer = new byte[1444];
-                int length;
                 while ((byteread = inStream.read(buffer)) != -1) {
                     bytesum += byteread; //字节数 文件大小
                     System.out.println(bytesum);
@@ -134,8 +136,8 @@ public class FileUtil {
      * @return 是否复制成功
      */
     public static boolean copyInputStreamToFile(final InputStream inStream, File file) throws IOException {
-        int bytesum = 0;
-        int byteread = 0;
+        Integer bytesum = 0;
+        Integer byteread = 0;
         byte[] buffer = new byte[1024];
         FileOutputStream fs = new FileOutputStream(file);
         while ((byteread = inStream.read(buffer)) != -1) {
@@ -401,7 +403,66 @@ public class FileUtil {
                     + Locale.getDefault().getLanguage() + "-" + Locale.getDefault().getCountry();
         }
     }
-
+    /**
+	 * 
+	 * @param fs
+	 * @param path
+	 * @param includeDir 是否包含文件夹
+	 * @return
+	 */
+	public static List<File> findAllFiles(String path)
+	{
+		return findAllFiles(null,path,true);
+	}
+	/**
+	 * 
+	 * @param fs
+	 * @param path
+	 * @param includeDir 是否包含文件夹
+	 * @return
+	 */
+	public static List<File> findAllFiles(List<File> fs, String path)
+	{
+		return findAllFiles(fs,path,true);
+	}
+	/**
+	 * 查找目录下的所有文件
+	 * 
+	 * @param Path
+	 * @return
+	 */
+	public static List<File> findAllFiles(List<File> fs, String path,Boolean includeDir)
+	{
+		if (fs == null)
+		{
+			fs = new ArrayList<File>();
+		}
+		File file = new File(path);
+		if (file.exists() && includeDir)
+		{
+			fs.add(file);
+		}
+		if(file.exists() && !includeDir && file.isFile())
+		{
+			fs.add(file);
+		}
+		
+		if (file.exists() && file.isDirectory())
+		{
+			File[] files = file.listFiles();
+			for (File f : files)
+			{
+				if (f.isFile())
+				{
+					fs.add(f);
+				} else
+				{
+					findAllFiles(fs, f.getAbsolutePath());
+				}
+			}
+		}
+		return fs;
+	}
     public static void main(String[] args) throws ParseException {
         String strLongitude = "GPS Longitude";//经度
         String strLatitude   = "GPS Latitude";//纬度
