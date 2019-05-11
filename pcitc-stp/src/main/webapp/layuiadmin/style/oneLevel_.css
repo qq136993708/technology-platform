@@ -204,7 +204,8 @@ line-height: 60px;font-size: 22px;}
     background: url("/layuiadmin/layui/images/contract-bg.png") no-repeat;}
 .contract .contract-color{background-color: #b265fb;height: 100%;
     width: 100%;position: absolute;top: 0;}
-.investment .number,.contract .number,.project .number,.personnel .number,.achievement .number{margin-top: 24px;}
+.investment .number,.contract .number,.project .number,.personnel .number,.achievement .number,
+.property .number{margin-top: 24px;}
 .investment{position: absolute;top: 146px;left: 149px;height: 132px;width: 134px;perspective: 1000px; }
 .investment-cont{height: 100%;width: 100%;position: relative;}
 .investment .investment-front{height: 100%;width: 100%;position: absolute;top: 0;
