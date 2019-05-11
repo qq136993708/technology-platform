@@ -62,7 +62,7 @@ public class WholeReportController extends BaseController
 	@ResponseBody
 	public Object outTendragonProjectList(@ModelAttribute("param") LayuiTableParam param) {
 
-		System.out.println("====/whole-process/report/national-project-list");
+		System.out.println("====/whole-process/report/tendragon-project-list");
 		param.getParam().put("project_property", "十条龙项目");
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_LIST_PAGE, HttpMethod.POST, entity, LayuiTableData.class);
@@ -82,7 +82,7 @@ public class WholeReportController extends BaseController
 	@ResponseBody
 	public Object outMajorProjectList(@ModelAttribute("param") LayuiTableParam param) {
 
-		System.out.println("====/whole-process/report/national-project-list");
+		System.out.println("====/whole-process/report/major-project-list");
 		param.getParam().put("project_property", "重大专项");
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_LIST_PAGE, HttpMethod.POST, entity, LayuiTableData.class);

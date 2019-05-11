@@ -3473,11 +3473,14 @@
 		select out_project_info.data_id,out_project_info.hth,out_project_info.xmmc,
 			   out_project_info.nd,out_project_info.xmid,out_project_info.fzdw,
 			   out_project_info.jf,out_project_info.zylb,substr(out_project_info.define10, 4) as define10,
-			   out_project_info.ysje,out_project_info.ysnd
+			   out_project_info.ysje,out_project_info.ysnd,out_project_info.fwdx
 		from out_project_info 
 		where 1=1 
 		<if test="nd != null">
 			and out_project_info.nd = #{nd,jdbcType=VARCHAR}
+		</if>
+		<if test="ysnd != null">
+			and out_project_info.ysnd = #{ysnd,jdbcType=VARCHAR}
 		</if>
 		<if test="hth != null">
 			and out_project_info.hth like '%${hth}%'

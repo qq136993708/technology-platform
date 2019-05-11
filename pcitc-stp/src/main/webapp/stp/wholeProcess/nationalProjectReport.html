@@ -96,43 +96,45 @@
 						title : '序号',
 						type : 'numbers'
 					}, {
-						field : 'nd',
-						title : '立项年度',
+						field : 'ysnd',
+						title : '项目年度',
 						width : '6%',
-						style : 'cursor: pointer;'
+						style : 'cursor: pointer;',
+						align : 'center'
 					}, {
 						field : 'hth',
 						title : '合同号',
 						width : '8%',
 						style : 'cursor: pointer;'
 					}, {
-						field : 'ysje',
+						field : 'jf',
 						title : '课题总额（万）',
 						width : '8%',
 						style : 'cursor: pointer;',
+						align : 'right',
+						templet: function (d) {
+	                        return parseInt(d.jf);
+	                    }
 					}, {
 						field : 'xmmc',
 						title : '项目名称',
-						width : '18%',
 						style : 'cursor: pointer;'
 					}, {
-						field : 'zylb',
-						title : '专业类别',
+						field : 'fwdx',
+						title : '服务对象',
 						width : '8%',
-						style : 'cursor: pointer;'
+						style : 'cursor: pointer;',
+						align : 'center'
 					}, {
 						field : 'fzdw',
 						title : '负责单位',
 						width : '12%',
 						style : 'cursor: pointer;'
 					}, {
-						field : 'fzrxm',
-						title : '参与单位',
-						style : 'cursor: pointer;'
-					}, {
 						title : '相关文档',
-						width : '12%',
+						width : '10%',
 						style : 'cursor: pointer;',
+						align : 'center',
 						templet: function (d) {
 	                        // 模板的实现方式也是多种多样，这里简单返回固定的
 	                        return '<a href="">查看详情</a>';
