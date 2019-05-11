@@ -363,4 +363,15 @@ public interface OutProjectService {
 	public LayuiTableData selectCountryProjectByCond(LayuiTableParam param);
 
     LayuiTableData getOutProjectPageExpert(LayuiTableParam param);
+    /**
+     * 
+     * @return
+     */
+    public List<OutProjectInfo> selectAllProjectInfo();
+    /**
+     * 
+     * @param info
+     * @return
+     */
+    public int updateProjectInfoByKey(OutProjectInfo info);
 }

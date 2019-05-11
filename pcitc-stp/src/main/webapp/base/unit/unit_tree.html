@@ -212,7 +212,7 @@
 	 </div>
 </div>
 <script type="text/javascript">
-	var unitId,zTreeObj,table,form,unitType={},postType={},selectRowData;
+	var unitId,zTreeObj,table,form,unitType={},postType={},selectRowData,unitNodes;
 	var setting = 
 	{
 		//check: { enable: true, chkStyle: "radio", radioType: "level" },//单选按钮
@@ -231,19 +231,31 @@
 	}
 	//检索(改变事件)
 	$("#searchUnitName").on("change",function(){
-		loadUnitTree();
+		searchUnit();
 	});
 	//检索(键盘回车)
 	$(document).keyup(function (e) {
 	    if (e.keyCode == 13) {
-	    	loadUnitTree();
+	    	searchUnit();
 	    }
 	});
-	
+	function searchUnit(){
+    	var searchStr = $("#searchUnitName").val();
+     	if(searchStr !=null && "" != searchStr){
+     		var nodeList = zTreeObj.getNodesByParamFuzzy("name", searchStr);
+     		
+     		zTreeObj = $.fn.zTree.init($("#unitTree"), setting, nodeList);
+     	}else{
+     		zTreeObj = $.fn.zTree.init($("#unitTree"), setting, unitNodes);
+     	}
+	    //展开树
+	    zTreeObj.expandAll(true);
+    }
 	//从新加载树
 	function loadUnitTree(unitId)
 	{
 		ajaxPost("/unit/ztree-unit-list", {"name":$("#searchUnitName").val()}, function (dt) {
+			unitNodes = dt;
 			zTreeObj = $.fn.zTree.init($("#unitTree"), setting, dt);
 			zTreeObj.expandAll(true);
 	    });

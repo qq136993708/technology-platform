@@ -1119,4 +1119,16 @@ public class OutProjectServiceImpl implements OutProjectService {
         data.setCount(total.intValue());
         return data;
     }
+
+	@Override
+	public int updateProjectInfoByKey(OutProjectInfo info) 
+	{
+		return outProjectInfoMapper.updateByPrimaryKey(info);
+	}
+
+	@Override
+	public List<OutProjectInfo> selectAllProjectInfo() {
+		OutProjectInfoExample example = new OutProjectInfoExample();
+		return outProjectInfoMapper.selectByExample(example);
+	}
 }
