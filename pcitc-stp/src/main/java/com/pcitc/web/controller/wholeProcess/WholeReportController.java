@@ -4,7 +4,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.pcitc.web.common.BaseController;
 
@@ -33,5 +35,11 @@ public class WholeReportController extends BaseController
 	public String toMajorProjectReportPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		return "/stp/wholeProcess/majorProjectReport";
+	}
+	
+	
+	@RequestMapping(value = "/whole-process/project_detail/{dataId}", method = RequestMethod.GET)
+	public String iniOutProjectShow(@PathVariable("dataId") String dataId, HttpServletRequest request) {
+		return "/stp/wholeProcess/projectDetail";
 	}
 }
