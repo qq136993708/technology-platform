@@ -71,7 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/", "/auth", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js", "/**/*.woff").permitAll()
 				// 对于获取token的rest api要允许匿名访问
 				.antMatchers("/system-proxy/**").permitAll()
-				.antMatchers("/stp-proxy/**").permitAll()
+				//.antMatchers("/stp-proxy/**").permitAll()
 				.antMatchers("/hana-proxy/**").permitAll()
 				.antMatchers("/auth/**").permitAll()
 				//对于移动端的访问，暂时放开权限（20181031）
