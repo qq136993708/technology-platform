@@ -3493,7 +3493,7 @@
 			and out_project_info.project_property like '%${projectProperty}%'
 		</if>
 		
-		group by nd,xmid
-		order by nd
+		group by ysnd,xmid
+		order by ysnd
 	</select>
 </mapper>

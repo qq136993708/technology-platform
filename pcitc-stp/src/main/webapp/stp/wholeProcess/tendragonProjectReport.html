@@ -17,7 +17,7 @@
 		<!--查询条件-->
 		<label class="dateInput">
 			<span>年度</span>
-			<input type="text" id="nd" name="nd" placeholder="请输入年度" title="年度" class="form-control">
+			<input type="text" id="ysnd" name="ysnd" placeholder="请输入年度" title="年度" class="form-control">
 		</label>
 		<label class="dateInput">
 			<span>合同号</span>
@@ -43,7 +43,6 @@
 			<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
 			<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
 		</div>
-		
 	</div>
 
 	<div class="tableBox">
@@ -66,19 +65,17 @@
 			function renderTable() {
 				var param = JSON.parse(window.localStorage.getItem("param"));
 				var lodingMsg = layer.msg('数据加载中....');
-
+				
 				//渲染
 				table.render({
 					elem : '#showTable',
-					url : '/out/project-list',
+					url : '/whole-process/report/tendragon-project-list',
 					method : "POST",
 					where : {
 						param : {
-							"nd" : $('#nd').val(),
+							"ysnd" : $('#ysnd').val(),
 							"hth" : $('#hth').val(),
-							"xmmc" : $('#xmmc').val(),
-							"project_property":$("#project_property").val(),
-							"functionCode" : param.code
+							"xmmc" : $('#xmmc').val()
 						}
 					},
 					limit : param.selfRownum,
@@ -99,10 +96,11 @@
 						title : '序号',
 						type : 'numbers'
 					}, {
-						field : 'nd',
-						title : '立项年度',
+						field : 'ysnd',
+						title : '项目年度',
 						width : '6%',
-						style : 'cursor: pointer;'
+						style : 'cursor: pointer;',
+						align : 'center'
 					}, {
 						field : 'hth',
 						title : '合同号',
@@ -113,29 +111,30 @@
 						title : '课题总额（万）',
 						width : '8%',
 						style : 'cursor: pointer;',
+						align : 'right',
+						templet: function (d) {
+	                        return parseInt(d.jf);
+	                    }
 					}, {
 						field : 'xmmc',
 						title : '项目名称',
-						width : '18%',
+						width : '30%',
 						style : 'cursor: pointer;'
 					}, {
-						field : 'zylb',
-						title : '专业类别',
+						field : 'fwdx',
+						title : '服务对象',
 						width : '8%',
-						style : 'cursor: pointer;'
+						style : 'cursor: pointer;',
+						align : 'center'
 					}, {
 						field : 'fzdw',
 						title : '负责单位',
 						width : '12%',
 						style : 'cursor: pointer;'
 					}, {
-						field : 'define8',
-						title : '参与单位',
-						style : 'cursor: pointer;'
-					}, {
 						title : '相关文档',
-						width : '12%',
 						style : 'cursor: pointer;',
+						align : 'center',
 						templet: function (d) {
 	                        // 模板的实现方式也是多种多样，这里简单返回固定的
 	                        return '<a href="">查看详情</a>';
@@ -144,7 +143,6 @@
 					done : function(res, curr, count) {
 						// 关闭等待刷新
 						layer.close(lodingMsg);
-
 						// 点击行联动选择框--单选
 						$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
 							var index = parseInt($(this).index() + 1);
@@ -154,22 +152,6 @@
 							$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
 							selectRowData = res.data[index - 1];
 						});
-						
-						// 刷新时，把当前选择行的erpProjectCode更新, 供匹配时使用
-						for(var i=0;i< res.data.length;i++){
-							if (dateId != '' && res.data[i].dataId==dateId) {
-								erpProjectCode = res.data[i].erpProjectCode;
-							}
-	                    }
-						
-						count || this.elem.next('.layui-table-view').find('.layui-table-header').css('overflow', 'auto');
-		                layui.each($('select'), function (index, item) {
-		                    var elem = $(item);
-		                    elem.val(elem.data('value')).parents('div.layui-table-cell').css('overflow', 'visible');
-		                });
-		                form.render();
-
-
 					}
 				});
 			}

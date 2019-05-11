@@ -17,7 +17,7 @@
 		<!--查询条件-->
 		<label class="dateInput">
 			<span>年度</span>
-			<input type="text" id="nd" name="nd" placeholder="请输入年度" title="年度" class="form-control">
+			<input type="text" id="ysnd" name="ysnd" placeholder="请输入年度" title="年度" class="form-control">
 		</label>
 		<label class="dateInput">
 			<span>合同号</span>
@@ -73,7 +73,7 @@
 					method : "POST",
 					where : {
 						param : {
-							"nd" : $('#nd').val(),
+							"ysnd" : $('#ysnd').val(),
 							"hth" : $('#hth').val(),
 							"xmmc" : $('#xmmc').val()
 						}
@@ -118,6 +118,7 @@
 					}, {
 						field : 'xmmc',
 						title : '项目名称',
+						width : '30%',
 						style : 'cursor: pointer;'
 					}, {
 						field : 'fwdx',
@@ -132,7 +133,6 @@
 						style : 'cursor: pointer;'
 					}, {
 						title : '相关文档',
-						width : '10%',
 						style : 'cursor: pointer;',
 						align : 'center',
 						templet: function (d) {
