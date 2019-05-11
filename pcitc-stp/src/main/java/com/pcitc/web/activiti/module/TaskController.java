@@ -28,6 +28,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.Page;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.workflow.ActivityVo;
 import com.pcitc.base.workflow.WorkflowVo;
@@ -45,6 +46,7 @@ public class TaskController extends BaseController {
 
 	// 待办任务列表
 	private static final String PENDING_PAGE_URL = "http://pcitc-zuul/system-proxy/task-provider/pending-page";
+	private static final String PENDING_PAGE_URL_MOBILE = "http://pcitc-zuul/system-proxy/task-provider/pending_page_mobile";
 	// 已办任务列表（每行代表一个流程）
 	private static final String DONE_INSTANCE_PAGE_URL = "http://pcitc-zuul/system-proxy/task-provider/done-instance-page";
 	// 已办任务列表（每行代表一个任务）
@@ -205,6 +207,9 @@ public class TaskController extends BaseController {
 	@ResponseBody
 	public Object pendingList(@ModelAttribute("param") LayuiTableParam param) {
 
+		
+		System.out.println("====待办param-->"+JSON.toJSON(param).toString());
+		
 		// 获取当前登录人信息
 		param.getParam().put("userId", sysUserInfo.getUserId());
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
@@ -213,6 +218,31 @@ public class TaskController extends BaseController {
 
 		return JSON.toJSON(retJson).toString();
 	}
+	
+	
+	@RequestMapping(value = "/task/wait_task_list_mui")
+	public String pending_list_mobile(HttpServletRequest request) {
+
+		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
+		LayuiTableParam param= new LayuiTableParam();
+		param.setPage(pageNo);
+		param.setLimit(1000);
+        // 获取当前登录人信息
+		param.getParam().put("userId", sysUserInfo.getUserId());
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PENDING_PAGE_URL, HttpMethod.POST, entity, LayuiTableData.class);
+		LayuiTableData retJson = responseEntity.getBody();
+		
+		Page page =new Page();
+		page.setRows(retJson.getData());
+		page.setPageNo(pageNo);
+		page.setPageSize(param.getLimit());
+		
+		request.setAttribute("page", page);
+		request.setAttribute("list", page.getRows());
+		return "/mobile/wait_task_list_mui";
+	}
+	
 
 	/**
 	 * @author zhf
@@ -252,6 +282,32 @@ public class TaskController extends BaseController {
 
 		return JSON.toJSON(retJson).toString();
 	}
+	
+	
+	
+	@RequestMapping(value = "/task/done_task_list")
+	public String done_task_list_mui(HttpServletRequest request) {
+
+		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
+		LayuiTableParam param= new LayuiTableParam();
+		param.setPage(pageNo);
+		param.setLimit(1000);
+        // 获取当前登录人信息
+		param.getParam().put("userId", sysUserInfo.getUserId());
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(DONE_TASK_PAGE_URL, HttpMethod.POST, entity, LayuiTableData.class);
+		LayuiTableData retJson = responseEntity.getBody();
+		
+		Page page =new Page();
+		page.setRows(retJson.getData());
+		page.setPageNo(pageNo);
+		page.setPageSize(param.getLimit());
+		
+		request.setAttribute("page", page);
+		request.setAttribute("list", page.getRows());
+		return "/mobile/done_task_list";
+	}
+	
 
 	/**
 	 * @author zhf
@@ -350,6 +406,11 @@ public class TaskController extends BaseController {
 	@RequestMapping(value = "/task/process/{instanceId}", method = RequestMethod.GET)
 	public String processShow(@PathVariable("instanceId") String instanceId, HttpServletRequest request) {
 		return "/pplus/workflow/process-show";
+	}
+	
+	@RequestMapping(value = "/task/process_mobile/{instanceId}", method = RequestMethod.GET)
+	public String process_mobile(@PathVariable("instanceId") String instanceId, HttpServletRequest request) {
+		return "/pplus/workflow/process_mobile";
 	}
 
 	/**

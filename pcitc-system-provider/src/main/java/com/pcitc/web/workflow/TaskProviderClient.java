@@ -356,7 +356,7 @@ public class TaskProviderClient {
 			if (variables != null && variables.get("flowAuditorComments") != null) {
 				vo.setAuditRemarks(variables.get("flowAuditorComments") != null ? String.valueOf(variables.get("flowAuditorComments")) : "");
 			}
-			
+			vo.setCreateTimeStr(DateUtil.dateToStr(vo.getCreateTime(), DateUtil.FMT_SS));
 			/*// 处理历史上已经发生过的节点，包括开始节点,按时间倒序
 			List<HistoricTaskInstance> htiList = historyService.createHistoricTaskInstanceQuery().processInstanceId(task.getProcessInstanceId()).finished().orderByHistoricTaskInstanceEndTime().desc().list();
 			for (HistoricTaskInstance hti : htiList) {
@@ -392,6 +392,7 @@ public class TaskProviderClient {
 		System.out.println("====总用时-------------" + (now2.getTime() - now1.getTime()));
 		return data;
 	}
+	
 
 	/**
 	 * 获取一个任务的详情
@@ -492,7 +493,7 @@ public class TaskProviderClient {
 					vo.setAuditRemarks(comment.getFullMessage());
 				}
 			}
-
+			vo.setEndTimeStr(DateUtil.dateToStr(vo.getEndTime(), DateUtil.FMT_SS));
 			voList.add(vo);
 		}
 
