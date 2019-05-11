@@ -226,18 +226,16 @@ public class TaskController extends BaseController {
 		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
 		LayuiTableParam param= new LayuiTableParam();
 		param.setPage(pageNo);
-		param.setLimit(1000);
         // 获取当前登录人信息
 		param.getParam().put("userId", sysUserInfo.getUserId());
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PENDING_PAGE_URL, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData retJson = responseEntity.getBody();
-		
 		Page page =new Page();
 		page.setRows(retJson.getData());
 		page.setPageNo(pageNo);
 		page.setPageSize(param.getLimit());
-		
+		page.setTotalRecords(retJson.getCount());
 		request.setAttribute("page", page);
 		request.setAttribute("list", page.getRows());
 		return "/mobile/wait_task_list_mui";
@@ -291,7 +289,6 @@ public class TaskController extends BaseController {
 		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
 		LayuiTableParam param= new LayuiTableParam();
 		param.setPage(pageNo);
-		param.setLimit(1000);
         // 获取当前登录人信息
 		param.getParam().put("userId", sysUserInfo.getUserId());
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
@@ -302,7 +299,7 @@ public class TaskController extends BaseController {
 		page.setRows(retJson.getData());
 		page.setPageNo(pageNo);
 		page.setPageSize(param.getLimit());
-		
+		page.setTotalRecords(retJson.getCount());
 		request.setAttribute("page", page);
 		request.setAttribute("list", page.getRows());
 		return "/mobile/done_task_list";
