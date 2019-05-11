@@ -54,7 +54,7 @@ public class PplusApplication extends SpringBootServletInitializer {
 		SpringApplication.run(PplusApplication.class, args);
 	}
 
-    @Override
+  /*  @Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		System.out.println("tomcat外置方式---------------启动");
 		return application.sources(PplusApplication.class);
@@ -124,11 +124,11 @@ public class PplusApplication extends SpringBootServletInitializer {
 		return registration;
 	}
 	
-	/**
+	*//**
 	 * 文件上传配置
 	 * 
 	 * @return
-	 */
+	 *//*
 	@Bean
 	public MultipartConfigElement multipartConfigElement() {
 		MultipartConfigFactory factory = new MultipartConfigFactory();
@@ -137,5 +137,5 @@ public class PplusApplication extends SpringBootServletInitializer {
 		// / 设置总上传数据总大小
 		factory.setMaxRequestSize("2048MB");
 		return factory.createMultipartConfig();
-	}
+	}*/
 }
