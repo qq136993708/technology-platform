@@ -22,7 +22,7 @@
 <body  style="background-color:#ffffff;">
 <header class="mui-bar mui-bar-nav">
 <a class="mui-pull-left" href="/mobile/index"  style="margin-top:10px">首页</a>
-	<h1 class="mui-title"><span>已办任务</span></h1>
+	<h1 class="mui-title"><span>已办任务（${page.totalRecords}）</span></h1>
 </header>
         
 <div class="mui-content" >
@@ -47,6 +47,22 @@
          </#list> 
          </#if>
   </ul>			
+  
+<#if page.totalRecords gt 0>
+<div class="mui-content-padded">
+		<ul class="mui-pager" id="fenye_id">
+		  <#if page.pageNo gt 1>
+		    <li class="mui-previous"><a id="${page.pageNo-1}" >上一页</a></li>
+		  </#if>
+		 <li class="mui-disabled"><span style="border: 0px solid #ddd;background-color:#efeff4">共${page.totalPages}页，当前第${page.pageNo}页</span></li>
+		  <#if page.totalPages gt page.pageNo>
+		      <li class="mui-next" ><a id="${page.pageNo+1}" >下一页</a></li>
+		  </#if>
+		</ul>
+	</div>
+</#if>
+
+
 </div>
 <script type="text/javascript">
 var basePath="<c:out value='${basePath}' />";
@@ -114,6 +130,15 @@ mui('#list').on('tap', '.mui-btn-danger', function() {
 	
 	
 });
+
+
+
+mui('#fenye_id').on('tap', 'a', function() {
+    var pageNo = this.getAttribute("id");
+    var url="/task/done_task_list?pageNo="+pageNo;
+    location.replace(url);
+}); 
+
 
 </script>
 </body>
