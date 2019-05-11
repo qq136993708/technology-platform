@@ -30,7 +30,7 @@ public class OutProjectRequireProviderClient {
 	private OutProjectRequireService outProjectRequireService;
 
 	@ApiOperation(value = "保存项目需求", notes = "保存项目需求")
-	@RequestMapping(value = "/project-require-provider/out/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/project-api/require/add", method = RequestMethod.POST)
 	public JSONObject saveOutProjectRequire(@RequestBody String jsonStr) throws Exception {
 		System.out.println("1saveOutProjectRequire==================" + jsonStr);
 		//flowProjectInfoService.batchInsertFlowProjectInfo(flowProjectInfo);
