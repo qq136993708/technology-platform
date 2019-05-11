@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>待办任务</title>
+<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="stylesheet"          href="/mobile/css/mui/iconfont.css"/>
+<link rel="stylesheet"          href="/mobile/css/mui/mui.css"/>	
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript"  src="/mobile/js/mui/mui.min.js"  ></script>
+<script type="text/javascript"  src="/common/js/layer-v3.1.1/layer.js"  ></script>
+
+</head>
+<body  style="background-color:#ffffff;">
+<header class="mui-bar mui-bar-nav">
+<a class="mui-pull-left" href="/mobile/index"  style="margin-top:10px">首页</a>
+	<h1 class="mui-title"><span>待办任务</span></h1>
+</header>
+<div class="mui-content" >
+  <ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="list" style="margin-top:10px">
+          <#if list?exists> <#list list as vo>
+          <#if vo.processDefinitionName!=''>
+              <li class="mui-table-view-cell" id="${vo.id}">
+		            <div class="mui-table">
+		                <div class="mui-table-cell mui-col-xs-10">
+		                    <h4 class="mui-ellipsis">${vo.processDefinitionName}</h4>
+		                     <h5>上一步处理人: ${vo.auditor} </h5>
+		                     <h5>处理时间: ${vo.createTimeStr}</h5>
+		                    <p class="mui-h6 mui-ellipsis">处理意见: ${vo.auditRemarks}</p>
+		                </div>
+		                <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+		                    <span class="mui-h5"><button deal_id="${vo.id}" type="button" class="mui-btn mui-btn-primary" >办理</button></span>
+						    <button look_id="${vo.processInstanceId}"  type="button" class="mui-btn mui-btn-danger"  style="margin-top:5px">查看</button>
+		                </div>
+		            </div>
+		        </li>
+		       </#if> 
+         </#list> 
+         </#if>
+  </ul>			
+</div>
+<script type="text/javascript">
+var basePath="<c:out value='${basePath}' />";
+mui.init({
+	swipeBack:true 
+});
+document.oncontextmenu=function(e){
+   // e.preventDefault();
+};
+mui('#list').on('tap', '.mui-btn-primary', function() {
+    var id = this.getAttribute("deal_id");
+    /* var url=basePath+"hospital?action=viewHospital&id="+id;
+    document.location.href= url; */
+    var temUrl = "/task/pending/deal/" + id;
+	updateFlag = false;
+	layer.open({
+		title : '任务处理',
+		skin : 'layui-layer-lan',
+		shadeClose : true,
+		type : 2,
+		fixed : false,
+		//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+		maxmin : true,
+		//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+		area : [ '99%', '99%' ],
+		content : temUrl,
+		end : function() {
+			if (updateFlag) {
+				active.searchEvent();
+				layer.msg('操作成功');
+			}
+		}
+	});
+	
+	
+}); 
+
+
+mui('#list').on('tap', '.mui-btn-danger', function() {
+    var processInstanceId = this.getAttribute("look_id");
+    var temUrl = "/task/process_mobile/" + processInstanceId;
+    layer.open({
+		title : '详情',
+		skin : 'layui-layer-lan',
+		shadeClose : true,
+		type : 2,
+		fixed : false,
+		//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+		maxmin : true,
+		//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+		area : [ '90%', '90%' ],
+		content : temUrl
+	}); 
+	
+	
+});
+</script>
+</body>
+</html>

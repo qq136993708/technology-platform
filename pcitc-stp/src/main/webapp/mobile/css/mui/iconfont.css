@@ -2,9 +2,9 @@
 @font-face {font-family: "iconfont";
   src: url('iconfont.eot?t=1466566946'); /* IE9*/
   src: url('iconfont.eot?t=1466566946#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('http://m.shenglixiangjian.cn/resource/fonts/mui/iconfont.woff?t=1466566946') format('woff'), /* chrome, firefox */
-  url('http://m.shenglixiangjian.cn/resource/fonts/mui/iconfont.ttf?t=1466566946') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('http://m.shenglixiangjian.cn/resource/fonts/mui/iconfont.svg?t=1466566946#iconfont') format('svg'); /* iOS 4.1- */
+  url('/mobile/fonts/mui/iconfont.woff?t=1466566946') format('woff'), /* chrome, firefox */
+  url('/mobile/fonts/mui/iconfont.ttf?t=1466566946') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('/mobile/fonts/mui/iconfont.svg?t=1466566946#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
