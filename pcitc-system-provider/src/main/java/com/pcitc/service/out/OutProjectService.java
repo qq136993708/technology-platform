@@ -374,4 +374,10 @@ public interface OutProjectService {
      * @return
      */
     public int updateProjectInfoByKey(OutProjectInfo info);
+    /**
+     * desc：国家项目查阅，“十条龙”项目查阅，重大项目查阅
+     * @param param
+     * @return
+     */
+    LayuiTableData selectOutProjectInfoList(LayuiTableParam param);
 }

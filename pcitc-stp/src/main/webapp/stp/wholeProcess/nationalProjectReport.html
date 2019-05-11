@@ -65,19 +65,17 @@
 			function renderTable() {
 				var param = JSON.parse(window.localStorage.getItem("param"));
 				var lodingMsg = layer.msg('数据加载中....');
-
+				
 				//渲染
 				table.render({
 					elem : '#showTable',
-					url : '/out/project-list',
+					url : '/whole-process/report/national-project-list',
 					method : "POST",
 					where : {
 						param : {
 							"nd" : $('#nd').val(),
 							"hth" : $('#hth').val(),
-							"xmmc" : $('#xmmc').val(),
-							"project_property":$("#project_property").val(),
-							"functionCode" : param.code
+							"xmmc" : $('#xmmc').val()
 						}
 					},
 					limit : param.selfRownum,
@@ -108,7 +106,7 @@
 						width : '8%',
 						style : 'cursor: pointer;'
 					}, {
-						field : 'jf',
+						field : 'ysje',
 						title : '课题总额（万）',
 						width : '8%',
 						style : 'cursor: pointer;',
@@ -128,7 +126,7 @@
 						width : '12%',
 						style : 'cursor: pointer;'
 					}, {
-						field : 'define8',
+						field : 'fzrxm',
 						title : '参与单位',
 						style : 'cursor: pointer;'
 					}, {
@@ -143,7 +141,6 @@
 					done : function(res, curr, count) {
 						// 关闭等待刷新
 						layer.close(lodingMsg);
-
 						// 点击行联动选择框--单选
 						$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
 							var index = parseInt($(this).index() + 1);
@@ -153,22 +150,6 @@
 							$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
 							selectRowData = res.data[index - 1];
 						});
-						
-						// 刷新时，把当前选择行的erpProjectCode更新, 供匹配时使用
-						for(var i=0;i< res.data.length;i++){
-							if (dateId != '' && res.data[i].dataId==dateId) {
-								erpProjectCode = res.data[i].erpProjectCode;
-							}
-	                    }
-						
-						count || this.elem.next('.layui-table-view').find('.layui-table-header').css('overflow', 'auto');
-		                layui.each($('select'), function (index, item) {
-		                    var elem = $(item);
-		                    elem.val(elem.data('value')).parents('div.layui-table-cell').css('overflow', 'visible');
-		                });
-		                form.render();
-
-
 					}
 				});
 			}
