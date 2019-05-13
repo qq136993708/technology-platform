@@ -67,6 +67,17 @@ public class EquipmentUtils {
      private static final String GET_USERPROPERTY = "http://pcitc-zuul/system-proxy/userProperty-provider/getSysUserProperty/";
      private static final String USER_GET_URL = "http://pcitc-zuul/system-proxy/user-provider/user/get-user/";
      private static final String FUNCTION_FILTER_URL = "http://pcitc-zuul/system-proxy/userProperty-provider/function/getPostDic";
+     
+     
+     private static final String KJB_UNIONPATH_NUM = "10010685";
+     
+     
+     
+     
+     
+     
+     
+     
 	
 	public static String getCurrrentYear() throws Exception {
 		Calendar cal = Calendar.getInstance();
@@ -464,6 +475,39 @@ public class EquipmentUtils {
 		}
 		return sysUser;
 	}
+	
+	//是不是科技部人员
+	public static boolean isKJBPerson(String unitPathIds)throws Exception
+	{
+		
+		System.out.println("---------isKJBPerson--unitPathId="+unitPathIds);
+		boolean flag=false;//默认不是
+		if(!unitPathIds.equals(""))
+		{
+			String array[]=unitPathIds.split(",");
+			for(int i=0;i<array.length;i++)
+			{
+				String strPath=array[i];
+				if(strPath!=null && !strPath.equals(""))
+				{
+					if(strPath.length()>4)
+					{
+						String parentUnitPathId=strPath.substring(0, strPath.length()-4);
+						if(parentUnitPathId.equals(EquipmentUtils.KJB_UNIONPATH_NUM))
+						{
+							flag=true;
+							
+							System.out.println("------------------isKJBPerson 是科技部人员-----------------------");
+						}
+					}
+				}
+				
+			}
+		}
+		return flag;
+	}
+	
+	
 	
 	
 	
@@ -1023,18 +1067,12 @@ public class EquipmentUtils {
 	
 	
 	
-	
-/*	public static void main(String[] args) 
+	/*	public static void main(String[] args) 
 	{
-		String str="1040,1041&1060,1061&1080$1040,1041&1060,1061&1080";
+		String strPath="100106850008";
+		String parentUnitPathId=strPath.substring(0, strPath.length()-4);
 		
-		String arr[]=str.split("\\$");
-		
-		for(int i=0;i<arr.length;i++)
-		{
-			System.out.println("--------arr: "+arr[i]);
-			
-		}
+		System.out.println("--------arr: "+parentUnitPathId);
 		
 	}*/
 	
