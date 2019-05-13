@@ -777,7 +777,7 @@ public class ProjectTaskController extends BaseController {
 	//内部确认流程
 	@RequestMapping(value = "/start_confirm_workflow")
 	@ResponseBody
-	public Object start_confirm_workflow(HttpServletRequest request, HttpServletResponse response) throws Exception 
+	public Object start_confirm_workflow(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
 		String taskId = CommonUtil.getParameter(request, "taskId", "");
