@@ -107,7 +107,7 @@
             console.log(where);
             table.render({
                 elem: '#zjkBaseInfoTableId',
-                url: '/zjkBaseInfo/getTableData',
+                url: '/out/basedata/search-target-type',
                 method: "POST",
                 where: {param: where},
                 limit: 15,
@@ -125,52 +125,20 @@
 
                 cols: [[
                     {type: 'checkbox', event: 'changeEvents'},
-                    {title: '序号', type: 'numbers'},
+                    {title: '序号', type: 'numbers',width:100},
+                    // {
+                    //     field: 'auditStatus',
+                    //     title: '状态',
+                    //     event: 'setActive',
+                    //     align: 'center',
+                    //     style: 'cursor: pointer;',
+                    //     templet: '<div>{{ layui.laytpl.auditStatus(d.auditStatus) }}</div>',
+                    //     width: 55
+                    // },
                     {
-                        field: 'auditStatus',
-                        title: '状态',
-                        event: 'setActive',
-                        align: 'center',
-                        style: 'cursor: pointer;',
-                        templet: '<div>{{ layui.laytpl.auditStatus(d.auditStatus) }}</div>',
-                        width: 55
+                        field: "name",
+                        title: "名称", event: 'setActive', style: 'cursor: pointer;'
                     },
-                    {
-                        field: "expertName",
-                        title: "姓名", event: 'setActive', style: 'cursor: pointer;'
-                    },
-                    {
-                        field: "sex",
-                        title: "性别", event: 'setActive', style: 'cursor: pointer;'
-                    },
-                    {
-                        field: "age",
-                        title: "年龄", event: 'setActive', style: 'cursor: pointer;', align: "right"
-                    },
-                    {
-                        field: "birthDate",
-                        title: "出生日期", event: 'setActive', style: 'cursor: pointer;'
-                    },
-                    {
-                        field: "email",
-                        title: "邮箱", event: 'setActive', style: 'cursor: pointer;'
-                    },
-                    {
-                        field: "mobile",
-                        title: "联系方式", event: 'setActive', style: 'cursor: pointer;'
-                    },
-                    {
-                        field: "expertProfessionalField",
-                        title: "专业领域", event: 'setActive', style: 'cursor: pointer;'
-                    },
-                    {
-                        field: "expertProfessinal",
-                        title: "职称", event: 'setActive', style: 'cursor: pointer;'
-                    },
-                    {
-                        field: "company",
-                        title: "所属机构", event: 'setActive', style: 'cursor: pointer;'
-                    }
                 ]],
                 done: function (res, curr, count) {
                     $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
@@ -181,39 +149,6 @@
                         $(this).children("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                         selectRowData = res.data[index - 1];
                     });
-                    //字典翻译
-                    var param = {
-                        data: res.data,//数据
-                        element: ".layui-table-body table",// 当前的表格元素
-                        column: 4,//列数 从0开始
-                        field: "sex",//当前数据的字段
-                        url: "/pageCommon/dic/ROOT_UNIVERSAL_XB"//接口
-                    };
-                    publicMethods.dataDictionary(param);
-                    var param = {
-                        data: res.data,//数据
-                        element: ".layui-table-body table",// 当前的表格元素
-                        column: 9,//列数 从0开始
-                        field: "expertProfessionalField",//当前数据的字段
-                        url: "/pageCommon/dic/ZJK_ZYFL"//接口
-                    };
-                    publicMethods.dataDictionary(param);
-                    var param = {
-                        data: res.data,//数据
-                        element: ".layui-table-body table",// 当前的表格元素
-                        column: 10,//列数 从0开始
-                        field: "expertProfessinal",//当前数据的字段
-                        url: "/pageCommon/dic/ZJK_ZCXX"//接口
-                    };
-                    publicMethods.dataDictionary(param);
-                    var param = {
-                        data: res.data,//数据
-                        element: ".layui-table-body table",// 当前的表格元素
-                        column: 11,//列数 从0开始
-                        field: "company",//当前数据的字段
-                        url: "/pageCommon/dic/ROOT_XTGL_ZSYJY"//接口
-                    };
-                    publicMethods.dataDictionary(param);
                 }
             });
             //移除表头的复选框,去掉全选

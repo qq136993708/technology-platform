@@ -95,18 +95,18 @@
 <a id="templateDownloadhref" name="templateDownloadhref" href="/template/standardTemplate.xls" target="_top"></a>
 <script>
     function setWelderIcs(selectData) {
-        $('#bak1').val(selectData.expertName);
-        $('#icsType').val(selectData.expertName);
+        $('#bak1').val(selectData.dataId);
+        $('#icsType').val(selectData.name);
     }
 
     function setWelderchoice(selectData) {
-        $('#bak2').val(selectData.expertName);
-        $('#choiceType').val(selectData.expertName);
+        $('#bak2').val(selectData.dataId);
+        $('#choiceType').val(selectData.name);
     }
 
     function setWelderorgType(selectData) {
-        $('#bak3').val(selectData.expertName);
-        $('#orgType').val(selectData.expertName);
+        $('#bak3').val(selectData.dataId);
+        $('#orgType').val(selectData.name);
     }
 
     $('#orgType').click(function () {
