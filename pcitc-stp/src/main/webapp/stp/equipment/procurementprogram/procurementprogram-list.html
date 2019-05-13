@@ -372,7 +372,7 @@ var name=$('#name').val();
             url: '/sre-procurementprogram/list',
             method:"POST",
 		//查询条件            
-            where: {param: {"proposerName":$("#proposerName").val(),"purchaseName":$("#purchaseName").val(),"state":$("#state").val(),"createDate":$("#createDate").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"departCode":$("#departCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {"proposerName":$("#proposerName").val(),"purchaseName":$("#purchaseName").val(),"state":$("#state").val(),"createDate":$("#createDate").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"applyDepartCode":$("#departCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),

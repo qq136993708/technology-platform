@@ -181,11 +181,12 @@ public  class InvestServiceImpl implements InvestService {
 	@Override
 	public LayuiTableData getManagementLedgerPage(LayuiTableParam param) throws Exception {
 		String applyDepartCode=getTableParam(param,"applyDepartCode","");
-		String unitPathIds=getTableParam(param,"parentUnitPathIds","");
+		String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
 		String projectName=getTableParam(param,"projectName","");
 		String equipmentName=getTableParam(param,"equipmentName","");
 		Map map=new HashMap();
-		map.put("firstApplyUser", unitPathIds);
+		map.put("parentUnitPathIds", parentUnitPathIds);
+		map.put("applyUnitCode", applyDepartCode);
 		map.put("name", projectName);
 		StringBuffer applyUnitCodeStr=new StringBuffer();
 		if(!applyDepartCode.equals(""))
