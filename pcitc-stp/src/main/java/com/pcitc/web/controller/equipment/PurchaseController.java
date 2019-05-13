@@ -354,7 +354,7 @@ public class PurchaseController extends BaseController{
             srePurchase.setState(status);
             srePurchase.setPurchaseName(purchaseName);//采购名称
             srePurchase.setParentUnitPathNames(parentUnitPathName);//单位名称
-            srePurchase.setParentUnitPathId(parentUnitPathId);//单位ID
+            srePurchase.setParentUnitPathId(parentUnitPathIds);//单位ID
             srePurchase.setDepartName(departName);//部门名称
             srePurchase.setDepartCode(departCode);//部门Code
             srePurchase.setProposerName(createUserName);//采购员姓名
@@ -442,6 +442,7 @@ public class PurchaseController extends BaseController{
      * @param request
      * @param response
      * @return
+     *
      * @throws Exception
      */
     @RequestMapping(value = "/sre-purchase/getParticulars/{id}", method = RequestMethod.GET)
