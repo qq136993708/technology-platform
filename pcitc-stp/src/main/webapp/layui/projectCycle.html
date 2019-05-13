@@ -43,8 +43,22 @@
                     <p>张三</p>
                     <p>科技管理平台</p>
                 </div>
-                <div class="cycle-cont-midd"></div>
-                <div class="cycle-cont-right"></div>
+                <div class="cycle-cont-midd">
+                    <p>项目启动<span></span></p>
+                    <p>2019-03-28 科技管理平台正式启动。</p>
+                </div>
+                <div class="cycle-cont-right">
+                    <p>项目进行<span></span></p>
+                    <p>
+                        <span class="startTime">2019-03-28</span> — <span class="endTime">2019-03-28</span>
+                        <span class="content">项目进行到当前状态时简短说明</span>
+                        <a href="javascript:;">查看详情</a>
+                    </p>
+                    <p class="complete">
+                        <span style="width: 20%;"></span>
+                        <span style="left: 16%;">20%</span>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -79,6 +93,27 @@
             }
         });
         $(".cycle-cont").css("height",parent.$("#LAY_app_body").height()-155+"px");
+        $(".cycle-cont-right a").click(function () {
+            layer.open({
+                title:'项目进展详情'
+                ,skin: 'layui-layer-lan'
+                ,shadeClose: true
+                ,type: 2
+                ,id:"cycle"
+                ,fixed: false
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                ,maxmin: false
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                ,area: ['80%', '80%'],
+                content: "projectCycleOpen.html",
+                success: function (layero, index) {
+                    // 获取子页面的iframe
+                    //var iframe = window['layui-layer-iframe' + index];
+                    // 向子页面的全局函数child传参
+                    //iframe.showData("");
+                }
+            });
+        });
     });
 
 </script>
