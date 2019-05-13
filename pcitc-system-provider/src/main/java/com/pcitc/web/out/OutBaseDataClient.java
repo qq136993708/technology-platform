@@ -34,6 +34,7 @@ public class OutBaseDataClient
     public Object selectOrgTypeList(@RequestBody HashMap<String, String> params) {
         
 		List<OutOrgType> types = new ArrayList<OutOrgType>();
+		LayuiTableData rsdata = null;
 		try {
         	 String [] first = {"所有","企业标准","国内标准","国外标准","国际标准"};
              String [][] secend = {
@@ -52,10 +53,14 @@ public class OutBaseDataClient
             	 }
              }
              System.out.println(JSON.toJSONString(types));
+             rsdata = new LayuiTableData();
+         	 rsdata.setCode(0);
+         	 rsdata.setCount(types.size());
+         	 rsdata.setData(types);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return types;
+        return rsdata;
     }
 	@ApiOperation(value = "ICS分类码", notes = "检索ICS分类码数据")
     @RequestMapping(value = "/out-basedata-provider/basedata/search-ics-type-code", method = RequestMethod.POST)
