@@ -85,7 +85,23 @@ public class StandardBaseExpertController extends BaseController {
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(importFileStandard, HttpMethod.POST, new HttpEntity<JSONObject>(jsonObject, this.httpHeaders), JSONObject.class);
         return "ok";
     }
-    //文件导入
+
+    @RequestMapping(method = RequestMethod.GET, value = "/pageSelectics")
+    public String pageSelectics(String id, Model model, String opt) {
+        return "stp/system/pageSelectics";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/pageSelectType")
+    public String pageSelectType(String id, Model model, String opt) {
+        return "stp/system/pageSelectType";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/pageSelectorgType")
+    public String pageSelectorgType(String id, Model model, String opt) {
+        return "stp/system/pageSelectorgType";
+    }
+
+
 
     /**
      * 标准化-查询列表

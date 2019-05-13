@@ -17,6 +17,9 @@
         <input type="hidden" name="groupId">
         <div class="box-body">
             <input type="hidden" name="dataId" id="dataId"/>
+            <input type="hidden" name="bak1" id="bak1"/>
+            <input type="hidden" name="bak2" id="bak2"/>
+            <input type="hidden" name="bak3" id="bak3"/>
             <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
@@ -28,13 +31,22 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">标准状态<span class="must-fill">*</span></label>
+                        <label class="layui-form-label">中标分类<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <select name="standardStatus" id="standardStatus" lay-filter="standardStatus">
-                            </select>
+                            <input type="text" id="choiceType" name="choiceType" lay-verify="required" placeholder="请选择中标分类" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                 </div>
+
+                <!--<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">-->
+                    <!--<div class="layui-form-item">-->
+                        <!--<label class="layui-form-label">标准状态<span class="must-fill">*</span></label>-->
+                        <!--<div class="layui-input-block">-->
+                            <!--<select name="standardStatus" id="standardStatus" lay-filter="standardStatus">-->
+                            <!--</select>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
             </div>
             <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
@@ -54,6 +66,29 @@
                     </div>
                 </div>
             </div>
+
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">组织类别<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="orgType" name="orgType" lay-verify="required" placeholder="请选择组织" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">ICS分类<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="icsType" readonly="readonly" name="icsType" lay-verify="required" placeholder="请选择ICS分类" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--<div class="layui-row">-->
+       <!---->
+            <!--</div>-->
             <div class="layui-row">
                 <div class="layui-form-item layui-form-text">
                     <div class="layui-form-item">
@@ -66,28 +101,89 @@
 
 
             </div>
+            <!--<div class="layui-row">-->
+            <!--<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">-->
+            <!--<div class="layui-form-item">-->
+            <!--<label class="layui-form-label">备注<span class="must-fill">*</span></label>-->
+            <!--<div class="layui-input-block">-->
+            <!--<input type="text" id="remark" name="remark" lay-verify="required" placeholder="请输入备注" autocomplete="off" class="layui-input">-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
             <div class="layui-row">
-                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">备注<span class="must-fill">*</span></label>
-                        <div class="layui-input-block">
-                            <input type="text" id="remark" name="remark" lay-verify="required" placeholder="请输入备注" autocomplete="off" class="layui-input">
-                        </div>
+
+
+                <div class="form-bottom">
+                    <div class="form-bottom-btns">
+                        <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>
+                        <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">取消</button>
                     </div>
                 </div>
-
-                <div class="layui-row">
-
-
-                    <div class="form-bottom">
-                        <div class="form-bottom-btns">
-                            <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>
-                            <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">取消</button>
-                        </div>
-                    </div>
-                </div>
+            </div>
     </form>
 </div>
+
+<script>
+    function setWelderIcs(selectData) {
+        $('#bak1').val(selectData.expertName);
+        $('#icsType').val(selectData.expertName);
+    }
+
+
+    function setWelderchoice(selectData) {
+        $('#bak2').val(selectData.expertName);
+        $('#choiceType').val(selectData.expertName);
+    }
+
+    function setWelderorgType(selectData) {
+        $('#bak3').val(selectData.expertName);
+        $('#orgType').val(selectData.expertName);
+    }
+
+    $('#orgType').click(function () {
+        layer.open({
+            title: "<span>选择</span>",
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+            maxmin: true,
+            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+            area: ['90%', '90%'],
+            content: '/standardBaseExpert/pageSelectorgType'
+        });
+    })
+    $('#icsType').click(function () {
+        layer.open({
+            title: "<span>选择</span>",
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+            maxmin: true,
+            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+            area: ['90%', '90%'],
+            content: '/standardBaseExpert/pageSelectics'
+        });
+    })
+    $('#choiceType').click(function () {
+        layer.open({
+            title: "<span>选择</span>",
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+            maxmin: true,
+            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+            area: ['90%', '90%'],
+            content: '/standardBaseExpert/pageSelectType'
+        });
+    })
+</script>
 
 <script>
     ajaxPost('/dictionary/list/ROOT_RWGL_BZZT', null, function (data, status) {
