@@ -54,25 +54,7 @@ public class PplusApplication extends SpringBootServletInitializer {
 		SpringApplication.run(PplusApplication.class, args);
 	}
 
-    /**
-     * 解决ie文件上传出现下载对话框的问题，没有找到配置文件配置，暂时类实现
-     * @return
-     */
-//    @Bean
-//    public HttpMessageConverters fastJsonHttpMessageConverters() {
-//        //1.需要定义一个convert转换消息的对象;
-//        FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
-//        //2处理ie浏览器出现下载json数据问题
-//        List<MediaType> fastMediaTypes = new ArrayList<>();
-//        fastMediaTypes.add(MediaType.valueOf(MediaType.TEXT_PLAIN+";charset=UTF-8"));
-//        //3.在convert中添加配置信息.
-//        fastJsonHttpMessageConverter.setSupportedMediaTypes(fastMediaTypes);
-//        HttpMessageConverter<?> converter = fastJsonHttpMessageConverter;
-//        return new HttpMessageConverters(converter);
-//    }
-
-
-    /*@Override
+	/*@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		System.out.println("tomcat外置方式---------------启动");
 		return application.sources(PplusApplication.class);
@@ -126,7 +108,7 @@ public class PplusApplication extends SpringBootServletInitializer {
         registration.setFilter(access);
         registration.addUrlPatterns("/*");
         //registration.addInitParameter("spSimpleConfigFile", "classpath:/conf/sp-simple-config.properties");
-        registration.addInitParameter("noFilterURLs", "/;/index.html;/error;/mobile/*;/layuiadmin/*;/layuicommon/*;/plugins/*;/common/js/*;/styles/*;/init.jsp;/spversion.html");
+        registration.addInitParameter("noFilterURLs", "/;/login;/index;/index.html;/error;/mobile/*;/layuiadmin/*;/layuicommon/*;/plugins/*;/common/js/*;/styles/*;/init.jsp;/spversion.html");
         registration.setName("AccessEnforcer");
         registration.setOrder(1);
         return registration;
@@ -141,22 +123,6 @@ public class PplusApplication extends SpringBootServletInitializer {
 		registration.setOrder(1);
 		return registration;
 	}*/
-
-	// /**
-	// * 自定义RestTemplate
-	// * @return
-	// */
-	// @Bean
-	// public RestTemplate customRestTemplate(){
-	// HttpComponentsClientHttpRequestFactory httpRequestFactory = new
-	// HttpComponentsClientHttpRequestFactory();
-	// httpRequestFactory.setConnectionRequestTimeout(60000);
-	// httpRequestFactory.setConnectTimeout(60000);
-	// httpRequestFactory.setReadTimeout(60000);
-	// httpRequestFactory.setBufferRequestBody(false);
-	// return new RestTemplate(httpRequestFactory);
-	// }
-	
 	
 	/**
 	 * 文件上传配置

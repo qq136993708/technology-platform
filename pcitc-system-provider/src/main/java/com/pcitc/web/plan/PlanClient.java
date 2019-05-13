@@ -289,4 +289,21 @@ public class PlanClient {
         }
         return retJson;
     }
+
+    /**
+     * 导入excel
+     * @param jsonObject
+     * @return
+     */
+    @RequestMapping(value = "/importFileStandard", method = RequestMethod.POST)
+    public JSONObject importFileStandard(@RequestBody JSONObject jsonObject) {
+        JSONObject retJson = new JSONObject();
+        try {
+            baseService.importFileStandard(jsonObject);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            return retJson;
+        }
+    }
 }

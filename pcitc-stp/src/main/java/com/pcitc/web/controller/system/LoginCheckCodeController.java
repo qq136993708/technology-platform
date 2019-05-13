@@ -57,7 +57,7 @@ public class LoginCheckCodeController extends BaseController {
 		byte[] captchaChallengeAsJpeg = null;
 		ByteArrayOutputStream jpegOutputStream = new ByteArrayOutputStream();
 		try {
-			
+			System.out.println("code........");
 			ResponseEntity<SysUser> rsEntity = this.restTemplate.exchange(GET_USER_INFO+username, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class);
 	    	SysUser rsUser = rsEntity.getBody();
 	    	// 生产验证码字符串并保存到数据库中

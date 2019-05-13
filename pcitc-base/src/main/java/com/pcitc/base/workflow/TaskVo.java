@@ -49,7 +49,20 @@ public class TaskVo {
     private String processDefinitionName;     //业务流程定义名称
     private String processDefinitionKey;      //业务流程定义key
     
-    public Date getFlowStartTime() {
+    
+    private String createTimeStr;
+    
+    
+    
+    public String getCreateTimeStr() {
+		return createTimeStr;
+	}
+
+	public void setCreateTimeStr(String createTimeStr) {
+		this.createTimeStr = createTimeStr;
+	}
+
+	public Date getFlowStartTime() {
 		return flowStartTime;
 	}
 

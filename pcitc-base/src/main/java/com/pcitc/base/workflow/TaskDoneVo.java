@@ -38,9 +38,19 @@ public class TaskDoneVo {
     
     private String auditRemarks;
     
+    private String  endTimeStr;
+    
     
 
-    public String getAuditRemarks() {
+    public String getEndTimeStr() {
+		return endTimeStr;
+	}
+
+	public void setEndTimeStr(String endTimeStr) {
+		this.endTimeStr = endTimeStr;
+	}
+
+	public String getAuditRemarks() {
 		return auditRemarks;
 	}
 

@@ -83,7 +83,8 @@
 						event : 'changeEvents'
 					}, {
 						title : '序号',
-						type : 'numbers'
+						type : 'numbers',
+						width : '6%',
 					}, {
 						field : 'G0GSDM',
 						title : '公司代码',
@@ -109,14 +110,13 @@
 						layer.close(lodingMsg);
 						TEMG0PROJCODES = "";
 						for(var i=0;i< res.data.length;i++){
-							if (parent.erpProjectCode.indexOf(res.data[i].G0PROJCODE)>-1) {
+							if (typeof (parent.erpProjectCode) != "undefined" && parent.erpProjectCode.indexOf(res.data[i].G0PROJCODE)>-1) {
 								res.data[i]["LAY_CHECKED"]='true';
 	                            //找到对应数据改变勾选样式，呈现出选中效果
 	                            var index= res.data[i]['LAY_TABLE_INDEX'];
 	                            $('.layui-table tr[data-index=' + index + '] input[type="checkbox"]').prop('checked', true);
 	                            $('.layui-table tr[data-index=' + index + '] input[type="checkbox"]').next().addClass('layui-form-checked');
 							}
-							
 							if (i == res.data.length - 1) {
 								TEMG0PROJCODES = TEMG0PROJCODES + res.data[i].G0PROJCODE;
 							} else {
@@ -174,7 +174,7 @@
 						}
 					}
 					var jsonstr = {
-						"data_id" : temDataId,
+						"data_id" : parent.xmid,
 						"G0PROJCODES" : G0PROJCODES,
 						"G0PROJTXTS" : G0PROJTXTS,
 						"TEMG0PROJCODES" : TEMG0PROJCODES
@@ -189,7 +189,6 @@
 							layer.msg('操作失败!');
 						},
 						success : function(data) {
-							layer.msg('操作成功!');
 							parent.active.refresh();
 						}
 					});

@@ -107,20 +107,26 @@
 			}
 		}
 	}
+	function searchUnit(){
+    	var searchStr = $("#searchUnitName").val();
+     	if(searchStr !=null && "" != searchStr){
+     		var nodeList = unitTree.getNodesByParamFuzzy("name", searchStr);
+     		
+     		unitTree = $.fn.zTree.init($("#unitTree"), unitTreeSetting, nodeList);
+     	}else{
+     		unitTree = $.fn.zTree.init($("#unitTree"), unitTreeSetting, unitNodes);
+     	}
+	    //展开树
+	    unitTree.expandAll(true);
+    }
 	//检索(改变事件)
 	$("#searchUnitName").on("change",function(){
-		ajaxPost("/unit/ztree-unit-list",{"name":$("#searchUnitName").val()},function(data){
-            unitNodes = data;
-            unitTree = $.fn.zTree.init($("#unitTree"), unitTreeSetting, unitNodes);
-     	});
+		searchUnit();
 	});
 	//检索(键盘回车)
 	$(document).keyup(function (e) {
 	    if (e.keyCode == 13) {
-	    	ajaxPost("/unit/ztree-unit-list",{"name":$("#searchUnitName").val()},function(data){
-	            unitNodes = data;
-	            unitTree = $.fn.zTree.init($("#unitTree"), unitTreeSetting, unitNodes);
-	     	});
+	    	searchUnit();
 	    }
 	});
 	
