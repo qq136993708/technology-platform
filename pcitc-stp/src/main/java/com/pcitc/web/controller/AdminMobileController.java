@@ -30,7 +30,7 @@ public class AdminMobileController extends BaseController {
 	 * 
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/mobile/index2")
+	@RequestMapping(value = "/mobile/index")
 	public String indexMobileStp(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("进入indexMobileStp....");
 		
@@ -98,8 +98,8 @@ public class AdminMobileController extends BaseController {
 			}
 			System.out.println("5-----adToken----------:" + sb);
 		}
-		System.out.println("8-----adToken----------:" + request.getParameter("identity_key"));
-		System.out.println("9-----adToken----------:" + request.getParameter("identity_token"));
+		System.out.println("8-----adToken----------:" + request.getParameter("Identity_Key"));
+		System.out.println("9-----adToken----------:" + request.getParameter("Identity_Token"));
 		DES3Utils desUtils = new DES3Utils(request.getParameter("Identity_Key"));
 		String pKey = desUtils.des3Decode(request.getParameter("Identity_Token"));
 		Map<String, String> keymap = desUtils.getAcountByToken(pKey);
