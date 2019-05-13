@@ -65,7 +65,6 @@ public class ProcurementProgramController extends BaseController {
 				}
 			}
 			request.setAttribute("parentUnitPathIds", parentUnitPathIds);
-
 		return "/stp/equipment/procurementprogram/procurementprogram-list";
 	}
 	

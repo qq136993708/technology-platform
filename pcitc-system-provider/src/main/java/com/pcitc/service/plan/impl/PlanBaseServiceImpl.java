@@ -1,6 +1,6 @@
 package com.pcitc.service.plan.impl;
 
-
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -11,21 +11,26 @@ import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.plan.PlanBase;
 import com.pcitc.base.plan.PlanBaseExample;
+import com.pcitc.base.system.StandardBase;
+import com.pcitc.base.system.SysFile;
+import com.pcitc.base.util.ExcelReadUtil;
 import com.pcitc.base.util.IdUtil;
+import com.pcitc.base.util.Point;
 import com.pcitc.base.util.TreeNodeUtil;
 import com.pcitc.mapper.plan.PlanBaseMapper;
 import com.pcitc.service.plan.PlanBaseService;
+import com.pcitc.service.system.StandardBaseService;
+import com.pcitc.service.system.SysFileService;
 import org.apache.ibatis.annotations.Param;
+import org.olap4j.Axis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>接口实现类</p>
@@ -223,10 +228,68 @@ public class PlanBaseServiceImpl implements PlanBaseService {
         return orderNodes;
     }
 
-    public List<PlanBase> selectSonPlanBasesByCreateUserId(JSONObject jsonObject){
+    public List<PlanBase> selectSonPlanBasesByCreateUserId(JSONObject jsonObject) {
         Map<String, Object> map = new HashMap<>();
-        map.put("createUserId",jsonObject.get("createUserId"));
+        map.put("createUserId", jsonObject.get("createUserId"));
         return planBaseMapper.selectSonPlanBasesByCreateUserId(map);
+    }
+
+    @Autowired
+    private StandardBaseService standardBaseService;
+
+    public static void main(String [] args) {
+
+        File file = new File("D:\\files\\uploadPath\\file\\a5d3946e876744cc81f59891f417737d\\20190508113215292_file_16a957fb33c_6630fd93.xls");
+//		File file = new File("D:\\group_total_data.xlsx");
+        ExcelReadUtil util = new ExcelReadUtil();
+        List<Map<Point,Object>> rss = null;
+        try {
+            rss = util.readExcelAllCellVal(file);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(rss);
+      /*  ExcelReadUtil ImportExce = new ExcelReadUtil();
+
+        List<Map<Point, Object>> maps = ImportExce.readExcelAllCellVal(new File("D:\\files\\uploadPath\\file\\a5d3946e876744cc81f59891f417737d\\20190508113215292_file_16a957fb33c_6630fd93.xls"));
+        System.out.println(maps);*/
+    }
+
+    @Autowired
+    private SysFileService sysFileService;
+    public void importFileStandard(JSONObject jsonObject) {
+        try {
+
+            JSONArray jsArr = JSONObject.parseArray((String) jsonObject.get("fileList"));
+            List<SysFile> sysFiles = JSONObject.parseArray(jsArr.toJSONString(), SysFile.class);
+//            List<SysFile> sysFiles = (List<SysFile>) jsonObject.get("fileList");
+            ExcelReadUtil ImportExce = new ExcelReadUtil();
+            for (int a = 0; a < sysFiles.size(); a++) {
+                System.out.println(sysFiles.get(a).getFilePath());
+                List<Map<Point, Object>> maps = ImportExce.readExcelAllCellVal(new File("D:\\files\\uploadPath\\file\\a5d3946e876744cc81f59891f417737d\\20190508113215292_file_16a957fb33c_6630fd93.xls"));
+//                List<Map<Point, Object>> maps = ImportExce.readExcelAllCellVal(new File(sysFiles.get(a).getFilePath()));
+
+                if (maps==null){
+                    continue;
+                }
+                for (int i = 0; i < maps.size(); i++) {
+                    Map<Point, Object> pointObjectMap = maps.get(i);//sheet页
+                    List<List<Object>> valByRow = new ExcelReadUtil().getValByRow(pointObjectMap);
+                    for (int j = 0; j < valByRow.size(); j++) {
+                        StandardBase standardBase = new StandardBase();
+                        standardBase.setStandardName(valByRow.get(j).get(0).toString());
+                        standardBase.setStandardDesc(valByRow.get(j).get(1).toString());
+                        standardBase.setRemark(valByRow.get(j).get(2).toString());
+                        standardBaseService.insert(standardBase);
+                    }
+                }
+                //删除
+//                sysFileService.deleteByPrimaryKey(sysFiles.get(a).getId());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

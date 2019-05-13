@@ -159,6 +159,7 @@ public class ExcelReadUtil {
 	{
 		Map<Point,Object> map = new LinkedHashMap<Point,Object>();
 		for(int r = 0;r<sheet.getLastRowNum();r++) {
+			if(sheet.getRow(r) == null) {continue;}
 			for(int c = 0;c<sheet.getRow(r).getLastCellNum();c++) {
 				map.put(new Point(r,c), getCellValue(sheet.getRow(r).getCell(c)));
 			}
