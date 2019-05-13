@@ -190,4 +190,5 @@ public interface PlanBaseService {
     List<PlanBase> selectSonPlanBasesByCreateUserId(JSONObject jsonObject);
 
     public void importFileStandard(JSONObject jsonObject);
+    public JSONObject importFileTfc(JSONObject jsonObject);
 }

@@ -73,13 +73,34 @@ public class StandardBaseExpertController extends BaseController {
     private static final String SAVE = "http://pcitc-zuul/system-proxy/standardbase-provider/standardbase/save_standardbase";
 
     private static final String importFileStandard = "http://pcitc-zuul/system-proxy/PlanClient-provider/importFileStandard";
+    private static final String importFileTfc = "http://pcitc-zuul/system-proxy/PlanClient-provider/importFileTfc";
 
+    /**
+     * 技术族导入
+     * @return
+     */
+    @RequestMapping(value = "/importFileTfc")
+    @ResponseBody
+    @OperationFilter(modelName = "技术族导入", actionName = "导入excel文件")
+    public String importFileTfc() {
+        //获取excel内容
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("fileList", request.getParameter("param"));
+        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(importFileTfc, HttpMethod.POST, new HttpEntity<JSONObject>(jsonObject, this.httpHeaders), JSONObject.class);
+        JSONObject body = responseEntity.getBody();
+        System.out.println(body.get("list"));
+        //保存
+        return "ok";
+    }
+
+    /**
+     * 标准化导入
+     * @return
+     */
     @RequestMapping(value = "/importFileStandard")
     @ResponseBody
     @OperationFilter(modelName = "标准管理", actionName = "导入excel文件")
     public String importFileStandard() {
-//        JSONArray jsArr = JSONObject.parseArray(request.getParameter("param"));
-//        List<SysFile> fileList = JSONObject.parseArray(jsArr.toJSONString(), SysFile.class);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("fileList", request.getParameter("param"));
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(importFileStandard, HttpMethod.POST, new HttpEntity<JSONObject>(jsonObject, this.httpHeaders), JSONObject.class);

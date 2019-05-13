@@ -306,4 +306,16 @@ public class PlanClient {
             return retJson;
         }
     }
+
+    @RequestMapping(value = "/importFileTfc", method = RequestMethod.POST)
+    public JSONObject importFileTfc(@RequestBody JSONObject jsonObject) {
+        JSONObject retJson = new JSONObject();
+        try {
+            retJson=baseService.importFileTfc(jsonObject);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            return retJson;
+        }
+    }
 }
