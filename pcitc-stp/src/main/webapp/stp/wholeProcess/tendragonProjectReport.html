@@ -58,10 +58,13 @@
 
 	<!--表格数据操作js-->
 	<script>
-		var table, active, dateId, xmid, erpProjectCode, selectRowData = '';
-		layui.use([ 'jquery', 'table', 'laydate', 'form', 'laypage', 'laytpl' ], function() {
-			table = layui.table, $ = layui.jquery, laydate = layui.laydate, laypage = layui.laypage, form = layui.form;
-
+		var table, active, dateId, xmid, erpProjectCode, publicMethods,selectRowData = '',files={};
+		layui.use([ 'jquery', 'table', 'laydate', 'form', 'laypage', 'laytpl','publicMethods' ], function() {
+			table = layui.table, $ = layui.jquery, laydate = layui.laydate, laypage = layui.laypage, form = layui.form,publicMethods=layui.publicMethods;
+			
+			window.downloadFile = function(index){
+				window.open(encodeURI("/out/report_download?fileName="+files[index],"UTF-8"));
+			}
 			function renderTable() {
 				var param = JSON.parse(window.localStorage.getItem("param"));
 				var lodingMsg = layer.msg('数据加载中....');
@@ -104,7 +107,7 @@
 					}, {
 						field : 'hth',
 						title : '合同号',
-						width : '8%',
+						width : '10%',
 						style : 'cursor: pointer;'
 					}, {
 						field : 'xmmc',
@@ -120,15 +123,21 @@
 					}, {
 						field : 'fzdw',
 						title : '负责单位',
-						width : '20%',
+						width : '30%',
 						style : 'cursor: pointer;'
 					}, {
 						title : '相关文档',
 						style : 'cursor: pointer;',
 						align : 'center',
 						templet: function (d) {
-	                        // 模板的实现方式也是多种多样，这里简单返回固定的
-	                        return '<a href="">查看详情</a>';
+							var file_text = "";
+							if(d.define13 != null){
+								$.each(JSON.parse(d.define13),function(index,dt){
+									files[index] = dt.file
+									file_text += '&nbsp;&nbsp;<a href="javascript:downloadFile('+index+');">'+dt.type+'</a>';
+								});
+							}
+	                        return file_text;
 	                    }
 					}] ],
 					done : function(res, curr, count) {

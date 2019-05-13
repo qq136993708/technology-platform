@@ -1,5 +1,10 @@
 package com.pcitc.web.controller.out;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLDecoder;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
@@ -21,6 +27,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.utils.FileUtil;
 
 @Controller
 public class OutProjectController extends BaseController {
@@ -129,5 +136,14 @@ public class OutProjectController extends BaseController {
 		ResponseEntity<OutProjectInfo> responseEntity = this.restTemplate.exchange(GET_OUT_PROJECT + dataId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), OutProjectInfo.class);
 		OutProjectInfo outProjectInfo = responseEntity.getBody();
 		return outProjectInfo;
+	}
+	
+	@RequestMapping(value = "/out/report_download")
+	public void downLoadPlantRunningListInfo(@RequestParam(value = "fileName", required = true) String fileName,HttpServletResponse res) throws IOException {
+		
+		System.out.println("download fileName:"+fileName);
+		
+		File f = new File(fileName);
+		FileUtil.fileDownload(f, res);
 	}
 }
