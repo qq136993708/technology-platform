@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html style="background-color: #f1f2f7;">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+<div class="cycle">
+    <p class="cycle-title">项目全生命周期</p>
+    <div class="cycle-search">
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="start" placeholder="启动时间">
+        </div>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="end" placeholder="结束时间">
+        </div>
+        <div class="layui-input-inline">
+            <select name="" id="">
+                <option>完成进度</option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <select name="" id="">
+                <option>负责人</option>
+            </select>
+        </div>
+        <div class="btnGroup">
+            <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置
+            </button>
+        </div>
+    </div>
+    <div class="cycle-c">
+        <div class="cycle-cont">
+            <div class="cycle-item">
+                <div class="cycle-cont-left">
+                    <p>张</p>
+                    <p>张三</p>
+                    <p>科技管理平台</p>
+                </div>
+                <div class="cycle-cont-midd"></div>
+                <div class="cycle-cont-right"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['jquery', 'form', 'laydate', 'table', 'laypage','laytpl','publicMethods'], function () {
+        var table = layui.table, util = layui.laytpl, form = layui.form, laydate = layui.laydate, $ = layui.jquery,
+            laytpl = layui.laytpl, publicMethods = layui.publicMethods;
+        //开始日期
+        var insStart = laydate.render({
+            elem: '#start'
+            ,min: 0
+            ,done: function(value, date){
+                //更新结束日期的最小日期
+                insEnd.config.min = lay.extend({}, date, {
+                    month: date.month - 1
+                });
+                //自动弹出结束日期的选择器
+                insEnd.config.elem[0].focus();
+            }
+        });
+        //结束日期
+        var insEnd = laydate.render({
+            elem: '#end'
+            ,min: 0
+            ,done: function(value, date){
+                //更新开始日期的最大日期
+                insStart.config.max = lay.extend({}, date, {
+                    month: date.month - 1
+                });
+            }
+        });
+        $(".cycle-cont").css("height",parent.$("#LAY_app_body").height()-155+"px");
+    });
+
+</script>
+
+</body>
+</html>

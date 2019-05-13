@@ -138,8 +138,23 @@ public class MobileController extends BaseController {
 	
 	
 	
-	
-	
+				@RequestMapping(value = "/done_task_list")
+				public String done_task_list(HttpServletRequest request, HttpServletResponse response) throws Exception 
+				{
+					
+					String year= HanaUtil.getCurrrentYear();
+				    request.setAttribute("year", year);
+					return "/mobile/done_task_list";
+				}
+				
+				@RequestMapping(value = "/wait_task_list")
+				public String wait_task_list(HttpServletRequest request, HttpServletResponse response) throws Exception 
+				{
+					
+					String year= HanaUtil.getCurrrentYear();
+				    request.setAttribute("year", year);
+					return "/mobile/wait_task_list";
+				}
 	
 
 }

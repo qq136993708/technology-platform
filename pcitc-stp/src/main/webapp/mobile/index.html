@@ -20,17 +20,17 @@
         <div class="main-card-header">待办任务</div>
         <div class="main-card-body">
             <ul class="main-card-body-ul">
-                <li class="layui-col-xs4">
+                <li class="layui-col-xs4" id="numberNotice_list">
                     <span class="agency-icon layui-icon-agency_01"></span>
                     <span>待办任务</span>
-                    <span class="span-number span-red"><a id="numberNotice" lay-href="/task/pending/list/ini" lay-text="待办任务">(63)</a></span>
+                    <span class="span-number span-red"><a id="numberNotice"  lay-href="/task/pending/list/ini" lay-text="待办任务"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></a></span>
                 </li>
-                <li class="layui-col-xs4">
+                <li class="layui-col-xs4" id="doneTaskCount_list">
                     <span class="agency-icon layui-icon-agency_02"></span>
                     <span>已办任务</span>
-                    <span class="span-number" id="doneTaskCount"><a lay-href="/task/done-task/list/ini" lay-text="已办任务">(10)</a></span>
+                    <span class="span-number" id="doneTaskCount"><a   lay-href="/task/done-task/list/ini" lay-text="已办任务"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></a></span>
                 </li>
-                <li class="layui-col-xs4">
+                <li class="layui-col-xs4" >
                     <span class="agency-icon layui-icon-agency_03"></span>
                     <span>业务预警</span>
                     <span class="span-number span-red">(17)</span>
@@ -144,11 +144,79 @@
     	location.href="/mobile/xjll";
     });
     
-    
     //成果专利
     $("#cgzl").click(function () {
     	location.href="/mobile/cgzl";
     });
+    
+    //代办
+    $("#numberNotice_list").click(function () {
+    	location.href="/task/wait_task_list_mui";///mobile/wait_task_list
+    });
+    
+    // 已办任务
+    $("#doneTaskCount_list").click(function () {
+    	location.href="/task/done_task_list";///mobile/done_task_list
+    });
+    
+    
+    
+    
+    function set_numberNotice_count() 
+    {
+    	var url="/task/pending-list";
+        $.ajax({
+            type: "POST",
+            url: url,
+            dataType: "json",
+            timeout: 11000,
+            cache: false,
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            success: function (data, status) {
+                    $("#numberNotice").html("("+data.count + ")");
+            },
+            error: function () {
+            },
+            complete: function (XMLHttpRequest, status) {
+
+            }
+
+        });
+    }
+    set_numberNotice_count();
+    
+    
+    function set_doneTaskCount() 
+    {
+    	var url="/task/done-task-list";
+        $.ajax({
+            type: "POST",
+            url: url,
+            dataType: "json",
+            timeout: 11000,
+            cache: false,
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            success: function (data, status) {
+                    $("#doneTaskCount").html("("+data.count + ")");
+            },
+            error: function () {
+            },
+            complete: function (XMLHttpRequest, status) {
+
+            }
+
+        });
+    }
+    set_doneTaskCount();
+    
+    
+    
+    
+    
+    
+    
+    
+    
   
 </script>
 </body>
