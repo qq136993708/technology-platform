@@ -37,6 +37,7 @@
       <if test="purchaseName != null and purchaseName  !='' ">               AND t.purchase_name like CONCAT('%',#{purchaseName},'%')</if>
       <if test="createDate!= null       and createDate !=''  ">     AND t.create_date = #{createDate}</if>
       <if test="departCode != null        and departCode !=''  ">       AND t.depart_code = #{departCode}</if>
+      <if test="parentUnitPathIds != null        and parentUnitPathIds !=''  ">       AND t.parent_unit_path_id = #{parentUnitPathIds}</if>
       <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
     </trim>
   </sql>
