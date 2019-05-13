@@ -1,13 +1,10 @@
 package com.pcitc.web.techFamily;
 
+import com.pcitc.base.util.DateUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -259,4 +256,43 @@ public class TechFamilyProviderClient {
 		retJson.put("maxTypeCode", retCode);
 		return retJson;
 	}
+
+    @ApiOperation(value = "保存技术族分类", notes = "保存技术族分类")
+    @RequestMapping(value = "/tech-family-provider/type-insert-list", method = RequestMethod.POST)
+    public Integer insertTechFamilyTypeList(@RequestBody JSONObject jsonObject) {
+        System.out.println("insertTechFamilyType==================" + jsonObject);
+        List<List<Object>> valByRow = (List<List<Object>>) jsonObject.get("list");
+        for (int j = 1; j < valByRow.size(); j++) {
+
+            // 先获取父节点信息
+            TechFamily techType = new TechFamily();
+            techType.setStatus("1");
+            techType.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
+            techType.setIsParent("0");
+
+            techType.setTfmTypeId((String) valByRow.get(j).get(0));
+            techType.setTypeName(valByRow.get(j).get(1).toString());
+            List<TechFamily> parentList = techFamilyService.selectTechFamilyTypeList(techType);
+
+            if (parentList != null && parentList.size() == 1) {
+                TechFamily parentVo = parentList.get(0);
+                techType.setParentCode(parentVo.getTypeCode());
+                techType.setTypeIndex(parentVo.getTypeIndex() + techType.getTypeCode() + "@");
+                techType.setLevelCode(String.valueOf(Integer.valueOf(parentVo.getLevelCode()) + 1));
+                techType.setTfmTypeId(UUID.randomUUID().toString().replaceAll("-", ""));
+
+                techFamilyService.saveTechFamilyType(techType);
+
+                // 修改原节点isParent 属性
+                if (parentVo.getIsParent().equals("0")) {
+                    parentVo.setIsParent("1");
+                    techFamilyService.updateTechFamilyType(parentVo);
+                }
+                return 1;
+            } else {
+                break;
+                return 0;
+            }
+        }
+    }
 }

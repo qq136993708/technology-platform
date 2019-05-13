@@ -8,6 +8,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.TreeNode;
+import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.base.system.StandardBase;
 import com.pcitc.base.system.SysFile;
 import com.pcitc.base.util.DateUtil;
@@ -74,6 +75,7 @@ public class StandardBaseExpertController extends BaseController {
 
     private static final String importFileStandard = "http://pcitc-zuul/system-proxy/PlanClient-provider/importFileStandard";
     private static final String importFileTfc = "http://pcitc-zuul/system-proxy/PlanClient-provider/importFileTfc";
+    private static final String TECH_TYPE_ADD_LIST = "http://pcitc-zuul/stp-proxy/tech-family-provider/type-insert-list";
 
     /**
      * 技术族导入
@@ -82,7 +84,7 @@ public class StandardBaseExpertController extends BaseController {
     @RequestMapping(value = "/importFileTfc")
     @ResponseBody
     @OperationFilter(modelName = "技术族导入", actionName = "导入excel文件")
-    public String importFileTfc() {
+    public Result importFileTfc() {
         //获取excel内容
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("fileList", request.getParameter("param"));
@@ -90,7 +92,12 @@ public class StandardBaseExpertController extends BaseController {
         JSONObject body = responseEntity.getBody();
         System.out.println(body.get("list"));
         //保存
-        return "ok";
+        int retI = this.restTemplate.exchange(TECH_TYPE_ADD_LIST, HttpMethod.POST, new HttpEntity<JSONObject>(body, this.httpHeaders), Integer.class).getBody();
+        if (retI >= 1) {
+            return new Result(true, "操作成功");
+        } else {
+            return new Result(true, "操作失败");
+        }
     }
 
     /**
