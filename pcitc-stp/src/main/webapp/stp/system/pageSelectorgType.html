@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<div class="searchBox">
+<div class="searchBox" style="display: none">
     <!--查询条件-->
     <label class="dateInput">
         <input type="hidden" id="auditStatus" name="auditStatus" value="2">
@@ -102,9 +102,7 @@
         table = layui.table;
 
         function loadtable() {
-            console.log("----查询-----");
             var where = {"expertName": $("#expertName").val(), "email": $("#email").val(), "company": $("#company option:selected").val(), "auditStatus": $("#auditStatus").val(), "sysFlag": $("#state").val()};
-            console.log(where);
             table.render({
                 elem: '#zjkBaseInfoTableId',
                 url: '/out/basedata/search-org-type',
