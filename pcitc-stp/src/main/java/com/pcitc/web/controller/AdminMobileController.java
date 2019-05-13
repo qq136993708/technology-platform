@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.DES3Utils;
+import com.pcitc.web.utils.HanaUtil;
 
 /**
  * @author zhf 系统登录成功后的首页
@@ -25,6 +26,20 @@ public class AdminMobileController extends BaseController {
 	private static final String LOGIN_URL = "http://pcitc-zuul/auth/login";
 	private static final String GET_USER_INFO_IP = "http://pcitc-zuul/system-proxy/user-provider/user/get-user-byname/";
 
+	/**
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/mobile/indexTest")
+	public String indexMobile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String year= HanaUtil.getCurrrentYear();
+	    request.setAttribute("year", year);
+
+		return "/mobile/index";
+	}
+	
 	/**
 	 * 科技平台统一身份认证移动首页
 	 * 
