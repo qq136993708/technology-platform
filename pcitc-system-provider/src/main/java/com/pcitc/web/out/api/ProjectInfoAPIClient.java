@@ -45,7 +45,7 @@ public class ProjectInfoAPIClient {
 			opri.setHth(json.getString("hth"));
 			itemList.add(opri);
 		}
-		//outProjectService.insertOutProjectPlanBatch(itemList);
+		outProjectService.insertProjectData(itemList, null);
 		JSONObject result = new JSONObject();
 		result.put("resCode", "0");
 		result.put("resMsg", "success");
