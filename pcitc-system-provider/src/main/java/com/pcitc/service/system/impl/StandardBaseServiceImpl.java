@@ -178,8 +178,37 @@ public class StandardBaseServiceImpl implements StandardBaseService {
         Object standardStatus = param.getParam().get("standardStatus");
         if (!StrUtil.isObjectEmpty(standardStatus)) {
             c.andStandardStatusLike("%" + standardStatus + "%");
-
         }
+
+        Object orgType = param.getParam().get("orgType");
+        if (!StrUtil.isObjectEmpty(orgType)) {
+            c.andOrgTypeLike("%" + orgType + "%");
+        }
+
+        Object icsType = param.getParam().get("icsType");
+        if (!StrUtil.isObjectEmpty(icsType)) {
+            c.andIcsTypeLike("%" + icsType + "%");
+        }
+        Object choiceType = param.getParam().get("choiceType");
+        if (!StrUtil.isObjectEmpty(choiceType)) {
+            c.andChoiceTypeLike("%" + choiceType + "%");
+        }
+
+//        Object bak3 = param.getParam().get("bak3");
+//        if (!StrUtil.isObjectEmpty(bak3)) {
+//            c.andBak3EqualTo(bak3.toString());
+//        }
+//
+//        Object bak1 = param.getParam().get("bak1");
+//        if (!StrUtil.isObjectEmpty(bak1)) {
+//            c.andBak1EqualTo(bak1.toString());
+//        }
+//        Object bak2 = param.getParam().get("bak2");
+//        if (!StrUtil.isObjectEmpty(bak2)) {
+//            c.andBak2EqualTo(bak2.toString());
+//        }
+
+
 //        c.andStatusEqualTo("1");
 //        if(param.getParam().get("fileKind") !=null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("fileKind")+""))
 //        {

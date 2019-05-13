@@ -35,7 +35,7 @@ public class Constant {
     public static String  PURCHASE_CONTRACT_CLOSE =  "6";
 
     //装备采购阶段
-    public static String  EQUIPMENT_PURCHASE_DRAFT  = "0";  //0 未采购 1 申请中(采购单上报) 2 申请通过 3 合同验收通过 4 到货验收通过
+    public static String  EQUIPMENT_PURCHASE_DRAFT  = "0";  //0 未采购 1 申请中(采购单上报) 2 申请通过 3 合同验收通过 4 到货验收通过  5  待采购
     public static String  EQUIPMENT_PURCHASE_SUBMIT = "1";
     public static String  EQUIPMENT_PURCHASE_PASS   = "2";
     public static String  EQUIPMENT_PURCHASE_COMPACT   = "3";

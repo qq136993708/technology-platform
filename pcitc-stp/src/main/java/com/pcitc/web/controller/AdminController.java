@@ -28,6 +28,7 @@ import com.pcitc.base.system.SysCollect;
 import com.pcitc.base.system.SysFunction;
 import com.pcitc.base.system.SysModule;
 import com.pcitc.base.system.SysUser;
+import com.pcitc.base.system.SysUserProperty;
 import com.pcitc.base.system.SysUserShowConfig;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.MD5Util;
@@ -36,6 +37,7 @@ import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.common.OperationFilter;
 import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
+import com.pcitc.web.utils.Httpclient4Util;
 import com.sinopec.siam.agent.common.SSOPrincipal;
 import com.sinopec.siam.agent.sp.config.SysConfig;
 
@@ -378,6 +380,13 @@ public class AdminController extends BaseController {
 
 	@RequestMapping(value = "/index")
 	public String toIndexPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		String unitPathId=sysUserInfo.getUnitPath();
+		boolean isKJBPerson=EquipmentUtils.isKJBPerson(unitPathId);
+		request.setAttribute("isKJBPerson", isKJBPerson);
+		
+		
+		
 		SysUser userDetails = new SysUser(); // 用户信息，包含此人拥有的菜单权限等。token中放不下这些信息
 		SysUser tokenUser = new SysUser();
 		if (request.getParameter("username") != null && request.getParameter("password") != null) {
@@ -523,12 +532,15 @@ public class AdminController extends BaseController {
 			response.addCookie(loginCookie);
 
 			String cFlag = request.getParameter("cFlag");
+			
 			if (userDetails.getUserLevel() != null && userDetails.getUserLevel() == 1 && cFlag == null) {
 				request.setAttribute("companyCode", HanaUtil.YJY_CODE_ALL);
 				String month = HanaUtil.getCurrrentYearMoth();
 				request.setAttribute("month", month);
 				return "/oneLevelMain";//leaderIndex
 			} else {
+				
+				
 				return "/index";
 			}
 		}
@@ -668,8 +680,34 @@ public class AdminController extends BaseController {
         SysUser  sysUser=   EquipmentUtils.getSysUserByUserId(sysUserInfo.getUserId(), restTemplate, httpHeaders);
         List scList= sysUser.getScList();
         request.setAttribute("scList",scList);
+        String unitPathId=sysUserInfo.getUnitPath();
+		boolean isKJBPerson=EquipmentUtils.isKJBPerson(unitPathId);
+		request.setAttribute("isKJBPerson", isKJBPerson);
+		
+		
         return "/mainStp";
 	}
+	
+	//获取O信息（待办）
+	@RequestMapping(value = "/getOA")
+	@ResponseBody
+	public String getOA(HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+		String url = CommonUtil.getParameter(request, "url", "");
+		String str=Httpclient4Util.get(url);
+		Result resultsDate = new Result();
+		if(str!=null)
+		{
+			resultsDate.setSuccess(true);
+			resultsDate.setData(str);
+		}else
+		{
+			resultsDate.setSuccess(false);
+		}
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		return result.toString();
+	}
+	
 
 	/**
 	 * 首页的具体内容
