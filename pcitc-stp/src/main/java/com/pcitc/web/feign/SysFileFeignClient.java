@@ -3,6 +3,7 @@ package com.pcitc.web.feign;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.base.system.SysFile;
 import feign.Response;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.MediaType;
@@ -33,4 +34,6 @@ public interface SysFileFeignClient {
 
     @RequestMapping(value = "/sysfile-provider/sysfile/video/{id}")
     public Response videoFiles(@RequestParam("id") String id, @RequestParam("request") HttpServletRequest request, @RequestParam("response") HttpServletResponse response);
+    @RequestMapping(value = "/sysfile-provider/sysfile/get-sysfile/{sysFileId}")
+    public SysFile selectSysFileByMenuId(@PathVariable(value = "sysFileId", required = true) String sysFileId) throws Exception;
 }

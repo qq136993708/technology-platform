@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -194,14 +195,16 @@ public class FileUtil {
      */
     public static void fileDownload(File file,HttpServletResponse res) 
 	{
-        res.setHeader("content-type", "application/octet-stream");
-        res.setContentType("application/octet-stream");
-        res.setHeader("Content-Disposition", "attachment;filename=" + file.getName());
+      
         
         OutputStream out = null;
         InputStream in = null;
         try 
         {
+        	res.setHeader("content-type", "application/octet-stream");
+            res.setContentType("application/octet-stream");
+            res.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(file.getName(), "UTF-8"));
+        	
           out = res.getOutputStream();
           in = new FileInputStream(file);
           
