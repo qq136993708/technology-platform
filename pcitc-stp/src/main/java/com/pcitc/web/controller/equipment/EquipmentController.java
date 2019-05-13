@@ -666,6 +666,11 @@ public class EquipmentController extends BaseController {
 		    
 		String unitPathIds =   CommonUtil.getParameter(request, "unitPathIds",sysUserInfo.getUnitPath());
 		String unitPathNames = CommonUtil.getParameter(request, "unitPathNames", sysUserInfo.getUnitName());
+		
+		
+		
+		
+		
 		String parentUnitPathIds ="";
 		String parentUnitPathNames =  "";
 		if(unitPathIds!=null && !unitPathIds.equals(""))
