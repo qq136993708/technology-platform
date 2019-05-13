@@ -31,7 +31,7 @@ public class OutBaseDataClient
 	
 	@ApiOperation(value = "组织类别数据", notes = "检索组织类别数据")
     @RequestMapping(value = "/out-basedata-provider/basedata/search-org-type", method = RequestMethod.POST)
-    public Object selectOrgTypeList(@RequestBody HashMap<String, String> params) {
+    public Object selectOrgTypeList(@RequestBody LayuiTableParam param) {
         
 		List<OutOrgType> types = new ArrayList<OutOrgType>();
 		LayuiTableData rsdata = null;
