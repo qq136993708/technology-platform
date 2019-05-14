@@ -388,12 +388,6 @@ public class AdminController extends BaseController {
 	@RequestMapping(value = "/index")
 	public String toIndexPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String unitPathId=sysUserInfo.getUnitPath();
-		boolean isKJBPerson=EquipmentUtils.isKJBPerson(unitPathId);
-		request.setAttribute("isKJBPerson", isKJBPerson);
-		
-		
-		
 		SysUser userDetails = new SysUser(); // 用户信息，包含此人拥有的菜单权限等。token中放不下这些信息
 		SysUser tokenUser = new SysUser();
 		if (request.getParameter("username") != null && request.getParameter("password") != null) {
