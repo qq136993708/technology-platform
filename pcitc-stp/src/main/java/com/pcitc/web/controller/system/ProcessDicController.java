@@ -1,8 +1,12 @@
 package com.pcitc.web.controller.system;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -12,29 +16,35 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.stp.system.SysProcessDic;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.utils.EquipmentUtils;
 
 @Controller
 @RequestMapping(value = "/process_dic")
 public class ProcessDicController extends BaseController{
 	
-	public  static final String GET_URL =    "http://pcitc-zuul/stp-proxy/system-provider/sys_process_dic/get/";
-	private static final String PAGE_URL =   "http://pcitc-zuul/stp-proxy/system-provider/sys_process_dic/page";
-	public  static final String ADD_URL =    "http://pcitc-zuul/stp-proxy/system-provider/sys_process_dic/add";
-	public  static final String UPDATE_URL = "http://pcitc-zuul/stp-proxy/system-provider/sys_process_dic/update";
-	private static final String DEL_URL =    "http://pcitc-zuul/stp-proxy/system-provider/sys_process_dic/delete/";
+	public  static final String GET_URL =    "http://pcitc-zuul/system-proxy/system-provider/sys_process_dic/get/";
+	private static final String PAGE_URL =   "http://pcitc-zuul/system-proxy/system-provider/sys_process_dic/page";
+	public  static final String ADD_URL =    "http://pcitc-zuul/system-proxy/system-provider/sys_process_dic/add";
+	public  static final String UPDATE_URL = "http://pcitc-zuul/system-proxy/system-provider/sys_process_dic/update";
+	private static final String DEL_URL =    "http://pcitc-zuul/system-proxy/system-provider/sys_process_dic/delete/";
 
 	
     @RequestMapping(value = "/type_list")
 	public String plan_audit_list(HttpServletRequest request, HttpServletResponse response) 
     {
+    	List<SysDictionary> list=EquipmentUtils.getSysDictionaryListByParentCode("ROOT_QLCMXWH", restTemplate, httpHeaders);
+    	request.setAttribute("list", list);
 		return "/stp/processDic/type_list";
 	}
     
@@ -42,8 +52,25 @@ public class ProcessDicController extends BaseController{
     @RequestMapping(value = "/process_list")
    	public String process_node_list(HttpServletRequest request, HttpServletResponse response) 
     {
+    	
+    	String type = CommonUtil.getParameter(request, "type", "");
+    	request.setAttribute("type", type);
    		return "/stp/processDic/process_list";
    	}
+    
+    
+    
+    @RequestMapping(value = "/choose_process")
+   	public String choose_process(HttpServletRequest request, HttpServletResponse response) 
+    {
+    	
+    	String type = CommonUtil.getParameter(request, "type", "");
+    	request.setAttribute("type", type);
+   		return "/stp/processDic/choose_process";
+   	}
+    
+    
+    
     
     @RequestMapping(value = "/process_list_data")
 	@ResponseBody
@@ -69,14 +96,16 @@ public class ProcessDicController extends BaseController{
     {
     	SysProcessDic sysProcessDic = null;
     	String id = CommonUtil.getParameter(request, "id", "");
+    	String type = CommonUtil.getParameter(request, "type", "");
     	if(!id.equals(""))
     	{
     		ResponseEntity<SysProcessDic> se = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysProcessDic.class);
     		sysProcessDic = se.getBody();
     	}
-		
+    	request.setAttribute("id", id);
+    	request.setAttribute("type", type);
 		request.setAttribute("sysProcessDic", sysProcessDic);
-		return "/stp/equipment/equipment/equipment-add";
+		return "/stp/processDic/add";
 	}
 
 	/**
@@ -98,13 +127,19 @@ public class ProcessDicController extends BaseController{
 		String type = CommonUtil.getParameter(request, "type", "");
 		String notes = CommonUtil.getParameter(request, "notes", "");
 		String id = CommonUtil.getParameter(request, "id", "");
+		String parentName = CommonUtil.getParameter(request, "parentName", "");
+		String parentId = CommonUtil.getParameter(request, "parentId", "");
+		
+		
 		// 流程状态-是保存还是提交
 		SysProcessDic sysProcessDic = null;
 		ResponseEntity<String> responseEntity = null;
 		// 判断是新增还是修改
 		if (id.equals("")) 
 		{
+			String idv = UUID.randomUUID().toString().replaceAll("-", "");
 			sysProcessDic = new SysProcessDic();
+			sysProcessDic.setId(idv);
 			sysProcessDic.setCreateTime(new Date());
 			sysProcessDic.setType(type);
 			System.out.println("---------------ext1:" + ext1 + " name=" + name + " ext2=" + ext2);
@@ -117,6 +152,8 @@ public class ProcessDicController extends BaseController{
 		sysProcessDic.setNotes(notes);
 		sysProcessDic.setExt1(ext1);
 		sysProcessDic.setExt2(ext2);
+		sysProcessDic.setParentName(parentName);
+		sysProcessDic.setParentId(parentId);
 		// 判断是新增还是修改
 		if (id.equals("")) {
 			responseEntity = this.restTemplate.exchange(ADD_URL, HttpMethod.POST, new HttpEntity<SysProcessDic>(sysProcessDic, this.httpHeaders), String.class);
