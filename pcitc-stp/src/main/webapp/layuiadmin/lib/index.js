@@ -146,6 +146,7 @@ layui.extend({
       window.localStorage.setItem("param",param);
   });
   $(".index-fixed li").click(function () {
+      $("#mainIframe").attr('src', $("#mainIframe").attr('src'));
       $(".layui-nav-item").removeClass("layui-this");
       $(".layui-nav-tree").addClass("layui-hide");
       $(".layui-nav-tree").eq(0).removeClass("layui-hide");
