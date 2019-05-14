@@ -723,7 +723,7 @@
   
   <!-- 查询最大更新时间 -->
   <select id="selectMaxUpdate" resultType="string">
-      select max(create_date) from expenses_bills
+      select max(update_date) from expenses_bills
   </select>
   
   <!-- 批量插入数据 -->
