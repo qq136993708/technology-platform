@@ -26,11 +26,7 @@ public class OutProjectRequireServiceImpl implements OutProjectRequireService {
 	private OutProjectRequireItemMapper outProjectRequireItemMapper;
 	
 	/**
-	 * 批量插入全流程信息
-	 * 
-	 * @param flowProjectInfo
-	 * @return
-	 * @throws Exception
+	 * 批量插入项目需求
 	 */
 	@Transactional
     //@TxTransaction
