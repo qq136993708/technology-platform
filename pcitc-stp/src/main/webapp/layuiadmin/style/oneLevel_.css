@@ -193,8 +193,8 @@ line-height: 60px;font-size: 22px;}
 .equipment-front img{position: absolute;right: 6px;bottom: 4px;}
 .equipment .number{margin-top: 96px;}
 .equipment:hover{border: 1px solid #ccd7df;box-shadow: 0 0 10px #0155dc;}
-.equipment img{transition: transform 1s;}
-.equipment:hover img{animation:imgAnimation 1s;animation-fill-mode:forwards;
+.equipment img{transition: transform 2s;}
+.equipment:hover img{animation:imgAnimation 2s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
 .contract{position: absolute;top: 146px;left: 0;height: 132px;width: 134px;    perspective: 1000px; }
 .contract-cont{height: 100%;width: 100%;position: relative;}
@@ -239,8 +239,8 @@ line-height: 60px;font-size: 22px;}
     background: url("/layuiadmin/layui/images/equipment-bg.png") no-repeat right bottom;}
 .personnel-front img{position: absolute;right: 6px;bottom: 4px;}
 .personnel:hover{border: 1px solid #ccd7df;box-shadow: 0 0 10px #0155dc;}
-.personnel img{transition: transform 1s;}
-.personnel:hover img{animation:imgAnimationT 1s;animation-fill-mode:forwards;
+.personnel img{transition: transform 2s;}
+.personnel:hover img{animation:imgAnimationT 2s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
 
 .achievement{position: absolute;right: 0;width: 134px;height: 132px;top:438px;box-sizing: border-box;
@@ -249,8 +249,8 @@ line-height: 60px;font-size: 22px;}
     background: url("/layuiadmin/layui/images/equipment-bg.png") no-repeat right bottom;}
 .achievement-front img{position: absolute;right: 6px;bottom: 4px;}
 .achievement:hover{border: 1px solid #ccd7df;box-shadow: 0 0 10px #0155dc;}
-.achievement img{transition: transform 1s;}
-.achievement:hover img{animation:imgAnimationT 1s;animation-fill-mode:forwards;
+.achievement img{transition: transform 2s;}
+.achievement:hover img{animation:imgAnimationT 2s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
 /*第二屏*/
 .property{background:#f58b9c url("/layuiadmin/layui/images/unify.png") no-repeat right bottom;width: 100%;
@@ -278,23 +278,23 @@ line-height: 60px;font-size: 22px;}
     top: 53px;left: 45px;height: 13px;}
 .menu-two-icon{background: url("/layuiadmin/layui/images/menu-two-icon.png") no-repeat;position: absolute;
     top: 33px;left: 43px;height: 11px;}
-.menuOpen{animation:rightPx 1s;animation-fill-mode:forwards;
+.menuOpen{animation:rightPx 2s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.menuIndex{animation:widthPx 1s;animation-fill-mode:forwards;
+.menuIndex{animation:widthPx 2s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.menuTwo{animation:widthIPx 1s;animation-fill-mode:forwards;
+.menuTwo{animation:widthIPx 2s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.indexIcon{animation:cPx 1s;animation-fill-mode:forwards;
+.indexIcon{animation:cPx 2s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.indexReduce{animation:reducePx 1s;animation-fill-mode:forwards;
+.indexReduce{animation:reducePx 2s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.indexAdd{animation:TPx 1s;animation-fill-mode:forwards;
+.indexAdd{animation:TPx 2s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.openAdd{animation:rPx 1s;animation-fill-mode:forwards;
+.openAdd{animation:rPx 2s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.openReduce{animation:raPx 1s;animation-fill-mode:forwards;
+.openReduce{animation:raPx 2s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.translateM{animation:trPx 1s;animation-fill-mode:forwards;
+.translateM{animation:trPx 2s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
 
 
@@ -347,29 +347,29 @@ line-height: 60px;font-size: 22px;}
 .layui-speech-d .title-time{margin-top: 20px;}
 .layui-speech-d .time{margin-right: 10px;}
 /*首页动画效果*/
-.laboratoryH,.projectH{animation:oneAHText 1s;animation-fill-mode:forwards;
+.laboratoryH,.projectH{animation:oneAHText 2s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.laboratoryC,.projectC{animation:oneAnimationColor 1s;animation-fill-mode:forwards;
+.laboratoryC,.projectC{animation:oneAnimationColor 2s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.laboratoryB,.projectB{animation:oneAnimationB 1s;animation-fill-mode:forwards;
+.laboratoryB,.projectB{animation:oneAnimationB 2s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.laboratoryHO,.projectHO{animation:oneAHTO 1s;animation-fill-mode:forwards;
+.laboratoryHO,.projectHO{animation:oneAHTO 2s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.laboratoryCO,.projectCO{animation:oneAnimationCO 1s;animation-fill-mode:forwards;
+.laboratoryCO,.projectCO{animation:oneAnimationCO 2s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.laboratoryBO,.projectBO{animation:oneAnimationBO 1s;animation-fill-mode:forwards;
+.laboratoryBO,.projectBO{animation:oneAnimationBO 2s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.contractH,.investmentH,.instituteH{animation:oneAHText 1s;animation-fill-mode:forwards;
+.contractH,.investmentH,.instituteH{animation:oneAHText 2s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.contractC,.investmentC,.instituteC{animation:rotateX 1s;animation-fill-mode:forwards;
+.contractC,.investmentC,.instituteC{animation:rotateX 2s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.contractB,.investmentB,.instituteB{animation:rotateXX 1s;animation-fill-mode:forwards;
+.contractB,.investmentB,.instituteB{animation:rotateXX 2s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.contractHO,.investmentHO,.instituteHO{animation:oneAHTO 1s;animation-fill-mode:forwards;
+.contractHO,.investmentHO,.instituteHO{animation:oneAHTO 2s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.contractCO,.investmentCO,.instituteCO{animation:rotateXO 1s;animation-fill-mode:forwards;
+.contractCO,.investmentCO,.instituteCO{animation:rotateXO 2s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.contractBO,.investmentBO,.instituteBO{animation:rotateXXO 1s;animation-fill-mode:forwards;
+.contractBO,.investmentBO,.instituteBO{animation:rotateXXO 2s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
 /*hover文字与图标透明*/
 @keyframes oneAHText {
