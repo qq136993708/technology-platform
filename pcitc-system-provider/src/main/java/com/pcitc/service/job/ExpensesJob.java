@@ -96,7 +96,7 @@ public class ExpensesJob implements Job, Serializable {
 
 			// 添加请求体
 			client.body(jo.toString());
-
+			System.out.println("开始调用远程接口--------"+realEndDate);
 			RestfulHttpClient.HttpResponse response;
 			response = client.request();
 
@@ -104,15 +104,13 @@ public class ExpensesJob implements Job, Serializable {
 			if (response.getCode()==200) {
 				// 获取响应内容
 				String result = response.getContent();
-				// 分解返回结果
-				JSONObject json = JSONObject.parseObject(result);
-				
 				// 传递参数
 				strEntity = new HttpEntity<String>(result, headers);
 				responseEntity = restTemplate.postForEntity(INSERT_EXPENSES, strEntity, Object.class);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			System.out.println("调用异常--------");
 			e.printStackTrace();
 		}
 	}
