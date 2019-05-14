@@ -42,7 +42,7 @@ public class ExpensesAPIRestFul {
 
 			JsonObject jo = new JsonObject();
 			// 查询最大值，+一个月作为本次的查询条件
-			String startDate = "2017-12-01";
+			String startDate = "2018-12-01";
 
 			Date temStartDate = DateUtil.strToDate(startDate, DateUtil.FMT_DD);
 			Calendar rightNow = Calendar.getInstance();
