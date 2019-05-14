@@ -324,7 +324,7 @@ public class ExcelReadUtil {
 			}
 		}
 	}
-	public static void main(String [] args) 
+	public static void main(String [] args)
 	{
 		File file = new File("D:\\group_total_data.xlsx");
 		ExcelReadUtil util = new ExcelReadUtil();
@@ -337,12 +337,12 @@ public class ExcelReadUtil {
 				for(java.util.Iterator<Point> miter = map.keySet().iterator();miter.hasNext();) {
 					Point p = miter.next();
 					Object val = map.get(p);
-				
+
 					System.out.println("坐标："+p.toString()+" 值："+val);
 				}
 				/****遍历所有单元格 end ****/
-				
-				
+
+
 				/****查找Sheet中指定单元格的值【0,0】 start ****/
 				List<Point> keys = new ArrayList<Point>(map.keySet());
 				Optional<Point> point = keys.stream().filter(a -> a.getRowIndex().equals(0)).filter(a -> a.getColIndex().equals(0)).findFirst();
@@ -352,10 +352,10 @@ public class ExcelReadUtil {
 					System.out.println("坐标："+p.toString()+" 值："+val);
 				}
 				/****查找Sheet中指定行，列的值【0,0】  end ****/
-				
+
 				List<List<Object>> obj = util.getValByRow(map);
 				System.out.println(JSON.toJSONString(obj));
-				
+
 				System.out.println(JSON.toJSONString(keys));
 			}
 		} catch (Exception e) {
