@@ -158,7 +158,7 @@ public class ExcelReadUtil {
 	public Map<Point,Object> readSheetVal(Sheet sheet)
 	{
 		Map<Point,Object> map = new LinkedHashMap<Point,Object>();
-		for(int r = 0;r<sheet.getLastRowNum();r++) {
+		for(int r = 0;r<=sheet.getLastRowNum();r++) {
 			if(sheet.getRow(r) == null) {continue;}
 			for(int c = 0;c<sheet.getRow(r).getLastCellNum();c++) {
 				map.put(new Point(r,c), getCellValue(sheet.getRow(r).getCell(c)));
@@ -330,20 +330,23 @@ public class ExcelReadUtil {
 		ExcelReadUtil util = new ExcelReadUtil();
 		try {
 			List<Map<Point,Object>> rss =util.readExcelAllCellVal(file);
-			for(java.util.Iterator<Map<Point,Object>> iter = rss.iterator();iter.hasNext();) {
+			
+			List<List<Object>> rs = util.getValByRow(rss.get(0));
+			System.out.println(JSON.toJSONString(rs));
+			/*for(java.util.Iterator<Map<Point,Object>> iter = rss.iterator();iter.hasNext();) {
 				//map 为sheet页数据对象，key 为单元格坐标，val为值
 				Map<Point,Object> map = iter.next();
-				/****遍历所有单元格 start ****/
+				*//****遍历所有单元格 start ****//*
 				for(java.util.Iterator<Point> miter = map.keySet().iterator();miter.hasNext();) {
 					Point p = miter.next();
 					Object val = map.get(p);
 				
 					System.out.println("坐标："+p.toString()+" 值："+val);
 				}
-				/****遍历所有单元格 end ****/
+				*//****遍历所有单元格 end ****//*
 				
 				
-				/****查找Sheet中指定单元格的值【0,0】 start ****/
+				*//****查找Sheet中指定单元格的值【0,0】 start ****//*
 				List<Point> keys = new ArrayList<Point>(map.keySet());
 				Optional<Point> point = keys.stream().filter(a -> a.getRowIndex().equals(0)).filter(a -> a.getColIndex().equals(0)).findFirst();
 				if(point != null && point.isPresent()) {
@@ -351,13 +354,13 @@ public class ExcelReadUtil {
 					Object val = map.get(p);
 					System.out.println("坐标："+p.toString()+" 值："+val);
 				}
-				/****查找Sheet中指定行，列的值【0,0】  end ****/
+				*//****查找Sheet中指定行，列的值【0,0】  end ****//*
 				
 				List<List<Object>> obj = util.getValByRow(map);
 				System.out.println(JSON.toJSONString(obj));
 				
 				System.out.println(JSON.toJSONString(keys));
-			}
+			}*/
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
