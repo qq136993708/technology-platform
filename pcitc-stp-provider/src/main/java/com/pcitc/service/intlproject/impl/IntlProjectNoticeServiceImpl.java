@@ -33,6 +33,7 @@ public class IntlProjectNoticeServiceImpl implements IntlProjectNoticeService {
 		{
 			criteria.andNoticeTitleLike("%"+param.getParam().get("noticeTitle")+"%");
 		}
+		example.setOrderByClause("create_time desc ");
 		return this.findByExample(param, example);
 	}
 
@@ -83,5 +84,11 @@ public class IntlProjectNoticeServiceImpl implements IntlProjectNoticeService {
 			return projectNoticeMapper.deleteByPrimaryKey(noticeId);
 		}
 		return 0;
+	}
+
+	@Override
+	public boolean startWorkFlow(String noticeId, String functionId, String workflowName) {
+		// TODO Auto-generated method stub
+		return false;
 	} 
 }
