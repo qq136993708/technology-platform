@@ -1,13 +1,10 @@
 package com.pcitc.web.techFamily;
 
+import com.pcitc.base.util.DateUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -259,4 +256,71 @@ public class TechFamilyProviderClient {
 		retJson.put("maxTypeCode", retCode);
 		return retJson;
 	}
+
+    @ApiOperation(value = "保存技术族分类", notes = "保存技术族分类")
+    @RequestMapping(value = "/tech-family-provider/type-insert-list", method = RequestMethod.POST)
+    public Integer insertTechFamilyTypeList(@RequestBody JSONObject jsonObject) {
+        System.out.println("insertTechFamilyType==================" + jsonObject);
+        int rt = 0;
+        List<List<Object>> valByRow = (List<List<Object>>) jsonObject.get("list");
+        List<TechFamily> techFamilies = new ArrayList<>();
+        for (int j = 1; j < valByRow.size(); j++) {
+
+            String pid = (String) valByRow.get(j).get(0);//父ID
+            String id = (String) valByRow.get(j).get(1);//ID
+            String name = (String) valByRow.get(j).get(2);//name
+
+            //获取最大编码
+            HashMap<String, String> map = new HashMap<String, String>();
+            map.put("parentId", pid);
+            String maxTypeCode = techFamilyService.getMaxTechTypeCode(map);
+            String retCode = "101";
+            if (maxTypeCode != null) {
+                String temcode = maxTypeCode.substring(maxTypeCode.length() - 4, maxTypeCode.length());
+                retCode = maxTypeCode.substring(0, maxTypeCode.length() - 4) + String.valueOf(Integer.parseInt(temcode) + 1);
+            }
+
+
+            // 先获取父节点信息
+            TechFamily techType = new TechFamily();
+
+            techType.setTfmTypeId(pid);
+            List<TechFamily> parentList = techFamilyService.selectTechFamilyTypeList(techType);
+
+
+
+            if (parentList != null && parentList.size() == 1) {
+                TechFamily parentVo = parentList.get(0);
+                techType.setStatus("1");
+                techType.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
+                techType.setIsParent("0");
+                techType.setTypeCode(retCode);
+
+                techType.setTypeName(name);
+                techType.setParentCode(parentVo.getTypeCode());
+                techType.setTypeIndex(parentVo.getTypeIndex() + techType.getTypeCode() + "@");
+                techType.setLevelCode(String.valueOf(Integer.valueOf(parentVo.getLevelCode()) + 1));
+                techType.setParentId(pid);
+                techType.setTfmTypeId(id);
+//                techType.setTfmTypeId(UUID.randomUUID().toString().replaceAll("-", ""));
+                techFamilyService.saveTechFamilyType(techType);
+                // 修改原节点isParent 属性
+                if (parentVo.getIsParent().equals("0")) {
+                    parentVo.setIsParent("1");
+                    techFamilyService.updateTechFamilyType(parentVo);
+                }
+                techFamilies.add(techType);
+                rt =  1;
+            } else {
+                rt = 0;
+                break;
+            }
+        }
+        if (rt==0){
+            for (int i = 0; i < techFamilies.size(); i++) {
+                techFamilyService.deleteTechFamilyType(techFamilies.get(i));
+            }
+        }
+        return rt;
+    }
 }

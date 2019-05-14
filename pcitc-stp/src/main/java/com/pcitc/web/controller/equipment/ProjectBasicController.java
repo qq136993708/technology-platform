@@ -541,28 +541,6 @@ public class ProjectBasicController extends BaseController {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	    
-		
-
-	
 
 	/**
 	 * 删除

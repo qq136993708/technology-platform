@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.DES3Utils;
+import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
 
 /**
@@ -36,6 +37,14 @@ public class AdminMobileController extends BaseController {
 	public String indexMobile(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String year= HanaUtil.getCurrrentYear();
 	    request.setAttribute("year", year);
+	    
+	    
+		String unitPathId=sysUserInfo.getUnitPath();
+		boolean isKJBPerson=EquipmentUtils.isKJBPerson(unitPathId);
+		request.setAttribute("isKJBPerson", isKJBPerson);
+		
+		
+		
 
 		return "/mobile/index";
 	}
@@ -84,6 +93,13 @@ public class AdminMobileController extends BaseController {
 		cookie.setMaxAge(24 * 60 * 60);// 设置有效期为1天
 		cookie.setPath("/");
 		response.addCookie(cookie);*/
+		
+		
+		String unitPathId=sysUserInfo.getUnitPath();
+		boolean isKJBPerson=EquipmentUtils.isKJBPerson(unitPathId);
+		request.setAttribute("isKJBPerson", isKJBPerson);
+		
+		
 
 		return "/mobile/index";
 	}

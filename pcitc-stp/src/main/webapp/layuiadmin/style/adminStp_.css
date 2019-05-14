@@ -262,8 +262,8 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-nav-itemed>a span,.layui-nav-tree .layui-nav-item>a:hover span{color: white;}
 .layui-nav-tree .layui-nav-item>a:hover,.layui-nav-itemed>a{
     background: url("/layuiadmin/layui/images/tree_w_m.png") 14px 14px no-repeat #1890ff !important;}
-.layui-nav-tree .layui-nav-item:nth-child(1)>a:hover,.layui-nav-itemed:nth-child(1)>a{background: url("/layuiadmin/layui/images/stpicon_10.png") 14px 14px no-repeat #ededed !important;color: #000 !important;}
-.layui-nav-tree .layui-nav-item:nth-child(2)>a:hover,.layui-nav-itemed:nth-child(2)>a{background: url("/layuiadmin/layui/images/tree_05.png") 14px 14px no-repeat #1890ff !important;}
+.layui-nav-tree .layui-nav-item:nth-child(1)>a:hover,.layui-nav-itemed:nth-child(1)>a{background: url("/layuiadmin/layui/images/stpicon_10.png") 10px 14px no-repeat #ededed !important;color: #000 !important;}
+.layui-nav-tree .layui-nav-item:nth-child(2)>a:hover,.layui-nav-itemed:nth-child(2)>a{background: url("/layuiadmin/layui/images/tree_05.png") 10px 14px no-repeat #1890ff !important;}
 /*.layui-nav-itemed>dl>.layui-nav-itemed>a{
     background: url("/layuiadmin/layui/images/stpicon_10.png") 14px 14px no-repeat #ededed !important;
     color: #000 !important;}*/
@@ -293,7 +293,7 @@ html{background-color: #f2f2f2; color: #666;}
     background: url("/layuiadmin/layui/images/tree_03.png") 22px 14px  no-repeat;}
 .layui-leader-admin  .layui-nav-tree .layui-nav-item:nth-child(1)>a:hover,
 .layui-leader-admin  .layui-nav-itemed:nth-child(1)>a{
-    background: url("/layuiadmin/layui/images/tree_05.png") 14px 14px no-repeat #00A3B5 !important;}
+    background: url("/layuiadmin/layui/images/tree_05.png") 22px 14px no-repeat #00A3B5 !important;}
 .layui-leader-admin .layui-nav-tree .layui-nav-item{top: 10px;}
 .layui-leader-admin .layui-nav-more{display: none;}
 .layui-leader-admin .layui-side-menu .layui-nav .layui-nav-item dl dd a{
