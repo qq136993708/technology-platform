@@ -10,10 +10,7 @@
 </head>
 <body>
 <div class="cycle-img">
-    <div class="already" style="left: 0;">
-        <p>1</p>
-        <p>1</p>
-    </div>
+
 </div>
 
 <script>
@@ -38,11 +35,27 @@
                 {"name":"未做","contonet":"11111","start":"not","id":"7"}
             ]
         };
+        var dataJson;
         for(var i in data=data.data ){
             var dataJson=data[i].data;
-            var html=""
+            var html='<div class="'+data[i].start+'" lay-class="'+i+'" style="left: '+102*i+'px;">' +
+                '        <p>'+data[i].name+'</p>' +
+                '        <p>'+data[i].contonet+'</p>' +
+                '    </div>';
+            $(".cycle-img").append(html);
             if(dataJson!=undefined){
-
+                $.each(dataJson,function (k, val) {
+                    if(k==0){
+                        var top="15%";
+                    }else if(k==1) {
+                        var top="75%";
+                    }
+                    var html='<div class="already" lay-class="'+val.to+'" style="left: '+102*(parseInt(i)+1)+'px; top:'+top+'">' +
+                        '        <p>'+data[i].name+'</p>' +
+                        '        <p>'+data[i].contonet+'</p>' +
+                        '    </div>';
+                    $(".cycle-img").append(html);
+                });
             }
         }
     });

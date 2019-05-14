@@ -570,5 +570,6 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
     text-align: center;padding-top: 2px;top: -28px;}
 .cycle-cont-right a{position: absolute;right: 3px;width: 75px;height: 21px;color: white;text-align: left;
     font-size: 12px;line-height: 21px;border-radius: 3px;background: #1890ff;display: block;top: -4px;}
-.cycle-img{position: relative;width: 98%;margin: 0 auto;}
-.cycle-img .already{position: absolute;top: 50%;left: 0;}
+.cycle-img{position: relative;width: 94%;margin: 0 auto;}
+.cycle-img .already,.cycle-img .not{position: absolute;top: 45%;}
+.cycle-img>div{background-color: #5dbdff;width: 50px;height: 50px;}
