@@ -548,4 +548,37 @@
       bak9 = #{bak9,jdbcType=VARCHAR}
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
+  
+  <!-- 批量插入数据， 通过billCode关联-->
+	<insert id="insertExpensesBillsApprBatch" parameterType="java.util.List">
+     insert into expenses_bills_approves (data_id, billCode, executeName, 
+      approveCode, approveName, orgName, 
+      approveState, approveTime, approveOpinion, 
+      data_code, create_user, create_user_id, 
+      create_date, update_user, update_date, 
+      sts, remarks, bak1, 
+      bak2, bak3, bak4, bak5, 
+      bak6, bak7, bak8, bak9
+      )
+    values 
+     <foreach collection="list" item="exObject" index="index" separator=",">
+     (#{exObject.dataId,jdbcType=VARCHAR}, #{exObject.billcode,jdbcType=VARCHAR}, 
+      #{exObject.executename,jdbcType=VARCHAR}, 
+      #{exObject.approvecode,jdbcType=VARCHAR}, #{exObject.approvename,jdbcType=VARCHAR}, 
+      #{exObject.orgname,jdbcType=VARCHAR}, 
+      #{exObject.approvestate,jdbcType=VARCHAR}, #{exObject.approvetime,jdbcType=VARCHAR}, 
+      #{exObject.approveopinion,jdbcType=VARCHAR}, 
+      #{exObject.dataCode,jdbcType=VARCHAR}, #{exObject.createUser,jdbcType=VARCHAR}, 
+      #{exObject.createUserId,jdbcType=VARCHAR}, 
+      #{exObject.createDate,jdbcType=VARCHAR}, #{exObject.updateUser,jdbcType=VARCHAR}, 
+      #{exObject.updateDate,jdbcType=VARCHAR}, 
+      #{exObject.sts,jdbcType=VARCHAR}, #{exObject.remarks,jdbcType=VARCHAR}, 
+      #{exObject.bak1,jdbcType=VARCHAR}, 
+      #{exObject.bak2,jdbcType=VARCHAR}, #{exObject.bak3,jdbcType=VARCHAR}, 
+      #{exObject.bak4,jdbcType=VARCHAR}, #{exObject.bak5,jdbcType=VARCHAR}, 
+      #{exObject.bak6,jdbcType=VARCHAR}, #{exObject.bak7,jdbcType=VARCHAR}, 
+      #{exObject.bak8,jdbcType=VARCHAR}, #{exObject.bak9,jdbcType=VARCHAR}
+      )
+      </foreach>
+	</insert>
 </mapper>

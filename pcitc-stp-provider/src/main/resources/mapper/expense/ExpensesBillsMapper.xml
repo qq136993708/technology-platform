@@ -720,4 +720,47 @@
       bak9 = #{bak9,jdbcType=VARCHAR}
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
+  
+  <!-- 查询最大更新时间 -->
+  <select id="selectMaxUpdate" resultType="java.util.String">
+      select max(create_date) from expenses_bills
+  </select>
+  
+  <!-- 批量插入数据 -->
+	<insert id="insertExpensesBillsBatch" parameterType="java.util.List">
+		insert into expenses_bills (data_id, billTypeCode, billTypeName, 
+	      billCode, applyDate, compCode, 
+	      compName, apprOrgName, apprOrgCode, 
+	      costCentName, costCentCode, applyEmpId, 
+	      applyEmpName, reimCode, reimName, 
+	      accoObjValueDesc, accoObjValue, billAmount, 
+	      investment, deductionAmount, data_code, 
+	      create_user, create_user_id, create_date, 
+	      update_user, update_date, sts, 
+	      remarks, bak1, bak2, 
+	      bak3, bak4, bak5, bak6, 
+	      bak7, bak8, bak9)
+	    values 
+	    <foreach collection="list" item="exObject" index="index" separator=",">
+		    (#{exObject.dataId,jdbcType=VARCHAR}, #{exObject.billtypecode,jdbcType=VARCHAR}, 
+		      #{exObject.billtypename,jdbcType=VARCHAR}, #{exObject.billcode,jdbcType=VARCHAR}, 
+		      #{exObject.applydate,jdbcType=VARCHAR}, #{exObject.compcode,jdbcType=VARCHAR}, 
+		      #{exObject.compname,jdbcType=VARCHAR}, #{exObject.approrgname,jdbcType=VARCHAR}, 
+		      #{exObject.approrgcode,jdbcType=VARCHAR}, #{exObject.costcentname,jdbcType=VARCHAR}, 
+		      #{exObject.costcentcode,jdbcType=VARCHAR}, #{exObject.applyempid,jdbcType=VARCHAR}, 
+		      #{exObject.applyempname,jdbcType=VARCHAR}, #{exObject.reimcode,jdbcType=VARCHAR}, 
+		      #{exObject.reimname,jdbcType=VARCHAR}, #{exObject.accoobjvaluedesc,jdbcType=VARCHAR}, 
+		      #{exObject.accoobjvalue,jdbcType=VARCHAR}, #{exObject.billamount,jdbcType=VARCHAR}, 
+		      #{exObject.investment,jdbcType=VARCHAR}, #{exObject.deductionamount,jdbcType=VARCHAR}, 
+		      #{exObject.dataCode,jdbcType=VARCHAR}, #{exObject.createUser,jdbcType=VARCHAR}, 
+		      #{exObject.createUserId,jdbcType=VARCHAR}, #{exObject.createDate,jdbcType=VARCHAR}, 
+		      #{exObject.updateUser,jdbcType=VARCHAR}, #{exObject.updateDate,jdbcType=VARCHAR}, 
+		      #{exObject.sts,jdbcType=VARCHAR}, #{exObject.remarks,jdbcType=VARCHAR}, 
+		      #{exObject.bak1,jdbcType=VARCHAR}, #{exObject.bak2,jdbcType=VARCHAR}, 
+		      #{exObject.bak3,jdbcType=VARCHAR}, #{exObject.bak4,jdbcType=VARCHAR}, 
+		      #{exObject.bak5,jdbcType=VARCHAR}, #{exObject.bak6,jdbcType=VARCHAR}, 
+		      #{exObject.bak7,jdbcType=VARCHAR}, #{exObject.bak8,jdbcType=VARCHAR}, 
+		      #{exObject.bak9,jdbcType=VARCHAR})
+		</foreach>
+	</insert>
 </mapper>

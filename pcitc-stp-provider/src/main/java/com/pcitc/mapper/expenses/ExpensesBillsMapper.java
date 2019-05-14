@@ -29,4 +29,16 @@ public interface ExpensesBillsMapper {
     int updateByPrimaryKeySelective(ExpensesBills record);
 
     int updateByPrimaryKey(ExpensesBills record);
+    
+    /**
+	 * @return
+	 * 查询最大的更新日期,方便再次更新
+	 */
+	public String selectMaxUpdate();
+	
+	/**
+	 * 批量保存经费报销单据
+	 * @return
+	 */
+	public void insertExpensesBillsBatch(List<ExpensesBills> list);
 }

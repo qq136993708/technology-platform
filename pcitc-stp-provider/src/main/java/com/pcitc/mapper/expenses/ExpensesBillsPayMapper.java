@@ -1,9 +1,11 @@
 package com.pcitc.mapper.expenses;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.pcitc.base.stp.expenses.ExpensesBillsPay;
 import com.pcitc.base.stp.expenses.ExpensesBillsPayExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface ExpensesBillsPayMapper {
     long countByExample(ExpensesBillsPayExample example);
@@ -27,4 +29,10 @@ public interface ExpensesBillsPayMapper {
     int updateByPrimaryKeySelective(ExpensesBillsPay record);
 
     int updateByPrimaryKey(ExpensesBillsPay record);
+    
+    /**
+	 * 批量保存经费报销单据
+	 * @return
+	 */
+	public void insertExpensesBillsPayBatch(List<ExpensesBillsPay> list);
 }
