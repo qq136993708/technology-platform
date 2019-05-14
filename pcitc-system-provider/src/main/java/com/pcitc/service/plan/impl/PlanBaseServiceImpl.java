@@ -266,8 +266,8 @@ public class PlanBaseServiceImpl implements PlanBaseService {
             ExcelReadUtil ImportExce = new ExcelReadUtil();
             for (int a = 0; a < sysFiles.size(); a++) {
                 System.out.println(sysFiles.get(a).getFilePath());
-                List<Map<Point, Object>> maps = ImportExce.readExcelAllCellVal(new File("D:\\files\\uploadPath\\file\\a5d3946e876744cc81f59891f417737d\\20190508113215292_file_16a957fb33c_6630fd93.xls"));
-//                List<Map<Point, Object>> maps = ImportExce.readExcelAllCellVal(new File(sysFiles.get(a).getFilePath()));
+//                List<Map<Point, Object>> maps = ImportExce.readExcelAllCellVal(new File("D:\\files\\uploadPath\\file\\a5d3946e876744cc81f59891f417737d\\20190508113215292_file_16a957fb33c_6630fd93.xls"));
+                List<Map<Point, Object>> maps = ImportExce.readExcelAllCellVal(new File(sysFiles.get(a).getFilePath()));
 
                 if (maps==null){
                     continue;
@@ -275,19 +275,61 @@ public class PlanBaseServiceImpl implements PlanBaseService {
                 for (int i = 0; i < maps.size(); i++) {
                     Map<Point, Object> pointObjectMap = maps.get(i);//sheet页
                     List<List<Object>> valByRow = new ExcelReadUtil().getValByRow(pointObjectMap);
-                    for (int j = 0; j < valByRow.size(); j++) {
+                    for (int j = 1; j < valByRow.size(); j++) {
                         StandardBase standardBase = new StandardBase();
                         standardBase.setStandardName(valByRow.get(j).get(0).toString());
                         standardBase.setStandardDesc(valByRow.get(j).get(1).toString());
-                        standardBase.setRemark(valByRow.get(j).get(2).toString());
+                        standardBase.setStandardKeys(valByRow.get(j).get(2).toString());
+                        standardBase.setStandardNum(valByRow.get(j).get(3).toString());
+                        standardBase.setOrgType(valByRow.get(j).get(4).toString());
+                        standardBase.setIcsType(valByRow.get(j).get(5).toString());
+                        standardBase.setChoiceType(valByRow.get(j).get(6).toString());
                         standardBaseService.insert(standardBase);
                     }
                 }
                 //删除
-//                sysFileService.deleteByPrimaryKey(sysFiles.get(a).getId());
+                sysFileService.deleteByPrimaryKey(sysFiles.get(a).getId());
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public JSONObject importFileTfc(JSONObject jsonObject) {
+        try {
+            JSONArray jsArr = JSONObject.parseArray((String) jsonObject.get("fileList"));
+            List<SysFile> sysFiles = JSONObject.parseArray(jsArr.toJSONString(), SysFile.class);
+            ExcelReadUtil ImportExce = new ExcelReadUtil();
+            for (int a = 0; a < sysFiles.size(); a++) {
+                System.out.println(sysFiles.get(a).getFilePath());
+//                List<Map<Point, Object>> maps = ImportExce.readExcelAllCellVal(new File("D:\\files\\uploadPath\\file\\a5d3946e876744cc81f59891f417737d\\20190508113215292_file_16a957fb33c_6630fd93.xls"));
+                List<Map<Point, Object>> maps = ImportExce.readExcelAllCellVal(new File(sysFiles.get(a).getFilePath()));
+
+                if (maps==null){
+                    continue;
+                }
+                for (int i = 0; i < maps.size(); i++) {
+                    Map<Point, Object> pointObjectMap = maps.get(i);//sheet页
+                    List<List<Object>> valByRow = new ExcelReadUtil().getValByRow(pointObjectMap);
+//                    for (int j = 1; j < valByRow.size(); j++) {
+//                        StandardBase standardBase = new StandardBase();
+//                        standardBase.setStandardName(valByRow.get(j).get(0).toString());
+//                        standardBase.setStandardDesc(valByRow.get(j).get(1).toString());
+//                        standardBase.setStandardKeys(valByRow.get(j).get(2).toString());
+//                        standardBase.setStandardNum(valByRow.get(j).get(3).toString());
+//                        standardBase.setOrgType(valByRow.get(j).get(4).toString());
+//                        standardBase.setIcsType(valByRow.get(j).get(5).toString());
+//                        standardBase.setChoiceType(valByRow.get(j).get(6).toString());
+//                    }
+                    jsonObject.put("list",valByRow);
+                }
+                //删除
+                sysFileService.deleteByPrimaryKey(sysFiles.get(a).getId());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            return jsonObject;
         }
 
     }

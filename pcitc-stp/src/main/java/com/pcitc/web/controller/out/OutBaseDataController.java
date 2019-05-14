@@ -25,10 +25,9 @@ public class OutBaseDataController extends BaseController {
 	private static final String BASE_DATA_TARGET_TYPE = "http://pcitc-zuul/system-proxy/out-basedata-provider/basedata/search-target-type";
 
 	@RequestMapping(value = "/out/basedata/search-org-type")
-	public String getOutSearchOrgType(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String getOutSearchOrgType(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		HashMap<String, Object> params = new HashMap<String,Object>();
-		HttpEntity<Object> entity = new HttpEntity<Object>(params, this.httpHeaders);
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(BASE_DATA_ORG_TYPE, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData data = responseEntity.getBody();
 		System.out.println(JSON.toJSON(data).toString());

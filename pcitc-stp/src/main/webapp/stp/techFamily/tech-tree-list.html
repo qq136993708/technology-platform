@@ -42,6 +42,12 @@
 			<div class="tableToolBox" id="userDiv">
 		        <div class="whiteLine"></div>
 		        <div  class="tableBtns">
+                    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg"
+                            data-type="templateDownload">模板下载
+                    </button>
+                    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_import btnMyBgImg"
+                            data-type="dataExpert">数据导入
+                    </button>
 		            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg " data-type="addEvent">新增</button>
 		            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent" >删除</button>
 		        </div>
@@ -49,6 +55,7 @@
 		    <table id="showTable" class="layui-hide" lay-filter="tableEvent"></table>
 		</div>
 	</div>
+    <a id="templateDownloadhref" name="templateDownloadhref" href="/template/TfcTemplate.xls" target="_top"></a>
 
 <!--<div class="layui-footer" style="text-align: center">-->
 <!--© layui.com - 底部固定区域-->
@@ -289,6 +296,13 @@
             	layer.msg(messageInfo);
             	active.searchEvent();
             },
+            templateDownload: function () {
+                document.getElementById("templateDownloadhref").click();
+            },
+            dataExpert: function () {
+                var randomInt = Math.random();
+                upload_File(randomInt, '', 'edit', 'importFileStandard');
+            },
         };
 
         //监听排序
@@ -312,6 +326,19 @@
         });
 
     });
+
+    function importFileStandard(data, param) {
+        //param:返回上面拼装的参数json字符串，data：json文件数组
+        var fileDatas = [];
+        for (var key in data) {
+            var obj_file = data[key];
+            fileDatas.push(obj_file);
+        }
+        ajaxPost("/standardBaseExpert/importFileTfc", {"param": JSON.stringify(fileDatas)}, function (data) {
+            renderTable();
+        });
+        renderTable();
+    }
 </script>
 </body>
 </html>

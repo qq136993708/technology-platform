@@ -40,14 +40,11 @@ public class PurchaseProviderClient
 	@Autowired
 	private MailSentService mailSentService;
 	
-	/*@Autowired
-	private SystemRemoteClient systemRemoteClient;*/
-	
 	@ApiOperation(value = "采购分页", notes = "采购分页")
 	@RequestMapping(value = "/sre-provider/purchase/page", method = RequestMethod.POST)
 	public LayuiTableData getSrePurchaseList(@RequestBody LayuiTableParam paramsJson)throws Exception
 	{
-		logger.info("=== SreTechMeeting paramsJson============"+paramsJson);
+		logger.info("=== SrePurchase paramsJson============"+paramsJson);
 		return purchaseService.getPurchasePage(paramsJson);
 	}
 	
@@ -58,7 +55,7 @@ public class PurchaseProviderClient
 		return purchaseService.getPurchaseNameIdList();
 	}
 
-	@ApiOperation(value = "获取项目统计", notes = "根据ID获取项目统计")
+	@ApiOperation(value = "获取采购申请单信息", notes = "根据ID获取采购申请单信息")
 	@RequestMapping(value = "/sre-provider/purchase/get/{id}", method = RequestMethod.GET)
 	public SrePurchase selectSrePurchaseById(@PathVariable(value = "id", required = true) String id) throws Exception {
 		logger.info("===============================get SrePurchase id "+id+"===========");
@@ -68,8 +65,7 @@ public class PurchaseProviderClient
     @RequestMapping(value = "/sre-provider/purchase/add", method = RequestMethod.POST)
     public void insertSrePurchase(@RequestBody SrePurchase srePurchase) throws Exception{
         logger.info("====================add srePurchase....========================");
-        /*Integer count= purchaseService.insertPurchase(srePurchase);
-        return srePurchase.getEquipmentId();*/
+
          purchaseService.insertPurchase(srePurchase);
     }
     @ApiOperation(value = "修改采购申请单", notes = "修改采购申请单")

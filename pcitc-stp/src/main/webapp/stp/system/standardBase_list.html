@@ -23,21 +23,41 @@
                title="标准名称" autocomplete="off"
                class="form-control" id="standardNameName"/>
 
-        <span>关键字</span>
-        <input type="text" name="standardKeys" id="standardKeys"
-               placeholder="请输入关键字"
-               title="关键字" autocomplete="off"
-               class="form-control" id="standardKeysName"/>
+        <!--<span>关键字</span>-->
+        <!--<input type="text" name="standardKeys" id="standardKeys"-->
+               <!--placeholder="请输入关键字"-->
+               <!--title="关键字" autocomplete="off"-->
+               <!--class="form-control" id="standardKeysName"/>-->
 
-        <span>标准号</span>
-        <input type="text" name="standardNum" id="standardNum"
-               placeholder="请输入标准号"
-               title="标准号" autocomplete="off"
-               class="form-control" id="standardNumName"/>
-        <span>标准状态</span>
-        <select name="standardStatus" id="standardStatus" lay-filter="standardStatus">
-            <option value="">请选择</option>
-        </select>
+        <!--<span>标准号</span>-->
+        <!--<input type="text" name="standardNum" id="standardNum"-->
+               <!--placeholder="请输入标准号"-->
+               <!--title="标准号" autocomplete="off"-->
+               <!--class="form-control" id="standardNumName"/>-->
+
+        <span>ICS分类</span>
+        <input type="hidden" value="" name="bak1" id="bak1">
+        <input type="text" name="icsType" id="icsType"
+               placeholder="请选择ICS分类"
+               title="ICS分类" autocomplete="off"
+               class="form-control"/>
+        <span>中标分类</span>
+        <input type="hidden" value="" name="bak2" id="bak2">
+        <input type="text" name="choiceType" id="choiceType"
+               placeholder="请选择中标分类"
+               title="中标分类" autocomplete="off"
+               class="form-control"/>
+
+        <span>组织类别</span>
+        <input type="text" name="orgType" id="orgType"
+               placeholder="请选择组织类别"
+               title="组织类别" autocomplete="off"
+               class="form-control"/>
+
+        <!--<span>标准状态</span>-->
+        <!--<select name="standardStatus" id="standardStatus" lay-filter="standardStatus">-->
+            <!--<option value="">请选择</option>-->
+        <!--</select>-->
     </label>
     <!--按钮组-->
     <div class="btnGroup">
@@ -73,13 +93,71 @@
 </div>
 <table id="standardBaseTableId" class="layui-hide" lay-filter="tableEvent"></table>
 <a id="templateDownloadhref" name="templateDownloadhref" href="/template/standardTemplate.xls" target="_top"></a>
-
 <script>
-    ajaxPost('/dictionary/list/ROOT_RWGL_BZZT', null, function (data, status) {
-        $.each(data, function (i, dt) {
-            $("#standardStatus").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+    function setWelderIcs(selectData) {
+        $('#bak1').val(selectData.dataId);
+        $('#icsType').val(selectData.name);
+    }
+
+    function setWelderchoice(selectData) {
+        $('#bak2').val(selectData.dataId);
+        $('#choiceType').val(selectData.name);
+    }
+
+    function setWelderorgType(selectData) {
+        $('#bak3').val(selectData.dataId);
+        $('#orgType').val(selectData.name);
+    }
+
+    $('#orgType').click(function () {
+        layer.open({
+            title: "<span>选择</span>",
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+            maxmin: true,
+            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+            area: ['90%', '90%'],
+            content: '/standardBaseExpert/pageSelectorgType'
         });
-    });
+    })
+    $('#icsType').click(function () {
+        layer.open({
+            title: "<span>选择</span>",
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+            maxmin: true,
+            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+            area: ['90%', '90%'],
+            content: '/standardBaseExpert/pageSelectics'
+        });
+    })
+    $('#choiceType').click(function () {
+        layer.open({
+            title: "<span>选择</span>",
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+            maxmin: true,
+            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+            area: ['90%', '90%'],
+            content: '/standardBaseExpert/pageSelectType'
+        });
+    })
+</script>
+<script>
+    // ajaxPost('/dictionary/list/ROOT_RWGL_BZZT', null, function (data, status) {
+    //     $.each(data, function (i, dt) {
+    //         $("#standardStatus").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+    //     });
+    // });
 
 
     var param = JSON.parse(window.localStorage.getItem("param"));
@@ -132,10 +210,10 @@
                     field: "standardNum",
                     title: "标准号", event: 'setActive', style: 'cursor: pointer;'
                 },
-                {
-                    field: "standardStatus",
-                    title: "标准状态", event: 'setActive', style: 'cursor: pointer;'
-                }
+                // {
+                //     field: "standardStatus",
+                //     title: "标准状态", event: 'setActive', style: 'cursor: pointer;'
+                // }
             ];
 
         function renderTable() {
@@ -149,7 +227,13 @@
 
                         "standardNum": $("input[name=standardNum]").val(),
 
-                        "standardStatus": $("#standardStatus").val(),
+                        // "standardStatus": $("#standardStatus").val(),
+                        "bak1": $("#bak1").val(),
+                        "bak2": $("#bak2").val(),
+                        "bak3": $("#bak3").val(),
+                        "choiceType": $("#choiceType").val(),
+                        "icsType": $("#icsType").val(),
+                        "orgType": $("#orgType").val(),
 
                         // "workOrderStatus":workOrderStatus
                     }
@@ -186,14 +270,14 @@
                 // };
                 // publicMethods.dataDictionary(param);
 
-                var param = {
-                    data: res.data,//数据
-                    element: ".layui-table-body table",// 当前的表格元素
-                    column: 5,//列数 从0开始
-                    field: "standardStatus",//当前数据的字段
-                    url: "/pageCommon/dic/ROOT_RWGL_BZZT"//接口
-                };
-                publicMethods.dataDictionary(param);
+                // var param = {
+                //     data: res.data,//数据
+                //     element: ".layui-table-body table",// 当前的表格元素
+                //     column: 5,//列数 从0开始
+                //     field: "standardStatus",//当前数据的字段
+                //     url: "/pageCommon/dic/ROOT_RWGL_BZZT"//接口
+                // };
+                // publicMethods.dataDictionary(param);
 
                 selectRowData = "";
             });
@@ -235,7 +319,13 @@
                 $("input[name=standardName]").val("");
                 $("input[name=standardKeys]").val("");
                 $("input[name=standardNum]").val("");
-                $("#standardStatus").val("");
+                // $("#standardStatus").val("");
+                $("#bak1").val("");
+                $("#bak2").val("");
+                $("#bak3").val("");
+                $("#orgType").val("");
+                $("#icsType").val("");
+                $("#choiceType").val("");
                 // $('#workOrderName').val("");
                 renderTable();
             },

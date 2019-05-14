@@ -38,14 +38,14 @@
         }
     </style>
 </head>
-<body onload="init()">
+<body >
 
 <input type="hidden" name="month" value="${month}" id="month">
 <input type="hidden" name="year" value="${year}" id="year">
 <input type="hidden" name="companyCode" value="${companyCode}" id="companyCode">
 <div class="layui-fluid">
     <div class="layui-row layui-col-space10">
-        <div class="layui-col-md12 layui-top">
+        <div class="layui-col-md12 layui-top" id="isKJBPerson_id" <#if isKJBPerson == false || isKJBPerson=='false'>style="display:none"</#if>>
             <div class="layui-col-md15">
                 <div class="layui-main-box">
                     <span class="layui-box-icon bg-1"></span>
@@ -396,16 +396,9 @@
                     </div>
                 </div>
                 
-                
-                
-                
-                
-            </div>
-        </div>
-        
-        
-        
-        <div>
+           </div>
+           </div>
+           <div>
                   <table class="message_outside" border="0" cellpadding="0" cellspacing="0" >
 						<tr>
 					        <td align="center"></td>
@@ -420,7 +413,6 @@
 					        <a href="http://10.1.4.10/_layouts/15/autologon?appid=61&amp;step=1"  target="_blank" style="text-decoration:none;color:blue;"><b><font  id="smdy" style="color:red">0</font></b>条待阅</a></td>
 					    </tr>
 					</table>
-                
                 </div>
                 
 
@@ -440,25 +432,26 @@
         //办公自动化待办
         var url=host+"/kjb/_layouts/15/ZBAppPage/oacount.aspx";
         sendPost(url,"POST", function (data){
-        	$("#kjb_oadb").html(data);
+        	$("#kjb_oadb").html(data.data);
         }); 
        //电子邮件管理
         var url=host+"/kjb/_layouts/15/ZBAppPage/owacount.aspx";
         sendPost(url,"POST", function (data){
-        	$("#kjb_owa").html(data);
+        	$("#kjb_owa").html(data.data);
         });
         //办公自动化待阅
         var url=host+"/kjb/_layouts/15/ZBAppPage/oadycount.aspx";
         sendPost(url,"POST", function (data){
-        	$("#kjb_oady").html(data);
+        	$("#kjb_oady").html(data.data);
         });
         
-      //督办管理待办
+       //督办管理待办
         var url=host+"/_layouts/15/autologon/?appid=62&step=1";
         sendPost(url,"POST", function (data){
-        	if(data>=0)
+        	//alert(data.data);
+        	if(data.data>=0)
             {
-            	$("#smdb").html(data);
+            	$("#smdb").html(data.data);
             	}else{
             	$("#smdb").html("0");
             }
@@ -467,9 +460,9 @@
         //督办管理待阅
         var url=host+"/_layouts/15/autologon/?appid=63&step=1";
         sendPost(url,"POST", function (data){
-        	if(data>=0)
+        	if(data.data>=0)
         	{
-            	$("#smdy").html(data);
+            	$("#smdy").html(data.data);
             }else
             	{
             	  $("#smdy").html("0");
@@ -517,8 +510,9 @@
         {
         	 $.ajax({
           	      type:type,
-          	      url: url,
-          	      dataType:"jsonp",
+          	      url: "/getOA",
+          	      dataType:"json",
+          	      data: {url:url},
                   success:function(data,status)
                   {    
         	            if(callback)
@@ -583,7 +577,6 @@
                 });
 
 
-                //myTable();
 
                 var md4Height = $(".layui-col-md4").height() - 2;
                 var headerHeight = $(".layui-card-header").outerHeight(true);
@@ -646,13 +639,15 @@
                     $(this).find('span').html(number);
                 });
             }
-
-            function init() {
+            /**----------------=======================-第一行 end ==============---------------*/
+            function init() 
+            {
 
                 var month = $('#month').val();
                 var year = $("#year").val();
                 var v_date = (new Date()).getTime();
-                if (month != null && month != '') {
+                if (month != null && month != '') 
+                {
 
                     getCommonCount(year);//科研装备、合同签订
                     getndys_xfzc(month);//经费支出
@@ -660,64 +655,20 @@
                     appraisalCount(year);//成果
                     setContcator_id(year, v_date);//合同签订率
 
-
-                    //chartv(month);//年度科研项目总览
-                    //newProjectRate();//新开项目
-
-
-                    var yAxis2 = [
-                        {
-                            type: 'value',
-                            name: '数量（个）',
-                            position: 'left',
-                            axisLabel: {
-                                formatter: '{value}'
-                            }
-                        }
-                    ];
-
-                    var chart1_url = "/one_level_main/equipment_01?month=" + $("#month").val() + "&v_date=" + v_date + "&companyCode=" + companyCode;
-                    var color = ["#ea886d", "#9799ec"];
-                    var echart1 = load_mutl_bar_down_f(chart1_url, "equipment_01_chart", "", "", yAxis2, 30, color, function (data) {
-
-                        var count_2 = getDataCountForName_d(data.data, '500万以上');
-                        var count_3 = getDataCountForName_d(data.data, '300-500万');
-                        var count_4 = getDataCountForName_d(data.data, '100-300万');
-                        var count_5 = getDataCountForName_d(data.data, '100万以下');
-                        var allCount = count_2 + count_3 + count_4 + count_5;
-
-                        $("#equipment_01_chart_2_01").html(allCount + "个");
-                        $("#equipment_01_chart_2_02").html(count_2 + "个");
-                        $("#equipment_01_chart_2_03").html(count_3 + "个");
-                        $("#equipment_01_chart_2_04").html(count_4 + "个");
-                        $("#equipment_01_chart_2_05").html(count_5 + "个");
-                    });
-                    echart1.on('click', function (params) {
-                        var xName = params.name;
-                        var legentName = params.seriesName;
-                        var type = "";
-                        if (legentName == '500万以上') {
-                            type = "9";
-                        }
-                        if (legentName == '300-500万') {
-                            type = "5";
-                        }
-                        if (legentName == '100-300万') {
-                            type = "3";
-                        }
-                        if (legentName == '100万以下') {
-                            type = "1";
-                        }
-                        var url = encodeURIComponent("/one_level_main/equipment_03_detail?month=" + $("#month").val() + "&companyName=" + xName + "&type=" + type + "&legentName=" + legentName);
-                        window.open("/instituteIndex?url=" + url);
-                    });
-
-
                 }
 
             }
-
-
+            
+            
+            var isKJBPerson="${isKJBPerson?default('')}";
+            if(isKJBPerson==false || isKJBPerson=='false')//不是科技部的人
+            {
+            	$("#isKJBPerson_id").hide();
+            }else
+            {
+            	init();
+            }
+            
             function equipment_01_chart_2(type, legentName) {
 
                 var url = encodeURIComponent("/one_level_main/equipment_03_detail?month=" + $("#month").val() + "&type=" + type + "&legentName=" + legentName);
@@ -863,81 +814,8 @@
             }
 
 
-            //新开项目占比
-            function newProjectRate() {
-                $.ajax({
-                    type: 'POST',
-                    url: "/admin/project/type/new",
-                    dataType: 'json',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    timeout: 3000, //超时时间设置，单位毫秒
-                    error: function (XMLHttpRequest, status) {
-                        $("#aa").html("-/-");
-                        $("#bb").html("-/-");
-                        $("#cc").html("-/-");
-                        $("#dd").html("-/-");
-
-                        $(".layui-bg-red").attr("lay-percent", "0%");
-                        $(".layui-bg-red-2").attr("lay-percent", "0%");
-                        $(".layui-bg-red-3").attr("lay-percent", "0%");
-                        $(".layui-bg-red-4").attr("lay-percent", "0%");
-                    },
-                    success: function (data) { //请求成功后处理函数。
-
-                        var aaa = 0;
-                        var bbb = 0;
-                        var ccc = 0;
-                        var ddd = 0;
-                        if (data.zsl != '0') {
-                            aaa = Math.round((data.gjxmsl / data.zsl) * 10000) / 100;
-                            bbb = Math.round((data.zdzzsl / data.zsl) * 10000) / 100;
-                            ccc = Math.round((data.zdxmsl / data.zsl) * 10000) / 100;
-                            ddd = Math.round((data.qtsl / data.zsl) * 10000) / 100;
-                        }
-
-                        $("#aa").html(data.gjxmsl + "/" + data.zsl);
-                        $("#bb").html(data.zdzzsl + "/" + data.zsl);
-                        $("#cc").html(data.zdxmsl + "/" + data.zsl);
-                        $("#dd").html(data.qtsl + "/" + data.zsl);
-
-                        $(".layui-bg-red").attr("lay-percent", aaa + "%");
-                        $(".layui-bg-red-2").attr("lay-percent", bbb + "%");
-                        $(".layui-bg-red-3").attr("lay-percent", ccc + "%");
-                        $(".layui-bg-red-4").attr("lay-percent", ddd + "%");
-                    }
-                });
-
-            }
-
-            //年度科研项目总览
-            function chartv(month) {
-                var v_date = (new Date()).getTime();
-                var yAxis = [
-                    {
-                        type: 'value',
-                        name: '数量',
-                        min: 0,
-                        max: 'dataMax',
-                        axisLabel: {
-                            formatter: '{value}'
-                        }
-                    }
-                ];
-
-
-                var chart4_url = "/home_project_02/getProjectByUnitBar?month=" + month + "&v_date=" + v_date + "&companyCode=";
-                var echart4 = load_mutl_bar_02(chart4_url, "chartOne", "", "", yAxis);
-                echart4.on('click', function (params) {
-                    var xName = params.name;
-                    var legentName = params.seriesName;
-                    parent.layui.index.openTabsPage("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope", "科研项目明细");
-                });
-
-
-            }
-
+          
+            
 
             /**----------------=======================-第三行 ==============---------------*/
             $("#chart1_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
@@ -1037,19 +915,6 @@
                 });
             }
 
-            /* function myTable() {
-
-                var nd = $("#year").val();
-                var v_date = (new Date()).getTime();
-                var url = '/one_level_main/investment_01_01?nd=' + nd + "&v_date=" + v_date;
-                table.init('myTable', {
-                    url: url
-                    , height: "285px"
-                    , where: {}
-
-                });
-
-            } */
 
 
             /**----------------=======================-第三行 end ==============---------------*/

@@ -10,7 +10,7 @@ import java.io.Serializable;
  * <p>实体类</p>
  * <p>Table: standard_base - 标准化</p>
  *
- * @since 2019-05-10 03:07:51
+ * @since 2019-05-10 03:49:18
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class StandardBase extends DataEntity implements Serializable {
