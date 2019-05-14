@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
-	<classPathEntry location="D:\eclipse64workplace\mpbw\WebContent\WEB-INF\lib\mysql-connector-java-5.1.20-bin.jar" />
+	<classPathEntry location="D:\java\workspace\workspace_findworker\slxj\WebRoot\WEB-INF\lib\mysql-connector-java-5.1.7-bin.jar" />
 	<context id="context1">
-		<property name="javaFileEncoding" value="UTF-8"/>
         <commentGenerator>
 			<property name="suppressAllComments" value="true" />
 		</commentGenerator>
-		<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://10.246.94.11:3306/pcitc_stp" userId="root" password="root" />
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://10.246.94.11:3306/pcitc_stp?characterEncoding=UTF-8&amp;autoReconnect=true&amp;serverTimezone=GMT%2B8&amp;useSSL=false" userId="pcitc" password="Pcitc@123" />
 		<javaTypeResolver>
           <property name="forceBigDecimals" value="true" />
         </javaTypeResolver>
-		<javaModelGenerator  targetPackage="com.pcitc.base.stp.out" targetProject="pcitc-base" />
-		<sqlMapGenerator     targetPackage="com.pcitc.mapper.outApi"   targetProject="pcitc-stp-provider" />
-		<javaClientGenerator targetPackage="com.pcitc.mapper.outApi"   targetProject="pcitc-stp-provider" type="XMLMAPPER" />
-	    
-	    <table schema="pcitc-stp-provider" domainObjectName="OutProjectRequireItem"  tableName="out_project_require_item"  enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-	    </table>
+			
+			<javaModelGenerator  targetPackage="com.pcitc.base.stp.system" targetProject="pcitc-base" />
+		    <sqlMapGenerator     targetPackage="com.pcitc.mapper.system"   targetProject="pcitc-system-provider" />
+		    <javaClientGenerator targetPackage="com.pcitc.mapper.system"   targetProject="pcitc-system-provider" type="XMLMAPPER" />
+		    
+		    
+	   <table schema="pcitc-system-provider" tableName="sys_process_dic" domainObjectName="SysProcessDic"
+			enableCountByExample="false" 
+			enableUpdateByExample="false"
+			enableDeleteByExample="false" 
+			enableSelectByExample="false"
+			selectByExampleQueryId="false">
+		</table>
+	
 	
 	</context>
 </generatorConfiguration>

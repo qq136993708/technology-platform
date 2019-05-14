@@ -43,4 +43,12 @@ public interface IntlProjectNoticeService
 	 * @return
 	 */
 	public Integer delProjectNotice(String noticeId);
+	/**
+	 * 
+	 * @param noticeId
+	 * @param functionId
+	 * @param workflowName
+	 * @return
+	 */
+	public boolean startWorkFlow(String noticeId,String functionId,String workflowName);
 }

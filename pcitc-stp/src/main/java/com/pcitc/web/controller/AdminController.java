@@ -1,13 +1,17 @@
 package com.pcitc.web.controller;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.pcitc.base.common.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -23,12 +27,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.ChartBarLineResultData;
+import com.pcitc.base.common.ChartBarLineSeries;
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.hana.report.HanaConstant;
 import com.pcitc.base.system.SysCollect;
 import com.pcitc.base.system.SysFunction;
 import com.pcitc.base.system.SysModule;
 import com.pcitc.base.system.SysUser;
-import com.pcitc.base.system.SysUserProperty;
 import com.pcitc.base.system.SysUserShowConfig;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.MD5Util;
@@ -37,7 +45,6 @@ import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.common.OperationFilter;
 import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
-import com.pcitc.web.utils.Httpclient4Util;
 import com.sinopec.siam.agent.common.SSOPrincipal;
 import com.sinopec.siam.agent.sp.config.SysConfig;
 
@@ -381,12 +388,6 @@ public class AdminController extends BaseController {
 	@RequestMapping(value = "/index")
 	public String toIndexPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String unitPathId=sysUserInfo.getUnitPath();
-		boolean isKJBPerson=EquipmentUtils.isKJBPerson(unitPathId);
-		request.setAttribute("isKJBPerson", isKJBPerson);
-		
-		
-		
 		SysUser userDetails = new SysUser(); // 用户信息，包含此人拥有的菜单权限等。token中放不下这些信息
 		SysUser tokenUser = new SysUser();
 		if (request.getParameter("username") != null && request.getParameter("password") != null) {
@@ -694,7 +695,7 @@ public class AdminController extends BaseController {
 	public String getOA(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		String url = CommonUtil.getParameter(request, "url", "");
-		String str=Httpclient4Util.get(url);
+		/*String str=Httpclient4Util.get(url);
 		Result resultsDate = new Result();
 		if(str!=null)
 		{
@@ -704,8 +705,8 @@ public class AdminController extends BaseController {
 		{
 			resultsDate.setSuccess(false);
 		}
-		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		return result.toString();
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));*/
+		return "0";
 	}
 	
 
