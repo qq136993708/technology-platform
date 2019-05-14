@@ -39,7 +39,7 @@ public class ExpensesJob implements Job, Serializable {
 	public void execute(JobExecutionContext job) throws JobExecutionException {
 		try {
 			// 调用报销系统数据
-			String url = "http://10.248.67.142/ers/bull/unify/request";
+			String url = "http://10.248.36.236/ers/bull/unify/request";
 			// 创建一个请求客户端
 			RestfulHttpClient.HttpClient client = RestfulHttpClient.getClient(url);
 			client.post();
@@ -56,22 +56,33 @@ public class ExpensesJob implements Job, Serializable {
 			RestTemplate restTemplate = SpringContextUtil.getApplicationContext().getBean(RestTemplate.class);
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+			headers.set("Authorization","Bearer eyJhbGciOiJIUzUxMiJ9.eyJpbnN0aXR1dGVOYW1lcyI6WyLli5jmjqLpmaIiLCLnianmjqLpmaIiLCLlt6XnqIvpmaIiLCLnn7Pnp5HpmaIiLCLlpKfov57pmaIiLCLljJfljJbpmaIiLCLkuIrmtbfpmaIiLCLlronlt6XpmaIiXSwidW5pdE5hbWUiOiLkuK3lm73nn7PmsrnljJblt6Xpm4blm6Is5YuY5o6i5byA5Y-R56CU56m26ZmiLOenkeaKgOmDqOe7vOWQiOiuoeWIkuWkhCIsInVuaXRDb2RlIjoiMDAwMDAsMTAwNDAxMDAxLDMwMTMwMDU0IiwidW5pdElkIjoiNDZiN2U0NTc1NmVmNGRiODhiNmFjYjcxMWY5MTZlNDMsNDVkYjJkZDNlMTQyNDk1YzkxYmM5NGYyMGVmNDk5ZTgsYTgyMjNjY2EyYjkwNDczOWJmMjhhN2Y0MGQ3MzJjNzMiLCJ1c2VyRGlzcCI6IuiSi-a2myIsInVzZXJOYW1lIjoiYWFhYWEiLCJyb2xlTGlzdCI6W10sImV4cCI6MTU2MjYzOTMwOSwidXNlcklkIjoiMTY1NTUzNDM2ZWRfZGZkNWUxMzciLCJlbWFpbCI6IjEyMzQ1NjY2NjZAeHh4LmNvbSIsImluc3RpdHV0ZUNvZGVzIjpbIjExMjAsMTEyMywxMTI0LDExMjciLCIxMTMwIiwiNDM2MCIsIjEwMjAiLCIxMDYwLDEwNjEiLCIxMDQwLDEwNDEiLCIxMDgwIiwiMTEwMCwxMTAxIl19.2crRnr6GlN1BjFnVKW76Kd5BDyF1zg7MZ1rZzNZG_Oa3BFtny3X9bSTRGr9zcxHpPMsBTnoTx_rNYVT39EVmog");
+			
 			HttpEntity<String> strEntity = new HttpEntity<String>(null, headers);
 			ResponseEntity<Object> responseEntity = restTemplate.postForEntity(MAX_EXPENSES, strEntity, Object.class);
 			// 查询最大值，+一个月作为本次的查询条件
-			String startDate = responseEntity.getBody().toString();
-			System.out.println("11执行完毕--------"+startDate);
-			if (startDate!=null&&!startDate.equals("")) {
-				startDate = "2017-05-01";
+			String startDate = null;
+			if (responseEntity.getBody() == null) {
+				startDate = "2018-02-28";
+			} else {
+				String temD = responseEntity.getBody().toString();
+				startDate = temD.substring(0,4)+"-"+temD.substring(4,6)+"-"+temD.substring(6,8);
 			}
-
+			
 			Date temStartDate = DateUtil.strToDate(startDate, DateUtil.FMT_DD);
+			
+			Calendar rightNow1 = Calendar.getInstance();
+			rightNow1.setTime(temStartDate);
+			rightNow1.add(Calendar.DAY_OF_YEAR, 1);// 日期加1天
+			Date temDate1 = rightNow1.getTime();
+
 			Calendar rightNow = Calendar.getInstance();
-			rightNow.setTime(temStartDate);
-			rightNow.add(Calendar.DAY_OF_YEAR, 30);// 日期加30天
-			Date temDate1 = rightNow.getTime();
-			String realStartDate = DateUtil.dateToStr(temStartDate, DateUtil.FMT_YYYY_DD);
-			String realEndDate = DateUtil.dateToStr(temDate1, DateUtil.FMT_YYYY_DD);
+			rightNow.setTime(temDate1);
+			rightNow.add(Calendar.MONTH, 1);
+			rightNow.add(Calendar.DAY_OF_YEAR, -1);// 日期加1天
+			Date temDate = rightNow.getTime();
+			String realStartDate = DateUtil.dateToStr(temDate1, DateUtil.FMT_YYYY_DD);
+			String realEndDate = DateUtil.dateToStr(temDate, DateUtil.FMT_YYYY_DD);
 			System.out.println("1执行完毕--------"+realStartDate);
 			System.out.println("1执行完毕--------"+realEndDate);
 
@@ -93,16 +104,13 @@ public class ExpensesJob implements Job, Serializable {
 			if (response.getCode()==200) {
 				// 获取响应内容
 				String result = response.getContent();
-				System.out.println("返回--------"+result);
 				// 分解返回结果
 				JSONObject json = JSONObject.parseObject(result);
 				
 				// 传递参数
 				strEntity = new HttpEntity<String>(result, headers);
-				responseEntity = restTemplate.postForEntity(MAX_EXPENSES, strEntity, Object.class);
+				responseEntity = restTemplate.postForEntity(INSERT_EXPENSES, strEntity, Object.class);
 			}
-
-			HttpStatus statusCode = responseEntity.getStatusCode();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
