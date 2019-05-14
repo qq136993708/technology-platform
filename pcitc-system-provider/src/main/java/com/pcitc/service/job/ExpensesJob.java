@@ -19,6 +19,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import com.alibaba.fastjson.JSONObject;
 import com.google.gson.JsonObject;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.MD5Util;
@@ -54,11 +55,9 @@ public class ExpensesJob implements Job, Serializable {
 			
 			RestTemplate restTemplate = SpringContextUtil.getApplicationContext().getBean(RestTemplate.class);
 			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-			MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
-			// 传递参数
-			HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(form, headers);
-			ResponseEntity<Object> responseEntity = restTemplate.postForEntity(MAX_EXPENSES, httpEntity, Object.class);
+			headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+			HttpEntity<String> strEntity = new HttpEntity<String>(null, headers);
+			ResponseEntity<Object> responseEntity = restTemplate.postForEntity(MAX_EXPENSES, strEntity, Object.class);
 			// 查询最大值，+一个月作为本次的查询条件
 			String startDate = responseEntity.getBody().toString();
 			System.out.println("11执行完毕--------"+startDate);
@@ -95,6 +94,12 @@ public class ExpensesJob implements Job, Serializable {
 				// 获取响应内容
 				String result = response.getContent();
 				System.out.println("返回--------"+result);
+				// 分解返回结果
+				JSONObject json = JSONObject.parseObject(result);
+				
+				// 传递参数
+				strEntity = new HttpEntity<String>(result, headers);
+				responseEntity = restTemplate.postForEntity(MAX_EXPENSES, strEntity, Object.class);
 			}
 
 			HttpStatus statusCode = responseEntity.getStatusCode();
