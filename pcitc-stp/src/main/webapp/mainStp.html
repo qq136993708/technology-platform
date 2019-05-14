@@ -162,7 +162,7 @@
                                     <span class="time">09：00</span>
                                     <span class="content">复查工作进度</span></li> -->
                             </ul>
-                            <a href="/task/pending/list/ini">更多... ...</a>
+                            <a lay-href="/task/pending/list/ini" lay-text="我的待办">更多... ...</a>
                         </div>
                     </div>
                 </div>
@@ -193,7 +193,7 @@
                     <ul id="work-title_id">
                                   <#list scList as sc>
 											<li>
-												<a href="${sc.collectUrl}"  data-id="${sc.functionId}" >
+												<a lay-href="${sc.collectUrl}"  data-id="${sc.functionId}" lay-text="${sc.collectName}">
 												  ${sc.collectName}
 												</a>
 											</li>
@@ -541,8 +541,10 @@
             var element ;
             var layer;
             layui.config({
-                base: '/layuiadmin/lib/extend/'
-            }).use(['jquery', 'table', 'layer', 'laydate'], function () {
+                base : '../layuiadmin/' //静态资源所在路径
+            }).extend({
+                index : 'lib/index' //主入口模块
+            }).use(['index','jquery', 'table', 'layer', 'laydate'], function () {
                 var $ = layui.jquery;
                 table = layui.table;
                 layer = layui.layer;
