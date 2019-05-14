@@ -11,10 +11,7 @@ import com.pcitc.base.stp.out.OutProjectRequire;
 public interface OutProjectRequireService {
 	
 	/**
-	 * 批量插入全流程信息
-	 * @param flowProjectInfo
-	 * @return
-	 * @throws Exception
+	 * 批量插入项目需求表
 	 */
 	public Integer saveOutProjectRequire(OutProjectRequire outProjectRequire);
 }
