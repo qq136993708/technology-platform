@@ -43,6 +43,7 @@ import com.pcitc.base.util.MD5Util;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.common.OperationFilter;
+import com.pcitc.web.test.OAAPIRestFul;
 import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
 import com.sinopec.siam.agent.common.SSOPrincipal;
@@ -692,7 +693,12 @@ public class AdminController extends BaseController {
 	public String getOA(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		String url = CommonUtil.getParameter(request, "url", "");
-		/*String str=Httpclient4Util.get(url);
+	    String str=OAAPIRestFul.getOa(url);
+	    if(str!=null)
+	    {
+	    	str=str.replace("\n", "");
+	    }
+	    
 		Result resultsDate = new Result();
 		if(str!=null)
 		{
@@ -702,8 +708,8 @@ public class AdminController extends BaseController {
 		{
 			resultsDate.setSuccess(false);
 		}
-		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));*/
-		return "0";
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		return result.toJSONString();
 	}
 	
 

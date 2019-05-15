@@ -252,7 +252,63 @@ public class ScientificFundsContrller {
 
 		}
 	       
-	       
+        @RequestMapping(method = RequestMethod.GET, value = "/ktzjjfytjb_data_exput_excel")
+	   	@ResponseBody
+	   	public String ktzjjfytjb_data_exput_excel(HttpServletRequest request, HttpServletResponse response) throws Exception
+	   	{
+	   		
+	   		
+	   		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	   		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+	   		String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+	   		paramMap.put("month", month);
+	   		paramMap.put("companyCode", companyCode);
+	   		System.out.println(" ktzjjfytjb_data_exput_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+	   		
+	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(ktzjjfytjb_data, HttpMethod.POST, httpEntity, JSONArray.class);
+	   		int statusCode = responseEntity.getStatusCodeValue();
+	   		List<ScientificFunds> list =new ArrayList();
+	   		JSONArray jSONArray=null;
+	   		if (statusCode == 200)
+	   		{
+	   			jSONArray = responseEntity.getBody();
+	   			list = JSONObject.parseArray(jSONArray.toJSONString(), ScientificFunds.class);
+	   		}
+
+	   		
+	   		    String[] headers = { "院所",   "本年-总计",      "本年-直接费用",  "本年-间接费用", "本年-直间接%", "同年-总计",      "同年-直接费用",     "同年-间接费用", "同年-直间接%", "同比-总计",   "同比-直接费用",     "同比-间接费用", "同比-直间接%"};
+	   		    String[] cols =    {"g0GSJC","k0BNGLFPHJECB","k0BNKYFPQCB","k0BNJJCB",  "k0BNBL",    "k0SNLJJJCB",   "k0SNKYFPQCB",   "k0SNJJCB",   "k0SNBL",   "k0TBZJ",   "k0TBZJ2",        "k0TBJJ",   "k0TBBL"};
+	   		   
+	   	        // 文件名默认设置为当前时间：年月日时分秒
+	   	        String fileName = DateFormatUtils.format(new Date(), "yyyyMMddhhmmss");
+	   	        // 设置response头信息
+	   	        response.reset();
+	   	        response.setContentType("application/vnd.ms-excel");
+	   	        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xls");
+	   	        try {
+	   		        OutputStream os = response.getOutputStream();
+	   		        PoiExcelExportUitl<ScientificFunds>  pee = new PoiExcelExportUitl<ScientificFunds>(fileName, headers, cols, list,os);
+	   		        pee.exportExcel();
+	   	            
+	   	        } catch (Exception e)
+	   	        {
+	   	            e.printStackTrace();
+	   	            // 如果是ExcelException,则直接抛出
+	   	            if (e instanceof ExcelException) 
+	   	            {
+	   	                throw (ExcelException) e;
+	   	            } else 
+	   	            {
+	   	                // 否则将其他异常包装成ExcelException再抛出
+	   	                throw new ExcelException("导出excel失败");
+	   	            }
+	   	        }
+	   		   return null;
+	   	}
+		    
+		    
 	       
 	       
 	       
@@ -445,6 +501,73 @@ public class ScientificFundsContrller {
 		}
 	  
 	  
+	  
+	  
+	  
+	  
+	   
+	    @RequestMapping(method = RequestMethod.GET, value = "/rgcbzctjb_data_exput_excel")
+	   	@ResponseBody
+	   	public String rgcbzctjb_data_exput_excel(HttpServletRequest request, HttpServletResponse response) throws Exception
+	   	{
+	   		
+	   		
+	   		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+	   		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+	   		String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+	   		paramMap.put("month", month);
+	   		paramMap.put("companyCode", companyCode);
+	   		System.out.println(">rgcbzctjb_data_exput_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+	   		
+	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(rgcbzctjb_data, HttpMethod.POST, httpEntity, JSONArray.class);
+	   		int statusCode = responseEntity.getStatusCodeValue();
+	   		List<ScientificFunds> list =new ArrayList();
+	   		JSONArray jSONArray=null;
+	   		if (statusCode == 200)
+	   		{
+	   			jSONArray = responseEntity.getBody();
+	   			list = JSONObject.parseArray(jSONArray.toJSONString(), ScientificFunds.class);
+	   		}
+	   		
+	   		
+
+            
+	          
+	          
+	   		
+	   		    String[] headers = { "院所",   "本年-总计",    "本年-工资",        "本年-社会保险费",   "本年-其他保险费", "本年-福利费",      "本年-教育经费",     "本年-工会经费",    "本年-住房费用",     "本年-劳务费用",    "本年-非货币性福利",  "本年-辞退福利",    "本年-其他"    ,    "同年-总计",    "同年-工资",        "同年-社会保险费",   "同年-其他保险费", "同年-福利费",      "同年-教育经费",     "同年-工会经费",    "同年-住房费用",     "同年-劳务费用",    "同年-非货币性福利",  "同年-辞退福利",     "同年-其他"      ,     "同比-总计",    "同比-工资",        "同比-社会保险费",   "同比-其他保险费", "同比-福利费",      "同比-教育经费",     "同比-工会经费",    "同比-住房费用",     "同比-劳务费用",    "同比-非货币性福利",  "同比-辞退福利",     "同比-其他"};
+	   		    String[] cols =    {"g0GSJC","k0BNCB_4",   "k0BNCB_411",     "k0BNCB_412",   "k0BNCB_413", "k0BNCB_414",     "k0BNCB_415",    "k0BNCB_416",   "k0BNCB_417",    "k0BNCB_418",   "k0BNCB_419",    "k0BNCB_420",    "k0BNCB_430"  ,  "k0SNCB_4",   "k0SNCB_411",     "k0SNCB_412",   "k0SNCB_413", "k0SNCB_414",     "k0SNCB_415",    "k0SNCB_416",   "k0SNCB_417",    "k0SNCB_418",   "k0SNCB_419",    "k0SNCB_420",    "k0SNCB_430"     ,  "k0TQCB_4",   "k0TQCB_411",     "k0TQCB_412",   "k0TQCB_413", "k0TQCB_414",     "k0TQCB_415",    "k0TQCB_416",   "k0TQCB_417",    "k0TQCB_418",   "k0TQCB_419",    "k0TQCB_420",    "k0TQCB_430" };
+	   		   
+	   	        // 文件名默认设置为当前时间：年月日时分秒
+	   	        String fileName = DateFormatUtils.format(new Date(), "yyyyMMddhhmmss");
+	   	        // 设置response头信息
+	   	        response.reset();
+	   	        response.setContentType("application/vnd.ms-excel");
+	   	        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xls");
+	   	        try {
+	   		        OutputStream os = response.getOutputStream();
+	   		        PoiExcelExportUitl<ScientificFunds>  pee = new PoiExcelExportUitl<ScientificFunds>(fileName, headers, cols, list,os);
+	   		        pee.exportExcel();
+	   	            
+	   	        } catch (Exception e)
+	   	        {
+	   	            e.printStackTrace();
+	   	            // 如果是ExcelException,则直接抛出
+	   	            if (e instanceof ExcelException) 
+	   	            {
+	   	                throw (ExcelException) e;
+	   	            } else 
+	   	            {
+	   	                // 否则将其他异常包装成ExcelException再抛出
+	   	                throw new ExcelException("导出excel失败");
+	   	            }
+	   	        }
+	   		   return null;
+	   	}
+	    
+	    
 	  
 	  
 	  
@@ -647,6 +770,71 @@ public class ScientificFundsContrller {
 	  
 	  
 	  
+	  
+	  
+	  
+	  @RequestMapping(method = RequestMethod.GET, value = "/yclzctjb_data_exput_excel")
+	   	@ResponseBody
+	   	public String yclzctjb_data_exput_excel(HttpServletRequest request, HttpServletResponse response) throws Exception
+	   	{
+	   		
+	   		
+	   		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+	   		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+	   		String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+	   		paramMap.put("month", month);
+	   		paramMap.put("companyCode", companyCode);
+	   		System.out.println(">yclzctjb_data_exput_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+	   		
+	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(yclzctjb_data, HttpMethod.POST, httpEntity, JSONArray.class);
+	   		int statusCode = responseEntity.getStatusCodeValue();
+	   		List<ScientificFunds> list =new ArrayList();
+	   		JSONArray jSONArray=null;
+	   		if (statusCode == 200)
+	   		{
+	   			jSONArray = responseEntity.getBody();
+	   			list = JSONObject.parseArray(jSONArray.toJSONString(), ScientificFunds.class);
+	   		}
+
+	   		
+	   		
+	   		    String[] headers = { "项目",    "本年-总计",     "本年-原材料及主要材料","本年-辅助材料",   "同年-总计",  "同年-原材料及主要材料","同年-辅助材料"   ,    "同比-总计",  "同比-原材料及主要材料","同比-辅助材料"};
+	   		    String[] cols =    {"g0GSJC","k0BNCB_5",   "k0BNCB_510",     "k0BNCB_520", "k0SNCB_5", "k0SNCB_510",     "k0SNCB_520",      "k0TBCB_5", "k0TBCB_510",     "k0TBCB_520"};
+	   		   
+	   	        // 文件名默认设置为当前时间：年月日时分秒
+	   	        String fileName = DateFormatUtils.format(new Date(), "yyyyMMddhhmmss");
+	   	        // 设置response头信息
+	   	        response.reset();
+	   	        response.setContentType("application/vnd.ms-excel");
+	   	        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xls");
+	   	        try {
+	   		        OutputStream os = response.getOutputStream();
+	   		        PoiExcelExportUitl<ScientificFunds>  pee = new PoiExcelExportUitl<ScientificFunds>(fileName, headers, cols, list,os);
+	   		        pee.exportExcel();
+	   	            
+	   	        } catch (Exception e)
+	   	        {
+	   	            e.printStackTrace();
+	   	            // 如果是ExcelException,则直接抛出
+	   	            if (e instanceof ExcelException) 
+	   	            {
+	   	                throw (ExcelException) e;
+	   	            } else 
+	   	            {
+	   	                // 否则将其他异常包装成ExcelException再抛出
+	   	                throw new ExcelException("导出excel失败");
+	   	            }
+	   	        }
+	   		   return null;
+	   	}
+	  
+	  
+	  
+	  
+	  
+	  
 	  @RequestMapping(method = RequestMethod.GET, value = "/sf/to_getYclzctjbData_Detail")
 	  public String to_getYclzctjbData_Detail(HttpServletRequest request) throws Exception
 	  {
@@ -831,6 +1019,64 @@ public class ScientificFundsContrller {
 			return resultObj.toString();
 
 		}
+	  
+	  
+	  
+	    @RequestMapping(method = RequestMethod.GET, value = "/nhzctjb_data_exput_excel")
+	   	@ResponseBody
+	   	public String nhzctjb_data_exput_excel(HttpServletRequest request, HttpServletResponse response) throws Exception
+	   	{
+	   		
+	   		
+	   		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+	   		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+	   		String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+	   		paramMap.put("month", month);
+	   		paramMap.put("companyCode", companyCode);
+	   		System.out.println(">nhzctjb_data_exput_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+	   		
+	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(nhzctjb_data, HttpMethod.POST, httpEntity, JSONArray.class);
+	   		int statusCode = responseEntity.getStatusCodeValue();
+	   		List<ScientificFunds> list =new ArrayList();
+	   		JSONArray jSONArray=null;
+	   		if (statusCode == 200)
+	   		{
+	   			jSONArray = responseEntity.getBody();
+	   			list = JSONObject.parseArray(jSONArray.toJSONString(), ScientificFunds.class);
+	   		}
+	   		
+   		    String[] headers = { "院所",   "本年-总计", "本年-燃料油",  "本年-燃料气",  "本年-其他燃料", "本年-动力",    "本年-水",      "本年-电",      "本年-风" ,     "本年-蒸汽",     "本年-燃气",    "本年-其他动力",            "同比-总计", "同比-燃料油",  "同比-燃料气",  "同比-其他燃料", "同比-动力",    "同比-水",      "同比-电",      "同比-风" ,     "同比-蒸汽",     "同比-燃气",    "同比-其他动力"  ,            "同年-总计", "同年-燃料油",  "同年-燃料气",  "同年-其他燃料", "同年-动力",    "同年-水",      "同年-电",      "同年-风" ,     "同年-蒸汽",     "同年-燃气",    "同年-其他动力"};
+   		    String[] cols =    {"g0GSJC","k0BNCB_4","k0BNCB_431","k0BNCB_432","k0BNCB_433","k0BNCB_440", "k0BNCB_441", "k0BNCB_442", "k0BNCB_443", "k0BNCB_444", "k0BNCB_445", "k0BNCB_446",           "k0TBCB_4","k0TBCB_431","k0TBCB_432","k0TBCB_433","k0TBCB_440", "k0TBCB_441", "k0TBCB_442", "k0TBCB_443", "k0TBCB_444", "k0TBCB_445", "k0TBCB_446",            "k0SNCB_4","k0SNCB_431","k0SNCB_432","k0SNCB_433","k0SNCB_440", "k0SNCB_441", "k0SNCB_442", "k0SNCB_443", "k0SNCB_444", "k0SNCB_445", "k0SNCB_446"  };
+   	        // 文件名默认设置为当前时间：年月日时分秒
+   	        String fileName = DateFormatUtils.format(new Date(), "yyyyMMddhhmmss");
+   	        // 设置response头信息
+   	        response.reset();
+   	        response.setContentType("application/vnd.ms-excel");
+   	        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xls");
+   	        try {
+   		        OutputStream os = response.getOutputStream();
+   		        PoiExcelExportUitl<ScientificFunds>  pee = new PoiExcelExportUitl<ScientificFunds>(fileName, headers, cols, list,os);
+   		        pee.exportExcel();
+   	            
+   	        } catch (Exception e)
+   	        {
+   	            e.printStackTrace();
+   	            // 如果是ExcelException,则直接抛出
+   	            if (e instanceof ExcelException) 
+   	            {
+   	                throw (ExcelException) e;
+   	            } else 
+   	            {
+   	                // 否则将其他异常包装成ExcelException再抛出
+   	                throw new ExcelException("导出excel失败");
+   	            }
+   	        }
+   		   return null;
+	   	}
+	    
+	   
 
 	  
 	  @RequestMapping(method = RequestMethod.GET, value = "/sf/to_getNhzctjbData_detail")
@@ -857,7 +1103,9 @@ public class ScientificFundsContrller {
 	      return "stp/hana/scientificFunds/getNhzctjbData_detail";
 	  }
 	  
-	  @RequestMapping(method = RequestMethod.GET, value = "/getNhzctjbData_detail")
+	  
+	  
+	    @RequestMapping(method = RequestMethod.GET, value = "/getNhzctjbData_detail")
 		@ResponseBody
 		public String getNhzctjbData_detail(HttpServletRequest request, HttpServletResponse response) throws Exception 
 	    {
@@ -983,7 +1231,7 @@ public class ScientificFundsContrller {
 	  
 	  
 	  
-	     @RequestMapping(method = RequestMethod.POST, value = "/xmzjlxfx_data")
+	     @RequestMapping(value = "/xmzjlxfx_data")
 		 @ResponseBody
 		 public String xmzjlxfx_data(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
