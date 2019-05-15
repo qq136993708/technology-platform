@@ -111,6 +111,9 @@
                     //var iframe = window['layui-layer-iframe' + index];
                     // 向子页面的全局函数child传参
                     //iframe.showData("");
+                    var iframe = window['layui-layer-iframe' + index];
+                    var iframeH=$(layero).find("iframe");
+                    $(iframeH).contents().find(".cycle-img").css("height",$(iframe).height()+"px");
                 }
             });
         });
