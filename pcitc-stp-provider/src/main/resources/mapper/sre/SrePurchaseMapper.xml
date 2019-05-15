@@ -22,12 +22,13 @@
     <result column="document_doc_contract_acceptance" jdbcType="VARCHAR" property="documentDocContractAcceptance" />
     <result column="document_doc_install_debug" jdbcType="VARCHAR" property="documentDocInstallDebug" />
     <result column="document_doc_contract_close" jdbcType="VARCHAR" property="documentDocContractClose" />
+    <result column="is_contract_closed" jdbcType="VARCHAR" property="isContractClosed" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, purchase_name, proposer_id, proposer_name, parent_unit_path_id, parent_unit_path_names,
-    depart_name, depart_code, stage, state, create_date, equipment_id, ischeck, project_id,
-    login_name, document_doc, document_doc_arrive_goods, document_doc_contract_acceptance,
-    document_doc_install_debug, document_doc_contract_close
+    id, purchase_name, proposer_id, proposer_name, parent_unit_path_id, parent_unit_path_names, 
+    depart_name, depart_code, stage, state, create_date, equipment_id, ischeck, project_id, 
+    login_name, document_doc, document_doc_arrive_goods, document_doc_contract_acceptance, 
+    document_doc_install_debug, document_doc_contract_close, is_contract_closed
   </sql>
   <sql id="selectCondition">
     <trim prefix="WHERE" prefixOverrides="AND|OR">
@@ -58,16 +59,16 @@
       state, create_date, equipment_id, 
       ischeck, project_id, login_name, 
       document_doc, document_doc_arrive_goods, document_doc_contract_acceptance, 
-      document_doc_install_debug, document_doc_contract_close
-      )
+      document_doc_install_debug, document_doc_contract_close, 
+      is_contract_closed)
     values (#{id,jdbcType=VARCHAR}, #{purchaseName,jdbcType=VARCHAR}, #{proposerId,jdbcType=VARCHAR}, 
       #{proposerName,jdbcType=VARCHAR}, #{parentUnitPathId,jdbcType=VARCHAR}, #{parentUnitPathNames,jdbcType=VARCHAR}, 
       #{departName,jdbcType=VARCHAR}, #{departCode,jdbcType=VARCHAR}, #{stage,jdbcType=VARCHAR}, 
       #{state,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{equipmentId,jdbcType=VARCHAR}, 
       #{ischeck,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, 
       #{documentDoc,jdbcType=VARCHAR}, #{documentDocArriveGoods,jdbcType=VARCHAR}, #{documentDocContractAcceptance,jdbcType=VARCHAR}, 
-      #{documentDocInstallDebug,jdbcType=VARCHAR}, #{documentDocContractClose,jdbcType=VARCHAR}
-      )
+      #{documentDocInstallDebug,jdbcType=VARCHAR}, #{documentDocContractClose,jdbcType=VARCHAR}, 
+      #{isContractClosed,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SrePurchase">
     insert into sre_purchase
@@ -132,6 +133,9 @@
       <if test="documentDocContractClose != null">
         document_doc_contract_close,
       </if>
+      <if test="isContractClosed != null">
+        is_contract_closed,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -193,6 +197,9 @@
       </if>
       <if test="documentDocContractClose != null">
         #{documentDocContractClose,jdbcType=VARCHAR},
+      </if>
+      <if test="isContractClosed != null">
+        #{isContractClosed,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -256,6 +263,9 @@
       <if test="documentDocContractClose != null">
         document_doc_contract_close = #{documentDocContractClose,jdbcType=VARCHAR},
       </if>
+      <if test="isContractClosed != null">
+        is_contract_closed = #{isContractClosed,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -279,7 +289,8 @@
       document_doc_arrive_goods = #{documentDocArriveGoods,jdbcType=VARCHAR},
       document_doc_contract_acceptance = #{documentDocContractAcceptance,jdbcType=VARCHAR},
       document_doc_install_debug = #{documentDocInstallDebug,jdbcType=VARCHAR},
-      document_doc_contract_close = #{documentDocContractClose,jdbcType=VARCHAR}
+      document_doc_contract_close = #{documentDocContractClose,jdbcType=VARCHAR},
+      is_contract_closed = #{isContractClosed,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
@@ -298,6 +309,17 @@
     <if test="purchaseName != null and purchaseName  !='' ">               AND t.purchase_name like CONCAT('%',#{purchaseName},'%')</if>
     <if test="createDate!= null       and createDate !=''  ">     AND t.create_date = #{createDate}</if>
     <if test="departCode != null        and departCode !=''  ">       AND t.depart_code = #{departCode}</if>
+    <if test="parentUnitPathIds != null        and parentUnitPathIds !=''  ">       AND t.parent_unit_path_id = #{parentUnitPathIds}</if>
+    <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
+    <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>
+  </select>
+  <select id="getContractClosedList" resultMap="BaseResultMap" parameterType="Map" >
+    select * from sre_purchase t where state=${state} and t.state='60' or t.state='70'
+    <if test="proposerName != null and proposerName  !='' ">               AND t.proposer_name like CONCAT('%',#{proposerName},'%')</if>
+    <if test="purchaseName != null and purchaseName  !='' ">               AND t.purchase_name like CONCAT('%',#{purchaseName},'%')</if>
+    <if test="createDate!= null       and createDate !=''  ">     AND t.create_date = #{createDate}</if>
+    <if test="departCode != null        and departCode !=''  ">       AND t.depart_code = #{departCode}</if>
+    <if test="parentUnitPathIds != null        and parentUnitPathIds !=''  ">       AND t.parent_unit_path_id = #{parentUnitPathIds}</if>
     <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>
   </select>

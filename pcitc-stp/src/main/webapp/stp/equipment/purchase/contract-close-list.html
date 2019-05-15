@@ -36,12 +36,21 @@
         <div  class="tableBtns" >
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" id="applyEvent" data-type="applyEvent">上报</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="upQianEvent">上传验收报告单</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="contractCloseEvent">关闭合同</button>
         </div>
     </div>
     <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table>
 </div>
 
-
+<script type="text/html" id="isContractClosed_temp">
+    {{#  if(d.isContractClosed == '0'){ }}
+    <button class="layui-btn layui-btn-primary layui-btn-xs">待关闭</button>
+    {{#  } else if(d.isContractClosed == '1'){ }}
+    <button class="layui-btn layui-btn-normal layui-btn-xs">已关闭</button>
+    {{#  } else{ }}
+    <button class="layui-btn layui-btn-primary layui-btn-xs">待关闭</button>
+    {{#  } }}
+</script>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script type="text/javascript">
     // 时间格式化
@@ -136,6 +145,29 @@
                         ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
                     }
                 }
+            },contractCloseEvent: function(){  //关闭合同按钮
+
+                if (typeof(selectRowData) == "undefined")
+                {
+                    layer.msg('请点击选择一行数据');
+                }
+                else
+                {
+                    layer.confirm('是否提交？', { btn: ['确定','取消']}, function(){
+                        var id=selectRowData.id;
+                        var isContractClosed = selectRowData.isContractClosed;
+                        var url="/sre-purchase/is-contract-closed/"+id;
+                        var backurl="/sre-purchase/to-contract-close-list";
+                        var state=selectRowData.state;
+                        if(isContractClosed!='0'&& isContractClosed!="")
+                        {
+                            layer.alert('请选择待关闭的合同');
+                            return;
+                        }else{
+                            ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
+                        }
+                    })
+                }
             }
 
         };
@@ -169,7 +201,7 @@
             elem: '#processdef-table',
             url: '/sre_purchase/list',
             method:"POST",
-            where: {param: {"departCode":$("#departCode").val(),"state":"60","innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {"departCode":$("#departCode").val(),"stage":"6","innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
             limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),
@@ -184,7 +216,7 @@
             cols: [[
                 {type : 'checkbox', event : 'changeEvents', width : 55},
                 {title : '序号', type :'numbers', width : 55},
-                //{field : 'state', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.state) }}</div>', width : 55},
+                {field : 'isContractClosed',    title : '合同状态',        style : 'cursor: pointer;', align: 'center', width : 100,templet : '#isContractClosed_temp'},
                 {field : 'purchaseName',     title : '采购名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
                 {field : 'parentUnitPathNames',     title : '单位名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
                 {field : 'departName',     title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '20%'},

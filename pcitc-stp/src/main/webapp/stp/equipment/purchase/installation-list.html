@@ -94,13 +94,7 @@
                     layer.msg('请点击选择一条数据');
                 }else
                 {
-                    var contractNum=selectRowData.contractNum;
-                    //if(contractNum==null || contractNum=='')
-                    if(1!=1)
-                    {
-                        layer.alert('合同号未生成,不能上传签字页');
-                    }else
-                    {
+                    layer.confirm('是否提交？', { btn: ['确定','取消']}, function(){
                         var id=selectRowData.id;
                         var temUrl="/sre-purchase/upFileDoc?id=" + id;
                         layer.open({
@@ -113,8 +107,7 @@
                             area: ['70%', '90%'],
                             content:  temUrl
                         });
-                    }
-
+                    })
                 }
             },applyEvent: function(){  //点击上报按钮
 

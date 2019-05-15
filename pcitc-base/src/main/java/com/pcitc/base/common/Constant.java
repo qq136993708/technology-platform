@@ -44,9 +44,11 @@ public class Constant {
     public static String  EQUIPMENT_PURCHASE_CONTRACT_ACCEPTANCE = "6";
     public static String  EQUIPMENT_PURCHASE_INSTALLATION = "7";
     public static String  EQUIPMENT_PURCHASE_CONTRACT_CLOSE = "8";
-
     public static String  EQUIPMENT_PURCHASE_PRE_PURCHASE = "5";
 
+    //采购管理-合同关闭
+    public static String  PURCHASE_CONTRACT_STAY_CLOSE = "0"; //0 待关闭 1 已关闭
+    public static String  PURCHASE_CONTRACT_CLOSED = "1";
     //装备转资变量
     public static final String EQUME_ZERO="0"; //开启状态
     public static final String EQUME_ONE="1"; //关闭状态
