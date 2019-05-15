@@ -79,6 +79,7 @@ public class StandardBaseExpertController extends BaseController {
 
     /**
      * 技术族导入
+     *
      * @return
      */
     @RequestMapping(value = "/importFileTfc")
@@ -102,6 +103,7 @@ public class StandardBaseExpertController extends BaseController {
 
     /**
      * 标准化导入
+     *
      * @return
      */
     @RequestMapping(value = "/importFileStandard")
@@ -129,7 +131,39 @@ public class StandardBaseExpertController extends BaseController {
         return "stp/system/pageSelectorgType";
     }
 
+    /**
+     * 技术热点图
+     *
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/tfcHotPoint")
+    public String tfcHotPoint() {
+        return "stp/techFamily/tfcHotPoint";
+    }
 
+    /**
+     * 技术优选
+     *
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/tfcGood")
+    public String tfcGood() {
+        return "stp/techFamily/tfcGood";
+    }
+
+    /**
+     * 技术族推荐
+     *
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/tfcTj")
+    public String tfcTj() throws Exception {
+        request.setAttribute("dataId", request.getParameter("dataId"));
+        request.setAttribute("name", request.getParameter("name"));
+        request.setAttribute("values", "石油化工");
+        return "/stp/techFamily/tfcTj";
+    }
 
     /**
      * 标准化-查询列表
