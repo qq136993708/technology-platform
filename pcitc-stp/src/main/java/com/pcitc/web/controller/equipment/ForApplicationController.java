@@ -264,6 +264,7 @@ public class ForApplicationController extends BaseController {
 		String applyDepartName = sysUserInfo.getUnitName();
 		String applyDepartCode = sysUserInfo.getUnitCode();
 		String firstApplyUser=sysUserInfo.getUnitPath();
+		String unitPathIds=sysUserInfo.getUnitPath();
 		String attachmentDoc= IdUtil.createFileIdByTime();
 		if(!firstApplyUser.equals(""))
 		{
@@ -303,6 +304,8 @@ public class ForApplicationController extends BaseController {
 			sreDeta.setDeclareTime(new Date());//转资时间
 			sreDeta.setDeclarePeople(squipment.getFirstApplyUser());//第一申报人
 			sreDeta.setDeclareTime(squipment.getCreateDate());//申报时间
+			sreDeta.setUnitPathIds(unitPathIds);//子ID
+			sreDeta.setParentUnitPathIds(firstApplyUser);//父ID
 			sreDeta.setConfigure(id);//转资申请ID
 			sreDeta.setIsscrap(Constant.EQUME_ZERO);
 			if(arr!=null) {
