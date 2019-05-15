@@ -245,17 +245,19 @@
                 }
                 else
                 {
-                    var id=selectRowData.id;
-                    var url="/sre-purchase/contractSubmission/"+id;
-                    var backurl="/sre-purchase/apply_list";
-                    var state=selectRowData.state;
-                    if(state!='20')
-                    {
-                        layer.alert('请选择未上报的申请');
-                        return;
-                    }else{
-                        ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
-                    }
+                    layer.confirm('是否提交？', { btn: ['确定','取消']}, function(){
+                        var id=selectRowData.id;
+                        var url="/sre-purchase/contractSubmission/"+id;
+                        var backurl="/sre-purchase/apply_list";
+                        var state=selectRowData.state;
+                        if(state!='20')
+                        {
+                            layer.alert('请选择未上报的申请');
+                            return;
+                        }else{
+                            ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
+                        }
+                    })
                 }
             }
 

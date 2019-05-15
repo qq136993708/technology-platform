@@ -158,7 +158,7 @@ public class PurchaseController extends BaseController{
         return "/stp/equipment/purchase/installation-list";
     }
     //跳转到合同关闭页面
-    @RequestMapping(value = "/sre-purchase/to-contract_close-list")
+    @RequestMapping(value = "/sre-purchase/to-contract-close-list")
     public String contractCloseList(HttpServletRequest request, HttpServletResponse response) {
 
         String departCode=sysUserInfo.getUnitCode();
@@ -175,7 +175,7 @@ public class PurchaseController extends BaseController{
         }
         request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 
-        return "/stp/equipment/purchase/contract_close-list";
+        return "/stp/equipment/purchase/contract-close-list";
     }
 
 	/**
@@ -357,6 +357,7 @@ public class PurchaseController extends BaseController{
         String departCode = CommonUtil.getParameter(request, "departCode", "");
         String createUserName = CommonUtil.getParameter(request, "createUserName", "");
         String createUserId = CommonUtil.getParameter(request, "createUserId", "");
+        String isContractClosed = CommonUtil.getParameter(request, "isContractClosed",Constant.PURCHASE_CONTRACT_STAY_CLOSE );
 
         String unitPathIds =   CommonUtil.getParameter(request, "unitPathIds",sysUserInfo.getUnitPath());
 
@@ -403,6 +404,7 @@ public class PurchaseController extends BaseController{
 
             srePurchase.setEquipmentId(equipmentIds);//装备ID
             srePurchase.setProjectId(topicId);//课题ID
+            srePurchase.setIsContractClosed(isContractClosed);
 
 
         // 判断是新增还是修改
@@ -677,6 +679,37 @@ public class PurchaseController extends BaseController{
         }
         return resultsDate;
     }
+    //关闭合同
+    @RequestMapping(value = "/sre-purchase/is-contract-closed/{id}")
+    @ResponseBody
+    public Result isContractClosed(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Result resultsDate = new Result();
+
+        SrePurchase srePurchase = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class).getBody();
+        if (srePurchase!=null){
+            String equipmentIds = srePurchase.getEquipmentId();
+            String[] arr = equipmentIds.split(",");
+            for (int i = 0; i < arr.length; i++) {
+                System.err.println(arr[i]);
+                SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
+                if(sreEquipment!=null){
+                    sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_CONTRACT_CLOSE);
+                    EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
+                }
+            }
+            srePurchase.setState(Constant.PURCHASE_STATUS_CONTRACT_CLOSE);
+            srePurchase.setIsContractClosed(Constant.PURCHASE_CONTRACT_CLOSED);
+        }
+        ResponseEntity<String> exchange1 = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
+        int statusCodeValue = exchange1.getStatusCodeValue();
+        if (statusCodeValue == 200) {
+            resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
+        } else
+        {
+            resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
+        }
+        return resultsDate;
+    }
     /* =================================生成word文档  START================================*/
     //生成采购单模板
     @RequestMapping(value = "/sre-purchase/createWord/{id}", method = RequestMethod.GET)
@@ -833,6 +866,7 @@ public class PurchaseController extends BaseController{
             String documentDoc = srePurchase.getDocumentDoc();
             String docArriveGoods = srePurchase.getDocumentDocArriveGoods();
             String documentDocInstallDebug = srePurchase.getDocumentDocInstallDebug();
+            String documentDocContractAcceptance = srePurchase.getDocumentDocContractAcceptance();
             String stage = srePurchase.getStage();
             if(stage.equals(Constant.PURCHASE_CONTRACT_DOCKING)){
                 if(documentDoc==null || documentDoc.equals(""))
@@ -846,6 +880,12 @@ public class PurchaseController extends BaseController{
                     docArriveGoods= IdUtil.createFileIdByTime();
                 }
                 request.setAttribute("docArriveGoods", docArriveGoods);
+            }else if(stage.equals(Constant.PURCHASE_CONTRACT_CHECK)){
+                if(documentDocContractAcceptance==null || documentDocContractAcceptance.equals(""))
+                {
+                    documentDocContractAcceptance= IdUtil.createFileIdByTime();
+                }
+                request.setAttribute("documentDocContractAcceptance", documentDocContractAcceptance);
             }else if(stage.equals(Constant.PURCHASE_INSTALL_DEBUG)){
                 if(documentDocInstallDebug==null || documentDocInstallDebug.equals(""))
                 {
@@ -868,6 +908,7 @@ public class PurchaseController extends BaseController{
         String documentDoc = CommonUtil.getParameter(request, "documentDoc", "");
         String docArriveGoods = CommonUtil.getParameter(request, "docArriveGoods", "");
         String documentDocInstallDebug = CommonUtil.getParameter(request, "documentDocInstallDebug", "");
+        String documentDocContractAcceptance = CommonUtil.getParameter(request, "documentDocContractAcceptance", "");
         String resutl="";
 
         int statusCodeValue = 0;
@@ -883,6 +924,12 @@ public class PurchaseController extends BaseController{
                 ResponseEntity<SrePurchase> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
                 SrePurchase srePurchase = responseEntity.getBody();
                 srePurchase.setDocumentDocArriveGoods(docArriveGoods);
+                ResponseEntity<String>  exchange = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
+                statusCodeValue = responseEntity.getStatusCodeValue();
+            }else if (stage.equals(Constant.PURCHASE_CONTRACT_CHECK)){
+                ResponseEntity<SrePurchase> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
+                SrePurchase srePurchase = responseEntity.getBody();
+                srePurchase.setDocumentDocContractAcceptance(documentDocContractAcceptance);
                 ResponseEntity<String>  exchange = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
                 statusCodeValue = responseEntity.getStatusCodeValue();
             }else if (stage.equals(Constant.PURCHASE_INSTALL_DEBUG)){
