@@ -34,7 +34,38 @@
 
 <div class="tableBox">
 <h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt"></label>项目资金流向分析</h3>
-    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table">
+   <!--  <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"> -->
+    <table id="myTable" class="layui-table" lay-filter="myTable" >
+                 <thead>
+                  <tr>
+                      <th lay-data="{field:'g0GSJC', width:'8%'}" rowspan="2" >直属研究院</th>
+                      <th lay-data="{align:'center'}" colspan="9">累计</th>
+                      <th lay-data="{align:'center'}" colspan="9">本年</th>
+                  </tr>
+                  <tr>
+                      <th lay-data="{field:'k0ZTYSJE',       width:'7%',align:'right'}">总体预算 </th>
+                      <th lay-data="{field:'k0LJKYFPQCB',    width:'7%',align:'right'}">科研分配前成本</th>
+                      <th lay-data="{field:'k0LJKYFPHCB',    width:'7%',align:'right'}">科研分配后成本</th> 
+                      <th lay-data="{field:'k0LJGLFPHCB',     width:'7%',align:'right'}">管理分配后成本</th>
+                      <th lay-data="{field:'k0LJGLFPHJECB',       width:'7%',align:'right'}">实际支出合计</th> 
+                      <th lay-data="{field:'k0LJSJCNJE',       width:'7%',align:'right'}">资金承诺累计 </th> 
+                      <th lay-data="{field:'k0LJSJDJJE',       width:'7%',align:'right'}">定金 </th> 
+                      <th lay-data="{field:'k0LJZJSYBL',     width:'7%',align:'right'}">资金使用% </th>
+                      <th lay-data="{field:'k0LJYSJY',     width:'7%',align:'right'}">资金结余累计</th>
+                      
+                      <th lay-data="{field:'k0BNYSJHJE',      width:'7%',align:'right'}">本年预算 </th>
+                      <th lay-data="{field:'k0BNKYFPQCB',     width:'7%',align:'right'}">科研分配前成本</th>
+                      <th lay-data="{field:'k0BNKYFPHCB',     width:'7%',align:'right'}">科研分配后成本</th> 
+                      <th lay-data="{field:'k0BNGLFPHCB',     width:'7%',align:'right'}">管理分配后成本 </th>
+                      <th lay-data="{field:'k0BNGLFPHJECB',   width:'7%',align:'right'}">实际支出合计</th> 
+                      <th lay-data="{field:'k0BNSJCNJE',      width:'7%',align:'right'}">资金承诺 </th> 
+                      <th lay-data="{field:'k0BNSJDJJE',      width:'7%',align:'right'}">定金 </th> 
+                      <th lay-data="{field:'k0BNZJSYBL',      width:'7%',align:'right'}">资金使用% </th> 
+                      <th lay-data="{field:'k0BNYSJY',      width:'7%',align:'right'}">资金结余 </th> 
+                  </tr>
+                 </thead>
+             </table>
+             
 </div>
 
 <script id="dateTpl" type="text/html"> {{formatTime(d.SQRI)}} </script>
@@ -150,7 +181,7 @@ layui.config({
     });
     
     
-    function renderTable()
+   /*  function renderTable()
     {
     	
     	var index = layer.load(1, {
@@ -208,12 +239,52 @@ layui.config({
       
       
       
-}
+} */
    
     
        
        
-   
+    function renderTable()
+    {
+    	layer.load(2);
+    	 var month=$("#month").val();
+    	 var companyCode=$("#companyCode").val();
+    	
+    	 var v_date=(new Date()).getTime();
+    	 var url= '/xmzjlxfx_data?month='+month+"&v_date="+v_date+"&companyCode="+companyCode;
+    	 table.init('myTable', {
+    			  url: url
+    			  ,where: {} ,
+    			  done: function (res, curr, count) {layer.closeAll('loading');}
+    			  
+    			});
+    	 
+    	    //监听行单击事件
+    	    table.on('row(myTable)', function(obj){
+    	        console.log(obj.tr) //得到当前行元素对象
+    	        console.log(obj.data) //得到当前行数据
+    	        var selectRowData=obj.data;
+    	        
+    	        var url="/to_getXmzjlxfxData_detail?month="+month+"&companyName="+selectRowData.g0GSJC;
+    	        layer.open({
+                    title:'科技经费-详情',
+                    skin: 'layui-layer-lan',
+                    shadeClose: true,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin: false,
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    area: ['70%', '90%'],
+                    content:  url
+                });
+    	        
+    	        
+    	    });
+    	 
+    	 
+    	 
+    }
 
 </script>
 
