@@ -61,7 +61,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 				}
 			}
 			if (token != null) {
-				//System.out.println("token is not null ");
+				System.out.println("token is not null ");
 				httpHeaders.set("Authorization", "Bearer " + token);
 				sysUser = JwtTokenUtil.getUserFromTokenByValue(token);
 				
@@ -70,6 +70,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 				HandlerMethod m = (HandlerMethod) handler;
 				
 				if (m.getBean() instanceof BaseController) {
+					System.out.println("sysUser input BaseController ");
 					BaseController baerInfo = (BaseController) m.getBean();
 					baerInfo.setUserProfile(sysUser);
 				}
