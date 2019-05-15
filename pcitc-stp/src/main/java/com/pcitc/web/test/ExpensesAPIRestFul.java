@@ -34,6 +34,7 @@ public class ExpensesAPIRestFul {
 
 			Map<String, String> headerMap = new HashMap<String, String>();
 			headerMap.put("Content-Type", "application/json");
+			
 			// 设置全局默认请求头，每次请求都会带上这些请求头
 			RestfulHttpClient.setDefaultHeaders(headerMap);
 			// 添加多个参数请求头
@@ -41,11 +42,7 @@ public class ExpensesAPIRestFul {
 
 			JsonObject jo = new JsonObject();
 			// 查询最大值，+一个月作为本次的查询条件
-			String startDate = "2018-05-01";
-
-			if (startDate!=null&&!startDate.equals("")) {
-				startDate = "2018-05-01";
-			}
+			String startDate = "2018-12-01";
 
 			Date temStartDate = DateUtil.strToDate(startDate, DateUtil.FMT_DD);
 			Calendar rightNow = Calendar.getInstance();
@@ -64,6 +61,8 @@ public class ExpensesAPIRestFul {
 			jo.addProperty("reqTime", reqTime);
 			String signMd5 = MD5Util.MD5Encode("sysnPubPaymentBillInfo"+reqTime+"pubBill");
 			jo.addProperty("sign", signMd5);
+			System.out.println("1执行完毕--------"+reqTime);
+			System.out.println("1执行完毕--------"+signMd5);
 
 			// 添加请求体
 			client.body(jo.toString());

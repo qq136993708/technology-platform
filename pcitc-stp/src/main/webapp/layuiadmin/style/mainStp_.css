@@ -257,4 +257,6 @@ background: url("/layuiadmin/layui/images/icon-leader-aw.png") right no-repeat;
     .work-summary>div canvas{margin: 10px 33%;}
     .work-summary span{left: 45%;}
     .stay-do-m:hover .stay-doz-n{transform:translate(226px,64px)}
+    .layui-col-md15{padding: 10px 8px 8px;}
+    .layui-main-box .layui-box-icon{background-size: contain !important;}
 }

@@ -87,7 +87,7 @@ public class SysFilePageController extends BaseController {
 //        response.addHeader("x-frame-options","DENY");
 //        response.addHeader("x-frame-options","SAMEORIGIN");
 
-        httpHeaders.add("x-frame-options","ALLOW-FROM");
+        httpHeaders.add("x-frame-options","SAMEORIGIN");
 //        httpHeaders.add("x-frame-options","DENY");
 
         return "/common/public/uploadpop";
