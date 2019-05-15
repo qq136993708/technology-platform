@@ -20,17 +20,13 @@
          <div class="layui-input-inline">
            <select id="companyCode" name="companyCode" class="form-control"></select>
         </div>
-       
-       
-         
-         
     <!--按钮组-->
     <div class="btnGroup">
      <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
     </div><span style="float:right;margin-right:20px">(单位：万元)</<span>
 </div>
 <div class="tableBox">
-
+<div class="btnGroup" style="float:right;margin-right:20px"><button  onclick="exput_excel()" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg" >导出EXCEL</<button></div>
 <h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt"></label>课题直间接费用统计</h3>
     <table id="myTable" class="layui-table" lay-filter="myTable" >
                  <thead>
@@ -181,6 +177,13 @@ function myTable()
    
 
 
+
+function exput_excel()
+{
+	var companyCode=$('#companyCode').val();
+	var month=$('#month').val();
+	window.open("/ktzjjfytjb_data_exput_excel?month="+month+"&companyCode="+companyCode); 
+} 
 
 
 </script>

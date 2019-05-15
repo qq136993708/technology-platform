@@ -19,45 +19,83 @@
             laytpl = layui.laytpl, publicMethods = layui.publicMethods;
         var data={
             "data":[
-                {"name":"已做","contonet":"11111","start":"already"},
-                {"name":"已做","contonet":"11111","start":"already"},
-                {"name":"已做","contonet":"11111","start":"already","data":[
-                        {"name":"已做","contonet":"11111","start":"already","to":"4"},
-                        {"name":"已做","contonet":"11111","start":"already","to":"5"},
+                {"name":"已做","contonet":"项目未进行到当前状态时的说明","start":"already"},
+                {"name":"已做","contonet":"项目未进行到当前状态时的说明","start":"already"},
+                {"name":"已做","contonet":"项目未进行到当前状态时的说明","start":"already","data":[
+                        {"name":"已做","contonet":"项目未进行到当前状态时的说明","start":"already","to":"4"},
+                        {"name":"已做","contonet":"项目未进行到当前状态时的说明","start":"already","to":"5"},
                     ]},
-                {"name":"已做","contonet":"11111","start":"already"},
-                {"name":"已做","contonet":"11111","start":"already","id":"4"},
-                {"name":"未做","contonet":"11111","start":"not","id":"5"},
-                {"name":"未做","contonet":"11111","start":"not","data":[
-                        {"name":"已做","contonet":"11111","start":"already","to":"7"},
-                        {"name":"已做","contonet":"11111","start":"already","to":"7"},
+                {"name":"已做","contonet":"项目未进行到当前状态时的说明","start":"already","id":"3"},
+                {"name":"已做","contonet":"项目未进行到当前状态时的说明","start":"already","id":"4"},
+                {"name":"未做","contonet":"项目未进行到当前状态时的说明","start":"not","id":"5"},
+                {"name":"未做","contonet":"项目未进行到当前状态时的说明","start":"not","data":[
+                        {"name":"未做","contonet":"项目未进行到当前状态时的说明","start":"not","to":"7"},
+                        {"name":"未做","contonet":"项目未进行到当前状态时的说明","start":"not","to":"7"},
                     ]},
-                {"name":"未做","contonet":"11111","start":"not","id":"7"}
+                {"name":"未做","contonet":"项目未进行到当前状态时的说明","start":"not","id":"7"}
             ]
         };
         var dataJson;
         for(var i in data=data.data ){
             var dataJson=data[i].data;
-            var html='<div class="'+data[i].start+'" lay-class="'+i+'" style="left: '+102*i+'px;">' +
-                '        <p>'+data[i].name+'</p>' +
-                '        <p>'+data[i].contonet+'</p>' +
-                '    </div>';
+            if(data[i].start=="already"){
+                var html='<div class="item '+data[i].start+'" lay-class="'+i+'" style="left: '+102*i+'px;">' +
+                    '        <p>'+data[i].name+'</p>' +
+                    '        <p>'+data[i].contonet+'</p>' +
+                    '       <img src="/layuiadmin/layui/images/cycle-j.png"/>'+
+                    '    </div>';
+            }else {
+                var html='<div class="item '+data[i].start+'" lay-class="'+i+'" style="left: '+102*i+'px;">' +
+                    '        <p>'+data[i].name+'</p>' +
+                    '        <p>'+data[i].contonet+'</p>' +
+                    '<img src="/layuiadmin/layui/images/cycle-h.png"/>'+
+                    '    </div>';
+            }
             $(".cycle-img").append(html);
             if(dataJson!=undefined){
                 $.each(dataJson,function (k, val) {
                     if(k==0){
-                        var top="15%";
+                        var top=(parseInt($(".cycle-img>div").eq(i).css("top"))-102);
+                        let widthP=(parseInt(val.to)-(parseInt(i)+1));
+                        var html='<div class="item '+val.start+'" lay-class="'+val.to+'" style="left: '+102*(parseInt(i)+1)+'px; top:'+top+'px;">' +
+                            '        <p>'+val.name+'</p>' +
+                            '        <p>'+val.contonet+'</p>' +
+                            '       <div class="'+val.start+'-up-left"></div>'+
+                            '       <div class="'+val.start+'-up-right" style="width:'+((widthP*102)-22)+'px"></div>'+
+                            '       <div class="'+val.start+'-up-iRight" style="left: '+((widthP*102)+43)+'px"></div>'+
+                            '    </div>';
                     }else if(k==1) {
-                        var top="75%";
+                        var top=(parseInt($(".cycle-img>div").eq(i).css("top"))+102);
+                        let widthP=parseInt(val.to)-(parseInt(i)+1);
+                        var html='<div class="item '+val.start+'" lay-class="'+val.to+'" style="left: '+102*(parseInt(i)+1)+'px; top:'+top+'px">' +
+                            '        <p>'+val.name+'</p>' +
+                            '        <p>'+val.contonet+'</p>' +
+                            '       <div class="'+val.start+'-d-left"></div>'+
+                            '       <div class="'+val.start+'-d-right" style="width:'+((widthP*102)-22)+'px"></div>'+
+                            '       <div class="'+val.start+'-d-iRight" style="left: '+((widthP*102)+43)+'px"></div>'+
+                            '    </div>';
                     }
-                    var html='<div class="already" lay-class="'+val.to+'" style="left: '+102*(parseInt(i)+1)+'px; top:'+top+'">' +
-                        '        <p>'+data[i].name+'</p>' +
-                        '        <p>'+data[i].contonet+'</p>' +
-                        '    </div>';
+
                     $(".cycle-img").append(html);
                 });
             }
         }
+        $(".cycle-img>div:last-child img").remove();
+        $(".cycle-img>div").each(function (i,val) {
+            if(i>=2){
+                var layClass2=$(".cycle-img .item").eq(i-2).attr("lay-class");
+                var layClass1=$(".cycle-img .item").eq(i-1).attr("lay-class");
+                var layClass=$(this).attr("lay-class");
+                console.log(layClass2)
+                var top=parseInt($(this).css("top"))/parseInt($(".cycle-img").height());
+                if(Math.round(top*100)==45){
+                    if(layClass==layClass1 || layClass==layClass2){
+                        $(".cycle-img>div").eq(i-3).find("img").remove();
+                        $(this).css("left",(parseInt($(this).css('left'))+102)+"px");
+                    }
+                }
+            }
+        });
     });
 
 </script>
