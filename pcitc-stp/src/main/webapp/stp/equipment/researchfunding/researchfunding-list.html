@@ -165,9 +165,10 @@ var functionId=param.id;
 $('#functionId').val(functionId);
 var publicMethods;
 var name=$('#name').val();
-    layui.use(['jquery','table','laypage','layer','laytpl',"publicMethods"], function(){
+    layui.use(['jquery','table','laypage','layer','laytpl','laydate',"publicMethods"], function(){
            table = layui.table,
             $ = layui.jquery,
+            laydate = layui.laydate,
             layer = layui.layer,
             laypage = layui.laypage;
            publicMethods=layui.publicMethods;
@@ -181,12 +182,6 @@ var name=$('#name').val();
             	renderTable();
                
             },
-            
-            var setupYear = laydate.render({
-                elem: '#setupYear'
-                ,type: 'year'
-            });
-            
             resetEvent: function() { //点击重置按钮
             	$('#setupYear').val("");
             	$('#name').val("");
@@ -343,6 +338,11 @@ var name=$('#name').val();
             
         };
 
+         var setupYear = laydate.render({
+             elem: '#setupYear'
+             ,type: 'year'
+         });
+         
       //监听排序
         table.on('sort(model-table)', function(obj){
             console.log(this, obj.field, obj.type)
@@ -402,7 +402,7 @@ var name=$('#name').val();
                theme: '#0F9EE0'
            },
            cols: [[
-           	   {type : 'checkbox', event : 'changeEvents', width : 55},
+           	{type : 'checkbox', event : 'changeEvents', width : 55},
            	{title : '序号', type : 'numbers', width : 55},
             {field : 'applicationName',     title : '转资名称', style : 'cursor: pointer;', align : 'left', width : '30%',templet:function(d){return '<span onclick="view(\''+d.applicationId+'\')" style="color:#17a2b8">'+d.applicationName+'</span>'} },
             {field : 'applicationUserName', title : '转资申请人', style : 'cursor: pointer;', align : 'left', width : '29%'},
