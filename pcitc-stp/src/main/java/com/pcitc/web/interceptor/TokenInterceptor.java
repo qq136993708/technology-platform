@@ -27,6 +27,18 @@ public class TokenInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		try {
 			//System.out.println("123--------------"+request.getRequestURI());
+			String path = request.getRequestURI();
+			/*if(!doLoginInterceptor(path, basePath) ){//是否进行登陆拦截
+				return true;
+			}*/
+			// 手动设置几个常用页面不能直接访问，在InterceptorConfig文件中也可以批量设置
+			if (path != null && (path.indexOf("index.html") > -1 || path.indexOf("login.html") > -1 || path.indexOf("error.html") > -1)) {
+				return false;
+			}
+			
+			// 只信任同源的
+			response.setHeader("x-frame-options", "SAMEORIGIN");
+			
 			// 默认走这个格式，对于form等格式，自己在处理时特殊处理
 			httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 			String token = null;
