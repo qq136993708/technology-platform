@@ -28,7 +28,7 @@
 .searchBox .label {display: inline-block;max-width: 100%;margin-bottom: 5px;font-weight: 700;}
 .tableBtns{border-top: 1px solid #fff;padding-right: 10px;padding-top: 1px;}
 .layui-laypage a:hover {color: #17a2b8;}
-.layui-form-checkbox[lay-skin=primary] i:hover{border-color: #17a2b8;}
+.layui-form-checkbox[lay-skin=primary] i:hover{border-color: #1890ff;}
 .tableBox{ margin: 0 10px;}
 .my-table-sort { display: inline-block; margin-left: 4px;}
 .my-table-sort-asc {width:0;height:0;cursor: pointer;margin-top: -14px;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:6px solid #b2b2b2;}
@@ -572,4 +572,30 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
     font-size: 12px;line-height: 21px;border-radius: 3px;background: #1890ff;display: block;top: -4px;}
 .cycle-img{position: relative;width: 94%;margin: 0 auto;}
 .cycle-img .already,.cycle-img .not{position: absolute;top: 45%;}
-.cycle-img>div{background-color: #5dbdff;width: 50px;height: 50px;}
+.cycle-img{overflow: hidden;}
+.cycle-img>div p:nth-child(1){width: 40px;height: 40px;line-height: 40px;margin: 0 25px 6px;
+    text-align: center;font-size: 14px;border-radius: 3px;}
+.cycle-img>div p:nth-child(2){font-size: 12px;color: #999999;line-height: 18px;width: 90px;}
+.cycle-img>div.already p:nth-child(1){background-color: #5dbdff;color: white;}
+.cycle-img>div.not p:nth-child(1){background-color: #e3e3e3;color: #666666;}
+.cycle-img>div img{position: relative;top: -72px;left: 65px;}
+.already-up-left{background: url("/layuiadmin/layui/images/cycle-up.png") no-repeat;width: 78px;height: 89px;
+    position: relative;left: -57px;top: -65px;}
+.already-up-right{background: url("/layuiadmin/layui/images/cycle-p.png") repeat-x;height: 1px;
+    position: relative;top: -153px;left: 65px;}
+.already-up-iRight{background: url("/layuiadmin/layui/images/cycle-x.png") no-repeat;position: relative;
+    width: 5px;height: 83px;top: -154px;}
+.already-d-left{background: url("/layuiadmin/layui/images/cycle-ld.png") no-repeat;width: 79px;height: 91px;
+    position: relative;top: -147px;left: -57px;}
+.already-d-right{background: url("/layuiadmin/layui/images/cycle-p.png") repeat-x;height: 1px;
+    position: relative;top: -150px;left: 65px;}
+.already-d-iRight{background: url("/layuiadmin/layui/images/cycle-lu.png") no-repeat;width: 5px;height: 84px;
+    position: relative;top: -234px;}
+.not-up-left{background: url("/layuiadmin/layui/images/cycle-h-u.png") no-repeat;width: 79px;height: 89px;
+    position: relative;left: -60px;top: -65px;}
+.not-up-iRight{background: url("/layuiadmin/layui/images/cycle-h-r.png") no-repeat;width: 85px;height: 84px;
+    position: relative;left: 65px !important;top: -152px;}
+.not-d-left{background: url("/layuiadmin/layui/images/cycle-h-x.png") no-repeat;width: 79px;height: 91px;
+    position: relative;left: -59px !important;top: -148px;}
+.not-d-iRight{background: url("/layuiadmin/layui/images/cycle-h-rd.png") no-repeat;width: 86px;height: 84px;
+    position: relative;left: 65px !important;top: -234px;}
