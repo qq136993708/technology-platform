@@ -54,7 +54,7 @@ public class PplusApplication extends SpringBootServletInitializer {
 		SpringApplication.run(PplusApplication.class, args);
 	}
 
-	/*@Override
+	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		System.out.println("tomcat外置方式---------------启动");
 		return application.sources(PplusApplication.class);
@@ -71,7 +71,7 @@ public class PplusApplication extends SpringBootServletInitializer {
 			}
 		};
 	}
-	
+	/*
 	@Bean
 	public ServletContextInitializer contextInitializer() {
 	    return new ServletContextInitializer() {
