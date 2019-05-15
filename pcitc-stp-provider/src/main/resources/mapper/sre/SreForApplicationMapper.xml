@@ -186,6 +186,7 @@
 	      <if test="applyDepartCode != null        and applyDepartCode !=''  ">       AND t.apply_depart_code = #{applyDepartCode}</if>
 	     <if test="firstApplyUser != null             and firstApplyUser !=''  ">           AND t.first_apply_user = #{firstApplyUser}</if>
 	     <if test="applicationId!= null        and applicationId!=''  ">       AND t.application_id = #{applicationId!=}</if>
+	     <if test="applyDepartName!= null        and applyDepartName!=''  ">       AND t.apply_depart_name = #{applyDepartName!=}</if>
 	 	 <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
 	 </trim>
 	</sql>

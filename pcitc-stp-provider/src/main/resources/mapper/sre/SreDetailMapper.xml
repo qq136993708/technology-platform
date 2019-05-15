@@ -24,12 +24,14 @@
     <result column="arrival_date" property="arrivaldate" jdbcType="TIMESTAMP" />
     <result column="supplier" property="supplier" jdbcType="VARCHAR" />
      <result column="isscrap" property="isscrap" jdbcType="VARCHAR" />
+     <result column="unitPathIds" property="unitPathIds" jdbcType="VARCHAR" />
+     <result column="parentUnitPathIds" property="parentUnitPathIds" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, equipment_id, equipment_name, equipment_type, equipment_price, equipmen_number, 
     declare_unit, declare_department, declare_people, declare_time, asset_number, configure, 
     measuring_unit, assets_classification, nationality, place_use, place_people, receive_people,
-    specification,arrival_date,supplier,isscrap
+    specification,arrival_date,supplier,isscrap,unitPathIds,parentUnitPathIds
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -58,7 +60,7 @@
       declare_time, asset_number, configure, 
       measuring_unit, assets_classification, nationality, 
       place_use, place_people, receive_people,
-      specification,arrival_date,supplier,isscrap
+      specification,arrival_date,supplier,isscrap,unitPathIds,parentUnitPathIds
       )
     values (#{id,jdbcType=VARCHAR}, #{equipmentId,jdbcType=VARCHAR}, #{equipmentName,jdbcType=VARCHAR}, 
       #{equipmentType,jdbcType=VARCHAR}, #{equipmentPrice,jdbcType=VARCHAR}, #{equipmenNumber,jdbcType=VARCHAR}, 
@@ -67,7 +69,7 @@
       #{measuringUnit,jdbcType=VARCHAR}, #{assetsClassification,jdbcType=VARCHAR}, #{nationality,jdbcType=VARCHAR}, 
       #{placeUse,jdbcType=VARCHAR}, #{placePeople,jdbcType=VARCHAR}, #{receivePeople,jdbcType=VARCHAR},
       #{specification,jdbcType=VARCHAR},#{arrivaldate,jdbcType=TIMESTAMP},#{supplier,jdbcType=VARCHAR},
-      #{isscrap,jdbcType=VARCHAR}
+      #{isscrap,jdbcType=VARCHAR},#{unitPathIds,jdbcType=TIMESTAMP},#{parentUnitPathIds,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreDetail" >
@@ -141,6 +143,18 @@
       <if test="isscrap != null" >
         isscrap,
       </if>
+      <if test="unitPathIds != null" >
+        unitPathIds,
+      </if>
+      <if test="parentUnitPathIds != null" >
+        parentUnitPathIds,
+      </if>
+      <if test="unitPathIds != null" >
+        unitPathIds,
+      </if>
+      <if test="parentUnitPathIds != null" >
+        parentUnitPathIds,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -206,6 +220,12 @@
       </if>
         <if test="supplier != null" >
         #{supplier,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPathIds != null" >
+       #{unitPathIds,jdbcType=VARCHAR},
+      </if>
+      <if test="parentUnitPathIds != null" >
+      #{parentUnitPathIds,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -277,6 +297,13 @@
         <if test="isscrap != null" >
         isscrap = #{isscrap,jdbcType=VARCHAR},
         </if>
+        
+        <if test="unitPathIds != null" >
+         unitPathIds = #{unitPathIds,jdbcType=VARCHAR},
+      </if>
+      <if test="parentUnitPathIds != null" >
+       parentUnitPathIds = #{parentUnitPathIds,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -302,7 +329,9 @@
       specification= #{specification,jdbcType=VARCHAR},
       arrival_date= #{arrivaldate,jdbcType=TIMESTAMP},
       supplier = #{supplier,jdbcType=VARCHAR},
-      isscrap = #{isscrap,jdbcType=VARCHAR}
+      isscrap = #{isscrap,jdbcType=VARCHAR},
+      unitPathIds = #{unitPathIds,jdbcType=VARCHAR},
+      parentUnitPathIds = #{parentUnitPathIds,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   
@@ -329,6 +358,9 @@
 	     <if test="equipmentName != null and equipmentName!='' ">               AND t.equipment_name   like CONCAT('%',#{equipmentName },'%')</if>
 	     <if test="declareDepartment!= null and declareDepartment!='' "> AND t.declare_department    like CONCAT('%',#{declareDepartment},'%')</if>
 	 	 <if test="configure!= null and configure!='' "> AND t.configure    like CONCAT('%',#{configure},'%')</if>
+	 	 
+	 	 <if test="unitPathIds != null and unitPathIds!='' ">               AND t.unitPathIds   like CONCAT('%',#{unitPathIds },'%')</if>
+	     <if test="parentUnitPathIds!= null and parentUnitPathIds!='' "> AND t.parentUnitPathIds    like CONCAT('%',#{parentUnitPathIds},'%')</if>
 	 	 <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
 	 </trim>
 	</sql>
