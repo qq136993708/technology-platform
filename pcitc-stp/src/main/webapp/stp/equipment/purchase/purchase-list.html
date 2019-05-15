@@ -315,7 +315,6 @@ var name=$('#name').val();
                  {
                      var id=selectRowData.id;
                      var state=selectRowData.state;
-                     //var joinUnitCodes = selectRowData.departCode;
                      if(state!='10')
                      {
                          layer.alert('请选择未上报的申请');
@@ -323,7 +322,7 @@ var name=$('#name').val();
                      }else
                          $('#id').val(id);
                          dealFlow(id);
-                     }
+                 }
              },
              createWord: function(){//预览采购申请单
                  if (typeof(selectRowData) == "undefined")

@@ -43,6 +43,8 @@ public class SrePurchase {
 
     private String documentDocContractClose;
 
+    private String isContractClosed;
+
     public String getId() {
         return id;
     }
@@ -201,5 +203,13 @@ public class SrePurchase {
 
     public void setDocumentDocContractClose(String documentDocContractClose) {
         this.documentDocContractClose = documentDocContractClose;
+    }
+
+    public String getIsContractClosed() {
+        return isContractClosed;
+    }
+
+    public void setIsContractClosed(String isContractClosed) {
+        this.isContractClosed = isContractClosed;
     }
 }
