@@ -118,8 +118,7 @@ public class ScientificInvestmentController {
 			@ResponseBody
 			public String tzxmwcqktjb_exput_excel(HttpServletRequest request, HttpServletResponse response) throws Exception
 			{
-				
-				
+				 
 				this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
 				String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 				String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);

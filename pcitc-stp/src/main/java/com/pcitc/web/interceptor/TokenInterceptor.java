@@ -26,7 +26,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		try {
-			//System.out.println("123--------------"+request.getRequestURI());
+			System.out.println("TokenInterceptor--------------"+request.getRequestURI());
 			String path = request.getRequestURI();
 			/*if(!doLoginInterceptor(path, basePath) ){//是否进行登陆拦截
 				return true;
@@ -47,7 +47,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 			if (cookies == null || cookies.length == 0) {
 				// System.out.println("cookies is null ");
 				// login和index为了开发需要，避开统一身份认证
-				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index")) {
+				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome")) {
 					return false;
 				}    
 				
@@ -61,7 +61,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 				}
 			}
 			if (token != null) {
-				//System.out.println("token is not null ");
+				System.out.println("token is not null ");
 				httpHeaders.set("Authorization", "Bearer " + token);
 				sysUser = JwtTokenUtil.getUserFromTokenByValue(token);
 				
@@ -70,13 +70,14 @@ public class TokenInterceptor implements HandlerInterceptor {
 				HandlerMethod m = (HandlerMethod) handler;
 				
 				if (m.getBean() instanceof BaseController) {
+					System.out.println("sysUser input BaseController ");
 					BaseController baerInfo = (BaseController) m.getBean();
 					baerInfo.setUserProfile(sysUser);
 				}
 			} else {
 				// System.out.println("token is null ");
 				// login和index为了开发需要，避开统一身份认证
-				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index")) {
+				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome")) {
 					return false;
 				}  
 			}

@@ -24,6 +24,7 @@
     </div><span style="float:right;margin-right:20px">(单位：万元)</<span>
 </div>
 <div class="tableBox">
+<div class="btnGroup" style="float:right;margin-right:20px"><button  onclick="exput_excel()" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg" >导出EXCEL</<button></div>
     <h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt"></label>横向课题统计表</h3>
     <table id="myTable" class="layui-table" lay-filter="myTable" >
                  <thead>
@@ -35,7 +36,7 @@
                   <tr>
                       <th lay-data="{field:'k0LJGLFPHJESR',  width:'7%',align:'right'}">累计收入</th>
                       <th lay-data="{field:'k0ZTYSJE',       width:'7%',align:'right'}">计划总投资</th>
-                      <th lay-data="{field:'k0LJGLFPHJECB',  width:'7%',align:'right'}">累计下达投资额  </th> 
+                      <th lay-data="{field:'k0LJGLFPHJECB',  width:'7%',align:'right'}">下达投资额  </th> 
                       <th lay-data="{field:'k0LJSJCNJE',     width:'7%',align:'right'}">承诺</th>
                       <th lay-data="{field:'k0LJSJDJJE',     width:'7%',align:'right'}">预付余额</th> 
                       <th lay-data="{field:'k0LJSJJE',       width:'7%',align:'right'}">累计投资完成额 </th> 
@@ -164,6 +165,14 @@ function myTable()
 }
 
    
+    
+function exput_excel()
+{
+	var companyCode=$('#companyCode').val();
+	var month=$('#month').val();
+	window.open("/hxktqcbtjb_data_out_excel?month="+month+"&companyCode="+companyCode);
+} 
+
     
    
    

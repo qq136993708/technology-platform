@@ -24,7 +24,8 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		// 添加拦截器
-		registry.addInterceptor(tokenInterceptor).addPathPatterns("/**").excludePathPatterns("/mobile/**");
+		registry.addInterceptor(tokenInterceptor).addPathPatterns("/**");
+		// .excludePathPatterns("/mobile/**")
 		System.out.println("拦截器---------------------------------"+registry);
 		super.addInterceptors(registry);
 	}
