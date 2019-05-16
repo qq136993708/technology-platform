@@ -39,6 +39,7 @@ public class ProcessInstanceEndListener implements ExecutionListener {
 			HistoricVariableInstance messagePostCodes = hviq.variableName("messagePostCodes").singleResult();
 			HistoricVariableInstance messageRoleCodes = hviq.variableName("messageRoleCodes").singleResult();
 			HistoricVariableInstance userName = hviq.variableName("authenticatedUserName").singleResult();
+			HistoricVariableInstance userId = hviq.variableName("authenticatedUserId").singleResult();
 			HistoricVariableInstance taskName = hviq.variableName("processInstanceName").singleResult();
 			
 			// 保存进系统公告数据中（个人类型公告）

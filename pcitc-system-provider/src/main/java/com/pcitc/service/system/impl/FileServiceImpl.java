@@ -1,5 +1,23 @@
 package com.pcitc.service.system.impl;
 
+import java.awt.Image;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+import javax.imageio.ImageIO;
+
+import org.springframework.stereotype.Service;
+
 import com.drew.imaging.jpeg.JpegMetadataReader;
 import com.drew.imaging.jpeg.JpegProcessingException;
 import com.drew.metadata.Directory;
@@ -8,17 +26,7 @@ import com.drew.metadata.Tag;
 import com.drew.metadata.exif.ExifDirectoryBase;
 import com.pcitc.base.util.FileUtil;
 import com.pcitc.service.system.FileService;
-import org.springframework.stereotype.Service;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.io.*;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Locale;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
+import com.pcitc.utils.OSSUtil;
 
 /**
  * @author:Administrator
@@ -42,13 +50,12 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public String[] getFileLatAndLong(String filePath, String[] strType) {
-        File jpegFile = new File(filePath);
         Metadata metadata = null;
         String[] strVals = new String[strType.length];
         try {
-            metadata = JpegMetadataReader.readMetadata(jpegFile);
-            Directory exif = metadata.getFirstDirectoryOfType(ExifDirectoryBase.class);
-            String model = exif.getString(ExifDirectoryBase.TAG_DATETIME);
+            metadata = JpegMetadataReader.readMetadata(OSSUtil.getOssFileIS(filePath.split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]));
+            //Directory exif = metadata.getFirstDirectoryOfType(ExifDirectoryBase.class);
+            //String model = exif.getString(ExifDirectoryBase.TAG_DATETIME);
             for (Directory directory : metadata.getDirectories()) {
                 for (Tag tag : directory.getTags()) {
                     for (int i = 0; i < strType.length; i++) {
@@ -158,13 +165,9 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public void delFile(String filePathAndName) {
+    public void delFile(String filePath) {
         try {
-            String filePath = filePathAndName;
-            filePath = filePath.toString();
-            java.io.File myDelFile = new java.io.File(filePath);
-            myDelFile.delete();
-
+        	OSSUtil.deleteOssFile(filePath.split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
         } catch (Exception e) {
             System.out.println("删除文件操作出错");
             e.printStackTrace();
@@ -172,10 +175,10 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public boolean isImage(String name) {
+    public boolean isImage(String filePath) {
         boolean valid = true;
         try {
-            Image image = ImageIO.read(new File(name));
+            Image image = ImageIO.read(OSSUtil.getOssFileIS(filePath.split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]));
             if (image == null) {
                 valid = false;
             }
@@ -196,9 +199,8 @@ public class FileServiceImpl implements FileService {
                 if (fileName == null || "".equals(fileName)) {
                     continue;
                 }
-                File file = new File(fileName);
-                FileInputStream fis = new FileInputStream(file);
-                out.putNextEntry(new ZipEntry(file.getName()));
+                InputStream fis = OSSUtil.getOssFileIS(fileName.split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
+                out.putNextEntry(new ZipEntry(fileName.split("/")[fileName.split("/").length - 1]));
                 int len;
                 //读入需要下载的文件的内容，打包到zip文件
                 while ((len = fis.read(buffer)) > 0) {
