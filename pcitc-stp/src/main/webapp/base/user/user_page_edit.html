@@ -81,7 +81,8 @@
 							  <label class="layui-form-label">所属机构<span class="must-fill">*</span></label>
 							  <div class="layui-input-block">
 								  <div class="selectTreeBox">
-									<div id="userUnit" class="layui-form-select select-tree"></div>
+									<!-- <div id="userUnit" class="layui-form-select select-tree"></div> -->
+									<input type="text" class="layui-input" lay-verify="" id="userUnit" name="userUnit">
 								  </div>
 							  </div>
 						 </div>
@@ -92,6 +93,7 @@
 							  <div class="layui-input-block">
 								  <div class="selectTreeBox">
 									<div id="userPost" class="layui-form-select select-tree"></div>
+									<!-- <input type="text" class="layui-input" lay-verify="" id="userPost" name="userPost"> -->
 								  </div>
 							  </div>
 						</div>
@@ -191,6 +193,7 @@
 </div>
 <script type="text/javascript">
 	var zNodes,form,roleMap={},unitMap={},postMap={},unitListNodes=[],roleListNodes=[],unitSelectTree,postSelectTree,roleSelectTree;
+	var unitList = [],postList = [];
 	var userId = "${userId?default(0)}";
 	$(document).on("click",".photo_box", function(event) {
 		$("#file").click();
@@ -286,7 +289,7 @@
 	    	});
 	   	});
 		//加载机构下拉树数据
-		ajaxPost('/unit/ztree-unit-list', null, function(data,status) {
+		/* ajaxPost('/unit/ztree-unit-list', null, function(data,status) {
 			zNodes = data;//机构下拉树的数据
 			//参数： 参数1：div的id，参数2：isMultiple 是否多选(true或false), 参数3：不用动,参数4：setting
 			//unitSelectTree = initSelectTree("userUnit",true, true, false,{ "Y": "ps", "N": "p" }) 
@@ -302,7 +305,7 @@
 			});
 			//初始化岗位树
 			inintPostSelectTree(unitListNodes);
-		});
+		}); */
 	});
 	
 	layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element' ,'publicMethods'],
@@ -335,13 +338,14 @@
 					$.each(unitArray,function(i,dt){
 						if(unitMap[unitArray[i]]){
 							unitText += ","+unitMap[unitArray[i]].unitName;
+							unitList.push(unitArray[i]);
 							unitTreeData.push(new zTreeNode(unitMap[unitArray[i]].unitId,0,unitMap[unitArray[i]].unitName));
 						}
-						var node = unitSelectTree.getNodeByParam("id",unitArray[i]);
+						/* var node = unitSelectTree.getNodeByParam("id",unitArray[i]);
 						if(node){
 							unitSelectTree.checkNode(node,true,false);
 							unitSelectTree.refresh();	
-						}
+						} */
 					});
 					//根据机构从新初始化岗位
 					initPostData(unitTreeData);
@@ -349,6 +353,7 @@
 					$.each(postArray,function(i,dt){
 						if(postMap[postArray[i]]){
 							postText += ","+postMap[postArray[i]].postName;
+							postList.push(postArray[i]);
 						}
 						var node = postSelectTree.getNodeByParam("id",postArray[i]);
 						if(node){
@@ -356,14 +361,16 @@
 							postSelectTree.refresh();	
 						}
 					});
+					
 					$("#userRoleShow").attr("title",roleText.length>0?roleText.substring(1):"");
 					$("#userRoleShow").attr("value",roleText.length>0?roleText.substring(1):"");
-	        		$("#userUnitShow").attr("title",unitText.length>0?unitText.substring(1):"");
-	        		$("#userUnitShow").attr("value",unitText.length>0?unitText.substring(1):"");
+	        		//$("#userUnitShow").attr("title",unitText.length>0?unitText.substring(1):"");
+	        		//$("#userUnitShow").attr("value",unitText.length>0?unitText.substring(1):"");
 	        		$("#userPostShow").attr("title",postText.length>0?postText.substring(1):"");
 	        		$("#userPostShow").attr("value",postText.length>0?postText.substring(1):"");
-	        		
 	        		form.val("user-form",data);
+	        		$("#userUnit").val(unitText.length>0?unitText.substring(1):"");
+	        		
 	        		//头像
 	        		if($("#userExtend").val() != null && $("#userExtend").val() == ""){
 	        	     	$(".photo_box").html('<img src="'+data.userExtend+'" style="width: 140px;height: 173px" />');
@@ -421,9 +428,15 @@
 			/* 监听提交 */
 			form.on('submit(submitBtn)', function(data) {
 				//编辑时设置机构、岗位、角色值
-				data.field.userUnit = $("#userUnitValue").val();
+				var unitText = "";
+				$.each(unitList,function(index,dt){
+					unitText += ","+unitList[index];
+				});
+				data.field.userUnit = unitText.length>0?unitText.substring(1):"";
 				data.field.userPost = $("#userPostValue").val();
 				data.field.userRole = $("#userRoleValue").val();
+				console.log(unitText);
+				console.log(data.field);
 				ajaxPost("/user/user-saveorupdate", data.field, function(dt, status) {
 					if(dt.success){
 				       	parent.layui.table.reload('userTable',null);
@@ -453,6 +466,39 @@
 		//构建新的UnitTree下拉树
 		inintPostSelectTree(unitList);
 	}
+	//机构检索页面初始化数据
+	window.initUnitTreeChoose = function(){
+		return unitList;
+	}
+	//机构页面选择后回调函数
+	window.callbackUnitTreeChoose = function(unitIds){
+		unitList = unitIds;
+		var unitText = "";
+		var unitListNodes = [];
+		$.each(unitIds,function(i,dt){
+			if(unitMap[unitIds[i]]){
+				unitText += ","+unitMap[unitIds[i]].unitName;
+				unitListNodes.push(new zTreeNode(unitIds[i],0,unitMap[unitIds[i]].unitName));
+			}
+		});
+		$("#userUnit").val(unitText.length>0?unitText.substring(1):"");
+		inintPostSelectTree(unitListNodes);
+	}
+	$("#userUnit").on("click", function() {
+		layer.open({
+			title : "用户详情",
+			skin : 'layui-layer-lan',
+			shadeClose : true,
+			type : 2,
+			fixed : false,
+			//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+			maxmin : false,
+			//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+			area : [ '80%', '70%' ],
+			content : "/unit/chooseUnitMultiV2?initFuncName=initUnitTreeChoose&callbackFuncName=callbackUnitTreeChoose"
+		});
+	});
+	
 	$("#cancel").click(function () {
         var index = parent.layer.getFrameIndex(window.name);
         parent.layer.close(index);
