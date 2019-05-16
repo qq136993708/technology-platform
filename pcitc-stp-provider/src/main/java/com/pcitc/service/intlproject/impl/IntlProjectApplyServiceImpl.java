@@ -8,7 +8,9 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.DataTableParam;
@@ -23,8 +25,10 @@ import com.pcitc.base.stp.IntlProject.IntlProjectApplyPlantExample;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.HanyuPinyinHelper;
 import com.pcitc.base.util.MyBeanUtils;
+import com.pcitc.common.WorkFlowStatusEnum;
 import com.pcitc.mapper.IntlProject.IntlProjectApplyMapper;
 import com.pcitc.mapper.IntlProject.IntlProjectApplyPlantMapper;
+import com.pcitc.service.feign.WorkflowRemoteClient;
 import com.pcitc.service.intlproject.IntlProjectApplyService;
 
 @Service("projectApplyService")
@@ -36,6 +40,8 @@ public class IntlProjectApplyServiceImpl implements IntlProjectApplyService {
 	@Autowired
 	private IntlProjectApplyPlantMapper projectApplyPlantMapper;
 	
+	@Autowired
+	private WorkflowRemoteClient workflowRemoteClient;
 	
 	@Override
 	public Integer saveProjectApply(IntlProjectApply apply) 
@@ -261,4 +267,46 @@ public class IntlProjectApplyServiceImpl implements IntlProjectApplyService {
 		List<IntlProjectApply> applys = projectApplyMapper.selectByExample(example);
 		return HanyuPinyinHelper.toPinyin("KJGJHZ_"+DateUtil.format(new Date(), DateUtil.FMT_YYYY)+"_"+(1000+applys.size()));
 	}
+	@Override
+	@Transactional
+	public boolean startWorkFlow(String businessId, String functionId, String workflowName,String authenticatedUserId,String authenticatedUserName) {
+		
+		try 
+		{
+			JSONObject flowJson = new JSONObject();
+	    	// 业务主键id
+	    	flowJson.put("businessId", businessId);
+	    	flowJson.put("processInstanceName", workflowName);
+	    	// 发起者信息
+	    	flowJson.put("authenticatedUserId", authenticatedUserId);
+	    	flowJson.put("authenticatedUserName", authenticatedUserName);
+	    	// 审批完成通知发起人
+	    	flowJson.put("messageUserIds", authenticatedUserId);
+
+			// 菜单id（functionId），部门/组织ID（orgId），项目id（projectId）。其中菜单id必填（和ProcessDefineId两选一）
+	    	flowJson.put("functionId", functionId);
+	    	
+	    	// 待办业务详情、最终审批同意、最终审批不同意路径
+	    	flowJson.put("auditDetailsPath", "/intl_project/apply_view?applyId="+businessId);
+	    	flowJson.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-apply?applyId="+businessId+"&workflow_status="+WorkFlowStatusEnum.STATUS_PASS.getCode());
+	    	flowJson.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-apply?applyId="+businessId+"&workflow_status="+WorkFlowStatusEnum.STATUS_RETURN.getCode());
+
+	    	String rs = workflowRemoteClient.startCommonWorkflow(flowJson.toJSONString());
+	    	if("true".equals(rs)) 
+			{
+	    		IntlProjectApply apply = projectApplyMapper.selectByPrimaryKey(businessId);
+	    		apply.setFlowStartStatus(WorkFlowStatusEnum.STATUS_RUNNING.getCode());
+	    		apply.setFlowCurrentStatus(WorkFlowStatusEnum.STATUS_RUNNING.getCode());
+	    		projectApplyMapper.updateByPrimaryKey(apply);
+	    		
+				return true;
+			}
+	    	return false;
+		}catch(Exception e) 
+		{
+			e.printStackTrace();
+			return false;
+		}
+		
+	} 
 }

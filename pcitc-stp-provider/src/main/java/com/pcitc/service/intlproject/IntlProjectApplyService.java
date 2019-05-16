@@ -88,5 +88,12 @@ public interface IntlProjectApplyService
 	 * @return
 	 */
 	public String createProjectApplyCode(IntlProjectApply apply);
-	
+	/**
+	 * 
+	 * @param noticeId
+	 * @param functionId
+	 * @param workflowName
+	 * @return
+	 */
+	public boolean startWorkFlow(String businessId,String functionId,String workflowName,String authenticatedUserId,String authenticatedUserName);
 }

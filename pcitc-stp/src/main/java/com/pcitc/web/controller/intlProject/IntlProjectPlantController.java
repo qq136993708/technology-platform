@@ -122,19 +122,18 @@ public class IntlProjectPlantController extends BaseController {
 	public Object startProjectPlantWorkflow(@RequestParam(value = "plantId", required = true) String plantId, 
 			@RequestParam(value = "functionId", required = true) String functionId,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("开始审批！！！！");
+		System.out.println("开始审批！！！！" + plantId);
 		WorkflowVo vo = new WorkflowVo();
 		vo.setAuditUserIds(this.getUserProfile().getUserId());
 		vo.setFunctionId(functionId);
-		System.out.println("functionId .... "+functionId);
 		vo.setAuthenticatedUserId(this.getUserProfile().getUserId());
+		vo.setAuthenticatedUserName(this.getUserProfile().getUserDisp());
+		vo.setBusinessId(plantId);
+		vo.setProcessDefinitionName("项目计划审批");
+		
 		HttpEntity<WorkflowVo> entity = new HttpEntity<WorkflowVo>(vo, this.httpHeaders);
-		Integer plant = this.restTemplate.exchange(PROJECT_PLANT_WORKFLOW_URL + plantId, HttpMethod.POST, entity, Integer.class).getBody();
-		if (plant == 0) {
-			return new Result(false);
-		} else {
-			return new Result(true);
-		}
+		Result rs = this.restTemplate.exchange(PROJECT_PLANT_WORKFLOW_URL + plantId, HttpMethod.POST, entity, Result.class).getBody();
+		return rs;
 	}
 
 	@RequestMapping(value = "/project/add-toplant")

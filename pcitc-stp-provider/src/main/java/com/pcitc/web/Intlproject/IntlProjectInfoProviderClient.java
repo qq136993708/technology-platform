@@ -1,26 +1,23 @@
 package com.pcitc.web.Intlproject;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.Result;
+import com.pcitc.base.stp.IntlProject.IntlProjectApply;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfo;
-import com.pcitc.base.system.SysUser;
 import com.pcitc.base.workflow.WorkflowVo;
-import com.pcitc.service.feign.SystemRemoteClient;
+import com.pcitc.common.WorkFlowStatusEnum;
 import com.pcitc.service.intlproject.IntlProjectInfoService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Api(value="项目立项接口",tags= {"国际合作-项目立项操作服务接口"})
 @RestController
@@ -29,10 +26,7 @@ public class IntlProjectInfoProviderClient
 	@Autowired
 	IntlProjectInfoService intlProjectInfoService;
 	
-	private final static String WORKFLOW_DEFINE_ID = "projectApply:1:150007";
 	
-	@Autowired
-	private SystemRemoteClient systemRemoteClient;
 	
 	@ApiOperation(value="分页检索立项项目",notes="检索立项项目列表数据，返回数据列表。")
 	@RequestMapping(value = "/stp-provider/project/info-list")
@@ -66,42 +60,33 @@ public class IntlProjectInfoProviderClient
 	}
 	@ApiOperation(value="立项审批流程",notes="发起立项内容审批")
 	@RequestMapping(value = "/stp-provider/project/start-info-activity/{projectId}", method = RequestMethod.POST)
-	public Integer startNoticeWorkFlow(@PathVariable("projectId") String projectId,@RequestBody WorkflowVo workflowVo) 
+	public Object startNoticeWorkFlow(@PathVariable("projectId") String projectId,@RequestBody WorkflowVo workflowVo) 
 	{
 		IntlProjectInfo info = intlProjectInfoService.findById(projectId);
-		//workflowVo.setAuthenticatedUserId("111");
-		workflowVo.setProcessDefineId(WORKFLOW_DEFINE_ID); 
-		workflowVo.setBusinessId(projectId);
-		workflowVo.setProcessInstanceName("立项审批："+info.getProjectName());
-		Map<String, Object> variables = new HashMap<String, Object>();  
-		//starter为必填项。流程图的第一个节点待办人变量必须为starter
-        variables.put("starter", workflowVo.getAuthenticatedUserId());
-        
-        //必须设置。流程中，需要的第二个节点的指派人；除starter外，所有待办人变量都指定为auditor(处长审批)
-        //处长审批 ZSH_JTZSZYC_GJHZC_CZ
-        List<SysUser> users = systemRemoteClient.selectUsersByPostCode("ZSH_JTZSZYC_GJHZC_CZ");
-        System.out.println("start userIds ... "+JSON.toJSONString(users));
-        variables.put("auditor", workflowVo.getAuthenticatedUserId());
-        if(users != null && users.size()>0) {
-        	variables.put("auditor", users.get(0).getUserId());
-        }
-        
-        //必须设置，统一流程待办任务中需要的业务详情
-        variables.put("auditDetailsPath", "/intl_project/info_view?projectId="+projectId);
-       
-        //流程完全审批通过时，调用的方法
-        variables.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/stp-provider/intl_project/notice_view?noticeId="+projectId);
-        
-        //流程驳回时，调用的方法（可能驳回到第一步，也可能驳回到第1+n步
-        variables.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/stp-provider/intl_project/notice_view?noticeId="+projectId);
-        
-        workflowVo.setVariables(variables);
-		String rs = systemRemoteClient.startWorkflowByProcessDefinitionId(workflowVo);
-		System.out.println("startwork  apply  rs...."+rs);
-		if("true".equals(rs)){
-			return 1;
-		}else{
-			return 0;
+		if(!WorkFlowStatusEnum.STATUS_WAITING.getCode().equals(info.getFlowStartStatus())) 
+		{
+			return new Result(false,"已发起审批不可重复发起！");
 		}
+		boolean status = intlProjectInfoService.startWorkFlow(workflowVo.getBusinessId(), workflowVo.getFunctionId(), workflowVo.getProcessDefinitionName(), workflowVo.getAuthenticatedUserId(), workflowVo.getAuthenticatedUserName());
+		if(status) 
+		{
+			return new Result(true,"操作成功!");
+		}else {
+			return new Result(false,"操作失败!");
+		}
+	}
+	@ApiOperation(value="审批流程回调通知",notes="审批结果回调通知")
+	@RequestMapping(value = "/stp-provider/project/callback-workflow-info")
+	public Object callBackProjectApplyWorkflow(@RequestParam(value = "projectId", required = true) String projectId,
+			@RequestParam(value = "workflow_status", required = true) Integer workflow_status) throws Exception 
+	{
+		if(projectId != null) {
+			IntlProjectInfo info = intlProjectInfoService.findById(projectId);
+			if(info != null) {
+				info.setFlowCurrentStatus(workflow_status);
+				intlProjectInfoService.saveOrUpdate(info);
+			}
+		}
+		return null;
 	}
 }
