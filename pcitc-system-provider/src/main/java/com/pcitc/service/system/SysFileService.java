@@ -1,6 +1,5 @@
 package com.pcitc.service.system;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -36,15 +35,6 @@ import com.pcitc.service.doc.IndexAccessorService;
 public interface SysFileService {
 
     /**
-     * 创建文件
-     *
-     * @param file
-     * @return
-     */
-    public File createFile(MultipartFile file);
-
-
-    /**
      * 保存头像信息
      *
      * @param userId   用户ID
@@ -53,15 +43,6 @@ public interface SysFileService {
      * @param dirPath  系统路径(绝对路径)
      */
     public String saveAvatar(String userId, String fileName, String filePath, String dirPath);
-
-    /**
-     * 创建文件
-     *
-     * @param file    文件
-     * @param dirPath 文件存储路径
-     * @return
-     */
-    public File createFile(MultipartFile file, String dirPath);
 
     /**
      * 删除文件
