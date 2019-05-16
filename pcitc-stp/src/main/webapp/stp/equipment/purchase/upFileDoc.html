@@ -37,7 +37,8 @@
             <input name="documentDoc" id="documentDoc" value="${documentDoc}" type="hidden">
             <input name="docArriveGoods" id="docArriveGoods" value="${docArriveGoods}" type="hidden">
             <input name="documentDocInstallDebug" id="documentDocInstallDebug" value="${documentDocInstallDebug}" type="hidden">
-             <input name="stage" id="stage" value="${stage}" type="hidden">
+            <input name="documentDocContractAcceptance" id="documentDocContractAcceptance" value="${documentDocContractAcceptance}" type="hidden">
+            <input name="stage" id="stage" value="${stage}" type="hidden">
 
             <div class="layui-form-item" style="padding:10px">
                 <label class="layui-form-label">附件</label>
@@ -85,6 +86,12 @@
         file_edit_detail = "edit";
         //统管理-附件管理-附件配置：页面标识
         file_opt_flag = "bf250d24bbee43f49e1be190c01653d1";
+    }else if(stage=="4"){
+        var file_ids = "documentDocContractAcceptance";
+        //detail:详情，edit：编辑
+        file_edit_detail = "edit";
+        //统管理-附件管理-附件配置：页面标识
+        file_opt_flag = "056a54830ecc4e3f8063a0a43aeca06d";
     }else if (stage=="5") {
         var file_ids = "documentDocInstallDebug";
         //detail:详情，edit：编辑
@@ -137,6 +144,9 @@
             }else if(stage=="3"){
                 var url="/sre-purchase/updateFileDoc?v_date="+v_date;
                 var backurl="/sre-purchase/to-arrive-goods-list?v_date="+v_date;
+            }else if(stage=="4"){
+                var url="/sre-purchase/updateFileDoc?v_date="+v_date;
+                var backurl="/sre-purchase/to-contract-acceptance-list?v_date="+v_date;
             }else if(stage=="5"){
                 var url="/sre-purchase/updateFileDoc?v_date="+v_date;
                 var backurl="/sre-purchase/to-installation-list?v_date="+v_date;

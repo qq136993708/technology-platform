@@ -47,6 +47,10 @@ public class SreDetail {
     
     private String isscrap;
     
+    private String unitPathIds;
+
+    private String parentUnitPathIds;
+    
     public String getIsscrap() {
 		return isscrap;
 	}
@@ -223,6 +227,23 @@ public class SreDetail {
         this.receivePeople = receivePeople;
     }
 
+    
+	public String getUnitPathIds() {
+		return unitPathIds;
+	}
+
+	public void setUnitPathIds(String unitPathIds) {
+		this.unitPathIds = unitPathIds;
+	}
+
+	public String getParentUnitPathIds() {
+		return parentUnitPathIds;
+	}
+
+	public void setParentUnitPathIds(String parentUnitPathIds) {
+		this.parentUnitPathIds = parentUnitPathIds;
+	}
+
 	@Override
 	public String toString() {
 		return "SreDetail [id=" + id + ", equipmentId=" + equipmentId + ", equipmentName=" + equipmentName
@@ -231,7 +252,11 @@ public class SreDetail {
 				+ ", declarePeople=" + declarePeople + ", declareTime=" + declareTime + ", assetNumber=" + assetNumber
 				+ ", configure=" + configure + ", measuringUnit=" + measuringUnit + ", assetsClassification="
 				+ assetsClassification + ", nationality=" + nationality + ", placeUse=" + placeUse + ", placePeople="
-				+ placePeople + ", receivePeople=" + receivePeople + "]";
+				+ placePeople + ", receivePeople=" + receivePeople + ", specification=" + specification
+				+ ", arrivaldate=" + arrivaldate + ", supplier=" + supplier + ", isscrap=" + isscrap + ", unitPathIds="
+				+ unitPathIds + ", parentUnitPathIds=" + parentUnitPathIds + "]";
 	}
+
+	
     
 }

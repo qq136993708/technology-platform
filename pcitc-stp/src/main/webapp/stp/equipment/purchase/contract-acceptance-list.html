@@ -94,13 +94,6 @@
                     layer.msg('请点击选择一条数据');
                 }else
                 {
-                    var contractNum=selectRowData.contractNum;
-                    //if(contractNum==null || contractNum=='')
-                    if(1!=1)
-                    {
-                        layer.alert('合同号未生成,不能上传验收报告单');
-                    }else
-                    {
                         var id=selectRowData.id;
                         var temUrl="/sre-purchase/upFileDoc?id=" + id;
                         layer.open({
@@ -113,8 +106,6 @@
                             area: ['70%', '90%'],
                             content:  temUrl
                         });
-                    }
-
                 }
             },applyEvent: function(){  //点击上报按钮
 
@@ -124,17 +115,19 @@
                 }
                 else
                 {
-                    var id=selectRowData.id;
-                    var url="/sre-purchase/contractAcceptanceSubmission/"+id;
-                    var backurl="/sre-purchase/to-contract-acceptance-list";
-                    var state=selectRowData.state;
-                    if(state!='40')
-                    {
-                        layer.alert('请选择未上报的申请');
-                        return;
-                    }else{
-                        ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
-                    }
+                    layer.confirm('是否提交？', { btn: ['确定','取消']}, function(){
+                        var id=selectRowData.id;
+                        var url="/sre-purchase/contractAcceptanceSubmission/"+id;
+                        var backurl="/sre-purchase/to-contract-acceptance-list";
+                        var state=selectRowData.state;
+                        if(state!='40')
+                        {
+                            layer.alert('请选择未上报的申请');
+                            return;
+                        }else{
+                            ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
+                        }
+                    })
                 }
             }
 

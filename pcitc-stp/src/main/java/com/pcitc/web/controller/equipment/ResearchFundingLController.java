@@ -1,7 +1,5 @@
 package com.pcitc.web.controller.equipment;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,16 +14,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.stp.equipment.SrePurchase;
-import com.pcitc.base.stp.equipment.UnitField;
-import com.pcitc.base.util.CommonUtil;
 import com.pcitc.web.common.BaseController;
 
 @Controller
-public class DetailController extends BaseController {
+public class ResearchFundingLController extends BaseController {
 	
-	private static final String PAGE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/detail/page";
-	
+	private static final String PAGE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/forapplication/page";
 	
 	/**
 	 * 列表
@@ -34,7 +28,7 @@ public class DetailController extends BaseController {
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping(value = "/sre-detail/list")
+	@RequestMapping(value = "/sre-researchfunding/list")
 	@ResponseBody
 	public String ajaxlist(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 		
@@ -50,11 +44,12 @@ public class DetailController extends BaseController {
 		return result.toString();
 	}
 
-	@RequestMapping(value = "/sre-detail/to-list")
-	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/sre-researchfunding/to-list")
+	public String list(HttpServletRequest request, HttpServletResponse response) {
 
 		String	parentUnitPathIds="";
 		String unitPathIds =   sysUserInfo.getUnitPath();
+		String applyDepartCode = sysUserInfo.getUnitCode();
 		if(!unitPathIds.equals(""))
 		{
 			if(unitPathIds.length()>4)
@@ -63,9 +58,9 @@ public class DetailController extends BaseController {
 				
 			}
 		}
-		request.setAttribute("unitPathIds", unitPathIds);
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
-		return "/stp/equipment/detail/detail-list";
+		request.setAttribute("applyDepartCode", applyDepartCode);
+ 		return "/stp/equipment/researchfunding/researchfunding-list";
 	}
 	
 	

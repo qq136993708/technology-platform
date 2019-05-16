@@ -25,4 +25,6 @@ public interface SrePurchaseMapper {
 
 
     List<SrePurchase> getPassList(Map map);
+
+    List<SrePurchase> getContractClosedList(Map map);
 }

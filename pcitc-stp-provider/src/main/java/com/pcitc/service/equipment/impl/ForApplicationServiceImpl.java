@@ -70,6 +70,7 @@ public  class ForApplicationServiceImpl implements ForApplicationService {
 		String applicationMoney=getTableParam(param,"applicationMoney","");
 		String applyDepartCode=getTableParam(param,"applyDepartCode","");
 		String unitPathIds=getTableParam(param,"parentUnitPathIds","");
+		String applyDepartName=getTableParam(param,"applyDepartName","");
 		Map map=new HashMap();
 		map.put("applicationId", applicationId);
 		map.put("applicationState", applicationState);
@@ -78,6 +79,7 @@ public  class ForApplicationServiceImpl implements ForApplicationService {
 		map.put("applicationTime", applicationTime);
 		map.put("applicationMoney", applicationMoney);
 		map.put("firstApplyUser", unitPathIds);
+		map.put("applyDepartName", applyDepartName);
 		
 		System.out.println(">>>>>>>>applicationState="+applicationState);
 		StringBuffer applyUnitCodeStr=new StringBuffer();
