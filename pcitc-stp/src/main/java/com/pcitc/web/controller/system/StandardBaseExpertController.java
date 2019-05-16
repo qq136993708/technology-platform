@@ -4,10 +4,12 @@ import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.JsonObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.TreeNode;
+import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.base.system.StandardBase;
 import com.pcitc.base.system.SysFile;
@@ -161,9 +163,28 @@ public class StandardBaseExpertController extends BaseController {
     public String tfcTj() throws Exception {
         request.setAttribute("dataId", request.getParameter("dataId"));
         request.setAttribute("name", request.getParameter("name"));
-        request.setAttribute("values", "石油化工");
+
+        String dataId =request.getParameter("dataId");
+
+        //获取项目信息
+        ResponseEntity<OutProjectInfo> responseEntity = this.restTemplate.exchange(GET_OUT_PROJECT + dataId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), OutProjectInfo.class);
+        OutProjectInfo outProjectInfo = responseEntity.getBody();
+        //获取分词
+
+        //获取对应技术族信息
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("info",JSONObject.toJSONString(outProjectInfo));
+        ResponseEntity<JSONObject> responseBody = this.restTemplate.exchange(GET_TFC_PROJECT,HttpMethod.POST,new HttpEntity<JSONObject>(jsonObject,this.httpHeaders),JSONObject.class);
+
+
+        request.setAttribute("values", responseBody.getBody().get("info"));
         return "/stp/techFamily/tfcTj";
     }
+
+    private static final String GET_OUT_PROJECT = "http://pcitc-zuul/system-proxy/out-provider/get-project-list-fc/";
+    private static final String GET_TFC_PROJECT = "http://pcitc-zuul/stp-proxy/tech-family-provider/get-tfc-project";
+
+
 
     /**
      * 标准化-查询列表

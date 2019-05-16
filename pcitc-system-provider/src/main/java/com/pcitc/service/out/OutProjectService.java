@@ -380,4 +380,6 @@ public interface OutProjectService {
      * @return
      */
     LayuiTableData selectOutProjectInfoList(LayuiTableParam param);
+
+    public OutProjectInfo getOutProjectShowByIdFc(String dataId);
 }

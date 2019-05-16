@@ -735,6 +735,7 @@ public class SysFileServiceImpl implements SysFileService {
             sysFile.setEsId((int) (accessor.count(SysFile.class, null)));
             sysFile.setBak4(GetTextFromFile.getText(sysFile.getFilePath()));
             accessor.add(sysFile);
+
         } catch (Exception e) {
             System.out.println("文件写入ES异常");
             // e.printStackTrace();

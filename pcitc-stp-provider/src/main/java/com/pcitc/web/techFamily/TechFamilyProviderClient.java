@@ -1,5 +1,6 @@
 package com.pcitc.web.techFamily;
 
+import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.util.DateUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -9,10 +10,7 @@ import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -256,6 +254,12 @@ public class TechFamilyProviderClient {
 		retJson.put("maxTypeCode", retCode);
 		return retJson;
 	}
+
+
+	@RequestMapping(value = "/tech-family-provider/get-tfc-project",method = RequestMethod.POST)
+	public JSONObject getTfcProject(@RequestBody JSONObject jsonObject){
+	    return techFamilyService.getTfcProject(jsonObject);
+    }
 
     @ApiOperation(value = "保存技术族分类", notes = "保存技术族分类")
     @RequestMapping(value = "/tech-family-provider/type-insert-list", method = RequestMethod.POST)

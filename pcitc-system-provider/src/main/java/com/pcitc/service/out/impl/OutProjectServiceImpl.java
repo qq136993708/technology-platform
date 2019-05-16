@@ -7,6 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.pcitc.base.stp.out.OutProjectInfoWithBLOBs;
+import com.pcitc.es.clientmanager.ClientFactoryBuilder;
+import org.elasticsearch.action.admin.indices.analyze.AnalyzeRequest;
+import org.elasticsearch.action.admin.indices.analyze.AnalyzeResponse;
+import org.elasticsearch.client.transport.TransportClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -1172,4 +1177,29 @@ public class OutProjectServiceImpl implements OutProjectService {
         data.setCount(total.intValue());
         return data;
 	}
+    @Autowired
+    private ClientFactoryBuilder clientFactoryBuilder;
+    public OutProjectInfo getOutProjectShowByIdFc(String dataId){
+        OutProjectInfo outProjectInfo = outProjectInfoMapper.selectByPrimaryKey(dataId);
+        String strName = outProjectInfo.getXmmc();
+        TransportClient client = clientFactoryBuilder.getClient();
+
+        AnalyzeRequest analyzeRequest = new AnalyzeRequest("files")
+                .text(strName)
+                .analyzer("ik_max_word");
+
+        List<AnalyzeResponse.AnalyzeToken> tokens = client.admin().indices()
+                .analyze(analyzeRequest)
+                .actionGet()
+                .getTokens();
+
+        String strRet = "";
+        for (AnalyzeResponse.AnalyzeToken token : tokens) {
+//            System.out.println(token.getTerm());
+            strRet = strRet+","+token.getTerm();
+        }
+        System.out.println("strRet:"+strRet);
+        outProjectInfo.setDefine19(strRet);
+        return outProjectInfo;
+    }
 }
