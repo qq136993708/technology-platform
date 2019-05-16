@@ -19,6 +19,8 @@
     .treeBox{height: 100%;top: 0;}
     .layui-input, .layui-select{height: 28px;}
     .layui-input-block{min-height: 28px;}
+	.layui-side-scroll{height: 92%;}
+	.form-control{margin-left: 10px;margin-top: 10px;}
 </style>
 <body>
 <div class="treeTableContainer">
@@ -328,7 +330,7 @@
 	            },
 	            cols: [[
 					{type:'checkbox'},
-	                {title:'序号',type:'numbers'},
+	                {title:'序号',type:'numbers' ,width : 55},
 	                {field:'postName',title:'岗位名称',style:'cursor:pointer;'},
 	                {field:'postCode',title:'岗位编码',style:'cursor:pointer;'},
 	                {field:'postKind',title:'岗位类型',style:'cursor:pointer;'},
