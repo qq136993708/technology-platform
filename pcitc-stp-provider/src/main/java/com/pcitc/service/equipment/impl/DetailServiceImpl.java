@@ -51,6 +51,9 @@ public class DetailServiceImpl implements DetailService {
 		int pageNum = pageStart/pageSize + 1;
 		// 1、设置分页信息，包括当前页数和每页显示的总计数
 		PageHelper.startPage(pageNum, pageSize);
+		String unitPathIds=getTableParam(param,"unitPathIds","");
+		String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
+		
 		String equipmentName=getTableParam(param,"equipmentName","");
 		String equipmentType=getTableParam(param,"equipmentType","");
 		String equipmentId=getTableParam(param,"equipmentId","");
@@ -91,6 +94,8 @@ public class DetailServiceImpl implements DetailService {
 		map.put("placePeople", placePeople);
 		map.put("receivePeople", receivePeople);
 	
+		map.put("unitPathIds", unitPathIds);
+		map.put("parentUnitPathIds", parentUnitPathIds);
 
 		
 		List<SreDetail> list = detailMapper.getList(map);

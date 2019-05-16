@@ -11,6 +11,7 @@
 	<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
 	<script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
 	<script src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/common/js/base.js"></script>
 
 </head>
 <body>
@@ -218,8 +219,8 @@
         }
     	
         renderTable();
-        
-     	// 触发不同的按钮事件
+        window.renderTable = renderTable;
+        // 触发不同的按钮事件
         var $ = layui.$;
      	active = {
             addEvent: function(){ //点击新增按钮
@@ -335,9 +336,11 @@
             fileDatas.push(obj_file);
         }
         ajaxPost("/standardBaseExpert/importFileTfc", {"param": JSON.stringify(fileDatas)}, function (data) {
+            alert(data.message);
             renderTable();
         });
         renderTable();
+        ztreeAsyncChildNodes();
     }
 </script>
 </body>

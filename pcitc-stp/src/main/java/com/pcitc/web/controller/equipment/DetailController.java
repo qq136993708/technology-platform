@@ -63,7 +63,7 @@ public class DetailController extends BaseController {
 				
 			}
 		}
-		
+		request.setAttribute("unitPathIds", unitPathIds);
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		return "/stp/equipment/detail/detail-list";
 	}

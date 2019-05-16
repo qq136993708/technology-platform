@@ -17,7 +17,7 @@
 <input  name="userIds"        id="userIds"         type="hidden">
 <input  name="id"         id="id"          type="hidden" >
 <input type="hidden" name="departCode" id="departCode" value="${departCode}">
-<input type="text" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
+<input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
     <input  name="specialAuditor0"  id="specialAuditor0"           type="hidden" >
     <input  name="branchFlag"  id="branchFlag"           type="hidden" >
 
@@ -315,7 +315,6 @@ var name=$('#name').val();
                  {
                      var id=selectRowData.id;
                      var state=selectRowData.state;
-                     //var joinUnitCodes = selectRowData.departCode;
                      if(state!='10')
                      {
                          layer.alert('请选择未上报的申请');
@@ -323,7 +322,7 @@ var name=$('#name').val();
                      }else
                          $('#id').val(id);
                          dealFlow(id);
-                     }
+                 }
              },
              createWord: function(){//预览采购申请单
                  if (typeof(selectRowData) == "undefined")

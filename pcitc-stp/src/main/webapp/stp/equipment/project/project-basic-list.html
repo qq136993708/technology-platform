@@ -269,7 +269,7 @@ var name=$('#name').val();
                          type: 2,
                          fixed: false,
                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                         maxmin: false,
+                         maxmin: true,
                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                          area: ['70%','90%'],
                          content:  '/sre-project-basic/add'
@@ -298,7 +298,7 @@ var name=$('#name').val();
 	                      type: 2,
 	                      fixed: false,
 	                      //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-	                      maxmin: false,
+	                      maxmin: true,
 	                      //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
 	                      area: ['70%', '90%'],
 	                      content:  url
@@ -344,7 +344,7 @@ var name=$('#name').val();
                          type: 2,
                          fixed: false,
                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                         maxmin: false,
+                         maxmin: true,
                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                          area: ['70%', '90%'],
                          content:  temUrl
@@ -450,12 +450,12 @@ var name=$('#name').val();
             	{title : '序号', type :'numbers', width : 55},
                 {field : 'status',         title : '状态',            style : 'cursor: pointer;', align: 'center', width : '10%', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width : 55},
                 {field : 'name',           title : '课题名称',         style : 'cursor: pointer;', align: 'left',    width : '20%',templet:function(d){return '<span onclick="view_project(\''+d.id+'\')" style="color:#1890ff">'+d.name+'</span>'}},
-                {field : 'beginYear',      title : '投资期限',         style : 'cursor: pointer;', align: 'center',  width : '10%',templet:function(d){return '<div style="">'+d.beginYear+'-'+d.endYear+'</div><br/><div style="color:red">'+d.beginYear+'</div>'}},
-                {field : 'projectMoney',   title : '总经费(万元)',      style : 'cursor: pointer;', align: 'center',  width : '10%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
+                {field : 'beginYear',      title : '投资期限',         style : 'cursor: pointer;', align: 'center',  width : '7%',templet:function(d){return '<div style="">'+d.beginYear+'-'+d.endYear+'</div><br/><div style="color:red">'+d.beginYear+'</div>'}},
+                {field : 'projectMoney',   title : '总经费(万元)',      style : 'cursor: pointer;', align: 'center',  width : '8%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
                 {field : 'leadUnitName',   title : '牵头单位',         style : 'cursor: pointer;', align: 'left', width : '20%'},
-                {field : 'belongDepartmentName',   title : '归属部门', style : 'cursor: pointer;', align: 'left', width : '10%'},
-                {field : 'professionalDepartName', title : '专业处',  style : 'cursor: pointer;', align: 'left', width : '10%'},
-                {field : 'professionalFieldName',  title : '专业领域', style : 'cursor: pointer;', align: 'left', width : '10%'},
+                {field : 'belongDepartmentName',   title : '归属部门', style : 'cursor: pointer;', align: 'left', width : '7%'},
+                {field : 'professionalDepartName', title : '专业处',  style : 'cursor: pointer;', align: 'left', width : '7%'},
+                {field : 'professionalFieldName',  title : '专业领域', style : 'cursor: pointer;', align: 'left', width : '7%'},
                 {field : 'parentUnitPathNames',    title : '上报单位', style : 'cursor: pointer;', align: 'left', width : '20%'},
                 {field : 'applyUnitName',          title : '上报部门', style : 'cursor: pointer;', align: 'left', width : '10%'},
                 {field : 'createDate',             title : '上报时间', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl', width : '10%'}
