@@ -1,10 +1,6 @@
 package com.pcitc.web.Intlproject;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
@@ -25,12 +22,14 @@ import com.pcitc.base.common.DataTableParam;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.IntlProject.IntlProjectApply;
-import com.pcitc.base.system.SysUser;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.common.MailBean;
-import com.pcitc.service.feign.SystemRemoteClient;
+import com.pcitc.common.WorkFlowStatusEnum;
 import com.pcitc.service.intlproject.IntlProjectApplyService;
 import com.pcitc.service.msg.MailSentService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Api(value="项目申报接口",tags= {"国际合作-项目申报操作服务接口"})
 @RestController
@@ -38,15 +37,12 @@ public class IntlProjectApplyProviderClient
 {
 	private final static Logger logger = LoggerFactory.getLogger(IntlProjectApplyProviderClient.class);
 
-	private final static String WORKFLOW_DEFINE_ID = "projectApply:1:150007";
+	
 	@Autowired
 	private MailSentService mailSentService;
 	
 	@Autowired
 	private IntlProjectApplyService projectApplyService;
-	
-	@Autowired
-	private SystemRemoteClient systemRemoteClient;
 	
 	@ApiOperation(value="分页检索项目申报",notes="检索项目申报列表数据，返回数据列表。")
 	@RequestMapping(value = "/stp-provider/project/apply-list", method = RequestMethod.POST)
@@ -97,45 +93,36 @@ public class IntlProjectApplyProviderClient
 	}
 	@ApiOperation(value="启动项目申报审批",notes="启动项目申报信息审批流程。")
 	@RequestMapping(value = "/stp-provider/project/start-apply-activity/{applyId}", method = RequestMethod.POST)
-	public Integer satrtApplyActivity(@PathVariable("applyId") String applyId,@RequestBody WorkflowVo workflowVo) 
+	public Object satrtApplyActivity(@PathVariable("applyId") String applyId,@RequestBody WorkflowVo workflowVo) 
 	{
 		System.out.println("startwork  apply  ...."+applyId);
 		IntlProjectApply apply = projectApplyService.findProjectApply(applyId);
-		
-		
-		workflowVo.setProcessDefineId(WORKFLOW_DEFINE_ID); 
-		workflowVo.setBusinessId(applyId);
-		workflowVo.setProcessInstanceName("申报审批："+apply.getApplyName());
-		Map<String, Object> variables = new HashMap<String, Object>();  
-		//starter为必填项。流程图的第一个节点待办人变量必须为starter
-        variables.put("starter", workflowVo.getAuthenticatedUserId());
-        
-        //必须设置。流程中，需要的第二个节点的指派人；除starter外，所有待办人变量都指定为auditor(处长审批)
-        //处长审批 ZSH_JTZSZYC_GJHZC_CZ
-        List<SysUser> users = systemRemoteClient.selectUsersByPostCode("ZSH_JTZSZYC_GJHZC_CZ");
-        System.out.println("start userIds ... "+JSON.toJSONString(users));
-        variables.put("auditor", workflowVo.getAuthenticatedUserId());
-        if(users != null && users.size()>0) {
-        	variables.put("auditor", users.get(0).getUserId());
-        }
-        
-        //必须设置，统一流程待办任务中需要的业务详情
-        variables.put("auditDetailsPath", "/intl_project/apply_view?applyId="+applyId);
-       
-        //流程完全审批通过时，调用的方法
-        variables.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/stp-provider/intl_project/notice_view?noticeId="+applyId);
-        
-        //流程驳回时，调用的方法（可能驳回到第一步，也可能驳回到第1+n步
-        variables.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/stp-provider/intl_project/notice_view?noticeId="+applyId);
-        
-        workflowVo.setVariables(variables);
-		String rs = systemRemoteClient.startWorkflowByProcessDefinitionId(workflowVo);
-		System.out.println("startwork  apply  rs...."+rs);
-		if("true".equals(rs)){
-			return 1;
-		}else{
-			return 0;
+		//如果审批已发起则不能再次发起
+		if(!WorkFlowStatusEnum.STATUS_WAITING.getCode().equals(apply.getFlowStartStatus())) 
+		{
+			return new Result(false,"已发起审批不可重复发起！");
 		}
+		boolean status = projectApplyService.startWorkFlow(workflowVo.getBusinessId(), workflowVo.getFunctionId(), workflowVo.getProcessDefinitionName(), workflowVo.getAuthenticatedUserId(), workflowVo.getAuthenticatedUserName());
+		if(status) 
+		{
+			return new Result(true,"操作成功!");
+		}else {
+			return new Result(false,"操作失败!");
+		}
+	}
+	@ApiOperation(value="审批流程回调通知",notes="审批结果回调通知")
+	@RequestMapping(value = "/stp-provider/project/callback-workflow-apply")
+	public Object callBackProjectApplyWorkflow(@RequestParam(value = "applyId", required = true) String applyId,
+			@RequestParam(value = "workflow_status", required = true) Integer workflow_status) throws Exception 
+	{
+		if(applyId != null) {
+			IntlProjectApply apply = projectApplyService.findProjectApply(applyId);
+			if(apply != null) {
+				apply.setFlowCurrentStatus(WorkFlowStatusEnum.STATUS_PASS.getCode());
+				projectApplyService.updProjectApply(apply);
+			}
+		}
+		return null;
 	}
 	//工作流审批通过后回调通知相关人员
 	@ApiOperation(value="项目申报邮件通知",notes="项目申报信息审批流程通过以后，下发邮件通知。")
@@ -150,20 +137,8 @@ public class IntlProjectApplyProviderClient
 		
 		return 1;
 	}
-	@ApiOperation(value="审批通过下发通知",notes="项目申报信息审批流程通过以后，下发相关通知逻辑。")
-	@RequestMapping(value = "/stp-provider/project/apply-workflow-agree/{applyId}")
-	public Object projectApplyWorkflowAgree(@PathVariable(value = "applyId", required = true)String applyId,HttpServletRequest request, HttpServletResponse response) throws Exception 
-	{
-		System.out.println("审批反馈，通过！！！！");
-		return  new Result(true);
-	}
-	@ApiOperation(value="申报审批拒绝",notes="项目申报信息审批被驳回，相关处理逻辑。")
-	@RequestMapping(value = "/stp-provider/project/apply-workflow-reject/{applyId}")
-	public Object projectApplyWorkflowReject(@PathVariable(value = "applyId", required = true)String applyId,HttpServletRequest request, HttpServletResponse response) throws Exception 
-	{
-		System.out.println("审批反馈，驳回！！！！");
-		return  new Result(true);
-	}
+	
+	
 	@ApiOperation(value="通过审批的项目列表",notes="获取审批通过的项目列表，编制计划时获取所有审批通过的项目申报。")
 	@RequestMapping(value = "/stp-provider/project/get-pass-apply-list")
 	public Object getWorkflowPassApplyProject(@RequestBody DataTableParam dataTableParam,HttpServletRequest request, HttpServletResponse response) throws Exception 
