@@ -59,6 +59,7 @@ import com.pcitc.base.util.FileUtil;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.base.workflow.ProcessDefVo;
 import com.pcitc.base.workflow.WorkflowVo;
+import com.pcitc.utils.OSSUtil;
 
 @Api(value = "Activity-system-API", description = "activiti基础功能流程相关的接口")
 @RestController
@@ -344,8 +345,7 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 
 		for (int i = 0; i < fileList.size(); i++) {
 			try {
-				File bpmnFile = new File(fileList.get(i).getFilePath());
-				InputStream input = new FileInputStream(bpmnFile);
+				InputStream input = OSSUtil.getOssFileIS(fileList.get(i).getFilePath().split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
 				// 创建转换对象
 				BpmnXMLConverter converter = new BpmnXMLConverter();
 				XMLInputFactory factory = XMLInputFactory.newInstance();
@@ -376,8 +376,7 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 		for (int i = 0; i < fileList.size(); i++) {
 
 			try {
-				File bpmnFile = new File(fileList.get(i).getFilePath());
-				InputStream input = new FileInputStream(bpmnFile);
+				InputStream input = OSSUtil.getOssFileIS(fileList.get(i).getFilePath().split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
 				// 创建转换对象
 				BpmnXMLConverter converter = new BpmnXMLConverter();
 				XMLInputFactory factory = XMLInputFactory.newInstance();

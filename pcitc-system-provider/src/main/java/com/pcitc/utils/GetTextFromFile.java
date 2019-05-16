@@ -1,11 +1,10 @@
-package com.pcitc.base.util;
+package com.pcitc.utils;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -20,45 +19,38 @@ import org.apache.xmlbeans.XmlException;
 
 public class GetTextFromFile {
 	public static String getText(String filePath) throws Exception {
-//		if (!filePath.startsWith("http://") && !filePath.startsWith("https://")) {
-//			filePath = Tools.getServicePath(Tools.getRequest()) + filePath;
-//		}
 		if (filePath.toUpperCase().endsWith(".PDF")) {
 			return getTextFromPDF(filePath);
-		} else if (filePath.toUpperCase().endsWith(".DOCX") || filePath.toUpperCase().endsWith(".DOC")) {
+		} else if (filePath.toUpperCase().endsWith(".DOCX")||filePath.toUpperCase().endsWith(".DOC")) {
 			return getTextFromWord(filePath);
 		} else if (filePath.toUpperCase().endsWith(".TXT")) {
 			return getTextFromTxt(filePath);
-		} else if (filePath.toUpperCase().endsWith(".XLS") || filePath.toUpperCase().endsWith(".XLSX")) {
-			return getTextFromExcel(filePath);
-		}
+		} else if (filePath.toUpperCase().endsWith(".XLS")||filePath.toUpperCase().endsWith(".XLSX")) { 
+			return getTextFromExcel(filePath); }
 		return "";
 	}
 
-	private static String getTextFromPDF(String pdfFilePath) throws IOException {
+	private static String getTextFromPDF(String pdfFilePath) throws Exception {
 		String result = null;
-		FileInputStream is = null;
+		InputStream is = null;
 		PDDocument document = null;
 		try {
-			is = new FileInputStream(pdfFilePath);
+			is = OSSUtil.getOssFileIS(pdfFilePath.split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
 			document = PDDocument.load(is);
 			PDFTextStripper stripper = new PDFTextStripper();
 			result = stripper.getText(document);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			throw e;
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			if (is != null) {
+			if (is!=null) {
 				try {
 					is.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
-			if (document != null) {
+			if (document!=null) {
 				try {
 					document.close();
 				} catch (IOException e) {
@@ -70,12 +62,12 @@ public class GetTextFromFile {
 	}
 
 	private static String getTextFromWord(String worldFilePth) throws Exception {
-		FileInputStream fis = null;
+		InputStream fis = null;
 		WordExtractor extractor2003 = null;
 		XWPFWordExtractor extractor2007 = null;
 		try {
 
-			fis = new FileInputStream(worldFilePth);
+			fis = OSSUtil.getOssFileIS(worldFilePth.split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
 			if (worldFilePth.toUpperCase().endsWith(".DOC")) {
 				extractor2003 = new WordExtractor(fis);
 				return extractor2003.getText();
@@ -89,21 +81,21 @@ public class GetTextFromFile {
 			throw e;
 		} finally {
 			try {
-				if (fis != null) {
+				if (fis!=null) {
 					fis.close();
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			try {
-				if (extractor2003 != null) {
+				if (extractor2003!=null) {
 					extractor2003.close();
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			try {
-				if (extractor2007 != null) {
+				if (extractor2007!=null) {
 					extractor2007.close();
 				}
 			} catch (Exception e) {
@@ -112,15 +104,16 @@ public class GetTextFromFile {
 		}
 	}
 
-	private static String getTextFromTxt(String worldFilePth) throws Exception {
+	private static String getTextFromTxt(String txtFilePth) throws Exception {
 		StringBuilder result = new StringBuilder();
 		FileReader fis = null;
 		BufferedReader br = null;
 		try {
-			fis = new FileReader(worldFilePth);
+			// fis = new
+			// FileReader(OSSUtil.getOssFileIS(txtFilePth.split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]));
 			br = new BufferedReader(fis);// 构造一个BufferedReader类来读取文件
 			String s = null;
-			while ((s = br.readLine()) != null) {// 使用readLine方法，一次读一行
+			while ((s = br.readLine())!=null) {// 使用readLine方法，一次读一行
 				result.append(s);
 			}
 			br.close();
@@ -128,14 +121,12 @@ public class GetTextFromFile {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (fis != null)
-					fis.close();
+				if (fis!=null) fis.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			try {
-				if (br != null)
-					br.close();
+				if (br!=null) br.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -144,18 +135,17 @@ public class GetTextFromFile {
 
 	}
 
-	private static String getTextFromExcel(String fileName)
-			throws InvalidFormatException, IOException, OpenXML4JException, XmlException {
+	private static String getTextFromExcel(String fileName) throws InvalidFormatException, IOException, OpenXML4JException, XmlException {
 		File inputFile = new File(fileName);
 		POITextExtractor extractor = ExtractorFactory.createExtractor(inputFile);
 		return extractor.getText();
 	}
 
 	public static void main(String[] args) {
-		String strFilePath="C:\\Users\\Administrator\\Desktop\\工程项目管理系统2.0版本详细设计-v2.0-2018.6.26-v1.2.docx";
+		String strFilePath = "C:\\Users\\Administrator\\Desktop\\工程项目管理系统2.0版本详细设计-v2.0-2018.6.26-v1.2.docx";
 		try {
 			String strContent = GetTextFromFile.getText(strFilePath);
-			System.out.println("strContent = " + strContent);
+			System.out.println("strContent = "+strContent);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

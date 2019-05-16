@@ -11,10 +11,9 @@
     <result column="ext1" property="ext1" jdbcType="VARCHAR" />
     <result column="ext2" property="ext2" jdbcType="VARCHAR" />
     <result column="parent_name" property="parentName" jdbcType="VARCHAR" />
-    
-    
-    
   </resultMap>
+  
+  
   <sql id="Base_Column_List" >
     id, name, type, parent_id, notes, create_time, ext1, ext2,parent_name
   </sql>
@@ -68,8 +67,6 @@
       <if test="parentName != null" >
         parent_name,
       </if>
-      
-      
       
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >

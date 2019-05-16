@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.system.SysMeetingMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.system.SysMeeting" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="brief" property="brief" jdbcType="VARCHAR" />
+    <result column="notes" property="notes" jdbcType="VARCHAR" />
+    <result column="ext1" property="ext1" jdbcType="VARCHAR" />
+    <result column="ext2" property="ext2" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="meeting_doc" property="meetingDoc" jdbcType="VARCHAR" />
+    
+    <result column="meeting_date"  property="meetingDate"  jdbcType="TIMESTAMP" />
+    <result column="meeting_place" property="meetingPlace" jdbcType="VARCHAR" />
+    
+    
+    
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, brief, notes, ext1, ext2, create_time, meeting_doc,meeting_date,meeting_place
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_meeting
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_meeting
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.system.SysMeeting" >
+    insert into sys_meeting (id, title, brief, 
+      notes, ext1, ext2, 
+      create_time, meeting_doc,meeting_date,meeting_place)
+    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{brief,jdbcType=VARCHAR}, 
+      #{notes,jdbcType=VARCHAR}, #{ext1,jdbcType=VARCHAR}, #{ext2,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{meetingDoc,jdbcType=VARCHAR},
+      #{meetingDate,jdbcType=TIMESTAMP}, #{meetingPlace,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.system.SysMeeting" >
+    insert into sys_meeting
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="brief != null" >
+        brief,
+      </if>
+      <if test="notes != null" >
+        notes,
+      </if>
+      <if test="ext1 != null" >
+        ext1,
+      </if>
+      <if test="ext2 != null" >
+        ext2,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="meetingDoc != null" >
+        meeting_doc,
+      </if>
+      <if test="meetingDate != null" >
+        meeting_date,
+      </if>
+      <if test="meetingPlace != null" >
+        meeting_place,
+      </if>
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="brief != null" >
+        #{brief,jdbcType=VARCHAR},
+      </if>
+      <if test="notes != null" >
+        #{notes,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="meetingDoc != null" >
+        #{meetingDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingDate != null" >
+        #{meetingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="meetingPlace != null" >
+        #{meetingPlace,jdbcType=VARCHAR},
+      </if>
+      
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.system.SysMeeting" >
+    update sys_meeting
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="brief != null" >
+        brief = #{brief,jdbcType=VARCHAR},
+      </if>
+      <if test="notes != null" >
+        notes = #{notes,jdbcType=VARCHAR},
+      </if>
+      <if test="ext1 != null" >
+        ext1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        ext2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="meetingDoc != null" >
+        meeting_doc = #{meetingDoc,jdbcType=VARCHAR},
+      </if>
+       <if test="meetingDate != null" >
+        meeting_date = #{meetingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="meetingPlace != null" >
+        meeting_place = #{meetingPlace,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.system.SysMeeting" >
+    update sys_meeting
+    set title = #{title,jdbcType=VARCHAR},
+      brief = #{brief,jdbcType=VARCHAR},
+      notes = #{notes,jdbcType=VARCHAR},
+      ext1 = #{ext1,jdbcType=VARCHAR},
+      ext2 = #{ext2,jdbcType=VARCHAR},
+      meeting_place = #{meetingPlace,jdbcType=VARCHAR},
+      meeting_date = #{meetingDate,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      meeting_doc = #{meetingDoc,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+     <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="brief != null and brief  !='' ">               AND t.brief like CONCAT('%',#{brief},'%')</if>
+	     <if test="title != null and title  !='' ">               AND t.title like CONCAT('%',#{title},'%')</if>
+	     <if test="sqlStr != null   and sqlStr !='' ">          AND  ${sqlStr}</if>
+	 </trim>
+	</sql>
+	
+    
+   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from sys_meeting t <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  create_time desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM sys_meeting t <include refid="selectCondition"/>
+    </select>
+  
+  
+  
+  
+</mapper>

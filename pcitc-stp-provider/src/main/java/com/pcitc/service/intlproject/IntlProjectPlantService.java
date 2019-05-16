@@ -62,4 +62,13 @@ public interface IntlProjectPlantService {
 	 * @return
 	 */
 	public Integer delApplyPlantRel(String applyId,String plantId);
+	/**
+	 * 
+	 * @param noticeId
+	 * @param functionId
+	 * @param workflowName
+	 * @return
+	 */
+	public boolean startWorkFlow(String businessId,String functionId,String workflowName,String authenticatedUserId,String authenticatedUserName);
+
 }

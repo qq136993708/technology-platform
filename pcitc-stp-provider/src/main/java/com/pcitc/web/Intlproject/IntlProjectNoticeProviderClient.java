@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.DelFlagEnum;
@@ -24,7 +23,6 @@ import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.common.MailBean;
 import com.pcitc.common.WorkFlowStatusEnum;
 import com.pcitc.service.feign.SystemRemoteClient;
-import com.pcitc.service.feign.WorkflowRemoteClient;
 import com.pcitc.service.intlproject.IntlProjectNoticeService;
 import com.pcitc.service.msg.MailSentService;
 
@@ -37,9 +35,6 @@ public class IntlProjectNoticeProviderClient
 {
 	@Autowired
 	IntlProjectNoticeService intlProjectService;
-	
-	@Autowired
-	private WorkflowRemoteClient workflowRemoteClient;
 	
 	@Autowired
 	private MailSentService mailSentService;
@@ -57,24 +52,14 @@ public class IntlProjectNoticeProviderClient
 		{
 			return new Result(false,"已发起审批不可重复发起！");
 		}
-		JSONObject flowJson = new JSONObject();
-    	// 业务主键id
-    	flowJson.put("businessId", noticeId);
-    	flowJson.put("processInstanceName", "通知下发审批");
-    	
-    	// 发起者信息
-    	flowJson.put("authenticatedUserId", notice.getCreater());
-    	flowJson.put("authenticatedUserName", notice.getCreater());
-
-		// 菜单id（functionId），部门/组织ID（orgId），项目id（projectId）。其中菜单id必填（和ProcessDefineId两选一）
-    	flowJson.put("functionId", workflowVo.getFunctionId());
-    	
-    	// 待办业务详情、最终审批同意、最终审批不同意路径
-    	flowJson.put("auditDetailsPath", "/intl_project/notice_view?noticeId="+noticeId);
-    	flowJson.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-notice?noticeId="+noticeId+"&workflow_status="+WorkFlowStatusEnum.STATUS_PASS.getCode());
-    	flowJson.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-notice?noticeId="+noticeId+"&workflow_status="+WorkFlowStatusEnum.STATUS_RETURN.getCode());
-
-    	String rs = workflowRemoteClient.startCommonWorkflow(flowJson.toJSONString());
+		boolean status = intlProjectService.startWorkFlow(workflowVo.getBusinessId(), workflowVo.getFunctionId(), workflowVo.getProcessDefinitionName(), workflowVo.getAuthenticatedUserId(), workflowVo.getAuthenticatedUserName());
+		if(status) 
+		{
+			return new Result(true,"操作成功!");
+		}else {
+			return new Result(false,"操作失败!");
+		}
+	
 		/*//workflowVo.setAuthenticatedUserId("111");
 		workflowVo.setProcessDefineId(WORKFLOW_DEFINE_ID); 
 		workflowVo.setBusinessId(noticeId);
@@ -104,14 +89,7 @@ public class IntlProjectNoticeProviderClient
         workflowVo.setVariables(variables);
 		String rs = systemRemoteClient.startWorkflowByProcessDefinitionId(workflowVo);
 		System.out.println("startwork  apply  rs...."+rs);*/
-		if("true".equals(rs)) 
-		{
-			notice.setFlowStatus(WorkFlowStatusEnum.STATUS_RUNNING.getCode());
-			intlProjectService.updProjectNotice(notice);
-			return new Result(true,"操作成功!");
-		}else {
-			return new Result(false,rs);
-		}
+		
 	}
 	@ApiOperation(value="审批流程回调通知",notes="审批结果回调通知")
 	@RequestMapping(value = "/stp-provider/project/callback-workflow-notice")
