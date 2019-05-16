@@ -23,7 +23,6 @@ import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.common.MailBean;
 import com.pcitc.common.WorkFlowStatusEnum;
 import com.pcitc.service.feign.SystemRemoteClient;
-import com.pcitc.service.feign.WorkflowRemoteClient;
 import com.pcitc.service.intlproject.IntlProjectNoticeService;
 import com.pcitc.service.msg.MailSentService;
 
@@ -36,9 +35,6 @@ public class IntlProjectNoticeProviderClient
 {
 	@Autowired
 	IntlProjectNoticeService intlProjectService;
-	
-	@Autowired
-	private WorkflowRemoteClient workflowRemoteClient;
 	
 	@Autowired
 	private MailSentService mailSentService;

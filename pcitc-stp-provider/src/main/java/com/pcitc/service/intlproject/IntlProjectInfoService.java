@@ -49,4 +49,13 @@ public interface IntlProjectInfoService
 	 * @return
 	 */
 	Integer delProjectInfoReal(String projectId);
+	/**
+	 * 
+	 * @param businessId
+	 * @param functionId
+	 * @param workflowName
+	 * @return
+	 */
+	public boolean startWorkFlow(String businessId,String functionId,String workflowName,String authenticatedUserId,String authenticatedUserName);
+
 }

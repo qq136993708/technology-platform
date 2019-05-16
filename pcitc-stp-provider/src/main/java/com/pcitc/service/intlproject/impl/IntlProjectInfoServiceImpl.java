@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.DataTableParam;
@@ -19,13 +20,18 @@ import com.pcitc.base.stp.IntlProject.IntlProjectInfoExample;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
+import com.pcitc.common.WorkFlowStatusEnum;
 import com.pcitc.mapper.IntlProject.IntlProjectInfoMapper;
+import com.pcitc.service.feign.WorkflowRemoteClient;
 import com.pcitc.service.intlproject.IntlProjectInfoService;
 @Service("projectInfoService")
 public class IntlProjectInfoServiceImpl implements IntlProjectInfoService {
 
 	@Autowired
 	private IntlProjectInfoMapper projectInfoMapper;
+	
+	@Autowired
+	private WorkflowRemoteClient workflowRemoteClient;
 	
 	@Override
 	public IntlProjectInfo findById(String projectId) 
@@ -134,5 +140,46 @@ public class IntlProjectInfoServiceImpl implements IntlProjectInfoService {
 		Long total = pageInfo.getTotal();
 		data.setCount(total.intValue());
 		return data;
+	}
+
+	@Override
+	public boolean startWorkFlow(String businessId, String functionId, String workflowName, String authenticatedUserId,
+			String authenticatedUserName) {
+		try 
+		{
+			JSONObject flowJson = new JSONObject();
+	    	// 业务主键id
+	    	flowJson.put("businessId", businessId);
+	    	flowJson.put("processInstanceName", workflowName);
+	    	// 发起者信息
+	    	flowJson.put("authenticatedUserId", authenticatedUserId);
+	    	flowJson.put("authenticatedUserName", authenticatedUserName);
+	    	// 审批完成通知发起人
+	    	flowJson.put("messageUserIds", authenticatedUserId);
+
+			// 菜单id（functionId），部门/组织ID（orgId），项目id（projectId）。其中菜单id必填（和ProcessDefineId两选一）
+	    	flowJson.put("functionId", functionId);
+	    	
+	    	// 待办业务详情、最终审批同意、最终审批不同意路径
+	    	flowJson.put("auditDetailsPath", "/intl_project/info_view?projectId="+businessId);
+	    	flowJson.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-info?projectId="+businessId+"&workflow_status="+WorkFlowStatusEnum.STATUS_PASS.getCode());
+	    	flowJson.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-info?projectId="+businessId+"&workflow_status="+WorkFlowStatusEnum.STATUS_RETURN.getCode());
+
+	    	String rs = workflowRemoteClient.startCommonWorkflow(flowJson.toJSONString());
+	    	if("true".equals(rs)) 
+			{
+	    		IntlProjectInfo plan = projectInfoMapper.selectByPrimaryKey(businessId);
+	    		plan.setFlowStartStatus(WorkFlowStatusEnum.STATUS_RUNNING.getCode());
+	    		plan.setFlowCurrentStatus(WorkFlowStatusEnum.STATUS_RUNNING.getCode());
+	    		projectInfoMapper.updateByPrimaryKey(plan);
+	    		
+				return true;
+			}
+	    	return false;
+		}catch(Exception e) 
+		{
+			e.printStackTrace();
+			return false;
+		}
 	} 
 }

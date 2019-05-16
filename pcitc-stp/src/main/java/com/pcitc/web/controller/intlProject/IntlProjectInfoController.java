@@ -94,16 +94,14 @@ public class IntlProjectInfoController extends BaseController {
 		WorkflowVo vo = new WorkflowVo();
 		vo.setAuditUserIds(this.getUserProfile().getUserId());
 		vo.setFunctionId(functionId);
-		System.out.println("functionId .... "+functionId);
 		vo.setAuthenticatedUserId(this.getUserProfile().getUserId());
+		vo.setAuthenticatedUserName(this.getUserProfile().getUserDisp());
+		vo.setBusinessId(projectId);
+		vo.setProcessDefinitionName("项目立项审批");
+		
 		HttpEntity<WorkflowVo> entity = new HttpEntity<WorkflowVo>(vo, this.httpHeaders);
-		Integer plant = this.restTemplate.exchange(PROJECT_INFO_WORKFLOW_URL + projectId, HttpMethod.POST, entity, Integer.class).getBody();
-		System.out.println("审批返回状态：" + plant);
-		if (plant == 0) {
-			return new Result(false);
-		} else {
-			return new Result(true);
-		}
+		Result rs = this.restTemplate.exchange(PROJECT_INFO_WORKFLOW_URL + projectId, HttpMethod.POST, entity, Result.class).getBody();
+		return rs;
 	}
 
 }
