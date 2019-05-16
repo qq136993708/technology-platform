@@ -182,9 +182,9 @@ public class IntlProjectPlantServiceImpl implements IntlProjectPlantService {
 	    	flowJson.put("functionId", functionId);
 	    	
 	    	// 待办业务详情、最终审批同意、最终审批不同意路径
-	    	flowJson.put("auditDetailsPath", "/intl_project/plan_view?planId="+businessId);
-	    	flowJson.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-plan?planId="+businessId+"&workflow_status="+WorkFlowStatusEnum.STATUS_PASS.getCode());
-	    	flowJson.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-plan?planId="+businessId+"&workflow_status="+WorkFlowStatusEnum.STATUS_RETURN.getCode());
+	    	flowJson.put("auditDetailsPath", "/intl_project/plant_view?plantId="+businessId);
+	    	flowJson.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-plant?plantId="+businessId+"&workflow_status="+WorkFlowStatusEnum.STATUS_PASS.getCode());
+	    	flowJson.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-plant?plantId="+businessId+"&workflow_status="+WorkFlowStatusEnum.STATUS_RETURN.getCode());
 
 	    	String rs = workflowRemoteClient.startCommonWorkflow(flowJson.toJSONString());
 	    	if("true".equals(rs)) 

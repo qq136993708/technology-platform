@@ -118,7 +118,7 @@ public class IntlProjectApplyProviderClient
 		if(applyId != null) {
 			IntlProjectApply apply = projectApplyService.findProjectApply(applyId);
 			if(apply != null) {
-				apply.setFlowCurrentStatus(WorkFlowStatusEnum.STATUS_PASS.getCode());
+				apply.setFlowCurrentStatus(workflow_status);
 				projectApplyService.updProjectApply(apply);
 			}
 		}

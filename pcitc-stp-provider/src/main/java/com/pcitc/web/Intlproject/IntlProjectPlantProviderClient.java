@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pcitc.base.common.LayuiTableParam;
@@ -14,19 +15,14 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.IntlProject.IntlProjectApplyPlant;
 import com.pcitc.base.stp.IntlProject.IntlProjectPlant;
 import com.pcitc.base.workflow.WorkflowVo;
-import com.pcitc.common.MailBean;
 import com.pcitc.common.WorkFlowStatusEnum;
 import com.pcitc.service.intlproject.IntlProjectPlantService;
-import com.pcitc.service.msg.MailSentService;
 
 @RestController
 public class IntlProjectPlantProviderClient 
 {
 	private final static Logger logger = LoggerFactory.getLogger(IntlProjectPlantProviderClient.class);
 
-	@Autowired
-	private MailSentService mailSentService;
-	
 	@Autowired
 	private IntlProjectPlantService projectPlantService;
 	
@@ -94,15 +90,16 @@ public class IntlProjectPlantProviderClient
 		}
 	}
 	//工作流审批通过后回调通知相关人员
-	@RequestMapping(value = "/stp-provider/project/plant-mail-notice/{plantId}", method = RequestMethod.POST)
-	public Integer sentPlantMail(@PathVariable("plantId") String plantId) 
+	@RequestMapping(value = "/stp-provider/project/callback-workflow-plant", method = RequestMethod.POST)
+	public Integer sentPlantMail(@RequestParam(value = "plantId", required = true) String plantId,
+			@RequestParam(value = "workflow_status", required = true) Integer workflow_status) 
 	{
-		logger.info("sent notice....");
-		
+		logger.info("callback-workflow-plant....");
 		IntlProjectPlant plant = projectPlantService.findProjectPlant(plantId);
-		
-		mailSentService.sentMail(new MailBean("398078361@qq.com","项目审批通过",plant.getPlantContent()));
-		
+		if(plant != null) {
+			plant.setFlowCurrentStatus(workflow_status);
+			projectPlantService.updProjectPlant(plant);
+		}
 		return 1;
 	}
 	@RequestMapping(value = "/stp-provider/project/add-toplant", method = RequestMethod.POST)
