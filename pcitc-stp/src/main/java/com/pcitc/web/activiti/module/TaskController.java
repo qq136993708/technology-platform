@@ -220,7 +220,7 @@ public class TaskController extends BaseController {
 	}
 	
 	
-	@RequestMapping(value = "/task/wait_task_list_mui")
+	@RequestMapping(value = "/mobile/wait_task_list_mui")
 	public String pending_list_mobile(HttpServletRequest request) {
 
 		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
@@ -283,7 +283,7 @@ public class TaskController extends BaseController {
 	
 	
 	
-	@RequestMapping(value = "/task/done_task_list")
+	@RequestMapping(value = "/mobile/done_task_list")
 	public String done_task_list_mui(HttpServletRequest request) {
 
 		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
@@ -405,7 +405,7 @@ public class TaskController extends BaseController {
 		return "/pplus/workflow/process-show";
 	}
 	
-	@RequestMapping(value = "/task/process_mobile/{instanceId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/mobile/process_mobile/{instanceId}", method = RequestMethod.GET)
 	public String process_mobile(@PathVariable("instanceId") String instanceId, HttpServletRequest request) {
 		return "/pplus/workflow/process_mobile";
 	}

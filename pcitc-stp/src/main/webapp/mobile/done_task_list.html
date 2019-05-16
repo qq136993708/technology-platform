@@ -114,7 +114,7 @@ mui('#list').on('tap', '.mui-btn-primary', function() {
 
 mui('#list').on('tap', '.mui-btn-danger', function() {
     var processInstanceId = this.getAttribute("look_id");
-    var temUrl = "/task/process_mobile/" + processInstanceId;
+    var temUrl = "/mobile/process_mobile/" + processInstanceId;
     layer.open({
 		title : '详情',
 		skin : 'layui-layer-lan',
@@ -135,7 +135,7 @@ mui('#list').on('tap', '.mui-btn-danger', function() {
 
 mui('#fenye_id').on('tap', 'a', function() {
     var pageNo = this.getAttribute("id");
-    var url="/task/done_task_list?pageNo="+pageNo;
+    var url="/mobile/done_task_list?pageNo="+pageNo;
     location.replace(url);
 }); 
 
