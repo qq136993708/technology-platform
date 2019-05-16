@@ -45,6 +45,10 @@ public class IntlProjectNoticeController extends BaseController {
 		vo.setAuditUserIds(this.getUserProfile().getUserId());
 		vo.setFunctionId(functionId);
 		vo.setAuthenticatedUserId(this.getUserProfile().getUserId());
+		vo.setAuthenticatedUserName(this.getUserProfile().getUserDisp());
+		vo.setBusinessId(noticeId);
+		vo.setProcessDefinitionName("通知下发审批");
+		
 		HttpEntity<WorkflowVo> entity = new HttpEntity<WorkflowVo>(vo, this.httpHeaders);
 		Result rs = this.restTemplate.exchange(PROJECT_NOTICE_WORKFLOW_URL + noticeId, HttpMethod.POST, entity, Result.class).getBody();
 		return rs;

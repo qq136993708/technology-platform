@@ -58,7 +58,7 @@
 							<dl class="layui-nav-child-dl">
 								<dd>
 									<span class="layui-name">张三</span>
-									<span class="layui-text">请查看邮件请查看邮件请查看邮件请查看邮件</span>
+									<span class="layui-text">index请查看邮件请查看邮件请查看邮件请查看邮件</span>
 									<span class="layui-time">
 										<i class="fa fa-clock-o mr-1"></i>
 										4小时之前
@@ -66,7 +66,7 @@
 								</dd>
 								<dd>
 									<span class="layui-name">张三</span>
-									<span class="layui-text">请查看邮件请查看邮件请查看邮件请查看邮件</span>
+									<span class="layui-text">index请查看邮件请查看邮件请查看邮件请查看邮件</span>
 									<span class="layui-time">
 										<i class="fa fa-clock-o mr-1"></i>
 										4小时之前
@@ -74,14 +74,14 @@
 								</dd>
 								<dd>
 									<span class="layui-name">张三</span>
-									<span class="layui-text">请查看邮件请查看邮件请查看邮件请查看邮件</span>
+									<span class="layui-text">index请查看邮件请查看邮件请查看邮件请查看邮件</span>
 									<span class="layui-time">
 										<i class="fa fa-clock-o mr-1"></i>
 										4小时之前
 									</span>
 								</dd>
 								<dd>
-									<a href="javascript:void(0)">查看更多</a>
+									<a lay-href="/task/pending/list/ini">查看更多</a>
 								</dd>
 							</dl>
 						</div>
@@ -110,9 +110,9 @@
 							</dl>
 						</div>
 					</li>
-					<li class="layui-nav-item layui-nav-itemnew notify">
+					<!-- <li class="layui-nav-item layui-nav-itemnew notify">
 						<a id="numberNotify" lay-href="/task/pending/list/ini" lay-text="通知" title="通知"></a>
-					</li>
+					</li> -->
 					<li class="layui-nav-item layui-nav-itemnew " title="二维码">
 						<span class="QRCode"></span>
 						<div class="QRCode-content layui-hide">
@@ -525,6 +525,11 @@
 				var host = window.location.host;
 	        	window.location.href="http://"+host+"/work";
 			});
+			$("#moreInfo").on("click",function () {
+                window.open("/instituteIndex?url="+"/one_level_main/dragon","_target");
+            });
+			
+			
             $("#nav li dl dd a").hover(function (){
                 $(this).find("img").removeClass("layui-hide");
                 $(this).find("img").off("click").on("click",function () {
