@@ -27,6 +27,11 @@ public class TechFamilyProviderClient {
 	@Autowired
 	private TechFamilyService techFamilyService;
 
+    @RequestMapping(value = "/tech-family-provider/selectTechFamilyTypeList",method = RequestMethod.POST)
+    public List<TechFamily> selectTechFamilyTypeList(@RequestBody TechFamily techFamily){
+        return techFamilyService.selectTechFamilyTypeList(techFamily);
+    }
+
 	/**
 	 * @param techType
 	 * @return 查询树形结构
@@ -260,6 +265,8 @@ public class TechFamilyProviderClient {
 	public JSONObject getTfcProject(@RequestBody JSONObject jsonObject){
 	    return techFamilyService.getTfcProject(jsonObject);
     }
+
+
 
     @ApiOperation(value = "保存技术族分类", notes = "保存技术族分类")
     @RequestMapping(value = "/tech-family-provider/type-insert-list", method = RequestMethod.POST)

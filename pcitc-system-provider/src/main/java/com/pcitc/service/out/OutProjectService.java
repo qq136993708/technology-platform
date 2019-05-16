@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.out.OutProjectErp;
@@ -382,4 +383,8 @@ public interface OutProjectService {
     LayuiTableData selectOutProjectInfoList(LayuiTableParam param);
 
     public OutProjectInfo getOutProjectShowByIdFc(String dataId);
+
+    public void saveProjectToES();
+
+    JSONObject getOutProjectShowCount(String dataId);
 }

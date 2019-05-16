@@ -700,7 +700,6 @@ public class SysFileServiceImpl implements SysFileService {
     }
 
     public AccessorService getAccessorService() {
-        //AccessorService accessor = new ClientFactoryBuilder.Config().setConfigPath("elasticsearch.properties").initConfig(true).createByConfig();
         AccessorService accessor = new AccessorServiceImpl(clientFactoryBuilder.getClient());
         return accessor;
     }
