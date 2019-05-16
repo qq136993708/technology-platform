@@ -184,7 +184,9 @@ public  class InvestServiceImpl implements InvestService {
 		String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
 		String projectName=getTableParam(param,"projectName","");
 		String equipmentName=getTableParam(param,"equipmentName","");
+		String setupYear=getTableParam(param,"setupYear","");
 		Map map=new HashMap();
+		map.put("setupYear", setupYear);
 		map.put("parentUnitPathIds", parentUnitPathIds);
 		map.put("applyUnitCode", applyDepartCode);
 		map.put("name", projectName);
@@ -264,4 +266,89 @@ public  class InvestServiceImpl implements InvestService {
 	    return data;
 	}
 	
+//	@Override
+//	public List<SrePlanCompletion> getSrePlanCompletion(LayuiTableParam param) throws Exception {
+//		String applyDepartCode=getTableParam(param,"applyDepartCode","");
+//		String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
+//		String projectName=getTableParam(param,"projectName","");
+//		String equipmentName=getTableParam(param,"equipmentName","");
+//		String setupYear=getTableParam(param,"setupYear","");
+//		Map map=new HashMap();
+//		map.put("setupYear", setupYear);
+//		map.put("parentUnitPathIds", parentUnitPathIds);
+//		map.put("applyUnitCode", applyDepartCode);
+//		map.put("name", projectName);
+//		StringBuffer applyUnitCodeStr=new StringBuffer();
+//		if(!applyDepartCode.equals(""))
+//		{
+//			applyUnitCodeStr.append(" (");
+//			String arr[]=applyDepartCode.split(",");
+//			for(int i=0;i<arr.length;i++)
+//			{
+//				if(i>0)
+//				{
+//					applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
+//				}else
+//				{
+//					applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
+//				}
+//				
+//			}
+//			applyUnitCodeStr.append(" )");
+//		}
+//		
+//		map.put("sqlStr", applyUnitCodeStr.toString());
+//		List<SreProject> list = sreProjectMapper.getList(map);
+//		List<SrePlanCompletion> plancompletionlist = new ArrayList<SrePlanCompletion>();
+//		if(list.size()!=0) {
+//			for(SreProject sretask :list) {
+//				String[] sreEqumimpId =  sretask.getEquipmentIds().split(",");
+//				for(int i=0;i<sreEqumimpId.length;i++) {
+//					SreEquipment quipment = sreEquipmentMapper.selectByPrimaryKey(sreEqumimpId[i]);
+//					if(quipment!=null) {
+//						SrePlanCompletion plancompletion = new SrePlanCompletion();
+//						for(SrePlanCompletion tionlist:plancompletionlist) {
+//							if(!tionlist.getProjectName().equals(sretask.getName())) {
+//								plancompletion.setProjectName(sretask.getName());//获取项目名称
+//							}
+//						}
+//						plancompletion.setEquipmentName(quipment.getName());//获取装备名称
+//						plancompletion.setProjectPrice(sretask.getProjectMoney());//获取计划金额
+//						if(quipment.getType().equals("ROOT_ZBGL_ZBFL_YJ")) {
+//							plancompletion.setEquipmentType("硬件");//获取装备分类
+//						}else {
+//							plancompletion.setEquipmentType("软件");//获取装备分类
+//						}
+//						plancompletion.setDeclarationUnit(sretask.getApplyUnitName());//获取申报单位
+//						SreProjectTask sreProjectTask = sreProjectTaskMapper.selectByTopicKey(sretask.getId());//查询合同号
+//						if(sreProjectTask!=null) {
+//							plancompletion.setContractNumber(sreProjectTask.getContractNum());//获取合同编号
+//							plancompletion.setContractPrice(sreProjectTask.getProjectMoney());//获取合同金额
+//						}
+//						plancompletion.setSupplier(quipment.getSupplierWillStr());//获取意向供应商
+//						plancompletion.setPrice(quipment.getUnitPrice());//获取装备单价
+//						plancompletion.setNumber(quipment.getApplyAcount());//获取装备数量
+//						plancompletion.setTotalPrice(quipment.getAllPrice());//获取装备总价
+//						SreDetail sredetail = sreDetailMapper.selectaRchaseidKey(quipment.getEquipmentId());//根据装备ID查询转资编号
+//						if(sredetail!=null) {
+//							plancompletion.setFixedAssetsNumber(sredetail.getAssetNumber());//获取资产编号
+//							plancompletion.setTransferFunds("已转资");
+//							sre_scrap_apply_item srescra = srescrapapplyitemMapper.scrpeqdetailid(sredetail.getId());//根据台账ID获取报废信息
+//							if(srescra!=null) {
+//								plancompletion.setScrap("已报废");
+//							}else {
+//								plancompletion.setScrap("未报废");
+//							}
+//						}else {
+//							plancompletion.setTransferFunds("未转资");
+//							plancompletion.setScrap("未报废");
+//						}
+//						plancompletionlist.add(plancompletion);
+//					}
+//				}
+//			}
+//		}
+//		
+//	    return plancompletionlist;
+//	}
 	}

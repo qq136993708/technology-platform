@@ -43,6 +43,7 @@ import com.pcitc.base.util.MD5Util;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.common.OperationFilter;
+import com.pcitc.web.test.OAAPIRestFul;
 import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
 import com.sinopec.siam.agent.common.SSOPrincipal;
@@ -210,17 +211,14 @@ public class AdminController extends BaseController {
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
 		
 		System.out.println("1httpHeaders-----------"+this.httpHeaders);
-		System.out.println("2httpHeaders-----------"+this.httpHeaders.size());
 		System.out.println("3httpHeaders-----------"+rsUser);
-		System.out.println("4httpHeaders-----------"+rsUser.getUserName());
-		System.out.println("5httpHeaders-----------"+rsUser.getUserPassword());
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LOGIN_URL, HttpMethod.POST, entity, JSONObject.class);
 		JSONObject retJson = responseEntity.getBody();
 
 		System.out.println("-----indexStp----------login token:" + retJson.get("token"));
 
 		Cookie cookie = new Cookie("token", retJson.getString("token"));
-		cookie.setMaxAge(24 * 60 * 60);// 设置有效期为1天
+		cookie.setMaxAge(1 * 60 * 60);// 设置有效期为1天
 		cookie.setPath("/");
 		response.addCookie(cookie);
 
@@ -359,7 +357,7 @@ public class AdminController extends BaseController {
 		System.out.println("-----indexStp----------login token:" + retJson.get("token"));
 
 		Cookie cookie = new Cookie("token", retJson.getString("token"));
-		cookie.setMaxAge(24 * 60 * 60);// 设置有效期为1天
+		cookie.setMaxAge(1 * 60 * 60);// 设置有效期为1天
 		cookie.setPath("/");
 		response.addCookie(cookie);
 
@@ -418,7 +416,7 @@ public class AdminController extends BaseController {
 
 				// 登录错误次数
 				Cookie loginCookie = new Cookie("loginErrorCount", String.valueOf(errorNumber));
-				loginCookie.setMaxAge(24 * 60 * 60);// 设置有效期为1天
+				loginCookie.setMaxAge(1 * 60 * 60);// 设置有效期为1天
 				loginCookie.setPath("/");
 				response.addCookie(loginCookie);
 				response.sendRedirect("/login");
@@ -427,7 +425,7 @@ public class AdminController extends BaseController {
 			}
 
 			Cookie cookie = new Cookie("token", retJson.getString("token"));
-			cookie.setMaxAge(24 * 60 * 60);// 设置有效期为1天
+			cookie.setMaxAge(1 * 60 * 60);// 设置有效期为1天
 			cookie.setPath("/");
 			response.addCookie(cookie);
 
@@ -516,7 +514,7 @@ public class AdminController extends BaseController {
 			JSONObject retJson = responseEntity.getBody();
 
 			Cookie cookie = new Cookie("token", retJson.getString("token"));
-			cookie.setMaxAge(24 * 60 * 60);// 设置有效期为1天
+			cookie.setMaxAge(1 * 60 * 60);// 设置有效期为1天
 			cookie.setPath("/");
 			response.addCookie(cookie);
 
@@ -695,7 +693,12 @@ public class AdminController extends BaseController {
 	public String getOA(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		String url = CommonUtil.getParameter(request, "url", "");
-		/*String str=Httpclient4Util.get(url);
+	    String str=OAAPIRestFul.getOa(url);
+	    if(str!=null)
+	    {
+	    	str=str.replace("\n", "");
+	    }
+	    
 		Result resultsDate = new Result();
 		if(str!=null)
 		{
@@ -705,8 +708,8 @@ public class AdminController extends BaseController {
 		{
 			resultsDate.setSuccess(false);
 		}
-		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));*/
-		return "0";
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		return result.toJSONString();
 	}
 	
 
@@ -860,7 +863,7 @@ public class AdminController extends BaseController {
 		}
 
 		Cookie cookie = new Cookie("token", retJson.getString("token"));
-		cookie.setMaxAge(24 * 60 * 60);// 设置有效期为1天
+		cookie.setMaxAge(1 * 60 * 60);// 设置有效期为1天
 		cookie.setPath("/");
 		response.addCookie(cookie);
 		return new Result(true, retJson.get("token"));

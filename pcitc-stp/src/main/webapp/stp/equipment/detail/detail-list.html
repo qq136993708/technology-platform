@@ -16,6 +16,7 @@
 <div class="searchBox">
  <input type="hidden" name="auditStatus" id="auditStatus" value="${auditStatus}">
  <input type="hidden" name="applyDepartCode" id="applyDepartCode" value="${applyDepartCode}">
+ <input type="hidden" name="unitPathIds" id="unitPathIds" value="${unitPathIds}">
  <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
  
  
@@ -271,7 +272,7 @@ var name=$('#name').val();
            elem: '#processdef-table',
            url: '/sre-detail/list',
            method:"POST",
-           where: {param: {"equipmentName":$("#name").val(),"auditStatus":$("#auditStatus").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+           where: {param: {"equipmentName":$("#name").val(),"auditStatus":$("#auditStatus").val(),"unitPathIds":$("#unitPathIds").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
            limit: 15,
            id: 'processdef-table',
            height: commonDislodgeTable(),

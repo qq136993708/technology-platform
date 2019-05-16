@@ -18,8 +18,20 @@ public class SysProcessDic {
     private String ext1;
 
     private String ext2;
+    
+    private String parentName;
+    
+    
 
-    public String getId() {
+    public String getParentName() {
+		return parentName;
+	}
+
+	public void setParentName(String parentName) {
+		this.parentName = parentName;
+	}
+
+	public String getId() {
         return id;
     }
 

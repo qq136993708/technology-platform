@@ -317,8 +317,8 @@ public class SysFileController extends BaseController {
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(form, this.httpHeaders);
         ResponseEntity<byte[]> responseEntity = this.restTemplate.postForEntity(((id.split("\\|").length > 1) ? downloads : download) + id, httpEntity, byte[].class);
         byte[] result = responseEntity.getBody();
-        httpHeaders.add("x-frame-options", "ALLOW-FROM");
-        response.addHeader("x-frame-options", "ALLOW-FROM");
+        httpHeaders.add("x-frame-options", "SAMEORIGIN");
+        response.addHeader("x-frame-options", "SAMEORIGIN");
         return responseEntity;
     }
 

@@ -47,7 +47,7 @@ public class ExpensesAPIRestFul {
 			Date temStartDate = DateUtil.strToDate(startDate, DateUtil.FMT_DD);
 			Calendar rightNow = Calendar.getInstance();
 			rightNow.setTime(temStartDate);
-			rightNow.add(Calendar.DAY_OF_YEAR, 27);// 日期加30天
+			rightNow.add(Calendar.DAY_OF_YEAR, 30);// 日期加30天
 			Date temDate1 = rightNow.getTime();
 			String realStartDate = DateUtil.dateToStr(temStartDate, DateUtil.FMT_YYYY_DD);
 			String realEndDate = DateUtil.dateToStr(temDate1, DateUtil.FMT_YYYY_DD);

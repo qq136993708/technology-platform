@@ -160,8 +160,6 @@
 		<!--<artifactId>spring-cloud-starter-feign</artifactId> -->
 		<!--</dependency> -->
 		<!--httpclient end -->
-
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-freemarker</artifactId>
