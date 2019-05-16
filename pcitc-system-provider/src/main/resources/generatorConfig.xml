@@ -16,7 +16,7 @@
 		    <javaClientGenerator targetPackage="com.pcitc.mapper.system"   targetProject="pcitc-system-provider" type="XMLMAPPER" />
 		    
 		    
-	   <table schema="pcitc-system-provider" tableName="sys_process_dic" domainObjectName="SysProcessDic"
+	   <table schema="pcitc-system-provider" tableName="sys_meeting" domainObjectName="SysMeeting"
 			enableCountByExample="false" 
 			enableUpdateByExample="false"
 			enableDeleteByExample="false" 
