@@ -5,10 +5,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.UUID;
+import java.util.zip.Adler32;
+import java.util.zip.CheckedOutputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.OSSObject;
@@ -31,7 +36,7 @@ public class OSSUtil {
 		String path = uploadFile(new File("D:/oracle导入.txt"), "test/tem", uuidFileName+".txt");
 		String temNo = "201702";
 		System.out.println("1===="+path);
-		//deleteOssFile("test/tem/"+uuidFileName+".txt");
+		// deleteOssFile("test/tem/"+uuidFileName+".txt");
 
 		InputStream tem = getOssFileIS("test/tem/"+uuidFileName+".txt");
 		System.out.println("2===="+tem);
@@ -140,7 +145,7 @@ public class OSSUtil {
 		InputStream in = ossObject.getObjectContent();
 		return in;
 	}
-	
+
 	/**
 	 * 删除某个文件
 	 * 
@@ -181,6 +186,53 @@ public class OSSUtil {
 		}
 		bos.close();
 		return bos.toByteArray();
+	}
+
+	/**
+	 * 下载多个文件成zip
+	 * fileNames是上传后的文件全路径，类似：http://oss01-cn-beijing-sinopec-d01-a.yun-inc.sinopec.com/stp-vpc1-sctepl/files/uploadPath/modelFile/20190517100724118_file_16ac38b3fd6_6a8d8f58.bpmn 需要处理一下
+	 * 
+	 * @return
+	 */
+	public static String generateZipFile(String basePath, String zipFileName, String... fileNames) {
+		byte[] buffer = new byte[1024];
+		String zipFilePath = "";
+		try {
+			// 创建临时文件
+			File zipFile = File.createTempFile(zipFileName, ".zip");
+			FileOutputStream f = new FileOutputStream(zipFile);
+			/**
+			 * 作用是为任何OutputStream产生校验和 第一个参数是制定产生校验和的输出流，第二个参数是指定Checksum的类型
+			 * （Adler32（较快）和CRC32两种）
+			 */
+			CheckedOutputStream csum = new CheckedOutputStream(f, new Adler32());
+			
+			// 用于将数据压缩成Zip文件格式
+			ZipOutputStream zos = new ZipOutputStream(csum);
+
+			for (String fileName : fileNames) {
+				if (fileName==null||"".equals(fileName)) {
+					continue;
+				}
+				System.out.println("fileName------------"+fileName);
+				InputStream fis = getOssFileIS(basePath+"/"+fileName);
+				zos.putNextEntry(new ZipEntry(fileName));
+				int len;
+				// 读入需要下载的文件的内容，打包到zip文件
+				while ((len = fis.read(buffer))>0) {
+					zos.write(buffer, 0, len);
+				}
+				zos.closeEntry();
+				fis.close();
+			}
+			zos.close();
+			// 把压缩后的文件上传到oss服务器
+			zipFilePath = uploadFile(zipFile, basePath, zipFileName);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} 
+		
+		return zipFilePath;
 	}
 
 	public static void deleteDoc() throws Exception {
