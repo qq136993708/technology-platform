@@ -132,26 +132,6 @@ public class MobileController extends BaseController {
 
 		return "/mobile/cgzl";
 	}
-
-	/**
-	 * ================================================成果专利 end
-	 * =====================================
-	 */
-
-	@RequestMapping(value = "/mobile/done_task_list")
-	public String done_task_list(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		String year = HanaUtil.getCurrrentYear();
-		request.setAttribute("year", year);
-		return "/mobile/done_task_list";
-	}
-
-	@RequestMapping(value = "/mobile/wait_task_list")
-	public String wait_task_list(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		String year = HanaUtil.getCurrrentYear();
-		request.setAttribute("year", year);
-		return "/mobile/wait_task_list";
-	}
+	
 
 }

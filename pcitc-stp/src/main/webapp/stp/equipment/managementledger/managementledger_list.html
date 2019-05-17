@@ -21,6 +21,10 @@
  
     <!--查询条件 -->
     <label class="dateInput">
+    <span>立项年度</span>
+    <input type="text" name="setupYear" value="" readonly="readonly" placeholder="请选择立项年度" title="立项年度" autocomplete="off" class="form-control" id="setupYear">
+    </label>
+    <label class="dateInput">
         <span>项目名称</span>
         <input type="text" name="projectName" id="projectName" placeholder="请输入项目名称" title="项目名称" autocomplete="off" class="form-control" >
     </label>
@@ -110,16 +114,22 @@
 var table,selectRowData;
 var publicMethods;
 var name=$('#name').val();
-    layui.use(['jquery','table','laypage','layer','laytpl',"publicMethods"], function(){
+    layui.use(['jquery','table','laypage','layer','laytpl','laydate',"publicMethods"], function(){
            table = layui.table,
             $ = layui.jquery,
             layer = layui.layer,
+            laydate = layui.laydate,
             laypage = layui.laypage;
            publicMethods=layui.publicMethods;
 	     //加载表格      
 	     renderTable();
 	     //移除表头的复选框,去掉全选
 	     $(".layui-table-header table thead th input").remove();  
+	        var setupYear = laydate.render({
+	            elem: '#setupYear'
+	            ,type: 'year'
+	        });
+
          // 触发不同的按钮事件
          var $ = layui.$, active = {
             searchEvent: function() { //点击查询按钮
@@ -129,6 +139,7 @@ var name=$('#name').val();
             resetEvent: function() { //点击重置按钮
             	$('#projectName').val("");
             	$('#auditStatus').val("");
+            	 $('#setupYear').val("");
             },
             addEvent: function(){ //点击新增按钮
                 layer.open({
@@ -274,7 +285,7 @@ var name=$('#name').val();
            elem: '#processdef-table',
            url: '/sre-mana/list',
            method:"POST",
-           where: {param: {"equipmentName":$("#name").val(),"projectName":$("#projectName").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+           where: {param: {"equipmentName":$("#name").val(),"setupYear":$("#setupYear").val(),"projectName":$("#projectName").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
            limit: 15,
            id: 'processdef-table',
            height: commonDislodgeTable(),

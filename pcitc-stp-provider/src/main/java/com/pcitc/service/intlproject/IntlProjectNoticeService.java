@@ -50,5 +50,5 @@ public interface IntlProjectNoticeService
 	 * @param workflowName
 	 * @return
 	 */
-	public boolean startWorkFlow(String noticeId,String functionId,String workflowName);
+	public boolean startWorkFlow(String noticeId,String functionId,String workflowName,String authenticatedUserId,String authenticatedUserName);
 }

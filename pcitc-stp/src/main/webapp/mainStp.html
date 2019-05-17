@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/layuiadmin/style/adminStp_.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/mainStp_.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
+    <!--<link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">-->
 
     <style>
         .refreshBox {
@@ -352,68 +352,171 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-row layui-col-space15" style="margin-top:10px">
-            
-            
-            
-            <div class="layui-col-md6">
-                    <div class="layui-card">
-                        <div class="layui-card-header" >
-                            <p><span class="layui-time"></span>${year}年新开课题合同（任务书）签订率</p>
-                        </div> 
-                        <div class="layui-row-main implement">
-                            <div class="text-total">
-                                <span>计划签订数:<span class="text-total-blue"      id="vdirect_contract_01_01" onclick="contract_chart_oneLevel('')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                                <span>实际签订数:<span class="text-total-blue"      id="vdirect_contract_01_02" onclick="contract_chart_oneLevel('已签订')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                                <span>签订率:<span class="text-total-blue"         id="vdirect_contract_01_03" onclick="contract_chart_oneLevel('已签订')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            </div>
-                            <div class="main-chart" id="direct_contract_01" style="height:272px;width: 100%;"></div>
-                        </div>
-                        
+        </div>
+        <div class="layui-col-md12 workNews">
+            <div class="layui-card layui-col-md5" style="margin-right: 3px;">
+                <div class="layui-card-header">
+                    <p>工作动态
+                    </p>
+                    <div class="layui-tool">
+                        <button type="button" class="btn btn-tool collapse"></button>
+                        <button type="button" class="btn btn-tool remove"></button>
                     </div>
                 </div>
-                
-                
-                <div class="layui-col-md6">
-                    <div class="layui-card">
-                        <div class="layui-card-header"
-                             title="包括新开和结转的所有资本性、费用性预算。科研投入是实际签订且当年预算分配的金额（暂时不包括新增基金、科技部、信息部、炼油军工、专项、机动等）。以股份公司（直属研究院、分子公司、资产单位、集团单位、休斯顿、中东、外部单位、盈科）、资产公司、集团公司为维度">
-                            <p><span class="layui-time"></span>${year}年科研预算执行率</p>
-                        </div>
-                        <div class="layui-card-body btn-function">
-                            <div class="text-total" style="font-size: 13px;">
-                                <span>年度预算总计:<span class="text-total-blue" id="chart1_01">
-                                    <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                                <span>费用性科研投入:<span class="text-total-blue" id="chart1_02">
-                                    <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                                <span>资本性科研投入:<span class="text-total-blue" id="chart1_03">
-                                    <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                                <span>预算执行率:<span class="text-total-blue" id="chart1_04">
-                                    <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                <div class="layui-card-body">
+                    <div class="layui-tab">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">科研项目</li>
+                            <li>知识产权</li>
+                            <li>科技成果</li>
+                            <li>会议纪要</li>
+                        </ul>
+                        <div class="layui-tab-content">
+                            <div class="layui-tab-item layui-show">
+                                <a lay-href="" lay-text="科研项目">更多></a>
+                                <div class="lan">
+                                    <table class="layui-table">
+                                        <tbody>
+                                            <tr>
+                                                <td style="width: 4px;">1</td>
+                                                <td>张三</td>
+                                                <td>2019-03-28</td>
+                                                <td>处理集团所有预算统计</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 4px;">1</td>
+                                                <td>张三</td>
+                                                <td>2019-03-28</td>
+                                                <td>处理集团所有预算统计</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                            <div style="height:272px;width: 100%;" id="chart1_ys"></div>
+                            <div class="layui-tab-item">
+                                <a lay-href="" lay-text="知识产权">更多></a>
+                                <div class="lan">
+                                    <table class="layui-table">
+                                        <tbody>
+                                        <tr>
+                                            <td style="width: 4px;">1</td>
+                                            <td>张三</td>
+                                            <td>2019-03-28</td>
+                                            <td>处理集团所有预算统计</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 4px;">1</td>
+                                            <td>张三</td>
+                                            <td>2019-03-28</td>
+                                            <td>处理集团所有预算统计</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="layui-tab-item">
+                                <a lay-href="" lay-text="科技成果">更多></a>
+                                <div class="lan">
+                                    <table class="layui-table">
+                                        <tbody>
+                                        <tr>
+                                            <td style="width: 4px;">1</td>
+                                            <td>张三</td>
+                                            <td>2019-03-28</td>
+                                            <td>处理集团所有预算统计</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 4px;">1</td>
+                                            <td>张三</td>
+                                            <td>2019-03-28</td>
+                                            <td>处理集团所有预算统计</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="layui-tab-item">
+                                <a lay-href="" lay-text="会议纪要">更多></a>
+                                <div class="lan">
+                                    <table class="layui-table">
+                                        <tbody>
+                                        <tr>
+                                            <td style="width: 4px;">1</td>
+                                            <td>张三1</td>
+                                            <td>2019-03-28</td>
+                                            <td>处理集团所有预算统计</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 4px;">1</td>
+                                            <td>张三</td>
+                                            <td>2019-03-28</td>
+                                            <td>处理集团所有预算统计</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-           </div>
-           </div>
-           <div>
-                  <table class="message_outside" border="0" cellpadding="0" cellspacing="0" >
-						<tr>
-					        <td align="center"></td>
-							<td align="center"><span>办公自动化：
-							<a href="http://10.1.4.10/kjb/_layouts/15/ZBAppPage/oalogin.aspx"  target="_blank" style="text-decoration:none;color:blue;"><b><font  id="kjb_oadb" style="color:red">0</font></b>条待办</a> 
-							<a href="http://10.1.4.10/kjb/_layouts/15/ZBAppPage/oalogin.aspx"  target="_blank" style="text-decoration:none;color:blue;"><b><font  id="kjb_oady" style="color:red">0</font></b>条待阅</a> 
-							&nbsp;&nbsp;电子邮件：
-							<a href="http://10.1.4.10/kjb/_layouts/15/ZBAppPage/owalogin.aspx"  target="_blank" style="text-decoration:none;color:blue;"><b><font id="kjb_owa" style="color:red">0</font></b>条未读</a> 
-							</span></td>
-					        <td align="center">&nbsp;&nbsp;督办管理：
-					        <a href="http://10.1.4.10/_layouts/15/autologon?appid=61&amp;step=1"  target="_blank" style="text-decoration:none;color:blue;"><b><font  id="smdb" style="color:red">0</font></b>条待办</a> 
-					        <a href="http://10.1.4.10/_layouts/15/autologon?appid=61&amp;step=1"  target="_blank" style="text-decoration:none;color:blue;"><b><font  id="smdy" style="color:red">0</font></b>条待阅</a></td>
-					    </tr>
-					</table>
+            </div>
+
+            <div class="layui-card layui-col-md5" style="margin-left: 3px;">
+                <div class="layui-card-header">
+                    <p>新闻</p>
+                    <div class="layui-tool">
+                        <button type="button" class="btn btn-tool collapse"></button>
+                        <button type="button" class="btn btn-tool remove"></button>
+                    </div>
                 </div>
+                <div class="layui-card-body">
+                    <div class="layui-tab">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">国家领导讲话</li>
+                            <li>国家领导讲话</li>
+                            <li>科技部领导讲话</li>
+                        </ul>
+                        <div class="layui-tab-content">
+                            <div class="layui-tab-item layui-show">
+                                <ul>
+                                    <li><a href="javascript:;">让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子<span>[2019-01-03]</span></a></li>
+                                    <li><a href="javascript:;">让各族群众过上好日子<span>[2019-01-03]</span></a></li>
+                                    <li><a href="javascript:;">让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子<span>[2019-01-03]</span></a></li>
+                                    <li><a href="javascript:;">让各族群众过上好日子<span>[2019-01-03]</span></a></li>
+                                    <li><a href="javascript:;">让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子<span>[2019-01-03]</span></a></li>
+                                    <li><a href="javascript:;">让各族群众过上好日子<span>[2019-01-03]</span></a></li>
+                                    <li><a href="javascript:;">让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子<span>[2019-01-03]</span></a></li>
+                                    <li><a href="javascript:;">让各族群众过上好日子<span>[2019-01-03]</span></a></li>
+                                    <li><a href="javascript:;">让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子<span>[2019-01-03]</span></a></li>
+                                </ul>
+                            </div>
+                            <div class="layui-tab-item">
+
+                            </div>
+                            <div class="layui-tab-item">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <table class="message_outside" border="0" cellpadding="0" cellspacing="0" >
+		        <tr>
+		            <td align="center"></td>
+		        	<td align="center"><span>办公自动化：
+		        	<a href="http://10.1.4.10/kjb/_layouts/15/ZBAppPage/oalogin.aspx"  target="_blank" style="text-decoration:none;color:blue;"><b><font  id="kjb_oadb" style="color:red">0</font></b>条待办</a>
+		        	<a href="http://10.1.4.10/kjb/_layouts/15/ZBAppPage/oalogin.aspx"  target="_blank" style="text-decoration:none;color:blue;"><b><font  id="kjb_oady" style="color:red">0</font></b>条待阅</a>
+		        	&nbsp;&nbsp;电子邮件：
+		        	<a href="http://10.1.4.10/kjb/_layouts/15/ZBAppPage/owalogin.aspx"  target="_blank" style="text-decoration:none;color:blue;"><b><font id="kjb_owa" style="color:red">0</font></b>条未读</a>
+		        	</span></td>
+		            <td align="center">&nbsp;&nbsp;督办管理：
+		            <a href="http://10.1.4.10/_layouts/15/autologon?appid=61&amp;step=1"  target="_blank" style="text-decoration:none;color:blue;"><b><font  id="smdb" style="color:red">0</font></b>条待办</a>
+		            <a href="http://10.1.4.10/_layouts/15/autologon?appid=61&amp;step=1"  target="_blank" style="text-decoration:none;color:blue;"><b><font  id="smdy" style="color:red">0</font></b>条待阅</a></td>
+		        </tr>
+            </table>
+        </div>
                 
 
         <script src="/common/js/jquery-1.11.3.min.js"></script>
@@ -544,10 +647,11 @@
                 base : '../layuiadmin/' //静态资源所在路径
             }).extend({
                 index : 'lib/index' //主入口模块
-            }).use(['index','jquery', 'table', 'layer', 'laydate'], function () {
+            }).use(['index','jquery', 'table', 'layer', 'laydate','element'], function () {
                 var $ = layui.jquery;
                 table = layui.table;
                 layer = layui.layer;
+                element = layui.element;
                 laydate = layui.laydate;
                 /*新开页面*/
                 $(".layui-top .layui-col-md15").eq(0).click(function () {
@@ -577,7 +681,6 @@
                 $(".layui-top .layui-col-md15").eq(6).click(function () {
                     parent.layui.index.openTabsPage("/intl_project/report/report_intl_project_main", "国际合作");
                 });
-
 
 
                 var md4Height = $(".layui-col-md4").height() - 2;
@@ -838,7 +941,7 @@
                     }
                 }
             ];
-            var echart = load_mutl_bar_down(chart1_url_0, "chart1_ys", "", "", yAxis4);
+            /*var echart = load_mutl_bar_down(chart1_url_0, "chart1_ys", "", "", yAxis4);
             echart.on('click', function (params) {
                 var xName = params.name;//ysnd、type_flag（直属研究院、分子公司等）、define1（费用性、资本性）、define2 各个研究院名称
                 var legentName = params.seriesName;
@@ -851,7 +954,7 @@
                 }
                 //alert(str);
                 window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=G0_YSND=" + nd + ",G0_TYPE_FLAG=" + xName + ",G0_DEFINE1=" + str);
-            });
+            });*/
             var investment_0101_url = "/one_level_main/investment_0101?nd=" + nd + "&v_date=" + v_date + "&companyCode=" + companyCode;
             setinvestmentCount(investment_0101_url);
 
@@ -1077,21 +1180,21 @@
 						}
 					});
 			} 
-			
-           
-           setGauge("direct_contract_01");
+
+
+           //setGauge("direct_contract_01");
            setGauge_count();
-           
-           
-           
-           
+
+
+
+
            function setGauge_count()
            {
-           	
+
            	$("#vdirect_contract_01_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
                $("#vdirect_contract_01_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
                $("#vdirect_contract_01_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-               
+
                var nd=$('#year').val();
                var series=[];
                $.ajax({
@@ -1106,7 +1209,7 @@
                        if(data.success==true ||data.success=='true')
                        {
                            $("#vdirect_contract_01_01").html(data.data.zsl+"个");
-                           
+
                            if (typeof(data.data.yqht) == "undefined")
        				    {
                            	 $("#vdirect_contract_01_02").html("0个");
@@ -1114,9 +1217,9 @@
        			    	{
        				    	 $("#vdirect_contract_01_02").html(data.data.yqht+"个");
        			    	}
-                           
-                           
-                          
+
+
+
                            $("#vdirect_contract_01_03").html(data.data.qdl+"%");
                        }
                    },
@@ -1128,7 +1231,7 @@
                });
 
            }
-           
+
 
            function setGauge(id)
            {

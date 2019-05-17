@@ -54,7 +54,16 @@ public class UnitPageController
 		request.setAttribute("funcName", funcName);
 		return "base/unit/chooseUnitMulti";
 	}
-	
+	@RequestMapping(value = "/chooseUnitMultiV2", method = RequestMethod.GET)
+	public String chooseUnitMultiV2( HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		//回调函数名
+		String initFuncName = CommonUtil.getParameter(request, "initFuncName", "");
+		String callbackFuncName = CommonUtil.getParameter(request, "callbackFuncName", "");
+		request.setAttribute("initFuncName", initFuncName);
+		request.setAttribute("callbackFuncName", callbackFuncName);
+		return "base/unit/chooseUnitMultiV2";
+	}
 	
 	
 	

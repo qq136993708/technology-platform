@@ -147,16 +147,14 @@ public class IntlProjectApplyController extends BaseController {
 		WorkflowVo vo = new WorkflowVo();
 		vo.setAuditUserIds(this.getUserProfile().getUserId());
 		vo.setFunctionId(functionId);
-		System.out.println("functionId .... "+functionId);
 		vo.setAuthenticatedUserId(this.getUserProfile().getUserId());
+		vo.setAuthenticatedUserName(this.getUserProfile().getUserDisp());
+		vo.setBusinessId(applyId);
+		vo.setProcessDefinitionName("项目申报审批");
+		
 		HttpEntity<WorkflowVo> entity = new HttpEntity<WorkflowVo>(vo, this.httpHeaders);
-		Integer plant = this.restTemplate.exchange(PROJECT_APPLY_WORKFLOW_URL + applyId, HttpMethod.POST, entity, Integer.class).getBody();
-		System.out.println("开始审批返回状态：" + plant);
-		if (plant == 0) {
-			return new Result(false);
-		} else {
-			return new Result(true);
-		}
+		Result rs = this.restTemplate.exchange(PROJECT_APPLY_WORKFLOW_URL + applyId, HttpMethod.POST, entity, Result.class).getBody();
+		return rs;
 	}
 
 	@RequestMapping(value = "/project/get-apply-list")

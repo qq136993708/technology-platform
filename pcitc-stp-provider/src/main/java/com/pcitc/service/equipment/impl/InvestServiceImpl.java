@@ -219,7 +219,9 @@ public  class InvestServiceImpl implements InvestService {
 					SreEquipment quipment = sreEquipmentMapper.selectByPrimaryKey(sreEqumimpId[i]);
 					if(quipment!=null) {
 						SrePlanCompletion plancompletion = new SrePlanCompletion();
-						plancompletion.setProjectName(sretask.getName());//获取项目名称
+						if(i==0) {
+							plancompletion.setProjectName(sretask.getName());//获取项目名称
+						}
 						plancompletion.setEquipmentName(quipment.getName());//获取装备名称
 						plancompletion.setProjectPrice(sretask.getProjectMoney());//获取计划金额
 						if(quipment.getType().equals("ROOT_ZBGL_ZBFL_YJ")) {
@@ -228,11 +230,9 @@ public  class InvestServiceImpl implements InvestService {
 							plancompletion.setEquipmentType("软件");//获取装备分类
 						}
 						plancompletion.setDeclarationUnit(sretask.getApplyUnitName());//获取申报单位
-						SreProjectTask sreProjectTask = sreProjectTaskMapper.selectByTopicKey(sretask.getId());//查询合同号
-						if(sreProjectTask!=null) {
-							plancompletion.setContractNumber(sreProjectTask.getContractNum());//获取合同编号
-							plancompletion.setContractPrice(sreProjectTask.getProjectMoney());//获取合同金额
-						}
+						//SreProjectTask sreProjectTask = sreProjectTaskMapper.selectByTopicKey(sretask.getId());//查询合同号
+						plancompletion.setContractNumber(sretask.getContractNum());//获取合同编号
+						plancompletion.setContractPrice(sretask.getProjectMoney());//获取合同金额
 						plancompletion.setSupplier(quipment.getSupplierWillStr());//获取意向供应商
 						plancompletion.setPrice(quipment.getUnitPrice());//获取装备单价
 						plancompletion.setNumber(quipment.getApplyAcount());//获取装备数量
