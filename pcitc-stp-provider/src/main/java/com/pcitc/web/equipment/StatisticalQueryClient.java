@@ -22,11 +22,18 @@ public class StatisticalQueryClient {
     @Autowired
     private StatisticalQueryService statisticalQueryService;
 
-    @ApiOperation(value = "采购分页", notes = "采购分页")
+    @ApiOperation(value = "采购列表", notes = "采购列表")
     @RequestMapping(value = "/sre-provider/statisticalQuery/purchaseEquipmentPage", method = RequestMethod.POST)
     public LayuiTableData getPurchaseEquipmenList(@RequestBody LayuiTableParam paramsJson)throws Exception
     {
         logger.info("=== PurchaseEquipmenLis paramsJson============"+paramsJson);
         return statisticalQueryService.getPurchaseEquipmenList(paramsJson);
+    }
+    @ApiOperation(value = "计划列表", notes = "计划列表")
+    @RequestMapping(value = "/sre-provider/statisticalQuery/projectEquipmentPage", method = RequestMethod.POST)
+    public LayuiTableData getProjectEquipmentList(@RequestBody LayuiTableParam paramsJson)throws Exception
+    {
+        logger.info("=== ProjectEquipmentList paramsJson============"+paramsJson);
+        return statisticalQueryService.getProjectEquipmentList(paramsJson);
     }
 }

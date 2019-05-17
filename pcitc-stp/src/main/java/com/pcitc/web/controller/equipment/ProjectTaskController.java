@@ -89,6 +89,11 @@ public class ProjectTaskController extends BaseController {
 		
 		String applyUnitCode=sysUserInfo.getUnitCode();
 		request.setAttribute("applyUnitCode", applyUnitCode);
+		
+		String unitPathIds =   sysUserInfo.getUnitPath();
+		boolean isKJBPerson=EquipmentUtils.isKJBPerson(unitPathIds);
+		request.setAttribute("isKJBPerson", isKJBPerson);
+		
 		return "/stp/equipment/task/arrange_list";
 	}
 	
@@ -132,6 +137,8 @@ public class ProjectTaskController extends BaseController {
 		}
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		
+		boolean isKJBPerson=EquipmentUtils.isKJBPerson(unitPathIds);
+		request.setAttribute("isKJBPerson", isKJBPerson);
 		
 		return "/stp/equipment/task/apply_list";
 	}

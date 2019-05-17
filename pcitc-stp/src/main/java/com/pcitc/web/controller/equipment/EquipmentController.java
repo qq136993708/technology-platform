@@ -345,7 +345,7 @@ public class EquipmentController extends BaseController {
 	}
 
 	@RequestMapping(value = "/to-list")
-	public String list(HttpServletRequest request, HttpServletResponse response) {
+	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		//String applyDepartCode=sysUserInfo.getUnitCode();
 		//request.setAttribute("applyDepartCode", applyDepartCode);
 		
@@ -362,6 +362,10 @@ public class EquipmentController extends BaseController {
 		}
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		
+		
+		
+		boolean isKJBPerson=EquipmentUtils.isKJBPerson(unitPathIds);
+		request.setAttribute("isKJBPerson", isKJBPerson);
 		
 		return "/stp/equipment/equipment/equipment-list";
 	}

@@ -219,9 +219,7 @@ public  class InvestServiceImpl implements InvestService {
 					SreEquipment quipment = sreEquipmentMapper.selectByPrimaryKey(sreEqumimpId[i]);
 					if(quipment!=null) {
 						SrePlanCompletion plancompletion = new SrePlanCompletion();
-						if(i==0) {
-							plancompletion.setProjectName(sretask.getName());//获取项目名称
-						}
+						plancompletion.setProjectName(sretask.getName());//获取项目名称
 						plancompletion.setEquipmentName(quipment.getName());//获取装备名称
 						plancompletion.setProjectPrice(sretask.getProjectMoney());//获取计划金额
 						if(quipment.getType().equals("ROOT_ZBGL_ZBFL_YJ")) {
