@@ -121,11 +121,11 @@ public class IntlProjectReportDownloadController extends BaseController
 		param.setParam(p);
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		LayuiTableData data = this.restTemplate.exchange(PROJECT_APPLY_JOIN_URL, HttpMethod.POST, entity, LayuiTableData.class).getBody();
-		List<Map<?,?>> plants = (List<Map<?,?>>)data.getData();
 		StringBuffer sb = new StringBuffer();
-		for(Map<?,?> apply:plants) 
+		for(Object apply:data.getData()) 
 		{
-			sb.append(apply.get("applyName")+"\r\n");
+			Map<?,?> map = (Map<?,?>)apply;
+			sb.append(map.get("applyName")+"\r\n");
 		}
 		beanMap.put("applyList", sb.toString());
 		

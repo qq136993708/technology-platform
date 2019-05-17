@@ -15,13 +15,11 @@
     </style>
 </head>
 <body>
-<div id="bodyId" <#if isKJBPerson == true || isKJBPerson=='true'>style="display:none"</#if>>
 <div class="searchBox">
 <form action=""  name="form1" id="form1" action="" method="POST">
 <input  name="functionId"     id="functionId"      type="hidden">
 <input  name="userIds"        id="userIds"         type="hidden">
 <input  name="id"             id="id"                type="hidden" >
-<input type="hidden"          name="applyUnitCode"     id="applyUnitCode"       value="${applyUnitCode}">
 <input type="hidden"          name="parentUnitPathIds" id="parentUnitPathIds"   value="${parentUnitPathIds}">
 <input type="hidden"          name="specialAuditor0"   id="specialAuditor0"     value="">
  <input type="hidden" name="isKJBPerson" id="isKJBPerson" value="${isKJBPerson}">
@@ -90,11 +88,7 @@
                     data-type="rejectEvent">
                 <span class="btn-state btn-yellow"></span>退回调整
             </button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">新增</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" id="editEvent" data-type="editEvent">编辑</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_submit btnMyBgImg"  id="applyEvent" data-type="applyEvent">上报</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" id="detailEvent" data-type="detailEvent">详情</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  id="deleteEvent" data-type="deleteEvent">删除</button>
            
         </div>
     </div>
@@ -247,11 +241,6 @@ var name=$('#name').val();
            elem: '#setupYear'
            ,type: 'year'
        });
-	  	 if(isKJBPerson==true || isKJBPerson=='true')
-	     {
-	  	  
-	     	   layer.alert('请以院所计划管理员的身份操作');
-	     }
   	 
   	   
          // 触发不同的按钮事件
@@ -269,76 +258,7 @@ var name=$('#name').val();
              
             },
             
-            addEvent: function(){ //点击新增按钮
-            		 layer.open({
-                         title:'计划上报-新增',
-                         skin: 'layui-layer-lan',
-                         shadeClose: true,
-                         type: 2,
-                         fixed: false,
-                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                         maxmin: true,
-                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                         area: ['70%','90%'],
-                         content:  '/sre-project-basic/add'
-                     });
-                 
-            }
-            ,editEvent: function(){  //点击编辑按钮
-            	
-            	if (typeof(selectRowData) == "undefined")
-            	{
-           			layer.msg('请点击选择一行数据');
-               	} else 
-               	{
-            		 var id=selectRowData.id;
-           		     var url="/sre-project-basic/add?id="+id;
-           		     var auditStatus=selectRowData.auditStatus;
-           		     if(auditStatus!='0')
-           		     {
-           		    	layer.alert('上报中或审核通过，不能修改');
-           		    	return;
-           		     }
-	           		 layer.open({
-	                      title:'编辑',
-	                      skin: 'layui-layer-lan',
-	                      shadeClose: true,
-	                      type: 2,
-	                      fixed: false,
-	                      //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-	                      maxmin: true,
-	                      //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-	                      area: ['70%', '90%'],
-	                      content:  url
-	                 });
-           		  
-            	}
-               
-            },deleteEvent: function(){  //点击删除按钮
-                 console.log('点击了删除按钮')
-                 if (typeof(selectRowData) == "undefined") 
-                 {
-            		layer.msg('请点击选择一行数据');
-            	 } else 
-            	 {
-            		  var id=selectRowData.id;
-           		      var url="/sre-project-basic/delete/"+id;
-           		     var auditStatus=selectRowData.auditStatus;
-         		     if(auditStatus!='0')
-         		     {
-         		    	layer.alert('上报中或审核通过，不能删除');
-         		    	return;
-         		     }
-         		     
-	           		  layer.confirm('确定要删除吗？', { btn: ['确定','取消']}, function(){
-	         				 ajaxDeleteOpt(url,"post","删除成功","删除失败");
-	         			}, function(){
-	         			 
-	         			});
-            	}
-            
-              
-            },
+           
             detailEvent: function(){  //点击详情按钮
             	if (typeof(selectRowData) == "undefined") {
             		layer.msg('请点击选择一行数据');
@@ -359,30 +279,6 @@ var name=$('#name').val();
                      });
             	}
             
-            },
-            applyEvent: function(){  //点击详情按钮
-            	
-            	if (typeof(selectRowData) == "undefined") 
-            	{
-            		layer.msg('请点击选择一行数据');
-            	}
-            	else 
-            	{
-            		
-            		 var auditStatus=selectRowData.auditStatus;
-            		 var id=selectRowData.id;
-            		 var professionalDepartName=selectRowData.professionalDepartName;
-            		 if(auditStatus!=='0')
-           			 {
-            			 layer.alert('请选择未上报的计划');
-            			 return;
-           			 }else
-           			 {
-           				$('#id').val(id);
-                	 	dealFlow(id,professionalDepartName);
-           			 }
-            		 
-            	}
             },
             allEvent: function(){ 
             	$("#auditStatus").val("");
@@ -441,7 +337,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre-project-basic/list',
             method:"POST",
-            where: {param: {"name":$("#name").val(),"auditStatus":$("#auditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"applyUnitCode":$("#applyUnitCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {"name":$("#name").val(),"auditStatus":$("#auditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),

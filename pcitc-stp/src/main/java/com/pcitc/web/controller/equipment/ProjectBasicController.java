@@ -91,9 +91,39 @@ public class ProjectBasicController extends BaseController {
 			}
 		}
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
-		
+		boolean isKJBPerson=EquipmentUtils.isKJBPerson(unitPathIds);
+		request.setAttribute("isKJBPerson", isKJBPerson);
 		return "/stp/equipment/project/project-basic-list";
 	}
+	
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/project-list-kjb")
+	public String kjb(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		
+		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
+		request.setAttribute("unitFieldList", unitFieldList);
+		
+		
+
+		String	parentUnitPathIds="";
+		String unitPathIds =   sysUserInfo.getUnitPath();
+		if(unitPathIds!=null && !unitPathIds.equals(""))
+		{
+			if(unitPathIds.length()>4)
+			{
+				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
+				
+			}
+		}
+		return "/stp/equipment/project/project-list-kjb";
+	}
+	
+	
+	
 
 	@RequestMapping(value = "/list")
 	@ResponseBody

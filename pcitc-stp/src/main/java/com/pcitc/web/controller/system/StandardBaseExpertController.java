@@ -4,10 +4,12 @@ import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.JsonObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.TreeNode;
+import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.base.system.StandardBase;
 import com.pcitc.base.system.SysFile;
@@ -79,6 +81,7 @@ public class StandardBaseExpertController extends BaseController {
 
     /**
      * 技术族导入
+     *
      * @return
      */
     @RequestMapping(value = "/importFileTfc")
@@ -102,6 +105,7 @@ public class StandardBaseExpertController extends BaseController {
 
     /**
      * 标准化导入
+     *
      * @return
      */
     @RequestMapping(value = "/importFileStandard")
@@ -129,7 +133,65 @@ public class StandardBaseExpertController extends BaseController {
         return "stp/system/pageSelectorgType";
     }
 
+    /**
+     * 技术热点图
+     *
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/tfcHotPoint")
+    public String tfcHotPoint() {
+        String dataId = request.getParameter("dataId");
+        if (dataId==null||"".equals(dataId))
+        {
+            dataId="no";
+        }
+        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(GET_OUT_PROJECT_COUNT+dataId, HttpMethod.POST, new HttpEntity<>(this.httpHeaders), JSONObject.class);
+        JSONObject outProjectInfo = responseEntity.getBody();
+        request.setAttribute("value",outProjectInfo.get("value"));
+        request.setAttribute("name",outProjectInfo.get("name"));
+        return "stp/techFamily/tfcHotPoint";
+    }
 
+    /**
+     * 技术优选
+     *
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/tfcGood")
+    public String tfcGood() {
+        return "stp/techFamily/tfcGood";
+    }
+
+    /**
+     * 技术族推荐
+     *
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/tfcTj")
+    public String tfcTj() throws Exception {
+        request.setAttribute("dataId", request.getParameter("dataId"));
+        request.setAttribute("name", request.getParameter("name"));
+
+        String dataId = request.getParameter("dataId");
+
+        //获取项目信息
+        ResponseEntity<OutProjectInfo> responseEntity = this.restTemplate.exchange(GET_OUT_PROJECT + dataId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), OutProjectInfo.class);
+        OutProjectInfo outProjectInfo = responseEntity.getBody();
+        //获取分词
+
+        //获取对应技术族信息
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("info", JSONObject.toJSONString(outProjectInfo));
+        ResponseEntity<JSONObject> responseBody = this.restTemplate.exchange(GET_TFC_PROJECT, HttpMethod.POST, new HttpEntity<JSONObject>(jsonObject, this.httpHeaders), JSONObject.class);
+
+        request.setAttribute("values", responseBody.getBody().get("info"));
+        return "/stp/techFamily/tfcTj";
+    }
+
+    private static final String GET_OUT_PROJECT = "http://pcitc-zuul/system-proxy/out-provider/get-project-list-fc/";
+    private static final String GET_OUT_PROJECT_COUNT = "http://pcitc-zuul/system-proxy/out-provider/get-project-list-count/";
+    private static final String GET_TFC_PROJECT = "http://pcitc-zuul/stp-proxy/tech-family-provider/get-tfc-project";
 
     /**
      * 标准化-查询列表
