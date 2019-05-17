@@ -116,12 +116,20 @@ var publicMethods;
                 		return;
                 	}
                 	var equipmentIds="";
+                	var projectMoney=0;
                 	for(var dt in check.data)
                 	{
                 		equipmentIds=equipmentIds+check.data[dt].equipmentId+",";
+                		var unitPrice=check.data[dt].unitPrice;
+                		var applyAcount=check.data[dt].applyAcount;
+                		var tatal=parseInt(unitPrice)*parseInt(applyAcount)
+                		
+                		projectMoney=parseInt(projectMoney)+tatal;
                 	}
                 	$("#equipmentIds").val(equipmentIds);
+                	//alert(projectMoney);
                 	parent.document.getElementById("equipmentIds").value=equipmentIds;
+                	parent.document.getElementById("projectMoney").value=projectMoney;
                 	parent.renderTable(equipmentIds);
                     //parent.layui.table.reload("join_apply_table",{where: {param:{"equipmentIds":equipmentIds}}});
                 	var index = parent.layer.getFrameIndex(window.name);

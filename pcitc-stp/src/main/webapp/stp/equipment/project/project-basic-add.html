@@ -51,35 +51,17 @@
                 <input name="joinUnitIds" id="joinUnitIds" value="${sreProjectBasic.joinUnitIds}" type="hidden">
                 <!--<input name="yearFeeStrJoinUnit" id="yearFeeStrJoinUnit"
                        value="2019-2020,苏州大学,014ef79138eb4fc49f24e4439419a5a9#2019,22,null#2020,0,null;2019-2020,北京经贸大学,01a180d1fac8465a9f283f7628dbf498#2019,0,null#2020,0,null" type="hidden">-->
-                <div class="layui-row">
-                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                        <div class="layui-form-item">
-                            <label for="" class="layui-form-label">课题名称<span class="must-fill">*</span></label>
-                            <div class="layui-input-block">
-                                <input class="layui-input" name="name" id="name" value="${sreProjectBasic.name}"
-                                       lay-verify="required" autocomplete="off" type="text">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                        <div class="layui-form-item">
-                            <label for="" class="layui-form-label">金额(万元)</label>
-                            <div class="layui-input-block">
-                                <input class="layui-input readOnlyBox" style="color:red" readonly="readonly" name="projectMoney"  id="projectMoney" value="${sreProjectBasic.projectMoney}"
-                                       autocomplete="off" type="text">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--行有两个的情况-->
-                <div class="layui-form-item layui-form-text">
-                    <label class="layui-form-label layui-form-labelH">课题开发及投资目标<span class="must-fill">*</span></label>
+                
+                
+                 <div class="layui-form-item">
+                    <label class="layui-form-label">课题名称<span class="must-fill">*</span></label>
                     <div class="layui-input-block">
-                        <textarea placeholder="请简述开发及投资目标，原则上不超过500字" name="remarks" id="remarks" lay-verify="required"
-                                  class="layui-textarea">${sreProjectBasic.remarks}</textarea>
+                        <input class="layui-input" name="name" id="name" value="${sreProjectBasic.name}"
+                                       lay-verify="required" autocomplete="off" type="text">
                     </div>
                 </div>
-                <div class="layui-form-item" id="equipment">
+                
+                 <div class="layui-form-item" id="equipment">
                     <label class="layui-form-label">选择装备<span class="must-fill">*</span></label>
                     <div class="layui-input-block">
                         <div class="tableBox">
@@ -95,6 +77,15 @@
                         </div>
                     </div>
                 </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">装备总金额(万元)</label>
+                    <div class="layui-input-block">
+                       <input class="layui-input readOnlyBox" style="color:red;"  readonly="readonly" name="projectMoney"  id="projectMoney" value="${sreProjectBasic.projectMoney}"
+                                       autocomplete="off" type="text">提示：选择装备=装备总金额=牵头单位+参加单位
+                    </div>
+                </div>
+            
+                
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">建设年限<span class="must-fill">*</span></label>
                     <div class="layui-input-block">
@@ -112,7 +103,7 @@
                         <div class="layui-form-item">
                             <label for="" class="layui-form-label">牵头单位<span class="must-fill">*</span></label>
                             <div class="layui-input-block">
-                                <input class="layui-input" name="leadUnitName" id="leadUnitName" value="${leadUnitName}"
+                                <input class="layui-input readOnlyBox" readonly="readonly"  name="leadUnitName" id="leadUnitName" value="${leadUnitName}"
                                        lay-verify="required" autocomplete="off" type="text">
                             </div>
                         </div>
@@ -143,6 +134,13 @@
                         </div>
                         <div id="units"></div>
                     </div>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                   <!--
                     <div class="layui-form-item layui-form-text">
                         <label class="layui-form-label">归属部门<span class="must-fill">*</span></label>
@@ -182,7 +180,18 @@
                             <select id="professionalFieldName" name="professionalFieldName"  style="width:200px"></select>
                             </div>
                         </div>
+               </div>
+                    
+                <!--行有两个的情况-->
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label layui-form-labelH">课题开发及投资目标<span class="must-fill">*</span></label>
+                    <div class="layui-input-block">
+                        <textarea placeholder="请简述开发及投资目标，原则上不超过500字" name="remarks" id="remarks" lay-verify="required"
+                                  class="layui-textarea">${sreProjectBasic.remarks}</textarea>
                     </div>
+                </div>
+                
+                
                 <div class="layui-form-item">
                         <label class="layui-form-label">附件</label>
                         <div id="file_div" class="layui-input-block"></div>
@@ -403,8 +412,10 @@
             	if(isNaN(value))
             	{
             		 return '请输入整数';
-            	}else
-                if (value <= 0 || value > 2000) 
+            	}else if (value <= 0) 
+                {
+                    return '请输入费用';
+                }else if (value > 2000) 
                 {
                     return '费用不能大于2000万';
                 }

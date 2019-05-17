@@ -81,7 +81,8 @@
 									</span>
 								</dd>
 								<dd>
-									<a lay-href="/task/pending/list/ini">查看更多</a>
+									<a id="message_more" href="javascript:void(0)" lay-text="查看更多" data-id="d1cc4095-e2c1-4caf-bfee-78c5ec85316c" data-code="10010103" data-functionbuttons="ALL">查看更多</a>
+									<!-- <a lay-href="/task/message/list/ini">查看更多</a> -->
 								</dd>
 							</dl>
 						</div>
@@ -105,7 +106,7 @@
 									</p>
 								</dd>
 								<dd>
-									<a href="javascript:void(0)">查看更多</a>
+									<a id="task_more"  href="javascript:void(0)">查看更多</a>
 								</dd>
 							</dl>
 						</div>
@@ -377,8 +378,11 @@
                     navLeft+=$(val).width()+24;
 				}
             });
-            $(".chat dl dd a").click(function () {
-                parent.layui.index.openTabsPage("/task/pending/list/ini", "会话");
+            $("#task_more").click(function () {
+                parent.layui.index.openTabsPage("/task/pending/list/ini", "待办任务");
+            });
+            $("#message_more").click(function () {
+                parent.layui.index.openTabsPage("/task/message/list/ini", "通知");
             });
             $(".layui-header .layui-icon-prev").css("left",navLeft+"px");
             if(!$(".layui-header .layui-icon-prev").hasClass("layui-hide")){
