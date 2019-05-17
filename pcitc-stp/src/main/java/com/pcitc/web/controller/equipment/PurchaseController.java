@@ -58,7 +58,7 @@ public class PurchaseController extends BaseController{
 
     //跳转到采购申请页面
 	@RequestMapping(value = "/sre_purchase/to-list")
-	public String list(HttpServletRequest request, HttpServletResponse response) {
+	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String departCode=sysUserInfo.getUnitCode();
         request.setAttribute("departCode", departCode);
@@ -98,7 +98,7 @@ public class PurchaseController extends BaseController{
     }
     //跳转到到货签收页面
     @RequestMapping(value = "/sre-purchase/to-arrive-goods-list")
-    public String arriveGoodsList(HttpServletRequest request, HttpServletResponse response) {
+    public String arriveGoodsList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String departCode=sysUserInfo.getUnitCode();
         request.setAttribute("departCode", departCode);
@@ -119,7 +119,7 @@ public class PurchaseController extends BaseController{
 
     //跳转到合同验收页面
     @RequestMapping(value = "/sre-purchase/to-contract-acceptance-list")
-    public String contracAcceptanceList(HttpServletRequest request, HttpServletResponse response) {
+    public String contracAcceptanceList(HttpServletRequest request, HttpServletResponse response)throws Exception  {
 
         String departCode=sysUserInfo.getUnitCode();
         request.setAttribute("departCode", departCode);
@@ -139,7 +139,7 @@ public class PurchaseController extends BaseController{
     }
     //跳转到安装调试页面
     @RequestMapping(value = "/sre-purchase/to-installation-list")
-    public String installationList(HttpServletRequest request, HttpServletResponse response) {
+    public String installationList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String departCode=sysUserInfo.getUnitCode();
         request.setAttribute("departCode", departCode);
@@ -159,7 +159,7 @@ public class PurchaseController extends BaseController{
     }
     //跳转到合同关闭页面
     @RequestMapping(value = "/sre-purchase/to-contract-close-list")
-    public String contractCloseList(HttpServletRequest request, HttpServletResponse response) {
+    public String contractCloseList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String departCode=sysUserInfo.getUnitCode();
         request.setAttribute("departCode", departCode);
@@ -187,7 +187,7 @@ public class PurchaseController extends BaseController{
 	 */
 	@RequestMapping(value = "/sre_purchase/list")
 	@ResponseBody
-	public String ajaxlist(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+	public String ajaxlist(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
@@ -302,7 +302,7 @@ public class PurchaseController extends BaseController{
     }
     @RequestMapping(value = "/sre-purchase/chooseProject_data")
     @ResponseBody
-    public String chooseProject_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+    public String chooseProject_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 
         LayuiTableData layuiTableData = new LayuiTableData();
