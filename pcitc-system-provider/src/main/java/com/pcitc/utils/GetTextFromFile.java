@@ -2,9 +2,9 @@ package com.pcitc.utils;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -106,11 +106,10 @@ public class GetTextFromFile {
 
 	private static String getTextFromTxt(String txtFilePth) throws Exception {
 		StringBuilder result = new StringBuilder();
-		FileReader fis = null;
 		BufferedReader br = null;
+		InputStreamReader fis = null;
 		try {
-			// fis = new
-			// FileReader(OSSUtil.getOssFileIS(txtFilePth.split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]));
+			fis = new InputStreamReader(OSSUtil.getOssFileIS(txtFilePth.split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]), "utf-8");
 			br = new BufferedReader(fis);// 构造一个BufferedReader类来读取文件
 			String s = null;
 			while ((s = br.readLine())!=null) {// 使用readLine方法，一次读一行
