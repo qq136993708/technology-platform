@@ -11,7 +11,6 @@ import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.stp.out.OutUnit;
-import com.pcitc.base.workflow.SysDelegate;
 import com.pcitc.base.workflow.WorkflowVo;
 
 /**
