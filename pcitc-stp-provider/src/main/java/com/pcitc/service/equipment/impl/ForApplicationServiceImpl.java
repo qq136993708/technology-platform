@@ -270,11 +270,11 @@ public  class ForApplicationServiceImpl implements ForApplicationService {
         flowJson.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/sre-provider/forapplication/reject_forapplication/" + id);
 
         // 非必填选项，当下一步审批者需要本次任务执行人（启动者）手动选择的时候，需要auditUserIds属性
-        flowJson.put("specialAuditor0", "root--ZZSQ-CGJBRY");
-        flowJson.put("specialAuditor1", "role--ZZSQ-ZCGLRY");
-        flowJson.put("specialAuditor2", "role--ZZSQ-CWRY");
-        flowJson.put("specialAuditor3", "role--ZZSQ-CGBMFZR");
-        flowJson.put("specialAuditor4", "role--ZZSQ-JHCWBMFZR");
+        flowJson.put("specialAuditor0", "role--ZZSQ_CGJBRY");
+        flowJson.put("specialAuditor1", "role--ZZSQ_ZCGLRY");
+        flowJson.put("specialAuditor2", "role--ZZSQ_CWRY");
+        flowJson.put("specialAuditor3", "role--ZZSQ-ZZSQ_CGBMFZR");
+        flowJson.put("specialAuditor4", "role--ZZSQ_JHCWBMFZR");
 
         // 远程调用
         System.out.println("=====远程调用开始");
