@@ -741,6 +741,8 @@
 	     <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.parent_unit_path_ids = #{parentUnitPathIds}</if>
 	     <if test="applyUnitId != null               and applyUnitId !=''  ">             AND t.apply_unit_id = #{applyUnitId}</if>
 	     <if test="parentApplyUnitCode != null       and parentApplyUnitCode !=''  ">     AND t.parent_apply_unit_code = #{parentApplyUnitCode}</if>
+         <if test="startMoney != null   and startMoney !='' ">      AND  t.project_money &gt;= #{startMoney}</if>
+         <if test="endMoney != null   and endMoney !='' ">      AND  t.project_money &lt;= #{endMoney}</if>
 	     <if test="sqlStr != null   and sqlStr !='' ">                                        AND ${sqlStr}</if>
 	 </trim>
 	</sql>
