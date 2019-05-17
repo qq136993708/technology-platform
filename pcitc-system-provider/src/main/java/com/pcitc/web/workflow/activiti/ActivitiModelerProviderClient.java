@@ -5,8 +5,6 @@ import io.swagger.annotations.ApiOperation;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -55,7 +53,6 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.system.SysFile;
 import com.pcitc.base.util.DateUtil;
-import com.pcitc.base.util.FileUtil;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.base.workflow.ProcessDefVo;
 import com.pcitc.base.workflow.WorkflowVo;
@@ -184,7 +181,7 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 	}
 	
 	@ApiOperation(value = "产生model资源，直接传到前台byte，", notes = "和generateResource方法有别")
-	@RequestMapping(value = "/modeler-provider/resource/byte", method = RequestMethod.POST)
+	@RequestMapping(value = "/modeler-provider/resource/byte1", method = RequestMethod.POST)
 	public byte[] generateResourceByByte(@RequestBody WorkflowVo workflowVo) {
 		try {
 			Model modelData = repositoryService.getModel(workflowVo.getModelId());
@@ -205,41 +202,51 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 			return null;
 		}
 	}
+	
+	@ApiOperation(value = "产生model资源，oss图片路径", notes = "oss图片路径")
+	@RequestMapping(value = "/modeler-provider/resource/image/path", method = RequestMethod.POST)
+	public String ossImagePath(@RequestBody WorkflowVo workflowVo) {
+		Model modelData = repositoryService.getModel(workflowVo.getModelId());
+		String imagePath = OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/" + uploadPath+"activiti/"+ modelData.getId() + ".model.png";
+		return imagePath;
+	}
 
 	@ApiOperation(value = "产生model资源，图形化准备", notes = "activiti系统接口")
 	@RequestMapping(value = "/modeler-provider/resource", method = RequestMethod.POST)
 	public String generateResource(@RequestBody WorkflowVo workflowVo) {
 		try {
+			System.out.println("generateResource=====部署model模型");
 			Model modelData = repositoryService.getModel(workflowVo.getModelId());
 			if (workflowVo.getDataType().equals("xml")) {
-				
+				System.out.println("1xml=====部署model模型"+modelData.getId());
 				BpmnJsonConverter jsonConverter = new BpmnJsonConverter();
 				JsonNode editorNode = objectMapper.readTree(repositoryService.getModelEditorSource(modelData.getId()));
+				System.out.println("2xml=====部署model模型"+editorNode);
 				BpmnModel bpmnModel = jsonConverter.convertToBpmnModel(editorNode);
+				System.out.println("3xml=====部署model模型"+bpmnModel);
 				BpmnXMLConverter xmlConverter = new BpmnXMLConverter();
+				System.out.println("4xml=====部署model模型"+xmlConverter);
 				byte[] bpmnBytes = xmlConverter.convertToXML(bpmnModel);
-
+				System.out.println("5xml=====部署model模型"+bpmnBytes);
 				ByteArrayInputStream in = new ByteArrayInputStream(bpmnBytes);
-				String fileName = modelData.getKey() + ".model.bpmn";
-				String realPath = uploadPath + fileName;
-				File file = new File(realPath);
-				if (file.exists()) {
-					file.delete();
-				}
-				FileUtil.copyInputStreamToFile(in, file);
+				System.out.println("6xml=====部署model模型"+in.available());
+				String fileName = modelData.getId() + ".model.bpmn";
+				
+				// 上传xml到oss服务器
+				OSSUtil.uploadFileByInputStream(in, uploadPath+"activiti/", fileName);
+				
 				String realName = fileName.replaceAll("\\\\", "/");
 				return realName;
 			} else {
+				System.out.println("1image=====部署model模型"+workflowVo.getModelId());
 				byte[] pngBytes = repositoryService.getModelEditorSourceExtra(workflowVo.getModelId());
-				String fileName = modelData.getKey() + ".model.png";
-				String realPath = uploadPath + fileName;
-				File file = new File(realPath);
-				if (file.exists()) {
-					file.delete();
-				}
-				
+				System.out.println("2image=====部署model模型"+pngBytes);
+				String fileName = modelData.getId() + ".model.png";
+				System.out.println("4image=====部署model模型");
 				ByteArrayInputStream in = new ByteArrayInputStream(pngBytes);
-				FileUtil.copyInputStreamToFile(in, file);
+				// 上传xml到oss服务器
+				String imagePath = OSSUtil.uploadFileByInputStream(in, uploadPath+"activiti/", fileName);
+				System.out.println("4image=====部署model模型"+imagePath);
 				String realName = fileName.replaceAll("\\\\", "/");
 				return realName;
 			}
@@ -251,20 +258,25 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 	@ApiOperation(value = "部署model模型", notes = "activiti系统接口")
 	@RequestMapping(value = "/modeler-provider/model/deploy", method = RequestMethod.POST)
 	public Result deployModel(@RequestBody WorkflowVo workflowVo) throws Exception {
+		System.out.println("1=====部署model模型");
 		// 获取模型
 		Model modelData = repositoryService.getModel(workflowVo.getModelId());
 		byte[] bytes = repositoryService.getModelEditorSource(modelData.getId());
-
+		System.out.println("2=====部署model模型"+modelData);
+		System.out.println("2=====部署model模型"+modelData.getId());
+		System.out.println("2=====部署model模型"+bytes);
 		if (bytes == null) {
 			return new Result(false, workflowVo.getModelId(), "模型数据为空，请先设计流程并成功保存，再进行发布。");
 		}
 
 		JsonNode modelNode = objectMapper.readTree(bytes);
-
+		System.out.println("3=====部署model模型"+modelNode);
 		BpmnModel model = new BpmnJsonConverter().convertToBpmnModel(modelNode);
+		System.out.println("4=====部署model模型"+model.getProcesses());
 		if (model.getProcesses().size() == 0) {
 			return new Result(false, workflowVo.getModelId(), "数据模型不符要求，请至少设计一条主线流程。");
 		}
+		System.out.println("51=====部署model模型");
 		try {
 			workflowVo.setDataType("xml");
 			String xml = generateResource(workflowVo);
@@ -273,17 +285,15 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 			if (xml == "") {
 				return new Result(false, "部署失败", "流程尚未定义或定义错误，不能生成有效的xml和png文件");
 			}
-			String fileName = modelData.getKey() + ".bpmn20.model.zip";
-			String zipFileName =  File.separator + fileName;
-			File file = new File(uploadPath + zipFileName);
-			if (file.exists()) {
-				file.delete();
-			}
-			String zipPath = FileUtil.generateZipFile(uploadPath, zipFileName, xml, image);
-			System.out.println("zipPath======="+zipPath);
-			InputStream inputStream = new FileInputStream(zipPath);
+			System.out.println("53=====部署model模型"+modelData.getId());
+			System.out.println("52=====部署model模型"+xml);
+			System.out.println("52=====部署model模型"+image);
+			String zipFileName = modelData.getId() + ".bpmn20.model.zip";
+			String zipPath = OSSUtil.generateZipFile(uploadPath+"activiti", zipFileName, xml, image);
+			System.out.println("1zipPath======="+zipPath);
+			InputStream inputStream = OSSUtil.getOssFileIS(zipPath.split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
 			ZipInputStream zipInputStream = new ZipInputStream(inputStream);
-
+			System.out.println("2zipPath======="+zipInputStream);
 			// 发布流程
 			// 使用addZipInputStream后可以预防flow连线文字丢失的问题
 			DeploymentBuilder deploymentBuilder = repositoryService.createDeployment().name(modelData.getName()).category(modelData.getCategory()).tenantId(modelData.getTenantId()).addZipInputStream(zipInputStream);

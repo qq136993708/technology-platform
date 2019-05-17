@@ -994,9 +994,6 @@ public class SysFileServiceImpl implements SysFileService {
 		try {
 			if (zipFileName==null) {
 				response.getWriter().println("");
-				// response.getWriter().println("<script>");
-				// response.getWriter().println(" modals.info('文件不存在!');");
-				// response.getWriter().println("</script>");
 			} else {
 				file = new File(zipFileName);
 				if (zipFileName!=null&&file!=null&&file.exists()&&file.isFile()) {
