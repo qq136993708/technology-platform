@@ -280,8 +280,8 @@ public class PurchaseServiceImpl implements PurchaseService {
         flowJson.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/sre-provider/purchase/reject_purchase/" + id);
 
         // 非必填选项，当下一步审批者需要本次任务执行人（启动者）手动选择的时候，需要auditUserIds属性
-        flowJson.put("specialAuditor0", "post--30130054_JHCBSY");
-        flowJson.put("specialAuditor1", "role--ZBGL_KJB_ZYCCZ");
+        flowJson.put("specialAuditor0", "role--CGGL_BMLD");
+        flowJson.put("specialAuditor1", "role--CGGL_YLD");
 
         // 远程调用
         System.out.println("=====远程调用开始");
