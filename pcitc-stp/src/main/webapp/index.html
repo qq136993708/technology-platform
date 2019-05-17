@@ -53,7 +53,7 @@
 				<!--右侧-->
 				<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
 					<li class="layui-nav-item layui-nav-itemnew chat" title="通知">
-						<a id="numberChat" lay-href="/task/pending/list/ini" lay-text="会话"><span id="pendingCount" style="visibility: hidden"></span></a>
+						<a id="numberChat"><span id="pendingCount" style="visibility: hidden"></span></a>
 						<div class="chat-content layui-hide">
 							<dl class="layui-nav-child-dl">
 								<dd>
@@ -87,7 +87,7 @@
 						</div>
 					</li>
 					<li class="layui-nav-item layui-nav-itemnew deal" title="待办任务">
-						<a id="numberDeal" lay-href="/sysNotice/index_notice" lay-text="待办任务"><span id="nc" style="visibility: hidden"></span></a>
+						<a id="numberDeal" ><span id="nc" style="visibility: hidden"></span></a>
 						<div class="deal-content layui-hide">
 							<dl class="layui-nav-child-dl">
 								<dd>
@@ -376,6 +376,9 @@
 				}else {
                     navLeft+=$(val).width()+24;
 				}
+            });
+            $(".chat dl dd a").click(function () {
+                parent.layui.index.openTabsPage("/task/pending/list/ini", "会话");
             });
             $(".layui-header .layui-icon-prev").css("left",navLeft+"px");
             if(!$(".layui-header .layui-icon-prev").hasClass("layui-hide")){
