@@ -492,6 +492,7 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-layout-admin .layui-header a cite{color: rgba(255,255,255,0.6);}
 .layui-layout-admin .layui-header a:hover{color: #fff;transform: none !important;-webkit-transition:none !important;}
 .layui-layout-admin .layui-header .layui-this a{color: #fff;}
+.layui-layout-admin .layui-header .layui-this dl dd a{ color: black !important;}
 .layui-layout-admin .layui-header .layui-nav .layui-nav-more{border-top-color: #fff;}
 .layui-layout-admin .layui-header .layui-nav .layui-nav-mored{border-color: transparent; border-bottom-color: #666;}
 .layui-leader-admin .layui-nav-item-a .layui-nav-more{display: block;}

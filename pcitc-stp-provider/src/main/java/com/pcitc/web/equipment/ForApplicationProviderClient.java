@@ -151,4 +151,12 @@ public class ForApplicationProviderClient
 		System.out.println("======业务系统处理审批流程都 --同意 --后业务======="+id);
         return count;
     }
+    /**===============================================科技资产查询===================================================*/
+    @ApiOperation(value = "科技资产查询", notes = "科技资产查询")
+	@RequestMapping(value = "/sre-provider/researchassets/page", method = RequestMethod.POST)
+	public LayuiTableData getResearchAssetsList(@RequestBody LayuiTableParam param)throws Exception
+	{
+		LayuiTableData rageResult=forapplicationService.getResearchAssetsList(param);
+		return rageResult;
+	}
 }
