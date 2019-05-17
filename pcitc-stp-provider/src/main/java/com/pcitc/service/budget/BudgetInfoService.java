@@ -8,6 +8,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.out.OutProjectPlan;
+import com.pcitc.base.workflow.WorkflowVo;
 
 /**
  * 集团预算信息表
@@ -94,4 +95,10 @@ public interface BudgetInfoService
 	 * @return
 	 */
 	public Map<String,List<OutProjectPlan>> selectBudgetPlanData(Set<String> codes,String nd);
+	/**
+	 * 发起工作流
+	 * @param delegate
+	 * @return
+	 */
+	public Boolean startWorkFlow(BudgetInfo info,WorkflowVo workflowVo);
 }

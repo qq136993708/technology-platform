@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
@@ -26,9 +27,11 @@ import com.pcitc.base.stp.budget.BudgetInfoExample;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.MyBeanUtils;
+import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.mapper.budget.BudgetInfoMapper;
 import com.pcitc.service.budget.BudgetInfoService;
 import com.pcitc.service.feign.SystemRemoteClient;
+import com.pcitc.service.feign.WorkflowRemoteClient;
 
 @Service("budGetInfoService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
@@ -41,6 +44,8 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	@Resource
 	private SystemRemoteClient systemRemoteClient;
 	
+	@Autowired
+	private WorkflowRemoteClient workflowRemoteClient;
 	
 	@Override
 	public BudgetInfo selectBudgetInfo(String dataId) throws Exception
@@ -218,5 +223,39 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 			rs.get(plan.getDefine9()).add(plan);
 		}
 		return rs;
+	}
+
+	@Override
+	public Boolean startWorkFlow(BudgetInfo info, WorkflowVo workflowVo) {
+
+		try {
+	    	// 调用审批流程，此处调用同时实现事务
+	    	JSONObject flowJson = new JSONObject();
+	    	// 业务主键id
+	    	flowJson.put("businessId", info.getDataId());
+	    	flowJson.put("processInstanceName", workflowVo.getProcessInstanceName());
+	    	
+	    	// 发起者信息
+	    	flowJson.put("authenticatedUserId", info.getCreaterId());
+	    	flowJson.put("authenticatedUserName", info.getCreaterName());
+	    	// 审批完成通知发起人
+	    	flowJson.put("messageUserIds",workflowVo.getAuthenticatedUserId());
+			// 菜单id（functionId），部门/组织ID（orgId），项目id（projectId）。其中菜单id必填（和ProcessDefineId两选一）
+	    	flowJson.put("functionId", workflowVo.getFunctionId());
+	    	
+	    	// 待办业务详情、最终审批同意、最终审批不同意路径
+	    	flowJson.put("auditDetailsPath", workflowVo.getAuditDetailsPath());
+	    	flowJson.put("auditAgreeMethod", workflowVo.getAuditAgreeMethod());
+	    	flowJson.put("auditRejectMethod", workflowVo.getAuditRejectMethod());
+	    	
+	    	// 远程调用
+	    	System.out.println("=====远程调用开始  time:"+System.currentTimeMillis());
+	    	String rs = workflowRemoteClient.startCommonWorkflow(flowJson.toJSONString());
+	    	System.out.println("=====远程调用结束 time:"+System.currentTimeMillis()+"  RS:"+rs);
+			return true;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 }

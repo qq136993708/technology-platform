@@ -1,26 +1,15 @@
 package com.pcitc.service.out.impl;
 
-import java.util.*;
-import java.util.function.Function;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
-import com.alibaba.fastjson.JSONObject;
-import com.pcitc.base.stp.out.*;
-import com.pcitc.base.stp.techFamily.TechFamily;
-import com.pcitc.base.stp.techFamily.TechFamilyEs;
-import com.pcitc.base.system.SysFile;
-import com.pcitc.base.util.GetTextFromFile;
-import com.pcitc.es.builder.BooleanCondtionBuilder;
-import com.pcitc.es.clientmanager.ClientFactoryBuilder;
-import com.pcitc.es.clientmanager.IndexHelperBuilder;
-import com.pcitc.es.common.Result;
-import com.pcitc.service.doc.AccessorService;
-import com.pcitc.service.doc.IndexAccessorService;
-import com.pcitc.service.doc.impl.AccessorServiceImpl;
-import com.pcitc.web.feign.TechFamilyProviderClient;
-import org.apache.lucene.queryparser.surround.parser.ParseException;
-import org.apache.lucene.queryparser.surround.parser.QueryParser;
-import org.apache.lucene.queryparser.surround.query.SrndQuery;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeRequest;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeResponse;
 import org.elasticsearch.client.transport.TransportClient;
@@ -31,15 +20,30 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.stp.out.OutProjectErp;
+import com.pcitc.base.stp.out.OutProjectInfo;
+import com.pcitc.base.stp.out.OutProjectInfoExample;
+import com.pcitc.base.stp.out.TfcHotEs;
+import com.pcitc.base.stp.techFamily.TechFamily;
+import com.pcitc.base.stp.techFamily.TechFamilyEs;
 import com.pcitc.base.util.StrUtil;
+import com.pcitc.es.builder.BooleanCondtionBuilder;
+import com.pcitc.es.clientmanager.ClientFactoryBuilder;
+import com.pcitc.es.clientmanager.IndexHelperBuilder;
+import com.pcitc.es.common.Result;
 import com.pcitc.mapper.out.OutProjectErpMapper;
 import com.pcitc.mapper.out.OutProjectInfoMapper;
+import com.pcitc.service.doc.AccessorService;
+import com.pcitc.service.doc.IndexAccessorService;
+import com.pcitc.service.doc.impl.AccessorServiceImpl;
 import com.pcitc.service.out.OutProjectService;
 import com.pcitc.utils.StringUtils;
+import com.pcitc.web.feign.TechFamilyProviderClient;
 
 @Service("outProjectService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
