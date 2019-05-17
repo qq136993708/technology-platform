@@ -12,13 +12,12 @@
 </head>
 
 <body>
-
-<div class="searchBox">
+<div id="bodyId" <#if isKJBPerson == true || isKJBPerson=='true'>style="display:none"</#if>>
+<div class="searchBox" >
  <input type="hidden" name="auditStatus" id="auditStatus" value="${auditStatus}">
  <input type="hidden" name="applyDepartCode" id="applyDepartCode" value="${applyDepartCode}">
  <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
- 
- 
+ <input type="hidden" name="isKJBPerson" id="isKJBPerson" value="${isKJBPerson}">
     <!--查询条件-->
     <label class="dateInput">
         <span>装备名称</span>
@@ -48,7 +47,7 @@
     
 </div>
 
-
+</div>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script type="text/javascript">
     // 时间格式化
@@ -104,6 +103,8 @@
 <!--表格数据操作js-->
 
 <script>
+var isKJBPerson=$('#isKJBPerson').val();
+
 var table,selectRowData;
 var publicMethods;
 var name=$('#name').val();
@@ -113,6 +114,13 @@ var name=$('#name').val();
             layer = layui.layer,
             laypage = layui.laypage;
            publicMethods=layui.publicMethods;
+           
+           if(isKJBPerson==true || isKJBPerson=='true')
+           {
+        	  
+           	   layer.alert('请以院所计划管理员的身份操作');
+           }
+           
 	     //加载表格      
 	     renderTable();
 	     //移除表头的复选框,去掉全选
