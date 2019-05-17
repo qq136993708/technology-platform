@@ -207,7 +207,7 @@ public class ScientificInvestmentController {
 			    PageResult pageResult = new PageResult();
 				String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 				String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
-				 System.out.println(">>>>>>>>>>>>>>>>>>>>tzxmwcqktjb_detail_data>参数      month = "+month+" companyCode="+companyCode);
+				 //System.out.println(">>>>>>>>>>>>>>>>>>>>tzxmwcqktjb_detail_data>参数      month = "+month+" companyCode="+companyCode);
 				
 
 				 String g0PROJCODE = CommonUtil.getParameter(request, "g0PROJCODE", "");
@@ -237,7 +237,7 @@ public class ScientificInvestmentController {
 					}
 				} 
 				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-				System.out.println(">>>>>>>>>>>>>>>tzxmwcqktjb_detail_data " + resultObj.toString());
+				//System.out.println(">>>>>>>>>>>>>>>tzxmwcqktjb_detail_data " + resultObj.toString());
 				return resultObj.toString();
 
 			}
@@ -256,7 +256,7 @@ public class ScientificInvestmentController {
 		   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
 		   		paramMap.put("month", month);
 		   		paramMap.put("companyCode", companyCode);
-		   		System.out.println(">tzxmwcqktjb_detail_data_exput_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+		   		//System.out.println(">tzxmwcqktjb_detail_data_exput_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
 		   		
 		   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
 		   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(tzxmwcqktjb_detail_data, HttpMethod.POST, httpEntity, JSONArray.class);

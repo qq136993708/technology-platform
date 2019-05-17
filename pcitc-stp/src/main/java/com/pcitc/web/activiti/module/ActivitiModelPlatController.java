@@ -44,6 +44,7 @@ public class ActivitiModelPlatController extends BaseController {
 	private static final String MODEL_LIST = "http://pcitc-zuul/system-proxy/activity-provider/model/list";
 
 	private static final String RESOURCE_DATA = "http://pcitc-zuul/system-proxy/modeler-provider/resource/byte";
+	private static final String RESOURCE_IMAGE_PATH = "http://pcitc-zuul/system-proxy/modeler-provider/resource/image/path";
 	private static final String MODEL_DEPLOY_URL = "http://pcitc-zuul/system-proxy/modeler-provider/model/deploy";
 	private static final String MODEL_DELETE_URL = "http://pcitc-zuul/system-proxy/modeler-provider/model/delete";
 	private static final String MODEL_EXPORT_URL = "http://pcitc-zuul/system-proxy/modeler-provider/model/export";
@@ -78,7 +79,12 @@ public class ActivitiModelPlatController extends BaseController {
 	 */
 	@RequestMapping(value = "/activiti-model/show/{modelId}")
 	public String showResoure(@PathVariable("modelId") String modelId, HttpServletRequest request) {
-		
+		WorkflowVo workflowVo = new WorkflowVo();
+		workflowVo.setModelId(modelId);
+		ResponseEntity<String> fileStream = this.restTemplate.exchange(RESOURCE_IMAGE_PATH, HttpMethod.POST, new HttpEntity<WorkflowVo>(workflowVo, this.httpHeaders), String.class);
+		String imagePath = fileStream.getBody();
+		System.out.println("imagePath====="+imagePath);
+		request.setAttribute("imagePath", imagePath);
 		return "/pplus/workflow/model-show";
 	}
 	
