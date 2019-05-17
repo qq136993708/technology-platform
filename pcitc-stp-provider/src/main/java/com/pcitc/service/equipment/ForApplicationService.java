@@ -32,6 +32,8 @@ public interface ForApplicationService {
 	public int upForapplication(String id);
 
 	public Result dealPurchaseFlow(String id, Map map)throws Exception;
+	//科技资产查询
+	public LayuiTableData getResearchAssetsList(LayuiTableParam param);
 
 	
 	

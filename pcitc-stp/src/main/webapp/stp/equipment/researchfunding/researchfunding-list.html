@@ -25,7 +25,7 @@
 </form>
  <input type="hidden" name="applicationState" id="applicationState" value="${applicationState}">
  <input type="hidden" name="applyDepartCode" id="applyDepartCode" value="${applyDepartCode}">
- <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
+ <input type="hidden" name="isKJBPerson" id="isKJBPerson" value="true">
     <!--查询条件-->
     <label class="dateInput">
     <span>资产立项年度</span>
@@ -186,6 +186,8 @@ var name=$('#name').val();
             	$('#setupYear').val("");
             	$('#name').val("");
             	$('#auditStatus').val("");
+            	$('#applydepartname').val("");
+            	$('#applicationUserName').val("");
             },
             addEvent: function(){ //点击新增按钮
                 layer.open({
@@ -389,7 +391,7 @@ var name=$('#name').val();
            elem: '#processdef-table',
            url: '/sre-researchfunding/list',
            method:"POST",
-           where: {param: {"applicationName":$("#name").val(),"applicationTime":$("#setupYear").val(),"applyDepartName":$("#applydepartname").val(),"applicationUserName":$("#applicationUserName").val(),"applicationState":$("#applicationState").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+           where: {param: {"applicationName":$("#name").val(),"applicationTime":$("#setupYear").val(),"applyDepartName":$("#applydepartname").val(),"applicationUserName":$("#applicationUserName").val(),"applicationState":$("#applicationState").val(),"applyDepartCode":$("#applyDepartCode").val(),"isKJBPerson":$("#isKJBPerson").val()}},
            limit: 15,
            id: 'processdef-table',
            height: commonDislodgeTable(),
@@ -402,12 +404,17 @@ var name=$('#name').val();
                theme: '#0F9EE0'
            },
            cols: [[
-           	{type : 'checkbox', event : 'changeEvents', width : 55},
            	{title : '序号', type : 'numbers', width : 55},
-            {field : 'applicationName',     title : '转资名称', style : 'cursor: pointer;', align : 'left', width : '30%',templet:function(d){return '<span onclick="view(\''+d.applicationId+'\')" style="color:#17a2b8">'+d.applicationName+'</span>'} },
-            {field : 'applicationUserName', title : '转资申请人', style : 'cursor: pointer;', align : 'left', width : '29%'},
-            {field : 'applicationTime', title : '转资时间', style : 'cursor: pointer;', align : 'center',width : '22%', templet : '#dateTpl'},
-           ]],
+           	{field : 'assetNumber', title : '资产编号', style : 'cursor: pointer;', align : 'left', width : '15%'},
+            {field : 'applicationName',     title : '资产名称', style : 'cursor: pointer;', align : 'left', width : '30%',templet:function(d){return '<span onclick="view(\''+d.applicationId+'\')" style="color:#17a2b8">'+d.applicationName+'</span>'} },
+            {field : 'applicationUserName', title : '资产申请人', style : 'cursor: pointer;', align : 'left', width : '15%'},
+            {field : 'applicationTime', title : '资产时间', style : 'cursor: pointer;', align : 'center',width : '15%', templet : '#dateTpl'},
+            {field : 'applyDepartName',     title : '资产申请部门', style : 'cursor: pointer;', align : 'left', width : '15%' },
+            {field : 'equipmentName', title : '装备名称', style : 'cursor: pointer;', align : 'left', width : '15%'},
+            {field : 'equipmenNumber', title : '数量', style : 'cursor: pointer;', align : 'center',width : '15%'},
+            {field : 'assetNumber', title : '资产编号', style : 'cursor: pointer;', align : 'left', width : '15%'},
+            {field : 'isscrap', title : '是否报废', style : 'cursor: pointer;', align : 'center',width : '15%'},
+            ]],
            done: function (res, curr, count) {
                // 点击行联动选择框--单选
                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
