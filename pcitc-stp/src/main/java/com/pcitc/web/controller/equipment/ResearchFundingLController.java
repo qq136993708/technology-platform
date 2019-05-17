@@ -15,11 +15,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.utils.EquipmentUtils;
 
 @Controller
 public class ResearchFundingLController extends BaseController {
 	
-	private static final String PAGE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/forapplication/page";
+	private static final String PAGE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/researchassets/page";
 	
 	/**
 	 * 列表
@@ -45,7 +46,7 @@ public class ResearchFundingLController extends BaseController {
 	}
 
 	@RequestMapping(value = "/sre-researchfunding/to-list")
-	public String list(HttpServletRequest request, HttpServletResponse response) {
+	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String	parentUnitPathIds="";
 		String unitPathIds =   sysUserInfo.getUnitPath();
@@ -58,8 +59,8 @@ public class ResearchFundingLController extends BaseController {
 				
 			}
 		}
-		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
-		request.setAttribute("applyDepartCode", applyDepartCode);
+		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathIds);
+	    request.setAttribute("isKJBPerson", isKJBPerson);
  		return "/stp/equipment/researchfunding/researchfunding-list";
 	}
 	
