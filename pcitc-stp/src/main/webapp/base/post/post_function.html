@@ -13,6 +13,10 @@
     <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
     <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <style>
+        .left-side-tree .layui-side-scroll{height: 92%;}
+        .form-control{margin-left: 10px;margin-top: 10px;}
+    </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini" style="background:#fff;">
 <div class="treeTableContainer">
@@ -201,7 +205,7 @@
                 height: 196,
                 cols: [[
                     {type:'checkbox', event:'postTableEvent'},
-                    {title:'序号', type:'numbers'},
+                    {title:'序号', type:'numbers' ,width : 55},
                     {field:'postName',   title:'岗位名称',  style:'cursor: pointer;'},
                     {field:'postCode',      title:'岗位编码', style:'cursor: pointer;'},
                     {field:'postKind',   title:'岗位类型',  style:'cursor: pointer;'},
@@ -253,7 +257,7 @@
                 height: "full-220",
                 cols: [[
                     {type:'checkbox',event:'cEvent'},
-                    {title:'序号', type:'numbers'},
+                    {title:'序号', type:'numbers' ,width : 55},
                     {field:'name',   title:'按钮名称',  style:'cursor: pointer;'},
                     {field:'code',      title:'按钮编码', style:'cursor: pointer;'}
                 ]],
