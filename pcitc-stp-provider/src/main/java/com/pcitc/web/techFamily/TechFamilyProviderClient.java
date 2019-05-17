@@ -1,6 +1,7 @@
 package com.pcitc.web.techFamily;
 
 import com.pcitc.base.stp.out.OutProjectInfo;
+import com.pcitc.base.stp.techFamily.TechFamilyExample;
 import com.pcitc.base.util.DateUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -249,13 +250,23 @@ public class TechFamilyProviderClient {
 	@RequestMapping(value = "/tech-family-provider/max-type-code", method = RequestMethod.POST)
 	public JSONObject getMaxTechTypeCode(@RequestBody HashMap<String, String> map) {
 		String maxTypeCode = techFamilyService.getMaxTechTypeCode(map);
-		String retCode = "101";
+		String retCode = "";
 		JSONObject retJson = new JSONObject();
 		if (maxTypeCode != null) {
 			// 取后四位+1
 			String temcode = maxTypeCode.substring(maxTypeCode.length() - 4, maxTypeCode.length());
-			retCode = maxTypeCode.substring(0, maxTypeCode.length() - 4) + String.valueOf(Integer.parseInt(temcode) + 1);
-		}
+			int l = Integer.parseInt(temcode) + 1;
+            String str = "";
+            for (int i = 0; i < 4-(l+"").length(); i++) {
+                str = str+"0";
+            }
+			retCode = maxTypeCode.substring(0, maxTypeCode.length() - 4) + str+l;
+		}else {
+            TechFamily tf = new TechFamily();
+            tf.setTfmTypeId(map.get("parentId"));
+            List<TechFamily> techFamilies = this.techFamilyService.selectTechFamilyTypeList(tf);
+            retCode = techFamilies.get(0).getTypeCode()+"0001";
+        }
 		retJson.put("maxTypeCode", retCode);
 		return retJson;
 	}
@@ -277,18 +288,31 @@ public class TechFamilyProviderClient {
         List<TechFamily> techFamilies = new ArrayList<>();
         for (int j = 1; j < valByRow.size(); j++) {
 
-            String pid = (String) valByRow.get(j).get(0);//父ID
+            String pid = valByRow.get(j).get(0).toString().trim();//父ID
             String id = (String) valByRow.get(j).get(1);//ID
             String name = (String) valByRow.get(j).get(2);//name
 
             //获取最大编码
             HashMap<String, String> map = new HashMap<String, String>();
             map.put("parentId", pid);
+
             String maxTypeCode = techFamilyService.getMaxTechTypeCode(map);
-            String retCode = "101";
+            String retCode = "";
+            JSONObject retJson = new JSONObject();
             if (maxTypeCode != null) {
+                // 取后四位+1
                 String temcode = maxTypeCode.substring(maxTypeCode.length() - 4, maxTypeCode.length());
-                retCode = maxTypeCode.substring(0, maxTypeCode.length() - 4) + String.valueOf(Integer.parseInt(temcode) + 1);
+                int l = Integer.parseInt(temcode) + 1;
+                String str = "";
+                for (int i = 0; i < 4-(l+"").length(); i++) {
+                    str = str+"0";
+                }
+                retCode = maxTypeCode.substring(0, maxTypeCode.length() - 4) + str+l;
+            }else {
+                TechFamily tf = new TechFamily();
+                tf.setTfmTypeId(map.get("parentId"));
+                List<TechFamily> families = this.techFamilyService.selectTechFamilyTypeList(tf);
+                retCode = families.get(0).getTypeCode()+"0001";
             }
 
 
