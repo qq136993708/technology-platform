@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en"  style="height: 100%">
+<head>
+    <meta charset="UTF-8">
+    <title>技术族分类</title>
+
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+    <!--<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>-->
+    <!--<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>-->
+    <!--<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=xfhhaTThl11qYVrqLZii6w8qE5ggnhrY&__ec_v__=20190126"></script>-->
+    <!--<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>-->
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
+
+</head>
+<body style="height: 100%; margin: 0">
+<div id="container" style="height: 100%"></div>
+
+<script type="text/javascript">
+
+    var name="${name}";
+    var value="${value}";
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+
+    var axisData = name.split(",");
+    // var axisData = ['聚凝剂','柴油调和技术','聚丙烯','钻井工艺','铂助燃剂','抗静电剂技术','环烷油','解冻剂','柴油调和技术','生物质气化技术'];
+    var data = axisData.map(function (item, i) {
+        // var d = Math.round(Math.random() * 1000 * (i + 1));
+        // console.log(i+"---"+d);
+        var d = value.split(",")[i] ;
+        // if (i==0){
+        //     d = 477;
+        // }else if (i == 1) {
+        //     d = 1218;
+        // }else if (i == 2) {
+        //     d = 2435;
+        // }else if (i == 3) {
+        //     d = 842;
+        // }else if (i == 4) {
+        //     d = 261;
+        // }else if (i == 5) {
+        //     d = 2111;
+        // }else if (i == 6) {
+        //     d = 4773;
+        // }else if (i == 7) {
+        //     d = 3678;
+        // }else if (i == 8) {
+        //     d = 2596;
+        // }else if (i == 9) {
+        //     d = 1960;
+        // }
+        return d;
+    });
+    var links = data.map(function (item, i) {
+        return {
+            source: i,
+            target: i + 1
+        };
+    });
+    links.pop();
+    option = {
+        title: {
+            text: '技术族热点技术使用频率图'
+        },
+        tooltip: {},
+        xAxis: {
+            type : 'category',
+            boundaryGap : false,
+            data : axisData
+        },
+        yAxis: {
+            type : 'value'
+        },
+        series: [
+            {
+                type: 'graph',
+                layout: 'none',
+                coordinateSystem: 'cartesian2d',
+                symbolSize: 40,
+                label: {
+                    normal: {
+                        show: true
+                    }
+                },
+                edgeSymbol: ['circle', 'arrow'],
+                edgeSymbolSize: [4, 10],
+                data: data,
+                links: links,
+                lineStyle: {
+                    normal: {
+                        color: '#2f4554'
+                    }
+                }
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+</body>
+</html>

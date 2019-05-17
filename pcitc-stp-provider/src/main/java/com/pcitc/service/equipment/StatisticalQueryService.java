@@ -7,4 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public interface StatisticalQueryService {
     LayuiTableData getPurchaseEquipmenList(LayuiTableParam paramsJson) throws Exception;
+
+    LayuiTableData getProjectEquipmentList(LayuiTableParam paramsJson);
 }

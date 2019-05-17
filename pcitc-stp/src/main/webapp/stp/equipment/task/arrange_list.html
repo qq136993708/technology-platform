@@ -15,6 +15,7 @@
     </style>
 </head>
 <body>
+<div id="bodyId" <#if isKJBPerson == true || isKJBPerson=='true'>style="display:none"</#if>>
 <div class="searchBox">
     <!--查询条件-->
     <form action="" name="form1"  id="form1" >
@@ -22,6 +23,7 @@
        <input type="hidden" name="taskWriteUsersIds" id="taskWriteUsersIds" >
        <input type="hidden" name="id" id="id" >
        <input type="hidden" name="applyUnitCode" id="applyUnitCode" value="${applyUnitCode}">
+       <input type="hidden" name="isKJBPerson" id="isKJBPerson" value="${isKJBPerson}">
     </form>
      <form action="" name="form2"  id="form2" >
        <input type="hidden" name="auditStatus" id="auditStatus" value="${auditStatus}">
@@ -76,6 +78,7 @@
         </div>
     </div>
    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table> 
+</div>
 </div>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script id="taskWrite_UserNames" type="text/html"> {{taskWriteUserNames(d.taskWriteUserNames)}} </script>
@@ -202,6 +205,7 @@ function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
 <!--表格数据操作js-->
 
 <script>
+var isKJBPerson=$('#isKJBPerson').val();
 var publicMethods;
 var param=JSON.parse(window.localStorage.getItem("param"));
 var functionId=param.id;
@@ -237,7 +241,10 @@ var name=$('#name').val();
            ,type: 'year'
        });
   	   
-  	   
+  	 if(isKJBPerson==true || isKJBPerson=='true')
+     {
+     	   layer.alert('请以院所计划管理员的身份操作');
+     }
          // 触发不同的按钮事件
          var $ = layui.$, active = {
             searchEvent: function() { //点击查询按钮

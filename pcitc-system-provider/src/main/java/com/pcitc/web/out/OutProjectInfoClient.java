@@ -209,6 +209,17 @@ public class OutProjectInfoClient {
 	public OutProjectInfo getOutProjectShow(@PathVariable(value = "dataId", required = true) String dataId) throws Exception{
 		return outProjectService.getOutProjectShowById(dataId);
 	}
+
+	@ApiOperation(value = "根据id查询详情", notes = "根据id查询详情")
+	@RequestMapping(value = "/out-provider/get-project-list-fc/{dataId}", method = RequestMethod.POST)
+	public OutProjectInfo getOutProjectShowFc(@PathVariable(value = "dataId", required = true) String dataId) throws Exception{
+		return outProjectService.getOutProjectShowByIdFc(dataId);
+	}
+
+    @RequestMapping(value = "/out-provider/get-project-list-count/{dataId}", method = RequestMethod.POST)
+    public JSONObject getOutProjectShowCount(@PathVariable(value = "dataId", required = true) String dataId) throws Exception{
+        return outProjectService.getOutProjectShowCount(dataId);
+    }
 	
 	@ApiOperation(value = "首页查询各单位的新开、续建、完结情况", notes = "参数暂时是空")
 	@RequestMapping(value = "/out-project-provider/type/unit/list")

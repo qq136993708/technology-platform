@@ -3,6 +3,7 @@ package com.pcitc.service.techFamily;
 import java.util.HashMap;
 import java.util.List;
 
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
@@ -54,4 +55,6 @@ public interface TechFamilyService {
 	 * @return
 	 */
 	public String getMaxTechTypeCode(HashMap<String, String> map);
+
+    public JSONObject getTfcProject(JSONObject jsonObject);
 }

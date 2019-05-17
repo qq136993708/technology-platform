@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.service.budget.BudgetInfoService;
 
@@ -141,5 +143,28 @@ public class BudgetInfoProviderClient
 			e.printStackTrace();
 		}
 		return info;
+	}
+	
+	@ApiOperation(value="集团公司预算-审批流程回调通知",notes="审批结果回调通知")
+	@RequestMapping(value = "/stp-provider/budget/callback-workflow-notice-budgetinfo")
+	public Object callBackProjectNoticeWorkflow(@RequestParam(value = "budgetId", required = true) String budgetId,
+			@RequestParam(value = "workflow_status", required = true) Integer workflow_status) throws Exception 
+	{
+		BudgetInfo info = budgetInfoService.selectBudgetInfo(budgetId);
+		//如果审批通过
+		if(BudgetAuditStatusEnum.AUDIT_STATUS_PASS.getCode().equals(workflow_status)) {
+			//将当年的其他值设置为审批通过
+			List<BudgetInfo> infos = budgetInfoService.selectBudgetInfoList(info.getNd(), info.getBudgetType());
+			for(BudgetInfo i:infos) {
+				//最终版本只有一个，多次审批后以最后一次审批为准
+				if(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode().equals(i.getAuditStatus())) {
+					i.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_PASS.getCode());
+					budgetInfoService.updateBudgetInfo(i);
+				}
+			}
+		}
+		//更新状态
+		info.setAuditStatus(workflow_status);
+		return budgetInfoService.updateBudgetInfo(info);
 	}
 }

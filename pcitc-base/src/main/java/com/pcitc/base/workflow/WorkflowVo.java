@@ -66,6 +66,12 @@ public class WorkflowVo implements Serializable {
 	
 	private String instanceId;
 	
+	private String auditDetailsPath;		//业务详情URL
+	
+	private String auditAgreeMethod;		//审批通过回调URL
+	
+	private String auditRejectMethod;		//审批驳回回调URL
+	
 	private List<SysFile> fileList;
 	
 	
@@ -344,5 +350,30 @@ public class WorkflowVo implements Serializable {
 	public void setProcessInstanceName(String processInstanceName) {
 		this.processInstanceName = processInstanceName;
 	}
+
+	public String getAuditDetailsPath() {
+		return auditDetailsPath;
+	}
+
+	public void setAuditDetailsPath(String auditDetailsPath) {
+		this.auditDetailsPath = auditDetailsPath;
+	}
+
+	public String getAuditAgreeMethod() {
+		return auditAgreeMethod;
+	}
+
+	public void setAuditAgreeMethod(String auditAgreeMethod) {
+		this.auditAgreeMethod = auditAgreeMethod;
+	}
+
+	public String getAuditRejectMethod() {
+		return auditRejectMethod;
+	}
+
+	public void setAuditRejectMethod(String auditRejectMethod) {
+		this.auditRejectMethod = auditRejectMethod;
+	}
+	
 	
 }
