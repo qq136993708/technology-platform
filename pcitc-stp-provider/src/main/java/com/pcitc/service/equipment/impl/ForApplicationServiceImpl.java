@@ -1,5 +1,6 @@
 package com.pcitc.service.equipment.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -19,9 +20,12 @@ import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.stp.equipment.SreDetail;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreForApplication;
 import com.pcitc.base.stp.equipment.SrePurchase;
+import com.pcitc.base.stp.equipment.SreResearchAssets;
+import com.pcitc.mapper.equipment.SreDetailMapper;
 import com.pcitc.mapper.equipment.SreEquipmentMapper;
 import com.pcitc.mapper.equipment.SreForApplicationMapper;
 import com.pcitc.service.equipment.ForApplicationService;
@@ -38,6 +42,8 @@ public  class ForApplicationServiceImpl implements ForApplicationService {
 	private SreEquipmentMapper sreEquipmentMapper;
 	@Autowired
 	private WorkflowRemoteClient workflowRemoteClient;
+	@Autowired
+	private SreDetailMapper sreDetailMapper; 
 	
 	private String getTableParam(LayuiTableParam param,String paramName,String defaultstr)
 	{
@@ -285,5 +291,72 @@ public  class ForApplicationServiceImpl implements ForApplicationService {
             return new Result(false,"操作失败!");
         }
     }
+
+
+	@Override
+	public LayuiTableData getResearchAssetsList(LayuiTableParam param) {
+		int pageSize = param.getLimit();
+		//从第多少条开始
+		int pageStart = (param.getPage()-1)*pageSize;
+		//当前是第几页
+		int pageNum = pageStart/pageSize + 1;
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
+		String isKJBPerson=getTableParam(param,"isKJBPerson","");
+		if(isKJBPerson.equals("true")) {
+		String applyDepartName=getTableParam(param,"applyDepartName","");
+		String applicationName=getTableParam(param,"applicationName","");
+		String applicationUserName=getTableParam(param,"applicationUserName","");
+		String applicationTime=getTableParam(param,"applicationTime","");
+		Map map=new HashMap();
+		map.put("applyDepartName", applyDepartName);
+		map.put("applicationName", applicationName);
+		map.put("applicationUserName", applicationUserName);
+		map.put("applicationTime", applicationTime);
+		List<SreForApplication> list = sreforapplicationMapper.getList(map);
+		List<SreResearchAssets> sreResearchAssets = new ArrayList<>();
+		SreResearchAssets researchAssets = new SreResearchAssets();
+		if(list.size()!=0) {
+			for(SreForApplication application : list) {
+				researchAssets.setApplicationName(application.getApplicationName());//获取资产名称
+				researchAssets.setApplicationTime(application.getApplicationTime());//获取资产时间
+				researchAssets.setApplicationUserName(application.getApplicationUserName());//资产申请人
+				researchAssets.setApplyDepartName(application.getApplyDepartName());//资产申报部门
+				String[] str = application.getApplicationPurchaseid().split(",");//获取装备ID 
+				for(int i =0;i<str.length;i++) {
+					SreDetail SreDetail = sreDetailMapper.selectaRchaseidKey(str[i]);
+					researchAssets.setEquipmentName(SreDetail.getEquipmentName());//装备名称
+					researchAssets.setEquipmenNumber(SreDetail.getEquipmenNumber());//装备数量
+					researchAssets.setEquipmentPrice(SreDetail.getEquipmentPrice());//装备价格
+					researchAssets.setDeclareTime(SreDetail.getDeclareTime());//申请时间
+					researchAssets.setAssetNumber(SreDetail.getAssetNumber());//资产编号
+					if(SreDetail.getIsscrap().equals("0")) {
+						researchAssets.setIsscrap("未报废");//是否报废
+					}else {
+						researchAssets.setIsscrap("已报废");//是否报废
+					}
+					sreResearchAssets.add(researchAssets);
+				}
+			}
+		}
+		PageInfo<SreResearchAssets> pageInfo = new PageInfo<SreResearchAssets>(sreResearchAssets);
+		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+	    return data;
+	    
+		}else {
+			List<SreForApplication> list = new ArrayList<SreForApplication>();
+			PageInfo<SreForApplication> pageInfo = new PageInfo<SreForApplication>(list);
+			System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
+			LayuiTableData data = new LayuiTableData();
+			data.setData(pageInfo.getList());
+			Long total = pageInfo.getTotal();
+			data.setCount(total.intValue());
+		    return data;
+		}
+	}
 
 }
