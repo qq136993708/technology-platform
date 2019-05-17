@@ -21,6 +21,7 @@ import com.pcitc.mapper.plan.PlanBaseMapper;
 import com.pcitc.service.plan.PlanBaseService;
 import com.pcitc.service.system.StandardBaseService;
 import com.pcitc.service.system.SysFileService;
+import com.pcitc.utils.OSSUtil;
 import org.apache.ibatis.annotations.Param;
 import org.olap4j.Axis;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -267,7 +268,8 @@ public class PlanBaseServiceImpl implements PlanBaseService {
             for (int a = 0; a < sysFiles.size(); a++) {
                 System.out.println(sysFiles.get(a).getFilePath());
 //                List<Map<Point, Object>> maps = ImportExce.readExcelAllCellVal(new File("D:\\files\\uploadPath\\file\\a5d3946e876744cc81f59891f417737d\\20190508113215292_file_16a957fb33c_6630fd93.xls"));
-                List<Map<Point, Object>> maps = ImportExce.readExcelAllCellVal(new File(sysFiles.get(a).getFilePath()));
+                List<Map<Point, Object>> maps = ImportExce.readWorkBook(OSSUtil.getOssFileIS(sysFiles.get(a).getFilePath().split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]),sysFiles.get(a).getFileName());
+//                List<Map<Point, Object>> maps = ImportExce.readExcelAllCellVal(new File(sysFiles.get(a).getFilePath()));
 
                 if (maps==null){
                     continue;
@@ -303,8 +305,8 @@ public class PlanBaseServiceImpl implements PlanBaseService {
             for (int a = 0; a < sysFiles.size(); a++) {
                 System.out.println(sysFiles.get(a).getFilePath());
 //                List<Map<Point, Object>> maps = ImportExce.readExcelAllCellVal(new File("D:\\files\\uploadPath\\file\\a5d3946e876744cc81f59891f417737d\\20190508113215292_file_16a957fb33c_6630fd93.xls"));
-                List<Map<Point, Object>> maps = ImportExce.readExcelAllCellVal(new File(sysFiles.get(a).getFilePath()));
-
+//                List<Map<Point, Object>> maps = ImportExce.readExcelAllCellVal(new File(sysFiles.get(a).getFilePath()));
+                List<Map<Point, Object>> maps = ImportExce.readWorkBook(OSSUtil.getOssFileIS(sysFiles.get(a).getFilePath().split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]),sysFiles.get(a).getFileName());
                 if (maps==null){
                     continue;
                 }
