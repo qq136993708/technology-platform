@@ -18,31 +18,31 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.pcitc.base.stp.out.OutPatentWithBLOBs;
-import com.pcitc.service.out.OutPatentService;
+import com.pcitc.base.stp.out.OutReward;
+import com.pcitc.service.out.OutRewardService;
 
-@Api(value = "对外提供的专利信息接收接口", tags = { "专利信息接收" })
+@Api(value = "对外提供的奖励信息接收接口", tags = { "奖励信息接收" })
 @RestController
-public class PatentAPIClient {
-	private final static Logger logger = LoggerFactory.getLogger(PatentAPIClient.class);
+public class RewardAPIClient {
+	private final static Logger logger = LoggerFactory.getLogger(RewardAPIClient.class);
 
 	@Autowired
-	private OutPatentService outPatentService;
+	private OutRewardService outRewardService;
 
-	@ApiOperation(value = "保存专利信息", notes = "数据表不分行项目，就一张表")
-	@RequestMapping(value = "/patent-api/info/add", method = RequestMethod.POST)
-	public JSONObject saveOutPatentInfo(@RequestBody String jsonStr) throws Exception {
-		System.out.println("saveOutPatentInfo==================" + jsonStr);
+	@ApiOperation(value = "保存奖励信息", notes = "数据表不分行项目，就一张表")
+	@RequestMapping(value = "/reward-api/info/add", method = RequestMethod.POST)
+	public JSONObject saveOutReward(@RequestBody String jsonStr) throws Exception {
+		System.out.println("saveOutReward==================" + jsonStr);
 		JSONObject json = JSONObject.parseObject(jsonStr);
 		JSONArray jsonArray = json.getJSONArray("itemList");
-		List<OutPatentWithBLOBs> itemList = new ArrayList<OutPatentWithBLOBs>();
+		List<OutReward> itemList = new ArrayList<OutReward>();
 		for (int i = 0; i < jsonArray.size(); i++) {
 			JSONObject temJson = jsonArray.getJSONObject(i);
-			OutPatentWithBLOBs op = JSON.toJavaObject(temJson,OutPatentWithBLOBs.class);
+			OutReward op = JSON.toJavaObject(temJson,OutReward.class);
 			op.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
 			itemList.add(op);
 		}
-		outPatentService.insertPatentData(itemList);
+		outRewardService.insertRewardData(itemList);
 		JSONObject result = new JSONObject();
 		result.put("resCode", "0");
 		result.put("resMsg", "success");
