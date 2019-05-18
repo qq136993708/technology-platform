@@ -65,8 +65,11 @@
 			window.downloadFile = function(index){
 				window.open(encodeURI("/out/report_download?fileName="+files[index],"UTF-8"));
 			}
+			console.log("starting ......");
 			function renderTable() {
+				console.log("renderTable ......");
 				var param = JSON.parse(window.localStorage.getItem("param"));
+				console.log("param ......");
 				var lodingMsg = layer.msg('数据加载中....');
 				
 				//渲染
@@ -141,6 +144,7 @@
 	                    }
 					}] ],
 					done : function(res, curr, count) {
+						console.log("table done ......");
 						// 关闭等待刷新
 						layer.close(lodingMsg);
 						// 点击行联动选择框--单选
