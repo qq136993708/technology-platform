@@ -196,9 +196,11 @@ public class BudgetInfoProviderClient
 					budgetInfoService.updateBudgetInfo(i);
 				}
 			}
+			info.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
+		}else {
+			//更新状态
+			info.setAuditStatus(workflow_status);
 		}
-		//更新状态
-		info.setAuditStatus(workflow_status);
 		return budgetInfoService.updateBudgetInfo(info);
 	}
 }
