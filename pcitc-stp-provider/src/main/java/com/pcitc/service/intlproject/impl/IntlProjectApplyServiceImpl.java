@@ -216,6 +216,7 @@ public class IntlProjectApplyServiceImpl implements IntlProjectApplyService {
 		if(param.getOrderClause() != null) {
 			example.setOrderByClause(param.getOrderClause());
 		}
+		example.setOrderByClause("create_time desc");
 		return findByExample(param,example);
 	}
 	@Override
