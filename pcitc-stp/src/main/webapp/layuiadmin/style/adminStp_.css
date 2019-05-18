@@ -50,9 +50,9 @@ html{background-color: #f2f2f2; color: #666;}
 .layadmin-pagetabs,
 .layui-layout-admin .layui-body,
 .layui-layout-admin .layui-footer{left: 220px;}
-.layadmin-pagetabs{position: fixed; top: 100px; right: 0; z-index: 999;}
+.layadmin-pagetabs{position: fixed; top: 91px; right: 0; z-index: 999;}
 .layadmin-pagetabs .layui-breadcrumb{padding: 0 15px;}
-.layui-layout-admin .layui-body{top: 161px; bottom: 40px;right: 19px;}
+.layui-layout-admin .layui-body{top: 130px; bottom: 40px;right: 19px;}
 .layui-leader-admin .layui-body{top: 50px;}
 .layui-body{ margin: 10px 0 0 0px;background: #fff;}
 .layui-layout-admin .layui-header .layui-nav-img{width: 26px; height: 26px;}
@@ -175,8 +175,8 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-form-item .layui-input-company{width: auto; padding-right: 10px; line-height: 38px;}
 
 /* 辅助 */
-.layadmin-flexible div{background:url("/layuiadmin/layui/images/stpicon_08.png") no-repeat;width: 16px;height: 12px;
-    position: absolute;right: 20px;top: 30%;cursor: pointer;}
+.layadmin-flexible div{background:url("/layuiadmin/layui/images/stpicon_08.png") no-repeat;
+    width: 18px;height: 18px;position: absolute;right: 20px;top: 12px;cursor: pointer;}
 
 .layui-bg-white{background-color: #fff;}
 .layadmin-loading{position: absolute; left: 50%; top: 50%; margin: -16px -15px; font-size: 30px; color: #c2c2c2;}
@@ -421,7 +421,7 @@ html{background-color: #f2f2f2; color: #666;}
 /* 页面标签 */
 .layadmin-pagetabs{height: 40px; line-height: 40px; padding: 0 120px 0 0px; border: 1px solid #dfdfdf;
     background-color: #fff; box-sizing: border-box;
-    margin-right: 19px;margin-top: 24px;}
+    margin-right: 19px;}
 .layadmin-pagetabs .layadmin-tabs-control{position: absolute; top: 0; width: 40px; height: 100%; text-align: center; cursor: pointer; transition: all .3s; -webkit-transition: all .3s; box-sizing: border-box; border-left: 1px solid #f6f6f6;}
 .layadmin-pagetabs .layadmin-tabs-control:hover{background-color: #f6f6f6;}
 .layadmin-pagetabs .layui-icon-prev{right: 80px; border-left: 1px solid #f6f6f6; border-right: none;}
