@@ -208,8 +208,8 @@
 	        contentType: false,  
 	        processData: false,
 	        success : function(msg) {
-	        	$("#userExtend").val("/sysfile/viewPicByte/"+msg.fileIds);
-	        	$(".photo_box").html('<img src="/sysfile/viewPicByte/'+msg.fileIds+'" style="width: 140px;height: 173px" />');
+	        	$("#userExtend").val(msg.filePath);
+	        	$(".photo_box").html('<img src="'+msg.filePath+'" style="width: 140px;height: 173px" />');
 	        }  
 		}); 			
 	});
@@ -372,7 +372,7 @@
 	        		$("#userUnit").val(unitText.length>0?unitText.substring(1):"");
 	        		
 	        		//头像
-	        		if($("#userExtend").val() != null && $("#userExtend").val() == ""){
+	        		if($("#userExtend").val() != null && $("#userExtend").val() != ""){
 	        	     	$(".photo_box").html('<img src="'+data.userExtend+'" style="width: 140px;height: 173px" />');
 	        		}
 	           	 

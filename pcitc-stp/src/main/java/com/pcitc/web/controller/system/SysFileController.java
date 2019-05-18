@@ -611,21 +611,17 @@ public class SysFileController extends BaseController {
 
     @RequestMapping(value = "/sysfile/uploadSignMultipleFile", method = RequestMethod.POST)
     @ResponseBody
-    public FileResult uploadSignMultipleFile(@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public SysFile uploadSignMultipleFile(@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws IOException {
         // 单个文件上传
         String uuid = IdUtil.createIdByTime();
 
-        sysFileFeignClient.uploadFileSavetest(file, request, response, file.getOriginalFilename(), request.getParameter("fileId"), sysUserInfo.getUserId(), uuid);
-        SysFile sysFile = this.restTemplate.exchange(GET + uuid, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysFile.class).getBody();
-
-        List<SysFile> fileList = new ArrayList<>();
-        fileList.add(sysFile);
-        FileResult result = new FileResult();
-        result.setList(fileList);
-
-        HttpEntity<Object> entity = new HttpEntity<Object>(result, this.httpHeaders);
-        FileResult rs = this.restTemplate.exchange(getPreivewSettings, HttpMethod.POST, entity, FileResult.class).getBody();
-        return rs;
+        String rsStr = sysFileFeignClient.uploadFileSavetest(file, request, response, file.getOriginalFilename(), request.getParameter("fileId"), sysUserInfo.getUserId(), uuid);
+        JSONArray array = JSON.parseArray(rsStr);
+        
+        SysFile sysFile = JSON.toJavaObject(JSON.parseObject(array.get(0).toString()), SysFile.class);
+        System.out.println("=============");
+        System.out.println(JSON.toJSONString(sysFile));
+        return sysFile;
     }
 
     /**
