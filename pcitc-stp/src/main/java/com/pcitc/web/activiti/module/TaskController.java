@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -502,20 +501,27 @@ public class TaskController extends BaseController {
 	 * @author zhf
 	 * @date 2018年4月23日 下午5:42:11
 	 */
-	@RequestMapping(value = "/task/process/image/{instanceId}", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
+	@RequestMapping(value = "/task/process/image/{instanceId}", method = RequestMethod.GET)
 	@ResponseBody
 	public String generateImage(@PathVariable("instanceId") String instanceId, HttpServletRequest request) {
 		WorkflowVo workflowVo = new WorkflowVo();
 		workflowVo.setInstanceId(instanceId);
 		ResponseEntity<byte[]> fileStream = this.restTemplate.exchange(TASK_PROCESS_INFO, HttpMethod.POST, new HttpEntity<WorkflowVo>(workflowVo, this.httpHeaders), byte[].class);
 		byte[] image = fileStream.getBody();
-		
+		OutputStream os = null;
 		try {
-			return IOUtils.toString(image, "utf-8");
+			os = response.getOutputStream();
+			os.write(image);
+			os.flush();
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
-		return null;
+		}
+		try {
+			os.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "ok";
 	}
 	
 	/**
