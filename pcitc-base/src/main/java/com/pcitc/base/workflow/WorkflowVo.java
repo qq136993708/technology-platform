@@ -72,6 +72,8 @@ public class WorkflowVo implements Serializable {
 	
 	private String auditRejectMethod;		//审批驳回回调URL
 	
+	private String messageUserIds;			//通知发起人
+	
 	private List<SysFile> fileList;
 	
 	
@@ -373,6 +375,14 @@ public class WorkflowVo implements Serializable {
 
 	public void setAuditRejectMethod(String auditRejectMethod) {
 		this.auditRejectMethod = auditRejectMethod;
+	}
+
+	public String getMessageUserIds() {
+		return messageUserIds;
+	}
+
+	public void setMessageUserIds(String messageUserIds) {
+		this.messageUserIds = messageUserIds;
 	}
 	
 	
