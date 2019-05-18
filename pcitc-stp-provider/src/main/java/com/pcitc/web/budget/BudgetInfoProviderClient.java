@@ -1,6 +1,7 @@
 package com.pcitc.web.budget;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
+import com.pcitc.base.util.MyBeanUtils;
+import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.service.budget.BudgetInfoService;
 
 import io.swagger.annotations.Api;
@@ -143,6 +147,36 @@ public class BudgetInfoProviderClient
 			e.printStackTrace();
 		}
 		return info;
+	}
+	@ApiOperation(value="启动项目申报审批",notes="启动项目申报信息审批流程。")
+	@RequestMapping(value = "/stp-provider/budget/start-budgetinfo-activity/{budgetId}", method = RequestMethod.POST)
+	public Object satrtApplyActivity(@PathVariable("budgetId") String budgetId,@RequestBody WorkflowVo workflowVo) 
+	{
+		BudgetInfo info;
+		Result rs = new Result(true,"操作成功!");
+		try {
+			info = budgetInfoService.selectBudgetInfo(budgetId);
+			//如果审批已发起则不能再次发起(审批中，审批通过，最终版本 这三种状态不可提交，编制中和审批驳回可以继续提交)
+			if(BudgetAuditStatusEnum.AUDIT_STATUS_START.getCode().equals(info.getAuditStatus()) 
+					|| BudgetAuditStatusEnum.AUDIT_STATUS_PASS.getCode().equals(info.getAuditStatus())
+					|| BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode().equals(info.getAuditStatus())) 
+			{
+				return new Result(false,"已发起审批不可重复发起！");
+			}
+			boolean status = budgetInfoService.startWorkFlow(info,workflowVo);
+	    	if(status) 
+			{
+	    		info.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_START.getCode());
+	    		budgetInfoService.updateBudgetInfo(info);
+			}
+	    	Map<String,Object> rsmap = MyBeanUtils.transBean2Map(info);
+	    	rsmap.put("auditStatusDesc", BudgetAuditStatusEnum.getStatusByCode(info.getAuditStatus()).getDesc());
+	    	rs.setData(rsmap);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result(false,"操作失败!");
+		}
+		return rs;
 	}
 	
 	@ApiOperation(value="集团公司预算-审批流程回调通知",notes="审批结果回调通知")

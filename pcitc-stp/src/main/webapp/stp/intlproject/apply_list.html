@@ -115,8 +115,10 @@
 				   			apply_status = "预审驳回";
 				   		}else if(res.data[i].flowCurrentStatus == 1){
 							apply_status = "审批中";
-				   		}else if(res.data[i].flowCurrentStatus == 1){
-				   			apply_status = "预审通过";
+				   		}else if(res.data[i].flowCurrentStatus == 2){
+							apply_status = "预审通过";
+				   		}else{
+				   			apply_status = "待审批";
 				   		}
 		            	$("tr[data-index='"+i+"'] td[data-field='flowStartStatus'] div").html(apply_status);
 		            	$("tr[data-index='"+i+"'] td[data-field='dcProjectCategory'] div").html(dicVal[res.data[i].dcProjectCategory]);

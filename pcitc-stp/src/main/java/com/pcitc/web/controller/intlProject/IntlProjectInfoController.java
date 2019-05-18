@@ -18,6 +18,7 @@ import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.common.WorkFlowStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfo;
 import com.pcitc.base.util.IdUtil;
@@ -56,7 +57,8 @@ public class IntlProjectInfoController extends BaseController {
 		info.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
 		info.setCreater(sysUserInfo.getUserId());
 		info.setCreaterName(sysUserInfo.getUserDisp());
-		if (info.getProjectId() == null) {
+		if (info.getProjectId() == null || "".equals(info.getProjectId())) {
+			info.setFlowCurrentStatus(WorkFlowStatusEnum.STATUS_WAITING.getCode());
 			info.setProjectId(IdUtil.createIdByTime());
 		}
 		ResponseEntity<Integer> status = this.restTemplate.exchange(PROJECT_INFO_ADDORUPD, HttpMethod.POST, new HttpEntity<IntlProjectInfo>(info, this.httpHeaders), Integer.class);
@@ -90,7 +92,7 @@ public class IntlProjectInfoController extends BaseController {
 	public Object startProjectApplyWorkflow(@RequestParam(value = "projectId", required = true) String projectId,
 			@RequestParam(value = "functionId", required = true) String functionId, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("开始审批！！！！" + projectId);
+		System.out.println("开始审批！！！！ projectId:" + projectId);
 		WorkflowVo vo = new WorkflowVo();
 		vo.setAuditUserIds(this.getUserProfile().getUserId());
 		vo.setFunctionId(functionId);
@@ -101,6 +103,7 @@ public class IntlProjectInfoController extends BaseController {
 		
 		HttpEntity<WorkflowVo> entity = new HttpEntity<WorkflowVo>(vo, this.httpHeaders);
 		Result rs = this.restTemplate.exchange(PROJECT_INFO_WORKFLOW_URL + projectId, HttpMethod.POST, entity, Result.class).getBody();
+		System.out.println(JSON.toJSONString(rs));
 		return rs;
 	}
 

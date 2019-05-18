@@ -552,5 +552,16 @@ public class SysFileClient {
         sysFileService.updateSysFileFlag(dataId);
         return DataOperationStatusEnum.UPD_OK;
     }
-
+    @ApiOperation(value = "从OSS下载文件", notes = "下载文件从")
+    @RequestMapping(value = "/sysfile-provider/sysfile/downloadFileFromOss")
+    public void downloadFileFromOss(HttpServletRequest request, HttpServletResponse response){
+        try 
+        {
+        	String filePath = request.getAttribute("filePath").toString();
+			sysFileService.downloadFileFromOss(filePath, response);
+		} 
+        catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
 }

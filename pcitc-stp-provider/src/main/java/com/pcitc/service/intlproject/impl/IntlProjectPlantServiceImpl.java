@@ -44,6 +44,7 @@ public class IntlProjectPlantServiceImpl implements IntlProjectPlantService {
 		{
 			criteria.andPlantNameLike("%"+param.getParam().get("plantName")+"%");
 		}
+		example.setOrderByClause("create_time desc");
 		return findByExample(param,example);
 	}
 	private LayuiTableData findByExample(LayuiTableParam param,IntlProjectPlantExample example) 

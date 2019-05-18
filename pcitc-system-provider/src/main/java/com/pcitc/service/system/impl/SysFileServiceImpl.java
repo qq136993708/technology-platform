@@ -1,11 +1,13 @@
 package com.pcitc.service.system.impl;
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1506,5 +1508,51 @@ public class SysFileServiceImpl implements SysFileService {
 			}
 		}
 	}
+
+	@Override
+	public void downloadFileFromOss(String path, HttpServletResponse res) throws IOException {
+		OutputStream out = null;
+		InputStream in = null;
+		try {
+			String name = path.substring(path.lastIndexOf("/"));
+			
+			
+			res.setHeader("content-type", "application/octet-stream");
+			res.setContentType("application/octet-stream");
+			res.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(name, "UTF-8"));
+
+			out = res.getOutputStream();
+			in = OSSUtil.getOssFileIS(path);
+
+			byte[] b = new byte[1000];
+			int len;
+			while ((len = in.read(b)) > 0) {
+				out.write(b, 0, len);
+			}
+			out.flush();
+			closeIO(in);
+			closeIO(out);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	    /**
+	     * 关闭IO
+	     * @param io
+	     */
+		public static void closeIO(Closeable io) 
+		{
+			if(io != null) 
+			{
+				try 
+				{
+					io.close();
+				}
+				catch(Exception e) 
+				{
+					e.printStackTrace();
+				}
+			}
+		}
 
 }
