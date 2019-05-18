@@ -231,20 +231,22 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 				ByteArrayInputStream in = new ByteArrayInputStream(bpmnBytes);
 				System.out.println("6xml=====部署model模型"+in.available());
 				String fileName = modelData.getId() + ".model.bpmn";
-				
+				System.out.println("7xml=====部署model模型"+uploadPath+"activiti/"+fileName);
 				// 上传xml到oss服务器
 				OSSUtil.uploadFileByInputStream(in, uploadPath+"activiti/", fileName);
 				
 				String realName = fileName.replaceAll("\\\\", "/");
+				System.out.println("8xml=====部署model模型"+realName);
 				return realName;
 			} else {
 				System.out.println("1image=====部署model模型"+workflowVo.getModelId());
 				byte[] pngBytes = repositoryService.getModelEditorSourceExtra(workflowVo.getModelId());
 				System.out.println("2image=====部署model模型"+pngBytes);
 				String fileName = modelData.getId() + ".model.png";
-				System.out.println("4image=====部署model模型");
+				System.out.println("3image=====部署model模型");
 				ByteArrayInputStream in = new ByteArrayInputStream(pngBytes);
-				// 上传xml到oss服务器
+				// 上传image到oss服务器
+				System.out.println("31image=====部署model模型"+uploadPath+"activiti/"+fileName);
 				String imagePath = OSSUtil.uploadFileByInputStream(in, uploadPath+"activiti/", fileName);
 				System.out.println("4image=====部署model模型"+imagePath);
 				String realName = fileName.replaceAll("\\\\", "/");
@@ -280,6 +282,7 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 		try {
 			workflowVo.setDataType("xml");
 			String xml = generateResource(workflowVo);
+			System.out.println("513=====部署model模型"+xml);
 			workflowVo.setDataType("image");
 			String image = generateResource(workflowVo);
 			if (xml == "") {

@@ -33,7 +33,7 @@ public class OSSUtil {
 		// System.out.println(obj);
 		Date date1 = new Date();
 		String uuidFileName = UUID.randomUUID().toString().replace("-", "");
-		String path = uploadFile(new File("D:/timg.jpg"), "test/tem", uuidFileName+".jpg");
+		String path = uploadFile(new File("D:/oracle导入.txt"), "test/tem", uuidFileName+".jpg");
 		String temNo = "201702";
 		System.out.println("1===="+path);
 		// deleteOssFile("test/tem/"+uuidFileName+".txt");
@@ -41,8 +41,10 @@ public class OSSUtil {
 		InputStream tem = getOssFileIS("test/tem/"+uuidFileName+".jpg");
 		System.out.println("2===="+tem);
 
-		String twoPath = uploadFileByInputStream(tem, "test/tem/ttt/", UUID.randomUUID().toString().replace("-", "")+".jpg");
-		System.out.println("3===="+twoPath);
+		String twoPath = uploadFileByInputStream(tem, "test/tem/ttt/", "11111.jpg");
+		InputStream tem1 = getOssFileIS("test/tem/"+uuidFileName+".jpg");
+		System.out.println("3===="+tem1.available());
+		String twoPath1 = uploadFileByInputStream(tem1, "test/tem/ttt/", "11111.jpg");
 
 		InputStream tem4 = getOssFileIS(path.split(OSSPATH+"/"+BUCKET+"/")[1]);
 		System.out.println("4===="+tem4);
@@ -88,7 +90,6 @@ public class OSSUtil {
 	 * @date 2019年5月15日 上午11:03:48
 	 */
 	public static String uploadFileByInputStream(InputStream inputStream, String directory, String uuidFileName) {
-		String resultStr = null;
 		try {
 			int fileSize = inputStream.available();
 			// 创建上传Object的Metadata
@@ -103,9 +104,7 @@ public class OSSUtil {
 
 			metadata.setContentType(getContentType(uuidFileName));
 			metadata.setContentDisposition("filename/filesize="+uuidFileName+"/"+fileSize+"Byte.");
-			PutObjectResult putResult = ossClient.putObject(BUCKET, directory+uuidFileName, inputStream, metadata);
-			// 解析结果
-			resultStr = putResult.getETag();
+			ossClient.putObject(BUCKET, directory+uuidFileName, inputStream, metadata);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
