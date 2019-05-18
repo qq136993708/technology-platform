@@ -901,7 +901,12 @@ public class TaskProviderClient {
 			// activeActivityIds=当前活动节点点高亮;executedActivityIdList=已经执行过的节点高亮
 			// processEngine.getProcessEngineConfiguration().getActivityFontName(),
 			// processEngine.getProcessEngineConfiguration().getLabelFontName()
-			InputStream inputStream = pdg.generateDiagram(bpmnModel, "PNG", activeActivityIds, highLightedFlows, "宋体", "宋体", "宋体", null, 1.0d);
+			System.out.println("1getProcessEngineConfiguration-------------"+processEngine.getProcessEngineConfiguration());
+			System.out.println("2getProcessEngineConfiguration-------------"+processEngine.getProcessEngineConfiguration().getClassLoader());
+			System.out.println("3getProcessEngineConfiguration-------------"+processEngine.getProcessEngineConfiguration().getActivityFontName());
+			System.out.println("4getProcessEngineConfiguration-------------"+processEngine.getProcessEngineConfiguration().getLabelFontName());
+			System.out.println("5getProcessEngineConfiguration-------------"+processEngine.getProcessEngineConfiguration().getAnnotationFontName());
+			InputStream inputStream = pdg.generateDiagram(bpmnModel, "PNG", activeActivityIds, highLightedFlows, "SimSun", "SimSun", "SimSun", processEngine.getProcessEngineConfiguration().getClassLoader(), 1.0d);
 			/*
 			 * resourceName = DateUtil.format(new Date(), "yyyyMMddHHmmss") +
 			 * "_" + resourceName; // 生成本地图片 String realPath = uploadPath +
@@ -974,7 +979,12 @@ public class TaskProviderClient {
 			// activeActivityIds=当前活动节点点高亮;executedActivityIdList=已经执行过的节点高亮
 			// processEngine.getProcessEngineConfiguration().getActivityFontName(),
 			// processEngine.getProcessEngineConfiguration().getLabelFontName()
-			InputStream inputStream = pdg.generateDiagram(bpmnModel, "PNG", activeActivityIds, highLightedFlows, "宋体", "宋体", "宋体", null, 1.0d);
+			System.out.println("getProcessEngineConfiguration-------------"+processEngine.getProcessEngineConfiguration());
+			System.out.println("getProcessEngineConfiguration-------------"+processEngine.getProcessEngineConfiguration().getClassLoader());
+			System.out.println("getProcessEngineConfiguration-------------"+processEngine.getProcessEngineConfiguration().getActivityFontName());
+			System.out.println("getProcessEngineConfiguration-------------"+processEngine.getProcessEngineConfiguration().getLabelFontName());
+			System.out.println("getProcessEngineConfiguration-------------"+processEngine.getProcessEngineConfiguration().getAnnotationFontName());
+			InputStream inputStream = pdg.generateDiagram(bpmnModel, "PNG", activeActivityIds, highLightedFlows, "SimSun", "SimSun", "SimSun", processEngine.getProcessEngineConfiguration().getClassLoader(), 1.0d);
 			/*
 			 * resourceName = DateUtil.format(new Date(), "yyyyMMddHHmmss") +
 			 * "_" + resourceName; // 生成本地图片 String realPath = uploadPath +
