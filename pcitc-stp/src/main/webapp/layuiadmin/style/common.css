@@ -599,3 +599,6 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
     position: relative;left: -59px !important;top: -148px;}
 .not-d-iRight{background: url("/layuiadmin/layui/images/cycle-h-rd.png") no-repeat;width: 86px;height: 84px;
     position: relative;left: 65px !important;top: -234px;}
+.xm-select-parent .xm-select-title div.xm-select-label>span{ background-color: #1890ff !important;
+    border: 1px solid #1890ff !important;}
+.layui-tab-brief>.layui-tab-title .layui-this{color: #1890ff}

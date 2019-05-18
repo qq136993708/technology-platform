@@ -35,7 +35,7 @@
 .accept .layui-table tbody tr:hover{background-color:#f6f9fb;border-left: 1px solid #42b678;}
 /*第一块*/
 .layui-top{display: flex;background: #fff;border: 1px solid #dfdfdf;
-    padding: 10px;margin: 7px 0 0 5px;width: 99.2%;border-radius: 4px;}
+    padding: 10px;margin: 0px 0 0 5px;width: 99.2%;border-radius: 4px;}
 .layui-col-md15{width: 12.5%;float: left;height: auto;overflow: hidden;background: #f4f4f4;
     border-radius: 5px;padding: 8px;cursor: pointer;
     margin-right: 10px;}
