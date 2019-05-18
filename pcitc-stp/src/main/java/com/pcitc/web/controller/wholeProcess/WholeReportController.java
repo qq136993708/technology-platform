@@ -54,7 +54,7 @@ public class WholeReportController extends BaseController
 	//十条龙项目
 	@RequestMapping(value = "/whole-process/report/tendragon_project")
 	public String toTenDragonProjectReportPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+		System.out.println("====/whole-process/report/tendragon_project  page.......");
 		return "/stp/wholeProcess/tenDragonProjectReport";
 	}
 	
