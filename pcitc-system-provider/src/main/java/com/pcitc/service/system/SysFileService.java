@@ -367,4 +367,12 @@ public interface SysFileService {
 	public LayuiTableData selectFileInfoList(LayuiTableParam param);
 
     public void videoFiles(String id, HttpServletRequest request, HttpServletResponse response) throws IOException;
+    
+    /**
+     * 
+     * @param path
+     * @param response
+     * @throws IOException
+     */
+    public void downloadFileFromOss(String path,HttpServletResponse response) throws IOException;
 }

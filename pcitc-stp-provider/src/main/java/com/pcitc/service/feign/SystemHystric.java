@@ -2,6 +2,8 @@ package com.pcitc.service.feign;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.expert.ZjkExtractConfig;

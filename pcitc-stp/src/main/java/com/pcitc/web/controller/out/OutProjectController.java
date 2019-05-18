@@ -2,8 +2,6 @@ package com.pcitc.web.controller.out;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLDecoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,7 +39,8 @@ public class OutProjectController extends BaseController {
 	private static final String UPDATE_PROJECT_URL = "http://pcitc-zuul/system-proxy/out-provider/update-project";
 
 	private static final String GET_OUT_PROJECT = "http://pcitc-zuul/system-proxy/out-provider/get-project-list/";
-
+	
+	
 	@RequestMapping(value = "/out/ini-project-list")
 	public String iniOutProjectList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -139,11 +138,13 @@ public class OutProjectController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/out/report_download")
-	public void downLoadPlantRunningListInfo(@RequestParam(value = "fileName", required = true) String fileName,HttpServletResponse res) throws IOException {
+	public void downLoadPlantRunningListInfo(@RequestParam(value = "fileName", required = true) String fileName,HttpServletRequest req,HttpServletResponse res) throws IOException {
 		
-		System.out.println("download fileName:"+fileName);
+		//System.out.println("download fileName:"+fileName);
+		//req.setAttribute("filePath", fileName);
 		
 		File f = new File(fileName);
 		FileUtil.fileDownload(f, res);
+		
 	}
 }
