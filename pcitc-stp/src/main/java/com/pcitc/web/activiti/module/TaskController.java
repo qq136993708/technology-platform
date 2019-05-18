@@ -501,7 +501,7 @@ public class TaskController extends BaseController {
 	 * @author zhf
 	 * @date 2018年4月23日 下午5:42:11
 	 */
-	@RequestMapping(value = "/task/process/image/{instanceId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/task/process/image/{instanceId}", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
 	@ResponseBody
 	public String generateImage(@PathVariable("instanceId") String instanceId, HttpServletRequest request) {
 		WorkflowVo workflowVo = new WorkflowVo();
