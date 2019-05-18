@@ -67,6 +67,8 @@ public class WholeReportController extends BaseController
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_LIST_PAGE, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData retJson = responseEntity.getBody();
+		System.out.println("tendragon return ....... ");
+		System.out.println(JSON.toJSONString(retJson));
 		return JSON.toJSON(retJson).toString();
 	}
 	
