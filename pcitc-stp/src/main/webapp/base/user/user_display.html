@@ -162,8 +162,8 @@
 		        contentType: false,  
 		        processData: false,
 		        success : function(msg) {
-		        	$("#userExtend").val("/sysfile/viewPicByte/"+msg.fileIds);
-		        	$(".photo_box").html('<img src="/sysfile/viewPicByte/'+msg.fileIds+'" style="width: 140px;height: 173px" />');
+		        	$("#userExtend").val(msg.filePath);
+		        	$(".photo_box").html('<img src="'+msg.filePath+'" style="width: 140px;height: 173px" />');
 		        }  
 			}); 			
 		});

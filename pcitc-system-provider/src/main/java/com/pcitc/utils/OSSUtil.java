@@ -33,15 +33,15 @@ public class OSSUtil {
 		// System.out.println(obj);
 		Date date1 = new Date();
 		String uuidFileName = UUID.randomUUID().toString().replace("-", "");
-		String path = uploadFile(new File("D:/oracle导入.txt"), "test/tem", uuidFileName+".txt");
+		String path = uploadFile(new File("D:/timg.jpg"), "test/tem", uuidFileName+".jpg");
 		String temNo = "201702";
 		System.out.println("1===="+path);
 		// deleteOssFile("test/tem/"+uuidFileName+".txt");
 
-		InputStream tem = getOssFileIS("test/tem/"+uuidFileName+".txt");
+		InputStream tem = getOssFileIS("test/tem/"+uuidFileName+".jpg");
 		System.out.println("2===="+tem);
 
-		String twoPath = uploadFileByInputStream(tem, "test/tem/ttt/", UUID.randomUUID().toString().replace("-", "")+".txt");
+		String twoPath = uploadFileByInputStream(tem, "test/tem/ttt/", UUID.randomUUID().toString().replace("-", "")+".jpg");
 		System.out.println("3===="+twoPath);
 
 		InputStream tem4 = getOssFileIS(path.split(OSSPATH+"/"+BUCKET+"/")[1]);
