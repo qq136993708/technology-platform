@@ -901,6 +901,8 @@ public class TaskProviderClient {
 			// activeActivityIds=当前活动节点点高亮;executedActivityIdList=已经执行过的节点高亮
 			// processEngine.getProcessEngineConfiguration().getActivityFontName(),
 			// processEngine.getProcessEngineConfiguration().getLabelFontName()
+			System.out.println("1getProcessEngineConfiguration-------------"+processEngine.getProcessEngineConfiguration());
+			System.out.println("2getProcessEngineConfiguration-------------"+processEngine.getProcessEngineConfiguration().getClassLoader());
 			InputStream inputStream = pdg.generateDiagram(bpmnModel, "PNG", activeActivityIds, highLightedFlows, "宋体", "宋体", "宋体", processEngine.getProcessEngineConfiguration().getClassLoader(), 1.0d);
 			/*
 			 * resourceName = DateUtil.format(new Date(), "yyyyMMddHHmmss") +
@@ -974,6 +976,8 @@ public class TaskProviderClient {
 			// activeActivityIds=当前活动节点点高亮;executedActivityIdList=已经执行过的节点高亮
 			// processEngine.getProcessEngineConfiguration().getActivityFontName(),
 			// processEngine.getProcessEngineConfiguration().getLabelFontName()
+			System.out.println("getProcessEngineConfiguration-------------"+processEngine.getProcessEngineConfiguration());
+			System.out.println("getProcessEngineConfiguration-------------"+processEngine.getProcessEngineConfiguration().getClassLoader());
 			InputStream inputStream = pdg.generateDiagram(bpmnModel, "PNG", activeActivityIds, highLightedFlows, "宋体", "宋体", "宋体", processEngine.getProcessEngineConfiguration().getClassLoader(), 1.0d);
 			/*
 			 * resourceName = DateUtil.format(new Date(), "yyyyMMddHHmmss") +
