@@ -26,7 +26,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		try {
-			System.out.println("TokenInterceptor--------------"+request.getRequestURI());
+			System.out.println("TokenInterceptor--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
 			String path = request.getRequestURI();
 			/*if(!doLoginInterceptor(path, basePath) ){//是否进行登陆拦截
 				return true;

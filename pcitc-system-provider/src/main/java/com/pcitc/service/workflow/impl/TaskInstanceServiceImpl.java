@@ -15,6 +15,7 @@ import org.activiti.engine.task.IdentityLinkType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.PageHelper;
@@ -40,7 +41,7 @@ import com.pcitc.service.workflow.TaskInstanceService;
 
 @Service("taskInstanceService")
 @CacheConfig(cacheNames = "taskCache")
-//@Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
+@Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
 public class TaskInstanceServiceImpl implements TaskInstanceService {
 
 	@Autowired
