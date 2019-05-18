@@ -901,7 +901,7 @@ public class TaskProviderClient {
 			// activeActivityIds=当前活动节点点高亮;executedActivityIdList=已经执行过的节点高亮
 			// processEngine.getProcessEngineConfiguration().getActivityFontName(),
 			// processEngine.getProcessEngineConfiguration().getLabelFontName()
-			InputStream inputStream = pdg.generateDiagram(bpmnModel, "PNG", activeActivityIds, highLightedFlows, "宋体", "宋体", "宋体", processEngine.getProcessEngineConfiguration().getProcessEngineConfiguration().getClassLoader(), 1);
+			InputStream inputStream = pdg.generateDiagram(bpmnModel, "PNG", activeActivityIds, highLightedFlows, "宋体", "宋体", "宋体", null, 1.0d);
 			/*
 			 * resourceName = DateUtil.format(new Date(), "yyyyMMddHHmmss") +
 			 * "_" + resourceName; // 生成本地图片 String realPath = uploadPath +
@@ -974,7 +974,7 @@ public class TaskProviderClient {
 			// activeActivityIds=当前活动节点点高亮;executedActivityIdList=已经执行过的节点高亮
 			// processEngine.getProcessEngineConfiguration().getActivityFontName(),
 			// processEngine.getProcessEngineConfiguration().getLabelFontName()
-			InputStream inputStream = pdg.generateDiagram(bpmnModel, "PNG", activeActivityIds, highLightedFlows, "宋体", "宋体", "宋体", processEngine.getProcessEngineConfiguration().getProcessEngineConfiguration().getClassLoader(), 1);
+			InputStream inputStream = pdg.generateDiagram(bpmnModel, "PNG", activeActivityIds, highLightedFlows, "宋体", "宋体", "宋体", null, 1.0d);
 			/*
 			 * resourceName = DateUtil.format(new Date(), "yyyyMMddHHmmss") +
 			 * "_" + resourceName; // 生成本地图片 String realPath = uploadPath +
