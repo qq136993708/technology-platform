@@ -42,24 +42,27 @@
         </button>
     </div>
 </div>
-<div class="tableToolBox">
-    <div class="whiteLine"></div>
-    <div class="tableBtns">
-        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
-                <!--data-type="addEvent">新增-->
-        <!--</button>-->
-        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
-                <!--data-type="editEvent">编辑-->
-        <!--</button>-->
-        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_verify btnMyBgImg"
-                data-type="detailEvent">查看
-        </button>
-        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
-                data-type="deleteEvent">删除
-        </button>
+<div class="tableBox">
+    <div class="tableToolBox">
+        <div class="whiteLine"></div>
+        <div class="tableBtns">
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+            <!--data-type="addEvent">新增-->
+            <!--</button>-->
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+            <!--data-type="editEvent">编辑-->
+            <!--</button>-->
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_verify btnMyBgImg"
+                    data-type="detailEvent">查看
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
+                    data-type="deleteEvent">删除
+            </button>
+        </div>
     </div>
+    <table id="zjkEvaluateTableId" class="layui-hide" lay-filter="tableEvent"></table>
 </div>
-<table id="zjkEvaluateTableId" class="layui-hide" lay-filter="tableEvent"></table>
+
 
 <script>
     ajaxPost('/dictionary/list/ROOT_XTGL_XMJD', null, function (data, status) {
