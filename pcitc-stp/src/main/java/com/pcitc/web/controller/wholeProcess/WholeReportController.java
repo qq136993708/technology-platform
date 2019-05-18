@@ -58,6 +58,13 @@ public class WholeReportController extends BaseController
 		return "/stp/wholeProcess/tenDragonProjectReport";
 	}
 	
+	@RequestMapping(value = "/whole-process/report/tendragon_project_v2")
+	public String toTenDragonProjectReport2Page(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("====/whole-process/report/tendragon_project_v2  page.......");
+		return "/stp/wholeProcess/tenDragonProjectReport";
+	}
+	
+	
 	@RequestMapping(value = "/whole-process/report/tendragon-project-list", method = RequestMethod.POST)
 	@ResponseBody
 	public Object outTendragonProjectList(@ModelAttribute("param") LayuiTableParam param) {
