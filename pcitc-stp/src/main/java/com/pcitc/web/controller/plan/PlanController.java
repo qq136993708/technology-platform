@@ -206,6 +206,8 @@ public class PlanController extends BaseController {
         request.setAttribute("unitName", sysUserInfo.getUnitName());
         request.setAttribute("bak6", sysUserInfo.getUserId());
         request.setAttribute("bak4", sysUserInfo.getUserDisp());
+        request.setAttribute("closeType", request.getParameter("closeType"));
+
         return "stp/plan/addPlanPage";
     }
 
