@@ -26,5 +26,10 @@ public interface SysMessageService {
 	 * @return
 	 */
 	public SysMessage selectSysMessage(String messageId);
-	
+	/**
+	 * read msg
+	 * @param messageId
+	 * @return
+	 */
+	public SysMessage readSysMessage(String messageId);
 }

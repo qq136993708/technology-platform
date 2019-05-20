@@ -7,6 +7,8 @@
  */
 package com.pcitc.web.controller.system;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,7 +29,6 @@ import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.system.SysMessage;
-import com.pcitc.base.util.IdUtil;
 import com.pcitc.web.common.BaseController;
 
 /**
@@ -46,9 +47,10 @@ public class SysMessageController extends BaseController {
 
 	private static final String SYS_MESSAGE_PAGIN_URL = "http://pcitc-zuul/system-proxy/sysmessage-provider/message/message-pagin-list";
 	private static final String SYS_MESSAGE_DETAIL_URL = "http://pcitc-zuul/system-proxy/sysmessage-provider/message/message-info";
+	private static final String SYS_MESSAGE_READ_URL = "http://pcitc-zuul/system-proxy/sysmessage-provider/message/read-message-info";
 
 	/**
-	 * @author 初始化详情页面
+	 * @author 初始化列表页面
 	 */
 	@RequestMapping(value = "/message/sys_message_list")
 	public String toSysMessageList(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -67,7 +69,20 @@ public class SysMessageController extends BaseController {
 	}
 
 	/**
-	 * @author Nishikino 查询所有生效配置
+	 * @author 检索最新未读消息
+	 */
+	@RequestMapping(value = "/message/get-newest-messages", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getLastSysMessageList(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request, HttpServletResponse response) {
+		param.getParam().put("userId", this.getUserProfile().getUserId());
+		param.getParam().put("isRead", "0");//未读消息
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(SYS_MESSAGE_PAGIN_URL, HttpMethod.POST, entity, LayuiTableData.class);
+		List<?> data = responseEntity.getBody().getData();
+		return data;
+	}
+	/**
+	 * @author 分页检索消息
 	 */
 	@RequestMapping(value = "/message/message-pagin-list", method = RequestMethod.POST)
 	@ResponseBody
@@ -79,10 +94,9 @@ public class SysMessageController extends BaseController {
 
 		return JSON.toJSON(retJson).toString();
 	}
-	
 
 	/**
-	 * @author Nishikino 根据id获取配置數據
+	 * @author 获取消息
 	 */
 	@RequestMapping(value = "/message/message-info/{messageId}")
 	@ResponseBody
@@ -92,6 +106,16 @@ public class SysMessageController extends BaseController {
 		SysMessage msg = responseEntity.getBody();
 		return msg;
 	}
-
+	/**
+	 * @author 更新消息阅读信息
+	 */
+	@RequestMapping(value = "/message/read-message-info/{messageId}")
+	@ResponseBody
+	public Object updSysMessageInfo(@PathVariable("messageId") String messageId, HttpServletRequest request, HttpServletResponse response) {
+		
+		ResponseEntity<SysMessage> responseEntity = this.restTemplate.exchange(SYS_MESSAGE_READ_URL, HttpMethod.POST, new HttpEntity<String>(messageId,this.httpHeaders), SysMessage.class);
+		SysMessage msg = responseEntity.getBody();
+		return msg;
+	}
 
 }

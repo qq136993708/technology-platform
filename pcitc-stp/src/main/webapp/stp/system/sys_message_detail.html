@@ -23,15 +23,17 @@ $(document).ready(function() {
 			function() {
 				var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
 				var form = layui.form;
-				var noticeId = "${messageId?default(0)}";
+				var messageId = "${messageId?default(0)}";
 				var publicMethods=layui.publicMethods;
 				
 			 	if(messageId != 0)
 		        {
 			 		$("#messageId").val(messageId);
-			 		publicMethods.ajaxPost('/project/get-notice', {"noticeId":noticeId}, function (data, status) {
+			 		publicMethods.ajaxAsyncPost('/message/message-info/'+messageId, {"messageId":messageId}, function (data, status) {
 		        		form.val("apply-form",data);
-		        		
+		            });
+			 		publicMethods.ajaxAsyncPost('/message/read-message-info/'+messageId, {"messageId":messageId}, function (data, status) {
+		        		console.log("reading...")
 		            });
 		        }
 			 	form.render();
@@ -39,6 +41,7 @@ $(document).ready(function() {
 		$("#cancel").click(function () {
 		    var index = parent.layer.getFrameIndex(window.name);
 		    parent.layer.close(index);
+		    parent.reflushTable();
 		})
 });
 </script>
@@ -51,20 +54,37 @@ $(document).ready(function() {
 		<div class="layui-row">
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				<div class="layui-form-item">
-					<label for="" class="layui-form-label">通知标题<span class="must-fill">*</span></label>
+					<label for="" class="layui-form-label">通知类别<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" readonly="readonly" class="layui-input readOnlyBox" id="noticeTitle" name="noticeTitle" placeholder="通知标题">
+						<input type="text" readonly="readonly" class="layui-input readOnlyBox" id="messageType" name="messageType" placeholder="">
 					</div>
 				</div>
 			</div>
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 			
 				<div class="layui-form-item">
-					<label for="" class="layui-form-label">通知类别<span class="must-fill">*</span></label>
+					<label for="" class="layui-form-label">通知标题<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-						<select disabled="disabled" class="readOnlyBox" name="noticeType" id="GJXMGL_TZLX" lay-verify="required"  lay-filter="noticeType">
-		                	<option value="">请选择</option>
-		             	</select>
+						<input type="text" readonly="readonly" class="layui-input readOnlyBox" id="messageTitle" name="messageTitle" placeholder="">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">通知时间<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+						<input type="text" readonly="readonly" class="layui-input readOnlyBox" id="createDate" name="createDate" placeholder="">
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+			
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">阅读次数<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+						<input type="text" readonly="readonly" class="layui-input readOnlyBox" id="readTotal" name="readTotal" placeholder="">
 					</div>
 				</div>
 			</div>
@@ -72,7 +92,7 @@ $(document).ready(function() {
 		<div class="layui-form-item">
 	      	 <label class="layui-form-label">通知内容</label>
 	         <div class="layui-input-block">
-	         	   <textarea readonly="readonly" class="layui-textarea readOnlyBox" id="noticeContent" name="noticeContent" placeholder=""></textarea>
+	         	   <textarea readonly="readonly" class="layui-textarea readOnlyBox" id="messageContent" name="messageContent" placeholder=""></textarea>
 	         </div>
        </div>
 	</div>

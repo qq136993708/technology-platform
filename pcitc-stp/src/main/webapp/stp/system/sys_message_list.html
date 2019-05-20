@@ -48,6 +48,11 @@
     	var $ = layui.jquery, element = layui.element, layer = layui.layer,table = layui.table,publicMethods=layui.publicMethods;
     	var noticeType={};
     	var param = JSON.parse(window.localStorage.getItem("param"));
+    	//已读
+    	window.reflushTable = function()
+    	{
+    		 renderTable({param: {"messageTitle":$("#messageTitle").val()}});
+    	}
     	function renderTable(where){
     		var lodingMsg = layer.msg('数据加载中....');
     		
@@ -74,6 +79,8 @@
 	                ,{field:'messageTitle',title:'标题',width: '15%',style:'cursor: pointer;',align:"center"}
 	                ,{field:'messageContent',title:'通知详情',style:'cursor: pointer;',align:"center"}
 	                ,{field:'createDate',title:'通知时间',width: '10%',style:'cursor: pointer;',align:"center"}
+	                ,{field:'isRead',title:'查阅状态',width: '10%',style:'cursor: pointer;',align:"center"}
+	                
 	            ]],
 	            done: function (res, curr, count) {
 	            	layer.close(lodingMsg);
@@ -86,6 +93,11 @@
 	                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
 	                    selectRowData=res.data[index-1];
 	                });
+	                var readStatus = {"0":"未读"};
+	                $.each(res.data,function(i,dt){
+		            	//显示字典数据
+		            	$("tr[data-index='"+i+"'] td[data-field='isRead'] div").html(readStatus[res.data[i].isRead]?"未读":"已读");
+		            });
 	            }
 	        });
 	        renderfunc = function removeHeaderCheckbox(){
@@ -114,11 +126,11 @@
         // 触发不同的按钮事件
         var $ = layui.$, active = {
             searchEvent: function() { //点击查询按钮
-                renderTable({param: {"noticeTitle":$("#noticeTitle").val()}});
+                renderTable({param: {"messageTitle":$("#messageTitle").val()}});
             },resetEvent: function() { 
             	//点击重置按钮
-                $("#noticeTitle").val("");
-                renderTable({param: {"noticeTitle":$("#noticeTitle").val()}});
+                $("#messageTitle").val("");
+                renderTable({param: {"messageTitle":$("#messageTitle").val()}});
             },detailEvent:function(){
             	//点击编辑按钮
             	if(!selectRowData){
@@ -153,7 +165,7 @@
 <div class="searchBox">
     <label class="dateInput">
         <span>通知标题</span>
-        <input type="text" name="noticeTitle" id="noticeTitle" placeholder="请输入通知标题" autocomplete="off" class="form-control">
+        <input type="text" name="messageTitle" id="messageTitle" placeholder="请输入通知标题" autocomplete="off" class="form-control">
     </label>
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
