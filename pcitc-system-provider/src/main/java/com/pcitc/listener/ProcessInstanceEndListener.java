@@ -38,7 +38,7 @@ public class ProcessInstanceEndListener implements ExecutionListener {
 			HistoricVariableInstance messageUserIds = hviq.variableName("messageUserIds").singleResult();
 			HistoricVariableInstance messagePostCodes = hviq.variableName("messagePostCodes").singleResult();
 			HistoricVariableInstance messageRoleCodes = hviq.variableName("messageRoleCodes").singleResult();
-			HistoricVariableInstance userName = hviq.variableName("authenticatedUserName").singleResult();
+			HistoricVariableInstance messageUserName = hviq.variableName("authenticatedUserName").singleResult();
 			HistoricVariableInstance userId = hviq.variableName("authenticatedUserId").singleResult();
 			HistoricVariableInstance taskName = hviq.variableName("processInstanceName").singleResult();
 			
@@ -70,7 +70,10 @@ public class ProcessInstanceEndListener implements ExecutionListener {
 			if (messageRoleCodes != null) {
 				sysMessage.setRoleCode(messageRoleCodes.getValue() != null ? ","+messageRoleCodes.getValue().toString()+"," : "");
 			}
-			
+			if (messageUserName!= null) {
+				String userName = messageUserName.getValue() != null ? messageUserName.getValue().toString() : "";
+				sysMessage.setUserName(userName); 
+			}
 			messageService.insertSysMessage(sysMessage);
 		}
 	}

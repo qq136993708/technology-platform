@@ -10,6 +10,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,6 +41,8 @@ public class OutProjectController extends BaseController {
 	private static final String UPDATE_PROJECT_URL = "http://pcitc-zuul/system-proxy/out-provider/update-project";
 
 	private static final String GET_OUT_PROJECT = "http://pcitc-zuul/system-proxy/out-provider/get-project-list/";
+	
+	private static final String FILE_DOWNLOAD = "http://pcitc-zuul/system-proxy/sysfile-provider/sysfile/downloadFileFromOss";
 	
 	
 	@RequestMapping(value = "/out/ini-project-list")
@@ -138,13 +142,18 @@ public class OutProjectController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/out/report_download")
-	public void downLoadPlantRunningListInfo(@RequestParam(value = "fileName", required = true) String fileName,HttpServletRequest req,HttpServletResponse res) throws IOException {
+	public ResponseEntity<byte[]> downLoadPlantRunningListInfo(@RequestParam(value = "fileName", required = true) String fileName,HttpServletRequest req,HttpServletResponse res) throws IOException {
 		
+        HttpEntity<String> httpEntity = new HttpEntity<String>(fileName, this.httpHeaders);
+        ResponseEntity<byte[]> responseEntity = this.restTemplate.postForEntity(FILE_DOWNLOAD, httpEntity, byte[].class);
+        byte[] result = responseEntity.getBody();
+        httpHeaders.add("x-frame-options", "SAMEORIGIN");
+        response.addHeader("x-frame-options", "SAMEORIGIN");
+        return responseEntity;
 		//System.out.println("download fileName:"+fileName);
 		//req.setAttribute("filePath", fileName);
 		
-		File f = new File(fileName);
-		FileUtil.fileDownload(f, res);
-		
+		//File f = new File(fileName);
+		//FileUtil.fileDownload(f, res);
 	}
 }

@@ -62,5 +62,28 @@ public class DateUtils {
         return new SimpleDateFormat(parttern);
     }
 
-
+    /**
+     * 
+     * @param targetDate 分钟，小时，天
+     * @return
+     */
+    public static String getAgoDesc(Date targetDate) {
+    	Long ago = (new Date().getTime() - targetDate.getTime())/1000;
+    	System.out.println(ago);
+    	if(ago < 60) {
+    		return ago+" 秒以前";
+    	}else if(ago >= 60 && ago < 60*60) {
+    		return (ago/60)+" 分钟以前";
+    	}else if(ago >= 60*60 && ago < 60*60*24) {
+    		return  (ago/(60*60))+" 小时以前";
+    	}else if(ago >= 60*60*24 && ago < 60*60*24*30) {
+    		return (ago/(60*60*24)) + " 天以前";
+    	}else if(ago >= 60*60*24*30 && ago <60*60*24*365) {
+    		return (ago/(60*60*24*30)) + " 个月以前";
+    	}else if(ago >= 60*60*24*365) {
+    		return (ago/(60*60*24*365)) + " 年以前";
+    	}else {
+    		return "";
+    	}
+    }
 }
