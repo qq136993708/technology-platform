@@ -152,6 +152,21 @@ public class StandardBaseExpertController extends BaseController {
         return "stp/techFamily/tfcHotPoint";
     }
 
+
+    @RequestMapping(method = RequestMethod.GET, value = "/tfcAnalysis")
+    public String tfcAnalysis() {
+        String dataId = request.getParameter("dataId");
+        if (dataId==null||"".equals(dataId))
+        {
+            dataId="no";
+        }
+        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(GET_OUT_PROJECT_COUNT+dataId, HttpMethod.POST, new HttpEntity<>(this.httpHeaders), JSONObject.class);
+        JSONObject outProjectInfo = responseEntity.getBody();
+        request.setAttribute("value",outProjectInfo.get("value"));
+        request.setAttribute("name",outProjectInfo.get("name"));
+        return "stp/techFamily/tfcAnalysis";
+    }
+
     /**
      * 技术优选
      *
