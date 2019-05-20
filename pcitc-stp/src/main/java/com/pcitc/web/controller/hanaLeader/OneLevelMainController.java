@@ -1809,16 +1809,12 @@ public class OneLevelMainController {
 			  public String achievement(HttpServletRequest request) throws Exception
 			  {
                   SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-
                   HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
-
                   String unitCode=userInfo.getUnitCode();
                   request.setAttribute("unitCode", unitCode);
-
-
                   String year= HanaUtil.getCurrrentYear();
                   request.setAttribute("year", year);
-			        return "stp/hana/home/oneLevelMain/achievement";
+			      return "stp/hana/home/oneLevelMain/achievement";
 			  }
 			
 			

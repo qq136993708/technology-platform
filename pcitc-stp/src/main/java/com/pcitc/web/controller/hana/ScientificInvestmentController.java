@@ -272,8 +272,8 @@ public class ScientificInvestmentController {
 	         
 	         
 		   		
-		   		    String[] headers = { "院所",   "计划总投资", "累计支出额",      "预付余额", "累计投资完成额",  "项目资金计划结余", "本年投资计划",  "本年累计支出",    "本年投资完成额",   "本年资金计划结余"};
-		   		    String[] cols =    {"g0GSJC","k0ZTYSJE","k0LJGLFPHJECB","k0LJSJDJJE","aDD1",     "k0LJYSJY",   "k0BNYSJHJE","k0BNGLFPHJECB","aDD2",          "k0BNYSJY"};
+		   		    String[] headers = { "院所",   "项目类别",   "项目编码",   "项目名称",   "计划总投资", "累计支出额",      "预付余额", "累计投资完成额",  "项目资金计划结余", "本年投资计划",  "本年累计支出",    "本年投资完成额",   "本年资金计划结余"};
+		   		    String[] cols =    {"g0GSJC","g0XMLXMS","g0PROJCODE","g0PROJTXT","k0ZTYSJE","k0LJGLFPHJECB","k0LJSJDJJE","aDD1",     "k0LJYSJY",   "k0BNYSJHJE","k0BNGLFPHJECB","aDD2",          "k0BNYSJY"};
 		   		   
 		   	        // 文件名默认设置为当前时间：年月日时分秒
 		   	        String fileName = DateFormatUtils.format(new Date(), "yyyyMMddhhmmss");
@@ -807,8 +807,8 @@ public class ScientificInvestmentController {
         
         
  		
- 		    String[] headers = { "院所", "项目类别", "项目编码","项目名称",           "累计购置价值-总计",      "累计购置价值-固定资产", "累计购置价值-在建工程",  "本年购置价值-总计", "本年购置价值-固定资产", "本年购置价值-在建工程"};
- 		    String[] cols =    {"g0GSJC","g0XMLXMS","g0PROJCODE","g0PROJTXT","k0NCGZYZLJJE",       "k0NCGZYZLJGZJE", "k0NCGZYZLJZJJE",  "k0NCGZYZBNJE", "k0NCGZYZBNGZJE","k0NCGZYZBNZJJE"};
+ 		    String[] headers = { "院所", "项目类别", "项目编码","项目名称","资产编号","资产名称",     "累计购置价值-总计",      "累计购置价值-固定资产", "累计购置价值-在建工程",  "本年购置价值-总计", "本年购置价值-固定资产", "本年购置价值-在建工程"};
+ 		    String[] cols =    {"g0GSJC","g0XMLXMS","g0PROJCODE", "g0ANLN1","g0TXT50" , "g0PROJTXT","k0NCGZYZLJJE",       "k0NCGZYZLJGZJE", "k0NCGZYZLJZJJE",  "k0NCGZYZBNJE", "k0NCGZYZBNGZJE","k0NCGZYZBNZJJE"};
  		   
  	        // 文件名默认设置为当前时间：年月日时分秒
  	        String fileName = DateFormatUtils.format(new Date(), "yyyyMMddhhmmss");

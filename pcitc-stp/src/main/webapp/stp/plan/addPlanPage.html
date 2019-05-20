@@ -323,10 +323,11 @@
                         var index = parent.layer.getFrameIndex(window.name);
                         url = '/plan/editBotWorkOrder';
                         dataStatus = 1;
-                        var index = parent.layer.getFrameIndex(window.name);
-                        parent.layer.close(index);
-                        parent.layer.msg("保存成功");
-                        parent.layui.table.reload('tableList', {});
+                        closeType();
+                        // var index = parent.layer.getFrameIndex(window.name);
+                        // parent.layer.close(index);
+                        // parent.layer.msg("保存成功");
+                        // parent.layui.table.reload('tableList', {});
                     }
                 },
                 error: function (e) {
@@ -387,10 +388,11 @@
                 url: '/plan/submitBotWorkOrder?workOrderStatus=' + dataStatus,
                 success: function (data) {
                     if (data == 200) {
-                        var index = parent.layer.getFrameIndex(window.name);
-                        parent.layer.close(index);
-                        parent.layer.msg("提交成功");
-                        parent.layui.table.reload('tableList', {});
+                        closeType();
+                        // var index = parent.layer.getFrameIndex(window.name);
+                        // parent.layer.close(index);
+                        // parent.layer.msg("提交成功");
+                        // parent.layui.table.reload('tableList', {});
                     }
                 },
                 error: function (e) {
@@ -402,8 +404,9 @@
         });
         //关闭事件
         $("#closeBtn").click(function () {
-            var index = parent.layer.getFrameIndex(window.name);
-            parent.layer.close(index);
+            closeType();
+            /*var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);*/
         });
 
         //添加修改取值
@@ -569,6 +572,28 @@
         })
     });
 
+
+    //判断关闭
+    function closeType(){
+        var closeType = "${closeType}";
+        if (closeType=="1"){
+            var index=parent.$(".layui-body .layui-show").index();
+            if(index==1){
+                console.log(parent.$("#mainIframe"))
+                parent.$(".layui-body .layadmin-tabsbody-item").eq(index-1).addClass("layui-show");
+                parent.$("#mainIframe").attr('src', parent.$("#mainIframe").attr('src'));
+            }else {
+                parent.$(".layui-body .layadmin-tabsbody-item").eq(index-1).addClass("layui-show");
+            }
+            parent.$("#LAY_app_tabsheader li:eq("+(index-1)+")").remove();
+            parent.$(".layui-body .layadmin-tabsbody-item").eq(index).remove();
+        } else {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+            parent.layer.msg("操作成功");
+            parent.layui.table.reload('tableList', {});
+        }
+    }
 
 </script>
 </body>

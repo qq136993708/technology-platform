@@ -31,6 +31,7 @@ import com.pcitc.base.common.PageResult;
 import com.pcitc.base.hana.report.CompanyCode;
 import com.pcitc.base.hana.report.ProjectCost;
 import com.pcitc.base.hana.report.ScientificInvestment;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
@@ -424,6 +425,8 @@ public class ProjectCostController {
 		  {
 			     String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 				String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+				
+				//List<SysDictionary> list= HanaUtil.getDirectDepartList(request, restTemplate, httpHeaders);
 				
 				String companyName = CommonUtil.getParameter(request, "companyName", "");
 				List<CompanyCode> companyCodeList = HanaUtil.getCompanyCode(restTemplate, httpHeaders);
