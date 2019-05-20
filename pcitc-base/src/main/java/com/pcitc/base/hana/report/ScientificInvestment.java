@@ -77,14 +77,25 @@ public class ScientificInvestment implements Serializable{
 	    private BigDecimal k0NCGZYZBNGZJE;
 	    private BigDecimal k0NCGZYZBNZJJE;
 	    
+	    private String g0ANLN1;
+	    private String g0TXT50;
 	    
 	    
 	    
 	    
-	    
-	    
-	    
-	    
+	   
+		public String getG0ANLN1() {
+			return g0ANLN1;
+		}
+		public void setG0ANLN1(String g0anln1) {
+			g0ANLN1 = g0anln1;
+		}
+		public String getG0TXT50() {
+			return g0TXT50;
+		}
+		public void setG0TXT50(String g0txt50) {
+			g0TXT50 = g0txt50;
+		}
 		public BigDecimal getK0NCGZYZLJJE() {
 			return k0NCGZYZLJJE;
 		}

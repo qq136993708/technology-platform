@@ -418,8 +418,8 @@ public class ScientificFundsContrller {
 	          
 	          
 	   		
-	   		    String[] headers = { "院所", "课题类型", "课题名称",       "总计",     "直接费用", "间接费用", "直间接%"};
-	   		    String[] cols =    {"g0GSJC","g0XMLXMS","g0PROJTXT","k0BNGLFPHJECB","k0BNKYFPQCB",       "k0BNJJCB",       "k0BNBL"};
+	   		    String[] headers = { "院所", "课题编码", "课题类型", "课题名称",       "总计",     "直接费用", "间接费用", "直间接%"};
+	   		    String[] cols =    {"g0GSJC","g0PROJCODE","g0XMLXMS","g0PROJTXT","k0BNGLFPHJECB","k0BNKYFPQCB",       "k0BNJJCB",       "k0BNBL"};
 	   		   
 	   	        // 文件名默认设置为当前时间：年月日时分秒
 	   	        String fileName = DateFormatUtils.format(new Date(), "yyyyMMddhhmmss");

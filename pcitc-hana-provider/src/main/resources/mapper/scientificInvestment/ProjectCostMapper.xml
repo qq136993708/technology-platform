@@ -203,6 +203,7 @@
 	  
 	   <select id="getKytztjbData_detail" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
 	       <include refid="getKytztjbData_detail_id" />
+	       <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>  
 	   </select>
 	   
 	    <select id="getKytztjbData_detail_count" resultType="int" parameterType="java.util.Map" >
@@ -376,6 +377,7 @@
 	  
 	 <select id="getKjjftjbData_detail" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
 	   <include refid="getKjjftjbData_detail_id" />
+	   <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>  
 	 </select>
 	   
 	 <select id="getKjjftjbData_detail_count"  resultType="int" parameterType="java.util.Map" >
@@ -542,6 +544,7 @@
 	  </sql>
 	 <select id="getHxktqcbtjbData_detail" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
 	    <include refid="getHxktqcbtjbData_detail_id" />
+	    <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>  
 	 </select>
 	 <select id="getHxktqcbtjbData_detail_count"  resultType="int" parameterType="java.util.Map" >
 	    select count(*) from (<include refid="getHxktqcbtjbData_detail_id" />)

@@ -8,9 +8,19 @@
 	name="viewport">
 <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    
+    
+      <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/mainStp.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
+    
+    
 </head>
 <body>
 	<div class="layui-fluid">
+	<input type="hidden" name="year"  value="${year}"   id="year">
 		<div class="layui-main-oil">
 			<div class="searchBox">
 				<!--查询条件-->
@@ -19,7 +29,7 @@
 					autocomplete="off" class="form-control" id="month">
 				</label>
 				<div class="layui-input-inline">
-              <select id="companyCode" name="companyCode" class="form-control"></select>
+              <select id="companyCode" name="companyCode" class="form-control" style="width:150px"></select>
              </div>
 				<!--按钮组-->
 				<div class="btnGroup">
@@ -42,60 +52,16 @@
 				</div>
 				<div class="layui-col-sm6">
 					<div class="layui-card">
-						<div class="layui-card-header">全国企业专利占有量前十</div>
+						<div class="layui-card-header">
+						<span class="layui-time"></span>年专利申请/授权数量
+						</div>
 						<div class="layui-row-main" style="height: 280px;">
-							<table class="layui-table">
-								<thead>
-									<tr>
-										<td>排名</td>
-										<td>企业名称</td>
-										<td>授权量</td>
-										<td>申请量</td>
-									</tr>
-								</thead>
-								<tr>
-									<td>1</td>
-									<td>国家电网公司</td>
-									<td>3622</td>
-									<td>300</td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td>华为技术有限公司</td>
-									<td>3622</td>
-									<td>300</td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td>华为技术有限公司</td>
-									<td>3622</td>
-									<td>300</td>
-								</tr>
-								<tr>
-									<td>4</td>
-									<td>中国石油化工股份有限公司</td>
-									<td>3622</td>
-									<td>300</td>
-								</tr>
-								<tr>
-									<td>5</td>
-									<td>京东方科技集团股份有限公司</td>
-									<td>3622</td>
-									<td>300</td>
-								</tr>
-								<tr>
-									<td>6</td>
-									<td>中兴通讯股份有限公司</td>
-									<td>3622</td>
-									<td>300</td>
-								</tr>
-								<tr>
-									<td>7</td>
-									<td>联想（北京）有限公司</td>
-									<td>3622</td>
-									<td>300</td>
-								</tr>
-							</table>
+							   <div class="text-total">
+		                            <span>总计:<span class="text-total-blue"    id="knowldege_chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+		                            <span>专利申请:<span class="text-total-blue" id="knowldege_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+		                            <span>专利授权:<span class="text-total-blue" id="knowldege_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+		                        </div>
+		                        <div class="main-chart" id="knowldege_chart1" style="height:280px;width: 100%;"></div>
 						</div>
 					</div>
 				</div>
@@ -164,6 +130,7 @@
 	<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
 	<script type="text/javascript" src="/stp/hana/common/stp_common_mult_bar.js"></script>
 	<script src="/stp/hana/common/hana_common.js"></script>
+	<script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
 	<script type="text/javascript">
 	var param=JSON.parse(window.localStorage.getItem("param"));
 	var functionId=param.id;
@@ -249,74 +216,43 @@
 				parent.layui.index.openTabsPage("/home/project-list?define1=" + xName, "合同签订详情");
 
 			});
-			var seriesData_5 = [{
-				name : '预算批复',
-				type : 'bar',
-				color : ['#37A2DA'],
-				data : [22, 44, 74, 24, 22, 44, 74, 24]
-			},
-			{
-				name : '实际执行',
-				type : 'bar',
-				color : ['#67E0E3'],
-				data : [22, 24, 74, 54, 22, 74, 74, 24]
-			},
-			{
-				name : '实际执行%',
-				type : 'line',
-				itemStyle :
-				{
-					normal :
-					{
-						color : '#c4cddc'
-					}
-				},
-				data : [100, 23, 32, 12, 33, 74, 74, 24]
-			}];
-			var yAxis_5 = [{
-				type : 'value',
-				name : '金额（万元）',
-				min : 0,
-				max : 250,
-				axisLabel :
-				{
-					formatter : '{value}'
-				}
-			},
-			{
-				type : 'value',
-				name : '百分比',
-				min : 0,
-				max : 100,
-				axisLabel :
-				{
-					formatter : '{value} %'
-				}
-			}];
-			var legends_5 = ['本年', '上年', '同比'];
-			var xAxisData_5 = ['石勘院', '物探院', '工程院', '石科院', '抚研院', '北化院', '上海院', '安工院'];
-			load_mutl_bar_yy("main5", "", legends_5, xAxisData_5, yAxis_5, seriesData_5, "");
+			
+			
+			
+			//专利申请/授权数量
+		    $("#knowldege_chart1_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+		    $("#knowldege_chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+		    $("#knowldege_chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+		    
+		    
+		    var yAxist= [
+		        {
+		            type: 'value',
+		            name: '数量（个）',
+		            position: 'left',
+		            axisLabel: {
+		                formatter: '{value}'
+		            }
+		        }
+		    ];
+		    
+		    var v_date=(new Date()).getTime();
+			var nd=$('#year').val();
+			var chart1_url="/direct/getKnowledgeBar_01?type=1&nd="+nd+"&v_date="+v_date;
+			var echart1=load_mutl_bar_down(chart1_url,"knowldege_chart1","","",yAxist,35);
+			echart1.on('click', function (params) {
+				var xName=params.name;
+				var legentName=params.seriesName;
+				window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+		          
+		    });
+			
 
-			/* var legends = ['人均经费', '人均专利'];
-			var xAxisData = ['石勘院', '物探院', '工程院', '石科院', '抚研院', '北化院', '上海院', '安工院'];
-			var seriesData = [{
-				name : '人均经费',
-				type : 'line',
-				stack : '总量',
-				data : [120, 132, 101, 134, 90, 230, 210, 210]
-			},
-			{
-				name : '人均专利',
-				type : 'line',
-				stack : '总量',
-				data : [220, 182, 191, 234, 290, 330, 310, 210]
-			}];
-			var yAxis =
-			{
-				type : 'value'
-			};
-			load_mony_line_tt('main6', '', legends, xAxisData, yAxis, seriesData, ""); */
 		}
+		
+		
+		
+		
 		init();
 		function search_Event()
 		{
