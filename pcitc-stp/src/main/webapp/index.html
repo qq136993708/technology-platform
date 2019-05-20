@@ -394,7 +394,8 @@
                 parent.layui.index.openTabsPage("/task/pending/list/ini", "待办任务");
             });
             $("#message_more").click(function () {
-                parent.layui.index.openTabsPage("/task/message/list/ini", "通知");
+                //parent.layui.index.openTabsPage("/task/message/list/ini", "通知");
+            	parent.layui.index.openTabsPage("/message/sys_message_list", "通知");
             });
             $(".layui-header .layui-icon-prev").css("left",navLeft+"px");
             if(!$(".layui-header .layui-icon-prev").hasClass("layui-hide")){

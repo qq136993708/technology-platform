@@ -75,4 +75,19 @@ public class SysMessageServiceImpl implements SysMessageService {
 		return data;
 	}
 
+	@Override
+	public SysMessage selectSysMessage(String messageId) 
+	{
+		SysMessageExample example = new SysMessageExample();
+		SysMessageExample.Criteria criteria = example.createCriteria();
+		criteria.andDataIdEqualTo(messageId);
+		
+		 List<SysMessage> ms = sysMessageMapper.selectByExample(example);
+		 if(ms != null && ms.size() >0) {
+			 return ms.get(0);
+		 }else {
+			 return null;
+		 }
+	}
+
 }
