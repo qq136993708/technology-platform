@@ -1139,10 +1139,11 @@
                                 var processDefinitionName = list[i].processDefinitionName;
                                 var tt=layui.laytpl.toDateString(createTime)
                                 var processInstanceId= list[i].processInstanceId;
+                                var id= list[i].id;
                                 //alert(processInstanceId);
                                 if(i<4)
                                 {
-                                	$("#wait_work_id_list").append("<li onclick=\"wait_work('"+processInstanceId+"')\"><span class='date'>"+tt+"</span> <span class='content'>"+processDefinitionName+"</span></li>");
+                                	$("#wait_work_id_list").append("<li onclick=\"wait_work('"+id+"')\"><span class='date'>"+tt+"</span> <span class='content'>"+processDefinitionName+"</span></li>");
                                 }
                                 
                             }
@@ -1161,12 +1162,13 @@
             
             
             
-           function wait_work(processInstanceId) 
+           function wait_work(id) 
            { 
         	       //alert(processInstanceId);
-        	        var temUrl = "/task/process/" + processInstanceId;
+        	       // var temUrl = "/task/process/" + processInstanceId;
+        	        var temUrl="/task/pending/deal/"+ id;
 					layer.open({
-						title : '详情',
+						title : '任务处理',
 						skin : 'layui-layer-lan',
 						shadeClose : true,
 						type : 2,

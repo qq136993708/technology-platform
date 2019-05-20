@@ -17,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSONArray;
@@ -55,6 +56,7 @@ import com.pcitc.base.hana.report.Topic;
 import com.pcitc.base.hana.report.TotalCostProjectPay01;
 import com.pcitc.base.hana.report.TotalCostProjectPay02;
 import com.pcitc.base.hana.report.TotalCostProjectPay03;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
 
@@ -665,7 +667,7 @@ public class HanaUtil {
 	
 	public static String getCompanyCodeByName(List<CompanyCode> companyCodeList,String companyName) 
 	{
-		String result = "";
+		String result = HanaUtil.YJY_CODE_NOT_YINGKE;
 		if (companyCodeList != null && companyCodeList.size() > 0) 
 		{
 			for (int i = 0; i < companyCodeList.size(); i++)
@@ -6122,24 +6124,8 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 		return chartBarLineSeries;
 	}
 
-	public static List<CompanyCode> getCompanyCode(RestTemplate restTemplate, HttpHeaders httpHeaders)
-			throws Exception {
-
-		List<CompanyCode> list = null;
-		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-		Map<String, Object> paramsMap = new HashMap<String, Object>();
-		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
-		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-
-		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(GET_COMPANY_DIC_LIST, HttpMethod.GET, entity,
-				JSONArray.class);
-		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode == 200) {
-			JSONArray array = responseEntity.getBody();
-			list = JSONObject.parseArray(array.toJSONString(), CompanyCode.class);
-		}
-		return list;
-	}
+	
+	
 	
 	
 	
@@ -6184,8 +6170,42 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 	}
 	
 	
+	//直属院列表--本地库获取
+	public static List<SysDictionary> getDirectDepartList( HttpServletRequest request,RestTemplate restTemplate, HttpHeaders httpHeaders) 
+	{
+		String DICTIONARY_CODE = "http://pcitc-zuul/system-proxy/dictionary-provider/dictionary/";
+		List<SysDictionary> list= restTemplate.exchange(DICTIONARY_CODE + "ROOT_ZGSHJT_GFGS_ZSYJY", HttpMethod.POST, new HttpEntity<Object>(httpHeaders), List.class).getBody();
+	    return list;
+	}
+	//直属院列表--hana获取
+		public static List<CompanyCode> getCompanyCode(RestTemplate restTemplate, HttpHeaders httpHeaders)
+				throws Exception {
+
+			List<CompanyCode> list = null;
+			httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(GET_COMPANY_DIC_LIST, HttpMethod.GET, entity,
+					JSONArray.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200) {
+				JSONArray array = responseEntity.getBody();
+				list = JSONObject.parseArray(array.toJSONString(), CompanyCode.class);
+			}
+			return list;
+		}
+		
 	
 	
+	
+	//字典表
+	public static List<SysDictionary> getDicListByParentCode( String parentCode, HttpServletRequest request,RestTemplate restTemplate, HttpHeaders httpHeaders) 
+	{
+		String DICTIONARY_CODE = "http://pcitc-zuul/system-proxy/dictionary-provider/dictionary/";
+		return restTemplate.exchange(DICTIONARY_CODE + parentCode, HttpMethod.POST, new HttpEntity<Object>(httpHeaders), List.class).getBody();
+	}
 
 	public static List<ProjectCode> getProjectCode(RestTemplate restTemplate, HttpHeaders httpHeaders)
 			throws Exception {
