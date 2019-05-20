@@ -7,7 +7,9 @@
  */
 package com.pcitc.web.controller.system;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +31,8 @@ import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.system.SysMessage;
+import com.pcitc.base.util.DateUtils;
+import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.web.common.BaseController;
 
 /**
@@ -79,7 +83,13 @@ public class SysMessageController extends BaseController {
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(SYS_MESSAGE_PAGIN_URL, HttpMethod.POST, entity, LayuiTableData.class);
 		List<?> data = responseEntity.getBody().getData();
-		return data;
+		List<Map<String,Object>> rsmap = new ArrayList<Map<String,Object>>();
+		for(java.util.Iterator<?> iter = data.iterator();iter.hasNext();) {
+			Map<String,Object> map = MyBeanUtils.java2Map(iter.next());
+			map.put("ago", DateUtils.getAgoDesc(DateUtils.strToDate(map.get("createDate").toString(),DateUtils.FMT_SS)));
+			rsmap.add(map);
+		}
+		return rsmap;
 	}
 	/**
 	 * @author 分页检索消息
