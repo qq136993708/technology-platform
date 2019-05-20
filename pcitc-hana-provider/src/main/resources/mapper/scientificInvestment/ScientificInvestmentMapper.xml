@@ -56,6 +56,9 @@
        <result column="K0NCGZYZBNJE"       property="k0NCGZYZBNJE"          jdbcType="DECIMAL" />
        <result column="K0NCGZYZBNGZJE"     property="k0NCGZYZBNGZJE"        jdbcType="DECIMAL" />
        <result column="K0NCGZYZBNZJJE"     property="k0NCGZYZBNZJJE"        jdbcType="DECIMAL" />
+       
+       <result column="G0ANLN1"     property="g0ANLN1"        jdbcType="VARCHAR" />
+       <result column="G0TXT50"     property="g0TXT50"        jdbcType="VARCHAR" />
      </resultMap>
      
       <!-- 投资项目完成情况统计表--> 
@@ -520,11 +523,14 @@
           
 	 </select>
 	 <select id="getTzxmzcqkbDetailList" resultMap="brandConstructionPayResultMap" parameterType="java.util.Map" >
-	     SELECT 
+	    
+	    SELECT 
 				"G0GSJC",
 				 IFNULL("G0XMLXMS",'')   as G0XMLXMS,
 			     IFNULL("G0PROJCODE",'') as G0PROJCODE,
-			     IFNULL("G0PROJTXT",'')  as G0PROJTXT,					
+			     IFNULL("G0PROJTXT",'')  as G0PROJTXT,	
+			     IFNULL("G0ANLN1",'')  as G0ANLN1,
+	             IFNULL( "G0TXT50",'')  as G0TXT50,				
 				 round(sum("K0NCGZYZLJJE"),2)  as "K0NCGZYZLJJE",
 				 round(sum("K0NCGZYZLJGZJE"),2)  as "K0NCGZYZLJGZJE",
 				 round(sum("K0NCGZYZLJZJJE"),2)  as "K0NCGZYZLJZJJE", 
@@ -538,7 +544,9 @@
 				"G0GSOR" AS "G0GSOR",
 				 "G0XMLXMS",
                  "G0PROJCODE",
-			     "G0PROJTXT",				
+			     "G0PROJTXT",
+			     "G0ANLN1",
+	             "G0TXT50",				
 				 ROUND(IFNULL(sum("K0NCGZYZLJJE"),0)/10000,2)   AS "K0NCGZYZLJJE",
 				 ROUND(IFNULL(sum("K0NCGZYZLJGZJE"),0)/10000,2) AS "K0NCGZYZLJGZJE",
 				 ROUND(IFNULL(sum("K0NCGZYZLJZJJE"),0)/10000,2) AS "K0NCGZYZLJZJJE", 
@@ -553,7 +561,9 @@
 						     "G0GSOR",
 							 "G0XMLXMS",
 			                 "G0PROJCODE",
-						     "G0PROJTXT",						     
+						     "G0PROJTXT",
+						      "G0ANLN1",
+	                          "G0TXT50",						     
 						     sum("K0NCGZYZJE") AS "K0NCGZYZLJJE",--累计购置价值-总计
 						     CASE 
 						        WHEN "G0ZCBJ" IN('GZ') THEN sum("K0NCGZYZJE")
@@ -584,10 +594,12 @@
 						     "G0ZCBJ",
 						     "G0PROJCODE",
 						     "G0PROJTXT",
+						     "G0ANLN1",
+	                          "G0TXT50",
 						     "G0XMLXMS"
 						     
 				)
-				GROUP BY "G0GSJC","G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS"
+				GROUP BY "G0GSJC","G0GSOR","G0PROJCODE","G0PROJTXT", "G0ANLN1","G0TXT50","G0XMLXMS"
 				
 				UNION ALL 
 				
@@ -596,7 +608,9 @@
 				'0'    as  "G0GSOR",
 		         null    as "G0XMLXMS",
                  null as "G0PROJCODE",
-		         null    as "G0PROJTXT",				
+		         null    as "G0PROJTXT",
+		         null    as "G0ANLN1",
+	             null    as "G0TXT50",				
 				 ROUND(IFNULL(sum("K0NCGZYZLJJE"),0)/10000,2)   AS "K0NCGZYZLJJE",
 				 ROUND(IFNULL(sum("K0NCGZYZLJGZJE"),0)/10000,2) AS "K0NCGZYZLJGZJE",
 				 ROUND(IFNULL(sum("K0NCGZYZLJZJJE"),0)/10000,2) AS "K0NCGZYZLJZJJE", 
@@ -639,9 +653,13 @@
 				)
 				GROUP BY "G0GSJC","G0GSOR"
 				)
-			GROUP BY "G0GSJC","G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS"
+			GROUP BY "G0GSJC","G0GSOR","G0PROJCODE","G0PROJTXT", "G0ANLN1",
+	                          "G0TXT50","G0XMLXMS"
 			ORDER BY 
-			"G0GSOR","G0XMLXMS" ,"G0PROJCODE","G0PROJTXT"
+			"G0GSOR","G0XMLXMS" ,"G0PROJCODE","G0PROJTXT",	  "G0ANLN1",  "G0TXT50"
+	    
+	    
+	    
 	   
 	 </select> 
 	  

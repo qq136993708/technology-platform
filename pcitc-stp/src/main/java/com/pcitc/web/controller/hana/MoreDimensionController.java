@@ -138,8 +138,14 @@ public class MoreDimensionController extends BaseController
 	{
 		String month = HanaUtil.getCurrrent_YearMoth();
 		request.setAttribute("month", month);
+		 String year= HanaUtil.getCurrrentYear();
+         request.setAttribute("year", year);
+         
+         
 		return "stp/hana/moreDimension/cgjdmxfxb";
 	}
+	
+	
 
 	// 科技奖励情况明细分析表
 	@RequestMapping(method = RequestMethod.GET, value = "/kjjlqkmxfxb")
@@ -163,7 +169,11 @@ public class MoreDimensionController extends BaseController
 		List<String> yearList = HanaUtil.getBeforeYearList(HanaUtil.getCurrrentYear(), 3);
 		request.setAttribute("yearList", yearList);
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
+		//HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
+		
+		String year = HanaUtil.getCurrrentYear();
+		request.setAttribute("year", year);
+		
 		return "stp/hana/moreDimension/knowledge/patent-trend-analysis";
 	}
 

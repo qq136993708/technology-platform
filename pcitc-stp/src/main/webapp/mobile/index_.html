@@ -20,17 +20,17 @@
         <div class="main-card-header">待办任务</div>
         <div class="main-card-body">
             <ul class="main-card-body-ul">
-                <li class="layui-col-xs4">
+                <li class="layui-col-xs4" id="numberNotice_list">
                     <span class="agency-icon layui-icon-agency_01"></span>
-                    <span><a href='/mobile/agency.html'>待办任务</a></span>
-                    <span class="span-number span-red"><a id="numberNotice" lay-href="/task/pending/list/ini" lay-text="待办任务">(63)</a></span>
+                    <span>待办任务</span>
+                    <span class="span-number span-red"><a id="numberNotice"  lay-href="/task/pending/list/ini" lay-text="待办任务"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></a></span>
                 </li>
-                <li class="layui-col-xs4">
+                <li class="layui-col-xs4" id="doneTaskCount_list">
                     <span class="agency-icon layui-icon-agency_02"></span>
                     <span>已办任务</span>
-                    <span class="span-number" id="doneTaskCount"><a lay-href="/task/done-task/list/ini" lay-text="已办任务">(10)</a></span>
+                    <span class="span-number" id="doneTaskCount"><a   lay-href="/task/done-task/list/ini" lay-text="已办任务"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></a></span>
                 </li>
-                <li class="layui-col-xs4">
+                <li class="layui-col-xs4" >
                     <span class="agency-icon layui-icon-agency_03"></span>
                     <span>业务预警</span>
                     <span class="span-number span-red">(17)</span>
@@ -38,38 +38,39 @@
             </ul>
         </div>
     </div>
-    <div class="main-card">
+    <div class="main-card" id="isKJBPerson_id" <#if isKJBPerson == false || isKJBPerson=='false'>style="display:none"</#if>>
         <div class="main-card-header">辅助决策中心</div>
         <div class="main-card-body">
             <ul class="main-card-body-ul main-card-body-decision">
-                <li class="layui-col-xs4">
+                <li class="layui-col-xs4" id="kytr">
                     <span class="icon-decision icon-decision_01"></span>
-                    <span>财务决策</span>
+                    <span>科研投入</span>
                 </li>
-                <li class="layui-col-xs4">
+                <li class="layui-col-xs4" id="kyht">
                     <span class="icon-decision icon-decision_02"></span>
-                    <span>全成本决策</span>
+                    <span>科研合同</span>
                 </li>
-                <li class="layui-col-xs4">
+                <li class="layui-col-xs4" id="kyzb">
                     <span class="icon-decision icon-decision_03"></span>
-                    <span>项目经费决策</span>
+                    <span>科研装备</span>
                 </li>
-                <li class="layui-col-xs4">
+                <li class="layui-col-xs4" id="kyzc">
                     <span class="icon-decision icon-decision_04"></span>
-                    <span id="projectDecision">项目决策</span>
+                    <span id="projectDecision">科研支出</span>
                 </li>
-                <li class="layui-col-xs4">
+                <li class="layui-col-xs4" id="xjll">
                     <span class="icon-decision icon-decision_05"></span>
-                    <span>多维分析</span>
+                    <span>现金流量</span>
                 </li>
-                <li class="layui-col-xs4">
+                <li class="layui-col-xs4" id="cgzl">
                     <span class="icon-decision icon-decision_06"></span>
-                    <span>科技统计</span>
+                    <span>成果专利</span>
                 </li>
             </ul>
         </div>
     </div>
 </main>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script>
     (function(doc, win) {
@@ -112,6 +113,111 @@
            })
         });
     });
+    
+    
+    //科研投入
+    $("#kytr").click(function () {
+    	location.href="/mobile/kytr";
+    });
+    
+    
+    //科研合同 
+    $("#kyht").click(function () {
+    	location.href="/mobile/kyht";
+    });
+  
+  
+    //科研装备 
+    $("#kyzb").click(function () {
+    	location.href="/mobile/kyzb";
+    });
+  
+  
+    //科研支出  
+    $("#kyzc").click(function () {
+    	location.href="/mobile/kyzc";
+    });
+    
+    
+    //现金流量
+    $("#xjll").click(function () {
+    	location.href="/mobile/xjll";
+    });
+    
+    //成果专利
+    $("#cgzl").click(function () {
+    	location.href="/mobile/cgzl";
+    });
+    
+    //代办
+    $("#numberNotice_list").click(function () {
+    	location.href="/task/wait_task_list_mui";///mobile/wait_task_list
+    });
+    
+    // 已办任务
+    $("#doneTaskCount_list").click(function () {
+    	location.href="/task/done_task_list";///mobile/done_task_list
+    });
+    
+    
+    
+    
+    function set_numberNotice_count() 
+    {
+    	var url="/task/pending-list";
+        $.ajax({
+            type: "POST",
+            url: url,
+            dataType: "json",
+            timeout: 11000,
+            cache: false,
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            success: function (data, status) {
+                    $("#numberNotice").html("("+data.count + ")");
+            },
+            error: function () {
+            },
+            complete: function (XMLHttpRequest, status) {
+
+            }
+
+        });
+    }
+    set_numberNotice_count();
+    
+    
+    function set_doneTaskCount() 
+    {
+    	var url="/task/done-task-list";
+        $.ajax({
+            type: "POST",
+            url: url,
+            dataType: "json",
+            timeout: 11000,
+            cache: false,
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            success: function (data, status) {
+                    $("#doneTaskCount").html("("+data.count + ")");
+            },
+            error: function () {
+            },
+            complete: function (XMLHttpRequest, status) {
+
+            }
+
+        });
+    }
+    set_doneTaskCount();
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  
 </script>
 </body>
 </html>

@@ -132,6 +132,22 @@ public class MobileController extends BaseController {
 
 		return "/mobile/cgzl";
 	}
+	@RequestMapping(value = "/mobile/zhfxChart")
+	public String zhfxChart(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		String year = HanaUtil.getCurrrentYear();
+		request.setAttribute("year", year);
+
+		return "/mobile/zhfxChart";
+	}
 	
+	@RequestMapping(value = "/mobile/zhfxTable")
+	public String zhfxTable(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		String year = HanaUtil.getCurrrentYear();
+		request.setAttribute("year", year);
+
+		return "/mobile/zhfxTable";
+	}
 
 }
