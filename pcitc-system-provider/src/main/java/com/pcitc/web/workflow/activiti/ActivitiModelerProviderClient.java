@@ -65,15 +65,15 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 
 	// 文件上传路径
 	@Value("${spring.http.multipart.location}")
-	private String uploadPath;
+	private String				uploadPath;
 
 	@Autowired
-	private RepositoryService repositoryService;
+	private RepositoryService	repositoryService;
 
 	@Autowired
-	private ObjectMapper objectMapper;
+	private ObjectMapper		objectMapper;
 
-	String DIR_PATH = "";
+	String						DIR_PATH	= "";
 
 	/**
 	 * 新建模型
@@ -126,7 +126,7 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 
 		Model model = repositoryService.getModel(modelId);
 
-		if (model != null) {
+		if (model!=null) {
 			try {
 				if (StringUtils.isNotEmpty(model.getMetaInfo())) {
 					modelNode = (ObjectNode) objectMapper.readTree(model.getMetaInfo());
@@ -179,14 +179,14 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 			throw new ActivitiException("Error saving model", e);
 		}
 	}
-	
+
 	@ApiOperation(value = "产生model资源，直接传到前台byte，", notes = "和generateResource方法有别")
 	@RequestMapping(value = "/modeler-provider/resource/byte1", method = RequestMethod.POST)
 	public byte[] generateResourceByByte(@RequestBody WorkflowVo workflowVo) {
 		try {
 			Model modelData = repositoryService.getModel(workflowVo.getModelId());
 			if (workflowVo.getDataType().equals("xml")) {
-				
+
 				BpmnJsonConverter jsonConverter = new BpmnJsonConverter();
 				JsonNode editorNode = objectMapper.readTree(repositoryService.getModelEditorSource(modelData.getId()));
 				BpmnModel bpmnModel = jsonConverter.convertToBpmnModel(editorNode);
@@ -202,12 +202,12 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 			return null;
 		}
 	}
-	
+
 	@ApiOperation(value = "产生model资源，oss图片路径", notes = "oss图片路径")
 	@RequestMapping(value = "/modeler-provider/resource/image/path", method = RequestMethod.POST)
 	public String ossImagePath(@RequestBody WorkflowVo workflowVo) {
 		Model modelData = repositoryService.getModel(workflowVo.getModelId());
-		String imagePath = OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/" + uploadPath+"activiti/"+ modelData.getId() + ".model.png";
+		String imagePath = OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/"+uploadPath+"activiti/"+modelData.getId()+".model.png";
 		return imagePath;
 	}
 
@@ -230,11 +230,11 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 				System.out.println("5xml=====部署model模型"+bpmnBytes);
 				ByteArrayInputStream in = new ByteArrayInputStream(bpmnBytes);
 				System.out.println("6xml=====部署model模型"+in.available());
-				String fileName = modelData.getId() + ".model.bpmn";
+				String fileName = modelData.getId()+".model.bpmn";
 				System.out.println("7xml=====部署model模型"+uploadPath+"activiti/"+fileName);
 				// 上传xml到oss服务器
 				OSSUtil.uploadFileByInputStream(in, uploadPath+"activiti/", fileName);
-				
+
 				String realName = fileName.replaceAll("\\\\", "/");
 				System.out.println("8xml=====部署model模型"+realName);
 				return realName;
@@ -242,7 +242,7 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 				System.out.println("1image=====部署model模型"+workflowVo.getModelId());
 				byte[] pngBytes = repositoryService.getModelEditorSourceExtra(workflowVo.getModelId());
 				System.out.println("2image=====部署model模型"+pngBytes);
-				String fileName = modelData.getId() + ".model.png";
+				String fileName = modelData.getId()+".model.png";
 				System.out.println("3image=====部署model模型");
 				ByteArrayInputStream in = new ByteArrayInputStream(pngBytes);
 				// 上传image到oss服务器
@@ -267,17 +267,13 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 		System.out.println("2=====部署model模型"+modelData);
 		System.out.println("2=====部署model模型"+modelData.getId());
 		System.out.println("2=====部署model模型"+bytes);
-		if (bytes == null) {
-			return new Result(false, workflowVo.getModelId(), "模型数据为空，请先设计流程并成功保存，再进行发布。");
-		}
+		if (bytes==null) { return new Result(false, workflowVo.getModelId(), "模型数据为空，请先设计流程并成功保存，再进行发布。"); }
 
 		JsonNode modelNode = objectMapper.readTree(bytes);
 		System.out.println("3=====部署model模型"+modelNode);
 		BpmnModel model = new BpmnJsonConverter().convertToBpmnModel(modelNode);
 		System.out.println("4=====部署model模型"+model.getProcesses());
-		if (model.getProcesses().size() == 0) {
-			return new Result(false, workflowVo.getModelId(), "数据模型不符要求，请至少设计一条主线流程。");
-		}
+		if (model.getProcesses().size()==0) { return new Result(false, workflowVo.getModelId(), "数据模型不符要求，请至少设计一条主线流程。"); }
 		System.out.println("51=====部署model模型");
 		try {
 			workflowVo.setDataType("xml");
@@ -285,13 +281,11 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 			System.out.println("513=====部署model模型"+xml);
 			workflowVo.setDataType("image");
 			String image = generateResource(workflowVo);
-			if (xml == "") {
-				return new Result(false, "部署失败", "流程尚未定义或定义错误，不能生成有效的xml和png文件");
-			}
+			if (xml=="") { return new Result(false, "部署失败", "流程尚未定义或定义错误，不能生成有效的xml和png文件"); }
 			System.out.println("53=====部署model模型"+modelData.getId());
 			System.out.println("52=====部署model模型"+xml);
 			System.out.println("52=====部署model模型"+image);
-			String zipFileName = modelData.getId() + ".bpmn20.model.zip";
+			String zipFileName = modelData.getId()+".bpmn20.model.zip";
 			String zipPath = OSSUtil.generateZipFile(uploadPath+"activiti", zipFileName, xml, image);
 			System.out.println("1zipPath======="+zipPath);
 			InputStream inputStream = OSSUtil.getOssFileIS(zipPath.split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
@@ -313,8 +307,7 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 
 			// 更新流程定义类别,替换掉页面的定义
 			ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
-			if (processDefinition != null)
-				repositoryService.setProcessDefinitionCategory(processDefinition.getId(), deployment.getCategory());
+			if (processDefinition!=null) repositoryService.setProcessDefinitionCategory(processDefinition.getId(), deployment.getCategory());
 
 			modelData.setDeploymentId(deployment.getId());
 			repositoryService.saveModel(modelData);
@@ -356,7 +349,7 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 		String msg = "";
 		ModelQuery mq = repositoryService.createModelQuery();
 
-		for (int i = 0; i < fileList.size(); i++) {
+		for (int i = 0; i<fileList.size(); i++) {
 			try {
 				InputStream input = OSSUtil.getOssFileIS(fileList.get(i).getFilePath().split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
 				// 创建转换对象
@@ -366,13 +359,13 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 				// 将xml文件转换成BpmnModel
 				BpmnModel bpmnModel = converter.convertToBpmnModel(reader);
 				mq = mq.modelName(fileList.get(i).getFileName().substring(0, fileList.get(i).getFileName().indexOf(".")));
-				if (mq.count() > 0) {
-					msg = fileList.get(i).getFileName().substring(0, fileList.get(i).getFileName().indexOf(".")) + "-->已经上传，请重新选择！";
+				if (mq.count()>0) {
+					msg = fileList.get(i).getFileName().substring(0, fileList.get(i).getFileName().indexOf("."))+"-->已经上传，请重新选择！";
 					bpmnFlag = false;
 					break;
 				}
-				if (bpmnModel.getMainProcess() == null || bpmnModel.getMainProcess().getId() == null) {
-					msg = fileList.get(i).getFileName().substring(0, fileList.get(i).getFileName().indexOf(".")) + "-->流程文件解析有问题！";
+				if (bpmnModel.getMainProcess()==null||bpmnModel.getMainProcess().getId()==null) {
+					msg = fileList.get(i).getFileName().substring(0, fileList.get(i).getFileName().indexOf("."))+"-->流程文件解析有问题！";
 					bpmnFlag = false;
 					break;
 				}
@@ -386,7 +379,7 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 			// 上传的文件有问题
 			return new Result(false, "部署失败", msg);
 		}
-		for (int i = 0; i < fileList.size(); i++) {
+		for (int i = 0; i<fileList.size(); i++) {
 
 			try {
 				InputStream input = OSSUtil.getOssFileIS(fileList.get(i).getFilePath().split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
@@ -426,29 +419,29 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 
 		ProcessDefinitionQuery query = repositoryService.createProcessDefinitionQuery();
 		DeploymentQuery deQuery = repositoryService.createDeploymentQuery();
-		if (param.getLimit() != null && !StrUtil.isBlankOrNull(param.getLimit().toString())) {
+		if (param.getLimit()!=null&&!StrUtil.isBlankOrNull(param.getLimit().toString())) {
 			limit = Integer.parseInt(param.getLimit().toString());
 		}
-		if (param.getPage() != null && !StrUtil.isBlankOrNull(param.getPage().toString())) {
+		if (param.getPage()!=null&&!StrUtil.isBlankOrNull(param.getPage().toString())) {
 			page = Integer.parseInt(param.getPage().toString());
 		}
-		if (param.getParam().get("processName") != null && !StrUtil.isBlankOrNull(param.getParam().get("processName").toString())) {
-			processName = "%" + param.getParam().get("processName").toString() + "%";
+		if (param.getParam().get("processName")!=null&&!StrUtil.isBlankOrNull(param.getParam().get("processName").toString())) {
+			processName = "%"+param.getParam().get("processName").toString()+"%";
 			query = query.processDefinitionNameLike(processName);
 		}
-		if (param.getParam().get("processDefinitionId") != null && !StrUtil.isBlankOrNull(param.getParam().get("processDefinitionId").toString())) {
+		if (param.getParam().get("processDefinitionId")!=null&&!StrUtil.isBlankOrNull(param.getParam().get("processDefinitionId").toString())) {
 			query = query.processDefinitionId(param.getParam().get("processDefinitionId").toString());
 		}
-		if (param.getParam().get("deploymentId") != null && !StrUtil.isBlankOrNull(param.getParam().get("deploymentId").toString())) {
+		if (param.getParam().get("deploymentId")!=null&&!StrUtil.isBlankOrNull(param.getParam().get("deploymentId").toString())) {
 			query = query.deploymentId(param.getParam().get("deploymentId").toString());
 		}
 		int dataCount = (int) query.count();
-		List<ProcessDefinition> processDefList = query.orderByProcessDefinitionName().desc().listPage(limit * (page - 1), limit);
+		List<ProcessDefinition> processDefList = query.orderByProcessDefinitionName().desc().listPage(limit*(page-1), limit);
 		List<ProcessDefVo> retList = new ArrayList<ProcessDefVo>();
 		for (ProcessDefinition processDefinition : processDefList) {
 			ProcessDefinitionEntity entity = (ProcessDefinitionEntity) processDefinition;
 			String deploymentId = processDefinition.getDeploymentId();
-			
+
 			ProcessDefVo vo = new ProcessDefVo();
 			BeanUtils.copyProperties(entity, vo);
 			Deployment deployment = deQuery.deploymentId(deploymentId).singleResult();
@@ -490,7 +483,7 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 			return new Result(false, workflowVo.getProcessDefineId(), "操作失败");
 		}
 	}
-	
+
 	@ApiOperation(value = "图形化显示业务流程", notes = "activiti系统接口")
 	@RequestMapping(value = "/modeler-provider/process/show", method = RequestMethod.POST)
 	public byte[] showProcessResource(@RequestBody WorkflowVo workflowVo) throws IOException {
@@ -498,13 +491,13 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 		String resourceName = processDefinition.getDiagramResourceName();
 
 		InputStream resourceAsStream = repositoryService.getResourceAsStream(processDefinition.getDeploymentId(), resourceName);
-		ByteArrayOutputStream swapStream = new ByteArrayOutputStream(); 
-		byte[] buff = new byte[100]; //buff用于存放循环读取的临时数据 
-		int rc = 0; 
-		while ((rc = resourceAsStream.read(buff, 0, 100)) > 0) { 
-		swapStream.write(buff, 0, rc); 
-		} 
-		byte[] in_b = swapStream.toByteArray(); //in_b为转换之后的结果 
+		ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
+		byte[] buff = new byte[100]; // buff用于存放循环读取的临时数据
+		int rc = 0;
+		while ((rc = resourceAsStream.read(buff, 0, 100))>0) {
+			swapStream.write(buff, 0, rc);
+		}
+		byte[] in_b = swapStream.toByteArray(); // in_b为转换之后的结果
 		return in_b;
 	}
 
