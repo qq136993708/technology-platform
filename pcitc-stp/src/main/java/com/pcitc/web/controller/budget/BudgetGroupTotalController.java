@@ -26,6 +26,7 @@ import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +45,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetInfo;
+import com.pcitc.base.system.SysMessage;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.workflow.WorkflowVo;
@@ -53,6 +55,7 @@ import com.pcitc.web.common.BaseController;
  * @author fb
  *
  */
+import com.pcitc.web.socket.notice.MessageIndexSocket;
 @Controller
 public class BudgetGroupTotalController extends BaseController {
 
@@ -79,6 +82,9 @@ public class BudgetGroupTotalController extends BaseController {
 	
 	private static final String BUDGET_INFO_UPDATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-update";
 	private static final String BUDGET_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/budget/start-budgetinfo-activity/";
+	
+	@Autowired
+	private MessageIndexSocket msgSocket;
 	
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_main_grouptotal")
@@ -146,6 +152,12 @@ public class BudgetGroupTotalController extends BaseController {
 	@ResponseBody
 	public Object getBudgetGroupItems(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request) throws IOException 
 	{
+		SysMessage msg = new SysMessage();
+		msg.setUserId("163a05ad6df_3df71106");
+		msg.setUserName("fengbo");
+		msgSocket.sendToWeb(msg);
+		
+		
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_ITEMS, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), Object.class);
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
 		return JSON.toJSON(responseEntity.getBody()).toString();

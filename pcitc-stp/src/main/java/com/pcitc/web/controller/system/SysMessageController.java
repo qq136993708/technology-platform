@@ -80,6 +80,7 @@ public class SysMessageController extends BaseController {
 	public Object getLastSysMessageList(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request, HttpServletResponse response) {
 		param.getParam().put("userId", this.getUserProfile().getUserId());
 		param.getParam().put("isRead", "0");//未读消息
+		System.out.println(JSON.toJSONString(param));
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(SYS_MESSAGE_PAGIN_URL, HttpMethod.POST, entity, LayuiTableData.class);
 		List<?> data = responseEntity.getBody().getData();
@@ -89,6 +90,7 @@ public class SysMessageController extends BaseController {
 			map.put("ago", DateUtils.getAgoDesc(DateUtils.strToDate(map.get("createDate").toString(),DateUtils.FMT_SS)));
 			rsmap.add(map);
 		}
+		System.out.println(JSON.toJSONString(rsmap));
 		return rsmap;
 	}
 	/**
