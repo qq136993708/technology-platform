@@ -5,74 +5,106 @@
     <title>科技管理平台</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/mobile/css/mobile.css">
+    <link rel="stylesheet" href="/mobile/css/mobileNew.css">
 </head>
 <body>
 <header>
-    <div class="m_return">
-        <a href="http://toworkbench.app.sinopec.com"><img src="/mobile/images/icon-return.png"/> </a>
-        <h4>科技管理平台</h4>
+	<div class="main-card banner">
+	    <div class="layui-carousel" id="test1" lay-filter="test1">
+			<div carousel-item="">
+				<div><img src="images/bg_main1.png" class="m_banner"></div>
+				<div><img src="images/bg_main2.png" class="m_banner"></div>
+				<div><img src="images/bg_main1.png" class="m_banner"></div>
+			</div>
+		</div> 
     </div>
-    <div class="m_banner"></div>
 </header>
 <main class="main">
-    <div class="main-card">
-        <div class="main-card-header">待办任务</div>
-        <div class="main-card-body">
+    <div class="main-card first-card">
+        <div class="main-card-header">工作台</div>
+        <div class="main-card-body card-shadow">
             <ul class="main-card-body-ul">
-                <li class="layui-col-xs4" id="numberNotice_list">
-                    <span class="agency-icon layui-icon-agency_01"></span>
-                    <span>待办任务</span>
-                    <span class="span-number span-red"><a id="numberNotice"  lay-href="/task/pending/list/ini" lay-text="待办任务"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></a></span>
+                <li class="layui-col-xs3" id="numberNotice_list">
+                	<div class="agency-box">
+                		<span class="text">待办事项</span>
+                		<span class="agency-icon1 layui-icon-agency_01"></span>
+                		<span class="agency-circle1 layui-icon-circle_01"></span>
+                	</div>
                 </li>
-                <li class="layui-col-xs4" id="doneTaskCount_list">
-                    <span class="agency-icon layui-icon-agency_02"></span>
-                    <span>已办任务</span>
-                    <span class="span-number" id="doneTaskCount"><a   lay-href="/task/done-task/list/ini" lay-text="已办任务"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></a></span>
+                <li class="layui-col-xs3" id="doneTaskCount_list">
+                	<div class="agency-box">
+                		<span class="text">已办事项</span>
+                		<span class="agency-icon1 layui-icon-agency_02"></span>
+                		<span class="agency-circle1 layui-icon-circle_02"></span>
+                	</div>
                 </li>
-                <li class="layui-col-xs4" >
-                    <span class="agency-icon layui-icon-agency_03"></span>
-                    <span>业务预警</span>
-                    <span class="span-number span-red">(17)</span>
+                <li class="layui-col-xs3" >
+                    <div class="agency-box">
+                		<span class="text">已结事项</span>
+                		<span class="agency-icon1 layui-icon-agency_03"></span>
+                		<span class="agency-circle1 layui-icon-circle_03"></span>
+                	</div>
+                </li>
+                <li class="layui-col-xs3" >
+                    <div class="agency-box">
+                		<span class="text">工作安排</span>
+                		<span class="agency-icon1 layui-icon-agency_04"></span>
+                		<span class="agency-circle1 layui-icon-circle_04"></span>
+                	</div>
                 </li>
             </ul>
         </div>
     </div>
-    <div class="main-card" id="isKJBPerson_id" <#if isKJBPerson == false || isKJBPerson=='false'>style="display:none"</#if>>
-        <div class="main-card-header">辅助决策中心</div>
+    <div class="main-card" id="isKJBPerson_id" >
+        <div class="main-card-header">数据分析</div>
         <div class="main-card-body">
-            <ul class="main-card-body-ul main-card-body-decision">
-                <li class="layui-col-xs4" id="kytr">
-                    <span class="icon-decision icon-decision_01"></span>
-                    <span>科研投入</span>
-                </li>
-                <li class="layui-col-xs4" id="kyht">
-                    <span class="icon-decision icon-decision_02"></span>
-                    <span>科研合同</span>
-                </li>
-                <li class="layui-col-xs4" id="kyzb">
-                    <span class="icon-decision icon-decision_03"></span>
-                    <span>科研装备</span>
-                </li>
-                <li class="layui-col-xs4" id="kyzc">
-                    <span class="icon-decision icon-decision_04"></span>
-                    <span id="projectDecision">科研支出</span>
-                </li>
-                <li class="layui-col-xs4" id="xjll">
-                    <span class="icon-decision icon-decision_05"></span>
-                    <span>现金流量</span>
-                </li>
-                <li class="layui-col-xs4" id="cgzl">
-                    <span class="icon-decision icon-decision_06"></span>
-                    <span>成果专利</span>
-                </li>
-            </ul>
+       		<div class="dec-center">
+       			<div class="dec-center-left1" id="kyzc">
+       				<span>科研支出  </span>
+       				<span class="icon-decision icon-decision_01"></span>
+       			</div>
+       			<div class="dec-center-right1" id="kytr">
+       				<span>科研投入</span>
+       				<span class="icon-decision icon-decision_02"></span>
+       			</div>
+       		</div>
+       		<div class="dec-center">
+       			<div class="dec-center-left2" id="xjll">
+       				<span>现金流量</span>
+       				<span class="icon-decision icon-decision_03"></span>
+       			</div>
+       			<div class="dec-center-right2" id="kyht">
+       				<span>科研合同 </span>
+       				<span class="icon-decision icon-decision_04"></span>
+       			</div>
+       		</div>
+       		<div class="dec-center">
+       			<div class="dec-center-left3" id="cgzl">
+	       			<span>成果专利</span>
+	       				<span class="icon-decision icon-decision_05"></span>
+	       			</div>
+       			<div class="dec-center-right3" id="kyzb">
+       				<span>科研装备 </span>
+       				<span class="icon-decision icon-decision_06"></span>
+       			</div>
+       		</div>
         </div>
     </div>
 </main>
+	<!-- 弹框 -->
+	<div class="jczxWin disNone">
+		<div class="addRole">
+			<div class="win_grid" >
+				<div class="tableLoading" id="tableLoading01"><i class="layui-icon layui-icon-loading" style="font-size: 28px"></i></div>
+				<table id="jczxTable" ></table>
+			</div>
+		</div>
+	</div>
+
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script>
+var layer;
     (function(doc, win) {
         var docEl = doc.documentElement,
             resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
@@ -86,69 +118,172 @@
         doc.addEventListener('DOMContentLoaded', recalc, false);
     })(document, window);
     layui.use(['jquery','layer'], function(){
-        var $=layui.jquery,layer=layui.layer;
-
+		var $=layui.jquery;
+		layer=layui.layer;
         $("#projectDecision").click(function () {
-           var  projectDecisionHtml="<ul class='layer-ul'>" +
-               "<li><a href='/mobile/projectdecision/research-funds-trend.html'>科技资金现金流趋势分析</a></li>" +
-               "<li><a href='/mobile/projectdecision/research-funds-proportion.html'>科技资金现金流占比分析</a></li>" +
-               "<li><a href='javascript:;'>科研经费综合分析</a></li>" +
-               "<li><a href='javascript:;'>科研项目综合分析</a></li>" +
-               "<li><a href='javascript:;'>重大科研项目分析</a></li>" +
-               "<li><a href='javascript:;'>十条龙项目分析</a></li>" +
-               "<li><a href='javascript:;'>项目调整决策分析</a></li>" +
-               "<li><a href='javascript:;'>项目支出综合分析</a></li>" +
-               "</ul>";
-           layer.open({
-               title: '项目决策',
-               skin: 'layui-layer-lan',
-               shadeClose: true,
-               type: 1,
-               fixed: false,
-               //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-               maxmin: false,
-               //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-               area: ['9rem', '10rem'],
-               content: projectDecisionHtml
-           })
+			var projectDecisionHtml="<ul class='layer-ul'>" +
+				"<li><a href='/mobile/projectdecision/research-funds-trend.html'>科技资金现金流趋势分析</a></li>" +
+				"<li><a href='/mobile/projectdecision/research-funds-proportion.html'>科技资金现金流占比分析</a></li>" +
+				"<li><a href='javascript:;'>科研经费综合分析</a></li>" +
+				"<li><a href='javascript:;'>科研项目综合分析</a></li>" +
+				"<li><a href='javascript:;'>重大科研项目分析</a></li>" +
+				"<li><a href='javascript:;'>十条龙项目分析</a></li>" +
+				"<li><a href='javascript:;'>项目调整决策分析</a></li>" +
+				"<li><a href='javascript:;'>项目支出综合分析</a></li>" +
+				"</ul>";
+			layer.open({
+				title: '项目决策',
+				skin: 'layui-layer-lan',
+				shadeClose: true,
+				type: 1,
+				fixed: false,
+				//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+				maxmin: false,
+				//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+				area: ['9rem', '10rem'],
+				content: projectDecisionHtml
+			})
         });
     });
     
     
+    /************左列********/
+    
+    //科研支出  
+    $("#kyzc").click(function () {
+			var projectDecisionHtml="<ul class='layer-ul'>" +
+				"<li><a href='/mobile/kyzc'>科研支出  </a></li>" +
+				"</ul>";
+			layer.open({
+				title: '科研支出  ',
+				skin: 'layui-layer-lan',
+				shadeClose: true,
+				type: 1,
+				fixed: false,
+				//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+				maxmin: false,
+				//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+				area: ['9rem', '5rem'],
+				content: projectDecisionHtml
+			})
+    	
+    });
+    //现金流量
+    $("#xjll").click(function () {
+    	//location.href="/mobile/xjll";
+    	var projectDecisionHtml="<ul class='layer-ul'>" +
+				"<li><a href='/mobile/xjll'>现金流量 </a></li>" +
+				"</ul>";
+			layer.open({
+				title: '现金流量',
+				skin: 'layui-layer-lan',
+				shadeClose: true,
+				type: 1,
+				fixed: false,
+				//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+				maxmin: false,
+				//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+				area: ['9rem', '5rem'],
+				content: projectDecisionHtml
+			})
+			
+			
+    });
+    //成果专利
+    $("#cgzl").click(function () {
+    	//location.href="/mobile/cgzl";
+    	
+    	var projectDecisionHtml="<ul class='layer-ul'>" +
+		"<li><a href='/mobile/cgzl'>成果专利 </a></li>" +
+		"</ul>";
+		layer.open({
+			title: '成果专利',
+			skin: 'layui-layer-lan',
+			shadeClose: true,
+			type: 1,
+			fixed: false,
+			//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+			maxmin: false,
+			//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+			area: ['9rem', '5rem'],
+			content: projectDecisionHtml
+		})
+    });
+    /************左列 end********/
+    /**********右列**********/
     //科研投入
     $("#kytr").click(function () {
     	location.href="/mobile/kytr";
     });
-    
-    
     //科研合同 
     $("#kyht").click(function () {
     	location.href="/mobile/kyht";
     });
-  
-  
     //科研装备 
     $("#kyzb").click(function () {
     	location.href="/mobile/kyzb";
     });
-  
-  
-    //科研支出  
-    $("#kyzc").click(function () {
-    	location.href="/mobile/kyzc";
-    });
     
     
-    //现金流量
-    $("#xjll").click(function () {
-    	location.href="/mobile/xjll";
-    });
+  	//弹框
+  	function table_win(title){
+  		layer.open({
+            type: 1,
+            skin: 'layui-layer-gray',
+            fix: true,
+            title: ["<i class='iconfont icon-ai61 mgr5'></i>"+title+" ",""],
+            shadeClose: true,
+            maxmin: false,
+            scrollbar:false,
+            area: ['9.64rem', '11.11rem'],
+            anim: 0,
+            offset:  'auto',
+            content: $('.jczxWin'),
+            success: function(){
+            	$("[data-field='city']").css('display','none');
+            	$("[lay-id='jczxTable']").css('margin','0');
+            	$(".layui-layer-content").css('height','calc(100% - 50px)');
+            	
+            	loadTableData();
+            }
+        })
+  	}
     
-    //成果专利
-    $("#cgzl").click(function () {
-    	location.href="/mobile/cgzl";
-    });
-    
+   
+  	function loadTableData(){
+  		layui.use('table', function(){
+            var table = layui.table;
+            //第一个实例
+            table.render({
+                elem: '#jczxTable',
+//                 url: '/common/getSupplier/getSupplierData',
+                url: 'table.json',
+                page: false, //开启分页
+                limit: 5,
+                limits: [5, 10, 20, 30, 40, 50, 60, 70, 80, 90],
+                cols: [[ //表头
+                    {field: 'city', title: '',align:'left', sort: false}
+                    
+                ]],
+                data:data,
+                id: 'jczxTable',
+                done:function(res,curr,count) {
+                	$(".tableLoading").css("display","none");
+                }
+            });
+
+            var $ = layui.$, active = {
+                getCheckData: function(){ //获取选中数据
+                    var checkStatus = table.checkStatus('gysTable'),data = checkStatus.data;
+                    layer.closeAll();
+                    //操作
+                }
+            };
+        });
+  	}
+  	
+  	
+  	
     //代办
     $("#numberNotice_list").click(function () {
     	location.href="/mobile/wait_task_list_mui";///mobile/wait_task_list
@@ -162,8 +297,7 @@
     
     
     
-    function set_numberNotice_count() 
-    {
+    function set_numberNotice_count(){
     	var url="/task/pending-list";
         $.ajax({
             type: "POST",
@@ -173,21 +307,19 @@
             cache: false,
             contentType: "application/x-www-form-urlencoded; charset=utf-8",
             success: function (data, status) {
-                    $("#numberNotice").html("("+data.count + ")");
+				$("#numberNotice").html("("+data.count + ")");
             },
             error: function () {
-            },
+				
+			},
             complete: function (XMLHttpRequest, status) {
-
+				
             }
-
         });
     }
     set_numberNotice_count();
     
-    
-    function set_doneTaskCount() 
-    {
+    function set_doneTaskCount() {
     	var url="/task/done-task-list";
         $.ajax({
             type: "POST",
@@ -197,10 +329,11 @@
             cache: false,
             contentType: "application/x-www-form-urlencoded; charset=utf-8",
             success: function (data, status) {
-                    $("#doneTaskCount").html("("+data.count + ")");
+				$("#doneTaskCount").html("("+data.count + ")");
             },
             error: function () {
-            },
+				
+			},
             complete: function (XMLHttpRequest, status) {
 
             }
@@ -208,16 +341,22 @@
         });
     }
     set_doneTaskCount();
+    layui.use(['carousel', 'form'], function(){
+		var carousel = layui.carousel,
+		form = layui.form;
+		//常规轮播
+		carousel.render({
+			width:'calc(100% - 1.154‬rem)',
+			height:'4.81rem',
+			elem: '#test1',
+			arrow: 'hover',
+			autoplay:true,
+			indicator:'outside'
+		});
+	});
     
     
-    
-    
-    
-    
-    
-    
-    
-  
+	
 </script>
 </body>
 </html>

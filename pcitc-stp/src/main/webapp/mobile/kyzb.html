@@ -1,145 +1,120 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<meta charset="UTF-8">
+    <title>科技管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/mainStp.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
-    <style>
-        .btn_details{background:url(/layuiadmin/layui/images/operation_03.png) 2px 4px #fff no-repeat;}
-        .btnMyBgImg:hover{background-size:inherit;background-position: 2px;}
-        .searchBox{background:none;}
-    </style>
+    <link rel="stylesheet" href="/mobile/css/mobileNew.css">
 </head>
 <body>
-<div class="layui-fluid">
-   <input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
-    <div class="">
-        <div class="searchBox">
-            <label class="dateInput">
-                <span>年月份</span>
-                <input type="text" name="month" placeholder="请选择年份" title="年份" value="${month}"  autocomplete="off" class="form-control" id="month">
-            </label>
-            <!--按钮组-->
-            <!--<div class="btnGroup">
-                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()">查询</button>
-            </div>-->
-            <div class="breadcrumb">
-                 <a href="/mobile/index" target="_parent">首页 > </a><span>科研装备</span>
-            </div>
-        </div>
-        
-        
-        
-         
-         <div class="layui-row layui-col-space15">
-            <div class="layui-col-md12">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                         <span class="layui-time1"></span>年直属研究院科研装备课题数量
-                    </div>
-                    <div class="layui-row-main">
-                       <div class="text-total">
+<header>
+    <div class="m_return child">
+        <a href="index2.html"><img src="/mobile/images/icon-back.png"/> </a>
+        <h4>科研装备</h4>
+    </div>
+</header>
+<main class="main">
+<input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
+
+	<div class="layui-card layui-form " lay-filter="component-form-element">
+		<div class="layui-card-body layui-row layui-col-space10">
+			<div class="layui-col-xs4">
+				<input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control layui-input" id="month">
+			</div>
+			<div class="layui-col-xs4" style="display:none">
+				<select name="city" lay-verify="">
+					<option value="">全部</option>
+					<option value="010">北京</option>
+					<option value="021">上海</option>
+					<option value="0571">杭州</option>
+				</select>
+			</div>
+			<div class="layui-col-xs2">
+				<button class="layui-btn layui-btn-primary" onclick="search_Event()">搜索</button>
+			</div>
+		</div>
+	</div>
+   <div class="main-card first-card">
+        <div class="main-card-header hasborder"><span class="layui_time1"></span>年直属研究院科研装备课题</div>
+        <div class="main-card-body">
+         <div class="text-total">
                             <span>总计:<span    class="text-total-blue"    id="equipment_chart1_01" onclick="equipment_chart1('')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>新开课题:<span class="text-total-blue"    id="equipment_chart1_02" onclick="equipment_chart1('新开课题')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>结转课题:<span class="text-total-blue"    id="equipment_chart1_03" onclick="equipment_chart1('结转课题')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         <div class="main-chart" id="equipment_chart1" style="height:280px;width: 100%;"></div>
-                    </div>
-                </div>
-            </div>
         </div>
-        
-        <div class="layui-row layui-col-space15">
-            <div class="layui-col-md12">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        <span class="layui-time1"></span>直属研究院科研课题数量占比
-                    </div>
-                    <div class="layui-row-main myTable">
-                       <table id="myTable" class="layui-table" lay-filter="myTable"  >
+    </div>
+    
+    <div class="main-card first-card">
+        <div class="main-card-header hasborder"><span class="layui_time1"></span>直属研究院科研课题数量占比</div>
+        <div class="main-card-body">
+           <table id="myTable" class="layui-table" lay-filter="myTable"  >
                             <thead>
                             <tr>
                                 <th lay-data="{field:'define2', width:'30%',align:'center'}" rowspan="2">项目</th>
                                 <th lay-data="{align:'center'}" colspan="2">总计</th>
-                               <!--  <th lay-data="{align:'center'}" colspan="2">新开课题</th>
-                                <th lay-data="{align:'center'}" colspan="2">结转课题</th> -->
                             </tr>
                             <tr>
                                 <th lay-data="{field:'zsl', width:'30%',align:'right'}">数量（个）</th>
                                 <th lay-data="{field:'zslRate', width:'30%',align:'right',templet:function(d){return d.zslRate.toFixed(2)+'%'}}">占比</th>
-
-                              <!--   <th lay-data="{field:'xksl', width:'13%',align:'right'}">数量（个）</th>
-                                <th lay-data="{field:'xkRate', width:'13%',align:'right',templet:function(d){return d.xkRate.toFixed(2)+'%'}}">占比</th>
-
-                                <th lay-data="{field:'xjsl', width:'13%',align:'right'}">数量（个）</th>
-                                <th lay-data="{field:'xjRate', width:'13%',align:'right',templet:function(d){return d.xjRate.toFixed(2)+'%'}}">占比</th>
- -->
                             </tr>
 
                             </thead>
                         </table>
-                    </div>
-                </div>
-            </div>
         </div>
-        
-        
- 
-         <div class="layui-row layui-col-space15">
-            <div class="layui-col-md12">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        <span class="layui-time"></span>直属研究院科研装备数量
-                    </div>
-                    <div class="layui-row-main">
-                       <div class="text-total" style="font-size: 12px;">
-                             <span>大型分析仪器:<span class="text-total-blue" id="bar4_1_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>中型实验装置:<span class="text-total-blue" id="bar4_2_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>单台值大于500万:<span class="text-total-blue" id="bar4_3_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>专业软件（外购）:<span class="text-total-blue" id="bar4_4_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                        </div>
-                        <div class="main-chart" id="equipment_chart3" style="height:280px;width: 100%;"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        
- 
- 
-         <div class="layui-row layui-col-space15">
-            <div class="layui-col-md12">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                      <span class="layui-time"></span>科研课题数量占比
-                    </div>
-                    <div class="layui-row-main processdef_table_02">
-                    <table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table_02"></table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-
-
     </div>
-</div>
-
-<script src="/common/js/jquery-1.11.3.min.js"></script>
+    
+    
+    <div class="main-card" id="isKJBPerson_id">
+        <div class="main-card-header hasborder"><span class="layui_time"></span>直属研究院科研装备数量</div>
+        <div class="main-card-body">
+                <div class="text-total" style="font-size: 12px;">
+                      <span>大型分析仪器:<span class="text-total-blue" id="bar4_1_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                     <span>中型实验装置:<span class="text-total-blue" id="bar4_2_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                     <span>单台值大于500万:<span class="text-total-blue" id="bar4_3_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                     <span>专业软件（外购）:<span class="text-total-blue" id="bar4_4_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                 </div>
+                 <div class="main-chart" id="equipment_chart3" style="height:280px;width: 100%;"></div>
+        </div>
+    </div>
+    
+    <div class="main-card first-card">
+        <div class="main-card-header hasborder"><span class="layui_time"></span>科研课题数量占比</div>
+        <div class="main-card-body"  style="height:360px;">
+           <table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table_02"></table>
+        </div>
+    </div>
+    
+    
+</main>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
-<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
 <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
 <script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
 
+
+
 <script type="text/javascript">
+(function(doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function() {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            docEl.style.fontSize =  (clientWidth / 10.8) + 'px';
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+	
+	
 var echart1;
 var data7;
 var table;
@@ -157,8 +132,8 @@ layui.config({
         	 elem: '#month'
         	       ,format: 'yyyyMM'
             ,done: function(value, date, endDate){
-                $(".layui-time1").html(date.year);
-                $(".layui-time").html(date.year+"年"+date.month+"月");
+                $(".layui_time1").html(date.year);
+                $(".layui_time").html(date.year+"年"+date.month+"月");
 
                 $("#month").val(date.year+""+PrefixInteger(date.month, 2));
 
@@ -169,8 +144,8 @@ layui.config({
 
         var monthValY=$("#month").val().substring(4,0);
         var monthValM=$("#month").val().substring(4);
-        $(".layui-time").html(monthValY+"年"+monthValM+"月");
-        $(".layui-time1").html(monthValY);
+        $(".layui_time").html(monthValY+"年"+monthValM+"月");
+        $(".layui_time1").html(monthValY);
 
         renderTable2();
         myTable();
@@ -314,7 +289,7 @@ function renderTable2()
 	  elem: '#processdef_table_02',
 	  url:'/direct/equipment_02?type=2&companyCode='+companyCode+'&v_date='+v_date+'&month='+month+"&xmlbbm=kyzb",
 	  method:"GET",
-      height:360,
+      height:420,
 	  where: {param: {"month":$("#month").val()}},
 	  limit: 15,
 	  id: 'processdef_table_02',
@@ -354,7 +329,7 @@ function myTable()
 	var url= '/direct/equipment_01?type=2&v_date='+v_date+"&nd="+nd+"&xmlbbm=kyzb";
     table.init('myTable', {
 		  url: url
-		  ,height:"370px"
+		  ,height:"450px"
 		  ,where: {}
 	});
 
@@ -362,9 +337,7 @@ function myTable()
     
     
 }
-
         
 </script>
-
 </body>
 </html>
