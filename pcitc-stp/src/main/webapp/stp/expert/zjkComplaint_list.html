@@ -20,12 +20,12 @@
         <input type="text" name="zjkName" id="zjkName"
                placeholder="请输入专家名称"
                title="专家名称" autocomplete="off"
-               class="form-control" id="zjkNameName">
+               class="form-control" >
         <span>项目名称</span>
         <input type="text" name="xmName" id="xmName"
                placeholder="请输入项目名称"
                title="项目名称" autocomplete="off"
-               class="form-control" id="xmNameName">
+               class="form-control" >
         <span>项目阶段</span>
         <select name="xmSteps" id="xmSteps" lay-filter="xmSteps">
             <option value="">请选择</option>
@@ -255,7 +255,13 @@
                 renderTable();
             },
             resetEvent: function () { //点击重置按钮
-                $('#workOrderName').val("");
+                $('#zjkName').val("");
+                $('#xmName').val("");
+                $('#xmSteps').val("");
+                $('#complaintType').val("");
+
+                renderTable();
+
             },
             addEvent: function () { //点击新增按钮
                 layer.open({

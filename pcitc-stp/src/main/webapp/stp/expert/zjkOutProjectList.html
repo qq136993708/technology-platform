@@ -85,12 +85,14 @@
                     }
                 },
                 limit: param.selfRownum,
+                // limit: 15,
                 id: 'showTable',
                 height: commonDislodgeTable(),
                 page: {
                     groups: 5,
+                    limits: [15, 30, 45, 60],
                     limits: [param.selfRownum, 15, 30, 45, 60],
-                    layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                    // layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
                     first: '首页', //不显示首页
                     last: '尾页', //不显示尾页
                     theme: '#0F9EE0'
@@ -207,6 +209,9 @@
                 renderTable();
             },
             resetEvent: function () { //点击重置按钮
+                $('#nd').val("");
+                $('#xmmc').val("");
+                $('#project_property').val("");
                 $('#projectName').val("");
                 $('.tableBtns').children('button').removeClass('active');
                 active.searchEvent();
