@@ -402,7 +402,7 @@
 				//初始化websocket
 				var websocket = null;
 				if ('WebSocket' in window) {
-					websocket = new WebSocket("ws://" + document.location.host + "/messageIndex");
+					websocket = new WebSocket("ws://" + document.location.host + "/messageIndex/${userId?default(0)}");
 					websocket.onerror = function() {
 					};
 					websocket.onopen = function(event) {
@@ -416,20 +416,12 @@
 					}
 					websocket.onmessage = function(event) {
 						getNotReadMessageList();
-						/* var currentCount = 0;
-						if ($("#nc").text() && parseInt($("#nc").text())) {
-							currentCount = parseInt($("#nc").text());
-						}
-						currentCount += 1;
-						$("#nc").text(currentCount);
-						var notice = $.parseJSON(event.data);
-						//使用参数：1.标题，2.链接地址，3.内容简介，4.标签名称
-						var pop = new Pop(notice.noticeTitle, "/sysNotice/readNotice?id=" + notice.noticeId, notice.noticeSummary, ""); */
 					}
 				} else {
 					console.log('Not support websocket');
 				}
 			}
+			//获取未读消息
 			window.getNotReadMessageList = function() {
 				publicMethods.ajaxAsyncPost('/message/get-newest-messages', {page:1,limit:100,param: {"isRead":"0"}}, function (data, status) {
 					var content = "";

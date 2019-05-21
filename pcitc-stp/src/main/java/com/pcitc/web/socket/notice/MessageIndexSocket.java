@@ -11,6 +11,7 @@ import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
 import org.springframework.stereotype.Component;
@@ -19,7 +20,7 @@ import com.alibaba.fastjson.JSON;
 import com.pcitc.base.system.SysMessage;
 import com.pcitc.web.common.BaseController;
 
-@ServerEndpoint(value = "/messageIndex")
+@ServerEndpoint(value = "/messageIndex/{userId}")
 @Component
 public class MessageIndexSocket extends BaseController 
 {
@@ -35,11 +36,11 @@ public class MessageIndexSocket extends BaseController
      * 连接建立成功调用的方法
      */
     @OnOpen
-    public void onOpen(Session session, EndpointConfig config) {
+    public void onOpen(@PathParam(value="userId") String userId,Session session, EndpointConfig config) {
     	try {
-    		System.out.println("有新连接加入！当前在线人数为" + getOnlineCount());
+    		System.out.println("有新连接加入！当前在线人数为" + getOnlineCount()+" userId:"+userId);
         	this.session = session;
-            session.getUserProperties().put("userId", "163a05ad6df_3df71106");
+            session.getUserProperties().put("userId", userId);
             webSocketSet.add(this); // 加入set中
             addOnlineCount(); // 在线数加1
     	}catch(Exception e) 
