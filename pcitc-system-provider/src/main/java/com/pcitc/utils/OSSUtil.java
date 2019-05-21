@@ -101,7 +101,7 @@ public class OSSUtil {
 
 			// 连接oss
 			OSSClient ossClient = new OSSClient(ENDPOINT, ACCESSKEYID, ACCESSKEYSECRET);
-
+			
 			metadata.setContentType(getContentType(uuidFileName));
 			metadata.setContentDisposition("filename/filesize="+uuidFileName+"/"+fileSize+"Byte.");
 			ossClient.putObject(BUCKET, directory+uuidFileName, inputStream, metadata);
@@ -213,7 +213,6 @@ public class OSSUtil {
 				if (fileName==null||"".equals(fileName)) {
 					continue;
 				}
-				System.out.println("fileName------------"+fileName);
 				InputStream fis = getOssFileIS(basePath+"/"+fileName);
 				zos.putNextEntry(new ZipEntry(fileName));
 				int len;
