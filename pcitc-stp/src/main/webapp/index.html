@@ -415,6 +415,7 @@
 						websocket.close();
 					}
 					websocket.onmessage = function(event) {
+						console.log("on message.... add not_read or add reding");
 						getNotReadMessageList();
 					}
 				} else {
