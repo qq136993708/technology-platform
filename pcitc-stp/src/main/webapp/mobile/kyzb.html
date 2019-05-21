@@ -10,13 +10,12 @@
 <body>
 <header>
     <div class="m_return child">
-        <a href="index2.html"><img src="/mobile/images/icon-back.png"/> </a>
+        <a href="/mobile/indexTest"><img src="/mobile/images/icon-back.png"/> </a>
         <h4>科研装备</h4>
     </div>
 </header>
 <main class="main">
 <input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
-
 	<div class="layui-card layui-form " lay-filter="component-form-element">
 		<div class="layui-card-body layui-row layui-col-space10">
 			<div class="layui-col-xs4">
@@ -51,7 +50,7 @@
         <div class="main-card-header hasborder"><span class="layui_time1"></span>直属研究院科研课题数量占比</div>
         <div class="main-card-body">
            <table id="myTable" class="layui-table" lay-filter="myTable"  >
-                            <thead>
+                 <thead>
                             <tr>
                                 <th lay-data="{field:'define2', width:'30%',align:'center'}" rowspan="2">项目</th>
                                 <th lay-data="{align:'center'}" colspan="2">总计</th>
@@ -60,12 +59,10 @@
                                 <th lay-data="{field:'zsl', width:'30%',align:'right'}">数量（个）</th>
                                 <th lay-data="{field:'zslRate', width:'30%',align:'right',templet:function(d){return d.zslRate.toFixed(2)+'%'}}">占比</th>
                             </tr>
-
-                            </thead>
-                        </table>
+                  </thead>
+             </table>
         </div>
     </div>
-    
     
     <div class="main-card" id="isKJBPerson_id">
         <div class="main-card-header hasborder"><span class="layui_time"></span>直属研究院科研装备数量</div>
@@ -86,7 +83,6 @@
            <table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table_02"></table>
         </div>
     </div>
-    
     
 </main>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
