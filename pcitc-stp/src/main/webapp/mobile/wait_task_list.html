@@ -1,231 +1,110 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<meta charset="UTF-8">
+    <title>科技管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css"  media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/mainStp.css"   media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/common.css"    media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/second.css"    media="all">
-    <style>
-        .loadingImg{width: 24px;}
-        .btn_details{background:url(/layuiadmin/layui/images/operation_03.png) 2px 4px #fff no-repeat;}
-        .btnMyBgImg:hover{background-size:inherit;background-position: 2px;}
-        .searchBox{background:none;}
-    </style>
+    <link rel="stylesheet" href="/mobile/css/mobileNew.css">
 </head>
 <body>
-<div class="layui-fluid">
-    <div class="">
-        <div class="searchBox">
-            <div class="breadcrumb">
-                <a href="/mobile/index" >首页 > </a><span>待办任务</span>
-            </div>
-        </div>
-        
-         <div class="layui-row layui-col-space15">
-            <div class="layui-col-md12">
-                 <table id="pendingTable" class="layui-hide" lay-filter="tableData"></table>
-            </div>
-        </div>
-        
+<header>
+    <div class="m_return child">
+        <a href="index2.html"><img src="/mobile/images/icon-back.png"/> </a>
+        <h4>待办信息</h4>
     </div>
-</div>
-<script src="/common/js/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-<script type="text/javascript">
-var functionId = "${functionId}";
-var table, active, selectRowData = '';
-var updateFlag = false;
-layui.use([ 'jquery', 'table', 'laydate', 'laypage', 'laytpl', 'laydate' ], function() {
-	table = layui.table, $ = layui.jquery, laydate = layui.laydate, laypage = layui.laypage, laydate = layui.laydate;
-
-	function renderTable() {
-		var param = JSON.parse(window.localStorage.getItem("param"));
-
-		var lodingMsg = layer.msg('数据加载中....');
-
-		//渲染
-		table.render({
-			elem : '#pendingTable',
-			url : '/task/pending-list',
-			method : "POST",
-			where : {
-				param : {
-				}
-			},
-			limit : param.selfRownum,
-			id : 'pendingTable',
-			height : commonDislodgeTable(),
-			page : {
-				groups : 5,
-				limits : [ param.selfRownum, 15, 30, 45, 60 ],
-				layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
-				first : '首页', //不显示首页
-				last : '尾页', //不显示尾页
-				theme : '#0F9EE0'
-			},
-			cols : [ [ {
-				type : 'checkbox',
-				event : 'changeEvents',
-				width : 55
-			}, {
-				title : '序号',
-				type : 'numbers',
-				width : 55
-			}, {
-				field : 'processDefinitionName',
-				title : '业务模块',
-				width : '30%',
-				style : 'cursor: pointer;'
-			}, {
-				field : 'auditor',
-				title : '上一步处理人',
-				width : '20%',
-				style : 'cursor: pointer;'
-			}, {
-				field : 'createTime',
-				title : '上一步处理时间',
-				width : '20%',
-				style : 'cursor: pointer;',
-				templet : '<div>{{ layui.laytpl.toDateString(d.createTime) }}</div>',
-				align : 'center'
-			}, {
-				width : '20%',
-				field : 'auditRemarks',
-				title : '处理意见',
-				style : 'cursor: pointer;'
-			}, ] ],
-			done : function(res, curr, count) {
-				// 关闭等待刷新
-				layer.close(lodingMsg);
-
-				// 点击行联动选择框--单选
-				$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
-					var index = parseInt($(this).index() + 1);
-					$('tr').removeClass('layui-table-click');
-					$(this).addClass('layui-table-click');
-					$('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-					$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-					selectRowData = res.data[index - 1];
-				});
-			}
-		});
-		$(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
-	}
-	renderTable();
-
-	// 触发不同的按钮事件
-	var $ = layui.$;
-	active = {
-		searchEvent : function() { //点击查询按钮
-			selectRowData = '';
-			renderTable();
-		},
-		handleEvent : function() { //点击办理按钮
-			if (typeof (selectRowData.id) == "undefined") {
-				layer.msg('请点击选择一行数据');
-			} else {
-				var temUrl = "/task/pending/deal/" + selectRowData.id;
-				updateFlag = false;
-				layer.open({
-					title : '任务处理',
-					skin : 'layui-layer-lan',
-					shadeClose : true,
-					type : 2,
-					fixed : false,
-					//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-					maxmin : true,
-					//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-					area : [ '70%', '90%' ],
-					content : temUrl,
-					end : function() {
-						if (updateFlag) {
-							active.searchEvent();
-							layer.msg('操作成功');
-						}
-					}
-				});
-			}
-		},
-		resetEvent : function() { //点击重置按钮
-			$('.tableBtns').children('button').removeClass('active');
-			active.searchEvent();
-		},
-		detailEvent : function() { //点击详情按钮
-			if (typeof (selectRowData.processInstanceId) == "undefined") {
-				layer.msg('请点击选择一行数据');
-			} else {
-				var temUrl = "/task/process/" + selectRowData.processInstanceId;
-				layer.open({
-					title : '详情',
-					skin : 'layui-layer-lan',
-					shadeClose : true,
-					type : 2,
-					fixed : false,
-					//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-					maxmin : true,
-					//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-					area : [ '70%', '90%' ],
-					content : temUrl
-				});
-			}
-		},
-		alertEvent : function() { //点击重置按钮
-			active.searchEvent();
-			layer.msg("操作成功！");
-		}
-
-	};
-
-	table.on('tool(tableData)', function(obj) {
-		selectRowData = obj.data;
-		console.log(selectRowData)
-	});
-
-	//监听排序
-	table.on('sort(tableData)', function(obj) {
-		console.log(this, obj.field, obj.type)
-		//服务端排序
-		table.reload('pendingTable', {
-			initSort : obj,
-			page : {
-				curr : 1
-			}, //重新从第一页开始
-			where : { //重新请求服务端
-				orderKey : obj.field, //排序字段
-				orderType : obj.type
-			//排序方式
-			}
-		});
-	});
-
-	//监听行双击事件
-	table.on('rowDouble(tableData)', function(obj) {
-		var temUrl = "/task/process/" + obj.data.processInstanceId;
-		layer.open({
-			title : '详情',
-			skin : 'layui-layer-lan',
-			shadeClose : true,
-			type : 2,
-			fixed : false,
-			//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-			maxmin : true,
-			//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-			area : [ '70%', '90%' ],
-			content : temUrl
-		});
-	});
-
-	//区别按钮属性
-	$('.layui-btn').on('click', function() {
-		var type = $(this).data('type');
-		active[type] ? active[type].call(this) : '';
-	});
-
-});
+</header>
+<main class="main">
+	<div class="layui-card layui-form " lay-filter="component-form-element">
+		<div class="layui-card-body layui-row layui-col-space10">
+			<div class="layui-col-xs4">
+				<select name="city" lay-verify="">
+					<option value="">请选择年份</option>
+					<option value="010">北京</option>
+					<option value="021">上海</option>
+					<option value="0571">杭州</option>
+				</select>
+			</div>
+			<div class="layui-col-xs4">
+				<select name="city" lay-verify="">
+					<option value="">全部</option>
+					<option value="010">北京</option>
+					<option value="021">上海</option>
+					<option value="0571">杭州</option>
+				</select>
+			</div>
+			<div class="layui-col-xs2">
+				<button class="layui-btn layui-btn-primary">搜索</button>
+			</div>
+		</div>
+	</div>
+    <div class="main-card first-card">
+        <div class="main-card-header hasborder">待办信息</div>
+        <div class="main-card-body xjllPage" >
+            <table id="xjllTable" lay-skin="nob"></table>
+        </div>
+    </div>
+</main>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script>
+    (function(doc, win) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function() {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                docEl.style.fontSize =  (clientWidth / 10.8) + 'px';
+            };
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+    layui.use('form', function(){
+    	var form = layui.form; 
+    	form.render();
+   	});
+    loadTableData();
+    function loadTableData(){
+  		layui.use('table', function(){
+            var table = layui.table;
+            //第一个实例
+            table.render({
+                elem: '#xjllTable',
+//                 url: '/common/getSupplier/getSupplierData',
+                url: 'table.json',
+				page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+			      layout: [ 'prev', 'page', 'next', 'count'], //自定义分页布局
+			      theme: '#498ee8' 
+			    },
+                cols: [[ //表头
+                	{type:'numbers',title: '序号',},
+                    {field: 'city', title: '项目名称',width:'53%',align:'left', sort: false},
+                    {field: 'city', title: '本期累计金额',align:'left', sort: false}
+                ]],
+                id: 'xjllTable'
+            });
+            var $ = layui.$, active = {
+                reload: function(){
+                    //执行重载
+                    table.reload('xjllTable', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        },
+                        where: {
+                            IV_LIFNR: win_gysbmInp,
+                            IV_NAME: win_gysnameInp
+                        },
+                    });
+                },
+                getCheckData: function(){ //获取选中数据
+                    var checkStatus = table.checkStatus('xjllTable'),data = checkStatus.data;
+                    layer.closeAll();
+                    
+                }
+            };
+        });
+  	}
 </script>
 </body>
 </html>
