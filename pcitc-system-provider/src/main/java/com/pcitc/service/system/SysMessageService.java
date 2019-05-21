@@ -20,5 +20,16 @@ public interface SysMessageService {
 	 * 查询用户消息列表数据
 	 */
 	public LayuiTableData getMessageListData(LayuiTableParam param);
-	
+	/**
+	 * select by Id
+	 * @param messageId
+	 * @return
+	 */
+	public SysMessage selectSysMessage(String messageId);
+	/**
+	 * read msg
+	 * @param messageId
+	 * @return
+	 */
+	public SysMessage readSysMessage(String messageId);
 }
