@@ -10,6 +10,9 @@
 <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
 <link rel="stylesheet" href="/layuiadmin/style/liMarquee.css">
 <link rel="stylesheet" href="/layuiadmin/style/adminStp_.css?+Math.random()" media="all">
+
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+
 </head>
 <body class="layui-layout-body">
 
@@ -53,19 +56,14 @@
 				<!--右侧-->
 				<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
 					<li class="layui-nav-item layui-nav-itemnew chat" title="通知">
-						<a id="numberChat"><span id="pendingCount" style="visibility: hidden"></span></a>
+						<a id="numberChat"><span id="nc" style="visibility: hidden"></span></a>
 						<div class="chat-content layui-hide">
 							<dl id="message_box" class="layui-nav-child-dl">
-								
-								<dd>
-									<a id="message_more" href="javascript:void(0)" lay-text="查看更多" data-id="d1cc4095-e2c1-4caf-bfee-78c5ec85316c" data-code="10010103" data-functionbuttons="ALL">查看更多</a>
-									<!-- <a lay-href="/task/message/list/ini">查看更多</a> -->
-								</dd>
 							</dl>
 						</div>
 					</li>
 					<li class="layui-nav-item layui-nav-itemnew deal" title="待办任务">
-						<a id="numberDeal" ><span id="nc" style="visibility: hidden"></span></a>
+						<a id="numberDeal" ><span id="pendingCount" style="visibility: hidden"></span></a>
 						<div class="deal-content layui-hide">
 							<dl class="layui-nav-child-dl">
 								<dd>
@@ -367,13 +365,8 @@
                     navLeft+=$(val).width()+24;
 				}
             });
-            $("#task_more").click(function () {
-                parent.layui.index.openTabsPage("/task/pending/list/ini", "待办任务");
-            });
-            $("#message_more").click(function () {
-                //parent.layui.index.openTabsPage("/task/message/list/ini", "通知");
-            	parent.layui.index.openTabsPage("/message/sys_message_list", "通知");
-            });
+           
+
             $(".layui-header .layui-icon-prev").css("left",navLeft+"px");
             if(!$(".layui-header .layui-icon-prev").hasClass("layui-hide")){
                 $("#navPrev ul").append(headerNav);
@@ -407,53 +400,25 @@
 				//初始化websocket
 				var websocket = null;
 				if ('WebSocket' in window) {
-					websocket = new WebSocket("ws://" + document.location.host + "/pushNotice");
+					websocket = new WebSocket("ws://" + document.location.host + "/messageIndex/${userId?default(0)}");
 					websocket.onerror = function() {
 					};
 					websocket.onopen = function(event) {
+						console.log("onopen.............");
 					}
 					websocket.onclose = function() {
+						console.log("onclose.............");
 					}
 					window.onbeforeunload = function() {
 						websocket.close();
 					}
 					websocket.onmessage = function(event) {
-						// getUserNoticeCount();
-						var currentCount = 0;
-						if ($("#nc").text() && parseInt($("#nc").text())) {
-							currentCount = parseInt($("#nc").text());
-						}
-						currentCount += 1;
-						$("#nc").text(currentCount);
-						var notice = $.parseJSON(event.data);
-						//使用参数：1.标题，2.链接地址，3.内容简介，4.标签名称
-						var pop = new Pop(notice.noticeTitle, "/sysNotice/readNotice?id=" + notice.noticeId, notice.noticeSummary, "");
+						console.log("on message.... add not_read or add reding");
+						getNotReadMessageList();
 					}
 				} else {
 					console.log('Not support websocket');
 				}
-			}
-			window.getUserNoticeCount = function() {
-				$.ajax({
-					type : 'post',
-					dataType : 'json',
-					async : false,
-					headers : {
-						'Content-Type' : 'application/json',
-					},
-					url : '/sysNotice/getUserNoticeCount',
-					success : function(data) {
-						if (data <= 0) {
-							$("#nc").css("visibility", "hidden");
-						} else {
-							$("#nc").text(data);
-							$("#nc").css("visibility", "visible");
-						}
-					},
-					error : function(e) {
-						console.log(e);
-					}
-				});
 			}
 			$("#toUserInfo").on("click", function() {
 				layer.open({
@@ -605,21 +570,26 @@
 					}
 				});
 			});
-			//最新消息
-			publicMethods.ajaxAsyncPost('/message/get-newest-messages', {page:1,limit:3,param: {"isRead":"0"}}, function (data, status) {
-        		console.log(data);
-        		var content = "";
-        		$.each(data,function(index,dt){
-        			content += '<dd>'+
-									'<span class="layui-name">'+dt.userName+'</span>'+
-									'<span class="layui-text">'+dt.messageTitle+'</span>'+
-									'<span class="layui-time">'+
-										'<i class="fa fa-clock-o mr-1"></i>'+dt.ago+
-									'</span>'+
-								  '</dd>';
-        		});
-        		$("#message_box").prepend(content);
-            });
+			//获取未读消息
+			window.getNotReadMessageList = function() {
+				publicMethods.ajaxAsyncPost('/message/get-newest-messages', {page:1,limit:100,param: {"isRead":"0"}}, function (data, status) {
+					var content = "";
+					if(data.length <=0){
+	        			$("#nc").css("visibility", "hidden");
+	        		}else{
+	        			$.each(data,function(index,dt){
+		        			if(index < 3){//最新消息(取前三条未读)
+		        				content += '<dd><span class="layui-name">'+dt.userName+'</span><span class="layui-text">'+dt.messageTitle+'</span><span class="layui-time"><i class="fa fa-clock-o mr-1"></i>'+dt.ago+'</span></dd>';
+		        			}
+		        		});
+	        			$("#nc").text(data.length);
+						$("#nc").css("visibility", "visible");
+	        		}
+	        		content += '<dd class="message_more"><a href="javascript:void(0)">查看更多</a></dd>';
+	        		//$("#message_box").prepend(content);
+	        		$("#message_box").html(content);
+	            });
+			}
 			//待办任务
 			$.ajax({
 				type : 'POST',
@@ -647,7 +617,15 @@
 
 			$(function() {
 				initNoticeSocket();
-				getUserNoticeCount();
+				getNotReadMessageList();
+			});
+			$(document).ready(function() {
+				 $("#task_more").on("click", function(){ 
+			     	parent.layui.index.openTabsPage("/task/pending/list/ini", "待办任务");
+			     });
+			     $('.message_more').on('click', function() { 
+			     	parent.layui.index.openTabsPage("/message/sys_message_list", "通知");
+			     });
 			});
 		});
 

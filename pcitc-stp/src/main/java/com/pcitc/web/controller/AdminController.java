@@ -223,6 +223,7 @@ public class AdminController extends BaseController {
 		response.addCookie(cookie);
 
 		String cFlag = request.getParameter("cFlag");
+		request.setAttribute("userId", rsUser.getUserId());
 		if (rsUser.getUserLevel() != null && rsUser.getUserLevel() == 1 && cFlag == null) {
 			request.setAttribute("companyCode", HanaUtil.YJY_CODE_ALL);
 			String month = HanaUtil.getCurrrentYearMoth();
@@ -360,7 +361,7 @@ public class AdminController extends BaseController {
 		cookie.setMaxAge(1 * 60 * 60);// 设置有效期为1天
 		cookie.setPath("/");
 		response.addCookie(cookie);
-
+		request.setAttribute("userId", rsUser.getUserId());
 		return "/index";
 	}
 
@@ -467,6 +468,7 @@ public class AdminController extends BaseController {
 			response.addCookie(loginCookie);
 			System.out.println("----------====登录成功2index....");
 
+			request.setAttribute("userId", userDetails.getUserId());
 			String cFlag = request.getParameter("cFlag");
 			if (userDetails.getUserLevel() != null && userDetails.getUserLevel() == 1 && cFlag == null) {
 				request.setAttribute("companyCode", HanaUtil.YJY_CODE_ALL);
@@ -531,7 +533,7 @@ public class AdminController extends BaseController {
 			response.addCookie(loginCookie);
 
 			String cFlag = request.getParameter("cFlag");
-			
+			request.setAttribute("userId", userDetails.getUserId());
 			if (userDetails.getUserLevel() != null && userDetails.getUserLevel() == 1 && cFlag == null) {
 				request.setAttribute("companyCode", HanaUtil.YJY_CODE_ALL);
 				String month = HanaUtil.getCurrrentYearMoth();

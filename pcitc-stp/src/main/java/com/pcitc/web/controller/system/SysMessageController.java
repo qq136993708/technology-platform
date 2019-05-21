@@ -34,6 +34,7 @@ import com.pcitc.base.system.SysMessage;
 import com.pcitc.base.util.DateUtils;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.socket.notice.MessageIndexSocket;
 
 /**
  * @description : TODO
@@ -48,6 +49,9 @@ public class SysMessageController extends BaseController {
 
 	@Autowired
 	private RestTemplate restTemplate;
+	
+	@Autowired
+	private MessageIndexSocket msgSocket;
 
 	private static final String SYS_MESSAGE_PAGIN_URL = "http://pcitc-zuul/system-proxy/sysmessage-provider/message/message-pagin-list";
 	private static final String SYS_MESSAGE_DETAIL_URL = "http://pcitc-zuul/system-proxy/sysmessage-provider/message/message-info";
@@ -80,6 +84,7 @@ public class SysMessageController extends BaseController {
 	public Object getLastSysMessageList(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request, HttpServletResponse response) {
 		param.getParam().put("userId", this.getUserProfile().getUserId());
 		param.getParam().put("isRead", "0");//未读消息
+		System.out.println(JSON.toJSONString(param));
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(SYS_MESSAGE_PAGIN_URL, HttpMethod.POST, entity, LayuiTableData.class);
 		List<?> data = responseEntity.getBody().getData();
@@ -89,6 +94,7 @@ public class SysMessageController extends BaseController {
 			map.put("ago", DateUtils.getAgoDesc(DateUtils.strToDate(map.get("createDate").toString(),DateUtils.FMT_SS)));
 			rsmap.add(map);
 		}
+		System.out.println(JSON.toJSONString(rsmap));
 		return rsmap;
 	}
 	/**
@@ -125,6 +131,12 @@ public class SysMessageController extends BaseController {
 		
 		ResponseEntity<SysMessage> responseEntity = this.restTemplate.exchange(SYS_MESSAGE_READ_URL, HttpMethod.POST, new HttpEntity<String>(messageId,this.httpHeaders), SysMessage.class);
 		SysMessage msg = responseEntity.getBody();
+		if(msg != null) {
+			//推送一条已读消息
+			SysMessage msgInfo = new SysMessage();
+			msgInfo.setUserId(this.getUserProfile().getUserId());
+			msgSocket.sendToWeb(msgInfo);
+		}
 		return msg;
 	}
 
