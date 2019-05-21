@@ -1,82 +1,83 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<meta charset="UTF-8">
+    <title>科技管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/mainStp.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
-    <style>
-        .btn_details{background:url(/layuiadmin/layui/images/operation_03.png) 2px 4px #fff no-repeat;}
-        .btnMyBgImg:hover{background-size:inherit;background-position: 2px;}
-        .searchBox{background:none;}
-    </style>
+    <link rel="stylesheet" href="/mobile/css/mobileNew.css">
 </head>
 <body>
-<div class="layui-fluid">
+<header>
+    <div class="m_return child">
+        <a href="index2.html"><img src="/mobile/images/icon-back.png"/> </a>
+        <h4>现金流量</h4>
+    </div>
+</header>
+<main class="main">
 <input type="hidden" name="allCode" value="${allCode}"  id="allCode">
 <input type="hidden" name="companyCode" value="${companyCode}"  id="companyCode">
-
-
-
-
-    <div class="searchBox">
-        <label class="dateInput">
-            <span>月份</span>
-            <input type="text" name="month" placeholder="请选择rh份" title="月份" value="${month}"  autocomplete="off" class="form-control" id="month">
-        </label>
-        <div class="breadcrumb">
-            <a href="/mobile/index" target="_parent">首页 > </a><span>现金流量</span>
+            
+	<div class="layui-card layui-form " lay-filter="component-form-element">
+		<div class="layui-card-body layui-row layui-col-space10">
+			<div class="layui-col-xs4">
+				<input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control layui-input" id="month">
+			</div>
+			<div class="layui-col-xs4" style="display:none">
+				<select name="city" lay-verify="">
+					<option value="">全部</option>
+					<option value="010">北京</option>
+					<option value="021">上海</option>
+					<option value="0571">杭州</option>
+				</select>
+			</div>
+			<div class="layui-col-xs2">
+				<button class="layui-btn layui-btn-primary" onclick="search_Event()">搜索</button>
+			</div>
+		</div>
+	</div>
+   <div class="main-card first-card">
+        <div class="main-card-header hasborder"><span class="layui_time"></span>科研资金净现金余额分析</div>
+        <div class="main-card-body">
+         <div class="main-chart" id="cash-flow-01" style="height:290px;width: 100%;"></div>
+        </div>
+    </div>
+    
+    <div class="main-card first-card">
+        <div class="main-card-header hasborder"><span class="layui_time"></span>期末现金流量占比分析</div>
+        <div class="main-card-body">
+            <div class="main-chart" id="cash_flow_03_46" style="height:280px;width: 100%;"></div>
         </div>
     </div>
     
     
     
-    <div class="layui-row layui-col-space15">
-        <div class="layui-col-md12">
-            <div class="layui-card">
-                <div class="layui-card-header">
-                      <span class="layui-time"></span>科研资金净现金余额分析
-                </div>
-                <div class="layui-row-main">
-                        <div class="main-chart" id="cash-flow-01" style="height:290px;width: 100%;"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    
-    
-    <div class="layui-row layui-col-space15">
-        <div class="layui-col-md12">
-            <div class="layui-card">
-                <div class="layui-card-header">
-                     <span class="layui-time"></span>期末现金流量占比分析
-                </div>
-                <div class="layui-row-main">
-                        <div class="main-chart" id="cash_flow_03_46" style="height:280px;width: 100%;"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    
-    
-    
-    </div>
-
-<script type="text/javascript" src="/common/js/jquery-1.11.3.min.js"></script>
+</main>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
 <script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
 <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js?v=2"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js?v=2"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
 <script src="/stp/hana/common/hana_common.js"></script>
+
+
+
 <script type="text/javascript">
+(function(doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function() {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            docEl.style.fontSize =  (clientWidth / 10.8) + 'px';
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+	
 var chart1;
 var chart2;
 layui.config({
@@ -97,7 +98,7 @@ layui.config({
 
     var monthValY=$("#month").val().substring(4,0);
     var monthValM=$("#month").val().substring(4);
-    $(".layui-time").html(monthValY+"年"+monthValM+"月");
+    $(".layui_time").html(monthValY+"年"+monthValM+"月");
     
     
   
@@ -137,7 +138,7 @@ window.onresize = function()
 function search_Event()
 {
 	initEchart();
-}
+}  
 </script>
 </body>
 </html>
