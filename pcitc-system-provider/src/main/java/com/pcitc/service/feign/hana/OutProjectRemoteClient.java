@@ -17,7 +17,8 @@ import com.alibaba.fastjson.JSONArray;
  * 4、如果需要自定义单个Feign配置，Feign的@Configuration注解的类不能与@ComponentScan 的包重叠
  * 默认支持注解：@RequestMapping、@RequestParam、@RequestHeader、@PathVariable
  */
-@FeignClient(value = "pcitc-hana-provider", fallback = OutProjectHystric.class)
+//, fallback = OutProjectHystric.class暂时去掉和lcn冲突
+@FeignClient(value = "pcitc-hana-provider")
 public interface OutProjectRemoteClient {
 
 	
