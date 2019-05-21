@@ -367,13 +367,17 @@
 			<artifactId>aliyun-sdk-oss</artifactId>
 			<version>2.2.1</version>
 		</dependency>
-		<!-- ws 服务 -->
+		<!-- web service -->
 		<dependency>
 		    <groupId>org.apache.cxf</groupId>
 		    <artifactId>cxf-spring-boot-starter-jaxws</artifactId>
-		    <version>3.2.4</version>
+		    <version>3.2.9</version>
 		</dependency>
-
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-validator</artifactId>
+		</dependency>
+		<!-- web service end -->
 		<!-- 事务lcn相关 -->
 		<!-- <dependency> <groupId>com.codingapi</groupId> <artifactId>transaction-springcloud</artifactId> <version>${lcn.last.version}</version> <exclusions> <exclusion> <groupId>org.slf4j</groupId> <artifactId>*</artifactId> </exclusion> </exclusions> </dependency> <dependency> <groupId>com.codingapi</groupId> 
 			<artifactId>tx-plugins-db</artifactId> <version>${lcn.last.version}</version> <exclusions> <exclusion> <groupId>org.slf4j</groupId> <artifactId>*</artifactId> </exclusion> </exclusions> </dependency> -->
