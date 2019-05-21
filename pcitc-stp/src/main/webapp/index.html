@@ -591,17 +591,8 @@
 	            });
 			}
 			//待办任务
-			$.ajax({
-				type : 'POST',
-				url : "/admin/pending-task-count",
-				dataType : 'json',
-				headers : {
-					'Content-Type' : 'application/json'
-				},
-				timeout : 3000, //超时时间设置，单位毫秒
-				error : function(XMLHttpRequest, status) {
-				},
-				success : function(data) { //请求成功后处理函数。
+			window.getNotReadTaskList = function() {
+				publicMethods.ajaxAsyncPost('/admin/pending-task-count', {page:1,limit:100,param: {"isRead":"0"}}, function (data, status) {
 					var pendingCount = data.pendingTaskCount;
 					if (pendingCount <= 0) {
 						$("#pendingCount").css("visibility", "hidden");
@@ -612,13 +603,8 @@
 						$("#mainIframe", parent.document.body).attr("src", "/mainStp?taskCount=" + pendingCount)
                         /*$("#mainIframe", parent.document.body).attr("src", "/layui/skill.html")*/
 					}
-				}
-			});
-
-			$(function() {
-				initNoticeSocket();
-				getNotReadMessageList();
-			});
+	            });
+			}
 			$(document).ready(function() {
 				 $("#task_more").on("click", function(){ 
 			     	parent.layui.index.openTabsPage("/task/pending/list/ini", "待办任务");
@@ -626,6 +612,10 @@
 			     $('.message_more').on('click', function() { 
 			     	parent.layui.index.openTabsPage("/message/sys_message_list", "通知");
 			     });
+			     
+			     initNoticeSocket();
+				 getNotReadMessageList();
+				 getNotReadTaskList();
 			});
 		});
 
