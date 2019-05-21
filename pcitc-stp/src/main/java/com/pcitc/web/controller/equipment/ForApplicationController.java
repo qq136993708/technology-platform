@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -44,6 +43,7 @@ import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.config.SpringContextUtil;
 import com.pcitc.web.utils.EquipmentUtils;
 
 @Controller
@@ -184,7 +184,6 @@ public class ForApplicationController extends BaseController {
 			firstApplyUser=sreEquipment.getFirstApplyUser();
 			attachmentDoc=sreEquipment.getAttachmentDoc();
 		}
-		
 		String leadUnitName =  "";
 		String leadUnitCode =  "";
 		String unitPathIds =   sysUserInfo.getUnitPath();
