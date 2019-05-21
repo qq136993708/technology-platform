@@ -21,7 +21,7 @@
 </header>
 <main class="main">
     <div class="main-card first-card">
-        <div class="main-card-header">待办任务</div>
+        <div class="main-card-header">工作台</div>
         <div class="main-card-body card-shadow">
             <ul class="main-card-body-ul">
                 <li class="layui-col-xs3" id="numberNotice_list">
@@ -56,35 +56,35 @@
         </div>
     </div>
     <div class="main-card" id="isKJBPerson_id" >
-        <div class="main-card-header">辅助决策中心</div>
+        <div class="main-card-header">数据分析</div>
         <div class="main-card-body">
        		<div class="dec-center">
-       			<div class="dec-center-left1" id="xmjfjc">
-       				<span>项目经费决策</span>
+       			<div class="dec-center-left1" id="kyzc">
+       				<span>科研支出  </span>
        				<span class="icon-decision icon-decision_01"></span>
        			</div>
-       			<div class="dec-center-right1" id="cwjc">
-       				<span>财务决策</span>
+       			<div class="dec-center-right1" id="kytr">
+       				<span>科研投入</span>
        				<span class="icon-decision icon-decision_02"></span>
        			</div>
        		</div>
        		<div class="dec-center">
-       			<div class="dec-center-left2" id="qcbjc">
-       				<span>全成本决策</span>
+       			<div class="dec-center-left2" id="xjll">
+       				<span>现金流量</span>
        				<span class="icon-decision icon-decision_03"></span>
        			</div>
-       			<div class="dec-center-right2" id="xmjc">
-       				<span>项目决策</span>
+       			<div class="dec-center-right2" id="kyht">
+       				<span>科研合同 </span>
        				<span class="icon-decision icon-decision_04"></span>
        			</div>
        		</div>
        		<div class="dec-center">
-       			<div class="dec-center-left3" id="kjtj">
-	       			<span>科技统计</span>
+       			<div class="dec-center-left3" id="cgzl">
+	       			<span>成果专利</span>
 	       				<span class="icon-decision icon-decision_05"></span>
 	       			</div>
-       			<div class="dec-center-right3" id="dwfx">
-       				<span>多维分析</span>
+       			<div class="dec-center-right3" id="kyzb">
+       				<span>科研装备 </span>
        				<span class="icon-decision icon-decision_06"></span>
        			</div>
        		</div>
@@ -104,6 +104,7 @@
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script>
+var layer;
     (function(doc, win) {
         var docEl = doc.documentElement,
             resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
@@ -117,7 +118,8 @@
         doc.addEventListener('DOMContentLoaded', recalc, false);
     })(document, window);
     layui.use(['jquery','layer'], function(){
-		var $=layui.jquery,layer=layui.layer;
+		var $=layui.jquery;
+		layer=layui.layer;
         $("#projectDecision").click(function () {
 			var projectDecisionHtml="<ul class='layer-ul'>" +
 				"<li><a href='/mobile/projectdecision/research-funds-trend.html'>科技资金现金流趋势分析</a></li>" +
@@ -143,32 +145,55 @@
 			})
         });
     });
-    /********************/
-  	//财务决策
-    $("#cwjc").click(function () {
-    	location.href="/mobile/zhfxchart";
+    
+    
+    /************左列********/
+    
+    //科研支出  
+    $("#kyzc").click(function () {
+    	//table_win("全成本决策");
+    	//location.href="/mobile/kyzc";
+			var projectDecisionHtml="<ul class='layer-ul'>" +
+				"<li><a href='/mobile/kyzc'>科研支出  </a></li>" +
+				"</ul>";
+			layer.open({
+				title: '科研支出  ',
+				skin: 'layui-layer-lan',
+				shadeClose: true,
+				type: 1,
+				fixed: false,
+				//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+				maxmin: false,
+				//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+				area: ['9rem', '5rem'],
+				content: projectDecisionHtml
+			})
+    	
     });
-  	//项目决策
-    $("#xmjc").click(function () {
-    	location.href="/mobile/zhfxTable";
+    //现金流量
+    $("#xjll").click(function () {
+    	location.href="/mobile/xjll";
     });
-  	//多维分析
-    $("#dwfx").click(function () {
-    	location.href="/mobile/zhfxchart";
+    //成果专利
+    $("#cgzl").click(function () {
+    	location.href="/mobile/cgzl";
     });
-  	
-  	//项目经费决策
-    $("#xmjfjc").click(function () {
-    	table_win("项目经费决策");
+    /************左列 end********/
+    /**********右列**********/
+    //科研投入
+    $("#kytr").click(function () {
+    	location.href="/mobile/kytr";
     });
-  	//全成本决策
-    $("#qcbjc").click(function () {
-    	table_win("全成本决策");
+    //科研合同 
+    $("#kyht").click(function () {
+    	location.href="/mobile/kyht";
     });
-  	//科技统计
-    $("#kjtj").click(function () {
-    	table_win("科技统计");
+    //科研装备 
+    $("#kyzb").click(function () {
+    	location.href="/mobile/kyzb";
     });
+    
+    
   	//弹框
   	function table_win(title){
   		layer.open({
@@ -192,6 +217,8 @@
             }
         })
   	}
+    
+   
   	function loadTableData(){
   		layui.use('table', function(){
             var table = layui.table;
@@ -207,6 +234,7 @@
                     {field: 'city', title: '',align:'left', sort: false}
                     
                 ]],
+                data:data,
                 id: 'jczxTable',
                 done:function(res,curr,count) {
                 	$(".tableLoading").css("display","none");
@@ -223,15 +251,20 @@
         });
   	}
   	
+  	
+  	
     //代办
     $("#numberNotice_list").click(function () {
-    	location.href="/task/wait_task_list_mui";///mobile/wait_task_list
+    	location.href="/mobile/wait_task_list_mui";///mobile/wait_task_list
     });
     
     // 已办任务
     $("#doneTaskCount_list").click(function () {
-    	location.href="/task/done_task_list";///mobile/done_task_list
+    	location.href="/mobile/done_task_list";///mobile/done_task_list
     });
+    
+    
+    
     
     function set_numberNotice_count(){
     	var url="/task/pending-list";

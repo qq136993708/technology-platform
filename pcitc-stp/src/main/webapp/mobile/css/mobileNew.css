@@ -282,3 +282,16 @@ iframe{width: 100%;height: auto;border: 0;overflow: hidden;}
 .layui-table-page {
 	padding: 7px 0px 0 !important;
 }
+
+
+
+
+
+
+.text-total .text-total-blue {
+    color: #53b7e8;
+}
+
+.text-total {
+    text-align: center;
+}

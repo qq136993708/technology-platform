@@ -1,116 +1,78 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<meta charset="UTF-8">
+    <title>科技管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css"  media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/mainStp.css"   media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/common.css"    media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/second.css"    media="all">
-    <style>
-        .btn_details{background:url(/layuiadmin/layui/images/operation_03.png) 2px 4px #fff no-repeat;}
-        .btnMyBgImg:hover{background-size:inherit;background-position: 2px;}
-        .searchBox{background:none;}
-    </style>
+    <link rel="stylesheet" href="/mobile/css/mobileNew.css">
 </head>
 <body>
-<div class="layui-fluid">
-    <div class="">
-        <div class="searchBox">
-            <input type="hidden" name="YJY_CODE_ALL"  value="${YJY_CODE_ALL}"   id="YJY_CODE_ALL">
-            <input type="hidden" name="YJY_CODE_NOT_YINGKE"  value="${YJY_CODE_NOT_YINGKE}"   id="YJY_CODE_NOT_YINGKE">
-            <input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
+<header>
+    <div class="m_return child">
+        <a href="index2.html"><img src="/mobile/images/icon-back.png"/> </a>
+        <h4>科研支出</h4>
+    </div>
+</header>
+<main class="main">
+<input type="hidden" name="YJY_CODE_ALL"          value="${YJY_CODE_ALL}"   id="YJY_CODE_ALL">
+<input type="hidden" name="YJY_CODE_NOT_YINGKE"  value="${YJY_CODE_NOT_YINGKE}"   id="YJY_CODE_NOT_YINGKE">
+<input type="hidden" name="companyCode"          value="${companyCode}"   id="companyCode">
             
-            
-            
-            <label class="dateInput">
-                <span>月份</span>
-                <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control" id="month">
-            </label>
-           
-            <!--按钮组-->
-           <!-- <div class="btnGroup">
-                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()">查询</button>
-            </div>-->
-            <div class="breadcrumb">
-                 <a href="/mobile/index" target="_parent">首页 > </a><span>科研支出</span>
-            </div>
+	<div class="layui-card layui-form " lay-filter="component-form-element">
+		<div class="layui-card-body layui-row layui-col-space10">
+			<div class="layui-col-xs4">
+				<input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control layui-input" id="month">
+			</div>
+			<div class="layui-col-xs4" style="display:none">
+				<select name="city" lay-verify="">
+					<option value="">全部</option>
+					<option value="010">北京</option>
+					<option value="021">上海</option>
+					<option value="0571">杭州</option>
+				</select>
+			</div>
+			<div class="layui-col-xs2">
+				<button class="layui-btn layui-btn-primary" onclick="search_Event()">搜索</button>
+			</div>
+		</div>
+	</div>
+   <div class="main-card first-card">
+        <div class="main-card-header hasborder"><span class="layui_time"></span>科研支出</div>
+        <div class="main-card-body">
+         <div class="text-total">
+              <span>总计:<span class="text-total-blue"    id="pay_chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+              <span>新开课题:<span class="text-total-blue" id="pay_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+              <span>结转课题:<span class="text-total-blue" id="pay_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+          </div>
+          <div id="pay_chart1" style="width: 100%;height:300px;"></div>
         </div>
-        
-        
-        
-         <div class="layui-row layui-col-space15">
-            <div class="layui-col-md12">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        <span class="layui-time"></span>科研支出
-                    </div>
-                    <div class="layui-row-main">
-                        <div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="pay_chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>新开课题:<span class="text-total-blue" id="pay_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>结转课题:<span class="text-total-blue" id="pay_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                        </div>
-                        <div  style="height:270px;width: 100%;" id="pay_chart1"></div>
-                    </div>
-                </div>
-            </div>
+    </div>
+    
+    <div class="main-card first-card">
+        <div class="main-card-header hasborder"><span class="layui_time"></span>直属研究院各课题类型经费使用占比</div>
+        <div class="main-card-body">
+           <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table> 
         </div>
-        
-        
-        
-        
-         <div class="layui-row layui-col-space15">
-            <div class="layui-col-md12">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        <span class="layui-time"></span>直属研究院各课题类型经费使用占比
-                    </div>
-                    <div class="layui-row-main" style="height: 306px;">
-                    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table> 
-                    </div>
-                </div>
-            </div>
+    </div>
+    
+    
+    <div class="main-card" id="isKJBPerson_id">
+        <div class="main-card-header hasborder"><span class="layui_time"></span>直属研究院科研支出</div>
+        <div class="main-card-body">
+             <div class="text-total">
+                 <span>总计:<span class="text-total-blue"    id="pay_chart3_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                 <span>资本性:<span class="text-total-blue" id="pay_chart3_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                 <span>费用性:<span class="text-total-blue" id="pay_chart3_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+             </div>
+       		<div id="pay_chart3" style="width: 100%;height:300px;"></div>
         </div>
-        
-        
-        
-        
-        
-        
-         <div class="layui-row layui-col-space15">
-            <div class="layui-col-md12">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                         <span class="layui-time"></span>直属研究院科研支出
-                    </div>
-                    <div class="layui-row-main" >
-                     <div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="pay_chart3_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>资本性:<span class="text-total-blue" id="pay_chart3_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>费用性:<span class="text-total-blue" id="pay_chart3_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                        </div>
-                        <div  style="height:270px;width: 100%;" id="pay_chart3"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        
-        
-        
-        
-        
-        <div class="layui-row layui-col-space15">
-            <div class="layui-col-md12">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                         <span class="layui-time"></span>直属研究院科研经费使用比率
-                    </div>
-                    <div class="layui-row-main" style="height: 396px;">
-                        <table id="myTable233" class="layui-table"  lay-filter="myTable233">
+    </div>
+    
+    <div class="main-card first-card">
+        <div class="main-card-header hasborder"><span class="layui_time"></span>直属研究院科研经费使用比率</div>
+        <div class="main-card-body"  style="height:360px;">
+            <table id="myTable233" class="layui-table"  lay-filter="myTable233">
                             <thead>
                             <tr>
                                 <th lay-data="{field:'g0GSJC', width:'20%'}" rowspan="2" >研究院</th>
@@ -133,21 +95,13 @@
                             </tr>
                             </thead>
                         </table> 
-                    </div>
-                </div>
-            </div>
         </div>
-        
-        
-        
-        
-        
-     
-         </div>
     </div>
-</div>
-
-<script src="/common/js/jquery-1.11.3.min.js"></script>
+    
+    
+    
+</main>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
 <script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
@@ -156,12 +110,27 @@
 <script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
 <script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
 
+
+
 <script type="text/javascript">
+(function(doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function() {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            docEl.style.fontSize =  (clientWidth / 10.8) + 'px';
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+	
+	
 var echart1;
 var echart7;
 var editObj=null,ptable=null,tableId='processdef-table';
-
- var table,treeGridCom;
+var table,treeGridCom;
 layui.config({
 	base: '/layuiadmin/lib/extend/'
 }).extend({
@@ -171,18 +140,18 @@ layui.config({
 	treeGridCom = layui.treeGridCom;
 	 var $ = layui.jquery
       ,form = layui.form
-      ,laydate = layui.laydate
+      ,laydate = layui.laydate;
     
    
     var monthValY=$("#month").val().substring(4,0);
     var monthValM=$("#month").val().substring(4);
-    $(".layui-time").html(monthValY+"年"+monthValM+"月");
+    $(".layui_time").html(monthValY+"年"+monthValM+"月");
     form.render(null, 'component-form-group');
     laydate.render({
         elem: '#month'
        ,format: 'yyyyMM'
         ,done: function(value, date, endDate){
-            $(".layui-time").html(date.year+"年"+date.month+"月");
+            $(".layui_time").html(date.year+"年"+date.month+"月");
             $("#month").val(date.year+""+PrefixInteger(date.month, 2)); 
             search_Event();
         }
@@ -232,7 +201,7 @@ function initEchart()
     
     
 
-    var color=["#37a2da","#72c376"];
+     var color=["#37a2da","#72c376"];
     var chart1_url="/direct/pay_01?month="+month+"&v_date="+v_date+"&companyCode="+YJY_CODE_NOT_YINGKE;
 	echart1=load_mutl_bar_down(chart1_url,"pay_chart1","","",yAxis,50,color);
 	//
@@ -241,7 +210,7 @@ function initEchart()
 	echart7=load_mutl_bar_down_color(chart7_url,"pay_chart3","","",yAxis,colorNew);
 	 //
 	var setPay_count_count_url="/direct/pay_03?type=3&month="+month+"&v_date="+v_date+"&companyCode="+YJY_CODE_NOT_YINGKE;
-	setPay_count(setPay_count_count_url);
+	setPay_count(setPay_count_count_url); 
 	
 }
 
@@ -309,13 +278,11 @@ function renderTable()
 	        id:tableId
 	        ,elem: '#processdef-table'
 	        ,url:url
-	        // ,cellMinWidth: 200
 	        ,idField:'id'//必須字段
 	        ,treeId:'id'//树形id字段名称
 	        ,treeUpId:'pId'//树形父id字段名称
 	        ,treeShowName:'name'//以树形式显示的字段
-	        // ,heightRemove:[".dHead",10]//不计算的高度,表格设定的是固定高度，此项不生效
-	        ,height:280
+	        ,height:320
 	        ,isFilter:false
 	        ,iconOpen:false
 	        ,isOpenDefault:true
@@ -340,47 +307,19 @@ function renderTable()
 	        }
 	    }); 
 }
- function renderTable2()
+
+function renderTable2()
 {
 
 	var month=$("#month").val();
     var companyCode=$("#companyCode").val();
     var YJY_CODE_NOT_YINGKE=$('#YJY_CODE_NOT_YINGKE').val();
-    /* var tableOne=table.render({
-        elem: '#processdef-tabled',
-        url:'/direct/pay_03?month='+month+"&type=2&companyCode="+YJY_CODE_NOT_YINGKE,
-        method:"GET",
-        where: {param: {"month":$("#month").val()}},
-        limit: 15,
-        id: 'processdef-tabled',
-        cols: [[
-            {field:'g0GSJC',            title: '研究院',             edit:'text', width: '40%',align: 'center'},
-            {field:'k0BNYSJHJE',        title:'总计实际支出（亿元）',    style:'cursor: pointer;',align: 'right', width: '20%',templet:function(d){return d.k0BNYSJHJE.toFixed(2)}},
-            {field:'k0BNZBJE',          title:'费用性实际支出（亿元）',   style:'cursor: pointer;',align: 'right', width: '20%',templet:function(d){return d.k0BNZBJE.toFixed(2)}},
-            {field:'k0BNFYJE',          title:'资本性实际支出（亿元）',   style:'cursor: pointer;',align: 'right', width: '20%',templet:function(d){return d.k0BNFYJE.toFixed(2)}}
-        ]],
-        done: function (res, curr, count) {
-            layer.closeAll('loading');
-            // 点击行联动选择框--单选
-            $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-                var index=parseInt($(this).index()+1);
-                $('tr').removeClass('layui-table-click');
-                $(this).addClass('layui-table-click');
-                $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                selectRowData=res.data[index-1];
-            });
-        }
-    }); */
-    
     var url= '/direct/pay_03?month='+month+"&type=2&companyCode="+YJY_CODE_NOT_YINGKE;
     table.init('myTable233', {
 		  url: url
-		  ,height:"395px"
+		  ,height:"440px"
 		  ,where: {} 
-		  
 		});
-    
 } 
         
 </script>
