@@ -10,4 +10,6 @@ public interface IPurchaseOrderService {
 	 */
 
 	List getPurchaseOrderList(HashMap<String, String> map);
+
+	List getPurchaseArrivalList(HashMap<String, String> map);
 }
