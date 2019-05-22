@@ -26,21 +26,21 @@
             <ul class="main-card-body-ul">
                 <li class="layui-col-xs3" id="numberNotice_list">
                 	<div class="agency-box">
-                		<span class="text">待办事项</span>
+                		<span class="text">待办任务</span>
                 		<span class="agency-icon1 layui-icon-agency_01"></span>
                 		<span class="agency-circle1 layui-icon-circle_01"></span>
                 	</div>
                 </li>
                 <li class="layui-col-xs3" id="doneTaskCount_list">
                 	<div class="agency-box">
-                		<span class="text">已办事项</span>
+                		<span class="text">已办任务</span>
                 		<span class="agency-icon1 layui-icon-agency_02"></span>
                 		<span class="agency-circle1 layui-icon-circle_02"></span>
                 	</div>
                 </li>
                 <li class="layui-col-xs3" >
-                    <div class="agency-box">
-                		<span class="text">已结事项</span>
+                    <div class="agency-box" id="audit_msg_list">
+                		<span class="text">审批消息</span>
                 		<span class="agency-icon1 layui-icon-agency_03"></span>
                 		<span class="agency-circle1 layui-icon-circle_03"></span>
                 	</div>
@@ -285,14 +285,17 @@ var layer;
   	
     //代办
     $("#numberNotice_list").click(function () {
-    	location.href="/mobile/wait_task_list_mui";///mobile/wait_task_list
+    	location.href="/mobile/wait_task_list_mui";
     });
     
     // 已办任务
     $("#doneTaskCount_list").click(function () {
-    	location.href="/mobile/done_task_list";///mobile/done_task_list
+    	location.href="/mobile/done_task_list";
     });
-    
+    // 审核消息
+    $("#audit_msg_list").click(function () {
+    	location.href="/mobile/message_list";
+    });
     
     
     

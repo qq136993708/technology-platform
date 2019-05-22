@@ -264,6 +264,24 @@ public class TaskController extends BaseController {
 		return "/mobile/wait_task_list";
 	}
 	
+	
+	
+	
+	@RequestMapping(value = "/mobile/message_list", method = RequestMethod.POST)
+	@ResponseBody
+	public Object message_list(@ModelAttribute("param") LayuiTableParam param) {
+
+		// 获取当前登录人信息
+		param.getParam().put("userId", sysUserInfo.getUserId());
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(MESSAGE_LIST, HttpMethod.POST, entity, LayuiTableData.class);
+		LayuiTableData retJson = responseEntity.getBody();
+		//return JSON.toJSON(retJson).toString();
+		
+		return "/mobile/message_list";
+	}
+	
+	
 
 	/**
 	 * @author zhf
