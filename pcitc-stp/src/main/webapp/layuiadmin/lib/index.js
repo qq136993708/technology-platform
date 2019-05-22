@@ -197,7 +197,7 @@ layui.extend({
             $(".deal-content").addClass('layui-hide');
         }
     });
-    $(".chat").on("click", function(e) {
+    /*$(".chat").on("click", function(e) {
         e.stopPropagation();
         $(".chat-content").toggleClass("layui-hide");
         if ($(".QRCode-content").hasClass('layui-hide') == false) {
@@ -209,7 +209,7 @@ layui.extend({
         if ($(".information").hasClass('layui-hide') == false) {
             $(".information").addClass('layui-hide');
         }
-    });
+    });*/
     $(".deal").on("click", function(e) {
         e.stopPropagation();
         $(".deal-content").toggleClass("layui-hide");
