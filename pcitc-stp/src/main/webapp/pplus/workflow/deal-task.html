@@ -50,8 +50,8 @@
 								<span class="must-fill">*</span>
 							</label>
 							<div class="layui-input-block">
-								<input type="radio" name="agree" id="agree1" value="1" title="同意" checked>
-								<input type="radio" name="agree" id="agree2" value="0" title="不同意">
+								<input type="radio" name="agree" id="agree1" lay-filter="auditAgree" value="1" title="同意" checked>
+								<input type="radio" name="agree" id="agree2" lay-filter="auditAgree" value="0" title="不同意">
 							</div>
 						</div>
 					</div>
@@ -71,7 +71,7 @@
 				<div class="layui-form-item layui-form-text">
 					<label class="layui-form-label">审批意见</label>
 					<div class="layui-input-block">
-						<textarea placeholder="请输入审批意见" class="layui-textarea" name="auditRemarks" id="auditRemarks"></textarea>
+						<textarea placeholder="请输入审批意见" class="layui-textarea" name="auditRemarks" id="auditRemarks">同意</textarea>
 					</div>
 				</div>
 			</div>
@@ -113,6 +113,8 @@
 					//alert("加载完毕1");
 					var iframeHeight = $("#detailsInfo").contents().find("html").outerHeight(true);
 					var btn = $("#detailsInfo").contents().find(".form-bottom").css('display', 'none');
+                    $("#detailsInfo").contents().find(".formBox").css('margin', 0);
+                    $("#detailsInfo").contents().find(".layer-box").width('100%');
 					$("#detailsInfo").css("height", iframeHeight + 300);
 					layer.close(index_close);
 				});
@@ -122,6 +124,8 @@
 				$iFrame[0].onload = function() { // 非IE
 					var iframeHeight = $("#detailsInfo").contents().find("html").outerHeight(true);
 					var btn = $("#detailsInfo").contents().find(".form-bottom").css('display', 'none');
+                    $("#detailsInfo").contents().find(".formBox").css('margin', 0);
+                    $("#detailsInfo").contents().find(".layer-box").width('100%');
 					$("#detailsInfo").css("height", iframeHeight + 300);
 					layer.close(index_close);
 				};
@@ -136,18 +140,14 @@
 			// 防止重置时清空
 			$("#auditDate").attr("value", $("#auditDate").val());
 
-			//初始赋值 dealTaskForm 当前form的lay-filter
-			/* form.val("dealTaskForm", {
-			    "username": "" // "name": "value"
-			    ,"sex": "女"
-			}) */
-			/* 自定义验证规则  title 要验证的input的 lay-verify=""*/
-			form.verify({
-			/* title: function(value){
-			    if(value.length < 5){
-			        return '标题至少得5个字符啊';
-			    }
-			} */
+			/* 监听radio */
+			form.on('radio(auditAgree)', function(data) {
+				if (data.value == '0') {
+					$('#auditRemarks').val('不同意');
+				}
+				if (data.value == '1') {
+					$('#auditRemarks').val('同意');
+				}
 			});
 
 			$("#cancel").click(function() {
@@ -157,8 +157,12 @@
 
 			/* 监听提交 */
 			form.on('submit(form-submit)', function(data) {
+				if ($('#auditRemarks').val() == "") {
+					layer.msg('请输入审批意见');
+					return false;
+				}
+				
 				// 审批同意的情况下，先判断下一步是通过角色来进行的，还是直接通过选择框
-
 				var agree = $("input[name='agree']:checked").val();
 				if (agree == "1") {
 					// 判断是否需要弹出选择框

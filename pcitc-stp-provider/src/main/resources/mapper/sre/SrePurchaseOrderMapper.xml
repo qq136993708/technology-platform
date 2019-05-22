@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.equipment.SrePurchaseOrderMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.SrePurchaseOrder">
+    <result column="G0FLAG" jdbcType="VARCHAR" property="g0flag" />
+    <result column="G0LOGSYS" jdbcType="VARCHAR" property="g0logsys" />
+    <result column="G0CALD" jdbcType="TIMESTAMP" property="g0cald" />
+    <result column="G0GSDM" jdbcType="VARCHAR" property="g0gsdm" />
+    <result column="G0GSJC" jdbcType="VARCHAR" property="g0gsjc" />
+    <result column="G0GSOR" jdbcType="VARCHAR" property="g0gsor" />
+    <result column="G0GSJCL" jdbcType="VARCHAR" property="g0gsjcl" />
+    <result column="G0GSGP" jdbcType="VARCHAR" property="g0gsgp" />
+    <result column="G0GSSP" jdbcType="VARCHAR" property="g0gssp" />
+    <result column="G0PROJCODE" jdbcType="VARCHAR" property="g0projcode" />
+    <result column="G0PROJTXT" jdbcType="VARCHAR" property="g0projtxt" />
+    <result column="G0WBSCODE" jdbcType="VARCHAR" property="g0wbscode" />
+    <result column="G0WBSTXT" jdbcType="VARCHAR" property="g0wbstxt" />
+    <result column="G0XMGLLX" jdbcType="VARCHAR" property="g0xmgllx" />
+    <result column="G0XMGLLY" jdbcType="VARCHAR" property="g0xmglly" />
+    <result column="G0XMGLJB" jdbcType="VARCHAR" property="g0xmgljb" />
+    <result column="G0XMLX" jdbcType="VARCHAR" property="g0xmlx" />
+    <result column="G0XMLXMS" jdbcType="VARCHAR" property="g0xmlxms" />
+    <result column="G0XMZT" jdbcType="VARCHAR" property="g0xmzt" />
+    <result column="G0XMZTMS" jdbcType="VARCHAR" property="g0xmztms" />
+    <result column="G0XMDL" jdbcType="VARCHAR" property="g0xmdl" />
+    <result column="G0KYPFWH" jdbcType="VARCHAR" property="g0kypfwh" />
+    <result column="G0MATNR" jdbcType="VARCHAR" property="g0matnr" />
+    <result column="G0MAKTX" jdbcType="VARCHAR" property="g0maktx" />
+    <result column="G0EBELN" jdbcType="VARCHAR" property="g0ebeln" />
+    <result column="G0EBELP" jdbcType="VARCHAR" property="g0ebelp" />
+    <result column="G0TXZ01" jdbcType="VARCHAR" property="g0txz01" />
+    <result column="G0EINDT" jdbcType="TIMESTAMP" property="g0eindt" />
+    <result column="G0LIFNR" jdbcType="VARCHAR" property="g0lifnr" />
+    <result column="G0NAME2" jdbcType="VARCHAR" property="g0name2" />
+    <result column="G0DDLX" jdbcType="VARCHAR" property="g0ddlx" />
+    <result column="K0XMDDSL" jdbcType="VARCHAR" property="k0xmddsl" />
+    <result column="K0XMDDJE" jdbcType="DOUBLE" property="k0xmddje" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SrePurchaseOrder">
+    insert into sre_purchase_order (G0FLAG, G0LOGSYS, G0CALD, 
+      G0GSDM, G0GSJC, G0GSOR, 
+      G0GSJCL, G0GSGP, G0GSSP, 
+      G0PROJCODE, G0PROJTXT, G0WBSCODE, 
+      G0WBSTXT, G0XMGLLX, G0XMGLLY, 
+      G0XMGLJB, G0XMLX, G0XMLXMS, 
+      G0XMZT, G0XMZTMS, G0XMDL, 
+      G0KYPFWH, G0MATNR, G0MAKTX, 
+      G0EBELN, G0EBELP, G0TXZ01, 
+      G0EINDT, G0LIFNR, G0NAME2, 
+      G0DDLX, K0XMDDSL, K0XMDDJE
+      )
+    values (#{g0flag,jdbcType=VARCHAR}, #{g0logsys,jdbcType=VARCHAR}, #{g0cald,jdbcType=TIMESTAMP}, 
+      #{g0gsdm,jdbcType=VARCHAR}, #{g0gsjc,jdbcType=VARCHAR}, #{g0gsor,jdbcType=VARCHAR}, 
+      #{g0gsjcl,jdbcType=VARCHAR}, #{g0gsgp,jdbcType=VARCHAR}, #{g0gssp,jdbcType=VARCHAR}, 
+      #{g0projcode,jdbcType=VARCHAR}, #{g0projtxt,jdbcType=VARCHAR}, #{g0wbscode,jdbcType=VARCHAR}, 
+      #{g0wbstxt,jdbcType=VARCHAR}, #{g0xmgllx,jdbcType=VARCHAR}, #{g0xmglly,jdbcType=VARCHAR}, 
+      #{g0xmgljb,jdbcType=VARCHAR}, #{g0xmlx,jdbcType=VARCHAR}, #{g0xmlxms,jdbcType=VARCHAR}, 
+      #{g0xmzt,jdbcType=VARCHAR}, #{g0xmztms,jdbcType=VARCHAR}, #{g0xmdl,jdbcType=VARCHAR}, 
+      #{g0kypfwh,jdbcType=VARCHAR}, #{g0matnr,jdbcType=VARCHAR}, #{g0maktx,jdbcType=VARCHAR}, 
+      #{g0ebeln,jdbcType=VARCHAR}, #{g0ebelp,jdbcType=VARCHAR}, #{g0txz01,jdbcType=VARCHAR}, 
+      #{g0eindt,jdbcType=TIMESTAMP}, #{g0lifnr,jdbcType=VARCHAR}, #{g0name2,jdbcType=VARCHAR}, 
+      #{g0ddlx,jdbcType=VARCHAR}, #{k0xmddsl,jdbcType=VARCHAR}, #{k0xmddje,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SrePurchaseOrder">
+    insert into sre_purchase_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="g0flag != null">
+        G0FLAG,
+      </if>
+      <if test="g0logsys != null">
+        G0LOGSYS,
+      </if>
+      <if test="g0cald != null">
+        G0CALD,
+      </if>
+      <if test="g0gsdm != null">
+        G0GSDM,
+      </if>
+      <if test="g0gsjc != null">
+        G0GSJC,
+      </if>
+      <if test="g0gsor != null">
+        G0GSOR,
+      </if>
+      <if test="g0gsjcl != null">
+        G0GSJCL,
+      </if>
+      <if test="g0gsgp != null">
+        G0GSGP,
+      </if>
+      <if test="g0gssp != null">
+        G0GSSP,
+      </if>
+      <if test="g0projcode != null">
+        G0PROJCODE,
+      </if>
+      <if test="g0projtxt != null">
+        G0PROJTXT,
+      </if>
+      <if test="g0wbscode != null">
+        G0WBSCODE,
+      </if>
+      <if test="g0wbstxt != null">
+        G0WBSTXT,
+      </if>
+      <if test="g0xmgllx != null">
+        G0XMGLLX,
+      </if>
+      <if test="g0xmglly != null">
+        G0XMGLLY,
+      </if>
+      <if test="g0xmgljb != null">
+        G0XMGLJB,
+      </if>
+      <if test="g0xmlx != null">
+        G0XMLX,
+      </if>
+      <if test="g0xmlxms != null">
+        G0XMLXMS,
+      </if>
+      <if test="g0xmzt != null">
+        G0XMZT,
+      </if>
+      <if test="g0xmztms != null">
+        G0XMZTMS,
+      </if>
+      <if test="g0xmdl != null">
+        G0XMDL,
+      </if>
+      <if test="g0kypfwh != null">
+        G0KYPFWH,
+      </if>
+      <if test="g0matnr != null">
+        G0MATNR,
+      </if>
+      <if test="g0maktx != null">
+        G0MAKTX,
+      </if>
+      <if test="g0ebeln != null">
+        G0EBELN,
+      </if>
+      <if test="g0ebelp != null">
+        G0EBELP,
+      </if>
+      <if test="g0txz01 != null">
+        G0TXZ01,
+      </if>
+      <if test="g0eindt != null">
+        G0EINDT,
+      </if>
+      <if test="g0lifnr != null">
+        G0LIFNR,
+      </if>
+      <if test="g0name2 != null">
+        G0NAME2,
+      </if>
+      <if test="g0ddlx != null">
+        G0DDLX,
+      </if>
+      <if test="k0xmddsl != null">
+        K0XMDDSL,
+      </if>
+      <if test="k0xmddje != null">
+        K0XMDDJE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="g0flag != null">
+        #{g0flag,jdbcType=VARCHAR},
+      </if>
+      <if test="g0logsys != null">
+        #{g0logsys,jdbcType=VARCHAR},
+      </if>
+      <if test="g0cald != null">
+        #{g0cald,jdbcType=TIMESTAMP},
+      </if>
+      <if test="g0gsdm != null">
+        #{g0gsdm,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gsjc != null">
+        #{g0gsjc,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gsor != null">
+        #{g0gsor,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gsjcl != null">
+        #{g0gsjcl,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gsgp != null">
+        #{g0gsgp,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gssp != null">
+        #{g0gssp,jdbcType=VARCHAR},
+      </if>
+      <if test="g0projcode != null">
+        #{g0projcode,jdbcType=VARCHAR},
+      </if>
+      <if test="g0projtxt != null">
+        #{g0projtxt,jdbcType=VARCHAR},
+      </if>
+      <if test="g0wbscode != null">
+        #{g0wbscode,jdbcType=VARCHAR},
+      </if>
+      <if test="g0wbstxt != null">
+        #{g0wbstxt,jdbcType=VARCHAR},
+      </if>
+      <if test="g0xmgllx != null">
+        #{g0xmgllx,jdbcType=VARCHAR},
+      </if>
+      <if test="g0xmglly != null">
+        #{g0xmglly,jdbcType=VARCHAR},
+      </if>
+      <if test="g0xmgljb != null">
+        #{g0xmgljb,jdbcType=VARCHAR},
+      </if>
+      <if test="g0xmlx != null">
+        #{g0xmlx,jdbcType=VARCHAR},
+      </if>
+      <if test="g0xmlxms != null">
+        #{g0xmlxms,jdbcType=VARCHAR},
+      </if>
+      <if test="g0xmzt != null">
+        #{g0xmzt,jdbcType=VARCHAR},
+      </if>
+      <if test="g0xmztms != null">
+        #{g0xmztms,jdbcType=VARCHAR},
+      </if>
+      <if test="g0xmdl != null">
+        #{g0xmdl,jdbcType=VARCHAR},
+      </if>
+      <if test="g0kypfwh != null">
+        #{g0kypfwh,jdbcType=VARCHAR},
+      </if>
+      <if test="g0matnr != null">
+        #{g0matnr,jdbcType=VARCHAR},
+      </if>
+      <if test="g0maktx != null">
+        #{g0maktx,jdbcType=VARCHAR},
+      </if>
+      <if test="g0ebeln != null">
+        #{g0ebeln,jdbcType=VARCHAR},
+      </if>
+      <if test="g0ebelp != null">
+        #{g0ebelp,jdbcType=VARCHAR},
+      </if>
+      <if test="g0txz01 != null">
+        #{g0txz01,jdbcType=VARCHAR},
+      </if>
+      <if test="g0eindt != null">
+        #{g0eindt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="g0lifnr != null">
+        #{g0lifnr,jdbcType=VARCHAR},
+      </if>
+      <if test="g0name2 != null">
+        #{g0name2,jdbcType=VARCHAR},
+      </if>
+      <if test="g0ddlx != null">
+        #{g0ddlx,jdbcType=VARCHAR},
+      </if>
+      <if test="k0xmddsl != null">
+        #{k0xmddsl,jdbcType=VARCHAR},
+      </if>
+      <if test="k0xmddje != null">
+        #{k0xmddje,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <delete id="deleteByExample">
+    delete from sre_purchase_order
+  </delete>
+</mapper>
