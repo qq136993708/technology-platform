@@ -69,12 +69,12 @@
         function renderTable() {
             var param = JSON.parse(window.localStorage.getItem("param"));
             var lodingMsg = layer.msg('数据加载中....');
-
             //渲染
             table.render({
                 elem: '#showTable',
                 url: '/expertController/outProjectList',
                 method: "POST",
+                limit: param.selfRownum,
                 where: {
                     param: {
                         "nd": $('#nd').val(),
@@ -84,7 +84,6 @@
                         "functionCode": param.code
                     }
                 },
-                limit: param.selfRownum,
                 id: 'showTable',
                 height: commonDislodgeTable(),
                 page: {
@@ -180,11 +179,11 @@
                         }
                     }
 
-                    count || this.elem.next('.layui-table-view').find('.layui-table-header').css('overflow', 'auto');
+                    /*count || this.elem.next('.layui-table-view').find('.layui-table-header').css('overflow', 'auto');
                     layui.each($('select'), function (index, item) {
                         var elem = $(item);
                         elem.val(elem.data('value')).parents('div.layui-table-cell').css('overflow', 'visible');
-                    });
+                    });*/
                     form.render();
 
 
