@@ -1,0 +1,2487 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.system.IndexOutProjectInfoMapper">
+
+<resultMap id="BaseResultMap" type="com.pcitc.base.system.IndexOutProjectInfo">
+
+    <id column="data_id" jdbcType="VARCHAR" property="dataId" />
+    <id column="tfm_type_id" jdbcType="VARCHAR" property="tfmTypeId" />
+    <result column="nd" jdbcType="VARCHAR" property="nd" />
+    <result column="xmid" jdbcType="VARCHAR" property="xmid" />
+    <result column="hth" jdbcType="VARCHAR" property="hth" />
+    <result column="xmmc" jdbcType="VARCHAR" property="xmmc" />
+    <result column="xmjb" jdbcType="VARCHAR" property="xmjb" />
+    <result column="ysnd" jdbcType="VARCHAR" property="ysnd" />
+    <result column="yshf" jdbcType="VARCHAR" property="yshf" />
+    <result column="ysxd" jdbcType="VARCHAR" property="ysxd" />
+    <result column="yszbxje" jdbcType="VARCHAR" property="yszbxje" />
+    <result column="ysfyxje" jdbcType="VARCHAR" property="ysfyxje" />
+    <result column="ysje" jdbcType="VARCHAR" property="ysje" />
+    <result column="jf" jdbcType="VARCHAR" property="jf" />
+    <result column="fwdxbm" jdbcType="VARCHAR" property="fwdxbm" />
+    <result column="fwdx" jdbcType="VARCHAR" property="fwdx" />
+    <result column="zylbbm" jdbcType="VARCHAR" property="zylbbm" />
+    <result column="zylb" jdbcType="VARCHAR" property="zylb" />
+    <result column="fzdwbm" jdbcType="VARCHAR" property="fzdwbm" />
+    <result column="fzdw" jdbcType="VARCHAR" property="fzdw" />
+    <result column="jtfzdwbm" jdbcType="VARCHAR" property="jtfzdwbm" />
+    <result column="jtfzdw" jdbcType="VARCHAR" property="jtfzdw" />
+    <result column="fzryx" jdbcType="VARCHAR" property="fzryx" />
+    <result column="fzrdh" jdbcType="VARCHAR" property="fzrdh" />
+    <result column="fzrxm" jdbcType="VARCHAR" property="fzrxm" />
+    <result column="lxrdh" jdbcType="VARCHAR" property="lxrdh" />
+    <result column="lxryx" jdbcType="VARCHAR" property="lxryx" />
+    <result column="lxrxm" jdbcType="VARCHAR" property="lxrxm" />
+    <result column="jssxxm" jdbcType="VARCHAR" property="jssxxm" />
+    <result column="jssj" jdbcType="VARCHAR" property="jssj" />
+    <result column="kssj" jdbcType="VARCHAR" property="kssj" />
+    <result column="yjsj" jdbcType="VARCHAR" property="yjsj" />
+    <result column="zyly" jdbcType="VARCHAR" property="zyly" />
+    <result column="zysx" jdbcType="VARCHAR" property="zysx" />
+    <result column="sjid" jdbcType="VARCHAR" property="sjid" />
+    <result column="lxbj" jdbcType="LONGVARCHAR" property="lxbj" />
+    <result column="yjnr" jdbcType="LONGVARCHAR" property="yjnr" />
+    <result column="jdap" jdbcType="LONGVARCHAR" property="jdap" />
+    <result column="yjmb" jdbcType="LONGVARCHAR" property="yjmb" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="create_person" jdbcType="VARCHAR" property="createPerson" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="project_id" jdbcType="VARCHAR" property="projectId" />
+    <result column="parent_project_id" jdbcType="VARCHAR" property="parentProjectId" />
+    <result column="project_type" jdbcType="VARCHAR" property="projectType" />
+    <result column="erp_project_code" jdbcType="VARCHAR" property="erpProjectCode" />
+    <result column="erp_project_name" jdbcType="VARCHAR" property="erpProjectName" />
+    <result column="project_scope" jdbcType="VARCHAR" property="projectScope" />
+    <result column="project_level" jdbcType="VARCHAR" property="projectLevel" />
+    <result column="project_property" jdbcType="VARCHAR" property="projectProperty" />
+    <result column="project_abc" jdbcType="VARCHAR" property="projectAbc" />
+    <result column="project_source" jdbcType="VARCHAR" property="projectSource" />
+    <result column="yjsjks" jdbcType="VARCHAR" property="yjsjks" />
+    <result column="yjsjjs" jdbcType="VARCHAR" property="yjsjjs" />
+    <result column="xmlbbm" jdbcType="VARCHAR" property="xmlbbm" />
+    <result column="xmlbmc" jdbcType="VARCHAR" property="xmlbmc" />
+    <result column="gsbmmc" jdbcType="VARCHAR" property="gsbmmc" />
+    <result column="gsbmbm" jdbcType="VARCHAR" property="gsbmbm" />
+    <result column="zycmc" jdbcType="VARCHAR" property="zycmc" />
+    <result column="zycbm" jdbcType="VARCHAR" property="zycbm" />
+    <result column="fzdwunitcw" jdbcType="VARCHAR" property="fzdwunitcw" />
+    <result column="fzdwunit" jdbcType="VARCHAR" property="fzdwunit" />
+    <result column="type_flag" jdbcType="VARCHAR" property="typeFlag" />
+    <result column="define1" jdbcType="VARCHAR" property="define1" />
+    <result column="define2" jdbcType="VARCHAR" property="define2" />
+    <result column="define3" jdbcType="VARCHAR" property="define3" />
+    <result column="define4" jdbcType="VARCHAR" property="define4" />
+    <result column="define5" jdbcType="VARCHAR" property="define5" />
+    <result column="define6" jdbcType="VARCHAR" property="define6" />
+    <result column="define7" jdbcType="VARCHAR" property="define7" />
+    <result column="define8" jdbcType="VARCHAR" property="define8" />
+    <result column="define9" jdbcType="VARCHAR" property="define9" />
+    <result column="define10" jdbcType="VARCHAR" property="define10" />
+    <result column="define11" jdbcType="VARCHAR" property="define11" />
+    <result column="define12" jdbcType="VARCHAR" property="define12" />
+    <result column="define13" jdbcType="VARCHAR" property="define13" />
+    <result column="define14" jdbcType="VARCHAR" property="define14" />
+    <result column="define15" jdbcType="VARCHAR" property="define15" />
+    <result column="define16" jdbcType="VARCHAR" property="define16" />
+    <result column="define17" jdbcType="VARCHAR" property="define17" />
+    <result column="define18" jdbcType="VARCHAR" property="define18" />
+    <result column="define19" jdbcType="VARCHAR" property="define19" />
+    <result column="type_code" jdbcType="VARCHAR" property="typeCode" />
+    <result column="type_name" jdbcType="VARCHAR" property="typeName" />
+    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+    <result column="parent_code" jdbcType="VARCHAR" property="parentCode" />
+    <result column="is_parent" jdbcType="VARCHAR" property="isParent" />
+    <result column="type_index" jdbcType="VARCHAR" property="typeIndex" />
+</resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                    #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                    #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+<sql id="Base_Column_List">
+        data_id,
+        tfm_type_id,
+        nd,
+        xmid,
+        hth,
+        xmmc,
+        xmjb,
+        ysnd,
+        yshf,
+        ysxd,
+        yszbxje,
+        ysfyxje,
+        ysje,
+        jf,
+        fwdxbm,
+        fwdx,
+        zylbbm,
+        zylb,
+        fzdwbm,
+        fzdw,
+        jtfzdwbm,
+        jtfzdw,
+        fzryx,
+        fzrdh,
+        fzrxm,
+        lxrdh,
+        lxryx,
+        lxrxm,
+        jssxxm,
+        jssj,
+        kssj,
+        yjsj,
+        zyly,
+        zysx,
+        sjid,
+        lxbj,
+        yjnr,
+        jdap,
+        yjmb,
+        create_date,
+        create_person,
+        status,
+        update_date,
+        project_id,
+        parent_project_id,
+        project_type,
+        erp_project_code,
+        erp_project_name,
+        project_scope,
+        project_level,
+        project_property,
+        project_abc,
+        project_source,
+        yjsjks,
+        yjsjjs,
+        xmlbbm,
+        xmlbmc,
+        gsbmmc,
+        gsbmbm,
+        zycmc,
+        zycbm,
+        fzdwunitcw,
+        fzdwunit,
+        type_flag,
+        define1,
+        define2,
+        define3,
+        define4,
+        define5,
+        define6,
+        define7,
+        define8,
+        define9,
+        define10,
+        define11,
+        define12,
+        define13,
+        define14,
+        define15,
+        define16,
+        define17,
+        define18,
+        define19,
+        type_code,
+        type_name,
+        parent_id,
+        parent_code,
+        is_parent,
+        type_index
+</sql>
+
+    <select id="selectByExample" parameterType="com.pcitc.base.system.IndexOutProjectInfoExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from index_out_project_info
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from index_out_project_info
+        where data_idtfm_type_id = #{dataId,jdbcType=VARCHAR}tfmTypeId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from index_out_project_info
+        where data_idtfm_type_id = #{dataId,jdbcType=VARCHAR}tfmTypeId,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.pcitc.base.system.IndexOutProjectInfoExample">
+        delete from index_out_project_info
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.pcitc.base.system.IndexOutProjectInfo">
+        insert into index_out_project_info (
+            data_id,
+            tfm_type_id,
+            nd,
+            xmid,
+            hth,
+            xmmc,
+            xmjb,
+            ysnd,
+            yshf,
+            ysxd,
+            yszbxje,
+            ysfyxje,
+            ysje,
+            jf,
+            fwdxbm,
+            fwdx,
+            zylbbm,
+            zylb,
+            fzdwbm,
+            fzdw,
+            jtfzdwbm,
+            jtfzdw,
+            fzryx,
+            fzrdh,
+            fzrxm,
+            lxrdh,
+            lxryx,
+            lxrxm,
+            jssxxm,
+            jssj,
+            kssj,
+            yjsj,
+            zyly,
+            zysx,
+            sjid,
+            lxbj,
+            yjnr,
+            jdap,
+            yjmb,
+            create_date,
+            create_person,
+            status,
+            update_date,
+            project_id,
+            parent_project_id,
+            project_type,
+            erp_project_code,
+            erp_project_name,
+            project_scope,
+            project_level,
+            project_property,
+            project_abc,
+            project_source,
+            yjsjks,
+            yjsjjs,
+            xmlbbm,
+            xmlbmc,
+            gsbmmc,
+            gsbmbm,
+            zycmc,
+            zycbm,
+            fzdwunitcw,
+            fzdwunit,
+            type_flag,
+            define1,
+            define2,
+            define3,
+            define4,
+            define5,
+            define6,
+            define7,
+            define8,
+            define9,
+            define10,
+            define11,
+            define12,
+            define13,
+            define14,
+            define15,
+            define16,
+            define17,
+            define18,
+            define19,
+            type_code,
+            type_name,
+            parent_id,
+            parent_code,
+            is_parent,
+            type_index
+        )
+        values (
+
+    #{dataId,jdbcType=VARCHAR},
+    #{tfmTypeId,jdbcType=VARCHAR},
+    #{nd,jdbcType=VARCHAR},
+    #{xmid,jdbcType=VARCHAR},
+    #{hth,jdbcType=VARCHAR},
+    #{xmmc,jdbcType=VARCHAR},
+    #{xmjb,jdbcType=VARCHAR},
+    #{ysnd,jdbcType=VARCHAR},
+    #{yshf,jdbcType=VARCHAR},
+    #{ysxd,jdbcType=VARCHAR},
+    #{yszbxje,jdbcType=VARCHAR},
+    #{ysfyxje,jdbcType=VARCHAR},
+    #{ysje,jdbcType=VARCHAR},
+    #{jf,jdbcType=VARCHAR},
+    #{fwdxbm,jdbcType=VARCHAR},
+    #{fwdx,jdbcType=VARCHAR},
+    #{zylbbm,jdbcType=VARCHAR},
+    #{zylb,jdbcType=VARCHAR},
+    #{fzdwbm,jdbcType=VARCHAR},
+    #{fzdw,jdbcType=VARCHAR},
+    #{jtfzdwbm,jdbcType=VARCHAR},
+    #{jtfzdw,jdbcType=VARCHAR},
+    #{fzryx,jdbcType=VARCHAR},
+    #{fzrdh,jdbcType=VARCHAR},
+    #{fzrxm,jdbcType=VARCHAR},
+    #{lxrdh,jdbcType=VARCHAR},
+    #{lxryx,jdbcType=VARCHAR},
+    #{lxrxm,jdbcType=VARCHAR},
+    #{jssxxm,jdbcType=VARCHAR},
+    #{jssj,jdbcType=VARCHAR},
+    #{kssj,jdbcType=VARCHAR},
+    #{yjsj,jdbcType=VARCHAR},
+    #{zyly,jdbcType=VARCHAR},
+    #{zysx,jdbcType=VARCHAR},
+    #{sjid,jdbcType=VARCHAR},
+    #{lxbj,jdbcType=LONGVARCHAR},
+    #{yjnr,jdbcType=LONGVARCHAR},
+    #{jdap,jdbcType=LONGVARCHAR},
+    #{yjmb,jdbcType=LONGVARCHAR},
+    #{createDate,jdbcType=TIMESTAMP},
+    #{createPerson,jdbcType=VARCHAR},
+    #{status,jdbcType=VARCHAR},
+    #{updateDate,jdbcType=TIMESTAMP},
+    #{projectId,jdbcType=VARCHAR},
+    #{parentProjectId,jdbcType=VARCHAR},
+    #{projectType,jdbcType=VARCHAR},
+    #{erpProjectCode,jdbcType=VARCHAR},
+    #{erpProjectName,jdbcType=VARCHAR},
+    #{projectScope,jdbcType=VARCHAR},
+    #{projectLevel,jdbcType=VARCHAR},
+    #{projectProperty,jdbcType=VARCHAR},
+    #{projectAbc,jdbcType=VARCHAR},
+    #{projectSource,jdbcType=VARCHAR},
+    #{yjsjks,jdbcType=VARCHAR},
+    #{yjsjjs,jdbcType=VARCHAR},
+    #{xmlbbm,jdbcType=VARCHAR},
+    #{xmlbmc,jdbcType=VARCHAR},
+    #{gsbmmc,jdbcType=VARCHAR},
+    #{gsbmbm,jdbcType=VARCHAR},
+    #{zycmc,jdbcType=VARCHAR},
+    #{zycbm,jdbcType=VARCHAR},
+    #{fzdwunitcw,jdbcType=VARCHAR},
+    #{fzdwunit,jdbcType=VARCHAR},
+    #{typeFlag,jdbcType=VARCHAR},
+    #{define1,jdbcType=VARCHAR},
+    #{define2,jdbcType=VARCHAR},
+    #{define3,jdbcType=VARCHAR},
+    #{define4,jdbcType=VARCHAR},
+    #{define5,jdbcType=VARCHAR},
+    #{define6,jdbcType=VARCHAR},
+    #{define7,jdbcType=VARCHAR},
+    #{define8,jdbcType=VARCHAR},
+    #{define9,jdbcType=VARCHAR},
+    #{define10,jdbcType=VARCHAR},
+    #{define11,jdbcType=VARCHAR},
+    #{define12,jdbcType=VARCHAR},
+    #{define13,jdbcType=VARCHAR},
+    #{define14,jdbcType=VARCHAR},
+    #{define15,jdbcType=VARCHAR},
+    #{define16,jdbcType=VARCHAR},
+    #{define17,jdbcType=VARCHAR},
+    #{define18,jdbcType=VARCHAR},
+    #{define19,jdbcType=VARCHAR},
+    #{typeCode,jdbcType=VARCHAR},
+    #{typeName,jdbcType=VARCHAR},
+    #{parentId,jdbcType=VARCHAR},
+    #{parentCode,jdbcType=VARCHAR},
+    #{isParent,jdbcType=VARCHAR},
+    #{typeIndex,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.pcitc.base.system.IndexOutProjectInfo">
+        insert into index_out_project_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="dataId != null">
+            data_id,
+            </if>
+            <if test="tfmTypeId != null">
+            tfm_type_id,
+            </if>
+            <if test="nd != null">
+            nd,
+            </if>
+            <if test="xmid != null">
+            xmid,
+            </if>
+            <if test="hth != null">
+            hth,
+            </if>
+            <if test="xmmc != null">
+            xmmc,
+            </if>
+            <if test="xmjb != null">
+            xmjb,
+            </if>
+            <if test="ysnd != null">
+            ysnd,
+            </if>
+            <if test="yshf != null">
+            yshf,
+            </if>
+            <if test="ysxd != null">
+            ysxd,
+            </if>
+            <if test="yszbxje != null">
+            yszbxje,
+            </if>
+            <if test="ysfyxje != null">
+            ysfyxje,
+            </if>
+            <if test="ysje != null">
+            ysje,
+            </if>
+            <if test="jf != null">
+            jf,
+            </if>
+            <if test="fwdxbm != null">
+            fwdxbm,
+            </if>
+            <if test="fwdx != null">
+            fwdx,
+            </if>
+            <if test="zylbbm != null">
+            zylbbm,
+            </if>
+            <if test="zylb != null">
+            zylb,
+            </if>
+            <if test="fzdwbm != null">
+            fzdwbm,
+            </if>
+            <if test="fzdw != null">
+            fzdw,
+            </if>
+            <if test="jtfzdwbm != null">
+            jtfzdwbm,
+            </if>
+            <if test="jtfzdw != null">
+            jtfzdw,
+            </if>
+            <if test="fzryx != null">
+            fzryx,
+            </if>
+            <if test="fzrdh != null">
+            fzrdh,
+            </if>
+            <if test="fzrxm != null">
+            fzrxm,
+            </if>
+            <if test="lxrdh != null">
+            lxrdh,
+            </if>
+            <if test="lxryx != null">
+            lxryx,
+            </if>
+            <if test="lxrxm != null">
+            lxrxm,
+            </if>
+            <if test="jssxxm != null">
+            jssxxm,
+            </if>
+            <if test="jssj != null">
+            jssj,
+            </if>
+            <if test="kssj != null">
+            kssj,
+            </if>
+            <if test="yjsj != null">
+            yjsj,
+            </if>
+            <if test="zyly != null">
+            zyly,
+            </if>
+            <if test="zysx != null">
+            zysx,
+            </if>
+            <if test="sjid != null">
+            sjid,
+            </if>
+            <if test="lxbj != null">
+            lxbj,
+            </if>
+            <if test="yjnr != null">
+            yjnr,
+            </if>
+            <if test="jdap != null">
+            jdap,
+            </if>
+            <if test="yjmb != null">
+            yjmb,
+            </if>
+            <if test="createDate != null">
+            create_date,
+            </if>
+            <if test="createPerson != null">
+            create_person,
+            </if>
+            <if test="status != null">
+            status,
+            </if>
+            <if test="updateDate != null">
+            update_date,
+            </if>
+            <if test="projectId != null">
+            project_id,
+            </if>
+            <if test="parentProjectId != null">
+            parent_project_id,
+            </if>
+            <if test="projectType != null">
+            project_type,
+            </if>
+            <if test="erpProjectCode != null">
+            erp_project_code,
+            </if>
+            <if test="erpProjectName != null">
+            erp_project_name,
+            </if>
+            <if test="projectScope != null">
+            project_scope,
+            </if>
+            <if test="projectLevel != null">
+            project_level,
+            </if>
+            <if test="projectProperty != null">
+            project_property,
+            </if>
+            <if test="projectAbc != null">
+            project_abc,
+            </if>
+            <if test="projectSource != null">
+            project_source,
+            </if>
+            <if test="yjsjks != null">
+            yjsjks,
+            </if>
+            <if test="yjsjjs != null">
+            yjsjjs,
+            </if>
+            <if test="xmlbbm != null">
+            xmlbbm,
+            </if>
+            <if test="xmlbmc != null">
+            xmlbmc,
+            </if>
+            <if test="gsbmmc != null">
+            gsbmmc,
+            </if>
+            <if test="gsbmbm != null">
+            gsbmbm,
+            </if>
+            <if test="zycmc != null">
+            zycmc,
+            </if>
+            <if test="zycbm != null">
+            zycbm,
+            </if>
+            <if test="fzdwunitcw != null">
+            fzdwunitcw,
+            </if>
+            <if test="fzdwunit != null">
+            fzdwunit,
+            </if>
+            <if test="typeFlag != null">
+            type_flag,
+            </if>
+            <if test="define1 != null">
+            define1,
+            </if>
+            <if test="define2 != null">
+            define2,
+            </if>
+            <if test="define3 != null">
+            define3,
+            </if>
+            <if test="define4 != null">
+            define4,
+            </if>
+            <if test="define5 != null">
+            define5,
+            </if>
+            <if test="define6 != null">
+            define6,
+            </if>
+            <if test="define7 != null">
+            define7,
+            </if>
+            <if test="define8 != null">
+            define8,
+            </if>
+            <if test="define9 != null">
+            define9,
+            </if>
+            <if test="define10 != null">
+            define10,
+            </if>
+            <if test="define11 != null">
+            define11,
+            </if>
+            <if test="define12 != null">
+            define12,
+            </if>
+            <if test="define13 != null">
+            define13,
+            </if>
+            <if test="define14 != null">
+            define14,
+            </if>
+            <if test="define15 != null">
+            define15,
+            </if>
+            <if test="define16 != null">
+            define16,
+            </if>
+            <if test="define17 != null">
+            define17,
+            </if>
+            <if test="define18 != null">
+            define18,
+            </if>
+            <if test="define19 != null">
+            define19,
+            </if>
+            <if test="typeCode != null">
+            type_code,
+            </if>
+            <if test="typeName != null">
+            type_name,
+            </if>
+            <if test="parentId != null">
+            parent_id,
+            </if>
+            <if test="parentCode != null">
+            parent_code,
+            </if>
+            <if test="isParent != null">
+            is_parent,
+            </if>
+            <if test="typeIndex != null">
+            type_index
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+
+            <if test="dataId != null">
+            #{dataId ,jdbcType=VARCHAR},
+            </if>
+            <if test="tfmTypeId != null">
+            #{tfmTypeId ,jdbcType=VARCHAR},
+            </if>
+            <if test="nd != null">
+            #{nd ,jdbcType=VARCHAR},
+            </if>
+            <if test="xmid != null">
+            #{xmid ,jdbcType=VARCHAR},
+            </if>
+            <if test="hth != null">
+            #{hth ,jdbcType=VARCHAR},
+            </if>
+            <if test="xmmc != null">
+            #{xmmc ,jdbcType=VARCHAR},
+            </if>
+            <if test="xmjb != null">
+            #{xmjb ,jdbcType=VARCHAR},
+            </if>
+            <if test="ysnd != null">
+            #{ysnd ,jdbcType=VARCHAR},
+            </if>
+            <if test="yshf != null">
+            #{yshf ,jdbcType=VARCHAR},
+            </if>
+            <if test="ysxd != null">
+            #{ysxd ,jdbcType=VARCHAR},
+            </if>
+            <if test="yszbxje != null">
+            #{yszbxje ,jdbcType=VARCHAR},
+            </if>
+            <if test="ysfyxje != null">
+            #{ysfyxje ,jdbcType=VARCHAR},
+            </if>
+            <if test="ysje != null">
+            #{ysje ,jdbcType=VARCHAR},
+            </if>
+            <if test="jf != null">
+            #{jf ,jdbcType=VARCHAR},
+            </if>
+            <if test="fwdxbm != null">
+            #{fwdxbm ,jdbcType=VARCHAR},
+            </if>
+            <if test="fwdx != null">
+            #{fwdx ,jdbcType=VARCHAR},
+            </if>
+            <if test="zylbbm != null">
+            #{zylbbm ,jdbcType=VARCHAR},
+            </if>
+            <if test="zylb != null">
+            #{zylb ,jdbcType=VARCHAR},
+            </if>
+            <if test="fzdwbm != null">
+            #{fzdwbm ,jdbcType=VARCHAR},
+            </if>
+            <if test="fzdw != null">
+            #{fzdw ,jdbcType=VARCHAR},
+            </if>
+            <if test="jtfzdwbm != null">
+            #{jtfzdwbm ,jdbcType=VARCHAR},
+            </if>
+            <if test="jtfzdw != null">
+            #{jtfzdw ,jdbcType=VARCHAR},
+            </if>
+            <if test="fzryx != null">
+            #{fzryx ,jdbcType=VARCHAR},
+            </if>
+            <if test="fzrdh != null">
+            #{fzrdh ,jdbcType=VARCHAR},
+            </if>
+            <if test="fzrxm != null">
+            #{fzrxm ,jdbcType=VARCHAR},
+            </if>
+            <if test="lxrdh != null">
+            #{lxrdh ,jdbcType=VARCHAR},
+            </if>
+            <if test="lxryx != null">
+            #{lxryx ,jdbcType=VARCHAR},
+            </if>
+            <if test="lxrxm != null">
+            #{lxrxm ,jdbcType=VARCHAR},
+            </if>
+            <if test="jssxxm != null">
+            #{jssxxm ,jdbcType=VARCHAR},
+            </if>
+            <if test="jssj != null">
+            #{jssj ,jdbcType=VARCHAR},
+            </if>
+            <if test="kssj != null">
+            #{kssj ,jdbcType=VARCHAR},
+            </if>
+            <if test="yjsj != null">
+            #{yjsj ,jdbcType=VARCHAR},
+            </if>
+            <if test="zyly != null">
+            #{zyly ,jdbcType=VARCHAR},
+            </if>
+            <if test="zysx != null">
+            #{zysx ,jdbcType=VARCHAR},
+            </if>
+            <if test="sjid != null">
+            #{sjid ,jdbcType=VARCHAR},
+            </if>
+            <if test="lxbj != null">
+            #{lxbj ,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="yjnr != null">
+            #{yjnr ,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="jdap != null">
+            #{jdap ,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="yjmb != null">
+            #{yjmb ,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="createDate != null">
+            #{createDate ,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createPerson != null">
+            #{createPerson ,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+            #{status ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+            #{updateDate ,jdbcType=TIMESTAMP},
+            </if>
+            <if test="projectId != null">
+            #{projectId ,jdbcType=VARCHAR},
+            </if>
+            <if test="parentProjectId != null">
+            #{parentProjectId ,jdbcType=VARCHAR},
+            </if>
+            <if test="projectType != null">
+            #{projectType ,jdbcType=VARCHAR},
+            </if>
+            <if test="erpProjectCode != null">
+            #{erpProjectCode ,jdbcType=VARCHAR},
+            </if>
+            <if test="erpProjectName != null">
+            #{erpProjectName ,jdbcType=VARCHAR},
+            </if>
+            <if test="projectScope != null">
+            #{projectScope ,jdbcType=VARCHAR},
+            </if>
+            <if test="projectLevel != null">
+            #{projectLevel ,jdbcType=VARCHAR},
+            </if>
+            <if test="projectProperty != null">
+            #{projectProperty ,jdbcType=VARCHAR},
+            </if>
+            <if test="projectAbc != null">
+            #{projectAbc ,jdbcType=VARCHAR},
+            </if>
+            <if test="projectSource != null">
+            #{projectSource ,jdbcType=VARCHAR},
+            </if>
+            <if test="yjsjks != null">
+            #{yjsjks ,jdbcType=VARCHAR},
+            </if>
+            <if test="yjsjjs != null">
+            #{yjsjjs ,jdbcType=VARCHAR},
+            </if>
+            <if test="xmlbbm != null">
+            #{xmlbbm ,jdbcType=VARCHAR},
+            </if>
+            <if test="xmlbmc != null">
+            #{xmlbmc ,jdbcType=VARCHAR},
+            </if>
+            <if test="gsbmmc != null">
+            #{gsbmmc ,jdbcType=VARCHAR},
+            </if>
+            <if test="gsbmbm != null">
+            #{gsbmbm ,jdbcType=VARCHAR},
+            </if>
+            <if test="zycmc != null">
+            #{zycmc ,jdbcType=VARCHAR},
+            </if>
+            <if test="zycbm != null">
+            #{zycbm ,jdbcType=VARCHAR},
+            </if>
+            <if test="fzdwunitcw != null">
+            #{fzdwunitcw ,jdbcType=VARCHAR},
+            </if>
+            <if test="fzdwunit != null">
+            #{fzdwunit ,jdbcType=VARCHAR},
+            </if>
+            <if test="typeFlag != null">
+            #{typeFlag ,jdbcType=VARCHAR},
+            </if>
+            <if test="define1 != null">
+            #{define1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define2 != null">
+            #{define2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define3 != null">
+            #{define3 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define4 != null">
+            #{define4 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define5 != null">
+            #{define5 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define6 != null">
+            #{define6 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define7 != null">
+            #{define7 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define8 != null">
+            #{define8 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define9 != null">
+            #{define9 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define10 != null">
+            #{define10 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define11 != null">
+            #{define11 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define12 != null">
+            #{define12 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define13 != null">
+            #{define13 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define14 != null">
+            #{define14 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define15 != null">
+            #{define15 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define16 != null">
+            #{define16 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define17 != null">
+            #{define17 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define18 != null">
+            #{define18 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define19 != null">
+            #{define19 ,jdbcType=VARCHAR},
+            </if>
+            <if test="typeCode != null">
+            #{typeCode ,jdbcType=VARCHAR},
+            </if>
+            <if test="typeName != null">
+            #{typeName ,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+            #{parentId ,jdbcType=VARCHAR},
+            </if>
+            <if test="parentCode != null">
+            #{parentCode ,jdbcType=VARCHAR},
+            </if>
+            <if test="isParent != null">
+            #{isParent ,jdbcType=VARCHAR},
+            </if>
+            <if test="typeIndex != null">
+            #{typeIndex ,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.pcitc.base.system.IndexOutProjectInfoExample" resultType="java.lang.Long">
+        select count(*) from index_out_project_info
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update index_out_project_info
+        <set>
+
+            <if test="record.dataId != null">
+                data_id=#{record.dataId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.tfmTypeId != null">
+                tfm_type_id=#{record.tfmTypeId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.nd != null">
+                nd=#{record.nd,jdbcType=VARCHAR},
+            </if>
+            <if test="record.xmid != null">
+                xmid=#{record.xmid,jdbcType=VARCHAR},
+            </if>
+            <if test="record.hth != null">
+                hth=#{record.hth,jdbcType=VARCHAR},
+            </if>
+            <if test="record.xmmc != null">
+                xmmc=#{record.xmmc,jdbcType=VARCHAR},
+            </if>
+            <if test="record.xmjb != null">
+                xmjb=#{record.xmjb,jdbcType=VARCHAR},
+            </if>
+            <if test="record.ysnd != null">
+                ysnd=#{record.ysnd,jdbcType=VARCHAR},
+            </if>
+            <if test="record.yshf != null">
+                yshf=#{record.yshf,jdbcType=VARCHAR},
+            </if>
+            <if test="record.ysxd != null">
+                ysxd=#{record.ysxd,jdbcType=VARCHAR},
+            </if>
+            <if test="record.yszbxje != null">
+                yszbxje=#{record.yszbxje,jdbcType=VARCHAR},
+            </if>
+            <if test="record.ysfyxje != null">
+                ysfyxje=#{record.ysfyxje,jdbcType=VARCHAR},
+            </if>
+            <if test="record.ysje != null">
+                ysje=#{record.ysje,jdbcType=VARCHAR},
+            </if>
+            <if test="record.jf != null">
+                jf=#{record.jf,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fwdxbm != null">
+                fwdxbm=#{record.fwdxbm,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fwdx != null">
+                fwdx=#{record.fwdx,jdbcType=VARCHAR},
+            </if>
+            <if test="record.zylbbm != null">
+                zylbbm=#{record.zylbbm,jdbcType=VARCHAR},
+            </if>
+            <if test="record.zylb != null">
+                zylb=#{record.zylb,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fzdwbm != null">
+                fzdwbm=#{record.fzdwbm,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fzdw != null">
+                fzdw=#{record.fzdw,jdbcType=VARCHAR},
+            </if>
+            <if test="record.jtfzdwbm != null">
+                jtfzdwbm=#{record.jtfzdwbm,jdbcType=VARCHAR},
+            </if>
+            <if test="record.jtfzdw != null">
+                jtfzdw=#{record.jtfzdw,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fzryx != null">
+                fzryx=#{record.fzryx,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fzrdh != null">
+                fzrdh=#{record.fzrdh,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fzrxm != null">
+                fzrxm=#{record.fzrxm,jdbcType=VARCHAR},
+            </if>
+            <if test="record.lxrdh != null">
+                lxrdh=#{record.lxrdh,jdbcType=VARCHAR},
+            </if>
+            <if test="record.lxryx != null">
+                lxryx=#{record.lxryx,jdbcType=VARCHAR},
+            </if>
+            <if test="record.lxrxm != null">
+                lxrxm=#{record.lxrxm,jdbcType=VARCHAR},
+            </if>
+            <if test="record.jssxxm != null">
+                jssxxm=#{record.jssxxm,jdbcType=VARCHAR},
+            </if>
+            <if test="record.jssj != null">
+                jssj=#{record.jssj,jdbcType=VARCHAR},
+            </if>
+            <if test="record.kssj != null">
+                kssj=#{record.kssj,jdbcType=VARCHAR},
+            </if>
+            <if test="record.yjsj != null">
+                yjsj=#{record.yjsj,jdbcType=VARCHAR},
+            </if>
+            <if test="record.zyly != null">
+                zyly=#{record.zyly,jdbcType=VARCHAR},
+            </if>
+            <if test="record.zysx != null">
+                zysx=#{record.zysx,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sjid != null">
+                sjid=#{record.sjid,jdbcType=VARCHAR},
+            </if>
+            <if test="record.lxbj != null">
+                lxbj=#{record.lxbj,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="record.yjnr != null">
+                yjnr=#{record.yjnr,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="record.jdap != null">
+                jdap=#{record.jdap,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="record.yjmb != null">
+                yjmb=#{record.yjmb,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="record.createDate != null">
+                create_date=#{record.createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.createPerson != null">
+                create_person=#{record.createPerson,jdbcType=VARCHAR},
+            </if>
+            <if test="record.status != null">
+                status=#{record.status,jdbcType=VARCHAR},
+            </if>
+            <if test="record.updateDate != null">
+                update_date=#{record.updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.projectId != null">
+                project_id=#{record.projectId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.parentProjectId != null">
+                parent_project_id=#{record.parentProjectId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.projectType != null">
+                project_type=#{record.projectType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.erpProjectCode != null">
+                erp_project_code=#{record.erpProjectCode,jdbcType=VARCHAR},
+            </if>
+            <if test="record.erpProjectName != null">
+                erp_project_name=#{record.erpProjectName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.projectScope != null">
+                project_scope=#{record.projectScope,jdbcType=VARCHAR},
+            </if>
+            <if test="record.projectLevel != null">
+                project_level=#{record.projectLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="record.projectProperty != null">
+                project_property=#{record.projectProperty,jdbcType=VARCHAR},
+            </if>
+            <if test="record.projectAbc != null">
+                project_abc=#{record.projectAbc,jdbcType=VARCHAR},
+            </if>
+            <if test="record.projectSource != null">
+                project_source=#{record.projectSource,jdbcType=VARCHAR},
+            </if>
+            <if test="record.yjsjks != null">
+                yjsjks=#{record.yjsjks,jdbcType=VARCHAR},
+            </if>
+            <if test="record.yjsjjs != null">
+                yjsjjs=#{record.yjsjjs,jdbcType=VARCHAR},
+            </if>
+            <if test="record.xmlbbm != null">
+                xmlbbm=#{record.xmlbbm,jdbcType=VARCHAR},
+            </if>
+            <if test="record.xmlbmc != null">
+                xmlbmc=#{record.xmlbmc,jdbcType=VARCHAR},
+            </if>
+            <if test="record.gsbmmc != null">
+                gsbmmc=#{record.gsbmmc,jdbcType=VARCHAR},
+            </if>
+            <if test="record.gsbmbm != null">
+                gsbmbm=#{record.gsbmbm,jdbcType=VARCHAR},
+            </if>
+            <if test="record.zycmc != null">
+                zycmc=#{record.zycmc,jdbcType=VARCHAR},
+            </if>
+            <if test="record.zycbm != null">
+                zycbm=#{record.zycbm,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fzdwunitcw != null">
+                fzdwunitcw=#{record.fzdwunitcw,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fzdwunit != null">
+                fzdwunit=#{record.fzdwunit,jdbcType=VARCHAR},
+            </if>
+            <if test="record.typeFlag != null">
+                type_flag=#{record.typeFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define1 != null">
+                define1=#{record.define1,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define2 != null">
+                define2=#{record.define2,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define3 != null">
+                define3=#{record.define3,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define4 != null">
+                define4=#{record.define4,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define5 != null">
+                define5=#{record.define5,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define6 != null">
+                define6=#{record.define6,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define7 != null">
+                define7=#{record.define7,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define8 != null">
+                define8=#{record.define8,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define9 != null">
+                define9=#{record.define9,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define10 != null">
+                define10=#{record.define10,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define11 != null">
+                define11=#{record.define11,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define12 != null">
+                define12=#{record.define12,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define13 != null">
+                define13=#{record.define13,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define14 != null">
+                define14=#{record.define14,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define15 != null">
+                define15=#{record.define15,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define16 != null">
+                define16=#{record.define16,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define17 != null">
+                define17=#{record.define17,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define18 != null">
+                define18=#{record.define18,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define19 != null">
+                define19=#{record.define19,jdbcType=VARCHAR},
+            </if>
+            <if test="record.typeCode != null">
+                type_code=#{record.typeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="record.typeName != null">
+                type_name=#{record.typeName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.parentId != null">
+                parent_id=#{record.parentId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.parentCode != null">
+                parent_code=#{record.parentCode,jdbcType=VARCHAR},
+            </if>
+            <if test="record.isParent != null">
+                is_parent=#{record.isParent,jdbcType=VARCHAR},
+            </if>
+            <if test="record.typeIndex != null">
+                type_index=#{record.typeIndex,jdbcType=VARCHAR}
+            </if>
+
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update index_out_project_info
+        set
+        data_id=#{record.dataId,jdbcType=VARCHAR},
+        tfm_type_id=#{record.tfmTypeId,jdbcType=VARCHAR},
+        nd=#{record.nd,jdbcType=VARCHAR},
+        xmid=#{record.xmid,jdbcType=VARCHAR},
+        hth=#{record.hth,jdbcType=VARCHAR},
+        xmmc=#{record.xmmc,jdbcType=VARCHAR},
+        xmjb=#{record.xmjb,jdbcType=VARCHAR},
+        ysnd=#{record.ysnd,jdbcType=VARCHAR},
+        yshf=#{record.yshf,jdbcType=VARCHAR},
+        ysxd=#{record.ysxd,jdbcType=VARCHAR},
+        yszbxje=#{record.yszbxje,jdbcType=VARCHAR},
+        ysfyxje=#{record.ysfyxje,jdbcType=VARCHAR},
+        ysje=#{record.ysje,jdbcType=VARCHAR},
+        jf=#{record.jf,jdbcType=VARCHAR},
+        fwdxbm=#{record.fwdxbm,jdbcType=VARCHAR},
+        fwdx=#{record.fwdx,jdbcType=VARCHAR},
+        zylbbm=#{record.zylbbm,jdbcType=VARCHAR},
+        zylb=#{record.zylb,jdbcType=VARCHAR},
+        fzdwbm=#{record.fzdwbm,jdbcType=VARCHAR},
+        fzdw=#{record.fzdw,jdbcType=VARCHAR},
+        jtfzdwbm=#{record.jtfzdwbm,jdbcType=VARCHAR},
+        jtfzdw=#{record.jtfzdw,jdbcType=VARCHAR},
+        fzryx=#{record.fzryx,jdbcType=VARCHAR},
+        fzrdh=#{record.fzrdh,jdbcType=VARCHAR},
+        fzrxm=#{record.fzrxm,jdbcType=VARCHAR},
+        lxrdh=#{record.lxrdh,jdbcType=VARCHAR},
+        lxryx=#{record.lxryx,jdbcType=VARCHAR},
+        lxrxm=#{record.lxrxm,jdbcType=VARCHAR},
+        jssxxm=#{record.jssxxm,jdbcType=VARCHAR},
+        jssj=#{record.jssj,jdbcType=VARCHAR},
+        kssj=#{record.kssj,jdbcType=VARCHAR},
+        yjsj=#{record.yjsj,jdbcType=VARCHAR},
+        zyly=#{record.zyly,jdbcType=VARCHAR},
+        zysx=#{record.zysx,jdbcType=VARCHAR},
+        sjid=#{record.sjid,jdbcType=VARCHAR},
+        lxbj=#{record.lxbj,jdbcType=LONGVARCHAR},
+        yjnr=#{record.yjnr,jdbcType=LONGVARCHAR},
+        jdap=#{record.jdap,jdbcType=LONGVARCHAR},
+        yjmb=#{record.yjmb,jdbcType=LONGVARCHAR},
+        create_date=#{record.createDate,jdbcType=TIMESTAMP},
+        create_person=#{record.createPerson,jdbcType=VARCHAR},
+        status=#{record.status,jdbcType=VARCHAR},
+        update_date=#{record.updateDate,jdbcType=TIMESTAMP},
+        project_id=#{record.projectId,jdbcType=VARCHAR},
+        parent_project_id=#{record.parentProjectId,jdbcType=VARCHAR},
+        project_type=#{record.projectType,jdbcType=VARCHAR},
+        erp_project_code=#{record.erpProjectCode,jdbcType=VARCHAR},
+        erp_project_name=#{record.erpProjectName,jdbcType=VARCHAR},
+        project_scope=#{record.projectScope,jdbcType=VARCHAR},
+        project_level=#{record.projectLevel,jdbcType=VARCHAR},
+        project_property=#{record.projectProperty,jdbcType=VARCHAR},
+        project_abc=#{record.projectAbc,jdbcType=VARCHAR},
+        project_source=#{record.projectSource,jdbcType=VARCHAR},
+        yjsjks=#{record.yjsjks,jdbcType=VARCHAR},
+        yjsjjs=#{record.yjsjjs,jdbcType=VARCHAR},
+        xmlbbm=#{record.xmlbbm,jdbcType=VARCHAR},
+        xmlbmc=#{record.xmlbmc,jdbcType=VARCHAR},
+        gsbmmc=#{record.gsbmmc,jdbcType=VARCHAR},
+        gsbmbm=#{record.gsbmbm,jdbcType=VARCHAR},
+        zycmc=#{record.zycmc,jdbcType=VARCHAR},
+        zycbm=#{record.zycbm,jdbcType=VARCHAR},
+        fzdwunitcw=#{record.fzdwunitcw,jdbcType=VARCHAR},
+        fzdwunit=#{record.fzdwunit,jdbcType=VARCHAR},
+        type_flag=#{record.typeFlag,jdbcType=VARCHAR},
+        define1=#{record.define1,jdbcType=VARCHAR},
+        define2=#{record.define2,jdbcType=VARCHAR},
+        define3=#{record.define3,jdbcType=VARCHAR},
+        define4=#{record.define4,jdbcType=VARCHAR},
+        define5=#{record.define5,jdbcType=VARCHAR},
+        define6=#{record.define6,jdbcType=VARCHAR},
+        define7=#{record.define7,jdbcType=VARCHAR},
+        define8=#{record.define8,jdbcType=VARCHAR},
+        define9=#{record.define9,jdbcType=VARCHAR},
+        define10=#{record.define10,jdbcType=VARCHAR},
+        define11=#{record.define11,jdbcType=VARCHAR},
+        define12=#{record.define12,jdbcType=VARCHAR},
+        define13=#{record.define13,jdbcType=VARCHAR},
+        define14=#{record.define14,jdbcType=VARCHAR},
+        define15=#{record.define15,jdbcType=VARCHAR},
+        define16=#{record.define16,jdbcType=VARCHAR},
+        define17=#{record.define17,jdbcType=VARCHAR},
+        define18=#{record.define18,jdbcType=VARCHAR},
+        define19=#{record.define19,jdbcType=VARCHAR},
+        type_code=#{record.typeCode,jdbcType=VARCHAR},
+        type_name=#{record.typeName,jdbcType=VARCHAR},
+        parent_id=#{record.parentId,jdbcType=VARCHAR},
+        parent_code=#{record.parentCode,jdbcType=VARCHAR},
+        is_parent=#{record.isParent,jdbcType=VARCHAR},
+        type_index=#{record.typeIndex,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.system.IndexOutProjectInfo">
+        update index_out_project_info
+        <set>
+
+            <if test="nd != null">
+            nd=#{nd ,jdbcType=VARCHAR},
+            </if>
+            <if test="xmid != null">
+            xmid=#{xmid ,jdbcType=VARCHAR},
+            </if>
+            <if test="hth != null">
+            hth=#{hth ,jdbcType=VARCHAR},
+            </if>
+            <if test="xmmc != null">
+            xmmc=#{xmmc ,jdbcType=VARCHAR},
+            </if>
+            <if test="xmjb != null">
+            xmjb=#{xmjb ,jdbcType=VARCHAR},
+            </if>
+            <if test="ysnd != null">
+            ysnd=#{ysnd ,jdbcType=VARCHAR},
+            </if>
+            <if test="yshf != null">
+            yshf=#{yshf ,jdbcType=VARCHAR},
+            </if>
+            <if test="ysxd != null">
+            ysxd=#{ysxd ,jdbcType=VARCHAR},
+            </if>
+            <if test="yszbxje != null">
+            yszbxje=#{yszbxje ,jdbcType=VARCHAR},
+            </if>
+            <if test="ysfyxje != null">
+            ysfyxje=#{ysfyxje ,jdbcType=VARCHAR},
+            </if>
+            <if test="ysje != null">
+            ysje=#{ysje ,jdbcType=VARCHAR},
+            </if>
+            <if test="jf != null">
+            jf=#{jf ,jdbcType=VARCHAR},
+            </if>
+            <if test="fwdxbm != null">
+            fwdxbm=#{fwdxbm ,jdbcType=VARCHAR},
+            </if>
+            <if test="fwdx != null">
+            fwdx=#{fwdx ,jdbcType=VARCHAR},
+            </if>
+            <if test="zylbbm != null">
+            zylbbm=#{zylbbm ,jdbcType=VARCHAR},
+            </if>
+            <if test="zylb != null">
+            zylb=#{zylb ,jdbcType=VARCHAR},
+            </if>
+            <if test="fzdwbm != null">
+            fzdwbm=#{fzdwbm ,jdbcType=VARCHAR},
+            </if>
+            <if test="fzdw != null">
+            fzdw=#{fzdw ,jdbcType=VARCHAR},
+            </if>
+            <if test="jtfzdwbm != null">
+            jtfzdwbm=#{jtfzdwbm ,jdbcType=VARCHAR},
+            </if>
+            <if test="jtfzdw != null">
+            jtfzdw=#{jtfzdw ,jdbcType=VARCHAR},
+            </if>
+            <if test="fzryx != null">
+            fzryx=#{fzryx ,jdbcType=VARCHAR},
+            </if>
+            <if test="fzrdh != null">
+            fzrdh=#{fzrdh ,jdbcType=VARCHAR},
+            </if>
+            <if test="fzrxm != null">
+            fzrxm=#{fzrxm ,jdbcType=VARCHAR},
+            </if>
+            <if test="lxrdh != null">
+            lxrdh=#{lxrdh ,jdbcType=VARCHAR},
+            </if>
+            <if test="lxryx != null">
+            lxryx=#{lxryx ,jdbcType=VARCHAR},
+            </if>
+            <if test="lxrxm != null">
+            lxrxm=#{lxrxm ,jdbcType=VARCHAR},
+            </if>
+            <if test="jssxxm != null">
+            jssxxm=#{jssxxm ,jdbcType=VARCHAR},
+            </if>
+            <if test="jssj != null">
+            jssj=#{jssj ,jdbcType=VARCHAR},
+            </if>
+            <if test="kssj != null">
+            kssj=#{kssj ,jdbcType=VARCHAR},
+            </if>
+            <if test="yjsj != null">
+            yjsj=#{yjsj ,jdbcType=VARCHAR},
+            </if>
+            <if test="zyly != null">
+            zyly=#{zyly ,jdbcType=VARCHAR},
+            </if>
+            <if test="zysx != null">
+            zysx=#{zysx ,jdbcType=VARCHAR},
+            </if>
+            <if test="sjid != null">
+            sjid=#{sjid ,jdbcType=VARCHAR},
+            </if>
+            <if test="lxbj != null">
+            lxbj=#{lxbj ,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="yjnr != null">
+            yjnr=#{yjnr ,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="jdap != null">
+            jdap=#{jdap ,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="yjmb != null">
+            yjmb=#{yjmb ,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="createDate != null">
+            create_date=#{createDate ,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createPerson != null">
+            create_person=#{createPerson ,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+            status=#{status ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+            update_date=#{updateDate ,jdbcType=TIMESTAMP},
+            </if>
+            <if test="projectId != null">
+            project_id=#{projectId ,jdbcType=VARCHAR},
+            </if>
+            <if test="parentProjectId != null">
+            parent_project_id=#{parentProjectId ,jdbcType=VARCHAR},
+            </if>
+            <if test="projectType != null">
+            project_type=#{projectType ,jdbcType=VARCHAR},
+            </if>
+            <if test="erpProjectCode != null">
+            erp_project_code=#{erpProjectCode ,jdbcType=VARCHAR},
+            </if>
+            <if test="erpProjectName != null">
+            erp_project_name=#{erpProjectName ,jdbcType=VARCHAR},
+            </if>
+            <if test="projectScope != null">
+            project_scope=#{projectScope ,jdbcType=VARCHAR},
+            </if>
+            <if test="projectLevel != null">
+            project_level=#{projectLevel ,jdbcType=VARCHAR},
+            </if>
+            <if test="projectProperty != null">
+            project_property=#{projectProperty ,jdbcType=VARCHAR},
+            </if>
+            <if test="projectAbc != null">
+            project_abc=#{projectAbc ,jdbcType=VARCHAR},
+            </if>
+            <if test="projectSource != null">
+            project_source=#{projectSource ,jdbcType=VARCHAR},
+            </if>
+            <if test="yjsjks != null">
+            yjsjks=#{yjsjks ,jdbcType=VARCHAR},
+            </if>
+            <if test="yjsjjs != null">
+            yjsjjs=#{yjsjjs ,jdbcType=VARCHAR},
+            </if>
+            <if test="xmlbbm != null">
+            xmlbbm=#{xmlbbm ,jdbcType=VARCHAR},
+            </if>
+            <if test="xmlbmc != null">
+            xmlbmc=#{xmlbmc ,jdbcType=VARCHAR},
+            </if>
+            <if test="gsbmmc != null">
+            gsbmmc=#{gsbmmc ,jdbcType=VARCHAR},
+            </if>
+            <if test="gsbmbm != null">
+            gsbmbm=#{gsbmbm ,jdbcType=VARCHAR},
+            </if>
+            <if test="zycmc != null">
+            zycmc=#{zycmc ,jdbcType=VARCHAR},
+            </if>
+            <if test="zycbm != null">
+            zycbm=#{zycbm ,jdbcType=VARCHAR},
+            </if>
+            <if test="fzdwunitcw != null">
+            fzdwunitcw=#{fzdwunitcw ,jdbcType=VARCHAR},
+            </if>
+            <if test="fzdwunit != null">
+            fzdwunit=#{fzdwunit ,jdbcType=VARCHAR},
+            </if>
+            <if test="typeFlag != null">
+            type_flag=#{typeFlag ,jdbcType=VARCHAR},
+            </if>
+            <if test="define1 != null">
+            define1=#{define1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define2 != null">
+            define2=#{define2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define3 != null">
+            define3=#{define3 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define4 != null">
+            define4=#{define4 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define5 != null">
+            define5=#{define5 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define6 != null">
+            define6=#{define6 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define7 != null">
+            define7=#{define7 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define8 != null">
+            define8=#{define8 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define9 != null">
+            define9=#{define9 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define10 != null">
+            define10=#{define10 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define11 != null">
+            define11=#{define11 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define12 != null">
+            define12=#{define12 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define13 != null">
+            define13=#{define13 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define14 != null">
+            define14=#{define14 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define15 != null">
+            define15=#{define15 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define16 != null">
+            define16=#{define16 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define17 != null">
+            define17=#{define17 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define18 != null">
+            define18=#{define18 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define19 != null">
+            define19=#{define19 ,jdbcType=VARCHAR},
+            </if>
+            <if test="typeCode != null">
+            type_code=#{typeCode ,jdbcType=VARCHAR},
+            </if>
+            <if test="typeName != null">
+            type_name=#{typeName ,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+            parent_id=#{parentId ,jdbcType=VARCHAR},
+            </if>
+            <if test="parentCode != null">
+            parent_code=#{parentCode ,jdbcType=VARCHAR},
+            </if>
+            <if test="isParent != null">
+            is_parent=#{isParent ,jdbcType=VARCHAR},
+            </if>
+            <if test="typeIndex != null">
+            type_index=#{typeIndex ,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where data_idtfm_type_id = #{dataId,jdbcType=VARCHAR}tfmTypeId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.pcitc.base.system.IndexOutProjectInfo">
+        update index_out_project_info
+        set
+            nd=#{nd,jdbcType=VARCHAR},
+            xmid=#{xmid,jdbcType=VARCHAR},
+            hth=#{hth,jdbcType=VARCHAR},
+            xmmc=#{xmmc,jdbcType=VARCHAR},
+            xmjb=#{xmjb,jdbcType=VARCHAR},
+            ysnd=#{ysnd,jdbcType=VARCHAR},
+            yshf=#{yshf,jdbcType=VARCHAR},
+            ysxd=#{ysxd,jdbcType=VARCHAR},
+            yszbxje=#{yszbxje,jdbcType=VARCHAR},
+            ysfyxje=#{ysfyxje,jdbcType=VARCHAR},
+            ysje=#{ysje,jdbcType=VARCHAR},
+            jf=#{jf,jdbcType=VARCHAR},
+            fwdxbm=#{fwdxbm,jdbcType=VARCHAR},
+            fwdx=#{fwdx,jdbcType=VARCHAR},
+            zylbbm=#{zylbbm,jdbcType=VARCHAR},
+            zylb=#{zylb,jdbcType=VARCHAR},
+            fzdwbm=#{fzdwbm,jdbcType=VARCHAR},
+            fzdw=#{fzdw,jdbcType=VARCHAR},
+            jtfzdwbm=#{jtfzdwbm,jdbcType=VARCHAR},
+            jtfzdw=#{jtfzdw,jdbcType=VARCHAR},
+            fzryx=#{fzryx,jdbcType=VARCHAR},
+            fzrdh=#{fzrdh,jdbcType=VARCHAR},
+            fzrxm=#{fzrxm,jdbcType=VARCHAR},
+            lxrdh=#{lxrdh,jdbcType=VARCHAR},
+            lxryx=#{lxryx,jdbcType=VARCHAR},
+            lxrxm=#{lxrxm,jdbcType=VARCHAR},
+            jssxxm=#{jssxxm,jdbcType=VARCHAR},
+            jssj=#{jssj,jdbcType=VARCHAR},
+            kssj=#{kssj,jdbcType=VARCHAR},
+            yjsj=#{yjsj,jdbcType=VARCHAR},
+            zyly=#{zyly,jdbcType=VARCHAR},
+            zysx=#{zysx,jdbcType=VARCHAR},
+            sjid=#{sjid,jdbcType=VARCHAR},
+            lxbj=#{lxbj,jdbcType=LONGVARCHAR},
+            yjnr=#{yjnr,jdbcType=LONGVARCHAR},
+            jdap=#{jdap,jdbcType=LONGVARCHAR},
+            yjmb=#{yjmb,jdbcType=LONGVARCHAR},
+            create_date=#{createDate,jdbcType=TIMESTAMP},
+            create_person=#{createPerson,jdbcType=VARCHAR},
+            status=#{status,jdbcType=VARCHAR},
+            update_date=#{updateDate,jdbcType=TIMESTAMP},
+            project_id=#{projectId,jdbcType=VARCHAR},
+            parent_project_id=#{parentProjectId,jdbcType=VARCHAR},
+            project_type=#{projectType,jdbcType=VARCHAR},
+            erp_project_code=#{erpProjectCode,jdbcType=VARCHAR},
+            erp_project_name=#{erpProjectName,jdbcType=VARCHAR},
+            project_scope=#{projectScope,jdbcType=VARCHAR},
+            project_level=#{projectLevel,jdbcType=VARCHAR},
+            project_property=#{projectProperty,jdbcType=VARCHAR},
+            project_abc=#{projectAbc,jdbcType=VARCHAR},
+            project_source=#{projectSource,jdbcType=VARCHAR},
+            yjsjks=#{yjsjks,jdbcType=VARCHAR},
+            yjsjjs=#{yjsjjs,jdbcType=VARCHAR},
+            xmlbbm=#{xmlbbm,jdbcType=VARCHAR},
+            xmlbmc=#{xmlbmc,jdbcType=VARCHAR},
+            gsbmmc=#{gsbmmc,jdbcType=VARCHAR},
+            gsbmbm=#{gsbmbm,jdbcType=VARCHAR},
+            zycmc=#{zycmc,jdbcType=VARCHAR},
+            zycbm=#{zycbm,jdbcType=VARCHAR},
+            fzdwunitcw=#{fzdwunitcw,jdbcType=VARCHAR},
+            fzdwunit=#{fzdwunit,jdbcType=VARCHAR},
+            type_flag=#{typeFlag,jdbcType=VARCHAR},
+            define1=#{define1,jdbcType=VARCHAR},
+            define2=#{define2,jdbcType=VARCHAR},
+            define3=#{define3,jdbcType=VARCHAR},
+            define4=#{define4,jdbcType=VARCHAR},
+            define5=#{define5,jdbcType=VARCHAR},
+            define6=#{define6,jdbcType=VARCHAR},
+            define7=#{define7,jdbcType=VARCHAR},
+            define8=#{define8,jdbcType=VARCHAR},
+            define9=#{define9,jdbcType=VARCHAR},
+            define10=#{define10,jdbcType=VARCHAR},
+            define11=#{define11,jdbcType=VARCHAR},
+            define12=#{define12,jdbcType=VARCHAR},
+            define13=#{define13,jdbcType=VARCHAR},
+            define14=#{define14,jdbcType=VARCHAR},
+            define15=#{define15,jdbcType=VARCHAR},
+            define16=#{define16,jdbcType=VARCHAR},
+            define17=#{define17,jdbcType=VARCHAR},
+            define18=#{define18,jdbcType=VARCHAR},
+            define19=#{define19,jdbcType=VARCHAR},
+            type_code=#{typeCode,jdbcType=VARCHAR},
+            type_name=#{typeName,jdbcType=VARCHAR},
+            parent_id=#{parentId,jdbcType=VARCHAR},
+            parent_code=#{parentCode,jdbcType=VARCHAR},
+            is_parent=#{isParent,jdbcType=VARCHAR},
+            type_index=#{typeIndex,jdbcType=VARCHAR}
+        where data_idtfm_type_id = #{dataId,jdbcType=VARCHAR}tfmTypeId,jdbcType=VARCHAR}
+    </update>
+    <!-- 分页查询 -->
+        <select id="findSysFileKindByPage" parameterType="com.pcitc.base.system.IndexOutProjectInfo"  resultMap="BaseResultMap">
+
+        select
+                    data_id,
+                    tfm_type_id,
+                    nd,
+                    xmid,
+                    hth,
+                    xmmc,
+                    xmjb,
+                    ysnd,
+                    yshf,
+                    ysxd,
+                    yszbxje,
+                    ysfyxje,
+                    ysje,
+                    jf,
+                    fwdxbm,
+                    fwdx,
+                    zylbbm,
+                    zylb,
+                    fzdwbm,
+                    fzdw,
+                    jtfzdwbm,
+                    jtfzdw,
+                    fzryx,
+                    fzrdh,
+                    fzrxm,
+                    lxrdh,
+                    lxryx,
+                    lxrxm,
+                    jssxxm,
+                    jssj,
+                    kssj,
+                    yjsj,
+                    zyly,
+                    zysx,
+                    sjid,
+                    lxbj,
+                    yjnr,
+                    jdap,
+                    yjmb,
+                    create_date,
+                    create_person,
+                    status,
+                    update_date,
+                    project_id,
+                    parent_project_id,
+                    project_type,
+                    erp_project_code,
+                    erp_project_name,
+                    project_scope,
+                    project_level,
+                    project_property,
+                    project_abc,
+                    project_source,
+                    yjsjks,
+                    yjsjjs,
+                    xmlbbm,
+                    xmlbmc,
+                    gsbmmc,
+                    gsbmbm,
+                    zycmc,
+                    zycbm,
+                    fzdwunitcw,
+                    fzdwunit,
+                    type_flag,
+                    define1,
+                    define2,
+                    define3,
+                    define4,
+                    define5,
+                    define6,
+                    define7,
+                    define8,
+                    define9,
+                    define10,
+                    define11,
+                    define12,
+                    define13,
+                    define14,
+                    define15,
+                    define16,
+                    define17,
+                    define18,
+                    define19,
+                    type_code,
+                    type_name,
+                    parent_id,
+                    parent_code,
+                    is_parent,
+                    type_index
+        from index_out_project_info
+        where 1=1
+                        <if test="dataId!=null and dataId!=''.toString()">
+                            and data_id like '%${dataId}%'
+                        </if>
+                        <if test="tfmTypeId!=null and tfmTypeId!=''.toString()">
+                            and tfm_type_id like '%${tfmTypeId}%'
+                        </if>
+                        <if test="nd!=null and nd!=''.toString()">
+                            and nd like '%${nd}%'
+                        </if>
+                        <if test="xmid!=null and xmid!=''.toString()">
+                            and xmid like '%${xmid}%'
+                        </if>
+                        <if test="hth!=null and hth!=''.toString()">
+                            and hth like '%${hth}%'
+                        </if>
+                        <if test="xmmc!=null and xmmc!=''.toString()">
+                            and xmmc like '%${xmmc}%'
+                        </if>
+                        <if test="xmjb!=null and xmjb!=''.toString()">
+                            and xmjb like '%${xmjb}%'
+                        </if>
+                        <if test="ysnd!=null and ysnd!=''.toString()">
+                            and ysnd like '%${ysnd}%'
+                        </if>
+                        <if test="yshf!=null and yshf!=''.toString()">
+                            and yshf like '%${yshf}%'
+                        </if>
+                        <if test="ysxd!=null and ysxd!=''.toString()">
+                            and ysxd like '%${ysxd}%'
+                        </if>
+                        <if test="yszbxje!=null and yszbxje!=''.toString()">
+                            and yszbxje like '%${yszbxje}%'
+                        </if>
+                        <if test="ysfyxje!=null and ysfyxje!=''.toString()">
+                            and ysfyxje like '%${ysfyxje}%'
+                        </if>
+                        <if test="ysje!=null and ysje!=''.toString()">
+                            and ysje like '%${ysje}%'
+                        </if>
+                        <if test="jf!=null and jf!=''.toString()">
+                            and jf like '%${jf}%'
+                        </if>
+                        <if test="fwdxbm!=null and fwdxbm!=''.toString()">
+                            and fwdxbm like '%${fwdxbm}%'
+                        </if>
+                        <if test="fwdx!=null and fwdx!=''.toString()">
+                            and fwdx like '%${fwdx}%'
+                        </if>
+                        <if test="zylbbm!=null and zylbbm!=''.toString()">
+                            and zylbbm like '%${zylbbm}%'
+                        </if>
+                        <if test="zylb!=null and zylb!=''.toString()">
+                            and zylb like '%${zylb}%'
+                        </if>
+                        <if test="fzdwbm!=null and fzdwbm!=''.toString()">
+                            and fzdwbm like '%${fzdwbm}%'
+                        </if>
+                        <if test="fzdw!=null and fzdw!=''.toString()">
+                            and fzdw like '%${fzdw}%'
+                        </if>
+                        <if test="jtfzdwbm!=null and jtfzdwbm!=''.toString()">
+                            and jtfzdwbm like '%${jtfzdwbm}%'
+                        </if>
+                        <if test="jtfzdw!=null and jtfzdw!=''.toString()">
+                            and jtfzdw like '%${jtfzdw}%'
+                        </if>
+                        <if test="fzryx!=null and fzryx!=''.toString()">
+                            and fzryx like '%${fzryx}%'
+                        </if>
+                        <if test="fzrdh!=null and fzrdh!=''.toString()">
+                            and fzrdh like '%${fzrdh}%'
+                        </if>
+                        <if test="fzrxm!=null and fzrxm!=''.toString()">
+                            and fzrxm like '%${fzrxm}%'
+                        </if>
+                        <if test="lxrdh!=null and lxrdh!=''.toString()">
+                            and lxrdh like '%${lxrdh}%'
+                        </if>
+                        <if test="lxryx!=null and lxryx!=''.toString()">
+                            and lxryx like '%${lxryx}%'
+                        </if>
+                        <if test="lxrxm!=null and lxrxm!=''.toString()">
+                            and lxrxm like '%${lxrxm}%'
+                        </if>
+                        <if test="jssxxm!=null and jssxxm!=''.toString()">
+                            and jssxxm like '%${jssxxm}%'
+                        </if>
+                        <if test="jssj!=null and jssj!=''.toString()">
+                            and jssj like '%${jssj}%'
+                        </if>
+                        <if test="kssj!=null and kssj!=''.toString()">
+                            and kssj like '%${kssj}%'
+                        </if>
+                        <if test="yjsj!=null and yjsj!=''.toString()">
+                            and yjsj like '%${yjsj}%'
+                        </if>
+                        <if test="zyly!=null and zyly!=''.toString()">
+                            and zyly like '%${zyly}%'
+                        </if>
+                        <if test="zysx!=null and zysx!=''.toString()">
+                            and zysx like '%${zysx}%'
+                        </if>
+                        <if test="sjid!=null and sjid!=''.toString()">
+                            and sjid like '%${sjid}%'
+                        </if>
+                        <if test="lxbj!=null and lxbj!=''.toString()">
+                            and lxbj like '%${lxbj}%'
+                        </if>
+                        <if test="yjnr!=null and yjnr!=''.toString()">
+                            and yjnr like '%${yjnr}%'
+                        </if>
+                        <if test="jdap!=null and jdap!=''.toString()">
+                            and jdap like '%${jdap}%'
+                        </if>
+                        <if test="yjmb!=null and yjmb!=''.toString()">
+                            and yjmb like '%${yjmb}%'
+                        </if>
+                        <if test="createDate!=null and createDate!=''.toString()">
+                            and create_date like '%${createDate}%'
+                        </if>
+                        <if test="createPerson!=null and createPerson!=''.toString()">
+                            and create_person like '%${createPerson}%'
+                        </if>
+                        <if test="status!=null and status!=''.toString()">
+                            and status like '%${status}%'
+                        </if>
+                        <if test="updateDate!=null and updateDate!=''.toString()">
+                            and update_date like '%${updateDate}%'
+                        </if>
+                        <if test="projectId!=null and projectId!=''.toString()">
+                            and project_id like '%${projectId}%'
+                        </if>
+                        <if test="parentProjectId!=null and parentProjectId!=''.toString()">
+                            and parent_project_id like '%${parentProjectId}%'
+                        </if>
+                        <if test="projectType!=null and projectType!=''.toString()">
+                            and project_type like '%${projectType}%'
+                        </if>
+                        <if test="erpProjectCode!=null and erpProjectCode!=''.toString()">
+                            and erp_project_code like '%${erpProjectCode}%'
+                        </if>
+                        <if test="erpProjectName!=null and erpProjectName!=''.toString()">
+                            and erp_project_name like '%${erpProjectName}%'
+                        </if>
+                        <if test="projectScope!=null and projectScope!=''.toString()">
+                            and project_scope like '%${projectScope}%'
+                        </if>
+                        <if test="projectLevel!=null and projectLevel!=''.toString()">
+                            and project_level like '%${projectLevel}%'
+                        </if>
+                        <if test="projectProperty!=null and projectProperty!=''.toString()">
+                            and project_property like '%${projectProperty}%'
+                        </if>
+                        <if test="projectAbc!=null and projectAbc!=''.toString()">
+                            and project_abc like '%${projectAbc}%'
+                        </if>
+                        <if test="projectSource!=null and projectSource!=''.toString()">
+                            and project_source like '%${projectSource}%'
+                        </if>
+                        <if test="yjsjks!=null and yjsjks!=''.toString()">
+                            and yjsjks like '%${yjsjks}%'
+                        </if>
+                        <if test="yjsjjs!=null and yjsjjs!=''.toString()">
+                            and yjsjjs like '%${yjsjjs}%'
+                        </if>
+                        <if test="xmlbbm!=null and xmlbbm!=''.toString()">
+                            and xmlbbm like '%${xmlbbm}%'
+                        </if>
+                        <if test="xmlbmc!=null and xmlbmc!=''.toString()">
+                            and xmlbmc like '%${xmlbmc}%'
+                        </if>
+                        <if test="gsbmmc!=null and gsbmmc!=''.toString()">
+                            and gsbmmc like '%${gsbmmc}%'
+                        </if>
+                        <if test="gsbmbm!=null and gsbmbm!=''.toString()">
+                            and gsbmbm like '%${gsbmbm}%'
+                        </if>
+                        <if test="zycmc!=null and zycmc!=''.toString()">
+                            and zycmc like '%${zycmc}%'
+                        </if>
+                        <if test="zycbm!=null and zycbm!=''.toString()">
+                            and zycbm like '%${zycbm}%'
+                        </if>
+                        <if test="fzdwunitcw!=null and fzdwunitcw!=''.toString()">
+                            and fzdwunitcw like '%${fzdwunitcw}%'
+                        </if>
+                        <if test="fzdwunit!=null and fzdwunit!=''.toString()">
+                            and fzdwunit like '%${fzdwunit}%'
+                        </if>
+                        <if test="typeFlag!=null and typeFlag!=''.toString()">
+                            and type_flag like '%${typeFlag}%'
+                        </if>
+                        <if test="define1!=null and define1!=''.toString()">
+                            and define1 like '%${define1}%'
+                        </if>
+                        <if test="define2!=null and define2!=''.toString()">
+                            and define2 like '%${define2}%'
+                        </if>
+                        <if test="define3!=null and define3!=''.toString()">
+                            and define3 like '%${define3}%'
+                        </if>
+                        <if test="define4!=null and define4!=''.toString()">
+                            and define4 like '%${define4}%'
+                        </if>
+                        <if test="define5!=null and define5!=''.toString()">
+                            and define5 like '%${define5}%'
+                        </if>
+                        <if test="define6!=null and define6!=''.toString()">
+                            and define6 like '%${define6}%'
+                        </if>
+                        <if test="define7!=null and define7!=''.toString()">
+                            and define7 like '%${define7}%'
+                        </if>
+                        <if test="define8!=null and define8!=''.toString()">
+                            and define8 like '%${define8}%'
+                        </if>
+                        <if test="define9!=null and define9!=''.toString()">
+                            and define9 like '%${define9}%'
+                        </if>
+                        <if test="define10!=null and define10!=''.toString()">
+                            and define10 like '%${define10}%'
+                        </if>
+                        <if test="define11!=null and define11!=''.toString()">
+                            and define11 like '%${define11}%'
+                        </if>
+                        <if test="define12!=null and define12!=''.toString()">
+                            and define12 like '%${define12}%'
+                        </if>
+                        <if test="define13!=null and define13!=''.toString()">
+                            and define13 like '%${define13}%'
+                        </if>
+                        <if test="define14!=null and define14!=''.toString()">
+                            and define14 like '%${define14}%'
+                        </if>
+                        <if test="define15!=null and define15!=''.toString()">
+                            and define15 like '%${define15}%'
+                        </if>
+                        <if test="define16!=null and define16!=''.toString()">
+                            and define16 like '%${define16}%'
+                        </if>
+                        <if test="define17!=null and define17!=''.toString()">
+                            and define17 like '%${define17}%'
+                        </if>
+                        <if test="define18!=null and define18!=''.toString()">
+                            and define18 like '%${define18}%'
+                        </if>
+                        <if test="define19!=null and define19!=''.toString()">
+                            and define19 like '%${define19}%'
+                        </if>
+                        <if test="typeCode!=null and typeCode!=''.toString()">
+                            and type_code like '%${typeCode}%'
+                        </if>
+                        <if test="typeName!=null and typeName!=''.toString()">
+                            and type_name like '%${typeName}%'
+                        </if>
+                        <if test="parentId!=null and parentId!=''.toString()">
+                            and parent_id like '%${parentId}%'
+                        </if>
+                        <if test="parentCode!=null and parentCode!=''.toString()">
+                            and parent_code like '%${parentCode}%'
+                        </if>
+                        <if test="isParent!=null and isParent!=''.toString()">
+                            and is_parent like '%${isParent}%'
+                        </if>
+                        <if test="typeIndex!=null and typeIndex!=''.toString()">
+                            and type_index like '%${typeIndex}%'
+                        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+    <!-- 查询列表 -->
+    <select id="findIndexOutProjectInfoList" parameterType="com.pcitc.base.system.IndexOutProjectInfo" resultMap="BaseResultMap">
+        select
+                    data_id,
+                    tfm_type_id,
+                    nd,
+                    xmid,
+                    hth,
+                    xmmc,
+                    xmjb,
+                    ysnd,
+                    yshf,
+                    ysxd,
+                    yszbxje,
+                    ysfyxje,
+                    ysje,
+                    jf,
+                    fwdxbm,
+                    fwdx,
+                    zylbbm,
+                    zylb,
+                    fzdwbm,
+                    fzdw,
+                    jtfzdwbm,
+                    jtfzdw,
+                    fzryx,
+                    fzrdh,
+                    fzrxm,
+                    lxrdh,
+                    lxryx,
+                    lxrxm,
+                    jssxxm,
+                    jssj,
+                    kssj,
+                    yjsj,
+                    zyly,
+                    zysx,
+                    sjid,
+                    lxbj,
+                    yjnr,
+                    jdap,
+                    yjmb,
+                    create_date,
+                    create_person,
+                    status,
+                    update_date,
+                    project_id,
+                    parent_project_id,
+                    project_type,
+                    erp_project_code,
+                    erp_project_name,
+                    project_scope,
+                    project_level,
+                    project_property,
+                    project_abc,
+                    project_source,
+                    yjsjks,
+                    yjsjjs,
+                    xmlbbm,
+                    xmlbmc,
+                    gsbmmc,
+                    gsbmbm,
+                    zycmc,
+                    zycbm,
+                    fzdwunitcw,
+                    fzdwunit,
+                    type_flag,
+                    define1,
+                    define2,
+                    define3,
+                    define4,
+                    define5,
+                    define6,
+                    define7,
+                    define8,
+                    define9,
+                    define10,
+                    define11,
+                    define12,
+                    define13,
+                    define14,
+                    define15,
+                    define16,
+                    define17,
+                    define18,
+                    define19,
+                    type_code,
+                    type_name,
+                    parent_id,
+                    parent_code,
+                    is_parent,
+                    type_index
+        from index_out_project_info
+        where 1=1
+                        <if test="dataId!=null">
+                            and data_id = #{dataId,jdbcType=VARCHAR}
+                        </if>
+                        <if test="tfmTypeId!=null">
+                            and tfm_type_id = #{tfmTypeId,jdbcType=VARCHAR}
+                        </if>
+                        <if test="nd!=null">
+                            and nd = #{nd,jdbcType=VARCHAR}
+                        </if>
+                        <if test="xmid!=null">
+                            and xmid = #{xmid,jdbcType=VARCHAR}
+                        </if>
+                        <if test="hth!=null">
+                            and hth = #{hth,jdbcType=VARCHAR}
+                        </if>
+                        <if test="xmmc!=null">
+                            and xmmc = #{xmmc,jdbcType=VARCHAR}
+                        </if>
+                        <if test="xmjb!=null">
+                            and xmjb = #{xmjb,jdbcType=VARCHAR}
+                        </if>
+                        <if test="ysnd!=null">
+                            and ysnd = #{ysnd,jdbcType=VARCHAR}
+                        </if>
+                        <if test="yshf!=null">
+                            and yshf = #{yshf,jdbcType=VARCHAR}
+                        </if>
+                        <if test="ysxd!=null">
+                            and ysxd = #{ysxd,jdbcType=VARCHAR}
+                        </if>
+                        <if test="yszbxje!=null">
+                            and yszbxje = #{yszbxje,jdbcType=VARCHAR}
+                        </if>
+                        <if test="ysfyxje!=null">
+                            and ysfyxje = #{ysfyxje,jdbcType=VARCHAR}
+                        </if>
+                        <if test="ysje!=null">
+                            and ysje = #{ysje,jdbcType=VARCHAR}
+                        </if>
+                        <if test="jf!=null">
+                            and jf = #{jf,jdbcType=VARCHAR}
+                        </if>
+                        <if test="fwdxbm!=null">
+                            and fwdxbm = #{fwdxbm,jdbcType=VARCHAR}
+                        </if>
+                        <if test="fwdx!=null">
+                            and fwdx = #{fwdx,jdbcType=VARCHAR}
+                        </if>
+                        <if test="zylbbm!=null">
+                            and zylbbm = #{zylbbm,jdbcType=VARCHAR}
+                        </if>
+                        <if test="zylb!=null">
+                            and zylb = #{zylb,jdbcType=VARCHAR}
+                        </if>
+                        <if test="fzdwbm!=null">
+                            and fzdwbm = #{fzdwbm,jdbcType=VARCHAR}
+                        </if>
+                        <if test="fzdw!=null">
+                            and fzdw = #{fzdw,jdbcType=VARCHAR}
+                        </if>
+                        <if test="jtfzdwbm!=null">
+                            and jtfzdwbm = #{jtfzdwbm,jdbcType=VARCHAR}
+                        </if>
+                        <if test="jtfzdw!=null">
+                            and jtfzdw = #{jtfzdw,jdbcType=VARCHAR}
+                        </if>
+                        <if test="fzryx!=null">
+                            and fzryx = #{fzryx,jdbcType=VARCHAR}
+                        </if>
+                        <if test="fzrdh!=null">
+                            and fzrdh = #{fzrdh,jdbcType=VARCHAR}
+                        </if>
+                        <if test="fzrxm!=null">
+                            and fzrxm = #{fzrxm,jdbcType=VARCHAR}
+                        </if>
+                        <if test="lxrdh!=null">
+                            and lxrdh = #{lxrdh,jdbcType=VARCHAR}
+                        </if>
+                        <if test="lxryx!=null">
+                            and lxryx = #{lxryx,jdbcType=VARCHAR}
+                        </if>
+                        <if test="lxrxm!=null">
+                            and lxrxm = #{lxrxm,jdbcType=VARCHAR}
+                        </if>
+                        <if test="jssxxm!=null">
+                            and jssxxm = #{jssxxm,jdbcType=VARCHAR}
+                        </if>
+                        <if test="jssj!=null">
+                            and jssj = #{jssj,jdbcType=VARCHAR}
+                        </if>
+                        <if test="kssj!=null">
+                            and kssj = #{kssj,jdbcType=VARCHAR}
+                        </if>
+                        <if test="yjsj!=null">
+                            and yjsj = #{yjsj,jdbcType=VARCHAR}
+                        </if>
+                        <if test="zyly!=null">
+                            and zyly = #{zyly,jdbcType=VARCHAR}
+                        </if>
+                        <if test="zysx!=null">
+                            and zysx = #{zysx,jdbcType=VARCHAR}
+                        </if>
+                        <if test="sjid!=null">
+                            and sjid = #{sjid,jdbcType=VARCHAR}
+                        </if>
+                        <if test="lxbj!=null">
+                            and lxbj = #{lxbj,jdbcType=VARCHAR}
+                        </if>
+                        <if test="yjnr!=null">
+                            and yjnr = #{yjnr,jdbcType=VARCHAR}
+                        </if>
+                        <if test="jdap!=null">
+                            and jdap = #{jdap,jdbcType=VARCHAR}
+                        </if>
+                        <if test="yjmb!=null">
+                            and yjmb = #{yjmb,jdbcType=VARCHAR}
+                        </if>
+                        <if test="createDate!=null">
+                            and create_date = #{createDate,jdbcType=VARCHAR}
+                        </if>
+                        <if test="createPerson!=null">
+                            and create_person = #{createPerson,jdbcType=VARCHAR}
+                        </if>
+                        <if test="status!=null">
+                            and status = #{status,jdbcType=VARCHAR}
+                        </if>
+                        <if test="updateDate!=null">
+                            and update_date = #{updateDate,jdbcType=VARCHAR}
+                        </if>
+                        <if test="projectId!=null">
+                            and project_id = #{projectId,jdbcType=VARCHAR}
+                        </if>
+                        <if test="parentProjectId!=null">
+                            and parent_project_id = #{parentProjectId,jdbcType=VARCHAR}
+                        </if>
+                        <if test="projectType!=null">
+                            and project_type = #{projectType,jdbcType=VARCHAR}
+                        </if>
+                        <if test="erpProjectCode!=null">
+                            and erp_project_code = #{erpProjectCode,jdbcType=VARCHAR}
+                        </if>
+                        <if test="erpProjectName!=null">
+                            and erp_project_name = #{erpProjectName,jdbcType=VARCHAR}
+                        </if>
+                        <if test="projectScope!=null">
+                            and project_scope = #{projectScope,jdbcType=VARCHAR}
+                        </if>
+                        <if test="projectLevel!=null">
+                            and project_level = #{projectLevel,jdbcType=VARCHAR}
+                        </if>
+                        <if test="projectProperty!=null">
+                            and project_property = #{projectProperty,jdbcType=VARCHAR}
+                        </if>
+                        <if test="projectAbc!=null">
+                            and project_abc = #{projectAbc,jdbcType=VARCHAR}
+                        </if>
+                        <if test="projectSource!=null">
+                            and project_source = #{projectSource,jdbcType=VARCHAR}
+                        </if>
+                        <if test="yjsjks!=null">
+                            and yjsjks = #{yjsjks,jdbcType=VARCHAR}
+                        </if>
+                        <if test="yjsjjs!=null">
+                            and yjsjjs = #{yjsjjs,jdbcType=VARCHAR}
+                        </if>
+                        <if test="xmlbbm!=null">
+                            and xmlbbm = #{xmlbbm,jdbcType=VARCHAR}
+                        </if>
+                        <if test="xmlbmc!=null">
+                            and xmlbmc = #{xmlbmc,jdbcType=VARCHAR}
+                        </if>
+                        <if test="gsbmmc!=null">
+                            and gsbmmc = #{gsbmmc,jdbcType=VARCHAR}
+                        </if>
+                        <if test="gsbmbm!=null">
+                            and gsbmbm = #{gsbmbm,jdbcType=VARCHAR}
+                        </if>
+                        <if test="zycmc!=null">
+                            and zycmc = #{zycmc,jdbcType=VARCHAR}
+                        </if>
+                        <if test="zycbm!=null">
+                            and zycbm = #{zycbm,jdbcType=VARCHAR}
+                        </if>
+                        <if test="fzdwunitcw!=null">
+                            and fzdwunitcw = #{fzdwunitcw,jdbcType=VARCHAR}
+                        </if>
+                        <if test="fzdwunit!=null">
+                            and fzdwunit = #{fzdwunit,jdbcType=VARCHAR}
+                        </if>
+                        <if test="typeFlag!=null">
+                            and type_flag = #{typeFlag,jdbcType=VARCHAR}
+                        </if>
+                        <if test="define1!=null">
+                            and define1 = #{define1,jdbcType=VARCHAR}
+                        </if>
+                        <if test="define2!=null">
+                            and define2 = #{define2,jdbcType=VARCHAR}
+                        </if>
+                        <if test="define3!=null">
+                            and define3 = #{define3,jdbcType=VARCHAR}
+                        </if>
+                        <if test="define4!=null">
+                            and define4 = #{define4,jdbcType=VARCHAR}
+                        </if>
+                        <if test="define5!=null">
+                            and define5 = #{define5,jdbcType=VARCHAR}
+                        </if>
+                        <if test="define6!=null">
+                            and define6 = #{define6,jdbcType=VARCHAR}
+                        </if>
+                        <if test="define7!=null">
+                            and define7 = #{define7,jdbcType=VARCHAR}
+                        </if>
+                        <if test="define8!=null">
+                            and define8 = #{define8,jdbcType=VARCHAR}
+                        </if>
+                        <if test="define9!=null">
+                            and define9 = #{define9,jdbcType=VARCHAR}
+                        </if>
+                        <if test="define10!=null">
+                            and define10 = #{define10,jdbcType=VARCHAR}
+                        </if>
+                        <if test="define11!=null">
+                            and define11 = #{define11,jdbcType=VARCHAR}
+                        </if>
+                        <if test="define12!=null">
+                            and define12 = #{define12,jdbcType=VARCHAR}
+                        </if>
+                        <if test="define13!=null">
+                            and define13 = #{define13,jdbcType=VARCHAR}
+                        </if>
+                        <if test="define14!=null">
+                            and define14 = #{define14,jdbcType=VARCHAR}
+                        </if>
+                        <if test="define15!=null">
+                            and define15 = #{define15,jdbcType=VARCHAR}
+                        </if>
+                        <if test="define16!=null">
+                            and define16 = #{define16,jdbcType=VARCHAR}
+                        </if>
+                        <if test="define17!=null">
+                            and define17 = #{define17,jdbcType=VARCHAR}
+                        </if>
+                        <if test="define18!=null">
+                            and define18 = #{define18,jdbcType=VARCHAR}
+                        </if>
+                        <if test="define19!=null">
+                            and define19 = #{define19,jdbcType=VARCHAR}
+                        </if>
+                        <if test="typeCode!=null">
+                            and type_code = #{typeCode,jdbcType=VARCHAR}
+                        </if>
+                        <if test="typeName!=null">
+                            and type_name = #{typeName,jdbcType=VARCHAR}
+                        </if>
+                        <if test="parentId!=null">
+                            and parent_id = #{parentId,jdbcType=VARCHAR}
+                        </if>
+                        <if test="parentCode!=null">
+                            and parent_code = #{parentCode,jdbcType=VARCHAR}
+                        </if>
+                        <if test="isParent!=null">
+                            and is_parent = #{isParent,jdbcType=VARCHAR}
+                        </if>
+                        <if test="typeIndex!=null">
+                            and type_index = #{typeIndex,jdbcType=VARCHAR}
+                        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+</mapper>
