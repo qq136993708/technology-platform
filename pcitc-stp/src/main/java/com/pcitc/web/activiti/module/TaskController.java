@@ -241,6 +241,29 @@ public class TaskController extends BaseController {
 		return "/mobile/wait_task_list_mui";
 	}
 	
+	
+	
+	@RequestMapping(value = "/mobile/wait_task_list")
+	public String wait_task_list(HttpServletRequest request) {
+
+		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
+		LayuiTableParam param= new LayuiTableParam();
+		param.setPage(pageNo);
+        // 获取当前登录人信息
+		param.getParam().put("userId", sysUserInfo.getUserId());
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PENDING_PAGE_URL, HttpMethod.POST, entity, LayuiTableData.class);
+		LayuiTableData retJson = responseEntity.getBody();
+		Page page =new Page();
+		page.setRows(retJson.getData());
+		page.setPageNo(pageNo);
+		page.setPageSize(param.getLimit());
+		page.setTotalRecords(retJson.getCount());
+		request.setAttribute("page", page);
+		request.setAttribute("list", page.getRows());
+		return "/mobile/wait_task_list";
+	}
+	
 
 	/**
 	 * @author zhf

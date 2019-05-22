@@ -48,11 +48,6 @@ import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
-/**
- * 集团预算总表
- * @author fb
- *
- */
 @Controller
 public class BudgetGroupTotalController extends BaseController {
 

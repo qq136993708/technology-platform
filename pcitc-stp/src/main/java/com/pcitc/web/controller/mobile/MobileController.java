@@ -149,5 +149,15 @@ public class MobileController extends BaseController {
 
 		return "/mobile/zhfxTable";
 	}
+	
+	@RequestMapping(value = "/mobile/index2")
+	public String index2(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		String year = HanaUtil.getCurrrentYear();
+		request.setAttribute("year", year);
+
+		return "/mobile/index2";
+	}
+
 
 }

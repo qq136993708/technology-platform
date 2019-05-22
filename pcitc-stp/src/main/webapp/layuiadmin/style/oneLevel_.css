@@ -346,6 +346,17 @@ line-height: 60px;font-size: 22px;}
 .layui-speech-d .title{margin-top: 26px;}
 .layui-speech-d .title-time{margin-top: 20px;}
 .layui-speech-d .time{margin-right: 10px;}
+/*兼容分辨率*/
+@media screen and (min-width: 1920px) {
+    .main-one .main-left>div,.layui-row-pic,.layui-news,.equipment{height: 360px;}
+    .laboratory{height: 172px;}
+    .contract,.investment{top:187px;height: 173px;}
+    .project{top: 372px;height: 173px;}
+    .contract .contract-img,.investment .investment-img,.institute .institute-img{background-size: cover;}
+    .institute,.personnel,.achievement{top:559px;height:173px;}
+    .main-left ul{height: 278px;}
+
+}
 /*首页动画效果*/
 .laboratoryH,.projectH{animation:oneAHText 2s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
