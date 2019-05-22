@@ -26,4 +26,12 @@ public interface PurchaseOrderClient {
      */
 	@RequestMapping(value = "/hana/purchase-order/list")
 	JSONArray getPurchaseOrderList(HashMap<String, String> map);
+
+	/**
+	 * 获取ERP采购入库数据
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping(value = "/hana/purchase-arrival/list")
+	JSONArray getPurchaseArrivalList(HashMap<String, String> map);
 }

@@ -1,5 +1,6 @@
 package com.pcitc.service.impl;
 
+import com.pcitc.mapper.out.PurchaseArrivalMapper;
 import com.pcitc.mapper.out.PurchaseOrderMapper;
 import com.pcitc.service.IPurchaseOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,17 @@ public class PurchaseOrderServiceImpl implements IPurchaseOrderService {
 	
     @Autowired
     private PurchaseOrderMapper purchaseOrderMapper;
+    @Autowired
+    private PurchaseArrivalMapper purchaseArrivalMapper;
     
 
     @Override
     public List getPurchaseOrderList(HashMap<String, String> map) {
         return purchaseOrderMapper.getPurchaseOrderList(map);
+    }
+
+    @Override
+    public List getPurchaseArrivalList(HashMap<String, String> map) {
+        return purchaseArrivalMapper.getPurchaseArrivalList(map);
     }
 }

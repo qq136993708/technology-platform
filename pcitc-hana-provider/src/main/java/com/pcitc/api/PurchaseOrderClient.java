@@ -36,6 +36,18 @@ public class PurchaseOrderClient {
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(resultList));
 		return json;
 	}
+	/**
+	 * 获取ERP采购订单数据
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping(value = "/hana/purchase-arrival/list")
+	public JSONArray getPurchaseArrivalList(@RequestBody HashMap<String, String> map) {
+		System.out.println("=================getPrchaseOrder");
+		List resultList = purchaseOrderService.getPurchaseArrivalList(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(resultList));
+		return json;
+	}
 	
 }
 	
