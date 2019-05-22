@@ -35,36 +35,8 @@
     <result column="G0DDLX" jdbcType="VARCHAR" property="g0ddlx" />
     <result column="K0XMDDSL" jdbcType="VARCHAR" property="k0xmddsl" />
     <result column="K0XMDDJE" jdbcType="DOUBLE" property="k0xmddje" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
   </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
   <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SrePurchaseOrder">
     insert into sre_purchase_order (G0FLAG, G0LOGSYS, G0CALD, 
       G0GSDM, G0GSJC, G0GSOR, 
@@ -76,8 +48,8 @@
       G0KYPFWH, G0MATNR, G0MAKTX, 
       G0EBELN, G0EBELP, G0TXZ01, 
       G0EINDT, G0LIFNR, G0NAME2, 
-      G0DDLX, K0XMDDSL, K0XMDDJE
-      )
+      G0DDLX, K0XMDDSL, K0XMDDJE, 
+      create_date)
     values (#{g0flag,jdbcType=VARCHAR}, #{g0logsys,jdbcType=VARCHAR}, #{g0cald,jdbcType=TIMESTAMP}, 
       #{g0gsdm,jdbcType=VARCHAR}, #{g0gsjc,jdbcType=VARCHAR}, #{g0gsor,jdbcType=VARCHAR}, 
       #{g0gsjcl,jdbcType=VARCHAR}, #{g0gsgp,jdbcType=VARCHAR}, #{g0gssp,jdbcType=VARCHAR}, 
@@ -88,8 +60,8 @@
       #{g0kypfwh,jdbcType=VARCHAR}, #{g0matnr,jdbcType=VARCHAR}, #{g0maktx,jdbcType=VARCHAR}, 
       #{g0ebeln,jdbcType=VARCHAR}, #{g0ebelp,jdbcType=VARCHAR}, #{g0txz01,jdbcType=VARCHAR}, 
       #{g0eindt,jdbcType=TIMESTAMP}, #{g0lifnr,jdbcType=VARCHAR}, #{g0name2,jdbcType=VARCHAR}, 
-      #{g0ddlx,jdbcType=VARCHAR}, #{k0xmddsl,jdbcType=VARCHAR}, #{k0xmddje,jdbcType=DOUBLE}
-      )
+      #{g0ddlx,jdbcType=VARCHAR}, #{k0xmddsl,jdbcType=VARCHAR}, #{k0xmddje,jdbcType=DOUBLE}, 
+      #{createDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SrePurchaseOrder">
     insert into sre_purchase_order
@@ -193,6 +165,9 @@
       <if test="k0xmddje != null">
         K0XMDDJE,
       </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="g0flag != null">
@@ -293,6 +268,9 @@
       </if>
       <if test="k0xmddje != null">
         #{k0xmddje,jdbcType=DOUBLE},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>

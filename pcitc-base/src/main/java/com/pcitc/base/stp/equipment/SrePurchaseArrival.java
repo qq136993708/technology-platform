@@ -45,7 +45,7 @@ public class SrePurchaseArrival {
 
     private String g0xmztms;
 
-    private Double g0xmdl;
+    private String g0xmdl;
 
     private String g0kypfwh;
 
@@ -78,6 +78,8 @@ public class SrePurchaseArrival {
     private String arrivalState;
 
     private String documentDoc;
+
+    private Date createDate;
 
     public String getId() {
         return id;
@@ -247,11 +249,11 @@ public class SrePurchaseArrival {
         this.g0xmztms = g0xmztms;
     }
 
-    public Double getG0xmdl() {
+    public String getG0xmdl() {
         return g0xmdl;
     }
 
-    public void setG0xmdl(Double g0xmdl) {
+    public void setG0xmdl(String g0xmdl) {
         this.g0xmdl = g0xmdl;
     }
 
@@ -381,5 +383,13 @@ public class SrePurchaseArrival {
 
     public void setDocumentDoc(String documentDoc) {
         this.documentDoc = documentDoc;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 }

@@ -15,4 +15,6 @@ public interface SrePurchaseArrivalMapper {
     int updateByPrimaryKeySelective(SrePurchaseArrival record);
 
     int updateByPrimaryKey(SrePurchaseArrival record);
+
+    int deletePurchaseArrival();
 }

@@ -40,4 +40,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public void insertPurchaseArrival(SrePurchaseArrival srePurchaseArrival) {
         srePurchaseArrivalMapper.insert(srePurchaseArrival);
     }
+
+    @Override
+    public int deletePurchaseArrival() {
+        return srePurchaseArrivalMapper.deletePurchaseArrival();
+    }
 }
