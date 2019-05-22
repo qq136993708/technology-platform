@@ -17,77 +17,77 @@
 <script src="/layuiadmin/layui/layui.js"></script>
 </head>
 <body>
-	<div class="layer-box">
-		<div class="formBox">
-			<form class="layui-form" id="task-form" action="" lay-filter="dealTaskForm layui-container">
-				<div class="tableToolBox">
-					<div class="tableBtns">
-						<div class="tableTitle">审批信息</div>
-					</div>
+<div class="layer-box">
+	<div class="formBox">
+		<form class="layui-form" id="task-form" action="" lay-filter="dealTaskForm layui-container">
+			<div class="tableToolBox">
+				<div class="tableBtns">
+					<div class="tableTitle">审批信息</div>
 				</div>
-				<div class="box-body">
-					<div class="layui-row">
-						<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-							<div class="layui-form-item">
-								<label for="" class="layui-form-label">
-									审批人
-									<span class="must-fill">*</span>
-								</label>
-								<div class="layui-input-block">
-									<input class="layui-input readOnlyBox" name="title" lay-verify="title" type="text" value="${userInfo.userDisp}" disabled>
-									<input id="auditorId" name="auditorId" type="hidden" value="${userInfo.userId}">
-									<input id="userIds" name="userIds" type="hidden">
-								</div>
+			</div>
+			<div class="box-body">
+				<div class="layui-row">
+					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+						<div class="layui-form-item">
+							<label for="" class="layui-form-label">
+								审批人
+								<span class="must-fill">*</span>
+							</label>
+							<div class="layui-input-block">
+								<input class="layui-input readOnlyBox" name="title" lay-verify="title" type="text" value="${userInfo.userDisp}" disabled>
+								<input id="auditorId" name="auditorId" type="hidden" value="${userInfo.userId}">
+								<input id="userIds" name="userIds" type="hidden">
 							</div>
 						</div>
 					</div>
+				</div>
 
-					<div class="layui-row">
-						<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-							<div class="layui-form-item">
-								<label for="" class="layui-form-label">
-									是否同意
-									<span class="must-fill">*</span>
-								</label>
-								<div class="layui-input-block">
-									<input type="radio" name="agree" id="agree1" lay-filter="auditAgree" value="1" title="同意" checked>
-									<input type="radio" name="agree" id="agree2" lay-filter="auditAgree" value="0" title="不同意">
-								</div>
-							</div>
-						</div>
-						<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-							<div class="layui-form-item">
-								<label for="" class="layui-form-label">
-									审批日期
-									<span class="must-fill">*</span>
-								</label>
-								<div class="layui-input-block">
-									<input type="text" name="auditDate" id="auditDate" lay-verify="auditDate" autocomplete="off" class="layui-input readOnlyBox" disabled>
-								</div>
+				<div class="layui-row">
+					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+						<div class="layui-form-item">
+							<label for="" class="layui-form-label">
+								是否同意
+								<span class="must-fill">*</span>
+							</label>
+							<div class="layui-input-block">
+								<input type="radio" name="agree" id="agree1" lay-filter="auditAgree" value="1" title="同意" checked>
+								<input type="radio" name="agree" id="agree2" lay-filter="auditAgree" value="0" title="不同意">
 							</div>
 						</div>
 					</div>
+					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+						<div class="layui-form-item">
+							<label for="" class="layui-form-label">
+								审批日期
+								<span class="must-fill">*</span>
+							</label>
+							<div class="layui-input-block">
+								<input type="text" name="auditDate" id="auditDate" lay-verify="auditDate" autocomplete="off" class="layui-input readOnlyBox" disabled>
+							</div>
+						</div>
+					</div>
+				</div>
 
-					<div class="layui-form-item layui-form-text">
-						<label class="layui-form-label">审批意见</label>
-						<div class="layui-input-block">
-							<textarea placeholder="请输入审批意见" class="layui-textarea" name="auditRemarks" id="auditRemarks">同意</textarea>
-						</div>
+				<div class="layui-form-item layui-form-text">
+					<label class="layui-form-label">审批意见</label>
+					<div class="layui-input-block">
+						<textarea placeholder="请输入审批意见" class="layui-textarea" name="auditRemarks" id="auditRemarks">同意</textarea>
 					</div>
 				</div>
-				<!--在添加另一个页面的html，所有业务的详情页面-->
-				<div id="ifrID">
-					<iframe src="" id="detailsInfo" style="border: 0; width: 100%;"></iframe>
+			</div>
+			<!--在添加另一个页面的html，所有业务的详情页面-->
+			<div id="ifrID">
+				<iframe src="" id="detailsInfo" style="border: 0; width: 100%;"></iframe>
+			</div>
+			<div class="form-bottom">
+				<div class="form-bottom-btns">
+					<button id="submitBtn" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="form-submit">提交</button>
+					<button id="cancel" type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white">取消</button>
 				</div>
-				<div class="form-bottom">
-					<div class="form-bottom-btns">
-						<button id="submitBtn" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="form-submit">提交</button>
-						<button id="cancel" type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white">取消</button>
-					</div>
-				</div>
-			</form>
-		</div>
+			</div>
+		</form>
 	</div>
+</div>
 	<script>
 		var taskId = "${taskId?default(0)}";
 		var id = "${id?default(0)}";
@@ -113,6 +113,8 @@
 					//alert("加载完毕1");
 					var iframeHeight = $("#detailsInfo").contents().find("html").outerHeight(true);
 					var btn = $("#detailsInfo").contents().find(".form-bottom").css('display', 'none');
+                    $("#detailsInfo").contents().find(".formBox").css('margin', 0);
+                    $("#detailsInfo").contents().find(".layer-box").width('100%');
 					$("#detailsInfo").css("height", iframeHeight + 300);
 					layer.close(index_close);
 				});
@@ -122,6 +124,8 @@
 				$iFrame[0].onload = function() { // 非IE
 					var iframeHeight = $("#detailsInfo").contents().find("html").outerHeight(true);
 					var btn = $("#detailsInfo").contents().find(".form-bottom").css('display', 'none');
+                    $("#detailsInfo").contents().find(".formBox").css('margin', 0);
+                    $("#detailsInfo").contents().find(".layer-box").width('100%');
 					$("#detailsInfo").css("height", iframeHeight + 300);
 					layer.close(index_close);
 				};
@@ -136,11 +140,6 @@
 			// 防止重置时清空
 			$("#auditDate").attr("value", $("#auditDate").val());
 
-			$("#cancel").click(function() {
-				var index = parent.layer.getFrameIndex(window.name);
-				parent.layer.close(index);
-			});
-
 			/* 监听radio */
 			form.on('radio(auditAgree)', function(data) {
 				if (data.value == '0') {
@@ -151,12 +150,18 @@
 				}
 			});
 
+			$("#cancel").click(function() {
+				var index = parent.layer.getFrameIndex(window.name);
+				parent.layer.close(index);
+			});
+
 			/* 监听提交 */
 			form.on('submit(form-submit)', function(data) {
 				if ($('#auditRemarks').val() == "") {
 					layer.msg('请输入审批意见');
 					return false;
 				}
+				
 				// 审批同意的情况下，先判断下一步是通过角色来进行的，还是直接通过选择框
 				var agree = $("input[name='agree']:checked").val();
 				if (agree == "1") {
