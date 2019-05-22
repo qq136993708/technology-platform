@@ -41,6 +41,7 @@
 	  border: 1px solid #ccc;
 	  padding-top:0px;
 	}
+	.layui-table-header table thead tr th div{text-align: center;}
 	</style>
 	<script type="text/javascript">
 	var table,selectRowData,renderfunc;
@@ -75,10 +76,10 @@
 	            cols: [[
 	            	 {type:'checkbox'}
 	            	,{title:'序号',type:'numbers' ,width : 55}
-	                ,{field:'messageType',title:'通知类别',width: '10%',style:'cursor: pointer;'}
-	                ,{field:'messageTitle',title:'标题',width: '15%',style:'cursor: pointer;',align:"center"}
-	                ,{field:'messageContent',title:'通知详情',style:'cursor: pointer;',align:"center"}
-	                ,{field:'createDate',title:'通知时间',width: '10%',style:'cursor: pointer;',align:"center"}
+	                ,{field:'messageType',title:'消息类别',width: '10%',style:'cursor: pointer;',align:"left"}
+	                ,{field:'messageTitle',title:'消息标题',width: '15%',style:'cursor: pointer;',align:"left"}
+	                ,{field:'messageContent',title:'消息详情',style:'cursor: pointer;',align:"left"}
+	                ,{field:'createDate',title:'发送时间',width: '12%',style:'cursor: pointer;',align:"center"}
 	                ,{field:'isRead',title:'查阅状态',width: '10%',style:'cursor: pointer;',align:"center"}
 	                
 	            ]],
@@ -166,8 +167,8 @@
 <body>
 <div class="searchBox">
     <label class="dateInput">
-        <span>通知标题</span>
-        <input type="text" name="messageTitle" id="messageTitle" placeholder="请输入通知标题" autocomplete="off" class="form-control">
+        <span>标题</span>
+        <input type="text" name="messageTitle" id="messageTitle" placeholder="请输入标题" autocomplete="off" class="form-control">
     </label>
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
