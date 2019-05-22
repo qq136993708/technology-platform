@@ -82,6 +82,40 @@ public class OSSUtil {
 		ossClient.shutdown();
 		return OSSPATH+"/"+BUCKET+"/"+directory+"/"+uuidFileName;
 	}
+	
+	
+	/**
+	 * 上传某个文件到oss上，返回保存路径 uuidFileName包含后缀
+	 * 
+	 * @author zhf
+	 * @date 2019年5月15日 上午11:03:48
+	 */
+	public static String uploadFileWithFilePath(File file, String filePath) {
+		byte[] buffer = null;
+		try {
+			FileInputStream fis = new FileInputStream(file);
+			ByteArrayOutputStream bos = new ByteArrayOutputStream(1000);
+			byte[] b = new byte[1000];
+			int n;
+			while ((n = fis.read(b))!=-1) {
+				bos.write(b, 0, n);
+			}
+			fis.close();
+			bos.close();
+			buffer = bos.toByteArray();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		// 连接oss
+		OSSClient ossClient = new OSSClient(ENDPOINT, ACCESSKEYID, ACCESSKEYSECRET);
+		
+		// 在oss存储中的directory（文件夹）下，保存某个文档到这个地方，文件名称为uuidFileName
+		ossClient.putObject(BUCKET, filePath, new ByteArrayInputStream(buffer));
+		ossClient.shutdown();
+		return OSSPATH+"/"+BUCKET+"/"+filePath;
+	}
 
 	/**
 	 * 上传某个文件到oss上，返回保存路径 uuidFileName包含后缀
@@ -109,6 +143,34 @@ public class OSSUtil {
 			e.printStackTrace();
 		}
 		return OSSPATH+"/"+BUCKET+"/"+directory+uuidFileName;
+	}
+	
+	/**
+	 * 上传某个文件到oss上，返回保存路径 uuidFileName包含后缀
+	 * 
+	 * @author zhf
+	 * @date 2019年5月15日 上午11:03:48
+	 */
+	public static String uploadFileByInputStreamWithPath(InputStream inputStream, String filePath) {
+		try {
+			int fileSize = inputStream.available();
+			// 创建上传Object的Metadata
+			ObjectMetadata metadata = new ObjectMetadata();
+			metadata.setContentLength(inputStream.available());
+			metadata.setCacheControl("no-cache");
+			metadata.setHeader("Pragma", "no-cache");
+			metadata.setContentEncoding("utf-8");
+
+			// 连接oss
+			OSSClient ossClient = new OSSClient(ENDPOINT, ACCESSKEYID, ACCESSKEYSECRET);
+			String[] filePathArr = filePath.split("/");
+			metadata.setContentType(filePathArr[filePathArr.length - 1]);
+			metadata.setContentDisposition("filename/filesize="+filePathArr[filePathArr.length - 1]+"/"+fileSize+"Byte.");
+			ossClient.putObject(BUCKET, filePath, inputStream, metadata);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return OSSPATH+"/"+BUCKET+"/"+filePath;
 	}
 
 	/**

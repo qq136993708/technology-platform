@@ -601,23 +601,24 @@ public class SysFileServiceImpl implements SysFileService {
 						}
 						sysFile.setBak7(mobile_address);
 						if ("jpg".equals(strSuffix)||"jpeg".equals(strSuffix)||"png".equals(strSuffix)||"bmp".equals(strSuffix)) {
-							// 保存图片路径，压缩图片
-							sysFile.setPartImgPath(uploaderPath+strSavePath+File.separator+"img_"+savedName);
+							/*// 保存图片路径，压缩图片
+							String partImgPath = "";
 							// 压缩
 							String strImgType = sysFileConfig.getImgType();
 							String strImgDesc = sysFileConfig.getImgDesc();
 							if ("0".equals(strImgType)) {
 								String[] strImgTypeArray = strImgDesc.split(":");
-								ImageUtils.getImgSize(Integer.parseInt(strImgTypeArray[0]), Integer.parseInt(strImgTypeArray[1]), uploaderPath+strSavePath+File.separator+savedName, uploaderPath+strSavePath+File.separator+"img_"+savedName);
+								partImgPath = ImageUtils.getImgSize(Integer.parseInt(strImgTypeArray[0]), Integer.parseInt(strImgTypeArray[1]), file.getInputStream(), uploaderPath+strSavePath+File.separator+"img_"+savedName);
 							} else if ("1".equals(strImgType)) {
 								strImgDesc = strImgDesc==null ? "0.5" : strImgDesc;
-								ImageUtils.getImgScale(Double.parseDouble(strImgDesc), uploaderPath+strSavePath+File.separator+savedName, uploaderPath+strSavePath+File.separator+"img_"+savedName);
+								partImgPath = ImageUtils.getImgScale(Double.parseDouble(strImgDesc), file.getInputStream(), uploaderPath+strSavePath+File.separator+"img_"+savedName);
 							} else if ("2".equals(strImgType)) {
 								String[] strImgTypeArray = strImgDesc.split(":");
-								ImageUtils.getImgSizeNoScale(Integer.parseInt(strImgTypeArray[0]), Integer.parseInt(strImgTypeArray[1]), uploaderPath+strSavePath+File.separator+savedName, uploaderPath+strSavePath+File.separator+"img_"+savedName);
+								partImgPath = ImageUtils.getImgSizeNoScale(Integer.parseInt(strImgTypeArray[0]), Integer.parseInt(strImgTypeArray[1]), file.getInputStream(), uploaderPath+strSavePath+File.separator+"img_"+savedName);
 							} else {
-								ImageUtils.getImgScale(0.5f, uploaderPath+strSavePath+File.separator+savedName, uploaderPath+strSavePath+File.separator+"img_"+savedName);
+								partImgPath = ImageUtils.getImgScale(0.5f, file.getInputStream(), uploaderPath+strSavePath+File.separator+"img_"+savedName);
 							}
+							sysFile.setPartImgPath(partImgPath);*/
 						}
 						insert(sysFile);
 

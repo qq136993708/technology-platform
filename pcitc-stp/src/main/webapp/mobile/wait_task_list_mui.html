@@ -9,16 +9,19 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <link rel="stylesheet"          href="/mobile/css/mui/iconfont.css"/>
 <link rel="stylesheet"          href="/mobile/css/mui/mui.css"/>	
+<link rel="stylesheet" href="/layuiadmin/layui/css/dw.css">
+    
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript"  src="/mobile/js/mui/mui.min.js"  ></script>
 <script type="text/javascript"  src="/common/js/layer-v3.1.1/layer.js"  ></script>
 
 </head>
 <body  style="background-color:#ffffff;">
-<header class="mui-bar mui-bar-nav">
-<a class="mui-pull-left" href="/mobile/index"  style="margin-top:10px">首页</a>
-	<h1 class="mui-title"><span>待办任务（${page.totalRecords}）</span></h1>
+<header class="mui-bar mui-bar-nav" style="background-color:#2F6EDD">
+    <a href="/mobile/indexTest"  class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	<h1 class="mui-title" style="color:#ffffff"><span>待办任务（${page.totalRecords}）</span></h1>
 </header>
+
 <div class="mui-content" >
   <ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="list" style="margin-top:10px">
           <#if list?exists> <#list list as vo>
@@ -59,6 +62,7 @@
 	
 </div>
 <script type="text/javascript">
+
 var basePath="<c:out value='${basePath}' />";
 mui.init({
 	swipeBack:true 
