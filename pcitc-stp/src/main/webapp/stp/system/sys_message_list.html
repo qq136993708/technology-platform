@@ -121,6 +121,7 @@
                 //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                 , area: ['80%', '90%']
                 , content: temUrl
+                , cancel:function(){reflushTable();}
             });    
         });
         // 触发不同的按钮事件
@@ -149,7 +150,7 @@
                     //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                     , area: ['80%', '90%']
                     , content: temUrl
-                    , end:function(){alert("end");}
+                    , cancel:function(){reflushTable();}
                 });
             }
         };
