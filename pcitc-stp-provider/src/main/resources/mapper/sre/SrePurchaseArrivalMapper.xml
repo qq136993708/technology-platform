@@ -23,7 +23,7 @@
     <result column="G0XMLXMS" jdbcType="VARCHAR" property="g0xmlxms" />
     <result column="G0XMZT" jdbcType="VARCHAR" property="g0xmzt" />
     <result column="G0XMZTMS" jdbcType="VARCHAR" property="g0xmztms" />
-    <result column="G0XMDL" jdbcType="DOUBLE" property="g0xmdl" />
+    <result column="G0XMDL" jdbcType="VARCHAR" property="g0xmdl" />
     <result column="G0KYPFWH" jdbcType="VARCHAR" property="g0kypfwh" />
     <result column="G0MATNR" jdbcType="VARCHAR" property="g0matnr" />
     <result column="G0MAKTX" jdbcType="VARCHAR" property="g0maktx" />
@@ -40,13 +40,14 @@
     <result column="K0XMLYJE" jdbcType="DOUBLE" property="k0xmlyje" />
     <result column="arrival_state" jdbcType="VARCHAR" property="arrivalState" />
     <result column="document_doc" jdbcType="VARCHAR" property="documentDoc" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
   </resultMap>
   <sql id="Base_Column_List">
     id, G0FLAG, G0LOGSYS, G0CALD, G0GSDM, G0GSJC, G0GSOR, G0GSJCL, G0GSGP, G0GSSP, G0PROJCODE, 
     G0PROJTXT, G0WBSCODE, G0WBSTXT, G0XMGLLX, G0XMGLLY, G0XMGLJB, G0XMLX, G0XMLXMS, G0XMZT, 
     G0XMZTMS, G0XMDL, G0KYPFWH, G0MATNR, G0MAKTX, G0EBELN, G0EBELP, G0VGABE, G0GJAHR, 
     G0BELNR, G0BUZEI, G0BUDAT, K0XMRKSL, K0XMRKJE, K0XMLYSL, K0XMLYJE, arrival_state, 
-    document_doc
+    document_doc, create_date
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -71,7 +72,8 @@
       G0VGABE, G0GJAHR, G0BELNR, 
       G0BUZEI, G0BUDAT, K0XMRKSL, 
       K0XMRKJE, K0XMLYSL, K0XMLYJE, 
-      arrival_state, document_doc)
+      arrival_state, document_doc, create_date
+      )
     values (#{id,jdbcType=VARCHAR}, #{g0flag,jdbcType=VARCHAR}, #{g0logsys,jdbcType=VARCHAR}, 
       #{g0cald,jdbcType=TIMESTAMP}, #{g0gsdm,jdbcType=VARCHAR}, #{g0gsjc,jdbcType=VARCHAR}, 
       #{g0gsor,jdbcType=VARCHAR}, #{g0gsjcl,jdbcType=VARCHAR}, #{g0gsgp,jdbcType=VARCHAR}, 
@@ -79,12 +81,13 @@
       #{g0wbscode,jdbcType=VARCHAR}, #{g0wbstxt,jdbcType=VARCHAR}, #{g0xmgllx,jdbcType=VARCHAR}, 
       #{g0xmglly,jdbcType=VARCHAR}, #{g0xmgljb,jdbcType=VARCHAR}, #{g0xmlx,jdbcType=VARCHAR}, 
       #{g0xmlxms,jdbcType=VARCHAR}, #{g0xmzt,jdbcType=VARCHAR}, #{g0xmztms,jdbcType=VARCHAR}, 
-      #{g0xmdl,jdbcType=DOUBLE}, #{g0kypfwh,jdbcType=VARCHAR}, #{g0matnr,jdbcType=VARCHAR}, 
+      #{g0xmdl,jdbcType=VARCHAR}, #{g0kypfwh,jdbcType=VARCHAR}, #{g0matnr,jdbcType=VARCHAR}, 
       #{g0maktx,jdbcType=VARCHAR}, #{g0ebeln,jdbcType=VARCHAR}, #{g0ebelp,jdbcType=VARCHAR}, 
       #{g0vgabe,jdbcType=VARCHAR}, #{g0gjahr,jdbcType=TIMESTAMP}, #{g0belnr,jdbcType=VARCHAR}, 
       #{g0buzei,jdbcType=VARCHAR}, #{g0budat,jdbcType=TIMESTAMP}, #{k0xmrksl,jdbcType=VARCHAR}, 
       #{k0xmrkje,jdbcType=DOUBLE}, #{k0xmlysl,jdbcType=VARCHAR}, #{k0xmlyje,jdbcType=DOUBLE}, 
-      #{arrivalState,jdbcType=VARCHAR}, #{documentDoc,jdbcType=VARCHAR})
+      #{arrivalState,jdbcType=VARCHAR}, #{documentDoc,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SrePurchaseArrival">
     insert into sre_purchase_arrival
@@ -203,6 +206,9 @@
       <if test="documentDoc != null">
         document_doc,
       </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -269,7 +275,7 @@
         #{g0xmztms,jdbcType=VARCHAR},
       </if>
       <if test="g0xmdl != null">
-        #{g0xmdl,jdbcType=DOUBLE},
+        #{g0xmdl,jdbcType=VARCHAR},
       </if>
       <if test="g0kypfwh != null">
         #{g0kypfwh,jdbcType=VARCHAR},
@@ -318,6 +324,9 @@
       </if>
       <if test="documentDoc != null">
         #{documentDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -385,7 +394,7 @@
         G0XMZTMS = #{g0xmztms,jdbcType=VARCHAR},
       </if>
       <if test="g0xmdl != null">
-        G0XMDL = #{g0xmdl,jdbcType=DOUBLE},
+        G0XMDL = #{g0xmdl,jdbcType=VARCHAR},
       </if>
       <if test="g0kypfwh != null">
         G0KYPFWH = #{g0kypfwh,jdbcType=VARCHAR},
@@ -435,6 +444,9 @@
       <if test="documentDoc != null">
         document_doc = #{documentDoc,jdbcType=VARCHAR},
       </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -460,7 +472,7 @@
       G0XMLXMS = #{g0xmlxms,jdbcType=VARCHAR},
       G0XMZT = #{g0xmzt,jdbcType=VARCHAR},
       G0XMZTMS = #{g0xmztms,jdbcType=VARCHAR},
-      G0XMDL = #{g0xmdl,jdbcType=DOUBLE},
+      G0XMDL = #{g0xmdl,jdbcType=VARCHAR},
       G0KYPFWH = #{g0kypfwh,jdbcType=VARCHAR},
       G0MATNR = #{g0matnr,jdbcType=VARCHAR},
       G0MAKTX = #{g0maktx,jdbcType=VARCHAR},
@@ -476,7 +488,12 @@
       K0XMLYSL = #{k0xmlysl,jdbcType=VARCHAR},
       K0XMLYJE = #{k0xmlyje,jdbcType=DOUBLE},
       arrival_state = #{arrivalState,jdbcType=VARCHAR},
-      document_doc = #{documentDoc,jdbcType=VARCHAR}
+      document_doc = #{documentDoc,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <delete id="deletePurchaseArrival">
+    delete from sre_purchase_arrival
+  </delete>
+
 </mapper>

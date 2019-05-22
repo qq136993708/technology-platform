@@ -69,6 +69,8 @@ public class SrePurchaseOrder {
 
     private Double k0xmddje;
 
+    private Date createDate;
+
     public String getG0flag() {
         return g0flag;
     }
@@ -331,5 +333,13 @@ public class SrePurchaseOrder {
 
     public void setK0xmddje(Double k0xmddje) {
         this.k0xmddje = k0xmddje;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 }

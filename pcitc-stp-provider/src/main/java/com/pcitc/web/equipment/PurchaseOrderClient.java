@@ -28,14 +28,10 @@ public class PurchaseOrderClient
     @RequestMapping(value = "/sre-provider/purchase/insertPurchaseOrder")
     public void insertPurchaseOrder(@RequestBody List<SrePurchaseOrder> srePurchaseOrder) throws Exception{
         logger.info("====================add srePurchaseOrder....========================");
-        System.err.println("执行删除方法-------------------------------------开始");
-        int i = purchaseOrderService.deletePurchaseOrder();
-        System.err.println("执行删除方法-------------------------------------结束");
+        purchaseOrderService.deletePurchaseOrder();
 
         for (SrePurchaseOrder purchaseOrder : srePurchaseOrder) {
-            System.err.println("执行插入数据-------------------------------------开始");
             purchaseOrderService.insertPurchaseOrder(purchaseOrder);
-            System.err.println("执行插入数据-------------------------------------结束");
         }
     }
 
@@ -43,6 +39,8 @@ public class PurchaseOrderClient
     @RequestMapping(value = "/sre-provider/purchase/insertPurchaseArrival")
     public void insertPurchaseArrival(@RequestBody List<SrePurchaseArrival > srePurchaseArrivals ) throws Exception{
         logger.info("====================add SrePurchaseArrival....========================");
+        purchaseOrderService.deletePurchaseArrival();
+
         for (SrePurchaseArrival srePurchaseArrival : srePurchaseArrivals) {
             purchaseOrderService.insertPurchaseArrival(srePurchaseArrival);
         }

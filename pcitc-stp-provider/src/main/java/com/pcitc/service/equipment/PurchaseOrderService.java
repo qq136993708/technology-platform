@@ -12,4 +12,6 @@ public interface PurchaseOrderService {
 	int deletePurchaseOrder();
 
 	void insertPurchaseArrival(SrePurchaseArrival srePurchaseArrival);
+
+    int deletePurchaseArrival();
 }

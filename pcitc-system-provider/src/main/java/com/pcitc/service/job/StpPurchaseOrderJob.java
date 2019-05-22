@@ -45,38 +45,39 @@ public class StpPurchaseOrderJob implements Job, Serializable {
 
                 SrePurchaseOrder srePurchaseOrder =new SrePurchaseOrder();
 
-                srePurchaseOrder.setG0flag(json.getString("G0FLAG"));
-                srePurchaseOrder.setG0cald(json.getDate("G0CALD"));
-                srePurchaseOrder.setG0gsdm(json.getString("G0GSDM"));
-                srePurchaseOrder.setG0gsjc(json.getString("G0GSJC"));
-                srePurchaseOrder.setG0gsor(json.getString("G0GSOR"));
-                srePurchaseOrder.setG0gsjcl(json.getString("G0GSJCL"));
-                srePurchaseOrder.setG0gsgp(json.getString("G0GSGP"));
-                srePurchaseOrder.setG0gssp(json.getString("G0GSSP"));
-                srePurchaseOrder.setG0projcode(json.getString("G0PROJCODE"));
-                srePurchaseOrder.setG0projtxt(json.getString("G0PROJTXT"));
-                srePurchaseOrder.setG0wbscode(json.getString("G0WBSCODE"));
-                srePurchaseOrder.setG0wbstxt(json.getString("G0WBSTXT"));
-                srePurchaseOrder.setG0xmgllx(json.getString("G0XMGLLX"));
-                srePurchaseOrder.setG0xmglly(json.getString("G0XMGLLY"));
-                srePurchaseOrder.setG0xmgljb(json.getString("G0XMGLJB"));
-                srePurchaseOrder.setG0xmlx(json.getString("G0XMLX"));
-                srePurchaseOrder.setG0xmlxms(json.getString("G0XMLXMS"));
-                srePurchaseOrder.setG0xmzt(json.getString("G0XMZT"));
-                srePurchaseOrder.setG0xmztms(json.getString("G0XMZTMS"));
-                srePurchaseOrder.setG0xmdl(json.getString("G0XMDL"));
-                srePurchaseOrder.setG0kypfwh(json.getString("G0KYPFWH"));
-                srePurchaseOrder.setG0matnr(json.getString("G0MATNR"));
-                srePurchaseOrder.setG0maktx(json.getString("G0MAKTX"));
-                srePurchaseOrder.setG0ebeln(json.getString("G0EBELN"));
-                srePurchaseOrder.setG0ebelp(json.getString("G0EBELP"));
-                srePurchaseOrder.setG0txz01(json.getString("G0TXZ01"));
-                srePurchaseOrder.setG0eindt(json.getDate("G0EINDT"));
-                srePurchaseOrder.setG0lifnr(json.getString("G0LIFNR"));
-                srePurchaseOrder.setG0name2(json.getString("G0NAME2"));
-                srePurchaseOrder.setG0ddlx(json.getString("G0DDLX"));
-                srePurchaseOrder.setK0xmddsl(json.getString("K0XMDDSL"));
-                srePurchaseOrder.setK0xmddje(json.getDouble("K0XMDDJE"));
+                srePurchaseOrder.setCreateDate(new Date());//导入时间
+                srePurchaseOrder.setG0flag(json.getString("G0FLAG"));//数据标示
+                srePurchaseOrder.setG0cald(json.getDate("G0CALD"));//年月
+                srePurchaseOrder.setG0gsdm(json.getString("G0GSDM"));//公司代码
+                srePurchaseOrder.setG0gsjc(json.getString("G0GSJC"));//公司简称
+                srePurchaseOrder.setG0gsor(json.getString("G0GSOR"));//公司排序吗
+                srePurchaseOrder.setG0gsjcl(json.getString("G0GSJCL"));//公司描述
+                srePurchaseOrder.setG0gsgp(json.getString("G0GSGP"));//公司一级分类
+                srePurchaseOrder.setG0gssp(json.getString("G0GSSP"));//公司二级分类
+                srePurchaseOrder.setG0projcode(json.getString("G0PROJCODE"));//项目编码
+                srePurchaseOrder.setG0projtxt(json.getString("G0PROJTXT"));//项目名称
+                srePurchaseOrder.setG0wbscode(json.getString("G0WBSCODE"));//WBS号
+                srePurchaseOrder.setG0wbstxt(json.getString("G0WBSTXT"));//WBS描述
+                srePurchaseOrder.setG0xmgllx(json.getString("G0XMGLLX"));//项目类型
+                srePurchaseOrder.setG0xmglly(json.getString("G0XMGLLY"));//项目来源
+                srePurchaseOrder.setG0xmgljb(json.getString("G0XMGLJB"));//管理级别
+                srePurchaseOrder.setG0xmlx(json.getString("G0XMLX"));//项目类别
+                srePurchaseOrder.setG0xmlxms(json.getString("G0XMLXMS"));//项目类别描述
+                srePurchaseOrder.setG0xmzt(json.getString("G0XMZT"));//项目状态
+                srePurchaseOrder.setG0xmztms(json.getString("G0XMZTMS"));//项目状态描述
+                srePurchaseOrder.setG0xmdl(json.getString("G0XMDL"));//项目大类：资本/费用
+                srePurchaseOrder.setG0kypfwh(json.getString("G0KYPFWH"));//科研批复文号
+                srePurchaseOrder.setG0matnr(json.getString("G0MATNR"));//物料号
+                srePurchaseOrder.setG0maktx(json.getString("G0MAKTX"));//物料描述
+                srePurchaseOrder.setG0ebeln(json.getString("G0EBELN"));//采购凭证号
+                srePurchaseOrder.setG0ebelp(json.getString("G0EBELP"));//采购凭证的项目编号
+                srePurchaseOrder.setG0txz01(json.getString("G0TXZ01"));//采购单描述
+                srePurchaseOrder.setG0eindt(json.getDate("G0EINDT"));//项目交货日期
+                srePurchaseOrder.setG0lifnr(json.getString("G0LIFNR"));//供应商账户号
+                srePurchaseOrder.setG0name2(json.getString("G0NAME2"));//供应商名称
+                srePurchaseOrder.setG0ddlx(json.getString("G0DDLX"));//标记;F服务订单，M物资订单
+                srePurchaseOrder.setK0xmddsl(json.getString("K0XMDDSL"));//项目采购订单数量
+                srePurchaseOrder.setK0xmddje(json.getDouble("K0XMDDJE"));//项目采购订单净值
 
                 purchaseOrderDate.add(srePurchaseOrder);
             }
