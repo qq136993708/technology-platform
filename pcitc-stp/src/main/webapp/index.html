@@ -105,9 +105,9 @@
 								<dd>
 									<a id="toUserInfo" href="javascript:void(0)">基本资料</a>
 								</dd>
-								<dd>
+								<!-- <dd>
 									<a id="toUpdPass" href="javascript:void(0)">修改密码</a>
-								</dd>
+								</dd> -->
 								<dd>
 									<a id="selfConfig" href="javascript:void(0)">个人设置</a>
 								</dd>
@@ -573,6 +573,7 @@
 			//获取未读消息
 			window.getNotReadMessageList = function() {
 				publicMethods.ajaxAsyncPost('/message/get-newest-messages', {page:1,limit:100,param: {"isRead":"0"}}, function (data, status) {
+					$(".message_more").unbind();
 					var content = "";
 					if(data.length <=0){
 	        			$("#nc").css("visibility", "hidden");
@@ -588,6 +589,9 @@
 	        		content += '<dd class="message_more"><a href="javascript:void(0)">查看更多</a></dd>';
 	        		//$("#message_box").prepend(content);
 	        		$("#message_box").html(content);
+				    $('.message_more').on('click', function() { 
+				    	parent.layui.index.openTabsPage("/message/sys_message_list", "通知");
+				    });
 	            });
 			}
 			//待办任务
@@ -608,9 +612,6 @@
 			$(document).ready(function() {
 				 $("#task_more").on("click", function(){ 
 			     	parent.layui.index.openTabsPage("/task/pending/list/ini", "待办任务");
-			     });
-			     $('.message_more').on('click', function() { 
-			     	parent.layui.index.openTabsPage("/message/sys_message_list", "通知");
 			     });
 			     
 			     initNoticeSocket();
