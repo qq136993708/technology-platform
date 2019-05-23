@@ -75,6 +75,8 @@
 
 /*按钮*/
 .layui-btn+.layui-btn {margin-left: 6px;}
+.layui-btn{background-color: #1890ff}
+.layui-upload-list tr td>span{color: #1890ff !important;}
 .btn_search {background: #1890ff url(/layuiadmin/layui/images/icon_04.png) no-repeat;}
 .btn_look {background: url(/layuiadmin/layui/images/operation_72.png) no-repeat;}
 .btn_look:hover{ background: #1890ff url(/layuiadmin/layui/images/operation_38.png) no-repeat;}
@@ -549,7 +551,6 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
     font-size: 12px;line-height: 21px;border-radius: 3px;background: #1890ff;display: block;top: 2px;}
 .cycle-img{position: relative;width: 94%;margin: 0 auto;}
 .cycle-img .already,.cycle-img .not{position: absolute;top: 45%;}
-.cycle-img{overflow: hidden;}
 .cycle-img>div p:nth-child(1){width: 40px;height: 40px;line-height: 40px;margin: 0 25px 6px;
     text-align: center;font-size: 14px;border-radius: 3px;}
 .cycle-img>div p:nth-child(2){font-size: 12px;color: #999999;line-height: 18px;width: 90px;}
