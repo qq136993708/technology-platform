@@ -496,4 +496,39 @@
     delete from sre_purchase_arrival
   </delete>
 
+  <!--   insertPurchaseArrivalList   -->
+  <insert id="insertPurchaseArrivalList" parameterType="java.util.List">
+    insert into sre_purchase_arrival (id, G0FLAG, G0LOGSYS,
+      G0CALD, G0GSDM, G0GSJC,
+      G0GSOR, G0GSJCL, G0GSGP,
+      G0GSSP, G0PROJCODE, G0PROJTXT,
+      G0WBSCODE, G0WBSTXT, G0XMGLLX,
+      G0XMGLLY, G0XMGLJB, G0XMLX,
+      G0XMLXMS, G0XMZT, G0XMZTMS,
+      G0XMDL, G0KYPFWH, G0MATNR,
+      G0MAKTX, G0EBELN, G0EBELP,
+      G0VGABE, G0GJAHR, G0BELNR,
+      G0BUZEI, G0BUDAT, K0XMRKSL,
+      K0XMRKJE, K0XMLYSL, K0XMLYJE,
+      arrival_state, document_doc, create_date
+      )
+    values
+    <foreach collection="list" item="purchaseArrival" index="index"
+             separator=",">
+    (#{purchaseArrival.id,jdbcType=VARCHAR}, #{purchaseArrival.g0flag,jdbcType=VARCHAR}, #{purchaseArrival.g0logsys,jdbcType=VARCHAR},
+      #{purchaseArrival.g0cald,jdbcType=TIMESTAMP}, #{purchaseArrival.g0gsdm,jdbcType=VARCHAR}, #{purchaseArrival.g0gsjc,jdbcType=VARCHAR},
+      #{purchaseArrival.g0gsor,jdbcType=VARCHAR}, #{purchaseArrival.g0gsjcl,jdbcType=VARCHAR}, #{purchaseArrival.g0gsgp,jdbcType=VARCHAR},
+      #{purchaseArrival.g0gssp,jdbcType=VARCHAR}, #{purchaseArrival.g0projcode,jdbcType=VARCHAR}, #{purchaseArrival.g0projtxt,jdbcType=VARCHAR},
+      #{purchaseArrival.g0wbscode,jdbcType=VARCHAR}, #{purchaseArrival.g0wbstxt,jdbcType=VARCHAR}, #{purchaseArrival.g0xmgllx,jdbcType=VARCHAR},
+      #{purchaseArrival.g0xmglly,jdbcType=VARCHAR}, #{purchaseArrival.g0xmgljb,jdbcType=VARCHAR}, #{purchaseArrival.g0xmlx,jdbcType=VARCHAR},
+      #{purchaseArrival.g0xmlxms,jdbcType=VARCHAR}, #{purchaseArrival.g0xmzt,jdbcType=VARCHAR}, #{purchaseArrival.g0xmztms,jdbcType=VARCHAR},
+      #{purchaseArrival.g0xmdl,jdbcType=VARCHAR}, #{purchaseArrival.g0kypfwh,jdbcType=VARCHAR}, #{purchaseArrival.g0matnr,jdbcType=VARCHAR},
+      #{purchaseArrival.g0maktx,jdbcType=VARCHAR}, #{purchaseArrival.g0ebeln,jdbcType=VARCHAR}, #{purchaseArrival.g0ebelp,jdbcType=VARCHAR},
+      #{purchaseArrival.g0vgabe,jdbcType=VARCHAR}, #{purchaseArrival.g0gjahr,jdbcType=TIMESTAMP}, #{purchaseArrival.g0belnr,jdbcType=VARCHAR},
+      #{purchaseArrival.g0buzei,jdbcType=VARCHAR}, #{purchaseArrival.g0budat,jdbcType=TIMESTAMP}, #{purchaseArrival.k0xmrksl,jdbcType=VARCHAR},
+      #{purchaseArrival.k0xmrkje,jdbcType=DOUBLE}, #{purchaseArrival.k0xmlysl,jdbcType=VARCHAR}, #{purchaseArrival.k0xmlyje,jdbcType=DOUBLE},
+      #{purchaseArrival.arrivalState,jdbcType=VARCHAR}, #{purchaseArrival.documentDoc,jdbcType=VARCHAR}, #{purchaseArrival.createDate,jdbcType=TIMESTAMP}
+      )
+    </foreach>
+  </insert>
 </mapper>

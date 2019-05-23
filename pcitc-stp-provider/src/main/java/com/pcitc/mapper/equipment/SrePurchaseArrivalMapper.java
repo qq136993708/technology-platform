@@ -3,6 +3,8 @@ package com.pcitc.mapper.equipment;
 
 import com.pcitc.base.stp.equipment.SrePurchaseArrival;
 
+import java.util.List;
+
 public interface SrePurchaseArrivalMapper {
     int deleteByPrimaryKey(String id);
 
@@ -17,4 +19,6 @@ public interface SrePurchaseArrivalMapper {
     int updateByPrimaryKey(SrePurchaseArrival record);
 
     int deletePurchaseArrival();
+
+    void insertPurchaseArrivalList(List<SrePurchaseArrival> srePurchaseArrivals);
 }
