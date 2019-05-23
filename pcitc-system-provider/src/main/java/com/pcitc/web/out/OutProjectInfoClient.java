@@ -453,7 +453,6 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/project-count/project-type")
 	public JSONArray getProjectCountByProjectType(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getProjectCountByProjectType===========================" + map);
-		
 		List temList = outProjectService.getProjectCountByProjectType("2018");
 		
 		if (!JSON.toJSONString(temList).contains("三剂处")) {

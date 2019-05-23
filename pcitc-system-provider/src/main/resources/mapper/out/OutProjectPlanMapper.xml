@@ -1264,9 +1264,12 @@
 				<if test="define3 != null and define3 != ''">
 					and out_project_plan.DEFINE3 like '%${define3}%'
 				</if>
-				<if test="leaderFlag != null and leaderFlag != '1'">
+				<if test="leaderFlag == null or leaderFlag != '1'">
 					<if test="zycmc != null and zycmc != ''">
 						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_plan.ND = '1900'
 					</if>
 				</if>
 			group by out_project_plan.XMID
