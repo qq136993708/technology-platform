@@ -7,6 +7,8 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.common.TreeNode;
+import com.pcitc.base.stp.out.OutProjectInfo;
+import com.pcitc.base.stp.out.OutProjectInfoExample;
 import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.base.system.*;
 import com.pcitc.base.system.IndexOutProjectInfoExample;
@@ -14,6 +16,7 @@ import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.base.util.TreeNodeUtil;
+import com.pcitc.mapper.out.OutProjectInfoMapper;
 import com.pcitc.mapper.system.IndexOutProjectInfoMapper;
 import com.pcitc.service.system.IndexOutProjectInfoService;
 import com.pcitc.web.feign.TechFamilyProviderClient;
@@ -165,17 +168,12 @@ public class IndexOutProjectInfoServiceImpl implements IndexOutProjectInfoServic
     public LayuiTableData findIndexOutProjectInfoByPage(LayuiTableParam param) {
         IndexOutProjectInfoExample example = new IndexOutProjectInfoExample();
         IndexOutProjectInfoExample.Criteria c = example.createCriteria();
-//        c.andStatusEqualTo("1");
-//        if(param.getParam().get("fileKind") !=null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("fileKind")+""))
-//        {
-        //   c.andIdLike("'%"+param.getParam().get("fileKind")+"%'");
-//            IndexOutProjectInfoExample.Criteria criteria2 = example.or();
-//            criteria2.andParentIdEqualTo(param.getParam().get("fileKind").toString());
-//            example.or(criteria2);
-        //       }
+        Object typeIndex = param.getParam().get("typeIndex");
+        if (typeIndex != null) {
+            c.andTypeIndexLike(typeIndex + "%");
+        }
         example.setOrderByClause("create_date desc");
         return this.findByExample(param, example);
-
     }
 
     /**
@@ -229,25 +227,28 @@ public class IndexOutProjectInfoServiceImpl implements IndexOutProjectInfoServic
 
     @Autowired
     private TechFamilyProviderClient techFamilyProviderClient;
+    @Autowired
+    private OutProjectInfoMapper outProjectInfoMapper;
 
     @Override
     public void selectTfcToIndexProjectInfo() {
+        this.deleteByExample(new IndexOutProjectInfoExample());
         TechFamily techFamily = new TechFamily();
         List<TechFamily> techFamilies = techFamilyProviderClient.selectTechFamilyTypeList(techFamily);
-        for (int i = 0,j=techFamilies.size(); i < j; i++) {
+        for (int i = 0, j = techFamilies.size(); i < j; i++) {
             TechFamily tf = techFamilies.get(i);
             //查询项目表
-            IndexOutProjectInfoExample example = new IndexOutProjectInfoExample();
-            IndexOutProjectInfoExample.Criteria criteria = example.createCriteria();
-            criteria.andXmmcLike("%"+tf.getTypeName()+"%");
-            List<IndexOutProjectInfo> records = indexOutProjectInfoMapper.selectByExample(example);
+            OutProjectInfoExample example = new OutProjectInfoExample();
+            OutProjectInfoExample.Criteria criteria = example.createCriteria();
+            criteria.andXmmcLike("%" + tf.getTypeName() + "%");
+            List<OutProjectInfo> records = outProjectInfoMapper.selectByExample(example);
             //插入index项目表
-            if (records==null||records.size()==0){
+            if (records == null || records.size() == 0) {
                 continue;
             }
-            for (int k = 0; k <records.size(); k++) {
+            for (int k = 0; k < records.size(); k++) {
                 IndexOutProjectInfo indexOutProjectInfo = new IndexOutProjectInfo();
-                MyBeanUtils.copyProperties(records,indexOutProjectInfo);
+                MyBeanUtils.copyProperties(records.get(k), indexOutProjectInfo);
                 indexOutProjectInfo.setTypeCode(tf.getTypeCode());
                 indexOutProjectInfo.setTypeName(tf.getTypeName());
                 indexOutProjectInfo.setTfmTypeId(tf.getTfmTypeId());
@@ -255,6 +256,9 @@ public class IndexOutProjectInfoServiceImpl implements IndexOutProjectInfoServic
                 indexOutProjectInfo.setParentCode(tf.getParentCode());
                 indexOutProjectInfo.setIsParent(tf.getIsParent());
                 indexOutProjectInfo.setTypeIndex(tf.getTypeIndex());
+                IndexOutProjectInfoExample e = new IndexOutProjectInfoExample();
+                e.createCriteria().andXmidEqualTo(indexOutProjectInfo.getXmid());
+                this.deleteByExample(e);
                 this.insert(indexOutProjectInfo);
             }
         }

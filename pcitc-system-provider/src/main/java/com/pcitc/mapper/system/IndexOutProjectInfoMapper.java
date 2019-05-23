@@ -2,22 +2,24 @@ package com.pcitc.mapper.system;
 
 import com.pcitc.base.system.IndexOutProjectInfo;
 import com.pcitc.base.system.IndexOutProjectInfoExample;
+
 import java.util.List;
 import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface IndexOutProjectInfoMapper {
-long countByExample(IndexOutProjectInfoExample example);
+    long countByExample(IndexOutProjectInfoExample example);
 
-int deleteByExample(IndexOutProjectInfoExample example);
+    int deleteByExample(IndexOutProjectInfoExample example);
 
-int deleteByPrimaryKey(String menuId);
+    int deleteByPrimaryKey(String menuId);
 
-int insert(IndexOutProjectInfo record);
+    int insert(IndexOutProjectInfo record);
 
-int insertSelective(IndexOutProjectInfo record);
+    int insertSelective(IndexOutProjectInfo record);
 
-List<IndexOutProjectInfo> selectByExample(IndexOutProjectInfoExample example);
+    List<IndexOutProjectInfo> selectByExample(IndexOutProjectInfoExample example);
 
     IndexOutProjectInfo selectByPrimaryKey(String menuId);
 
@@ -31,8 +33,8 @@ List<IndexOutProjectInfo> selectByExample(IndexOutProjectInfoExample example);
 
     int updateByPrimaryKeyWithBLOBs(IndexOutProjectInfo record);
 
-    List<IndexOutProjectInfo> findIndexOutProjectInfoByPage(Map<String,Object> map);
+    List<IndexOutProjectInfo> findIndexOutProjectInfoByPage(Map<String, Object> map);
 
-    List<IndexOutProjectInfo> findIndexOutProjectInfoList( IndexOutProjectInfo record);
+    List<IndexOutProjectInfo> findIndexOutProjectInfoList(IndexOutProjectInfo record);
 
-    }
+}

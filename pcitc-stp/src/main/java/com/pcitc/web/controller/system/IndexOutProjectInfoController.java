@@ -1,6 +1,5 @@
 package com.pcitc.web.controller.system;
 
-import java.util.Date;
 import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -48,203 +47,214 @@ import java.util.List;
 import java.util.UUID;
 
 /**
-* <p>控制类</p>
-* <p>Table: index_out_project_info - 首页-科研项目</p>
-*
-* @since 2019-05-22 03:38:18
-*/
-
+ * <p>控制类</p>
+ * <p>Table: index_out_project_info - 首页-科研项目</p>
+ *
+ * @since 2019-05-23 10:43:50
+ */
 
 @Controller
-@RequestMapping("indexOutProjectInfo")
-public class IndexOutProjectInfoController extends BaseController{
-/**根据ID获取对象信息*/
-private static final String GET_INFO="http://pcitc-zuul/stp-proxy/indexoutprojectinfo-provider/indexoutprojectinfo/get-indexoutprojectinfo/";
-/**树形*/
-private static final String TREE_DATA="http://pcitc-zuul/stp-proxy/indexoutprojectinfo-provider/indexoutprojectinfo/tree-data";
-/**逻辑删除*/
-private static final String DEL="http://pcitc-zuul/stp-proxy/indexoutprojectinfo-provider/indexoutprojectinfo/del-indexoutprojectinfo/";
-/**物理删除*/
-private static final String DEL_REAL="http://pcitc-zuul/stp-proxy/indexoutprojectinfo-provider/indexoutprojectinfo/del-indexoutprojectinfo-real/";
+public class IndexOutProjectInfoController extends BaseController {
+    /**
+     * 根据ID获取对象信息
+     */
+    private static final String GET_INFO = "http://pcitc-zuul/system-proxy/indexoutprojectinfo-provider/indexoutprojectinfo/get-indexoutprojectinfo/";
+    /**
+     * 树形
+     */
+    private static final String TREE_DATA = "http://pcitc-zuul/system-proxy/indexoutprojectinfo-provider/indexoutprojectinfo/tree-data";
+    /**
+     * 逻辑删除
+     */
+    private static final String DEL = "http://pcitc-zuul/system-proxy/indexoutprojectinfo-provider/indexoutprojectinfo/del-indexoutprojectinfo/";
+    /**
+     * 物理删除
+     */
+    private static final String DEL_REAL = "http://pcitc-zuul/system-proxy/indexoutprojectinfo-provider/indexoutprojectinfo/del-indexoutprojectinfo-real/";
 
-/**查询列表*/
-private static final String LIST = "http://pcitc-zuul/stp-proxy/indexoutprojectinfo-provider/indexoutprojectinfo/indexoutprojectinfo_list";
-/**参数查询*/
-private static final String LISTPARAM = "http://pcitc-zuul/stp-proxy/indexoutprojectinfo-provider/indexoutprojectinfo/indexoutprojectinfo_list_param";
-/**分页查询*/
-private static final String LISTPAGE = "http://pcitc-zuul/stp-proxy/indexoutprojectinfo-provider/indexoutprojectinfo/indexoutprojectinfo-page";
-/**保存*/
-private static final String SAVE = "http://pcitc-zuul/stp-proxy/indexoutprojectinfo-provider/indexoutprojectinfo/save_indexoutprojectinfo";
-
+    /**
+     * 查询列表
+     */
+    private static final String LIST = "http://pcitc-zuul/system-proxy/indexoutprojectinfo-provider/indexoutprojectinfo/indexoutprojectinfo_list";
+    /**
+     * 参数查询
+     */
+    private static final String LISTPARAM = "http://pcitc-zuul/system-proxy/indexoutprojectinfo-provider/indexoutprojectinfo/indexoutprojectinfo_list_param";
+    /**
+     * 分页查询
+     */
+    private static final String LISTPAGE = "http://pcitc-zuul/system-proxy/indexoutprojectinfo-provider/indexoutprojectinfo/indexoutprojectinfo-page";
+    /**
+     * 保存
+     */
+    private static final String SAVE = "http://pcitc-zuul/system-proxy/indexoutprojectinfo-provider/indexoutprojectinfo/save_indexoutprojectinfo";
 
     /**
      * 首页-科研项目-查询列表
+     *
      * @param indexOutProjectInfo
      * @return
      */
-    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    @RequestMapping(value = "/indexOutProjectInfo/list", method = RequestMethod.POST)
     @ResponseBody
     public Object getList(@RequestBody IndexOutProjectInfo indexOutProjectInfo) {
-    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-    ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST, HttpMethod.POST, new HttpEntity<IndexOutProjectInfo>(indexOutProjectInfo, this.httpHeaders), JSONObject.class);
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST, HttpMethod.POST, new HttpEntity<IndexOutProjectInfo>(indexOutProjectInfo, this.httpHeaders), JSONObject.class);
         JSONObject retJson = responseEntity.getBody();
         List<IndexOutProjectInfo> list = (List<IndexOutProjectInfo>) retJson.get("list");
-            return list;
-       }
+        return list;
+    }
 
-
-    @RequestMapping(value = "/listParam", method = RequestMethod.POST)
+    @RequestMapping(value = "/indexOutProjectInfo/listParam", method = RequestMethod.POST)
     @ResponseBody
     public Object getListParam(@RequestParam String id) {
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
-        requestBody.add("id", request.getParameter("id")+"");
+        requestBody.add("id", request.getParameter("id") + "");
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LISTPARAM, HttpMethod.POST, entity, JSONObject.class);
         JSONObject retJson = responseEntity.getBody();
         List<IndexOutProjectInfo> list = (List<IndexOutProjectInfo>) retJson.get("list");
         return list;
-        }
+    }
 
     /**
-    *首页-科研项目-分页查询
-    * @param param
-    * @return
-    */
-@RequestMapping(value = "/getTableData", method = RequestMethod.POST)
-@ResponseBody
-public Object getTableData(@ModelAttribute("param") LayuiTableParam param){
+     * 首页-科研项目-分页查询
+     *
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/indexOutProjectInfo/getTableData", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getTableData(@ModelAttribute("param") LayuiTableParam param) {
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
-            ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE, HttpMethod.POST, entity, LayuiTableData.class);
-                LayuiTableData data = responseEntity.getBody();
-                return JSON.toJSON(data).toString();
-                }
-            /**
-            *保存-首页-科研项目
-            * @param record
-            * @return
-            */
-                @RequestMapping(value = "/saveIndexOutProjectInfo")
-                @ResponseBody
-            @OperationFilter(modelName = "首页-科研项目", actionName = "保存saveRecord")
-                public int saveRecord(IndexOutProjectInfo record){
-                httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-                if (record.getDataId() == null || "".equals(record.getDataId())) {
-                record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
-                record.setCreateUser(sysUserInfo.getUserId());
-                record.setCreateUserDisp(sysUserInfo.getUserName());
-                } else {
-                record.setUpdateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
-                record.setUpdatePersonId(sysUserInfo.getUserId());
-                record.setUpdatePersonName(sysUserInfo.getUserName());
-                }
-                record.setStatus("0");
-                ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVE, HttpMethod.POST, new HttpEntity<IndexOutProjectInfo>(record,this.httpHeaders), Integer.class);
-                    Integer result = responseEntity.getBody();
-                    return result;
-                    }
+        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE, HttpMethod.POST, entity, LayuiTableData.class);
+        LayuiTableData data = responseEntity.getBody();
+        return JSON.toJSON(data).toString();
+    }
 
-
-
-
-                    /**
-                    *编辑页面-首页-科研项目
-                    * @param id
-                    * @param model
-                    * @return
-                    */
-                        @RequestMapping(method = RequestMethod.GET, value = "/edit")
-                        @OperationFilter(modelName = "首页-科研项目", actionName = "跳转编辑页面pageEdit")
-                        public String pageEdit(String id, Model model, String opt) {
-                        model.addAttribute("id", id);
-                        model.addAttribute("opt", opt);
-                        return "stp/system/indexOutProjectInfo_edit";
-                        }
-
-                    /**
-                    *详情页面-首页-科研项目
-                    * @param model
-                    * @return
-                    */
-                    @RequestMapping(method = RequestMethod.GET, value = "/view/{dataId}")
-                    @OperationFilter(modelName = "首页-科研项目", actionName = "跳转详情页面pageView")
-                    public String pageView(@PathVariable("dataId") String dataId,Model model) {
-                    model.addAttribute("id", dataId);
-                    model.addAttribute("opt", "");
-                    model.addAttribute("dataId", (dataId==null||"".equals(dataId))?UUID.randomUUID().toString().replace("-",""):dataId);
-                    return "stp/system/indexOutProjectInfo_view";
-                    }
-
-
-                    /**
-                        * 跳转至首页-科研项目列表页面
-                        * @return
-                        */
-                        @RequestMapping(value = "/toListPage", method = {RequestMethod.GET })
-                        @OperationFilter(modelName = "首页-科研项目", actionName = "跳转列表页toListPage")
-                        public String toListPage(){
-                        return "stp/system/indexOutProjectInfo_list";
-                        }
-
-                    /**
-                    * 根据ID查询对象信息
-                    * @param request
-                    * @return
-                    */
-                        @RequestMapping(value = "/getIndexOutProjectInfoInfo")
-                        @OperationFilter(modelName = "首页-科研项目", actionName = "根据ID查询对象信息getindexOutProjectInfoInfo")
-                        @ResponseBody
-                        public Object getindexOutProjectInfoInfo(HttpServletRequest request){
-                        String id = request.getParameter("id");
-                        ResponseEntity<IndexOutProjectInfo> responseEntity = this.restTemplate.exchange(GET_INFO+id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), IndexOutProjectInfo.class);
-                        IndexOutProjectInfo news = responseEntity.getBody();
-                            return news;
-                            }
-
-
-    @RequestMapping(value = "/tree-data")
-                        @ResponseBody
-    @OperationFilter(modelName = "首页-科研项目", actionName = "树形查询getIndexOutProjectInfoTreeData()")
-    public Object getIndexOutProjectInfoTreeData()throws Exception
-    {
-    TreeNode node=this.restTemplate.exchange(TREE_DATA,HttpMethod.POST,new HttpEntity<Object>(this.httpHeaders),TreeNode.class).getBody();
-        return node;
+    /**
+     * 保存-首页-科研项目
+     *
+     * @param record
+     * @return
+     */
+    @RequestMapping(value = "/saveIndexOutProjectInfo")
+    @ResponseBody
+    @OperationFilter(modelName = "首页-科研项目", actionName = "保存saveRecord")
+    public int saveRecord(IndexOutProjectInfo record) {
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        if (record.getDataId() == null || "".equals(record.getDataId())) {
+            record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
+//            record.setCreateUser(sysUserInfo.getUserId());
+//            record.setCreateUserDisp(sysUserInfo.getUserName());
+        } else {
+            record.setUpdateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
+            record.setUpdatePersonId(sysUserInfo.getUserId());
+            record.setUpdatePersonName(sysUserInfo.getUserName());
         }
+        record.setStatus("0");
+        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVE, HttpMethod.POST, new HttpEntity<IndexOutProjectInfo>(record, this.httpHeaders), Integer.class);
+        Integer result = responseEntity.getBody();
+        return result;
+    }
 
-        @RequestMapping(value = "/tree-datas")
-         @OperationFilter(modelName = "首页-科研项目", actionName = "树形查询getIndexOutProjectInfoTreeData()")
-                            @ResponseBody
-        public String getIndexOutProjectInfoTreeDatas(HttpServletRequest request)throws Exception
-        {
+    /**
+     * 编辑页面-首页-科研项目
+     *
+     * @param id
+     * @param model
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/indexOutProjectInfo/edit")
+    @OperationFilter(modelName = "首页-科研项目", actionName = "跳转编辑页面pageEdit")
+    public String pageEdit(String id, Model model, String opt) {
+        model.addAttribute("id", id);
+        model.addAttribute("opt", opt);
+        return "stp/system/indexOutProjectInfo_edit";
+    }
+
+    /**
+     * 详情页面-首页-科研项目
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/indexOutProjectInfo/view/{dataId}")
+    @OperationFilter(modelName = "首页-科研项目", actionName = "跳转详情页面pageView")
+    public String pageView(@PathVariable("dataId") String dataId, Model model) {
+        model.addAttribute("id", dataId);
+        model.addAttribute("opt", "");
+        model.addAttribute("dataId", (dataId == null || "".equals(dataId)) ? UUID.randomUUID().toString().replace("-", "") : dataId);
+        return "stp/system/indexOutProjectInfo_view";
+    }
+
+    /**
+     * 跳转至首页-科研项目列表页面
+     *
+     * @return
+     */
+    @RequestMapping(value = "/indexOutProjectInfo/toListPage", method = {RequestMethod.GET})
+    @OperationFilter(modelName = "首页-科研项目", actionName = "跳转列表页toListPage")
+    public String toListPage() {
+        return "stp/system/indexOutProjectInfo_list";
+    }
+
+    /**
+     * 根据ID查询对象信息
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/indexOutProjectInfo/getIndexOutProjectInfoInfo")
+    @OperationFilter(modelName = "首页-科研项目", actionName = "根据ID查询对象信息getindexOutProjectInfoInfo")
+    @ResponseBody
+    public Object getindexOutProjectInfoInfo(HttpServletRequest request) {
+        String id = request.getParameter("id");
+        ResponseEntity<IndexOutProjectInfo> responseEntity = this.restTemplate.exchange(GET_INFO + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), IndexOutProjectInfo.class);
+        IndexOutProjectInfo news = responseEntity.getBody();
+        return news;
+    }
+
+    @RequestMapping(value = "/indexOutProjectInfo/tree-data")
+    @ResponseBody
+    @OperationFilter(modelName = "首页-科研项目", actionName = "树形查询getIndexOutProjectInfoTreeData()")
+    public Object getIndexOutProjectInfoTreeData() throws Exception {
+        TreeNode node = this.restTemplate.exchange(TREE_DATA, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), TreeNode.class).getBody();
+        return node;
+    }
+
+    @RequestMapping(value = "/indexOutProjectInfo/tree-datas")
+    @OperationFilter(modelName = "首页-科研项目", actionName = "树形查询getIndexOutProjectInfoTreeData()")
+    @ResponseBody
+    public String getIndexOutProjectInfoTreeDatas(HttpServletRequest request) throws Exception {
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        List list=this.restTemplate.exchange(TREE_DATA,HttpMethod.POST,new HttpEntity<Object>(this.httpHeaders),List.class).getBody();
-            return JSONUtils.toJSONString(list);
-            }
+        List list = this.restTemplate.exchange(TREE_DATA, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class).getBody();
+        return JSONUtils.toJSONString(list);
+    }
 
+    @OperationFilter(modelName = "删除首页-科研项目", actionName = "根据ID删除首页-科研项目")
+    @RequestMapping(value = "/indexOutProjectInfo/del", method = RequestMethod.POST)
+    @ResponseBody
+    public Object delIndexOutProjectInfo() throws Exception {
+        Integer rs = this.restTemplate.exchange(DEL + request.getParameter("id"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
+        if (rs > 0) {
+            return new Result(true, "操作成功！");
+        } else {
+            return new Result(false, "保存失败请重试！");
+        }
+    }
 
-                                @OperationFilter(modelName = "删除首页-科研项目", actionName = "根据ID删除首页-科研项目")
-                                @RequestMapping(value = "/del", method = RequestMethod.POST)
-                                @ResponseBody
-                        public Object delIndexOutProjectInfo()throws Exception
-                        {
-                                Integer rs = this.restTemplate.exchange(DEL + request.getParameter("id"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
-                                    if (rs > 0) {
-                                    return new Result(true, "操作成功！");
-                                    } else {
-                                    return new Result(false, "保存失败请重试！");
-                                    }
-                            }
-                            @OperationFilter(modelName = "物理删除首页-科研项目", actionName = "根据ID物理删除首页-科研项目")
-                            @RequestMapping(value = "/del-real", method = RequestMethod.POST)
-                                    @ResponseBody
-                            public Object delIndexOutProjectInfoReal()throws Exception
-                            {
-                                    Integer rs = this.restTemplate.exchange(DEL_REAL + request.getParameter("id"),HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
-                                        if (rs > 0) {
-                                        return new Result(true, "操作成功！");
-                                        } else {
-                                        return new Result(false, "保存失败请重试！");
-                                        }
-                                }
+    @OperationFilter(modelName = "物理删除首页-科研项目", actionName = "根据ID物理删除首页-科研项目")
+    @RequestMapping(value = "/indexOutProjectInfo/del-real", method = RequestMethod.POST)
+    @ResponseBody
+    public Object delIndexOutProjectInfoReal() throws Exception {
+        Integer rs = this.restTemplate.exchange(DEL_REAL + request.getParameter("id"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
+        if (rs > 0) {
+            return new Result(true, "操作成功！");
+        } else {
+            return new Result(false, "保存失败请重试！");
+        }
+    }
 
-                                }
+}

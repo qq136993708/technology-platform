@@ -16,7 +16,7 @@
 <div class="searchBox">
     <!--查询条件-->
     <label class="dateInput selectInput">
-                        </label>
+    </label>
     <!--按钮组-->
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
@@ -48,393 +48,67 @@
 <script>
 
 
-    var param=JSON.parse(window.localStorage.getItem("param"));
-    var table,selectRowData,workOrderStatus;
+    var param = JSON.parse(window.localStorage.getItem("param"));
+    var table, selectRowData, workOrderStatus;
     layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'publicMethods', 'element'], function () {
         table = layui.table,
-                $ = layui.jquery,
-                layer = layui.layer,
-                publicMethods = layui.publicMethods,
-                laypage = layui.laypage;
+            $ = layui.jquery,
+            layer = layui.layer,
+            publicMethods = layui.publicMethods,
+            laypage = layui.laypage;
         var cols =
-                [
-                    {type: 'checkbox', event: 'changeEvents', width: 55},
-                    {title: '序号', type: 'numbers', width: 55},
-                    // {
-                    //     field: 'workOrderStatus',
-                    //     title: '状态',
-                    //     event: 'setActive',
-                    //     align: 'center',
-                    //     style: 'cursor: pointer;',
-                    //     templet: '<div>{{ layui.laytpl.auditStatus(d.workOrderStatus) }}</div>',
-                    //     width: 55
-                    // },
-                    // {
-                    //     field: 'attachment',
-                    //     title: '附件',
-                    //     event: 'setActive',
-                    //     align: 'center',
-                    //     style: 'cursor: pointer;',
-                    //     width: 55,
-                    //     templet: '<div>{{ layui.laytpl.attToPic(d) }}</div>'
-                    // },
-                        {
-                            field: "nd",
-                            title: "年度", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "xmid",
-                            title: "项目id，sap抽取的数据和data_id一致", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "hth",
-                            title: "合同号", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "xmmc",
-                            title: "项目名称", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "xmjb",
-                            title: "", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "ysnd",
-                            title: "预算的年度", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "yshf",
-                            title: "实际花费", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "ysxd",
-                            title: "本年下达经费（报销系统）", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "yszbxje",
-                            title: "预算资本性金额", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "ysfyxje",
-                            title: "预算费用性金额", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "ysje",
-                            title: "本年预算金额", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "jf",
-                            title: "项目经费总额", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "fwdxbm",
-                            title: "服务对象编码", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "fwdx",
-                            title: "服务对象", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "zylbbm",
-                            title: "专业类别编码", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "zylb",
-                            title: "专业类别", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "fzdwbm",
-                            title: "负责单位编码", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "fzdw",
-                            title: "负责单位", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "jtfzdwbm",
-                            title: "具体负责单位编码", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "jtfzdw",
-                            title: "具体负责单位", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "fzryx",
-                            title: "", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "fzrdh",
-                            title: "", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "fzrxm",
-                            title: "负责人姓名", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "lxrdh",
-                            title: "", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "lxryx",
-                            title: "", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "lxrxm",
-                            title: "", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "jssxxm",
-                            title: "技术首席姓名", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "jssj",
-                            title: "结束时间", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "kssj",
-                            title: "开始时间", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "yjsj",
-                            title: "研究时间", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "zyly",
-                            title: "专业来源", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "zysx",
-                            title: "专业属性", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "sjid",
-                            title: "", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "lxbj",
-                            title: "立项背景", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "yjnr",
-                            title: "研究内容", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "jdap",
-                            title: "进度安排", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "yjmb",
-                            title: "研究目标", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "createDate",
-                            title: "创建时间", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "createPerson",
-                            title: "创建人", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "status",
-                            title: "状态", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "updateDate",
-                            title: "修改时间", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "projectId",
-                            title: "项目(课题)id", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "parentProjectId",
-                            title: "父节点id", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "projectType",
-                            title: "0独立项目，1项目组，2课题（隶属于某个项目组）", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "erpProjectCode",
-                            title: "erp中课题编码多个以逗号隔开", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "erpProjectName",
-                            title: "erp中课题名称多个以逗号隔开", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "projectScope",
-                            title: "项目范畴，新开课题、结转课题", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "projectLevel",
-                            title: "项目或课题级别，1、科研国拨；2、科研横向课题；3、科研纵向课题；4、科研院控课题", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "projectProperty",
-                            title: "项目属性。1、国家项目；2、重大专项；3、重点；4、其他；5、十条龙", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "projectAbc",
-                            title: "项目级别，A、B、C", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "projectSource",
-                            title: "项目来源", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "yjsjks",
-                            title: "", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "yjsjjs",
-                            title: "", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "xmlbbm",
-                            title: "", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "xmlbmc",
-                            title: "", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "gsbmmc",
-                            title: "", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "gsbmbm",
-                            title: "", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "zycmc",
-                            title: "专业处名称", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "zycbm",
-                            title: "专业处编码", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "fzdwunitcw",
-                            title: "负责单位所属组织机构（细-财务用）", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "fzdwunit",
-                            title: "负责单位对应的机构分类（粗-本质属性，与财务无关）", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "typeFlag",
-                            title: "直属院、盈科、分子公司、集团单位、外部单位等，和合同签订时经费来源有关系", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "define1",
-                            title: "资本性项目、费用性项目", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "define2",
-                            title: "8大研究院及其他三级单位属性", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "define3",
-                            title: "sap系统过来的数据,其他系统标识", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "define4",
-                            title: "", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "define5",
-                            title: "各类技术简称", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "define6",
-                            title: "十条龙项目，负责单位、协作单位、组长单位等标识", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "define7",
-                            title: "预算（当年）是否已经关闭", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "define8",
-                            title: "承担单位名称", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "define9",
-                            title: "承担单位编码", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "define10",
-                            title: "科技部各个处室、各个部", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "define11",
-                            title: "经费来源，股份公司、集团公司、资产公司，和合同签订有关系", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "define12",
-                            title: "公司性质，和out_unit本质一致，公司本质的属性，和合同没关系", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "define13",
-                            title: "十条龙项目附件列表", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "define14",
-                            title: "", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "define15",
-                            title: "", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "define16",
-                            title: "", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "define17",
-                            title: "", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "define18",
-                            title: "", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "define19",
-                            title: "", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "typeCode",
-                            title: "分类编码", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "typeName",
-                            title: "分类名称", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "parentId",
-                            title: "父节点id", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "parentCode",
-                            title: "父节点编码", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "isParent",
-                            title: "是否是父亲节点", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "typeIndex",
-                            title: "检索辅助字段", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                ];
+            [
+                {type: 'checkbox', event: 'changeEvents', width: 55},
+                {title: '序号', type: 'numbers', width: 55},
+                {
+                    field: "nd",
+                    title: "年度", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "hth",
+                    title: "合同号", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "xmmc",
+                    title: "项目名称", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "ysnd",
+                    title: "预算的年度", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "yshf",
+                    title: "实际花费", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "jf",
+                    title: "项目经费总额", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "jssj",
+                    title: "结束时间", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "kssj",
+                    title: "开始时间", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "yjsj",
+                    title: "研究时间", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "lxbj",
+                    title: "立项背景", event: 'setActive', style: 'cursor: pointer;'
+                },
+            ];
 
         function renderTable() {
 
             var where = {
                 param:
-                        {
-                            // "workOrderStatus":workOrderStatus
-                        }
+                    {
+                        // "workOrderStatus":workOrderStatus
+                    }
             };
 
             publicMethods.tableRender('indexOutProjectInfoTableId', 'indexOutProjectInfoTableId', '/indexOutProjectInfo/getTableData', false, cols, where, true, function (res, curr, count) {
@@ -459,64 +133,64 @@
                     publicMethods.viewAtt(dataId, param.id);
                 });
 
-                selectRowData="";
+                selectRowData = "";
             });
         }
 
-    renderTable();
-    window.renderTable = renderTable;
-    $(function () {
-        //propertychange监听input里面的字符变化,属性改变事件
-        $('.form-control').bind('input propertychange', function () {
-            var $this = $(this);
-            var text_length = $this.val().length;//获取当前文本框的长度
-            var current_width = parseInt(text_length) * 12;//该16是改变前的宽度除以当前字符串的长度,算出每个字符的长度
-            $this.css("width", current_width + "px");
-        });
-    })
-
-    var $ = layui.$, active = {
-        searchEvent: function () { //点击查询按钮
-            renderTable();
-        },
-        allEvent: function () { //点击查询按钮
-            workOrderStatus = '';
-            renderTable();
-        },
-        draftEvent: function () { //点击查询按钮
-            workOrderStatus = '0';
-            renderTable();
-        },
-        approvalEvent: function () { //点击查询按钮
-            workOrderStatus = '1';
-            renderTable();
-        },
-        approvedEvent: function () { //点击查询按钮
-            workOrderStatus = '2';
-            renderTable();
-        },
-        resetEvent: function () { //点击重置按钮
-            // $('#workOrderName').val("");
-            renderTable();
-        },
-        addEvent: function () { //点击新增按钮
-            layer.open({
-                title: param.name + '-新增',
-                skin: 'layui-layer-lan',
-                shadeClose: false,
-                type: 2,
-                fixed: false,
-                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                maxmin: true,
-                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                area: ['70%', '90%'],
-                content: "/indexOutProjectInfo/edit"
+        renderTable();
+        window.renderTable = renderTable;
+        $(function () {
+            //propertychange监听input里面的字符变化,属性改变事件
+            $('.form-control').bind('input propertychange', function () {
+                var $this = $(this);
+                var text_length = $this.val().length;//获取当前文本框的长度
+                var current_width = parseInt(text_length) * 12;//该16是改变前的宽度除以当前字符串的长度,算出每个字符的长度
+                $this.css("width", current_width + "px");
             });
-        },
-        editEvent: function () {  //点击编辑按钮
-            var id;
-            if (selectRowData != undefined&& selectRowData!="") {
-                // if (selectRowData.workOrderStatus == '0') {
+        })
+
+        var $ = layui.$, active = {
+            searchEvent: function () { //点击查询按钮
+                renderTable();
+            },
+            allEvent: function () { //点击查询按钮
+                workOrderStatus = '';
+                renderTable();
+            },
+            draftEvent: function () { //点击查询按钮
+                workOrderStatus = '0';
+                renderTable();
+            },
+            approvalEvent: function () { //点击查询按钮
+                workOrderStatus = '1';
+                renderTable();
+            },
+            approvedEvent: function () { //点击查询按钮
+                workOrderStatus = '2';
+                renderTable();
+            },
+            resetEvent: function () { //点击重置按钮
+                // $('#workOrderName').val("");
+                renderTable();
+            },
+            addEvent: function () { //点击新增按钮
+                layer.open({
+                    title: param.name + '-新增',
+                    skin: 'layui-layer-lan',
+                    shadeClose: false,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin: true,
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    area: ['70%', '90%'],
+                    content: "/indexOutProjectInfo/edit"
+                });
+            },
+            editEvent: function () {  //点击编辑按钮
+                var id;
+                if (selectRowData != undefined && selectRowData != "") {
+                    // if (selectRowData.workOrderStatus == '0') {
                     id = selectRowData.dataId;
                     layer.open({
                         title: param.name + '-编辑',
@@ -530,42 +204,42 @@
                         area: ['70%', '90%'],
                         content: "/indexOutProjectInfo/edit?id=" + selectRowData.dataId
                     });
-                // } else {
-                //     layer.msg('只可操作未下发的数据');
-                //     return;
-                // }
-            } else {
-                layer.msg('请选择一条数据');
-                return;
-            }
-        },
-        detailEvent: function () {  //点击详情按钮
-            var dataId;
-            if (selectRowData != undefined&&selectRowData!="") {
-                dataId = selectRowData.dataId;
-                layer.open({
-                    title: param.name + '-查看',
-                    skin: 'layui-layer-lan',
-                    shadeClose: false,
-                    type: 2,
-                    fixed: false,
-                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                    maxmin: true,
-                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                    area: ['70%', '90%'],
-                    content: "/indexOutProjectInfo/view/" + selectRowData.dataId
-                    // content: '/plan/viewPlanPage?dataId='+dataId
-                });
-                // }
-            } else {
-                layer.msg('请选择一条数据');
-                return;
-            }
-        },
-        deleteEvent: function () { //点击删除按钮
-            var id;
-            if (selectRowData != undefined&&selectRowData!="") {
-                // if (selectRowData.workOrderStatus == '0') {
+                    // } else {
+                    //     layer.msg('只可操作未下发的数据');
+                    //     return;
+                    // }
+                } else {
+                    layer.msg('请选择一条数据');
+                    return;
+                }
+            },
+            detailEvent: function () {  //点击详情按钮
+                var dataId;
+                if (selectRowData != undefined && selectRowData != "") {
+                    dataId = selectRowData.dataId;
+                    layer.open({
+                        title: param.name + '-查看',
+                        skin: 'layui-layer-lan',
+                        shadeClose: false,
+                        type: 2,
+                        fixed: false,
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        maxmin: true,
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        area: ['70%', '90%'],
+                        content: "/indexOutProjectInfo/view/" + selectRowData.dataId
+                        // content: '/plan/viewPlanPage?dataId='+dataId
+                    });
+                    // }
+                } else {
+                    layer.msg('请选择一条数据');
+                    return;
+                }
+            },
+            deleteEvent: function () { //点击删除按钮
+                var id;
+                if (selectRowData != undefined && selectRowData != "") {
+                    // if (selectRowData.workOrderStatus == '0') {
                     id = selectRowData.dataId;
                     layer.confirm('确认要删除选中的条数据吗？', {icon: 3, btn: ['确定', '取消']}, function (index) {
                         layer.close(index);
@@ -577,7 +251,7 @@
                             url: '/indexOutProjectInfo/del-real',
                             success: function (data) {
                                 // if(data==200){
-                                selectRowData="";
+                                selectRowData = "";
                                 layer.msg("删除成功");
                                 active.searchEvent();
                                 // }
@@ -588,39 +262,39 @@
                             }
                         });
                     });
-                // } else {
-                //     layer.msg('当前记录已经提交,不能进行删除操作！');
-                //     return;
-                // }
-            } else {
-                layer.msg('请选择一条数据');
-                return;
+                    // } else {
+                    //     layer.msg('当前记录已经提交,不能进行删除操作！');
+                    //     return;
+                    // }
+                } else {
+                    layer.msg('请选择一条数据');
+                    return;
+                }
+            },
+            getCheckData: function () { //获取选中数据
+                var checkStatus = table.checkStatus('indexOutProjectInfoTableId')
+                    , data = checkStatus.data;
+            },
+            getCheckLength: function () { //获取选中数目
+                var checkStatus = table.checkStatus('indexOutProjectInfoTableId')
+                    , data = checkStatus.data;
+                layer.msg('选中了：' + data.length + ' 个');
+            },
+            isAll: function () { //验证是否全选
+                var checkStatus = table.checkStatus('indexOutProjectInfoTableId');
+                layer.msg(checkStatus.isAll ? '全选' : '未全选')
             }
-        },
-        getCheckData: function () { //获取选中数据
-            var checkStatus = table.checkStatus('indexOutProjectInfoTableId')
-                    , data = checkStatus.data;
-        },
-        getCheckLength: function () { //获取选中数目
-            var checkStatus = table.checkStatus('indexOutProjectInfoTableId')
-                    , data = checkStatus.data;
-            layer.msg('选中了：' + data.length + ' 个');
-        },
-        isAll: function () { //验证是否全选
-            var checkStatus = table.checkStatus('indexOutProjectInfoTableId');
-            layer.msg(checkStatus.isAll ? '全选' : '未全选')
-        }
-    };
+        };
 
-    $('.layui-btn').on('click', function () {
-        var type = $(this).data('type');
-        active[type] ? active[type].call(this) : '';
-    });
+        $('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
         //监听行双击事件
-        table.on('rowDouble(tableEvent)', function(obj){
-            var dataId =  obj.data.dataId;
+        table.on('rowDouble(tableEvent)', function (obj) {
+            var dataId = obj.data.dataId;
             layer.open({
-                title:param.name+'-查看',
+                title: param.name + '-查看',
                 skin: 'layui-layer-lan',
                 shadeClose: false,
                 type: 2,
@@ -628,7 +302,7 @@
                 //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                 maxmin: true,
                 //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                area: ['70%','90%'],
+                area: ['70%', '90%'],
                 content: "/indexOutProjectInfo/view/" + selectRowData.dataId
             });
         });
