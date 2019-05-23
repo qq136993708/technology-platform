@@ -640,7 +640,7 @@
 					$(".task_more").on("click", function(){ 
 				     	parent.layui.index.openTabsPage("/task/pending/list/ini", "待办任务");
 				    });
-					
+					$("#mainIframe", parent.document.body).attr("src", "/mainStp?taskCount="+pendingCount);
 	            });
 			}
 			$(document).ready(function() {
