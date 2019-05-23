@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.equipment.SrePurchaseArrivalMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.SrePurchaseArrival">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="G0FLAG" jdbcType="VARCHAR" property="g0flag" />
+    <result column="G0LOGSYS" jdbcType="VARCHAR" property="g0logsys" />
+    <result column="G0CALD" jdbcType="TIMESTAMP" property="g0cald" />
+    <result column="G0GSDM" jdbcType="VARCHAR" property="g0gsdm" />
+    <result column="G0GSJC" jdbcType="VARCHAR" property="g0gsjc" />
+    <result column="G0GSOR" jdbcType="VARCHAR" property="g0gsor" />
+    <result column="G0GSJCL" jdbcType="VARCHAR" property="g0gsjcl" />
+    <result column="G0GSGP" jdbcType="VARCHAR" property="g0gsgp" />
+    <result column="G0GSSP" jdbcType="VARCHAR" property="g0gssp" />
+    <result column="G0PROJCODE" jdbcType="VARCHAR" property="g0projcode" />
+    <result column="G0PROJTXT" jdbcType="VARCHAR" property="g0projtxt" />
+    <result column="G0WBSCODE" jdbcType="VARCHAR" property="g0wbscode" />
+    <result column="G0WBSTXT" jdbcType="VARCHAR" property="g0wbstxt" />
+    <result column="G0XMGLLX" jdbcType="VARCHAR" property="g0xmgllx" />
+    <result column="G0XMGLLY" jdbcType="VARCHAR" property="g0xmglly" />
+    <result column="G0XMGLJB" jdbcType="VARCHAR" property="g0xmgljb" />
+    <result column="G0XMLX" jdbcType="VARCHAR" property="g0xmlx" />
+    <result column="G0XMLXMS" jdbcType="VARCHAR" property="g0xmlxms" />
+    <result column="G0XMZT" jdbcType="VARCHAR" property="g0xmzt" />
+    <result column="G0XMZTMS" jdbcType="VARCHAR" property="g0xmztms" />
+    <result column="G0XMDL" jdbcType="VARCHAR" property="g0xmdl" />
+    <result column="G0KYPFWH" jdbcType="VARCHAR" property="g0kypfwh" />
+    <result column="G0MATNR" jdbcType="VARCHAR" property="g0matnr" />
+    <result column="G0MAKTX" jdbcType="VARCHAR" property="g0maktx" />
+    <result column="G0EBELN" jdbcType="VARCHAR" property="g0ebeln" />
+    <result column="G0EBELP" jdbcType="VARCHAR" property="g0ebelp" />
+    <result column="G0VGABE" jdbcType="VARCHAR" property="g0vgabe" />
+    <result column="G0GJAHR" jdbcType="TIMESTAMP" property="g0gjahr" />
+    <result column="G0BELNR" jdbcType="VARCHAR" property="g0belnr" />
+    <result column="G0BUZEI" jdbcType="VARCHAR" property="g0buzei" />
+    <result column="G0BUDAT" jdbcType="TIMESTAMP" property="g0budat" />
+    <result column="K0XMRKSL" jdbcType="VARCHAR" property="k0xmrksl" />
+    <result column="K0XMRKJE" jdbcType="DOUBLE" property="k0xmrkje" />
+    <result column="K0XMLYSL" jdbcType="VARCHAR" property="k0xmlysl" />
+    <result column="K0XMLYJE" jdbcType="DOUBLE" property="k0xmlyje" />
+    <result column="arrival_state" jdbcType="VARCHAR" property="arrivalState" />
+    <result column="document_doc" jdbcType="VARCHAR" property="documentDoc" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, G0FLAG, G0LOGSYS, G0CALD, G0GSDM, G0GSJC, G0GSOR, G0GSJCL, G0GSGP, G0GSSP, G0PROJCODE, 
+    G0PROJTXT, G0WBSCODE, G0WBSTXT, G0XMGLLX, G0XMGLLY, G0XMGLJB, G0XMLX, G0XMLXMS, G0XMZT, 
+    G0XMZTMS, G0XMDL, G0KYPFWH, G0MATNR, G0MAKTX, G0EBELN, G0EBELP, G0VGABE, G0GJAHR, 
+    G0BELNR, G0BUZEI, G0BUDAT, K0XMRKSL, K0XMRKJE, K0XMLYSL, K0XMLYJE, arrival_state, 
+    document_doc, create_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sre_purchase_arrival
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sre_purchase_arrival
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SrePurchaseArrival">
+    insert into sre_purchase_arrival (id, G0FLAG, G0LOGSYS, 
+      G0CALD, G0GSDM, G0GSJC, 
+      G0GSOR, G0GSJCL, G0GSGP, 
+      G0GSSP, G0PROJCODE, G0PROJTXT, 
+      G0WBSCODE, G0WBSTXT, G0XMGLLX, 
+      G0XMGLLY, G0XMGLJB, G0XMLX, 
+      G0XMLXMS, G0XMZT, G0XMZTMS, 
+      G0XMDL, G0KYPFWH, G0MATNR, 
+      G0MAKTX, G0EBELN, G0EBELP, 
+      G0VGABE, G0GJAHR, G0BELNR, 
+      G0BUZEI, G0BUDAT, K0XMRKSL, 
+      K0XMRKJE, K0XMLYSL, K0XMLYJE, 
+      arrival_state, document_doc, create_date
+      )
+    values (#{id,jdbcType=VARCHAR}, #{g0flag,jdbcType=VARCHAR}, #{g0logsys,jdbcType=VARCHAR}, 
+      #{g0cald,jdbcType=TIMESTAMP}, #{g0gsdm,jdbcType=VARCHAR}, #{g0gsjc,jdbcType=VARCHAR}, 
+      #{g0gsor,jdbcType=VARCHAR}, #{g0gsjcl,jdbcType=VARCHAR}, #{g0gsgp,jdbcType=VARCHAR}, 
+      #{g0gssp,jdbcType=VARCHAR}, #{g0projcode,jdbcType=VARCHAR}, #{g0projtxt,jdbcType=VARCHAR}, 
+      #{g0wbscode,jdbcType=VARCHAR}, #{g0wbstxt,jdbcType=VARCHAR}, #{g0xmgllx,jdbcType=VARCHAR}, 
+      #{g0xmglly,jdbcType=VARCHAR}, #{g0xmgljb,jdbcType=VARCHAR}, #{g0xmlx,jdbcType=VARCHAR}, 
+      #{g0xmlxms,jdbcType=VARCHAR}, #{g0xmzt,jdbcType=VARCHAR}, #{g0xmztms,jdbcType=VARCHAR}, 
+      #{g0xmdl,jdbcType=VARCHAR}, #{g0kypfwh,jdbcType=VARCHAR}, #{g0matnr,jdbcType=VARCHAR}, 
+      #{g0maktx,jdbcType=VARCHAR}, #{g0ebeln,jdbcType=VARCHAR}, #{g0ebelp,jdbcType=VARCHAR}, 
+      #{g0vgabe,jdbcType=VARCHAR}, #{g0gjahr,jdbcType=TIMESTAMP}, #{g0belnr,jdbcType=VARCHAR}, 
+      #{g0buzei,jdbcType=VARCHAR}, #{g0budat,jdbcType=TIMESTAMP}, #{k0xmrksl,jdbcType=VARCHAR}, 
+      #{k0xmrkje,jdbcType=DOUBLE}, #{k0xmlysl,jdbcType=VARCHAR}, #{k0xmlyje,jdbcType=DOUBLE}, 
+      #{arrivalState,jdbcType=VARCHAR}, #{documentDoc,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SrePurchaseArrival">
+    insert into sre_purchase_arrival
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="g0flag != null">
+        G0FLAG,
+      </if>
+      <if test="g0logsys != null">
+        G0LOGSYS,
+      </if>
+      <if test="g0cald != null">
+        G0CALD,
+      </if>
+      <if test="g0gsdm != null">
+        G0GSDM,
+      </if>
+      <if test="g0gsjc != null">
+        G0GSJC,
+      </if>
+      <if test="g0gsor != null">
+        G0GSOR,
+      </if>
+      <if test="g0gsjcl != null">
+        G0GSJCL,
+      </if>
+      <if test="g0gsgp != null">
+        G0GSGP,
+      </if>
+      <if test="g0gssp != null">
+        G0GSSP,
+      </if>
+      <if test="g0projcode != null">
+        G0PROJCODE,
+      </if>
+      <if test="g0projtxt != null">
+        G0PROJTXT,
+      </if>
+      <if test="g0wbscode != null">
+        G0WBSCODE,
+      </if>
+      <if test="g0wbstxt != null">
+        G0WBSTXT,
+      </if>
+      <if test="g0xmgllx != null">
+        G0XMGLLX,
+      </if>
+      <if test="g0xmglly != null">
+        G0XMGLLY,
+      </if>
+      <if test="g0xmgljb != null">
+        G0XMGLJB,
+      </if>
+      <if test="g0xmlx != null">
+        G0XMLX,
+      </if>
+      <if test="g0xmlxms != null">
+        G0XMLXMS,
+      </if>
+      <if test="g0xmzt != null">
+        G0XMZT,
+      </if>
+      <if test="g0xmztms != null">
+        G0XMZTMS,
+      </if>
+      <if test="g0xmdl != null">
+        G0XMDL,
+      </if>
+      <if test="g0kypfwh != null">
+        G0KYPFWH,
+      </if>
+      <if test="g0matnr != null">
+        G0MATNR,
+      </if>
+      <if test="g0maktx != null">
+        G0MAKTX,
+      </if>
+      <if test="g0ebeln != null">
+        G0EBELN,
+      </if>
+      <if test="g0ebelp != null">
+        G0EBELP,
+      </if>
+      <if test="g0vgabe != null">
+        G0VGABE,
+      </if>
+      <if test="g0gjahr != null">
+        G0GJAHR,
+      </if>
+      <if test="g0belnr != null">
+        G0BELNR,
+      </if>
+      <if test="g0buzei != null">
+        G0BUZEI,
+      </if>
+      <if test="g0budat != null">
+        G0BUDAT,
+      </if>
+      <if test="k0xmrksl != null">
+        K0XMRKSL,
+      </if>
+      <if test="k0xmrkje != null">
+        K0XMRKJE,
+      </if>
+      <if test="k0xmlysl != null">
+        K0XMLYSL,
+      </if>
+      <if test="k0xmlyje != null">
+        K0XMLYJE,
+      </if>
+      <if test="arrivalState != null">
+        arrival_state,
+      </if>
+      <if test="documentDoc != null">
+        document_doc,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="g0flag != null">
+        #{g0flag,jdbcType=VARCHAR},
+      </if>
+      <if test="g0logsys != null">
+        #{g0logsys,jdbcType=VARCHAR},
+      </if>
+      <if test="g0cald != null">
+        #{g0cald,jdbcType=TIMESTAMP},
+      </if>
+      <if test="g0gsdm != null">
+        #{g0gsdm,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gsjc != null">
+        #{g0gsjc,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gsor != null">
+        #{g0gsor,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gsjcl != null">
+        #{g0gsjcl,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gsgp != null">
+        #{g0gsgp,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gssp != null">
+        #{g0gssp,jdbcType=VARCHAR},
+      </if>
+      <if test="g0projcode != null">
+        #{g0projcode,jdbcType=VARCHAR},
+      </if>
+      <if test="g0projtxt != null">
+        #{g0projtxt,jdbcType=VARCHAR},
+      </if>
+      <if test="g0wbscode != null">
+        #{g0wbscode,jdbcType=VARCHAR},
+      </if>
+      <if test="g0wbstxt != null">
+        #{g0wbstxt,jdbcType=VARCHAR},
+      </if>
+      <if test="g0xmgllx != null">
+        #{g0xmgllx,jdbcType=VARCHAR},
+      </if>
+      <if test="g0xmglly != null">
+        #{g0xmglly,jdbcType=VARCHAR},
+      </if>
+      <if test="g0xmgljb != null">
+        #{g0xmgljb,jdbcType=VARCHAR},
+      </if>
+      <if test="g0xmlx != null">
+        #{g0xmlx,jdbcType=VARCHAR},
+      </if>
+      <if test="g0xmlxms != null">
+        #{g0xmlxms,jdbcType=VARCHAR},
+      </if>
+      <if test="g0xmzt != null">
+        #{g0xmzt,jdbcType=VARCHAR},
+      </if>
+      <if test="g0xmztms != null">
+        #{g0xmztms,jdbcType=VARCHAR},
+      </if>
+      <if test="g0xmdl != null">
+        #{g0xmdl,jdbcType=VARCHAR},
+      </if>
+      <if test="g0kypfwh != null">
+        #{g0kypfwh,jdbcType=VARCHAR},
+      </if>
+      <if test="g0matnr != null">
+        #{g0matnr,jdbcType=VARCHAR},
+      </if>
+      <if test="g0maktx != null">
+        #{g0maktx,jdbcType=VARCHAR},
+      </if>
+      <if test="g0ebeln != null">
+        #{g0ebeln,jdbcType=VARCHAR},
+      </if>
+      <if test="g0ebelp != null">
+        #{g0ebelp,jdbcType=VARCHAR},
+      </if>
+      <if test="g0vgabe != null">
+        #{g0vgabe,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gjahr != null">
+        #{g0gjahr,jdbcType=TIMESTAMP},
+      </if>
+      <if test="g0belnr != null">
+        #{g0belnr,jdbcType=VARCHAR},
+      </if>
+      <if test="g0buzei != null">
+        #{g0buzei,jdbcType=VARCHAR},
+      </if>
+      <if test="g0budat != null">
+        #{g0budat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="k0xmrksl != null">
+        #{k0xmrksl,jdbcType=VARCHAR},
+      </if>
+      <if test="k0xmrkje != null">
+        #{k0xmrkje,jdbcType=DOUBLE},
+      </if>
+      <if test="k0xmlysl != null">
+        #{k0xmlysl,jdbcType=VARCHAR},
+      </if>
+      <if test="k0xmlyje != null">
+        #{k0xmlyje,jdbcType=DOUBLE},
+      </if>
+      <if test="arrivalState != null">
+        #{arrivalState,jdbcType=VARCHAR},
+      </if>
+      <if test="documentDoc != null">
+        #{documentDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.equipment.SrePurchaseArrival">
+    update sre_purchase_arrival
+    <set>
+      <if test="g0flag != null">
+        G0FLAG = #{g0flag,jdbcType=VARCHAR},
+      </if>
+      <if test="g0logsys != null">
+        G0LOGSYS = #{g0logsys,jdbcType=VARCHAR},
+      </if>
+      <if test="g0cald != null">
+        G0CALD = #{g0cald,jdbcType=TIMESTAMP},
+      </if>
+      <if test="g0gsdm != null">
+        G0GSDM = #{g0gsdm,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gsjc != null">
+        G0GSJC = #{g0gsjc,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gsor != null">
+        G0GSOR = #{g0gsor,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gsjcl != null">
+        G0GSJCL = #{g0gsjcl,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gsgp != null">
+        G0GSGP = #{g0gsgp,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gssp != null">
+        G0GSSP = #{g0gssp,jdbcType=VARCHAR},
+      </if>
+      <if test="g0projcode != null">
+        G0PROJCODE = #{g0projcode,jdbcType=VARCHAR},
+      </if>
+      <if test="g0projtxt != null">
+        G0PROJTXT = #{g0projtxt,jdbcType=VARCHAR},
+      </if>
+      <if test="g0wbscode != null">
+        G0WBSCODE = #{g0wbscode,jdbcType=VARCHAR},
+      </if>
+      <if test="g0wbstxt != null">
+        G0WBSTXT = #{g0wbstxt,jdbcType=VARCHAR},
+      </if>
+      <if test="g0xmgllx != null">
+        G0XMGLLX = #{g0xmgllx,jdbcType=VARCHAR},
+      </if>
+      <if test="g0xmglly != null">
+        G0XMGLLY = #{g0xmglly,jdbcType=VARCHAR},
+      </if>
+      <if test="g0xmgljb != null">
+        G0XMGLJB = #{g0xmgljb,jdbcType=VARCHAR},
+      </if>
+      <if test="g0xmlx != null">
+        G0XMLX = #{g0xmlx,jdbcType=VARCHAR},
+      </if>
+      <if test="g0xmlxms != null">
+        G0XMLXMS = #{g0xmlxms,jdbcType=VARCHAR},
+      </if>
+      <if test="g0xmzt != null">
+        G0XMZT = #{g0xmzt,jdbcType=VARCHAR},
+      </if>
+      <if test="g0xmztms != null">
+        G0XMZTMS = #{g0xmztms,jdbcType=VARCHAR},
+      </if>
+      <if test="g0xmdl != null">
+        G0XMDL = #{g0xmdl,jdbcType=VARCHAR},
+      </if>
+      <if test="g0kypfwh != null">
+        G0KYPFWH = #{g0kypfwh,jdbcType=VARCHAR},
+      </if>
+      <if test="g0matnr != null">
+        G0MATNR = #{g0matnr,jdbcType=VARCHAR},
+      </if>
+      <if test="g0maktx != null">
+        G0MAKTX = #{g0maktx,jdbcType=VARCHAR},
+      </if>
+      <if test="g0ebeln != null">
+        G0EBELN = #{g0ebeln,jdbcType=VARCHAR},
+      </if>
+      <if test="g0ebelp != null">
+        G0EBELP = #{g0ebelp,jdbcType=VARCHAR},
+      </if>
+      <if test="g0vgabe != null">
+        G0VGABE = #{g0vgabe,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gjahr != null">
+        G0GJAHR = #{g0gjahr,jdbcType=TIMESTAMP},
+      </if>
+      <if test="g0belnr != null">
+        G0BELNR = #{g0belnr,jdbcType=VARCHAR},
+      </if>
+      <if test="g0buzei != null">
+        G0BUZEI = #{g0buzei,jdbcType=VARCHAR},
+      </if>
+      <if test="g0budat != null">
+        G0BUDAT = #{g0budat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="k0xmrksl != null">
+        K0XMRKSL = #{k0xmrksl,jdbcType=VARCHAR},
+      </if>
+      <if test="k0xmrkje != null">
+        K0XMRKJE = #{k0xmrkje,jdbcType=DOUBLE},
+      </if>
+      <if test="k0xmlysl != null">
+        K0XMLYSL = #{k0xmlysl,jdbcType=VARCHAR},
+      </if>
+      <if test="k0xmlyje != null">
+        K0XMLYJE = #{k0xmlyje,jdbcType=DOUBLE},
+      </if>
+      <if test="arrivalState != null">
+        arrival_state = #{arrivalState,jdbcType=VARCHAR},
+      </if>
+      <if test="documentDoc != null">
+        document_doc = #{documentDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.equipment.SrePurchaseArrival">
+    update sre_purchase_arrival
+    set G0FLAG = #{g0flag,jdbcType=VARCHAR},
+      G0LOGSYS = #{g0logsys,jdbcType=VARCHAR},
+      G0CALD = #{g0cald,jdbcType=TIMESTAMP},
+      G0GSDM = #{g0gsdm,jdbcType=VARCHAR},
+      G0GSJC = #{g0gsjc,jdbcType=VARCHAR},
+      G0GSOR = #{g0gsor,jdbcType=VARCHAR},
+      G0GSJCL = #{g0gsjcl,jdbcType=VARCHAR},
+      G0GSGP = #{g0gsgp,jdbcType=VARCHAR},
+      G0GSSP = #{g0gssp,jdbcType=VARCHAR},
+      G0PROJCODE = #{g0projcode,jdbcType=VARCHAR},
+      G0PROJTXT = #{g0projtxt,jdbcType=VARCHAR},
+      G0WBSCODE = #{g0wbscode,jdbcType=VARCHAR},
+      G0WBSTXT = #{g0wbstxt,jdbcType=VARCHAR},
+      G0XMGLLX = #{g0xmgllx,jdbcType=VARCHAR},
+      G0XMGLLY = #{g0xmglly,jdbcType=VARCHAR},
+      G0XMGLJB = #{g0xmgljb,jdbcType=VARCHAR},
+      G0XMLX = #{g0xmlx,jdbcType=VARCHAR},
+      G0XMLXMS = #{g0xmlxms,jdbcType=VARCHAR},
+      G0XMZT = #{g0xmzt,jdbcType=VARCHAR},
+      G0XMZTMS = #{g0xmztms,jdbcType=VARCHAR},
+      G0XMDL = #{g0xmdl,jdbcType=VARCHAR},
+      G0KYPFWH = #{g0kypfwh,jdbcType=VARCHAR},
+      G0MATNR = #{g0matnr,jdbcType=VARCHAR},
+      G0MAKTX = #{g0maktx,jdbcType=VARCHAR},
+      G0EBELN = #{g0ebeln,jdbcType=VARCHAR},
+      G0EBELP = #{g0ebelp,jdbcType=VARCHAR},
+      G0VGABE = #{g0vgabe,jdbcType=VARCHAR},
+      G0GJAHR = #{g0gjahr,jdbcType=TIMESTAMP},
+      G0BELNR = #{g0belnr,jdbcType=VARCHAR},
+      G0BUZEI = #{g0buzei,jdbcType=VARCHAR},
+      G0BUDAT = #{g0budat,jdbcType=TIMESTAMP},
+      K0XMRKSL = #{k0xmrksl,jdbcType=VARCHAR},
+      K0XMRKJE = #{k0xmrkje,jdbcType=DOUBLE},
+      K0XMLYSL = #{k0xmlysl,jdbcType=VARCHAR},
+      K0XMLYJE = #{k0xmlyje,jdbcType=DOUBLE},
+      arrival_state = #{arrivalState,jdbcType=VARCHAR},
+      document_doc = #{documentDoc,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <delete id="deletePurchaseArrival">
+    delete from sre_purchase_arrival
+  </delete>
+
+</mapper>

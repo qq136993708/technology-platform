@@ -1,6 +1,7 @@
 package com.pcitc.web.activiti.module;
 
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +31,8 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Page;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.util.DateUtils;
+import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.ActivityVo;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
@@ -219,6 +222,26 @@ public class TaskController extends BaseController {
 		return JSON.toJSON(retJson).toString();
 	}
 	
+	/**
+	 * @author uuy
+	 * @date 2019年5月20日  待办任务列表(首页待办任务消息)
+	 */
+	@RequestMapping(value = "/task/index-pending-list", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getIndexPendingList(@ModelAttribute("param") LayuiTableParam param) {
+		List<Map<String,Object>> rsmap = new ArrayList<Map<String,Object>>();
+		// 获取当前登录人信息
+		param.getParam().put("userId", sysUserInfo.getUserId());
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+		LayuiTableData tableData = this.restTemplate.exchange(PENDING_PAGE_URL, HttpMethod.POST, entity, LayuiTableData.class).getBody();
+		for(java.util.Iterator<?> iter = tableData.getData().iterator();iter.hasNext();) {
+			Map<String,Object> map = MyBeanUtils.java2Map(iter.next());
+			map.put("ago", DateUtils.getAgoDesc(DateUtils.strToDate(map.get("createTime").toString(),DateUtils.FMT_SS)));
+			rsmap.add(map);
+		}
+		return rsmap;
+	}
+	
 	
 	@RequestMapping(value = "/mobile/wait_task_list_mui")
 	public String pending_list_mobile(HttpServletRequest request) {
@@ -263,6 +286,24 @@ public class TaskController extends BaseController {
 		request.setAttribute("list", page.getRows());
 		return "/mobile/wait_task_list";
 	}
+	
+	
+	
+	
+	@RequestMapping(value = "/mobile/message_list", method = RequestMethod.POST)
+	@ResponseBody
+	public Object message_list(@ModelAttribute("param") LayuiTableParam param) {
+
+		// 获取当前登录人信息
+		param.getParam().put("userId", sysUserInfo.getUserId());
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(MESSAGE_LIST, HttpMethod.POST, entity, LayuiTableData.class);
+		LayuiTableData retJson = responseEntity.getBody();
+		//return JSON.toJSON(retJson).toString();
+		
+		return "/mobile/message_list";
+	}
+	
 	
 
 	/**

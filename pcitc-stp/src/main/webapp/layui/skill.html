@@ -14,54 +14,61 @@
 <body>
 <div class="skill">
     <div class="skill-left">
-        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
-            <ul class="layui-tab-title">
-                <li class="layui-this">网站设置</li>
-                <li>用户管理</li>
-                <li>权限分配</li>
-                <li>商品管理</li>
-                <li>订单管理</li>
-            </ul>
-            <div class="layui-tab-content">
-                <div class="layui-tab-item layui-show">
-                    <div class="layui-card-body">
-                        <div class="layui-tab">
-                            <ul class="layui-tab-title">
-                                <li class="layui-this">国家领导讲话</li>
-                                <li>国家领导讲话1</li>
-                                <li>科技部领导讲话</li>
-                            </ul>
-                            <div class="layui-tab-content">
-                                <div class="layui-tab-item layui-show">
-                                    <ul>
-                                        <li><a href="javascript:;">让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子<span>[2019-01-03]</span></a></li>
-                                        <li><a href="javascript:;">让各族群众过上好日子<span>[2019-01-03]</span></a></li>
-                                        <li><a href="javascript:;">让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子<span>[2019-01-03]</span></a></li>
-                                        <li><a href="javascript:;">让各族群众过上好日子<span>[2019-01-03]</span></a></li>
-                                        <li><a href="javascript:;">让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子<span>[2019-01-03]</span></a></li>
-                                        <li><a href="javascript:;">让各族群众过上好日子<span>[2019-01-03]</span></a></li>
-                                        <li><a href="javascript:;">让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子<span>[2019-01-03]</span></a></li>
-                                        <li><a href="javascript:;">让各族群众过上好日子<span>[2019-01-03]</span></a></li>
-                                        <li><a href="javascript:;">让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子<span>[2019-01-03]</span></a></li>
-                                    </ul>
-                                </div>
-                                <div class="layui-tab-item">
-
-                                </div>
-                                <div class="layui-tab-item">
-
-                                </div>
+        <ul>
+            <li class="layui-this">石油勘探开发</li>
+            <li>石油炼制</li>
+            <li>石油化工</li>
+            <li>公共技术</li>
+        </ul>
+        <div class="layui-tab-item layui-show">
+            <div class="layui-card-body">
+                <div class="layui-tab">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">国家领导讲话</li>
+                        <li>国家领导讲话1</li>
+                        <li>科技部领导讲话</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">
+                            <div class="lan">
+                                <table class="layui-table">
+                                    <thead>
+                                        <tr>
+                                            <th lay-data="{field:'username', width:32}"></th>
+                                            <th lay-data="{field:'experience'}">工作受理人</th>
+                                            <th lay-data="{field:'sign'}">安排时间</th>
+                                            <th lay-data="{field:'sign1'}">工作内容</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td style="width: 4px;">1</td>
+                                        <td>张三</td>
+                                        <td>2019-03-28</td>
+                                        <td>处理集团所有预算统计</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 4px;">1</td>
+                                        <td>张三</td>
+                                        <td>2019-03-28</td>
+                                        <td>处理集团所有预算统计</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
+                        </div>
+                        <div class="layui-tab-item">
+
+                        </div>
+                        <div class="layui-tab-item">
+
                         </div>
                     </div>
                 </div>
-                <div class="layui-tab-item">2</div>
-                <div class="layui-tab-item">3</div>
-                <div class="layui-tab-item">4</div>
-                <div class="layui-tab-item">5</div>
             </div>
         </div>
     </div>
+    <!--右侧-->
     <div class="skill-right"></div>
 </div>
 
@@ -69,6 +76,11 @@
 <script>
     layui.use(['jquery', 'table','element'], function () {
         var $ = layui.jquery,table = layui.table, element = layui.element;
+        $(".skill-left>ul li").click(function () {
+            $(".skill-left>ul li").removeClass("layui-this");
+            $(this).addClass("layui-this");
+        });
+        $(".layui-tab-content").css("height",(parseInt(parent.$("#LAY_app_body #mainIframe").height())-132)+"px");
     });
 </script>
 </body>
