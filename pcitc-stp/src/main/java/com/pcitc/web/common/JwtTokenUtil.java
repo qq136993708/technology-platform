@@ -34,6 +34,7 @@ public class JwtTokenUtil implements Serializable {
 	//private static final String INSTITUTE_CODE = "instituteCodes";
 	//private static final String INSTITUTE_NAME = "instituteNames";
 	private static final String CLAIM_KEY_POSTID = "postId";
+	private static final String CLAIM_KEY_LEVEL = "userLevel";
 	
 	@Value("${jwt.secret}")
 	private static String secret;
@@ -82,6 +83,7 @@ public class JwtTokenUtil implements Serializable {
 			//user.setInstituteCodes(claims.get(INSTITUTE_CODE) != null ? (List<String>)claims.get(INSTITUTE_CODE) : null);
 			//user.setInstituteNames(claims.get(INSTITUTE_NAME) != null ? (List<String>)claims.get(INSTITUTE_NAME) : null);
 			user.setUserPost(claims.get(CLAIM_KEY_POSTID) != null ? claims.get(CLAIM_KEY_POSTID).toString() : null);
+			user.setUserLevel(claims.get(CLAIM_KEY_LEVEL) != null ? Integer.parseInt(claims.get(CLAIM_KEY_LEVEL).toString()) : null);
 		} else {
 			System.out.println("error-----------claims is null");
 		}
@@ -118,6 +120,7 @@ public class JwtTokenUtil implements Serializable {
 			//user.setInstituteCodes(claims.get(INSTITUTE_CODE) != null ? (List<String>)claims.get(INSTITUTE_CODE) : null);
 			//user.setInstituteNames(claims.get(INSTITUTE_NAME) != null ? (List<String>)claims.get(INSTITUTE_NAME) : null);
 			user.setUserPost(claims.get(CLAIM_KEY_POSTID) != null ? claims.get(CLAIM_KEY_POSTID).toString() : null);
+			user.setUserLevel(claims.get(CLAIM_KEY_LEVEL) != null ? Integer.parseInt(claims.get(CLAIM_KEY_LEVEL).toString()) : null);
 		}
 		return user;
 	}
