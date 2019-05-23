@@ -423,7 +423,7 @@
   
   <select id="selectFuntionByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
 	select sys_function.id,sys_function.code,sys_function.name,sys_function.parent_id,sys_function.url,
-		   group_concat(sys_post_function.function_buttons) as function_buttons
+		   sys_function.parent_code,group_concat(sys_post_function.function_buttons) as function_buttons
     from sys_post_function,sys_user,sys_function,sys_user_post
     where 
 	    sys_post_function.function_id = sys_function.id and 

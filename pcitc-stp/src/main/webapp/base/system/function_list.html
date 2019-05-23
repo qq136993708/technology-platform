@@ -103,7 +103,7 @@
 			parentId = treeNode.id;
 			parentCode = treeNode.code;
 			levelCode = treeNode.levelCode;
-			
+
 			console.log(treeNode);
 			table.reload('function', {
 				where : {
@@ -122,7 +122,8 @@
 			}
 			for (var i = 0, l = nodes.length; i < l; i++) {
 				zTree.reAsyncChildNodes(nodes[i], type, silent);
-				if (!silent) zTree.selectNode(nodes[i]);
+				if (!silent)
+					zTree.selectNode(nodes[i]);
 			}
 		}
 
@@ -251,8 +252,6 @@
 					if (typeof (parentId) == "undefined") {
 						layer.msg("请先选择一个树节点菜单");
 					} else if (typeof (treeNodeParentId) != "undefined" && treeNodeParentId == "e5c1006277a845f0b8a9d3674b6fc7e1") {
-						layer.msg("个人工作台下只允许创建一层节点");
-					} else if (typeof (treeName) != "undefined" && treeName == "个人工作台") {
 						var temUrl = "/function/function_edit_desk?parentCode=" + parentCode + "&parentId=" + parentId + "&levelCode=" + levelCode + "&parentName=" + treeName;
 						temUrl = encodeURI(temUrl);
 						layer.open({
@@ -267,6 +266,8 @@
 							area : [ '70%', '90%' ],
 							content : temUrl
 						});
+					} else if (typeof (treeName) != "undefined" && treeName == "个人工作台") {
+						layer.msg("工作台不允许新增");
 					} else {
 						var temUrl = "/function/edit?parentCode=" + parentCode + "&parentId=" + parentId + "&levelCode=" + levelCode + "&parentName=" + treeName;
 						temUrl = encodeURI(temUrl);
@@ -283,13 +284,14 @@
 							content : temUrl
 						});
 					}
+					nodeId = '';
 				},
-				editEvent : function() { //点击新增按钮
+				editEvent : function() { //点击编辑按钮
 					if (typeof (nodeId) == "undefined" || isBlank(nodeId)) {
-						layer.msg("请先选择一个菜单");
-					} else if (typeof (nodeName) != "undefined" && nodeName == "个人工作台") {
-						layer.msg("个人工作台不允许编辑");
+						layer.msg("请先选择一个编辑项");
 					} else if (typeof (treeName) != "undefined" && treeName == "个人工作台") {
+						layer.msg("工作台不允许编辑");
+					} else if (typeof (treeNodeParentId) != "undefined" && treeNodeParentId == "e5c1006277a845f0b8a9d3674b6fc7e1") {
 						var temUrl = "/function/function_edit_desk?id=" + nodeId;
 						temUrl = encodeURI(temUrl);
 						layer.open({
@@ -351,7 +353,7 @@
 										$(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
 										//renderTable();
 										initTree();
-										nodeId='';
+										nodeId = '';
 									} else if (data == 101) {
 										layer.msg("请先删除下级菜单");
 									}
@@ -415,12 +417,16 @@
 		});
 
 		function isBlank(str) {
-			if (str == null || typeof str == "undefined" || str == "" || trim(str) == "") { return true; }
+			if (str == null || typeof str == "undefined" || str == "" || trim(str) == "") {
+				return true;
+			}
 			return false;
 		}
 
 		function trim(str) {
-			if (str == null || typeof str == "undefined") { return ""; }
+			if (str == null || typeof str == "undefined") {
+				return "";
+			}
 			return str.toString().replace(/(^\s+)|(\s+$)/g, "");
 		}
 	</script>
