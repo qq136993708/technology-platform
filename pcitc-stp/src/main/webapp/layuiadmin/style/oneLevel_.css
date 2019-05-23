@@ -377,12 +377,7 @@ line-height: 60px;font-size: 22px;}
 .contractB,.investmentB,.instituteB{animation:rotateXX 1s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
 .contractHO,.investmentHO,.instituteHO{animation:oneAHTO 1s;animation-fill-mode:forwards;
-    -webkit-webkit-animation: ;
-    -moz-webkit-animation: ;
-    -ms-webkit-animation: ;
-    -o-webkit-animation: ;
-    -khtml-webkit-animation: ;
-    webkit-animation: ;-fill-mode:forwards;}
+    -webkit-animation-fill-mode:forwards;}
 .contractCO,.investmentCO,.instituteCO{animation:rotateXO 1s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
 .contractBO,.investmentBO,.instituteBO{animation:rotateXXO 1s;animation-fill-mode:forwards;
