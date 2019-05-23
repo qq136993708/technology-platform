@@ -14,4 +14,8 @@ public interface PurchaseOrderService {
 	void insertPurchaseArrival(SrePurchaseArrival srePurchaseArrival);
 
     int deletePurchaseArrival();
+
+    void insertPurchaseArrivalList(List<SrePurchaseArrival> srePurchaseArrivals);
+
+    void insertPurchaseOrderList(List<SrePurchaseOrder> srePurchaseOrderList);
 }

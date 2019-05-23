@@ -277,4 +277,35 @@
   <delete id="deleteByExample">
     delete from sre_purchase_order
   </delete>
+  <!-- 批量插入 -->
+  <insert id="insertPurchaseOrderList" parameterType="com.pcitc.base.stp.equipment.SrePurchaseOrder">
+    insert into sre_purchase_order (G0FLAG, G0LOGSYS, G0CALD,
+      G0GSDM, G0GSJC, G0GSOR,
+      G0GSJCL, G0GSGP, G0GSSP,
+      G0PROJCODE, G0PROJTXT, G0WBSCODE,
+      G0WBSTXT, G0XMGLLX, G0XMGLLY,
+      G0XMGLJB, G0XMLX, G0XMLXMS,
+      G0XMZT, G0XMZTMS, G0XMDL,
+      G0KYPFWH, G0MATNR, G0MAKTX,
+      G0EBELN, G0EBELP, G0TXZ01,
+      G0EINDT, G0LIFNR, G0NAME2,
+      G0DDLX, K0XMDDSL, K0XMDDJE,
+      create_date)
+    values
+    <foreach collection="list" item="purchaseOrder" index="index"
+             separator=",">
+    (#{purchaseOrder.g0flag,jdbcType=VARCHAR}, #{purchaseOrder.g0logsys,jdbcType=VARCHAR}, #{purchaseOrder.g0cald,jdbcType=TIMESTAMP},
+      #{purchaseOrder.g0gsdm,jdbcType=VARCHAR}, #{purchaseOrder.g0gsjc,jdbcType=VARCHAR}, #{purchaseOrder.g0gsor,jdbcType=VARCHAR},
+      #{purchaseOrder.g0gsjcl,jdbcType=VARCHAR}, #{purchaseOrder.g0gsgp,jdbcType=VARCHAR}, #{purchaseOrder.g0gssp,jdbcType=VARCHAR},
+      #{purchaseOrder.g0projcode,jdbcType=VARCHAR}, #{purchaseOrder.g0projtxt,jdbcType=VARCHAR}, #{purchaseOrder.g0wbscode,jdbcType=VARCHAR},
+      #{purchaseOrder.g0wbstxt,jdbcType=VARCHAR}, #{purchaseOrder.g0xmgllx,jdbcType=VARCHAR}, #{purchaseOrder.g0xmglly,jdbcType=VARCHAR},
+      #{purchaseOrder.g0xmgljb,jdbcType=VARCHAR}, #{purchaseOrder.g0xmlx,jdbcType=VARCHAR}, #{purchaseOrder.g0xmlxms,jdbcType=VARCHAR},
+      #{purchaseOrder.g0xmzt,jdbcType=VARCHAR}, #{purchaseOrder.g0xmztms,jdbcType=VARCHAR}, #{purchaseOrder.g0xmdl,jdbcType=VARCHAR},
+      #{purchaseOrder.g0kypfwh,jdbcType=VARCHAR}, #{purchaseOrder.g0matnr,jdbcType=VARCHAR}, #{purchaseOrder.g0maktx,jdbcType=VARCHAR},
+      #{purchaseOrder.g0ebeln,jdbcType=VARCHAR}, #{purchaseOrder.g0ebelp,jdbcType=VARCHAR}, #{purchaseOrder.g0txz01,jdbcType=VARCHAR},
+      #{purchaseOrder.g0eindt,jdbcType=TIMESTAMP}, #{purchaseOrder.g0lifnr,jdbcType=VARCHAR}, #{purchaseOrder.g0name2,jdbcType=VARCHAR},
+      #{purchaseOrder.g0ddlx,jdbcType=VARCHAR}, #{purchaseOrder.k0xmddsl,jdbcType=VARCHAR}, #{purchaseOrder.k0xmddje,jdbcType=DOUBLE},
+      #{purchaseOrder.createDate,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
 </mapper>
