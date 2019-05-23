@@ -1806,6 +1806,9 @@
 				<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
 					and xmlbbm != 'KYZB'
 				</if>
+				<if test="zycmc != null and zycmc != ''">
+					and zycmc in (${zycmc})
+				</if>
 			GROUP BY xmid) tableA
 	</select>
 	
