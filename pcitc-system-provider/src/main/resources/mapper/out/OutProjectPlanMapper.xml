@@ -1264,6 +1264,12 @@
 				<if test="define3 != null and define3 != ''">
 					and out_project_plan.DEFINE3 like '%${define3}%'
 				</if>
+				<if test="zycmc != null and zycmc != ''">
+					and find_in_set(out_project_plan.zycmc, '${zycmc}')
+				</if>
+				<if test="zycmc == null or zycmc == ''">
+					and 1 = 0
+				</if>
 			group by out_project_plan.xmid
 		) as tableB
 	</select>

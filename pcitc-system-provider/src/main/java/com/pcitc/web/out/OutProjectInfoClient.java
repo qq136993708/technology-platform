@@ -166,11 +166,11 @@ public class OutProjectInfoClient {
 		
 		HashMap<String, String> temMap = outProjectService.getOutProjectInfoCountWithKYZB(map);
 		if (temMap != null) {
-			retJson.put("projectCount", temMap.get("projectCount"));
-			retJson.put("kyzbCount", temMap.get("kyzbCount"));
-			retJson.put("zsl", temMap.get("zsl"));
-			retJson.put("xkCount", temMap.get("xkCount"));
-			retJson.put("jzCount", temMap.get("jzCount"));
+			retJson.put("projectCount", temMap.get("projectCount") == null ? 0 : temMap.get("projectCount"));
+			retJson.put("kyzbCount", temMap.get("kyzbCount") == null ? 0 : temMap.get("kyzbCount"));
+			retJson.put("zsl", temMap.get("zsl") == null ? 0 : temMap.get("zsl"));
+			retJson.put("xkCount", temMap.get("xkCount") == null ? 0 : temMap.get("xkCount"));
+			retJson.put("jzCount", temMap.get("jzCount") == null ? 0 : temMap.get("jzCount"));
 		} else {
 			retJson.put("projectCount", 0);
 			retJson.put("kyzbCount", 0);
@@ -189,9 +189,9 @@ public class OutProjectInfoClient {
 		
 		HashMap<String, String> temMap = outProjectService.getOutProjectDragonInfoCount(map);
 		if (temMap != null) {
-			retJson.put("zsl", temMap.get("zsl"));
-			retJson.put("zdzxsl", temMap.get("zdzxsl"));
-			retJson.put("stlsl", temMap.get("stlsl"));
+			retJson.put("zsl", temMap.get("zsl") == null ? 0 : temMap.get("zsl"));
+			retJson.put("zdzxsl", temMap.get("zdzxsl") == null ? 0 : temMap.get("zdzxsl"));
+			retJson.put("stlsl", temMap.get("stlsl") == null ? 0 : temMap.get("stlsl"));
 		} else {
 			retJson.put("zsl", 0);
 			retJson.put("zdzxsl", 0);
@@ -395,12 +395,12 @@ public class OutProjectInfoClient {
 		JSONObject retJson = new JSONObject();
 		HashMap<String, String> temMap = outProjectService.getProjectTotalInfoByNew(map);
 		if (temMap != null) {
-			retJson.put("gjxmsl", temMap.get("gjxmsl"));
-			retJson.put("zdzzsl", temMap.get("zdzzsl"));
-			retJson.put("zdxmsl", temMap.get("zdxmsl"));
-			retJson.put("qtsl", temMap.get("qtsl"));
-			retJson.put("ldzsl", temMap.get("ldzsl"));
-			retJson.put("zsl", temMap.get("zsl"));
+			retJson.put("gjxmsl", temMap.get("gjxmsl") == null ? 0 : temMap.get("gjxmsl"));
+			retJson.put("zdzzsl", temMap.get("zdzzsl") == null ? 0 : temMap.get("zdzzsl"));
+			retJson.put("zdxmsl", temMap.get("zdxmsl") == null ? 0 : temMap.get("zdxmsl"));
+			retJson.put("qtsl", temMap.get("qtsl") == null ? 0 : temMap.get("qtsl"));
+			retJson.put("ldzsl", temMap.get("ldzsl") == null ? 0 : temMap.get("ldzsl"));
+			retJson.put("zsl", temMap.get("zsl") == null ? 0 : temMap.get("zsl"));
 		} else {
 			retJson.put("gjxmsl", 0);
 			retJson.put("zdzzsl", 0);
@@ -421,17 +421,17 @@ public class OutProjectInfoClient {
 		HashMap<String, String> temMap = outProjectService.getProjectTotalCountYearAndLastYear(null);
 		
 		if (temMap != null) {
-			retJson.put("xkgjsl", temMap.get("xkgjsl"));
-			retJson.put("qngjsl", temMap.get("qngjsl"));
-			retJson.put("xkzzsl", temMap.get("xkzzsl"));
-			retJson.put("qnzzsl", temMap.get("qnzzsl"));
-			retJson.put("xkzdsl", temMap.get("xkzdsl"));
-			retJson.put("qnzdsl", temMap.get("qnzdsl"));
+			retJson.put("xkgjsl", temMap.get("xkgjsl") == null ? 0 : temMap.get("xkgjsl"));
+			retJson.put("qngjsl", temMap.get("qngjsl") == null ? 0 : temMap.get("qngjsl"));
+			retJson.put("xkzzsl", temMap.get("xkzzsl") == null ? 0 : temMap.get("xkzzsl"));
+			retJson.put("qnzzsl", temMap.get("qnzzsl") == null ? 0 : temMap.get("qnzzsl"));
+			retJson.put("xkzdsl", temMap.get("xkzdsl") == null ? 0 : temMap.get("xkzdsl"));
+			retJson.put("qnzdsl", temMap.get("qnzdsl") == null ? 0 : temMap.get("qnzdsl"));
 			
-			retJson.put("lysybsl", temMap.get("lysybsl"));
-			retJson.put("qnlysybsl", temMap.get("qnlysybsl"));
-			retJson.put("hgsybsl", temMap.get("hgsybsl"));
-			retJson.put("qnhgsybsl", temMap.get("qnhgsybsl"));
+			retJson.put("lysybsl", temMap.get("lysybsl") == null ? 0 : temMap.get("lysybsl"));
+			retJson.put("qnlysybsl", temMap.get("qnlysybsl") == null ? 0 : temMap.get("qnlysybsl"));
+			retJson.put("hgsybsl", temMap.get("hgsybsl") == null ? 0 : temMap.get("hgsybsl"));
+			retJson.put("qnhgsybsl", temMap.get("qnhgsybsl") == null ? 0 : temMap.get("qnhgsybsl"));
 		} else {
 			retJson.put("xkgjsl", 0);
 			retJson.put("qngjsl", 0);
