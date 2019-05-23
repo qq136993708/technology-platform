@@ -79,7 +79,8 @@ public class WholeProcessController extends BaseController {
 	 */
 	@RequestMapping(value = "/whole-process/science/ini")
 	public String iniScienceWholeProcess(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+		// 查询项目前10条记录
+		
 		return "/stp/wholeProcess/scienceProcess";
 	}
 
