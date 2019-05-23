@@ -120,6 +120,13 @@ public class BudgetGroupTotalController extends BaseController {
 		request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
 		return "stp/budget/budget_history_view_grouptotal";
 	}
+	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_detail_grouptotal")
+	public Object toBudgetGroupDetail(HttpServletRequest request) throws IOException 
+	{
+		request.setAttribute("dataId", request.getParameter("dataId"));
+		return "stp/budget/budget_detail_grouptotal";
+	}
+	
 	
 	@RequestMapping(value = "/budget/budget-group-info-list", method = RequestMethod.POST)
 	@ResponseBody
@@ -272,7 +279,7 @@ public class BudgetGroupTotalController extends BaseController {
 		vo.setMessageUserIds(this.getUserProfile().getUserId());
 		
 		// 待办业务详情、最终审批同意、最终审批不同意路径
-		vo.setAuditDetailsPath("/budget/budget_main_grouptotal");
+		vo.setAuditDetailsPath("/budget/budget_detail_grouptotal?dataId="+budgetInfoId);
 		vo.setAuditAgreeMethod("http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-notice-budgetinfo?budgetId="+budgetInfoId+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_PASS.getCode());
 		vo.setAuditRejectMethod("http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-notice-budgetinfo?budgetId="+budgetInfoId+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_REFUSE.getCode());
 		
