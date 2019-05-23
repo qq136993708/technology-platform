@@ -46,8 +46,8 @@
         .tableBtnsL{text-align: left;text-indent: .5em;font-size: 14px;}
         .tableUserB ul{height: 260px;border:1px solid #e6e6e6;border-top: 0;overflow-y: scroll;}
         .tableUserB ul li {height: 36px;line-height: 46px;text-indent: .5em;}
-        .tableUserB ul li a{background: url(/layuiadmin/layui/images/icon_close.png) #ecf7f7 no-repeat 95% 3px;
-            color: #17a2b8 !important;border: 1px solid #17a2b8 !important;    padding: 3px 16px 3px 10px;
+        .tableUserB ul li a{background: url(/layuiadmin/layui/images/icon_close.png) #fff no-repeat 95% 3px;
+            color: #1890ff !important;border: 1px solid #1890ff !important;    padding: 3px 16px 3px 10px;
             border-radius: 4px;
         }
     </style>
@@ -82,7 +82,7 @@
                     },
                     cols: [[
                         {type: 'checkbox', event: 'changeEvents'}
-                        , {title: '序号', type: 'numbers'}
+                        , {title: '序号', type: 'numbers' ,width : 55}
                         , {field: 'userName', title: '登录名称', style: 'cursor: pointer;'}
                         , {field: 'userDisp', title: '显示名称', style: 'cursor: pointer;'}
                         , {field: 'userKindDisp', title: '用户类型', style: 'cursor: pointer;'}

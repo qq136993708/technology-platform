@@ -227,14 +227,14 @@
                                     data-type="handleEvent" onclick="addPlan()">新增</button>
                             <a href="javascript:parent.layui.index.openTabsPage('/plan/pagePlanList', '任务管理');">更多></a>
                         </div>
-                        <table lay-filter="demo">
+                        <table class="layui-table">
                             <thead>
                             <tr>
-                                <th lay-data="{field:'username', width:32}"></th>
-                                <th lay-data="{field:'experience'}">工作受理人</th>
-                                <th lay-data="{field:'sign'}">安排时间</th>
-                                <th lay-data="{field:'sign1'}">工作内容</th>
-                                <th lay-data="{field:'sign2'}">完成进度(%)</th>
+                                <th></th>
+                                <th>工作受理人</th>
+                                <th>安排时间</th>
+                                <th>工作内容</th>
+                                <th>完成进度(%)</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -244,7 +244,19 @@
                                 <td>${taskList.workOrderAllotUserName}</td>
                                 <td>${taskList.createDate}</td>
                                 <td>${taskList.workOrderName}</td>
-                                <td align="right">${taskList.bl}</td>
+                                <td align="right">
+                                    <#if taskList.bl==''>
+                                        <div class="layui-progress">
+                                            <div class="layui-progress-bar" lay-percent="0%"></div>
+                                        </div>0%
+                                    </#if>
+                                    <#if taskList.bl!=''>
+                                        <div class="layui-progress">
+                                            <div class="layui-progress-bar" lay-percent="${taskList.bl}%"></div>
+                                        </div>
+                                        ${taskList.bl}%
+                                    </#if>
+                                </td>
                             </tr>
                             </#list>
                             <!--<tr>-->
@@ -291,14 +303,14 @@
                                 <span>工作受理列表</span>
                                 <a href="javascript:parent.layui.index.openTabsPage('/plan/my/goBotWorkOrderListPage', '我的任务');">更多></a>
                             </div>
-                            <table lay-filter="demo1">
+                            <table class="layui-table">
                                 <thead>
                                 <tr>
-                                    <th lay-data="{field:'username', width:32}"></th>
-                                    <th lay-data="{field:'experience'}">工作受理人</th>
-                                    <th lay-data="{field:'sign'}">安排时间</th>
-                                    <th lay-data="{field:'sign1'}">工作内容</th>
-                                    <th lay-data="{field:'sign2'}">完成进度</th>
+                                    <th></th>
+                                    <th>工作受理人</th>
+                                    <th>安排时间</th>
+                                    <th>工作内容</th>
+                                    <th>完成进度</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -308,7 +320,19 @@
                                     <td>${taskList.workOrderAllotUserName}1</td>
                                     <td>${taskList.createDate}</td>
                                     <td>${taskList.workOrderName}</td>
-                                    <td align="right">${taskList.bl}</td>
+                                    <td align="right">
+                                        <#if taskList.bl==''>
+                                            <div class="layui-progress">
+                                                <div class="layui-progress-bar" lay-percent="0%"></div>
+                                            </div>0%
+                                        </#if>
+                                        <#if taskList.bl!=''>
+                                            <div class="layui-progress">
+                                                <div class="layui-progress-bar" lay-percent="${taskList.bl}%"></div>
+                                            </div>
+                                            ${taskList.bl}%
+                                        </#if>
+                                    </td>
                                 </tr>
                                 </#list>
                                 <!---->
@@ -785,7 +809,7 @@
             function getCommonCount(month) {
                 $.ajax({
                     type: 'GET',
-                    url: "/direct/topic_equipment_count?typeFlag=研究院&nd=" + month,
+                    url: "/direct/topic_equipment_count?functionId=984b64b13cf54222bf57bd840759fabe&typeFlag=研究院&nd=" + month,
                     dataType: 'json',
                     headers: {
                         'Content-Type': 'application/json'

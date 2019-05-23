@@ -48,7 +48,7 @@ public class SysFunctionPropertyController extends BaseController {
 	
 	private static final String SAVE_DATA_MODEL = "http://pcitc-zuul/system-proxy/sysFunctionProperty-provider/data/model/save";
 	
-	private static final String INSTITUTE_LIST = "http://pcitc-zuul/system-proxy/sysFunctionProperty-provider/dictionary/data/control/list";
+	private static final String SELECTED_LIST = "http://pcitc-zuul/system-proxy/sysFunctionProperty-provider/dictionary/data/control/list";
 	
 	/**
 	 * 跳转到菜单配置列表页
@@ -253,10 +253,13 @@ public class SysFunctionPropertyController extends BaseController {
 		if (request.getParameter("functionId")!= null) {
 			map.put("functionId", request.getParameter("functionId"));
 		}
+		if (request.getParameter("keyWord")!= null) {
+			map.put("keyWord", request.getParameter("keyWord"));
+		}
 		map.put("userId", sysUserInfo.getUserId());
 		HttpEntity<HashMap<String, Object>> entity = new HttpEntity<HashMap<String, Object>>(map, this.httpHeaders);
 
-		ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(INSTITUTE_LIST, HttpMethod.POST, entity, JSONArray.class);
+		ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(SELECTED_LIST, HttpMethod.POST, entity, JSONArray.class);
 		System.out.println("======"+responseEntity.getBody().toJSONString());
 		
 		JSONArray jsonArr = responseEntity.getBody();

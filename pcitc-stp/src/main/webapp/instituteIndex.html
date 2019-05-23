@@ -384,18 +384,14 @@
 	            });
 			}
 			//待办任务
-			//待办任务
 			window.getNotReadTaskList = function() {
 				publicMethods.ajaxAsyncPost('/admin/pending-task-count', {page:1,limit:100,param: {"isRead":"0"}}, function (data, status) {
 					var pendingCount = data.pendingTaskCount;
 					if (pendingCount <= 0) {
 						$("#pendingCount").css("visibility", "hidden");
-						$("#mainIframe", parent.document.body).attr("src", "/mainStp?taskCount=0")
 					} else {
 						$("#pendingCount").text(pendingCount);
 						$("#pendingCount").css("visibility", "visible");
-						$("#mainIframe", parent.document.body).attr("src", "/mainStp?taskCount=" + pendingCount)
-                        /*$("#mainIframe", parent.document.body).attr("src", "/layui/skill.html")*/
 					}
 	            });
 			}

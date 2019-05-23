@@ -56,14 +56,14 @@
 				<!--右侧-->
 				<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
 					<li class="layui-nav-item layui-nav-itemnew chat" title="消息">
-						<a id="numberChat"><span id="nc" style="visibility: hidden"></span></a>
+						<a id="numberChat" lay-href="/message/sys_message_list" lay-text="消息"><span id="nc" style="visibility: hidden"></span></a>
 						<div class="chat-content layui-hide">
 							<dl id="message_box" class="layui-nav-child-dl">
 							</dl>
 						</div>
 					</li>
 					<li class="layui-nav-item layui-nav-itemnew deal" title="待办任务">
-						<a id="numberDeal" ><span id="pendingCount" style="visibility: hidden"></span></a>
+						<a id="numberDeal" lay-href="/task/pending/list/ini" lay-text="待办任务"><span id="pendingCount" style="visibility: hidden"></span></a>
 						<div class="deal-content layui-hide">
 							<dl id="task_box" class="layui-nav-child-dl">
 								<dd>
@@ -126,60 +126,41 @@
 			<!-- 侧边菜单 -->
 			<div class="layui-side layui-side-menu layui-side-menu-div" style="background: #fff !important; box-shadow: 0 10px 10px rgba(0, 0, 0, 0.6) !important;">
 				<div class="layui-side-scroll">
-					<!--logo-->
-					<!--<div class="layui-logo" style="background: #17a2b8;">
-						<span>
-							<img src="/layuiadmin/layui/images/logo-stp.png" />
-						</span>
-					</div>-->
 					<!--左侧导航-->
-
 					<ul class="layui-nav layui-nav-tree" lay-shrink="all" lay-filter="layadmin-system-side-menu" id="nav${p.id}">
 						<li class="layadmin-flexible">
 							<div></div>
 						</li>
-						<li class="layui-nav-item layui-nav-itemed">
-							<a href="#" title="审批处理">
-								<span>审批处理</span>
-								<span class="arrow"></span>
-								<i class="fa fa-angle-left pull-right"></i>
-							</a>
-							<dl class="layui-nav-child">
-								<dd>
-									<a lay-href="/task/pending/list/ini" lay-text="待办任务" data-id="d1cc4095-e2c1-4caf-bfee-78c5ec85316c" data-code="10010103" data-functionbuttons="ALL">待办任务</a>
-								</dd>
-								<dd>
-									<a lay-href="/task/done-task/list/ini" lay-text="已办任务" data-id="ad348eed-40bd-448b-ab6b-cb87147f8173" data-code="10010104" data-functionbuttons="ALL">已办任务</a>
-								</dd>
-							</dl>
-						</li>
-						<li class="layui-nav-item">
-							<a href="#" title="任务处理">
-								<span>任务处理</span>
-								<span class="arrow"></span>
-								<i class="fa fa-angle-left pull-right"></i>
-							</a>
-							<dl class="layui-nav-child">
-								<dd>
-									<a lay-href="/plan/my/goBotWorkOrderListPage" lay-text="我的任务" data-id="d454d4e90c8f43eda3604dd38cedaf69" data-code="102801" data-functionbuttons="ALL">我的任务</a>
-								</dd>
-								<dd>
-									<a lay-href="/plan/pagePlanList" lay-text="任务管理" data-id="9d5042c37ef24b89887537eb21557b79" data-code="102802" data-functionbuttons="ALL">任务管理</a>
-								</dd>
-							</dl>
-						</li>
-						<li class="layui-nav-item">
-							<a href="#" title="我的消息">
-								<span>我的消息</span>
-								<span class="arrow"></span>
-								<i class="fa fa-angle-left pull-right"></i>
-							</a>
-							<dl class="layui-nav-child">
-								<dd>
-									<a lay-href="/task/message/list/ini" lay-text="审批消息" data-id="8f50de9b5e8841d78129c725f2530581" data-code="10010110" data-functionbuttons="ALL">审批消息</a>
-								</dd>
-							</dl>
-						</li>
+						
+						<#assign gztFlag="0">
+						<#if grgztList?exists>
+							<#list grgztList as grgzt>
+								<#if grgzt.url=='#'>
+									<#if gztFlag=="0">
+										<li class="layui-nav-item layui-nav-itemed">
+									</#if>
+									<#if gztFlag=="1">
+										<li class="layui-nav-item">
+									</#if>
+									<a href="#" title="${grgzt.name}">
+										<span>${grgzt.name}</span>
+										<span class="arrow"></span>
+										<i class="fa fa-angle-left pull-right"></i>
+									</a>
+									<#assign gztFlag="1">
+								</#if>
+								<dl class="layui-nav-child">
+									<#list grgztList as threeLevel>
+										<#if threeLevel.parentId == grgzt.id>
+											<dd>
+												<a lay-href="${threeLevel.url}" lay-text="${threeLevel.name}" data-id="${threeLevel.id}" data-code="${threeLevel.code}" data-functionbuttons="ALL">${threeLevel.name}</a>
+											</dd>
+										</#if>
+									</#list>
+								</dl>
+							</#list>
+						</#if>
+						
 						<#if scList?exists>
 							<li class="layui-nav-item">
 								<a href="#" title="我的收藏">
@@ -342,7 +323,6 @@
 			<!-- 辅助元素，一般用于移动设备下遮罩 -->
 			<div class="layadmin-body-shade" layadmin-event="shade"></div>
 		</div>
-		<#include "/common/public/bottomTips.html"/>
 	</div>
 
 	<script src="/layuiadmin/javascript/jquery.liMarquee.js"></script>
@@ -640,13 +620,10 @@
 					$(".task_more").on("click", function(){ 
 				     	parent.layui.index.openTabsPage("/task/pending/list/ini", "待办任务");
 				    });
-					
+					$("#mainIframe", parent.document.body).attr("src", "/mainStp");
 	            });
 			}
-			$(document).ready(function() {
-				 $("#task_more").on("click", function(){ 
-			     	parent.layui.index.openTabsPage("/task/pending/list/ini", "待办任务");
-			     });
+			$(document).ready(function() {				
 			     
 			     initNoticeSocket();
 			     initTaskSocket();

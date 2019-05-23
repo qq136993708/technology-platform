@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.catalina.connector.RequestFacade;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -104,6 +105,7 @@ public class SysAspect extends BaseController {
 
 		Object[] args = joinPoint.getArgs();
 		if (operData.dataFlag() != null && !operData.dataFlag().equals("")) {
+			// 第一个参数为LayuiTableParam类型
 			if (args != null && args.length > 0 && args[0].getClass() == LayuiTableParam.class) {
 
 				LayuiTableParam inPro = (LayuiTableParam) args[0];
@@ -170,6 +172,36 @@ public class SysAspect extends BaseController {
 				}
 				
 			}
+			
+			// 第一个参数为HttpServletRequest类型
+			if (args != null && args.length > 0 && args[0].getClass() == RequestFacade.class) {
+				HttpServletRequest inPro = (HttpServletRequest) args[0];
+				List<String> list = httpHeaders.get("Authorization");
+				if (inPro.getParameter("functionId") != null && !inPro.getParameter("functionId").equals("")) {
+					// 既然已经点击这个菜单，说明此人有此功能的权限。直接查询这个菜单有哪些属性的权限控制，此人的属性权限控制又有哪些内容
+					HashMap<String, Object> paramMap = new HashMap<String, Object>();
+					paramMap.put("functionId", inPro.getParameter("functionId"));
+					if (list != null && list.get(0) != null) {
+						SysUser userInfo = JwtTokenUtil.getUserFromTokenByValue(list.get(0).split(" ")[1]);
+						String[] postArr = userInfo.getUserPost().split(",");
+						paramMap.put("postIds", Arrays.asList(postArr));
+						HttpEntity<HashMap<String, Object>> entity = new HttpEntity<HashMap<String, Object>>(paramMap, this.httpHeaders);
+						ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(FUNCTION_FILTER_URL , HttpMethod.POST, entity, JSONArray.class);
+						JSONArray retJson = responseEntity.getBody();
+						if (retJson != null) {
+							List<SysFunctionProperty> sfpList = JSONArray.parseArray(retJson.toString(), SysFunctionProperty.class);
+							for (SysFunctionProperty sfpVO : sfpList) {
+								if (inPro != null && inPro.getParameter(sfpVO.getProCode()) == null) {
+									inPro.setAttribute(sfpVO.getProCode(), sfpVO.getPostConfigValue());
+								}
+							}
+							args[0] = inPro;
+						}
+					}
+				}
+				
+			}
+		
 		}
 
 		Object obj = joinPoint.proceed(args);

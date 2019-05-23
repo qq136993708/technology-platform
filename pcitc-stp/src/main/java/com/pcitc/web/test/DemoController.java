@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.google.gson.JsonObject;
 import com.pcitc.web.utils.RestfulHttpClient;
 
@@ -142,10 +145,10 @@ public class DemoController {
 			client.addHeaders(headerMap);
 
 			Map<String, String> paramMap = new HashMap<String, String>();
-			paramMap.put("sqlName", "SelectAllProjectFromPlanData");
+			paramMap.put("sqlName", "GetUserList_TechnologyMinistry");
 			JsonObject jo = new JsonObject();
 			System.out.println(jo.toString());
-			jo.addProperty("ND", "2018");
+			//jo.addProperty("ND", "2018");
 			//jo.addProperty("ksrq", "2018-01-01");
 			//jo.addProperty("jzrq", "2018-02-05");
 
@@ -165,6 +168,13 @@ public class DemoController {
 				// 获取响应内容
 				String result = response.getContent();
 				System.out.println("返回--------" + result);
+				JSONArray jsArr = JSONObject.parseArray(result);
+				System.out.println("返回--------" + jsArr.size());
+				for (int i =0; i < jsArr.size(); i++) {
+					JSONObject jsonObject = JSON.parseObject(jsArr.get(i).toString());
+					System.out.println(jsonObject.get("LXDH"));
+				}
+				
 			}
 		} catch (Exception e) {
 			System.out.println("执行异常" + e.getStackTrace().toString());
