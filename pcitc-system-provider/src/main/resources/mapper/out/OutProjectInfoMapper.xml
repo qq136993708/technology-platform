@@ -1807,7 +1807,10 @@
 					and xmlbbm != 'KYZB'
 				</if>
 				<if test="zycmc != null and zycmc != ''">
-					and zycmc in (${zycmc})
+					and find_in_set(zycmc, '${zycmc}')
+				</if>
+				<if test="zycmc == null or zycmc == ''">
+					and 1 = 0
 				</if>
 			GROUP BY xmid) tableA
 	</select>

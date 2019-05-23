@@ -43,6 +43,7 @@ import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.JwtTokenUtil;
+import com.pcitc.web.common.OperationFilter;
 import com.pcitc.web.utils.HanaUtil;
 
 @Controller
@@ -90,15 +91,18 @@ public class DirectController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/topic_equipment_count")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String topic_equipment_count(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String resault = "";
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String typeFlag = CommonUtil.getParameter(request, "typeFlag", "");
+		String zycmc = request.getAttribute("zycmc") == null? "" : request.getAttribute("zycmc").toString();
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("typeFlag", typeFlag);
+		paramsMap.put("zycmc", zycmc);
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -107,7 +111,6 @@ public class DirectController {
 			if (statusCode==200) {
 
 				JSONObject jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>topic_equipment_count jSONArray-> "+jSONArray.toString());
 				Integer projectCount = jSONArray.getInteger("projectCount");
 				Integer kyzbCount = jSONArray.getInteger("kyzbCount");
 				Map map = new HashMap();
