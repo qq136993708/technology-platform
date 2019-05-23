@@ -210,7 +210,7 @@ layui.extend({
             $(".information").addClass('layui-hide');
         }
     });*/
-    $(".deal").on("click", function(e) {
+    /*$(".deal").on("click", function(e) {
         e.stopPropagation();
         $(".deal-content").toggleClass("layui-hide");
         if ($(".QRCode-content").hasClass('layui-hide') == false) {
@@ -222,7 +222,7 @@ layui.extend({
         if ($(".information").hasClass('layui-hide') == false) {
             $(".information").addClass('layui-hide');
         }
-    });
+    });*/
     $(".selectBox-span").on("click", function(e) {
         e.stopPropagation();
         $(".layui-nav-child-span").toggleClass("layui-hide");

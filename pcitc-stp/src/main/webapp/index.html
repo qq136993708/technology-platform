@@ -56,14 +56,14 @@
 				<!--右侧-->
 				<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
 					<li class="layui-nav-item layui-nav-itemnew chat" title="消息">
-						<a id="numberChat"><span id="nc" style="visibility: hidden"></span></a>
+						<a id="numberChat" lay-href="/message/sys_message_list" lay-text="消息"><span id="nc" style="visibility: hidden"></span></a>
 						<div class="chat-content layui-hide">
 							<dl id="message_box" class="layui-nav-child-dl">
 							</dl>
 						</div>
 					</li>
 					<li class="layui-nav-item layui-nav-itemnew deal" title="待办任务">
-						<a id="numberDeal" ><span id="pendingCount" style="visibility: hidden"></span></a>
+						<a id="numberDeal" lay-href="/task/pending/list/ini" lay-text="待办任务"><span id="pendingCount" style="visibility: hidden"></span></a>
 						<div class="deal-content layui-hide">
 							<dl id="task_box" class="layui-nav-child-dl">
 								<dd>
@@ -644,9 +644,6 @@
 	            });
 			}
 			$(document).ready(function() {
-				 $("#task_more").on("click", function(){ 
-			     	parent.layui.index.openTabsPage("/task/pending/list/ini", "待办任务");
-			     });
 			     
 			     initNoticeSocket();
 			     initTaskSocket();
