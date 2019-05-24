@@ -117,6 +117,8 @@ public class IntlProjectInfoServiceImpl implements IntlProjectInfoService {
 			criteria.andProjectNameLike("%"+param.getParam().get("infoName")+"%");
 		}
 		criteria.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		example.setOrderByClause("create_time desc");
+		
 		return findByExample(param,example);
 	}
 	
