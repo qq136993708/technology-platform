@@ -282,7 +282,8 @@
 <script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
 <script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
     <script>
-    var codec=$("#companyCode").val();
+    var companyCode=$("#companyCode").val();
+    //alert(companyCode);
     var element;
         layui.use(['jquery','table','carousel','layer','laydate','element'], function(){
             var $=layui.jquery,table=layui.table,carousel = layui.carousel,laydate=layui.laydate
@@ -358,7 +359,6 @@
  					//alert(data.data.projectCount);
  					$("#topic_id").html(data.data.projectCount+"<small>(个)</small>");
  					
- 					
  					    if (typeof(data.data.kyzbCount) == "undefined")
 					    {
  					    	$("#equipment_id").html("<small>0(个)</small>");
@@ -366,12 +366,9 @@
 				    	{
 					    	$("#equipment_id").html(data.data.kyzbCount+"<small>(个)</small>");
 				    	}
- 					 
- 					
  					
  				}
- 			});
-        	
+ 			 });
         }
         
         
@@ -412,11 +409,12 @@
         // 经费支出
         function getndys_xfzc(month)
         {
-        	//alert(codec);
+        	//alert(companyCode);
+        	//alert(month);
         	 var v_date=(new Date()).getTime();
         	 $.ajax({
         	     type:"GET",
-        	     url: '/direct/pay_01?month='+month+'&companyCode='+codec+'&v_date'+v_date,
+        	     url: '/direct/pay_01?month='+month+'&companyCode='+companyCode+'&v_date'+v_date,
         	     dataType:"json",
         	     timeout : 20000,
         	     cache: false,
@@ -531,8 +529,8 @@
         function init()
         {
         	
+        	//alert(companyCode);
         	var month=$('#month').val();
-        	var companyCode=$("#companyCode").val();
         	var year=$("#year").val();
         	var v_date=(new Date()).getTime();
         	if(month!=null && month!='')
