@@ -57,8 +57,9 @@ public class IntlProjectController extends BaseController
 		{
 			request.setAttribute("appendFiles", IdUtil.createFileIdByTime());
 			request.setAttribute("plantId", IdUtil.createFileIdByTime());
-			request.setAttribute("edit", 1);
+			request.setAttribute("edit", 0);
 		}else {
+			request.setAttribute("edit", 1);
 			request.setAttribute("plantId", request.getParameter("plantId"));
 		}
 		return "stp/intlproject/plant_edit";

@@ -30,7 +30,7 @@ $(document).ready(function() {
 		var publicMethods=layui.publicMethods;
 		var form = layui.form;
 		var table = layui.table;
-		
+		laydate.render({elem: '#reportYear',type: 'year'});
 		//研究院字典
     	var dicMap = ['ROOT_XTGL_ZSYJY'];
     	publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
@@ -45,7 +45,7 @@ $(document).ready(function() {
     	//加载数据
     	if($("#edit").val() != 0)
     	{
-    		publicMethods.ajaxPost('/project/get-plant', {plantId:$("#plantId").val()}, function (data, status) {
+    		publicMethods.ajaxAsyncPost('/project/get-plant', {plantId:$("#plantId").val()}, function (data, status) {
          		form.val("plant-form",data);
             });
     	}else{
@@ -96,7 +96,7 @@ $(document).ready(function() {
 	            	var check = table.checkStatus('join_apply_table');
 	            	for(var dt in check.data)
 	            	{
-	            		publicMethods.ajaxPost('/project/del-fromplant', {"plantId":$("#plantId").val(),"applyId":check.data[dt].applyId}, function (data, status) {
+	            		publicMethods.ajaxAsyncPost('/project/del-fromplant', {"plantId":$("#plantId").val(),"applyId":check.data[dt].applyId}, function (data, status) {
 	            			console.log("del...");
 		                });
 	            	}
@@ -106,7 +106,7 @@ $(document).ready(function() {
     	}
     	form.on('submit(submitBtn)', function(data) {
     		//data.field.plantContent = editor.getData();
-            ajaxPost('/project/plant-saveorupdate', data.field, function (data, status) {
+            publicMethods.ajaxAsyncPost('/project/plant-saveorupdate', data.field, function (data, status) {
                 if (data.success) {
                 	parent.layui.table.reload("plantTable",null);
                 	var index = parent.layer.getFrameIndex(window.name);
@@ -168,6 +168,16 @@ $(document).ready(function() {
 			          </div>
 		        </div>
 			</div>
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">计划年度<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" lay-verify="required|number" id="reportYear" name="reportYear" placeholder="计划年度">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				<div class="layui-form-item">
 					<label for="" class="layui-form-label">总投资(万元)<span class="must-fill">*</span></label>
