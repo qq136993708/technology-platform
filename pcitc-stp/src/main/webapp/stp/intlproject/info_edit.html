@@ -34,7 +34,7 @@
 	    		//加载项目
 	    		publicMethods.ajaxPost("/project/apply-list-all",null, function (data) {
 					$.each(data,function(i,val){
-						$("#applyId").append('<option value="'+data[i].applyId+'">'+data[i].applyTitle+'</option>');
+						$("#applyId").append('<option value="'+data[i].applyId+'">'+data[i].applyName+'</option>');
 					});
 			   	});
 	    		//下拉改变
@@ -205,39 +205,17 @@
 				</div>
 			</div>
 			<div class="layui-form-item">
-		      	 <label class="layui-form-label">项目研究优势</label>
+		      	 <label class="layui-form-label">立项描述</label>
 		         <div class="layui-input-block">
-		         	   <textarea class="layui-textarea" id="companyAdvantage" name="companyAdvantage" placeholder=""></textarea>
-		         </div>
-	       	</div>
-	       	<div class="layui-form-item">
-		      	 <label class="layui-form-label">合作目的</label>
-		         <div class="layui-input-block">
-		         	   <textarea class="layui-textarea" id="projectTarget" name="projectTarget" placeholder=""></textarea>
-		         </div>
-	       	</div>
-	       	<div class="layui-form-item">
-		      	 <label class="layui-form-label">研究内容</label>
-		         <div class="layui-input-block">
-		         	   <textarea class="layui-textarea" id="researchContent" name="researchContent" placeholder=""></textarea>
-		         </div>
-	       	</div>
-	       	<div class="layui-form-item">
-		      	 <label class="layui-form-label layui-form-labelH">预期成果含人员培训情况</label>
-		         <div class="layui-input-block">
-		         	   <textarea class="layui-textarea" id="personStudy" name="personStudy" placeholder=""></textarea>
-		         </div>
-	       	</div>
-	       	<div class="layui-form-item">
-		      	 <label class="layui-form-label layui-form-labelH">成果及知识产权状态</label>
-		         <div class="layui-input-block">
-		         	   <textarea class="layui-textarea" id="resultStatus" name="resultStatus" placeholder=""></textarea>
+		         	   <textarea class="layui-textarea"  id="remarks" name="remarks" placeholder=""></textarea>
 		         </div>
 	       	</div>
 	       	<div class="layui-form-item">
 		      	 <label class="layui-form-label">立项资料文件上传</label>
 		         <div id="file_div" class="layui-input-block"></div>
 	        </div>
+	        
+	        
 	        <div class="layui-row">
 				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 					<div class="layui-form-item">
@@ -305,12 +283,39 @@
 					</div>
 				</div>
 			</div>
-			<div class="layui-form-item">
-		      	 <label class="layui-form-label">项目申报描述</label>
+	       	
+	       	<div class="layui-form-item">
+		      	 <label class="layui-form-label">项目研究优势</label>
 		         <div class="layui-input-block">
-		         	   <textarea readonly="readonly" class="layui-textarea" id="applyContent" name="applyContent" placeholder=""></textarea>
+		         	   <textarea readonly="readonly" class="layui-textarea" id="projectAdvantage" name="projectAdvantage" placeholder=""></textarea>
 		         </div>
 	       	</div>
+	       	<div class="layui-form-item">
+		      	 <label class="layui-form-label">合作目的</label>
+		         <div class="layui-input-block">
+		         	   <textarea readonly="readonly" class="layui-textarea" id="projectTarget" name="projectTarget" placeholder=""></textarea>
+		         </div>
+	       	</div>
+	       	<div class="layui-form-item">
+		      	 <label class="layui-form-label">研究内容</label>
+		         <div class="layui-input-block">
+		         	   <textarea readonly="readonly" class="layui-textarea" id="projectResearchContent" name="projectResearchContent" placeholder=""></textarea>
+		         </div>
+	       	</div>
+	       	<div class="layui-form-item">
+		      	 <label class="layui-form-label layui-form-labelH">预期成果含人员培训情况</label>
+		         <div class="layui-input-block">
+		         	   <textarea readonly="readonly" class="layui-textarea" id="projectResult" name="projectResult" placeholder=""></textarea>
+		         </div>
+	       	</div>
+	       	<div class="layui-form-item">
+		      	 <label class="layui-form-label layui-form-labelH">成果及知识产权状态</label>
+		         <div class="layui-input-block">
+		         	   <textarea readonly="readonly" class="layui-textarea" id="projectRight" name="projectRight" placeholder=""></textarea>
+		         </div>
+	       	</div>
+	       	
+	       	
 	       	<div class="layui-form-item">
 		      	 <label class="layui-form-label">项目申报相关附件</label>
 		         <div id="file_div2" class="layui-input-block"></div>

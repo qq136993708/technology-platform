@@ -73,14 +73,14 @@ public class IntlProjectInfoServiceImpl implements IntlProjectInfoService {
 		if(project != null)
 		{
 			MyBeanUtils.copyPropertiesIgnoreNull(info, project);
-			project.setUpdateTime(DateUtil.dateToStr(new Date(), DateUtil.FMT_DD));
+			project.setUpdateTime(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
 			return projectInfoMapper.updateByPrimaryKey(project);
 		}
 		else 
 		{
 			info.setStatus(0);
 			info.setProjectStep(0);
-			info.setCreateTime(DateUtil.dateToStr(new Date(), DateUtil.FMT_DD));
+			info.setCreateTime(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
 			return projectInfoMapper.insert(info);
 		}
 	}

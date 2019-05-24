@@ -33,7 +33,7 @@ $(document).ready(function() {
 				var form = layui.form;
 				var applyId = "${applyId?default(0)}";
 				var publicMethods=layui.publicMethods;
-				var editor;
+				//var editor;
 				var year=new Date().getFullYear();
 				var div_index = 0;
 				//加载字典
@@ -51,7 +51,7 @@ $(document).ready(function() {
 			 		$("#applyId").val(applyId);
 			 		publicMethods.ajaxPost('/project/get-apply', {"applyId":applyId}, function (data, status) {
 		        		form.val("apply-form",data);
-		        		editor = CKEDITOR.replace("applyContent");
+		        		//editor = CKEDITOR.replace("applyContent");
 		        		//处理费用
 		        		if(data.plantMoneyItems == null || data.plantMoneyItems=="" || data.plantMoneyItems=="undefined")
 						{
@@ -68,7 +68,7 @@ $(document).ready(function() {
 		            });
 		        }else{
 		    		$("#appendFiles").val("${appendFiles}");
-		    		editor = CKEDITOR.replace("applyContent");
+		    		//editor = CKEDITOR.replace("applyContent");
 		    		//创建编码
 		    		publicMethods.ajaxPost('/project/project-code', null, function (data, status) {
 		    			if (data.success) {
@@ -100,7 +100,7 @@ $(document).ready(function() {
 				});
 				/* 监听提交 */
 				form.on('submit(submitBtn)', function(data) {
-					data.field.applyContent = editor.getData();
+					//data.field.applyContent = editor.getData();
 					//计算金额
 					var moneyItems = {};
 					$('select[name="build_year"]').each(function(i){
@@ -360,12 +360,46 @@ $(document).ready(function() {
 			</div>
 		</div>
 		
-		<div class="layui-form-item">
+		<!-- <div class="layui-form-item">
 	      	 <label class="layui-form-label">内容描述</label>
 	         <div class="layui-input-block">
 	         	   <textarea class="layui-textarea readOnlyBox" readonly="readonly" id="applyContent" name="applyContent" placeholder=""></textarea>
 	         </div>
-       </div>
+       </div> -->
+       <div class="layui-form-item">
+		      	 <label class="layui-form-label">项目研究优势</label>
+		         <div class="layui-input-block">
+		         	   <textarea class="layui-textarea readOnlyBox" readonly="readonly" id="projectAdvantage" name="projectAdvantage" placeholder=""></textarea>
+		         </div>
+	       	</div>
+	       	<div class="layui-form-item">
+		      	 <label class="layui-form-label">合作目的</label>
+		         <div class="layui-input-block">
+		         	   <textarea class="layui-textarea readOnlyBox" readonly="readonly" id="projectTarget" name="projectTarget" placeholder=""></textarea>
+		         </div>
+	       	</div>
+	       	<div class="layui-form-item">
+		      	 <label class="layui-form-label">研究内容</label>
+		         <div class="layui-input-block">
+		         	   <textarea class="layui-textarea readOnlyBox" readonly="readonly" id="projectResearchContent" name="projectResearchContent" placeholder=""></textarea>
+		         </div>
+	       	</div>
+	       	<div class="layui-form-item">
+		      	 <label class="layui-form-label layui-form-labelH">预期成果含人员培训情况</label>
+		         <div class="layui-input-block">
+		         	   <textarea class="layui-textarea readOnlyBox" readonly="readonly" id="projectResult" name="projectResult" placeholder=""></textarea>
+		         </div>
+	       	</div>
+	       	<div class="layui-form-item">
+		      	 <label class="layui-form-label layui-form-labelH">成果及知识产权状态</label>
+		         <div class="layui-input-block">
+		         	   <textarea class="layui-textarea readOnlyBox" readonly="readonly" id="projectRight" name="projectRight" placeholder=""></textarea>
+		         </div>
+	       	</div>
+       
+       
+       
+       
        <div class="layui-form-item">
 	      	 <label class="layui-form-label">附件</label>
 	         <div id="file_div" class="layui-input-block"></div>
