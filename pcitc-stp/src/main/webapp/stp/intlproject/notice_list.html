@@ -49,8 +49,8 @@
 	<script type="text/javascript">
 	var table,selectRowData,renderfunc;
 	
-    layui.use(['jquery','table','laypage'], function(){
-    	var $ = layui.jquery, element = layui.element, layer = layui.layer,table = layui.table;
+    layui.use(['jquery','table','laypage','publicMethods'], function(){
+    	var $ = layui.jquery, element = layui.element, layer = layui.layer,table = layui.table,publicMethods=layui.publicMethods;
     	var noticeType={};
     	var param = JSON.parse(window.localStorage.getItem("param"));
     	//加载岗位类型字典
@@ -157,8 +157,12 @@
             	}
             	layer.confirm('确定要发送吗？',{title:"发送确认"},function(index){
 					layer.close(index);
-					ajaxPost("/intl_project/sent-notice", {noticeId:selectRowData.noticeId}, function (data) {
-						layer.msg(data.message);
+					layer.msg('处理中....',{time: 15*1000});
+					publicMethods.ajaxAsyncPost("/intl_project/sent-notice", {noticeId:selectRowData.noticeId}, function (data) {
+						if (data.success) {
+	                    	 renderTable({param: {"noticeTitle":$("#noticeTitle").val()}});
+	                    	 layer.msg(data.message);
+	                    }
 	                });
             	});
             },submitEvent:function(){
@@ -168,10 +172,11 @@
             	}
             	layer.confirm('确定要提交审批吗？',{title:"提交确认"},function(index){
 					layer.close(index);
-					ajaxPost("/project/notice-start-workflow", {noticeId: selectRowData.noticeId,functionId:param.id}, function (data) {
+					layer.msg('处理中....',{time: 15*1000});
+					publicMethods.ajaxAsyncPost("/project/notice-start-workflow", {noticeId: selectRowData.noticeId,functionId:param.id}, function (data) {
 	                     if (data.success) {
-	                    	 layer.msg(data.message);
 	                    	 renderTable({param: {"noticeTitle":$("#noticeTitle").val()}});
+	                    	 layer.msg(data.message);
 	                     } else {
 	                    	 layer.msg(data.message);
 	                     }
@@ -185,7 +190,7 @@
             	} 
             	layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
 					layer.close(index);
-	            	ajaxPost("/project/close-notice", {noticeId: selectRowData.noticeId}, function (data) {
+					publicMethods.ajaxAsyncPost("/project/close-notice", {noticeId: selectRowData.noticeId}, function (data) {
 	                     if (data.success) {
 	                    	 renderTable({param: {"noticeTitle":$("#noticeTitle").val()}});
 	                     } else {
@@ -200,7 +205,7 @@
             	}
 				layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
 					layer.close(index);
-	            	ajaxPost("/project/del-notice", {noticeId:electRowData.noticeId}, function (data) {
+					publicMethods.ajaxAsyncPost("/project/del-notice", {noticeId:electRowData.noticeId}, function (data) {
 	                     if (data.success) {
 	                    	 renderTable({param: {"noticeTitle":$("#noticeTitle").val()}});
 	                     } else {
