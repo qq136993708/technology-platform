@@ -1248,23 +1248,31 @@
 	
 	
 	<!-- 直属研究院二级页面（领导），总的签订率-->
-	<select id="getPlanTotalCompleteRate" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select count(xmid) as zsl,
+	<select id="getPlanTotalCompleteRate" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select IFNULL(count(XMID),0) as zsl,
 			IFNULL(sum(case when tableB.temId is not null then 1 else 0 end),0) as yqht,
 			IFNULL(sum(case when tableB.temId is null then 1 else 0 end),0) as wqht,
-			IFNULL(round(sum(case when tableB.temId is not null then 1 else 0 end)/count(xmid)*100,2),0) as qdl
+			IFNULL(round(sum(case when tableB.temId is not null then 1 else 0 end)/count(XMID)*100,2),0) as qdl
 		from (
-			select out_project_info.xmid as temId,out_project_plan.xmid,out_project_plan.DEFINE1,out_project_plan.PROJECT_SCOPE 
-			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
+			select out_project_info.xmid as temId,out_project_plan.XMID,out_project_plan.DEFINE1,out_project_plan.PROJECT_SCOPE 
+			from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
 																	and out_project_info.define3 = '项目管理系统' and out_project_info.ND= '${nd}')
 			WHERE
 				out_project_plan.ND= '${nd}'
 				and out_project_plan.PROJECT_TYPE != '1'
-				and out_project_plan.define4 = '项目管理系统'
+				and out_project_plan.DEFINE4 = '项目管理系统'
 				<if test="define3 != null and define3 != ''">
 					and out_project_plan.DEFINE3 like '%${define3}%'
 				</if>
-			group by out_project_plan.xmid
+				<if test="leaderFlag == null or leaderFlag != '1'">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_plan.ND = '1900'
+					</if>
+				</if>
+			group by out_project_plan.XMID
 		) as tableB
 	</select>
 	

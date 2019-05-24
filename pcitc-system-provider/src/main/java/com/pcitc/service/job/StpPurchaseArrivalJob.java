@@ -33,15 +33,12 @@ public class StpPurchaseArrivalJob implements Job, Serializable {
         HashMap<String, String> map = new HashMap<String, String>();
 
         List<SrePurchaseArrival> purchaseArrivalDate = new ArrayList<SrePurchaseArrival>();
-
         JSONArray resultList = purchaseOrderClient.getPurchaseArrivalList(map);
         if (resultList != null) {
             for (int i = 0; i < resultList.size() ; i++) {
                 JSONObject json = resultList.getJSONObject(i);
 
-
                 SrePurchaseArrival  srePurchaseArrival =new SrePurchaseArrival();
-
                 String id = UUID.randomUUID().toString().replaceAll("-", "");
                 srePurchaseArrival.setId(id);
                 srePurchaseArrival.setCreateDate(new Date());//导入时间
@@ -85,7 +82,6 @@ public class StpPurchaseArrivalJob implements Job, Serializable {
 
                 purchaseArrivalDate.add(srePurchaseArrival);
             }
-
             if (purchaseArrivalDate != null && purchaseArrivalDate.size() > 0) {
                purchaseOrderStpClient.insertPurchaseArrival(purchaseArrivalDate);
             }

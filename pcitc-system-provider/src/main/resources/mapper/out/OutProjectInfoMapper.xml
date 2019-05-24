@@ -1788,10 +1788,10 @@
 	<select id="getOutProjectInfoCountWithKYZB" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select 
 			count(*) as zsl,
-        	sum(case when xmlbbm != 'KYZB' then 1 else 0 end) as projectCount, 
-			sum(case when xmlbbm = 'KYZB' then 1 else 0 end) as kyzbCount,
-			sum(case when nd = '${nd}' then 1 else 0 end) as xkCount,
-			sum(case when nd &lt; '${nd}' then 1 else 0 end) as jzCount
+        	IFNULL(sum(case when xmlbbm != 'KYZB' then 1 else 0 end),0) as projectCount, 
+			IFNULL(sum(case when xmlbbm = 'KYZB' then 1 else 0 end),0) as kyzbCount,
+			IFNULL(sum(case when nd = '${nd}' then 1 else 0 end),0) as xkCount,
+			IFNULL(sum(case when nd &lt; '${nd}' then 1 else 0 end),0) as jzCount
 		from (
 			select xmlbbm,nd
 			from out_project_info
@@ -1806,9 +1806,15 @@
 				<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
 					and xmlbbm != 'KYZB'
 				</if>
-				<if test="zycmc != null and zycmc != ''">
-					and zycmc in (${zycmc})
+				<if test="leaderFlag == null or leaderFlag != '1'">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
 				</if>
+				
 			GROUP BY xmid) tableA
 	</select>
 	
