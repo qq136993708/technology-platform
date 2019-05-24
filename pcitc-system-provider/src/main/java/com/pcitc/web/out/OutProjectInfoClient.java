@@ -256,7 +256,7 @@ public class OutProjectInfoClient {
 		if (map.get("nd") == null) {
 			map.put("nd", "2018");
 		}
-		List temList = outProjectService.getZBProjectTypeInfoByUnit(null);
+		List temList = outProjectService.getZBProjectTypeInfoByUnit(map);
 		List keyList = new ArrayList<String>();
 		keyList.add("xksl");
 		keyList.add("xjsl");
@@ -841,73 +841,25 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/project-info/zb/unit")
 	public JSONArray getZBProjectTypeCountByUnit(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getZBProjectTypeCountByUnit===========================" + map);
+		if (map.get("nd") == null) {
+			map.put("nd", "2018");
+		}
+		List temList = outProjectService.getZBProjectTypeCountByUnit(map);
 		
-		List temList = outProjectService.getZBProjectTypeCountByUnit("2018");
-		
-		if (!JSON.toJSONString(temList).contains("勘探院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("define2", "勘探院");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("物探院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("define2", "物探院");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("工程院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("define2", "工程院");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("石科院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("define2", "石科院");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("大连院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("define2", "大连院");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("北化院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("define2", "北化院");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("上海院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("define2", "上海院");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("安工院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("define2", "安工院");
-			temList.add(temMap);
-		}
+		List keyList = new ArrayList<String>();
+		keyList.add("xksl");
+		keyList.add("xjsl");
+		keyList.add("zsl");
+		logger.info("==================page getProjectTypeCountByUnit===========================" + JSON.toJSONString(temList));
+		// 各个研究院如果有基础数据库的话，也可以直接取，此处就不用写死
+		temList = iniListValue(temList, "define2", "勘探院", keyList);
+		temList = iniListValue(temList, "define2", "物探院", keyList);
+		temList = iniListValue(temList, "define2", "工程院", keyList);
+		temList = iniListValue(temList, "define2", "石科院", keyList);
+		temList = iniListValue(temList, "define2", "大连院", keyList);
+		temList = iniListValue(temList, "define2", "北化院", keyList);
+		temList = iniListValue(temList, "define2", "上海院", keyList);
+		temList = iniListValue(temList, "define2", "安工院", keyList);
 		System.out.println("===="+JSON.toJSONString(temList));
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
@@ -1005,127 +957,23 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/project-count/zb/type/tree")
 	public JSONArray getZBProjectCountByTypeForTree(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getZBProjectCountByTypeForTree===========================" + map);
-		
-		List temList = outProjectService.getZBProjectCountByTypeForTree("2018");
-		
-		if (!JSON.toJSONString(temList).contains("新开课题")) {
-			HashMap<String, Object> temMap1 = new HashMap<String, Object>();
-			temMap1.put("zsl", 0);
-			temMap1.put("id", UUID.randomUUID().toString().replaceAll("-", ""));
-			temMap1.put("define2", "勘探院");
-			temMap1.put("project_scope", "新开课题");
-			temList.add(temMap1);
-			
-			HashMap<String, Object> temMap2 = new HashMap<String, Object>();
-			temMap2.put("zsl", 0);
-			temMap2.put("id", UUID.randomUUID().toString().replaceAll("-", ""));
-			temMap2.put("define2", "物探院");
-			temMap2.put("project_scope", "新开课题");
-			temList.add(temMap2);
-			
-			HashMap<String, Object> temMap3 = new HashMap<String, Object>();
-			temMap3.put("zsl", 0);
-			temMap3.put("id", UUID.randomUUID().toString().replaceAll("-", ""));
-			temMap3.put("define2", "工程院");
-			temMap3.put("project_scope", "新开课题");
-			temList.add(temMap3);
-			
-			
-			HashMap<String, Object> temMap4 = new HashMap<String, Object>();
-			temMap4.put("zsl", 0);
-			temMap4.put("id", UUID.randomUUID().toString().replaceAll("-", ""));
-			temMap4.put("define2", "石科院");
-			temMap4.put("project_scope", "新开课题");
-			temList.add(temMap4);
-			
-			HashMap<String, Object> temMap5 = new HashMap<String, Object>();
-			temMap5.put("zsl", 0);
-			temMap5.put("id", UUID.randomUUID().toString().replaceAll("-", ""));
-			temMap5.put("define2", "大连院");
-			temMap5.put("project_scope", "新开课题");
-			temList.add(temMap5);
-			
-			HashMap<String, Object> temMap6 = new HashMap<String, Object>();
-			temMap6.put("zsl", 0);
-			temMap6.put("id", UUID.randomUUID().toString().replaceAll("-", ""));
-			temMap6.put("define2", "北化院");
-			temMap6.put("project_scope", "新开课题");
-			temList.add(temMap6);
-			
-			HashMap<String, Object> temMap7 = new HashMap<String, Object>();
-			temMap7.put("zsl", 0);
-			temMap7.put("id", UUID.randomUUID().toString().replaceAll("-", ""));
-			temMap7.put("define2", "上海院");
-			temMap7.put("project_scope", "新开课题");
-			temList.add(temMap7);
-			
-			HashMap<String, Object> temMap8 = new HashMap<String, Object>();
-			temMap8.put("zsl", 0);
-			temMap8.put("id", UUID.randomUUID().toString().replaceAll("-", ""));
-			temMap8.put("define2", "安工院");
-			temMap8.put("project_scope", "新开课题");
-			temList.add(temMap8);
+		if (map.get("nd") == null) {
+			map.put("nd", "2018");
 		}
-		
-		if (!JSON.toJSONString(temList).contains("结转课题")) {
-			HashMap<String, Object> temMap1 = new HashMap<String, Object>();
-			temMap1.put("zsl", 0);
-			temMap1.put("id", UUID.randomUUID().toString().replaceAll("-", ""));
-			temMap1.put("define2", "勘探院");
-			temMap1.put("project_scope", "结转课题");
-			temList.add(temMap1);
-			
-			HashMap<String, Object> temMap2 = new HashMap<String, Object>();
-			temMap2.put("zsl", 0);
-			temMap2.put("id", UUID.randomUUID().toString().replaceAll("-", ""));
-			temMap2.put("define2", "物探院");
-			temMap2.put("project_scope", "结转课题");
-			temList.add(temMap2);
-			
-			HashMap<String, Object> temMap3 = new HashMap<String, Object>();
-			temMap3.put("zsl", 0);
-			temMap3.put("id", UUID.randomUUID().toString().replaceAll("-", ""));
-			temMap3.put("define2", "工程院");
-			temMap3.put("project_scope", "结转课题");
-			temList.add(temMap3);
-			
-			
-			HashMap<String, Object> temMap4 = new HashMap<String, Object>();
-			temMap4.put("zsl", 0);
-			temMap4.put("id", UUID.randomUUID().toString().replaceAll("-", ""));
-			temMap4.put("define2", "石科院");
-			temMap4.put("project_scope", "结转课题");
-			temList.add(temMap4);
-			
-			HashMap<String, Object> temMap5 = new HashMap<String, Object>();
-			temMap5.put("zsl", 0);
-			temMap5.put("id", UUID.randomUUID().toString().replaceAll("-", ""));
-			temMap5.put("define2", "大连院");
-			temMap5.put("project_scope", "结转课题");
-			temList.add(temMap5);
-			
-			HashMap<String, Object> temMap6 = new HashMap<String, Object>();
-			temMap6.put("zsl", 0);
-			temMap6.put("id", UUID.randomUUID().toString().replaceAll("-", ""));
-			temMap6.put("define2", "北化院");
-			temMap6.put("project_scope", "结转课题");
-			temList.add(temMap6);
-			
-			HashMap<String, Object> temMap7 = new HashMap<String, Object>();
-			temMap7.put("zsl", 0);
-			temMap7.put("id", UUID.randomUUID().toString().replaceAll("-", ""));
-			temMap7.put("define2", "上海院");
-			temMap7.put("project_scope", "结转课题");
-			temList.add(temMap7);
-			
-			HashMap<String, Object> temMap8 = new HashMap<String, Object>();
-			temMap8.put("zsl", 0);
-			temMap8.put("id", UUID.randomUUID().toString().replaceAll("-", ""));
-			temMap8.put("define2", "安工院");
-			temMap8.put("project_scope", "结转课题");
-			temList.add(temMap8);
-			
-		}
+		List temList = outProjectService.getZBProjectCountByTypeForTree(map);
+		// 各个组织机构范畴单位，如果有基础数据库的话，也可以直接取，此处就不用写死
+		List keyList = new ArrayList<String>();
+		keyList.add("勘探院");
+		keyList.add("物探院");
+		keyList.add("工程院");
+		keyList.add("石科院");
+		keyList.add("大连院");
+		keyList.add("北化院");
+		keyList.add("上海院");
+		keyList.add("安工院");
+		logger.info("==================page getZBProjectTypeCountForTree===========================" + JSON.toJSONString(temList));
+		temList = iniListValueTree(temList, "project_scope", "新开课题", keyList);
+		temList = iniListValueTree(temList, "project_scope", "结转课题", keyList);
 		
 		System.out.println("===="+JSON.toJSONString(temList));
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
