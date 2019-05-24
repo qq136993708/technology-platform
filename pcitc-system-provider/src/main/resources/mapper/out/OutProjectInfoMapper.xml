@@ -1874,8 +1874,8 @@
 		group by fzdw
 	</select>
 
-    <!-- 工作台-科研课题-科研项目占比分析-按负责单位的单位范畴分组 -->
-	<select id="getProjectTypeInfoByUnit" resultType="java.util.Map" parameterType="java.lang.String">
+    <!-- 工作台-科研课题-科研项目占比分析-按承担单位的单位范畴分组 -->
+	<select id="getProjectTypeInfoByUnit" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select sum(case when nd = '${nd}' then 1 else 0 end) as xksl,
 			   sum(case when nd &lt; '${nd}' then 1 else 0 end) as xjsl,
 			   SUBSTR(type_flag FROM 2) as type_flag
@@ -1901,16 +1901,32 @@
 		ORDER BY tableA.type_flag
 	</select>
 	
-	<select id="getZBProjectTypeInfoByUnit" resultType="java.util.Map" parameterType="java.lang.String">
-		select
-			sum(case project_scope when '新开课题' then 1 else 0 end) as xksl,
-			sum(case project_scope when '结转课题' then 1 else 0 end) as xjsl,
-			sum(case project_scope when '完工课题' then 1 else 0 end) as wjsl,
-			SUBSTR(type_flag FROM 2) type_flag
-		from out_project_info
-		where type_flag is not null
-			  and project_type != '1' and xmlbbm = 'KYZB'
-		group BY type_flag
+	 <!-- 工作台-装备课题-科研项目占比分析-按承担单位的单位范畴分组 -->
+	<select id="getZBProjectTypeInfoByUnit" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select sum(case when nd = '${nd}' then 1 else 0 end) as xksl,
+			   sum(case when nd &lt; '${nd}' then 1 else 0 end) as xjsl,
+			   SUBSTR(type_flag FROM 2) as type_flag
+		from (
+			select
+				nd,type_flag
+			from out_project_info
+			where type_flag is not null and 
+				  ysnd= '${nd}' and project_type != '1' and 
+				  out_project_info.define3 = '项目管理系统' and
+				  xmlbbm = 'KYZB'
+				  <if test="leaderFlag == null or leaderFlag != '1'">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				 </if>
+			group by xmid
+		) as tableA
+		group BY tableA.type_flag
+		ORDER BY tableA.type_flag
+		
 	</select>
 	
 	<!-- 首页、领导首页，查询新开的国家项目、重点项目、重大项目、其他项目、总计的统计 -->
@@ -1995,7 +2011,7 @@
 		select sum(case when nd = '${nd}' then 1 else 0 end) as xksl,
 			   sum(case when nd &lt; '${nd}' then 1 else 0 end) as xjsl,
 			   count(*) as zsl,
-			   SUBSTR(type_flag FROM 2) as type_flag
+			   SUBSTR(define2 FROM 4) as define2
 		from (
 			select
 				nd,define2
@@ -2228,7 +2244,7 @@
 	
 	<!--  工作台-科研课题-科研项目,各单位范畴的新开、结转占比树形图 -->
 	<select id="getProjectTypeCountForTree" resultType="java.util.Map" parameterType="java.util.HashMap">
-	    select count(*) as zsl,UUID() as id,substring(type_flag, 4) as type_flag,tableA.project_scope from (
+	    select count(*) as zsl,UUID() as id,substring(type_flag, 2) as type_flag,tableA.project_scope from (
 		    select
 				nd,ysnd,type_flag,
 				(case when nd = '${nd}' then '新开课题' else '结转课题' end) as project_scope
@@ -2262,7 +2278,7 @@
 	
 	<!--  工作台-装备课题-科研项目,各单位范畴的新开、结转占比树形图 -->
 	<select id="getZBProjectTypeCountForTree" resultType="java.util.Map" parameterType="java.util.HashMap">
-	    select count(*) as zsl,UUID() as id,substring(type_flag, 4) as type_flag,tableA.project_scope from (
+	    select count(*) as zsl,UUID() as id,substring(type_flag, 2) as type_flag,tableA.project_scope from (
 		    select
 				nd,ysnd,type_flag,
 				(case when nd = '${nd}' then '新开课题' else '结转课题' end) as project_scope

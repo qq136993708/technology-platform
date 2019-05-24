@@ -854,8 +854,8 @@ public class OutProjectServiceImpl implements OutProjectService {
      * @param nd
      * @return 首页查询9个单位的新开、续建、完结情况-装备
      */
-    public List getZBProjectTypeInfoByUnit(String nd) {
-        return outProjectInfoMapper.getZBProjectTypeInfoByUnit(nd);
+    public List getZBProjectTypeInfoByUnit(HashMap<String, String> map) {
+        return outProjectInfoMapper.getZBProjectTypeInfoByUnit(map);
     }
 
     /**
