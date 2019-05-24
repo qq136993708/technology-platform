@@ -10,6 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
 	
 	<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+	<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 	<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 	<script type="text/javascript">
 		var table,selectRowData;
@@ -42,7 +43,6 @@
 			            	,{title:'序号', type:'numbers' ,width : 55}
 			                ,{field:'projectId',   title:'项目名称',	width: '15%',  style:'cursor: pointer;'}
 			                ,{field:'contractNo',   title:'签约编号',    width: '10%',  style:'cursor: pointer;'}
-			                ,{field:'unitId',title:'所属研究院',width: '8%',style:'cursor: pointer;'}
 			                ,{field:'chineseContractCompany',title:'中方合作单位',   style:'cursor: pointer;'}
 			                ,{field:'foreignContractCompany',title:'外方合作单位',   style:'cursor: pointer;'}
 			                ,{field:'agreementStartDate',title:'协议开始日期', width: '10%',  style:'cursor: pointer;'}
@@ -60,7 +60,7 @@
 			                    selectRowData=res.data[index-1];
 			                }); 
 			               
-			                $.each(res.data,function(i,dt){
+			               /*  $.each(res.data,function(i,dt){
 				            	//获得项目信息
 				            	publicMethods.ajaxPost('/project/get-apply', {"applyId":res.data[i].projectId}, function (data, status) {
 				            		$("tr[data-index='"+i+"'] td[data-field='projectId'] div").html(data.applyName);
@@ -71,7 +71,7 @@
 							   		});
 					            });
 				            	
-				            });
+				            }); */
 			            }
 			        });
 	    			renderfunc = function removeHeaderCheckbox(){

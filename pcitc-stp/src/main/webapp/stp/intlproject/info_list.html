@@ -125,11 +125,11 @@
 		            		return;
 		            	}
 		            	layer.confirm('提交后将不可再编辑，确定要提交吗？',{title:"提交确认"},function(index){
-		            		console.log(selectRowData);
 							layer.close(index);
-							publicMethods.ajaxPost("/project/project-start-workflow", {projectId:selectRowData.projectId,functionId:param.id}, function (data) {
+							publicMethods.ajaxAsyncPost("/project/project-start-workflow", {projectId:selectRowData.projectId,functionId:param.id}, function (data) {
 		          	           if (data.success) {
 		          	        	 renderTable({param: {"applyName":$("#applyName").val()}});
+		          	        	 layer.msg('提交成功!');
 		          	           } else {
 		          	        	 layer.msg(data.message);
 		          	           }
@@ -142,9 +142,10 @@
 		            	} 
 		            	layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
 							layer.close(index);
-							publicMethods.ajaxPost("/project/close-project", {projectId:selectRowData.projectId}, function (data) {
+							publicMethods.ajaxAsyncPost("/project/close-project", {projectId:selectRowData.projectId}, function (data) {
 			                     if (data.success) {
 			                    	 table.reload("infoTable",{where:{param: {"infoName":$("#infoName").val()}}});
+			                    	 layer.msg('删除成功!');
 			                     } else {
 			                    	 layer.msg('操作异常，请重试!');
 			                     }
@@ -158,9 +159,11 @@
 		            	}
 						layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
 							layer.close(index);
+							layer.msg('处理中....');
 							publicMethods.ajaxPost("/project/del-project", {projectId:selectRowData.projectId}, function (data) {
 			                     if (data.success) {
 			                    	 table.reload("infoTable",{param: {"infoName":$("#infoName").val()}});
+			                    	 layer.msg(data.message);
 			                     } else {
 			                    	 layer.msg('操作异常，请重试!');
 			                     }
