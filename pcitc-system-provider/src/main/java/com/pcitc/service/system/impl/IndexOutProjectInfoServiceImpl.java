@@ -7,8 +7,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.common.TreeNode;
-import com.pcitc.base.stp.out.OutProjectInfo;
-import com.pcitc.base.stp.out.OutProjectInfoExample;
+import com.pcitc.base.stp.out.*;
 import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.base.system.*;
 import com.pcitc.base.system.IndexOutProjectInfoExample;
@@ -16,8 +15,13 @@ import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.base.util.TreeNodeUtil;
+import com.pcitc.mapper.out.OutAppraisalMapper;
+import com.pcitc.mapper.out.OutPatentMapper;
 import com.pcitc.mapper.out.OutProjectInfoMapper;
 import com.pcitc.mapper.system.IndexOutProjectInfoMapper;
+import com.pcitc.service.out.OutAppraisalService;
+import com.pcitc.service.system.IndexOutAppraisalService;
+import com.pcitc.service.system.IndexOutPatentService;
 import com.pcitc.service.system.IndexOutProjectInfoService;
 import com.pcitc.web.feign.TechFamilyProviderClient;
 import org.apache.commons.lang3.StringUtils;
@@ -33,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 import java.util.Date;
+import java.util.stream.Collectors;
 
 /**
  * <p>接口实现类</p>
@@ -187,8 +192,25 @@ public class IndexOutProjectInfoServiceImpl implements IndexOutProjectInfoServic
         int pageSize = param.getLimit();
         int pageStart = (param.getPage() - 1) * pageSize;
         int pageNum = pageStart / pageSize + 1;
+
+        Object type = param.getParam().get("type");
+        if ("ry".equals(type)) {
+            pageSize = 1000000000;
+        }
+
+        if ("fy".equals(type)) {
+            pageSize = 1000000000;
+        }
         PageHelper.startPage(pageNum, pageSize);
         List<IndexOutProjectInfo> list = indexOutProjectInfoMapper.selectByExample(example);
+//        if("ry".equals(type)){
+//            List<String> ryList = list.stream().map(ry ->(ry.getFzrxm())).collect(Collectors.toList());
+//        }
+//
+//        if ("fy".equals(type)){
+//            pageSize = 1000000000;
+//        }
+
         // 3、获取分页查询后的数据
         PageInfo<IndexOutProjectInfo> pageInfo = new PageInfo<IndexOutProjectInfo>(list);
         LayuiTableData data = new LayuiTableData();
@@ -262,6 +284,86 @@ public class IndexOutProjectInfoServiceImpl implements IndexOutProjectInfoServic
                 this.insert(indexOutProjectInfo);
             }
         }
+    }
 
+    @Autowired
+    private OutAppraisalMapper outAppraisalMapper;
+
+    @Autowired
+    private IndexOutAppraisalService indexOutAppraisalService;
+
+    @Override
+    public void selectAppraisalToIndexProjectInfo() {
+        this.deleteByExample(new IndexOutProjectInfoExample());
+        TechFamily techFamily = new TechFamily();
+        List<TechFamily> techFamilies = techFamilyProviderClient.selectTechFamilyTypeList(techFamily);
+        for (int i = 0, j = techFamilies.size(); i < j; i++) {
+            TechFamily tf = techFamilies.get(i);
+            //查询项目表
+            OutAppraisalExample example = new OutAppraisalExample();
+            OutAppraisalExample.Criteria criteria = example.createCriteria();
+            criteria.andCgmcLike("%" + tf.getTypeName() + "%");
+            List<OutAppraisal> records = outAppraisalMapper.selectByExample(example);
+            //插入index项目表
+            if (records == null || records.size() == 0) {
+                continue;
+            }
+            for (int k = 0; k < records.size(); k++) {
+                IndexOutAppraisal indexOutProjectInfo = new IndexOutAppraisal();
+                MyBeanUtils.copyProperties(records.get(k), indexOutProjectInfo);
+                indexOutProjectInfo.setTypeCode(tf.getTypeCode());
+                indexOutProjectInfo.setTypeName(tf.getTypeName());
+                indexOutProjectInfo.setTfmTypeId(tf.getTfmTypeId());
+                indexOutProjectInfo.setParentId(tf.getParentId());
+                indexOutProjectInfo.setParentCode(tf.getParentCode());
+                indexOutProjectInfo.setIsParent(tf.getIsParent());
+                indexOutProjectInfo.setTypeIndex(tf.getTypeIndex());
+                IndexOutAppraisalExample e = new IndexOutAppraisalExample();
+                e.createCriteria().andCgidEqualTo(indexOutProjectInfo.getCgid());
+                indexOutAppraisalService.deleteByExample(e);
+                indexOutAppraisalService.insert(indexOutProjectInfo);
+            }
+        }
+    }
+
+    @Autowired
+    private OutPatentMapper outPatentMapper;
+
+    @Autowired
+    private IndexOutPatentService indexOutPatentService;
+
+    @Override
+    public void selectPatentToIndexProjectInfo() {
+        this.deleteByExample(new IndexOutProjectInfoExample());
+        TechFamily techFamily = new TechFamily();
+        List<TechFamily> techFamilies = techFamilyProviderClient.selectTechFamilyTypeList(techFamily);
+        for (int i = 0, j = techFamilies.size(); i < j; i++) {
+            TechFamily tf = techFamilies.get(i);
+            //查询项目表
+            OutPatentExample example = new OutPatentExample();
+            OutPatentExample.Criteria criteria = example.createCriteria();
+            criteria.andFmmcLike("%" + tf.getTypeName() + "%");
+            List<OutPatent> records = outPatentMapper.selectByExample(example);
+            //插入index项目表
+            if (records == null || records.size() == 0) {
+                continue;
+            }
+            for (int k = 0; k < records.size(); k++) {
+                IndexOutPatent indexOutProjectInfo = new IndexOutPatent();
+                MyBeanUtils.copyProperties(records.get(k), indexOutProjectInfo);
+                indexOutProjectInfo.setTypeCode(tf.getTypeCode());
+                indexOutProjectInfo.setTypeName(tf.getTypeName());
+                indexOutProjectInfo.setTfmTypeId(tf.getTfmTypeId());
+                indexOutProjectInfo.setParentId(tf.getParentId());
+                indexOutProjectInfo.setParentCode(tf.getParentCode());
+                indexOutProjectInfo.setIsParent(tf.getIsParent());
+                indexOutProjectInfo.setTypeIndex(tf.getTypeIndex());
+
+//                IndexOutPatentExample e = new IndexOutPatentExample();
+//                e.createCriteria().andSqhEqualTo(indexOutProjectInfo.getSqh());
+//                indexOutPatentService.deleteByExample(e);
+                indexOutPatentService.insert(indexOutProjectInfo);
+            }
+        }
     }
 }

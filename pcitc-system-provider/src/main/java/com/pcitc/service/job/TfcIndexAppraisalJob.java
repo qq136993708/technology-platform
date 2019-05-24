@@ -1,7 +1,6 @@
 package com.pcitc.service.job;
 
 import com.pcitc.config.SpringContextUtil;
-import com.pcitc.service.out.OutProjectService;
 import com.pcitc.service.system.IndexOutProjectInfoService;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -9,7 +8,7 @@ import org.quartz.JobExecutionException;
 
 import java.io.Serializable;
 
-public class TfcIndexJob implements Job, Serializable {
+public class TfcIndexAppraisalJob implements Job, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public void execute(JobExecutionContext job) throws JobExecutionException {
@@ -18,8 +17,8 @@ public class TfcIndexJob implements Job, Serializable {
 		try {
             System.out.println("------------------");
 //            bean.selectTfcToIndexProjectInfo();
-//            bean.selectAppraisalToIndexProjectInfo();
-            bean.selectPatentToIndexProjectInfo();
+            bean.selectAppraisalToIndexProjectInfo();
+//            bean.selectPatentToIndexProjectInfo();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

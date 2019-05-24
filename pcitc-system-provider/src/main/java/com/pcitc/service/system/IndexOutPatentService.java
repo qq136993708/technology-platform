@@ -7,19 +7,19 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
-import com.pcitc.base.system.IndexOutProjectInfo;
-import com.pcitc.base.system.IndexOutProjectInfoExample;
+import com.pcitc.base.system.IndexOutPatent;
+import com.pcitc.base.system.IndexOutPatentExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 /**
  * <p>接口类</p>
- * <p>Table: index_out_project_info - 首页-科研项目</p>
+ * <p>Table: index_out_patent - </p>
  *
- * @since 2019-05-22 03:38:18
+ * @since 2019-05-23 07:13:54
  */
-public interface IndexOutProjectInfoService {
+public interface IndexOutPatentService {
 
     /**
      * 判空-信息
@@ -28,7 +28,7 @@ public interface IndexOutProjectInfoService {
      * @return
      * @throws Exception
      */
-    List<IndexOutProjectInfo> findIndexOutProjectInfoList(IndexOutProjectInfo record) throws Exception;
+    List<IndexOutPatent> findIndexOutPatentList(IndexOutPatent record) throws Exception;
 
     /**
      * 删除
@@ -37,7 +37,7 @@ public interface IndexOutProjectInfoService {
      * @return
      * @throws Exception
      */
-    int updateOrInsertIndexOutProjectInfo(IndexOutProjectInfo record) throws Exception;
+    int updateOrInsertIndexOutPatent(IndexOutPatent record) throws Exception;
 
     /**
      * 根据id删除
@@ -46,7 +46,7 @@ public interface IndexOutProjectInfoService {
      * @return
      * @throws Exception
      */
-    int deleteIndexOutProjectInfoById(String id) throws Exception;
+    int deleteIndexOutPatentById(String id) throws Exception;
 
     /**
      * 根据id查询对象
@@ -55,7 +55,7 @@ public interface IndexOutProjectInfoService {
      * @return
      * @throws Exception
      */
-    IndexOutProjectInfo getIndexOutProjectInfoInfo(String id) throws Exception;
+    IndexOutPatent getIndexOutPatentInfo(String id) throws Exception;
 
     /**
      * 查询总条数
@@ -63,7 +63,7 @@ public interface IndexOutProjectInfoService {
      * @param example
      * @return
      */
-    long countByExample(IndexOutProjectInfoExample example);
+    long countByExample(IndexOutPatentExample example);
 
     /**
      * 根据example条件删除
@@ -71,7 +71,7 @@ public interface IndexOutProjectInfoService {
      * @param example
      * @return
      */
-    int deleteByExample(IndexOutProjectInfoExample example);
+    int deleteByExample(IndexOutPatentExample example);
 
     /**
      * 根据主键删除
@@ -87,7 +87,7 @@ public interface IndexOutProjectInfoService {
      * @param record
      * @return
      */
-    int insert(IndexOutProjectInfo record);
+    int insert(IndexOutPatent record);
 
     /**
      * 插入信息,返回对象
@@ -95,7 +95,7 @@ public interface IndexOutProjectInfoService {
      * @param record
      * @return
      */
-    IndexOutProjectInfo insertObject(IndexOutProjectInfo record);
+    IndexOutPatent insertObject(IndexOutPatent record);
 
     /**
      * 判空-插入信息
@@ -103,7 +103,7 @@ public interface IndexOutProjectInfoService {
      * @param record
      * @return
      */
-    int insertSelective(IndexOutProjectInfo record);
+    int insertSelective(IndexOutPatent record);
 
     /**
      * 根据example条件查询
@@ -111,7 +111,7 @@ public interface IndexOutProjectInfoService {
      * @param example
      * @return
      */
-    List<IndexOutProjectInfo> selectByExample(IndexOutProjectInfoExample example);
+    List<IndexOutPatent> selectByExample(IndexOutPatentExample example);
 
     /**
      * 根据主键查询
@@ -119,7 +119,7 @@ public interface IndexOutProjectInfoService {
      * @param id
      * @return
      */
-    IndexOutProjectInfo selectByPrimaryKey(String id);
+    IndexOutPatent selectByPrimaryKey(String id);
 
     /**
      * 根据example条件-判空更新
@@ -128,7 +128,7 @@ public interface IndexOutProjectInfoService {
      * @param example
      * @return
      */
-    int updateByExampleSelective(@Param("record") IndexOutProjectInfo record, @Param("example") IndexOutProjectInfoExample example);
+    int updateByExampleSelective(@Param("record") IndexOutPatent record, @Param("example") IndexOutPatentExample example);
 
     /**
      * 根据example条件,更新所有
@@ -137,7 +137,7 @@ public interface IndexOutProjectInfoService {
      * @param example
      * @return
      */
-    int updateByExample(@Param("record") IndexOutProjectInfo record, @Param("example") IndexOutProjectInfoExample example);
+    int updateByExample(@Param("record") IndexOutPatent record, @Param("example") IndexOutPatentExample example);
 
     /**
      * 根据主键判空-更新
@@ -145,7 +145,7 @@ public interface IndexOutProjectInfoService {
      * @param record
      * @return
      */
-    int updateByPrimaryKeySelective(IndexOutProjectInfo record);
+    int updateByPrimaryKeySelective(IndexOutPatent record);
 
     /**
      * 根据主键更新所有
@@ -153,7 +153,7 @@ public interface IndexOutProjectInfoService {
      * @param record
      * @return
      */
-    int updateByPrimaryKey(IndexOutProjectInfo record);
+    int updateByPrimaryKey(IndexOutPatent record);
 
     /**
      * 删除菜单
@@ -161,13 +161,13 @@ public interface IndexOutProjectInfoService {
      * @param id
      * @return
      */
-    Integer deleteIndexOutProjectInfo(java.io.Serializable id);
+    Integer deleteIndexOutPatent(java.io.Serializable id);
 
     /**
      * @param param 分页查询
      * @return
      */
-    LayuiTableData findIndexOutProjectInfoByPage(LayuiTableParam param);
+    LayuiTableData findIndexOutPatentByPage(LayuiTableParam param);
 
     /**
      * 真删除
@@ -175,7 +175,7 @@ public interface IndexOutProjectInfoService {
      * @param id
      * @return
      */
-    Integer deleteIndexOutProjectInfoReal(String id);
+    Integer deleteIndexOutPatentReal(String id);
 
     /**
      * 查询树
@@ -183,11 +183,4 @@ public interface IndexOutProjectInfoService {
      * @return
      */
     List<TreeNode> selectObjectByTree();
-
-    void selectTfcToIndexProjectInfo();
-
-    void selectAppraisalToIndexProjectInfo();
-
-    void selectPatentToIndexProjectInfo();
-
 }
