@@ -10,11 +10,7 @@
 	
 	<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 	<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
-	<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
-	<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
-	<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
-    <script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
-    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+	<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 	
 	<style>
 	.tree-content {
@@ -54,7 +50,7 @@
     	var noticeType={};
     	var param = JSON.parse(window.localStorage.getItem("param"));
     	//加载岗位类型字典
-		ajaxPost("/dictionary/list/GJXMGL_TZLX", null, function (data) {
+		publicMethods.ajaxPost("/dictionary/list/GJXMGL_TZLX", null, function (data) {
 			$.each(data,function(i,dt){
 				noticeType[data[i].code] = data[i].name;
 	    	});

@@ -184,9 +184,10 @@
             	}
             	layer.confirm('提交后将不可再编辑，确定要提交吗？',{title:"提交确认"},function(index){
 					layer.close(index);
-          		   	ajaxPost("/project/apply-start-workflow",{applyId: selectRowData.applyId,functionId:param.id}, function (data) {
+					publicMethods.ajaxAsyncPost("/project/apply-start-workflow",{applyId: selectRowData.applyId,functionId:param.id}, function (data) {
           		   		if (data.success) {
           	        	 renderTable({param: {"applyName":$("#applyName").val()}});
+          	        	layer.msg(data.message);
           	           } else {
           	        	 layer.msg(data.message);
           	           }
@@ -199,9 +200,10 @@
             	} 
             	layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
 					layer.close(index);
-	            	ajaxPost("/project/apply-close/" + selectRowData.applyId, null, function (data) {
+					publicMethods.ajaxAsyncPost("/project/apply-close/" + selectRowData.applyId, null, function (data) {
 	                     if (data.success) {
 	                    	 renderTable({param: {"applyName":$("#applyName").val()}});
+	                    	 layer.msg(data.message);
 	                     } else {
 	                    	 layer.msg('操作异常，请重试!');
 	                     }
@@ -215,7 +217,7 @@
             	}
 				layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
 					layer.close(index);
-	            	ajaxPost("/project/apply-delete/"+selectRowData.applyId, null, function (data) {
+					publicMethods.ajaxAsyncPost("/project/apply-delete/"+selectRowData.applyId, null, function (data) {
 	                     if (data.success) {
 	                    	 renderTable({param: {"applyName":$("#applyName").val()}});
 	                    	 //table.reload("applyTable");

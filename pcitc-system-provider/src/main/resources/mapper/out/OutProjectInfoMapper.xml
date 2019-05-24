@@ -3477,7 +3477,7 @@
 			   out_project_info.nd,out_project_info.xmid,out_project_info.fzdw,
 			   out_project_info.jf,out_project_info.zylb,substr(out_project_info.define10, 4) as define10,
 			   out_project_info.ysje,out_project_info.ysnd,out_project_info.fwdx,out_project_info.status,
-			   out_project_info.fzrxm,out_project_info.define13
+			   out_project_info.fzrxm,out_project_info.define14
 		from out_project_info 
 		where 1=1 
 		<if test="nd != null">
