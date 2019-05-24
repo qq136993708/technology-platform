@@ -101,7 +101,7 @@ public interface OutProjectService {
      * @return
      * 首页查询9个单位的新开、续建、完结情况-装备
      */
-    public List getZBProjectTypeInfoByUnit(String nd);
+    public List getZBProjectTypeInfoByUnit(HashMap<String, String> map);
     
     /**
      * @param nd
