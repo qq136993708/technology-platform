@@ -260,7 +260,7 @@ public class OutProjectInfoClient {
 		List keyList = new ArrayList<String>();
 		keyList.add("xksl");
 		keyList.add("xjsl");
-		logger.info("==================page getProjectTypeInfoByUnit===========================" + JSON.toJSONString(temList));
+		logger.info("==================page getZBProjectTypeInfoByUnit===========================" + JSON.toJSONString(temList));
 		// 各个组织机构名称，如果有基础数据库的话，也可以直接取，此处就不用写死
 		temList = iniListValue(temList, "type_flag", "直属研究院", keyList);
 		temList = iniListValue(temList, "type_flag", "分子公司", keyList);

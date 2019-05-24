@@ -2253,6 +2253,14 @@
 				out_project_info.define3 = '项目管理系统' and
 				xmlbbm != 'KYZB' and 
 				type_flag is not null
+				<if test="leaderFlag == null or leaderFlag != '1'">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				</if>
 		    group by xmid
 		) as tableA 
 		GROUP BY tableA.project_scope,tableA.type_flag
@@ -2270,6 +2278,14 @@
 				out_project_info.define3 = '项目管理系统' and
 				xmlbbm != 'KYZB' and 
 				define10 is not null
+				<if test="leaderFlag == null or leaderFlag != '1'">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				</if>
 		    group by xmid
 		) as tableA 
 		GROUP BY tableA.project_scope,tableA.define10
@@ -2287,6 +2303,14 @@
 				out_project_info.define3 = '项目管理系统' and
 				xmlbbm = 'KYZB' and 
 				type_flag is not null
+				<if test="leaderFlag == null or leaderFlag != '1'">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				</if>
 		    group by xmid
 		) as tableA 
 		GROUP BY tableA.project_scope,tableA.type_flag
