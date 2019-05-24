@@ -787,8 +787,8 @@ public class OutProjectServiceImpl implements OutProjectService {
      * @param nd
      * @return 科研二级页面，8大院的各个新开、续建情况--装备
      */
-    public List getZBProjectTypeCountByUnit(String nd) {
-        return outProjectInfoMapper.getZBProjectTypeCountByUnit(nd);
+    public List getZBProjectTypeCountByUnit(HashMap<String, String> map) {
+        return outProjectInfoMapper.getZBProjectTypeCountByUnit(map);
     }
 
     /**
@@ -819,8 +819,8 @@ public class OutProjectServiceImpl implements OutProjectService {
      * @param nd
      * @return 科研二级页面，项目类型（国家项目、重点项目、重大项目、其他项目）的各个新开、续建情况--装备树结构
      */
-    public List getZBProjectCountByTypeForTree(String nd) {
-        return outProjectInfoMapper.getZBProjectCountByTypeForTree(nd);
+    public List getZBProjectCountByTypeForTree(HashMap<String, String> map) {
+        return outProjectInfoMapper.getZBProjectCountByTypeForTree(map);
     }
 
     /**

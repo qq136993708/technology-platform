@@ -2036,16 +2036,34 @@
 		ORDER BY tableA.define2
 	</select>
 	
-	<select id="getZBProjectTypeCountByUnit" resultType="java.util.Map" parameterType="java.lang.String">
-		select
-		    sum(case when project_scope = '新开课题' then 1 else 0 end) as xksl,
-		    sum(case when project_scope = '结转课题' then 1 else 0 end) as xjsl,
-		    count(*) as zsl,
-	    	SUBSTR(define2 FROM 4) define2
-		from out_project_info
-		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and 
-			  define2 is not null and xmlbbm ='KYZB' and type_flag like '%直属研究院%'
-	    group by define2
+	<!-- 工作台-装备课题-科研项目占比分析-按研究院分组 -->
+	<select id="getZBProjectTypeCountByUnit" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select sum(case when nd = '${nd}' then 1 else 0 end) as xksl,
+			   sum(case when nd &lt; '${nd}' then 1 else 0 end) as xjsl,
+			   count(*) as zsl,
+			   SUBSTR(define2 FROM 4) as define2
+		from (
+			select
+				nd,define2
+			from out_project_info
+			where type_flag is not null and 
+				  ysnd= '${nd}' and project_type != '1' and 
+				  out_project_info.define3 = '项目管理系统' and
+				  xmlbbm = 'KYZB' and 
+				  type_flag like '%直属研究院%' and 
+				  define2 is not null
+				  <if test="leaderFlag == null or leaderFlag != '1'">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				 </if>
+			group by xmid
+		) as tableA
+		group BY tableA.define2
+		ORDER BY tableA.define2
 	</select>
 	
 	<select id="getZBProjectCountByProjectType" resultType="java.util.Map" parameterType="java.lang.String">
@@ -2317,15 +2335,29 @@
 		ORDER BY tableA.project_scope,tableA.type_flag
 	</select>
 	
-	<select id="getZBProjectCountByTypeForTree" resultType="java.util.Map" parameterType="java.lang.String">
-		select
-		    count(*) as zsl,UUID() as id,project_scope,SUBSTR(define2 FROM 4) define2
-		from out_project_info
-		where 
-			project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and xmlbbm ='KYZB' 
-			and define2 is not null and type_flag like '%直属研究院%'
-	    group by project_scope,define2
-	    
+	<select id="getZBProjectCountByTypeForTree" resultType="java.util.Map" parameterType="java.util.HashMap">
+	    select count(*) as zsl,UUID() as id,substring(define2, 4) as define2,tableA.project_scope from (
+		    select
+				nd,ysnd,define2,
+				(case when nd = '${nd}' then '新开课题' else '结转课题' end) as project_scope
+			from out_project_info
+			where ysnd = '${nd}' and project_type != '1' and 
+				out_project_info.define3 = '项目管理系统' and
+				xmlbbm = 'KYZB' and 
+				type_flag like '%直属研究院%' and
+				define2 is not null 
+				<if test="leaderFlag == null or leaderFlag != '1'">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				</if>
+		    group by xmid
+		) as tableA 
+		GROUP BY tableA.project_scope,tableA.define2
+		ORDER BY tableA.project_scope,tableA.define2
 	</select>
 	
 	<select id="getProjectMoneyForTree" resultType="java.util.Map" parameterType="java.lang.String">
