@@ -45,4 +45,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public int deletePurchaseArrival() {
         return srePurchaseArrivalMapper.deletePurchaseArrival();
     }
+
+    @Override
+    public void insertPurchaseArrivalList(List<SrePurchaseArrival> srePurchaseArrivals) {
+        srePurchaseArrivalMapper.insertPurchaseArrivalList(srePurchaseArrivals);
+    }
+
+    @Override
+    public void insertPurchaseOrderList(List<SrePurchaseOrder> srePurchaseOrderList) {
+        srePurchaseOrderMapper.insertPurchaseOrderList(srePurchaseOrderList);
+    }
 }

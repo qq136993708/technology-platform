@@ -338,7 +338,10 @@
 										</if>
  									)
  	where 
-	 	sys_dictionary.parent_code = 'ROOT_XTGL_ZSYJY'
+ 	1 = 1
+ 	<if test="keyWord!=null and keyWord!=''.toString">
+		and sys_dictionary.parent_code = #{keyWord}
+	</if>
  	group by sys_dictionary.code
  	order by sys_dictionary.create_time
   </select>

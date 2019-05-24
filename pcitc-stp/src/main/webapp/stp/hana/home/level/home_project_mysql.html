@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-      <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/mainStp.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/mainStp.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
 </head>
 <body>
-<div class="layui-fluid">
-<input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
+	<div class="layui-fluid">
+		<input type="hidden" name="companyCode" value="${companyCode}" id="companyCode">
 
-    <div class="layui-main-oil">
-        <div class="searchBox">
-            <label class="dateInput">
-                <span>月份</span>
-                <input type="text" name="year" placeholder="请选择月份" title="月份" value="${year}"  autocomplete="off" class="form-control" id="year">
-            </label>
+		<div class="layui-main-oil">
+			<div class="searchBox">
+				<label class="dateInput">
+					<span>月份</span>
+					<input type="text" name="year" placeholder="请选择月份" title="月份" value="${year}" autocomplete="off" class="form-control" id="year">
+				</label>
 
-            <!-- <div class="layui-input-inline">
+				<!-- <div class="layui-input-inline">
                 <select name="companyCode" id="companyCode"  >
                     <#list companyCodeList as vo>
                     <#if vo.g0GSJC == '全部'>
@@ -33,42 +33,40 @@
                 </#list>
                 </select>
             </div> -->
-            <!--按钮组-->
-            <div class="btnGroup">
-                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()">查询</button>
-            </div>
-            <div class="btnGroup" style="float:right">
-                <button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
-                >明细</button>
-            </div>
-        </div>
-        
-        
-        <div class="layui-row layui-col-space10">
-            <div class="layui-col-xs8">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        <span class="layui-time"></span> 科研项目占比分析
-                    </div>
-                    <div class="layui-row-main">
-                        <div class="main-chart" id="chart1" style="height:280px;width: 100%;"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-xs4">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        科研项目占比分析
-                    </div>
-                    <div class="layui-row-main">
-                        <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        
-      <!--   
+				<!--按钮组-->
+				<div class="btnGroup">
+					<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()">查询</button>
+				</div>
+				<div class="btnGroup" style="float: right">
+					<button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details">明细</button>
+				</div>
+			</div>
+
+
+			<div class="layui-row layui-col-space10">
+				<div class="layui-col-xs8">
+					<div class="layui-card">
+						<div class="layui-card-header">
+							<span class="layui-time"></span>
+							科研项目占比分析
+						</div>
+						<div class="layui-row-main">
+							<div class="main-chart" id="chart1" style="height: 280px; width: 100%;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-xs4">
+					<div class="layui-card">
+						<div class="layui-card-header">科研项目占比分析</div>
+						<div class="layui-row-main">
+							<table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<!--   
       <div class="layui-row layui-col-space10">
             <div class="layui-col-xs4">
                 <div class="layui-card">
@@ -101,279 +99,285 @@
                 </div>
             </div>
         </div> -->
-        
-        
-        
-        <div class="layui-row layui-col-space10">
-            <div class="layui-col-xs8">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        <span class="layui-time"></span>科研项目数量按单位分析
-                    </div>
-                    <div class="layui-row-main">
-                        <div class="main-chart" id="chart4" style="height:280px;width: 100%;"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-xs4">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        科研项目占比分析
-                    </div>
-                    <div class="layui-row-main">
-                        <table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table_02"></table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        
-        
-        
-        <div class="layui-row layui-col-space10">
-            <div class="layui-col-md12">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        <span class="layui-time"></span>直属研究院科研项目数量分布情况分析
-                    </div>
-                    <div class="layui-row-main">
-                        <div class="main-chart" id="chart7" style="height:280px;width: 100%;"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="/common/js/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-<script src="/common/js/layer-v3.1.1/layer.js"></script>
-<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
-<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_chart.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
-
-<script type="text/javascript">
-
-var editObj=null,ptable=null,treeGridCom=null,tableId='processdef-table',layer=null;
-var ptable02=null,treeGridCom=null,tableId02='processdef_table_02';
-layui.config({
-    base: '/layuiadmin/lib/extend/'
-}).extend({
-    treeGridCom:'treeGridCom'
-}).use(['jquery','form', 'laydate','treeGridCom','layer'], function(){
-    var $=layui.jquery;
-    treeGridCom = layui.treeGridCom;//很重要
-    layer=layui.layer;
-    laydate = layui.laydate;
-    form = layui.form;
-    var year=$("#year").val();
-    $(".layui-time").html(year+"年");
-    form.render(null, 'component-form-group');
-    laydate.render({
-       elem: '#year'
-       ,format: 'yyyy'
-    });
-    renderTable();
-    renderTable_UNIT();
-    $("#knowledge_table").click(function () {
-        parent.layui.index.openTabsPage("/home/project-list?define1=费用性", "科研项目明细"); 
-    });
-  
-});
 
 
-function initEchart()
-{
-	
-	 var year=$("#year").val();
-     $(".layui-time").html(year+"年");
-	 var companyCode=$("#companyCode").val();
-	 var v_date=(new Date()).getTime();
-	 var month=$('#year').val();
-	 var yAxis= [
-        {
-            type: 'value',
-            name: '数量（个）',
-            min: 0,
-            max:'dataMax',
-            position: 'left',
-            axisLabel: {
-                formatter: '{value}'
-            }
-        }
-    ];
-	
 
-	var chart1_url="/home_project_02/getProjectByCountBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-	var echart=load_mutl_bar_02(chart1_url,"chart1","","",yAxis);
-	echart.on('click', function (params) {
-		//params.name：X轴的值 
-		//params.data：Y轴的值 
-		//params.value：Y轴的值 
-		//params.type：点击事件均为click 
-		//params.seriesName： legend的名称 
-		//alert("name="+params.name+" seriesName="+params.seriesName+" value="+params.value+" data="+params.data);
-		var xName=params.name;
-		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope", "科研项目明细");
-		   
-		
-          
-    });
-	
-	/* var chart2_url="/home_project_02/getProjectByCountPie?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-	var echart2=loadPie(chart2_url,"chart2","","");
-	echart2.on('click', function (params) {
-		var xName=params.name;
-		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home/project-list?project_property="+xName, "科研项目明细");
-          
-    }); */
-	
-	
-	/* var chart3_url="/home_project_02/getProjectByCountCricle?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-	load_taiyang_02(chart3_url,"chart3","科研项目占比分析",ndstr); */
-	
-	
-	
-    var chart4_url="/home_project_02/getProjectByUnitBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode; 
-	var echart4=load_mutl_bar_02(chart4_url,"chart4","","",yAxis);
-	echart4.on('click', function (params){
-		var xName=params.name;
-		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home/project-list?type_flag="+xName+"&project_scope="+legentName, "科研装备明细");
-    });
-	
-	
-	
-	
-	/* var url_main4='/admin/project/type/unit/list';
-	var echart4=load_mutl_bar_02(url_main4,"chart4","","",yAxis);  
-	echart4.on('click', function (params){
-		var xName=params.name;
-		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home/project-list?type_flag="+xName+"&project_scope="+legentName, "科研项目明细");
-    }); */
-	
-	/* var chart4_url="/home_project_02/getProjectByUnitBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode; 
-	var echart4=load_mutl_bar_02(chart4_url,"chart4","","",yAxis);
-	echart4.on('click', function (params){
-		var xName=params.name;
-		var legentName=params.seriesName;
-          
-    }); */
-	
-	
-	/* var chart5_url="/home_project_02/getProjectByUnitPie?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-	loadPie(chart5_url,"chart5","科研项目占比分析",ndstr);  */
-	
-	/* var chart6_url="/home_project_02/getProjectByUnitCricle?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-	load_taiyang_02(chart6_url,"chart6","科研项目占比分析",ndstr); */
-	
-	
-	var chart7_url="/home_project_02/getProjectByDistributeBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-	var echart7=load_mutl_bar_02(chart7_url,"chart7","","",yAxis);
-	echart7.on('click', function (params){
-		var xName=params.name;
-		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home/project-list?define2="+xName+"&project_scope="+legentName, "科研项目明细");
-    });
-	
-}
-
-//初始化图形
-initEchart();
-//查询
-function search_Event()
-{
-	initEchart();
-	renderTable();
-	renderTable_UNIT();
-}
+			<div class="layui-row layui-col-space10">
+				<div class="layui-col-xs8">
+					<div class="layui-card">
+						<div class="layui-card-header">
+							<span class="layui-time"></span>
+							科研项目数量按单位分析
+						</div>
+						<div class="layui-row-main">
+							<div class="main-chart" id="chart4" style="height: 280px; width: 100%;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-xs4">
+					<div class="layui-card">
+						<div class="layui-card-header">科研项目占比分析</div>
+						<div class="layui-row-main">
+							<table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table_02"></table>
+						</div>
+					</div>
+				</div>
+			</div>
 
 
 
 
-function renderTable()
-{  
-	
-	  var month=$("#month").val();
-	  var companyCode=$("#companyCode").val();
-	 
-	  ptable=treeGridCom.render({
-	        id:tableId
-	        ,elem: '#'+tableId
-	        ,url:'/home_project_02/getProjectByCountCricle?month='+month+"&companyCode="+companyCode
-	       // ,cellMinWidth: 200
-	        ,idField:'id'//必須字段
-	        ,treeId:'id'//树形id字段名称
-	        ,treeUpId:'pId'//树形父id字段名称
-	        ,treeShowName:'name'//以树形式显示的字段
-	       // ,heightRemove:[".dHead",10]//不计算的高度,表格设定的是固定高度，此项不生效
-	        ,height:'280'
-	        ,isFilter:false
-	        ,iconOpen:false//是否显示图标【默认显示】
-	        ,isOpenDefault:true//节点默认是展开还是折叠【默认展开】
-	        ,loading: false
-	        ,method:'get'
-	        ,cols: [[
-	            {field:'name',title: '专业处',edit:'text'},
-	            {field:'extend01',  title:'数量',  style:'cursor: pointer;',align: 'left'}
-	            
-	        ]]
-	        ,isPage:false
-	        ,parseData:function (res) {
-	            return res;
-	        }
-	        ,onClickRow:function (index, o) {
-	            console.log(index,o,"单击！");
-	        }
-	        ,onDblClickRow:function (index, o) {
-	            console.log(index,o,"双击");
-	        }
-	    });
-}
+			<div class="layui-row layui-col-space10">
+				<div class="layui-col-md12">
+					<div class="layui-card">
+						<div class="layui-card-header">
+							<span class="layui-time"></span>
+							直属研究院科研项目数量分布情况分析
+						</div>
+						<div class="layui-row-main">
+							<div class="main-chart" id="chart7" style="height: 280px; width: 100%;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="/common/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+	<script src="/common/js/layer-v3.1.1/layer.js"></script>
+	<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+	<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+	<script type="text/javascript" src="/stp/hana/common/stp_common_chart.js"></script>
+	<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+	<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+	<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
 
-function renderTable_UNIT()
-{  
-	
-	 var month=$("#month").val();
-	 var companyCode=$("#companyCode").val();
-	 
-	  ptable02=treeGridCom.render({
-	        id: tableId02
-	        ,elem: '#'+tableId02
-	        ,url:'/home_project_02/getProjectByUnitCricle?month='+month+"&companyCode="+companyCode
-	      //  ,cellMinWidth: 200
-	        ,idField:'id'//必須字段
-	        ,treeId:'id'//树形id字段名称
-	        ,treeUpId:'pId'//树形父id字段名称
-	        ,treeShowName:'name'//以树形式显示的字段
-	       // ,heightRemove:[".dHead",10]//不计算的高度,表格设定的是固定高度，此项不生效
-	        ,height:'280'
-	        ,isFilter:false
-	        ,iconOpen:false//是否显示图标【默认显示】
-	        ,isOpenDefault:true//节点默认是展开还是折叠【默认展开】
-	        ,loading: false
-	        ,method:'get'
-	        ,cols: [[
-	            {field:'name', title: '企业单位',edit:'text'},
-	            {field:'extend01',  title:'数量',  style:'cursor: pointer;',align: 'left'}
-	            
-	        ]]
-	        ,isPage:false
-	        ,parseData:function (res) {
-	            return res;
-	        }
-	        
-	        ,onDblClickRow:function (index, o) {
-	            console.log(index,o,"双击");
-	        }
-	    });
-}
-        
-</script>
+	<script type="text/javascript">
+		var editObj = null, ptable = null, treeGridCom = null, tableId = 'processdef-table', layer = null;
+		var ptable02 = null, treeGridCom = null, tableId02 = 'processdef_table_02';
+		layui.config({
+			base : '/layuiadmin/lib/extend/'
+		}).extend({
+			treeGridCom : 'treeGridCom'
+		}).use([ 'jquery', 'form', 'laydate', 'treeGridCom', 'layer' ], function() {
+			var $ = layui.jquery;
+			treeGridCom = layui.treeGridCom;//很重要
+			layer = layui.layer;
+			laydate = layui.laydate;
+			form = layui.form;
+			var year = $("#year").val();
+			$(".layui-time").html(year + "年");
+			form.render(null, 'component-form-group');
+			laydate.render({
+				elem : '#year',
+				format : 'yyyy'
+			});
+			renderTable();
+			renderTable_UNIT();
+			$("#knowledge_table").click(function() {
+				parent.layui.index.openTabsPage("/home/project-list?define1=费用性", "科研项目明细");
+			});
+
+		});
+
+		function initEchart() {
+
+			var year = $("#year").val();
+			$(".layui-time").html(year + "年");
+			var companyCode = $("#companyCode").val();
+			var v_date = (new Date()).getTime();
+			var month = $('#year').val();
+			var yAxis = [ {
+				type : 'value',
+				name : '数量（个）',
+				min : 0,
+				max : 'dataMax',
+				position : 'left',
+				axisLabel : {
+					formatter : '{value}'
+				}
+			} ];
+
+			var chart1_url = "/home_project_02/getProjectByCountBar?month=" + month + "&v_date=" + v_date + "&companyCode=" + companyCode;
+			var echart = load_mutl_bar_02(chart1_url, "chart1", "", "", yAxis);
+			echart.on('click', function(params) {
+				//params.name：X轴的值 
+				//params.data：Y轴的值 
+				//params.value：Y轴的值 
+				//params.type：点击事件均为click 
+				//params.seriesName： legend的名称 
+				//alert("name="+params.name+" seriesName="+params.seriesName+" value="+params.value+" data="+params.data);
+				var xName = params.name;
+				var legentName = params.seriesName;
+				parent.layui.index.openTabsPage("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope", "科研项目明细");
+
+			});
+
+			/* var chart2_url="/home_project_02/getProjectByCountPie?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+			var echart2=loadPie(chart2_url,"chart2","","");
+			echart2.on('click', function (params) {
+				var xName=params.name;
+				var legentName=params.seriesName;
+				parent.layui.index.openTabsPage("/home/project-list?project_property="+xName, "科研项目明细");
+			      
+			}); */
+
+			/* var chart3_url="/home_project_02/getProjectByCountCricle?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+			load_taiyang_02(chart3_url,"chart3","科研项目占比分析",ndstr); */
+
+			var chart4_url = "/home_project_02/getProjectByUnitBar?month=" + month + "&v_date=" + v_date + "&companyCode=" + companyCode;
+			var echart4 = load_mutl_bar_02(chart4_url, "chart4", "", "", yAxis);
+			echart4.on('click', function(params) {
+				var xName = params.name;
+				var legentName = params.seriesName;
+				parent.layui.index.openTabsPage("/home/project-list?type_flag=" + xName + "&project_scope=" + legentName, "科研装备明细");
+			});
+
+			/* var url_main4='/admin/project/type/unit/list';
+			var echart4=load_mutl_bar_02(url_main4,"chart4","","",yAxis);  
+			echart4.on('click', function (params){
+				var xName=params.name;
+				var legentName=params.seriesName;
+				parent.layui.index.openTabsPage("/home/project-list?type_flag="+xName+"&project_scope="+legentName, "科研项目明细");
+			}); */
+
+			/* var chart4_url="/home_project_02/getProjectByUnitBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode; 
+			var echart4=load_mutl_bar_02(chart4_url,"chart4","","",yAxis);
+			echart4.on('click', function (params){
+				var xName=params.name;
+				var legentName=params.seriesName;
+			      
+			}); */
+
+			/* var chart5_url="/home_project_02/getProjectByUnitPie?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+			loadPie(chart5_url,"chart5","科研项目占比分析",ndstr);  */
+
+			/* var chart6_url="/home_project_02/getProjectByUnitCricle?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+			load_taiyang_02(chart6_url,"chart6","科研项目占比分析",ndstr); */
+
+			var chart7_url = "/home_project_02/getProjectByDistributeBar?month=" + month + "&v_date=" + v_date + "&companyCode=" + companyCode;
+			var echart7 = load_mutl_bar_02(chart7_url, "chart7", "", "", yAxis);
+			echart7.on('click', function(params) {
+				var xName = params.name;
+				var legentName = params.seriesName;
+				parent.layui.index.openTabsPage("/home/project-list?define2=" + xName + "&project_scope=" + legentName, "科研项目明细");
+			});
+
+		}
+
+		//初始化图形
+		initEchart();
+		//查询
+		function search_Event() {
+			initEchart();
+			renderTable();
+			renderTable_UNIT();
+		}
+
+		function renderTable() {
+
+			var month = $("#month").val();
+			var companyCode = $("#companyCode").val();
+
+			ptable = treeGridCom.render({
+				id : tableId,
+				elem : '#' + tableId,
+				url : '/home_project_02/getProjectByCountCricle?month=' + month + "&companyCode=" + companyCode
+				// ,cellMinWidth: 200
+				,
+				idField : 'id'//必須字段
+				,
+				treeId : 'id'//树形id字段名称
+				,
+				treeUpId : 'pId'//树形父id字段名称
+				,
+				treeShowName : 'name'//以树形式显示的字段
+				// ,heightRemove:[".dHead",10]//不计算的高度,表格设定的是固定高度，此项不生效
+				,
+				height : '280',
+				isFilter : false,
+				iconOpen : false//是否显示图标【默认显示】
+				,
+				isOpenDefault : true//节点默认是展开还是折叠【默认展开】
+				,
+				loading : false,
+				method : 'get',
+				cols : [ [ {
+					field : 'name',
+					title : '专业处',
+					edit : 'text'
+				}, {
+					field : 'extend01',
+					title : '数量',
+					style : 'cursor: pointer;',
+					align : 'left'
+				}
+
+				] ],
+				isPage : false,
+				parseData : function(res) {
+					return res;
+				},
+				onClickRow : function(index, o) {
+					console.log(index, o, "单击！");
+				},
+				onDblClickRow : function(index, o) {
+					console.log(index, o, "双击");
+				}
+			});
+		}
+
+		function renderTable_UNIT() {
+
+			var month = $("#month").val();
+			var companyCode = $("#companyCode").val();
+
+			ptable02 = treeGridCom.render({
+				id : tableId02,
+				elem : '#' + tableId02,
+				url : '/home_project_02/getProjectByUnitCricle?month=' + month + "&companyCode=" + companyCode
+				//  ,cellMinWidth: 200
+				,
+				idField : 'id'//必須字段
+				,
+				treeId : 'id'//树形id字段名称
+				,
+				treeUpId : 'pId'//树形父id字段名称
+				,
+				treeShowName : 'name'//以树形式显示的字段
+				// ,heightRemove:[".dHead",10]//不计算的高度,表格设定的是固定高度，此项不生效
+				,
+				height : '280',
+				isFilter : false,
+				iconOpen : false//是否显示图标【默认显示】
+				,
+				isOpenDefault : true//节点默认是展开还是折叠【默认展开】
+				,
+				loading : false,
+				method : 'get',
+				cols : [ [ {
+					field : 'name',
+					title : '企业单位',
+					edit : 'text'
+				}, {
+					field : 'extend01',
+					title : '数量',
+					style : 'cursor: pointer;',
+					align : 'left'
+				}
+
+				] ],
+				isPage : false,
+				parseData : function(res) {
+					return res;
+				}
+
+				,
+				onDblClickRow : function(index, o) {
+					console.log(index, o, "双击");
+				}
+			});
+		}
+	</script>
 </body>
 </html>

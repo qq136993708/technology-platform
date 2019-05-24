@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html style="background-color: #f1f2f7;">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+<div class="cycle">
+    <p class="cycle-title">项目全生命周期</p>
+    <div class="cycle-search">
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="start" placeholder="启动时间">
+        </div>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="end" placeholder="结束时间">
+        </div>
+        <div class="layui-input-inline">
+            <select name="" id="">
+                <option>完成进度</option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <select name="" id="">
+                <option>负责人</option>
+            </select>
+        </div>
+        <div class="btnGroup">
+            <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置
+            </button>
+        </div>
+    </div>
+    <div class="cycle-c">
+        <div class="cycle-cont">
+            <div class="cycle-item">
+                <div class="cycle-cont-left">
+                    <p>张</p>
+                    <p>张三</p>
+                    <p>科技管理平台</p>
+                </div>
+                <div class="cycle-cont-midd">
+                    <p>项目启动<span></span></p>
+                    <p>2019-03-28 科技管理平台正式启动。</p>
+                </div>
+                <div class="cycle-cont-right">
+                    <p>项目进行<span></span></p>
+                    <p>
+                        <span class="startTime">2019-03-28</span> — <span class="endTime">2019-03-28</span>
+                        <span class="content">项目进行到当前状态时简短说明</span>
+                        <a href="javascript:;">查看详情</a>
+                    </p>
+                    <p class="complete">
+                        <span style="width: 20%;"></span>
+                        <span style="left: 16%;">20%</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['jquery', 'form', 'laydate', 'table', 'laypage','laytpl','publicMethods'], function () {
+        var table = layui.table, util = layui.laytpl, form = layui.form, laydate = layui.laydate, $ = layui.jquery,
+            laytpl = layui.laytpl, publicMethods = layui.publicMethods;
+        //开始日期
+        var insStart = laydate.render({
+            elem: '#start'
+            ,min: 0
+            ,done: function(value, date){
+                //更新结束日期的最小日期
+                insEnd.config.min = lay.extend({}, date, {
+                    month: date.month - 1
+                });
+                //自动弹出结束日期的选择器
+                insEnd.config.elem[0].focus();
+            }
+        });
+        //结束日期
+        var insEnd = laydate.render({
+            elem: '#end'
+            ,min: 0
+            ,done: function(value, date){
+                //更新开始日期的最大日期
+                insStart.config.max = lay.extend({}, date, {
+                    month: date.month - 1
+                });
+            }
+        });
+        $(".cycle-cont").css("height",parent.$("#LAY_app_body").height()-155+"px");
+        $(".cycle-cont-right a").click(function () {
+            layer.open({
+                title:'项目进展详情'
+                ,skin: 'layui-layer-lan'
+                ,shadeClose: true
+                ,type: 2
+                ,id:"cycle"
+                ,fixed: false
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                ,maxmin: false
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                ,area: ['80%', '80%'],
+                content: "projectCycleOpen.html",
+                success: function (layero, index) {
+                    // 获取子页面的iframe
+                    //var iframe = window['layui-layer-iframe' + index];
+                    // 向子页面的全局函数child传参
+                    //iframe.showData("");
+                    var iframe = window['layui-layer-iframe' + index];
+                    var iframeH=$(layero).find("iframe");
+                    $(iframeH).contents().find(".cycle-img").css("height",$(iframe).height()+"px");
+                }
+            });
+        });
+    });
+
+</script>
+
+</body>
+</html>

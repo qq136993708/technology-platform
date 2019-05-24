@@ -26,13 +26,11 @@ public class PurchaseOrderClient
 
     @ApiOperation(value = "将采购订单数据存到本地", notes = "将采购订单数据存到本地")
     @RequestMapping(value = "/sre-provider/purchase/insertPurchaseOrder")
-    public void insertPurchaseOrder(@RequestBody List<SrePurchaseOrder> srePurchaseOrder) throws Exception{
+    public void insertPurchaseOrder(@RequestBody List<SrePurchaseOrder> srePurchaseOrderList) throws Exception{
         logger.info("====================add srePurchaseOrder....========================");
         purchaseOrderService.deletePurchaseOrder();
 
-        for (SrePurchaseOrder purchaseOrder : srePurchaseOrder) {
-            purchaseOrderService.insertPurchaseOrder(purchaseOrder);
-        }
+        purchaseOrderService.insertPurchaseOrderList(srePurchaseOrderList);
     }
 
     @ApiOperation(value = "将采购入库数据存到本地", notes = "将采购入库数据存到本地")
@@ -41,8 +39,6 @@ public class PurchaseOrderClient
         logger.info("====================add SrePurchaseArrival....========================");
         purchaseOrderService.deletePurchaseArrival();
 
-        for (SrePurchaseArrival srePurchaseArrival : srePurchaseArrivals) {
-            purchaseOrderService.insertPurchaseArrival(srePurchaseArrival);
-        }
+        purchaseOrderService.insertPurchaseArrivalList(srePurchaseArrivals);
     }
 }

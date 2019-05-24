@@ -113,13 +113,9 @@
             </div>
 
 
-            <div class="tableBox" style="height: 150px">
-                <div class="tableToolBox">
-                    <div class="layui-form-item">
-                        <input type="hidden" name="parentId" id="parentId" value="">
-                        <div id="file_upload_parent">
-                        </div>
-                    </div>
+            <div class="tableBox">
+                <input type="hidden" name="parentId" id="parentId" value="">
+                <div id="file_upload_parent">
                 </div>
             </div>
 
@@ -157,13 +153,9 @@
         </div>
 
 
-        <div class="tableBox">
-            <div class="tableToolBox">
-                <div class="layui-form-item">
-                    <input type="hidden" name="attachId" id="attachId" value="${dataId}">
-                    <div id="file_upload">
-                    </div>
-                </div>
+        <div class="tableBox" style="margin-bottom: 45px;">
+            <input type="hidden" name="attachId" id="attachId" value="${dataId}">
+            <div id="file_upload">
             </div>
         </div>
 
@@ -391,7 +383,7 @@
             where: {param: {"workOrderId": dataId}},
             cols: [[
                 {type: 'checkbox'},
-                {title: '序号', type: 'numbers'},
+                {title: '序号', type: 'numbers' ,width : 55},
                 {field: 'dataId', title: '主键', event: 'setActive', style: 'cursor: pointer;'},
                 {field: 'workOrderName', title: '事项内容',  style: 'cursor: pointer;'},
                 {
@@ -418,7 +410,7 @@
             where: {param: {"workOrderId": dataId}},
             cols: [[
                 {type: 'checkbox'},
-                {title: '序号', type: 'numbers'},
+                {title: '序号', type: 'numbers' ,width : 55},
                 {
                     field: 'remarks',
                     title: '事项反馈内容',
