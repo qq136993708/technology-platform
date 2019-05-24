@@ -43,17 +43,14 @@ $(document).ready(function() {
 		
 		form.render();
     	//加载数据
-    	if($("#plantId").val() !=-1)
+    	if($("#edit").val() != 0)
     	{
     		publicMethods.ajaxPost('/project/get-plant', {plantId:$("#plantId").val()}, function (data, status) {
          		form.val("plant-form",data);
-         		//editor.setData(data.plantContent);
             });
     	}else{
     		$("#appendFiles").val("${appendFiles}");
     	}
-    	
-    	
      	//添加到form.render()之后
 	 	$("#file_div").load('/common/public/uploadlayuiload.html');
     	
@@ -138,7 +135,8 @@ $(document).ready(function() {
 <body>
 <div class="formBox">
 	<form id="plant-form" name="plant-form" lay-filter="plant-form" class="form-horizontal layui-form">
-	<input type="hidden" name="plantId" id="plantId" value="${plantId?default(-1)}">
+	<input type="hidden" name="plantId" id="plantId" value="${plantId}">
+	<input type="hidden" name="edit" id="edit" value="${edit?default(0)}">
 	<div class="box-body">
 		<input type="hidden" name="appendFiles" id="appendFiles">
 		<div class="layui-row">
