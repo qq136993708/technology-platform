@@ -45,6 +45,7 @@ import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.common.OperationFilter;
+import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
 
 @Controller
@@ -614,6 +615,7 @@ public class DirectController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/contract_01")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String contract_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String resault = "";
@@ -622,11 +624,16 @@ public class DirectController extends BaseController {
 		String type = CommonUtil.getParameter(request, "type", "");
 		String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "");
 		String define3 = CommonUtil.getParameter(request, "define3 ", "研究院");
+		String zycmc = request.getAttribute("zycmc")==null ? "" : request.getAttribute("zycmc").toString();
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
 		paramsMap.put("xmlbbm", xmlbbm);
-
+		paramsMap.put("zycmc", zycmc);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		ChartPieResultData pie = new ChartPieResultData();
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -674,7 +681,6 @@ public class DirectController extends BaseController {
 					pie.setLegendDataList(legendDataList);
 					result.setSuccess(true);
 					result.setData(pie);
-
 				}
 
 				if (type.equals("3")) {
@@ -1361,12 +1367,16 @@ public class DirectController extends BaseController {
 	public String equipment(HttpServletRequest request) throws Exception {
 
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
+		
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
+		String  companyCode=EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders) ;
+		request.setAttribute("companyCode", companyCode);
+		String year= HanaUtil.getCurrrentYear();
+		request.setAttribute("year", year);
 		String month = HanaUtil.getCurrrentYearMoth();
-		request.setAttribute("month", month);
+        request.setAttribute("month", month);
 		return "stp/hana/home/oneLevelMain/direct/equipment";
 	}
 
@@ -1648,11 +1658,22 @@ public class DirectController extends BaseController {
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/actualPay")
 	public String actualPay(HttpServletRequest request) throws Exception {
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
+		
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
-		request.setAttribute("YJY_CODE_NOT_YINGKE", HanaUtil.YJY_CODE_NOT_YINGKE);
-		request.setAttribute("YJY_CODE_ALL", HanaUtil.YJY_CODE_ALL);
+		
+		
+		
+		String  companyCode=EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders) ;
+		request.setAttribute("companyCode", companyCode);
+		String year= HanaUtil.getCurrrentYear();
+		request.setAttribute("year", year);
+		String month = HanaUtil.getCurrrentYearMoth();
+        request.setAttribute("month", month);
+		
+        
+        String isdisplay = CommonUtil.getParameter(request, "isdisplay", "");
+		request.setAttribute("isdisplay", isdisplay);
 		return "stp/hana/home/oneLevelMain/direct/actualPay";
 	}
 
@@ -1663,7 +1684,7 @@ public class DirectController extends BaseController {
 		Result result = new Result();
 		ChartBarLineResultData barLine = new ChartBarLineResultData();
 		String month = CommonUtil.getParameter(request, "month", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+		String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", companyCode);

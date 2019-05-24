@@ -211,7 +211,6 @@ public class ScientificFundsContrller {
 			    resultsDate.setData(sysDictionaryList);
 			    resultsDate.setSuccess(true);
 				return resultsDate;
-				
 	       }
 		   
 			
