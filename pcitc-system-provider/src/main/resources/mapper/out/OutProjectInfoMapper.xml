@@ -1947,20 +1947,39 @@
 			</if>
 	</select>
 
+	<!-- 首页查询新开的国家项目、重点项目、重大项目、其他项目和去年的对比 -->
 	<select id="getProjectTotalCountYearAndLastYear" resultType="java.util.Map" parameterType="java.lang.String">
 		select
 			sum(case when project_property ='国家项目' and project_scope = '新开课题' then 1 else 0 end) as xkgjsl,
-			sum(case when project_property ='国家项目' and nd = '2017' then 1 else 0 end) as qngjsl,
+			sum(case when project_property ='国家项目' and project_scope = '结转课题' then 1 else 0 end) as qngjsl,
 			sum(case when project_property ='重大专项' and project_scope = '新开课题' then 1 else 0 end) as xkzzsl,
-			sum(case when project_property ='重大专项' and nd = '2017' then 1 else 0 end) as qnzzsl,
+			sum(case when project_property ='重大专项' and project_scope = '结转课题' then 1 else 0 end) as qnzzsl,
 			sum(case when project_property ='重点项目' and project_scope = '新开课题' then 1 else 0 end) as xkzdsl,
-			sum(case when project_property ='重点项目' and nd = '2017' then 1 else 0 end) as qnzdsl,
+			sum(case when project_property ='重点项目' and project_scope = '结转课题' then 1 else 0 end) as qnzdsl,
 			sum(case when LEFT(hth,3) ='CLY' and project_scope = '新开课题' then 1 else 0 end) as lysybsl,
-			sum(case when LEFT(hth,3) ='CLY' and nd = '2017' then 1 else 0 end) as qnlysybsl,
+			sum(case when LEFT(hth,3) ='CLY' and project_scope = '结转课题' then 1 else 0 end) as qnlysybsl,
 			sum(case when LEFT(hth,3) ='CHG' and project_scope = '新开课题' then 1 else 0 end) as hgsybsl,
-			sum(case when LEFT(hth,3) ='CHG' and nd = '2017' then 1 else 0 end) as qnhgsybsl
-		from out_project_info
-		where project_type != '1'
+			sum(case when LEFT(hth,3) ='CHG' and project_scope = '结转课题' then 1 else 0 end) as qnhgsybsl
+		from (
+			select 
+				   (case when nd = '${nd}' then '新开课题' else '结转课题' end) as project_scope,
+				   project_property,nd,ysnd,hth
+			from out_project_info
+			WHERE
+				ysnd= '${nd}' and project_type != '1' and out_project_info.define3 = '项目管理系统' 
+				<if test="typeFlag != null and typeFlag != ''">
+					and type_flag like '%${typeFlag}%'
+				</if>
+				<if test="xmlbbm != null and xmlbbm == 'kyzb'">
+					 and xmlbbm ='KYZB'
+				</if>
+				<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
+					 and xmlbbm !='KYZB'
+				</if>
+			group by xmid
+		) as tableA
+		
+		
 	</select>
 	
 	<!-- 工作台-科研课题-科研项目占比分析 -->
