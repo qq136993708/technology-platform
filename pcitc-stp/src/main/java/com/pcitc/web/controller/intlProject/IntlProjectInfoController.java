@@ -29,6 +29,7 @@ import com.pcitc.web.common.BaseController;
 public class IntlProjectInfoController extends BaseController {
 
 	private static final String PROJECT_INFO_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/project/info-list";
+	private static final String PROJECT_INFO_LIST_ALL = "http://pcitc-zuul/stp-proxy/stp-provider/project/info-list-all";
 	private static final String PROJECT_GET_INFO = "http://pcitc-zuul/stp-proxy/stp-provider/project/get-project/";
 	private static final String PROJECT_INFO_ADDORUPD = "http://pcitc-zuul/stp-proxy/stp-provider/project/addorupd-project";
 	private static final String PROJECT_INFO_CLOSE_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/close-project/";
@@ -41,6 +42,13 @@ public class IntlProjectInfoController extends BaseController {
 	public Object getTableData(@ModelAttribute("param") LayuiTableParam param) throws IOException {
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_INFO_LIST, HttpMethod.POST, entity, LayuiTableData.class);
+		LayuiTableData data = responseEntity.getBody();
+		return JSON.toJSON(data).toString();
+	}
+	
+	@RequestMapping(value = "/project/info-list-all", method = RequestMethod.POST)
+	public Object getListData(HttpServletRequest request) throws IOException {
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_INFO_LIST_ALL, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), LayuiTableData.class);
 		LayuiTableData data = responseEntity.getBody();
 		return JSON.toJSON(data).toString();
 	}
