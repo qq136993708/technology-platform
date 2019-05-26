@@ -312,7 +312,10 @@ public class SysFileController extends BaseController {
 
     @RequestMapping(value = "/sysfile/download/{id}", method = RequestMethod.GET, produces = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<byte[]> downloadFile(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
+        
+    	System.out.println("downloadFile==========="+id);
+    	
+    	MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
         form.add("id", id);
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(form, this.httpHeaders);
         ResponseEntity<byte[]> responseEntity = this.restTemplate.postForEntity(((id.split("\\|").length > 1) ? downloads : download) + id, httpEntity, byte[].class);
