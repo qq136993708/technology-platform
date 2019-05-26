@@ -28,7 +28,7 @@ public class IntlProjectContractProviderClient
 		return intlProjectContractService.selectProjectContractList(param);
 	}
 	@ApiOperation(value="分页检索待续约项目",notes="检索已过期待续约项目列表数据，返回数据列表。")
-	@RequestMapping(value = "/stp-provider/project/contract-end-list", method = RequestMethod.POST)
+	@RequestMapping(value = "/stp-provider/project/contract-renew-list", method = RequestMethod.POST)
 	public Object selectEndContractByPage(@RequestBody LayuiTableParam param) 
 	{
 		return intlProjectContractService.selectEndProjectContractList(param);
