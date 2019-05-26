@@ -1765,8 +1765,8 @@
         	count(DISTINCT xmid) as projectCount
 		from out_project_info
 		where 
-			project_property not like '%十条龙%' and out_project_info.nd = '${nd}' and out_project_info.ysnd = '${nd}' and
-			(project_type = '0' or project_type = '2') and out_project_info.project_property not like '%国家%'
+			out_project_info.nd = '${nd}' and
+			out_project_info.ysnd = '${nd}' and project_type != '1' and out_project_info.define3 = '项目管理系统'
 			<if test="define2 != null and define2 != ''">
 				and define2 like '%${define2}%'
 			</if>
@@ -1789,8 +1789,7 @@
         	round(sum(out_project_info.ysje),4) as projectMoney
 		from out_project_info
 		where 
-			project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}' and
-			(project_type = '0' or project_type = '2') and out_project_info.project_property not like '%国家%'
+			out_project_info.ysnd = '${nd}' and project_type != '1' and out_project_info.define3 = '项目管理系统'
 			<if test="define2 != null and define2 != ''">
 				and define2 like '%${define2}%'
 			</if>
@@ -1932,19 +1931,37 @@
 	<!-- 首页、领导首页，查询新开的国家项目、重点项目、重大项目、其他项目、总计的统计 -->
 	<select id="getProjectTotalInfoByNew" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select
-			sum(case when project_property ='国家项目' and project_scope = '新开课题' then 1 else 0 end) as gjxmsl,
-			sum(case when project_property ='重大专项' and project_scope = '新开课题' then 1 else 0 end) as zdzzsl,
-			sum(case when project_property ='重点项目' and project_scope = '新开课题' then 1 else 0 end) as zdxmsl,
-			sum(case when project_property ='其他项目' and project_scope = '新开课题' then 1 else 0 end) as qtsl,
+			sum(case when project_property ='国家项目' then 1 else 0 end) as gjxmsl,
+			sum(case when project_property ='重大专项' then 1 else 0 end) as zdzzsl,
+			sum(case when project_property ='重点项目' then 1 else 0 end) as zdxmsl,
+			sum(case when project_property ='其他项目' then 1 else 0 end) as qtsl,
 			count(*) as zsl
-		from out_project_info
-		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') 
-			<if test="define2 != null and define2 != ''">
-				and define2 is not null and define2 like '%${define2}%'
-			</if>
-			<if test="typeFlag != null and typeFlag != ''">
-				and type_flag like '%${typeFlag}%'
-			</if>
+		from (
+			select
+				nd,project_property
+			from out_project_info
+			where type_flag is not null and 
+				  nd = '${nd}' and
+				  ysnd= '${nd}' and project_type != '1' and 
+				  out_project_info.define3 = '项目管理系统'
+				  <if test="define2 != null and define2 != ''">
+						and define2 is not null and define2 like '%${define2}%'
+				  </if>
+				  <if test="typeFlag != null and typeFlag != ''">
+						and type_flag like '%${typeFlag}%'
+				  </if>
+				  <if test="leaderFlag == null or leaderFlag != '1'">
+					  <if test="zycmc != null and zycmc != ''">
+							and find_in_set(zycmc, '${zycmc}')
+					  </if>
+					  <if test="zycmc == null or zycmc == ''">
+							and out_project_info.nd = '1900'
+					  </if>
+				  </if>
+			group by xmid
+		) as tableA
+		
+			
 	</select>
 
 	<!-- 首页查询新开的国家项目、重点项目、重大项目、其他项目和去年的对比 -->
