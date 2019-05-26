@@ -39,7 +39,7 @@
 			   	});
 	    		//下拉改变
 	    		form.on('select(applyId)', function(dt){
-	    			publicMethods.ajaxPost('/project/get-apply', {applyId:dt.value}, function (data, status) {
+	    			publicMethods.ajaxAsyncPost('/project/get-apply', {applyId:dt.value}, function (data, status) {
 	             		form.val("info-form",data);
 	             		//applyEditor.setData(data.applyContent);
 	             		
@@ -50,17 +50,21 @@
 	    		
 	    		if(projectId != 0)
 	    		{
-	    			publicMethods.ajaxPost('/project/get-project', {projectId:projectId}, function (data, status) {
-	              		console.log(data);
+	    			publicMethods.ajaxAsyncPost('/project/get-project', {projectId:projectId}, function (data, status) {
 	    				form.val("info-form",data);
 	    				//projectEditor.setData(data.projectContent);
-	    				
-	                }); 
+	                });
+	    		}else{
+	    			publicMethods.ajaxAsyncPost('/project/project-code', null, function (data, status) {
+	        			if (data.success) {
+	        				$("#projectCode").val(data.message);
+	        			}
+	        		});
 	    		}
 	    		form.render();
 	    		if($("#applyId").val() != null && $("#applyId").val() !="")
 	    		{
-	    			publicMethods.ajaxPost('/project/get-apply', {applyId:$("#applyId").val()}, function (dt, status) {
+	    			publicMethods.ajaxAsyncPost('/project/get-apply', {applyId:$("#applyId").val()}, function (dt, status) {
 	             		form.val("info-form",dt);
 	             		//applyEditor.setData(dt.applyContent);
 	             		
@@ -75,7 +79,7 @@
 	    		form.on('submit(submitBtn)', function(data) {
 					//data.field.projectContent = projectEditor.getData();
 					console.log(data.field.projectContent);
-					publicMethods.ajaxPost('/project/addorupd-project', data.field, function (data, status) {
+					publicMethods.ajaxAsyncPost('/project/addorupd-project', data.field, function (data, status) {
                         if (data.success) {
                         	parent.layui.table.reload('infoTable',null);
                         	var w_index = parent.layer.getFrameIndex(window.name);
@@ -114,7 +118,7 @@
 					<div class="layui-form-item"  id="password" >
 						<label for="" class="layui-form-label">立项编码<span class="must-fill">*</span></label>
 						<div class="layui-input-block">
-						 	<input type="text" class="layui-input" lay-verify="required"  id="projectCode" name="projectCode" placeholder="项目编码">
+						 	<input type="text" class="layui-input readOnlyBox" readonly="readonly" lay-verify="required"  id="projectCode" name="projectCode" placeholder="项目编码">
 						</div>
 					</div>
 				</div>

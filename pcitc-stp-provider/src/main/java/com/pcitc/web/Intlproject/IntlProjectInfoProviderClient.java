@@ -62,7 +62,7 @@ public class IntlProjectInfoProviderClient
 	public Object startNoticeWorkFlow(@PathVariable("projectId") String projectId,@RequestBody WorkflowVo workflowVo) 
 	{
 		IntlProjectInfo info = intlProjectInfoService.findById(projectId);
-		if(!WorkFlowStatusEnum.STATUS_WAITING.getCode().equals(info.getFlowStartStatus())) 
+		if(WorkFlowStatusEnum.STATUS_RUNNING.getCode().equals(info.getFlowStartStatus()) || WorkFlowStatusEnum.STATUS_PASS.getCode().equals(info.getFlowStartStatus())) 
 		{
 			return new Result(false,"已发起审批不可重复发起！");
 		}

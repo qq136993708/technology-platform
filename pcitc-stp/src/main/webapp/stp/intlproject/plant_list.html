@@ -166,7 +166,7 @@
             },commitEvent:function(){
             	layer.confirm('提交后将不可再编辑，确定要提交吗？',{title:"提交确认"},function(index){
 					layer.close(index);
-          		   	ajaxPost("/project/plant-start-workflow", {plantId:selectRowData.plantId,functionId:param.id}, function (data) {
+					publicMethods.ajaxPost("/project/plant-start-workflow", {plantId:selectRowData.plantId,functionId:param.id}, function (data) {
           	           if (data.success) {
           	        	 renderTable({param: {"plantName":$("#plantName").val()}});
           	           } else {
@@ -181,7 +181,7 @@
             	}
             	layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
 					layer.close(index);
-	            	ajaxPost("/project/plant-close/" + selectRowData.plantId, null, function (data) {
+					publicMethods.ajaxPost("/project/plant-close/" + selectRowData.plantId, null, function (data) {
 	                     if (data.success) {
 	                    	 renderTable({param: {"plantName":$("#plantName").val()}});
 	                    	 layer.msg('操作成功!');
@@ -198,7 +198,7 @@
             	}
 				layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
 					layer.close(index);
-	            	ajaxPost("/project/plant-delete/"+selectRowData.plantId, null, function (data) {
+					publicMethods.ajaxPost("/project/plant-delete/"+selectRowData.plantId, null, function (data) {
 	                     if (data.success) {
 	                    	 renderTable({param: {"plantName":$("#plantName").val()}});
 	                    	 layer.msg('操作成功!');
