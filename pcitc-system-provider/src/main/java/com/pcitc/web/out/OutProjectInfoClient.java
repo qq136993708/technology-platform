@@ -393,12 +393,11 @@ public class OutProjectInfoClient {
 	 * @param keyList
 	 * @return
 	 */
-	public List iniListValueTree(List iniList, String key, String value, List keyList) {
+	public List iniListValueTree(List iniList, String key, String value, List keyList, String flagValue) {
 		if (!JSON.toJSONString(iniList).contains(value)) {
 			for (int i = 0; i < keyList.size(); i++) {
 				HashMap<String, Object> temMap = new HashMap<String, Object>();
-				temMap.put("zycmc", keyList.get(i).toString());
-				temMap.put("type_flag", keyList.get(i).toString());
+				temMap.put(flagValue, keyList.get(i).toString());
 				temMap.put("zsl", 0);
 				temMap.put("id", UUID.randomUUID().toString().replaceAll("-", ""));
 				temMap.put(key, value);
@@ -636,8 +635,8 @@ public class OutProjectInfoClient {
 		keyList.add("资产公司");
 		keyList.add("盈科");
 		logger.info("==================page getProjectTypeCountForTree===========================" + JSON.toJSONString(temList));
-		temList = iniListValueTree(temList, "project_scope", "新开课题", keyList);
-		temList = iniListValueTree(temList, "project_scope", "结转课题", keyList);
+		temList = iniListValueTree(temList, "project_scope", "新开课题", keyList, "type_flag");
+		temList = iniListValueTree(temList, "project_scope", "结转课题", keyList, "type_flag");
 		
 		System.out.println("===="+JSON.toJSONString(temList));
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
@@ -665,8 +664,8 @@ public class OutProjectInfoClient {
 		keyList.add("炼油部（B2、C类）");
 		keyList.add("化工部（B2、C类）");
 		logger.info("==================page getProjectCountByTypeForTree===========================" + JSON.toJSONString(temList));
-		temList = iniListValueTree(temList, "project_scope", "新开课题", keyList);
-		temList = iniListValueTree(temList, "project_scope", "结转课题", keyList);
+		temList = iniListValueTree(temList, "project_scope", "新开课题", keyList, "zycmc");
+		temList = iniListValueTree(temList, "project_scope", "结转课题", keyList, "zycmc");
 		
 		System.out.println("===="+JSON.toJSONString(temList));
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
@@ -691,8 +690,8 @@ public class OutProjectInfoClient {
 		keyList.add("资产公司");
 		keyList.add("盈科");
 		logger.info("==================page getZBProjectTypeCountForTree===========================" + JSON.toJSONString(temList));
-		temList = iniListValueTree(temList, "project_scope", "新开课题", keyList);
-		temList = iniListValueTree(temList, "project_scope", "结转课题", keyList);
+		temList = iniListValueTree(temList, "project_scope", "新开课题", keyList, "type_flag");
+		temList = iniListValueTree(temList, "project_scope", "结转课题", keyList, "type_flag");
 		System.out.println("===="+JSON.toJSONString(temList));
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
@@ -715,8 +714,8 @@ public class OutProjectInfoClient {
 		keyList.add("上海院");
 		keyList.add("安工院");
 		logger.info("==================page getZBProjectTypeCountForTree===========================" + JSON.toJSONString(temList));
-		temList = iniListValueTree(temList, "project_scope", "新开课题", keyList);
-		temList = iniListValueTree(temList, "project_scope", "结转课题", keyList);
+		temList = iniListValueTree(temList, "project_scope", "新开课题", keyList, "define2");
+		temList = iniListValueTree(temList, "project_scope", "结转课题", keyList, "define2");
 		
 		System.out.println("===="+JSON.toJSONString(temList));
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
@@ -760,8 +759,8 @@ public class OutProjectInfoClient {
 		keyList.add("集团公司");
 		keyList.add("资产公司");
 		keyList.add("盈科");
-		temList = iniListValueTree(temList, "project_scope", "新开课题", keyList);
-		temList = iniListValueTree(temList, "project_scope", "结转课题", keyList);
+		temList = iniListValueTree(temList, "project_scope", "新开课题", keyList, "type_flag");
+		temList = iniListValueTree(temList, "project_scope", "结转课题", keyList, "type_flag");
 		
 		System.out.println("===="+JSON.toJSONString(temList));
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
