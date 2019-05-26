@@ -184,6 +184,7 @@
 	            	ajaxPost("/project/plant-close/" + selectRowData.plantId, null, function (data) {
 	                     if (data.success) {
 	                    	 renderTable({param: {"plantName":$("#plantName").val()}});
+	                    	 layer.msg('操作成功!');
 	                     } else {
 	                    	 layer.msg('操作异常，请重试!');
 	                     }
@@ -200,6 +201,7 @@
 	            	ajaxPost("/project/plant-delete/"+selectRowData.plantId, null, function (data) {
 	                     if (data.success) {
 	                    	 renderTable({param: {"plantName":$("#plantName").val()}});
+	                    	 layer.msg('操作成功!');
 	                     } else {
 	                    	 layer.msg('操作异常，请重试!');
 	                     }
