@@ -465,49 +465,11 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/project-count/zb/project-type")
 	public JSONArray getZBProjectCountByProjectType(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getZBProjectCountByProjectType===========================" + map);
+		if (map.get("nd") == null) {
+			map.put("nd", "2018");
+		}
+		List temList = outProjectService.getZBProjectCountByProjectType(map);
 		
-		List temList = outProjectService.getZBProjectCountByProjectType("2018");
-		
-		if (!JSON.toJSONString(temList).contains("公用技术")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("zylb", "公用技术");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("勘探开发技术")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("zylb", "勘探开发技术");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("材料技术")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("zylb", "材料技术");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("炼油技术")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("zylb", "炼油技术");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("石油化工")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("zylb", "石油化工");
-			temList.add(temMap);
-		}
 		System.out.println("===="+JSON.toJSONString(temList));
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
@@ -568,8 +530,10 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/project-money/project-type")
 	public JSONArray getProjectMoneyByProjectType(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getProjectMoneyByProjectType===========================" + map);
-		
-		List temList = outProjectService.getProjectMoneyByProjectType("2018");
+		if (map.get("nd") == null) {
+			map.put("nd", "2018");
+		}
+		List temList = outProjectService.getProjectMoneyByProjectType(map);
 		
 		if (!JSON.toJSONString(temList).contains("费用性")) {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
@@ -618,8 +582,10 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/project-money/scope/type")
 	public JSONArray getProjectMoneyForTree(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getProjectMoneyForTree===========================" + map);
-		
-		List temList = outProjectService.getProjectMoneyForTree("2018");
+		if (map.get("nd") == null) {
+			map.put("nd", "2018");
+		}
+		List temList = outProjectService.getProjectMoneyForTree(map);
 		if (!JSON.toJSONString(temList).contains("新开课题")) {
 			HashMap<String, Object> temMap1 = new HashMap<String, Object>();
 			temMap1.put("zje", 0d);
@@ -660,8 +626,10 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/project-money/scope/institute")
 	public JSONArray getProjectMoneyByIniAndTypeForTree(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getProjectMoneyByIniAndTypeForTree===========================" + map);
-		
-		List temList = outProjectService.getProjectMoneyByIniAndTypeForTree("2018");
+		if (map.get("nd") == null) {
+			map.put("nd", "2018");
+		}
+		List temList = outProjectService.getProjectMoneyByIniAndTypeForTree(map);
 		
 		System.out.println("===="+JSON.toJSONString(temList));
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
@@ -672,136 +640,33 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/project-money/unit-type")
 	public JSONArray getProjectMoneyByUnit(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getProjectMoneyByUnit===========================" + map);
+		if (map.get("nd") == null) {
+			map.put("nd", "2018");
+		}
+		List temList = outProjectService.getProjectMoneyByUnit(map);
 		
-		List temList = outProjectService.getProjectMoneyByUnit("2018");
-		
-		if (!JSON.toJSONString(temList).contains("直属研究院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("fyxje", 0d);
-			temMap.put("zbxje", 0d);
-			temMap.put("zje", 0d);
-			temMap.put("prefyxje", 0d);
-			temMap.put("prezbxje", 0d);
-			temMap.put("prezje", 0d);
-			temMap.put("ztzwcl", 0d);
-			temMap.put("fyxtzwcl", 0d);
-			temMap.put("zbxtzwcl", 0d);
-			temMap.put("type_flag", "直属研究院");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("分子公司")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("fyxje", 0d);
-			temMap.put("zbxje", 0d);
-			temMap.put("zje", 0d);
-			temMap.put("prefyxje", 0d);
-			temMap.put("prezbxje", 0d);
-			temMap.put("prezje", 0d);
-			temMap.put("ztzwcl", 0d);
-			temMap.put("fyxtzwcl", 0d);
-			temMap.put("zbxtzwcl", 0d);
-			temMap.put("type_flag", "分子公司");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("集团单位")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("fyxje", 0d);
-			temMap.put("zbxje", 0d);
-			temMap.put("zje", 0d);
-			temMap.put("prefyxje", 0d);
-			temMap.put("prezbxje", 0d);
-			temMap.put("prezje", 0d);
-			temMap.put("ztzwcl", 0d);
-			temMap.put("fyxtzwcl", 0d);
-			temMap.put("zbxtzwcl", 0d);
-			temMap.put("type_flag", "集团单位");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("外部单位")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("fyxje", 0d);
-			temMap.put("zbxje", 0d);
-			temMap.put("zje", 0d);
-			temMap.put("prefyxje", 0d);
-			temMap.put("prezbxje", 0d);
-			temMap.put("prezje", 0d);
-			temMap.put("ztzwcl", 0d);
-			temMap.put("fyxtzwcl", 0d);
-			temMap.put("zbxtzwcl", 0d);
-			temMap.put("type_flag", "外部单位");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("盈科")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("fyxje", 0d);
-			temMap.put("zbxje", 0d);
-			temMap.put("zje", 0d);
-			temMap.put("prefyxje", 0d);
-			temMap.put("prezbxje", 0d);
-			temMap.put("prezje", 0d);
-			temMap.put("ztzwcl", 0d);
-			temMap.put("fyxtzwcl", 0d);
-			temMap.put("zbxtzwcl", 0d);
-			temMap.put("type_flag", "盈科");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("休斯顿研发中心")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("fyxje", 0d);
-			temMap.put("zbxje", 0d);
-			temMap.put("zje", 0d);
-			temMap.put("prefyxje", 0d);
-			temMap.put("prezbxje", 0d);
-			temMap.put("prezje", 0d);
-			temMap.put("ztzwcl", 0d);
-			temMap.put("fyxtzwcl", 0d);
-			temMap.put("zbxtzwcl", 0d);
-			temMap.put("type_flag", "休斯顿研发中心");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("中东研发中心")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("fyxje", 0d);
-			temMap.put("zbxje", 0d);
-			temMap.put("zje", 0d);
-			temMap.put("prefyxje", 0d);
-			temMap.put("prezbxje", 0d);
-			temMap.put("prezje", 0d);
-			temMap.put("ztzwcl", 0d);
-			temMap.put("fyxtzwcl", 0d);
-			temMap.put("zbxtzwcl", 0d);
-			temMap.put("type_flag", "中东研发中心");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("集团公司")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("fyxje", 0d);
-			temMap.put("zbxje", 0d);
-			temMap.put("zje", 0d);
-			temMap.put("prefyxje", 0d);
-			temMap.put("prezbxje", 0d);
-			temMap.put("prezje", 0d);
-			temMap.put("ztzwcl", 0d);
-			temMap.put("fyxtzwcl", 0d);
-			temMap.put("zbxtzwcl", 0d);
-			temMap.put("type_flag", "集团公司");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("资产公司")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("fyxje", 0d);
-			temMap.put("zbxje", 0d);
-			temMap.put("zje", 0d);
-			temMap.put("prefyxje", 0d);
-			temMap.put("prezbxje", 0d);
-			temMap.put("prezje", 0d);
-			temMap.put("ztzwcl", 0d);
-			temMap.put("fyxtzwcl", 0d);
-			temMap.put("zbxtzwcl", 0d);
-			temMap.put("type_flag", "资产公司");
-			temList.add(temMap);
-		}
-		
+		List keyList = new ArrayList<String>();
+		keyList.add("fyxje");
+		keyList.add("zbxje");
+		keyList.add("zje");
+		keyList.add("prefyxje");
+		keyList.add("prezbxje");
+		keyList.add("prezje");
+		keyList.add("ztzwcl");
+		keyList.add("fyxtzwcl");
+		keyList.add("zbxtzwcl");
+		keyList.add("wxd");
+		logger.info("==================page getProjectTypeCountByUnit===========================" + JSON.toJSONString(temList));
+		// 各个组件机构概念，如果有基础数据库的话，也可以直接取，此处就不用写死
+		temList = iniListValue(temList, "type_flag", "直属研究院", keyList);
+		temList = iniListValue(temList, "type_flag", "分子公司", keyList);
+		temList = iniListValue(temList, "type_flag", "集团单位", keyList);
+		temList = iniListValue(temList, "type_flag", "资产单位", keyList);
+		temList = iniListValue(temList, "type_flag", "外部单位", keyList);
+		temList = iniListValue(temList, "type_flag", "休斯顿", keyList);
+		temList = iniListValue(temList, "type_flag", "集团公司", keyList);
+		temList = iniListValue(temList, "type_flag", "资产公司", keyList);
+		temList = iniListValue(temList, "type_flag", "盈科", keyList);
 		
 		System.out.println("===="+JSON.toJSONString(temList));
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
