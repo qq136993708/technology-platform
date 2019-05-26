@@ -737,26 +737,10 @@ public class OutProjectServiceImpl implements OutProjectService {
 
     /**
      * @param nd
-     * @return 科研二级页面，按照项目类型（新开、续建）来区分国家项目、重点项目、重大项目、其他项目数量
-     */
-    public List getProjectTypeCountByType(String nd) {
-        return outProjectInfoMapper.getProjectTypeCountByType(nd);
-    }
-
-    /**
-     * @param nd
      * @return 科研二级页面，按照项目类型查询新建、续建项目数量、总数量
      */
     public List getZBProjectCountByProjectType(HashMap<String, String> map) {
         return outProjectInfoMapper.getZBProjectCountByProjectType(map);
-    }
-
-    /**
-     * @param nd
-     * @return 科研二级页面，按照项目类型（新开、续建）来区分国家项目、重点项目、重大项目、其他项目数量
-     */
-    public List getZBProjectTypeCountByType(String nd) {
-        return outProjectInfoMapper.getZBProjectTypeCountByType(nd);
     }
 
     /**
@@ -862,40 +846,32 @@ public class OutProjectServiceImpl implements OutProjectService {
      * @param nd
      * @return 领导页的各类型项目的数量
      */
-    public List getProjectTypeCountForLD(String nd) {
-        return outProjectInfoMapper.getProjectTypeCountForLD(nd);
+    public List getProjectTypeCountForLD(HashMap<String, String> map) {
+        return outProjectInfoMapper.getProjectTypeCountForLD(map);
     }
 
     /**
      * @param nd
      * @return 领导二级页面，科研项目数量按单位分析--树结构
      */
-    public List getProjectTypeCountForTreeLD(String nd) {
-        return outProjectInfoMapper.getProjectTypeCountForTreeLD(nd);
+    public List getProjectTypeCountForTreeLD(HashMap<String, String> map) {
+        return outProjectInfoMapper.getProjectTypeCountForTreeLD(map);
     }
 
     /**
      * @param nd
      * @return 领导二级页面，直属研究院、分子公司等9个单位，各单位的新开、续建、完结情况
      */
-    public List getProjectTypeInfoByUnitLD(String nd) {
-        return outProjectInfoMapper.getProjectTypeInfoByUnitLD(nd);
+    public List getProjectTypeInfoByUnitLD(HashMap<String, String> map) {
+        return outProjectInfoMapper.getProjectTypeInfoByUnitLD(map);
     }
 
     /**
      * @param nd
      * @return 领导二级页面，各个处室的新开、续建、完结情况
      */
-    public List getProjectCountByProjectTypeLD(String nd) {
-        return outProjectInfoMapper.getProjectCountByProjectTypeLD(nd);
-    }
-
-    /**
-     * @param nd
-     * @return 领导二级页面，8个院及国家级项目等性质的新开、续建、完结情况
-     */
-    public List getProjectTypeCountByTypeLD(String nd) {
-        return outProjectInfoMapper.getProjectTypeCountByTypeLD(nd);
+    public List getProjectCountByProjectTypeLD(HashMap<String, String> map) {
+        return outProjectInfoMapper.getProjectCountByProjectTypeLD(map);
     }
 
     /**
