@@ -34,12 +34,13 @@ import com.pcitc.base.hana.report.Knowledge;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
+import com.pcitc.web.common.OperationFilter;
 import com.pcitc.web.utils.HanaUtil;
 
 @Controller
-@RequestMapping(value = "/home_knowledge")
-public class HomeKnowledgeController {
+public class HomeKnowledgeController extends BaseController{
 	
 			
 	//知识产权
@@ -53,34 +54,20 @@ public class HomeKnowledgeController {
 	@Autowired
 	private RestTemplate restTemplate;
 	
-
-
-	
-	
-	
-	
-	
 	
 	
     /**=====================================成果奖励二级页面===============================*/
 		
-		@RequestMapping(method = RequestMethod.GET, value = "/knowledge_level2")
+		@RequestMapping(method = RequestMethod.GET, value = "/home_knowledge/knowledge_level2")
 		  public String knowledge_level2(HttpServletRequest request) throws Exception
 		  {
-			    
-				
 			    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-			    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
-			    String unitCode=userInfo.getUnitCode();
-			    request.setAttribute("unitCode", unitCode);
-			    
-			    String year= HanaUtil.getCurrrentYear();
-			    request.setAttribute("year", year);
+			    String nd= HanaUtil.getCurrrentYear();
+			    request.setAttribute("nd", nd);
 		        return "stp/hana/home/level/knowledge_level2";
 		  }
 		
-		
-		 @RequestMapping(method = RequestMethod.GET, value = "/knowledge_table")
+		 @RequestMapping(method = RequestMethod.GET, value = "/home_knowledge/knowledge_table")
 		  public String knowledge_table(HttpServletRequest request) throws Exception
 		  {
 			    
@@ -110,15 +97,13 @@ public class HomeKnowledgeController {
 		        return "stp/hana/home/level/knowledge_table";
 		  }
 		
-		
-		   //三级表格
-		   @RequestMapping(method = RequestMethod.POST, value = "/getKnowledgeTable")
+		    //三级表格
+		    @RequestMapping(method = RequestMethod.POST, value = "/home_knowledge/getKnowledgeTable")
 			@ResponseBody
+			@OperationFilter(dataFlag = "true")
 			public String getKnowledgeLevel3TAble(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-
 				JSONObject tt = JSONObject.parseObject(JSONObject.toJSONString(param));
-				
 				System.out.println(">>>>>>>>>>>>>getKnowledgeTable参数 :" + tt.toString());
 				LayuiTableData layuiTableData = new LayuiTableData();
 				HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
@@ -135,17 +120,23 @@ public class HomeKnowledgeController {
 		   
 			
 			
-		@RequestMapping(method = RequestMethod.GET, value = "/getKnowledgeTypeList")
+		@RequestMapping(method = RequestMethod.GET, value = "/home_knowledge/getKnowledgeTypeList")
 		@ResponseBody
+		@OperationFilter(dataFlag = "true")
 		public String getKnowledgeTypeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 			Result result = new Result();
 			
 			String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 			String type = CommonUtil.getParameter(request, "type", "");
-			
+			String zycmc = request.getAttribute("zycmc")==null ? "" : request.getAttribute("zycmc").toString();
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
 			paramsMap.put("nd", nd);
 			paramsMap.put("type", type);
+			paramsMap.put("zycmc", zycmc);
+			if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+				// 领导标识，不控制数据
+				paramsMap.put("leaderFlag", "1");
+			}
 			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 			if (!nd.equals(""))
@@ -232,15 +223,23 @@ public class HomeKnowledgeController {
 		
 		
 		
-		@RequestMapping(method = RequestMethod.GET, value = "/getUnitTypeList")
+		@RequestMapping(method = RequestMethod.GET, value = "/home_knowledge/getUnitTypeList")
 		@ResponseBody
+		@OperationFilter(dataFlag = "true")
 		public String getUnitTypeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 			Result result = new Result();
-			String type = CommonUtil.getParameter(request, "type", "");
 			String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+			String type = CommonUtil.getParameter(request, "type", "");
+			String zycmc = request.getAttribute("zycmc")==null ? "" : request.getAttribute("zycmc").toString();
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
 			paramsMap.put("nd", nd);
+			paramsMap.put("type", type);
+			paramsMap.put("zycmc", zycmc);
+			if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+				// 领导标识，不控制数据
+				paramsMap.put("leaderFlag", "1");
+			}
 			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 			if (!nd.equals(""))
@@ -328,16 +327,23 @@ public class HomeKnowledgeController {
 	
 	
 		//经费下达
-		@RequestMapping(method = RequestMethod.GET, value = "/getKnowledgeUnitList")
+		@RequestMapping(method = RequestMethod.GET, value = "/home_knowledge/getKnowledgeUnitList")
 		@ResponseBody
+		@OperationFilter(dataFlag = "true")
 		public String getKnowledgeUnitList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 			Result result = new Result();
 			String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 			String type = CommonUtil.getParameter(request, "type", "");
+			String zycmc = request.getAttribute("zycmc")==null ? "" : request.getAttribute("zycmc").toString();
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
 			paramsMap.put("nd", nd);
 			paramsMap.put("type", type);
+			paramsMap.put("zycmc", zycmc);
+			if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+				// 领导标识，不控制数据
+				paramsMap.put("leaderFlag", "1");
+			}
 			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 			if (!nd.equals(""))

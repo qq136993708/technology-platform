@@ -6247,7 +6247,7 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 
 		String monthstr = String.format("%02d", month);
 
-		String str = "" + (year-1) + "" + monthstr;
+		String str = "" + (year) + "" + monthstr;
 
 		System.out.println(">>>>>str=" + str);
 		return str;
@@ -6275,7 +6275,7 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 		int year = cal.get(Calendar.YEAR);
 
 		System.out.println(">>>>>year=" + year);
-		return String.valueOf(year-1);
+		return String.valueOf(year);
 	}
 
 	public static String getCurrrent_YearMoth() throws Exception {
@@ -6499,6 +6499,9 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 	 		request.setAttribute("allCode", sb.toString());
 	 		request.setAttribute("companyCode", sb.toString());
 	    }
+		
+		
+		
 		
 		String month = HanaUtil.getCurrrentYearMoth();
 		request.setAttribute("month", month);

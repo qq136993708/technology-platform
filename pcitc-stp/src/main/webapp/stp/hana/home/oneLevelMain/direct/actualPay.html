@@ -19,12 +19,7 @@
 <div class="layui-fluid">
     <div class="">
         <div class="searchBox">
-            <input type="hidden" name="YJY_CODE_ALL"  value="${YJY_CODE_ALL}"   id="YJY_CODE_ALL">
-            <input type="hidden" name="YJY_CODE_NOT_YINGKE"  value="${YJY_CODE_NOT_YINGKE}"   id="YJY_CODE_NOT_YINGKE">
             <input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
-            
-            
-            
             <label class="dateInput">
                 <span>月份</span>
                 <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control" id="month">
@@ -38,7 +33,7 @@
                 <button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
                 >详情</button>
             </div>
-            <div class="breadcrumb">
+            <div class="breadcrumb" <#if isdisplay == 1>style="display:none"</#if>>
                 <a href="/index" target="_parent">首页 > </a>
                 <a href="/instituteIndex?url=/home_ld/direct_depart" target="_parent">直属研究院概况 > </a>
                 <span>经费支出</span>
@@ -143,22 +138,29 @@
 <script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
 
 <script type="text/javascript">
-
+var layer;
+var companyCode=$("#companyCode").val(); 
 var editObj=null,ptable=null,tableId='processdef-table';
-
- var table,treeGridCom;
+var table,treeGridCom;
 layui.config({
 	base: '/layuiadmin/lib/extend/'
 }).extend({
 	treeGridCom:'treeGridCom'
-}).use(['jquery','form','treeGridCom', 'laydate','table','laypage'], function(){
+}).use(['jquery', 'layer','form','treeGridCom', 'laydate','table','laypage'], function(){
 	table = layui.table;
+	layer = layui.layer;
 	treeGridCom = layui.treeGridCom;
-	 var $ = layui.jquery
+	var $ = layui.jquery
       ,form = layui.form
       ,laydate = layui.laydate
     
    
+      
+      if(companyCode==null || companyCode=='')
+      {
+      	layer.alert("请配置直属院数据权限");
+      }
+	
     var monthValY=$("#month").val().substring(4,0);
     var monthValM=$("#month").val().substring(4);
     $(".layui-time").html(monthValY+"年"+monthValM+"月");
@@ -188,13 +190,12 @@ function PrefixInteger(num, length) {
 	
 function initEchart()
 {
-	var companyCode=$("#companyCode").val();
+	
+	
 	var v_date=(new Date()).getTime();
 	var month=$('#month').val();
 	var ndstr=getNowFormatDate($('#month').val());
 	
-	var YJY_CODE_ALL=$('#YJY_CODE_ALL').val();
-	var YJY_CODE_NOT_YINGKE=$('#YJY_CODE_NOT_YINGKE').val();
 	var yAxis= [
         {
             type: 'value',
@@ -221,7 +222,7 @@ function initEchart()
     
 
     var color=["#37a2da","#72c376"];
-    var chart1_url="/direct/pay_01?month="+month+"&v_date="+v_date+"&companyCode="+YJY_CODE_NOT_YINGKE;
+    var chart1_url="/direct/pay_01?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
 	var echart1=load_mutl_bar_down(chart1_url,"pay_chart1","","",yAxis,50,color);
 	echart1.on('click', function (params) {
 		var xName=params.name;
@@ -230,7 +231,7 @@ function initEchart()
     });
 	//
     var colorNew=["#8278e9","#f7d454"];
-    var chart7_url="/direct/pay_03?type=1&month="+month+"&v_date="+v_date+"&companyCode="+YJY_CODE_NOT_YINGKE;
+    var chart7_url="/direct/pay_03?type=1&month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
 	var echart7=load_mutl_bar_down_color(chart7_url,"pay_chart3","","",yAxis,colorNew);
 	echart7.on('click', function (params) {
 		var xName=params.name;
@@ -238,7 +239,7 @@ function initEchart()
 		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
     });
 	 //
-	var setPay_count_count_url="/direct/pay_03?type=3&month="+month+"&v_date="+v_date+"&companyCode="+YJY_CODE_NOT_YINGKE;
+	var setPay_count_count_url="/direct/pay_03?type=3&month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
 	setPay_count(setPay_count_count_url);
 	
 }
@@ -288,12 +289,7 @@ function renderTable()
 {  
 	
 	  var month=$("#month").val();
-	  var companyCode=$("#companyCode").val();
-	  var YJY_CODE_NOT_YINGKE=$('#YJY_CODE_NOT_YINGKE').val();
-	  var url='/direct/pay_02?month='+month+"&companyCode="+YJY_CODE_NOT_YINGKE;
-	  
-	  
-	  
+	  var url='/direct/pay_02?month='+month+"&companyCode="+companyCode;
 	 var  ptable=treeGridCom.render({
 	        id:tableId
 	        ,elem: '#processdef-table'
@@ -333,36 +329,8 @@ function renderTable()
 {
 
 	var month=$("#month").val();
-    var companyCode=$("#companyCode").val();
-    var YJY_CODE_NOT_YINGKE=$('#YJY_CODE_NOT_YINGKE').val();
-    /* var tableOne=table.render({
-        elem: '#processdef-tabled',
-        url:'/direct/pay_03?month='+month+"&type=2&companyCode="+YJY_CODE_NOT_YINGKE,
-        method:"GET",
-        where: {param: {"month":$("#month").val()}},
-        limit: 15,
-        id: 'processdef-tabled',
-        cols: [[
-            {field:'g0GSJC',            title: '研究院',             edit:'text', width: '40%',align: 'center'},
-            {field:'k0BNYSJHJE',        title:'总计实际支出（亿元）',    style:'cursor: pointer;',align: 'right', width: '20%',templet:function(d){return d.k0BNYSJHJE.toFixed(2)}},
-            {field:'k0BNZBJE',          title:'费用性实际支出（亿元）',   style:'cursor: pointer;',align: 'right', width: '20%',templet:function(d){return d.k0BNZBJE.toFixed(2)}},
-            {field:'k0BNFYJE',          title:'资本性实际支出（亿元）',   style:'cursor: pointer;',align: 'right', width: '20%',templet:function(d){return d.k0BNFYJE.toFixed(2)}}
-        ]],
-        done: function (res, curr, count) {
-            layer.closeAll('loading');
-            // 点击行联动选择框--单选
-            $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-                var index=parseInt($(this).index()+1);
-                $('tr').removeClass('layui-table-click');
-                $(this).addClass('layui-table-click');
-                $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                selectRowData=res.data[index-1];
-            });
-        }
-    }); */
     
-    var url= '/direct/pay_03?month='+month+"&type=2&companyCode="+YJY_CODE_NOT_YINGKE;
+    var url= '/direct/pay_03?month='+month+"&type=2&companyCode="+companyCode;
     table.init('myTable233', {
 		  url: url
 		  ,height:"295px"

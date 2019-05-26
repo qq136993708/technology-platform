@@ -12,33 +12,18 @@
 </head>
 <body>
 <div class="layui-fluid">
-<input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
     <div class="layui-main-oil">
         <div class="searchBox">
-            <input type="hidden" name="YJY_CODE_ALL"  value="${YJY_CODE_ALL}"   id="YJY_CODE_ALL">
             <label class="dateInput">
-                <span>月份</span>
-                <input type="text" name="year" placeholder="请选择月份" title="月份" value="${year}"  autocomplete="off" class="form-control" id="year">
+                <span>年份</span>
+                <input type="text" name="nd" placeholder="请选择年份" title="年份" value="${nd}"  autocomplete="off" class="form-control" id="nd">
             </label>
-<!-- 
-            <div class="layui-input-inline">
-                <select name="companyCode" id="companyCode" >
-                    <#list companyCodeList as vo>
-                    <#if vo.g0GSJC == '全部'>
-                    <option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
-                </#if>
-                <#if vo.g0GSJC != '全部'>
-                <option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
-                    </#if>
-                </#list>
-                </select>
-            </div> -->
             <!--按钮组-->
             <div class="btnGroup">
                 <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()">查询</button>
             </div>
             <div class="btnGroup" style="float:right">
-                <button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
+                <button id="detail_id" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
                 >详情</button>
             </div>
         </div>
@@ -121,6 +106,7 @@
 <script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
 
 <script type="text/javascript">
+var nd=$('#nd').val();
 var editObj=null,ptable=null,treeGridCom=null,tableId='processdef-table',layer=null;
 var ptable02=null,treeGridCom=null,tableId02='processdef_table_02';
 layui.config({
@@ -129,38 +115,32 @@ layui.config({
     treeGridCom:'treeGridCom'
 }).use(['jquery','form', 'laydate','treeGridCom','layer'], function(){
     var $=layui.jquery;
-    treeGridCom = layui.treeGridCom;//很重要
+    treeGridCom = layui.treeGridCom;
     layer=layui.layer;
     laydate = layui.laydate;
     form = layui.form;
-    var year=$("#year").val();
-    $(".layui-time").html(year+"年");
+    var nd=$("#nd").val();
+    $(".layui-time").html(nd+"年");
     form.render(null, 'component-form-group');
     laydate.render({
-       elem: '#year'
+       elem: '#nd'
        ,format: 'yyyy'
     });
     renderTable();
     renderTable_UNIT();
-    $("#knowledge_table").click(function () {
-        parent.layui.index.openTabsPage("/home/project-list", "合同签订详情");
+    $("#detail_id").click(function () {
+    	var url=　encodeURIComponent("/one_level_main/common_table?nd="+nd+"&ysnd="+nd);
+        window.open("/instituteIndex?url="+url);
     });
 
 });
 
 
-
 function initEchart()
 {
-	 var companyCode=$("#companyCode").val();
 	var v_date=(new Date()).getTime();
-	var year=$('#year').val();
-	var month=$('#year').val();
-	var ndstr=year+"年";
-
-	var YJY_CODE_ALL=$('#YJY_CODE_ALL').val();
-	 var year=$("#year").val();
-     $(".layui-time").html(year+"年");
+	var ndstr=nd+"年";
+    $(".layui-time").html(nd+"年");
 	var yAxis= [
         {
             type: 'value',
@@ -174,58 +154,52 @@ function initEchart()
         }
     ];
 
-
-
-
-	var chart1_url="/home_budget_02/getBudgetByCountBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+   var chart1_url="/home_budget_02/getBudgetByCountBar?nd="+nd+"&v_date="+v_date+"&functionId=984b64b13cf54222bf57bd840759fabe";
    var echart1=load_mutl_bar_2(chart1_url,"chart1","","",yAxis);
    echart1.on('click', function (params){
 		var xName=params.name;
 		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home/project-list?define1="+xName+"&project_scope="+legentName, "合同签订详情");
+		var url=　encodeURIComponent("/one_level_main/common_table?define2="+xName+"&nd="+nd+"&ysnd="+nd);
+        window.open("/instituteIndex?url="+url);
+		//parent.layui.index.openTabsPage("/home/project-list?define1="+xName+"&project_scope="+legentName, "合同签订详情");
           
     });
 
 
-	var chart2_url="/home_budget_02/getBudgetByCountPie?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+	var chart2_url="/home_budget_02/getBudgetByCountPie?nd="+nd+"&v_date="+v_date+"&functionId=984b64b13cf54222bf57bd840759fabe";
 	var echart2= loadPie(chart2_url,"chart2","",'');
 	echart2.on('click', function (params){
 		var xName=params.name;
 		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home/project-list?define1="+xName, "合同签订详情");
+		var url=　encodeURIComponent("/one_level_main/common_table?define2="+xName+"&nd="+nd+"&ysnd="+nd);
+        window.open("/instituteIndex?url="+url);
+		//parent.layui.index.openTabsPage("/home/project-list?define1="+xName, "合同签订详情");
           
     });
 
-	/*
-	var chart3_url="/home_budget_02/getBudgetByCountCricle?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-	load_taiyang_02(chart3_url,"chart3","合同签订占比分析",ndstr); */
 
 
-	var chart4_url="/home_budget_02/getBudgetByUnitBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-   var echart3= load_mutl_bar_2(chart4_url,"chart4","",'',yAxis);
+	var chart4_url="/home_budget_02/getBudgetByUnitBar?nd="+nd+"&v_date="+v_date+"&functionId=984b64b13cf54222bf57bd840759fabe";
+    var echart3= load_mutl_bar_2(chart4_url,"chart4","",'',yAxis);
     echart3.on('click', function (params){
 		var xName=params.name;
 		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home/project-list?type_flag="+xName+"&project_scope="+legentName, "合同签订详情");
+		var url=　encodeURIComponent("/one_level_main/common_table?define2="+xName+"&nd="+nd+"&ysnd="+nd);
+        window.open("/instituteIndex?url="+url);
+        
+		//parent.layui.index.openTabsPage("/home/project-list?type_flag="+xName+"&project_scope="+legentName, "合同签订详情");
           
     });
 
 
-	/* var chart5_url="/home_budget_02/getBudgetByUnitPie?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-	loadPie(chart5_url,"chart5","合同签订占比分析",ndstr);  */
-
-
-	/* var chart6_url="/home_budget_02/getBudgetByUnitCricle?month="+month+"&v_date="+v_date+"&companyCode="+YJY_CODE_ALL;
-	load_taiyang_02(chart6_url,"chart6","合同签订占比分析",ndstr); */
-
-
-	var chart7_url="/home_budget_02/getBudgetByDistributeBar?month="+month+"&v_date="+v_date+"&companyCode="+YJY_CODE_ALL;
-   var echart7= load_mutl_bar_2(chart7_url,"chart7","","",yAxis);
-   echart7.on('click', function (params){
+	var chart7_url="/home_budget_02/getBudgetByDistributeBar?nd="+nd+"&v_date="+v_date+"&functionId=984b64b13cf54222bf57bd840759fabe";
+    var echart7= load_mutl_bar_2(chart7_url,"chart7","","",yAxis);
+    echart7.on('click', function (params){
 		var xName=params.name;
 		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home/project-list?define2="+xName+"&project_scope="+legentName, "合同签订详情");
-          
+		var url=　encodeURIComponent("/one_level_main/common_table?define2="+xName+"&nd="+nd+"&ysnd="+nd);
+        window.open("/instituteIndex?url="+url);
+		//parent.layui.index.openTabsPage("/home/project-list?define2="+xName+"&project_scope="+legentName, "合同签订详情");
     });
 
 }
@@ -237,22 +211,17 @@ function search_Event()
 {
 	initEchart();
 	renderTable();
-
 	renderTable_UNIT();
 }
-
-
 
 function renderTable()
 {
 
-	 var month=$("#month").val();
-	 var companyCode=$("#companyCode").val();
 
 	  ptable=treeGridCom.render({
 	        id:tableId
 	        ,elem: '#'+tableId
-	        ,url:'/home_budget_02/getBudgetByCountCricle?month='+month+"&companyCode="+companyCode
+	        ,url:'/home_budget_02/getBudgetByCountCricle?nd='+nd
 	       // ,cellMinWidth: 200
 	        ,idField:'id'//必須字段
 	        ,treeId:'id'//树形id字段名称
@@ -287,13 +256,11 @@ function renderTable()
 function renderTable_UNIT()
 {
 
-	 var month=$("#month").val();
-	 var companyCode=$("#companyCode").val();
 
 	  ptable02=treeGridCom.render({
 	        id: tableId02
 	        ,elem: '#'+tableId02
-	        ,url:'/home_budget_02/getBudgetByUnitCricle?month='+month+"&companyCode="+companyCode
+	        ,url:'/home_budget_02/getBudgetByUnitCricle?nd='+nd
 	       // ,cellMinWidth: 200
 	        ,idField:'id'//必須字段
 	        ,treeId:'id'//树形id字段名称

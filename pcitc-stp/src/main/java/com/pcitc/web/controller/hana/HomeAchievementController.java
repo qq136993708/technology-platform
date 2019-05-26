@@ -37,12 +37,12 @@ import com.pcitc.base.hana.report.Award;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.utils.HanaUtil;
 
 @Controller
-@RequestMapping(value = "/home_achievement")
-public class HomeAchievementController {
+public class HomeAchievementController extends BaseController{
 	
 	//知识产权
 		private static final String getAwardTypeList = "http://pcitc-zuul/system-proxy/out-appraisal-provider/result-count";
@@ -58,30 +58,22 @@ public class HomeAchievementController {
 	@Autowired
 	private RestTemplate restTemplate;
 	
-
 	
-	
-	
-	
-    /**=====================================成果奖励二级页面===============================*/
-		
-		@RequestMapping(method = RequestMethod.GET, value = "/award_level2")
+        /**=====================================成果奖励二级页面===============================*/
+		@RequestMapping(method = RequestMethod.GET, value = "/home_achievement/award_level2")
 		  public String award_level2(HttpServletRequest request) throws Exception
 		  {
 			    
-				
 			    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-			    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
 			    String unitCode=userInfo.getUnitCode();
 			    request.setAttribute("unitCode", unitCode);
-			    
-			    String year= HanaUtil.getCurrrentYear();
-			    request.setAttribute("year", year);
+			    String nd= HanaUtil.getCurrrentYear();
+			    request.setAttribute("nd", nd);
 		        return "stp/hana/home/level/award_level2";
 		  }
 		
 		
-		 @RequestMapping(method = RequestMethod.GET, value = "/award_table")
+		 @RequestMapping(method = RequestMethod.GET, value = "/home_achievement/award_table")
 		  public String award_table(HttpServletRequest request) throws Exception
 		  {
 			    
@@ -101,7 +93,7 @@ public class HomeAchievementController {
 		
 		
 		   //三级表格
-		   @RequestMapping(method = RequestMethod.POST, value = "/getAwardTable")
+		   @RequestMapping(method = RequestMethod.POST, value = "/home_achievement/getAwardTable")
 			@ResponseBody
 			public String getAwardLevel3TAble(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
@@ -124,7 +116,7 @@ public class HomeAchievementController {
 		   
 			
 			
-		@RequestMapping(method = RequestMethod.GET, value = "/getAwardTypeList")
+		@RequestMapping(method = RequestMethod.GET, value = "/home_achievement/getAwardTypeList")
 		@ResponseBody
 		public String getAwardTypeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 			Result result = new Result();
@@ -203,7 +195,7 @@ public class HomeAchievementController {
 		
 		
 		
-		@RequestMapping(method = RequestMethod.GET, value = "/getAwardCircle")
+		@RequestMapping(method = RequestMethod.GET, value = "/home_achievement/getAwardCircle")
 		@ResponseBody
 		public String getAwardCircle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -244,7 +236,7 @@ public class HomeAchievementController {
 		
 		
 		
-		@RequestMapping(method = RequestMethod.GET, value = "/get_unit_result_count")
+		@RequestMapping(method = RequestMethod.GET, value = "/home_achievement/get_unit_result_count")
 		@ResponseBody
 		public String get_unit_result_count(HttpServletRequest request, HttpServletResponse response) throws Exception {
 			Result result = new Result();
@@ -324,7 +316,7 @@ public class HomeAchievementController {
 		
 		
 		
-		@RequestMapping(method = RequestMethod.GET, value = "/get_institution_result_count")
+		@RequestMapping(method = RequestMethod.GET, value = "/home_achievement/get_institution_result_count")
 		@ResponseBody
 		public String get_institution_result_count(HttpServletRequest request, HttpServletResponse response) throws Exception {
 			Result result = new Result();
@@ -393,7 +385,7 @@ public class HomeAchievementController {
 		
 		
 		
-		@RequestMapping(method = RequestMethod.GET, value = "/getAwardUnitTypeList")
+		@RequestMapping(method = RequestMethod.GET, value = "/home_achievement/getAwardUnitTypeList")
 		@ResponseBody
 		public String getAwardUnitTypeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 

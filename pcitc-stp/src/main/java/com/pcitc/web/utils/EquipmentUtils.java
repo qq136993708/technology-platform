@@ -68,10 +68,10 @@ public class EquipmentUtils {
      private static final String USER_GET_URL = "http://pcitc-zuul/system-proxy/user-provider/user/get-user/";
      private static final String FUNCTION_FILTER_URL = "http://pcitc-zuul/system-proxy/userProperty-provider/function/getPostDic";
      
-     
+     //科技部代码
      private static final String KJB_UNIONPATH_NUM = "10010685";
-     
-     
+     //hana-虚拟通用菜单
+     public static final String SYS_FUNCTION_FICTITIOUS = "984b64b13cf54222bf57bd840759fabe";
      
      
      
@@ -332,6 +332,7 @@ public class EquipmentUtils {
 				HttpEntity<HashMap<String, Object>> entityv = new HttpEntity<HashMap<String, Object>>(paramMap, httpHeaders);
 				ResponseEntity<JSONArray> response_Entity = restTemplate.exchange(FUNCTION_FILTER_URL , HttpMethod.POST, entityv, JSONArray.class);
 				JSONArray retJson = response_Entity.getBody();
+				System.out.println("========retJson===============" + retJson.toString());
 				if (retJson != null)
 				{
 					List<SysFunctionProperty> sfpList = JSONArray.parseArray(retJson.toString(), SysFunctionProperty.class);
@@ -341,7 +342,7 @@ public class EquipmentUtils {
 						SysFunctionProperty sysFunctionProperty=sfpList.get(i);
 						String proCode=sysFunctionProperty.getProCode();
 						String postConfigValue=sysFunctionProperty.getPostConfigValue();
-						System.out.println(proCode + "========>" + postConfigValue);
+						System.out.println(proCode + "======---键值对---=>" + postConfigValue);
 						if(proCode.equals("G0DSM"))
 						{
 							String arr[]=postConfigValue.split("\\$");
@@ -461,6 +462,59 @@ public class EquipmentUtils {
 	    return result;
 	}
 	
+	
+	
+	public static String  getVirtualDirDeparetCode(String functionId ,RestTemplate restTemplate,HttpHeaders httpHeaders)
+	{
+		   List<String> arrayList = getPostDic( functionId , restTemplate, httpHeaders);
+		   //与字典表匹配
+		   List<SysDictionary> result=new ArrayList<SysDictionary> ();
+		   List<SysDictionary>  sysDictionaryList=  EquipmentUtils.getSysDictionaryListByParentCode("ROOT_XTGL_ZSYJY",  restTemplate, httpHeaders);
+		   if(sysDictionaryList!=null && sysDictionaryList.size()>0)
+		   {
+			    for(int v=0;v<sysDictionaryList.size();v++ ) 
+				{
+			    	SysDictionary sysDictionary=sysDictionaryList.get(v);
+			    	String name=sysDictionary.getName();
+			    	String code=sysDictionary.getCode();
+			    	String value=sysDictionary.getNumValue();
+			    	if(arrayList!=null && arrayList.size()>0)
+			    	{
+			    		for(int k=0;k<arrayList.size();k++ ) 
+						{
+			    			String str=arrayList.get(k);
+			    			if(str.equals(value))
+			    			{
+			    				sysDictionary.setLevelCode(v+1);
+			    				result.add(sysDictionary);
+			    			}
+						}
+			    	}
+			    	//System.out.println( "name=>" + name+" code=>" + code+"  value=>" + value);
+				}
+		}
+		   
+		//全部   
+		StringBuffer sb=new StringBuffer(); 
+		if(result.size()>0)
+		{
+			SysDictionary sys_Dictionary=new SysDictionary();
+			
+			for(int v=0;v<result.size();v++ ) 
+			{
+		    	SysDictionary sysDictionary=result.get(v);
+		    	String name=sysDictionary.getName();
+		    	String value=sysDictionary.getNumValue();
+		    	if(v>0)
+		    	{
+		    		sb.append(",");
+		    	}
+		    	sb.append(value);
+		    	
+			}
+		}
+	    return sb.toString();
+	}
 	
 	
 	public static SysUser getSysUser(String userId,RestTemplate restTemplate,HttpHeaders httpHeaders)throws Exception
