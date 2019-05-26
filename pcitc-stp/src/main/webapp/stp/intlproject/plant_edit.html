@@ -50,6 +50,11 @@ $(document).ready(function() {
             });
     	}else{
     		$("#appendFiles").val("${appendFiles}");
+    		publicMethods.ajaxPost('/project/project-code', null, function (data, status) {
+    			if (data.success) {
+    				$("#plantCode").val(data.message);
+    			}
+    		});
     	}
      	//添加到form.render()之后
 	 	$("#file_div").load('/common/public/uploadlayuiload.html');
@@ -152,7 +157,7 @@ $(document).ready(function() {
 				<div class="layui-form-item"  id="password" >
 					<label for="" class="layui-form-label">项目计划编码<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-					 	<input type="text" class="layui-input" id="plantCode" lay-verify="required" name="plantCode" placeholder="项目计划编码">
+					 	<input type="text" class="layui-input readOnlyBox" readonly="readonly" id="plantCode" lay-verify="required" name="plantCode" placeholder="项目计划编码">
 					</div>
 				</div>
 			</div>
