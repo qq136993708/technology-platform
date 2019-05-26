@@ -70,5 +70,11 @@ public class IntlProjectContractProviderClient
 	
 		return intlProjectContractService.findById(contractId);
 	}
+	@ApiOperation(value="获取签约代码",notes="签约项目编号。")
+	@RequestMapping(value = "/stp-provider/project/project-contract-code", method = RequestMethod.POST)
+	public Object getProjectContractCode() 
+	{
 	
+		return intlProjectContractService.createProjectContractCode();
+	}
 }

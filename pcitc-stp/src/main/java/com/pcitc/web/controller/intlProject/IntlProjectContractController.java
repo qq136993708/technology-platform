@@ -38,6 +38,8 @@ public class IntlProjectContractController extends BaseController {
 	private static final String PROJECT_CONTRACT_CLOSE_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/contract-close/";
 	private static final String PROJECT_CONTRACT_DEL_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/contract-delete/";
 	
+	private static final String PROJECT_CONTRACT_CODE = "http://pcitc-zuul/stp-proxy/stp-provider/project/project-contract-code";
+	
 	
 	@RequestMapping(value = "/project/contract-list", method = RequestMethod.POST)
 	public Object getContractTableData(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request) throws IOException {
@@ -98,6 +100,16 @@ public class IntlProjectContractController extends BaseController {
 	@RequestMapping(value = "/project/contract-delete/{contractId}")
 	public Object updContractDelete(@PathVariable("contractId") String contractId, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Integer rs = this.restTemplate.exchange(PROJECT_CONTRACT_DEL_URL + contractId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
+		if(rs > 0) {
+			return new Result(true);
+		}else {
+			return new Result(false);
+		}
+	}
+	
+	@RequestMapping(value = "/project/project-contract-code")
+	public Object getContractCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Integer rs = this.restTemplate.exchange(PROJECT_CONTRACT_CODE, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
 		if(rs > 0) {
 			return new Result(true);
 		}else {

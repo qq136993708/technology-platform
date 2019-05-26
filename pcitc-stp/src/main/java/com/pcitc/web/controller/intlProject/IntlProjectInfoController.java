@@ -36,6 +36,7 @@ public class IntlProjectInfoController extends BaseController {
 	private static final String PROJECT_INFO_DEL = "http://pcitc-zuul/stp-proxy/stp-provider/project/del-project/";
 	private static final String PROJECT_INFO_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/start-info-activity/";
 	
+	private static final String PROJECT_INFO_CODE = "http://pcitc-zuul/stp-proxy/stp-provider/project/project-info-code";
 	
 	
 	@RequestMapping(value = "/project/info-list", method = RequestMethod.POST)
@@ -113,5 +114,9 @@ public class IntlProjectInfoController extends BaseController {
 		System.out.println(JSON.toJSONString(rs));
 		return rs;
 	}
-
+	@RequestMapping(value = "/project/project-info-code", method = RequestMethod.POST)
+	public Object getInfoCode(HttpServletRequest request) throws IOException {
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(PROJECT_INFO_CODE, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Object.class);
+		return JSON.toJSON(responseEntity.getBody()).toString();
+	}
 }

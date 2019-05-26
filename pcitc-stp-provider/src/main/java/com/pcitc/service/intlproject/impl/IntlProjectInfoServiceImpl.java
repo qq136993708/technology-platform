@@ -18,6 +18,7 @@ import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfo;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfoExample;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.HanyuPinyinHelper;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.common.WorkFlowStatusEnum;
@@ -195,5 +196,13 @@ public class IntlProjectInfoServiceImpl implements IntlProjectInfoService {
 		
 		example.setOrderByClause("create_time desc");
 		return projectInfoMapper.selectByExample(example);
+	}
+
+	@Override
+	public String createProjectInfoCode() {
+		IntlProjectInfoExample example = new IntlProjectInfoExample();
+		List<IntlProjectInfo> applys = projectInfoMapper.selectByExample(example);
+		
+		return HanyuPinyinHelper.toPinyin("GJHZ_"+DateUtil.format(new Date(), DateUtil.FMT_YYYY)+"_LX_"+(100+applys.size()));
 	} 
 }
