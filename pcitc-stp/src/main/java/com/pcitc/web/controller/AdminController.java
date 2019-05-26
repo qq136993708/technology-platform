@@ -641,8 +641,8 @@ public class AdminController extends BaseController {
 		request.setAttribute("taskCount", request.getParameter("taskCount"));
 		String  companyCode=EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders) ;
 		request.setAttribute("companyCode",companyCode);
-		String year= HanaUtil.getCurrrentYear();
-	    request.setAttribute("year", year);
+		String nd= HanaUtil.getCurrrentYear();
+	    request.setAttribute("nd", nd);
 	    String month = HanaUtil.getCurrrentYearMoth();
 		request.setAttribute("month", month);
 		String unitCode = sysUserInfo.getUnitCode();
