@@ -156,10 +156,10 @@ public class IntlProjectController extends BaseController
 		return "stp/intlproject/contract_list";
     }
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/intl_project/contract_end_list")
+	@RequestMapping(method = RequestMethod.GET, value = "/intl_project/contract_renew_list")
 	private String toProjectEndContractListPage(HttpServletRequest request) 
 	{
-		return "stp/intlproject/contract_end_list";
+		return "stp/intlproject/contract_renew_list";
     }
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/intl_project/contract_edit")
