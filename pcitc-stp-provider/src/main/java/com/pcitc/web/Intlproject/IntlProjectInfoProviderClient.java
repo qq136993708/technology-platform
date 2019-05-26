@@ -33,6 +33,14 @@ public class IntlProjectInfoProviderClient
 	{
 		return intlProjectInfoService.selectProjectInfoByPage(param);
 	}
+	
+	@ApiOperation(value="检索立项项目列表",notes="检索全部立项项目数据，返回数据列表。")
+	@RequestMapping(value = "/stp-provider/project/info-list-all")
+	public Object getAllProject() throws Exception 
+	{
+		return intlProjectInfoService.selectAllProjectInfo();
+	}
+	
 	@ApiOperation(value="检索立项项目",notes="检索立项项目数据，返回立项数据详情。")
 	@RequestMapping(value = "/stp-provider/project/get-project/{projectId}", method = RequestMethod.POST)
 	public IntlProjectInfo findPlantInfo(@PathVariable("projectId") String projectId) 

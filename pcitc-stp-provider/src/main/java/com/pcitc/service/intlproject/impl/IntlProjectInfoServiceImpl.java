@@ -183,5 +183,15 @@ public class IntlProjectInfoServiceImpl implements IntlProjectInfoService {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	@Override
+	public List<IntlProjectInfo> selectAllProjectInfo() 
+	{
+		IntlProjectInfoExample example = new IntlProjectInfoExample();
+		IntlProjectInfoExample.Criteria criteria = example.createCriteria();
+		
+		criteria.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		return projectInfoMapper.selectByExample(example);
 	} 
 }

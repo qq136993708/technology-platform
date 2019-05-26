@@ -20,9 +20,9 @@
     	var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate,
             form = layui.form,publicMethods=layui.publicMethods,table = layui.table;	
     		//加载项目
-    		publicMethods.ajaxPost("/project/apply-list-all",null, function (data) {
+    		publicMethods.ajaxPost("/project/info-list-all",null, function (data) {
 				$.each(data,function(i,val){
-					$("#projectId").append('<option value="'+data[i].applyId+'">'+data[i].applyName+'</option>');
+					$("#projectId").append('<option value="'+data[i].projectId+'">'+data[i].projectName+'</option>');
 				});
 		   	});
     		//加载字典
