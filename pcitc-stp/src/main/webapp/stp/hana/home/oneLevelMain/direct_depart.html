@@ -341,11 +341,11 @@
 
         
         //科研课题 projectCount、科研装备 kyzbCount
-        function getCommonCount(month)
+        function getCommonCount(nd)
         {
         	$.ajax({
  				type : 'GET',
- 				url : "/direct/topic_equipment_count?typeFlag=研究院&nd="+month,
+ 				url : "/direct/topic_equipment_count?typeFlag=研究院&nd="+nd,
  				dataType : 'json',
  				headers : {
  					'Content-Type' : 'application/json'
@@ -358,8 +358,7 @@
  				},
  				success : function(data) { 
  					//alert(data.data.projectCount);
- 					$("#topic_id").html(data.data.projectCount+"<small>(个)</small>");
- 					
+ 					    $("#topic_id").html(data.data.projectCount+"<small>(个)</small>");
  					    if (typeof(data.data.kyzbCount) == "undefined")
 					    {
  					    	$("#equipment_id").html("<small>0(个)</small>");
