@@ -2483,29 +2483,6 @@
 		order by tableA.define10
 	</select>
 	
-	<!-- 领导二级页面，8个院及国家级项目等性质的新开、续建、完结情况 -->
-	<select id="getProjectTypeCountByTypeLD" resultType="java.util.Map" parameterType="java.lang.String">
-		select
-		sum(case when project_property = '国家项目' then 1 else 0 end) as gjxmsl,
-	    sum(case when project_property = '重大专项' then 1 else 0 end) as zdzxxmsl,
-	    sum(case when project_property = '重点项目' then 1 else 0 end) as zdxmsl,
-	    sum(case when project_property = '其他项目' then 1 else 0 end) as qtsl,
-	    sum(case when project_property = '十条龙' then 1 else 0 end) as stlxmsl,
-	    sum(case when define2 = '101勘探院' then 1 else 0 end) as ktysl,
-	    sum(case when define2 = '102物探院' then 1 else 0 end) as wtysl,
-	    sum(case when define2 = '103工程院' then 1 else 0 end) as gcysl,
-	    sum(case when define2 = '104石科院' then 1 else 0 end) as skysl,
-	    sum(case when define2 = '105大连院' then 1 else 0 end) as dlysl,
-	    sum(case when define2 = '106北化院' then 1 else 0 end) as bhysl,
-	    sum(case when define2 = '107上海院' then 1 else 0 end) as shysl,
-	    sum(case when define2 = '108安工院' then 1 else 0 end) as agysl,
-	    
-	    count(*) as zsl,project_scope
-			from out_project_info
-			where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题')
-	    group by project_scope
-	</select>
-	
 	<!-- 领导二级页面，8个院新开、续建情况,每一行是一个院 -->
 	<select id="getProjectTypeCountByUnitLD" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select
