@@ -68,12 +68,10 @@ public class HomeDeviceMsqlController extends BaseController{
 	public String kyzb_level2(HttpServletRequest request) throws Exception {
 
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		String nd = HanaUtil.getCurrrentYear();
+		String nd = HanaUtil.getBeforeYear();
 		request.setAttribute("nd", nd);
 		return "stp/hana/home/level/home_device_02";
 	}
-
-	
 
 	/** =====================================按数量============================== */
 	@RequestMapping(method = RequestMethod.GET, value = "/home_device_02/getDeviceByCountBar")
