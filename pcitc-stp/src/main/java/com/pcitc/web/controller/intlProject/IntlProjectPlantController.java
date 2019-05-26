@@ -42,6 +42,7 @@ public class IntlProjectPlantController extends BaseController {
 
 	private static final String PROJECT_PLANT_REL_ADD_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/add-toplant";
 	private static final String PROJECT_PLANT_REL_DEL_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/del-fromplant";
+	private static final String PROJECT_PLANT_CODE = "http://pcitc-zuul/stp-proxy/stp-provider/project/project-plant-code";
 
 	@RequestMapping(value = "/project/plant-list", method = RequestMethod.POST)
 	public Object getTableData(@ModelAttribute("param") LayuiTableParam param) throws IOException {
@@ -161,5 +162,11 @@ public class IntlProjectPlantController extends BaseController {
 		} else {
 			return new Result(false, "移除失败，请联系系统管理员！");
 		}
+	}
+	@RequestMapping(value = "/project/project-plant-code")
+	public Object getContractCode(@ModelAttribute("plant") IntlProjectPlant plant,HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String rs = this.restTemplate.exchange(PROJECT_PLANT_CODE, HttpMethod.POST, new HttpEntity<Object>(plant,this.httpHeaders), String.class).getBody();
+		
+		return new Result(true, rs);
 	}
 }

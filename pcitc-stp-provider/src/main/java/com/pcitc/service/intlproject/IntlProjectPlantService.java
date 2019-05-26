@@ -70,5 +70,10 @@ public interface IntlProjectPlantService {
 	 * @return
 	 */
 	public boolean startWorkFlow(String businessId,String functionId,String workflowName,String authenticatedUserId,String authenticatedUserName);
+	/**
+	 * 
+	 * @return
+	 */
+	public String createPlantCode();
 
 }

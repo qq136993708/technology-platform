@@ -50,7 +50,7 @@ $(document).ready(function() {
             });
     	}else{
     		$("#appendFiles").val("${appendFiles}");
-    		publicMethods.ajaxPost('/project/project-code', null, function (data, status) {
+    		publicMethods.ajaxPost('/project/project-plant-code', null, function (data, status) {
     			if (data.success) {
     				$("#plantCode").val(data.message);
     			}

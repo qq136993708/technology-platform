@@ -108,12 +108,9 @@ public class IntlProjectContractController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/project/project-contract-code")
-	public Object getContractCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		Integer rs = this.restTemplate.exchange(PROJECT_CONTRACT_CODE, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
-		if(rs > 0) {
-			return new Result(true);
-		}else {
-			return new Result(false);
-		}
+	public Object getContractCode(@ModelAttribute("contract") IntlProjectContract contract,HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String rs = this.restTemplate.exchange(PROJECT_CONTRACT_CODE, HttpMethod.POST, new HttpEntity<Object>(contract,this.httpHeaders), String.class).getBody();
+		
+		return new Result(true, rs);
 	}
 }

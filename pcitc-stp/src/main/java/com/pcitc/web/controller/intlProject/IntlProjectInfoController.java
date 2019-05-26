@@ -115,8 +115,10 @@ public class IntlProjectInfoController extends BaseController {
 		return rs;
 	}
 	@RequestMapping(value = "/project/project-info-code", method = RequestMethod.POST)
-	public Object getInfoCode(HttpServletRequest request) throws IOException {
-		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(PROJECT_INFO_CODE, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Object.class);
-		return JSON.toJSON(responseEntity.getBody()).toString();
+	public Object getInfoCode(@ModelAttribute(value = "projectInfo") IntlProjectInfo info,HttpServletRequest request) throws IOException {
+		System.out.println("start.................");
+		String rs = this.restTemplate.exchange(PROJECT_INFO_CODE, HttpMethod.POST, new HttpEntity<Object>(info,this.httpHeaders), String.class).getBody();
+		System.out.println("rs------------------"+rs);
+		return new Result(true, rs);
 	}
 }

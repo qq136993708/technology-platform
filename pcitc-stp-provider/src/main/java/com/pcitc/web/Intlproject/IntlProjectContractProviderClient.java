@@ -72,7 +72,7 @@ public class IntlProjectContractProviderClient
 	}
 	@ApiOperation(value="获取签约代码",notes="签约项目编号。")
 	@RequestMapping(value = "/stp-provider/project/project-contract-code", method = RequestMethod.POST)
-	public Object getProjectContractCode() 
+	public Object getProjectContractCode(@RequestBody IntlProjectContract contract) 
 	{
 	
 		return intlProjectContractService.createProjectContractCode();
