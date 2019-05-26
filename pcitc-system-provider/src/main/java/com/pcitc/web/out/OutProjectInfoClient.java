@@ -163,7 +163,9 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-provider/kyzb/project-count", method = RequestMethod.POST)
 	public JSONObject getOutProjectInfoCountWithKYZB(@RequestBody HashMap<String, String> map) {
 		JSONObject retJson = new JSONObject();
-		
+		if (map.get("nd") == null) {
+			map.put("nd", "2018");
+		}
 		HashMap<String, String> temMap = outProjectService.getOutProjectInfoCountWithKYZB(map);
 		if (temMap != null) {
 			retJson.put("projectCount", temMap.get("projectCount") == null ? 0 : temMap.get("projectCount"));
