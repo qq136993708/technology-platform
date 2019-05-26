@@ -38,6 +38,8 @@ public class IntlProjectContractController extends BaseController {
 	private static final String PROJECT_CONTRACT_CLOSE_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/contract-close/";
 	private static final String PROJECT_CONTRACT_DEL_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/contract-delete/";
 	
+	private static final String PROJECT_CONTRACT_CODE = "http://pcitc-zuul/stp-proxy/stp-provider/project/project-contract-code";
+	
 	
 	@RequestMapping(value = "/project/contract-list", method = RequestMethod.POST)
 	public Object getContractTableData(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request) throws IOException {
@@ -103,5 +105,12 @@ public class IntlProjectContractController extends BaseController {
 		}else {
 			return new Result(false);
 		}
+	}
+	
+	@RequestMapping(value = "/project/project-contract-code")
+	public Object getContractCode(@ModelAttribute("contract") IntlProjectContract contract,HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String rs = this.restTemplate.exchange(PROJECT_CONTRACT_CODE, HttpMethod.POST, new HttpEntity<Object>(contract,this.httpHeaders), String.class).getBody();
+		
+		return new Result(true, rs);
 	}
 }

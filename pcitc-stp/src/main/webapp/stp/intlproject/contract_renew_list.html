@@ -112,7 +112,7 @@
 		            		layer.msg('请点击选择一行数据!');
 		            		return;
 		            	}
-		            	var temUrl = '/intl_project/contract_view?contractId='+selectRowData.contractId;
+		            	var temUrl = '/intl_project/contract_renew_view?contractId='+selectRowData.contractId;
 		            	openFullWin("详情",temUrl);
 		            },exportEvent:function(){
 		            	if(!selectRowData){
@@ -126,7 +126,7 @@
 		            		layer.msg('请点击选择一行数据!');
 		            		return;
 		            	}
-		            	var temUrl = '/intl_project/contract_edit?contractId='+selectRowData.contractId;
+		            	var temUrl = '/intl_project/contract_renew_edit?contractId='+selectRowData.contractId;
 		            	openFullWin("编辑",temUrl);
 		            },commitEvent:function(){
 		            	if(!selectRowData){
@@ -202,7 +202,6 @@
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent">新增</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="editEvent">编辑</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg" data-type="detailEvent">查看</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg" data-type="exportEvent">下载</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="closeEvent">删除</button>
         </div>
     </div>

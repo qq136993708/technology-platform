@@ -1,5 +1,6 @@
 package com.pcitc.service.intlproject.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import com.pcitc.base.stp.IntlProject.IntlProjectApplyPlant;
 import com.pcitc.base.stp.IntlProject.IntlProjectApplyPlantExample;
 import com.pcitc.base.stp.IntlProject.IntlProjectPlant;
 import com.pcitc.base.stp.IntlProject.IntlProjectPlantExample;
+import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.HanyuPinyinHelper;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.common.WorkFlowStatusEnum;
 import com.pcitc.mapper.IntlProject.IntlProjectApplyPlantMapper;
@@ -203,6 +206,14 @@ public class IntlProjectPlantServiceImpl implements IntlProjectPlantService {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	@Override
+	public String createPlantCode() {
+		IntlProjectPlantExample example = new IntlProjectPlantExample();
+		
+		List<IntlProjectPlant> applys = projectPlantMapper.selectByExample(example);
+		
+		return HanyuPinyinHelper.toPinyin("GJHZ_"+DateUtil.format(new Date(), DateUtil.FMT_YYYY)+"_JH_"+(100+applys.size()));
 	}
 
 	

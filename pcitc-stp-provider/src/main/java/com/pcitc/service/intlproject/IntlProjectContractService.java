@@ -52,4 +52,9 @@ public interface IntlProjectContractService
 	 * @return
 	 */
 	Integer delIntlProjectContractReal(String projectContrctId);
+	/**
+	 * 
+	 * @return
+	 */
+	String createProjectContractCode();
 }

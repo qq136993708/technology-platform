@@ -156,10 +156,10 @@ public class IntlProjectController extends BaseController
 		return "stp/intlproject/contract_list";
     }
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/intl_project/contract_end_list")
+	@RequestMapping(method = RequestMethod.GET, value = "/intl_project/contract_renew_list")
 	private String toProjectEndContractListPage(HttpServletRequest request) 
 	{
-		return "stp/intlproject/contract_end_list";
+		return "stp/intlproject/contract_renew_list";
     }
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/intl_project/contract_edit")
@@ -172,6 +172,18 @@ public class IntlProjectController extends BaseController
 		}
 		request.setAttribute("contractId", contractId);
 		return "stp/intlproject/contract_edit";
+    }
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/intl_project/contract_renew_edit")
+	private String toProjectContractRenewEditPage(HttpServletRequest request) 
+	{
+		String contractId = request.getParameter("contractId");
+		if(contractId == null) 
+		{
+			request.setAttribute("appendFiles", IdUtil.createFileIdByTime());
+		}
+		request.setAttribute("contractId", contractId);
+		return "stp/intlproject/contract_renew_edit";
     }
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/intl_project/contract_view")

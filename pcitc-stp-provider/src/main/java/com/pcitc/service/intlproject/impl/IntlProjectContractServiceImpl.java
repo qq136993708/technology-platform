@@ -1,6 +1,7 @@
 package com.pcitc.service.intlproject.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +17,8 @@ import com.pcitc.base.stp.IntlProject.IntlProjectContract;
 import com.pcitc.base.stp.IntlProject.IntlProjectContractExample;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfo;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfoExample;
+import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.HanyuPinyinHelper;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.mapper.IntlProject.IntlProjectContractMapper;
@@ -153,6 +156,16 @@ public class IntlProjectContractServiceImpl implements IntlProjectContractServic
 			rs = intlProjectContracMapper.deleteByPrimaryKey(projectContrctId);
 		}
 		return rs;
+	}
+	@Override
+	public String createProjectContractCode() {
+		IntlProjectContractExample example = new IntlProjectContractExample();
+		//IntlProjectContractExample.Criteria c = example.createCriteria();
+		//IntlProjectApplyExample.Criteria criteria = example.createCriteria();
+		//criteria.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		List<IntlProjectContract> applys = intlProjectContracMapper.selectByExample(example);
+		
+		return HanyuPinyinHelper.toPinyin("GJHZ_"+DateUtil.format(new Date(), DateUtil.FMT_YYYY)+"_HT_"+(100+applys.size()));
 	}
 	
 }

@@ -64,5 +64,10 @@ public interface IntlProjectInfoService
 	 * @return
 	 */
 	List<IntlProjectInfo> selectAllProjectInfo();
+	/**
+	 * 
+	 * @return
+	 */
+	String createProjectInfoCode();
 
 }

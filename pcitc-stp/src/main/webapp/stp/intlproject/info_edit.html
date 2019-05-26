@@ -55,7 +55,7 @@
 	    				//projectEditor.setData(data.projectContent);
 	                });
 	    		}else{
-	    			publicMethods.ajaxAsyncPost('/project/project-code', null, function (data, status) {
+	    			publicMethods.ajaxAsyncPost('/project/project-info-code', null, function (data, status) {
 	        			if (data.success) {
 	        				$("#projectCode").val(data.message);
 	        			}

@@ -116,4 +116,10 @@ public class IntlProjectPlantProviderClient
 	
 		return projectPlantService.delApplyPlantRel(rel.getApplyId(), rel.getPlantId());
 	}
+	
+	@RequestMapping(value = "/stp-provider/project/project-plant-code", method = RequestMethod.POST)
+	public Object getPlantCode(@RequestBody IntlProjectPlant plant) 
+	{
+		return projectPlantService.createPlantCode();
+	}
 }
