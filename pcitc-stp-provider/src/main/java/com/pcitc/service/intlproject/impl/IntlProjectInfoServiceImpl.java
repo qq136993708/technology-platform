@@ -192,6 +192,8 @@ public class IntlProjectInfoServiceImpl implements IntlProjectInfoService {
 		IntlProjectInfoExample.Criteria criteria = example.createCriteria();
 		
 		criteria.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		
+		example.setOrderByClause("create_time desc");
 		return projectInfoMapper.selectByExample(example);
 	} 
 }

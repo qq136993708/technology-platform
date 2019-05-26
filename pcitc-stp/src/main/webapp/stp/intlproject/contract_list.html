@@ -60,18 +60,13 @@
 			                    selectRowData=res.data[index-1];
 			                }); 
 			               
-			               /*  $.each(res.data,function(i,dt){
+			               	$.each(res.data,function(i,dt){
 				            	//获得项目信息
-				            	publicMethods.ajaxPost('/project/get-apply', {"applyId":res.data[i].projectId}, function (data, status) {
-				            		$("tr[data-index='"+i+"'] td[data-field='projectId'] div").html(data.applyName);
-				            		$("tr[data-index='"+i+"'] td[data-field='unitId'] div").html(data.unitId);
-				            		
-				            		publicMethods.ajaxPost("/unit/get-unit/"+data.unitId,null, function (data) {
-					            		$("tr[data-index='"+i+"'] td[data-field='unitId'] div").html(data.unitName);
-							   		});
+				            	publicMethods.ajaxAsyncPost('/project/get-project', {"projectId":res.data[i].projectId}, function (data, status) {
+				            		$("tr[data-index='"+i+"'] td[data-field='projectId'] div").html(data.projectName);
 					            });
 				            	
-				            }); */
+				            });
 			            }
 			        });
 	    			renderfunc = function removeHeaderCheckbox(){

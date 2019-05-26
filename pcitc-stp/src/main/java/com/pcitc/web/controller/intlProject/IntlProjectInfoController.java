@@ -48,9 +48,8 @@ public class IntlProjectInfoController extends BaseController {
 	
 	@RequestMapping(value = "/project/info-list-all", method = RequestMethod.POST)
 	public Object getListData(HttpServletRequest request) throws IOException {
-		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_INFO_LIST_ALL, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), LayuiTableData.class);
-		LayuiTableData data = responseEntity.getBody();
-		return JSON.toJSON(data).toString();
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(PROJECT_INFO_LIST_ALL, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Object.class);
+		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
 
 	@RequestMapping(value = "/project/get-project")

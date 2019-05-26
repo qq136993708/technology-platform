@@ -6,7 +6,6 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +24,7 @@ import com.pcitc.base.stp.IntlProject.IntlProjectContract;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
+import com.pcitc.base.util.StringProcessUtils;
 import com.pcitc.web.common.BaseController;
 
 @RestController
@@ -56,18 +56,18 @@ public class IntlProjectContractController extends BaseController {
 	}
 
 	@RequestMapping(value = "/project/contract-saveorupdate", method = RequestMethod.POST)
-	public Object updProjectApply(@ModelAttribute("apply") IntlProjectContract contract, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public Object updProjectApply(@ModelAttribute("contract") IntlProjectContract contract, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ResponseEntity<Integer> status = null;
-		if (StringUtils.isBlank(contract.getContractId())) {
+		if (StringProcessUtils.isBlank(contract.getContractId())) {
 			// 创建一个新的对象
 			IntlProjectContract newContract = (IntlProjectContract) MyBeanUtils.createDefaultModel(IntlProjectContract.class);
+			MyBeanUtils.copyPropertiesIgnoreNull(contract, newContract);
 			newContract.setContractId(IdUtil.createIdByTime());
 			newContract.setAppendFiles(IdUtil.createFileIdByTime());
-			MyBeanUtils.copyPropertiesIgnoreNull(contract, newContract);
 			status = this.restTemplate.exchange(PROJECT_CONTRACT_ADD_URL, HttpMethod.POST, new HttpEntity<IntlProjectContract>(newContract, this.httpHeaders), Integer.class);
 		} else {
-			// 先查询再更新
 			IntlProjectContract oldContract = this.restTemplate.exchange(PROJECT_GET_CONTRACT_URL + contract.getContractId(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), IntlProjectContract.class).getBody();
+			// 先查询再更新
 			oldContract.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 			if (oldContract.getAppendFiles() == null) {
 				oldContract.setAppendFiles(IdUtil.createFileIdByTime());

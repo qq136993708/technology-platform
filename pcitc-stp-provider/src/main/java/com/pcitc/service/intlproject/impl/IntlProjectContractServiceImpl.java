@@ -112,11 +112,10 @@ public class IntlProjectContractServiceImpl implements IntlProjectContractServic
 		}
 		try 
 		{
-			
 			return this.intlProjectContracMapper.insert(contract);
 			
 		}catch(Exception e) {
-			
+			e.printStackTrace();
 		}
 		return 0;
 	}  
