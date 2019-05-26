@@ -12,33 +12,18 @@
 </head>
 <body>
 	<div class="layui-fluid">
-		<input type="hidden" name="companyCode" value="${companyCode}" id="companyCode">
-
 		<div class="layui-main-oil">
 			<div class="searchBox">
 				<label class="dateInput">
-					<span>月份</span>
-					<input type="text" name="year" placeholder="请选择月份" title="月份" value="${year}" autocomplete="off" class="form-control" id="year">
+					<span>年份</span>
+					<input type="text" name="nd" placeholder="请选择年份" title="年份" value="${nd}" autocomplete="off" class="form-control" id="nd">
 				</label>
-
-				<!-- <div class="layui-input-inline">
-                <select name="companyCode" id="companyCode"  >
-                    <#list companyCodeList as vo>
-                    <#if vo.g0GSJC == '全部'>
-                    <option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
-                </#if>
-                <#if vo.g0GSJC != '全部'>
-                <option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
-                    </#if>
-                </#list>
-                </select>
-            </div> -->
 				<!--按钮组-->
 				<div class="btnGroup">
 					<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()">查询</button>
 				</div>
 				<div class="btnGroup" style="float: right">
-					<button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details">明细</button>
+					<button id="detail_id" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details">明细</button>
 				</div>
 			</div>
 
@@ -64,42 +49,6 @@
 					</div>
 				</div>
 			</div>
-
-
-			<!--   
-      <div class="layui-row layui-col-space10">
-            <div class="layui-col-xs4">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        <span class="layui-time"></span>科研项目数量分析
-                    </div>
-                    <div class="layui-row-main">
-                        <div class="main-chart" id="chart1" style="height:280px;width: 100%;"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-xs4">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        <span class="layui-time"></span>科研项目占比分析
-                    </div>
-                    <div class="layui-row-main">
-                        <div class="main-chart" id="chart2" style="height:280px;width: 100%;"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-xs4">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        科研项目占比分析
-                    </div>
-                    <div class="layui-row-main">
-                        <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-
 
 
 			<div class="layui-row layui-col-space10">
@@ -153,6 +102,7 @@
 	<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
 
 	<script type="text/javascript">
+	    var nd = $("#nd").val();
 		var editObj = null, ptable = null, treeGridCom = null, tableId = 'processdef-table', layer = null;
 		var ptable02 = null, treeGridCom = null, tableId02 = 'processdef_table_02';
 		layui.config({
@@ -165,28 +115,26 @@
 			layer = layui.layer;
 			laydate = layui.laydate;
 			form = layui.form;
-			var year = $("#year").val();
-			$(".layui-time").html(year + "年");
+			
+			$(".layui-time").html(nd + "年");
 			form.render(null, 'component-form-group');
 			laydate.render({
-				elem : '#year',
+				elem : '#nd',
 				format : 'yyyy'
 			});
 			renderTable();
 			renderTable_UNIT();
-			$("#knowledge_table").click(function() {
-				parent.layui.index.openTabsPage("/home/project-list?define1=费用性", "科研项目明细");
+			$("#detail_id").click(function() {
+				    var url=　encodeURIComponent("/one_level_main/count_table?nd="+nd+"&ysnd="+nd+"&xmlbbm=fkyzb");
+	    	        window.open("/instituteIndex?url="+url);
 			});
 
 		});
 
 		function initEchart() {
 
-			var year = $("#year").val();
-			$(".layui-time").html(year + "年");
-			var companyCode = $("#companyCode").val();
+			$(".layui-time").html(nd + "年");
 			var v_date = (new Date()).getTime();
-			var month = $('#year').val();
 			var yAxis = [ {
 				type : 'value',
 				name : '数量（个）',
@@ -198,69 +146,39 @@
 				}
 			} ];
 
-			var chart1_url = "/home_project_02/getProjectByCountBar?month=" + month + "&v_date=" + v_date + "&companyCode=" + companyCode;
+			var chart1_url = "/home_project_02/getProjectByCountBar?nd=" + nd + "&v_date=" + v_date + "&functionId=984b64b13cf54222bf57bd840759fabe";
 			var echart = load_mutl_bar_02(chart1_url, "chart1", "", "", yAxis);
 			echart.on('click', function(params) {
-				//params.name：X轴的值 
-				//params.data：Y轴的值 
-				//params.value：Y轴的值 
-				//params.type：点击事件均为click 
-				//params.seriesName： legend的名称 
-				//alert("name="+params.name+" seriesName="+params.seriesName+" value="+params.value+" data="+params.data);
 				var xName = params.name;
 				var legentName = params.seriesName;
-				parent.layui.index.openTabsPage("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope", "科研项目明细");
+				 var url=　encodeURIComponent("/one_level_main/count_table?define5="+xName+"&nd="+nd+"&ysnd="+nd+"&define1=费用性");
+			     window.open("/instituteIndex?url="+url);
+			     
+			     
 
 			});
 
-			/* var chart2_url="/home_project_02/getProjectByCountPie?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-			var echart2=loadPie(chart2_url,"chart2","","");
-			echart2.on('click', function (params) {
-				var xName=params.name;
-				var legentName=params.seriesName;
-				parent.layui.index.openTabsPage("/home/project-list?project_property="+xName, "科研项目明细");
-			      
-			}); */
 
-			/* var chart3_url="/home_project_02/getProjectByCountCricle?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-			load_taiyang_02(chart3_url,"chart3","科研项目占比分析",ndstr); */
-
-			var chart4_url = "/home_project_02/getProjectByUnitBar?month=" + month + "&v_date=" + v_date + "&companyCode=" + companyCode;
+			var chart4_url = "/home_project_02/getProjectByUnitBar?nd=" + nd + "&v_date=" + v_date + "&functionId=984b64b13cf54222bf57bd840759fabe";
 			var echart4 = load_mutl_bar_02(chart4_url, "chart4", "", "", yAxis);
 			echart4.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				parent.layui.index.openTabsPage("/home/project-list?type_flag=" + xName + "&project_scope=" + legentName, "科研装备明细");
+				var url=　encodeURIComponent("/one_level_main/count_table?define5="+xName+"&nd="+nd+"&ysnd="+nd+"&define1=费用性");
+			     window.open("/instituteIndex?url="+url);
+			     
 			});
 
-			/* var url_main4='/admin/project/type/unit/list';
-			var echart4=load_mutl_bar_02(url_main4,"chart4","","",yAxis);  
-			echart4.on('click', function (params){
-				var xName=params.name;
-				var legentName=params.seriesName;
-				parent.layui.index.openTabsPage("/home/project-list?type_flag="+xName+"&project_scope="+legentName, "科研项目明细");
-			}); */
 
-			/* var chart4_url="/home_project_02/getProjectByUnitBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode; 
-			var echart4=load_mutl_bar_02(chart4_url,"chart4","","",yAxis);
-			echart4.on('click', function (params){
-				var xName=params.name;
-				var legentName=params.seriesName;
-			      
-			}); */
-
-			/* var chart5_url="/home_project_02/getProjectByUnitPie?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-			loadPie(chart5_url,"chart5","科研项目占比分析",ndstr);  */
-
-			/* var chart6_url="/home_project_02/getProjectByUnitCricle?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-			load_taiyang_02(chart6_url,"chart6","科研项目占比分析",ndstr); */
-
-			var chart7_url = "/home_project_02/getProjectByDistributeBar?month=" + month + "&v_date=" + v_date + "&companyCode=" + companyCode;
+			var chart7_url = "/home_project_02/getProjectByDistributeBar?nd=" + nd + "&v_date=" + v_date + "&functionId=984b64b13cf54222bf57bd840759fabe";
 			var echart7 = load_mutl_bar_02(chart7_url, "chart7", "", "", yAxis);
 			echart7.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				parent.layui.index.openTabsPage("/home/project-list?define2=" + xName + "&project_scope=" + legentName, "科研项目明细");
+				var url=　encodeURIComponent("/one_level_main/count_table?define5="+xName+"&nd="+nd+"&ysnd="+nd+"&define1=费用性");
+			     window.open("/instituteIndex?url="+url);
+			     
+			     
 			});
 
 		}
@@ -276,13 +194,11 @@
 
 		function renderTable() {
 
-			var month = $("#month").val();
-			var companyCode = $("#companyCode").val();
 
 			ptable = treeGridCom.render({
 				id : tableId,
 				elem : '#' + tableId,
-				url : '/home_project_02/getProjectByCountCricle?month=' + month + "&companyCode=" + companyCode
+				url : '/home_project_02/getProjectByCountCricle?nd=' + nd + "&functionId=984b64b13cf54222bf57bd840759fabe"
 				// ,cellMinWidth: 200
 				,
 				idField : 'id'//必須字段
@@ -329,13 +245,11 @@
 
 		function renderTable_UNIT() {
 
-			var month = $("#month").val();
-			var companyCode = $("#companyCode").val();
 
 			ptable02 = treeGridCom.render({
 				id : tableId02,
 				elem : '#' + tableId02,
-				url : '/home_project_02/getProjectByUnitCricle?month=' + month + "&companyCode=" + companyCode
+				url : '/home_project_02/getProjectByUnitCricle?nd=' + nd + "&functionId=984b64b13cf54222bf57bd840759fabe"
 				//  ,cellMinWidth: 200
 				,
 				idField : 'id'//必須字段

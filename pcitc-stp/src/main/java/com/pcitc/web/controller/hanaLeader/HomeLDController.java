@@ -40,13 +40,13 @@ import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
 
 @Controller
-@RequestMapping(value = "/home_ld")
-public class HomeLDController {
+public class HomeLDController extends BaseController{
 	
 	private static final String GET_XFZC =      "http://pcitc-zuul/hana-proxy/hana/home/getndys_xfzc";
 	private static final String GET_getDzzk = "http://pcitc-zuul/hana-proxy/hana/home/getDzzk";
@@ -59,21 +59,21 @@ public class HomeLDController {
 	private RestTemplate restTemplate;
 	
 	
-	@RequestMapping( value = "/mainLeader")
+	@RequestMapping( value = "/home_ld/mainLeader")
 	public String mainLeader(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return "stp/hana/home/mainLeader";
 	}
 	
 	
-	@RequestMapping( value = "/direct_depart") 
+	@RequestMapping( value = "/home_ld/direct_depart") 
 	public String direct_depart(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 	   
 	    String unitCode=userInfo.getUnitCode();
 	    request.setAttribute("unitCode", unitCode);
 	    
-	    String year= HanaUtil.getCurrrentYear();
-	    request.setAttribute("year", year);
+	    String nd= HanaUtil.getCurrrentYear();
+	    request.setAttribute("nd", nd);
 	    String month = HanaUtil.getCurrrentYearMoth();
 		request.setAttribute("month", month);
 		String  companyCode=EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders) ;
@@ -82,7 +82,7 @@ public class HomeLDController {
 	}
 	
 	//科研合同
-	@RequestMapping( value = "/contract")
+	@RequestMapping( value = "/home_ld/contract")
 	public String contract(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 	    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
@@ -94,7 +94,7 @@ public class HomeLDController {
 		return "stp/hana/home/oneLevelMain/contract";
 	}
 	//科研装备
-	@RequestMapping( value = "/equipment")
+	@RequestMapping( value = "/home_ld/equipment")
 	public String equipment(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 	    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
@@ -109,7 +109,7 @@ public class HomeLDController {
 	
 
 	//年度预算 经费支出
-	@RequestMapping(method = RequestMethod.GET, value = "/getndys_xfzc")
+	@RequestMapping(method = RequestMethod.GET, value = "/home_ld/getndys_xfzc")
 	@ResponseBody
 	public String getndys_xfzc(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -145,7 +145,7 @@ public class HomeLDController {
 	}
 	
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/home_zhuanzi_table")
+	@RequestMapping(method = RequestMethod.GET, value = "/home_ld/home_zhuanzi_table")
 	  public String home_zhuanzi_table(HttpServletRequest request) throws Exception
 	  {
 		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
@@ -165,7 +165,7 @@ public class HomeLDController {
 	        return "stp/hana/home/level/home_zhuanzi_table";
 	  }
 	
-	  @RequestMapping(method = RequestMethod.POST, value = "/getZhuanziTableList")
+	  @RequestMapping(method = RequestMethod.POST, value = "/home_ld/getZhuanziTableList")
 		@ResponseBody
 		public String getZhuanziTableList(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
@@ -184,7 +184,7 @@ public class HomeLDController {
 	  
 	  
 	  
-	  @RequestMapping(method = RequestMethod.GET, value = "/GET_getDzzk")
+	  @RequestMapping(method = RequestMethod.GET, value = "/home_ld/GET_getDzzk")
 		@ResponseBody
 		public String GET_getDzzk(HttpServletRequest request, HttpServletResponse response) throws Exception 
 		{

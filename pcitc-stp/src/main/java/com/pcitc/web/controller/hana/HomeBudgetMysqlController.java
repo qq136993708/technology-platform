@@ -39,17 +39,18 @@ import com.pcitc.base.hana.report.ProjectCode;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
+import com.pcitc.web.common.OperationFilter;
 import com.pcitc.web.utils.HanaUtil;
 
 @Controller
-public class HomeBudgetMysqlController {
+public class HomeBudgetMysqlController extends BaseController{
 
 	private static final String	getBudgetByCountBar			= "http://pcitc-zuul/system-proxy/out-project-provider/project-money/project-type";
 	private static final String	getBudgetByCountPie			= "http://pcitc-zuul/system-proxy/out-project-provider/project-money/project-type";
 	private static final String	getBudgetByCountCricle		= "http://pcitc-zuul/system-proxy/out-project-provider/project-money/scope/type";
 	private static final String	getBudgetByUnitBar			= "http://pcitc-zuul/system-proxy/out-project-provider/project-money/unit-type";
-	private static final String	getBudgetByUnitPie			= "http://pcitc-zuul/hana-proxy/hana/home/getBudgetByUnitPie";
 	private static final String	getBudgetByUnitCricle		= "http://pcitc-zuul/system-proxy/out-project-provider/project-money/scope/institute";
 	private static final String	getBudgetByDistributeBar	= "http://pcitc-zuul/system-proxy/out-project-provider/project-money/institute";
 	private static final String	getBudgetTable				= "http://pcitc-zuul/hana-proxy/hana/home/getBudgetTable";
@@ -67,76 +68,32 @@ public class HomeBudgetMysqlController {
 	public String kyzb_level2(HttpServletRequest request) throws Exception {
 
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
-		String unitCode = userInfo.getUnitCode();
-		request.setAttribute("unitCode", unitCode);
-
-		String year = HanaUtil.getCurrrentYear();
-		request.setAttribute("year", year);
-
-		request.setAttribute("YJY_CODE_ALL", HanaUtil.YJY_CODE_ALL);
+		String nd = HanaUtil.getCurrrentYear();
+		request.setAttribute("nd", nd);
 		return "stp/hana/home/level/home_budget_02";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/home_budget_02/home_budget_table")
-	public String kyzb_table(HttpServletRequest request) throws Exception {
-
-		String month = HanaUtil.getCurrrentYearMoth();
-		request.setAttribute("month", month);
-		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-
-		HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
-
-		String unitCode = userInfo.getUnitCode();
-		request.setAttribute("unitCode", unitCode);
-		// 项目类型:G0XMGLLX ,项目来源:G0XMGLLY,管理级别:G0XMGLJB,项目类别:G0XMLX,项目状态:G0XMZT
-		List<ProjectCode> G0XMGLLX_LIST = HanaUtil.getBaseCode(restTemplate, httpHeaders, month, "G0XMGLLX");
-		List<ProjectCode> G0XMGLLY_LIST = HanaUtil.getBaseCode(restTemplate, httpHeaders, month, "G0XMGLLY");
-		List<ProjectCode> G0XMGLJB_LIST = HanaUtil.getBaseCode(restTemplate, httpHeaders, month, "G0XMGLJB");
-		List<ProjectCode> G0XMLX_LIST = HanaUtil.getBaseCode(restTemplate, httpHeaders, month, "G0XMLXMS");
-		List<ProjectCode> G0XMZT_LIST = HanaUtil.getBaseCode(restTemplate, httpHeaders, month, "G0XMZTMS");
-
-		request.setAttribute("G0XMGLLX_LIST", G0XMGLLX_LIST);
-		request.setAttribute("G0XMGLLY_LIST", G0XMGLLY_LIST);
-		request.setAttribute("G0XMGLJB_LIST", G0XMGLJB_LIST);
-		request.setAttribute("G0XMLX_LIST", G0XMLX_LIST);
-		request.setAttribute("G0XMZT_LIST", G0XMZT_LIST);
-
-		return "stp/hana/home/level/home_budget_table";
-	}
-
-	// 三级表格
-	@RequestMapping(method = RequestMethod.POST, value = "/home_budget_02/home_budget_table_data")
-	@ResponseBody
-	public String home_budget_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
-
-		LayuiTableData layuiTableData = new LayuiTableData();
-		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getBudgetTable, HttpMethod.POST, entity, LayuiTableData.class);
-		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
-			layuiTableData = responseEntity.getBody();
-		}
-		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>home_budget_table_data:"+result.toString());
-		return result.toString();
-	}
 
 	/** =====================================按数量============================== */
 	@RequestMapping(method = RequestMethod.GET, value = "/home_budget_02/getBudgetByCountBar")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String getBudgetByCountBar(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
 		ChartBarLineResultData barLine = new ChartBarLineResultData();
 		String month = CommonUtil.getParameter(request, "month", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+		String zycmc = request.getAttribute("zycmc")==null ? "" : request.getAttribute("zycmc").toString();
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
-		paramsMap.put("companyCode", companyCode);
+		paramsMap.put("zycmc", zycmc);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-		if (!companyCode.equals("")) {
+		if (!month.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getBudgetByCountBar, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode==200) {
@@ -174,17 +131,22 @@ public class HomeBudgetMysqlController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/home_budget_02/getBudgetByCountPie")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String getBudgetByCountPie(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
-		String month = CommonUtil.getParameter(request, "month", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String zycmc = request.getAttribute("zycmc")==null ? "" : request.getAttribute("zycmc").toString();
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
-		paramsMap.put("month", month);
-		paramsMap.put("companyCode", companyCode);
+		paramsMap.put("nd", nd);
+		paramsMap.put("zycmc", zycmc);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-		if (!companyCode.equals("")) {
+		if (!nd.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getBudgetByCountPie, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode==200) {
@@ -221,13 +183,18 @@ public class HomeBudgetMysqlController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/home_budget_02/getBudgetByCountCricle")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String getBudgetByCountCricle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		PageResult pageResult = new PageResult();
-		String month = CommonUtil.getParameter(request, "month", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String zycmc = request.getAttribute("zycmc")==null ? "" : request.getAttribute("zycmc").toString();
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
-		paramsMap.put("month", month);
-		paramsMap.put("companyCode", companyCode);
+		paramsMap.put("nd", nd);
+		paramsMap.put("zycmc", zycmc);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
@@ -255,18 +222,23 @@ public class HomeBudgetMysqlController {
 	/** =====================================按单位============================== */
 	@RequestMapping(method = RequestMethod.GET, value = "/home_budget_02/getBudgetByUnitBar")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String getBudgetByUnitBar(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
 		ChartBarLineResultData barLine = new ChartBarLineResultData();
-		String month = CommonUtil.getParameter(request, "month", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String zycmc = request.getAttribute("zycmc")==null ? "" : request.getAttribute("zycmc").toString();
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
-		paramsMap.put("month", month);
-		paramsMap.put("companyCode", companyCode);
+		paramsMap.put("nd", nd);
+		paramsMap.put("zycmc", zycmc);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-		if (!companyCode.equals("")) {
+		if (!nd.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getBudgetByUnitBar, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode==200) {
@@ -305,14 +277,19 @@ public class HomeBudgetMysqlController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/home_budget_02/getBudgetByUnitCricle")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String getBudgetByUnitCricle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		PageResult pageResult = new PageResult();
-		String month = CommonUtil.getParameter(request, "month", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String zycmc = request.getAttribute("zycmc")==null ? "" : request.getAttribute("zycmc").toString();
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
-		paramsMap.put("month", month);
-		paramsMap.put("companyCode", companyCode);
+		paramsMap.put("nd", nd);
+		paramsMap.put("zycmc", zycmc);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
@@ -342,18 +319,26 @@ public class HomeBudgetMysqlController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/home_budget_02/getBudgetByDistributeBar")
 	@ResponseBody
-	public String getBudgetByDistributeBar(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@OperationFilter(dataFlag = "true")
+	public String getBudgetByDistributeBar(HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
 
 		Result result = new Result();
 		ChartBarLineResultData barLine = new ChartBarLineResultData();
-		String month = CommonUtil.getParameter(request, "month", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+		
+		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String zycmc = request.getAttribute("zycmc")==null ? "" : request.getAttribute("zycmc").toString();
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
-		paramsMap.put("month", month);
-		paramsMap.put("companyCode", companyCode);
+		paramsMap.put("nd", nd);
+		paramsMap.put("zycmc", zycmc);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
+		
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-		if (!companyCode.equals("")) {
+		if (!nd.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getBudgetByDistributeBar, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode==200) {
