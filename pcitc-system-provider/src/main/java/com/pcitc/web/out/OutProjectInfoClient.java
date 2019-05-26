@@ -134,9 +134,7 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-provider/project-count", method = RequestMethod.POST)
 	public JSONObject getProjectCount(@RequestBody HashMap<String, String> map) {
 		JSONObject retJson = new JSONObject();
-		if (map.get("nd") == null) {
-			map.put("nd", "2018");
-		}
+		map.put("nd", "2018");
 		HashMap<String, String> temMap = outProjectService.getOutProjectInfoCount(map);
 		if (temMap != null) {
 			retJson.put("projectCount", temMap.get("projectCount"));
@@ -150,7 +148,7 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-provider/project-money", method = RequestMethod.POST)
 	public JSONObject getProjectMoney(@RequestBody HashMap<String, String> map) {
 		JSONObject retJson = new JSONObject();
-		
+		map.put("nd", "2018");
 		HashMap<String, String> temMap = outProjectService.getOutProjectInfoMoney(map);
 		if (temMap != null) {
 			retJson.put("projectMoney", temMap.get("projectMoney"));
