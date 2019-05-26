@@ -30,7 +30,7 @@ $(document).ready(function() {
 		var publicMethods=layui.publicMethods;
 		var form = layui.form;
 		var table = layui.table;
-		
+		laydate.render({elem: '#reportYear',type: 'year'});
 		//研究院字典
     	var dicMap = ['ROOT_XTGL_ZSYJY'];
     	publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
@@ -43,17 +43,19 @@ $(document).ready(function() {
 		
 		form.render();
     	//加载数据
-    	if($("#plantId").val() !=-1)
+    	if($("#edit").val() != 0)
     	{
-    		publicMethods.ajaxPost('/project/get-plant', {plantId:$("#plantId").val()}, function (data, status) {
+    		publicMethods.ajaxAsyncPost('/project/get-plant', {plantId:$("#plantId").val()}, function (data, status) {
          		form.val("plant-form",data);
-         		//editor.setData(data.plantContent);
             });
     	}else{
     		$("#appendFiles").val("${appendFiles}");
+    		publicMethods.ajaxPost('/project/project-code', null, function (data, status) {
+    			if (data.success) {
+    				$("#plantCode").val(data.message);
+    			}
+    		});
     	}
-    	
-    	
      	//添加到form.render()之后
 	 	$("#file_div").load('/common/public/uploadlayuiload.html');
     	
@@ -99,7 +101,7 @@ $(document).ready(function() {
 	            	var check = table.checkStatus('join_apply_table');
 	            	for(var dt in check.data)
 	            	{
-	            		publicMethods.ajaxPost('/project/del-fromplant', {"plantId":$("#plantId").val(),"applyId":check.data[dt].applyId}, function (data, status) {
+	            		publicMethods.ajaxAsyncPost('/project/del-fromplant', {"plantId":$("#plantId").val(),"applyId":check.data[dt].applyId}, function (data, status) {
 	            			console.log("del...");
 		                });
 	            	}
@@ -109,7 +111,7 @@ $(document).ready(function() {
     	}
     	form.on('submit(submitBtn)', function(data) {
     		//data.field.plantContent = editor.getData();
-            ajaxPost('/project/plant-saveorupdate', data.field, function (data, status) {
+            publicMethods.ajaxAsyncPost('/project/plant-saveorupdate', data.field, function (data, status) {
                 if (data.success) {
                 	parent.layui.table.reload("plantTable",null);
                 	var index = parent.layer.getFrameIndex(window.name);
@@ -138,7 +140,8 @@ $(document).ready(function() {
 <body>
 <div class="formBox">
 	<form id="plant-form" name="plant-form" lay-filter="plant-form" class="form-horizontal layui-form">
-	<input type="hidden" name="plantId" id="plantId" value="${plantId?default(-1)}">
+	<input type="hidden" name="plantId" id="plantId" value="${plantId}">
+	<input type="hidden" name="edit" id="edit" value="${edit?default(0)}">
 	<div class="box-body">
 		<input type="hidden" name="appendFiles" id="appendFiles">
 		<div class="layui-row">
@@ -154,7 +157,7 @@ $(document).ready(function() {
 				<div class="layui-form-item"  id="password" >
 					<label for="" class="layui-form-label">项目计划编码<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-					 	<input type="text" class="layui-input" id="plantCode" lay-verify="required" name="plantCode" placeholder="项目计划编码">
+					 	<input type="text" class="layui-input readOnlyBox" readonly="readonly" id="plantCode" lay-verify="required" name="plantCode" placeholder="项目计划编码">
 					</div>
 				</div>
 			</div>
@@ -170,6 +173,16 @@ $(document).ready(function() {
 			          </div>
 		        </div>
 			</div>
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">计划年度<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" lay-verify="required|number" id="reportYear" name="reportYear" placeholder="计划年度">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				<div class="layui-form-item">
 					<label for="" class="layui-form-label">总投资(万元)<span class="must-fill">*</span></label>

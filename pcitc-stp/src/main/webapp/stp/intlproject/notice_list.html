@@ -189,6 +189,7 @@
 					publicMethods.ajaxAsyncPost("/project/close-notice", {noticeId: selectRowData.noticeId}, function (data) {
 	                     if (data.success) {
 	                    	 renderTable({param: {"noticeTitle":$("#noticeTitle").val()}});
+	                    	 layer.msg('操作成功!');
 	                     } else {
 	                    	 layer.msg('操作异常，请重试!');
 	                     }
@@ -204,6 +205,7 @@
 					publicMethods.ajaxAsyncPost("/project/del-notice", {noticeId:electRowData.noticeId}, function (data) {
 	                     if (data.success) {
 	                    	 renderTable({param: {"noticeTitle":$("#noticeTitle").val()}});
+	                    	 layer.msg('操作成功!');
 	                     } else {
 	                    	 layer.msg('操作异常，请重试!');
 	                     }
