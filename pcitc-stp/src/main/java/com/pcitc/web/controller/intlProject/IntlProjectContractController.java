@@ -37,6 +37,8 @@ public class IntlProjectContractController extends BaseController {
 	private static final String PROJECT_CONTRACT_UPD_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/upd-contract";
 	private static final String PROJECT_CONTRACT_CLOSE_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/contract-close/";
 	private static final String PROJECT_CONTRACT_DEL_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/contract-delete/";
+	
+	
 	@RequestMapping(value = "/project/contract-list", method = RequestMethod.POST)
 	public Object getContractTableData(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request) throws IOException {
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);

@@ -205,6 +205,15 @@ public class IntlProjectReportDownloadController extends BaseController
 		IntlProjectInfo prject = this.restTemplate.exchange(PROJECT_GET_INFO + projectId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), IntlProjectInfo.class).getBody();
 		Map<String, Object> beanMap = MyBeanUtils.transBean2Map(prject);
 		
+		beanMap.put("flowAgreementReviewStatus", new Integer(0).equals(beanMap.get("flowAgreementReview"))?"待审查":"已通过");
+		beanMap.put("flowTechnologyReviewStatus", new Integer(0).equals(beanMap.get("flowTechnologyReview"))?"待审查":"已通过");
+		beanMap.put("flowKnowledgeReviewStatus", new Integer(0).equals(beanMap.get("flowKnowledgeReview"))?"待审查":"已通过");
+		beanMap.put("flowComprehensiveReviewStatus", new Integer(0).equals(beanMap.get("flowComprehensiveReview"))?"待审查":"已通过");
+		
+		//对应申报项目
+		IntlProjectApply apply = this.restTemplate.exchange(PROJECT_APPLY_GET_URL + beanMap.get("applyId"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), IntlProjectApply.class).getBody();
+		beanMap.put("applyName", apply.getApplyName());
+		
 		
 		URL path = this.getClass().getResource("/");
 		File f = new File(path.getPath() + "static/report_template/intl_project_info_template.docx");
