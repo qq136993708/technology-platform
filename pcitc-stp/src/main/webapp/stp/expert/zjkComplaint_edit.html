@@ -22,7 +22,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">专家名称<span class="must-fill">*</span></label>
                     <div class="layui-input-block">
-                        <input type="text" id="zjkName" name="zjkName" lay-verify="required" placeholder="请输入专家名称" autocomplete="off" class="layui-input">
+                        <input type="text" id="zjkName" name="zjkName" readonly="readonly" lay-verify="required" placeholder="请输入专家名称" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -33,7 +33,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">项目名称<span class="must-fill">*</span></label>
                 <div class="layui-input-block">
-                    <input type="text" id="xmName" name="xmName" lay-verify="required" placeholder="请输入项目名称" autocomplete="off" class="layui-input">
+                    <input type="text" id="xmName" name="xmName"  readonly="readonly" lay-verify="required" placeholder="请输入项目名称" autocomplete="off" class="layui-input">
                 </div>
             </div>
         </div>
@@ -44,7 +44,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">项目阶段<span class="must-fill">*</span></label>
             <div class="layui-input-block">
-                <select name="xmSteps" id="xmSteps" lay-filter="xmSteps">
+                <select name="xmSteps" id="xmSteps" lay-filter="xmSteps" disabled="disabled">
                 </select>
             </div>
         </div>
@@ -54,7 +54,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">投诉类型<span class="must-fill">*</span></label>
                 <div class="layui-input-block">
-                    <select name="complaintType" id="complaintType" lay-filter="complaintType">
+                    <select name="complaintType" id="complaintType" lay-filter="complaintType" disabled="disabled">
                     </select>
                 </div>
             </div>
@@ -67,7 +67,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">投诉人名称</label>
                     <div class="layui-input-block">
-                        <input type="text" id="complaintUserName" name="complaintUserName"  placeholder="请输入投诉人名称" autocomplete="off" class="layui-input">
+                        <input type="text" id="complaintUserName" name="complaintUserName"  readonly="readonly"   placeholder="请输入投诉人名称" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -80,7 +80,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">投诉内容<span class="must-fill">*</span></label>
                     <div class="layui-input-block">
-                        <textarea name="complaintDesc" id="complaintDesc" class="ckeditor"></textarea>
+                        <textarea name="complaintDesc" id="complaintDesc" class="ckeditor" disabled="disabled"  readonly="readonly" ></textarea>
                     </div>
                 </div>
             </div>

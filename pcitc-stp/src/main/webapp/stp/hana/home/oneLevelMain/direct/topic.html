@@ -23,11 +23,6 @@
                 <span>年份</span>
                 <input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
             </label>
-            <!--按钮组-->
-            <!--<div class="btnGroup">
-                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"
-                        onclick="search_Event()">查询</button>
-            </div>-->
             <div class="btnGroup">
                 <button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
                 >详情</button>
@@ -262,8 +257,8 @@ function initEchart()
 	          
 	    });
 		//统计
-    	var set_topic_equ_count_count_url="/direct/topic_equip_count?typeFlag=研究院&nd="+nd+"&v_date="+v_date+"&xmlbbm=fkyzb";
-    	set_topic_equ_count(set_topic_equ_count_count_url);
+    	//var set_topic_equ_count_count_url="/direct/topic_equip_count?typeFlag=研究院&nd="+nd+"&v_date="+v_date+"&xmlbbm=fkyzb";
+    	//set_topic_equ_count(set_topic_equ_count_count_url);
 	
 	
 	
@@ -291,7 +286,7 @@ function initEchart()
     });
 }
 
-
+/* 
 function set_topic_equ_count(url) 
 {
    $.ajax({
@@ -325,7 +320,7 @@ function set_topic_equ_count(url)
 		  
   });
 } 
-
+ */
 
 
 function topic_chart1(qdbz)
@@ -357,7 +352,6 @@ function myTable()
 	var v_date=(new Date()).getTime();
 	var nd=$('#year').val();
 	var chart1_url="/direct/topic_01?type=2&nd="+nd+"&v_date="+v_date+"&typeFlag=研究院&xmlbbm=fkyzb";
-	
 	 table.init('myTable', {
 		 url: chart1_url 
 		  ,height:"298px"

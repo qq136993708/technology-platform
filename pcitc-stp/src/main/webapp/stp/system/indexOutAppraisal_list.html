@@ -16,18 +16,6 @@
 <div class="searchBox">
     <!--查询条件-->
     <label class="dateInput selectInput">
-        <span>项目名称</span>
-
-        <input type="text" name="xmName"
-               placeholder="请输入项目名称"
-               title="项目名称" autocomplete="off"
-               class="form-control" id="xmNameName">
-
-        <span>项目阶段</span>
-
-        <select name="xmSteps" id="xmSteps" lay-filter="xmSteps">
-            <option value="">请选择</option>
-        </select>
     </label>
     <!--按钮组-->
     <div class="btnGroup">
@@ -38,32 +26,27 @@
         </button>
     </div>
 </div>
-<div class="tableBox">
-    <div class="tableToolBox">
-        <div class="whiteLine"></div>
-        <div class="tableBtns">
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
-                    data-type="addEvent">新增
-            </button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"
-                    data-type="editEvent">编辑
-            </button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
-                    data-type="deleteEvent">删除
-            </button>
-        </div>
+<div class="tableToolBox">
+    <div class="whiteLine"></div>
+    <div class="tableBtns">
+        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
+                data-type="addEvent">新增
+        </button>
+        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"
+                data-type="editEvent">编辑
+        </button>
+        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg"
+                data-type="detailEvent">查看
+        </button>
+        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
+                data-type="deleteEvent">删除
+        </button>
     </div>
-    <table id="zjkMsgTableId" class="layui-hide" lay-filter="tableEvent"></table>
 </div>
-
+<table id="indexOutAppraisalTableId" class="layui-hide" lay-filter="tableEvent"></table>
 
 <script>
 
-    ajaxPost('/dictionary/list/ROOT_XTGL_XMJD', null, function (data, status) {
-        $.each(data, function (i, dt) {
-            $("#xmSteps").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
-        });
-    });
 
     var param = JSON.parse(window.localStorage.getItem("param"));
     var table, selectRowData, workOrderStatus;
@@ -96,24 +79,144 @@
                 //     templet: '<div>{{ layui.laytpl.attToPic(d) }}</div>'
                 // },
                 {
-                    field: "zjkName",
-                    title: "专家名称", event: 'setActive', style: 'cursor: pointer;'
+                    field: "cgid",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
                 },
                 {
-                    field: "xmName",
+                    field: "nd",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "cgmc",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "sqjddw",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "sqdjh",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "starttime",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "endtime",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "cglx",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "zy",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "jdh",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "issczs",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "sbzt",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "jdjg",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "createDate",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "createUserId",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "updateDate",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "updateUserId",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "status",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "remarks",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "hth",
+                    title: "合同号", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "xmmc",
                     title: "项目名称", event: 'setActive', style: 'cursor: pointer;'
                 },
                 {
-                    field: "xmSteps",
-                    title: "项目阶段", event: 'setActive', style: 'cursor: pointer;'
+                    field: "rwly",
+                    title: "任务来源", event: 'setActive', style: 'cursor: pointer;'
                 },
                 {
-                    field: "isComplete",
-                    title: "是否回复", event: 'setActive', style: 'cursor: pointer;'
+                    field: "define1",
+                    title: "研究院简称", event: 'setActive', style: 'cursor: pointer;'
                 },
                 {
-                    field: "completeType",
-                    title: "回复方式", event: 'setActive', style: 'cursor: pointer;'
+                    field: "define2",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "define3",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "define4",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "define5",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "define6",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "tfmTypeId",
+                    title: "分类id", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "typeCode",
+                    title: "分类编码", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "typeName",
+                    title: "分类名称", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "parentId",
+                    title: "父节点id", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "parentCode",
+                    title: "父节点编码", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "isParent",
+                    title: "是否是父亲节点", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "typeIndex",
+                    title: "检索辅助字段", event: 'setActive', style: 'cursor: pointer;'
                 },
             ];
 
@@ -122,13 +225,11 @@
             var where = {
                 param:
                     {
-                        "xmName": $("input[name=xmName]").val(),
-                        "xmSteps": $("#xmSteps").val()
-                        // "workOrderStatus": workOrderStatus
+                        // "workOrderStatus":workOrderStatus
                     }
             };
 
-            publicMethods.tableRender('zjkMsgTableId', 'zjkMsgTableId', '/zjkMsg/getTableData', false, cols, where, true, function (res, curr, count) {
+            publicMethods.tableRender('indexOutAppraisalTableId', 'indexOutAppraisalTableId', '/indexOutAppraisal/getTableData', false, cols, where, true, function (res, curr, count) {
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     var index = parseInt($(this).index() + 1);
                     $('tr').removeClass('layui-table-click');
@@ -149,30 +250,8 @@
                     //附件文件配置ID
                     publicMethods.viewAtt(dataId, param.id);
                 });
-                var param = {
-                    data: res.data,//数据
-                    element: ".layui-table-body table",// 当前的表格元素
-                    column: 4,//列数 从0开始
-                    field: "xmSteps",//当前数据的字段
-                    url: "/pageCommon/dic/ROOT_XTGL_XMJD"//接口
-                };
-                publicMethods.dataDictionary(param);
-                var param = {
-                    data: res.data,//数据
-                    element: ".layui-table-body table",// 当前的表格元素
-                    column: 5,//列数 从0开始
-                    field: "isComplete",//当前数据的字段
-                    url: "/pageCommon/dic/ROOT_UNIVERSAL_WEHTHER"//接口
-                };
-                publicMethods.dataDictionary(param);
-                var param = {
-                    data: res.data,//数据
-                    element: ".layui-table-body table",// 当前的表格元素
-                    column: 6,//列数 从0开始
-                    field: "completeType",//当前数据的字段
-                    url: "/pageCommon/dic/ZJK_XXHFLX"//接口
-                };
-                publicMethods.dataDictionary(param);
+
+                selectRowData = "";
             });
         }
 
@@ -210,8 +289,6 @@
             },
             resetEvent: function () { //点击重置按钮
                 // $('#workOrderName').val("");
-                $('#xmNameName').val("");
-                $('#xmSteps').val("");
                 renderTable();
             },
             addEvent: function () { //点击新增按钮
@@ -225,12 +302,12 @@
                     maxmin: true,
                     //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                     area: ['70%', '90%'],
-                    content: "/zjkMsg/edit"
+                    content: "/indexOutAppraisal/edit"
                 });
             },
             editEvent: function () {  //点击编辑按钮
                 var id;
-                if (selectRowData != undefined) {
+                if (selectRowData != undefined && selectRowData != "") {
                     // if (selectRowData.workOrderStatus == '0') {
                     id = selectRowData.dataId;
                     layer.open({
@@ -243,7 +320,7 @@
                         maxmin: true,
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                         area: ['70%', '90%'],
-                        content: "/zjkMsg/edit?id=" + selectRowData.dataId
+                        content: "/indexOutAppraisal/edit?id=" + selectRowData.dataId
                     });
                     // } else {
                     //     layer.msg('只可操作未下发的数据');
@@ -256,7 +333,7 @@
             },
             detailEvent: function () {  //点击详情按钮
                 var dataId;
-                if (selectRowData != undefined) {
+                if (selectRowData != undefined && selectRowData != "") {
                     dataId = selectRowData.dataId;
                     layer.open({
                         title: param.name + '-查看',
@@ -268,7 +345,7 @@
                         maxmin: true,
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                         area: ['70%', '90%'],
-                        content: "/zjkMsg/view?id=" + selectRowData.dataId
+                        content: "/indexOutAppraisal/view/" + selectRowData.dataId
                         // content: '/plan/viewPlanPage?dataId='+dataId
                     });
                     // }
@@ -279,7 +356,7 @@
             },
             deleteEvent: function () { //点击删除按钮
                 var id;
-                if (selectRowData != undefined) {
+                if (selectRowData != undefined && selectRowData != "") {
                     // if (selectRowData.workOrderStatus == '0') {
                     id = selectRowData.dataId;
                     layer.confirm('确认要删除选中的条数据吗？', {icon: 3, btn: ['确定', '取消']}, function (index) {
@@ -289,9 +366,10 @@
                             dataType: 'text',
                             async: false,
                             data: {"id": selectRowData.dataId},
-                            url: '/zjkMsg/del-real',
+                            url: '/indexOutAppraisal/del-real',
                             success: function (data) {
                                 // if(data==200){
+                                selectRowData = "";
                                 layer.msg("删除成功");
                                 active.searchEvent();
                                 // }
@@ -312,16 +390,16 @@
                 }
             },
             getCheckData: function () { //获取选中数据
-                var checkStatus = table.checkStatus('zjkMsgTableId')
+                var checkStatus = table.checkStatus('indexOutAppraisalTableId')
                     , data = checkStatus.data;
             },
             getCheckLength: function () { //获取选中数目
-                var checkStatus = table.checkStatus('zjkMsgTableId')
+                var checkStatus = table.checkStatus('indexOutAppraisalTableId')
                     , data = checkStatus.data;
                 layer.msg('选中了：' + data.length + ' 个');
             },
             isAll: function () { //验证是否全选
-                var checkStatus = table.checkStatus('zjkMsgTableId');
+                var checkStatus = table.checkStatus('indexOutAppraisalTableId');
                 layer.msg(checkStatus.isAll ? '全选' : '未全选')
             }
         };
@@ -329,6 +407,22 @@
         $('.layui-btn').on('click', function () {
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
+        });
+        //监听行双击事件
+        table.on('rowDouble(tableEvent)', function (obj) {
+            var dataId = obj.data.dataId;
+            layer.open({
+                title: param.name + '-查看',
+                skin: 'layui-layer-lan',
+                shadeClose: false,
+                type: 2,
+                fixed: false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin: true,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                area: ['70%', '90%'],
+                content: "/indexOutAppraisal/view/" + selectRowData.dataId
+            });
         });
     });
 </script>

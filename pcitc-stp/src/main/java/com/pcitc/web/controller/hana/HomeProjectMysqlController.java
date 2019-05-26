@@ -50,9 +50,6 @@ public class HomeProjectMysqlController extends BaseController{
 	private static final String	getProjectByCountCricle		= "http://pcitc-zuul/system-proxy/out-project-provider/project-count/type/tree";
 	private static final String	getProjectByUnitCricle		= "http://pcitc-zuul/system-proxy/out-project-provider/project-count/unit/tree";
 	private static final String	getProjectByDistributeBar	= "http://pcitc-zuul/system-proxy/out-project-provider/project-info/unit";
-	private static final String	getProjectTable				= "http://pcitc-zuul/hana-proxy/hana/home/getProjectTable";
-	private static final String	PROJECT_TOTAL_YEAR			= "http://pcitc-zuul/system-proxy/out-project-provider/type/unit/list";
-
 	private static final String	getProjectByUnitBar			= "http://pcitc-zuul/system-proxy/out-project-provider/type/unit/list";
 
 	@Autowired
@@ -70,7 +67,7 @@ public class HomeProjectMysqlController extends BaseController{
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
-		String nd = HanaUtil.getCurrrentYear();
+		String nd = HanaUtil.getBeforeYear();
 		request.setAttribute("nd", nd);
 		return "stp/hana/home/level/home_project_mysql";
 	}

@@ -1469,12 +1469,11 @@ public class SysFileServiceImpl implements SysFileService {
 			SysFile sysfile = selectByPrimaryKey(id);
 			if (sysfile!=null) {
 				is = OSSUtil.getOssFileIS(sysfile.getFilePath().split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
-				//long filelength = is.available();
 				// 设置输出的格式
 				response.setContentType("video/mp4");
 				response.setHeader("Content-Disposition", "attachment; filename=\""+new String(sysfile.getFileName().getBytes("GBK")+"\""));
-				//response.setContentLength((int) filelength);
-				//response.setHeader("Content-Range", ""+Integer.valueOf((int) (filelength-1)));
+				response.setContentLength(Integer.parseInt(sysfile.getFileSize()));
+				response.setHeader("Content-Range", ""+Integer.valueOf(Integer.parseInt(sysfile.getFileSize()) - 1));
 				response.setHeader("Accept-Ranges", "bytes");
 				response.setHeader("Etag", "W/\"9767057-1323779115364\"");
 
