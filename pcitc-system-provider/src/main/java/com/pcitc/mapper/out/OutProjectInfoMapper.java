@@ -83,7 +83,7 @@ public interface OutProjectInfoMapper {
      * @param nd
      * 首页查询，直属研究院、分子公司等9个单位，各单位的新开、续建、完结情况
      */
-    public List getProjectTypeInfoByUnit(String nd);
+    public List getProjectTypeInfoByUnit(HashMap<String, String> map);
     
     /**
      * @param nd
@@ -101,7 +101,7 @@ public interface OutProjectInfoMapper {
      * @param nd
      * 科研二级页面，按照项目类型查询新建、续建项目数量、总数量
      */
-	public List getProjectCountByProjectType(String nd);
+	public List getProjectCountByProjectType(HashMap<String, String> map);
 	
 	/**
      * @param nd
@@ -137,37 +137,37 @@ public interface OutProjectInfoMapper {
      * @param nd
      * 科研二级页面，8大院的各个新开、续建情况
      */
-	public List getProjectTypeCountByUnit(String nd);
+	public List getProjectTypeCountByUnit(HashMap<String, String> map);
 	
 	/**
      * @param nd
      * 科研二级页面，8大院的各个新开、续建情况--装备
      */
-	public List getZBProjectTypeCountByUnit(String nd);
+	public List getZBProjectTypeCountByUnit(HashMap<String, String> map);
 	
 	/**
      * @param nd
      * 科研二级页面，8大院的各个新开、续建情况--树结构
      */
-	public List getProjectTypeCountForTree(String nd);
+	public List getProjectTypeCountForTree(HashMap<String, String> map);
 	
 	/**
      * @param nd
      * 科研二级页面，项目类型（国家项目、重点项目、重大项目、其他项目）的各个新开、续建情况--树结构
      */
-	public List getProjectCountByTypeForTree(String nd);
+	public List getProjectCountByTypeForTree(HashMap<String, String> map);
 	
 	/**
      * @param nd
      * 科研二级页面，8大院的各个新开、续建情况--装备树结构
      */
-	public List getZBProjectTypeCountForTree(String nd);
+	public List getZBProjectTypeCountForTree(HashMap<String, String> map);
 	
 	/**
      * @param nd
      * 科研二级页面，项目类型（国家项目、重点项目、重大项目、其他项目）的各个新开、续建情况--装备树结构
      */
-	public List getZBProjectCountByTypeForTree(String nd);
+	public List getZBProjectCountByTypeForTree(HashMap<String, String> map);
 	
 	/**
      * @param nd
@@ -197,7 +197,7 @@ public interface OutProjectInfoMapper {
      * @param nd
      * 首页查询9个单位的新开、续建、完结情况-装备
      */
-    public List getZBProjectTypeInfoByUnit(String nd);
+    public List getZBProjectTypeInfoByUnit(HashMap<String, String> map);
     
     /**
      * @param nd

@@ -36,10 +36,12 @@ import com.pcitc.base.hana.report.H1AMKYSY100104;
 import com.pcitc.base.hana.report.H1AMKYSY100109;
 import com.pcitc.base.hana.report.H1AMKYSY100117;
 import com.pcitc.base.hana.report.ProjectCode;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.JwtTokenUtil;
+import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
 
 @Controller
@@ -63,17 +65,19 @@ public class HomeLDController {
 	}
 	
 	
-	@RequestMapping( value = "/direct_depart")
+	@RequestMapping( value = "/direct_depart") 
 	public String direct_depart(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-	    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+	   
 	    String unitCode=userInfo.getUnitCode();
 	    request.setAttribute("unitCode", unitCode);
+	    
 	    String year= HanaUtil.getCurrrentYear();
 	    request.setAttribute("year", year);
-	    
-	    
-	    request.setAttribute("companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+	    String month = HanaUtil.getCurrrentYearMoth();
+		request.setAttribute("month", month);
+		String  companyCode=EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders) ;
+		request.setAttribute("companyCode", companyCode);
 		return "stp/hana/home/oneLevelMain/direct_depart";
 	}
 	
