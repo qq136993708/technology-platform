@@ -723,8 +723,8 @@ public class OutProjectServiceImpl implements OutProjectService {
      * @param nd
      * @return 首页查询新开的国家项目、重点项目、重大项目、其他项目和去年的对比
      */
-    public HashMap<String, String> getProjectTotalCountYearAndLastYear(String nd) {
-        return outProjectInfoMapper.getProjectTotalCountYearAndLastYear(nd);
+    public HashMap<String, String> getProjectTotalCountYearAndLastYear(HashMap<String, String> map) {
+        return outProjectInfoMapper.getProjectTotalCountYearAndLastYear(map);
     }
 
     /**
