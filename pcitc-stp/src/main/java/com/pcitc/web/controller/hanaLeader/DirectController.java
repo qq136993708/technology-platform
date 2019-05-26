@@ -1042,7 +1042,7 @@ public class DirectController extends BaseController {
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getBeforeYear();
 		request.setAttribute("year", year);
 		return "stp/hana/home/oneLevelMain/direct/topic";
 	}
@@ -1062,7 +1062,10 @@ public class DirectController extends BaseController {
 		paramsMap.put("nd", nd);
 		paramsMap.put("typeFlag", typeFlag);
 		paramsMap.put("xmlbbm", xmlbbm);
-
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -1169,6 +1172,10 @@ public class DirectController extends BaseController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("typeFlag", typeFlag);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -1270,7 +1277,10 @@ public class DirectController extends BaseController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("typeFlag", typeFlag);
-
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -1323,6 +1333,10 @@ public class DirectController extends BaseController {
 		paramsMap.put("xmlbbm", xmlbbm);
 		paramsMap.put("nd", nd);
 		paramsMap.put("type_flag", type_flag);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!type_flag.equals("")) {
@@ -1373,7 +1387,7 @@ public class DirectController extends BaseController {
 
 		String  companyCode=EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders) ;
 		request.setAttribute("companyCode", companyCode);
-		String year= HanaUtil.getCurrrentYear();
+		String year= HanaUtil.getBeforeYear();
 		request.setAttribute("year", year);
 		String month = HanaUtil.getCurrrentYearMoth();
         request.setAttribute("month", month);
@@ -1394,7 +1408,10 @@ public class DirectController extends BaseController {
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
 		paramsMap.put("xmlbbm", "kyzb");
-
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -1501,6 +1518,10 @@ public class DirectController extends BaseController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", companyCode);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!companyCode.equals("")) {
@@ -1609,6 +1630,10 @@ public class DirectController extends BaseController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!companyCode.equals("")) {
@@ -1688,6 +1713,10 @@ public class DirectController extends BaseController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", companyCode);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!companyCode.equals("")) {
@@ -1738,6 +1767,10 @@ public class DirectController extends BaseController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", companyCode);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
@@ -1803,6 +1836,10 @@ public class DirectController extends BaseController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", companyCode);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!companyCode.equals("")) {

@@ -72,7 +72,7 @@ public class HomeLDController extends BaseController{
 	    String unitCode=userInfo.getUnitCode();
 	    request.setAttribute("unitCode", unitCode);
 	    
-	    String nd= HanaUtil.getCurrrentYear();
+	    String nd= HanaUtil.getBeforeYear();
 	    request.setAttribute("nd", nd);
 	    String month = HanaUtil.getCurrrentYearMoth();
 		request.setAttribute("month", month);

@@ -6268,7 +6268,13 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 		System.out.println(">>>>>str=" + str);
 		return str;
 	}
-	
+	public static String getBeforeYear() throws Exception {
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+
+		System.out.println(">>>>>year=" + year);
+		return String.valueOf(year-1);
+	}
 	
 	public static String getCurrrentYear() throws Exception {
 		Calendar cal = Calendar.getInstance();
