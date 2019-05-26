@@ -1965,25 +1965,29 @@
 	
 	<!-- 工作台-科研课题-科研项目占比分析 -->
 	<select id="getProjectCountByProjectType" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select
-			sum(case when nd = '${nd}' then 1 else 0 end) as xksl,
-		    sum(case when nd &lt; '${nd}' then 1 else 0 end) as xjsl,
-			count(*) as zsl,substring(define10,4) as zycmc
-		from out_project_info
-		where ysnd= '${nd}' and project_type != '1' and 
-			out_project_info.define3 = '项目管理系统' and
-			xmlbbm != 'KYZB' and 
-			define10 is not null
-			<if test="leaderFlag == null or leaderFlag != '1'">
-				<if test="zycmc != null and zycmc != ''">
-					and find_in_set(zycmc, '${zycmc}')
+		select sum(case when nd = '${nd}' then 1 else 0 end) as xksl,
+			   sum(case when nd &lt; '${nd}' then 1 else 0 end) as xjsl,
+			   count(*) as zsl,substring(define10,4) as zycmc
+		from (
+			select
+				nd,define10
+			from out_project_info
+			where ysnd= '${nd}' and project_type != '1' and 
+				out_project_info.define3 = '项目管理系统' and
+				xmlbbm != 'KYZB' and 
+				define10 is not null
+				<if test="leaderFlag == null or leaderFlag != '1'">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
 				</if>
-				<if test="zycmc == null or zycmc == ''">
-					and out_project_info.nd = '1900'
-				</if>
-			</if>
-		GROUP BY define10
-		ORDER BY define10
+			GROUP BY xmid
+		) as tableA
+		GROUP BY tableA.define10
+		ORDER BY tableA.define10
 	</select>
 	
 	<select id="getProjectTypeCountByType" resultType="java.util.Map" parameterType="java.lang.String">
@@ -2066,14 +2070,31 @@
 		ORDER BY tableA.define2
 	</select>
 	
-	<select id="getZBProjectCountByProjectType" resultType="java.util.Map" parameterType="java.lang.String">
-		select
-			sum(case when project_scope = '新开课题' then 1 else 0 end) as xksl,
-        	sum(case when project_scope = '结转课题' then 1 else 0 end) as xjsl,
-        	count(*) as zsl,zylb
-		from out_project_info
-		where project_type != '1' and zylb is not null and xmlbbm = 'KYZB'
-    	group by zylb
+	<!-- 工作台-装备课题-科研项目占比分析-按专业类别分组 -->
+	<select id="getZBProjectCountByProjectType" resultType="java.util.Map" parameterType="java.util.HashMap">
+    	select sum(case when nd = '${nd}' then 1 else 0 end) as xksl,
+			   sum(case when nd &lt; '${nd}' then 1 else 0 end) as xjsl,
+			   count(*) as zsl,zylb
+		from (
+			select
+				nd,zylb
+			from out_project_info
+			where ysnd= '${nd}' and project_type != '1' and 
+				out_project_info.define3 = '项目管理系统' and
+				xmlbbm = 'KYZB' and 
+				zylb is not null
+				<if test="leaderFlag == null or leaderFlag != '1'">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				</if>
+			GROUP BY xmid
+		) as tableA
+		GROUP BY tableA.zylb
+		ORDER BY tableA.zylb
 	</select>
 	
 	<select id="getZBProjectTypeCountByType" resultType="java.util.Map" parameterType="java.lang.String">
@@ -2096,153 +2117,126 @@
 	    group by project_scope
 	</select>
 	
-	<select id="getProjectMoneyByProjectType" resultType="java.util.Map" parameterType="java.lang.String">
-		select
-			round(sum(case when project_scope = '新开课题' then jf else 0 end)/10000,4) as xkje,
-	        round(sum(case when project_scope = '结转课题' then jf else 0 end)/10000,4) as xjje,
-	        round(sum(jf)/10000,4) as zje,
-	        define1
-		from out_project_info
-		where (project_type = '0' or project_type = '2') and (project_scope = '新开课题' or project_scope = '结转课题')
-	    group by define1
+	<!-- 工作台-合同签订-合同签订总金额分析（新开、结转） -->
+	<select id="getProjectMoneyByProjectType" resultType="java.util.Map" parameterType="java.util.HashMap">
+	    select round(sum(case when nd = '${nd}' then ysje else 0 end)/10000,4) as xkje,
+			   round(sum(case when nd &lt; '${nd}' then ysje else 0 end)/10000,4) as xjje,
+			   round(sum(ysje)/10000,4) as zje,
+			   tableA.xmlbbm as define1
+		from (
+			select
+				nd, 
+				sum(ysje) as ysje,
+				(case when xmlbbm = 'KYZB' then '资本性' else '费用性' end) as xmlbbm
+			from out_project_info
+			where type_flag is not null and 
+				  ysnd= '${nd}' and project_type != '1' and 
+				  out_project_info.define3 = '项目管理系统' and
+				  define2 is not null
+				  <if test="leaderFlag == null or leaderFlag != '1'">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				 </if>
+			group by xmid
+		) as tableA
+		group BY tableA.xmlbbm
+		ORDER BY tableA.xmlbbm
 	</select>
 	
 	<select id="getProjectMoneyByUnit" resultType="java.util.Map" parameterType="java.lang.String">
-      SELECT 
-        type_flag,
-        TRUNCATE(zje/10000,2) AS zje,
-        TRUNCATE(fyxje/10000,2)  AS fyxje,
-        TRUNCATE( zbxje/10000,2) AS zbxje, 
-		TRUNCATE(prezje/10000,2) AS prezje,
-		TRUNCATE(prefyxje/10000,2) AS prefyxje,
-		TRUNCATE(prezbxje/10000,2) AS prezbxje,
-		TRUNCATE((prezje-zje)/10000,2)AS wxd,
-		CASE  WHEN TRUNCATE( zje/ prezje ,2)      IS NULL OR  TRUNCATE( zje/ prezje ,2)=0 THEN '0'      ELSE TRUNCATE( (zje/ prezje)*100 ,2) END AS ztzwcl ,
-		CASE  WHEN TRUNCATE( fyxje/prefyxje ,2)   IS NULL OR  TRUNCATE( fyxje/prefyxje ,2)=0 THEN '0'   ELSE TRUNCATE( fyxje/prefyxje*100 ,2) END AS fyxtzwcl ,
-		CASE  WHEN TRUNCATE( zbxje / prezbxje ,2) IS NULL OR  TRUNCATE( zbxje / prezbxje ,2)=0 THEN '0' ELSE TRUNCATE( zbxje / prezbxje*100 ,2) END AS zbxtzwcl,
-		CASE  WHEN type_flag LIKE '总计' THEN 1
-		      WHEN type_flag LIKE '直属研究院' THEN 2
-		      WHEN type_flag LIKE '分子公司' THEN 3
-		      WHEN type_flag LIKE '集团单位' THEN 4
-		      WHEN type_flag LIKE '外部单位' THEN 5
-		      WHEN type_flag LIKE '盈科' THEN 6
-		      WHEN type_flag LIKE '休斯顿研发中心' THEN 7
-		      WHEN type_flag LIKE '中东研发中心' THEN 8
-		      WHEN type_flag LIKE '集团公司' THEN 9
-		       WHEN type_flag LIKE '资产公司' THEN 10
-		END AS orders 
-               FROM (  
-                         SELECT 
-                         SUBSTR(temName FROM 2) type_flag,ROUND(SUM(CASE WHEN showFlag = 'act' THEN fyxje ELSE 0 END),4) AS fyxje, 
-				ROUND(SUM(CASE WHEN showFlag = 'act' THEN zbxje ELSE 0 END),4) AS zbxje, 
-				ROUND(SUM(CASE WHEN showFlag = 'act' THEN zje ELSE 0 END),4) AS zje,
-				ROUND(SUM(CASE WHEN showFlag = 'pre' THEN fyxje ELSE 0 END),4) AS prefyxje, 
-				ROUND(SUM(CASE WHEN showFlag = 'pre' THEN zbxje ELSE 0 END),4) AS prezbxje,
-				ROUND(SUM(CASE WHEN showFlag = 'pre' THEN zje ELSE 0 END),4) AS prezje
-				
-				
-		FROM (		
-				SELECT	
-					ROUND(SUM(CASE WHEN define1 = '费用性' THEN jf ELSE 0 END),4) AS fyxje,
-			    	ROUND(SUM(CASE WHEN define1 = '资本性' THEN jf ELSE 0 END),4) AS zbxje,
-			    	ROUND(SUM(jf),4) AS zje,
-			    	type_flag,'act' AS showFlag,
-						type_flag AS temName
-				FROM out_project_info
-				WHERE project_type != '1' AND project_scope = '新开课题' AND type_flag IS NOT NULL
-			  	GROUP BY type_flag
-				UNION ALL
-				
-				SELECT fyx_money,zbx_money,fyx_money+zbx_money AS zje,show_ali,'pre' AS showFlag,
-				CASE WHEN show_ali = '直属研究院' THEN '1直属研究院'
-	       		 	WHEN show_ali = '分子公司' THEN '2分子公司'
-					WHEN show_ali = '集团单位' THEN '3集团单位'
-					WHEN show_ali = '外部单位' THEN '4外部单位'
-					WHEN show_ali = '盈科' THEN '9盈科'
-					WHEN show_ali = '休斯顿研发中心' THEN '5休斯顿研发中心'
-					WHEN show_ali = '中东研发中心' THEN '6中东研发中心'
-					WHEN show_ali = '集团公司' THEN '7集团公司'
-					WHEN show_ali = '资产公司' THEN '8资产公司' ELSE show_ali END AS temName
-				FROM out_tem_money_total
-				WHERE 
-					money_level = '2'
-			) AS tableB
-		GROUP BY temName
-		
-		UNION ALL 
-		SELECT 
-		type_flag,
-		SUM(fyxje) AS fyxje,
-                SUM( zbxje) AS zbxje, 
-		SUM(zje )AS zje,
-		SUM(prefyxje) AS prefyxje,
-		SUM(prezbxje) AS prezbxje,
-		SUM(prezje) AS prezje
-				
-		
-		 FROM 
-		(
-                  SELECT '总计' type_flag,
-                  ROUND(SUM(CASE WHEN showFlag = 'act' THEN fyxje ELSE 0 END),4) AS fyxje, 
-				ROUND(SUM(CASE WHEN showFlag = 'act' THEN zbxje ELSE 0 END),4) AS zbxje, 
-				ROUND(SUM(CASE WHEN showFlag = 'act' THEN zje ELSE 0 END),4) AS zje,
-				ROUND(SUM(CASE WHEN showFlag = 'pre' THEN fyxje ELSE 0 END),4) AS prefyxje, 
-				ROUND(SUM(CASE WHEN showFlag = 'pre' THEN zbxje ELSE 0 END),4) AS prezbxje,
-				ROUND(SUM(CASE WHEN showFlag = 'pre' THEN zje ELSE 0 END),4) AS prezje,
-				ROUND(SUM(CASE WHEN showFlag = 'act' THEN zje ELSE 0 END)/SUM(CASE WHEN showFlag = 'pre' THEN zje ELSE 0 END),4) AS ztzwcl,
-				ROUND(SUM(CASE WHEN showFlag = 'act' THEN fyxje ELSE 0 END)/SUM(CASE WHEN showFlag = 'pre' THEN fyxje ELSE 0 END),4) AS fyxtzwcl,
-				ROUND(SUM(CASE WHEN showFlag = 'act' THEN zbxje ELSE 0 END)/SUM(CASE WHEN showFlag = 'pre' THEN zbxje ELSE 0 END),4) AS zbxtzwcl
-		FROM (		
-				SELECT	
-					ROUND(SUM(CASE WHEN define1 = '费用性' THEN jf ELSE 0 END),4) AS fyxje,
-			    	ROUND(SUM(CASE WHEN define1 = '资本性' THEN jf ELSE 0 END),4) AS zbxje,
-			    	ROUND(SUM(jf),4) AS zje,
-			    	type_flag,'act' AS showFlag,
-						type_flag AS temName
-				FROM out_project_info
-				WHERE project_type != '1' AND project_scope = '新开课题' AND type_flag IS NOT NULL
-			  	GROUP BY type_flag
-				UNION ALL
-				
-				SELECT fyx_money,zbx_money,fyx_money+zbx_money AS zje,show_ali,'pre' AS showFlag,
-				CASE WHEN show_ali = '直属研究院' THEN '1直属研究院'
-	       		 	WHEN show_ali = '分子公司' THEN '2分子公司'
-					WHEN show_ali = '集团单位' THEN '3集团单位'
-					WHEN show_ali = '外部单位' THEN '4外部单位'
-					WHEN show_ali = '盈科' THEN '9盈科'
-					WHEN show_ali = '休斯顿研发中心' THEN '5休斯顿研发中心'
-					WHEN show_ali = '中东研发中心' THEN '6中东研发中心'
-					WHEN show_ali = '集团公司' THEN '7集团公司'
-					WHEN show_ali = '资产公司' THEN '8资产公司' ELSE show_ali END AS temName
-				FROM out_tem_money_total
-				WHERE 
-					money_level = '2'
-			) AS tableB GROUP BY temName
-			)asda 
-				
-		
-		
-		)abc ORDER BY orders
-		
-		
+		select 
+		   tableA.DEFINE3 as type_flag,
+           ROUND(SUM(ysje)/10000,4) AS zje,
+           ROUND(SUM(ysfyxje)/10000,4) AS fyxje,
+           ROUND(SUM(yszbxje)/10000,4) AS zbxje, 
+		   ROUND(SUM(prezje)/10000,4) AS prezje,
+		   ROUND(SUM(prefyxje)/10000,4) AS prefyxje,
+		   ROUND(SUM(prezbxje)/10000,4) AS prezbxje,
+		   ROUND((SUM(prezje)-SUM(ysje))/10000,4) AS wxd,
+		   CASE  WHEN TRUNCATE(SUM(ysje)/SUM(prezje) ,2)      IS NULL OR  TRUNCATE(SUM(ysje)/SUM(prezje) ,2)=0 THEN '0'      ELSE TRUNCATE(SUM(ysje)/SUM(prezje)*100 ,2) END AS ztzwcl ,
+		   CASE  WHEN TRUNCATE(SUM(ysfyxje)/SUM(prefyxje) ,2)   IS NULL OR  TRUNCATE(SUM(ysfyxje)/SUM(prefyxje) ,2)=0 THEN '0'   ELSE TRUNCATE(SUM(ysfyxje)/SUM(prefyxje)*100 ,2) END AS fyxtzwcl ,
+		   CASE  WHEN TRUNCATE(SUM(yszbxje)/SUM(prezbxje) ,2) IS NULL OR  TRUNCATE(SUM(yszbxje)/SUM(prezbxje) ,2)=0 THEN '0' ELSE TRUNCATE(SUM(yszbxje)/SUM(prezbxje)*100 ,2) END AS zbxtzwcl
+		from (
+			select
+				nd, xmid,
+				sum(ysje) as prezje,sum(ysfyxje) as prefyxje,sum(yszbxje) as prezbxje,DEFINE3,
+				(case when xmlbbm = 'KYZB' then '资本性' else '费用性' end) as xmlbbm
+			from out_project_plan
+			where DEFINE3 is not null and 
+				  ysnd= '${nd}' and project_type != '1' and 
+				  out_project_plan.define4 = '项目管理系统' and
+				  xmlbbm is not null
+				  <if test="leaderFlag == null or leaderFlag != '1'">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_plan.nd = '1900'
+					</if>
+				 </if>
+			group by xmid
+		) as tableA left join (
+			select
+				nd, xmid,
+				sum(ysje) as ysje,sum(yszbxje) as yszbxje,sum(ysfyxje) as ysfyxje,type_flag,
+				(case when xmlbbm = 'KYZB' then '资本性' else '费用性' end) as xmlbbm
+			from out_project_info
+			where type_flag is not null and 
+				  ysnd= '${nd}' and project_type != '1' and 
+				  out_project_info.define3 = '项目管理系统' and
+				  xmlbbm is not null
+				  <if test="leaderFlag == null or leaderFlag != '1'">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				 </if>
+			group by xmid
+		) as tableB on (tableA.xmid = tableB.xmid)
+		group BY tableA.DEFINE3
+		ORDER BY tableA.DEFINE3 asc
 	</select>
 	
 	<!--  领导首页-直属研究院，8个研究院的资本性、费用性信息 -->
 	<select id="getProjectMoneyByYJY" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select
-			round(sum(case when define1 = '费用性' then jf else 0 end),4) as fyxje,
-	    	round(sum(case when define1 = '资本性' then jf else 0 end),4) as zbxje,
-	    	round(sum(jf), 2) as zje,
-			sum(case when define1 = '费用性' then 1 else 0 end) as fyxsl,
-			sum(case when define1 = '资本性' then 1 else 0 end) as zbxsl,
+			round(sum(case when xmlbbm = '费用性' then ysfyxje else 0 end),4) as fyxje,
+	    	round(sum(case when xmlbbm = '资本性' then yszbxje else 0 end),4) as zbxje,
+	    	round(sum(ysje), 2) as zje,
+			sum(case when xmlbbm = '费用性' then 1 else 0 end) as fyxsl,
+			sum(case when xmlbbm = '资本性' then 1 else 0 end) as zbxsl,
 			count(*) as zsl,
-			round(sum(case when define1 = '费用性' then 1 else 0 end)/count(*)*100, 2) as fyxRate,
-			round(sum(case when define1 = '资本性' then 1 else 0 end)/count(*)*100, 2) as zbxRate,
+			round(sum(case when xmlbbm = '费用性' then 1 else 0 end)/count(*)*100, 2) as fyxRate,
+			round(sum(case when xmlbbm = '资本性' then 1 else 0 end)/count(*)*100, 2) as zbxRate,
 	    	SUBSTR(define2 FROM 4) define2
-		from out_project_info
-		where project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}'  and
-			   type_flag like '%直属研究院%' and out_project_info.project_property not like '%国家%'
-	    group by define2
+		from (
+			select
+				nd, xmid,
+				sum(ysje) as ysje,sum(yszbxje) as yszbxje,sum(ysfyxje) as ysfyxje,define2,
+				(case when xmlbbm = 'KYZB' then '资本性' else '费用性' end) as xmlbbm
+			from out_project_info
+			where type_flag like '%直属研究院%' and 
+				  ysnd= '${nd}' and project_type != '1' and 
+				  out_project_info.define3 = '项目管理系统' and
+				  xmlbbm is not null
+				  <if test="leaderFlag == null or leaderFlag != '1'">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				 </if>
+			group by xmid
+		) as tableA
+	    group by tableA.define2
+	    order by tableA.define2
 	</select>
 	
 	<!--  领导首页-直属研究院，8个研究院国家项目情况 -->
@@ -2360,21 +2354,53 @@
 		ORDER BY tableA.project_scope,tableA.define2
 	</select>
 	
-	<select id="getProjectMoneyForTree" resultType="java.util.Map" parameterType="java.lang.String">
-		select
-		    round(sum(jf)/10000,4) as zje,UUID() as id,define1,project_scope
-		from out_project_info
-		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题')
-	    group by define1,project_scope
+	<!-- 工作台-合同签订-合同签订占比分析 -->
+	<select id="getProjectMoneyForTree" resultType="java.util.Map" parameterType="java.util.HashMap">
+	    select count(*) as zsl,UUID() as id,xmlbbm as define1,tableA.project_scope from (
+		    select
+				nd,ysnd,
+				(case when xmlbbm = 'KYZB' then '资本性' else '费用性' end) as xmlbbm,
+				(case when nd = '${nd}' then '新开课题' else '结转课题' end) as project_scope
+			from out_project_info
+			where ysnd = '${nd}' and project_type != '1' and 
+				out_project_info.define3 = '项目管理系统' and
+				xmlbbm is not null
+				<if test="leaderFlag == null or leaderFlag != '1'">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				</if>
+		    group by xmid
+		) as tableA 
+		GROUP BY tableA.project_scope,tableA.xmlbbm
+		ORDER BY tableA.project_scope,tableA.xmlbbm
 	</select>
 	
+	<!-- 工作台-合同签订-合同签订占比分析,费用性/资本性-9个二级机构 -->
 	<select id="getProjectMoneyByIniAndTypeForTree" resultType="java.util.Map" parameterType="java.lang.String">
-		select
-		    round(sum(jf)/10000,4) as zje,UUID() as id,
-	    	define1,SUBSTR(type_flag FROM 2) type_flag
-		from out_project_info
-		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and type_flag is not null
-	    group by define1,type_flag
+	    select round(sum(ysje)/10000,4) as zje,UUID() as id,xmlbbm as define1,SUBSTR(type_flag FROM 2) type_flag from (
+		    select
+				nd,ysnd,type_flag,sum(ysje) as ysje,
+				(case when xmlbbm = 'KYZB' then '资本性' else '费用性' end) as xmlbbm
+			from out_project_info
+			where ysnd = '${nd}' and project_type != '1' and 
+				out_project_info.define3 = '项目管理系统' and
+				xmlbbm is not null
+				<if test="leaderFlag == null or leaderFlag != '1'">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				</if>
+		    group by xmid
+		) as tableA 
+		GROUP BY tableA.type_flag,tableA.xmlbbm
+		ORDER BY tableA.type_flag,tableA.xmlbbm
 	</select>
 	
 	
