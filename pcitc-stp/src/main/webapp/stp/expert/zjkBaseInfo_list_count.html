@@ -265,11 +265,9 @@
                 loadtable()
             },
             resetEvent: function () { //点击查询按钮
-                table.reload('zjkBaseInfoTableId', {
-                    where: {
-                        param: {}
-                    }
-                });
+               $("#expertName").val("");
+               $("#email").val("");
+                loadtable();
             }, getChecked: function () {//多选
                 var ids = "";
                 var selectedData = active.getCheckData();

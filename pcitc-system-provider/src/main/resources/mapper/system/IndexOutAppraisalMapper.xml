@@ -1,0 +1,1113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.system.IndexOutAppraisalMapper">
+
+    <resultMap id="BaseResultMap" type="com.pcitc.base.system.IndexOutAppraisal">
+
+        <id column="data_id" jdbcType="VARCHAR" property="dataId"/>
+        <result column="cgid" jdbcType="VARCHAR" property="cgid"/>
+        <result column="nd" jdbcType="VARCHAR" property="nd"/>
+        <result column="cgmc" jdbcType="VARCHAR" property="cgmc"/>
+        <result column="sqjddw" jdbcType="VARCHAR" property="sqjddw"/>
+        <result column="sqdjh" jdbcType="VARCHAR" property="sqdjh"/>
+        <result column="startTime" jdbcType="VARCHAR" property="starttime"/>
+        <result column="endTime" jdbcType="VARCHAR" property="endtime"/>
+        <result column="cglx" jdbcType="VARCHAR" property="cglx"/>
+        <result column="zy" jdbcType="VARCHAR" property="zy"/>
+        <result column="jdh" jdbcType="VARCHAR" property="jdh"/>
+        <result column="issczs" jdbcType="VARCHAR" property="issczs"/>
+        <result column="sbzt" jdbcType="VARCHAR" property="sbzt"/>
+        <result column="jdjg" jdbcType="VARCHAR" property="jdjg"/>
+        <result column="create_date" jdbcType="VARCHAR" property="createDate"/>
+        <result column="create_user_id" jdbcType="VARCHAR" property="createUserId"/>
+        <result column="update_date" jdbcType="VARCHAR" property="updateDate"/>
+        <result column="update_user_id" jdbcType="VARCHAR" property="updateUserId"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+        <result column="hth" jdbcType="VARCHAR" property="hth"/>
+        <result column="xmmc" jdbcType="VARCHAR" property="xmmc"/>
+        <result column="rwly" jdbcType="VARCHAR" property="rwly"/>
+        <result column="define1" jdbcType="VARCHAR" property="define1"/>
+        <result column="define2" jdbcType="VARCHAR" property="define2"/>
+        <result column="define3" jdbcType="VARCHAR" property="define3"/>
+        <result column="define4" jdbcType="VARCHAR" property="define4"/>
+        <result column="define5" jdbcType="VARCHAR" property="define5"/>
+        <result column="define6" jdbcType="VARCHAR" property="define6"/>
+        <result column="tfm_type_id" jdbcType="VARCHAR" property="tfmTypeId"/>
+        <result column="type_code" jdbcType="VARCHAR" property="typeCode"/>
+        <result column="type_name" jdbcType="VARCHAR" property="typeName"/>
+        <result column="parent_id" jdbcType="VARCHAR" property="parentId"/>
+        <result column="parent_code" jdbcType="VARCHAR" property="parentCode"/>
+        <result column="is_parent" jdbcType="VARCHAR" property="isParent"/>
+        <result column="type_index" jdbcType="VARCHAR" property="typeIndex"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        data_id,
+        cgid,
+        nd,
+        cgmc,
+        sqjddw,
+        sqdjh,
+        startTime,
+        endTime,
+        cglx,
+        zy,
+        jdh,
+        issczs,
+        sbzt,
+        jdjg,
+        create_date,
+        create_user_id,
+        update_date,
+        update_user_id,
+        status,
+        remarks,
+        hth,
+        xmmc,
+        rwly,
+        define1,
+        define2,
+        define3,
+        define4,
+        define5,
+        define6,
+        tfm_type_id,
+        type_code,
+        type_name,
+        parent_id,
+        parent_code,
+        is_parent,
+        type_index
+</sql>
+
+    <select id="selectByExample" parameterType="com.pcitc.base.system.IndexOutAppraisalExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from index_out_appraisal
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from index_out_appraisal
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from index_out_appraisal
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.pcitc.base.system.IndexOutAppraisalExample">
+        delete from index_out_appraisal
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.pcitc.base.system.IndexOutAppraisal">
+        insert into index_out_appraisal (
+            data_id,
+            cgid,
+            nd,
+            cgmc,
+            sqjddw,
+            sqdjh,
+            startTime,
+            endTime,
+            cglx,
+            zy,
+            jdh,
+            issczs,
+            sbzt,
+            jdjg,
+            create_date,
+            create_user_id,
+            update_date,
+            update_user_id,
+            status,
+            remarks,
+            hth,
+            xmmc,
+            rwly,
+            define1,
+            define2,
+            define3,
+            define4,
+            define5,
+            define6,
+            tfm_type_id,
+            type_code,
+            type_name,
+            parent_id,
+            parent_code,
+            is_parent,
+            type_index
+        )
+        values (
+
+    #{dataId,jdbcType=VARCHAR},
+    #{cgid,jdbcType=VARCHAR},
+    #{nd,jdbcType=VARCHAR},
+    #{cgmc,jdbcType=VARCHAR},
+    #{sqjddw,jdbcType=VARCHAR},
+    #{sqdjh,jdbcType=VARCHAR},
+    #{starttime,jdbcType=VARCHAR},
+    #{endtime,jdbcType=VARCHAR},
+    #{cglx,jdbcType=VARCHAR},
+    #{zy,jdbcType=VARCHAR},
+    #{jdh,jdbcType=VARCHAR},
+    #{issczs,jdbcType=VARCHAR},
+    #{sbzt,jdbcType=VARCHAR},
+    #{jdjg,jdbcType=VARCHAR},
+    #{createDate,jdbcType=VARCHAR},
+    #{createUserId,jdbcType=VARCHAR},
+    #{updateDate,jdbcType=VARCHAR},
+    #{updateUserId,jdbcType=VARCHAR},
+    #{status,jdbcType=VARCHAR},
+    #{remarks,jdbcType=VARCHAR},
+    #{hth,jdbcType=VARCHAR},
+    #{xmmc,jdbcType=VARCHAR},
+    #{rwly,jdbcType=VARCHAR},
+    #{define1,jdbcType=VARCHAR},
+    #{define2,jdbcType=VARCHAR},
+    #{define3,jdbcType=VARCHAR},
+    #{define4,jdbcType=VARCHAR},
+    #{define5,jdbcType=VARCHAR},
+    #{define6,jdbcType=VARCHAR},
+    #{tfmTypeId,jdbcType=VARCHAR},
+    #{typeCode,jdbcType=VARCHAR},
+    #{typeName,jdbcType=VARCHAR},
+    #{parentId,jdbcType=VARCHAR},
+    #{parentCode,jdbcType=VARCHAR},
+    #{isParent,jdbcType=VARCHAR},
+    #{typeIndex,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.pcitc.base.system.IndexOutAppraisal">
+        insert into index_out_appraisal
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="dataId != null">
+                data_id,
+            </if>
+            <if test="cgid != null">
+                cgid,
+            </if>
+            <if test="nd != null">
+                nd,
+            </if>
+            <if test="cgmc != null">
+                cgmc,
+            </if>
+            <if test="sqjddw != null">
+                sqjddw,
+            </if>
+            <if test="sqdjh != null">
+                sqdjh,
+            </if>
+            <if test="starttime != null">
+                startTime,
+            </if>
+            <if test="endtime != null">
+                endTime,
+            </if>
+            <if test="cglx != null">
+                cglx,
+            </if>
+            <if test="zy != null">
+                zy,
+            </if>
+            <if test="jdh != null">
+                jdh,
+            </if>
+            <if test="issczs != null">
+                issczs,
+            </if>
+            <if test="sbzt != null">
+                sbzt,
+            </if>
+            <if test="jdjg != null">
+                jdjg,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+            <if test="updateUserId != null">
+                update_user_id,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="remarks != null">
+                remarks,
+            </if>
+            <if test="hth != null">
+                hth,
+            </if>
+            <if test="xmmc != null">
+                xmmc,
+            </if>
+            <if test="rwly != null">
+                rwly,
+            </if>
+            <if test="define1 != null">
+                define1,
+            </if>
+            <if test="define2 != null">
+                define2,
+            </if>
+            <if test="define3 != null">
+                define3,
+            </if>
+            <if test="define4 != null">
+                define4,
+            </if>
+            <if test="define5 != null">
+                define5,
+            </if>
+            <if test="define6 != null">
+                define6,
+            </if>
+            <if test="tfmTypeId != null">
+                tfm_type_id,
+            </if>
+            <if test="typeCode != null">
+                type_code,
+            </if>
+            <if test="typeName != null">
+                type_name,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="parentCode != null">
+                parent_code,
+            </if>
+            <if test="isParent != null">
+                is_parent,
+            </if>
+            <if test="typeIndex != null">
+                type_index
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+
+            <if test="dataId != null">
+                #{dataId ,jdbcType=VARCHAR},
+            </if>
+            <if test="cgid != null">
+                #{cgid ,jdbcType=VARCHAR},
+            </if>
+            <if test="nd != null">
+                #{nd ,jdbcType=VARCHAR},
+            </if>
+            <if test="cgmc != null">
+                #{cgmc ,jdbcType=VARCHAR},
+            </if>
+            <if test="sqjddw != null">
+                #{sqjddw ,jdbcType=VARCHAR},
+            </if>
+            <if test="sqdjh != null">
+                #{sqdjh ,jdbcType=VARCHAR},
+            </if>
+            <if test="starttime != null">
+                #{starttime ,jdbcType=VARCHAR},
+            </if>
+            <if test="endtime != null">
+                #{endtime ,jdbcType=VARCHAR},
+            </if>
+            <if test="cglx != null">
+                #{cglx ,jdbcType=VARCHAR},
+            </if>
+            <if test="zy != null">
+                #{zy ,jdbcType=VARCHAR},
+            </if>
+            <if test="jdh != null">
+                #{jdh ,jdbcType=VARCHAR},
+            </if>
+            <if test="issczs != null">
+                #{issczs ,jdbcType=VARCHAR},
+            </if>
+            <if test="sbzt != null">
+                #{sbzt ,jdbcType=VARCHAR},
+            </if>
+            <if test="jdjg != null">
+                #{jdjg ,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUserId != null">
+                #{updateUserId ,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status ,jdbcType=VARCHAR},
+            </if>
+            <if test="remarks != null">
+                #{remarks ,jdbcType=VARCHAR},
+            </if>
+            <if test="hth != null">
+                #{hth ,jdbcType=VARCHAR},
+            </if>
+            <if test="xmmc != null">
+                #{xmmc ,jdbcType=VARCHAR},
+            </if>
+            <if test="rwly != null">
+                #{rwly ,jdbcType=VARCHAR},
+            </if>
+            <if test="define1 != null">
+                #{define1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define2 != null">
+                #{define2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define3 != null">
+                #{define3 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define4 != null">
+                #{define4 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define5 != null">
+                #{define5 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define6 != null">
+                #{define6 ,jdbcType=VARCHAR},
+            </if>
+            <if test="tfmTypeId != null">
+                #{tfmTypeId ,jdbcType=VARCHAR},
+            </if>
+            <if test="typeCode != null">
+                #{typeCode ,jdbcType=VARCHAR},
+            </if>
+            <if test="typeName != null">
+                #{typeName ,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                #{parentId ,jdbcType=VARCHAR},
+            </if>
+            <if test="parentCode != null">
+                #{parentCode ,jdbcType=VARCHAR},
+            </if>
+            <if test="isParent != null">
+                #{isParent ,jdbcType=VARCHAR},
+            </if>
+            <if test="typeIndex != null">
+                #{typeIndex ,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.pcitc.base.system.IndexOutAppraisalExample" resultType="java.lang.Long">
+        select count(*) from index_out_appraisal
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update index_out_appraisal
+        <set>
+
+            <if test="record.dataId != null">
+                data_id=#{record.dataId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.cgid != null">
+                cgid=#{record.cgid,jdbcType=VARCHAR},
+            </if>
+            <if test="record.nd != null">
+                nd=#{record.nd,jdbcType=VARCHAR},
+            </if>
+            <if test="record.cgmc != null">
+                cgmc=#{record.cgmc,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sqjddw != null">
+                sqjddw=#{record.sqjddw,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sqdjh != null">
+                sqdjh=#{record.sqdjh,jdbcType=VARCHAR},
+            </if>
+            <if test="record.starttime != null">
+                startTime=#{record.starttime,jdbcType=VARCHAR},
+            </if>
+            <if test="record.endtime != null">
+                endTime=#{record.endtime,jdbcType=VARCHAR},
+            </if>
+            <if test="record.cglx != null">
+                cglx=#{record.cglx,jdbcType=VARCHAR},
+            </if>
+            <if test="record.zy != null">
+                zy=#{record.zy,jdbcType=VARCHAR},
+            </if>
+            <if test="record.jdh != null">
+                jdh=#{record.jdh,jdbcType=VARCHAR},
+            </if>
+            <if test="record.issczs != null">
+                issczs=#{record.issczs,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sbzt != null">
+                sbzt=#{record.sbzt,jdbcType=VARCHAR},
+            </if>
+            <if test="record.jdjg != null">
+                jdjg=#{record.jdjg,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createDate != null">
+                create_date=#{record.createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createUserId != null">
+                create_user_id=#{record.createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.updateDate != null">
+                update_date=#{record.updateDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.updateUserId != null">
+                update_user_id=#{record.updateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.status != null">
+                status=#{record.status,jdbcType=VARCHAR},
+            </if>
+            <if test="record.remarks != null">
+                remarks=#{record.remarks,jdbcType=VARCHAR},
+            </if>
+            <if test="record.hth != null">
+                hth=#{record.hth,jdbcType=VARCHAR},
+            </if>
+            <if test="record.xmmc != null">
+                xmmc=#{record.xmmc,jdbcType=VARCHAR},
+            </if>
+            <if test="record.rwly != null">
+                rwly=#{record.rwly,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define1 != null">
+                define1=#{record.define1,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define2 != null">
+                define2=#{record.define2,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define3 != null">
+                define3=#{record.define3,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define4 != null">
+                define4=#{record.define4,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define5 != null">
+                define5=#{record.define5,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define6 != null">
+                define6=#{record.define6,jdbcType=VARCHAR},
+            </if>
+            <if test="record.tfmTypeId != null">
+                tfm_type_id=#{record.tfmTypeId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.typeCode != null">
+                type_code=#{record.typeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="record.typeName != null">
+                type_name=#{record.typeName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.parentId != null">
+                parent_id=#{record.parentId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.parentCode != null">
+                parent_code=#{record.parentCode,jdbcType=VARCHAR},
+            </if>
+            <if test="record.isParent != null">
+                is_parent=#{record.isParent,jdbcType=VARCHAR},
+            </if>
+            <if test="record.typeIndex != null">
+                type_index=#{record.typeIndex,jdbcType=VARCHAR}
+            </if>
+
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update index_out_appraisal
+        set
+        data_id=#{record.dataId,jdbcType=VARCHAR},
+        cgid=#{record.cgid,jdbcType=VARCHAR},
+        nd=#{record.nd,jdbcType=VARCHAR},
+        cgmc=#{record.cgmc,jdbcType=VARCHAR},
+        sqjddw=#{record.sqjddw,jdbcType=VARCHAR},
+        sqdjh=#{record.sqdjh,jdbcType=VARCHAR},
+        startTime=#{record.starttime,jdbcType=VARCHAR},
+        endTime=#{record.endtime,jdbcType=VARCHAR},
+        cglx=#{record.cglx,jdbcType=VARCHAR},
+        zy=#{record.zy,jdbcType=VARCHAR},
+        jdh=#{record.jdh,jdbcType=VARCHAR},
+        issczs=#{record.issczs,jdbcType=VARCHAR},
+        sbzt=#{record.sbzt,jdbcType=VARCHAR},
+        jdjg=#{record.jdjg,jdbcType=VARCHAR},
+        create_date=#{record.createDate,jdbcType=VARCHAR},
+        create_user_id=#{record.createUserId,jdbcType=VARCHAR},
+        update_date=#{record.updateDate,jdbcType=VARCHAR},
+        update_user_id=#{record.updateUserId,jdbcType=VARCHAR},
+        status=#{record.status,jdbcType=VARCHAR},
+        remarks=#{record.remarks,jdbcType=VARCHAR},
+        hth=#{record.hth,jdbcType=VARCHAR},
+        xmmc=#{record.xmmc,jdbcType=VARCHAR},
+        rwly=#{record.rwly,jdbcType=VARCHAR},
+        define1=#{record.define1,jdbcType=VARCHAR},
+        define2=#{record.define2,jdbcType=VARCHAR},
+        define3=#{record.define3,jdbcType=VARCHAR},
+        define4=#{record.define4,jdbcType=VARCHAR},
+        define5=#{record.define5,jdbcType=VARCHAR},
+        define6=#{record.define6,jdbcType=VARCHAR},
+        tfm_type_id=#{record.tfmTypeId,jdbcType=VARCHAR},
+        type_code=#{record.typeCode,jdbcType=VARCHAR},
+        type_name=#{record.typeName,jdbcType=VARCHAR},
+        parent_id=#{record.parentId,jdbcType=VARCHAR},
+        parent_code=#{record.parentCode,jdbcType=VARCHAR},
+        is_parent=#{record.isParent,jdbcType=VARCHAR},
+        type_index=#{record.typeIndex,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.system.IndexOutAppraisal">
+        update index_out_appraisal
+        <set>
+
+            <if test="cgid != null">
+                cgid=#{cgid ,jdbcType=VARCHAR},
+            </if>
+            <if test="nd != null">
+                nd=#{nd ,jdbcType=VARCHAR},
+            </if>
+            <if test="cgmc != null">
+                cgmc=#{cgmc ,jdbcType=VARCHAR},
+            </if>
+            <if test="sqjddw != null">
+                sqjddw=#{sqjddw ,jdbcType=VARCHAR},
+            </if>
+            <if test="sqdjh != null">
+                sqdjh=#{sqdjh ,jdbcType=VARCHAR},
+            </if>
+            <if test="starttime != null">
+                startTime=#{starttime ,jdbcType=VARCHAR},
+            </if>
+            <if test="endtime != null">
+                endTime=#{endtime ,jdbcType=VARCHAR},
+            </if>
+            <if test="cglx != null">
+                cglx=#{cglx ,jdbcType=VARCHAR},
+            </if>
+            <if test="zy != null">
+                zy=#{zy ,jdbcType=VARCHAR},
+            </if>
+            <if test="jdh != null">
+                jdh=#{jdh ,jdbcType=VARCHAR},
+            </if>
+            <if test="issczs != null">
+                issczs=#{issczs ,jdbcType=VARCHAR},
+            </if>
+            <if test="sbzt != null">
+                sbzt=#{sbzt ,jdbcType=VARCHAR},
+            </if>
+            <if test="jdjg != null">
+                jdjg=#{jdjg ,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date=#{createDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                create_user_id=#{createUserId ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                update_date=#{updateDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUserId != null">
+                update_user_id=#{updateUserId ,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status=#{status ,jdbcType=VARCHAR},
+            </if>
+            <if test="remarks != null">
+                remarks=#{remarks ,jdbcType=VARCHAR},
+            </if>
+            <if test="hth != null">
+                hth=#{hth ,jdbcType=VARCHAR},
+            </if>
+            <if test="xmmc != null">
+                xmmc=#{xmmc ,jdbcType=VARCHAR},
+            </if>
+            <if test="rwly != null">
+                rwly=#{rwly ,jdbcType=VARCHAR},
+            </if>
+            <if test="define1 != null">
+                define1=#{define1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define2 != null">
+                define2=#{define2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define3 != null">
+                define3=#{define3 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define4 != null">
+                define4=#{define4 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define5 != null">
+                define5=#{define5 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define6 != null">
+                define6=#{define6 ,jdbcType=VARCHAR},
+            </if>
+            <if test="tfmTypeId != null">
+                tfm_type_id=#{tfmTypeId ,jdbcType=VARCHAR},
+            </if>
+            <if test="typeCode != null">
+                type_code=#{typeCode ,jdbcType=VARCHAR},
+            </if>
+            <if test="typeName != null">
+                type_name=#{typeName ,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                parent_id=#{parentId ,jdbcType=VARCHAR},
+            </if>
+            <if test="parentCode != null">
+                parent_code=#{parentCode ,jdbcType=VARCHAR},
+            </if>
+            <if test="isParent != null">
+                is_parent=#{isParent ,jdbcType=VARCHAR},
+            </if>
+            <if test="typeIndex != null">
+                type_index=#{typeIndex ,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.pcitc.base.system.IndexOutAppraisal">
+        update index_out_appraisal
+        set
+            cgid=#{cgid,jdbcType=VARCHAR},
+            nd=#{nd,jdbcType=VARCHAR},
+            cgmc=#{cgmc,jdbcType=VARCHAR},
+            sqjddw=#{sqjddw,jdbcType=VARCHAR},
+            sqdjh=#{sqdjh,jdbcType=VARCHAR},
+            startTime=#{starttime,jdbcType=VARCHAR},
+            endTime=#{endtime,jdbcType=VARCHAR},
+            cglx=#{cglx,jdbcType=VARCHAR},
+            zy=#{zy,jdbcType=VARCHAR},
+            jdh=#{jdh,jdbcType=VARCHAR},
+            issczs=#{issczs,jdbcType=VARCHAR},
+            sbzt=#{sbzt,jdbcType=VARCHAR},
+            jdjg=#{jdjg,jdbcType=VARCHAR},
+            create_date=#{createDate,jdbcType=VARCHAR},
+            create_user_id=#{createUserId,jdbcType=VARCHAR},
+            update_date=#{updateDate,jdbcType=VARCHAR},
+            update_user_id=#{updateUserId,jdbcType=VARCHAR},
+            status=#{status,jdbcType=VARCHAR},
+            remarks=#{remarks,jdbcType=VARCHAR},
+            hth=#{hth,jdbcType=VARCHAR},
+            xmmc=#{xmmc,jdbcType=VARCHAR},
+            rwly=#{rwly,jdbcType=VARCHAR},
+            define1=#{define1,jdbcType=VARCHAR},
+            define2=#{define2,jdbcType=VARCHAR},
+            define3=#{define3,jdbcType=VARCHAR},
+            define4=#{define4,jdbcType=VARCHAR},
+            define5=#{define5,jdbcType=VARCHAR},
+            define6=#{define6,jdbcType=VARCHAR},
+            tfm_type_id=#{tfmTypeId,jdbcType=VARCHAR},
+            type_code=#{typeCode,jdbcType=VARCHAR},
+            type_name=#{typeName,jdbcType=VARCHAR},
+            parent_id=#{parentId,jdbcType=VARCHAR},
+            parent_code=#{parentCode,jdbcType=VARCHAR},
+            is_parent=#{isParent,jdbcType=VARCHAR},
+            type_index=#{typeIndex,jdbcType=VARCHAR}
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </update>
+    <!-- 分页查询 -->
+    <select id="findSysFileKindByPage" parameterType="com.pcitc.base.system.IndexOutAppraisal" resultMap="BaseResultMap">
+
+        select
+        data_id,
+        cgid,
+        nd,
+        cgmc,
+        sqjddw,
+        sqdjh,
+        startTime,
+        endTime,
+        cglx,
+        zy,
+        jdh,
+        issczs,
+        sbzt,
+        jdjg,
+        create_date,
+        create_user_id,
+        update_date,
+        update_user_id,
+        status,
+        remarks,
+        hth,
+        xmmc,
+        rwly,
+        define1,
+        define2,
+        define3,
+        define4,
+        define5,
+        define6,
+        tfm_type_id,
+        type_code,
+        type_name,
+        parent_id,
+        parent_code,
+        is_parent,
+        type_index
+        from index_out_appraisal
+        where 1=1
+        <if test="dataId!=null and dataId!=''.toString()">
+            and data_id like '%${dataId}%'
+        </if>
+        <if test="cgid!=null and cgid!=''.toString()">
+            and cgid like '%${cgid}%'
+        </if>
+        <if test="nd!=null and nd!=''.toString()">
+            and nd like '%${nd}%'
+        </if>
+        <if test="cgmc!=null and cgmc!=''.toString()">
+            and cgmc like '%${cgmc}%'
+        </if>
+        <if test="sqjddw!=null and sqjddw!=''.toString()">
+            and sqjddw like '%${sqjddw}%'
+        </if>
+        <if test="sqdjh!=null and sqdjh!=''.toString()">
+            and sqdjh like '%${sqdjh}%'
+        </if>
+        <if test="starttime!=null and starttime!=''.toString()">
+            and startTime like '%${starttime}%'
+        </if>
+        <if test="endtime!=null and endtime!=''.toString()">
+            and endTime like '%${endtime}%'
+        </if>
+        <if test="cglx!=null and cglx!=''.toString()">
+            and cglx like '%${cglx}%'
+        </if>
+        <if test="zy!=null and zy!=''.toString()">
+            and zy like '%${zy}%'
+        </if>
+        <if test="jdh!=null and jdh!=''.toString()">
+            and jdh like '%${jdh}%'
+        </if>
+        <if test="issczs!=null and issczs!=''.toString()">
+            and issczs like '%${issczs}%'
+        </if>
+        <if test="sbzt!=null and sbzt!=''.toString()">
+            and sbzt like '%${sbzt}%'
+        </if>
+        <if test="jdjg!=null and jdjg!=''.toString()">
+            and jdjg like '%${jdjg}%'
+        </if>
+        <if test="createDate!=null and createDate!=''.toString()">
+            and create_date like '%${createDate}%'
+        </if>
+        <if test="createUserId!=null and createUserId!=''.toString()">
+            and create_user_id like '%${createUserId}%'
+        </if>
+        <if test="updateDate!=null and updateDate!=''.toString()">
+            and update_date like '%${updateDate}%'
+        </if>
+        <if test="updateUserId!=null and updateUserId!=''.toString()">
+            and update_user_id like '%${updateUserId}%'
+        </if>
+        <if test="status!=null and status!=''.toString()">
+            and status like '%${status}%'
+        </if>
+        <if test="remarks!=null and remarks!=''.toString()">
+            and remarks like '%${remarks}%'
+        </if>
+        <if test="hth!=null and hth!=''.toString()">
+            and hth like '%${hth}%'
+        </if>
+        <if test="xmmc!=null and xmmc!=''.toString()">
+            and xmmc like '%${xmmc}%'
+        </if>
+        <if test="rwly!=null and rwly!=''.toString()">
+            and rwly like '%${rwly}%'
+        </if>
+        <if test="define1!=null and define1!=''.toString()">
+            and define1 like '%${define1}%'
+        </if>
+        <if test="define2!=null and define2!=''.toString()">
+            and define2 like '%${define2}%'
+        </if>
+        <if test="define3!=null and define3!=''.toString()">
+            and define3 like '%${define3}%'
+        </if>
+        <if test="define4!=null and define4!=''.toString()">
+            and define4 like '%${define4}%'
+        </if>
+        <if test="define5!=null and define5!=''.toString()">
+            and define5 like '%${define5}%'
+        </if>
+        <if test="define6!=null and define6!=''.toString()">
+            and define6 like '%${define6}%'
+        </if>
+        <if test="tfmTypeId!=null and tfmTypeId!=''.toString()">
+            and tfm_type_id like '%${tfmTypeId}%'
+        </if>
+        <if test="typeCode!=null and typeCode!=''.toString()">
+            and type_code like '%${typeCode}%'
+        </if>
+        <if test="typeName!=null and typeName!=''.toString()">
+            and type_name like '%${typeName}%'
+        </if>
+        <if test="parentId!=null and parentId!=''.toString()">
+            and parent_id like '%${parentId}%'
+        </if>
+        <if test="parentCode!=null and parentCode!=''.toString()">
+            and parent_code like '%${parentCode}%'
+        </if>
+        <if test="isParent!=null and isParent!=''.toString()">
+            and is_parent like '%${isParent}%'
+        </if>
+        <if test="typeIndex!=null and typeIndex!=''.toString()">
+            and type_index like '%${typeIndex}%'
+        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+    <!-- 查询列表 -->
+    <select id="findIndexOutAppraisalList" parameterType="com.pcitc.base.system.IndexOutAppraisal" resultMap="BaseResultMap">
+        select
+        data_id,
+        cgid,
+        nd,
+        cgmc,
+        sqjddw,
+        sqdjh,
+        startTime,
+        endTime,
+        cglx,
+        zy,
+        jdh,
+        issczs,
+        sbzt,
+        jdjg,
+        create_date,
+        create_user_id,
+        update_date,
+        update_user_id,
+        status,
+        remarks,
+        hth,
+        xmmc,
+        rwly,
+        define1,
+        define2,
+        define3,
+        define4,
+        define5,
+        define6,
+        tfm_type_id,
+        type_code,
+        type_name,
+        parent_id,
+        parent_code,
+        is_parent,
+        type_index
+        from index_out_appraisal
+        where 1=1
+        <if test="dataId!=null">
+            and data_id = #{dataId,jdbcType=VARCHAR}
+        </if>
+        <if test="cgid!=null">
+            and cgid = #{cgid,jdbcType=VARCHAR}
+        </if>
+        <if test="nd!=null">
+            and nd = #{nd,jdbcType=VARCHAR}
+        </if>
+        <if test="cgmc!=null">
+            and cgmc = #{cgmc,jdbcType=VARCHAR}
+        </if>
+        <if test="sqjddw!=null">
+            and sqjddw = #{sqjddw,jdbcType=VARCHAR}
+        </if>
+        <if test="sqdjh!=null">
+            and sqdjh = #{sqdjh,jdbcType=VARCHAR}
+        </if>
+        <if test="starttime!=null">
+            and startTime = #{starttime,jdbcType=VARCHAR}
+        </if>
+        <if test="endtime!=null">
+            and endTime = #{endtime,jdbcType=VARCHAR}
+        </if>
+        <if test="cglx!=null">
+            and cglx = #{cglx,jdbcType=VARCHAR}
+        </if>
+        <if test="zy!=null">
+            and zy = #{zy,jdbcType=VARCHAR}
+        </if>
+        <if test="jdh!=null">
+            and jdh = #{jdh,jdbcType=VARCHAR}
+        </if>
+        <if test="issczs!=null">
+            and issczs = #{issczs,jdbcType=VARCHAR}
+        </if>
+        <if test="sbzt!=null">
+            and sbzt = #{sbzt,jdbcType=VARCHAR}
+        </if>
+        <if test="jdjg!=null">
+            and jdjg = #{jdjg,jdbcType=VARCHAR}
+        </if>
+        <if test="createDate!=null">
+            and create_date = #{createDate,jdbcType=VARCHAR}
+        </if>
+        <if test="createUserId!=null">
+            and create_user_id = #{createUserId,jdbcType=VARCHAR}
+        </if>
+        <if test="updateDate!=null">
+            and update_date = #{updateDate,jdbcType=VARCHAR}
+        </if>
+        <if test="updateUserId!=null">
+            and update_user_id = #{updateUserId,jdbcType=VARCHAR}
+        </if>
+        <if test="status!=null">
+            and status = #{status,jdbcType=VARCHAR}
+        </if>
+        <if test="remarks!=null">
+            and remarks = #{remarks,jdbcType=VARCHAR}
+        </if>
+        <if test="hth!=null">
+            and hth = #{hth,jdbcType=VARCHAR}
+        </if>
+        <if test="xmmc!=null">
+            and xmmc = #{xmmc,jdbcType=VARCHAR}
+        </if>
+        <if test="rwly!=null">
+            and rwly = #{rwly,jdbcType=VARCHAR}
+        </if>
+        <if test="define1!=null">
+            and define1 = #{define1,jdbcType=VARCHAR}
+        </if>
+        <if test="define2!=null">
+            and define2 = #{define2,jdbcType=VARCHAR}
+        </if>
+        <if test="define3!=null">
+            and define3 = #{define3,jdbcType=VARCHAR}
+        </if>
+        <if test="define4!=null">
+            and define4 = #{define4,jdbcType=VARCHAR}
+        </if>
+        <if test="define5!=null">
+            and define5 = #{define5,jdbcType=VARCHAR}
+        </if>
+        <if test="define6!=null">
+            and define6 = #{define6,jdbcType=VARCHAR}
+        </if>
+        <if test="tfmTypeId!=null">
+            and tfm_type_id = #{tfmTypeId,jdbcType=VARCHAR}
+        </if>
+        <if test="typeCode!=null">
+            and type_code = #{typeCode,jdbcType=VARCHAR}
+        </if>
+        <if test="typeName!=null">
+            and type_name = #{typeName,jdbcType=VARCHAR}
+        </if>
+        <if test="parentId!=null">
+            and parent_id = #{parentId,jdbcType=VARCHAR}
+        </if>
+        <if test="parentCode!=null">
+            and parent_code = #{parentCode,jdbcType=VARCHAR}
+        </if>
+        <if test="isParent!=null">
+            and is_parent = #{isParent,jdbcType=VARCHAR}
+        </if>
+        <if test="typeIndex!=null">
+            and type_index = #{typeIndex,jdbcType=VARCHAR}
+        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+</mapper>

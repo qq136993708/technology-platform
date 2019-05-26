@@ -378,6 +378,11 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         //判断类型
         if ("suiji".equals(strType)) {
             String strCount = map.get("count").toString();//数量
+
+            Object expertProfessinal = param.getParam().get("expertProfessinal");
+            if (!StrUtil.isObjectEmpty(expertProfessinal)) {
+                c.andExpertProfessinalEqualTo(expertProfessinal.toString());
+            }
             List<ZjkExpert> experts = zjkBaseInfoService.selectByExample(example);
             int count = Integer.parseInt(strCount);
 
@@ -450,6 +455,9 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         //新增
         int j = zjkChoice.size();
         for (int i = 0; i < j; i++) {
+//            ZjkChoiceExample ex = new ZjkChoiceExample();
+//            ZjkChoiceExample.Criteria criteria = ex.createCriteria();
+//            this.deleteByExample(ex);
             this.insert(zjkChoice.get(i));
         }
         //查询项目阶段提醒方式
@@ -459,6 +467,15 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         String type = zjkMsgConfigs.get(0).getMsgType();//消息类型
         //TO DO 插入专家通知
         for (int i = 0; i < j; i++) {
+            //删除:项目ID,项目阶段ID,人员id
+            ZjkMsgExample ex = new ZjkMsgExample();
+            ZjkMsgExample.Criteria criteria = ex.createCriteria();
+            criteria.andProjectIdEqualTo(projectId);
+            criteria.andXmIdEqualTo(projectId);
+            criteria.andXmStepsEqualTo(projectSteps);
+            criteria.andZjkIdEqualTo(zjkChoice.get(i).getZjId());
+            zjkMsgService.deleteByExample(ex);
+
             ZjkMsg msg = new ZjkMsg();
             msg.setProjectId(projectId);
             msg.setProjectName(projectName);
