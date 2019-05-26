@@ -1759,7 +1759,7 @@
 		order by define10
 	</select>
 
-	<!-- 首页计算新开项目总数 -->
+	<!-- 首页计算新开课题总数 -->
 	<select id="getOutProjectInfoCount" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select 
         	count(DISTINCT xmid) as projectCount
@@ -2201,17 +2201,31 @@
 	
 	<!--  领导首页-直属研究院，8个研究院国家项目情况 -->
 	<select id="getCountryProjectByYJY" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select
-			sum(case when project_property = '国家项目' and nd = '${nd}' then 1 else 0 end) as gjxksl,
-			sum(case when project_property = '国家项目' and nd &lt; '${nd}' then 1 else 0 end) as gjjzsl,
-			sum(case when project_property = '国家项目' then 1 else 0 end) as gjsl,
+	    select
+			sum(case when projectType = '新开课题' then 1 else 0 end) as gjxksl,
+			sum(case when projectType = '结转课题' then 1 else 0 end) as gjjzsl,
+			count(*) as gjsl,
 	    	SUBSTR(define2 FROM 4) define2
-		from out_project_info
-		where 
-			out_project_info.project_type != '1'
-			and type_flag like '%直属研究院%'
-			and out_project_info.ysnd = '${nd}'
-	    group by define2
+		from (
+			select
+				nd, xmid, define2,
+				(case when nd = '${nd}' then '新开课题' else '结转课题' end) as projectType
+			from out_project_info
+			where type_flag like '%直属研究院%' and 
+				  ysnd= '${nd}' and project_type != '1' and 
+				  project_property = '国家项目'
+				  <if test="leaderFlag == null or leaderFlag != '1'">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				 </if>
+			group by xmid
+		) as tableA
+	    GROUP BY tableA.define2
+		ORDER BY tableA.define2
 	</select>
 	
 	<!--  工作台-科研课题-科研项目,各单位范畴的新开、结转占比树形图 -->

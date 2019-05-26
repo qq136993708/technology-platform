@@ -130,7 +130,7 @@ public class OutProjectInfoClient {
 		return "1";
 	}
 
-	@ApiOperation(value = "首页计算新开项目总数", notes = "首页查询使用")
+	@ApiOperation(value = "首页计算新开课题总数", notes = "首页查询使用")
 	@RequestMapping(value = "/out-provider/project-count", method = RequestMethod.POST)
 	public JSONObject getProjectCount(@RequestBody HashMap<String, String> map) {
 		String nd = null;
@@ -145,7 +145,7 @@ public class OutProjectInfoClient {
 		return retJson;
     }
 	
-	@ApiOperation(value = "首页计算新开项目总数", notes = "首页查询使用")
+	@ApiOperation(value = "首页计算新开课题总数", notes = "首页查询使用")
 	@RequestMapping(value = "/out-provider/project-money", method = RequestMethod.POST)
 	public JSONObject getProjectMoney(@RequestBody HashMap<String, String> map) {
 		JSONObject retJson = new JSONObject();
