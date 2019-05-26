@@ -124,9 +124,9 @@
 		            	$("tr[data-index='"+i+"'] td[data-field='dcProjectCategory'] div").html(dicVal[res.data[i].dcProjectCategory]);
 		            	$("tr[data-index='"+i+"'] td[data-field='dcProjectNature'] div").html(dicVal[res.data[i].dcProjectNature]);
 		            	//岗位
-		            	publicMethods.ajaxPost("/unit/get-unit/"+res.data[i].unitId,null, function (data) {
+		            	/* publicMethods.ajaxPost("/unit/get-unit/"+res.data[i].unitId,null, function (data) {
 		            		$("tr[data-index='"+i+"'] td[data-field='unitId'] div").html(data.unitName);
-				   		});
+				   		}); */
 		            });
 	            }
 	        });

@@ -99,7 +99,7 @@ $(document).ready(function() {
 					//data.field.applyContent = editor.getData();
 					//计算金额
 					var moneyItems = {};
-					$('select[name="build_year"]').each(function(i){
+					$('input[name="build_year"]').each(function(i){
 						var dt_index = $(this).parents('.layui-row').attr("data-index");
 						moneyItems[$("#build_year_"+dt_index).val()]=$("#build_year_money_"+dt_index).val();
 					});
