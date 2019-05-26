@@ -73,14 +73,14 @@ public class IntlProjectInfoServiceImpl implements IntlProjectInfoService {
 		if(project != null)
 		{
 			MyBeanUtils.copyPropertiesIgnoreNull(info, project);
-			project.setUpdateTime(DateUtil.dateToStr(new Date(), DateUtil.FMT_DD));
+			project.setUpdateTime(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
 			return projectInfoMapper.updateByPrimaryKey(project);
 		}
 		else 
 		{
 			info.setStatus(0);
 			info.setProjectStep(0);
-			info.setCreateTime(DateUtil.dateToStr(new Date(), DateUtil.FMT_DD));
+			info.setCreateTime(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
 			return projectInfoMapper.insert(info);
 		}
 	}
@@ -117,6 +117,8 @@ public class IntlProjectInfoServiceImpl implements IntlProjectInfoService {
 			criteria.andProjectNameLike("%"+param.getParam().get("infoName")+"%");
 		}
 		criteria.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		example.setOrderByClause("create_time desc");
+		
 		return findByExample(param,example);
 	}
 	
@@ -181,5 +183,17 @@ public class IntlProjectInfoServiceImpl implements IntlProjectInfoService {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	@Override
+	public List<IntlProjectInfo> selectAllProjectInfo() 
+	{
+		IntlProjectInfoExample example = new IntlProjectInfoExample();
+		IntlProjectInfoExample.Criteria criteria = example.createCriteria();
+		
+		criteria.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		
+		example.setOrderByClause("create_time desc");
+		return projectInfoMapper.selectByExample(example);
 	} 
 }

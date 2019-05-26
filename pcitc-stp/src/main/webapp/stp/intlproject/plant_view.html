@@ -24,7 +24,7 @@ file_edit_detail = "detail";
 //统管理-附件管理-附件配置：页面标识
 file_opt_flag = "4c20bd28057543839c0db8754f417c6a";
 $(document).ready(function() {
-   	var editor = CKEDITOR.replace("plantContent");
+   	//var editor = CKEDITOR.replace("plantContent");
 	layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element',"publicMethods" ],function() {
 		var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
 		var publicMethods=layui.publicMethods;
@@ -50,7 +50,7 @@ $(document).ready(function() {
     	{
     		publicMethods.ajaxPost('/project/get-plant', {plantId:$("#plantId").val()}, function (data, status) {
          		form.val("plant-form",data);
-         		editor.setData(data.plantContent);
+         		//editor.setData(data.plantContent);
             });
     	}else{
     		$("#appendFiles").val("${appendFiles}");
@@ -108,7 +108,7 @@ $(document).ready(function() {
             }
     	}
     	form.on('submit(submitBtn)', function(data) {
-    		data.field.plantContent = editor.getData();
+    		//data.field.plantContent = editor.getData();
             ajaxPost('/project/plant-saveorupdate', data.field, function (data, status) {
                 if (data.success) {
                 	parent.layui.table.reload("plantTable",null);
@@ -170,6 +170,16 @@ $(document).ready(function() {
 			          </div>
 		        </div>
 			</div>
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">计划年度<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" lay-verify="required|number" id="reportYear" name="reportYear" placeholder="计划年度">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				<div class="layui-form-item">
 					<label for="" class="layui-form-label">总投资(万元)<span class="must-fill">*</span></label>

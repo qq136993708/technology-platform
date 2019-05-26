@@ -1,5 +1,7 @@
 package com.pcitc.service.intlproject;
 
+import java.util.List;
+
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.DataTableParam;
 import com.pcitc.base.common.LayuiTableData;
@@ -57,5 +59,10 @@ public interface IntlProjectInfoService
 	 * @return
 	 */
 	public boolean startWorkFlow(String businessId,String functionId,String workflowName,String authenticatedUserId,String authenticatedUserName);
+	/**
+	 * 
+	 * @return
+	 */
+	List<IntlProjectInfo> selectAllProjectInfo();
 
 }

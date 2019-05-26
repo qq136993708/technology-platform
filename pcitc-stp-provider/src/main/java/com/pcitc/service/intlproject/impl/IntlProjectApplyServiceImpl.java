@@ -256,6 +256,7 @@ public class IntlProjectApplyServiceImpl implements IntlProjectApplyService {
 		IntlProjectApplyExample.Criteria criteria = example.createCriteria();
 		criteria.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
 		
+		example.setOrderByClause("create_time desc");
 		return projectApplyMapper.selectByExample(example);
 	}
 
