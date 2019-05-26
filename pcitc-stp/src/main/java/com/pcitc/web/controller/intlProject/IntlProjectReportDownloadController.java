@@ -29,12 +29,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.IntlProject.IntlProjectApply;
 import com.pcitc.base.stp.IntlProject.IntlProjectContract;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfo;
 import com.pcitc.base.stp.IntlProject.IntlProjectPlant;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.web.common.BaseController;
 
@@ -47,6 +50,8 @@ public class IntlProjectReportDownloadController extends BaseController
 	private static final String PROJECT_APPLY_JOIN_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/join-plant-apply-list";
 	private static final String PROJECT_GET_INFO = "http://pcitc-zuul/stp-proxy/stp-provider/project/get-project/";
 	private static final String PROJECT_GET_CONTRACT_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/get-contract/";
+	
+	private static final String DICTIONARY_MAP_LIST = "http://pcitc-zuul/system-proxy/dictionary-provider/dictionary/get-map-dicionarys";
 	
 	private XWPFDocument docx;
 	
@@ -92,6 +97,44 @@ public class IntlProjectReportDownloadController extends BaseController
 		
 		IntlProjectApply oldApply = this.restTemplate.exchange(PROJECT_APPLY_GET_URL + applyId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), IntlProjectApply.class).getBody();
 		Map<String, Object> beanMap = MyBeanUtils.transBean2Map(oldApply);
+		
+		List<String> pcodes = new ArrayList<String>();
+		pcodes.add("GJXM_XMXZ");
+		pcodes.add("GJXM_XMFL");
+		pcodes.add("ROOT_UNIVERSAL_GJHBBZ");//币种
+		Map<?,?> map = this.restTemplate.exchange(DICTIONARY_MAP_LIST, HttpMethod.POST, new HttpEntity<List<String>>(pcodes, this.httpHeaders), Map.class).getBody();
+		//dcProjectCategory,dcProjectNature
+		JSONArray xmxz = JSON.parseArray(JSON.toJSONString(map.get("GJXM_XMXZ")));
+		for(java.util.Iterator<?> iter = xmxz.iterator();iter.hasNext();) {
+			SysDictionary dic = JSON.toJavaObject(JSON.parseObject(iter.next().toString()), SysDictionary.class);
+			if(dic.getCode().equals(beanMap.get("dcProjectNature"))) {
+				beanMap.put("dcProjectNature", dic.getName());
+				break;
+			}
+		}
+		JSONArray xmfl = JSON.parseArray(JSON.toJSONString(map.get("GJXM_XMFL")));
+		for(java.util.Iterator<?> iter = xmfl.iterator();iter.hasNext();) {
+			SysDictionary dic = JSON.toJavaObject(JSON.parseObject(iter.next().toString()), SysDictionary.class);
+			if(dic.getCode().equals(beanMap.get("dcProjectCategory"))) {
+				beanMap.put("dcProjectCategory", dic.getName());
+				break;
+			}
+		}
+		JSONArray bz = JSON.parseArray(JSON.toJSONString(map.get("ROOT_UNIVERSAL_GJHBBZ")));
+		String moneyType = "";
+		for(java.util.Iterator<?> iter = bz.iterator();iter.hasNext();) {
+			SysDictionary dic = JSON.toJavaObject(JSON.parseObject(iter.next().toString()), SysDictionary.class);
+			if(dic.getCode().equals(beanMap.get("moneyType"))) {
+				moneyType = dic.getName();
+				break;
+			}
+		}
+		
+		
+		//是否含税
+		beanMap.put("moneyContainTax",new Integer(1).equals(beanMap.get("moneyContainTax"))?"是":"否");
+		beanMap.put("moneyRmb",new Double(beanMap.get("moneyRmb").toString()).intValue());
+		beanMap.put("plantMoney",new Double(beanMap.get("plantMoney").toString()).intValue() +" "+ moneyType);
 		
 		
 		URL path = this.getClass().getResource("/");
