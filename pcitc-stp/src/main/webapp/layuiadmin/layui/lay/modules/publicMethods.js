@@ -340,7 +340,7 @@ layui.define(['jquery','form','table','laydate'],
             addTableTr:function(trParam){
                 var number=trParam.number;
                 var tbody=$("#"+trParam.id+" .layui-table-main table tbody");
-                console.log($(tbody).find("tr"))
+                // console.log($(tbody).find("tr"))
                 var num =  $(tbody).find("tr").length + 1;
                 var tableHtml = "<tr data-index='"+(num-1)+"'></tr>";
                 var tableTdHtml='';
@@ -403,7 +403,7 @@ layui.define(['jquery','form','table','laydate'],
                             if(columnValue.length>0){
                                 var columnValueArr=columnValue.split(",");
                                 var columnValueIdArr=columnValueId.split(",");
-                                console.log(columnValueArr)
+                                // console.log(columnValueArr)
                                 certTypeStr = "<select>";
                                 $.each(columnValueArr, function(index) {
                                     if(index == 0){
@@ -457,7 +457,7 @@ layui.define(['jquery','form','table','laydate'],
                 });
             },
             tableRender:function (elem,id,url,toolbar,cols,where,page,done) {
-                console.log("111");
+                // console.log("111");
                 if(page==true){
                     var page={
                         count: 500 //数据总数，从服务端得到
@@ -489,7 +489,7 @@ layui.define(['jquery','form','table','laydate'],
                         , done: done
                     });
                 }else {
-                    console.log("111");
+                    // console.log("111");
                     table.render({
                         elem: '#'+elem //表格容器
                         , url:url //请求的url地址

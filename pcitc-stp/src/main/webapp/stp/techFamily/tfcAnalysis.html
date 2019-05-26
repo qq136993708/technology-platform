@@ -44,10 +44,16 @@
                             <table id="indexOutPatentTableId" class="layui-hide" lay-filter="tableEvent"></table>
                         </div>
                         <div class="layui-tab-item">
-                            <table id="indexOutProjectInfoTableIdRy" class="layui-hide" lay-filter="tableEvent"></table>
+                            <div style="display:none;">
+                                <table id="indexOutProjectInfoTableIdRy" class="layui-hide" style="display: none" lay-filter="tableEvent"></table>
+                            </div>
+                            <div id="indexOutProjectInfoTableIdRyShow"></div>
                         </div>
                         <div class="layui-tab-item">
-                            <table id="indexOutProjectInfoTableIdFy" class="layui-hide" lay-filter="tableEvent"></table>
+                            <div style="display:none;">
+                                <table id="indexOutProjectInfoTableIdFy" class="layui-hide" lay-filter="tableEvent"></table>
+                            </div>
+                            <div id="indexOutProjectInfoTableIdFyShow"></div>
                         </div>
                     </div>
                 </div>
@@ -102,15 +108,25 @@
                     }
             };
             publicMethods.tableRender('indexOutProjectInfoTableIdRy', 'indexOutProjectInfoTableIdRy', '/indexOutProjectInfo/getTableData', false, colsRy, where, false, function (res, curr, count) {
-                $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
-                    var index = parseInt($(this).index() + 1);
-                    $('tr').removeClass('layui-table-click');
-                    $(this).addClass('layui-table-click');
-                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                    $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                    selectRowData = res.data[index - 1];
-                });
-                selectRowData = "";
+                // $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                //     var index = parseInt($(this).index() + 1);
+                //     $('tr').removeClass('layui-table-click');
+                //     $(this).addClass('layui-table-click');
+                //     $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                //     $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                //     selectRowData = res.data[index - 1];
+                // });
+                // selectRowData = "";
+                var user = "";
+                var total=0;
+                for (let i = 0; i < res.data.length; i++) {
+                    if (typeof res.data[i].fzrxm!="undefined"){
+                        total++;
+                        user = (user==""?"":(user+","))+res.data[i].fzrxm;
+                    }
+                }
+                console.log("总人数:"+total+"---参与人员:"+user);
+                $("#indexOutProjectInfoTableIdRyShow").html("参与人员:<br>"+user+"<br>总人数:"+total);
             });
         }
 
@@ -144,15 +160,24 @@
                     }
             };
             publicMethods.tableRender('indexOutProjectInfoTableIdFy', 'indexOutProjectInfoTableIdFy', '/indexOutProjectInfo/getTableData', false, colsJf, where, false, function (res, curr, count) {
-                $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
-                    var index = parseInt($(this).index() + 1);
-                    $('tr').removeClass('layui-table-click');
-                    $(this).addClass('layui-table-click');
-                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                    $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                    selectRowData = res.data[index - 1];
-                });
-                selectRowData = "";
+                // $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                //     var index = parseInt($(this).index() + 1);
+                //     $('tr').removeClass('layui-table-click');
+                //     $(this).addClass('layui-table-click');
+                //     $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                //     $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                //     selectRowData = res.data[index - 1];
+                // });
+                // selectRowData = "";
+                var totalFy = 0.00;
+                for (let i = 0; i < res.data.length; i++) {
+                    if (typeof res.data[i].jf!="undefined"){
+                        totalFy=res.data[i].jf*1+totalFy;
+                    }
+                }
+                totalFy = totalFy.toFixed(2);
+                $("#indexOutProjectInfoTableIdFyShow").html("总费用:"+totalFy);
+                console.log("------------"+totalFy);
             });
         }
 
@@ -214,33 +239,17 @@
                 {type: 'checkbox', event: 'changeEvents', width: 55},
                 {title: '序号', type: 'numbers', width: 55},
                 {
-                    field: "cgid",
-                    title: "", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
                     field: "nd",
-                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                    title: "申请年度", event: 'setActive', style: 'cursor: pointer;', width: 100
                 },
                 {
                     field: "cgmc",
-                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                    title: "成果名称", event: 'setActive', style: 'cursor: pointer;'
                 },
                 {
                     field: "sqjddw",
-                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                    title: "申请单位", event: 'setActive', style: 'cursor: pointer;'
                 },
-                {
-                    field: "sqdjh",
-                    title: "", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "starttime",
-                    title: "", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "endtime",
-                    title: "", event: 'setActive', style: 'cursor: pointer;'
-                }
             ];
 
         function renderTableCg() {
@@ -270,28 +279,26 @@
                 {type: 'checkbox', event: 'changeEvents', width: 55},
                 {title: '序号', type: 'numbers', width: 55},
                 {
-                    field: "sqh",
-                    title: "申请号", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
                     field: "sqri",
-                    title: "申请日", event: 'setActive', style: 'cursor: pointer;'
+                    title: "申请日", event: 'setActive', style: 'cursor: pointer;', width: 100,templet:function (d) {
+                        return d.sqri.substring(0,10);
+                    }
                 },
                 {
                     field: "fmmc",
-                    title: "发明名称", event: 'setActive', style: 'cursor: pointer;'
+                    title: "发明名称", event: 'setActive', style: 'cursor: pointer;', width: 200
                 },
                 {
                     field: "shenqr",
-                    title: "申请人", event: 'setActive', style: 'cursor: pointer;'
+                    title: "申请人", event: 'setActive', style: 'cursor: pointer;', width: 150
                 },
                 {
                     field: "fmr",
-                    title: "发明人", event: 'setActive', style: 'cursor: pointer;'
+                    title: "发明人", event: 'setActive', style: 'cursor: pointer;', width: 150
                 },
                 {
                     field: "zlh",
-                    title: "专利号", event: 'setActive', style: 'cursor: pointer;'
+                    title: "专利号", event: 'setActive', style: 'cursor: pointer;', width: 150
                 }
             ];
 
