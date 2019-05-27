@@ -716,7 +716,7 @@ public class AdminController extends BaseController {
 	 */
 	@RequestMapping(value = "/admin/done-task-count", method = RequestMethod.POST)
 	@ResponseBody
-	public synchronized Object getDoneTaskCount(HttpServletRequest request) {
+	public Object getDoneTaskCount(HttpServletRequest request) {
 		System.out.println("1====/admin/done-task-count"+sysUserInfo.getUserId());
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("userId", sysUserInfo.getUserId());
@@ -735,7 +735,7 @@ public class AdminController extends BaseController {
 
 	@RequestMapping(value = "/admin/pending-task-count", method = RequestMethod.POST)
 	@ResponseBody
-	public synchronized Object getPendingTaskCount(HttpServletRequest request) {
+	public Object getPendingTaskCount(HttpServletRequest request) {
 		System.out.println("1====/admin/pending-task-count"+sysUserInfo.getUserId());
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("userId", sysUserInfo.getUserId());
