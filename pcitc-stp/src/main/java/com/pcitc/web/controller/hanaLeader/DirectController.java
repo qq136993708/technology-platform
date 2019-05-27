@@ -42,12 +42,14 @@ import com.pcitc.base.hana.report.Topic;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.common.OperationFilter;
+import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
 
 @Controller
-public class DirectController {
+public class DirectController extends BaseController {
 
 	// 知识产权--专利
 	private static final String	getKnowledgeBar_01		= "http://pcitc-zuul/system-proxy/out-patent-provider/lx/apply-agree";
@@ -98,11 +100,15 @@ public class DirectController {
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String typeFlag = CommonUtil.getParameter(request, "typeFlag", "");
-		String zycmc = request.getAttribute("zycmc") == null? "" : request.getAttribute("zycmc").toString();
+		String zycmc = request.getAttribute("zycmc")==null ? "" : request.getAttribute("zycmc").toString();
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("typeFlag", typeFlag);
 		paramsMap.put("zycmc", zycmc);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -609,6 +615,7 @@ public class DirectController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/contract_01")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String contract_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String resault = "";
@@ -617,11 +624,16 @@ public class DirectController {
 		String type = CommonUtil.getParameter(request, "type", "");
 		String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "");
 		String define3 = CommonUtil.getParameter(request, "define3 ", "研究院");
+		String zycmc = request.getAttribute("zycmc")==null ? "" : request.getAttribute("zycmc").toString();
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
 		paramsMap.put("xmlbbm", xmlbbm);
-
+		paramsMap.put("zycmc", zycmc);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		ChartPieResultData pie = new ChartPieResultData();
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -669,7 +681,6 @@ public class DirectController {
 					pie.setLegendDataList(legendDataList);
 					result.setSuccess(true);
 					result.setData(pie);
-
 				}
 
 				if (type.equals("3")) {
@@ -1031,7 +1042,7 @@ public class DirectController {
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getBeforeYear();
 		request.setAttribute("year", year);
 		return "stp/hana/home/oneLevelMain/direct/topic";
 	}
@@ -1051,7 +1062,10 @@ public class DirectController {
 		paramsMap.put("nd", nd);
 		paramsMap.put("typeFlag", typeFlag);
 		paramsMap.put("xmlbbm", xmlbbm);
-
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -1158,6 +1172,10 @@ public class DirectController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("typeFlag", typeFlag);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -1259,7 +1277,10 @@ public class DirectController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("typeFlag", typeFlag);
-
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -1312,6 +1333,10 @@ public class DirectController {
 		paramsMap.put("xmlbbm", xmlbbm);
 		paramsMap.put("nd", nd);
 		paramsMap.put("type_flag", type_flag);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!type_flag.equals("")) {
@@ -1356,12 +1381,16 @@ public class DirectController {
 	public String equipment(HttpServletRequest request) throws Exception {
 
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
+		
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
+		String  companyCode=EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders) ;
+		request.setAttribute("companyCode", companyCode);
+		String year= HanaUtil.getBeforeYear();
+		request.setAttribute("year", year);
 		String month = HanaUtil.getCurrrentYearMoth();
-		request.setAttribute("month", month);
+        request.setAttribute("month", month);
 		return "stp/hana/home/oneLevelMain/direct/equipment";
 	}
 
@@ -1379,7 +1408,10 @@ public class DirectController {
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
 		paramsMap.put("xmlbbm", "kyzb");
-
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -1486,6 +1518,10 @@ public class DirectController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", companyCode);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!companyCode.equals("")) {
@@ -1594,6 +1630,10 @@ public class DirectController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!companyCode.equals("")) {
@@ -1643,11 +1683,22 @@ public class DirectController {
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/actualPay")
 	public String actualPay(HttpServletRequest request) throws Exception {
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
+		
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
-		request.setAttribute("YJY_CODE_NOT_YINGKE", HanaUtil.YJY_CODE_NOT_YINGKE);
-		request.setAttribute("YJY_CODE_ALL", HanaUtil.YJY_CODE_ALL);
+		
+		
+		
+		String  companyCode=EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders) ;
+		request.setAttribute("companyCode", companyCode);
+		String year= HanaUtil.getCurrrentYear();
+		request.setAttribute("year", year);
+		String month = HanaUtil.getCurrrentYearMoth();
+        request.setAttribute("month", month);
+		
+        
+        String isdisplay = CommonUtil.getParameter(request, "isdisplay", "");
+		request.setAttribute("isdisplay", isdisplay);
 		return "stp/hana/home/oneLevelMain/direct/actualPay";
 	}
 
@@ -1658,10 +1709,14 @@ public class DirectController {
 		Result result = new Result();
 		ChartBarLineResultData barLine = new ChartBarLineResultData();
 		String month = CommonUtil.getParameter(request, "month", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+		String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", companyCode);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!companyCode.equals("")) {
@@ -1712,6 +1767,10 @@ public class DirectController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", companyCode);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
@@ -1777,6 +1836,10 @@ public class DirectController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", companyCode);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!companyCode.equals("")) {

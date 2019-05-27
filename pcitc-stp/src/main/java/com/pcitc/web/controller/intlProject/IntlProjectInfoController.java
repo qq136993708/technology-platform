@@ -29,12 +29,14 @@ import com.pcitc.web.common.BaseController;
 public class IntlProjectInfoController extends BaseController {
 
 	private static final String PROJECT_INFO_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/project/info-list";
+	private static final String PROJECT_INFO_LIST_ALL = "http://pcitc-zuul/stp-proxy/stp-provider/project/info-list-all";
 	private static final String PROJECT_GET_INFO = "http://pcitc-zuul/stp-proxy/stp-provider/project/get-project/";
 	private static final String PROJECT_INFO_ADDORUPD = "http://pcitc-zuul/stp-proxy/stp-provider/project/addorupd-project";
 	private static final String PROJECT_INFO_CLOSE_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/close-project/";
 	private static final String PROJECT_INFO_DEL = "http://pcitc-zuul/stp-proxy/stp-provider/project/del-project/";
 	private static final String PROJECT_INFO_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/start-info-activity/";
 	
+	private static final String PROJECT_INFO_CODE = "http://pcitc-zuul/stp-proxy/stp-provider/project/project-info-code";
 	
 	
 	@RequestMapping(value = "/project/info-list", method = RequestMethod.POST)
@@ -43,6 +45,12 @@ public class IntlProjectInfoController extends BaseController {
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_INFO_LIST, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData data = responseEntity.getBody();
 		return JSON.toJSON(data).toString();
+	}
+	
+	@RequestMapping(value = "/project/info-list-all", method = RequestMethod.POST)
+	public Object getListData(HttpServletRequest request) throws IOException {
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(PROJECT_INFO_LIST_ALL, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Object.class);
+		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
 
 	@RequestMapping(value = "/project/get-project")
@@ -106,5 +114,11 @@ public class IntlProjectInfoController extends BaseController {
 		System.out.println(JSON.toJSONString(rs));
 		return rs;
 	}
-
+	@RequestMapping(value = "/project/project-info-code", method = RequestMethod.POST)
+	public Object getInfoCode(@ModelAttribute(value = "projectInfo") IntlProjectInfo info,HttpServletRequest request) throws IOException {
+		System.out.println("start.................");
+		String rs = this.restTemplate.exchange(PROJECT_INFO_CODE, HttpMethod.POST, new HttpEntity<Object>(info,this.httpHeaders), String.class).getBody();
+		System.out.println("rs------------------"+rs);
+		return new Result(true, rs);
+	}
 }

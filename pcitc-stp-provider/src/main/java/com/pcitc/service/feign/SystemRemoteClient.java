@@ -1,8 +1,7 @@
 package com.pcitc.service.feign;
 
 import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,6 +56,5 @@ public interface SystemRemoteClient {
      * @return
      */
 	@RequestMapping(value = "/out-project-provider/common-project/list", method = RequestMethod.POST)
-	public LayuiTableData selectCommonProjectByCond(@RequestBody LayuiTableParam param);
-	
+	public LayuiTableData selectCommonProjectByCond(@RequestBody LayuiTableParam param);	
 }

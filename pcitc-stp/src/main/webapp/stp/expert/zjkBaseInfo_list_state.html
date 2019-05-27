@@ -78,7 +78,7 @@
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_assignRole btnMyBgImg" id="dj"
                     data-type="djEvent">冻结
             </button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_assignRole btnMyBgImg" id="jd"
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_enabled btnMyBgImg" id="jd"
                     data-type="jdEvent">解冻
             </button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_verify btnMyBgImg"
@@ -316,7 +316,7 @@
                     layer.msg("请选择一条数据");
                     return;
                 } else {
-                    openFullWin("编辑", "/zjkBaseInfo/view/" + selectRowData.dataId);
+                    openFullWin("查看", "/zjkBaseInfo/view/" + selectRowData.dataId);
                 }
             }
             ,

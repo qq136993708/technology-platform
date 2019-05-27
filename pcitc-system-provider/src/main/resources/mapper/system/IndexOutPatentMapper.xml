@@ -1,0 +1,2075 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.system.IndexOutPatentMapper">
+
+    <resultMap id="BaseResultMap" type="com.pcitc.base.system.IndexOutPatent">
+
+        <id column="data_id" jdbcType="VARCHAR" property="dataId"/>
+        <result column="tfm_type_id" jdbcType="VARCHAR" property="tfmTypeId"/>
+        <result column="type_code" jdbcType="VARCHAR" property="typeCode"/>
+        <result column="type_name" jdbcType="VARCHAR" property="typeName"/>
+        <result column="parent_id" jdbcType="VARCHAR" property="parentId"/>
+        <result column="parent_code" jdbcType="VARCHAR" property="parentCode"/>
+        <result column="is_parent" jdbcType="VARCHAR" property="isParent"/>
+        <result column="type_index" jdbcType="VARCHAR" property="typeIndex"/>
+        <result column="SQH" jdbcType="VARCHAR" property="sqh"/>
+        <result column="SQRI" jdbcType="VARCHAR" property="sqri"/>
+        <result column="FMMC" jdbcType="VARCHAR" property="fmmc"/>
+        <result column="ZHY" jdbcType="LONGVARCHAR" property="zhy"/>
+        <result column="GKH" jdbcType="VARCHAR" property="gkh"/>
+        <result column="GKR" jdbcType="VARCHAR" property="gkr"/>
+        <result column="WXLX" jdbcType="VARCHAR" property="wxlx"/>
+        <result column="SHENQR" jdbcType="VARCHAR" property="shenqr"/>
+        <result column="FMR" jdbcType="VARCHAR" property="fmr"/>
+        <result column="SQRDZ" jdbcType="VARCHAR" property="sqrdz"/>
+        <result column="DLR" jdbcType="VARCHAR" property="dlr"/>
+        <result column="DLJG" jdbcType="VARCHAR" property="dljg"/>
+        <result column="GBDM" jdbcType="VARCHAR" property="gbdm"/>
+        <result column="IPCFLH" jdbcType="VARCHAR" property="ipcflh"/>
+        <result column="CPCFLH" jdbcType="VARCHAR" property="cpcflh"/>
+        <result column="LJNFLH" jdbcType="VARCHAR" property="ljnflh"/>
+        <result column="YXQH" jdbcType="VARCHAR" property="yxqh"/>
+        <result column="YXQR" jdbcType="VARCHAR" property="yxqr"/>
+        <result column="DQFLZT" jdbcType="VARCHAR" property="dqflzt"/>
+        <result column="FLZTLSXX" jdbcType="LONGVARCHAR" property="flztlsxx"/>
+        <result column="FLZTGGRQ" jdbcType="VARCHAR" property="flztggrq"/>
+        <result column="FLZTYJ" jdbcType="VARCHAR" property="flztyj"/>
+        <result column="FLZTEJ" jdbcType="VARCHAR" property="flztej"/>
+        <result column="SHOUQR" jdbcType="VARCHAR" property="shouqr"/>
+        <result column="SQGGH" jdbcType="VARCHAR" property="sqggh"/>
+        <result column="ZSH" jdbcType="VARCHAR" property="zsh"/>
+        <result column="ZLQR" jdbcType="VARCHAR" property="zlqr"/>
+        <result column="ZLH" jdbcType="VARCHAR" property="zlh"/>
+        <result column="QLYQ" jdbcType="VARCHAR" property="qlyq"/>
+        <result column="ZLPDF" jdbcType="VARCHAR" property="zlpdf"/>
+        <result column="SCYJTZSFWR" jdbcType="VARCHAR" property="scyjtzsfwr"/>
+        <result column="SCYJDFR" jdbcType="VARCHAR" property="scyjdfr"/>
+        <result column="SCYJBZR" jdbcType="VARCHAR" property="scyjbzr"/>
+        <result column="BZTZFFWR" jdbcType="VARCHAR" property="bztzffwr"/>
+        <result column="BHTZSFWR" jdbcType="VARCHAR" property="bhtzsfwr"/>
+        <result column="FSQQR" jdbcType="VARCHAR" property="fsqqr"/>
+        <result column="FSSLFWR" jdbcType="VARCHAR" property="fsslfwr"/>
+        <result column="DFGCWJ" jdbcType="VARCHAR" property="dfgcwj"/>
+        <result column="SQBZ" jdbcType="VARCHAR" property="sqbz"/>
+        <result column="RKSJ" jdbcType="VARCHAR" property="rksj"/>
+        <result column="GMJJHYML" jdbcType="VARCHAR" property="gmjjhyml"/>
+        <result column="GMJJHYDL" jdbcType="VARCHAR" property="gmjjhydl"/>
+        <result column="GMJJHYZL" jdbcType="VARCHAR" property="gmjjhyzl"/>
+        <result column="ZXCYYJ" jdbcType="VARCHAR" property="zxcyyj"/>
+        <result column="ZXCYEJ" jdbcType="VARCHAR" property="zxcyej"/>
+        <result column="ZXCYSJ" jdbcType="VARCHAR" property="zxcysj"/>
+        <result column="BYZCS" jdbcType="VARCHAR" property="byzcs"/>
+        <result column="BFMRYYCS" jdbcType="VARCHAR" property="bfmryycs"/>
+        <result column="BSCYYYCS" jdbcType="VARCHAR" property="bscyyycs"/>
+        <result column="ZYCS" jdbcType="VARCHAR" property="zycs"/>
+        <result column="TYCS" jdbcType="VARCHAR" property="tycs"/>
+        <result column="SQRDM" jdbcType="VARCHAR" property="sqrdm"/>
+        <result column="JGHDMC" jdbcType="VARCHAR" property="jghdmc"/>
+        <result column="JSWTHYYXG" jdbcType="VARCHAR" property="jswthyyxg"/>
+        <result column="FMDHHXFA" jdbcType="VARCHAR" property="fmdhhxfa"/>
+        <result column="YT" jdbcType="VARCHAR" property="yt"/>
+        <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate"/>
+        <result column="CREATE_USER_ID" jdbcType="VARCHAR" property="createUserId"/>
+        <result column="REMARKS" jdbcType="VARCHAR" property="remarks"/>
+        <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+        <result column="GJ" jdbcType="VARCHAR" property="gj"/>
+        <result column="DEFINE1" jdbcType="VARCHAR" property="define1"/>
+        <result column="DEFINE2" jdbcType="VARCHAR" property="define2"/>
+        <result column="DEFINE3" jdbcType="VARCHAR" property="define3"/>
+        <result column="DEFINE4" jdbcType="VARCHAR" property="define4"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        data_id,
+        tfm_type_id,
+        type_code,
+        type_name,
+        parent_id,
+        parent_code,
+        is_parent,
+        type_index,
+        SQH,
+        SQRI,
+        FMMC,
+        ZHY,
+        GKH,
+        GKR,
+        WXLX,
+        SHENQR,
+        FMR,
+        SQRDZ,
+        DLR,
+        DLJG,
+        GBDM,
+        IPCFLH,
+        CPCFLH,
+        LJNFLH,
+        YXQH,
+        YXQR,
+        DQFLZT,
+        FLZTLSXX,
+        FLZTGGRQ,
+        FLZTYJ,
+        FLZTEJ,
+        SHOUQR,
+        SQGGH,
+        ZSH,
+        ZLQR,
+        ZLH,
+        QLYQ,
+        ZLPDF,
+        SCYJTZSFWR,
+        SCYJDFR,
+        SCYJBZR,
+        BZTZFFWR,
+        BHTZSFWR,
+        FSQQR,
+        FSSLFWR,
+        DFGCWJ,
+        SQBZ,
+        RKSJ,
+        GMJJHYML,
+        GMJJHYDL,
+        GMJJHYZL,
+        ZXCYYJ,
+        ZXCYEJ,
+        ZXCYSJ,
+        BYZCS,
+        BFMRYYCS,
+        BSCYYYCS,
+        ZYCS,
+        TYCS,
+        SQRDM,
+        JGHDMC,
+        JSWTHYYXG,
+        FMDHHXFA,
+        YT,
+        CREATE_DATE,
+        CREATE_USER_ID,
+        REMARKS,
+        STATUS,
+        GJ,
+        DEFINE1,
+        DEFINE2,
+        DEFINE3,
+        DEFINE4
+</sql>
+
+    <select id="selectByExample" parameterType="com.pcitc.base.system.IndexOutPatentExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from index_out_patent
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from index_out_patent
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from index_out_patent
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.pcitc.base.system.IndexOutPatentExample">
+        delete from index_out_patent
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.pcitc.base.system.IndexOutPatent">
+        insert into index_out_patent (
+            data_id,
+            tfm_type_id,
+            type_code,
+            type_name,
+            parent_id,
+            parent_code,
+            is_parent,
+            type_index,
+            SQH,
+            SQRI,
+            FMMC,
+            ZHY,
+            GKH,
+            GKR,
+            WXLX,
+            SHENQR,
+            FMR,
+            SQRDZ,
+            DLR,
+            DLJG,
+            GBDM,
+            IPCFLH,
+            CPCFLH,
+            LJNFLH,
+            YXQH,
+            YXQR,
+            DQFLZT,
+            FLZTLSXX,
+            FLZTGGRQ,
+            FLZTYJ,
+            FLZTEJ,
+            SHOUQR,
+            SQGGH,
+            ZSH,
+            ZLQR,
+            ZLH,
+            QLYQ,
+            ZLPDF,
+            SCYJTZSFWR,
+            SCYJDFR,
+            SCYJBZR,
+            BZTZFFWR,
+            BHTZSFWR,
+            FSQQR,
+            FSSLFWR,
+            DFGCWJ,
+            SQBZ,
+            RKSJ,
+            GMJJHYML,
+            GMJJHYDL,
+            GMJJHYZL,
+            ZXCYYJ,
+            ZXCYEJ,
+            ZXCYSJ,
+            BYZCS,
+            BFMRYYCS,
+            BSCYYYCS,
+            ZYCS,
+            TYCS,
+            SQRDM,
+            JGHDMC,
+            JSWTHYYXG,
+            FMDHHXFA,
+            YT,
+            CREATE_DATE,
+            CREATE_USER_ID,
+            REMARKS,
+            STATUS,
+            GJ,
+            DEFINE1,
+            DEFINE2,
+            DEFINE3,
+            DEFINE4
+        )
+        values (
+
+    #{dataId,jdbcType=VARCHAR},
+    #{tfmTypeId,jdbcType=VARCHAR},
+    #{typeCode,jdbcType=VARCHAR},
+    #{typeName,jdbcType=VARCHAR},
+    #{parentId,jdbcType=VARCHAR},
+    #{parentCode,jdbcType=VARCHAR},
+    #{isParent,jdbcType=VARCHAR},
+    #{typeIndex,jdbcType=VARCHAR},
+    #{sqh,jdbcType=VARCHAR},
+    #{sqri,jdbcType=VARCHAR},
+    #{fmmc,jdbcType=VARCHAR},
+    #{zhy,jdbcType=LONGVARCHAR},
+    #{gkh,jdbcType=VARCHAR},
+    #{gkr,jdbcType=VARCHAR},
+    #{wxlx,jdbcType=VARCHAR},
+    #{shenqr,jdbcType=VARCHAR},
+    #{fmr,jdbcType=VARCHAR},
+    #{sqrdz,jdbcType=VARCHAR},
+    #{dlr,jdbcType=VARCHAR},
+    #{dljg,jdbcType=VARCHAR},
+    #{gbdm,jdbcType=VARCHAR},
+    #{ipcflh,jdbcType=VARCHAR},
+    #{cpcflh,jdbcType=VARCHAR},
+    #{ljnflh,jdbcType=VARCHAR},
+    #{yxqh,jdbcType=VARCHAR},
+    #{yxqr,jdbcType=VARCHAR},
+    #{dqflzt,jdbcType=VARCHAR},
+    #{flztlsxx,jdbcType=LONGVARCHAR},
+    #{flztggrq,jdbcType=VARCHAR},
+    #{flztyj,jdbcType=VARCHAR},
+    #{flztej,jdbcType=VARCHAR},
+    #{shouqr,jdbcType=VARCHAR},
+    #{sqggh,jdbcType=VARCHAR},
+    #{zsh,jdbcType=VARCHAR},
+    #{zlqr,jdbcType=VARCHAR},
+    #{zlh,jdbcType=VARCHAR},
+    #{qlyq,jdbcType=VARCHAR},
+    #{zlpdf,jdbcType=VARCHAR},
+    #{scyjtzsfwr,jdbcType=VARCHAR},
+    #{scyjdfr,jdbcType=VARCHAR},
+    #{scyjbzr,jdbcType=VARCHAR},
+    #{bztzffwr,jdbcType=VARCHAR},
+    #{bhtzsfwr,jdbcType=VARCHAR},
+    #{fsqqr,jdbcType=VARCHAR},
+    #{fsslfwr,jdbcType=VARCHAR},
+    #{dfgcwj,jdbcType=VARCHAR},
+    #{sqbz,jdbcType=VARCHAR},
+    #{rksj,jdbcType=VARCHAR},
+    #{gmjjhyml,jdbcType=VARCHAR},
+    #{gmjjhydl,jdbcType=VARCHAR},
+    #{gmjjhyzl,jdbcType=VARCHAR},
+    #{zxcyyj,jdbcType=VARCHAR},
+    #{zxcyej,jdbcType=VARCHAR},
+    #{zxcysj,jdbcType=VARCHAR},
+    #{byzcs,jdbcType=VARCHAR},
+    #{bfmryycs,jdbcType=VARCHAR},
+    #{bscyyycs,jdbcType=VARCHAR},
+    #{zycs,jdbcType=VARCHAR},
+    #{tycs,jdbcType=VARCHAR},
+    #{sqrdm,jdbcType=VARCHAR},
+    #{jghdmc,jdbcType=VARCHAR},
+    #{jswthyyxg,jdbcType=VARCHAR},
+    #{fmdhhxfa,jdbcType=VARCHAR},
+    #{yt,jdbcType=VARCHAR},
+    #{createDate,jdbcType=VARCHAR},
+    #{createUserId,jdbcType=VARCHAR},
+    #{remarks,jdbcType=VARCHAR},
+    #{status,jdbcType=VARCHAR},
+    #{gj,jdbcType=VARCHAR},
+    #{define1,jdbcType=VARCHAR},
+    #{define2,jdbcType=VARCHAR},
+    #{define3,jdbcType=VARCHAR},
+    #{define4,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.pcitc.base.system.IndexOutPatent">
+        insert into index_out_patent
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="dataId != null">
+                data_id,
+            </if>
+            <if test="tfmTypeId != null">
+                tfm_type_id,
+            </if>
+            <if test="typeCode != null">
+                type_code,
+            </if>
+            <if test="typeName != null">
+                type_name,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="parentCode != null">
+                parent_code,
+            </if>
+            <if test="isParent != null">
+                is_parent,
+            </if>
+            <if test="typeIndex != null">
+                type_index,
+            </if>
+            <if test="sqh != null">
+                SQH,
+            </if>
+            <if test="sqri != null">
+                SQRI,
+            </if>
+            <if test="fmmc != null">
+                FMMC,
+            </if>
+            <if test="zhy != null">
+                ZHY,
+            </if>
+            <if test="gkh != null">
+                GKH,
+            </if>
+            <if test="gkr != null">
+                GKR,
+            </if>
+            <if test="wxlx != null">
+                WXLX,
+            </if>
+            <if test="shenqr != null">
+                SHENQR,
+            </if>
+            <if test="fmr != null">
+                FMR,
+            </if>
+            <if test="sqrdz != null">
+                SQRDZ,
+            </if>
+            <if test="dlr != null">
+                DLR,
+            </if>
+            <if test="dljg != null">
+                DLJG,
+            </if>
+            <if test="gbdm != null">
+                GBDM,
+            </if>
+            <if test="ipcflh != null">
+                IPCFLH,
+            </if>
+            <if test="cpcflh != null">
+                CPCFLH,
+            </if>
+            <if test="ljnflh != null">
+                LJNFLH,
+            </if>
+            <if test="yxqh != null">
+                YXQH,
+            </if>
+            <if test="yxqr != null">
+                YXQR,
+            </if>
+            <if test="dqflzt != null">
+                DQFLZT,
+            </if>
+            <if test="flztlsxx != null">
+                FLZTLSXX,
+            </if>
+            <if test="flztggrq != null">
+                FLZTGGRQ,
+            </if>
+            <if test="flztyj != null">
+                FLZTYJ,
+            </if>
+            <if test="flztej != null">
+                FLZTEJ,
+            </if>
+            <if test="shouqr != null">
+                SHOUQR,
+            </if>
+            <if test="sqggh != null">
+                SQGGH,
+            </if>
+            <if test="zsh != null">
+                ZSH,
+            </if>
+            <if test="zlqr != null">
+                ZLQR,
+            </if>
+            <if test="zlh != null">
+                ZLH,
+            </if>
+            <if test="qlyq != null">
+                QLYQ,
+            </if>
+            <if test="zlpdf != null">
+                ZLPDF,
+            </if>
+            <if test="scyjtzsfwr != null">
+                SCYJTZSFWR,
+            </if>
+            <if test="scyjdfr != null">
+                SCYJDFR,
+            </if>
+            <if test="scyjbzr != null">
+                SCYJBZR,
+            </if>
+            <if test="bztzffwr != null">
+                BZTZFFWR,
+            </if>
+            <if test="bhtzsfwr != null">
+                BHTZSFWR,
+            </if>
+            <if test="fsqqr != null">
+                FSQQR,
+            </if>
+            <if test="fsslfwr != null">
+                FSSLFWR,
+            </if>
+            <if test="dfgcwj != null">
+                DFGCWJ,
+            </if>
+            <if test="sqbz != null">
+                SQBZ,
+            </if>
+            <if test="rksj != null">
+                RKSJ,
+            </if>
+            <if test="gmjjhyml != null">
+                GMJJHYML,
+            </if>
+            <if test="gmjjhydl != null">
+                GMJJHYDL,
+            </if>
+            <if test="gmjjhyzl != null">
+                GMJJHYZL,
+            </if>
+            <if test="zxcyyj != null">
+                ZXCYYJ,
+            </if>
+            <if test="zxcyej != null">
+                ZXCYEJ,
+            </if>
+            <if test="zxcysj != null">
+                ZXCYSJ,
+            </if>
+            <if test="byzcs != null">
+                BYZCS,
+            </if>
+            <if test="bfmryycs != null">
+                BFMRYYCS,
+            </if>
+            <if test="bscyyycs != null">
+                BSCYYYCS,
+            </if>
+            <if test="zycs != null">
+                ZYCS,
+            </if>
+            <if test="tycs != null">
+                TYCS,
+            </if>
+            <if test="sqrdm != null">
+                SQRDM,
+            </if>
+            <if test="jghdmc != null">
+                JGHDMC,
+            </if>
+            <if test="jswthyyxg != null">
+                JSWTHYYXG,
+            </if>
+            <if test="fmdhhxfa != null">
+                FMDHHXFA,
+            </if>
+            <if test="yt != null">
+                YT,
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE,
+            </if>
+            <if test="createUserId != null">
+                CREATE_USER_ID,
+            </if>
+            <if test="remarks != null">
+                REMARKS,
+            </if>
+            <if test="status != null">
+                STATUS,
+            </if>
+            <if test="gj != null">
+                GJ,
+            </if>
+            <if test="define1 != null">
+                DEFINE1,
+            </if>
+            <if test="define2 != null">
+                DEFINE2,
+            </if>
+            <if test="define3 != null">
+                DEFINE3,
+            </if>
+            <if test="define4 != null">
+                DEFINE4
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+
+            <if test="dataId != null">
+                #{dataId ,jdbcType=VARCHAR},
+            </if>
+            <if test="tfmTypeId != null">
+                #{tfmTypeId ,jdbcType=VARCHAR},
+            </if>
+            <if test="typeCode != null">
+                #{typeCode ,jdbcType=VARCHAR},
+            </if>
+            <if test="typeName != null">
+                #{typeName ,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                #{parentId ,jdbcType=VARCHAR},
+            </if>
+            <if test="parentCode != null">
+                #{parentCode ,jdbcType=VARCHAR},
+            </if>
+            <if test="isParent != null">
+                #{isParent ,jdbcType=VARCHAR},
+            </if>
+            <if test="typeIndex != null">
+                #{typeIndex ,jdbcType=VARCHAR},
+            </if>
+            <if test="sqh != null">
+                #{sqh ,jdbcType=VARCHAR},
+            </if>
+            <if test="sqri != null">
+                #{sqri ,jdbcType=VARCHAR},
+            </if>
+            <if test="fmmc != null">
+                #{fmmc ,jdbcType=VARCHAR},
+            </if>
+            <if test="zhy != null">
+                #{zhy ,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="gkh != null">
+                #{gkh ,jdbcType=VARCHAR},
+            </if>
+            <if test="gkr != null">
+                #{gkr ,jdbcType=VARCHAR},
+            </if>
+            <if test="wxlx != null">
+                #{wxlx ,jdbcType=VARCHAR},
+            </if>
+            <if test="shenqr != null">
+                #{shenqr ,jdbcType=VARCHAR},
+            </if>
+            <if test="fmr != null">
+                #{fmr ,jdbcType=VARCHAR},
+            </if>
+            <if test="sqrdz != null">
+                #{sqrdz ,jdbcType=VARCHAR},
+            </if>
+            <if test="dlr != null">
+                #{dlr ,jdbcType=VARCHAR},
+            </if>
+            <if test="dljg != null">
+                #{dljg ,jdbcType=VARCHAR},
+            </if>
+            <if test="gbdm != null">
+                #{gbdm ,jdbcType=VARCHAR},
+            </if>
+            <if test="ipcflh != null">
+                #{ipcflh ,jdbcType=VARCHAR},
+            </if>
+            <if test="cpcflh != null">
+                #{cpcflh ,jdbcType=VARCHAR},
+            </if>
+            <if test="ljnflh != null">
+                #{ljnflh ,jdbcType=VARCHAR},
+            </if>
+            <if test="yxqh != null">
+                #{yxqh ,jdbcType=VARCHAR},
+            </if>
+            <if test="yxqr != null">
+                #{yxqr ,jdbcType=VARCHAR},
+            </if>
+            <if test="dqflzt != null">
+                #{dqflzt ,jdbcType=VARCHAR},
+            </if>
+            <if test="flztlsxx != null">
+                #{flztlsxx ,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="flztggrq != null">
+                #{flztggrq ,jdbcType=VARCHAR},
+            </if>
+            <if test="flztyj != null">
+                #{flztyj ,jdbcType=VARCHAR},
+            </if>
+            <if test="flztej != null">
+                #{flztej ,jdbcType=VARCHAR},
+            </if>
+            <if test="shouqr != null">
+                #{shouqr ,jdbcType=VARCHAR},
+            </if>
+            <if test="sqggh != null">
+                #{sqggh ,jdbcType=VARCHAR},
+            </if>
+            <if test="zsh != null">
+                #{zsh ,jdbcType=VARCHAR},
+            </if>
+            <if test="zlqr != null">
+                #{zlqr ,jdbcType=VARCHAR},
+            </if>
+            <if test="zlh != null">
+                #{zlh ,jdbcType=VARCHAR},
+            </if>
+            <if test="qlyq != null">
+                #{qlyq ,jdbcType=VARCHAR},
+            </if>
+            <if test="zlpdf != null">
+                #{zlpdf ,jdbcType=VARCHAR},
+            </if>
+            <if test="scyjtzsfwr != null">
+                #{scyjtzsfwr ,jdbcType=VARCHAR},
+            </if>
+            <if test="scyjdfr != null">
+                #{scyjdfr ,jdbcType=VARCHAR},
+            </if>
+            <if test="scyjbzr != null">
+                #{scyjbzr ,jdbcType=VARCHAR},
+            </if>
+            <if test="bztzffwr != null">
+                #{bztzffwr ,jdbcType=VARCHAR},
+            </if>
+            <if test="bhtzsfwr != null">
+                #{bhtzsfwr ,jdbcType=VARCHAR},
+            </if>
+            <if test="fsqqr != null">
+                #{fsqqr ,jdbcType=VARCHAR},
+            </if>
+            <if test="fsslfwr != null">
+                #{fsslfwr ,jdbcType=VARCHAR},
+            </if>
+            <if test="dfgcwj != null">
+                #{dfgcwj ,jdbcType=VARCHAR},
+            </if>
+            <if test="sqbz != null">
+                #{sqbz ,jdbcType=VARCHAR},
+            </if>
+            <if test="rksj != null">
+                #{rksj ,jdbcType=VARCHAR},
+            </if>
+            <if test="gmjjhyml != null">
+                #{gmjjhyml ,jdbcType=VARCHAR},
+            </if>
+            <if test="gmjjhydl != null">
+                #{gmjjhydl ,jdbcType=VARCHAR},
+            </if>
+            <if test="gmjjhyzl != null">
+                #{gmjjhyzl ,jdbcType=VARCHAR},
+            </if>
+            <if test="zxcyyj != null">
+                #{zxcyyj ,jdbcType=VARCHAR},
+            </if>
+            <if test="zxcyej != null">
+                #{zxcyej ,jdbcType=VARCHAR},
+            </if>
+            <if test="zxcysj != null">
+                #{zxcysj ,jdbcType=VARCHAR},
+            </if>
+            <if test="byzcs != null">
+                #{byzcs ,jdbcType=VARCHAR},
+            </if>
+            <if test="bfmryycs != null">
+                #{bfmryycs ,jdbcType=VARCHAR},
+            </if>
+            <if test="bscyyycs != null">
+                #{bscyyycs ,jdbcType=VARCHAR},
+            </if>
+            <if test="zycs != null">
+                #{zycs ,jdbcType=VARCHAR},
+            </if>
+            <if test="tycs != null">
+                #{tycs ,jdbcType=VARCHAR},
+            </if>
+            <if test="sqrdm != null">
+                #{sqrdm ,jdbcType=VARCHAR},
+            </if>
+            <if test="jghdmc != null">
+                #{jghdmc ,jdbcType=VARCHAR},
+            </if>
+            <if test="jswthyyxg != null">
+                #{jswthyyxg ,jdbcType=VARCHAR},
+            </if>
+            <if test="fmdhhxfa != null">
+                #{fmdhhxfa ,jdbcType=VARCHAR},
+            </if>
+            <if test="yt != null">
+                #{yt ,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId ,jdbcType=VARCHAR},
+            </if>
+            <if test="remarks != null">
+                #{remarks ,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status ,jdbcType=VARCHAR},
+            </if>
+            <if test="gj != null">
+                #{gj ,jdbcType=VARCHAR},
+            </if>
+            <if test="define1 != null">
+                #{define1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define2 != null">
+                #{define2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define3 != null">
+                #{define3 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define4 != null">
+                #{define4 ,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.pcitc.base.system.IndexOutPatentExample" resultType="java.lang.Long">
+        select count(*) from index_out_patent
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update index_out_patent
+        <set>
+
+            <if test="record.dataId != null">
+                data_id=#{record.dataId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.tfmTypeId != null">
+                tfm_type_id=#{record.tfmTypeId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.typeCode != null">
+                type_code=#{record.typeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="record.typeName != null">
+                type_name=#{record.typeName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.parentId != null">
+                parent_id=#{record.parentId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.parentCode != null">
+                parent_code=#{record.parentCode,jdbcType=VARCHAR},
+            </if>
+            <if test="record.isParent != null">
+                is_parent=#{record.isParent,jdbcType=VARCHAR},
+            </if>
+            <if test="record.typeIndex != null">
+                type_index=#{record.typeIndex,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sqh != null">
+                SQH=#{record.sqh,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sqri != null">
+                SQRI=#{record.sqri,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fmmc != null">
+                FMMC=#{record.fmmc,jdbcType=VARCHAR},
+            </if>
+            <if test="record.zhy != null">
+                ZHY=#{record.zhy,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="record.gkh != null">
+                GKH=#{record.gkh,jdbcType=VARCHAR},
+            </if>
+            <if test="record.gkr != null">
+                GKR=#{record.gkr,jdbcType=VARCHAR},
+            </if>
+            <if test="record.wxlx != null">
+                WXLX=#{record.wxlx,jdbcType=VARCHAR},
+            </if>
+            <if test="record.shenqr != null">
+                SHENQR=#{record.shenqr,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fmr != null">
+                FMR=#{record.fmr,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sqrdz != null">
+                SQRDZ=#{record.sqrdz,jdbcType=VARCHAR},
+            </if>
+            <if test="record.dlr != null">
+                DLR=#{record.dlr,jdbcType=VARCHAR},
+            </if>
+            <if test="record.dljg != null">
+                DLJG=#{record.dljg,jdbcType=VARCHAR},
+            </if>
+            <if test="record.gbdm != null">
+                GBDM=#{record.gbdm,jdbcType=VARCHAR},
+            </if>
+            <if test="record.ipcflh != null">
+                IPCFLH=#{record.ipcflh,jdbcType=VARCHAR},
+            </if>
+            <if test="record.cpcflh != null">
+                CPCFLH=#{record.cpcflh,jdbcType=VARCHAR},
+            </if>
+            <if test="record.ljnflh != null">
+                LJNFLH=#{record.ljnflh,jdbcType=VARCHAR},
+            </if>
+            <if test="record.yxqh != null">
+                YXQH=#{record.yxqh,jdbcType=VARCHAR},
+            </if>
+            <if test="record.yxqr != null">
+                YXQR=#{record.yxqr,jdbcType=VARCHAR},
+            </if>
+            <if test="record.dqflzt != null">
+                DQFLZT=#{record.dqflzt,jdbcType=VARCHAR},
+            </if>
+            <if test="record.flztlsxx != null">
+                FLZTLSXX=#{record.flztlsxx,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="record.flztggrq != null">
+                FLZTGGRQ=#{record.flztggrq,jdbcType=VARCHAR},
+            </if>
+            <if test="record.flztyj != null">
+                FLZTYJ=#{record.flztyj,jdbcType=VARCHAR},
+            </if>
+            <if test="record.flztej != null">
+                FLZTEJ=#{record.flztej,jdbcType=VARCHAR},
+            </if>
+            <if test="record.shouqr != null">
+                SHOUQR=#{record.shouqr,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sqggh != null">
+                SQGGH=#{record.sqggh,jdbcType=VARCHAR},
+            </if>
+            <if test="record.zsh != null">
+                ZSH=#{record.zsh,jdbcType=VARCHAR},
+            </if>
+            <if test="record.zlqr != null">
+                ZLQR=#{record.zlqr,jdbcType=VARCHAR},
+            </if>
+            <if test="record.zlh != null">
+                ZLH=#{record.zlh,jdbcType=VARCHAR},
+            </if>
+            <if test="record.qlyq != null">
+                QLYQ=#{record.qlyq,jdbcType=VARCHAR},
+            </if>
+            <if test="record.zlpdf != null">
+                ZLPDF=#{record.zlpdf,jdbcType=VARCHAR},
+            </if>
+            <if test="record.scyjtzsfwr != null">
+                SCYJTZSFWR=#{record.scyjtzsfwr,jdbcType=VARCHAR},
+            </if>
+            <if test="record.scyjdfr != null">
+                SCYJDFR=#{record.scyjdfr,jdbcType=VARCHAR},
+            </if>
+            <if test="record.scyjbzr != null">
+                SCYJBZR=#{record.scyjbzr,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bztzffwr != null">
+                BZTZFFWR=#{record.bztzffwr,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bhtzsfwr != null">
+                BHTZSFWR=#{record.bhtzsfwr,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fsqqr != null">
+                FSQQR=#{record.fsqqr,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fsslfwr != null">
+                FSSLFWR=#{record.fsslfwr,jdbcType=VARCHAR},
+            </if>
+            <if test="record.dfgcwj != null">
+                DFGCWJ=#{record.dfgcwj,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sqbz != null">
+                SQBZ=#{record.sqbz,jdbcType=VARCHAR},
+            </if>
+            <if test="record.rksj != null">
+                RKSJ=#{record.rksj,jdbcType=VARCHAR},
+            </if>
+            <if test="record.gmjjhyml != null">
+                GMJJHYML=#{record.gmjjhyml,jdbcType=VARCHAR},
+            </if>
+            <if test="record.gmjjhydl != null">
+                GMJJHYDL=#{record.gmjjhydl,jdbcType=VARCHAR},
+            </if>
+            <if test="record.gmjjhyzl != null">
+                GMJJHYZL=#{record.gmjjhyzl,jdbcType=VARCHAR},
+            </if>
+            <if test="record.zxcyyj != null">
+                ZXCYYJ=#{record.zxcyyj,jdbcType=VARCHAR},
+            </if>
+            <if test="record.zxcyej != null">
+                ZXCYEJ=#{record.zxcyej,jdbcType=VARCHAR},
+            </if>
+            <if test="record.zxcysj != null">
+                ZXCYSJ=#{record.zxcysj,jdbcType=VARCHAR},
+            </if>
+            <if test="record.byzcs != null">
+                BYZCS=#{record.byzcs,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bfmryycs != null">
+                BFMRYYCS=#{record.bfmryycs,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bscyyycs != null">
+                BSCYYYCS=#{record.bscyyycs,jdbcType=VARCHAR},
+            </if>
+            <if test="record.zycs != null">
+                ZYCS=#{record.zycs,jdbcType=VARCHAR},
+            </if>
+            <if test="record.tycs != null">
+                TYCS=#{record.tycs,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sqrdm != null">
+                SQRDM=#{record.sqrdm,jdbcType=VARCHAR},
+            </if>
+            <if test="record.jghdmc != null">
+                JGHDMC=#{record.jghdmc,jdbcType=VARCHAR},
+            </if>
+            <if test="record.jswthyyxg != null">
+                JSWTHYYXG=#{record.jswthyyxg,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fmdhhxfa != null">
+                FMDHHXFA=#{record.fmdhhxfa,jdbcType=VARCHAR},
+            </if>
+            <if test="record.yt != null">
+                YT=#{record.yt,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createDate != null">
+                CREATE_DATE=#{record.createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createUserId != null">
+                CREATE_USER_ID=#{record.createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.remarks != null">
+                REMARKS=#{record.remarks,jdbcType=VARCHAR},
+            </if>
+            <if test="record.status != null">
+                STATUS=#{record.status,jdbcType=VARCHAR},
+            </if>
+            <if test="record.gj != null">
+                GJ=#{record.gj,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define1 != null">
+                DEFINE1=#{record.define1,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define2 != null">
+                DEFINE2=#{record.define2,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define3 != null">
+                DEFINE3=#{record.define3,jdbcType=VARCHAR},
+            </if>
+            <if test="record.define4 != null">
+                DEFINE4=#{record.define4,jdbcType=VARCHAR}
+            </if>
+
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update index_out_patent
+        set
+        data_id=#{record.dataId,jdbcType=VARCHAR},
+        tfm_type_id=#{record.tfmTypeId,jdbcType=VARCHAR},
+        type_code=#{record.typeCode,jdbcType=VARCHAR},
+        type_name=#{record.typeName,jdbcType=VARCHAR},
+        parent_id=#{record.parentId,jdbcType=VARCHAR},
+        parent_code=#{record.parentCode,jdbcType=VARCHAR},
+        is_parent=#{record.isParent,jdbcType=VARCHAR},
+        type_index=#{record.typeIndex,jdbcType=VARCHAR},
+        SQH=#{record.sqh,jdbcType=VARCHAR},
+        SQRI=#{record.sqri,jdbcType=VARCHAR},
+        FMMC=#{record.fmmc,jdbcType=VARCHAR},
+        ZHY=#{record.zhy,jdbcType=LONGVARCHAR},
+        GKH=#{record.gkh,jdbcType=VARCHAR},
+        GKR=#{record.gkr,jdbcType=VARCHAR},
+        WXLX=#{record.wxlx,jdbcType=VARCHAR},
+        SHENQR=#{record.shenqr,jdbcType=VARCHAR},
+        FMR=#{record.fmr,jdbcType=VARCHAR},
+        SQRDZ=#{record.sqrdz,jdbcType=VARCHAR},
+        DLR=#{record.dlr,jdbcType=VARCHAR},
+        DLJG=#{record.dljg,jdbcType=VARCHAR},
+        GBDM=#{record.gbdm,jdbcType=VARCHAR},
+        IPCFLH=#{record.ipcflh,jdbcType=VARCHAR},
+        CPCFLH=#{record.cpcflh,jdbcType=VARCHAR},
+        LJNFLH=#{record.ljnflh,jdbcType=VARCHAR},
+        YXQH=#{record.yxqh,jdbcType=VARCHAR},
+        YXQR=#{record.yxqr,jdbcType=VARCHAR},
+        DQFLZT=#{record.dqflzt,jdbcType=VARCHAR},
+        FLZTLSXX=#{record.flztlsxx,jdbcType=LONGVARCHAR},
+        FLZTGGRQ=#{record.flztggrq,jdbcType=VARCHAR},
+        FLZTYJ=#{record.flztyj,jdbcType=VARCHAR},
+        FLZTEJ=#{record.flztej,jdbcType=VARCHAR},
+        SHOUQR=#{record.shouqr,jdbcType=VARCHAR},
+        SQGGH=#{record.sqggh,jdbcType=VARCHAR},
+        ZSH=#{record.zsh,jdbcType=VARCHAR},
+        ZLQR=#{record.zlqr,jdbcType=VARCHAR},
+        ZLH=#{record.zlh,jdbcType=VARCHAR},
+        QLYQ=#{record.qlyq,jdbcType=VARCHAR},
+        ZLPDF=#{record.zlpdf,jdbcType=VARCHAR},
+        SCYJTZSFWR=#{record.scyjtzsfwr,jdbcType=VARCHAR},
+        SCYJDFR=#{record.scyjdfr,jdbcType=VARCHAR},
+        SCYJBZR=#{record.scyjbzr,jdbcType=VARCHAR},
+        BZTZFFWR=#{record.bztzffwr,jdbcType=VARCHAR},
+        BHTZSFWR=#{record.bhtzsfwr,jdbcType=VARCHAR},
+        FSQQR=#{record.fsqqr,jdbcType=VARCHAR},
+        FSSLFWR=#{record.fsslfwr,jdbcType=VARCHAR},
+        DFGCWJ=#{record.dfgcwj,jdbcType=VARCHAR},
+        SQBZ=#{record.sqbz,jdbcType=VARCHAR},
+        RKSJ=#{record.rksj,jdbcType=VARCHAR},
+        GMJJHYML=#{record.gmjjhyml,jdbcType=VARCHAR},
+        GMJJHYDL=#{record.gmjjhydl,jdbcType=VARCHAR},
+        GMJJHYZL=#{record.gmjjhyzl,jdbcType=VARCHAR},
+        ZXCYYJ=#{record.zxcyyj,jdbcType=VARCHAR},
+        ZXCYEJ=#{record.zxcyej,jdbcType=VARCHAR},
+        ZXCYSJ=#{record.zxcysj,jdbcType=VARCHAR},
+        BYZCS=#{record.byzcs,jdbcType=VARCHAR},
+        BFMRYYCS=#{record.bfmryycs,jdbcType=VARCHAR},
+        BSCYYYCS=#{record.bscyyycs,jdbcType=VARCHAR},
+        ZYCS=#{record.zycs,jdbcType=VARCHAR},
+        TYCS=#{record.tycs,jdbcType=VARCHAR},
+        SQRDM=#{record.sqrdm,jdbcType=VARCHAR},
+        JGHDMC=#{record.jghdmc,jdbcType=VARCHAR},
+        JSWTHYYXG=#{record.jswthyyxg,jdbcType=VARCHAR},
+        FMDHHXFA=#{record.fmdhhxfa,jdbcType=VARCHAR},
+        YT=#{record.yt,jdbcType=VARCHAR},
+        CREATE_DATE=#{record.createDate,jdbcType=VARCHAR},
+        CREATE_USER_ID=#{record.createUserId,jdbcType=VARCHAR},
+        REMARKS=#{record.remarks,jdbcType=VARCHAR},
+        STATUS=#{record.status,jdbcType=VARCHAR},
+        GJ=#{record.gj,jdbcType=VARCHAR},
+        DEFINE1=#{record.define1,jdbcType=VARCHAR},
+        DEFINE2=#{record.define2,jdbcType=VARCHAR},
+        DEFINE3=#{record.define3,jdbcType=VARCHAR},
+        DEFINE4=#{record.define4,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.system.IndexOutPatent">
+        update index_out_patent
+        <set>
+
+            <if test="tfmTypeId != null">
+                tfm_type_id=#{tfmTypeId ,jdbcType=VARCHAR},
+            </if>
+            <if test="typeCode != null">
+                type_code=#{typeCode ,jdbcType=VARCHAR},
+            </if>
+            <if test="typeName != null">
+                type_name=#{typeName ,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                parent_id=#{parentId ,jdbcType=VARCHAR},
+            </if>
+            <if test="parentCode != null">
+                parent_code=#{parentCode ,jdbcType=VARCHAR},
+            </if>
+            <if test="isParent != null">
+                is_parent=#{isParent ,jdbcType=VARCHAR},
+            </if>
+            <if test="typeIndex != null">
+                type_index=#{typeIndex ,jdbcType=VARCHAR},
+            </if>
+            <if test="sqh != null">
+                SQH=#{sqh ,jdbcType=VARCHAR},
+            </if>
+            <if test="sqri != null">
+                SQRI=#{sqri ,jdbcType=VARCHAR},
+            </if>
+            <if test="fmmc != null">
+                FMMC=#{fmmc ,jdbcType=VARCHAR},
+            </if>
+            <if test="zhy != null">
+                ZHY=#{zhy ,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="gkh != null">
+                GKH=#{gkh ,jdbcType=VARCHAR},
+            </if>
+            <if test="gkr != null">
+                GKR=#{gkr ,jdbcType=VARCHAR},
+            </if>
+            <if test="wxlx != null">
+                WXLX=#{wxlx ,jdbcType=VARCHAR},
+            </if>
+            <if test="shenqr != null">
+                SHENQR=#{shenqr ,jdbcType=VARCHAR},
+            </if>
+            <if test="fmr != null">
+                FMR=#{fmr ,jdbcType=VARCHAR},
+            </if>
+            <if test="sqrdz != null">
+                SQRDZ=#{sqrdz ,jdbcType=VARCHAR},
+            </if>
+            <if test="dlr != null">
+                DLR=#{dlr ,jdbcType=VARCHAR},
+            </if>
+            <if test="dljg != null">
+                DLJG=#{dljg ,jdbcType=VARCHAR},
+            </if>
+            <if test="gbdm != null">
+                GBDM=#{gbdm ,jdbcType=VARCHAR},
+            </if>
+            <if test="ipcflh != null">
+                IPCFLH=#{ipcflh ,jdbcType=VARCHAR},
+            </if>
+            <if test="cpcflh != null">
+                CPCFLH=#{cpcflh ,jdbcType=VARCHAR},
+            </if>
+            <if test="ljnflh != null">
+                LJNFLH=#{ljnflh ,jdbcType=VARCHAR},
+            </if>
+            <if test="yxqh != null">
+                YXQH=#{yxqh ,jdbcType=VARCHAR},
+            </if>
+            <if test="yxqr != null">
+                YXQR=#{yxqr ,jdbcType=VARCHAR},
+            </if>
+            <if test="dqflzt != null">
+                DQFLZT=#{dqflzt ,jdbcType=VARCHAR},
+            </if>
+            <if test="flztlsxx != null">
+                FLZTLSXX=#{flztlsxx ,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="flztggrq != null">
+                FLZTGGRQ=#{flztggrq ,jdbcType=VARCHAR},
+            </if>
+            <if test="flztyj != null">
+                FLZTYJ=#{flztyj ,jdbcType=VARCHAR},
+            </if>
+            <if test="flztej != null">
+                FLZTEJ=#{flztej ,jdbcType=VARCHAR},
+            </if>
+            <if test="shouqr != null">
+                SHOUQR=#{shouqr ,jdbcType=VARCHAR},
+            </if>
+            <if test="sqggh != null">
+                SQGGH=#{sqggh ,jdbcType=VARCHAR},
+            </if>
+            <if test="zsh != null">
+                ZSH=#{zsh ,jdbcType=VARCHAR},
+            </if>
+            <if test="zlqr != null">
+                ZLQR=#{zlqr ,jdbcType=VARCHAR},
+            </if>
+            <if test="zlh != null">
+                ZLH=#{zlh ,jdbcType=VARCHAR},
+            </if>
+            <if test="qlyq != null">
+                QLYQ=#{qlyq ,jdbcType=VARCHAR},
+            </if>
+            <if test="zlpdf != null">
+                ZLPDF=#{zlpdf ,jdbcType=VARCHAR},
+            </if>
+            <if test="scyjtzsfwr != null">
+                SCYJTZSFWR=#{scyjtzsfwr ,jdbcType=VARCHAR},
+            </if>
+            <if test="scyjdfr != null">
+                SCYJDFR=#{scyjdfr ,jdbcType=VARCHAR},
+            </if>
+            <if test="scyjbzr != null">
+                SCYJBZR=#{scyjbzr ,jdbcType=VARCHAR},
+            </if>
+            <if test="bztzffwr != null">
+                BZTZFFWR=#{bztzffwr ,jdbcType=VARCHAR},
+            </if>
+            <if test="bhtzsfwr != null">
+                BHTZSFWR=#{bhtzsfwr ,jdbcType=VARCHAR},
+            </if>
+            <if test="fsqqr != null">
+                FSQQR=#{fsqqr ,jdbcType=VARCHAR},
+            </if>
+            <if test="fsslfwr != null">
+                FSSLFWR=#{fsslfwr ,jdbcType=VARCHAR},
+            </if>
+            <if test="dfgcwj != null">
+                DFGCWJ=#{dfgcwj ,jdbcType=VARCHAR},
+            </if>
+            <if test="sqbz != null">
+                SQBZ=#{sqbz ,jdbcType=VARCHAR},
+            </if>
+            <if test="rksj != null">
+                RKSJ=#{rksj ,jdbcType=VARCHAR},
+            </if>
+            <if test="gmjjhyml != null">
+                GMJJHYML=#{gmjjhyml ,jdbcType=VARCHAR},
+            </if>
+            <if test="gmjjhydl != null">
+                GMJJHYDL=#{gmjjhydl ,jdbcType=VARCHAR},
+            </if>
+            <if test="gmjjhyzl != null">
+                GMJJHYZL=#{gmjjhyzl ,jdbcType=VARCHAR},
+            </if>
+            <if test="zxcyyj != null">
+                ZXCYYJ=#{zxcyyj ,jdbcType=VARCHAR},
+            </if>
+            <if test="zxcyej != null">
+                ZXCYEJ=#{zxcyej ,jdbcType=VARCHAR},
+            </if>
+            <if test="zxcysj != null">
+                ZXCYSJ=#{zxcysj ,jdbcType=VARCHAR},
+            </if>
+            <if test="byzcs != null">
+                BYZCS=#{byzcs ,jdbcType=VARCHAR},
+            </if>
+            <if test="bfmryycs != null">
+                BFMRYYCS=#{bfmryycs ,jdbcType=VARCHAR},
+            </if>
+            <if test="bscyyycs != null">
+                BSCYYYCS=#{bscyyycs ,jdbcType=VARCHAR},
+            </if>
+            <if test="zycs != null">
+                ZYCS=#{zycs ,jdbcType=VARCHAR},
+            </if>
+            <if test="tycs != null">
+                TYCS=#{tycs ,jdbcType=VARCHAR},
+            </if>
+            <if test="sqrdm != null">
+                SQRDM=#{sqrdm ,jdbcType=VARCHAR},
+            </if>
+            <if test="jghdmc != null">
+                JGHDMC=#{jghdmc ,jdbcType=VARCHAR},
+            </if>
+            <if test="jswthyyxg != null">
+                JSWTHYYXG=#{jswthyyxg ,jdbcType=VARCHAR},
+            </if>
+            <if test="fmdhhxfa != null">
+                FMDHHXFA=#{fmdhhxfa ,jdbcType=VARCHAR},
+            </if>
+            <if test="yt != null">
+                YT=#{yt ,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE=#{createDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                CREATE_USER_ID=#{createUserId ,jdbcType=VARCHAR},
+            </if>
+            <if test="remarks != null">
+                REMARKS=#{remarks ,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                STATUS=#{status ,jdbcType=VARCHAR},
+            </if>
+            <if test="gj != null">
+                GJ=#{gj ,jdbcType=VARCHAR},
+            </if>
+            <if test="define1 != null">
+                DEFINE1=#{define1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define2 != null">
+                DEFINE2=#{define2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define3 != null">
+                DEFINE3=#{define3 ,jdbcType=VARCHAR},
+            </if>
+            <if test="define4 != null">
+                DEFINE4=#{define4 ,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.pcitc.base.system.IndexOutPatent">
+        update index_out_patent
+        set
+            tfm_type_id=#{tfmTypeId,jdbcType=VARCHAR},
+            type_code=#{typeCode,jdbcType=VARCHAR},
+            type_name=#{typeName,jdbcType=VARCHAR},
+            parent_id=#{parentId,jdbcType=VARCHAR},
+            parent_code=#{parentCode,jdbcType=VARCHAR},
+            is_parent=#{isParent,jdbcType=VARCHAR},
+            type_index=#{typeIndex,jdbcType=VARCHAR},
+            SQH=#{sqh,jdbcType=VARCHAR},
+            SQRI=#{sqri,jdbcType=VARCHAR},
+            FMMC=#{fmmc,jdbcType=VARCHAR},
+            ZHY=#{zhy,jdbcType=LONGVARCHAR},
+            GKH=#{gkh,jdbcType=VARCHAR},
+            GKR=#{gkr,jdbcType=VARCHAR},
+            WXLX=#{wxlx,jdbcType=VARCHAR},
+            SHENQR=#{shenqr,jdbcType=VARCHAR},
+            FMR=#{fmr,jdbcType=VARCHAR},
+            SQRDZ=#{sqrdz,jdbcType=VARCHAR},
+            DLR=#{dlr,jdbcType=VARCHAR},
+            DLJG=#{dljg,jdbcType=VARCHAR},
+            GBDM=#{gbdm,jdbcType=VARCHAR},
+            IPCFLH=#{ipcflh,jdbcType=VARCHAR},
+            CPCFLH=#{cpcflh,jdbcType=VARCHAR},
+            LJNFLH=#{ljnflh,jdbcType=VARCHAR},
+            YXQH=#{yxqh,jdbcType=VARCHAR},
+            YXQR=#{yxqr,jdbcType=VARCHAR},
+            DQFLZT=#{dqflzt,jdbcType=VARCHAR},
+            FLZTLSXX=#{flztlsxx,jdbcType=LONGVARCHAR},
+            FLZTGGRQ=#{flztggrq,jdbcType=VARCHAR},
+            FLZTYJ=#{flztyj,jdbcType=VARCHAR},
+            FLZTEJ=#{flztej,jdbcType=VARCHAR},
+            SHOUQR=#{shouqr,jdbcType=VARCHAR},
+            SQGGH=#{sqggh,jdbcType=VARCHAR},
+            ZSH=#{zsh,jdbcType=VARCHAR},
+            ZLQR=#{zlqr,jdbcType=VARCHAR},
+            ZLH=#{zlh,jdbcType=VARCHAR},
+            QLYQ=#{qlyq,jdbcType=VARCHAR},
+            ZLPDF=#{zlpdf,jdbcType=VARCHAR},
+            SCYJTZSFWR=#{scyjtzsfwr,jdbcType=VARCHAR},
+            SCYJDFR=#{scyjdfr,jdbcType=VARCHAR},
+            SCYJBZR=#{scyjbzr,jdbcType=VARCHAR},
+            BZTZFFWR=#{bztzffwr,jdbcType=VARCHAR},
+            BHTZSFWR=#{bhtzsfwr,jdbcType=VARCHAR},
+            FSQQR=#{fsqqr,jdbcType=VARCHAR},
+            FSSLFWR=#{fsslfwr,jdbcType=VARCHAR},
+            DFGCWJ=#{dfgcwj,jdbcType=VARCHAR},
+            SQBZ=#{sqbz,jdbcType=VARCHAR},
+            RKSJ=#{rksj,jdbcType=VARCHAR},
+            GMJJHYML=#{gmjjhyml,jdbcType=VARCHAR},
+            GMJJHYDL=#{gmjjhydl,jdbcType=VARCHAR},
+            GMJJHYZL=#{gmjjhyzl,jdbcType=VARCHAR},
+            ZXCYYJ=#{zxcyyj,jdbcType=VARCHAR},
+            ZXCYEJ=#{zxcyej,jdbcType=VARCHAR},
+            ZXCYSJ=#{zxcysj,jdbcType=VARCHAR},
+            BYZCS=#{byzcs,jdbcType=VARCHAR},
+            BFMRYYCS=#{bfmryycs,jdbcType=VARCHAR},
+            BSCYYYCS=#{bscyyycs,jdbcType=VARCHAR},
+            ZYCS=#{zycs,jdbcType=VARCHAR},
+            TYCS=#{tycs,jdbcType=VARCHAR},
+            SQRDM=#{sqrdm,jdbcType=VARCHAR},
+            JGHDMC=#{jghdmc,jdbcType=VARCHAR},
+            JSWTHYYXG=#{jswthyyxg,jdbcType=VARCHAR},
+            FMDHHXFA=#{fmdhhxfa,jdbcType=VARCHAR},
+            YT=#{yt,jdbcType=VARCHAR},
+            CREATE_DATE=#{createDate,jdbcType=VARCHAR},
+            CREATE_USER_ID=#{createUserId,jdbcType=VARCHAR},
+            REMARKS=#{remarks,jdbcType=VARCHAR},
+            STATUS=#{status,jdbcType=VARCHAR},
+            GJ=#{gj,jdbcType=VARCHAR},
+            DEFINE1=#{define1,jdbcType=VARCHAR},
+            DEFINE2=#{define2,jdbcType=VARCHAR},
+            DEFINE3=#{define3,jdbcType=VARCHAR},
+            DEFINE4=#{define4,jdbcType=VARCHAR}
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </update>
+    <!-- 分页查询 -->
+    <select id="findSysFileKindByPage" parameterType="com.pcitc.base.system.IndexOutPatent" resultMap="BaseResultMap">
+
+        select
+        data_id,
+        tfm_type_id,
+        type_code,
+        type_name,
+        parent_id,
+        parent_code,
+        is_parent,
+        type_index,
+        SQH,
+        SQRI,
+        FMMC,
+        ZHY,
+        GKH,
+        GKR,
+        WXLX,
+        SHENQR,
+        FMR,
+        SQRDZ,
+        DLR,
+        DLJG,
+        GBDM,
+        IPCFLH,
+        CPCFLH,
+        LJNFLH,
+        YXQH,
+        YXQR,
+        DQFLZT,
+        FLZTLSXX,
+        FLZTGGRQ,
+        FLZTYJ,
+        FLZTEJ,
+        SHOUQR,
+        SQGGH,
+        ZSH,
+        ZLQR,
+        ZLH,
+        QLYQ,
+        ZLPDF,
+        SCYJTZSFWR,
+        SCYJDFR,
+        SCYJBZR,
+        BZTZFFWR,
+        BHTZSFWR,
+        FSQQR,
+        FSSLFWR,
+        DFGCWJ,
+        SQBZ,
+        RKSJ,
+        GMJJHYML,
+        GMJJHYDL,
+        GMJJHYZL,
+        ZXCYYJ,
+        ZXCYEJ,
+        ZXCYSJ,
+        BYZCS,
+        BFMRYYCS,
+        BSCYYYCS,
+        ZYCS,
+        TYCS,
+        SQRDM,
+        JGHDMC,
+        JSWTHYYXG,
+        FMDHHXFA,
+        YT,
+        CREATE_DATE,
+        CREATE_USER_ID,
+        REMARKS,
+        STATUS,
+        GJ,
+        DEFINE1,
+        DEFINE2,
+        DEFINE3,
+        DEFINE4
+        from index_out_patent
+        where 1=1
+        <if test="dataId!=null and dataId!=''.toString()">
+            and data_id like '%${dataId}%'
+        </if>
+        <if test="tfmTypeId!=null and tfmTypeId!=''.toString()">
+            and tfm_type_id like '%${tfmTypeId}%'
+        </if>
+        <if test="typeCode!=null and typeCode!=''.toString()">
+            and type_code like '%${typeCode}%'
+        </if>
+        <if test="typeName!=null and typeName!=''.toString()">
+            and type_name like '%${typeName}%'
+        </if>
+        <if test="parentId!=null and parentId!=''.toString()">
+            and parent_id like '%${parentId}%'
+        </if>
+        <if test="parentCode!=null and parentCode!=''.toString()">
+            and parent_code like '%${parentCode}%'
+        </if>
+        <if test="isParent!=null and isParent!=''.toString()">
+            and is_parent like '%${isParent}%'
+        </if>
+        <if test="typeIndex!=null and typeIndex!=''.toString()">
+            and type_index like '%${typeIndex}%'
+        </if>
+        <if test="sqh!=null and sqh!=''.toString()">
+            and SQH like '%${sqh}%'
+        </if>
+        <if test="sqri!=null and sqri!=''.toString()">
+            and SQRI like '%${sqri}%'
+        </if>
+        <if test="fmmc!=null and fmmc!=''.toString()">
+            and FMMC like '%${fmmc}%'
+        </if>
+        <if test="zhy!=null and zhy!=''.toString()">
+            and ZHY like '%${zhy}%'
+        </if>
+        <if test="gkh!=null and gkh!=''.toString()">
+            and GKH like '%${gkh}%'
+        </if>
+        <if test="gkr!=null and gkr!=''.toString()">
+            and GKR like '%${gkr}%'
+        </if>
+        <if test="wxlx!=null and wxlx!=''.toString()">
+            and WXLX like '%${wxlx}%'
+        </if>
+        <if test="shenqr!=null and shenqr!=''.toString()">
+            and SHENQR like '%${shenqr}%'
+        </if>
+        <if test="fmr!=null and fmr!=''.toString()">
+            and FMR like '%${fmr}%'
+        </if>
+        <if test="sqrdz!=null and sqrdz!=''.toString()">
+            and SQRDZ like '%${sqrdz}%'
+        </if>
+        <if test="dlr!=null and dlr!=''.toString()">
+            and DLR like '%${dlr}%'
+        </if>
+        <if test="dljg!=null and dljg!=''.toString()">
+            and DLJG like '%${dljg}%'
+        </if>
+        <if test="gbdm!=null and gbdm!=''.toString()">
+            and GBDM like '%${gbdm}%'
+        </if>
+        <if test="ipcflh!=null and ipcflh!=''.toString()">
+            and IPCFLH like '%${ipcflh}%'
+        </if>
+        <if test="cpcflh!=null and cpcflh!=''.toString()">
+            and CPCFLH like '%${cpcflh}%'
+        </if>
+        <if test="ljnflh!=null and ljnflh!=''.toString()">
+            and LJNFLH like '%${ljnflh}%'
+        </if>
+        <if test="yxqh!=null and yxqh!=''.toString()">
+            and YXQH like '%${yxqh}%'
+        </if>
+        <if test="yxqr!=null and yxqr!=''.toString()">
+            and YXQR like '%${yxqr}%'
+        </if>
+        <if test="dqflzt!=null and dqflzt!=''.toString()">
+            and DQFLZT like '%${dqflzt}%'
+        </if>
+        <if test="flztlsxx!=null and flztlsxx!=''.toString()">
+            and FLZTLSXX like '%${flztlsxx}%'
+        </if>
+        <if test="flztggrq!=null and flztggrq!=''.toString()">
+            and FLZTGGRQ like '%${flztggrq}%'
+        </if>
+        <if test="flztyj!=null and flztyj!=''.toString()">
+            and FLZTYJ like '%${flztyj}%'
+        </if>
+        <if test="flztej!=null and flztej!=''.toString()">
+            and FLZTEJ like '%${flztej}%'
+        </if>
+        <if test="shouqr!=null and shouqr!=''.toString()">
+            and SHOUQR like '%${shouqr}%'
+        </if>
+        <if test="sqggh!=null and sqggh!=''.toString()">
+            and SQGGH like '%${sqggh}%'
+        </if>
+        <if test="zsh!=null and zsh!=''.toString()">
+            and ZSH like '%${zsh}%'
+        </if>
+        <if test="zlqr!=null and zlqr!=''.toString()">
+            and ZLQR like '%${zlqr}%'
+        </if>
+        <if test="zlh!=null and zlh!=''.toString()">
+            and ZLH like '%${zlh}%'
+        </if>
+        <if test="qlyq!=null and qlyq!=''.toString()">
+            and QLYQ like '%${qlyq}%'
+        </if>
+        <if test="zlpdf!=null and zlpdf!=''.toString()">
+            and ZLPDF like '%${zlpdf}%'
+        </if>
+        <if test="scyjtzsfwr!=null and scyjtzsfwr!=''.toString()">
+            and SCYJTZSFWR like '%${scyjtzsfwr}%'
+        </if>
+        <if test="scyjdfr!=null and scyjdfr!=''.toString()">
+            and SCYJDFR like '%${scyjdfr}%'
+        </if>
+        <if test="scyjbzr!=null and scyjbzr!=''.toString()">
+            and SCYJBZR like '%${scyjbzr}%'
+        </if>
+        <if test="bztzffwr!=null and bztzffwr!=''.toString()">
+            and BZTZFFWR like '%${bztzffwr}%'
+        </if>
+        <if test="bhtzsfwr!=null and bhtzsfwr!=''.toString()">
+            and BHTZSFWR like '%${bhtzsfwr}%'
+        </if>
+        <if test="fsqqr!=null and fsqqr!=''.toString()">
+            and FSQQR like '%${fsqqr}%'
+        </if>
+        <if test="fsslfwr!=null and fsslfwr!=''.toString()">
+            and FSSLFWR like '%${fsslfwr}%'
+        </if>
+        <if test="dfgcwj!=null and dfgcwj!=''.toString()">
+            and DFGCWJ like '%${dfgcwj}%'
+        </if>
+        <if test="sqbz!=null and sqbz!=''.toString()">
+            and SQBZ like '%${sqbz}%'
+        </if>
+        <if test="rksj!=null and rksj!=''.toString()">
+            and RKSJ like '%${rksj}%'
+        </if>
+        <if test="gmjjhyml!=null and gmjjhyml!=''.toString()">
+            and GMJJHYML like '%${gmjjhyml}%'
+        </if>
+        <if test="gmjjhydl!=null and gmjjhydl!=''.toString()">
+            and GMJJHYDL like '%${gmjjhydl}%'
+        </if>
+        <if test="gmjjhyzl!=null and gmjjhyzl!=''.toString()">
+            and GMJJHYZL like '%${gmjjhyzl}%'
+        </if>
+        <if test="zxcyyj!=null and zxcyyj!=''.toString()">
+            and ZXCYYJ like '%${zxcyyj}%'
+        </if>
+        <if test="zxcyej!=null and zxcyej!=''.toString()">
+            and ZXCYEJ like '%${zxcyej}%'
+        </if>
+        <if test="zxcysj!=null and zxcysj!=''.toString()">
+            and ZXCYSJ like '%${zxcysj}%'
+        </if>
+        <if test="byzcs!=null and byzcs!=''.toString()">
+            and BYZCS like '%${byzcs}%'
+        </if>
+        <if test="bfmryycs!=null and bfmryycs!=''.toString()">
+            and BFMRYYCS like '%${bfmryycs}%'
+        </if>
+        <if test="bscyyycs!=null and bscyyycs!=''.toString()">
+            and BSCYYYCS like '%${bscyyycs}%'
+        </if>
+        <if test="zycs!=null and zycs!=''.toString()">
+            and ZYCS like '%${zycs}%'
+        </if>
+        <if test="tycs!=null and tycs!=''.toString()">
+            and TYCS like '%${tycs}%'
+        </if>
+        <if test="sqrdm!=null and sqrdm!=''.toString()">
+            and SQRDM like '%${sqrdm}%'
+        </if>
+        <if test="jghdmc!=null and jghdmc!=''.toString()">
+            and JGHDMC like '%${jghdmc}%'
+        </if>
+        <if test="jswthyyxg!=null and jswthyyxg!=''.toString()">
+            and JSWTHYYXG like '%${jswthyyxg}%'
+        </if>
+        <if test="fmdhhxfa!=null and fmdhhxfa!=''.toString()">
+            and FMDHHXFA like '%${fmdhhxfa}%'
+        </if>
+        <if test="yt!=null and yt!=''.toString()">
+            and YT like '%${yt}%'
+        </if>
+        <if test="createDate!=null and createDate!=''.toString()">
+            and CREATE_DATE like '%${createDate}%'
+        </if>
+        <if test="createUserId!=null and createUserId!=''.toString()">
+            and CREATE_USER_ID like '%${createUserId}%'
+        </if>
+        <if test="remarks!=null and remarks!=''.toString()">
+            and REMARKS like '%${remarks}%'
+        </if>
+        <if test="status!=null and status!=''.toString()">
+            and STATUS like '%${status}%'
+        </if>
+        <if test="gj!=null and gj!=''.toString()">
+            and GJ like '%${gj}%'
+        </if>
+        <if test="define1!=null and define1!=''.toString()">
+            and DEFINE1 like '%${define1}%'
+        </if>
+        <if test="define2!=null and define2!=''.toString()">
+            and DEFINE2 like '%${define2}%'
+        </if>
+        <if test="define3!=null and define3!=''.toString()">
+            and DEFINE3 like '%${define3}%'
+        </if>
+        <if test="define4!=null and define4!=''.toString()">
+            and DEFINE4 like '%${define4}%'
+        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+    <!-- 查询列表 -->
+    <select id="findIndexOutPatentList" parameterType="com.pcitc.base.system.IndexOutPatent" resultMap="BaseResultMap">
+        select
+        data_id,
+        tfm_type_id,
+        type_code,
+        type_name,
+        parent_id,
+        parent_code,
+        is_parent,
+        type_index,
+        SQH,
+        SQRI,
+        FMMC,
+        ZHY,
+        GKH,
+        GKR,
+        WXLX,
+        SHENQR,
+        FMR,
+        SQRDZ,
+        DLR,
+        DLJG,
+        GBDM,
+        IPCFLH,
+        CPCFLH,
+        LJNFLH,
+        YXQH,
+        YXQR,
+        DQFLZT,
+        FLZTLSXX,
+        FLZTGGRQ,
+        FLZTYJ,
+        FLZTEJ,
+        SHOUQR,
+        SQGGH,
+        ZSH,
+        ZLQR,
+        ZLH,
+        QLYQ,
+        ZLPDF,
+        SCYJTZSFWR,
+        SCYJDFR,
+        SCYJBZR,
+        BZTZFFWR,
+        BHTZSFWR,
+        FSQQR,
+        FSSLFWR,
+        DFGCWJ,
+        SQBZ,
+        RKSJ,
+        GMJJHYML,
+        GMJJHYDL,
+        GMJJHYZL,
+        ZXCYYJ,
+        ZXCYEJ,
+        ZXCYSJ,
+        BYZCS,
+        BFMRYYCS,
+        BSCYYYCS,
+        ZYCS,
+        TYCS,
+        SQRDM,
+        JGHDMC,
+        JSWTHYYXG,
+        FMDHHXFA,
+        YT,
+        CREATE_DATE,
+        CREATE_USER_ID,
+        REMARKS,
+        STATUS,
+        GJ,
+        DEFINE1,
+        DEFINE2,
+        DEFINE3,
+        DEFINE4
+        from index_out_patent
+        where 1=1
+        <if test="dataId!=null">
+            and data_id = #{dataId,jdbcType=VARCHAR}
+        </if>
+        <if test="tfmTypeId!=null">
+            and tfm_type_id = #{tfmTypeId,jdbcType=VARCHAR}
+        </if>
+        <if test="typeCode!=null">
+            and type_code = #{typeCode,jdbcType=VARCHAR}
+        </if>
+        <if test="typeName!=null">
+            and type_name = #{typeName,jdbcType=VARCHAR}
+        </if>
+        <if test="parentId!=null">
+            and parent_id = #{parentId,jdbcType=VARCHAR}
+        </if>
+        <if test="parentCode!=null">
+            and parent_code = #{parentCode,jdbcType=VARCHAR}
+        </if>
+        <if test="isParent!=null">
+            and is_parent = #{isParent,jdbcType=VARCHAR}
+        </if>
+        <if test="typeIndex!=null">
+            and type_index = #{typeIndex,jdbcType=VARCHAR}
+        </if>
+        <if test="sqh!=null">
+            and SQH = #{sqh,jdbcType=VARCHAR}
+        </if>
+        <if test="sqri!=null">
+            and SQRI = #{sqri,jdbcType=VARCHAR}
+        </if>
+        <if test="fmmc!=null">
+            and FMMC = #{fmmc,jdbcType=VARCHAR}
+        </if>
+        <if test="zhy!=null">
+            and ZHY = #{zhy,jdbcType=VARCHAR}
+        </if>
+        <if test="gkh!=null">
+            and GKH = #{gkh,jdbcType=VARCHAR}
+        </if>
+        <if test="gkr!=null">
+            and GKR = #{gkr,jdbcType=VARCHAR}
+        </if>
+        <if test="wxlx!=null">
+            and WXLX = #{wxlx,jdbcType=VARCHAR}
+        </if>
+        <if test="shenqr!=null">
+            and SHENQR = #{shenqr,jdbcType=VARCHAR}
+        </if>
+        <if test="fmr!=null">
+            and FMR = #{fmr,jdbcType=VARCHAR}
+        </if>
+        <if test="sqrdz!=null">
+            and SQRDZ = #{sqrdz,jdbcType=VARCHAR}
+        </if>
+        <if test="dlr!=null">
+            and DLR = #{dlr,jdbcType=VARCHAR}
+        </if>
+        <if test="dljg!=null">
+            and DLJG = #{dljg,jdbcType=VARCHAR}
+        </if>
+        <if test="gbdm!=null">
+            and GBDM = #{gbdm,jdbcType=VARCHAR}
+        </if>
+        <if test="ipcflh!=null">
+            and IPCFLH = #{ipcflh,jdbcType=VARCHAR}
+        </if>
+        <if test="cpcflh!=null">
+            and CPCFLH = #{cpcflh,jdbcType=VARCHAR}
+        </if>
+        <if test="ljnflh!=null">
+            and LJNFLH = #{ljnflh,jdbcType=VARCHAR}
+        </if>
+        <if test="yxqh!=null">
+            and YXQH = #{yxqh,jdbcType=VARCHAR}
+        </if>
+        <if test="yxqr!=null">
+            and YXQR = #{yxqr,jdbcType=VARCHAR}
+        </if>
+        <if test="dqflzt!=null">
+            and DQFLZT = #{dqflzt,jdbcType=VARCHAR}
+        </if>
+        <if test="flztlsxx!=null">
+            and FLZTLSXX = #{flztlsxx,jdbcType=VARCHAR}
+        </if>
+        <if test="flztggrq!=null">
+            and FLZTGGRQ = #{flztggrq,jdbcType=VARCHAR}
+        </if>
+        <if test="flztyj!=null">
+            and FLZTYJ = #{flztyj,jdbcType=VARCHAR}
+        </if>
+        <if test="flztej!=null">
+            and FLZTEJ = #{flztej,jdbcType=VARCHAR}
+        </if>
+        <if test="shouqr!=null">
+            and SHOUQR = #{shouqr,jdbcType=VARCHAR}
+        </if>
+        <if test="sqggh!=null">
+            and SQGGH = #{sqggh,jdbcType=VARCHAR}
+        </if>
+        <if test="zsh!=null">
+            and ZSH = #{zsh,jdbcType=VARCHAR}
+        </if>
+        <if test="zlqr!=null">
+            and ZLQR = #{zlqr,jdbcType=VARCHAR}
+        </if>
+        <if test="zlh!=null">
+            and ZLH = #{zlh,jdbcType=VARCHAR}
+        </if>
+        <if test="qlyq!=null">
+            and QLYQ = #{qlyq,jdbcType=VARCHAR}
+        </if>
+        <if test="zlpdf!=null">
+            and ZLPDF = #{zlpdf,jdbcType=VARCHAR}
+        </if>
+        <if test="scyjtzsfwr!=null">
+            and SCYJTZSFWR = #{scyjtzsfwr,jdbcType=VARCHAR}
+        </if>
+        <if test="scyjdfr!=null">
+            and SCYJDFR = #{scyjdfr,jdbcType=VARCHAR}
+        </if>
+        <if test="scyjbzr!=null">
+            and SCYJBZR = #{scyjbzr,jdbcType=VARCHAR}
+        </if>
+        <if test="bztzffwr!=null">
+            and BZTZFFWR = #{bztzffwr,jdbcType=VARCHAR}
+        </if>
+        <if test="bhtzsfwr!=null">
+            and BHTZSFWR = #{bhtzsfwr,jdbcType=VARCHAR}
+        </if>
+        <if test="fsqqr!=null">
+            and FSQQR = #{fsqqr,jdbcType=VARCHAR}
+        </if>
+        <if test="fsslfwr!=null">
+            and FSSLFWR = #{fsslfwr,jdbcType=VARCHAR}
+        </if>
+        <if test="dfgcwj!=null">
+            and DFGCWJ = #{dfgcwj,jdbcType=VARCHAR}
+        </if>
+        <if test="sqbz!=null">
+            and SQBZ = #{sqbz,jdbcType=VARCHAR}
+        </if>
+        <if test="rksj!=null">
+            and RKSJ = #{rksj,jdbcType=VARCHAR}
+        </if>
+        <if test="gmjjhyml!=null">
+            and GMJJHYML = #{gmjjhyml,jdbcType=VARCHAR}
+        </if>
+        <if test="gmjjhydl!=null">
+            and GMJJHYDL = #{gmjjhydl,jdbcType=VARCHAR}
+        </if>
+        <if test="gmjjhyzl!=null">
+            and GMJJHYZL = #{gmjjhyzl,jdbcType=VARCHAR}
+        </if>
+        <if test="zxcyyj!=null">
+            and ZXCYYJ = #{zxcyyj,jdbcType=VARCHAR}
+        </if>
+        <if test="zxcyej!=null">
+            and ZXCYEJ = #{zxcyej,jdbcType=VARCHAR}
+        </if>
+        <if test="zxcysj!=null">
+            and ZXCYSJ = #{zxcysj,jdbcType=VARCHAR}
+        </if>
+        <if test="byzcs!=null">
+            and BYZCS = #{byzcs,jdbcType=VARCHAR}
+        </if>
+        <if test="bfmryycs!=null">
+            and BFMRYYCS = #{bfmryycs,jdbcType=VARCHAR}
+        </if>
+        <if test="bscyyycs!=null">
+            and BSCYYYCS = #{bscyyycs,jdbcType=VARCHAR}
+        </if>
+        <if test="zycs!=null">
+            and ZYCS = #{zycs,jdbcType=VARCHAR}
+        </if>
+        <if test="tycs!=null">
+            and TYCS = #{tycs,jdbcType=VARCHAR}
+        </if>
+        <if test="sqrdm!=null">
+            and SQRDM = #{sqrdm,jdbcType=VARCHAR}
+        </if>
+        <if test="jghdmc!=null">
+            and JGHDMC = #{jghdmc,jdbcType=VARCHAR}
+        </if>
+        <if test="jswthyyxg!=null">
+            and JSWTHYYXG = #{jswthyyxg,jdbcType=VARCHAR}
+        </if>
+        <if test="fmdhhxfa!=null">
+            and FMDHHXFA = #{fmdhhxfa,jdbcType=VARCHAR}
+        </if>
+        <if test="yt!=null">
+            and YT = #{yt,jdbcType=VARCHAR}
+        </if>
+        <if test="createDate!=null">
+            and CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+        </if>
+        <if test="createUserId!=null">
+            and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+        </if>
+        <if test="remarks!=null">
+            and REMARKS = #{remarks,jdbcType=VARCHAR}
+        </if>
+        <if test="status!=null">
+            and STATUS = #{status,jdbcType=VARCHAR}
+        </if>
+        <if test="gj!=null">
+            and GJ = #{gj,jdbcType=VARCHAR}
+        </if>
+        <if test="define1!=null">
+            and DEFINE1 = #{define1,jdbcType=VARCHAR}
+        </if>
+        <if test="define2!=null">
+            and DEFINE2 = #{define2,jdbcType=VARCHAR}
+        </if>
+        <if test="define3!=null">
+            and DEFINE3 = #{define3,jdbcType=VARCHAR}
+        </if>
+        <if test="define4!=null">
+            and DEFINE4 = #{define4,jdbcType=VARCHAR}
+        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+</mapper>

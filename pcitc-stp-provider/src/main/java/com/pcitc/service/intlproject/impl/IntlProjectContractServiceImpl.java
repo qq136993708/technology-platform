@@ -13,15 +13,16 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.DelFlagEnum;
-import com.pcitc.base.stp.IntlProject.IntlProjectApply;
-import com.pcitc.base.stp.IntlProject.IntlProjectApplyExample;
 import com.pcitc.base.stp.IntlProject.IntlProjectContract;
 import com.pcitc.base.stp.IntlProject.IntlProjectContractExample;
+import com.pcitc.base.stp.IntlProject.IntlProjectInfo;
+import com.pcitc.base.stp.IntlProject.IntlProjectInfoExample;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.HanyuPinyinHelper;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
-import com.pcitc.mapper.IntlProject.IntlProjectApplyMapper;
 import com.pcitc.mapper.IntlProject.IntlProjectContractMapper;
+import com.pcitc.mapper.IntlProject.IntlProjectInfoMapper;
 import com.pcitc.service.intlproject.IntlProjectContractService;
 
 @Service("intlProjectContractService")
@@ -31,7 +32,7 @@ public class IntlProjectContractServiceImpl implements IntlProjectContractServic
 	private IntlProjectContractMapper intlProjectContracMapper;
 	
 	@Autowired
-	private IntlProjectApplyMapper intlProjectApplyMapper;
+	private IntlProjectInfoMapper intlProjectInfoMapper;
 	
 	
 	@Override
@@ -40,25 +41,24 @@ public class IntlProjectContractServiceImpl implements IntlProjectContractServic
 		IntlProjectContractExample example = new IntlProjectContractExample();
 		IntlProjectContractExample.Criteria c = example.createCriteria();
 		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		c.andContractTypeEqualTo(0);//签约项目
 		if(param.getParam().get("contractName")!=null && !StringUtils.isBlank(param.getParam().get("contractName").toString())) 
 		{
-			IntlProjectApplyExample applyExample = new IntlProjectApplyExample();
-			IntlProjectApplyExample.Criteria criteria = applyExample.createCriteria();
-			criteria.andApplyNameLike("%"+param.getParam().get("contractName")+"%");
+			IntlProjectInfoExample infoExample = new IntlProjectInfoExample();
+			IntlProjectInfoExample.Criteria criteria = infoExample.createCriteria();
+			criteria.andProjectNameLike("%"+param.getParam().get("contractName")+"%");
 			
-			List<IntlProjectApply> applys = intlProjectApplyMapper.selectByExample(applyExample);
-			List<String> applyIds = new ArrayList<String>();
-			applyIds.add("000000");
-			for(IntlProjectApply apply:applys) {
-				applyIds.add(apply.getApplyId());
+			List<IntlProjectInfo> infos = intlProjectInfoMapper.selectByExample(infoExample);
+			List<String> infoIds = new ArrayList<String>();
+			for(IntlProjectInfo apply:infos) {
+				infoIds.add(apply.getProjectId());
 			}
-			 
-			c.andProjectIdIn(applyIds); 
+			infoIds.add("xxxx");
+			c.andProjectIdIn(infoIds); 
 		}
-		
 		//未过期 
-		c.andEndDateGreaterThan(DateUtil.dateToStr(new Date(), DateUtil.FMT_DD));
-		
+		//c.andEndDateGreaterThan(DateUtil.dateToStr(new Date(), DateUtil.FMT_DD));
+		example.setOrderByClause("create_time desc");
 		return this.findByExample(param, example);
 	}
 	@Override
@@ -66,24 +66,24 @@ public class IntlProjectContractServiceImpl implements IntlProjectContractServic
 		IntlProjectContractExample example = new IntlProjectContractExample();
 		IntlProjectContractExample.Criteria c = example.createCriteria();
 		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		c.andContractTypeEqualTo(1);//续约项目
 		if(param.getParam().get("contractName")!=null && !StringUtils.isBlank(param.getParam().get("contractName").toString())) 
 		{
-			IntlProjectApplyExample applyExample = new IntlProjectApplyExample();
-			IntlProjectApplyExample.Criteria criteria = applyExample.createCriteria();
-			criteria.andApplyNameLike("%"+param.getParam().get("contractName")+"%");
+			IntlProjectInfoExample infoExample = new IntlProjectInfoExample();
+			IntlProjectInfoExample.Criteria criteria = infoExample.createCriteria();
+			criteria.andProjectNameLike("%"+param.getParam().get("contractName")+"%");
 			
-			List<IntlProjectApply> applys = intlProjectApplyMapper.selectByExample(applyExample);
-			List<String> applyIds = new ArrayList<String>();
-			applyIds.add("000000");
-			for(IntlProjectApply apply:applys) {
-				applyIds.add(apply.getApplyId());
+			List<IntlProjectInfo> infos = intlProjectInfoMapper.selectByExample(infoExample);
+			List<String> infoIds = new ArrayList<String>();
+			for(IntlProjectInfo apply:infos) {
+				infoIds.add(apply.getProjectId());
 			}
-			 
-			c.andProjectIdIn(applyIds); 
+			infoIds.add("xxxx");
+			c.andProjectIdIn(infoIds); 
 		}
 		//已过期
-		c.andEndDateLessThan(DateUtil.dateToStr(new Date(), DateUtil.FMT_DD));
-		
+		//c.andEndDateLessThan(DateUtil.dateToStr(new Date(), DateUtil.FMT_DD));
+		example.setOrderByClause("create_time desc");
 		return this.findByExample(param, example);
 	}
 	
@@ -116,11 +116,10 @@ public class IntlProjectContractServiceImpl implements IntlProjectContractServic
 		}
 		try 
 		{
-			
 			return this.intlProjectContracMapper.insert(contract);
 			
 		}catch(Exception e) {
-			
+			e.printStackTrace();
 		}
 		return 0;
 	}  
@@ -158,6 +157,27 @@ public class IntlProjectContractServiceImpl implements IntlProjectContractServic
 			rs = intlProjectContracMapper.deleteByPrimaryKey(projectContrctId);
 		}
 		return rs;
+	}
+	@Override
+	public String createProjectContractCode() {
+		IntlProjectContractExample example = new IntlProjectContractExample();
+		//IntlProjectContractExample.Criteria c = example.createCriteria();
+		//IntlProjectApplyExample.Criteria criteria = example.createCriteria();
+		//criteria.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		List<IntlProjectContract> applys = intlProjectContracMapper.selectByExample(example);
+		
+		return HanyuPinyinHelper.toPinyin("GJHZ_"+DateUtil.format(new Date(), DateUtil.FMT_YYYY)+"_HT_"+(100+applys.size()));
+	}
+	@Override
+	public List<IntlProjectContract> selectAllProjctContract() {
+		IntlProjectContractExample example = new IntlProjectContractExample();
+		IntlProjectContractExample.Criteria c = example.createCriteria();
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		c.andContractTypeEqualTo(0);//签约项目
+		
+		example.setOrderByClause("create_time desc");
+		
+		return intlProjectContracMapper.selectByExample(example);
 	}
 	
 }

@@ -860,11 +860,9 @@ public class SysFileServiceImpl implements SysFileService {
 		try {
 			if (sysfile!=null) {
 				is = OSSUtil.getOssFileIS(sysfile.getFilePath().split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
-				long filelength = is.available();
 				// 设置输出的格式
 				os = response.getOutputStream();
 				response.setContentType("application/x-msdownload");
-				response.setContentLength((int) filelength);
 				// 只有GBK才可以
 				response.addHeader("Content-Disposition", "attachment; filename=\""+new String(sysfile.getFileName().getBytes("GBK"), "iso8859-1")+"\"");
 				// 循环取出流中的数据
@@ -898,16 +896,14 @@ public class SysFileServiceImpl implements SysFileService {
 		try {
 			if (sysfile!=null) {
 				is = OSSUtil.getOssFileIS(sysfile.getFilePath().split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
-				long filelength = is.available();
 				// 设置输出的格式
 				os = response.getOutputStream();
 				response.setContentType("application/x-msdownload");
-				response.setContentLength((int) filelength);
 				// 只有GBK才可以
 				response.addHeader("Content-Disposition", "attachment; filename=\""+new String(sysfile.getFileName().getBytes("GBK"), "iso8859-1")+"\"");
 				// 循环取出流中的数据
 				byte[] b = new byte[4096];
-				int len;
+				int len = 0;
 				while ((len = is.read(b))>0) {
 					os.write(b, 0, len);
 				}
@@ -936,11 +932,9 @@ public class SysFileServiceImpl implements SysFileService {
 		try {
 			if (sysfile!=null) {
 				is = OSSUtil.getOssFileIS(sysfile.getFilePath().split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
-				long filelength = is.available();
 				// 设置输出的格式
 				os = response.getOutputStream();
 				response.setContentType("application/x-msdownload");
-				response.setContentLength((int) filelength);
 				// 只有GBK才可以
 				response.addHeader("Content-Disposition", "attachment; filename=\""+new String(sysfile.getFileName().getBytes("GBK"), "iso8859-1")+"\"");
 				// 循环取出流中的数据
@@ -1000,12 +994,10 @@ public class SysFileServiceImpl implements SysFileService {
 			} else {
 				file = new File(zipFileName);
 				if (zipFileName!=null&&file!=null&&file.exists()&&file.isFile()) {
-					long filelength = file.length();
 					is = new FileInputStream(file);
 					// 设置输出的格式
 					os = response.getOutputStream();
 					response.setContentType("application/x-msdownload");
-					response.setContentLength((int) filelength);
 					// 只有GBK才可以
 					response.addHeader("Content-Disposition", "attachment; filename=\""+new String((zip+".zip").getBytes("GBK"), "iso8859-1")+"\"");
 					// 循环取出流中的数据
@@ -1477,7 +1469,7 @@ public class SysFileServiceImpl implements SysFileService {
 			SysFile sysfile = selectByPrimaryKey(id);
 			if (sysfile!=null) {
 				is = OSSUtil.getOssFileIS(sysfile.getFilePath().split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
-				long filelength = is.available();
+				long filelength = Integer.parseInt(sysfile.getFileSize());
 				// 设置输出的格式
 				response.setContentType("video/mp4");
 				response.setHeader("Content-Disposition", "attachment; filename=\""+new String(sysfile.getFileName().getBytes("GBK")+"\""));

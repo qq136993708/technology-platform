@@ -12,25 +12,12 @@
 </head>
 <body>
 <div class="layui-fluid">
-<input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
     <div class="layui-main-oil">
         <div class="searchBox">
             <label class="dateInput">
-                <span>月份</span>
-                <input type="text" name="year" placeholder="请选择月份" title="月份" value="${year}"  autocomplete="off" class="form-control" id="year">
+                <span>年份</span>
+                <input type="text" name="nd" placeholder="请选择月份" title="年份" value="${nd}"  autocomplete="off" class="form-control" id="nd">
             </label>
-            <!-- <div class="layui-input-inline">
-                <select name="companyCode" id="companyCode" >
-                    <#list companyCodeList as vo>
-                    <#if vo.g0GSJC == '全部'>
-                    <option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
-                </#if>
-                <#if vo.g0GSJC != '全部'>
-                    <option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
-                    </#if>
-                </#list>
-                </select>
-            </div> -->
             
             
             <!--按钮组-->
@@ -38,7 +25,7 @@
                 <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()">查询</button>
             </div>
             <div class="btnGroup" style="float:right">
-                <button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
+                <button id="detail_id" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
                 >详情</button>
             </div>
         </div>
@@ -58,8 +45,7 @@
             </div>
             <div class="layui-col-xs4">
                 <div class="layui-card">
-                    <div class="layui-card-header">
-                     科研装备占比分析
+                    <div class="layui-card-header"> 科研装备占比分析
                     </div>
                     <div class="layui-row-main">
                         <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
@@ -68,42 +54,6 @@
             </div>
         </div>
         
-        
-        
-        <!-- 
-        
-        <div class="layui-row layui-col-space10">
-            <div class="layui-col-xs4">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        <span class="layui-time"></span>科研装备数量分析
-                    </div>
-                    <div class="layui-row-main">
-                        <div class="main-chart" id="chart1" style="height:280px;width: 100%;"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-xs4">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        <span class="layui-time"></span>科研装备占比分析
-                    </div>
-                    <div class="layui-row-main">
-                        <div class="main-chart" id="chart2" style="height:280px;width: 100%;"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-xs4">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        科研装备占比分析
-                    </div>
-                    <div class="layui-row-main">
-                        <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
-                    </div>
-                </div>
-            </div>
-        </div> -->
         <div class="layui-row layui-col-space10">
             <div class="layui-col-xs8">
                 <div class="layui-card">
@@ -139,11 +89,9 @@
 <script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
 
 <script type="text/javascript">
-
+var nd=$("#nd").val();
 var editObj=null,ptable=null,treeGridCom=null,tableId='processdef-table',layer=null;
-
 var ptable02=null,treeGridCom=null,tableId02='processdef_table_02';
-
 layui.config({
     base: '/layuiadmin/lib/extend/'
 }).extend({
@@ -154,19 +102,19 @@ layui.config({
     layer=layui.layer;
     laydate = layui.laydate;
     form = layui.form;
-    
     form.render(null, 'component-form-group');
     laydate.render({
-       elem: '#year'
+       elem: '#nd'
        ,format: 'yyyy'
     });
     renderTable();
     renderTable_UNIT();
-    var year=$("#year").val();
-    $(".layui-time").html(year+"年");
-    
-    $("#knowledge_table").click(function () {
-        parent.layui.index.openTabsPage("/home/project-list?define1=资本性", "科研装备明细"); 
+    $(".layui-time").html(nd+"年");
+    $("#detail_id").click(function () {
+    	
+    	 var nd=$("#year").val();
+         var url=　encodeURIComponent("/one_level_main/count_table?nd="+nd+"&ysnd="+nd+"&xmlbbm=kyzb");
+	     window.open("/instituteIndex?url="+url);
     });
   
 });
@@ -174,13 +122,11 @@ layui.config({
 function initEchart()
 {
 	
-	 var year=$("#year").val();
-	 $(".layui-time").html(year+"年");
+	 $(".layui-time").html(nd+"年");
 	    
 	 var companyCode=$("#companyCode").val();
 	var v_date=(new Date()).getTime();
-	var month=$('#year').val();
-	var ndstr=year+"年";
+	var ndstr=nd+"年";
 	var yAxis= [
         {
             type: 'value',
@@ -195,63 +141,30 @@ function initEchart()
     ];
 	
 	
-	var chart7_url="/home_device_02/getDeviceByDistributeBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+	var chart7_url="/home_device_02/getDeviceByDistributeBar?nd="+nd+"&v_date="+v_date;
 	var echart7=load_mutl_bar_02(chart7_url,"chart1","","",yAxis);
 	echart7.on('click', function (params){
 		var xName=params.name;
 		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home/project-list?define2="+xName+"&project_scope="+legentName, "科研装备明细");
+		var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+nd+"&ysnd="+nd+"&define1=资本性&ktlx="+legentName);
+        window.open("/instituteIndex?url="+url);
+        
+        
     });
 	
 
-	/* var chart1_url="/home_device_02/getDeviceByCountBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-	var echart1=load_mutl_bar_02(chart1_url,"chart1","","",yAxis)
-	echart1.on('click', function (params){
-		var xName=params.name;
-		var legentName=params.seriesName;
-		
-		parent.layui.index.openTabsPage("/home/project-list?project_property="+xName+"&project_scope="+legentName, "科研装备明细");
-		
-		
-		
-    });
-	
-	var chart2_url="/home_device_02/getDeviceByCountPie?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-	var echart2=loadPie(chart2_url,"chart2","","");
-	echart2.on('click', function (params){
-		var xName=params.name;
-		var legentName=params.seriesName;
-		
-		parent.layui.index.openTabsPage("/home/project-list?project_property="+xName, "科研装备明细");
-		
-		
-          
-    }); */
-	
-	/* 
-	var chart3_url="/home_device_02/getDeviceByCountCricle?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-	load_taiyang_02(chart3_url,"chart3","科研装备占比分析",ndstr); */
 	
 	
-	var chart4_url="/home_device_02/getDeviceByUnitBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode; 
+	
+	var chart4_url="/home_device_02/getDeviceByUnitBar?nd="+nd+"&v_date="+v_date; 
 	var echart4=load_mutl_bar_02(chart4_url,"chart4","","",yAxis);
 	echart4.on('click', function (params){
 		var xName=params.name;
 		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home/project-list?type_flag="+xName+"&project_scope="+legentName, "科研装备明细");
+		var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+nd+"&ysnd="+nd+"&define1=资本性&ktlx="+legentName);
+        window.open("/instituteIndex?url="+url);
+		//parent.layui.index.openTabsPage("/home/project-list?type_flag="+xName+"&project_scope="+legentName, "科研装备明细");
     });
-	
-	
-	/* 
-	
-	var chart5_url="/home_device_02/getDeviceByUnitPie?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-	loadPie(chart5_url,"chart5","科研装备占比分析",ndstr);  */
-	
-	
-	/* var chart6_url="/home_device_02/getDeviceByUnitCricle?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-	load_taiyang_02(chart6_url,"chart6","科研装备占比分析",ndstr); */
-	
-	
 	
 	
 }
@@ -271,13 +184,11 @@ function search_Event()
 function renderTable()
 {  
 	
-	 var month=$("#month").val();
-	 var companyCode=$("#companyCode").val();
 	 
 	  ptable=treeGridCom.render({
 	        id:tableId
 	        ,elem: '#'+tableId
-	        ,url:'/home_device_02/getDeviceByCountCricle?month='+month+"&companyCode="+companyCode
+	        ,url:'/home_device_02/getDeviceByCountCricle?nd='+nd
 	       // ,cellMinWidth: 200
 	        ,idField:'id'//必須字段
 	        ,treeId:'id'//树形id字段名称
@@ -311,13 +222,11 @@ function renderTable()
 function renderTable_UNIT()
 {  
 	
-	 var month=$("#month").val();
-	 var companyCode=$("#companyCode").val();
 	 
 	  ptable02=treeGridCom.render({
 	        id: tableId02
 	        ,elem: '#'+tableId02
-	        ,url:'/home_device_02/getDeviceByUnitCricle?month='+month+"&companyCode="+companyCode
+	        ,url:'/home_device_02/getDeviceByUnitCricle?nd='+nd
 	       // ,cellMinWidth: 200
 	        ,idField:'id'//必須字段
 	        ,treeId:'id'//树形id字段名称

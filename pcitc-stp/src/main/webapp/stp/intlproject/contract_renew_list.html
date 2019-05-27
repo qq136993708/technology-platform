@@ -10,6 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
 	
 	<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+	<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 	<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 	<script type="text/javascript">
 		var table,selectRowData;
@@ -23,7 +24,7 @@
 	    			var param = JSON.parse(window.localStorage.getItem("param"));
 					table.render({
 			            elem: '#contractTable',
-			            url: '/project/contract-end-list',
+			            url: '/project/contract-renew-list',
 			            limit : param.selfRownum,
 			            method:"POST",
 			            where: where,
@@ -40,23 +41,12 @@
 			            cols: [[
 			            	 {type:'checkbox',event: 'changeEvents'}
 			            	,{title:'序号', type:'numbers' ,width : 55}
-			            	,{field:'projectId',   title:'项目名称',	width: '15%',  style:'cursor: pointer;'}
-			                ,{field:'contractNo',   title:'签约编号',    width: '10%',  style:'cursor: pointer;'}
-			                ,{field:'unitId',title:'所属研究院',width: '8%',style:'cursor: pointer;'}
+			            	,{field:'projectId',   title:'项目名称',	width: '20%',  style:'cursor: pointer;'}
+			                ,{field:'contractNo',   title:'签约编号',   style:'cursor: pointer;'}
 			                ,{field:'chineseContractCompany',title:'中方合作单位',   style:'cursor: pointer;'}
 			                ,{field:'foreignContractCompany',title:'外方合作单位',   style:'cursor: pointer;'}
 			                ,{field:'agreementStartDate',title:'协议开始日期', width: '10%',  style:'cursor: pointer;'}
 			                ,{field:'agreementEndDate',title:'协议截止日期', width: '10%',  style:'cursor: pointer;'}
-			            	
-			                /* ,{field:'projectId',   title:'项目名称',	width: '15%',  style:'cursor: pointer;'}
-			                ,{field:'contractNo',   title:'签约编号',    width: '12%',  style:'cursor: pointer;'}
-			                ,{field:'signDate',title:'签约日期',	width: '12%',   style:'cursor: pointer;'}
-			                ,{field:'contractStatus',title:'签约状态',	width: '8%',   style:'cursor: pointer;'}
-			                ,{field:'flowAgreementReview',title:'协议审查',   style:'cursor: pointer;',align:"center"}
-			                ,{field:'flowTechnologyReview',  title:'专业技术审查',style:'cursor: pointer;',align:"center"}
-			                ,{field:'flowKnowledgeReview',  title:'知识产权审查',style:'cursor: pointer;',align:"center"}
-			                ,{field:'flowComprehensiveReview',  title:'综合审查',style:'cursor: pointer;',align:"center"} */
-			                
 			            ]],
 			            done: function (res, curr, count) {
 			            	layer.close(lodingMsg);
@@ -71,13 +61,8 @@
 			                }); 
 			                $.each(res.data,function(i,dt){
 				            	//获得项目信息
-				            	publicMethods.ajaxPost('/project/get-apply', {"applyId":res.data[i].projectId}, function (data, status) {
-				            		$("tr[data-index='"+i+"'] td[data-field='projectId'] div").html(data.applyName);
-				            		$("tr[data-index='"+i+"'] td[data-field='unitId'] div").html(data.unitId);
-				            		
-				            		publicMethods.ajaxPost("/unit/get-unit/"+data.unitId,null, function (data) {
-					            		$("tr[data-index='"+i+"'] td[data-field='unitId'] div").html(data.unitName);
-							   		});
+				            	publicMethods.ajaxAsyncPost('/project/get-project', {"projectId":res.data[i].projectId}, function (data, status) {
+				            		$("tr[data-index='"+i+"'] td[data-field='projectId'] div").html(data.projectName);
 					            });
 				            	
 				            });
@@ -92,7 +77,7 @@
 		        renderTable();
 		        
 		        table.on('rowDouble(contractEvent)', function(obj){
-		        	var temUrl = '/intl_project/contract_view?contractId='+obj.data.contractId;
+		        	var temUrl = '/intl_project/contract_renew_view?contractId='+obj.data.contractId;
 	            	openFullWin("详情",temUrl);
 		        });
 		     	// 触发不同的按钮事件
@@ -105,14 +90,14 @@
 		                renderTable({param: {"contractName":$("#contractName").val()}});
 		            },addEvent: function(){ 
 		            	//点击新增按钮
-		            	var temUrl = '/intl_project/contract_edit';
+		            	var temUrl = '/intl_project/contract_renew_edit';
 		            	openFullWin("新增",temUrl);
 		            },detailEvent:function(){
 		            	if(!selectRowData){
 		            		layer.msg('请点击选择一行数据!');
 		            		return;
 		            	}
-		            	var temUrl = '/intl_project/contract_view?contractId='+selectRowData.contractId;
+		            	var temUrl = '/intl_project/contract_renew_view?contractId='+selectRowData.contractId;
 		            	openFullWin("详情",temUrl);
 		            },exportEvent:function(){
 		            	if(!selectRowData){
@@ -126,7 +111,7 @@
 		            		layer.msg('请点击选择一行数据!');
 		            		return;
 		            	}
-		            	var temUrl = '/intl_project/contract_edit?contractId='+selectRowData.contractId;
+		            	var temUrl = '/intl_project/contract_renew_edit?contractId='+selectRowData.contractId;
 		            	openFullWin("编辑",temUrl);
 		            },commitEvent:function(){
 		            	if(!selectRowData){
@@ -202,7 +187,6 @@
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent">新增</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="editEvent">编辑</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg" data-type="detailEvent">查看</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg" data-type="exportEvent">下载</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="closeEvent">删除</button>
         </div>
     </div>

@@ -41,13 +41,13 @@
 <body >
 
 <input type="hidden" name="month" value="${month}" id="month">
-<input type="hidden" name="year" value="${year}" id="year">
+<input type="hidden" name="nd" value="${nd}" id="nd">
 <input type="hidden" name="companyCode" value="${companyCode}" id="companyCode">
 <div class="layui-fluid">
     <div class="layui-row layui-col-space10">
         <div class="layui-col-md12 layui-top" id="isKJBPerson_id" <#if isKJBPerson == false || isKJBPerson=='false'>style="display:none"</#if>>
             <div class="layui-col-md15">
-                <div class="layui-main-box">
+                <div class="layui-main-box" id="home_project">
                     <span class="layui-box-icon bg-1"></span>
                     <div class="layui-box-content">
                         <span class="layui-box-text">科研课题</span>
@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div class="layui-col-md15">
-                <div class="layui-main-box">
+                <div class="layui-main-box" id="home_budget">
                     <span class="layui-box-icon bg-2"></span>
                     <div class="layui-box-content">
                         <span class="layui-box-text">合同签订</span>
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <div class="layui-col-md15">
-                <div class="layui-main-box">
+                <div class="layui-main-box" id="actualPay">
                     <span class="layui-box-icon bg-3"></span>
                     <div class="layui-box-content">
                         <span class="layui-box-text">经费支出</span>
@@ -80,7 +80,7 @@
                 </div>
             </div>
             <div class="layui-col-md15">
-                <div class="layui-main-box">
+                <div class="layui-main-box" id="equipment">
                     <span class="layui-box-icon bg-4"></span>
                     <div class="layui-box-content">
                         <span class="layui-box-text">科研装备</span>
@@ -92,7 +92,7 @@
                 </div>
             </div>
             <div class="layui-col-md15">
-                <div class="layui-main-box">
+                <div class="layui-main-box" id="knowledge">
                     <span class="layui-box-icon bg-5"></span>
                     <div class="layui-box-content">
                         <span class="layui-box-text">知识产权</span>
@@ -103,7 +103,7 @@
                 </div>
             </div>
             <div class="layui-col-md15">
-                <div class="layui-main-box">
+                <div class="layui-main-box" id="achievement">
                     <span class="layui-box-icon bg-6"></span>
                     <div class="layui-box-content">
                         <span class="layui-box-text">科技成果</span>
@@ -114,7 +114,7 @@
                 </div>
             </div>
             <div class="layui-col-md15">
-                <div class="layui-main-box">
+                <div class="layui-main-box" id="report_intl_project_main">
                     <span class="layui-box-icon bg-7"></span>
                     <div class="layui-box-content">
                         <span class="layui-box-text">国际合作</span>
@@ -666,6 +666,7 @@
         </script>
         <script>
             var companyCode = $("#companyCode").val();
+            var nd = $("#nd").val();
             var element ;
             var layer;
             layui.config({
@@ -679,34 +680,35 @@
                 element = layui.element;
                 laydate = layui.laydate;
                 /*新开页面*/
-                $(".layui-top .layui-col-md15").eq(0).click(function () {
-                    parent.layui.index.openTabsPage("/home_project_02/home_project", "科研项目（新开续建）");
+                
+                
+                $("#actualPay").on("click", function () {
+                	 parent.layui.index.openTabsPage("/direct/actualPay?isdisplay=1", "经费支出");
                 });
-                $(".layui-top .layui-col-md15").eq(1).click(function () {
-                    parent.layui.index.openTabsPage("/home_device_02/home_device", "科研装备（新开续建）");//oil_field.html
+                
+                $("#home_project").on("click", function () {
+               	     parent.layui.index.openTabsPage("/home_project_02/home_project", "科研课题");
                 });
-                $(".layui-top .layui-col-md15").eq(2).click(function () {
-                    parent.layui.index.openTabsPage("/home_budget_02/home_budget", "合同签订（亿元）");
+                $("#home_budget").on("click", function () {
+              	   parent.layui.index.openTabsPage("/home_budget_02/home_budget", "合同签订（亿元）");
                 });
-
-                $(".layui-top .layui-col-md15").eq(3).click(function () {
-                    parent.layui.index.openTabsPage("/home_pay/home_pay", "经费支出（万元）");///home_second/ndys_level2 home_second/jfzc_level2
+                
+                $("#knowledge").on("click", function () {
+             	     parent.layui.index.openTabsPage("/home_knowledge/knowledge_level2", "知识产权");
                 });
-
-
-                $(".layui-top .layui-col-md15").eq(4).click(function () {
-                    parent.layui.index.openTabsPage("/home_knowledge/knowledge_level2", "知识产权");
+                
+                $("#achievement").on("click", function () {
+            	     parent.layui.index.openTabsPage("/home_achievement/award_level2", "科技成果");
                 });
-
-
-                $(".layui-top .layui-col-md15").eq(5).click(function () {
-                    parent.layui.index.openTabsPage("/home_achievement/award_level2", "科技成果");
-                });
-
-                $(".layui-top .layui-col-md15").eq(6).click(function () {
-                    parent.layui.index.openTabsPage("/intl_project/report/report_intl_project_main", "国际合作");
-                });
-
+                 
+                $("#report_intl_project_main").on("click", function () {
+                	parent.layui.index.openTabsPage("/intl_project/report/report_intl_project_main", "国际合作");
+               });
+                
+                $("#equipment").on("click", function () {
+                	 parent.layui.index.openTabsPage("/home_device_02/home_device", "科研装备");
+               });
+                
 
                 var md4Height = $(".layui-col-md4").height() - 2;
                 var headerHeight = $(".layui-card-header").outerHeight(true);
@@ -774,16 +776,15 @@
             {
 
                 var month = $('#month').val();
-                var year = $("#year").val();
                 var v_date = (new Date()).getTime();
                 if (month != null && month != '') 
                 {
 
-                    getCommonCount(year);//科研装备、合同签订
+                    getCommonCount(nd);//科研装备、合同签订
                     getndys_xfzc(month);//经费支出
-                    patentCount(year);//专利
-                    appraisalCount(year);//成果
-                    setContcator_id(year, v_date);//合同签订率
+                    patentCount(nd);//专利
+                    appraisalCount(nd);//成果
+                    setContcator_id(nd, v_date);//合同签订率
 
                 }
 
@@ -806,10 +807,10 @@
             }
 
             //科研课题 projectCount、科研装备 kyzbCount
-            function getCommonCount(month) {
+            function getCommonCount(nd) {
                 $.ajax({
                     type: 'GET',
-                    url: "/direct/topic_equipment_count?functionId=984b64b13cf54222bf57bd840759fabe&typeFlag=研究院&nd=" + month,
+                    url: "/direct/topic_equipment_count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd,
                     dataType: 'json',
                     headers: {
                         'Content-Type': 'application/json'
@@ -840,7 +841,7 @@
 
             //合同签订--bak--
             function setContcator_id(nd, v_date) {
-                var url = "/direct/contract_01?type=3&nd=" + nd + "&v_date=" + v_date;
+                var url = "/direct/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=3&nd=" + nd + "&v_date=" + v_date;
                 $.ajax({
                     type: 'GET',
                     url: url,
@@ -854,7 +855,7 @@
                     },
                     success: function (data) {
                         var qdl = "0";
-                        if (typeof(data.data.qdl) == "undefined") {
+                        if (typeof(data.data) == "undefined") {
                             $("#contcator_id").html("0<small>(%)</small>");
                         } else {
                             $("#contcator_id").html(data.data.qdl + "<small>(%)</small>");
@@ -862,9 +863,7 @@
 
                     }
                 });
-
             }
-
 
             // 经费支出
             function getndys_xfzc(month) {
@@ -900,10 +899,10 @@
 
 
             //专利-知识产权
-            function patentCount(month) {
+            function patentCount(nd) {
                 $.ajax({
                     type: 'POST',
-                    url: "/admin/patent-count?define3=研究院&nd=" + month,
+                    url: "/admin/patent-count?define3=研究院&nd=" + nd,
                     dataType: 'json',
                     headers: {
                         'Content-Type': 'application/json'
@@ -922,11 +921,11 @@
             }
 
             //成果
-            function appraisalCount(month) {
+            function appraisalCount(nd) {
 
                 $.ajax({
                     type: 'POST',
-                    url: "/admin/appraisal-count?define3=研究院&nd=" + month,
+                    url: "/admin/appraisal-count?define3=研究院&nd=" + nd,
                     dataType: 'json',
                     headers: {
                         'Content-Type': 'application/json'
@@ -952,7 +951,7 @@
             $("#chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
             $("#chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 
-            var nd = $("#year").val();
+            
             var v_date = (new Date()).getTime();
             var chart1_url_0 = "/one_level_main/investment_01?nd=" + nd + "&v_date=" + v_date + "&companyCode=";
             var color = ["#bee5d2", "#6bdf9e"];
@@ -1223,7 +1222,7 @@
                $("#vdirect_contract_01_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
                $("#vdirect_contract_01_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 
-               var nd=$('#year').val();
+               var nd=$('#nd').val();
                var series=[];
                $.ajax({
                    type:"get",
@@ -1295,7 +1294,7 @@
                        }
                    ]
                };
-               var nd=$('#year').val();
+               var nd=$('#nd').val();
                ajax_getGauge("/one_level_main/contract_01?type=2&nd="+nd+"", myChart2, options);
            }
 

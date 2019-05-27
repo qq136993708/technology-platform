@@ -239,14 +239,11 @@
         // 触发不同的按钮事件
         var $ = layui.$, active = {
             searchEvent: function () { //点击查询按钮
-                loadtable()
+                loadtable();
             },
             resetEvent: function () { //点击查询按钮
-                table.reload('zjkBaseInfoTableId', {
-                    where: {
-                        param: {}
-                    }
-                });
+                 $("#expertName").val(""); $("#email").val(""); $("#auditStatus").val("");
+                loadtable();
             }, getChecked: function () {//多选
                 var ids = "";
                 var selectedData = active.getCheckData();

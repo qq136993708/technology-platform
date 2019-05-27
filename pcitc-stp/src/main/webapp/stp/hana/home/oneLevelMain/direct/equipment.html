@@ -24,10 +24,6 @@
                 <span>年月份</span>
                 <input type="text" name="month" placeholder="请选择年份" title="年份" value="${month}"  autocomplete="off" class="form-control" id="month">
             </label>
-            <!--按钮组-->
-            <!--<div class="btnGroup">
-                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()">查询</button>
-            </div>-->
             <div class="btnGroup" style="display:none">
                 <button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details" >详情</button>
             </div>
@@ -163,17 +159,25 @@
 <script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
 
 <script type="text/javascript">
-
+var companyCode=$('#companyCode').val();
+var layer;
 var table;
 layui.config({
     base: '/layuiadmin/'
 }).extend({
     index: 'lib/index'
-}).use(['index','jquery','form', 'laydate','table','laypage'], function(){
+}).use(['index', 'layer','jquery','form', 'laydate','table','laypage'], function(){
+	layer = layui.layer;
 	  $ = layui.jquery
       ,table = layui.table
       ,form = layui.form
-      ,laydate = layui.laydate
+      ,laydate = layui.laydate;
+	  if(companyCode==null || companyCode=='')
+      {
+      	layer.alert("请配置直属院数据权限");
+      }
+	  
+	  
 	  form.render(null, 'component-form-group');
         laydate.render({
         	 elem: '#month'
@@ -181,9 +185,7 @@ layui.config({
             ,done: function(value, date, endDate){
                 $(".layui-time1").html(date.year);
                 $(".layui-time").html(date.year+"年"+date.month+"月");
-
                 $("#month").val(date.year+""+PrefixInteger(date.month, 2));
-
                 search_Event();
             }
         });
@@ -212,7 +214,7 @@ function initEchart()
 
 
 	var month=$('#month').val();
-	var companyCode=$('#companyCode').val();
+	
 	var nd=month.substr(0,4);
 
 	var v_date=(new Date()).getTime();
@@ -369,7 +371,7 @@ function search_Event()
 function renderTable2()
 {
 	var month=$('#month').val();
-	var companyCode=$('#companyCode').val();
+	
 
 	  var v_date=(new Date()).getTime();
 	  var tableOne=table.render({

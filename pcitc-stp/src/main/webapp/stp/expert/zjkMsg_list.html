@@ -18,7 +18,7 @@
     <label class="dateInput selectInput">
         <span>项目名称</span>
 
-        <input type="text" name="xmName" id="xmName"
+        <input type="text" name="xmName"
                placeholder="请输入项目名称"
                title="项目名称" autocomplete="off"
                class="form-control" id="xmNameName">
@@ -209,7 +209,10 @@
                 renderTable();
             },
             resetEvent: function () { //点击重置按钮
-                $('#workOrderName').val("");
+                // $('#workOrderName').val("");
+                $('#xmNameName').val("");
+                $('#xmSteps').val("");
+                renderTable();
             },
             addEvent: function () { //点击新增按钮
                 layer.open({

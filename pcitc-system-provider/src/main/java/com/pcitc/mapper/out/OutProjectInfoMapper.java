@@ -83,7 +83,7 @@ public interface OutProjectInfoMapper {
      * @param nd
      * 首页查询，直属研究院、分子公司等9个单位，各单位的新开、续建、完结情况
      */
-    public List getProjectTypeInfoByUnit(String nd);
+    public List getProjectTypeInfoByUnit(HashMap<String, String> map);
     
     /**
      * @param nd
@@ -95,13 +95,13 @@ public interface OutProjectInfoMapper {
      * @param nd
      * 首页查询新开的国家项目、重点项目、重大项目、其他项目和去年的对比
      */
-    public HashMap<String, String> getProjectTotalCountYearAndLastYear(String nd);
+    public HashMap<String, String> getProjectTotalCountYearAndLastYear(HashMap<String, String> map);
     
     /**
      * @param nd
      * 科研二级页面，按照项目类型查询新建、续建项目数量、总数量
      */
-	public List getProjectCountByProjectType(String nd);
+	public List getProjectCountByProjectType(HashMap<String, String> map);
 	
 	/**
      * @param nd
@@ -113,7 +113,7 @@ public interface OutProjectInfoMapper {
      * @param nd
      * 科研二级页面，按照项目类型查询新建、续建项目数量、总数量
      */
-	public List getZBProjectCountByProjectType(String nd);
+	public List getZBProjectCountByProjectType(HashMap<String, String> map);
 	
 	/**
      * @param nd
@@ -125,49 +125,49 @@ public interface OutProjectInfoMapper {
      * @param nd
      * 科研二级页面，预算分析，新开项目、续建项目对应的费用性金额、资本性金额统计
      */
-	public List getProjectMoneyByProjectType(String nd);
+	public List getProjectMoneyByProjectType(HashMap<String, String> map);
 	
 	/**
      * @param nd
      * 科研二级页面，直属院、盈科等单位的费用性金额、资本性金额统计
      */
-	public List getProjectMoneyByUnit(String nd);
+	public List getProjectMoneyByUnit(HashMap<String, String> map);
 	
 	/**
      * @param nd
      * 科研二级页面，8大院的各个新开、续建情况
      */
-	public List getProjectTypeCountByUnit(String nd);
+	public List getProjectTypeCountByUnit(HashMap<String, String> map);
 	
 	/**
      * @param nd
      * 科研二级页面，8大院的各个新开、续建情况--装备
      */
-	public List getZBProjectTypeCountByUnit(String nd);
+	public List getZBProjectTypeCountByUnit(HashMap<String, String> map);
 	
 	/**
      * @param nd
      * 科研二级页面，8大院的各个新开、续建情况--树结构
      */
-	public List getProjectTypeCountForTree(String nd);
+	public List getProjectTypeCountForTree(HashMap<String, String> map);
 	
 	/**
      * @param nd
      * 科研二级页面，项目类型（国家项目、重点项目、重大项目、其他项目）的各个新开、续建情况--树结构
      */
-	public List getProjectCountByTypeForTree(String nd);
+	public List getProjectCountByTypeForTree(HashMap<String, String> map);
 	
 	/**
      * @param nd
      * 科研二级页面，8大院的各个新开、续建情况--装备树结构
      */
-	public List getZBProjectTypeCountForTree(String nd);
+	public List getZBProjectTypeCountForTree(HashMap<String, String> map);
 	
 	/**
      * @param nd
      * 科研二级页面，项目类型（国家项目、重点项目、重大项目、其他项目）的各个新开、续建情况--装备树结构
      */
-	public List getZBProjectCountByTypeForTree(String nd);
+	public List getZBProjectCountByTypeForTree(HashMap<String, String> map);
 	
 	/**
      * @param nd
@@ -185,50 +185,44 @@ public interface OutProjectInfoMapper {
      * @param nd
      * 科研二级页面，树形结构，费用性金额、资本性金额和新开、续建情况
      */
-	public List getProjectMoneyForTree(String nd);
+	public List getProjectMoneyForTree(HashMap<String, String> map);
 	
 	/**
      * @param nd
      * 科研二级页面，树形结构，费用性金额、资本性金额和各研究院情况
      */
-	public List getProjectMoneyByIniAndTypeForTree(String nd);
+	public List getProjectMoneyByIniAndTypeForTree(HashMap<String, String> map);
 	
 	/**
      * @param nd
      * 首页查询9个单位的新开、续建、完结情况-装备
      */
-    public List getZBProjectTypeInfoByUnit(String nd);
+    public List getZBProjectTypeInfoByUnit(HashMap<String, String> map);
     
     /**
      * @param nd
      * 领导页的各类型项目的数量
      */
-    public List getProjectTypeCountForLD(String nd);
+    public List getProjectTypeCountForLD(HashMap<String, String> map);
     
     /**
      * @param nd
      * 领导页,科研项目数量按单位分析--树结构
      */
-	public List getProjectTypeCountForTreeLD(String nd);
+	public List getProjectTypeCountForTreeLD(HashMap<String, String> map);
 	
 	/**
      * @param nd
      * @return
      * 领导二级页面，直属研究院、分子公司等9个单位，各单位的新开、续建、完结情况
      */
-    public List getProjectTypeInfoByUnitLD(String nd);
+    public List getProjectTypeInfoByUnitLD(HashMap<String, String> map);
     
     /**
      * @param nd
      * 领导二级页面，各个处室的新开、续建、完结情况
      */
-    public List getProjectCountByProjectTypeLD(String nd);
-    
-    /**
-     * @param nd
-     * 领导二级页面，8个院及国家级项目等性质的新开、续建、完结情况 
-     */
-    public List getProjectTypeCountByTypeLD(String nd);
+    public List getProjectCountByProjectTypeLD(HashMap<String, String> map);
     
     /**
      * @param nd

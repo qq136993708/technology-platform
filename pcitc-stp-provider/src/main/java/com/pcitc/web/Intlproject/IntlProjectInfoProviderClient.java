@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
-import com.pcitc.base.stp.IntlProject.IntlProjectApply;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfo;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.common.WorkFlowStatusEnum;
@@ -34,6 +33,14 @@ public class IntlProjectInfoProviderClient
 	{
 		return intlProjectInfoService.selectProjectInfoByPage(param);
 	}
+	
+	@ApiOperation(value="检索立项项目列表",notes="检索全部立项项目数据，返回数据列表。")
+	@RequestMapping(value = "/stp-provider/project/info-list-all")
+	public Object getAllProject() throws Exception 
+	{
+		return intlProjectInfoService.selectAllProjectInfo();
+	}
+	
 	@ApiOperation(value="检索立项项目",notes="检索立项项目数据，返回立项数据详情。")
 	@RequestMapping(value = "/stp-provider/project/get-project/{projectId}", method = RequestMethod.POST)
 	public IntlProjectInfo findPlantInfo(@PathVariable("projectId") String projectId) 
@@ -63,7 +70,7 @@ public class IntlProjectInfoProviderClient
 	public Object startNoticeWorkFlow(@PathVariable("projectId") String projectId,@RequestBody WorkflowVo workflowVo) 
 	{
 		IntlProjectInfo info = intlProjectInfoService.findById(projectId);
-		if(!WorkFlowStatusEnum.STATUS_WAITING.getCode().equals(info.getFlowStartStatus())) 
+		if(WorkFlowStatusEnum.STATUS_RUNNING.getCode().equals(info.getFlowStartStatus()) || WorkFlowStatusEnum.STATUS_PASS.getCode().equals(info.getFlowStartStatus())) 
 		{
 			return new Result(false,"已发起审批不可重复发起！");
 		}
@@ -88,5 +95,12 @@ public class IntlProjectInfoProviderClient
 			}
 		}
 		return null;
+	}
+	@ApiOperation(value="获取签约代码",notes="签约项目编号。")
+	@RequestMapping(value = "/stp-provider/project/project-info-code", method = RequestMethod.POST)
+	public Object getProjectContractCode(@RequestBody IntlProjectInfo project) 
+	{
+		System.out.println("project-info-codeproject-info-codeproject-info-code");
+		return intlProjectInfoService.createProjectInfoCode();
 	}
 }

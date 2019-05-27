@@ -20,9 +20,9 @@
     	var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate,
             form = layui.form,publicMethods=layui.publicMethods,table = layui.table;	
     		//加载项目
-    		publicMethods.ajaxPost("/project/apply-list-all",null, function (data) {
+    		publicMethods.ajaxPost("/project/info-list-all",null, function (data) {
 				$.each(data,function(i,val){
-					$("#projectId").append('<option value="'+data[i].applyId+'">'+data[i].applyTitle+'</option>');
+					$("#projectId").append('<option value="'+data[i].projectId+'">'+data[i].projectName+'</option>');
 				});
 		   	});
     		//加载字典
@@ -55,6 +55,12 @@
 	        		//editor.setData(data.applyContent);
 	            });
 	        }else{
+	        	//創建編碼
+	        	publicMethods.ajaxPost('/project/project-contract-code', null, function (data, status) {
+	    			if (data.success) {
+	    				$("#contractNo").val(data.message);
+	    			}
+	    		});
 	        	$("#appendFiles").val("${appendFiles}");
 	        }
     		form.render();
@@ -89,6 +95,7 @@
 	<form id="contract-form" name="contract-form" lay-filter="contract-form" class="form-horizontal layui-form">
 	<input type="hidden" name="contractId" id="contractId">
 	<input type="hidden" name="appendFiles" id="appendFiles">
+	<input type="hidden" name="contractType" id="contractType" value="0">
 	<div class="box-body">
 		<div class="layui-row">
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
@@ -105,7 +112,7 @@
 				<div class="layui-form-item"  id="password" >
 					<label for="" class="layui-form-label">签约编码<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-					 	<input type="text" class="layui-input" id="contractNo" name="contractNo" placeholder="签约编码">
+					 	<input type="text" class="layui-input readOnlyBox" readonly="readonly" id="contractNo" name="contractNo" placeholder="签约编码">
 					</div>
 				</div>
 			</div>
@@ -119,7 +126,6 @@
 		                	<option value="">请选择</option>
 		                	<option value="0">签约中</option>
 		                	<option value="1">签约完成</option>
-		                	<option value="-1">签约失败</option>
 		             	</select>
 					</div>
 				</div>
@@ -138,7 +144,7 @@
 				<div class="layui-form-item">
 					<label for="" class="layui-form-label">中方合作单位<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" class="layui-input" id="chineseContractCompany" name="chineseContractCompany" placeholder="请填写中方合作单位名称">
+						<input type="text" class="layui-input" lay-verify="required" id="chineseContractCompany" name="chineseContractCompany" placeholder="请填写中方合作单位名称">
 					</div>
 				</div>
 			</div>
@@ -146,7 +152,7 @@
 				<div class="layui-form-item">
 					<label for="" class="layui-form-label">外方合作单位<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-					 	<input type="text" class="layui-input" id="foreignContractCompany" name="foreignContractCompany" placeholder="请填写外方合作单位名称">
+					 	<input type="text" class="layui-input" lay-verify="required" id="foreignContractCompany" name="foreignContractCompany" placeholder="请填写外方合作单位名称">
 					</div>
 				</div>
 			</div>
@@ -219,12 +225,6 @@
 				</div>
 			</div>
 		</div>
-		<div class="layui-form-item">
-	      	 <label class="layui-form-label">外方合作单位简介</label>
-	         <div class="layui-input-block">
-	         	   <textarea class="layui-textarea" id="companyIntroduction" name="companyIntroduction" placeholder=""></textarea>
-	         </div>
-       </div>
        <div class="layui-form-item">
 	      	 <label class="layui-form-label">签约备注</label>
 	         <div class="layui-input-block">

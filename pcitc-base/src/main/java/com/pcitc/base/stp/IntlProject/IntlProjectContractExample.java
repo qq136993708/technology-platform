@@ -244,6 +244,136 @@ public class IntlProjectContractExample {
             return (Criteria) this;
         }
 
+        public Criteria andParentContractIdIsNull() {
+            addCriterion("parent_contract_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentContractIdIsNotNull() {
+            addCriterion("parent_contract_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentContractIdEqualTo(String value) {
+            addCriterion("parent_contract_id =", value, "parentContractId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentContractIdNotEqualTo(String value) {
+            addCriterion("parent_contract_id <>", value, "parentContractId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentContractIdGreaterThan(String value) {
+            addCriterion("parent_contract_id >", value, "parentContractId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentContractIdGreaterThanOrEqualTo(String value) {
+            addCriterion("parent_contract_id >=", value, "parentContractId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentContractIdLessThan(String value) {
+            addCriterion("parent_contract_id <", value, "parentContractId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentContractIdLessThanOrEqualTo(String value) {
+            addCriterion("parent_contract_id <=", value, "parentContractId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentContractIdLike(String value) {
+            addCriterion("parent_contract_id like", value, "parentContractId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentContractIdNotLike(String value) {
+            addCriterion("parent_contract_id not like", value, "parentContractId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentContractIdIn(List<String> values) {
+            addCriterion("parent_contract_id in", values, "parentContractId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentContractIdNotIn(List<String> values) {
+            addCriterion("parent_contract_id not in", values, "parentContractId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentContractIdBetween(String value1, String value2) {
+            addCriterion("parent_contract_id between", value1, value2, "parentContractId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentContractIdNotBetween(String value1, String value2) {
+            addCriterion("parent_contract_id not between", value1, value2, "parentContractId");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractTypeIsNull() {
+            addCriterion("contract_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractTypeIsNotNull() {
+            addCriterion("contract_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractTypeEqualTo(Integer value) {
+            addCriterion("contract_type =", value, "contractType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractTypeNotEqualTo(Integer value) {
+            addCriterion("contract_type <>", value, "contractType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractTypeGreaterThan(Integer value) {
+            addCriterion("contract_type >", value, "contractType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("contract_type >=", value, "contractType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractTypeLessThan(Integer value) {
+            addCriterion("contract_type <", value, "contractType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("contract_type <=", value, "contractType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractTypeIn(List<Integer> values) {
+            addCriterion("contract_type in", values, "contractType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractTypeNotIn(List<Integer> values) {
+            addCriterion("contract_type not in", values, "contractType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractTypeBetween(Integer value1, Integer value2) {
+            addCriterion("contract_type between", value1, value2, "contractType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("contract_type not between", value1, value2, "contractType");
+            return (Criteria) this;
+        }
+
         public Criteria andSignDateIsNull() {
             addCriterion("sign_date is null");
             return (Criteria) this;

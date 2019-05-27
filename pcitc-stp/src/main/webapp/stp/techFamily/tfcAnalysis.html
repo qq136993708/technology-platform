@@ -1,110 +1,331 @@
 <!DOCTYPE html>
-<html lang="en"  style="height: 100%">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>技术族分类</title>
+    <meta charset="utf-8">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <!--<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">-->
 
-    <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
-    <!--<script type="text/javascript" src="/plugins/echarts/echarts-gl.min.js"></script>-->
-
-    <!--<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>-->
-    <!--<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>-->
-    <!--<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>-->
-    <!--<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>-->
-    <!--<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>-->
-    <!--<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>-->
-    <!--<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=xfhhaTThl11qYVrqLZii6w8qE5ggnhrY&__ec_v__=20190126"></script>-->
-    <!--<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>-->
-    <!--<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>-->
-
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/common/js/base.js"></script>
 </head>
-<body style="height: 100%; margin: 0">
-<div id="container" style="height: 100%"></div>
+<body>
+<body>
+<div class="skill">
+    <div class="skill-left">
+        <ul>
+            <li class="layui-this" onclick="changeTfcCode('@10@10001@');">勘探开发</li>
+            <li onclick="changeTfcCode('@10@10002@');">石油炼制</li>
+            <li onclick="changeTfcCode('@10@10003@');">石油化工</li>
+            <li onclick="changeTfcCode('@10@10004@');">催化剂</li>
+        </ul>
+        <div class="layui-tab-item layui-show">
+            <div class="layui-card-body">
+                <div class="layui-tab">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">项目</li>
+                        <li>成果</li>
+                        <li>专利</li>
+                        <li>人员</li>
+                        <li>费用</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">
+                            <div class="lan">
+                                <table id="indexOutProjectInfoTableId" class="layui-hide" lay-filter="tableEvent"></table>
+                            </div>
+                        </div>
+                        <div class="layui-tab-item">
+                            <table id="indexOutAppraisalTableId" class="layui-hide" lay-filter="tableEvent"></table>
+                        </div>
+                        <div class="layui-tab-item">
+                            <table id="indexOutPatentTableId" class="layui-hide" lay-filter="tableEvent"></table>
+                        </div>
+                        <div class="layui-tab-item">
+                            <div style="display:none;">
+                                <table id="indexOutProjectInfoTableIdRy" class="layui-hide" style="display: none" lay-filter="tableEvent"></table>
+                            </div>
+                            <div id="indexOutProjectInfoTableIdRyShow"></div>
+                        </div>
+                        <div class="layui-tab-item">
+                            <div style="display:none;">
+                                <table id="indexOutProjectInfoTableIdFy" class="layui-hide" lay-filter="tableEvent"></table>
+                            </div>
+                            <div id="indexOutProjectInfoTableIdFyShow"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--右侧-->
+    <div class="skill-right">111</div>
+</div>
 
-<script type="text/javascript">
+<script>
+    var tfcCode = "@10@10001@";
 
-    var name="${name}";
-    var value="${value}";
-    var dom = document.getElementById("container");
-    var myChart = echarts.init(dom);
-    var app = {};
-    option = null;
-
-    var axisData = name.split(",");
-    // var axisData = ['聚凝剂','柴油调和技术','聚丙烯','钻井工艺','铂助燃剂','抗静电剂技术','环烷油','解冻剂','柴油调和技术','生物质气化技术'];
-    var data = axisData.map(function (item, i) {
-        // var d = Math.round(Math.random() * 1000 * (i + 1));
-        // console.log(i+"---"+d);
-        var d = value.split(",")[i] ;
-        // if (i==0){
-        //     d = 477;
-        // }else if (i == 1) {
-        //     d = 1218;
-        // }else if (i == 2) {
-        //     d = 2435;
-        // }else if (i == 3) {
-        //     d = 842;
-        // }else if (i == 4) {
-        //     d = 261;
-        // }else if (i == 5) {
-        //     d = 2111;
-        // }else if (i == 6) {
-        //     d = 4773;
-        // }else if (i == 7) {
-        //     d = 3678;
-        // }else if (i == 8) {
-        //     d = 2596;
-        // }else if (i == 9) {
-        //     d = 1960;
-        // }
-        return d;
-    });
-    var links = data.map(function (item, i) {
-        return {
-            source: i,
-            target: i + 1
-        };
-    });
-    links.pop();
-    option = {
-        title: {
-            text: '技术族热点图'
-        },
-        tooltip: {},
-        xAxis: {
-            type : 'category',
-            boundaryGap : false,
-            data : axisData
-        },
-        yAxis: {
-            type : 'value'
-        },
-        series: [
-            {
-                type: 'graph',
-                layout: 'none',
-                coordinateSystem: 'cartesian2d',
-                symbolSize: 40,
-                label: {
-                    normal: {
-                        show: true
-                    }
-                },
-                edgeSymbol: ['circle', 'arrow'],
-                edgeSymbolSize: [4, 10],
-                data: data,
-                links: links,
-                lineStyle: {
-                    normal: {
-                        color: '#2f4554'
-                    }
-                }
-            }
-        ]
-    };
-    if (option && typeof option === "object") {
-        myChart.setOption(option, true);
+    function changeTfcCode(code) {
+        tfcCode = code;
+        renderTable();
+        renderTableZl();
+        renderTableCg();
+        renderTableRy();
+        renderTableJf();
     }
 </script>
+<script>
+    var param = JSON.parse(window.localStorage.getItem("param"));
+    var table, selectRowData, workOrderStatus, publicMethods;
+    layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'publicMethods', 'element'], function () {
+        table = layui.table;
+        publicMethods = layui.publicMethods;
+        var $ = layui.jquery, layer = layui.layer, laypage = layui.laypage;
+        $(".skill-left>ul li").click(function () {
+            $(".skill-left>ul li").removeClass("layui-this");
+            $(this).addClass("layui-this");
+        });
+        $(".layui-tab-content").css("height", (parseInt(parent.$("#LAY_app_body .layui-show iframe").height()) - 132) + "px");
+        //人员
+        var colsRy =
+            [
+                {type: 'checkbox', event: 'changeEvents', width: 55},
+                {title: '序号', type: 'numbers', width: 55},
+                {
+                    field: "fzrxm",
+                    title: "负责人", event: 'setActive', style: 'cursor: pointer;'
+                }
+            ];
+
+        function renderTableRy() {
+            var where = {
+                param:
+                    {
+                        "typeIndex": tfcCode
+                        , "type": "ry"
+                    }
+            };
+            publicMethods.tableRender('indexOutProjectInfoTableIdRy', 'indexOutProjectInfoTableIdRy', '/indexOutProjectInfo/getTableData', false, colsRy, where, false, function (res, curr, count) {
+                // $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                //     var index = parseInt($(this).index() + 1);
+                //     $('tr').removeClass('layui-table-click');
+                //     $(this).addClass('layui-table-click');
+                //     $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                //     $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                //     selectRowData = res.data[index - 1];
+                // });
+                // selectRowData = "";
+                var user = "";
+                var total=0;
+                for (let i = 0; i < res.data.length; i++) {
+                    if (typeof res.data[i].fzrxm!="undefined"){
+                        total++;
+                        user = (user==""?"":(user+","))+res.data[i].fzrxm;
+                    }
+                }
+                console.log("总人数:"+total+"---参与人员:"+user);
+                $("#indexOutProjectInfoTableIdRyShow").html("参与人员:<br>"+user+"<br>总人数:"+total);
+            });
+        }
+
+        renderTableRy();
+        window.renderTableRy = renderTableRy;
+        //经费
+        var colsJf =
+            [
+                {type: 'checkbox', event: 'changeEvents', width: 55},
+                {title: '序号', type: 'numbers', width: 55},
+                {
+                    field: "xmmc",
+                    title: "项目名称", event: 'setActive', style: 'cursor: pointer;', width: 300
+                },
+                {
+                    field: "yshf",
+                    title: "实际花费", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "jf",
+                    title: "项目经费总额", event: 'setActive', style: 'cursor: pointer;', width: 100
+                }
+            ];
+
+        function renderTableJf() {
+            var where = {
+                param:
+                    {
+                        "typeIndex": tfcCode
+                        , "type": "fy"
+                    }
+            };
+            publicMethods.tableRender('indexOutProjectInfoTableIdFy', 'indexOutProjectInfoTableIdFy', '/indexOutProjectInfo/getTableData', false, colsJf, where, false, function (res, curr, count) {
+                // $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                //     var index = parseInt($(this).index() + 1);
+                //     $('tr').removeClass('layui-table-click');
+                //     $(this).addClass('layui-table-click');
+                //     $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                //     $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                //     selectRowData = res.data[index - 1];
+                // });
+                // selectRowData = "";
+                var totalFy = 0.00;
+                for (let i = 0; i < res.data.length; i++) {
+                    if (typeof res.data[i].jf!="undefined"){
+                        totalFy=res.data[i].jf*1+totalFy;
+                    }
+                }
+                totalFy = totalFy.toFixed(2);
+                $("#indexOutProjectInfoTableIdFyShow").html("总费用:"+totalFy);
+                console.log("------------"+totalFy);
+            });
+        }
+
+        renderTableJf();
+        window.renderTableJf = renderTableJf;
+        //项目
+        var cols =
+            [
+                {type: 'checkbox', event: 'changeEvents', width: 55},
+                {title: '序号', type: 'numbers', width: 55},
+                {
+                    field: "nd",
+                    title: "年度", event: 'setActive', style: 'cursor: pointer;', width: 55
+                },
+                {
+                    field: "hth",
+                    title: "合同号", event: 'setActive', style: 'cursor: pointer;', width: 100
+                },
+                {
+                    field: "xmmc",
+                    title: "项目名称", event: 'setActive', style: 'cursor: pointer;', width: 300
+                },
+                {
+                    field: "jf",
+                    title: "项目经费总额", event: 'setActive', style: 'cursor: pointer;', width: 100
+                },
+                {
+                    field: "kssj",
+                    title: "开始时间", event: 'setActive', style: 'cursor: pointer;', width: 100
+                }
+            ];
+
+        function renderTable() {
+            var where = {
+                param:
+                    {
+                        "typeIndex": tfcCode
+                    }
+            };
+            publicMethods.tableRender('indexOutProjectInfoTableId', 'indexOutProjectInfoTableId', '/indexOutProjectInfo/getTableData', false, cols, where, true, function (res, curr, count) {
+                $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                    var index = parseInt($(this).index() + 1);
+                    $('tr').removeClass('layui-table-click');
+                    $(this).addClass('layui-table-click');
+                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                    $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                    selectRowData = res.data[index - 1];
+                });
+                selectRowData = "";
+            });
+        }
+
+        renderTable();
+        window.renderTable = renderTable;
+
+        //成果
+        var colsCg =
+            [
+                {type: 'checkbox', event: 'changeEvents', width: 55},
+                {title: '序号', type: 'numbers', width: 55},
+                {
+                    field: "nd",
+                    title: "申请年度", event: 'setActive', style: 'cursor: pointer;', width: 100
+                },
+                {
+                    field: "cgmc",
+                    title: "成果名称", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "sqjddw",
+                    title: "申请单位", event: 'setActive', style: 'cursor: pointer;'
+                },
+            ];
+
+        function renderTableCg() {
+            var where = {
+                param:
+                    {
+                        "typeIndex": tfcCode
+                    }
+            };
+            publicMethods.tableRender('indexOutAppraisalTableId', 'indexOutAppraisalTableId', '/indexOutAppraisal/getTableData', false, colsCg, where, true, function (res, curr, count) {
+                $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                    var index = parseInt($(this).index() + 1);
+                    $('tr').removeClass('layui-table-click');
+                    $(this).addClass('layui-table-click');
+                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                    $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                    selectRowData = res.data[index - 1];
+                });
+            });
+        }
+
+        renderTableCg();
+        window.renderTableCg = renderTableCg;
+
+        var colsZl =
+            [
+                {type: 'checkbox', event: 'changeEvents', width: 55},
+                {title: '序号', type: 'numbers', width: 55},
+                {
+                    field: "sqri",
+                    title: "申请日", event: 'setActive', style: 'cursor: pointer;', width: 100,templet:function (d) {
+                        return d.sqri.substring(0,10);
+                    }
+                },
+                {
+                    field: "fmmc",
+                    title: "发明名称", event: 'setActive', style: 'cursor: pointer;', width: 200
+                },
+                {
+                    field: "shenqr",
+                    title: "申请人", event: 'setActive', style: 'cursor: pointer;', width: 150
+                },
+                {
+                    field: "fmr",
+                    title: "发明人", event: 'setActive', style: 'cursor: pointer;', width: 150
+                },
+                {
+                    field: "zlh",
+                    title: "专利号", event: 'setActive', style: 'cursor: pointer;', width: 150
+                }
+            ];
+
+        function renderTableZl() {
+
+            var where = {
+                param:
+                    {
+                        "typeIndex": tfcCode
+                    }
+            };
+            publicMethods.tableRender('indexOutPatentTableId', 'indexOutPatentTableId', '/indexOutPatent/getTableData', false, colsZl, where, true, function (res, curr, count) {
+                $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                    var index = parseInt($(this).index() + 1);
+                    $('tr').removeClass('layui-table-click');
+                    $(this).addClass('layui-table-click');
+                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                    $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                    selectRowData = res.data[index - 1];
+                });
+            });
+        }
+
+        renderTableZl();
+        window.renderTableZl = renderTableZl;
+    });
+</script>
+
 </body>
 </html>

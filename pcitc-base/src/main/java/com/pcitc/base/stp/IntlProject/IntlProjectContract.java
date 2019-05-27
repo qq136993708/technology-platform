@@ -5,6 +5,10 @@ public class IntlProjectContract {
 
     private String contractNo;
 
+    private String parentContractId;
+
+    private Integer contractType;
+
     private String signDate;
 
     private String signAddress;
@@ -89,6 +93,22 @@ public class IntlProjectContract {
 
     public void setContractNo(String contractNo) {
         this.contractNo = contractNo;
+    }
+
+    public String getParentContractId() {
+        return parentContractId;
+    }
+
+    public void setParentContractId(String parentContractId) {
+        this.parentContractId = parentContractId;
+    }
+
+    public Integer getContractType() {
+        return contractType;
+    }
+
+    public void setContractType(Integer contractType) {
+        this.contractType = contractType;
     }
 
     public String getSignDate() {

@@ -27,8 +27,16 @@ public class IntlProjectContractProviderClient
 	{
 		return intlProjectContractService.selectProjectContractList(param);
 	}
+	@ApiOperation(value="检索已签约项目",notes="检索签约项目列表数据，不分页返回所有。")
+	@RequestMapping(value = "/stp-provider/project/contract-list-all", method = RequestMethod.POST)
+	public Object selectContractListAll(@RequestBody LayuiTableParam param) 
+	{
+		return intlProjectContractService.selectAllProjctContract();
+	}
+	
+	
 	@ApiOperation(value="分页检索待续约项目",notes="检索已过期待续约项目列表数据，返回数据列表。")
-	@RequestMapping(value = "/stp-provider/project/contract-end-list", method = RequestMethod.POST)
+	@RequestMapping(value = "/stp-provider/project/contract-renew-list", method = RequestMethod.POST)
 	public Object selectEndContractByPage(@RequestBody LayuiTableParam param) 
 	{
 		return intlProjectContractService.selectEndProjectContractList(param);
@@ -70,5 +78,11 @@ public class IntlProjectContractProviderClient
 	
 		return intlProjectContractService.findById(contractId);
 	}
+	@ApiOperation(value="获取签约代码",notes="签约项目编号。")
+	@RequestMapping(value = "/stp-provider/project/project-contract-code", method = RequestMethod.POST)
+	public Object getProjectContractCode(@RequestBody IntlProjectContract contract) 
+	{
 	
+		return intlProjectContractService.createProjectContractCode();
+	}
 }

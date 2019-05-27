@@ -74,13 +74,13 @@
 	            cols: [[
 	            	 {type:'checkbox',align:"center"}
 	            	,{title:'序号', type:'numbers',align:"center" ,width : 55}
-	                ,{field:'applyName',   title:'申报项目名称',    width: '23%',  style:'cursor: pointer;',align:"left"}
+	                ,{field:'applyName',   title:'申报项目名称',  style:'cursor: pointer;',align:"left"}
 	                ,{field:'applyCode',title:'项目编码',	width: '15%',   style:'cursor: pointer;',align:"left"}
-	                ,{field:'unitId',title:'建设单位',	width: '10%',   style:'cursor: pointer;',align:"left"}
+	                ,{field:'outerCompanyName',title:'中方合作单位',	width: '10%',   style:'cursor: pointer;',align:"left"}
 	                ,{field:'dcProjectCategory',title:'项目分类',	width: '10%',   style:'cursor: pointer;',align:"left"}
 	                ,{field:'dcProjectNature',title:'项目性质',	width: '10%',   style:'cursor: pointer;',align:"left"}
-	                ,{field:'moneyRmb',   title:'总投资人民币(万元)',   width: '14%',  style:'cursor: pointer;',align:"right"}
-	                ,{field:'flowStartStatus',  title:'状态', style:'cursor: pointer;',align:"center"}
+	                ,{field:'moneyRmb',   title:'总投资人民币(万元)',   width: '10%',  style:'cursor: pointer;',align:"right"}
+	                ,{field:'flowStartStatus',  title:'状态', width: '8%',style:'cursor: pointer;',align:"center"}
 	            ]],
 	            done: function (res, curr, count) {
 	            	/* var html="<tr style='height:60px;'><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>";
@@ -124,9 +124,9 @@
 		            	$("tr[data-index='"+i+"'] td[data-field='dcProjectCategory'] div").html(dicVal[res.data[i].dcProjectCategory]);
 		            	$("tr[data-index='"+i+"'] td[data-field='dcProjectNature'] div").html(dicVal[res.data[i].dcProjectNature]);
 		            	//岗位
-		            	publicMethods.ajaxPost("/unit/get-unit/"+res.data[i].unitId,null, function (data) {
+		            	/* publicMethods.ajaxPost("/unit/get-unit/"+res.data[i].unitId,null, function (data) {
 		            		$("tr[data-index='"+i+"'] td[data-field='unitId'] div").html(data.unitName);
-				   		});
+				   		}); */
 		            });
 	            }
 	        });
@@ -184,11 +184,12 @@
             	}
             	layer.confirm('提交后将不可再编辑，确定要提交吗？',{title:"提交确认"},function(index){
 					layer.close(index);
-          		   	ajaxPost("/project/apply-start-workflow",{applyId: selectRowData.applyId,functionId:param.id}, function (data) {
+					publicMethods.ajaxAsyncPost("/project/apply-start-workflow",{applyId: selectRowData.applyId,functionId:param.id}, function (data) {
           		   		if (data.success) {
-          	        	 renderTable({param: {"applyName":$("#applyName").val()}});
+          	        	 	renderTable({param: {"applyName":$("#applyName").val()}});
+          	        		layer.msg('操作成功!');
           	           } else {
-          	        	 layer.msg(data.message);
+          	        	 	layer.msg(data.message);
           	           }
           	       });
           	   });
@@ -199,9 +200,10 @@
             	} 
             	layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
 					layer.close(index);
-	            	ajaxPost("/project/apply-close/" + selectRowData.applyId, null, function (data) {
+					publicMethods.ajaxAsyncPost("/project/apply-close/" + selectRowData.applyId, null, function (data) {
 	                     if (data.success) {
 	                    	 renderTable({param: {"applyName":$("#applyName").val()}});
+	                    	 layer.msg('操作成功!');
 	                     } else {
 	                    	 layer.msg('操作异常，请重试!');
 	                     }
@@ -215,10 +217,10 @@
             	}
 				layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
 					layer.close(index);
-	            	ajaxPost("/project/apply-delete/"+selectRowData.applyId, null, function (data) {
+					publicMethods.ajaxAsyncPost("/project/apply-delete/"+selectRowData.applyId, null, function (data) {
 	                     if (data.success) {
 	                    	 renderTable({param: {"applyName":$("#applyName").val()}});
-	                    	 //table.reload("applyTable");
+	                    	 layer.msg('操作成功!');
 	                     } else {
 	                    	 layer.msg('操作异常，请重试!');
 	                     }

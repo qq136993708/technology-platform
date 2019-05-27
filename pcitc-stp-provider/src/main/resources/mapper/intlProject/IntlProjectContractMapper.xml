@@ -4,6 +4,8 @@
   <resultMap id="BaseResultMap" type="com.pcitc.base.stp.IntlProject.IntlProjectContract">
     <id column="contract_id" jdbcType="VARCHAR" property="contractId" />
     <result column="contract_no" jdbcType="VARCHAR" property="contractNo" />
+    <result column="parent_contract_id" jdbcType="VARCHAR" property="parentContractId" />
+    <result column="contract_type" jdbcType="INTEGER" property="contractType" />
     <result column="sign_date" jdbcType="VARCHAR" property="signDate" />
     <result column="sign_address" jdbcType="VARCHAR" property="signAddress" />
     <result column="project_id" jdbcType="VARCHAR" property="projectId" />
@@ -99,13 +101,14 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    contract_id, contract_no, sign_date, sign_address, project_id, contract_content, 
-    create_time, update_time, creater, start_date, end_date, secrecy_times, data_uuid, 
-    flow_agreement_review, flow_technology_review, flow_knowledge_review, flow_comprehensive_review, 
-    del_flag, append_files, contract_status, chinese_contract_company, foreign_contract_company, 
-    company_introduction, company_advantage, project_target, research_content, person_study, 
-    result_status, unit_id, country_name, money_type, foreign_money, rmb_money, agreement_start_date, 
-    agreement_end_date, secrecy_start_date, secrecy_end_date
+    contract_id, contract_no, parent_contract_id, contract_type, sign_date, sign_address, 
+    project_id, contract_content, create_time, update_time, creater, start_date, end_date, 
+    secrecy_times, data_uuid, flow_agreement_review, flow_technology_review, flow_knowledge_review, 
+    flow_comprehensive_review, del_flag, append_files, contract_status, chinese_contract_company, 
+    foreign_contract_company, company_introduction, company_advantage, project_target, 
+    research_content, person_study, result_status, unit_id, country_name, money_type, 
+    foreign_money, rmb_money, agreement_start_date, agreement_end_date, secrecy_start_date, 
+    secrecy_end_date
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectContractExample" resultMap="BaseResultMap">
     select
@@ -139,11 +142,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectContract">
-    insert into intl_project_contract (contract_id, contract_no, sign_date, 
-      sign_address, project_id, contract_content, 
-      create_time, update_time, creater, 
-      start_date, end_date, secrecy_times, 
-      data_uuid, flow_agreement_review, flow_technology_review, 
+    insert into intl_project_contract (contract_id, contract_no, parent_contract_id, 
+      contract_type, sign_date, sign_address, 
+      project_id, contract_content, create_time, 
+      update_time, creater, start_date, 
+      end_date, secrecy_times, data_uuid, 
+      flow_agreement_review, flow_technology_review, 
       flow_knowledge_review, flow_comprehensive_review, 
       del_flag, append_files, contract_status, 
       chinese_contract_company, foreign_contract_company, 
@@ -153,11 +157,12 @@
       money_type, foreign_money, rmb_money, 
       agreement_start_date, agreement_end_date, secrecy_start_date, 
       secrecy_end_date)
-    values (#{contractId,jdbcType=VARCHAR}, #{contractNo,jdbcType=VARCHAR}, #{signDate,jdbcType=VARCHAR}, 
-      #{signAddress,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{contractContent,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR}, 
-      #{startDate,jdbcType=VARCHAR}, #{endDate,jdbcType=VARCHAR}, #{secrecyTimes,jdbcType=VARCHAR}, 
-      #{dataUuid,jdbcType=VARCHAR}, #{flowAgreementReview,jdbcType=INTEGER}, #{flowTechnologyReview,jdbcType=INTEGER}, 
+    values (#{contractId,jdbcType=VARCHAR}, #{contractNo,jdbcType=VARCHAR}, #{parentContractId,jdbcType=VARCHAR}, 
+      #{contractType,jdbcType=INTEGER}, #{signDate,jdbcType=VARCHAR}, #{signAddress,jdbcType=VARCHAR}, 
+      #{projectId,jdbcType=VARCHAR}, #{contractContent,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR}, #{startDate,jdbcType=VARCHAR}, 
+      #{endDate,jdbcType=VARCHAR}, #{secrecyTimes,jdbcType=VARCHAR}, #{dataUuid,jdbcType=VARCHAR}, 
+      #{flowAgreementReview,jdbcType=INTEGER}, #{flowTechnologyReview,jdbcType=INTEGER}, 
       #{flowKnowledgeReview,jdbcType=INTEGER}, #{flowComprehensiveReview,jdbcType=INTEGER}, 
       #{delFlag,jdbcType=INTEGER}, #{appendFiles,jdbcType=VARCHAR}, #{contractStatus,jdbcType=INTEGER}, 
       #{chineseContractCompany,jdbcType=VARCHAR}, #{foreignContractCompany,jdbcType=VARCHAR}, 
@@ -176,6 +181,12 @@
       </if>
       <if test="contractNo != null">
         contract_no,
+      </if>
+      <if test="parentContractId != null">
+        parent_contract_id,
+      </if>
+      <if test="contractType != null">
+        contract_type,
       </if>
       <if test="signDate != null">
         sign_date,
@@ -289,6 +300,12 @@
       </if>
       <if test="contractNo != null">
         #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="parentContractId != null">
+        #{parentContractId,jdbcType=VARCHAR},
+      </if>
+      <if test="contractType != null">
+        #{contractType,jdbcType=INTEGER},
       </if>
       <if test="signDate != null">
         #{signDate,jdbcType=VARCHAR},
@@ -412,6 +429,12 @@
       <if test="record.contractNo != null">
         contract_no = #{record.contractNo,jdbcType=VARCHAR},
       </if>
+      <if test="record.parentContractId != null">
+        parent_contract_id = #{record.parentContractId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contractType != null">
+        contract_type = #{record.contractType,jdbcType=INTEGER},
+      </if>
       <if test="record.signDate != null">
         sign_date = #{record.signDate,jdbcType=VARCHAR},
       </if>
@@ -526,6 +549,8 @@
     update intl_project_contract
     set contract_id = #{record.contractId,jdbcType=VARCHAR},
       contract_no = #{record.contractNo,jdbcType=VARCHAR},
+      parent_contract_id = #{record.parentContractId,jdbcType=VARCHAR},
+      contract_type = #{record.contractType,jdbcType=INTEGER},
       sign_date = #{record.signDate,jdbcType=VARCHAR},
       sign_address = #{record.signAddress,jdbcType=VARCHAR},
       project_id = #{record.projectId,jdbcType=VARCHAR},
@@ -570,6 +595,12 @@
     <set>
       <if test="contractNo != null">
         contract_no = #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="parentContractId != null">
+        parent_contract_id = #{parentContractId,jdbcType=VARCHAR},
+      </if>
+      <if test="contractType != null">
+        contract_type = #{contractType,jdbcType=INTEGER},
       </if>
       <if test="signDate != null">
         sign_date = #{signDate,jdbcType=VARCHAR},
@@ -682,6 +713,8 @@
   <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectContract">
     update intl_project_contract
     set contract_no = #{contractNo,jdbcType=VARCHAR},
+      parent_contract_id = #{parentContractId,jdbcType=VARCHAR},
+      contract_type = #{contractType,jdbcType=INTEGER},
       sign_date = #{signDate,jdbcType=VARCHAR},
       sign_address = #{signAddress,jdbcType=VARCHAR},
       project_id = #{projectId,jdbcType=VARCHAR},

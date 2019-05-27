@@ -15,8 +15,8 @@
     <div class="layui-main-oil">
         <div class="searchBox">
             <label class="dateInput">
-                <span>月份</span>
-                <input type="text" name="year" placeholder="请选择月份" title="月份" value="${year}"  autocomplete="off" class="form-control" id="year">
+                <span>年份</span>
+                <input type="text" name="nd" placeholder="请选择月份" title="年份" value="${nd}"  autocomplete="off" class="form-control" id="nd">
             </label>
             <!--按钮组-->
             <div class="btnGroup">
@@ -61,10 +61,6 @@
                         <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
                     </div>
                     
-                    
-                       <!--  <div class="layui-row-main">
-                            <div class="main-chart" id="chart3" style="height:280px;width: 100%;"></div>
-                        </div> -->
                     </div>
                 </div>
             </div>
@@ -128,33 +124,7 @@
 <script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
 
 <script type="text/javascript">
-/* var myChart1 = echarts.init(document.getElementById('chart3'));
-var table;
-layui.config({
-    base: '/layuiadmin/'
-}).extend({
-    index: 'lib/index' 
-}).use(['index','jquery','form', 'laydate','table','laypage'], function(){
-	  $ = layui.jquery
-      ,table = layui.table
-      ,form = layui.form
-      ,laydate = layui.laydate
-	  form.render(null, 'component-form-group');
-        laydate.render({
-           elem: '#year'
-           ,format: 'yyyy'
-        });
-    $(".layui-time").html($("#year").val());
-        $("#knowledge_table").click(function () {
-            parent.layui.index.openTabsPage("/home_achievement/award_table", "科技成果详情");
-        });
-        
-        
-}); */
-
-
-
-
+var nd=$('#nd').val();
 var editObj=null,ptable=null,treeGridCom=null,tableId='processdef-table',layer=null;
 var ptable02=null,treeGridCom=null,tableId02='processdef_table_02';
 layui.config({
@@ -170,7 +140,7 @@ layui.config({
    
     form.render(null, 'component-form-group');
     laydate.render({
-       elem: '#year'
+       elem: '#nd'
        ,format: 'yyyy'
     });
     renderTable();
@@ -185,7 +155,6 @@ function initEchart()
 {
 
 	var v_date=(new Date()).getTime();
-	var nd=$('#year').val();
     $(".layui-time").html(nd);
 	var ndstr=nd+"年";
 	var yAxis= [
@@ -225,9 +194,6 @@ function initEchart()
 		parent.layui.index.openTabsPage("/home_achievement/award_table?project_property="+xName, "科技成果明细");
           
     });
-	
-	/* var chart3_url="/home_achievement/getAwardCircle?nd="+nd+"&v_date="+v_date;
-	getTaiYang(chart3_url,"",""); */
 	
 	
 	
@@ -287,14 +253,11 @@ function search_Event()
 function renderTable()
 {  
 	
-	  var month=$("#year").val();
-	  var companyCode=$("#companyCode").val();
-	  
 	 
 	  ptable=treeGridCom.render({
 	        id:tableId
 	        ,elem: '#'+tableId
-	        ,url:'/home_achievement/getAwardCircle?nd='+month+"&companyCode="+companyCode
+	        ,url:'/home_achievement/getAwardCircle?nd='+nd
 	        ,cellMinWidth: 200
 	        ,idField:'id'//必須字段
 	        ,treeId:'id'//树形id字段名称
@@ -325,106 +288,6 @@ function renderTable()
 	    });
 }
 
-
-   /*      
-function getTaiYang(url,title,ndstr)
-{
-	
-     var option = {
-    	 title: {
-    		        text: title,
-    		        x:'center',
-    		        y: '10px',
-    		        subtext: ndstr,
-    		        textStyle: {
-    		            fontSize: 15,
-    		            fontWeight: 'normal',
-    		            color: '#000000'       
-    		        },
-    		        subtextStyle: {
-    		            color: '#7B7B7B'        
-    		        },
-    		    },
-    		    tooltip: {
-    		        trigger: 'item',
-    		        formatter: "{b}: {c}"
-    		    },
-    		    grid: {
-    		        x: 80,
-    		        y: 80,
-    		        x2: 80,
-    		        y2: 80
-    		    },
-         series: {
-             type: 'sunburst',
-             highlightPolicy: 'ancestor',
-             data: [],
-             radius: [0, '95%'],
-             sort: null,
-             levels: [{}, {
-                 r0: '15%',
-                 r: '35%',
-                 itemStyle: {
-                     borderWidth: 2
-                 },
-                 label: {
-                     rotate: 'tangential'
-                 }
-             }, {
-                 r0: '35%',
-                 r: '70%',
-                 label: {
-                     align: 'right'
-                 }
-             }]
-             
-             
-           }
-         };
-     
-     
-     
-     var  chartList;
-     function pieAjax_taiyang_02() 
-     {
-    	 
-     	 myChart1.showLoading();
-          $.ajax({
-     	     type:"get",
-     	     url: url,
-     	     dataType:"json",
-     	     timeout : 11000,
-     	     cache: false,
-     	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
-     	      success:function(data,status)
-     	      {    
-     		          if(data.success==true ||data.success=='true')
-     		          {
-     		        	        chartList=data.data;
-     		        	        option.series.data=chartList;
-     		        	        
-     		        	        myChart1.setOption(option);
-     		          } 
-     			   },
-     			   error:function()
-     			   {
-     				   layer.msg('图表加载失败');
-     			   },
-     			   complete: function (XMLHttpRequest, status) {
-     				   myChart1.hideLoading();
-     		            if(status == 'timeout'){
-     		            	 layer.msg('超时');
-     		            }
-     		        }
-     	    });
-             
-     }
-     
-     pieAjax_taiyang_02();
-     
-} */
-
-        
 </script>
 </body>
 </html>

@@ -1,5 +1,7 @@
 package com.pcitc.service.intlproject;
 
+import java.util.List;
+
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.IntlProject.IntlProjectContract;
@@ -52,4 +54,14 @@ public interface IntlProjectContractService
 	 * @return
 	 */
 	Integer delIntlProjectContractReal(String projectContrctId);
+	/**
+	 * 
+	 * @return
+	 */
+	String createProjectContractCode();
+	/**
+	 * 
+	 * @return
+	 */
+	List<IntlProjectContract> selectAllProjctContract();
 }

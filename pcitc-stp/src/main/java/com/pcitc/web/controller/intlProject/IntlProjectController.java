@@ -56,8 +56,12 @@ public class IntlProjectController extends BaseController
 		if(request.getParameter("plantId")==null) 
 		{
 			request.setAttribute("appendFiles", IdUtil.createFileIdByTime());
+			request.setAttribute("plantId", IdUtil.createFileIdByTime());
+			request.setAttribute("edit", 0);
+		}else {
+			request.setAttribute("edit", 1);
+			request.setAttribute("plantId", request.getParameter("plantId"));
 		}
-		request.setAttribute("plantId", request.getParameter("plantId"));
 		return "stp/intlproject/plant_edit";
     }
 	@RequestMapping(method = RequestMethod.GET, value = "/intl_project/plant_view")
@@ -152,10 +156,10 @@ public class IntlProjectController extends BaseController
 		return "stp/intlproject/contract_list";
     }
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/intl_project/contract_end_list")
+	@RequestMapping(method = RequestMethod.GET, value = "/intl_project/contract_renew_list")
 	private String toProjectEndContractListPage(HttpServletRequest request) 
 	{
-		return "stp/intlproject/contract_end_list";
+		return "stp/intlproject/contract_renew_list";
     }
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/intl_project/contract_edit")
@@ -170,6 +174,18 @@ public class IntlProjectController extends BaseController
 		return "stp/intlproject/contract_edit";
     }
 	
+	@RequestMapping(method = RequestMethod.GET, value = "/intl_project/contract_renew_edit")
+	private String toProjectContractRenewEditPage(HttpServletRequest request) 
+	{
+		String contractId = request.getParameter("contractId");
+		if(contractId == null) 
+		{
+			request.setAttribute("appendFiles", IdUtil.createFileIdByTime());
+		}
+		request.setAttribute("contractId", contractId);
+		return "stp/intlproject/contract_renew_edit";
+    }
+	
 	@RequestMapping(method = RequestMethod.GET, value = "/intl_project/contract_view")
 	private String toProjectContractViewPage(HttpServletRequest request) 
 	{
@@ -181,6 +197,18 @@ public class IntlProjectController extends BaseController
 		request.setAttribute("contractId", contractId);
 		return "stp/intlproject/contract_view";
     }
+	@RequestMapping(method = RequestMethod.GET, value = "/intl_project/contract_renew_view")
+	private String toProjectRenewContractViewPage(HttpServletRequest request) 
+	{
+		String contractId = request.getParameter("contractId");
+		if(contractId == null) 
+		{
+			request.setAttribute("appendFiles", IdUtil.createFileIdByTime());
+		}
+		request.setAttribute("contractId", contractId);
+		return "stp/intlproject/contract_renew_view";
+    }
+	
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/intl_project/result_list")
 	private String toProjectResultListPage(HttpServletRequest request) 
