@@ -1759,6 +1759,52 @@
 		order by define10
 	</select>
 
+    <select id="selectProjectByCondExpert" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.out.OutProjectInfo">
+        select out_project_info.data_id,out_project_info.hth,out_project_info.xmmc,
+        out_project_info.nd,out_project_info.xmid,out_project_info.fzdw,
+        out_project_info.jf,out_project_info.zylb,substr(out_project_info.define10, 4) as define10,
+        group_concat(DISTINCT out_project_info.define8) as define8,
+        group_concat(DISTINCT out_project_erp.erp_project_code) as erp_project_code,
+        group_concat(DISTINCT out_project_erp.erp_project_name) as erp_project_name
+        from out_project_info left join out_project_erp on (out_project_info.xmid = out_project_erp.opi_id)
+        where
+        out_project_info.define8 is not null and (out_project_info.project_type = '0' or out_project_info.project_type = '2')
+        <if test="nd != null">
+            and out_project_info.nd = #{nd,jdbcType=VARCHAR}
+        </if>
+        <if test="hth != null">
+            and out_project_info.hth like '%${hth}%'
+        </if>
+        <if test="xmmc != null">
+            and out_project_info.xmmc like '%${xmmc}%'
+        </if>
+        <if test="define1 != null">
+            and out_project_info.define1 like '%${define1}%'
+        </if>
+        <if test="define2 != null">
+            and out_project_info.define2 like '%${define2}%'
+        </if>
+        <if test="projectProperty != null">
+            and out_project_info.project_property like '%${projectProperty}%'
+        </if>
+        <if test="projectScope != null">
+            and out_project_info.project_scope like '%${projectScope}%'
+        </if>
+        <if test="typeFlag != null">
+            and out_project_info.type_flag like '%${typeFlag}%'
+        </if>
+        <if test="zylb != null">
+            and out_project_info.zylb like '%${zylb}%'
+        </if>
+        <if test="zycmc != null">
+            and out_project_info.zycmc like '%${zycmc}%'
+        </if>
+        <if test="status != null">
+            and out_project_info.status = #{status,jdbcType=VARCHAR}
+        </if>
+        group by xmid
+        order by define10
+    </select>
 	<!-- 首页计算新开课题总数 -->
 	<select id="getOutProjectInfoCount" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select 

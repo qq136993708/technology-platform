@@ -42,7 +42,9 @@ public interface OutProjectInfoMapper {
     public void insertOutProjectBatch(List<OutProjectInfo> list);
 
 	public List<OutProjectInfo> selectProjectByCond(OutProjectInfo opi);
-	
+
+	public List<OutProjectInfo> selectProjectByCondExpert(OutProjectInfo opi);
+
 	public List<OutProjectInfo> selectProjectInfoByCond(OutProjectInfo opi);
 	
 	/**
