@@ -34,9 +34,9 @@ $(document).ready(function() {
 				var publicMethods=layui.publicMethods;
 				var editor = CKEDITOR.replace("resultContent");
 				//加载项目
-	    		publicMethods.ajaxPost("/project/apply-list-all",null, function (data) {
+	    		publicMethods.ajaxPost("/project/info-list-all",null, function (data) {
 					$.each(data,function(i,val){
-						$("#projectId").append('<option value="'+data[i].applyId+'">'+data[i].applyName+'</option>');
+						$("#projectId").append('<option value="'+data[i].projectId+'">'+data[i].projectName+'</option>');
 					});
 			   	});
 				//字典
@@ -69,7 +69,7 @@ $(document).ready(function() {
                     ajaxPost('/project/result-saveorupdate', data.field, function (data, status) {
                         if (data.success) {
                         	parent.layui.table.reload('resultTable',null);
-                        	parent.renderfunc();//隐藏全选按钮
+                        	parent.renderTable();//隐藏全选按钮
                         	var index = parent.layer.getFrameIndex(window.name);
 					       	parent.layer.close(index);
                         }else{
@@ -107,24 +107,6 @@ $(document).ready(function() {
 				</div>
 			</div>
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-				<div class="layui-form-item"  id="password" >
-					<label for="" class="layui-form-label">成果编码<span class="must-fill">*</span></label>
-					<div class="layui-input-block">
-					 	<input type="text" class="layui-input" id="resultCode" name="resultCode" placeholder="成果编码">
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="layui-row">
-			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-				<div class="layui-form-item">
-					<label for="" class="layui-form-label">成果标题<span class="must-fill">*</span></label>
-					<div class="layui-input-block">
-					 	<input type="text" class="layui-input" id="resultTitle" name="resultTitle" placeholder="标题">
-					</div>
-				</div>
-			</div>
-			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				<div class="layui-form-item">
 					<label for="" class="layui-form-label">成果类型<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
@@ -138,17 +120,9 @@ $(document).ready(function() {
 		<div class="layui-row">
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				<div class="layui-form-item">
-					<label for="" class="layui-form-label">项目负责人<span class="must-fill">*</span></label>
+					<label for="" class="layui-form-label">成果标题<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" class="layui-input" lay-verify="required" id="resultAuthor" name="resultAuthor" placeholder="项目负责人">
-					</div>
-				</div>
-			</div>
-			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-				<div class="layui-form-item">
-					<label for="" class="layui-form-label">负责人联系方式</label>
-					<div class="layui-input-block">
-						<input type="text" class="layui-input" id="authorPhone" name="authorPhone">
+					 	<input type="text" class="layui-input" id="resultTitle" name="resultTitle" placeholder="标题">
 					</div>
 				</div>
 			</div>
