@@ -51,7 +51,7 @@
     layui.use(['jquery','table','laypage',"publicMethods"], function(){
     	var $ = layui.jquery, element = layui.element, layer = layui.layer,publicMethods=layui.publicMethods;
     	table = layui.table;
-    	function renderTable(where){
+    	window.renderTable = function(where){
     		var lodingMsg = layer.msg('数据加载中....');
     		var param = JSON.parse(window.localStorage.getItem("param"));
 	        table.render({
@@ -73,14 +73,12 @@
 	            cols: [[
 	            	 {type:'checkbox'}
 	            	,{title:'序号', type:'numbers' ,width : 55}
-	                ,{field:'applyName',   title:'项目名称',    width: '20%',  style:'cursor: pointer;',align:"left"}
-	                ,{field:'applyCode',title:'项目编码',	width: '10%',   style:'cursor: pointer;'}
+	                ,{field:'projectName',   title:'项目名称',    width: '25%',  style:'cursor: pointer;',align:"left"}
+	                ,{field:'projectCode',title:'项目编码',	width: '15%',   style:'cursor: pointer;'}
 	                ,{field:'startDate',title:'开始日期',	width: '10%',   style:'cursor: pointer;'}
 	                ,{field:'endDate',title:'完工日期',	width: '10%',   style:'cursor: pointer;'}
-	                ,{field:'managerName',title:'负责人',	width: '10%', style:'cursor: pointer;'}
-	                ,{field:'plantMoney',   title:'计划投资',   width: '10%',  style:'cursor: pointer;',align:"right"}
-	                ,{field:'buildYears',  title:'建设年限',    width: '10%',  style:'cursor: pointer;',align:"center"}
-	                ,{field:'status',  title:'验收状态', style:'cursor: pointer;',align:"center"}
+	                ,{field:'moneyRmb',   title:'计划投资(万元)',   width: '15%',  style:'cursor: pointer;',align:"right"}
+	                ,{field:'status',  title:'状态', style:'cursor: pointer;',align:"center"}
 	            ]],
 	            done: function (res, curr, count) {
 	            	layer.close(lodingMsg);
@@ -95,6 +93,11 @@
 	                }); 
 	                $.each(res.data,function(i,dt){
 		            	$("tr[data-index='"+i+"'] td[data-field='status'] div").html("待验收");
+		            	publicMethods.ajaxAsyncPost('/project/get-apply', {"applyId":res.data[i].applyId}, function (data, status) {
+		            		//$("tr[data-index='"+i+"'] td[data-field='applyId'] div").html(data.applyName);
+		            		$("tr[data-index='"+i+"'] td[data-field='moneyRmb'] div").html(data.moneyRmb);
+		            		
+			            });
 		            });
 	            }
 	        });
@@ -105,26 +108,28 @@
 		}
     	renderTable();
     	table.on('rowDouble(acceptEvent)', function(obj){
-    		var temUrl = '/intl_project/apply_view?applyId='+obj.data.applyId;
+    		//var temUrl = '/intl_project/apply_view?applyId='+obj.data.applyId;
+    		var temUrl = "/intl_project/info_view?projectId="+obj.data.projectId;
         	//openFullWin("详情",temUrl);
-        	publicMethods.openBaseWinFull("详情",temUrl);
+        	publicMethods.openBaseWinFull("项目详情",temUrl);
         });
         // 触发不同的按钮事件
         var $ = layui.$, active = {
             searchEvent: function() { //点击查询按钮
-                renderTable({param: {"applyName":$("#applyName").val()}});
+                renderTable({param: {"projectName":$("#projectName").val()}});
             },resetEvent: function() { 
             	//点击重置按钮
-                $("#applyName").val("");
-                renderTable({param: {"applyName":$("#applyName").val()}});
+                $("#projectName").val("");
+                renderTable({param: {"projectName":$("#projectName").val()}});
             },detailEvent:function(){
             	if(!selectRowData){
             		layer.msg('请点击选择一行数据!');
             		return;
             	}
-            	var temUrl = '/intl_project/apply_view?applyId='+selectRowData.applyId;
+            	//var temUrl = '/intl_project/apply_view?applyId='+selectRowData.applyId;
+            	var temUrl = "/intl_project/info_view?projectId="+selectRowData.projectId;
             	//openFullWin("详情",temUrl);
-            	publicMethods.openBaseWinFull("详情",temUrl);
+            	publicMethods.openBaseWinFull("项目详情",temUrl);
             },commitEvent:function(){
             	if(!selectRowData){
             		layer.msg('请点击选择一行数据!');
@@ -132,9 +137,9 @@
             	}
             	layer.confirm('确定要验收项目吗？',{title:"验收确认"},function(index){
 					layer.close(index);
-					var temUrl = '/intl_project/accept_process?projectId='+selectRowData.applyId;
+					var temUrl = '/intl_project/accept_process?projectId='+selectRowData.projectId;
 	            	//openFullWin("项目验收",temUrl);
-					publicMethods.openBaseWinFull("详情",temUrl);
+					publicMethods.openBaseWinFull("验收确认",temUrl);
           	   });
             }
         };
@@ -151,7 +156,7 @@
 <div class="searchBox">
     <label class="dateInput">
         <span>项目名称</span>
-        <input type="text" name="applyName" id="applyName" placeholder="请输入项目名称"  autocomplete="off" class="form-control">
+        <input type="text" name="projectName" id="projectName" placeholder="请输入项目名称"  autocomplete="off" class="form-control">
     </label>
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>

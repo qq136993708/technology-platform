@@ -74,9 +74,6 @@
 	            	 {type:'checkbox'}
 	            	,{title:'序号', type:'numbers' ,width : 55}
 	                ,{field:'projectId',   title:'项目名称',    width: '25%',  style:'cursor: pointer;'}
-	                ,{field:'acceptNo',title:'验收编码',	width: '15%',   style:'cursor: pointer;'}
-	                ,{field:'startDate',title:'开始日期',	width: '10%',   style:'cursor: pointer;'}
-	                ,{field:'endDate',title:'完工日期',	width: '10%',   style:'cursor: pointer;'}
 	                ,{field:'acceptDate',title:'验收日期',	width: '10%',   style:'cursor: pointer;'}
 	                ,{field:'status',  title:'验收状态', style:'cursor: pointer;',align:"center"}
 	            ]],
@@ -93,19 +90,9 @@
 	                }); 
 	                //获得项目信息
 	                $.each(res.data,function(i,dt){
-		            	publicMethods.ajaxPost('/project/get-apply', {"applyId":res.data[i].projectId}, function (data, status) {
-		            		$("tr[data-index='"+i+"'] td[data-field='projectId'] div").html(data.applyName);
-		            		$("tr[data-index='"+i+"'] td[data-field='startDate'] div").html(data.startDate);
-		            		$("tr[data-index='"+i+"'] td[data-field='endDate'] div").html(data.endDate);
-		            		if(res.data[i].status ==0){
-		            			$("tr[data-index='"+i+"'] td[data-field='status'] div").html("待验收");
-		            		}
-		            		if(res.data[i].status ==1){
-		            			$("tr[data-index='"+i+"'] td[data-field='status'] div").html("验收通过");
-		            		}
-		            		if(res.data[i].status ==-1){
-		            			$("tr[data-index='"+i+"'] td[data-field='status'] div").html("验收未通过");
-		            		}
+	                	$("tr[data-index='"+i+"'] td[data-field='status'] div").html("验收通过");
+		            	publicMethods.ajaxAsyncPost('/project/get-project', {"projectId":res.data[i].projectId}, function (data, status) {
+		            		$("tr[data-index='"+i+"'] td[data-field='projectId'] div").html(data.projectName);
 			            });
 	            	});
 	            }
@@ -118,24 +105,25 @@
     	renderTable();
         //监听表格复选框选择
        	table.on('rowDouble(acceptEvent)', function(obj){
-    		var temUrl = '/intl_project/apply_view?applyId='+obj.data.projectId;
-        	openFullWin("详情",temUrl);
+    		
+        	var temUrl = "/intl_project/info_view?projectId="+obj.data.projectId;
+        	publicMethods.openBaseWinFull("项目详情",temUrl);
         });
         // 触发不同的按钮事件
         var $ = layui.$, active = {
             searchEvent: function() { //点击查询按钮
-                renderTable({param: {"applyName":$("#applyName").val()}});
+                renderTable({param: {"projectName":$("#projectName").val()}});
             },resetEvent: function() { 
             	//点击重置按钮
-                $("#applyName").val("");
-                renderTable({param: {"applyName":$("#applyName").val()}});
+                $("#projectName").val("");
+                renderTable({param: {"projectName":$("#projectName").val()}});
             },detailEvent:function(){
             	if(!selectRowData){
             		layer.msg('请点击选择一行数据!');
             		return;
             	}
-            	var temUrl = '/intl_project/apply_view?applyId='+selectRowData.projectId;
-            	openFullWin("项目详情",temUrl);
+            	var temUrl = "/intl_project/info_view?projectId="+selectRowData.projectId;
+            	publicMethods.openBaseWinFull("项目详情",temUrl);
             },editEvent: function(){  
             	//点击编辑按钮
             	if(!selectRowData){
@@ -198,7 +186,7 @@
 <div class="searchBox">
     <label class="dateInput">
         <span>项目名称</span>
-        <input type="text" name="applyName" id="applyName" placeholder="请输入项目名称"  autocomplete="off" class="form-control">
+        <input type="text" name="projectName" id="projectName" placeholder="请输入项目名称"  autocomplete="off" class="form-control">
     </label>
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>

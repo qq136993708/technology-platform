@@ -14,11 +14,11 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.DelFlagEnum;
-import com.pcitc.base.stp.IntlProject.IntlProjectApply;
+import com.pcitc.base.stp.IntlProject.IntlProjectInfo;
 import com.pcitc.base.stp.IntlProject.IntlProjectResult;
 import com.pcitc.base.stp.IntlProject.IntlProjectResultExample;
 import com.pcitc.base.util.MyBeanUtils;
-import com.pcitc.mapper.IntlProject.IntlProjectApplyMapper;
+import com.pcitc.mapper.IntlProject.IntlProjectInfoMapper;
 import com.pcitc.mapper.IntlProject.IntlProjectResultMapper;
 import com.pcitc.service.intlproject.IntlProjectResultService;
 
@@ -28,8 +28,10 @@ public class IntlProjectResultServiceImpl implements IntlProjectResultService {
 	@Autowired
 	private IntlProjectResultMapper intlProjectResultMapper;
 	
+	
+	
 	@Autowired
-	private IntlProjectApplyMapper intlProjectApplyMapper;
+	private IntlProjectInfoMapper intlProjectInfoMapper;
 	
 	@Override
 	public LayuiTableData selectProjectReultByPage(LayuiTableParam param) {
@@ -40,43 +42,40 @@ public class IntlProjectResultServiceImpl implements IntlProjectResultService {
 		{
 			c.andResultTitleLike("%"+param.getParam().get("resultName")+"%");
 		}
+		example.setOrderByClause("create_time desc");
 		LayuiTableData data =  this.findByExample(param, example);
+		
 		//数据处理，分组转换
 		List<Object> datalist = new ArrayList<Object>();
-		Map<String,IntlProjectApply> projectMap = new HashMap<String,IntlProjectApply>();
+		Map<String,IntlProjectInfo> projectMap = new HashMap<String,IntlProjectInfo>();
 		for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) 
 		{
 			Map<String,Object> map = MyBeanUtils.transBean2Map(iter.next());
 			if(!projectMap.containsKey(map.get("projectId"))) 
 			{
-				IntlProjectApply apply = intlProjectApplyMapper.selectByPrimaryKey(map.get("projectId").toString());
+				//IntlProjectApply apply = intlProjectInfoMapper.selectByPrimaryKey(map.get("projectId").toString());
+				IntlProjectInfo info = intlProjectInfoMapper.selectByPrimaryKey(map.get("projectId").toString());
 				
-				projectMap.put(map.get("projectId").toString(),apply);
+				projectMap.put(map.get("projectId").toString(),info);
 				Map<String,Object> titleMap = new HashMap<String,Object>();
 				titleMap.put("id", map.get("projectId").toString());
 				titleMap.put("pId", "1001");
 				
-				
-				/*,{field:'resultTitle',   title:'名称',	width: '12%',  style:'cursor: pointer;'}
-                ,{field:'resultContent',   title:'主要内容',	width: '20%',  style:'cursor: pointer;'}	                
-                ,{field:'resultCode',title:'项目编码',	width: '10%',   style:'cursor: pointer;'}
-                ,{field:'resultType',   title:'成果类型',	width: '10%',  style:'cursor: pointer;'}
-                ,{field:'resultAuthor',title:'负责人',	width: '10%', style:'cursor: pointer;'}
-                ,{field:'authorPhone',title:'负责人联系电话',	style:'cursor: pointer;'}	 */
-				
-				titleMap.put("projectId", "项目成果-"+apply.getApplyName()); 
-				titleMap.put("resultTitle", "成果标题"); 
-            	titleMap.put("resultContent", "成果内容"); 
+				titleMap.put("projectId", "项目成果-"+info.getProjectName()); 
+				titleMap.put("resultTitle", "----"); 
+            	titleMap.put("resultContent", "----"); 
             	titleMap.put("resultCode", "项目编码"); 
             	titleMap.put("resultType", "成果类型"); 
             	titleMap.put("resultAuthor", "负责人"); 
             	titleMap.put("authorPhone", "负责人联系电话"); 
-				
+            	titleMap.put("lay_che_disabled", true); 
+            	
+            	
 				datalist.add(titleMap);
 			}
 			map.put("pId", map.get("projectId").toString());
 			map.put("id", "0");
-			map.put("projectId", projectMap.get(map.get("projectId").toString()).getApplyName());
+			map.put("projectId", projectMap.get(map.get("projectId").toString()).getProjectName());
 			
 			datalist.add(map);
 		}

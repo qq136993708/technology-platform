@@ -20,9 +20,17 @@
     	var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate,
             form = layui.form,publicMethods=layui.publicMethods,table = layui.table;	
     		//加载项目
-    		publicMethods.ajaxPost("/project/apply-list-all",null, function (data) {
+    		publicMethods.ajaxPost("/project/info-list-all",null, function (data) {
 				$.each(data,function(i,val){
-					$("#projectId").append('<option value="'+data[i].applyId+'">'+data[i].applyTitle+'</option>');
+					$("#projectId").append('<option value="'+data[i].projectId+'">'+data[i].projectName+'</option>');
+				});
+		   	});
+    		var dicMap = ['ROOT_UNIVERSAL_GJHBBZ','ROOT_UNIVERSAL_GJDQ'];
+			publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
+				$.each(data,function(key,val){
+					$.each(val,function(i,dt){
+						$("#"+key).append('<option value="'+dt.code+'">'+dt.name+'</option>');
+					});
 				});
 		   	});
     		//日期
@@ -32,40 +40,18 @@
                 ,value: new Date() 
             });
     		var contractId = "${contractId?default(0)}";
-    		var editor = CKEDITOR.replace("contractContent");
+    		//var editor = CKEDITOR.replace("contractContent");
     		if(contractId != 0)
 	        {
 		 		$("#contractId").val(contractId);
 		 		publicMethods.ajaxPost('/project/get-contract', {"contractId":contractId}, function (data, status) {
 	        		form.val("contract-form",data);
-	        		console.log(data);
-	        		editor.setData(data.applyContent);
 	            });
-	        }else{
-	        	$("#appendFiles").val("${appendFiles}");
 	        }
     		form.render();
     		$("#file_div").load('/common/public/uploadlayuiload.html');
-    		
     		$("select[class=readOnlyBox]").parent().find('input').addClass('readOnlyBox');
     		
-    		form.on('submit(submitBtn)', function(data) {
-				data.field.contractContent = editor.getData();
-				publicMethods.ajaxPost('/project/contract-saveorupdate', data.field, function (data, status) {
-                    if (data.success) {
-                    	parent.layui.table.reload('contractTable',null);
-                    	parent.renderfunc();//隐藏全选按钮
-                    	var index = parent.layer.getFrameIndex(window.name);
-				       	parent.layer.close(index);
-                    }else{
-                    	parent.layer.alert(data.message, {
-							title : '信息'
-						});
-                    	return false;
-                    }
-                });
-				return false;
-			});
     		$("#cancel").click(function () {
     		    var index = parent.layer.getFrameIndex(window.name);
     		    parent.layer.close(index);
@@ -124,23 +110,17 @@
 		<div class="layui-row">
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				<div class="layui-form-item">
-					<label for="" class="layui-form-label">协议审查<span class="must-fill">*</span></label>
+					<label for="" class="layui-form-label">中方合作单位<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-						<select name="flowAgreementReview" disabled="disabled" class="readOnlyBox" id="flowAgreementReview" lay-verify="required"  lay-filter="applyId">
-		                	<option value="0">待审查</option>
-		                	<option value="1">已通过</option>
-		             	</select>
+						<input type="text" readonly="readonly"  class="layui-input readOnlyBox" lay-verify="required" id="chineseContractCompany" name="chineseContractCompany" placeholder="请填写中方合作单位名称">
 					</div>
 				</div>
 			</div>
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				<div class="layui-form-item">
-					<label for="" class="layui-form-label">知识产权审查<span class="must-fill">*</span></label>
+					<label for="" class="layui-form-label">外方合作单位<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-					 	<select name="flowKnowledgeReview" disabled="disabled" class="readOnlyBox" id="flowKnowledgeReview" lay-verify="required"  lay-filter="applyId">
-		                	<option value="0">待审查</option>
-		                	<option value="1">已通过</option>
-		             	</select>
+					 	<input type="text" readonly="readonly"  class="layui-input readOnlyBox" lay-verify="required" id="foreignContractCompany" name="foreignContractCompany" placeholder="请填写外方合作单位名称">
 					</div>
 				</div>
 			</div>
@@ -148,23 +128,67 @@
 		<div class="layui-row">
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				<div class="layui-form-item">
-					<label for="" class="layui-form-label">综合审查<span class="must-fill">*</span></label>
+					<label for="" class="layui-form-label">签约地区<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-						<select name="flowComprehensiveReview" disabled="disabled" class="readOnlyBox" id="flowComprehensiveReview" lay-verify="required"  lay-filter="applyId">
-		                	<option value="0">待审查</option>
-		                	<option value="1">已通过</option>
+						<select name="countryName" id="ROOT_UNIVERSAL_GJDQ" disabled="disabled" class="readOnlyBox" lay-verify="required"  lay-filter="userKind">
+		                	<option value="">请选择</option>
 		             	</select>
+						
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">                
+			 	<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item" style="margin-right: 10px;">
+                        <label for="" class="layui-form-label">签约金额(万元)<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <select name="moneyType" id="ROOT_UNIVERSAL_GJHBBZ" disabled="disabled" class="readOnlyBox" lay-verify="required"  lay-filter="test">
+                                <option value="">--请选择币种--</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                         <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                         	<input readonly="readonly"  class="layui-input readOnlyBox" name="foreignMoney" id="foreignMoney" lay-verify="required|number" placeholder="请输入金额（万元）" autocomplete="off" type="text">
+                         </div>
+                    </div>
+                </div>
+            </div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">协议开始日期<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+						<input type="text" readonly="readonly"  class="layui-input readOnlyBox" id="agreementStartDate" name="agreementStartDate" placeholder="协议开始日期">
 					</div>
 				</div>
 			</div>
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				<div class="layui-form-item">
-					<label for="" class="layui-form-label">专业技术审查<span class="must-fill">*</span></label>
+					<label for="" class="layui-form-label">协议截止日期<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-					 	<select name="flowTechnologyReview" disabled="disabled" class="readOnlyBox" id="flowTechnologyReview" lay-verify="required"  lay-filter="applyId">
-		                	<option value="0">待审查</option>
-		                	<option value="1">已通过</option>
-		             	</select>
+					 	<input type="text" readonly="readonly"  class="layui-input readOnlyBox" id="agreementEndDate" name="agreementEndDate" placeholder="协议截止日期">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">保密期开始日期<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+						<input type="text" readonly="readonly"  class="layui-input readOnlyBox" id="secrecyStartDate" name="secrecyStartDate" placeholder="保密期开始日期">
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">保密期截止日期<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+					 	<input type="text" readonly="readonly"  class="layui-input readOnlyBox" id="secrecyEndDate" name="secrecyEndDate" placeholder="保密期截止日期">
 					</div>
 				</div>
 			</div>
