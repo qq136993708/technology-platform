@@ -80,7 +80,7 @@
 				            	$("tr[data-index='"+i+"'] td[data-field='flowKnowledgeReview'] div").html(res.data[i].flowKnowledgeReviewStatus==0?"待审查":"已通过&nbsp;&nbsp;"+(res.data[i].flowKnowledgeReview==null?"":res.data[i].flowKnowledgeReview));
 				            	$("tr[data-index='"+i+"'] td[data-field='flowComprehensiveReview'] div").html(res.data[i].flowComprehensiveReviewStatus==0?"待审查":"已通过&nbsp;&nbsp;"+(res.data[i].flowComprehensiveReview==null?"":res.data[i].flowComprehensiveReview));
 				        
-				            	publicMethods.ajaxAsyncPost('/project/get-apply', {"applyId":res.data[i].applyId}, function (data, status) {
+				            	publicMethods.ajaxPost('/project/get-apply', {"applyId":res.data[i].applyId}, function (data, status) {
 				            		$("tr[data-index='"+i+"'] td[data-field='applyId'] div").html(data.applyName);
 				            		$("tr[data-index='"+i+"'] td[data-field='moneyRmb'] div").html(data.moneyRmb);
 				            		
