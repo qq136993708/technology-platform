@@ -175,8 +175,8 @@ public class BudgetGroupTotalProviderClient
 			List<BudgetGroupTotal> items = totals.stream().filter(a -> a.getLevel()==0).collect(Collectors.toList());
 			List<BudgetGroupTotal> compnays = totals.stream().filter(a -> a.getLevel()>0).collect(Collectors.toList());
 			
-			System.out.println("items："+JSON.toJSONString(items));
-			System.out.println("compnays："+JSON.toJSONString(compnays));
+			//System.out.println("items："+JSON.toJSONString(items));
+			//System.out.println("compnays："+JSON.toJSONString(compnays));
 			
 			Map<String,Set<String>> itemMap = new HashMap<String,Set<String>>();
 			Set<String> codes = new HashSet<String>();
@@ -193,7 +193,7 @@ public class BudgetGroupTotalProviderClient
 					}
 				}
 			}
-			System.out.println("itemMap："+JSON.toJSONString(itemMap));
+			//System.out.println("itemMap："+JSON.toJSONString(itemMap));
 			
 			Map<String,List<OutProjectInfo>> projectMap = budgetGroupTotalService.selectCompareProjectInfoData(codes,info.getNd());
 			for(java.util.Iterator<BudgetGroupTotal> iter = items.iterator();iter.hasNext();) {
@@ -224,8 +224,8 @@ public class BudgetGroupTotalProviderClient
 					map.put("zxjfJz", zxjfJz.intValue());
 				}else {
 					map.put("plans", projects);
-					map.put("xmjfJz", "无");
-					map.put("zxjfJz", "无");
+					map.put("xmjfJz", 0);
+					map.put("zxjfJz", 0);
 				}
 				rsdata.add(map);
 			}
