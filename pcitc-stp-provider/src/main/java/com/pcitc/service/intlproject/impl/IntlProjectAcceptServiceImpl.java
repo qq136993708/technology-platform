@@ -15,13 +15,10 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.IntlProject.IntlProjectAccept;
 import com.pcitc.base.stp.IntlProject.IntlProjectAcceptExample;
-import com.pcitc.base.stp.IntlProject.IntlProjectApply;
-import com.pcitc.base.stp.IntlProject.IntlProjectApplyExample;
 import com.pcitc.base.stp.IntlProject.IntlProjectContract;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfo;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfoExample;
 import com.pcitc.mapper.IntlProject.IntlProjectAcceptMapper;
-import com.pcitc.mapper.IntlProject.IntlProjectApplyMapper;
 import com.pcitc.mapper.IntlProject.IntlProjectInfoMapper;
 import com.pcitc.service.intlproject.IntlProjectAcceptService;
 import com.pcitc.service.intlproject.IntlProjectContractService;
@@ -35,8 +32,8 @@ public class IntlProjectAcceptServiceImpl implements IntlProjectAcceptService {
 	@Autowired
 	private IntlProjectInfoMapper projectInfoMapper;
 
-	@Autowired
-	private IntlProjectApplyMapper intlProjectApplyMapper;
+	//@Autowired
+	//private IntlProjectApplyMapper intlProjectApplyMapper;
 	
 	@Autowired
 	IntlProjectContractService intlProjectContractService;
@@ -46,20 +43,21 @@ public class IntlProjectAcceptServiceImpl implements IntlProjectAcceptService {
 		IntlProjectAcceptExample example = new IntlProjectAcceptExample();
 		IntlProjectAcceptExample.Criteria criteria = example.createCriteria();
 		criteria.andStatusEqualTo(new Integer(param.getParam().get("status").toString()));
-		if(param.getParam().get("applyName") != null) {
-			IntlProjectApplyExample ce = new IntlProjectApplyExample();
-			IntlProjectApplyExample.Criteria ac = ce.createCriteria();
-			if(param.getParam().get("applyName") != null) {
-				ac.andApplyNameLike("%"+param.getParam().get("applyName")+"%");
+		if(param.getParam().get("projectName") != null) {
+			IntlProjectInfoExample ce = new IntlProjectInfoExample();
+			IntlProjectInfoExample.Criteria ac = ce.createCriteria();
+			if(param.getParam().get("projectName") != null) {
+				ac.andProjectNameLike("%"+param.getParam().get("projectName")+"%");
 			}
-			List<IntlProjectApply> apps = intlProjectApplyMapper.selectByExample(ce);
+			List<IntlProjectInfo> apps = projectInfoMapper.selectByExample(ce);
 			List<String> applyIds = new ArrayList<String>();
-			applyIds.add("00010101010");//避免为空
-			for(IntlProjectApply plt:apps) {
-				applyIds.add(plt.getApplyId());
+			applyIds.add("xxxx");//避免为空
+			for(IntlProjectInfo plt:apps) {
+				applyIds.add(plt.getProjectId());
 			}
 			criteria.andProjectIdIn(applyIds);
 		}
+		//param.getParam().put("status", AcceptStatusEnum.STATUS_REFUSE.getCode());
 		return this.findByExample(param, example);
 	}
 

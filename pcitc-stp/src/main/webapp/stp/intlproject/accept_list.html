@@ -108,9 +108,10 @@
 		}
     	renderTable();
     	table.on('rowDouble(acceptEvent)', function(obj){
-    		var temUrl = '/intl_project/apply_view?applyId='+obj.data.applyId;
+    		//var temUrl = '/intl_project/apply_view?applyId='+obj.data.applyId;
+    		var temUrl = "/intl_project/info_view?projectId="+obj.data.projectId;
         	//openFullWin("详情",temUrl);
-        	publicMethods.openBaseWinFull("详情",temUrl);
+        	publicMethods.openBaseWinFull("项目详情",temUrl);
         });
         // 触发不同的按钮事件
         var $ = layui.$, active = {
@@ -128,7 +129,7 @@
             	//var temUrl = '/intl_project/apply_view?applyId='+selectRowData.applyId;
             	var temUrl = "/intl_project/info_view?projectId="+selectRowData.projectId;
             	//openFullWin("详情",temUrl);
-            	publicMethods.openBaseWinFull("详情",temUrl);
+            	publicMethods.openBaseWinFull("项目详情",temUrl);
             },commitEvent:function(){
             	if(!selectRowData){
             		layer.msg('请点击选择一行数据!');
@@ -138,7 +139,7 @@
 					layer.close(index);
 					var temUrl = '/intl_project/accept_process?projectId='+selectRowData.projectId;
 	            	//openFullWin("项目验收",temUrl);
-					publicMethods.openBaseWinFull("详情",temUrl);
+					publicMethods.openBaseWinFull("验收确认",temUrl);
           	   });
             }
         };
