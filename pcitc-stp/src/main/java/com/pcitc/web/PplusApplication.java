@@ -71,7 +71,6 @@ public class PplusApplication extends SpringBootServletInitializer {
 			}
 		};
 	}
-
 	/*
 	@Bean
 	public ServletContextInitializer contextInitializer() {

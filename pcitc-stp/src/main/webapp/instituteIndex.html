@@ -27,17 +27,45 @@
 				<!--通知-->
 				<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
 					<li class="layui-index layui-nav-item layui-nav-itemnew" title="首页">
-						<a href="/stpHome"><img src="/layuiadmin/layui/images/icon-index.png"/> </a>
+						<a href="/index"><img src="/layuiadmin/layui/images/icon-index.png"/> </a>
 					</li>
-					<li class="layui-index layui-nav-item layui-nav-itemnew" title="工作平台">
-						<a href="/stpHome?cFlag=1"><img src="/layuiadmin/layui/images/icon-system-r.png"/> </a>
+					<li class="layui-index layui-nav-item layui-nav-itemnew" title="系统">
+						<a href=""><img src="/layuiadmin/layui/images/icon-system-r.png"/> </a>
 					</li>
 					<li class="layui-nav-item layui-nav-itemnew chat" title="通知">
-						<a id="numberChat" lay-href="/sysNotice/index_notice" lay-text="通知"><span id="nc" style="visibility: hidden"></span></a>
+						<a id="numberChat" lay-href="/task/pending/list/ini" lay-text="会话"><span id="nc" style="visibility: hidden"></span></a>
+						<div class="chat-content layui-hide">
+							<dl id="message_box" class="layui-nav-child-dl">
+							</dl>
+						</div>
 					</li>
 					<li class="layui-nav-item layui-nav-itemnew deal" title="待办任务">
-						<a id="numberDeal" lay-href="/task/pending/list/ini" lay-text="待办任务"><span id="pendingCount" style="visibility: hidden"></span></a>
+						<a id="numberDeal" lay-href="/sysNotice/index_notice" lay-text="待办任务"><span id="pendingCount" style="visibility: hidden"></span></a>
+						<div class="deal-content layui-hide">
+							<dl class="layui-nav-child-dl">
+								<dd>
+									<p>
+										<span class="layui-icon-span"><img src="/layuiadmin/layui/images/icon-information.png"/></span>
+										<span class="layui-text-span">OA待办（3条）</span>
+										<span class="layui-date">3小时之前</span>
+									</p>
+								</dd>
+								<dd>
+									<p>
+										<span class="layui-icon-span"><img src="/layuiadmin/layui/images/icon-information.png"/></span>
+										<span class="layui-text-span">知识产权管理系统待办（3条）</span>
+										<span class="layui-date">3小时之前</span>
+									</p>
+								</dd>
+								<dd>
+									<a href="javascript:void(0)">查看更多</a>
+								</dd>
+							</dl>
+						</div>
 					</li>
+					<!--<li class="layui-nav-item layui-nav-itemnew notify">
+						<a id="numberNotify" lay-href="/task/pending/list/ini" lay-text="通知" title="通知"></a>
+					</li>-->
 					<li class="layui-nav-item layui-nav-itemnew " title="二维码">
 						<span class="QRCode"></span>
 						<div class="QRCode-content layui-hide">
@@ -55,11 +83,23 @@
 									<a id="toUserInfo" href="javascript:void(0)">基本资料</a>
 								</dd>
 								<dd>
+									<a id="toUpdPass" href="javascript:void(0)">修改密码</a>
+								</dd>
+								<dd>
+									<a id="selfConfig" href="javascript:void(0)">个人设置</a>
+								</dd>
+								<dd>
+									<a id="changeIndex" href="javascript:void(0)">切换</a>
+								</dd>
+								<dd>
 									<a id="logout" href="javascript:void(0)">退出登录</a>
 								</dd>
 							</dl>
 						</div>
 					</li>
+					<!--<li class="layui-nav-item layui-nav-itemnew collection" title="收藏">
+						<a id="collection"></a>
+					</li>-->
 				</ul>
 			</div>
 

@@ -34,8 +34,28 @@
         <div class="layui-level-main main-one">
             <div class="main-left">
                 <div class="main-agency">
-                    <p class="main-left-p">待办事项<a href="/instituteIndex?url=/task/pending/list/ini" target="_blank"><span id="pendingSpan"></span></a></p>
-                    <ul id="pendingUl">
+                    <p class="main-left-p">待办事项<span id="agency">23</span></p>
+                    <ul>
+                        <li class="state_1">
+                            <span>03/20</span><span>09：00</span><span>AM</span>
+                            <p>项目组组建</p>
+                        </li>
+                        <li class="state_1">
+                            <span>03/20</span><span>09：00</span><span>AM</span>
+                            <p>项目组组建</p>
+                        </li>
+                        <li class="state_1">
+                            <span>03/20</span><span>09：00</span><span>AM</span>
+                            <p>项目组组建</p>
+                        </li>
+                        <li class="state_1">
+                            <span>03/20</span><span>09：00</span><span>AM</span>
+                            <p>项目组组建</p>
+                        </li>
+                        <li class="state_1">
+                            <span>03/20</span><span>09：00</span><span>AM</span>
+                            <p>项目组组建</p>
+                        </li>
                     </ul>
                 </div>
                 <div class="main-task">
@@ -204,12 +224,10 @@
 <script type="text/javascript" src="/layuiadmin/lib/extend/Sortable.min.js"></script>
 <script>
     var nd=$("#month").val().substring(4,0);
-	var publicMethods;
-	var carousel;
+
     layui.use([ 'carousel', 'form','jquery','publicMethods'], function(){
-    	var $=layui.jquery,form = layui.form;
-        publicMethods=layui.publicMethods;
-        carousel= layui.carousel
+        var carousel = layui.carousel,$=layui.jquery,publicMethods=layui.publicMethods
+            ,form = layui.form;
         /*搜索*/
         $(".layui-search .btn").click(function () {
             window.open("fullSearch/search?keyword="+$(".layui-search input").val(),"_target");
@@ -546,7 +564,7 @@
                         var md=time[1]+"/"+time[2];
                         var ym=time[0]+"/"+time[1];
                         if(dt.content==undefined){
-                            var content="...";
+                            var content="详情请点击查看...";
                         }else {
                             var content=(dt.content).substr(3,70)+"...";
                         }
@@ -571,36 +589,6 @@
             }
         });
     }
-    
-  	// 获取待办事项
-    function pendingTask() {
-    	publicMethods.ajaxAsyncPost('/task/index-pending-list', {page:1,limit:100,param: {"isRead":"0"}}, function (data, status) {
-			var pendingCount = data.length;
-			var content = "";
-			if (pendingCount <= 0) {
-				$("#pendingSpan").css("visibility", "hidden");
-			} else {
-				$("#pendingSpan").text(pendingCount);
-				$("#pendingSpan").css("visibility", "visible");
-			}
-			
-			$.each(data,function(index, dt){
-    			if(index < 10){
-    				content +='<li class="state_1">';
-    				if (dt.createTime != null) {
-    					content += layui.laytpl.toDateString(dt.createTime);
-    				}
-    				if (dt.processInstanceName != null) {
-    					content += '<p>'+dt.processInstanceName+'</p>';
-    				}
-    				// /instituteIndex?url=/task/pending/deal/dt.id
-    				content += '</li>';
-    			}
-    		});
-        
-			$("#pendingUl").html(content);
-        });
-    }
 
     function init() {
         appraisalCount();
@@ -610,7 +598,6 @@
         setdragon_count();
         setinvestment_count();
         get_news();
-        pendingTask(); //待办任务
     }
     function getDataCountForName(data,strName)
     {

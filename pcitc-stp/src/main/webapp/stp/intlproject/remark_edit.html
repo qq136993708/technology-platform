@@ -31,12 +31,10 @@ $(document).ready(function() {
 				var remarkId = "${remarkId?default(0)}";
 				var publicMethods=layui.publicMethods;
 				var editor = CKEDITOR.replace("remarkContent");
-				
-				laydate.render({elem: '#createTime',type: 'date',value: new Date()});
 				//加载项目
-	    		publicMethods.ajaxPost("/project/info-list-all",null, function (data) {
+	    		publicMethods.ajaxPost("/project/apply-list-all",null, function (data) {
 					$.each(data,function(i,val){
-						$("#projectId").append('<option value="'+data[i].projectId+'">'+data[i].projectName+'</option>');
+						$("#projectId").append('<option value="'+data[i].applyId+'">'+data[i].applyName+'</option>');
 					});
 			   	});
 			 	if(remarkId != 0)
@@ -60,7 +58,7 @@ $(document).ready(function() {
                     ajaxPost('/project/remark-saveorupdate', data.field, function (data, status) {
                         if (data.success) {
                         	parent.layui.table.reload('remarkTable',null);
-                        	parent.renderTable();//隐藏全选按钮
+                        	parent.renderfunc();//隐藏全选按钮
                         	var index = parent.layer.getFrameIndex(window.name);
 					       	parent.layer.close(index);
                         }else{
@@ -110,9 +108,9 @@ $(document).ready(function() {
 		<div class="layui-row">
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				<div class="layui-form-item"  id="password" >
-					<label for="" class="layui-form-label">纪要日期<span class="must-fill">*</span></label>
+					<label for="" class="layui-form-label">纪要类别<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-					 	<input type="text" lay-verify="required" class="layui-input" id="createTime" name="createTime" placeholder="纪要日期">
+					 	<input type="text" lay-verify="required" class="layui-input" id="remarkType" name="remarkType" placeholder="纪要类别">
 					</div>
 				</div>
 			</div>
@@ -125,6 +123,25 @@ $(document).ready(function() {
 				</div>
 			</div>
 		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item"  id="password" >
+					<label for="" class="layui-form-label">纪要日期<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+					 	<input type="text" lay-verify="required" class="layui-input" id="createTime" name="createTime" placeholder="纪要日期">
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item"  id="password" >
+					<label for="" class="layui-form-label">联系人电话<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+					 	<input type="text" lay-verify="required" class="layui-input" id="authorPhone" name="authorPhone" placeholder="纪要联系人">
+					</div>
+				</div>
+			</div>
+		</div>
+		
 		<div class="layui-form-item">
 	      	 <label class="layui-form-label">内容</label>
 	         <div class="layui-input-block">
