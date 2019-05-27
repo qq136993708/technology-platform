@@ -151,8 +151,8 @@ line-height: 60px;font-size: 22px;}
     text-overflow: ellipsis;white-space: nowrap;display: inline-block;text-indent: 20px;
     background: url("/layuiadmin/layui/images/icon-speech-g.png") no-repeat center left;}
 .layui-speech .layui-speech-new ul li a{height: 30px;line-height: 30px;}
-.layui-speech .study ul li a{height:auto;width: 100%;text-indent: 0;background: none;}
-.layui-speech .study ul li a img{display: block;}
+.layui-speech .study ul li a{height:auto;width: 100%;text-indent: 0;background: none;text-align: center;}
+.layui-speech .study ul li a img{display: block;width: 96% !important;height: 100% !important;}
 .study{background: url("/layuiadmin/layui/images/icon-study.png") no-repeat;}
 .layui-speech ul li.video a{background: url("/layuiadmin/layui/images/icon-video-s.png") no-repeat center left;}
 .layui-speech ul li a:hover{color: #de2726;}
