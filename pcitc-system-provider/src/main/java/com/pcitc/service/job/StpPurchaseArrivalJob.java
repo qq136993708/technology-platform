@@ -28,7 +28,7 @@ public class StpPurchaseArrivalJob implements Job, Serializable {
 
         PurchaseOrderClient purchaseOrderClient = SpringContextUtil.getApplicationContext().getBean(PurchaseOrderClient.class);
         PurchaseOrderStpClient purchaseOrderStpClient = SpringContextUtil.getApplicationContext().getBean(PurchaseOrderStpClient.class);
-        System.out.println("定时开始调用feign获取hana数据---------------"+purchaseOrderClient);
+        System.out.println("调用feign获取ERP采购入库数据----"+new Date()+"-----------结束"+purchaseOrderClient);
 
         HashMap<String, String> map = new HashMap<String, String>();
 
@@ -86,7 +86,7 @@ public class StpPurchaseArrivalJob implements Job, Serializable {
                purchaseOrderStpClient.insertPurchaseArrival(purchaseArrivalDate);
             }
         }
-        System.out.println("定时结束调用feign获取hana数据---------------"+resultList);
+        System.out.println("调用feign获取ERP采购入库数据----"+new Date()+"-----------结束"+resultList);
 
 
     }
