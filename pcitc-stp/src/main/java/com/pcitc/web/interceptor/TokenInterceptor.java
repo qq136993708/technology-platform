@@ -74,6 +74,11 @@ public class TokenInterceptor implements HandlerInterceptor {
 					BaseController baerInfo = (BaseController) m.getBean();
 					baerInfo.setUserProfile(sysUser);
 				}
+				//更新cookie
+				Cookie cookie = new Cookie("token", token);
+				cookie.setMaxAge(1*60*60);// 设置有效期为1小时
+				cookie.setPath("/");
+				response.addCookie(cookie);
 			} else {
 				// System.out.println("token is null ");
 				// login和index为了开发需要，避开统一身份认证
