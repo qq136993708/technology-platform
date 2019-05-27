@@ -14,11 +14,11 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.DelFlagEnum;
-import com.pcitc.base.stp.IntlProject.IntlProjectApply;
+import com.pcitc.base.stp.IntlProject.IntlProjectInfo;
 import com.pcitc.base.stp.IntlProject.IntlProjectRemark;
 import com.pcitc.base.stp.IntlProject.IntlProjectRemarkExample;
 import com.pcitc.base.util.MyBeanUtils;
-import com.pcitc.mapper.IntlProject.IntlProjectApplyMapper;
+import com.pcitc.mapper.IntlProject.IntlProjectInfoMapper;
 import com.pcitc.mapper.IntlProject.IntlProjectRemarkMapper;
 import com.pcitc.service.intlproject.IntlProjectRemarkService;
 
@@ -28,9 +28,11 @@ public class IntlProjectRemarkServiceImpl implements IntlProjectRemarkService {
 	@Autowired
 	private IntlProjectRemarkMapper intlProjectRemarkMapper;
 	
-	@Autowired
-	private IntlProjectApplyMapper intlProjectApplyMapper;
+	//@Autowired
+	//private IntlProjectApplyMapper intlProjectApplyMapper;
 	
+	@Autowired
+	private IntlProjectInfoMapper intlProjectInfoMapper;
 	
 	@Override
 	public LayuiTableData selectProjectRemarkByPage(LayuiTableParam param) 
@@ -45,34 +47,36 @@ public class IntlProjectRemarkServiceImpl implements IntlProjectRemarkService {
 		LayuiTableData data =  this.findByExample(param, example);
 		//数据处理，分组转换
 		List<Object> datalist = new ArrayList<Object>();
-		Map<String,IntlProjectApply> projectMap = new HashMap<String,IntlProjectApply>();
+		Map<String,IntlProjectInfo> projectMap = new HashMap<String,IntlProjectInfo>();
 		for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) 
 		{
 			Map<String,Object> map = MyBeanUtils.transBean2Map(iter.next());
 			if(!projectMap.containsKey(map.get("projectId"))) 
 			{
-				IntlProjectApply apply = intlProjectApplyMapper.selectByPrimaryKey(map.get("projectId").toString());
-				
-				projectMap.put(map.get("projectId").toString(),apply);
+				//IntlProjectApply apply = intlProjectApplyMapper.selectByPrimaryKey(map.get("projectId").toString());
+				IntlProjectInfo info =  intlProjectInfoMapper.selectByPrimaryKey(map.get("projectId").toString());
+				projectMap.put(map.get("projectId").toString(),info);
 				Map<String,Object> titleMap = new HashMap<String,Object>();
 				titleMap.put("id", map.get("projectId").toString());
 				titleMap.put("pId", "1001");
 				
 				
 				titleMap.put("authorPhone", "联系电话"); 
-            	titleMap.put("remarkTitle", "标题"); 
-            	titleMap.put("remarkContent", "纪要内容"); 
+            	titleMap.put("remarkTitle", "---纪要标题--"); 
+            	titleMap.put("remarkContent", "--纪要内容--"); 
             	titleMap.put("createTime", "纪要日期"); 
-            	titleMap.put("projectId", "项目纪要-"+apply.getApplyName()); 
+            	titleMap.put("projectId", "项目纪要-"+info.getProjectName()); 
             	titleMap.put("remarkPeople", "负责人"); 
             	titleMap.put("remarkType", "纪要类别");
+            	titleMap.put("lay_che_disabled", true); 
+
 				
 				
 				datalist.add(titleMap);
 			}
 			map.put("pId", map.get("projectId").toString());
-			map.put("id", "0");
-			map.put("projectId", projectMap.get(map.get("projectId").toString()).getApplyName());
+			map.put("id", map.get("remarkId").toString());
+			map.put("projectId", projectMap.get(map.get("projectId").toString()).getProjectName());
 			
 			
 			datalist.add(map);

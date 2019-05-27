@@ -54,7 +54,7 @@
         treeGridCom:'treeGridCom'
     }).use(['jquery','layer','table','laypage','publicMethods','treeGridCom'], function(){
     	var $ = layui.jquery, element = layui.element, layer = layui.layer,publicMethods=layui.publicMethods,treeGridCom = layui.treeGridCom;//很重要
-    	function renderTable(where){
+    	window.renderTable = function(where){
     		var lodingMsg = layer.msg('数据加载中....');
     		var param = JSON.parse(window.localStorage.getItem("param"));
     		tableId = 'remarkTable';
@@ -86,12 +86,11 @@
                     {type:'numbers' ,width : 55}
                     //,{type:'radio'}
                     ,{type:'checkbox' ,width : 55}
-                    ,{field:'projectId', width:'25%', title: '项目名称',edit:'text'}
-	                ,{field:'remarkContent',   title:'主要内容(成果及收获)',    width: '20%',  style:'cursor: pointer;'}
-	                ,{field:'remarkType',title:'纪要类别',	width: '10%',   style:'cursor: pointer;'}
+                    ,{field:'projectId', width:'25%', title: '项目名称'}
+	                ,{field:'remarkTitle',   title:'纪要标题',      style:'cursor: pointer;'}
 	                ,{field:'remarkPeople',title:'负责人',	width: '10%', style:'cursor: pointer;'}
 	                ,{field:'createTime',title:'纪要日期',	width: '15%',  style:'cursor: pointer;'}
-	                ,{field:'authorPhone',   title:'联系人电话',style:'cursor: pointer;'}
+	                
                    
                 ]]
                 ,isPage:true
@@ -121,77 +120,10 @@
 	            	console.log(o);
 	            }
     		});
-    		renderfunc = function removeHeaderCheckbox(){
+    		window.renderfunc = function(){
     	    	$(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
     	    }
 			renderfunc();
-    		/* treeGridCom.render({
-	            elem: '#remarkTable',
-	            url: '/project/remark-list',
-	            limit : param.selfRownum,
-	            method:"POST",
-	            where: where,
-	        	id: 'remarkTable',
-	        	treeId:'id',//树形id字段名称
-	            treeUpId:'pId',//树形父id字段名称
-	            treeShowName:'projectId',//以树形式显示的字段
-	        	height: commonDislodgeTable(),
-	        	isFilter:false,
-	            iconOpen:true,//是否显示图标【默认显示】
-	            isOpenDefault:true,//节点默认是展开还是折叠【默认展开】
-	            loading:false,
-	            page: {
-	                groups: 5
-	                ,limits : [ param.selfRownum, 15, 30, 45, 60 ]
-	                ,layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
-	                ,first: '首页' //不显示首页
-	                ,last: '尾页' //不显示尾页
-	                ,theme: '#0F9EE0'
-		        },
-	            cols: [[
-	            	 {type:'checkbox'}
-	            	,{title:'序号', type:'numbers'}
-	            	 ,{field:'projectId',   title:'项目名称',    width: '12%',  style:'cursor: pointer;'}
-	                ,{field:'remarkTitle',   title:'标题',	width: '20%',  style:'cursor: pointer;'}
-	                ,{field:'remarkContent',   title:'主要内容(成果及收获)',    width: '20%',  style:'cursor: pointer;'}
-	                ,{field:'remarkType',title:'纪要类别',	width: '10%',   style:'cursor: pointer;'}
-	                ,{field:'remarkPeople',title:'负责人',	width: '10%', style:'cursor: pointer;'}
-	                ,{field:'createTime',title:'纪要日期',	width: '10%',  style:'cursor: pointer;'}
-	                ,{field:'authorPhone',   title:'联系人电话',style:'cursor: pointer;'}
-	            ]],
-	            isPage:true
-	            ,parseData:function (res) {//数据加载后回调
-	                return res;
-	            }
-	            ,onClickRow:function (index, o) {
-	                selectObj = o;
-	            }
-	            ,onDblClickRow:function (index, o) {
-	                console.log(index,o,"双击");
-	            },
-	            done: function (res, curr, count) {
-	            	layer.close(lodingMsg);
-	                // 点击行联动选择框--单选
-	                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-	                	var index=parseInt($(this).index()+1);
-	                    $('tr').removeClass('layui-table-click');
-	                    $(this).addClass('layui-table-click');
-	                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-	                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-	                    selectRowData=res.data[index-1];
-	                }); 
-	                //获得项目信息
-	               	$.each(res.data,function(i,dt){
-		            	publicMethods.ajaxPost('/project/get-apply', {"applyId":res.data[i].projectId}, function (data, status) {
-		            		$("tr[data-index='"+i+"'] td[data-field='projectId'] div").html(data.applyTitle);
-			            });
-	            	}); 
-	            }
-	        });
-	        renderfunc = function removeHeaderCheckbox(){
-    	    	$(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
-    	    }
-			renderfunc(); */
 		}
     	renderTable();
         //监听表格复选框选择
