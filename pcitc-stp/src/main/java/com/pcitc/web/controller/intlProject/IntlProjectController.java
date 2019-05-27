@@ -197,18 +197,6 @@ public class IntlProjectController extends BaseController
 		request.setAttribute("contractId", contractId);
 		return "stp/intlproject/contract_view";
     }
-	@RequestMapping(method = RequestMethod.GET, value = "/intl_project/contract_renew_view")
-	private String toProjectRenewContractViewPage(HttpServletRequest request) 
-	{
-		String contractId = request.getParameter("contractId");
-		if(contractId == null) 
-		{
-			request.setAttribute("appendFiles", IdUtil.createFileIdByTime());
-		}
-		request.setAttribute("contractId", contractId);
-		return "stp/intlproject/contract_renew_view";
-    }
-	
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/intl_project/result_list")
 	private String toProjectResultListPage(HttpServletRequest request) 

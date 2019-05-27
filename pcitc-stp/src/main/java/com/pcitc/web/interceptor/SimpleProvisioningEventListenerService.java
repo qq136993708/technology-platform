@@ -49,8 +49,7 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 	private static final String	USER_UNIT_ADD_URL	= "http://pcitc-zuul/system-proxy/user-provider/user/add-user_unit";
 	private static final String	USER_UPDATE_URL		= "http://pcitc-zuul/system-proxy/user-provider/user/update-user";
 
-	private static final String	UNIT_CODE_GET_UNIT	= "http://pcitc-zuul/system-proxy/unit-provider/unit/get-unit-bycode/";
-
+	private static final String	UNIT_CODE_GET_UNIT		= "http://pcitc-zuul/system-proxy/unit-provider/unit/get-unit-bycode/";
 	public SimpleProvisioningEventListenerService() {
 		super();
 	}
@@ -79,7 +78,9 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 		// HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		// 初始化时没有token
-		httpHeaders.set("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpbnN0aXR1dGVOYW1lcyI6WyLli5jmjqLpmaIiLCLnianmjqLpmaIiLCLlt6XnqIvpmaIiLCLnn7Pnp5HpmaIiLCLlpKfov57pmaIiLCLljJfljJbpmaIiLCLkuIrmtbfpmaIiLCLlronlt6XpmaIiXSwidW5pdE5hbWUiOiLkuK3lm73nn7PmsrnljJblt6Xpm4blm6Is5YuY5o6i5byA5Y-R56CU56m26ZmiLOenkeaKgOmDqOe7vOWQiOiuoeWIkuWkhCIsInVuaXRDb2RlIjoiMDAwMDAsMTAwNDAxMDAxLDMwMTMwMDU0IiwidW5pdElkIjoiNDZiN2U0NTc1NmVmNGRiODhiNmFjYjcxMWY5MTZlNDMsNDVkYjJkZDNlMTQyNDk1YzkxYmM5NGYyMGVmNDk5ZTgsYTgyMjNjY2EyYjkwNDczOWJmMjhhN2Y0MGQ3MzJjNzMiLCJ1c2VyRGlzcCI6IuiSi-a2myIsInVzZXJOYW1lIjoiYWFhYWEiLCJyb2xlTGlzdCI6W10sImV4cCI6MTU2MjYzOTMwOSwidXNlcklkIjoiMTY1NTUzNDM2ZWRfZGZkNWUxMzciLCJlbWFpbCI6IjEyMzQ1NjY2NjZAeHh4LmNvbSIsImluc3RpdHV0ZUNvZGVzIjpbIjExMjAsMTEyMywxMTI0LDExMjciLCIxMTMwIiwiNDM2MCIsIjEwMjAiLCIxMDYwLDEwNjEiLCIxMDQwLDEwNDEiLCIxMDgwIiwiMTEwMCwxMTAxIl19.2crRnr6GlN1BjFnVKW76Kd5BDyF1zg7MZ1rZzNZG_Oa3BFtny3X9bSTRGr9zcxHpPMsBTnoTx_rNYVT39EVmog");
+		httpHeaders
+				.set("Authorization",
+						"Bearer eyJhbGciOiJIUzUxMiJ9.eyJpbnN0aXR1dGVOYW1lcyI6WyLli5jmjqLpmaIiLCLnianmjqLpmaIiLCLlt6XnqIvpmaIiLCLnn7Pnp5HpmaIiLCLlpKfov57pmaIiLCLljJfljJbpmaIiLCLkuIrmtbfpmaIiLCLlronlt6XpmaIiXSwidW5pdE5hbWUiOiLkuK3lm73nn7PmsrnljJblt6Xpm4blm6Is5YuY5o6i5byA5Y-R56CU56m26ZmiLOenkeaKgOmDqOe7vOWQiOiuoeWIkuWkhCIsInVuaXRDb2RlIjoiMDAwMDAsMTAwNDAxMDAxLDMwMTMwMDU0IiwidW5pdElkIjoiNDZiN2U0NTc1NmVmNGRiODhiNmFjYjcxMWY5MTZlNDMsNDVkYjJkZDNlMTQyNDk1YzkxYmM5NGYyMGVmNDk5ZTgsYTgyMjNjY2EyYjkwNDczOWJmMjhhN2Y0MGQ3MzJjNzMiLCJ1c2VyRGlzcCI6IuiSi-a2myIsInVzZXJOYW1lIjoiYWFhYWEiLCJyb2xlTGlzdCI6W10sImV4cCI6MTU2MjYzOTMwOSwidXNlcklkIjoiMTY1NTUzNDM2ZWRfZGZkNWUxMzciLCJlbWFpbCI6IjEyMzQ1NjY2NjZAeHh4LmNvbSIsImluc3RpdHV0ZUNvZGVzIjpbIjExMjAsMTEyMywxMTI0LDExMjciLCIxMTMwIiwiNDM2MCIsIjEwMjAiLCIxMDYwLDEwNjEiLCIxMDQwLDEwNDEiLCIxMDgwIiwiMTEwMCwxMTAxIl19.2crRnr6GlN1BjFnVKW76Kd5BDyF1zg7MZ1rZzNZG_Oa3BFtny3X9bSTRGr9zcxHpPMsBTnoTx_rNYVT39EVmog");
 
 		if (restTemplate==null) {
 			restTemplate = SpringContextUtil.getApplicationContext().getBean(RestTemplate.class);
@@ -366,22 +367,22 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 							if (vlaue.contains("石油物探技术研究院")) {
 								sysUser.setUserUnit("126211");
 							}
-
+							
 							if (vlaue.contains("盈科")) {
 								sysUser.setUserUnit("109511002");
 							}
 						}
 
 					}
-
+					
 					System.out.println("getSubject==========="+targetSubject.getSubject());
 					sysUser.setUserName(targetSubject.getSubject());
 					sysUser.setUserPassword("2cbb78c76ed2edecca69b7d6c0e0e578");
-					if (sysUser.getUserKind()==null||sysUser.getUserKind().equals("")) {
+					if (sysUser.getUserKind()==null || sysUser.getUserKind().equals("")) {
 						sysUser.setUserKind("ROOT_XTGL_YHLX_ZZNYH");// 用户类型
 					}
 
-					if (sysUser.getUserUnit()==null||sysUser.getUserUnit().equals("")) {
+					if (sysUser.getUserUnit()==null || sysUser.getUserUnit().equals("")) {
 						// 盈科
 						sysUser.setUserUnit("109511002");
 					}
@@ -405,16 +406,16 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					} else {
 						unitId = unit.getUnitId();
 					}
-
-					sysUser.setUserUnit(unitId); // 用户的组织机构信息，保存用户时会直接保存关系表
-					sysUser.setUserPost("16a85a3983c_6746debf"); // 用户的岗位信息，保存用户时会直接保存关系表
+					
+					sysUser.setUserUnit(unitId); //用户的组织机构信息，保存用户时会直接保存关系表
+					sysUser.setUserPost("16a85a3983c_6746debf"); //用户的岗位信息，保存用户时会直接保存关系表
 					sysUser.setUserId(UUID.randomUUID().toString().replaceAll("-", ""));
-
+					
 					System.out.println("用户保存前信息==========="+JSONObject.toJSONString(sysUser));
-
+					
 					// 插入用户数据
 					this.restTemplate.exchange(USER_ADD_URL, HttpMethod.POST, new HttpEntity<SysUser>(sysUser, httpHeaders), Integer.class);
-
+					
 				}
 			}
 			/**
@@ -440,12 +441,12 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					username = targetSubject.getSubject();
 					ResponseEntity<SysUser> rsEntity = this.restTemplate.exchange(GET_USER_INFO+username, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SysUser.class);
 					SysUser rsUser = rsEntity.getBody();
-					if (rsUser!=null) {
+					if (rsUser != null) {
 						rsUser.setUserDelflag(1);
 						// 禁用用户数据（userdelfag改成1）
 						this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(rsUser, httpHeaders), Integer.class);
 					}
-
+					
 				}
 			}
 			/**
@@ -471,13 +472,13 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					username = targetSubject.getSubject();
 					ResponseEntity<SysUser> rsEntity = this.restTemplate.exchange(GET_USER_INFO+username, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SysUser.class);
 					SysUser rsUser = rsEntity.getBody();
-
-					if (rsUser!=null) {
+					
+					if (rsUser != null) {
 						rsUser.setUserDelflag(0);
 						// 启用用户数据（userdelfag改成0）
 						this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(rsUser, httpHeaders), Integer.class);
 					}
-
+					
 				}
 			}
 			/**
@@ -503,12 +504,12 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					username = targetSubject.getSubject();
 					ResponseEntity<SysUser> rsEntity = this.restTemplate.exchange(GET_USER_INFO+username, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SysUser.class);
 					SysUser rsUser = rsEntity.getBody();
-					if (rsUser!=null) {
+					if (rsUser != null) {
 						rsUser.setUserDelflag(1);
 						// 禁用用户数据（userdelfag改成1）
 						this.restTemplate.exchange(USER_UPDATE_URL, HttpMethod.POST, new HttpEntity<SysUser>(rsUser, httpHeaders), Integer.class);
 					}
-
+					
 				}
 			}
 		}

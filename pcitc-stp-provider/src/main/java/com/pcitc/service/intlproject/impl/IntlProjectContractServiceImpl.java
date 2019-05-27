@@ -58,7 +58,6 @@ public class IntlProjectContractServiceImpl implements IntlProjectContractServic
 		}
 		//未过期 
 		//c.andEndDateGreaterThan(DateUtil.dateToStr(new Date(), DateUtil.FMT_DD));
-		example.setOrderByClause("create_time desc");
 		return this.findByExample(param, example);
 	}
 	@Override
@@ -83,7 +82,7 @@ public class IntlProjectContractServiceImpl implements IntlProjectContractServic
 		}
 		//已过期
 		//c.andEndDateLessThan(DateUtil.dateToStr(new Date(), DateUtil.FMT_DD));
-		example.setOrderByClause("create_time desc");
+		
 		return this.findByExample(param, example);
 	}
 	
@@ -167,17 +166,6 @@ public class IntlProjectContractServiceImpl implements IntlProjectContractServic
 		List<IntlProjectContract> applys = intlProjectContracMapper.selectByExample(example);
 		
 		return HanyuPinyinHelper.toPinyin("GJHZ_"+DateUtil.format(new Date(), DateUtil.FMT_YYYY)+"_HT_"+(100+applys.size()));
-	}
-	@Override
-	public List<IntlProjectContract> selectAllProjctContract() {
-		IntlProjectContractExample example = new IntlProjectContractExample();
-		IntlProjectContractExample.Criteria c = example.createCriteria();
-		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
-		c.andContractTypeEqualTo(0);//签约项目
-		
-		example.setOrderByClause("create_time desc");
-		
-		return intlProjectContracMapper.selectByExample(example);
 	}
 	
 }

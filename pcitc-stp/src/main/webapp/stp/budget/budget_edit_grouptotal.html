@@ -29,7 +29,7 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">序号<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" id="no" name="no" placeholder="" lay-verify="required" autocomplete="off" type="text">
+                            <input class="layui-input" id="no" name="no" placeholder="" lay-verify="required|number" autocomplete="off" type="text">
                         </div>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">项目经费<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" id="xmjf" name="xmjf" placeholder="" lay-verify="required" autocomplete="off" type="text">
+                            <input class="layui-input" id="xmjf" name="xmjf" placeholder="" lay-verify="required|number" autocomplete="off" type="text">
                         </div>
                     </div>
                 </div>
@@ -77,45 +77,15 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">重点实验室专项经费<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="zxjf" name="zxjf"  placeholder="" lay-verify="required" autocomplete="off" class="layui-input">
+                            <input type="text" id="zxjf" name="zxjf"  placeholder="" lay-verify="required|number" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- <div class="layui-row">
-                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
-                    <div class="layui-form-item">
-                        <label for="" class="layui-form-label">备注</label>
-                        <div class="layui-input-block">
-                        	<span>ssssss</span>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-            <!-- <div class="layui-row">
-                <div class="layui-col-xs10 layui-col-sm6 layui-col-md6">
-                    <div class="layui-form-item">
-                        <label for="" class="layui-form-label">搜索单位<span class="must-fill"></span></label>
-                        <div class="layui-input-block">
-                            <select lay-filter="search" name="company_list" lay-search="search" id="company_list">
-                                <option value="">输入关键字</option>
-                                <option value="layer">layer</option>
-                                <option value="form">form</option>
-                                <option value="layim">layim</option>
-                                <option value="admin">admin</option>
-                                <option value="UI">UI</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="btn-line">
-                    <a class="layui-btn layui-btn-sm btn-decision" data-type="addRow">添加</a>
-                </div>
-            </div> -->
             <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">单位明细<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">单位明细<span class="must-fill"></span></label>
                         <div class="layui-input-block">
                             <div class="tableToolBox">
 					            <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent">新增</a>
