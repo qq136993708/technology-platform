@@ -35,6 +35,7 @@ public class AdminMobileController extends BaseController {
 	private static final String	GET_USER_INFO_IP	= "http://pcitc-zuul/system-proxy/user-provider/user/get-user-byname/";
 
 	/**
+	 * 移动本地测试时登录方法
 	 * @param request
 	 * @param response
 	 * @return
@@ -104,6 +105,12 @@ public class AdminMobileController extends BaseController {
 		return "/mobile/index";
 	}
 
+	/**
+	 * 登录认证的接口地址
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@RequestMapping(value = "/mobile/adToken", method = RequestMethod.POST)
 	public String adToken(HttpServletRequest request, HttpServletResponse response) {
 		String name = "";

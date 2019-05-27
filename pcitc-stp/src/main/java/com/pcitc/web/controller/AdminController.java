@@ -218,7 +218,7 @@ public class AdminController extends BaseController {
 		System.out.println("-----indexStp----------login token:"+retJson.get("token"));
 
 		Cookie cookie = new Cookie("token", retJson.getString("token"));
-		cookie.setMaxAge(1*60*60);// 设置有效期为1天
+		cookie.setMaxAge(1*60*60);// 设置有效期为1小时
 		cookie.setPath("/");
 		response.addCookie(cookie);
 
@@ -360,7 +360,7 @@ public class AdminController extends BaseController {
 		System.out.println("-----indexStp----------login token:"+retJson.get("token"));
 
 		Cookie cookie = new Cookie("token", retJson.getString("token"));
-		cookie.setMaxAge(1*60*60);// 设置有效期为1天
+		cookie.setMaxAge(1*60*60);// 设置有效期为1小时
 		cookie.setPath("/");
 		response.addCookie(cookie);
 		request.setAttribute("userId", rsUser.getUserId());
@@ -419,7 +419,7 @@ public class AdminController extends BaseController {
 
 				// 登录错误次数
 				Cookie loginCookie = new Cookie("loginErrorCount", String.valueOf(errorNumber));
-				loginCookie.setMaxAge(1*60*60);// 设置有效期为1天
+				loginCookie.setMaxAge(1*60*60);// 设置有效期为1小时
 				loginCookie.setPath("/");
 				response.addCookie(loginCookie);
 				response.sendRedirect("/login");
@@ -428,7 +428,7 @@ public class AdminController extends BaseController {
 			}
 
 			Cookie cookie = new Cookie("token", retJson.getString("token"));
-			cookie.setMaxAge(1*60*60);// 设置有效期为1天
+			cookie.setMaxAge(1*60*60);// 设置有效期为1小时
 			cookie.setPath("/");
 			response.addCookie(cookie);
 
@@ -440,6 +440,7 @@ public class AdminController extends BaseController {
 			// 个人工作台菜单
 			List<SysFunction> grgztList = new ArrayList<SysFunction>();
 			for (SysFunction sysfun : funList) {
+				System.out.println("funList================"+sysfun.getParentCode()+"---"+sysfun.getName());
 				if (sysfun.getParentId()!=null&&sysfun.getParentId().equals("10001")&&!sysfun.getName().equals("个人工作台")) {
 					upList.add(sysfun);
 				}
@@ -467,7 +468,7 @@ public class AdminController extends BaseController {
 			request.setAttribute("userInfo", userDetails);
 
 			Cookie loginCookie = new Cookie("loginErrorCount", null);
-			loginCookie.setMaxAge(0);// 设置有效期为1天
+			loginCookie.setMaxAge(0);// 设置有效期为1小时
 			loginCookie.setPath("/");
 			response.addCookie(loginCookie);
 			System.out.println("----------====登录成功2index....");
@@ -522,7 +523,7 @@ public class AdminController extends BaseController {
 			JSONObject retJson = responseEntity.getBody();
 
 			Cookie cookie = new Cookie("token", retJson.getString("token"));
-			cookie.setMaxAge(1*60*60);// 设置有效期为1天
+			cookie.setMaxAge(1*60*60);// 设置有效期为1小时
 			cookie.setPath("/");
 			response.addCookie(cookie);
 
@@ -534,7 +535,7 @@ public class AdminController extends BaseController {
 
 			System.out.println("----------====登录成功1index....");
 			Cookie loginCookie = new Cookie("loginErrorCount", null);
-			loginCookie.setMaxAge(0);// 设置有效期为1天
+			loginCookie.setMaxAge(0);// 设置有效期为1小时
 			loginCookie.setPath("/");
 			response.addCookie(loginCookie);
 
@@ -553,6 +554,9 @@ public class AdminController extends BaseController {
 		}
 	}
 
+	/**
+	 * 领导页面统一跳转的方法
+	 */
 	@RequestMapping(value = "/instituteIndex")
 	public String instituteIndex(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -562,30 +566,7 @@ public class AdminController extends BaseController {
 		url = java.net.URLDecoder.decode(request.getParameter("url"), "UTF-8");// 名称检索条件
 
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-
-		SysUser userDetails = this.restTemplate.exchange(USER_DETAILS_URL+sysUserInfo.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
-
-		// 收藏的菜单
-		List<SysCollect> scList = userInfo.getScList();
-		List<SysFunction> funList = userDetails.getFunList();
-		List<SysFunction> upList = new ArrayList<SysFunction>();
-		// 个人工作台菜单
-		List<SysFunction> grgztList = new ArrayList<SysFunction>();
-		for (SysFunction sysfun : funList) {
-			if (sysfun.getParentId()!=null&&sysfun.getParentId().equals("10001")&&!sysfun.getName().equals("个人工作台")) {
-				upList.add(sysfun);
-			}
-
-			if (sysfun.getParentCode()!=null&&sysfun.getParentCode().startsWith("1027")&&!sysfun.getName().equals("个人工作台")) {
-				System.out.println("个人工作台================"+sysfun.getName());
-				grgztList.add(sysfun);
-			}
-		}
-		request.setAttribute("scList", scList);
-		request.setAttribute("funList", funList);
-		request.setAttribute("grgztList", grgztList);
-		request.setAttribute("upList", upList);
-		request.setAttribute("userInfo", userDetails);
+		request.setAttribute("userInfo", userInfo);
 
 		getContractParameter(request, response);
 		return "/instituteIndex";
@@ -640,11 +621,11 @@ public class AdminController extends BaseController {
 
 		// 获取通知
 		request.setAttribute("taskCount", request.getParameter("taskCount"));
-		String  companyCode=EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders) ;
-		request.setAttribute("companyCode",companyCode);
-		String nd= HanaUtil.getCurrrentYear();
-	    request.setAttribute("nd", nd);
-	    String month = HanaUtil.getCurrrentYearMoth();
+		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
+		request.setAttribute("companyCode", companyCode);
+		String nd = HanaUtil.getCurrrentYear();
+		request.setAttribute("nd", nd);
+		String month = HanaUtil.getCurrrentYearMoth();
 		request.setAttribute("month", month);
 		String unitCode = sysUserInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
@@ -857,7 +838,7 @@ public class AdminController extends BaseController {
 		}
 
 		Cookie cookie = new Cookie("token", retJson.getString("token"));
-		cookie.setMaxAge(1*60*60);// 设置有效期为1天
+		cookie.setMaxAge(1*60*60);// 设置有效期为1小时
 		cookie.setPath("/");
 		response.addCookie(cookie);
 		return new Result(true, retJson.get("token"));
