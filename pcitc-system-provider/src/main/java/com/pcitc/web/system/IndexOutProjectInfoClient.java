@@ -123,6 +123,12 @@ public class IndexOutProjectInfoClient {
         return indexOutProjectInfoService.findIndexOutProjectInfoByPage(param);
     }
 
+    @ApiOperation(value = "查询首页-科研项目信息-分页查询", notes = "查询首页-科研项目信息-分页查询,Object")
+    @RequestMapping(value = "/indexoutprojectinfo-provider/indexoutprojectinfo/indexoutprojectinfo-page-tree")
+    public Object selectIndexOutProjectInfoByPageTree(@RequestBody LayuiTableParam param) {
+        return indexOutProjectInfoService.findIndexOutProjectInfoByPageTree(param);
+    }
+
     /**
      * 保存
      *

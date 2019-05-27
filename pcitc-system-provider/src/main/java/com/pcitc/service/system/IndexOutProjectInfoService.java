@@ -190,4 +190,5 @@ public interface IndexOutProjectInfoService {
 
     void selectPatentToIndexProjectInfo();
 
+    Object findIndexOutProjectInfoByPageTree(LayuiTableParam param);
 }

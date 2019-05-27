@@ -2,14 +2,53 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
-    <!--<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">-->
-
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
-    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-    <script type="text/javascript" src="/common/js/base.js"></script>
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <style>
+        .tree-content {
+            position: absolute;
+            z-index: 998;
+            background: #ffffff;
+            max-height: 400px;
+            width: 100%;
+            border: 1px solid #ccc;
+            overflow-y: scroll;
+        }
+
+        .layui-select-title input {
+            display: inline-block
+        }
+
+        .searchBox .layui-input {
+            width: 18%;
+            min-width: 160px;
+            display: inline-block !important;
+            font-size: 12px !important;
+            height: 24px !important;
+            line-height: 24px !important;
+            font-weight: normal !important;
+            padding-left: 6px !important;
+            padding-right: 6px !important;
+            border-radius: 2px !important;
+            vertical-align: middle;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            padding-top: 0px;
+        }
+    </style>
 </head>
 <body>
 <body>
@@ -79,10 +118,11 @@
 <script>
     var param = JSON.parse(window.localStorage.getItem("param"));
     var table, selectRowData, workOrderStatus, publicMethods;
-    layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'publicMethods', 'element'], function () {
+    layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'publicMethods', 'element', 'treeGridCom'], function () {
         table = layui.table;
         publicMethods = layui.publicMethods;
-        var $ = layui.jquery, layer = layui.layer, laypage = layui.laypage;
+        var $ = layui.jquery, layer = layui.layer, laypage = layui.laypage, treeGridCom = layui.treeGridCom;
+        ;
         $(".skill-left>ul li").click(function () {
             $(".skill-left>ul li").removeClass("layui-this");
             $(this).addClass("layui-this");
@@ -96,6 +136,10 @@
                 {
                     field: "fzrxm",
                     title: "负责人", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "xmmc",
+                    title: "项目名称", event: 'setActive', style: 'cursor: pointer;', width: 300
                 }
             ];
 
@@ -107,27 +151,47 @@
                         , "type": "ry"
                     }
             };
-            publicMethods.tableRender('indexOutProjectInfoTableIdRy', 'indexOutProjectInfoTableIdRy', '/indexOutProjectInfo/getTableData', false, colsRy, where, false, function (res, curr, count) {
-                // $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
-                //     var index = parseInt($(this).index() + 1);
-                //     $('tr').removeClass('layui-table-click');
-                //     $(this).addClass('layui-table-click');
-                //     $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                //     $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                //     selectRowData = res.data[index - 1];
-                // });
-                // selectRowData = "";
-                var user = "";
-                var total=0;
-                for (let i = 0; i < res.data.length; i++) {
-                    if (typeof res.data[i].fzrxm!="undefined"){
-                        total++;
-                        user = (user==""?"":(user+","))+res.data[i].fzrxm;
-                    }
+            treeGridCom.render({
+                id: "indexOutProjectInfoTableIdRy"
+                , elem: '#indexOutProjectInfoTableIdRy'
+                , url: '/indexOutProjectInfo/getTableDataTree'
+                , where: where
+                , cellMinWidth: 100
+                , idField: 'dataId'//必須字段
+                , treeId: 'dataId'//树形id字段名称
+                , treeUpId: 'nd'//树形父id字段名称
+                , treeShowName: 'fzrxm'//以树形式显示的字段
+                , heightRemove: [".dHead", 10]//不计算的高度,表格设定的是固定高度，此项不生效
+                , height: commonDislodgeTable()
+                , isFilter: false
+                , iconOpen: true//是否显示图标【默认显示】
+                , isOpenDefault: true//节点默认是展开还是折叠【默认展开】
+                , loading: true
+                , method: 'POST'
+                , page: {
+                    groups: 5
+                    , limits: [param.selfRownum, 15, 30, 45, 60]
+                    , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                    , first: '首页' //不显示首页
+                    , last: '尾页' //不显示尾页
+                    , theme: '#0F9EE0'
+                },
+                cols: [colsRy],
+                done: function (res, curr, count) {
                 }
-                console.log("总人数:"+total+"---参与人员:"+user);
-                $("#indexOutProjectInfoTableIdRyShow").html("参与人员:<br>"+user+"<br>总人数:"+total);
             });
+            // publicMethods.tableRender('indexOutProjectInfoTableIdRy', 'indexOutProjectInfoTableIdRy', '/indexOutProjectInfo/getTableData', false, colsRy, where, false, function (res, curr, count) {
+            //     var user = "";
+            //     var total=0;
+            //     for (let i = 0; i < res.data.length; i++) {
+            //         if (typeof res.data[i].fzrxm!="undefined"){
+            //             total++;
+            //             user = (user==""?"":(user+","))+res.data[i].fzrxm;
+            //         }
+            //     }
+            //     console.log("总人数:"+total+"---参与人员:"+user);
+            //     $("#indexOutProjectInfoTableIdRyShow").html("参与人员:<br>"+user+"<br>总人数:"+total);
+            // });
         }
 
         renderTableRy();
@@ -171,13 +235,13 @@
                 // selectRowData = "";
                 var totalFy = 0.00;
                 for (let i = 0; i < res.data.length; i++) {
-                    if (typeof res.data[i].jf!="undefined"){
-                        totalFy=res.data[i].jf*1+totalFy;
+                    if (typeof res.data[i].jf != "undefined") {
+                        totalFy = res.data[i].jf * 1 + totalFy;
                     }
                 }
                 totalFy = totalFy.toFixed(2);
-                $("#indexOutProjectInfoTableIdFyShow").html("总费用:"+totalFy);
-                console.log("------------"+totalFy);
+                $("#indexOutProjectInfoTableIdFyShow").html("总费用:" + totalFy);
+                console.log("------------" + totalFy);
             });
         }
 
@@ -280,8 +344,8 @@
                 {title: '序号', type: 'numbers', width: 55},
                 {
                     field: "sqri",
-                    title: "申请日", event: 'setActive', style: 'cursor: pointer;', width: 100,templet:function (d) {
-                        return d.sqri.substring(0,10);
+                    title: "申请日", event: 'setActive', style: 'cursor: pointer;', width: 100, templet: function (d) {
+                        return d.sqri.substring(0, 10);
                     }
                 },
                 {

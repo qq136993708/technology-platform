@@ -84,6 +84,7 @@ public class IndexOutProjectInfoController extends BaseController {
      * 分页查询
      */
     private static final String LISTPAGE = "http://pcitc-zuul/system-proxy/indexoutprojectinfo-provider/indexoutprojectinfo/indexoutprojectinfo-page";
+    private static final String LISTPAGETree = "http://pcitc-zuul/system-proxy/indexoutprojectinfo-provider/indexoutprojectinfo/indexoutprojectinfo-page-tree";
     /**
      * 保存
      */
@@ -129,6 +130,15 @@ public class IndexOutProjectInfoController extends BaseController {
     public Object getTableData(@ModelAttribute("param") LayuiTableParam param) {
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE, HttpMethod.POST, entity, LayuiTableData.class);
+        LayuiTableData data = responseEntity.getBody();
+        return JSON.toJSON(data).toString();
+    }
+
+    @RequestMapping(value = "/indexOutProjectInfo/getTableDataTree", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getTableDataTree(@ModelAttribute("param") LayuiTableParam param) {
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGETree, HttpMethod.POST, entity, LayuiTableData.class);
         LayuiTableData data = responseEntity.getBody();
         return JSON.toJSON(data).toString();
     }
