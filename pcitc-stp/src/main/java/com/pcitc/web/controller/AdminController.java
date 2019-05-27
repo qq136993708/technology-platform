@@ -540,6 +540,7 @@ public class AdminController extends BaseController {
 
 			String cFlag = request.getParameter("cFlag");
 			request.setAttribute("userId", userDetails.getUserId());
+			System.out.println(userDetails.getUserLevel()+"=-=-=-"+cFlag);
 			if (userDetails.getUserLevel()!=null&&userDetails.getUserLevel()==1&&cFlag==null) {
 				request.setAttribute("companyCode", HanaUtil.YJY_CODE_ALL);
 				String month = HanaUtil.getCurrrentYearMoth();
