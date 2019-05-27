@@ -156,7 +156,8 @@ line-height: 60px;font-size: 22px;}
 .main-left .main-left-p{font-size: 16px; color: white;border-bottom: 1px solid #5296d6;margin: 17px 14px 0px 12px;
     padding-bottom: 4px;}
 .main-left .main-left-p span{border-radius: 8px;position: relative;left: -1px;top: -8px;font-size: 12px;
-    background-color: #f82b3d;padding: 0 4px;}
+    background-color: #f82b3d;padding: 0 4px;color: white;}
+.state_1 a{color: #ffffff;}
 .main-left ul{height: 198px;overflow-y: scroll;margin: 4px 4px 0 12px;}
 .main-left ul::-webkit-scrollbar{width: 5px; height: 5px;}
 .main-left ul::-webkit-scrollbar-button:vertical{display: none;}
