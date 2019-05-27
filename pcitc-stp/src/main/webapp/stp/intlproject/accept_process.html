@@ -30,8 +30,8 @@ $(document).ready(function() {
 				var form = layui.form;
 				var projectId = "${projectId?default(0)}";
 				var publicMethods=layui.publicMethods;
-				var acceptContentEditor;
-				acceptContentEditor = CKEDITOR.replace("acceptContent");
+				//var acceptContentEditor;
+				//acceptContentEditor = CKEDITOR.replace("acceptContent");
 				$("#appendFiles").val("${appendFiles}");
 				//加载字典
 				var dicMap = ['GJXM_XMXZ','GJXMGL_XMJB','GJXM_JSXZ','GJXM_XMFL'];
@@ -45,7 +45,7 @@ $(document).ready(function() {
 			 	if(projectId != 0)
 		        {
 			 		$("#projectId").val(projectId);
-			 		publicMethods.ajaxPost('/project/get-apply', {"applyId":projectId}, function (data, status) {
+			 		publicMethods.ajaxPost('/project/get-info', {"projectId":projectId}, function (data, status) {
 		        		form.val("apply-form",data);
 		            });
 		        }else{
@@ -58,11 +58,11 @@ $(document).ready(function() {
 				
 				/* 监听提交 */
 				form.on('submit(submitBtn)', function(data) {
-					data.field.acceptContent = acceptContentEditor.getData();
+					//data.field.acceptContent = acceptContentEditor.getData();
                     ajaxPost('/project/accept-process', data.field, function (data, status) {
                         if (data.success) {
-                        	parent.layui.table.reload('acceptTable',null);
-                        	parent.renderfunc();//隐藏全选按钮
+                        	//parent.layui.table.reload('acceptTable',null);
+                        	parent.renderTable();
                         	var index = parent.layer.getFrameIndex(window.name);
 					       	parent.layer.close(index);
                         }else{
@@ -90,17 +90,9 @@ $(document).ready(function() {
 		<input type="hidden" name="userId" id="userId">
 		<input type="hidden" name="appendFiles" id="appendFiles">
 		 <div class="layui-row">
-		 	<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-				<div class="layui-form-item"  id="password" >
-					<label for="" class="layui-form-label">验收编码<span class="must-fill">*</span></label>
-					<div class="layui-input-block">
-					 	<input type="text" class="layui-input" lay-verify="required"  id="acceptNo" name="acceptNo" placeholder="验收编码">
-					</div>
-				</div>
-			</div>
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				<div class="layui-form-item">
-				  <label class="layui-form-label">验收结果<span class="must-fill">*</span></label>
+				  <label class="layui-form-label">验收处理<span class="must-fill">*</span></label>
 		          <div class="layui-input-block">
 					<select name="status" id="status" lay-verify="required"  lay-filter="status">
 	                	<option value="0">请选择</option>

@@ -44,6 +44,9 @@ public class IntlProjectRemarkServiceImpl implements IntlProjectRemarkService {
 		{
 			c.andRemarkTitleLike("%"+param.getParam().get("remarkTitle")+"%");
 		}
+		
+		example.setOrderByClause("create_time desc");
+		
 		LayuiTableData data =  this.findByExample(param, example);
 		//数据处理，分组转换
 		List<Object> datalist = new ArrayList<Object>();
@@ -62,8 +65,8 @@ public class IntlProjectRemarkServiceImpl implements IntlProjectRemarkService {
 				
 				
 				titleMap.put("authorPhone", "联系电话"); 
-            	titleMap.put("remarkTitle", "---纪要标题--"); 
-            	titleMap.put("remarkContent", "--纪要内容--"); 
+            	titleMap.put("remarkTitle", "----"); 
+            	titleMap.put("remarkContent", "----"); 
             	titleMap.put("createTime", "纪要日期"); 
             	titleMap.put("projectId", "项目纪要-"+info.getProjectName()); 
             	titleMap.put("remarkPeople", "负责人"); 
