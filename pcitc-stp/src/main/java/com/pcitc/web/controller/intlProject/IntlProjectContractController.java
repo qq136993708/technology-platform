@@ -31,7 +31,7 @@ import com.pcitc.web.common.BaseController;
 public class IntlProjectContractController extends BaseController {
 
 	private static final String PROJECT_CONTRACT_LIST_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/contract-list";
-	private static final String PROJECT_CONTRACT_END_LIST_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/contract-end-list";
+	private static final String PROJECT_CONTRACT_END_LIST_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/contract-renew-list";
 	private static final String PROJECT_GET_CONTRACT_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/get-contract/";
 	private static final String PROJECT_CONTRACT_ADD_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/add-contract";
 	private static final String PROJECT_CONTRACT_UPD_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/upd-contract";
@@ -49,7 +49,7 @@ public class IntlProjectContractController extends BaseController {
 		return JSON.toJSON(data).toString();
 	}
 
-	@RequestMapping(value = "/project/contract-end-list", method = RequestMethod.POST)
+	@RequestMapping(value = "/project/contract-renew-list", method = RequestMethod.POST)
 	public Object getEndContractTableData(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request) throws IOException {
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_CONTRACT_END_LIST_URL, HttpMethod.POST, entity, LayuiTableData.class);
