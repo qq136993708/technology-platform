@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.utils.DES3Utils;
 import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
@@ -36,6 +37,7 @@ public class AdminMobileController extends BaseController {
 
 	/**
 	 * 移动本地测试方法
+	 * 
 	 * @param request
 	 * @param response
 	 * @return
@@ -68,8 +70,7 @@ public class AdminMobileController extends BaseController {
 		System.out.println("9都大写-----indexMobileStp-Identity_Token---------:"+request.getParameter("Identity_Token"));
 		System.out.println("10开头大写-----indexMobileStp-Identity_key---------:"+request.getParameter("Identity_key"));
 		System.out.println("11开头大写-----indexMobileStp-Identity_token---------:"+request.getParameter("Identity_token"));
-		
-		SysUser rsUser = new SysUser();
+
 		String token = request.getParameter("Identity_Token");
 		DES3Utils desUtils = new DES3Utils("01qaz2wsx3edc4rfv5tgb6yhn");
 		System.out.println("indexMobileStp====token======"+token);
@@ -78,27 +79,21 @@ public class AdminMobileController extends BaseController {
 		String username = keymap.get("username").toString();
 
 		System.out.println("username =========="+username);
-		ResponseEntity<SysUser> rsEntity = this.restTemplate.exchange(GET_USER_INFO_IP+username, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SysUser.class);
-		rsUser = rsEntity.getBody();
-		if (rsUser!=null) {
-			// 用户有哪些菜单权限
-			request.setAttribute("userInfo", rsUser);
-		} else {
-			// 返回权限不足页面
-			System.out.println("indexMobileStp----缺少权限");
-			return "no_access";
-		}
 		// 重新登录，覆盖原cookies。cookies中信息都是后续要用的
 		httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
-		
-		requestBody.add("username", rsUser.getUserName());
-		requestBody.add("password", rsUser.getUserPassword());
+
+		requestBody.add("username", username);
+		requestBody.add("password", "2cbb78c76ed2edecca69b7d6c0e0e578");
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
 
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LOGIN_URL, HttpMethod.POST, entity, JSONObject.class);
 		JSONObject retJson = responseEntity.getBody();
-
+		if (retJson==null||retJson.get("token")==null) {
+			// 返回权限不足页面
+			System.out.println("indexMobileStp----缺少权限");
+			return "no_access";
+		}
 		System.out.println("-----indexStp----------login token:"+retJson.get("token"));
 
 		Cookie cookie = new Cookie("token", retJson.getString("token"));
@@ -106,7 +101,10 @@ public class AdminMobileController extends BaseController {
 		cookie.setPath("/");
 		response.addCookie(cookie);
 
-		String unitPathId = rsUser.getUnitPath();
+		// 获取用户基本信息（token）
+		SysUser tokenUser = JwtTokenUtil.getUserFromTokenByValue(retJson.get("token").toString());
+
+		String unitPathId = tokenUser.getUnitPath();
 		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
 		request.setAttribute("isKJBPerson", isKJBPerson);
 
@@ -115,6 +113,7 @@ public class AdminMobileController extends BaseController {
 
 	/**
 	 * 登录认证的接口地址
+	 * 
 	 * @param request
 	 * @param response
 	 * @return
