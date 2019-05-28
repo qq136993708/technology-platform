@@ -57,9 +57,12 @@ public class AdminMobileController extends BaseController {
 	@RequestMapping(value = "/mobile/index")
 	public String indexMobileStp(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("进入indexMobileStp....");
-		
+		System.out.println("1-----indexMobileStp----------:" + request.getParameter("identity_token"));
+		System.out.println("2-----indexMobileStp----------:" + request.getParameter("identity_key"));
+		System.out.println("3-----indexMobileStp----------:" + request.getParameter("Identity_token"));
+		System.out.println("4-----indexMobileStp----------:" + request.getParameter("Identity_key"));
 		SysUser rsUser = new SysUser();
-		String token = request.getParameter("Identity_Token");
+		String token = request.getParameter("identity_Token");
 		DES3Utils desUtils = new DES3Utils("01qaz2wsx3edc4rfv5tgb6yhn");
 		System.out.println("indexMobileStp==========" + token);
 		String key1 = desUtils.des3Decode0(token);
@@ -131,8 +134,8 @@ public class AdminMobileController extends BaseController {
 		}
 		System.out.println("8-----adToken----------:" + request.getParameter("Identity_Key"));
 		System.out.println("9-----adToken----------:" + request.getParameter("Identity_Token"));
-		DES3Utils desUtils = new DES3Utils(request.getParameter("Identity_Key"));
-		String pKey = desUtils.des3Decode(request.getParameter("Identity_Token"));
+		DES3Utils desUtils = new DES3Utils(request.getParameter("identity_key"));
+		String pKey = desUtils.des3Decode(request.getParameter("identity_token"));
 		Map<String, String> keymap = desUtils.getAcountByToken(pKey);
 		name = keymap.get("username");
 		pwd = keymap.get("password");
