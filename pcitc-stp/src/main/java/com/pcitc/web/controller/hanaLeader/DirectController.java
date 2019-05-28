@@ -150,6 +150,10 @@ public class DirectController extends BaseController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", companyCode);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!companyCode.equals("")) {
@@ -186,12 +190,11 @@ public class DirectController extends BaseController {
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/knowledgePatent")
 	public String knowledgePatent(HttpServletRequest request) throws Exception {
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		String year = HanaUtil.getCurrrentYear();
-		request.setAttribute("year", year);
+		String nd = HanaUtil.getBeforeYear();
+		request.setAttribute("nd", nd);
 		return "stp/hana/home/oneLevelMain/direct/knowledgePatent";
 	}
 
@@ -205,6 +208,10 @@ public class DirectController extends BaseController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -257,6 +264,10 @@ public class DirectController extends BaseController {
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
 		paramsMap.put("type", type);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -313,6 +324,10 @@ public class DirectController extends BaseController {
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
 		paramsMap.put("companyCode", companyCode);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!companyCode.equals("")) {
@@ -372,6 +387,10 @@ public class DirectController extends BaseController {
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
 		paramsMap.put("companyCode", companyCode);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!companyCode.equals("")) {
@@ -452,7 +471,15 @@ public class DirectController extends BaseController {
 		paramsMap.put("typeFlag", typeFlag);
 		paramsMap.put("xmlbbm", xmlbbm);
 		paramsMap.put("companyCode", companyCode);
+		
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
+		
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+		System.out.println(">>>>>>>>>>>>>>contry_01 参数-> "+jsonObject.toString());
+		
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!companyCode.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contry_01, HttpMethod.POST, entity, JSONArray.class);
@@ -586,12 +613,11 @@ public class DirectController extends BaseController {
 	public String achievement(HttpServletRequest request) throws Exception {
 
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		String year = HanaUtil.getCurrrentYear();
-		request.setAttribute("year", year);
+		String nd = HanaUtil.getBeforeYear();
+		request.setAttribute("nd", nd);
 		return "stp/hana/home/oneLevelMain/direct/achievement";
 	}
 
