@@ -83,10 +83,10 @@
                             <table id="indexOutPatentTableId" class="layui-hide" lay-filter="tableEvent"></table>
                         </div>
                         <div class="layui-tab-item">
-                            <div style="display:none;">
+                            <!--<div style="display:none;">-->
                                 <table id="indexOutProjectInfoTableIdRy" class="layui-hide" style="display: none" lay-filter="tableEvent"></table>
-                            </div>
-                            <div id="indexOutProjectInfoTableIdRyShow"></div>
+                            <!--</div>-->
+                            <!--<div id="indexOutProjectInfoTableIdRyShow"></div>-->
                         </div>
                         <div class="layui-tab-item">
                             <div style="display:none;">
@@ -118,7 +118,11 @@
 <script>
     var param = JSON.parse(window.localStorage.getItem("param"));
     var table, selectRowData, workOrderStatus, publicMethods;
-    layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'publicMethods', 'element', 'treeGridCom'], function () {
+    layui.config({
+        base: '/layuiadmin/lib/extend/'
+    }).extend({
+        treeGridCom:'treeGridCom'
+    }).use(['jquery', 'form', 'laydate', 'table', 'layer', 'publicMethods', 'element', 'treeGridCom'], function () {
         table = layui.table;
         publicMethods = layui.publicMethods;
         var $ = layui.jquery, layer = layui.layer, laypage = layui.laypage, treeGridCom = layui.treeGridCom;
@@ -137,10 +141,10 @@
                     field: "fzrxm",
                     title: "负责人", event: 'setActive', style: 'cursor: pointer;'
                 },
-                {
-                    field: "xmmc",
-                    title: "项目名称", event: 'setActive', style: 'cursor: pointer;', width: 300
-                }
+                // {
+                //     field: "xmmc",
+                //     title: "项目名称", event: 'setActive', style: 'cursor: pointer;', width: 300
+                // }
             ];
 
         function renderTableRy() {
@@ -166,7 +170,7 @@
                 , isFilter: false
                 , iconOpen: true//是否显示图标【默认显示】
                 , isOpenDefault: true//节点默认是展开还是折叠【默认展开】
-                , loading: true
+                , loading: false
                 , method: 'POST'
                 , page: {
                     groups: 5
@@ -178,6 +182,7 @@
                 },
                 cols: [colsRy],
                 done: function (res, curr, count) {
+                    console.log(res.data);
                 }
             });
             // publicMethods.tableRender('indexOutProjectInfoTableIdRy', 'indexOutProjectInfoTableIdRy', '/indexOutProjectInfo/getTableData', false, colsRy, where, false, function (res, curr, count) {

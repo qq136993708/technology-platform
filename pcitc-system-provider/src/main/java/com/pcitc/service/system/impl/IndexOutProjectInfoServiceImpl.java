@@ -167,7 +167,7 @@ public class IndexOutProjectInfoServiceImpl implements IndexOutProjectInfoServic
     }
 
     @Override
-    public LayuiTableData findIndexOutProjectInfoByPage(LayuiTableParam param) {
+    public LayuiTableData findIndexOutProjectInfoByPageTree(LayuiTableParam param) {
         IndexOutProjectInfoExample example = new IndexOutProjectInfoExample();
         IndexOutProjectInfoExample.Criteria c = example.createCriteria();
         Object typeIndex = param.getParam().get("typeIndex");
@@ -196,6 +196,7 @@ public class IndexOutProjectInfoServiceImpl implements IndexOutProjectInfoServic
             IndexOutProjectInfo obj = list.get(i);
             String name = obj.getFzrxm();
 
+            if (StrUtil.isBlank(name))continue;
             List<IndexOutProjectInfo> l = map.get(name);
             if (l == null || l.size() == 0) {
                 l = new ArrayList<>();
@@ -219,6 +220,7 @@ public class IndexOutProjectInfoServiceImpl implements IndexOutProjectInfoServic
             List<IndexOutProjectInfo>  valueList = entry.getValue();
             for (int i = 0,j= valueList.size(); i <j ; i++) {
                 valueList.get(i).setNd(uuid);
+                valueList.get(i).setFzrxm(valueList.get(i).getXmmc());
                 tree.add(valueList.get(i));
             }
         }
@@ -264,7 +266,7 @@ public class IndexOutProjectInfoServiceImpl implements IndexOutProjectInfoServic
     }
 
     @Override
-    public Object findIndexOutProjectInfoByPageTree(LayuiTableParam param) {
+    public LayuiTableData findIndexOutProjectInfoByPage(LayuiTableParam param) {
         IndexOutProjectInfoExample example = new IndexOutProjectInfoExample();
         IndexOutProjectInfoExample.Criteria c = example.createCriteria();
         Object typeIndex = param.getParam().get("typeIndex");
