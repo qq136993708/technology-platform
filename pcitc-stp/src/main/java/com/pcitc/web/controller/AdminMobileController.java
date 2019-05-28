@@ -83,6 +83,7 @@ public class AdminMobileController extends BaseController {
 		httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
 
+		// 直接登录，默认密码
 		requestBody.add("username", username);
 		requestBody.add("password", "2cbb78c76ed2edecca69b7d6c0e0e578");
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
