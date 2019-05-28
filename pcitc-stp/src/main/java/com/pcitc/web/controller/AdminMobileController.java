@@ -91,6 +91,7 @@ public class AdminMobileController extends BaseController {
 		// 重新登录，覆盖原cookies。cookies中信息都是后续要用的
 		httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
+		
 		requestBody.add("username", rsUser.getUserName());
 		requestBody.add("password", rsUser.getUserPassword());
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);

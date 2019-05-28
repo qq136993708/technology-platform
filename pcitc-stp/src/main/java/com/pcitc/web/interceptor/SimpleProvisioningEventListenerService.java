@@ -271,40 +271,43 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 						} else {
 							vlaue = "";
 						}
-						if ("cn".equals(keyName)) {
+						if ("account_uid".equals(keyName.toLowerCase())) {
+							sysUser.setUserName(vlaue);// 应用账号
+						}
+						if ("cn".equals(keyName.toLowerCase())) {
 							sysUser.setUserDisp(vlaue);// 用户姓名
 						}
-						if ("uid".equals(keyName)) {
+						if ("uid".equals(keyName.toLowerCase())) {
 							sysUser.setUserExtend(vlaue);// 统一身份账号，暂存
 						}
-						if ("employeenumber".equals(keyName)) {
+						if ("employeenumber".equals(keyName.toLowerCase())) {
 							sysUser.setUserComment(vlaue);// 员工编码
 						}
-						if ("employeetype".equals(keyName)) {
+						if ("employeetype".equals(keyName.toLowerCase())) {
 							sysUser.setUserKind(vlaue);// 用户类型
 						}
-						if ("departmentnumber".equals(keyName)) {
+						if ("departmentnumber".equals(keyName.toLowerCase())) {
 							// sysUser.setUserUnit(vlaue);// 用户所属机构
 							// 初始给他默认的机构和岗位
 							// sysUser.setUserUnit(vlaue);
 						}
-						if ("mail".equals(keyName)) {
+						if ("mail".equals(keyName.toLowerCase())) {
 							sysUser.setUserMail(vlaue);// 用户邮箱
 						}
-						if ("mobile".equals(keyName)) {
+						if ("mobile".equals(keyName.toLowerCase())) {
 							sysUser.setUserMobile(vlaue);// 用户手机号
 						}
-						if ("telephonenumber".equals(keyName)) {
+						if ("telephonenumber".equals(keyName.toLowerCase())) {
 							sysUser.setUserPhone(vlaue);// 用户座机号
 						}
-						if ("sptitlelevel".equals(keyName)) {
+						if ("sptitlelevel".equals(keyName.toLowerCase())) {
 							sysUser.setUserLevel(1);// 用户姓名-类型不同存储固定值
 						}
 
-						if ("sporgcodepath".equals(keyName)) {
+						if ("sporgcodepath".equals(keyName.toLowerCase())) {
 							sysUser.setUserRelation(vlaue);// 临时存组织机构路径
 						}
-						if ("sporgnamepath".equals(keyName)) {
+						if ("sporgnamepath".equals(keyName.toLowerCase())) {
 							// 科技部及八大院的特殊处理
 							System.out.println("sporgnamepath==========="+vlaue);
 							if (vlaue.contains("化工处")) {
@@ -375,8 +378,6 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 
 					}
 					
-					System.out.println("getSubject==========="+targetSubject.getSubject());
-					sysUser.setUserName(targetSubject.getSubject());
 					sysUser.setUserPassword("2cbb78c76ed2edecca69b7d6c0e0e578");
 					if (sysUser.getUserKind()==null || sysUser.getUserKind().equals("")) {
 						sysUser.setUserKind("ROOT_XTGL_YHLX_ZZNYH");// 用户类型
