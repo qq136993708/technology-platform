@@ -52,6 +52,7 @@ import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.JwtTokenUtil;
+import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.FileUtil;
 import com.pcitc.web.utils.HanaUtil;
 
@@ -1763,7 +1764,13 @@ public class OneLevelMainController {
 		String year = HanaUtil.getCurrrentYear();
 		request.setAttribute("year", year);
 
-		request.setAttribute("YJY_CODE_NOT_YINGKE", HanaUtil.YJY_CODE_NOT_YINGKE);
+		
+		
+		String  companyCode=EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders) ;
+		request.setAttribute("companyCode", companyCode);
+		String month = HanaUtil.getCurrrentYearMoth();
+        request.setAttribute("month", month);
+        
 
 		return "stp/hana/home/oneLevelMain/equipment";
 	}

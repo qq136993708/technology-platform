@@ -170,18 +170,13 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        ${nd}年直属研究院科研装备数量
+                        ${month}直属研究院科研装备数量
                     </div>
-                    
-        	
                     <div class="layui-card-body btn-function">
-                     <div class="text-total">
-                            <span>大型分析仪器:<span class="text-total-blue" id="bar4_1_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>中型实验装置:<span class="text-total-blue" id="bar4_2_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>单台值大于500万:<span class="text-total-blue" id="bar4_3_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>专业软件（外购）:<span class="text-total-blue" id="bar4_4_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                        </div>
-                        <div  style="height:270px;width: 100%;" id="bar4"></div>
+                   <div class="text-total">
+                        	<span>总计：<span class="text-total-blue" id="chart_title_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                    	</div>
+                        <div class="main-chart" id="equipment_01_chart" style="height:280px;width: 100%;"></div>
                     </div>
                 </div>
             </div>
@@ -587,9 +582,6 @@
                     window.open("/instituteIndex?url="+url);
                 });
             	
-            	//统计
-            	var set_topic_equ_count_count_url="/direct/topic_equip_count?typeFlag=研究院&nd="+nd+"&v_date="+v_date+"&xmlbbm=fkyzb";
-            	set_topic_equ_count(set_topic_equ_count_count_url,"topic_chart1");
             	
             	
              //直属研究院合同签订分析
@@ -621,31 +613,47 @@
         	     window.open("/instituteIndex?url="+url);
              });
         	//统计
-         	var set_topic_equ_count_count_url_02="/direct/topic_equip_count?typeFlag=研究院&nd="+nd+"&v_date="+v_date+"&xmlbbm=kyzb";
-         	set_topic_equ_count(set_topic_equ_count_count_url_02,"direct_topic_chart3");
          	
          	
          	
-         	
+        	var yAxis2t= [
+			        {
+			            type: 'value',
+			            name: '数量（个）',
+			            position: 'left',
+			            axisLabel: {
+			                formatter: '{value}'
+			            }
+			        }
+			    ];
         	
-         	//直属研究院科研设备数量分析
-           	var chart4_url="/home/GET_getDzzk_bar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-        	var echart4=load_mutl_bar_stack_02(chart4_url,"bar4","","",yAxis,1,function(data){
-        		var bCount_4=getDataCountForName_t(data,'大型分析仪器');
-            	var zCount_4=getDataCountForName_t(data,'中型实验装置');
-            	var dCount_4=getDataCountForName_t(data,'单台值大于500万');
-            	var zyCount_4=getDataCountForName_t(data,'专业软件（外购）'); 
-    	        var allCount_4=bCount_4+zCount_4+dCount_4+zyCount_4;
-                $("#bar4_1_count").html(bCount_4+"套");
-                $("#bar4_2_count").html(zCount_4+"台");
-                $("#bar4_3_count").html(dCount_4+"台");
-                $("#bar4_4_count").html(zyCount_4+"套");
-        		
-        	});
-        	echart4.on('click', function (params) {
-        		var xName=params.name;
-        		var legentName=params.seriesName;
-        		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+        	var chart1_url="/one_level_main/equipment_01?month="+$("#month").val()+"&v_date="+v_date+"&companyCode="+companyCode;
+			var echart1=load_mutl_bar_down(chart1_url,"equipment_01_chart","","",yAxis2t);
+			echart1.on('click', function (params) {
+				var xName=params.name;
+				var legentName=params.seriesName;
+				var type="";
+				if(legentName=='500万以上')
+				{
+					type="9";
+				}
+				if(legentName=='300-500万')
+				{
+					type="5";
+				}
+				if(legentName=='100-300万')
+				{
+					type="3";
+				}
+				if(legentName=='100万以下')
+				{
+					type="1";
+				}
+				var url=　encodeURIComponent("/one_level_main/equipment_03_detail?month="+$("#month").val()+"&companyName="+xName+"&type="+type+"&legentName="+legentName);
+		        window.open("/instituteIndex?url="+url);
+        
+         	
+                
             });
         
             
@@ -685,9 +693,7 @@
         	data7.on('click', function (params) {
         		var xName=params.name;
         		var legentName=params.seriesName;
-        		
-        		 window.open("/one_level_main/country_table?define2="+xName+"&nd="+nd+"&ysnd="+nd);
-        		 
+        		window.open("/one_level_main/country_table?define2="+xName+"&nd="+nd+"&ysnd="+nd);
             });  
               
         	//新开课题
@@ -698,7 +704,6 @@
         		var legentName=params.seriesName;
         		window.open("/one_level_main/country_table?define2="+xName+"&nd="+nd+"&ysnd="+nd);
             });
-        	
         	 
         	 //结转课题
         	var url_9="/direct/contry_01?type=2&nd="+nd+"&v_date="+v_date+"&xmlbbm=fkyzb";
@@ -714,7 +719,7 @@
         }
         
 
-        function set_topic_equ_count(url,id) 
+        /* function set_topic_equ_count(url,id) 
         {
            $.ajax({
         	     type:"GET",
@@ -756,7 +761,7 @@
         		  
           });
         } 
-   
+    */
 
         
         function getDataCountForName_t(data,strName)

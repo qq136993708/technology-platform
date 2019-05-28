@@ -113,7 +113,10 @@ layui.config({
     var monthValM=$("#month").val().substring(4);
     $(".layui-time").html(monthValY+"年"+monthValM+"月");
     $("#knowledge_table").click(function () {
-    	window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
+    	
+    	var url=　encodeURIComponent("/one_level_main/equipment_03_detail?month="+$("#month").val());
+        window.open("/instituteIndex?url="+url);
+        
     });
        
 });
