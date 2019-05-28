@@ -89,8 +89,8 @@
 .btn_save {height: 25px;line-height: 25px;background: none;margin-top: 4px;}
 .btn_save:hover {background: #1890ff;margin-top: 4px;}
 .btn_save2 {background: url(/layuiadmin/layui/images/operation_45.png) no-repeat;background-size: 16px auto;}
-.btn_save2:hover{background: #1890ff url(/layuiadmin/layui/images/operation_41.png) no-repeat;background-size: 16px auto;}
-.btn_save2.active{background: #1890ff url(/layuiadmin/layui/images/operation_41.png) no-repeat;background-size: 16px auto;}
+.btn_save2:hover{background: #1890ff url(/layuiadmin/layui/images/operation_b.png) no-repeat;background-size: 16px auto;}
+.btn_save2.active{background: #1890ff url(/layuiadmin/layui/images/operation_b.png) no-repeat;background-size: 16px auto;}
 .btn_print {background: url(/layuiadmin/layui/images/operation_106.png) no-repeat;}
 .btn_print:hover{background: #1890ff url(/layuiadmin/layui/images/operation_104.png) no-repeat;}
 .btn_print.active{background: #1890ff url(/layuiadmin/layui/images/operation_104.png) no-repeat;}
@@ -167,7 +167,25 @@
 .btn_exeState {background: url(/layuiadmin/layui/images/icon_set_01.png) no-repeat;}
 .btn_exeState:hover {background: #1890ff url(/layuiadmin/layui/images/icon_set_02.png) no-repeat;}
 .btn_exeState.active {background: #1890ff url(/layuiadmin/layui/images/icon_set_02.png) no-repeat;}
-.btnMyBgImg {box-sizing: border-box;height: 25px;line-height: 25px;font-size: 12px;padding: 0 6px 0 22px; background-position: 8px;background-size: 12px auto;margin-top: 1px;}
+.btn_forward {background: url(/layuiadmin/layui/images/btn-forward.png) no-repeat;}
+.btn_forward:hover {background: #1890ff url(/layuiadmin/layui/images/btn-forward-h.png) no-repeat;}
+.btn_forward.active {background: #1890ff url(/layuiadmin/layui/images/btn-forward-h.png) no-repeat;}
+.btn_frozen {background: url(/layuiadmin/layui/images/btn-frozen.png) no-repeat;}
+.btn_frozen:hover {background: #1890ff url(/layuiadmin/layui/images/btn-frozen-h.png) no-repeat;}
+.btn_frozen.active {background: #1890ff url(/layuiadmin/layui/images/btn-frozen-h.png) no-repeat;}
+.btn_thaw {background: url(/layuiadmin/layui/images/btn-thaw.png) no-repeat;}
+.btn_thaw:hover {background: #1890ff url(/layuiadmin/layui/images/btn-thaw-h.png) no-repeat;}
+.btn_thaw.active {background: #1890ff url(/layuiadmin/layui/images/btn-thaw-h.png) no-repeat;}
+.btn_selectExpert {background: url(/layuiadmin/layui/images/btn-selectExpert.png) no-repeat;}
+.btn_selectExpert:hover {background: #1890ff url(/layuiadmin/layui/images/btn-selectExpert-h.png) no-repeat;}
+.btn_selectExpert.active {background: #1890ff url(/layuiadmin/layui/images/btn-selectExpert-h.png) no-repeat;}
+.btn_selectedExperts {background: url(/layuiadmin/layui/images/btn-selectedExperts.png) no-repeat;}
+.btn_selectedExperts:hover {background: #1890ff url(/layuiadmin/layui/images/btn-selectedExperts-h.png) no-repeat;}
+.btn_selectedExperts.active {background: #1890ff url(/layuiadmin/layui/images/btn-selectedExperts-h.png) no-repeat;}
+
+
+
+.btnMyBgImg {box-sizing: border-box;height: 25px;line-height: 25px;font-size: 12px;padding: 0 6px 0 24px; background-position: 8px;background-size: 12px auto;margin-top: 1px;}
 .btnMyBgImg:hover {background-position: 8px;background-size: 12px auto;margin-top: 1px;}
 .btnMyBgImg.active{color: #ffffff;background-position: 8px;background-size: 12px auto;margin-top: 1px;}
 
