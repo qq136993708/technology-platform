@@ -57,12 +57,12 @@ public class AdminMobileController extends BaseController {
 	@RequestMapping(value = "/mobile/index")
 	public String indexMobileStp(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("进入indexMobileStp....");
-		System.out.println("1-----indexMobileStp----------:" + request.getParameter("identity_token"));
-		System.out.println("2-----indexMobileStp----------:" + request.getParameter("identity_key"));
-		System.out.println("3-----indexMobileStp----------:" + request.getParameter("Identity_token"));
-		System.out.println("4-----indexMobileStp----------:" + request.getParameter("Identity_key"));
+		System.out.println("1-----indexMobileStp----identity_token------:" + request.getParameter("identity_token"));
+		System.out.println("2-----indexMobileStp-----identity_key-----:" + request.getParameter("identity_key"));
+		System.out.println("3-----indexMobileStp------Identity_token----:" + request.getParameter("Identity_token"));
+		System.out.println("4-----indexMobileStp------Identity_key----:" + request.getParameter("Identity_key"));
 		SysUser rsUser = new SysUser();
-		String token = request.getParameter("identity_Token");
+		String token = request.getParameter("Identity_token");
 		DES3Utils desUtils = new DES3Utils("01qaz2wsx3edc4rfv5tgb6yhn");
 		System.out.println("indexMobileStp==========" + token);
 		String key1 = desUtils.des3Decode0(token);
@@ -115,32 +115,29 @@ public class AdminMobileController extends BaseController {
 		Map param = request.getParameterMap();
 		System.out.println("2-----adToken----------:" + param.isEmpty());
 		System.out.println("3-----adToken----------:" + request.getParameterNames());
-		System.out.println("4-----adToken----------:" + request.getParameter("identity_token"));
-		System.out.println("5-----adToken----------:" + request.getParameter("identity_key"));
+		System.out.println("4-----adToken----identity_token------:" + request.getParameter("identity_token"));
+		System.out.println("5-----adToken----identity_key------:" + request.getParameter("identity_key"));
 		Enumeration paramNames = request.getParameterNames();
 		while (paramNames.hasMoreElements()) {
 			String paramName = (String) paramNames.nextElement();
-			StringBuffer sb = new StringBuffer();
-			sb.append("adToken :---->").append(paramName);
 			String[] paramValues = request.getParameterValues(paramName);
-			System.out.println("5-----adToken----------:" + paramName);
+			System.out.println("6-----adToken----paramName------:" + paramName);
 			if (paramValues != null) {
-				System.out.println("6-----adToken----------:" + paramValues.length);
+				System.out.println("7-----adToken----------:" + paramValues.length);
 				for (int i = 0; i < paramValues.length; i++) {
-					System.out.println("7-----adToken----------:" + i + "==============" + paramValues[i]);
+					System.out.println("8-----adToken----------:" + i + "==============" + paramValues[i]);
 				}
 			}
-			System.out.println("5-----adToken----------:" + sb);
 		}
-		System.out.println("8-----adToken----------:" + request.getParameter("Identity_Key"));
-		System.out.println("9-----adToken----------:" + request.getParameter("Identity_Token"));
-		DES3Utils desUtils = new DES3Utils(request.getParameter("identity_key"));
-		String pKey = desUtils.des3Decode(request.getParameter("identity_token"));
+		System.out.println("9-----adToken----Identity_Key------:" + request.getParameter("Identity_Key"));
+		System.out.println("10-----adToken----Identity_Token------:" + request.getParameter("Identity_Token"));
+		DES3Utils desUtils = new DES3Utils(request.getParameter("Identity_Key"));
+		String pKey = desUtils.des3Decode(request.getParameter("Identity_Token"));
 		Map<String, String> keymap = desUtils.getAcountByToken(pKey);
 		name = keymap.get("username");
 		pwd = keymap.get("password");
 		
-		System.out.println("2-----adToken----------:" + name + "====" + pwd);
+		System.out.println("11-----adToken----------:" + name + "====" + pwd);
 		Cookie c = new Cookie("userInfo", name);
 		c.setPath("/");
 		response.addCookie(c);
