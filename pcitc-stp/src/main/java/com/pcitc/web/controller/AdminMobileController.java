@@ -17,6 +17,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.web.common.BaseController;
@@ -65,13 +66,15 @@ public class AdminMobileController extends BaseController {
 		System.out.println("1进入indexMobileStp....");
 		System.out.println("2进入indexMobileStp...."+request.getParameter("Identity_Key"));
 		String token = request.getParameter("Identity_Token");
-		DES3Utils desUtils = new DES3Utils(request.getParameter("Identity_Key"));
+		DES3Utils desUtils = new DES3Utils("01qaz2wsx3edc4rfv5tgb6yhn");
 		
 		String key1 = desUtils.des3Decode0(token);
 		Map keymap = desUtils.getAcountByToken0(key1);
 		String username = keymap.get("username").toString();
-
 		System.out.println("username =========="+username);
+		
+		String jsonString = JSON.toJSONString(keymap);
+		System.out.println("jsonString =========="+jsonString);
 		// 重新登录，覆盖原cookies。cookies中信息都是后续要用的
 		httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
