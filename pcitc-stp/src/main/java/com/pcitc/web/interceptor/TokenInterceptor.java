@@ -47,7 +47,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 			if (cookies == null || cookies.length == 0) {
 				// System.out.println("cookies is null ");
 				// login和index为了开发需要，避开统一身份认证
-				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome")) {
+				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome")) {
 					return false;
 				}    
 				

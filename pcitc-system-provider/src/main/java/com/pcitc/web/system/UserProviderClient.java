@@ -42,7 +42,7 @@ public class UserProviderClient {
     //private SysUserPropertyService sysUserPropertyService;
 	
 	@ApiOperation(value="根据用户名检索用户",notes="根据用户名获取用户信息，返回用户实体数据。")
-	@RequestMapping(value = "/user-provider/user/get-user-byname/{username}", method = RequestMethod.GET)
+	@RequestMapping(value = "/user-provider/user/get-user-byname/{username:.*}", method = RequestMethod.GET)
 	public SysUser selectUserByUserName(@PathVariable(value = "username", required = true) String username) throws Exception {
 		return userService.selectUserByUserName(username);
 	}

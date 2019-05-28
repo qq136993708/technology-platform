@@ -454,7 +454,7 @@ public class HomePageController {
 					String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
 					Map<String, Object> paramsMap = new HashMap<String, Object>();
 					paramsMap.put("month", month);
-					paramsMap.put("companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+					paramsMap.put("companyCode", companyCode);
 					JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 					HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 					if (!companyCode.equals("")) {
