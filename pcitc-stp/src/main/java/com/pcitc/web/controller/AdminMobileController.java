@@ -106,7 +106,7 @@ public class AdminMobileController extends BaseController {
 		cookie.setPath("/");
 		response.addCookie(cookie);
 
-		String unitPathId = sysUserInfo.getUnitPath();
+		String unitPathId = rsUser.getUnitPath();
 		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
 		request.setAttribute("isKJBPerson", isKJBPerson);
 
