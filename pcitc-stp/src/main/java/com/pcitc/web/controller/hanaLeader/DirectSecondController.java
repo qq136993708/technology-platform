@@ -30,7 +30,6 @@ import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.HanaUtil;
 
 @Controller
-@RequestMapping(value = "/direct_second")
 public class DirectSecondController  extends BaseController
 {
 	//报表1，3，4使用同一组数据
@@ -49,7 +48,7 @@ public class DirectSecondController  extends BaseController
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(method = RequestMethod.GET, value = "/direct_second_data_01")
+	@RequestMapping(method = RequestMethod.GET, value = "/direct_second/direct_second_data_01")
 	@ResponseBody
 	public String getDirectSecendData01(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -59,7 +58,10 @@ public class DirectSecondController  extends BaseController
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
-		
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(direct_second_data_01, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -93,7 +95,7 @@ public class DirectSecondController  extends BaseController
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(method = RequestMethod.GET, value = "/direct_second_data_02")
+	@RequestMapping(method = RequestMethod.GET, value = "/direct_second/direct_second_data_02")
 	@ResponseBody
 	public String getDirectSecendData02(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -103,7 +105,10 @@ public class DirectSecondController  extends BaseController
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
-		
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(direct_second_data_02, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -137,7 +142,7 @@ public class DirectSecondController  extends BaseController
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(method = RequestMethod.GET, value = "/direct_second_data_03")
+	@RequestMapping(method = RequestMethod.GET, value = "/direct_second/direct_second_data_03")
 	@ResponseBody
 	public String getDirectSecendData03(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -147,7 +152,10 @@ public class DirectSecondController  extends BaseController
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
-		
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(direct_second_data_01, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -180,7 +188,7 @@ public class DirectSecondController  extends BaseController
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(method = RequestMethod.GET, value = "/direct_second_data_04")
+	@RequestMapping(method = RequestMethod.GET, value = "/direct_second/direct_second_data_04")
 	@ResponseBody
 	public String getDirectSecendData04(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -190,7 +198,10 @@ public class DirectSecondController  extends BaseController
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
-		
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(direct_second_data_01, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -224,7 +235,7 @@ public class DirectSecondController  extends BaseController
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(method = RequestMethod.GET, value = "/direct_second_data_05")
+	@RequestMapping(method = RequestMethod.GET, value = "/direct_second/direct_second_data_05")
 	@ResponseBody
 	public String getDirectSecendData05(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -234,7 +245,10 @@ public class DirectSecondController  extends BaseController
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
-		
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(direct_second_data_05, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();

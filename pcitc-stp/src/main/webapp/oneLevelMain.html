@@ -415,8 +415,10 @@
 
         var v_date=(new Date()).getTime();
         var month=$("#month").val();
+       
         //alert(month);
         var companyCode=$("#companyCode").val();
+        //alert(companyCode);
         var chart1_url="/one_level_main/equipment_01?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
         $.ajax({
             type : 'GET',
