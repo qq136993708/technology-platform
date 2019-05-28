@@ -225,7 +225,8 @@ public class AdminController extends BaseController {
 		String cFlag = request.getParameter("cFlag");
 		request.setAttribute("userId", rsUser.getUserId());
 		if (rsUser.getUserLevel()!=null&&rsUser.getUserLevel()==1&&cFlag==null) {
-			request.setAttribute("companyCode", HanaUtil.YJY_CODE_ALL);
+			String  companyCode=EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders) ;
+			request.setAttribute("companyCode", companyCode);
 			String month = HanaUtil.getCurrrentYearMoth();
 			request.setAttribute("month", month);
 			return "/oneLevelMain";
@@ -474,8 +475,10 @@ public class AdminController extends BaseController {
 
 			request.setAttribute("userId", userDetails.getUserId());
 			String cFlag = request.getParameter("cFlag");
-			if (userDetails.getUserLevel()!=null&&userDetails.getUserLevel()==1&&cFlag==null) {
-				request.setAttribute("companyCode", HanaUtil.YJY_CODE_ALL);
+			if (userDetails.getUserLevel()!=null&&userDetails.getUserLevel()==1&&cFlag==null) 
+			{
+				String  companyCode=EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders) ;
+				request.setAttribute("companyCode", companyCode);
 				String month = HanaUtil.getCurrrentYearMoth();
 				request.setAttribute("month", month);
 				return "/oneLevelMain";// leaderIndex
@@ -541,7 +544,8 @@ public class AdminController extends BaseController {
 			String cFlag = request.getParameter("cFlag");
 			request.setAttribute("userId", userDetails.getUserId());
 			if (userDetails.getUserLevel()!=null&&userDetails.getUserLevel()==1&&cFlag==null) {
-				request.setAttribute("companyCode", HanaUtil.YJY_CODE_ALL);
+				String  companyCode=EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders) ;
+				request.setAttribute("companyCode", companyCode);
 				String month = HanaUtil.getCurrrentYearMoth();
 				request.setAttribute("month", month);
 				return "/oneLevelMain";// leaderIndex
