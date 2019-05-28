@@ -108,12 +108,10 @@ $(document).ready(function() {
 				</div>
 			</div>
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-				<div class="layui-form-item">
-					<label for="" class="layui-form-label">成果类型<span class="must-fill">*</span></label>
+				<div class="layui-form-item"  id="password" >
+					<label for="" class="layui-form-label">成果编码<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-						<select name="resultType" disabled="disabled" class="readOnlyBox" id="GJXMGL_CGLX" lay-verify="required"  lay-filter="resultType">
-		                	<option value="">请选择</option>
-		             	</select>
+					 	<input type="text" readonly="readonly" class="layui-input readOnlyBox" id="resultCode" name="resultCode" placeholder="成果编码">
 					</div>
 				</div>
 			</div>
@@ -127,9 +125,35 @@ $(document).ready(function() {
 					</div>
 				</div>
 			</div>
-			
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">成果类型<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+						<select name="resultType" disabled="disabled" class="readOnlyBox" id="GJXMGL_CGLX" lay-verify="required"  lay-filter="resultType">
+		                	<option value="">请选择</option>
+		             	</select>
+					</div>
+				</div>
+			</div>
 		</div>
-		
+		<div class="layui-row">
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">项目负责人<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+						<input type="text" readonly="readonly"  class="layui-input readOnlyBox" lay-verify="required" id="resultAuthor" name="resultAuthor" placeholder="项目负责人">
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">负责人联系方式</label>
+					<div class="layui-input-block">
+						<input type="text" readonly="readonly" class="layui-input readOnlyBox" id="authorPhone" name="authorPhone">
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class="layui-form-item">
 	      	 <label class="layui-form-label">内容</label>
 	         <div class="layui-input-block">
