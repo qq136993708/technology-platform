@@ -90,7 +90,7 @@
 	                }); 
 	                //获得项目信息
 	                $.each(res.data,function(i,dt){
-	                	$("tr[data-index='"+i+"'] td[data-field='status'] div").html("验收通过");
+	                	$("tr[data-index='"+i+"'] td[data-field='status'] div").html("验收未通过");
 		            	publicMethods.ajaxAsyncPost('/project/get-project', {"projectId":res.data[i].projectId}, function (data, status) {
 		            		$("tr[data-index='"+i+"'] td[data-field='projectId'] div").html(data.projectName);
 			            });
