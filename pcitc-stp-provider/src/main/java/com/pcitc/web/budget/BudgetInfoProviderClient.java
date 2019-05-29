@@ -19,9 +19,11 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.BudgetExceptionResultEnum;
+import com.pcitc.base.common.enums.BudgetInfoEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
+import com.pcitc.service.budget.BudgetGroupTotalService;
 import com.pcitc.service.budget.BudgetInfoService;
 
 import io.swagger.annotations.Api;
@@ -37,6 +39,13 @@ public class BudgetInfoProviderClient
 	
 	@Autowired
 	private BudgetInfoService budgetInfoService;
+	
+	@Autowired
+	private BudgetGroupTotalService budgetGroupTotalService;
+	
+	
+	
+	
 	
 	@ApiOperation(value="预算管理-预算列表",notes="按年检索年度预算表信息。")
 	@RequestMapping(value = "/stp-provider/budget/budget-info-list", method = RequestMethod.POST)
@@ -76,7 +85,21 @@ public class BudgetInfoProviderClient
 		}
 		return data;
 	}
-	
+	@ApiOperation(value="获取年度最终预算",notes="获取年度最终预算表")
+	@RequestMapping(value = "/stp-provider/budget/get-final-budget", method = RequestMethod.POST)
+	public Object getFinalBudgetInfo(@RequestBody BudgetInfo info) 
+	{
+		BudgetInfo budget = null;
+		try
+		{
+			budget = budgetInfoService.selectFinalBudget(info.getNd(),info.getBudgetType());
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return budget;
+	}
 	
 	@ApiOperation(value="预算管理",notes="保存年度预算表")
 	@RequestMapping(value = "/stp-provider/budget/budget-info-save", method = RequestMethod.POST)
@@ -198,6 +221,17 @@ public class BudgetInfoProviderClient
 				}
 			}
 			info.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
+			
+			//输出到辅助决策
+			if(BudgetInfoEnum.GROUP_TOTAL.getCode().equals(info.getBudgetType())) {
+				budgetGroupTotalService.outDataToReport(info);
+			}else if(BudgetInfoEnum.GROUP_TOTAL.getCode().equals(info.getBudgetType())) 
+			{
+				
+			}
+			
+			
+			
 		}else {
 			//更新状态
 			info.setAuditStatus(workflow_status);

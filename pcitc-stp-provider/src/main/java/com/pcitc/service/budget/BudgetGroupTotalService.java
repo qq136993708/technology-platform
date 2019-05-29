@@ -126,4 +126,10 @@ public interface BudgetGroupTotalService
 	 * @return
 	 */
 	public Boolean startWorkFlow(BudgetInfo info,WorkflowVo workflowVo);
+	/**
+	 *  输出最终审批结果到辅助决策中心
+	 * @param info
+	 * @return
+	 */
+	public Boolean outDataToReport(BudgetInfo info);
 }
