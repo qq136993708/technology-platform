@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -329,6 +330,9 @@ public class EquipmentUtils {
 				String[] postArr = userInfo.getUserPost().split(",");
 				System.out.println("========getUserPost===============" + userInfo.getUserPost()+" functionId="+functionId);
 				paramMap.put("postIds", Arrays.asList(postArr));
+				
+				httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+				
 				HttpEntity<HashMap<String, Object>> entityv = new HttpEntity<HashMap<String, Object>>(paramMap, httpHeaders);
 				ResponseEntity<JSONArray> response_Entity = restTemplate.exchange(FUNCTION_FILTER_URL , HttpMethod.POST, entityv, JSONArray.class);
 				JSONArray retJson = response_Entity.getBody();
