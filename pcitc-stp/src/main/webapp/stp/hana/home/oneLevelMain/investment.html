@@ -18,29 +18,12 @@
 </head>
 <body>
 <div class="layui-fluid">
-<input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
     <div class="">
         <div class="searchBox">
             <label class="dateInput">
                 <span>年份</span>
-                <input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
+                <input type="text" name="nd" placeholder="请选择年份" title="年份" value="${nd}"  autocomplete="off" class="form-control" id="nd">
             </label>
-            <!-- <div class="layui-input-inline">
-                <select name="companyCode" id="companyCode"  >
-                    <#list companyCodeList as vo>
-                    <#if vo.g0GSJC == '全部'>
-                    <option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
-                </#if>
-                <#if vo.g0GSJC != '全部'>
-                <option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
-                    </#if>
-                </#list>
-                </select>
-            </div> -->
-            <!--按钮组-->
-            <!--<div class="btnGroup">
-                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()">查询</button>
-            </div>-->
             <div class="btnGroup">
                 <button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
                 >明细</button>
@@ -164,23 +147,23 @@ layui.config({
     layer=layui.layer;
     laydate = layui.laydate;
     form = layui.form;
-    var year=$("#year").val();
-    $(".layui-time").html(year+"年");
+    var nd=$("#nd").val();
+    $(".layui-time").html(nd+"年");
     form.render(null, 'component-form-group');
     laydate.render({
-        elem: '#year',min: '2016-10-14'
+        elem: '#nd',min: '2016-10-14'
         
         ,type: 'year'
         ,done: function(value, date, endDate){
             $(".layui-time").html(date.year);
-            $("#year").val(date.year); 
+            $("#nd").val(date.year); 
             search_Event();
         }
     });
     myTable();
     $("#knowledge_table").click(function () {
-    	window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
-        // parent.layui.index.openTabsPage("/home/project-list?define1=费用性", "科研项目明细"); 
+    	var url=　encodeURIComponent("/one_level_main/common_table?define3=直属研究院&nd="+nd+"&ysnd="+nd);
+        window.open("/instituteIndex?url="+url);
     });
   
 });
@@ -188,10 +171,9 @@ layui.config({
 
 function initEchart()
 {
-	  var companyCode=$("#companyCode").val();
 	  var v_date=(new Date()).getTime();
-	  var month=$('#year').val();
-	  var nd=$('#year').val();
+	  var month=$('#nd').val();
+	  var nd=$('#nd').val();
 	 
 	  var  yAxis1= [
           {
@@ -280,55 +262,56 @@ function initEchart()
         $("#chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
         
         
-		var chart1_url="/one_level_main/investment_01?nd="+nd+"&v_date="+v_date+"&companyCode="+companyCode;
+		var chart1_url="/one_level_main/investment_01?nd="+nd+"&v_date="+v_date;
 		var color=["#bee5d2","#6bdf9e"];
 	
 	    var echart=load_mutl_bar_down(chart1_url,"chart1","","",yAxis4,"");
 		echart.on('click', function (params) {
 			var xName=params.name;//ysnd、type_flag（直属研究院、分子公司等）、define1（费用性、资本性）、define2 各个研究院名称
 			var legentName=params.seriesName;
-			var str="";
-			if(legentName.indexOf("资本性")>-1)
-			{
-				str="资本性"
-		    }
-			if(legentName.indexOf("费用性")>-1)
-			{
-				str="费用性"
-		    }
-			//alert(str);
-			window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=G0_YSND="+nd+",G0_TYPE_FLAG="+xName+",G0_DEFINE1="+str); 
+			
+			
+			 var url=　encodeURIComponent("/one_level_main/common_table?define3=直属研究院&qdbz="+xName+"订&nd="+nd+"&ysnd="+nd);
+	         window.open("/instituteIndex?url="+url);
+	         
+	         
+	         
 	    }); 
-		var investment_0101_url="/one_level_main/investment_0101?nd="+nd+"&v_date="+v_date+"&companyCode="+companyCode;
+		var investment_0101_url="/one_level_main/investment_0101?nd="+nd+"&v_date="+v_date;
 		setinvestmentCount(investment_0101_url);
 		
 		
 		
 
 		
-		var chart6_url="/one_level_main/investment_03?nd="+nd+"&v_date="+v_date+"&companyCode="+companyCode+"&type=1";
+		var chart6_url="/one_level_main/investment_03?nd="+nd+"&v_date="+v_date+"&type=1";
         var colorNew2=["#f4974a","#f3cc41","#95c740"];
         var echart6=load_mutl_bar_down_rotate(chart6_url,"investment_chart6","","",yAxis3,30,colorNew2,true);
         echart6.on('click', function (params) {
-            var xName=params.name;
-            var legentName=params.seriesName;
-            window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=G0_YSND="+nd+",G0_DEFINE10="+xName+",G0_ND="+nd); 
+             var xName=params.name;
+             var legentName=params.seriesName;
+             var url=　encodeURIComponent("/one_level_main/common_table?define3=直属研究院&qdbz="+xName+"订&nd="+nd+"&ysnd="+nd);
+	         window.open("/instituteIndex?url="+url);
         }); 
         
 	    $("#chart7_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
         $("#chart7_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
         $("#chart7_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
         $("#chart7_04").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-		var chart7_url="/one_level_main/investment_02?nd="+nd+"&v_date="+v_date+"&companyCode="+companyCode;
+		var chart7_url="/one_level_main/investment_02?nd="+nd+"&v_date="+v_date;
 		var color=["#f3655b","#8ab3cf","#f19049"];
 		var echart7=load_mutl_bar_investment(chart7_url,"chart7","","",yAxis2,color,60,function (data){
 		});
 		echart7.on('click', function (params){
 			var xName=params.name;
 			var legentName=params.seriesName;
-			 window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=G0_YSND="+nd+",G0_DEFINE2="+xName); 
+			
+			var url=　encodeURIComponent("/one_level_main/common_table?define2="+xName+"&nd="+nd+"&ysnd="+nd);
+	         window.open("/instituteIndex?url="+url);
+	         
+	         
 	    });
-		var investment_02_count_url="/one_level_main/investment_02_count?nd="+nd+"&v_date="+v_date+"&companyCode="+companyCode;
+		var investment_02_count_url="/one_level_main/investment_02_count?nd="+nd+"&v_date="+v_date;
 		setInvestment_02_count(investment_02_count_url);
 }
 
@@ -345,8 +328,7 @@ function search_Event()
 function myTable()
 {
 	
-	 var nd=$("#year").val();
-	 var companyCode=$("#companyCode").val();
+	 var nd=$("#nd").val();
 	 var v_date=(new Date()).getTime();
 	 var url= '/one_level_main/investment_01_01?nd='+nd+"&v_date="+v_date;
 	    table.init('myTable', {
@@ -480,12 +462,6 @@ function setInvestment_02_count(url)
 		        	       		$("#chart7_04").html(percentNum(zsjje_count,zysje_count));
 		        	       		
 		        	       		}
-	        	           
-	        	           
-	        	           
-	        	           
-	        	           
-	        	           
 	        	       
 	          } 
 		   },

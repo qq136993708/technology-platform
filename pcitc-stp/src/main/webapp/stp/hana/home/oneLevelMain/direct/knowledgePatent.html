@@ -21,14 +21,9 @@
         <div class="searchBox">
             <label class="dateInput">
                 <span>年份</span>
-                <input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
+                <input type="text" name="nd" placeholder="请选择年份" title="年份" value="${nd}"  autocomplete="off" class="form-control" id="nd">
             </label>
-            <!--按钮组-->
-            <!--<div class="btnGroup">
-                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"
-                        onclick="search_Event()">查询</button>
-            </div>-->
-            <div class="btnGroup">
+            <div class="btnGroup" style="display:none">
                 <button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
                 >详情</button>
             </div>
@@ -131,6 +126,7 @@
 <script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
 
 <script type="text/javascript">
+var nd=$('#nd').val();
 var table;
 layui.config({
     base: '/layuiadmin/'
@@ -143,17 +139,17 @@ layui.config({
       ,laydate = layui.laydate
 	  form.render(null, 'component-form-group');
         laydate.render({
-        	 elem: '#year',min: '2016-10-14'
+        	 elem: '#nd',min: '2016-10-14'
          	      ,type: 'year'
             ,done: function(value, date, endDate){
                 $(".layui-time").html(date.year);
-                $("#year").val(date.year); 
+                $("#nd").val(date.year); 
                 search_Event();
             }
         });
-        $(".layui-time").html($("#year").val());
+        $(".layui-time").html($("#nd").val());
         $("#knowledge_table").click(function () {
-        	window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+        	//window.open("");
         });
         
 });
@@ -162,7 +158,7 @@ function initEchart()
 {
 	
 	var v_date=(new Date()).getTime();
-	var nd=$('#year').val();
+	
 	var ndstr=nd+"年";
 	var yAxis= [
         {
@@ -195,7 +191,7 @@ function initEchart()
 	echart1.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+		//window.open("");
           
     });
 	
@@ -207,7 +203,7 @@ function initEchart()
 	echart2.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+		//window.open("");
           
     });
 	
@@ -216,7 +212,7 @@ function initEchart()
 	echart3.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+		//window.open("");
           
     });
 	
@@ -227,7 +223,7 @@ function initEchart()
 	echart4.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+		//window.open("");
           
     });
 	
@@ -238,7 +234,7 @@ function initEchart()
 	 echart5.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+		//window.open("");
           
     });
 	
@@ -249,7 +245,7 @@ function initEchart()
 	 echart6.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+		//window.open("");
           
     }); 
 	
@@ -263,11 +259,8 @@ initEchart();
 function search_Event()
 {
 	initEchart();
-	//renderTable();
 }
         
-
-
         
 </script>
 

@@ -78,9 +78,7 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 		// HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		// 初始化时没有token
-		httpHeaders
-				.set("Authorization",
-						"Bearer eyJhbGciOiJIUzUxMiJ9.eyJpbnN0aXR1dGVOYW1lcyI6WyLli5jmjqLpmaIiLCLnianmjqLpmaIiLCLlt6XnqIvpmaIiLCLnn7Pnp5HpmaIiLCLlpKfov57pmaIiLCLljJfljJbpmaIiLCLkuIrmtbfpmaIiLCLlronlt6XpmaIiXSwidW5pdE5hbWUiOiLkuK3lm73nn7PmsrnljJblt6Xpm4blm6Is5YuY5o6i5byA5Y-R56CU56m26ZmiLOenkeaKgOmDqOe7vOWQiOiuoeWIkuWkhCIsInVuaXRDb2RlIjoiMDAwMDAsMTAwNDAxMDAxLDMwMTMwMDU0IiwidW5pdElkIjoiNDZiN2U0NTc1NmVmNGRiODhiNmFjYjcxMWY5MTZlNDMsNDVkYjJkZDNlMTQyNDk1YzkxYmM5NGYyMGVmNDk5ZTgsYTgyMjNjY2EyYjkwNDczOWJmMjhhN2Y0MGQ3MzJjNzMiLCJ1c2VyRGlzcCI6IuiSi-a2myIsInVzZXJOYW1lIjoiYWFhYWEiLCJyb2xlTGlzdCI6W10sImV4cCI6MTU2MjYzOTMwOSwidXNlcklkIjoiMTY1NTUzNDM2ZWRfZGZkNWUxMzciLCJlbWFpbCI6IjEyMzQ1NjY2NjZAeHh4LmNvbSIsImluc3RpdHV0ZUNvZGVzIjpbIjExMjAsMTEyMywxMTI0LDExMjciLCIxMTMwIiwiNDM2MCIsIjEwMjAiLCIxMDYwLDEwNjEiLCIxMDQwLDEwNDEiLCIxMDgwIiwiMTEwMCwxMTAxIl19.2crRnr6GlN1BjFnVKW76Kd5BDyF1zg7MZ1rZzNZG_Oa3BFtny3X9bSTRGr9zcxHpPMsBTnoTx_rNYVT39EVmog");
+		httpHeaders.set("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpbnN0aXR1dGVOYW1lcyI6WyLli5jmjqLpmaIiLCLnianmjqLpmaIiLCLlt6XnqIvpmaIiLCLnn7Pnp5HpmaIiLCLlpKfov57pmaIiLCLljJfljJbpmaIiLCLkuIrmtbfpmaIiLCLlronlt6XpmaIiXSwidW5pdE5hbWUiOiLkuK3lm73nn7PmsrnljJblt6Xpm4blm6Is5YuY5o6i5byA5Y-R56CU56m26ZmiLOenkeaKgOmDqOe7vOWQiOiuoeWIkuWkhCIsInVuaXRDb2RlIjoiMDAwMDAsMTAwNDAxMDAxLDMwMTMwMDU0IiwidW5pdElkIjoiNDZiN2U0NTc1NmVmNGRiODhiNmFjYjcxMWY5MTZlNDMsNDVkYjJkZDNlMTQyNDk1YzkxYmM5NGYyMGVmNDk5ZTgsYTgyMjNjY2EyYjkwNDczOWJmMjhhN2Y0MGQ3MzJjNzMiLCJ1c2VyRGlzcCI6IuiSi-a2myIsInVzZXJOYW1lIjoiYWFhYWEiLCJyb2xlTGlzdCI6W10sImV4cCI6MTU2MjYzOTMwOSwidXNlcklkIjoiMTY1NTUzNDM2ZWRfZGZkNWUxMzciLCJlbWFpbCI6IjEyMzQ1NjY2NjZAeHh4LmNvbSIsImluc3RpdHV0ZUNvZGVzIjpbIjExMjAsMTEyMywxMTI0LDExMjciLCIxMTMwIiwiNDM2MCIsIjEwMjAiLCIxMDYwLDEwNjEiLCIxMDQwLDEwNDEiLCIxMDgwIiwiMTEwMCwxMTAxIl19.2crRnr6GlN1BjFnVKW76Kd5BDyF1zg7MZ1rZzNZG_Oa3BFtny3X9bSTRGr9zcxHpPMsBTnoTx_rNYVT39EVmog");
 
 		if (restTemplate==null) {
 			restTemplate = SpringContextUtil.getApplicationContext().getBean(RestTemplate.class);
@@ -258,6 +256,7 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					TargetSubject targetSubject = targetEntity.getSubject();
 					System.out.println("应用账号主题:"+targetSubject);
 					System.out.println("应用账号属性集合:");
+					
 					@SuppressWarnings("unchecked")
 					List<Attribute> attributes = targetEntity.getAttributes();
 					System.out.println("targetEntity============="+JSONObject.toJSONString(targetEntity));
@@ -271,40 +270,40 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 						} else {
 							vlaue = "";
 						}
-						if ("cn".equals(keyName)) {
+						if ("cn".equals(keyName.toLowerCase())) {
 							sysUser.setUserDisp(vlaue);// 用户姓名
 						}
-						if ("uid".equals(keyName)) {
+						if ("uid".equals(keyName.toLowerCase())) {
 							sysUser.setUserExtend(vlaue);// 统一身份账号，暂存
 						}
-						if ("employeenumber".equals(keyName)) {
+						if ("employeenumber".equals(keyName.toLowerCase())) {
 							sysUser.setUserComment(vlaue);// 员工编码
 						}
-						if ("employeetype".equals(keyName)) {
+						if ("employeetype".equals(keyName.toLowerCase())) {
 							sysUser.setUserKind(vlaue);// 用户类型
 						}
-						if ("departmentnumber".equals(keyName)) {
+						if ("departmentnumber".equals(keyName.toLowerCase())) {
 							// sysUser.setUserUnit(vlaue);// 用户所属机构
 							// 初始给他默认的机构和岗位
 							// sysUser.setUserUnit(vlaue);
 						}
-						if ("mail".equals(keyName)) {
+						if ("mail".equals(keyName.toLowerCase())) {
 							sysUser.setUserMail(vlaue);// 用户邮箱
 						}
-						if ("mobile".equals(keyName)) {
+						if ("mobile".equals(keyName.toLowerCase())) {
 							sysUser.setUserMobile(vlaue);// 用户手机号
 						}
-						if ("telephonenumber".equals(keyName)) {
+						if ("telephonenumber".equals(keyName.toLowerCase())) {
 							sysUser.setUserPhone(vlaue);// 用户座机号
 						}
-						if ("sptitlelevel".equals(keyName)) {
+						if ("sptitlelevel".equals(keyName.toLowerCase())) {
 							sysUser.setUserLevel(1);// 用户姓名-类型不同存储固定值
 						}
 
-						if ("sporgcodepath".equals(keyName)) {
+						if ("sporgcodepath".equals(keyName.toLowerCase())) {
 							sysUser.setUserRelation(vlaue);// 临时存组织机构路径
 						}
-						if ("sporgnamepath".equals(keyName)) {
+						if ("sporgnamepath".equals(keyName.toLowerCase())) {
 							// 科技部及八大院的特殊处理
 							System.out.println("sporgnamepath==========="+vlaue);
 							if (vlaue.contains("化工处")) {
@@ -375,8 +374,7 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 
 					}
 					
-					System.out.println("getSubject==========="+targetSubject.getSubject());
-					sysUser.setUserName(targetSubject.getSubject());
+					sysUser.setUserName(targetSubject.getSubject());// 应用账号
 					sysUser.setUserPassword("2cbb78c76ed2edecca69b7d6c0e0e578");
 					if (sysUser.getUserKind()==null || sysUser.getUserKind().equals("")) {
 						sysUser.setUserKind("ROOT_XTGL_YHLX_ZZNYH");// 用户类型

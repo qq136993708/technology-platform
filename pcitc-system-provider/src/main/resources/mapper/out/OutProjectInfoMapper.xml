@@ -1910,15 +1910,6 @@
 		) as tableA
 	</select>
 
-	<select id="getOutProjectScopeInfo" resultType="java.util.Map" parameterType="java.lang.String">
-		select
-			sum(case nd when '${nd}' then 1 else 0 end) as newProject,
-			count(*) as totalProject,fzdw
-		from out_project_info
-		where project_type != '1'
-		group by fzdw
-	</select>
-
     <!-- 工作台-科研课题-科研项目占比分析-按承担单位的单位范畴分组 -->
 	<select id="getProjectTypeInfoByUnit" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select sum(case when nd = '${nd}' then 1 else 0 end) as xksl,
@@ -2011,7 +2002,7 @@
 	</select>
 
 	<!-- 首页查询新开的国家项目、重点项目、重大项目、其他项目和去年的对比 -->
-	<select id="getProjectTotalCountYearAndLastYear" resultType="java.util.Map" parameterType="java.lang.String">
+	<select id="getProjectTotalCountYearAndLastYear" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select
 			sum(case when project_property ='国家项目' and project_scope = '新开课题' then 1 else 0 end) as xkgjsl,
 			sum(case when project_property ='国家项目' and project_scope = '结转课题' then 1 else 0 end) as qngjsl,
@@ -2039,6 +2030,14 @@
 				<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
 					 and xmlbbm !='KYZB'
 				</if>
+				<if test="leaderFlag == null or leaderFlag != '1'">
+				   <if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+				   </if>
+				   <if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+				   </if>
+			   </if>
 			group by xmid
 		) as tableA
 		
@@ -2767,6 +2766,14 @@
 				<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
 					 and xmlbbm !='KYZB'
 				</if>
+				<if test="leaderFlag == null or leaderFlag != '1'">
+				   <if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+				   </if>
+				   <if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+				   </if>
+			    </if>
 			group by xmid) AS tableA 
 		GROUP BY tableA.define5
 	</select>
@@ -3088,13 +3095,14 @@
 				</foreach>
 				)
 			</if>
-			<if test="zycmc != null">
-				and (
-				<foreach collection="zycmc" item="zycmc" index="index" separator=" or ">
-					out_project_info.zycmc like '%${zycmc}%'
-				</foreach>
-				)
-			</if>
+			<if test="leaderFlag == null or leaderFlag != '1'">
+			    <if test="zycmc != null and zycmc != ''">
+					and find_in_set(zycmc, '${zycmc}')
+			    </if>
+			    <if test="zycmc == null or zycmc == ''">
+					and out_project_info.nd = '1900'
+			    </if>
+		    </if>
 			<!--add start-->
 	        <if test="keyword != null">
 	            ${keyword}

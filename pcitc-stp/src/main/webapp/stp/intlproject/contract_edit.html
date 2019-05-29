@@ -52,16 +52,7 @@
 		 		$("#contractId").val(contractId);
 		 		publicMethods.ajaxPost('/project/get-contract', {"contractId":contractId}, function (data, status) {
 	        		form.val("contract-form",data);
-	        		//editor.setData(data.applyContent);
 	            });
-	        }else{
-	        	//創建編碼
-	        	publicMethods.ajaxPost('/project/project-contract-code', null, function (data, status) {
-	    			if (data.success) {
-	    				$("#contractNo").val(data.message);
-	    			}
-	    		});
-	        	$("#appendFiles").val("${appendFiles}");
 	        }
     		form.render();
     		$("#file_div").load('/common/public/uploadlayuiload.html');

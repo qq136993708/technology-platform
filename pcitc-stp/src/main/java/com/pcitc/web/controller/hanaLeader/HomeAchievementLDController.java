@@ -37,12 +37,13 @@ import com.pcitc.base.hana.report.Award;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.utils.HanaUtil;
 
 @Controller
 @RequestMapping(value = "/home_achievement_ld")
-public class HomeAchievementLDController {
+public class HomeAchievementLDController extends BaseController{
 	
 	//知识产权
 		private static final String getAwardTypeList = "http://pcitc-zuul/system-proxy/out-appraisal-provider/result-count";
