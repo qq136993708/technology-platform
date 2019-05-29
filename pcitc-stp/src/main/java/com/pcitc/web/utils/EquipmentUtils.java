@@ -331,7 +331,7 @@ public class EquipmentUtils {
 				System.out.println("========getUserPost===============" + userInfo.getUserPost()+" functionId="+functionId);
 				paramMap.put("postIds", Arrays.asList(postArr));
 				
-				httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+				httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 				
 				HttpEntity<HashMap<String, Object>> entityv = new HttpEntity<HashMap<String, Object>>(paramMap, httpHeaders);
 				ResponseEntity<JSONArray> response_Entity = restTemplate.exchange(FUNCTION_FILTER_URL , HttpMethod.POST, entityv, JSONArray.class);
