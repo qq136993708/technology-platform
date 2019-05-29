@@ -1,104 +1,267 @@
 <!DOCTYPE html>
-<html style="background-color: #f1f2f7;">
+<html>
+
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
-    <script src="/layuiadmin/layui/layui.js"></script>
-</head>
-<body>
-<div class="cycle-img">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/joint/css/joint.min.css"/>
 
-</div>
+    <script src="/layuiadmin/joint/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/layuiadmin/joint/js/template.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/layuiadmin/joint/js/lodash.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/layuiadmin/joint/js/backbone.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/layuiadmin/joint/js/joint.js" type="text/javascript" charset="utf-8"></script>
 
-<script>
-    layui.use(['jquery', 'form', 'laydate', 'table', 'laypage','laytpl','publicMethods'], function () {
-        var table = layui.table, util = layui.laytpl, form = layui.form, laydate = layui.laydate, $ = layui.jquery,
-            laytpl = layui.laytpl, publicMethods = layui.publicMethods;
-        var data={
-            "data":[
-                {"name":"已做","contonet":"项目未进行到当前状态时的说明","start":"already"},
-                {"name":"已做","contonet":"项目未进行到当前状态时的说明","start":"already"},
-                {"name":"已做","contonet":"项目未进行到当前状态时的说明","start":"already","data":[
-                        {"name":"已做","contonet":"项目未进行到当前状态时的说明","start":"already","to":"4"},
-                        {"name":"已做","contonet":"项目未进行到当前状态时的说明","start":"already","to":"5"},
-                    ]},
-                {"name":"已做","contonet":"项目未进行到当前状态时的说明","start":"already","id":"3"},
-                {"name":"已做","contonet":"项目未进行到当前状态时的说明","start":"already","id":"4"},
-                {"name":"未做","contonet":"项目未进行到当前状态时的说明","start":"not","id":"5"},
-                {"name":"未做","contonet":"项目未进行到当前状态时的说明","start":"not","data":[
-                        {"name":"未做","contonet":"项目未进行到当前状态时的说明","start":"not","to":"7"},
-                        {"name":"未做","contonet":"项目未进行到当前状态时的说明","start":"not","to":"7"},
-                    ]},
-                {"name":"未做","contonet":"项目未进行到当前状态时的说明","start":"not","id":"7"}
-            ]
-        };
-        var dataJson;
-        for(var i in data=data.data ){
-            var dataJson=data[i].data;
-            if(data[i].start=="already"){
-                var html='<div class="item '+data[i].start+'" lay-class="'+i+'" style="left: '+102*i+'px;">' +
-                    '        <p>'+data[i].name+'</p>' +
-                    '        <p>'+data[i].contonet+'</p>' +
-                    '       <img src="/layuiadmin/layui/images/cycle-j.png"/>'+
-                    '    </div>';
-            }else {
-                var html='<div class="item '+data[i].start+'" lay-class="'+i+'" style="left: '+102*i+'px;">' +
-                    '        <p>'+data[i].name+'</p>' +
-                    '        <p>'+data[i].contonet+'</p>' +
-                    '<img src="/layuiadmin/layui/images/cycle-h.png"/>'+
-                    '    </div>';
-            }
-            $(".cycle-img").append(html);
-            if(dataJson!=undefined){
-                $.each(dataJson,function (k, val) {
-                    if(k==0){
-                        var top=(parseInt($(".cycle-img>div").eq(i).css("top"))-102);
-                        let widthP=(parseInt(val.to)-(parseInt(i)+1));
-                        var html='<div class="item '+val.start+'" lay-class="'+val.to+'" style="left: '+102*(parseInt(i)+1)+'px; top:'+top+'px;">' +
-                            '        <p>'+val.name+'</p>' +
-                            '        <p>'+val.contonet+'</p>' +
-                            '       <div class="'+val.start+'-up-left"></div>'+
-                            '       <div class="'+val.start+'-up-right" style="width:'+((widthP*102)-22)+'px"></div>'+
-                            '       <div class="'+val.start+'-up-iRight" style="left: '+((widthP*102)+43)+'px"></div>'+
-                            '    </div>';
-                    }else if(k==1) {
-                        var top=(parseInt($(".cycle-img>div").eq(i).css("top"))+102);
-                        let widthP=parseInt(val.to)-(parseInt(i)+1);
-                        var html='<div class="item '+val.start+'" lay-class="'+val.to+'" style="left: '+102*(parseInt(i)+1)+'px; top:'+top+'px">' +
-                            '        <p>'+val.name+'</p>' +
-                            '        <p>'+val.contonet+'</p>' +
-                            '       <div class="'+val.start+'-d-left"></div>'+
-                            '       <div class="'+val.start+'-d-right" style="width:'+((widthP*102)-22)+'px"></div>'+
-                            '       <div class="'+val.start+'-d-iRight" style="left: '+((widthP*102)+43)+'px"></div>'+
-                            '    </div>';
-                    }
-
-                    $(".cycle-img").append(html);
-                });
-            }
+    <style>
+        .clear {
+            clear: both;
         }
-        $(".cycle-img>div:last-child img").remove();
-        $(".cycle-img>div").each(function (i,val) {
-            if(i>=2){
-                var layClass2=$(".cycle-img .item").eq(i-2).attr("lay-class");
-                var layClass1=$(".cycle-img .item").eq(i-1).attr("lay-class");
-                var layClass=$(this).attr("lay-class");
-                console.log(layClass2)
-                var top=parseInt($(this).css("top"))/parseInt($(".cycle-img").height());
-                if(Math.round(top*100)==45){
-                    if(layClass==layClass1 || layClass==layClass2){
-                        $(".cycle-img>div").eq(i-3).find("img").remove();
-                        $(this).css("left",(parseInt($(this).css('left'))+102)+"px");
+        body,
+        html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            width: 100%;
+            height: 100%;
+            margin-top:20px;
+        }
+
+        .department {
+            float: left;
+            width: 200px;
+            height: 800px;
+            position: relative;
+        }
+
+
+        .departmentnr {
+            text-align: center;
+            opacity: 0;
+        }
+        .departmentnr p{color: #000000;}
+        .departmentnr a {
+            width: 100px;
+            height: 60px;
+            display: inline-block;
+            text-align: center;
+            line-height: 60px;
+            text-decoration: none;
+            background: cornflowerblue;
+            color: #000000;
+            margin-top: 20px;
+            font-size: 20px;
+            border-radius: 10px;
+        }
+
+        #paper {
+            position: absolute;
+            top: 0;
+        }
+    </style>
+</head>
+
+<body>
+<div class="box"></div>
+<div id="paper"></div>
+<script type="text/javascript">
+    var json = {
+        "Item": [{
+            "NavigatItem": [{
+                "Id": "66f48322cf334263a8b392ff14919781",
+                "name": "打样",
+                "Url": "/q/mpic/20170731omsproofingnewhead",
+                "Display": "款式打样",
+                "Childs": [
+                    {
+                        "Id": "8081fa7b8ff24a5cb5a3c2d8ee3eb877",
+                        "name": "储运",
+                        "Url": "",
+                        "Display": "",
+                        "Childs": [
+
+                        ]
+                    }
+                ]
+            }]
+        }, {
+            "NavigatItem": [{
+                "Id": "8081fa7b8ff24a5cb5a3c2d8ee3eb877",
+                "name": "储运",
+                "Url": "",
+                "Display": "",
+                "Childs": [{
+                    "Id": "7ac835496b1946bcbe46d5727a68a172",
+                    "name": "付款",
+                    "Url": "",
+                    "Display": "",
+                    "Childs": []
+                },{
+                    "Id": "0b1281ca43634d1e87ccf1c803570a24",
+                    "name": "付款申请",
+                    "Url": "",
+                    "Display": "",
+                    "Childs": []
+                }]
+            }, {
+                "Id": "0b1281ca43634d1e87ccf1c803570a24",
+                "name": "付款申请",
+                "Url": "",
+                "Display": "",
+                "Childs": [{
+                    "Id": "7ac835496b1946bcbe46d5727a68a172",
+                    "name": "付款",
+                    "Url": "",
+                    "Display": "",
+                    "Childs": []
+                }]
+            },]
+        }, {
+            "NavigatItem": [{
+                "Id": "7ac835496b1946bcbe46d5727a68a172",
+                "name": "付款",
+                "Url": "",
+                "Display": "",
+                "Childs": []
+            }]
+        }]
+    }
+    var graph = new joint.dia.Graph;
+
+    var paper = new joint.dia.Paper({
+        el: $('#paper'),
+        width: $(document).width(),
+        height: $(document).height(),
+        gridSize: 1,
+        model: graph
+    });
+    //定义模块形状
+    function state(x, y, label, a, b) {
+        var cell = new joint.shapes.basic.Rect({
+            position: {
+                x: x,
+                y: y
+            }, //坐标
+            size: {
+                width: 100,
+                height: 40
+            }, //宽高
+            attrs: {
+                rect: {
+                    fill: '#1890ff',
+                    rx: 5,
+                    ry: 5,
+                    'stroke-width': 0
+                },
+                text: {
+                    text: label,
+                    fill: '#fff'
+                },
+            }
+            //rect为方形,circle为圆形，还有stroke：边框颜色
+        });
+        graph.addCell(cell);
+        $(a).click(function() {
+            window.open(b);//点击事件
+        });
+        cell.toBack();//改变z-index
+        return cell;
+    };
+
+    function link(source, target, label, vertices){
+
+        var cell = new joint.shapes.fsa.Arrow({
+            source: {
+                id: source.id
+            },
+            target: {
+                id: target.id
+            },
+            labels: [{
+                position: 0.5,
+                attrs: {
+                    text: {
+                        text: label || '',
+                        'font-weight': 'bold'
                     }
                 }
-            }
+            }],
+            router: {
+                name: 'orthogonal'
+            },
+            connector: {
+                name: 'jumpover'
+            },
+            vertices: vertices || [],
+            attrs: ({
+                '.marker-target': {
+                    fill: '#000',
+                    d: 'M 10 0 L 0 5 L 10 10 z'
+                }
+            })
         });
-    });
+        graph.addCell(cell);
 
+        cell.toBack()
+
+        return cell;
+    }
+    paper.$el.css('pointer-events', 'none')
 </script>
+<script>
+    var html = ""
+    for(var i = 0; i < json.Item.length; i++) {
+        //debugger
+        var html2 = ""
+        html += "<div class='department''>"
+        for(var o = 0; o < json.Item[i].NavigatItem.length; o++) {
 
+            html2 += "<div class='departmentnr'><a target='_blank' href='' id=" + json.Item[i].NavigatItem[o].Id + " title=" + json.Item[i].NavigatItem[o].Display + ">" + json.Item[i].NavigatItem[o].name + "</a><p>"+json.Item[i].NavigatItem[o].name +"</p></div>"
+        }
+        html += html2 + "</div>"
+    }
+    $(".box").html(html)
+    var num = 100 / json.Item.length - 1 + '%'
+    var arraylist = [];
+    $(".department").css("width", num);
+    $.each(json.Item, function(index, item) {
+        var name = item
+        $.each(item.NavigatItem, function(index, item2) {
+
+            var id2 = item2.Id;
+            var name2 = item2.name;
+            console.log( $("#" + id2))
+            var y2 = $("#" + id2).offset().top;
+            var x2 = $("#" + id2).offset().left;
+            //debugger
+            var arrValue2 = arraylist[id2];
+            if(arrValue2 == undefined) {
+                arraylist[id2] = state(x2, y2, name2);
+            }
+            if(item2.Childs.length > 0) {
+                $.each(item2.Childs, function(index, item3) {
+                    var id3 = item3.Id;
+                    var name3 = item3.name;
+                    var y3 = $("#" + id3).offset().top;
+                    var x3 = $("#" + id3).offset().left;
+
+                    var arrValue3 = arraylist[id3];
+                    if(arrValue3 == undefined) {
+                        arraylist[id3] = state(x3, y3, name3);
+                    }
+
+                    link(arraylist[id2], arraylist[id3]);
+                })
+            } else {
+                //						state(x2, y2, name2);
+            }
+
+        })
+    })
+</script>
 </body>
+
 </html>
