@@ -1264,7 +1264,7 @@
 				<if test="define3 != null and define3 != ''">
 					and out_project_plan.DEFINE3 like '%${define3}%'
 				</if>
-				<if test="leaderFlag == null or leaderFlag != '1'">
+				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
 					<if test="zycmc != null and zycmc != ''">
 						and find_in_set(out_project_plan.zycmc, '${zycmc}')
 					</if>

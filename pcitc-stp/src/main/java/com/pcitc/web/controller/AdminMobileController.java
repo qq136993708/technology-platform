@@ -33,8 +33,8 @@ import com.pcitc.web.utils.HanaUtil;
 public class AdminMobileController extends BaseController {
 
 	// 访问zuul中的登录方法
-	private static final String	LOGIN_URL			= "http://pcitc-zuul/auth/login";
-	private static final String	GET_USER_INFO_IP	= "http://pcitc-zuul/system-proxy/user-provider/user/get-user-byname/";
+	private static final String	LOGIN_URL		= "http://pcitc-zuul/auth/login";
+	private static final String	GET_USER_INFO	= "http://pcitc-zuul/system-proxy/user-provider/user/get-user-byname/";
 
 	/**
 	 * 移动本地测试方法
@@ -67,12 +67,12 @@ public class AdminMobileController extends BaseController {
 		System.out.println("2进入indexMobileStp...."+request.getParameter("Identity_Key"));
 		String token = request.getParameter("Identity_Token");
 		DES3Utils desUtils = new DES3Utils("01qaz2wsx3edc4rfv5tgb6yhn");
-		
+
 		String key1 = desUtils.des3Decode0(token);
 		Map keymap = desUtils.getAcountByToken0(key1);
 		String username = keymap.get("username").toString();
 		System.out.println("username =========="+username);
-		
+
 		String jsonString = JSON.toJSONString(keymap);
 		System.out.println("jsonString =========="+jsonString);
 		// 重新登录，覆盖原cookies。cookies中信息都是后续要用的
@@ -120,8 +120,6 @@ public class AdminMobileController extends BaseController {
 		String name = "";
 		String pwd = "";
 		Map param = request.getParameterMap();
-		System.out.println("1-----adToken----------:"+param.isEmpty());
-		System.out.println("2-----adToken----------:"+request.getParameterNames());
 		Enumeration paramNames = request.getParameterNames();
 		while (paramNames.hasMoreElements()) {
 			String paramName = (String) paramNames.nextElement();
@@ -134,18 +132,15 @@ public class AdminMobileController extends BaseController {
 				}
 			}
 		}
-		System.out.println("6都小写-----adToken-identity_token---------:"+request.getParameter("identity_token"));
-		System.out.println("7都小写-----adToken-identity_key---------:"+request.getParameter("identity_key"));
 		System.out.println("8都大写-----adToken-Identity_Key---------:"+request.getParameter("Identity_Key"));
 		System.out.println("9都大写-----adToken-Identity_Token---------:"+request.getParameter("Identity_Token"));
-		System.out.println("10开头大写-----adToken-Identity_key---------:"+request.getParameter("Identity_key"));
-		System.out.println("11开头大写-----adToken-Identity_token---------:"+request.getParameter("Identity_token"));
 		DES3Utils desUtils = new DES3Utils(request.getParameter("Identity_Key"));
 		String pKey = desUtils.des3Decode(request.getParameter("Identity_Token"));
 		Map<String, String> keymap = desUtils.getAcountByToken(pKey);
 		name = keymap.get("username");
 		pwd = keymap.get("password");
-
+		String jsonString = JSON.toJSONString(keymap);
+		System.out.println("adToken--------jsonString =========="+jsonString);
 		System.out.println("12-----adToken----------:"+name+"===="+pwd);
 		Cookie c = new Cookie("userInfo", name);
 		c.setPath("/");
