@@ -59,11 +59,6 @@ public class HomeDeviceLDController extends BaseController{
 	private static final String getDeviceTable = "http://pcitc-zuul/hana-proxy/hana/home/getDeviceTable";
 	
 	
-	@Autowired
-	private HttpHeaders httpHeaders;
-	
-	@Autowired
-	private RestTemplate restTemplate;
 	
 				
 				/**=====================================科研项目二级页面===============================*/

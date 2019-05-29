@@ -79,12 +79,6 @@ public class MoreDimensionController extends BaseController
 	
 	
 	
-	
-	@Autowired
-	private HttpHeaders httpHeaders;
-
-	@Autowired
-	private RestTemplate restTemplate;
 
 	// 课题研发支出多维分析表
 	@RequestMapping(method = RequestMethod.GET, value = "/ktyfzcdwfxb")

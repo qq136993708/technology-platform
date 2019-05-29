@@ -52,11 +52,6 @@ public class HomeLDController extends BaseController{
 	private static final String GET_getDzzk = "http://pcitc-zuul/hana-proxy/hana/home/getDzzk";
 	private static final String getZhuanziTableList = "http://pcitc-zuul/hana-proxy/hana/home/getZhuanziTableList";
 	
-	@Autowired
-	private HttpHeaders httpHeaders;
-	
-	@Autowired
-	private RestTemplate restTemplate;
 	
 	
 	@RequestMapping( value = "/home_ld/mainLeader")

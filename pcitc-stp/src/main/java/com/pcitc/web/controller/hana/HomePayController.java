@@ -39,12 +39,13 @@ import com.pcitc.base.hana.report.ProjectCode;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.utils.HanaUtil;
 
 @Controller
 @RequestMapping(value = "/home_pay")
-public class HomePayController {
+public class HomePayController extends BaseController {
 	
 	private static final String getPayByCountBar =      "http://pcitc-zuul/hana-proxy/hana/home/getPayByCountBar";
 	private static final String getPayByCountPie =      "http://pcitc-zuul/hana-proxy/hana/home/getPayByCountPie";
@@ -57,11 +58,6 @@ public class HomePayController {
 	
 	
 
-	@Autowired
-	private HttpHeaders httpHeaders;
-	
-	@Autowired
-	private RestTemplate restTemplate;
 	
 				
 				/**=====================================科研项目二级页面===============================*/
