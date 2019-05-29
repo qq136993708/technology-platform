@@ -35,17 +35,14 @@ import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.utils.HanaUtil;
 import com.pcitc.web.utils.PoiExcelExportUitl;
 
 //项目成本
 @Controller
-public class ProjectCostController {
-	 @Autowired
-	 private HttpHeaders httpHeaders;
-	 @Autowired
-	 private RestTemplate restTemplate;
+public class ProjectCostController extends BaseController {
 	 
 	 private static final String kytztjb_data = "http://pcitc-zuul/hana-proxy/hana/projectCost/kytztjb";
 	 private static final String kytztjb_data_out_excel = "http://pcitc-zuul/hana-proxy/hana/projectCost/kytztjb_out_excel";

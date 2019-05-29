@@ -38,6 +38,7 @@ import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
@@ -45,13 +46,8 @@ import com.pcitc.web.utils.PoiExcelExportUitl;
 
 //科技经费
 @Controller
-public class ScientificFundsContrller {
+public class ScientificFundsContrller extends BaseController {
 	
-	@Autowired
-	private HttpHeaders httpHeaders;
-	
-	@Autowired
-	private RestTemplate restTemplate;
 	
 	//课题直间接费用统计表
 	private static final String ktzjjfytjb_data = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/ktzjjfytjb";

@@ -35,17 +35,13 @@ import com.pcitc.base.hana.report.TotalCostProjectPay01;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.utils.HanaUtil;
 
 //财务
 @Controller
-public class FinanceController {
-	@Autowired
-	private HttpHeaders httpHeaders;
-	
-	@Autowired
-	private RestTemplate restTemplate;
+public class FinanceController extends BaseController {
 	
 	private static final String getDayCashFlowReport = "http://pcitc-zuul/hana-proxy/hana/decision/financial/getDayCashFlowReport";
 	private static final String getDayCashFlowReport2 = "http://pcitc-zuul/hana-proxy/hana/decision/financial/getDayCashFlowReport2";

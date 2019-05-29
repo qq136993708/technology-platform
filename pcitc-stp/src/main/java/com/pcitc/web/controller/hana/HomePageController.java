@@ -39,12 +39,13 @@ import com.pcitc.base.hana.report.ProjectCode;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.utils.HanaUtil;
 
 @Controller
 @RequestMapping(value = "/home")
-public class HomePageController {
+public class HomePageController extends BaseController {
 	
 	private static final String GET_H1AMKYSY100101 =  "http://pcitc-zuul/hana-proxy/hana/home/H1AMKYSY100101";
 	private static final String GET_H1AMKYSY100104 =      "http://pcitc-zuul/hana-proxy/hana/home/H1AMKYSY100104";
@@ -81,11 +82,6 @@ public class HomePageController {
 	
 	private static final String PROJECT_LIST_PAGE = "http://pcitc-zuul/system-proxy/out-provider/project-list";
 	
-	@Autowired
-	private HttpHeaders httpHeaders;
-	
-	@Autowired
-	private RestTemplate restTemplate;
 	
 	  //科研项目
 	 /* @RequestMapping(method = RequestMethod.GET, value = "/mainStp")

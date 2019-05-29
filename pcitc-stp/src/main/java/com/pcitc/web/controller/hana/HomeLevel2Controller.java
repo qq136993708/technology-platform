@@ -41,12 +41,13 @@ import com.pcitc.base.hana.report.ProjectCode;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.utils.HanaUtil;
 
 @Controller
 @RequestMapping(value = "/home_second")
-public class HomeLevel2Controller {
+public class HomeLevel2Controller extends BaseController {
 	
 	//经费支出二级页面
 	private static final String getJFZCLevel2 = "http://pcitc-zuul/hana-proxy/hana/home/getJFZCLevel2";
@@ -61,11 +62,6 @@ public class HomeLevel2Controller {
 	
 	
 	
-	@Autowired
-	private HttpHeaders httpHeaders;
-	
-	@Autowired
-	private RestTemplate restTemplate;
 	
 				
 				/**=====================================经费二级页面===============================*/

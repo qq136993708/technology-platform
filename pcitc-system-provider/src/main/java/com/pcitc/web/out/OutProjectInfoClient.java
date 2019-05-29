@@ -133,8 +133,14 @@ public class OutProjectInfoClient {
 	@ApiOperation(value = "首页计算新开课题总数", notes = "首页查询使用")
 	@RequestMapping(value = "/out-provider/project-count", method = RequestMethod.POST)
 	public JSONObject getProjectCount(@RequestBody HashMap<String, String> map) {
+		
+		
+		
 		JSONObject retJson = new JSONObject();
 		map.put("nd", "2018");
+		
+		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(map));
+		System.out.println(">>>>>>>>>>>>>project-count参数:" + jsonObject.toString());
 		HashMap<String, String> temMap = outProjectService.getOutProjectInfoCount(map);
 		if (temMap != null) {
 			retJson.put("projectCount", temMap.get("projectCount"));

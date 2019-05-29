@@ -35,18 +35,14 @@ import com.pcitc.base.hana.report.ScientificInvestment;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.utils.HanaUtil;
 import com.pcitc.web.utils.PoiExcelExportUitl;
 
 //科研投资
 @Controller
-public class ScientificInvestmentController {
-	@Autowired
-	private HttpHeaders httpHeaders;
-	
-	@Autowired
-	private RestTemplate restTemplate;
+public class ScientificInvestmentController extends BaseController {
 	
 	private static final String tzxmwcqktjb_data = "http://pcitc-zuul/hana-proxy/hana/scientificInvestment/tzxmwcqktjb";
 	
