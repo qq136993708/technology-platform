@@ -45,7 +45,6 @@ import com.pcitc.base.stp.budget.BudgetAssetTotal;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
-import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
 /**
@@ -76,8 +75,9 @@ public class BudgetAssetTotalController extends BaseController {
 	private static final String BUDGET_ASSETTOTAL_COMPARE_PROJECT = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-assettotal-compare-project";
 	
 	private static final String BUDGET_INFO_UPDATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-update";
-	private static final String BUDGET_INFO_GET = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-get/";
-	private static final String PROJECT_NOTICE_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/budget/start-budget-assettotal-activity/";
+	//private static final String BUDGET_INFO_GET = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-get/";
+	//private static final String PROJECT_NOTICE_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/budget/start-budget-assettotal-activity/";
+	private static final String BUDGET_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/budget/start-budgetinfo-activity/";
 	
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_main_assettotal")
@@ -274,6 +274,26 @@ public class BudgetAssetTotalController extends BaseController {
 		vo.setAuditUserIds(this.getUserProfile().getUserId());
 		vo.setFunctionId(functionId);
 		vo.setAuthenticatedUserId(this.getUserProfile().getUserId());
+		vo.setBusinessId(budgetInfoId);
+		vo.setProcessInstanceName("资产总表审批");
+		vo.setAuthenticatedUserName(this.getUserProfile().getUserDisp());
+		vo.setMessageUserIds(this.getUserProfile().getUserId());
+		
+		// 待办业务详情、最终审批同意、最终审批不同意路径
+		vo.setAuditDetailsPath("/budget/budget_detail_assettotal?dataId="+budgetInfoId);
+		vo.setAuditAgreeMethod("http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-notice-budgetinfo?budgetId="+budgetInfoId+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_PASS.getCode());
+		vo.setAuditRejectMethod("http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-notice-budgetinfo?budgetId="+budgetInfoId+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_REFUSE.getCode());
+		
+		HttpEntity<WorkflowVo> entity = new HttpEntity<WorkflowVo>(vo, this.httpHeaders);
+		Result startRs = this.restTemplate.exchange(BUDGET_WORKFLOW_URL + budgetInfoId, HttpMethod.POST, entity, Result.class).getBody();
+		return startRs;
+		
+		
+		
+		/*WorkflowVo vo = new WorkflowVo();
+		vo.setAuditUserIds(this.getUserProfile().getUserId());
+		vo.setFunctionId(functionId);
+		vo.setAuthenticatedUserId(this.getUserProfile().getUserId());
 		HttpEntity<WorkflowVo> entity = new HttpEntity<WorkflowVo>(vo, this.httpHeaders);
 		Result startRs = this.restTemplate.exchange(PROJECT_NOTICE_WORKFLOW_URL + budgetInfoId, HttpMethod.POST, entity, Result.class).getBody();
 		
@@ -290,7 +310,7 @@ public class BudgetAssetTotalController extends BaseController {
 			startRs.setData(rsmap);
 		} 
 		
-		return startRs;
+		return startRs;*/
 	}
 	@RequestMapping(value = "/budget/search-assettotal-history-items", method = RequestMethod.POST)
 	@ResponseBody
