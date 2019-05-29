@@ -393,7 +393,7 @@
     	                     	 renderfunc();
     	                     	 calculationSurplusMoney();
     	                     } else {
-    	                    	 layer.msg('操作异常，请重试!');
+    	                    	 layer.msg(data.message);
     	                     }
     	                });
                 	});
@@ -407,7 +407,7 @@
    	                     if (data.success) {    	                    	
    	                    	 layer.msg('保存成功!');
    	                     } else {
-   	                    	 layer.msg('操作异常，请重试!');
+   	                    	layer.msg(data.message);
    	                     }
    	                });                	
                 },submitEvent:function(){

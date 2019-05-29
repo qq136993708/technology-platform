@@ -119,9 +119,10 @@
        	                	var index = parent.layer.getFrameIndex(window.name);
         			       	parent.layer.close(index);
        	                }else{
-       	                	parent.layer.alert("操作失败请重试", {
+       	                	layer.msg(data.message);
+       	                	/* parent.layer.alert("操作失败请重试", {
        							title : '信息'
-       						});
+       						}); */
        						return;
        	                }
         	        }); 

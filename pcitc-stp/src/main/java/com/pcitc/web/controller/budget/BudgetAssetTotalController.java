@@ -123,6 +123,12 @@ public class BudgetAssetTotalController extends BaseController {
 		//request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
 		return "stp/budget/budget_history_view_assettotal";
 	}
+	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_detail_assettotal")
+	public Object toBudgetGroupDetail(HttpServletRequest request) throws IOException 
+	{
+		request.setAttribute("dataId", request.getParameter("dataId"));
+		return "stp/budget/budget_detail_assettotal";
+	}
 	
 	@RequestMapping(value = "/budget/budget-asset-info-list", method = RequestMethod.POST)
 	@ResponseBody
