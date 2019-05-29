@@ -2,6 +2,7 @@ package com.pcitc.service.system;
 
 import java.util.Date;
 
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
@@ -191,4 +192,7 @@ public interface IndexOutProjectInfoService {
     void selectPatentToIndexProjectInfo();
 
     Object findIndexOutProjectInfoByPageTree(LayuiTableParam param);
+
+    JSONObject selectByExampleByTypeIndexCode(JSONObject obj);
+
 }

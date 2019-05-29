@@ -51,7 +51,6 @@
     </style>
 </head>
 <body>
-<body>
 <div class="skill">
     <div class="skill-left">
         <ul>
@@ -64,16 +63,24 @@
             <div class="layui-card-body">
                 <div class="layui-tab">
                     <ul class="layui-tab-title">
-                        <li class="layui-this">项目</li>
-                        <li>成果</li>
-                        <li>专利</li>
-                        <li>人员</li>
+                        <li class="layui-this">技术<span id="indexOutProjectInfoTableTfcCount" style="color: red"></span></li>
+                        <li>项目<span id="indexOutProjectInfoTableIdCount" style="color: red"></span></li>
+                        <li>成果<span id="indexOutAppraisalTableIdCount" style="color: red"></span></li>
+                        <li>专利<span id="indexOutPatentTableIdCount" style="color: red"></span></li>
+                        <li>人员<span id="indexOutProjectInfoTableIdRyCount" style="color: red"></span></li>
                         <li>费用</li>
                     </ul>
+
                     <div class="layui-tab-content">
-                        <div class="layui-tab-item layui-show">
+                        <div class="layui-tab-item  layui-show">
                             <div class="lan">
-                                <table id="indexOutProjectInfoTableId" class="layui-hide" lay-filter="tableEvent"></table>
+                                <table id="indexOutProjectInfoTableTfc" class="layui-hide" lay-filter="tableEvent"></table>
+                            </div>
+                        </div>
+
+                        <div class="layui-tab-item">
+                            <div class="lan">
+                                <table id="indexOutProjectInfoTableId" class="layui-hide" lay-filter="indexOutProjectInfoTableIdEvent"></table>
                             </div>
                         </div>
                         <div class="layui-tab-item">
@@ -84,7 +91,7 @@
                         </div>
                         <div class="layui-tab-item">
                             <!--<div style="display:none;">-->
-                                <table id="indexOutProjectInfoTableIdRy" class="layui-hide" style="display: none" lay-filter="tableEvent"></table>
+                            <table id="indexOutProjectInfoTableIdRy" class="layui-hide" style="display: none" lay-filter="tableEvent"></table>
                             <!--</div>-->
                             <!--<div id="indexOutProjectInfoTableIdRyShow"></div>-->
                         </div>
@@ -100,9 +107,29 @@
         </div>
     </div>
     <!--右侧-->
-    <div class="skill-right">111</div>
+    <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+    <div class="skill-right">
+        <div id="container" style="height: 800%"></div>
+    </div>
 </div>
+<script>
 
+    function detailEvent(id) {
+        var temUrl = "/out/project-detail/" + id;
+        layer.open({
+            title: '详情',
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+            maxmin: true,
+            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+            area: ['900px', '450px'],
+            content: temUrl
+        });
+    }
+</script>
 <script>
     var tfcCode = "@10@10001@";
 
@@ -113,6 +140,8 @@
         renderTableCg();
         renderTableRy();
         renderTableJf();
+        heapPicShow();
+        renderTableTfc();
     }
 </script>
 <script>
@@ -121,11 +150,11 @@
     layui.config({
         base: '/layuiadmin/lib/extend/'
     }).extend({
-        treeGridCom:'treeGridCom'
+        treeGridCom: 'treeGridCom'
     }).use(['jquery', 'form', 'laydate', 'table', 'layer', 'publicMethods', 'element', 'treeGridCom'], function () {
         table = layui.table;
         publicMethods = layui.publicMethods;
-        var $ = layui.jquery, layer = layui.layer, laypage = layui.laypage, treeGridCom = layui.treeGridCom;
+        var $ = layui.jquery, layer = layui.layer, laypage = layui.laypage, treeGridCom = layui.treeGridCom, treeGridCom1 = layui.treeGridCom;
         ;
         $(".skill-left>ul li").click(function () {
             $(".skill-left>ul li").removeClass("layui-this");
@@ -135,16 +164,10 @@
         //人员
         var colsRy =
             [
-                {type: 'checkbox', event: 'changeEvents', width: 55},
-                {title: '序号', type: 'numbers', width: 55},
                 {
                     field: "fzrxm",
                     title: "负责人", event: 'setActive', style: 'cursor: pointer;'
                 },
-                // {
-                //     field: "xmmc",
-                //     title: "项目名称", event: 'setActive', style: 'cursor: pointer;', width: 300
-                // }
             ];
 
         function renderTableRy() {
@@ -182,25 +205,73 @@
                 },
                 cols: [colsRy],
                 done: function (res, curr, count) {
-                    console.log(res.data);
+                    $("#indexOutProjectInfoTableIdRyCount").html("(" + res.count + ")");
+                    // console.log(res.data);
+                },
+                onDblClickRow: function (index, o) {
+                    console.log(o);
+                    detailEvent(o.dataId);
+
                 }
             });
-            // publicMethods.tableRender('indexOutProjectInfoTableIdRy', 'indexOutProjectInfoTableIdRy', '/indexOutProjectInfo/getTableData', false, colsRy, where, false, function (res, curr, count) {
-            //     var user = "";
-            //     var total=0;
-            //     for (let i = 0; i < res.data.length; i++) {
-            //         if (typeof res.data[i].fzrxm!="undefined"){
-            //             total++;
-            //             user = (user==""?"":(user+","))+res.data[i].fzrxm;
-            //         }
-            //     }
-            //     console.log("总人数:"+total+"---参与人员:"+user);
-            //     $("#indexOutProjectInfoTableIdRyShow").html("参与人员:<br>"+user+"<br>总人数:"+total);
-            // });
         }
 
         renderTableRy();
         window.renderTableRy = renderTableRy;
+
+
+        //技术
+        function renderTableTfc() {
+            // var where = {param: {"typeIndex": tfcCode}};
+            var where = {param: {"typeIndex": tfcCode, "status": 1}};
+            var colsTfc =
+                [
+                    {
+                        field: "typeName",
+                        title: "名称", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                ];
+            treeGridCom1.render({
+                id: "indexOutProjectInfoTableTfc"
+                , elem: '#indexOutProjectInfoTableTfc'
+                , url: '/tech-family/type/tech-type-list'
+                , where: where
+                , limit: 10000
+                , cellMinWidth: 100
+                , idField: 'tfmTypeId'//必須字段
+                , treeId: 'tfmTypeId'//树形id字段名称
+                , treeUpId: 'parentId'//树形父id字段名称
+                , treeShowName: 'typeName'//以树形式显示的字段
+                , heightRemove: [".dHead", 10]//不计算的高度,表格设定的是固定高度，此项不生效
+                , height: commonDislodgeTable()
+                , isFilter: false
+                , iconOpen: true//是否显示图标【默认显示】
+                , isOpenDefault: true//节点默认是展开还是折叠【默认展开】
+                , loading: false
+                , method: 'POST'
+                , isPage: false
+                , page: {
+                    groups: 5
+                    , limits: [15, 30, 45, 60]
+                    , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                    , first: '首页' //不显示首页
+                    , last: '尾页' //不显示尾页
+                    , theme: '#0F9EE0'
+                }
+                , cols: [colsTfc],
+                done: function (res, curr, count) {
+                    $("#indexOutProjectInfoTableTfcCount").html("(" + res.count + ")");
+                    console.log("技术");
+                    console.log(res.data);
+                },
+                onDblClickRow: function (index, o) {
+                }
+            });
+        }
+
+        renderTableTfc();
+        window.renderTableTfc = renderTableTfc;
+
         //经费
         var colsJf =
             [
@@ -246,7 +317,8 @@
                 }
                 totalFy = totalFy.toFixed(2);
                 $("#indexOutProjectInfoTableIdFyShow").html("总费用:" + totalFy);
-                console.log("------------" + totalFy);
+                // console.log("------------" + totalFy);
+
             });
         }
 
@@ -296,11 +368,17 @@
                     selectRowData = res.data[index - 1];
                 });
                 selectRowData = "";
+                $("#indexOutProjectInfoTableIdCount").html("(" + res.count + ")");
             });
         }
 
         renderTable();
         window.renderTable = renderTable;
+
+        table.on('rowDouble(indexOutProjectInfoTableIdEvent)', function (obj) {
+            console.log(obj.data.dataId);
+            detailEvent(obj.data.dataId);
+        });
 
         //成果
         var colsCg =
@@ -337,6 +415,8 @@
                     $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                     selectRowData = res.data[index - 1];
                 });
+
+                $("#indexOutAppraisalTableIdCount").html("(" + res.count + ")");
             });
         }
 
@@ -388,6 +468,7 @@
                     $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                     selectRowData = res.data[index - 1];
                 });
+                $("#indexOutPatentTableIdCount").html("(" + res.count + ")");
             });
         }
 
@@ -395,6 +476,102 @@
         window.renderTableZl = renderTableZl;
     });
 </script>
+<script>
 
+    function heapPicShow() {
+        var hours = ['12a', '1a', '2a', '3a', '4a', '5a', '6a',
+            '7a', '8a', '9a', '10a', '11a',
+            '12p', '1p', '2p', '3p', '4p', '5p',
+            '6p', '7p', '8p', '9p', '10p', '11p'];
+        var days = ['Saturday', 'Friday', 'Thursday',
+            'Wednesday', 'Tuesday', 'Monday', 'Sunday'];
+        var data = [];
+        // var data = [[0,0,5],[0,1,1],[0,2,0],[0,3,0],[0,4,0],[0,5,0],[0,6,0],[0,7,0],[0,8,0],[0,9,0],[0,10,0],[0,11,2],[0,12,4],[0,13,1],[0,14,1],[0,15,3],[0,16,4],[0,17,6],[0,18,4],[0,19,4],[0,20,3],[0,21,3],[0,22,2],[0,23,5],[1,0,7],[1,1,0],[1,2,0],[1,3,0],[1,4,0],[1,5,0],[1,6,0],[1,7,0],[1,8,0],[1,9,0],[1,10,5],[1,11,2],[1,12,2],[1,13,6],[1,14,9],[1,15,11],[1,16,6],[1,17,7],[1,18,8],[1,19,12],[1,20,5],[1,21,5],[1,22,7],[1,23,2],[2,0,1],[2,1,1],[2,2,0],[2,3,0],[2,4,0],[2,5,0],[2,6,0],[2,7,0],[2,8,0],[2,9,0],[2,10,3],[2,11,2],[2,12,1],[2,13,9],[2,14,8],[2,15,10],[2,16,6],[2,17,5],[2,18,5],[2,19,5],[2,20,7],[2,21,4],[2,22,2],[2,23,4],[3,0,7],[3,1,3],[3,2,0],[3,3,0],[3,4,0],[3,5,0],[3,6,0],[3,7,0],[3,8,1],[3,9,0],[3,10,5],[3,11,4],[3,12,7],[3,13,14],[3,14,13],[3,15,12],[3,16,9],[3,17,5],[3,18,5],[3,19,10],[3,20,6],[3,21,4],[3,22,4],[3,23,1],[4,0,1],[4,1,3],[4,2,0],[4,3,0],[4,4,0],[4,5,1],[4,6,0],[4,7,0],[4,8,0],[4,9,2],[4,10,4],[4,11,4],[4,12,2],[4,13,4],[4,14,4],[4,15,14],[4,16,12],[4,17,1],[4,18,8],[4,19,5],[4,20,3],[4,21,7],[4,22,3],[4,23,0],[5,0,2],[5,1,1],[5,2,0],[5,3,3],[5,4,0],[5,5,0],[5,6,0],[5,7,0],[5,8,2],[5,9,0],[5,10,4],[5,11,1],[5,12,5],[5,13,10],[5,14,5],[5,15,7],[5,16,11],[5,17,6],[5,18,0],[5,19,5],[5,20,3],[5,21,4],[5,22,2],[5,23,0],[6,0,1],[6,1,0],[6,2,0],[6,3,0],[6,4,0],[6,5,0],[6,6,0],[6,7,0],[6,8,0],[6,9,0],[6,10,1],[6,11,0],[6,12,2],[6,13,1],[6,14,3],[6,15,4],[6,16,0],[6,17,0],[6,18,0],[6,19,0],[6,20,1],[6,21,2],[6,22,2],[6,23,6]];
+        // days = [];
+        $.ajax({
+            type: 'post',
+            async: false,
+            url: "/indexOutProjectInfo/selectByExampleByTypeIndexCode?typeIndex=" + tfcCode,
+            dataType: 'json',
+            success: function (d) {
+                console.log("热力图");
+                console.log(d.x);
+                console.log(d.data);
+                hours = d.x;
+                data = d.data;
+            },
+            error: function (err, err1, err2) {
+                console.log("ajaxPost发生异常，请仔细检查请求url是否正确");
+            }
+        });
+        console.log("-----------------------start-------------");
+        var dom = document.getElementById("container");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+        app.title = '技术热力图';
+
+
+        data = data.map(function (item) {
+            return [item[1], item[0], item[2] || '-'];
+        });
+
+        option = {
+            tooltip: {
+                position: 'top'
+            },
+            animation: false,
+            grid: {
+                height: '50%',
+                y: '10%'
+            },
+            xAxis: {
+                type: 'category',
+                data: hours,
+                splitArea: {
+                    show: true
+                }
+            },
+            yAxis: {
+                type: 'category',
+                data: days,
+                splitArea: {
+                    show: true
+                }
+            },
+            visualMap: {
+                min: 0,
+                max: 10,
+                calculable: true,
+                orient: 'horizontal',
+                left: 'center',
+                bottom: '15%'
+            },
+            series: [{
+                name: '',
+                type: 'heatmap',
+                data: data,
+                label: {
+                    normal: {
+                        show: true
+                    }
+                },
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }]
+        };
+        ;
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+
+    }
+
+    heapPicShow();
+</script>
 </body>
 </html>

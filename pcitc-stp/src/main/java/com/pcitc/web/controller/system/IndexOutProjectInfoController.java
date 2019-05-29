@@ -80,6 +80,8 @@ public class IndexOutProjectInfoController extends BaseController {
      * 参数查询
      */
     private static final String LISTPARAM = "http://pcitc-zuul/system-proxy/indexoutprojectinfo-provider/indexoutprojectinfo/indexoutprojectinfo_list_param";
+
+    private static final String LISTTypeIndexCode = "http://pcitc-zuul/system-proxy/indexoutprojectinfo-provider/indexoutprojectinfo/selectByExampleByTypeIndexCode";
     /**
      * 分页查询
      */
@@ -89,6 +91,20 @@ public class IndexOutProjectInfoController extends BaseController {
      * 保存
      */
     private static final String SAVE = "http://pcitc-zuul/system-proxy/indexoutprojectinfo-provider/indexoutprojectinfo/save_indexoutprojectinfo";
+
+
+
+//    selectByExampleByTypeIndexCode
+    @RequestMapping(value = "/indexOutProjectInfo/selectByExampleByTypeIndexCode", method = RequestMethod.POST)
+    @ResponseBody
+    public Object selectByExampleByTypeIndexCode() {
+
+        JSONObject object = new JSONObject();
+        object.put("typeIndex",request.getParameter("typeIndex").toString());
+        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LISTTypeIndexCode, HttpMethod.POST, new HttpEntity<JSONObject>(object), JSONObject.class);
+        JSONObject retJson = responseEntity.getBody();
+        return JSON.toJSON(retJson).toString();
+    }
 
     /**
      * 首页-科研项目-查询列表

@@ -97,6 +97,9 @@ public class TechFamilyServiceImpl implements TechFamilyService {
         if (paraMap.get("typeName") != null && !paraMap.get("typeName").equals("")) {
             cri.andTypeNameLike("%" + paraMap.get("typeName").toString() + "%");
         }
+        if (paraMap.get("typeIndex") != null && !paraMap.get("typeIndex").equals("")) {
+            cri.andTypeIndexLike(paraMap.get("typeIndex").toString() + "%");
+        }
         techFamilyExample.setOrderByClause(" type_code asc ");
 
         return this.findByExample(param, techFamilyExample);

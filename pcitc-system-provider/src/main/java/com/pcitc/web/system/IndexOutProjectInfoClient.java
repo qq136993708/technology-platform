@@ -145,4 +145,15 @@ public class IndexOutProjectInfoClient {
         }
         return 500;
     }
+
+    @RequestMapping(value = "/indexoutprojectinfo-provider/indexoutprojectinfo/selectByExampleByTypeIndexCode", method = RequestMethod.POST)
+    public JSONObject selectByExampleByTypeIndexCode(@RequestBody JSONObject obj) {
+        JSONObject retJson = new JSONObject();
+        try {
+            retJson = indexOutProjectInfoService.selectByExampleByTypeIndexCode(obj);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return retJson;
+    }
 }
