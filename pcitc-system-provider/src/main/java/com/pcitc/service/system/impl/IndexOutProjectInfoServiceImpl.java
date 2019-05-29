@@ -1,5 +1,6 @@
 package com.pcitc.service.system.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
@@ -32,11 +33,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import java.util.Date;
 import java.util.stream.Collectors;
 
 /**
@@ -108,7 +106,9 @@ public class IndexOutProjectInfoServiceImpl implements IndexOutProjectInfoServic
 
     @Override
     public int insert(IndexOutProjectInfo record) {
-        record.setDataId(IdUtil.createIdByTime());
+        if (record.getDataId()==null){
+            record.setDataId(IdUtil.createIdByTime());
+        }
         return indexOutProjectInfoMapper.insert(record);
     }
 
@@ -170,7 +170,45 @@ public class IndexOutProjectInfoServiceImpl implements IndexOutProjectInfoServic
     }
 
     @Override
-    public LayuiTableData findIndexOutProjectInfoByPage(LayuiTableParam param) {
+    public JSONObject selectByExampleByTypeIndexCode(JSONObject obj) {
+        IndexOutProjectInfoExample ex = new IndexOutProjectInfoExample();
+        ex.createCriteria().andTypeIndexLike(obj.get("typeIndex").toString() + "%");
+        List<IndexOutProjectInfo> list = indexOutProjectInfoMapper.selectByExample(ex);
+
+        Map<String,String> map = list.stream().collect(Collectors.toMap(IndexOutProjectInfo::getTypeIndex,IndexOutProjectInfo::getTypeName,(entity1,entity2) -> entity1));
+
+
+        Map<String, List<IndexOutProjectInfo>> infoGroupMap = list.stream().collect(Collectors.groupingBy(IndexOutProjectInfo::getTypeIndex));
+        int length = infoGroupMap.size();
+
+        List<String> x = new ArrayList<>();
+        List<String> y = new ArrayList<>();
+
+        int[][] data = new int[length][3];
+
+        int i = 0, j = 0,k = 0;
+        for (Map.Entry<String, List<IndexOutProjectInfo>> entry : infoGroupMap.entrySet()) {
+            //技术名称,项目数量
+                data[k][0] = i;
+                data[k][1] = j;
+                data[k][2] = entry.getValue().size();
+                j++;
+//                if (j==length/2){
+//                    j = 0;
+//                    i++;
+//                }
+                k++;
+            x.add(map.get(entry.getKey()));
+        }
+
+        obj.put("x", x);
+        obj.put("y", y);
+        obj.put("data", data);
+        return obj;
+    }
+
+    @Override
+    public LayuiTableData findIndexOutProjectInfoByPageTree(LayuiTableParam param) {
         IndexOutProjectInfoExample example = new IndexOutProjectInfoExample();
         IndexOutProjectInfoExample.Criteria c = example.createCriteria();
         Object typeIndex = param.getParam().get("typeIndex");
@@ -178,7 +216,63 @@ public class IndexOutProjectInfoServiceImpl implements IndexOutProjectInfoServic
             c.andTypeIndexLike(typeIndex + "%");
         }
         example.setOrderByClause("create_date desc");
-        return this.findByExample(param, example);
+
+        int pageSize = param.getLimit();
+        int pageStart = (param.getPage() - 1) * pageSize;
+        int pageNum = pageStart / pageSize + 1;
+
+        Object type = param.getParam().get("type");
+        if ("ry".equals(type)) {
+            pageSize = 1000000000;
+        }
+
+        if ("fy".equals(type)) {
+            pageSize = 1000000000;
+        }
+        PageHelper.startPage(pageNum, pageSize);
+        List<IndexOutProjectInfo> list = indexOutProjectInfoMapper.selectByExample(example);
+        Map<String, List<IndexOutProjectInfo>> map = new HashMap<>();
+
+        for (int i = 0, j = list.size(); i < j; i++) {
+            IndexOutProjectInfo obj = list.get(i);
+            String name = obj.getFzrxm();
+
+            if (StrUtil.isBlank(name)) continue;
+            List<IndexOutProjectInfo> l = map.get(name);
+            if (l == null || l.size() == 0) {
+                l = new ArrayList<>();
+                l.add(obj);
+                map.put(name, l);
+            } else {
+                l.add(obj);
+                map.put(name, l);
+            }
+        }
+        //遍历map,复制list dataID,nd
+        List<IndexOutProjectInfo> tree = new ArrayList<>();
+        for (Map.Entry<String, List<IndexOutProjectInfo>> entry : map.entrySet()) {
+            IndexOutProjectInfo index = new IndexOutProjectInfo();
+            String key = entry.getKey();
+            String uuid = UUID.randomUUID().toString();
+            index.setDataId(uuid);
+            index.setFzrxm(key);
+            index.setXmmc("");
+            tree.add(index);
+            List<IndexOutProjectInfo> valueList = entry.getValue();
+            for (int i = 0, j = valueList.size(); i < j; i++) {
+                valueList.get(i).setNd(uuid);
+                valueList.get(i).setFzrxm(valueList.get(i).getXmmc());
+                tree.add(valueList.get(i));
+            }
+        }
+        // 3、获取分页查询后的数据
+//        PageInfo<IndexOutProjectInfo> pageInfo = new PageInfo<IndexOutProjectInfo>(tree);
+        LayuiTableData data = new LayuiTableData();
+        data.setData(tree);
+        Long total = Long.valueOf(tree.size());
+        data.setCount(total.intValue());
+
+        return data;
     }
 
     /**
@@ -203,14 +297,6 @@ public class IndexOutProjectInfoServiceImpl implements IndexOutProjectInfoServic
         }
         PageHelper.startPage(pageNum, pageSize);
         List<IndexOutProjectInfo> list = indexOutProjectInfoMapper.selectByExample(example);
-//        if("ry".equals(type)){
-//            List<String> ryList = list.stream().map(ry ->(ry.getFzrxm())).collect(Collectors.toList());
-//        }
-//
-//        if ("fy".equals(type)){
-//            pageSize = 1000000000;
-//        }
-
         // 3、获取分页查询后的数据
         PageInfo<IndexOutProjectInfo> pageInfo = new PageInfo<IndexOutProjectInfo>(list);
         LayuiTableData data = new LayuiTableData();
@@ -218,6 +304,18 @@ public class IndexOutProjectInfoServiceImpl implements IndexOutProjectInfoServic
         Long total = pageInfo.getTotal();
         data.setCount(total.intValue());
         return data;
+    }
+
+    @Override
+    public LayuiTableData findIndexOutProjectInfoByPage(LayuiTableParam param) {
+        IndexOutProjectInfoExample example = new IndexOutProjectInfoExample();
+        IndexOutProjectInfoExample.Criteria c = example.createCriteria();
+        Object typeIndex = param.getParam().get("typeIndex");
+        if (typeIndex != null) {
+            c.andTypeIndexLike(typeIndex + "%");
+        }
+        example.setOrderByClause("create_date desc");
+        return this.findByExample(param, example);
     }
 
     /**

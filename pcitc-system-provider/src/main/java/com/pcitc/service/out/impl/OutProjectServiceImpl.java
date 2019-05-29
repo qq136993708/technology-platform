@@ -1095,8 +1095,10 @@ public class OutProjectServiceImpl implements OutProjectService {
         if (param.getParam().get("nd") != null && !StringUtils.isBlank(param.getParam().get("nd") + "")) {
             opi.setNd((String) param.getParam().get("nd"));
         }
-
-        List<OutProjectInfo> list = outProjectInfoMapper.selectProjectByCond(opi);
+        if (param.getParam().get("leaderFlag") != null && !StringUtils.isBlank(param.getParam().get("leaderFlag") + "")) {
+            opi.setLeaderFlag((String) param.getParam().get("leaderFlag"));
+        }
+        List<OutProjectInfo> list = outProjectInfoMapper.selectProjectByCondExpert(opi);
         System.out.println("1>>>>>>>>>查询分页结果" + list.size());
         PageInfo<OutProjectInfo> pageInfo = new PageInfo<OutProjectInfo>(list);
         System.out.println("2>>>>>>>>>查询分页结果" + pageInfo.getList().size());
@@ -1180,7 +1182,6 @@ public class OutProjectServiceImpl implements OutProjectService {
         for (AnalyzeResponse.AnalyzeToken token : tokens) {
             strRet = strRet + "," + token.getTerm();
         }
-//        System.out.println("strRet:" + strRet);
         outProjectInfo.setDefine19(strRet);
         return outProjectInfo;
     }
