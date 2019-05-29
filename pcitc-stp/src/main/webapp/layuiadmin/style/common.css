@@ -185,6 +185,9 @@
 .btn_download {background: url(/layuiadmin/layui/images/btn-download.png) no-repeat;}
 .btn_download:hover {background: #1890ff url(/layuiadmin/layui/images/btn-download-h.png) no-repeat;}
 .btn_download.active {background: #1890ff url(/layuiadmin/layui/images/btn-download-h.png) no-repeat;}
+.btn_accept {background: url(/layuiadmin/layui/images/btn-accept.png) no-repeat;}
+.btn_accept:hover {background: #1890ff url(/layuiadmin/layui/images/btn-accept-h.png) no-repeat;}
+.btn_accept.active {background: #1890ff url(/layuiadmin/layui/images/btn-accept-h.png) no-repeat;}
 
 
 
