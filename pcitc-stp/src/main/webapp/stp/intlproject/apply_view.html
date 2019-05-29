@@ -37,7 +37,7 @@ $(document).ready(function() {
 				var year=new Date().getFullYear();
 				var div_index = 0;
 				//加载字典
-				var dicMap = ['GJXM_XMXZ','GJXMGL_XMJB','GJXM_JSXZ','GJXM_XMFL','ROOT_UNIVERSAL_GJHBBZ'];
+				var dicMap = ['GJXM_XMXZ','GJXMGL_XMJB','GJXM_JSXZ','GJXM_XMFL','ROOT_UNIVERSAL_GJHBBZ','ROOT_XTGL_ZSYJY'];
 				publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
 					$.each(data,function(key,val){
 						$.each(val,function(i,dt){
@@ -269,17 +269,19 @@ $(document).ready(function() {
 		<div class="layui-row">
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				<div class="layui-form-item">
-					<label for="" class="layui-form-label">中方合作单位<span class="must-fill">*</span></label>
+					<label for="" class="layui-form-label">所属研究院<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" class="layui-input" lay-verify="required" id="outerCompanyName" name="outerCompanyName" placeholder="请输入合作方单位名">
+						<select name="unitId" id="ROOT_XTGL_ZSYJY" lay-verify="required"  lay-filter="unitId">
+		                	<option value="">请选择</option>
+		             	</select>
 					</div>
 				</div>
 			</div>
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				<div class="layui-form-item">
-					<label for="" class="layui-form-label">负责人电话</label>
+					<label for="" class="layui-form-label">中方合作单位名称<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" class="layui-input" id="outerContactsPhone" name="outerContactsPhone"  placeholder="请输入合作方单位联系电话">
+						<input type="text" class="layui-input" lay-verify="required" id="outerCompanyName" name="outerCompanyName" placeholder="请输入合作方单位名">
 					</div>
 				</div>
 			</div>
@@ -295,7 +297,7 @@ $(document).ready(function() {
 			</div>
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				<div class="layui-form-item">
-					<label for="" class="layui-form-label">负责人电话</label>
+					<label for="" class="layui-form-label">研究院负责人电话</label>
 					<div class="layui-input-block">
 						<input type="text" class="layui-input" id="managerPhone" name="managerPhone"  placeholder="请输入联系电话">
 					</div>

@@ -22,6 +22,9 @@
 	<input type="hidden" name="budgetInfoId" value="${budgetInfoId}">
 	<input type="hidden" name="dataId" value="${dataId}">
 	<input type="hidden" name="nd" id="nd" value="${nd}">
+	
+	<input type="hidden" name="xmjf" id="xmjf" value="0">
+	<input type="hidden" name="zxjf" id="zxjf" value="0">
     <div class="con-box">
         <div class="formBox">
             <div class="layui-row">
@@ -67,17 +70,35 @@
             <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">项目经费<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">项目经费结转<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" id="xmjf" name="xmjf" placeholder="" lay-verify="required|number" autocomplete="off" type="text">
+                            <input class="layui-input" id="xmjfJz" name="xmjfJz" placeholder="" lay-verify="required|number" autocomplete="off" type="text">
                         </div>
                     </div>
                 </div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">重点实验室专项经费<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">项目经费可新签<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="zxjf" name="zxjf"  placeholder="" lay-verify="required|number" autocomplete="off" class="layui-input">
+                            <input type="text" id="xmjfXq" name="xmjfXq"  placeholder="" lay-verify="required|number" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">重点实验室专项结转<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" id="zxjfJz" name="zxjfJz" placeholder="" lay-verify="required|number" autocomplete="off" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">重点实验室专项可新签<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="zxjfXq" name="zxjfXq"  placeholder="" lay-verify="required|number" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -190,21 +211,6 @@
                     break;
             }
         });
-      	//刷新表格数据
-        table.on('edit(dataTable)', function(obj){
-        	$.each(viewObj.tbData,function(index,dt){
-        		if(obj.data.dataId == dt.dataId){
-        			if(obj.field=="xmjf"){
-        				dt.xmjf = obj.value;
-        			}else if(obj.field=="zxjf")
-        			{
-        				dt.zxjf = obj.value;
-        			}
-        		}
-        	});
-        	table.reload('dataTable', {data: viewObj.tbData});
-        });
-      	
       	//集团分类编码字典 ROOT_JFYS_JTDWFL（动态字典，如果设置了年度字典则按年度字典获取）
         publicMethods.ajaxPost('/dictionary/list/ROOT_JFYS_JTDWFL'+nd, null, function (data, status) {
       		$.each(data,function(i,dt){
@@ -212,6 +218,7 @@
   	    	});
 	    });
         publicMethods.ajaxPost("/budget/get-grouptotal-item/${dataId}",null, function (data) {
+        	console.log(data);
 			form.val("budget-form",data);
 			parentInfo = data;
 			$.each(data.groups,function(index,dt){
@@ -288,8 +295,11 @@
         }
         // 点击保存按钮
         form.on('submit(saveEvent)', function(data){
+        	data.field.zxjf = data.field.zxjfJz +data.field.zxjfXq;
+        	data.field.xmjf = data.field.xmjfJz +data.field.xmjfXq;
+        	
             var formData = JSON.stringify(data.field);
-            //console.log("表单数据："+formData + '\n' +"表格数据:" + getTableData());
+            console.log("表单数据："+formData + '\n' +"表格数据:" + getTableData());
             var lodingMsg = layer.msg('处理中....');
             //保存预算项目
             publicMethods.ajaxPost('/budget/save-grouptotal-item', data.field, function (data, status) {

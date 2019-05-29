@@ -40,12 +40,13 @@ import com.pcitc.base.hana.report.ProjectCode;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.utils.HanaUtil;
 
 @Controller
 @RequestMapping(value = "/home_budget_ld")
-public class HomeBudgetLDController {
+public class HomeBudgetLDController extends BaseController{
 	
 	private static final String getBudgetByCountBar =      "http://pcitc-zuul/system-proxy/out-project-provider/project-money/project-type";
 	private static final String getBudgetByCountPie =      "http://pcitc-zuul/system-proxy/out-project-provider/project-money/project-type";

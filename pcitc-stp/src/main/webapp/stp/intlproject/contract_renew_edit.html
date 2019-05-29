@@ -18,11 +18,15 @@
 	file_opt_flag = "4c20bd28057543839c0db8754f417c6a";
 	layui.use(['jquery','form','laydate','table', 'layer', 'element','publicMethods'], function(){
     	var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate,
-            form = layui.form,publicMethods=layui.publicMethods,table = layui.table;	
+            form = layui.form,publicMethods=layui.publicMethods,table = layui.table;
+    		var contractMap = {};
     		//加载项目
-    		publicMethods.ajaxPost("/project/info-list-all",null, function (data) {
+    		publicMethods.ajaxPost("/project/contract-list-all",null, function (data) {
 				$.each(data,function(i,val){
-					$("#projectId").append('<option value="'+data[i].projectId+'">'+data[i].projectName+'</option>');
+					contractMap[data[i].contractId]=data[i].projectId;
+					publicMethods.ajaxPost('/project/get-project', {projectId:data[i].projectId},  function (dt, status) {
+		        		$("#parentContractId").append('<option value="'+data[i].contractId+'">'+dt.projectName+'</option>');
+		            });
 				});
 		   	});
     		//加载字典
@@ -67,7 +71,7 @@
     		$("#file_div").load('/common/public/uploadlayuiload.html');
     		
     		form.on('submit(submitBtn)', function(data) {
-				//data.field.contractContent = editor.getData();
+				data.field.projectId=contractMap[$("#parentContractId").val()];
 				publicMethods.ajaxPost('/project/contract-saveorupdate', data.field, function (data, status) {
                     if (data.success) {
                     	parent.layui.table.reload('contractTable',null);
@@ -94,6 +98,7 @@
 <div class="formBox">
 	<form id="contract-form" name="contract-form" lay-filter="contract-form" class="form-horizontal layui-form">
 	<input type="hidden" name="contractId" id="contractId">
+	<input type="hidden" name="projectId" id="projectId">
 	<input type="hidden" name="appendFiles" id="appendFiles">
 	<input type="hidden" name="contractType" id="contractType" value="1">
 	<div class="box-body">
@@ -102,7 +107,7 @@
 				<div class="layui-form-item">
 				  <label class="layui-form-label">签约项目<span class="must-fill">*</span></label>
 		          <div class="layui-input-block">
-					<select name="projectId" id="projectId" lay-verify="required"  lay-filter="">
+					<select name="parentContractId" id="parentContractId" lay-verify="required"  lay-filter="">
 	                	<option value="">请选择</option>
 	             	</select>
 				  </div>

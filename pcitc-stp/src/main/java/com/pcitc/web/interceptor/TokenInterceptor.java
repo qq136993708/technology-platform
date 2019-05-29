@@ -66,7 +66,6 @@ public class TokenInterceptor implements HandlerInterceptor {
 				sysUser = JwtTokenUtil.getUserFromTokenByValue(token);
 				
 				// 验证当前url登录人是否有权限查看（url中不会包含ajax请求的）
-				
 				HandlerMethod m = (HandlerMethod) handler;
 				
 				if (m.getBean() instanceof BaseController) {
@@ -81,8 +80,6 @@ public class TokenInterceptor implements HandlerInterceptor {
 					return false;
 				}  
 			}
-			
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

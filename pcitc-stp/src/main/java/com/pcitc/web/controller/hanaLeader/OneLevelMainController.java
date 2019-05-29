@@ -51,13 +51,15 @@ import com.pcitc.base.system.SysNewsVo;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
+import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.FileUtil;
 import com.pcitc.web.utils.HanaUtil;
 
 // 高层首页
 @Controller
-public class OneLevelMainController {
+public class OneLevelMainController extends BaseController{
 
 	// 知识产权
 	private static final String	knowledge_01				= "http://pcitc-zuul/system-proxy/out-patent-provider/lx/apply-agree";
@@ -128,7 +130,10 @@ public class OneLevelMainController {
 		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
-
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -167,7 +172,10 @@ public class OneLevelMainController {
 		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
-
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -214,6 +222,10 @@ public class OneLevelMainController {
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_table_dic, HttpMethod.POST, entity, JSONArray.class);
@@ -296,6 +308,10 @@ public class OneLevelMainController {
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_table_dic, HttpMethod.POST, entity, JSONArray.class);
@@ -399,6 +415,10 @@ public class OneLevelMainController {
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
@@ -536,6 +556,10 @@ public class OneLevelMainController {
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
@@ -643,6 +667,10 @@ public class OneLevelMainController {
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		HttpEntity<String> entity = new HttpEntity<String>(JSONObject.toJSONString(paramsMap), httpHeaders);
 
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_search_con, HttpMethod.POST, entity, JSONArray.class);
@@ -696,6 +724,11 @@ public class OneLevelMainController {
 		paramsMap.put("xmlbmc", param.getParam().get("xmflItem")=="" ? null : param.getParam().get("xmflItem"));// 项目分类
 		paramsMap.put("type_flag", param.getParam().get("yjdwItem")=="" ? null : param.getParam().get("yjdwItem"));// 一级单位（9个机构）
 		paramsMap.put("status", param.getParam().get("xmztItem")=="" ? null : param.getParam().get("xmztItem"));// 项目状态
+		
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -756,6 +789,10 @@ public class OneLevelMainController {
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
@@ -872,6 +909,10 @@ public class OneLevelMainController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("type", type);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -923,6 +964,10 @@ public class OneLevelMainController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("type", type);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -979,6 +1024,10 @@ public class OneLevelMainController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("type", type);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -1038,6 +1087,10 @@ public class OneLevelMainController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("type", type);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -1087,6 +1140,10 @@ public class OneLevelMainController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("type", type);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -1137,12 +1194,11 @@ public class OneLevelMainController {
 	public String contract(HttpServletRequest request) throws Exception {
 
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		String year = HanaUtil.getCurrrentYear();
-		request.setAttribute("year", year);
+		String nd = HanaUtil.getCurrrentYear();
+		request.setAttribute("nd", nd);
 		return "stp/hana/home/oneLevelMain/contract";
 	}
 
@@ -1156,7 +1212,10 @@ public class OneLevelMainController {
 		String type = CommonUtil.getParameter(request, "type", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
-
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		ChartPieResultData pie = new ChartPieResultData();
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -1220,6 +1279,10 @@ public class OneLevelMainController {
 		String type = CommonUtil.getParameter(request, "type", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -1320,6 +1383,10 @@ public class OneLevelMainController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("companyCode", companyCode);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		ChartSingleLineResultData chartSingleLineResultData = new ChartSingleLineResultData();
@@ -1367,6 +1434,10 @@ public class OneLevelMainController {
 		String type = CommonUtil.getParameter(request, "type", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -1431,6 +1502,10 @@ public class OneLevelMainController {
 		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -1507,6 +1582,10 @@ public class OneLevelMainController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("companyCode", companyCode);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
@@ -1573,11 +1652,10 @@ public class OneLevelMainController {
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/achievement")
 	public String achievement(HttpServletRequest request) throws Exception {
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
-		String year = HanaUtil.getCurrrentYear();
-		request.setAttribute("year", year);
+		String nd = HanaUtil.getBeforeYear();
+		request.setAttribute("nd", nd);
 		return "stp/hana/home/oneLevelMain/achievement";
 	}
 
@@ -1589,6 +1667,10 @@ public class OneLevelMainController {
 		String nd = CommonUtil.getParameter(request, "nd", DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		String type = CommonUtil.getParameter(request, "type", "");
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_01, HttpMethod.POST, entity, JSONArray.class);
@@ -1628,6 +1710,10 @@ public class OneLevelMainController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		String type = CommonUtil.getParameter(request, "type", "");
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_02, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -1683,6 +1769,10 @@ public class OneLevelMainController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define1", "");
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_03, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -1763,7 +1853,13 @@ public class OneLevelMainController {
 		String year = HanaUtil.getCurrrentYear();
 		request.setAttribute("year", year);
 
-		request.setAttribute("YJY_CODE_NOT_YINGKE", HanaUtil.YJY_CODE_NOT_YINGKE);
+		
+		
+		String  companyCode=EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders) ;
+		request.setAttribute("companyCode", companyCode);
+		String month = HanaUtil.getCurrrentYearMoth();
+        request.setAttribute("month", month);
+        
 
 		return "stp/hana/home/oneLevelMain/equipment";
 	}
@@ -1779,6 +1875,10 @@ public class OneLevelMainController {
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", companyCode);
 		paramsMap.put("type", type);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -1826,6 +1926,10 @@ public class OneLevelMainController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", companyCode);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
@@ -1942,6 +2046,10 @@ public class OneLevelMainController {
 		paramsMap.put("type", type);
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", companyCode);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(equipment_04, HttpMethod.POST, entity, JSONObject.class);
@@ -1983,6 +2091,10 @@ public class OneLevelMainController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("type", type);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -2032,6 +2144,10 @@ public class OneLevelMainController {
 		paramsMap.put("nd", nd);
 		paramsMap.put("l_nd", l_nd);
 		paramsMap.put("companyCode", companyCode);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		ChartSingleLineResultData chartSingleLineResultData = new ChartSingleLineResultData();
@@ -2091,6 +2207,10 @@ public class OneLevelMainController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("companyCode", companyCode);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!companyCode.equals("")) {
@@ -2156,6 +2276,10 @@ public class OneLevelMainController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("companyCode", companyCode);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
@@ -2188,7 +2312,10 @@ public class OneLevelMainController {
 		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
-
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -2225,7 +2352,10 @@ public class OneLevelMainController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("companyCode", companyCode);
-
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
@@ -2264,14 +2394,11 @@ public class OneLevelMainController {
 	public String kyzb_level2(HttpServletRequest request) throws Exception {
 
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
-		request.setAttribute("YJY_CODE_NOT_YINGKE", HanaUtil.YJY_CODE_NOT_YINGKE);
-		request.setAttribute("YJY_CODE_ALL", HanaUtil.YJY_CODE_ALL);
 
-		String year = HanaUtil.getCurrrentYear();
-		request.setAttribute("year", year);
+		String nd = HanaUtil.getBeforeYear();
+		request.setAttribute("nd", nd);
 		return "stp/hana/home/oneLevelMain/investment";
 
 	}
@@ -2287,6 +2414,10 @@ public class OneLevelMainController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("companyCode", companyCode);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!companyCode.equals("")) {
@@ -2335,6 +2466,10 @@ public class OneLevelMainController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("companyCode", companyCode);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -2369,6 +2504,10 @@ public class OneLevelMainController {
 		paramsMap.put("nd", nd);
 		paramsMap.put("type", type);
 		paramsMap.put("companyCode", companyCode);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
@@ -2458,6 +2597,10 @@ public class OneLevelMainController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("companyCode", companyCode);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -2513,6 +2656,10 @@ public class OneLevelMainController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("companyCode", companyCode);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -2569,6 +2716,10 @@ public class OneLevelMainController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("companyCode", companyCode);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -2636,6 +2787,7 @@ public class OneLevelMainController {
 		String month = CommonUtil.getParameter(request, "month", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
+		
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(get_news, HttpMethod.POST, entity, JSONArray.class);

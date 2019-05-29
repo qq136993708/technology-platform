@@ -41,12 +41,13 @@ import com.pcitc.base.hana.report.ProjectForMysql;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.utils.HanaUtil;
 
 @Controller
 @RequestMapping(value = "/home_device_ld")
-public class HomeDeviceLDController {
+public class HomeDeviceLDController extends BaseController{
 	
 	private static final String getDeviceByCountBar =      "http://pcitc-zuul/system-proxy/out-project-provider/project-count/zb/project-type";
 	private static final String getDeviceByCountPie =      "http://pcitc-zuul/system-proxy/out-project-provider/project-count/zb/project-type";

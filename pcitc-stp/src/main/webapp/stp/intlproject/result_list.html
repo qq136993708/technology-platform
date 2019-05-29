@@ -62,7 +62,7 @@
 				resultTypeMap[data[i].code] = data[i].name;
 	    	});
 	    });
-    	function renderTable(where){
+    	window.renderTable = function(where){
     		var lodingMsg = layer.msg('数据加载中....');
     		var param = JSON.parse(window.localStorage.getItem("param"));
     		tableId = 'resultTable';
@@ -93,30 +93,31 @@
 	            cols: [[
 	            	 {type:'checkbox'}
 	            	,{title:'序号', type:'numbers' ,width : 55}
-	            	,{field:'projectId',   title:'项目名称',    width: '20%',  style:'cursor: pointer;'}
-	                ,{field:'resultTitle',   title:'成果名称',	width: '25%',  style:'cursor: pointer;'}
+	            	,{field:'projectId',   title:'项目名称',    width: '30%',  style:'cursor: pointer;'}
+	                ,{field:'resultTitle',   title:'成果名称',	 style:'cursor: pointer;'}
 	                //,{field:'resultContent',   title:'主要内容',	width: '20%',  style:'cursor: pointer;'}	                
-	                ,{field:'resultCode',title:'项目编码',	width: '10%',   style:'cursor: pointer;'}
+	                //,{field:'resultCode',title:'项目编码',	width: '10%',   style:'cursor: pointer;'}
 	                ,{field:'resultType',   title:'成果类型',	width: '10%',  style:'cursor: pointer;'}
-	                ,{field:'resultAuthor',title:'负责人',	width: '10%', style:'cursor: pointer;'}
-	                ,{field:'authorPhone',title:'负责人联系电话',	style:'cursor: pointer;'}	                
+	                //,{field:'resultAuthor',title:'负责人',	width: '10%', style:'cursor: pointer;'}
+	                //,{field:'authorPhone',title:'负责人联系电话',	style:'cursor: pointer;'}	                
 	                
 	            ]],
 	            done: function (res, curr, count) {
 	            	layer.close(lodingMsg);
 	                // 点击行联动选择框--单选
-	                
-	              /* 	//获得项目信息
-		            $.each(res.data,function(i,dt){
-		            	publicMethods.ajaxPost('/project/get-apply', {"applyId":res.data[i].projectId}, function (data, status) {
-		            		$("tr[data-index='"+i+"'] td[data-field='projectId'] div").html(data.applyTitle);
-			            });
-		        	});
+	                 $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+	                	var index=parseInt($(this).index()+1);
+	                    $('tr').removeClass('layui-table-click');
+	                    $(this).addClass('layui-table-click');
+	                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+	                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+	                    selectRowData=res.data[index-1];
+	                }); 
 		            //显示字典数据
 		            $.each(res.data,function(i,dt){
 		            	var ns = resultTypeMap[res.data[i].resultType];
 		            	$("tr[data-index='"+i+"'] td[data-field='resultType'] div").html(ns);
-		            }); */
+		            }); 
 	            },
 	            onDblClickRow:function(index, o){
 	            	console.log(index);
