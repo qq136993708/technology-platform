@@ -923,7 +923,7 @@
         var photoStream = photoContent(photofilePath);
         //设置photoAttach图片流
         $("#photoAttach").attr("src", photoStream);
-        $("#photoAttach").attr("title", "双击查看大图");
+        // $("#photoAttach").attr("title", "双击查看大图");
     }
 
     function ajaxFile(url, data, callback) {
@@ -1003,7 +1003,7 @@
             if (photofilePath != null && photofilePath != "") {
                 var photoStream = photoContent(photofilePath);
                 $("#photoAttach").attr("src", photoStream);
-                $("#photoAttach").attr("title", "双击查看大图");
+                // $("#photoAttach").attr("title", "双击查看大图");
             }
         }
     });
