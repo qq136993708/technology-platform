@@ -116,6 +116,10 @@ public class OneLevelMainController extends BaseController{
 	// 数量--知识
 	private static final String	achievement_table_data		= "http://pcitc-zuul/system-proxy/out-provider/project/appraisal-list";
 
+	@Autowired
+	private HttpHeaders			httpHeaders;
+	@Autowired
+	private RestTemplate		restTemplate;
 
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/investment_first_page_count")
 	@ResponseBody
@@ -1842,7 +1846,7 @@ public class OneLevelMainController extends BaseController{
 	public String equipment(HttpServletRequest request) throws Exception {
 
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		
+		HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
