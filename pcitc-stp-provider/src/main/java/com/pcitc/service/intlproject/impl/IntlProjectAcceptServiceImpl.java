@@ -1,7 +1,9 @@
 package com.pcitc.service.intlproject.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,16 +12,18 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.IntlProject.IntlProjectAccept;
 import com.pcitc.base.stp.IntlProject.IntlProjectAcceptExample;
-import com.pcitc.base.stp.IntlProject.IntlProjectApply;
-import com.pcitc.base.stp.IntlProject.IntlProjectApplyExample;
-import com.pcitc.base.stp.IntlProject.IntlProjectApplyPlant;
-import com.pcitc.base.stp.IntlProject.IntlProjectApplyPlantExample;
+import com.pcitc.base.stp.IntlProject.IntlProjectContract;
+import com.pcitc.base.stp.IntlProject.IntlProjectInfo;
+import com.pcitc.base.stp.IntlProject.IntlProjectInfoExample;
+import com.pcitc.common.AcceptStatusEnum;
 import com.pcitc.mapper.IntlProject.IntlProjectAcceptMapper;
 import com.pcitc.mapper.IntlProject.IntlProjectApplyMapper;
-import com.pcitc.mapper.IntlProject.IntlProjectApplyPlantMapper;
+import com.pcitc.mapper.IntlProject.IntlProjectInfoMapper;
 import com.pcitc.service.intlproject.IntlProjectAcceptService;
+import com.pcitc.service.intlproject.IntlProjectContractService;
 
 @Service("intlProjectAcceptService")
 public class IntlProjectAcceptServiceImpl implements IntlProjectAcceptService {
@@ -28,30 +32,34 @@ public class IntlProjectAcceptServiceImpl implements IntlProjectAcceptService {
 	private IntlProjectAcceptMapper intlProjectAcceptMapper;
 	
 	@Autowired
-	private IntlProjectApplyPlantMapper intlProjectApplyPlantMapper;
+	private IntlProjectInfoMapper projectInfoMapper;
 
+	//@Autowired
+	//private IntlProjectApplyMapper intlProjectApplyMapper;
+	
 	@Autowired
-	private IntlProjectApplyMapper intlProjectApplyMapper;
+	IntlProjectContractService intlProjectContractService;
 	
 	@Override
 	public LayuiTableData selectProjectAcceptList(LayuiTableParam param) {
 		IntlProjectAcceptExample example = new IntlProjectAcceptExample();
 		IntlProjectAcceptExample.Criteria criteria = example.createCriteria();
 		criteria.andStatusEqualTo(new Integer(param.getParam().get("status").toString()));
-		if(param.getParam().get("applyName") != null) {
-			IntlProjectApplyExample ce = new IntlProjectApplyExample();
-			IntlProjectApplyExample.Criteria ac = ce.createCriteria();
-			if(param.getParam().get("applyName") != null) {
-				ac.andApplyNameLike("%"+param.getParam().get("applyName")+"%");
+		if(param.getParam().get("projectName") != null) {
+			IntlProjectInfoExample ce = new IntlProjectInfoExample();
+			IntlProjectInfoExample.Criteria ac = ce.createCriteria();
+			if(param.getParam().get("projectName") != null) {
+				ac.andProjectNameLike("%"+param.getParam().get("projectName")+"%");
 			}
-			List<IntlProjectApply> apps = intlProjectApplyMapper.selectByExample(ce);
+			List<IntlProjectInfo> apps = projectInfoMapper.selectByExample(ce);
 			List<String> applyIds = new ArrayList<String>();
-			applyIds.add("00010101010");//避免为空
-			for(IntlProjectApply plt:apps) {
-				applyIds.add(plt.getApplyId());
+			applyIds.add("xxxx");//避免为空
+			for(IntlProjectInfo plt:apps) {
+				applyIds.add(plt.getProjectId());
 			}
 			criteria.andProjectIdIn(applyIds);
 		}
+		//param.getParam().put("status", AcceptStatusEnum.STATUS_REFUSE.getCode());
 		return this.findByExample(param, example);
 	}
 
@@ -59,27 +67,43 @@ public class IntlProjectAcceptServiceImpl implements IntlProjectAcceptService {
 	public LayuiTableData selectProjectWaitingAcceptList(LayuiTableParam param) 
 	{
 		//检索待验收项目
-		IntlProjectApplyPlantExample example = new IntlProjectApplyPlantExample();
-		//IntlProjectApplyPlantExample.Criteria criteria = example.createCriteria();
-		List<IntlProjectApplyPlant> rels = intlProjectApplyPlantMapper.selectByExample(example);
-		List<String> applyIds = new ArrayList<String>();
-		applyIds.add("00010101010");//避免为空
-		for(IntlProjectApplyPlant plt:rels) {
-			applyIds.add(plt.getApplyId());
+		IntlProjectInfoExample example = new IntlProjectInfoExample();
+		IntlProjectInfoExample.Criteria criteria = example.createCriteria();
+		criteria.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		if(param.getParam().get("projectName") != null) {
+			criteria.andProjectNameLike("%"+param.getParam().get("projectName")+"%");
 		}
+		//只检索已签约项目
+		List<IntlProjectContract> contracts = intlProjectContractService.selectAllProjctContract();
+		List<String> ids = new ArrayList<String>();
+		for(IntlProjectContract c:contracts) {
+			ids.add(c.getProjectId());
+		}
+		criteria.andProjectIdIn(ids);
+		
+		List<IntlProjectInfo> infos = projectInfoMapper.selectByExample(example);
+		Map<String,IntlProjectInfo> maps = new HashMap<String,IntlProjectInfo>();
+		for(IntlProjectInfo plt:infos) {
+			maps.put(plt.getProjectId(), plt);
+		}
+		
 		//移除已验收过的项目
 		IntlProjectAcceptExample aexample = new IntlProjectAcceptExample();
 		List<IntlProjectAccept> acceptlist = intlProjectAcceptMapper.selectByExample(aexample);
 		for(IntlProjectAccept accept:acceptlist) {
-			applyIds.remove(accept.getProjectId());
+			maps.remove(accept.getProjectId());
 		}
-		IntlProjectApplyExample ce = new IntlProjectApplyExample();
-		IntlProjectApplyExample.Criteria criteria = ce.createCriteria();
-		if(param.getParam().get("applyName") != null) {
-			criteria.andApplyNameLike("%"+param.getParam().get("applyName")+"%");
+		
+		IntlProjectInfoExample ce = new IntlProjectInfoExample();
+		IntlProjectInfoExample.Criteria projectCriteria = ce.createCriteria();
+		if(maps.size()>0) {
+			projectCriteria.andProjectIdIn(new ArrayList<String>(maps.keySet()));
+		}else {
+			LayuiTableData data = new LayuiTableData();
+			data.setData(new ArrayList<Object>());
+			return data;
 		}
-		criteria.andApplyIdIn(applyIds);
-		return findApplyByExample(param,ce);
+		return findProjectByExample(param,ce);
 	}
 	
 	@Override
@@ -126,7 +150,7 @@ public class IntlProjectAcceptServiceImpl implements IntlProjectAcceptService {
 		data.setCount(total.intValue());
 		return data;
 	}
-	private LayuiTableData findApplyByExample(LayuiTableParam param,IntlProjectApplyExample example) 
+	private LayuiTableData findProjectByExample(LayuiTableParam param,IntlProjectInfoExample example) 
 	{
 		//每页显示条数
 		int pageSize = param.getLimit();
@@ -137,9 +161,9 @@ public class IntlProjectAcceptServiceImpl implements IntlProjectAcceptService {
 		// 1、设置分页信息，包括当前页数和每页显示的总计数
 		PageHelper.startPage(pageNum, pageSize);
 		
-		List<IntlProjectApply> list = intlProjectApplyMapper.selectByExample(example);
+		List<IntlProjectInfo> list = projectInfoMapper.selectByExample(example);
 		// 3、获取分页查询后的数据
-		PageInfo<IntlProjectApply> pageInfo= new PageInfo<IntlProjectApply>(list);
+		PageInfo<IntlProjectInfo> pageInfo= new PageInfo<IntlProjectInfo>(list);
 		LayuiTableData data = new LayuiTableData();
 		data.setData(pageInfo.getList());
 		Long total = pageInfo.getTotal();

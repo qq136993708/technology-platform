@@ -81,11 +81,11 @@
 	            cols: [[
 	            	 {type:'checkbox',align:"center"}
 	            	,{title:'序号', type:'numbers',align:"center" ,width : 55}
-	                ,{field:'plantName',   title:'计划名称',    width: '20%',  style:'cursor: pointer;',align:"left"}
-	                ,{field:'plantCode',title:'项目计划编码',	width: '15%',   style:'cursor: pointer;',align:"left"}
-	                ,{field:'reportYear',title:'计划年度',	width: '10%',   style:'cursor: pointer;',align:"center"}
+	                ,{field:'plantName',   title:'计划名称',    width: '25%',  style:'cursor: pointer;',align:"left"}
+	                ,{field:'plantCode',title:'项目计划编码',	width: '20%',   style:'cursor: pointer;',align:"left"}
+	                ,{field:'reportYear',title:'计划年度',	width: '15%',   style:'cursor: pointer;',align:"center"}
 	                ,{field:'plantMoney',title:'计划投资人民币(万元)',	width: '15%',   style:'cursor: pointer;',align:"right"}
-	                ,{field:'unitId',title:'执行单位',	width: '10%',   style:'cursor: pointer;',align:"left"}
+	                //,{field:'unitId',title:'执行单位',	width: '10%',   style:'cursor: pointer;',align:"left"}
 	                //,{field:'buildYears',title:'建设年限',	width: '10%',   style:'cursor: pointer;',align:"center"}
 	                ,{field:'flowStartStatus',  title:'状态', style:'cursor: pointer;',align:"center"}
 	            ]],
@@ -114,7 +114,7 @@
 				   			apply_status = "待审批";
 				   		}
 		            	$("tr[data-index='"+i+"'] td[data-field='flowStartStatus'] div").html(apply_status);
-		            	$("tr[data-index='"+i+"'] td[data-field='unitId'] div").html(unitMap[res.data[i].unitId]);
+		            	//$("tr[data-index='"+i+"'] td[data-field='unitId'] div").html(unitMap[res.data[i].unitId]);
 		            	
 		            });
 	            }

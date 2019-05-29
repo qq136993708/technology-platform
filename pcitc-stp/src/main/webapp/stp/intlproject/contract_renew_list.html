@@ -41,9 +41,8 @@
 			            cols: [[
 			            	 {type:'checkbox',event: 'changeEvents'}
 			            	,{title:'序号', type:'numbers' ,width : 55}
-			            	,{field:'projectId',   title:'项目名称',	width: '15%',  style:'cursor: pointer;'}
-			                ,{field:'contractNo',   title:'签约编号',    width: '10%',  style:'cursor: pointer;'}
-			                ,{field:'unitId',title:'所属研究院',width: '8%',style:'cursor: pointer;'}
+			            	,{field:'projectId',   title:'项目名称',	width: '20%',  style:'cursor: pointer;'}
+			                ,{field:'contractNo',   title:'签约编号',   style:'cursor: pointer;'}
 			                ,{field:'chineseContractCompany',title:'中方合作单位',   style:'cursor: pointer;'}
 			                ,{field:'foreignContractCompany',title:'外方合作单位',   style:'cursor: pointer;'}
 			                ,{field:'agreementStartDate',title:'协议开始日期', width: '10%',  style:'cursor: pointer;'}
@@ -62,7 +61,7 @@
 			                }); 
 			                $.each(res.data,function(i,dt){
 				            	//获得项目信息
-				            	publicMethods.ajaxAsyncPost('/project/get-project', {"applyId":res.data[i].projectId}, function (data, status) {
+				            	publicMethods.ajaxAsyncPost('/project/get-project', {"projectId":res.data[i].projectId}, function (data, status) {
 				            		$("tr[data-index='"+i+"'] td[data-field='projectId'] div").html(data.projectName);
 				            		$("tr[data-index='"+i+"'] td[data-field='unitId'] div").html(data.unitId);
 					            });
@@ -79,7 +78,8 @@
 		        renderTable();
 		        
 		        table.on('rowDouble(contractEvent)', function(obj){
-		        	var temUrl = '/intl_project/contract_renew_view?contractId='+obj.data.contractId;
+		        	//var temUrl = '/intl_project/contract_renew_view?contractId='+obj.data.contractId;
+		        	var temUrl = '/intl_project/contract_view?contractId='+obj.data.contractId;
 	            	openFullWin("详情",temUrl);
 		        });
 		     	// 触发不同的按钮事件
@@ -92,14 +92,15 @@
 		                renderTable({param: {"contractName":$("#contractName").val()}});
 		            },addEvent: function(){ 
 		            	//点击新增按钮
-		            	var temUrl = '/intl_project/contract_edit';
+		            	var temUrl = '/intl_project/contract_renew_edit';
 		            	openFullWin("新增",temUrl);
 		            },detailEvent:function(){
 		            	if(!selectRowData){
 		            		layer.msg('请点击选择一行数据!');
 		            		return;
 		            	}
-		            	var temUrl = '/intl_project/contract_renew_view?contractId='+selectRowData.contractId;
+		            	//var temUrl = '/intl_project/contract_renew_view?contractId='+selectRowData.contractId;
+		            	var temUrl = '/intl_project/contract_view?contractId='+selectRowData.contractId;
 		            	openFullWin("详情",temUrl);
 		            },exportEvent:function(){
 		            	if(!selectRowData){
