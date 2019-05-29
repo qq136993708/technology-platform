@@ -129,7 +129,7 @@ $(document).ready(function() {
 					return "<div class=\"layui-row\" data-index=\""+div_index+"\">\n" +
                 	"			 <div class=\"layui-col-xs6 layui-col-sm6 layui-col-md6\">"+	
                     "                <div class=\"layui-col-xs6 layui-col-sm6 layui-col-md6\">\n" +
-                    "                    <div class=\"layui-form-item\">\n" +
+                    "                    <div class=\"layui-form-item\" '>\n" +
                     "                        <label for=\"\" class=\"layui-form-label\">指定年度预算<span class=\"must-fill\">*</span></label>\n" +
                     "                        <div class=\"layui-input-block\">\n" +
                     "                                <select name=\"build_year\" id=\"build_year_"+div_index+"\" lay-verify=\"required\"  lay-filter=\"test\">\n" +
@@ -152,7 +152,7 @@ $(document).ready(function() {
                     "                    </div>\n" +
                     "                </div>\n" +
                     "                <div class=\"layui-col-xs6 layui-col-sm6 layui-col-md6\">\n" +
-                    "                    <div class=\"layui-form-item\">\n" +
+                    "                    <div class=\"layui-form-item\" style='margin-left: 10px;'>\n" +
                     "                            <div class=\"layui-col-xs9 layui-col-sm9 layui-col-md9\">\n" +
                     "                            	<input class=\"layui-input\" id=\"build_year_money_"+div_index+"\" lay-verify=\"required|number\" placeholder=\"请输入预算金额（万元）\" autocomplete=\"off\" type=\"text\">\n" +
                     "                            </div>\n" +
@@ -336,7 +336,7 @@ $(document).ready(function() {
                     </div>
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                    <div class="layui-form-item">
+                    <div class="layui-form-item" style="margin-left: 10px;">
                             <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
                             	<input class="layui-input" name="plantMoney" id="plantMoney" lay-verify="required|number" placeholder="请输入金额（万元）" autocomplete="off" type="text">
                             </div>
