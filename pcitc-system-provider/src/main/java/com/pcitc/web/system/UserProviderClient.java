@@ -1,5 +1,8 @@
 package com.pcitc.web.system;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,13 +21,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.system.SysUser;
+import com.pcitc.base.system.SysUserExample;
 import com.pcitc.base.system.SysUserUnit;
 import com.pcitc.service.system.PostService;
 import com.pcitc.service.system.UserService;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 
 @Api(value="用户接口类",tags= {"用户相关操作服务接口"})
 @RestController
@@ -209,9 +211,19 @@ public class UserProviderClient {
 		return data;
 	}
 	
-	
-	
-	
-	
+	@ApiOperation(value="按条件查询用户信息",notes="extend是统一身份账号")
+	@RequestMapping(value = "/user-provider/user/info")
+	public List<SysUser> selectUserInfo(@RequestBody String jsonStr) throws Exception {
+		JSONObject json = JSONObject.parseObject(jsonStr);
+		
+		SysUserExample example = new SysUserExample();
+		SysUserExample.Criteria uc = example.createCriteria();
+		uc.andUserDelflagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		if (json != null && json.getString("userExtend") != null) {
+			uc.andUserExtendEqualTo(json.getString("userExtend"));
+		}
+		List<SysUser> userList = userService.selectByExample(example);
+		return userList;
+	}
 	
 }

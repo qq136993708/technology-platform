@@ -172,8 +172,10 @@ public class OneLevelMainController extends BaseController{
 		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
+		System.out.println("1---领导标识，不控制数据"+sysUserInfo.getUserLevel());
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			// 领导标识，不控制数据
+			System.out.println("2---领导标识，不控制数据");
 			paramsMap.put("leaderFlag", "1");
 		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
