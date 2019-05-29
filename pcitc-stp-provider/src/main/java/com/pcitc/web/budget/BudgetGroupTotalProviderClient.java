@@ -701,7 +701,16 @@ public class BudgetGroupTotalProviderClient
 			{
 				return new Result(false,"审批中或者已完成审批不可重复发起！");
 			}
-			Boolean rs = budgetGroupTotalService.startWorkFlow(info,workflowVo);
+			workflowVo.setBusinessId(info.getDataId());
+			workflowVo.setProcessInstanceName("集团预算总表审批");
+			workflowVo.setAuthenticatedUserId(info.getCreaterId());
+			workflowVo.setAuthenticatedUserName(info.getCreaterName());
+			//workflowVo.setFunctionId(workflowVo.getFunctionId());
+	    	// 待办业务详情、最终审批同意、最终审批不同意路径
+			workflowVo.setAuditDetailsPath("/budget/budget_main_grouptotal?budgetId="+info.getDataId());
+			workflowVo.setAuditAgreeMethod("http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-notice-budgetinfo?budgetId=" + info.getDataId()+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
+			workflowVo.setAuditRejectMethod("http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-notice-budgetinfo?budgetId=" + info.getDataId()+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_REFUSE.getCode());
+			Boolean rs = budgetInfoService.startWorkFlow(info,workflowVo);
 			if(rs) 
 			{
 				info.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_START.getCode());

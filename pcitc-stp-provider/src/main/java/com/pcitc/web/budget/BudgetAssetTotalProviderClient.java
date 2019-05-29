@@ -35,7 +35,6 @@ import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.stp.out.OutUnit;
-import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
@@ -53,7 +52,6 @@ public class BudgetAssetTotalProviderClient
 {
 	
 	private final static Logger logger = LoggerFactory.getLogger(BudgetAssetTotalProviderClient.class);
-	private final static String WORKFLOW_DEFINE_ID = "xxxx:x:xxxxx";
 	
 	@Autowired
 	private BudgetAssetTotalService budgetAssetTotalService;
@@ -591,43 +589,26 @@ public class BudgetAssetTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/start-budget-assettotal-activity/{budgetInfoId}", method = RequestMethod.POST)
 	public Object startBudgetAssetTotalActivity(@PathVariable("budgetInfoId") String budgetInfoId,@RequestBody WorkflowVo workflowVo) 
 	{
-		
 		BudgetInfo info = null;
 		try {
 			info = budgetInfoService.selectBudgetInfo(budgetInfoId);
-		
 			//如果审批已发起则不能再次发起(只有编制中，获取审批驳回可再发起)
 			if(!(BudgetAuditStatusEnum.AUDIT_STATUS_NO_START.getCode().equals(info.getAuditStatus()) || BudgetAuditStatusEnum.AUDIT_STATUS_REFUSE.getCode().equals(info.getAuditStatus())))
 			{
 				return new Result(false,"审批中或者已完成审批不可重复发起！");
 			}
-			//workflowVo.setAuthenticatedUserId("111");
-			workflowVo.setProcessDefineId(WORKFLOW_DEFINE_ID); 
 			workflowVo.setBusinessId(info.getDataId());
-			workflowVo.setProcessInstanceName("资产预算表审批："+info.getDataVersion());
-			Map<String, Object> variables = new HashMap<String, Object>();  
-			//starter为必填项。流程图的第一个节点待办人变量必须为starter
-	        variables.put("starter", workflowVo.getAuthenticatedUserId());
-	        
-	        //必须设置。流程中，需要的第二个节点的指派人；除starter外，所有待办人变量都指定为auditor(处长审批)
-	        //处长审批 ZSH_JTZSZYC_GJHZC_CZ
-	        List<SysUser> users = systemRemoteClient.selectUsersByPostCode("ZSH_JTZSZYC_GJHZC_CZ");
-	        System.out.println("start userIds ... "+JSON.toJSONString(users));
-	        variables.put("auditor", workflowVo.getAuthenticatedUserId());
-	        if(users != null && users.size()>0) {
-	        	variables.put("auditor", users.get(0).getUserId());
-	        }
-	        //必须设置，统一流程待办任务中需要的业务详情
-	        variables.put("auditDetailsPath", "/budget/notice_view?noticeId="+info.getDataId());
-	        //流程完全审批通过时，调用的方法（通过版本即为当前预算最终版本）
-	        variables.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-assettotal-notice?budgetId="+info.getDataId()+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
-	        //流程驳回时，调用的方法（可能驳回到第一步，也可能驳回到第1+n步
-	        variables.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-assettotal-notice?budgetId="+info.getDataId()+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_REFUSE.getCode());
-	        
-	        workflowVo.setVariables(variables);
-			String rs = systemRemoteClient.startWorkflowByProcessDefinitionId(workflowVo);
-			System.out.println("startwork  rs...."+rs);
-			if("true".equals(rs)) 
+			workflowVo.setProcessInstanceName("集团预算总表审批");
+			workflowVo.setAuthenticatedUserId(info.getCreaterId());
+			workflowVo.setAuthenticatedUserName(info.getCreaterName());
+			//workflowVo.setFunctionId(workflowVo.getFunctionId());
+	    	// 待办业务详情、最终审批同意、最终审批不同意路径
+			workflowVo.setAuditDetailsPath("/budget/budget_main_assettotal?budgetId="+info.getDataId());
+			workflowVo.setAuditAgreeMethod("http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-notice-budgetinfo?budgetId=" + info.getDataId()+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
+			workflowVo.setAuditRejectMethod("http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-notice-budgetinfo?budgetId=" + info.getDataId()+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_REFUSE.getCode());
+
+			Boolean rs = budgetInfoService.startWorkFlow(info,workflowVo);
+			if(rs) 
 			{
 				info.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_START.getCode());
 				budgetInfoService.updateBudgetInfo(info);
@@ -639,6 +620,7 @@ public class BudgetAssetTotalProviderClient
 			e.printStackTrace();
 		}
 		return new Result(false);
+
 	}
 	@ApiOperation(value="资产公司预算-审批流程回调通知",notes="审批结果回调通知")
 	@RequestMapping(value = "/stp-provider/budget/callback-workflow-assettotal-notice")
