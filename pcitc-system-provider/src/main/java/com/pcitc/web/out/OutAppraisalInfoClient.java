@@ -50,7 +50,7 @@ public class OutAppraisalInfoClient {
 	@RequestMapping(value = "/out-provider/appraisal/select-condition/list")
 	public JSONArray getAppraisalInfoSelectCondition(@RequestBody HashMap<String, String> map) {
 		logger.info("==================page getAppraisalInfoSelectCondition===========================" + map);
-		
+		map.put("nd", "2018");
 		List temList = outAppraisalService.getAppraisalInfoSelectCondition(map);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
@@ -66,6 +66,7 @@ public class OutAppraisalInfoClient {
 		} else {
 			retJson.put("appraisalCount", "0");
 		}
+		map.put("nd", "2018");
 		int count = outAppraisalService.getOutAppraisalCount(map);
 		System.out.println("3jsonStr======" + count);
 		retJson.put("appraisalCount", count);
@@ -86,7 +87,7 @@ public class OutAppraisalInfoClient {
 	@RequestMapping(value = "/out-appraisal-provider/result-count", method = RequestMethod.POST)
 	public JSONArray getAppraisalResultCount(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getAppraisalResultCount===========================" + map);
-		
+		map.put("nd", "2018");
 		String nd = map.get("nd");
 		List temList = outAppraisalService.getResultInfo(nd);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
@@ -97,7 +98,7 @@ public class OutAppraisalInfoClient {
 	@RequestMapping(value = "/out-appraisal-provider/type/result-count", method = RequestMethod.POST)
 	public JSONArray getAppraisalResultCountByType(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getAppraisalResultCount===========================" + map);
-		
+		map.put("nd", "2018");
 		String nd = map.get("nd");
 		List temList = outAppraisalService.getResultInfoByType(nd);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
@@ -108,7 +109,7 @@ public class OutAppraisalInfoClient {
 	@RequestMapping(value = "/out-appraisal-provider/zy/result-count", method = RequestMethod.POST)
 	public JSONArray getAppraisalResultCountByZy(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getAppraisalResultCount===========================" + map);
-		
+		map.put("nd", "2018");
 		String nd = map.get("nd");
 		List temList = outAppraisalService.getResultInfoByZy(nd);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
@@ -119,7 +120,7 @@ public class OutAppraisalInfoClient {
 	@RequestMapping(value = "/out-appraisal-provider/institution/cg/info", method = RequestMethod.POST)
 	public JSONArray getAppraisalInfoByInstitute(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getAppraisalInfoByInstitute===========================" + map);
-		
+		map.put("nd", "2018");
 		List temList = outAppraisalService.getAppraisalInfoByInstitute(map);
 		if (!JSON.toJSONString(temList).contains("勘探院")) {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
@@ -202,7 +203,7 @@ public class OutAppraisalInfoClient {
 	@RequestMapping(value = "/out-appraisal-provider/institution/zy/three-year", method = RequestMethod.POST)
 	public JSONArray getAppraisalInfoByZyForThreeYear(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getAppraisalInfoByZyForThreeYear===========================" + map);
-		
+		map.put("nd", "2018");
 		List temList = outAppraisalService.getAppraisalInfoByZyForThreeYear(map);
 		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
@@ -213,7 +214,7 @@ public class OutAppraisalInfoClient {
 	@RequestMapping(value = "/out-appraisal-provider/cglx/cg/info", method = RequestMethod.POST)
 	public JSONArray getAppraisalInfoByCglx(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getAppraisalInfoByCglx===========================" + map);
-		
+		map.put("nd", "2018");
 		List temList = outAppraisalService.getAppraisalInfoByCglx(map);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
@@ -223,7 +224,7 @@ public class OutAppraisalInfoClient {
 	@RequestMapping(value = "/out-appraisal-provider/zy/cg/info", method = RequestMethod.POST)
 	public JSONArray getAppraisalInfoByZy(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getAppraisalInfoByZy===========================" + map);
-		
+		map.put("nd", "2018");
 		List temList = outAppraisalService.getAppraisalInfoByZy(map);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		
@@ -301,6 +302,7 @@ public class OutAppraisalInfoClient {
 	@RequestMapping(value = "/out-appraisal-provider/cg/count/company-type", method = RequestMethod.POST)
 	public JSONArray getAppraisalInfoByCompanyType(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getAppraisalInfoByCompanyType===========================" + map);
+		map.put("nd", "2018");
 		List temList = outAppraisalService.getAppraisalInfoByCompanyType(map);
 		
 		if (!JSON.toJSONString(temList).contains("直属研究院")) {
