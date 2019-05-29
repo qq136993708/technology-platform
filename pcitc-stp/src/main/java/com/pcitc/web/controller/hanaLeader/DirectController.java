@@ -606,9 +606,8 @@ public class DirectController extends BaseController {
 
 	/**
 	 * ==========================================成果数量分析========================
-	 * ============
+	 * ============ 
 	 */
-
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/achievement")
 	public String achievement(HttpServletRequest request) throws Exception {
 

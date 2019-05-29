@@ -47,7 +47,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 			if (cookies == null || cookies.length == 0) {
 				// System.out.println("cookies is null ");
 				// login和index为了开发需要，避开统一身份认证
-				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome")) {
+				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome")) {
 					return false;
 				}    
 				
@@ -66,7 +66,6 @@ public class TokenInterceptor implements HandlerInterceptor {
 				sysUser = JwtTokenUtil.getUserFromTokenByValue(token);
 				
 				// 验证当前url登录人是否有权限查看（url中不会包含ajax请求的）
-				
 				HandlerMethod m = (HandlerMethod) handler;
 				
 				if (m.getBean() instanceof BaseController) {
@@ -81,8 +80,6 @@ public class TokenInterceptor implements HandlerInterceptor {
 					return false;
 				}  
 			}
-			
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

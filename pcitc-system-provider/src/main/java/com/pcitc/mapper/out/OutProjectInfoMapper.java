@@ -77,8 +77,6 @@ public interface OutProjectInfoMapper {
      */
 	public HashMap<String, String> getOutProjectDragonInfoCount(HashMap<String, String> map);
 
-	public List getOutProjectScopeInfo(String nd);
-	
 	/**
      * @param nd
      * 首页查询，直属研究院、分子公司等9个单位，各单位的新开、续建、完结情况

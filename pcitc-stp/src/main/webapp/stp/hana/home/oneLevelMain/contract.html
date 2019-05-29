@@ -21,13 +21,8 @@
         <div class="searchBox">
             <label class="dateInput">
                 <span>年份</span>
-                <input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
+                <input type="text" name="nd" placeholder="请选择年份" title="年份" value="${nd}"  autocomplete="off" class="form-control" id="nd">
             </label>
-            <!--按钮组-->
-            <!--<div class="btnGroup">
-                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"
-                        onclick="search_Event()">查询</button>
-            </div>-->
             <div class="btnGroup">
                 <button id="table_detail_id" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
                 >详情</button>
@@ -155,16 +150,16 @@
             ,laydate = layui.laydate
         form.render(null, 'component-form-group');
         laydate.render({
-        	      elem: '#year',min: '2016-10-14'
+        	      elem: '#nd',min: '2016-10-14'
          	      ,type: 'year'
             ,done: function(value, date, endDate){
                 $(".layui-time").html(date.year);
-                $("#year").val(date.year); 
+                $("#nd").val(date.year); 
                 search_Event();
             }
         });
-        $(".layui-time").html($("#year").val());
-        var nd=$("#year").val();
+        $(".layui-time").html($("#nd").val());
+        var nd=$("#nd").val();
         $("#table_detail_id").click(function () {
         	 var url=　encodeURIComponent("/one_level_main/common_table?nd="+nd+"&ysnd="+nd);
              window.open("/instituteIndex?url="+url);
@@ -173,7 +168,7 @@
         renderTable();
     });
     var v_date=(new Date()).getTime();
-    var nd=$('#year').val();
+    var nd=$('#nd').val();
     function initEchart()
     {
 
@@ -350,7 +345,7 @@
         $("#vdirect_contract_01_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
         $("#vdirect_contract_01_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
         
-        var nd=$('#year').val();
+        var nd=$('#nd').val();
         var series=[];
         $.ajax({
             type:"get",
@@ -422,7 +417,7 @@
                 }
             ]
         };
-        var nd=$('#year').val();
+        var nd=$('#nd').val();
         ajax_getGauge("/one_level_main/contract_01?type=2&nd="+nd+"", myChart2, options);
     }
 
@@ -470,11 +465,11 @@
 
     function renderTable()
     {  
-    	var year=$("#year").val();
+    	var nd=$("#nd").val();
     	var v_date=(new Date()).getTime();
     	table.render({
             elem: '#processdef_table' //表格容器
-            , url:'/one_level_main/contract_05?nd='+year+"&v_date="+v_date+''
+            , url:'/one_level_main/contract_05?nd='+nd+"&v_date="+v_date+''
             , id: 'processdef_table'
             , limit: 15 //每页默认显示的数量
             , height: 270
@@ -497,7 +492,7 @@
                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                    selectRowData=res.data[index-1];
                    //alert(selectRowData.define3+"=="+selectRowData.define2);
-                   window.open("/one_level_main/common_table?define3="+selectRowData.define3+"&projectId=0&nd="+year+"&ysnd="+year+"&define2="+selectRowData.define2);
+                   window.open("/one_level_main/common_table?define3="+selectRowData.define3+"&projectId=0&nd="+nd+"&ysnd="+nd+"&define2="+selectRowData.define2);
                    
                });
                
@@ -536,7 +531,7 @@
                 mark = 1;
             }
         }
-    	 /* var month=$("#year").val();
+    	 /* var month=$("#nd").val();
     	 var ptable=treeGridCom.render({
     	        id:'processdef_table'
     	        ,elem: '#processdef_table'
@@ -574,7 +569,7 @@
     //重大项目
     function renderTable2()
     {
-        var nd=$('#year').val();
+        var nd=$('#nd').val();
         var tableOne=table.render({
             elem: '#processdef_table_02',
             url:'/one_level_main/contract_01_01?nd='+nd+'&type=2',

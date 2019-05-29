@@ -37,12 +37,13 @@ import com.pcitc.base.hana.report.ProjectForMysql;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.utils.HanaUtil;
 
 @Controller
 @RequestMapping(value = "/home_project_ld")
-public class HomeProjectLDController {
+public class HomeProjectLDController extends BaseController{
 	
 	private static final String getProjectByCountBar =      "http://pcitc-zuul/system-proxy/out-project-provider/ld/project-count/project-type";
 	private static final String getProjectByCountPie =      "http://pcitc-zuul/system-proxy/out-project-provider/ld/project-type-count";

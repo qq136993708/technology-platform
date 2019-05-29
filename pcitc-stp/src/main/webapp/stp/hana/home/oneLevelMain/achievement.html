@@ -21,7 +21,7 @@
         <div class="searchBox">
             <label class="dateInput">
                 <span>年份</span>
-                <input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
+                <input type="text" name="nd" placeholder="请选择年份" title="年份" value="${nd}"  autocomplete="off" class="form-control" id="nd">
             </label>
             <!--按钮组-->
            <!-- <div class="btnGroup">
@@ -146,11 +146,11 @@ layui.config({
     table = layui.table;
     form.render(null, 'component-form-group');
     laydate.render({
-    	 elem: '#year',min: '2016-10-14'
+    	 elem: '#nd',min: '2016-10-14'
      	      ,type: 'year'
         ,done: function(value, date, endDate){
             $(".layui-time").html(date.year);
-            $("#year").val(date.year); 
+            $("#nd").val(date.year); 
             search_Event();
         }
     });
@@ -160,7 +160,7 @@ layui.config({
     	$(".duty_gd ul").html("");
 		$.each(data,function(i,dt){
 			//if(i>=6){return false;}//由于太长只显示6年，请前端妥善处理
-			var cs = (dt==$("#year").val())?' class="layui-this"':'';
+			var cs = (dt==$("#nd").val())?' class="layui-this"':'';
 			$(".duty_gd ul").append('<li'+cs+'>'+dt+'</li>');
 		});
 		$("ul > li:first").addClass("layui-this");
@@ -263,7 +263,7 @@ function initEchart()
 {
 
 	var v_date=(new Date()).getTime();
-	nd=$('#year').val();
+	nd=$('#nd').val();
 	var ndstr=nd+"年";
 	var yAxis= [
         {
@@ -349,7 +349,7 @@ function search_Event()
 {
 	initEchart();
 	$.each($("li"),function(index,dt){
-		if($(this).html() == $("#year").val())
+		if($(this).html() == $("#nd").val())
 		{
 			$(this).addClass("layui-this").siblings().removeClass("layui-this");
 		}
@@ -359,7 +359,7 @@ function search_Event()
 //重大项目
 function renderTable()
 {
-	//renderTable($("#year").val());
+	//renderTable($("#nd").val());
 	renderTable($(".layui-this").html());
 	
 }
@@ -367,7 +367,7 @@ function renderTable()
 {
 	
 	
-	 var year=$("#year").val();
+	 var nd=$("#nd").val();
 	 var tableOne=table.render({
 		  elem: '#processdef-table',
 		  url:'/one_level_main/achievement_04',
