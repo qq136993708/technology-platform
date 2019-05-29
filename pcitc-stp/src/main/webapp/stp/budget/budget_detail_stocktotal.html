@@ -119,6 +119,12 @@
 						$(this).find("div").html(parseInt(val));
 					}
 				});
+				$.each(tableData,function(index,dt){
+					var align = dt.level == 0?"left":"right";
+					var no = dt.level == 0?dt.no:"";
+					$(".layui-table-body").find("tr").eq(index).find('td').eq(1).attr("align",align);
+					$(".layui-table-body").find("tr").eq(index).find('td').eq(0).find("div").html(no);
+				});
 			}
 			//数据版本选择
 	        publicMethods.ajaxAsyncPost("/budget/budget-stocktotal-items",{page:1,limit:100,param: {"budget_info_id":dataId}}, function (data) {
