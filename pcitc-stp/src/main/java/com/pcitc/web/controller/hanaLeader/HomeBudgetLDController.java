@@ -62,11 +62,6 @@ public class HomeBudgetLDController extends BaseController{
 	
 	
 
-	@Autowired
-	private HttpHeaders httpHeaders;
-	
-	@Autowired
-	private RestTemplate restTemplate;
 	
 				
 				/**=====================================科研项目二级页面===============================*/

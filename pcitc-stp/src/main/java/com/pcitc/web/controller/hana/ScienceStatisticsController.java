@@ -13,16 +13,12 @@ import org.springframework.web.client.RestTemplate;
 
 import com.pcitc.base.hana.report.CompanyCode;
 import com.pcitc.base.hana.report.ProjectCode;
+import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.HanaUtil;
 
 //科技统计
 @Controller
-public class ScienceStatisticsController {
-	@Autowired
-	private HttpHeaders httpHeaders;
-	
-	@Autowired
-	private RestTemplate restTemplate;
+public class ScienceStatisticsController extends BaseController {
 	private static final String GET_LIST = "http://pcitc-zuul/hana-proxy/hana/decision/get";
 	
 	  //年度科技项目支出决算与投入预算征集表

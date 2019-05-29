@@ -42,12 +42,13 @@ import com.pcitc.base.hana.report.ProjectCode;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.utils.HanaUtil;
 
 @Controller
 @RequestMapping(value = "/home_patent")
-public class HomePatentController {
+public class HomePatentController extends BaseController {
 	
 	private static final String getPatentByCountBar =      "http://pcitc-zuul/hana-proxy/hana/home/getPatentByCountBar";
 	private static final String getPatentByCountPie =      "http://pcitc-zuul/hana-proxy/hana/home/getPatentByCountPie";
@@ -61,11 +62,6 @@ public class HomePatentController {
 	
 	
 	
-	@Autowired
-	private HttpHeaders httpHeaders;
-	
-	@Autowired
-	private RestTemplate restTemplate;
 	
 				
 				/**=====================================专利分析二级页面===============================*/

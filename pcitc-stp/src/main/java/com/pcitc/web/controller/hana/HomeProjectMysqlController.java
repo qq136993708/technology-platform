@@ -52,11 +52,6 @@ public class HomeProjectMysqlController extends BaseController{
 	private static final String	getProjectByDistributeBar	= "http://pcitc-zuul/system-proxy/out-project-provider/project-info/unit";
 	private static final String	getProjectByUnitBar			= "http://pcitc-zuul/system-proxy/out-project-provider/type/unit/list";
 
-	@Autowired
-	private HttpHeaders			httpHeaders;
-
-	@Autowired
-	private RestTemplate		restTemplate;
 
 	/**
 	 * =====================================科研项目二级页面============================

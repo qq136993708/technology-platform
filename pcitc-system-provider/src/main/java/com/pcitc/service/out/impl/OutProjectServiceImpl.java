@@ -678,6 +678,10 @@ public class OutProjectServiceImpl implements OutProjectService {
      * 首页计算新开项目总数
      */
     public HashMap<String, String> getOutProjectInfoCount(HashMap<String, String> map) {
+    	
+    	JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(map));
+		System.out.println(">>>>>>>>>>>>getOutProjectInfoCount参数:" + jsonObject.toString());
+		
         return outProjectInfoMapper.getOutProjectInfoCount(map);
     }
 

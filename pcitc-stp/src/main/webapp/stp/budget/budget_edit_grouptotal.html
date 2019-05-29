@@ -302,25 +302,17 @@
             console.log("表单数据："+formData + '\n' +"表格数据:" + getTableData());
             var lodingMsg = layer.msg('处理中....');
             //保存预算项目
-            publicMethods.ajaxPost('/budget/save-grouptotal-item', data.field, function (data, status) {
+            publicMethods.ajaxAsyncPost('/budget/save-grouptotal-item', data.field, function (data, status) {
                 if (data.success) {
                 	parent.initDataVersion("${budgetInfoId}");
                 	parentInfo = data.data;
-                	//保存前如果预算项中的名称被改变了，则ID将移除
-                	/* $.each(viewObj.tbData,function(index,dt){
-                		if(company_map[dt.displayCode] != dt.displayName){
-                			viewObj.tbData[index].displayCode = null;
-                		}
-                	}); */
                 	//保存预算项目子项
-                	publicMethods.ajaxPost('/budget/save-grouptotal-childitems', {"items":JSON.stringify(viewObj.tbData),"item":JSON.stringify(parentInfo)}, function (dt, status) {
+                	publicMethods.ajaxAsyncPost('/budget/save-grouptotal-childitems', {"items":JSON.stringify(viewObj.tbData),"item":JSON.stringify(parentInfo)}, function (dt, status) {
                 		var index = parent.layer.getFrameIndex(window.name);
     			       	parent.layer.close(index);
                 	});
                 }else{
-                	parent.layer.alert("操作失败请重试", {
-						title : '信息'
-					});
+                	parent.layer.alert(data.message, {title : '信息'});
 					return;
                 }
                 layer.close(lodingMsg);

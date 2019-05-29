@@ -54,10 +54,6 @@ public class HomeAchievementLDController extends BaseController{
 		private static final String get_unit_result_count = "http://pcitc-zuul/system-proxy/out-appraisal-provider/unit/result-count";
 		private static final String get_institution_result_count = "http://pcitc-zuul/system-proxy/out-appraisal-provider/institution/result-count";
 			
-	@Autowired
-	private HttpHeaders httpHeaders;
-	@Autowired
-	private RestTemplate restTemplate;
 	
 
 	

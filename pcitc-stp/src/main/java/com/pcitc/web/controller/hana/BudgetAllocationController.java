@@ -26,16 +26,12 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.PageResult;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.HanaUtil;
 
 //预算分配
 @Controller
-public class BudgetAllocationController {
-	@Autowired
-	private HttpHeaders httpHeaders;
-	
-	@Autowired
-	private RestTemplate restTemplate;
+public class BudgetAllocationController extends BaseController {
 	
 	
 	private static final String jtgszbkjjfys_data = "http://pcitc-zuul/system-proxy/out-decision-provider/budget-proposals/group-company/stp-money";

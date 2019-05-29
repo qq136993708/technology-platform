@@ -49,10 +49,6 @@ public class HomeKnowledgeController extends BaseController{
 		private static final String getUnitTypeList = "http://pcitc-zuul/system-proxy/out-patent-provider/unit-type/apply-agree-list";
 		private static final String getKnowledgeTable = "http://pcitc-zuul/system-proxy/out-patent-provider/type/unit/details";
 		
-	@Autowired
-	private HttpHeaders httpHeaders;
-	@Autowired
-	private RestTemplate restTemplate;
 	
 	
 	
