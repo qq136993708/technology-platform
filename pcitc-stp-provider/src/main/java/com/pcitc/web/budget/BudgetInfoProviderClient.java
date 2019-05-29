@@ -18,6 +18,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
+import com.pcitc.base.common.enums.BudgetExceptionResultEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
@@ -202,5 +203,31 @@ public class BudgetInfoProviderClient
 			info.setAuditStatus(workflow_status);
 		}
 		return budgetInfoService.updateBudgetInfo(info);
+	}
+	@ApiOperation(value="检查可编辑状态",notes="检查预算项是否可编辑，审批中、审批通过、最终版本都不可编辑!")
+	@RequestMapping(value = "/stp-provider/budget/check-budgetinfo-edit/{budgetId}", method = RequestMethod.POST)
+	public Object checkBudgetInfoEdit(@PathVariable("budgetId") String budgetId) 
+	{
+		try 
+		{
+			BudgetInfo info = budgetInfoService.selectBudgetInfo(budgetId);
+			
+			if(BudgetAuditStatusEnum.AUDIT_STATUS_START.getCode().equals(info.getAuditStatus())) 
+			{
+				return BudgetExceptionResultEnum.ERROR_FLOWING.getResult();
+			}
+			if(BudgetAuditStatusEnum.AUDIT_STATUS_PASS.getCode().equals(info.getAuditStatus())) 
+			{
+				return BudgetExceptionResultEnum.ERROR_FLOWEND.getResult();
+			}
+			if(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode().equals(info.getAuditStatus())) 
+			{
+				return BudgetExceptionResultEnum.ERROR_FLOWRELASE.getResult();
+			}
+		} catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		return new Result(true);
 	}
 }

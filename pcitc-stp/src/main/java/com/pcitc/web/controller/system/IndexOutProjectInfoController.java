@@ -80,14 +80,31 @@ public class IndexOutProjectInfoController extends BaseController {
      * 参数查询
      */
     private static final String LISTPARAM = "http://pcitc-zuul/system-proxy/indexoutprojectinfo-provider/indexoutprojectinfo/indexoutprojectinfo_list_param";
+
+    private static final String LISTTypeIndexCode = "http://pcitc-zuul/system-proxy/indexoutprojectinfo-provider/indexoutprojectinfo/selectByExampleByTypeIndexCode";
     /**
      * 分页查询
      */
     private static final String LISTPAGE = "http://pcitc-zuul/system-proxy/indexoutprojectinfo-provider/indexoutprojectinfo/indexoutprojectinfo-page";
+    private static final String LISTPAGETree = "http://pcitc-zuul/system-proxy/indexoutprojectinfo-provider/indexoutprojectinfo/indexoutprojectinfo-page-tree";
     /**
      * 保存
      */
     private static final String SAVE = "http://pcitc-zuul/system-proxy/indexoutprojectinfo-provider/indexoutprojectinfo/save_indexoutprojectinfo";
+
+
+
+//    selectByExampleByTypeIndexCode
+    @RequestMapping(value = "/indexOutProjectInfo/selectByExampleByTypeIndexCode", method = RequestMethod.POST)
+    @ResponseBody
+    public Object selectByExampleByTypeIndexCode() {
+
+        JSONObject object = new JSONObject();
+        object.put("typeIndex",request.getParameter("typeIndex").toString());
+        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LISTTypeIndexCode, HttpMethod.POST, new HttpEntity<JSONObject>(object), JSONObject.class);
+        JSONObject retJson = responseEntity.getBody();
+        return JSON.toJSON(retJson).toString();
+    }
 
     /**
      * 首页-科研项目-查询列表
@@ -129,6 +146,15 @@ public class IndexOutProjectInfoController extends BaseController {
     public Object getTableData(@ModelAttribute("param") LayuiTableParam param) {
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE, HttpMethod.POST, entity, LayuiTableData.class);
+        LayuiTableData data = responseEntity.getBody();
+        return JSON.toJSON(data).toString();
+    }
+
+    @RequestMapping(value = "/indexOutProjectInfo/getTableDataTree", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getTableDataTree(@ModelAttribute("param") LayuiTableParam param) {
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGETree, HttpMethod.POST, entity, LayuiTableData.class);
         LayuiTableData data = responseEntity.getBody();
         return JSON.toJSON(data).toString();
     }

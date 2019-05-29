@@ -42,6 +42,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
+import com.pcitc.base.common.enums.BudgetExceptionResultEnum;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.util.DateUtil;
@@ -53,7 +54,7 @@ public class BudgetGroupTotalController extends BaseController {
 
 	private static final String BUDGET_GROUPTOTAL_TABLE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-grouptotal-info-table";
 	private static final String BUDGET_GROUPTOTAL_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-grouptotal-info-list";	
-	private static final String BUDGET_GROUPTOTAL_INFO = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-grouptotal-info";	
+	
 	private static final String BUDGET_GROUPTOTAL_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-grouptotal-items";
 	private static final String BUDGET_GROUPTOTAL_CREATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-create-blank-grouptotal";
 	private static final String BUDGET_GROUPTOTAL_CREATE_BYTEMPLATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-create-template-grouptotal";
@@ -74,6 +75,8 @@ public class BudgetGroupTotalController extends BaseController {
 	
 	private static final String BUDGET_INFO_UPDATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-update";
 	private static final String BUDGET_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/budget/start-budgetinfo-activity/";
+	private static final String BUDGET_INFO_GET = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-get/";
+	private static final String BUDGET_INFO_EDIT_CHECK = "http://pcitc-zuul/stp-proxy/stp-provider/budget/check-budgetinfo-edit/";
 	
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_main_grouptotal")
@@ -194,12 +197,18 @@ public class BudgetGroupTotalController extends BaseController {
 	@ResponseBody
 	public Object saveBudgetGroupTotalItem(@ModelAttribute("item") BudgetGroupTotal item,HttpServletRequest request) throws IOException 
 	{
-		System.out.println(JSON.toJSONString(item));
+		
+		//检查是否可编辑
+		Result result = this.restTemplate.exchange(BUDGET_INFO_EDIT_CHECK+item.getBudgetInfoId(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Result.class).getBody();
+		if(!result.isSuccess()) {
+			return result;
+		}
+		
 		ResponseEntity<BudgetGroupTotal> rs = this.restTemplate.exchange(BUDGET_GROUPTOTAL_SAVE_ITEM, HttpMethod.POST, new HttpEntity<BudgetGroupTotal>(item, this.httpHeaders), BudgetGroupTotal.class);
 		if (rs.getBody() != null) {
 			return new Result(true,rs.getBody());
 		} else {
-			return new Result(false);
+			return BudgetExceptionResultEnum.ERROR;
 		}
 	}
 	@RequestMapping(value = "/budget/save-grouptotal-items", method = RequestMethod.POST)
@@ -208,15 +217,21 @@ public class BudgetGroupTotalController extends BaseController {
 			@ModelAttribute("items") String items,
 			@ModelAttribute("info") String info,HttpServletRequest request) throws IOException 
 	{
-		List<BudgetGroupTotal> grouplist = JSON.parseArray(items, BudgetGroupTotal.class);
 		BudgetInfo budget = JSON.toJavaObject(JSON.parseObject(info), BudgetInfo.class);
+		//检查是否可编辑
+		Result result = this.restTemplate.exchange(BUDGET_INFO_EDIT_CHECK+budget.getDataId(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Result.class).getBody();
+		if(!result.isSuccess()) {
+			return result;
+		}
+		
+		List<BudgetGroupTotal> grouplist = JSON.parseArray(items, BudgetGroupTotal.class);
 		ResponseEntity<Integer> infors = this.restTemplate.exchange(BUDGET_INFO_UPDATE, HttpMethod.POST, new HttpEntity<Object>(budget, this.httpHeaders), Integer.class);
 		ResponseEntity<Integer> grouprs = this.restTemplate.exchange(BUDGET_GROUPTOTAL_SAVE_ITEMS, HttpMethod.POST, new HttpEntity<Object>(grouplist, this.httpHeaders), Integer.class);
 		if (infors.getBody() >= 0 && grouprs.getBody() >= 0) 
 		{
 			return new Result(true);
 		} else {
-			return new Result(false);
+			return BudgetExceptionResultEnum.ERROR;
 		}
 	}
 	@RequestMapping(value = "/budget/save-grouptotal-childitems", method = RequestMethod.POST)
@@ -256,6 +271,12 @@ public class BudgetGroupTotalController extends BaseController {
 	@ResponseBody
 	public Object deleteBudgetGroupItem(@PathVariable("dataId") String dataId,HttpServletRequest request) throws IOException 
 	{
+		//检查是否可删除
+		Map<?,?> rsmap = this.restTemplate.exchange(BUDGET_GROUPTOTAL_GET_ITEM+dataId, HttpMethod.POST, new HttpEntity<Object>(dataId, this.httpHeaders), Map.class).getBody();
+		Result result = this.restTemplate.exchange(BUDGET_INFO_EDIT_CHECK+rsmap.get("budgetInfoId"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Result.class).getBody();
+		if(!result.isSuccess()) {
+			return result;
+		}
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_DEL_ITEMS+dataId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
 		if (responseEntity.getBody() == 0) {
 			return new Result(false);
@@ -359,7 +380,7 @@ public class BudgetGroupTotalController extends BaseController {
 		LayuiTableData tabldata = responseEntity.getBody();
 		//System.out.println(JSON.toJSONString(tabldata));
 		
-		ResponseEntity<BudgetInfo> rs = this.restTemplate.exchange(BUDGET_GROUPTOTAL_INFO, HttpMethod.POST, new HttpEntity<String>(dataId, this.httpHeaders), BudgetInfo.class);
+		ResponseEntity<BudgetInfo> rs = this.restTemplate.exchange(BUDGET_INFO_GET+dataId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), BudgetInfo.class);
 		BudgetInfo info = rs.getBody();
 		
 		Map<String,String> parammap = new HashMap<String,String>();

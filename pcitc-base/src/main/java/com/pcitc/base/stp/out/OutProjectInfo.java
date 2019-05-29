@@ -1,5 +1,6 @@
 package com.pcitc.base.stp.out;
 
+import java.beans.Transient;
 import java.util.Date;
 
 public class OutProjectInfo {
@@ -158,6 +159,16 @@ public class OutProjectInfo {
     private String define18;
 
     private String define19;
+
+    public String getLeaderFlag() {
+        return leaderFlag;
+    }
+
+    public void setLeaderFlag(String leaderFlag) {
+        this.leaderFlag = leaderFlag;
+    }
+
+    private String leaderFlag;
 
     public String getDataId() {
         return dataId;
