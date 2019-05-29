@@ -49,16 +49,19 @@ public class TokenInterceptor implements HandlerInterceptor {
 				// login和index为了开发需要，避开统一身份认证
 				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome")) {
 					return false;
-				}    
+				}
+				
+				System.out.println("特殊路径--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
 				
 			} else {
-				//System.out.println("cookies is not null ");
+				System.out.println("1cookies is not null --------------------"+token);
 				for (Cookie c : cookies) {
 					if ("token".equalsIgnoreCase(c.getName()) && !StringUtils.isBlank(c.getValue())) {
 						token = c.getValue();
 						break;
 					}
 				}
+				System.out.println("2cookies is not null --------------------"+token);
 			}
 			if (token != null) {
 				System.out.println("token is not null ");
@@ -74,11 +77,12 @@ public class TokenInterceptor implements HandlerInterceptor {
 					baerInfo.setUserProfile(sysUser);
 				}
 			} else {
-				// System.out.println("token is null ");
+				System.out.println("token is null ");
 				// login和index为了开发需要，避开统一身份认证
 				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome")) {
 					return false;
 				}  
+				System.out.println("------特殊路径--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
