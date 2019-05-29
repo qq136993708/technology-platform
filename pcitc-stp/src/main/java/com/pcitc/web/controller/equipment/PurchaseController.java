@@ -711,7 +711,7 @@ public class PurchaseController extends BaseController{
         return resultsDate;
     }
     /* =================================生成word文档  START================================*/
-    //生成采购单模板
+    //生成采购单word模板
     @RequestMapping(value = "/sre-purchase/createWord/{id}", method = RequestMethod.GET)
     @ResponseBody
     public String createWord(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception
@@ -728,7 +728,7 @@ public class PurchaseController extends BaseController{
         }
         return null;
     }
-    //生成word文档--任务书签字盖章页
+    //生成采购单word数据
     private String  createPurchaseWord(String id,String ftlName, HttpServletResponse response)
     {
 
