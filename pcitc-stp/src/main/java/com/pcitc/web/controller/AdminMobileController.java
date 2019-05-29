@@ -1,6 +1,7 @@
 package com.pcitc.web.controller;
 
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.web.common.BaseController;
@@ -34,7 +36,7 @@ public class AdminMobileController extends BaseController {
 
 	// 访问zuul中的登录方法
 	private static final String	LOGIN_URL		= "http://pcitc-zuul/auth/login";
-	private static final String	GET_USER_INFO	= "http://pcitc-zuul/system-proxy/user-provider/user/get-user-byname/";
+	private static final String	GET_USER_INFO	= "http://pcitc-zuul/system-proxy/user-provider/user/info";
 
 	/**
 	 * 移动本地测试方法
@@ -75,13 +77,27 @@ public class AdminMobileController extends BaseController {
 
 		String jsonString = JSON.toJSONString(keymap);
 		System.out.println("jsonString =========="+jsonString);
+		
+		// 通过统一身份账号，查询是否有这个用户
+		JSONObject userPara = new JSONObject();
+		userPara.put("userExtend", username);
+		JSONArray jSONArray = restTemplate.exchange(GET_USER_INFO, HttpMethod.POST, new HttpEntity<String>(userPara.toString(), httpHeaders), JSONArray.class).getBody();
+	    List<SysUser> userList = JSONObject.parseArray(jSONArray.toJSONString(), SysUser.class);
+	    
+	    SysUser extUser = new SysUser();
+	    if (userList != null && userList.size() > 0) {
+	    	extUser = userList.get(0);
+	    } else {
+	    	System.out.println("indexMobileStp----没有此用户");
+			return "no_access";
+	    }
 		// 重新登录，覆盖原cookies。cookies中信息都是后续要用的
 		httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
 
 		// 直接登录，默认密码
-		requestBody.add("username", username);
-		requestBody.add("password", "2cbb78c76ed2edecca69b7d6c0e0e578");
+		requestBody.add("username", extUser.getUserName());
+		requestBody.add("password", extUser.getUserPassword());
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
 
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LOGIN_URL, HttpMethod.POST, entity, JSONObject.class);

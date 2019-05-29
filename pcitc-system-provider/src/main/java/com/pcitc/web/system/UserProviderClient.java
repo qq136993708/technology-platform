@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
@@ -213,7 +214,7 @@ public class UserProviderClient {
 	
 	@ApiOperation(value="按条件查询用户信息",notes="extend是统一身份账号")
 	@RequestMapping(value = "/user-provider/user/info")
-	public List<SysUser> selectUserInfo(@RequestBody String jsonStr) throws Exception {
+	public JSONArray selectUserInfo(@RequestBody String jsonStr) throws Exception {
 		JSONObject json = JSONObject.parseObject(jsonStr);
 		
 		SysUserExample example = new SysUserExample();
@@ -223,7 +224,8 @@ public class UserProviderClient {
 			uc.andUserExtendEqualTo(json.getString("userExtend"));
 		}
 		List<SysUser> userList = userService.selectByExample(example);
-		return userList;
+		JSONArray jsonArray = JSONArray.parseArray(JSON.toJSONString(userList));
+		return jsonArray;
 	}
 	
 }
