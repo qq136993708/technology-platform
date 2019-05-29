@@ -55,11 +55,6 @@ public class HomeBudgetMysqlController extends BaseController{
 	private static final String	getBudgetByDistributeBar	= "http://pcitc-zuul/system-proxy/out-project-provider/project-money/institute";
 	private static final String	getBudgetTable				= "http://pcitc-zuul/hana-proxy/hana/home/getBudgetTable";
 
-	@Autowired
-	private HttpHeaders			httpHeaders;
-
-	@Autowired
-	private RestTemplate		restTemplate;
 
 	/**
 	 * =====================================科研项目二级页面============================

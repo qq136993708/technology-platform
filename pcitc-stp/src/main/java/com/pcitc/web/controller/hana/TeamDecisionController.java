@@ -9,14 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 
+import com.pcitc.web.common.BaseController;
+
 //团队决策
 @Controller
-public class TeamDecisionController {
-	@Autowired
-	private HttpHeaders httpHeaders;
-	
-	@Autowired
-	private RestTemplate restTemplate;
+public class TeamDecisionController extends BaseController {
 	
 	private static final String GET_LIST = "http://pcitc-zuul/hana-proxy/hana/decision/get";
 	

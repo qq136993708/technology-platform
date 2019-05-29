@@ -37,12 +37,13 @@ import com.pcitc.base.hana.report.Knowledge;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.utils.HanaUtil;
 
 @Controller
 @RequestMapping(value = "/home_knowledge_ld")
-public class HomeKnowledgeLDController {
+public class HomeKnowledgeLDController extends BaseController{
 	
 	//知识产权
 		private static final String getKnowledgeTypeList = "http://pcitc-zuul/system-proxy/out-patent-provider/type/apply-agree-list";
@@ -59,10 +60,6 @@ public class HomeKnowledgeLDController {
 		
 		
 		
-	@Autowired
-	private HttpHeaders httpHeaders;
-	@Autowired
-	private RestTemplate restTemplate;
 	
 
 

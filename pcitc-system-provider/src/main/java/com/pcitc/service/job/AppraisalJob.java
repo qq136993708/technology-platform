@@ -116,8 +116,6 @@ public class AppraisalJob implements Job, Serializable {
 						
 						insertData.add(oa);
 					}
-					
-					
 				}
 
 				outAppraisalService.insertAppraisalData(insertData, "");

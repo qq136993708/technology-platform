@@ -55,11 +55,6 @@ public class HomeDeviceMsqlController extends BaseController{
 	private static final String	getDeviceByUnitCricle		= "http://pcitc-zuul/system-proxy/out-project-provider/project-count/zb/unit/tree";
 	private static final String	getDeviceByDistributeBar	= "http://pcitc-zuul/system-proxy/out-project-provider/project-info/zb/unit";
 
-	@Autowired
-	private HttpHeaders			httpHeaders;
-
-	@Autowired
-	private RestTemplate		restTemplate;
 
 	/**
 	 * =====================================科研项目二级页面============================

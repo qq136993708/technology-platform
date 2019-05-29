@@ -54,12 +54,6 @@ public class HomeProjectDirectController extends BaseController{
 	private static final String getProjectByUnitBar =       "http://pcitc-zuul/system-proxy/out-project-provider/ld/type/unit/list";
 
 	
-	@Autowired
-	private HttpHeaders httpHeaders;
-	
-	@Autowired
-	private RestTemplate restTemplate;
-	
 				
 				/**=====================================科研项目二级页面===============================*/
 				

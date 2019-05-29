@@ -86,10 +86,6 @@ public class DirectController extends BaseController {
 
 	private static final String	topic_equipment_count	= "http://pcitc-zuul/system-proxy/out-provider/kyzb/project-count";
 
-	@Autowired
-	private HttpHeaders			httpHeaders;
-	@Autowired
-	private RestTemplate		restTemplate;
 
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/topic_equipment_count")
 	@ResponseBody
