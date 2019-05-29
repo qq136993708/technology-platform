@@ -106,7 +106,7 @@ public class BudgetGroupTotalProviderClient
 		}
 		return data;
 	}
-	@ApiOperation(value="集团公司预算-预算表信息检索",notes="检索预算表信息")
+	/*@ApiOperation(value="集团公司预算-预算表信息检索",notes="检索预算表信息")
 	@RequestMapping(value = "/stp-provider/budget/budget-grouptotal-info", method = RequestMethod.POST)
 	public Object selectGroupTotalInfo(@RequestBody String budgetInfoId) 
 	{
@@ -120,7 +120,7 @@ public class BudgetGroupTotalProviderClient
 			e.printStackTrace();
 		}
 		return info;
-	}
+	}*/
 	
 	@ApiOperation(value="集团公司预算-预算明细检索",notes="检索集团预算表明细信息（分页列表）。")
 	@RequestMapping(value = "/stp-provider/budget/budget-grouptotal-items", method = RequestMethod.POST)
@@ -237,10 +237,7 @@ public class BudgetGroupTotalProviderClient
 		}
 		return rsdata;
 	}
-	
-	
-	
-	@ApiOperation(value="集团公司预算-持久化预算项",notes="添加或更新集团预算表项目。")
+	/*@ApiOperation(value="集团公司预算-持久化预算项",notes="添加或更新集团预算表项目。")
 	@RequestMapping(value = "/stp-provider/budget/budget-persistence-grouptotal-item", method = RequestMethod.POST)
 	public Object addOrUpdateGroupTotalItem(@RequestBody BudgetGroupTotal budgetGroupTotal) 
 	{
@@ -255,7 +252,7 @@ public class BudgetGroupTotalProviderClient
 			e.printStackTrace();
 		}
 		return rs;
-	}
+	}*/
 	@ApiOperation(value="集团公司预算-创建集团年度预算",notes="创建集团年度预算空白预算表")
 	@RequestMapping(value = "/stp-provider/budget/budget-create-blank-grouptotal", method = RequestMethod.POST)
 	public Object createOrUpdateBudgetInfo(@RequestBody BudgetInfo info) 
