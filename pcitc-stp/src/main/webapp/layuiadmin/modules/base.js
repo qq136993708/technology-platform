@@ -553,9 +553,9 @@ function openBaseWin(title,temUrl)
         type: 2,
         fixed: false,
         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-        maxmin: false,
+        maxmin: true,
         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-        area: ['90%', '80%'],
+        area: ['70%', '90%'],
         content:  temUrl
     });
 }
@@ -574,10 +574,9 @@ function openFullWin(title,temUrl)
 	    ,type: 2
 	    ,fixed: false
 	    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-	    ,maxmin: false
-	    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-	    ,area: ['100%', '100%']
-	    ,content:  temUrl
+        ,maxmin : true
+        ,area : [ '70%', '90%' ]
+    ,content:  temUrl
 	});
 }
 
