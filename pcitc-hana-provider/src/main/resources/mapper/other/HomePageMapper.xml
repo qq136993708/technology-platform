@@ -1201,7 +1201,7 @@
 		     '${month}'),
 		     'PLACEHOLDER' = ('$$PR_GSDM$$',
 		     '${companyCode}')) 
-		     where "G0SBFL"= '${type}'  
+		     <if test="type != null and type !=''">  where "G0SBFL"= '${type}' </if>   
 		    GROUP BY "G0ZCXLBM",
 		     "G0ZCXLMS",
 		     "G0GSJC",
@@ -1223,6 +1223,7 @@
 		order by "G0ZCXLMS" desc,
 		    "G0GSOR" 
      </sql>
+     
      
      <select id="get_home_KYZB_detail" resultMap="H1AM_KY_SY_1001_17ResultMap" parameterType="java.util.Map" > 
 		 <include refid="SELECT_KYZB_detail"/>
@@ -1252,7 +1253,7 @@
 				     '${month}'),
 				     'PLACEHOLDER' = ('$$PR_GSDM$$',
 				     '${companyCode}')) 
-				     where "G0SBFL"= '${type}'  
+				      <if test="type != null and type !=''">  where "G0SBFL"= '${type}' </if>   
 				    GROUP BY "G0ZCXLBM",
 				     "G0ZCXLMS",
 				     "G0GSJC",
