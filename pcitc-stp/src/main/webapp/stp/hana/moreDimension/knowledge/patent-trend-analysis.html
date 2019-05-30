@@ -22,19 +22,17 @@
 	<div class="layui-fluid">
 		<div class="layui-main-oil">
 			<div class="searchBox">
-				<!--查询条件-->
-				<label class="dateInput"> <span>年份</span> <input type="text"
-					name="nd"  value="${nd}"
-					autocomplete="off" class="form-control" id="nd">
-				</label>
+			
+			<label class="dateInput">
+                <span>年份</span>
+                <input type="text" name="nd"  title="月份" value="${nd}"  id="nd">
+                <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
+            </label>
+            
+            
 				<div class="layui-input-inline">
              </div>
 				<!--按钮组-->
-				<div class="btnGroup">
-					<button
-						class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"
-						onclick="search_Event()" data-type="searchEvent">查询</button>
-				</div>
 				<span class="unitBox">单位：万元</span>
 			</div>
 			<div class="layui-row layui-col-space10">
@@ -126,20 +124,21 @@
 		}).use(['jquery', 'form', 'laydate', 'table', 'laypage'], function(){
 			$ = layui.jquery, table = layui.table, form = layui.form, laydate = layui.laydate
 			form.render(null, 'component-form-group');
-			laydate.render(
-			{
-				elem : '#nd',
-				format : 'yyyy'
-			});
+			laydate.render({
+	        	 elem: '#nd' ,type: 'year'
+	            ,done: function(value, date, endDate){
+	                $(".layui-time").html(date.year);
+	                $("#nd").val(date.year); 
+	                search_Event();
+	            }
+	        });
 			$(".layui-time").html(nd + "年" );
 		});
 
 		function init()
 		{
 			
-			//init_companyCode(functionId);
 			var v_date = (new Date()).getTime();
-			$(".layui-time").html(nd + "年" );
 			var yAxis = [
 			{
 				type : 'value',
@@ -152,12 +151,12 @@
 					formatter : '{value}'
 				}
 			}];
-			var chart1_url = "/more-dimension/patent_trend_analysis_01?month=" + nd + "&v_date=" + v_date ;
+			var chart1_url = "/more-dimension/patent_trend_analysis_01?nd=" + nd + "&v_date=" + v_date ;
 			var echart1 = load_mult_bar(chart1_url, "chart1", "", "", function(data){
 				console.log(data);
 			});
 
-			var chart2_url = "/more-dimension/patent_trend_analysis_03?month=" + nd + "&v_date=" + v_date ;
+			var chart2_url = "/more-dimension/patent_trend_analysis_03?nd=" + nd + "&v_date=" + v_date ;
 			var echart2 = loadPie(chart2_url, "main3", "", '');
 			echart2.on('click', function(params)
 			{
@@ -167,7 +166,7 @@
 
 			});
 
-			var chart4_url = "/more-dimension/patent_trend_analysis_institute?month=" + nd + "&v_date=" + v_date ;
+			var chart4_url = "/more-dimension/patent_trend_analysis_institute?nd=" + nd + "&v_date=" + v_date ;
 			var echart4 = loadPie(chart4_url, "main4", "", '');
 			echart4.on('click', function(params)
 			{
@@ -198,14 +197,19 @@
 		    
 		    var v_date=(new Date()).getTime();
 			var nd=$('#nd').val();
+			
+			
+			
+			
 			var chart1_url="/direct/getKnowledgeBar_01?type=1&nd="+nd+"&v_date="+v_date;
-			var echart1=load_mutl_bar_down(chart1_url,"knowldege_chart1","","",yAxist,35);
+			var echart1=load_mutl_bar_down(chart1_url,"knowldege_chart1","","",yAxis,35);
 			echart1.on('click', function (params) {
 				var xName=params.name;
 				var legentName=params.seriesName;
-				window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
 		          
 		    });
+			
+			
 			
 
 		}
