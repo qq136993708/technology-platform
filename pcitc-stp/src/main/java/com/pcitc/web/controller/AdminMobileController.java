@@ -1,6 +1,9 @@
 package com.pcitc.web.controller;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,12 +24,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.JsonObject;
 import com.pcitc.base.system.SysUser;
+import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.MD5Util;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.utils.DES3Utils;
 import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
+import com.pcitc.web.utils.RestfulHttpClient;
 
 /**
  * @author zhf 系统登录成功后的首页
@@ -59,20 +66,15 @@ public class AdminMobileController extends BaseController {
 	}
 
 	/**
-	 * 科技平台统一身份认证移动首页
+	 * 科技平台统一身份认证移动首页 作废方法，短token方式
 	 * 
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/mobile/index")
-	public String indexMobileStp(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/mobile-tem/index")
+	public String indexMobileStpTem(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("1进入indexMobileStp....");
-		System.out.println("2进入indexMobileStp...."+request.getParameter("Identity_Key"));
-		System.out.println("3进入indexMobileStp...."+request.getParameter("oauth_token"));
-		System.out.println("4进入indexMobileStp...."+request.getParameter("Oauth_Token"));
-		System.out.println("5进入indexMobileStp...."+request.getParameter("Oauth_token"));
 		String token = request.getParameter("Identity_Token");
 		DES3Utils desUtils = new DES3Utils("01qaz2wsx3edc4rfv5tgb6yhn");
-		System.out.println("6进入indexMobileStp...."+getRemoteHost(request));
 		String key1 = desUtils.des3Decode0(token);
 		Map keymap = desUtils.getAcountByToken0(key1);
 		String username = keymap.get("username").toString();
@@ -80,20 +82,153 @@ public class AdminMobileController extends BaseController {
 
 		String jsonString = JSON.toJSONString(keymap);
 		System.out.println("jsonString =========="+jsonString);
-		
+
 		// 通过统一身份账号，查询是否有这个用户
 		JSONObject userPara = new JSONObject();
 		userPara.put("userExtend", username);
 		JSONArray jSONArray = restTemplate.exchange(GET_USER_INFO, HttpMethod.POST, new HttpEntity<String>(userPara.toString(), httpHeaders), JSONArray.class).getBody();
-	    List<SysUser> userList = JSONObject.parseArray(jSONArray.toJSONString(), SysUser.class);
-	    
-	    SysUser extUser = new SysUser();
-	    if (userList != null && userList.size() > 0) {
-	    	extUser = userList.get(0);
-	    } else {
-	    	System.out.println("indexMobileStp----没有此用户");
+		List<SysUser> userList = JSONObject.parseArray(jSONArray.toJSONString(), SysUser.class);
+
+		SysUser extUser = new SysUser();
+		if (userList!=null&&userList.size()>0) {
+			extUser = userList.get(0);
+		} else {
+			System.out.println("indexMobileStp----没有此用户");
 			return "no_access";
-	    }
+		}
+		// 重新登录，覆盖原cookies。cookies中信息都是后续要用的
+		httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
+
+		// 直接登录，默认密码
+		requestBody.add("username", extUser.getUserName());
+		requestBody.add("password", extUser.getUserPassword());
+		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
+
+		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LOGIN_URL, HttpMethod.POST, entity, JSONObject.class);
+		JSONObject retJson = responseEntity.getBody();
+		if (retJson==null||retJson.get("token")==null) {
+			// 返回权限不足页面
+			System.out.println("indexMobileStp----缺少权限");
+			return "no_access";
+		}
+		System.out.println("-----indexStp----------login token:"+retJson.get("token"));
+
+		Cookie cookie = new Cookie("token", retJson.getString("token"));
+		cookie.setMaxAge(1*60*60);// 设置有效期为1天
+		cookie.setPath("/");
+		response.addCookie(cookie);
+
+		// 获取用户基本信息（token）
+		SysUser tokenUser = JwtTokenUtil.getUserFromTokenByValue(retJson.get("token").toString());
+
+		String unitPathId = tokenUser.getUnitPath();
+		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
+		request.setAttribute("isKJBPerson", isKJBPerson);
+
+		return "/mobile/index";
+	}
+
+	/**
+	 * 科技平台统一身份认证移动首页
+	 * 
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/mobile/index")
+	public String indexMobileStp(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("1进入indexMobileStp....");
+		System.out.println("3进入indexMobileStp...."+request.getParameter("oauth_token"));
+		String oauthToken = request.getParameter("oauth_token");
+
+		String url = "https://oauth.siam.sinopec.com/oauth/interface/token";
+		// 创建一个请求客户端
+		RestfulHttpClient.HttpClient client = RestfulHttpClient.getClient(url);
+		client.post();
+
+		Map<String, String> headerMap = new HashMap<String, String>();
+		headerMap.put("Content-Type", "application/json");
+
+		// 设置全局默认请求头，每次请求都会带上这些请求头
+		RestfulHttpClient.setDefaultHeaders(headerMap);
+		// 添加多个参数请求头
+		client.addHeaders(headerMap);
+
+		JsonObject jo = new JsonObject();
+		jo.addProperty("client_id", "");
+		jo.addProperty("client_secret", "");
+		jo.addProperty("refresh_token", oauthToken);
+		jo.addProperty("grant_type", "refresh_token");
+		jo.addProperty("client_ip", getRemoteHost(request));
+
+		// 添加请求体
+		client.body(jo.toString());
+
+		RestfulHttpClient.HttpResponse authResponse = client.request();
+
+		boolean testFlag = false;
+		String uid = "";
+		System.out.println("返回--------");
+		// 根据状态码判断请求是否成功
+		if (authResponse.getCode()==200) {
+			// 获取响应内容
+			String result = authResponse.getContent();
+			System.out.println("result返回--------"+result);
+			JSONObject json = JSONObject.parseObject(result);
+			if (json!=null&&json.get("result")!=null) {
+				String access_token = json.getString("access_token");
+				String refresh_token = json.getString("refresh_token");
+				String expires_in = json.getString("expires_in");
+
+				// 获取用户信息
+				String userUrl = "https://oauth.siam.sinopec.com/oauth/interface/getUserInfo";
+				// 创建一个请求客户端
+				RestfulHttpClient.HttpClient userClient = RestfulHttpClient.getClient(userUrl);
+				userClient.post();
+				// 添加多个参数请求头
+				userClient.addHeaders(headerMap);
+				
+				JsonObject userJs = new JsonObject();
+				userJs.addProperty("access_token", access_token);
+				userJs.addProperty("client_id", "");
+				userJs.addProperty("client_secret", "");
+
+				userClient.body(userJs.toString());
+
+				RestfulHttpClient.HttpResponse userResponse = userClient.request();
+				if (userResponse.getCode()==200) {
+					// 获取响应内容
+					String userResult = userResponse.getContent();
+					System.out.println("userResult返回--------"+userResult);
+					JSONObject userJson = JSONObject.parseObject(userResult);
+					if (userJson!=null&&userJson.get("result")!=null) {
+						uid = userJson.getString("uid");
+						System.out.println("uid返回--------"+uid);
+						testFlag = true;
+					}
+				}
+			}
+		}
+
+		if (!testFlag) {
+			// 没有权限，或者错误
+			System.out.println("indexMobileStp----没有此用户");
+			return "no_access";
+		}
+
+		// 通过统一身份账号，查询是否有这个用户
+		JSONObject userPara = new JSONObject();
+		userPara.put("userExtend", uid);
+		JSONArray jSONArray = restTemplate.exchange(GET_USER_INFO, HttpMethod.POST, new HttpEntity<String>(userPara.toString(), httpHeaders), JSONArray.class).getBody();
+		List<SysUser> userList = JSONObject.parseArray(jSONArray.toJSONString(), SysUser.class);
+
+		SysUser extUser = new SysUser();
+		if (userList!=null&&userList.size()>0) {
+			extUser = userList.get(0);
+		} else {
+			System.out.println("indexMobileStp----没有此用户");
+			return "no_access";
+		}
+
 		// 重新登录，覆盖原cookies。cookies中信息都是后续要用的
 		httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
@@ -166,16 +301,16 @@ public class AdminMobileController extends BaseController {
 		response.addCookie(c);
 		return "true";
 	}
-	
+
 	public String getRemoteHost(javax.servlet.http.HttpServletRequest request) {
 		String ip = request.getHeader("x-forwarded-for");
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+		if (ip==null||ip.length()==0||"unknown".equalsIgnoreCase(ip)) {
 			ip = request.getHeader("Proxy-Client-IP");
 		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+		if (ip==null||ip.length()==0||"unknown".equalsIgnoreCase(ip)) {
 			ip = request.getHeader("WL-Proxy-Client-IP");
 		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+		if (ip==null||ip.length()==0||"unknown".equalsIgnoreCase(ip)) {
 			ip = request.getRemoteAddr();
 		}
 		return ip.equals("0:0:0:0:0:0:0:1") ? "127.0.0.1" : ip;
