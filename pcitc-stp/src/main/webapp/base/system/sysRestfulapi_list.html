@@ -68,7 +68,7 @@
 	            },
 	            cols: [[
 					{type:'checkbox',event: 'changeEvents'},
-	                {title:'序号', type:'numbers'},
+	                {title:'序号', type:'numbers' ,width : 55},
 	                {field:'restfulapiUser',   title:'名称',    width: '12%', style:'cursor: pointer;',sort: true},
 	                {field:'createUser',      title:'创建人',   width: '10%', style:'cursor: pointer;',sort: true},
 	                {field:'createDate',        title:'创建时间',    width: '12%', style:'cursor: pointer;',sort: true},
@@ -106,13 +106,13 @@
                 layer.open({
                     title:'新增',
                     skin: 'layui-layer-lan',
-                    shadeClose: true,
+                    shadeClose: false,
                     type: 2,
                     fixed: false,
                     //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                     maxmin: true,
                     //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                    area: ['800px', '440px'],
+                    area: ['70%', '90%'],
                     content:  temUrl,
                     end: function () {
                     	active.searchEvent();
@@ -156,13 +156,13 @@
             		layer.open({
 	                    title:'编辑'
 	                    ,skin: 'layui-layer-lan'
-	                    ,shadeClose: true
+	                    ,shadeClose: false
 	                    ,type: 2
 	                    ,fixed: false
 	                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
 	                    ,maxmin: true
 	                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-	                    ,area: ['800px', '440px']
+	                    ,area: ['70%', '90%']
 	                    ,content: '/restfulapi/sys_restfulapi/showById?restfulapiId='+selectRowData.restfulapiId
 	                    ,end: function () {
                         	$(".layui-laypage-btn").click();

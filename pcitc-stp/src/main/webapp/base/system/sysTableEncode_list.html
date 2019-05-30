@@ -144,7 +144,7 @@
             },
             cols: [[
             	{type:'checkbox',event: 'changeEvents'},
-                {title:'序号', type:'numbers'},
+                {title:'序号', type:'numbers' ,width : 55},
                 {field:'tableEncodeName',   title:'编码名称',  style:'cursor: pointer;',sort: true},
                 {field:'tableEncodeDemo',      title:'编码样式', style:'cursor: pointer;',sort: true},
                 {field:'tableEncodeFullValue',   title:'编码当前值',  style:'cursor: pointer;',sort: true},
@@ -187,11 +187,11 @@
             			layer.open({
     	                    title:'新增',
     	                    skin: 'layui-layer-lan',
-    	                    shadeClose: true,
+    	                    shadeClose: false,
     	                    type: 2,
     	                    fixed: false,
-    	                    maxmin: false,
-    	                    area: ['900px', '460px'],
+    	                    maxmin: true,
+    	                    area: ['70%', '90%'],
     	                    content:  '/tableEncode/addTableEncode?functionId='+temFunctionId
     	                });
 	           		}else{

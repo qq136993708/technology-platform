@@ -30,7 +30,7 @@
         	<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">新增</button>
         	<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="editEvent">编辑</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="deleteEvent">删除</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="historyEvent" >历史记录</ button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_history" data-type="historyEvent" >历史记录</ button>
         </div>
     </div>
     <table id="showTable" class="layui-hide" lay-filter="tableData"></table>
@@ -64,7 +64,7 @@
                 },
                 cols: [[
     				{type:'checkbox', event: 'changeEvents'},
-                    {title:'序号', type:'numbers'},
+                    {title:'序号', type:'numbers' ,width : 55},
                     {field:'configName',      title:'配置名称',   width: '17%', style:'cursor: pointer;'},
                     {field:'configCode',        title:'配置编码',    width: '17%', style:'cursor: pointer;'},
                     {field:'configValue',       title:'数值', width: '17%', style:'cursor: pointer;'},
@@ -108,13 +108,13 @@
                 layer.open({
                     title:'新增',
                     skin: 'layui-layer-lan',
-                    shadeClose: true,
+                    shadeClose: false,
                     type: 2,
                     fixed: false,
                     //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                     maxmin: true,
                     //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                    area: ['800px', '450px'],
+                    area: ['70%', '90%'],
                     content:  temUrl
                 });
             },
@@ -124,13 +124,13 @@
             		layer.open({
 	                    title:'修改配置',
 	                    skin: 'layui-layer-lan',
-	                    shadeClose: true,
+	                    shadeClose: false,
 	                    type: 2,
 	                    fixed: false,
 	                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
 	                    maxmin: true,
 	                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-	                    area: ['800px', '450px'],
+	                    area: ['70%', '90%'],
 	                    content: '/sysconfig/edit?configId='+configId,
 	                });
 	            } else {
@@ -176,13 +176,13 @@
                 layer.open({
                     title:'历史记录',
                     skin: 'layui-layer-lan',
-                    shadeClose: true,
+                    shadeClose: false,
                     type: 2,
                     fixed: false,
                     //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                     maxmin: true,
                     //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                    area: ['800px', '450px'],
+                    area: ['70%', '90%'],
                     content:  temUrl
                 });
             } 
