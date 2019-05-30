@@ -245,30 +245,15 @@ public class TaskController extends BaseController {
 	
 	@RequestMapping(value = "/mobile/wait_task_list_mui")
 	public String pending_list_mobile(HttpServletRequest request) {
-
-		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
-		LayuiTableParam param= new LayuiTableParam();
-		param.setPage(pageNo);
-        // 获取当前登录人信息
-		param.getParam().put("userId", sysUserInfo.getUserId());
-		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PENDING_PAGE_URL, HttpMethod.POST, entity, LayuiTableData.class);
-		LayuiTableData retJson = responseEntity.getBody();
-		Page page =new Page();
-		page.setRows(retJson.getData());
-		page.setPageNo(pageNo);
-		page.setPageSize(param.getLimit());
-		page.setTotalRecords(retJson.getCount());
-		request.setAttribute("page", page);
-		request.setAttribute("list", page.getRows());
 		return "/mobile/wait_task_list_mui";
 	}
 	
 	
 	
-	@RequestMapping(value = "/mobile/wait_task_list")
-	public String wait_task_list(HttpServletRequest request) {
-
+	
+	@RequestMapping(value = "/mobile/wait_task_list_data")
+	@ResponseBody
+	public Page wait_task_list_data(HttpServletRequest request) {
 		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
 		LayuiTableParam param= new LayuiTableParam();
 		param.setPage(pageNo);
@@ -282,10 +267,14 @@ public class TaskController extends BaseController {
 		page.setPageNo(pageNo);
 		page.setPageSize(param.getLimit());
 		page.setTotalRecords(retJson.getCount());
-		request.setAttribute("page", page);
-		request.setAttribute("list", page.getRows());
-		return "/mobile/wait_task_list";
+		return page;
 	}
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -350,6 +339,17 @@ public class TaskController extends BaseController {
 	@RequestMapping(value = "/mobile/done_task_list")
 	public String done_task_list_mui(HttpServletRequest request) {
 
+		
+		return "/mobile/done_task_list";
+	}
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/mobile/done_task_list_data")
+	@ResponseBody
+	public Page done_task_list_data(HttpServletRequest request) {
 		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
 		LayuiTableParam param= new LayuiTableParam();
 		param.setPage(pageNo);
@@ -358,16 +358,14 @@ public class TaskController extends BaseController {
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(DONE_TASK_PAGE_URL, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData retJson = responseEntity.getBody();
-		
 		Page page =new Page();
 		page.setRows(retJson.getData());
 		page.setPageNo(pageNo);
 		page.setPageSize(param.getLimit());
 		page.setTotalRecords(retJson.getCount());
-		request.setAttribute("page", page);
-		request.setAttribute("list", page.getRows());
-		return "/mobile/done_task_list";
+		return page;
 	}
+	
 	
 
 	/**
