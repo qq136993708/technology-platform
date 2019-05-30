@@ -113,15 +113,29 @@
        <result column="K0TBBFB"  property="k0TBBFB"  jdbcType="VARCHAR" />
      </resultMap>
 	 <select id="getScientificCashFlow03Report" resultMap="scientificCashFlow03ReportResultMap" parameterType="string" >
-       
-       SELECT
+       <!--  SELECT
 			 "G0GSJC",
 			 round( sum("K0BQLJJE")/10000,2)   AS "K0BQLJJE"
 		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1003_03"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
 			 '${month}')) 
 			 where G0XMBM='${type}' and K0BQLJJE!=0
 		GROUP BY  
-		      "G0GSJC"
+		      "G0GSJC" -->
+		      
+		 SELECT 
+			 "G0GSJC",
+		     round( sum("K0BQLJJE")/10000,2)   AS "K0BQLJJE"
+		 from 
+		 (
+		      SELECT  "G0GSDM",
+					 "G0GSJC",
+					 sum("K0BQLJJE")  AS "K0BQLJJE"
+				FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1003_03"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+					 '${month}')) 
+					 where G0XMBM='${type}' and K0BQLJJE!=0 
+					 ${sqlStr}
+				GROUP BY  "G0GSDM", "G0GSJC"
+		  ) GROUP BY  "G0GSJC"
 	 </select>
 	 
 	 

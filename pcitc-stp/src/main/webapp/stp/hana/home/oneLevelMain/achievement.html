@@ -363,55 +363,8 @@ function renderTable()
 	renderTable($(".layui-this").html());
 	
 }
-/* function renderTable(nd)
-{
-	
-	
-	 var nd=$("#nd").val();
-	 var tableOne=table.render({
-		  elem: '#processdef-table',
-		  url:'/one_level_main/achievement_04',
-		  method:"POST",
-		  where: {param: {"nd":nd}},
-		  limit: 15,
-		  id: 'processdef-table',
-		  height: commonDislodgeTable(),
-		  page: {
-		      groups: 5,
-		      limits: [15,30,45,60],
-		      layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
-		      first: '首页', //不显示首页
-		      last: '尾页', //不显示尾页
-		      theme: '#0F9EE0'
-		  },
-		  cols: [[
-			  
-			   {field:'nd',            title:'年度',edit:'text', width: '8%',align: 'center'},
-		  	   {field:'sbjz',            title:'获奖类别',edit:'text', width: '8%'},
-		       {field:'sbdj',           title:'奖项'    ,style:'cursor: pointer;',align: 'left', width: '8%'},
-		       {field:'xmmc',             title:'名称',style:'cursor: pointer;',align: 'left', width: '25%'},
-		       {field:'fzdw',           title:'主要完成人',style:'cursor: pointer;',align: 'left', width: '25%'},
-		       {field:'sbdw',           title:'单位',style:'cursor: pointer;',align: 'left', width: '25%'}
-		  ]],
-		  done: function (res, curr, count) {
-		  	layer.closeAll('loading');
-		      // 点击行联动选择框--单选
-		      $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-		      	var index=parseInt($(this).index()+1);
-		          $('tr').removeClass('layui-table-click');
-		          $(this).addClass('layui-table-click');
-		          $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-		          $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-		          selectRowData=res.data[index-1];
-		      });
-		  }
-		});
-
-} */
 
 function renderTable(nd){
-	var month=$("#month").val();
-	var companyCode=$("#companyCode").val();
     table.render({
         elem: '#processdef-table' //表格容器
         , url:'/one_level_main/achievement_04?nd='+nd
