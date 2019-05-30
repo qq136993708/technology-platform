@@ -197,6 +197,15 @@
 .btn_complaint {background: url(/layuiadmin/layui/images/btn-complaint.png) no-repeat;}
 .btn_complaint:hover {background: #1890ff url(/layuiadmin/layui/images/btn-complaint-h.png) no-repeat;}
 .btn_complaint.active {background: #1890ff url(/layuiadmin/layui/images/btn-complaint-h.png) no-repeat;}
+.btn_technology {background: url(/layuiadmin/layui/images/btn-technology.png) no-repeat;}
+.btn_technology:hover {background: #1890ff url(/layuiadmin/layui/images/btn-technology-h.png) no-repeat;}
+.btn_technology.active {background: #1890ff url(/layuiadmin/layui/images/btn-technology-h.png) no-repeat;}
+.btn_withdraw {background: url(/layuiadmin/layui/images/btn_withdraw.png) no-repeat;}
+.btn_withdraw:hover {background: #1890ff url(/layuiadmin/layui/images/btn_withdraw-h.png) no-repeat;}
+.btn_withdraw.active {background: #1890ff url(/layuiadmin/layui/images/btn_withdraw-h.png) no-repeat;}
+.btn_topic {background: url(/layuiadmin/layui/images/btn_topic.png) no-repeat;}
+.btn_topic:hover {background: #1890ff url(/layuiadmin/layui/images/btn_topic-h.png) no-repeat;}
+.btn_topic.active {background: #1890ff url(/layuiadmin/layui/images/btn_topic-h.png) no-repeat;}
 
 .btnMyBgImg {box-sizing: border-box;height: 25px;line-height: 25px;font-size: 12px;padding: 0 6px 0 24px; background-position: 8px;background-size: 12px auto;margin-top: 1px;}
 .btnMyBgImg:hover {background-position: 8px;background-size: 12px auto;margin-top: 1px;}
