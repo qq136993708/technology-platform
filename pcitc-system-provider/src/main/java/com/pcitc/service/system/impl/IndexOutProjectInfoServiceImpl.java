@@ -190,9 +190,9 @@ public class IndexOutProjectInfoServiceImpl implements IndexOutProjectInfoServic
         yearMap.entrySet().stream().sorted(Map.Entry.<String, String>comparingByValue()).
                 forEachOrdered(e -> sortMap.put(e.getKey(), e.getValue()));
         //去重排序后的年放入list<String>
-        List<String> yearList = new ArrayList<>();
+        List<String> y = new ArrayList<>();
         for (Map.Entry<String, String> e : sortMap.entrySet()) {
-            yearList.add(e.getKey());
+            y.add(e.getKey());
         }
 
         //map<typeIndex,List<对象>>
@@ -206,10 +206,8 @@ public class IndexOutProjectInfoServiceImpl implements IndexOutProjectInfoServic
         //定义
         List<String> x = new ArrayList<>();
         List<String> x_temp = new ArrayList<>();
-        List<String> y = new ArrayList<>();
         int i = 0, j = 0, k = 0;
         //遍历map,存x,存y
-        y = yearList;
         for (Map.Entry<String, String> entry : map.entrySet()) {
             x.add(entry.getValue());
             x_temp.add(entry.getKey());
@@ -352,6 +350,15 @@ public class IndexOutProjectInfoServiceImpl implements IndexOutProjectInfoServic
         Object typeIndex = param.getParam().get("typeIndex");
         if (typeIndex != null) {
             c.andTypeIndexLike(typeIndex + "%");
+        }
+
+        Object typeName = param.getParam().get("typeName");
+        if (typeName != null) {
+            c.andTypeNameLike("%"+typeName + "%");
+        }
+        Object nd = param.getParam().get("nd");
+        if (nd != null) {
+            c.andNdEqualTo(nd.toString());
         }
         example.setOrderByClause("create_date desc");
         return this.findByExample(param, example);
