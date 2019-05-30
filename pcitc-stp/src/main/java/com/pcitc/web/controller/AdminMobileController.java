@@ -67,9 +67,12 @@ public class AdminMobileController extends BaseController {
 	public String indexMobileStp(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("1进入indexMobileStp....");
 		System.out.println("2进入indexMobileStp...."+request.getParameter("Identity_Key"));
+		System.out.println("3进入indexMobileStp...."+request.getParameter("oauth_token"));
+		System.out.println("4进入indexMobileStp...."+request.getParameter("Oauth_Token"));
+		System.out.println("5进入indexMobileStp...."+request.getParameter("Oauth_token"));
 		String token = request.getParameter("Identity_Token");
 		DES3Utils desUtils = new DES3Utils("01qaz2wsx3edc4rfv5tgb6yhn");
-
+		System.out.println("6进入indexMobileStp...."+getRemoteHost(request));
 		String key1 = desUtils.des3Decode0(token);
 		Map keymap = desUtils.getAcountByToken0(key1);
 		String username = keymap.get("username").toString();
@@ -162,5 +165,19 @@ public class AdminMobileController extends BaseController {
 		c.setPath("/");
 		response.addCookie(c);
 		return "true";
+	}
+	
+	public String getRemoteHost(javax.servlet.http.HttpServletRequest request) {
+		String ip = request.getHeader("x-forwarded-for");
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("WL-Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getRemoteAddr();
+		}
+		return ip.equals("0:0:0:0:0:0:0:1") ? "127.0.0.1" : ip;
 	}
 }
