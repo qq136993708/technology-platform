@@ -73,8 +73,8 @@ public class FinanceController extends BaseController {
 	  public String xjrllfx(HttpServletRequest request) throws Exception
 	  {
 		  
-		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		    HanaUtil.setSearchParaForUser2(userInfo,restTemplate,httpHeaders,request);
+		   
+		  
 		    String month=CommonUtil.getParameter(request, "month", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		    List<String> list=HanaUtil.getDayListOfMonth(month);
 		    JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));

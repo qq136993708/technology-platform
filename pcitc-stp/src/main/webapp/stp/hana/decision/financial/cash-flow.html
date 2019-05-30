@@ -84,73 +84,6 @@
         </div>
     </div>
 </div>
-<!--<div class="searchBox">
-       &lt;!&ndash;查询条件&ndash;&gt;
-        <label class="dateInput">
-            <span>月份</span>
-            <input type="text" name="month" placeholder="请选择月份" value="${month}"  title="月份" autocomplete="off" class="form-control" id="month">
-        </label>
-       <div class="layui-input-inline">
-         <select name="companyCode" id="companyCode" >
-              <#list companyCodeList as vo>
-              	 <#if vo.g0GSJC == '全部'>
-              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
-              	 </#if>
-                 <#if vo.g0GSJC != '全部'>
-              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
-              	 </#if>
-               </#list>
-            </select>
-       </div>
-        
-    &lt;!&ndash;按钮组&ndash;&gt;
-    <div class="btnGroup">
-        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
-    </div>
-    <span class="unitBox">单位：万元</span>
-</div>-->
-
-<!--echarts-->
-<!--<div class="content-body container">
-     <div class="one-chart-box">
-         <div class="layui-row echarts">
-             &lt;!&ndash;<p>科研经费预算投入年度趋势分析</p>&ndash;&gt;
-             <div id="cash-flow-01" style="width: 100%;height: 400px;"></div>
-         </div>
-     </div>
-    &lt;!&ndash; <div class="three-charts-box">
-            <div class="layui-row">
-                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
-                    <div id="cash_flow_03_13" style="width: 100%;height: 400px;"></div>
-                </div>
-                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
-                    <div id="cash_flow_03_27" style="width: 100%;height: 400px;"></div>
-                </div>
-                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
-                    <div id="cash_flow_03_46" style="width: 100%;height: 400px;"></div>
-                </div>
-            </div>
-        </div>  &ndash;&gt;
-        
-        
-        
-       &lt;!&ndash;图表二比一布局&ndash;&gt;
-        <div class="layui-row two-one-box">
-            <div class="layui-col-xs8 layui-col-sm8 layui-col-md8 twoBox echarts" style="height:auto">
-                <div style="text-align:center;margin:10px;">现金流量表</div>
-                <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
-            </div>
-            <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 oneBox " style="height:auto">
-                <div id="cash_flow_03_13" class="echarts" style="width: 100%;height: 400px;"></div>
-                <div id="cash_flow_03_27" class="echarts" style="width: 100%;height: 400px;margin-top:10px;"></div>
-                <div id="cash_flow_03_46" class="echarts" style="width: 100%;height: 400px;margin-top:10px;"></div>
-            </div>
-        </div>
-       &lt;!&ndash;  <div style="width:100%">
-            <table id="processdef-table" class="layui-hide" lay-filter="tableData"></table>
-        </div> &ndash;&gt;
-        
-</div>-->
 
 <!--表格数据操作js-->
 <script src="/common/js/jquery-1.11.3.min.js"></script>
@@ -259,38 +192,11 @@ layui.config({
       renderTable();
 });
  */
-var allCode="${allCode?default('')}";
-var allCode_text="全部院所";
-
-/* function renderTable()
-{    
-  layer.load(2);
-  table.render({
-    elem: '#processdef-table',
-    title:'ddd',
-    url: '/financial-decision/cash-flow-02',
-    method:"GET",
-    where: {month:  $("#month").val(), companyCode: $("#companyCode").val()},
-    limit: 150,
-    height: '1220',
-    cols: [[
-    	 {field:'g0XMHC',    title:'行次',       style:'cursor: pointer;',align: 'center', width: '10%'},
-         {field:'g0XMMS',    title:'项目名称',    style:'cursor: pointer;',align: 'left', width: '35%'},
-         {field:'k0BQLJJE',  title:'本期累计余额',  style:'cursor: pointer;',align: 'center', width: '20%'},
-         {field:'k0TBLJJE',  title:'同期累计余额',  style:'cursor: pointer;',align: 'center', width: '20%'},
-         {field:'k0TQLJJE',  title:'同期金额',    style:'cursor: pointer;',align: 'center', width: '20%'}
-    ]], done: function (res, curr, count) {
-    	layer.closeAll('loading');
-    }
-  });
-} */       
-
-
  
-
+ init_companyCode(functionId);
 function initEchart()
 {
-	init_companyCode(functionId);
+	
 	var v_date=(new Date()).getTime();
 	var month=$('#month').val();
 	var companyCode=$('#companyCode').val();
@@ -299,21 +205,16 @@ function initEchart()
     var monthValY=$("#month").val().substring(4,0);
     var monthValM=$("#month").val().substring(4);
     $(".layui-time").html(monthValY+"年"+monthValM+"月");
-	if(checkText=='全部')
-	{
-		checkText="全部院所";
-	}
-	
 	
 	
 	var url_cash_flow_01="/financial-decision/cash-flow-01?companyCode="+companyCode+"&month="+month+"&v_date="+v_date;
 	load_single_line(url_cash_flow_01,"cash-flow-01","","");
 	
-	var url_cash_flow_03_13="/financial-decision/cash-flow-03?month="+month+"&v_date="+v_date+"&type=13&companyCode="+allCode;
+	var url_cash_flow_03_13="/financial-decision/cash-flow-03?month="+month+"&v_date="+v_date+"&type=13&companyCode="+companyCode;
 	loadPie(url_cash_flow_03_13,"cash_flow_03_13","","");
-	var url_cash_flow_03_27="/financial-decision/cash-flow-03?month="+month+"&v_date="+v_date+"&type=27&companyCode="+allCode;
+	var url_cash_flow_03_27="/financial-decision/cash-flow-03?month="+month+"&v_date="+v_date+"&type=27&companyCode="+companyCode;
 	loadPie(url_cash_flow_03_27,"cash_flow_03_27","","");
-	var url_cash_flow_03_46="/financial-decision/cash-flow-03?month="+month+"&v_date="+v_date+"&type=46&companyCode="+allCode;
+	var url_cash_flow_03_46="/financial-decision/cash-flow-03?month="+month+"&v_date="+v_date+"&type=46&companyCode="+companyCode;
 	loadPie(url_cash_flow_03_46,"cash_flow_03_46","","");
 }
 

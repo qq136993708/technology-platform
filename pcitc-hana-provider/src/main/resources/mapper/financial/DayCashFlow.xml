@@ -42,7 +42,7 @@
 	 </select>
 	 
 	<select id="getDayCashFlowReport2" resultMap="dayCashFlowResultMap" parameterType="java.util.Map" >
-	  SELECT
+	  <!-- SELECT
 			 "G0GSJC",
 			 round(sum("K0DAY1")/10000,2) AS "K0DAY1",
 			 round(sum("K0DAY2")/10000,2) AS "K0DAY2",
@@ -55,7 +55,58 @@
 			 '${month}'),
 			 'PLACEHOLDER' = ('$$PR_GSDM$$',
 			 '${companyCode}')) 
+		GROUP BY  "G0GSJC" -->
+		
+		SELECT
+			 "G0GSJC",
+			  sum("K0DAY1") AS "K0DAY1",
+			 round(sum("K0DAY2")/10000,2) AS "K0DAY2",
+			 round(sum("K0DAY3")/10000,2) AS "K0DAY3",
+			 round(sum("K0DAY4")/10000,2) AS "K0DAY4",
+			 round( sum("K0DAY5")/10000,2) AS "K0DAY5",
+			 round(sum("K0DAY6")/10000,2) AS "K0DAY6",
+			 round(sum("K0DAY7")/10000,2) AS "K0DAY7" 
+			 from
+			 (
+           SELECT
+
+             "G0GSOR",
+			 "G0GSJC",
+			 round(sum("K0DAY1")/10000,2) AS "K0DAY1",
+			 round(sum("K0DAY2")/10000,2) AS "K0DAY2",
+			 round(sum("K0DAY3")/10000,2) AS "K0DAY3",
+			 round(sum("K0DAY4")/10000,2) AS "K0DAY4",
+			 round( sum("K0DAY5")/10000,2) AS "K0DAY5",
+			 round(sum("K0DAY6")/10000,2) AS "K0DAY6",
+			 round(sum("K0DAY7")/10000,2) AS "K0DAY7" 
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1003_05"('PLACEHOLDER' = ('$$PR_CALDAY$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY  "G0GSOR","G0GSJC"
+
+		union all
+		
+		SELECT 
+		     '0' as "G0GSOR",
+			 '总计' as "G0GSJC",
+			 round(sum("K0DAY1")/10000,2) AS "K0DAY1",
+			 round(sum("K0DAY2")/10000,2) AS "K0DAY2",
+			 round(sum("K0DAY3")/10000,2) AS "K0DAY3",
+			 round(sum("K0DAY4")/10000,2) AS "K0DAY4",
+			 round( sum("K0DAY5")/10000,2) AS "K0DAY5",
+			 round(sum("K0DAY6")/10000,2) AS "K0DAY6",
+			 round(sum("K0DAY7")/10000,2) AS "K0DAY7" 
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1003_05"('PLACEHOLDER' = ('$$PR_CALDAY$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
 		GROUP BY  "G0GSJC"
+		
+		)GROUP BY "G0GSOR", "G0GSJC"
+		
+		order by  "G0GSOR"
+		
 	 </select>
 	 
 </mapper>

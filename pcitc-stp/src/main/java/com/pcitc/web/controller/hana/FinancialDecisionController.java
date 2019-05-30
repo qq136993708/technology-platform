@@ -666,7 +666,8 @@ public class FinancialDecisionController extends BaseController {
 	@RequestMapping(value = "/to-cash-flow")
 	public String cash_flow(HttpServletRequest request) throws Exception {
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-	    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+		String month = HanaUtil.getCurrrent_Year_Moth();
+		request.setAttribute("month", month);
 		return "stp/hana/decision/financial/cash-flow";
 	}
 
@@ -778,9 +779,13 @@ public class FinancialDecisionController extends BaseController {
 		ChartPieResultData pieResult = new ChartPieResultData();
 		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		String type = CommonUtil.getParameter(request, "type", "13");// 13,27,46
+		String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+		
+		
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		paramsMap.put("type", type);
+		paramsMap.put("companyCode", companyCode);
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(GET_DECISION_FUNDS_CHSH_FLOW_03, HttpMethod.POST, entity, JSONArray.class);
@@ -825,7 +830,7 @@ public class FinancialDecisionController extends BaseController {
 	 */
 
 	/**
-	 * ===========================================科研基建投资支出分析
+	 * =========================d= =================科研基建投资支出分析
 	 * ===========================================
 	 */
 	/**
