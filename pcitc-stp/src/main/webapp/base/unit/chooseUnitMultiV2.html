@@ -10,6 +10,7 @@
 
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
     <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
     <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
@@ -71,17 +72,59 @@
 	    }
 	    function searchUnit(){
 	    	var searchStr = $("#searchUnitName").val();
+	    	unitTree = $.fn.zTree.init($("#unitTree"), unitTreeSetting, unitNodes);
 	     	if(searchStr !=null && "" != searchStr){
 	     		var nodeList = unitTree.getNodesByParamFuzzy("name", searchStr);
+	     		var nodeIds = getChildNode([],nodeList);
+	     		nodeIds = getParentNode(unitTree,nodeIds,nodeList);
+	     		var newnodes = getNodeById(unitTree,nodeIds);
 	     		
-	     		unitTree = $.fn.zTree.init($("#unitTree"), unitTreeSetting, nodeList);
-	     	}else{
-	     		unitTree = $.fn.zTree.init($("#unitTree"), unitTreeSetting, unitNodes);
+	     		unitTree = $.fn.zTree.init($("#unitTree"), unitTreeSetting, newnodes);
 	     	}
 		    //展开树
 		    unitTree.expandAll(true);
 	    }
-	    
+	    function getNodeById(treeObj,nodeIds){
+			var nodes = [];
+			var node = null;
+			$.each(nodeIds,function(i,d){
+				node = treeObj.getNodeByParam("id", d, null);
+				if(node){
+					nodes.push(new zTreeNode(node.id,node.pId,node.name));
+				}
+			});
+			return nodes;
+		}
+		
+		function getChildNode(nodeIds,nodeList)
+		{
+			$.each(nodeList,function(i,d){
+				if(nodeIds.indexOf(d.id)==-1){
+					nodeIds.push(d.id);
+				}
+				if(d.children){
+					getChildNode(nodeIds,d.children);
+				}
+	 		});
+			return nodeIds;
+		}
+		function getParentNode(treeObj,nodeIds,nodeList)
+		{
+			$.each(nodeList,function(i,d){
+				function addNodeId(nodeIds,node)
+				{
+					var pnode =treeObj.getNodeByParam("id", node.pId, null);
+					if(pnode){
+						if(nodeIds.indexOf(node.pId)==-1){
+							nodeIds.push(node.pId);
+						}
+						addNodeId(nodeIds,pnode);
+					}
+				}
+				addNodeId(nodeIds,d);
+	 		});
+			return nodeIds;
+		}
 	    //设置展开前三级节点
 		function expandThreeLevel(treeObj) {
 			var nodeList = treeObj.getNodes();　　　　　　 //展开第一个根节点

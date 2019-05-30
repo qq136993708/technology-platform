@@ -191,6 +191,21 @@ function zTreeNode(id,pId,name)
 	this.pId = pId;
 	this.name = name;
 }
+/**
+ * 带子节点的节点
+ * @param id
+ * @param pId
+ * @param name
+ * @param children
+ * @returns
+ */
+function tcNode(id,pId,name,children)
+{
+	this.id = id;
+	this.pId = pId;
+	this.name = name;
+	this.children = children;
+}
 function autoCheck(id,arry)
 {
     var zTree = $.fn.zTree.getZTreeObj(id);
