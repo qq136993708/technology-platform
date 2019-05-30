@@ -162,11 +162,9 @@ public class MoreDimensionController extends BaseController
 
 		List<String> yearList = HanaUtil.getBeforeYearList(HanaUtil.getCurrrentYear(), 3);
 		request.setAttribute("yearList", yearList);
-		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		//HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
 		
-		String year = HanaUtil.getCurrrentYear();
-		request.setAttribute("year", year);
+		String nd = HanaUtil.getBeforeYear();
+		request.setAttribute("nd", nd);
 		
 		return "stp/hana/moreDimension/knowledge/patent-trend-analysis";
 	}
@@ -178,14 +176,12 @@ public class MoreDimensionController extends BaseController
 
 		Result result = new Result();
 		ChartBarLineResultData barLine = new ChartBarLineResultData();
-		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
-		paramsMap.put("month", month);
-		paramsMap.put("companyCode", companyCode);
+		paramsMap.put("nd", nd);
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-		if (!companyCode.equals(""))
+		if (!nd.equals(""))
 		{
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(patent_trend_analysis_01, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
@@ -279,14 +275,12 @@ public class MoreDimensionController extends BaseController
 	{
 
 		Result result = new Result();
-		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
-		paramsMap.put("month", month);
-		paramsMap.put("companyCode", companyCode);
+		paramsMap.put("nd", nd);
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-		if (!companyCode.equals(""))
+		if (!nd.equals(""))
 		{
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(patent_trend_analysis_03, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
@@ -330,14 +324,12 @@ public class MoreDimensionController extends BaseController
 	{
 
 		Result result = new Result();
-		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
-		paramsMap.put("month", month);
-		paramsMap.put("companyCode", companyCode);
+		paramsMap.put("nd", nd);
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-		if (!companyCode.equals(""))
+		if (!nd.equals(""))
 		{
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(patent_trend_analysis_institute, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
@@ -384,7 +376,6 @@ public class MoreDimensionController extends BaseController
 	public String loopContractExecutionAchievements(HttpServletRequest request) throws Exception
 	{
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		HanaUtil.setSearchParaForUser2(userInfo, restTemplate, httpHeaders, request);
 		String year = HanaUtil.getCurrrentYear();
 		request.setAttribute("year", year);
 		

@@ -14,34 +14,28 @@
             <!--查询条件-->
             <label class="dateInput">
                 <span>年份</span>
-                <input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
+                <input type="text" name="year"  title="月份" value="${year}"  id="year">
+                <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
             </label>
-            <div class="layui-input-inline">
-              <select id="companyCode" name="companyCode" class="form-control"></select>
-             </div>
-            <form class="layui-form" style="    display: inline;padding-left: 10px;">
+           <!--  <form class="layui-form" style="    display: inline;padding-left: 10px;">
                 <div class="layui-input-inline">
                     <#list projectCodeList as vo>
                         <input type="checkbox" name="like[write]" lay-skin="primary" title="${vo.g0XMGLLX}" checked="">
                     </#list>
                 </div>
-            </form>
+            </form> -->
             <!--按钮组-->
-            <div class="btnGroup">
+            <!-- <div class="btnGroup">
                 <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
-            </div>
+            </div> -->
             <span class="unitBox">单位：万元</span>
         </div>
-        
-        
-        
-        
         
         <div class="layui-row layui-col-space10">
             <div class="layui-col-sm8">
              <div class="layui-card">
                     <div class="layui-card-header">
-                        ${year}近三年专业类别成果鉴定结论数量分布
+                        <span class="layui-time"></span>近三年专业类别成果鉴定结论数量分布
                     </div>
                     <div class="layui-card-body btn-function">
                         <div  style="height:280px;width: 100%;" id="topic_chart1"></div>
@@ -114,24 +108,27 @@ layui.config({
 	  form.render(null, 'component-form-group');
       var yearValY=$("#year").val();
       $(".layui-time").html(yearValY+"年");
-            laydate.render({
-               elem: '#year'
-               ,format: 'yyyy'
-            });
+      
+      
+      laydate.render({
+     	 elem: '#year' ,type: 'year'
+         ,done: function(value, date, endDate){
+             $(".layui-time").html(date.year);
+             $("#year").val(date.year); 
+             search_Event();
+         }
+     });
+      
+      
 });
-
 
 
 function init()
 {
-	init_companyCode(functionId);
+	
 		var v_date=(new Date()).getTime();
 		var year=$('#year').val();
-		var companyCode=$('#companyCode').val();
 	    $(".layui-time").html(year+"年");
-	    
-	    
-	    
 	    
 	       var  yAxis= [
 	            {
@@ -143,9 +140,6 @@ function init()
 	                 }
 	            }
 	        ];
-	        
-	       
-	       
 
     	var chart1_url="/more-dimension/achievements_trend_analysis_01?type=1&nd="+year+"&v_date="+v_date;
     	var echart1=load_mutl_bar_down(chart1_url,"topic_chart1","","",yAxis);

@@ -15,14 +15,15 @@
     </div>
 </header>
 <main class="main">
-<input type="hidden" name="allCode" value="${allCode}"  id="allCode">
-<input type="hidden" name="companyCode" value="${companyCode}"  id="companyCode">
             
 	<div class="layui-card layui-form " lay-filter="component-form-element">
 		<div class="layui-card-body layui-row layui-col-space10">
 			<div class="layui-col-xs4">
 				<input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control layui-input" id="month">
 			</div>
+			<div class="layui-col-xs4" >
+             <select id="companyCode" name="companyCode" ></select>
+            </div>
 			<div class="layui-col-xs4" style="display:none">
 				<select name="city" lay-verify="">
 					<option value="">全部</option>
@@ -89,22 +90,33 @@ layui.config({
     form = layui.form;
    
     form.render(null, 'component-form-group');
+    
+    
+    
     laydate.render({
-       elem: '#month'
+        elem: '#month'
        ,format: 'yyyyMM'
+        ,done: function(value, date, endDate){
+            $("#month").val(date.year+""+PrefixInteger(date.month, 2)); 
+        }
     });
     
     
-
     var monthValY=$("#month").val().substring(4,0);
     var monthValM=$("#month").val().substring(4);
     $(".layui_time").html(monthValY+"年"+monthValM+"月");
+
+   
     
     
   
 });
 
 
+function PrefixInteger(num, length) {
+	  return (num/Math.pow(10,length)).toFixed(length).substr(2);
+	}
+init_companyCode("984b64b13cf54222bf57bd840759fabe");
 function initEchart()
 {
 
@@ -115,10 +127,8 @@ function initEchart()
 	var monthstr=getNowFormatDate($('#month').val());
 	var url_cash_flow_01="/financial-decision/cash-flow-01?companyCode="+companyCode+"&month="+month+"&v_date="+v_date;
 	
-	//alert(url_cash_flow_01);
 	 chart1=load_single_line(url_cash_flow_01,"cash-flow-01","","",true);
-	
-	var url_cash_flow_03_46="/financial-decision/cash-flow-03?month="+month+"&v_date="+v_date+"&type=46&companyCode="+allCode;
+	var url_cash_flow_03_46="/financial-decision/cash-flow-03?month="+month+"&v_date="+v_date+"&type=46&companyCode="+companyCode;
 	chart2=loadPie(url_cash_flow_03_46,"cash_flow_03_46","","");
 }
 
@@ -137,6 +147,12 @@ window.onresize = function()
 //查询
 function search_Event()
 {
+	
+	
+	    var monthValY=$("#month").val().substring(4,0);
+	    var monthValM=$("#month").val().substring(4);
+	    $(".layui_time").html(monthValY+"年"+monthValM+"月");
+	    
 	initEchart();
 }  
 </script>
