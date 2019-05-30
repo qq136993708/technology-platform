@@ -14,9 +14,10 @@
             <!--查询条件-->
             <label class="dateInput">
                 <span>年份</span>
-                <input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
+                <input type="text" name="year"  title="月份" value="${year}"  id="year">
+                <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
             </label>
-            <div class="layui-input-inline">
+            <div class="layui-input-inline" style="margin-left:10px">
               <select id="companyCode" name="companyCode" class="form-control"></select>
              </div>
             <form class="layui-form" style="    display: inline;padding-left: 10px;">
@@ -32,10 +33,6 @@
             </div>
             <span class="unitBox">单位：万元</span>
         </div>
-        
-        
-        
-        
         
         <div class="layui-row layui-col-space10">
             <div class="layui-col-sm8">
@@ -121,10 +118,10 @@ layui.config({
 });
 
 
-
+init_companyCode(functionId);
 function init()
 {
-	init_companyCode(functionId);
+	
 		var v_date=(new Date()).getTime();
 		var year=$('#year').val();
 		var companyCode=$('#companyCode').val();
