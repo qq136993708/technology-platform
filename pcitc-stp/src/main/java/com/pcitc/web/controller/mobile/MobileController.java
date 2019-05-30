@@ -86,6 +86,11 @@ public class MobileController extends BaseController {
 
 		return "/mobile/kyzc";
 	}
+	
+	
+	
+	
+	
 
 	/**
 	 * ================================================科研支出 end
