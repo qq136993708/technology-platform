@@ -163,10 +163,9 @@ public class MoreDimensionController extends BaseController
 		List<String> yearList = HanaUtil.getBeforeYearList(HanaUtil.getCurrrentYear(), 3);
 		request.setAttribute("yearList", yearList);
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		//HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
 		
-		String year = HanaUtil.getCurrrentYear();
-		request.setAttribute("year", year);
+		String nd = HanaUtil.getBeforeYear();
+		request.setAttribute("nd", nd);
 		
 		return "stp/hana/moreDimension/knowledge/patent-trend-analysis";
 	}

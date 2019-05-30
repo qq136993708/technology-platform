@@ -20,16 +20,14 @@
 </head>
 <body>
 	<div class="layui-fluid">
-	<input type="hidden" name="year"  value="${year}"   id="year">
 		<div class="layui-main-oil">
 			<div class="searchBox">
 				<!--查询条件-->
-				<label class="dateInput"> <span>月份</span> <input type="text"
-					name="month" placeholder="请选择月份" title="月份" value="${month}"
-					autocomplete="off" class="form-control" id="month">
+				<label class="dateInput"> <span>年份</span> <input type="text"
+					name="nd"  value="${nd}"
+					autocomplete="off" class="form-control" id="nd">
 				</label>
 				<div class="layui-input-inline">
-              <select id="companyCode" name="companyCode" class="form-control" style="width:150px"></select>
              </div>
 				<!--按钮组-->
 				<div class="btnGroup">
@@ -103,19 +101,6 @@
 					</div>
 				</div>
 			</div>
-			<!-- <div class="layui-row layui-col-space10">
-				<div class="layui-col-sm12">
-					<div class="layui-card">
-						<div class="layui-card-header">
-							<span class="layui-time"></span>人均专利授权数量按研究院分布情况分析
-						</div>
-						<div class="layui-row-main">
-							<div class="main-chart" id="main6"
-								style="height: 280px; width: 100%;"></div>
-						</div>
-					</div>
-				</div>
-			</div> -->
 		</div>
 	</div>
 
@@ -134,7 +119,7 @@
 	<script type="text/javascript">
 	var param=JSON.parse(window.localStorage.getItem("param"));
 	var functionId=param.id;
-	
+	var nd = $('#nd').val();
 	
 		layui.config({
 			base : '/layuiadmin/module/modules/'
@@ -143,34 +128,18 @@
 			form.render(null, 'component-form-group');
 			laydate.render(
 			{
-				elem : '#month',
-				format : 'yyyyMM'
+				elem : '#nd',
+				format : 'yyyy'
 			});
-			var monthValY = $("#month").val().substring(4, 0);
-			var monthValM = $("#month").val().substring(4);
-			$(".layui-time").html(monthValY + "年" + monthValM + "月");
+			$(".layui-time").html(nd + "年" );
 		});
 
 		function init()
 		{
 			
-			init_companyCode(functionId);
-			
-			
-			var allCode = "${allCode?default('')}";
-			var allCode_text = "全部院所";
+			//init_companyCode(functionId);
 			var v_date = (new Date()).getTime();
-			var month = $('#month').val();
-			var companyCode = $('#companyCode').val();
-			var monthstr = getNowFormatDate($('#month').val());
-			var checkText = $("#companyCode").find("option:selected").text();
-			var monthValY = $("#month").val().substring(4, 0);
-			var monthValM = $("#month").val().substring(4);
-			$(".layui-time").html(monthValY + "年" + monthValM + "月");
-			if (checkText == '全部')
-			{
-				checkText = "全部院所";
-			}
+			$(".layui-time").html(nd + "年" );
 			var yAxis = [
 			{
 				type : 'value',
@@ -183,21 +152,12 @@
 					formatter : '{value}'
 				}
 			}];
-			var chart1_url = "/more-dimension/patent_trend_analysis_01?month=" + month + "&v_date=" + v_date + "&companyCode=" + companyCode;
+			var chart1_url = "/more-dimension/patent_trend_analysis_01?month=" + nd + "&v_date=" + v_date ;
 			var echart1 = load_mult_bar(chart1_url, "chart1", "", "", function(data){
 				console.log(data);
 			});
-			/* var chart1_url = "/more-dimension/patent_trend_analysis_01?month=" + month + "&v_date=" + v_date + "&companyCode=" + companyCode;
-			var echart1 = load_mutl_bar_2(chart1_url, "chart1", "", "", yAxis);
-			echart1.on('click', function(params)
-			{
-				var xName = params.name;
-				var legentName = params.seriesName;
-				parent.layui.index.openTabsPage("/home/project-list?define1=" + xName + "&project_scope=" + legentName, "合同签订详情");
 
-			}); */
-
-			var chart2_url = "/more-dimension/patent_trend_analysis_03?month=" + month + "&v_date=" + v_date + "&companyCode=" + companyCode;
+			var chart2_url = "/more-dimension/patent_trend_analysis_03?month=" + nd + "&v_date=" + v_date ;
 			var echart2 = loadPie(chart2_url, "main3", "", '');
 			echart2.on('click', function(params)
 			{
@@ -207,7 +167,7 @@
 
 			});
 
-			var chart4_url = "/more-dimension/patent_trend_analysis_institute?month=" + month + "&v_date=" + v_date + "&companyCode=" + companyCode;
+			var chart4_url = "/more-dimension/patent_trend_analysis_institute?month=" + nd + "&v_date=" + v_date ;
 			var echart4 = loadPie(chart4_url, "main4", "", '');
 			echart4.on('click', function(params)
 			{
@@ -237,7 +197,7 @@
 		    ];
 		    
 		    var v_date=(new Date()).getTime();
-			var nd=$('#year').val();
+			var nd=$('#nd').val();
 			var chart1_url="/direct/getKnowledgeBar_01?type=1&nd="+nd+"&v_date="+v_date;
 			var echart1=load_mutl_bar_down(chart1_url,"knowldege_chart1","","",yAxist,35);
 			echart1.on('click', function (params) {

@@ -147,8 +147,10 @@
 		var flow = layui.flow;
 		flow.load({
 			elem: '#ulAuto', //流加载容器
-			scrollElem: '#ulAuto', //滚动条所在元素，一般不用填，此处只是演示需要。
+		//	scrollElem: '#ulAuto', //滚动条所在元素，一般不用填，此处只是演示需要。
 			isAuto:true,
+			mb: 100,
+			isLazying: true,
 			done: function(page, next){ //到达临界点（默认滚动触发），触发下一页
 				var lis = [];
 				var addHtml='';
@@ -195,11 +197,11 @@
 							+'</div>'
 							+'</div>';
 					    var processDefinitionName=item.processDefinitionName;
-					    if(processDefinitionName!=null && processDefinitionName!='')
+					   /*  if(processDefinitionName!=null && processDefinitionName!='')
 				    	{
 				    	  lis.push(addHtml);
-				    	}
-						
+				    	} */
+					    lis.push(addHtml);
 					}); 
 					//执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
 					//pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
