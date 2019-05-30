@@ -109,7 +109,7 @@
     <!--右侧-->
     <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
     <div class="skill-right">
-        <div id="container" style="height: 800%"></div>
+        <div id="container" style="height: 1000%;"></div>
     </div>
 </div>
 <script>
@@ -209,7 +209,6 @@
                     // console.log(res.data);
                 },
                 onDblClickRow: function (index, o) {
-                    console.log(o);
                     detailEvent(o.dataId);
 
                 }
@@ -261,8 +260,6 @@
                 , cols: [colsTfc],
                 done: function (res, curr, count) {
                     $("#indexOutProjectInfoTableTfcCount").html("(" + res.count + ")");
-                    console.log("技术");
-                    console.log(res.data);
                 },
                 onDblClickRow: function (index, o) {
                 }
@@ -376,7 +373,6 @@
         window.renderTable = renderTable;
 
         table.on('rowDouble(indexOutProjectInfoTableIdEvent)', function (obj) {
-            console.log(obj.data.dataId);
             detailEvent(obj.data.dataId);
         });
 
@@ -494,17 +490,14 @@
             url: "/indexOutProjectInfo/selectByExampleByTypeIndexCode?typeIndex=" + tfcCode,
             dataType: 'json',
             success: function (d) {
-                console.log("热力图");
-                console.log(d.x);
-                console.log(d.data);
                 hours = d.x;
+                days = d.y;
                 data = d.data;
             },
             error: function (err, err1, err2) {
                 console.log("ajaxPost发生异常，请仔细检查请求url是否正确");
             }
         });
-        console.log("-----------------------start-------------");
         var dom = document.getElementById("container");
         var myChart = echarts.init(dom);
         var app = {};
@@ -513,7 +506,7 @@
 
 
         data = data.map(function (item) {
-            return [item[1], item[0], item[2] || '-'];
+            return [item[0], item[1], item[2] || '-'];
         });
 
         option = {
