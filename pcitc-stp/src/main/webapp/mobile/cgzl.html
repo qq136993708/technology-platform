@@ -19,7 +19,7 @@
 	<div class="layui-card layui-form " lay-filter="component-form-element">
 		<div class="layui-card-body layui-row layui-col-space10">
 			<div class="layui-col-xs4">
-				<input type="text" name="year" placeholder="请选择月份" title="月份" value="${year}"  autocomplete="off" class="form-control layui-input" id="year">
+				<input type="text" name="nd" placeholder="请选择年份" title="年份" value="${nd}"  autocomplete="off" class="form-control layui-input" id="nd">
 			</div>
 			<div class="layui-col-xs4" style="display:none">
 				<select name="city" lay-verify="">
@@ -95,6 +95,9 @@
 
 
 <script type="text/javascript">
+
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
 (function(doc, win) {
     var docEl = doc.documentElement,
         resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
@@ -127,22 +130,22 @@ layui.config({
    
     form.render(null, 'component-form-group');
     laydate.render({
-    	      elem: '#year',min: '2016-10-14'
+    	      elem: '#nd',min: '2016-10-14'
      	      ,type: 'year'
         ,done: function(value, date, endDate){
             $(".layui_time").html(date.year);
-            $("#year").val(date.year); 
+            $("#nd").val(date.year); 
             search_Event();
         }
     });
-    $(".layui_time").html($("#year").val());
+    $(".layui_time").html($("#nd").val());
 });
 
 function initEchart()
 {
 
 	var v_date=(new Date()).getTime();
-	var nd=$('#year').val();
+	var nd=$('#nd').val();
 	var ndstr=nd+"年";
 	var yAxis= [
         {
