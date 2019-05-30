@@ -125,6 +125,11 @@ public class TaskController extends BaseController {
 		return "/pplus/workflow/message-list";
 	}
 	
+	
+	
+
+	
+	
 	/**
 	 * @author zhf
 	 * @date 2019年4月16日 上午10:28:42 消息列表数据
@@ -273,9 +278,30 @@ public class TaskController extends BaseController {
 	
 	
 	
+	@RequestMapping(value = "/mobile/message_list")
+	public String message_list(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		return "/mobile/message_list";
+	}
 	
-	
-	
+	@RequestMapping(value = "/mobile/message_list_data", method = RequestMethod.POST)
+	@ResponseBody
+	public Page message_list_data(HttpServletRequest request) 
+	{
+		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
+		LayuiTableParam param= new LayuiTableParam();
+		param.setPage(pageNo);
+		param.getParam().put("userId", sysUserInfo.getUserId());
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(MESSAGE_LIST, HttpMethod.POST, entity, LayuiTableData.class);
+		LayuiTableData retJson = responseEntity.getBody();
+		Page page =new Page();
+		page.setRows(retJson.getData());
+		page.setPageNo(pageNo);
+		page.setPageSize(param.getLimit());
+		page.setTotalRecords(retJson.getCount());
+		return page;
+	}
 	
 	
 	
