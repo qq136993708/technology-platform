@@ -1,20 +1,55 @@
 package com.pcitc.web.test;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.pcitc.web.utils.DES3Utils;
 import com.pcitc.web.utils.WordUtil;
 
 public class TestJava2Word {
-	public static void main(String[] args) throws IOException {
-		createWord();
+	public static void main(String[] args) throws Exception {
+		//createWord();
 		// String BASE64 = WordUtil.getImageString("D://doc//friend.jpg");
 		// System.out.println(BASE64);
+		
+		/*DES3Utils desUtils = new DES3Utils("01qaz2wsx3edc4rfv5tgb6yhn");
+
+		Base64.Encoder encoder = Base64.getEncoder();
+		String text = "demo1";
+		byte[] textByte = text.getBytes("UTF-8");
+		String encodedText = encoder.encodeToString(textByte);
+		
+		System.out.println("encodedText---"+encodedText);
+		
+		byte[] key1 = desUtils.des3EncodeCBC(encodedText.getBytes("UTF-8"));
+		System.out.println("key1---"+key1);
+		
+		String s = new String(key1);
+		
+		System.out.println("encodedText---"+s);*/
+		
+		DES3Utils desUtils = new DES3Utils("01qaz2wsx3edc4rfv5tgb6yhn");
+
+		
+		String text = "demo1";
+		byte[] key1 = desUtils.des3EncodeCBC(text.getBytes("UTF-8"));
+		System.out.println("key1---"+key1);
+		
+		Base64.Encoder encoder = Base64.getEncoder();
+		
+		String encodedText = encoder.encodeToString(key1);
+		
+		System.out.println("encodedText---"+encodedText);
+		
+		
+		/*sun.misc.BASE64Encoder encoder1 = new sun.misc.BASE64Encoder();
+		byte[] textByte1 = text.getBytes("UTF-8");
+		String encodedText1 = encoder1.encode(textByte1);
+		System.out.println(encodedText1);*/
 	}
 
 	public static void createWord() {
