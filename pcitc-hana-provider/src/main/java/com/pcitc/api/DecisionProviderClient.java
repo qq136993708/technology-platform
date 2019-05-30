@@ -109,10 +109,32 @@ public class DecisionProviderClient {
 		JSONObject jo = JSONObject.parseObject(paramsJson);
 		String month = jo.getString("month");
 		String type = jo.getString("type");
+		String companyCode = jo.getString("companyCode");
 		Map map = new HashMap();
 		map.put("month", month);
 		map.put("type", type);
+		map.put("companyCode", companyCode);
 		System.out.println(">>>>>>>>>>>>>month " + month);
+		StringBuffer sb=new StringBuffer();
+		if(companyCode!=null && !companyCode.equals(""))
+		{
+			   String arr[]=companyCode.split(",");
+			   sb.append(" AND G0GSDM in  (");
+			   for(int i=0;i<arr.length;i++)
+			   {
+				  String str=arr[i];
+				  if(str!=null && !str.equals(""))
+				  {
+					  if(i>0)
+					  {
+						  sb.append(",");
+					  }
+					  sb.append("'"+str+"'");
+				  }
+			   }
+			   sb.append(" )");
+		}
+		map.put("sqlStr", sb.toString());
 		List<ScientificCashFlow03> list = decisionService.getScientificCashFlow03Report(map);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
 		return json;

@@ -7,14 +7,14 @@
     <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
     <script src="/layuiadmin/layui/layui.js"></script>
     <style>
-        .con-box{margin: auto 20px;}
+        .con-box{margin: 10px 20px;}
         .table-title{height: 30px;line-height: 30px;}
-        .margin-bot30{margin-bottom: 30px;}
+        .margin-bot30{margin-bottom: 10px;}
+		.margin-bot30:last-child{margin-bottom: 50px;}
     </style>
 </head>
 <body>
 <div class="con-box">
-    <p class="table-title">&nbsp;&nbsp;</p>
     <div class="margin-bot30">
         <table id="itemTable" class="layui-table" lay-filter="itemTable" lay-data="{totalRow: false}">
             <thead>
@@ -36,12 +36,12 @@
                  <tr>
                  	<#list items as item>
                  		<#list item?keys as key> 
-                    		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true}">${item[key]}</th>
+                    		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true,width:'80'}">${item[key]}</th>
                     	</#list>
                     </#list>
                     <#list items as item>
                     	<#list item?keys as key> 
-                    		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true}">${item[key]}</th>
+                    		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true,width:'80'}">${item[key]}</th>
                     	</#list> 
                     </#list>
                 </tr>

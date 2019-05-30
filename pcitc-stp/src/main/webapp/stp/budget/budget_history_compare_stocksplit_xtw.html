@@ -7,19 +7,18 @@
     <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
     <script src="/layuiadmin/layui/layui.js"></script>
     <style>
-        .con-box{margin: auto 20px;}
-        .table-title{height: 30px;line-height: 30px;}
-        .margin-bot30{margin-bottom: 30px;}
+        .con-box{margin: 10px 20px;}
+        .table-title{height: 10px;line-height: 10px;}
+        .margin-bot30{margin-bottom: 10px;}
     </style>
 </head>
 <body>
 <div class="con-box">
-    <p class="table-title">&nbsp;&nbsp;</p>
     <div class="margin-bot30">
         <table id="itemTable" class="layui-table" lay-filter="itemTable" lay-data="{totalRow: false}">
             <thead>
                 <tr>
-             		<th lay-data="{field:'nd',align: 'center', width: '5%',totalRowText: '合计'}" rowspan="2">年度</th>
+             		<th lay-data="{field:'nd',align: 'center', width: '10%',totalRowText: '合计'}" rowspan="2">年度</th>
                 	<th lay-data="{field:'organName', width: '15%'}" rowspan="2">专业处/部门</th>
                    	<#list items as item>
 	                   	<#list item?keys as key> 
@@ -44,7 +43,7 @@
      <table id="historyItemTable" class="layui-table" lay-filter="historyItemTable" lay-data="{totalRow: false}">
          <thead>
         	<tr>
-             	<th lay-data="{field:'nd',align: 'center', width: '5%',totalRowText: '合计'}" rowspan="2">年度</th>
+             	<th lay-data="{field:'nd',align: 'center', width: '10%',totalRowText: '合计'}" rowspan="2">年度</th>
                 <th lay-data="{field:'organName', width: '15%'}" rowspan="2">专业处/部门</th>
             	<#list items as item>
                    	<#list item?keys as key> 
