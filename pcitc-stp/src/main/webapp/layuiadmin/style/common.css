@@ -626,3 +626,4 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .skill-left .layui-tab-title li.layui-this{background: white;height: 36px;line-height: 35px;color: #1791ff;}
 .skill-left>ul li.layui-this{color: white;background-color: #1890ff;}
 .skill-right{width: 35%;float: right;}
+.doc-box ul{margin-bottom: 10px;}
