@@ -172,7 +172,7 @@ public class AdminMobileController extends BaseController {
 			String result = authResponse.getContent();
 			System.out.println("refreshOauth返回--------"+result);
 			JSONObject json = JSONObject.parseObject(result);
-			if (json!=null&&json.get("result")!=null) {
+			if (json!=null&&json.get("access_token")!=null) {
 				String access_token = json.getString("access_token");
 				String refresh_token = json.getString("refresh_token");
 				String expires_in = json.getString("expires_in");
@@ -195,7 +195,7 @@ public class AdminMobileController extends BaseController {
 					String userResult = userResponse.getContent();
 					System.out.println("userOauth返回--------"+userResult);
 					JSONObject userJson = JSONObject.parseObject(userResult);
-					if (userJson!=null&&userJson.get("result")!=null) {
+					if (userJson!=null&&userJson.getString("uid")!=null) {
 						uid = userJson.getString("uid");
 						System.out.println("uid返回--------"+uid);
 						
