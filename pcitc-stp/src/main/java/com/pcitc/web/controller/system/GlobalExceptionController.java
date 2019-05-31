@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@ControllerAdvice
+//@ControllerAdvice
 public class GlobalExceptionController {
     private final static Logger logger = LoggerFactory.getLogger(GlobalExceptionController.class);
     // 文件上传路径

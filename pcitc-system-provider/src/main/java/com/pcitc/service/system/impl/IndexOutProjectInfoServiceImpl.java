@@ -33,6 +33,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.*;
 
 import java.util.stream.Collectors;
@@ -106,7 +107,7 @@ public class IndexOutProjectInfoServiceImpl implements IndexOutProjectInfoServic
 
     @Override
     public int insert(IndexOutProjectInfo record) {
-        if (record.getDataId()==null){
+        if (record.getDataId() == null) {
             record.setDataId(IdUtil.createIdByTime());
         }
         return indexOutProjectInfoMapper.insert(record);
@@ -171,36 +172,72 @@ public class IndexOutProjectInfoServiceImpl implements IndexOutProjectInfoServic
 
     @Override
     public JSONObject selectByExampleByTypeIndexCode(JSONObject obj) {
+        //查询
         IndexOutProjectInfoExample ex = new IndexOutProjectInfoExample();
         ex.createCriteria().andTypeIndexLike(obj.get("typeIndex").toString() + "%");
         List<IndexOutProjectInfo> list = indexOutProjectInfoMapper.selectByExample(ex);
-
-        Map<String,String> map = list.stream().collect(Collectors.toMap(IndexOutProjectInfo::getTypeIndex,IndexOutProjectInfo::getTypeName,(entity1,entity2) -> entity1));
-
-
-        Map<String, List<IndexOutProjectInfo>> infoGroupMap = list.stream().collect(Collectors.groupingBy(IndexOutProjectInfo::getTypeIndex));
-        int length = infoGroupMap.size();
-
-        List<String> x = new ArrayList<>();
+        //map<typeIndex,typeName>
+        Map<String, String> map = list.stream().collect(Collectors.toMap(IndexOutProjectInfo::getTypeIndex, IndexOutProjectInfo::getTypeName, (entity1, entity2) -> entity1));
+        //根据年去重
+        List<IndexOutProjectInfo> unique = list.stream().collect(
+                Collectors.collectingAndThen(
+                        Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(IndexOutProjectInfo::getNd))), ArrayList::new)
+        );
+        //获取年map<年,年>
+        Map<String, String> yearMap = unique.stream().collect(Collectors.toMap(IndexOutProjectInfo::getNd, IndexOutProjectInfo::getNd, (entity1, entity2) -> entity1));
+        //排序年
+        Map<String, String> sortMap = new LinkedHashMap<>();
+        yearMap.entrySet().stream().sorted(Map.Entry.<String, String>comparingByValue()).
+                forEachOrdered(e -> sortMap.put(e.getKey(), e.getValue()));
+        //去重排序后的年放入list<String>
         List<String> y = new ArrayList<>();
-
-        int[][] data = new int[length][3];
-
-        int i = 0, j = 0,k = 0;
-        for (Map.Entry<String, List<IndexOutProjectInfo>> entry : infoGroupMap.entrySet()) {
-            //技术名称,项目数量
-                data[k][0] = i;
-                data[k][1] = j;
-                data[k][2] = entry.getValue().size();
-                j++;
-//                if (j==length/2){
-//                    j = 0;
-//                    i++;
-//                }
-                k++;
-            x.add(map.get(entry.getKey()));
+        for (Map.Entry<String, String> e : sortMap.entrySet()) {
+            y.add(e.getKey());
         }
 
+        //map<typeIndex,List<对象>>
+        Map<String, List<IndexOutProjectInfo>> infoGroupMap = list.stream().collect(Collectors.groupingBy(IndexOutProjectInfo::getTypeIndex));
+
+        //map<typeIndex,Map<年,数量>>
+        Map<String, Map<String, Long>> mapCount = new LinkedHashMap<>();
+        for (Map.Entry<String, List<IndexOutProjectInfo>> entry : infoGroupMap.entrySet()) {
+            mapCount.put(entry.getKey(), entry.getValue().stream().collect(Collectors.groupingBy(IndexOutProjectInfo::getNd, Collectors.counting())));
+        }
+        //定义
+        List<String> x = new ArrayList<>();
+        List<String> x_temp = new ArrayList<>();
+        int i = 0, j = 0, k = 0;
+        //遍历map,存x,存y
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            x.add(entry.getValue());
+            x_temp.add(entry.getKey());
+        }
+
+        //计算数组长度
+        for (Map.Entry<String, Map<String, Long>> entry : mapCount.entrySet()) {
+            for (Map.Entry<String, Long> e : entry.getValue().entrySet()) {
+                k++;
+            }
+        }
+        int[][] data = new int[k][3];
+        int l = 0;
+//        //组装
+        for (Map.Entry<String, Map<String, Long>> entry : mapCount.entrySet()) {
+            Map<String, Long> ymap = entry.getValue();//年,数量
+            int xi = x_temp.indexOf(entry.getKey());
+            for (Map.Entry<String, Long> e : ymap.entrySet()) {
+                int yi = y.indexOf(e.getKey());//获取当前数据所在的y坐标
+                int[] ints = new int[3];
+                ints[0] = xi;
+                ints[1] = yi;
+                ints[2] = e.getValue().intValue();
+                data[l]=ints;
+//                System.out.println(map.get(entry.getKey())+"---"+e.getKey()+"---"+xi+"---"+yi+"---"+ints[2]  );
+                //l++
+                l++;
+            }
+        }
+        //返回
         obj.put("x", x);
         obj.put("y", y);
         obj.put("data", data);
@@ -313,6 +350,15 @@ public class IndexOutProjectInfoServiceImpl implements IndexOutProjectInfoServic
         Object typeIndex = param.getParam().get("typeIndex");
         if (typeIndex != null) {
             c.andTypeIndexLike(typeIndex + "%");
+        }
+
+        Object typeName = param.getParam().get("typeName");
+        if (typeName != null) {
+            c.andTypeNameLike("%"+typeName + "%");
+        }
+        Object nd = param.getParam().get("nd");
+        if (nd != null) {
+            c.andNdEqualTo(nd.toString());
         }
         example.setOrderByClause("create_date desc");
         return this.findByExample(param, example);
