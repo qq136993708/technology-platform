@@ -665,8 +665,7 @@ public class FinancialDecisionController extends BaseController {
 	 */
 	@RequestMapping(value = "/to-cash-flow")
 	public String cash_flow(HttpServletRequest request) throws Exception {
-		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		String month = HanaUtil.getCurrrent_Year_Moth();
+		String month = HanaUtil.getCurrrentYear_Moth();
 		request.setAttribute("month", month);
 		return "stp/hana/decision/financial/cash-flow";
 	}

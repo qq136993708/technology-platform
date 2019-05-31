@@ -87,8 +87,7 @@ public class ProjectCostController extends BaseController {
 	  @RequestMapping(method = RequestMethod.GET, value = "/pc/kytztjb")
 	  public String kytztjb(HttpServletRequest request) throws Exception
 	  {
-		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-			String month = HanaUtil.getCurrrent_Year_Moth();
+			String month = HanaUtil.getCurrrentYear_Moth();
 			request.setAttribute("month", month);
 	        return "stp/hana/projectCost/kytztjb";
 	  }
@@ -307,7 +306,7 @@ public class ProjectCostController extends BaseController {
 	  public String kjjftjb(HttpServletRequest request) throws Exception
 	  {
 		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-			String month = HanaUtil.getCurrrent_Year_Moth();
+			String month = HanaUtil.getCurrrentYear_Moth();
 			request.setAttribute("month", month);
 	        return "stp/hana/projectCost/kjjftjb";
 	  }
@@ -536,8 +535,7 @@ public class ProjectCostController extends BaseController {
 	  @RequestMapping(method = RequestMethod.GET, value = "/pc/hxktqcbtjb")
 	  public String hxktqcbtjb(HttpServletRequest request) throws Exception
 	  {
-		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-			String month = HanaUtil.getCurrrent_Year_Moth();
+			String month = HanaUtil.getCurrrentYear_Moth();
 			request.setAttribute("month", month);
 	        return "stp/hana/projectCost/hxktqcbtjb";
 	  }

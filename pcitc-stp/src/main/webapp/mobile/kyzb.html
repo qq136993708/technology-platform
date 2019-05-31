@@ -19,7 +19,7 @@
 	<div class="layui-card layui-form " lay-filter="component-form-element">
 		<div class="layui-card-body layui-row layui-col-space10">
 			<div class="layui-col-xs4">
-				<input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control layui-input" id="month">
+				<input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  placeholder="yyyy-MM" class="form-control layui-input" id="month">
 			</div>
 			<div class="layui-col-xs4" style="display:none">
 				<select name="city" lay-verify="">
@@ -125,14 +125,12 @@ layui.config({
       ,laydate = layui.laydate
 	  form.render(null, 'component-form-group');
         laydate.render({
-        	 elem: '#month'
-        	       ,format: 'yyyyMM'
+        	 elem: '#month',type: 'month' 
+        	       
             ,done: function(value, date, endDate){
                 $(".layui_time1").html(date.year);
                 $(".layui_time").html(date.year+"年"+date.month+"月");
-
                 $("#month").val(date.year+""+PrefixInteger(date.month, 2));
-
                 search_Event();
             }
         });
@@ -156,6 +154,7 @@ function initEchart()
 
 
 	var month=$('#month').val();
+	month=month.replace("-","");
 	var companyCode=$('#companyCode').val();
 	var nd=month.substr(0,4);
 
@@ -186,7 +185,7 @@ function initEchart()
 
 
 
-
+    
 	var chart1_url="/direct/equipment_01?type=1&nd="+nd+"&v_date="+v_date+"&xmlbbm=kyzb";
 	var color=[];
 	echart1=     load_mutl_bar_down_r(chart1_url,"equipment_chart1","","",yAxis,true,15,color)
@@ -247,6 +246,7 @@ function equipment_chart1(ktlx)
 
 
 	var month=$('#month').val();
+	month=month.replace("-","");
 	var nd=month.substr(0,4);
 	var v_date=(new Date()).getTime();
 	var url=　encodeURIComponent("/one_level_main/count_table?nd="+nd+"&ysnd="+nd+"&define1=资本性&v_date="+v_date+"&ktlx="+ktlx);
@@ -278,6 +278,7 @@ function search_Event()
 function renderTable2()
 {
 	var month=$('#month').val();
+	month=month.replace("-","");
 	var companyCode=$('#companyCode').val();
 
 	  var v_date=(new Date()).getTime();
@@ -320,6 +321,7 @@ function renderTable2()
 function myTable()
 {
 	var month=$('#month').val();
+	month=month.replace("-","");
 	var nd=month.substr(0,4);
 	var v_date=(new Date()).getTime();
 	var url= '/direct/equipment_01?type=2&v_date='+v_date+"&nd="+nd+"&xmlbbm=kyzb";
