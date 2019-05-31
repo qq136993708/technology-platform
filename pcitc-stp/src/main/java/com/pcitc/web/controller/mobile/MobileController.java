@@ -57,7 +57,7 @@ public class MobileController extends BaseController {
 		String nd = HanaUtil.getCurrrentYear();
 		request.setAttribute("nd", nd);
 
-		String month = HanaUtil.getCurrrentYearMoth();
+		String month = HanaUtil.getCurrrentYear_Moth();
 		request.setAttribute("month", month);
 
 		String companyCode = HanaUtil.YJY_CODE_NOT_YINGKE;

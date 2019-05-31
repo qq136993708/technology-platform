@@ -68,19 +68,18 @@ public class FinanceController extends BaseController {
 		    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
 	        return "stp/hana/finance/BB11yjkffyzcqkb";
 	  }
+	  
 	  //现金日流量分析
 	  @RequestMapping(method = RequestMethod.GET, value = "/finance/xjrllfx")
 	  public String xjrllfx(HttpServletRequest request) throws Exception
 	  {
-		  
-		   
 		  
 		    String month=CommonUtil.getParameter(request, "month", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		    List<String> list=HanaUtil.getDayListOfMonth(month);
 		    JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
 		    System.out.println(">>>>>json="+json);
 		    request.setAttribute("days", json.toJSONString());
-		    String day= DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY_DD);
+		    String day= DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY_DD_ZN);
 		    request.setAttribute("day", day);
 	        return "stp/hana/finance/xjrllfx";
 	  }

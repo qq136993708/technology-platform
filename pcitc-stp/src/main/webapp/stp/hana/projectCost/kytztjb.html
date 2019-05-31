@@ -108,8 +108,7 @@ layui.config({
       ,laydate = layui.laydate,
 	 form.render(null, 'component-form-group');
 	  laydate.render({
-          elem: '#month'
-          ,format: 'yyyyMM'
+		  elem: '#month',type: 'month'
        });
 	  init_companyCode(functionId);
           //加载表格      
@@ -144,81 +143,7 @@ layui.config({
     });
     
     
-   /*  function renderTable()
-    {
-    	var companyCode=$("#companyCode").val();
-    	// alert(companyCode);
-    	var index = layer.load(1, {
-    		  shade: [0.1,'#fff'] 
-    		}); 
-      //渲染
-      table.render({
-        elem: '#processdef-table',
-        url: '/kytztjb_data?companyCode='+companyCode,
-        method:"POST",
-        where: {param: {
-        	      "month":$("#month").val(),"companyCode":companyCode
-               }},
-        id: 'processdef-table',
-        cols: [[
-            {field:'g0GSJC',               title:'直属研究院',              style:'cursor: pointer;',align: 'left', width: '8%'},
-            {field:'k0ZTYSJE',             title:'计划总投资',              style:'cursor: pointer;',align: 'right', width: '6%'},
-            {field:'k0LJGLFPHJECB',        title:'累计下达投资额  ',          style:'cursor: pointer;',align: 'right', width: '6%'},
-            {field:'k0LJSJCNJE',           title:'承诺',                  style:'cursor: pointer;',align: 'right', width: '6%'},
-            {field:'k0LJSJDJJE',           title:'预付余额',               style:'cursor: pointer;',align: 'right', width: '6%'},
-            {field:'k0LJSJJE',             title:'累计投资完成额',           style:'cursor: pointer;',align: 'right', width: '10%'},
-            {field:'k0LJYSJY',             title:'项目资金计划结余',          style:'cursor: pointer;',align: 'right', width: '10%'},
-            {field:'k0LJZJSYBL',           title:'资金使用%',               style:'cursor: pointer;',align: 'right', width: '6%'},
-            {field:'k0BNYSJHJE',           title:'本年投资计划',             style:'cursor: pointer;',align: 'right', width: '6%'},
-            {field:'k0BNGLFPHJECB',        title:'本年累计支出',             style:'cursor: pointer;',align: 'right', width: '6%'},
-            {field:'k0BNSJCNJE',           title:'承诺 ',                  style:'cursor: pointer;',align: 'right', width: '6%'},
-            {field:'k0BNSJDJJE',           title:'本年预付款',              style:'cursor: pointer;',align: 'right', width: '6%'},
-            {field:'k0BNSJJE',             title:'本年投资完成额',            style:'cursor: pointer;',align: 'right', width: '6%'},
-            {field:'k0BNYSJY',             title:'本年资金计划结余',           style:'cursor: pointer;',align: 'right', width: '6%'},
-            {field:'k0BNZJSYBL',           title:'资金使用%',               style:'cursor: pointer;',align: 'right', width: '6%'}
-        ]],
-        done: function (res, curr, count) {
-            // 点击行联动选择框--单选
-            $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-            	var index=parseInt($(this).index()+1);
-                $('tr').removeClass('layui-table-click');
-                $(this).addClass('layui-table-click');
-                $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                selectRowData=res.data[index-1];
-                
-            });
-            
-            layer.close(index); 
-        }
-      });
-      
-      
-	    //监听行单击事件
-	    table.on('row(processdef-table)', function(obj){
-	        console.log(obj.tr) //得到当前行元素对象
-	        console.log(obj.data) //得到当前行数据
-	        var selectRowData=obj.data;
-	        var url="/to_kytztjb_detail?month="+$("#month").val()+"&companyName="+selectRowData.g0GSJC;
-	        layer.open({
-                title:'投资项目支出-详情',
-                skin: 'layui-layer-lan',
-                shadeClose: true,
-                type: 2,
-                fixed: false,
-                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                maxmin: false,
-                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                area: ['70%', '90%'],
-                content:  url
-            });
-	        //parent.layui.index.openTabsPage("/to_kytztjb_detail?month="+$("#month").val()+"&companyName="+selectRowData.g0GSJC, "投资项目支出");
-	        
-	     });
-      
-} */
-   
-    
+  
     
     
 
@@ -228,7 +153,7 @@ layui.config({
     	layer.load(2);
     	 var month=$("#month").val();
     	 var companyCode=$("#companyCode").val();
-    	
+    	 month=month.replace("-","");
     	 var v_date=(new Date()).getTime();
     	 var url= '/kytztjb_data?month='+month+"&v_date="+v_date+"&companyCode="+companyCode;
     	 table.init('myTable', {
@@ -273,6 +198,7 @@ layui.config({
     {
     	var companyCode=$('#companyCode').val();
     	var month=$('#month').val();
+    	month=month.replace("-","");
     	window.open("/kytztjb_data_exput_excel?month="+month+"&companyCode="+companyCode);
     } 
    

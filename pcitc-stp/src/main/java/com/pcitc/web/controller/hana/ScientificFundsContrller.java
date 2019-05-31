@@ -83,7 +83,6 @@ public class ScientificFundsContrller extends BaseController {
 	  @RequestMapping(method = RequestMethod.GET, value = "/sf/ndjfyshtqdjdfx")
 	  public String ndjfyshtqdjdfx(HttpServletRequest request) throws Exception
 	  {
-		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 		    
 		    String year = HanaUtil.getCurrrentYear();
 			request.setAttribute("year", year);
@@ -189,8 +188,7 @@ public class ScientificFundsContrller extends BaseController {
 	  @RequestMapping(method = RequestMethod.GET, value = "/sf/ktzjjfytjb")
 	  public String ktzjjfytjb(HttpServletRequest request) throws Exception
 	  {
-		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-			String month = HanaUtil.getCurrrent_Year_Moth();
+			String month = HanaUtil.getCurrrentYear_Moth();
 			request.setAttribute("month", month);
 	        return "stp/hana/scientificFunds/ktzjjfytjb";
 	  }
@@ -221,7 +219,7 @@ public class ScientificFundsContrller extends BaseController {
 		    PageResult pageResult = new PageResult();
 			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 			String companyCode = CommonUtil.getParameter(request, "companyCode", "");
-			// System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+			 System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
 			paramsMap.put("month", month);
 			paramsMap.put("companyCode", companyCode);
@@ -453,9 +451,7 @@ public class ScientificFundsContrller extends BaseController {
 	  @RequestMapping(method = RequestMethod.GET, value = "/sf/rgcbzctjb")
 	  public String rgcbzctjb(HttpServletRequest request) throws Exception
 	  {
-		  SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-			
-			String month = HanaUtil.getCurrrent_Year_Moth();
+		  String month = HanaUtil.getCurrrentYear_Moth();
 			request.setAttribute("month", month);
 	        return "stp/hana/scientificFunds/rgcbzctjb";
 	  }
@@ -470,7 +466,7 @@ public class ScientificFundsContrller extends BaseController {
 		  PageResult pageResult = new PageResult();
 			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 			String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
-			// System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+			 System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
 			paramsMap.put("month", month);
 			paramsMap.put("companyCode", companyCode);
@@ -721,9 +717,7 @@ public class ScientificFundsContrller extends BaseController {
 	  @RequestMapping(method = RequestMethod.GET, value = "/sf/yclzctjb")
 	  public String yclzctjb(HttpServletRequest request) throws Exception
 	  {
-		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-			
-			String month = HanaUtil.getCurrrent_Year_Moth();
+		  String month = HanaUtil.getCurrrentYear_Moth();
 			request.setAttribute("month", month);
 	        return "stp/hana/scientificFunds/yclzctjb";
 	  }
@@ -973,9 +967,7 @@ public class ScientificFundsContrller extends BaseController {
 	  @RequestMapping(method = RequestMethod.GET, value = "/sf/nhzctjb")
 	  public String nhzctjb(HttpServletRequest request) throws Exception
 	  {
-		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-			
-			String month = HanaUtil.getCurrrent_Year_Moth();
+		  String month = HanaUtil.getCurrrentYear_Moth();
 			request.setAttribute("month", month);
 	        return "stp/hana/scientificFunds/nhzctjb";
 	  }
@@ -1215,8 +1207,7 @@ public class ScientificFundsContrller extends BaseController {
 	  {
 		    
 		  
-		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-			String month = HanaUtil.getCurrrent_Year_Moth();
+		  String month = HanaUtil.getCurrrentYear_Moth();
 			request.setAttribute("month", month);
 			
 			  

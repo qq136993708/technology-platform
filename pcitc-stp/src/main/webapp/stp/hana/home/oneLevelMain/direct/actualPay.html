@@ -167,7 +167,7 @@ layui.config({
     form.render(null, 'component-form-group');
     laydate.render({
         elem: '#month'
-       ,format: 'yyyyMM'
+        	,type: 'month'
         ,done: function(value, date, endDate){
             $(".layui-time").html(date.year+"年"+date.month+"月");
             $("#month").val(date.year+""+PrefixInteger(date.month, 2)); 
@@ -194,7 +194,7 @@ function initEchart()
 	
 	var v_date=(new Date()).getTime();
 	var month=$('#month').val();
-	var ndstr=getNowFormatDate($('#month').val());
+	month=month.replace("-","");
 	
 	var yAxis= [
         {
@@ -289,6 +289,7 @@ function renderTable()
 {  
 	
 	  var month=$("#month").val();
+	  month=month.replace("-","");
 	  var url='/direct/pay_02?month='+month+"&companyCode="+companyCode;
 	 var  ptable=treeGridCom.render({
 	        id:tableId
@@ -329,7 +330,7 @@ function renderTable()
 {
 
 	var month=$("#month").val();
-    
+	month=month.replace("-","");
     var url= '/direct/pay_03?month='+month+"&type=2&companyCode="+companyCode;
     table.init('myTable233', {
 		  url: url

@@ -22,27 +22,12 @@
                 <span>月份</span>
                 <input type="text" name="year" placeholder="请选择月份" title="月份" value="${year}" autocomplete="off" class="form-control" id="year">
             </label>
-            <div class="layui-input-inline">
-                <select name="companyCode" id="companyCode" >
-                    <#list companyCodeList as vo>
-                        <#if vo.g0GSJC == '全部'>
-                        <option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
-                        </#if>
-                        <#if vo.g0GSJC != '全部'>
-                            <option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
-                        </#if>
-                    </#list>
-                </select>
-            </div>
             <!--按钮组-->
             <div class="btnGroup">
                 <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
             </div>
             <span class="unitBox">单位：万元</span>
         </div>
-        
-        
-       
         
         
         
@@ -131,7 +116,7 @@ layui.config({
 	  form.render(null, 'component-form-group');
             laydate.render({
                elem: '#year'
-               ,format: 'yyyy'
+               ,type: 'year'
             });
       var yearValY=$("#year").val();
       $(".layui-time").html(yearValY+"年");
