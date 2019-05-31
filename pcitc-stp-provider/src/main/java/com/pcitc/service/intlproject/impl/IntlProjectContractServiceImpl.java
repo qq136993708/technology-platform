@@ -173,9 +173,27 @@ public class IntlProjectContractServiceImpl implements IntlProjectContractServic
 		IntlProjectContractExample example = new IntlProjectContractExample();
 		IntlProjectContractExample.Criteria c = example.createCriteria();
 		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		c.andContractTypeEqualTo(0);//新签项目
 		example.setOrderByClause("create_time desc");
 		
 		return intlProjectContracMapper.selectByExample(example);
+	}
+	@Override
+	public List<IntlProjectInfo> selectNotContractProjectList() 
+	{
+		IntlProjectInfoExample infoExample = new IntlProjectInfoExample();
+		IntlProjectInfoExample.Criteria criteria = infoExample.createCriteria();
+		criteria.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		List<IntlProjectContract> contracts = selectAllProjctContract();
+		if(contracts != null && contracts.size() > 0) {
+			List<String> ids = new ArrayList<String>();
+			for(IntlProjectContract c:contracts) 
+			{
+				ids.add(c.getProjectId());
+			}
+			criteria.andProjectIdNotIn(ids);
+		}
+		return intlProjectInfoMapper.selectByExample(infoExample);
 	}
 	
 }
