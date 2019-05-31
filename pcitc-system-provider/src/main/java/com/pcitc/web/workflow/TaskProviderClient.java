@@ -329,10 +329,8 @@ public class TaskProviderClient {
 		for (Task task : taskList) {
 			TaskVo vo = new TaskVo();
 			BeanUtils.copyProperties(task, vo);
-			System.out.println(task.getId() + "---历史审批实例=====" + task.getProcessInstanceId());
 			// 获取流程变量，得到流程的启动人信息
 			Map<String, Object> variables = taskService.getVariables(task.getId());
-			System.out.println("---历variables审批实例=====" + variables);
 
 			if (variables != null && variables.get("authenticatedUserName") != null) {
 				vo.setStartUserName(variables.get("authenticatedUserName") != null ? String.valueOf(variables.get("authenticatedUserName")) : "");
@@ -383,13 +381,12 @@ public class TaskProviderClient {
 
 			voList.add(vo);
 		}
-		System.out.println("====单页循环查询用时-------------" + (now3.getTime() - now1.getTime()));
 
 		LayuiTableData data = new LayuiTableData();
 		data.setData(voList);
 		data.setCount((int) count);
 		Date now2 = new Date();
-		System.out.println("====总用时-------------" + (now2.getTime() - now1.getTime()));
+		System.out.println("selectPendingList====总用时-------------" + (now2.getTime() - now1.getTime()));
 		return data;
 	}
 	
