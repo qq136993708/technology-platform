@@ -153,14 +153,11 @@ public class AdminMobileController extends BaseController {
 
 		// 添加多个参数请求头
 		client.addHeaders(headerMap);
-		JsonObject jo = new JsonObject();
-		jo.addProperty("client_id", "YWlvYmdjbWJjcGpibmhra2FwZG1lcGdvYmRnbmRtbWdmbm1vZW1sYWdtcGdtamZjamFobGRnY2lwaGFpZGtrcA==");
-		jo.addProperty("client_secret", "b25ibGFrY2hoZGxsZ2VmaWxtZmdiaGRobG9mZmNvbWlvaWdobGJoYWdub2NmbmVlb21qbG5qZmhja2JlcHBlbw==");
-		jo.addProperty("refresh_token", oauthToken);
-		jo.addProperty("grant_type", "refresh_token");
-		jo.addProperty("client_ip", getRemoteHost(request));
-		System.out.println("jo--------"+jo.toString());
-		client.body(jo.toString());
+		client.addQueryParam("client_id", "YWlvYmdjbWJjcGpibmhra2FwZG1lcGdvYmRnbmRtbWdmbm1vZW1sYWdtcGdtamZjamFobGRnY2lwaGFpZGtrcA==");
+		client.addQueryParam("client_secret", "b25ibGFrY2hoZGxsZ2VmaWxtZmdiaGRobG9mZmNvbWlvaWdobGJoYWdub2NmbmVlb21qbG5qZmhja2JlcHBlbw==");
+		client.addQueryParam("refresh_token", oauthToken);
+		client.addQueryParam("grant_type", "refresh_token");
+		client.addQueryParam("client_ip", getRemoteHost(request));
 		RestfulHttpClient.HttpResponse authResponse = client.request();
 
 		// 是否获取人员信息成功标识
@@ -188,12 +185,9 @@ public class AdminMobileController extends BaseController {
 				// 添加多个参数请求头
 				userClient.addHeaders(headerMap);
 				
-				JsonObject userJs = new JsonObject();
-				userJs.addProperty("access_token", access_token);
-				userJs.addProperty("client_id", "YWlvYmdjbWJjcGpibmhra2FwZG1lcGdvYmRnbmRtbWdmbm1vZW1sYWdtcGdtamZjamFobGRnY2lwaGFpZGtrcA==");
-				userJs.addProperty("client_secret", "b25ibGFrY2hoZGxsZ2VmaWxtZmdiaGRobG9mZmNvbWlvaWdobGJoYWdub2NmbmVlb21qbG5qZmhja2JlcHBlbw==");
-
-				userClient.body(userJs.toString());
+				userClient.addQueryParam("access_token", access_token);
+				userClient.addQueryParam("client_id", "YWlvYmdjbWJjcGpibmhra2FwZG1lcGdvYmRnbmRtbWdmbm1vZW1sYWdtcGdtamZjamFobGRnY2lwaGFpZGtrcA==");
+				userClient.addQueryParam("client_secret", "b25ibGFrY2hoZGxsZ2VmaWxtZmdiaGRobG9mZmNvbWlvaWdobGJoYWdub2NmbmVlb21qbG5qZmhja2JlcHBlbw==");
 
 				RestfulHttpClient.HttpResponse userResponse = userClient.request();
 				if (userResponse.getCode()==200) {
