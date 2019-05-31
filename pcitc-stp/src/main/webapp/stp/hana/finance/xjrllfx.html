@@ -13,15 +13,18 @@
 	<div class="layui-main-oil">
 		<div class="searchBox">
 			<!--查询条件-->
-			<label class="dateInput">
-				<span>日期</span>
-				<input type="text" name="day" placeholder="请选择日期" title="日期" value="${day}" autocomplete="off" class="form-control" id="day">
-			</label>
 			
 			
-			 <div class="layui-input-inline">
-              <select id="companyCode" name="companyCode" class="form-control"></select>
-             </div>
+			 <label class="dateInput">
+            <span>日期</span>
+            <input type="text" name="day"   value="${day}"  id="day">
+            <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
+        </label>
+       <div class="layui-input-inline"  style="margin-left:10px">
+           <select id="companyCode" name="companyCode" class="form-control"></select>
+        </div>
+        
+        
         
 			
 	<!--按钮组-->
@@ -93,10 +96,10 @@ var table;
         renderTable();
     });
 
-
+    init_companyCode(functionId);
     function init()
     {
-    	init_companyCode(functionId);
+    	
         var allCode="${allCode?default('')}";
         var allCode_text="全部院所";
         var v_date=(new Date()).getTime();

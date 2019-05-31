@@ -18,7 +18,7 @@
         .dateInput i{position: absolute; top: -4px; right: 6px;}
         .headline-tool .tool-center{position: absolute;left: 50%;top: 6px;margin-left: -47px;}
         .headline-tool .tool-right{position: absolute;right: 0;top: 12px;}
-        .num-box{float: left;padding-left: 10px; color: red;margin-top: 4px;}
+        .num-box{float: left;padding-left: 10px; color: red;margin-top: 4px;font-size: 14px !important;;}
         .num-box input{width: 90px;padding-left: 6px; background: #ffffff; border: 1px solid #e6e6e6;color: red;}
         .content-box{height: 42px; line-height: 42px;margin: 0 10px;}
         .content-box .items{float: left; margin-right: 18px;}
@@ -303,13 +303,13 @@
                     layer.open({
                         title: cu_date+'集团公司经费预算编制管理-创建预算表'
                         , skin: 'layui-layer-lan'
-                        , shadeClose: true
+                        , shadeClose: false
                         , type: 2
                         , fixed: false
                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                        , maxmin: false
+                        , maxmin: true
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                        , area: ['80%', '90%']
+                        , area: ['70%', '90%']
                         , content: '/budget/budget_create_grouptotal?nd='+cu_date
                     });
                 },
@@ -348,13 +348,13 @@
                    	layer.open({
                         title: cu_date+'集团公司经费预算编制管理-预算项新增'
                         , skin: 'layui-layer-lan'
-                        , shadeClose: true
+                        , shadeClose: false
                         , type: 2
                         , fixed: false
                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                        , maxmin: false
+                        , maxmin: true
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                        , area: ['80%', '90%']
+                        , area: ['70%', '90%']
                         , content: url
                     });
                 },
@@ -368,13 +368,13 @@
                    	layer.open({
                         title: cu_date+'集团公司经费预算编制管理-预算项编辑'
                         , skin: 'layui-layer-lan'
-                        , shadeClose: true
+                        , shadeClose: false
                         , type: 2
                         , fixed: false
                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                        , maxmin: false
+                        , maxmin: true
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                        , area: ['80%', '90%']
+                        , area: ['70%', '90%']
                         , content: url
                     });
                 },
@@ -444,13 +444,13 @@
                    	layer.open({
                         title: '集团公司经费预算编制管理-往年预算参考'
                         , skin: 'layui-layer-lan'
-                        , shadeClose: true
+                        , shadeClose: false
                         , type: 2
                         , fixed: false
                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                        , maxmin: false
+                        , maxmin: true
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                        , area: ['80%', '90%']
+                        , area: ['70%', '90%']
                         , content: url
                     });                	
                 },historyView:function(){
@@ -462,13 +462,13 @@
                    	layer.open({
                         title: '集团公司经费预算编制管理-历年参考数据'
                         , skin: 'layui-layer-lan'
-                        , shadeClose: true
+                        , shadeClose: false
                         , type: 2
                         , fixed: false
                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                        , maxmin: false
+                        , maxmin: true
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                        , area: ['80%', '90%']
+                        , area: ['70%', '90%']
                         , content: url
                     });         
                 }

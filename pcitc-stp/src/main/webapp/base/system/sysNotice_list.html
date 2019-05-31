@@ -60,7 +60,7 @@
             },
             cols: [[
             	{type:'checkbox', event: 'changeEvents'},
-                {title:'序号', type:'numbers'},
+                {title:'序号', type:'numbers' ,width : 55},
                 {field:'noticeTitle', title:'公告标题', event: 'setActive',style:'cursor: pointer;'},
                 {field:'noticeCreater', title:'创建者', event: 'setActive',style:'cursor: pointer;'},
                 {field:'noticeCreatetime', title:'创建时间', event: 'setActive',style:'cursor: pointer;'},
@@ -125,13 +125,13 @@
                 layer.open({
                     title:'新增公告'
                     ,skin: 'layui-layer-lan'
-                    ,shadeClose: true
+                    ,shadeClose: false
                     ,type: 2
                     ,fixed: false
                     //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                     ,maxmin: true
                     //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                    ,area: ['90%', '90%']
+                    ,area: ['70%', '90%']
                     ,content: "/sysNotice/sysNotice_info"
                 });
             }
@@ -146,13 +146,13 @@
 	            	layer.open({
 	                    title:'修改公告'
 	                    ,skin: 'layui-layer-lan'
-	                    ,shadeClose: true
+	                    ,shadeClose: false
 	                    ,type: 2
 	                    ,fixed: false
 	                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
 	                    ,maxmin: true
 	                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-	                    ,area: ['90%', '90%']
+	                    ,area: ['70%', '90%']
 	                    ,content: '/sysNotice/sysNotice_info?id='+id
 	                });
 	            } else {
@@ -186,13 +186,13 @@
             	layer.open({
                     title:'查看公告'
                     ,skin: 'layui-layer-lan'
-                    ,shadeClose: true
+                    ,shadeClose: false
                     ,type: 2
                     ,fixed: false
                     //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                     ,maxmin: true
                     //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                    ,area: ['90%', '90%']
+                    ,area: ['70%', '90%']
                     ,content: '/sysNotice/readNotice?id='+selectRowData.noticeId
                 });
             }

@@ -15,15 +15,18 @@
     </div>
 </header>
 <main class="main">
-<input type="hidden" name="YJY_CODE_ALL"          value="${YJY_CODE_ALL}"   id="YJY_CODE_ALL">
-<input type="hidden" name="YJY_CODE_NOT_YINGKE"  value="${YJY_CODE_NOT_YINGKE}"   id="YJY_CODE_NOT_YINGKE">
-<input type="hidden" name="companyCode"          value="${companyCode}"   id="companyCode">
             
 	<div class="layui-card layui-form " lay-filter="component-form-element">
 		<div class="layui-card-body layui-row layui-col-space10">
 			<div class="layui-col-xs4">
 				<input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control layui-input" id="month">
 			</div>
+			
+			
+			<div class="layui-col-xs4" >
+             <select id="companyCode" name="companyCode" ></select>
+            </div>
+        
 			<div class="layui-col-xs4" style="display:none">
 				<select name="city" lay-verify="">
 					<option value="">全部</option>
@@ -109,10 +112,11 @@
 <script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
 <script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
-
+<script src="/stp/hana/common/hana_common.js"></script>
 
 
 <script type="text/javascript">
+
 (function(doc, win) {
     var docEl = doc.documentElement,
         resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
@@ -151,9 +155,9 @@ layui.config({
         elem: '#month'
        ,format: 'yyyyMM'
         ,done: function(value, date, endDate){
-            $(".layui_time").html(date.year+"年"+date.month+"月");
+           // $(".layui_time").html(date.year+"年"+date.month+"月");
             $("#month").val(date.year+""+PrefixInteger(date.month, 2)); 
-            search_Event();
+           // search_Event();
         }
     });
    
@@ -166,16 +170,15 @@ function PrefixInteger(num, length) {
 	  return (num/Math.pow(10,length)).toFixed(length).substr(2);
 	}
 	
-	
-function initEchart()
+init_companyCode("984b64b13cf54222bf57bd840759fabe");
+
+
+function initEchart(companyCode)
 {
-	var companyCode=$("#companyCode").val();
+	
 	var v_date=(new Date()).getTime();
 	var month=$('#month').val();
 	var ndstr=getNowFormatDate($('#month').val());
-	
-	var YJY_CODE_ALL=$('#YJY_CODE_ALL').val();
-	var YJY_CODE_NOT_YINGKE=$('#YJY_CODE_NOT_YINGKE').val();
 	var yAxis= [
         {
             type: 'value',
@@ -187,7 +190,7 @@ function initEchart()
         }
     ];
 	
-	
+	var companyCode=$("#companyCode").val();
 	//科研支出
     $("#pay_chart1_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
     $("#pay_chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
@@ -199,17 +202,16 @@ function initEchart()
     
     
     
-    
 
      var color=["#37a2da","#72c376"];
-    var chart1_url="/direct/pay_01?month="+month+"&v_date="+v_date+"&companyCode="+YJY_CODE_NOT_YINGKE;
+    var chart1_url="/direct/pay_01?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
 	echart1=load_mutl_bar_down(chart1_url,"pay_chart1","","",yAxis,50,color);
 	//
     var colorNew=["#8278e9","#f7d454"];
-    var chart7_url="/direct/pay_03?type=1&month="+month+"&v_date="+v_date+"&companyCode="+YJY_CODE_NOT_YINGKE;
+    var chart7_url="/direct/pay_03?type=1&month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
 	echart7=load_mutl_bar_down_color(chart7_url,"pay_chart3","","",yAxis,colorNew);
 	 //
-	var setPay_count_count_url="/direct/pay_03?type=3&month="+month+"&v_date="+v_date+"&companyCode="+YJY_CODE_NOT_YINGKE;
+	var setPay_count_count_url="/direct/pay_03?type=3&month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
 	setPay_count(setPay_count_count_url); 
 	
 }
@@ -228,13 +230,15 @@ window.onresize = function()
 //查询
 function search_Event()
 {
+	
+	
+	 var monthValY=$("#month").val().substring(4,0);
+	    var monthValM=$("#month").val().substring(4);
+	    $(".layui_time").html(monthValY+"年"+monthValM+"月");
 	initEchart();
 	renderTable();
 	renderTable2();
 }
-
-
-
 
 function setPay_count(url) 
 {
@@ -266,15 +270,10 @@ function setPay_count(url)
 } 
 function renderTable()
 {  
-	
-	  var month=$("#month").val();
 	  var companyCode=$("#companyCode").val();
-	  var YJY_CODE_NOT_YINGKE=$('#YJY_CODE_NOT_YINGKE').val();
-	  var url='/direct/pay_02?month='+month+"&companyCode="+YJY_CODE_NOT_YINGKE;
-	  
-	  
-	  
-	 var  ptable=treeGridCom.render({
+	  var month=$("#month").val();
+	  var url='/direct/pay_02?month='+month+"&companyCode="+companyCode;
+	  var  ptable=treeGridCom.render({
 	        id:tableId
 	        ,elem: '#processdef-table'
 	        ,url:url
@@ -313,8 +312,7 @@ function renderTable2()
 
 	var month=$("#month").val();
     var companyCode=$("#companyCode").val();
-    var YJY_CODE_NOT_YINGKE=$('#YJY_CODE_NOT_YINGKE').val();
-    var url= '/direct/pay_03?month='+month+"&type=2&companyCode="+YJY_CODE_NOT_YINGKE;
+    var url= '/direct/pay_03?month='+month+"&type=2&companyCode="+companyCode;
     table.init('myTable233', {
 		  url: url
 		  ,height:"440px"

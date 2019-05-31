@@ -15,11 +15,10 @@
     </div>
 </header>
 <main class="main">
-<input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
 	<div class="layui-card layui-form " lay-filter="component-form-element">
 		<div class="layui-card-body layui-row layui-col-space10">
 			<div class="layui-col-xs4">
-				<input type="text" name="year" placeholder="请选择月份" title="月份" value="${year}"  autocomplete="off" class="form-control layui-input" id="year">
+				<input type="text" name="nd" placeholder="请选择年份" title="年份" value="${nd}"  autocomplete="off" class="form-control layui-input" id="nd">
 			</div>
 			<div class="layui-col-xs4" style="display:none">
 				<select name="city" lay-verify="">
@@ -145,16 +144,16 @@ layui.config({
     layer=layui.layer;
     laydate = layui.laydate;
     form = layui.form;
-    var year=$("#year").val();
-    $(".layui_time").html(year+"年");
+    var nd=$("#nd").val();
+    $(".layui_time").html(nd+"年");
     form.render(null, 'component-form-group');
     laydate.render({
-        elem: '#year',min: '2016-10-14'
+        elem: '#nd',min: '2016-10-14'
         
         ,type: 'year'
         ,done: function(value, date, endDate){
             $(".layui_time").html(date.year);
-            $("#year").val(date.year); 
+            $("#nd").val(date.year); 
             search_Event();
         }
     });
@@ -166,8 +165,8 @@ layui.config({
 function initEchart()
 {
 	  var v_date=(new Date()).getTime();
-	  var month=$('#year').val();
-	  var nd=$('#year').val();
+	  var month=$('#nd').val();
+	  var nd=$('#nd').val();
 	 
 	  var  yAxis1= [
           {
@@ -308,8 +307,7 @@ function search_Event()
 function myTable()
 {
 	
-	 var nd=$("#year").val();
-	// var companyCode=$("#companyCode").val();
+	 var nd=$("#nd").val();
 	 var v_date=(new Date()).getTime();
 	 var url= '/one_level_main/investment_01_01?nd='+nd+"&v_date="+v_date;
 	    table.init('myTable', {
