@@ -53,6 +53,12 @@
 		 		publicMethods.ajaxPost('/project/get-contract', {"contractId":contractId}, function (data, status) {
 	        		form.val("contract-form",data);
 	            });
+	        }else{
+	        	publicMethods.ajaxPost('/project/project-contract-code', null, function (data, status) {
+	    			if (data.success) {
+	    				$("#contractNo").val(data.message);
+	    			}
+	    		});
 	        }
     		form.render();
     		$("#file_div").load('/common/public/uploadlayuiload.html');
