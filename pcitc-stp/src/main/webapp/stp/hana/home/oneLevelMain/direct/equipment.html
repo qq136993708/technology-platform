@@ -21,7 +21,7 @@
     <div class="">
         <div class="searchBox">
             <label class="dateInput">
-                <span>年月份</span>
+                <span>月份</span>
                 <input type="text" name="month" placeholder="请选择年份" title="年份" value="${month}"  autocomplete="off" class="form-control" id="month">
             </label>
             <div class="btnGroup" style="display:none">
@@ -180,8 +180,7 @@ layui.config({
 	  
 	  form.render(null, 'component-form-group');
         laydate.render({
-        	 elem: '#month'
-        	       ,format: 'yyyyMM'
+        	 elem: '#month',type: 'month'
             ,done: function(value, date, endDate){
                 $(".layui-time1").html(date.year);
                 $(".layui-time").html(date.year+"年"+date.month+"月");
@@ -192,7 +191,7 @@ layui.config({
 
 
         var monthValY=$("#month").val().substring(4,0);
-        var monthValM=$("#month").val().substring(4);
+        var monthValM=$("#month").val().substring(5);
         $(".layui-time").html(monthValY+"年"+monthValM+"月");
         $(".layui-time1").html(monthValY);
 
@@ -214,7 +213,7 @@ function initEchart()
 
 
 	var month=$('#month').val();
-	
+	month=month.replace("-","");
 	var nd=month.substr(0,4);
 
 	var v_date=(new Date()).getTime();
@@ -347,6 +346,7 @@ function equipment_chart1(ktlx)
 
 
 	var month=$('#month').val();
+	month=month.replace("-","");
 	var nd=month.substr(0,4);
 	var v_date=(new Date()).getTime();
 	var url=　encodeURIComponent("/one_level_main/count_table?nd="+nd+"&ysnd="+nd+"&define1=资本性&v_date="+v_date+"&ktlx="+ktlx);
@@ -372,7 +372,7 @@ function renderTable2()
 {
 	var month=$('#month').val();
 	
-
+	month=month.replace("-","");
 	  var v_date=(new Date()).getTime();
 	  var tableOne=table.render({
 	  elem: '#processdef_table_02',
@@ -414,6 +414,7 @@ function renderTable2()
 function myTable()
 {
 	var month=$('#month').val();
+	month=month.replace("-","");
 	var nd=month.substr(0,4);
 	var v_date=(new Date()).getTime();
 	var url= '/direct/equipment_01?type=2&v_date='+v_date+"&nd="+nd+"&xmlbbm=kyzb";

@@ -148,16 +148,14 @@ layui.config({
     
    
     var monthValY=$("#month").val().substring(4,0);
-    var monthValM=$("#month").val().substring(4);
+    var monthValM=$("#month").val().substring(5);
     $(".layui_time").html(monthValY+"年"+monthValM+"月");
     form.render(null, 'component-form-group');
     laydate.render({
         elem: '#month'
-       ,format: 'yyyyMM'
+       ,type: 'month'
         ,done: function(value, date, endDate){
-           // $(".layui_time").html(date.year+"年"+date.month+"月");
             $("#month").val(date.year+""+PrefixInteger(date.month, 2)); 
-           // search_Event();
         }
     });
    
@@ -178,7 +176,7 @@ function initEchart(companyCode)
 	
 	var v_date=(new Date()).getTime();
 	var month=$('#month').val();
-	var ndstr=getNowFormatDate($('#month').val());
+	 month=month.replace("-","");
 	var yAxis= [
         {
             type: 'value',
@@ -233,7 +231,7 @@ function search_Event()
 	
 	
 	 var monthValY=$("#month").val().substring(4,0);
-	    var monthValM=$("#month").val().substring(4);
+	    var monthValM=$("#month").val().substring(5);
 	    $(".layui_time").html(monthValY+"年"+monthValM+"月");
 	initEchart();
 	renderTable();
@@ -272,6 +270,7 @@ function renderTable()
 {  
 	  var companyCode=$("#companyCode").val();
 	  var month=$("#month").val();
+	  month=month.replace("-","");
 	  var url='/direct/pay_02?month='+month+"&companyCode="+companyCode;
 	  var  ptable=treeGridCom.render({
 	        id:tableId
@@ -311,6 +310,7 @@ function renderTable2()
 {
 
 	var month=$("#month").val();
+	 month=month.replace("-","");
     var companyCode=$("#companyCode").val();
     var url= '/direct/pay_03?month='+month+"&type=2&companyCode="+companyCode;
     table.init('myTable233', {

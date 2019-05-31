@@ -121,8 +121,7 @@ layui.config({
       ,laydate = layui.laydate,
 	 form.render(null, 'component-form-group');
 	  laydate.render({
-          elem: '#month'
-          ,format: 'yyyyMM'
+		  elem: '#month',type: 'month'
           
        });
 	  init_companyCode(functionId);
@@ -148,6 +147,7 @@ layui.config({
             selectRowData=obj.data;
             var companyName=selectRowData.g0GSJC;
             var month=$("#month").val();
+            month=month.replace("-","");
        	    var v_date=(new Date()).getTime();
        	    //alert(companyName+"="+month);
        	    var url= '/sf/to_getNhzctjbData_detail?month='+month+"&v_date="+v_date+"&companyName="+companyName;
@@ -172,7 +172,7 @@ function search_Event()
 {
 	
 	
-	var monthValY=$("#month").val().substring(4,0);
+	    var monthValY=$("#month").val().substring(4,0);
 	    var monthValM=$("#month").val().substring(4);
 	    $("#ttt").html(monthValY+"年"+monthValM+"月");
 	    myTable();
@@ -184,6 +184,7 @@ function myTable()
 	layer.load(2);
 	 var month=$("#month").val();
 	 var companyCode=$("#companyCode").val();
+	 month=month.replace("-","");
 	 var v_date=(new Date()).getTime();
 	 var url= '/nhzctjb_data?month='+month+"&v_date="+v_date+"&companyCode="+companyCode;
 	    table.init('myTable', {
@@ -202,6 +203,7 @@ function exput_excel()
 {
 	var companyCode=$('#companyCode').val();
 	var month=$('#month').val();
+	month=month.replace("-","");
 	window.open("/nhzctjb_data_exput_excel?month="+month+"&companyCode="+companyCode);
 } 
    

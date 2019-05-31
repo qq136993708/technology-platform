@@ -105,7 +105,7 @@ layui.config({
 	  layer = layui.layer;
 	  laydate.render({
           elem: '#month'
-          ,format: 'yyyyMM'
+        	  ,type: 'month'
           
        });
 	  init_companyCode(functionId);
@@ -130,6 +130,7 @@ layui.config({
             selectRowData=obj.data;
             var companyName=selectRowData.g0GSJC;
             var month=$("#month").val();
+            month=month.replace("-","");
        	    var v_date=(new Date()).getTime();
        	    //alert(companyName+"="+month);
        	    var url= '/sf/to_getKtzjjfytjbData_detail?month='+month+"&v_date="+v_date+"&companyName="+companyName;
@@ -162,6 +163,7 @@ function myTable()
 {
 	 layer.load(2);
 	 var month=$("#month").val();
+	 month=month.replace("-","");
 	 var companyCode=$("#companyCode").val();
 	 // alert(companyCode);
 	 var v_date=(new Date()).getTime();
@@ -183,6 +185,7 @@ function exput_excel()
 {
 	var companyCode=$('#companyCode').val();
 	var month=$('#month').val();
+	 month=month.replace("-","");
 	window.open("/ktzjjfytjb_data_exput_excel?month="+month+"&companyCode="+companyCode); 
 } 
 

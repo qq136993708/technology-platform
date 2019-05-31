@@ -1410,7 +1410,7 @@ public class DirectController extends BaseController {
 		request.setAttribute("companyCode", companyCode);
 		String year= HanaUtil.getBeforeYear();
 		request.setAttribute("year", year);
-		String month = HanaUtil.getCurrrentYearMoth();
+		String month = HanaUtil.getCurrrentYear_Moth();
         request.setAttribute("month", month);
 		return "stp/hana/home/oneLevelMain/direct/equipment";
 	}
@@ -1703,21 +1703,16 @@ public class DirectController extends BaseController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/actualPay")
 	public String actualPay(HttpServletRequest request) throws Exception {
-		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 		
+		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
-		
-		
-		
 		String  companyCode=EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders) ;
 		request.setAttribute("companyCode", companyCode);
 		String year= HanaUtil.getCurrrentYear();
 		request.setAttribute("year", year);
-		String month = HanaUtil.getCurrrentYearMoth();
+		String month = HanaUtil.getCurrrentYear_Moth();
         request.setAttribute("month", month);
-		
-        
         String isdisplay = CommonUtil.getParameter(request, "isdisplay", "");
 		request.setAttribute("isdisplay", isdisplay);
 		return "stp/hana/home/oneLevelMain/direct/actualPay";

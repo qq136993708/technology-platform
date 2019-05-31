@@ -112,17 +112,14 @@ layui.config({
     layer=layui.layer;
 
     var monthValY=$("#month").val().substring(4,0);
-    var monthValM=$("#month").val().substring(4);
+    var monthValM=$("#month").val().substring(5);
     $(".layui-time").html(monthValY+"年"+monthValM+"月");
     
     laydate = layui.laydate;
     form = layui.form;
-    
-    
     form.render(null, 'component-form-group');
     laydate.render({
-       elem: '#month'
-       ,format: 'yyyyMM'
+    	 elem: '#month',type: 'month'
     });
   
     renderTable();
@@ -134,7 +131,7 @@ function renderTable()
 	
 	 var month=$("#month").val();
 	 var companyCode=$("#companyCode").val();
-	 
+	 month=month.replace("-","");
 	  ptable=treeGridCom.render({
 	        id:tableId
 	        ,elem: '#'+tableId
@@ -172,27 +169,6 @@ function renderTable()
 }
 
 
-/* 
-var table,selectRowData;
-layui.config({
-   base: '/layuiadmin/module/modules/' 
-}).use(['jquery','form', 'laydate','table','laypage','layer'], function(){
-	  admin = layui.admin
-	  ,$ = layui.jquery
-      ,table = layui.table
-      ,layer = layui.layer
-      ,laydate = layui.laydate
-      ,form = layui.form
-      ,laypage = layui.laypage;
-	  form.render(null, 'component-form-group');
-            laydate.render({
-               elem: '#month'
-               ,format: 'yyyyMM'
-            });
-      //初始化表格
-      renderTable();
-});
- */
  
  init_companyCode(functionId);
 function initEchart()
@@ -200,11 +176,12 @@ function initEchart()
 	
 	var v_date=(new Date()).getTime();
 	var month=$('#month').val();
+	month=month.replace("-","");
 	var companyCode=$('#companyCode').val();
 	var monthstr=getNowFormatDate($('#month').val());
 	var checkText=$("#companyCode").find("option:selected").text();
     var monthValY=$("#month").val().substring(4,0);
-    var monthValM=$("#month").val().substring(4);
+    var monthValM=$("#month").val().substring(5);
     $(".layui-time").html(monthValY+"年"+monthValM+"月");
 	
 	

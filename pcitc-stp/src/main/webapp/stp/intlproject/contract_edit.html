@@ -20,7 +20,7 @@
     	var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate,
             form = layui.form,publicMethods=layui.publicMethods,table = layui.table;	
     		//加载项目
-    		publicMethods.ajaxPost("/project/info-list-all",null, function (data) {
+    		publicMethods.ajaxPost("/project/not-contract-list",null, function (data) {
 				$.each(data,function(i,val){
 					$("#projectId").append('<option value="'+data[i].projectId+'">'+data[i].projectName+'</option>');
 				});
@@ -53,6 +53,12 @@
 		 		publicMethods.ajaxPost('/project/get-contract', {"contractId":contractId}, function (data, status) {
 	        		form.val("contract-form",data);
 	            });
+	        }else{
+	        	publicMethods.ajaxPost('/project/project-contract-code', null, function (data, status) {
+	    			if (data.success) {
+	    				$("#contractNo").val(data.message);
+	    			}
+	    		});
 	        }
     		form.render();
     		$("#file_div").load('/common/public/uploadlayuiload.html');

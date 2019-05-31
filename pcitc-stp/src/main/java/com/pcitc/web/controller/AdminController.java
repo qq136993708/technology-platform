@@ -97,13 +97,11 @@ public class AdminController extends BaseController {
 	public String indexStp(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// System.out.println("进入indexStp....");
 		SSOPrincipal ssoPrincipal = ((SSOPrincipal) request.getSession().getAttribute(SSOPrincipal.NAME_OF_SESSION_ATTR));
-		System.out.println("ssoPrincipal==========");
 		System.out.println(JSON.toJSONString(ssoPrincipal));
 		String uAccount = "";
 
 		SysUser rsUser = new SysUser();
 		if (ssoPrincipal!=null) {
-			System.out.println(SysConfig.sp_login_tsysaccount+"----LogonController2----访问login方法"+ssoPrincipal);
 			// 没有此系统的权限
 			if (ssoPrincipal.getAppAccount()==null||"".equals(ssoPrincipal.getAppAccount())) {
 				System.out.println(ssoPrincipal.getUid()+"---------"+ssoPrincipal.getAppAccount());
@@ -115,13 +113,12 @@ public class AdminController extends BaseController {
 			// 应用系统权限为空
 			if (spRoleList==null||spRoleList.size()==0) {
 				// 返回权限不足页面
-				System.out.println("spRoleList=null---------return no_access ");
+				System.out.println("spRoleList=null---------应用系统权限为空 ");
 				return "no_access";
 			} else {
 				int tem = 0;
 				for (int i = 0; i<spRoleList.size(); i++) {
 					String spList = spRoleList.get(i);
-					System.out.println("spRoleList 第 "+i+"个====="+spList);
 					boolean status = spList.contains(",");
 					if (status==false) {
 						// 只返回一个spRole
@@ -144,13 +141,11 @@ public class AdminController extends BaseController {
 						}
 					}
 				}
-				System.out.println("校验tem值--------------"+tem);
 				if (tem==0) {
 					// 返回权限不足页面
-					System.out.println("tem = 0---------return no_access ");
+					System.out.println("tem = 0---------返回权限不足页面 ");
 					return "no_access";
 				} else {
-					System.out.println("获取uAccount----------");
 					uAccount = ssoPrincipal.getAppAccount()[0];
 					System.out.println("uAccount =========="+uAccount);
 					ResponseEntity<SysUser> rsEntity = this.restTemplate.exchange(GET_USER_INFO_IP+uAccount, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SysUser.class);
@@ -172,7 +167,6 @@ public class AdminController extends BaseController {
 
 								// 个人工作台的二级、三级菜单
 								if (sysfun.getParentCode()!=null&&sysfun.getParentCode().startsWith("1027")&&!sysfun.getName().equals("个人工作台")) {
-									System.out.println("个人工作台================"+sysfun.getName());
 									grgztList.add(sysfun);
 								}
 							}
@@ -210,12 +204,8 @@ public class AdminController extends BaseController {
 		requestBody.add("password", rsUser.getUserPassword());
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
 
-		System.out.println("1httpHeaders-----------"+this.httpHeaders);
-		System.out.println("3httpHeaders-----------"+rsUser);
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LOGIN_URL, HttpMethod.POST, entity, JSONObject.class);
 		JSONObject retJson = responseEntity.getBody();
-
-		System.out.println("-----indexStp----------login token:"+retJson.get("token"));
 
 		Cookie cookie = new Cookie("token", retJson.getString("token"));
 		cookie.setMaxAge(1*60*60);// 设置有效期为1天
