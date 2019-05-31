@@ -85,4 +85,11 @@ public class IntlProjectContractProviderClient
 	
 		return intlProjectContractService.createProjectContractCode();
 	}
+	@ApiOperation(value="未签约项目",notes="获取未签约项目列表")
+	@RequestMapping(value = "/stp-provider/project/not-contract-list", method = RequestMethod.POST)
+	public Object getNotContractProjectList(@RequestBody LayuiTableParam param) 
+	{
+	
+		return intlProjectContractService.selectNotContractProjectList();
+	}
 }

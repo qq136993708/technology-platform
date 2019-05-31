@@ -386,7 +386,7 @@
                 	}
                 	layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
     					layer.close(index);
-    					publicMethods.ajaxPost("/budget/del-group-item/"+curent_tabel_data[selectIndex].dataId, null, function (data) {
+    					publicMethods.ajaxAsyncPost("/budget/del-group-item/"+curent_tabel_data[selectIndex].dataId, null, function (data) {
     	                     if (data.success) {
     	                    	 curent_tabel_data.splice(selectIndex,1);
     	                    	 reloadTable('dataTable', curent_tabel_data);
@@ -417,11 +417,11 @@
                 	}  
                 	layer.confirm('提交后将不可再编辑！确定要提交审批吗？',{title:"提交确认"},function(index){
     					layer.close(index);
-    					publicMethods.ajaxPost("/budget/start-budget-grouptotal-activity", {"budgetInfoId":curent_budget_info.dataId,"functionId":param.id}, function (data) {
+    					publicMethods.ajaxAsyncPost("/budget/start-budget-grouptotal-activity", {"budgetInfoId":curent_budget_info.dataId,"functionId":param.id}, function (data) {
     	                     if (data.success) {    	                    	 
-    	                    	 budget_info_map[data.data.dataVersion]=data.data; 
-    	                    	 $("#data_version").trigger("change");
-    	                    	 layer.msg('提交成功!');
+    	                    	 budget_info_map[data.data.dataId]=data.data;
+    	                    	 $("#info_status").html(data.data.auditStatusDesc);
+    	                    	 layer.msg("提交成功!");
     	                     } else {
     	                    	 layer.msg(data.message);
     	                    	 

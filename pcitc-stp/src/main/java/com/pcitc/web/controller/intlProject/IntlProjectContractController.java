@@ -41,6 +41,7 @@ public class IntlProjectContractController extends BaseController {
 	private static final String PROJECT_CONTRACT_DEL_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/contract-delete/";
 	
 	private static final String PROJECT_CONTRACT_CODE = "http://pcitc-zuul/stp-proxy/stp-provider/project/project-contract-code";
+	private static final String PROJECT_NOT_CONTRACT_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/project/not-contract-list";
 	
 	
 	@RequestMapping(value = "/project/contract-list", method = RequestMethod.POST)
@@ -121,5 +122,11 @@ public class IntlProjectContractController extends BaseController {
 		String rs = this.restTemplate.exchange(PROJECT_CONTRACT_CODE, HttpMethod.POST, new HttpEntity<Object>(contract,this.httpHeaders), String.class).getBody();
 		
 		return new Result(true, rs);
+	}
+	@RequestMapping(value = "/project/not-contract-list", method = RequestMethod.POST)
+	public Object getNotContractData(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request) throws IOException {
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+		List<?> data = this.restTemplate.exchange(PROJECT_NOT_CONTRACT_LIST, HttpMethod.POST, entity, List.class).getBody();
+		return JSON.toJSON(data).toString();
 	}
 }

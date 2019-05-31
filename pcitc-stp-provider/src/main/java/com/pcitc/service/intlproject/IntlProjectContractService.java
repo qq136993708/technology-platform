@@ -5,6 +5,7 @@ import java.util.List;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.IntlProject.IntlProjectContract;
+import com.pcitc.base.stp.IntlProject.IntlProjectInfo;
 
 public interface IntlProjectContractService 
 {
@@ -64,4 +65,9 @@ public interface IntlProjectContractService
 	 * @return
 	 */
 	List<IntlProjectContract> selectAllProjctContract();
+	/**
+	 * 
+	 * @return
+	 */
+	List<IntlProjectInfo> selectNotContractProjectList();
 }
