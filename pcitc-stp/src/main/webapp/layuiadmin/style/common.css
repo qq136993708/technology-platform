@@ -520,19 +520,19 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .selector>div .selector-right{float: left;width: 100%;}
 .selector>div ul li {float: left;height: 28px;line-height: 28px;margin: 5px 30px 5px 0;padding: 0 10px;}
 .selector>div.conditionNew{height: auto;}
-.conditionNew ul li{border: 1px dashed #17a2b9;background-color: #eff7f8;cursor: pointer;}
+.conditionNew ul li{border: 1px dashed #1890ff;background-color: rgba(209,233,255,.5);cursor: pointer;}
 .conditionNew ul li a{ background: url("/layuiadmin/layui/images/icon-selector-g.png") no-repeat center right;
     padding-right: 16px;}
 .conditionNew ul li:hover a{background: url("/layuiadmin/layui/images/icon-selector-b.png") no-repeat center right;
-    color: #17a2b9;}
-.selector-right ul li.layui-this{border: 1px dashed #17a2b9;background-color: #eff7f8;cursor: pointer;box-sizing: border-box;}
+    color: #1890ff;}
+.selector-right ul li.layui-this{border: 1px dashed #1890ff;background-color: rgba(209,233,255,.5);cursor: pointer;box-sizing: border-box;}
 .selector-right ul li.layui-this a{padding-right: 16px;
     background: url("/layuiadmin/layui/images/icon-selector-g.png") no-repeat center right;}
 .conditionNew .dele{border: none;background: none;}
 .conditionNew .dele a{background: url("/layuiadmin/layui/images/icon-condition-dg.png") no-repeat center left;
     color: #888888;padding-left: 20px;}
-.conditionNew .dele a:hover{color: #73c6d4;
-    background: url("/layuiadmin/layui/images/icon-condition-db.png") no-repeat center left;}
+.conditionNew .dele a:hover{color: #1890ff;
+    background: url("/layuiadmin/layui/images/operation_76.png") no-repeat center left;}
 /*搜索结果页面*/
 .layui-iframe{height: 100%;width: 100%;border: none;}
 .layui-q>.layui-tab-title li{margin: 0 20px;    padding: 0;}
