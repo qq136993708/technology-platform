@@ -526,6 +526,7 @@ layui.define(['jquery','form','table','laydate'],
                         , id: id
                         , where:where
                         ,method:"POST"
+                        , height: height
                         , page: page
                         ,toolbar:{
                             toolbar:"#test"
@@ -541,6 +542,7 @@ layui.define(['jquery','form','table','laydate'],
                         , limit: param.selfRownum //每页默认显示的数量
                         , id: id
                         , where:where
+                        , height: height
                         ,method:"POST"
                         , page: page
                         ,defaultToolbar:['filter','exports','print']

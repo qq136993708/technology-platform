@@ -675,6 +675,13 @@ public class ExpertController extends BaseController {
         return "/stp/expert/zjkOutProjectList";
     }
 
+    @RequestMapping(value = "/zjkOutProjectList_tfc")
+    public String zjkOutProjectList_tfc() throws Exception {
+        request.setAttribute("typeName",request.getParameter("typeName"));
+        request.setAttribute("pYear",request.getParameter("pYear"));
+        return "/stp/expert/zjkOutProjectList_tfc";
+    }
+
     /**
      * 项目列表-研究院
      *
