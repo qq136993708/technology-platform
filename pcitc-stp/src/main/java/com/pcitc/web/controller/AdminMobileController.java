@@ -34,6 +34,7 @@ import com.pcitc.web.utils.DES3Utils;
 import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
 import com.pcitc.web.utils.RestfulHttpClient;
+import com.sinopec.siam.agent.sp.config.SysConfig;
 
 /**
  * @author zhf 系统登录成功后的首页
@@ -137,22 +138,21 @@ public class AdminMobileController extends BaseController {
 	@RequestMapping(value = "/mobile/index")
 	public String indexMobileStp(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("1进入indexMobileStp....");
-		System.out.println("3进入indexMobileStp...."+request.getParameter("oauth_token"));
+		System.out.println("2进入indexMobileStp...."+request.getParameter("oauth_token"));
+		// 获取移动组统一身份的oauthToken值
 		String oauthToken = request.getParameter("oauth_token");
-
-		String url = "https://oauth.siam.sinopec.com/oauth/interface/token";
-		// 创建一个请求客户端
-		RestfulHttpClient.HttpClient client = RestfulHttpClient.getClient(url);
-		client.post();
-
+		System.out.println("3进入indexMobileStp....SysConfig========="+SysConfig.sp_login_tsysaccount);
+		// 调用统一身份认证组的刷新oauth码的接口（此接口返回值可以继续调用统一身份的接口来获取人员信息）
 		Map<String, String> headerMap = new HashMap<String, String>();
 		headerMap.put("Content-Type", "application/json");
-
-		// 设置全局默认请求头，每次请求都会带上这些请求头
 		RestfulHttpClient.setDefaultHeaders(headerMap);
+		
+		String refreshOauthUrl = "https://oauth.siam.sinopec.com/oauth/interface/token";
+		RestfulHttpClient.HttpClient client = RestfulHttpClient.getClient(refreshOauthUrl);
+		client.post();
+
 		// 添加多个参数请求头
 		client.addHeaders(headerMap);
-
 		JsonObject jo = new JsonObject();
 		jo.addProperty("client_id", "");
 		jo.addProperty("client_secret", "");
@@ -160,19 +160,18 @@ public class AdminMobileController extends BaseController {
 		jo.addProperty("grant_type", "refresh_token");
 		jo.addProperty("client_ip", getRemoteHost(request));
 
-		// 添加请求体
 		client.body(jo.toString());
-
 		RestfulHttpClient.HttpResponse authResponse = client.request();
 
+		// 是否获取人员信息成功标识
 		boolean testFlag = false;
 		String uid = "";
-		System.out.println("返回--------");
+		System.out.println("jo--------"+jo.toString());
 		// 根据状态码判断请求是否成功
 		if (authResponse.getCode()==200) {
 			// 获取响应内容
 			String result = authResponse.getContent();
-			System.out.println("result返回--------"+result);
+			System.out.println("refreshOauth返回--------"+result);
 			JSONObject json = JSONObject.parseObject(result);
 			if (json!=null&&json.get("result")!=null) {
 				String access_token = json.getString("access_token");
@@ -198,11 +197,13 @@ public class AdminMobileController extends BaseController {
 				if (userResponse.getCode()==200) {
 					// 获取响应内容
 					String userResult = userResponse.getContent();
-					System.out.println("userResult返回--------"+userResult);
+					System.out.println("userOauth返回--------"+userResult);
 					JSONObject userJson = JSONObject.parseObject(userResult);
 					if (userJson!=null&&userJson.get("result")!=null) {
 						uid = userJson.getString("uid");
 						System.out.println("uid返回--------"+uid);
+						
+						// sprolelist 判断此人是否有《科技管理平台》的权限，没有的话，直接返回
 						testFlag = true;
 					}
 				}

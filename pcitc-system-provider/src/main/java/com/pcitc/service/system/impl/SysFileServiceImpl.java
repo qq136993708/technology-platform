@@ -601,24 +601,41 @@ public class SysFileServiceImpl implements SysFileService {
 						}
 						sysFile.setBak7(mobile_address);
 						if ("jpg".equals(strSuffix)||"jpeg".equals(strSuffix)||"png".equals(strSuffix)||"bmp".equals(strSuffix)) {
-							/*// 保存图片路径，压缩图片
-							String partImgPath = "";
-							// 压缩
-							String strImgType = sysFileConfig.getImgType();
-							String strImgDesc = sysFileConfig.getImgDesc();
-							if ("0".equals(strImgType)) {
-								String[] strImgTypeArray = strImgDesc.split(":");
-								partImgPath = ImageUtils.getImgSize(Integer.parseInt(strImgTypeArray[0]), Integer.parseInt(strImgTypeArray[1]), file.getInputStream(), uploaderPath+strSavePath+File.separator+"img_"+savedName);
-							} else if ("1".equals(strImgType)) {
-								strImgDesc = strImgDesc==null ? "0.5" : strImgDesc;
-								partImgPath = ImageUtils.getImgScale(Double.parseDouble(strImgDesc), file.getInputStream(), uploaderPath+strSavePath+File.separator+"img_"+savedName);
-							} else if ("2".equals(strImgType)) {
-								String[] strImgTypeArray = strImgDesc.split(":");
-								partImgPath = ImageUtils.getImgSizeNoScale(Integer.parseInt(strImgTypeArray[0]), Integer.parseInt(strImgTypeArray[1]), file.getInputStream(), uploaderPath+strSavePath+File.separator+"img_"+savedName);
-							} else {
-								partImgPath = ImageUtils.getImgScale(0.5f, file.getInputStream(), uploaderPath+strSavePath+File.separator+"img_"+savedName);
-							}
-							sysFile.setPartImgPath(partImgPath);*/
+							/*
+							 * // 保存图片路径，压缩图片 String partImgPath = ""; // 压缩
+							 * String strImgType = sysFileConfig.getImgType();
+							 * String strImgDesc = sysFileConfig.getImgDesc();
+							 * if ("0".equals(strImgType)) { String[]
+							 * strImgTypeArray = strImgDesc.split(":");
+							 * partImgPath =
+							 * ImageUtils.getImgSize(Integer.parseInt
+							 * (strImgTypeArray[0]),
+							 * Integer.parseInt(strImgTypeArray[1]),
+							 * file.getInputStream(),
+							 * uploaderPath+strSavePath+File
+							 * .separator+"img_"+savedName); } else if
+							 * ("1".equals(strImgType)) { strImgDesc =
+							 * strImgDesc==null ? "0.5" : strImgDesc;
+							 * partImgPath =
+							 * ImageUtils.getImgScale(Double.parseDouble
+							 * (strImgDesc), file.getInputStream(),
+							 * uploaderPath+
+							 * strSavePath+File.separator+"img_"+savedName); }
+							 * else if ("2".equals(strImgType)) { String[]
+							 * strImgTypeArray = strImgDesc.split(":");
+							 * partImgPath =
+							 * ImageUtils.getImgSizeNoScale(Integer
+							 * .parseInt(strImgTypeArray[0]),
+							 * Integer.parseInt(strImgTypeArray[1]),
+							 * file.getInputStream(),
+							 * uploaderPath+strSavePath+File
+							 * .separator+"img_"+savedName); } else {
+							 * partImgPath = ImageUtils.getImgScale(0.5f,
+							 * file.getInputStream(),
+							 * uploaderPath+strSavePath+File
+							 * .separator+"img_"+savedName); }
+							 * sysFile.setPartImgPath(partImgPath);
+							 */
 						}
 						insert(sysFile);
 
@@ -843,7 +860,7 @@ public class SysFileServiceImpl implements SysFileService {
 			}
 		} else {
 			SysFile sysfile = this.selectByPrimaryKey(id);
-			if (sysfile!=null && sysfile.getIsDel().equals("0")) {
+			if (sysfile!=null&&sysfile.getIsDel().equals("0")) {
 				jsonObject.put("flag", "true");
 			} else {
 				jsonObject.put("flag", "false");
@@ -858,7 +875,8 @@ public class SysFileServiceImpl implements SysFileService {
 		InputStream is = null;
 		OutputStream os = null;
 		try {
-			if (sysfile!=null) {
+			// length > 1， 防止数据格式不合格，不是oss
+			if (sysfile!=null&&sysfile.getFilePath().split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/").length>1) {
 				is = OSSUtil.getOssFileIS(sysfile.getFilePath().split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
 				// 设置输出的格式
 				os = response.getOutputStream();
@@ -894,7 +912,8 @@ public class SysFileServiceImpl implements SysFileService {
 		InputStream is = null;
 		OutputStream os = null;
 		try {
-			if (sysfile!=null) {
+			// length > 1， 防止数据格式不合格，不是oss
+			if (sysfile!=null&&sysfile.getFilePath().split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/").length>1) {
 				is = OSSUtil.getOssFileIS(sysfile.getFilePath().split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
 				// 设置输出的格式
 				os = response.getOutputStream();
@@ -930,7 +949,8 @@ public class SysFileServiceImpl implements SysFileService {
 		InputStream is = null;
 		OutputStream os = null;
 		try {
-			if (sysfile!=null) {
+			// length > 1， 防止数据格式不合格，不是oss
+			if (sysfile!=null&&sysfile.getFilePath().split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/").length>1) {
 				is = OSSUtil.getOssFileIS(sysfile.getFilePath().split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
 				// 设置输出的格式
 				os = response.getOutputStream();
@@ -1467,7 +1487,8 @@ public class SysFileServiceImpl implements SysFileService {
 		OutputStream os = null;
 		try {
 			SysFile sysfile = selectByPrimaryKey(id);
-			if (sysfile!=null) {
+			// length > 1， 防止数据格式不合格，不是oss
+			if (sysfile!=null&&sysfile.getFilePath().split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/").length>1) {
 				is = OSSUtil.getOssFileIS(sysfile.getFilePath().split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
 				long filelength = Integer.parseInt(sysfile.getFileSize());
 				// 设置输出的格式
@@ -1508,18 +1529,17 @@ public class SysFileServiceImpl implements SysFileService {
 		InputStream in = null;
 		try {
 			String name = path.substring(path.lastIndexOf("/"));
-			
-			
+
 			res.setHeader("content-type", "application/octet-stream");
 			res.setContentType("application/octet-stream");
-			res.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(name, "UTF-8"));
+			res.setHeader("Content-Disposition", "attachment;filename="+URLEncoder.encode(name, "UTF-8"));
 
 			out = res.getOutputStream();
 			in = OSSUtil.getOssFileIS(path);
 
 			byte[] b = new byte[1000];
 			int len;
-			while ((len = in.read(b)) > 0) {
+			while ((len = in.read(b))>0) {
 				out.write(b, 0, len);
 			}
 			out.flush();
@@ -1529,23 +1549,20 @@ public class SysFileServiceImpl implements SysFileService {
 			e.printStackTrace();
 		}
 	}
-	    /**
-	     * 关闭IO
-	     * @param io
-	     */
-		public static void closeIO(Closeable io) 
-		{
-			if(io != null) 
-			{
-				try 
-				{
-					io.close();
-				}
-				catch(Exception e) 
-				{
-					e.printStackTrace();
-				}
+
+	/**
+	 * 关闭IO
+	 * 
+	 * @param io
+	 */
+	public static void closeIO(Closeable io) {
+		if (io!=null) {
+			try {
+				io.close();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
+	}
 
 }
