@@ -95,7 +95,7 @@ layui.config({
     
     laydate.render({
         elem: '#month'
-       ,format: 'yyyyMM'
+       ,type: 'month'
         ,done: function(value, date, endDate){
             $("#month").val(date.year+""+PrefixInteger(date.month, 2)); 
         }
@@ -103,7 +103,7 @@ layui.config({
     
     
     var monthValY=$("#month").val().substring(4,0);
-    var monthValM=$("#month").val().substring(4);
+    var monthValM=$("#month").val().substring(5);
     $(".layui_time").html(monthValY+"年"+monthValM+"月");
 
    
@@ -123,8 +123,8 @@ function initEchart()
 	var v_date=(new Date()).getTime();
 	
 	var month=$('#month').val();
+	 month=month.replace("-","");
 	var companyCode=$('#companyCode').val();
-	var monthstr=getNowFormatDate($('#month').val());
 	var url_cash_flow_01="/financial-decision/cash-flow-01?companyCode="+companyCode+"&month="+month+"&v_date="+v_date;
 	
 	 chart1=load_single_line(url_cash_flow_01,"cash-flow-01","","",true);
@@ -150,7 +150,7 @@ function search_Event()
 	
 	
 	    var monthValY=$("#month").val().substring(4,0);
-	    var monthValM=$("#month").val().substring(4);
+	    var monthValM=$("#month").val().substring(5);
 	    $(".layui_time").html(monthValY+"年"+monthValM+"月");
 	    
 	initEchart();
