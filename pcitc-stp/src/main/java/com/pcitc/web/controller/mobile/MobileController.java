@@ -76,12 +76,10 @@ public class MobileController extends BaseController {
 	 */
 	@RequestMapping(value = "/mobile/kyzc")
 	public String kyzc(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String companyCode = HanaUtil.YJY_CODE_NOT_YINGKE;
-		request.setAttribute("companyCode", companyCode);
 		String nd = HanaUtil.getCurrrentYear();
 		request.setAttribute("nd", nd);
 
-		String month = HanaUtil.getCurrrentYearMoth();
+		String month = HanaUtil.getCurrrentYear_Moth();
 		request.setAttribute("month", month);
 
 		return "/mobile/kyzc";
@@ -106,13 +104,8 @@ public class MobileController extends BaseController {
 
 		String nd = HanaUtil.getCurrrentYear();
 		request.setAttribute("nd", nd);
-		String month = HanaUtil.getCurrrentYearMoth();
+		String month = HanaUtil.getCurrrentYear_Moth();
 		request.setAttribute("month", month);
-
-		String allCode = HanaUtil.YJY_CODE_NOT_YINGKE;
-		request.setAttribute("allCode", allCode);
-		String companyCode = HanaUtil.YJY_CODE_NOT_YINGKE;
-		request.setAttribute("companyCode", companyCode);
 
 		return "/mobile/xjll";
 	}
