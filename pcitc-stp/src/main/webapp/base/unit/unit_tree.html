@@ -249,16 +249,16 @@
      		var nodeList = zTreeObj.getNodesByParamFuzzy("name", searchStr);
      		var nodeIds = getChildNode([],nodeList);
      		nodeIds = getParentNode(zTreeObj,nodeIds,nodeList);
-     		var newnodes = getNodeById(nodeIds);
+     		var newnodes = getNodeById(zTreeObj,nodeIds);
      		zTreeObj = $.fn.zTree.init($("#unitTree"), setting, newnodes);
      	}
 	    zTreeObj.expandAll(true);
     }
-	function getNodeById(nodeIds){
+	function getNodeById(treeObj,nodeIds){
 		var nodes = [];
 		var node = null;
 		$.each(nodeIds,function(i,d){
-			node = zTreeObj.getNodeByParam("id", d, null);
+			node = treeObj.getNodeByParam("id", d, null);
 			if(node){
 				nodes.push(new zTreeNode(node.id,node.pId,node.name));
 			}
@@ -280,17 +280,17 @@
 	}
 	function getParentNode(treeObj,nodeIds,nodeList)
 	{
-		$.each(nodeList,function(i,d){
-			function addNodeId(nodeIds,node)
-			{
-				var pnode =treeObj.getNodeByParam("id", node.pId, null);
-				if(pnode){
-					if(nodeIds.indexOf(node.pId)==-1){
-						nodeIds.push(node.pId);
-					}
-					addNodeId(nodeIds,pnode);
+		function addNodeId(nodeIds,node)
+		{
+			var pnode =treeObj.getNodeByParam("id", node.pId, null);
+			if(pnode){
+				if(nodeIds.indexOf(node.pId)==-1){
+					nodeIds.push(node.pId);
 				}
+				addNodeId(nodeIds,pnode);
 			}
+		}
+		$.each(nodeList,function(i,d){
 			addNodeId(nodeIds,d);
  		});
 		return nodeIds;

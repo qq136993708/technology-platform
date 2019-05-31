@@ -50,15 +50,6 @@
         	};
         	function onClickMenu(event,treeId,treeNode,clickFlag) {
         		zTreeObj.checkNode(treeNode);
-        		/* if(treeNode.checked){
-        			parent.addUnitToTable(treeNode);
-        		} */
-        		/* var n = "";
-        		nodes=zTreeObj.getCheckedNodes(true);
-                for(var i=0;i<nodes.length;i++){
-                    n+=nodes[i].name + ",";
-                }
-                console.log(n)//获取选中节点的值  */
         	}
             publicMethods.ajaxPost("/budget/"+company_type,null, function (dt) {
             	treeData = dt;
@@ -69,14 +60,15 @@
     			zTreeObj.expandAll(true);
             });
             function loadUnitTree(){
-            	//搜索前初始化
+            	var searchStr = $("#searchUnitName").val();
             	zTreeObj = $.fn.zTree.init($("#unitTree"), setting, treeData);
-            	var nodeList = zTreeObj.getNodesByParamFuzzy("name", $("#searchUnitName").val());
-            	searchTreeData = [];
-            	$.each(nodeList,function(index,dt){
-            		searchTreeData.push(treeDataMap[dt.id]);
-            	});
-            	zTreeObj = $.fn.zTree.init($("#unitTree"), setting, searchTreeData);
+            	if(searchStr != null && "" != searchStr){
+             		var nodeList = zTreeObj.getNodesByParamFuzzy("name", searchStr);
+             		var nodeIds = getChildNode([],nodeList);
+             		nodeIds = getParentNode(zTreeObj,nodeIds,nodeList);
+             		var newnodes = getNodeById(zTreeObj,nodeIds);
+             		zTreeObj = $.fn.zTree.init($("#unitTree"), setting, newnodes);
+             	}
             	zTreeObj.expandAll(true);
             }
           	//检索(改变事件)
@@ -89,6 +81,52 @@
         	    	loadUnitTree();
         	    }
         	});
+        	function getNodeById(treeObj,nodeIds){
+        		var nodes = [];
+        		var node = null;
+        		$.each(nodeIds,function(i,d){
+        			node = treeObj.getNodeByParam("id", d, null);
+        			if(node){
+        				nodes.push(new zTreeNode(node.id,node.pId,node.name));
+        			}
+        		});
+        		return nodes;
+        	}
+        	
+        	function getChildNode(nodeIds,nodeList)
+        	{
+        		$.each(nodeList,function(i,d){
+        			if(nodeIds.indexOf(d.id)==-1){
+        				nodeIds.push(d.id);
+        			}
+        			if(d.children){
+        				getChildNode(nodeIds,d.children);
+        			}
+         		});
+        		return nodeIds;
+        	}
+        	function getParentNode(treeObj,nodeIds,nodeList)
+        	{
+        		function addNodeId(nodeIds,node)
+        		{
+        			var pnode =treeObj.getNodeByParam("id", node.pId, null);
+        			if(pnode){
+        				if(nodeIds.indexOf(node.pId)==-1){
+        					nodeIds.push(node.pId);
+        				}
+        				addNodeId(nodeIds,pnode);
+        			}
+        		}
+        		$.each(nodeList,function(i,d){
+        			addNodeId(nodeIds,d);
+         		});
+        		return nodeIds;
+        	}
+        	function zTreeNode(id,pId,name){
+        		this.id = id;
+        		this.pId = pId;
+        		this.name = name;
+        	}
             // 点击重置按钮时清空勾选的状态
             $('#sub').click(function(){
             	var nodes = zTreeObj.getCheckedNodes();
