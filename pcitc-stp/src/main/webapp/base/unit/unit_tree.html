@@ -280,17 +280,17 @@
 	}
 	function getParentNode(treeObj,nodeIds,nodeList)
 	{
-		$.each(nodeList,function(i,d){
-			function addNodeId(nodeIds,node)
-			{
-				var pnode =treeObj.getNodeByParam("id", node.pId, null);
-				if(pnode){
-					if(nodeIds.indexOf(node.pId)==-1){
-						nodeIds.push(node.pId);
-					}
-					addNodeId(nodeIds,pnode);
+		function addNodeId(nodeIds,node)
+		{
+			var pnode =treeObj.getNodeByParam("id", node.pId, null);
+			if(pnode){
+				if(nodeIds.indexOf(node.pId)==-1){
+					nodeIds.push(node.pId);
 				}
+				addNodeId(nodeIds,pnode);
 			}
+		}
+		$.each(nodeList,function(i,d){
 			addNodeId(nodeIds,d);
  		});
 		return nodeIds;
