@@ -159,14 +159,16 @@ public class AdminMobileController extends BaseController {
 		jo.addProperty("refresh_token", oauthToken);
 		jo.addProperty("grant_type", "refresh_token");
 		jo.addProperty("client_ip", getRemoteHost(request));
-
+		System.out.println("jo--------"+jo.toString());
 		client.body(jo.toString());
 		RestfulHttpClient.HttpResponse authResponse = client.request();
 
 		// 是否获取人员信息成功标识
 		boolean testFlag = false;
 		String uid = "";
-		System.out.println("jo--------"+jo.toString());
+		System.out.println("authResponse--------"+authResponse);
+		System.out.println("authResponse--------"+authResponse.getCode());
+		System.out.println("authResponse--------"+authResponse.getContent());
 		// 根据状态码判断请求是否成功
 		if (authResponse.getCode()==200) {
 			// 获取响应内容
