@@ -6255,6 +6255,19 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 	
 	
 	
+	public static String getCurrrentYear_Moth() throws Exception {
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH) + 1;
+
+		String monthstr = String.format("%02d", month);
+
+		String str = "" + (year) + "-" + monthstr;
+
+		System.out.println(">>>>>str=" + str);
+		return str;
+	}
+	
 	
 	public static String getCurrrent_Year_Moth() throws Exception {
 		Calendar cal = Calendar.getInstance();
