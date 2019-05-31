@@ -11,15 +11,12 @@
     <link rel="stylesheet" href="/layuiadmin/style/adminStp.css?+Math.random()" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <style>
-        .layui-tab-title{margin: 66px auto 0;height: 39px; padding-top: 10px;width: 68%;}
+        .layui-tab-title{margin: 0 auto 15px;height: auto;border: none;width: 74%; padding-top: 76px;}
         .layui-tab-brief>.layui-tab-title .layui-this {color: #1890ff;}
         .layui-tab-title li{font-size: 14px;}
         .layui-tab-bar{display: none;}
         .information{top: 56px;}
-        @media screen and (min-width: 1366px){
-
-            .layui-tab-title{width: 76%;}
-        }
+        .layui-tab-i{width: 74%;margin: 0 auto;background: white;}
     </style>
 </head>
 <body class="layui-layout-body">
@@ -145,16 +142,30 @@
         <input type="text" class="selfRownum layui-hide" id="userConfig1" value="${userInfo.userConfig1?default(15)}">
         <div class="layui-tab layui-tab-brief layui-q" lay-filter="component-tabs-hash">
             <ul class="layui-tab-title">
-                <li class="layui-this" style="margin-left: 0;">综合查询<span id="index"></span></li>
-                <li>科研课题<span id="keyan"></span></li>
-                <li>科技成果<span id="achivement"></span></li>
-                <li>图表<span id="report"></span></li>
-                <li>科技奖励<span id="outreward"></span></li>
-                <li>科研装备<span id="equipment"></span></li>
-                <li>技术族<span id="tech"></span></li>
-                <li>专家信息<span id="expert"></span></li>
-                <li>知识产权<span id="patent"></span></li>
-                <li>文档资料<span id="file"></span></li>
+                <li class="layui-this">
+                    <span class="search-img"></span>
+                    <span class="search-text">综合查询</span>
+                    <span id="index" class="search-number"></span></li>
+                <li>
+                    <span class="search-img"></span>
+                    <span class="search-text">科研课题</span>
+                    <span id="keyan" class="search-number"></span></li>
+                <li><span class="search-img"></span><span class="search-text">科技成果</span>
+                    <span id="achivement" class="search-number"></span></li>
+                <li><span class="search-img"></span><span class="search-text">图表</span>
+                    <span id="report" class="search-number"></span></li>
+                <li><span class="search-img"></span><span class="search-text">科技奖励</span>
+                    <span id="outreward" class="search-number"></span></li>
+                <li><span class="search-img"></span><span class="search-text">科研装备</span>
+                    <span id="equipment" class="search-number"></span></li>
+                <li><span class="search-img"></span><span class="search-text">技术族</span>
+                    <span id="tech" class="search-number"></span></li>
+                <li><span class="search-img"></span><span class="search-text">专家信息</span>
+                    <span id="expert" class="search-number"></span></li>
+                <li><span class="search-img"></span><span class="search-text">知识产权</span>
+                    <span id="patent" class="search-number"></span></li>
+                <li><span class="search-img"></span><span class="search-text">文档资料</span>
+                    <span id="file" class="search-number"></span></li>
             </ul>
 
             <div class="layui-tab-content">
