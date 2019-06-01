@@ -9,11 +9,14 @@
     <script src="/layuiadmin/layui/layui.js"></script>
 </head>
 <body>
+
+
 <div class="searchBox">
 <input  name="month"          id="month"        value="${month}"   type="hidden">
 <input  name="companyName"    id="companyName"  value="${companyName}"   type="hidden">
 <input  name="companyCode"    id="companyCode"  value="${companyCode}"   type="hidden">
-<label class="dateInput">
+    
+  <label class="dateInput">
             <span>项目编号</span>
             <input type="text" name="g0PROJCODE"  title="编号" value="${g0PROJCODE}" autocomplete="off" class="form-control" id="g0PROJCODE">
         </label>
@@ -21,31 +24,21 @@
             <span>项目名称</span>
             <input type="text" name="g0PROJTXT"  title="名称" value="${g0PROJTXT}" autocomplete="off" class="form-control" id="g0PROJTXT">
         </label>
-       
-       
-    <!--按钮组-->
+         <!--按钮组-->
     <div class="btnGroup">
-        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="myTable2()">查询</button>
-    </div><span style="float:right;margin-right:20px">(单位：元)</<span>
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="renderTable()" >查询</button>
+    </div><span style="float:right;margin-right:20px">(单位：万元)</<span>
     
-    
-
 </div>
-<div class="tableBox">
+
+<div class="tableBox" style="clear:both">
+
 <div class="btnGroup" style="float:right;margin-right:20px"><button  onclick="exput_excel()" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg" >导出EXCEL</<button></div>
 <h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt" ></label>${companyName}（${month}）</h3>
-<table id="myTable2" class="layui-table" lay-filter="myTable2" >
-    <thead>
-     <tr>
-         <th lay-data="{field:'g0XMLXMS', width:'15%',align:'left'}">课题类型</th>
-         <th lay-data="{field:'g0PROJCODE', width:'15%',align:'left'}">课题编号</th>
-         <th lay-data="{field:'g0PROJTXT', width:'40%',align:'left'}">课题名称</th>
-         <th lay-data="{field:'k0BNCB_5', width:'10%',align:'right'}">总计</th>
-        <th lay-data="{field:'k0BNCB_510', width:'10%',align:'right'}">原材料及主要材料</th>
-        <th lay-data="{field:'k0BNCB_520', width:'10%',align:'right'}">辅助材料</th> 
-     </tr>
-    </thead>
-</table>
+<h3 style="font-weight: bold;text-align: right;margin: 10px 0;" id="stp_table_title"><label id="ttt" ></label>(单位：万元)</h3>
+
+
+ <table id="myTable2" class="layui-hide" lay-filter="myTable2">
 </div>
 
 <script id="dateTpl" type="text/html"> {{formatTime(d.SQRI)}} </script>
@@ -66,7 +59,7 @@
             M = M < 10 ? ("0" + M) : M;
             var str = y + "-" + m + "-" + day + " " + h + ":" + M;
             return str;
-        } else {
+        } else { 
             return '';
         }
     }
@@ -74,71 +67,121 @@
 
 <!--表格数据操作js-->
 <script src="/common/js/jquery-1.11.3.min.js"></script>
+   <script src="/stp/hana/common/hana_common.js"></script>
 <script>
-var table,selectRowData;
-var table2,selectRowData2;
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
+var table,selectRowData,form,laydate;
+
 layui.config({
     base: '/layuiadmin/module/modules/' //静态资源所在路径
-}).use(['jquery','form', 'laydate','table','laypage','layer'], function(){
-	  $ = layui.jquery
-      ,table = layui.table
-      ,table2 = layui.table
-      ,layer = layui.layer
-      ,form = layui.form
-      ,laydate = layui.laydate,
+}).use(['jquery','form', 'laydate','table','laypage'], function(){
+	  $ = layui.jquery;
+      table = layui.table;
+      form = layui.form
+      laydate = layui.laydate;
 	 form.render(null, 'component-form-group');
-	  laydate.render({
-          elem: '#month'
-          ,format: 'yyyyMM'
-          
-       });
-	  myTable2();
-     	     //移除表头的复选框,去掉全选
-     	     $(".layui-table-header table thead th input").remove();  
 
-        // 触发不同的按钮事件
-        var $ = layui.$, active = {
-           
             
-        };
+           //加载表格      
+    	     renderTable();
+    	     //移除表头的复选框,去掉全选
+    	     $(".layui-table-header table thead th input").remove();  
 
+      
+        //监听排序
+        table.on('sort(processdef-table)', function(obj){
+            console.log(this, obj.field, obj.type)
+            //return;
+            //服务端排序
+            table.reload('processdef-table', {
+                initSort: obj,
+                page: {curr: 1}, //重新从第一页开始
+                where: { //重新请求服务端
+                    orderKey: obj.field, //排序字段
+                    orderType: obj.type //排序方式
+                }
+            });
+        });
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+       
         
     });
     
-function search_Event()
-{
-}
 
-
-
-function myTable2()
-{
-	
-	 var  month=$("#month").val();
-	 var  companyName=$("#companyName").val();
-	 var  g0PROJCODE=$("#g0PROJCODE").val();
-	 var  g0PROJTXT=$("#g0PROJTXT").val();
-	 var v_date=(new Date()).getTime();
-	 var url= '/getYclzctjbData_Detail?month='+month+"&v_date="+v_date+"&companyName="+companyName+"&g0PROJCODE="+g0PROJCODE+"&g0PROJTXT="+g0PROJTXT;
-	 layer.load(2);
-	 table2.init('myTable2', {
-			  url: url
-			  ,where: {}  ,
-               done: function (res, curr, count) {
-				  
-				  layer.closeAll();
-			  }
-			  
-			});
-}   
     
+
+
+    
+    function renderTable()
+    {
+    	var month=$('#month').val();
+    	month=month.replace("-","");
+    	var index = layer.load(1, {
+    		  shade: [0.1,'#fff'] 
+    		}); 
+    	
+    	var  g0PROJCODE=$("#g0PROJCODE").val();
+   	   var  g0PROJTXT=$("#g0PROJTXT").val();
+   	 
+      //渲染
+      table.render({
+        elem: '#myTable2',
+        url: '/getYclzctjbData_Detail_page',
+        method:"POST",
+        where: {param: {"month":month, "companyCode":$("#companyCode").val(),"g0PROJCODE":g0PROJCODE,"g0PROJTXT":g0PROJTXT}},
+        id: 'myTable2',
+        limit: 10,
+        page: {
+            groups: 5,
+            limits: [10,20,30,40],
+            layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+            first: '首页', //不显示首页
+            last: '尾页', //不显示尾页
+            theme: '#0F9EE0'
+        },
+        cols: [[
+            {field:'g0GSJC',            title:'院所',            style:'cursor: pointer;',align: 'left', width: '9%'},
+            {field:'g0XMLXMS',          title:'课题类别',        style:'cursor: pointer;',align: 'left', width: '15%'},
+            {field:'g0PROJCODE',          title:'课题编码',        style:'cursor: pointer;',align: 'left', width: '15%'},
+            {field:'g0PROJTXT',          title:'课题名称',        style:'cursor: pointer;',align: 'left', width: '30%'},
+            {field:'k0BNCB_5',        title:'本年-总计',        style:'cursor: pointer;',align: 'right', width: '9%'},
+            {field:'k0BNCB_510',          title:'本年-原材料及主要材料',        style:'cursor: pointer;',align: 'right', width: '9%'},
+            {field:'k0BNCB_520',             title:'本年-辅助材料',          style:'cursor: pointer;',align: 'right', width: '9%'}
+        ]],
+        done: function (res, curr, count) {
+            // 点击行联动选择框--单选
+            $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+            	var index=parseInt($(this).index()+1);
+                $('tr').removeClass('layui-table-click');
+                $(this).addClass('layui-table-click');
+                $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                selectRowData=res.data[index-1];
+            });
+            
+            layer.close(index); 
+            
+        }
+      });
+      
+      
+}
+    
+    
+    function exput_excel()
+    {
+    	var companyCode=$('#companyCode').val();
+    	var month=$('#month').val();
+    	window.open("/getKtzjjfytjbData_detail_exput_excel?month="+month+"&companyCode="+companyCode);
+    } 
+       
    
-function exput_excel()
-{
-	var companyCode=$('#companyCode').val();
-	var month=$('#month').val();
-	window.open("/getYclzctjbData_Detail_exput_excel?month="+month+"&companyCode="+companyCode);
-} 
 
 </script>
 

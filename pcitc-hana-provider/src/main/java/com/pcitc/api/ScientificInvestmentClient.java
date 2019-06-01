@@ -57,6 +57,15 @@ public class ScientificInvestmentClient {
 	
 	
 	
+	@ApiOperation(value = "详情-投资项目完成情况统计表", notes = "详情-投资项目完成情况统计表")
+	@RequestMapping(value = "/tzxmwcqktjb_detail_data_page", method = RequestMethod.POST)
+	public LayuiTableData tzxmwcqktjb_detail_data_page(@RequestBody LayuiTableParam param)throws Exception
+	{
+		return decisionFinancialService.getTzxmwcqktjbDetailPage(param);
+	}
+	
+	
+	
 	
 	
 	
@@ -83,7 +92,12 @@ public class ScientificInvestmentClient {
 		return decisionFinancialService.getTzxmcgjdtjbDetailList(map);
 	}
 	
-	
+	@ApiOperation(value = "详情-采购进度统计表", notes = "详情-采购进度统计表")
+	@RequestMapping(value = "/tzxmcgjdtjb_detail_data_page", method = RequestMethod.POST)
+	public LayuiTableData tzxmcgjdtjb_detail_data_page(@RequestBody LayuiTableParam param)throws Exception
+	{
+		return decisionFinancialService.getTzxmcgjdtjbDetailPage(param);
+	}
 	
 	
 	
@@ -114,7 +128,12 @@ public class ScientificInvestmentClient {
 		return decisionFinancialService.getTzxmzcqkbDetailList(map);
 	}
 	
-	
+	@ApiOperation(value = "详情-转出情况表", notes = "详情-转出情况表")
+	@RequestMapping(value = "/tzxmzcqkb_detail_data_page", method = RequestMethod.POST)
+	public LayuiTableData tzxmzcqkb_detail_data(@RequestBody LayuiTableParam param)throws Exception
+	{
+		return decisionFinancialService.getTzxmzcqkbDetailPage(param);
+	}
 	
 	
 }

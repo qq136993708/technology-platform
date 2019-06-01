@@ -101,7 +101,7 @@
                     	<div class="duty_gd">
 	                       	<div class="pre_last"></div>
 		                        <ul>
-		                            <li class="layui-this">2017</li>
+		                            <li class="layui-this">${nd}</li>
 		                        </ul>
 	                        <div class="pre_next"></div>
 	                    </div>
@@ -164,6 +164,8 @@ layui.config({
 			$(".duty_gd ul").append('<li'+cs+'>'+dt+'</li>');
 		});
 		$("ul > li:first").addClass("layui-this");
+		console.log("------");
+		console.log(data);
 		renderTable($(".layui-this").html());
    	});
     
@@ -359,6 +361,7 @@ function search_Event()
 //重大项目
 function renderTable()
 {
+	alert($(".layui-this").html());
 	//renderTable($("#nd").val());
 	renderTable($(".layui-this").html());
 	
