@@ -49,6 +49,7 @@ public class ScientificInvestmentController extends BaseController {
 	private static final String tzxmwcqktjb_out_excel = "http://pcitc-zuul/hana-proxy/hana/scientificInvestment/tzxmwcqktjb_out_excel";
 	
 	private static final String tzxmwcqktjb_detail_data = "http://pcitc-zuul/hana-proxy/hana/scientificInvestment/tzxmwcqktjb_detail_data";
+	private static final String tzxmwcqktjb_detail_data_page = "http://pcitc-zuul/hana-proxy/hana/scientificInvestment/tzxmwcqktjb_detail_data_page";
 	
 	private static final String tzxmcgjdtjb_data = "http://pcitc-zuul/hana-proxy/hana/scientificInvestment/tzxmcgjdtjb";
 	
@@ -61,7 +62,11 @@ public class ScientificInvestmentController extends BaseController {
 	
 	
 	private static final String tzxmzcqkb_detail_data = "http://pcitc-zuul/hana-proxy/hana/scientificInvestment/tzxmzcqkb_detail_data";
+	private static final String tzxmzcqkb_detail_data_page = "http://pcitc-zuul/hana-proxy/hana/scientificInvestment/tzxmzcqkb_detail_data_page";
+	
+	
 	private static final String tzxmcgjdtjb_detail_data = "http://pcitc-zuul/hana-proxy/hana/scientificInvestment/tzxmcgjdtjb_detail_data";
+	private static final String tzxmcgjdtjb_detail_data_page = "http://pcitc-zuul/hana-proxy/hana/scientificInvestment/tzxmcgjdtjb_detail_data_page";
 	
 	
 	
@@ -183,17 +188,38 @@ public class ScientificInvestmentController extends BaseController {
 					  return "stp/hana/scientificInvestment/tzxmwcqktjb_detail";
 			  }
 		     
+			  
+			  
+			  @RequestMapping(method = RequestMethod.POST, value = "/tzxmwcqktjb_detail_data")
+				@ResponseBody
+			  public String tzxmwcqktjb_detail_data_para(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
+				{
+					JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(param));
+					System.out.println(">>>>>>>>>>>>>>>>>tzxmwcqktjb_detail_data 参数 "+resultObj.toString());
+					
+					LayuiTableData layuiTableData = new LayuiTableData();
+					HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+					ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(tzxmwcqktjb_detail_data_page, HttpMethod.POST, entity, LayuiTableData.class);
+					int statusCode = responseEntity.getStatusCodeValue();
+					if (statusCode == 200)
+					{
+						layuiTableData = responseEntity.getBody();
+					}
+					JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+					System.out.println(">>>>>>>>>>>>>tzxmwcqktjb_detail_data 返回结果:" + result.toString());
+					return result.toString();
+				}
+			  
 		     
 		     
-		    @RequestMapping(method = RequestMethod.GET, value = "/tzxmwcqktjb_detail_data")
+		   /* @RequestMapping(method = RequestMethod.GET, value = "/tzxmwcqktjb_detail_data")
 			@ResponseBody
-			public String tzxmwcqktjb_detail_data(HttpServletRequest request, HttpServletResponse response) throws Exception 
+			public String tzxmwcqktjb_detail_data(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request, HttpServletResponse response) throws Exception 
 		    {
-		    	
 			    PageResult pageResult = new PageResult();
 				String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 				String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
-				 //System.out.println(">>>>>>>>>>>>>>>>>>>>tzxmwcqktjb_detail_data>参数      month = "+month+" companyCode="+companyCode);
+				 System.out.println(">>>>>>>>>>>>>>>>>>>>tzxmwcqktjb_detail_data>参数      month = "+month+" companyCode="+companyCode);
 				
 
 				 String g0PROJCODE = CommonUtil.getParameter(request, "g0PROJCODE", "");
@@ -226,7 +252,7 @@ public class ScientificInvestmentController extends BaseController {
 				//System.out.println(">>>>>>>>>>>>>>>tzxmwcqktjb_detail_data " + resultObj.toString());
 				return resultObj.toString();
 
-			}
+			}*/
 		  
 		    
 		    
@@ -445,48 +471,30 @@ public class ScientificInvestmentController extends BaseController {
 	     
 	     
 	     
-	    @RequestMapping(method = RequestMethod.GET, value = "/tzxmcgjdtjb_detail_data")
-		@ResponseBody
-		public String tzxmcgjdtjb_detail_data(HttpServletRequest request, HttpServletResponse response) throws Exception 
-	    {
-		    PageResult pageResult = new PageResult();
-			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-			String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
-			 System.out.println(">>>>>>>>>>>>>>>>>>>>tzxmcgjdtjb_detail_data>参数      month = "+month+" companyCode="+companyCode);
-			
-
-			 String g0PROJCODE = CommonUtil.getParameter(request, "g0PROJCODE", "");
-			 String g0PROJTXT = CommonUtil.getParameter(request, "g0PROJTXT", "");
-			 
-			Map<String, Object> paramsMap = new HashMap<String, Object>();
-			paramsMap.put("month", month);
-			paramsMap.put("companyCode", companyCode);
-			
-			paramsMap.put("g0PROJCODE", g0PROJCODE);
-			paramsMap.put("g0PROJTXT", g0PROJTXT);
-			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
-			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-			if (!companyCode.equals("")) 
+	    
+	    
+	    
+		  @RequestMapping(method = RequestMethod.POST, value = "/tzxmcgjdtjb_detail_data_page")
+			@ResponseBody
+		  public String tzxmcgjdtjb_detail_data_page(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
 			{
-				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(tzxmcgjdtjb_detail_data, HttpMethod.POST, entity, JSONArray.class);
+				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(param));
+				System.out.println(">>>>>>>>>>>>>>>>>tzxmcgjdtjb_detail_data_page 参数 "+resultObj.toString());
+				
+				LayuiTableData layuiTableData = new LayuiTableData();
+				HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+				ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(tzxmcgjdtjb_detail_data_page, HttpMethod.POST, entity, LayuiTableData.class);
 				int statusCode = responseEntity.getStatusCodeValue();
-				if (statusCode == 200) 
+				if (statusCode == 200)
 				{
-					JSONArray jSONArray = responseEntity.getBody();
-					List<ScientificInvestment> list = JSONObject.parseArray(jSONArray.toJSONString(), ScientificInvestment.class);
-					pageResult.setData(list);
-					pageResult.setCode(0);
-					pageResult.setCount(Long.valueOf(list.size()));
-					pageResult.setLimit(8000);
-					pageResult.setPage(1l);
+					layuiTableData = responseEntity.getBody();
 				}
-			} 
-			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-			System.out.println(">>>>>>>>>>>>>>>tzxmcgjdtjb_detail_data " + resultObj.toString());
-			return resultObj.toString();
-
-		}
-	  
+				JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+				System.out.println(">>>>>>>>>>>>>tzxmcgjdtjb_detail_data_page 返回结果:" + result.toString());
+				return result.toString();
+			}
+		  
+		 
 	    
 	    
 	    @RequestMapping(method = RequestMethod.GET, value = "/tzxmcgjdtjb_detail_exput_excel")
@@ -706,8 +714,29 @@ public class ScientificInvestmentController extends BaseController {
 	  }
    
    
-   
-  @RequestMapping(method = RequestMethod.GET, value = "/tzxmzcqkb_detail_data")
+
+    @RequestMapping(method = RequestMethod.POST, value = "/tzxmzcqkb_detail_data_page")
+  			@ResponseBody
+  		  public String tzxmzcqkb_detail_data_page(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
+  			{
+  				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(param));
+  				System.out.println(">>>>>>>>>>>>>>>>>tzxmzcqkb_detail_data_page 参数 "+resultObj.toString());
+  				
+  				LayuiTableData layuiTableData = new LayuiTableData();
+  				HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+  				ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(tzxmzcqkb_detail_data_page, HttpMethod.POST, entity, LayuiTableData.class);
+  				int statusCode = responseEntity.getStatusCodeValue();
+  				if (statusCode == 200)
+  				{
+  					layuiTableData = responseEntity.getBody();
+  				}
+  				JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+  				System.out.println(">>>>>>>>>>>>>tzxmzcqkb_detail_data_page 返回结果:" + result.toString());
+  				return result.toString();
+  			}
+    
+    
+ /* @RequestMapping(method = RequestMethod.GET, value = "/tzxmzcqkb_detail_data")
 	@ResponseBody
 	public String tzxmzcqkb_detail_data(HttpServletRequest request, HttpServletResponse response) throws Exception 
   {
@@ -748,7 +777,7 @@ public class ScientificInvestmentController extends BaseController {
 		return resultObj.toString();
 
 	}
-
+*/
   
   
   @RequestMapping(method = RequestMethod.GET, value = "/tzxmzcqkb_detail_exput_excel")

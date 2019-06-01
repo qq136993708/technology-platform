@@ -151,8 +151,9 @@
 				GROUP BY  "G0GSJC", "G0GSOR"
 				ORDER BY "G0GSOR"
 	 </select>
-      <select id="getTzxmwcqktjbDetailList" resultMap="brandConstructionPayResultMap" parameterType="java.util.Map" >
-        SELECT
+	 
+	 <sql id="getTzxmwcqktjbDetail_sql">
+	  SELECT
 							
 				  "G0GSJC",
 				   IFNULL("G0XMLXMS",'')  as G0XMLXMS ,
@@ -249,7 +250,15 @@
 			ORDER BY 
          -- "G0GSOR",
 			"G0XMLXMS" ,"G0PROJCODE","G0PROJTXT"
-        
+	 
+	 </sql>
+	 
+      <select id="getTzxmwcqktjbDetailList" resultMap="brandConstructionPayResultMap" parameterType="java.util.Map" >
+        <include refid="getTzxmwcqktjbDetail_sql"></include>
+        <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>   
+     </select>
+      <select id="getTzxmwcqktjbDetailCount" resultType="int"  parameterType="java.util.Map" >
+         SELECT COUNT(*) FROM( <include refid="getTzxmwcqktjbDetail_sql"></include>)
      </select>
      
 	  <!-- 投资项目采购进度统计表--> 
@@ -329,8 +338,10 @@
 	 </select>
 	 
 	 
-	 <select id="getTzxmcgjdtjbDetailList" resultMap="brandConstructionPayResultMap" parameterType="java.util.Map" >
-	   SELECT 
+	 
+	 
+	 <sql id="getTzxmcgjdtjbDetail_sql">
+	    SELECT 
 			"G0GSJC",
 			  IFNULL("G0XMLXMS",'')  as G0XMLXMS,
 		      IFNULL("G0PROJCODE",'') as G0PROJCODE,
@@ -411,7 +422,16 @@
 			GROUP BY "G0GSJC","G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS"
 			ORDER BY 
 			"G0GSOR","G0XMLXMS" ,"G0PROJCODE","G0PROJTXT"
+	 
+	 </sql>
+	 <select id="getTzxmcgjdtjbDetailList" resultMap="brandConstructionPayResultMap" parameterType="java.util.Map" >
+	     <include refid="getTzxmcgjdtjbDetail_sql"></include>
+	       <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>  
 	 </select>
+	 <select id="getTzxmcgjdtjbDetailCount" resultType="int"  parameterType="java.util.Map" >
+         SELECT COUNT(*) FROM( <include refid="getTzxmcgjdtjbDetail_sql"></include>)
+     </select>
+
 	 
 	 
 	 
@@ -522,9 +542,14 @@
 				          
           
 	 </select>
-	 <select id="getTzxmzcqkbDetailList" resultMap="brandConstructionPayResultMap" parameterType="java.util.Map" >
-	    
-	    SELECT 
+	 
+	 
+	 
+	 
+	 
+	 
+	 <sql id="getTzxmzcqkbDetail_sql">
+	     SELECT 
 				"G0GSJC",
 				 IFNULL("G0XMLXMS",'')   as G0XMLXMS,
 			     IFNULL("G0PROJCODE",'') as G0PROJCODE,
@@ -657,11 +682,14 @@
 	                          "G0TXT50","G0XMLXMS"
 			ORDER BY 
 			"G0GSOR","G0XMLXMS" ,"G0PROJCODE","G0PROJTXT",	  "G0ANLN1",  "G0TXT50"
-	    
-	    
-	    
-	   
+	 </sql>
+	 
+	 <select id="getTzxmzcqkbDetailList" resultMap="brandConstructionPayResultMap" parameterType="java.util.Map" >
+	    <include refid="getTzxmzcqkbDetail_sql"></include>
+        <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>   
 	 </select> 
-	  
+	     <select id="getTzxmzcqkbDetailCount" resultType="int"  parameterType="java.util.Map" >
+         SELECT COUNT(*) FROM( <include refid="getTzxmzcqkbDetail_sql"></include>)
+     </select>
      
 </mapper>

@@ -17,6 +17,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Page;
+import com.pcitc.base.hana.report.H1AMKYSY100104;
 import com.pcitc.base.hana.report.ScientificInvestment;
 import com.pcitc.mapper.financial.ScientificInvestmentMapper;
 import com.pcitc.service.IScientificInvestmentService;
@@ -78,6 +79,39 @@ public class ScientificInvestmentServiceIml implements IScientificInvestmentServ
 	}
 	
 	
+	public LayuiTableData getTzxmwcqktjbDetailPage(LayuiTableParam param)throws Exception
+    {
+  	        //每页显示条数
+	  		int pageSize = param.getLimit();
+	  		int pageNum = param.getPage();
+	  		Page p=new Page(pageNum,pageSize);
+			int start=(pageNum-1)*p.getPageSize();
+	  		String month=(String)param.getParam().get("month");
+	  		String companyCode=(String)param.getParam().get("companyCode");
+	  		
+	  		
+	  		logger.info("=====getTzxmwcqktjbDetailPage param: "+JSONObject.toJSONString(param));
+	  		Map map=new HashMap();
+	  		map.put("start", start);
+	  		map.put("pageSize", pageSize);
+	  		map.put("month", month);
+	  		map.put("companyCode", companyCode);
+	  		
+	  		
+	  		
+	  		List<ScientificInvestment> list = scientificInvestmentMapper.getTzxmwcqktjbDetailList(map);
+	  		
+	  		Integer totalRecords = scientificInvestmentMapper.getTzxmwcqktjbDetailCount(map);
+	  		System.out.println(">>>>>>totalRecords："+totalRecords);
+	  		LayuiTableData data = new LayuiTableData();
+	  		data.setData(list);
+	  		data.setCount(totalRecords);
+			
+	  	    return data;
+    }
+	
+	
+	
 	
 	    //投资项目采购进度统计表
 		public LayuiTableData getTzxmcgjdtjbData(LayuiTableParam param)throws Exception
@@ -125,7 +159,35 @@ public class ScientificInvestmentServiceIml implements IScientificInvestmentServ
 	  		return json;
 			
 		}
-		
+		public LayuiTableData getTzxmcgjdtjbDetailPage(LayuiTableParam param)throws Exception
+		{
+			   //每页显示条数
+	  		int pageSize = param.getLimit();
+	  		int pageNum = param.getPage();
+	  		Page p=new Page(pageNum,pageSize);
+			int start=(pageNum-1)*p.getPageSize();
+	  		String month=(String)param.getParam().get("month");
+	  		String companyCode=(String)param.getParam().get("companyCode");
+	  		
+	  		
+	  		logger.info("=====getTzxmcgjdtjbDetailPage param: "+JSONObject.toJSONString(param));
+	  		Map map=new HashMap();
+	  		map.put("start", start);
+	  		map.put("pageSize", pageSize);
+	  		map.put("month", month);
+	  		map.put("companyCode", companyCode);
+	  		
+	  		
+	  		
+	  		List<ScientificInvestment> list = scientificInvestmentMapper.getTzxmcgjdtjbDetailList(map);
+	  		Integer totalRecords =            scientificInvestmentMapper.getTzxmcgjdtjbDetailCount(map);
+	  		System.out.println(">>>>getTzxmcgjdtjbDetailPage>>totalRecords："+totalRecords);
+	  		LayuiTableData data = new LayuiTableData();
+	  		data.setData(list);
+	  		data.setCount(totalRecords);
+			
+	  	    return data;
+		}
 		
 		
 		
@@ -175,6 +237,39 @@ public class ScientificInvestmentServiceIml implements IScientificInvestmentServ
 			
 		}
 		
+		
+		
+		
+		
+		public LayuiTableData getTzxmzcqkbDetailPage(LayuiTableParam param)throws Exception
+		{
+			 //每页显示条数
+	  		int pageSize = param.getLimit();
+	  		int pageNum = param.getPage();
+	  		Page p=new Page(pageNum,pageSize);
+			int start=(pageNum-1)*p.getPageSize();
+	  		String month=(String)param.getParam().get("month");
+	  		String companyCode=(String)param.getParam().get("companyCode");
+	  		
+	  		
+	  		logger.info("=====getTzxmzcqkbDetailPage param: "+JSONObject.toJSONString(param));
+	  		Map map=new HashMap();
+	  		map.put("start", start);
+	  		map.put("pageSize", pageSize);
+	  		map.put("month", month);
+	  		map.put("companyCode", companyCode);
+	  		
+	  		
+	  		
+	  		List<ScientificInvestment> list = scientificInvestmentMapper.getTzxmzcqkbDetailList(map);
+	  		Integer totalRecords =            scientificInvestmentMapper.getTzxmzcqkbDetailCount(map);
+	  		System.out.println(">>>>getTzxmzcqkbDetailPage>>totalRecords："+totalRecords);
+	  		LayuiTableData data = new LayuiTableData();
+	  		data.setData(list);
+	  		data.setCount(totalRecords);
+	  	    return data;
+
+		}
 
 
 }
