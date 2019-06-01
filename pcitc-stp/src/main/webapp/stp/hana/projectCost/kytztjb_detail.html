@@ -26,7 +26,7 @@
     <!--按钮组-->
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="renderTable()" data-type="searchEvent">查询</button>
-    </div><span style="float:right;margin-right:20px">(单位：万元)</<span>
+    </div>
     
     
     
@@ -34,8 +34,11 @@
 
 <div class="tableBox" >
 <div class="btnGroup" style="float:right;margin-right:20px"><button  onclick="exput_excel()" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg" >导出EXCEL</<button></div>
-<h3 style="font-weight: bold;text-align: center;margin: 2px 0;" id="stp_table_title"><label id="ttt"></label>${monthstr}${companyName}详情表</h3>
-    <table id="processdef-table" class="layui-hide" lay-filter="tableEvent">
+<h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt" ></label>${monthstr}${companyName}详情表</h3>
+<h3 style="font-weight: bold;text-align: right;margin: 10px 0;" id="stp_table_title"><label id="ttt" ></label>(单位：万元)</h3>
+
+
+    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table">
 </div>
 
 <script id="dateTpl" type="text/html"> {{formatTime(d.SQRI)}} </script>
@@ -143,36 +146,36 @@ layui.config({
                }},
         
         id: 'processdef-table',
-        height: "620px",
-        limit: 15,
+       
+        limit: 10,
         page: {
             groups: 5,
-            limits: [15,30,45,60],
+            limits: [10,20,30,40],
             layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
             first: '首页', //不显示首页
             last: '尾页', //不显示尾页
             theme: '#0F9EE0'
         },
         cols: [[
-        	{field:'g0XMBK',            title:'项目板块',        style:'cursor: pointer;',align: 'center', width: '100'},
-            {field:'g0XMLXMS',          title:'课题类型',        style:'cursor: pointer;',align: 'center', width: '150'},
-            {field:'g0GSJC',            title:'院所',        style:'cursor: pointer;',align: 'center', width: '100'},
-            {field:'g0PROJCODE',        title:'项目编号',        style:'cursor: pointer;',align: 'center', width: '100'},
-            {field:'g0PROJTXT',         title:'项目名称',        style:'cursor: pointer;',align: 'left', width: '300'},
-            {field:'k0ZTYSJE',          title:'计划总投资',        style:'cursor: pointer;',align: 'right', width: '100'},
-            {field:'k0LJGLFPHJECB',     title:'累计下达投资额 ',        style:'cursor: pointer;',align: 'right', width: '100'},
-            {field:'k0LJSJCNJE',        title:'承诺',            style:'cursor: pointer;',align: 'right', width: '100'},
-            {field:'k0LJSJDJJE',        title:'预付余额',         style:'cursor: pointer;',align: 'right', width: '100'},
-            {field:'k0LJSJJE',          title:'累计投资完成额',     style:'cursor: pointer;',align: 'right', width: '100'},
-            {field:'k0LJYSJY',          title:'项目资金计划结余',     style:'cursor: pointer;',align: 'right', width: '100'},
-            {field:'k0LJZJSYBL',        title:'资金使用%',      style:'cursor: pointer;',align: 'right', width: '100'},
-            {field:'k0BNYSJHJE',        title:'本年投资计划',     style:'cursor: pointer;',align: 'right', width: '100'},
-            {field:'k0BNGLFPHJECB',     title:'本年累计支出',        style:'cursor: pointer;',align: 'right', width: '100'},
-            {field:'k0BNSJCNJE',        title:'承诺',              style:'cursor: pointer;',align: 'right', width: '100'},
-            {field:'k0BNSJDJJE',        title:'本年预付款',         style:'cursor: pointer;',align: 'right', width: '100'},
-            {field:'k0BNSJJE',          title:'本年投资完成额',      style:'cursor: pointer;',align: 'right', width: '100'},
-            {field:'k0BNYSJY',          title:'本年资金计划结余',     style:'cursor: pointer;',align: 'right', width: '100'},
-            {field:'k0BNZJSYBL',        title:'资金使用%',          style:'cursor: pointer;',align: 'right', width: '100'}
+        	{field:'g0XMBK',            title:'项目板块',        style:'cursor: pointer;',align: 'left', width: '10%'},
+            {field:'g0XMLXMS',          title:'课题类型',        style:'cursor: pointer;',align: 'left', width: '10%'},
+            {field:'g0GSJC',            title:'院所',        style:'cursor: pointer;',align: 'left', width: '10%'},
+            {field:'g0PROJCODE',        title:'项目编号',        style:'cursor: pointer;',align: 'left', width: '10%'},
+            {field:'g0PROJTXT',         title:'项目名称',        style:'cursor: pointer;',align: 'left', width: '30%'},
+            {field:'k0ZTYSJE',          title:'计划总投资',        style:'cursor: pointer;',align: 'right', width: '10%'},
+            {field:'k0LJGLFPHJECB',     title:'累计下达投资额 ',        style:'cursor: pointer;',align: 'right', width: '10%'},
+            {field:'k0LJSJCNJE',        title:'承诺',            style:'cursor: pointer;',align: 'right', width: '10%'},
+            {field:'k0LJSJDJJE',        title:'预付余额',         style:'cursor: pointer;',align: 'right', width: '10%'},
+            {field:'k0LJSJJE',          title:'累计投资完成额',     style:'cursor: pointer;',align: 'right', width: '10%'},
+            {field:'k0LJYSJY',          title:'项目资金计划结余',     style:'cursor: pointer;',align: 'right', width: '10%'},
+            {field:'k0LJZJSYBL',        title:'资金使用%',      style:'cursor: pointer;',align: 'right', width: '10%'},
+            {field:'k0BNYSJHJE',        title:'本年投资计划',     style:'cursor: pointer;',align: 'right', width: '10%'},
+            {field:'k0BNGLFPHJECB',     title:'本年累计支出',        style:'cursor: pointer;',align: 'right', width: '10%'},
+            {field:'k0BNSJCNJE',        title:'承诺',              style:'cursor: pointer;',align: 'right', width: '10%'},
+            {field:'k0BNSJDJJE',        title:'本年预付款',         style:'cursor: pointer;',align: 'right', width: '10%'},
+            {field:'k0BNSJJE',          title:'本年投资完成额',      style:'cursor: pointer;',align: 'right', width: '10%'},
+            {field:'k0BNYSJY',          title:'本年资金计划结余',     style:'cursor: pointer;',align: 'right', width: '10%'},
+            {field:'k0BNZJSYBL',        title:'资金使用%',          style:'cursor: pointer;',align: 'right', width: '10%'}
             
             
         ]],
