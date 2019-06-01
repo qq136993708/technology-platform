@@ -78,6 +78,14 @@ public class ScientificFundsProvideClient {
 		return json;
 	}
 	
+	@ApiOperation(value = "课题直间接费用统计表-详细", notes = "课题直间接费用统计表-详细")
+	@RequestMapping(value = "/hana/scientific_funds/getKtzjjfytjbData_detail_page", method = RequestMethod.POST)
+	public LayuiTableData getKtzjjfytjbData_detail_page(@RequestBody LayuiTableParam param)throws Exception
+	{
+		return scientificFundsService.getKtzjjfytjbData_detail_page(param);
+	}
+	
+	
 	
 	
 	
@@ -122,6 +130,12 @@ public class ScientificFundsProvideClient {
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
 		return json;
 	}
+	@ApiOperation(value = "人工成本支出详细", notes = "人工成本支出详细")
+	@RequestMapping(value = "/hana/scientific_funds/rgcbzctjb_detail_page", method = RequestMethod.POST)
+	public LayuiTableData rgcbzctjb_detail_page(@RequestBody LayuiTableParam param)throws Exception
+	{
+		return scientificFundsService.getRgcbzctjbDataDetail_page(param);
+	}
 	
 	
 	
@@ -145,10 +159,6 @@ public class ScientificFundsProvideClient {
 		return json;
 	}
 	
-	
-	
-	
-	
 	@ApiOperation(value = "原材料支出统计表-详细", notes = "原材料支出统计表-详细")
 	@RequestMapping(value = "/hana/scientific_funds/getYclzctjbData_Detail", method = RequestMethod.POST)
 	public JSONArray getYclzctjbData_Detail(@ApiParam(value="月份:month如201812,公司代码:companyCode",required=true)@RequestBody String paramsJson) throws Exception {
@@ -170,6 +180,20 @@ public class ScientificFundsProvideClient {
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
 		return json;
 	}
+	@ApiOperation(value = "原材料支出统计表-详细", notes = "原材料支出统计表-详细")
+	@RequestMapping(value = "/hana/scientific_funds/getYclzctjbData_Detail_page", method = RequestMethod.POST)
+	public LayuiTableData getYclzctjbData_Detail_page(@RequestBody LayuiTableParam param)throws Exception
+	{
+		return scientificFundsService.getYclzctjbData_Detail_page(param);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -214,7 +238,12 @@ public class ScientificFundsProvideClient {
 		return json;
 	}
 	
-	
+	@ApiOperation(value = "能耗支出统计表-详细", notes = "能耗支出统计表-详细")
+	@RequestMapping(value = "/hana/scientific_funds/getNhzctjbData_detail_page", method = RequestMethod.POST)
+	public LayuiTableData getNhzctjbData_detail_page(@RequestBody LayuiTableParam param)throws Exception
+	{
+		return scientificFundsService.getNhzctjbData_detail_page(param);
+	}
 	
 	
 	
@@ -253,12 +282,12 @@ public class ScientificFundsProvideClient {
 		return json;
 	}
 	
-	/*@ApiOperation(value = "项目资金流向分析", notes = "项目资金流向分析")
-	@RequestMapping(value = "/hana/scientific_funds/xmzjlxfx", method = RequestMethod.POST)
-	public LayuiTableData xmzjlxfx(@RequestBody LayuiTableParam param)throws Exception
+	@ApiOperation(value = "项目资金流向分析-详细", notes = "项目资金流向分析-详细")
+	@RequestMapping(value = "/hana/scientific_funds/getXmzjlxfxData_detail_page", method = RequestMethod.POST)
+	public LayuiTableData getXmzjlxfxData_detail_page(@RequestBody LayuiTableParam param)throws Exception
 	{
-		return scientificFundsService.getXmzjlxfxData(param);
-	}*/
+		return scientificFundsService.getXmzjlxfxData_detail_page(param);
+	}
 	
 	
 }

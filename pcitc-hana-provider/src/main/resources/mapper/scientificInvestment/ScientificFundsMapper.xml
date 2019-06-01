@@ -254,9 +254,8 @@
 	 
 	 
 	 
-	 
-	 <select id="getKtzjjfytjbData_detail" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
-	   SELECT 
+	 <sql id="getKtzjjfytjbData_detail_sql">
+	     SELECT 
 			"G0GSJC",
 			IFNULL("G0XMLXMS",'')   AS G0XMLXMS,
 			IFNULL("G0PROJCODE",'') AS G0PROJCODE,
@@ -368,8 +367,14 @@
 	         <if test="g0PROJCODE != null   and g0PROJCODE !=''  ">                AND G0PROJCODE  = '${g0PROJCODE}'</if>
 			GROUP BY "G0GSJC","G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS"
 			order by "G0GSOR","G0XMLXMS","G0PROJCODE","G0PROJTXT"
+	 </sql>
+	 <select id="getKtzjjfytjbData_detail" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+	   <include refid="getKtzjjfytjbData_detail_sql"></include>
+        <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>   
 	 </select>
-	 
+	  <select id="getKtzjjfytjbData_detail_Count" resultType="int"  parameterType="java.util.Map" >
+         SELECT COUNT(*) FROM( <include refid="getKtzjjfytjbData_detail_sql"></include>)
+     </select>
 	 
 	 
 	  <!-- 人工成本支出统计表--> 
@@ -679,8 +684,10 @@
 			GROUP BY "G0GSJC","G0GSOR"
 			ORDER BY "G0GSOR"
       </select>
-       <select id="getYclzctjbData_Detail" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
-          SELECT
+      
+      
+      <sql id="getYclzctjbData_sql">
+        SELECT
 			     "G0GSJC",
 			      IFNULL("G0XMLXMS",'') as G0XMLXMS,
 			     IFNULL("G0PROJCODE",'') as G0PROJCODE,
@@ -774,8 +781,16 @@
 			 <include refid="selectCondition_zc_detail" />
 			GROUP BY "G0GSJC","G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS"
 			ORDER BY "G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS" 
-      </select>
+      </sql>
       
+      
+       <select id="getYclzctjbData_Detail" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+            <include refid="getYclzctjbData_sql"></include>
+        <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>   
+      </select>
+      <select id="getYclzctjbData_Detail_Count" resultType="int"  parameterType="java.util.Map" >
+         SELECT COUNT(*) FROM( <include refid="getYclzctjbData_sql"></include>)
+      </select>
       
       
       
@@ -915,8 +930,9 @@
 			 GROUP BY  "G0GSJC", "G0GSOR"
 			 ORDER BY "G0GSOR"
        </select>
-       <select id="getNhzctjbData_detail" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
-          SELECT
+       
+       <sql id="getNhzctjbData_detail_sql">
+               SELECT
 			     "G0GSJC",
 			    IFNULL("G0XMLXMS",'') as G0XMLXMS ,
 			    IFNULL("G0PROJCODE",'') as G0PROJCODE ,
@@ -1059,9 +1075,15 @@
 			 )
 			 <include refid="selectCondition_zc_detail" />
 			 GROUP BY  "G0GSJC", "G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS" 
-			 ORDER BY "G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS" 		
+			 ORDER BY "G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS" 	
+       </sql>
+       <select id="getNhzctjbData_detail" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+          	  <include refid="getNhzctjbData_detail_sql"></include>
+             <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>
       </select>
-      
+      <select id="getNhzctjbData_detail_Count" resultType="int"  parameterType="java.util.Map" >
+         SELECT COUNT(*) FROM( <include refid="getNhzctjbData_detail_sql"></include>)
+      </select>
       
       <!-- 项目资金流向分析--> 
       <select id="getXmzjlxfxData" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
@@ -1152,8 +1174,10 @@
 			ORDER BY  "G0GSOR"  
           
       </select>
-	<select id="getXmzjlxfxData_detail" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
-            SELECT
+      
+      
+      <sql id="getXmzjlxfxData_sql">
+           SELECT
 			  "G0GSJC",
 			IFNULL("G0XMLXMS",'') as G0XMLXMS,
 			IFNULL("G0PROJCODE",'') as G0PROJCODE ,
@@ -1248,8 +1272,17 @@
 			)
 			<include refid="selectCondition_zc_detail" />
 			GROUP BY   "G0GSJC", "G0GSOR" ,"G0PROJCODE","G0PROJTXT","G0XMLXMS" 
-			ORDER BY  "G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS" 		
-          
+			ORDER BY  "G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS" 	
+      
+      </sql>
+	  <select id="getXmzjlxfxData_detail" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+            	<include refid="getXmzjlxfxData_sql"></include>
+                <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>
+      </select>
+      
+      
+      <select id="getXmzjlxfxData_detail_Count" resultType="int"  parameterType="java.util.Map" >
+         SELECT COUNT(*) FROM( <include refid="getXmzjlxfxData_sql"></include>)
       </select>
 	  
      

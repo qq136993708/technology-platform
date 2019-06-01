@@ -12,34 +12,32 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.time.DateFormatUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.ChartPieDataValue;
 import com.pcitc.base.common.ChartPieResultData;
 import com.pcitc.base.common.ExcelException;
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.PageResult;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.hana.report.BudgetMysql;
 import com.pcitc.base.hana.report.CompanyCode;
 import com.pcitc.base.hana.report.ScientificFunds;
 import com.pcitc.base.system.SysDictionary;
-import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
-import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
 import com.pcitc.web.utils.PoiExcelExportUitl;
@@ -69,16 +67,20 @@ public class ScientificFundsContrller extends BaseController {
 	
 	//人工成本支出统计表-详情
 	private static final String getRgcbzctjbData_detail = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/rgcbzctjb_detail";
+	private static final String getRgcbzctjbData_detail_page = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/rgcbzctjb_detail_page";
 	//课题直间接费用统计表-详情
     private static final String getKtzjjfytjbData_detail = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/getKtzjjfytjbData_detail";
+    private static final String getKtzjjfytjbData_detail_page = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/getKtzjjfytjbData_detail_page";
     
     //原材料支出统计表-详情
     private static final String getYclzctjbData_Detail = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/getYclzctjbData_Detail";
+    private static final String getYclzctjbData_Detail_page = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/getYclzctjbData_Detail_page";
     //能耗支出统计表-详情
     private static final String getNhzctjbData_detail = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/getNhzctjbData_detail";
+    private static final String getNhzctjbData_detail_page = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/getNhzctjbData_detail_page";
     //项目资金流向分析-详情
     private static final String getXmzjlxfxData_detail = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/getXmzjlxfxData_detail";
-	
+    private static final String getXmzjlxfxData_detail_page = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/getXmzjlxfxData_detail_page";
 	  //年度经费预算合同签订进度分析
 	  @RequestMapping(method = RequestMethod.GET, value = "/sf/ndjfyshtqdjdfx")
 	  public String ndjfyshtqdjdfx(HttpServletRequest request) throws Exception
@@ -338,6 +340,31 @@ public class ScientificFundsContrller extends BaseController {
 	  
 	  
 		//课题直间接费用统计表-详情
+	  
+	  
+
+
+	          @RequestMapping(method = RequestMethod.POST, value = "/getKtzjjfytjbData_detail_page")
+			  @ResponseBody
+			  public String getKtzjjfytjbData_detail_page(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
+				{
+					JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(param));
+					System.out.println(">>>>>>>>>>>>>>>>>getKtzjjfytjbData_detail_page 参数 "+resultObj.toString());
+					
+					LayuiTableData layuiTableData = new LayuiTableData();
+					HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+					ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getKtzjjfytjbData_detail_page, HttpMethod.POST, entity, LayuiTableData.class);
+					int statusCode = responseEntity.getStatusCodeValue();
+					if (statusCode == 200)
+					{
+						layuiTableData = responseEntity.getBody();
+					}
+					JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+					System.out.println(">>>>>>>>>>>>>getKtzjjfytjbData_detail_page 返回结果:" + result.toString());
+					return result.toString();
+				}
+	  
+	  /*
 	    @RequestMapping(method = RequestMethod.GET, value = "/getKtzjjfytjbData_detail")
 		@ResponseBody
 		public String getKtzjjfytjbData_detail(HttpServletRequest request, HttpServletResponse response) throws Exception 
@@ -379,7 +406,7 @@ public class ScientificFundsContrller extends BaseController {
 			return resultObj.toString();
 
 		}
-	    
+	    */
 	    
 	    @RequestMapping(method = RequestMethod.GET, value = "/getKtzjjfytjbData_detail_exput_excel")
 	   	@ResponseBody
@@ -592,7 +619,25 @@ public class ScientificFundsContrller extends BaseController {
 	  
 	  
 	  
-	  
+	  @RequestMapping(method = RequestMethod.POST, value = "/rgcbzctjb_data_detail_page")
+	  @ResponseBody
+	  public String rgcbzctjb_data_detail_page(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
+		{
+			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(param));
+			System.out.println(">>>>>>>>>>>>>>>>>rgcbzctjb_data_detail_page 参数 "+resultObj.toString());
+			
+			LayuiTableData layuiTableData = new LayuiTableData();
+			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getRgcbzctjbData_detail_page, HttpMethod.POST, entity, LayuiTableData.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200)
+			{
+				layuiTableData = responseEntity.getBody();
+			}
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+			System.out.println(">>>>>>>>>>>>>rgcbzctjb_data_detail_page 返回结果:" + result.toString());
+			return result.toString();
+		}
 	  
 	  
 	    @RequestMapping(method = RequestMethod.GET, value = "/rgcbzctjb_data_detail")
@@ -848,6 +893,33 @@ public class ScientificFundsContrller extends BaseController {
 	      return "stp/hana/scientificFunds/getYclzctjbData_Detail";
 	  }
 	  
+	  
+	  
+	  
+	  
+	  @RequestMapping(method = RequestMethod.POST, value = "/getYclzctjbData_Detail_page")
+	  @ResponseBody
+	  public String getYclzctjbData_Detail_page(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
+		{
+			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(param));
+			System.out.println(">>>>>>>>>>>>>>>>>getYclzctjbData_Detail_page 参数 "+resultObj.toString());
+			
+			LayuiTableData layuiTableData = new LayuiTableData();
+			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getYclzctjbData_Detail_page, HttpMethod.POST, entity, LayuiTableData.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200)
+			{
+				layuiTableData = responseEntity.getBody();
+			}
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+			System.out.println(">>>>>>>>>>>>>getYclzctjbData_Detail_page 返回结果:" + result.toString());
+			return result.toString();
+		}
+		
+	  
+	  
+	  /*
 	    @RequestMapping(method = RequestMethod.GET, value = "/getYclzctjbData_Detail")
 		@ResponseBody
 		public String getYclzctjbData_Detail(HttpServletRequest request, HttpServletResponse response) throws Exception 
@@ -897,7 +969,7 @@ public class ScientificFundsContrller extends BaseController {
 			return resultObj.toString();
 
 		}
-	  
+	  */
 	    
 	    
 	    @RequestMapping(method = RequestMethod.GET, value = "/getYclzctjbData_Detail_exput_excel")
@@ -1091,8 +1163,27 @@ public class ScientificFundsContrller extends BaseController {
 	  }
 	  
 	  
-	  
-	    @RequestMapping(method = RequestMethod.GET, value = "/getNhzctjbData_detail")
+	  @RequestMapping(method = RequestMethod.POST, value = "/getNhzctjbData_detail_page")
+	  @ResponseBody
+	  public String getNhzctjbData_detail_page(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
+		{
+			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(param));
+			System.out.println(">>>>>>>>>>>>>>>>>getNhzctjbData_detail_page 参数 "+resultObj.toString());
+			
+			LayuiTableData layuiTableData = new LayuiTableData();
+			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getNhzctjbData_detail_page, HttpMethod.POST, entity, LayuiTableData.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200)
+			{
+				layuiTableData = responseEntity.getBody();
+			}
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+			System.out.println(">>>>>>>>>>>>>getNhzctjbData_detail_page 返回结果:" + result.toString());
+			return result.toString();
+		}
+		
+	   /* @RequestMapping(method = RequestMethod.GET, value = "/getNhzctjbData_detail")
 		@ResponseBody
 		public String getNhzctjbData_detail(HttpServletRequest request, HttpServletResponse response) throws Exception 
 	    {
@@ -1138,7 +1229,7 @@ public class ScientificFundsContrller extends BaseController {
 			System.out.println(">>>>>>>>>>>>能耗支出统计表>>>>>getNhzctjbData_detail " + resultObj.toString());
 			return resultObj.toString();
 
-		}
+		}*/
 	  
 	  
 	    @RequestMapping(method = RequestMethod.GET, value = "/getNhzctjbData_detail_exput_excel")
@@ -1281,7 +1372,31 @@ public class ScientificFundsContrller extends BaseController {
 	     
 	     
 	     
-	    @RequestMapping(method = RequestMethod.GET, value = "/getXmzjlxfxData_detail")
+	     
+	     
+	     @RequestMapping(method = RequestMethod.POST, value = "/getXmzjlxfxData_detail_page")
+		  @ResponseBody
+		  public String getXmzjlxfxData_detail_page(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
+			{
+				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(param));
+				System.out.println(">>>>>>>>>>>>>>>>>getXmzjlxfxData_detail_page 参数 "+resultObj.toString());
+				
+				LayuiTableData layuiTableData = new LayuiTableData();
+				HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+				ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getXmzjlxfxData_detail_page, HttpMethod.POST, entity, LayuiTableData.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200)
+				{
+					layuiTableData = responseEntity.getBody();
+				}
+				JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+				System.out.println(">>>>>>>>>>>>>getXmzjlxfxData_detail_page 返回结果:" + result.toString());
+				return result.toString();
+			}
+	     
+	     
+	     
+	   /* @RequestMapping(method = RequestMethod.GET, value = "/getXmzjlxfxData_detail")
 		@ResponseBody
 		public String getXmzjlxfxData_detail(HttpServletRequest request, HttpServletResponse response) throws Exception 
 	    {
@@ -1321,7 +1436,7 @@ public class ScientificFundsContrller extends BaseController {
 			System.out.println(">>>>>>>>>>>>项目资金流向分析>>>>>getXmzjlxfxData_detail " + resultObj.toString());
 			return resultObj.toString();
 
-		}
+		}*/
 	  
 	    
 	    

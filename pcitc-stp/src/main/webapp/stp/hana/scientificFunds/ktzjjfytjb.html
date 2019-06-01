@@ -32,7 +32,7 @@
     <table id="myTable" class="layui-table" lay-filter="myTable" >
                  <thead>
                   <tr>
-                      <th lay-data="{field:'g0GSJC', width:'8%'}" rowspan="2" >直属研究院</th>
+                      <th lay-data="{field:'g0GSJC', width:'8%',templet:viewv}" rowspan="2" >直属研究院</th>
                       <th lay-data="{align:'center'}" colspan="4">本年</th>
                       <th lay-data="{align:'center'}" colspan="4">同年</th>
                       <th lay-data="{align:'center'}" colspan="4">同比</th>
@@ -58,6 +58,7 @@
 </div>
 
 <script id="dateTpl" type="text/html"> {{formatTime(d.SQRI)}} </script>
+<script id="viewv" type="text/html"> {{viewv(d.g0GSJC)}} </script>
 <script type="text/javascript">
     // 时间格式化 
       function formatTime(d) {
@@ -79,6 +80,39 @@
             return '';
         }
     }
+    
+      function viewv(d) 
+      {
+          if (d) 
+          {
+        	  var str= "<span onclick=\"view('"+d.g0GSJC+"')\" style=\"color:#1890ff;cursor:pointer\">"+d.g0GSJC+"</span>";
+              return str;
+          } else {
+              return '';
+          }
+      }
+      function view(g0GSJC) 
+      {
+      	   var companyName=g0GSJC;
+           var month=$("#month").val();
+           month=month.replace("-","");
+      	    var v_date=(new Date()).getTime();
+      	    var url= '/sf/to_getKtzjjfytjbData_detail?month='+month+"&v_date="+v_date+"&companyName="+companyName;
+           layer.open({
+               title:'课题直间接费用-详情',
+               skin: 'layui-layer-lan',
+               shadeClose: true,
+               type: 2,
+               fixed: false,
+               //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+               maxmin: false,
+               //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+               area: ['70%', '90%'],
+               content:  url
+           });
+      }
+      
+      
 </script>
 
 <!--表格数据操作js-->
@@ -123,29 +157,8 @@ layui.config({
         
         //监听行单击事件
         table.on('row(myTable)', function(obj){
-            console.log(obj.tr) //得到当前行元素对象
             console.log(obj.data) //得到当前行数据
-            //obj.del(); //删除当前行
-            //obj.update(fields) //修改当前行数据
             selectRowData=obj.data;
-            var companyName=selectRowData.g0GSJC;
-            var month=$("#month").val();
-            month=month.replace("-","");
-       	    var v_date=(new Date()).getTime();
-       	    //alert(companyName+"="+month);
-       	    var url= '/sf/to_getKtzjjfytjbData_detail?month='+month+"&v_date="+v_date+"&companyName="+companyName;
-            layer.open({
-                title:'课题直间接费用-详情',
-                skin: 'layui-layer-lan',
-                shadeClose: true,
-                type: 2,
-                fixed: false,
-                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                maxmin: false,
-                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                area: ['70%', '90%'],
-                content:  url
-            });
         });
         
         
