@@ -112,29 +112,8 @@
 <div id="container" style="height: 500px;width: 98%"></div>
 <script>
     //初始化技术项
-    var tfcCode = "";
-    function getTfcBase() {
-        var tfcBase = "";
-        $.ajax({
-            type: 'post',
-            async: false,
-            url: '/tech-family/type/tech-type-list',
-            data: {param: {"levelCode": "1"}},
-            dataType: 'json',
-            success: function (data, status) {
-                for (let i = 0; i < data.data.length; i++) {
-                    if (i == 0) {
-                        tfcBase = tfcBase + "<li class=\"layui-this\" onclick=\"changeTfcCode('" + data.data[i].typeIndex + "');\">" + data.data[i].typeName + "</li>";
-                    } else if (i <= 3) {
-                        tfcBase = tfcBase + "<li onclick=\"changeTfcCode('" + data.data[i].typeIndex + "');\">" + data.data[i].typeName + "</li>";
-                    }
-                }
-                $("#tfcBase").html(tfcBase);
-                tfcCode = data.data[0].typeIndex;
-            }
-        });
-    }
-    getTfcBase();
+    var tfcCode = "${typeIndex}";
+console.log("tfcCode:"+tfcCode);
     function detailEvent(id) {
         var temUrl = "/out/project-detail/" + id;
         layer.open({
@@ -286,7 +265,7 @@
                     $("#indexOutProjectInfoTableTfcCount").html("(" + res.count + ")");
                 },
                 onDblClickRow: function (index, o) {
-                    var temUrl = "/standardBaseExpert/tfcAnalysisDetail?typeIndex=" + o.typeIndex+"&typeName="+o.typeName+"&typeCode="+o.typeCode;
+                    var temUrl = "/standardBaseExpert/tfcAnalysisDetail?typeIndex=" + o.typeIndex+"&typeName="+o.typeName;
                     layer.open({
                         title: o.typeName,
                         skin: 'layui-layer-lan',
