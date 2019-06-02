@@ -365,16 +365,15 @@
                 	}
                 	layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
     					layer.close(index);
-    					publicMethods.ajaxPost("/budget/del-tech-item/"+curent_tabel_data[selectIndex].dataId, null, function (data) {
+    					publicMethods.ajaxAsyncPost("/budget/del-tech-item/"+curent_tabel_data[selectIndex].dataId, null, function (data) {
     	                     if (data.success) {
     	                    	 curent_tabel_data.splice(selectIndex,1);
-    	                    	 
     	                    	 reloadDataAndTableFormart(curent_tabel_data);
     	                    	 //table.reload('dataTable', {data: curent_tabel_data});
     	                     	 //renderfunc();
     	                     	 calculationSurplusMoney();
     	                     } else {
-    	                    	 layer.msg('操作异常，请重试!');
+    	                    	 layer.msg(data.message);
     	                     }
     	                });
                 	});
@@ -384,11 +383,11 @@
                 		parent.layer.alert("请选择需要保存的预算版本", {title : '提示'});
                 		return;
                 	}                
-   					publicMethods.ajaxPost("/budget/save-techsplit-items", {"info":JSON.stringify(curent_budget_info),"items":JSON.stringify(curent_tabel_data)}, function (data) {
+   					publicMethods.ajaxAsyncPost("/budget/save-techsplit-items", {"info":JSON.stringify(curent_budget_info),"items":JSON.stringify(curent_tabel_data)}, function (data) {
    	                     if (data.success) {    	                    	
    	                    	 layer.msg('保存成功!');
    	                     } else {
-   	                    	 layer.msg('操作异常，请重试!');
+   	                    	layer.msg(data.message);
    	                     }
    	                });                	
                 },submitEvent:function(){
