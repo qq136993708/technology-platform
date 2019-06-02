@@ -229,6 +229,10 @@
                 active[type] ? active[type].call(this) : '';
             });
             table.on('edit(dataTable)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+            	if (!(/(^[1-9]\d*$)/.test(obj.value))) {
+            		layer.msg('请输入数字!');
+            		obj.value = 0;
+            	}
             	$.each(curent_tabel_data,function(index,dt){
             		if(obj.data.organCode == dt.organCode){
             			curent_tabel_data[index][obj.field] = parseInt(obj.value);
@@ -341,7 +345,7 @@
    	                    	layer.msg('保存成功!',{time: 500});
    	                    	//layer.close(lodingMsg);
    	                    } else {
-   	                    	layer.msg('操作异常，请重试!',{time: 500});
+   	                    	layer.msg(data.message,{time: 500});
    	                    	//layer.close(lodingMsg);
    	                    }
    	                });                	
@@ -354,8 +358,8 @@
     					layer.close(index);
     					publicMethods.ajaxAsyncPost("/budget/start-budget-stocksplit-zgs-activity", {"budgetInfoId":curent_budget_info.dataId,"functionId":param.id}, function (data) {
     	                     if (data.success) {    	                    	 
-    	                    	 budget_info_map[data.data.dataVersion]=data.data; 
-    	                    	 $("#data_version").trigger("change");
+    	                    	 budget_info_map[data.data.dataId]=data.data; 
+    	                    	 $("#info_status").html(data.data.auditStatusDesc);
     	                    	 layer.msg('提交成功!');
     	                     } else {
     	                    	 layer.msg(data.message);

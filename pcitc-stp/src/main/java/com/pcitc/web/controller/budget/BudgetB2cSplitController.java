@@ -42,13 +42,13 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
+import com.pcitc.base.common.enums.BudgetExceptionResultEnum;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
 import com.pcitc.base.stp.budget.BudgetB2cSplit;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.DateUtils;
 import com.pcitc.base.util.IdUtil;
-import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
 /**
@@ -80,16 +80,18 @@ public class BudgetB2cSplitController extends BaseController {
 	private static final String BUDGET_b2csplit_COMPARE_PROJECT = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-b2csplit-compare-project";
 	
 	private static final String BUDGET_INFO_UPDATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-update";
-	private static final String BUDGET_INFO_GET = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-get/";
-	private static final String PROJECT_NOTICE_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/budget/start-budget-b2csplit-activity/";
+	private static final String BUDGET_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/budget/start-budgetinfo-activity/";
+	//private static final String BUDGET_INFO_GET = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-get/";
+	//private static final String PROJECT_NOTICE_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/budget/start-budget-b2csplit-activity/";
 	private static final String BUDGET_b2csplit_ITEM_TREE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-b2citem-tree";
+	private static final String BUDGET_INFO_EDIT_CHECK = "http://pcitc-zuul/stp-proxy/stp-provider/budget/check-budgetinfo-edit/";
 	private static final String BUDGET_FINAL_INFO = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-final-budget";
 	
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_main_b2csplit")
 	public Object toBudgetB2cPage(HttpServletRequest request) throws IOException 
 	{
-		request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
+		request.setAttribute("nd", DateUtil.format(DateUtil.getNextYearDay(new Date()), DateUtil.FMT_YYYY));
 		return "stp/budget/budget_main_b2csplit";
 	}
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_edit_b2csplit")
@@ -228,12 +230,15 @@ public class BudgetB2cSplitController extends BaseController {
 	@ResponseBody
 	public Object saveBudgetB2cSplitItem(@ModelAttribute("item") BudgetB2cSplit item,HttpServletRequest request) throws IOException 
 	{
-		System.out.println(JSON.toJSONString(item));
+		Result result = this.restTemplate.exchange(BUDGET_INFO_EDIT_CHECK+item.getBudgetInfoId(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Result.class).getBody();
+		if(!result.isSuccess()) {
+			return result;
+		}
 		ResponseEntity<BudgetB2cSplit> rs = this.restTemplate.exchange(BUDGET_b2csplit_SAVE_ITEM, HttpMethod.POST, new HttpEntity<BudgetB2cSplit>(item, this.httpHeaders), BudgetB2cSplit.class);
 		if (rs.getBody() != null) {
 			return new Result(true,rs.getBody());
 		} else {
-			return new Result(false);
+			return BudgetExceptionResultEnum.ERROR;
 		}
 	}
 	@RequestMapping(value = "/budget/save-b2csplit-items", method = RequestMethod.POST)
@@ -242,21 +247,34 @@ public class BudgetB2cSplitController extends BaseController {
 			@ModelAttribute("items") String items,
 			@ModelAttribute("info") String info,HttpServletRequest request) throws IOException 
 	{
-		List<BudgetB2cSplit> stocklist = JSON.parseArray(items, BudgetB2cSplit.class);
+		
 		BudgetInfo budget = JSON.toJavaObject(JSON.parseObject(info), BudgetInfo.class);
+		//检查是否可编辑
+		Result result = this.restTemplate.exchange(BUDGET_INFO_EDIT_CHECK+budget.getDataId(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Result.class).getBody();
+		if(!result.isSuccess()) {
+			return result;
+		}
+		
+		List<BudgetB2cSplit> stocklist = JSON.parseArray(items, BudgetB2cSplit.class);
 		ResponseEntity<Integer> infors = this.restTemplate.exchange(BUDGET_INFO_UPDATE, HttpMethod.POST, new HttpEntity<Object>(budget, this.httpHeaders), Integer.class);
 		ResponseEntity<Integer> stockrs = this.restTemplate.exchange(BUDGET_b2csplit_SAVE_ITEMS, HttpMethod.POST, new HttpEntity<Object>(stocklist, this.httpHeaders), Integer.class);
 		if (infors.getBody() >= 0 && stockrs.getBody() >= 0) 
 		{
 			return new Result(true);
 		} else {
-			return new Result(false);
+			return BudgetExceptionResultEnum.ERROR;
 		}
 	}
 	@RequestMapping(value = "/budget/save-b2csplit-childitems", method = RequestMethod.POST)
 	@ResponseBody
 	public Object saveBudgetChildb2csplitItems(@RequestParam("items")String items,@RequestParam("item")String item,HttpServletRequest request) throws IOException 
 	{
+		//检查是否可编辑
+		Result result = this.restTemplate.exchange(BUDGET_INFO_EDIT_CHECK+JSON.parseObject(item).get("budgetInfoId"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Result.class).getBody();
+		if(!result.isSuccess()) {
+			return result;
+		}
+		
 		Map<String,Object> mapParam = new HashMap<String,Object>();
 		mapParam.put("items", JSON.parseArray(items).toString());
 		mapParam.put("item", JSON.parse(item).toString());
@@ -264,7 +282,7 @@ public class BudgetB2cSplitController extends BaseController {
 		if (responseEntity.getBody() == 0) {
 			return new Result(false);
 		} else {
-			return new Result(true);
+			return BudgetExceptionResultEnum.ERROR;
 		}
 	}
 	
@@ -288,11 +306,18 @@ public class BudgetB2cSplitController extends BaseController {
 	@ResponseBody
 	public Object deleteBudgetB2cItem(@PathVariable("dataId") String dataId,HttpServletRequest request) throws IOException 
 	{
+		//检查是否可删除
+		Map<?,?> rsmap = this.restTemplate.exchange(BUDGET_b2csplit_GET_ITEM+dataId, HttpMethod.POST, new HttpEntity<Object>(dataId, this.httpHeaders), Map.class).getBody();
+		Result result = this.restTemplate.exchange(BUDGET_INFO_EDIT_CHECK+rsmap.get("budgetInfoId"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Result.class).getBody();
+		if(!result.isSuccess()) {
+			return result;
+		}
+		
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(BUDGET_b2csplit_DEL_ITEMS+dataId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
 		if (responseEntity.getBody() == 0) {
 			return new Result(false);
 		} else {
-			return new Result(true);
+			return BudgetExceptionResultEnum.ERROR;
 		}
 	}
 	@RequestMapping(value = "/budget/start-budget-b2csplit-activity", method = RequestMethod.POST)
@@ -305,23 +330,20 @@ public class BudgetB2cSplitController extends BaseController {
 		vo.setAuditUserIds(this.getUserProfile().getUserId());
 		vo.setFunctionId(functionId);
 		vo.setAuthenticatedUserId(this.getUserProfile().getUserId());
+		vo.setBusinessId(budgetInfoId);
+		vo.setProcessInstanceName("事业部预算审批");
+		vo.setAuthenticatedUserName(this.getUserProfile().getUserDisp());
+		vo.setMessageUserIds(this.getUserProfile().getUserId());
+		
+		// 待办业务详情、最终审批同意、最终审批不同意路径
+		vo.setAuditDetailsPath("/budget/budget_detail_b2csplit?dataId="+budgetInfoId);
+		vo.setAuditAgreeMethod("http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-notice-budgetinfo?budgetId="+budgetInfoId+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_PASS.getCode());
+		vo.setAuditRejectMethod("http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-notice-budgetinfo?budgetId="+budgetInfoId+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_REFUSE.getCode());
+		
 		HttpEntity<WorkflowVo> entity = new HttpEntity<WorkflowVo>(vo, this.httpHeaders);
-		Result startRs = this.restTemplate.exchange(PROJECT_NOTICE_WORKFLOW_URL + budgetInfoId, HttpMethod.POST, entity, Result.class).getBody();
-		
-		ResponseEntity<BudgetInfo> getRs = this.restTemplate.exchange(BUDGET_INFO_GET+budgetInfoId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), BudgetInfo.class);
-		BudgetInfo info =getRs.getBody();// JSON.toJavaObject(JSON.parseObject(getRs.getBody().toString()), BudgetInfo.class);
-		
-		System.out.println(JSON.toJSONString(info));
-		info.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
-		info.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_START.getCode());//审批状态开始
-		ResponseEntity<Integer> upRs = this.restTemplate.exchange(BUDGET_INFO_UPDATE, HttpMethod.POST, new HttpEntity<Object>(info, this.httpHeaders), Integer.class);
-		if (upRs.getBody() >= 0) {
-			Map<String,Object> rsmap = MyBeanUtils.transBean2Map(info);
-			rsmap.put("auditStatusDesc", BudgetAuditStatusEnum.getStatusByCode(info.getAuditStatus()).getDesc());
-			startRs.setData(rsmap);
-		} 
-		
+		Result startRs = this.restTemplate.exchange(BUDGET_WORKFLOW_URL + budgetInfoId, HttpMethod.POST, entity, Result.class).getBody();
 		return startRs;
+		
 	}
 	@RequestMapping(value = "/budget/search-b2csplit-history-items", method = RequestMethod.POST)
 	@ResponseBody
