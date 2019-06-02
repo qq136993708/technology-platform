@@ -44,9 +44,11 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
+import com.pcitc.base.common.enums.BudgetInfoEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.vo.BudgetSplitBaseDataVo;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.DateUtils;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
@@ -79,6 +81,7 @@ public class BudgetStockSplitZsyController extends BaseController {
 	private static final String BUDGET_INFO_UPDATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-update";
 	private static final String BUDGET_INFO_GET = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-get/";
 	private static final String PROJECT_NOTICE_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/budget/start-budget-stocksplit-zsy-activity/";
+	private static final String BUDGET_FINAL_INFO = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-final-budget";
 	
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_main_stocksplit_zsy")
@@ -125,6 +128,36 @@ public class BudgetStockSplitZsyController extends BaseController {
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_STOCKSPLIT_HISTORY_TITLES, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), Object.class);
 		request.setAttribute("history_items", infors.getBody());
 		return "stp/budget/budget_history_view_stocksplit_zsy";
+	}
+	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_detail_stocksplitzsy")
+	public Object toBudgetStockDetail(HttpServletRequest request) throws IOException 
+	{
+		String nd = request.getParameter("nd")==null?DateUtil.format(new Date(), DateUtil.FMT_YYYY):request.getParameter("nd");
+		request.setAttribute("nd", nd);
+		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_STOCKSPLIT_TITLES, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), List.class);
+		request.setAttribute("items", infors.getBody());
+		
+		request.setAttribute("dataId", request.getParameter("dataId"));
+		return "stp/budget/budget_detail_stocksplitzsy";
+	}
+	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_detail_stocksplitzsy_nd")
+	public Object toBudgetStockDetailByNd(HttpServletRequest request) throws IOException 
+	{
+		String nd = request.getParameter("nd");
+		if(nd == null) {
+			nd = DateUtils.dateToStr(new Date(),"yyyy");
+		}
+		BudgetInfo param = new BudgetInfo();
+		param.setNd(nd);
+		param.setBudgetType(BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode());
+		BudgetInfo rs = this.restTemplate.exchange(BUDGET_FINAL_INFO, HttpMethod.POST, new HttpEntity<Object>(param,this.httpHeaders), BudgetInfo.class).getBody();
+		
+		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_STOCKSPLIT_TITLES, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), List.class);
+		request.setAttribute("items", infors.getBody());
+		
+		request.setAttribute("nd", nd);
+		request.setAttribute("dataId", rs == null?"0":rs.getDataId());
+		return "stp/budget/budget_detail_stocksplitzsy";
 	}
 	
 	@RequestMapping(value = "/budget/budget-stocksplit-zsy-info-list", method = RequestMethod.POST)
