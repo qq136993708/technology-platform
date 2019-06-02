@@ -167,6 +167,23 @@ public class StandardBaseExpertController extends BaseController {
         return "stp/techFamily/tfcAnalysis";
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/tfcAnalysisDetail")
+    public String tfcAnalysisDetail() {
+//        String dataId = request.getParameter("dataId");
+//        if (dataId==null||"".equals(dataId))
+//        {
+//            dataId="no";
+//        }
+//        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(GET_OUT_PROJECT_COUNT+dataId, HttpMethod.POST, new HttpEntity<>(this.httpHeaders), JSONObject.class);
+//        JSONObject outProjectInfo = responseEntity.getBody();
+//        request.setAttribute("value",outProjectInfo.get("value"));
+//        request.setAttribute("name",outProjectInfo.get("name"));
+        request.setAttribute("typeIndex",request.getParameter("typeIndex"));
+        request.setAttribute("typeName",request.getParameter("typeName"));
+        request.setAttribute("typeCode",request.getParameter("typeCode"));
+        return "stp/techFamily/tfcAnalysisDetail";
+    }
+
     /**
      * 技术优选
      *

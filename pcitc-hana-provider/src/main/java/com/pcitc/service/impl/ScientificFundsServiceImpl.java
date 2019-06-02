@@ -35,7 +35,40 @@ public class ScientificFundsServiceImpl implements IScientificFundsService {
   		List<ScientificFunds> list = scientificFundsMapper.getKtzjjfytjbData_detail(map);
   	    return list;
   	}
-	 
+	 public LayuiTableData getKtzjjfytjbData_detail_page(LayuiTableParam param)throws Exception
+	 {
+		    //每页显示条数
+	  		int pageSize = param.getLimit();
+	  		int pageNum = param.getPage();
+	  		Page p=new Page(pageNum,pageSize);
+			int start=(pageNum-1)*p.getPageSize();
+	  		String month=(String)param.getParam().get("month");
+	  		String companyCode=(String)param.getParam().get("companyCode");
+	  		
+	  		
+	  		String g0PROJCODE=(String)param.getParam().get("g0PROJCODE");
+	  		String g0PROJTXT=(String)param.getParam().get("g0PROJTXT");
+	  		 
+	  		
+	  		logger.info("=====getKtzjjfytjbData_detail_page param: "+JSONObject.toJSONString(param));
+	  		Map map=new HashMap();
+	  		map.put("start", start);
+	  		map.put("pageSize", pageSize);
+	  		map.put("month", month);
+	  		map.put("companyCode", companyCode);
+	  		
+	  		map.put("g0PROJCODE", g0PROJCODE);
+	  		map.put("g0PROJTXT", g0PROJTXT);
+	  		
+	  		List<ScientificFunds> list =      scientificFundsMapper.getKtzjjfytjbData_detail(map);
+	  		Integer totalRecords =            scientificFundsMapper.getKtzjjfytjbData_detail_Count(map);
+	  		System.out.println(">>>>getTzxmcgjdtjbDetailPage>>totalRecords："+totalRecords);
+	  		LayuiTableData data = new LayuiTableData();
+	  		data.setData(list);
+	  		data.setCount(totalRecords);
+	  	    return data;
+
+	 }
 	 
 	 
 	 
@@ -52,7 +85,33 @@ public class ScientificFundsServiceImpl implements IScientificFundsService {
   		List<ScientificFunds> list = scientificFundsMapper.getRgcbzctjbDataDetail(map);
   	    return list;
   	}
-	 
+	 public LayuiTableData getRgcbzctjbDataDetail_page(LayuiTableParam param)throws Exception
+	 {
+		 //每页显示条数
+	  		int pageSize = param.getLimit();
+	  		int pageNum = param.getPage();
+	  		Page p=new Page(pageNum,pageSize);
+			int start=(pageNum-1)*p.getPageSize();
+	  		String month=(String)param.getParam().get("month");
+	  		String companyCode=(String)param.getParam().get("companyCode");
+	  		String g0PROJCODE=(String)param.getParam().get("g0PROJCODE");
+	  		String g0PROJTXT=(String)param.getParam().get("g0PROJTXT");
+	  		logger.info("=====getRgcbzctjbDataDetail_page param: "+JSONObject.toJSONString(param));
+	  		Map map=new HashMap();
+	  		map.put("start", start);
+	  		map.put("pageSize", pageSize);
+	  		map.put("month", month);
+	  		map.put("companyCode", companyCode);
+	  		map.put("g0PROJCODE", g0PROJCODE);
+	  		map.put("g0PROJTXT", g0PROJTXT);
+	  		List<ScientificFunds> list =      scientificFundsMapper.getRgcbzctjbDataDetail(map);
+	  		Integer totalRecords =            scientificFundsMapper.getRgcbzctjbDataDetail_Count(map);
+	  		System.out.println(">>>>getRgcbzctjbDataDetail_page>>totalRecords："+totalRecords);
+	  		LayuiTableData data = new LayuiTableData();
+	  		data.setData(list);
+	  		data.setCount(totalRecords);
+	  	    return data;
+	 }
 	 
 	 
 	 
@@ -68,6 +127,33 @@ public class ScientificFundsServiceImpl implements IScientificFundsService {
   		List<ScientificFunds> list = scientificFundsMapper.getYclzctjbData_Detail(map);
   	    return list;
   	}
+	 public LayuiTableData getYclzctjbData_Detail_page(LayuiTableParam param)throws Exception
+	 {
+		//每页显示条数
+	  		int pageSize = param.getLimit();
+	  		int pageNum = param.getPage();
+	  		Page p=new Page(pageNum,pageSize);
+			int start=(pageNum-1)*p.getPageSize();
+	  		String month=(String)param.getParam().get("month");
+	  		String companyCode=(String)param.getParam().get("companyCode");
+	  		String g0PROJCODE=(String)param.getParam().get("g0PROJCODE");
+	  		String g0PROJTXT=(String)param.getParam().get("g0PROJTXT");
+	  		logger.info("=====getYclzctjbData_Detail_page param: "+JSONObject.toJSONString(param));
+	  		Map map=new HashMap();
+	  		map.put("start", start);
+	  		map.put("pageSize", pageSize);
+	  		map.put("month", month);
+	  		map.put("companyCode", companyCode);
+	  		map.put("g0PROJCODE", g0PROJCODE);
+	  		map.put("g0PROJTXT", g0PROJTXT);
+	  		List<ScientificFunds> list =      scientificFundsMapper.getYclzctjbData_Detail(map);
+	  		Integer totalRecords =            scientificFundsMapper.getYclzctjbData_Detail_Count(map);
+	  		System.out.println(">>>>getYclzctjbData_Detail_page>>totalRecords："+totalRecords);
+	  		LayuiTableData data = new LayuiTableData();
+	  		data.setData(list);
+	  		data.setCount(totalRecords);
+	  	    return data;
+	 }
 	 
 	//能耗支出统计表
 	 public List<ScientificFunds> getNhzctjbData(Map  map)throws Exception
@@ -80,7 +166,33 @@ public class ScientificFundsServiceImpl implements IScientificFundsService {
   		List<ScientificFunds> list = scientificFundsMapper.getNhzctjbData_detail(map);
   	    return list;
   	}
-	 
+	 public LayuiTableData getNhzctjbData_detail_page(LayuiTableParam param)throws Exception
+	 {
+		//每页显示条数
+	  		int pageSize = param.getLimit();
+	  		int pageNum = param.getPage();
+	  		Page p=new Page(pageNum,pageSize);
+			int start=(pageNum-1)*p.getPageSize();
+	  		String month=(String)param.getParam().get("month");
+	  		String companyCode=(String)param.getParam().get("companyCode");
+	  		String g0PROJCODE=(String)param.getParam().get("g0PROJCODE");
+	  		String g0PROJTXT=(String)param.getParam().get("g0PROJTXT");
+	  		logger.info("=====getNhzctjbData_detail_page param: "+JSONObject.toJSONString(param));
+	  		Map map=new HashMap();
+	  		map.put("start", start);
+	  		map.put("pageSize", pageSize);
+	  		map.put("month", month);
+	  		map.put("companyCode", companyCode);
+	  		map.put("g0PROJCODE", g0PROJCODE);
+	  		map.put("g0PROJTXT", g0PROJTXT);
+	  		List<ScientificFunds> list =      scientificFundsMapper.getNhzctjbData_detail(map);
+	  		Integer totalRecords =            scientificFundsMapper.getNhzctjbData_detail_Count(map);
+	  		System.out.println(">>>>getNhzctjbData_detail_page>>totalRecords："+totalRecords);
+	  		LayuiTableData data = new LayuiTableData();
+	  		data.setData(list);
+	  		data.setCount(totalRecords);
+	  	    return data;
+	 }
 	 
 	 
 	   //项目资金流向分析
@@ -94,32 +206,34 @@ public class ScientificFundsServiceImpl implements IScientificFundsService {
 	  		List<ScientificFunds> list = scientificFundsMapper.getXmzjlxfxData_detail(map);
 	  	    return list;
 	  	}
-		 
+		 public LayuiTableData getXmzjlxfxData_detail_page(LayuiTableParam param)throws Exception
+		 {
+			//每页显示条数
+		  		int pageSize = param.getLimit();
+		  		int pageNum = param.getPage();
+		  		Page p=new Page(pageNum,pageSize);
+				int start=(pageNum-1)*p.getPageSize();
+		  		String month=(String)param.getParam().get("month");
+		  		String companyCode=(String)param.getParam().get("companyCode");
+		  		String g0PROJCODE=(String)param.getParam().get("g0PROJCODE");
+		  		String g0PROJTXT=(String)param.getParam().get("g0PROJTXT");
+		  		logger.info("=====getXmzjlxfxData_detail_page param: "+JSONObject.toJSONString(param));
+		  		Map map=new HashMap();
+		  		map.put("start", start);
+		  		map.put("pageSize", pageSize);
+		  		map.put("month", month);
+		  		map.put("companyCode", companyCode);
+		  		map.put("g0PROJCODE", g0PROJCODE);
+		  		map.put("g0PROJTXT", g0PROJTXT);
+		  		List<ScientificFunds> list =      scientificFundsMapper.getXmzjlxfxData_detail(map);
+		  		Integer totalRecords =            scientificFundsMapper.getXmzjlxfxData_detail_Count(map);
+		  		System.out.println(">>>>getXmzjlxfxData_detail_page>>totalRecords："+totalRecords);
+		  		LayuiTableData data = new LayuiTableData();
+		  		data.setData(list);
+		  		data.setCount(totalRecords);
+		  	    return data;
+		 }
 	 
-		 /*
-		//项目资金流向分析
-		 public LayuiTableData getXmzjlxfxData(LayuiTableParam param)throws Exception
-	  	 {
-	  		//每页显示条数
-	  		int pageSize = param.getLimit();
-	  		//从第多少条开始
-	  		int pageNum = param.getPage();
-	  		Page p=new Page(pageNum,pageSize);
-			int start=(pageNum-1)*p.getPageSize();
-	  		String month=(String)param.getParam().get("month");
-	  		String companyCode=(String)param.getParam().get("companyCode");
-	  		logger.info("===明细查询参数 param: "+JSONObject.toJSONString(param));
-	  		Map map=new HashMap();
-	  		map.put("start", start);
-	  		map.put("pageSize", pageSize);
-	  		map.put("month", month);
-	  		map.put("companyCode", companyCode);
-	  		
-	  		List<ScientificFunds> list = scientificFundsMapper.getXmzjlxfxData(map);
-	  		LayuiTableData data = new LayuiTableData();
-	  		data.setData(list);
-	  		data.setCount(1000);
-	  	    return data;
-	  	}*/
+		
 			
 }
