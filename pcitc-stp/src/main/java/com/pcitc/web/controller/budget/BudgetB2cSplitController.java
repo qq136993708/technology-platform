@@ -42,9 +42,11 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
+import com.pcitc.base.common.enums.BudgetInfoEnum;
 import com.pcitc.base.stp.budget.BudgetB2cSplit;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.DateUtils;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
@@ -81,6 +83,8 @@ public class BudgetB2cSplitController extends BaseController {
 	private static final String BUDGET_INFO_GET = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-get/";
 	private static final String PROJECT_NOTICE_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/budget/start-budget-b2csplit-activity/";
 	private static final String BUDGET_b2csplit_ITEM_TREE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-b2citem-tree";
+	private static final String BUDGET_FINAL_INFO = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-final-budget";
+	
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_main_b2csplit")
 	public Object toBudgetB2cPage(HttpServletRequest request) throws IOException 
@@ -124,6 +128,29 @@ public class BudgetB2cSplitController extends BaseController {
 		request.setAttribute("tb_datas", infors.getBody());
 		//request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
 		return "stp/budget/budget_history_view_b2csplit";
+	}
+	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_detail_b2csplit")
+	public Object toBudgetGroupDetail(HttpServletRequest request) throws IOException 
+	{
+		request.setAttribute("dataId", request.getParameter("dataId"));
+		return "stp/budget/budget_detail_b2csplit";
+	}
+	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_detail_b2csplit_nd")
+	public Object toBudgetGroupDetailByNd(HttpServletRequest request) throws IOException 
+	{
+		String nd = request.getParameter("nd");
+		if(nd == null) {
+			nd = DateUtils.dateToStr(new Date(),"yyyy");
+		}
+		//找到最新
+		BudgetInfo param = new BudgetInfo();
+		param.setNd(nd);
+		param.setBudgetType(BudgetInfoEnum.B2C_SPLIT.getCode());
+		BudgetInfo rs = this.restTemplate.exchange(BUDGET_FINAL_INFO, HttpMethod.POST, new HttpEntity<Object>(param,this.httpHeaders), BudgetInfo.class).getBody();
+		
+		request.setAttribute("nd", nd);
+		request.setAttribute("dataId", rs == null?"0":rs.getDataId());
+		return "stp/budget/budget_detail_b2csplit";
 	}
 	
 	@RequestMapping(value = "/budget/budget-b2c-info-list", method = RequestMethod.POST)

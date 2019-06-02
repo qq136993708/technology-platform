@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>经费预算-集团经费预算详情</title>
+    <title>经费预算-事业部预算表</title>
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
     <script src="/layuiadmin/layui/layui.js"></script>
@@ -32,7 +32,7 @@
 <body>
     <div class="headline-box">
         <div class="headline-title" title="集团经费预算总表">
-            	<span class="nd">${nd}</span>年资产公司总部科技项目经费预算（建议稿）
+            	<span class="nd">${nd}</span>股份公司科技专项经费预算表(建议稿)
         </div>
         <div class="headline-tool" style="display: none;">
             <div class="tool-left">
@@ -49,15 +49,28 @@
         </div>
         <div id="tableBox">
             <table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true}">
-                <thead>
+               <thead>
 	                <tr>
-	                	<th lay-data="{field:'no',align: 'center', width: 55,totalRowText: '合计'}">序号</th>
-	                    <th lay-data="{field:'displayName', width: '20%'}">预算部门</th>
-	                    <th lay-data="{field:'remark', width: '25%'}">描述</th>
-	                   	<th lay-data="{field:'last_year_end',align: 'right',totalRow: true}">2018年实际完成</th>
-	                   	<th lay-data="{field:'plan_money',align: 'right',totalRow: true}">2019年经费计划</th>
-	                    <!-- <th lay-data="{field:'yjwc', edit:true,align: 'right',totalRow: true}">2018年预计完成</th> -->
-	                    <th lay-data="{field:'xmjf', edit:true,align: 'right',totalRow: true}">2019年经费预算</th>	                    
+	                	
+	                	<th lay-data="{field:'no',align: 'center', width: 60,totalRowText: '合计'}" rowspan="3">序号</th>
+	                    <th lay-data="{field:'displayName', width: '20%'}" rowspan="3">预算项目</th>
+	                   	<th lay-data="{field:'jtgs', align: 'right',totalRow: true}" rowspan="3">集团公司</th>
+	                    <th lay-data="{align: 'center'}" colspan="9">股份公司</th>
+	                    <th lay-data="{field:'xtw', align:'right',totalRow: true}" rowspan="3"><span></span>系统外</th>
+	                </tr>
+	                <tr>
+	                    <th lay-data="{align:'center'}"  colspan="8"><span></span>直属院</th>
+	                    <th lay-data="{field:'gfFzgs', align: 'right',totalRow: true}"  rowspan="2">分子公司</th>
+	                </tr>
+	                <tr>
+	                    <th lay-data="{field:'gfZsyKty', align: 'right',totalRow: true}">勘探院</th>
+	                    <th lay-data="{field:'gfZsyGcy', align: 'right',totalRow: true}">工程院</th>
+	                    <th lay-data="{field:'gfZsyWty', align: 'right',totalRow: true}">物探院</th>
+	                    <th lay-data="{field:'gfZsySky', align: 'right',totalRow: true}">石科院</th>
+	                    <th lay-data="{field:'gfZsyBhy', align: 'right',totalRow: true}">北化院</th>
+	                    <th lay-data="{field:'gfZsyFyy', align: 'right',totalRow: true}">抚研院</th>
+	                    <th lay-data="{field:'gfZsyShy', align: 'right',totalRow: true}">上海院</th>
+	                    <th lay-data="{field:'gfZsyQdy', align: 'right',totalRow: true}">青岛院</th>
 	                </tr>
                 </thead>
             </table>
@@ -66,7 +79,7 @@
     
 
     <script>
-    	var cu_date = "${nd?default(0)}";
+	    var cu_date = "${nd?default(0)}";
 	    var dataId = "${dataId}";
 	    var budget_info_map=null;
 	    var curent_tabel_data = null;//当前表格数据
@@ -90,16 +103,13 @@
             	$(".headline-tool").css("display","block");
             	laydate.render({elem: '#choose-year',value: cu_date,type: 'year'
                     ,done:function (val, date, endDate) {
-                    	window.location.href="/budget/budget_detail_assettotal_nd?nd="+val;
+                    	window.location.href="/budget/budget_detail_techsplit_nd?nd="+val;
                     }            
                 });
             }
+            
             initDateView = function(){
 				$(".nd").html(cu_date);
-			
-				$(".layui-table-header .layui-table").find('th').eq(4).find('span').text((cu_date-1)+"年实际完成");
-            	$(".layui-table-header .layui-table").find('th').eq(5).find('span').text(cu_date+"年经费计划");
-            	$(".layui-table-header .layui-table").find('th').eq(6).find('span').text(cu_date+"年经费预算");
 			}
             reloadTable = function(tableId,tableData){
 				table.reload(tableId, {data: tableData});
@@ -112,7 +122,7 @@
 				});
 			}
 			//数据版本选择
-	        publicMethods.ajaxAsyncPost("/budget/budget-assettotal-items",{page:1,limit:100,param: {"budget_info_id":dataId}}, function (data) {
+	        publicMethods.ajaxAsyncPost("/budget/budget-techsplit-items",{page:1,limit:100,param: {"budget_info_id":dataId}}, function (data) {
        			reloadTable('dataTable', data.data);
             	if(data.data.length >0){
             		cu_date = data.data[0].nd;

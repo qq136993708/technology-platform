@@ -32,7 +32,7 @@
 <body>
     <div class="headline-box">
         <div class="headline-title" title="集团经费预算总表">
-            	<span class="nd">${nd}</span>年资产公司总部科技项目经费预算（建议稿）
+            	<span class="nd">${nd}</span>年股份分子公司经费预算表(建议稿)
         </div>
         <div class="headline-tool" style="display: none;">
             <div class="tool-left">
@@ -51,13 +51,23 @@
             <table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true}">
                 <thead>
 	                <tr>
-	                	<th lay-data="{field:'no',align: 'center', width: 55,totalRowText: '合计'}">序号</th>
-	                    <th lay-data="{field:'displayName', width: '20%'}">预算部门</th>
-	                    <th lay-data="{field:'remark', width: '25%'}">描述</th>
-	                   	<th lay-data="{field:'last_year_end',align: 'right',totalRow: true}">2018年实际完成</th>
-	                   	<th lay-data="{field:'plan_money',align: 'right',totalRow: true}">2019年经费计划</th>
-	                    <!-- <th lay-data="{field:'yjwc', edit:true,align: 'right',totalRow: true}">2018年预计完成</th> -->
-	                    <th lay-data="{field:'xmjf', edit:true,align: 'right',totalRow: true}">2019年经费预算</th>	                    
+	                	<th lay-data="{field:'no',align: 'center', width: '4%',totalRowText: '合计'}" rowspan="2">序号</th>
+	                    <th lay-data="{field:'organName', width: '15%'}" rowspan="2">专业处/部门</th>
+	                    <!--  <th lay-data="{field:'total', width: '6%',align: 'center',totalRow: true}" rowspan="2">合计</th> -->
+	                    <#list items as item>
+	                    	<#list item?keys as key> 
+	                    		<th lay-data="{field:'${key}_total', align: 'right',totalRow: true}" colspan="3">${item[key]}</th>
+	                    	</#list> 
+	                    </#list>
+	                </tr>
+	                 <tr>
+	                    <#list items as item>
+	                    	<#list item?keys as key> 
+	                    		<th lay-data="{field:'${key}_total',align: 'right',totalRow: true}">预算</th>
+	                    		<th lay-data="{field:'${key}_jz', align: 'right',totalRow: true}">老合同</th>
+	                    		<th lay-data="{field:'${key}_xq', align: 'right',totalRow: true}">可新签</th>
+	                    	</#list> 
+	                    </#list>
 	                </tr>
                 </thead>
             </table>
@@ -66,7 +76,7 @@
     
 
     <script>
-    	var cu_date = "${nd?default(0)}";
+	    var cu_date = "${nd?default(0)}";
 	    var dataId = "${dataId}";
 	    var budget_info_map=null;
 	    var curent_tabel_data = null;//当前表格数据
@@ -90,16 +100,14 @@
             	$(".headline-tool").css("display","block");
             	laydate.render({elem: '#choose-year',value: cu_date,type: 'year'
                     ,done:function (val, date, endDate) {
-                    	window.location.href="/budget/budget_detail_assettotal_nd?nd="+val;
+                    	window.location.href="/budget/budget_detail_stocksplitzgs_nd?nd="+val;
                     }            
                 });
             }
+            
             initDateView = function(){
 				$(".nd").html(cu_date);
 			
-				$(".layui-table-header .layui-table").find('th').eq(4).find('span').text((cu_date-1)+"年实际完成");
-            	$(".layui-table-header .layui-table").find('th').eq(5).find('span').text(cu_date+"年经费计划");
-            	$(".layui-table-header .layui-table").find('th').eq(6).find('span').text(cu_date+"年经费预算");
 			}
             reloadTable = function(tableId,tableData){
 				table.reload(tableId, {data: tableData});
@@ -112,7 +120,7 @@
 				});
 			}
 			//数据版本选择
-	        publicMethods.ajaxAsyncPost("/budget/budget-assettotal-items",{page:1,limit:100,param: {"budget_info_id":dataId}}, function (data) {
+	        publicMethods.ajaxAsyncPost("/budget/budget-stocksplit-zgs-items",{page:1,limit:100,param: {"budget_info_id":dataId}}, function (data) {
        			reloadTable('dataTable', data.data);
             	if(data.data.length >0){
             		cu_date = data.data[0].nd;
