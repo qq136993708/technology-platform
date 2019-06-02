@@ -231,6 +231,10 @@
                 active[type] ? active[type].call(this) : '';
             });
             table.on('edit(dataTable)', function(obj){
+            	if (!(/(^[1-9]\d*$)/.test(obj.value))) {
+            		layer.msg('请输入数字!');
+            		obj.value = 0;
+            	}
             	$.each(curent_tabel_data,function(index,dt){
             		if(obj.data.dataId == dt.dataId){
             			curent_tabel_data[index][obj.field] = parseInt(obj.value);
@@ -394,14 +398,13 @@
                 	}  
                 	layer.confirm('提交后将不可再编辑！确定要提交审批吗？',{title:"提交确认"},function(index){
     					layer.close(index);
-    					publicMethods.ajaxPost("/budget/start-budget-techsplit-activity", {"budgetInfoId":curent_budget_info.dataId,"functionId":param.id}, function (data) {
+    					publicMethods.ajaxAsyncPost("/budget/start-budget-techsplit-activity", {"budgetInfoId":curent_budget_info.dataId,"functionId":param.id}, function (data) {
     	                     if (data.success) {    	                    	 
-    	                    	 budget_info_map[data.data.dataVersion]=data.data; 
-    	                    	 $("#data_version").trigger("change");
+    	                    	 budget_info_map[data.data.dataId]=data.data; 
+    	                    	 $("#info_status").html(data.data.auditStatusDesc);
     	                    	 layer.msg('提交成功!');
     	                     } else {
     	                    	 layer.msg(data.message);
-    	                    	 
     	                     }
     	                });
                 	});

@@ -238,7 +238,7 @@ public class BudgetB2cSplitController extends BaseController {
 		if (rs.getBody() != null) {
 			return new Result(true,rs.getBody());
 		} else {
-			return new Result(false);
+			return BudgetExceptionResultEnum.ERROR;
 		}
 	}
 	@RequestMapping(value = "/budget/save-b2csplit-items", method = RequestMethod.POST)
@@ -331,7 +331,7 @@ public class BudgetB2cSplitController extends BaseController {
 		vo.setFunctionId(functionId);
 		vo.setAuthenticatedUserId(this.getUserProfile().getUserId());
 		vo.setBusinessId(budgetInfoId);
-		vo.setProcessInstanceName("集团总表审批");
+		vo.setProcessInstanceName("事业部预算审批");
 		vo.setAuthenticatedUserName(this.getUserProfile().getUserDisp());
 		vo.setMessageUserIds(this.getUserProfile().getUserId());
 		
