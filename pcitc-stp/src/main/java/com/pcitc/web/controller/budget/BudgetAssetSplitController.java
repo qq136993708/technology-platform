@@ -79,7 +79,7 @@ public class BudgetAssetSplitController extends BaseController {
 	
 	private static final String BUDGET_INFO_UPDATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-update";
 	private static final String BUDGET_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/budget/start-budgetinfo-activity/";
-	//private static final String BUDGET_INFO_GET = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-get/";
+	private static final String BUDGET_INFO_GET = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-get/";
 	//private static final String PROJECT_NOTICE_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/budget/start-budget-assetsplit-activity/";
 	private static final String BUDGET_INFO_EDIT_CHECK = "http://pcitc-zuul/stp-proxy/stp-provider/budget/check-budgetinfo-edit/";
 	private static final String BUDGET_FINAL_INFO = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-final-budget";
@@ -136,9 +136,12 @@ public class BudgetAssetSplitController extends BaseController {
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_detail_assetsplit")
 	public Object toBudgetGroupDetail(HttpServletRequest request) throws IOException 
 	{
-		String nd = request.getParameter("nd")==null?DateUtil.format(new Date(), DateUtil.FMT_YYYY):request.getParameter("nd");
-		request.setAttribute("nd", nd);
-		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_ASSETSPLIT_TITLES, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), List.class);
+		
+		String dataId = request.getParameter("dataId");
+		BudgetInfo info = this.restTemplate.exchange(BUDGET_INFO_GET+dataId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), BudgetInfo.class).getBody();
+		
+		
+		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_ASSETSPLIT_TITLES, HttpMethod.POST, new HttpEntity<Object>(info.getNd(),this.httpHeaders), List.class);
 		request.setAttribute("items", infors.getBody());
 		
 		request.setAttribute("dataId", request.getParameter("dataId"));
