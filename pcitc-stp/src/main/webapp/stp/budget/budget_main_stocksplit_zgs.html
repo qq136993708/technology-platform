@@ -63,7 +63,7 @@
                 	<#list item?keys as key> 
                 		<label class="dateInput">
 		                    <span>${item[key]}[可分配/剩余]:</span>
-		                    <input type="text" name="${key}" id="${key}" readonly="readonly" value="0/0">
+		                    <input type="text" name="${key}" id="${key}"  class="readOnlyBox" readonly="readonly" value="0/0">
 		                </label>
                 	</#list> 
                 </#list>
