@@ -385,7 +385,7 @@
 		<module>pcitc-zuul</module>
 		<module>pcitc-stp</module>
 		<module>pcitc-stp-provider</module>
-		 <module>pplus-tx-manager</module> 
+		<!-- <module>pplus-tx-manager</module>  -->
 		<module>pcitc-hana-provider</module>
 	</modules>
 </project>
