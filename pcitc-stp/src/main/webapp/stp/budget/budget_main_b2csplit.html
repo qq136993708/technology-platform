@@ -171,12 +171,6 @@
             $("#data_version").on("change",function(e){
             	curent_budget_info = budget_info_map[$("#data_version").val()];            	
             	if(curent_budget_info){
-            		$("#budgetMoney").val(curent_budget_info.budgetMoney);//可分配数
-            		$("#creater_name").html(curent_budget_info.createrName);//创建人
-            		$("#create_time").html(curent_budget_info.createTime);//创建时间
-            		$("#update_time").html(curent_budget_info.updateTime);//最后更新时间
-            		$("#info_status").html(curent_budget_info.auditStatusDesc);//状态
-            		
             		var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});
             		publicMethods.ajaxAsyncPost("/budget/budget-b2csplit-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
             			layer.close(lodingMsg);
@@ -186,6 +180,7 @@
 	                		dt.lyTotal = parseInt(dt.lyJz)+parseInt(dt.lyXq);
 	                		dt.hgTotal = parseInt(dt.hgJz)+parseInt(dt.hgXq);
 	                	});
+	                	initEmptyData(curent_budget_info);
 	                	reloadDataAndTableFormart(data.data);
 	                	calculationSurplusMoney();//预分配数
 	                	initDateView();
@@ -196,16 +191,23 @@
             	}
             });
 			//空数据初始化
-			function initEmptyData()
+			window.initEmptyData = function(curent_budget_info)
 			{
-				//table.reload('dataTable', {data: []});
-				reloadDataAndTableFormart();
-				$("#budgetMoney").val(0);//可分配数
-            	$("#surplusMoney").val(0);//剩余可分配数
-        		$("#creater_name").html("");//创建人
-        		$("#create_time").html("");//创建时间
-        		$("#update_time").html("");//最后更新时间
-        		$("#info_status").html("");//状态
+        		if(curent_budget_info){
+        			$("#budgetMoney").val(curent_budget_info.budgetMoney);//可分配数
+            		$("#creater_name").html(curent_budget_info.createrName);//创建人
+            		$("#create_time").html(curent_budget_info.createTime);//创建时间
+            		$("#update_time").html(curent_budget_info.updateTime);//最后更新时间
+            		$("#info_status").html(curent_budget_info.auditStatusDesc);//状态
+        		}else{
+        			reloadDataAndTableFormart();
+    				$("#budgetMoney").val(0);//可分配数
+                	$("#surplusMoney").val(0);//剩余可分配数
+            		$("#creater_name").html("");//创建人
+            		$("#create_time").html("");//创建时间
+            		$("#update_time").html("");//最后更新时间
+            		$("#info_status").html("");//状态
+        		}
 			}
 			//初始化时间选择
 			function initDateView(){
@@ -405,10 +407,15 @@
                 	if($("#data_version").val()==""){
                 		parent.layer.alert("请选择需要保存的预算版本", {title : '提示'});
                 		return;
-                	}                
+                	}
+                	layer.msg("处理中...");
    					publicMethods.ajaxAsyncPost("/budget/save-b2csplit-items", {"info":JSON.stringify(curent_budget_info),"items":JSON.stringify(curent_tabel_data)}, function (data) {
    	                     if (data.success) {    	                    	
    	                    	 layer.msg('保存成功!');
+   	                    	 publicMethods.ajaxAsyncPost("/budget/budget-info-get", {"dataId":curent_budget_info.dataId}, function (dt) {
+   	                    		budget_info_map[dt.dataId]=dt
+   	                    		initEmptyData(dt);
+   	   	                	 });
    	                     } else {
    	                    	layer.msg(data.message);
    	                     }
