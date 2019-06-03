@@ -55,9 +55,10 @@ public class AuthServiceImpl implements AuthService {
 
 	@Override
 	public String login(String username, String password) {
+		
 		// 验证用户名和密码是否正确（username, password）,从数据库中读取用户和角色信息
 		Authentication upToken = new UsernamePasswordAuthenticationToken(username, password);
-
+		System.out.println("1-----------zuul--login---"+upToken);
 		Authentication authentication = new UsernamePasswordAuthenticationToken(upToken.getName(), upToken.getCredentials(), AUTHORITIES);
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -71,12 +72,13 @@ public class AuthServiceImpl implements AuthService {
 		reJson.put("userPassword", password);
 		
 		JSONObject json = systemRemoteClient.selectUserDetail(reJson.toString());
-		
+		System.out.println("2-----------zuul--login---"+json);
 		List<SysUser> userList = JSONArray.parseArray(json.getJSONArray("list").toString(), SysUser.class);
 		
 		if (userList == null || userList.size() != 1) {
 			return null;
 		}
+		System.out.println("3-----------zuul--login---"+userList);
 		return jwtTokenUtil.generateToken(userList.get(0));
 	}
 
