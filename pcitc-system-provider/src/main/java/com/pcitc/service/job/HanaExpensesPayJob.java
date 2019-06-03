@@ -23,10 +23,10 @@ import com.pcitc.service.out.OutProjectPlanService;
 import com.pcitc.service.out.OutProjectService;
 
 /**
- * @author zhf 定时获取hana中的国家级项目，并保存到本地数据
+ * @author zhf 定时获取hana中报销费用挂账清账信息
  */
 @Component
-public class HanaProjectJob implements Job, Serializable {
+public class HanaExpensesPayJob implements Job, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -41,14 +41,13 @@ public class HanaProjectJob implements Job, Serializable {
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		
-		List<OutProjectInfo> insertItemData = new ArrayList<OutProjectInfo>();
 		List<OutProjectInfo> insertData = new ArrayList<OutProjectInfo>();
 		List<OutProjectPlan> insertPlanDate = new ArrayList<OutProjectPlan>();
 		
 		Calendar date = Calendar.getInstance();
 		String ysYear = String.valueOf(date.get(Calendar.YEAR));
 		map.put("nd", ysYear);
-		JSONArray resultList = outProjectRemoteClient.getLastCountryProject(map);
+		JSONArray resultList = outProjectRemoteClient.getExpensesPayInfo(map);
 		if (resultList != null) {
 			for (int i = 0; i < resultList.size(); i++) {
 				JSONObject json = resultList.getJSONObject(i);

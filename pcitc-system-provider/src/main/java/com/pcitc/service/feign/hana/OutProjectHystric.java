@@ -18,5 +18,10 @@ public class OutProjectHystric implements OutProjectRemoteClient {
 		return null;
 	}
 	 
+	@Override
+	public JSONArray getExpensesPayInfo(HashMap<String, String> map) {
+		System.out.println("=====获取hana中报销费用挂账清账信息");
+		return null;
+	}
 
 }
