@@ -88,7 +88,10 @@ public class BudgetStockSplitZsyController extends BaseController {
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_main_stocksplit_zsy")
 	public Object toBudgetStockPage(HttpServletRequest request) throws IOException 
 	{
-		String nd = request.getParameter("nd")==null?DateUtil.format(new Date(), DateUtil.FMT_YYYY):request.getParameter("nd");
+		String nd = request.getParameter("nd");
+		if(nd == null) {
+			nd = DateUtil.format(DateUtil.getNextYearDay(new Date()), DateUtil.FMT_YYYY);
+		}
 		request.setAttribute("nd", nd);
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_STOCKSPLIT_TITLES, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), List.class);
 		request.setAttribute("items", infors.getBody());

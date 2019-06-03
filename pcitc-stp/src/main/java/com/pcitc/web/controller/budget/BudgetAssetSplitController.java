@@ -145,7 +145,7 @@ public class BudgetAssetSplitController extends BaseController {
 		request.setAttribute("items", infors.getBody());
 		
 		request.setAttribute("dataId", request.getParameter("dataId"));
-		return "stp/budget/budget_detail_groupsplit";
+		return "stp/budget/budget_detail_assetsplit";
 	}
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_detail_assetsplit_nd")
 	public Object toBudgetGroupDetailByNd(HttpServletRequest request) throws IOException 
