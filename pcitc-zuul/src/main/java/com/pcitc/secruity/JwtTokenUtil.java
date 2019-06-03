@@ -106,7 +106,7 @@ public class JwtTokenUtil implements Serializable {
 	*/
 	public String generateToken(SysUser user) {
 		Map<String, Object> claims = new HashMap<>();
-		//System.out.println("141==---====generateToken------" + user.getUserName());
+		System.out.println("141==---====generateToken------" + user.getUserName());
 		claims.put(CLAIM_KEY_USERNAME, user.getUserName());
 		claims.put(CLAIM_KEY_USERID, user.getUserId());
 		claims.put(CLAIM_KEY_ROLELIST, user.getRoles());

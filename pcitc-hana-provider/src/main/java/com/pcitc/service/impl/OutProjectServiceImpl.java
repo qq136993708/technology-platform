@@ -23,6 +23,13 @@ public class OutProjectServiceImpl implements IOutProjectService{
 	public List getCountryProjectList(HashMap<String, String> map) {
 		return outProjectMapper.getCountryProjectList(map);
 	}
+	
+	/**
+     * 获取hana中报销费用挂账清账信息
+     */
+	public List getExpensesPayInfo(HashMap<String, String> map) {
+		return outProjectMapper.getExpensesPayInfo(map);
+	}
     
     
   	
