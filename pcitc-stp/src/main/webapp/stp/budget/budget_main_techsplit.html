@@ -65,7 +65,7 @@
                 </label>
                 <label class="dateInput">
                     <span>剩余可分配</span>
-                    <input type="text" name="surplusMoney" id="surplusMoney"  readonly="readonly" value="0">
+                    <input type="text" class="readOnlyBox" name="surplusMoney" id="surplusMoney"  readonly="readonly" value="0">
                 </label>
             </div>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
@@ -133,7 +133,7 @@
     <div class="doc-box">
         <p>请注意:</p>
         <ul>
-            <li>1、可分配数为集团预算总表中，对应年度最新预算总数，分配时自动计算，不可更改</li>
+            <li>1、预分配数请自行设定，剩余可分配数为预分配数减去已填入的预算数之差，剩余可分配数自动计算，不可更改</li>
             <li>2、预算编制状态包括：编制中、审批中、初审驳回、审批通过、最终预算等五种，审批发起后不可再编辑</li>
             <li>3、预算按年度编制，编制年度可自定义，默认编制下一年度</li>
             <li>4、预算表创建时生成一个版本号，版本号规则：vs-年度-三位类别编码-三位顺序号</li>
