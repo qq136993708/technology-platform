@@ -29,6 +29,13 @@ public class OutProjectPlanClient {
 	
 	private final static Logger logger = LoggerFactory.getLogger(OutProjectPlanClient.class);
 	
+	@ApiOperation(value = "全生命周期查询，计划为起点", notes = "不包含国家项目、十条龙项目等特殊项目，只保护装备、科研")
+	@RequestMapping(value = "/out-project-plna-provider/project-plan/cycle", method = RequestMethod.POST)
+	public LayuiTableData selectProjectCycle(@RequestBody LayuiTableParam param) throws Exception {
+		logger.info("==================page selectProjectCycle===========================" + param);
+		return outProjectPlanService.selectProjectPlanByCond(param);
+	}
+	
 	@ApiOperation(value = "分页显示项目计划数据", notes = "分页显示项目计划数据")
 	@RequestMapping(value = "/out-project-plna-provider/project-plan/page/list", method = RequestMethod.POST)
 	public LayuiTableData selectProjectPlanByCond(@RequestBody LayuiTableParam param) throws Exception {

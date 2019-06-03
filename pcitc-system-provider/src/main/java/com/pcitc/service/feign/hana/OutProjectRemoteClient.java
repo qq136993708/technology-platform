@@ -27,5 +27,7 @@ public interface OutProjectRemoteClient {
 	@RequestMapping(value = "/hana/country-project/list")
 	public JSONArray getLastCountryProject(@RequestBody HashMap<String, String> map);
 	
-
+	@RequestMapping(value = "/hana/expenses/pay/list")
+	public JSONArray getExpensesPayInfo(@RequestBody HashMap<String, String> map);
+	
 }
