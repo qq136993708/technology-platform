@@ -197,7 +197,7 @@
             	}
             });
 			//空数据初始化
-			function initEmptyData(curent_budget_info)
+			window.initEmptyData = function(curent_budget_info)
 			{
         		if(curent_budget_info){
         			$("#budgetMoney").val(curent_budget_info.budgetMoney);//可分配数
@@ -411,7 +411,8 @@
    	                     if (data.success) {    	                    	
    	                    	 layer.msg('保存成功!');
    	                    	 publicMethods.ajaxAsyncPost("/budget/budget-info-get", {"dataId":curent_budget_info.dataId}, function (dt) {
-   	   	                     	initEmptyData(dt);
+   	                    		budget_info_map[dt.dataId]=dt
+   	                    		initEmptyData(dt);
    	   	                	 });  
    	                     } else {
    	                    	layer.msg(data.message);
