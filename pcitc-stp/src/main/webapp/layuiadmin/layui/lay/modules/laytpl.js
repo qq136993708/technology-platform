@@ -347,7 +347,7 @@ layui.define(['jquery'],function (e) {
             "        </div>" +
             "    </div>";*/
         var title='',abstract='';
-        console.log(d)
+        console.log(d.select_type)
         if(d.cgmc!=undefined){
             title=d.cgmc;
         }else if(d.xmmc!=undefined){
@@ -364,6 +364,8 @@ layui.define(['jquery'],function (e) {
             title=d.typeName;
         }else if(d.fileName!=undefined){
             title=d.fileName;
+        }else if(d.name!=undefined){
+            title=d.name;
         }
         if(d.userDesc){
             abstract=d.userDesc;
@@ -380,15 +382,18 @@ layui.define(['jquery'],function (e) {
         }else if(d.cgmc){
             abstract=d.cgmc;
         }
-        var select_type="";
-        if(!d.select_type=="undefined"){
-            var select_type="+"+d.select_type;
+        var cName="c-nameC";
+        var select_type=d.select_type;
+        if(d.select_type=="undefined"){
+            var cName="c-name";
+            var select_type='';
         }
         html='<div class="layui-div layui-div-n">' +
-            '        <a href="#">'+title+'<span style="color: #1ea5bb"> '+select_type+'</span></a>' +
+            '        <a href="#">'+title+'</a>' +
             '        <div class="c-row c-gap-top-small">' +
             '            <div class="c-span18 c-span-last">' +
             '                <p>'+abstract+'</p>' +
+            '               <p class="'+cName+'">'+select_type+'</p>'+
             '            </div>' +
             '        </div>' +
             '    </div>';
