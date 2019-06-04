@@ -148,7 +148,7 @@ public class DemoController {
 			paramMap.put("sqlName", "fndktjfjh");
 			JsonObject jo = new JsonObject();
 			System.out.println(jo.toString());
-			jo.addProperty("ND", "2020");
+			jo.addProperty("ND", "2019");
 			//jo.addProperty("ksrq", "2018-01-01");
 			//jo.addProperty("jzrq", "2018-02-05");
 
@@ -172,7 +172,7 @@ public class DemoController {
 				System.out.println("返回--------" + jsArr.size());
 				for (int i =0; i < jsArr.size(); i++) {
 					JSONObject jsonObject = JSON.parseObject(jsArr.get(i).toString());
-					System.out.println(jsonObject.get("LXND")+"===="+jsonObject.get("ND")+"==="+jsonObject.get("YJSJ"));
+					System.out.println(jsonObject.get("LXND")+"==="+jsonObject.get("ND")+"==="+jsonObject.get("XMID"));
 					//System.out.println(jsonObject.toJSONString());
 				}
 				

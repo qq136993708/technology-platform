@@ -53,17 +53,18 @@ public class BudgetTotalSplitController extends BaseController {
 	private static final String PROJECT_TOTAL_FINAL_STOCK = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-final-stocksplit";
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_main_totalsplit")
-	public Object toBudgetPage(HttpServletRequest request) throws IOException 
+	public Object toBudgetMainTotalSplit(HttpServletRequest request) throws IOException 
 	{
-		
-		String nd = request.getParameter("nd");
-		if(nd == null) {
-			nd = DateUtil.format(DateUtil.getNextYearDay(new Date()), DateUtil.FMT_YYYY);
-		}
-		request.setAttribute("nd", nd);
+		request.setAttribute("nd", DateUtil.format(DateUtil.getNextYearDay(new Date()), DateUtil.FMT_YYYY));
 		return "stp/budget/budget_main_totalsplit";
 	}
-	
+	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_main_totalsplit_nd")
+	public Object toBudgetMainTotalSplitNd(HttpServletRequest request) throws IOException 
+	{
+		
+		request.setAttribute("nd", DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		return "stp/budget/budget_main_totalsplit";
+	}
 	@RequestMapping(value = "/budget/get-final-groupsplit", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getFinalBudgetGroupAssetStockList(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 

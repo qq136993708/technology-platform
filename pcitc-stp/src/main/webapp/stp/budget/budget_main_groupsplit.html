@@ -52,6 +52,7 @@
                 <button class="layui-btn btn-decision active" data-type="createEvent">编制预算</button>
             </div>
             <div class="tool-right">
+            	<button class="layui-btn layui-btn-sm btn-decision active" data-type="resetJzEvent">统计老合同预算</button>
                 <button class="layui-btn layui-btn-sm btn-decision" data-type="historyCompare">往年预算参考</button>
                 <button class="layui-btn layui-btn-sm btn-decision" data-type="historyView">历年参考数据</button>
             </div>
@@ -69,9 +70,9 @@
                     <input type="text" class="readOnlyBox" name="surplusMoney" id="surplusMoney"  readonly="readonly" value="0">
                 </label>
             </div>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_reset2 btnMyBgImg"
+            <!-- <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_reset2 btnMyBgImg"
                     data-type="resetJzEvent">重置结转经费
-            </button>
+            </button> -->
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save2 btnMyBgImg"
                     data-type="saveEvent">保存
             </button>
@@ -94,12 +95,12 @@
 	                    <th lay-data="{align: 'center', totalRow: true}" colspan="${items?size+2}">${nd}年新签项目经费</th>
 	                </tr>
 	                <tr>
-	                    <th lay-data="{field:'total_jz', align: 'right',totalRow: true}"  rowspan="2">合计</th>
-	                    <th lay-data="{align: 'right',totalRow: true}"  colspan="${items?size}">拨款</th>
-	                    <th lay-data="{field:'plan_jz', edit:true,align: 'right',totalRow: true}"  rowspan="2">计划</th>
-	                    <th lay-data="{field:'total_xq', align: 'right',totalRow: true}"  rowspan="2">合计</th>
-	                    <th lay-data="{align: 'right',totalRow: true}"  colspan="${items?size}">拨款</th>
-	                    <th lay-data="{field:'plan_xq', edit:true,align: 'right',totalRow: true}"  rowspan="2">计划</th>
+	                    <th lay-data="{field:'total_jz', align: 'right',totalRow: true,width: 100}"  rowspan="2">合计</th>
+	                    <th lay-data="{align: 'right',totalRow: true,width: 100}"  colspan="${items?size}">拨款</th>
+	                    <th lay-data="{field:'plan_jz', edit:true,align: 'right',totalRow: true,width: 100}"  rowspan="2">计划</th>
+	                    <th lay-data="{field:'total_xq', align: 'right',totalRow: true,width: 100}"  rowspan="2">合计</th>
+	                    <th lay-data="{align: 'right',totalRow: true,width: 100}"  colspan="${items?size}">拨款</th>
+	                    <th lay-data="{field:'plan_xq', edit:true,align: 'right',totalRow: true,width: 100}"  rowspan="2">计划</th>
 	                </tr>
 	                 <tr>
 	                 	<#list items as item>
