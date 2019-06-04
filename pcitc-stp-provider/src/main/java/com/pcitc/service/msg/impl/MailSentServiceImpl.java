@@ -99,6 +99,24 @@ public class MailSentServiceImpl implements MailSentService {
     }
 
     @Override
+    public boolean sendMailFileInputStream(MailSenderInfo mailSenderInfo) {
+        boolean b = false;
+        try {
+            mailSenderInfo.setFromAddress(fromAddress);
+            mailSenderInfo.setMailServerHost(mailSenderHost);
+            mailSenderInfo.setPassword(password);
+            mailSenderInfo.setUserName(userName);
+            mailSenderInfo.setMailServerPort(mailSenderPort);
+            mailSenderInfo.setSenderDisplay(senderDisplay);
+            mailSenderInfo.setValidate(Validate);
+            b = MailSender.sendMailFileInputStream(mailSenderInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            return b;
+        }
+    }
+    @Override
     public Integer sentMail(MailBean mailbean) {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
