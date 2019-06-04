@@ -20,12 +20,12 @@
 		<version>1.5.5.RELEASE</version>
 	</parent>
 
-	<repositories>
-		<!--<repository> -->
-		<!--<id>thirdparty</id> -->
-		<!--<name>3rd party</name> -->
-		<!--<url>http://127.0.0.1:8081/nexus/content/repositories/thirdparty/</url> -->
-		<!--</repository> -->
+	<!-- <repositories>
+		<repository>
+		<id>thirdparty</id>
+		<name>3rd party</name>
+		<url>http://127.0.0.1:8081/nexus/content/repositories/thirdparty/</url>
+		</repository>
 		<repository>
 			<id>Central</id>
 			<name>Central</name>
@@ -57,7 +57,7 @@
 			<name>Nexus Public Repository</name>
 			<url>http://10.238.120.36:8082/repository/maven-public/</url>
 		</repository>
-	</repositories>
+	</repositories> -->
 
 	<dependencyManagement>
 		<dependencies>

@@ -50,8 +50,8 @@ public class DemoController {
 		 */
 
 		try {
-			String temS = "www.baidu.com";
-			String TEST_URL = "http://localhost:8080/SystemCodeTool/qr-code/"+temS;
+			String temS = "";
+			String TEST_URL = "SelectAllProjectFromSinopecData2017"+temS;
 			System.out.println("=====开始访问===" + TEST_URL);
 			// 创建一个请求客户端
 			RestfulHttpClient.HttpClient client = RestfulHttpClient.getClient(TEST_URL);
@@ -66,7 +66,7 @@ public class DemoController {
 			client.addHeaders(headerMap);
 
 			Map<String, String> paramMap = new HashMap<String, String>();
-			paramMap.put("sqlName", "SelectAllJDSQ");
+			paramMap.put("sqlName", "SelectAllProjectFromSinopecData2017");
 			JsonObject jo = new JsonObject();
 			jo.addProperty("", "");
 
@@ -145,10 +145,10 @@ public class DemoController {
 			client.addHeaders(headerMap);
 
 			Map<String, String> paramMap = new HashMap<String, String>();
-			paramMap.put("sqlName", "GetUserList_TechnologyMinistry");
+			paramMap.put("sqlName", "fndktjfjh");
 			JsonObject jo = new JsonObject();
 			System.out.println(jo.toString());
-			//jo.addProperty("ND", "2018");
+			jo.addProperty("ND", "2020");
 			//jo.addProperty("ksrq", "2018-01-01");
 			//jo.addProperty("jzrq", "2018-02-05");
 
@@ -172,11 +172,13 @@ public class DemoController {
 				System.out.println("返回--------" + jsArr.size());
 				for (int i =0; i < jsArr.size(); i++) {
 					JSONObject jsonObject = JSON.parseObject(jsArr.get(i).toString());
-					System.out.println(jsonObject.get("LXDH"));
+					System.out.println(jsonObject.get("LXND")+"===="+jsonObject.get("ND")+"==="+jsonObject.get("YJSJ"));
+					//System.out.println(jsonObject.toJSONString());
 				}
 				
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("执行异常" + e.getStackTrace().toString());
 		}
 		System.out.println("执行完毕--------");
