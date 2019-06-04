@@ -3,7 +3,7 @@
 <generatorConfiguration>
 	<!-- <classPathEntry location="D:\eclipse64workplace\mpbw\WebContent\WEB-INF\lib\mysql-connector-java-5.1.20-bin.jar" />
 	 -->
-	 <classPathEntry location="D:\software\libs\mysql-connector-java-8.0.16.jar" />
+	 <classPathEntry location="E:\test\mysql-connector-java-8.0.16.jar" />
 	
 	
 	<context id="context1">
@@ -15,11 +15,11 @@
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://10.246.94.11:3306/pcitc_stp" userId="pcitc" password="Pcitc@123" />
 	   <!-- please don't delete this file  -->
 	   
-	   <javaModelGenerator targetPackage="com.pcitc.base.stp.IntlProject" targetProject="pcitc-base" />
-	   <sqlMapGenerator targetPackage="com.pcitc.mapper.IntlProject" targetProject="pcitc-stp-provider" />
-	   <javaClientGenerator targetPackage="com.pcitc.mapper.IntlProject" targetProject="pcitc-stp-provider" type="XMLMAPPER" />
+	   <javaModelGenerator targetPackage="com.pcitc.base.stp.expenses" targetProject="pcitc-base" />
+	   <sqlMapGenerator targetPackage="com.pcitc.mapper.expenses" targetProject="pcitc-stp-provider" />
+	   <javaClientGenerator targetPackage="com.pcitc.mapper.expenses" targetProject="pcitc-stp-provider" type="XMLMAPPER" />
 	    
-	   <table schema="pcitc-stp-provider" domainObjectName="IntlProjectContract" tableName="intl_project_contract" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
+	   <table schema="pcitc-stp-provider" domainObjectName="ExpensesPayHana" tableName="expenses_pay_hana" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
 	  <!--  <table schema="pcitc-stp-provider" domainObjectName="IntlProjectApply" tableName="intl_project_apply" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
 	   <table schema="pcitc-stp-provider" domainObjectName="IntlProjectApplyPlant" tableName="intl_project_apply_plant" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
 	   <table schema="pcitc-stp-provider" domainObjectName="IntlProjectInfo" tableName="intl_project_info" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>

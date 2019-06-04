@@ -13,23 +13,32 @@
 
 
     <style>
-
+        body{background: #f1f2f7;}
+        .main{border: 1px solid #dadada;border-radius: 3px;background: white;}
         .main-content {
             display: flex;
             height: auto;
             overflow: hidden;
-            padding: 0 130px;
+            padding: 0 10px;
             justify-content: space-between;
         }
 
         .main-expert {
             position: relative;
         }
-
+        .main-expert:hover {background: #fafdff;border: 1px solid #1890ff;box-shadow:0 0 5px #d4eaff}
+        .main-expert:hover .expert-a{background: #e8f3fe;}
+        .main-expert:hover .expert-a a{color: #1890ff;}
+        .main-expert:active {background: #e8f3fe;border: 1px solid #1890ff;box-shadow:0 0 5px #d4eaff}
+        .main-expert:active .expert-a{background: #1890ff;}
+        .main-expert:active .expert-a a{color: #fff;}
         .main-content > div {
             width: 20%;
             float: left;
             margin-right: 20px;
+            border: 1px solid #d8d8d8;
+            border-radius: 4px;
+            background: #f7f7f7;
         }
 
         .main-content > div:last-child {
@@ -39,20 +48,20 @@
         .main-content .expert-h {
             background: #dee3e7;
             height: 94px;
-            border-bottom: 1px solid #ebebeb;
+            border-bottom: 1px solid #d8d8d8;
             border-radius: 4px 4px 0 0;
         }
 
         .main-content .expert-i {
             position: absolute;
-            top: 28px;
+            top: 8px;
             left: 0;
             right: 0;
             margin: 0 auto;
-            width: 130px;
+            width: 90px;
             background: #fff;
             border-radius: 50%;
-            height: 130px;
+            height: 90px;
             display: table-cell;
             text-align: center;
             vertical-align: middle;
@@ -61,34 +70,32 @@
         }
 
         .main-content .expert-i img {
-            height: 160px;
-            padding-top: 11px;
+            width: 95px;
             border-radius: 6px;
         }
 
         .main-content .expert-t {
-            padding-top: 70px;
+            padding-top: 100px;
             text-align: center;
             padding-bottom: 14px;
-            font-size: 22px;
+            font-size: 14px;
             color: #333333;
         }
 
         .main-content .expert-s {
             height:19px;
-            text-align: center;
-            font-size: 14px;
-            color: #333333;
-            padding-bottom: 10px;
+            text-indent: 10px;
+            font-size: 12px;
+            color: #666;
         }
 
         .main-content .expert-ab {
-            padding: 0 10% 20px;
-            text-indent: 2em;
-            font-size: 14px;
-            color: #888888;
-            line-height: 22px;
-            height: 50px;
+            padding: 0 10px 10px;
+            font-size: 12px;
+            color: #666;
+            line-height: 20px;
+            height: 35px;
+            overflow: hidden;
         }
 
         .main-content .expert-p {
@@ -108,28 +115,29 @@
         }
 
         .main-content .expert-a {
-            border-top: 1px dashed #ebebeb;
-            border-bottom: 1px solid #ebebeb;
-            height: 40px;
-            line-height: 40px;
+            border-top: 1px dashed #d8d8d8;
+            height: 32px;
+            line-height: 32px;
             text-align: center;
+            background: #ededed;
         }
 
         .main-content .expert-a a {
-            font-size: 14px;
-            color: #1890ff;
+            font-size: 12px;
+            color: #333333;
         }
 
-        .main-content .expert-t, .main-content .expert-s, .main-content .expert-ab, .main-content .expert-p,
+        /*.main-content .expert-t, .main-content .expert-s, .main-content .expert-ab, .main-content .expert-p,
         .main-content .expert-a {
-            border-right: 1px solid #ebebeb;
-            border-left: 1px solid #ebebeb;
-        }
+            border-right: 1px solid #d8d8d8;
+            border-left: 1px solid #d8d8d8;
+        }*/
 
         .main > h4 {
-            text-align: center;
-            font-size: 24px;
-            margin-bottom: 50px;
+            text-indent: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #dfdfdf;
+            font-size: 14px;
         }
 
         .main-button {
@@ -152,8 +160,9 @@
         }
 
         .searchH {
-            height: 174px;
-            /*overflow: auto;*/
+            margin: 10px 0 15px;
+            padding-left: 10px;
+            background: white;
         }
         .formBox{padding-top: 0;}
         .search {
@@ -176,85 +185,44 @@
         .select-tree{
             width: 300px;float: left;margin-right: 15px;
         }
-        @media screen and (min-width: 1118px) {
-            .main-content, .main-e {
-                padding: 0 50px;
-            }
-
-            /*.searchOption {
-                width: 90.4%;
-            }*/
-
-            .search {
-                width: 76.6%;
-            }
-        }
-
-        @media screen and (min-width: 1287px) {
-            .main-content, .main-e {
-                padding: 0 80px;
-            }
-
-           /* .searchOption {
-                width: 78.18%;
-            }*/
-
-            .search {
-                width: 67%;
-            }
-        }
-
-        @media screen and (min-width: 1672px) {
-            /*.searchOption {
-                width: 82.4%;
-            }*/
-
-            .search {
-                width: 52%;
-            }
-        }
-        .search .selectTreeBox input{width: 300px;margin-left: 0;}
-        .search input{height: 36px;line-height: 36px;border-radius: 3px;margin: 0;  padding: 0px 10px;}
-        .search a{height: 37px;line-height: 37px; position: relative;
-            top: 1px;}
-        .layui-form-select .layui-input{margin-right: 18px;}
-        .layui-select-title{padding-top: 1px;}
-        .layui-select-title input{box-shadow: none;transition:none;height: 37px;line-height: 37px;
-            font-size: 16px;    padding: 0px 10px;}
+        .searchH input{ border: 1px solid #999999;border-radius: 3px;height: 24px;line-height: 24px;
+            text-indent: 10px;font-size: 14px;}
+        .searchH .btnMyBgImg{height: 26px;line-height: 26px;position: relative;top: -3px;
+            margin-left: 8px;}
     </style>
 </head>
 <body>
-<div class="layui-main-oil layui-expert">
-    <!--<div class="layui-statistics">
+<!--<div class="layui-main-oil layui-expert">
+    &lt;!&ndash;<div class="layui-statistics">
         <span>机构数量:${jlCount}</span>
         <span>专家数量:${expertCount}</span>
         <span>成果数量:${cgCount}</span>
         <span>专利数量:${zlCount}</span>
-    </div>-->
+    </div>&ndash;&gt;
     <div class="searchH">
         <div class="searchOption" style="text-align: center">
 
             <#list dictionarys as item>
            <a href="javascript:void(0);" onclick="changeUrlHyly('${item.code}');">${item.name}</a>
         </#list>
-            <!--<a href="#">石油炼制</a>-->
-            <!--<a href="#">石油化工</a>-->
-            <!--<a href="#">公用技术</a>-->
-            <!--<a href="#">合成材料</a>-->
-            <!--<a href="#">装备与储运</a>-->
-            <!--<a href="#">安全环保</a>-->
-            <!--<a href="#">信息技术</a>-->
+            &lt;!&ndash;<a href="#">石油炼制</a>&ndash;&gt;
+            &lt;!&ndash;<a href="#">石油化工</a>&ndash;&gt;
+            &lt;!&ndash;<a href="#">公用技术</a>&ndash;&gt;
+            &lt;!&ndash;<a href="#">合成材料</a>&ndash;&gt;
+            &lt;!&ndash;<a href="#">装备与储运</a>&ndash;&gt;
+            &lt;!&ndash;<a href="#">安全环保</a>&ndash;&gt;
+            &lt;!&ndash;<a href="#">信息技术</a>&ndash;&gt;
 </div>
         <div class="search formBox">
-            <!--<span></span>-->
-            <!--<div class="layui-select-more">-->
-                <!--<select id="hyly" onchange="changeUrl()" onclick="changeUrl()" xm-select="hyly"></select>-->
-            <!--</div>-->
+            &lt;!&ndash;<span></span>&ndash;&gt;
+            &lt;!&ndash;<div class="layui-select-more">&ndash;&gt;
+                &lt;!&ndash;<select id="hyly" onchange="changeUrl()" onclick="changeUrl()" xm-select="hyly"></select>&ndash;&gt;
+            &lt;!&ndash;</div>&ndash;&gt;
 
-            <!--<span>机构</span>-->
+            &lt;!&ndash;<span>机构</span>&ndash;&gt;
                 <div class="selectTreeBox" style="position: relative;">
 
-                    <!--<div id="companyDiv" class="layui-form-select select-tree"></div>-->
+                    &lt;!&ndash;<div id="companyDiv" class="layui-form-select select-tree"></div>&ndash;&gt;
                 </div>
 
                 <input id="key" value="" onblur="changeUrl()" placeholder="输入查找关键字" style="width: 398px;
@@ -264,15 +232,15 @@
             <div class="layui-select-more" style="display: none;">
                 <select id="jg" onchange="changeUrl()" onclick="changeUrl()" xm-select="jg" style="height: 30px;"></select>
             </div>
-            <!--<span>专家姓名</span>
+            &lt;!&ndash;<span>专家姓名</span>
             <input id="zjmc" value="" onblur="changeUrl()"/>
-            <span>关键字</span>-->
-            <!--<a href="/expertController/queryExpert" target="_blank">找专家</a>-->
+            <span>关键字</span>&ndash;&gt;
+            &lt;!&ndash;<a href="/expertController/queryExpert" target="_blank">找专家</a>&ndash;&gt;
             <a lay-href="/expertController/queryExpert" target="_blank" id="hrefExpert" lay-text="找专家">找专家</a>
-            <!--<a lay-href="/expertController/selectBakList?status=1&addUserId=addUserId" target="_blank" lay-text="找专家">找专家</a>-->
+            &lt;!&ndash;<a lay-href="/expertController/selectBakList?status=1&addUserId=addUserId" target="_blank" lay-text="找专家">找专家</a>&ndash;&gt;
         </div>
     </div>
-</div>
+</div>-->
 
 
 <div class="main">
@@ -282,20 +250,24 @@
     <!--<#else>-->
     <!--<div class="main-content">-->
     <!--</#if>-->
+    <div class="searchH">
+        <input id="key" value="" onblur="changeUrl()" placeholder="输入查找关键字"/>
+        <a class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" lay-href="/expertController/queryExpert" target="_blank" id="hrefExpert" lay-text="找专家">找专家</a>
+    </div>
+
     <div class="main-content" id="main-content-first">
         <#list expert as vo>
-        <#if vo_index<5>
+        <#if vo_index<7>
         <div class="main-expert">
-            <div class="expert-h"></div>
             <div class="expert-i"><img id="${vo.dataId}" height="110" src="/stp/expert/img/default.png" alt=""></div>
             <!--<div class="expert-i"><img src="/layuiadmin/layui/images/expert-img.png" alt=""></div>-->
             <div class="expert-t">${vo.expertName}</div>
-            <div class="expert-s">${vo.professional}</div>
+            <div class="expert-s">${vo.birthDate}</div>
             <div class="expert-ab"><p>${vo.userDesc}</p></div>
-            <div class="expert-p">
-                <!--<a href="javascript:void(0);" onclick="addBx('${vo.dataId}','${vo.company}','${vo.companyName}')">加入备选</a>-->
-                <!--<a href="javascript:void(0);" onclick="addDb('${vo.dataId}','${vo.company}','${vo.companyName}')">加入对比</a>-->
-            </div>
+            <!--<div class="expert-p">
+                &lt;!&ndash;<a href="javascript:void(0);" onclick="addBx('${vo.dataId}','${vo.company}','${vo.companyName}')">加入备选</a>&ndash;&gt;
+                &lt;!&ndash;<a href="javascript:void(0);" onclick="addDb('${vo.dataId}','${vo.company}','${vo.companyName}')">加入对比</a>&ndash;&gt;
+            </div>-->
             <div class="expert-a"><a href="javascript:;" onclick="showDetail('${vo.dataId}')">查看详情</a></div>
         </div>
     </#if>
@@ -303,19 +275,18 @@
     </div>
     <div class="main-content" id="main-content-end" style="margin-top: 20px;">
         <#list expert as vo>
-        <#if vo_index<5>
+        <#if vo_index<7>
         <#else>
         <div class="main-expert">
-            <div class="expert-h"></div>
             <div class="expert-i"><img id="${vo.dataId}" height="110" src="/stp/expert/img/default.png" alt=""></div>
             <!--<div class="expert-i"><img src="/layuiadmin/layui/images/expert-img.png" alt=""></div>-->
             <div class="expert-t">${vo.expertName}</div>
-            <div class="expert-s">${vo.professional}</div>
+            <div class="expert-s">${vo.birthDate}</div>
             <div class="expert-ab"><p>${vo.userDesc}</p></div>
-            <div class="expert-p">
-                <!--<a href="javascript:void(0);" onclick="addBx('${vo.dataId}','${vo.company}','${vo.companyName}')">加入备选</a>-->
-                <!--<a href="javascript:void(0);" onclick="addDb('${vo.dataId}','${vo.company}','${vo.companyName}')">加入对比</a>-->
-            </div>
+            <!--<div class="expert-p">
+                &lt;!&ndash;<a href="javascript:void(0);" onclick="addBx('${vo.dataId}','${vo.company}','${vo.companyName}')">加入备选</a>&ndash;&gt;
+                &lt;!&ndash;<a href="javascript:void(0);" onclick="addDb('${vo.dataId}','${vo.company}','${vo.companyName}')">加入对比</a>&ndash;&gt;
+            </div>-->
             <div class="expert-a"><a href="javascript:;" onclick="showDetail('${vo.dataId}')">查看详情</a></div>
         </div>
     </#if>
@@ -323,9 +294,9 @@
 
 
     </div>
-    <div class="main-button">
+    <!--<div class="main-button">
         <button onclick="changeExpert()" style="cursor: pointer">换一批</button>
-    </div>
+    </div>-->
 </div>
 
 

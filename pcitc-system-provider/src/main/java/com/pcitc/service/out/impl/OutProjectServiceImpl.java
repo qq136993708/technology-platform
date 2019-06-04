@@ -630,7 +630,9 @@ public class OutProjectServiceImpl implements OutProjectService {
             if (StrUtil.isNotBlank(opi.getLxrxm())) {
                 newOPI.setLxrxm(opi.getLxrxm());
             }
-            return outProjectInfoMapper.updateByPrimaryKey(newOPI);
+            System.out.println("update .... ");
+            return 0;
+            //return outProjectInfoMapper.updateByPrimaryKey(newOPI);
         } else {
             // 此项目此预算年度没有预算费用
             OutProjectInfoExample example1 = new OutProjectInfoExample();
@@ -643,7 +645,7 @@ public class OutProjectServiceImpl implements OutProjectService {
                     // 原项目主数据，无用删除
                     OutProjectInfoExample example2 = new OutProjectInfoExample();
                     example2.createCriteria().andDataIdEqualTo(insertOPI.getDataId());
-                    outProjectInfoMapper.deleteByExample(example2);
+                    //outProjectInfoMapper.deleteByExample(example2);
                 }
                 insertOPI.setYsnd(opi.getYsnd());
                 insertOPI.setYsje(opi.getYsje());
@@ -658,7 +660,8 @@ public class OutProjectServiceImpl implements OutProjectService {
 
                 List<OutProjectInfo> temList = new ArrayList<OutProjectInfo>();
                 temList.add(insertOPI);
-                outProjectInfoMapper.insertOutProjectBatch(temList);
+                System.out.println("insert .... ");
+                //outProjectInfoMapper.insertOutProjectBatch(temList);
                 return 1;
             }
             System.out.println("插入异常------插入异常------插入异常------------------------------------------------" + opi.getXmid());

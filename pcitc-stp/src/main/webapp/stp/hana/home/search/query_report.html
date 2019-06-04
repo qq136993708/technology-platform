@@ -21,7 +21,7 @@
             margin-left: 10px;}
         .layui-table-body{margin-top: 0;}
         .layui-table-page{margin-bottom: 20px;}
-        .tableBox,.searchBox{width: 64%;margin: 15px auto 0;}
+        .tableBox,.searchBox{width: 99%;margin: 15px auto 0;}
         .searchBox{margin-top: 20px;}
         .c-gap-top-small{    height: auto;overflow: hidden;padding-top: 8px;}
         .layui-table img,.c-gap-top-small a, .c-span-last{min-width: 184px;}
@@ -109,7 +109,7 @@
                     }
             };
 
-            publicMethods.tableRenderH('sysReportStpTableId', 'sysReportStpTableId',160, '/fullSearch/getTableDataReport', false, cols, where, true, function (res, curr, count) {
+            publicMethods.tableRenderH('sysReportStpTableId', 'sysReportStpTableId',500, '/fullSearch/getTableDataReport', false, cols, where, true, function (res, curr, count) {
                 parent.$("#report").html(count);
                 console.log("report table");
                 console.log(res.data);
