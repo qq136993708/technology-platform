@@ -19,7 +19,7 @@
 <div class="layui-main-oil layui-search">
     <form action="" class="layui-form">
         <div class="searchIpnut formBox">
-            <div class="searchF">
+            <div class="searchF" style="display: none">
                 <p>是否规避本院</p>
                 <input type="checkbox" title="规避本院" value="${gbcode}" lay-skin='primary'>
             </div>
@@ -29,7 +29,11 @@
             <div class="searchYard" >
                 <p>机构</p>
                 <div class="selectTreeBox" style="position: relative;margin-top: 10px;">
-                    <div id="searchYardDiv"></div>
+                    <input type="hidden" value="" id="searchYardDivValue" name="searchYardDivValue"/>
+
+                    <input class="layui-input" name="companyName" id="companyName"  value=""  autocomplete="off" type="text">
+                    <!--onclick="chooseUnitMulti('choose_joinUnitName_callback')" placeholder="请选择"-->
+                    <!--<div id="searchYardDiv"></div>-->
                 </div>
             </div>
             <div class="searchAge">
@@ -72,6 +76,56 @@
 <script type="text/html" id="showDetail">
     <a class="details" lay-event="showDetail">查看详情</a>
 </script>
+
+<script>
+    //机构
+    // function choose_joinUnitName_callback(unitIds, unitNames) {
+    //     $("#companyName").val(unitNames);
+    //     $("#searchYardDivValue").val(unitIds);
+    // }
+    var unitList = [],unitMap={};
+    //获得机构信息
+    ajaxPost('/unit/list-data', null, function (data, status) {
+        $.each(data,function(i,dt){
+            unitMap[data[i].unitId]=data[i];
+        });
+    });
+    //机构检索页面初始化数据
+    window.initUnitTreeChoose = function(){
+        return unitList;
+    }
+    //机构页面选择后回调函数
+    window.callbackUnitTreeChoose = function(unitIds){
+        unitList = unitIds;
+        var unitText = "";
+        var unitdataIds = "";
+        var unitListNodes = [];
+        $.each(unitIds,function(i,dt){
+            if(unitMap[unitIds[i]]){
+                unitText += ","+unitMap[unitIds[i]].unitName;
+                unitdataIds += ","+unitMap[unitIds[i]].unitId;
+                unitListNodes.push(new zTreeNode(unitIds[i],0,unitMap[unitIds[i]].unitName));
+            }
+        });
+        $("#companyName").val(unitText.length>0?unitText.substring(1):"");
+        $("#searchYardDivValue").val(unitdataIds.length>0?unitdataIds.substring(1):"");
+    }
+    $("#companyName").on("click", function() {
+        layer.open({
+            title : "详情",
+            skin : 'layui-layer-lan',
+            shadeClose : true,
+            type : 2,
+            fixed : false,
+            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+            maxmin : false,
+            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+            area : [ '80%', '70%' ],
+            content : "/unit/chooseUnitMultiV2?initFuncName=initUnitTreeChoose&callbackFuncName=callbackUnitTreeChoose"
+        });
+    });
+</script>
+
 <script>
     var hyly = "${hyly}";
     var jg = "${jg}";
@@ -367,50 +421,50 @@
 </script>
 <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
 <script type="text/javascript" src="/layuiadmin/modules/selectTree.js?v=132"></script>
-<script type="text/javascript">
-    var zNodes;
-    // 下拉树初始化
-    $(document).ready(function() {
-        $.ajax({
-            url : "/unit/ztree-unit-list",//这个就是请求地址对应sAjaxSource
-            type : 'get',
-            headers : {
-                'Content-Type' : 'application/json',
-            },
-            dataType : 'json',
-            async : false,
-            success : function(data) {
-                zNodes = data;
-            },
-            error : function(msg) {
-                layer.msg(msg);
-            }
-        });
-        /*
-         * initSelectTree参数：
-         * 参数1：div的id，
-         * 参数2：isMultiple 是否多选(true或false),
-         * 参数3：是否显示连接线(true或false),
-         * 参数4：是否显示图标(true或false),
-         *
-         */
-        initSelectTree("searchYardDiv", true, true, false);
-        initHideMenu(); //不加此方法则默认打开下拉树
-        // $("#searchYardDivShow").val("${jgshow}");
-    });
-    // function selectTreeCallFun(treeNode, zTree) {
-    //     console.log("回调");
-    //     console.log(treeNode.id);
-    //     console.log(treeNode.name);
-    //     console.log(zTree.getCheckedNodes());
-    //     console.log(zTree.getSelectedNodes());
-    //     console.log($("#searchYardDivShow").val());
-    //     console.log($("#searchYardDivValue").val());
-    //     selectedTreeIds = treeNode.id;
-    //     // $("#searchYardDivShow").val(treeNode.name);
-    //
-    // }
-</script>
+<!--<script type="text/javascript">-->
+    <!--var zNodes;-->
+    <!--// 下拉树初始化-->
+    <!--$(document).ready(function() {-->
+        <!--$.ajax({-->
+            <!--url : "/unit/ztree-unit-list",//这个就是请求地址对应sAjaxSource-->
+            <!--type : 'get',-->
+            <!--headers : {-->
+                <!--'Content-Type' : 'application/json',-->
+            <!--},-->
+            <!--dataType : 'json',-->
+            <!--async : false,-->
+            <!--success : function(data) {-->
+                <!--zNodes = data;-->
+            <!--},-->
+            <!--error : function(msg) {-->
+                <!--layer.msg(msg);-->
+            <!--}-->
+        <!--});-->
+        <!--/*-->
+         <!--* initSelectTree参数：-->
+         <!--* 参数1：div的id，-->
+         <!--* 参数2：isMultiple 是否多选(true或false),-->
+         <!--* 参数3：是否显示连接线(true或false),-->
+         <!--* 参数4：是否显示图标(true或false),-->
+         <!--*-->
+         <!--*/-->
+        <!--// initSelectTree("searchYardDiv", true, true, false);-->
+        <!--// initHideMenu(); //不加此方法则默认打开下拉树-->
+        <!--// $("#searchYardDivShow").val("${jgshow}");-->
+    <!--});-->
+    <!--// function selectTreeCallFun(treeNode, zTree) {-->
+    <!--//     console.log("回调");-->
+    <!--//     console.log(treeNode.id);-->
+    <!--//     console.log(treeNode.name);-->
+    <!--//     console.log(zTree.getCheckedNodes());-->
+    <!--//     console.log(zTree.getSelectedNodes());-->
+    <!--//     console.log($("#searchYardDivShow").val());-->
+    <!--//     console.log($("#searchYardDivValue").val());-->
+    <!--//     selectedTreeIds = treeNode.id;-->
+    <!--//     // $("#searchYardDivShow").val(treeNode.name);-->
+    <!--//-->
+    <!--// }-->
+<!--</script>-->
 </body>
 
 </html>
