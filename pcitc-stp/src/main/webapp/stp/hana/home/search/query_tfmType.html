@@ -12,10 +12,13 @@
     <script type="text/javascript" src="/common/js/base.js"></script>
     <style>
 
-        .tableBox,.searchBox{width: 76%;margin: 0 auto;}
+        .tableBox,.searchBox{width: 96%;margin: 0 auto;}
         .searchBox{padding-top: 20px;}
         .tableBox{padding-bottom: 15px;}
-
+        .tableBox table tr th{border-top:2px solid #1890ff !important;}
+        .layui-table tbody tr:nth-child(odd) {
+            background-color: #f6f9fb;
+        }
         /*放开*/
         /*.layui-table-click,.layui-table-hover,.layui-table tbody tr:hover{background: none;}
         .layui-table-header{display: none;}
@@ -183,7 +186,7 @@
                     }
             };
 
-            publicMethods.tableRenderH('tfmTypeTableId', 'tfmTypeTableId',"", '/tfmType/getTableData', false, cols, where, true, function (res, curr, count) {
+            publicMethods.tableRenderH('tfmTypeTableId', 'tfmTypeTableId',485, '/tfmType/getTableData', false, cols, where, true, function (res, curr, count) {
                 parent.$("#tech").html(count);
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     var index = parseInt($(this).index() + 1);
