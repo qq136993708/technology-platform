@@ -145,10 +145,10 @@ public class DemoController {
 			client.addHeaders(headerMap);
 
 			Map<String, String> paramMap = new HashMap<String, String>();
-			paramMap.put("sqlName", "SelectAllProjectFromSinopecData2017");
+			paramMap.put("sqlName", "fndktjfjh");
 			JsonObject jo = new JsonObject();
 			System.out.println(jo.toString());
-			jo.addProperty("ND", "2018");
+			jo.addProperty("ND", "2019");
 			//jo.addProperty("ksrq", "2018-01-01");
 			//jo.addProperty("jzrq", "2018-02-05");
 
@@ -172,7 +172,7 @@ public class DemoController {
 				System.out.println("返回--------" + jsArr.size());
 				for (int i =0; i < jsArr.size(); i++) {
 					JSONObject jsonObject = JSON.parseObject(jsArr.get(i).toString());
-					System.out.println(jsonObject.get("XMID"));
+					System.out.println(jsonObject.get("LXND")+"==="+jsonObject.get("ND")+"==="+jsonObject.get("XMID"));
 					//System.out.println(jsonObject.toJSONString());
 				}
 				
