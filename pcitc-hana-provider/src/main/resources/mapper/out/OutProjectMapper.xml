@@ -71,7 +71,7 @@
 	<!-- 获取hana中报销费用挂账清账信息 -->
 	<select id="getExpensesPayInfo" resultType="java.util.Map" parameterType="java.util.HashMap">
 		SELECT
-		"0LOGSYS","G0GSDM","G0GSJC","G0ZPZID",
+		"G0GSDM","G0GSJC","G0ZPZID",
 		"G0ZECSID","G0BUDAT","G0ZTMSVOUCHERID","G0BELNR",
 		"G0GJAHR","G0AUGBL","G0AUGDT","G0LIFNR",
 		sum("K0DMBTR") AS "K0DMBTR",
@@ -81,9 +81,9 @@
 		'PLACEHOLDER' = ('$$PR_GSDM$$','1010')
 		)
 		WHERE
-		"G0GJAHR" = '2018'
+		"G0GJAHR" = '${nd}'
 		GROUP BY
-		"0LOGSYS","G0GSDM","G0GSJC","G0ZPZID","G0ZECSID",
+		"G0GSDM","G0GSJC","G0ZPZID","G0ZECSID",
 		"G0BUDAT","G0ZTMSVOUCHERID","G0BELNR","G0GJAHR",
 		"G0AUGBL","G0AUGDT","G0LIFNR"
 
