@@ -24,7 +24,6 @@
             margin-left: 10px;
         }
 
-
         .searchBox {
             height: auto !important;
             text-align: left;
@@ -41,9 +40,18 @@
         .btnGroup input {
             margin-bottom: 0px;
         }
-        .box-body{margin-bottom: 10px;}
-        .layui-select-title input,.dateInput input{height: 26px;}
-        .layui-form-select dl{top:26px;}
+
+        .box-body {
+            margin-bottom: 10px;
+        }
+
+        .layui-select-title input, .dateInput input {
+            height: 26px;
+        }
+
+        .layui-form-select dl {
+            top: 26px;
+        }
     </style>
 </head>
 <body>
@@ -65,19 +73,30 @@
                 </div>
             </div>
             <div class="layui-row">
-                <div class="layui-col-xs3 layui-col-sm3 layui-col-md3">
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4">
                     <div class="layui-form-item">
                         <label class="layui-form-label">评审日期</label>
                         <div class="layui-input-block">
-                            <input type="date" id="bak4" class="layui-input garlic-auto-save" name="bak4" data-format="yyyy-MM-dd"/>
+                            <input id="bak4" class="layui-input garlic-auto-save" name="bak4" data-format="yyyy-MM-dd"/>
                         </div>
                     </div>
                 </div>
-                <div class="layui-col-xs3 layui-col-sm3 layui-col-md3">
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4">
                     <div class="layui-form-item">
                         <label class="layui-form-label">联系方式</label>
                         <div class="layui-input-block">
                             <input type="text" id="bak5" class="layui-input garlic-auto-save" name="bak5" value=""/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-row">
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">附件</label>
+                        <div class="layui-input-block">
+                            <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" onclick="upload_File('${bak6}');">选择文件</button>
                         </div>
                     </div>
                 </div>
@@ -99,9 +118,9 @@
                     <label class="dateInput">
                         <!--<span>机构</span>-->
                         <div class="layui-form-select select-tree" style="display: none">
-                            <div >
-                                <input type="text"  id="companyDiv" onclick="chooseUnitMulti('choose_joinUnitName_callback')">
-                                <input type="text"  id="companyDivValue" >
+                            <div>
+                                <input type="text" id="companyDiv">
+                                <input type="text" id="companyDivValue">
                             </div>
                         </div>
                         <span>技术领域</span>
@@ -122,9 +141,10 @@
                         <!--查询条件-->
                         <label class="dateInput">
                             <span>机构</span>
-                            <div  class="layui-form-select select-tree">
-                                <input type="text"  id="companyDivs" onclick="chooseUnitMulti('choose_joinUnitName_callback1')">
-                                <input type="hidden"  id="company1DivValue" >
+                            <div class="layui-form-select select-tree">
+                                <input type="text" id="companyDivs">
+                                <!--onclick="chooseUnitMulti('choose_joinUnitName_callback1')"-->
+                                <input type="hidden" id="company1DivValue">
                             </div>
                             <span>职称</span>
                             <select name="expertProfessinal" id="expertProfessinal" lay-filter="expertProfessinal">
@@ -165,6 +185,54 @@
 </form>
 </div>
 <script>
+    //机构
+    // function choose_joinUnitName_callback(unitIds, unitNames) {
+    //     $("#companyName").val(unitNames);
+    //     $("#searchYardDivValue").val(unitIds);
+    // }
+    var unitList = [], unitMap = {};
+    //获得机构信息
+    ajaxPost('/unit/list-data', null, function (data, status) {
+        $.each(data, function (i, dt) {
+            unitMap[data[i].unitId] = data[i];
+        });
+    });
+    //机构检索页面初始化数据
+    window.initUnitTreeChoose = function () {
+        return unitList;
+    }
+    //机构页面选择后回调函数
+    window.callbackUnitTreeChoose = function (unitIds) {
+        unitList = unitIds;
+        var unitText = "";
+        var unitdataIds = "";
+        var unitListNodes = [];
+        $.each(unitIds, function (i, dt) {
+            if (unitMap[unitIds[i]]) {
+                unitText += "," + unitMap[unitIds[i]].unitName;
+                unitdataIds += "," + unitMap[unitIds[i]].unitId;
+                unitListNodes.push(new zTreeNode(unitIds[i], 0, unitMap[unitIds[i]].unitName));
+            }
+        });
+        $("#companyDivs").val(unitText.length > 0 ? unitText.substring(1) : "");
+        $("#company1DivValue").val(unitdataIds.length > 0 ? unitdataIds.substring(1) : "");
+    }
+    $("#companyDivs").on("click", function () {
+        layer.open({
+            title: "详情",
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+            maxmin: false,
+            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+            area: ['80%', '70%'],
+            content: "/unit/chooseUnitMultiV2?initFuncName=initUnitTreeChoose&callbackFuncName=callbackUnitTreeChoose"
+        });
+    });
+</script>
+<script>
     ajaxPost('/dictionary/list/ZJK_ZYFL', null, function (data, status) {//专业领域
         $.each(data, function (i, dt) {
             $("#expertProfessionalFieldsj").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
@@ -181,6 +249,8 @@
     var projectName = "${projectName}";
     var projectId = "${projectId}";
     var unitCode = "${unitCode}";
+
+    var bak6 = "${bak6}";
 
     function okEvent() {
         //点击编辑按钮
@@ -216,6 +286,7 @@
                 p.bak3 = obj.email;
                 p.bak4 = bak4;
                 p.bak5 = bak5;
+                p.bak6 = bak6;
                 plist.push(p);
             }
         } else if (stype == "guding") {
@@ -239,6 +310,7 @@
                 p.bak3 = obj.email;
                 p.bak4 = bak4;
                 p.bak5 = bak5;
+                p.bak6 = bak6;
                 plist.push(p);
             }
         } else {
@@ -297,6 +369,15 @@
     layui.use(['jquery', 'table', 'laydate', 'form', 'laytpl', 'element', 'publicMethods'], function () {
         table = layui.table;
         var $ = layui.jquery, laydate = layui.laydate, form = layui.element, element = layui.element, publicMethods = layui.publicMethods;
+
+        laydate.render({
+            elem: '#bak4'
+            , format: 'yyyy-MM-dd'
+            , value: new Date()
+            // , value: new Date().getFullYear() + " 至 " + new Date().getFullYear()
+            // , range: '至'
+        });
+
         var param = JSON.parse(window.localStorage.getItem("param"));
         var cols = [
             {type: 'checkbox', event: 'changeEvents', width: 55},
@@ -336,7 +417,7 @@
                     "projectId": "${projectId}"
                     , "type": $("#stype").val()
                     , "count": $("#count").val()
-                    ,"unitId": unitCodeVal
+                    , "unitId": unitCodeVal
                     , "company": $("#companyDivValue").val()
                     , "projectConfigId": map[$('input[name="option"]:checked').val()]// map[$('input[name="option"]:checked').val()]// "168db5b7282_7ed760ca"
                     // ,"projectConfigId":$("#projectConfigId").val()
@@ -362,7 +443,7 @@
                     "expertProfessinal": $("#expertProfessinal").val(),
                     "expertProfessionalField": $("#expertProfessionalField").val(),
                     "projectId": "${projectId}"
-                        ,"unitId": unitCodeVal
+                    , "unitId": unitCodeVal
                     , "type": "guding"
                     , "company": $("#company1DivValue").val()
                     , "count": $("#count").val()
@@ -476,7 +557,7 @@
                 layer.msg("操作成功");
             });
         });
-        window.chooseUnitMulti=function (choose_leadUnitName_callback) {
+        window.chooseUnitMulti = function (choose_leadUnitName_callback) {
             v_date = (new Date()).getTime();
             var temUrl = "/unit/chooseUnitMulti?v_date=" + v_date + "&funcName=" + choose_leadUnitName_callback;//funcName(unitId,unitName) 选择机构后的回调方法名(自定义 ),回调方法里面有两个参数，unitId是机构ID,unitName是机构名
             layer.open({
@@ -502,6 +583,7 @@
         $("#companyDiv").val(unitNames);
         $("#companyDivValue").val(unitIds);
     }
+
     function choose_joinUnitName_callback1(unitIds, unitNames) {
         $("#companyDivs").val(unitNames);
         $("#company1DivValue").val(unitIds);

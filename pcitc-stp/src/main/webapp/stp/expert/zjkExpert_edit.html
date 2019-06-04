@@ -11,6 +11,8 @@
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/plugins/ckeditor/ckeditor.js"></script>
     <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
     <!--<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>-->
     <!--<script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>-->
@@ -156,10 +158,10 @@
                             <!--<select name="company" id="company" lay-filter="company"></select>-->
                         <!--</div>-->
                         <div class=" layui-input-block">
-                                <input class="layui-input" name="companyName" id="companyName"
-                                       onclick="chooseUnitMulti('choose_joinUnitName_callback')" placeholder="请选择"
-                                       value=""  autocomplete="off" type="text">
-                            <!--<input type="text" id="company" name="company" />-->
+                                <input class="layui-input" name="companyName" id="companyName" value=""  autocomplete="off" type="text">
+
+                            <!--onclick="chooseUnitMulti('choose_joinUnitName_callback')" placeholder="请选择"-->
+                            <input type="hidden" id="company" name="company" />
                             <!--<div id="companyDiv" class="layui-form-select select-tree"></div>-->
                         </div>
                     </div>
@@ -599,6 +601,49 @@
     </form>
 </div>
 
+<script>
+    var unitList = [],unitMap={};
+    //获得机构信息
+    ajaxPost('/unit/list-data', null, function (data, status) {
+        $.each(data,function(i,dt){
+            unitMap[data[i].unitId]=data[i];
+        });
+    });
+    //机构检索页面初始化数据
+    window.initUnitTreeChoose = function(){
+        return unitList;
+    }
+    //机构页面选择后回调函数
+    window.callbackUnitTreeChoose = function(unitIds){
+        unitList = unitIds;
+        var unitText = "";
+        var unitdataIds = "";
+        var unitListNodes = [];
+        $.each(unitIds,function(i,dt){
+            if(unitMap[unitIds[i]]){
+                unitText += ","+unitMap[unitIds[i]].unitName;
+                unitdataIds += ","+unitMap[unitIds[i]].unitId;
+                unitListNodes.push(new zTreeNode(unitIds[i],0,unitMap[unitIds[i]].unitName));
+            }
+        });
+        $("#companyName").val(unitText.length>0?unitText.substring(1):"");
+        $("#company").val(unitdataIds.length>0?unitdataIds.substring(1):"");
+    }
+    $("#companyName").on("click", function() {
+        layer.open({
+            title : "详情",
+            skin : 'layui-layer-lan',
+            shadeClose : true,
+            type : 2,
+            fixed : false,
+            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+            maxmin : false,
+            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+            area : [ '80%', '70%' ],
+            content : "/unit/chooseUnitMultiV2?initFuncName=initUnitTreeChoose&callbackFuncName=callbackUnitTreeChoose"
+        });
+    });
+</script>
 <script>
 
     var global_hos = {};//省市县定义全局变量

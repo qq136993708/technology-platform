@@ -715,6 +715,7 @@ public class ExpertController extends BaseController {
         request.setAttribute("projectId", request.getParameter("projectId"));
         request.setAttribute("projectName", request.getParameter("projectName"));
         request.setAttribute("unitCode", request.getParameter("unitCode"));
+        request.setAttribute("bak6", UUID.randomUUID().toString().replace("-",""));
         SysUnit unit = this.restTemplate.exchange(UNIT_GET_UNIT + request.getParameter("unitId"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysUnit.class).getBody();
         return "stp/expert/expert_choice";
     }
