@@ -26,6 +26,7 @@
         .doc-box{margin: 0 10px;}
         .doc-box p {height: 26px;line-height: 26px;}
         .doc-box ul li{line-height: 26px;}
+        .layui-table-header table thead tr th div{text-align: center;}
     </style>
 </head>
 <body>
@@ -61,11 +62,11 @@
             <div class="num-box">
                 <label class="dateInput">
                     <span>可分配数</span>
-                    <input type="text" name="budgetMoney" id="budgetMoney" readonly="readonly" value="0">
+                    <input type="text" class="readOnlyBox" name="budgetMoney" id="budgetMoney" readonly="readonly" value="0">
                 </label>
                 <label class="dateInput">
                     <span>剩余可分配</span>
-                    <input type="text" name="surplusMoney" id="surplusMoney"  readonly="readonly" value="0">
+                    <input type="text" class="readOnlyBox" name="surplusMoney" id="surplusMoney"  readonly="readonly" value="0">
                 </label>
             </div>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_reset2 btnMyBgImg"
@@ -103,12 +104,12 @@
 	                 <tr>
 	                 	<#list items as item>
 	                 		<#list item?keys as key> 
-	                    		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true}">${item[key]}</th>
+	                    		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true,width: 100}">${item[key]}</th>
 	                    	</#list>
 	                    </#list>
 	                    <#list items as item>
 	                 		<#list item?keys as key> 
-	                    		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true}">${item[key]}</th>
+	                    		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true,width: 100}">${item[key]}</th>
 	                    	</#list>
 	                    </#list>
 	                </tr>
@@ -131,13 +132,13 @@
         </div>
     </div>
     <div class="doc-box">
-        <p>备注及问题:</p>
+        <p>请注意:</p>
         <ul>
-            <li>1、可分配数为集团预算总表中，对应年度最新预算总数，分配时自动计算，不可更改</li>
-            <li>2、表格编制状态包含：编制中、审批中、初审驳回、审批通过、最终预算（预算可调整） 五种状态，审批完成则不可再编辑</li>
+            <li>1、可分配数取自当年最终预算总表，剩余可分配数为可分配数与已填入的预算数之差，剩余可分配数自动计算，不可更改</li>
+            <li>2、预算编制状态包括：编制中、审批中、初审驳回、审批通过、最终预算等五种，审批发起后不可再编辑</li>
             <li>3、预算按年度编制，编制年度可自定义，默认编制下一年度</li>
             <li>4、预算表创建时生成一个版本号，版本号规则：vs-年度-三位类别编码-三位顺序号</li>
-            <li>5、历年参照预算数据中的数据为该年审批通过的预算版本</li>
+            <li>5、历年参照预算数据中的数据为该年审批通过的最终预算版本</li>
         </ul>
     </div>
 
@@ -186,19 +187,14 @@
             $("#data_version").on("change",function(e){
             	curent_budget_info = budget_info_map[$("#data_version").val()];            	
             	if(curent_budget_info){
-            		$("#budgetMoney").val(curent_budget_info.budgetMoney);//可分配数
-            		$("#creater_name").html(curent_budget_info.createrName);//创建人
-            		$("#create_time").html(curent_budget_info.createTime);//创建时间
-            		$("#update_time").html(curent_budget_info.updateTime);//最后更新时间
-            		$("#info_status").html(curent_budget_info.auditStatusDesc);//状态
-            		
             		var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});
             		publicMethods.ajaxAsyncPost("/budget/budget-groupsplit-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
 	                	layer.close(lodingMsg);
             			curent_tabel_data = data.data;
 	                	reloadTable('dataTable',data.data);
 	                	renderfunc();
-	                	//预分配数
+
+	                	initEmptyData(curent_budget_info);
 	                	calculationSurplusMoney();
 	                	initDateView();
     		   		}); 
@@ -208,15 +204,23 @@
             	}
             });
 			//空数据初始化
-			window.initEmptyData = function()
+			window.initEmptyData = function(curent_budget_info)
 			{
-				reloadTable('dataTable',[]);
-				$("#budgetMoney").val(0);//可分配数
-            	$("#surplusMoney").val(0);//剩余可分配数
-        		$("#creater_name").html("");//创建人
-        		$("#create_time").html("");//创建时间
-        		$("#update_time").html("");//最后更新时间
-        		$("#info_status").html("");//状态
+        		if(curent_budget_info){
+        			$("#budgetMoney").val(curent_budget_info.budgetMoney);//可分配数
+            		$("#creater_name").html(curent_budget_info.createrName);//创建人
+            		$("#create_time").html(curent_budget_info.createTime);//创建时间
+            		$("#update_time").html(curent_budget_info.updateTime);//最后更新时间
+            		$("#info_status").html(curent_budget_info.auditStatusDesc);//状态
+        		}else{
+        			reloadTable('dataTable', []);
+    				$("#budgetMoney").val(0);//可分配数
+                	$("#surplusMoney").val(0);//剩余可分配数
+            		$("#creater_name").html("");//创建人
+            		$("#create_time").html("");//创建时间
+            		$("#update_time").html("");//最后更新时间
+            		$("#info_status").html("");//状态
+        		}
 			}
 			//初始化时间选择
 			function initDateView(){
@@ -365,7 +369,10 @@
    					publicMethods.ajaxAsyncPost("/budget/save-groupsplit-items", {"info":JSON.stringify(curent_budget_info),"items":JSON.stringify(curent_tabel_data)}, function (data) {
    						if (data.success) {    	                    	
    	                    	layer.msg('保存成功!',{time: 500});
-   	                    	//layer.close(lodingMsg);
+   	                     	publicMethods.ajaxAsyncPost("/budget/budget-info-get", {"dataId":curent_budget_info.dataId}, function (dt) {
+	                    		budget_info_map[dt.dataId]=dt
+	                    		initEmptyData(dt);
+	   	                	});
    	                    } else {
    	                    	layer.msg(data.message,{time: 500});
    	                    	//layer.close(lodingMsg);

@@ -80,4 +80,9 @@ public interface OutProjectPlanService {
      */
 	public List getPlanMoneyByDepartment(HashMap<String, String> map);
 	
+	/**
+     * 全生命周期查询，计划为起点
+     */
+	public LayuiTableData selectProjectCycle(LayuiTableParam param);
+	
 }

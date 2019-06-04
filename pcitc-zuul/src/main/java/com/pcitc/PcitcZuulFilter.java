@@ -49,8 +49,8 @@ public class PcitcZuulFilter extends ZuulFilter {
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
         if(request.getRequestURI().contains("/xxxx")) {
-            //不执行run，直接访问provider.
-            System.out.println("不执行run，直接访问xxxx...."+request.getRequestURI());
+            // 不执行run，直接访问provider.
+            // System.out.println("不执行run，直接访问xxxx...."+request.getRequestURI());
             return false;
         }else {
             return true;
@@ -63,7 +63,7 @@ public class PcitcZuulFilter extends ZuulFilter {
         RequestContext requestContext = RequestContext.getCurrentContext();
         HttpServletRequest request = requestContext.getRequest();
 
-        System.out.println("不同的微服务（url）可能密码不一致----"+request.getRequestURI());
+        // System.out.println("不同的微服务（url）可能密码不一致----"+request.getRequestURI());
 
         //要访问的feign服务中的安全认证用户名和密码
         String auth = "pcitc:pcitc123456";
@@ -102,7 +102,7 @@ public class PcitcZuulFilter extends ZuulFilter {
      */
     @Bean
     public CorsFilter corsFilter() {
-        System.out.println("-----解决跨域访问问题");
+        // System.out.println("-----解决跨域访问问题");
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         final CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);

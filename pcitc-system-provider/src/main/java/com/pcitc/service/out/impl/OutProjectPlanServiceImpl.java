@@ -421,6 +421,171 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		data.setCount(total.intValue());
 		return data;
 	}
+	
+	
+	/**
+     * 全生命周期查询，计划为起点
+     */
+	public LayuiTableData selectProjectCycle(LayuiTableParam param) {
+		// 每页显示条数
+		int pageSize = param.getLimit();
+		// 当前是第几页
+		int pageNum = param.getPage();
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
+
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		if (param.getOrderKey()!=null&&!StrUtil.isBlankOrNull(param.getOrderKey().toString())) {
+			// 排序，因为select后有关键字，自己手动在sql中调整。否则直接PageHelper.orderBy(param.getOrderKey().toString()
+			// + " " + param.getOrderType());
+			hashmap.put("orderKey", param.getOrderKey());
+			hashmap.put("orderType", param.getOrderType());
+		}
+		if (param.getParam().get("xmmc")!=null&&!StringUtils.isBlank(param.getParam().get("xmmc")+"")) {
+			hashmap.put("xmmc", param.getParam().get("xmmc"));
+		}
+		
+		if (param.getParam().get("fzdwflag")!=null&&!StringUtils.isBlank(param.getParam().get("fzdwflag")+"")) {
+			hashmap.put("fzdwflag", param.getParam().get("fzdwflag"));
+		}
+
+		if (param.getParam().get("hth")!=null&&!StringUtils.isBlank(param.getParam().get("hth")+"")) {
+			hashmap.put("hth", param.getParam().get("hth"));
+		}
+		if (param.getParam().get("qdbz")!=null&&!StringUtils.isBlank(param.getParam().get("qdbz")+"")) {
+			hashmap.put("qdbz", param.getParam().get("qdbz"));
+		}
+		// 资本性、费用性
+		if (param.getParam().get("define1")!=null&&!StringUtils.isBlank(param.getParam().get("define1")+"")) {
+			List define1 = new ArrayList();
+			String[] temS = param.getParam().get("define1").toString().split(",");
+			for (int i = 0; i<temS.length; i++) {
+				define1.add(temS[i]);
+			}
+			hashmap.put("define1", define1);
+		}
+
+		// 8大院等细分结构
+		if (param.getParam().get("define2")!=null&&!StringUtils.isBlank(param.getParam().get("define2")+"")) {
+			List define2 = new ArrayList();
+			String[] temS = param.getParam().get("define2").toString().split(",");
+			for (int i = 0; i<temS.length; i++) {
+				define2.add(temS[i]);
+			}
+			hashmap.put("define2", define2);
+		}
+		// 承担单位的code
+		if (param.getParam().get("define9")!=null&&!StringUtils.isBlank(param.getParam().get("define9")+"")) {
+			List define9 = new ArrayList();
+			String[] temS = param.getParam().get("define9").toString().split(",");
+			for (int i = 0; i<temS.length; i++) {
+				define9.add(temS[i]);
+			}
+			hashmap.put("define9", define9);
+		}
+		// 各个专业处
+		if (param.getParam().get("define10")!=null&&!StringUtils.isBlank(param.getParam().get("define10")+"")) {
+			List define10 = new ArrayList();
+			String[] temS = param.getParam().get("define10").toString().split(",");
+			for (int i = 0; i<temS.length; i++) {
+				define10.add(temS[i]);
+			}
+			hashmap.put("define10", define10);
+		}
+
+		// 费用来源
+		if (param.getParam().get("define11")!=null&&!StringUtils.isBlank(param.getParam().get("define11")+"")) {
+			List define11 = new ArrayList();
+			String[] temS = param.getParam().get("define11").toString().split(",");
+			for (int i = 0; i<temS.length; i++) {
+				define11.add(temS[i]);
+			}
+			hashmap.put("define11", define11);
+		}
+
+		// 公司性质，和out_unit本质一致，公司本质的属性，和合同没关系
+		if (param.getParam().get("define12")!=null&&!StringUtils.isBlank(param.getParam().get("define12")+"")) {
+			List define12 = new ArrayList();
+			String[] temS = param.getParam().get("define12").toString().split(",");
+			for (int i = 0; i<temS.length; i++) {
+				define12.add(temS[i]);
+			}
+			hashmap.put("define12", define12);
+		}
+
+		// 国家项目、重大专项、重点项目、其他项目
+		if (param.getParam().get("project_property")!=null&&!StringUtils.isBlank(param.getParam().get("project_property")+"")) {
+			List project_property = new ArrayList();
+			String[] temS = param.getParam().get("project_property").toString().split(",");
+			for (int i = 0; i<temS.length; i++) {
+				project_property.add(temS[i]);
+			}
+			hashmap.put("project_property", project_property);
+		}
+
+		// 一级单位（直属院、分子公司等）
+		if (param.getParam().get("type_flag")!=null&&!StringUtils.isBlank(param.getParam().get("type_flag")+"")) {
+
+			List type_flag = new ArrayList();
+			String[] temS = param.getParam().get("type_flag").toString().split(",");
+			for (int i = 0; i<temS.length; i++) {
+				type_flag.add(temS[i]);
+			}
+			hashmap.put("type_flag", type_flag);
+		}
+
+		// 装备的各种技术类型
+		if (param.getParam().get("zylb")!=null&&!StringUtils.isBlank(param.getParam().get("zylb")+"")) {
+			List zylb = new ArrayList();
+			String[] temS = param.getParam().get("zylb").toString().split(",");
+			for (int i = 0; i<temS.length; i++) {
+				zylb.add(temS[i]);
+			}
+			hashmap.put("zylb", zylb);
+		}
+
+		// 各个处室
+		if (param.getParam().get("zycmc")!=null&&!StringUtils.isBlank(param.getParam().get("zycmc")+"")) {
+			List zycmc = new ArrayList();
+			String[] temS = param.getParam().get("zycmc").toString().split(",");
+			for (int i = 0; i<temS.length; i++) {
+				zycmc.add(temS[i]);
+			}
+			hashmap.put("zycmc", zycmc);
+		}
+
+		if (param.getParam().get("nd")!=null&&!StringUtils.isBlank(param.getParam().get("nd")+"")) {
+			hashmap.put("nd", param.getParam().get("nd"));
+		}
+		System.out.println("1234>>>>>>>>>ysnd"+param.getParam().get("ysnd"));
+		System.out.println("1234>>>>>>>>>zycmc"+param.getParam().get("zycmc"));
+		System.out.println("1234>>>>>>>>>zylb"+param.getParam().get("zylb"));
+		System.out.println("1234>>>>>>>>>type_flag"+param.getParam().get("type_flag"));
+		System.out.println("1234>>>>>>>>>define1"+param.getParam().get("define1"));
+		System.out.println("1234>>>>>>>>>define2"+param.getParam().get("define2"));
+		System.out.println("1234>>>>>>>>>qdbz"+param.getParam().get("qdbz"));
+		System.out.println("1234>>>>>>>>>fzdwflag"+param.getParam().get("fzdwflag"));
+
+		if (param.getParam().get("ysnd")!=null&&!StringUtils.isBlank(param.getParam().get("ysnd")+"")) {
+			hashmap.put("ysnd", param.getParam().get("ysnd"));
+		}
+
+		// 新开课题结转课题标志
+		if (param.getParam().get("ktlx")!=null&&!StringUtils.isBlank(param.getParam().get("ktlx")+"")) {
+			hashmap.put("ktlx", param.getParam().get("ktlx"));
+		}
+
+		List<OutProjectPlan> list = outProjectPlanMapper.selectProjectPlanByCond(hashmap);
+		System.out.println("1>>>>>>>>>查询分页结果"+list.size());
+		PageInfo<OutProjectPlan> pageInfo = new PageInfo<OutProjectPlan>(list);
+		System.out.println("2>>>>>>>>>查询分页结果"+pageInfo.getList().size());
+
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+		return data;
+	}
 
 	/**
 	 * 批量插入国家项目计划数据

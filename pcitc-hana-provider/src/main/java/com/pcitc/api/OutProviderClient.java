@@ -53,6 +53,14 @@ public class OutProviderClient {
 		return json;
 	}
 	
+	@RequestMapping(value = "/hana/expenses/pay/list")
+	public JSONArray getExpensesPayInfo(@RequestBody HashMap<String, String> map) {
+		System.out.println("=================getExpensesPayInfo");
+		List resultList = outProjectService.getExpensesPayInfo(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(resultList));
+		return json;
+	}
+	
 }
 	
 	

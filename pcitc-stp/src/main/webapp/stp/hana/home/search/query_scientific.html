@@ -10,7 +10,11 @@
     <style>
         .searchBox{margin: 10px 10px 0;}
         .searchBox .dateInput span{font-size: 14px;color: #666;}
-        .searchBox,.selector,.tableBox{width: 76%;margin: 10px auto 0;}
+        .searchBox,.selector,.tableBox{width: 96%;margin: 10px auto 0;}
+        .tableBox table tr th{border-top:2px solid #1890ff !important;}
+        .layui-table tbody tr:nth-child(odd) {
+            background-color: #f6f9fb;
+        }
     </style>
 </head>
 <body>
@@ -178,7 +182,7 @@
 
 </div>
 
-<div class="tableBox" style="clear:both">
+<div class="tableBox" style="clear:both;margin-bottom: 70px;">
     <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
 </div>
 <!--表格数据操作js-->
@@ -469,6 +473,7 @@
 
                 }},
             limit: 15,
+            height:400,
             id: 'processdef-table',
             page: {
                 groups: 5,
@@ -479,7 +484,7 @@
                 theme: '#0F9EE0'
             },
             cols: [[
-                {title:'序号',               type:'numbers', width: '4%'},
+                {title:'序号',               type:'numbers' ,width : 55},
                 {field:'nd',                 title:'项目年度',             style:'cursor: pointer;',align: 'center', width: '150',sort : true},
                 {field:'ysnd',              title:'预算年度',             style:'cursor: pointer;',align: 'center', width: '150',sort : true},
                 {field:'hth',               title:'合同号',              style:'cursor: pointer;',align: 'center', width: '150',sort : true},
