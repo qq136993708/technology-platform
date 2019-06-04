@@ -38,6 +38,7 @@
                 upload: "modules/upload",
                 upload2: "modules/upload2",
                 tree: "modules/tree",
+                transfer: "modules/transfer",
                 table: "modules/table",
                 element: "modules/element",
                 treeGrid:"modules/treeGrid",
