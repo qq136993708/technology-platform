@@ -1,0 +1,675 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.expenses.ExpensesPayHanaMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.expenses.ExpensesPayHana">
+    <id column="data_id" jdbcType="VARCHAR" property="dataId" />
+    <result column="G0LOGSYS" jdbcType="VARCHAR" property="g0logsys" />
+    <result column="G0GSDM" jdbcType="VARCHAR" property="g0gsdm" />
+    <result column="G0GSJC" jdbcType="VARCHAR" property="g0gsjc" />
+    <result column="G0ZPZID" jdbcType="VARCHAR" property="g0zpzid" />
+    <result column="G0ZECSID" jdbcType="VARCHAR" property="g0zecsid" />
+    <result column="G0BUDAT" jdbcType="VARCHAR" property="g0budat" />
+    <result column="G0ZTMSVOUCHERID" jdbcType="VARCHAR" property="g0ztmsvoucherid" />
+    <result column="G0BELNR" jdbcType="VARCHAR" property="g0belnr" />
+    <result column="G0GJAHR" jdbcType="VARCHAR" property="g0gjahr" />
+    <result column="G0AUGBL" jdbcType="VARCHAR" property="g0augbl" />
+    <result column="G0AUGDT" jdbcType="VARCHAR" property="g0augdt" />
+    <result column="G0LIFNR" jdbcType="VARCHAR" property="g0lifnr" />
+    <result column="K0DMBTR" jdbcType="VARCHAR" property="k0dmbtr" />
+    <result column="K0COUNTER" jdbcType="VARCHAR" property="k0counter" />
+    <result column="data_code" jdbcType="VARCHAR" property="dataCode" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_user_id" jdbcType="VARCHAR" property="createUserId" />
+    <result column="create_date" jdbcType="VARCHAR" property="createDate" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_date" jdbcType="VARCHAR" property="updateDate" />
+    <result column="sts" jdbcType="VARCHAR" property="sts" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="bak1" jdbcType="VARCHAR" property="bak1" />
+    <result column="bak2" jdbcType="VARCHAR" property="bak2" />
+    <result column="bak3" jdbcType="VARCHAR" property="bak3" />
+    <result column="bak4" jdbcType="VARCHAR" property="bak4" />
+    <result column="bak5" jdbcType="VARCHAR" property="bak5" />
+    <result column="bak6" jdbcType="VARCHAR" property="bak6" />
+    <result column="bak7" jdbcType="VARCHAR" property="bak7" />
+    <result column="bak8" jdbcType="VARCHAR" property="bak8" />
+    <result column="bak9" jdbcType="VARCHAR" property="bak9" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    data_id, G0LOGSYS, G0GSDM, G0GSJC, G0ZPZID, G0ZECSID, G0BUDAT, G0ZTMSVOUCHERID, G0BELNR, 
+    G0GJAHR, G0AUGBL, G0AUGDT, G0LIFNR, K0DMBTR, K0COUNTER, data_code, create_user, create_user_id, 
+    create_date, update_user, update_date, sts, remarks, bak1, bak2, bak3, bak4, bak5, 
+    bak6, bak7, bak8, bak9
+  </sql>
+  <select id="selectByExample" parameterType="com.pcitc.base.stp.expenses.ExpensesPayHanaExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from expenses_pay_hana
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from expenses_pay_hana
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from expenses_pay_hana
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.expenses.ExpensesPayHanaExample">
+    delete from expenses_pay_hana
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.expenses.ExpensesPayHana">
+    insert into expenses_pay_hana (data_id, G0LOGSYS, G0GSDM, 
+      G0GSJC, G0ZPZID, G0ZECSID, 
+      G0BUDAT, G0ZTMSVOUCHERID, G0BELNR, 
+      G0GJAHR, G0AUGBL, G0AUGDT, 
+      G0LIFNR, K0DMBTR, K0COUNTER, 
+      data_code, create_user, create_user_id, 
+      create_date, update_user, update_date, 
+      sts, remarks, bak1, 
+      bak2, bak3, bak4, bak5, 
+      bak6, bak7, bak8, bak9
+      )
+    values (#{dataId,jdbcType=VARCHAR}, #{g0logsys,jdbcType=VARCHAR}, #{g0gsdm,jdbcType=VARCHAR}, 
+      #{g0gsjc,jdbcType=VARCHAR}, #{g0zpzid,jdbcType=VARCHAR}, #{g0zecsid,jdbcType=VARCHAR}, 
+      #{g0budat,jdbcType=VARCHAR}, #{g0ztmsvoucherid,jdbcType=VARCHAR}, #{g0belnr,jdbcType=VARCHAR}, 
+      #{g0gjahr,jdbcType=VARCHAR}, #{g0augbl,jdbcType=VARCHAR}, #{g0augdt,jdbcType=VARCHAR}, 
+      #{g0lifnr,jdbcType=VARCHAR}, #{k0dmbtr,jdbcType=VARCHAR}, #{k0counter,jdbcType=VARCHAR}, 
+      #{dataCode,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=VARCHAR}, 
+      #{sts,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{bak1,jdbcType=VARCHAR}, 
+      #{bak2,jdbcType=VARCHAR}, #{bak3,jdbcType=VARCHAR}, #{bak4,jdbcType=VARCHAR}, #{bak5,jdbcType=VARCHAR}, 
+      #{bak6,jdbcType=VARCHAR}, #{bak7,jdbcType=VARCHAR}, #{bak8,jdbcType=VARCHAR}, #{bak9,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.expenses.ExpensesPayHana">
+    insert into expenses_pay_hana
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        data_id,
+      </if>
+      <if test="g0logsys != null">
+        G0LOGSYS,
+      </if>
+      <if test="g0gsdm != null">
+        G0GSDM,
+      </if>
+      <if test="g0gsjc != null">
+        G0GSJC,
+      </if>
+      <if test="g0zpzid != null">
+        G0ZPZID,
+      </if>
+      <if test="g0zecsid != null">
+        G0ZECSID,
+      </if>
+      <if test="g0budat != null">
+        G0BUDAT,
+      </if>
+      <if test="g0ztmsvoucherid != null">
+        G0ZTMSVOUCHERID,
+      </if>
+      <if test="g0belnr != null">
+        G0BELNR,
+      </if>
+      <if test="g0gjahr != null">
+        G0GJAHR,
+      </if>
+      <if test="g0augbl != null">
+        G0AUGBL,
+      </if>
+      <if test="g0augdt != null">
+        G0AUGDT,
+      </if>
+      <if test="g0lifnr != null">
+        G0LIFNR,
+      </if>
+      <if test="k0dmbtr != null">
+        K0DMBTR,
+      </if>
+      <if test="k0counter != null">
+        K0COUNTER,
+      </if>
+      <if test="dataCode != null">
+        data_code,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="sts != null">
+        sts,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="bak1 != null">
+        bak1,
+      </if>
+      <if test="bak2 != null">
+        bak2,
+      </if>
+      <if test="bak3 != null">
+        bak3,
+      </if>
+      <if test="bak4 != null">
+        bak4,
+      </if>
+      <if test="bak5 != null">
+        bak5,
+      </if>
+      <if test="bak6 != null">
+        bak6,
+      </if>
+      <if test="bak7 != null">
+        bak7,
+      </if>
+      <if test="bak8 != null">
+        bak8,
+      </if>
+      <if test="bak9 != null">
+        bak9,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        #{dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="g0logsys != null">
+        #{g0logsys,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gsdm != null">
+        #{g0gsdm,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gsjc != null">
+        #{g0gsjc,jdbcType=VARCHAR},
+      </if>
+      <if test="g0zpzid != null">
+        #{g0zpzid,jdbcType=VARCHAR},
+      </if>
+      <if test="g0zecsid != null">
+        #{g0zecsid,jdbcType=VARCHAR},
+      </if>
+      <if test="g0budat != null">
+        #{g0budat,jdbcType=VARCHAR},
+      </if>
+      <if test="g0ztmsvoucherid != null">
+        #{g0ztmsvoucherid,jdbcType=VARCHAR},
+      </if>
+      <if test="g0belnr != null">
+        #{g0belnr,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gjahr != null">
+        #{g0gjahr,jdbcType=VARCHAR},
+      </if>
+      <if test="g0augbl != null">
+        #{g0augbl,jdbcType=VARCHAR},
+      </if>
+      <if test="g0augdt != null">
+        #{g0augdt,jdbcType=VARCHAR},
+      </if>
+      <if test="g0lifnr != null">
+        #{g0lifnr,jdbcType=VARCHAR},
+      </if>
+      <if test="k0dmbtr != null">
+        #{k0dmbtr,jdbcType=VARCHAR},
+      </if>
+      <if test="k0counter != null">
+        #{k0counter,jdbcType=VARCHAR},
+      </if>
+      <if test="dataCode != null">
+        #{dataCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="sts != null">
+        #{sts,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="bak1 != null">
+        #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null">
+        #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="bak3 != null">
+        #{bak3,jdbcType=VARCHAR},
+      </if>
+      <if test="bak4 != null">
+        #{bak4,jdbcType=VARCHAR},
+      </if>
+      <if test="bak5 != null">
+        #{bak5,jdbcType=VARCHAR},
+      </if>
+      <if test="bak6 != null">
+        #{bak6,jdbcType=VARCHAR},
+      </if>
+      <if test="bak7 != null">
+        #{bak7,jdbcType=VARCHAR},
+      </if>
+      <if test="bak8 != null">
+        #{bak8,jdbcType=VARCHAR},
+      </if>
+      <if test="bak9 != null">
+        #{bak9,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.stp.expenses.ExpensesPayHanaExample" resultType="java.lang.Long">
+    select count(*) from expenses_pay_hana
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update expenses_pay_hana
+    <set>
+      <if test="record.dataId != null">
+        data_id = #{record.dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.g0logsys != null">
+        G0LOGSYS = #{record.g0logsys,jdbcType=VARCHAR},
+      </if>
+      <if test="record.g0gsdm != null">
+        G0GSDM = #{record.g0gsdm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.g0gsjc != null">
+        G0GSJC = #{record.g0gsjc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.g0zpzid != null">
+        G0ZPZID = #{record.g0zpzid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.g0zecsid != null">
+        G0ZECSID = #{record.g0zecsid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.g0budat != null">
+        G0BUDAT = #{record.g0budat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.g0ztmsvoucherid != null">
+        G0ZTMSVOUCHERID = #{record.g0ztmsvoucherid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.g0belnr != null">
+        G0BELNR = #{record.g0belnr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.g0gjahr != null">
+        G0GJAHR = #{record.g0gjahr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.g0augbl != null">
+        G0AUGBL = #{record.g0augbl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.g0augdt != null">
+        G0AUGDT = #{record.g0augdt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.g0lifnr != null">
+        G0LIFNR = #{record.g0lifnr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.k0dmbtr != null">
+        K0DMBTR = #{record.k0dmbtr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.k0counter != null">
+        K0COUNTER = #{record.k0counter,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataCode != null">
+        data_code = #{record.dataCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserId != null">
+        create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null">
+        update_date = #{record.updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sts != null">
+        sts = #{record.sts,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null">
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak1 != null">
+        bak1 = #{record.bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak2 != null">
+        bak2 = #{record.bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak3 != null">
+        bak3 = #{record.bak3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak4 != null">
+        bak4 = #{record.bak4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak5 != null">
+        bak5 = #{record.bak5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak6 != null">
+        bak6 = #{record.bak6,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak7 != null">
+        bak7 = #{record.bak7,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak8 != null">
+        bak8 = #{record.bak8,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak9 != null">
+        bak9 = #{record.bak9,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update expenses_pay_hana
+    set data_id = #{record.dataId,jdbcType=VARCHAR},
+      G0LOGSYS = #{record.g0logsys,jdbcType=VARCHAR},
+      G0GSDM = #{record.g0gsdm,jdbcType=VARCHAR},
+      G0GSJC = #{record.g0gsjc,jdbcType=VARCHAR},
+      G0ZPZID = #{record.g0zpzid,jdbcType=VARCHAR},
+      G0ZECSID = #{record.g0zecsid,jdbcType=VARCHAR},
+      G0BUDAT = #{record.g0budat,jdbcType=VARCHAR},
+      G0ZTMSVOUCHERID = #{record.g0ztmsvoucherid,jdbcType=VARCHAR},
+      G0BELNR = #{record.g0belnr,jdbcType=VARCHAR},
+      G0GJAHR = #{record.g0gjahr,jdbcType=VARCHAR},
+      G0AUGBL = #{record.g0augbl,jdbcType=VARCHAR},
+      G0AUGDT = #{record.g0augdt,jdbcType=VARCHAR},
+      G0LIFNR = #{record.g0lifnr,jdbcType=VARCHAR},
+      K0DMBTR = #{record.k0dmbtr,jdbcType=VARCHAR},
+      K0COUNTER = #{record.k0counter,jdbcType=VARCHAR},
+      data_code = #{record.dataCode,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=VARCHAR},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=VARCHAR},
+      sts = #{record.sts,jdbcType=VARCHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      bak1 = #{record.bak1,jdbcType=VARCHAR},
+      bak2 = #{record.bak2,jdbcType=VARCHAR},
+      bak3 = #{record.bak3,jdbcType=VARCHAR},
+      bak4 = #{record.bak4,jdbcType=VARCHAR},
+      bak5 = #{record.bak5,jdbcType=VARCHAR},
+      bak6 = #{record.bak6,jdbcType=VARCHAR},
+      bak7 = #{record.bak7,jdbcType=VARCHAR},
+      bak8 = #{record.bak8,jdbcType=VARCHAR},
+      bak9 = #{record.bak9,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.expenses.ExpensesPayHana">
+    update expenses_pay_hana
+    <set>
+      <if test="g0logsys != null">
+        G0LOGSYS = #{g0logsys,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gsdm != null">
+        G0GSDM = #{g0gsdm,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gsjc != null">
+        G0GSJC = #{g0gsjc,jdbcType=VARCHAR},
+      </if>
+      <if test="g0zpzid != null">
+        G0ZPZID = #{g0zpzid,jdbcType=VARCHAR},
+      </if>
+      <if test="g0zecsid != null">
+        G0ZECSID = #{g0zecsid,jdbcType=VARCHAR},
+      </if>
+      <if test="g0budat != null">
+        G0BUDAT = #{g0budat,jdbcType=VARCHAR},
+      </if>
+      <if test="g0ztmsvoucherid != null">
+        G0ZTMSVOUCHERID = #{g0ztmsvoucherid,jdbcType=VARCHAR},
+      </if>
+      <if test="g0belnr != null">
+        G0BELNR = #{g0belnr,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gjahr != null">
+        G0GJAHR = #{g0gjahr,jdbcType=VARCHAR},
+      </if>
+      <if test="g0augbl != null">
+        G0AUGBL = #{g0augbl,jdbcType=VARCHAR},
+      </if>
+      <if test="g0augdt != null">
+        G0AUGDT = #{g0augdt,jdbcType=VARCHAR},
+      </if>
+      <if test="g0lifnr != null">
+        G0LIFNR = #{g0lifnr,jdbcType=VARCHAR},
+      </if>
+      <if test="k0dmbtr != null">
+        K0DMBTR = #{k0dmbtr,jdbcType=VARCHAR},
+      </if>
+      <if test="k0counter != null">
+        K0COUNTER = #{k0counter,jdbcType=VARCHAR},
+      </if>
+      <if test="dataCode != null">
+        data_code = #{dataCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="sts != null">
+        sts = #{sts,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="bak1 != null">
+        bak1 = #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null">
+        bak2 = #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="bak3 != null">
+        bak3 = #{bak3,jdbcType=VARCHAR},
+      </if>
+      <if test="bak4 != null">
+        bak4 = #{bak4,jdbcType=VARCHAR},
+      </if>
+      <if test="bak5 != null">
+        bak5 = #{bak5,jdbcType=VARCHAR},
+      </if>
+      <if test="bak6 != null">
+        bak6 = #{bak6,jdbcType=VARCHAR},
+      </if>
+      <if test="bak7 != null">
+        bak7 = #{bak7,jdbcType=VARCHAR},
+      </if>
+      <if test="bak8 != null">
+        bak8 = #{bak8,jdbcType=VARCHAR},
+      </if>
+      <if test="bak9 != null">
+        bak9 = #{bak9,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.expenses.ExpensesPayHana">
+    update expenses_pay_hana
+    set G0LOGSYS = #{g0logsys,jdbcType=VARCHAR},
+      G0GSDM = #{g0gsdm,jdbcType=VARCHAR},
+      G0GSJC = #{g0gsjc,jdbcType=VARCHAR},
+      G0ZPZID = #{g0zpzid,jdbcType=VARCHAR},
+      G0ZECSID = #{g0zecsid,jdbcType=VARCHAR},
+      G0BUDAT = #{g0budat,jdbcType=VARCHAR},
+      G0ZTMSVOUCHERID = #{g0ztmsvoucherid,jdbcType=VARCHAR},
+      G0BELNR = #{g0belnr,jdbcType=VARCHAR},
+      G0GJAHR = #{g0gjahr,jdbcType=VARCHAR},
+      G0AUGBL = #{g0augbl,jdbcType=VARCHAR},
+      G0AUGDT = #{g0augdt,jdbcType=VARCHAR},
+      G0LIFNR = #{g0lifnr,jdbcType=VARCHAR},
+      K0DMBTR = #{k0dmbtr,jdbcType=VARCHAR},
+      K0COUNTER = #{k0counter,jdbcType=VARCHAR},
+      data_code = #{dataCode,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=VARCHAR},
+      sts = #{sts,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      bak1 = #{bak1,jdbcType=VARCHAR},
+      bak2 = #{bak2,jdbcType=VARCHAR},
+      bak3 = #{bak3,jdbcType=VARCHAR},
+      bak4 = #{bak4,jdbcType=VARCHAR},
+      bak5 = #{bak5,jdbcType=VARCHAR},
+      bak6 = #{bak6,jdbcType=VARCHAR},
+      bak7 = #{bak7,jdbcType=VARCHAR},
+      bak8 = #{bak8,jdbcType=VARCHAR},
+      bak9 = #{bak9,jdbcType=VARCHAR}
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 批量插入数据， erp中的付款明显清单-->
+  <insert id="insertExpensesPayHanaBatch" parameterType="java.util.List">
+	insert into expenses_pay_hana (data_id, G0LOGSYS, G0GSDM, 
+      G0GSJC, G0ZPZID, G0ZECSID, 
+      G0BUDAT, G0ZTMSVOUCHERID, G0BELNR, 
+      G0GJAHR, G0AUGBL, G0AUGDT, 
+      G0LIFNR, K0DMBTR, K0COUNTER, 
+      data_code, create_user, create_user_id, 
+      create_date, update_user, update_date, 
+      sts, remarks, bak1, 
+      bak2, bak3, bak4, bak5, 
+      bak6, bak7, bak8, bak9
+      )
+    values 
+    <foreach collection="list" item="exObject" index="index" separator=",">
+     (#{exObject.dataId,jdbcType=VARCHAR}, #{exObject.g0logsys,jdbcType=VARCHAR}, #{exObject.g0gsdm,jdbcType=VARCHAR}, 
+      #{exObject.g0gsjc,jdbcType=VARCHAR}, #{exObject.g0zpzid,jdbcType=VARCHAR}, #{exObject.g0zecsid,jdbcType=VARCHAR}, 
+      #{exObject.g0budat,jdbcType=VARCHAR}, #{exObject.g0ztmsvoucherid,jdbcType=VARCHAR}, #{exObject.g0belnr,jdbcType=VARCHAR}, 
+      #{exObject.g0gjahr,jdbcType=VARCHAR}, #{exObject.g0augbl,jdbcType=VARCHAR}, #{exObject.g0augdt,jdbcType=VARCHAR}, 
+      #{exObject.g0lifnr,jdbcType=VARCHAR}, #{exObject.k0dmbtr,jdbcType=VARCHAR}, #{exObject.k0counter,jdbcType=VARCHAR}, 
+      #{exObject.dataCode,jdbcType=VARCHAR}, #{exObject.createUser,jdbcType=VARCHAR}, #{exObject.createUserId,jdbcType=VARCHAR}, 
+      #{exObject.createDate,jdbcType=VARCHAR}, #{exObject.updateUser,jdbcType=VARCHAR}, #{exObject.updateDate,jdbcType=VARCHAR}, 
+      #{exObject.sts,jdbcType=VARCHAR}, #{exObject.remarks,jdbcType=VARCHAR}, #{exObject.bak1,jdbcType=VARCHAR}, 
+      #{exObject.bak2,jdbcType=VARCHAR}, #{exObject.bak3,jdbcType=VARCHAR}, #{exObject.bak4,jdbcType=VARCHAR}, #{exObject.bak5,jdbcType=VARCHAR}, 
+      #{exObject.bak6,jdbcType=VARCHAR}, #{exObject.bak7,jdbcType=VARCHAR}, #{exObject.bak8,jdbcType=VARCHAR}, #{exObject.bak9,jdbcType=VARCHAR}
+      )
+     </foreach>
+     
+	</insert>
+</mapper>

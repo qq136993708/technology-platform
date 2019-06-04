@@ -10,6 +10,11 @@
     <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <style>
+        .tableBox .btn_add{background: none;}
+        .tableBox .btn_add:hover{background: #1890ff;}
+        .tableBox .btnMyBgImg{padding: 0 10px;}
+    </style>
 </head>
 <body>
 
@@ -44,44 +49,46 @@
         </button>
     </div>
 </div>
-<div class="tableToolBox">
-    <div class="whiteLine"></div>
-    <div class="tableBtns">
-        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"-->
-        <!--data-type="all">-->
-        <!--<span class="btn-state btn-all"></span>全部-->
-        <!--</button>-->
-        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"-->
-        <!--data-type="draft">-->
-        <!--<span class="btn-state btn-yellow"></span>草稿-->
-        <!--</button>-->
-        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"-->
-        <!--data-type="approval">-->
-        <!--<span class="btn-state btn-green"></span>审批中-->
-        <!--</button>-->
-        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"-->
-        <!--data-type="approved">-->
-        <!--<span class="btn-state btn-blue"></span>已审批-->
-        <!--</button>-->
-        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
-        <!--data-type="addEvent">新增-->
-        <!--</button>-->
-        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
-        <!--data-type="editEvent">编辑-->
-        <!--</button>-->
 
-        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
-        <!--data-type="deleteEvent">删除-->
-        <!--</button>-->
+<div class="tableBox">
+    <div class="tableToolBox">
+        <div class="whiteLine"></div>
+        <div class="tableBtns">
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"-->
+            <!--data-type="all">-->
+            <!--<span class="btn-state btn-all"></span>全部-->
+            <!--</button>-->
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"-->
+            <!--data-type="draft">-->
+            <!--<span class="btn-state btn-yellow"></span>草稿-->
+            <!--</button>-->
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"-->
+            <!--data-type="approval">-->
+            <!--<span class="btn-state btn-green"></span>审批中-->
+            <!--</button>-->
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"-->
+            <!--data-type="approved">-->
+            <!--<span class="btn-state btn-blue"></span>已审批-->
+            <!--</button>-->
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+            <!--data-type="addEvent">新增-->
+            <!--</button>-->
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+            <!--data-type="editEvent">编辑-->
+            <!--</button>-->
 
-        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" id="jd"
-                data-type="okEvent">确定
-        </button>
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+            <!--data-type="deleteEvent">删除-->
+            <!--</button>-->
 
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" id="jd"
+                    data-type="okEvent">确定
+            </button>
+
+        </div>
     </div>
+    <table id="zjkBaseInfoTableId" class="layui-hide" lay-filter="tableEvent"></table>
 </div>
-<table id="zjkBaseInfoTableId" class="layui-hide" lay-filter="tableEvent"></table>
-
 <script>
     var state = $("#state").val();
 
@@ -125,7 +132,7 @@
 
                 cols: [[
                     {type: 'checkbox', event: 'changeEvents'},
-                    {title: '序号', type: 'numbers'},
+                    {title: '序号', type: 'numbers' ,width : 55},
                     {
                         field: 'auditStatus',
                         title: '状态',
