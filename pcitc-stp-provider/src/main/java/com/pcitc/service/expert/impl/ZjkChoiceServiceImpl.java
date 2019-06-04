@@ -134,7 +134,9 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
 
     @Override
     public int insert(ZjkChoice record) {
-        record.setId(IdUtil.createIdByTime());
+        if(record.getId()==null){
+            record.setId(IdUtil.createIdByTime());
+        }
         return zjkChoiceMapper.insert(record);
     }
 
@@ -215,7 +217,7 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
 
         Object xmName = param.getParam().get("xmName");
         if (!StrUtil.isObjectEmpty(xmName)) {
-            c.andXmNameEqualTo(xmName.toString());
+            c.andXmNameLike("%"+xmName.toString()+"%");
         }
         Object bak1 = param.getParam().get("bak1");
         if (!StrUtil.isObjectEmpty(bak1)) {

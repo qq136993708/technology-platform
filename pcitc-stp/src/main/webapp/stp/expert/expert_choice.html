@@ -77,7 +77,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">评审日期</label>
                         <div class="layui-input-block">
-                            <input  id="bak4" class="layui-input garlic-auto-save" name="bak4" data-format="yyyy-MM-dd"/>
+                            <input id="bak4" class="layui-input garlic-auto-save" name="bak4" data-format="yyyy-MM-dd"/>
                         </div>
                     </div>
                 </div>
@@ -86,6 +86,17 @@
                         <label class="layui-form-label">联系方式</label>
                         <div class="layui-input-block">
                             <input type="text" id="bak5" class="layui-input garlic-auto-save" name="bak5" value=""/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-row">
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">附件</label>
+                        <div class="layui-input-block">
+                            <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" onclick="upload_File('${bak6}');">选择文件</button>
                         </div>
                     </div>
                 </div>
@@ -131,7 +142,7 @@
                         <label class="dateInput">
                             <span>机构</span>
                             <div class="layui-form-select select-tree">
-                                <input type="text" id="companyDivs" >
+                                <input type="text" id="companyDivs">
                                 <!--onclick="chooseUnitMulti('choose_joinUnitName_callback1')"-->
                                 <input type="hidden" id="company1DivValue">
                             </div>
@@ -239,6 +250,8 @@
     var projectId = "${projectId}";
     var unitCode = "${unitCode}";
 
+    var bak6 = "${bak6}";
+
     function okEvent() {
         //点击编辑按钮
         // if (!selectRowData) {
@@ -273,6 +286,7 @@
                 p.bak3 = obj.email;
                 p.bak4 = bak4;
                 p.bak5 = bak5;
+                p.bak6 = bak6;
                 plist.push(p);
             }
         } else if (stype == "guding") {
@@ -296,6 +310,7 @@
                 p.bak3 = obj.email;
                 p.bak4 = bak4;
                 p.bak5 = bak5;
+                p.bak6 = bak6;
                 plist.push(p);
             }
         } else {
