@@ -31,7 +31,7 @@ public class MailSentServiceImpl implements MailSentService {
 //        mailInfo.setMailServerPort("25");
 //        mailInfo.setValidate(true);
 //        mailInfo.setUserName("mlc19860417@163.com");
-//        mailInfo.setPassword("mlc5201314");
+//        mailInfo.setPassword("mlc11111111");
 //        mailInfo.setFromAddress("mlc19860417@163.com");
 //        mailInfo.setSenderDisplay("石化盈科信息技术有限责任公司");
 

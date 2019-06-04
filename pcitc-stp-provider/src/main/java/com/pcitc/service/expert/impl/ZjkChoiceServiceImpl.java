@@ -447,6 +447,7 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         String projectSteps = zjkChoice.get(0).getBak1();
         String projectId = zjkChoice.get(0).getXmId();
         String projectName = zjkChoice.get(0).getXmName();
+        String bak6 = zjkChoice.get(0).getBak6();
         //删除
         ZjkChoiceExample example = new ZjkChoiceExample();
         ZjkChoiceExample.Criteria c = example.createCriteria();
@@ -493,6 +494,8 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
             msg.setCreateDate(DateUtil.dateToStr(new Date(),DateUtil.FMT_DD));
             zjkMsgService.insert(msg);
         }
+        //获取附件 bak6
+
         //发送消息
         try {
 //            List<String> emails = zjkChoice.stream().map(ZjkChoice::getBak3).collect(Collectors.toList());
