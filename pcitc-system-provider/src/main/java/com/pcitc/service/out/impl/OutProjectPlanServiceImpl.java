@@ -155,7 +155,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 				if (StrUtil.isNotBlank(opp.getYszbxje())) {
 					newOPP.setYszbxje(opp.getYszbxje());
 				}
-				outProjectPlanMapper.updateByPrimaryKey(newOPP);
+				//outProjectPlanMapper.updateByPrimaryKey(newOPP);
 			} else {
 				// 此项目此预算年度没有预算费用
 				OutProjectPlanExample example1 = new OutProjectPlanExample();
@@ -172,7 +172,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 						// 原项目主数据，无用删除
 						OutProjectPlanExample example2 = new OutProjectPlanExample();
 						example2.createCriteria().andDataIdEqualTo(insertOPP.getDataId());
-						outProjectPlanMapper.deleteByExample(example2);
+						//outProjectPlanMapper.deleteByExample(example2);
 					}
 					
 					insertOPP.setYsnd(opp.getYsnd());
@@ -182,7 +182,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 					insertOPP.setYsfyxje(opp.getYsfyxje());
 					insertOPP.setYszbxje(opp.getYszbxje());
 					insertOPP.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
-					outProjectPlanMapper.insert(insertOPP);
+					//outProjectPlanMapper.insert(insertOPP);
 				}
 			}
 

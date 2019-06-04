@@ -60,9 +60,15 @@ public class BudgetTotalController extends BaseController {
 	private static final String PROJECT_TOTAL_FINAL_STOCK = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-final-stocktotal";
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_main_total")
-	public Object toBudgetPage(HttpServletRequest request) throws IOException 
+	public Object toBudgetMainTotal(HttpServletRequest request) throws IOException 
 	{
 		request.setAttribute("nd", DateUtil.format(DateUtil.getNextYearDay(new Date()), DateUtil.FMT_YYYY));
+		return "stp/budget/budget_main_total";
+	}
+	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_main_total_nd")
+	public Object toBudgetMainTotalNd(HttpServletRequest request) throws IOException 
+	{
+		request.setAttribute("nd", DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		return "stp/budget/budget_main_total";
 	}
 	
