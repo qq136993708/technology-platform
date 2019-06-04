@@ -18,8 +18,14 @@
         p{width: 500px;height: auto;overflow: hidden;white-space: normal;/*text-overflow: ellipsis;*/
             font-size: 13px;word-break:break-all;word-wrap:break-word;line-height: 20px;}
         .layui-table-page{margin-bottom: 20px;}
-        .tableBox,.searchBox{width: 64%;margin: 0 auto;}
+        .tableBox,.searchBox{padding-left:18px;margin: 0 auto;}
+        .tableBox{width: 50%;float: left;margin-bottom: 70px;}
         .searchBox{margin-top: 20px;}
+        .relevant{width: 34%;float: right;margin-right: 20px;}
+        .hotspot>.item{width: 100%;text-align: left;padding: 0;padding-top: 10px;}
+        .hotspot>.item a{font-size: 14px;color: #1890ff;line-height: 26px;}
+        .hotspot>.item a:hover{text-decoration:underline;}
+        .c-nameC{height: 0px;}
     </style>
 </head>
 <body>
@@ -43,7 +49,56 @@
 <div class="tableBox">
     <table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table_02"></table>
 </div>
-
+<div class="relevant">
+    <p>相关内容</p>
+    <div class="relevant-cont">
+        <div class="item">
+            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
+            <a href="javascript:;">合同签订率</a>
+        </div>
+        <div class="item">
+            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
+            <a href="javascript:;">合同签订率</a>
+        </div>
+        <div class="item">
+            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
+            <a href="javascript:;">合同签订率</a>
+        </div>
+        <div class="item">
+            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
+            <a href="javascript:;">合同签订率</a>
+        </div>
+        <div class="item">
+            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
+            <a href="javascript:;">合同签订率</a>
+        </div>
+        <div class="item">
+            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
+            <a href="javascript:;">合同签订率</a>
+        </div>
+    </div>
+    <!--<p>搜索热点</p>
+    <div class="relevant-cont hotspot">
+        <div class="item">
+            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法</a>
+        </div>
+        <div class="item">
+            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+        </div>
+        <div class="item">
+            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+        </div>
+        <div class="item">
+            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+        </div>
+        <div class="item">
+            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+        </div>
+        <div class="item">
+            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+        </div>
+    </div>-->
+</div>
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 <!-- <script src="/common/js/layer-v3.1.1/layer.js"></script> -->
