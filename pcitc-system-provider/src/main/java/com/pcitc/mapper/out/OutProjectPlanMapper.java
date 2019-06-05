@@ -85,4 +85,10 @@ public interface OutProjectPlanMapper {
      * 领导首页--科研投入--各个处室的新开结转情况
      */
 	public List getPlanMoneyByDepartment(HashMap<String, String> map);
+	
+	/**
+     * 全生命周期查询，计划为起点
+     */
+	public List selectProjectCycleByCondition(HashMap<String, Object> map);
+	
 }

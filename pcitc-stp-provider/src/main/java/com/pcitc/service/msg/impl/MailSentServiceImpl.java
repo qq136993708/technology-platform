@@ -31,7 +31,7 @@ public class MailSentServiceImpl implements MailSentService {
 //        mailInfo.setMailServerPort("25");
 //        mailInfo.setValidate(true);
 //        mailInfo.setUserName("mlc19860417@163.com");
-//        mailInfo.setPassword("mlc5201314");
+//        mailInfo.setPassword("mlc11111111");
 //        mailInfo.setFromAddress("mlc19860417@163.com");
 //        mailInfo.setSenderDisplay("石化盈科信息技术有限责任公司");
 
@@ -98,6 +98,24 @@ public class MailSentServiceImpl implements MailSentService {
         }
     }
 
+    @Override
+    public boolean sendMailFileInputStream(MailSenderInfo mailSenderInfo) {
+        boolean b = false;
+        try {
+            mailSenderInfo.setFromAddress(fromAddress);
+            mailSenderInfo.setMailServerHost(mailSenderHost);
+            mailSenderInfo.setPassword(password);
+            mailSenderInfo.setUserName(userName);
+            mailSenderInfo.setMailServerPort(mailSenderPort);
+            mailSenderInfo.setSenderDisplay(senderDisplay);
+            mailSenderInfo.setValidate(Validate);
+            b = MailSender.sendMailFileInputStream(mailSenderInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            return b;
+        }
+    }
     @Override
     public Integer sentMail(MailBean mailbean) {
         try {

@@ -36,10 +36,11 @@ import com.pcitc.web.common.OperationFilter;
 public class WholeProcessController extends BaseController {
 
 	private static final String TECH_TYPE_STR = "http://pcitc-zuul/stp-proxy//tech-family-provider/max-type-code";
-	private static final String TECH_TYPE_TREE = "http://pcitc-zuul/stp-proxy/tech-family-provider/type-tree";
 	private static final String TECH_TYPE_LIST = "http://pcitc-zuul/stp-proxy/tech-family-provider/type-list";
 	private static final String TECH_TYPE_ADD = "http://pcitc-zuul/stp-proxy/tech-family-provider/type-insert";
 	private static final String TECH_TYPE_DELETE = "http://pcitc-zuul/stp-proxy/tech-family-provider/type-delete";
+	
+	private static final String SCIENCE_LIST = "http://pcitc-zuul/system-proxy/out-project-plna-provider/project-plan/cycle";
 
 	/**
 	 * 装备全流程可视化
@@ -78,8 +79,13 @@ public class WholeProcessController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/whole-process/science/ini")
-	public String iniScienceWholeProcess(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// 查询项目前10条记录
+	public String iniScienceWholeProcess(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		param.getParam().put("showType", "zhongdian");  //重点类型
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(SCIENCE_LIST, HttpMethod.POST, entity, LayuiTableData.class);
+		LayuiTableData retJson = responseEntity.getBody();
+		
+		request.setAttribute("sciList", retJson.getData());
 		
 		return "/stp/wholeProcess/scienceProcess";
 	}
@@ -93,8 +99,10 @@ public class WholeProcessController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/whole-process/science-project/ini")
-	public String iniScienceProjectWholeProcess(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String iniScienceProjectWholeProcess(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+		
+		
 		return "/stp/wholeProcess/sciencePorjectProcess";
 	}
 
@@ -102,22 +110,17 @@ public class WholeProcessController extends BaseController {
 	 * @param request
 	 * @return
 	 * @throws Exception
-	 *             获取技术族分类树，异步方法
+	 * 获取全生命周末列表的数据
 	 */
-	@RequestMapping(value = "/whole-process/type/tech-type-tree")
+	@RequestMapping(value = "/whole-process/science/data")
 	@ResponseBody
-	public String getTechTypeTree(HttpServletRequest request) throws Exception {
-		System.out.println("/whole-process/type/tech-type-tree==========" + request.getParameter("code"));
-		TechFamily techType = new TechFamily();
-		if (request.getParameter("code") == null || request.getParameter("code").equals("")) {
-			techType.setLevelCode("2");
-			techType.setTypeIndex("10");
-		} else {
-			techType.setTypeIndex(request.getParameter("code"));
-		}
-		ResponseEntity<List> responseEntity = this.restTemplate.exchange(TECH_TYPE_TREE, HttpMethod.POST, new HttpEntity<TechFamily>(techType, this.httpHeaders), List.class);
-		List treeNodes = responseEntity.getBody();
-		return JSONUtils.toJSONString(treeNodes);
+	public Object scienceWholeProcessData(@ModelAttribute("param") LayuiTableParam param) throws Exception {
+		param.getParam().put("showType", "zhongdian");  //重点类型
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(SCIENCE_LIST, HttpMethod.POST, entity, LayuiTableData.class);
+		LayuiTableData retJson = responseEntity.getBody();
+
+		return JSON.toJSON(retJson).toString();
 	}
 
 	/**

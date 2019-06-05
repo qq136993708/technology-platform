@@ -11,10 +11,8 @@ import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.expert.*;
 import com.pcitc.base.expert.ZjkChoiceExample;
-import com.pcitc.base.util.DateUtil;
-import com.pcitc.base.util.IdUtil;
-import com.pcitc.base.util.StrUtil;
-import com.pcitc.base.util.TreeNodeUtil;
+import com.pcitc.base.system.SysFile;
+import com.pcitc.base.util.*;
 import com.pcitc.mapper.expert.ZjkChoiceMapper;
 import com.pcitc.service.expert.ZjkBaseInfoService;
 import com.pcitc.service.expert.ZjkChoiceService;
@@ -444,6 +442,7 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
     public int updateOrInsertZjkChoiceUpdateBat(JSONObject jsonObject) {
         //取值
         List<ZjkChoice> zjkChoice = JSONObject.parseArray((jsonObject.getString("list")), ZjkChoice.class);
+        List<SysFile> files = JSONObject.parseArray((jsonObject.getString("files")), SysFile.class);
         String projectSteps = zjkChoice.get(0).getBak1();
         String projectId = zjkChoice.get(0).getXmId();
         String projectName = zjkChoice.get(0).getXmName();
@@ -503,9 +502,21 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
                 m.setToAddress(new String[]{obj.getBak3()});
                 m.setContent("尊敬的" + obj.getBak2() + "你好：<br>项目'" + obj.getXmName() + "'特邀您进行进行评审，评审日期:" + obj.getBak4() + "请及时回复是否能准时参加！！！联系方式：" + obj.getBak5() + "<br>&nbsp;&nbsp;&nbsp;&nbsp;谢谢");
                 m.setSubject("项目评审邀请");
-               mailSentService.sendMail(m);
+                int leng = files.size();
+                String[] names = new String[leng];
+                String[] urls = new String[leng];
+                for (int k = 0; k < leng; k++) {
+                    names[k] = files.get(k).getFileName();
+                    urls[k] = files.get(k).getFilePath();
+                }
+                m.setAttachFileUrls(urls);
+                m.setAttachFileNames(names);
+               mailSentService.sendMailFileInputStream(m);
             }
         } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+
         }
         //返回
         return 200;

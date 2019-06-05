@@ -1,14 +1,18 @@
 package com.pcitc.service.equipment.impl;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -24,8 +28,7 @@ import com.pcitc.base.stp.equipment.SreProjectYear;
 import com.pcitc.base.stp.equipment.SreProjectYearExample;
 import com.pcitc.base.stp.equipment.SreSupplier;
 import com.pcitc.base.stp.equipment.SreTechMeeting;
-import com.pcitc.base.system.SysUnit;
-import com.pcitc.base.system.SysUser;
+import com.pcitc.base.stp.system.SysMeeting;
 import com.pcitc.mapper.equipment.SreEquipmentMapper;
 import com.pcitc.mapper.equipment.SreProjectMapper;
 import com.pcitc.mapper.equipment.SreProjectSetupMapper;
@@ -34,6 +37,7 @@ import com.pcitc.mapper.equipment.SreProjectYearMapper;
 import com.pcitc.mapper.equipment.SreSupplierMapper;
 import com.pcitc.mapper.equipment.SreTechMeetingMapper;
 import com.pcitc.service.equipment.EquipmentService;
+import com.pcitc.service.feign.SystemRemoteClient;
 import com.pcitc.service.feign.WorkflowRemoteClient;
 
 
@@ -67,7 +71,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 	@Autowired
 	private WorkflowRemoteClient workflowRemoteClient;
 	
-	
+	@Autowired
+	private SystemRemoteClient systemRemoteClient;
 	
 	public SreEquipment selectEquipment(String id) throws Exception
 	{
@@ -133,9 +138,22 @@ public class EquipmentServiceImpl implements EquipmentService {
     	return list;
 	}
 
+	
+	
+	//@TxTransaction(isStart = true)
+    //@Transactional
 	public Integer insertEquipment(SreEquipment record)throws Exception
 	{
-		return sreEquipmentMapper.insert(record);
+		
+		/*SysMeeting sysMeeting=new SysMeeting();
+    	sysMeeting.setTitle("事物测试");
+    	String id = UUID.randomUUID().toString().replaceAll("-", "");
+    	sysMeeting.setId(id);
+    	System.out.println("insertSysMeeting.........");
+    	String str = systemRemoteClient.insertSysMeeting(sysMeeting);*/
+		int count= sreEquipmentMapper.insert(record);
+		return count;
+		
 	}
 
 	
@@ -230,13 +248,13 @@ public class EquipmentServiceImpl implements EquipmentService {
 		return sreProjectMapper.deleteByPrimaryKey(id);
 	}
 
+
+    
 	public Integer insertProjectBasic(SreProject record)throws Exception
 	{
 		return sreProjectMapper.insert(record);
 	}
 
-	
-	
 	
 	
 	//自定义

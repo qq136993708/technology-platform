@@ -17,6 +17,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -519,6 +521,7 @@ public class ExpertController extends BaseController {
     public int addChoiceList() {
         String param = request.getParameter("param");
         JSONArray array = JSON.parseArray(param);
+        String fileIds = "";
         List<ZjkChoice> zjkChoices = new ArrayList<>();
         for (int i = 0, j = array.size(); i < j; i++) {
             ZjkChoice record = JSONObject.toJavaObject((JSON) array.get(i), ZjkChoice.class);
@@ -529,16 +532,29 @@ public class ExpertController extends BaseController {
             record.setCreateUserName(sysUserInfo.getUserName());
             record.setUpdateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
             record.setUpdateUser(sysUserInfo.getUserId());
+            fileIds = record.getBak6();
             zjkChoices.add(record);
         }
 
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         JSONObject object = new JSONObject();
         object.put("list", JSONArray.toJSONString(zjkChoices));
+        //获取文件信息
+        this.httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
+        form.add("fileIds", fileIds);
+        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(form, httpHeaders);
+        ResponseEntity<FileResult> responseEntityFiles = this.restTemplate.postForEntity(getFilesLayuiByFormId, httpEntity, FileResult.class);
+        FileResult body = responseEntityFiles.getBody();
+
+        object.put("files", JSONArray.toJSONString(body.getList()));
+
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVECHOICE_BAT, HttpMethod.POST, new HttpEntity<JSONObject>(object, this.httpHeaders), Integer.class);
         Integer result = responseEntity.getBody();
         return result;
     }
+
+    private static final String getFilesLayuiByFormId = "http://pcitc-zuul/system-proxy/sysfile-provider/sysfile/getFilesLayuiByFormId";
 
     /**
      * 备选查询

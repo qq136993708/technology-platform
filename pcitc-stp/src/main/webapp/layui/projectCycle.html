@@ -81,6 +81,52 @@
             </div>
         </div>
     </div>
+    <div class="cycle-c">
+        <div class="cycle-cont">
+            <div class="cycle-item">
+                <div class="cycle-cont-left">
+                    <p>张</p>
+                    <p>张三</p>
+                    <p>科技管理平台</p>
+                </div>
+                <!--灰色-->
+                <div class="cycle-cont-midd">
+                    <p>项目启动<span></span></p>
+                    <p>2019-03-28 科技管理平台正式启动。</p>
+                </div>
+                <div class="cycle-cont-midd">
+                    <p>项目启动<span></span></p>
+                    <p>2019-03-28 科技管理平台正式启动。</p>
+                </div>
+                <div class="cycle-cont-midd">
+                    <p>项目启动<span></span></p>
+                    <p>2019-03-28 科技管理平台正式启动。</p>
+                </div>
+                <div class="cycle-cont-midd">
+                    <p>项目启动<span></span></p>
+                    <p>2019-03-28 科技管理平台正式启动。</p>
+                </div>
+                <div class="cycle-cont-midd">
+                    <p>项目启动<span></span></p>
+                    <p>2019-03-28 科技管理平台正式启动。</p>
+                </div>
+                <!--蓝色-->
+                <div class="cycle-cont-right">
+                    <p>项目进行<span></span></p>
+                    <p>
+                        <span class="startTime">2019-03-28</span> — <span class="endTime">2019-03-28</span>
+                        <span class="content">项目进行到当前状态时简短说明</span>
+                        <a href="javascript:;">查看详情</a>
+                    </p>
+                    <p class="complete">
+                        <span style="width: 20%;"></span>
+                        <span style="left: 16%;">20%</span>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -88,8 +134,10 @@
         var table = layui.table, util = layui.laytpl, form = layui.form, laydate = layui.laydate, $ = layui.jquery,
             laytpl = layui.laytpl, publicMethods = layui.publicMethods;
         //开始日期
-        var widthDiv=(86/($(".cycle-item>").length-1));
-        $(".cycle-cont-midd, .cycle-cont-right").css("width",widthDiv+"%");
+        $(".cycle-c").each(function (i,val) {
+            var widthDiv=(86/($(".cycle-c:eq("+i+") .cycle-item>div").length-1));
+            $(".cycle-c:eq("+i+") .cycle-cont-midd,.cycle-c:eq("+i+") .cycle-cont-right").css("width",widthDiv+"%");
+        });
         var insStart = laydate.render({
             elem: '#start'
             ,min: 0

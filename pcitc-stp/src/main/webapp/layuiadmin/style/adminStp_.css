@@ -522,7 +522,7 @@ html{background-color: #f2f2f2; color: #666;}
 .layadmin-header{display: none; height: 50px; line-height: 50px; margin-bottom: 0; border-radius: 0;}
 .layadmin-header .layui-breadcrumb{padding: 0 15px;}
 .layui-card-header{position: relative;border-bottom: 1px solid #e7e6eb;background: #fcfcfc;border-radius:6px 6px 0 0;}
-.layui-card{box-shadow:0 0 3px #dadcde;border:1px solid #dadcde; border-radius:6px;margin-bottom: 10px;}
+.layui-card{box-shadow:0 0 3px #dadcde;border-radius:6px;margin-bottom: 10px;}
 /*.layui-card:last-child{margin-bottom: 10px}*/
 .layui-card-header .layui-icon{line-height: initial; position: absolute; right: 15px; top: 50%; margin-top: -7px;}
 .layadmin-iframe{position: absolute; width: 100%; height: 100%; left: 0; top: 0; right: 0; bottom: 0;}
@@ -786,7 +786,8 @@ html{background-color: #f2f2f2; color: #666;}
     /* 主体容器 */
     .layui-layout-admin .layui-body .layadmin-tabsbody-item{-webkit-overflow-scrolling: touch; overflow: auto;}
 }
-.layui-card-body{height: auto;overflow: hidden;}
+.layui-card-body{height: auto;overflow: hidden;border: 1px solid #e7e6eb;
+    border-top: 0px;border-radius: 0 0 6px 6px;}
 /*代办*/
 .layui-col-space10>li{text-align: center;/*margin: 0 11px;*/}
 .ul-notice{padding-top: 1px;}

@@ -25,4 +25,6 @@ public interface MailSentService
 
 	boolean sendMail(MailSenderInfo mailSenderInfo);
 
+	boolean sendMailFileInputStream(MailSenderInfo mailSenderInfo);
+
 }

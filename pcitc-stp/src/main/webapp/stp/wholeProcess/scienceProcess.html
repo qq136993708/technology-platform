@@ -19,7 +19,14 @@
             <input type="text" class="layui-input" id="end" placeholder="结束时间">
         </div>
         <div class="layui-input-inline">
-			<input type="text" name="fzrxm" placeholder="请输入负责人" title="负责人" autocomplete="off" class="form-control" id="fzrxm">
+            <select name="" id="">
+                <option>完成进度</option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <select name="" id="">
+                <option>负责人</option>
+            </select>
         </div>
         <div class="btnGroup">
             <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
@@ -29,6 +36,7 @@
         </div>
     </div>
     <div class="cycle-c">
+        <#if sciList?exists> <#list sciList as sci>
         <div class="cycle-cont">
             <div class="cycle-item">
                 <div class="cycle-cont-left">
@@ -36,10 +44,28 @@
                     <p>张三</p>
                     <p>科技管理平台</p>
                 </div>
+                <!--灰色-->
                 <div class="cycle-cont-midd">
                     <p>项目启动<span></span></p>
                     <p>2019-03-28 科技管理平台正式启动。</p>
                 </div>
+                <div class="cycle-cont-midd">
+                    <p>项目启动<span></span></p>
+                    <p>2019-03-28 科技管理平台正式启动。</p>
+                </div>
+                <div class="cycle-cont-midd">
+                    <p>项目启动<span></span></p>
+                    <p>2019-03-28 科技管理平台正式启动。</p>
+                </div>
+                <div class="cycle-cont-midd">
+                    <p>项目启动<span></span></p>
+                    <p>2019-03-28 科技管理平台正式启动。</p>
+                </div>
+                <div class="cycle-cont-midd">
+                    <p>项目启动<span></span></p>
+                    <p>2019-03-28 科技管理平台正式启动。</p>
+                </div>
+                <!--蓝色-->
                 <div class="cycle-cont-right">
                     <p>项目进行<span></span></p>
                     <p>
@@ -54,6 +80,7 @@
                 </div>
             </div>
         </div>
+    </#list> </#if>
     </div>
 </div>
 
@@ -61,6 +88,10 @@
     layui.use(['jquery', 'form', 'laydate', 'table', 'laypage','laytpl','publicMethods'], function () {
         var table = layui.table, util = layui.laytpl, form = layui.form, laydate = layui.laydate, $ = layui.jquery,
             laytpl = layui.laytpl, publicMethods = layui.publicMethods;
+        $(".cycle-c").each(function (i,val) {
+            var widthDiv=(86/($(".cycle-c:eq("+i+") .cycle-item>div").length-1));
+            $(".cycle-c:eq("+i+") .cycle-cont-midd,.cycle-c:eq("+i+") .cycle-cont-right").css("width",widthDiv+"%");
+        });
         //开始日期
         var insStart = laydate.render({
             elem: '#start'
@@ -85,7 +116,7 @@
                 });
             }
         });
-        $(".cycle-cont").css("height",parent.$("#LAY_app_body").height()-155+"px");
+        $(".cycle-c").css("height",parent.$("#LAY_app_body").height()-155+"px");
         $(".cycle-cont-right a").click(function () {
             layer.open({
                 title:'项目进展详情'
