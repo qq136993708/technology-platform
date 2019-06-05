@@ -35,8 +35,8 @@
             </button>
         </div>
     </div>
-    <#if sciList?exists> <#list sciList as sci>
     <div class="cycle-c">
+        <#if sciList?exists> <#list sciList as sci>
         <div class="cycle-cont">
             <div class="cycle-item">
                 <div class="cycle-cont-left">
@@ -80,8 +80,8 @@
                 </div>
             </div>
         </div>
-    </div>
     </#list> </#if>
+    </div>
 </div>
 
 <script>
@@ -116,7 +116,7 @@
                 });
             }
         });
-        $(".cycle-cont").css("height",parent.$("#LAY_app_body").height()-155+"px");
+        $(".cycle-c").css("height",parent.$("#LAY_app_body").height()-155+"px");
         $(".cycle-cont-right a").click(function () {
             layer.open({
                 title:'项目进展详情'
