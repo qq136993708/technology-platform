@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
     <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
-    <script type="text/javascript" src="/common/js/base.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
     <style>
         .layui-tab-item {
             margin-top: 15px;
@@ -94,9 +94,9 @@
             <div class="layui-row">
                 <div class="layui-col-xs4 layui-col-sm4 layui-col-md4">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">附件</label>
+                        <label class="layui-form-label">附件 </label>
                         <div class="layui-input-block">
-                            <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" onclick="upload_File('${bak6}');">选择文件</button>
+                            <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" onclick="upload_File('${bak6}','','edit','');">选择文件</button>
                         </div>
                     </div>
                 </div>
@@ -146,7 +146,7 @@
                                 <!--onclick="chooseUnitMulti('choose_joinUnitName_callback1')"-->
                                 <input type="hidden" id="company1DivValue">
                             </div>
-                            <span>职称</span>
+                            <span>&nbsp;&nbsp;&nbsp;&nbsp;职称</span>
                             <select name="expertProfessinal" id="expertProfessinal" lay-filter="expertProfessinal">
                                 <option value="">请选择</option>
                             </select>

@@ -1,11 +1,16 @@
 package com.pcitc.util.mail;
 
+
 import javax.activation.DataHandler;
+import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.*;
+import javax.mail.util.ByteArrayDataSource;
+import java.io.*;
 import java.util.Date;
 import java.util.Properties;
+import java.io.ByteArrayInputStream;
 
 /**
  * <p>Title: 系统邮件</p>
@@ -155,6 +160,118 @@ public class MailSender {
         }
     }
 
+    public static boolean sendMailFileInputStream(MailSenderInfo Info) {
+        boolean retVal = false;
+        if (Info.getToAddress() == null || Info.getToAddress().length == 0) return retVal;
+        if (Info.getSubject() == null || Info.getSubject().length() == 0) return retVal;
+        Info = dealParam(Info);
+
+        // 判断是否需要身份认证
+        MyAuthenticator authenticator = null;
+        Properties pro = Info.getProperties();
+        if (Info.isValidate()) {
+            // 如果需要身份认证，则创建一个密码验证器
+            authenticator = new MyAuthenticator(Info.getUserName(), Info.getPassword());
+        }
+        // 根据邮件会话属性和密码验证器构造一个发送邮件的session
+        Session sendMailSession = Session.getDefaultInstance(pro, authenticator);
+        try {
+            // 根据session创建一个邮件消息
+            Message mailMessage = new MimeMessage(sendMailSession);
+            // 创建邮件发送者地址
+            Address from = new InternetAddress(Info.getFromAddress(), Info.getSenderDisplay());
+            // 设置邮件消息的发送者
+            mailMessage.setFrom(from);
+            // 创建邮件的接收者地址，并设置到邮件消息中
+            Address[] to = new InternetAddress[Info.getToAddress().length];
+            for (int i = 0; i < Info.getToAddress().length; i++) {
+                to[i] = new InternetAddress(Info.getToAddress()[i]);
+            }
+            mailMessage.setRecipients(Message.RecipientType.TO, to);
+            // 创建邮件的抄送人地址，并设置到邮件消息中
+            if (Info.getCcAddress() != null && Info.getCcAddress().length > 0) {
+                Address[] cc = new InternetAddress[Info.getCcAddress().length];
+                for (int i = 0; i < Info.getCcAddress().length; i++) {
+                    cc[i] = new InternetAddress(Info.getCcAddress()[i]);
+                }
+                mailMessage.setRecipients(Message.RecipientType.CC, cc);
+            }
+            // 创建邮件密送人地址，并设置到邮件消息中
+            if (Info.getBccAddress() != null && Info.getBccAddress().length > 0) {
+                Address[] bcc = new InternetAddress[Info.getBccAddress().length];
+                for (int i = 0; i < Info.getBccAddress().length; i++) {
+                    bcc[i] = new InternetAddress(Info.getBccAddress()[i]);
+                }
+                mailMessage.setRecipients(Message.RecipientType.BCC, bcc);
+            }
+
+            // 设置邮件消息的主题
+            mailMessage.setSubject(Info.getSubject());
+
+            // 设置邮箱正文
+            Multipart mp = new MimeMultipart();
+            MimeBodyPart mbp = new MimeBodyPart();
+            if (Info.isHtml()) {
+                mbp.setContent(Info.getContent(), "text/plain;charset=UTF-8");
+            } else {
+                mbp.setContent(Info.getContent(), "text/html;charset=UTF-8");
+            }
+            mp.addBodyPart(mbp);
+
+            // 设置邮件附件
+            if (Info.getAttachFileUrls() != null && Info.getAttachFileUrls().length > 0) {
+
+                for (int i = 0; i < Info.getAttachFileUrls().length; i++) {
+                    mbp = new MimeBodyPart();
+                    String fileUrl = Info.getAttachFileUrls()[i];
+                    InputStream inputStream =OSSUtil.getOssFileIS(fileUrl.split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
+                    DataSource source = new ByteArrayDataSource(inputStream, "application/msexcel");
+                    mbp.setDataHandler(new DataHandler(source));
+                    mbp.setFileName(MimeUtility.encodeText(Info.getAttachFileNames()[i]));
+                    mp.addBodyPart(mbp);
+                }
+            }
+            // 设置邮件整体内容
+            mailMessage.setContent(mp);
+            // 设置邮件消息发送的时间
+            mailMessage.setSentDate(new Date());
+            mailMessage.saveChanges();
+
+            // 发送邮件
+            Transport trans = sendMailSession.getTransport("smtp");
+            trans.connect(Info.getMailServerHost(), Info.getUserName(), Info.getPassword());
+            trans.sendMessage(mailMessage, mailMessage.getAllRecipients());
+            retVal = true;
+            return retVal;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return retVal;
+        }
+    }
+
+    static Part createContent(String content, ByteArrayInputStream inputstream, String affixName) {
+        MimeBodyPart contentPart = null;
+        try {
+            contentPart = new MimeBodyPart();
+            MimeMultipart contentMultipart = new MimeMultipart("related");
+            MimeBodyPart htmlPart = new MimeBodyPart();
+            htmlPart.setContent(content, "text/html;charset=gbk");
+            contentMultipart.addBodyPart(htmlPart);
+            //附件部分
+            MimeBodyPart excelBodyPart = new MimeBodyPart();
+            DataSource dataSource = new ByteArrayDataSource(inputstream, "application/excel");
+            DataHandler dataHandler = new DataHandler(dataSource);
+            excelBodyPart.setDataHandler(dataHandler);
+            excelBodyPart.setFileName(MimeUtility.encodeText(affixName));
+            contentMultipart.addBodyPart(excelBodyPart);
+            contentPart.setContent(contentMultipart);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return contentPart;
+
+    }
+
     private static MailSenderInfo dealParam(MailSenderInfo Info) {
         //处理用户传入参数
         MailSenderInfo retVal = new MailSenderInfo();
@@ -170,6 +287,7 @@ public class MailSender {
         retVal.setFromAddress(Info.getFromAddress() == null ? mailInfo.getFromAddress() : Info.getFromAddress());
         retVal.setSenderDisplay(Info.getSenderDisplay() == null ? mailInfo.getSenderDisplay() : Info.getSenderDisplay());
         retVal.setAttachFileNames(Info.getAttachFileNames());
+        retVal.setAttachFileUrls(Info.getAttachFileUrls());
         retVal.setValidate(Info.isValidate());
         return retVal;
     }
@@ -183,13 +301,17 @@ public class MailSender {
         String subject = "测试邮件标题（2014-01-23）";
         String content = "<font color='red'>测试邮件正文(红色)</font><hr><font color='blue'><b>测试邮件正文(蓝色加粗)</b></font>";
         info.setToAddress(to);//收件人
+
+        info.setAttachFileNames(new String[]{"我勒个去.jpg"});
+        info.setAttachFileUrls(new String[]{"http://oss01-cn-beijing-sinopec-d01-a.yun-inc.sinopec.com/stp-vpc1-sctepl/files/uploadPath/4f4234fa5a774585a460e8af3e436003/20190604104711655_file_16b20622628_bbb76076.jpg"});
         //info.setCcAddress(cc);//抄送人
         //info.setBccAddress(bcc);//密送人
+        System.out.println(info.getAttachFileUrls()[0]);
         info.setSubject(subject);//标题
         info.setContent(content);//正文
 
         //info.setAttachFileNames(attach);//邮件附件
         info.setIsHtml(true);//是否为html内容
-        MailSender.sendMail(info);
+        MailSender.sendMailFileInputStream(info);
     }
 }   

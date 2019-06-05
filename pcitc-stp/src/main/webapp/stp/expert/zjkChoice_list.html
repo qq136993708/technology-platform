@@ -218,11 +218,13 @@
                 })
             },
             resetEvent: function () { //点击查询按钮
+
+                document.getElementById("bak1").value="";
+                $("#xmName").val("");
+
                 table.reload('zjkChoiceTableId', {
-                    where: {
-                        param: {}
-                    }
-                });
+                    where: {param: {"status": "2", "bak1": document.getElementById("bak1").value, "xmName": $("#xmName").val()}}
+                })
             }, getChecked: function () {//多选
                 var ids = "";
                 var selectedData = active.getCheckData();
