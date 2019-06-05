@@ -83,6 +83,6 @@ public interface OutProjectPlanService {
 	/**
      * 全生命周期查询，计划为起点
      */
-	public LayuiTableData selectProjectCycle(LayuiTableParam param);
+	public LayuiTableData selectProjectCycleByCondition(LayuiTableParam param);
 	
 }

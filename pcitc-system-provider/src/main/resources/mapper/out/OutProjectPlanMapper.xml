@@ -1590,7 +1590,7 @@
 	
 	
 	<!-- 全生命周期查询，计划为起点 -->
-	<select id="selectProjectCycle" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	<select id="selectProjectCycleByCondition" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 		select tableA.*,expenses_bills_pay.suppName as payFlag from (
 			select out_project_plan.XMMC,out_project_plan.XMID,out_project_plan.ND,out_project_plan.FWDX,out_project_plan.XMLBMC,out_project_plan.ZYLB,
 				   out_project_plan.FZDW,out_project_plan.FZRXM,out_project_plan.YJSJ,out_project_plan.HTH,out_project_info.xmid as contractFlag
