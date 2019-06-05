@@ -11,6 +11,7 @@ import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.expert.*;
 import com.pcitc.base.expert.ZjkChoiceExample;
+import com.pcitc.base.system.EmailTemplate;
 import com.pcitc.base.system.SysFile;
 import com.pcitc.base.util.*;
 import com.pcitc.mapper.expert.ZjkChoiceMapper;
@@ -20,6 +21,7 @@ import com.pcitc.service.expert.ZjkMsgConfigService;
 import com.pcitc.service.expert.ZjkMsgService;
 import com.pcitc.service.feign.SystemRemoteClient;
 import com.pcitc.service.msg.MailSentService;
+import com.pcitc.service.system.EmailTemplateService;
 import com.pcitc.util.mail.MailSenderInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -439,6 +441,10 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         return data;
     }
 
+
+    @Autowired
+    private EmailTemplateService emailTemplateService;
+
     public int updateOrInsertZjkChoiceUpdateBat(JSONObject jsonObject) {
         //取值
         List<ZjkChoice> zjkChoice = JSONObject.parseArray((jsonObject.getString("list")), ZjkChoice.class);
@@ -494,13 +500,19 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         }
         //发送消息
         try {
+            EmailTemplate emailTemplate = emailTemplateService.selectByPrimaryKey("16b26a1e9ef_b63d62da");
 //            List<String> emails = zjkChoice.stream().map(ZjkChoice::getBak3).collect(Collectors.toList());
             for (int i = 0; i < j; i++) {
                 ZjkChoice obj = zjkChoice.get(i);
                 MailSenderInfo m = new MailSenderInfo();
 //                m.setToAddress(new String[]{"635447170@qq.com"});
                 m.setToAddress(new String[]{obj.getBak3()});
-                m.setContent("尊敬的" + obj.getBak2() + "你好：<br>项目'" + obj.getXmName() + "'特邀您进行进行评审，评审日期:" + obj.getBak4() + "请及时回复是否能准时参加！！！联系方式：" + obj.getBak5() + "<br>&nbsp;&nbsp;&nbsp;&nbsp;谢谢");
+                String content = emailTemplate.getContent();
+                content =content.replace("${name}",obj.getBak2());
+                content =content.replace("${date}",obj.getBak4());
+                content =content.replace("${project}",obj.getXmName());
+                content =content.replace("${mobile}",obj.getBak5());
+                m.setContent(content);
                 m.setSubject("项目评审邀请");
                 int leng = files.size();
                 String[] names = new String[leng];

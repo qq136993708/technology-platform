@@ -249,29 +249,6 @@ public class MailSender {
         }
     }
 
-    static Part createContent(String content, ByteArrayInputStream inputstream, String affixName) {
-        MimeBodyPart contentPart = null;
-        try {
-            contentPart = new MimeBodyPart();
-            MimeMultipart contentMultipart = new MimeMultipart("related");
-            MimeBodyPart htmlPart = new MimeBodyPart();
-            htmlPart.setContent(content, "text/html;charset=gbk");
-            contentMultipart.addBodyPart(htmlPart);
-            //附件部分
-            MimeBodyPart excelBodyPart = new MimeBodyPart();
-            DataSource dataSource = new ByteArrayDataSource(inputstream, "application/excel");
-            DataHandler dataHandler = new DataHandler(dataSource);
-            excelBodyPart.setDataHandler(dataHandler);
-            excelBodyPart.setFileName(MimeUtility.encodeText(affixName));
-            contentMultipart.addBodyPart(excelBodyPart);
-            contentPart.setContent(contentMultipart);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return contentPart;
-
-    }
-
     private static MailSenderInfo dealParam(MailSenderInfo Info) {
         //处理用户传入参数
         MailSenderInfo retVal = new MailSenderInfo();
@@ -299,7 +276,9 @@ public class MailSender {
         //String[] bcc = new String[]{"guohui.l@pcitc.com"};
         //String[] attach = new String[]{"C:\\Users\\WangFei\\Desktop\\pcitc.jar"};
         String subject = "测试邮件标题（2014-01-23）";
-        String content = "<font color='red'>测试邮件正文(红色)</font><hr><font color='blue'><b>测试邮件正文(蓝色加粗)</b></font>";
+        String content = "<p>尊敬的${name}您好:</p>\n" +
+                "\n" +
+                "<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 中国石化特邀您于${date}对${project}进行评审,请准时参加,联系电话:${mobile}</p>\n";
         info.setToAddress(to);//收件人
 
         info.setAttachFileNames(new String[]{"我勒个去.jpg"});
@@ -308,8 +287,12 @@ public class MailSender {
         //info.setBccAddress(bcc);//密送人
         System.out.println(info.getAttachFileUrls()[0]);
         info.setSubject(subject);//标题
+        content=content.replace("${name}","张三").replace("${date}","2018-08-08");
+        content=content.replace("${project}","项目");
+        content=content.replace("${mobile}","13501043033");
         info.setContent(content);//正文
 
+        System.out.println(content);
         //info.setAttachFileNames(attach);//邮件附件
         info.setIsHtml(true);//是否为html内容
         MailSender.sendMailFileInputStream(info);
