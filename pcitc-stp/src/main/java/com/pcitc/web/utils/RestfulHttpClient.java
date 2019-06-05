@@ -434,7 +434,7 @@ public class RestfulHttpClient {
         }else{
             try {
                 //是包装类型
-                return ((Class) o.getClass().getField("TYPE").get(null)).isPrimitive();
+                return ((Class<?>) o.getClass().getField("TYPE").get(null)).isPrimitive();
             } catch (Exception e) {
                 return false;
             }
