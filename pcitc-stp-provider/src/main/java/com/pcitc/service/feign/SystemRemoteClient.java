@@ -2,8 +2,6 @@ package com.pcitc.service.feign;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,10 +12,13 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.expert.ZjkExtractConfig;
 import com.pcitc.base.stp.out.OutUnit;
+import com.pcitc.base.stp.system.SysMeeting;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysPost;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.workflow.WorkflowVo;
+
+import io.swagger.annotations.ApiOperation;
 
 @FeignClient(value = "pcitc-system-provider", fallback = SystemHystric.class)
 public interface SystemRemoteClient {
@@ -58,5 +59,13 @@ public interface SystemRemoteClient {
      */
 	@RequestMapping(value = "/out-project-provider/common-project/list", method = RequestMethod.POST)
 	public LayuiTableData selectCommonProjectByCond(@RequestBody LayuiTableParam param);
+	
+	
+	
+	
+	//增加会议纪要
+	@RequestMapping(value = "/system-provider/sys_meeting/add", method = RequestMethod.POST)
+	public String insertSysMeeting(@RequestBody SysMeeting sysMeeting);
+	
 	
 }

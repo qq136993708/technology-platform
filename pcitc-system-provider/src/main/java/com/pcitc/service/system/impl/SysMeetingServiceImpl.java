@@ -2,10 +2,12 @@ package com.pcitc.service.system.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -53,9 +55,14 @@ public class SysMeetingServiceImpl implements SysMeetingService {
     	return list;
 	}
 
+	
+	//@Transactional
+	//@TxTransaction
 	public Integer insertSysMeeting(SysMeeting record)throws Exception
 	{
-		return sysMeetingMapper.insert(record);
+		int count= sysMeetingMapper.insert(record);
+		//int v = 100/0;
+		return count;
 	}
 
 	
