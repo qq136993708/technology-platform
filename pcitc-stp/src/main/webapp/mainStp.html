@@ -398,21 +398,21 @@
                         </ul>
                         <div class="layui-tab-content">
                             <div class="layui-tab-item layui-show">
-                                <a lay-href="" lay-text="科研项目">更多></a>
+                                <a lay-href="" lay-text="科研项目"><!-- 更多> --></a>
                                 <div class="lan">
-                                    <table class="layui-table">
+                                    <table class="layui-table" id="news-workdynamics-list-table">
                                         <tbody>
                                             <tr>
-                                                <td style="width: 4px;">1</td>
-                                                <td>张三</td>
-                                                <td>2019-03-28</td>
+                                                <td style="width: 10px;">1</td>
+                                                <!-- <td>张三</td> -->
                                                 <td>处理集团所有预算统计</td>
+                                                <td>2019-03-28</td>
                                             </tr>
                                             <tr>
-                                                <td style="width: 4px;">1</td>
-                                                <td>张三</td>
-                                                <td>2019-03-28</td>
+                                                <td style="width: 10px;">1</td>
+                                               	<!--  <td>张三</td> -->
                                                 <td>处理集团所有预算统计</td>
+                                                <td>2019-03-28</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -673,12 +673,13 @@
                 base : '../layuiadmin/' //静态资源所在路径
             }).extend({
                 index : 'lib/index' //主入口模块
-            }).use(['index','jquery', 'table', 'layer', 'laydate','element'], function () {
+            }).use(['index','jquery', 'table', 'layer', 'laydate','element',"publicMethods"], function () {
                 var $ = layui.jquery;
                 table = layui.table;
                 layer = layui.layer;
                 element = layui.element;
                 laydate = layui.laydate;
+                publicMethods=layui.publicMethods;
                 /*新开页面*/
                 
                 
@@ -708,6 +709,17 @@
                 $("#equipment").on("click", function () {
                 	 parent.layui.index.openTabsPage("/home_device_02/home_device", "科研装备");
                });
+               
+                //新闻
+                publicMethods.ajaxAsyncPost('/out/news-workdynamics-list', null, function (data, status) {
+             		var content = "";
+                	$.each(data,function(index,dt){
+                		if(index < 8){
+                			content += '<tr><td style="width: 10px;">'+(index+1)+'</td><td>'+dt.xxbt+'</td><td>'+dt.fbsj.substring(0,10)+'</td></tr>';
+                		}
+             		})
+             		$("#news-workdynamics-list-table tbody").html(content);
+                });
                 
 
                 var md4Height = $(".layui-col-md4").height() - 2;
