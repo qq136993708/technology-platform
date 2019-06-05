@@ -276,39 +276,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			hashmap.put("orderKey", param.getOrderKey());
 			hashmap.put("orderType", param.getOrderType());
 		}
-		System.out.println("1234>>>>>>>>>fzdwflag"+param.getParam().get("fzdwflag"));
-
-		List<OutProjectPlan> list = outProjectPlanMapper.selectProjectPlanByCond(hashmap);
-		System.out.println("1>>>>>>>>>查询分页结果"+list.size());
-		PageInfo<OutProjectPlan> pageInfo = new PageInfo<OutProjectPlan>(list);
-		System.out.println("2>>>>>>>>>查询分页结果"+pageInfo.getList().size());
-
-		LayuiTableData data = new LayuiTableData();
-		data.setData(pageInfo.getList());
-		Long total = pageInfo.getTotal();
-		data.setCount(total.intValue());
-		return data;
-	}
-	
-	
-	/**
-     * 全生命周期查询，计划为起点
-     */
-	public LayuiTableData selectProjectCycleByCondition(LayuiTableParam param) {
-		// 每页显示条数
-		int pageSize = param.getLimit();
-		// 当前是第几页
-		int pageNum = param.getPage();
-		// 1、设置分页信息，包括当前页数和每页显示的总计数
-		PageHelper.startPage(pageNum, pageSize);
-
-		HashMap<String, Object> hashmap = new HashMap<String, Object>();
-		if (param.getOrderKey()!=null&&!StrUtil.isBlankOrNull(param.getOrderKey().toString())) {
-			// 排序，因为select后有关键字，自己手动在sql中调整。否则直接PageHelper.orderBy(param.getOrderKey().toString()
-			// + " " + param.getOrderType());
-			hashmap.put("orderKey", param.getOrderKey());
-			hashmap.put("orderType", param.getOrderType());
-		}
+		
 		if (param.getParam().get("xmmc")!=null&&!StringUtils.isBlank(param.getParam().get("xmmc")+"")) {
 			hashmap.put("xmmc", param.getParam().get("xmmc"));
 		}
@@ -443,6 +411,38 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			hashmap.put("ktlx", param.getParam().get("ktlx"));
 		}
 
+		List<OutProjectPlan> list = outProjectPlanMapper.selectProjectPlanByCond(hashmap);
+		System.out.println("1>>>>>>>>>查询分页结果"+list.size());
+		PageInfo<OutProjectPlan> pageInfo = new PageInfo<OutProjectPlan>(list);
+		System.out.println("2>>>>>>>>>查询分页结果"+pageInfo.getList().size());
+
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+		return data;
+	}
+	
+	
+	/**
+     * 全生命周期查询，计划为起点
+     */
+	public LayuiTableData selectProjectCycleByCondition(LayuiTableParam param) {
+		// 每页显示条数
+		int pageSize = 10;
+		// 当前是第几页
+		int pageNum = 1;
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
+
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		if (param.getOrderKey()!=null&&!StrUtil.isBlankOrNull(param.getOrderKey().toString())) {
+			// 排序，因为select后有关键字，自己手动在sql中调整。否则直接PageHelper.orderBy(param.getOrderKey().toString()
+			// + " " + param.getOrderType());
+			hashmap.put("orderKey", param.getOrderKey());
+			hashmap.put("orderType", param.getOrderType());
+		}
+		
 		List list = outProjectPlanMapper.selectProjectCycleByCondition(hashmap);
 		System.out.println("1>>>>>>>>>查询分页结果"+list.size());
 		PageInfo<HashMap> pageInfo = new PageInfo<HashMap>(list);
