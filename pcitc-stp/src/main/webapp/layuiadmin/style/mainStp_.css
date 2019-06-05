@@ -7,8 +7,9 @@
 ::-webkit-scrollbar-thumb:vertical:active{background-color: rgba(0,0,0,.38);}
 .layui-col-space10>*{padding: 4px;}
 .layui-col-space10{margin: -4px;}
-.layui-card-header{background: white;font-weight: normal !important;font-size: 14px;color: #666666;}
-.layui-card-header p{height: 14px;line-height: 14px;margin: 10px 0;display: inline-block;border-left: 3px solid #1890ff;
+.layui-card-header{background: #1890ff;font-weight: normal !important;font-size: 14px;color: #fff;height: 34px;
+    line-height: 34px;border-bottom: 0;}
+.layui-card-header p{height: 14px;line-height: 14px;display: inline-block;border-left: 3px solid #fff;
     text-indent: 5px;}
 .layui-box-text{font-weight: bold;}
 .arrange{padding-left: 4px;padding-right: 17px;}
@@ -22,7 +23,7 @@
     height: 22px;line-height: 22px; float: right;padding: 0;margin: 0;position: relative;bottom: -3px;}
 .project .layui-col-md5{width: 50%;}
 .project .layui-table tbody tr td:nth-child(1) div{border-left:1px solid #fff; }
-.project>div>div:nth-child(2){padding-left: 17px;}
+
 .accept{padding-right: 10px;}
 .accept-title{border-bottom: 1px solid #bce6d0;margin-bottom: 20px;}
 .accept-title span{font-size: 14px;color: #666666;border-bottom: 2px solid #7acea1;position: relative;
@@ -142,9 +143,9 @@ background: url("/layuiadmin/layui/images/icon-leader-aw.png") right no-repeat;
 /*第五块*/
 .layui-tool{display: inline-block;float: right;}
 .btn-tool{border: none;cursor: pointer;margin-right: 10px;}
-.collapse{background: white url("/layuiadmin/layui/images/icon-up.png") no-repeat;width: 12px;
+.collapse{background: url("/layuiadmin/layui/images/icon-up.png") no-repeat;width: 12px;
     height: 10px;}
-.remove{background: white url("/layuiadmin/layui/images/icon-dele.png") no-repeat;width: 10px;
+.remove{background: url("/layuiadmin/layui/images/icon-dele.png") no-repeat;width: 10px;
     height: 10px;}
 /*第六块*/
 .layui-col-md4 .layui-box{margin-bottom: 10px;}
@@ -178,15 +179,13 @@ background: url("/layuiadmin/layui/images/icon-leader-aw.png") right no-repeat;
 /**/
 .layui-card-ul{background: #f7f7f7;border-radius: 6px}
 .layui-tab-item{display: block;}
-.workNews .layui-tab-item{display: none;padding: 12px 15px;height: 287px;box-sizing: border-box;}
+.workNews .layui-tab-item{display: none;padding: 5px 0px;height: 287px;box-sizing: border-box;}
 .workNews .layui-card-body{ padding:20px 10px;}
 .workNews .layui-tab-card{box-shadow: none;}
 .workNews .layui-tab-title .layui-this:after{height: 38px;border: none;}
-.workNews .layui-tab-content{border: 1px solid #d6d6d6;border-top: 0;border-radius: 0 0 3px 3px;}
 .workNews .layui-tab-title li:nth-child(1){margin-left: 0;}
-.workNews .layui-tab-title li {border: 1px solid #d6d6d6;border-bottom: 0;background: #fafafa;
-    margin: 0 4px;height: 34px;border-radius: 3px 3px 0 0;line-height: 34px;color: #666666;font-size: 14px;}
-.workNews .layui-tab-title li.layui-this{background: white;height: 36px;line-height: 35px;color: #1791ff;}
+.workNews .layui-tab-title li {margin: 2px 4px 0;height: 34px;line-height: 34px;color: #666666;font-size: 14px;}
+.workNews .layui-tab-title li.layui-this{color: #fff;background: #53acff;border-radius: 4px;}
 .workNews .layui-tab-content{height: auto;}
 .workNews .layui-tab{position: relative;}
 .workNews .layui-tab-content .layui-tab-item>a{position: absolute;font-size: 12px;top: 8px;right: 0;}
