@@ -32,7 +32,7 @@
     </div>
     <div class="cycle-c">
         <#if sciList?exists> <#list sciList as sci>
-        <div class="cycle-cont">
+        <div class="cycle-cont" id="${sci.XMID}">
             <div class="cycle-item">
                 <div class="cycle-cont-left">
                     <p>${sci.FZDW}</p>
@@ -42,12 +42,14 @@
                 <!--灰色-->
                 <div class="cycle-cont-right">
                     <p>项目计划<span></span></p>
-                    <p>${sci.ND}-${sci.ZYLB}</p>
+                    <p>计划年度：${sci.ND}</p>
+                    <p class="cycle-mey">专业类别：${sci.ZYLB}</p>
                 </div>
                 <#if sci.contractFlag?? && sci.contractFlag != "">
                 	<div class="cycle-cont-right">
 	                	<p>项目启动<span></span></p>
-	                    <p>开始日期：${sci.kssj}---总金额：${sci.jf}万元</p>
+	                    <p>启动日期：${sci.kssj}</p>
+                        <p class="cycle-mey">总金额：${sci.jf}万元</p>
 	                </div>
 	                <#else>
 	                <div class="cycle-cont-midd">
@@ -111,24 +113,22 @@
             }
         });
         $(".cycle-c").css("height",parent.$("#LAY_app_body").height()-155+"px");
-        $(".cycle-cont-right a").click(function () {
+        $(".cycle-cont-right").click(function () {
+            //当前id
+            var id=$(this).parents(".cycle-cont").attr("id");
             layer.open({
                 title:'项目进展详情'
                 ,skin: 'layui-layer-lan'
-                ,shadeClose: true
+                ,shadeClose: false
                 ,type: 2
                 ,id:"cycle"
                 ,fixed: false
                 //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                ,maxmin: false
+                ,maxmin: true
                 //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                ,area: ['80%', '80%'],
-                content: "projectCycleOpen.html",
+                ,area: ['70%', '90%'],
+                content: "/whole-process/science/details",
                 success: function (layero, index) {
-                    // 获取子页面的iframe
-                    //var iframe = window['layui-layer-iframe' + index];
-                    // 向子页面的全局函数child传参
-                    //iframe.showData("");
                     var iframe = window['layui-layer-iframe' + index];
                     var iframeH=$(layero).find("iframe");
                     $(iframeH).contents().find(".cycle-img").css("height",$(iframe).height()+"px");
