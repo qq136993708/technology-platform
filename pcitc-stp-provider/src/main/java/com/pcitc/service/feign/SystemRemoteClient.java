@@ -50,7 +50,7 @@ public interface SystemRemoteClient {
 	 * @return
 	 * @throws Exception
 	 */
-    @RequestMapping(value = "/out-project-plna-provider/project-plan/page/list", method = RequestMethod.POST)
+    @RequestMapping(value = "/out-project-plan-provider/project-plan/page/list", method = RequestMethod.POST)
 	public LayuiTableData selectProjectPlanByCond(@RequestBody LayuiTableParam param);
     /**
      * 获取项目实际完成金额数据

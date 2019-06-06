@@ -30,21 +30,21 @@ public class OutProjectPlanClient {
 	private final static Logger logger = LoggerFactory.getLogger(OutProjectPlanClient.class);
 	
 	@ApiOperation(value = "全生命周期查询，计划为起点", notes = "不包含国家项目、十条龙项目等特殊项目，只保护装备、科研")
-	@RequestMapping(value = "/out-project-plna-provider/project-plan/cycle", method = RequestMethod.POST)
+	@RequestMapping(value = "/out-project-plan-provider/project-plan/cycle", method = RequestMethod.POST)
 	public LayuiTableData selectProjectCycleByCondition(@RequestBody LayuiTableParam param) throws Exception {
 		logger.info("==================page selectProjectCycleByCondition===========================" + param);
 		return outProjectPlanService.selectProjectCycleByCondition(param);
 	}
 	
 	@ApiOperation(value = "分页显示项目计划数据", notes = "分页显示项目计划数据")
-	@RequestMapping(value = "/out-project-plna-provider/project-plan/page/list", method = RequestMethod.POST)
+	@RequestMapping(value = "/out-project-plan-provider/project-plan/page/list", method = RequestMethod.POST)
 	public LayuiTableData selectProjectPlanByCond(@RequestBody LayuiTableParam param) throws Exception {
 		logger.info("==================page selectProjectPlanByCond===========================" + param);
 		return outProjectPlanService.selectProjectPlanByCond(param);
 	}
 
 	@ApiOperation(value = "直属研究院二级页面（领导），项目计划完成的比率，按照新开续建、资本性费用性来分组 ", notes = "参数年度")
-	@RequestMapping(value = "/out-project-plna-provider/complete-rate/old-new")
+	@RequestMapping(value = "/out-project-plan-provider/complete-rate/old-new")
 	public JSONArray getPlanCompleteRateByOldNew(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanCompleteRateByOldNew===========================" + map);
 		map.put("nd", "2018");
@@ -55,7 +55,7 @@ public class OutProjectPlanClient {
 	}
 	
 	@ApiOperation(value = "直属研究院二级页面（领导），总的签订率 ", notes = "参数年度")
-	@RequestMapping(value = "/out-project-plna-provider/complete-rate/total")
+	@RequestMapping(value = "/out-project-plan-provider/complete-rate/total")
 	public JSONArray getPlanTotalCompleteRate(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanTotalCompleteRate===========================" + map);
 		map.put("nd", "2018");
@@ -66,7 +66,7 @@ public class OutProjectPlanClient {
 	}
 	
 	@ApiOperation(value = "直属研究院二级页面（领导），各个院的合同签订率", notes = "参数年度")
-	@RequestMapping(value = "/out-project-plna-provider/complete-rate/institute")
+	@RequestMapping(value = "/out-project-plan-provider/complete-rate/institute")
 	public JSONArray getPlanCompleteRateByInstitute(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanCompleteRateByInstitute===========================" + map);
 		map.put("nd", "2018");
@@ -182,7 +182,7 @@ public class OutProjectPlanClient {
 	}
 	
 	@ApiOperation(value = "直属研究院二级页面（领导），各个院的合同签订率", notes = "参数年度")
-	@RequestMapping(value = "/out-project-plna-provider/money/complete-rate/institute")
+	@RequestMapping(value = "/out-project-plan-provider/money/complete-rate/institute")
 	public JSONArray getPlanMoneyCompleteRateByInstitute(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanMoneyCompleteRateByInstitute===========================" + map);
 		map.put("nd", "2018");
@@ -193,7 +193,7 @@ public class OutProjectPlanClient {
 	}
 	
 	@ApiOperation(value = "首页-直属研究院，项目计划完成的比率，按照资本性费用性来分组 ", notes = "参数年度")
-	@RequestMapping(value = "/out-project-plna-provider/complete-rate/money-type")
+	@RequestMapping(value = "/out-project-plan-provider/complete-rate/money-type")
 	public JSONArray getPlanCompleteRateByPlanType(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanCompleteRateByPlanType===========================" + map);
 		map.put("nd", "2018");
@@ -204,7 +204,7 @@ public class OutProjectPlanClient {
 	}
 	
 	@ApiOperation(value = "领导首页-科研合同，项目计划完成的比率，按照直属研究所、分子公司等9个来分组", notes = "参数年度")
-	@RequestMapping(value = "/out-project-plna-provider/complete-rate/company-type")
+	@RequestMapping(value = "/out-project-plan-provider/complete-rate/company-type")
 	public JSONArray getPlanCompleteRateByCompanyType(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanCompleteRateByCompanyType===========================" + map);
 		map.put("nd", "2018");
@@ -297,7 +297,7 @@ public class OutProjectPlanClient {
 	}
 	
 	@ApiOperation(value = "领导首页-科研合同，项目计划完成的比率，按照直属研究所、分子公司等9个来分组", notes = "参数年度")
-	@RequestMapping(value = "/out-project-plna-provider/money/complete-rate/company-type")
+	@RequestMapping(value = "/out-project-plan-provider/money/complete-rate/company-type")
 	public JSONArray getPlanMoneyCompleteRateByCompanyType(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanMoneyCompleteRateByCompanyType===========================" + map);
 		map.put("nd", "2018");
@@ -308,7 +308,7 @@ public class OutProjectPlanClient {
 	}
 	
 	@ApiOperation(value = "领导首页--科研投入--各个处室的新开结转情况", notes = "参数年度")
-	@RequestMapping(value = "/out-project-plna-provider/plan-money/department")
+	@RequestMapping(value = "/out-project-plan-provider/plan-money/department")
 	public JSONArray getPlanMoneyByDepartment(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanMoneyByDepartment===========================" + map);
 		map.put("nd", "2018");
@@ -319,7 +319,7 @@ public class OutProjectPlanClient {
 	}
 	
 	@ApiOperation(value = "领导首页-科研合同，科研合同签订率清单", notes = "参数年度")
-	@RequestMapping(value = "/out-project-plna-provider/contract-rate/details")
+	@RequestMapping(value = "/out-project-plan-provider/contract-rate/details")
 	public JSONArray getPlanCompleteRateDetails(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanCompleteRateDetails===========================" + map);
 		map.put("nd", "2018");

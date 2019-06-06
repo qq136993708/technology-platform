@@ -14,9 +14,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,7 +23,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -67,12 +64,12 @@ public class OneLevelMainController extends BaseController{
 	private static final String	knowledge_pie				= "http://pcitc-zuul/system-proxy/out-patent-provider/company-type/apply-agree";
 
 	// 合同
-	private static final String	contract_01					= "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/total";
-	private static final String	contract_01_01				= "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/money-type";
-	private static final String	contract_02					= "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/company-type";
-	private static final String	contract_03					= "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/institute";
+	private static final String	contract_01					= "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/total";
+	private static final String	contract_01_01				= "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/money-type";
+	private static final String	contract_02					= "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/company-type";
+	private static final String	contract_03					= "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/institute";
 	private static final String	contract_04					= "http://pcitc-zuul/system-proxy/out-project-provider/project-money/institute";
-	private static final String	contract_05					= "http://pcitc-zuul/system-proxy/out-project-plna-provider/contract-rate/details";
+	private static final String	contract_05					= "http://pcitc-zuul/system-proxy/out-project-plan-provider/contract-rate/details";
 	private static final String	contract_dic				= "http://pcitc-zuul/system-proxy/out-project-provider/select-condition/list";
 
 	// 科技成果
@@ -98,15 +95,15 @@ public class OneLevelMainController extends BaseController{
 	private static final String	dragon_search_con			= "http://pcitc-zuul/system-proxy/out-project-provider/dragon/select-condition/list";
 
 	// 科研投入
-	private static final String	investment_01				= "http://pcitc-zuul/system-proxy/out-project-plna-provider/money/complete-rate/company-type";
-	private static final String	investment_02				= "http://pcitc-zuul/system-proxy/out-project-plna-provider/money/complete-rate/institute";
+	private static final String	investment_01				= "http://pcitc-zuul/system-proxy/out-project-plan-provider/money/complete-rate/company-type";
+	private static final String	investment_02				= "http://pcitc-zuul/system-proxy/out-project-plan-provider/money/complete-rate/institute";
 	private static final String	investment_first_page_count	= "http://pcitc-zuul/system-proxy/out-provider/project-money";
 	private static final String	contract_count				= "http://pcitc-zuul/system-proxy/out-provider/project-count";
-	private static final String	investment_03				= "http://pcitc-zuul/system-proxy/out-project-plna-provider/plan-money/department";
+	private static final String	investment_03				= "http://pcitc-zuul/system-proxy/out-project-plan-provider/plan-money/department";
 
 	// 新闻
 	private static final String	get_news					= "http://pcitc-zuul/stp-proxy/news-provider/select_news_main";
-	private static final String	common_table				= "http://pcitc-zuul/system-proxy/out-project-plna-provider/project-plan/page/list";
+	private static final String	common_table				= "http://pcitc-zuul/system-proxy/out-project-plan-provider/project-plan/page/list";
 	private static final String	count_table_data			= "http://pcitc-zuul/system-proxy/out-project-provider/common-project/list";
 
 	private static final String	country_table_data			= "http://pcitc-zuul/system-proxy/out-project-provider/country-project/list";
