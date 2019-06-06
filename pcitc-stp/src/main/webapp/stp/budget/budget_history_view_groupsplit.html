@@ -66,7 +66,7 @@
             var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
             publicMethods.ajaxPost("/budget/search-groupsplit-final-history-list",null, function (data) {
             	$.each(data,function(index,dt){
-            		console.log(data[index]);
+            		//console.log(data[index]);
             		//计算合计
             		/* $.each(dt.items,function(index,d){
             			dt.total = parseInt(dt.xmjf)+parseInt(dt.zxjf);
