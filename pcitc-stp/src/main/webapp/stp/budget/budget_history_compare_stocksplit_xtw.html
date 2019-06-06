@@ -96,11 +96,13 @@
             //加载预算项
             publicMethods.ajaxAsyncPost("/budget/get-stocksplit-xtw-item",{"organCode":organCode,"budgetInfoId":budgetInfoId}, function (data) {
             	$(".nd").html(data.nd);
-            	groupTotalInfo = data;
-            	viewObj.itemData.push(groupTotalInfo);
+            	viewObj.itemData.push(data);
     			table.reload('itemTable',{
                     data:viewObj.itemData
                 });
+       		});
+            publicMethods.ajaxAsyncPost("/budget/budget-info-get",{"dataId":budgetInfoId}, function (data) {
+            	groupTotalInfo = data;
        		});
           	//加载历史
             publicMethods.ajaxAsyncPost("/budget/get-stocksplit-xtw-history-items",{"organCode":organCode,"nd":nd}, function (historydata) {
@@ -140,13 +142,13 @@
             });
             var $ = layui.$, active = {
            		saveEvent: function () {
-           			publicMethods.ajaxPost('/budget/save-stocksplit-xtw-item', {"item":JSON.stringify(viewObj.itemData[0])}, function (data, status) {
+           			publicMethods.ajaxAsyncPost('/budget/save-stocksplit-xtw-item', {"item":JSON.stringify(viewObj.itemData[0])}, function (data, status) {
        	                if (data.success) {
        	                	parent.initDataVersion("${budgetInfoId}");
        	                	var index = parent.layer.getFrameIndex(window.name);
         			       	parent.layer.close(index);
        	                }else{
-       	                	parent.layer.alert("操作失败请重试", {
+       	                	parent.layer.alert(data.message, {
        							title : '信息'
        						});
        						return;
