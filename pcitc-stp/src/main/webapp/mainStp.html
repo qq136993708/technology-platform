@@ -149,7 +149,19 @@
                         </p>
                         <p class="stay-doz-i"><img src="/layuiadmin/layui/images/stay-i.png"/> </p>
                         <div>
-                            <ul id="wait_work_id_list"></ul>
+                            <ul id="wait_work_id_list">
+                            
+                                <!-- <li><span class="date">04/01</span><span class="time">09：00</span><span class="content">项目组组建</span></li>
+                                <li><span class="date">03/28</span>
+                                    <span class="time">09：00</span>
+                                    <span class="content">组内工作安排</span></li>
+                                <li><span class="date">03/26</span>
+                                    <span class="time">09：00</span>
+                                    <span class="content">复查工作进度</span></li>
+                                <li><span class="date">03/26</span>
+                                    <span class="time">09：00</span>
+                                    <span class="content">复查工作进度</span></li> -->
+                            </ul>
                             <a lay-href="/task/pending/list/ini" lay-text="我的待办">更多... ...</a>
                         </div>
                     </div>
@@ -210,7 +222,7 @@
                 <div class="layui-card-body btn-function">
                     <div class="layui-col-md5 arrange">
                         <div class="arrange-title">
-                            <span>我发起的工作任务</span>
+                            <span>工作安排追踪</span>
                             <button class="layui-btn layui-btn-sm"
                                     data-type="handleEvent" onclick="addPlan()">新增</button>
                             <a href="javascript:parent.layui.index.openTabsPage('/plan/pagePlanList', '任务管理');">更多></a>
@@ -219,7 +231,7 @@
                             <thead>
                             <tr>
                                 <th></th>
-                                <th>当前处理人</th>
+                                <th>工作受理人</th>
                                 <th>安排时间</th>
                                 <th>工作内容</th>
                                 <th>完成进度(%)</th>
@@ -288,14 +300,14 @@
                     <div class="layui-col-md5">
                         <div class="accept">
                             <div class="accept-title">
-                                <span>我的工作任务</span>
+                                <span>工作受理列表</span>
                                 <a href="javascript:parent.layui.index.openTabsPage('/plan/my/goBotWorkOrderListPage', '我的任务');">更多></a>
                             </div>
                             <table class="layui-table">
                                 <thead>
                                 <tr>
                                     <th></th>
-                                    <th>当前处理人</th>
+                                    <th>工作受理人</th>
                                     <th>安排时间</th>
                                     <th>工作内容</th>
                                     <th>完成进度</th>
@@ -386,21 +398,21 @@
                         </ul>
                         <div class="layui-tab-content">
                             <div class="layui-tab-item layui-show">
-                                <a lay-href="" lay-text="科研项目">更多></a>
+                                <a lay-href="" lay-text="科研项目"><!-- 更多> --></a>
                                 <div class="lan">
-                                    <table class="layui-table">
+                                    <table class="layui-table" id="news-workdynamics-list-table">
                                         <tbody>
                                             <tr>
-                                                <td style="width: 4px;">1</td>
-                                                <td>张三</td>
-                                                <td>2019-03-28</td>
+                                                <td style="width: 10px;">1</td>
+                                                <!-- <td>张三</td> -->
                                                 <td>处理集团所有预算统计</td>
+                                                <td>2019-03-28</td>
                                             </tr>
                                             <tr>
-                                                <td style="width: 4px;">1</td>
-                                                <td>张三</td>
-                                                <td>2019-03-28</td>
+                                                <td style="width: 10px;">1</td>
+                                               	<!--  <td>张三</td> -->
                                                 <td>处理集团所有预算统计</td>
+                                                <td>2019-03-28</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -485,23 +497,29 @@
                 <div class="layui-card-body">
                     <div class="layui-tab">
                         <ul class="layui-tab-title">
-                            <li class="layui-this" >最新讲话</li>
-                            <li>集团领导讲话</li>
+                            <li class="layui-this">国家领导讲话</li>
                             <li>国家领导讲话</li>
                             <li>科技部领导讲话</li>
                         </ul>
                         <div class="layui-tab-content">
                             <div class="layui-tab-item layui-show">
-                                <ul id="ROOT_XTGL_XWLX_ZXJH"></ul>
+                                <ul>
+                                    <li><a href="javascript:;">让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子<span>[2019-01-03]</span></a></li>
+                                    <li><a href="javascript:;">让各族群众过上好日子<span>[2019-01-03]</span></a></li>
+                                    <li><a href="javascript:;">让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子<span>[2019-01-03]</span></a></li>
+                                    <li><a href="javascript:;">让各族群众过上好日子<span>[2019-01-03]</span></a></li>
+                                    <li><a href="javascript:;">让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子<span>[2019-01-03]</span></a></li>
+                                    <li><a href="javascript:;">让各族群众过上好日子<span>[2019-01-03]</span></a></li>
+                                    <li><a href="javascript:;">让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子<span>[2019-01-03]</span></a></li>
+                                    <li><a href="javascript:;">让各族群众过上好日子<span>[2019-01-03]</span></a></li>
+                                    <li><a href="javascript:;">让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子<span>[2019-01-03]</span></a></li>
+                                </ul>
                             </div>
                             <div class="layui-tab-item">
-                              <ul id="ROOT_XTGL_XWLX_JTLDJH"></ul>
+
                             </div>
                             <div class="layui-tab-item">
-                                  <ul id="ROOT_XTGL_XWLX_GJLDJH"></ul>
-                            </div>
-                            <div class="layui-tab-item">
-                               <ul id="ROOT_XTGL_XWLX_KJBLDJH"></ul>
+
                             </div>
                         </div>
                     </div>
@@ -651,47 +669,20 @@
             var nd = $("#nd").val();
             var element ;
             var layer;
-            var publicMethods;
             layui.config({
                 base : '../layuiadmin/' //静态资源所在路径
             }).extend({
                 index : 'lib/index' //主入口模块
-            }).use(['index','jquery', 'table', 'layer', 'laydate','element', 'publicMethods'], function () {
+            }).use(['index','jquery', 'table', 'layer', 'laydate','element',"publicMethods"], function () {
                 var $ = layui.jquery;
                 table = layui.table;
                 layer = layui.layer;
                 element = layui.element;
                 laydate = layui.laydate;
-                publicMethods = layui.publicMethods;
+                publicMethods=layui.publicMethods;
+                /*新开页面*/
                 
-   /**-----------------------------------------------新闻 begin -------------------------------------------------------*/
-                 
-                 var stype = "ROOT_XTGL_XWLX_KJBLDJH|ROOT_XTGL_XWLX_JTLDJH|ROOT_XTGL_XWLX_GJLDJH|ROOT_XTGL_XWLX_ZXJH|ROOT_XTGL_SPLX_PT";
-	            publicMethods.ajaxPost("/sysNews/getNewsIndexType", {"stype": stype, "bak3": 8}, function (data) {
-	                var ROOT_XTGL_XWLX_KJBLDJH = "";//科技部领导讲话
-	                var ROOT_XTGL_XWLX_JTLDJH = "";//集团领导讲话
-	                var ROOT_XTGL_XWLX_GJLDJH = "";//国家领导讲话
-	                var ROOT_XTGL_XWLX_ZXJH = "";//最新讲话
-	                for (var i = data.length-1; i >0 ; i--) {
-	                    var d = data[i];
-	                    if (d.stype == "ROOT_XTGL_XWLX_KJBLDJH") {
-	                        ROOT_XTGL_XWLX_KJBLDJH = ROOT_XTGL_XWLX_KJBLDJH + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
-	                    } else if (d.stype == "ROOT_XTGL_XWLX_JTLDJH") {
-	                        ROOT_XTGL_XWLX_JTLDJH = ROOT_XTGL_XWLX_JTLDJH + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
-	                    } else if (d.stype == "ROOT_XTGL_XWLX_GJLDJH") {
-	                        ROOT_XTGL_XWLX_GJLDJH = ROOT_XTGL_XWLX_GJLDJH + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
-	                    } else if (d.stype == "ROOT_XTGL_XWLX_ZXJH") {
-	                        ROOT_XTGL_XWLX_ZXJH = ROOT_XTGL_XWLX_ZXJH + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
-	                    }
-	
-	                }
-	                $("#ROOT_XTGL_XWLX_KJBLDJH").html(ROOT_XTGL_XWLX_KJBLDJH);
-	                $("#ROOT_XTGL_XWLX_JTLDJH").html(ROOT_XTGL_XWLX_JTLDJH);
-	                $("#ROOT_XTGL_XWLX_GJLDJH").html(ROOT_XTGL_XWLX_GJLDJH);
-	                $("#ROOT_XTGL_XWLX_ZXJH").html(ROOT_XTGL_XWLX_ZXJH);
-	            }); 
-  /**-----------------------------------------------------------新闻 end ------------------------------------------------------------------*/
-	            /*新开页面*/
+                
                 $("#actualPay").on("click", function () {
                 	 parent.layui.index.openTabsPage("/direct/actualPay?isdisplay=1", "经费支出");
                 });
@@ -718,6 +709,17 @@
                 $("#equipment").on("click", function () {
                 	 parent.layui.index.openTabsPage("/home_device_02/home_device", "科研装备");
                });
+               
+                //新闻
+                publicMethods.ajaxAsyncPost('/out/news-workdynamics-list', null, function (data, status) {
+             		var content = "";
+                	$.each(data,function(index,dt){
+                		if(index < 8){
+                			content += '<tr><td style="width: 10px;">'+(index+1)+'</td><td>'+dt.xxbt+'</td><td>'+dt.fbsj.substring(0,10)+'</td></tr>';
+                		}
+             		})
+             		$("#news-workdynamics-list-table tbody").html(content);
+                });
                 
 
                 var md4Height = $(".layui-col-md4").height() - 2;

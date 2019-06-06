@@ -644,8 +644,8 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .cycle-search .btn_reset{background: #f3f3f3;margin-left: 20px;}
 .cycle-title .layui-input, .layui-select{height: 32px;line-height: 32px;border: 1px solid #999999;
     font-size: 14px;border-radius: 3px;padding-left: 8px;}
-.cycle-c{margin-top: 12px; background: #fff;border-radius: 3px;border: 1px solid #dfdfdf;}
-.cycle-cont{overflow-y: scroll;margin: 10px;}
+.cycle-c{margin-top: 12px; background: #fff;border-radius: 3px;border: 1px solid #dfdfdf;overflow-y: scroll;}
+.cycle-cont{margin: 10px;}
 .cycle-item{width: 99%;border: 1px solid #eaeaea;background-color: #f6f9fb;height: 83px;margin-bottom: 10px;}
 .cycle-cont-left{width: 14%;float: left;margin: 10px 0;text-align: center;}
 .cycle-cont-midd,.cycle-cont-right{width: 43%;float: left;padding-top: 30px;box-sizing: border-box;padding-right: 10px;
