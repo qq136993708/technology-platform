@@ -23,7 +23,7 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 @MapperScan(basePackages = { "com.pcitc.mapper" })
 @EnableFeignClients
 @ServletComponentScan(basePackages={"com.pcitc.monitor"})
-public class StpProviderApplication 
+public class StpProviderApplication
 {
     public static void main(String[] args) 
     {

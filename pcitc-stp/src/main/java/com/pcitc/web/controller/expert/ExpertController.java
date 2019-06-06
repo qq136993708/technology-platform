@@ -548,6 +548,7 @@ public class ExpertController extends BaseController {
         FileResult body = responseEntityFiles.getBody();
 
         object.put("files", JSONArray.toJSONString(body.getList()));
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVECHOICE_BAT, HttpMethod.POST, new HttpEntity<JSONObject>(object, this.httpHeaders), Integer.class);
         Integer result = responseEntity.getBody();

@@ -508,12 +508,14 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
 //                m.setToAddress(new String[]{"635447170@qq.com"});
                 m.setToAddress(new String[]{obj.getBak3()});
                 String content = emailTemplate.getContent();
-                content =content.replace("${name}",obj.getBak2());
-                content =content.replace("${date}",obj.getBak4());
-                content =content.replace("${project}",obj.getXmName());
-                content =content.replace("${mobile}",obj.getBak5());
+                    content =content.replace("${name}",StrUtil.isBlank(obj.getBak2())?"":obj.getBak2());
+                    content =content.replace("${date}",StrUtil.isBlank(obj.getBak4())?"":obj.getBak4());
+                    content =content.replace("${project}",StrUtil.isBlank(obj.getXmName())?"":obj.getXmName());
+                    content =content.replace("${mobile}",StrUtil.isBlank(obj.getBak5())?"&nbsp;":obj.getBak5());
+//                System.out.println("-----------");
+//                System.out.println(content);
                 m.setContent(content);
-                m.setSubject("项目评审邀请");
+                m.setSubject(emailTemplate.getTitle());
                 int leng = files.size();
                 String[] names = new String[leng];
                 String[] urls = new String[leng];
@@ -521,9 +523,11 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
                     names[k] = files.get(k).getFileName();
                     urls[k] = files.get(k).getFilePath();
                 }
-                m.setAttachFileUrls(urls);
-                m.setAttachFileNames(names);
-               mailSentService.sendMailFileInputStream(m);
+                if(names.length>0){
+                    m.setAttachFileUrls(urls);
+                    m.setAttachFileNames(names);
+                }
+                mailSentService.sendMailFileInputStream(m);
             }
         } catch (Exception e) {
             e.printStackTrace();

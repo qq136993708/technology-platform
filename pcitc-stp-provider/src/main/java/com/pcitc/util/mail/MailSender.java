@@ -91,6 +91,7 @@ public class MailSender {
         try {
             // 根据session创建一个邮件消息
             Message mailMessage = new MimeMessage(sendMailSession);
+//            mailMessage.addHeader("X-Mailer","Microsoft Outlook Express 6.00.2900.2869");
             // 创建邮件发送者地址
             Address from = new InternetAddress(Info.getFromAddress(), Info.getSenderDisplay());
             // 设置邮件消息的发送者
@@ -178,6 +179,7 @@ public class MailSender {
         try {
             // 根据session创建一个邮件消息
             Message mailMessage = new MimeMessage(sendMailSession);
+//            mailMessage.addHeader("X-Mailer","Microsoft Outlook Express 6.00.2900.2869");
             // 创建邮件发送者地址
             Address from = new InternetAddress(Info.getFromAddress(), Info.getSenderDisplay());
             // 设置邮件消息的发送者
