@@ -1591,31 +1591,34 @@
 	
 	<!-- 全生命周期查询，计划为起点 -->
 	<select id="selectProjectCycleByCondition" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-		select tableA.*,expenses_bills_pay.suppName as payFlag from (
-			select out_project_plan.XMMC,out_project_plan.XMID,out_project_plan.ND,out_project_plan.FWDX,out_project_plan.XMLBMC,out_project_plan.ZYLB,
-				   out_project_plan.FZDW,out_project_plan.FZRXM,out_project_plan.YJSJ,out_project_plan.HTH,out_project_info.xmid as contractFlag
-			from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid 
-																 and out_project_info.PROJECT_TYPE != '1'
-																 and out_project_info.define3 = '项目管理系统')	              
-			WHERE
-				   out_project_plan.PROJECT_TYPE != '1'
-				   and out_project_plan.define4 = '项目管理系统'
-			group by out_project_plan.XMID
-			<if test="orderKey != null and orderKey != ''">
-				<if test="orderType != null and orderType != ''">
-					order by ${orderKey} ${orderType}
+		select tableB.*, expenses_pay_hana.G0AUGDT from (
+			select tableA.*,expenses_bills_pay.billCode,expenses_bills_pay.payAmount from (
+				select out_project_plan.XMMC,out_project_plan.XMID,out_project_plan.ND,out_project_plan.FWDX,out_project_plan.XMLBMC,out_project_plan.ZYLB,
+					   out_project_plan.FZDW,out_project_plan.FZRXM,out_project_plan.YJSJ,out_project_plan.HTH,
+					   out_project_info.xmid as contractFlag,out_project_info.kssj,out_project_info.jf
+				from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid 
+																	 and out_project_info.PROJECT_TYPE != '1'
+																	 and out_project_info.define3 = '项目管理系统')	              
+				WHERE
+					   out_project_plan.PROJECT_TYPE != '1'
+					   and out_project_plan.define4 = '项目管理系统'
+				group by out_project_plan.XMID
+				<if test="orderKey != null and orderKey != ''">
+					<if test="orderType != null and orderType != ''">
+						order by ${orderKey} ${orderType}
+					</if>
+					<if test="orderType == null or orderType == ''">
+						order by ${orderKey} desc
+					</if>
 				</if>
-				<if test="orderType == null or orderType == ''">
-					order by ${orderKey} desc
+				<if test="orderKey == null">
+					order by out_project_plan.hth desc, out_project_plan.define10
 				</if>
-			</if>
-			<if test="orderKey == null">
-				order by out_project_plan.hth desc, out_project_plan.define10
-			</if>
-		) as tableA left join expenses_bills_pay on (tableA.HTH = expenses_bills_pay.bak1 
-		                                             and expenses_bills_pay.bak1 is not null
-													 and tableA.HTH is not null)
-		group by tableA.XMID
+			) as tableA left join expenses_bills_pay on (tableA.HTH = expenses_bills_pay.bak1 
+			                                             and expenses_bills_pay.bak1 is not null
+														 and tableA.HTH is not null)
+			group by tableA.XMID) as tableB left join expenses_pay_hana on (tableB.billCode = expenses_pay_hana.G0ZECSID AND tableB.billCode IS NOT NULL)
+		GROUP BY tableB.XMID
 		
 			
 	</select>
