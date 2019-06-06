@@ -63,7 +63,7 @@
             <div class="layui-card-body">
                 <div class="layui-tab">
                     <ul class="layui-tab-title">
-                        <li class="layui-this">技术<span id="indexOutProjectInfoTableTfcCount" style="color: red"></span></li>
+                        <!--<li class="layui-this">技术<span id="indexOutProjectInfoTableTfcCount" style="color: red"></span></li>-->
                         <li>项目<span id="indexOutProjectInfoTableIdCount" style="color: red"></span></li>
                         <li>成果<span id="indexOutAppraisalTableIdCount" style="color: red"></span></li>
                         <li>专利<span id="indexOutPatentTableIdCount" style="color: red"></span></li>
@@ -71,7 +71,7 @@
                         <li class="layui-hide">费用</li>
                     </ul>
 
-                    <div class="layui-tab-content">
+                    <div class="layui-tab-content hide">
                         <div class="layui-tab-item  layui-show">
                             <div class="lan">
                                 <table id="indexOutProjectInfoTableTfc" class="layui-hide" lay-filter="tableEvent"></table>
@@ -109,7 +109,7 @@
     <!--右侧-->
     <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
 </div>
-<div id="container" style="height: 500px;width: 98%"></div>
+<div id="container" style="height: 500px;width: 98%;display: none"></div>
 <script>
     //初始化技术项
     var tfcCode = "${typeIndex}";
