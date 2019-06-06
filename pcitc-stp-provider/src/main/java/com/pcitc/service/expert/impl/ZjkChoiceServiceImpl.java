@@ -134,7 +134,7 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
 
     @Override
     public int insert(ZjkChoice record) {
-        if(record.getId()==null){
+        if (record.getId() == null) {
             record.setId(IdUtil.createIdByTime());
         }
         return zjkChoiceMapper.insert(record);
@@ -217,7 +217,7 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
 
         Object xmName = param.getParam().get("xmName");
         if (!StrUtil.isObjectEmpty(xmName)) {
-            c.andXmNameLike("%"+xmName.toString()+"%");
+            c.andXmNameLike("%" + xmName.toString() + "%");
         }
         Object bak1 = param.getParam().get("bak1");
         if (!StrUtil.isObjectEmpty(bak1)) {
@@ -349,20 +349,20 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         }
         //抽取次数
         String expertCount = zjkExtractConfigInfo.getExpertCount();
-        if (!"0".equals(expertCount)){
+        if (!"0".equals(expertCount)) {
             ZjkMsgExample zjkMsgExample = new ZjkMsgExample();
             ZjkMsgExample.Criteria criteria = zjkMsgExample.createCriteria();
             criteria.andIsCompleteEqualTo("ROOT_UNIVERSAL_WEHTHER_YES");
-            criteria.andStatusEqualTo(DateUtil.dateToStr(new Date(),DateUtil.FMT_YYYY));
+            criteria.andStatusEqualTo(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
             List<ZjkMsg> zjkMsgs = zjkMsgService.selectByExample(zjkMsgExample);
             Map<String, Long> collect = zjkMsgs.stream().collect(Collectors.groupingBy(ZjkMsg::getZjkId, Collectors.counting()));
             List<String> expertStrings = new ArrayList<>();
-            for (Map.Entry<String,Long> entry:collect.entrySet()){
-                if (entry.getValue()>Long.valueOf(expertCount)){
+            for (Map.Entry<String, Long> entry : collect.entrySet()) {
+                if (entry.getValue() > Long.valueOf(expertCount)) {
                     expertStrings.add(entry.getKey());
                 }
             }
-            if (expertStrings.size()>0){
+            if (expertStrings.size() > 0) {
                 c.andDataIdNotIn(expertStrings);
             }
         }
@@ -373,7 +373,7 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         }
         //规避本院
         String companyAvoid = zjkExtractConfigInfo.getCompanyAvoid();
-        if ("ROOT_UNIVERSAL_WEHTHER_YES".equals(companyAvoid)){
+        if ("ROOT_UNIVERSAL_WEHTHER_YES".equals(companyAvoid)) {
             c.andCompanyNotEqualTo(unitId);
         }
         //抽取人数不够的时候,给出提示,人数要凑够
@@ -441,7 +441,6 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         return data;
     }
 
-
     @Autowired
     private EmailTemplateService emailTemplateService;
 
@@ -494,8 +493,8 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
             msg.setCompleteType(type);
             msg.setZjkId(zjkChoice.get(i).getZjId());
             msg.setZjkName(zjkChoice.get(i).getBak2());
-            msg.setStatus(DateUtil.dateToStr(new Date(),DateUtil.FMT_YYYY));
-            msg.setCreateDate(DateUtil.dateToStr(new Date(),DateUtil.FMT_DD));
+            msg.setStatus(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+            msg.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_DD));
             zjkMsgService.insert(msg);
         }
         //发送消息
@@ -508,12 +507,10 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
 //                m.setToAddress(new String[]{"635447170@qq.com"});
                 m.setToAddress(new String[]{obj.getBak3()});
                 String content = emailTemplate.getContent();
-                    content =content.replace("${name}",StrUtil.isBlank(obj.getBak2())?"":obj.getBak2());
-                    content =content.replace("${date}",StrUtil.isBlank(obj.getBak4())?"":obj.getBak4());
-                    content =content.replace("${project}",StrUtil.isBlank(obj.getXmName())?"":obj.getXmName());
-                    content =content.replace("${mobile}",StrUtil.isBlank(obj.getBak5())?"&nbsp;":obj.getBak5());
-//                System.out.println("-----------");
-//                System.out.println(content);
+                content = content.replace("${name}", StrUtil.isBlank(obj.getBak2()) ? "" : obj.getBak2());
+                content = content.replace("${date}", StrUtil.isBlank(obj.getBak4()) ? "" : obj.getBak4());
+                content = content.replace("${project}", StrUtil.isBlank(obj.getXmName()) ? "" : obj.getXmName());
+                content = content.replace("${mobile}", StrUtil.isBlank(obj.getBak5()) ? "&nbsp;" : obj.getBak5());
                 m.setContent(content);
                 m.setSubject(emailTemplate.getTitle());
                 int leng = files.size();
@@ -523,7 +520,7 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
                     names[k] = files.get(k).getFileName();
                     urls[k] = files.get(k).getFilePath();
                 }
-                if(names.length>0){
+                if (names.length > 0) {
                     m.setAttachFileUrls(urls);
                     m.setAttachFileNames(names);
                 }
@@ -531,7 +528,7 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
 
         }
         //返回
