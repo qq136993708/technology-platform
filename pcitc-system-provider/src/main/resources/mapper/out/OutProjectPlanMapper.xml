@@ -1592,7 +1592,7 @@
 	<!-- 全生命周期查询，计划为起点 -->
 	<select id="selectProjectCycleByCondition" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 		select tableB.*, expenses_pay_hana.G0AUGDT from (
-			select tableA.*,expenses_bills_pay.billCode,expenses_bills_pay.payAmount from (
+			select tableA.*,expenses_bills_pay.billCode,sum(expenses_bills_pay.payAmount) as payAmount from (
 				select out_project_plan.XMMC,out_project_plan.XMID,out_project_plan.ND,out_project_plan.FWDX,out_project_plan.XMLBMC,out_project_plan.ZYLB,
 					   out_project_plan.FZDW,out_project_plan.FZRXM,out_project_plan.YJSJ,out_project_plan.HTH,
 					   out_project_info.xmid as contractFlag,out_project_info.kssj,out_project_info.jf
@@ -1602,6 +1602,9 @@
 				WHERE
 					   out_project_plan.PROJECT_TYPE != '1'
 					   and out_project_plan.define4 = '项目管理系统'
+					   <if test="startDate != null and startDate != ''.toString() ">
+					   	   and STRCMP(out_project_plan.KSSJ, ${orderKey}) > 0
+					   </if>
 				group by out_project_plan.XMID
 				<if test="orderKey != null and orderKey != ''">
 					<if test="orderType != null and orderType != ''">

@@ -63,7 +63,7 @@ public class ScientificFundsContrller extends BaseController {
 	private static final String xmzjlxfx_data = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/xmzjlxfx";
 	
 	
-	private static final String investment_02 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/money/complete-rate/institute";
+	private static final String investment_02 = "http://pcitc-zuul/system-proxy/out-project-plan-provider/money/complete-rate/institute";
 	
 	//人工成本支出统计表-详情
 	private static final String getRgcbzctjbData_detail = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/rgcbzctjb_detail";

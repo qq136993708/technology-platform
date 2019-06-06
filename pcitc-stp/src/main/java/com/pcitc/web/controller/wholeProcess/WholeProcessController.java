@@ -40,7 +40,8 @@ public class WholeProcessController extends BaseController {
 	private static final String TECH_TYPE_ADD = "http://pcitc-zuul/stp-proxy/tech-family-provider/type-insert";
 	private static final String TECH_TYPE_DELETE = "http://pcitc-zuul/stp-proxy/tech-family-provider/type-delete";
 	
-	private static final String SCIENCE_LIST = "http://pcitc-zuul/system-proxy/out-project-plna-provider/project-plan/cycle";
+	private static final String SCIENCE_LIST = "http://pcitc-zuul/system-proxy/out-project-plan-provider/project-plan/cycle";
+	private static final String SCIENCE_CYCLE_DETAILS = "http://pcitc-zuul/system-proxy/out-project-plan-provider/project-plan/cycle";
 
 	/**
 	 * 装备全流程可视化
@@ -98,12 +99,13 @@ public class WholeProcessController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/whole-process/science-project/ini")
-	public String iniScienceProjectWholeProcess(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/whole-process/science/details")
+	public String showScienceProcessDetails(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+		String xmid = request.getParameter("xmid");
 		
 		
-		return "/stp/wholeProcess/sciencePorjectProcess";
+		return "/stp/wholeProcess/scienceProcessDetails";
 	}
 
 	/**

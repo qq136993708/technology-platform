@@ -42,12 +42,13 @@
                 <!--灰色-->
                 <div class="cycle-cont-right">
                     <p>项目计划<span></span></p>
-                    <p>${sci.ND}-${sci.ZYLB}</p>
+                    <p>计划年度：${sci.ND}</p>
+                    <p class="cycle-mey">专业类别：${sci.ZYLB}</p>
                 </div>
                 <#if sci.contractFlag?? && sci.contractFlag != "">
                 	<div class="cycle-cont-right">
 	                	<p>项目启动<span></span></p>
-	                    <p>开始日期：${sci.kssj}</p>
+	                    <p>启动日期：${sci.kssj}</p>
                         <p class="cycle-mey">总金额：${sci.jf}万元</p>
 	                </div>
 	                <#else>
@@ -126,7 +127,7 @@
                 ,maxmin: true
                 //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                 ,area: ['70%', '90%'],
-                content: "/layui/projectCycleOpen.html",
+                content: "/whole-process/science/details",
                 success: function (layero, index) {
                     var iframe = window['layui-layer-iframe' + index];
                     var iframeH=$(layero).find("iframe");
