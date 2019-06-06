@@ -11,16 +11,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -34,7 +31,6 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.common.TreeNode2;
 import com.pcitc.base.hana.report.Contract;
 import com.pcitc.base.hana.report.H1AMKYSY100104;
-import com.pcitc.base.hana.report.H1AMKYSY100109;
 import com.pcitc.base.hana.report.H1AMKYSY10010902;
 import com.pcitc.base.hana.report.H1AMKYSY100117;
 import com.pcitc.base.hana.report.Knowledge;
@@ -64,13 +60,13 @@ public class DirectController extends BaseController {
 	private static final String	topic_count				= "http://pcitc-zuul/system-proxy/out-provider/kyzb/project-count";
 
 	// 合同
-	private static final String	contract_01				= "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/total";
-	private static final String	contract_02				= "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/old-new";
-	private static final String	contract_03				= "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/institute";
+	private static final String	contract_01				= "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/total";
+	private static final String	contract_02				= "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/old-new";
+	private static final String	contract_03				= "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/institute";
 	// private static final String contract_04 =
 	// "http://pcitc-zuul/system-proxy/out-project-provider/project-money/institute";
 
-	private static final String	contract_04				= "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/institute";
+	private static final String	contract_04				= "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/institute";
 
 	private static final String	equipment_02			= "http://pcitc-zuul/hana-proxy/hana/home/get_direct_KYZB_02";
 	private static final String	equipment_03			= "http://pcitc-zuul/hana-proxy/hana/home/get_direct_KYZB";
