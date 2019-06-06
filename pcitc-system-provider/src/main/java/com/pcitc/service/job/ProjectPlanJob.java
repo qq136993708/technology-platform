@@ -120,8 +120,8 @@ public class ProjectPlanJob implements Job, Serializable {
 						yjsj = yjsj.replaceAll(" ", "");
 						String[] temDateFlag = yjsj.split("/");
 						opi.setYjsj(yjsj);
-						opi.setKssj(temDateFlag[0]);
-						opi.setJssj(temDateFlag[1]);
+						opi.setKssj(temDateFlag[0].length() == 7 ? temDateFlag[0] : temDateFlag[0].split("-")[0] + "-0" + temDateFlag[0].split("-")[1]);
+						opi.setJssj(temDateFlag[1].length() == 7 ? temDateFlag[1] : temDateFlag[1].split("-")[0] + "-0" + temDateFlag[1].split("-")[1]);
 						
 						opi.setZyly(zyly);
 						opi.setZysx(zysx);
