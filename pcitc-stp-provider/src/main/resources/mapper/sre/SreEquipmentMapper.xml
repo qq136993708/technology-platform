@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.equipment.SreEquipmentMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.SreEquipment" >
+    <id column="equipment_id" property="equipmentId" jdbcType="VARCHAR" />
+    <result column="equipment_code" property="equipmentCode" jdbcType="VARCHAR" />
+    <result column="is_linked_project" property="isLinkedProject" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="unit_price" property="unitPrice" jdbcType="DECIMAL" />
+    <result column="all_price" property="allPrice" jdbcType="DECIMAL" />
+    <result column="apply_acount" property="applyAcount" jdbcType="INTEGER" />
+    <result column="specification" property="specification" jdbcType="VARCHAR" />
+    <result column="notes" property="notes" jdbcType="VARCHAR" />
+    <result column="special_notes" property="specialNotes" jdbcType="VARCHAR" />
+    <result column="attachment_doc" property="attachmentDoc" jdbcType="VARCHAR" />
+    <result column="apply_depart_name" property="applyDepartName" jdbcType="VARCHAR" />
+    <result column="apply_depart_code" property="applyDepartCode" jdbcType="VARCHAR" />
+    <result column="first_apply_user" property="firstApplyUser" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
+    <result column="update_user_id" property="updateUserId" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="erp_no" property="erpNo" jdbcType="VARCHAR" />
+    <result column="origin_place" property="originPlace" jdbcType="VARCHAR" />
+    <result column="vote_count" property="voteCount" jdbcType="INTEGER" />
+    <result column="unit_path_ids" property="unitPathIds" jdbcType="VARCHAR" />
+    <result column="unit_path_names" property="unitPathNames" jdbcType="VARCHAR" />
+    <result column="parent_unit_path_names" property="parentUnitPathNames" jdbcType="VARCHAR" />
+    <result column="parent_unit_path_ids" property="parentUnitPathIds" jdbcType="VARCHAR" />
+    <result column="supplier_str" property="supplierStr" jdbcType="VARCHAR" />
+    <result column="supplier_will_str" property="supplierWillStr" jdbcType="VARCHAR" />
+    <result column="purchase_status" property="purchaseStatus" jdbcType="VARCHAR" />
+    <result column="for_status" property="forStatus" jdbcType="VARCHAR" />
+    
+    
+    
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    equipment_id, equipment_code, is_linked_project, name, type, unit_price, all_price, 
+    apply_acount, specification, notes, special_notes, attachment_doc, apply_depart_name, 
+    apply_depart_code, first_apply_user, create_user_id, create_date, audit_status, update_user_id, 
+    update_date, erp_no, origin_place, vote_count, unit_path_ids, unit_path_names, parent_unit_path_names, 
+    parent_unit_path_ids, supplier_str, supplier_will_str,purchase_status,for_status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sre_equipment
+    where equipment_id = #{equipmentId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sre_equipment
+    where equipment_id = #{equipmentId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SreEquipment" >
+    insert into sre_equipment (equipment_id, equipment_code, is_linked_project, 
+      name, type, unit_price, 
+      all_price, apply_acount, specification, 
+      notes, special_notes, attachment_doc, 
+      apply_depart_name, apply_depart_code, first_apply_user, 
+      create_user_id, create_date, audit_status, 
+      update_user_id, update_date, erp_no, 
+      origin_place, vote_count, unit_path_ids, 
+      unit_path_names, parent_unit_path_names, parent_unit_path_ids, 
+      supplier_str, supplier_will_str,purchase_status,for_status
+      )
+    values (#{equipmentId,jdbcType=VARCHAR}, #{equipmentCode,jdbcType=VARCHAR}, #{isLinkedProject,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{unitPrice,jdbcType=DECIMAL}, 
+      #{allPrice,jdbcType=DECIMAL}, #{applyAcount,jdbcType=INTEGER}, #{specification,jdbcType=VARCHAR}, 
+      #{notes,jdbcType=VARCHAR}, #{specialNotes,jdbcType=VARCHAR}, #{attachmentDoc,jdbcType=VARCHAR}, 
+      #{applyDepartName,jdbcType=VARCHAR}, #{applyDepartCode,jdbcType=VARCHAR}, #{firstApplyUser,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{auditStatus,jdbcType=VARCHAR}, 
+      #{updateUserId,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{erpNo,jdbcType=VARCHAR}, 
+      #{originPlace,jdbcType=VARCHAR}, #{voteCount,jdbcType=INTEGER}, #{unitPathIds,jdbcType=VARCHAR}, 
+      #{unitPathNames,jdbcType=VARCHAR}, #{parentUnitPathNames,jdbcType=VARCHAR}, #{parentUnitPathIds,jdbcType=VARCHAR}, 
+      #{supplierStr,jdbcType=VARCHAR}, #{supplierWillStr,jdbcType=VARCHAR}, #{purchaseStatus,jdbcType=VARCHAR}
+      , #{forStatus,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreEquipment" >
+    insert into sre_equipment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="equipmentId != null" >
+        equipment_id,
+      </if>
+      <if test="equipmentCode != null" >
+        equipment_code,
+      </if>
+      <if test="isLinkedProject != null" >
+        is_linked_project,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="unitPrice != null" >
+        unit_price,
+      </if>
+      <if test="allPrice != null" >
+        all_price,
+      </if>
+      <if test="applyAcount != null" >
+        apply_acount,
+      </if>
+      <if test="specification != null" >
+        specification,
+      </if>
+      <if test="notes != null" >
+        notes,
+      </if>
+      <if test="specialNotes != null" >
+        special_notes,
+      </if>
+      <if test="attachmentDoc != null" >
+        attachment_doc,
+      </if>
+      <if test="applyDepartName != null" >
+        apply_depart_name,
+      </if>
+      <if test="applyDepartCode != null" >
+        apply_depart_code,
+      </if>
+      <if test="firstApplyUser != null" >
+        first_apply_user,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="auditStatus != null" >
+        audit_status,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="erpNo != null" >
+        erp_no,
+      </if>
+      <if test="originPlace != null" >
+        origin_place,
+      </if>
+      <if test="voteCount != null" >
+        vote_count,
+      </if>
+      <if test="unitPathIds != null" >
+        unit_path_ids,
+      </if>
+      <if test="unitPathNames != null" >
+        unit_path_names,
+      </if>
+      <if test="parentUnitPathNames != null" >
+        parent_unit_path_names,
+      </if>
+      <if test="parentUnitPathIds != null" >
+        parent_unit_path_ids,
+      </if>
+      <if test="supplierStr != null" >
+        supplier_str,
+      </if>
+      <if test="supplierWillStr != null" >
+        supplier_will_str,
+      </if>
+      <if test="purchaseStatus != null" >
+        purchase_status,
+      </if>
+      <if test="forStatus != null" >
+        for_status,
+      </if>
+      
+       
+    
+   
+    
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="equipmentId != null" >
+        #{equipmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentCode != null" >
+        #{equipmentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isLinkedProject != null" >
+        #{isLinkedProject,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrice != null" >
+        #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="allPrice != null" >
+        #{allPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="applyAcount != null" >
+        #{applyAcount,jdbcType=INTEGER},
+      </if>
+      <if test="specification != null" >
+        #{specification,jdbcType=VARCHAR},
+      </if>
+      <if test="notes != null" >
+        #{notes,jdbcType=VARCHAR},
+      </if>
+      <if test="specialNotes != null" >
+        #{specialNotes,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentDoc != null" >
+        #{attachmentDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="applyDepartName != null" >
+        #{applyDepartName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyDepartCode != null" >
+        #{applyDepartCode,jdbcType=VARCHAR},
+      </if>
+      <if test="firstApplyUser != null" >
+        #{firstApplyUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditStatus != null" >
+        #{auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="erpNo != null" >
+        #{erpNo,jdbcType=VARCHAR},
+      </if>
+      <if test="originPlace != null" >
+        #{originPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="voteCount != null" >
+        #{voteCount,jdbcType=INTEGER},
+      </if>
+      <if test="unitPathIds != null" >
+        #{unitPathIds,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPathNames != null" >
+        #{unitPathNames,jdbcType=VARCHAR},
+      </if>
+      <if test="parentUnitPathNames != null" >
+        #{parentUnitPathNames,jdbcType=VARCHAR},
+      </if>
+      <if test="parentUnitPathIds != null" >
+        #{parentUnitPathIds,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierStr != null" >
+        #{supplierStr,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierWillStr != null" >
+        #{supplierWillStr,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseStatus != null" >
+        #{purchaseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="forStatus != null" >
+        #{forStatus,jdbcType=VARCHAR},
+      </if>
+      
+      
+      
+      
+       
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.equipment.SreEquipment" >
+    update sre_equipment
+    <set >
+      <if test="equipmentCode != null" >
+        equipment_code = #{equipmentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isLinkedProject != null" >
+        is_linked_project = #{isLinkedProject,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrice != null" >
+        unit_price = #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="allPrice != null" >
+        all_price = #{allPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="applyAcount != null" >
+        apply_acount = #{applyAcount,jdbcType=INTEGER},
+      </if>
+      <if test="specification != null" >
+        specification = #{specification,jdbcType=VARCHAR},
+      </if>
+      <if test="notes != null" >
+        notes = #{notes,jdbcType=VARCHAR},
+      </if>
+      <if test="specialNotes != null" >
+        special_notes = #{specialNotes,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentDoc != null" >
+        attachment_doc = #{attachmentDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="applyDepartName != null" >
+        apply_depart_name = #{applyDepartName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyDepartCode != null" >
+        apply_depart_code = #{applyDepartCode,jdbcType=VARCHAR},
+      </if>
+      <if test="firstApplyUser != null" >
+        first_apply_user = #{firstApplyUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditStatus != null" >
+        audit_status = #{auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="erpNo != null" >
+        erp_no = #{erpNo,jdbcType=VARCHAR},
+      </if>
+      <if test="originPlace != null" >
+        origin_place = #{originPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="voteCount != null" >
+        vote_count = #{voteCount,jdbcType=INTEGER},
+      </if>
+      <if test="unitPathIds != null" >
+        unit_path_ids = #{unitPathIds,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPathNames != null" >
+        unit_path_names = #{unitPathNames,jdbcType=VARCHAR},
+      </if>
+      <if test="parentUnitPathNames != null" >
+        parent_unit_path_names = #{parentUnitPathNames,jdbcType=VARCHAR},
+      </if>
+      <if test="parentUnitPathIds != null" >
+        parent_unit_path_ids = #{parentUnitPathIds,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierStr != null" >
+        supplier_str = #{supplierStr,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierWillStr != null" >
+        supplier_will_str = #{supplierWillStr,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseStatus != null" >
+        purchase_status = #{purchaseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="forStatus != null" >
+        for_status = #{forStatus,jdbcType=VARCHAR},
+      </if>
+      
+      
+      
+      
+      
+      
+    </set>
+    where equipment_id = #{equipmentId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.equipment.SreEquipment" >
+    update sre_equipment
+    set equipment_code = #{equipmentCode,jdbcType=VARCHAR},
+      is_linked_project = #{isLinkedProject,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+       for_status = #{forStatus,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+        purchase_status = #{purchaseStatus,jdbcType=VARCHAR},
+      unit_price = #{unitPrice,jdbcType=DECIMAL},
+      all_price = #{allPrice,jdbcType=DECIMAL},
+      apply_acount = #{applyAcount,jdbcType=INTEGER},
+      specification = #{specification,jdbcType=VARCHAR},
+      notes = #{notes,jdbcType=VARCHAR},
+      special_notes = #{specialNotes,jdbcType=VARCHAR},
+      attachment_doc = #{attachmentDoc,jdbcType=VARCHAR},
+      apply_depart_name = #{applyDepartName,jdbcType=VARCHAR},
+      apply_depart_code = #{applyDepartCode,jdbcType=VARCHAR},
+      first_apply_user = #{firstApplyUser,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      audit_status = #{auditStatus,jdbcType=VARCHAR},
+      update_user_id = #{updateUserId,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      erp_no = #{erpNo,jdbcType=VARCHAR},
+      origin_place = #{originPlace,jdbcType=VARCHAR},
+      vote_count = #{voteCount,jdbcType=INTEGER},
+      unit_path_ids = #{unitPathIds,jdbcType=VARCHAR},
+      unit_path_names = #{unitPathNames,jdbcType=VARCHAR},
+      parent_unit_path_names = #{parentUnitPathNames,jdbcType=VARCHAR},
+      parent_unit_path_ids = #{parentUnitPathIds,jdbcType=VARCHAR},
+      supplier_str = #{supplierStr,jdbcType=VARCHAR},
+      supplier_will_str = #{supplierWillStr,jdbcType=VARCHAR}
+    where equipment_id = #{equipmentId,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+  
+  
+  
+    
+     <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="keyWord != null and keyWord  !='' ">               AND t.key_word like CONCAT('%',#{keyWord},'%')</if>
+	     <if test="name != null and name  !='' ">                     AND t.name like CONCAT('%',#{name},'%')</if>
+	     <if test="setupYear != null       and setupYear !=''  ">     AND t.setup_year = #{setupYear}</if>
+	     <if test="auditStatus != null     and auditStatus !=''  ">   AND t.audit_status = #{auditStatus}</if>
+	     <if test="applyDepartCode != null        and applyDepartCode !=''  ">       AND t.apply_depart_code = #{applyDepartCode}</if>
+	     <if test="unitPathIds != null             and unitPathIds !=''  ">           AND t.unit_path_ids = #{unitPathIds}</if>
+	     <if test="isLinkedProject != null             and isLinkedProject !=''  ">           AND t.is_linked_project = #{isLinkedProject}</if>
+	     <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.parent_unit_path_ids = #{parentUnitPathIds}</if>
+	      <if test="purchaseStatus != null       and purchaseStatus !=''  ">     AND t.purchase_status = #{purchaseStatus}</if>
+	       <if test="forStatus != null       and forStatus !=''  ">     AND t.for_status = #{forStatus}</if>
+	     <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
+	 </trim>
+	</sql>
+	
+	 
+    
+   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from sre_equipment t <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  create_date desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM sre_equipment t <include refid="selectCondition"/>
+    </select>
+  
+  
+  
+  
+    <select id="getEquipmentListByIds" resultMap="BaseResultMap"  >
+      select * from sre_equipment t where  t.equipment_id in
+      <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+       </foreach>
+     </select>
+     
+     <select id="getForApplicationList" resultMap="BaseResultMap" parameterType="Map" >
+       select * from sre_equipment t  where t.purchase_status >= 4 and t.for_status ='0'
+         <if test="applyDepartCode != null        and applyDepartCode !=''  ">       AND t.apply_depart_code = #{applyDepartCode}</if>
+	     <if test="unitPathIds != null             and unitPathIds !=''  ">           AND t.unit_path_ids = #{unitPathIds}</if>
+	     <if test="isLinkedProject != null             and isLinkedProject !=''  ">           AND t.is_linked_project = #{isLinkedProject}</if>
+	     <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.parent_unit_path_ids = #{parentUnitPathIds}</if>
+         <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+     
+     
+</mapper>

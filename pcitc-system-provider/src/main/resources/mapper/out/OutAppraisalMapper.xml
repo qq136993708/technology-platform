@@ -1,0 +1,887 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.out.OutAppraisalMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.out.OutAppraisal" >
+    <id column="data_id" property="dataId" jdbcType="VARCHAR" />
+    <result column="cgid" property="cgid" jdbcType="VARCHAR" />
+    <result column="nd" property="nd" jdbcType="VARCHAR" />
+    <result column="cgmc" property="cgmc" jdbcType="VARCHAR" />
+    <result column="sqjddw" property="sqjddw" jdbcType="VARCHAR" />
+    <result column="sqdjh" property="sqdjh" jdbcType="VARCHAR" />
+    <result column="startTime" property="starttime" jdbcType="VARCHAR" />
+    <result column="endTime" property="endtime" jdbcType="VARCHAR" />
+    <result column="cglx" property="cglx" jdbcType="VARCHAR" />
+    <result column="zy" property="zy" jdbcType="VARCHAR" />
+    <result column="jdh" property="jdh" jdbcType="VARCHAR" />
+    <result column="issczs" property="issczs" jdbcType="VARCHAR" />
+    <result column="sbzt" property="sbzt" jdbcType="VARCHAR" />
+    <result column="jdjg" property="jdjg" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="hth" property="hth" jdbcType="VARCHAR" />
+    <result column="xmmc" property="xmmc" jdbcType="VARCHAR" />
+    <result column="rwly" property="rwly" jdbcType="VARCHAR" />
+    <result column="define1" property="define1" jdbcType="VARCHAR" />
+    <result column="define2" property="define2" jdbcType="VARCHAR" />
+    <result column="define3" property="define3" jdbcType="VARCHAR" />
+    <result column="define4" property="define4" jdbcType="VARCHAR" />
+    <result column="define5" property="define5" jdbcType="VARCHAR" />
+    <result column="define6" property="define6" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    data_id, cgid, nd, cgmc, sqjddw, sqdjh, startTime, endTime, cglx, zy, jdh, issczs, 
+    sbzt, jdjg, create_date, create_user_id, update_date, update_user_id, status, remarks, 
+    hth, xmmc, rwly, define1, define2, define3, define4, define5, define6
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.out.OutAppraisalExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from out_appraisal
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from out_appraisal
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from out_appraisal
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.out.OutAppraisalExample" >
+    delete from out_appraisal
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.out.OutAppraisal" >
+    insert into out_appraisal (data_id, cgid, nd, 
+      cgmc, sqjddw, sqdjh, 
+      startTime, endTime, cglx, 
+      zy, jdh, issczs, sbzt, 
+      jdjg, create_date, create_user_id, 
+      update_date, update_user_id, status, 
+      remarks, hth, xmmc, 
+      rwly, define1, define2, 
+      define3, define4, define5, 
+      define6)
+    values (#{dataId,jdbcType=VARCHAR}, #{cgid,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, 
+      #{cgmc,jdbcType=VARCHAR}, #{sqjddw,jdbcType=VARCHAR}, #{sqdjh,jdbcType=VARCHAR}, 
+      #{starttime,jdbcType=VARCHAR}, #{endtime,jdbcType=VARCHAR}, #{cglx,jdbcType=VARCHAR}, 
+      #{zy,jdbcType=VARCHAR}, #{jdh,jdbcType=VARCHAR}, #{issczs,jdbcType=VARCHAR}, #{sbzt,jdbcType=VARCHAR}, 
+      #{jdjg,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{hth,jdbcType=VARCHAR}, #{xmmc,jdbcType=VARCHAR}, 
+      #{rwly,jdbcType=VARCHAR}, #{define1,jdbcType=VARCHAR}, #{define2,jdbcType=VARCHAR}, 
+      #{define3,jdbcType=VARCHAR}, #{define4,jdbcType=VARCHAR}, #{define5,jdbcType=VARCHAR}, 
+      #{define6,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.out.OutAppraisal" >
+    insert into out_appraisal
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dataId != null" >
+        data_id,
+      </if>
+      <if test="cgid != null" >
+        cgid,
+      </if>
+      <if test="nd != null" >
+        nd,
+      </if>
+      <if test="cgmc != null" >
+        cgmc,
+      </if>
+      <if test="sqjddw != null" >
+        sqjddw,
+      </if>
+      <if test="sqdjh != null" >
+        sqdjh,
+      </if>
+      <if test="starttime != null" >
+        startTime,
+      </if>
+      <if test="endtime != null" >
+        endTime,
+      </if>
+      <if test="cglx != null" >
+        cglx,
+      </if>
+      <if test="zy != null" >
+        zy,
+      </if>
+      <if test="jdh != null" >
+        jdh,
+      </if>
+      <if test="issczs != null" >
+        issczs,
+      </if>
+      <if test="sbzt != null" >
+        sbzt,
+      </if>
+      <if test="jdjg != null" >
+        jdjg,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="hth != null" >
+        hth,
+      </if>
+      <if test="xmmc != null" >
+        xmmc,
+      </if>
+      <if test="rwly != null" >
+        rwly,
+      </if>
+      <if test="define1 != null" >
+        define1,
+      </if>
+      <if test="define2 != null" >
+        define2,
+      </if>
+      <if test="define3 != null" >
+        define3,
+      </if>
+      <if test="define4 != null" >
+        define4,
+      </if>
+      <if test="define5 != null" >
+        define5,
+      </if>
+      <if test="define6 != null" >
+        define6,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dataId != null" >
+        #{dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="cgid != null" >
+        #{cgid,jdbcType=VARCHAR},
+      </if>
+      <if test="nd != null" >
+        #{nd,jdbcType=VARCHAR},
+      </if>
+      <if test="cgmc != null" >
+        #{cgmc,jdbcType=VARCHAR},
+      </if>
+      <if test="sqjddw != null" >
+        #{sqjddw,jdbcType=VARCHAR},
+      </if>
+      <if test="sqdjh != null" >
+        #{sqdjh,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null" >
+        #{starttime,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=VARCHAR},
+      </if>
+      <if test="cglx != null" >
+        #{cglx,jdbcType=VARCHAR},
+      </if>
+      <if test="zy != null" >
+        #{zy,jdbcType=VARCHAR},
+      </if>
+      <if test="jdh != null" >
+        #{jdh,jdbcType=VARCHAR},
+      </if>
+      <if test="issczs != null" >
+        #{issczs,jdbcType=VARCHAR},
+      </if>
+      <if test="sbzt != null" >
+        #{sbzt,jdbcType=VARCHAR},
+      </if>
+      <if test="jdjg != null" >
+        #{jdjg,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="hth != null" >
+        #{hth,jdbcType=VARCHAR},
+      </if>
+      <if test="xmmc != null" >
+        #{xmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="rwly != null" >
+        #{rwly,jdbcType=VARCHAR},
+      </if>
+      <if test="define1 != null" >
+        #{define1,jdbcType=VARCHAR},
+      </if>
+      <if test="define2 != null" >
+        #{define2,jdbcType=VARCHAR},
+      </if>
+      <if test="define3 != null" >
+        #{define3,jdbcType=VARCHAR},
+      </if>
+      <if test="define4 != null" >
+        #{define4,jdbcType=VARCHAR},
+      </if>
+      <if test="define5 != null" >
+        #{define5,jdbcType=VARCHAR},
+      </if>
+      <if test="define6 != null" >
+        #{define6,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.stp.out.OutAppraisalExample" resultType="java.lang.Integer" >
+    select count(*) from out_appraisal
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update out_appraisal
+    <set >
+      <if test="record.dataId != null" >
+        data_id = #{record.dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cgid != null" >
+        cgid = #{record.cgid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nd != null" >
+        nd = #{record.nd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cgmc != null" >
+        cgmc = #{record.cgmc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sqjddw != null" >
+        sqjddw = #{record.sqjddw,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sqdjh != null" >
+        sqdjh = #{record.sqdjh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.starttime != null" >
+        startTime = #{record.starttime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.endtime != null" >
+        endTime = #{record.endtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cglx != null" >
+        cglx = #{record.cglx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zy != null" >
+        zy = #{record.zy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jdh != null" >
+        jdh = #{record.jdh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.issczs != null" >
+        issczs = #{record.issczs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sbzt != null" >
+        sbzt = #{record.sbzt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jdjg != null" >
+        jdjg = #{record.jdjg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUserId != null" >
+        update_user_id = #{record.updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null" >
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hth != null" >
+        hth = #{record.hth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xmmc != null" >
+        xmmc = #{record.xmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rwly != null" >
+        rwly = #{record.rwly,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define1 != null" >
+        define1 = #{record.define1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define2 != null" >
+        define2 = #{record.define2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define3 != null" >
+        define3 = #{record.define3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define4 != null" >
+        define4 = #{record.define4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define5 != null" >
+        define5 = #{record.define5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define6 != null" >
+        define6 = #{record.define6,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update out_appraisal
+    set data_id = #{record.dataId,jdbcType=VARCHAR},
+      cgid = #{record.cgid,jdbcType=VARCHAR},
+      nd = #{record.nd,jdbcType=VARCHAR},
+      cgmc = #{record.cgmc,jdbcType=VARCHAR},
+      sqjddw = #{record.sqjddw,jdbcType=VARCHAR},
+      sqdjh = #{record.sqdjh,jdbcType=VARCHAR},
+      startTime = #{record.starttime,jdbcType=VARCHAR},
+      endTime = #{record.endtime,jdbcType=VARCHAR},
+      cglx = #{record.cglx,jdbcType=VARCHAR},
+      zy = #{record.zy,jdbcType=VARCHAR},
+      jdh = #{record.jdh,jdbcType=VARCHAR},
+      issczs = #{record.issczs,jdbcType=VARCHAR},
+      sbzt = #{record.sbzt,jdbcType=VARCHAR},
+      jdjg = #{record.jdjg,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      update_user_id = #{record.updateUserId,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      hth = #{record.hth,jdbcType=VARCHAR},
+      xmmc = #{record.xmmc,jdbcType=VARCHAR},
+      rwly = #{record.rwly,jdbcType=VARCHAR},
+      define1 = #{record.define1,jdbcType=VARCHAR},
+      define2 = #{record.define2,jdbcType=VARCHAR},
+      define3 = #{record.define3,jdbcType=VARCHAR},
+      define4 = #{record.define4,jdbcType=VARCHAR},
+      define5 = #{record.define5,jdbcType=VARCHAR},
+      define6 = #{record.define6,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.out.OutAppraisal" >
+    update out_appraisal
+    <set >
+      <if test="cgid != null" >
+        cgid = #{cgid,jdbcType=VARCHAR},
+      </if>
+      <if test="nd != null" >
+        nd = #{nd,jdbcType=VARCHAR},
+      </if>
+      <if test="cgmc != null" >
+        cgmc = #{cgmc,jdbcType=VARCHAR},
+      </if>
+      <if test="sqjddw != null" >
+        sqjddw = #{sqjddw,jdbcType=VARCHAR},
+      </if>
+      <if test="sqdjh != null" >
+        sqdjh = #{sqdjh,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null" >
+        startTime = #{starttime,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null" >
+        endTime = #{endtime,jdbcType=VARCHAR},
+      </if>
+      <if test="cglx != null" >
+        cglx = #{cglx,jdbcType=VARCHAR},
+      </if>
+      <if test="zy != null" >
+        zy = #{zy,jdbcType=VARCHAR},
+      </if>
+      <if test="jdh != null" >
+        jdh = #{jdh,jdbcType=VARCHAR},
+      </if>
+      <if test="issczs != null" >
+        issczs = #{issczs,jdbcType=VARCHAR},
+      </if>
+      <if test="sbzt != null" >
+        sbzt = #{sbzt,jdbcType=VARCHAR},
+      </if>
+      <if test="jdjg != null" >
+        jdjg = #{jdjg,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="hth != null" >
+        hth = #{hth,jdbcType=VARCHAR},
+      </if>
+      <if test="xmmc != null" >
+        xmmc = #{xmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="rwly != null" >
+        rwly = #{rwly,jdbcType=VARCHAR},
+      </if>
+      <if test="define1 != null" >
+        define1 = #{define1,jdbcType=VARCHAR},
+      </if>
+      <if test="define2 != null" >
+        define2 = #{define2,jdbcType=VARCHAR},
+      </if>
+      <if test="define3 != null" >
+        define3 = #{define3,jdbcType=VARCHAR},
+      </if>
+      <if test="define4 != null" >
+        define4 = #{define4,jdbcType=VARCHAR},
+      </if>
+      <if test="define5 != null" >
+        define5 = #{define5,jdbcType=VARCHAR},
+      </if>
+      <if test="define6 != null" >
+        define6 = #{define6,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.out.OutAppraisal" >
+    update out_appraisal
+    set cgid = #{cgid,jdbcType=VARCHAR},
+      nd = #{nd,jdbcType=VARCHAR},
+      cgmc = #{cgmc,jdbcType=VARCHAR},
+      sqjddw = #{sqjddw,jdbcType=VARCHAR},
+      sqdjh = #{sqdjh,jdbcType=VARCHAR},
+      startTime = #{starttime,jdbcType=VARCHAR},
+      endTime = #{endtime,jdbcType=VARCHAR},
+      cglx = #{cglx,jdbcType=VARCHAR},
+      zy = #{zy,jdbcType=VARCHAR},
+      jdh = #{jdh,jdbcType=VARCHAR},
+      issczs = #{issczs,jdbcType=VARCHAR},
+      sbzt = #{sbzt,jdbcType=VARCHAR},
+      jdjg = #{jdjg,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      hth = #{hth,jdbcType=VARCHAR},
+      xmmc = #{xmmc,jdbcType=VARCHAR},
+      rwly = #{rwly,jdbcType=VARCHAR},
+      define1 = #{define1,jdbcType=VARCHAR},
+      define2 = #{define2,jdbcType=VARCHAR},
+      define3 = #{define3,jdbcType=VARCHAR},
+      define4 = #{define4,jdbcType=VARCHAR},
+      define5 = #{define5,jdbcType=VARCHAR},
+      define6 = #{define6,jdbcType=VARCHAR}
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 批量插入成果鉴定数据 -->
+  <insert id="insertOutAppraisalBatch" parameterType="java.util.List">
+		insert into out_appraisal (data_id, cgid, nd,
+		cgmc, sqjddw, sqdjh,
+		StartTime, EndTime, cglx,
+		zy, jdh, issczs, sbzt,
+		jdjg, create_date,
+		create_user_id,
+		update_date, update_user_id, status,
+		remarks,hth, xmmc,
+		rwly,define1,define2,define3,define4,define5,define6)
+		values
+		<foreach collection="list" item="appraisal" index="index"
+			separator=",">
+			(
+			#{appraisal.dataId,jdbcType=VARCHAR},
+			#{appraisal.cgid,jdbcType=VARCHAR}, #{appraisal.nd,jdbcType=VARCHAR},
+			#{appraisal.cgmc,jdbcType=VARCHAR},
+			#{appraisal.sqjddw,jdbcType=VARCHAR},
+			#{appraisal.sqdjh,jdbcType=VARCHAR},
+			#{appraisal.starttime,jdbcType=VARCHAR},
+			#{appraisal.endtime,jdbcType=VARCHAR},
+			#{appraisal.cglx,jdbcType=VARCHAR},
+			#{appraisal.zy,jdbcType=VARCHAR},
+			#{appraisal.jdh,jdbcType=VARCHAR},
+			#{appraisal.issczs,jdbcType=VARCHAR},
+			#{appraisal.sbzt,jdbcType=VARCHAR},
+			#{appraisal.jdjg,jdbcType=VARCHAR},
+			#{appraisal.createDate,jdbcType=TIMESTAMP},
+			#{appraisal.createUserId,jdbcType=VARCHAR},
+			#{appraisal.updateDate,jdbcType=TIMESTAMP},
+			#{appraisal.updateUserId,jdbcType=VARCHAR},
+			#{appraisal.status,jdbcType=VARCHAR},
+			#{appraisal.remarks,jdbcType=VARCHAR},
+			#{appraisal.hth,jdbcType=VARCHAR},
+			#{appraisal.xmmc,jdbcType=VARCHAR},
+			#{appraisal.rwly,jdbcType=VARCHAR},
+			#{appraisal.define1,jdbcType=VARCHAR},
+			#{appraisal.define2,jdbcType=VARCHAR},
+			#{appraisal.define3,jdbcType=VARCHAR},
+			#{appraisal.define4,jdbcType=VARCHAR},
+			#{appraisal.define5,jdbcType=VARCHAR},
+			#{appraisal.define6,jdbcType=VARCHAR}
+			
+			)
+		</foreach>
+	</insert>
+
+	<select id="getOutAppraisalCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+		select count(distinct cgid) as cgid from out_appraisal
+		where 
+			define3 not like '%外部单位%'
+			<if test="nd != null and nd != ''">
+				and nd = #{nd,jdbcType=VARCHAR} 
+			</if>
+			<if test="define3 != null and define3 != ''">
+				and define3 like '%${define3}%'
+			</if>
+			<if test="define1 != null and define1 != ''">
+				and define1 like '%${define1}%'
+			</if>
+	</select>
+
+	<select id="getResultInfo" resultType="java.util.Map" parameterType="java.lang.String">
+		select count(DISTINCT cgid) as mscount,jdjg as ms
+		from out_appraisal
+		where
+			jdjg is not null and define3 not like '%外部单位%'
+		<if test="_parameter != null">
+			and nd = #{nd,jdbcType=VARCHAR}
+		</if>
+		group by jdjg
+	</select>
+
+	<select id="getResultInfoByType" resultType="java.util.Map"
+		parameterType="java.lang.String">
+		select
+		sum(case when jdjg = '国内先进' then 1 else 0 end) as gnxjcount,
+		sum(case when jdjg = '国内领先' then 1 else 0 end) as gnlxcount,
+		sum(case
+		when jdjg = '国际先进' then 1 else 0 end) as gjxjcount,
+		sum(case when jdjg
+		= '国际领先' then 1 else 0 end) as gjlxcount,
+		sum(case when jdjg = '行业先进'
+		then 1 else 0 end) as hyxjcount,
+		sum(case when jdjg = '行业领先' then 1
+		else 0 end) as hylxcount,count(jdjg) as cglxcount,cglx
+		from out_appraisal
+		where
+		jdjg in ('国内先进','国内领先','国际先进','国际领先','行业先进','行业领先') and define3 not like '%外部单位%'
+		<if test="_parameter != null">
+			and nd = #{nd,jdbcType=VARCHAR}
+		</if>
+		group by cglx
+	</select>
+
+	<select id="getResultInfoByZy" resultType="java.util.Map"
+		parameterType="java.lang.String">
+		select
+			sum(case when zy = 'A.石油勘探' then 1 else 0 end) as acount,
+			sum(case when zy = 'B.石油开发' then 1 else 0 end) as bcount,
+			sum(case when zy = 'C.石油工程' then 1 else 0 end) as ccount,
+			sum(case when zy = 'D.石油炼制' then 1 else 0 end) as dcount,
+		    sum(case when zy = 'E.化工' then 1 else 0 end) as ecount,
+		    sum(case when zy = 'F.化纤' then 1 else 0 end) as fcount,
+		    sum(case when zy = 'G.装备与储运' then 1 else 0 end) as gcount,
+		    sum(case when zy = 'H.安全与环保' then 1 else 0 end) as hcount,
+		    sum(case when zy = 'I.信息技术' then 1 else 0 end) as icount,
+		    sum(case when zy = 'J.大型装备国产化' then 1 else 0 end) as jcount,
+		    sum(case when zy = 'K.其它' then 1 else 0 end) as kcount,jdjg
+		from out_appraisal
+		where
+			define3 not like '%外部单位%'
+		<if test="_parameter != null">
+			and nd = #{nd,jdbcType=VARCHAR}
+		</if>
+		group by jdjg
+	</select>
+
+
+	
+	<!--  领导二级页面，各个研究院的成果情况 -->
+	<select id="getAppraisalInfoByInstitute" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select count(*) as sl, 
+			sum(case when cglx = 'A.工业化' then 1 else 0 end) as gyhsl,
+			sum(case when cglx = 'B.工业试验' then 1 else 0 end) as gysysl,
+			sum(case when cglx = 'C.其他' then 1 else 0 end) as qtsl,
+			SUBSTR(define1 FROM 4) define1 
+		from (
+				select define1,define3,cglx,jdh
+				from out_appraisal
+				where 
+					nd='${nd}' and define1 is not null 
+					and define3 like '%研究院%'
+			  GROUP BY cgid
+		) as tableA
+		group by define1
+	</select>
+	
+	<!--  领导二级页面，各种类型的成果情况 -->
+	<select id="getAppraisalInfoByCglx" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select count(DISTINCT cgid) as sl, 
+			   case when cglx is null then '其他' else cglx end as cglx 
+		from out_appraisal
+		where 
+			nd='${nd}' and define3 not like '%外部单位%'
+			<if test="define1 != null and define1 != ''">
+				and define1 is not null
+			</if>
+		group by cglx
+	</select>
+	
+	<!--  辅助决策分析，成果鉴定年度分析，近三年成果各专业分布 -->
+	<select id="getAppraisalInfoByZyForThreeYear" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select 
+			tableA.zy,
+			sum(case when tableA.nd = '${nd}' OR tableA.nd = '${nd}'-1 OR tableA.nd = '${nd}'-2 then sl else 0 end) as zsl,
+			sum(case when tableA.nd = '${nd}' then sl else 0 end) as  thisYearSl,
+			sum(case when tableA.nd = '${nd}'-1 then sl else 0 end) as  lastYearSl,
+			sum(case when tableA.nd = '${nd}'-2 then sl else 0 end) as  beforeYearSl
+		from (
+				select count(DISTINCT cgid) as sl, nd, case when zy is null then '其他' else zy end as zy 
+				from out_appraisal
+				where 
+					define3 not like '%外部单位%'
+				group by zy,nd) as tableA
+		group by tableA.zy
+	</select>
+	
+	<!--  领导二级页面，各种专业的成果情况 -->
+	<select id="getAppraisalInfoByZy" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select count(DISTINCT cgid) as sl, 
+			   case when zy is null then '其他' else zy end as zy 
+		from out_appraisal
+		where 
+			nd='${nd}' and define3 not like '%外部单位%'
+			<if test="define1 != null and define1 != ''">
+				and define1 like '%院'
+			</if>
+		group by zy
+	</select>
+	
+	<!--  领导首页-科研成果，直属院、分子公司等9个的成果情况 -->
+	<select id="getAppraisalInfoByCompanyType" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select tableA.sl,SUBSTR(tableA.define3 FROM 2) as define3 from (
+			select count(DISTINCT cgid) as sl, 
+				IFNULL(define3,'J其他') as define3
+			from out_appraisal
+			where 
+				nd='${nd}' and define3 not like '%外部单位%'
+			group by define3
+		) as tableA
+		ORDER BY tableA.define3 asc
+	</select>
+	
+	<!-- 分页显示项目的科研成果信息,统计的第三级展示 -->
+	<select id="getAppraisalInfoByCond" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+		select nd,cgmc,sqjddw,sqdjh,jdh,startTime,endTime,cglx,zy,jdjg,hth,xmmc,
+			   substr(define1 from 4) as define1,substr(define3 from 2) as define3
+		from out_appraisal
+		where
+			 define3 not like '%外部单位%' 
+			<if test="nd != null">
+				and out_appraisal.nd = '${nd}' 
+			</if>
+			<if test="hth != null">
+				and out_appraisal.hth like '%${hth}%' 
+			</if>
+			<if test="xmmc != null">
+				and out_appraisal.xmmc like '%${xmmc}%' 
+			</if> 
+			<if test="cgmc != null">
+				and out_appraisal.cgmc like '%${cgmc}%' 
+			</if>
+			<if test="define1 != null">
+				and (
+				<foreach collection="define1" item="define1" index="index" separator=" or ">
+					out_appraisal.define1 like '%${define1}%'
+				</foreach>
+				) 
+			</if>
+			<if test="define2 != null">
+				and (
+				<foreach collection="define2" item="define2" index="index" separator=" or ">
+					out_appraisal.define2 like '%${define2}%'
+				</foreach>
+				) 
+			</if>
+			<if test="define3 != null">
+				and (
+				<foreach collection="define3" item="define3" index="index" separator=" or ">
+					out_appraisal.define3 like '%${define3}%'
+				</foreach>
+				) 
+			</if>
+			<if test="cglx != null">
+				and (
+				<foreach collection="cglx" item="cglx" index="index" separator=" or ">
+					out_appraisal.cglx like '%${cglx}%'
+				</foreach>
+				) 
+			</if>
+			<if test="zy != null">
+				and (
+				<foreach collection="zy" item="zy" index="index" separator=" or ">
+					out_appraisal.zy like '%${zy}%'
+				</foreach>
+				) 
+			</if>
+			<if test="jdjg != null">
+				and (
+				<foreach collection="jdjg" item="jdjg" index="index" separator=" or ">
+					out_appraisal.jdjg like '%${jdjg}%'
+				</foreach>
+				) 
+			</if>
+			group by cgid 
+			<if test="orderKey != null and orderKey != ''">
+				<if test="orderType != null and orderType != ''">
+					order by ${orderKey} ${orderType}
+				</if>
+				<if test="orderType == null or orderType == ''">
+					order by ${orderKey} desc
+				</if>
+			</if>
+			<if test="orderKey == null">
+				order by jdh desc
+			</if>
+	</select>
+	
+	<!-- 获取成果详细的查询条件 -->
+	<select id="getAppraisalInfoSelectCondition" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select 'cglx' as showCode,cglx as showName
+		from out_appraisal
+		group BY cglx
+
+		union ALL
+		select 'zy',zy as showName
+		from out_appraisal
+		group by zy
+
+		union ALL
+		select 'define1',SUBSTR(define1 FROM 4) as showName
+		from out_appraisal
+		WHERE
+		define1 is not null and define3 like '%研究院%'
+		group by define1
+
+		union ALL
+		select 'define3',SUBSTR(define3 FROM 2) as showName
+		from out_appraisal
+		WHERE
+		define3 is not null and define3 not like '%外部单位%'
+		group by define3
+		
+	</select>
+</mapper>

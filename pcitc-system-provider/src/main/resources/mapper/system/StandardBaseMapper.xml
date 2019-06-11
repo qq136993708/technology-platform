@@ -1,0 +1,1035 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.system.StandardBaseMapper">
+
+    <resultMap id="BaseResultMap" type="com.pcitc.base.system.StandardBase">
+
+        <id column="data_id" jdbcType="VARCHAR" property="dataId"/>
+        <result column="standard_name" jdbcType="VARCHAR" property="standardName"/>
+        <result column="standard_desc" jdbcType="VARCHAR" property="standardDesc"/>
+        <result column="sys_flag" jdbcType="VARCHAR" property="sysFlag"/>
+        <result column="data_order" jdbcType="INTEGER" property="dataOrder"/>
+        <result column="del_flag" jdbcType="INTEGER" property="delFlag"/>
+        <result column="create_date" jdbcType="VARCHAR" property="createDate"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="create_user_disp" jdbcType="VARCHAR" property="createUserDisp"/>
+        <result column="modify_date" jdbcType="VARCHAR" property="modifyDate"/>
+        <result column="modify_user" jdbcType="VARCHAR" property="modifyUser"/>
+        <result column="modify_user_disp" jdbcType="VARCHAR" property="modifyUserDisp"/>
+        <result column="form_code" jdbcType="VARCHAR" property="formCode"/>
+        <result column="data_index" jdbcType="VARCHAR" property="dataIndex"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="audit_status" jdbcType="VARCHAR" property="auditStatus"/>
+        <result column="company_code" jdbcType="VARCHAR" property="companyCode"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
+        <result column="update_date" jdbcType="VARCHAR" property="updateDate"/>
+        <result column="bak1" jdbcType="VARCHAR" property="bak1"/>
+        <result column="bak2" jdbcType="VARCHAR" property="bak2"/>
+        <result column="bak3" jdbcType="VARCHAR" property="bak3"/>
+        <result column="bak4" jdbcType="VARCHAR" property="bak4"/>
+        <result column="bak5" jdbcType="VARCHAR" property="bak5"/>
+        <result column="pid" jdbcType="VARCHAR" property="pid"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="org_type" jdbcType="VARCHAR" property="orgType"/>
+        <result column="standard_keys" jdbcType="VARCHAR" property="standardKeys"/>
+        <result column="standard_num" jdbcType="VARCHAR" property="standardNum"/>
+        <result column="standard_status" jdbcType="VARCHAR" property="standardStatus"/>
+        <result column="ics_type" jdbcType="VARCHAR" property="icsType"/>
+        <result column="choice_type" jdbcType="VARCHAR" property="choiceType"/>
+        <result column="year_num" jdbcType="VARCHAR" property="yearNum"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        data_id,
+        standard_name,
+        standard_desc,
+        sys_flag,
+        data_order,
+        del_flag,
+        create_date,
+        create_user,
+        create_user_disp,
+        modify_date,
+        modify_user,
+        modify_user_disp,
+        form_code,
+        data_index,
+        status,
+        audit_status,
+        company_code,
+        update_user,
+        update_date,
+        bak1,
+        bak2,
+        bak3,
+        bak4,
+        bak5,
+        pid,
+        remark,
+        org_type,
+        standard_keys,
+        standard_num,
+        standard_status,
+        ics_type,
+        choice_type,
+        year_num
+</sql>
+
+    <select id="selectByExample" parameterType="com.pcitc.base.system.StandardBaseExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from standard_base
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from standard_base
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from standard_base
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.pcitc.base.system.StandardBaseExample">
+        delete from standard_base
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.pcitc.base.system.StandardBase">
+        insert into standard_base (
+            data_id,
+            standard_name,
+            standard_desc,
+            sys_flag,
+            data_order,
+            del_flag,
+            create_date,
+            create_user,
+            create_user_disp,
+            modify_date,
+            modify_user,
+            modify_user_disp,
+            form_code,
+            data_index,
+            status,
+            audit_status,
+            company_code,
+            update_user,
+            update_date,
+            bak1,
+            bak2,
+            bak3,
+            bak4,
+            bak5,
+            pid,
+            remark,
+            org_type,
+            standard_keys,
+            standard_num,
+            standard_status,
+            ics_type,
+            choice_type,
+            year_num
+        )
+        values (
+
+    #{dataId,jdbcType=VARCHAR},
+    #{standardName,jdbcType=VARCHAR},
+    #{standardDesc,jdbcType=VARCHAR},
+    #{sysFlag,jdbcType=VARCHAR},
+    #{dataOrder,jdbcType=INTEGER},
+    #{delFlag,jdbcType=INTEGER},
+    #{createDate,jdbcType=VARCHAR},
+    #{createUser,jdbcType=VARCHAR},
+    #{createUserDisp,jdbcType=VARCHAR},
+    #{modifyDate,jdbcType=VARCHAR},
+    #{modifyUser,jdbcType=VARCHAR},
+    #{modifyUserDisp,jdbcType=VARCHAR},
+    #{formCode,jdbcType=VARCHAR},
+    #{dataIndex,jdbcType=VARCHAR},
+    #{status,jdbcType=VARCHAR},
+    #{auditStatus,jdbcType=VARCHAR},
+    #{companyCode,jdbcType=VARCHAR},
+    #{updateUser,jdbcType=VARCHAR},
+    #{updateDate,jdbcType=VARCHAR},
+    #{bak1,jdbcType=VARCHAR},
+    #{bak2,jdbcType=VARCHAR},
+    #{bak3,jdbcType=VARCHAR},
+    #{bak4,jdbcType=VARCHAR},
+    #{bak5,jdbcType=VARCHAR},
+    #{pid,jdbcType=VARCHAR},
+    #{remark,jdbcType=VARCHAR},
+    #{orgType,jdbcType=VARCHAR},
+    #{standardKeys,jdbcType=VARCHAR},
+    #{standardNum,jdbcType=VARCHAR},
+    #{standardStatus,jdbcType=VARCHAR},
+    #{icsType,jdbcType=VARCHAR},
+    #{choiceType,jdbcType=VARCHAR},
+    #{yearNum,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.pcitc.base.system.StandardBase">
+        insert into standard_base
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="dataId != null">
+                data_id,
+            </if>
+            <if test="standardName != null">
+                standard_name,
+            </if>
+            <if test="standardDesc != null">
+                standard_desc,
+            </if>
+            <if test="sysFlag != null">
+                sys_flag,
+            </if>
+            <if test="dataOrder != null">
+                data_order,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="createUser != null">
+                create_user,
+            </if>
+            <if test="createUserDisp != null">
+                create_user_disp,
+            </if>
+            <if test="modifyDate != null">
+                modify_date,
+            </if>
+            <if test="modifyUser != null">
+                modify_user,
+            </if>
+            <if test="modifyUserDisp != null">
+                modify_user_disp,
+            </if>
+            <if test="formCode != null">
+                form_code,
+            </if>
+            <if test="dataIndex != null">
+                data_index,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="auditStatus != null">
+                audit_status,
+            </if>
+            <if test="companyCode != null">
+                company_code,
+            </if>
+            <if test="updateUser != null">
+                update_user,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+            <if test="bak1 != null">
+                bak1,
+            </if>
+            <if test="bak2 != null">
+                bak2,
+            </if>
+            <if test="bak3 != null">
+                bak3,
+            </if>
+            <if test="bak4 != null">
+                bak4,
+            </if>
+            <if test="bak5 != null">
+                bak5,
+            </if>
+            <if test="pid != null">
+                pid,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="orgType != null">
+                org_type,
+            </if>
+            <if test="standardKeys != null">
+                standard_keys,
+            </if>
+            <if test="standardNum != null">
+                standard_num,
+            </if>
+            <if test="standardStatus != null">
+                standard_status,
+            </if>
+            <if test="icsType != null">
+                ics_type,
+            </if>
+            <if test="choiceType != null">
+                choice_type,
+            </if>
+            <if test="yearNum != null">
+                year_num
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+
+            <if test="dataId != null">
+                #{dataId ,jdbcType=VARCHAR},
+            </if>
+            <if test="standardName != null">
+                #{standardName ,jdbcType=VARCHAR},
+            </if>
+            <if test="standardDesc != null">
+                #{standardDesc ,jdbcType=VARCHAR},
+            </if>
+            <if test="sysFlag != null">
+                #{sysFlag ,jdbcType=VARCHAR},
+            </if>
+            <if test="dataOrder != null">
+                #{dataOrder ,jdbcType=INTEGER},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag ,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+                #{createDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+                #{createUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserDisp != null">
+                #{createUserDisp ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyDate != null">
+                #{modifyDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUser != null">
+                #{modifyUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUserDisp != null">
+                #{modifyUserDisp ,jdbcType=VARCHAR},
+            </if>
+            <if test="formCode != null">
+                #{formCode ,jdbcType=VARCHAR},
+            </if>
+            <if test="dataIndex != null">
+                #{dataIndex ,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status ,jdbcType=VARCHAR},
+            </if>
+            <if test="auditStatus != null">
+                #{auditStatus ,jdbcType=VARCHAR},
+            </if>
+            <if test="companyCode != null">
+                #{companyCode ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUser != null">
+                #{updateUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak1 != null">
+                #{bak1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak2 != null">
+                #{bak2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak3 != null">
+                #{bak3 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak4 != null">
+                #{bak4 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak5 != null">
+                #{bak5 ,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null">
+                #{pid ,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark ,jdbcType=VARCHAR},
+            </if>
+            <if test="orgType != null">
+                #{orgType ,jdbcType=VARCHAR},
+            </if>
+            <if test="standardKeys != null">
+                #{standardKeys ,jdbcType=VARCHAR},
+            </if>
+            <if test="standardNum != null">
+                #{standardNum ,jdbcType=VARCHAR},
+            </if>
+            <if test="standardStatus != null">
+                #{standardStatus ,jdbcType=VARCHAR},
+            </if>
+            <if test="icsType != null">
+                #{icsType ,jdbcType=VARCHAR},
+            </if>
+            <if test="choiceType != null">
+                #{choiceType ,jdbcType=VARCHAR},
+            </if>
+            <if test="yearNum != null">
+                #{yearNum ,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.pcitc.base.system.StandardBaseExample" resultType="java.lang.Long">
+        select count(*) from standard_base
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update standard_base
+        <set>
+
+            <if test="record.dataId != null">
+                data_id=#{record.dataId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.standardName != null">
+                standard_name=#{record.standardName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.standardDesc != null">
+                standard_desc=#{record.standardDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sysFlag != null">
+                sys_flag=#{record.sysFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="record.dataOrder != null">
+                data_order=#{record.dataOrder,jdbcType=INTEGER},
+            </if>
+            <if test="record.delFlag != null">
+                del_flag=#{record.delFlag,jdbcType=INTEGER},
+            </if>
+            <if test="record.createDate != null">
+                create_date=#{record.createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createUser != null">
+                create_user=#{record.createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createUserDisp != null">
+                create_user_disp=#{record.createUserDisp,jdbcType=VARCHAR},
+            </if>
+            <if test="record.modifyDate != null">
+                modify_date=#{record.modifyDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.modifyUser != null">
+                modify_user=#{record.modifyUser,jdbcType=VARCHAR},
+            </if>
+            <if test="record.modifyUserDisp != null">
+                modify_user_disp=#{record.modifyUserDisp,jdbcType=VARCHAR},
+            </if>
+            <if test="record.formCode != null">
+                form_code=#{record.formCode,jdbcType=VARCHAR},
+            </if>
+            <if test="record.dataIndex != null">
+                data_index=#{record.dataIndex,jdbcType=VARCHAR},
+            </if>
+            <if test="record.status != null">
+                status=#{record.status,jdbcType=VARCHAR},
+            </if>
+            <if test="record.auditStatus != null">
+                audit_status=#{record.auditStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="record.companyCode != null">
+                company_code=#{record.companyCode,jdbcType=VARCHAR},
+            </if>
+            <if test="record.updateUser != null">
+                update_user=#{record.updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="record.updateDate != null">
+                update_date=#{record.updateDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak1 != null">
+                bak1=#{record.bak1,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak2 != null">
+                bak2=#{record.bak2,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak3 != null">
+                bak3=#{record.bak3,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak4 != null">
+                bak4=#{record.bak4,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak5 != null">
+                bak5=#{record.bak5,jdbcType=VARCHAR},
+            </if>
+            <if test="record.pid != null">
+                pid=#{record.pid,jdbcType=VARCHAR},
+            </if>
+            <if test="record.remark != null">
+                remark=#{record.remark,jdbcType=VARCHAR},
+            </if>
+            <if test="record.orgType != null">
+                org_type=#{record.orgType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.standardKeys != null">
+                standard_keys=#{record.standardKeys,jdbcType=VARCHAR},
+            </if>
+            <if test="record.standardNum != null">
+                standard_num=#{record.standardNum,jdbcType=VARCHAR},
+            </if>
+            <if test="record.standardStatus != null">
+                standard_status=#{record.standardStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="record.icsType != null">
+                ics_type=#{record.icsType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.choiceType != null">
+                choice_type=#{record.choiceType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.yearNum != null">
+                year_num=#{record.yearNum,jdbcType=VARCHAR}
+            </if>
+
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update standard_base
+        set
+        data_id=#{record.dataId,jdbcType=VARCHAR},
+        standard_name=#{record.standardName,jdbcType=VARCHAR},
+        standard_desc=#{record.standardDesc,jdbcType=VARCHAR},
+        sys_flag=#{record.sysFlag,jdbcType=VARCHAR},
+        data_order=#{record.dataOrder,jdbcType=INTEGER},
+        del_flag=#{record.delFlag,jdbcType=INTEGER},
+        create_date=#{record.createDate,jdbcType=VARCHAR},
+        create_user=#{record.createUser,jdbcType=VARCHAR},
+        create_user_disp=#{record.createUserDisp,jdbcType=VARCHAR},
+        modify_date=#{record.modifyDate,jdbcType=VARCHAR},
+        modify_user=#{record.modifyUser,jdbcType=VARCHAR},
+        modify_user_disp=#{record.modifyUserDisp,jdbcType=VARCHAR},
+        form_code=#{record.formCode,jdbcType=VARCHAR},
+        data_index=#{record.dataIndex,jdbcType=VARCHAR},
+        status=#{record.status,jdbcType=VARCHAR},
+        audit_status=#{record.auditStatus,jdbcType=VARCHAR},
+        company_code=#{record.companyCode,jdbcType=VARCHAR},
+        update_user=#{record.updateUser,jdbcType=VARCHAR},
+        update_date=#{record.updateDate,jdbcType=VARCHAR},
+        bak1=#{record.bak1,jdbcType=VARCHAR},
+        bak2=#{record.bak2,jdbcType=VARCHAR},
+        bak3=#{record.bak3,jdbcType=VARCHAR},
+        bak4=#{record.bak4,jdbcType=VARCHAR},
+        bak5=#{record.bak5,jdbcType=VARCHAR},
+        pid=#{record.pid,jdbcType=VARCHAR},
+        remark=#{record.remark,jdbcType=VARCHAR},
+        org_type=#{record.orgType,jdbcType=VARCHAR},
+        standard_keys=#{record.standardKeys,jdbcType=VARCHAR},
+        standard_num=#{record.standardNum,jdbcType=VARCHAR},
+        standard_status=#{record.standardStatus,jdbcType=VARCHAR},
+        ics_type=#{record.icsType,jdbcType=VARCHAR},
+        choice_type=#{record.choiceType,jdbcType=VARCHAR},
+        year_num=#{record.yearNum,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.system.StandardBase">
+        update standard_base
+        <set>
+
+            <if test="standardName != null">
+                standard_name=#{standardName ,jdbcType=VARCHAR},
+            </if>
+            <if test="standardDesc != null">
+                standard_desc=#{standardDesc ,jdbcType=VARCHAR},
+            </if>
+            <if test="sysFlag != null">
+                sys_flag=#{sysFlag ,jdbcType=VARCHAR},
+            </if>
+            <if test="dataOrder != null">
+                data_order=#{dataOrder ,jdbcType=INTEGER},
+            </if>
+            <if test="delFlag != null">
+                del_flag=#{delFlag ,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+                create_date=#{createDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+                create_user=#{createUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserDisp != null">
+                create_user_disp=#{createUserDisp ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyDate != null">
+                modify_date=#{modifyDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUser != null">
+                modify_user=#{modifyUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUserDisp != null">
+                modify_user_disp=#{modifyUserDisp ,jdbcType=VARCHAR},
+            </if>
+            <if test="formCode != null">
+                form_code=#{formCode ,jdbcType=VARCHAR},
+            </if>
+            <if test="dataIndex != null">
+                data_index=#{dataIndex ,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status=#{status ,jdbcType=VARCHAR},
+            </if>
+            <if test="auditStatus != null">
+                audit_status=#{auditStatus ,jdbcType=VARCHAR},
+            </if>
+            <if test="companyCode != null">
+                company_code=#{companyCode ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUser != null">
+                update_user=#{updateUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                update_date=#{updateDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak1 != null">
+                bak1=#{bak1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak2 != null">
+                bak2=#{bak2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak3 != null">
+                bak3=#{bak3 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak4 != null">
+                bak4=#{bak4 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak5 != null">
+                bak5=#{bak5 ,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null">
+                pid=#{pid ,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark=#{remark ,jdbcType=VARCHAR},
+            </if>
+            <if test="orgType != null">
+                org_type=#{orgType ,jdbcType=VARCHAR},
+            </if>
+            <if test="standardKeys != null">
+                standard_keys=#{standardKeys ,jdbcType=VARCHAR},
+            </if>
+            <if test="standardNum != null">
+                standard_num=#{standardNum ,jdbcType=VARCHAR},
+            </if>
+            <if test="standardStatus != null">
+                standard_status=#{standardStatus ,jdbcType=VARCHAR},
+            </if>
+            <if test="icsType != null">
+                ics_type=#{icsType ,jdbcType=VARCHAR},
+            </if>
+            <if test="choiceType != null">
+                choice_type=#{choiceType ,jdbcType=VARCHAR},
+            </if>
+            <if test="yearNum != null">
+                year_num=#{yearNum ,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.pcitc.base.system.StandardBase">
+        update standard_base
+        set
+            standard_name=#{standardName,jdbcType=VARCHAR},
+            standard_desc=#{standardDesc,jdbcType=VARCHAR},
+            sys_flag=#{sysFlag,jdbcType=VARCHAR},
+            data_order=#{dataOrder,jdbcType=INTEGER},
+            del_flag=#{delFlag,jdbcType=INTEGER},
+            create_date=#{createDate,jdbcType=VARCHAR},
+            create_user=#{createUser,jdbcType=VARCHAR},
+            create_user_disp=#{createUserDisp,jdbcType=VARCHAR},
+            modify_date=#{modifyDate,jdbcType=VARCHAR},
+            modify_user=#{modifyUser,jdbcType=VARCHAR},
+            modify_user_disp=#{modifyUserDisp,jdbcType=VARCHAR},
+            form_code=#{formCode,jdbcType=VARCHAR},
+            data_index=#{dataIndex,jdbcType=VARCHAR},
+            status=#{status,jdbcType=VARCHAR},
+            audit_status=#{auditStatus,jdbcType=VARCHAR},
+            company_code=#{companyCode,jdbcType=VARCHAR},
+            update_user=#{updateUser,jdbcType=VARCHAR},
+            update_date=#{updateDate,jdbcType=VARCHAR},
+            bak1=#{bak1,jdbcType=VARCHAR},
+            bak2=#{bak2,jdbcType=VARCHAR},
+            bak3=#{bak3,jdbcType=VARCHAR},
+            bak4=#{bak4,jdbcType=VARCHAR},
+            bak5=#{bak5,jdbcType=VARCHAR},
+            pid=#{pid,jdbcType=VARCHAR},
+            remark=#{remark,jdbcType=VARCHAR},
+            org_type=#{orgType,jdbcType=VARCHAR},
+            standard_keys=#{standardKeys,jdbcType=VARCHAR},
+            standard_num=#{standardNum,jdbcType=VARCHAR},
+            standard_status=#{standardStatus,jdbcType=VARCHAR},
+            ics_type=#{icsType,jdbcType=VARCHAR},
+            choice_type=#{choiceType,jdbcType=VARCHAR},
+            year_num=#{yearNum,jdbcType=VARCHAR}
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </update>
+    <!-- 分页查询 -->
+    <select id="findSysFileKindByPage" parameterType="com.pcitc.base.system.StandardBase" resultMap="BaseResultMap">
+
+        select
+        data_id,
+        standard_name,
+        standard_desc,
+        sys_flag,
+        data_order,
+        del_flag,
+        create_date,
+        create_user,
+        create_user_disp,
+        modify_date,
+        modify_user,
+        modify_user_disp,
+        form_code,
+        data_index,
+        status,
+        audit_status,
+        company_code,
+        update_user,
+        update_date,
+        bak1,
+        bak2,
+        bak3,
+        bak4,
+        bak5,
+        pid,
+        remark,
+        org_type,
+        standard_keys,
+        standard_num,
+        standard_status,
+        ics_type,
+        choice_type,
+        year_num
+        from standard_base
+        where 1=1
+        <if test="dataId!=null and dataId!=''.toString()">
+            and data_id like '%${dataId}%'
+        </if>
+        <if test="standardName!=null and standardName!=''.toString()">
+            and standard_name like '%${standardName}%'
+        </if>
+        <if test="standardDesc!=null and standardDesc!=''.toString()">
+            and standard_desc like '%${standardDesc}%'
+        </if>
+        <if test="sysFlag!=null and sysFlag!=''.toString()">
+            and sys_flag like '%${sysFlag}%'
+        </if>
+        <if test="dataOrder!=null and dataOrder!=''.toString()">
+            and data_order like '%${dataOrder}%'
+        </if>
+        <if test="delFlag!=null and delFlag!=''.toString()">
+            and del_flag like '%${delFlag}%'
+        </if>
+        <if test="createDate!=null and createDate!=''.toString()">
+            and create_date like '%${createDate}%'
+        </if>
+        <if test="createUser!=null and createUser!=''.toString()">
+            and create_user like '%${createUser}%'
+        </if>
+        <if test="createUserDisp!=null and createUserDisp!=''.toString()">
+            and create_user_disp like '%${createUserDisp}%'
+        </if>
+        <if test="modifyDate!=null and modifyDate!=''.toString()">
+            and modify_date like '%${modifyDate}%'
+        </if>
+        <if test="modifyUser!=null and modifyUser!=''.toString()">
+            and modify_user like '%${modifyUser}%'
+        </if>
+        <if test="modifyUserDisp!=null and modifyUserDisp!=''.toString()">
+            and modify_user_disp like '%${modifyUserDisp}%'
+        </if>
+        <if test="formCode!=null and formCode!=''.toString()">
+            and form_code like '%${formCode}%'
+        </if>
+        <if test="dataIndex!=null and dataIndex!=''.toString()">
+            and data_index like '%${dataIndex}%'
+        </if>
+        <if test="status!=null and status!=''.toString()">
+            and status like '%${status}%'
+        </if>
+        <if test="auditStatus!=null and auditStatus!=''.toString()">
+            and audit_status like '%${auditStatus}%'
+        </if>
+        <if test="companyCode!=null and companyCode!=''.toString()">
+            and company_code like '%${companyCode}%'
+        </if>
+        <if test="updateUser!=null and updateUser!=''.toString()">
+            and update_user like '%${updateUser}%'
+        </if>
+        <if test="updateDate!=null and updateDate!=''.toString()">
+            and update_date like '%${updateDate}%'
+        </if>
+        <if test="bak1!=null and bak1!=''.toString()">
+            and bak1 like '%${bak1}%'
+        </if>
+        <if test="bak2!=null and bak2!=''.toString()">
+            and bak2 like '%${bak2}%'
+        </if>
+        <if test="bak3!=null and bak3!=''.toString()">
+            and bak3 like '%${bak3}%'
+        </if>
+        <if test="bak4!=null and bak4!=''.toString()">
+            and bak4 like '%${bak4}%'
+        </if>
+        <if test="bak5!=null and bak5!=''.toString()">
+            and bak5 like '%${bak5}%'
+        </if>
+        <if test="pid!=null and pid!=''.toString()">
+            and pid like '%${pid}%'
+        </if>
+        <if test="remark!=null and remark!=''.toString()">
+            and remark like '%${remark}%'
+        </if>
+        <if test="orgType!=null and orgType!=''.toString()">
+            and org_type like '%${orgType}%'
+        </if>
+        <if test="standardKeys!=null and standardKeys!=''.toString()">
+            and standard_keys like '%${standardKeys}%'
+        </if>
+        <if test="standardNum!=null and standardNum!=''.toString()">
+            and standard_num like '%${standardNum}%'
+        </if>
+        <if test="standardStatus!=null and standardStatus!=''.toString()">
+            and standard_status like '%${standardStatus}%'
+        </if>
+        <if test="icsType!=null and icsType!=''.toString()">
+            and ics_type like '%${icsType}%'
+        </if>
+        <if test="choiceType!=null and choiceType!=''.toString()">
+            and choice_type like '%${choiceType}%'
+        </if>
+        <if test="yearNum!=null and yearNum!=''.toString()">
+            and year_num like '%${yearNum}%'
+        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+    <!-- 查询列表 -->
+    <select id="findStandardBaseList" parameterType="com.pcitc.base.system.StandardBase" resultMap="BaseResultMap">
+        select
+        data_id,
+        standard_name,
+        standard_desc,
+        sys_flag,
+        data_order,
+        del_flag,
+        create_date,
+        create_user,
+        create_user_disp,
+        modify_date,
+        modify_user,
+        modify_user_disp,
+        form_code,
+        data_index,
+        status,
+        audit_status,
+        company_code,
+        update_user,
+        update_date,
+        bak1,
+        bak2,
+        bak3,
+        bak4,
+        bak5,
+        pid,
+        remark,
+        org_type,
+        standard_keys,
+        standard_num,
+        standard_status,
+        ics_type,
+        choice_type,
+        year_num
+        from standard_base
+        where 1=1
+        <if test="dataId!=null">
+            and data_id = #{dataId,jdbcType=VARCHAR}
+        </if>
+        <if test="standardName!=null">
+            and standard_name = #{standardName,jdbcType=VARCHAR}
+        </if>
+        <if test="standardDesc!=null">
+            and standard_desc = #{standardDesc,jdbcType=VARCHAR}
+        </if>
+        <if test="sysFlag!=null">
+            and sys_flag = #{sysFlag,jdbcType=VARCHAR}
+        </if>
+        <if test="dataOrder!=null">
+            and data_order = #{dataOrder,jdbcType=VARCHAR}
+        </if>
+        <if test="delFlag!=null">
+            and del_flag = #{delFlag,jdbcType=VARCHAR}
+        </if>
+        <if test="createDate!=null">
+            and create_date = #{createDate,jdbcType=VARCHAR}
+        </if>
+        <if test="createUser!=null">
+            and create_user = #{createUser,jdbcType=VARCHAR}
+        </if>
+        <if test="createUserDisp!=null">
+            and create_user_disp = #{createUserDisp,jdbcType=VARCHAR}
+        </if>
+        <if test="modifyDate!=null">
+            and modify_date = #{modifyDate,jdbcType=VARCHAR}
+        </if>
+        <if test="modifyUser!=null">
+            and modify_user = #{modifyUser,jdbcType=VARCHAR}
+        </if>
+        <if test="modifyUserDisp!=null">
+            and modify_user_disp = #{modifyUserDisp,jdbcType=VARCHAR}
+        </if>
+        <if test="formCode!=null">
+            and form_code = #{formCode,jdbcType=VARCHAR}
+        </if>
+        <if test="dataIndex!=null">
+            and data_index = #{dataIndex,jdbcType=VARCHAR}
+        </if>
+        <if test="status!=null">
+            and status = #{status,jdbcType=VARCHAR}
+        </if>
+        <if test="auditStatus!=null">
+            and audit_status = #{auditStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="companyCode!=null">
+            and company_code = #{companyCode,jdbcType=VARCHAR}
+        </if>
+        <if test="updateUser!=null">
+            and update_user = #{updateUser,jdbcType=VARCHAR}
+        </if>
+        <if test="updateDate!=null">
+            and update_date = #{updateDate,jdbcType=VARCHAR}
+        </if>
+        <if test="bak1!=null">
+            and bak1 = #{bak1,jdbcType=VARCHAR}
+        </if>
+        <if test="bak2!=null">
+            and bak2 = #{bak2,jdbcType=VARCHAR}
+        </if>
+        <if test="bak3!=null">
+            and bak3 = #{bak3,jdbcType=VARCHAR}
+        </if>
+        <if test="bak4!=null">
+            and bak4 = #{bak4,jdbcType=VARCHAR}
+        </if>
+        <if test="bak5!=null">
+            and bak5 = #{bak5,jdbcType=VARCHAR}
+        </if>
+        <if test="pid!=null">
+            and pid = #{pid,jdbcType=VARCHAR}
+        </if>
+        <if test="remark!=null">
+            and remark = #{remark,jdbcType=VARCHAR}
+        </if>
+        <if test="orgType!=null">
+            and org_type = #{orgType,jdbcType=VARCHAR}
+        </if>
+        <if test="standardKeys!=null">
+            and standard_keys = #{standardKeys,jdbcType=VARCHAR}
+        </if>
+        <if test="standardNum!=null">
+            and standard_num = #{standardNum,jdbcType=VARCHAR}
+        </if>
+        <if test="standardStatus!=null">
+            and standard_status = #{standardStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="icsType!=null">
+            and ics_type = #{icsType,jdbcType=VARCHAR}
+        </if>
+        <if test="choiceType!=null">
+            and choice_type = #{choiceType,jdbcType=VARCHAR}
+        </if>
+        <if test="yearNum!=null">
+            and year_num = #{yearNum,jdbcType=VARCHAR}
+        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+</mapper>

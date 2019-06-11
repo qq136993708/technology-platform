@@ -1,0 +1,148 @@
+<div class="container">
+    <div class="row">
+        <section>
+            <form id="defaultForm"  class="form-horizontal">
+                                                        <div class="form-group">
+                                <label class="col-sm-3 control-label">备注</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" name="ramarks" placeholder="备注" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">用户ID</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" name="userId" placeholder="用户ID" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">文档分类</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" name="fileKind" placeholder="文档分类" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">文档ID</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" name="fileId" placeholder="文档ID" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label"></label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" name="bak1" placeholder="" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label"></label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" name="bak2" placeholder="" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label"></label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" name="bak3" placeholder="" />
+                                </div>
+                            </div>
+                <div class="form-group">
+                    <div class="col-sm-9 col-sm-offset-3">
+                        <button type="submit" class="btn btn-primary">提交</button>
+                        <button type="button" class="btn btn-default" data-btn-type="cancel" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var form = null;
+    var id="${id?default(0)}";
+    $(function () {
+        form = $('#defaultForm').form();
+        //初始化校验
+        $('#defaultForm').bootstrapValidator({
+            message: '请输入有效值',
+            container: 'tooltip',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            submitHandler: function (validator, functionform, submitButton) {
+                modals.confirm('确认保存？', function () {
+                    var params = form.getFormSimpleData();
+                    ajaxPost('/sysfilecollect/savesysFileCollect', params, function(data, status) {
+                        if (data == '200') {
+                            modals.info("数据保存成功");
+                            $('#sysfilecollectWin').modal("hide");
+                            sysfilecollectTable._fnAjaxUpdate();
+                        }
+                    });
+                    // modals.closeWin(winId);
+                });
+            },
+            fields: {
+                            ramarks: {
+                            validators: {
+                                notEmpty: {
+                                    message: '请输入备注'
+                                }
+                            }
+                        },
+                            userId: {
+                            validators: {
+                                notEmpty: {
+                                    message: '请输入用户ID'
+                                }
+                            }
+                        },
+                            fileKind: {
+                            validators: {
+                                notEmpty: {
+                                    message: '请输入文档分类'
+                                }
+                            }
+                        },
+                            fileId: {
+                            validators: {
+                                notEmpty: {
+                                    message: '请输入文档ID'
+                                }
+                            }
+                        },
+                            bak1: {
+                            validators: {
+                                notEmpty: {
+                                    message: '请输入'
+                                }
+                            }
+                        },
+                            bak2: {
+                            validators: {
+                                notEmpty: {
+                                    message: '请输入'
+                                }
+                            }
+                        },
+                            bak3: {
+                            validators: {
+                                notEmpty: {
+                                    message: '请输入'
+                                }
+                            }
+                        }
+            }
+        });
+        form.initComponent();
+        if(id!="0"){
+            ajaxPost(basePath+"/getsysFileCollectInfo",{id:id},function(data){
+                form.initFormData(data);
+            })
+        }
+    });
+    function resetForm(){
+        form.clearForm();
+        $("#sysModule-form").data('bootstrapValidator').resetForm();
+    }
+</script>

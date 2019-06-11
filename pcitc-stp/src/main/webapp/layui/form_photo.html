@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+<div class="form_photo_container">
+    <div class="formBox">
+        <div class="tableToolBox">
+            <div class="tableBtns">
+                <div class="tableTitle">
+                    基本信息
+                    <span class="red">（标*号为必填项）</span>
+                </div>
+            </div>
+        </div>
+        <form class="layui-form" action="" id="userEditForm" lay-filter="component-form-group layui-container">
+            <div class="box-body">
+                <div class="layui-row">
+                    <div class="layui-col-xs10 layui-col-sm10 layui-col-md10">
+                        <div class="layui-row">
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                                <div class="layui-form-item layui-row">
+                                    <label for="" class="layui-form-label">姓名<span class="must-fill">*</span></label>
+                                    <div class="layui-input-block">
+                                        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                                            <input class="layui-input" name="title" lay-verify="title" placeholder="请输入姓名" autocomplete="off" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                                <div class="layui-form-item  layui-row">
+                                    <label for="" class="layui-form-label">性别<span class="must-fill">*</span></label>
+                                    <div class="layui-input-block">
+                                        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                                            <input type="radio" lay-filter="radioEvent" name="sex" value="0" title="男">
+                                            <input type="radio" lay-filter="radioEvent" name="sex" value="1" title="女" checked>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-row">
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                                <div class="layui-form-item layui-row">
+                                    <label for="" class="layui-form-label">岗位<span class="must-fill">*</span></label>
+                                    <div class="layui-input-block">
+                                        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                                            <select name="city" lay-verify=""  lay-filter="test">
+                                                <option value="">请选择一个岗位</option>
+                                                <option value="010">岗位1</option>
+                                                <option value="021">岗位2</option>
+                                                <option value="0571">岗位3</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                                <div class="layui-form-item  layui-row">
+                                    <label for="" class="layui-form-label">学历<span class="must-fill">*</span></label>
+                                    <div class="layui-input-block">
+                                        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                                            <select name="city" lay-verify=""  lay-filter="test">
+                                                <option value="">请选择学历</option>
+                                                <option value="010">本科</option>
+                                                <option value="021">专科</option>
+                                                <option value="0571">高中</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-row">
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                                <div class="layui-form-item layui-row">
+                                    <label for="" class="layui-form-label">手机号<span class="must-fill">*</span></label>
+                                    <div class="layui-input-block">
+                                        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                                            <input class="layui-input" name="title" lay-verify="title" placeholder="请输入手机号" autocomplete="off" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                                <div class="layui-form-item  layui-row">
+                                    <label for="" class="layui-form-label">从事专业年限<span class="must-fill">*</span></label>
+                                    <div class="layui-input-block">
+                                        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                                            <input type="text" name="date" lay-verify="date" placeholder="请输入从事专业年限" autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-row">
+                            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                                <div class="layui-form-item layui-row">
+                                    <label for="" class="layui-form-label">单位名称<span class="must-fill">*</span></label>
+                                    <div class="layui-input-block">
+                                        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                                            <input class="layui-input" name="title" lay-verify="title" id="tableSelect" placeholder="请选择单位名称(弹框例子，不需要可以去掉)" autocomplete="off" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-row">
+                            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                                <div class="layui-form-item layui-row">
+                                    <label for="" class="layui-form-label">身份证号<span class="must-fill">*</span></label>
+                                    <div class="layui-input-block">
+                                        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                                            <input class="layui-input" name="title" lay-verify="title" placeholder="请输入身份证号" autocomplete="off" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-row">
+                            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                                <div class="layui-form-item layui-row">
+                                    <label for="" class="layui-form-label">身份证扫描件<span class="must-fill">*</span></label>
+                                    <div class="layui-input-block">
+                                        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                                            <p class="idCard" style="">
+                                                <a href="javascript:;" id="uploadFile" title="上传文件">上传文件<img src="/layuiadmin/layui/images/accessory.png" alt=""></a>
+                                                <span id="fileBox" style="display: none;"><a href="javascript:;" id="changeFile"  title="修改文件">修改文件</a>&nbsp;&nbsp;
+                                                    <img src="/layuiadmin/layui/images/operation_76.png" alt="" id="deleteFile" title="点击删除文件">
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs2 layui-col-sm2 layui-col-md2">
+                        <div class="layui-form-item layui-row">
+                            <label for="" class="layui-form-label" style="width: 200px;">照片(尺寸:2.5cm*3.5cm)<span class="must-fill">*</span></label>
+                        </div>
+                        <div class="layui-form-item layui-row">
+                            <div class="photo_box" style="margin-left: 80px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    layui.use([ 'jquery','form', 'laydate','table','layer','element'], function(){
+        var $ = layui.$,
+            layer = layui.layer;
+
+        $('#tableSelect').click(function(){
+            layer.open({
+                title: "<span>首页</span> -&gt; <span>详情</span> -&gt;<span class='lastTitle'>选择单位</span>"
+                , skin: 'layui-layer-lan'
+                , shadeClose: true
+                , type: 2
+                , fixed: false
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                , maxmin: true
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                , area: ['90%', '90%']
+                , content: '/layui/layer_table.html'
+            });
+        })
+        
+        $('#uploadFile').click(function() {
+            $(this).css('display','none');
+            $('#fileBox').css('display','block');
+        })
+
+        $('#deleteFile').click(function() {
+            $('#fileBox').css('display','none');
+            $('#uploadFile').css('display','block');
+        })
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link href="/layuiadmin/ztree/css/metroStyle/metroStyle.css" rel="stylesheet">
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
+<script src="/layuiadmin/ztree/js/jquery.ztree.all.min.js"></script>
+</head>
+<style>
+/*按钮*/
+.icon_div {
+	display: inline-block;
+	height: 25px;
+	width: 35px;
+	/*background: url(http://c.csdnimg.cn/public/common/toolbar/images/f_icon.png) no-repeat 12px -127px;*/
+}
+
+.icon_div a {
+	display: inline-block;
+	width: 27px;
+	height: 20px;
+	cursor: pointer;
+}
+
+.icon_view {
+	background: url(/layuiadmin/layui/images/operation_72.png) no-repeat center;
+}
+
+.icon_edit {
+	background: url(/layuiadmin/layui/images/operation_75.png) no-repeat center;
+}
+
+.icon_add {
+	background: url(/layuiadmin/layui/images/operation_78.png) no-repeat center;
+}
+
+.icon_del {
+	background: url(/layuiadmin/layui/images/operation_76.png) no-repeat center;
+}
+
+/*end--按钮*/
+
+/*ztree表格*/
+.ztree {
+	padding: 0;
+	border: 2px solid #CDD6D5;
+}
+
+.ztree li a {
+	vertical-align: middle;
+	height: 30px;
+}
+
+.ztree li>a {
+	width: 100%;
+}
+
+.ztree li>a, .ztree li a.curSelectedNode {
+	padding-top: 0px;
+	background: none;
+	height: auto;
+	border: none;
+	cursor: default;
+	opacity: 1;
+}
+
+.ztree li ul {
+	padding-left: 0px
+}
+
+.ztree div.diy span {
+	line-height: 30px;
+	vertical-align: middle;
+}
+
+.ztree div.diy {
+	height: 100%;
+	width: 20%;
+	line-height: 32px;
+	border-top: 1px solid #ccc;
+	border-left: 1px solid #eeeeee;
+	text-align: center;
+	display: inline-block;
+	box-sizing: border-box;
+	color: #6c6c6c;
+	font-family: "SimSun";
+	font-size: 12px;
+	overflow: hidden;
+}
+
+.ztree div.diy:first-child {
+	text-align: left;
+	text-indent: 10px;
+	border-left: none;
+}
+
+.ztree .head {
+	background: #f2f2f2;
+}
+
+.ztree .head div.diy {
+	border-top: none;
+	border-right: 1px solid #e0dfe3;
+	font-family: "Microsoft YaHei";
+	font-size: 14px;
+}
+
+/*end--ztree表格*/
+</style>
+<body>
+	<div class="layer">
+		<div id="tableMain">
+			<ul id="dataTree" class="ztree">
+
+			</ul>
+		</div>
+	</div>
+	<script>
+		var zTreeNodes;
+
+		$(function() {
+			$.ajax({
+				url : "/function/getTreeByLevel",//这个就是请求地址对应sAjaxSource
+				type : 'get',
+				headers : {
+					'Content-Type' : 'application/json',
+				},
+				dataType : 'json',
+				async : false,
+				success : function(data) {
+					zNodes = data;
+				},
+				error : function(msg) {
+					layer.msg(msg);
+				}
+			});
+		});
+
+		// 决定某个节点是否进行异步操作的关键是isParent属性，当isParent为true，是异步启动的必要条件
+		var temUrl = '/function/getTreeByLevel';
+		var setting = {
+			// 异步动态加载
+			async : {
+				enable : true,
+				url : temUrl,
+				dataType : 'json',
+				type : 'get',
+				//异步查询时，把节点code传递后台，查询此节点下的节点。
+				autoParam : [ "code" ]
+			},
+			view : {
+				showLine : false,
+				showIcon : false,
+				addDiyDom : addDiyDom
+			},
+			data : {
+				simpleData : {
+					enable : true
+				}
+			},
+			callback : {//请求成功后回调
+				onClick : onClickMenu,//点击相关节点触发的事件
+				onAsyncSuccess : ztreeOnAsyncSuccess,//异步加载成功后执行的方法
+			}
+		};
+
+		//获取树成功后进行的回调操作。数据如果需要二次加工的话，调用此方法
+		function ztreeOnAsyncSuccess(event, treeId, treeNode) {
+		}
+
+		// 点击树节点时，处理变量和右侧表格
+		function onClickMenu(event, treeId, treeNode, clickFlag) {
+		}
+
+		$(document).ready(function() {
+			$.fn.zTree.init($("#dataTree"), setting, zTreeNodes);
+
+			//添加表头
+			var li_head = ' <li class="head"><a><div class="diy">名称</div><div class="diy">联系人</div><div class="diy">主管行业</div>' + '<div class="diy">联系方式</div><div class="diy">操作</div></a></li>';
+			var rows = $("#dataTree").find('li');
+			if (rows.length > 0) {
+				rows.eq(0).before(li_head)
+			} else {
+				$("#dataTree").append(li_head);
+				//$("#dataTree").append('<li ><div style="text-align: center;line-height: 30px;" >无符合条件数据</div></li>')
+			}
+		});
+
+		/**
+		 * 自定义DOM节点
+		 */
+		function addDiyDom(treeId, treeNode) {
+			var spaceWidth = 15;
+			var liObj = $("#" + treeNode.tId);
+			var aObj = $("#" + treeNode.tId + "_a");
+			var switchObj = $("#" + treeNode.tId + "_switch");
+			var icoObj = $("#" + treeNode.tId + "_ico");
+			var spanObj = $("#" + treeNode.tId + "_span");
+			aObj.attr('title', '');
+			aObj.append('<div class="diy swich"></div>');
+			var div = $(liObj).find('div').eq(0);
+			switchObj.remove();
+			spanObj.remove();
+			icoObj.remove();
+			div.append(switchObj);
+			div.append(spanObj);
+			var spaceStr = "<span style='height:1px;display: inline-block;width:" + (spaceWidth * (treeNode.levelCode + 1)) + "px'></span>";
+			switchObj.before(spaceStr);
+			var editStr = '';
+			editStr += '<div class="diy">' + (treeNode.levelCode == null ? '&nbsp;' : treeNode.levelCode) + '</div>';
+			var corpCat = '<div title="' + treeNode.levelCode + '">' + treeNode.levelCode + '</div>';
+			editStr += '<div class="diy">' + (treeNode.levelCode == '-' ? '&nbsp;' : corpCat) + '</div>';
+			editStr += '<div class="diy">' + (treeNode.levelCode == null ? '&nbsp;' : treeNode.levelCode) + '</div>';
+			editStr += '<div class="diy">' + formatHandle(treeNode) + '</div>';
+			aObj.append(editStr);
+		}
+
+		/**
+		 * 根据权限展示功能按钮
+		 * @param treeNode
+		 * @returns {string}
+		 */
+		function formatHandle(treeNode) {
+			var htmlStr = '';
+			htmlStr += '<div class="icon_div"><a class="icon_view" title="查看"  href="javascript:view(\'' + treeNode.id + '\')"></a></div>';
+			htmlStr += '<div class="icon_div"><a class="icon_edit" title="编辑" href="javascript:edit(\'' + treeNode.id + '\')"></a></div>';
+			htmlStr += '<div class="icon_div"><a class="icon_add" title="添加子部门" href="javascript:addSector(\'' + treeNode.id + '\')"></a></div>';
+			htmlStr += '<div class="icon_div"><a class="icon_del" title="删除" href="javascript:del(\'' + treeNode.id + '\')"></a></div>';
+			return htmlStr;
+		}
+	</script>
+</body>
+</html>

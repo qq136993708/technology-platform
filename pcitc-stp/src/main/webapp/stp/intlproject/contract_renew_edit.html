@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+	<link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+	<link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+	
+	<script type="text/javascript" src="/plugins/ckeditor/ckeditor.js"></script>
+	<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+	<script type="text/javascript">
+	var file_ids = "appendFiles";
+	//detail:详情，edit：编辑
+	file_edit_detail = "edit";
+	//统管理-附件管理-附件配置：页面标识
+	file_opt_flag = "4c20bd28057543839c0db8754f417c6a";
+	layui.use(['jquery','form','laydate','table', 'layer', 'element','publicMethods'], function(){
+    	var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate,
+            form = layui.form,publicMethods=layui.publicMethods,table = layui.table;
+    		var contractMap = {};
+    		//加载项目
+    		publicMethods.ajaxPost("/project/contract-list-all",null, function (data) {
+				$.each(data,function(i,val){
+					contractMap[data[i].contractId]=data[i].projectId;
+					publicMethods.ajaxPost('/project/get-project', {projectId:data[i].projectId},  function (dt, status) {
+		        		$("#parentContractId").append('<option value="'+data[i].contractId+'">'+dt.projectName+'</option>');
+		            });
+				});
+		   	});
+    		//加载字典
+			var dicMap = ['ROOT_UNIVERSAL_GJHBBZ','ROOT_UNIVERSAL_GJDQ'];
+			publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
+				$.each(data,function(key,val){
+					$.each(val,function(i,dt){
+						$("#"+key).append('<option value="'+dt.code+'">'+dt.name+'</option>');
+					});
+				});
+		   	});
+    		//日期
+    		laydate.render({
+                elem: '#signDate'
+                ,type: 'date'
+                ,value: new Date() 
+            });
+    		var contractId = "${contractId?default(0)}";
+    		//var editor = CKEDITOR.replace("contractContent");
+    		
+    		laydate.render({elem: '#agreementStartDate',type: 'date',value: new Date()});
+    		laydate.render({elem: '#agreementEndDate',type: 'date',value: new Date()});
+    		laydate.render({elem: '#secrecyStartDate',type: 'date',value: new Date()});
+    		laydate.render({elem: '#secrecyEndDate',type: 'date',value: new Date()});
+    		if(contractId != 0)
+	        {
+		 		$("#contractId").val(contractId);
+		 		publicMethods.ajaxPost('/project/get-contract', {"contractId":contractId}, function (data, status) {
+	        		form.val("contract-form",data);
+	        		//editor.setData(data.applyContent);
+	            });
+	        }else{
+	        	//創建編碼
+	        	publicMethods.ajaxPost('/project/project-contract-code', null, function (data, status) {
+	    			if (data.success) {
+	    				$("#contractNo").val(data.message);
+	    			}
+	    		});
+	        	$("#appendFiles").val("${appendFiles}");
+	        }
+    		form.render();
+    		$("#file_div").load('/common/public/uploadlayuiload.html');
+    		
+    		form.on('submit(submitBtn)', function(data) {
+				data.field.projectId=contractMap[$("#parentContractId").val()];
+				publicMethods.ajaxPost('/project/contract-saveorupdate', data.field, function (data, status) {
+                    if (data.success) {
+                    	parent.layui.table.reload('contractTable',null);
+                    	parent.renderfunc();//隐藏全选按钮
+                    	var index = parent.layer.getFrameIndex(window.name);
+				       	parent.layer.close(index);
+                    }else{
+                    	parent.layer.alert(data.message, {
+							title : '信息'
+						});
+                    	return false;
+                    }
+                });
+				return false;
+			});
+    		$("#cancel").click(function () {
+    		    var index = parent.layer.getFrameIndex(window.name);
+    		    parent.layer.close(index);
+    		})
+		});
+	</script>
+</head>
+<body>
+<div class="formBox">
+	<form id="contract-form" name="contract-form" lay-filter="contract-form" class="form-horizontal layui-form">
+	<input type="hidden" name="contractId" id="contractId">
+	<input type="hidden" name="projectId" id="projectId">
+	<input type="hidden" name="appendFiles" id="appendFiles">
+	<input type="hidden" name="contractType" id="contractType" value="1">
+	<div class="box-body">
+		<div class="layui-row">
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+				  <label class="layui-form-label">签约项目<span class="must-fill">*</span></label>
+		          <div class="layui-input-block">
+					<select name="parentContractId" id="parentContractId" lay-verify="required"  lay-filter="">
+	                	<option value="">请选择</option>
+	             	</select>
+				  </div>
+				</div>
+			</div>
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item"  id="password" >
+					<label for="" class="layui-form-label">签约编码<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+					 	<input type="text" class="layui-input readOnlyBox" readonly="readonly" id="contractNo" name="contractNo" placeholder="签约编码">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">签约状态<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+						<select name="contractStatus" id="contractStatus" lay-verify="required"  lay-filter="applyId">
+		                	<option value="">请选择</option>
+		                	<option value="0">签约中</option>
+		                	<option value="1">签约完成</option>
+		             	</select>
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">签约日期<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+					 	<input type="text" class="layui-input" id="signDate" name="signDate" placeholder="签约日期">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">中方合作单位<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" id="chineseContractCompany" name="chineseContractCompany" placeholder="请填写中方合作单位名称">
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">外方合作单位<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+					 	<input type="text" class="layui-input" id="foreignContractCompany" name="foreignContractCompany" placeholder="请填写外方合作单位名称">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">签约地区<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+						<select name="countryName" id="ROOT_UNIVERSAL_GJDQ" lay-verify="required"  lay-filter="userKind">
+		                	<option value="">请选择</option>
+		             	</select>
+						
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">                
+			 	<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item" style="margin-right: 10px;">
+                        <label for="" class="layui-form-label">签约金额(万元)<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <select name="moneyType" id="ROOT_UNIVERSAL_GJHBBZ" lay-verify="required"  lay-filter="test">
+                                <option value="">--请选择币种--</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                         <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                         	<input class="layui-input" name="foreignMoney" id="foreignMoney" lay-verify="required|number" placeholder="请输入金额（万元）" autocomplete="off" type="text">
+                         </div>
+                    </div>
+                </div>
+            </div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">协议开始日期<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" id="agreementStartDate" name="agreementStartDate" placeholder="协议开始日期">
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">协议截止日期<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+					 	<input type="text" class="layui-input" id="agreementEndDate" name="agreementEndDate" placeholder="协议截止日期">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">保密期开始日期<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" id="secrecyStartDate" name="secrecyStartDate" placeholder="保密期开始日期">
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">保密期截止日期<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+					 	<input type="text" class="layui-input" id="secrecyEndDate" name="secrecyEndDate" placeholder="保密期截止日期">
+					</div>
+				</div>
+			</div>
+		</div>
+       <div class="layui-form-item">
+	      	 <label class="layui-form-label">签约备注</label>
+	         <div class="layui-input-block">
+	         	   <textarea class="layui-textarea" id="contractContent" name="contractContent" placeholder=""></textarea>
+	         </div>
+       </div>
+       
+       <div class="layui-form-item">
+	      	 <label class="layui-form-label">签约文件上传</label>
+	         <div id="file_div" class="layui-input-block"></div>
+       </div>
+	</div>
+	<div class="form-bottom">
+      <div class="form-bottom-btns">
+      	<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>
+      	<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"  id="cancel">取消</button>
+      </div>
+    </div>
+</form>
+</body>
+</html>
+

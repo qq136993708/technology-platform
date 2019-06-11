@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.out.OutUnitMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.out.OutUnit" >
+    <id column="data_id" property="dataId" jdbcType="VARCHAR" />
+    <result column="unit_name" property="unitName" jdbcType="VARCHAR" />
+    <result column="unit_code" property="unitCode" jdbcType="VARCHAR" />
+    <result column="unit_ali" property="unitAli" jdbcType="VARCHAR" />
+    <result column="parent_code" property="parentCode" jdbcType="VARCHAR" />
+    <result column="unit_index" property="unitIndex" jdbcType="VARCHAR" />
+    <result column="unit_level" property="unitLevel" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="unit_type" property="unitType" jdbcType="VARCHAR" />
+    <result column="institute_name" property="instituteName" jdbcType="VARCHAR" />
+    <result column="define1" property="define1" jdbcType="VARCHAR" />
+    <result column="define2" property="define2" jdbcType="VARCHAR" />
+    <result column="define3" property="define3" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    data_id, unit_name, unit_code, unit_ali, parent_code, unit_index, unit_level, create_user_id, 
+    create_date, remarks, unit_type, institute_name, define1, define2, define3
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.out.OutUnitExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from out_unit
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from out_unit
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from out_unit
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.out.OutUnitExample" >
+    delete from out_unit
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.out.OutUnit" >
+    insert into out_unit (data_id, unit_name, unit_code, 
+      unit_ali, parent_code, unit_index, 
+      unit_level, create_user_id, create_date, 
+      remarks, unit_type, institute_name, 
+      define1, define2, define3
+      )
+    values (#{dataId,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, #{unitCode,jdbcType=VARCHAR}, 
+      #{unitAli,jdbcType=VARCHAR}, #{parentCode,jdbcType=VARCHAR}, #{unitIndex,jdbcType=VARCHAR}, 
+      #{unitLevel,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR}, #{unitType,jdbcType=VARCHAR}, #{instituteName,jdbcType=VARCHAR}, 
+      #{define1,jdbcType=VARCHAR}, #{define2,jdbcType=VARCHAR}, #{define3,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.out.OutUnit" >
+    insert into out_unit
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dataId != null" >
+        data_id,
+      </if>
+      <if test="unitName != null" >
+        unit_name,
+      </if>
+      <if test="unitCode != null" >
+        unit_code,
+      </if>
+      <if test="unitAli != null" >
+        unit_ali,
+      </if>
+      <if test="parentCode != null" >
+        parent_code,
+      </if>
+      <if test="unitIndex != null" >
+        unit_index,
+      </if>
+      <if test="unitLevel != null" >
+        unit_level,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="unitType != null" >
+        unit_type,
+      </if>
+      <if test="instituteName != null" >
+        institute_name,
+      </if>
+      <if test="define1 != null" >
+        define1,
+      </if>
+      <if test="define2 != null" >
+        define2,
+      </if>
+      <if test="define3 != null" >
+        define3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dataId != null" >
+        #{dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="unitName != null" >
+        #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null" >
+        #{unitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitAli != null" >
+        #{unitAli,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCode != null" >
+        #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitIndex != null" >
+        #{unitIndex,jdbcType=VARCHAR},
+      </if>
+      <if test="unitLevel != null" >
+        #{unitLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="unitType != null" >
+        #{unitType,jdbcType=VARCHAR},
+      </if>
+      <if test="instituteName != null" >
+        #{instituteName,jdbcType=VARCHAR},
+      </if>
+      <if test="define1 != null" >
+        #{define1,jdbcType=VARCHAR},
+      </if>
+      <if test="define2 != null" >
+        #{define2,jdbcType=VARCHAR},
+      </if>
+      <if test="define3 != null" >
+        #{define3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.stp.out.OutUnitExample" resultType="java.lang.Integer" >
+    select count(*) from out_unit
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update out_unit
+    <set >
+      <if test="record.dataId != null" >
+        data_id = #{record.dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitName != null" >
+        unit_name = #{record.unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitCode != null" >
+        unit_code = #{record.unitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitAli != null" >
+        unit_ali = #{record.unitAli,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentCode != null" >
+        parent_code = #{record.parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitIndex != null" >
+        unit_index = #{record.unitIndex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitLevel != null" >
+        unit_level = #{record.unitLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remarks != null" >
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitType != null" >
+        unit_type = #{record.unitType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.instituteName != null" >
+        institute_name = #{record.instituteName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define1 != null" >
+        define1 = #{record.define1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define2 != null" >
+        define2 = #{record.define2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define3 != null" >
+        define3 = #{record.define3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update out_unit
+    set data_id = #{record.dataId,jdbcType=VARCHAR},
+      unit_name = #{record.unitName,jdbcType=VARCHAR},
+      unit_code = #{record.unitCode,jdbcType=VARCHAR},
+      unit_ali = #{record.unitAli,jdbcType=VARCHAR},
+      parent_code = #{record.parentCode,jdbcType=VARCHAR},
+      unit_index = #{record.unitIndex,jdbcType=VARCHAR},
+      unit_level = #{record.unitLevel,jdbcType=VARCHAR},
+      create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      unit_type = #{record.unitType,jdbcType=VARCHAR},
+      institute_name = #{record.instituteName,jdbcType=VARCHAR},
+      define1 = #{record.define1,jdbcType=VARCHAR},
+      define2 = #{record.define2,jdbcType=VARCHAR},
+      define3 = #{record.define3,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.out.OutUnit" >
+    update out_unit
+    <set >
+      <if test="unitName != null" >
+        unit_name = #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null" >
+        unit_code = #{unitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitAli != null" >
+        unit_ali = #{unitAli,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCode != null" >
+        parent_code = #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitIndex != null" >
+        unit_index = #{unitIndex,jdbcType=VARCHAR},
+      </if>
+      <if test="unitLevel != null" >
+        unit_level = #{unitLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="unitType != null" >
+        unit_type = #{unitType,jdbcType=VARCHAR},
+      </if>
+      <if test="instituteName != null" >
+        institute_name = #{instituteName,jdbcType=VARCHAR},
+      </if>
+      <if test="define1 != null" >
+        define1 = #{define1,jdbcType=VARCHAR},
+      </if>
+      <if test="define2 != null" >
+        define2 = #{define2,jdbcType=VARCHAR},
+      </if>
+      <if test="define3 != null" >
+        define3 = #{define3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.out.OutUnit" >
+    update out_unit
+    set unit_name = #{unitName,jdbcType=VARCHAR},
+      unit_code = #{unitCode,jdbcType=VARCHAR},
+      unit_ali = #{unitAli,jdbcType=VARCHAR},
+      parent_code = #{parentCode,jdbcType=VARCHAR},
+      unit_index = #{unitIndex,jdbcType=VARCHAR},
+      unit_level = #{unitLevel,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      unit_type = #{unitType,jdbcType=VARCHAR},
+      institute_name = #{instituteName,jdbcType=VARCHAR},
+      define1 = #{define1,jdbcType=VARCHAR},
+      define2 = #{define2,jdbcType=VARCHAR},
+      define3 = #{define3,jdbcType=VARCHAR}
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 批量插入组织机构数据 -->
+  <insert id="insertOutUnitBatch" parameterType="java.util.List">
+	  insert into out_unit (data_id, unit_name, unit_code, 
+      unit_ali, parent_code, unit_index, 
+      unit_level, create_user_id, create_date, 
+      remarks, unit_type, institute_name, 
+      define1, define2, define3)
+		values
+		<foreach collection="list" item="unit" index="index"
+			separator=",">
+			(
+			#{unit.dataId,jdbcType=VARCHAR}, 
+			#{unit.unitName,jdbcType=VARCHAR}, 
+			#{unit.unitCode,jdbcType=VARCHAR}, 
+      		#{unit.unitAli,jdbcType=VARCHAR}, 
+      		#{unit.parentCode,jdbcType=VARCHAR}, 
+      		#{unit.unitIndex,jdbcType=VARCHAR}, 
+      		#{unit.unitLevel,jdbcType=VARCHAR}, 
+      		#{unit.createUserId,jdbcType=VARCHAR}, 
+      		#{unit.createDate,jdbcType=TIMESTAMP}, 
+      		#{unit.remarks,jdbcType=VARCHAR}, 
+      		#{unit.unitType,jdbcType=VARCHAR}, 
+      		#{unit.instituteName,jdbcType=VARCHAR}, 
+      		#{unit.define1,jdbcType=VARCHAR},
+      		#{unit.define2,jdbcType=VARCHAR}, 
+      		#{unit.define3,jdbcType=VARCHAR})
+		</foreach>
+	</insert>
+	
+	<!-- 批量修改数据 -->
+    <insert id="updateUnitDataBatch" parameterType="java.util.List">
+	  update out_unit set define2 = 
+		 <foreach collection="list" item="unit" index="index" separator=" " open="case " close="else define2 end">
+			 when define1 = '奖励系统' and unit_code=#{unit.unitCode} then #{unit.define2}
+		 </foreach>
+    </insert>
+</mapper>

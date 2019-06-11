@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <!--<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">-->
+
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <style>
+        .tableBox .btn_add{background: none;}
+        .tableBox .btn_add:hover{background: #1890ff;}
+        .tableBox .btnMyBgImg{padding: 0 10px;}
+    </style>
+</head>
+<body>
+
+<div class="searchBox">
+    <!--查询条件-->
+    <label class="dateInput">
+        <input type="hidden" id="auditStatus" name="auditStatus" value="2">
+        <input type="hidden" id="state" name="state" value="0">
+        <span>专家姓名</span>
+        <input type="text" id="expertName" name="expertName" placeholder="请输入专家姓名" title="专家姓名" autocomplete="off" class="form-control">
+    </label>
+    <label class="dateInput">
+
+        <span>邮箱</span>
+        <input type="text" id="email" name="email" placeholder="请输入邮箱" title="邮箱" autocomplete="off" class="form-control">
+    </label>
+
+    <!--<label class="selectInput">-->
+        <!--<span>所属机构</span>-->
+        <!--<select name="company" id="company" lay-filter="projectStageId">-->
+            <!--<option value="">请选择</option>-->
+        <!--</select>-->
+    <!--</label>-->
+
+
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
+        </button>
+        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
+                data-type="resetEvent">重置
+        </button>
+    </div>
+</div>
+
+<div class="tableBox">
+    <div class="tableToolBox">
+        <div class="whiteLine"></div>
+        <div class="tableBtns">
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"-->
+            <!--data-type="all">-->
+            <!--<span class="btn-state btn-all"></span>全部-->
+            <!--</button>-->
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"-->
+            <!--data-type="draft">-->
+            <!--<span class="btn-state btn-yellow"></span>草稿-->
+            <!--</button>-->
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"-->
+            <!--data-type="approval">-->
+            <!--<span class="btn-state btn-green"></span>审批中-->
+            <!--</button>-->
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"-->
+            <!--data-type="approved">-->
+            <!--<span class="btn-state btn-blue"></span>已审批-->
+            <!--</button>-->
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+            <!--data-type="addEvent">新增-->
+            <!--</button>-->
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+            <!--data-type="editEvent">编辑-->
+            <!--</button>-->
+
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+            <!--data-type="deleteEvent">删除-->
+            <!--</button>-->
+
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" id="jd"
+                    data-type="okEvent">确定
+            </button>
+
+        </div>
+    </div>
+    <table id="zjkBaseInfoTableId" class="layui-hide" lay-filter="tableEvent"></table>
+</div>
+<script>
+    var state = $("#state").val();
+
+    //项目
+    ajaxPost('/dictionary/list/ROOT_XTGL_ZSYJY', null, function (data, status) {
+        $.each(data, function (i, dt) {
+            if (i <= 7) {
+                $("#company").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+            }
+        });
+    });
+    var selectRowData;
+    var publicMethods;
+    layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element', 'publicMethods'], function () {
+        var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer,
+            laydate = layui.laydate;
+        var publicMethods = layui.publicMethods;
+        table = layui.table;
+
+        function loadtable() {
+            console.log("----查询-----");
+            var where = {"expertName": $("#expertName").val(), "email": $("#email").val(), "company": $("#company option:selected").val(), "auditStatus": $("#auditStatus").val(), "sysFlag": $("#state").val()};
+            console.log(where);
+            table.render({
+                elem: '#zjkBaseInfoTableId',
+                url: '/zjkBaseInfo/getTableData',
+                method: "POST",
+                where: {param: where},
+                limit: 15,
+                id: 'zjkBaseInfoTableId',
+                height: commonDislodgeTable(),
+                page: {
+                    count: 500, //数据总数，从服务端得到
+                    groups: 5,
+                    limits: [15, 30, 45, 60],
+                    layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                    first: '首页', //不显示首页
+                    last: '尾页', //不显示尾页
+                    theme: '#0F9EE0'
+                },
+
+                cols: [[
+                    {type: 'checkbox', event: 'changeEvents'},
+                    {title: '序号', type: 'numbers' ,width : 55},
+                    {
+                        field: 'auditStatus',
+                        title: '状态',
+                        event: 'setActive',
+                        align: 'center',
+                        style: 'cursor: pointer;',
+                        templet: '<div>{{ layui.laytpl.auditStatus(d.auditStatus) }}</div>',
+                        width: 55
+                    },
+                    {
+                        field: "expertName",
+                        title: "姓名", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "sex",
+                        title: "性别", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "age",
+                        title: "年龄", event: 'setActive', style: 'cursor: pointer;', align: "right"
+                    },
+                    {
+                        field: "birthDate",
+                        title: "出生日期", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "email",
+                        title: "邮箱", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "mobile",
+                        title: "联系方式", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "expertProfessionalField",
+                        title: "专业领域", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "expertProfessinal",
+                        title: "职称", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "company",
+                        title: "所属机构", event: 'setActive', style: 'cursor: pointer;'
+                    }
+                ]],
+                done: function (res, curr, count) {
+                    $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                        var index = parseInt($(this).index() + 1);
+                        $(this).parent().find('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $(this).parent().children('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $(this).children("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        selectRowData = res.data[index - 1];
+                    });
+                    //字典翻译
+                    var param = {
+                        data: res.data,//数据
+                        element: ".layui-table-body table",// 当前的表格元素
+                        column: 4,//列数 从0开始
+                        field: "sex",//当前数据的字段
+                        url: "/pageCommon/dic/ROOT_UNIVERSAL_XB"//接口
+                    };
+                    publicMethods.dataDictionary(param);
+                    var param = {
+                        data: res.data,//数据
+                        element: ".layui-table-body table",// 当前的表格元素
+                        column: 9,//列数 从0开始
+                        field: "expertProfessionalField",//当前数据的字段
+                        url: "/pageCommon/dic/ZJK_ZYFL"//接口
+                    };
+                    publicMethods.dataDictionary(param);
+                    var param = {
+                        data: res.data,//数据
+                        element: ".layui-table-body table",// 当前的表格元素
+                        column: 10,//列数 从0开始
+                        field: "expertProfessinal",//当前数据的字段
+                        url: "/pageCommon/dic/ZJK_ZCXX"//接口
+                    };
+                    publicMethods.dataDictionary(param);
+                    var param = {
+                        data: res.data,//数据
+                        element: ".layui-table-body table",// 当前的表格元素
+                        column: 11,//列数 从0开始
+                        field: "company",//当前数据的字段
+                        url: "/pageCommon/dic/ROOT_XTGL_ZSYJY"//接口
+                    };
+                    publicMethods.dataDictionary(param);
+                }
+            });
+            //移除表头的复选框,去掉全选
+            $(".layui-table-header table thead th input").remove();
+        }
+
+        // $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
+        //     var index = $(this).attr('data-index');
+        //     var tableBox = $(this).parents('.layui-table-box');
+        //     //存在固定列
+        //     if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
+        //         tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+        //     } else {
+        //         tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+        //     }
+        //     var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+        //     if (checkCell.length > 0) {
+        //         checkCell.click();
+        //     }
+        // });
+        // $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+        //     e.stopPropagation();
+        // });
+
+        loadtable();
+        // 触发不同的按钮事件
+        var $ = layui.$, active = {
+            searchEvent: function () { //点击查询按钮
+                loadtable()
+            },
+            resetEvent: function () { //点击查询按钮
+                table.reload('zjkBaseInfoTableId', {
+                    where: {
+                        param: {}
+                    }
+                });
+            }, getChecked: function () {//多选
+                var ids = "";
+                var selectedData = active.getCheckData();
+                return selectedData;
+            }, getCheckData: function () { //获取选中数据
+                var checkStatus = table.checkStatus('zjkBaseInfoTableId')
+                    , data = checkStatus.data;
+                return data;
+            }
+            , getCheckLength: function () { //获取选中数目
+                var checkStatus = table.checkStatus('zjkBaseInfoTableId')
+                    , data = checkStatus.data;
+                layer.msg('选中了：' + data.length + ' 个');
+            }
+            , isAll: function () { //验证是否全选
+                var checkStatus = table.checkStatus('zjkBaseInfoTableId');
+                layer.msg(checkStatus.isAll ? '全选' : '未全选')
+            },
+            addEvent: function () { //点击新增按钮
+                openBaseWin("新增", "/zjkBaseInfo/edit");
+            },
+            all: function () {
+                $('#auditStatus').val('');
+                loadtable();
+            }
+            , draft: function () {
+                $('#auditStatus').val('0');
+                loadtable();
+            }
+            , approval: function () {
+                $('#auditStatus').val('1');
+                loadtable();
+            }
+            , approved: function () {
+                $('#auditStatus').val('2');
+                loadtable();
+            },
+            editEvent: function () { //点击编辑按钮
+                if (typeof (selectRowData) == "undefined") {
+                    layer.msg("请选择一条数据");
+                    return;
+                } else {
+                    if (selectRowData.auditStatus != '0') {
+                        layer.msg('当前记录已经提交，不能进行编辑操作！');
+                    } else {
+                        openFullWin("编辑", "/zjkBaseInfo/edit?id=" + selectRowData.dataId);
+                    }
+                }
+            }, okEvent: function () {
+                //点击编辑按钮
+                if (!selectRowData) {
+                    layer.msg('请点击选择一行数据!');
+                    return;
+                }
+                var objSelected = {};
+                // objSelected.userId = selectRowData.userId;
+                // objSelected.userDisp = selectRowData.userDisp;
+                parent.setWelder(selectRowData);
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+            }
+            , viewEvent: function () { //点击编辑按钮
+                if (typeof (selectRowData) == "undefined") {
+                    layer.msg("请选择一条数据");
+                    return;
+                } else {
+                    openFullWin("编辑", "/zjkBaseInfo/view/" + selectRowData.dataId);
+                }
+            }
+            ,
+            deleteEvent: function () { //点击删除按钮
+                if (typeof (selectRowData) == "undefined") {
+                    layer.msg("请选择一条数据");
+                    return;
+                }
+                if (selectRowData.auditStatus != '0') {
+                    layer.msg('当前记录已经提交，不能进行编辑操作！');
+                } else {
+                    layer.confirm('确定要删除吗?', {btn: ['确认', '取消'], title: "删除确认"}, function (index) {
+                        layer.close(index);
+                        ajaxPost("/zjkBaseInfo/del", {"id": selectRowData.dataId}, function (data) {
+                            layer.msg("操作成功");
+                            loadtable();
+                        });
+                    });
+                }
+            }
+            ,
+            djEvent: function () { //冻结
+                if (typeof (selectRowData) == "undefined") {
+                    layer.msg("请选择一条数据");
+                    return;
+                }
+                layer.confirm('确定要执行冻结吗?', {btn: ['确认', '取消'], title: "删除确认"}, function (index) {
+                    layer.close(index);
+                    ajaxPost("/zjkBaseInfo/updateExpertByType", {"dataId": selectRowData.dataId, "bak1": "1", "sysFlag": "1"}, function (data) {
+                        layer.msg("操作成功");
+                        loadtable();
+                    });
+                });
+            }
+            ,
+            jdEvent: function () { //解冻
+                if (typeof (selectRowData) == "undefined") {
+                    layer.msg("请选择一条数据");
+                    return;
+                }
+                layer.confirm('确定要执行解冻吗?', {btn: ['确认', '取消'], title: "删除确认"}, function (index) {
+                    layer.close(index);
+                    ajaxPost("/zjkBaseInfo/updateExpertByType", {"dataId": selectRowData.dataId, "bak1": "1", "sysFlag": "0"}, function (data) {
+                        layer.msg("操作成功");
+                        loadtable();
+                    });
+                });
+            }
+        };
+        $('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" href="/common/css/echart-common.css">
+     
+    <script src="/common/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+	<!-- <script src="/common/js/layer-v3.1.1/layer.js"></script> -->
+	<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+	<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+	<script type="text/javascript" src="/stp/hana/common/stp_common_chart.js"></script>
+	<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+	<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+	<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+</head>
+<body>
+
+	<div class="content-body container">
+		<div style="text-align: center; font-weight: bold; margin: 10px;">表1 集团经费预算明细表</div>
+		<table id="myTable" class="layui-table" lay-data="{url:'/ba/jtjfysmxb_data',height:'auto'}">
+				
+				<thead>
+					<tr>
+				      <th lay-data="{type:'numbers'}" rowspan="3">序号</th>
+				      <th lay-data="{field:'zyc', width:'10%'}" rowspan="3">处别</th>
+				      <th lay-data="{field:'yshj', width:'8%',align:'right'}" rowspan="3">预算合计</th>
+				      <th lay-data="{align:'center'}" colspan="5">结转项目经费</th>
+				      <th lay-data="{align:'center'}" colspan="5">新开项目经费</th>
+				    </tr>
+					<tr>
+						<th lay-data="{field:'jzxmjfhj', width:'8%',align:'right'}" rowspan="2">合计</th>
+						<th lay-data="{align:'center'}" colspan="3">拨款</th>
+						<th lay-data="{field:'jzxmjfjh', width:'8%',align:'right'}" rowspan="2">计划</th>
+						<th lay-data="{field:'xkxmjfhj', width:'8%',align:'right'}" rowspan="2">合计</th>
+						<th lay-data="{align:'center'}" colspan="3">拨款</th>
+						<th lay-data="{field:'xkxmjfjh', width:'8%',align:'right'}" rowspan="2">计划</th>
+					</tr>
+					<tr>
+						<th lay-data="{field:'jzxmjfbkyf', width:'8%',align:'right'}">油服</th>
+						<th lay-data="{field:'jzxmjfbkjx', width:'8%',align:'right'}">机械</th>
+						<th lay-data="{field:'jzxmjfqt', width:'8%',align:'right'}">其他</th>
+						<th lay-data="{field:'xkxmjfbkyf', width:'8%',align:'right'}">油服</th>
+						<th lay-data="{field:'xkxmjfbkjx', width:'8%',align:'right'}">机械</th>
+						<th lay-data="{field:'xkxmjfqt', width:'8%',align:'right'}">其他</th>
+					</tr>
+				</thead>
+			</table>
+	</div>
+
+	<!--表格数据操作js-->
+
+<script>
+var table,selectRowData;
+var fzdw=$('#fzdw').val();
+
+layui.config({
+    base: '/layuiadmin/module/modules/' //静态资源所在路径
+}).use(['jquery','form', 'laydate','table','laypage'], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,form = layui.form
+      ,laydate = layui.laydate,
+	  form.render(null, 'component-form-group');
+            laydate.render({
+               elem: '#year'
+               ,format: 'yyyy'
+               
+            });
+         
+        
+        
+});
+function serarch()
+{
+	table.reload('myTable', {
+		  url: '/ba/jtjfysmxb_data'
+		  ,where: {} 
+		  
+		});
+
+	
+}
+serarch(); 
+    
+
+
+</script>
+</body>
+</html>

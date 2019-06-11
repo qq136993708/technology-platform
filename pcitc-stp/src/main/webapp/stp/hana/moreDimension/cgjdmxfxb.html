@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/mainStp.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
+    <style>
+        .btn_details{background:url(/layuiadmin/layui/images/operation_03.png) 2px 4px #fff no-repeat;}
+        .btnMyBgImg:hover{background-size:inherit;background-position: 2px;}
+        .searchBox{background:none;}
+    </style>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="">
+        <input type="hidden" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
+
+      
+        
+        
+         <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+               <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span>&nbsp;</span>所获奖励
+                    </div>
+                    <div class="layui-row-main" style="padding-left: 35px;">
+                    	<div class="duty_gd">
+	                       	<div class="pre_last"></div>
+		                        <ul>
+		                            <li class="layui-this">2017</li>
+		                        </ul>
+	                        <div class="pre_next"></div>
+	                    </div>
+	                    <div class="duty_content">
+	                        <div class="duty_nr" style="display: block; position: relative; top: 0px; left: 0px; opacity: 1;">
+	                           <table id="processdef-table"  lay-filter="tableEvent1"></table>
+	                        </div>
+	                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script type="text/javascript" src="/layuiadmin/javascript/jquery.mousewheel.min.js"></script>
+
+<script type="text/javascript">
+
+
+var tableOne=null,tableTwo=null,selectRowData,nd='';
+layui.config({
+    base: '/layuiadmin/lib/extend/'
+}).extend({
+    treeGridCom:'treeGridCom'
+}).use(['jquery','table','form', 'laydate','treeGridCom','layer',"publicMethods"], function(){
+    var $=layui.jquery;
+    var publicMethods=layui.publicMethods;
+    treeGridCom = layui.treeGridCom;//很重要
+    layer=layui.layer;
+    laydate = layui.laydate;
+    form = layui.form;
+    table = layui.table;
+    form.render(null, 'component-form-group');
+    laydate.render({
+    	 elem: '#year',min: '2016-10-14'
+     	      ,type: 'year'
+        ,done: function(value, date, endDate){
+            $(".layui-time").html(date.year);
+            $("#year").val(date.year); 
+            search_Event();
+        }
+    });
+
+    $(".layui-time").html(nd);
+    publicMethods.ajaxPost("/one_level_main/achievement_05",null, function (data) {
+    	$(".duty_gd ul").html("");
+		$.each(data,function(i,dt){
+			//if(i>=6){return false;}//由于太长只显示6年，请前端妥善处理
+			var cs = (dt==$("#year").val())?' class="layui-this"':'';
+			$(".duty_gd ul").append('<li'+cs+'>'+dt+'</li>');
+		});
+		$("ul > li:first").addClass("layui-this");
+		renderTable($(".layui-this").html());
+   	});
+    
+    
+    
+    /*时间轴*/
+    var len_fzlc  = $(".duty_gd ul li").length;
+    var index_fzlc = 0;
+    var fzlcWidth = $(".duty_gd ul li").width();
+    mouseWhell();
+    //li点击
+    $("ul > li").on("click",function () {
+        index_fzlc=$(this).index();
+        $(this).addClass("layui-this").siblings().removeClass("layui-this");
+        $(".duty_gd ul").stop(true,false).animate({top: -92*index_fzlc},500);
+        //加载表格
+        renderTable($(".layui-this").html());
+        mouseWhell();
+        //$(".duty_content>div").eq(index_fzlc).fadeIn(700).siblings().hide();
+    });
+    //往左按钮
+    $(".pre_last").on("click",function () {
+        if(index_fzlc!=0){
+            index_fzlc--;
+        }
+        else{
+            index_fzlc=len_fzlc-1;
+        }
+        $(".duty_gd ul li").eq(index_fzlc).addClass("layui-this").siblings().removeClass("layui-this");
+        $(".duty_gd ul").stop(true,false).animate({top: -92*index_fzlc},500);
+        //$(".duty_content>div").eq(index_fzlc).fadeIn(700).siblings().hide();
+        renderTable($(".layui-this").html());
+        mouseWhell();
+    });
+    //往右按钮
+    $(".pre_next").on("click",function () {
+        if(index_fzlc!=(len_fzlc-1)){
+            index_fzlc++;
+        }
+        else{
+            index_fzlc=0;
+        }
+        $(".duty_gd ul li").eq(index_fzlc).addClass("layui-this").siblings().removeClass("layui-this");
+        $(".duty_gd ul").stop(true,false).animate({top: -92*index_fzlc},500);
+        //$(".duty_content>div").eq(index_fzlc).fadeIn(700).siblings().hide();
+        renderTable($(".layui-this").html());
+        mouseWhell();
+    });
+    //renderTable();
+    
+});
+
+function mouseWhell() {
+    $('.layui-table').mousewheel(function(event, delta) {
+        var dir = delta > 0 ? 'Up' : 'Down';
+        if (dir == 'Up') {
+            //alert('向上滚动');
+            //alert($(this).position().top)
+            var top=(Math.abs($(this).position().top)/3)+10;
+            $(".layui-table-body>.layui-table").find("tr").each(function (i, val) {
+                var trRS=$(this).find("td:eq(1)").attr("rowspan");
+                if (trRS==undefined){
+                    return;
+                } else {
+                    if(trRS>13){
+                        $(this).find("td:eq(1)").css("position","relative");
+                        $(this).find("td:eq(1) div").css({"position":"absolute","top":top+"px"});
+                    }
+                }
+            });
+        } else {
+            //alert('向下滚动');
+            //alert((Math.abs($(this).position().top))/4+10)
+            var top=(Math.abs($(this).position().top))+10;
+            $(".layui-table-body>.layui-table").find("tr").each(function (i, val) {
+                var trRS=$(this).find("td:eq(1)").attr("rowspan");
+                if (trRS==undefined){
+                    return;
+                } else {
+                    if(trRS>13){
+                        $(this).find("td:eq(1)").css("position","relative");
+                        $(this).find("td:eq(1) div").css({"position":"absolute","top":top+"px"});
+                    }
+                }
+            });
+        }
+        //return false;
+    });
+}
+function positionTop() {
+
+}
+function initEchart()
+{
+
+	var v_date=(new Date()).getTime();
+	nd=$('#year').val();
+	var ndstr=nd+"年";
+	var yAxis= [
+        {
+            type: 'value',
+            name: '数量（个）',
+            position: 'left',
+            axisLabel: {
+                formatter: '{value}'
+            }
+        }
+    ];
+	
+	
+	/*
+	$("#chart_title_04").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+	 $("#chart_title_07").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+	var chart4_url="/one_level_main/achievement_02?type=1&nd="+nd+"&v_date="+v_date;
+	var color=["#87d359"];
+	var echart4=load_single_bar(chart4_url,"chart4","","",yAxis,color,35,1,function(data){
+		console.log(data);
+		var total_count = 0;
+		$.each(data.data.seriesDataList,function(index,dt){
+			total_count+=dt;
+		});
+		$("#chart_title_04").html(total_count+"个");
+	});
+	echart4.on('click', function (params) {
+		var xName=params.name;
+		var legentName=params.seriesName;
+		
+         var url=　encodeURIComponent("/one_level_main/achievement_table?define3="+xName+"&nd="+nd);
+	     window.open("/instituteIndex?url="+url);
+	        
+          
+    });
+	
+	
+	var chart5_url="/one_level_main/achievement_02?type=2&nd="+nd+"&v_date="+v_date;
+	var echart5=loadPie(chart5_url,"chart5","","");
+	echart5.on('click', function (params) {
+		var xName=params.name;
+		var legentName=params.seriesName;
+		var url=　encodeURIComponent("/one_level_main/achievement_table?define3="+xName+"&nd="+nd);
+	     window.open("/instituteIndex?url="+url);
+          
+    });
+	
+	var chart6_url="/one_level_main/achievement_01?nd="+nd+"&v_date="+v_date;
+	var echart6= loadPie(chart6_url,"chart6","","");
+	echart6.on('click', function (params) {
+		var xName=params.name;
+		var legentName=params.seriesName;
+		var url=　encodeURIComponent("/one_level_main/achievement_table?define1="+xName+"&nd="+nd);
+	     window.open("/instituteIndex?url="+url);
+          
+    }); */
+	
+	
+/* 	var chart7_url="/one_level_main/achievement_03?nd="+nd+"&v_date="+v_date;
+    var colorNew=["#54b6e9"];
+	var echart7=load_single_bar(chart7_url,"chart7","","",yAxis,colorNew,55,"",function(data){
+		console.log(data);
+		var total_count = 0;
+		$.each(data.data.seriesDataList,function(index,dt){
+			total_count+=dt;
+		});
+		$("#chart_title_07").html(total_count+"个");
+	});
+	echart7.on('click', function (params) {
+		var xName=params.name;
+		var legentName=params.seriesName;
+		var url=　encodeURIComponent("/one_level_main/achievement_table?zy="+xName+"&nd="+nd);
+	     window.open("/instituteIndex?url="+url);
+          
+    }); */
+	
+}
+
+//初始化图形
+initEchart();
+//查询
+function search_Event()
+{
+	initEchart();
+	$.each($("li"),function(index,dt){
+		if($(this).html() == $("#year").val())
+		{
+			$(this).addClass("layui-this").siblings().removeClass("layui-this");
+		}
+	});
+	renderTable($(".layui-this").html());
+}
+//重大项目
+function renderTable()
+{
+	renderTable($(".layui-this").html());
+	
+}
+
+
+function renderTable(nd){
+    table.render({
+        elem: '#processdef-table' //表格容器
+        , url:'/one_level_main/achievement_04?nd='+nd
+        , limit: 15 //每页默认显示的数量
+        , id: 'processdef-table'
+        , height: "620px"
+        , cols: [[
+        	  		{field:'nd',title:'年度',edit:'text',align: 'center'},
+		  	   		{field:'sbjz',title:'获奖类别',edit:'text', width: '15%'},
+		       		{field:'sbdj',title:'奖项',style:'cursor: pointer;',align: 'center', width: '8%'},
+		       		{field:'xmmc',title:'名称',style:'cursor: pointer;',align: 'left', width: '25%'},
+		       		{field:'fzdw',title:'主要完成人',style:'cursor: pointer;',align: 'left', width: '20%'},
+		       		{field:'sbdw',title:'单位',style:'cursor: pointer;',align: 'left', width: '25%'}
+        ]],
+        done: function(res, curr, count){
+            merge(res);
+        }
+    });
+
+    function merge(res) {
+
+        var data = res.data;
+        var mergeIndex = 0;//定位需要添加合并属性的行数
+        var mark = 1; //这里涉及到简单的运算，mark是计算每次需要合并的格子数
+        var columsName = ['nd','sbjz','sbdj'];//需要合并的列名称
+        var columsIndex = [0,1];//需要合并的列索引值
+
+        for (var k = 0; k < columsName.length; k++) { //这里循环所有要合并的列
+            var trArr = $(".layui-table-body>.layui-table").find("tr");//所有行
+            for (var i = 1; i < res.data.length; i++) { //这里循环表格当前的数据
+                var tdCurArr = trArr.eq(i).find("td").eq(columsIndex[k]);//获取当前行的当前列
+                var tdPreArr = trArr.eq(mergeIndex).find("td").eq(columsIndex[k]);//获取相同列的第一列
+
+                if (data[i][columsName[k]] === data[i-1][columsName[k]]) { //后一行的值与前一行的值做比较，相同就需要合并
+                    mark += 1;
+                    tdPreArr.each(function () {//相同列的第一列增加rowspan属性
+                        $(this).attr("rowspan", mark);
+                    });
+                    tdCurArr.each(function () {//当前行隐藏
+                        $(this).css("display", "none");
+                    });
+                }else {
+                    mergeIndex = i;
+                    mark = 1;//一旦前后两行的值不一样了，那么需要合并的格子数mark就需要重新计算
+                }
+            }
+            mergeIndex = 0;
+            mark = 1;
+        }
+        $(".layui-table-body>.layui-table").find("tr").each(function (i, val) {
+            var trRS=$(this).find("td:eq(1)").attr("rowspan");
+            if (trRS==undefined){
+                return;
+            } else {
+                if(trRS>13){
+                    $(this).find("td:eq(1)").css("position","relative");
+                    $(this).find("td:eq(1) div").css({"position":"absolute","top":"0"});
+                }
+            }
+        });
+    }
+}
+
+ 
+        
+</script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>流程测试例子</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
+
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+
+<style>
+body {
+	padding: 10px 10px 0;
+}
+</style>
+</head>
+<body>
+	<form class="layui-form" id="example-form" lay-filter="component-form-group layui-container">
+		<!--提交时需要知道此菜单是什么-->
+		<input type="hidden" name="functionName" id="functionName">
+		<input type="hidden" name="functionId" id="functionId">
+		<input id="userIds" name="userIds" type="hidden">
+		<input id="specialAuditor0" name="specialAuditor0" type="hidden">
+		<input id="specialAuditor1" name="specialAuditor1" type="hidden">
+		<input id="branchFlag" name="branchFlag" type="hidden">
+		<div class="box-body">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group">
+						<label class="col-sm-3 control-label bb-title">说明</label>
+						<div class="col-sm-6">
+							<input class="form-control" name="prodefName" lay-verify="prodefName" placeholder="请输入说明" autocomplete="off" type="text">
+							<span class="must-fill">*</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!--行有两个的情况-->
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="col-sm-3 control-label bb-title">姓名</label>
+						<div class="col-sm-8">
+							<input class="form-control" id="projectName" name="projectName" lay-verify="projectName" placeholder="请输入标题" autocomplete="off" type="text" value="123456">
+							<span class="must-fill">*</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-form-item layui-layout-admin row">
+			<div class="layui-input-block">
+				<div class="layui-footer">
+					<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="form-submit">测试流程提交</button>
+				</div>
+			</div>
+		</div>
+	</form>
+
+
+	<script>
+		layui.config({
+			base : '../../../../' //静态资源所在路径
+		}).use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element' ], function() {
+			var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
+
+			// 获取当前菜单的id值，用来判断应该是走那个工作流程
+			var param = JSON.parse(window.localStorage.getItem("param"));
+			$("#functionId").attr("value", param.id);
+			// 此处强制指定为委托管理
+			form.render(null, 'component-form-group');
+			
+			$("#functionId").attr("value", "59d9113d-745d-4c46-bc84-c18f132ac2c1");
+			//$("#specialAuditor0").attr("value", "post--ZSH_YFGCS_CJCXY");
+			//$("#specialAuditor1").attr("value", "post--ZSH_YFGCS_CJCXY");
+			//$("#branchFlag").attr("value", "2");
+			/* 监听提交 */
+			form.on('submit(form-submit)', function(data) {
+				//JSON.stringify(data.field)  提交信息json格式
+				//data的作用域里面涉及functionId、userIds（选择审批者）、特殊变量等
+				workflowAuditorSelector(JSON.stringify(data.field));
+				
+				return false;
+			});
+		});
+
+		function getFormData(formId) {
+			var unindexed_array = $('#'+formId).serializeArray();
+			var indexed_array = {};
+
+			$.map(unindexed_array, function(n, i) {
+				indexed_array[n['name']] = n['value'];
+			});
+
+			return indexed_array;
+		}
+
+		// 处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
+		function handleTask(userIds) {
+			$('#userIds').val(userIds);
+			// 获取functionId, 如果需要不同的项目走不同的流程、不同的部门走不同的流程的，把projectId、departmentId也赋值到form表单中
+			$.ajax({
+				type : 'POST',
+				url : "/workflow/start-flow2",//自己业务的保存方法，方法中调用发起流程请求方法
+				data : JSON.stringify(getFormData('example-form')),
+				contentType : "application/json;charset=UTF-8",
+				error : function(data) {
+					layer.msg(data.message);
+				},
+				success : function(data) {
+					layer.msg(data.message);
+				}
+
+			});
+		}
+	</script>
+</body>
+</html>

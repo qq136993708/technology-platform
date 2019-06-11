@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+	<link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+	<link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+	
+	<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+	<script type="text/javascript" src="/plugins/ckeditor/ckeditor.js"></script>
+	<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+	<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+	<script type="text/javascript">
+	var file_ids = "appendFiles";
+    var file_ids2 = "appendFiles2";
+    //detail:详情，edit：编辑
+	file_edit_detail = "edit";
+    file_edit_detail2 = "edit";
+	//统管理-附件管理-附件配置：页面标识
+	file_opt_flag = "4c20bd28057543839c0db8754f417c6a";
+	file_opt_flag2 = "4c20bd28057543839c0db8754f417c6a";
+
+
+	
+	$(document).ready(function() {
+		//var applyEditor = CKEDITOR.replace("applyContent");
+		//var projectEditor = CKEDITOR.replace("projectContent");
+		layui.use(['jquery','form','laydate','table', 'layer', 'element','publicMethods'], function(){
+	    	var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate,
+	            form = layui.form,publicMethods=layui.publicMethods,table = layui.table;	
+	    		var projectId = "${projectId?default(0)}";
+	    		//加载项目
+	    		publicMethods.ajaxPost("/project/apply-list-all",null, function (data) {
+					$.each(data,function(i,val){
+						$("#applyId").append('<option value="'+data[i].applyId+'">'+data[i].applyName+'</option>');
+					});
+			   	});
+	    		//下拉改变
+	    		form.on('select(applyId)', function(dt){
+	    			publicMethods.ajaxAsyncPost('/project/get-apply', {applyId:dt.value}, function (data, status) {
+	             		form.val("info-form",data);
+	             		//applyEditor.setData(data.applyContent);
+	             		
+	             		// $("#appendFiles2").val(data.appendFiles);
+	             		$("#file_div2").load('/common/public/uploadlayuiload2.html');
+	                });
+	    		});
+	    		
+	    		if(projectId != 0)
+	    		{
+	    			publicMethods.ajaxAsyncPost('/project/get-project', {projectId:projectId}, function (data, status) {
+	    				form.val("info-form",data);
+	    				//projectEditor.setData(data.projectContent);
+	                });
+	    		}else{
+	    			publicMethods.ajaxAsyncPost('/project/project-info-code', null, function (data, status) {
+	        			if (data.success) {
+	        				$("#projectCode").val(data.message);
+	        			}
+	        		});
+	    		}
+	    		form.render();
+	    		if($("#applyId").val() != null && $("#applyId").val() !="")
+	    		{
+	    			publicMethods.ajaxAsyncPost('/project/get-apply', {applyId:$("#applyId").val()}, function (dt, status) {
+	             		form.val("info-form",dt);
+	             		//applyEditor.setData(dt.applyContent);
+	             		
+	             		// $("#appendFiles2").val(dt.appendFiles);
+	             		$("#file_div2").load('/common/public/uploadlayuiload2.html');
+	                });
+	    		}
+	    		//添加到form.render()之后
+			 	$("#file_div").load('/common/public/uploadlayuiload.html');
+			 	
+	    		
+	    		form.on('submit(submitBtn)', function(data) {
+					//data.field.projectContent = projectEditor.getData();
+					console.log(data.field.projectContent);
+					publicMethods.ajaxAsyncPost('/project/addorupd-project', data.field, function (data, status) {
+                        if (data.success) {
+                        	parent.layui.table.reload('infoTable',null);
+                        	var w_index = parent.layer.getFrameIndex(window.name);
+					       	parent.layer.close(w_index);
+                        }else{
+                        	parent.layer.alert(data.message, {
+								title : '信息'
+							});
+							return;
+                        }
+                    });
+					return false;
+				});
+		});
+	});
+	</script>
+</head>
+<body>
+<form id="info-form" name="info-form" lay-filter="info-form" class="form-horizontal layui-form">
+	<input type="hidden" name="projectId" id="projectId" value="">
+	<input type="hidden" name="plantId" id="plantId" value="">
+	<input type="hidden" name="appendFiles" id="appendFiles" value="333">
+	<input type="hidden" name="appendFiles2" id="appendFiles2" value="444">
+	<div class="formBox">
+		<div class="box-body">
+			<div class="layui-row">
+				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label for="" class="layui-form-label">立项名称<span class="must-fill">*</span></label>
+						<div class="layui-input-block">
+							<input type="text" class="layui-input" lay-verify="required"  id="projectName" name="projectName" placeholder="项目标题">
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item"  id="password" >
+						<label for="" class="layui-form-label">立项编码<span class="must-fill">*</span></label>
+						<div class="layui-input-block">
+						 	<input type="text" class="layui-input readOnlyBox" readonly="readonly" lay-verify="required"  id="projectCode" name="projectCode" placeholder="项目编码">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label for="" class="layui-form-label">协议审查状态<span class="must-fill">*</span></label>
+						<div class="layui-input-block">
+							<select name="flowAgreementReviewStatus" id="flowAgreementReviewStatus" lay-verify="required"  lay-filter="applyId">
+			                	<option value="0">待审查</option>
+			                	<option value="1">已通过</option>
+			             	</select>
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label for="" class="layui-form-label">协议审查人</label>
+						<div class="layui-input-block">
+						 	<input type="text" class="layui-input" id="flowAgreementReview" name="flowAgreementReview" placeholder="协议审查负责人">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label for="" class="layui-form-label">专业技术审查<span class="must-fill">*</span></label>
+						<div class="layui-input-block">
+						 	<select name="flowTechnologyReviewStatus" id="flowTechnologyReviewStatus" lay-verify="required"  lay-filter="applyId">
+			                	<option value="0">待审查</option>
+			                	<option value="1">已通过</option>
+			             	</select>
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label for="" class="layui-form-label">专业技术审查人</label>
+						<div class="layui-input-block">
+						 	<input type="text" class="layui-input" id="flowTechnologyReview" name="flowTechnologyReview" placeholder="专业技术审查负责人">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label for="" class="layui-form-label">知识产权审查<span class="must-fill">*</span></label>
+						<div class="layui-input-block">
+						 	<select name="flowKnowledgeReviewStatus" id="flowKnowledgeReviewStatus" lay-verify="required"  lay-filter="applyId">
+			                	<option value="0">待审查</option>
+			                	<option value="1">已通过</option>
+			             	</select>
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label for="" class="layui-form-label">知识产权审查人</label>
+						<div class="layui-input-block">
+						 	<input type="text" class="layui-input" id="flowKnowledgeReview" name="flowKnowledgeReview" placeholder="知识产权审查负责人">
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="layui-row">
+				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label for="" class="layui-form-label">综合审查<span class="must-fill">*</span></label>
+						<div class="layui-input-block">
+							<select name="flowComprehensiveReviewStatus" id="flowComprehensiveReviewStatus" lay-verify="required"  lay-filter="applyId">
+			                	<option value="0">待审查</option>
+			                	<option value="1">已通过</option>
+			             	</select>
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label for="" class="layui-form-label">综合审查人</label>
+						<div class="layui-input-block">
+						 	<input type="text" class="layui-input" id="flowComprehensiveReview" name="flowComprehensiveReview" placeholder="综合审查负责人">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+		      	 <label class="layui-form-label">立项描述</label>
+		         <div class="layui-input-block">
+		         	   <textarea class="layui-textarea"  id="remarks" name="remarks" placeholder=""></textarea>
+		         </div>
+	       	</div>
+	       	<div class="layui-form-item">
+		      	 <label class="layui-form-label">立项资料文件上传</label>
+		         <div id="file_div" class="layui-input-block"></div>
+	        </div>
+	        
+	        
+	        <div class="layui-row">
+				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+					  <label class="layui-form-label">选择立项项目<span class="must-fill">*</span></label>
+			          <div class="layui-input-block">
+						<select name="applyId" id="applyId" lay-verify="required"  lay-filter="applyId">
+		                	<option value="">请选择</option>
+		             	</select>
+					  </div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="layui-row">
+				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label for="" class="layui-form-label">申报项目名称<span class="must-fill">*</span></label>
+						<div class="layui-input-block">
+							<input type="text" readonly="readonly" class="layui-input" id="applyName" name="applyName" placeholder="申报标题">
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item"  id="password" >
+						<label for="" class="layui-form-label">申报编码<span class="must-fill">*</span></label>
+						<div class="layui-input-block">
+						 	<input type="text" readonly="readonly" class="layui-input" id="applyCode" name="applyCode" placeholder="申报编码">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label for="" class="layui-form-label">计划开始日期<span class="must-fill"></span></label>
+						<div class="layui-input-block">
+							<input type="text" class="layui-input" lay-verify="" id="startDate" name="startDate" placeholder="计划开始日期">
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label for="" class="layui-form-label">计划结束日期<span class="must-fill"></span></label>
+						<div class="layui-input-block">
+							<input type="text" class="layui-input" id="endDate" lay-verify="" name="endDate" placeholder="计划结束日期">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label for="" class="layui-form-label">项目负责人<span class="must-fill">*</span></label>
+						<div class="layui-input-block">
+							<input type="text" class="layui-input" lay-verify="required" id="managerName" name="managerName" placeholder="请输入邮箱">
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label for="" class="layui-form-label">负责人联系方式</label>
+						<div class="layui-input-block">
+							<input type="text" class="layui-input" id="managerPhone" name="managerPhone">
+						</div>
+					</div>
+				</div>
+			</div>
+	       	
+	       	<div class="layui-form-item">
+		      	 <label class="layui-form-label">项目研究优势</label>
+		         <div class="layui-input-block">
+		         	   <textarea readonly="readonly" class="layui-textarea" id="projectAdvantage" name="projectAdvantage" placeholder=""></textarea>
+		         </div>
+	       	</div>
+	       	<div class="layui-form-item">
+		      	 <label class="layui-form-label">合作目的</label>
+		         <div class="layui-input-block">
+		         	   <textarea readonly="readonly" class="layui-textarea" id="projectTarget" name="projectTarget" placeholder=""></textarea>
+		         </div>
+	       	</div>
+	       	<div class="layui-form-item">
+		      	 <label class="layui-form-label">研究内容</label>
+		         <div class="layui-input-block">
+		         	   <textarea readonly="readonly" class="layui-textarea" id="projectResearchContent" name="projectResearchContent" placeholder=""></textarea>
+		         </div>
+	       	</div>
+	       	<div class="layui-form-item">
+		      	 <label class="layui-form-label layui-form-labelH">预期成果含人员培训情况</label>
+		         <div class="layui-input-block">
+		         	   <textarea readonly="readonly" class="layui-textarea" id="projectResult" name="projectResult" placeholder=""></textarea>
+		         </div>
+	       	</div>
+	       	<div class="layui-form-item">
+		      	 <label class="layui-form-label layui-form-labelH">成果及知识产权状态</label>
+		         <div class="layui-input-block">
+		         	   <textarea readonly="readonly" class="layui-textarea" id="projectRight" name="projectRight" placeholder=""></textarea>
+		         </div>
+	       	</div>
+	       	
+	       	
+	       	<div class="layui-form-item">
+		      	 <label class="layui-form-label">项目申报相关附件</label>
+		         <div id="file_div2" class="layui-input-block"></div>
+	        </div>
+	    </div>   	
+	</div>
+	<div class="form-bottom">
+      <div class="form-bottom-btns">
+      	<button type="button" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>
+      	<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"  id="cancel">取消</button>
+      </div>
+    </div>
+</form>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
+<script src="/layuiadmin/layui/layui.js"></script>
+</head>
+
+<body>
+	<div class="searchBox">
+		<!--查询条件-->
+		<label class="dateInput">
+			<span>流程名称</span>
+			<input type="hidden" id="dateFlag" name="dateFlag">
+			<input type="text" id="taskName" name="taskName" placeholder="请输入流程名称" title="流程名称" class="form-control">
+		</label>
+		<!--按钮组-->
+		<div class="btnGroup">
+			<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+			<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
+		</div>
+	</div>
+
+	<div class="tableBox">
+		<div class="tableToolBox">
+			<div class="whiteLine"></div>
+			<div class="tableBtns">
+				<button id="allData" class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue active btnMyBgImg" data-type="allEvent">
+					<span class="btn-state btn-all-ryg"></span>
+					全部
+				</button>
+				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="threeEvent">
+					<span class="btn-state btn-blue"></span>
+					三天内
+				</button>
+				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="weekEvent">
+					<span class="btn-state btn-maize"></span>
+					一周内
+				</button>
+				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="monthEvent">
+					<span class="btn-state btn-yellow"></span>
+					一周以上
+				</button>
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="handleEvent">办理</button>
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent">查看</button>
+			</div>
+		</div>
+		<table id="pendingTable" class="layui-hide" lay-filter="tableData"></table>
+	</div>
+
+
+	<!--表格数据操作js-->
+	<script>
+		var functionId = "${functionId}";
+		var table, active, selectRowData = '';
+		var updateFlag = false;
+		layui.use([ 'jquery', 'table', 'laydate', 'laypage', 'laytpl', 'laydate' ], function() {
+			table = layui.table, $ = layui.jquery, laydate = layui.laydate, laypage = layui.laypage, laydate = layui.laydate;
+
+			function renderTable() {
+				var taskName = $('#taskName').val();
+				var dateFlag = $('#dateFlag').val();
+				var param = JSON.parse(window.localStorage.getItem("param"));
+
+				var lodingMsg = layer.msg('数据加载中....');
+
+				//渲染
+				table.render({
+					elem : '#pendingTable',
+					url : '/task/pending-list',
+					method : "POST",
+					where : {
+						param : {
+							"taskName" : taskName,
+							"dateFlag" : dateFlag,
+							"functionId" : functionId
+						}
+					},
+					limit : param.selfRownum,
+					id : 'pendingTable',
+					height : commonDislodgeTable(),
+					page : {
+						groups : 5,
+						limits : [ param.selfRownum, 15, 30, 45, 60 ],
+						layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
+						first : '首页', //不显示首页
+						last : '尾页', //不显示尾页
+						theme : '#0F9EE0'
+					},
+					cols : [ [ {
+						type : 'checkbox',
+						event : 'changeEvents',
+						width : 45
+					}, {
+						title : '序号',
+						type : 'numbers',
+						width : 45
+					}, {
+						field : 'flowState',
+						title : '状态',
+						width : 45,
+						style : 'cursor: pointer;',
+						align : 'center',
+						templet : function(d) {
+							var auditDate = new Date(d.createTime);
+							var nowDate = new Date();
+							if ((nowDate.getTime() - auditDate.getTime()) < 86400000 * 3) {
+								return '<img src="/layuiadmin/layui/images/Red_Ball.png">';
+							} else if ((nowDate.getTime() - auditDate.getTime()) > 86400000 * 3 && (nowDate.getTime() - auditDate.getTime()) < 86400000 * 7) {
+								return '<img src="/layuiadmin/layui/images/Yellow_Ball.png">';
+							} else {
+								return '<img src="/layuiadmin/layui/images/Green_Ball.png">';
+							}
+						}
+					}, {
+						field : 'processDefinitionName',
+						title : '业务模块',
+						width : '13%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'processInstanceName',
+						title : '任务名称',
+						width : '18%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'name',
+						title : '流程名称',
+						width : '12%',
+						style : 'cursor: pointer;',
+						sort : true
+					}, {
+						field : 'flowStartTime',
+						title : '流程启动时间',
+						width : '12%',
+						style : 'cursor: pointer;',
+						templet : '<div>{{ layui.laytpl.toDateString(d.flowStartTime) }}</div>',
+						sort : true,
+						align : 'center'
+					}, {
+						field : 'startUserName',
+						title : '发起人',
+						width : '8%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'auditor',
+						title : '上一步处理人',
+						width : '8%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'createTime',
+						title : '上一步处理时间',
+						width : '12%',
+						style : 'cursor: pointer;',
+						templet : '<div>{{ layui.laytpl.toDateString(d.createTime) }}</div>',
+						align : 'center'
+					}, {
+						field : 'auditRemarks',
+						title : '处理意见',
+						style : 'cursor: pointer;'
+					}, ] ],
+					done : function(res, curr, count) {
+						// 关闭等待刷新
+						layer.close(lodingMsg);
+
+						// 点击行联动选择框--单选
+						$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
+							var index = parseInt($(this).index() + 1);
+							$('tr').removeClass('layui-table-click');
+							$(this).addClass('layui-table-click');
+							$('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+							$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+							selectRowData = res.data[index - 1];
+						});
+					}
+				});
+				$(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
+			}
+			renderTable();
+
+			// 触发不同的按钮事件
+			var $ = layui.$;
+			active = {
+				searchEvent : function() { //点击查询按钮
+					selectRowData = '';
+					renderTable();
+				},
+				handleEvent : function() { //点击办理按钮
+					if (typeof (selectRowData.id) == "undefined") {
+						layer.msg('请点击选择一行数据');
+					} else {
+						var temUrl = "/task/pending/deal/" + selectRowData.id;
+						updateFlag = false;
+						layer.open({
+							title : '任务处理',
+							skin : 'layui-layer-lan',
+							shadeClose : true,
+							type : 2,
+							fixed : false,
+							maxmin : true,
+							area : [ '70%', '90%' ],
+							content : temUrl,
+							end : function() {
+								if (updateFlag) {
+									active.searchEvent();
+									layer.msg('操作成功');
+								}
+							}
+						});
+					}
+				},
+				resetEvent : function() { //点击重置按钮
+					$('#taskName').val("");
+					$('#dateFlag').val("");
+					$('.tableBtns').children('button').removeClass('active');
+					$('#allData').addClass('active');
+					active.searchEvent();
+				},
+				threeEvent : function() { //点击三天内按钮
+					$('#dateFlag').val("3");
+					$(this).siblings().removeClass('active');
+					$(this).addClass('active');
+					active.searchEvent();
+				},
+				weekEvent : function() { //点击7天内按钮
+					$('#dateFlag').val("7");
+					$(this).siblings().removeClass('active');
+					$(this).addClass('active');
+					active.searchEvent();
+				},
+				monthEvent : function() { //点击一周以上
+					$('#dateFlag').val("8");
+					$(this).siblings().removeClass('active');
+					$(this).addClass('active');
+					active.searchEvent();
+				},
+				allEvent : function() { //点击全部按钮
+					$('#dateFlag').val("");
+					$(this).siblings().removeClass('active');
+					$(this).addClass('active');
+					active.searchEvent();
+				},
+				detailEvent : function() { //点击详情按钮
+					if (typeof (selectRowData.processInstanceId) == "undefined") {
+						layer.msg('请点击选择一行数据');
+					} else {
+						var temUrl = "/task/process/" + selectRowData.processInstanceId;
+						layer.open({
+							title : '详情',
+							skin : 'layui-layer-lan',
+							shadeClose : true,
+							type : 2,
+							fixed : false,
+							maxmin : true,
+							area : [ '70%', '90%' ],
+							content : temUrl
+						});
+					}
+				},
+				alertEvent : function() { //点击重置按钮
+					$('#taskName').val("");
+					active.searchEvent();
+					layer.msg("操作成功！");
+				}
+
+			};
+
+			table.on('tool(tableData)', function(obj) {
+				selectRowData = obj.data;
+				console.log(selectRowData)
+			});
+
+			//监听排序
+			table.on('sort(tableData)', function(obj) {
+				console.log(this, obj.field, obj.type)
+				//服务端排序
+				table.reload('pendingTable', {
+					initSort : obj,
+					page : {
+						curr : 1
+					}, //重新从第一页开始
+					where : { //重新请求服务端
+						orderKey : obj.field, //排序字段
+						orderType : obj.type
+					//排序方式
+					}
+				});
+			});
+
+			//监听行双击事件
+			table.on('rowDouble(tableData)', function(obj) {
+				var temUrl = "/task/process/" + obj.data.processInstanceId;
+				layer.open({
+					title : '详情',
+					skin : 'layui-layer-lan',
+					shadeClose : true,
+					type : 2,
+					fixed : false,
+					maxmin : true,
+					area : [ '70%', '90%' ],
+					content : temUrl
+				});
+			});
+
+			//区别按钮属性
+			$('.layui-btn').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+
+		});
+	</script>
+
+</body>
+</html>

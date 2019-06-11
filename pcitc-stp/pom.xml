@@ -1,0 +1,337 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.pcitc</groupId>
+		<artifactId>pcitc-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>pcitc-stp</artifactId>
+	<packaging>war</packaging>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<activiti.version>5.22.0</activiti.version>
+	</properties>
+
+	<repositories>
+		<repository>
+			<!-- required for org.hyperic:sigar -->
+			<id>jboss-public-repository-group</id>
+			<url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.pcitc</groupId>
+			<artifactId>pcitc-base</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>jar</type>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-ribbon</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-feign</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<!--aop支持 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+		<!--自动配置 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-autoconfigure</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency> -->
+
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+		</dependency>
+
+		<!-- 消息处理功能 <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-activemq</artifactId> 
+			</dependency> -->
+
+		<!-- 跨域访问包 -->
+		<dependency>
+			<groupId>com.thetransactioncompany</groupId>
+			<artifactId>cors-filter</artifactId>
+			<version>2.5</version>
+		</dependency>
+		<dependency>
+			<groupId>com.thetransactioncompany</groupId>
+			<artifactId>java-property-utils</artifactId>
+			<version>1.10</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<!--httpclient start -->
+		<dependency>
+			<groupId>io.github.openfeign.form</groupId>
+			<artifactId>feign-form</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.github.openfeign.form</groupId>
+			<artifactId>feign-form-spring</artifactId>
+		</dependency>
+
+		<!--<dependency> -->
+		<!--<groupId>org.apache.httpcomponents</groupId> -->
+		<!--<artifactId>httpclient</artifactId> -->
+		<!--</dependency> -->
+		<!--<dependency> -->
+		<!--<groupId>org.apache.httpcomponents</groupId> -->
+		<!--<artifactId>httpmime</artifactId> -->
+		<!--</dependency> -->
+		<!--<dependency> -->
+		<!--<groupId>org.springframework.boot</groupId> -->
+		<!--<artifactId>spring-boot-starter-thymeleaf</artifactId> -->
+		<!--</dependency> -->
+		<!--<dependency> -->
+		<!--<groupId>org.springframework.cloud</groupId> -->
+		<!--<artifactId>spring-cloud-starter-feign</artifactId> -->
+		<!--</dependency> -->
+		<!--httpclient end -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-freemarker</artifactId>
+		</dependency>
+
+		<!-- echarts4 -->
+		<dependency>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>echarts</artifactId>
+			<version>4.0.4</version>
+		</dependency>
+
+		<!-- excel -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+		</dependency>
+		<!-- excel -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+
+		<!-- <dependency> <groupId>net.sf.json-lib</groupId> <artifactId>json-lib</artifactId> 
+			<version>2.4</version> <classifier>jdk15</classifier> </dependency> -->
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+		</dependency>
+
+		<!-- 统一身份认证 -->
+		<dependency>
+			<groupId>com.sinopec.siam</groupId>
+			<artifactId>siam-am-agent-simple</artifactId>
+			<version>3.2.RELEASE</version>
+			<scope>system</scope>
+			<systemPath>${pom.basedir}/lib/siam-am-agent-simple-3.2.RELEASE.jar</systemPath>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sinopec.siam.provisioning</groupId>
+			<artifactId>siam-provisioning-subscriber-client</artifactId>
+			<version>3.2.RELEASE</version>
+			<scope>system</scope>
+			<systemPath>${pom.basedir}/lib/siam-provisioning-subscriber-clients-3.2.RELEASE.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.github.penggle</groupId>
+			<artifactId>kaptcha</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>javax.ws.rs-api</artifactId>
+		</dependency>
+
+		<!--<dependency> -->
+		<!--<groupId>com.fasterxml.jackson.core</groupId> -->
+		<!--<artifactId>jackson-core</artifactId> -->
+		<!--</dependency> -->
+
+		<!--<dependency> -->
+		<!--<groupId>com.fasterxml.jackson.core</groupId> -->
+		<!--<artifactId>jackson-databind</artifactId> -->
+		<!--</dependency> -->
+
+		<!--<dependency> -->
+		<!--<groupId>com.fasterxml.jackson.core</groupId> -->
+		<!--<artifactId>jackson-annotations</artifactId> -->
+		<!--</dependency> -->
+
+		<!--<dependency> -->
+		<!--<groupId>com.fasterxml.jackson.datatype</groupId> -->
+		<!--<artifactId>jackson-datatype-joda</artifactId> -->
+		<!--</dependency> -->
+		<!--<dependency> -->
+		<!--<groupId>com.fasterxml.jackson.module</groupId> -->
+		<!--<artifactId>jackson-module-parameter-names</artifactId> -->
+		<!--</dependency> -->
+
+		<!--文档在线查看 -->
+		<dependency>
+			<groupId>net.sourceforge.jchardet</groupId>
+			<artifactId>jchardet</artifactId>
+			<version>1.0</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>stp</finalName>
+
+		<resources>
+			<resource>
+				<directory>src/main/webapp</directory>
+				<!--注意此次必须要放在此目录下才能被访问到 -->
+				<targetPath>META-INF/resources</targetPath>
+				<includes>
+					<include>**/**</include>
+				</includes>
+			</resource>
+			
+			<!--包含二进制的文件不能被处理-->
+			<resource>
+				<directory>src/main/resources/</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>**/**</include>
+				</includes>
+			</resource>
+			
+			<resource>
+				<directory>src/main/java/com/sinopec</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>**/**</include>
+				</includes>
+			</resource>
+		</resources>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<configuration>
+						<source>1.8</source>
+						<target>1.8</target>
+						<encoding>UTF-8</encoding>
+						<warSourceExcludes>src/main/resources/**</warSourceExcludes>
+						<warName>stp</warName>
+
+						<!-- 打包时，排除不打进去的资源。websocket在外置tomcat时不用打进去，tomcat中的已经有ServerEndpointExporter -->
+						<packagingExcludes>
+							WEB-INF/classes/com/pcitc/web/config/WebSocketConfig.class
+						</packagingExcludes>
+						<webResources>
+							<!-- 第三方jar硬性引入 -->
+							<resource>
+								<directory>lib</directory>
+								<targetPath>WEB-INF/lib/</targetPath>
+								<includes>
+									<include>**/*.jar</include>
+								</includes>
+							</resource>
+
+							<!-- 统一身份认证其中一个配置文件硬性引入 -->
+							<resource>
+								<directory>src/main/java/com/sinopec</directory>
+								<targetPath>WEB-INF/classes/com/sinopec</targetPath>
+								<includes>
+									<include>**/*.properties</include>
+									<include>**/keystore</include>
+								</includes>
+							</resource>
+						</webResources>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<configuration>
+						<includeSystemScope>true</includeSystemScope>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>

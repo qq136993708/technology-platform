@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+</head>
+<body>
+<div class="formBox">
+    <form id="reportColumn-form" name="reportColumn-form" lay-filter="reportColumn-form" class="form-horizontal layui-form">
+        <input type="hidden" name="groupId">
+        <div class="box-body">
+            <input type="hidden" name="id" id="id"/>
+            <input type="hidden" name="reportConfigId" id="reportConfigId"/>
+            <div class="layui-form-item">
+                <label class="layui-form-label">启用/禁用<span class="must-fill">*</span></label>
+                <div class="layui-input-block">
+                    <input type="radio" name="sfUse" value="0" title="启用" checked>
+                    <input type="radio" name="sfUse" value="1" title="禁用" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">维度或者指标类型<span class="must-fill">*</span></label>
+                <div class="layui-input-block">
+                    <input type="radio" name="stype" value="0" title="维度" checked>
+                    <input type="radio" name="stype" value="1" title="指标" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">页面状态<span class="must-fill">*</span></label>
+                <div class="layui-input-block">
+                    <input type="radio" name="sfShow" value="0" title="隐藏" checked>
+                    <input type="radio" name="sfShow" value="1" title="显示" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">字段描述<span class="must-fill">*</span></label>
+                <div class="layui-input-block">
+                    <input type="text" id="title" name="title" lay-verify="required" placeholder="请输入字段描述" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">字段名称<span class="must-fill">*</span></label>
+                <div class="layui-input-block">
+                    <input type="text" id="field" name="field" lay-verify="required" placeholder="请输入字段名称" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">计算取值<span class="must-fill">*</span></label>
+                <div class="layui-input-block">
+                    <input type="text" id="bak2" name="bak2"  placeholder="通过计算取值,而不是原值" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">位置<span class="must-fill">*</span></label>
+                <div class="layui-input-block">
+                    <input type="radio" name="align" value="left" title="居左">
+                    <input type="radio" name="align" value="right" title="居右" checked>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">列表默认显示<span class="must-fill">*</span></label>
+                <div class="layui-input-block">
+                    <input type="radio" name="sfShowlist" value="0" title="隐藏" checked>
+                    <input type="radio" name="sfShowlist" value="1" title="显示" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">默认显示图表X轴<span class="must-fill">*</span></label>
+                <div class="layui-input-block">
+                    <input type="radio" name="sfX" value="0" title="否" checked>
+                    <input type="radio" name="sfX" value="1" title="是" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">默认值<span class="must-fill"></span></label>
+                <div class="layui-input-block">
+                    <input type="text" id="bak1" name="bak1" placeholder="请输入默认值" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <!--<div class="layui-form-item">-->
+                <!--<label class="layui-form-label">是否显示图表Y轴<span class="must-fill">*</span></label>-->
+                <!--<div class="layui-input-block">-->
+                    <!--<input type="radio" name="sfY" value="0" title="否" checked>-->
+                    <!--<input type="radio" name="sfY" value="1" title="是" >-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="layui-form-item">-->
+                <!--<label class="layui-form-label">是否选择<span class="must-fill">*</span></label>-->
+                <!--<div class="layui-input-block">-->
+                    <!--<input type="radio" name="sfAjax" value="0" title="否" checked>-->
+                    <!--<input type="radio" name="sfAjax" value="1" title="是" >-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">排序<span class="must-fill">*</span></label>
+                <div class="layui-input-block">
+                    <input type="number" id="ssort" name="ssort" placeholder="排序自动生成" autocomplete="off" class="layui-input">
+
+                    <input type="hidden" id="createUser" name="createUser" placeholder="" autocomplete="off" class="layui-input">
+                    <input type="hidden" id="createUserId" name="createUserId" placeholder="" autocomplete="off" class="layui-input">
+                    <input type="hidden" id="createDate" name="createDate" placeholder="" autocomplete="off" class="layui-input">
+                    <input type="hidden" id="sfDel" name="sfDel" placeholder="" autocomplete="off" class="layui-input">
+
+
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">类型<span class="must-fill">*</span></label>
+                <div class="layui-input-block">
+                    <input type="text" id="bak3" name="bak3" lay-verify="" placeholder="类型" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">描述<span class="must-fill">*</span></label>
+                <div class="layui-input-block">
+                    <input type="text" id="bak4" name="bak4" lay-verify="" placeholder="描述" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+
+            <div class="form-bottom">
+                <div class="form-bottom-btns">
+                    <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>
+                    <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">取消</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    $("#field").focus();
+    var id = "${id?default(0)}";
+    if (id != "0") {
+        $("#id").val(id);
+    }
+    var reportConfigId = "${reportConfigId?default(0)}";
+    if (reportConfigId != "0") {
+        $("#reportConfigId").val(reportConfigId);
+    }
+    layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element'],
+        function () {
+            var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
+            form.render(null, 'reportColumn-form');
+            //初始赋值 component-form-group 当前form的lay-filter
+            if (id != "0") {
+                ajaxPost("/reportColumn/getReportColumnInfo", {"id": id}, function (data) {
+                    form.val("reportColumn-form", data);
+                });
+            }
+            /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
+            /* form.verify({
+                groupName : function(value,item) {
+                    if (value.length < 5) {
+                        return '标题至少得5个字符啊';
+                    }
+                },
+                orderNum : function(value){
+
+                },
+                content : function(value) {
+                    layedit.sync(editIndex);
+                }
+            }); */
+            /* 监听指定开关 */
+            form.on('switch(component-form-switchTest)', function (
+                data) {
+                layer.msg('开关checked：'
+                    + (this.checked ? 'true' : 'false'), {
+                    offset: '6px'
+                });
+                layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF',
+                    data.othis)
+            });
+            /*监听select框*/
+            form.on('select(userUnit)', function (data) {
+                console.log("下拉框");
+                console.log(data);
+            });
+            /* 监听提交 */
+            form.on('submit(submitBtn)', function (data) {
+                console.log(data.field);
+                ajaxPost("/reportColumn/saveReportColumn", data.field, function (dt, status) {
+                    layer.msg("操作成功");
+                    parent.layui.table.reload('reportColumnTableId', {where: {param: {}}});
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                });
+                return false;
+            });
+            $("#closeBtn").click(function () {
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+            })
+        });
+</script>
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <title>待办任务</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/mobile/css/mobileNew.css">
+</head>
+<style>
+	.main-card{
+		border-radius:4px;
+	}
+	.dbrw{
+		margin:0.43rem;
+	}
+	#ulAuto .layui-card-body{
+		padding:0;
+	}
+	.main-card .hasborder{border-bottom: 1px dashed #1890FF;}
+	.layui-timeline-axis {
+		color: #2C99FE;
+	}
+	.layui-timeline-item:before, hr {
+		background-color: #1890FF;
+	}
+	.child-card{
+		margin-top:0.40rem;
+	}
+	.lastLi{
+		padding-bottom:0;
+	}
+	.layui-btn-container{
+		text-align:right;
+	}
+	.layui-btn-container .layui-btn {
+		margin-right: 0.4rem;
+		margin-bottom: 0.34rem;
+	}
+	.dbBtn{
+		padding: 0 .44rem;
+		border-radius: 4px;
+		color: #666666;
+		height: 0.89rem;
+		line-height:0.89rem;
+		font-size: 0.40rem;
+	}
+	.bl{border: 1px solid #1890FF;background: #E7F3FF;color: #1890FF;}
+	.ck{border: 1px solid #F2637B;background: #FDEFF1;color: #F2637B;}
+	.bl:hover {
+	    opacity: .8;
+		filter: alpha(opacity=80);
+	    color: #1890FF
+	}
+	.ck:hover {
+	    opacity: .8;
+	    filter: alpha(opacity=80);
+	    color: #F2637B
+	}
+	.main-card .main-card-header:before {display:none;} 
+	.layui-text h3{
+		font-size: 0.4rem;
+		color: #999999;	
+	}
+	.layui-timeline-item {
+		padding-bottom: 0.28rem;
+	}
+	.cart-title{
+		height:.115rem;
+	}
+	.layui-timeline-title {
+		margin-bottom: 0;
+	}
+	.layui-fixbar{
+		bottom:1.15rem;
+	}
+	.layui-fixbar img{
+		width:0.288rem;
+		height: 0.68rem;
+	}
+ 	.layui-fixbar li {
+		background: linear-gradient(-135deg, #2F6EDD 0%, #5CA7F0 100%);
+		border-radius: 1.44rem;
+		
+		width: 1.44rem;
+		height: 1.44rem;
+		line-height: 1.44rem;
+		margin-bottom: 1px;
+		text-align: center;
+		cursor: pointer;
+		font-size: 30px;
+		background-color: #9F9F9F;
+	}
+</style>
+<body>
+<header>
+    <div class="m_return child">
+        <a href="/mobile/indexTest"><img src="/mobile/images/icon-back.png"/> </a>
+        <h4>待办任务</h4>
+    </div>
+</header>
+<main class="main dbrw" id="ulAuto">
+<div class="layui-card-body">
+    <ul class="layui-fixbar">
+    	<li class="layui-icon layui-fixbar-top" lay-type="top" style="display: list-item;"><img alt="top" src="images/top.png"></li>
+    </ul>
+   </div>
+</main>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script>
+    (function(doc, win) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function() {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                docEl.style.fontSize =  (clientWidth / 10.8) + 'px';
+            };
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+    layui.use('form', function(){
+    	var form = layui.form; 
+    	form.render();
+   	});
+    $(function() {
+    	$(".layui-fixbar-top").hide();
+    	$(window).scroll(function(){
+			if ($(window).scrollTop()>100){
+				$(".layui-fixbar-top").fadeIn(500);
+			}else{
+				$(".layui-fixbar-top").fadeOut(500);
+			}
+		});
+		//当点击跳转链接后，回到页面顶部位置
+		$(".layui-fixbar-top").click(function(){
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+    });
+    
+    
+    layui.use('flow', function(){
+		var $ = layui.jquery; //不用额外加载jQuery，flow模块本身是有依赖jQuery的，直接用即可。
+		var flow = layui.flow;
+		flow.load({
+			elem: '#ulAuto', //流加载容器
+		//	scrollElem: '#ulAuto', //滚动条所在元素，一般不用填，此处只是演示需要。
+			isAuto:true,
+			mb: 100,
+			isLazying: true,
+			done: function(page, next){ //到达临界点（默认滚动触发），触发下一页
+				var lis = [];
+				var addHtml='';
+				//以jQuery的Ajax请求为例，请求下一页数据（注意：page是从2开始返回）
+				$.get('/mobile/wait_task_list_data?pageNo='+page, function(res){
+					console.log(res);
+					//alert(res.rows);
+					//假设你的列表返回在data集合中
+					layui.each(res.rows, function(index, item){
+						
+						var auditRemarks=item.auditRemarks;
+						if(auditRemarks==null)
+						{
+							auditRemarks="";
+						}
+						addHtml='<div class="main-card child-card">'
+							+'<div class="m_return child cart-title"></div>'
+							+'<div class="main-card-header hasborder">'+item.processDefinitionName+'</div>'
+							+'<div class="main-card-body hasborder" >'
+							+'<ul class="layui-timeline">'
+							+'<li class="layui-timeline-item">'
+							+'<i class="layui-icon layui-timeline-axis"></i>'
+							+'<div class="layui-timeline-content layui-text">'
+							+'<h3 class="layui-timeline-title">上一步处理人：'+item.auditor+'</h3>'
+							+'</div>'
+							+'</li>'
+							+'<li class="layui-timeline-item">'
+							+'<i class="layui-icon layui-timeline-axis"></i>'
+							+'<div class="layui-timeline-content layui-text">'
+							+'<h3 class="layui-timeline-title">处理时间：'+item.createTimeStr+'</h3>'
+							+'</div>'
+							+'</li>'
+							+'<li class="layui-timeline-item lastLi">'
+							+'<i class="layui-icon layui-timeline-axis"></i>'
+							+'<div class="layui-timeline-content layui-text">'
+							+'<h3 class="layui-timeline-title">处理意见：'+item.auditRemarks+'</h3>'
+							+'</div>'
+							+'</li>'
+							+'</ul> '
+							+'</div>'
+							+'<div class="layui-btn-container">'
+							+'<button class="layui-btn layui-btn-primary dbBtn bl" onclick="deal(\''+item.id+'\')" >办理</button>'
+							+'<button class="layui-btn layui-btn-primary dbBtn ck" onclick="look_id(\''+item.processInstanceId+'\')">查看</button>'
+							+'</div>'
+							+'</div>';
+					    var processDefinitionName=item.processDefinitionName;
+					   /*  if(processDefinitionName!=null && processDefinitionName!='')
+				    	{
+				    	  lis.push(addHtml);
+				    	} */
+					    lis.push(addHtml);
+					}); 
+					//执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
+					//pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
+					next(lis.join(''), page < res.totalPages);    
+				});
+			}
+		});
+	});
+    
+    
+    
+    
+    function deal(id)
+    {
+    	   var temUrl = "/task/pending/deal/" + id;
+    		updateFlag = false;
+    		layer.open({
+    			title : '任务处理',
+    			skin : 'layui-layer-lan',
+    			shadeClose : true,
+    			type : 2,
+    			fixed : false,
+    			//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+    			maxmin : true,
+    			//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+    			area : [ '99%', '99%' ],
+    			content : temUrl,
+    			end : function() {
+    				if (updateFlag) {
+    					active.searchEvent();
+    					layer.msg('操作成功');
+    				}
+    			}
+    		});
+    }
+    
+    function look_id(processInstanceId)
+    {
+    	    var temUrl = "/mobile/process_mobile/" + processInstanceId;
+    	    layer.open({
+    			title : '详情',
+    			skin : 'layui-layer-lan',
+    			shadeClose : true,
+    			type : 2,
+    			fixed : false,
+    			//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+    			maxmin : true,
+    			//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+    			area : [ '90%', '90%' ],
+    			content : temUrl
+    		}); 
+    }
+</script>
+</body>
+</html>

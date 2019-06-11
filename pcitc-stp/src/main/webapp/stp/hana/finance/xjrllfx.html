@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	 <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<body >
+<div class="layui-fluid">
+	<div class="layui-main-oil">
+		<div class="searchBox">
+			<!--查询条件-->
+			
+			
+			 <label class="dateInput">
+            <span>日期</span>
+            <input type="text" name="day"   value="${day}"  id="day">
+            <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
+        </label>
+       <div class="layui-input-inline"  style="margin-left:10px">
+           <select id="companyCode" name="companyCode" class="form-control"></select>
+        </div>
+        
+        
+        
+			
+	<!--按钮组-->
+	<div class="btnGroup">
+		<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+	</div>
+	<span class="unitBox" style="padding-right: 8px;">单位：万元</span>
+</div>
+<div class="layui-row layui-col-space10">
+	<div class="layui-col-sm12">
+		<div class="layui-card">
+			<div class="layui-card-header">
+				<span class="layui-time"></span>(直属研究院)科研资金净现金余额30日统计表
+			</div>
+			<div class="layui-row-main">
+				<div class="main-chart" id="main1" style="height:280px;width: 100%;"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="layui-row layui-col-space10">
+	<div class="layui-col-sm12">
+		<div class="layui-card">
+			<div class="layui-card-header">
+				科研资金七日净现金余额统计表
+			</div>
+			<div class="layui-row-main">
+				<div class="main-chart">
+					<table id="processdef-table" class="layui-hide" lay-filter="tableEvent">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+</div>
+
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script src="/stp/hana/common/hana_common.js"></script>
+<script type="text/javascript">
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
+var table;
+    layui.config({
+        base: '/layuiadmin/module/modules/'
+    }).use(['jquery','form', 'laydate','table','laypage'], function(){
+        var $ = layui.jquery,form = layui.form,laydate = layui.laydate;
+        table = layui.table;
+        
+        var day=$('#day').val();
+        $(".layui-time").html(day);
+        form.render(null, 'component-form-group');
+        laydate.render({
+            elem: '#day',format: 'yyyy年MM月dd日'
+        });
+        
+        renderTable();
+    });
+
+    init_companyCode(functionId);
+    function init()
+    {
+    	
+        var v_date=(new Date()).getTime();
+        var day=$('#day').val();
+        var companyCode=$('#companyCode').val();
+        $(".layui-time").html(day);
+       
+       var yAxis= [
+           {
+               type: 'value',
+               name: '万元',
+               position: 'left',
+               axisLabel: {
+                   formatter: '{value}'
+               }
+           }
+       ];
+        
+       day=day.replace("年","");
+       day=day.replace("月","");
+       day=day.replace("日","");
+       
+     
+        var chart2_url="/getDayCashFlowReport01?type=1&month="+day+"&v_date="+v_date+"&companyCode="+companyCode;
+        var echart2=load_single_line(chart2_url,"main1","","",yAxis);
+        echart2.on('click', function (params) {
+            var xName=params.name;
+            var legentName=params.seriesName;
+            //alert(xName+"------"+projectId);
+            //window.open("/one_level_main/common_table?define3="+xName+"&projectId="+projectId+"&nd="+nd+"&ysnd="+nd);
+        });
+        
+
+
+
+
+
+
+    }
+
+
+    init();
+
+
+
+
+    
+    function renderTable()
+    {
+    	
+    	var index = layer.load(1, {
+    		  shade: [0.1,'#fff'] 
+    		}); 
+    	var day=$("#day").val();
+    	
+    	var yyyy=$("#day").val().substring(0,4);
+        var mm=$("#day").val().substring(5,7);
+        var dd=$("#day").val().substring(8,10);
+        var str=yyyy+"年"+mm+"月";
+        
+        day=day.replace("年","");
+        day=day.replace("月","");
+        day=day.replace("日","");
+      //渲染
+      table.render({
+        elem: '#processdef-table',
+        url: '/getDayCashFlowReport2',
+        method:"POST",
+        where: {param: {
+        	      "month":day,
+        	      "companyCode":$("#companyCode").val()
+        	      
+        	
+               }},
+        
+        id: 'processdef-table',
+        height: "620px",
+        limit: 15,
+       
+        cols: [[
+        	
+        	
+        	{field:'g0GSJC',            title:'研究院',                    style:'cursor: pointer;',align: 'center', width: '13%'},
+        	{field:'k0DAY1',            title:''+str+parseInt(dd)+"日",          style:'cursor: pointer;',align: 'right', width: '12%'},
+            {field:'k0DAY2',            title:''+str+(parseInt(dd)+1)+"日",        style:'cursor: pointer;',align: 'right', width: '12%'},
+            {field:'k0DAY3',            title:''+str+(parseInt(dd)+2)+"日",         style:'cursor: pointer;',align: 'right', width: '12%'},
+            {field:'k0DAY4',            title:''+str+(parseInt(dd)+3)+"日",        style:'cursor: pointer;',align: 'right', width: '12%'},
+            {field:'k0DAY5',            title:''+str+(parseInt(dd)+4)+"日",        style:'cursor: pointer;',align: 'right', width: '12%'},
+            {field:'k0DAY6',            title:''+str+(parseInt(dd)+5)+"日",        style:'cursor: pointer;',align: 'right', width: '12%'},
+            {field:'k0DAY7',            title:''+str+(parseInt(dd)+6)+"日",        style:'cursor: pointer;',align: 'right', width: '12%'}
+            
+            
+        ]],
+        done: function (res, curr, count) {
+             // 点击行联动选择框--单选
+            $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+            	var index=parseInt($(this).index()+1);
+                $('tr').removeClass('layui-table-click');
+                $(this).addClass('layui-table-click');
+                $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                selectRowData=res.data[index-1];
+            });
+            
+            layer.close(index); 
+        }
+      });
+      
+      
+}
+   
+
+
+    function search_Event()
+    {
+        init();
+        renderTable();
+    }
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+
+
+</head>
+<body>
+	<div class="searchBox">
+		<label class="dateInput">
+			<input type="hidden" name="fileId" id="fileId" value="${fileId?default(0)}" />
+			<span>文档名称</span>
+			<input type="text" name="fileName" id="fileName" placeholder="请输入文档名称" title="文档名称" class="form-control">
+		</label>
+		<!--按钮组-->
+		<div class="btnGroup">
+			<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+			<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
+		</div>
+	</div>
+
+	<div class="tableBox">
+		<div class="tableToolBox">
+			<div class="whiteLine"></div>
+			<div class="tableBtns">
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" id="showUpload">历史版本纠错</button>
+				<button type="button" hidden="true" id="realUpload">真实历史版本纠错</button>
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_update" data-type="replaceEvent">版本恢复</button>
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_import" data-type="downloadEvent">下载</button>
+			</div>
+		</div>
+		<table id="fileShowTable" class="layui-hide" lay-filter="tableEvent"></table>
+	</div>
+
+
+	<a href="" target="_self" id="historyDownload"></a>
+
+	<script>
+		var active = "";
+		var lodingMsg; //上传文档等待
+		layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element' ], function() {
+			var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
+			form = layui.form;
+			table = layui.table;
+
+			function renderTable() {
+				table.render({
+					elem : '#fileShowTable',
+					url : '/sysfileshare/file/history/data',
+					method : "POST",
+					where : {
+						param : {
+							"fileId" : $("#fileId").val(),
+							"fileName" : $("#fileName").val()
+						}
+					},
+					limit : 15,
+					id : 'sysFileId',
+					height : "full-100",
+					page : {
+						groups : 5,
+						limits : [ 15, 30, 45, 60 ],
+						layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
+						first : '首页', //不显示首页
+						last : '尾页', //不显示尾页
+						theme : '#0F9EE0'
+					},
+					cols : [ [ {
+						type : 'checkbox',
+						event : 'changeEvents'
+					}, {
+						title : '序号',
+						type : 'numbers'
+					}, {
+						field : 'fileName',
+						title : '文档名称',
+						event : 'setActive',
+						width : '35%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'version',
+						title : '版本号',
+						event : 'setActive',
+						width : '10%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'fileSize',
+						title : '文档大小(kb)',
+						event : 'setActive',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'bak2',
+						title : '创建人',
+						event : 'setActive',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'createDateTime',
+						title : '创建时间',
+						event : 'setActive',
+						style : 'cursor: pointer;',
+						templet : '<div>{{ layui.laytpl.toDateString(d.createDateTime) }}</div>',
+					}, {
+						field : 'updateDateTime',
+						title : '更新时间',
+						event : 'setActive',
+						style : 'cursor: pointer;',
+						templet : '<div>{{ layui.laytpl.toDateString(d.updateDateTime) }}</div>',
+					}, {
+						field : 'bak10',
+						title : '备注',
+						event : 'setActive',
+						style : 'cursor: pointer;'
+					} ] ],
+					done : function(res, curr, count) {
+
+					}
+				});
+			}
+			$(document).on("click", ".layui-table-body table.layui-table tbody tr", function() {
+				var index = $(this).attr('data-index');
+				var tableBox = $(this).parents('.layui-table-box');
+				//存在固定列
+				if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
+					tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+				} else {
+					tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+				}
+				var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+				if (checkCell.length > 0) {
+					checkCell.click();
+				}
+			});
+			$(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function(e) {
+				e.stopPropagation();
+			});
+
+			renderTable();
+			// 触发不同的按钮事件
+			var $ = layui.$;
+			active = {
+				searchEvent : function() { 
+					renderTable();
+				},
+				resetEvent : function() { 
+					$("#fileName").val("");
+					renderTable();
+				},
+				replaceEvent : function() { 
+					var selectedData = active.getCheckData();
+					if (selectedData.length != 1) {
+						// 只能选择一个文档进行替换
+						layer.msg('选择一个文档进行替换！');
+						return false;
+					}
+					
+					var versionUUID = selectedData[0].bak3;
+					//获取此版本信息，替换正在生效的版本
+					layer.confirm('确定要替换吗?', {
+						btn : [ '确认', '取消' ],
+						title : "替换确认"
+					}, function(index) {
+						var temUrl = "/sysfileshare/file/replace/" + versionUUID;
+						ajaxPost(temUrl, {
+							"fileId" : ""
+						}, function(data) {
+							layer.msg('操作成功！');
+							parent.active.resetEvent();
+							var index = parent.layer.getFrameIndex(window.name);
+							parent.layer.close(index);
+						});
+					});
+				},
+				
+				downloadEvent : function() {
+					var ids = active.getChecked();
+					if (ids == "") {
+						layer.msg("请选择文档");
+						return;
+					}
+					$("#historyDownload").attr("href", "/file/version/download/" + ids);
+					document.getElementById("historyDownload").click();
+				},
+				getChecked : function() {
+					var ids = "";
+					var selectedData = active.getCheckData();
+					for (var i = 0; i < selectedData.length; i++) {
+						ids = (ids == "" ? selectedData[i].bak3 : (ids + "|" + selectedData[i].bak3));
+					}
+					if (typeof (ids) == "undefined") {
+						ids = "";
+					}
+					return ids;
+				},
+				getCheckData : function() { //获取选中数据
+					var checkStatus = table.checkStatus('sysFileId'), data = checkStatus.data;
+					return data;
+				},
+				getCheckLength : function() { //获取选中数目
+					var checkStatus = table.checkStatus('sysFileId'), data = checkStatus.data;
+					layer.msg('选中了：' + data.length + ' 个');
+				},
+				isAll : function() { //验证是否全选
+					var checkStatus = table.checkStatus('sysFileId');
+					layer.msg(checkStatus.isAll ? '全选' : '未全选')
+				},
+				close : function() {
+					var index = parent.layer.getFrameIndex(window.name);
+					parent.layer.close(index);
+
+				}
+			};
+			$('.layui-btn').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+			$("#closeBtn").click(function() {
+				var index = parent.layer.getFrameIndex(window.name);
+				parent.layer.close(index);
+			})
+		});
+	</script>
+
+	<script>
+		// 上传文档，替换原历史记录中的文档，只修改文档路径、文档名称等
+		var pcitc = pcitc || {};
+		pcitc.fileUpload2 = pcitc.fileUpload2 || {};
+		
+		// 查询是哪个菜单
+		var param = JSON.parse(window.localStorage.getItem("param"));
+
+		var pcitcFile2 = pcitc.fileUpload2 = {
+			fileObj : {},
+			url : "/sysfile/uploadMultipleFileLayui",
+			filedflag : "",
+			ext : "zip|rar|7z|xlsx|xls|doc|docx|txt|pdf|ppt|pptx",//允许上传的文档后缀。一般结合 accept 参数类设定。假设 accept 为 file 类型时，那么你设置 exts: 'zip|rar|7z' 即代表只允许上传压缩格式的文档。如果 accept 未设定，那么限制的就是图片的文档格式
+			accept : "file",//指定允许上传时校验的文档类型，可选值有：images（图片）、file（所有文档）、video（视频）、audio（音频）
+			acceptMime : "*",//规定打开文档选择框时，筛选出的文档类型，值为用逗号隔开的 MIME 类型列表。如：acceptMime: 'image/*'（只显示图片文档）acceptMime: 'image/jpg, image/png'（只显示 jpg 和 png 文档）
+			field : "file",
+			size : "10240",
+			number : "1",
+			drag : false,
+			//判断是否是IE浏览器，包括Edge浏览器
+			IEVersion : function() {
+				var userAgent = navigator.userAgent;
+				//微信内置浏览器
+				if (userAgent.match(/MicroMessenger/i) == 'MicroMessenger') {
+					return "MicroMessenger";
+				}
+				//QQ内置浏览器
+				else if (userAgent.match(/QQ/i) == 'QQ') {
+					return "QQ";
+				}
+				//Chrome
+				else if (userAgent.match(/Chrome/i) == 'Chrome') {
+					return "Chrome";
+				}
+				//Opera
+				else if (userAgent.match(/Opera/i) == 'Opera') {
+					return "Opera";
+				}
+				//Firefox
+				else if (userAgent.match(/Firefox/i) == 'Firefox') {
+					return "Firefox";
+				}
+				//Safari
+				else if (userAgent.match(/Safari/i) == 'Safari') {
+					return "Safari";
+				}
+				//IE
+				else if (!!window.ActiveXObject || "ActiveXObject" in window) {
+					return "IE";
+				} else {
+					return "未定义:" + userAgent;
+				}
+			}
+		};
+		/***默认*/
+		if (typeof (file_accept2) != "undefined") {
+			pcitcFile2.accept = file_accept2;
+		}
+		/***默认*/
+		if (typeof (file_acceptMime2) != "undefined") {
+			pcitcFile2.acceptMime = file_acceptMime2;
+		}
+		if (pcitcFile2.IEVersion() == "IE") {
+			var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
+			reIE.test(navigator.userAgent);
+			var fIEVersion = parseFloat(RegExp["$1"]);
+			pcitcFile2.url = "/sysfile/uploadMultipleFileLayuiIE";
+		}
+		
+		var fileParams = [];
+
+　　　　 var fileParam = {};
+ 		fileParam.lastModifiedDate = new Date();
+        fileParams.push(fileParam);
+　　　　 fileParams = JSON.stringify(fileParams);
+
+		layui.use([ 'element', 'upload2' ], function() {
+			var $ = layui.jquery, element = layui.element, upload = layui.upload2;
+			var uploadListIns = upload.render(
+					{
+				elem : '#realUpload',
+				url : pcitcFile2.url,
+				accept : pcitcFile2.accept,
+				field : pcitcFile2.field,
+				acceptMime : pcitcFile2.acceptMime,
+				data : {
+					filedflag : param.id,
+					flag : '0',
+					formId : null,
+					param : fileParams
+				},
+				exts : pcitcFile2.ext,
+				number : pcitcFile2.number,
+				auto : true,     // 选择完文档自动上传
+				before: function(obj) { 
+	            	lodingMsg = layer.msg('上传中....');
+	            },
+				done : function(res, index, upload) {
+					layer.close(lodingMsg);	//关闭等待图标
+					if (res.error == null) { //上传成功
+						// 替换原历史文档属性（所属路径、文档名称等）。历史版本表的唯一值selectedData[0].bak3
+						var selectedData = active.getCheckData();
+						res.list[0].bak3 = selectedData[0].bak3;
+						$.ajax({
+							url : '/file/history/error/replace',
+							type : 'post',
+							dataType : 'json',
+							data: JSON.stringify(res.list[0]),
+							headers : {
+								'Content-Type' : 'application/json',
+							},
+							error : function() {
+								layer.msg('操作失败！');
+							},
+							success : function(data) {
+								// 刷新历史表单
+								active.searchEvent();
+								layer.msg('操作成功！');
+
+							}
+						});
+						
+					} else {
+						this.error(index, upload);
+					}
+				},
+				error : function(index, upload) {
+					console.log("----------error---------");
+				}
+			});
+		});
+		
+		$('#showUpload').click(function(){
+			var selectedData = active.getCheckData();
+			if (selectedData.length != 1) {
+				// 只能选择一个文档进行替换
+				layer.msg('请选择一个文档进行历史纠错替换！');
+				return false;
+			}
+			$('#realUpload').click();
+		});
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.system.SysFunctionMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.system.SysFunction">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+    <result column="isparent" jdbcType="TINYINT" property="isparent" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="weight" jdbcType="INTEGER" property="weight" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="is_leaf" jdbcType="TINYINT" property="isLeaf" />
+    <result column="level_code" jdbcType="INTEGER" property="levelCode" />
+    <result column="parent_code" jdbcType="VARCHAR" property="parentCode" />
+    <result column="functionProperty" jdbcType="VARCHAR" property="functionProperty" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="function_buttons" jdbcType="VARCHAR" property="functionButtons" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <if test="fields == null">
+      id, name, parent_id, isparent, image, url, weight, type, code, remark, status, is_leaf, 
+      level_code,parent_code,icon
+    </if>
+    <if test="fields != null">
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" parameterType="com.pcitc.base.system.SysFunctionExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'ture' as QUERYID,
+    <include refid="Base_Column_List" />
+    from sys_function
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    id,name,parent_id,isparent,image,url,weight,type,code,remark,status,is_leaf,level_code,parent_code,icon
+    from sys_function
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sys_function
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.system.SysFunctionExample">
+    delete from sys_function
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.system.SysFunction">
+    insert into sys_function (id, name, parent_id, 
+      isparent, image, url, 
+      weight, type, code, 
+      remark, status, is_leaf, 
+      level_code,parent_code,icon)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, 
+      #{isparent,jdbcType=TINYINT}, #{image,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{weight,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{code,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{isLeaf,jdbcType=TINYINT}, 
+      #{levelCode,jdbcType=INTEGER},#{parentCode,jdbcType=VARCHAR},#{icon,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.system.SysFunction">
+    insert into sys_function
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="isparent != null">
+        isparent,
+      </if>
+      <if test="image != null">
+        image,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="isLeaf != null">
+        is_leaf,
+      </if>
+      <if test="levelCode != null">
+        level_code,
+      </if>
+      <if test="parentCode != null">
+        parent_code,
+      </if>
+      <if test="icon != null">
+        icon,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="isparent != null">
+        #{isparent,jdbcType=TINYINT},
+      </if>
+      <if test="image != null">
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="isLeaf != null">
+        #{isLeaf,jdbcType=TINYINT},
+      </if>
+      <if test="levelCode != null">
+        #{levelCode,jdbcType=INTEGER},
+      </if>
+      <if test="parentCode != null">
+        #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+       #{icon,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.system.SysFunctionExample" resultType="java.lang.Integer">
+    select count(*) from sys_function
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sys_function
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentId != null">
+        parent_id = #{record.parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isparent != null">
+        isparent = #{record.isparent,jdbcType=TINYINT},
+      </if>
+      <if test="record.image != null">
+        image = #{record.image,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url != null">
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weight != null">
+        weight = #{record.weight,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.code != null">
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.isLeaf != null">
+        is_leaf = #{record.isLeaf,jdbcType=TINYINT},
+      </if>
+      <if test="record.levelCode != null">
+        level_code = #{record.levelCode,jdbcType=INTEGER},
+      </if>
+      <if test="record.parentCode != null">
+        parent_code = #{record.parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.icon != null">
+       icon = #{icon,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sys_function
+    set id = #{record.id,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      parent_id = #{record.parentId,jdbcType=VARCHAR},
+      isparent = #{record.isparent,jdbcType=TINYINT},
+      image = #{record.image,jdbcType=VARCHAR},
+      url = #{record.url,jdbcType=VARCHAR},
+      weight = #{record.weight,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=TINYINT},
+      code = #{record.code,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT},
+      is_leaf = #{record.isLeaf,jdbcType=TINYINT},
+      level_code = #{record.levelCode,jdbcType=INTEGER,
+      parent_code = #{record.parentCode,jdbcType=VARCHAR},
+      icon = #{record.icon,jdbcType=VARCHAR}}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.system.SysFunction">
+    update sys_function
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="isparent != null">
+        isparent = #{isparent,jdbcType=TINYINT},
+      </if>
+      <if test="image != null">
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="isLeaf != null">
+        is_leaf = #{isLeaf,jdbcType=TINYINT},
+      </if>
+      <if test="levelCode != null">
+        level_code = #{levelCode,jdbcType=INTEGER},
+      </if>
+       <if test="parentCode != null">
+        parent_code = #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.system.SysFunction">
+    update sys_function
+    set name = #{name,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=VARCHAR},
+      isparent = #{isparent,jdbcType=TINYINT},
+      image = #{image,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=INTEGER},
+      type = #{type,jdbcType=TINYINT},
+      code = #{code,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      is_leaf = #{isLeaf,jdbcType=TINYINT},
+      level_code = #{levelCode,jdbcType=INTEGER},
+      parent_code = #{parentCode,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  
+  <!-- 查询菜单列表 -->
+  <select id="selectFunctionList" resultType="com.pcitc.base.system.SysFunction">
+   select id,name,parent_id as parentId,url,weight,type ,code,remark,status,icon
+   from sys_function where(1=1)
+   <if test="name!=null and name!=''.toString()">
+   and name like '%${name}%'
+   </if>
+   <if test="parentId!=null and parentId!=''.toString()">
+   and parent_id = #{parentId}
+   </if>
+  <!--  <if test="iSortCol!=null and iSortCol!=''.toString()">
+    order by ${iSortCol} ${sSortDir_0}
+   </if> -->
+   </select>
+
+  
+  <!-- 根据id获取菜单详情 -->
+  <select id="getFunctionById" resultType="com.pcitc.base.system.SysFunction">
+   select f1.id, f1.name,f1.parent_id as parentId,f1.url,f1.weight,f1.type,f1.code,f1.remark,f1.status,
+   		f1.parent_code as parentCode,f1.level_code as levelCode,
+		f1.icon,f1.image,f2.name as parentName
+	from sys_function f1 left join sys_function f2 on f1.parent_id = f2.id
+   where f1.id = #{id}
+  </select>
+  
+  
+  <!-- 根据层级条件 显示树 -->
+  <select id="selectTreeNodeByLevel" resultType="com.pcitc.base.common.TreeNode">
+	  select id,parent_id as pid,name,level_code as levelCode,code, url as treeUrl, is_leaf as isLeaf
+	  from sys_function
+	  where status = 1 
+	  <if test="parentIndex != null and parentIndex !=''.toString">
+	   and parent_code like '${parentIndex}%'
+	  </if>
+	  <if test="parentCode != null and parentCode !=''.toString">
+	   and parent_code = '${parentCode}'
+	  </if>
+	  <if test="codeIndex != null and codeIndex !=''.toString">
+	   and code like '${codeIndex}%'
+	  </if>
+	  <if test="levelCode != null and levelCode !=''.toString">
+	   and level_code &lt;= #{levelCode}
+	  </if>
+	  order by weight
+  </select>
+  
+  <select id="selectFuntionByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+	select sys_function.id,sys_function.code,sys_function.name,sys_function.parent_id,sys_function.url,
+		   sys_function.parent_code,group_concat(sys_post_function.function_buttons) as function_buttons
+    from sys_post_function,sys_user,sys_function,sys_user_post
+    where 
+	    sys_post_function.function_id = sys_function.id and 
+			sys_user.user_id = sys_user_post.user_id and 
+      sys_user_post.post_id = sys_post_function.post_id and
+			sys_user.user_delflag = '0' and sys_function.status = '1' and
+	    sys_user.user_id = #{userId,jdbcType=VARCHAR}
+	group by sys_function.id
+	order by sys_function.weight
+  </select>
+  
+  <!-- 查询该节点下子节点数量 -->
+  <select id="getCountByParentId" resultType="java.lang.Integer">
+     select count(id) from sys_function where parent_id = #{parentId}
+  </select>
+  
+  <select id="findByParentCodeOrderByCodeDesc" resultMap="BaseResultMap">
+    select * from sys_function 
+    where parent_code = #{parentCode} order by code desc
+  </select>
+  
+  <select id="getCodeById" resultType="java.lang.String">
+    select code from sys_function
+    where  id = #{id}
+  </select>
+  <!--查询当前节点的所有子节点-->
+  <select id="findSons" resultType="com.pcitc.base.common.TreeNode">
+    select id,parent_id as parentId ,name as text ,level_code as levelCode,is_leaf as isLeaf,code
+    from sys_function
+    where isparent = 1
+  </select>
+  
+  <!-- 查询当前节点下的子节点 返回菜单实体 -->
+  <select id="findChildren"  resultMap="BaseResultMap">
+    select id,parent_id as parentId ,name,level_code as levelCode,is_leaf as isLeaf,code
+    from sys_function where parent_id = #{parentId}
+  </select>
+  
+   <!-- 查询菜单列表 -->
+  <select id="selectFunctionByLevelCode" resultType="com.pcitc.base.common.TreeNode"> 
+   select id,name,parent_id as pId,url,url as treeUrl,weight,type ,code,remark,status,icon
+   from sys_function where level_code &lt;=3 
+   <if test="id != null and id!=''.toString()">
+   and id != #{id}
+   </if>
+  </select>
+  
+  <!-- 查询同一级下是否有相同名字的菜单 -->
+  <select id="selectSameName" resultType="java.lang.Integer">
+  	select count(id) from sys_function where 
+  	parent_id = #{parentId}  and name = #{name}
+  	<if test="id != null and id!=''.toString()">
+   	and id != #{id}
+   	</if>
+  </select>
+  
+  <!-- 查询最大的排序号 -->
+  <select id="findWeightOrderByDesc" resultMap="BaseResultMap">
+    select * from sys_function 
+    where parent_code = #{parentCode} order by weight desc
+  </select>
+  
+  <!-- 改变是否父节点 -->
+  <update id="updateNodeIsParent" >
+   update sys_function
+   set isparent = #{isParent}
+   where id = #{parentId}
+  </update>
+  
+  
+   <!-- 改变是否叶子节点 -->
+  <update id="updateNodeIsLeaf" >
+   update sys_function
+   set is_leaf = #{isLeaf}
+   where id = #{parentId}
+  </update>
+  
+  <select id="getParentIdById" resultType="java.lang.String">
+    select parent_id from sys_function
+    where  id = #{id}
+  </select>
+  
+  
+</mapper>

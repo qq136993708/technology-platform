@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+     <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<body>
+
+	<div class="content-body container">
+		<div style="text-align: center; font-weight: bold; margin: 10px;">院科研项目经费多维分析</div>
+		<table class="layui-table">
+			<thead>
+				<tr>
+					<td rowspan="2">牵头单位</td>
+					<td rowspan="2">项目</td>
+					<td rowspan="2">描述</td>
+					<td colspan="6">累计</td>
+					<td colspan="6">本年</td>
+				</tr>
+				<tr>
+					<td>预算总计</td>
+					<td>累计实际成本支出</td>
+					<td>项目承诺</td>
+					<td>累计预算占用</td>
+					<td>累计资金使用%</td>
+					<td>项目预算结余</td>
+					<td>本年预算</td>
+					<td>本年实际成本支出</td>
+					<td>项目本年承诺</td>
+					<td>本年预算占用</td>
+					<td>本年资金使用%</td>
+					<td>项目预算结余</td>
+				</tr>
+				</thead>
+				
+				<tbody>
+				<tr>
+					<td rowspan="4">石科院</td>
+					<td>KSBE110001</td>
+					<td>某液压油研制</td>
+					<td>12200</td>
+					<td>2928</td>
+					<td>527</td>
+					<td>3455</td>
+					<td>0</td>
+					<td>8744</td>
+					<td>1370</td>
+					<td>438</td>
+					<td>43</td>
+					<td>482</td>
+					<td>0</td>
+					<td>887</td>
+				</tr>
+				<tr>
+					<td>KSBE110002</td>
+					<td>某润滑脂的研制</td>
+					<td>6100</td>
+					<td>2501</td>
+					<td>450</td>
+					<td>2951</td>
+					<td>0</td>
+					<td>3148</td>
+					<td>990</td>
+					<td>495</td>
+					<td>128</td>
+					<td>623</td>
+					<td>0</td>
+					<td>366</td>
+				</tr>
+				<tr>
+					<td>KSKYHX160017</td>
+					<td>RH2018F 发展部院控横向课题</td>
+					<td>13600</td>
+					<td>4760</td>
+					<td>1094</td>
+					<td>5854</td>
+					<td>0</td>
+					<td>7745</td>
+					<td>620</td>
+					<td>272</td>
+					<td>46</td>
+					<td>319</td>
+					<td>0</td>
+					<td>300</td>
+				</tr>
+				<tr>
+					<td>KSKYHX160019</td>
+					<td>科研处控制横向修理费</td>
+					<td>7000</td>
+					<td>1890</td>
+					<td>567</td>
+					<td>2457</td>
+					<td>0</td>
+					<td>4543</td>
+					<td>730</td>
+					<td>343</td>
+					<td>85</td>
+					<td>428</td>
+					<td>0</td>
+					<td>301</td>
+				</tr>
+				<tr>
+					<td rowspan="3">工程院</td>
+					<td>KSKYXX160012</td>
+					<td>115095-19 GF-6汽油机油在丰田发动机台架上节能性的研究</td>
+					<td>6100</td>
+					<td>2257</td>
+					<td>609</td>
+					<td>2866</td>
+					<td>0</td>
+					<td>3233</td>
+					<td>840</td>
+					<td>310</td>
+					<td>80</td>
+					<td>391</td>
+					<td>0</td>
+					<td>448</td>
+				</tr>
+				<tr>
+					<td>KSKYXX160013</td>
+					<td>115101-1 中石化核磁共振原油快评方法开发</td>
+					<td>10600</td>
+					<td>5088</td>
+					<td>763</td>
+					<td>5851</td>
+					<td>0</td>
+					<td>4748</td>
+					<td>1200</td>
+					<td>336</td>
+					<td>100</td>
+					<td>436</td>
+					<td>0</td>
+					<td>763</td>
+				</tr>
+				<tr>
+					<td>KSKYYK160063</td>
+					<td>国家重点实验室费用性支出</td>
+					<td>5600</td>
+					<td>2128</td>
+					<td>404</td>
+					<td>2532</td>
+					<td>0</td>
+					<td>3067</td>
+					<td>1310</td>
+					<td>432</td>
+					<td>108</td>
+					<td>540</td>
+					<td>0</td>
+					<td>769</td>
+				</tr>
+				<tr>
+					<td rowspan="2">石勘院</td>
+					<td>KSKYYK170000</td>
+					<td>中试基地倒班宿舍及后勤综合楼投用</td>
+					<td>6400</td>
+					<td>1280</td>
+					<td>268</td>
+					<td>1548</td>
+					<td>0</td>
+					<td>4851</td>
+					<td>620</td>
+					<td>161</td>
+					<td>48</td>
+					<td>209</td>
+					<td>0</td>
+					<td>410</td>
+				</tr>
+				<tr>
+					<td>KPAE180001</td>
+					<td>兴普设备零购2018</td>
+					<td>4300</td>
+					<td>946</td>
+					<td>179</td>
+					<td>1125</td>
+					<td>0</td>
+					<td>3174</td>
+					<td>1060</td>
+					<td>233</td>
+					<td>62</td>
+					<td>296</td>
+					<td>0</td>
+					<td>763</td>
+				</tr>
+			</tbody>
+		</table>
+
+
+
+
+
+	</div>
+	<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script>
+
+
+var table,selectRowData;
+layui.config({
+    base: '/layuiadmin/module/modules/' //静态资源所在路径
+}).use(['jquery','form', 'laydate','table','laypage','layer'], function(){
+	  admin = layui.admin
+	  ,$ = layui.jquery
+      ,table = layui.table
+      ,layer = layui.layer
+      ,laydate = layui.laydate
+      ,form = layui.form
+      ,laypage = layui.laypage;
+	  form.render(null, 'component-form-group');
+            laydate.render({
+               elem: '#month'
+               ,format: 'yyyyMM'
+            });
+});
+
+var allCode="${allCode?default('')}";
+var allCode_text="全部院所";
+
+
+</script>
+</body>
+</html>

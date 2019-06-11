@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.system.SysAddressMapper">
+
+    <resultMap id="BaseResultMap" type="com.pcitc.base.system.SysAddress">
+
+        <id column="data_id" jdbcType="INTEGER" property="dataId"/>
+        <result column="cityName" jdbcType="VARCHAR" property="cityname"/>
+        <result column="parentId" jdbcType="INTEGER" property="parentid"/>
+        <result column="shortName" jdbcType="VARCHAR" property="shortname"/>
+        <result column="depth" jdbcType="INTEGER" property="depth"/>
+        <result column="cityCode" jdbcType="VARCHAR" property="citycode"/>
+        <result column="zipCode" jdbcType="VARCHAR" property="zipcode"/>
+        <result column="mergerName" jdbcType="VARCHAR" property="mergername"/>
+        <result column="longitude" jdbcType="VARCHAR" property="longitude"/>
+        <result column="latitude" jdbcType="VARCHAR" property="latitude"/>
+        <result column="pinyin" jdbcType="VARCHAR" property="pinyin"/>
+        <result column="isUse" jdbcType="INTEGER" property="isuse"/>
+        <result column="create_date" jdbcType="VARCHAR" property="createDate"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        data_id,
+        cityName,
+        parentId,
+        shortName,
+        depth,
+        cityCode,
+        zipCode,
+        mergerName,
+        longitude,
+        latitude,
+        pinyin,
+        isUse,
+        create_date
+</sql>
+
+    <select id="selectByExample" parameterType="com.pcitc.base.system.SysAddressExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from sys_address
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_address
+        where data_id = #{dataId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from sys_address
+        where data_id = #{dataId,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.pcitc.base.system.SysAddressExample">
+        delete from sys_address
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.pcitc.base.system.SysAddress">
+        insert into sys_address (
+            data_id,
+            cityName,
+            parentId,
+            shortName,
+            depth,
+            cityCode,
+            zipCode,
+            mergerName,
+            longitude,
+            latitude,
+            pinyin,
+            isUse,
+            create_date
+        )
+        values (
+
+    #{dataId,jdbcType=INTEGER},
+    #{cityname,jdbcType=VARCHAR},
+    #{parentid,jdbcType=INTEGER},
+    #{shortname,jdbcType=VARCHAR},
+    #{depth,jdbcType=INTEGER},
+    #{citycode,jdbcType=VARCHAR},
+    #{zipcode,jdbcType=VARCHAR},
+    #{mergername,jdbcType=VARCHAR},
+    #{longitude,jdbcType=VARCHAR},
+    #{latitude,jdbcType=VARCHAR},
+    #{pinyin,jdbcType=VARCHAR},
+    #{isuse,jdbcType=INTEGER},
+    #{createDate,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.pcitc.base.system.SysAddress">
+        insert into sys_address
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="dataId != null">
+                data_id,
+            </if>
+            <if test="cityname != null">
+                cityName,
+            </if>
+            <if test="parentid != null">
+                parentId,
+            </if>
+            <if test="shortname != null">
+                shortName,
+            </if>
+            <if test="depth != null">
+                depth,
+            </if>
+            <if test="citycode != null">
+                cityCode,
+            </if>
+            <if test="zipcode != null">
+                zipCode,
+            </if>
+            <if test="mergername != null">
+                mergerName,
+            </if>
+            <if test="longitude != null">
+                longitude,
+            </if>
+            <if test="latitude != null">
+                latitude,
+            </if>
+            <if test="pinyin != null">
+                pinyin,
+            </if>
+            <if test="isuse != null">
+                isUse,
+            </if>
+            <if test="createDate != null">
+                create_date
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+
+            <if test="dataId != null">
+                #{dataId ,jdbcType=INTEGER},
+            </if>
+            <if test="cityname != null">
+                #{cityname ,jdbcType=VARCHAR},
+            </if>
+            <if test="parentid != null">
+                #{parentid ,jdbcType=INTEGER},
+            </if>
+            <if test="shortname != null">
+                #{shortname ,jdbcType=VARCHAR},
+            </if>
+            <if test="depth != null">
+                #{depth ,jdbcType=INTEGER},
+            </if>
+            <if test="citycode != null">
+                #{citycode ,jdbcType=VARCHAR},
+            </if>
+            <if test="zipcode != null">
+                #{zipcode ,jdbcType=VARCHAR},
+            </if>
+            <if test="mergername != null">
+                #{mergername ,jdbcType=VARCHAR},
+            </if>
+            <if test="longitude != null">
+                #{longitude ,jdbcType=VARCHAR},
+            </if>
+            <if test="latitude != null">
+                #{latitude ,jdbcType=VARCHAR},
+            </if>
+            <if test="pinyin != null">
+                #{pinyin ,jdbcType=VARCHAR},
+            </if>
+            <if test="isuse != null">
+                #{isuse ,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+                #{createDate ,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.pcitc.base.system.SysAddressExample" resultType="java.lang.Long">
+        select count(*) from sys_address
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update sys_address
+        <set>
+
+            <if test="record.dataId != null">
+                data_id=#{record.dataId,jdbcType=INTEGER},
+            </if>
+            <if test="record.cityname != null">
+                cityName=#{record.cityname,jdbcType=VARCHAR},
+            </if>
+            <if test="record.parentid != null">
+                parentId=#{record.parentid,jdbcType=INTEGER},
+            </if>
+            <if test="record.shortname != null">
+                shortName=#{record.shortname,jdbcType=VARCHAR},
+            </if>
+            <if test="record.depth != null">
+                depth=#{record.depth,jdbcType=INTEGER},
+            </if>
+            <if test="record.citycode != null">
+                cityCode=#{record.citycode,jdbcType=VARCHAR},
+            </if>
+            <if test="record.zipcode != null">
+                zipCode=#{record.zipcode,jdbcType=VARCHAR},
+            </if>
+            <if test="record.mergername != null">
+                mergerName=#{record.mergername,jdbcType=VARCHAR},
+            </if>
+            <if test="record.longitude != null">
+                longitude=#{record.longitude,jdbcType=VARCHAR},
+            </if>
+            <if test="record.latitude != null">
+                latitude=#{record.latitude,jdbcType=VARCHAR},
+            </if>
+            <if test="record.pinyin != null">
+                pinyin=#{record.pinyin,jdbcType=VARCHAR},
+            </if>
+            <if test="record.isuse != null">
+                isUse=#{record.isuse,jdbcType=INTEGER},
+            </if>
+            <if test="record.createDate != null">
+                create_date=#{record.createDate,jdbcType=VARCHAR}
+            </if>
+
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update sys_address
+        set
+        data_id=#{record.dataId,jdbcType=INTEGER},
+        cityName=#{record.cityname,jdbcType=VARCHAR},
+        parentId=#{record.parentid,jdbcType=INTEGER},
+        shortName=#{record.shortname,jdbcType=VARCHAR},
+        depth=#{record.depth,jdbcType=INTEGER},
+        cityCode=#{record.citycode,jdbcType=VARCHAR},
+        zipCode=#{record.zipcode,jdbcType=VARCHAR},
+        mergerName=#{record.mergername,jdbcType=VARCHAR},
+        longitude=#{record.longitude,jdbcType=VARCHAR},
+        latitude=#{record.latitude,jdbcType=VARCHAR},
+        pinyin=#{record.pinyin,jdbcType=VARCHAR},
+        isUse=#{record.isuse,jdbcType=INTEGER},
+        create_date=#{record.createDate,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.system.SysAddress">
+        update sys_address
+        <set>
+
+            <if test="cityname != null">
+                cityName=#{cityname ,jdbcType=VARCHAR},
+            </if>
+            <if test="parentid != null">
+                parentId=#{parentid ,jdbcType=INTEGER},
+            </if>
+            <if test="shortname != null">
+                shortName=#{shortname ,jdbcType=VARCHAR},
+            </if>
+            <if test="depth != null">
+                depth=#{depth ,jdbcType=INTEGER},
+            </if>
+            <if test="citycode != null">
+                cityCode=#{citycode ,jdbcType=VARCHAR},
+            </if>
+            <if test="zipcode != null">
+                zipCode=#{zipcode ,jdbcType=VARCHAR},
+            </if>
+            <if test="mergername != null">
+                mergerName=#{mergername ,jdbcType=VARCHAR},
+            </if>
+            <if test="longitude != null">
+                longitude=#{longitude ,jdbcType=VARCHAR},
+            </if>
+            <if test="latitude != null">
+                latitude=#{latitude ,jdbcType=VARCHAR},
+            </if>
+            <if test="pinyin != null">
+                pinyin=#{pinyin ,jdbcType=VARCHAR},
+            </if>
+            <if test="isuse != null">
+                isUse=#{isuse ,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+                create_date=#{createDate ,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where data_id = #{dataId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.pcitc.base.system.SysAddress">
+        update sys_address
+        set
+            cityName=#{cityname,jdbcType=VARCHAR},
+            parentId=#{parentid,jdbcType=INTEGER},
+            shortName=#{shortname,jdbcType=VARCHAR},
+            depth=#{depth,jdbcType=INTEGER},
+            cityCode=#{citycode,jdbcType=VARCHAR},
+            zipCode=#{zipcode,jdbcType=VARCHAR},
+            mergerName=#{mergername,jdbcType=VARCHAR},
+            longitude=#{longitude,jdbcType=VARCHAR},
+            latitude=#{latitude,jdbcType=VARCHAR},
+            pinyin=#{pinyin,jdbcType=VARCHAR},
+            isUse=#{isuse,jdbcType=INTEGER},
+            create_date=#{createDate,jdbcType=VARCHAR}
+        where data_id = #{dataId,jdbcType=INTEGER}
+    </update>
+    <!-- 分页查询 -->
+    <select id="findSysFileKindByPage" parameterType="com.pcitc.base.system.SysAddress" resultMap="BaseResultMap">
+
+        select
+        data_id,
+        cityName,
+        parentId,
+        shortName,
+        depth,
+        cityCode,
+        zipCode,
+        mergerName,
+        longitude,
+        latitude,
+        pinyin,
+        isUse,
+        create_date
+        from sys_address
+        where 1=1
+        <if test="dataId!=null and dataId!=''.toString()">
+            and data_id like '%${dataId}%'
+        </if>
+        <if test="cityname!=null and cityname!=''.toString()">
+            and cityName like '%${cityname}%'
+        </if>
+        <if test="parentid!=null and parentid!=''.toString()">
+            and parentId like '%${parentid}%'
+        </if>
+        <if test="shortname!=null and shortname!=''.toString()">
+            and shortName like '%${shortname}%'
+        </if>
+        <if test="depth!=null and depth!=''.toString()">
+            and depth like '%${depth}%'
+        </if>
+        <if test="citycode!=null and citycode!=''.toString()">
+            and cityCode like '%${citycode}%'
+        </if>
+        <if test="zipcode!=null and zipcode!=''.toString()">
+            and zipCode like '%${zipcode}%'
+        </if>
+        <if test="mergername!=null and mergername!=''.toString()">
+            and mergerName like '%${mergername}%'
+        </if>
+        <if test="longitude!=null and longitude!=''.toString()">
+            and longitude like '%${longitude}%'
+        </if>
+        <if test="latitude!=null and latitude!=''.toString()">
+            and latitude like '%${latitude}%'
+        </if>
+        <if test="pinyin!=null and pinyin!=''.toString()">
+            and pinyin like '%${pinyin}%'
+        </if>
+        <if test="isuse!=null and isuse!=''.toString()">
+            and isUse like '%${isuse}%'
+        </if>
+        <if test="createDate!=null and createDate!=''.toString()">
+            and create_date like '%${createDate}%'
+        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+    <!-- 查询列表 -->
+    <select id="findSysAddressList" parameterType="com.pcitc.base.system.SysAddress" resultMap="BaseResultMap">
+        select
+        data_id,
+        cityName,
+        parentId,
+        shortName,
+        depth,
+        cityCode,
+        zipCode,
+        mergerName,
+        longitude,
+        latitude,
+        pinyin,
+        isUse,
+        create_date
+        from sys_address
+        where 1=1
+        <if test="dataId!=null">
+            and data_id = #{dataId,jdbcType=VARCHAR}
+        </if>
+        <if test="cityname!=null">
+            and cityName = #{cityname,jdbcType=VARCHAR}
+        </if>
+        <if test="parentid!=null">
+            and parentId = #{parentid,jdbcType=VARCHAR}
+        </if>
+        <if test="shortname!=null">
+            and shortName = #{shortname,jdbcType=VARCHAR}
+        </if>
+        <if test="depth!=null">
+            and depth = #{depth,jdbcType=VARCHAR}
+        </if>
+        <if test="citycode!=null">
+            and cityCode = #{citycode,jdbcType=VARCHAR}
+        </if>
+        <if test="zipcode!=null">
+            and zipCode = #{zipcode,jdbcType=VARCHAR}
+        </if>
+        <if test="mergername!=null">
+            and mergerName = #{mergername,jdbcType=VARCHAR}
+        </if>
+        <if test="longitude!=null">
+            and longitude = #{longitude,jdbcType=VARCHAR}
+        </if>
+        <if test="latitude!=null">
+            and latitude = #{latitude,jdbcType=VARCHAR}
+        </if>
+        <if test="pinyin!=null">
+            and pinyin = #{pinyin,jdbcType=VARCHAR}
+        </if>
+        <if test="isuse!=null">
+            and isUse = #{isuse,jdbcType=VARCHAR}
+        </if>
+        <if test="createDate!=null">
+            and create_date = #{createDate,jdbcType=VARCHAR}
+        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+</mapper>

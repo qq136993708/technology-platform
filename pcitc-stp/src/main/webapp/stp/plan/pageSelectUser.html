@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        .tree-content {
+            position: absolute;
+            z-index: 998;
+            background: #ffffff;
+            max-height: 400px;
+            width: 100%;
+            border: 1px solid #ccc;
+            overflow-y: scroll;
+        }
+
+        .layui-select-title input {
+            display: inline-block
+        }
+
+        .searchBox .layui-input {
+            width: 18%;
+            min-width: 160px;
+            display: inline-block !important;
+            font-size: 12px !important;
+            height: 24px !important;
+            line-height: 24px !important;
+            font-weight: normal !important;
+            padding-left: 6px !important;
+            padding-right: 6px !important;
+            border-radius: 2px !important;
+            vertical-align: middle;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            padding-top: -2px;
+        }
+        .tableBox{width: 80.8%;float: left;}
+        .tableUser{width: 16.2%;float: left;}
+        .tableBtnsL{text-align: left;text-indent: .5em;font-size: 14px;}
+        .tableUserB ul{height: 260px;border:1px solid #e6e6e6;border-top: 0;overflow-y: scroll;}
+        .tableUserB ul li {height: 36px;line-height: 46px;text-indent: .5em;}
+        .tableUserB ul li a{background: url(/layuiadmin/layui/images/icon_close.png) #fff no-repeat 95% 3px;
+            color: #1890ff !important;border: 1px solid #1890ff !important;    padding: 3px 16px 3px 10px;
+            border-radius: 4px;
+        }
+    </style>
+    <script type="text/javascript">
+        var map = {};
+        var table, selectRowData, renderfunc;
+        layui.use(['jquery', 'selectTree', 'table', 'laypage', 'publicMethods'], function () {
+            var $ = layui.jquery, element = layui.element, layer = layui.layer;
+            table = layui.table;
+            var publicMethods = layui.publicMethods;
+            var selectTree = layui.selectTree;
+
+            function renderTable(where) {
+                var lodingMsg = layer.msg('数据加载中....');
+                var param = JSON.parse(window.localStorage.getItem("param"));
+                //渲染
+                table.render({
+                    elem: '#userTable',
+                    url: '/user/user-list',
+                    limit: param.selfRownum,
+                    method: "POST",
+                    where: where,
+                    id: 'userTable',
+                    height: commonDislodgeTable(),
+                    page: {
+                        groups: 5
+                        , limits: [param.selfRownum, 15, 30, 45, 60]
+                        , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                        , first: '首页' //不显示首页
+                        , last: '尾页' //不显示尾页
+                        , theme: '#0F9EE0'
+                    },
+                    cols: [[
+                        {type: 'checkbox', event: 'changeEvents'}
+                        , {title: '序号', type: 'numbers' ,width : 55}
+                        , {field: 'userName', title: '登录名称', style: 'cursor: pointer;'}
+                        , {field: 'userDisp', title: '显示名称', style: 'cursor: pointer;'}
+                        , {field: 'userKindDisp', title: '用户类型', style: 'cursor: pointer;'}
+                        , {field: 'isDomainDisp', title: '域用户', style: 'cursor: pointer;'}
+                        , {field: 'userUnitDisp', title: '所属机构', style: 'cursor: pointer;'}
+                        , {field: 'userPostDisp', title: '所属岗位', style: 'cursor: pointer;'}
+                        // ,{field:'userMail',   title:'邮箱',	    width: '12%',  style:'cursor: pointer;'}
+                        // ,{field:'userPhone',  title:'座机号',     width: '10%',  style:'cursor: pointer;'}
+                        // ,{field:'userMobile', title:'手机号',  style:'cursor: pointer;'}
+                    ]],
+                    done: function (res, curr, count) {
+                        layer.close(lodingMsg);
+                        // 点击行联动选择框--单选
+                        $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                            //var index = parseInt($(this).index() + 1);
+                            //$('tr').removeClass('layui-table-click');
+                            //$(this).addClass('layui-table-click');
+                            //$('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                            //$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                            // selectRowData = res.data[index - 1];
+                        });
+                    }
+                });
+                renderfunc = function removeHeaderCheckbox() {
+                    //$(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
+                }
+                renderfunc();
+            }
+
+            //多选--开始
+            //单击行勾选checkbox事件——多选情况
+            $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
+                var index = $(this).attr('data-index');
+                var tableBox = $(this).parents('.layui-table-box');
+                //存在固定列
+                if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
+                    tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+                } else {
+                    tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+                }
+                var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+                if (checkCell.length > 0) {
+                    checkCell.click();
+                }
+            });
+            $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+                e.stopPropagation();
+            });
+            $(document).on("click", "#checkedUsers li a", function () {
+                var keyValue=$(this).find("span").attr("value");
+                for (var key in map){
+                    if(keyValue==key){
+                        delete map[key];
+                    }
+                }
+                $(this).parent().remove();
+            });
+            //多选-结束
+            renderTable({
+                param: {
+                    "userName": $("#userName").val(),
+                    "userKind": $("#userKind").val(),
+                    "userUnit": $("#userUnitValue").val()
+                }
+            });
+
+            //监听表格复选框选择
+            table.on('checkbox(userEvent)', function (obj) {
+                console.log(obj)
+            });
+            // 触发不同的按钮事件
+            var $ = layui.$, active = {
+                searchEvent: function () { //点击查询按钮
+                    renderTable({
+                        param: {
+                            "userName": $("#userName").val(),
+                            "userKind": $("#userKind").val(),
+                            "userUnit": $("#userUnitValue").val()
+                        }
+                    });
+                    /* table.reload('userTable', {
+                        where: {param: {"userName":$("#userName").val()}}
+                    }); */
+                }
+                , resetEvent: function () {
+                    //点击重置按钮
+                    $("#userName").val("");
+                    $("#userKind").val("");
+                    //组织结构
+                    /*$("#userUnitShow").val("");
+                    $("#userUnitValue").val("");*/
+
+                    $("#userUnitShow").attr("value", '');
+                    $("#userUnitValue").attr("value", '');
+
+                    renderTable({
+                        param: {
+                            "userName": $("#userName").val(),
+                            "userKind": $("#userKind").val(),
+                            "userUnit": $("#userUnitValue").val()
+                        }
+                    });
+                }
+                , getChecked: function () {//多选
+                    var ids = "";
+                    var selectedData = active.getCheckData();
+                    return selectedData;
+                }, getCheckData: function () { //获取选中数据
+                    var checkStatus = table.checkStatus('userTable')
+                        , data = checkStatus.data;
+                    return data;
+                }
+                , addEvent2: function () {
+                    //点击新增按钮
+                    var temUrl = '/user/user_page_edit';
+                    publicMethods.openBaseWinFull("新增用户", temUrl);
+                }
+                , editEvent: function () {
+                    //点击编辑按钮
+                    if (!selectRowData) {
+                        layer.msg('请点击选择一行数据!');
+                        return;
+                    }
+                    var temUrl = '/user/user_page_edit?userId=' + selectRowData.userId;
+                    publicMethods.openBaseWinFull("编辑用户", temUrl);
+                },
+                addEvent: function () {
+                    selectRowData = active.getChecked();
+                    for (let i = 0; i < selectRowData.length; i++) {
+                        map[selectRowData[i].userId + ""] = selectRowData[i];
+                    }
+                    layer.msg("添加成功");
+                    var checkedUsers = "";
+                    $("#checkedUsers").html("");
+                     for(var key in map){
+                         checkedUsers=(checkedUsers==""?"":(checkedUsers+","))+map[key].userDisp;
+                         var liHtml='<li class="layui-nav-item">' +
+                             '<a href="javascript:void(0);">' +
+                             '<span value="'+key+'">'+map[key].userDisp+'</span><em></em></a></li>';
+                         $("#checkedUsers").append(liHtml);
+                     }
+                },dbaddEvent: function (data) {
+                    selectRowData = data;
+                    map[selectRowData.userId + ""] = selectRowData;
+                    layer.msg("添加成功");
+                    var checkedUsers = "";
+                    $("#checkedUsers").html("");
+                    for(var key in map){
+                        checkedUsers=(checkedUsers==""?"":(checkedUsers+","))+map[key].userDisp;
+                        var liHtml='<li class="layui-nav-item">' +
+                            '<a href="javascript:void(0);">' +
+                            '<span value="'+key+'">'+map[key].userDisp+'</span><em></em></a></li>';
+                        $("#checkedUsers").append(liHtml);
+                    }
+                },
+                okEvent: function () {
+                    var list = [];
+                    for (var key in map) {
+                        list.push(map[key]);
+                    }
+                    try {
+                        parent.setWelder(list);
+                    } catch (e) {
+                        console.log(e);
+                    }
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                    //点击编辑按钮
+                    // if (!selectRowData) {
+                    //     layer.msg('请点击选择一行数据!');
+                    //     return;
+                    // }
+
+                    // selectRowData = active.getChecked();
+                    // try {
+                    //     parent.setWelder(eval(selectRowData));
+                    // } catch (e) {
+                    //     console.log(e);
+                    // }
+                    // var index = parent.layer.getFrameIndex(window.name);
+                    // parent.layer.close(index);
+                },
+                deleteEvent: function () {  //点击删除按钮
+                    //var dt = table.checkStatus('userTable').data;
+                    if (!selectRowData) {
+                        layer.msg('请选择要删除的数据!');
+                        return;
+                    }
+                    layer.confirm('确定要删除吗？', {title: "删除确认"}, function (index) {
+                        layer.close(index);
+                        var userIds = [];
+                        userIds.push(selectRowData.userId);
+                        ajaxPost("/user/delete-users", {"userIds": JSON.stringify(userIds)}, function (data) {
+                            if (data.success) {
+                                renderTable({
+                                    param: {
+                                        "userName": $("#userName").val(),
+                                        "userKind": $("#userKind").val(),
+                                        "userUnit": $("#userUnitValue").val()
+                                    }
+                                });
+                                //table.reload("userTable");
+                            } else {
+                                layer.msg('操作异常，请重试!');
+                            }
+                        });
+                    });
+                },
+                resetPassEvent: function () {  //点击密码重置按钮
+                    //var dt = table.checkStatus('userTable').data;
+                    if (!selectRowData) {
+                        layer.msg('请选择要密码重置的数据!');
+                        return;
+                    }
+                    layer.confirm('确定要密码重置吗？', {title: "密码重置确认"}, function (index) {
+                        layer.close(index);
+                        var userIds = [];
+                        ajaxPost("/user/resetPassword-users", {"userId": selectRowData.userId}, function (data) {
+                            if (data.success) {
+                                renderTable({
+                                    param: {
+                                        "userName": $("#userName").val(),
+                                        "userKind": $("#userKind").val(),
+                                        "userUnit": $("#userUnitValue").val()
+                                    }
+                                });
+                                //table.reload("userTable");
+                            } else {
+                                layer.msg('操作异常，请重试!');
+                            }
+                        });
+                    });
+                },
+                fileExportEvent: function () {
+                    //多条数据案例
+                    var date = publicMethods.getCurrentDate();                  //获取当前日期(到秒)
+                    var irparams = '';                                          //参数名1:value1;参数名2:value2;参数名...:value...;
+                    var beanparams = '';                                        //参数名1:value1;参数名2:value2;参数名...:value...;
+                    var datatype = "javabean";                                  //ireport的datasource类型(javabean、sql)
+                    var type = 'excel';                                         ////生成文件类型，pdfInline、excel、word、html
+                    var jaspername = '用户信息.jasper';                            ////jasper文件名
+                    var filename = "用户信息(" + date + ")";                           ////导出的文件名称
+                    var beanurl = 'com.pcitc.base.system.ireport.SysUserInfo';  ////java类，获取数据
+                    //参数
+                    var userName = $("#userName").val();
+                    var userKind = $("#userKind").val();
+                    var userUnit = $("#userUnitValue").val();
+                    beanparams = 'userName:' + userName + ';userKind:' + userKind + ';userUnit:' + userUnit + ';beanurl:' + beanurl; ////beanurl必须存在
+                    //params_filename = irparams1@:@filename1,,irparams2@:@filename2,,
+                    var params_filename = irparams + "@:@" + filename + "@:@" + beanparams + ",,";//irparams、beanparams不存在给'',格式必须是[irparams@:@filename@:@beanparams]
+                    params_filename = params_filename.substring(0, params_filename.length - 2);
+                    //提交后台处理，生成打印文件
+                    var jasperForm = publicMethods.createForm("jasperForm", "jasperForm", "/common/ireport", "post", "_blank");
+                    publicMethods.insertValueToForm(jasperForm, "jaspername", jaspername);
+                    publicMethods.insertValueToForm(jasperForm, "type", type);
+                    publicMethods.insertValueToForm(jasperForm, "params_filename", params_filename);
+                    publicMethods.insertValueToForm(jasperForm, "datatype", datatype);
+                    document.body.appendChild(jasperForm);
+                    jasperForm.submit();
+                },
+                //表单数据打印案列：一般以pdf、word为主
+                fileExportEvent1: function () {
+                    //多条数据案例
+                    var date = publicMethods.getCurrentDate();                  //获取当前日期(到秒)
+                    var irparams = '';                                          //参数名1:value1;参数名2:value2;参数名...:value...;
+                    var beanparams = '';                                        //参数名1:value1;参数名2:value2;参数名...:value...;
+                    var datatype = "javabean";                                  //ireport的datasource类型(javabean、sql)
+                    var type = 'pdfInline';                                     ////生成文件类型，pdfInline、excel、word、html
+                    var jaspername = '用户信息案例.jasper';                         ////jasper文件名
+                    var filename = "用户信息案例(" + date + ")";                        ////导出的文件名称
+                    var beanurl = 'com.pcitc.base.system.ireport.SysUserInfo1'; ////java类，获取数据
+                    //参数
+                    if (!selectRowData) {
+                        layer.msg('请选择要打印的表单数据!');
+                        return;
+                    }
+                    var userId = selectRowData.userId;
+                    beanparams = 'userId:' + userId + ';beanurl:' + beanurl;           ////beanurl必须存在
+                    //params_filename = irparams1@:@filename1,,irparams2@:@filename2,,
+                    var params_filename = irparams + "@:@" + filename + "@:@" + beanparams + ",,";//irparams、beanparams不存在给'',格式必须是[irparams@:@filename@:@beanparams]
+                    params_filename = params_filename.substring(0, params_filename.length - 2);
+                    //提交后台处理，生成打印文件
+                    var jasperForm = publicMethods.createForm("jasperForm", "jasperForm", "/common/ireport", "post", "_blank");
+                    publicMethods.insertValueToForm(jasperForm, "jaspername", jaspername);
+                    publicMethods.insertValueToForm(jasperForm, "type", type);
+                    publicMethods.insertValueToForm(jasperForm, "params_filename", params_filename);
+                    publicMethods.insertValueToForm(jasperForm, "datatype", datatype);
+                    document.body.appendChild(jasperForm);
+                    jasperForm.submit();
+                }
+            };
+            //区别按钮属性
+            $('.layui-btn').on('click', function () {
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+            var zNodes, unitSelectTree;
+            $(document).ready(function () {
+                //用户类别
+                publicMethods.ajaxPost('/dictionary/list/ROOT_XTGL_YHLX', null, function (data, status) {
+                    $.each(data, function (i, dt) {
+                        $("#userKind").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+                    });
+                });
+                //加载机构下拉树数据
+                publicMethods.ajaxPost('/unit/ztree-unit-list', null, function (data, status) {
+                    zNodes = data;//机构下拉树的数据
+                    //参数： 参数1：div的id，参数2：isMultiple 是否多选(true或false), 参数3：不用动,参数4：setting
+                    unitSelectTree = selectTree.initSelectTree("userUnit", false, true, false, {
+                        "Y": "",
+                        "N": ""
+                    }, zNodes)
+                    selectTree.initHideMenu();  //不加此方法则默认打开下拉树
+                });
+            });
+            //监听行双击事件
+            table.on('rowDouble(userEvent)', function(obj){
+                console.log("-----------------");
+                console.log(obj.data);
+                active.dbaddEvent(obj.data);
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="searchBox">
+    <label class="dateInput">
+        <span>用户名称</span>
+        <input type="text" name="userName" id="userName" placeholder="请输入登录名称或显示名称" autocomplete="off"
+               class="form-control">
+    </label>
+    <label class="dateInput">
+        <span>用户类型</span>
+        <select name="userKind" id="userKind" lay-filter="userKind" class="form-control">
+            <option value="">请选择</option>
+        </select>
+    </label>
+    <label class="dateInput">
+        <span>组织机构</span>
+        <div class="layui-input-block" style="display:inline-table; margin-left:0px; min-height:24px;">
+            <div id="userUnit" class="layui-form-select select-tree"></div>
+        </div>
+    </label>
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
+        </button>
+        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
+                data-type="resetEvent">重置
+        </button>
+    </div>
+</div>
+<div class="tableBox">
+    <div class="tableToolBox">
+        <div class="whiteLine"></div>
+        <div class="tableBtns">
+            <!--<span id="checkedUsers" style="color: red;"></span>-->
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent">新增</button>-->
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="editEvent">编辑</button>-->
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button>-->
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_reset2 btnMyBgImg" data-type="resetPassEvent">密码重置</button>-->
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_print btnMyBgImg" data-type="fileExportEvent">打印</button>-->
+            <!--&lt;!&ndash;<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_print btnMyBgImg" data-type="fileExportEvent1">打印案例</button>&ndash;&gt;-->
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
+                    data-type="addEvent">添加
+            </button>
+        </div>
+    </div>
+    <table id="userTable" class="layui-hide" lay-filter="userEvent"></table>
+</div>
+<div class="tableUser">
+    <div class="tableToolBox">
+
+        <div class="whiteLine"></div>
+        <div class="tableBtns tableBtnsL"><button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_submit btnMyBgImg"
+                                                                  data-type="okEvent">确定
+        </button></div>
+    </div>
+    <div class="tableUserB">
+        <ul id="checkedUsers" style="font-size: 8px;">
+
+        </ul>
+        <!--<span id="checkedUsers" style="color: red;"></span>-->
+    </div>
+</div>
+</body>
+</html>

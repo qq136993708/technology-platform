@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<style>
+    td{padding:3px}
+</style>
+<body>  
+<div class="searchBox">
+    <!--查询条件-->
+        <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month" placeholder="请选择月份" title="月份"  value="${month}" autocomplete="off" class="form-control" id="month">
+        </label>
+       
+       
+       
+       <div class="layui-input-inline">
+              <select id="companyCode" name="companyCode" class="form-control"></select>
+             </div>
+             
+       <form class="layui-form layui-form1">
+            <div class="layui-input-inline">
+                <#list projectCodeList as vo>
+                   <input type="checkbox" name="like[write]" lay-skin="primary" title="${vo.g0XMGLLX}" checked="">
+                </#list>
+            </div>
+        </form>
+
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+    </div>
+    <span class="unitBox">单位：万元</span>
+</div>
+
+
+<!--echarts-->
+<div class="content-body container">
+       <!--图表二比一布局-->
+        <div class="layui-row two-one-box">
+            <div class="layui-col-xs8 layui-col-sm8 layui-col-md8 twoBox echarts">
+                <div id="main1" style="width: 100%;height: 400px;"></div>
+            </div>
+            <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 oneBox echarts">
+                <div id="main2" style="width: 100%;height: 400px;"></div>
+            </div>
+        </div>
+        
+     <!--图表二比一布局-->
+        <div class="layui-row two-one-box">
+            <div class="layui-col-xs8 layui-col-sm8 layui-col-md8 twoBox echarts">
+                <div id="main3" style="width: 100%;height: 400px;"></div>
+            </div>
+            <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 oneBox echarts">
+                <div id="main4" style="width: 100%;height: 400px;"></div>
+            </div>
+        </div>
+     
+      <div class="one-chart-box" style="margin-top:1px">
+         <div class="layui-row echarts" style="height: 600px;">
+             <div id="main6" class="layui-col-xs8" style="height: 600px;"></div>
+             <div id="main7" class="layui-col-xs4 layui-col-sm4" style="height: 500px;;border:0px #ccc solid" >
+               <table class="layui-table" style="margin-top:60px;">
+					     <tr>
+					      <td align="left" style="font-weight:bold;padding-right:6px;">项目编码：</td><td >P1</td>
+					     </tr>
+					     <tr>
+					      <td align="left" style="font-weight:bold;padding-right:6px;">项目描述：</td><td >P1 XXXXX	</td>
+					     </tr>
+					     <tr>
+					      <td align="left" style="font-weight:bold;padding-right:6px;">鉴定结论：	</td><td >国际先进	</td>
+					     </tr>
+					     <tr>
+					      <td align="left" style="font-weight:bold;padding-right:6px;">专利申请数量：</td><td >3</td>
+					     </tr>
+					     <tr>
+					      <td align="left" style="font-weight:bold;padding-right:6px;">项目组平均年龄：</td><td >化工业</td>
+					     </tr>
+				  </table>
+				  <div style="margin-top:10px;">项目组人员详细信息：</div>
+				  <table class="layui-table">
+				      <thead>
+					     <tr>
+					      <td align="center" style="font-weight:bold;padding:6px;">姓名</td>
+					      <td align="center" style="font-weight:bold;padding:6px;">年龄</td>
+					      <td align="center" style="font-weight:bold;padding:6px;">技术职称</td>
+					      <td align="center" style="font-weight:bold;padding:6px;">文化程度</td>
+					      <td align="center" style="font-weight:bold;padding:6px;">工作单位</td>
+					      <td align="center" style="font-weight:bold;padding:6px;">创造性贡献度</td>
+					     </tr>
+					     </thead>
+					     <tr>
+					      <td >张三</td>
+					      <td >58</td>
+					      <td >正高</td>
+					      <td >博士</td>
+					      <td >石科院</td>
+					      <td >3</td>
+					     </tr>
+					    <tr>
+					      <td >xxx</td>
+					      <td >xxx</td>
+					      <td >xxx</td>
+					      <td >xxx</td>
+					      <td >xxx</td>
+					      <td >xxx</td>
+					     </tr>
+					      <tr>
+					      <td >xxx</td>
+					      <td >xxx</td>
+					      <td >xxx</td>
+					      <td >xxx</td>
+					      <td >xxx</td>
+					      <td >xxx</td>
+					     </tr>
+				  </table>
+				  <div style="margin-top:20px;">专利详细信息：</div>
+				  
+             <table class="layui-table">
+                   <thead>
+					     <tr>
+					      <td align="center" style="font-weight:bold;padding:6px;">专利名称</td>
+					      <td align="center" style="font-weight:bold;padding:6px;">专利申请人</td>
+					      <td align="center" style="font-weight:bold;padding:6px;">专利申请号</td>
+					      <td align="center" style="font-weight:bold;padding:6px;">专利注册号</td>
+					      <td align="center" style="font-weight:bold;padding:6px;">专利授权号</td>
+					      <td align="center" style="font-weight:bold;padding:6px;">专利国别</td>
+					      <td align="center" style="font-weight:bold;padding:6px;">专利法律状态</td>
+					     </tr>
+				    </thead>
+					    <tr>
+					      <td >xxx</td>
+					      <td >xxx</td>
+					      <td >xxx</td>
+					      <td >xxx</td>
+					      <td >xxx</td>
+					      <td >xxx</td>
+					      <td >xxx</td>
+					     </tr>
+					      <tr>
+					      <td >xxx</td>
+					      <td >xxx</td>
+					      <td >xxx</td>
+					      <td >xxx</td>
+					      <td >xxx</td>
+					      <td >xxx</td>
+					      <td >xxx</td>
+					     </tr>
+				  </table>
+             </div>
+             
+         </div>
+     </div>
+     
+     
+
+</div>
+<!--echarts end-->
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script src="/stp/hana/common/hana_common.js"></script>
+<script type="text/javascript">
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
+var layer;
+layui.config({
+    base: '/layuiadmin/module/modules/' 
+}).use(['jquery','form', 'laydate','table','layer'], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,form = layui.form
+      ,layer = layui.layer
+      ,laydate = layui.laydate;
+	  
+	  init_companyCode(functionId);
+	  form.render(null, 'component-form-group');
+            laydate.render({
+               elem: '#month'
+               ,format: 'yyyyMM'
+            });
+});
+
+
+
+function init()
+{
+	
+	    //alert(functionId);
+	   
+		var allCode="${allCode?default('')}";
+		var allCode_text="全部院所";
+		var v_date=(new Date()).getTime();
+		var month=$('#month').val();
+		var companyCode=$('#companyCode').val();
+		var monthstr=getNowFormatDate($('#month').val());
+		var checkText=$("#companyCode").find("option:selected").text();
+		if(checkText=='全部')
+		{
+			checkText="全部院所";
+		}
+		
+		
+		var seriesData_1=[
+		        {
+  		            name:'2014',
+  		            type:'bar',
+  		            color: ['#37A2DA'],
+  		            data:[272, 44, 734]
+  		        },
+  		        {
+  		            name:'2015',
+  		            type:'bar',
+  		            color: ['#67E0E3'],
+  		             data:[232, 414, 74]
+  		        },
+  		        {
+  		            name:'2016',
+  		            type:'bar',
+  		          data:[22, 444, 74]
+  		        },
+  		        {
+  		            name:'2017',
+  		            type:'bar',
+  		            data:[232, 424, 74]
+  		        },
+  		        {
+  		            name:'2018',
+  		            type:'bar',
+  		            data:[252, 424, 514]
+  		        }
+  		        
+  		    ];
+	  
+	  var yAxis=[
+	        {
+	            type: 'value',
+	            name: '金额（万元）',
+	            min: 0,
+	            max: 850,
+	            interval: 200,
+	            axisLabel: {
+	                formatter: '{value}'
+	            }
+	        }
+	    ];
+	var legends_1=['2014','2015','2016','2017','2018'];
+	var xAxisData_1= ["专有技术","国内专利","国外专利"];
+	load_mutl_bar_tt("main1","成果鉴定项目涉及专利授权数量年趋势分析",legends_1,xAxisData_1,yAxis,seriesData_1,monthstr);
+	
+	var legend_names_2=['专有技术','国内专利','国外专利'];
+	var series_values_2=[
+		  {value:135, name:'专有技术'},
+          {value:210, name:'国内专利'},
+          {value:210, name:'国外专利'}
+	];
+	loadPie_tt('main2','成果鉴定项目涉及专利授权数量按专利类型占比分析',legend_names_2,series_values_2,monthstr);
+		
+	
+	
+	
+	
+	var seriesData_3= [
+	        {
+		            name:'2014',
+		            type:'bar',
+		            color: ['#37A2DA'],
+		            data:[222, 44, 734, 44, 734]
+		        },
+		        {
+		            name:'2015',
+		            type:'bar',
+		            color: ['#67E0E3'],
+		             data:[232, 454, 74, 44, 734]
+		        },
+		        {
+		            name:'2016',
+		            type:'bar',
+		          data:[32, 444, 74, 44, 134]
+		        },
+		        {
+		            name:'2017',
+		            type:'bar',
+		            data:[232, 424, 74, 42, 734]
+		        },
+		        {
+		            name:'2018',
+		            type:'bar',
+		            data:[252, 424, 514, 24, 734]
+		        }
+		        
+		    ];
+
+		var yAxis3=[
+		    {
+		        type: 'value',
+		        name: '金额（万元）',
+		        min: 0,
+		        max: 850,
+		        interval: 200,
+		        axisLabel: {
+		            formatter: '{value}'
+		        }
+		    }
+		];
+		var legends_3=['2014','2015','2016','2017','2018'];
+		var xAxisData_3= ["正高","副高","中级","初级","技术员"];
+		load_mutl_bar_tt("main3","科研成果鉴定项目涉及研发人员数量年趋势分析",legends_3,xAxisData_3,yAxis3,seriesData_3,monthstr);
+		
+		
+		
+		var legend_names_4=["正高","副高","中级","初级","技术员"];
+		var series_values_4=[
+			 {value:135, name:'正高'},
+             {value:810, name:'副高'},
+             {value:210, name:'中级'},
+             {value:910, name:'初级'},
+             {value:410, name:'技术员'}
+		];
+		loadPie_tt('main4','科研成果鉴定项目涉及研发人员数量按职称占比分析',legend_names_4,series_values_4,monthstr);
+			
+		
+		
+		load_dot(monthstr) ;
+		
+
+		
+}		
+
+init();
+
+        
+        
+        
+        
+        
+        
+        
+function load_dot(subtext) 
+{
+    
+        
+    var myChart6 = echarts.init(document.getElementById('main6'));
+        var data = [
+            [[28604,77,17096869,'P1','国际领先'],[31163,77.4,27662440,'P15','国际领先'],[1516,68,1154605773,'P30','国际领先'],[13670,74.7,10582082,'P45','国际领先'],[28599,75,4986705,'P25','国际领先'],[29476,77.1,56943299,'P75','国际领先'],[31476,75.4,78958237,'P48','国际领先'],[28666,78.1,254830,'P28','国际领先'],[1777,57.7,870601776,'P38','国际领先'],[29550,79.1,122249285,'P65','国际领先'],[2076,67.9,20194354,'P7','国际领先'],[12087,72,42972254,'P50','国际领先'],[24021,75.4,3397534,'P51','国际领先'],[43296,76.8,4240375,'P52','国际领先'],[10088,70.8,38195258,'P53','国际领先'],[19349,69.6,147568552,'P54','国际领先'],[10670,67.3,53994605,'P55','国际领先'],[26424,75.7,57110117,'P56','国际领先'],[37062,75.4,252847810,'P57','国际领先']],
+            [[44056,11.8,23968973,'P1','国际先进'],[43294,21.7,35939927,'P15','国际先进'],[93334,76.9,1376048943,'P30','国际先进'],[21291,28.5,11389562,'P45','国际先进'],[98923,80.8,5503457,'P25','国际先进'],[37599,81.9,64395345,'P75','国际先进'],[84053,11.1,80688545,'P48','国际先进'],[12182,82.8,329425,'P28','国际先进'],[5903,33.8,1310050527,'P38','国际先进'],[36162,83.5,126573481,'P65','国际先进'],[1390,71.4,25155317,'P7','国际先进'],[34644,80.7,50293439,'P50','国际先进'],[34186,80.6,4528526,'P51','国际先进'],[64304,81.6,5210967,'P52','国际先进'],[24787,77.3,38611794,'P53','国际先进'],[23038,73.13,143456918,'P54','国际先进'],[19360,76.5,78665830,'P55','国际先进'],[38225,81.4,64715810,'P56','国际先进'],[53354,79.1,321773631,'P57','国际先进']],
+            [[41056,11.8,23961973,'P1','国内领先'],[42294,41.7,35039927,'P15','国内领先'],[23034,71.9,1376048943,'P30','国内领先'],[21091,72.5,11389562,'P45','国内领先'],[32923,20.8,5203457,'P25','国内领先'],[32599,41.9,64365345,'P75','国内领先'],[40053,41.1,80088545,'P48','国内领先'],[42112,58.8,329125,'P28','国内领先'],[5913,68.8,1311055527,'P38','国内领先'],[36062,80.5,126503481,'P65','国内领先'],[1300,51.4,25150317,'P7','国内领先'],[34044,50.7,50203439,'P50','国内领先'],[34106,80.6,4520526,'P51','国内领先'],[60304,41.6,5210067,'P52','国内领先'],[27787,74.3,38611694,'P53','国内领先'],[27038,93.13,143236918,'P54','国内领先'],[19560,66.5,78660830,'P55','国内领先'],[31225,41.4,64715810,'P56','国内领先'],[50354,70.1,320773631,'P57','国内领先']],
+            [[31056,21.8,63961973,'P1','国内先进'],[70294,91.7,30039927,'P15','国内先进'],[20034,71.9,8376048943,'P30','国内先进'],[41091,62.5,51389562,'P45','国内先进'],[92923,53.8,5243457,'P25','国内先进'],[38599,91.9,64395345,'P75','国内先进'],[40253,61.1,80388545,'P48','国内先进'],[62112,68.8,329125,'P28','国内先进'],[8913,88.8,8311055527,'P38','国内先进'],[76062,70.5,726503481,'P65','国内先进'],[5300,61.4,65150317,'P7','国内先进'],[84044,80.7,80203439,'P50','国内先进'],[84106,80.6,4820526,'P51','国内先进'],[10304,91.6,9210067,'P52','国内先进'],[87787,24.3,48611694,'P53','国内先进'],[67038,63.13,743236918,'P54','国内先进'],[49560,56.5,48660830,'P55','国内先进'],[81225,51.4,24715810,'P56','国内先进'],[56354,10.1,324773631,'P57','国内先进']]
+            
+            
+            
+            ];
+
+      var  option6 = {
+            title: {
+                text: '项目鉴定成果、项目组平均年龄与专利授权数量热点分布图',
+                x:'center',
+                y: '10px',
+    	        textStyle: {
+    	            fontSize: 15,
+    	            fontWeight: 'normal',
+    	            color: '#000000'       
+    	        },
+    	        subtextStyle: {
+    	            color: '#7B7B7B'        
+    	        },
+    	        subtext:''
+            },
+            legend: {
+            	 bottom: 10,
+                data: ['国际领先', '国际先进', '国内领先', '国内先进']
+            },
+            xAxis: {
+                splitLine: {
+                    lineStyle: {
+                        type: 'dashed'
+                    }
+                },
+                type : 'value',
+                name: '专利数量'
+            },
+            yAxis: {
+                splitLine: {
+                    lineStyle: {
+                        type: 'dashed'
+                    }
+                },
+                scale: true,
+                type : 'value',
+                name: '项目组平均年龄'
+               
+            },
+            series: [{
+                name: '国际领先',
+                data: data[0],
+                type: 'scatter',
+                /* symbolSize: function (data) {
+                    return Math.sqrt(data[2]) / 5e2;
+                }, */
+                symbolSize: 20,
+                label: {
+                    emphasis: {
+                        show: true,
+                        formatter: function (param) {
+                            return param.data[3];
+                        },
+                        position: 'top'
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        shadowBlur: 10,
+                        shadowColor: 'rgba(120, 36, 50, 0.5)',
+                        shadowOffsetY: 5,
+                        color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+                            offset: 0,
+                            color: 'rgb(251, 108, 123)'
+                        }, {
+                            offset: 1,
+                            color: 'rgb(104, 46, 72)'
+                        }])
+                    }
+                }
+            }, {
+                name: '国际先进',
+                data: data[1],
+                type: 'scatter',
+               /*  symbolSize: function (data) {
+                    return Math.sqrt(data[2]) / 5e2;
+                }, */
+                symbolSize: 20,
+                label: {
+                    emphasis: {
+                        show: true,
+                        formatter: function (param) {
+                            return param.data[3];
+                        },
+                        position: 'top'
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        shadowBlur: 10,
+                        shadowColor: 'rgba(25, 100, 150, 0.5)',
+                        shadowOffsetY: 5,
+                        color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+                            offset: 0,
+                            color: 'rgb(129, 267, 238)'
+                        }, {
+                            offset: 1,
+                            color: 'rgb(25, 133, 207)'
+                        }])
+                    }
+                }
+                
+            },
+            {
+                name: '国内领先',
+                data: data[2],
+                type: 'scatter',
+                /* symbolSize: function (data) {
+                    return Math.sqrt(data[2]) / 5e2;
+                }, */
+                symbolSize: 20,
+                label: {
+                    emphasis: {
+                        show: true,
+                        formatter: function (param) {
+                            return param.data[3];
+                        },
+                        position: 'top'
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        shadowBlur: 10,
+                        shadowColor: 'rgba(120, 36, 50, 0.5)',
+                        shadowOffsetY: 5,
+                        color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+                            offset: 0,
+                            color: 'rgb(251, 218, 223)'
+                        }, {
+                            offset: 1,
+                            color: 'rgb(204, 56, 72)'
+                        }])
+                    }
+                }
+            },
+            {
+                name: '国内先进',
+                data: data[3],
+                type: 'scatter',
+                /* symbolSize: function (data) {
+                    return Math.sqrt(data[3]) / 5e2;
+                }, */
+                symbolSize: 20,
+                label: {
+                    emphasis: {
+                        show: true,
+                        formatter: function (param) {
+                            return param.data[3];
+                        },
+                        position: 'top'
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        shadowBlur: 10,
+                        shadowColor: 'rgba(120, 36, 50, 0.5)',
+                        shadowOffsetY: 5,
+                        color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+                            offset: 0,
+                            color: 'rgb(251, 118, 123)'
+                        }, {
+                            offset: 1,
+                            color: 'rgb(204, 46, 72)'
+                        }])
+                    }
+                }
+            }
+            ]
+        };
+      
+      option6.title.subtext=subtext;
+      myChart6.setOption(option6);
+    
+      myChart6.on('click', function (params) {
+
+    	  console.log(params);
+    	  alert(params.value);
+            
+     });   
+      
+}     
+      
+      
+      function search_Event()
+      {
+    	  init()
+      } 
+    </script>
+</body>
+</html>

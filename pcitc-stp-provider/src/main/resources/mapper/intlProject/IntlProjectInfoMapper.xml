@@ -1,0 +1,866 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.IntlProject.IntlProjectInfoMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.IntlProject.IntlProjectInfo">
+    <id column="project_id" jdbcType="VARCHAR" property="projectId" />
+    <result column="plant_id" jdbcType="VARCHAR" property="plantId" />
+    <result column="apply_id" jdbcType="VARCHAR" property="applyId" />
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+    <result column="project_code" jdbcType="VARCHAR" property="projectCode" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="project_step" jdbcType="INTEGER" property="projectStep" />
+    <result column="creater" jdbcType="VARCHAR" property="creater" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+    <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="flow_start_status" jdbcType="INTEGER" property="flowStartStatus" />
+    <result column="flow_end_status" jdbcType="INTEGER" property="flowEndStatus" />
+    <result column="flow_current_status" jdbcType="INTEGER" property="flowCurrentStatus" />
+    <result column="data_uuid" jdbcType="VARCHAR" property="dataUuid" />
+    <result column="append_files" jdbcType="VARCHAR" property="appendFiles" />
+    <result column="data_version" jdbcType="VARCHAR" property="dataVersion" />
+    <result column="old_project_id" jdbcType="VARCHAR" property="oldProjectId" />
+    <result column="start_date" jdbcType="VARCHAR" property="startDate" />
+    <result column="end_date" jdbcType="VARCHAR" property="endDate" />
+    <result column="chinese_contract_company" jdbcType="VARCHAR" property="chineseContractCompany" />
+    <result column="foreign_contract_company" jdbcType="VARCHAR" property="foreignContractCompany" />
+    <result column="company_introduction" jdbcType="VARCHAR" property="companyIntroduction" />
+    <result column="company_advantage" jdbcType="VARCHAR" property="companyAdvantage" />
+    <result column="project_target" jdbcType="VARCHAR" property="projectTarget" />
+    <result column="research_content" jdbcType="VARCHAR" property="researchContent" />
+    <result column="person_study" jdbcType="VARCHAR" property="personStudy" />
+    <result column="result_status" jdbcType="VARCHAR" property="resultStatus" />
+    <result column="flow_agreement_review_status" jdbcType="INTEGER" property="flowAgreementReviewStatus" />
+    <result column="flow_technology_review_status" jdbcType="INTEGER" property="flowTechnologyReviewStatus" />
+    <result column="flow_knowledge_review_status" jdbcType="INTEGER" property="flowKnowledgeReviewStatus" />
+    <result column="flow_comprehensive_review_status" jdbcType="INTEGER" property="flowComprehensiveReviewStatus" />
+    <result column="flow_agreement_review" jdbcType="VARCHAR" property="flowAgreementReview" />
+    <result column="flow_technology_review" jdbcType="VARCHAR" property="flowTechnologyReview" />
+    <result column="flow_knowledge_review" jdbcType="VARCHAR" property="flowKnowledgeReview" />
+    <result column="flow_comprehensive_review" jdbcType="VARCHAR" property="flowComprehensiveReview" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.pcitc.base.stp.IntlProject.IntlProjectInfo">
+    <result column="project_content" jdbcType="LONGVARCHAR" property="projectContent" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    project_id, plant_id, apply_id, project_name, project_code, status, project_step, 
+    creater, creater_name, create_time, update_time, del_flag, remarks, flow_start_status, 
+    flow_end_status, flow_current_status, data_uuid, append_files, data_version, old_project_id, 
+    start_date, end_date, chinese_contract_company, foreign_contract_company, company_introduction, 
+    company_advantage, project_target, research_content, person_study, result_status, 
+    flow_agreement_review_status, flow_technology_review_status, flow_knowledge_review_status, 
+    flow_comprehensive_review_status, flow_agreement_review, flow_technology_review, 
+    flow_knowledge_review, flow_comprehensive_review
+  </sql>
+  <sql id="Blob_Column_List">
+    project_content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectInfoExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from intl_project_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from intl_project_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from intl_project_info
+    where project_id = #{projectId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from intl_project_info
+    where project_id = #{projectId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectInfoExample">
+    delete from intl_project_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectInfo">
+    insert into intl_project_info (project_id, plant_id, apply_id, 
+      project_name, project_code, status, 
+      project_step, creater, creater_name, 
+      create_time, update_time, del_flag, 
+      remarks, flow_start_status, flow_end_status, 
+      flow_current_status, data_uuid, append_files, 
+      data_version, old_project_id, start_date, 
+      end_date, chinese_contract_company, foreign_contract_company, 
+      company_introduction, company_advantage, 
+      project_target, research_content, person_study, 
+      result_status, flow_agreement_review_status, 
+      flow_technology_review_status, flow_knowledge_review_status, 
+      flow_comprehensive_review_status, flow_agreement_review, 
+      flow_technology_review, flow_knowledge_review, 
+      flow_comprehensive_review, project_content
+      )
+    values (#{projectId,jdbcType=VARCHAR}, #{plantId,jdbcType=VARCHAR}, #{applyId,jdbcType=VARCHAR}, 
+      #{projectName,jdbcType=VARCHAR}, #{projectCode,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{projectStep,jdbcType=INTEGER}, #{creater,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}, #{delFlag,jdbcType=INTEGER}, 
+      #{remarks,jdbcType=VARCHAR}, #{flowStartStatus,jdbcType=INTEGER}, #{flowEndStatus,jdbcType=INTEGER}, 
+      #{flowCurrentStatus,jdbcType=INTEGER}, #{dataUuid,jdbcType=VARCHAR}, #{appendFiles,jdbcType=VARCHAR}, 
+      #{dataVersion,jdbcType=VARCHAR}, #{oldProjectId,jdbcType=VARCHAR}, #{startDate,jdbcType=VARCHAR}, 
+      #{endDate,jdbcType=VARCHAR}, #{chineseContractCompany,jdbcType=VARCHAR}, #{foreignContractCompany,jdbcType=VARCHAR}, 
+      #{companyIntroduction,jdbcType=VARCHAR}, #{companyAdvantage,jdbcType=VARCHAR}, 
+      #{projectTarget,jdbcType=VARCHAR}, #{researchContent,jdbcType=VARCHAR}, #{personStudy,jdbcType=VARCHAR}, 
+      #{resultStatus,jdbcType=VARCHAR}, #{flowAgreementReviewStatus,jdbcType=INTEGER}, 
+      #{flowTechnologyReviewStatus,jdbcType=INTEGER}, #{flowKnowledgeReviewStatus,jdbcType=INTEGER}, 
+      #{flowComprehensiveReviewStatus,jdbcType=INTEGER}, #{flowAgreementReview,jdbcType=VARCHAR}, 
+      #{flowTechnologyReview,jdbcType=VARCHAR}, #{flowKnowledgeReview,jdbcType=VARCHAR}, 
+      #{flowComprehensiveReview,jdbcType=VARCHAR}, #{projectContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectInfo">
+    insert into intl_project_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="projectId != null">
+        project_id,
+      </if>
+      <if test="plantId != null">
+        plant_id,
+      </if>
+      <if test="applyId != null">
+        apply_id,
+      </if>
+      <if test="projectName != null">
+        project_name,
+      </if>
+      <if test="projectCode != null">
+        project_code,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="projectStep != null">
+        project_step,
+      </if>
+      <if test="creater != null">
+        creater,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="flowStartStatus != null">
+        flow_start_status,
+      </if>
+      <if test="flowEndStatus != null">
+        flow_end_status,
+      </if>
+      <if test="flowCurrentStatus != null">
+        flow_current_status,
+      </if>
+      <if test="dataUuid != null">
+        data_uuid,
+      </if>
+      <if test="appendFiles != null">
+        append_files,
+      </if>
+      <if test="dataVersion != null">
+        data_version,
+      </if>
+      <if test="oldProjectId != null">
+        old_project_id,
+      </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="endDate != null">
+        end_date,
+      </if>
+      <if test="chineseContractCompany != null">
+        chinese_contract_company,
+      </if>
+      <if test="foreignContractCompany != null">
+        foreign_contract_company,
+      </if>
+      <if test="companyIntroduction != null">
+        company_introduction,
+      </if>
+      <if test="companyAdvantage != null">
+        company_advantage,
+      </if>
+      <if test="projectTarget != null">
+        project_target,
+      </if>
+      <if test="researchContent != null">
+        research_content,
+      </if>
+      <if test="personStudy != null">
+        person_study,
+      </if>
+      <if test="resultStatus != null">
+        result_status,
+      </if>
+      <if test="flowAgreementReviewStatus != null">
+        flow_agreement_review_status,
+      </if>
+      <if test="flowTechnologyReviewStatus != null">
+        flow_technology_review_status,
+      </if>
+      <if test="flowKnowledgeReviewStatus != null">
+        flow_knowledge_review_status,
+      </if>
+      <if test="flowComprehensiveReviewStatus != null">
+        flow_comprehensive_review_status,
+      </if>
+      <if test="flowAgreementReview != null">
+        flow_agreement_review,
+      </if>
+      <if test="flowTechnologyReview != null">
+        flow_technology_review,
+      </if>
+      <if test="flowKnowledgeReview != null">
+        flow_knowledge_review,
+      </if>
+      <if test="flowComprehensiveReview != null">
+        flow_comprehensive_review,
+      </if>
+      <if test="projectContent != null">
+        project_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="plantId != null">
+        #{plantId,jdbcType=VARCHAR},
+      </if>
+      <if test="applyId != null">
+        #{applyId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null">
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCode != null">
+        #{projectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="projectStep != null">
+        #{projectStep,jdbcType=INTEGER},
+      </if>
+      <if test="creater != null">
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="flowStartStatus != null">
+        #{flowStartStatus,jdbcType=INTEGER},
+      </if>
+      <if test="flowEndStatus != null">
+        #{flowEndStatus,jdbcType=INTEGER},
+      </if>
+      <if test="flowCurrentStatus != null">
+        #{flowCurrentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="dataUuid != null">
+        #{dataUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="appendFiles != null">
+        #{appendFiles,jdbcType=VARCHAR},
+      </if>
+      <if test="dataVersion != null">
+        #{dataVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="oldProjectId != null">
+        #{oldProjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=VARCHAR},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=VARCHAR},
+      </if>
+      <if test="chineseContractCompany != null">
+        #{chineseContractCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="foreignContractCompany != null">
+        #{foreignContractCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="companyIntroduction != null">
+        #{companyIntroduction,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAdvantage != null">
+        #{companyAdvantage,jdbcType=VARCHAR},
+      </if>
+      <if test="projectTarget != null">
+        #{projectTarget,jdbcType=VARCHAR},
+      </if>
+      <if test="researchContent != null">
+        #{researchContent,jdbcType=VARCHAR},
+      </if>
+      <if test="personStudy != null">
+        #{personStudy,jdbcType=VARCHAR},
+      </if>
+      <if test="resultStatus != null">
+        #{resultStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="flowAgreementReviewStatus != null">
+        #{flowAgreementReviewStatus,jdbcType=INTEGER},
+      </if>
+      <if test="flowTechnologyReviewStatus != null">
+        #{flowTechnologyReviewStatus,jdbcType=INTEGER},
+      </if>
+      <if test="flowKnowledgeReviewStatus != null">
+        #{flowKnowledgeReviewStatus,jdbcType=INTEGER},
+      </if>
+      <if test="flowComprehensiveReviewStatus != null">
+        #{flowComprehensiveReviewStatus,jdbcType=INTEGER},
+      </if>
+      <if test="flowAgreementReview != null">
+        #{flowAgreementReview,jdbcType=VARCHAR},
+      </if>
+      <if test="flowTechnologyReview != null">
+        #{flowTechnologyReview,jdbcType=VARCHAR},
+      </if>
+      <if test="flowKnowledgeReview != null">
+        #{flowKnowledgeReview,jdbcType=VARCHAR},
+      </if>
+      <if test="flowComprehensiveReview != null">
+        #{flowComprehensiveReview,jdbcType=VARCHAR},
+      </if>
+      <if test="projectContent != null">
+        #{projectContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectInfoExample" resultType="java.lang.Long">
+    select count(*) from intl_project_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update intl_project_info
+    <set>
+      <if test="record.projectId != null">
+        project_id = #{record.projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.plantId != null">
+        plant_id = #{record.plantId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applyId != null">
+        apply_id = #{record.applyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectName != null">
+        project_name = #{record.projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectCode != null">
+        project_code = #{record.projectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.projectStep != null">
+        project_step = #{record.projectStep,jdbcType=INTEGER},
+      </if>
+      <if test="record.creater != null">
+        creater = #{record.creater,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createrName != null">
+        creater_name = #{record.createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delFlag != null">
+        del_flag = #{record.delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.remarks != null">
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flowStartStatus != null">
+        flow_start_status = #{record.flowStartStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.flowEndStatus != null">
+        flow_end_status = #{record.flowEndStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.flowCurrentStatus != null">
+        flow_current_status = #{record.flowCurrentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.dataUuid != null">
+        data_uuid = #{record.dataUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appendFiles != null">
+        append_files = #{record.appendFiles,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataVersion != null">
+        data_version = #{record.dataVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oldProjectId != null">
+        old_project_id = #{record.oldProjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startDate != null">
+        start_date = #{record.startDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.endDate != null">
+        end_date = #{record.endDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chineseContractCompany != null">
+        chinese_contract_company = #{record.chineseContractCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="record.foreignContractCompany != null">
+        foreign_contract_company = #{record.foreignContractCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyIntroduction != null">
+        company_introduction = #{record.companyIntroduction,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyAdvantage != null">
+        company_advantage = #{record.companyAdvantage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectTarget != null">
+        project_target = #{record.projectTarget,jdbcType=VARCHAR},
+      </if>
+      <if test="record.researchContent != null">
+        research_content = #{record.researchContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.personStudy != null">
+        person_study = #{record.personStudy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resultStatus != null">
+        result_status = #{record.resultStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flowAgreementReviewStatus != null">
+        flow_agreement_review_status = #{record.flowAgreementReviewStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.flowTechnologyReviewStatus != null">
+        flow_technology_review_status = #{record.flowTechnologyReviewStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.flowKnowledgeReviewStatus != null">
+        flow_knowledge_review_status = #{record.flowKnowledgeReviewStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.flowComprehensiveReviewStatus != null">
+        flow_comprehensive_review_status = #{record.flowComprehensiveReviewStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.flowAgreementReview != null">
+        flow_agreement_review = #{record.flowAgreementReview,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flowTechnologyReview != null">
+        flow_technology_review = #{record.flowTechnologyReview,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flowKnowledgeReview != null">
+        flow_knowledge_review = #{record.flowKnowledgeReview,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flowComprehensiveReview != null">
+        flow_comprehensive_review = #{record.flowComprehensiveReview,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectContent != null">
+        project_content = #{record.projectContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update intl_project_info
+    set project_id = #{record.projectId,jdbcType=VARCHAR},
+      plant_id = #{record.plantId,jdbcType=VARCHAR},
+      apply_id = #{record.applyId,jdbcType=VARCHAR},
+      project_name = #{record.projectName,jdbcType=VARCHAR},
+      project_code = #{record.projectCode,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      project_step = #{record.projectStep,jdbcType=INTEGER},
+      creater = #{record.creater,jdbcType=VARCHAR},
+      creater_name = #{record.createrName,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=VARCHAR},
+      del_flag = #{record.delFlag,jdbcType=INTEGER},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      flow_start_status = #{record.flowStartStatus,jdbcType=INTEGER},
+      flow_end_status = #{record.flowEndStatus,jdbcType=INTEGER},
+      flow_current_status = #{record.flowCurrentStatus,jdbcType=INTEGER},
+      data_uuid = #{record.dataUuid,jdbcType=VARCHAR},
+      append_files = #{record.appendFiles,jdbcType=VARCHAR},
+      data_version = #{record.dataVersion,jdbcType=VARCHAR},
+      old_project_id = #{record.oldProjectId,jdbcType=VARCHAR},
+      start_date = #{record.startDate,jdbcType=VARCHAR},
+      end_date = #{record.endDate,jdbcType=VARCHAR},
+      chinese_contract_company = #{record.chineseContractCompany,jdbcType=VARCHAR},
+      foreign_contract_company = #{record.foreignContractCompany,jdbcType=VARCHAR},
+      company_introduction = #{record.companyIntroduction,jdbcType=VARCHAR},
+      company_advantage = #{record.companyAdvantage,jdbcType=VARCHAR},
+      project_target = #{record.projectTarget,jdbcType=VARCHAR},
+      research_content = #{record.researchContent,jdbcType=VARCHAR},
+      person_study = #{record.personStudy,jdbcType=VARCHAR},
+      result_status = #{record.resultStatus,jdbcType=VARCHAR},
+      flow_agreement_review_status = #{record.flowAgreementReviewStatus,jdbcType=INTEGER},
+      flow_technology_review_status = #{record.flowTechnologyReviewStatus,jdbcType=INTEGER},
+      flow_knowledge_review_status = #{record.flowKnowledgeReviewStatus,jdbcType=INTEGER},
+      flow_comprehensive_review_status = #{record.flowComprehensiveReviewStatus,jdbcType=INTEGER},
+      flow_agreement_review = #{record.flowAgreementReview,jdbcType=VARCHAR},
+      flow_technology_review = #{record.flowTechnologyReview,jdbcType=VARCHAR},
+      flow_knowledge_review = #{record.flowKnowledgeReview,jdbcType=VARCHAR},
+      flow_comprehensive_review = #{record.flowComprehensiveReview,jdbcType=VARCHAR},
+      project_content = #{record.projectContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update intl_project_info
+    set project_id = #{record.projectId,jdbcType=VARCHAR},
+      plant_id = #{record.plantId,jdbcType=VARCHAR},
+      apply_id = #{record.applyId,jdbcType=VARCHAR},
+      project_name = #{record.projectName,jdbcType=VARCHAR},
+      project_code = #{record.projectCode,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      project_step = #{record.projectStep,jdbcType=INTEGER},
+      creater = #{record.creater,jdbcType=VARCHAR},
+      creater_name = #{record.createrName,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=VARCHAR},
+      del_flag = #{record.delFlag,jdbcType=INTEGER},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      flow_start_status = #{record.flowStartStatus,jdbcType=INTEGER},
+      flow_end_status = #{record.flowEndStatus,jdbcType=INTEGER},
+      flow_current_status = #{record.flowCurrentStatus,jdbcType=INTEGER},
+      data_uuid = #{record.dataUuid,jdbcType=VARCHAR},
+      append_files = #{record.appendFiles,jdbcType=VARCHAR},
+      data_version = #{record.dataVersion,jdbcType=VARCHAR},
+      old_project_id = #{record.oldProjectId,jdbcType=VARCHAR},
+      start_date = #{record.startDate,jdbcType=VARCHAR},
+      end_date = #{record.endDate,jdbcType=VARCHAR},
+      chinese_contract_company = #{record.chineseContractCompany,jdbcType=VARCHAR},
+      foreign_contract_company = #{record.foreignContractCompany,jdbcType=VARCHAR},
+      company_introduction = #{record.companyIntroduction,jdbcType=VARCHAR},
+      company_advantage = #{record.companyAdvantage,jdbcType=VARCHAR},
+      project_target = #{record.projectTarget,jdbcType=VARCHAR},
+      research_content = #{record.researchContent,jdbcType=VARCHAR},
+      person_study = #{record.personStudy,jdbcType=VARCHAR},
+      result_status = #{record.resultStatus,jdbcType=VARCHAR},
+      flow_agreement_review_status = #{record.flowAgreementReviewStatus,jdbcType=INTEGER},
+      flow_technology_review_status = #{record.flowTechnologyReviewStatus,jdbcType=INTEGER},
+      flow_knowledge_review_status = #{record.flowKnowledgeReviewStatus,jdbcType=INTEGER},
+      flow_comprehensive_review_status = #{record.flowComprehensiveReviewStatus,jdbcType=INTEGER},
+      flow_agreement_review = #{record.flowAgreementReview,jdbcType=VARCHAR},
+      flow_technology_review = #{record.flowTechnologyReview,jdbcType=VARCHAR},
+      flow_knowledge_review = #{record.flowKnowledgeReview,jdbcType=VARCHAR},
+      flow_comprehensive_review = #{record.flowComprehensiveReview,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectInfo">
+    update intl_project_info
+    <set>
+      <if test="plantId != null">
+        plant_id = #{plantId,jdbcType=VARCHAR},
+      </if>
+      <if test="applyId != null">
+        apply_id = #{applyId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null">
+        project_name = #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCode != null">
+        project_code = #{projectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="projectStep != null">
+        project_step = #{projectStep,jdbcType=INTEGER},
+      </if>
+      <if test="creater != null">
+        creater = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="flowStartStatus != null">
+        flow_start_status = #{flowStartStatus,jdbcType=INTEGER},
+      </if>
+      <if test="flowEndStatus != null">
+        flow_end_status = #{flowEndStatus,jdbcType=INTEGER},
+      </if>
+      <if test="flowCurrentStatus != null">
+        flow_current_status = #{flowCurrentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="dataUuid != null">
+        data_uuid = #{dataUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="appendFiles != null">
+        append_files = #{appendFiles,jdbcType=VARCHAR},
+      </if>
+      <if test="dataVersion != null">
+        data_version = #{dataVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="oldProjectId != null">
+        old_project_id = #{oldProjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=VARCHAR},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=VARCHAR},
+      </if>
+      <if test="chineseContractCompany != null">
+        chinese_contract_company = #{chineseContractCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="foreignContractCompany != null">
+        foreign_contract_company = #{foreignContractCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="companyIntroduction != null">
+        company_introduction = #{companyIntroduction,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAdvantage != null">
+        company_advantage = #{companyAdvantage,jdbcType=VARCHAR},
+      </if>
+      <if test="projectTarget != null">
+        project_target = #{projectTarget,jdbcType=VARCHAR},
+      </if>
+      <if test="researchContent != null">
+        research_content = #{researchContent,jdbcType=VARCHAR},
+      </if>
+      <if test="personStudy != null">
+        person_study = #{personStudy,jdbcType=VARCHAR},
+      </if>
+      <if test="resultStatus != null">
+        result_status = #{resultStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="flowAgreementReviewStatus != null">
+        flow_agreement_review_status = #{flowAgreementReviewStatus,jdbcType=INTEGER},
+      </if>
+      <if test="flowTechnologyReviewStatus != null">
+        flow_technology_review_status = #{flowTechnologyReviewStatus,jdbcType=INTEGER},
+      </if>
+      <if test="flowKnowledgeReviewStatus != null">
+        flow_knowledge_review_status = #{flowKnowledgeReviewStatus,jdbcType=INTEGER},
+      </if>
+      <if test="flowComprehensiveReviewStatus != null">
+        flow_comprehensive_review_status = #{flowComprehensiveReviewStatus,jdbcType=INTEGER},
+      </if>
+      <if test="flowAgreementReview != null">
+        flow_agreement_review = #{flowAgreementReview,jdbcType=VARCHAR},
+      </if>
+      <if test="flowTechnologyReview != null">
+        flow_technology_review = #{flowTechnologyReview,jdbcType=VARCHAR},
+      </if>
+      <if test="flowKnowledgeReview != null">
+        flow_knowledge_review = #{flowKnowledgeReview,jdbcType=VARCHAR},
+      </if>
+      <if test="flowComprehensiveReview != null">
+        flow_comprehensive_review = #{flowComprehensiveReview,jdbcType=VARCHAR},
+      </if>
+      <if test="projectContent != null">
+        project_content = #{projectContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where project_id = #{projectId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectInfo">
+    update intl_project_info
+    set plant_id = #{plantId,jdbcType=VARCHAR},
+      apply_id = #{applyId,jdbcType=VARCHAR},
+      project_name = #{projectName,jdbcType=VARCHAR},
+      project_code = #{projectCode,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      project_step = #{projectStep,jdbcType=INTEGER},
+      creater = #{creater,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=INTEGER},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      flow_start_status = #{flowStartStatus,jdbcType=INTEGER},
+      flow_end_status = #{flowEndStatus,jdbcType=INTEGER},
+      flow_current_status = #{flowCurrentStatus,jdbcType=INTEGER},
+      data_uuid = #{dataUuid,jdbcType=VARCHAR},
+      append_files = #{appendFiles,jdbcType=VARCHAR},
+      data_version = #{dataVersion,jdbcType=VARCHAR},
+      old_project_id = #{oldProjectId,jdbcType=VARCHAR},
+      start_date = #{startDate,jdbcType=VARCHAR},
+      end_date = #{endDate,jdbcType=VARCHAR},
+      chinese_contract_company = #{chineseContractCompany,jdbcType=VARCHAR},
+      foreign_contract_company = #{foreignContractCompany,jdbcType=VARCHAR},
+      company_introduction = #{companyIntroduction,jdbcType=VARCHAR},
+      company_advantage = #{companyAdvantage,jdbcType=VARCHAR},
+      project_target = #{projectTarget,jdbcType=VARCHAR},
+      research_content = #{researchContent,jdbcType=VARCHAR},
+      person_study = #{personStudy,jdbcType=VARCHAR},
+      result_status = #{resultStatus,jdbcType=VARCHAR},
+      flow_agreement_review_status = #{flowAgreementReviewStatus,jdbcType=INTEGER},
+      flow_technology_review_status = #{flowTechnologyReviewStatus,jdbcType=INTEGER},
+      flow_knowledge_review_status = #{flowKnowledgeReviewStatus,jdbcType=INTEGER},
+      flow_comprehensive_review_status = #{flowComprehensiveReviewStatus,jdbcType=INTEGER},
+      flow_agreement_review = #{flowAgreementReview,jdbcType=VARCHAR},
+      flow_technology_review = #{flowTechnologyReview,jdbcType=VARCHAR},
+      flow_knowledge_review = #{flowKnowledgeReview,jdbcType=VARCHAR},
+      flow_comprehensive_review = #{flowComprehensiveReview,jdbcType=VARCHAR},
+      project_content = #{projectContent,jdbcType=LONGVARCHAR}
+    where project_id = #{projectId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectInfo">
+    update intl_project_info
+    set plant_id = #{plantId,jdbcType=VARCHAR},
+      apply_id = #{applyId,jdbcType=VARCHAR},
+      project_name = #{projectName,jdbcType=VARCHAR},
+      project_code = #{projectCode,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      project_step = #{projectStep,jdbcType=INTEGER},
+      creater = #{creater,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=INTEGER},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      flow_start_status = #{flowStartStatus,jdbcType=INTEGER},
+      flow_end_status = #{flowEndStatus,jdbcType=INTEGER},
+      flow_current_status = #{flowCurrentStatus,jdbcType=INTEGER},
+      data_uuid = #{dataUuid,jdbcType=VARCHAR},
+      append_files = #{appendFiles,jdbcType=VARCHAR},
+      data_version = #{dataVersion,jdbcType=VARCHAR},
+      old_project_id = #{oldProjectId,jdbcType=VARCHAR},
+      start_date = #{startDate,jdbcType=VARCHAR},
+      end_date = #{endDate,jdbcType=VARCHAR},
+      chinese_contract_company = #{chineseContractCompany,jdbcType=VARCHAR},
+      foreign_contract_company = #{foreignContractCompany,jdbcType=VARCHAR},
+      company_introduction = #{companyIntroduction,jdbcType=VARCHAR},
+      company_advantage = #{companyAdvantage,jdbcType=VARCHAR},
+      project_target = #{projectTarget,jdbcType=VARCHAR},
+      research_content = #{researchContent,jdbcType=VARCHAR},
+      person_study = #{personStudy,jdbcType=VARCHAR},
+      result_status = #{resultStatus,jdbcType=VARCHAR},
+      flow_agreement_review_status = #{flowAgreementReviewStatus,jdbcType=INTEGER},
+      flow_technology_review_status = #{flowTechnologyReviewStatus,jdbcType=INTEGER},
+      flow_knowledge_review_status = #{flowKnowledgeReviewStatus,jdbcType=INTEGER},
+      flow_comprehensive_review_status = #{flowComprehensiveReviewStatus,jdbcType=INTEGER},
+      flow_agreement_review = #{flowAgreementReview,jdbcType=VARCHAR},
+      flow_technology_review = #{flowTechnologyReview,jdbcType=VARCHAR},
+      flow_knowledge_review = #{flowKnowledgeReview,jdbcType=VARCHAR},
+      flow_comprehensive_review = #{flowComprehensiveReview,jdbcType=VARCHAR}
+    where project_id = #{projectId,jdbcType=VARCHAR}
+  </update>
+</mapper>

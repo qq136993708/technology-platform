@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" type="text/css" href="../../../layuiadmin/layui/css/layui.css">
+ 	<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+ 	<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+    <script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+ 	<script type="text/javascript" src="../../../layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+<div class="layui-fluid">
+<div class="layui-card">
+			   <div style="width:99%;border:1px solid #ccc;margin:5px;padding:10px;">
+			   <div style="text-align:center;font-weight:bold;margin:10px;">xxxx明细表</div>
+			   <table class="table" style="min-width:1200px;" >
+			     <tr>
+			      <th width="100px;">项目名称</th>
+			      <th width="100px;">项目总体预算</th>
+			      <th width="100px;">直接资金流向（从项目开始到现在）</th>
+			      <th width="100px;">间接费用分摊(激励和管理费）</th>
+			      <th width="100px;">剩余预算</th>
+			     </tr>
+			     <tr>
+			       <td width="100px;">测试项目1（WBS描述）</td>
+			       <td width="100px;">300</td>
+			       <td width="100px;">200</td>
+			       <td width="100px;">300</td>
+			       <td width="100px;">300</td>
+			     </tr>
+			   </table>
+			   </div>
+			   <div id="main1" style="float:left;width:48%;height:400px;border:1px solid #ccc;margin:5px;padding:10px;"></div>
+			   <div id="main2" style="float:left;width:48%;height:400px;border:1px solid #ccc;margin:5px;padding:10px;"></div>
+			   <div style="clear:both"></div>
+			   <div style="text-align:center;font-weight:bold;margin:10px;">xxxx明细表</div>
+			   <table class="table" style="min-width:1200px;" >
+			     <tr>
+			      <td width="100px;">公司名称</td>
+			      <td width="100px;">会计期间</td>
+			      <td width="100px;">会计科目</td>
+			      <td width="100px;">科目描述</td>
+			      <td width="100px;">业务金额</td>
+			      <td width="100px;">凭证描述</td>
+			      <td width="100px;">成本中心描述</td>
+			     </tr>
+			     <tr>
+			       <td width="100px;">500</td>
+			       <td width="100px;">500</td>
+			       <td width="100px;">500</td>
+			       <td width="100px;">300</td>
+			       <td width="100px;">300</td>
+			       <td width="100px;">300</td>
+			       <td width="100px;">300</td>
+			     </tr>
+			   </table>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript">
+        
+        var myChart1 = echarts.init(document.getElementById('main1'));
+        var option1 = {
+        	    title : {
+        	        text: '直接资金流向及占比',
+        	        x:'center'
+        	    },
+        	    tooltip : {
+        	        trigger: 'item',
+        	        formatter: "{a} <br/>{b} : {c} ({d}%)"
+        	    },
+        	    legend: {
+        	    	type: 'scroll',
+        	        bottom: 10,
+        	        data:['水费','电费','交通费']
+        	    },
+        	    series : [
+        	        {
+        	            name: '访问来源',
+        	            type: 'pie',
+        	            radius: ['20%', '50%'],
+        	            avoidLabelOverlap: false,
+        	            data:[
+        	                {value:135, name:'水费'},
+        	                {value:210, name:'电费'},
+        	                {value:210, name:'交通费'}
+        	                
+        	            ],
+        	            itemStyle: {
+        	            	normal:{ 
+    	                        label:{ 
+    	                            show: true, 
+    	                            formatter: '{b} \n {c} ({d}%)' 
+    	                        }, 
+    	                        labelLine :{show:true} 
+    	                 },
+        	                emphasis: {
+        	                    shadowBlur: 10,
+        	                    shadowOffsetX: 0,
+        	                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+        	                }
+        	            }
+        	        }
+        	    ]
+        	};
+        myChart1.setOption(option1);
+        
+        
+        var myChart2 = echarts.init(document.getElementById('main2'));
+        var option2 = {
+        	    title : {
+        	        text: '间接资金流向及占比',
+        	        x:'center'
+        	    },
+        	    tooltip : {
+        	        trigger: 'item',
+        	        formatter: "{a} <br/>{b} : {c} ({d}%)"
+        	    },
+        	    legend: {
+        	    	type: 'scroll',
+        	        bottom: 10,
+        	        data:['折旧','房租','其他']
+        	    },
+        	    series : [
+        	        {
+        	            name: '访问来源',
+        	            type: 'pie',
+        	            radius: ['20%', '50%'],
+        	            avoidLabelOverlap: false,
+        	            data:[
+        	                {value:135, name:'折旧'},
+        	                {value:210, name:'房租'},
+        	                {value:210, name:'其他'}
+        	                
+        	            ],
+        	            itemStyle: {
+        	            	normal:{ 
+    	                        label:{ 
+    	                            show: true, 
+    	                            formatter: '{b} \n {c} ({d}%)' 
+    	                        }, 
+    	                        labelLine :{show:true} 
+    	                 },
+        	                emphasis: {
+        	                    shadowBlur: 10,
+        	                    shadowOffsetX: 0,
+        	                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+        	                }
+        	            }
+        	        }
+        	    ]
+        	};
+        myChart2.setOption(option2);
+        
+           
+    </script>
+</body>
+</html>

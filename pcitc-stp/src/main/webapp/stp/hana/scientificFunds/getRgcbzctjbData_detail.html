@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+<div class="searchBox">
+<input  name="month"          id="month"        value="${month}"   type="hidden">
+<input  name="companyName"    id="companyName"  value="${companyName}"   type="hidden">
+<input  name="companyCode"    id="companyCode"  value="${companyCode}"   type="hidden">
+       
+    
+
+</div>
+<div class="tableBox">
+<div class="btnGroup" style="float:right;margin-right:20px"><button  onclick="exput_excel()" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg" >导出EXCEL</<button></div>
+<h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt" ></label>${companyName}（${month}）</h3>
+<table id="myTable2" class="layui-table" lay-filter="myTable2" >
+    <thead>
+     <tr>
+         <th lay-data="{field:'g0FYXLMS', width:'40%',align:'left'}">项目</th>
+         <th lay-data="{field:'k0BNCB', width:'15%',align:'right'}">本年累计分配</th>
+         <th lay-data="{field:'k0SNCB', width:'15%',align:'right'}">本年累计分配</th>
+         <th lay-data="{field:'k0TBCB', width:'15%',align:'right'}">同比成本</th> 
+         <th lay-data="{field:'k0TBBL', width:'15%',align:'right'}">同比成本 比例</th> 
+     </tr>
+    </thead>
+</table>
+</div>
+
+<script id="dateTpl" type="text/html"> {{formatTime(d.SQRI)}} </script>
+<script type="text/javascript">
+    // 时间格式化
+      function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+</script>
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script>
+var table,selectRowData;
+var table2,selectRowData2;
+layui.config({
+    base: '/layuiadmin/module/modules/' //静态资源所在路径
+}).use(['jquery','form', 'laydate','table','laypage','layer'], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,table2 = layui.table
+      ,layer = layui.layer
+      ,form = layui.form
+      ,laydate = layui.laydate,
+	 form.render(null, 'component-form-group');
+	  laydate.render({
+          elem: '#month'
+          ,format: 'yyyyMM'
+          
+       });
+	  myTable2();
+     	     //移除表头的复选框,去掉全选
+     	     $(".layui-table-header table thead th input").remove();  
+
+        // 触发不同的按钮事件
+        var $ = layui.$, active = {
+           
+            
+        };
+
+        
+    });
+    
+function search_Event()
+{
+}
+
+
+
+function myTable2()
+{
+	
+	 var  month=$("#month").val();
+	 var  companyName=$("#companyName").val();
+	 var v_date=(new Date()).getTime();
+	 var url= '/rgcbzctjb_data_detail?month='+month+"&v_date="+v_date+"&companyName="+companyName;
+	 layer.load(2);
+	 table2.init('myTable2', {
+			  url: url
+			  ,where: {}  ,
+               done: function (res, curr, count) {
+				  
+				  layer.closeAll();
+			  }
+			  
+			});
+	 
+}   
+   
+function exput_excel()
+{
+	var companyCode=$('#companyCode').val();
+	var month=$('#month').val();
+	window.open("/getRgcbzctjbData_detail_exput_excel?month="+month+"&companyCode="+companyCode);
+} 
+   
+
+</script>
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<body>  
+<div class="searchBox">
+    <!--查询条件-->
+        <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month" placeholder="请选择月份" title="月份"  value="${month}" autocomplete="off" class="form-control" id="month">
+        </label>
+       <div class="layui-input-inline">
+         <select name="companyCode" id="companyCode" >
+              <#list companyCodeList as vo>
+              	 <#if vo.g0GSJC == '全部'>
+              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
+              	 </#if>
+                 <#if vo.g0GSJC != '全部'>
+              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
+              	 </#if>
+               </#list>
+            </select>
+       </div>
+       <form class="layui-form layui-form1">
+            <div class="layui-input-inline">
+                <#list projectCodeList as vo>
+                   <input type="checkbox" name="like[write]" lay-skin="primary" title="${vo.g0XMGLLX}" checked="">
+                </#list>
+            </div>
+        </form>
+
+       
+       
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+    </div>
+    <span class="unitBox">单位：万元</span>
+</div>
+
+<!--echarts-->
+<div class="content-body container">
+
+     <div class="one-chart-box">
+         <div class="layui-row echarts">
+             <div id="main1" style="width: 100%;height: 400px;"></div>
+         </div>
+     </div>
+     
+     <div class="three-charts-box">
+            <div class="layui-row">
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="main2" style="width: 100%;height: 400px;"></div>
+                </div>
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="main3" style="width: 100%;height: 400px;"></div>
+                </div>
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="main4" style="width: 100%;height: 400px;"></div>
+                </div>
+            </div>
+     </div> 
+     
+     
+      <div class="one-chart-box">
+         <div class="layui-row echarts">
+             <div id="main5" style="width: 100%;height: 400px;"></div>
+         </div>
+     </div>
+     
+  </div>     
+     
+
+
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script type="text/javascript">
+
+
+layui.config({
+    base: '/layuiadmin/module/modules/' 
+}).use(['jquery','form', 'laydate','table','laypage'], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,form = layui.form
+      ,laydate = layui.laydate
+	  form.render(null, 'component-form-group');
+            laydate.render({
+               elem: '#month'
+               ,format: 'yyyyMM'
+            });
+});
+
+
+function init()
+{
+		var allCode="${allCode?default('')}";
+		var allCode_text="全部院所";
+		var v_date=(new Date()).getTime();
+		var month=$('#month').val();
+		var companyCode=$('#companyCode').val();
+		var monthstr=getNowFormatDate($('#month').val());
+		var checkText=$("#companyCode").find("option:selected").text();
+		if(checkText=='全部')
+		{
+			checkText="全部院所";
+		}
+		
+
+		var seriesData_1= [
+	        {
+	            name:'2018',
+	            type:'bar',
+	            color: ['#37A2DA'],
+	            data:[22, 44, 74, 24,22]
+	        },
+	        {
+	            name:'2017',
+	            type:'bar',
+	            color: ['#67E0E3'],
+	            data:[22, 44, 74, 24]
+	        },
+	        
+	        {
+	            name:'同比',
+	            type:'line',
+	            itemStyle : {  /*设置折线颜色*/
+                    normal : {
+                        color:'#c4cddc'
+                    }
+                },
+	            data:[1.2, 9.3, 32.2, 1.2,1.2]
+	        }
+	        
+	        
+	    ];
+  
+		  var yAxis= [
+		        {
+  		            type: 'value',
+  		            name: '金额（万元）',
+  		            min: 0,
+  		            max: 250,
+  		            axisLabel: {
+  		                formatter: '{value}'
+  		            }
+  		        },
+  		        {
+  		            type: 'value',
+  		            name: '同比',
+  		            min: 0,
+  		            max: 100,
+  		            axisLabel: {
+  		                formatter: '{value} %'
+  		            }
+  		        }
+  		    ];
+		var legends_1=['2018','2017','同比'];
+		var xAxisData_1= ['计划立项','预算批复','合同执行','成果鉴定','科技奖励'];
+		load_mutl_bar_tt("main1","项目闭环执行数量分析",legends_1,xAxisData_1,yAxis,seriesData_1,monthstr);
+		
+		
+
+
+		var legend_names_2=['国际领先','国际先进','国内领先','国内先进'];
+		var series_values_2=[
+			{value:135, name:'国际领先'},
+            {value:210, name:'国际先进'},
+            {value:134, name:'国内领先'},
+            {value:134, name:'国内先进'}
+		];
+		loadPie_tt('main2','鉴定项目数量按鉴定结论占比分析',legend_names_2,series_values_2,monthstr); 
+		
+		
+		
+		
+		var seriesData_3= [
+	        {
+	            name:'国际领先',
+	            type:'bar',
+	            color: ['#37A2DA'],
+	            data:[252, 44, 74]
+	        },
+	        {
+	            name:'国际先进',
+	            type:'bar',
+	            color: ['#67E0E3'],
+	            data:[222, 24, 74]
+	        },
+	        {
+	            name:'国内领先',
+	            type:'bar',
+	            data:[212, 224, 214]
+	        },
+	        {
+	            name:'国内先进',
+	            type:'bar',
+	            data:[212, 224, 214]
+	        }
+	    ];
+		  var yAxis3= [
+		        {
+		            type: 'value',
+		            name: '金额（万元）',
+		            min: 0,
+		            max: 450,
+		            axisLabel: {
+		                formatter: '{value}'
+		            }
+		        }
+		    ];
+		var legends_3=['国际领先','国际先进','国内领先','国内先进'];
+		var xAxisData_3= ['计划立项','预算批复','合同执行','成果鉴定','科技奖励'];
+		load_mutl_bar_tt("main3","鉴定项目数量按资金来源占比分析",legends_3,xAxisData_3,yAxis3,seriesData_3,monthstr);
+		
+		
+		
+		
+		
+		
+		var seriesData_4= [
+	        {
+	            name:'国际领先',
+	            type:'bar',
+	            color: ['#37A2DA'],
+	            data:[252, 44, 74, 72]
+	        },
+	        {
+	            name:'国际先进',
+	            type:'bar',
+	            color: ['#67E0E3'],
+	            data:[222, 24, 74, 12]
+	        },
+	        {
+	            name:'国内领先',
+	            type:'bar',
+	            data:[212, 224, 214, 78]
+	        },
+	        {
+	            name:'国内先进',
+	            type:'bar',
+	            data:[212, 224, 214, 78]
+	        }
+	    ];
+		  var yAxis4= [
+		        {
+		            type: 'value',
+		            name: '金额（万元）',
+		            min: 0,
+		            max: 450,
+		            axisLabel: {
+		                formatter: '{value}'
+		            }
+		        }
+		    ];
+		var legends_4=['国际领先','国际先进','国内领先','国内先进'];
+		var xAxisData_4=  ['A','B1','B2','C'];
+		load_mutl_bar_tt("main4","鉴定项目数量按管理级别占比分析",legends_4,xAxisData_4,yAxis4,seriesData_4,monthstr);
+		
+	
+		
+		
+		var seriesData_5=[
+	        {
+	            name:'国际领先',
+	            type:'bar',
+	            color: ['#37A2DA'],
+	            data:[22, 44, 74, 24,22, 44, 74, 24]
+	        },
+	        {
+	            name:'国际先进',
+	            type:'bar',
+	            color: ['#67E0E3'],
+	            data:[22, 44, 74, 24,22, 44, 74, 24]
+	        },{
+	            name:'国内领先',
+	            type:'bar',
+	            color: ['#67E0E3'],
+	            data:[22, 44, 74, 24,22, 44, 74, 24]
+	        },
+	        
+	        {
+	            name:'国内先进',
+	            type:'bar',
+	            itemStyle : {  /*设置折线颜色*/
+                    normal : {
+                        color:'#c4cddc'
+                    }
+                },
+                data:[22, 44, 44, 24,22, 44, 74, 224]
+	        }
+	        
+	        
+	    ];
+		  var yAxis5= [
+		        {
+		            type: 'value',
+		            name: '金额（万元）',
+		            min: 0,
+		            max: 450,
+		            axisLabel: {
+		                formatter: '{value}'
+		            }
+		        }
+		    ];
+		var legends_5=['国际领先','国际先进','国内领先','国内先进'];
+		var xAxisData_5=['石勘院','物探院','工程院','石科院','抚研院','北化院','上海院','安工院'];
+		load_mutl_bar_tt("main5","鉴定项目数量按研究院分布情况比较分析",legends_5,xAxisData_5,yAxis5,seriesData_5,monthstr);
+		
+		
+		
+}		
+init();	
+
+function search_Event()
+{
+	  init();
+}
+       
+</script>
+</body>
+</html>

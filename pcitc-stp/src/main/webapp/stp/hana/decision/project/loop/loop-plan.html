@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<style>
+    
+</style>
+<body onload="chooseLoop('1')">  
+<div class="searchBox">
+    <!--查询条件-->
+        <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month" placeholder="请选择月份" title="月份" autocomplete="off" class="form-control" id="month">
+        </label>
+       <div class="layui-input-inline">
+         <select name="companyCode" id="companyCode" >
+              <#list companyCodeList as vo>
+              	 <#if vo.g0GSJC == '全部'>
+              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
+              	 </#if>
+                 <#if vo.g0GSJC != '全部'>
+              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
+              	 </#if>
+               </#list>
+            </select>
+       </div>
+       <form class="layui-form layui-form1">
+            <div class="layui-input-inline">
+                <#list projectCodeList as vo>
+                   <input type="checkbox" name="like[write]" lay-skin="primary" title="${vo.g0XMGLLX}" checked="">
+                </#list>
+            </div>
+        </form>
+
+       
+       
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
+    </div>
+    <span class="unitBox">单位：万元</span>
+</div>
+
+<!--echarts-->
+<div class="content-body container">
+
+     <div class="one-chart-box">
+         <div class="layui-row echarts">
+             <div id="main1" style="width: 100%;height: 400px;"></div>
+         </div>
+     </div>
+     
+     
+      <!--单选-->
+       <div  style="margin:20px">
+            <div class="layui-input-inline">
+            <button class="layui-btn layui-btn-sm btn-decision active" value="1"  >计划立项</button>
+            <button class="layui-btn layui-btn-sm btn-decision " value="2" >预算批复</button>
+            <button class="layui-btn layui-btn-sm btn-decision " value="3" >合同执行</button>
+            <button class="layui-btn layui-btn-sm btn-decision " value="4" >合同关闭</button>
+            <button class="layui-btn layui-btn-sm btn-decision " value="5" >成果鉴定</button>
+            <button class="layui-btn layui-btn-sm btn-decision " value="6" >科技奖励</button>
+            </div>
+        </div>
+     
+     <div class="three-charts-box">
+            <div class="layui-row">
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="main2" style="width: 100%;height: 400px;"></div>
+                </div>
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="main3" style="width: 100%;height: 400px;"></div>
+                </div>
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="main4" style="width: 100%;height: 400px;"></div>
+                </div>
+            </div>
+     </div> 
+     
+     
+      <div class="one-chart-box" id="botton_chart_01">
+         <div class="layui-row echarts">
+             <div id="main5" style="width: 100%;height: 400px;"></div>
+         </div>
+     </div>
+     
+     
+       <!--图表二比一布局-->
+        <div class="layui-row two-one-box" style="display:none" id="botton_chart_02">
+            <div class="layui-col-xs8 layui-col-sm8 layui-col-md8 twoBox echarts">
+                <div id="main7" style="width: 100%;height: 400px;"></div>
+            </div>
+            <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 oneBox echarts">
+                <div id="main8" style="width: 100%;height: 400px;"></div>
+            </div>
+        </div>
+     
+     
+     
+     
+  </div>     
+     
+
+
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
+<script type="text/javascript" src="/stp/hana/common/loop.js"></script>
+<script type="text/javascript">
+
+
+var now = new Date();
+layui.config({
+    base: '/layuiadmin/module/modules/' 
+}).use(['jquery','form', 'laydate','table','laypage'], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,form = layui.form
+      ,laydate = layui.laydate
+	  form.render(null, 'component-form-group');
+            laydate.render({
+               elem: '#month'
+               ,format: 'yyyyMM'
+               ,value: now
+            });
+});
+
+
+        var myChart1 = echarts.init(document.getElementById('main1'));   
+        var myChart2 = echarts.init(document.getElementById('main2'));
+        var myChart3 = echarts.init(document.getElementById('main3'));  
+        var myChart4 = echarts.init(document.getElementById('main4'));
+        var myChart5 = echarts.init(document.getElementById('main5'));   
+        myChart1.setOption(option1_common,true);
+        
+        $(document).ready(function(){  
+        	$(".btn-decision").click(function () {
+        		
+        		var type=this.value;
+        		chooseLoop(type);
+                $(".btn-decision").removeClass("active")
+                if($(this).hasClass("active")){
+                }else {
+                    $(this).addClass("active")
+                }
+            });  
+
+        });  
+        
+        
+        function chooseLoop(type)
+        {
+        	
+        	
+        	
+    		
+        	if(type=='3')
+       		{
+        		$("#botton_chart_02").show();
+        		$("#botton_chart_01").hide();
+       		}else
+   			{
+       			$("#botton_chart_02").hide();
+        		$("#botton_chart_01").show();
+   			}
+        	if(type=='1')
+       		{
+        		
+        		 
+        		  myChart2.setOption(option2_setup,true);
+        		  myChart3.setOption(option3_setup,true);
+        		  myChart4.setOption(option4_setup,true);
+        		  myChart5.setOption(option5_setup,true);
+       		}
+        	
+        	if(type=='2')
+       		{
+        		  myChart2.setOption(option2_reply,true);
+        		  myChart3.setOption(option3_reply,true);
+        		  myChart4.setOption(option4_reply,true);
+        		  myChart5.setOption(option5_reply,true);
+       		}
+        	
+        	
+        	if(type=='3')
+       		{
+        		  myChart2.setOption(option2_contract,true);
+        		  myChart3.setOption(option3_contract,true);
+        		  myChart4.setOption(option4_contract,true);
+        		  
+        		  var myChart7 = echarts.init(document.getElementById('main7'));
+        	      var myChart8 = echarts.init(document.getElementById('main8'));
+        	      myChart7.setOption(option5_contract,true);
+        	      myChart8.setOption(option6_contract,true);
+       		}
+        	
+        	if(type=='4')
+       		{
+        		 myChart2.setOption(option2_close,true);
+       		     myChart3.setOption(option3_close,true);
+       		     myChart4.setOption(option4_close,true);
+       		     myChart5.setOption(option5_close,true);
+       		}
+        	if(type=='5')
+       		{
+        		  myChart2.setOption(option2_achievement,true);
+        		  myChart3.setOption(option3_achievement,true);
+        		  myChart4.setOption(option4_achievement,true);
+        		  myChart5.setOption(option5_achievement,true);
+       		}
+        	if(type=='6')
+       		{
+        		  myChart2.setOption(option2_award,true);
+        		  myChart3.setOption(option3_award,true);
+        		  myChart4.setOption(option4_award,true);
+        		  myChart5.setOption(option5_award,true);
+       		}
+        	
+        }
+       
+        
+        function search_Event()
+        {
+      	  window.location.reload();
+        }
+           
+    </script>
+</body>
+</html>

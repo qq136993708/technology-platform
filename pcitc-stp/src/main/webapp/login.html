@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>科技管理平台</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/login.css" media="all">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <script>
+    layui.use(['jquery','form','laydate','table', 'layer', 'element','publicMethods'], function(){
+    	var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate,
+            form = layui.form,publicMethods=layui.publicMethods;
+			form.render();
+			var maxErrorNum = 3;//获取验证码次数，默认为3
+			publicMethods.ajaxPost('/dictionary/desc/ROOT_XTCSPZ_DLSRCWCS', null, function (data, status) { 
+				maxErrorNum = data.numValue;
+		    });
+			
+			//刷新验证码
+			$("#LAY-user-get-vercode").on("click",function(){
+				var uname=$("#LAY-user-login-username").val();
+				if(uname=='' || uname==null || uname == "undefined")
+				{
+					layer.alert("请输入用户名", {
+						title : '提示'
+					});
+				}
+				var url = "/create_login_check_code?username="+$("#LAY-user-login-username").val();
+				$("#LAY-user-get-vercode").attr("src",url);
+			});
+			
+			if ($("#loginErrorCount").val() != '') {
+        		layer.msg('用户名或者密码不正确!');
+        		if(parseInt($("#loginErrorCount").val())>=parseInt(maxErrorNum)){
+        			$(".layui-form-img").removeClass("layui-hide");
+                    $(".user-login").css("top","60px");
+                    var url = "/create_login_check_code?username="+$("#LAY-user-login-username").val();
+                    $("#LAY-user-get-vercode").attr("src",url);
+        		}
+        	}
+			
+	        form.on('submit(LAY-user-login-submit)', function(data){
+	        	//如果有验证码先验证
+	        	if(!$(".layui-form-img").hasClass("layui-hide")){
+	        		var checkstatus;
+	                publicMethods.ajaxPost("/check_login_code", data.field, function(dt, status) {
+	        			checkstatus = dt.success;
+	    				if(!dt.success){
+	    					layer.msg('请输入正确的验证码!');
+	    					var url = "/create_login_check_code?username="+$("#LAY-user-login-username").val();
+							$("#LAY-user-get-vercode").attr("src",url);
+	    				}
+	    			});
+	        		if(!checkstatus){
+	        			return false;
+	        		}
+	        	}
+	        	
+	        	$("#login-form").submit();
+	        	$("#loginErrorCount").val("");
+				//return false;
+	        });
+	        
+	        $(document).keyup(function(event){
+                if(event.keyCode ==13){
+                	if($("#LAY-user-login-password").val()==null || $("#LAY-user-login-password").val()=='')
+                	{
+                		$("#LAY-user-login-password").focus();
+                	}else{
+                		$("#sub_button").click();
+                	}
+                }
+            });
+	        form.verify({
+	        	vercode:function(value,item){
+	        		if(!$(".layui-form-img").hasClass("layui-hide")){
+	        			if(value=='' || value==null || value == "undefined" || value.length !=4)
+	    				{
+	    					return "请输入正确的验证码!";
+	    				}
+	        		}
+				}
+	        });
+	        var bodyHeight=$(document).height();
+	        $(".layadmin-user-login").height(bodyHeight);
+    });
+</script>
+</head>
+<body >
+<form id="login-form" method="post" name="login-form" action="/index" lay-filter="login-form" class="form-horizontal layui-form">
+	<input type="hidden" name="loginErrorCount" id="loginErrorCount" value="${loginErrorCount}">
+    <div class="layadmin-user-login">
+        <div class="layadmin-user-login-header">
+        </div>
+        <div class="layadmin-user-login-body">
+            <div class="user-login-box">
+                <div class="user-login">
+                    <h2 style="color: #1d2d3d;font-size: 18px;padding:20px 20px 0;">用户登录</h2>
+                    <div class="layadmin-user-login-box layui-form">
+                        <div class="layui-form-item" style="position: relative">
+                            <label class="layadmin-user-login-icon layui-icon layui-icon-username" for="LAY-user-login-username"></label>
+                            <input type="text" name="username" id="LAY-user-login-username" lay-verify="required" placeholder="用户名" class="layui-input">
+                            <div class="layui-hide user-login-message">
+                                提示
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-password"></label>
+                            <input type="password" name="password" id="LAY-user-login-password" lay-verify="required" placeholder="密码" class="layui-input">
+                        </div>
+                         <div class="layui-form-item layui-hide layui-form-img">
+                            <div class="layui-row">
+                                <div class="layui-col-xs7">
+                                    <label class="layadmin-user-login-icon layui-icon layui-icon-vercode" for="LAY-user-login-vercode"></label>
+                                    <input type="text" name="vercode" id="LAY-user-login-vercode"  placeholder="图形验证码" lay-verify="vercode"  class="layui-input">
+                                </div>
+                                <div class="layui-col-xs5">
+                                    <div style="margin-left: 10px;">
+                                        <img src="" class="layadmin-user-login-codeimg" id="LAY-user-get-vercode">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <button id="sub_button" type="button" class="layui-btn layui-btn-fluid" lay-submit="" lay-filter="LAY-user-login-submit">登录</button>
+                        </div>
+                    </div>
+                    <div class="user-login-shadow">
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="layadmin-user-login-footer">
+            <p class="red">注意事项：</p>
+            <ul>
+                <li>1、请您使用统一身份认证账号登录科技管理平台。</li>
+                <li>2、当您遇到无法登录系统时,请联系统一身份认证运维团队或者本单位信息部门。</li>
+                <li>3、科技管理平台建议您使用标准IE浏览器（IE8以上版本）。</li>
+            </ul>
+        </div>
+    </div>
+</form>
+
+</body>
+</html>

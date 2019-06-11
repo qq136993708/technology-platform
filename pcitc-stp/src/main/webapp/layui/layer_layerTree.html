@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>弹框树</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+    <div class="onlyTree_container">
+        <div class="treeBox">
+            <div class="layui-side-scroll">
+                <!-- 左侧子菜单 -->
+                <ul id="treeDemo" class="ztree"></ul>
+            </div>
+        </div>
+
+        <div class="form-bottom">
+            <div class="form-bottom-btns">
+                <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" id="sub">确定</button>
+                <button class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="reset">重置</button>
+            </div>
+        </div>
+    </div>
+    <!--树js-->
+    <script type="text/javascript">
+        layui.config({
+            base: '/layuiadmin/lib/extend/' //静态资源所在路径
+        }).extend({
+            jqZtreeCore: 'jqZtreeCore.min' //主入口模块
+        }).use(['jquery','jqZtreeCore'], function () {
+            var jqZtreeCore=layui.jqZtreeCore,
+                 $ = layui.jquery;
+            var setting = {
+                check: {
+                    enable: true,
+                    chkStyle: "checkbox",
+                    chkboxType: { "Y": "ps", "N": "ps" }
+                },
+                async: {
+                    enable: true,
+                    type: "get",
+                    url: "/layuiadmin/ztree/asyncData/getNodes.json",
+                    autoParam: ["id", "name=n", "level=lv"],
+                    otherParam: {"token": "eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyTmFtZSI6IjEyMzQ1NiIsInJvbGVMaXN0IjpbXSwiZXhwIjoxNTM2MjMyMzM3LCJ1c2VySWQiOiIxMjMifQ.wYmBUq7gvshHPdm6dKQrKzC2LiFRr3HBZn5fKfZl5s9CxnD92fN-JYAgZb1niQvyXwhKGjmj7EcoAZLGQlfLOA"},
+                    dataFilter: null
+                },
+                callback:{
+                    onCheck:onCheck
+                }
+            };
+
+            $(document).ready(function () {
+                $.fn.zTree.init($("#treeDemo"), setting);
+            });
+            var v, treeObj;
+            function onCheck(e,treeId,treeNode){
+                treeObj=$.fn.zTree.getZTreeObj("treeDemo")
+            }
+            // 点击确定按钮时获取到勾选的内容
+            $('#sub').click(function(e,treeId,treeNode){
+                treeObj=$.fn.zTree.getZTreeObj("treeDemo"),
+                    nodes=treeObj.getCheckedNodes(true);
+
+                for(var i=0;i<nodes.length;i++){
+                    v+=nodes[i].name + ",";
+                }
+                console.log(v)//获取选中节点的值
+            })
+
+            // 点击重置按钮时清空勾选的状态
+            $('#reset').click(function(){
+                treeObj.reAsyncChildNodes(null, "refresh");
+            })
+        })
+    </script>
+</body>
+</html>

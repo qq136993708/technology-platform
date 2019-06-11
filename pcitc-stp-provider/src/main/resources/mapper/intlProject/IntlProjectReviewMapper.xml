@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.IntlProject.IntlProjectReviewMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.IntlProject.IntlProjectReview">
+    <id column="review_id" jdbcType="VARCHAR" property="reviewId" />
+    <result column="review_title" jdbcType="VARCHAR" property="reviewTitle" />
+    <result column="project_plant_id" jdbcType="VARCHAR" property="projectPlantId" />
+    <result column="review_no" jdbcType="INTEGER" property="reviewNo" />
+    <result column="review_time" jdbcType="VARCHAR" property="reviewTime" />
+    <result column="review_status" jdbcType="INTEGER" property="reviewStatus" />
+    <result column="review_address" jdbcType="VARCHAR" property="reviewAddress" />
+    <result column="review_speeker" jdbcType="VARCHAR" property="reviewSpeeker" />
+    <result column="review_result" jdbcType="VARCHAR" property="reviewResult" />
+    <result column="unit_id" jdbcType="VARCHAR" property="unitId" />
+    <result column="creater" jdbcType="VARCHAR" property="creater" />
+    <result column="data_uuid" jdbcType="VARCHAR" property="dataUuid" />
+    <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+    <result column="data_version" jdbcType="VARCHAR" property="dataVersion" />
+    <result column="remarkers" jdbcType="VARCHAR" property="remarkers" />
+    <result column="append_files" jdbcType="VARCHAR" property="appendFiles" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    review_id, review_title, project_plant_id, review_no, review_time, review_status, 
+    review_address, review_speeker, review_result, unit_id, creater, data_uuid, del_flag, 
+    create_time, update_time, data_version, remarkers, append_files
+  </sql>
+  <select id="selectByExample" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectReviewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from intl_project_review
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from intl_project_review
+    where review_id = #{reviewId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from intl_project_review
+    where review_id = #{reviewId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectReviewExample">
+    delete from intl_project_review
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectReview">
+    insert into intl_project_review (review_id, review_title, project_plant_id, 
+      review_no, review_time, review_status, 
+      review_address, review_speeker, review_result, 
+      unit_id, creater, data_uuid, 
+      del_flag, create_time, update_time, 
+      data_version, remarkers, append_files
+      )
+    values (#{reviewId,jdbcType=VARCHAR}, #{reviewTitle,jdbcType=VARCHAR}, #{projectPlantId,jdbcType=VARCHAR}, 
+      #{reviewNo,jdbcType=INTEGER}, #{reviewTime,jdbcType=VARCHAR}, #{reviewStatus,jdbcType=INTEGER}, 
+      #{reviewAddress,jdbcType=VARCHAR}, #{reviewSpeeker,jdbcType=VARCHAR}, #{reviewResult,jdbcType=VARCHAR}, 
+      #{unitId,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR}, #{dataUuid,jdbcType=VARCHAR}, 
+      #{delFlag,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}, 
+      #{dataVersion,jdbcType=VARCHAR}, #{remarkers,jdbcType=VARCHAR}, #{appendFiles,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectReview">
+    insert into intl_project_review
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="reviewId != null">
+        review_id,
+      </if>
+      <if test="reviewTitle != null">
+        review_title,
+      </if>
+      <if test="projectPlantId != null">
+        project_plant_id,
+      </if>
+      <if test="reviewNo != null">
+        review_no,
+      </if>
+      <if test="reviewTime != null">
+        review_time,
+      </if>
+      <if test="reviewStatus != null">
+        review_status,
+      </if>
+      <if test="reviewAddress != null">
+        review_address,
+      </if>
+      <if test="reviewSpeeker != null">
+        review_speeker,
+      </if>
+      <if test="reviewResult != null">
+        review_result,
+      </if>
+      <if test="unitId != null">
+        unit_id,
+      </if>
+      <if test="creater != null">
+        creater,
+      </if>
+      <if test="dataUuid != null">
+        data_uuid,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="dataVersion != null">
+        data_version,
+      </if>
+      <if test="remarkers != null">
+        remarkers,
+      </if>
+      <if test="appendFiles != null">
+        append_files,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="reviewId != null">
+        #{reviewId,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewTitle != null">
+        #{reviewTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="projectPlantId != null">
+        #{projectPlantId,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewNo != null">
+        #{reviewNo,jdbcType=INTEGER},
+      </if>
+      <if test="reviewTime != null">
+        #{reviewTime,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewStatus != null">
+        #{reviewStatus,jdbcType=INTEGER},
+      </if>
+      <if test="reviewAddress != null">
+        #{reviewAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewSpeeker != null">
+        #{reviewSpeeker,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewResult != null">
+        #{reviewResult,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null">
+        #{unitId,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null">
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="dataUuid != null">
+        #{dataUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="dataVersion != null">
+        #{dataVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="remarkers != null">
+        #{remarkers,jdbcType=VARCHAR},
+      </if>
+      <if test="appendFiles != null">
+        #{appendFiles,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectReviewExample" resultType="java.lang.Long">
+    select count(*) from intl_project_review
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update intl_project_review
+    <set>
+      <if test="record.reviewId != null">
+        review_id = #{record.reviewId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reviewTitle != null">
+        review_title = #{record.reviewTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectPlantId != null">
+        project_plant_id = #{record.projectPlantId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reviewNo != null">
+        review_no = #{record.reviewNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.reviewTime != null">
+        review_time = #{record.reviewTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reviewStatus != null">
+        review_status = #{record.reviewStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.reviewAddress != null">
+        review_address = #{record.reviewAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reviewSpeeker != null">
+        review_speeker = #{record.reviewSpeeker,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reviewResult != null">
+        review_result = #{record.reviewResult,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitId != null">
+        unit_id = #{record.unitId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creater != null">
+        creater = #{record.creater,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataUuid != null">
+        data_uuid = #{record.dataUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delFlag != null">
+        del_flag = #{record.delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataVersion != null">
+        data_version = #{record.dataVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarkers != null">
+        remarkers = #{record.remarkers,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appendFiles != null">
+        append_files = #{record.appendFiles,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update intl_project_review
+    set review_id = #{record.reviewId,jdbcType=VARCHAR},
+      review_title = #{record.reviewTitle,jdbcType=VARCHAR},
+      project_plant_id = #{record.projectPlantId,jdbcType=VARCHAR},
+      review_no = #{record.reviewNo,jdbcType=INTEGER},
+      review_time = #{record.reviewTime,jdbcType=VARCHAR},
+      review_status = #{record.reviewStatus,jdbcType=INTEGER},
+      review_address = #{record.reviewAddress,jdbcType=VARCHAR},
+      review_speeker = #{record.reviewSpeeker,jdbcType=VARCHAR},
+      review_result = #{record.reviewResult,jdbcType=VARCHAR},
+      unit_id = #{record.unitId,jdbcType=VARCHAR},
+      creater = #{record.creater,jdbcType=VARCHAR},
+      data_uuid = #{record.dataUuid,jdbcType=VARCHAR},
+      del_flag = #{record.delFlag,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=VARCHAR},
+      data_version = #{record.dataVersion,jdbcType=VARCHAR},
+      remarkers = #{record.remarkers,jdbcType=VARCHAR},
+      append_files = #{record.appendFiles,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectReview">
+    update intl_project_review
+    <set>
+      <if test="reviewTitle != null">
+        review_title = #{reviewTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="projectPlantId != null">
+        project_plant_id = #{projectPlantId,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewNo != null">
+        review_no = #{reviewNo,jdbcType=INTEGER},
+      </if>
+      <if test="reviewTime != null">
+        review_time = #{reviewTime,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewStatus != null">
+        review_status = #{reviewStatus,jdbcType=INTEGER},
+      </if>
+      <if test="reviewAddress != null">
+        review_address = #{reviewAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewSpeeker != null">
+        review_speeker = #{reviewSpeeker,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewResult != null">
+        review_result = #{reviewResult,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null">
+        unit_id = #{unitId,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null">
+        creater = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="dataUuid != null">
+        data_uuid = #{dataUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="dataVersion != null">
+        data_version = #{dataVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="remarkers != null">
+        remarkers = #{remarkers,jdbcType=VARCHAR},
+      </if>
+      <if test="appendFiles != null">
+        append_files = #{appendFiles,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where review_id = #{reviewId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectReview">
+    update intl_project_review
+    set review_title = #{reviewTitle,jdbcType=VARCHAR},
+      project_plant_id = #{projectPlantId,jdbcType=VARCHAR},
+      review_no = #{reviewNo,jdbcType=INTEGER},
+      review_time = #{reviewTime,jdbcType=VARCHAR},
+      review_status = #{reviewStatus,jdbcType=INTEGER},
+      review_address = #{reviewAddress,jdbcType=VARCHAR},
+      review_speeker = #{reviewSpeeker,jdbcType=VARCHAR},
+      review_result = #{reviewResult,jdbcType=VARCHAR},
+      unit_id = #{unitId,jdbcType=VARCHAR},
+      creater = #{creater,jdbcType=VARCHAR},
+      data_uuid = #{dataUuid,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR},
+      data_version = #{dataVersion,jdbcType=VARCHAR},
+      remarkers = #{remarkers,jdbcType=VARCHAR},
+      append_files = #{appendFiles,jdbcType=VARCHAR}
+    where review_id = #{reviewId,jdbcType=VARCHAR}
+  </update>
+</mapper>

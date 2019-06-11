@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>选择审批人-unit</title>
+
+<link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+<link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css?+Math.random()" media="all">
+
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
+<script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+
+</head>
+<body>
+	<div class="formBox">
+		<div class="treeTableContainer">
+			<div class="treeBox">
+				<!--加标题-->
+				<div class="title-box">
+					<span>组织机构</span>
+					<!--加操作按钮时去掉标题-->
+					<!-- <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button>-->
+				</div>
+				<div class="layui-side-scroll">
+					<!-- 左侧子菜单 -->
+					<ul id="funTree" class="ztree"></ul>
+				</div>
+			</div>
+			<div class="treeTableBox" id="seleDiv">
+				<table id="selectedUsers" class="layui-hide" lay-filter="selectedUsers"></table>
+			</div>
+		</div>
+	</div>
+	<div class="form-bottom">
+		<div class="form-bottom-btns">
+			<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" id="selectEvent" lay-submit="" data-type="selectEvent">确定</button>
+			<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="cancel">取消</button>
+		</div>
+	</div>
+
+	<!--<div class="layui-footer" style="text-align: center">-->
+	<!--© layui.com - 底部固定区域-->
+	<!--</div>-->
+	<!--树js-->
+	<script type="text/javascript">
+	var index_close;
+		var zNodes;
+		var treeId;
+		var treeName;
+		var temFunctionId;
+		var temFunctionName;
+		var temUnitCodes = parent.unitCodes;
+		var temPostCodes = parent.postCodes;
+
+		$(function() {
+			var temUrl = "/unit/units-posts/part-tree";
+			if (typeof (temUnitCodes) != "undefined" && temUnitCodes != '') {
+				temUrl = "/unit/units/part-tree";
+			}
+			$.ajax({
+				url : temUrl,//这个就是请求地址对应sAjaxSource
+				type : 'POST',
+				dataType : 'json',
+				data : {
+					"unitCodes" : temUnitCodes,
+					"postCodes" : temPostCodes
+				},
+				async : false,
+				success : function(data) {
+					zNodes = data;
+				},
+				error : function(msg) {
+					layer.msg(msg);
+				}
+			});
+		});
+
+		var setting = {
+			data : {
+				simpleData : {
+					enable : true
+				}
+			},
+			callback : {
+				onClick : onClickMenu
+			}
+		};
+
+		function onClickMenu(event, treeId, treeNode, clickFlag) {
+			treeId = treeNode.id;
+			treeName = treeNode.name;
+			temFunctionId = treeNode.id;
+			temFunctionName = treeNode.name;
+			if (treeNode.nodeType == 'user') {
+
+				var distinct = true;
+				for (var i = 0; i < selectedData.length; i++) {
+					if (selectedData[i].userId == treeNode.id) {
+						distinct = false;
+						break;
+					}
+				}
+				if (distinct) {
+					var data1 = {
+						"userId" : treeNode.id,
+						"userName" : treeNode.name,
+						"userCode" : treeNode.code
+					};
+					selectedData.push(data1);
+					active.searchEvent();
+				}
+			} 
+
+		}
+
+		function refreshNode(e) {
+			var zTree = $.fn.zTree.getZTreeObj("funTree"), type = e.data.type, silent = e.data.silent, nodes = zTree.getSelectedNodes();
+			if (nodes.length == 0) {
+				layer.msg("请先选择一个父节点");
+			}
+			for (var i = 0, l = nodes.length; i < l; i++) {
+				zTree.reAsyncChildNodes(nodes[i], type, silent);
+				if (!silent) zTree.selectNode(nodes[i]);
+			}
+		}
+
+		$(document).ready(function() {
+			$.fn.zTree.init($("#funTree"), setting, zNodes);
+		});
+
+		<!--表格js-->
+		var table, active;
+		var selectedData = [];
+		layui.use([ 'jquery', 'table', 'laypage' ], function() {
+			var table = layui.table, $ = layui.jquery;
+
+			function renderTable() {
+
+				//渲染
+				table.render({
+					elem : '#selectedUsers', //表格容器
+					id : 'selectedUsers',
+					data : selectedData,
+					height : commonDislodgeTable(),
+					limit : 100,
+					cols : [ [ {
+						type : 'checkbox',
+						event : 'changeEvents'
+					}, {
+						field : 'userCode',
+						title : '用户编码',
+						width : '35%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'userName',
+						title : '用户姓名',
+						style : 'cursor: pointer;'
+					} ] ],
+					done : function(res, curr, count) {
+						$('#seleDiv').find('.layui-table-body').find("table").find("tbody").children("tr").on('dblclick', function() {
+							// 双击删除选择的某个人
+							var id = JSON.stringify($('#seleDiv').find('.layui-table-body').find("table").find("tbody").find(".layui-table-hover").data('index'));
+							selectedData.splice(id, 1);
+							renderTable();
+						});
+					}
+				});
+			}
+
+			$(document).on("click", ".layui-table-body table.layui-table tbody tr", function() {
+				var index = $(this).attr('data-index');
+				var tableBox = $(this).parents('.layui-table-box');
+				//存在固定列
+				if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
+					tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+				} else {
+					tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+				}
+				var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+				if (checkCell.length > 0) {
+					checkCell.click();
+				}
+			});
+			$(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function(e) {
+				e.stopPropagation();
+			});
+			
+			renderTable();
+
+			// 触发不同的按钮事件
+			var $ = layui.$;
+			active = {
+				searchEvent : function() { //点击查询按钮
+					renderTable();
+				},
+				selectEvent : function() { //点击确定按钮
+					var selectedUsers = table.checkStatus('selectedUsers').data;
+				
+					if (selectedUsers.length > 100) {
+						layer.msg('审批人过多，请重新选择!');
+						return false;
+					}
+					if (selectedUsers.length < 1) {
+						layer.msg('请选择审批人员进行提交!');
+						return false;
+					}
+
+					var userIds = "";
+					for (var i = 0; i < selectedUsers.length; i++) {
+						if (i != 0) {
+							userIds = userIds + "," + selectedUsers[i].userId;
+						} else {
+							userIds = selectedUsers[0].userId;
+						}
+					}
+
+                    parent.handleTask(userIds);
+                    index_close = layer.load(1); //添加laoding,0-2两种方式
+                    var index = parent.layer.getFrameIndex(window.name);
+                    layer.close(index_close);    //返回数据关闭loading
+                    parent.layer.close(index);
+                    return false;
+				}
+			};
+
+			//区别按钮属性
+			$('.layui-btn').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+
+			//关闭事件
+			$("#cancel").click(function() {
+				var index = parent.layer.getFrameIndex(window.name);
+				parent.layer.close(index);
+			});
+
+		});
+	</script>
+</body>
+</html>

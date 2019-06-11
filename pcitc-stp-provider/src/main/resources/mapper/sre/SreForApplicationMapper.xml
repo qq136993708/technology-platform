@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.equipment.SreForApplicationMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.SreForApplication" >
+    <id column="application_id" property="applicationId" jdbcType="VARCHAR" />
+    <result column="application_name" property="applicationName" jdbcType="VARCHAR" />
+    <result column="application_time" property="applicationTime" jdbcType="TIMESTAMP" />
+    <result column="application_account" property="applicationAccount" jdbcType="VARCHAR" />
+    <result column="application_user_name" property="applicationUserName" jdbcType="VARCHAR" />
+    <result column="application_money" property="applicationMoney" jdbcType="VARCHAR" />
+    <result column="application_state" property="applicationState" jdbcType="VARCHAR" />
+    <result column="application_purchaseid" property="applicationPurchaseid" jdbcType="VARCHAR" />
+    <result column="apply_depart_name" property="applyDepartName" jdbcType="VARCHAR" />
+    <result column="apply_depart_code" property="applyDepartCode" jdbcType="VARCHAR" />
+    <result column="first_apply_user" property="firstApplyUser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    application_id, application_name, application_time, application_account, application_user_name, 
+    application_money, application_state, application_purchaseid, apply_depart_name, 
+    apply_depart_code, first_apply_user
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sre_for_application
+    where application_id = #{applicationId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sre_for_application
+    where application_id = #{applicationId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SreForApplication" >
+    insert into sre_for_application (application_id, application_name, application_time, 
+      application_account, application_user_name, 
+      application_money, application_state, application_purchaseid, 
+      apply_depart_name, apply_depart_code, first_apply_user
+      )
+    values (#{applicationId,jdbcType=VARCHAR}, #{applicationName,jdbcType=VARCHAR}, #{applicationTime,jdbcType=TIMESTAMP}, 
+      #{applicationAccount,jdbcType=VARCHAR}, #{applicationUserName,jdbcType=VARCHAR}, 
+      #{applicationMoney,jdbcType=VARCHAR}, #{applicationState,jdbcType=VARCHAR}, #{applicationPurchaseid,jdbcType=VARCHAR}, 
+      #{applyDepartName,jdbcType=VARCHAR}, #{applyDepartCode,jdbcType=VARCHAR}, #{firstApplyUser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreForApplication" >
+    insert into sre_for_application
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="applicationId != null" >
+        application_id,
+      </if>
+      <if test="applicationName != null" >
+        application_name,
+      </if>
+      <if test="applicationTime != null" >
+        application_time,
+      </if>
+      <if test="applicationAccount != null" >
+        application_account,
+      </if>
+      <if test="applicationUserName != null" >
+        application_user_name,
+      </if>
+      <if test="applicationMoney != null" >
+        application_money,
+      </if>
+      <if test="applicationState != null" >
+        application_state,
+      </if>
+      <if test="applicationPurchaseid != null" >
+        application_purchaseid,
+      </if>
+      <if test="applyDepartName != null" >
+        apply_depart_name,
+      </if>
+      <if test="applyDepartCode != null" >
+        apply_depart_code,
+      </if>
+      <if test="firstApplyUser != null" >
+        first_apply_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="applicationId != null" >
+        #{applicationId,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationName != null" >
+        #{applicationName,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationTime != null" >
+        #{applicationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applicationAccount != null" >
+        #{applicationAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationUserName != null" >
+        #{applicationUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationMoney != null" >
+        #{applicationMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationState != null" >
+        #{applicationState,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationPurchaseid != null" >
+        #{applicationPurchaseid,jdbcType=VARCHAR},
+      </if>
+      <if test="applyDepartName != null" >
+        #{applyDepartName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyDepartCode != null" >
+        #{applyDepartCode,jdbcType=VARCHAR},
+      </if>
+      <if test="firstApplyUser != null" >
+        #{firstApplyUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.equipment.SreForApplication" >
+    update sre_for_application
+    <set >
+      <if test="applicationName != null" >
+        application_name = #{applicationName,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationTime != null" >
+        application_time = #{applicationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applicationAccount != null" >
+        application_account = #{applicationAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationUserName != null" >
+        application_user_name = #{applicationUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationMoney != null" >
+        application_money = #{applicationMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationState != null" >
+        application_state = #{applicationState,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationPurchaseid != null" >
+        application_purchaseid = #{applicationPurchaseid,jdbcType=VARCHAR},
+      </if>
+      <if test="applyDepartName != null" >
+        apply_depart_name = #{applyDepartName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyDepartCode != null" >
+        apply_depart_code = #{applyDepartCode,jdbcType=VARCHAR},
+      </if>
+      <if test="firstApplyUser != null" >
+        first_apply_user = #{firstApplyUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where application_id = #{applicationId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.equipment.SreForApplication" >
+    update sre_for_application
+    set application_name = #{applicationName,jdbcType=VARCHAR},
+      application_time = #{applicationTime,jdbcType=TIMESTAMP},
+      application_account = #{applicationAccount,jdbcType=VARCHAR},
+      application_user_name = #{applicationUserName,jdbcType=VARCHAR},
+      application_money = #{applicationMoney,jdbcType=VARCHAR},
+      application_state = #{applicationState,jdbcType=VARCHAR},
+      application_purchaseid = #{applicationPurchaseid,jdbcType=VARCHAR},
+      apply_depart_name = #{applyDepartName,jdbcType=VARCHAR},
+      apply_depart_code = #{applyDepartCode,jdbcType=VARCHAR},
+      first_apply_user = #{firstApplyUser,jdbcType=VARCHAR}
+    where application_id = #{applicationId,jdbcType=VARCHAR}
+  </update>
+  
+   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from sre_for_application t <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  application_time   desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+   <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="applicationName != null and applicationName!='' ">               AND t.application_name  like CONCAT('%',#{applicationName},'%')</if>
+	     <if test="applicationTime != null and applicationTime!='' "> AND t.application_time like CONCAT('%',#{applicationTime},'%')</if>
+	     <if test="applicationUserName   != null       and applicationUserName !=''  ">     AND t.application_user_name  like CONCAT('%',#{applicationUserName},'%')</if>
+	     <if test="applicationState != null     and applicationState!=''  ">   AND t.application_state = #{applicationState}</if>
+	     <if test="applicationMoney!= null        and applicationMoney!=''  ">       AND t.application_money = #{applicationMoney!=}</if>
+	      <if test="applyDepartCode != null        and applyDepartCode !=''  ">       AND t.apply_depart_code = #{applyDepartCode}</if>
+	     <if test="firstApplyUser != null             and firstApplyUser !=''  ">           AND t.first_apply_user = #{firstApplyUser}</if>
+	     <if test="applicationId!= null        and applicationId!=''  ">       AND t.application_id = #{applicationId!=}</if>
+	     <if test="applyDepartName!= null        and applyDepartName!=''  ">       AND t.apply_depart_name like CONCAT('%',#{applyDepartName},'%')</if>
+	 	 <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
+	 </trim>
+	</sql>
+	
+	<select id="selectaRchaseidKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+			*
+    from sre_for_application
+    where application_purchaseid like CONCAT('%',#{applicationId},'%')
+  </select>
+</mapper>

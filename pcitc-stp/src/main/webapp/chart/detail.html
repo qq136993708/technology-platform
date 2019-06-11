@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>科研人才</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico"/>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        html {
+            background: #f2f2f2;
+        }
+
+        body {
+            background: #fff;
+            margin: 0 auto;
+            width: 90%;
+        }
+
+        .layui-personnel, .detail-top {
+            height: auto;
+            overflow: hidden;
+        }
+
+        .detail-top {
+            padding: 30px 30px 30px 0;
+            min-height: 280px;
+        }
+
+        .detail-left {
+            width: 15.6%;
+            float: left;
+        }
+
+        .detail-right {
+            float: right;
+            width: 84.4%;
+        }
+
+        .layui-personnel .expert-i {
+            margin-top: 0;
+        }
+
+        .detail-right h4 {
+            font-size: 28px;
+            color: #000;
+        }
+
+        .detail-right .detail-p {
+            color: black;
+            font-size: 16px;
+            margin: 26px 0 30px;
+        }
+
+        .detail-j p {
+            display: block;
+            line-height: 28px;
+            font-size: 14px;
+            color: #696b74;
+            text-indent: 2em;
+        }
+
+        .layui-card-body {
+            padding: 0;
+        }
+
+        .layui-tab-title {
+            padding-left: 30px;
+            background: #dce9fa;
+            border: 0;
+        }
+
+        .layui-tab-brief > .layui-tab-title .layui-this {
+            background: #108ee9;
+        }
+
+        .layui-tab-title {
+            height: 44px;
+        }
+
+        .layui-tab-title li {
+            line-height: 44px;
+        }
+
+        .layui-tab-content {
+            height: auto;
+            overflow: hidden;
+            margin-bottom: 10px;
+            min-height: 400px;
+        }
+
+        .record {
+            height: auto;
+            overflow: hidden;
+            margin-left: 25px;
+            background: url("/layuiadmin/layui/images/icon-personnel-3.png") no-repeat 0 0,
+            url("/layuiadmin/layui/images/icon-personnel-5.png") no-repeat 15px 100%;
+        }
+
+        .record ul {
+            position: relative;
+            height: auto;
+            overflow: hidden;
+            margin-bottom: 32px;
+        }
+
+        .layui-tab-item ul li:last-child, .layui-tab-item ul li {
+            background: none;
+        }
+
+        .record ul li {
+            min-height: 60px;
+            border-left: 2px solid #108ee9;
+            margin-left: 15px;
+            position: relative;
+            height: auto;
+        }
+
+        .record ul li i {
+            width: 14px;
+            background: url("/layuiadmin/layui/images/icon-personnel-4.png") no-repeat;
+            height: 14px;
+            position: absolute;
+            left: -8px;
+            top: 6px;
+        }
+
+        .record-line {
+            border-left: 2px solid #108ee9;
+            margin-left: 15px;
+            height: 32px;
+            margin-top: 32px;
+        }
+
+        .layui-text h3 {
+            font-size: 14px;
+            color: #696b74;
+            height: auto;
+            overflow: hidden;
+            padding-bottom: 10px;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-fluid layui-personnel">
+    <div class="detail-top">
+        <div class="detail-left">
+            <div class="expert-i">
+                <img id="photoAttach" src="/stp/expert/img/default.png" alt="" height="140">
+            </div>
+        </div>
+        <div class="detail-right">
+            <h4>${expert.expertName}</h4>
+            <p class="detail-p">${expert.expertProfessionalFieldName}</p>
+            <div class="detail-j">
+                <p>${expert.userDesc}</p>
+                <p>${expert.briefDesc}</p>
+            </div>
+        </div>
+    </div>
+    <div class="detail-main">
+        <div class="layui-card-body">
+            <div class="layui-tab layui-tab-brief" lay-filter="component-tabs-hash">
+                <ul class="layui-tab-title">
+                    <li class="layui-this" lay-id="11">奖励、荣誉</li>
+                    <li lay-id="22">主要业绩简述</li>
+                    <!--<li lay-id="33">其他</li>-->
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <div class="detail-j">
+                            <p>${expert.awardsTitle}</p>
+                        </div>
+                       <!-- <div class="record">
+                            <div class="record-line"></div>
+                            <ul>
+                                <li>
+                                    <i></i>
+                                    <div class="layui-text">
+                                        <h3>${expert.awardsTitle}</h3>
+                                    </div>
+                                </li>
+                                &lt;!&ndash;<li>&ndash;&gt;
+                                &lt;!&ndash;<i></i>&ndash;&gt;
+                                &lt;!&ndash;<div class="layui-text">&ndash;&gt;
+                                &lt;!&ndash;<h3>1999—2002年间他带领完成的“四川盆地宣汉一达县地区石炭一三叠系油气地质综合研究”科研项目，&ndash;&gt;
+                                &lt;!&ndash;不但直接指导了普光气田和毛坝气藏的发现，取得了巨大的勘探效益，其理论和枝术研究成果经&ndash;&gt;
+                                &lt;!&ndash;专家鉴定认为，总体处于“国际先进水平”，储层预测等有关方面的研究成果达国际领先水平，&ndash;&gt;
+                                &lt;!&ndash;该项成果转变了以前对该地区储层沉积学和油气勘探方面的许多认识，解放了许多不看好的勘探领域。&ndash;&gt;
+                                &lt;!&ndash;该项科研成果获中石化集团公司2004年度科技进步一等奖。&ndash;&gt;
+                                &lt;!&ndash;</h3>&ndash;&gt;
+                                &lt;!&ndash;</div>&ndash;&gt;
+                                &lt;!&ndash;</li>&ndash;&gt;
+                                &lt;!&ndash;<li>&ndash;&gt;
+                                &lt;!&ndash;<i></i>&ndash;&gt;
+                                &lt;!&ndash;<div class="layui-text">&ndash;&gt;
+                                &lt;!&ndash;<h3>1984年毕业于武汉地质学院地质系；</h3>&ndash;&gt;
+                                &lt;!&ndash;</div>&ndash;&gt;
+                                &lt;!&ndash;</li>&ndash;&gt;
+                                &lt;!&ndash;<li>&ndash;&gt;
+                                &lt;!&ndash;<i></i>&ndash;&gt;
+                                &lt;!&ndash;<div class="layui-text">&ndash;&gt;
+                                &lt;!&ndash;<h3>1984年毕业于武汉地质学院地质系；</h3>&ndash;&gt;
+                                &lt;!&ndash;</div>&ndash;&gt;
+                                &lt;!&ndash;</li>&ndash;&gt;
+                                <li>
+                                    <i></i>
+                                    <div class="layui-text">
+                                        <h3></h3>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>-->
+                    </div>
+                    <div class="layui-tab-item">
+                        <div class="detail-j">
+                            <p>${expert.briefDesc}</p>
+                        </div>
+                    </div>
+                    <!--<div class="layui-tab-item">${expert.unitBelongs}
+                        <br>${expert.professionalAndTime}<br>
+                        ${expert.administrativeDuties}</div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" value="${expert.dataId}" name="dataId" id="dataId" />
+<script>
+    layui.use(['jquery', 'table', 'layer', 'laydate', 'publicMethods', 'element'], function () {
+        var $ = layui.jquery, table = layui.table, laydate = layui.laydate, publicMethods = layui.publicMethods;
+        // parent.$(".layui-leader .layui-body").css("left", "0px");
+        //附件上传-start
+        $('#upload_File_photoAttach').click(function () {
+            TimeFn = setTimeout(function () {
+                var param = {};
+                param.file_id_name = "headerImg";
+                param.file_ids_value = $("input[name=dataId]").val();
+
+                param.callback = "call_fun";//回调函数名称
+                param.file_opt_flag = "1cf7678a240c42299313322d904ca7f0";//文件配置ID
+                param.file_edit_detail = "edit";//新增、修改用edit, 显示用detail
+                var temUrl = "/sysFilePage/uploadFile?param=" + encodeURIComponent(JSON.stringify(param));
+                publicMethods.openBaseWin("文件上传", temUrl, "90%", "80%");
+            }, 300);
+        });
+        $('#upload_File_photoAttach').dblclick(function () {
+            showImg(photofilePath);
+        });
+
+        function call_fun(data, param) {
+            for (var key in data) {
+                var obj_file = data[key];
+                photofilePath = key;
+            }
+            var photoStream = photoContent(photofilePath);
+//设置photoAttach图片流
+            $("#photoAttach").attr("src", photoStream);
+            $("#photoAttach").attr("title", "双击查看大图");
+        }
+
+        function ajaxFile(url, data, callback) {
+            var result = null;
+            $.ajax({
+                type: 'post',
+                async: false,
+                url: url,
+                data: data,
+                dataType: 'json',
+                success: function (data, status) {
+                    result = data;
+                    if (callback) {
+                        callback.call(this, data, status);
+                    }
+                },
+                error: function (err, err1, err2) {
+                    console.log("ajaxPost发生异常，请仔细检查请求url是否正确");
+                }
+            });
+            return result;
+        }
+
+        //双击查看免冠照片
+        function showImg(url) {
+            var photoStream = photoContent(url);
+            var img = "<img src='" + photoStream + "' height='100%' width='100%'/>";
+            layer.open({
+                type: 1,
+                shade: false,
+                title: false, //不显示标题
+                area: [500 + 'px', 400 + 'px'],
+                content: img, //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+                cancel: function () {
+//layer.msg('图片查看结束！', { time: 5000, icon: 6 });
+                }
+            });
+        }
+
+        //根据图片路径获取图片流
+        function photoContent(picId) {
+            var ret = getFileResult(picId);
+            if (ret != null && ret.list.length > 0) {
+                picId = ret.list[0].id;
+            }
+            var base64 = "";
+            $.ajax({
+                type: 'get',
+                dataType: 'text',
+                async: false,
+                url: '/sysfile/viewPic/' + picId,
+                success: function (data) {
+                    base64 = data;
+                },
+                error: function (e) {
+                    alert("出错了");
+                }
+            });
+            return base64;
+        }
+
+        ////加载图片
+        function getFileResult(fileIds) {
+            var ret = null;
+            ajaxFile("/sysfile/getFilesLayuiByFormId", {fileIds: fileIds}, function (result) {
+                ret = result;
+            });
+            return ret;
+        }
+
+        //初始化数据
+        $(function () {
+//初始加载免冠照片
+            var photoAttachId = $("#dataId").val();
+            if (photoAttachId != 0) {
+                photofilePath = photoAttachId;
+                if (photofilePath != null && photofilePath != "") {
+                    var photoStream = photoContent(photofilePath);
+                    if (photoStream == "data:image/png;base64,PHNjcmlwdD4NCiBtb2RhbHMuaW5mbygnPz8/Pz8hJyk7DQo8L3NjcmlwdD4NCg==") {
+                        return;
+                    }
+                    $("#photoAttach").attr("src", photoStream);
+                    $("#photoAttach").attr("title", "双击查看大图");
+                }
+            }
+        });
+        //附件上传-end
+    });
+</script>
+<script>
+
+</script>
+</body>
+</html>

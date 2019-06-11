@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css?+Math.random()" media="all">
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+     <script type="text/javascript" src="/common/js/base.js"></script>
+</head>
+<body>
+<div class="searchBox">
+    <!--查询条件-->
+    <label class="dateInput">
+        <span>任务名称</span>
+    	<input type="text" id="workOrderName" name="workOrderName" placeholder="请输入任务名称" title="任务名称" autocomplete="off" class="form-control">
+    </label>
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg btn_search" data-type="searchEvent">查询</button>
+            <button class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg btn_reset" data-type="resetEvent">重置</button>
+    </div>
+</div>
+
+<div class="tableBox">
+    <div class="tableToolBox">
+        <div class="whiteLine"></div>
+        <div  class="tableBtns">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="allEvent">
+                <span class="btn-state btn-all"></span>全部
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="draftEvent">
+                <span class="btn-state btn-yellow"></span>未下发
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="approvalEvent">
+                <span class="btn-state btn-green"></span>处理中
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="approvedEvent">
+                <span class="btn-state btn-blue"></span>已完成
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent">新增</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="editEvent" >编辑</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent" >删除</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg" data-type="detailEvent">查看</button>
+        </div>
+    </div>
+
+    <table id="tableListElem" class="layui-hide" lay-filter="tableData"></table>
+</div>
+<script>
+	var param=JSON.parse(window.localStorage.getItem("param"));
+	var table,selectRowData,workOrderStatus;
+	layui.use(['jquery','table','laypage','publicMethods'], function(){
+		table = layui.table,
+        $ = layui.jquery,
+        layer = layui.layer,
+        publicMethods = layui.publicMethods,
+        laypage = layui.laypage;
+		var cols = [
+            {type:'checkbox',event: 'changeEvents',width: 55},
+            {title:'序号', type:'numbers',width: 55},
+            {field:'workOrderStatus', title:'状态', event: 'setActive',align:'center',style:'cursor: pointer;', templet:  '<div>{{ layui.laytpl.auditStatus(d.workOrderStatus) }}</div>', width:55},
+            {field:'attachment', title:'附件', event: 'setActive',align:'center',style:'cursor: pointer;',width: 55,
+                templet:  '<div>{{ layui.laytpl.attToPic(d) }}</div>' },
+            {field:'workOrderName', title:'名称' ,event: 'setActive',style:'cursor: pointer;',sort: true,},
+            {field:'workOrderType', title:'类型' ,event: 'setActive',style:'cursor: pointer;',sort: true,},
+            {field:'createDate', title:'创建时间' ,event: 'setActive',style:'cursor: pointer;',align:'center',sort: true,   },
+            {field:'workOrderAllotUserName', title:'处理人' ,event: 'setActive',style:'cursor: pointer;',sort: true}
+        ];
+        // elem,id,url,toolbar,cols,done
+		function renderTable(){
+            publicMethods.tableRender('tableListElem','tableList','/plan/getTableData',false,cols,{},true,function (res, curr, count){
+                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                    var index=parseInt($(this).index()+1);
+                    $('tr').removeClass('layui-table-click');
+                    $(this).addClass('layui-table-click');
+                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                    selectRowData=res.data[index-1];
+                });
+                $(document).off("click").on("click",".onClickImg",function () {
+                    var dataId=$(this).attr("id");
+                    //附件文件配置ID
+                    publicMethods.viewAtt(dataId,param.id);
+                });
+                var p1={
+                    data:res.data,//数据
+                    element:".layui-table-body table",// 当前的表格元素
+                    column:5,//列数 从0开始
+                    field:"workOrderType",//当前数据的字段
+                    url:"/pageCommon/dic/ROOT_RWGL_RWLX"//接口
+                };
+                publicMethods.dataDictionary(p1);
+                selectRowData="";
+            });
+             // table.render({
+	         // 	id:'tableList', //唯一即可
+	         //     elem: '#tableListElem',
+	         //     height:commonDislodgeTable(),
+	         //     method:"POST",
+	         //     where: {param: {workOrderName: $("#workOrderName").val(),"workOrderStatus":workOrderStatus}},
+	         //     url: '/plan/getTableData',
+	         //     limit: param.selfRownum,
+	         //     page: {
+	         //         groups: 5,
+	         //         limits: [param.selfRownum,30,45,60],
+	         //         layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+	         //         first: '首页', //不显示首页
+	         //         last: '尾页', //不显示尾页
+	         //         theme: '#0F9EE0'
+	         //     },
+	         //     cols: [[
+	         //     	{type:'checkbox',event: 'changeEvents',width: 55},
+	         //     	{title:'序号', type:'numbers',width: 55},
+	         //        {field:'workOrderStatus', title:'状态', event: 'setActive',align:'center',style:'cursor: pointer;', templet:  '<div>{{ layui.laytpl.auditStatus(d.workOrderStatus) }}</div>', width:55},
+	         //        {field:'attachment', title:'附件', event: 'setActive',align:'center',style:'cursor: pointer;', width:55,
+              //           templet:  '<div>{{ layui.laytpl.attToPic(d) }}</div>' },
+	         //        {field:'workOrderCode', title:'编码' ,event: 'setActive',style:'cursor: pointer;',align:'center',sort: true,width: '25%'},
+	         //        {field:'workOrderName', title:'名称' ,event: 'setActive',style:'cursor: pointer;',sort: true,width: '25%'},
+	         //        {field:'workOrderType', title:'类型' ,event: 'setActive',style:'cursor: pointer;',sort: true,width: '10%'},
+	         //        {field:'createDate', title:'创建时间' ,event: 'setActive',style:'cursor: pointer;',align:'center',sort: true,width: '18%'},
+	         //        {field:'workOrderAllotUserName', title:'处理人' ,event: 'setActive',style:'cursor: pointer;',sort: true}
+	         //     ]],
+	         //     done: function (res, curr, count) {
+	         //    	 $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+ 	        //         	var index=parseInt($(this).index()+1);
+ 	        //             $('tr').removeClass('layui-table-click');
+ 	        //             $(this).addClass('layui-table-click');
+ 	        //            $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+ 	        //             $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+ 	        //             selectRowData=res.data[index-1];
+ 	        //         });
+	         //    	$(document).off("click").on("click",".onClickImg",function () {
+	         //           var dataId=$(this).attr("id");
+	         //           //附件文件配置ID
+	         //           publicMethods.viewAtt(dataId,param.id);
+	         //        });
+	         //    	var param={
+	         // 	        data:res.data,//数据
+              //           element:".layui-table-body table",// 当前的表格元素
+              //           column:6,//列数 从0开始
+              //           field:"workOrderType",//当前数据的字段
+              //           url:"/pageCommon/dic/ROOT_RWGL_RWLX"//接口
+              //        };
+              //        publicMethods.dataDictionary(param);
+	         //     }
+	         // });
+	    }
+    	renderTable();
+    	window.renderTable = renderTable;
+     	// ** 搜索框宽度随着内容自适应 加到公用js中
+        $(function(){
+            //propertychange监听input里面的字符变化,属性改变事件
+            $('.form-control').bind('input propertychange', function() {
+                var $this = $(this);
+                var text_length = $this.val().length;//获取当前文本框的长度
+                var current_width = parseInt(text_length) *12;//该16是改变前的宽度除以当前字符串的长度,算出每个字符的长度
+                $this.css("width",current_width+"px");
+            });
+        })
+        //** 搜索框宽度随着内容自适应End
+        // 触发不同的按钮事件
+        var $ = layui.$, active = {
+            searchEvent: function() { //点击查询按钮
+            	renderTable();
+            },
+            allEvent: function() { //点击查询按钮
+                workOrderStatus = '';
+                renderTable();
+            },
+            draftEvent: function() { //点击查询按钮
+                workOrderStatus = '0';
+                renderTable();
+            },
+            approvalEvent: function() { //点击查询按钮
+                workOrderStatus = '1';
+                renderTable();
+            },
+            approvedEvent: function() { //点击查询按钮
+                workOrderStatus = '2';
+                renderTable();
+            },
+            resetEvent: function() { //点击重置按钮
+            	$('#workOrderName').val("");
+            },
+            addEvent: function(){ //点击新增按钮
+            	layer.open({
+                    title:param.name+'-新增',
+                    skin: 'layui-layer-lan',
+                    shadeClose: false,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin: true,
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    area: ['80%','90%'],
+                    content:  '/plan/addPlanPage'
+                });
+            },
+            editEvent: function(){  //点击编辑按钮
+            	var id;
+            	if(selectRowData != undefined&&selectRowData!=""){
+            		if(selectRowData.workOrderStatus == '0'||selectRowData.workOrderStatus == '1'){
+            			id = selectRowData.dataId;
+                		layer.open({
+    	                    title:param.name+'-编辑',
+    	                    skin: 'layui-layer-lan',
+    	                    shadeClose: false,
+    	                    type: 2,
+    	                    fixed: false,
+    	                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+    	                    maxmin: true,
+    	                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                            area: ['80%','90%'],
+    	                    content: '/plan/editPlanPage?dataId='+id
+    	                });
+            		}else{
+            			layer.msg('只可操作未下发的数据');
+            			return;
+            		}
+	            } else {
+	            	layer.msg('请选择一条数据');
+	            	return;
+	            }
+            },
+            detailEvent: function(){  //点击详情按钮
+            	var dataId;
+            	if(selectRowData != undefined){
+            		dataId = selectRowData.dataId;
+                		layer.open({
+    	                    title:param.name+'-查看',
+    	                    skin: 'layui-layer-lan',
+    	                    shadeClose: false,
+    	                    type: 2,
+    	                    fixed: false,
+    	                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+    	                    maxmin: true,
+    	                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+    	                    area: ['80%','90%'],
+    	                    content: '/plan/viewPlanPage?dataId='+dataId
+    	                });
+            		// }
+	            } else {
+	            	layer.msg('请选择一条数据');
+	            	return;
+	            }
+            },
+           	deleteEvent: function(){ //点击删除按钮
+           		var id;
+           		if(selectRowData != undefined){
+            		// if(selectRowData.workOrderStatus == '0'){
+            			id = selectRowData.dataId;
+            			layer.confirm('确认要删除选中的条数据吗？',{icon:3,btn:['确定','取消']},function(index){
+	                        layer.close(index);
+	                        $.ajax({
+	                            type : 'post',
+	                            dataType : 'text',
+	                            async : false,
+	                            data : {
+	                                "ids" : id
+	                            },
+	                            url : '/plan/deletePlan',
+	                            success : function(data) {
+	                                if(data==200){
+	                                	layer.msg("删除成功");
+	           		            		active.searchEvent();
+	                                }
+	                            },
+	                            error : function(e) {
+	                                alert("出错了");
+	                                console.log(e);
+	                            }
+	                        });
+	                    });
+            		// }else{
+            		// 	layer.msg('当前记录已经提交,不能进行删除操作！');
+            		// 	return;
+            		// }
+	            } else {
+	            	layer.msg('请选择一条数据');
+	            	return;
+	            }
+            },
+            getCheckData: function(){ //获取选中数据
+                var checkStatus = table.checkStatus('tableList')
+                    ,data = checkStatus.data;
+                layer.alert(JSON.stringify(data));
+            },
+            getCheckLength: function(){ //获取选中数目
+                var checkStatus = table.checkStatus('tableList')
+                    ,data = checkStatus.data;
+                layer.msg('选中了：'+ data.length + ' 个');
+            },
+            isAll: function(){ //验证是否全选
+                var checkStatus = table.checkStatus('tableList');
+                layer.msg(checkStatus.isAll ? '全选': '未全选')
+            }
+        };
+        //监听行双击事件
+        table.on('rowDouble(tableData)', function(obj){
+            var dataId =  obj.data.dataId;
+            layer.open({
+                title:param.name+'-查看',
+                skin: 'layui-layer-lan',
+                shadeClose: false,
+                type: 2,
+                fixed: false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin: true,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                area: ['70%','90%'],
+                content: '/plan/viewPlanPage?dataId='+dataId
+            });
+        });
+        table.on('sort(tableData)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            table.reload('tableList', { //testTable是表格容器id
+                initSort: obj,
+                done: function (res, curr, count) {
+	            	 $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+	                	var index=parseInt($(this).index()+1);
+	                    $('tr').removeClass('layui-table-click');
+	                    $(this).addClass('layui-table-click');
+	                   $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+	                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+	                    selectRowData=res.data[index-1];
+	                });
+	            	$(document).off("click").on("click",".onClickImg",function () {
+	                   var dataId=$(this).attr("id");
+	                   //附件文件配置ID
+	                   publicMethods.viewAtt(dataId,param.id);
+	                });
+	            	var param={
+	         	        data:res.data,//数据
+                       element:".layui-table-body table",// 当前的表格元素
+                       column:6,//列数 从0开始
+                       field:"workOrderType",//当前数据的字段
+                       url:"/pageCommon/dic/ROOT_RWGL_RWLX"//接口
+                    };
+                    publicMethods.dataDictionary(param);
+                }
+            });
+        });
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        $(".layui-table-header table thead th input").remove();
+    });
+</script>
+</body>
+</html>

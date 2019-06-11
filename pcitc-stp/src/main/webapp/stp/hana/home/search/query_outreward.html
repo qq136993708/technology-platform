@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/common.css">
+<script src="/layuiadmin/layui/layui.js"></script>
+<style>
+	.layui-table-click,.layui-table-hover,.layui-table tbody tr:hover{background: none;}
+	.layui-table-header{display: none;}
+	.layui-table-view,.layui-table-page,.tableBox table tr td{border: none;}
+	.layui-table-body{margin-top: 20px;}
+	.layui-table-cell{height: auto;margin-bottom: 10px;}
+	p{width: 500px;height: auto;overflow: hidden;white-space: normal;/*text-overflow: ellipsis;*/
+		font-size: 13px;word-break:break-all;word-wrap:break-word;line-height: 20px;}
+	.layui-table-body{margin-top: 0;}
+	.layui-table-page{margin-bottom: 20px;}
+	.tableBox,.searchBox{padding-left:18px;margin: 0 auto;}
+	.tableBox{width: 52%;float: left;margin-bottom: 70px;}
+	.searchBox{height: 50px;border-bottom: 1px solid #dfdfdf;margin: 0 20px 10px 28px;padding-left: 0;
+		padding-top: 30px;}
+	.relevant{width: 34%;float: right;margin-right: 20px;}
+	.hotspot>.item{width: 100%;text-align: left;padding: 0;padding-top: 10px;}
+	.hotspot>.item a{font-size: 14px;color: #1890ff;line-height: 26px;}
+	.hotspot>.item a:hover{text-decoration:underline;}
+	.form-control{height: 28px !important;line-height: 28px !important;}
+	.c-nameC{height: 0px;}
+	.relevant p{margin-top: 0}
+</style>
+</head>
+
+<body>
+	<div class="searchBox">
+		<!--查询条件-->
+		<label class="dateInput">
+			<span>项目编号</span>
+			<input type="text" id="xmbh" name="xmbh" placeholder="请输入项目编号" title="项目编号" class="form-control">
+		</label>
+		<label class="dateInput">
+			<span>项目名称</span>
+			<input type="text" id="xmmc" name="xmmc" placeholder="请输入项目名称" title="项目名称" class="form-control">
+		</label>
+		<!--按钮组-->
+		<div class="btnGroup">
+			<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+			<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
+		</div>
+	</div>
+
+	<div class="tableBox">
+
+        <input type="hidden" name="keyword"  value="${keyword}"  id="keyword">
+
+        <table id="showTable" class="layui-hide" lay-filter="tableData"></table>
+	</div>
+
+	<div class="relevant">
+		<p>相关内容</p>
+        <div class="relevant-cont">
+            <div class="item">
+                <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
+                <a href="javascript:;">合同签订率</a>
+            </div>
+            <div class="item">
+                <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
+                <a href="javascript:;">合同签订率</a>
+            </div>
+            <div class="item">
+                <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
+                <a href="javascript:;">合同签订率</a>
+            </div>
+            <div class="item">
+                <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
+                <a href="javascript:;">合同签订率</a>
+            </div>
+            <div class="item">
+                <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
+                <a href="javascript:;">合同签订率</a>
+            </div>
+            <div class="item">
+                <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
+                <a href="javascript:;">合同签订率</a>
+            </div>
+        </div>
+		<!--<p>搜索热点</p>
+		<div class="relevant-cont hotspot">
+			<div class="item">
+				<a href="javascript:;">动载条件下水泥环密封失效机理与控制方法</a>
+			</div>
+			<div class="item">
+				<a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+			</div>
+			<div class="item">
+				<a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+			</div>
+			<div class="item">
+				<a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+			</div>
+			<div class="item">
+				<a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+			</div>
+			<div class="item">
+				<a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+			</div>
+		</div>-->
+	</div>
+	<!--表格数据操作js-->
+	<script>
+		var table, active, selectRowData = '';
+		layui.use([ 'jquery', 'table', 'laydate', 'laypage', 'laytpl' ], function() {
+			table = layui.table, $ = layui.jquery, laydate = layui.laydate, laypage = layui.laypage;
+
+			function renderTable() {
+				var xmbh = $('#xmbh').val();
+				var xmmc = $('#xmmc').val();
+				var param = JSON.parse(window.localStorage.getItem("param"));
+				var lodingMsg = layer.msg('数据加载中....');
+
+				//渲染
+				table.render({
+					elem : '#showTable',
+					url : '/fullSearch/getTableDataOutReward',
+					method : "POST",
+					where : {
+						param : {
+							"xmbh" : xmbh,
+							"xmmc" : xmmc,
+							"functionCode" : param.code,
+                            "keyword":$("#keyword").val()
+                        }
+					},
+					limit : param.selfRownum,
+					id : 'showTable',
+					page : {
+						groups : 5,
+						limits : [ param.selfRownum, 15, 30, 45, 60 ],
+						layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
+						first : '首页', //不显示首页
+						last : '尾页', //不显示尾页
+						theme : '#0F9EE0'
+					},
+                    cols: [[
+                        {field:'LAY_TABLE_INDEX',title:'年度',
+                            templet:  '<div>{{ layui.laytpl.search(d) }}</div>' },
+                    ]],
+					done : function(res, curr, count) {
+						// 关闭等待刷新
+						layer.close(lodingMsg);
+                        parent.$("#outreward").html(count);
+
+						// 点击行联动选择框--单选
+						$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
+							var index = parseInt($(this).index() + 1);
+							$('tr').removeClass('layui-table-click');
+							$(this).addClass('layui-table-click');
+							$('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+							$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+							selectRowData = res.data[index - 1];
+						});
+
+					}
+				});
+			}
+			renderTable();
+
+			$(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
+
+			// 触发不同的按钮事件
+			var $ = layui.$;
+			active = {
+				searchEvent : function() { //点击查询按钮
+					selectRowData = '';
+					renderTable();
+				},
+				resetEvent : function() { //点击重置按钮
+					$('#xmbh').val("");
+					$('#xmmc').val("");
+					$('.tableBtns').children('button').removeClass('active');
+					active.searchEvent();
+				},
+				detailEvent : function() { //点击详情按钮
+					if (typeof (selectRowData.dataId) == "undefined") {
+						layer.msg('请点击选择一行数据');
+					} else {
+						var temUrl = "/out/reward-detail/" + selectRowData.dataId;
+						layer.open({
+							title : '详情',
+							skin : 'layui-layer-lan',
+							shadeClose : true,
+							type : 2,
+							fixed : false,
+							//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+							maxmin : true,
+							//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+							area : [ '900px', '450px' ],
+							content : temUrl
+						});
+					}
+				},
+			};
+
+			table.on('tool(tableData)', function(obj) {
+				selectRowData = obj.data;
+				console.log(selectRowData)
+			});
+
+			//监听排序
+			table.on('sort(showTable)', function(obj) {
+				console.log(this, obj.field, obj.type)
+				//return;
+				//服务端排序
+				table.reload('showTable', {
+					initSort : obj,
+					page : {
+						curr : 1
+					}, //重新从第一页开始
+					where : { //重新请求服务端
+						key : obj.field, //排序字段
+						order : obj.type
+					//排序方式
+					}
+				});
+			});
+
+			//监听行双击事件
+			table.on('rowDouble(tableData)', function(obj) {
+				var temUrl = "/out/reward-detail/" + obj.data.dataId;
+				layer.open({
+					title : '详情',
+					skin : 'layui-layer-lan',
+					shadeClose : true,
+					type : 2,
+					fixed : false,
+					//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+					maxmin : true,
+					//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+					area : [ '900px', '450px' ],
+					content : temUrl
+				});
+			});
+
+			//区别按钮属性
+			$('.layui-btn').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+
+		});
+	</script>
+
+</body>
+</html>

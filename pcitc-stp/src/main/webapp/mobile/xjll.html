@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <title>科技管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/mobile/css/mobileNew.css">
+</head>
+<body>
+<header>
+    <div class="m_return child">
+        <a href="/mobile/indexTest"><img src="/mobile/images/icon-back.png"/> </a>
+        <h4>现金流量</h4>
+    </div>
+</header>
+<main class="main">
+            
+	<div class="layui-card layui-form " lay-filter="component-form-element">
+		<div class="layui-card-body layui-row layui-col-space10">
+			<div class="layui-col-xs4">
+				<input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control layui-input" id="month">
+			</div>
+			<div class="layui-col-xs4" >
+             <select id="companyCode" name="companyCode" ></select>
+            </div>
+			<div class="layui-col-xs4" style="display:none">
+				<select name="city" lay-verify="">
+					<option value="">全部</option>
+					<option value="010">北京</option>
+					<option value="021">上海</option>
+					<option value="0571">杭州</option>
+				</select>
+			</div>
+			<div class="layui-col-xs2">
+				<button class="layui-btn layui-btn-primary" onclick="search_Event()">搜索</button>
+			</div>
+		</div>
+	</div>
+   <div class="main-card first-card">
+        <div class="main-card-header hasborder"><span class="layui_time"></span>科研资金净现金余额分析</div>
+        <div class="main-card-body">
+         <div class="main-chart" id="cash-flow-01" style="height:290px;width: 100%;"></div>
+        </div>
+    </div>
+    
+    <div class="main-card first-card">
+        <div class="main-card-header hasborder"><span class="layui_time"></span>期末现金流量占比分析</div>
+        <div class="main-card-body">
+            <div class="main-chart" id="cash_flow_03_46" style="height:280px;width: 100%;"></div>
+        </div>
+    </div>
+    
+    
+    
+</main>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script src="/stp/hana/common/hana_common.js"></script>
+
+
+
+<script type="text/javascript">
+(function(doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function() {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            docEl.style.fontSize =  (clientWidth / 10.8) + 'px';
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+	
+var chart1;
+var chart2;
+layui.config({
+    base: '/layuiadmin/lib/extend/'
+}).extend({
+}).use(['jquery','form', 'laydate','layer'], function(){
+    layer=layui.layer;
+    laydate = layui.laydate;
+    form = layui.form;
+   
+    form.render(null, 'component-form-group');
+    
+    
+    
+    laydate.render({
+        elem: '#month'
+       ,type: 'month'
+        ,done: function(value, date, endDate){
+            $("#month").val(date.year+""+PrefixInteger(date.month, 2)); 
+        }
+    });
+    
+    
+    var monthValY=$("#month").val().substring(4,0);
+    var monthValM=$("#month").val().substring(5);
+    $(".layui_time").html(monthValY+"年"+monthValM+"月");
+
+   
+    
+    
+  
+});
+
+
+function PrefixInteger(num, length) {
+	  return (num/Math.pow(10,length)).toFixed(length).substr(2);
+	}
+init_companyCode("984b64b13cf54222bf57bd840759fabe");
+function initEchart()
+{
+
+	var v_date=(new Date()).getTime();
+	
+	var month=$('#month').val();
+	 month=month.replace("-","");
+	var companyCode=$('#companyCode').val();
+	var url_cash_flow_01="/financial-decision/cash-flow-01?companyCode="+companyCode+"&month="+month+"&v_date="+v_date;
+	
+	 chart1=load_single_line(url_cash_flow_01,"cash-flow-01","","",true);
+	var url_cash_flow_03_46="/financial-decision/cash-flow-03?month="+month+"&v_date="+v_date+"&type=46&companyCode="+companyCode;
+	chart2=loadPie(url_cash_flow_03_46,"cash_flow_03_46","","");
+}
+
+//初始化图形
+initEchart();
+
+
+window.onresize = function()
+{
+	chart1.resize();       
+	chart2.resize();       
+}
+
+
+
+//查询
+function search_Event()
+{
+	
+	
+	    var monthValY=$("#month").val().substring(4,0);
+	    var monthValM=$("#month").val().substring(5);
+	    $(".layui_time").html(monthValY+"年"+monthValM+"月");
+	    
+	initEchart();
+}  
+</script>
+</body>
+</html>

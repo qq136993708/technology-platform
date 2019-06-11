@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<body>
+
+	<div style="text-align: center; font-weight: bold; margin: 10px;">科研经费支出多维分析</div>
+	<table class="layui-table">
+		 <thead>
+			<tr>
+				<td rowspan="2">牵头单位</td>
+				<td rowspan="2">项目</td>
+				<td rowspan="2">累积批复预算</td>
+				<td>本年预算批复</td>
+				<td>本年实际支出</td>
+				<td>资金使用%</td>
+				<td rowspan="2">资金结余</td>
+			</tr>
+			<tr>
+				<td>合计</td>
+				<td>合计</td>
+				<td>合计</td>
+			</tr>
+			</thead>
+			
+			
+			<tbody>
+			<tr>
+				<td rowspan="4">石科院</td>
+				<td>P1</td>
+				<td>5500</td>
+				<td>3025</td>
+				<td>2359</td>
+				<td>0</td>
+				<td>665</td>
+			</tr>
+			<tr>
+				<td>P2</td>
+				<td>9300</td>
+				<td>5022</td>
+				<td>4168</td>
+				<td>0</td>
+				<td>853</td>
+			</tr>
+			<tr>
+				<td>P3</td>
+				<td>7700</td>
+				<td>5082</td>
+				<td>4014</td>
+				<td>0</td>
+				<td>1067</td>
+			</tr>
+			<tr>
+				<td>P4</td>
+				<td>11300</td>
+				<td>8701</td>
+				<td>6177</td>
+				<td>0</td>
+				<td>2523</td>
+			</tr>
+			<tr>
+				<td rowspan="3">工程院</td>
+				<td>P5</td>
+				<td>12300</td>
+				<td>6519</td>
+				<td>5280</td>
+				<td>0</td>
+				<td>1238</td>
+			</tr>
+			<tr>
+				<td>P6</td>
+				<td>4500</td>
+				<td>2430</td>
+				<td>1603</td>
+				<td>0</td>
+				<td>826</td>
+			</tr>
+			<tr>
+				<td>P7</td>
+				<td>10400</td>
+				<td>7175</td>
+				<td>5884</td>
+				<td>0</td>
+				<td>1291</td>
+			</tr>
+			<tr>
+				<td rowspan="2">石勘院</td>
+				<td>P8</td>
+				<td>13800</td>
+				<td>9246</td>
+				<td>6564</td>
+				<td>0</td>
+				<td>2681</td>
+			</tr>
+			<tr>
+				<td>P9</td>
+				<td>15000</td>
+				<td>8700</td>
+				<td>7221</td>
+				<td>0</td>
+				<td>1479</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript">
+layui.config({
+    base: '/layuiadmin/module/modules/' 
+}).use(['jquery','form', 'laydate','table','laypage'], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,form = layui.form
+      ,laydate = layui.laydate
+	  form.render(null, 'component-form-group');
+       laydate.render({
+          elem: '#month'
+          ,format: 'yyyyMM'
+       });
+});
+
+</script>
+</body>
+</html>

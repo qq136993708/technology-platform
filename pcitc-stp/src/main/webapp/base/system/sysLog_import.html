@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+	<link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+	<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+	<div class="sysLog-import">
+		<span class="red"><img src="/layuiadmin/layui/images/sysLog.png">文件仅限于excel文档</span>
+        <div class="layui-upload">
+            <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" id="test8">选择文件</button>
+            <!--<button type="button" class="layui-btn" id="test9">导入</button>-->
+        </div>
+        <a href="/sysLog/downloadTem">下载excel模板</a>
+	</div>
+	<div class="form-bottom">
+		<div class="form-bottom-btns">
+			<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"  id="test9">导入</button>
+		</div>
+	</div>
+	<script>
+        layui.use('upload', function(){
+            var $ = layui.jquery
+                ,upload = layui.upload;
+
+            upload.render({
+                elem: '#test8'
+                ,url: '/sysLog/importData'
+                ,auto: false
+                //,multiple: true
+                ,accept: 'file' //普通文件
+                ,exts: 'xls|xlsx' //只允许上传excel文件
+                ,bindAction: '#test9'
+                ,done: function(res){
+                    if (res) {
+                        if (res == 200) {
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+                            parent.layer.msg("导入成功！");
+                            //刷新table;
+                            parent.layui.table.reload('logTable', {});
+                            $$(".layui-table-header table thead th input").remove();
+                        } else if (res == 404) {
+                            parent.layer.msg("请选择要导入的excel文件!");
+                        } else if (res == 500) {
+                            parent.layer.msg("导入失败!");
+                        }
+                    }
+                }
+            });
+        });
+	</script>
+</body>

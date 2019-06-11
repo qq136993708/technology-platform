@@ -1,0 +1,3773 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.out.OutProjectInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.out.OutProjectInfo" >
+    <id column="data_id" property="dataId" jdbcType="VARCHAR" />
+    <result column="nd" property="nd" jdbcType="VARCHAR" />
+    <result column="xmid" property="xmid" jdbcType="VARCHAR" />
+    <result column="hth" property="hth" jdbcType="VARCHAR" />
+    <result column="xmmc" property="xmmc" jdbcType="VARCHAR" />
+    <result column="xmjb" property="xmjb" jdbcType="VARCHAR" />
+    <result column="ysnd" property="ysnd" jdbcType="VARCHAR" />
+    <result column="yshf" property="yshf" jdbcType="VARCHAR" />
+    <result column="ysxd" property="ysxd" jdbcType="VARCHAR" />
+    <result column="yszbxje" property="yszbxje" jdbcType="VARCHAR" />
+    <result column="ysfyxje" property="ysfyxje" jdbcType="VARCHAR" />
+    <result column="ysje" property="ysje" jdbcType="VARCHAR" />
+    <result column="jf" property="jf" jdbcType="VARCHAR" />
+    <result column="fwdxbm" property="fwdxbm" jdbcType="VARCHAR" />
+    <result column="fwdx" property="fwdx" jdbcType="VARCHAR" />
+    <result column="zylbbm" property="zylbbm" jdbcType="VARCHAR" />
+    <result column="zylb" property="zylb" jdbcType="VARCHAR" />
+    <result column="fzdwbm" property="fzdwbm" jdbcType="VARCHAR" />
+    <result column="fzdw" property="fzdw" jdbcType="VARCHAR" />
+    <result column="jtfzdwbm" property="jtfzdwbm" jdbcType="VARCHAR" />
+    <result column="jtfzdw" property="jtfzdw" jdbcType="VARCHAR" />
+    <result column="fzryx" property="fzryx" jdbcType="VARCHAR" />
+    <result column="fzrdh" property="fzrdh" jdbcType="VARCHAR" />
+    <result column="fzrxm" property="fzrxm" jdbcType="VARCHAR" />
+    <result column="lxrdh" property="lxrdh" jdbcType="VARCHAR" />
+    <result column="lxryx" property="lxryx" jdbcType="VARCHAR" />
+    <result column="lxrxm" property="lxrxm" jdbcType="VARCHAR" />
+    <result column="jssxxm" property="jssxxm" jdbcType="VARCHAR" />
+    <result column="jssj" property="jssj" jdbcType="VARCHAR" />
+    <result column="kssj" property="kssj" jdbcType="VARCHAR" />
+    <result column="yjsj" property="yjsj" jdbcType="VARCHAR" />
+    <result column="zyly" property="zyly" jdbcType="VARCHAR" />
+    <result column="zysx" property="zysx" jdbcType="VARCHAR" />
+    <result column="sjid" property="sjid" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="create_person" property="createPerson" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="project_id" property="projectId" jdbcType="VARCHAR" />
+    <result column="parent_project_id" property="parentProjectId" jdbcType="VARCHAR" />
+    <result column="project_type" property="projectType" jdbcType="VARCHAR" />
+    <result column="erp_project_code" property="erpProjectCode" jdbcType="VARCHAR" />
+    <result column="erp_project_name" property="erpProjectName" jdbcType="VARCHAR" />
+    <result column="project_scope" property="projectScope" jdbcType="VARCHAR" />
+    <result column="project_level" property="projectLevel" jdbcType="VARCHAR" />
+    <result column="project_property" property="projectProperty" jdbcType="VARCHAR" />
+    <result column="project_abc" property="projectAbc" jdbcType="VARCHAR" />
+    <result column="project_source" property="projectSource" jdbcType="VARCHAR" />
+    <result column="yjsjks" property="yjsjks" jdbcType="VARCHAR" />
+    <result column="yjsjjs" property="yjsjjs" jdbcType="VARCHAR" />
+    <result column="xmlbbm" property="xmlbbm" jdbcType="VARCHAR" />
+    <result column="xmlbmc" property="xmlbmc" jdbcType="VARCHAR" />
+    <result column="gsbmmc" property="gsbmmc" jdbcType="VARCHAR" />
+    <result column="gsbmbm" property="gsbmbm" jdbcType="VARCHAR" />
+    <result column="zycmc" property="zycmc" jdbcType="VARCHAR" />
+    <result column="zycbm" property="zycbm" jdbcType="VARCHAR" />
+    <result column="fzdwunitcw" property="fzdwunitcw" jdbcType="VARCHAR" />
+    <result column="fzdwunit" property="fzdwunit" jdbcType="VARCHAR" />
+    <result column="type_flag" property="typeFlag" jdbcType="VARCHAR" />
+    <result column="define1" property="define1" jdbcType="VARCHAR" />
+    <result column="define2" property="define2" jdbcType="VARCHAR" />
+    <result column="define3" property="define3" jdbcType="VARCHAR" />
+    <result column="define4" property="define4" jdbcType="VARCHAR" />
+    <result column="define5" property="define5" jdbcType="VARCHAR" />
+    <result column="define6" property="define6" jdbcType="VARCHAR" />
+    <result column="define7" property="define7" jdbcType="VARCHAR" />
+    <result column="define8" property="define8" jdbcType="VARCHAR" />
+    <result column="define9" property="define9" jdbcType="VARCHAR" />
+    <result column="define10" property="define10" jdbcType="VARCHAR" />
+    <result column="define11" property="define11" jdbcType="VARCHAR" />
+    <result column="define12" property="define12" jdbcType="VARCHAR" />
+    <result column="define13" property="define13" jdbcType="VARCHAR" />
+    <result column="define14" property="define14" jdbcType="VARCHAR" />
+    <result column="define15" property="define15" jdbcType="VARCHAR" />
+    <result column="define16" property="define16" jdbcType="VARCHAR" />
+    <result column="define17" property="define17" jdbcType="VARCHAR" />
+    <result column="define18" property="define18" jdbcType="VARCHAR" />
+    <result column="define19" property="define19" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.pcitc.base.stp.out.OutProjectInfoWithBLOBs" extends="BaseResultMap" >
+    <result column="lxbj" property="lxbj" jdbcType="LONGVARCHAR" />
+    <result column="yjnr" property="yjnr" jdbcType="LONGVARCHAR" />
+    <result column="jdap" property="jdap" jdbcType="LONGVARCHAR" />
+    <result column="yjmb" property="yjmb" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    data_id, nd, xmid, hth, xmmc, xmjb, ysnd, yshf, ysxd, yszbxje, ysfyxje, ysje, jf, 
+    fwdxbm, fwdx, zylbbm, zylb, fzdwbm, fzdw, jtfzdwbm, jtfzdw, fzryx, fzrdh, fzrxm, 
+    lxrdh, lxryx, lxrxm, jssxxm, jssj, kssj, yjsj, zyly, zysx, sjid, create_date, create_person, 
+    status, update_date, project_id, parent_project_id, project_type, erp_project_code, 
+    erp_project_name, project_scope, project_level, project_property, project_abc, project_source, 
+    yjsjks, yjsjjs, xmlbbm, xmlbmc, gsbmmc, gsbmbm, zycmc, zycbm, fzdwunitcw, fzdwunit, 
+    type_flag, define1, define2, define3, define4, define5, define6, define7, define8, 
+    define9, define10, define11, define12, define13, define14, define15, define16, define17, 
+    define18, define19
+  </sql>
+  <sql id="Blob_Column_List" >
+    lxbj, yjnr, jdap, yjmb
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.pcitc.base.stp.out.OutProjectInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from out_project_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.out.OutProjectInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from out_project_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from out_project_info
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from out_project_info
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.out.OutProjectInfoExample" >
+    delete from out_project_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.out.OutProjectInfoWithBLOBs" >
+    insert into out_project_info (data_id, nd, xmid, 
+      hth, xmmc, xmjb, ysnd, 
+      yshf, ysxd, yszbxje, 
+      ysfyxje, ysje, jf, 
+      fwdxbm, fwdx, zylbbm, 
+      zylb, fzdwbm, fzdw, 
+      jtfzdwbm, jtfzdw, fzryx, 
+      fzrdh, fzrxm, lxrdh, 
+      lxryx, lxrxm, jssxxm, 
+      jssj, kssj, yjsj, zyly, 
+      zysx, sjid, create_date, 
+      create_person, status, update_date, 
+      project_id, parent_project_id, project_type, 
+      erp_project_code, erp_project_name, project_scope, 
+      project_level, project_property, project_abc, 
+      project_source, yjsjks, yjsjjs, 
+      xmlbbm, xmlbmc, gsbmmc, 
+      gsbmbm, zycmc, zycbm, 
+      fzdwunitcw, fzdwunit, type_flag, 
+      define1, define2, define3, 
+      define4, define5, define6, 
+      define7, define8, define9, 
+      define10, define11, define12, 
+      define13, define14, define15, 
+      define16, define17, define18, 
+      define19, lxbj, yjnr, 
+      jdap, yjmb)
+    values (#{dataId,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, #{xmid,jdbcType=VARCHAR}, 
+      #{hth,jdbcType=VARCHAR}, #{xmmc,jdbcType=VARCHAR}, #{xmjb,jdbcType=VARCHAR}, #{ysnd,jdbcType=VARCHAR}, 
+      #{yshf,jdbcType=VARCHAR}, #{ysxd,jdbcType=VARCHAR}, #{yszbxje,jdbcType=VARCHAR}, 
+      #{ysfyxje,jdbcType=VARCHAR}, #{ysje,jdbcType=VARCHAR}, #{jf,jdbcType=VARCHAR}, 
+      #{fwdxbm,jdbcType=VARCHAR}, #{fwdx,jdbcType=VARCHAR}, #{zylbbm,jdbcType=VARCHAR}, 
+      #{zylb,jdbcType=VARCHAR}, #{fzdwbm,jdbcType=VARCHAR}, #{fzdw,jdbcType=VARCHAR}, 
+      #{jtfzdwbm,jdbcType=VARCHAR}, #{jtfzdw,jdbcType=VARCHAR}, #{fzryx,jdbcType=VARCHAR}, 
+      #{fzrdh,jdbcType=VARCHAR}, #{fzrxm,jdbcType=VARCHAR}, #{lxrdh,jdbcType=VARCHAR}, 
+      #{lxryx,jdbcType=VARCHAR}, #{lxrxm,jdbcType=VARCHAR}, #{jssxxm,jdbcType=VARCHAR}, 
+      #{jssj,jdbcType=VARCHAR}, #{kssj,jdbcType=VARCHAR}, #{yjsj,jdbcType=VARCHAR}, #{zyly,jdbcType=VARCHAR}, 
+      #{zysx,jdbcType=VARCHAR}, #{sjid,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{createPerson,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{projectId,jdbcType=VARCHAR}, #{parentProjectId,jdbcType=VARCHAR}, #{projectType,jdbcType=VARCHAR}, 
+      #{erpProjectCode,jdbcType=VARCHAR}, #{erpProjectName,jdbcType=VARCHAR}, #{projectScope,jdbcType=VARCHAR}, 
+      #{projectLevel,jdbcType=VARCHAR}, #{projectProperty,jdbcType=VARCHAR}, #{projectAbc,jdbcType=VARCHAR}, 
+      #{projectSource,jdbcType=VARCHAR}, #{yjsjks,jdbcType=VARCHAR}, #{yjsjjs,jdbcType=VARCHAR}, 
+      #{xmlbbm,jdbcType=VARCHAR}, #{xmlbmc,jdbcType=VARCHAR}, #{gsbmmc,jdbcType=VARCHAR}, 
+      #{gsbmbm,jdbcType=VARCHAR}, #{zycmc,jdbcType=VARCHAR}, #{zycbm,jdbcType=VARCHAR}, 
+      #{fzdwunitcw,jdbcType=VARCHAR}, #{fzdwunit,jdbcType=VARCHAR}, #{typeFlag,jdbcType=VARCHAR}, 
+      #{define1,jdbcType=VARCHAR}, #{define2,jdbcType=VARCHAR}, #{define3,jdbcType=VARCHAR}, 
+      #{define4,jdbcType=VARCHAR}, #{define5,jdbcType=VARCHAR}, #{define6,jdbcType=VARCHAR}, 
+      #{define7,jdbcType=VARCHAR}, #{define8,jdbcType=VARCHAR}, #{define9,jdbcType=VARCHAR}, 
+      #{define10,jdbcType=VARCHAR}, #{define11,jdbcType=VARCHAR}, #{define12,jdbcType=VARCHAR}, 
+      #{define13,jdbcType=VARCHAR}, #{define14,jdbcType=VARCHAR}, #{define15,jdbcType=VARCHAR}, 
+      #{define16,jdbcType=VARCHAR}, #{define17,jdbcType=VARCHAR}, #{define18,jdbcType=VARCHAR}, 
+      #{define19,jdbcType=VARCHAR}, #{lxbj,jdbcType=LONGVARCHAR}, #{yjnr,jdbcType=LONGVARCHAR}, 
+      #{jdap,jdbcType=LONGVARCHAR}, #{yjmb,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.out.OutProjectInfoWithBLOBs" >
+    insert into out_project_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dataId != null" >
+        data_id,
+      </if>
+      <if test="nd != null" >
+        nd,
+      </if>
+      <if test="xmid != null" >
+        xmid,
+      </if>
+      <if test="hth != null" >
+        hth,
+      </if>
+      <if test="xmmc != null" >
+        xmmc,
+      </if>
+      <if test="xmjb != null" >
+        xmjb,
+      </if>
+      <if test="ysnd != null" >
+        ysnd,
+      </if>
+      <if test="yshf != null" >
+        yshf,
+      </if>
+      <if test="ysxd != null" >
+        ysxd,
+      </if>
+      <if test="yszbxje != null" >
+        yszbxje,
+      </if>
+      <if test="ysfyxje != null" >
+        ysfyxje,
+      </if>
+      <if test="ysje != null" >
+        ysje,
+      </if>
+      <if test="jf != null" >
+        jf,
+      </if>
+      <if test="fwdxbm != null" >
+        fwdxbm,
+      </if>
+      <if test="fwdx != null" >
+        fwdx,
+      </if>
+      <if test="zylbbm != null" >
+        zylbbm,
+      </if>
+      <if test="zylb != null" >
+        zylb,
+      </if>
+      <if test="fzdwbm != null" >
+        fzdwbm,
+      </if>
+      <if test="fzdw != null" >
+        fzdw,
+      </if>
+      <if test="jtfzdwbm != null" >
+        jtfzdwbm,
+      </if>
+      <if test="jtfzdw != null" >
+        jtfzdw,
+      </if>
+      <if test="fzryx != null" >
+        fzryx,
+      </if>
+      <if test="fzrdh != null" >
+        fzrdh,
+      </if>
+      <if test="fzrxm != null" >
+        fzrxm,
+      </if>
+      <if test="lxrdh != null" >
+        lxrdh,
+      </if>
+      <if test="lxryx != null" >
+        lxryx,
+      </if>
+      <if test="lxrxm != null" >
+        lxrxm,
+      </if>
+      <if test="jssxxm != null" >
+        jssxxm,
+      </if>
+      <if test="jssj != null" >
+        jssj,
+      </if>
+      <if test="kssj != null" >
+        kssj,
+      </if>
+      <if test="yjsj != null" >
+        yjsj,
+      </if>
+      <if test="zyly != null" >
+        zyly,
+      </if>
+      <if test="zysx != null" >
+        zysx,
+      </if>
+      <if test="sjid != null" >
+        sjid,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="createPerson != null" >
+        create_person,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="parentProjectId != null" >
+        parent_project_id,
+      </if>
+      <if test="projectType != null" >
+        project_type,
+      </if>
+      <if test="erpProjectCode != null" >
+        erp_project_code,
+      </if>
+      <if test="erpProjectName != null" >
+        erp_project_name,
+      </if>
+      <if test="projectScope != null" >
+        project_scope,
+      </if>
+      <if test="projectLevel != null" >
+        project_level,
+      </if>
+      <if test="projectProperty != null" >
+        project_property,
+      </if>
+      <if test="projectAbc != null" >
+        project_abc,
+      </if>
+      <if test="projectSource != null" >
+        project_source,
+      </if>
+      <if test="yjsjks != null" >
+        yjsjks,
+      </if>
+      <if test="yjsjjs != null" >
+        yjsjjs,
+      </if>
+      <if test="xmlbbm != null" >
+        xmlbbm,
+      </if>
+      <if test="xmlbmc != null" >
+        xmlbmc,
+      </if>
+      <if test="gsbmmc != null" >
+        gsbmmc,
+      </if>
+      <if test="gsbmbm != null" >
+        gsbmbm,
+      </if>
+      <if test="zycmc != null" >
+        zycmc,
+      </if>
+      <if test="zycbm != null" >
+        zycbm,
+      </if>
+      <if test="fzdwunitcw != null" >
+        fzdwunitcw,
+      </if>
+      <if test="fzdwunit != null" >
+        fzdwunit,
+      </if>
+      <if test="typeFlag != null" >
+        type_flag,
+      </if>
+      <if test="define1 != null" >
+        define1,
+      </if>
+      <if test="define2 != null" >
+        define2,
+      </if>
+      <if test="define3 != null" >
+        define3,
+      </if>
+      <if test="define4 != null" >
+        define4,
+      </if>
+      <if test="define5 != null" >
+        define5,
+      </if>
+      <if test="define6 != null" >
+        define6,
+      </if>
+      <if test="define7 != null" >
+        define7,
+      </if>
+      <if test="define8 != null" >
+        define8,
+      </if>
+      <if test="define9 != null" >
+        define9,
+      </if>
+      <if test="define10 != null" >
+        define10,
+      </if>
+      <if test="define11 != null" >
+        define11,
+      </if>
+      <if test="define12 != null" >
+        define12,
+      </if>
+      <if test="define13 != null" >
+        define13,
+      </if>
+      <if test="define14 != null" >
+        define14,
+      </if>
+      <if test="define15 != null" >
+        define15,
+      </if>
+      <if test="define16 != null" >
+        define16,
+      </if>
+      <if test="define17 != null" >
+        define17,
+      </if>
+      <if test="define18 != null" >
+        define18,
+      </if>
+      <if test="define19 != null" >
+        define19,
+      </if>
+      <if test="lxbj != null" >
+        lxbj,
+      </if>
+      <if test="yjnr != null" >
+        yjnr,
+      </if>
+      <if test="jdap != null" >
+        jdap,
+      </if>
+      <if test="yjmb != null" >
+        yjmb,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dataId != null" >
+        #{dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="nd != null" >
+        #{nd,jdbcType=VARCHAR},
+      </if>
+      <if test="xmid != null" >
+        #{xmid,jdbcType=VARCHAR},
+      </if>
+      <if test="hth != null" >
+        #{hth,jdbcType=VARCHAR},
+      </if>
+      <if test="xmmc != null" >
+        #{xmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="xmjb != null" >
+        #{xmjb,jdbcType=VARCHAR},
+      </if>
+      <if test="ysnd != null" >
+        #{ysnd,jdbcType=VARCHAR},
+      </if>
+      <if test="yshf != null" >
+        #{yshf,jdbcType=VARCHAR},
+      </if>
+      <if test="ysxd != null" >
+        #{ysxd,jdbcType=VARCHAR},
+      </if>
+      <if test="yszbxje != null" >
+        #{yszbxje,jdbcType=VARCHAR},
+      </if>
+      <if test="ysfyxje != null" >
+        #{ysfyxje,jdbcType=VARCHAR},
+      </if>
+      <if test="ysje != null" >
+        #{ysje,jdbcType=VARCHAR},
+      </if>
+      <if test="jf != null" >
+        #{jf,jdbcType=VARCHAR},
+      </if>
+      <if test="fwdxbm != null" >
+        #{fwdxbm,jdbcType=VARCHAR},
+      </if>
+      <if test="fwdx != null" >
+        #{fwdx,jdbcType=VARCHAR},
+      </if>
+      <if test="zylbbm != null" >
+        #{zylbbm,jdbcType=VARCHAR},
+      </if>
+      <if test="zylb != null" >
+        #{zylb,jdbcType=VARCHAR},
+      </if>
+      <if test="fzdwbm != null" >
+        #{fzdwbm,jdbcType=VARCHAR},
+      </if>
+      <if test="fzdw != null" >
+        #{fzdw,jdbcType=VARCHAR},
+      </if>
+      <if test="jtfzdwbm != null" >
+        #{jtfzdwbm,jdbcType=VARCHAR},
+      </if>
+      <if test="jtfzdw != null" >
+        #{jtfzdw,jdbcType=VARCHAR},
+      </if>
+      <if test="fzryx != null" >
+        #{fzryx,jdbcType=VARCHAR},
+      </if>
+      <if test="fzrdh != null" >
+        #{fzrdh,jdbcType=VARCHAR},
+      </if>
+      <if test="fzrxm != null" >
+        #{fzrxm,jdbcType=VARCHAR},
+      </if>
+      <if test="lxrdh != null" >
+        #{lxrdh,jdbcType=VARCHAR},
+      </if>
+      <if test="lxryx != null" >
+        #{lxryx,jdbcType=VARCHAR},
+      </if>
+      <if test="lxrxm != null" >
+        #{lxrxm,jdbcType=VARCHAR},
+      </if>
+      <if test="jssxxm != null" >
+        #{jssxxm,jdbcType=VARCHAR},
+      </if>
+      <if test="jssj != null" >
+        #{jssj,jdbcType=VARCHAR},
+      </if>
+      <if test="kssj != null" >
+        #{kssj,jdbcType=VARCHAR},
+      </if>
+      <if test="yjsj != null" >
+        #{yjsj,jdbcType=VARCHAR},
+      </if>
+      <if test="zyly != null" >
+        #{zyly,jdbcType=VARCHAR},
+      </if>
+      <if test="zysx != null" >
+        #{zysx,jdbcType=VARCHAR},
+      </if>
+      <if test="sjid != null" >
+        #{sjid,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createPerson != null" >
+        #{createPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentProjectId != null" >
+        #{parentProjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null" >
+        #{projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="erpProjectCode != null" >
+        #{erpProjectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="erpProjectName != null" >
+        #{erpProjectName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectScope != null" >
+        #{projectScope,jdbcType=VARCHAR},
+      </if>
+      <if test="projectLevel != null" >
+        #{projectLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="projectProperty != null" >
+        #{projectProperty,jdbcType=VARCHAR},
+      </if>
+      <if test="projectAbc != null" >
+        #{projectAbc,jdbcType=VARCHAR},
+      </if>
+      <if test="projectSource != null" >
+        #{projectSource,jdbcType=VARCHAR},
+      </if>
+      <if test="yjsjks != null" >
+        #{yjsjks,jdbcType=VARCHAR},
+      </if>
+      <if test="yjsjjs != null" >
+        #{yjsjjs,jdbcType=VARCHAR},
+      </if>
+      <if test="xmlbbm != null" >
+        #{xmlbbm,jdbcType=VARCHAR},
+      </if>
+      <if test="xmlbmc != null" >
+        #{xmlbmc,jdbcType=VARCHAR},
+      </if>
+      <if test="gsbmmc != null" >
+        #{gsbmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="gsbmbm != null" >
+        #{gsbmbm,jdbcType=VARCHAR},
+      </if>
+      <if test="zycmc != null" >
+        #{zycmc,jdbcType=VARCHAR},
+      </if>
+      <if test="zycbm != null" >
+        #{zycbm,jdbcType=VARCHAR},
+      </if>
+      <if test="fzdwunitcw != null" >
+        #{fzdwunitcw,jdbcType=VARCHAR},
+      </if>
+      <if test="fzdwunit != null" >
+        #{fzdwunit,jdbcType=VARCHAR},
+      </if>
+      <if test="typeFlag != null" >
+        #{typeFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="define1 != null" >
+        #{define1,jdbcType=VARCHAR},
+      </if>
+      <if test="define2 != null" >
+        #{define2,jdbcType=VARCHAR},
+      </if>
+      <if test="define3 != null" >
+        #{define3,jdbcType=VARCHAR},
+      </if>
+      <if test="define4 != null" >
+        #{define4,jdbcType=VARCHAR},
+      </if>
+      <if test="define5 != null" >
+        #{define5,jdbcType=VARCHAR},
+      </if>
+      <if test="define6 != null" >
+        #{define6,jdbcType=VARCHAR},
+      </if>
+      <if test="define7 != null" >
+        #{define7,jdbcType=VARCHAR},
+      </if>
+      <if test="define8 != null" >
+        #{define8,jdbcType=VARCHAR},
+      </if>
+      <if test="define9 != null" >
+        #{define9,jdbcType=VARCHAR},
+      </if>
+      <if test="define10 != null" >
+        #{define10,jdbcType=VARCHAR},
+      </if>
+      <if test="define11 != null" >
+        #{define11,jdbcType=VARCHAR},
+      </if>
+      <if test="define12 != null" >
+        #{define12,jdbcType=VARCHAR},
+      </if>
+      <if test="define13 != null" >
+        #{define13,jdbcType=VARCHAR},
+      </if>
+      <if test="define14 != null" >
+        #{define14,jdbcType=VARCHAR},
+      </if>
+      <if test="define15 != null" >
+        #{define15,jdbcType=VARCHAR},
+      </if>
+      <if test="define16 != null" >
+        #{define16,jdbcType=VARCHAR},
+      </if>
+      <if test="define17 != null" >
+        #{define17,jdbcType=VARCHAR},
+      </if>
+      <if test="define18 != null" >
+        #{define18,jdbcType=VARCHAR},
+      </if>
+      <if test="define19 != null" >
+        #{define19,jdbcType=VARCHAR},
+      </if>
+      <if test="lxbj != null" >
+        #{lxbj,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="yjnr != null" >
+        #{yjnr,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="jdap != null" >
+        #{jdap,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="yjmb != null" >
+        #{yjmb,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.stp.out.OutProjectInfoExample" resultType="java.lang.Integer" >
+    select count(*) from out_project_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update out_project_info
+    <set >
+      <if test="record.dataId != null" >
+        data_id = #{record.dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nd != null" >
+        nd = #{record.nd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xmid != null" >
+        xmid = #{record.xmid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hth != null" >
+        hth = #{record.hth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xmmc != null" >
+        xmmc = #{record.xmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xmjb != null" >
+        xmjb = #{record.xmjb,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ysnd != null" >
+        ysnd = #{record.ysnd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yshf != null" >
+        yshf = #{record.yshf,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ysxd != null" >
+        ysxd = #{record.ysxd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yszbxje != null" >
+        yszbxje = #{record.yszbxje,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ysfyxje != null" >
+        ysfyxje = #{record.ysfyxje,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ysje != null" >
+        ysje = #{record.ysje,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jf != null" >
+        jf = #{record.jf,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fwdxbm != null" >
+        fwdxbm = #{record.fwdxbm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fwdx != null" >
+        fwdx = #{record.fwdx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zylbbm != null" >
+        zylbbm = #{record.zylbbm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zylb != null" >
+        zylb = #{record.zylb,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fzdwbm != null" >
+        fzdwbm = #{record.fzdwbm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fzdw != null" >
+        fzdw = #{record.fzdw,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jtfzdwbm != null" >
+        jtfzdwbm = #{record.jtfzdwbm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jtfzdw != null" >
+        jtfzdw = #{record.jtfzdw,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fzryx != null" >
+        fzryx = #{record.fzryx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fzrdh != null" >
+        fzrdh = #{record.fzrdh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fzrxm != null" >
+        fzrxm = #{record.fzrxm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lxrdh != null" >
+        lxrdh = #{record.lxrdh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lxryx != null" >
+        lxryx = #{record.lxryx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lxrxm != null" >
+        lxrxm = #{record.lxrxm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jssxxm != null" >
+        jssxxm = #{record.jssxxm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jssj != null" >
+        jssj = #{record.jssj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kssj != null" >
+        kssj = #{record.kssj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yjsj != null" >
+        yjsj = #{record.yjsj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zyly != null" >
+        zyly = #{record.zyly,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zysx != null" >
+        zysx = #{record.zysx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sjid != null" >
+        sjid = #{record.sjid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createPerson != null" >
+        create_person = #{record.createPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.projectId != null" >
+        project_id = #{record.projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentProjectId != null" >
+        parent_project_id = #{record.parentProjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectType != null" >
+        project_type = #{record.projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.erpProjectCode != null" >
+        erp_project_code = #{record.erpProjectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.erpProjectName != null" >
+        erp_project_name = #{record.erpProjectName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectScope != null" >
+        project_scope = #{record.projectScope,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectLevel != null" >
+        project_level = #{record.projectLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectProperty != null" >
+        project_property = #{record.projectProperty,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectAbc != null" >
+        project_abc = #{record.projectAbc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectSource != null" >
+        project_source = #{record.projectSource,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yjsjks != null" >
+        yjsjks = #{record.yjsjks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yjsjjs != null" >
+        yjsjjs = #{record.yjsjjs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xmlbbm != null" >
+        xmlbbm = #{record.xmlbbm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xmlbmc != null" >
+        xmlbmc = #{record.xmlbmc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gsbmmc != null" >
+        gsbmmc = #{record.gsbmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gsbmbm != null" >
+        gsbmbm = #{record.gsbmbm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zycmc != null" >
+        zycmc = #{record.zycmc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zycbm != null" >
+        zycbm = #{record.zycbm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fzdwunitcw != null" >
+        fzdwunitcw = #{record.fzdwunitcw,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fzdwunit != null" >
+        fzdwunit = #{record.fzdwunit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeFlag != null" >
+        type_flag = #{record.typeFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define1 != null" >
+        define1 = #{record.define1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define2 != null" >
+        define2 = #{record.define2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define3 != null" >
+        define3 = #{record.define3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define4 != null" >
+        define4 = #{record.define4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define5 != null" >
+        define5 = #{record.define5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define6 != null" >
+        define6 = #{record.define6,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define7 != null" >
+        define7 = #{record.define7,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define8 != null" >
+        define8 = #{record.define8,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define9 != null" >
+        define9 = #{record.define9,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define10 != null" >
+        define10 = #{record.define10,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define11 != null" >
+        define11 = #{record.define11,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define12 != null" >
+        define12 = #{record.define12,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define13 != null" >
+        define13 = #{record.define13,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define14 != null" >
+        define14 = #{record.define14,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define15 != null" >
+        define15 = #{record.define15,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define16 != null" >
+        define16 = #{record.define16,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define17 != null" >
+        define17 = #{record.define17,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define18 != null" >
+        define18 = #{record.define18,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define19 != null" >
+        define19 = #{record.define19,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lxbj != null" >
+        lxbj = #{record.lxbj,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.yjnr != null" >
+        yjnr = #{record.yjnr,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.jdap != null" >
+        jdap = #{record.jdap,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.yjmb != null" >
+        yjmb = #{record.yjmb,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update out_project_info
+    set data_id = #{record.dataId,jdbcType=VARCHAR},
+      nd = #{record.nd,jdbcType=VARCHAR},
+      xmid = #{record.xmid,jdbcType=VARCHAR},
+      hth = #{record.hth,jdbcType=VARCHAR},
+      xmmc = #{record.xmmc,jdbcType=VARCHAR},
+      xmjb = #{record.xmjb,jdbcType=VARCHAR},
+      ysnd = #{record.ysnd,jdbcType=VARCHAR},
+      yshf = #{record.yshf,jdbcType=VARCHAR},
+      ysxd = #{record.ysxd,jdbcType=VARCHAR},
+      yszbxje = #{record.yszbxje,jdbcType=VARCHAR},
+      ysfyxje = #{record.ysfyxje,jdbcType=VARCHAR},
+      ysje = #{record.ysje,jdbcType=VARCHAR},
+      jf = #{record.jf,jdbcType=VARCHAR},
+      fwdxbm = #{record.fwdxbm,jdbcType=VARCHAR},
+      fwdx = #{record.fwdx,jdbcType=VARCHAR},
+      zylbbm = #{record.zylbbm,jdbcType=VARCHAR},
+      zylb = #{record.zylb,jdbcType=VARCHAR},
+      fzdwbm = #{record.fzdwbm,jdbcType=VARCHAR},
+      fzdw = #{record.fzdw,jdbcType=VARCHAR},
+      jtfzdwbm = #{record.jtfzdwbm,jdbcType=VARCHAR},
+      jtfzdw = #{record.jtfzdw,jdbcType=VARCHAR},
+      fzryx = #{record.fzryx,jdbcType=VARCHAR},
+      fzrdh = #{record.fzrdh,jdbcType=VARCHAR},
+      fzrxm = #{record.fzrxm,jdbcType=VARCHAR},
+      lxrdh = #{record.lxrdh,jdbcType=VARCHAR},
+      lxryx = #{record.lxryx,jdbcType=VARCHAR},
+      lxrxm = #{record.lxrxm,jdbcType=VARCHAR},
+      jssxxm = #{record.jssxxm,jdbcType=VARCHAR},
+      jssj = #{record.jssj,jdbcType=VARCHAR},
+      kssj = #{record.kssj,jdbcType=VARCHAR},
+      yjsj = #{record.yjsj,jdbcType=VARCHAR},
+      zyly = #{record.zyly,jdbcType=VARCHAR},
+      zysx = #{record.zysx,jdbcType=VARCHAR},
+      sjid = #{record.sjid,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      create_person = #{record.createPerson,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      project_id = #{record.projectId,jdbcType=VARCHAR},
+      parent_project_id = #{record.parentProjectId,jdbcType=VARCHAR},
+      project_type = #{record.projectType,jdbcType=VARCHAR},
+      erp_project_code = #{record.erpProjectCode,jdbcType=VARCHAR},
+      erp_project_name = #{record.erpProjectName,jdbcType=VARCHAR},
+      project_scope = #{record.projectScope,jdbcType=VARCHAR},
+      project_level = #{record.projectLevel,jdbcType=VARCHAR},
+      project_property = #{record.projectProperty,jdbcType=VARCHAR},
+      project_abc = #{record.projectAbc,jdbcType=VARCHAR},
+      project_source = #{record.projectSource,jdbcType=VARCHAR},
+      yjsjks = #{record.yjsjks,jdbcType=VARCHAR},
+      yjsjjs = #{record.yjsjjs,jdbcType=VARCHAR},
+      xmlbbm = #{record.xmlbbm,jdbcType=VARCHAR},
+      xmlbmc = #{record.xmlbmc,jdbcType=VARCHAR},
+      gsbmmc = #{record.gsbmmc,jdbcType=VARCHAR},
+      gsbmbm = #{record.gsbmbm,jdbcType=VARCHAR},
+      zycmc = #{record.zycmc,jdbcType=VARCHAR},
+      zycbm = #{record.zycbm,jdbcType=VARCHAR},
+      fzdwunitcw = #{record.fzdwunitcw,jdbcType=VARCHAR},
+      fzdwunit = #{record.fzdwunit,jdbcType=VARCHAR},
+      type_flag = #{record.typeFlag,jdbcType=VARCHAR},
+      define1 = #{record.define1,jdbcType=VARCHAR},
+      define2 = #{record.define2,jdbcType=VARCHAR},
+      define3 = #{record.define3,jdbcType=VARCHAR},
+      define4 = #{record.define4,jdbcType=VARCHAR},
+      define5 = #{record.define5,jdbcType=VARCHAR},
+      define6 = #{record.define6,jdbcType=VARCHAR},
+      define7 = #{record.define7,jdbcType=VARCHAR},
+      define8 = #{record.define8,jdbcType=VARCHAR},
+      define9 = #{record.define9,jdbcType=VARCHAR},
+      define10 = #{record.define10,jdbcType=VARCHAR},
+      define11 = #{record.define11,jdbcType=VARCHAR},
+      define12 = #{record.define12,jdbcType=VARCHAR},
+      define13 = #{record.define13,jdbcType=VARCHAR},
+      define14 = #{record.define14,jdbcType=VARCHAR},
+      define15 = #{record.define15,jdbcType=VARCHAR},
+      define16 = #{record.define16,jdbcType=VARCHAR},
+      define17 = #{record.define17,jdbcType=VARCHAR},
+      define18 = #{record.define18,jdbcType=VARCHAR},
+      define19 = #{record.define19,jdbcType=VARCHAR},
+      lxbj = #{record.lxbj,jdbcType=LONGVARCHAR},
+      yjnr = #{record.yjnr,jdbcType=LONGVARCHAR},
+      jdap = #{record.jdap,jdbcType=LONGVARCHAR},
+      yjmb = #{record.yjmb,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update out_project_info
+    set data_id = #{record.dataId,jdbcType=VARCHAR},
+      nd = #{record.nd,jdbcType=VARCHAR},
+      xmid = #{record.xmid,jdbcType=VARCHAR},
+      hth = #{record.hth,jdbcType=VARCHAR},
+      xmmc = #{record.xmmc,jdbcType=VARCHAR},
+      xmjb = #{record.xmjb,jdbcType=VARCHAR},
+      ysnd = #{record.ysnd,jdbcType=VARCHAR},
+      yshf = #{record.yshf,jdbcType=VARCHAR},
+      ysxd = #{record.ysxd,jdbcType=VARCHAR},
+      yszbxje = #{record.yszbxje,jdbcType=VARCHAR},
+      ysfyxje = #{record.ysfyxje,jdbcType=VARCHAR},
+      ysje = #{record.ysje,jdbcType=VARCHAR},
+      jf = #{record.jf,jdbcType=VARCHAR},
+      fwdxbm = #{record.fwdxbm,jdbcType=VARCHAR},
+      fwdx = #{record.fwdx,jdbcType=VARCHAR},
+      zylbbm = #{record.zylbbm,jdbcType=VARCHAR},
+      zylb = #{record.zylb,jdbcType=VARCHAR},
+      fzdwbm = #{record.fzdwbm,jdbcType=VARCHAR},
+      fzdw = #{record.fzdw,jdbcType=VARCHAR},
+      jtfzdwbm = #{record.jtfzdwbm,jdbcType=VARCHAR},
+      jtfzdw = #{record.jtfzdw,jdbcType=VARCHAR},
+      fzryx = #{record.fzryx,jdbcType=VARCHAR},
+      fzrdh = #{record.fzrdh,jdbcType=VARCHAR},
+      fzrxm = #{record.fzrxm,jdbcType=VARCHAR},
+      lxrdh = #{record.lxrdh,jdbcType=VARCHAR},
+      lxryx = #{record.lxryx,jdbcType=VARCHAR},
+      lxrxm = #{record.lxrxm,jdbcType=VARCHAR},
+      jssxxm = #{record.jssxxm,jdbcType=VARCHAR},
+      jssj = #{record.jssj,jdbcType=VARCHAR},
+      kssj = #{record.kssj,jdbcType=VARCHAR},
+      yjsj = #{record.yjsj,jdbcType=VARCHAR},
+      zyly = #{record.zyly,jdbcType=VARCHAR},
+      zysx = #{record.zysx,jdbcType=VARCHAR},
+      sjid = #{record.sjid,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      create_person = #{record.createPerson,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      project_id = #{record.projectId,jdbcType=VARCHAR},
+      parent_project_id = #{record.parentProjectId,jdbcType=VARCHAR},
+      project_type = #{record.projectType,jdbcType=VARCHAR},
+      erp_project_code = #{record.erpProjectCode,jdbcType=VARCHAR},
+      erp_project_name = #{record.erpProjectName,jdbcType=VARCHAR},
+      project_scope = #{record.projectScope,jdbcType=VARCHAR},
+      project_level = #{record.projectLevel,jdbcType=VARCHAR},
+      project_property = #{record.projectProperty,jdbcType=VARCHAR},
+      project_abc = #{record.projectAbc,jdbcType=VARCHAR},
+      project_source = #{record.projectSource,jdbcType=VARCHAR},
+      yjsjks = #{record.yjsjks,jdbcType=VARCHAR},
+      yjsjjs = #{record.yjsjjs,jdbcType=VARCHAR},
+      xmlbbm = #{record.xmlbbm,jdbcType=VARCHAR},
+      xmlbmc = #{record.xmlbmc,jdbcType=VARCHAR},
+      gsbmmc = #{record.gsbmmc,jdbcType=VARCHAR},
+      gsbmbm = #{record.gsbmbm,jdbcType=VARCHAR},
+      zycmc = #{record.zycmc,jdbcType=VARCHAR},
+      zycbm = #{record.zycbm,jdbcType=VARCHAR},
+      fzdwunitcw = #{record.fzdwunitcw,jdbcType=VARCHAR},
+      fzdwunit = #{record.fzdwunit,jdbcType=VARCHAR},
+      type_flag = #{record.typeFlag,jdbcType=VARCHAR},
+      define1 = #{record.define1,jdbcType=VARCHAR},
+      define2 = #{record.define2,jdbcType=VARCHAR},
+      define3 = #{record.define3,jdbcType=VARCHAR},
+      define4 = #{record.define4,jdbcType=VARCHAR},
+      define5 = #{record.define5,jdbcType=VARCHAR},
+      define6 = #{record.define6,jdbcType=VARCHAR},
+      define7 = #{record.define7,jdbcType=VARCHAR},
+      define8 = #{record.define8,jdbcType=VARCHAR},
+      define9 = #{record.define9,jdbcType=VARCHAR},
+      define10 = #{record.define10,jdbcType=VARCHAR},
+      define11 = #{record.define11,jdbcType=VARCHAR},
+      define12 = #{record.define12,jdbcType=VARCHAR},
+      define13 = #{record.define13,jdbcType=VARCHAR},
+      define14 = #{record.define14,jdbcType=VARCHAR},
+      define15 = #{record.define15,jdbcType=VARCHAR},
+      define16 = #{record.define16,jdbcType=VARCHAR},
+      define17 = #{record.define17,jdbcType=VARCHAR},
+      define18 = #{record.define18,jdbcType=VARCHAR},
+      define19 = #{record.define19,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.out.OutProjectInfoWithBLOBs" >
+    update out_project_info
+    <set >
+      <if test="nd != null" >
+        nd = #{nd,jdbcType=VARCHAR},
+      </if>
+      <if test="xmid != null" >
+        xmid = #{xmid,jdbcType=VARCHAR},
+      </if>
+      <if test="hth != null" >
+        hth = #{hth,jdbcType=VARCHAR},
+      </if>
+      <if test="xmmc != null" >
+        xmmc = #{xmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="xmjb != null" >
+        xmjb = #{xmjb,jdbcType=VARCHAR},
+      </if>
+      <if test="ysnd != null" >
+        ysnd = #{ysnd,jdbcType=VARCHAR},
+      </if>
+      <if test="yshf != null" >
+        yshf = #{yshf,jdbcType=VARCHAR},
+      </if>
+      <if test="ysxd != null" >
+        ysxd = #{ysxd,jdbcType=VARCHAR},
+      </if>
+      <if test="yszbxje != null" >
+        yszbxje = #{yszbxje,jdbcType=VARCHAR},
+      </if>
+      <if test="ysfyxje != null" >
+        ysfyxje = #{ysfyxje,jdbcType=VARCHAR},
+      </if>
+      <if test="ysje != null" >
+        ysje = #{ysje,jdbcType=VARCHAR},
+      </if>
+      <if test="jf != null" >
+        jf = #{jf,jdbcType=VARCHAR},
+      </if>
+      <if test="fwdxbm != null" >
+        fwdxbm = #{fwdxbm,jdbcType=VARCHAR},
+      </if>
+      <if test="fwdx != null" >
+        fwdx = #{fwdx,jdbcType=VARCHAR},
+      </if>
+      <if test="zylbbm != null" >
+        zylbbm = #{zylbbm,jdbcType=VARCHAR},
+      </if>
+      <if test="zylb != null" >
+        zylb = #{zylb,jdbcType=VARCHAR},
+      </if>
+      <if test="fzdwbm != null" >
+        fzdwbm = #{fzdwbm,jdbcType=VARCHAR},
+      </if>
+      <if test="fzdw != null" >
+        fzdw = #{fzdw,jdbcType=VARCHAR},
+      </if>
+      <if test="jtfzdwbm != null" >
+        jtfzdwbm = #{jtfzdwbm,jdbcType=VARCHAR},
+      </if>
+      <if test="jtfzdw != null" >
+        jtfzdw = #{jtfzdw,jdbcType=VARCHAR},
+      </if>
+      <if test="fzryx != null" >
+        fzryx = #{fzryx,jdbcType=VARCHAR},
+      </if>
+      <if test="fzrdh != null" >
+        fzrdh = #{fzrdh,jdbcType=VARCHAR},
+      </if>
+      <if test="fzrxm != null" >
+        fzrxm = #{fzrxm,jdbcType=VARCHAR},
+      </if>
+      <if test="lxrdh != null" >
+        lxrdh = #{lxrdh,jdbcType=VARCHAR},
+      </if>
+      <if test="lxryx != null" >
+        lxryx = #{lxryx,jdbcType=VARCHAR},
+      </if>
+      <if test="lxrxm != null" >
+        lxrxm = #{lxrxm,jdbcType=VARCHAR},
+      </if>
+      <if test="jssxxm != null" >
+        jssxxm = #{jssxxm,jdbcType=VARCHAR},
+      </if>
+      <if test="jssj != null" >
+        jssj = #{jssj,jdbcType=VARCHAR},
+      </if>
+      <if test="kssj != null" >
+        kssj = #{kssj,jdbcType=VARCHAR},
+      </if>
+      <if test="yjsj != null" >
+        yjsj = #{yjsj,jdbcType=VARCHAR},
+      </if>
+      <if test="zyly != null" >
+        zyly = #{zyly,jdbcType=VARCHAR},
+      </if>
+      <if test="zysx != null" >
+        zysx = #{zysx,jdbcType=VARCHAR},
+      </if>
+      <if test="sjid != null" >
+        sjid = #{sjid,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createPerson != null" >
+        create_person = #{createPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectId != null" >
+        project_id = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentProjectId != null" >
+        parent_project_id = #{parentProjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null" >
+        project_type = #{projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="erpProjectCode != null" >
+        erp_project_code = #{erpProjectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="erpProjectName != null" >
+        erp_project_name = #{erpProjectName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectScope != null" >
+        project_scope = #{projectScope,jdbcType=VARCHAR},
+      </if>
+      <if test="projectLevel != null" >
+        project_level = #{projectLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="projectProperty != null" >
+        project_property = #{projectProperty,jdbcType=VARCHAR},
+      </if>
+      <if test="projectAbc != null" >
+        project_abc = #{projectAbc,jdbcType=VARCHAR},
+      </if>
+      <if test="projectSource != null" >
+        project_source = #{projectSource,jdbcType=VARCHAR},
+      </if>
+      <if test="yjsjks != null" >
+        yjsjks = #{yjsjks,jdbcType=VARCHAR},
+      </if>
+      <if test="yjsjjs != null" >
+        yjsjjs = #{yjsjjs,jdbcType=VARCHAR},
+      </if>
+      <if test="xmlbbm != null" >
+        xmlbbm = #{xmlbbm,jdbcType=VARCHAR},
+      </if>
+      <if test="xmlbmc != null" >
+        xmlbmc = #{xmlbmc,jdbcType=VARCHAR},
+      </if>
+      <if test="gsbmmc != null" >
+        gsbmmc = #{gsbmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="gsbmbm != null" >
+        gsbmbm = #{gsbmbm,jdbcType=VARCHAR},
+      </if>
+      <if test="zycmc != null" >
+        zycmc = #{zycmc,jdbcType=VARCHAR},
+      </if>
+      <if test="zycbm != null" >
+        zycbm = #{zycbm,jdbcType=VARCHAR},
+      </if>
+      <if test="fzdwunitcw != null" >
+        fzdwunitcw = #{fzdwunitcw,jdbcType=VARCHAR},
+      </if>
+      <if test="fzdwunit != null" >
+        fzdwunit = #{fzdwunit,jdbcType=VARCHAR},
+      </if>
+      <if test="typeFlag != null" >
+        type_flag = #{typeFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="define1 != null" >
+        define1 = #{define1,jdbcType=VARCHAR},
+      </if>
+      <if test="define2 != null" >
+        define2 = #{define2,jdbcType=VARCHAR},
+      </if>
+      <if test="define3 != null" >
+        define3 = #{define3,jdbcType=VARCHAR},
+      </if>
+      <if test="define4 != null" >
+        define4 = #{define4,jdbcType=VARCHAR},
+      </if>
+      <if test="define5 != null" >
+        define5 = #{define5,jdbcType=VARCHAR},
+      </if>
+      <if test="define6 != null" >
+        define6 = #{define6,jdbcType=VARCHAR},
+      </if>
+      <if test="define7 != null" >
+        define7 = #{define7,jdbcType=VARCHAR},
+      </if>
+      <if test="define8 != null" >
+        define8 = #{define8,jdbcType=VARCHAR},
+      </if>
+      <if test="define9 != null" >
+        define9 = #{define9,jdbcType=VARCHAR},
+      </if>
+      <if test="define10 != null" >
+        define10 = #{define10,jdbcType=VARCHAR},
+      </if>
+      <if test="define11 != null" >
+        define11 = #{define11,jdbcType=VARCHAR},
+      </if>
+      <if test="define12 != null" >
+        define12 = #{define12,jdbcType=VARCHAR},
+      </if>
+      <if test="define13 != null" >
+        define13 = #{define13,jdbcType=VARCHAR},
+      </if>
+      <if test="define14 != null" >
+        define14 = #{define14,jdbcType=VARCHAR},
+      </if>
+      <if test="define15 != null" >
+        define15 = #{define15,jdbcType=VARCHAR},
+      </if>
+      <if test="define16 != null" >
+        define16 = #{define16,jdbcType=VARCHAR},
+      </if>
+      <if test="define17 != null" >
+        define17 = #{define17,jdbcType=VARCHAR},
+      </if>
+      <if test="define18 != null" >
+        define18 = #{define18,jdbcType=VARCHAR},
+      </if>
+      <if test="define19 != null" >
+        define19 = #{define19,jdbcType=VARCHAR},
+      </if>
+      <if test="lxbj != null" >
+        lxbj = #{lxbj,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="yjnr != null" >
+        yjnr = #{yjnr,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="jdap != null" >
+        jdap = #{jdap,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="yjmb != null" >
+        yjmb = #{yjmb,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.pcitc.base.stp.out.OutProjectInfoWithBLOBs" >
+    update out_project_info
+    set nd = #{nd,jdbcType=VARCHAR},
+      xmid = #{xmid,jdbcType=VARCHAR},
+      hth = #{hth,jdbcType=VARCHAR},
+      xmmc = #{xmmc,jdbcType=VARCHAR},
+      xmjb = #{xmjb,jdbcType=VARCHAR},
+      ysnd = #{ysnd,jdbcType=VARCHAR},
+      yshf = #{yshf,jdbcType=VARCHAR},
+      ysxd = #{ysxd,jdbcType=VARCHAR},
+      yszbxje = #{yszbxje,jdbcType=VARCHAR},
+      ysfyxje = #{ysfyxje,jdbcType=VARCHAR},
+      ysje = #{ysje,jdbcType=VARCHAR},
+      jf = #{jf,jdbcType=VARCHAR},
+      fwdxbm = #{fwdxbm,jdbcType=VARCHAR},
+      fwdx = #{fwdx,jdbcType=VARCHAR},
+      zylbbm = #{zylbbm,jdbcType=VARCHAR},
+      zylb = #{zylb,jdbcType=VARCHAR},
+      fzdwbm = #{fzdwbm,jdbcType=VARCHAR},
+      fzdw = #{fzdw,jdbcType=VARCHAR},
+      jtfzdwbm = #{jtfzdwbm,jdbcType=VARCHAR},
+      jtfzdw = #{jtfzdw,jdbcType=VARCHAR},
+      fzryx = #{fzryx,jdbcType=VARCHAR},
+      fzrdh = #{fzrdh,jdbcType=VARCHAR},
+      fzrxm = #{fzrxm,jdbcType=VARCHAR},
+      lxrdh = #{lxrdh,jdbcType=VARCHAR},
+      lxryx = #{lxryx,jdbcType=VARCHAR},
+      lxrxm = #{lxrxm,jdbcType=VARCHAR},
+      jssxxm = #{jssxxm,jdbcType=VARCHAR},
+      jssj = #{jssj,jdbcType=VARCHAR},
+      kssj = #{kssj,jdbcType=VARCHAR},
+      yjsj = #{yjsj,jdbcType=VARCHAR},
+      zyly = #{zyly,jdbcType=VARCHAR},
+      zysx = #{zysx,jdbcType=VARCHAR},
+      sjid = #{sjid,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      create_person = #{createPerson,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      project_id = #{projectId,jdbcType=VARCHAR},
+      parent_project_id = #{parentProjectId,jdbcType=VARCHAR},
+      project_type = #{projectType,jdbcType=VARCHAR},
+      erp_project_code = #{erpProjectCode,jdbcType=VARCHAR},
+      erp_project_name = #{erpProjectName,jdbcType=VARCHAR},
+      project_scope = #{projectScope,jdbcType=VARCHAR},
+      project_level = #{projectLevel,jdbcType=VARCHAR},
+      project_property = #{projectProperty,jdbcType=VARCHAR},
+      project_abc = #{projectAbc,jdbcType=VARCHAR},
+      project_source = #{projectSource,jdbcType=VARCHAR},
+      yjsjks = #{yjsjks,jdbcType=VARCHAR},
+      yjsjjs = #{yjsjjs,jdbcType=VARCHAR},
+      xmlbbm = #{xmlbbm,jdbcType=VARCHAR},
+      xmlbmc = #{xmlbmc,jdbcType=VARCHAR},
+      gsbmmc = #{gsbmmc,jdbcType=VARCHAR},
+      gsbmbm = #{gsbmbm,jdbcType=VARCHAR},
+      zycmc = #{zycmc,jdbcType=VARCHAR},
+      zycbm = #{zycbm,jdbcType=VARCHAR},
+      fzdwunitcw = #{fzdwunitcw,jdbcType=VARCHAR},
+      fzdwunit = #{fzdwunit,jdbcType=VARCHAR},
+      type_flag = #{typeFlag,jdbcType=VARCHAR},
+      define1 = #{define1,jdbcType=VARCHAR},
+      define2 = #{define2,jdbcType=VARCHAR},
+      define3 = #{define3,jdbcType=VARCHAR},
+      define4 = #{define4,jdbcType=VARCHAR},
+      define5 = #{define5,jdbcType=VARCHAR},
+      define6 = #{define6,jdbcType=VARCHAR},
+      define7 = #{define7,jdbcType=VARCHAR},
+      define8 = #{define8,jdbcType=VARCHAR},
+      define9 = #{define9,jdbcType=VARCHAR},
+      define10 = #{define10,jdbcType=VARCHAR},
+      define11 = #{define11,jdbcType=VARCHAR},
+      define12 = #{define12,jdbcType=VARCHAR},
+      define13 = #{define13,jdbcType=VARCHAR},
+      define14 = #{define14,jdbcType=VARCHAR},
+      define15 = #{define15,jdbcType=VARCHAR},
+      define16 = #{define16,jdbcType=VARCHAR},
+      define17 = #{define17,jdbcType=VARCHAR},
+      define18 = #{define18,jdbcType=VARCHAR},
+      define19 = #{define19,jdbcType=VARCHAR},
+      lxbj = #{lxbj,jdbcType=LONGVARCHAR},
+      yjnr = #{yjnr,jdbcType=LONGVARCHAR},
+      jdap = #{jdap,jdbcType=LONGVARCHAR},
+      yjmb = #{yjmb,jdbcType=LONGVARCHAR}
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.out.OutProjectInfo" >
+    update out_project_info
+    set nd = #{nd,jdbcType=VARCHAR},
+      xmid = #{xmid,jdbcType=VARCHAR},
+      hth = #{hth,jdbcType=VARCHAR},
+      xmmc = #{xmmc,jdbcType=VARCHAR},
+      xmjb = #{xmjb,jdbcType=VARCHAR},
+      ysnd = #{ysnd,jdbcType=VARCHAR},
+      yshf = #{yshf,jdbcType=VARCHAR},
+      ysxd = #{ysxd,jdbcType=VARCHAR},
+      yszbxje = #{yszbxje,jdbcType=VARCHAR},
+      ysfyxje = #{ysfyxje,jdbcType=VARCHAR},
+      ysje = #{ysje,jdbcType=VARCHAR},
+      jf = #{jf,jdbcType=VARCHAR},
+      fwdxbm = #{fwdxbm,jdbcType=VARCHAR},
+      fwdx = #{fwdx,jdbcType=VARCHAR},
+      zylbbm = #{zylbbm,jdbcType=VARCHAR},
+      zylb = #{zylb,jdbcType=VARCHAR},
+      fzdwbm = #{fzdwbm,jdbcType=VARCHAR},
+      fzdw = #{fzdw,jdbcType=VARCHAR},
+      jtfzdwbm = #{jtfzdwbm,jdbcType=VARCHAR},
+      jtfzdw = #{jtfzdw,jdbcType=VARCHAR},
+      fzryx = #{fzryx,jdbcType=VARCHAR},
+      fzrdh = #{fzrdh,jdbcType=VARCHAR},
+      fzrxm = #{fzrxm,jdbcType=VARCHAR},
+      lxrdh = #{lxrdh,jdbcType=VARCHAR},
+      lxryx = #{lxryx,jdbcType=VARCHAR},
+      lxrxm = #{lxrxm,jdbcType=VARCHAR},
+      jssxxm = #{jssxxm,jdbcType=VARCHAR},
+      jssj = #{jssj,jdbcType=VARCHAR},
+      kssj = #{kssj,jdbcType=VARCHAR},
+      yjsj = #{yjsj,jdbcType=VARCHAR},
+      zyly = #{zyly,jdbcType=VARCHAR},
+      zysx = #{zysx,jdbcType=VARCHAR},
+      sjid = #{sjid,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      create_person = #{createPerson,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      project_id = #{projectId,jdbcType=VARCHAR},
+      parent_project_id = #{parentProjectId,jdbcType=VARCHAR},
+      project_type = #{projectType,jdbcType=VARCHAR},
+      erp_project_code = #{erpProjectCode,jdbcType=VARCHAR},
+      erp_project_name = #{erpProjectName,jdbcType=VARCHAR},
+      project_scope = #{projectScope,jdbcType=VARCHAR},
+      project_level = #{projectLevel,jdbcType=VARCHAR},
+      project_property = #{projectProperty,jdbcType=VARCHAR},
+      project_abc = #{projectAbc,jdbcType=VARCHAR},
+      project_source = #{projectSource,jdbcType=VARCHAR},
+      yjsjks = #{yjsjks,jdbcType=VARCHAR},
+      yjsjjs = #{yjsjjs,jdbcType=VARCHAR},
+      xmlbbm = #{xmlbbm,jdbcType=VARCHAR},
+      xmlbmc = #{xmlbmc,jdbcType=VARCHAR},
+      gsbmmc = #{gsbmmc,jdbcType=VARCHAR},
+      gsbmbm = #{gsbmbm,jdbcType=VARCHAR},
+      zycmc = #{zycmc,jdbcType=VARCHAR},
+      zycbm = #{zycbm,jdbcType=VARCHAR},
+      fzdwunitcw = #{fzdwunitcw,jdbcType=VARCHAR},
+      fzdwunit = #{fzdwunit,jdbcType=VARCHAR},
+      type_flag = #{typeFlag,jdbcType=VARCHAR},
+      define1 = #{define1,jdbcType=VARCHAR},
+      define2 = #{define2,jdbcType=VARCHAR},
+      define3 = #{define3,jdbcType=VARCHAR},
+      define4 = #{define4,jdbcType=VARCHAR},
+      define5 = #{define5,jdbcType=VARCHAR},
+      define6 = #{define6,jdbcType=VARCHAR},
+      define7 = #{define7,jdbcType=VARCHAR},
+      define8 = #{define8,jdbcType=VARCHAR},
+      define9 = #{define9,jdbcType=VARCHAR},
+      define10 = #{define10,jdbcType=VARCHAR},
+      define11 = #{define11,jdbcType=VARCHAR},
+      define12 = #{define12,jdbcType=VARCHAR},
+      define13 = #{define13,jdbcType=VARCHAR},
+      define14 = #{define14,jdbcType=VARCHAR},
+      define15 = #{define15,jdbcType=VARCHAR},
+      define16 = #{define16,jdbcType=VARCHAR},
+      define17 = #{define17,jdbcType=VARCHAR},
+      define18 = #{define18,jdbcType=VARCHAR},
+      define19 = #{define19,jdbcType=VARCHAR}
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 批量插入项目数据 -->
+	<insert id="insertOutProjectBatch" parameterType="java.util.List">
+		insert into out_project_info (data_id, nd, xmid, hth,
+		xmmc, xmjb, jf, ysnd, yshf, ysxd, ysje, yszbxje, ysfyxje,
+		fwdxbm, fwdx,
+		zylbbm, zylb, fzdwbm,
+		fzdw, jtfzdwbm, jtfzdw,
+		fzrxm,fzrdh,fzryx,lxrxm,lxrdh,lxryx,
+		jssxxm, yjsj,kssj,jssj,
+		zyly,
+		zysx, sjid, create_date,
+		create_person, status,
+		update_date,project_id, parent_project_id,
+		project_type,project_property,
+		erp_project_code,
+		erp_project_name,type_flag,
+		xmlbbm,xmlbmc,gsbmmc,gsbmbm,zycmc,zycbm,
+		define1,define2,define3,define4,define5,define6,define7,define8,define9,
+		define10,define11,define12,define13
+		)
+		values
+		<foreach collection="list" item="projectInfo" index="index"
+			separator=",">
+			(
+			#{projectInfo.dataId,jdbcType=VARCHAR},
+			#{projectInfo.nd,jdbcType=VARCHAR},
+			#{projectInfo.xmid,jdbcType=VARCHAR},
+			#{projectInfo.hth,jdbcType=VARCHAR},
+			#{projectInfo.xmmc,jdbcType=VARCHAR},
+			#{projectInfo.xmjb,jdbcType=VARCHAR},
+			#{projectInfo.jf,jdbcType=VARCHAR},
+			#{projectInfo.ysnd,jdbcType=VARCHAR},
+			#{projectInfo.yshf,jdbcType=VARCHAR},
+			#{projectInfo.ysxd,jdbcType=VARCHAR},
+			#{projectInfo.ysje,jdbcType=VARCHAR},
+			#{projectInfo.yszbxje,jdbcType=VARCHAR},
+			#{projectInfo.ysfyxje,jdbcType=VARCHAR},
+			#{projectInfo.fwdxbm,jdbcType=VARCHAR},
+			#{projectInfo.fwdx,jdbcType=VARCHAR},
+			#{projectInfo.zylbbm,jdbcType=VARCHAR},
+			#{projectInfo.zylb,jdbcType=VARCHAR},
+			#{projectInfo.fzdwbm,jdbcType=VARCHAR},
+			#{projectInfo.fzdw,jdbcType=VARCHAR},
+			#{projectInfo.jtfzdwbm,jdbcType=VARCHAR},
+			#{projectInfo.jtfzdw,jdbcType=VARCHAR},
+			#{projectInfo.fzrxm,jdbcType=VARCHAR},
+			#{projectInfo.fzrdh,jdbcType=VARCHAR},
+			#{projectInfo.fzryx,jdbcType=VARCHAR},
+			#{projectInfo.lxrxm,jdbcType=VARCHAR},
+			#{projectInfo.lxrdh,jdbcType=VARCHAR},
+			#{projectInfo.lxryx,jdbcType=VARCHAR},
+			#{projectInfo.jssxxm,jdbcType=VARCHAR},
+			#{projectInfo.yjsj,jdbcType=VARCHAR},
+			#{projectInfo.kssj,jdbcType=VARCHAR},
+			#{projectInfo.jssj,jdbcType=VARCHAR},
+			#{projectInfo.zyly,jdbcType=VARCHAR},
+			#{projectInfo.zysx,jdbcType=VARCHAR},
+			#{projectInfo.sjid,jdbcType=VARCHAR},
+			#{projectInfo.createDate,jdbcType=TIMESTAMP},
+			#{projectInfo.createPerson,jdbcType=VARCHAR},
+			#{projectInfo.status,jdbcType=VARCHAR},
+			#{projectInfo.updateDate,jdbcType=TIMESTAMP},
+			#{projectInfo.projectId,jdbcType=VARCHAR},
+			#{projectInfo.parentProjectId,jdbcType=TIMESTAMP},
+			#{projectInfo.projectType,jdbcType=VARCHAR},
+			#{projectInfo.projectProperty,jdbcType=VARCHAR},
+			#{projectInfo.erpProjectCode,jdbcType=VARCHAR},
+			#{projectInfo.erpProjectName,jdbcType=VARCHAR},
+			#{projectInfo.typeFlag,jdbcType=TIMESTAMP},
+			#{projectInfo.xmlbbm,jdbcType=VARCHAR},
+			#{projectInfo.xmlbmc,jdbcType=VARCHAR},
+			#{projectInfo.gsbmmc,jdbcType=VARCHAR},
+			#{projectInfo.gsbmbm,jdbcType=VARCHAR},
+			#{projectInfo.zycmc,jdbcType=VARCHAR},
+			#{projectInfo.zycbm,jdbcType=VARCHAR},
+			#{projectInfo.define1,jdbcType=VARCHAR},
+			#{projectInfo.define2,jdbcType=VARCHAR},
+			#{projectInfo.define3,jdbcType=VARCHAR},
+			#{projectInfo.define4,jdbcType=VARCHAR},
+			#{projectInfo.define5,jdbcType=VARCHAR},
+			#{projectInfo.define6,jdbcType=VARCHAR},
+			#{projectInfo.define7,jdbcType=VARCHAR},
+			#{projectInfo.define8,jdbcType=VARCHAR},
+			#{projectInfo.define9,jdbcType=VARCHAR},
+			#{projectInfo.define10,jdbcType=VARCHAR},
+			#{projectInfo.define11,jdbcType=VARCHAR},
+			#{projectInfo.define12,jdbcType=VARCHAR},
+			#{projectInfo.define13,jdbcType=VARCHAR}
+			)
+		</foreach>
+	</insert>
+	
+	<select id="selectProjectByCond" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.out.OutProjectInfo">
+		select out_project_info.data_id,out_project_info.hth,out_project_info.xmmc,
+			   out_project_info.nd,out_project_info.xmid,out_project_info.fzdw,
+			   out_project_info.jf,out_project_info.zylb,substr(out_project_info.define10, 4) as define10,
+			   group_concat(DISTINCT out_project_info.define8) as define8,
+			   group_concat(DISTINCT out_project_erp.erp_project_code) as erp_project_code,
+			   group_concat(DISTINCT out_project_erp.erp_project_name) as erp_project_name
+		from out_project_info left join out_project_erp on (out_project_info.xmid = out_project_erp.opi_id)
+		where
+			out_project_info.define8 is not null and (out_project_info.project_type = '0' or out_project_info.project_type = '2')
+		<if test="nd != null">
+			and out_project_info.nd = #{nd,jdbcType=VARCHAR}
+		</if>
+		<if test="hth != null">
+			and out_project_info.hth like '%${hth}%'
+		</if>
+		<if test="xmmc != null">
+			and out_project_info.xmmc like '%${xmmc}%'
+		</if>
+		<if test="define1 != null">
+			and out_project_info.define1 like '%${define1}%'
+		</if>
+		<if test="define2 != null">
+			and out_project_info.define2 like '%${define2}%'
+		</if>
+		<if test="projectProperty != null">
+			and out_project_info.project_property like '%${projectProperty}%'
+		</if>
+		<if test="projectScope != null">
+			and out_project_info.project_scope like '%${projectScope}%'
+		</if>
+		<if test="typeFlag != null">
+			and out_project_info.type_flag like '%${typeFlag}%'
+		</if>
+		<if test="zylb != null">
+			and out_project_info.zylb like '%${zylb}%'
+		</if>
+		<if test="zycmc != null">
+			and out_project_info.zycmc like '%${zycmc}%'
+		</if>
+		<if test="status != null">
+			and out_project_info.status = #{status,jdbcType=VARCHAR}
+		</if>
+		<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+			<if test="zycmc != null and zycmc != ''">
+				and find_in_set(zycmc, '${zycmc}')
+			</if>
+			<if test="zycmc == null or zycmc == ''">
+				and out_project_info.nd = '1900'
+			</if>
+		</if>
+		group by xmid
+		order by define10
+	</select>
+
+    <select id="selectProjectByCondExpert" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.out.OutProjectInfo">
+        select out_project_info.data_id,out_project_info.hth,out_project_info.xmmc,
+        out_project_info.nd,out_project_info.xmid,out_project_info.fzdw,
+        out_project_info.jf,out_project_info.zylb,substr(out_project_info.define10, 4) as define10,
+        group_concat(DISTINCT out_project_info.define8) as define8,
+        group_concat(DISTINCT out_project_erp.erp_project_code) as erp_project_code,
+        group_concat(DISTINCT out_project_erp.erp_project_name) as erp_project_name
+        from out_project_info left join out_project_erp on (out_project_info.xmid = out_project_erp.opi_id)
+        where
+        out_project_info.define8 is not null and (out_project_info.project_type = '0' or out_project_info.project_type = '2')
+        <if test="nd != null">
+            and out_project_info.nd = #{nd,jdbcType=VARCHAR}
+        </if>
+        <if test="hth != null">
+            and out_project_info.hth like '%${hth}%'
+        </if>
+        <if test="xmmc != null">
+            and out_project_info.xmmc like '%${xmmc}%'
+        </if>
+        <if test="define1 != null">
+            and out_project_info.define1 like '%${define1}%'
+        </if>
+        <if test="define2 != null">
+            and out_project_info.define2 like '%${define2}%'
+        </if>
+        <if test="projectProperty != null">
+            and out_project_info.project_property like '%${projectProperty}%'
+        </if>
+        <if test="projectScope != null">
+            and out_project_info.project_scope like '%${projectScope}%'
+        </if>
+        <if test="typeFlag != null">
+            and out_project_info.type_flag like '%${typeFlag}%'
+        </if>
+        <if test="zylb != null">
+            and out_project_info.zylb like '%${zylb}%'
+        </if>
+        <if test="zycmc != null">
+            and out_project_info.zycmc like '%${zycmc}%'
+        </if>
+        <if test="status != null">
+            and out_project_info.status = #{status,jdbcType=VARCHAR}
+        </if>
+        group by xmid
+        order by define10
+    </select>
+	<!-- 首页计算新开课题总数 -->
+	<select id="getOutProjectInfoCount" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select 
+        	count(DISTINCT xmid) as projectCount
+		from out_project_info
+		where 
+			out_project_info.nd = '${nd}' and
+			out_project_info.ysnd = '${nd}' and project_type != '1' and out_project_info.define3 = '项目管理系统'
+			<if test="define2 != null and define2 != ''">
+				and define2 like '%${define2}%'
+			</if>
+			<if test="typeFlag != null and typeFlag != ''">
+				and type_flag like '%${typeFlag}%'
+			</if>
+			<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				<if test="zycmc != null and zycmc != ''">
+					and find_in_set(zycmc, '${zycmc}')
+				</if>
+				<if test="zycmc == null or zycmc == ''">
+					and out_project_info.nd = '1900'
+				</if>
+			</if>
+	</select>
+	
+	<!-- 首页计算项目总金额, 包含结转和新开 -->
+	<select id="getOutProjectInfoMoney" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select 
+        	round(sum(out_project_info.ysje),4) as projectMoney
+		from out_project_info
+		where 
+			out_project_info.ysnd = '${nd}' and project_type != '1' and out_project_info.define3 = '项目管理系统'
+			<if test="define2 != null and define2 != ''">
+				and define2 like '%${define2}%'
+			</if>
+			<if test="typeFlag != null and typeFlag != ''">
+				and type_flag like '%${typeFlag}%'
+			</if>
+			<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				<if test="zycmc != null and zycmc != ''">
+					and find_in_set(zycmc, '${zycmc}')
+				</if>
+				<if test="zycmc == null or zycmc == ''">
+					and out_project_info.nd = '1900'
+				</if>
+			</if>
+	</select>
+	
+	<!-- 研究院首页计算装备和科研合同总数 -->
+	<select id="getOutProjectInfoCountWithKYZB" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select 
+			count(*) as zsl,
+        	IFNULL(sum(case when xmlbbm != 'KYZB' then 1 else 0 end),0) as projectCount, 
+			IFNULL(sum(case when xmlbbm = 'KYZB' then 1 else 0 end),0) as kyzbCount,
+			IFNULL(sum(case when nd = '${nd}' then 1 else 0 end),0) as xkCount,
+			IFNULL(sum(case when nd &lt; '${nd}' then 1 else 0 end),0) as jzCount
+		from (
+			select xmlbbm,nd
+			from out_project_info
+			where 
+				out_project_info.ysnd = '${nd}' and project_type != '1' and out_project_info.define3 = '项目管理系统'
+				<if test="typeFlag != null and typeFlag != ''">
+					and type_flag like '%${typeFlag}%'
+				</if>
+				<if test="xmlbbm != null and xmlbbm == 'kyzb'">
+					and xmlbbm = 'KYZB'
+				</if>
+				<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
+					and xmlbbm != 'KYZB'
+				</if>
+				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				</if>
+				
+			GROUP BY xmid) tableA
+	</select>
+	
+	<!-- 首页计算十条龙及重大专项项目的总数量 -->
+	<select id="getOutProjectDragonInfoCount" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select 
+        	sum(case when project_property = '重大专项' or project_property = '十条龙项目' then 1 else 0 end) as zsl,
+        	sum(case when project_property = '重大专项' then 1 else 0 end) as zdzxsl, 
+			sum(case when project_property = '十条龙项目' then 1 else 0 end) as stlsl
+		from (
+			select DISTINCT xmmc,project_property
+			from out_project_info
+			where (project_type = '0' or project_type = '1') and nd='${nd}'
+				<if test="define2 != null and define2 != ''">
+					and define2 is not null and type_flag like '%直属研究院%'
+				</if>
+				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				</if>
+		) as tableA
+	</select>
+
+    <!-- 工作台-科研课题-科研项目占比分析-按承担单位的单位范畴分组 -->
+	<select id="getProjectTypeInfoByUnit" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select sum(case when nd = '${nd}' then 1 else 0 end) as xksl,
+			   sum(case when nd &lt; '${nd}' then 1 else 0 end) as xjsl,
+			   SUBSTR(type_flag FROM 2) as type_flag
+		from (
+			select
+				nd,type_flag
+			from out_project_info
+			where type_flag is not null and 
+				  ysnd= '${nd}' and project_type != '1' and 
+				  out_project_info.define3 = '项目管理系统' and
+				  xmlbbm != 'KYZB'
+				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				 </if>
+			group by xmid
+		) as tableA
+		group BY tableA.type_flag
+		ORDER BY tableA.type_flag
+	</select>
+	
+	 <!-- 工作台-装备课题-科研项目占比分析-按承担单位的单位范畴分组 -->
+	<select id="getZBProjectTypeInfoByUnit" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select sum(case when nd = '${nd}' then 1 else 0 end) as xksl,
+			   sum(case when nd &lt; '${nd}' then 1 else 0 end) as xjsl,
+			   SUBSTR(type_flag FROM 2) as type_flag
+		from (
+			select
+				nd,type_flag
+			from out_project_info
+			where type_flag is not null and 
+				  ysnd= '${nd}' and project_type != '1' and 
+				  out_project_info.define3 = '项目管理系统' and
+				  xmlbbm = 'KYZB'
+				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				 </if>
+			group by xmid
+		) as tableA
+		group BY tableA.type_flag
+		ORDER BY tableA.type_flag
+		
+	</select>
+	
+	<!-- 首页、领导首页，查询新开的国家项目、重点项目、重大项目、其他项目、总计的统计 -->
+	<select id="getProjectTotalInfoByNew" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select
+			sum(case when project_property ='国家项目' then 1 else 0 end) as gjxmsl,
+			sum(case when project_property ='重大专项' then 1 else 0 end) as zdzzsl,
+			sum(case when project_property ='重点项目' then 1 else 0 end) as zdxmsl,
+			sum(case when project_property ='其他项目' then 1 else 0 end) as qtsl,
+			count(*) as zsl
+		from (
+			select
+				nd,project_property
+			from out_project_info
+			where type_flag is not null and 
+				  nd = '${nd}' and
+				  ysnd= '${nd}' and project_type != '1' and 
+				  out_project_info.define3 = '项目管理系统'
+				  <if test="define2 != null and define2 != ''">
+						and define2 is not null and define2 like '%${define2}%'
+				  </if>
+				  <if test="typeFlag != null and typeFlag != ''">
+						and type_flag like '%${typeFlag}%'
+				  </if>
+				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					  <if test="zycmc != null and zycmc != ''">
+							and find_in_set(zycmc, '${zycmc}')
+					  </if>
+					  <if test="zycmc == null or zycmc == ''">
+							and out_project_info.nd = '1900'
+					  </if>
+				  </if>
+			group by xmid
+		) as tableA
+		
+			
+	</select>
+
+	<!-- 首页查询新开的国家项目、重点项目、重大项目、其他项目和去年的对比 -->
+	<select id="getProjectTotalCountYearAndLastYear" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select
+			sum(case when project_property ='国家项目' and project_scope = '新开课题' then 1 else 0 end) as xkgjsl,
+			sum(case when project_property ='国家项目' and project_scope = '结转课题' then 1 else 0 end) as qngjsl,
+			sum(case when project_property ='重大专项' and project_scope = '新开课题' then 1 else 0 end) as xkzzsl,
+			sum(case when project_property ='重大专项' and project_scope = '结转课题' then 1 else 0 end) as qnzzsl,
+			sum(case when project_property ='重点项目' and project_scope = '新开课题' then 1 else 0 end) as xkzdsl,
+			sum(case when project_property ='重点项目' and project_scope = '结转课题' then 1 else 0 end) as qnzdsl,
+			sum(case when LEFT(hth,3) ='CLY' and project_scope = '新开课题' then 1 else 0 end) as lysybsl,
+			sum(case when LEFT(hth,3) ='CLY' and project_scope = '结转课题' then 1 else 0 end) as qnlysybsl,
+			sum(case when LEFT(hth,3) ='CHG' and project_scope = '新开课题' then 1 else 0 end) as hgsybsl,
+			sum(case when LEFT(hth,3) ='CHG' and project_scope = '结转课题' then 1 else 0 end) as qnhgsybsl
+		from (
+			select 
+				   (case when nd = '${nd}' then '新开课题' else '结转课题' end) as project_scope,
+				   project_property,nd,ysnd,hth
+			from out_project_info
+			WHERE
+				ysnd= '${nd}' and project_type != '1' and out_project_info.define3 = '项目管理系统' 
+				<if test="typeFlag != null and typeFlag != ''">
+					and type_flag like '%${typeFlag}%'
+				</if>
+				<if test="xmlbbm != null and xmlbbm == 'kyzb'">
+					 and xmlbbm ='KYZB'
+				</if>
+				<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
+					 and xmlbbm !='KYZB'
+				</if>
+				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				   <if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+				   </if>
+				   <if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+				   </if>
+			   </if>
+			group by xmid
+		) as tableA
+		
+		
+	</select>
+	
+	<!-- 工作台-科研课题-科研项目占比分析 -->
+	<select id="getProjectCountByProjectType" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select sum(case when nd = '${nd}' then 1 else 0 end) as xksl,
+			   sum(case when nd &lt; '${nd}' then 1 else 0 end) as xjsl,
+			   count(*) as zsl,substring(define10,4) as zycmc
+		from (
+			select
+				nd,define10
+			from out_project_info
+			where ysnd= '${nd}' and project_type != '1' and 
+				out_project_info.define3 = '项目管理系统' and
+				xmlbbm != 'KYZB' and 
+				define10 is not null
+				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				</if>
+			GROUP BY xmid
+		) as tableA
+		GROUP BY tableA.define10
+		ORDER BY tableA.define10
+	</select>
+	
+	<!-- 工作台-科研课题-科研项目占比分析-按研究院分组 -->
+	<select id="getProjectTypeCountByUnit" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select sum(case when nd = '${nd}' then 1 else 0 end) as xksl,
+			   sum(case when nd &lt; '${nd}' then 1 else 0 end) as xjsl,
+			   count(*) as zsl,
+			   SUBSTR(define2 FROM 4) as define2
+		from (
+			select
+				nd,define2
+			from out_project_info
+			where type_flag is not null and 
+				  ysnd= '${nd}' and project_type != '1' and 
+				  out_project_info.define3 = '项目管理系统' and
+				  xmlbbm != 'KYZB' and 
+				  type_flag like '%直属研究院%' and 
+				  define2 is not null
+				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				 </if>
+			group by xmid
+		) as tableA
+		group BY tableA.define2
+		ORDER BY tableA.define2
+	</select>
+	
+	<!-- 工作台-装备课题-科研项目占比分析-按研究院分组 -->
+	<select id="getZBProjectTypeCountByUnit" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select sum(case when nd = '${nd}' then 1 else 0 end) as xksl,
+			   sum(case when nd &lt; '${nd}' then 1 else 0 end) as xjsl,
+			   count(*) as zsl,
+			   SUBSTR(define2 FROM 4) as define2
+		from (
+			select
+				nd,define2
+			from out_project_info
+			where type_flag is not null and 
+				  ysnd= '${nd}' and project_type != '1' and 
+				  out_project_info.define3 = '项目管理系统' and
+				  xmlbbm = 'KYZB' and 
+				  type_flag like '%直属研究院%' and 
+				  define2 is not null
+				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				 </if>
+			group by xmid
+		) as tableA
+		group BY tableA.define2
+		ORDER BY tableA.define2
+	</select>
+	
+	<!-- 工作台-装备课题-科研项目占比分析-按专业类别分组 -->
+	<select id="getZBProjectCountByProjectType" resultType="java.util.Map" parameterType="java.util.HashMap">
+    	select sum(case when nd = '${nd}' then 1 else 0 end) as xksl,
+			   sum(case when nd &lt; '${nd}' then 1 else 0 end) as xjsl,
+			   count(*) as zsl,zylb
+		from (
+			select
+				nd,zylb
+			from out_project_info
+			where ysnd= '${nd}' and project_type != '1' and 
+				out_project_info.define3 = '项目管理系统' and
+				xmlbbm = 'KYZB' and 
+				zylb is not null
+				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				</if>
+			GROUP BY xmid
+		) as tableA
+		GROUP BY tableA.zylb
+		ORDER BY tableA.zylb
+	</select>
+	
+	<!-- 工作台-合同签订-合同签订总金额分析（新开、结转） -->
+	<select id="getProjectMoneyByProjectType" resultType="java.util.Map" parameterType="java.util.HashMap">
+	    select round(sum(case when nd = '${nd}' then ysje else 0 end)/10000,4) as xkje,
+			   round(sum(case when nd &lt; '${nd}' then ysje else 0 end)/10000,4) as xjje,
+			   round(sum(ysje)/10000,4) as zje,
+			   tableA.xmlbbm as define1
+		from (
+			select
+				nd, 
+				sum(ysje) as ysje,
+				(case when xmlbbm = 'KYZB' then '资本性' else '费用性' end) as xmlbbm
+			from out_project_info
+			where type_flag is not null and 
+				  ysnd= '${nd}' and project_type != '1' and 
+				  out_project_info.define3 = '项目管理系统' and
+				  define2 is not null
+				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				 </if>
+			group by xmid
+		) as tableA
+		group BY tableA.xmlbbm
+		ORDER BY tableA.xmlbbm
+	</select>
+	
+	<select id="getProjectMoneyByUnit" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select 
+		   tableA.DEFINE3 as type_flag,
+           ROUND(SUM(ysje)/10000,4) AS zje,
+           ROUND(SUM(ysfyxje)/10000,4) AS fyxje,
+           ROUND(SUM(yszbxje)/10000,4) AS zbxje, 
+		   ROUND(SUM(prezje)/10000,4) AS prezje,
+		   ROUND(SUM(prefyxje)/10000,4) AS prefyxje,
+		   ROUND(SUM(prezbxje)/10000,4) AS prezbxje,
+		   ROUND((SUM(prezje)-SUM(ysje))/10000,4) AS wxd,
+		   CASE  WHEN TRUNCATE(SUM(ysje)/SUM(prezje) ,2)      IS NULL OR  TRUNCATE(SUM(ysje)/SUM(prezje) ,2)=0 THEN '0'      ELSE TRUNCATE(SUM(ysje)/SUM(prezje)*100 ,2) END AS ztzwcl ,
+		   CASE  WHEN TRUNCATE(SUM(ysfyxje)/SUM(prefyxje) ,2)   IS NULL OR  TRUNCATE(SUM(ysfyxje)/SUM(prefyxje) ,2)=0 THEN '0'   ELSE TRUNCATE(SUM(ysfyxje)/SUM(prefyxje)*100 ,2) END AS fyxtzwcl ,
+		   CASE  WHEN TRUNCATE(SUM(yszbxje)/SUM(prezbxje) ,2) IS NULL OR  TRUNCATE(SUM(yszbxje)/SUM(prezbxje) ,2)=0 THEN '0' ELSE TRUNCATE(SUM(yszbxje)/SUM(prezbxje)*100 ,2) END AS zbxtzwcl
+		from (
+			select
+				nd, xmid,
+				sum(ysje) as prezje,sum(ysfyxje) as prefyxje,sum(yszbxje) as prezbxje,DEFINE3,
+				(case when xmlbbm = 'KYZB' then '资本性' else '费用性' end) as xmlbbm
+			from out_project_plan
+			where DEFINE3 is not null and 
+				  ysnd= '${nd}' and project_type != '1' and 
+				  out_project_plan.define4 = '项目管理系统' and
+				  xmlbbm is not null
+				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_plan.nd = '1900'
+					</if>
+				 </if>
+			group by xmid
+		) as tableA left join (
+			select
+				nd, xmid,
+				sum(ysje) as ysje,sum(yszbxje) as yszbxje,sum(ysfyxje) as ysfyxje,type_flag,
+				(case when xmlbbm = 'KYZB' then '资本性' else '费用性' end) as xmlbbm
+			from out_project_info
+			where type_flag is not null and 
+				  ysnd= '${nd}' and project_type != '1' and 
+				  out_project_info.define3 = '项目管理系统' and
+				  xmlbbm is not null
+				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				 </if>
+			group by xmid
+		) as tableB on (tableA.xmid = tableB.xmid)
+		group BY tableA.DEFINE3
+		ORDER BY tableA.DEFINE3 asc
+	</select>
+	
+	<!--  领导首页-直属研究院，8个研究院的资本性、费用性信息 -->
+	<select id="getProjectMoneyByYJY" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select
+			round(sum(case when xmlbbm = '费用性' then ysfyxje else 0 end),4) as fyxje,
+	    	round(sum(case when xmlbbm = '资本性' then yszbxje else 0 end),4) as zbxje,
+	    	round(sum(ysje), 2) as zje,
+			sum(case when xmlbbm = '费用性' then 1 else 0 end) as fyxsl,
+			sum(case when xmlbbm = '资本性' then 1 else 0 end) as zbxsl,
+			count(*) as zsl,
+			round(sum(case when xmlbbm = '费用性' then 1 else 0 end)/count(*)*100, 2) as fyxRate,
+			round(sum(case when xmlbbm = '资本性' then 1 else 0 end)/count(*)*100, 2) as zbxRate,
+	    	SUBSTR(define2 FROM 4) define2
+		from (
+			select
+				nd, xmid,
+				sum(ysje) as ysje,sum(yszbxje) as yszbxje,sum(ysfyxje) as ysfyxje,define2,
+				(case when xmlbbm = 'KYZB' then '资本性' else '费用性' end) as xmlbbm
+			from out_project_info
+			where type_flag like '%直属研究院%' and 
+				  ysnd= '${nd}' and project_type != '1' and 
+				  out_project_info.define3 = '项目管理系统' and
+				  xmlbbm is not null
+				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				 </if>
+			group by xmid
+		) as tableA
+	    group by tableA.define2
+	    order by tableA.define2
+	</select>
+	
+	<!--  领导首页-直属研究院，8个研究院国家项目情况 -->
+	<select id="getCountryProjectByYJY" resultType="java.util.Map" parameterType="java.util.HashMap">
+	    select
+			sum(case when projectType = '新开课题' then 1 else 0 end) as gjxksl,
+			sum(case when projectType = '结转课题' then 1 else 0 end) as gjjzsl,
+			count(*) as gjsl,
+	    	SUBSTR(define2 FROM 4) define2
+		from (
+			select
+				nd, xmid, define2,
+				(case when nd = '${nd}' then '新开课题' else '结转课题' end) as projectType
+			from out_project_info
+			where type_flag like '%直属研究院%' and 
+				  ysnd= '${nd}' and project_type != '1' and 
+				  project_property = '国家项目'
+				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				 </if>
+			group by xmid
+		) as tableA
+	    GROUP BY tableA.define2
+		ORDER BY tableA.define2
+	</select>
+	
+	<!--  工作台-科研课题-科研项目,各单位范畴的新开、结转占比树形图 -->
+	<select id="getProjectTypeCountForTree" resultType="java.util.Map" parameterType="java.util.HashMap">
+	    select count(*) as zsl,UUID() as id,substring(type_flag, 2) as type_flag,tableA.project_scope from (
+		    select
+				nd,ysnd,type_flag,
+				(case when nd = '${nd}' then '新开课题' else '结转课题' end) as project_scope
+			from out_project_info
+			where ysnd = '${nd}' and project_type != '1' and 
+				out_project_info.define3 = '项目管理系统' and
+				xmlbbm != 'KYZB' and 
+				type_flag is not null
+				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				</if>
+		    group by xmid
+		) as tableA 
+		GROUP BY tableA.project_scope,tableA.type_flag
+		ORDER BY tableA.project_scope,tableA.type_flag
+	</select>
+	
+	<!--  工作台-科研课题-科研项目占比树形图 -->
+	<select id="getProjectCountByTypeForTree" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select count(*) as zsl,UUID() as id,substring(define10,4) as zycmc,tableA.project_scope from (
+		    select
+				nd,ysnd,define10,
+				(case when nd = '${nd}' then '新开课题' else '结转课题' end) as project_scope
+			from out_project_info
+			where ysnd = '${nd}' and project_type != '1' and 
+				out_project_info.define3 = '项目管理系统' and
+				xmlbbm != 'KYZB' and 
+				define10 is not null
+				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				</if>
+		    group by xmid
+		) as tableA 
+		GROUP BY tableA.project_scope,tableA.define10
+		ORDER BY tableA.project_scope,tableA.define10
+	</select>
+	
+	<!--  工作台-装备课题-科研项目,各单位范畴的新开、结转占比树形图 -->
+	<select id="getZBProjectTypeCountForTree" resultType="java.util.Map" parameterType="java.util.HashMap">
+	    select count(*) as zsl,UUID() as id,substring(type_flag, 2) as type_flag,tableA.project_scope from (
+		    select
+				nd,ysnd,type_flag,
+				(case when nd = '${nd}' then '新开课题' else '结转课题' end) as project_scope
+			from out_project_info
+			where ysnd = '${nd}' and project_type != '1' and 
+				out_project_info.define3 = '项目管理系统' and
+				xmlbbm = 'KYZB' and 
+				type_flag is not null
+				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				</if>
+		    group by xmid
+		) as tableA 
+		GROUP BY tableA.project_scope,tableA.type_flag
+		ORDER BY tableA.project_scope,tableA.type_flag
+	</select>
+	
+	<select id="getZBProjectCountByTypeForTree" resultType="java.util.Map" parameterType="java.util.HashMap">
+	    select count(*) as zsl,UUID() as id,substring(define2, 4) as define2,tableA.project_scope from (
+		    select
+				nd,ysnd,define2,
+				(case when nd = '${nd}' then '新开课题' else '结转课题' end) as project_scope
+			from out_project_info
+			where ysnd = '${nd}' and project_type != '1' and 
+				out_project_info.define3 = '项目管理系统' and
+				xmlbbm = 'KYZB' and 
+				type_flag like '%直属研究院%' and
+				define2 is not null 
+				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				</if>
+		    group by xmid
+		) as tableA 
+		GROUP BY tableA.project_scope,tableA.define2
+		ORDER BY tableA.project_scope,tableA.define2
+	</select>
+	
+	<!-- 工作台-合同签订-合同签订占比分析 -->
+	<select id="getProjectMoneyForTree" resultType="java.util.Map" parameterType="java.util.HashMap">
+	    select count(*) as zsl,UUID() as id,xmlbbm as define1,tableA.project_scope from (
+		    select
+				nd,ysnd,
+				(case when xmlbbm = 'KYZB' then '资本性' else '费用性' end) as xmlbbm,
+				(case when nd = '${nd}' then '新开课题' else '结转课题' end) as project_scope
+			from out_project_info
+			where ysnd = '${nd}' and project_type != '1' and 
+				out_project_info.define3 = '项目管理系统' and
+				xmlbbm is not null
+				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				</if>
+		    group by xmid
+		) as tableA 
+		GROUP BY tableA.project_scope,tableA.xmlbbm
+		ORDER BY tableA.project_scope,tableA.xmlbbm
+	</select>
+	
+	<!-- 工作台-合同签订-合同签订占比分析,费用性/资本性-9个二级机构 -->
+	<select id="getProjectMoneyByIniAndTypeForTree" resultType="java.util.Map" parameterType="java.util.HashMap">
+	    select round(sum(ysje)/10000,4) as zje,UUID() as id,xmlbbm as define1,SUBSTR(type_flag FROM 2) type_flag from (
+		    select
+				nd,ysnd,type_flag,sum(ysje) as ysje,
+				(case when xmlbbm = 'KYZB' then '资本性' else '费用性' end) as xmlbbm
+			from out_project_info
+			where ysnd = '${nd}' and project_type != '1' and 
+				out_project_info.define3 = '项目管理系统' and
+				xmlbbm is not null
+				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				</if>
+		    group by xmid
+		) as tableA 
+		GROUP BY tableA.type_flag,tableA.xmlbbm
+		ORDER BY tableA.type_flag,tableA.xmlbbm
+	</select>
+	
+	
+	<!-- 领导页的各类型的项目数量 -->
+	<select id="getProjectTypeCountForLD" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select project_property,count(*) as xmsl 
+		from (
+			select
+				nd,ysnd,project_property,sum(ysje) as ysje
+			from out_project_info
+			where ysnd = '${nd}' and project_type != '1' and 
+				project_property is not null
+				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				</if>
+		    group by xmid
+		) as tableA
+		group by tableA.project_property
+	</select>
+	
+	<!-- 领导页,科研项目数量按单位分析 -->
+	<select id="getProjectTypeCountForTreeLD" resultType="java.util.Map" parameterType="java.util.HashMap">
+	    select 
+			count(*) as zsl,UUID() as id,
+	    	SUBSTR(type_flag FROM 2) type_flag,project_scope
+		from (
+			select
+				nd,ysnd,type_flag,
+				(case when nd = '${nd}' then '新开课题' else '结转课题' end) as project_scope
+			from out_project_info
+			where ysnd = '${nd}' and project_type != '1' and 
+				type_flag is not null and
+				xmlbbm !='KYZB'
+				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				</if>
+		    group by xmid
+		) as tableA
+		group by tableA.type_flag,tableA.project_scope
+		order by tableA.type_flag,tableA.project_scope
+	</select>
+	
+	<!-- 领导二级页面，直属研究院、分子公司等9个单位，各单位的新开、续建、完结情况 -->
+	<select id="getProjectTypeInfoByUnitLD" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select 
+			sum(case project_scope when '新开课题' then 1 else 0 end) as xksl,
+			sum(case project_scope when '结转课题' then 1 else 0 end) as xjsl,
+	    	SUBSTR(type_flag FROM 2) type_flag
+		from (
+			select
+				nd,ysnd,type_flag,
+				(case when nd = '${nd}' then '新开课题' else '结转课题' end) as project_scope
+			from out_project_info
+			where ysnd = '${nd}' and project_type != '1' and 
+				type_flag is not null and
+				xmlbbm !='KYZB'
+				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				</if>
+		    group by xmid
+		) as tableA
+		group by tableA.type_flag
+		order by tableA.type_flag
+	</select>
+	
+	<!-- 领导二级页面，各个处室的新开、续建、完结情况 -->
+	<select id="getProjectCountByProjectTypeLD" resultType="java.util.Map" parameterType="java.util.HashMap">
+    	select 
+			sum(case project_scope when '新开课题' then 1 else 0 end) as xksl,
+			sum(case project_scope when '结转课题' then 1 else 0 end) as xjsl,
+	    	count(*) as zsl,substring(define10,4) as zycmc
+		from (
+			select
+				nd,ysnd,define10,
+				(case when nd = '${nd}' then '新开课题' else '结转课题' end) as project_scope
+			from out_project_info
+			where ysnd = '${nd}' and project_type != '1' and 
+				 define10 is not null and
+				 xmlbbm !='KYZB'
+				 <if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+					</if>
+					<if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				</if>
+		    group by xmid
+		) as tableA
+		group by tableA.define10
+		order by tableA.define10
+	</select>
+	
+	<!-- 领导二级页面，8个院新开、续建情况,每一行是一个院 -->
+	<select id="getProjectTypeCountByUnitLD" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select
+		    sum(case when nd = '${nd}' then 1 else 0 end) as xksl,
+		    sum(case when nd &lt; '${nd}' then 1 else 0 end) as xjsl,
+		    count(DISTINCT xmid) as zsl,
+		    round(count(DISTINCT xmid)/(select count(DISTINCT xmid) 
+		    							from out_project_info 
+		    							where 
+		    								project_type != '1' and out_project_info.define3 = '项目管理系统' and out_project_info.ysnd = '${nd}' and type_flag like '%直属研究院%' 
+		    								<if test="xmlbbm != null and xmlbbm == 'kyzb'">
+												 and xmlbbm ='KYZB'
+											</if>
+											<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
+												 and xmlbbm !='KYZB'
+											</if>
+		    						)*100,4) zslRate,
+			round(sum(case when nd = '${nd}' then 1 else 0 end)/(select count(DISTINCT xmid) 
+		    							from out_project_info 
+		    							where 
+		    								project_type != '1' and out_project_info.define3 = '项目管理系统' and out_project_info.ysnd = '${nd}' and type_flag like '%直属研究院%' 
+		    								<if test="xmlbbm != null and xmlbbm == 'kyzb'">
+												 and xmlbbm ='KYZB'
+											</if>
+											<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
+												 and xmlbbm !='KYZB'
+											</if>
+		    						)*100,4) xkRate,
+			round(sum(case when nd != '${nd}' then 1 else 0 end)/(select count(DISTINCT xmid) 
+		    							from out_project_info 
+		    							where 
+		    								project_type != '1' and out_project_info.define3 = '项目管理系统' and out_project_info.ysnd = '${nd}' and type_flag like '%直属研究院%' 
+		    								<if test="xmlbbm != null and xmlbbm == 'kyzb'">
+												 and xmlbbm ='KYZB'
+											</if>
+											<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
+												 and xmlbbm !='KYZB'
+											</if>
+		    						)*100,4) xjRate,
+	    	SUBSTR(define2 FROM 4) define2
+		from out_project_info
+		where project_type != '1' and out_project_info.ysnd = '${nd}'  and 
+			   type_flag like '%直属研究院%' and out_project_info.define3 = '项目管理系统' 
+			  <if test="xmlbbm != null and xmlbbm == 'kyzb'">
+				 and xmlbbm ='KYZB'
+			  </if>
+			  <if test="xmlbbm != null and xmlbbm == 'fkyzb'">
+				 and xmlbbm !='KYZB'
+			  </if>
+	    group by define2
+	</select>
+	
+	<!-- 领导二级页面，预算数据，8个院费用性和资本性的柱状图 -->
+	<select id="getInstituteMoneyWithYS" resultType="java.util.Map" parameterType="java.util.HashMap">
+		SELECT show_ali as unitName,zbx_money as zbxje,fyx_money as fyxje 
+		FROM out_tem_money_total
+		WHERE 
+			is_yjy = '研究院' 
+		ORDER BY show_order
+	</select>
+	
+	<!-- 领导二级页面，预算数据，直属研究院、分子公司等9个维度的费用统计,树形结构 -->
+	<select id="getCompanyMoneyTreeWithYS" resultType="java.util.Map" parameterType="java.util.HashMap">
+		SELECT show_ali as unitName,fyx_money as showJE,UUID() as id,'费用性' as typeName
+		FROM out_tem_money_total
+		WHERE 
+			money_level = '2' and fyx_money !=''
+		
+		union all 
+		SELECT show_ali as unitName,zbx_money as showJE,UUID() as id,'资本性' as typeName
+		FROM out_tem_money_total
+		WHERE 
+			money_level = '2' and zbx_money !=''
+	</select>
+	
+	<!-- 领导二级页面，预算数据，直属研究院、分子公司等9个维度的费用统计 -->
+	<select id="getCompanyMoneyWithYS" resultType="java.util.Map" parameterType="java.util.HashMap">
+		SELECT show_ali as unitName,zbx_money as zbxje,fyx_money as fyxje 
+		FROM out_tem_money_total
+		WHERE 
+			money_level = '2'
+	</select>
+	
+	<!-- 领导二级页面，预算数据，17处室的费用统计 -->
+	<select id="getOfficeMoneyWithYS" resultType="java.util.Map" parameterType="java.util.HashMap">
+		SELECT unit_name as unitName,sum(xk_money) as xkje,sum(jz_money) as jzje
+		FROM out_tem_money
+		group by unit_name
+	</select>
+	
+	<!-- 领导二级页面，预算数据，17处室的费用统计， 树形结构 -->
+	<select id="getOfficeMoneyTreeWithYS" resultType="java.util.Map" parameterType="java.util.HashMap">
+			SELECT unit_name as unitName,sum(xk_money) as showJE,'新开课题' as typeName, UUID() as id
+			FROM out_tem_money
+			group by unit_name
+			
+			union all 
+			SELECT unit_name as unitName,sum(jz_money) as showJE,'结转课题' as typeName, UUID() as id
+			FROM out_tem_money
+			group by unit_name
+	</select>
+	
+	<!-- 领导二级页面，直属研究院，8个院预算金额和实际金额的统计 -->
+	<select id="getProjectMoneyByInstituteForLD" resultType="java.util.Map" parameterType="java.util.HashMap">
+			select 
+				sum(case when showFlag = 'preMoney' then zbxje else 0 end) as prezbxje,
+				sum(case when showFlag = 'preMoney' then fyxje else 0 end) as prefyxje,
+				sum(case when showFlag = 'preMoney' then zje else 0 end) as prezje,
+				sum(case when showFlag = 'actMoney' then zbxje else 0 end) as actzbxje,
+				sum(case when showFlag = 'actMoney' then fyxje else 0 end) as actfyxje,
+				sum(case when showFlag = 'actMoney' then zje else 0 end) as actzje,
+				round(sum(case when showFlag = 'actMoney' then fyxje else 0 end)/sum(case when showFlag = 'preMoney' then fyxje else 0 end) * 100, 2) as fyxrate,
+				round(sum(case when showFlag = 'actMoney' then zbxje else 0 end)/sum(case when showFlag = 'preMoney' then zbxje else 0 end) * 100, 2) as zbxrate,
+				round(sum(case when showFlag = 'actMoney' then zje else 0 end)/sum(case when showFlag = 'preMoney' then zje else 0 end) * 100, 2) as zrate,
+				unitName
+			from (	
+				SELECT show_ali as unitName,zbx_money as zbxje,fyx_money as fyxje,zbx_money+fyx_money as zje,'preMoney' as showFlag,show_order
+				FROM out_tem_money_total
+				WHERE
+					is_yjy = '研究院'
+					
+				union ALL
+				SELECT SUBSTR(define2 FROM 4) as unitName,ROUND(sum(case when define1 = '资本性' then jf else 0 end),2) as zbxje,
+					    ROUND(sum(case when define1 = '费用性' then jf else 0 end),2) as fyxje,
+							ROUND(sum(jf),2) as zje,
+							'actMoney' as showFlag,SUBSTR(define2,3,1) as show_order
+				FROM out_project_info
+				WHERE
+					define2 is not NULL and nd = '2018' and (project_scope = '新开课题' or project_scope = '结转课题') and type_flag like '%直属研究院%'
+				group by define2) as tableA
+			GROUP BY unitName, show_order
+			ORDER BY show_order
+	</select>
+	
+	<!-- 领导二级页面，重大专项项目详情 -->
+	<select id="getZDSTLProjectInfo" resultType="java.util.Map" parameterType="java.util.HashMap">
+			select 
+				nd,ysnd,hth,xmmc,jf,ysje,fzdw,zylb,fzrxm,zycmc,xmlbmc,define1,fwdx
+			from out_project_info
+			where 
+				project_property = '重大专项' and ysnd = '${nd}'
+			order by nd desc,hth
+	</select>
+	
+	<!--  领导二级页面，重点项目、国家项目、重大专项、十条龙、其他项目的新开、结转情况 -->
+	<select id="getProjectNewOldInfoByType" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select 
+			sum(case when nd = '${nd}' then 1 else 0 end) as xksl,
+		    sum(case when nd &lt; '${nd}' then 1 else 0 end) as xjsl,
+		    count(*) as zsl,
+			( select count(DISTINCT xmid) 
+			  from out_project_info 
+				  where 
+					project_type != '1' 
+					and out_project_info.define3 = '项目管理系统' 
+					and out_project_info.ysnd = '${nd}'
+					and type_flag like '%直属研究院%'
+			) as temsh,
+			round(count(DISTINCT xmid)/(select count(DISTINCT xmid) 
+										from out_project_info 
+										where 
+											project_type != '1' 
+											and out_project_info.define3 = '项目管理系统' 
+											and out_project_info.ysnd = '${nd}'
+											and type_flag like '%直属研究院%'
+										)*100, 2) as zslRate,
+			round(sum(case when nd = '${nd}' then 1 else 0 end)/count(*)*100, 2) as xkRate,
+			round(sum(case when nd &lt; '${nd}' then 1 else 0 end)/count(*)*100, 2) as xjRate,
+			project_property
+		from (
+			select nd,xmid,project_property
+			FROM out_project_info
+			where 
+				  project_type != '1' 
+				  and out_project_info.define3 = '项目管理系统' 
+      		      and out_project_info.ysnd = '${nd}'
+				  and type_flag like '%直属研究院%'
+      		GROUP BY out_project_info.xmid) as tableA
+		group by project_property
+		
+	</select>
+	
+	<!--  领导二级页面，各类型技术的新开、结转情况 -->
+	<select id="getProjectInfoByTecTypeWithOldNew" resultType="java.util.Map" parameterType="java.util.HashMap">
+		SELECT SUBSTR(define5 FROM 4) define5,SUM(zsl) zsl,SUM(xksl) xksl,SUM(xjsl) xjsl FROM (
+			select 
+				case when define5 is null then '109其他相关技术' else define5 end as define5,
+					 count(*) as zsl,
+				   sum(case when nd = '${nd}' then 1 else 0 end) as xksl,
+			       sum(case when nd &lt; '${nd}' then 1 else 0 end) as xjsl
+			from out_project_info
+			WHERE
+				ysnd= '${nd}' and project_type != '1' and out_project_info.define3 = '项目管理系统' 
+				<if test="typeFlag != null and typeFlag != ''">
+					and type_flag like '%${typeFlag}%'
+				</if>
+				<if test="xmlbbm != null and xmlbbm == 'kyzb'">
+					 and xmlbbm ='KYZB'
+				</if>
+				<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
+					 and xmlbbm !='KYZB'
+				</if>
+				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				   <if test="zycmc != null and zycmc != ''">
+						and find_in_set(zycmc, '${zycmc}')
+				   </if>
+				   <if test="zycmc == null or zycmc == ''">
+						and out_project_info.nd = '1900'
+				   </if>
+			    </if>
+			group by xmid) AS tableA 
+		GROUP BY tableA.define5
+	</select>
+	
+	<!--  领导首页-十条龙，十条龙项目的类型分布 -->
+	<select id="getDragonProjectInfoByType" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select xmlbmc,count(DISTINCT xmmc) as sl
+		from out_project_info
+		WHERE
+			project_property = '十条龙项目'  and nd='${nd}' and project_type != '2'
+			<if test="type_flag != null">
+				and out_project_info.type_flag like '%${type_flag}%'
+			</if>
+		group by xmlbmc
+	</select>
+	
+	<!--  领导首页-十条龙，十条龙项目的出入龙情况 -->
+	<select id="getDragonProjectInfoWithOutIn" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select 
+			 sum(case when ysnd='${nd}' and `status` = '申请休眠' then 1 else 0 end) sqxm,
+			 sum(case when ysnd='${nd}' and `status` = '申请退龙' then 1 else 0 end) sqtl,
+			 sum(case when ysnd='${nd}' and `status` = '入龙' then 1 else 0 end) tjrl,
+			 sum(case when ysnd='${nd}' and `status` = '申请延期' then 1 else 0 end) sqyq,
+			 sum(case when ysnd='${nd}' and `status` = '申请出龙' then 1 else 0 end) sqcl,
+			 sum(case when ysnd='${nd}' and `status` = '在研项目' then 1 else 0 end) zyxm
+		from (
+			select distinct xmmc,ysnd,`status`
+			from out_project_info
+			WHERE
+				project_property = '十条龙项目' and project_type != '2'
+				<if test="type_flag != null">
+					and out_project_info.type_flag like '%${type_flag}%'
+				</if>
+		) as tableA
+		
+	</select>
+	
+	<!--  领导首页-十条龙，8个研究院的龙项目/重大专项项目分布 -->
+	<select id="getDragonProjectInfoByInstitute" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select SUBSTR(define2 FROM 4) as define2,
+			 sum(case when project_property = '十条龙项目' then 1 else 0 end) stlxm,
+			 sum(case when project_property = '重大专项' then 1 else 0 end) zdzx
+		FROM 
+			(select distinct xmmc,ysnd,project_property,define2
+			 from out_project_info
+			 WHERE
+				 ysnd = '${nd}' and type_flag like '%研究院' and project_type != '2'
+	    	) as tableA
+		GROUP BY tableA.define2
+	</select>
+	
+	<!--  领导首页-十条龙，十条龙项目的详情 -->
+	<select id="getDragonProjectDetails" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select tableA.*,
+		       GROUP_CONCAT(DISTINCT tableB.fzdw separator '<![CDATA[<br>]]>') as zzdw,
+			   GROUP_CONCAT(DISTINCT tableC.fzdw separator '<![CDATA[<br>]]>') as fzzdw,
+			   GROUP_CONCAT(DISTINCT tableD.fzdw separator '<![CDATA[<br>]]>') as xzdw,
+			   GROUP_CONCAT(DISTINCT tableE.fzdw separator '<![CDATA[<br>]]>') as zydw
+		from (
+		select xmid,nd,xmmc,`status`,define6,jdap,hth
+				from out_project_info
+				WHERE
+					 project_property = '十条龙项目'
+					<if test="nd != null">
+						and out_project_info.nd = #{nd}
+					</if>
+					<if test="ysnd != null">
+						and out_project_info.ysnd = #{ysnd}
+					</if>
+					<if test="xmmc != null">
+						and out_project_info.xmmc like '%${xmmc}%'
+					</if>
+					<if test="status != null">
+						and (
+						<foreach collection="status" item="a" index="index" separator=" or ">
+							out_project_info.status like '%${a}%'
+						</foreach>
+						)
+					</if>
+					<if test="define2 != null">
+						and (
+						<foreach collection="define2" item="b" index="index" separator=" or ">
+							out_project_info.define2 like '%${b}%'
+						</foreach>
+						)
+					</if>
+					<if test="xmlbmc != null">
+						and (
+						<foreach collection="xmlbmc" item="c" index="index" separator=" or ">
+							out_project_info.xmlbmc like '%${c}%'
+						</foreach>
+						)
+					</if>
+					<if test="type_flag != null">
+						and (
+						<foreach collection="type_flag" item="d" index="index" separator=" or ">
+							out_project_info.type_flag like '%${d}%'
+						</foreach>
+						)
+					</if>
+		
+				GROUP BY hth) as tableA left join out_project_info as tableB on (tableA.hth = tableB.hth and tableB.define6 = '1组长单位')
+										left join out_project_info as tableC on (tableA.hth = tableC.hth and tableC.define6 = '2副组长单位')
+										left join out_project_info as tableD on (tableA.hth = tableD.hth and tableD.define6 = '3协作单位')
+										left join out_project_info as tableE on (tableA.hth = tableE.hth and tableE.define6 = '4组员单位')
+			GROUP BY tableA.hth
+			ORDER BY xmmc
+	</select>
+	
+  	
+  	<!-- 获取详细的查询条件 -->
+	<select id="getProjectInfoSelectCondition" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select 'define1' as showCode,define1 as showName 
+		from out_project_info
+		WHERE
+			define3='项目管理系统'
+		group by define1
+		
+		union ALL
+		select 'define2' as showCode,SUBSTR(define2 FROM 4) as showName
+		from out_project_info
+		WHERE
+			define3='项目管理系统' and type_flag like '%研究院%'
+		group by define2
+		
+		union ALL
+		select 'define11' as showCode,SUBSTR(define11 FROM 2) as showName
+		from out_project_info
+		WHERE
+			define3='项目管理系统'
+		group by define11
+		
+		union ALL
+		select 'define12' as showCode,SUBSTR(define12 FROM 2) as showName
+		from out_project_info
+		WHERE
+			define3='项目管理系统' and define12 is not null
+		group by define12
+		
+		union ALL
+		select 'type_flag' as showCode,SUBSTR(type_flag FROM 2) as showName
+		from out_project_info
+		WHERE
+			define3='项目管理系统' and type_flag is not null
+		group by type_flag
+		
+		union ALL
+		select 'zylb' as showCode, zylb as showName
+		from out_project_info
+		WHERE
+			define3='项目管理系统' and zylb is not null
+		GROUP BY zylb
+		
+		union ALL
+		select 'define10' as showCode, SUBSTR(define10 FROM 4) as showName
+		from out_project_info
+		WHERE
+			define3='项目管理系统'
+		group by define10
+		
+	</select>
+	
+	
+	<!-- 获取十条龙详细的查询条件 -->
+	<select id="getDragonProjectInfoSelectCondition" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select 'status' as showCode,`status` as showName 
+		from out_project_info 
+		where 
+		project_property like '%十条龙%'
+		GROUP BY `status`
+		
+		union all 
+		select 'xmlbmc' as showCode,xmlbmc as showName 
+		from out_project_info 
+		where 
+		project_property like '%十条龙%'
+		GROUP BY xmlbmc
+		
+		union all 
+		select 'define2' as showCode,SUBSTR(define2 FROM 4) as showName 
+		from out_project_info 
+		where 
+		type_flag like '%直属研究院%'
+		GROUP BY define2
+		
+		union all 
+		select 'type_flag',case when type_flag is null then '其他' else SUBSTR(type_flag FROM 2) end as type_flag
+		from out_project_info
+		where 
+		project_property like '%十条龙%'
+		group by type_flag
+		
+	</select>
+	
+	<!-- 分页显示项目数据数据,统计的第三级展示 -->
+	<select id="selectCommonProjectByCond" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+		select out_project_info.define1,out_project_info.define9,
+			   substr(out_project_info.define2 from 4) as define2,
+			   substr(out_project_info.type_flag from 2) as type_flag,
+			   out_project_info.xmmc,out_project_info.ysnd,
+			   out_project_info.jf,sum(out_project_info.ysje) as ysje,
+			   sum(out_project_info.yszbxje) as yszbxje,sum(out_project_info.ysfyxje) as ysfyxje,
+			   out_project_info.project_property,out_project_info.fzdw,out_project_info.zylb,
+			   substr(out_project_info.define10 from 4) as define10,
+			   substr(out_project_info.define11 from 2) as define11,
+			   substr(out_project_info.define12 from 2) as define12,
+		       out_project_info.nd,GROUP_CONCAT(out_project_info.define8) as define8,out_project_info.hth,out_project_info.zycmc
+		from out_project_info
+		where
+			 out_project_info.project_type != '1'
+			 and define3 = '项目管理系统'
+			<if test="nd != null">
+				and out_project_info.nd = #{nd}
+			</if>
+			<if test="ysnd != null">
+				and out_project_info.ysnd = #{ysnd}
+			</if>
+			<if test="ktlx != null and ktlx == '新开课题' and nd != null">
+				and out_project_info.ysnd = #{nd} and out_project_info.nd = #{nd} 
+			</if>
+			<if test="ktlx != null and ktlx == '结转课题' and nd != null">
+				and out_project_info.ysnd = #{nd} and out_project_info.nd &lt; #{nd} 
+			</if>
+			<if test="hth != null">
+				and out_project_info.hth like '%${hth}%'
+			</if>
+			<if test="xmmc != null">
+				and out_project_info.xmmc like '%${xmmc}%'
+			</if>
+			<if test="define1 != null">
+				and (
+				<foreach collection="define1" item="define1" index="index" separator=" or ">
+					out_project_info.define1 like '%${define1}%'
+				</foreach>
+				)
+			</if>
+			<if test="define9 != null">
+				and (
+				<foreach collection="define9" item="define9" index="index" separator=" or ">
+					out_project_info.define9 like '%${define9}%'
+				</foreach>
+				)
+			</if>
+			<if test="define10 != null">
+				and (
+				<foreach collection="define10" item="define10" index="index" separator=" or ">
+					out_project_info.define10 like '%${define10}%'
+				</foreach>
+				)
+			</if>
+			<if test="define11 != null">
+				and (
+				<foreach collection="define11" item="define11" index="index" separator=" or ">
+					out_project_info.define11 like '%${define11}%'
+				</foreach>
+				)
+			</if>
+			<if test="fzdwflag != null and fzdwflag == '牵头单位'">
+				<if test="define12 != null">
+					and (
+					<foreach collection="define12" item="define12" index="index" separator=" or ">
+						out_project_info.fzdwunit like '%${define12}%'
+					</foreach>
+					)
+				</if>
+				<if test="define2 != null">
+					and (
+					<foreach collection="define2" item="define2" index="index" separator=" or ">
+						out_project_info.fzdwunitcw like '%${define2}%'
+					</foreach>
+					)
+				</if>
+			</if>
+			
+			<if test="fzdwflag == null or fzdwflag == '' or fzdwflag == '承担单位'">
+				<if test="define12 != null">
+					and (
+					<foreach collection="define12" item="define12" index="index" separator=" or ">
+						out_project_info.define12 like '%${define12}%'
+					</foreach>
+					)
+				</if>
+				<if test="define2 != null">
+					and (
+					<foreach collection="define2" item="define2" index="index" separator=" or ">
+						out_project_info.define2 like '%${define2}%'
+					</foreach>
+					)
+				</if>
+			</if>
+			<if test="define5 != null">
+				and (
+				<foreach collection="define5" item="define5" index="index" separator=" or ">
+					out_project_info.define5 like '%${define5}%'
+				</foreach>
+				)
+			</if>
+			<if test="project_property != null">
+				and (
+				<foreach collection="project_property" item="project_property" index="index" separator=" or ">
+					out_project_info.project_property like '%${project_property}%'
+				</foreach>
+				)
+			</if>
+			<if test="project_property == null">
+				and out_project_info.project_property not like '%国家%'
+			</if>
+			<if test="zylb != null">
+				and (
+				<foreach collection="zylb" item="zylb" index="index" separator=" or ">
+					out_project_info.zylb like '%${zylb}%'
+				</foreach>
+				)
+			</if>
+			<if test="type_flag != null">
+				and (
+				<foreach collection="type_flag" item="type_flag" index="index" separator=" or ">
+					out_project_info.type_flag like '%${type_flag}%'
+				</foreach>
+				)
+			</if>
+			<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+			    <if test="zycmc != null and zycmc != ''">
+					and find_in_set(zycmc, '${zycmc}')
+			    </if>
+			    <if test="zycmc == null or zycmc == ''">
+					and out_project_info.nd = '1900'
+			    </if>
+		    </if>
+			<!--add start-->
+	        <if test="keyword != null">
+	            ${keyword}
+	        </if>
+	        <!--add end-->
+			
+			group by xmid,ysnd
+			<if test="orderKey != null and orderKey != ''">
+				<if test="orderType != null and orderType != ''">
+					order by ${orderKey} ${orderType}
+				</if>
+				<if test="orderType == null or orderType == ''">
+					order by ${orderKey} desc
+				</if>
+			</if>
+			<if test="orderKey == null">
+				order by out_project_info.hth desc, out_project_info.define10
+			</if>
+	</select>
+	
+	
+	<!-- 分页显示项目数据数据,国拨项目统计的第三级展示 -->
+	<select id="selectCountryProjectByCond" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+		select out_project_info.define1,substr(out_project_info.define2 from 4) as define2,
+			   substr(out_project_info.type_flag from 2) as type_flag,
+			   out_project_info.xmmc,out_project_info.ysnd,
+			   out_project_info.jf,sum(out_project_info.ysje) as ysje,
+			   out_project_info.fzdw,out_project_info.zylb,
+		       out_project_info.nd,
+		       out_project_info.hth
+		from out_project_info
+		where
+			 out_project_info.project_type != '1'
+			 and out_project_info.project_property = '国家项目'
+			<if test="nd != null">
+				and out_project_info.nd = #{nd}
+			</if>
+			<if test="ysnd != null">
+				and out_project_info.ysnd = #{ysnd}
+			</if>
+			<if test="ktlx != null and ktlx == '新开课题' and nd != null">
+				and out_project_info.ysnd = #{nd} and out_project_info.nd = #{nd} 
+			</if>
+			<if test="ktlx != null and ktlx == '结转课题' and nd != null">
+				and out_project_info.ysnd = #{nd} and out_project_info.nd &lt; #{nd} 
+			</if>
+			<if test="hth != null">
+				and out_project_info.hth like '%${hth}%'
+			</if>
+			<if test="xmmc != null">
+				and out_project_info.xmmc like '%${xmmc}%'
+			</if>
+			<if test="define1 != null">
+				and (
+				<foreach collection="define1" item="define1" index="index" separator=" or ">
+					out_project_info.define1 like '%${define1}%'
+				</foreach>
+				)
+			</if>
+			<if test="define2 != null">
+				and (
+				<foreach collection="define2" item="define2" index="index" separator=" or ">
+					out_project_info.define2 like '%${define2}%'
+				</foreach>
+				)
+			</if>
+			group by xmid,ysnd
+			<if test="orderKey != null and orderKey != ''">
+				<if test="orderType != null and orderType != ''">
+					order by ${orderKey} ${orderType}
+				</if>
+				<if test="orderType == null or orderType == ''">
+					order by ${orderKey} desc
+				</if>
+			</if>
+			<if test="orderKey == null">
+				order by out_project_info.hth desc, out_project_info.define2
+			</if>
+	</select>
+	
+	
+  <!--首页查询start-->
+  <select id="findOutProjectInfoList" parameterType="com.pcitc.base.stp.out.OutProjectInfo" resultMap="BaseResultMap">
+    select
+    data_id,
+    nd,
+    xmid,
+    hth,
+    xmmc,
+    xmjb,
+    ysnd,
+    yshf,
+    ysxd,
+    ysje,
+    jf,
+    fwdxbm,
+    fwdx,
+    zylbbm,
+    zylb,
+    fzdwbm,
+    fzdw,
+    jtfzdwbm,
+    jtfzdw,
+    fzryx,
+    fzrdh,
+    fzrxm,
+    lxrdh,
+    lxryx,
+    lxrxm,
+    jssxxm,
+    jssj,
+    kssj,
+    yjsj,
+    zyly,
+    zysx,
+    sjid,
+    --     lxbj,
+    --     yjnr,
+    --     jdap,
+    --     yjmb,
+    create_date,
+    create_person,
+    status,
+    update_date,
+    project_id,
+    parent_project_id,
+    project_type,
+    erp_project_code,
+    erp_project_name,
+    project_scope,
+    project_level,
+    project_property,
+    project_abc,
+    project_source,
+    yjsjks,
+    yjsjjs,
+    xmlbbm,
+    xmlbmc,
+    gsbmmc,
+    gsbmbm,
+    zycmc,
+    zycbm,
+    type_flag,
+    define1,
+    define2,
+    define3,
+    define4,
+    define5,
+    define6,
+    define7,
+    define8,
+    define9
+    from out_project_info
+    where 1=1
+    <if test="dataId!=null and dataId!=''.toString()">
+      and data_id like '%${dataId}%'
+    </if>
+    <if test="nd!=null and nd!=''.toString()">
+      and nd like '%${nd}%'
+    </if>
+    <if test="xmid!=null and xmid!=''.toString()">
+      and xmid like '%${xmid}%'
+    </if>
+    <if test="hth!=null and hth!=''.toString()">
+      and hth like '%${hth}%'
+    </if>
+    <if test="xmmc!=null and xmmc!=''.toString()">
+      and xmmc like '%${xmmc}%'
+    </if>
+    <if test="xmjb!=null and xmjb!=''.toString()">
+      and xmjb like '%${xmjb}%'
+    </if>
+    <if test="ysnd!=null and ysnd!=''.toString()">
+      and ysnd like '%${ysnd}%'
+    </if>
+    <if test="yshf!=null and yshf!=''.toString()">
+      and yshf like '%${yshf}%'
+    </if>
+    <if test="ysxd!=null and ysxd!=''.toString()">
+      and ysxd like '%${ysxd}%'
+    </if>
+    <if test="ysje!=null and ysje!=''.toString()">
+      and ysje like '%${ysje}%'
+    </if>
+    <if test="jf!=null and jf!=''.toString()">
+      and jf like '%${jf}%'
+    </if>
+    <if test="fwdxbm!=null and fwdxbm!=''.toString()">
+      and fwdxbm like '%${fwdxbm}%'
+    </if>
+    <if test="fwdx!=null and fwdx!=''.toString()">
+      and fwdx like '%${fwdx}%'
+    </if>
+    <if test="zylbbm!=null and zylbbm!=''.toString()">
+      and zylbbm like '%${zylbbm}%'
+    </if>
+    <if test="zylb!=null and zylb!=''.toString()">
+      and zylb like '%${zylb}%'
+    </if>
+    <if test="fzdwbm!=null and fzdwbm!=''.toString()">
+      and fzdwbm like '%${fzdwbm}%'
+    </if>
+    <if test="fzdw!=null and fzdw!=''.toString()">
+      and fzdw like '%${fzdw}%'
+    </if>
+    <if test="jtfzdwbm!=null and jtfzdwbm!=''.toString()">
+      and jtfzdwbm like '%${jtfzdwbm}%'
+    </if>
+    <if test="jtfzdw!=null and jtfzdw!=''.toString()">
+      and jtfzdw like '%${jtfzdw}%'
+    </if>
+    <if test="fzryx!=null and fzryx!=''.toString()">
+      and fzryx like '%${fzryx}%'
+    </if>
+    <if test="fzrdh!=null and fzrdh!=''.toString()">
+      and fzrdh like '%${fzrdh}%'
+    </if>
+    <if test="fzrxm!=null and fzrxm!=''.toString()">
+      and fzrxm like '%${fzrxm}%'
+    </if>
+    <if test="lxrdh!=null and lxrdh!=''.toString()">
+      and lxrdh like '%${lxrdh}%'
+    </if>
+    <if test="lxryx!=null and lxryx!=''.toString()">
+      and lxryx like '%${lxryx}%'
+    </if>
+    <if test="lxrxm!=null and lxrxm!=''.toString()">
+      and lxrxm like '%${lxrxm}%'
+    </if>
+    <if test="jssxxm!=null and jssxxm!=''.toString()">
+      and jssxxm like '%${jssxxm}%'
+    </if>
+    <if test="jssj!=null and jssj!=''.toString()">
+      and jssj like '%${jssj}%'
+    </if>
+    <if test="kssj!=null and kssj!=''.toString()">
+      and kssj like '%${kssj}%'
+    </if>
+    <if test="yjsj!=null and yjsj!=''.toString()">
+      and yjsj like '%${yjsj}%'
+    </if>
+    <if test="zyly!=null and zyly!=''.toString()">
+      and zyly like '%${zyly}%'
+    </if>
+    <if test="zysx!=null and zysx!=''.toString()">
+      and zysx like '%${zysx}%'
+    </if>
+    <if test="sjid!=null and sjid!=''.toString()">
+      and sjid like '%${sjid}%'
+    </if>
+    <!--<if test="lxbj!=null and lxbj!=''.toString()">-->
+    <!--and lxbj like '%${lxbj}%'-->
+    <!--</if>-->
+    <!--<if test="yjnr!=null and yjnr!=''.toString()">-->
+    <!--and yjnr like '%${yjnr}%'-->
+    <!--</if>-->
+    <!--<if test="jdap!=null and jdap!=''.toString()">-->
+    <!--and jdap like '%${jdap}%'-->
+    <!--</if>-->
+    <!--<if test="yjmb!=null and yjmb!=''.toString()">-->
+    <!--and yjmb like '%${yjmb}%'-->
+    <!--</if>-->
+    <if test="createDate!=null and createDate!=''.toString()">
+      and create_date like '%${createDate}%'
+    </if>
+    <if test="createPerson!=null and createPerson!=''.toString()">
+      and create_person like '%${createPerson}%'
+    </if>
+    <if test="status!=null and status!=''.toString()">
+      and status like '%${status}%'
+    </if>
+    <if test="updateDate!=null and updateDate!=''.toString()">
+      and update_date like '%${updateDate}%'
+    </if>
+    <if test="projectId!=null and projectId!=''.toString()">
+      and project_id like '%${projectId}%'
+    </if>
+    <if test="parentProjectId!=null and parentProjectId!=''.toString()">
+      and parent_project_id like '%${parentProjectId}%'
+    </if>
+    <if test="projectType!=null and projectType!=''.toString()">
+      and project_type like '%${projectType}%'
+    </if>
+    <if test="erpProjectCode!=null and erpProjectCode!=''.toString()">
+      and erp_project_code like '%${erpProjectCode}%'
+    </if>
+    <if test="erpProjectName!=null and erpProjectName!=''.toString()">
+      and erp_project_name like '%${erpProjectName}%'
+    </if>
+    <if test="projectScope!=null and projectScope!=''.toString()">
+      and project_scope like '%${projectScope}%'
+    </if>
+    <if test="projectLevel!=null and projectLevel!=''.toString()">
+      and project_level like '%${projectLevel}%'
+    </if>
+    <if test="projectProperty!=null and projectProperty!=''.toString()">
+      and project_property like '%${projectProperty}%'
+    </if>
+    <if test="projectAbc!=null and projectAbc!=''.toString()">
+      and project_abc like '%${projectAbc}%'
+    </if>
+    <if test="projectSource!=null and projectSource!=''.toString()">
+      and project_source like '%${projectSource}%'
+    </if>
+    <if test="yjsjks!=null and yjsjks!=''.toString()">
+      and yjsjks like '%${yjsjks}%'
+    </if>
+    <if test="yjsjjs!=null and yjsjjs!=''.toString()">
+      and yjsjjs like '%${yjsjjs}%'
+    </if>
+    <if test="xmlbbm!=null and xmlbbm!=''.toString()">
+      and xmlbbm like '%${xmlbbm}%'
+    </if>
+    <if test="xmlbmc!=null and xmlbmc!=''.toString()">
+      and xmlbmc like '%${xmlbmc}%'
+    </if>
+    <if test="gsbmmc!=null and gsbmmc!=''.toString()">
+      and gsbmmc like '%${gsbmmc}%'
+    </if>
+    <if test="gsbmbm!=null and gsbmbm!=''.toString()">
+      and gsbmbm like '%${gsbmbm}%'
+    </if>
+    <if test="zycmc!=null and zycmc!=''.toString()">
+      and zycmc like '%${zycmc}%'
+    </if>
+    <if test="zycbm!=null and zycbm!=''.toString()">
+      and zycbm like '%${zycbm}%'
+    </if>
+    <if test="typeFlag!=null and typeFlag!=''.toString()">
+      and type_flag like '%${typeFlag}%'
+    </if>
+    <if test="define1!=null and define1!=''.toString()">
+      and define1 like '%${define1}%'
+    </if>
+    <if test="define2!=null and define2!=''.toString()">
+      and define2 like '%${define2}%'
+    </if>
+    <if test="define3!=null and define3!=''.toString()">
+      and define3 like '%${define3}%'
+    </if>
+    <if test="define4!=null and define4!=''.toString()">
+      and define4 like '%${define4}%'
+    </if>
+    <if test="define5!=null and define5!=''.toString()">
+      and define5 like '%${define5}%'
+    </if>
+    <if test="define6!=null and define6!=''.toString()">
+      and define6 like '%${define6}%'
+    </if>
+    <if test="define7!=null and define7!=''.toString()">
+      and define7 like '%${define7}%'
+    </if>
+    <if test="define8!=null and define8!=''.toString()">
+      and define8 like '%${define8}%'
+    </if>
+    <if test="define9!=null and define9!=''.toString()">
+      and define9 like '%${define9}%'
+    </if>
+
+  </select>
+  <select id="findOutProjectInfoListOr" parameterType="com.pcitc.base.stp.out.OutProjectInfo" resultMap="BaseResultMap">
+    select
+    data_id,
+    nd,
+    xmid,
+    hth,
+    xmmc,
+    xmjb,
+    ysnd,
+    yshf,
+    ysxd,
+    ysje,
+    jf,
+    fwdxbm,
+    fwdx,
+    zylbbm,
+    zylb,
+    fzdwbm,
+    fzdw,
+    jtfzdwbm,
+    jtfzdw,
+    fzryx,
+    fzrdh,
+    fzrxm,
+    lxrdh,
+    lxryx,
+    lxrxm,
+    jssxxm,
+    jssj,
+    kssj,
+    yjsj,
+    zyly,
+    zysx,
+    sjid,
+    --     lxbj,
+    --     yjnr,
+    --     jdap,
+    --     yjmb,
+    create_date,
+    create_person,
+    status,
+    update_date,
+    project_id,
+    parent_project_id,
+    project_type,
+    erp_project_code,
+    erp_project_name,
+    project_scope,
+    project_level,
+    project_property,
+    project_abc,
+    project_source,
+    yjsjks,
+    yjsjjs,
+    xmlbbm,
+    xmlbmc,
+    gsbmmc,
+    gsbmbm,
+    zycmc,
+    zycbm,
+    type_flag,
+    define1,
+    define2,
+    define3,
+    define4,
+    define5,
+    define6,
+    define7,
+    define8,
+    define9
+    from out_project_info
+    where
+    <if test="dataId!=null and dataId!=''.toString()">
+      data_id like '%${dataId}%'
+    </if>
+    <if test="nd!=null and nd!=''.toString()">
+      or nd like '%${nd}%'
+    </if>
+    <if test="xmid!=null and xmid!=''.toString()">
+      or xmid like '%${xmid}%'
+    </if>
+    <if test="hth!=null and hth!=''.toString()">
+      or hth like '%${hth}%'
+    </if>
+    <if test="xmmc!=null and xmmc!=''.toString()">
+      or xmmc like '%${xmmc}%'
+    </if>
+    <if test="xmjb!=null and xmjb!=''.toString()">
+      or xmjb like '%${xmjb}%'
+    </if>
+    <if test="ysnd!=null and ysnd!=''.toString()">
+      or ysnd like '%${ysnd}%'
+    </if>
+    <if test="yshf!=null and yshf!=''.toString()">
+      or yshf like '%${yshf}%'
+    </if>
+    <if test="ysxd!=null and ysxd!=''.toString()">
+      or ysxd like '%${ysxd}%'
+    </if>
+    <if test="ysje!=null and ysje!=''.toString()">
+      or ysje like '%${ysje}%'
+    </if>
+    <if test="jf!=null and jf!=''.toString()">
+      or jf like '%${jf}%'
+    </if>
+    <if test="fwdxbm!=null and fwdxbm!=''.toString()">
+      or fwdxbm like '%${fwdxbm}%'
+    </if>
+    <if test="fwdx!=null and fwdx!=''.toString()">
+      or fwdx like '%${fwdx}%'
+    </if>
+    <if test="zylbbm!=null and zylbbm!=''.toString()">
+      or zylbbm like '%${zylbbm}%'
+    </if>
+    <if test="zylb!=null and zylb!=''.toString()">
+      or zylb like '%${zylb}%'
+    </if>
+    <if test="fzdwbm!=null and fzdwbm!=''.toString()">
+      or fzdwbm like '%${fzdwbm}%'
+    </if>
+    <if test="fzdw!=null and fzdw!=''.toString()">
+      or fzdw like '%${fzdw}%'
+    </if>
+    <if test="jtfzdwbm!=null and jtfzdwbm!=''.toString()">
+      or jtfzdwbm like '%${jtfzdwbm}%'
+    </if>
+    <if test="jtfzdw!=null and jtfzdw!=''.toString()">
+      or jtfzdw like '%${jtfzdw}%'
+    </if>
+    <if test="fzryx!=null and fzryx!=''.toString()">
+      or fzryx like '%${fzryx}%'
+    </if>
+    <if test="fzrdh!=null and fzrdh!=''.toString()">
+      or fzrdh like '%${fzrdh}%'
+    </if>
+    <if test="fzrxm!=null and fzrxm!=''.toString()">
+      or fzrxm like '%${fzrxm}%'
+    </if>
+    <if test="lxrdh!=null and lxrdh!=''.toString()">
+      or lxrdh like '%${lxrdh}%'
+    </if>
+    <if test="lxryx!=null and lxryx!=''.toString()">
+      or lxryx like '%${lxryx}%'
+    </if>
+    <if test="lxrxm!=null and lxrxm!=''.toString()">
+      or lxrxm like '%${lxrxm}%'
+    </if>
+    <if test="jssxxm!=null and jssxxm!=''.toString()">
+      or jssxxm like '%${jssxxm}%'
+    </if>
+    <if test="jssj!=null and jssj!=''.toString()">
+      or jssj like '%${jssj}%'
+    </if>
+    <if test="kssj!=null and kssj!=''.toString()">
+      or kssj like '%${kssj}%'
+    </if>
+    <if test="yjsj!=null and yjsj!=''.toString()">
+      or yjsj like '%${yjsj}%'
+    </if>
+    <if test="zyly!=null and zyly!=''.toString()">
+      or zyly like '%${zyly}%'
+    </if>
+    <if test="zysx!=null and zysx!=''.toString()">
+      or zysx like '%${zysx}%'
+    </if>
+    <if test="sjid!=null and sjid!=''.toString()">
+      or sjid like '%${sjid}%'
+    </if>
+    <!--<if test="lxbj!=null and lxbj!=''.toString()">-->
+    <!--and lxbj like '%${lxbj}%'-->
+    <!--</if>-->
+    <!--<if test="yjnr!=null and yjnr!=''.toString()">-->
+    <!--and yjnr like '%${yjnr}%'-->
+    <!--</if>-->
+    <!--<if test="jdap!=null and jdap!=''.toString()">-->
+    <!--and jdap like '%${jdap}%'-->
+    <!--</if>-->
+    <!--<if test="yjmb!=null and yjmb!=''.toString()">-->
+    <!--and yjmb like '%${yjmb}%'-->
+    <!--</if>-->
+    <if test="createDate!=null and createDate!=''.toString()">
+      or create_date like '%${createDate}%'
+    </if>
+    <if test="createPerson!=null and createPerson!=''.toString()">
+      or create_person like '%${createPerson}%'
+    </if>
+    <if test="status!=null and status!=''.toString()">
+      or status like '%${status}%'
+    </if>
+    <if test="updateDate!=null and updateDate!=''.toString()">
+      or update_date like '%${updateDate}%'
+    </if>
+    <if test="projectId!=null and projectId!=''.toString()">
+      or project_id like '%${projectId}%'
+    </if>
+    <if test="parentProjectId!=null and parentProjectId!=''.toString()">
+      or parent_project_id like '%${parentProjectId}%'
+    </if>
+    <if test="projectType!=null and projectType!=''.toString()">
+      or project_type like '%${projectType}%'
+    </if>
+    <if test="erpProjectCode!=null and erpProjectCode!=''.toString()">
+      or erp_project_code like '%${erpProjectCode}%'
+    </if>
+    <if test="erpProjectName!=null and erpProjectName!=''.toString()">
+      or erp_project_name like '%${erpProjectName}%'
+    </if>
+    <if test="projectScope!=null and projectScope!=''.toString()">
+      or project_scope like '%${projectScope}%'
+    </if>
+    <if test="projectLevel!=null and projectLevel!=''.toString()">
+      or project_level like '%${projectLevel}%'
+    </if>
+    <if test="projectProperty!=null and projectProperty!=''.toString()">
+      or project_property like '%${projectProperty}%'
+    </if>
+    <if test="projectAbc!=null and projectAbc!=''.toString()">
+      or project_abc like '%${projectAbc}%'
+    </if>
+    <if test="projectSource!=null and projectSource!=''.toString()">
+      or project_source like '%${projectSource}%'
+    </if>
+    <if test="yjsjks!=null and yjsjks!=''.toString()">
+      or yjsjks like '%${yjsjks}%'
+    </if>
+    <if test="yjsjjs!=null and yjsjjs!=''.toString()">
+      or yjsjjs like '%${yjsjjs}%'
+    </if>
+    <if test="xmlbbm!=null and xmlbbm!=''.toString()">
+      or xmlbbm like '%${xmlbbm}%'
+    </if>
+    <if test="xmlbmc!=null and xmlbmc!=''.toString()">
+      or xmlbmc like '%${xmlbmc}%'
+    </if>
+    <if test="gsbmmc!=null and gsbmmc!=''.toString()">
+      or gsbmmc like '%${gsbmmc}%'
+    </if>
+    <if test="gsbmbm!=null and gsbmbm!=''.toString()">
+      or gsbmbm like '%${gsbmbm}%'
+    </if>
+    <if test="zycmc!=null and zycmc!=''.toString()">
+      or zycmc like '%${zycmc}%'
+    </if>
+    <if test="zycbm!=null and zycbm!=''.toString()">
+      or zycbm like '%${zycbm}%'
+    </if>
+    <if test="typeFlag!=null and typeFlag!=''.toString()">
+      or type_flag like '%${typeFlag}%'
+    </if>
+    <if test="define1!=null and define1!=''.toString()">
+      or define1 like '%${define1}%'
+    </if>
+    <if test="define2!=null and define2!=''.toString()">
+      or define2 like '%${define2}%'
+    </if>
+    <if test="define3!=null and define3!=''.toString()">
+      or define3 like '%${define3}%'
+    </if>
+    <if test="define4!=null and define4!=''.toString()">
+      or define4 like '%${define4}%'
+    </if>
+    <if test="define5!=null and define5!=''.toString()">
+      or define5 like '%${define5}%'
+    </if>
+    <if test="define6!=null and define6!=''.toString()">
+      or define6 like '%${define6}%'
+    </if>
+    <if test="define7!=null and define7!=''.toString()">
+      or define7 like '%${define7}%'
+    </if>
+    <if test="define8!=null and define8!=''.toString()">
+      or define8 like '%${define8}%'
+    </if>
+    <if test="define9!=null and define9!=''.toString()">
+      or define9 like '%${define9}%'
+    </if>
+
+  </select>
+  <!--首页查询end-->
+  <select id="selectProjectInfoByCond" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.out.OutProjectInfo">
+		select out_project_info.data_id,out_project_info.hth,out_project_info.xmmc,
+			   out_project_info.nd,out_project_info.xmid,out_project_info.fzdw,
+			   out_project_info.jf,out_project_info.zylb,substr(out_project_info.define10, 4) as define10,
+			   out_project_info.ysje,out_project_info.ysnd,out_project_info.fwdx,out_project_info.status,
+			   out_project_info.fzrxm,out_project_info.define14
+		from out_project_info 
+		where 1=1 
+		<if test="nd != null">
+			and out_project_info.nd = #{nd,jdbcType=VARCHAR}
+		</if>
+		<if test="ysnd != null">
+			and out_project_info.ysnd = #{ysnd,jdbcType=VARCHAR}
+		</if>
+		<if test="hth != null">
+			and out_project_info.hth like '%${hth}%'
+		</if>
+		<if test="xmmc != null">
+			and out_project_info.xmmc like '%${xmmc}%'
+		</if>
+		
+		<if test="projectProperty != null">
+			and out_project_info.project_property like '%${projectProperty}%'
+		</if>
+		
+		group by ysnd,xmid
+		order by ysnd
+	</select>
+</mapper>

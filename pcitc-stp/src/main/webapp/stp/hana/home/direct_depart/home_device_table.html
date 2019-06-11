@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+<div class="searchBox">
+    <!--查询条件-->
+    <label class="dateInput">
+        <span>项目名称</span>
+        <input type="text" name="g0PROJTXT" placeholder="请输项目名称" title="项目名称" autocomplete="off" class="form-control" id="g0PROJTXT">
+    </label>
+    
+    <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control" id="month">
+        </label>
+        <div class="layui-input-inline">
+         <select name="companyCode" id="companyCode" style="width:120px">
+              <#list companyCodeList as vo>
+              	 <#if vo.g0GSJC == '全部'>
+              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
+              	 </#if>
+                 <#if vo.g0GSJC != '全部'>
+              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
+              	 </#if>
+               </#list>
+            </select>
+       </div>
+        
+        
+        
+        <div class="layui-input-inline">
+         <select name="g0XMGLLX" id="g0XMGLLX" >
+             <option value="">---项目类型 ---</option>
+              <#list G0XMGLLX_LIST as vo>
+              	 	<option value="${vo}"
+              	 	 <#if vo == '${g0XMGLLX}'>selected="selected" </#if>
+              	 	 >${vo}</option>
+               </#list>
+            </select>
+       </div>
+       
+       
+       <div class="layui-input-inline">
+         <select name="g0XMGLLY" id="g0XMGLLY" >
+         <option value="">--- 项目来源 ---</option>
+              <#list G0XMGLLY_LIST as vo>
+              	 	<option value="${vo}">${vo}</option>
+               </#list>
+            </select>
+       </div>
+       
+       
+       <div class="layui-input-inline">
+         <select name="g0XMGLJB" id="g0XMGLJB" >
+         <option value="">--- 管理级别 ---</option>
+              <#list G0XMGLJB_LIST as vo>
+              	 	<option value="${vo}">${vo}</option>
+               </#list>
+            </select>
+       </div>
+       
+       
+       <div class="layui-input-inline">
+         <select name="g0XMLX" id="g0XMLX" >
+         <option value="">--- 项目类别 ---</option>
+              <#list G0XMLX_LIST as vo>
+              	 	<option value="${vo}">${vo}</option>
+               </#list>
+            </select>
+       </div> 
+       
+       
+        <div class="layui-input-inline">
+         <select name="g0XMXZ" id="g0XMXZ" style="width:120px">
+         <option value="">--- 项目性质 ---</option>
+              <#list G0XMXZ_LIST as vo>
+              	 	<option value="${vo.g0XMXZ}">${vo.g0XMXZ}</option>
+               </#list>
+            </select>
+       </div>
+       
+       
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"  onclick="renderTable()">查询</button>
+    </div>
+    
+    
+    
+</div>
+<div class="tableBox" style="clear:both">
+    <table id="processdef-table" class="layui-hide" lay-filter="tableEvent">
+</div>
+
+<script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
+<script type="text/javascript">
+    // 时间格式化
+    function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+</script>
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script>
+var table,selectRowData;
+var g0PROJTXT=$('#g0PROJTXT').val();
+
+var g0XMGLLX="${g0XMGLLX?default('')}";
+
+
+
+layui.config({
+    base: '/layuiadmin/module/modules/' //静态资源所在路径
+}).use(['jquery','form', 'laydate','table','laypage'], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,form = layui.form
+      ,laydate = layui.laydate,
+	  form.render(null, 'component-form-group');
+            laydate.render({
+               elem: '#month'
+               ,format: 'yyyyMM'
+               
+            });
+
+
+
+            
+            
+            //加载表格      
+     	     renderTable();
+     	     //移除表头的复选框,去掉全选
+     	     $(".layui-table-header table thead th input").remove();  
+
+        // 触发不同的按钮事件
+        var $ = layui.$, active = {
+           
+            
+        };
+        //监听排序
+        table.on('sort(model-table)', function(obj){
+            console.log(this, obj.field, obj.type)
+            //return;
+            //服务端排序
+            table.reload('model-table', {
+                initSort: obj,
+                page: {curr: 1}, //重新从第一页开始
+                where: { //重新请求服务端
+                    orderKey: obj.field, //排序字段
+                    orderType: obj.type //排序方式
+                }
+            });
+        });
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+         
+        
+        
+    });
+    
+    
+    function renderTable()
+    {
+    	
+    	var index = layer.load(1, {
+    		  shade: [0.1,'#fff'] //0.1透明度的白色背景
+    		});
+    	
+      //渲染
+      table.render({
+        elem: '#processdef-table',
+        url: '/home_device/home_device_table_data',
+        method:"POST",
+        where: {param: {
+        	      "month":$("#month").val(),
+        	      "companyCode":$("#companyCode").val(),
+        	      "g0PROJTXT":$("#g0PROJTXT").val(),
+        	      "g0XMGLLX":$("#g0XMGLLX").val(),
+        	      "g0XMGLLY":$("#g0XMGLLY").val(),
+        	      "g0XMGLJB":$("#g0XMGLJB").val(),
+        	      "g0XMLX":$("#g0XMLX").val(),
+        	      "g0XMXZ":$("#g0XMXZ").val()
+        	
+               }},
+        limit: 15,
+        id: 'processdef-table',
+        height: commonDislodgeTable(),
+        page: {
+            groups: 5,
+            limits: [15,30,45,60],
+            layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+            first: '首页', //不显示首页
+            last: '尾页', //不显示尾页
+            theme: '#0F9EE0'
+        },
+        cols: [[
+        	{title:'序号',              type:'numbers', width: '4%'},
+        	{field:'g0GSJC',          title:'公司简称',        style:'cursor: pointer;',align: 'center', width: '150'},
+        	{field:'g0GSSP',          title:'二级公司',        style:'cursor: pointer;',align: 'center', width: '150'},
+            {field:'g0PROJTXT',       title:'项目名称',        style:'cursor: pointer;',align: 'left', width: '380'},
+            {field:'g0XMGLLX',        title:'项目类型',        style:'cursor: pointer;',align: 'center', width: '150'},
+            {field:'g0XMGLLY',        title:'项目来源',        style:'cursor: pointer;',align: 'center', width: '150'},
+            {field:'g0XMGLJB',        title:'管理级别',        style:'cursor: pointer;',align: 'center', width: '150'},
+            {field:'g0XMLXMS',        title:'项目类别描述',     style:'cursor: pointer;',align: 'center', width: '150'},
+            {field:'g0XMZTMS',        title:'项目状态描述',     style:'cursor: pointer;',align: 'center', width: '150'},
+            {field:'g0XMXZ',          title:'项目性质',        style:'cursor: pointer;',align: 'center', width: '150'},
+            {field:'k0BNYSL',         title:'本年执行项目数量',     style:'cursor: pointer;',align: 'center', width: '150', templet: '<div>{{ layui.laytpl.milliFormat(d.k0BNYSJHJE,0) }}</div>'},
+            {field:'k0BNYSJHJE',      title:'年度计划预算',       style:'cursor: pointer;',align: 'center', width: '150', templet: '<div>{{ layui.laytpl.milliFormat(d.k0BNXMXKSL,0) }}</div>'},
+            {field:'k0BNGLFPHJECB',   title:'管理分配后金额-成本-本年',     style:'cursor: pointer;',align: 'center', width: '150', templet: '<div>{{ layui.laytpl.milliFormat(d.k0BNGLFPHJECB,0) }}</div>'},
+            {field:'k0BNYSJY',        title:'本年预算结余金额',     style:'cursor: pointer;',align: 'center', width: '150', templet: '<div>{{ layui.laytpl.milliFormat(d.k0BNYSJY,0) }}</div>'},
+            {field:'k0LJYSL',         title:'累计执行项目数量',     style:'cursor: pointer;',align: 'center', width: '150', templet: '<div>{{ layui.laytpl.milliFormat(d.k0LJYSL,0) }}</div>'},
+            {field:'k0ZTYSJE',        title:'项目总预算',          style:'cursor: pointer;',align: 'center', width: '150', templet: '<div>{{ layui.laytpl.milliFormat(d.k0ZTYSJE,0) }}</div>'},
+            {field:'k0LJGLFPHJECB',   title:'管理分配后金额-成本(含承诺)-累计',   style:'cursor: pointer;',align: 'center', width: '150', templet: '<div>{{ layui.laytpl.milliFormat(d.k0LJGLFPHJECB,0) }}</div>'},
+            {field:'k0LJYSJY',        title:'本年预算结余金额',               style:'cursor: pointer;',align: 'center', width: '150', templet: '<div>{{ layui.laytpl.milliFormat(d.k0LJYSJY,0) }}</div>'}
+            
+        ]],
+        done: function (res, curr, count) {
+            // 点击行联动选择框--单选
+            $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+            	var index=parseInt($(this).index()+1);
+                $('tr').removeClass('layui-table-click');
+                $(this).addClass('layui-table-click');
+                $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                selectRowData=res.data[index-1];
+            });
+            
+            layer.close(index);
+        }
+      });
+    }
+   
+    
+    
+    function back()
+    {
+    	
+    }
+    
+   
+   
+
+</script>
+
+</body>
+</html>

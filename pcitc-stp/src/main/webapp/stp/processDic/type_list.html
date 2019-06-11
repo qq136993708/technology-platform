@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+     <script src="/common/js/jquery-1.11.3.min.js"></script>
+    <script src="/layuiadmin/layui/layui.js"></script>
+       <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+</head>
+
+<body>
+
+
+
+<div class="tableBox">
+
+
+
+		<div class="layui-table-box">
+			<div class="layui-table-header">
+				<table cellspacing="0" cellpadding="0" border="0" class="layui-table">
+					<thead>
+						<tr>
+						<th style="width:10px"></th>
+							<th class="">
+							<div class="layui-table-cell laytable-cell-2-0-2">
+									<span>分类名</span>
+								</div></th>
+							<th class=" layui-table-col-special">
+							    <div class="layui-table-cell laytable-cell-2-0-3" align="center">
+									<span>操作</span>
+								</div>
+						 </th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<div class="layui-table-body layui-table-main">
+				<table cellspacing="0" cellpadding="0" border="0" class="layui-table">
+					<tbody>
+					<#list list as sc>
+						<tr data-index="0" class="">
+						   <td style="width:10px">${sc_index+1}</td>
+							<td  class=""><div class="layui-table-cell laytable-cell-2-0-2">${sc.name}</div></td>
+							<td align="center"  class="layui-table-col-special">
+							     <div class="layui-table-cell laytable-cell-2-0-3">
+									<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit" onclick="process_list('${sc.code}')"><i class="layui-icon layui-icon-search"></i>查看</a>
+								</div>
+							</td>
+						   </tr>
+						   </#list>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+
+
+<script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
+<script type="text/javascript">
+    // 时间格式化
+    function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+    
+    
+    function view(id) 
+    {
+    	 var temUrl="/sre-meeting/get/" + id;
+		 layer.open({
+            title:'详情',
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            maxmin: false,
+            area: ['70%', '90%'],
+            content:  temUrl
+        });
+    }
+</script>
+
+<script>
+    var table,selectRowData;
+    layui.use(['jquery','table','laypage','layer','laytpl'], function(){
+           table = layui.table,
+            $ = layui.jquery,
+            layer = layui.layer,
+            laypage = layui.laypage;
+	   
+        
+        
+    });
+
+    
+    function process_list(type)
+    {
+    	//alert(type);
+    	location.href="/process_dic/process_list?type="+type;
+    }
+    
+    /*formName：form表单名称，
+    type：post、get,delete,put 
+    backurl:操作成功后返回地址
+    successMsg：成功提示
+    failMsg：失败提示 */
+    function ajaxDeleteOpt(url,type,successMsg,failMsg)
+    {
+    	 $.ajax({
+      	     type:type,
+      	     url: url,
+      	     dataType:"json",
+      	     async: false, 
+      	     cache: false,
+      	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+             success:function(data,status)
+             {    
+        	  
+    	          if(data.success==true ||data.success=='true')
+    	          {
+    	        	  layer.alert(
+    	        			  successMsg, 
+    	                      {icon: 1,closeBtn: 0 },
+    	                      function () 
+    	                      {
+    	                    	   renderTable();
+    	                    	   layer.closeAll();
+    	                      });
+    	       	   
+    	          } else
+    	          {
+    	        	 layer.alert("操作失败");
+    	          }
+    	     
+    		   },
+    		   error:function()
+    		   {
+    		    	layer.alert("网络访问错误");
+    		   }
+        
+      });
+    } 
+    
+    
+   
+   
+
+</script>
+
+</body>
+</html>

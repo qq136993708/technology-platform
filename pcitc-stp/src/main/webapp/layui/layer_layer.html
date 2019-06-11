@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        /*左侧表单宽度大于右侧时 设置twoListleft的width为59.2 twoListRight的宽为39.2*/
+        .twoListleft{width: 49%; float: left;}
+        .twoListRight{width: 49%;float: right;}
+    </style>
+</head>
+<body>
+<div class="formBox">
+    <form class="layui-form" action="" lay-filter="component-form-group layui-container">
+        <div class="box-body">
+            <!--行有两个的情况 长版文本框-->
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">弹框树<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" lay-verify="title" placeholder="请选择部门" autocomplete="off" class="layui-input"
+                                id="input1">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">标题2<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="date" lay-verify="date" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--行有两个的情况 长版文本框-->
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">标题3<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" lay-verify="title" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">标题4<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" lay-verify="date" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--行有两个的情况 长版文本框-->
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">标题5<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" lay-verify="title" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">标题6<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="date" lay-verify="date" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--行有两个的情况 长版文本框-->
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">标题7<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" lay-verify="title" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">标题8<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="date" lay-verify="date" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--行有两个的情况 长版文本框-->
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">标题9<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" lay-verify="title" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">标题10<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="date" lay-verify="date" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--行有两个的情况 长版文本框-->
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">标题11<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" lay-verify="title" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">标题12<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="date" lay-verify="date" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--行有两个的情况 长版文本框-->
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">标题13<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" lay-verify="title" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">标题14<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="date" lay-verify="date" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="form-bottom">
+    <div class="form-bottom-btns">
+        <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="component-form-demo1"
+                data-type="searchEvent">保存</button>
+        <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"  id="cancel">
+            取消</button>
+    </div>
+</div>
+<!--<script id="dateTpl" type="text/html"> {{formatTime(d.createTime)}} </script>
+<script type="text/javascript">
+    // 时间格式化
+    function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+</script>-->
+<!--表格数据操作js-->
+<script>
+    // layui获取token  parent.$("#token").val()
+    layui.use(['jquery', 'table', 'laypage'], function () {
+        var table = layui.table,
+            $ = layui.jquery;
+
+        $('#input1').click(function(){
+            layer.open({
+                title: '省市结构'
+                , skin: 'layui-layer-lan'
+                , shadeClose: true
+                , type: 2
+                , fixed: false
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                , maxmin: false
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                , area: ['300px', '80%']
+                , content: '/layui/layer_layerTree.html'
+            });
+        })
+
+        /*点击取消按钮*/
+        $("#cancel").click(function () {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        })
+
+    });
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.system.SysDelegateMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.workflow.SysDelegate" >
+    <id column="delegate_id" property="delegateId" jdbcType="VARCHAR" />
+    <result column="assignee_code" property="assigneeCode" jdbcType="VARCHAR" />
+    <result column="assignee_name" property="assigneeName" jdbcType="VARCHAR" />
+    <result column="attorney_code" property="attorneyCode" jdbcType="VARCHAR" />
+    <result column="attorney_name" property="attorneyName" jdbcType="VARCHAR" />
+    <result column="start_date" property="startDate" jdbcType="VARCHAR" />
+    <result column="end_date" property="endDate" jdbcType="VARCHAR" />
+    <result column="process_definition_id" property="processDefinitionId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="module_code" property="moduleCode" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    delegate_id, assignee_code, assignee_name, attorney_code, attorney_name, start_date, 
+    end_date, process_definition_id, status, module_code, create_date, create_user, remarks, 
+    create_user_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.workflow.SysDelegateExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from sys_delegate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_delegate
+    where delegate_id = #{delegateId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_delegate
+    where delegate_id = #{delegateId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.workflow.SysDelegateExample" >
+    delete from sys_delegate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.workflow.SysDelegate" >
+    insert into sys_delegate (delegate_id, assignee_code, assignee_name, 
+      attorney_code, attorney_name, start_date, 
+      end_date, process_definition_id, status, 
+      module_code, create_date, create_user, 
+      remarks, create_user_id)
+    values (#{delegateId,jdbcType=VARCHAR}, #{assigneeCode,jdbcType=VARCHAR}, #{assigneeName,jdbcType=VARCHAR}, 
+      #{attorneyCode,jdbcType=VARCHAR}, #{attorneyName,jdbcType=VARCHAR}, #{startDate,jdbcType=VARCHAR}, 
+      #{endDate,jdbcType=VARCHAR}, #{processDefinitionId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{moduleCode,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.workflow.SysDelegate" >
+    insert into sys_delegate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="delegateId != null" >
+        delegate_id,
+      </if>
+      <if test="assigneeCode != null" >
+        assignee_code,
+      </if>
+      <if test="assigneeName != null" >
+        assignee_name,
+      </if>
+      <if test="attorneyCode != null" >
+        attorney_code,
+      </if>
+      <if test="attorneyName != null" >
+        attorney_name,
+      </if>
+      <if test="startDate != null" >
+        start_date,
+      </if>
+      <if test="endDate != null" >
+        end_date,
+      </if>
+      <if test="processDefinitionId != null" >
+        process_definition_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="moduleCode != null" >
+        module_code,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="delegateId != null" >
+        #{delegateId,jdbcType=VARCHAR},
+      </if>
+      <if test="assigneeCode != null" >
+        #{assigneeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="assigneeName != null" >
+        #{assigneeName,jdbcType=VARCHAR},
+      </if>
+      <if test="attorneyCode != null" >
+        #{attorneyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="attorneyName != null" >
+        #{attorneyName,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null" >
+        #{startDate,jdbcType=VARCHAR},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=VARCHAR},
+      </if>
+      <if test="processDefinitionId != null" >
+        #{processDefinitionId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleCode != null" >
+        #{moduleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.workflow.SysDelegateExample" resultType="java.lang.Integer" >
+    select count(*) from sys_delegate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sys_delegate
+    <set >
+      <if test="record.delegateId != null" >
+        delegate_id = #{record.delegateId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.assigneeCode != null" >
+        assignee_code = #{record.assigneeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.assigneeName != null" >
+        assignee_name = #{record.assigneeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attorneyCode != null" >
+        attorney_code = #{record.attorneyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attorneyName != null" >
+        attorney_name = #{record.attorneyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startDate != null" >
+        start_date = #{record.startDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.endDate != null" >
+        end_date = #{record.endDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.processDefinitionId != null" >
+        process_definition_id = #{record.processDefinitionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moduleCode != null" >
+        module_code = #{record.moduleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null" >
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null" >
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sys_delegate
+    set delegate_id = #{record.delegateId,jdbcType=VARCHAR},
+      assignee_code = #{record.assigneeCode,jdbcType=VARCHAR},
+      assignee_name = #{record.assigneeName,jdbcType=VARCHAR},
+      attorney_code = #{record.attorneyCode,jdbcType=VARCHAR},
+      attorney_name = #{record.attorneyName,jdbcType=VARCHAR},
+      start_date = #{record.startDate,jdbcType=VARCHAR},
+      end_date = #{record.endDate,jdbcType=VARCHAR},
+      process_definition_id = #{record.processDefinitionId,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      module_code = #{record.moduleCode,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      create_user_id = #{record.createUserId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.workflow.SysDelegate" >
+    update sys_delegate
+    <set >
+      <if test="assigneeCode != null" >
+        assignee_code = #{assigneeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="assigneeName != null" >
+        assignee_name = #{assigneeName,jdbcType=VARCHAR},
+      </if>
+      <if test="attorneyCode != null" >
+        attorney_code = #{attorneyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="attorneyName != null" >
+        attorney_name = #{attorneyName,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null" >
+        start_date = #{startDate,jdbcType=VARCHAR},
+      </if>
+      <if test="endDate != null" >
+        end_date = #{endDate,jdbcType=VARCHAR},
+      </if>
+      <if test="processDefinitionId != null" >
+        process_definition_id = #{processDefinitionId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleCode != null" >
+        module_code = #{moduleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where delegate_id = #{delegateId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.workflow.SysDelegate" >
+    update sys_delegate
+    set assignee_code = #{assigneeCode,jdbcType=VARCHAR},
+      assignee_name = #{assigneeName,jdbcType=VARCHAR},
+      attorney_code = #{attorneyCode,jdbcType=VARCHAR},
+      attorney_name = #{attorneyName,jdbcType=VARCHAR},
+      start_date = #{startDate,jdbcType=VARCHAR},
+      end_date = #{endDate,jdbcType=VARCHAR},
+      process_definition_id = #{processDefinitionId,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      module_code = #{moduleCode,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR}
+    where delegate_id = #{delegateId,jdbcType=VARCHAR}
+  </update>
+</mapper>

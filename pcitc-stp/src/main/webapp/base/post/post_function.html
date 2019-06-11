@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <style>
+        .left-side-tree .layui-side-scroll{height: 92%;}
+        .form-control{margin-left: 10px;margin-top: 10px;}
+    </style>
+</head>
+<body class="hold-transition skin-blue sidebar-mini" style="background:#fff;">
+<div class="treeTableContainer">
+    <div class="left-tree-box">
+        <!--加标题-->
+        <div class="title-box">
+            <span>组织机构</span>
+            <!--加操作按钮时去掉标题-->
+            <!-- <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button>-->
+        </div>
+         <div class="left-side-tree">
+         	<input type="text" name="searchUnitName" id="searchUnitName" placeholder="名称检索" autocomplete="off" class="form-control">
+            <div class="layui-side-scroll" style="width: 100%;">
+                <ul id="unitTree" class="ztree"></ul>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="twoTree-tableBox">
+        <div class="postTable"><table id="postTable" class="layui-hide" lay-filter="postTableEvent"></table></div>
+        <div class="funcButtonTable"><table id="funcButtonTable" class="layui-hide" lay-filter="funcButtonEvent"></table></div>
+    </div>
+
+    <div class="right-side-tree-box">
+        <div class="title-box">
+	        <select id="funcgroup">
+	        	<option value="">--分组快速选中--</option>
+	        </select>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" data-type="addEvent">保存</button>
+        </div>
+        <div class="right-side-tree">
+            <div class="layui-side-scroll" style="width: 100%;">
+                <ul id="funcTree" class="ztree"></ul>
+            </div>
+        </div>
+    </div>
+</div>    
+<script type="text/javascript">
+    var table,unitNodes,funcNodes,unitTree,funcTree,unitId,functionId,selectRowData,postType={},functionButtonMap={};
+    var unitTreeSetting = {
+    		data: {simpleData: {enable: true}},
+        callback: {onClick: unitTreeMenueOnClick}
+    };
+    var funcTreeSetting = {
+        data: {simpleData: {enable: true}},
+        callback: {
+        	onClick: funcTreeMenueOnClick,
+        	onCheck: funcTreeMenueOnCheck
+        	},
+        check: {enable: true,chkboxType: {"Y": "ps", "N": "s"}}
+    };
+    function unitTreeMenueOnClick(event,treeId,treeNode,clickFlag) {
+        unitId = treeNode.id;
+        selectRowData=null;
+        table.reload('postTable', {
+            where: {param: {"unitId":unitId}}
+        });
+        //删除表头复选框
+        $(".postTable .layui-table-header table thead th input").remove();
+    }
+    function funcTreeMenueOnClick(event,treeId,treeNode,clickFlag)
+    {
+    	/* funcTree.checkNode(treeNode,!treeNode.checked,true);*/
+    	$(".funcButtonTable .layui-table-view .layui-table tbody  tr").remove();
+    	if(treeNode.checked){
+    		functionId = treeNode.id;
+    		//table.reload('funcButtonTable', {where: {param: {"functionId":treeNode.id}}});
+    		renderButtonTable({param: {"functionId":treeNode.id}});
+    	}
+    	$(".funcButtonTable .layui-table-header table thead th input").remove();
+    }
+    function funcTreeMenueOnCheck(event,treeId,treeNode)
+    {
+    	$(".funcButtonTable .layui-table-view .layui-table tbody  tr").remove();
+    	if(treeNode.checked){
+    		functionId = treeNode.id;
+    		funcTree.selectNode(treeNode);
+    		//table.reload('funcButtonTable', {where: {param: {"functionId":treeNode.id}}});
+    		renderButtonTable({param: {"functionId":treeNode.id}});
+    	}
+    	$(".funcButtonTable .layui-table-header table thead th input").remove();
+    }
+    //设置展开前三级节点
+	function expandThreeLevel(treeObj) {
+		var nodeList = treeObj.getNodes();　　　　　　 //展开第一个根节点
+		for(var i = 0; i < nodeList.length; i++) { //设置节点展开第二级节点
+			treeObj.expandNode(nodeList[i], true, false, true);
+			var nodespan = nodeList[i].children;
+			for(var j = 0; j < nodespan.length; j++) { //设置第三级节点隐藏
+				treeObj.expandNode(nodespan[j], true, false, true);
+			}
+		}
+	}
+	function searchUnit(){
+    	var searchStr = $("#searchUnitName").val();
+    	unitTree = $.fn.zTree.init($("#unitTree"), unitTreeSetting, unitNodes);
+     	if(searchStr !=null && "" != searchStr){
+     		var nodeList = unitTree.getNodesByParamFuzzy("name", searchStr);
+     		var nodeIds = getChildNode([],nodeList);
+     		nodeIds = getParentNode(unitTree,nodeIds,nodeList);
+     		var newnodes = getNodeById(unitTree,nodeIds);
+     		unitTree = $.fn.zTree.init($("#unitTree"), unitTreeSetting, newnodes);
+     	}
+	    unitTree.expandAll(true);
+    }
+	
+	function getNodeById(treeObj,nodeIds){
+		var nodes = [];
+		var node = null;
+		$.each(nodeIds,function(i,d){
+			node = treeObj.getNodeByParam("id", d, null);
+			if(node){
+				nodes.push(new zTreeNode(node.id,node.pId,node.name));
+			}
+		});
+		return nodes;
+	}
+	
+	function getChildNode(nodeIds,nodeList)
+	{
+		$.each(nodeList,function(i,d){
+			if(nodeIds.indexOf(d.id)==-1){
+				nodeIds.push(d.id);
+			}
+			if(d.children){
+				getChildNode(nodeIds,d.children);
+			}
+ 		});
+		return nodeIds;
+	}
+	function getParentNode(treeObj,nodeIds,nodeList)
+	{
+		function addNodeId(nodeIds,node)
+		{
+			var pnode =treeObj.getNodeByParam("id", node.pId, null);
+			if(pnode){
+				if(nodeIds.indexOf(node.pId)==-1){
+					nodeIds.push(node.pId);
+				}
+				addNodeId(nodeIds,pnode);
+			}
+		}
+		$.each(nodeList,function(i,d){
+			addNodeId(nodeIds,d);
+ 		});
+		return nodeIds;
+	}
+	//检索(改变事件)
+	$("#searchUnitName").on("change",function(){
+		searchUnit();
+	});
+	//检索(键盘回车)
+	$(document).keyup(function (e) {
+	    if (e.keyCode == 13) {
+	    	searchUnit();
+	    }
+	});
+	
+    $(document).ready(function () {
+    	//加载岗位类型字典
+		ajaxPost("/dictionary/list/ROOT_XTGL_GWLX", null, function (data) {
+			$.each(data,function(i,dt){
+				postType[data[i].code] = data[i].name;
+	    	});
+	    });
+    	//加载机构数据
+        ajaxPost("/unit/ztree-unit-list",null,function(data){
+            unitNodes = data;
+        });
+    	//加载菜单数据
+        ajaxPost("/function/getCommonFunctionTree",null,function(data){
+            funcNodes = data;
+        });
+        //加载分组数据
+        ajaxPost("/functiongroup/functiongroup-list",null,function(data){
+        	$.each(data,function(i,dt){
+        		$("#funcgroup").append('<option value="'+data[i].groupId+'">'+data[i].groupName+'</option>');
+	    	});
+        });
+        //绑定分组下拉改变事件
+        $("#funcgroup").on("change",function(){
+        	funcTree.checkAllNodes(false);
+        	if($("#funcgroup").val()==""){
+        		return;
+        	}
+        	ajaxPost("/functiongroup/functiongroup-functions", {"groupId":$("#funcgroup").val()}, function (dt) {
+                $.each(dt,function(index,d){
+                	/**应需求修改，增加保存按钮功能，按钮内**/
+                	var array = dt[index].id.split("&");
+               		var buttons = [];
+               		var funcId = array[0];
+               		if(array.length>1){
+               			for(var j=1;j<array.length;j++){
+                   			buttons.push(array[j]);
+                   		}
+               		}else{
+               			buttons.push("ALL");
+               		}
+               		functionButtonMap[funcId] = buttons;
+                	/**应需求修改，增加保存按钮功能，按钮内**/
+                    var node = funcTree.getNodeByParam("id",funcId);
+                    if(node){
+                        funcTree.checkNode(node,true,false);
+                    }
+                });
+            });
+        });
+        //初始化树
+        unitTree = $.fn.zTree.init($("#unitTree"), unitTreeSetting, unitNodes);
+        funcTree = $.fn.zTree.init($("#funcTree"), funcTreeSetting, funcNodes);
+        //展开树
+        unitTree.expandAll(true);
+        //funcTree.expandAll(true);//只展开前三级
+        expandThreeLevel(funcTree);
+    });
+    layui.use(['jquery','form','laydate','table', 'layer', 'element'], function () {
+        var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
+        table = layui.table;
+        function renderPostTable(){
+            table.render({
+                elem: '#postTable',
+                url: '/post/get-post-by-unit',
+                method:"POST",
+                where: {param: {"unitId":"0"}},
+                limit: 150,
+                id: 'postTable',
+                height: 196,
+                cols: [[
+                    {type:'checkbox', event:'postTableEvent'},
+                    {title:'序号', type:'numbers' ,width : 55},
+                    {field:'postName',   title:'岗位名称',  style:'cursor: pointer;'},
+                    {field:'postCode',      title:'岗位编码', style:'cursor: pointer;'},
+                    {field:'postKind',   title:'岗位类型',  style:'cursor: pointer;'},
+                    {field:'postComment',      title:'岗位描述', style:'cursor: pointer;'}
+                ]],
+                done: function (res, curr, count) {
+                	//显示字典数据
+                	$.each(res.data,function(i,dt){
+		            	$("tr[data-index='"+i+"'] td[data-field='postKind'] div").html(postType[res.data[i].postKind]);
+		            });
+                    // 点击行联动选择框--单选
+                    $(".postTable").find('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                        //console.log("start post select............");
+                        var index=parseInt($(this).index()+1);
+                        $(this).parent().find('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $(this).parent().children('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $(this).children("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        //显示岗位对应的权限
+                        selectRowData=res.data[index-1];
+                        funcTree.checkAllNodes(false);
+                        $("#funcgroup").val("");
+                        //获得权限下的按钮
+                        ajaxPost("/post/post-function-buttons", {"postId":selectRowData.postId}, function (dt) {
+                        	functionButtonMap = dt;
+                        	$.each(dt,function(key,values){     
+                        		var node = funcTree.getNodeByParam("id",key);
+                                if(node){
+                                    funcTree.checkNode(node,true,false);
+                                }     
+                        	});  
+                        });
+                        //清空按钮选择列表
+                        $(".funcButtonTable .layui-table-view .layui-table tbody  tr").remove();
+                    });
+                }
+            });
+            $(".postTable .layui-table-header table thead th input").remove();
+        }
+        window.renderButtonTable = function(where){
+        	var lodingMsg = layer.msg('数据处理中....');
+            table.render({
+                elem: '#funcButtonTable',
+                url: '/function/getButtonTableData',
+                method:"POST",
+                where:where,
+                limit: 15,
+                id: 'funcButtonTable',
+                height: "full-220",
+                cols: [[
+                    {type:'checkbox',event:'cEvent'},
+                    {title:'序号', type:'numbers' ,width : 55},
+                    {field:'name',   title:'按钮名称',  style:'cursor: pointer;'},
+                    {field:'code',      title:'按钮编码', style:'cursor: pointer;'}
+                ]],
+                done: function (res, curr, count) {
+                	layer.close(lodingMsg);
+                	var buttondata = functionButtonMap[functionId];
+                	if(!buttondata){
+                		functionButtonMap[functionId] = ["ALL"];
+                		buttondata = ["ALL"];
+                	}
+               		if(buttondata.indexOf("ALL") >= 0){
+               			$.each($('td[data-field="code"] div'),function(index,dt){
+               				$(this).click();
+               			});
+               		}else{
+               			for(var i=0;i<buttondata.length;i++){
+               				$.each($('td[data-field="code"] div'),function(index,dt){
+                   				if($(this).html()==buttondata[i]){
+                   					$(this).click();
+                   				}
+                   			});
+                   		}
+               		}
+                }
+            });
+            $(".funcButtonTable .layui-table-header table thead th input").remove();
+        }
+        renderPostTable();
+        renderButtonTable({param: {"functionId":"0"}});
+        
+        //多行点击事件
+       $(document).on("click", ".funcButtonTable .layui-table-body table.layui-table tbody tr", function () {
+    	   if(!selectRowData){
+	       		layer.msg('请点击选择岗位数据!');
+	       		return;
+       		}
+    	   	var checkCell = $(this).parent().find("tr[data-index=" + $(this).attr('data-index') + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox");
+            if (checkCell.length > 0) {
+                checkCell.click();
+            }
+        });
+        $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+            e.stopPropagation();
+        });
+        //监听单元格事件
+        table.on('checkbox(funcButtonEvent)', function(obj){
+            var checkStatus = table.checkStatus('funcButtonTable');
+            var buttons=[];
+            $.each(checkStatus.data,function(i,dt){
+            	buttons.push(checkStatus.data[i].code);
+            });
+            var nodes = funcTree.getSelectedNodes();
+            functionButtonMap[nodes[0].id]=buttons;
+            //console.log(functionButtonMap);
+        });
+     	// 触发不同的按钮事件
+        var $ = layui.$, active = {
+        	//点击保存按钮	
+            addEvent: function(){
+            	var nodes = funcTree.getCheckedNodes();
+            	//var checkStatus = table.checkStatus('postTable');
+            	if(!selectRowData){
+            		layer.msg('请点击选择岗位数据!');
+            		return;
+            	}
+            	var lodingMsg = layer.msg('数据处理中....');
+             	//var functionIds = [];
+             	var functionButtons={};
+                for (var i = 0; i < nodes.length; i++) {
+                	//functionIds.push(nodes[i].id);
+                	var buttons = ["ALL"];
+                	if(functionButtonMap[nodes[i].id]==null || functionButtonMap[nodes[i].id].length==0){
+                		functionButtons[nodes[i].id] = buttons;
+                	}else{
+                		functionButtons[nodes[i].id] = functionButtonMap[nodes[i].id];
+                	}
+                }
+                //批量保存选中节点
+                var param = {"postId": selectRowData.postId,"functionIds": JSON.stringify(functionButtons)};
+                ajaxPostAsyn("/post/save-post-functions",param,function (data, status) {
+                	 if(data.success){
+                		 layer.close(lodingMsg);
+                		 layer.alert("操作成功");
+                	 }else{
+                		 layer.close(lodingMsg);
+                		 layer.alert("操作失败请重试");
+                	 }
+                });
+            }
+        };
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+    });
+</script>
+</body>
+</html>

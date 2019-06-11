@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico"/>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/adminStp_.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/mainStp_.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
+    <!--<link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">-->
+
+    <style>
+        .refreshBox {
+            display: none;
+            width: 100%;
+            height: 100px;
+            line-height: 100px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .loadingImg {
+            width: 24px;
+            height: auto;
+        }
+
+        .anchorBL {
+            display: none
+        }
+        .layui-table-body .layui-none{
+            padding: 0;
+        }
+    </style>
+</head>
+<body >
+
+<input type="hidden" name="month" value="${month}" id="month">
+<input type="hidden" name="nd" value="${nd}" id="nd">
+<input type="hidden" name="companyCode" value="${companyCode}" id="companyCode">
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md12 layui-top" id="isKJBPerson_id" <#if isKJBPerson == false || isKJBPerson=='false'>style="display:none"</#if>>
+            <div class="layui-col-md15">
+                <div class="layui-main-box" id="home_project">
+                    <span class="layui-box-icon bg-1"></span>
+                    <div class="layui-box-content">
+                        <span class="layui-box-text">科研课题</span>
+                        <span class="layui-box-number" id="topic_id">
+                                <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                            </span>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md15">
+                <div class="layui-main-box" id="home_budget">
+                    <span class="layui-box-icon bg-2"></span>
+                    <div class="layui-box-content">
+                        <span class="layui-box-text">合同签订</span>
+                        <span class="layui-box-number" id="contcator_id">
+                            <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                            </span>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md15">
+                <div class="layui-main-box" id="actualPay">
+                    <span class="layui-box-icon bg-3"></span>
+                    <div class="layui-box-content">
+                        <span class="layui-box-text">经费支出</span>
+                        <span class="layui-box-number" id="pay_id">
+                            <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                            </span>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md15">
+                <div class="layui-main-box" id="equipment">
+                    <span class="layui-box-icon bg-4"></span>
+                    <div class="layui-box-content">
+                        <span class="layui-box-text">科研装备</span>
+                        <span class="layui-box-number" id="equipment_id">
+                                <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                                <small>(个)</small>
+                            </span>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md15">
+                <div class="layui-main-box" id="knowledge">
+                    <span class="layui-box-icon bg-5"></span>
+                    <div class="layui-box-content">
+                        <span class="layui-box-text">知识产权</span>
+                        <span class="layui-box-number" id="patentId">
+                            <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                            </span>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md15">
+                <div class="layui-main-box" id="achievement">
+                    <span class="layui-box-icon bg-6"></span>
+                    <div class="layui-box-content">
+                        <span class="layui-box-text">科技成果</span>
+                        <span class="layui-box-number" id="appraisalId">
+                             <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                            </span>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md15">
+                <div class="layui-main-box" id="report_intl_project_main">
+                    <span class="layui-box-icon bg-7"></span>
+                    <div class="layui-box-content">
+                        <span class="layui-box-text">国际合作</span>
+                        <span class="layui-box-number">
+                                65
+                                <small>(个)</small>
+                            </span>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md15">
+                <div class="layui-main-box">
+                    <span class="layui-box-icon bg-8"></span>
+                    <div class="layui-box-content">
+                        <span class="layui-box-text">标准制修订</span>
+                        <span class="layui-box-number">
+                                234
+                                <small>(个)</small>
+                            </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md12 work">
+            <div class="layui-col-md4">
+                <div class="stay-do">
+                    <div class="stay-do-m">
+                        <p class="work-title">我的待办</p>
+                        <p class="stay-doz-n" id="wait_work_id_count">
+                          <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                        </p>
+                        <p class="stay-doz-i"><img src="/layuiadmin/layui/images/stay-i.png"/> </p>
+                        <div>
+                            <ul id="wait_work_id_list">
+                            
+                                <!-- <li><span class="date">04/01</span><span class="time">09：00</span><span class="content">项目组组建</span></li>
+                                <li><span class="date">03/28</span>
+                                    <span class="time">09：00</span>
+                                    <span class="content">组内工作安排</span></li>
+                                <li><span class="date">03/26</span>
+                                    <span class="time">09：00</span>
+                                    <span class="content">复查工作进度</span></li>
+                                <li><span class="date">03/26</span>
+                                    <span class="time">09：00</span>
+                                    <span class="content">复查工作进度</span></li> -->
+                            </ul>
+                            <a lay-href="/task/pending/list/ini" lay-text="我的待办">更多... ...</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md4">
+                <div class="work-summary">
+                    <p class="work-title">工作总结</p>
+                    <div class="work-summary-left layui-col-md5">
+                        <div id="circleOne">
+                            <span></span>
+                        </div>
+                        
+					
+					
+                        <p>上周工作完成度</p>
+                    </div>
+                    <div class="work-summary-right layui-col-md5">
+                        <div id="circleTwo">
+                            <span></span>
+                        </div>
+                        <p>本周工作安排度</p>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md4">
+                <div class="work-collect">
+                    <p class="work-title">我的收藏</p>
+                    <ul id="work-title_id">
+                                  <#list scList as sc>
+											<li>
+												<a lay-href="${sc.collectUrl}"  data-id="${sc.functionId}" lay-text="${sc.collectName}">
+												  ${sc.collectName}
+												</a>
+											</li>
+									</#list>
+                      <!--   <li><a href="javascript:;">科技资金现金流分析</a></li>
+                        <li><a href="javascript:;">重大科研项目分析</a></li>
+                        <li><a href="javascript:;">十条龙项目分析</a></li>
+                        <li><a href="javascript:;">装备上报</a></li>
+                        <li><a href="javascript:;">装备计划上报</a></li>
+                        <li><a href="javascript:;">课题研发支出分析</a></li> -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12 project">
+            <div class="layui-card" style="margin: 0;">
+                <div class="layui-card-header">
+                    <p>
+                        工作安排
+                    </p>
+                    <div class="layui-tool">
+                        <button type="button" class="btn btn-tool collapse"></button>
+                        <button type="button" class="btn btn-tool remove"></button>
+                    </div>
+                </div>
+                <div class="layui-card-body btn-function">
+                    <div class="layui-col-md5 arrange">
+                        <div class="arrange-title">
+                            <span>工作安排追踪</span>
+                            <button class="layui-btn layui-btn-sm"
+                                    data-type="handleEvent" onclick="addPlan()">新增</button>
+                            <a href="javascript:parent.layui.index.openTabsPage('/plan/pagePlanList', '任务管理');">更多></a>
+                        </div>
+                        <table class="layui-table">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>工作受理人</th>
+                                <th>安排时间</th>
+                                <th>工作内容</th>
+                                <th>完成进度(%)</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <#list taskList as taskList >
+                            <tr>
+                                <td>${taskList_index+1}</td>
+                                <td>${taskList.workOrderAllotUserName}</td>
+                                <td>${taskList.createDate}</td>
+                                <td>${taskList.workOrderName}</td>
+                                <td align="right">
+                                    <#if taskList.bl==''>
+                                        <div class="layui-progress">
+                                            <div class="layui-progress-bar" lay-percent="0%"></div>
+                                        </div>0%
+                                    </#if>
+                                    <#if taskList.bl!=''>
+                                        <div class="layui-progress">
+                                            <div class="layui-progress-bar" lay-percent="${taskList.bl}%"></div>
+                                        </div>
+                                        ${taskList.bl}%
+                                    </#if>
+                                </td>
+                            </tr>
+                            </#list>
+                            <!--<tr>-->
+                                <!--<td>1</td>-->
+                                <!--<td>张三</td>-->
+                                <!--<td>2019-03-28</td>-->
+                                <!--<td>处理集团所有预算统计</td>-->
+                                <!--<td></td>-->
+                            <!--</tr>-->
+                            <!--<tr>-->
+                                <!--<td>2</td>-->
+                                <!--<td>李四</td>-->
+                                <!--<td>2019-03-27</td>-->
+                                <!--<td>标准化系统上传新资料</td>-->
+                                <!--<td></td>-->
+                            <!--</tr>-->
+                            <!--<tr>-->
+                                <!--<td>3</td>-->
+                                <!--<td>王五</td>-->
+                                <!--<td>2019-03-25</td>-->
+                                <!--<td>整理所里实验室成果情况</td>-->
+                                <!--<td></td>-->
+                            <!--</tr>-->
+                            <!--<tr>-->
+                                <!--<td>4</td>-->
+                                <!--<td>赵六</td>-->
+                                <!--<td>2019-03-23</td>-->
+                                <!--<td>为XX项目制定10名技术专家</td>-->
+                                <!--<td></td>-->
+                            <!--</tr>-->
+                            <!--<tr>-->
+                                <!--<td>5</td>-->
+                                <!--<td>冯七</td>-->
+                                <!--<td>2019-03-26</td>-->
+                                <!--<td>追踪XX合同的回款情况</td>-->
+                                <!--<td></td>-->
+                            <!--</tr>-->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="layui-col-md5">
+                        <div class="accept">
+                            <div class="accept-title">
+                                <span>工作受理列表</span>
+                                <a href="javascript:parent.layui.index.openTabsPage('/plan/my/goBotWorkOrderListPage', '我的任务');">更多></a>
+                            </div>
+                            <table class="layui-table">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>工作受理人</th>
+                                    <th>安排时间</th>
+                                    <th>工作内容</th>
+                                    <th>完成进度</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <#list taskListMy as taskList >
+                                <tr>
+                                    <td>${taskList_index+1}</td>
+                                    <td>${taskList.workOrderAllotUserName}1</td>
+                                    <td>${taskList.createDate}</td>
+                                    <td>${taskList.workOrderName}</td>
+                                    <td align="right">
+                                        <#if taskList.bl==''>
+                                            <div class="layui-progress">
+                                                <div class="layui-progress-bar" lay-percent="0%"></div>
+                                            </div>0%
+                                        </#if>
+                                        <#if taskList.bl!=''>
+                                            <div class="layui-progress">
+                                                <div class="layui-progress-bar" lay-percent="${taskList.bl}%"></div>
+                                            </div>
+                                            ${taskList.bl}%
+                                        </#if>
+                                    </td>
+                                </tr>
+                                </#list>
+                                <!---->
+                                <!--<tr>
+                                    <td>1</td>
+                                    <td>张三</td>
+                                    <td>2019-03-28</td>
+                                    <td>处理集团所有预算统计</td>
+                                    <td></td>
+                                </tr>-->
+                                <!--<tr>-->
+                                    <!--<td>2</td>-->
+                                    <!--<td>李四</td>-->
+                                    <!--<td>2019-03-27</td>-->
+                                    <!--<td>标准化系统上传新资料</td>-->
+                                    <!--<td></td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td>3</td>-->
+                                    <!--<td>王五</td>-->
+                                    <!--<td>2019-03-25</td>-->
+                                    <!--<td>整理所里实验室成果情况</td>-->
+                                    <!--<td></td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td>4</td>-->
+                                    <!--<td>赵六</td>-->
+                                    <!--<td>2019-03-23</td>-->
+                                    <!--<td>为XX项目制定10名技术专家</td>-->
+                                    <!--<td></td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td>5</td>-->
+                                    <!--<td>冯七</td>-->
+                                    <!--<td>2019-03-26</td>-->
+                                    <!--<td>追踪XX合同的回款情况</td>-->
+                                    <!--<td></td>-->
+                                <!--</tr>-->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12 workNews">
+            <div class="layui-card layui-col-md5" style="margin-right: 3px;">
+                <div class="layui-card-header">
+                    <p>工作动态
+                    </p>
+                    <div class="layui-tool">
+                        <button type="button" class="btn btn-tool collapse"></button>
+                        <button type="button" class="btn btn-tool remove"></button>
+                    </div>
+                </div>
+                <div class="layui-card-body">
+                    <div class="layui-tab">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">科研项目</li>
+                            <li>知识产权</li>
+                            <li>科技成果</li>
+                            <li>会议纪要</li>
+                        </ul>
+                        <div class="layui-tab-content">
+                            <div class="layui-tab-item layui-show">
+                                <a lay-href="" lay-text="科研项目"><!-- 更多> --></a>
+                                <div class="lan">
+                                    <table class="layui-table" id="news-workdynamics-list-table">
+                                        <tbody>
+                                            <tr>
+                                                <td style="width: 10px;">1</td>
+                                                <!-- <td>张三</td> -->
+                                                <td>处理集团所有预算统计</td>
+                                                <td>2019-03-28</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 10px;">1</td>
+                                               	<!--  <td>张三</td> -->
+                                                <td>处理集团所有预算统计</td>
+                                                <td>2019-03-28</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="layui-tab-item">
+                                <a lay-href="" lay-text="知识产权">更多></a>
+                                <div class="lan">
+                                    <table class="layui-table">
+                                        <tbody>
+                                        <tr>
+                                            <td style="width: 4px;">1</td>
+                                            <td>张三</td>
+                                            <td>2019-03-28</td>
+                                            <td>处理集团所有预算统计</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 4px;">1</td>
+                                            <td>张三</td>
+                                            <td>2019-03-28</td>
+                                            <td>处理集团所有预算统计</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="layui-tab-item">
+                                <a lay-href="" lay-text="科技成果">更多></a>
+                                <div class="lan">
+                                    <table class="layui-table">
+                                        <tbody>
+                                        <tr>
+                                            <td style="width: 4px;">1</td>
+                                            <td>张三</td>
+                                            <td>2019-03-28</td>
+                                            <td>处理集团所有预算统计</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 4px;">1</td>
+                                            <td>张三</td>
+                                            <td>2019-03-28</td>
+                                            <td>处理集团所有预算统计</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="layui-tab-item">
+                                <a lay-href="" lay-text="会议纪要">更多></a>
+                                <div class="lan">
+                                    <table class="layui-table">
+                                        <tbody>
+                                        <tr>
+                                            <td style="width: 4px;">1</td>
+                                            <td>张三1</td>
+                                            <td>2019-03-28</td>
+                                            <td>处理集团所有预算统计</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 4px;">1</td>
+                                            <td>张三</td>
+                                            <td>2019-03-28</td>
+                                            <td>处理集团所有预算统计</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-card layui-col-md5" style="margin-left: 3px;">
+                <div class="layui-card-header">
+                    <p>新闻</p>
+                    <div class="layui-tool">
+                        <button type="button" class="btn btn-tool collapse"></button>
+                        <button type="button" class="btn btn-tool remove"></button>
+                    </div>
+                </div>
+                <div class="layui-card-body">
+                    <div class="layui-tab">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">国家领导讲话</li>
+                            <li>国家领导讲话</li>
+                            <li>科技部领导讲话</li>
+                        </ul>
+                        <div class="layui-tab-content">
+                            <div class="layui-tab-item layui-show">
+                                <ul>
+                                    <li><a href="javascript:;">让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子<span>[2019-01-03]</span></a></li>
+                                    <li><a href="javascript:;">让各族群众过上好日子<span>[2019-01-03]</span></a></li>
+                                    <li><a href="javascript:;">让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子<span>[2019-01-03]</span></a></li>
+                                    <li><a href="javascript:;">让各族群众过上好日子<span>[2019-01-03]</span></a></li>
+                                    <li><a href="javascript:;">让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子<span>[2019-01-03]</span></a></li>
+                                    <li><a href="javascript:;">让各族群众过上好日子<span>[2019-01-03]</span></a></li>
+                                    <li><a href="javascript:;">让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子<span>[2019-01-03]</span></a></li>
+                                    <li><a href="javascript:;">让各族群众过上好日子<span>[2019-01-03]</span></a></li>
+                                    <li><a href="javascript:;">让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子<span>[2019-01-03]</span></a></li>
+                                </ul>
+                            </div>
+                            <div class="layui-tab-item">
+
+                            </div>
+                            <div class="layui-tab-item">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <table class="message_outside" border="0" cellpadding="0" cellspacing="0" >
+		        <tr>
+		            <td align="center"></td>
+		        	<td align="center"><span>办公自动化：
+		        	<a href="http://10.1.4.10/kjb/_layouts/15/ZBAppPage/oalogin.aspx"  target="_blank" style="text-decoration:none;color:blue;"><b><font  id="kjb_oadb" style="color:red">0</font></b>条待办</a>
+		        	<a href="http://10.1.4.10/kjb/_layouts/15/ZBAppPage/oalogin.aspx"  target="_blank" style="text-decoration:none;color:blue;"><b><font  id="kjb_oady" style="color:red">0</font></b>条待阅</a>
+		        	&nbsp;&nbsp;电子邮件：
+		        	<a href="http://10.1.4.10/kjb/_layouts/15/ZBAppPage/owalogin.aspx"  target="_blank" style="text-decoration:none;color:blue;"><b><font id="kjb_owa" style="color:red">0</font></b>条未读</a>
+		        	</span></td>
+		            <td align="center">&nbsp;&nbsp;督办管理：
+		            <a href="http://10.1.4.10/_layouts/15/autologon?appid=61&amp;step=1"  target="_blank" style="text-decoration:none;color:blue;"><b><font  id="smdb" style="color:red">0</font></b>条待办</a>
+		            <a href="http://10.1.4.10/_layouts/15/autologon?appid=61&amp;step=1"  target="_blank" style="text-decoration:none;color:blue;"><b><font  id="smdy" style="color:red">0</font></b>条待阅</a></td>
+		        </tr>
+            </table>
+        </div>
+                
+
+        <script src="/common/js/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+        <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+        <script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+        <script type="text/javascript" src="/stp/hana/common/stp_common_chart.js"></script>
+        <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+        <script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+        <script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+        <script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
+        <script type="text/javascript" src="/layuiadmin/javascript/circle-progress.min.js"></script>
+        
+        <script type="text/javascript">
+        var host="http://10.1.4.10:80";
+        //办公自动化待办
+        var url=host+"/kjb/_layouts/15/ZBAppPage/oacount.aspx";
+        sendPost(url,"POST", function (data){
+        	$("#kjb_oadb").html(data.data);
+        }); 
+       //电子邮件管理
+        var url=host+"/kjb/_layouts/15/ZBAppPage/owacount.aspx";
+        sendPost(url,"POST", function (data){
+        	$("#kjb_owa").html(data.data);
+        });
+        //办公自动化待阅
+        var url=host+"/kjb/_layouts/15/ZBAppPage/oadycount.aspx";
+        sendPost(url,"POST", function (data){
+        	$("#kjb_oady").html(data.data);
+        });
+        
+       //督办管理待办
+        var url=host+"/_layouts/15/autologon/?appid=62&step=1";
+        sendPost(url,"POST", function (data){
+        	//alert(data.data);
+        	if(data.data>=0)
+            {
+            	$("#smdb").html(data.data);
+            	}else{
+            	$("#smdb").html("0");
+            }
+        });
+        
+        //督办管理待阅
+        var url=host+"/_layouts/15/autologon/?appid=63&step=1";
+        sendPost(url,"POST", function (data){
+        	if(data.data>=0)
+        	{
+            	$("#smdy").html(data.data);
+            }else
+            	{
+            	  $("#smdy").html("0");
+            	}
+        });
+        
+        
+        
+                     　 /* $.post(url,"",function(data){
+    	　　　　alert(data);
+    	　　},"jsonp");
+    	   */
+    	  
+        //办公自动化待办
+        /* $.post(host+"/kjb/_layouts/15/ZBAppPage/oacount.aspx", function(data1) {
+        	
+        	alert(data1);
+        	jQuery("#kjb_oadb").html(data1);
+        	
+        }); */
+        
+        /* jQuery.post(host+"/kjb/_layouts/15/ZBAppPage/owacount.aspx", function(data1) {jQuery("#kjb_owa").html(data1);});//电子邮件管理
+        jQuery.post(host+"/kjb/_layouts/15/ZBAppPage/oadycount.aspx", function(data1) {jQuery("#kjb_oady").html(data1);});//办公自动化待阅
+        //督办管理待办
+        jQuery.post(host+"/_layouts/15/autologon/?appid=62&step=1", function(data1) {
+        if(data1>=0)
+        {
+        	jQuery("#smdb").html(data1);
+        	}else{
+        	jQuery("#smdb").html("0");
+        	}
+        });
+        
+        //督办管理待阅
+        jQuery.post(host+"/_layouts/15/autologon/?appid=63&step=1", function(data1) {
+        	if(data1>=0){
+        	jQuery("#smdy").html(data1);
+        	}else{
+        	jQuery("#smdy").html("0");
+        	}
+        });
+         */
+        
+        function sendPost(url,type,callback)
+        {
+        	 $.ajax({
+          	      type:type,
+          	      url: "/getOA",
+          	      dataType:"json",
+          	      data: {url:url},
+                  success:function(data,status)
+                  {    
+        	            if(callback)
+	                    {
+	                    	console.log(url+" 调用 成功,得到数据："+JSON.stringify(data)); 
+	                    	callback(data);
+	                    }
+	       		   },
+	       		   error:function(data)
+	       		   {
+	       			  console.log(url+" 远程调用失败  "+JSON.stringify(data));
+       			      if(callback)
+                      {
+       				    //alert(JSON.stringify(data) );
+                     	//callback(data);
+                      }
+	       		   }
+            
+          });
+        } 
+        
+        
+        </script>
+        <script>
+            var companyCode = $("#companyCode").val();
+            var nd = $("#nd").val();
+            var element ;
+            var layer;
+            layui.config({
+                base : '../layuiadmin/' //静态资源所在路径
+            }).extend({
+                index : 'lib/index' //主入口模块
+            }).use(['index','jquery', 'table', 'layer', 'laydate','element',"publicMethods"], function () {
+                var $ = layui.jquery;
+                table = layui.table;
+                layer = layui.layer;
+                element = layui.element;
+                laydate = layui.laydate;
+                publicMethods=layui.publicMethods;
+                /*新开页面*/
+                
+                
+                $("#actualPay").on("click", function () {
+                	 parent.layui.index.openTabsPage("/direct/actualPay?isdisplay=1", "经费支出");
+                });
+                
+                $("#home_project").on("click", function () {
+               	     parent.layui.index.openTabsPage("/home_project_02/home_project", "科研课题");
+                });
+                $("#home_budget").on("click", function () {
+              	   parent.layui.index.openTabsPage("/home_budget_02/home_budget", "合同签订（亿元）");
+                });
+                
+                $("#knowledge").on("click", function () {
+             	     parent.layui.index.openTabsPage("/home_knowledge/knowledge_level2", "知识产权");
+                });
+                
+                $("#achievement").on("click", function () {
+            	     parent.layui.index.openTabsPage("/home_achievement/award_level2", "科技成果");
+                });
+                 
+                $("#report_intl_project_main").on("click", function () {
+                	parent.layui.index.openTabsPage("/intl_project/report/report_intl_project_main", "国际合作");
+               });
+                
+                $("#equipment").on("click", function () {
+                	 parent.layui.index.openTabsPage("/home_device_02/home_device", "科研装备");
+               });
+               
+                //新闻
+                publicMethods.ajaxAsyncPost('/out/news-workdynamics-list', null, function (data, status) {
+             		var content = "";
+                	$.each(data,function(index,dt){
+                		if(index < 8){
+                			content += '<tr><td style="width: 10px;">'+(index+1)+'</td><td>'+dt.xxbt+'</td><td>'+dt.fbsj.substring(0,10)+'</td></tr>';
+                		}
+             		})
+             		$("#news-workdynamics-list-table tbody").html(content);
+                });
+                
+
+                var md4Height = $(".layui-col-md4").height() - 2;
+                var headerHeight = $(".layui-card-header").outerHeight(true);
+                $(".layui-wifi-left,.layui-wifi-right").css("height", md4Height - headerHeight + "px");
+
+                $(".remove").on("click", function () {
+                    $(this).parents(".layui-card").parent().remove();
+                });
+                $(".collapse").on("click", function () {
+                    $(this).parent().parent().nextAll().slideToggle(400);
+                });
+                /*table*/
+                var arrangeC=0;
+                table.init('demo', {
+                    limit: 5,
+                    done:function(res, curr, count){
+                        arrangeC=count;
+                    }
+                });
+                table.init('demo1', {
+                    limit: 5,
+                    done:function(res, curr, count){
+                        var trLength=$(".arrange .layui-table-body table tbody tr").length;
+                        if(count==0 && trLength!=0){
+                            $(".accept .layui-table-body .layui-none").css("height",(trLength*32.8)+"px");
+                        }
+                    }
+                });
+                var trLength=$(".accept .layui-table-body table tbody tr").length;
+                if(arrangeC==0 && trLength!=0){
+                    $(".arrange .layui-table-body .layui-none").css("height",(trLength*32.8)+"px");
+                }
+                /*动画*/
+                $(".stay-do-m").hover(function () {
+                    $(this).find("div").fadeIn(900);
+                },function () {
+                    $(this).find("div").fadeOut(900);
+                });
+                circle("circleOne",0,"3/9");
+                circle("circleTwo",0,"7/10");
+                $(".work-summary").hover(function(){
+                    circle("circleOne",(3/9).toFixed(2),"3/9");
+                    circle("circleTwo",(7/10).toFixed(2),"7/10");
+                },function(){
+                    circle("circleOne",0,"3/9");
+                    circle("circleTwo",0,"7/10");
+                });
+            });
+            function circle(id,value,number){
+                $("#"+id).circleProgress({
+                    value: value,
+                    size: 85,
+                    startAngle: -Math.PI / 2,
+                    thickness: '15',
+                    fill: {
+                        gradient: ["#ffffff","#79dcd5"]
+                    },
+                    emptyFill:"rgba(255,255,255,.3)"
+                }).on('circle-animation-progress', function (event, progress, stepValue) {
+                    $(this).find('span').html(number);
+                });
+            }
+            /**----------------=======================-第一行 end ==============---------------*/
+            function init() 
+            {
+
+                var month = $('#month').val();
+                var v_date = (new Date()).getTime();
+                if (month != null && month != '') 
+                {
+
+                    getCommonCount(nd);//科研装备、合同签订
+                    getndys_xfzc(month);//经费支出
+                    patentCount(nd);//专利
+                    appraisalCount(nd);//成果
+                    setContcator_id(nd, v_date);//合同签订率
+
+                }
+
+            }
+            
+            
+            var isKJBPerson="${isKJBPerson?default('')}";
+            if(isKJBPerson==false || isKJBPerson=='false')//不是科技部的人
+            {
+            	$("#isKJBPerson_id").hide();
+            }else
+            {
+            	init();
+            }
+            
+            function equipment_01_chart_2(type, legentName) {
+
+                var url = encodeURIComponent("/one_level_main/equipment_03_detail?month=" + $("#month").val() + "&type=" + type + "&legentName=" + legentName);
+                window.open("/instituteIndex?url=" + url);
+            }
+
+            //科研课题 projectCount、科研装备 kyzbCount
+            function getCommonCount(nd) {
+                $.ajax({
+                    type: 'GET',
+                    url: "/direct/topic_equipment_count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd,
+                    dataType: 'json',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    timeout: 3000,
+                    error: function (XMLHttpRequest, status) {
+                        $("#topic_id").html("<small>--(个)</small>");
+                        $("#equipment_id").html("<small>--(个)</small>");
+
+                    },
+                    success: function (data) {
+                        //alert(data.data.projectCount);
+                        $("#topic_id").html(data.data.projectCount + "<small>(个)</small>");
+
+
+                        if (typeof(data.data.kyzbCount) == "undefined") {
+                            $("#equipment_id").html("<small>0(个)</small>");
+                        } else {
+                            $("#equipment_id").html(data.data.kyzbCount + "<small>(个)</small>");
+                        }
+
+
+                    }
+                });
+
+            }
+
+
+            //合同签订--bak--
+            function setContcator_id(nd, v_date) {
+                var url = "/direct/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=3&nd=" + nd + "&v_date=" + v_date;
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    dataType: 'json',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    timeout: 3000,
+                    error: function (XMLHttpRequest, status) {
+                        $("#contcator_id").html("<small>--(%)</small>");
+                    },
+                    success: function (data) {
+                        var qdl = "0";
+                        if (typeof(data.data) == "undefined") {
+                            $("#contcator_id").html("0<small>(%)</small>");
+                        } else {
+                            $("#contcator_id").html(data.data.qdl + "<small>(%)</small>");
+                        }
+
+                    }
+                });
+            }
+
+            // 经费支出
+            function getndys_xfzc(month) {
+                //alert(companyCode);
+                var v_date = (new Date()).getTime();
+                $.ajax({
+                    type: "GET",
+                    url: '/direct/pay_01?month=' + month + '&companyCode=' + companyCode + '&v_date' + v_date,
+                    dataType: "json",
+                    timeout: 20000,
+                    cache: false,
+                    contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                    success: function (data, status) {
+                        if (data.success == true || data.success == 'true') {
+
+                            var xkCount_1 = getDataCountForNameFloat(data.data, '新开课题');
+                            var jzCount_2 = getDataCountForNameFloat(data.data, '结转课题');
+                            var allCount_3 = xkCount_1 + jzCount_2;
+                            $("#pay_id").html(allCount_3.toFixed(2) + "<small>亿元</small>");
+                        }
+                    },
+                    error: function () {
+                        //alert("您的网络不给力呀!");
+                    },
+                    complete: function (XMLHttpRequest, status) {
+                        if (status == 'timeout') {
+
+                        }
+                    }
+                });
+
+            }
+
+
+            //专利-知识产权
+            function patentCount(nd) {
+                $.ajax({
+                    type: 'POST',
+                    url: "/admin/patent-count?define3=研究院&nd=" + nd,
+                    dataType: 'json',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    timeout: 20000, //超时时间设置，单位毫秒
+                    error: function (XMLHttpRequest, status) {
+                        $("#patentId").html("--<small>(个)</small>");
+                    },
+                    success: function (data) { //请求成功后处理函数。
+                        var patentCount = data.patentCount;
+                        // alert(patentCount);
+                        $("#patentId").html(patentCount + "<small>(个)</small>");
+                    }
+                });
+
+            }
+
+            //成果
+            function appraisalCount(nd) {
+
+                $.ajax({
+                    type: 'POST',
+                    url: "/admin/appraisal-count?define3=研究院&nd=" + nd,
+                    dataType: 'json',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    timeout: 3000, //超时时间设置，单位毫秒
+                    error: function (XMLHttpRequest, status) {
+                        $("#appraisalId").html("--<small>(个)</small>");
+                    },
+                    success: function (data) { //请求成功后处理函数。
+                        var appraisalCount = data.appraisalCount;
+                        $("#appraisalId").html(appraisalCount + "<small>(个)</small>");
+                    }
+                });
+
+            }
+
+
+          
+            
+
+            /**----------------=======================-第三行 ==============---------------*/
+            $("#chart1_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+            $("#chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+            $("#chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+
+            
+            var v_date = (new Date()).getTime();
+            var chart1_url_0 = "/one_level_main/investment_01?nd=" + nd + "&v_date=" + v_date + "&companyCode=";
+            var color = ["#bee5d2", "#6bdf9e"];
+            var yAxis4 = [
+                {
+                    type: 'value',
+                    name: '亿元',
+                    position: 'left',
+                    axisLabel: {
+                        formatter: '{value}'
+                    }
+                }
+            ];
+            /*var echart = load_mutl_bar_down(chart1_url_0, "chart1_ys", "", "", yAxis4);
+            echart.on('click', function (params) {
+                var xName = params.name;//ysnd、type_flag（直属研究院、分子公司等）、define1（费用性、资本性）、define2 各个研究院名称
+                var legentName = params.seriesName;
+                var str = "";
+                if (legentName.indexOf("资本性") > -1) {
+                    str = "资本性"
+                }
+                if (legentName.indexOf("费用性") > -1) {
+                    str = "费用性"
+                }
+                //alert(str);
+                window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=G0_YSND=" + nd + ",G0_TYPE_FLAG=" + xName + ",G0_DEFINE1=" + str);
+            });*/
+            var investment_0101_url = "/one_level_main/investment_0101?nd=" + nd + "&v_date=" + v_date + "&companyCode=" + companyCode;
+            setinvestmentCount(investment_0101_url);
+
+
+            function setinvestmentCount(url) {
+
+
+                $("#chart1_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+                $("#chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+                $("#chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+
+
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    dataType: "json",
+                    timeout: 11000,
+                    cache: false,
+                    contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                    success: function (data, status) {
+                        if (data.success == true || data.success == 'true') {
+                            var zysje_count = 0;
+                            var fyxsjje_count = 0;
+                            var zbxsjje_count = 0;
+                            var list = data.data;
+
+                            for (var i = 0; i < list.length; i++) {
+                                var tt = list[i].fyxsjje;
+
+                                if (typeof(tt) == "undefined") {
+                                    tt = 0;
+                                }
+
+                                var zysje = list[i].zysje / 10000;//预算总计
+                                var fyxsjje = tt / 10000;//费用性科研投入
+                                var zbxsjje = list[i].zbxsjje / 10000;//资本性科研投入
+                                // alert(fyxsjje);
+                                zysje_count = zysje_count + parseFloat(zysje);
+                                fyxsjje_count = fyxsjje_count + parseFloat(fyxsjje);
+                                zbxsjje_count = zbxsjje_count + parseFloat(zbxsjje);
+                            }
+
+
+                            $("#chart1_01").html(zysje_count.toFixed(2) + "亿元");
+                            $("#chart1_02").html(fyxsjje_count.toFixed(2) + "亿元");
+                            $("#chart1_03").html(zbxsjje_count.toFixed(2) + "亿元");
+                            // alert(zysje_count);
+                            if (zysje_count == '0') {
+                                $("#chart1_04").html("0%");
+                            } else {
+                                $("#chart1_04").html(percentNum(zbxsjje_count + fyxsjje_count, zysje_count));
+                            }
+
+
+                        }
+                    },
+                    error: function () {
+                    },
+                    complete: function (XMLHttpRequest, status) {
+
+                    }
+
+                });
+            }
+
+
+
+            /**----------------=======================-第三行 end ==============---------------*/
+
+
+            function getDataCountForNameFloat(data, strName) {
+                var seriesList = data.seriesList;
+                var xkCount = 0;
+                if (typeof(seriesList) == "undefined") {
+
+                } else {
+                    for (var i = 0; i < seriesList.length; i++) {
+                        var arr = seriesList[i].data;
+                        var name = seriesList[i].name;
+                        if (name == strName) {
+                            var name_count = 0;
+                            for (var j = 0; j < arr.length; j++) {
+                                name_count = name_count + parseFloat(arr[j]);
+                            }
+                            xkCount = name_count;
+                        }
+                    }
+
+                }
+                return parseFloat(xkCount);
+
+            }
+
+
+            function getDataCountForName_t(data, strName) {
+                var list = data.seriesList;
+                alert(list);
+                var xkCount = 0;
+                if (typeof(list) == "undefined") {
+
+                } else {
+                    for (var i = 0; i < list.length; i++) {
+                        var arr = list[i].data;
+                        var name = list[i].name;
+                        if (name == strName) {
+                            var name_count = 0;
+                            for (var j = 0; j < arr.length; j++) {
+                                name_count = name_count + parseInt(arr[j]);
+                            }
+                            xkCount = name_count;
+                        }
+                    }
+
+                }
+                return parseInt(xkCount);
+
+            }
+
+
+            function getDataCountForName_d(data, strName) {
+                var list = data.seriesList;
+                //  alert(list);
+                var xkCount = 0;
+                if (typeof(list) != "undefined") {
+                    for (var i = 0; i < list.length; i++) {
+                        var arr = list[i].data;
+                        var name = list[i].name;
+                        //alert(name+"="+strName);
+                        if (name == strName) {
+                            var name_count = 0;
+                            for (var j = 0; j < arr.length; j++) {
+                                name_count = name_count + parseInt(arr[j]);
+                            }
+                            xkCount = name_count;
+                        }
+                    }
+                }
+                return parseInt(xkCount);
+            }
+
+
+            function addPlan() { //点击新增按钮
+                parent.layui.index.openTabsPage("/plan/addPlanPage?closeType=1", "任务计划-新增");
+                /*layer.open({
+                    title: '任务计划-新增',
+                    skin: 'layui-layer-lan',
+                    shadeClose: false,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin: true,
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    area: ['80%', '90%'],
+                    content: '/plan/addPlanPage?closeType=1'
+                });*/
+            }
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            function set_wait_work_id_count() 
+            {
+            	var url="/task/pending-list";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    dataType: "json",
+                    timeout: 11000,
+                    cache: false,
+                    contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                    success: function (data, status) {
+                      
+                            $("#wait_work_id_count").html(data.count + "");
+                            var list = data.data;
+                            for (var i = 0; i < list.length; i++) 
+                            {
+                                var createTime = list[i].createTime;
+                                var processDefinitionName = list[i].processDefinitionName;
+                                var tt=layui.laytpl.toDateString(createTime)
+                                var processInstanceId= list[i].processInstanceId;
+                                var id= list[i].id;
+                                //alert(processInstanceId);
+                                if(i<4)
+                                {
+                                	$("#wait_work_id_list").append("<li onclick=\"wait_work('"+id+"')\" style='cursor:pointer'><span class='date'>"+tt+"</span> <span class='content'>"+processDefinitionName+"</span></li>");
+                                }
+                                
+                            }
+                            
+                    },
+                    error: function () {
+                    },
+                    complete: function (XMLHttpRequest, status) {
+
+                    }
+
+                });
+            }
+            set_wait_work_id_count();
+            
+            
+            
+            
+           function wait_work(id) 
+           { 
+        	       //alert(processInstanceId);
+        	       // var temUrl = "/task/process/" + processInstanceId;
+        	        var temUrl="/task/pending/deal/"+ id;
+					layer.open({
+						title : '任务处理',
+						skin : 'layui-layer-lan',
+						shadeClose : true,
+						type : 2,
+						fixed : false,
+						//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+						maxmin : true,
+						//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+						area : [ '70%', '90%' ],
+						content : temUrl,
+						end : function() {
+						}
+					});
+			} 
+
+
+           //setGauge("direct_contract_01");
+           setGauge_count();
+
+
+
+
+           function setGauge_count()
+           {
+
+           	$("#vdirect_contract_01_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+               $("#vdirect_contract_01_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+               $("#vdirect_contract_01_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+
+               var nd=$('#nd').val();
+               var series=[];
+               $.ajax({
+                   type:"get",
+                   url: "/one_level_main/contract_01?type=1&nd="+nd+"",
+                   timeout : 9000,
+                   dataType:"json",
+                   cache: false,
+                   contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                   success:function(data,status)
+                   {
+                       if(data.success==true ||data.success=='true')
+                       {
+                           $("#vdirect_contract_01_01").html(data.data.zsl+"个");
+
+                           if (typeof(data.data.yqht) == "undefined")
+       				    {
+                           	 $("#vdirect_contract_01_02").html("0个");
+       				    }else
+       			    	{
+       				    	 $("#vdirect_contract_01_02").html(data.data.yqht+"个");
+       			    	}
+
+
+
+                           $("#vdirect_contract_01_03").html(data.data.qdl+"%");
+                       }
+                   },
+                   error:function()
+                   {
+                   },
+                   complete: function (XMLHttpRequest, status) {
+                   }
+               });
+
+           }
+
+
+           function setGauge(id)
+           {
+               var myChart2 = echarts.init(document.getElementById(id));
+               var options = {
+                   title: {
+                       text: '',
+                       x:'center',
+                       y: '10px',
+                       textStyle: {
+                           fontSize: 15,
+                           fontWeight: 'normal',
+                           color: '#000000'
+                       },
+                       subtextStyle: {
+                           color: '#7B7B7B'
+                       },
+                       subtext:''
+                   },
+                   tooltip : {
+                       formatter: "{a} <br/>{b} : {c}%"
+                   },
+                   toolbox: {
+                       feature: {
+                           restore: {},
+                           saveAsImage: {}
+                       }
+                   },
+                   series: [
+                       {
+
+                           data: []
+                       }
+                   ]
+               };
+               var nd=$('#nd').val();
+               ajax_getGauge("/one_level_main/contract_01?type=2&nd="+nd+"", myChart2, options);
+           }
+
+           function ajax_getGauge(url, echartsobj, options)
+           {
+               var series=[];
+               $.ajax({
+                   type:"get",
+                   url: url,
+                   timeout : 9000,
+                   dataType:"json",
+                   cache: false,
+                   contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                   success:function(data,status)
+                   {
+                       if(data.success==true ||data.success=='true')
+                       {
+                           echartsobj.hideLoading();
+                           var data=data.data;
+                           echartsobj.setOption({
+                               series: [{
+                                   data: [{value: data.value, name: '完成率'}],
+                                   name: '签订率',
+                                   type: 'gauge',
+                                   radius: "110%",
+                                   center: ['50%', '61%'],
+                                   detail: {formatter:'{value}%'},
+                               }]
+                           });
+                       }
+                   },
+                   error:function()
+                   {
+                       layer.msg('图表加载失败');
+                   },
+                   complete: function (XMLHttpRequest, status) {
+                       if(status == 'timeout'){
+                           layer.msg('超时');
+                       }
+                   }
+               });
+
+           }
+
+           
+            
+        </script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.financial.TopicDevelopMapper">
+	 
+	 <!-- 课题研发支出分析--> 
+     <resultMap id="brandTopicDevelopResultMap" type="com.pcitc.base.hana.report.TopicDevelop" >
+       <result column="G0XMJD"          property="g0XMJD"        jdbcType="VARCHAR" />
+       <result column="G0PROJTXT"       property="g0PROJTXT"     jdbcType="VARCHAR" />
+       <result column="G0PROJCODE"      property="g0PROJCODE"    jdbcType="VARCHAR" />
+       <result column="K0LJYSJY"        property="k0LJYSJY"      jdbcType="VARCHAR" />
+       <result column="K0LJZJSYBL"      property="k0LJZJSYBL"    jdbcType="VARCHAR" />
+       <result column="G0CALD"          property="g0CALD"  jdbcType="VARCHAR" />
+       <result column="G0GSDM"          property="g0GSDM"  jdbcType="VARCHAR" />
+       <result column="G0GSJC"          property="g0GSJC"  jdbcType="VARCHAR" />
+       <result column="G0FLAG"          property="g0FLAG"    jdbcType="VARCHAR" />
+       <result column="G0YEARXM"        property="g0YEARXM"  jdbcType="VARCHAR" />
+       <result column="G0WBSCODE"       property="g0WBSCODE"  jdbcType="VARCHAR" />
+       <result column="G0WBSTXT"        property="g0WBSTXT"  jdbcType="VARCHAR" />
+       <result column="G0STUFE"         property="g0STUFE"  jdbcType="VARCHAR" />
+       <result column="G0XMGLLX"        property="g0XMGLLX"  jdbcType="VARCHAR" />
+       <result column="G0XMGLLY"        property="g0XMGLLY"  jdbcType="VARCHAR" />
+       <result column="G0XMGLJB"        property="g0XMGLJB"  jdbcType="VARCHAR" />
+       <result column="G0XMLX"          property="g0XMLX"     jdbcType="VARCHAR" />
+       <result column="G0XMLXMS"        property="g0XMLXMS"  jdbcType="VARCHAR" />
+       <result column="G0XMZT"          property="g0XMZT"     jdbcType="VARCHAR" />
+       <result column="G0XMZTMS"        property="g0XMZTMS"  jdbcType="VARCHAR" />
+       <result column="G0PLFAZ"         property="g0PLFAZ"  jdbcType="VARCHAR" />
+       <result column="G0PLSEZ"         property="g0PLSEZ"  jdbcType="VARCHAR" />
+       <result column="K0ZTYSJE"        property="k0ZTYSJE"  jdbcType="VARCHAR" />
+       <result column="K0BNYSJHJE"     property="k0BNYSJHJE"  jdbcType="VARCHAR" />
+       <result column="K0BNYSFPJE"     property="k0BNYSFPJE"  jdbcType="VARCHAR" />
+       <result column="K0BNSJCBJE"     property="k0BNSJCBJE"  jdbcType="VARCHAR" />
+       <result column="K0BNSJDJJE"     property="k0BNSJDJJE"  jdbcType="VARCHAR" />
+       <result column="K0BNSJCNJE"     property="k0BNSJCNJE"  jdbcType="VARCHAR" />
+       <result column="K0BNSJZBJE"     property="k0BNSJZBJE"  jdbcType="VARCHAR" />
+       <result column="K0BNKYYSJE"     property="k0BNKYYSJE"  jdbcType="VARCHAR" />
+       <result column="K0BNZJSYBL"     property="k0BNZJSYBL"  jdbcType="VARCHAR" />
+       <result column="K0LJSJCBJE"     property="k0LJSJCBJE"  jdbcType="VARCHAR" />
+       <result column="K0LJSJCNJE"     property="k0LJSJCNJE"  jdbcType="VARCHAR" />
+       <result column="K0LJSJKCJE"     property="k0LJSJKCJE"  jdbcType="VARCHAR" />
+       <result column="K0LJSJZYJE"     property="k0LJSJZYJE"  jdbcType="VARCHAR" />
+       <result column="K0LJKYYSJE"     property="k0LJKYYSJE"  jdbcType="VARCHAR" />
+     </resultMap>
+     
+     
+     
+      
+	  <sql id="selectCondition01">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="g0XMGLLX != null   and g0XMGLLX !='' ">   AND G0XMGLLX  in      ${g0XMGLLX}</if>
+	 </trim>
+	</sql>
+	
+	 <select id="getTopicDevelopPotList" resultMap="brandTopicDevelopResultMap" parameterType="java.util.Map" >
+        SELECT
+		      "G0XMJD",
+		      "G0PROJTXT",
+		      "G0PROJCODE",
+		      round(IFNULL(sum("K0ZTYSJE"),0)/10000,2)   AS "K0ZTYSJE",
+		      round(IFNULL(sum("K0LJSJZYJE"),0)/10000,2) AS "K0LJSJZYJE",
+		      case when round(IFNULL(sum("K0ZTYSJE"),0)/10000,2) =0  then 0
+		      else 
+		      ROUND((round(IFNULL(sum("K0LJSJZYJE"),0)/10000,2)/round(IFNULL(sum("K0ZTYSJE"),0)/10000,2)),4)*100
+		      end  AS "K0LJZJSYBL"
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1012_01" 
+		    ('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+		     '${month}'),
+		     'PLACEHOLDER' = ('$$PR_GSDM$$',
+		     '${companyCode}')
+		     ) 
+		      <include refid="selectCondition01"/>
+		GROUP BY "G0XMJD",
+		         "G0PROJTXT",
+                 "G0PROJCODE" 
+        order by G0XMJD 
+	 </select>
+	 
+	 
+	  <select id="getlist" resultMap="brandTopicDevelopResultMap" parameterType="java.util.Map" >
+		SELECT
+			 "G0CALD",
+			 "G0GSDM",
+			 "G0GSJC",
+			 "G0FLAG",
+			 "G0YEARXM",
+			 "G0PROJCODE",
+			 "G0PROJTXT",
+			 "G0WBSCODE",
+			 "G0WBSTXT",
+			 "G0STUFE",
+			 "G0XMGLLX",
+			 "G0XMGLLY",
+			 "G0XMGLJB",
+			 "G0XMLX",
+			 "G0XMLXMS",
+			 "G0XMZT",
+			 "G0XMZTMS",
+			 "G0PLFAZ",
+			 "G0PLSEZ",
+			 "G0XMJD",
+			 round( sum("K0ZTYSJE")/10000,2)  AS "K0ZTYSJE",
+			 round( sum("K0BNYSJHJE")/10000,2)  AS "K0BNYSJHJE",
+			 round( sum("K0BNYSFPJE")/10000,2)  AS "K0BNYSFPJE",
+			 round( sum("K0BNSJCBJE")/10000,2)  AS "K0BNSJCBJE",
+			 round( sum("K0BNSJDJJE")/10000,2)  AS "K0BNSJDJJE",
+			 round( sum("K0BNSJCNJE")/10000,2)  AS "K0BNSJCNJE",
+			 round( sum("K0BNSJZBJE")/10000,2)  AS "K0BNSJZBJE",
+			 round( sum("K0BNKYYSJE")/10000,2)  AS "K0BNKYYSJE",
+			 sum("K0BNZJSYBL") AS "K0BNZJSYBL",
+			 round( sum("K0LJSJCBJE")/10000,2)  AS "K0LJSJCBJE",
+			 round( sum("K0LJSJCNJE")/10000,2)  AS "K0LJSJCNJE",
+			 round( sum("K0LJSJKCJE")/10000,2)  AS "K0LJSJKCJE",
+			 round( sum("K0LJSJZYJE")/10000,2)  AS "K0LJSJZYJE",
+			 sum("K0LJZJSYBL") AS "K0LJZJSYBL",
+			 round( sum("K0LJKYYSJE")/10000,2)  AS "K0LJKYYSJE"
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1012_02"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_PROCODE$$',
+			 '${g0PROJCODE}')) 
+		GROUP BY "G0CALD",
+			 "G0GSDM",
+			 "G0GSJC",
+			 "G0FLAG",
+			 "G0YEARXM",
+			 "G0PROJCODE",
+			 "G0PROJTXT",
+			 "G0WBSCODE",
+			 "G0WBSTXT",
+			 "G0STUFE",
+			 "G0XMGLLX",
+			 "G0XMGLLY",
+			 "G0XMGLJB",
+			 "G0XMLX",
+			 "G0XMLXMS",
+			 "G0XMZT",
+			 "G0XMZTMS",
+			 "G0PLFAZ",
+			 "G0PLSEZ",
+			 "G0XMJD"
+	 <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>   
+	 </select>
+	 
+    <select id="getCount" resultType="java.lang.Integer" parameterType="java.util.Map"> 
+        SELECT
+		      count(*)
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1012_02"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_PROCODE$$',
+			 '${g0PROJCODE}')) 
+     </select>
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+
+</mapper>

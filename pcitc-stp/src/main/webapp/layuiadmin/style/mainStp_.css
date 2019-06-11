@@ -1,0 +1,288 @@
+/** 滚动条 **/
+::-webkit-scrollbar{width: 8px; height: 8px;}
+::-webkit-scrollbar-button:vertical{display: none;}
+::-webkit-scrollbar-track, ::-webkit-scrollbar-corner{background-color: #e2e2e2;}
+::-webkit-scrollbar-thumb{border-radius: 5px; background-color: rgba(0,0,0,.3);}
+::-webkit-scrollbar-thumb:vertical:hover{background-color: rgba(0,0,0,.35);}
+::-webkit-scrollbar-thumb:vertical:active{background-color: rgba(0,0,0,.38);}
+.layui-col-space10>*{padding: 4px;}
+.layui-col-space10{margin: -4px;}
+.layui-card-header{background: #1890ff;font-weight: normal !important;font-size: 14px;color: #fff;height: 34px;
+    line-height: 34px;border-bottom: 0;}
+.layui-card-header p{height: 14px;line-height: 14px;display: inline-block;border-left: 3px solid #fff;
+    text-indent: 5px;}
+.layui-box-text{font-weight: bold;}
+.arrange{padding-left: 4px;padding-right: 17px;}
+.arrange .layui-table-body,.accept .layui-table-body{overflow: hidden !important;}
+.arrange-title{border-bottom: 1px solid #b9ddff;margin-bottom: 20px;}
+.arrange-title span{font-size: 14px;color: #666666;border-bottom: 2px solid #1890ff;position: relative;
+    padding-bottom: 3px;}
+.arrange-title button{height: 22px;line-height: 22px;background-color: #1890ff;border-radius: 3px 3px 0 0;
+    position: relative;left: 10px;bottom: -2px;}
+.arrange-title a,.accept-title a{background: none !important;color:#666666;text-align: right !important;
+    height: 22px;line-height: 22px; float: right;padding: 0;margin: 0;position: relative;bottom: -3px;}
+.project .layui-col-md5{width: 50%;}
+.project .layui-table tbody tr td:nth-child(1) div{border-left:1px solid #fff; }
+
+.accept{padding-right: 10px;}
+.accept-title{border-bottom: 1px solid #bce6d0;margin-bottom: 20px;}
+.accept-title span{font-size: 14px;color: #666666;border-bottom: 2px solid #7acea1;position: relative;
+    padding-bottom: 3px;}
+.project .layui-table th{background-color:white;}
+.project .layui-table tr:nth-child(odd){background-color: #f6f9fb;}
+.project .layui-table-header{border-top: 0;}
+.arrange .layui-table tr th{border-top: 2px solid #1890ff;}
+.arrange .layui-table tbody tr:hover,.accept .layui-table tbody tr:hover {background-color:#f6f9fb;}
+.arrange .layui-table tbody tr:hover td:nth-child(1) {border-left: 1px solid #1890ff;}
+.accept .layui-table tr th{border-top: 2px solid #42b678;}
+.accept .layui-table tbody tr:hover td:nth-child(1) {border-left: 1px solid #42b678;}
+/*第一块*/
+.layui-top{display: flex;background: #fff;border: 1px solid #dfdfdf;
+    padding: 10px;margin: 0px 0 0 5px;width: 99.2%;border-radius: 4px;}
+.layui-col-md15{width: 12.5%;float: left;height: auto;overflow: hidden;background: #f4f4f4;
+    border-radius: 5px;padding: 8px;cursor: pointer;
+    margin-right: 10px;}
+.layui-col-md15:last-child{margin: 0;}
+.layui-main-box .layui-box-icon{width: 64px;height: 70px;display: inline-block;float: left;
+    box-shadow: 1px 1px 1px #f5f5f5;}
+.layui-main-box .bg-1{background: url("/layuiadmin/layui/images/icon-project.png") no-repeat;}
+.layui-main-box .bg-2{background: url("/layuiadmin/layui/images/icon-budget.png") no-repeat;}
+.layui-main-box .bg-3{background: url("/layuiadmin/layui/images/icon-funds.png") no-repeat;}
+.layui-main-box .bg-4{background: url("/layuiadmin/layui/images/icon-equipment.png") no-repeat;}
+.layui-main-box .bg-5{background: url("/layuiadmin/layui/images/icon-knowledge.png") no-repeat;}
+.layui-main-box .bg-6{background: url("/layuiadmin/layui/images/icon-achievement.png") no-repeat;}
+.layui-main-box .bg-7{background: url("/layuiadmin/layui/images/icon-cooperation.png") no-repeat;}
+.layui-fluid .layui-main-box .bg-7{background: url("/layuiadmin/layui/images/icon-hz.png") no-repeat;    background-size: cover}
+.layui-main-box .bg-8{background: url("/layuiadmin/layui/images/icon-revise.png") no-repeat;}
+.layui-main-box .layui-box-content{margin-left: 70px;}
+.layui-main-box .layui-box-content span{display: block;height: 32px;line-height: 32px;}
+.layui-main-box .layui-box-content span:first-child{font-size: 16px;color: #000;}
+.layui-main-box .layui-box-content span:last-child{font-family: Impact;font-size: 22px;}
+.layui-main-box .layui-box-content span:last-child small{font-size: 14px;}
+/*领导首页*/
+
+.layui-leader-admin .layui-col-md15{width: 20%;color: white;padding: 0;}
+.layui-leader-admin .layui-col-md15:nth-child(1){background:url("/layuiadmin/layui/images/icon-leader-1.png") 84% 26px  no-repeat #17a2b8;}
+.layui-leader-admin .layui-col-md15:nth-child(2){background:url("/layuiadmin/layui/images/icon-leader-2.png") 84% 26px  no-repeat #28a745;}
+.layui-leader-admin .layui-col-md15:nth-child(3){background:url("/layuiadmin/layui/images/icon-leader-3.png") 84% 26px  no-repeat #ffc107;}
+.layui-leader-admin .layui-col-md15:nth-child(4){background:url("/layuiadmin/layui/images/icon-leader-4.png") 84% 26px  no-repeat #dc3545;}
+.layui-leader-admin .layui-col-md15:nth-child(5){background:url("/layuiadmin/layui/images/icon-leader-5.png") 84% 26px  no-repeat #338fd0;}
+.layui-leader-admin .layui-main-box .layui-box-content{ padding: 8px;margin-left: 0;}
+.layui-leader-admin .layui-main-box .layui-box-content span{display: block;height: 40px;line-height: 40px;}
+.layui-leader-admin .layui-main-box .layui-box-content span:first-child{font-size: 22px;
+    font-weight:normal;color: #fff;}
+.layui-leader-admin  .layui-bottom .layui-box-content span:first-child{font-size: 18px;
+    font-weight:normal;color: #fff;}
+.layui-leader-admin .layui-col-md15:nth-child(3) .layui-box-text{color: #523100 !important;}
+.layui-leader-admin .layui-col-md15:nth-child(3) .layui-box-number{color: #523100;}
+.layui-leader-admin .layui-main-box .layui-box-content span:last-child{font-family: Impact;font-size: 50px;}
+.layui-leader-admin .layui-main-box .layui-box-content span:last-child small{font-size: 16px;}
+.layui-leader-admin .layui-col-md15 .layui-box-bottom{height: 30px;line-height: 30px;
+    text-align: center;}
+.layui-leader-admin .layui-col-md15:nth-child(1) .layui-box-bottom{background-color: #1591a5;}
+.layui-leader-admin .layui-col-md15:nth-child(2) .layui-box-bottom{background-color: #24963e;}
+.layui-leader-admin .layui-col-md15:nth-child(3) .layui-box-bottom{background-color: #e5ad06;}
+.layui-leader-admin .layui-col-md15:nth-child(4) .layui-box-bottom{background-color: #c6303e;}
+.layui-leader-admin .layui-col-md15:nth-child(5) .layui-box-bottom{background-color: #0b7dbd;}
+.layui-leader-admin .layui-col-md15 .layui-box-bottom a{color: white;font-size: 14px;
+background: url("/layuiadmin/layui/images/icon-leader-aw.png") right no-repeat;
+    padding-right: 18px;}
+.layui-leader-admin .layui-col-md15:nth-child(3) .layui-box-bottom a{color:#523100;
+    background: url("/layuiadmin/layui/images/icon-leader-ab.png") right no-repeat;}
+.layui-leader-admin .layui-main-box  .layui-box-percent{ font-size: 14px !important;color: #8cfcff;
+    text-align: right;display: inline-block !important;float: right; line-height: 44px !important;}
+.layui-leader-admin .layui-col-md15:nth-child(1) .layui-box-content:hover{
+    background:url("/layuiadmin/layui/images/icon-leader-1.png") 84% 26px  no-repeat  #31afc5;}
+.layui-leader-admin .layui-col-md15:nth-child(2) .layui-box-content:hover{
+    background:url("/layuiadmin/layui/images/icon-leader-2.png") 84% 26px  no-repeat  #32af4b;}
+.layui-leader-admin .layui-col-md15:nth-child(3) .layui-box-content:hover{
+    background:url("/layuiadmin/layui/images/icon-leader-3.png") 84% 26px  no-repeat  #ffc81c;}
+.layui-leader-admin .layui-col-md15:nth-child(4) .layui-box-content:hover{
+    background:url("/layuiadmin/layui/images/icon-leader-4.png") 84% 26px  no-repeat  #e73f4d;}
+.layui-leader-admin .layui-col-md15:nth-child(5) .layui-box-content:hover{
+    background:url("/layuiadmin/layui/images/icon-leader-5.png") 84% 26px  no-repeat  #3c97d8;}
+/*工作动态*/
+.workNews .layui-col-md5{ width: 49.75%;}
+.layui-leader-admin .layui-col-md15:nth-child(1) .layui-box-percent{color: #89f9fc !important;}
+.layui-leader-admin .layui-col-md15:nth-child(2) .layui-box-percent{color: #8fff9a !important;}
+.layui-leader-admin .layui-col-md15:nth-child(3) .layui-box-percent{color: #764d00 !important;}
+.layui-leader-admin .layui-col-md15:nth-child(4) .layui-box-percent{color: #ffb6b3 !important;}
+.layui-leader-admin .layui-wifi .layui-box-content span{height: 30px;line-height: 30px;}
+.layui-leader-admin .layui-wifi .layui-box-content{margin-left: 44px !important;padding: 0;}
+.layui-leader-admin .layui-wifi .layui-main-box{padding: 15px 10px 5px !important;}
+.layui-leader-admin .layui-wifi .layui-main-box .layui-box-text{font-size: 16px !important;}
+.layui-leader-admin .layui-wifi .layui-main-box .layui-box-number{font-size: 16px !important;}
+.layui-leader-admin .layui-box .layui-main-box{padding: 16px 16px 10px;}
+.layui-leader-admin .layui-box .layui-box-content{margin-left: 54px;padding: 0;}
+.layui-leader-admin .layui-col-md3 .layui-main-box .layui-box-content span{height: 28px;line-height: 28px;}
+.layui-leader-admin .layui-col-md3 .layui-main-box{margin-bottom: 10px;border-radius: 5px;}
+.layui-leader-admin .layui-bottom .layui-box:nth-child(1) .layui-main-box{background: #4195d4}
+.layui-leader-admin .layui-bottom .layui-box:nth-child(2) .layui-main-box{background: #69aab2}
+.layui-leader-admin .layui-bottom .layui-box:nth-child(3) .layui-main-box{background: #4ac5a8}
+.layui-leader-admin  .layui-bottom .layui-box:nth-child(4) .layui-main-box{background: #eeb412}
+@media screen and (max-width: 1366px) {
+    .layui-main-box .layui-box-icon{width: 44px;height: 44px;background-size: cover;}
+    .layui-main-oil .layui-main-box .layui-box-icon{width: 34px !important;
+        height: 34px !important;background-size: cover !important;margin-top: 5px;}
+    .layui-box-text-14{font-size: 14px !important;}
+    .layui-main-oil .layui-main-box .layui-box-content{width: 66%;margin-left: 46px;}
+    .layui-main-box .layui-box-content{margin-left: 50px;}
+    .layui-col-md4 .layui-main-box .layui-box-content{margin-left: 65px;}
+    .layui-main-box .layui-box-content span{height: 22px;line-height: 22px;}
+    .layui-main-box .layui-box-content span:first-child{font-size: 12px;color: #000;}
+    .layui-main-box .layui-box-content span:last-child{font-size: 18px;}
+    .layui-main-box .layui-box-content span:last-child small{font-size: 12px;font-family:"微软雅黑";}
+    .layui-box .layui-main-box .layui-box-content span{font-size: 14px !important;}
+    .layui-leader-admin .layui-main-box .layui-box-content span:first-child{font-size: 15px;}
+    .layui-leader-admin .layui-main-box .layui-box-content span:last-child{font-family: Impact;font-size: 28px;}
+}
+
+@media screen and (max-width: 1024px) {
+    .layui-col-md12{height: auto;overflow: hidden;}
+}
+/*第五块*/
+.layui-tool{display: inline-block;float: right;}
+.btn-tool{border: none;cursor: pointer;margin-right: 10px;}
+.collapse{background: url("/layuiadmin/layui/images/icon-up.png") no-repeat;width: 12px;
+    height: 10px;}
+.remove{background: url("/layuiadmin/layui/images/icon-dele.png") no-repeat;width: 10px;
+    height: 10px;}
+/*第六块*/
+.layui-col-md4 .layui-box{margin-bottom: 10px;}
+.layui-col-md4 .layui-box:last-child{margin: 0;}
+.layui-box .layui-main-box{width: auto;height: auto;overflow: hidden;box-shadow: 0 0 3px #dadcde;
+    padding: 18px 24px;}
+.layui-col-md4 .layui-box:nth-child(1) .layui-main-box {background: #4195d4;border-radius: 5px;}
+.layui-col-md4 .layui-box:nth-child(2) .layui-main-box {background: #69aab2;border-radius: 5px;}
+.layui-col-md4 .layui-box:nth-child(3) .layui-main-box {background: #4ac5a8;border-radius: 5px;}
+.layui-col-md4 .layui-box:nth-child(4) .layui-main-box{background: #eeb412;border-radius: 5px;}
+.layui-box .layui-main-box .layui-box-icon{box-shadow: none;}
+.layui-box .layui-main-box .layui-box-content span{font-size: 16px;color: #fff;}
+.layui-box .layui-main-box .layui-box-content span:last-child{font-family: Arial;font-weight: bold;}
+.layui-box .bg-1{background: url("/layuiadmin/layui/images/icon-tool-1.png") no-repeat;}
+.layui-box .bg-2{background: url("/layuiadmin/layui/images/icon-tool-2.png") no-repeat;}
+.layui-box .bg-3{background: url("/layuiadmin/layui/images/icon-tool-3.png") no-repeat;}
+.layui-box .bg-4{background: url("/layuiadmin/layui/images/icon-tool-4.png") no-repeat;}
+/**/
+.project .layui-col-md9{width:70%; }
+.project .layui-col-md3{width: 28.2%;}
+.project h4{font-size: 16px;color: #000000;height: 40px;line-height: 40px;font-weight: bold;
+    text-align: center;}
+.project-1 .layui-progress{margin: 10px 0;border-radius: 0;height: 10px;}
+.project-1 .layui-bg-red{background: #007bff !important;}
+.project-1 .layui-bg-red-2{background: #dc3545 !important;}
+.project-1 .layui-bg-red-3{background: #28a745 !important;}
+.project-1 .layui-bg-red-4{background: #ffc107 !important;}
+.layui-progress-bar{border-radius: 0;height: 10px;}
+.layui-table .layui-progress{    top: 12px;width: 70%;right: 33%;}
+.layui-table .layui-progress-bar{height: 6px;border-radius: 20px;background-color: #1890ff;}
+/**/
+.layui-card-ul{background: #f7f7f7;border-radius: 6px}
+.layui-tab-item{display: block;}
+.workNews .layui-tab-item{display: none;padding: 5px 0px;height: 287px;box-sizing: border-box;}
+.workNews .layui-card-body{ padding:20px 10px;}
+.workNews .layui-tab-card{box-shadow: none;}
+.workNews .layui-tab-title .layui-this:after{height: 38px;border: none;}
+.workNews .layui-tab-title li:nth-child(1){margin-left: 0;}
+.workNews .layui-tab-title li {margin: 2px 4px 0;height: 34px;line-height: 34px;color: #666666;font-size: 14px;}
+.workNews .layui-tab-title li.layui-this{color: #fff;background: #53acff;border-radius: 4px;}
+.workNews .layui-tab-content{height: auto;}
+.workNews .layui-tab{position: relative;}
+.workNews .layui-tab-content .layui-tab-item>a{position: absolute;font-size: 12px;top: 8px;right: 0;}
+.lan .layui-table tr:nth-child(1) td{border-top: 2px solid #1890ff;}
+.lan .layui-table tr:nth-child(2n){background-color: #f5f9fc;}
+.workNews .layui-tab-item ul li{height: 30px;line-height: 30px;position: relative;border: 0 !important;
+    text-indent: 6px;background: url("/layuiadmin/layui/images/news-d.png") no-repeat center left;}
+.workNews .layui-tab-item ul li a{color: #666666;font-size: 12px;width: 82%;overflow:hidden;display: inline-block;
+    text-overflow:ellipsis;white-space:nowrap}
+.workNews .layui-tab-item ul li span{position: absolute;top: 11px;right: 0;font-size: 12px;color: #676767 !important;
+    font-weight: normal !important;width: auto !important;}
+.layui-tab-item ul{height: auto;overflow: hidden;}
+.layui-tab-item ul li{border-right: 1px solid #ededed;height: 130px;}
+.layui-tab-item ul li:last-child{border: none;}
+.layui-tab-item ul li span{display: block;width: 100%;text-align: center;line-height: 85px;}
+.layui-tab-item ul li span.span-text{font-size: 36px;font-family: Impact;}
+.layui-tab-item ul li span:last-child{line-height: 0;font-weight: bold;
+    color: #000;}
+.layui-card-ul .layui-col-xs3{width: 20%;}
+.span-text-1{color: #007bff;}
+.span-text-2{color: #dc3545;}
+.span-text-3{color: #28a745;}
+.span-text-4{color: #ffc107;}
+.span-text-5{color: red;}
+/**/
+.layui-wifi .layui-main-box{width: auto;height: auto;overflow: hidden;
+    padding: 16px 10px 16px;box-shadow: none;}
+.layui-wifi-right{background: #a3abac;}
+.layui-wifi .layui-main-box .layui-box-content span{font-size: 14px;color: #fff;}
+.layui-wifi .layui-main-box .layui-box-content span:last-child{font-family: Arial;}
+.layui-wifi .layui-box-icon{width: 36px;height: 34px;}
+.layui-wifi .layui-box-content{margin-left: 44px;}
+.layui-wifi .bg-1{background: url("/layuiadmin/layui/images/icon-m.png") no-repeat;}
+.layui-wifi .bg-2{background: url("/layuiadmin/layui/images/icon-p.png") no-repeat;}
+.layui-wifi .bg-3{background: url("/layuiadmin/layui/images/icon-w1.png") no-repeat;}
+.layui-wifi .bg-4{background: url("/layuiadmin/layui/images/icon-w2.png") no-repeat;}
+.layui-box-number .loadingImg {width: 16px;height: auto;}
+.loadingImg{width: 24px; height: auto;}
+.text-total {text-align: center;}
+.text-total span{color: #000;padding: 0 2px;}
+.text-total .text-total-blue{color: #53b7e8;}
+/*处室*/
+.stay-do{background: url("/layuiadmin/layui/images/stay-b.png") no-repeat;position: relative;
+    background-size: cover; height: 177px;border: 1px solid #dddddd;margin-right: 10px;}
+.work{margin: 7px 0;}
+.work-title{ margin: 17px 17px 10px;color: white;font-size: 14px;border-left: 1px solid white;
+    text-indent: 5px;font-family: "PingFang SC";    height: 14px;line-height: 14px;}
+.stay-doz-n{text-align: center;margin: 25px 0 14px;font-size: 36px;color: white;font-family:"Helvetica Neue"}
+.stay-doz-i{text-align: right;padding-right: 20px;position: relative;}
+.work-summary{background: url("/layuiadmin/layui/images/stay-work.png") no-repeat;
+    background-size: cover; height: 177px;border: 1px solid #dddddd;margin-right: 10px;}
+.work-collect{background: url("/layuiadmin/layui/images/stay-collect.png") no-repeat;
+    background-size: cover; height: 177px;border: 1px solid #dddddd;}
+.work-collect ul{margin: 0 10px;}
+.work-collect ul li{width: 47%;margin: 0 5px;float: left;text-align: center;background-color: #58bdfc;
+    border-radius: 4px;box-shadow:#2ca6f7 0 0 4px;height: 35px;line-height: 35px;margin-bottom: 10px;}
+.work-collect ul li a{color: white;font-size: 14px;}
+.implement .layui-table-cell{ font-size: 12px !important;}
+.implement th{background-color: #ecf8ff !important;}
+.implement th .layui-table-cell{color: black;}
+.stay-do-m p{transition: transform 0.9s;}
+.stay-do-m:hover .stay-doz-i{ -webkit-transform:translateY(-80px);transform:translateY(-80px);}
+.stay-do-m:hover .stay-doz-n{ -webkit-transform:translate(168px,64px);transform:translate(168px,64px);}
+.stay-do-m>div{position: absolute;top: 40px;left: 14px;display: none;}
+.stay-do-m>div ul li{height: 24px;line-height: 24px;color: #fff;font-size: 12px;}
+.stay-do-m>div a{color: white;font-size: 12px;}
+.work-summary-left{margin-left: 14px;border-right: 1px dashed rgba(255,255,255,.7);width: 46% !important;position: relative;}
+.work-summary-right{margin-right: 14px;width: 46% !important;position: relative;}
+.work-summary>div canvas{margin: 10px 26%;}
+.work-summary span{position: absolute;top: 44px;
+    left: 42.5%;color: rgba(255,255,255,.8);}
+.work-summary>div p{text-align: center;color: #fff;height: 14px;line-height: 14px;font-size: 14px;}
+    /*放大*/
+.layui-col-md15{
+    -webkit-transform-origin: 0 0 0;
+    transition: transform 0.9s;}
+.layui-col-md15:hover {
+    transform:scale(1.6);
+    -webkit-transform:scale(1.6);
+    -moz-transform:scale(1.6);
+    -o-transform:scale(1.6);
+    -ms-transform:scale(1.6);
+    transform-origin: 0 0 0;
+    -webkit-transform-origin: 0 0 0;
+    z-index: 9999;
+}
+.layui-leader-admin .layui-col-md15:hover {
+    transform:none;
+    -webkit-transform:none;
+    -moz-transform:none;
+    -o-transform:none;
+    -ms-transform:none;
+}
+@media (min-width: 1673px) {
+    .work-summary>div canvas{margin: 10px 33%;}
+    .work-summary span{left: 45%;}
+    .stay-do-m:hover .stay-doz-n{transform:translate(226px,64px)}
+    .layui-col-md15{padding: 10px 8px 8px;}
+    .layui-main-box .layui-box-icon{background-size: contain !important;}
+}

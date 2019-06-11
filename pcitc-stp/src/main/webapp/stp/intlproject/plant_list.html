@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+	<link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+	<link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+	
+	<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+	<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+	<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
+	<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+	
+	<style>
+	.tree-content {
+	  position: absolute;
+	  z-index: 998;
+	  background: #ffffff;
+	  max-height: 400px;
+	  width: 100%;
+	  border: 1px solid #ccc;
+	  overflow-y: scroll;
+	}
+	.layui-select-title input{display:inline-block}
+	.searchBox .layui-input{
+		width: 18%;
+	  min-width: 160px;
+	  display: inline-block !important;
+	  font-size: 12px !important;
+	  height: 24px !important;
+	  line-height: 24px !important;
+	  font-weight: normal !important;
+	  padding-left: 6px !important;
+	  padding-right: 6px !important;
+	  border-radius: 2px !important;
+	  vertical-align: middle;
+	  color: #555;
+	  background-color: #fff;
+	  background-image: none;
+	  border: 1px solid #ccc;
+	  padding-top:0px;
+	}
+	</style>
+	<script type="text/javascript">
+	var table,selectRowData,renderfunc,param;
+	var unitMap = {};
+    layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element',"publicMethods" ], function(){
+    	var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
+		var publicMethods=layui.publicMethods;
+    	table = layui.table;
+    	param = JSON.parse(window.localStorage.getItem("param"));
+    	//加载科研院所字典
+    	publicMethods.ajaxPost("/dictionary/list/ROOT_XTGL_ZSYJY", null, function (data) {
+			$.each(data,function(i,dt){
+				unitMap[data[i].code] = data[i].name;
+	    	});
+	    });
+    	function renderTable(where){
+    		var lodingMsg = layer.msg('数据加载中....');
+	        table.render({
+	            elem: '#plantTable',
+	            url: '/project/plant-list',
+	            limit : param.selfRownum,
+	            method:"POST",
+	            where: where,
+	        	id: 'plantTable',
+	        	height: commonDislodgeTable(),
+	            page: {
+	                groups: 5
+	                ,limits : [ param.selfRownum, 15, 30, 45, 60 ]
+	                ,layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+	                ,first: '首页' //不显示首页
+	                ,last: '尾页' //不显示尾页
+	                ,theme: '#0F9EE0'
+		        },
+	            cols: [[
+	            	 {type:'checkbox',align:"center"}
+	            	,{title:'序号', type:'numbers',align:"center" ,width : 55}
+	                ,{field:'plantName',   title:'计划名称',    width: '25%',  style:'cursor: pointer;',align:"left"}
+	                ,{field:'plantCode',title:'项目计划编码',	width: '20%',   style:'cursor: pointer;',align:"left"}
+	                ,{field:'reportYear',title:'计划年度',	width: '15%',   style:'cursor: pointer;',align:"center"}
+	                ,{field:'plantMoney',title:'计划投资人民币(万元)',	width: '15%',   style:'cursor: pointer;',align:"right"}
+	                //,{field:'unitId',title:'执行单位',	width: '10%',   style:'cursor: pointer;',align:"left"}
+	                //,{field:'buildYears',title:'建设年限',	width: '10%',   style:'cursor: pointer;',align:"center"}
+	                ,{field:'flowStartStatus',  title:'状态', style:'cursor: pointer;',align:"center"}
+	            ]],
+	            done: function (res, curr, count) {
+	            	layer.close(lodingMsg);
+	                // 点击行联动选择框--单选
+	                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+	                	var index=parseInt($(this).index()+1);
+	                    $('tr').removeClass('layui-table-click');
+	                    $(this).addClass('layui-table-click');
+	                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+	                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+	                    selectRowData=res.data[index-1];
+	                }); 
+	                $.each(res.data,function(i,dt){
+	                	var apply_status = "待审批";
+                		if(res.data[i].flowCurrentStatus ==0){
+                			apply_status = "待审批";
+						}else if(res.data[i].flowCurrentStatus == -1){
+				   			apply_status = "预审驳回";
+				   		}else if(res.data[i].flowCurrentStatus == 1){
+							apply_status = "审批中";
+				   		}else if(res.data[i].flowCurrentStatus == 2){
+							apply_status = "预审通过";
+				   		}else{
+				   			apply_status = "待审批";
+				   		}
+		            	$("tr[data-index='"+i+"'] td[data-field='flowStartStatus'] div").html(apply_status);
+		            	//$("tr[data-index='"+i+"'] td[data-field='unitId'] div").html(unitMap[res.data[i].unitId]);
+		            	
+		            });
+	            }
+	        });
+	        renderfunc = function removeHeaderCheckbox(){
+		    	$(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
+		    }
+	    	renderfunc();
+		}
+    	renderTable();
+        //监听表格复选框选择
+        table.on('rowDouble(plantEvent)', function(obj){
+        	var temUrl = '/intl_project/plant_view?plantId='+obj.data.plantId;
+        	openFullWin("详情",temUrl);
+        });
+        // 触发不同的按钮事件
+        var $ = layui.$, active = {
+            searchEvent: function() { //点击查询按钮
+                renderTable({param: {"plantName":$("#plantName").val()}});
+            },resetEvent: function() { 
+            	//点击重置按钮
+                $("#plantName").val("");
+                renderTable({param: {"plantName":$("#plantName").val()}});
+            },addEvent: function(){ 
+            	//点击新增按钮
+            	var temUrl = '/intl_project/plant_edit';
+            	openFullWin("新增",temUrl);
+            },editEvent: function(){  
+            	//点击编辑按钮
+            	if(!selectRowData){
+            		layer.msg('请点击选择一行数据!');
+            		return;
+            	}
+            	var temUrl = '/intl_project/plant_edit?plantId='+selectRowData.plantId;
+            	openFullWin("编辑",temUrl);
+            },detailEvent:function(){
+            	if(!selectRowData){
+            		layer.msg('请点击选择一行数据!');
+            		return;
+            	}
+            	var temUrl = '/intl_project/plant_view?plantId='+selectRowData.plantId;
+            	openFullWin("详情",temUrl);
+            },exportEvent:function(){
+            	if(!selectRowData){
+            		layer.msg('请点击选择一行数据!');
+            		return;
+            	}
+            	window.open("/intl_project/report_download/plant/"+selectRowData.plantId);
+            },commitEvent:function(){
+            	layer.confirm('提交后将不可再编辑，确定要提交吗？',{title:"提交确认"},function(index){
+					layer.close(index);
+					publicMethods.ajaxPost("/project/plant-start-workflow", {plantId:selectRowData.plantId,functionId:param.id}, function (data) {
+          	           if (data.success) {
+          	        	 renderTable({param: {"plantName":$("#plantName").val()}});
+          	           } else {
+          	        	 layer.msg('操作异常，请重试!');
+          	           }
+          	       });
+          	   });
+            },closeEvent:function(){
+            	if(!selectRowData){
+            		layer.msg('请点击选择一行数据!');
+            		return;
+            	}
+            	layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
+					layer.close(index);
+					publicMethods.ajaxPost("/project/plant-close/" + selectRowData.plantId, null, function (data) {
+	                     if (data.success) {
+	                    	 renderTable({param: {"plantName":$("#plantName").val()}});
+	                    	 layer.msg('操作成功!');
+	                     } else {
+	                    	 layer.msg('操作异常，请重试!');
+	                     }
+	                 });
+            	});
+            },deleteEvent: function(){  //点击删除按钮
+            	//var dt = table.checkStatus('userTable').data;
+            	if(!selectRowData){
+            		layer.msg('请选择要删除的数据!');
+            		return;
+            	}
+				layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
+					layer.close(index);
+					publicMethods.ajaxPost("/project/plant-delete/"+selectRowData.plantId, null, function (data) {
+	                     if (data.success) {
+	                    	 renderTable({param: {"plantName":$("#plantName").val()}});
+	                    	 layer.msg('操作成功!');
+	                     } else {
+	                    	 layer.msg('操作异常，请重试!');
+	                     }
+	                });
+            	});
+            }
+        };
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
+
+</head>
+<body>
+<div class="searchBox">
+    <label class="dateInput">
+        <span>计划名称</span>
+        <input type="text" name="plantName" id="plantName" placeholder="请输入计划项目名称"  autocomplete="off" class="form-control">
+    </label>
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
+    </div>
+</div>
+<div class="tableBox">
+    <div class="tableToolBox">
+        <div class="whiteLine"></div>
+        <div  class="tableBtns">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent">新增</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="editEvent">编辑</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg" data-type="detailEvent">查看</button>
+             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_download btnMyBgImg" data-type="exportEvent">下载</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save2 btnMyBgImg" data-type="commitEvent">提交</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="closeEvent">删除</button>
+            <!-- <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button> -->
+        </div>
+    </div>
+    <table id="plantTable" class="layui-hide"  lay-filter="plantEvent"></table>
+</div>
+</body>
+</html>

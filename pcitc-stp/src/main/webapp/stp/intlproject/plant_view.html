@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>新增/编辑</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+
+<script type="text/javascript" src="/plugins/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+	<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+
+<script type="text/javascript">
+var file_ids = "appendFiles";
+//detail:详情，edit：编辑
+file_edit_detail = "detail";
+//统管理-附件管理-附件配置：页面标识
+file_opt_flag = "4c20bd28057543839c0db8754f417c6a";
+$(document).ready(function() {
+   	//var editor = CKEDITOR.replace("plantContent");
+	layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element',"publicMethods" ],function() {
+		var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
+		var publicMethods=layui.publicMethods;
+		var form = layui.form;
+		var table = layui.table;
+		
+		//研究院字典
+    	var dicMap = ['ROOT_XTGL_ZSYJY'];
+    	publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
+			$.each(data,function(key,val){
+				$.each(val,function(i,dt){
+					$("#"+key).append('<option value="'+dt.code+'">'+dt.name+'</option>');
+				});
+			});
+	   	});
+	 	$("input,textarea").addClass('readOnlyBox');
+	 	$("input,textarea").attr("readonly",'readonly');
+	 	$("select").attr("disabled","disabled");
+		form.render();
+		$("select").parent().find('input').addClass('readOnlyBox');
+    	//加载数据
+    	if($("#plantId").val() !=0)
+    	{
+    		publicMethods.ajaxPost('/project/get-plant', {plantId:$("#plantId").val()}, function (data, status) {
+         		form.val("plant-form",data);
+         		//editor.setData(data.plantContent);
+            });
+    	}else{
+    		$("#appendFiles").val("${appendFiles}");
+    	}
+     	//添加到form.render()之后
+	 	$("#file_div").load('/common/public/uploadlayuiload.html');
+	 	
+     	
+    	table.render({
+            elem: '#join_apply_table',
+            url: '/project/join-plant-apply-list',
+            limit: 15,
+            method:"POST",
+            where: {param:{"plantId":$("#plantId").val()}},
+        	id: 'join_apply_table',
+            height: 200,
+            page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
+            cols: [[
+             	 {title:'序号', type:'numbers' ,width : 55}
+                 ,{field:'applyName',   title:'项目名称',	width: '35%',  style:'cursor: pointer;',align:"left"}
+                 ,{field:'applyCode',title:'项目编码',	width: '13%',  style:'cursor: pointer;',align:"left",align:"left"}
+                 ,{field:'startDate',title:'开始日期',	width: '13%',  style:'cursor: pointer;',align:"center"}
+                 ,{field:'endDate',   title:'完工日期',	width: '13%',  style:'cursor: pointer;',align:"center"}
+                 ,{field:'plantMoney',   title:'总投资(万元)',  style:'cursor: pointer;',align:"right"}
+            ]]
+        });
+    	//多行点击事件
+        $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
+     	   	var checkCell = $(this).parent().find("tr[data-index=" + $(this).attr('data-index') + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox");
+             if (checkCell.length > 0) {
+                 checkCell.click();
+             }
+        });
+        $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+             e.stopPropagation();
+        });
+    	var $ = layui.$, active = {
+    		selectEvent: function() { 
+    			var temUrl = "/intl_project/plant_edit_selectapply?plantId="+$("#plantId").val();
+                publicMethods.openBaseWin("增加申报汇总",temUrl,"90%","80%");
+    		
+            },
+            deleteEvent:function(){
+            	layer.confirm('确定要移除吗？',{title:"移除确认"},function(index){
+					layer.close(index);
+	            	var check = table.checkStatus('join_apply_table');
+	            	for(var dt in check.data)
+	            	{
+	            		publicMethods.ajaxPost('/project/del-fromplant', {"plantId":$("#plantId").val(),"applyId":check.data[dt].applyId}, function (data, status) {
+	            			console.log("del...");
+		                });
+	            	}
+	            	table.reload("join_apply_table",{where: {param:{"plantId":$("#plantId").val()}}});
+            	});
+            }
+    	}
+    	form.on('submit(submitBtn)', function(data) {
+    		//data.field.plantContent = editor.getData();
+            ajaxPost('/project/plant-saveorupdate', data.field, function (data, status) {
+                if (data.success) {
+                	parent.layui.table.reload("plantTable",null);
+                	var index = parent.layer.getFrameIndex(window.name);
+			       	parent.layer.close(index);
+                }else{
+                	parent.layer.alert(data.message, {
+						title : '信息'
+					});
+					return;
+                }
+            });
+			return false;
+		});
+    	$('.layui-btn').on('click', function(){
+        	var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    	$("#cancel").click(function () {
+		    var index = parent.layer.getFrameIndex(window.name);
+		    parent.layer.close(index);
+		});
+   	});
+});
+</script>
+</head>
+<body>
+<div class="formBox">
+	<form id="plant-form" name="plant-form" lay-filter="plant-form" class="form-horizontal layui-form">
+	<input type="hidden" name="plantId" id="plantId" value="${plantId?default(0)}">
+	<div class="box-body">
+		<input type="hidden" name="appendFiles" id="appendFiles">
+		<div class="layui-row">
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">项目计划名称<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" lay-verify="required" id="plantName" name="plantName" placeholder="项目计划名称">
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item"  id="password" >
+					<label for="" class="layui-form-label">项目计划编码<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+					 	<input type="text" class="layui-input" id="plantCode" lay-verify="required" name="plantCode" placeholder="项目计划编码">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				 <div class="layui-form-item">
+			          <label class="layui-form-label">计划执行单位<span class="must-fill">*</span></label>
+			          <div class="layui-input-block">
+			          	  <select name="unitId" id="ROOT_XTGL_ZSYJY" lay-verify="required"  lay-filter="unitId">
+		                	<option value="">请选择</option>
+		             	  </select>
+			          </div>
+		        </div>
+			</div>
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">计划年度<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" lay-verify="required|number" id="reportYear" name="reportYear" placeholder="计划年度">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">总投资(万元)<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" lay-verify="required|number" id="plantMoney" name="plantMoney" placeholder="计划投资额">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-form-item">
+	      	 <label class="layui-form-label">已申报项目</label>
+	         <div class="layui-input-block">
+	         	<div class="tableBox">
+		         	<div class="tableToolBox">
+				        <div class="whiteLine"></div>
+				        <div  class="tableBtns">
+				          <!--   <a href="javascript:void(0)" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="selectEvent">新增</a>
+				            <a href="javascript:void(0)" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</a> -->
+				        </div>
+				    </div>
+	         		<table id="join_apply_table" class="layui-hide"  lay-filter="JoinEvent"></table>
+	         	</div>
+	        </div>
+       	</div>
+		<div class="layui-form-item">
+	      	 <label class="layui-form-label">内容</label>
+	         <div class="layui-input-block">
+	         	   <textarea class="layui-textarea" readonly="readonly" id="plantContent" name="plantContent" placeholder=""></textarea>
+	         </div>
+       	</div>
+       	<div class="layui-form-item">
+	      	 <label class="layui-form-label">附件</label>
+	         <div id="file_div" class="layui-input-block"></div>
+       </div>
+	</div>
+	<!-- <div class="form-bottom">
+      <div class="form-bottom-btns">
+      	<button type="button" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>
+      	<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"  id="cancel">关闭</button>
+      </div>
+    </div> -->
+</form>
+</div>
+</body>
+</html>

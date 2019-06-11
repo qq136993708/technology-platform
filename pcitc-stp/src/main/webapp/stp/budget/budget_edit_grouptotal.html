@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新增编制单位</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        .con-box{margin: 5px auto;margin-bottom: 0;margin-right: 50px;}
+        .layui-form-label {width: 108px !important;}
+        .layui-input-block {margin-left: 129px !important;}
+        .btn-line {height: 36px;line-height: 36px;}
+        .btn-line a{float: left;margin-left: 20px;}
+        .layui-textarea {min-height: 50px;}
+        .layui-table-header table thead tr th div{text-align: center;}
+        
+    </style>
+</head>
+<body>
+<form action="" id="budget-form" name="budget-form" lay-filter="budget-form" class="layui-form">
+	<input type="hidden" name="budgetInfoId" value="${budgetInfoId}">
+	<input type="hidden" name="dataId" value="${dataId}">
+	<input type="hidden" name="nd" id="nd" value="${nd}">
+	
+	<input type="hidden" name="xmjf" id="xmjf" value="0">
+	<input type="hidden" name="zxjf" id="zxjf" value="0">
+    <div class="con-box">
+        <div class="formBox">
+            <div class="layui-row">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">序号<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" id="no" name="no" placeholder="" lay-verify="required|number" autocomplete="off" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">承担单位<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="displayName" id="displayName" placeholder="" lay-verify="required" autocomplete="off" class="layui-input">
+                        	<input type="hidden" id="displayCode" name="displayCode">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">分类<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                        		<select name="simpleCode" id="simpleCode" lay-verify="required"  lay-filter="simpleCode">
+									<option value="">请选择</option>
+								</select>
+								<input type="hidden" id="simpleName" name="simpleName"> 
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">备注<span class="must-fill"></span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="remark" name="remark"  placeholder="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">项目经费结转<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" id="xmjfJz" name="xmjfJz" placeholder="" lay-verify="required|number" autocomplete="off" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">项目经费可新签<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="xmjfXq" name="xmjfXq"  placeholder="" lay-verify="required|number" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">重点实验室专项结转<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" id="zxjfJz" name="zxjfJz" placeholder="" lay-verify="required|number" autocomplete="off" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">重点实验室专项可新签<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="zxjfXq" name="zxjfXq"  placeholder="" lay-verify="required|number" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">单位明细<span class="must-fill"></span></label>
+                        <div class="layui-input-block">
+                            <div class="tableToolBox">
+					            <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent">新增</a>
+					        </div>
+                            <div id="tableBox">
+                                <table id="dataTable" class="layui-hide" lay-filter="dataTable"></table>
+                            </div>
+	                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div class="form-bottom">
+        <div class="form-bottom-btns">
+            <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit lay-filter="saveEvent">保存</button>
+            <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="cancel">取消
+            </button>
+        </div>
+    </div>
+</form>
+<script>
+    window.viewObj = 
+    {
+        tbData: []
+    }
+    //{dataId:'10001',tempId: 1, displayName: '机动(资金预留)', level:1,plan: 0, xmjf: 0, zxjf: 0,parentDataId:"${dataId}",budgetInfoId:"${budgetInfoId}"}
+    var budgetInfoId = "${budgetInfoId}";
+    var parentDataId = "${dataId}";
+    var nd = "${nd}";
+    var parentInfo = null;
+    var company_map = {};
+   layui.use(['jquery', 'table', 'form','laydate', 'layer','publicMethods'], function () {
+        var $ = layui.jquery,form = layui.form,table = layui.table,laydate = layui.laydate,layer = layui.layer,publicMethods=layui.publicMethods;
+        var layTableId = "dataTable";
+        //检索年度金额完成情况
+        window.selectItemProjectMoney = function(nd,displayCode,callback){
+        	publicMethods.ajaxPost('/budget/select-grouptotal-compare-project',{"nd":nd,"code":displayCode}, function (data, status) {
+   			  var ysje = 0;
+   			  $.each(data,function(index,d){
+   				 ysje += parseInt(d.ysje); 
+   			  });
+   			  callback(ysje);
+   		  	});
+        }
+        //检索年度计划情况
+        window.selectItemPlanMoney = function(nd,displayCode,callback){
+        	publicMethods.ajaxPost('/budget/select-grouptotal-compare-plan',{"nd":nd,"code":displayCode}, function (data, status) {
+   			  var ysje = 0;
+   			  $.each(data,function(index,d){
+   				 ysje += parseInt(d.ysje); 
+   			  });
+   			  callback(ysje);
+   		  	});
+        }
+        //添加一行
+        window.createTableData = function(node){
+        	var newRow = {dataId: new Date().valueOf(),displayCode:node.id, displayName: node.name,last_year_end:0,plan_money: 0, xmjf: 0, zxjf: 0,parentDataId:parentDataId,budgetInfoId:budgetInfoId};
+          	selectItemProjectMoney(parseInt(nd)-1,node.id,function(ysje){
+            	newRow.last_year_end = ysje;
+    		});
+    		selectItemPlanMoney(nd,node.id,function(ysje){
+    			newRow.plan_money = ysje;
+    		});  
+           	viewObj.tbData.push(newRow);
+        }
+        //渲染
+        table.render({
+            elem: '#dataTable' //表格容器
+            , data: viewObj.tbData //请求的url地址
+            , id: layTableId
+            , height: 200
+            , limit: 100
+            , totalRow: true
+            , cols: [[
+                {field: 'displayName', title: '单位名称',edit:true,totalRowText: '合计'}
+                , {field: 'xmjfJz', title: '${nd}年结转(老合同)项目经费', align: 'right',style: 'cursor: pointer;', width: '25%',totalRow: true}
+                , {field: 'zxjfJz', title: '${nd}年结转(老合同)专项经费', align: 'right',style: 'cursor: pointer;', width: '25%',totalRow: true}
+                //, {field: 'xmjf', title: '项目经费', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%',totalRow: true}
+                //, {field: 'zxjf', title: '重点实验室专项经费', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%',totalRow: true}
+                , {title: '操作', style: 'cursor: pointer;', align: 'center', width: '10%', templet: function(d){
+                    return '<a href="#" lay-event="del" lay-id="'+ d.dataId +'">删除</a>';
+                }}
+            ]]
+            ,done: function (res, curr, count) {
+            	 var ysnd = parseInt($("#nd").val());
+            	 //$(".layui-table-header .layui-table").find('th').eq(1).find('span').text((ysnd-1)+"实际完成");
+            	 //$(".layui-table-header .layui-table").find('th').eq(2).find('span').text(ysnd+"合同计划");
+            }
+        });
+        table.on('tool(dataTable)', function (obj) {
+            var data = obj.data, event = obj.event, tr = obj.tr; //获得当前行 tr 的DOM对象;
+            switch(event){
+                case "del":
+                    layer.confirm('确定删除此行么？', function(index){
+                        obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                        layer.close(index);
+                        activeByType('removeEmptyTableCache');
+                    });
+                    break;
+            }
+        });
+      	//集团分类编码字典 ROOT_JFYS_JTDWFL（动态字典，如果设置了年度字典则按年度字典获取）
+        publicMethods.ajaxPost('/dictionary/list/ROOT_JFYS_JTDWFL'+nd, null, function (data, status) {
+      		$.each(data,function(i,dt){
+  	    		$("#simpleCode").append("<option value='"+data[i].code+"'>"+data[i].name+"</option>");
+  	    	});
+	    });
+        publicMethods.ajaxPost("/budget/get-grouptotal-item/${dataId}",null, function (data) {
+        	console.log(data);
+			form.val("budget-form",data);
+			parentInfo = data;
+			$.each(data.groups,function(index,dt){
+				viewObj.tbData.push(dt);
+			});
+			table.reload('dataTable', {data: viewObj.tbData});
+   		});
+        //检索公司
+       /* 	publicMethods.ajaxPost("/budget/search-group-company-items",null, function (data) {
+        	$.each(data,function(index,dt){
+        		company_map[dt.unitCode] = dt.unitName;
+        	});
+   		}); */
+        //定义事件集合
+        var active = {
+            removeEmptyTableCache: function(){
+            	  var oldData = table.cache[layTableId];
+                  for(var i=0, row; i < oldData.length; i++){
+                      row = oldData[i];
+                      if(!row || !row.dataId){
+                          //oldData.splice(i, 1);    //删除一项
+                          viewObj.tbData.splice(i, 1);
+                      }
+                  }
+                  table.reload("dataTable",{data : viewObj.tbData});
+            },addEvent:function(){
+            	layer.open({
+                    title: '检索公司信息'
+                    , skin: 'layui-layer-lan'
+                    , shadeClose: true
+                    , type: 2
+                    , fixed: false
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    , maxmin: false
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    , area: ['80%', '90%']
+                    , content: "/budget/unit_select_tree?company=search-group-company-tree"
+                });      
+            }
+            
+        };
+        //激活事件
+        var activeByType = function (type, arg) {
+            if(arguments.length === 2){
+                active[type] ? active[type].call(this, arg) : '';
+            }else{
+                active[type] ? active[type].call(this) : '';
+            }
+        };
+
+        //注册按钮事件
+        $('.layui-btn[data-type]').on('click', function () {
+            var type = $(this).data('type');
+            activeByType(type);
+        });
+
+        //监听select下拉选中事件
+        form.on('select(type)', function(data){
+            var elem = data.elem; //得到select原始DOM对象
+            $(elem).prev("a[lay-event='type']").trigger("click");
+        });
+        function getTableData(){
+            for(var i=0, row; i < viewObj.tbData.length; i++){
+                row = viewObj.tbData[i];
+                if(!row.projectFund){
+                    layer.msg("检查每一行，请填写项目经费！", { icon: 5 }); //提示
+                    return;
+                }else if(!row.specialFund){
+                    layer.msg("检查每一行，请填写重点实验室专项经费！", { icon: 5 }); //提示
+                    return;
+                }
+            } 
+            return JSON.stringify(viewObj.tbData);
+        }
+        // 点击保存按钮
+        form.on('submit(saveEvent)', function(data){
+        	data.field.zxjf = data.field.zxjfJz +data.field.zxjfXq;
+        	data.field.xmjf = data.field.xmjfJz +data.field.xmjfXq;
+        	
+            var formData = JSON.stringify(data.field);
+            console.log("表单数据："+formData + '\n' +"表格数据:" + getTableData());
+            var lodingMsg = layer.msg('处理中....');
+            //保存预算项目
+            publicMethods.ajaxAsyncPost('/budget/save-grouptotal-item', data.field, function (data, status) {
+                if (data.success) {
+                	parent.initDataVersion("${budgetInfoId}");
+                	parentInfo = data.data;
+                	//保存预算项目子项
+                	publicMethods.ajaxAsyncPost('/budget/save-grouptotal-childitems', {"items":JSON.stringify(viewObj.tbData),"item":JSON.stringify(parentInfo)}, function (dt, status) {
+                		var index = parent.layer.getFrameIndex(window.name);
+    			       	parent.layer.close(index);
+                	});
+                }else{
+                	parent.layer.alert(data.message, {title : '信息'});
+					return;
+                }
+                layer.close(lodingMsg);
+            }); 
+            //一定要加return false -- 2018.07.08
+            return false;
+        });
+
+        /*点击取消按钮*/
+        $("#cancel").click(function () {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        })
+    })
+</script>
+</body>
+</html>

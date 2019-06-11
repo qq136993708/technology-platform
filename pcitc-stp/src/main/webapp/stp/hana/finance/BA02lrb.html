@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+     <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<body>
+<div style="text-align: center; font-weight: bold; margin: 10px;">利润表</div>
+<div class="searchBox">
+    <!--查询条件-->
+        <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control" id="month">
+        </label>
+       <div class="layui-input-inline">
+         <select name="companyCode" id="companyCode" >
+              <#list companyCodeList as vo>
+              	 <#if vo.g0GSJC == '全部'>
+              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
+              	 </#if>
+                 <#if vo.g0GSJC != '全部'>
+              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
+              	 </#if>
+               </#list>
+            </select>
+       </div>
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+    </div>
+    <span class="unitBox">单位：元</span>
+</div>
+
+	<div class="content-body container">
+		<table class="layui-table">
+				<thead>
+					<tr>
+						<td>项 目</td>
+						<td>行次</td>
+						<td>本月数</td>
+						<td>本年累计数</td>
+						<td>上年同期数</td>
+						<td>项 目</td>
+						<td>行次</td>
+						<td>本月数</td>
+						<td>本年累计数</td>
+						<td>上年同期数</td>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<td>一、营业总收入</td>
+						<td>1</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>三、营业利润（亏损以“－”号填列）</td>
+						<td>36</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>其中：营业收入</td>
+						<td>2</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>加：营业外收入</td>
+						<td>37</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>其中：主营业务收入</td>
+						<td>3</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>其中：政府补助利得</td>
+						<td>38</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>其他业务收入</td>
+						<td>4</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>债务重组利得</td>
+						<td>39</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>△利息收入</td>
+						<td>5</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>减：营业外支出</td>
+						<td>40</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>△手续费及佣金收入</td>
+						<td>6</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>其中：债务重组损失</td>
+						<td>41</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>△已赚保费</td>
+						<td>7</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>四、利润总额（亏损总额以“－”号填列）</td>
+						<td>42</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>二、营业总成本</td>
+						<td>8</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>减：所得税费用</td>
+						<td>43</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>其中：营业成本</td>
+						<td>9</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>五、净利润（净亏损以“－”号填列）</td>
+						<td>44</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>其中：主营业务成本</td>
+						<td>10</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>其中：持续经营损益</td>
+						<td>45</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>其他业务成本</td>
+						<td>11</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>终止经营损益</td>
+						<td>46</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>△利息支出</td>
+						<td>12</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>减：少数股东损益</td>
+						<td>47</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>△手续费及佣金支出</td>
+						<td>13</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>六、归属于母公司所有者的净利润</td>
+						<td>48</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>△退保金</td>
+						<td>14</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>七、其他综合收益的税后净额</td>
+						<td>49</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>△赔付支出净额</td>
+						<td>15</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>减：归属于少数股东的其他综合收益的税后净额</td>
+						<td>50</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>△提取保险合同准备金净额</td>
+						<td>16</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>八、归属于母公司所有者的其他综合收益的税后净额</td>
+						<td>51</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>△保单红利支出</td>
+						<td>17</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>（一）以后不能重分类进损益的其他综合收益</td>
+						<td>52</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>△分保费用</td>
+						<td>18</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>其中：1.重新计量设定受益计划净负债或净资产的变动</td>
+						<td>53</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>税金及附加</td>
+						<td>19</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>2.权益法下在被投资单位不能重分类进损益的其他综合收益中享有的份额</td>
+						<td>54</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>其中：主营业务税金及附加</td>
+						<td>20</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>3.以公允价值计量且其变动计入其他综合收益的金融资产（权益工具）公允价值变动形成的利得或损失</td>
+						<td>55</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>销售费用</td>
+						<td>21</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>（二）以后将重分类进损益的其他综合收益</td>
+						<td>56</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>管理费用</td>
+						<td>22</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>其中：1.权益法下在被投资单位以后将重分类进损益的其他综合收益中享有的份额</td>
+						<td>57</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>其中： 研究与开发费</td>
+						<td>23</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>2.以公允价值计量且其变动计入其他综合收益的金融资产（债务工具）公允价值变动形成的利得或损失</td>
+						<td>58</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>勘探费用</td>
+						<td>24</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>3.持有至到期投资重分类为以公允价值计量且其变动计入其他综合收益的金融资产（债务工具）形成的利得或损失</td>
+						<td>59</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>财务费用</td>
+						<td>25</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>4.现金流量套期损益的有效部分</td>
+						<td>60</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>其中：利息支出</td>
+						<td>26</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>5.外币财务报表折算差额</td>
+						<td>61</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>利息收入</td>
+						<td>27</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>九、综合收益总额（损失总额以“—”号填列）</td>
+						<td>62</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>汇兑净损失（净收益以“-”号填列）</td>
+						<td>28</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>减：归属于少数股东的综合收益总额（损失总额）</td>
+						<td>63</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>资产减值损失</td>
+						<td>29</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>十、归属于母公司所有者的综合收益总额（损失总额）</td>
+						<td>64</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>加：公允价值变动收益（损失以“－”号填列）</td>
+						<td>30</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+						<td>十一、每股收益：</td>
+						<td>65</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+				</tbody>
+			</table>
+	</div>
+
+	<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_chart.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script>
+
+
+var table,selectRowData;
+layui.config({
+    base: '/layuiadmin/module/modules/' //静态资源所在路径
+}).use(['jquery','form', 'laydate','table','laypage','layer'], function(){
+	  admin = layui.admin
+	  ,$ = layui.jquery
+      ,table = layui.table
+      ,layer = layui.layer
+      ,laydate = layui.laydate
+      ,form = layui.form
+      ,laypage = layui.laypage;
+	  form.render(null, 'component-form-group');
+            laydate.render({
+               elem: '#month'
+               ,format: 'yyyyMM'
+            });
+      //初始化表格
+      renderTable();
+});
+
+var allCode="${allCode?default('')}";
+var allCode_text="全部院所";
+
+
+</script>
+</body>
+</html>

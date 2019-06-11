@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>油田处</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/mainStp.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+    <div class="layui-fluid">
+        <h3>油田处-总体报告</h3>
+        <div class="callout callout-info layui-col-md12">
+            <p class="callout-p">
+                <b>Note:</b>
+                油田处科项目总数：
+                <span class="callout-red">1023</span>
+                个, 结题率
+                <span class="callout-red">98%</span>
+                ，总体投资:
+                <span class="callout-red">10233</span>
+                万元， 实际支出:
+                <span class="callout-red">10121</span>
+                万元， 投资完成率:
+                <span class="callout-red">98.75%</span>
+            </p>
+        </div>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md12 project">
+                <div class="layui-card" style="margin: 0;">
+                    <div class="layui-card-header">
+                        油田处-历年项目总览
+                    </div>
+                    <div class="layui-card-body btn-function">
+                        <div class="layui-col-md5">
+                            <div class="main-chart">
+                                <div style="height:350px;width: 100%;" id="chartOne"></div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md5">
+                            <div class="main-chart" >
+                                <div style="height:350px;width: 100%;" id="chartTwo"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-card-body btn-function layui-card-ul">
+                        <div class="layui-tab-item">
+                            <ul>
+                                <li class="layui-col-xs3">
+                                    <span class="span-text span-text-5">98%</span>
+                                    <span>上年项目结题率</span>
+                                </li>
+                                <li class="layui-col-xs3">
+                                    <span class="span-text span-text-1">80%</span>
+                                    <span>新开国家项目比上年增长</span>
+                                </li>
+                                <li class="layui-col-xs3">
+                                    <span class="span-text span-text-2">45%</span>
+                                    <span>新开重大专项比上年增长</span>
+                                </li>
+                                <li class="layui-col-xs3">
+                                    <span class="span-text span-text-3">40%</span>
+                                    <span>新开“十条龙”项目比上年增长</span>
+                                </li>
+                                <li class="layui-col-xs3">
+                                    <span class="span-text span-text-4">30%</span>
+                                    <span>新开前瞻性研究项目比上年增长</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md12 project">
+                <div class="layui-card" style="margin: 0;">
+                    <div class="layui-card-header">
+                        油田处-2018年度科研项目总览
+                    </div>
+                    <div class="layui-card-body btn-function">
+                        <div class="layui-col-md4">
+                            <div class="main-chart" id="chartThee" style="height:350px;width: 96%;"></div>
+                        </div>
+                        <div class="layui-col-md8" style="padding-right: 10px;">
+                            <table width="100%" lay-filter="demo">
+                                <thead>
+                                <tr>
+                                    <th lay-data="{field:'username'}">编号</th>
+                                    <th lay-data="{field:'username1'}">项目名称</th>
+                                    <th lay-data="{field:'username2'}">项目类别</th>
+                                    <th lay-data="{field:'username3'}">立项年度</th>
+                                    <th lay-data="{field:'username4'}">总体投资</th>
+                                    <th lay-data="{field:'username5'}">牵头单位</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>项目1</td>
+                                    <td>国家项目</td>
+                                    <td>2018</td>
+                                    <td>$33.7</td>
+                                    <td>上海院</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>项目2</td>
+                                    <td>国家项目</td>
+                                    <td>2018</td>
+                                    <td>$3</td>
+                                    <td>上海院</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>项目3</td>
+                                    <td>重大专项</td>
+                                    <td>2018</td>
+                                    <td>$3</td>
+                                    <td>上海院</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>项目4</td>
+                                    <td>'十条龙'科技攻关项目</td>
+                                    <td>2017</td>
+                                    <td>$3</td>
+                                    <td>上海院</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>31</td>
+                                    <td>重大专项</td>
+                                    <td>2017</td>
+                                    <td>$3</td>
+                                    <td>上海院</td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>31</td>
+                                    <td>重大专项</td>
+                                    <td>2017</td>
+                                    <td>$3</td>
+                                    <td>上海院</td>
+                                </tr>
+                                <tr>
+                                    <td>7</td>
+                                    <td>31</td>
+                                    <td>重大专项</td>
+                                    <td>2017</td>
+                                    <td>$3</td>
+                                    <td>上海院</td>
+                                </tr>
+                                <tr>
+                                    <td>8</td>
+                                    <td>31</td>
+                                    <td>重大专项</td>
+                                    <td>2017</td>
+                                    <td>$3</td>
+                                    <td>上海院</td>
+                                </tr>
+                                <tr>
+                                    <td>9</td>
+                                    <td>31</td>
+                                    <td>重大专项</td>
+                                    <td>2017</td>
+                                    <td>$3</td>
+                                    <td>上海院</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        layui.config({
+            base: '/layuiadmin/' //静态资源所在路径
+        }).extend({
+            index: 'lib/index' //主入口模块
+        }).use(['index', 'jquery', 'table', 'carousel', 'layer', 'echarts', 'laydate'], function () {
+            var $ = layui.jquery, table = layui.table, carousel = layui.carousel, laydate = layui.laydate
+                , echarts = layui.echarts, layer = layui.layer;
+            table.init('demo', {
+                //height: 315 //设置高度
+                limit: 10 //注意：请务必确保 limit 参数（默认：10）是与你服务端限定的数据条数一致
+                //支持所有基础参数
+            });
+            /*柱状折线图*/
+            var chartOne = echarts.init(document.getElementById('chartOne'));
+            var optionOne={
+                //title:{text:'', left:'center'},
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        crossStyle: {
+                            color: '#999'
+                        }
+                    }
+                },
+                legend: {data:['项目数','结题率','投资完成率','当年支出','当年投资'], y:"bottom"},
+                xAxis: [
+                    {
+                        type: 'category',
+                        data: ['2012','2013','2014','2015','2016','2017','2018'],
+                        axisPointer: {
+                            type: 'shadow'
+                        }
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        name: '项目数',
+                        min: 0,
+                        max: 250,
+                        interval: 50,
+                        axisLabel: {
+                            formatter: '{value} '
+                        }
+                    },
+                    {
+                        type: 'value',
+                        name: '结题率',
+                        min: 0,
+                        max: 25,
+                        interval: 5,
+                        axisLabel: {
+                            formatter: '{value} %'
+                        }
+                    }
+                ],
+                series: [
+                    {
+                        name:'项目数',
+                        type:'bar',
+                        data:[2, 9, 6, 23, 25.6, 76, 135]
+                    },
+                    {
+                        name:'结题率',
+                        type:'bar',
+                        data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 35.6]
+                    },
+                    {
+                        name:'投资完成率',
+                        type:'line',
+                        yAxisIndex: 1,
+                        data:[2.6, 5.9, 9.0, 6.4, 5.7, 4.7, 8.6]
+                    },
+                    {
+                        name:'当年支出',
+                        type:'line',
+                        yAxisIndex: 1,
+                        data:[22.0, 24.2, 3.3, 4.5, 13, 7.2, 2.3]
+                    },
+                    {
+                        name:'当年投资',
+                        type:'line',
+                        yAxisIndex: 1,
+                        data:[2, 6, 3, 9, 4, 3, 3]
+                    }
+                ]
+            };
+            chartOne.setOption(optionOne);
+            /*环形图*/
+            var chartTwo = echarts.init(document.getElementById('chartTwo'));
+            var labelBottom = {
+                normal : {
+                    color: '#ccc',
+                    label : {
+                        show : false,
+                        position : 'center'
+                    },
+                    labelLine : {
+                        show : false
+                    }
+                }
+            };
+            var radius = [40, 55];
+            var optionTwo = {
+                legend: {
+                    x : 'center',
+                    y : 'center',
+                    data:[
+                        'GoogleMaps','Facebook','Youtube','Google+','Weixin',
+                        'Twitter', 'Skype', 'Messenger', 'Whatsapp', 'Instagram'
+                    ]
+                },
+                series : [
+                    {
+                        type : 'pie',
+                        center : ['12%', '30%'],
+                        radius : radius,
+                        color:"#2ec8c9",
+                        labelLine : {
+                            show : false
+                        },
+                        x: '0%', // for funnel
+                        data : [
+                            {name:'other', value:46, itemStyle : labelBottom,label:{show : false},labelLine : {show : false}},
+                            {name:'A', value:54,label: {normal: {formatter:'{b}\n{d}%', position: 'center',textStyle : {fontSize : 16}}}}
+                        ]
+                    },
+                    {
+                        type : 'pie',
+                        center : ['35%', '30%'],
+                        radius : radius,
+                        color:"#c5b6e6",
+                        x:'20%', // for funnel
+                        data : [
+                            {name:'other', value:56, itemStyle : labelBottom,label:{show : false},labelLine : {show : false}},
+                            {name:'B1', value:44,label: {normal: {formatter:'{b}\n{d}%', position: 'center',textStyle : {fontSize : 16}}}}
+                        ]
+                    },
+                    {
+                        type : 'pie',
+                        center : ['60%', '30%'],
+                        radius : radius,
+                        color:"#5db3f2",
+                        x:'40%', // for funnel
+                        data : [
+                            {name:'other', value:65, itemStyle : labelBottom,label:{show : false},labelLine : {show : false}},
+                            {name:'B2', value:35,label: {normal: {formatter:'{b}\n{d}%', position: 'center',textStyle : {fontSize : 16}}}}
+                        ]
+                    },
+                    {
+                        type : 'pie',
+                        center : ['85%', '30%'],
+                        radius : radius,
+                        color:"#ffb980",
+                        x:'60%', // for funnel
+                        data : [
+                            {name:'other', value:70, itemStyle : labelBottom,label:{show : false},labelLine : {show : false}},
+                            {name:'C', value:30,label: {normal: {formatter:'{b}\n{d}%', position: 'center',textStyle : {fontSize : 16}}}}
+                        ]
+                    },
+                    {
+                        type : 'pie',
+                        center : ['12%', '70%'],
+                        radius : radius,
+                        color:"#8b98b3",
+                        x:'80%', // for funnel
+                        data : [
+                            {name:'other', value:73, itemStyle : labelBottom,label:{show : false},labelLine : {show : false}},
+                            {name:'国家项目', value:27,label: {normal: {formatter:'{b}\n{d}%', position: 'center',textStyle : {fontSize : 16}}}}
+                        ]
+                    },
+                    {
+                        type : 'pie',
+                        center : ['35%', '70%'],
+                        radius : radius,
+                        color:"#e6d00e",
+                        y: '55%',   // for funnel
+                        x: '0%',    // for funnel
+                        data : [
+                            {name:'other', value:78, itemStyle : labelBottom,label:{show : false},labelLine : {show : false}},
+                            {name:'重大专项', value:22,label: {normal: {formatter:'{b}\n{d}%', position: 'center',textStyle : {fontSize : 16}}}}
+                        ]
+                    },
+                    {
+                        type : 'pie',
+                        center : ['60%', '70%'],
+                        radius : radius,
+                        color:"#98b653",
+                        y: '55%',   // for funnel
+                        x:'20%',    // for funnel
+                        data : [
+                            {name:'other', value:78, itemStyle : labelBottom,label:{show : false},labelLine : {show : false}},
+                            {name:'十条龙', value:22,label: {normal: {formatter:'{b}\n{d}%', position: 'center',textStyle : {fontSize : 16}}}}
+                        ]
+                    },
+                    {
+                        type : 'pie',
+                        center : ['85%', '70%'],
+                        radius : radius,
+                        color:"#966f69",
+                        y: '55%',   // for funnel
+                        x:'40%', // for funnel
+                        data : [
+                            {name:'other', value:78, itemStyle : labelBottom,label:{show : false},labelLine : {show : false}},
+                            {name:'生产相关', value:22,label: {normal: {formatter:'{b}\n{d}%', position: 'center',textStyle : {fontSize : 16}}}}
+                        ]
+                    }/*,
+                    {
+                        type : 'pie',
+                        center : ['70%', '70%'],
+                        radius : radius,
+                        color:"#d87a80",
+                        y: '55%',   // for funnel
+                        x:'60%', // for funnel
+                        data : [
+                            {name:'other', value:83, itemStyle : labelBottom,label:{show : false},labelLine : {show : false}},
+                            {name:'院控项目', value:17,label: {normal: {formatter:'{b}\n{d}%', position: 'center'}}}
+                        ]
+                    },
+                    {
+                        type : 'pie',
+                        center : ['90%', '70%'],
+                        radius : radius,
+                        color:"#dc69aa",
+                        y: '55%',   // for funnel
+                        x:'80%', // for funnel
+                        data : [
+                            {name:'other', value:89, itemStyle : labelBottom,label:{show : false},labelLine : {show : false}},
+                            {name:'其他', value:11,label: {normal: {formatter:'{b}\n{d}%', position: 'center'}}}
+                        ]
+                    }*/
+                ]
+            };
+            chartTwo.setOption(optionTwo);
+            /*旭日图*/
+            var chartThee = echarts.init(document.getElementById('chartThee'));
+            var option = {
+                series: {
+                    type: 'sunburst',
+                    radius: [0, '100%'],
+                    levels: [{}, {}, {}, {}, {
+
+                        label: {
+                            position: 'outside',
+                            padding: 3,
+                            silent: false
+                        },
+                        itemStyle: {
+                            borderWidth: 3
+                        }
+                    }],
+                    data: [{
+                        name: '新开',
+                        itemStyle: {
+                            color: '#00a7ff'
+                        },
+                        children: [{
+                            name: 'A类',
+                            itemStyle: {
+                                color: '#6dd1ad'
+                            },
+                            value: 16,
+                            children: [{
+                                name: '国家项目',
+                                value: 4,
+                                itemStyle: {
+                                    color: '#49ae8e'
+                                }
+                            }, {
+                                name: '部委项目',
+                                value: 5,
+                                itemStyle: {
+                                    color: '#49ae8e'
+                                }
+                            }, {
+                                name: '集团重大',
+                                value: 2,
+                                itemStyle: {
+                                    color: '#49ae8e'
+                                }
+                            }, {
+                                name: '“十条龙”',
+                                value: 5,
+                                itemStyle: {
+                                    color: '#49ae8e'
+                                }
+                            }]
+                        }, {
+                            name: 'B1类',
+                            value: 30,
+                            itemStyle: {
+                                color: '#108dcf'
+                            },
+                            children: [{
+                                name: '长周期研发',
+                                value: 3,
+                                itemStyle: {
+                                    color: '#4dabcf'
+                                }
+                            }, {
+                                name: '基础研究',
+                                value: 3,
+                                itemStyle: {
+                                    color: '#4dabcf'
+                                }
+                            }, {
+                                name: '重大项目',
+                                value: 8,
+                                itemStyle: {
+                                    color: '#4dabcf'
+                                }
+                            }, {
+                                name: '关键项目',
+                                value: 6,
+                                itemStyle: {
+                                    color: '#4dabcf'
+                                }
+                            }, {
+                                name: '共性技术',
+                                value: 5,
+                                itemStyle: {
+                                    color: '#4dabcf'
+                                }
+                            }, {
+                                name: '工业试验',
+                                value: 5,
+                                itemStyle: {
+                                    color: '#4dabcf'
+                                }
+                            }]
+                        }, {
+                            name: 'B2类',
+                            itemStyle: {
+                                color: '#017ebe'
+                            }, children: [{
+                                name: '短期生产应用',
+                                value: 3,
+                                itemStyle: {
+                                    color: '#1280b1'
+                                }
+                            }, {
+                                name: '生产相关',
+                                value: 3,
+                                itemStyle: {
+                                    color: '#1280b1'
+                                }
+                            }, {
+                                name: '生产急需',
+                                value: 8,
+                                itemStyle: {
+                                    color: '#1280b1'
+                                }
+                            }]
+
+                        }, {
+                            name: 'C类',
+                            itemStyle: {
+                                color: '#94c3dd'
+                            }, children: [{
+                                name: '技术推广',
+                                value: 3,
+                                itemStyle: {
+                                    color: '#76a5bf'
+                                }
+                            }, {
+                                name: '技术革新',
+                                value: 3,
+                                itemStyle: {
+                                    color: '#76a5bf'
+                                }
+                            }, {
+                                name: '技术攻关',
+                                value: 8,
+                                itemStyle: {
+                                    color: '#76a5bf'
+                                }
+                            }, {
+                                name: '生产技术服务',
+                                value: 6,
+                                itemStyle: {
+                                    color: '#76a5bf'
+                                }
+                            }, {
+                                name: '产品技术服务',
+                                value: 5,
+                                itemStyle: {
+                                    color: '#76a5bf'
+                                }
+                            }]
+
+                        }]
+                    },
+                        {
+                            name: '续建',
+                            itemStyle: {
+                                color: '#dd4800'
+                            },
+                            children:
+                                [
+                                    {
+                                        name: 'A类', itemStyle: {
+                                            color: '#fd7819'
+                                        },
+                                        children:
+                                            [
+                                                {
+                                                    name: '国家项目',
+                                                    value: 9, itemStyle: {
+                                                        color: '#e7580a'
+                                                    }
+                                                }
+                                                ,
+                                                {
+                                                    name: '部委项目',
+                                                    value: 13, itemStyle: {
+                                                        color: '#e7580a'
+                                                    }
+                                                }
+                                                ,
+                                                {
+                                                    name: '集团重大',
+                                                    value: 22, itemStyle: {
+                                                        color: '#e7580a'
+                                                    }
+                                                }
+                                                ,
+                                                {
+                                                    name: '“十条龙”',
+                                                    value: 19, itemStyle: {
+                                                        color: '#e7580a'
+                                                    }
+                                                }
+                                            ]
+                                    }, {
+                                    name: 'B1类', itemStyle: {
+                                        color: '#ef9773'
+                                    },
+                                    children:
+                                        [
+                                            {
+                                                name: '长周期研发',
+                                                value: 3, itemStyle: {
+                                                    color: '#db6a40'
+                                                }
+                                            }
+                                            ,
+                                            {
+                                                name: '基础研究',
+                                                value: 4, itemStyle: {
+                                                    color: '#db6a40'
+                                                }
+                                            }
+                                            ,
+                                            {
+                                                name: '重大项目',
+                                                value: 4, itemStyle: {
+                                                    color: '#db6a40'
+                                                }
+                                            }
+                                            ,
+                                            {
+                                                name: '关键项目',
+                                                value: 4, itemStyle: {
+                                                    color: '#db6a40'
+                                                }
+                                            },
+                                            {
+                                                name: '共性技术',
+                                                value: 4, itemStyle: {
+                                                    color: '#db6a40'
+                                                }
+                                            },
+                                            {
+                                                name: '工业试验',
+                                                value: 4, itemStyle: {
+                                                    color: '#db6a40'
+                                                }
+                                            }
+                                        ]
+                                }, {
+                                    name: 'B2类',
+                                    value: 20, itemStyle: {
+                                        color: '#d07c58'
+                                    }, children:
+                                        [
+                                            {
+                                                name: '短期生产应用',
+                                                value: 6, itemStyle: {
+                                                    color: '#c87553'
+                                                }
+                                            }
+                                            ,
+                                            {
+                                                name: '生产相关',
+                                                value: 9, itemStyle: {
+                                                    color: '#c87553'
+                                                }
+                                            }
+                                            ,
+                                            {
+                                                name: '生产急需',
+                                                value: 5, itemStyle: {
+                                                    color: '#c87553'
+                                                }
+                                            }
+                                        ]
+                                }, {
+                                    name: 'C类',
+                                    value: 20, itemStyle: {
+                                        color: '#b56242'
+                                    }, children:
+                                        [
+                                            {
+                                                name: '技术推广',
+                                                value: 4, itemStyle: {
+                                                    color: '#a15033'
+                                                }
+                                            }
+                                            ,
+                                            {
+                                                name: '技术革新',
+                                                value: 4, itemStyle: {
+                                                    color: '#a15033'
+                                                }
+                                            }
+                                            ,
+                                            {
+                                                name: '技术攻关',
+                                                value: 4, itemStyle: {
+                                                    color: '#a15033'
+                                                }
+                                            },
+                                            {
+                                                name: '生产技术服务',
+                                                value: 4, itemStyle: {
+                                                    color: '#a15033'
+                                                }
+                                            }
+                                            ,
+                                            {
+                                                name: '产品技术服务',
+                                                value: 4, itemStyle: {
+                                                    color: '#a15033'
+                                                }
+                                            }
+                                        ]
+                                }
+                                ]
+                        }]
+                }
+            };
+            chartThee.setOption(option);
+        });
+    </script>
+</body>
+</html>

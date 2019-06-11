@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+	<link rel="stylesheet" href="/layuiadmin/style/common.css">
+	<script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+<div class="searchBox">
+	<!--查询条件-->
+	<label class="dateInput">
+		<span>日志名称</span>
+		<input type="text" name="logActionName" placeholder="请输入日志名称"
+			   title="日志名称" autocomplete="off"
+			   class="form-control" id="logActionName">
+	</label>
+	<label class="dateInput">
+		<span>模块名称</span>
+		<input type="text" name="logAction" placeholder="请输入模块名称"
+			   title="模块名称" autocomplete="off"
+			   class="form-control" id="logAction">
+	</label>
+	<label class="dateInput">
+		<span>操作时间</span>
+		<input type="text" id="logTime" name="logTime" class="form-control" placeholder="请选择时间范围" readonly>
+	</label>
+	<!--按钮组-->
+	<div class="btnGroup">
+		<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
+		</button>
+		<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
+				data-type="resetEvent">重置
+		</button>
+	</div>
+</div>
+<div class="tableBox">
+	<div class="tableToolBox">
+		<div class="whiteLine"></div>
+		<div class="tableBtns">
+			<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_import" data-type="importEvent" >导入</button>
+			<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_export" data-type="exportEvent" >导出</button>
+			<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="deleteEvent" >删除</button>
+		</div>
+	</div>
+	<table id="logTable" class="layui-hide" lay-filter="demoEvent"></table>
+</div>
+<script>
+    layui.use([ 'jquery','form', 'laydate','table','layer','element'], function(){
+        var table = layui.table
+            ,$ = layui.jquery
+            ,laypage = layui.laypage
+            ,admin = layui.admin
+            ,element = layui.element
+            ,layer = layui.layer
+            ,laydate = layui.laydate
+            ,form = layui.form;
+        function renderTable(){
+            var logAction = $('#logAction').val();
+            var logActionName = $('#logActionName').val();
+            var logTime = $('#logTime').val();
+            table.render({
+                id:'logTable' //唯一即可
+                ,elem: '#logTable'
+                ,url: '/sysLog/getLogList'
+                ,limit: 15
+                ,height: commonDislodgeTable()
+                ,method: 'POST'
+                ,where: {logAction:logAction,logActionName:logActionName,logTime:logTime}
+                ,page: {
+                    count: 500, //数据总数，从服务端得到
+                    groups: 5,
+                    limits: [15,30,45,60],
+                    layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                    first: '首页', //不显示首页
+                    last: '尾页', //不显示尾页
+                    theme: '#0F9EE0'
+                }
+                ,cols: [[
+                    {type:'checkbox'},
+                    {title:'序号', type:'numbers' ,width : 55},
+                    {field:'logActionName', title:'日志名称', event: 'setActive',style:'cursor: pointer;'},
+                    {field:'logAction', title:'模块名称', event: 'setActive',style:'cursor: pointer;'},
+                    {field:'logPerson', title:'操作人', event: 'setActive',style:'cursor: pointer;'},
+                    {field:'logTime', title:'日志时间' ,event: 'setActive',style:'cursor: pointer;', templet:  '<div>{{ layui.laytpl.toDateString(d.logTime) }}</div>'},
+                    {field:'logIp', title:'ip地址', event: 'setActive',style:'cursor: pointer;'}
+                ]]
+            });
+        }
+        //单击行勾选checkbox事件——多选情况
+        $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
+            var index = $(this).attr('data-index');
+            var tableBox = $(this).parents('.layui-table-box');
+            //存在固定列
+            if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
+                tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+            } else {
+                tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+            }
+            var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+            if (checkCell.length > 0) {
+                checkCell.click();
+            }
+        });
+        $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+            e.stopPropagation();
+        });
+
+        // 触发不同的按钮事件
+        var $ = layui.$, active = {
+            searchEvent: function() { //点击查询按钮
+                renderTable();
+            }
+            ,resetEvent: function() { //点击重置按钮
+                $('#logAction').val('');
+                $('#logActionName').val('');
+                $('#logTime').val('');
+                renderTable();
+            }
+            ,exportEvent: function(){  //点击导出按钮
+                var logAction = $('#logAction').val();
+                var logActionName = $('#logActionName').val();
+                var logTime = $('#logTime').val();
+                var url = "/sysLog/exportData";
+                var form = $("<form></form>").attr("action", url).attr("method", "post");
+                form.append($("<input></input>").attr("type", "hidden").attr("name", "logAction").attr("value", logAction));
+                form.append($("<input></input>").attr("type", "hidden").attr("name", "logActionName").attr("value", logActionName));
+                form.append($("<input></input>").attr("type", "hidden").attr("name", "logTime").attr("value", logTime));
+                form.appendTo('body').submit().remove();
+            }
+            ,importEvent: function(){  //点击导入按钮
+                layer.open({
+                    title:'导入日志'
+                    ,skin: 'layui-layer-lan'
+                    ,shadeClose: true
+                    ,type: 2
+                    ,fixed: false
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    ,maxmin: true
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    ,area: ['440px', '280px']
+                    ,content:  '/base/system/sysLog_import.html'
+                });
+            }
+            ,deleteEvent: function(){  //点击删除按钮
+                var id;
+                var checkStatus = table.checkStatus('logTable')
+                    ,data = checkStatus.data;
+                var ids;
+                if(data.length > 0){
+                    ids = new Array();
+                    $.each(data,function(n,o){
+                        ids.push(o.logId);
+                    })
+                } else {
+                    layer.msg('请选择要删除的数据');
+                    return;
+                }
+                id = ids.join(",");
+                layer.confirm('确认要删除选中的'+data.length+'条数据吗？',{icon:3,btn:['确定','取消']},function(index){
+                    layer.close(index);
+                    $.ajax({
+                        type : 'post',
+                        dataType : 'text',
+                        async : false,
+                        data : {
+                            "ids" : id
+                        },
+                        url : '/sysLog/deleteData',
+                        success : function(data) {
+                            if(data==200){
+                                layer.msg('删除成功');
+                            }
+                            renderTable();
+                        },
+                        error : function(e) {
+                            alert("出错了");
+                        }
+                    });
+                });
+            }
+            ,getCheckData: function(){ //获取选中数据
+                var checkStatus = table.checkStatus('logTable')
+                    ,data = checkStatus.data;
+                layer.alert(JSON.stringify(data));
+            }
+            ,getCheckLength: function(){ //获取选中数目
+                var checkStatus = table.checkStatus('logTable')
+                    ,data = checkStatus.data;
+                layer.msg('选中了：'+ data.length + ' 个');
+            }
+            ,isAll: function(){ //验证是否全选
+                var checkStatus = table.checkStatus('logTable');
+                layer.msg(checkStatus.isAll ? '全选': '未全选')
+            }
+        };
+
+        //监听排序
+        table.on('sort(test1)', function(obj){
+            console.log(this, obj.field, obj.type)
+            //return;
+            //服务端排序
+            table.reload('test1', {
+                initSort: obj
+                //,page: {curr: 1} //重新从第一页开始
+                ,where: { //重新请求服务端
+                    key: obj.field //排序字段
+                    ,order: obj.type //排序方式
+                }
+            });
+        });
+
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        $(function(){
+            renderTable();
+            laydate.render({
+                elem: '#logTime'
+                ,range: true
+                ,theme: '#0F9EE0'
+            });
+        });
+    })
+</script>
+</body>
+</html>

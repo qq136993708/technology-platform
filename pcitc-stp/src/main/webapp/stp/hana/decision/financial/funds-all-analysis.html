@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<body>    
+<div class="searchBox">
+    <!--查询条件-->
+        <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month" placeholder="请选择月份"  value="${month}" title="月份" autocomplete="off" class="form-control" id="month">
+        </label>
+       <div class="layui-input-inline">
+           <select id="companyCode" name="companyCode" class="form-control"></select>
+        </div>
+       
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+    </div>
+    <span class="unitBox">单位：万元</span>
+</div>
+
+
+
+<!--echarts-->
+<div class="content-body container">
+     <div class="one-chart-box">
+         <div class="layui-row echarts">
+             <!--<p>科研经费预算投入年度趋势分析</p>-->
+             <div id="all-analysis_01" style="width: 100%;height: 400px;"></div>
+         </div>
+     </div>
+    <div class="three-charts-box">
+            <div class="layui-row">
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <!--<p>项目类型经费预算投入占比金额</p>-->
+                    <div id="all-analysis_02" style="width: 100%;height: 400px;"></div>
+                </div>
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <!--<p>预算经费投入资金来源占比金额</p>-->
+                    <div id="all-analysis_03" style="width: 100%;height: 400px;"></div>
+                </div>
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <!--<p>公司单位项目经费预算金额</p>-->
+                    <div id="all-analysis_04" style="width: 100%;height: 400px;"></div>
+                </div>
+            </div>
+     </div>  
+     
+     
+     
+     <div class="three-charts-box">
+            <div class="layui-row">
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <!--<p>项目类型经费预算投入占比金额</p>-->
+                    <div id="all-analysis_05" style="width: 100%;height: 400px;"></div>
+                </div>
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <!--<p>预算经费投入资金来源占比金额</p>-->
+                    <div id="all-analysis_06" style="width: 100%;height: 400px;"></div>
+                </div>
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <!--<p>公司单位项目经费预算金额</p>-->
+                    <div id="all-analysis_07" style="width: 100%;height: 400px;"></div>
+                </div>
+            </div>
+     </div>  
+     
+      <div class="one-chart-box">
+         <div class="layui-row echarts">
+             <div id="all-analysis_10" style="width: 100%;height: 400px;"></div>
+         </div>
+     </div>
+        
+</div>  
+<!--echarts end-->      
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_chart.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script src="/stp/hana/common/hana_common.js"></script>
+<script>
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
+var now = new Date();
+now.setFullYear(now.getFullYear()-1);
+layui.config({
+    base: '/layuiadmin/module/modules/' //静态资源所在路径
+}).use(['jquery','form', 'laydate','table','laypage'], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,form = layui.form
+      ,laydate = layui.laydate,
+	  form.render(null, 'component-form-group');
+            laydate.render({
+               elem: '#month'
+               ,format: 'yyyyMM'
+               
+            });
+});
+var allCode="${allCode?default('')}";
+var allCode_text="全部院所";
+
+function initEchart()
+{
+	 init_companyCode(functionId);
+	 
+	var v_date=(new Date()).getTime();
+	var month=$('#month').val();
+	var companyCode=$('#companyCode').val();
+	var monthstr=getNowFormatDate($('#month').val());
+	var checkText=$("#companyCode").find("option:selected").text();
+	if(checkText=='全部')
+	{
+		checkText="全部院所";
+	}
+	
+	
+	
+	var url_all_analysis_01="/financial-decision/funds-all-analysis-01?companyCode="+companyCode+"&month="+month+"&v_date="+v_date;
+	load_mutl_bar(url_all_analysis_01,"all-analysis_01","科研预算经费年度趋势分析",monthstr);
+	
+	
+	var url_all_analysis_02="/financial-decision/funds-all-analysis-02?companyCode="+companyCode+"&month="+month+"&v_date="+v_date+"&type=project&analysisType=1";
+	loadPie(url_all_analysis_02,"all-analysis_02","预算经费按项目类型占比分析",monthstr);
+	//
+	var url_all_analysis_03="/financial-decision/funds-all-analysis-02?companyCode="+companyCode+"&month="+month+"&v_date="+v_date+"&type=source&analysisType=1";
+	loadPie(url_all_analysis_03,"all-analysis_03","预算经费按管理级别占比分析",monthstr);
+	//
+	var url_all_analysis_04="/financial-decision/funds-all-analysis-02?companyCode="+companyCode+"&month="+month+"&v_date="+v_date+"&type=manage&analysisType=1";
+	loadPie(url_all_analysis_04,"all-analysis_04","预算经费按研究院占比分析",monthstr);
+	//
+	var url_all_analysis_05="/financial-decision/funds-all-analysis-02?companyCode="+companyCode+"&month="+month+"&v_date="+v_date+"&type=project&analysisType=2";
+	loadPie(url_all_analysis_05,"all-analysis_05","实际经费按项目类型占比分析",monthstr);
+	//
+	var url_all_analysis_06="/financial-decision/funds-all-analysis-02?companyCode="+companyCode+"&month="+month+"&v_date="+v_date+"&type=source&analysisType=2";
+	loadPie(url_all_analysis_06,"all-analysis_06","实际经费按管理级别占比分析",monthstr);
+	//
+	var url_all_analysis_07="/financial-decision/funds-all-analysis-02?companyCode="+companyCode+"&month="+month+"&v_date="+v_date+"&type=manage&analysisType=2";
+	loadPie(url_all_analysis_07,"all-analysis_07","实际经费按研究院占比分析",monthstr);
+	
+	var url_all_analysis_10="/financial-decision/funds-all-analysis-03?companyCode="+allCode+"&month="+month+"&v_date="+v_date;
+	load_bar_line(url_all_analysis_10,"all-analysis_10","研究院科研经费资金使用率分析",monthstr);
+}
+
+//初始化图形
+initEchart();
+
+//查询
+function search_Event()
+{
+	initEchart();
+}
+
+</script>
+</body>
+</html>

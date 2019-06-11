@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/common/js/jquery-1.11.3.min.js"></script>
+
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+<div class="layer-box">
+    <form id="planForm" class="layui-form" action="" lay-filter="component-form-group layui-container"></form>
+    <div class="formBox">
+        <div class="tableToolBox">
+            <div class="tableBtns">
+                <div class="tableTitle">基本信息<span class="red">（标*号为必填项）</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="">
+        <table id="eqiu_table" class="layui-hide" lay-filter="tableEvent"></table>
+    </div>
+    <div class="box-body">
+        <form class="layui-form" name="form1" id="form1" action="" method="POST"
+              lay-filter="component-form-group layui-container">
+            <input name="topicId" id="topicId" value="${topicId}" type="hidden">
+            <input name="taskWriteUsersIds" id="taskWriteUsersIds" value="${taskWriteUsersIds}" type="hidden">
+            <input name="id" id="id" value="${id}" type="hidden">
+            <input name="equipmentIds" id="equipmentIds"  value="${equipmentIds}" type="hidden">
+            <input name="sreProjectEquipmentIds" id="sreProjectEquipmentIds"  value="${sreProjectEquipmentIds}" type="hidden">
+            <input name="yearFeeStr" id="yearFeeStr" value="${sreProjectBasic.yearFeeStr}" type="hidden">
+
+            <input name="parentUnitPathId" id="parentUnitPathId" value="${parentUnitPathId}" type="hidden">
+            <input name="departCode" id="departCode" value="${departCode}" type="hidden">
+            <input name="createUserId" id="createUserId" value="${createUserId}" type="hidden">
+
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">选择课题<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input readOnlyBox" placeholder="请选择课题" name="name" id="name" value="${name}" readonly="readonly" onclick="choosePurchase('${topicId}')"
+                                   autocomplete="off" type="text">
+                        </div>
+                        <label for="" class="layui-form-label">申报单位<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" name="parentUnitPathName" readonly="readonly" id="parentUnitPathName"
+                                   value="${parentUnitPathName}" lay-verify="required" autocomplete="off" type="text">
+                        </div>
+                        <label for="" class="layui-form-label">申报人<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" name="createUserName" readonly="readonly" id="createUserName"
+                                   value="${createUserName}" lay-verify="required" autocomplete="off" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">采购名称<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" placeholder="请输入采购名称" name="purchaseName" id="purchaseName" value="${purchaseName}" autocomplete="off" type="text">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">申报部门<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" name="departName" readonly="readonly" id="departName"
+                                   value="${departName}" lay-verify="required" autocomplete="off" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">选择装备<span class="must-fill">*</span></label>
+                <div class="layui-input-block">
+                    <div class="tableBox">
+                       <!-- <div class="tableToolBox">
+                            <div class="whiteLine"></div>
+                            <div class="tableBtns">
+                                <a href="javascript:void(0)"
+                                   class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
+                                   data-type="selectEvent">选择</a>
+                            </div>
+                        </div>-->
+                        <table id="join_apply_table" class="layui-hide" lay-filter="JoinEvent"></table>
+                    </div>
+                </div>
+            </div>
+                <div class="form-bottom">
+                    <div class="form-bottom-btns">
+                        <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
+                                lay-submit="" lay-filter="sub">保存
+                        </button>
+                        <button type="button"
+                                class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
+                                id="closeBtn">关闭
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+
+</script>
+<script>
+    function call_back(equipmentIds)
+    {
+        renderTable(equipmentIds);
+    }
+    function choosePurchase(id)
+    {
+        var temUrl = '/sre-purchase/chooseProject?taskWriteUsersIds='+$("#taskWriteUsersIds").val()+"&id="+id;
+        publicMethods.openBaseWin("选择课题",temUrl,"90%","80%");
+    }
+    var publicMethods;
+    var form;
+    var param = JSON.parse(window.localStorage.getItem("param"));
+    var functionId = param.id;
+    $('#functionId').val(functionId);
+    var roleCodes = "";
+    var unitCodes = "";
+    var postCodes = "";
+    var belongDepartmentName="${sreProjectBasic.belongDepartmentName?default('')}";
+    var professionalDepartName="${sreProjectBasic.professionalDepartName?default('')}";
+    var professionalFieldName="${sreProjectBasic.professionalFieldName?default('')}";
+    var v_date = (new Date()).getTime();
+    var file_ids = "documentDoc";
+    //detail:详情，edit：编辑
+    file_edit_detail = "edit";
+    //统管理-附件管理-附件配置：页面标识
+    file_opt_flag = "b3a52bbe7087419c80813d7716f37674";
+    var equipmentIds = $("#equipmentIds").val();
+    var yearFeeStr = $("#yearFeeStr").val();
+    var beginYear = $("#beginYear").val();
+
+    var table, selectRowData;
+    layui.use(['form', 'table', 'laypage', 'layer', 'laydate', 'laytpl', 'jquery', "publicMethods"], function () {
+
+        var admin = layui.admin
+        element = layui.element
+            , table = layui.table
+            , layer = layui.layer
+            , laydate = layui.laydate
+            , laypage = layui.laypage
+            , $ = layui.jquery;
+
+        form = layui.form;
+        publicMethods = layui.publicMethods;
+        form.render();
+        laydate.render({
+            elem: '#LAY-component-form-group-date'
+        });
+
+
+
+        form.on('select(getDepartNameByUnitName)',function(data){
+        	getDepartNameByUnitName(data.value);
+        })
+
+         form.on('select(getProfessionalNameListByUnitNameAndDept)',function(data){
+        	 getProfessionalNameListByUnitNameAndDept(data.value);
+        })
+
+
+			getDepartNameByUnitName($("#belongDepartmentName").val());
+			function getDepartNameByUnitName(belongDepartmentName)
+			{
+				 $("#belongDepartmentName").val(belongDepartmentName);
+				 $("#professionalDepartName").empty();
+
+				 var v_date=(new Date()).getTime();
+				 $.ajax({
+						url : "/unitField/getDepartmentNameListByUnitName?v_date="+v_date+"&unitName="+belongDepartmentName,
+						type : "post",
+						async: false,
+						dataType : "json",
+						success : function(data)
+						{
+							$("#professionalDepartName").append("<option value=''>--请选择--</option>");
+							$.each(data, function(i, el)
+							{
+								var content='<option value="'+ el.departmentName +'" ';
+								if(professionalDepartName==el.departmentName)
+								{
+									content+=' selected="selected" ';
+								}
+								content+=' >' + el.departmentName+ '</option>';
+								$("#professionalDepartName").append(content);
+
+							});
+							form.render('select');
+						},
+						error : function()
+						{
+							alert("发生未知错误 ,请重新操作.");
+						}
+					});
+
+
+
+
+				getProfessionalNameListByUnitNameAndDept(professionalDepartName);
+			}
+
+
+
+			function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
+			{
+				 var belongDepartmentName= $("#belongDepartmentName").val();
+				 $("#professionalFieldName").empty();
+				 var v_date=(new Date()).getTime();
+				 $.ajax({
+						url : "/unitField/getProfessionalNameListByUnitNameAndDept?v_date="+v_date+"&unitName="+belongDepartmentName+"&departmentName="+professionalDepartName,
+						type : "post",
+						async: false,
+						dataType : "json",
+						success : function(data)
+						{
+							$("#professionalFieldName").append("<option value=''>--请选择--</option>");
+
+							$.each(data, function(i, el)
+							{
+								var content='<option value="'+ el.professionalFieldName +'" ';
+								if(professionalFieldName==el.professionalFieldName)
+								{
+									content+=' selected="selected" ';
+								}
+								content+=' >' + el.professionalFieldName+ '</option>';
+
+								$("#professionalFieldName").append(content);
+							});
+							form.render('select');
+						},
+						error : function()
+						{
+							alert("发生未知错误 ,请重新操作.");
+						}
+					});
+			}
+
+        var equipmentIds = $("#sreProjectEquipmentIds").val();
+        renderTable(equipmentIds)
+
+
+
+        //添加到form.render()之后
+        $("#file_div").load('/common/public/uploadlayuiload.html');
+
+
+        /*$('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });*/
+
+        /* 监听提交 */
+        form.on('submit(sub)', function (data) {
+            /*获取参与单位的数据*/
+            /*var joinUnitName= $("#joinUnitName").val();
+            //alert(joinUnitName);
+            if(joinUnitName!=null && joinUnitName!='')
+               {
+                var arrJ = $("#joinUnitName").val().split(",");
+                var arrId=$("#joinUnitCode").val().split(",");
+                var yearFeeStrJoinUnit='';
+                $.each(arrJ, function (i, val) {
+                    var year=$("#beginYear").val()+"-"+$("#endYear").val();
+                    var name=arrJ[i],id=arrId[i];
+                    yearFeeStrJoinUnit+=year+","+name+","+id+"#"+publicMethods.getVal("yearTr"+i, 4)+";"
+                });
+                $("#yearFeeStrJoinUnit").val(yearFeeStrJoinUnit.substring(0,yearFeeStrJoinUnit.length-1));
+               }*/
+            var check = table.checkStatus('join_apply_table');
+            var topicId = $("#topicId").val();
+            var purchaseName = $("#purchaseName").val();
+            //var equipmentIds = $("#equipmentIds").val();
+            if (topicId == null || topicId == '')
+            {
+                layer.alert("请选择课题");
+            }else if (purchaseName == null || purchaseName == '')
+            {
+                layer.alert("请输入采购名称");
+            }else if(check.data.length == 0)
+            {
+                console.log(check.data.length);
+                layer.alert("请点击选择装备数据");
+            } else {
+                var equipmentIds="";
+                for(var dt in check.data)
+                {
+                    equipmentIds=equipmentIds+check.data[dt].equipmentId+",";
+                }
+                document.getElementById("equipmentIds").value=equipmentIds;
+                var url="/sre-purchase/save?v_date="+v_date;
+                var backurl="/sre_purchase/to-list?v_date="+v_date;
+                ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
+            }
+            return false;
+        });
+
+    });
+
+
+
+
+    function ajaxOpt(url, formName, type, backurl, successMsg, failMsg) {
+        $("#equipmentIds").val($("#equipmentIds").val());
+        $.ajax({
+            type: type,
+            url: url,
+            dataType: "json",
+            data: $("#" + formName).serialize(),
+            async: false,
+            cache: false,
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            success: function (data, status) {
+
+                if (data.success == true || data.success == 'true') {
+
+
+                    layer.alert(
+                        successMsg,
+                        {icon: 1, closeBtn: 0},
+                        function () {
+                            var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                            parent.layer.close(index);  // 关闭layer
+                            parent.location.href = backurl;
+                        });
+
+                } else {
+                    layer.alert(failMsg);
+                }
+
+            },
+            error: function () {
+                layer.alert("网络访问错误");
+            }
+
+        });
+    }
+
+    function renderTable(equipmentIds) {
+        var id = $("#id").val();
+        if(id != null && id != ""){
+            var purchaseStatus = "5";
+        }else{
+            var purchaseStatus = "0";
+        }
+        if(equipmentIds==null || equipmentIds==""){
+            return;
+        }
+        table.render({
+            elem: '#join_apply_table',
+            url: '/sre-equipment/chooseEquipmentByMap?equipmentIds=' + equipmentIds+"&purchaseStatus="+purchaseStatus,
+            limit: 15,
+            method: "GET",
+            id: 'join_apply_table',
+            height: 300,
+            cols: [[
+                {type : 'checkbox', event : 'changeEvents'},
+                {title: '序号', type: 'numbers'},
+                {field: 'name', title: '装备名称', style: 'cursor: pointer;', align: 'center', width: '30%'},
+                {field: 'type', title: '装备分类', style: 'cursor: pointer;', align: 'center', width: '10%'},
+                {field: 'unitPrice', title: '单价（万元）', style: 'cursor: pointer;', align: 'center', width: '10%'},
+                {field: 'applyAcount', title: '申请数量', style: 'cursor: pointer;', align: 'center', width: '10%'},
+                {
+                    field: 'allPrice',
+                    title: '总价￥（万元）',
+                    style: 'cursor: pointer;',
+                    align: 'center',
+                    width: '10%',
+                    templet: function (d) {
+                        return '<span style="color:red">' + d.allPrice + '</span>'
+                    }
+                },
+                {field : 'parentUnitPathNames', title : '申报单位', style : 'cursor: pointer;', align : 'left', width : '30%'},
+                {field : 'applyDepartName', title : '申报部门', style : 'cursor: pointer;', align : 'left', width : '20%'},
+                {field: 'firstApplyUser', title: '申报人', style: 'cursor: pointer;', align: 'center', width: '10%'}
+
+            ]],
+            done: function (res, curr, count) {
+                // 点击行联动选择框--多选
+                $(document).on("click", ".layui-table-body table.layui-table tbody tr", function() {
+                    var index = $(this).attr('data-index');
+                    var tableBox = $(this).parents('.layui-table-box');
+                    //存在固定列
+                    if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
+                        tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+                    } else {
+                        tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+                    }
+                    var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+                    if (checkCell.length > 0) {
+                        checkCell.click();
+                    }
+                });
+                $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function(e) {
+                    e.stopPropagation();
+                });
+                //项目分类，项目性质
+                var dicMap = ['ROOT_ZBGL_ZBFL'];
+                var dicVal = {};
+                publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
+                    $.each(data,function(key,val){
+                        $.each(val,function(i,dt){
+                            dicVal[dt.code] = dt.name;
+                        });
+                    });
+                });
+                $.each(res.data,function(i,dt){
+                    $("tr[data-index='"+i+"'] td[data-field='type'] div").html(dicVal[res.data[i].type]);
+                });
+                //获取已选中的装备id值
+                var equipmentIds="";
+                for(var i;i<res.data.length;i++)
+                {
+                    var equipmentId=res.data.equipmentId;
+                }
+                //多选框默认勾选
+                var id = $("#id").val();
+                var equipmentIds =  $("#equipmentIds").val().split(",");
+                if(!id==null || !id==""){
+                    for (var i=0; i<equipmentIds.length;i++){
+                        for (var j = 0; j < res.data.length; j++) {
+                            if (equipmentIds[i] == res.data[j].equipmentId) {
+
+                                //这里才是真正的有效勾选
+                                res.data[i]["LAY_CHECKED"]='true';
+                                //找到对应数据改变勾选样式，呈现出选中效果
+                                var index= res.data[i]['LAY_TABLE_INDEX'];
+                                $('.layui-table tr[data-index=' + index + '] input[type="checkbox"]').prop('checked', true);
+                                $('.layui-table tr[data-index=' + index + '] input[type="checkbox"]').next().addClass('layui-form-checked');
+                            }
+                        }
+                    }
+                }
+
+            }
+        });
+    }
+
+    var index_close;
+
+
+
+    function clearNoNum(obj) {
+        obj.value = obj.value.replace(/[^\d.]/g, "");  //清除“数字”和“.”以外的字符
+        obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
+        obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');//只能输入两个小数
+        if (obj.value.indexOf(".") < 0 && obj.value != "") {//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额
+            obj.value = parseFloat(obj.value);
+        }
+    }
+
+    //关闭事件
+    $("#closeBtn").click(function () {
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    })
+
+
+    //金额： 所选装备=牵头单位+参与单位
+    function checkAllMoney(mainUnitMoney, joinUnitMoney) {
+        var flag = false;
+        var url = "/sre-equipment/get_money_by_ids?v_date=" + v_date + "&equipmentIds=" + $("#equipmentIds").val();
+        $.ajax({
+            type: 'get',
+            url: url,
+            dataType: "json",
+            async: false,
+            cache: false,
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            success: function (data, status) {
+                if (data.success == true || data.success == 'true') {
+                    var money = data.data;
+                    //alert(money);
+                    var temp = parseInt(mainUnitMoney) + parseInt(joinUnitMoney);//所选装备=牵头单位+参与单位
+                    if (money == temp) {
+                        flag = true;
+                    }
+                }
+
+            },
+            error: function () {
+                layer.alert("网络访问错误");
+            }
+
+        });
+        return flag;
+    }
+
+
+
+</script>
+</body>
+</html>

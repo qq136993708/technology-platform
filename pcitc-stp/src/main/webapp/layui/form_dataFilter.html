@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>资质范围</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+<div class="formBox">
+    <form class="layui-form" action="" lay-filter="component-form-group layui-container">
+        <div class="formBoxHeader">
+            <div class="layui-form-item">
+                <label class="layui-form-label">资质名称<span class="must-fill">*</span></label>
+                <div class="layui-input-block">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <input class="layui-input selectVal readOnlyBox" id="qlfcName" name="qlfcName" lay-verify="required"
+                               placeholder="请选择资质类别" autocomplete="off" type="text" readonly>
+                        <input type="hidden" id="qlfcType" name="qlfcType">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">资质类别</label>
+                <div class="layui-input-block layui-col-xs2 add-select">
+                    <select id="sel_qlfcType" lay-verify="required" lay-filter="sel_qlfcType" lay-search></select>
+                </div>
+            </div>
+        </div>
+        <div class="formBoxBody">
+            <table width="100%">
+                <tr>
+                    <td align="center" width="48px"><input type="checkbox" lay-skin="primary"></td>
+                    <td style="text-indent:.5em;"></td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</div>
+<div class="form-bottom">
+    <div class="form-bottom-btns">
+        <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit=""
+                lay-filter="component-form-sure">确定
+        </button>
+        <button type="button"
+                class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
+                id="cancel">取消
+        </button>
+    </div>
+</div>
+
+<script>
+    layui.use(['jquery', 'form', 'table', 'layer', 'element', 'publicMethods'], function () {
+        var $ = layui.jquery
+            , $$ = parent.layui.jquery
+            , admin = layui.admin
+            , element = layui.element
+            , layer = layui.layer
+            , publicMethods = layui.publicMethods
+            , form = layui.form;
+
+        form.on('select', function (data) {
+            $(".formBoxBody").html("");
+            var select = data.elem;
+            var index = ($(select).parent().index()) - 1;
+
+            var isparent = data.value.split("|")[0];
+            var code = data.value.split("|")[1];
+            if(isparent==1){
+                if ($(select).parent().nextAll().length > 0) {
+                    $(".add-select:gt(" + index + ")").remove();
+                }
+                addSelect('/dictionary/list/'+code, null);
+            }
+        });
+
+        function addSelect(url, val) {
+            var addDiv = '<div class="layui-input-block layui-col-xs2 add-select"><select>\n' +
+                '<option value=""></option></select></div>';
+            $(".add-select:last ").after(addDiv);
+            var addTable = '<table width="100%" border="1"></table>';
+            $(".formBoxBody").append(addTable);
+            publicMethods.ajaxPost(url, val, function (dt, status) {
+                $.each(dt, function (i, dt) {
+                    if(dt.isparent==0){
+                        var addTr = '<tr>' +
+                            '<td align="center" width="48px"><input type="checkbox" lay-skin="primary"></td>' +
+                            '<td style="text-indent:.5em;">' + dt.name + '</td>' +
+                            '</tr>';
+                        $(".selectVal").val("");
+                        $(".formBoxBody table").append(addTr);
+                        $(".add-select:last select").remove();
+                    } else {
+                        $(".add-select:last select").append("<option value='"+dt.isparent+"|"+dt.code+"'>" + dt.name + "</option>");
+                    }
+                });
+            });
+            form.render();
+        }
+
+        form.on('checkbox', function (data) {
+            var checkbox = data.elem;
+            var selectValOne=$(".add-select").eq(0).find("input").val();
+            $(".selectVal").val($(checkbox).parent().next().html());
+            $("#qlfcType").val(selectValOne);
+            $(".formBoxBody table .layui-form-checkbox").removeClass("layui-form-checked");
+            $(checkbox).next().addClass("layui-form-checked");
+        });
+
+        /* 监听提交 */
+        var num;
+        var tableHtml;
+        form.on('submit(component-form-sure)', function (data) {
+            if(!$("#qlfcName").val()){
+                parent.layer.msg("资质名称不能为空");
+                return;
+            }
+            var qlfcName = $("#qlfcName").val();
+            var qlfcNameArr = [];
+            $$("#qlfcTypeNameTalbeHeader table tbody tr").each(function(){
+                if($(this).find("td").eq(2).find("input").length>0){
+                    qlfcNameArr.push($(this).find("td").eq(2).find("input").val());
+                }else {
+                    qlfcNameArr.push($(this).find("td").eq(2).text());
+                }
+            });
+            if($.inArray(qlfcName, qlfcNameArr)>=0){
+                parent.layer.msg("资质名称已存在");
+                return;
+            }
+
+            num =  $$('#tableContent > tr').length + 1;
+            var qlfcTypeName = $("#qlfcType").val() + "|" + qlfcName;
+            tableHtml = '<tr><td align="center"><a class="layui-btn layui-btn-sm fontColor-blue btn_delete btnMyBgImg" onclick="delEvent(this)">删除</a></td>'+
+                            '<td align="center">'+ num++ +'</td>'+
+                            '<input type="hidden" value="'+ qlfcTypeName +'">'+
+                            '<td style="text-indent:.5em;">'+qlfcName+'</td></tr>';
+            $$('#tableContent').append(tableHtml);
+
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+
+            //一定要在最底下加return false -- 2018.07.08
+            return false;
+        });
+
+        function initDicData() {
+            $.ajax({
+                type : 'post',
+                dataType : 'json',
+                data : {parentCode : "ENGIN_ZZZG_ZZLB"},
+                url : '/dictionary/dictionaryList',
+                async : false,
+                success : function(data) {
+                    // console.log(data)
+                    $("#sel_qlfcType").html("<option></option>");
+                    $(".formBoxBody").html("");
+                    var addTable = '<table width="100%" border="1"></table>';
+                    $(".formBoxBody").append(addTable);
+                    $.each(data, function(index) {
+                        if(data[index].isparent==0){
+                            var addTr = '<tr>' +
+                                '<td align="center" width="48px"><input type="checkbox" lay-skin="primary"></td>' +
+                                '<td style="text-indent:.5em;">' + data[index].name + '</td>' +
+                                '</tr>';
+                            $(".selectVal").val("");
+                            $(".formBoxBody table").append(addTr);
+                        }else {
+                            $("#sel_qlfcType").append("<option value='"+data[index].isparent+"|"+data[index].code+"'>"+ data[index].name + "</option>");
+                        }
+                    });
+                    form.render();
+                },
+                error : function() {
+                    layer.msg("出错了");
+                }
+            });
+        }
+
+        $(function () {
+            initDicData();
+            /*点击取消按钮*/
+            $("#cancel").click(function () {
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+            });
+        })
+
+    });
+</script>
+</body>
+</html>

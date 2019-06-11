@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>科技管理平台</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico" />
+<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/adminStp.css?+Math.random()" media="all">
+</head>
+<body class="layui-layout-body">
+<input name="url" id="url" value="${url}" type="hidden" >
+
+	<div id="LAY_app">
+		<div class="layui-layout layui-layout-admin layui-leader">
+			<div class="layui-header">
+				<!--搜索框-->
+				<div class="stpSearchBox">
+					<div class="logo"><img src="/layuiadmin/layui/images/icon-logo-leader-i.png" style="margin-top: 4px;"></div>
+					<div class="seacrhBox">
+						<input type="text" placeholder="搜索">
+						<img src="/layuiadmin/layui/images/stpicon_06.png" alt="">
+					</div>
+				</div>
+				<!--通知-->
+				<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+					<li class="layui-index layui-nav-item layui-nav-itemnew" title="首页">
+						<a href="/stpHome"><img src="/layuiadmin/layui/images/icon-index.png"/> </a>
+					</li>
+					<li class="layui-index layui-nav-item layui-nav-itemnew" title="工作平台">
+						<a href="/stpHome?cFlag=1"><img src="/layuiadmin/layui/images/icon-system-r.png"/> </a>
+					</li>
+					<li class="layui-nav-item layui-nav-itemnew chat" title="通知">
+						<a id="numberChat" lay-href="/sysNotice/index_notice" lay-text="通知"><span id="nc" style="visibility: hidden"></span></a>
+						<div class="chat-content layui-hide">
+							<dl id="message_box" class="layui-nav-child-dl">
+							</dl>
+						</div>
+					</li>
+					<li class="layui-nav-item layui-nav-itemnew deal" title="待办任务">
+						<a id="numberDeal" lay-href="/task/pending/list/ini" lay-text="待办任务"><span id="pendingCount" style="visibility: hidden"></span></a>
+					</li>
+					<li class="layui-nav-item layui-nav-itemnew " title="二维码">
+						<span class="QRCode"></span>
+						<div class="QRCode-content layui-hide">
+							<img src="/layuiadmin/layui/images/weixin.png" />
+						</div>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;" style="color: #fff;" class="layui-nav-item-a">
+							${userInfo.userDisp!}
+							<span class="layui-nav-more"></span>
+						</a>
+						<div class="layui-hide information">
+							<dl class="layui-nav-child-dl">
+								<dd>
+									<a id="toUserInfo" href="javascript:void(0)">基本资料</a>
+								</dd>
+								<dd>
+									<a id="logout" href="javascript:void(0)">退出登录</a>
+								</dd>
+							</dl>
+						</div>
+					</li>
+				</ul>
+			</div>
+
+			<input type="text" class="selfRownum layui-hide" id="userConfig1" value="${userInfo.userConfig1?default(15)}">
+
+			<!-- 主体内容 -->
+			<div class="layui-body" id="LAY_app_body">
+				<div class="layadmin-tabsbody-item layui-show">
+					<iframe id="mainIframe" frameborder="0" class="layadmin-iframe"></iframe>
+				</div>
+			</div>
+			<!-- 辅助元素，一般用于移动设备下遮罩 -->
+			<div class="layadmin-body-shade" layadmin-event="shade"></div>
+		</div>
+		<#include "/common/public/bottomTips.html"/>
+	</div>
+
+	<script src="/layuiadmin/layui/layui.js"></script>
+	<script>
+	var url=$("#url").val();
+		layui.config({
+			base : '../layuiadmin/' //静态资源所在路径
+		}).extend({
+			index : 'lib/index' //主入口模块
+		}).use(['index', 'jquery' ,"publicMethods"], function() {
+			var $ = layui.jquery,publicMethods=layui.publicMethods;
+			var windowHref=window.location.href.split("=");
+            document.getElementById("mainIframe").src=url;//windowHref[1];
+			if(JSON.stringify(windowHref).indexOf("personnel")>0){
+			    $("#LAY_app_body").addClass("layui-personnel");
+			}
+			/*导航宽度*/
+			var layuiHeaderWidth = parseInt($(".layui-header").width());
+			var layuiHeaderUlActualWidth = 0, DValue = 0, ulLiNumber = 0;
+			var layuiHeaderUlMustWidth = layuiHeaderWidth - 250;
+			$(".layui-header-div .layui-layout-left li a").each(function() {
+                layuiHeaderUlActualWidth += parseInt($(this).html().length *14+40);
+				DValue = layuiHeaderUlActualWidth - layuiHeaderUlMustWidth;
+				if (DValue > 0) {
+					ulLiNumber = $(this).parent().index();
+					return false;
+				}
+			});
+			$(".layui-header-div").css("width", layuiHeaderUlMustWidth + "px");
+			if (DValue > 0) {
+				$(".layui-layout-left").css("left", "0px");
+				$(".layui-header .layui-icon-prev").removeClass("layui-hide");
+				var html = $(".layui-header-div").html();
+				$(".layui-header .layui-icon-prev").append(html);
+				$(".layui-layout-left").eq(1).addClass("layui-hide layui-layout-left-over");
+				$(".layui-layout-left:eq(1) li:lt(" + (ulLiNumber) + ")").remove();
+				$(".layui-header .layui-icon-prev").on({
+					mouseover : function() {
+						$(".layui-layout-left").eq(1).removeClass("layui-hide");
+					},
+					mouseout : function() {
+						$(".layui-layout-left").eq(1).toggleClass("layui-hide");
+					}
+
+				});
+			}
+			$(".layui-header .layui-layout-left li a").on("click", function() {
+				var id = $(this).attr("id")
+				$(".layui-nav-tree").addClass("layui-hide");
+				$("#nav" + id).removeClass("layui-hide");
+			});
+			function initNoticeSocket() {
+				//初始化websocket
+				var websocket = null;
+				if ('WebSocket' in window) {
+					websocket = new WebSocket("ws://" + document.location.host + "/pushNotice");
+					websocket.onerror = function() {
+					};
+					websocket.onopen = function(event) {
+					}
+					websocket.onclose = function() {
+					}
+					window.onbeforeunload = function() {
+						websocket.close();
+					}
+					websocket.onmessage = function(event) {
+						getNotReadMessageList();
+					}
+				} else {
+					console.log('Not support websocket');
+				}
+			}
+			
+			$("#toUserInfo").on("click", function() {
+				layer.open({
+					title : "用户详情",
+					skin : 'layui-layer-lan',
+					shadeClose : true,
+					type : 2,
+					fixed : false,
+					//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+					maxmin : false,
+					//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+					area : [ '80%', '70%' ],
+					content : "/user/user-dispaly?userId=${userInfo.userId}"
+				});
+			});
+			$("#logout").on("click", function() {
+				layer.confirm('确定要退出登录吗？', {
+					title : "退出登录"
+				}, function(index) {
+					layer.close(index);
+					$.ajax({
+						type : 'post',
+						dataType : 'json',
+						async : false,
+						url : '/logout',
+						success : function(data) {
+							window.location.href = "/login";
+						},
+						error : function(e) {
+							console.log(e);
+						}
+					});
+				});
+			});
+			$("#toUpdPass").on("click", function() {
+				layer.open({
+					title : "修改密码",
+					skin : 'layui-layer-lan',
+					shadeClose : true,
+					type : 2,
+					fixed : false,
+					//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+					maxmin : false,
+					//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+					area : [ '500px', '300px' ],
+					content : "/user/upd-pass?userId=${userInfo.userId}"
+				});
+			});
+			
+			$("#selfConfig").on("click", function() {
+				layer.open({
+					title : "个人设置",
+					skin : 'layui-layer-lan',
+					shadeClose : true,
+					type : 2,
+					fixed : false,
+					//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+					maxmin : false,
+					//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+					area : [ '500px', '300px' ],
+					content : "/user/ini-self-config"
+				});
+			});
+			
+			$("#changeIndex").on("click", function() {
+	        	var host = window.location.host;
+	        	window.location.href="http://"+host+"/work";
+			});
+            $("#nav li dl dd a").hover(function (){
+                $(this).find("img").removeClass("layui-hide");
+                $(this).find("img").off("click").on("click",function () {
+                    $.ajax({
+                        type : 'post',
+                        dataType : 'json',
+                        async : false,
+                        url : '/admin/collect?functionCode='+$(this).parent().attr("data-code")+"&functionName="+$(this).parent().attr("lay-text")+"&functionId="+$(this).parent().attr("data-id"),
+                        success : function(data) {
+                            layer.msg(data.message);
+                            if (data.success) {
+                                // 动态修改当前我的收藏
+                                var obj = eval('(' + data.data + ')');
+                                if (obj.status == '1') {
+                                    var collectMenu = document.getElementById("dlCollect").innerHTML;
+                                    collectMenu = collectMenu + "<dd id='"+obj.dataId+"'><a lay-href='"+obj.collectUrl+"' lay-text='"+obj.collectName+"' data-id='"+obj.functionId+"' data-code='"+obj.functionCode+"' data-functionbuttons='ALL'>"+obj.collectName+"<img title=\"取消收藏\"  src=\"/layuiadmin/layui/images/icon_collection.png\" class=\"layui-hide\"/></a></dd>"
+                                    document.getElementById("dlCollect").innerHTML = collectMenu;
+                                    
+                                } else if (obj.status == '0') {
+                                    var dl = document.getElementById("dlCollect");
+                                    // 查找dl里的所有dd
+                                    var dds = document.getElementsByTagName('dd');
+                                    for (var i = dds.length - 1; i >= 0; i--) {
+                                        if (dds[i].id == obj.dataId) {
+                                            dl.removeChild(dds[i]);
+                                        }
+                                    }
+                                }
+
+                            }
+
+                        },
+                        error : function(e) {
+                            console.log(e);
+                        }
+                    });
+					return false;
+                });
+            },function (){
+                $(this).find("img").addClass("layui-hide");
+            });
+            /*$(".layui-side-scroll .layui-nav a").on("click",function(){
+            	if($(this).attr("lay-href")!=undefined){
+            		$(".layadmin-tabsbody-item").eq(0).siblings().remove()
+            		document.getElementById("mainIframe").src=$(this).attr("lay-href");
+                	console.log($(this).attr("lay-href"))
+            	}
+            });*/
+			// 菜单收藏
+			$("#collectFunction").on("click", function() {
+				var param = JSON.parse(window.localStorage.getItem("param"));
+				$.ajax({
+					type : 'post',
+					dataType : 'json',
+					async : false,
+					url : '/admin/collect?functionCode='+param.code+"&functionName="+param.name+"&functionId="+param.id,
+					success : function(data) {
+						layer.msg(data.message);
+						
+						if (data.success) {
+							// 动态修改当前我的收藏
+							var obj = eval('(' + data.data + ')');
+							if (obj.status == '1') {
+								var collectMenu = document.getElementById("dlCollect").innerHTML;
+								collectMenu = collectMenu + "<dd id='"+obj.dataId+"'><a lay-href='"+obj.collectUrl+"' lay-text='"+obj.collectName+"' data-id='"+obj.functionId+"' data-code='"+obj.functionCode+"' data-functionbuttons='ALL'>"+obj.collectName+"</a></dd>"
+								document.getElementById("dlCollect").innerHTML = collectMenu;
+							} else if (obj.status == '0') {
+								var dl = document.getElementById("dlCollect");
+								// 查找dl里的所有dd
+								var dds = document.getElementsByTagName('dd');
+								for (var i = dds.length - 1; i >= 0; i--) {
+								    if (dds[i].id == obj.dataId) {
+								    	dl.removeChild(dds[i]);
+								    }
+								}
+							}
+							
+						}
+						
+					},
+					error : function(e) {
+						console.log(e);
+					}
+				});
+			});
+            $("#mainIframe").load(function() {
+                $("#mainIframe").contents().find(".layui-fluid").css("padding-right","22px");
+			});
+          //获取未读消息
+			window.getNotReadMessageList = function() {
+				publicMethods.ajaxAsyncPost('/message/get-newest-messages', {page:1,limit:100,param: {"isRead":"0"}}, function (data, status) {
+					$(".message_more").unbind();
+					$(".message_info").unbind();
+					var content = "";
+					if(data.length <=0){
+	        			$("#nc").css("visibility", "hidden");
+	        		}else{
+	        			$.each(data,function(index,dt){
+		        			if(index < 3){//最新消息(取前三条未读)
+		        				content += '<dd class="message_info" dataId="'+dt.dataId+'"><span class="layui-name">'+dt.userName+'</span><span class="layui-text">'+dt.messageTitle+'</span><span class="layui-time"><i class="fa fa-clock-o mr-1"></i>'+dt.ago+'</span></dd>';
+		        			}
+		        		});
+	        			$("#nc").text(data.length);
+						$("#nc").css("visibility", "visible");
+	        		}
+	        		content += '<dd class="message_more"><a href="javascript:void(0)">查看更多</a></dd>';
+	        		//$("#message_box").prepend(content);
+	        		$("#message_box").html(content);
+				    $('.message_more').on('click', function() { 
+				    	parent.layui.index.openTabsPage("/message/sys_message_list", "消息列表");
+				    });
+				    $('.message_info').on('click', function() { 
+				    	var temUrl = '/message/sys_message_detail?messageId='+$(this).attr("dataId");
+		            	layer.open({
+		                    title: '消息详情'
+		                    , skin: 'layui-layer-lan'
+		                    , shadeClose: true
+		                    , type: 2
+		                    , fixed: false
+		                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+		                    , maxmin: false
+		                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+		                    , area: ['40%', '50%']
+		                    , content: temUrl
+		                });
+				    });
+	            });
+			}
+			//待办任务
+			window.getNotReadTaskList = function() {
+				publicMethods.ajaxAsyncPost('/admin/pending-task-count', {page:1,limit:100,param: {"isRead":"0"}}, function (data, status) {
+					var pendingCount = data.pendingTaskCount;
+					if (pendingCount <= 0) {
+						$("#pendingCount").css("visibility", "hidden");
+					} else {
+						$("#pendingCount").text(pendingCount);
+						$("#pendingCount").css("visibility", "visible");
+					}
+	            });
+			}
+			$(function() {
+				initNoticeSocket();
+				getNotReadMessageList();
+				getNotReadTaskList();
+			});
+		});
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<style>
+    
+</style>
+<body>  
+<div class="searchBox">
+    <!--查询条件-->
+        <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}" autocomplete="off" class="form-control" id="month">
+        </label>
+       <div class="layui-input-inline">
+         <select name="companyCode" id="companyCode" >
+              <#list companyCodeList as vo>
+              	 <#if vo.g0GSJC == '全部'>
+              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
+              	 </#if>
+                 <#if vo.g0GSJC != '全部'>
+              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
+              	 </#if>
+               </#list>
+            </select>
+       </div>
+       <form class="layui-form layui-form1">
+            <div class="layui-input-inline">
+                <#list projectCodeList as vo>
+                   <input type="checkbox" name="like[write]" lay-skin="primary" title="${vo.g0XMGLLX}" checked="">
+                </#list>
+            </div>
+        </form>
+
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+    </div>
+    <span class="unitBox">单位：万元</span>
+</div>
+
+
+<!--echarts-->
+<div class="content-body container" >
+        
+        
+        
+         <!--图表三等分布局-->
+        <div class="three-charts-box" style="margin-top:10px">
+            <div class="layui-row">
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="main1" style="width: 100%;height: 400px;"></div>
+                </div>
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="main2" style="width: 100%;height: 400px;"></div>
+                </div>
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="main3" style="width: 100%;height: 400px;"></div>
+                </div>
+            </div>
+        </div> 
+          <!--图表三等分布局-->
+        <div class="three-charts-box" style="margin-top:10px">
+            <div class="layui-row">
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="main4" style="width: 100%;height: 400px;"></div>
+                </div>
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="main5" style="width: 100%;height: 400px;"></div>
+                </div>
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="main6" style="width: 100%;height: 400px;"></div>
+                </div>
+            </div>
+        </div> 
+        
+         <!--图表三等分布局-->
+        <div class="three-charts-box" style="margin-top:10px">
+            <div class="layui-row">
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="main7" style="width: 100%;height: 400px;"></div>
+                </div>
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="main8" style="width: 100%;height: 400px;"></div>
+                </div>
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="main9" style="width: 100%;height: 400px;"></div>
+                </div>
+            </div>
+        </div> 
+        
+         <div class="one-chart-box">
+         <div class="layui-row echarts">
+             <div id="main10" style="width: 100%;height: 400px;"></div>
+         </div>
+     </div>
+        
+</div>        
+<!--echarts end-->      
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
+<script type="text/javascript" src="/stp/hana/common/loop.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script type="text/javascript">
+layui.config({
+    base: '/layuiadmin/module/modules/' 
+}).use(['jquery','form', 'laydate','table','layer'], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,form = layui.form
+      ,layer = layui.layer
+      ,laydate = layui.laydate
+	  form.render(null, 'component-form-group');
+            laydate.render({
+               elem: '#month'
+               ,format: 'yyyyMM'
+            });
+});
+
+
+
+
+
+function init()
+{
+var allCode="${allCode?default('')}";
+var allCode_text="全部院所";
+var v_date=(new Date()).getTime();
+var month=$('#month').val();
+var companyCode=$('#companyCode').val();
+var monthstr=getNowFormatDate($('#month').val());
+var checkText=$("#companyCode").find("option:selected").text();
+if(checkText=='全部')
+{
+	checkText="全部院所";
+}
+
+
+
+
+
+var xAxisData=['2014', '2015', '2016', '2017', '2018'];
+var seriesdata=[120, 200, 150, 80, 70];
+load_single_bar_tt('main1',"新增项目数量年度趋势统计分析",xAxisData,seriesdata,monthstr);
+        
+ var legend_names=['国家项目','重大项目','十条龙','其他'];
+ var series_values=[
+     {value:135, name:'国家项目'},
+     {value:210, name:'重大项目'},
+     {value:250, name:'十条龙'},
+     {value:240, name:'其他'}
+ ];
+ loadPie_tt('main2','新增项目数量按项目类型占比分析',legend_names,series_values,monthstr);
+ 
+ 
+ var legend_names_3=['石勘院','物探院','工程院','石科院','抚研院','北化院','上海院','安工院'];
+ var series_values_3=[
+	 {value:135, name:'石勘院'},
+     {value:210, name:'物探院'},
+     {value:134, name:'工程院'},
+     {value:134, name:'石科院'},
+     {value:134, name:'抚研院'},
+     {value:134, name:'北化院'},
+     {value:134, name:'上海院'},
+     {value:134, name:'安工院'}
+];
+loadPie_tt('main3','新增项目数量按研究院占比分析',legend_names_3,series_values_3,monthstr);
+ 
+ 
+        
+        
+   var legends_4=  ['计划经费','实际经费','达成率'];
+   var xAxisData_4=['2014','2015','2016','2017','2018'];
+   var seriesData_4=[
+       {
+           name:'计划经费',
+           type:'bar',
+           color: ['#37A2DA'],
+           data:[22, 44, 714, 24,22]
+       },
+       {
+           name:'实际经费',
+           type:'bar',
+           color: ['#67E0E3'],
+           data:[22, 224, 74, 514,22]
+       },
+       {
+           name:'达成率',
+           type:'line',
+           itemStyle : { 
+               normal : {
+                   color:'#c4cddc'
+               }
+           },
+           data:[12, 45, 32.2, 12 ,3.3]
+       }
+       
+   ];
+        
+load_bar_line_tt('main4', '项目经费年度趋势统计分析',legends_4,xAxisData_4,seriesData_4,monthstr);
+           
+
+          var legend_names_5=['国家投入','中石化配套','石化总部','企业自筹'];
+          var series_values_5=[
+                {value:135, name:'国家投入'},
+	                {value:210, name:'中石化配套'},
+	                {value:210, name:'石化总部'},
+	                {value:134, name:'企业自筹'}
+	            ];
+         loadPie_tt('main5','实际经费按资金来源占比分析',legend_names_5,series_values_5,monthstr);
+         
+
+          var legend_names_6=['石勘院','物探院','工程院','石科院','抚研院','北化院','上海院','安工院'];
+          var series_values_6=[
+           	 {value:135, name:'石勘院'},
+               {value:210, name:'物探院'},
+               {value:134, name:'工程院'},
+               {value:134, name:'石科院'},
+               {value:134, name:'抚研院'},
+               {value:134, name:'北化院'},
+               {value:134, name:'上海院'},
+               {value:134, name:'安工院'}
+       ];
+         loadPie_tt('main6','实际经费按研究院占比金额',legend_names_6,series_values_6,monthstr);
+         
+          
+            
+            var seriesData_7=[
+      	        {
+      	            name:'专利申请数量',
+      	            type:'bar',
+      	            color: ['#37A2DA'],
+      	            data:[22, 44, 714, 24,22]
+      	        },
+      	        {
+      	            name:'专利授权数量',
+      	            type:'bar',
+      	            color: ['#67E0E3'],
+      	            data:[22, 224, 74, 514,22]
+      	        }
+      	        
+      	    ];
+            var legends_7=['专利申请数量','专利授权数量'];
+            var xAxisData_7= ['2014','2015','2016','2017','2018'];
+            load_mutl_bar_tt("main7","专利申请/授权年度趋势统计分析",legends_7,xAxisData_7,'',seriesData_7,monthstr);
+          
+          
+          
+          
+            var legend_names_8=['发明专利','实用新行','外观专利','涉外专利'];
+            var series_values_8=[
+                {value:135, name:'发明专利'},
+                {value:210, name:'实用新行'},
+                {value:210, name:'外观专利'},
+                {value:134, name:'涉外专利'}
+            ];
+           loadPie_tt('main8','专利授权数量按专利类型占比分析',legend_names_8,series_values_8,monthstr);
+          
+          
+          
+            
+           
+           var legend_names_9=['石勘院','物探院','工程院','石科院','抚研院','北化院','上海院','安工院'];
+           var series_values_9=[
+          	 {value:135, name:'石勘院'},
+             {value:210, name:'物探院'},
+             {value:134, name:'工程院'},
+             {value:134, name:'石科院'},
+             {value:134, name:'抚研院'},
+             {value:134, name:'北化院'},
+             {value:134, name:'上海院'},
+             {value:134, name:'安工院'}
+     ];
+          loadPie_tt('main9','专利授权数量按研究院占比分析',legend_names_9,series_values_9,monthstr);
+         
+          
+          
+          
+          
+          
+          
+          var seriesData_10=[
+  	        {
+	            name:'人均项目',
+	            type:'bar',
+	            color: ['#37A2DA'],
+	            data:[22, 44, 74, 24,22, 44, 74, 24]
+	        },
+	        {
+	            name:'人均经费',
+	            type:'bar',
+	            color: ['#67E0E3'],
+	            data:[22, 24, 74, 54,22, 74, 74, 24]
+	        },
+	        {
+	            name:'直接人均经费',
+	            type:'bar',
+	            color: ['#67E0F3'],
+	            data:[22, 24, 74, 54,22, 74, 74, 24]
+	        },
+	        {
+	            name:'人均专利',
+	            type:'line',
+	            itemStyle : { 
+                    normal : {
+                        color:'#c4cddc'
+                    }
+                },
+	            data:[1.2, 2.3, 32.2, 1.2 ,39, 7.4, 7.4, 2.4]
+	        },
+	        {
+	            name:'直接人均专利',
+	            type:'line',
+	            itemStyle : { 
+                    normal : {
+                        color:'#c4cddd'
+                    }
+                },
+	            data:[12, 23, 33, 1.2 ,3.3, 55, 77, 24]
+	        }
+	        
+	        
+	    ];
+          var yAxis_10=[
+      	    {
+      	        type: 'value',
+      	        name: '金额（万元）',
+      	        min: 0,
+      	        max: 250,
+      	        axisLabel: {
+      	            formatter: '{value}'
+      	        }
+      	    },
+      	    {
+      	        type: 'value',
+      	        name: '百分比',
+      	        min: 0,
+      	        max: 100,
+      	        axisLabel: {
+      	            formatter: '{value} %'
+      	        }
+      	    }
+      	];
+          
+          var legends_10=['人均项目','人均经费','直接人均经费','人均专利','直接人均专利'];
+          var xAxisData_10= ['石勘院','物探院','工程院','石科院','抚研院','北化院','上海院','安工院'];
+          load_mutl_bar_tt("main10","研究院科研人均指标分析",legends_10,xAxisData_10,yAxis_10,seriesData_10,monthstr);
+          
+}
+
+
+init();
+          function search_Event()
+          {
+        	  init();
+          }
+           
+    </script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.financial.DayCashFlowMapper">
+	
+	 <!--科研资金净现金余额30日统计表 -->
+     <resultMap id="dayCashFlowResultMap" type="com.pcitc.base.hana.report.DayCashFlow" >
+       <result column="G0CALDAY"     property="g0CALDAY"   jdbcType="VARCHAR" />
+       <result column="K0XJYE"       property="k0XJYE"     jdbcType="VARCHAR" />
+       <result column="G0GSJC"       property="g0GSJC"     jdbcType="VARCHAR" />
+       <result column="DAY1"         property="dAY1"       jdbcType="VARCHAR" />
+       <result column="DAY2"         property="dAY2"       jdbcType="VARCHAR" />
+       <result column="DAY3"         property="dAY3"       jdbcType="VARCHAR" />
+       <result column="DAY4"         property="dAY4"       jdbcType="VARCHAR" />
+       <result column="DAY5"         property="dAY5"       jdbcType="VARCHAR" />
+       <result column="DAY6"         property="dAY6"       jdbcType="VARCHAR" />
+       <result column="DAY7"         property="dAY7"       jdbcType="VARCHAR" />
+       <result column="G0GSOR"       property="g0GSOR"     jdbcType="VARCHAR" />
+       <result column="K0DAY1"          property="k0DAY1"        jdbcType="DECIMAL" />
+       <result column="K0DAY2"          property="k0DAY2"        jdbcType="DECIMAL" />
+       <result column="K0DAY3"          property="k0DAY3"        jdbcType="DECIMAL" />
+       <result column="K0DAY4"          property="k0DAY4"        jdbcType="DECIMAL" />
+       <result column="K0DAY5"          property="k0DAY5"        jdbcType="DECIMAL" />
+       <result column="K0DAY6"          property="k0DAY6"        jdbcType="DECIMAL" />
+       <result column="K0DAY7"          property="k0DAY7"        jdbcType="DECIMAL" />
+       
+       
+    
+    
+    
+    
+     </resultMap>
+     
+	 <select id="getDayCashFlowReport" resultMap="dayCashFlowResultMap" parameterType="java.util.Map" >
+	    SELECT
+			 "G0CALDAY",
+			  round( sum("K0XJYE")/10000,2)  AS "K0XJYE"
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1003_04"('PLACEHOLDER' = ('$$PR_CALDAY$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY "G0CALDAY"
+	 </select>
+	 
+	<select id="getDayCashFlowReport2" resultMap="dayCashFlowResultMap" parameterType="java.util.Map" >
+	  <!-- SELECT
+			 "G0GSJC",
+			 round(sum("K0DAY1")/10000,2) AS "K0DAY1",
+			 round(sum("K0DAY2")/10000,2) AS "K0DAY2",
+			 round(sum("K0DAY3")/10000,2) AS "K0DAY3",
+			 round(sum("K0DAY4")/10000,2) AS "K0DAY4",
+			 round( sum("K0DAY5")/10000,2) AS "K0DAY5",
+			 round(sum("K0DAY6")/10000,2) AS "K0DAY6",
+			 round(sum("K0DAY7")/10000,2) AS "K0DAY7" 
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1003_05"('PLACEHOLDER' = ('$$PR_CALDAY$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY  "G0GSJC" -->
+		
+		SELECT
+			 "G0GSJC",
+			  sum("K0DAY1") AS "K0DAY1",
+			 round(sum("K0DAY2")/10000,2) AS "K0DAY2",
+			 round(sum("K0DAY3")/10000,2) AS "K0DAY3",
+			 round(sum("K0DAY4")/10000,2) AS "K0DAY4",
+			 round( sum("K0DAY5")/10000,2) AS "K0DAY5",
+			 round(sum("K0DAY6")/10000,2) AS "K0DAY6",
+			 round(sum("K0DAY7")/10000,2) AS "K0DAY7" 
+			 from
+			 (
+           SELECT
+
+             "G0GSOR",
+			 "G0GSJC",
+			 round(sum("K0DAY1")/10000,2) AS "K0DAY1",
+			 round(sum("K0DAY2")/10000,2) AS "K0DAY2",
+			 round(sum("K0DAY3")/10000,2) AS "K0DAY3",
+			 round(sum("K0DAY4")/10000,2) AS "K0DAY4",
+			 round( sum("K0DAY5")/10000,2) AS "K0DAY5",
+			 round(sum("K0DAY6")/10000,2) AS "K0DAY6",
+			 round(sum("K0DAY7")/10000,2) AS "K0DAY7" 
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1003_05"('PLACEHOLDER' = ('$$PR_CALDAY$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY  "G0GSOR","G0GSJC"
+
+		union all
+		
+		SELECT 
+		     '0' as "G0GSOR",
+			 '总计' as "G0GSJC",
+			 round(sum("K0DAY1")/10000,2) AS "K0DAY1",
+			 round(sum("K0DAY2")/10000,2) AS "K0DAY2",
+			 round(sum("K0DAY3")/10000,2) AS "K0DAY3",
+			 round(sum("K0DAY4")/10000,2) AS "K0DAY4",
+			 round( sum("K0DAY5")/10000,2) AS "K0DAY5",
+			 round(sum("K0DAY6")/10000,2) AS "K0DAY6",
+			 round(sum("K0DAY7")/10000,2) AS "K0DAY7" 
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1003_05"('PLACEHOLDER' = ('$$PR_CALDAY$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY  "G0GSJC"
+		
+		)GROUP BY "G0GSOR", "G0GSJC"
+		
+		order by  "G0GSOR"
+		
+	 </select>
+	 
+</mapper>

@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/mainStp.css" media="all">
+    <link rel="stylesheet" href="/common/css/echart-common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        .refreshBox{display:none;width: 100%;height: 100px;line-height: 100px;text-align:center;font-size: 12px;}
+        .loadingImg{width: 24px; height: auto;}
+        .anchorBL{display:none}
+    </style>
+</head>
+<body onload="init()">
+
+<input type="hidden" name="month" value="${month}"   id="month">
+<input type="hidden" name="companyCode" value="${companyCode}"   id="companyCode">
+
+<div class="layui-fluid layui-leader-admin">
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md12 layui-top">
+            <div class="layui-col-md15">
+                <div class="layui-main-box">
+                    <div class="layui-box-content">
+                        <span class="layui-box-text">项目总数
+                        	<span class="layui-box-percent" id="kyxmLast">
+                        		<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                        	</span>
+                        </span>
+                        <span class="layui-box-number" id="kyxm">
+                            <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                        </span>
+                    </div>
+                    <div class="layui-box-bottom"><a href="javascript:;">查看详细信息</a></div>
+                </div>
+            </div>
+
+            <div class="layui-col-md15">
+                <div class="layui-main-box">
+                    <div class="layui-box-content">
+                        <span class="layui-box-text">科研总投资<span class="layui-box-percent">同比上年<img src="/layuiadmin/layui/images/icon-leader-arr.png"/>5%</span></span>
+                        <span class="layui-box-number" id="kyxm1">
+                            222
+                            <!--<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                            --><small>(亿)</small>
+                        </span>
+                    </div>
+                    <div class="layui-box-bottom"><a href="javascript:;">查看详细信息</a></div>
+                </div>
+            </div>
+            <div class="layui-col-md15">
+                <div class="layui-main-box">
+                    <div class="layui-box-content">
+                        <span class="layui-box-text">科技成果总数
+                        	<span class="layui-box-percent" id="kjcgLast">
+                        		<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                        	</span>
+                        </span>
+                        <span class="layui-box-number" id="kjcg">
+                            <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                        </span>
+                    </div>
+                    <div class="layui-box-bottom"><a href="javascript:;">查看详细信息</a></div>
+                </div>
+            </div>
+            <div class="layui-col-md15">
+                <div class="layui-main-box">
+                    <div class="layui-box-content">
+                        <span class="layui-box-text">授权专利总数
+                        	<span class="layui-box-percent" id="sqzlLast">
+                        		<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                        	</span>
+                        </span>
+                        <span class="layui-box-number" id="sqzl">
+                            <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                        </span>
+                    </div>
+                    <div class="layui-box-bottom"><a href="javascript:;">查看详细信息</a></div>
+                </div>
+            </div>
+            <div class="layui-col-md15">
+                <div class="layui-main-box">
+                    <div class="layui-box-content">
+                        <span class="layui-box-text">中国石化标准化</span>
+                        <span class="layui-box-number" id="kyxm4">
+                            222
+                            <!--<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                            --><small>(个)</small>
+
+                        </span>
+                    </div>
+                    <div class="layui-box-bottom"><a href="javascript:;">查看详细信息</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    2018年直属研究院科研项目总览
+                    <div class="layui-tool">
+                        <button type="button" class="btn btn-tool collapse"></button>
+                        <button type="button" class="btn btn-tool remove"></button>
+                    </div>
+                </div>
+                <div class="layui-card-body btn-function">
+                    <div style="height:250px;margin-left:1px" id="chartOne">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    2018年直属研究院科研投资总览
+                    <div class="layui-tool">
+                        <button type="button" class="btn btn-tool collapse"></button>
+                        <button type="button" class="btn btn-tool remove"></button>
+                    </div>
+                </div>
+                <div class="layui-card-body btn-function">
+                    <div style="height:250px;margin-left:1px" id="chartTwo">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    中国石化全球专利分布/全国科研项目分布
+                    <div class="layui-tool">
+                        <button type="button" class="btn btn-tool collapse"></button>
+                        <button type="button" class="btn btn-tool remove"></button>
+                    </div>
+                </div>
+                <div class="layui-card-body btn-function">
+                    <div class="layui-tab-item">
+                        <div id="mapChart" style="height:300px;width: 99%;" ></div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    项目数量
+                    <div class="layui-tool">
+                        <button type="button" class="btn btn-tool collapse"></button>
+                        <button type="button" class="btn btn-tool remove"></button>
+                    </div>
+                </div>
+                <div class="layui-card-body btn-function">
+                    <div  style="height:300px;width: 100%;" id="barOne"></div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    中国石化全球专利分布
+                    <div class="layui-tool">
+                        <button type="button" class="btn btn-tool collapse"></button>
+                        <button type="button" class="btn btn-tool remove"></button>
+                    </div>
+                </div>
+                <div class="layui-card-body btn-function">
+                    <div  style="height:300px;width: 100%;" id="radialOne"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    技术热点
+                    <div class="layui-tool">
+                        <button type="button" class="btn btn-tool collapse"></button>
+                        <button type="button" class="btn btn-tool remove"></button>
+                    </div>
+                </div>
+                <div class="layui-card-body btn-function" style="padding: 0;border-radius: 0 0 6px 6px;">
+                    <div style="float: left;width: 88%;" class="layui-wifi-left" id="container">
+                    </div>
+                    <div style="float: right;width: 12%;" class="layui-wifi-right">
+                        <div class="layui-box layui-wifi">
+                            <div class="layui-main-box box-bg">
+                                <span class="layui-box-icon bg-1"></span>
+                                <div class="layui-box-content">
+                                    <span class="layui-box-text">累计投资</span>
+                                    <span class="layui-box-number">
+                            12345
+                            <small>(亿)</small>
+                        </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-box layui-wifi">
+                            <div class="layui-main-box box-bg">
+                                <span class="layui-box-icon bg-2"></span>
+                                <div class="layui-box-content">
+                                    <span class="layui-box-text">科研人员</span>
+                                    <span class="layui-box-number">
+                            45
+                            <small>(人)</small>
+                        </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-box layui-wifi">
+                            <div class="layui-main-box box-bg">
+                                <span class="layui-box-icon bg-3"></span>
+                                <div class="layui-box-content">
+                                    <span class="layui-box-text">成果数量</span>
+                                    <span class="layui-box-number">
+                            45
+                            <small>(个)</small>
+                        </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-box layui-wifi">
+                            <div class="layui-main-box box-bg">
+                                <span class="layui-box-icon bg-4"></span>
+                                <div class="layui-box-content">
+                                    <span class="layui-box-text">专利数量</span>
+                                    <span class="layui-box-number">
+                            123
+                            <small>(个)</small>
+                        </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md9">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    中国石化标准化
+                    <div class="layui-tool">
+                        <button type="button" class="btn btn-tool collapse"></button>
+                        <button type="button" class="btn btn-tool remove"></button>
+                    </div>
+                </div>
+                <div class="layui-card-body btn-function">
+                    <div id="one" style="width: 100%;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md3 layui-bottom">
+            <div class="layui-box">
+                <div class="layui-main-box box-bg-1">
+                    <span class="layui-box-icon bg-1"></span>
+                    <div class="layui-box-content">
+                        <span class="layui-box-text"  onclick="g0SBSL1()" style="cursor:pointer">大型分析仪器(原值>30万)&nbsp;?</span>
+                        <span class="layui-box-number" id="g0SBSL1">
+                            <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                            <small>(套)</small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-box">
+                <div class="layui-main-box box-bg-2">
+                    <span class="layui-box-icon bg-2"></span>
+                    <div class="layui-box-content">
+                        <span class="layui-box-text" onclick="g0SBSL2()" style="cursor:pointer">中型实验装置&nbsp;?</span>
+                        <span class="layui-box-number"  id="g0SBSL2">
+                            <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                            <small>(台)</small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-box">
+                <div class="layui-main-box box-bg-4">
+                    <span class="layui-box-icon bg-4"></span>
+                    <div class="layui-box-content">
+                        <span class="layui-box-text" onclick="g0SBSL4()" style="cursor:pointer">单台值大于500万/工业侧线实验装置&nbsp;?</span>
+                        <span class="layui-box-number"  id="g0SBSL4">
+                            <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                            <small>(台)</small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-box">
+                <div class="layui-main-box box-bg-3">
+                    <span class="layui-box-icon bg-3"></span>
+                    <div class="layui-box-content">
+                        <span class="layui-box-text" onclick="g0SBSL3()" style="cursor:pointer">专业软件（外购）&nbsp;?</span>
+                        <span class="layui-box-number"  id="g0SBSL3">
+                          <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                            <small>(套)</small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script src="http://api.map.baidu.com/api?v=2.0&ak=5f87eee0dd15f3241bc4b5b8d222e430"></script>
+<script type="text/javascript" src="/layuiadmin/modules/bmap.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/layuiadmin/javascript/mainLeader.js"></script>
+    <script>
+    var codec=$("#companyCode").val();
+    var kyxmCount = '';//科研项目总数
+    var sqzlCount = '';//授权专利总数
+    var kjcgCount = '';//科研成果总数
+    
+    var element;
+        layui.config({
+            base: '/layuiadmin/' //静态资源所在路径
+        }).extend({
+            index: 'lib/index' //主入口模块
+        }).use(['index','jquery','table','carousel','layer', 'echarts','laydate','element'], function(){
+            var $=layui.jquery,table=layui.table,carousel = layui.carousel,laydate=layui.laydate
+                ,echarts = layui.echarts,layer = layui.layer;
+            element = layui.element;
+            laydate.render({
+                elem: '#month'
+                ,format: 'yyyyMM'
+             });
+            $(".remove").on("click",function () {
+                $(this).parent().parent().parent().remove();
+            });
+            $(".collapse").on("click",function () {
+                $(this).parent().parent().nextAll().slideToggle(400);
+            });
+            $(".layui-wifi-left").css("height",$(".layui-wifi-right").height()+"px");
+            $("#one").css("height",$(".layui-bottom").height()-74+"px")
+            var myChart = echarts.init(document.getElementById("container"));
+            title = '笛卡尔坐标系上的热力图';
+
+            var hours = [' ', ' ', ' ', ' ', ' ', ' ', ' ',
+                ' ', ' ', ' ',' ',' ',
+                ' ', ' ', ' ', ' ', ' ', ' ',
+                ' ', ' '];
+            var days = [' ', ' ', ' ',
+                ' ', ' ', ' ', ' '];
+
+            var data = [[0,0,5],[0,1,1],[0,2,0],[0,3,0],[0,4,0],[1,19,8],[0,6,0],[0,7,0],[0,8,0],[0,9,0],[0,10,0],[0,11,2],[0,12,4],[0,13,1],[0,14,1],[0,15,3],[0,16,4],[0,17,6],[0,18,4],[0,19,4],[0,16,3],[0,19,3],[0,18,2],[0,17,5],[1,0,7],[1,1,0],[1,2,0],[1,3,0],[1,4,0],[1,5,0],[1,6,0],[1,7,0],[1,8,0],[1,9,0],[1,10,5],[1,11,2],[1,12,2],[1,13,6],[1,14,9],[1,15,11],[1,16,6],[1,17,7],[1,18,8],[1,19,12],[1,18,5],[1,17,5],[1,13,7],[1,18,2],[2,0,1],[2,1,1],[2,2,0],[2,3,0],[2,4,0],[2,5,0],[2,6,0],[2,7,0],[2,8,0],[2,9,0],[2,10,3],[2,11,2],[2,12,1],[2,13,9],[2,14,8],[2,15,10],[2,16,6],[2,17,5],[2,18,5],[2,19,5],[2,17,7],[2,18,4],[2,17,2],[2,13,4],[3,0,7],[3,1,3],[3,2,0],[3,3,0],[3,4,0],[3,5,0],[3,6,0],[3,7,0],[3,8,1],[3,9,0],[3,10,5],[3,11,4],[3,12,7],[3,13,14],[3,14,13],[3,15,12],[3,16,9],[3,17,5],[3,18,5],[3,19,10],[3,17,6],[3,18,4],[3,17,4],[3,13,1],[4,0,1],[4,1,3],[4,2,0],[4,3,0],[4,4,0],[4,5,1],[4,6,0],[4,7,0],[4,8,0],[4,9,2],[4,10,4],[4,11,4],[4,12,2],[4,13,4],[4,14,4],[4,15,14],[4,16,12],[4,17,1],[4,18,8],[4,19,5],[4,17,3],[4,18,7],[4,17,3],[4,13,0],[5,0,2],[5,1,1],[5,2,0],[5,3,3],[5,4,0],[5,5,0],[5,6,0],[5,7,0],[5,8,2],[5,9,0],[5,10,4],[5,11,1],[5,12,5],[5,13,10],[5,14,5],[5,15,7],[5,16,11],[5,17,6],[5,18,0],[5,19,5],[5,16,3],[5,18,4],[5,17,2],[5,17,0],[6,0,1],[6,1,0],[6,2,0],[6,3,0],[6,4,0],[6,5,0],[6,6,0],[6,7,0],[6,8,0],[6,9,0],[6,10,1],[6,11,0],[6,12,2],[6,13,1],[6,14,3],[6,15,4],[6,16,0],[6,17,0],[6,18,0],[6,19,0],[6,9,1],[6,8,2],[6,14,2],[6,15,6]];
+
+            data = data.map(function (item) {
+                return [item[1], item[0], item[2] || '-'];
+            });
+            option = {
+                tooltip: {
+                    position: 'top'
+                },
+                animation: false,
+                grid: {
+                    height: '100%',
+                    width: '100%',
+                    x: '0%',
+                    y: '0%'
+                },
+                xAxis: {
+                    type: 'category',
+                    data: hours,
+                    splitArea: {
+                        show: true
+                    }
+                },
+                yAxis: {
+                    type: 'category',
+                    data: days,
+                    splitArea: {
+                        show: true
+                    }
+                },
+                visualMap: {
+                    min: 0,
+                    max: 14,
+                    calculable: false,
+                    orient: 'horizontal',
+                    left: 'center',
+                    bottom: '-9999999%'
+                },
+                series: [{
+                    name: 'Punch Card',
+                    type: 'heatmap',
+                    data: data,
+                    label: {
+                        normal: {
+                            show: true
+                        }
+                    },
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowColor: 'rgba(0, 0.8, 0.8, 0.8)'
+                        }
+                    }
+                }]
+            }
+            myChart.setOption(option);
+        });
+        
+        // 科研项目总数
+        function getKyxm(month)
+        {
+        	$.ajax({
+ 				type : 'POST',
+ 				url : "/admin/project-count",
+ 				dataType : 'json',
+ 				headers : {
+ 					'Content-Type' : 'application/json'
+ 				},
+ 				timeout : 3000, //超时时间设置，单位毫秒
+ 				error : function(XMLHttpRequest, status) {
+ 					$("#kyxm").html("<small>--(个)</small>");
+ 				},
+ 				success : function(data) { //请求成功后处理函数。
+ 					kyxmCount = data.projectCount;
+ 					$("#kyxm").html(data.projectCount+"<small>(个)</small>");
+ 				}
+ 			});
+        }
+        
+     	// 去年同期的科研项目总数
+        function getKyxmLast(month)
+        {
+        	 var temYear = month.substring(0,4);
+        	 temYear = parseInt(temYear)-1;// 去年
+        	 var v_date=(new Date()).getTime();
+        	 $.ajax({
+        	     type:"GET",
+        	     url: '/home/H1AMKYSY100101?month='+temYear+''+month.substring(4,6)+'&companyCode='+codec+'&v_date'+v_date,
+        	     dataType:"json",
+        	     timeout : 20000,
+        	     cache: false,
+        	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                 success:function(data,status)
+                 {    
+        	          if(data.success==true ||data.success=='true')
+        	          {
+        	        	 if (kyxmCount != '') {
+        	        		 var jn = parseInt(kyxmCount);
+        	        		 var qn = parseInt(data.data.k0XMZXSL);
+        	        		 var bl = (jn-qn)/qn*100;
+        	        		 if (bl > 0) {
+        	        			 $("#kyxmLast").html("<span class=\"layui-box-percent\">同比上年↑"+bl.toFixed(2)+"%</span>");
+        	        		 } else {
+        	        			 $("#kyxmLast").html("<span class=\"layui-box-percent\">同比上年↓"+Math.abs(bl.toFixed(2))+"%</span>");
+        	        		 }
+	        				 
+        	        	 } else {
+        	        		 // 今年的数据没计算出，等待三秒（之后弄循环）
+        	        		 setTimeout(function() {
+        	        			 if (kyxmCount != '') {
+        	        				 var jn = parseInt(kyxmCount);
+                	        		 var qn = parseInt(data.data.k0XMZXSL);
+                	        		 var bl = (jn-qn)/qn*100;
+                	        		 if (bl > 0) {
+                	        			 $("#kyxmLast").html("<span class=\"layui-box-percent\">同比上年↑"+bl.toFixed(2)+"%</span>");
+                	        		 } else {
+                	        			 $("#kyxmLast").html("<span class=\"layui-box-percent\">同比上年↓"+Math.abs(bl.toFixed(2))+"%</span>");
+                	        		 }
+        	        			 } else {
+        	        				 $("#kyxmLast").html("<span class=\"layui-box-percent\">同比上年--%</span>");
+        	        			 }
+        	        			 
+        	        		 }, 3000);
+        	        	 }
+        	          } 
+        		   },
+        		   error:function()
+        		   {
+        		   },
+        		   complete: function (XMLHttpRequest, status) {
+        	            if(status == 'timeout'){
+        	            	 
+        	            }
+        	        }
+          });
+        }
+     	
+      	//专利
+        function patentCount() {
+        	$.ajax({
+				type : 'POST',
+				url : "/admin/patent-count",
+				dataType : 'json',
+				headers : {
+					'Content-Type' : 'application/json'
+				},
+				timeout : 3000, //超时时间设置，单位毫秒
+				error : function(XMLHttpRequest, status) {
+					$("#sqzl").html("--<small>(个)</small>");
+				},
+				success : function(data) { //请求成功后处理函数。
+					sqzlCount = data.patentCount;
+					$("#sqzl").html(parseInt(data.patentCount)+"<small>(个)</small>");
+				}
+			});
+        	
+        }
+      	
+      	// 去年专利
+        function lastYearPatentCount() {
+        	$.ajax({
+				type : 'POST',
+				url : "/admin/patent-count?lastYearFlag=1",
+				dataType : 'json',
+				headers : {
+					'Content-Type' : 'application/json'
+				},
+				timeout : 3000, //超时时间设置，单位毫秒
+				error : function(XMLHttpRequest, status) {
+					$("#sqzlLast").html("--</small>");
+				},
+				success : function(data) { //请求成功后处理函数。
+					if (sqzlCount != '') {
+	   	        		 var jn = parseInt(sqzlCount);
+	   	        		 var qn = parseInt(data.patentCount);
+	   	        		 var bl = (jn-qn)/qn*100;
+	   	        		 if (bl > 0) {
+	   	        			 $("#sqzlLast").html("<span class=\"layui-box-percent\">同比上年↑"+bl.toFixed(2)+"%</span>");
+	   	        		 } else {
+	   	        			 $("#sqzlLast").html("<span class=\"layui-box-percent\">同比上年↓"+Math.abs(bl.toFixed(2))+"%</span>");
+	   	        		 }
+	       				 
+	   	        	 } else {
+	   	        		 // 今年的数据没计算出，等待三秒（之后弄循环）
+	   	        		 setTimeout(function() {
+	   	        			 if (sqzlCount != '') {
+	   	        				 var jn = parseInt(sqzlCount);
+	   	   	        		     var qn = parseInt(data.patentCount);
+	   	   	        		     var bl = (jn-qn)/qn*100;
+	           	        		 if (bl > 0) {
+	           	        			 $("#sqzlLast").html("<span class=\"layui-box-percent\">同比上年↑"+bl.toFixed(2)+"%</span>");
+	           	        		 } else {
+	           	        			 $("#sqzlLast").html("<span class=\"layui-box-percent\">同比上年↓"+Math.abs(bl.toFixed(2))+"%</span>");
+	           	        		 }
+	   	        			 } else {
+	   	        				 $("#zlslLast").html("<span class=\"layui-box-percent\">同比上年--%</span>");
+	   	        			 }
+	   	        		 }, 3000);
+	   	        	 }
+				}
+			});
+        	
+        }
+      	
+      	//成果
+        function appraisalCount() {
+        	$.ajax({
+				type : 'POST',
+				url : "/admin/appraisal-count",
+				dataType : 'json',
+				headers : {
+					'Content-Type' : 'application/json'
+				},
+				timeout : 3000, //超时时间设置，单位毫秒
+				error : function(XMLHttpRequest, status) {
+					$("#kjcg").html("--<small>(个)</small>");
+				},
+				success : function(data) { //请求成功后处理函数。
+					kjcgCount = data.appraisalCount;
+					$("#kjcg").html(kjcgCount+"<small>(个)</small>"); 
+				}
+			});
+        }
+      	
+      	//去年成果
+        function lastYearAppraisalCount() {
+        	$.ajax({
+				type : 'POST',
+				url : "/admin/appraisal-count?lastYearFlag=1",
+				dataType : 'json',
+				headers : {
+					'Content-Type' : 'application/json'
+				},
+				timeout : 3000, //超时时间设置，单位毫秒
+				error : function(XMLHttpRequest, status) {
+					$("#kjcgLast").html("--<small>(个)</small>");
+				},
+				success : function(data) { //请求成功后处理函数。
+					if (kjcgCount != '') {
+	   	        		 var jn = parseInt(kjcgCount);
+	   	        		 var qn = parseInt(data.appraisalCount);
+	   	        		 var bl = (jn-qn)/qn*100;
+	   	        		 if (bl > 0) {
+	   	        			 $("#kjcgLast").html("<span class=\"layui-box-percent\">同比上年↑"+bl.toFixed(2)+"%</span>");
+	   	        		 } else {
+	   	        			 $("#kjcgLast").html("<span class=\"layui-box-percent\">同比上年↓"+Math.abs(bl.toFixed(2))+"%</span>");
+	   	        		 }
+	       				 
+	   	        	 } else {
+	   	        		 // 今年的数据没计算出，等待三秒（之后弄循环）
+	   	        		 setTimeout(function() {
+	   	        			 if (kjcgCount != '') {
+	   	        				 var jn = parseInt(kjcgCount);
+	   	   	        		     var qn = parseInt(data.appraisalCount);
+	   	   	        		     var bl = (jn-qn)/qn*100;
+	           	        		 if (bl > 0) {
+	           	        			 $("#kjcgLast").html("<span class=\"layui-box-percent\">同比上年↑"+bl.toFixed(2)+"%</span>");
+	           	        		 } else {
+	           	        			 $("#kjcgLast").html("<span class=\"layui-box-percent\">同比上年↓"+Math.abs(bl.toFixed(2))+"%</span>");
+	           	        		 }
+	   	        			 } else {
+	   	        				 $("#kjcgLast").html("<span class=\"layui-box-percent\">同比上年--%</span>");
+	   	        			 }
+	   	        		 }, 3000);
+	   	        	 }
+				}
+			});
+        }
+        
+        // 进到首页的初始化
+        function init()
+        {
+        	
+        	var month=$('#month').val();
+        	if(month!=null && month!='')
+       		{
+        		getKyxm(month);//科研项目
+        		getKyxmLast(month);//去年同期的科研项目总数
+        		patentCount();//今年的专利授权
+        		lastYearPatentCount();//去年专利授权
+        		appraisalCount();//今年科技成果
+        		lastYearAppraisalCount();//去年科技成果
+            	//getkyzb(month);//科研装备
+            	//getndys_xfzc(month);//年度预算 经费支出
+            	//chartv(month);//图标
+            	//newOpen(month);//新开项目
+            	//persent(month);//百分比
+            	//GET_getDzzk(month);
+            	
+            	//patentCount();//专利
+            	//appraisalCount();//成果
+       		}
+        	
+        	
+        }
+
+     </script>
+</body>
+</html>

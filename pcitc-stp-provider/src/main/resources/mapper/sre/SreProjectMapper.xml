@@ -1,0 +1,769 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.equipment.SreProjectMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.SreProject" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="contract_num" property="contractNum" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="project_money" property="projectMoney" jdbcType="DECIMAL" />
+    <result column="update_user_id" property="updateUserId" jdbcType="VARCHAR" />
+    <result column="begin_year" property="beginYear" jdbcType="VARCHAR" />
+    <result column="end_year" property="endYear" jdbcType="VARCHAR" />
+    <result column="equipment_ids" property="equipmentIds" jdbcType="VARCHAR" />
+    <result column="key_word" property="keyWord" jdbcType="VARCHAR" />
+    <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
+    <result column="project_leader" property="projectLeader" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="document_doc" property="documentDoc" jdbcType="VARCHAR" />
+    <result column="setup_year" property="setupYear" jdbcType="VARCHAR" />
+    <result column="lead_unit_name" property="leadUnitName" jdbcType="VARCHAR" />
+    <result column="join_unit_name" property="joinUnitName" jdbcType="VARCHAR" />
+    <result column="entrust_unit_name" property="entrustUnitName" jdbcType="VARCHAR" />
+    <result column="lead_unit_type" property="leadUnitType" jdbcType="VARCHAR" />
+    <result column="professional_field_name" property="professionalFieldName" jdbcType="VARCHAR" />
+    <result column="professional_field_code" property="professionalFieldCode" jdbcType="VARCHAR" />
+    <result column="belong_department_name" property="belongDepartmentName" jdbcType="VARCHAR" />
+    <result column="belong_department_code" property="belongDepartmentCode" jdbcType="VARCHAR" />
+    <result column="professional_depart_name" property="professionalDepartName" jdbcType="VARCHAR" />
+    <result column="professional_depart_code" property="professionalDepartCode" jdbcType="VARCHAR" />
+    <result column="project_type" property="projectType" jdbcType="VARCHAR" />
+    <result column="professional" property="professional" jdbcType="VARCHAR" />
+    <result column="is_contract" property="isContract" jdbcType="VARCHAR" />
+    <result column="erp_num" property="erpNum" jdbcType="VARCHAR" />
+    <result column="lead_unit_code" property="leadUnitCode" jdbcType="VARCHAR" />
+    <result column="join_unit_code" property="joinUnitCode" jdbcType="VARCHAR" />
+    <result column="entrust_unit_code" property="entrustUnitCode" jdbcType="VARCHAR" />
+    <result column="project_charges_code" property="projectChargesCode" jdbcType="VARCHAR" />
+    <result column="project_charges_name" property="projectChargesName" jdbcType="VARCHAR" />
+    <result column="lead_linkmans_code" property="leadLinkmansCode" jdbcType="VARCHAR" />
+    <result column="lead_linkmans_name" property="leadLinkmansName" jdbcType="VARCHAR" />
+    <result column="year_fee_str" property="yearFeeStr" jdbcType="VARCHAR" />
+    <result column="year_fee_str_join_unit" property="yearFeeStrJoinUnit" jdbcType="VARCHAR" />
+    <result column="apply_unit_name" property="applyUnitName" jdbcType="VARCHAR" />
+    <result column="apply_unit_code" property="applyUnitCode" jdbcType="VARCHAR" />
+    <result column="task_write_user_names" property="taskWriteUserNames" jdbcType="VARCHAR" />
+    <result column="task_write_users_ids" property="taskWriteUsersIds" jdbcType="VARCHAR" />
+     <result column="unit_path_ids"   property="unitPathIds"   jdbcType="VARCHAR" />
+    <result column="unit_path_names" property="unitPathNames" jdbcType="VARCHAR" />
+    <result column="parent_unit_path_names" property="parentUnitPathNames" jdbcType="VARCHAR" />
+    <result column="parent_unit_path_ids" property="parentUnitPathIds" jdbcType="VARCHAR" />
+    
+    
+    <result column="join_unit_ids"          property="joinUnitIds"          jdbcType="VARCHAR" />
+    <result column="join_unit_parent_codes"   property="joinUnitParentCodes"    jdbcType="VARCHAR" />
+    <result column="join_unit_parent_names" property="joinUnitParentNames"  jdbcType="VARCHAR" />
+    
+     <result column="apply_unit_id" property="applyUnitId"  jdbcType="VARCHAR" />
+     <result column="parent_apply_unit_code" property="parentApplyUnitCode"  jdbcType="VARCHAR" />
+    
+    
+    
+    
+    
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, contract_num, name, remarks, project_money, update_user_id, begin_year, end_year, 
+    equipment_ids, key_word, audit_status, project_leader, create_date, update_date, 
+    create_user_id, create_user_name, document_doc, setup_year, lead_unit_name, join_unit_name, 
+    entrust_unit_name, lead_unit_type, professional_field_name, professional_field_code, 
+    belong_department_name, belong_department_code, professional_depart_name, professional_depart_code, 
+    project_type, professional, is_contract, erp_num, lead_unit_code, join_unit_code, 
+    entrust_unit_code, project_charges_code, project_charges_name, lead_linkmans_code, 
+    lead_linkmans_name, year_fee_str, year_fee_str_join_unit, apply_unit_name, apply_unit_code, 
+    task_write_user_names, task_write_users_ids,unit_path_ids,unit_path_names,parent_unit_path_names,parent_unit_path_ids,apply_unit_id,parent_apply_unit_code
+    ,join_unit_ids,join_unit_parent_codes,join_unit_parent_names
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sre_project
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sre_project
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SreProject" >
+    insert into sre_project (id, contract_num, name, 
+      remarks, project_money, update_user_id, 
+      begin_year, end_year, equipment_ids, 
+      key_word, audit_status, project_leader, 
+      create_date, update_date, create_user_id, 
+      create_user_name, document_doc, setup_year, 
+      lead_unit_name, join_unit_name, entrust_unit_name, 
+      lead_unit_type, professional_field_name, professional_field_code, 
+      belong_department_name, belong_department_code, 
+      professional_depart_name, professional_depart_code, 
+      project_type, professional, is_contract, 
+      erp_num, lead_unit_code, join_unit_code, 
+      entrust_unit_code, project_charges_code, project_charges_name, 
+      lead_linkmans_code, lead_linkmans_name, year_fee_str, 
+      year_fee_str_join_unit, apply_unit_name, apply_unit_code, 
+      task_write_user_names, task_write_users_ids,unit_path_ids,unit_path_names,parent_unit_path_names,parent_unit_path_ids
+      ,join_unit_ids,join_unit_parent_codes,join_unit_parent_names,apply_unit_id,parent_apply_unit_code
+      )
+    values (#{id,jdbcType=VARCHAR}, #{contractNum,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{projectMoney,jdbcType=DECIMAL}, #{updateUserId,jdbcType=VARCHAR}, 
+      #{beginYear,jdbcType=VARCHAR}, #{endYear,jdbcType=VARCHAR}, #{equipmentIds,jdbcType=VARCHAR}, 
+      #{keyWord,jdbcType=VARCHAR}, #{auditStatus,jdbcType=VARCHAR}, #{projectLeader,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=VARCHAR}, 
+      #{createUserName,jdbcType=VARCHAR}, #{documentDoc,jdbcType=VARCHAR}, #{setupYear,jdbcType=VARCHAR}, 
+      #{leadUnitName,jdbcType=VARCHAR}, #{joinUnitName,jdbcType=VARCHAR}, #{entrustUnitName,jdbcType=VARCHAR}, 
+      #{leadUnitType,jdbcType=VARCHAR}, #{professionalFieldName,jdbcType=VARCHAR}, #{professionalFieldCode,jdbcType=VARCHAR}, 
+      #{belongDepartmentName,jdbcType=VARCHAR}, #{belongDepartmentCode,jdbcType=VARCHAR}, 
+      #{professionalDepartName,jdbcType=VARCHAR}, #{professionalDepartCode,jdbcType=VARCHAR}, 
+      #{projectType,jdbcType=VARCHAR}, #{professional,jdbcType=VARCHAR}, #{isContract,jdbcType=VARCHAR}, 
+      #{erpNum,jdbcType=VARCHAR}, #{leadUnitCode,jdbcType=VARCHAR}, #{joinUnitCode,jdbcType=VARCHAR}, 
+      #{entrustUnitCode,jdbcType=VARCHAR}, #{projectChargesCode,jdbcType=VARCHAR}, #{projectChargesName,jdbcType=VARCHAR}, 
+      #{leadLinkmansCode,jdbcType=VARCHAR}, #{leadLinkmansName,jdbcType=VARCHAR}, #{yearFeeStr,jdbcType=VARCHAR}, 
+      #{yearFeeStrJoinUnit,jdbcType=VARCHAR}, #{applyUnitName,jdbcType=VARCHAR}, #{applyUnitCode,jdbcType=VARCHAR}, 
+      #{taskWriteUserNames,jdbcType=VARCHAR}, #{taskWriteUsersIds,jdbcType=VARCHAR}
+       ,#{unitPathIds,jdbcType=VARCHAR}
+      ,#{unitPathNames,jdbcType=VARCHAR}
+      ,#{parentUnitPathNames,jdbcType=VARCHAR}
+      ,#{parentUnitPathIds,jdbcType=VARCHAR}
+      
+      ,#{joinUnitIds,jdbcType=VARCHAR}
+      ,#{joinUnitParentCodes,jdbcType=VARCHAR}
+      ,#{joinUnitParentNames,jdbcType=VARCHAR}
+      
+       ,#{applyUnitId,jdbcType=VARCHAR}
+        ,#{parentApplyUnitCode,jdbcType=VARCHAR}
+      
+      )
+  </insert>
+  
+ 
+    
+    
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreProject" >
+    insert into sre_project
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="contractNum != null" >
+        contract_num,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="projectMoney != null" >
+        project_money,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="beginYear != null" >
+        begin_year,
+      </if>
+      <if test="endYear != null" >
+        end_year,
+      </if>
+      <if test="equipmentIds != null" >
+        equipment_ids,
+      </if>
+      <if test="keyWord != null" >
+        key_word,
+      </if>
+      <if test="auditStatus != null" >
+        audit_status,
+      </if>
+      <if test="projectLeader != null" >
+        project_leader,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="documentDoc != null" >
+        document_doc,
+      </if>
+      <if test="setupYear != null" >
+        setup_year,
+      </if>
+      <if test="leadUnitName != null" >
+        lead_unit_name,
+      </if>
+      <if test="joinUnitName != null" >
+        join_unit_name,
+      </if>
+      <if test="entrustUnitName != null" >
+        entrust_unit_name,
+      </if>
+      <if test="leadUnitType != null" >
+        lead_unit_type,
+      </if>
+      <if test="professionalFieldName != null" >
+        professional_field_name,
+      </if>
+      <if test="professionalFieldCode != null" >
+        professional_field_code,
+      </if>
+      <if test="belongDepartmentName != null" >
+        belong_department_name,
+      </if>
+      <if test="belongDepartmentCode != null" >
+        belong_department_code,
+      </if>
+      <if test="professionalDepartName != null" >
+        professional_depart_name,
+      </if>
+      <if test="professionalDepartCode != null" >
+        professional_depart_code,
+      </if>
+      <if test="projectType != null" >
+        project_type,
+      </if>
+      <if test="professional != null" >
+        professional,
+      </if>
+      <if test="isContract != null" >
+        is_contract,
+      </if>
+      <if test="erpNum != null" >
+        erp_num,
+      </if>
+      <if test="leadUnitCode != null" >
+        lead_unit_code,
+      </if>
+      <if test="joinUnitCode != null" >
+        join_unit_code,
+      </if>
+      <if test="entrustUnitCode != null" >
+        entrust_unit_code,
+      </if>
+      <if test="projectChargesCode != null" >
+        project_charges_code,
+      </if>
+      <if test="projectChargesName != null" >
+        project_charges_name,
+      </if>
+      <if test="leadLinkmansCode != null" >
+        lead_linkmans_code,
+      </if>
+      <if test="leadLinkmansName != null" >
+        lead_linkmans_name,
+      </if>
+      <if test="yearFeeStr != null" >
+        year_fee_str,
+      </if>
+      <if test="yearFeeStrJoinUnit != null" >
+        year_fee_str_join_unit,
+      </if>
+      <if test="applyUnitName != null" >
+        apply_unit_name,
+      </if>
+      <if test="applyUnitCode != null" >
+        apply_unit_code,
+      </if>
+      <if test="taskWriteUserNames != null" >
+        task_write_user_names,
+      </if>
+      <if test="taskWriteUsersIds != null" >
+        task_write_users_ids,
+      </if>
+       <if test="unitPathIds != null" >
+        unit_path_ids,
+      </if>
+      <if test="unitPathNames != null" >
+        unit_path_names,
+      </if>
+     <if test="parentUnitPathNames != null" >
+        parent_unit_path_names,
+      </if>
+      <if test="parentUnitPathIds != null" >
+        parent_unit_path_ids,
+      </if>
+      <if test="joinUnitIds != null" >
+        join_unit_ids,
+      </if>
+      <if test="joinUnitParentCodes != null" >
+        join_unit_parent_codes,
+      </if>
+      <if test="joinUnitParentNames != null" >
+        join_unit_parent_names,
+      </if>
+      <if test="applyUnitId != null" >
+        apply_unit_id,
+      </if>
+      <if test="parentApplyUnitCode != null" >
+        parent_apply_unit_code,
+      </if>
+      
+      
+      
+      
+    
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNum != null" >
+        #{contractNum,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="projectMoney != null" >
+        #{projectMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="beginYear != null" >
+        #{beginYear,jdbcType=VARCHAR},
+      </if>
+      <if test="endYear != null" >
+        #{endYear,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentIds != null" >
+        #{equipmentIds,jdbcType=VARCHAR},
+      </if>
+      <if test="keyWord != null" >
+        #{keyWord,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null" >
+        #{auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="projectLeader != null" >
+        #{projectLeader,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="documentDoc != null" >
+        #{documentDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="setupYear != null" >
+        #{setupYear,jdbcType=VARCHAR},
+      </if>
+      <if test="leadUnitName != null" >
+        #{leadUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUnitName != null" >
+        #{joinUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="entrustUnitName != null" >
+        #{entrustUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="leadUnitType != null" >
+        #{leadUnitType,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalFieldName != null" >
+        #{professionalFieldName,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalFieldCode != null" >
+        #{professionalFieldCode,jdbcType=VARCHAR},
+      </if>
+      <if test="belongDepartmentName != null" >
+        #{belongDepartmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="belongDepartmentCode != null" >
+        #{belongDepartmentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalDepartName != null" >
+        #{professionalDepartName,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalDepartCode != null" >
+        #{professionalDepartCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null" >
+        #{projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="professional != null" >
+        #{professional,jdbcType=VARCHAR},
+      </if>
+      <if test="isContract != null" >
+        #{isContract,jdbcType=VARCHAR},
+      </if>
+      <if test="erpNum != null" >
+        #{erpNum,jdbcType=VARCHAR},
+      </if>
+      <if test="leadUnitCode != null" >
+        #{leadUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUnitCode != null" >
+        #{joinUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="entrustUnitCode != null" >
+        #{entrustUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectChargesCode != null" >
+        #{projectChargesCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectChargesName != null" >
+        #{projectChargesName,jdbcType=VARCHAR},
+      </if>
+      <if test="leadLinkmansCode != null" >
+        #{leadLinkmansCode,jdbcType=VARCHAR},
+      </if>
+      <if test="leadLinkmansName != null" >
+        #{leadLinkmansName,jdbcType=VARCHAR},
+      </if>
+      <if test="yearFeeStr != null" >
+        #{yearFeeStr,jdbcType=VARCHAR},
+      </if>
+      <if test="yearFeeStrJoinUnit != null" >
+        #{yearFeeStrJoinUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUnitName != null" >
+        #{applyUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUnitCode != null" >
+        #{applyUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="taskWriteUserNames != null" >
+        #{taskWriteUserNames,jdbcType=VARCHAR},
+      </if>
+      <if test="taskWriteUsersIds != null" >
+        #{taskWriteUsersIds,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPathIds != null" >
+        #{unitPathIds,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPathNames != null" >
+        #{unitPathNames,jdbcType=VARCHAR},
+      </if>
+      <if test="parentUnitPathNames != null" >
+        #{parentUnitPathNames,jdbcType=VARCHAR},
+      </if>
+      <if test="parentUnitPathIds != null" >
+        #{parentUnitPathIds,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUnitIds != null" >
+        #{joinUnitIds,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUnitParentCodes != null" >
+        #{joinUnitParentCodes,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUnitParentNames != null" >
+        #{joinUnitParentNames,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUnitId != null" >
+        #{applyUnitId,jdbcType=VARCHAR},
+      </if>
+       <if test="parentApplyUnitCode != null" >
+        #{parentApplyUnitCode,jdbcType=VARCHAR},
+      </if>
+      
+      
+      
+    
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.equipment.SreProject" >
+    update sre_project
+    <set >
+      <if test="contractNum != null" >
+        contract_num = #{contractNum,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="projectMoney != null" >
+        project_money = #{projectMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="beginYear != null" >
+        begin_year = #{beginYear,jdbcType=VARCHAR},
+      </if>
+      <if test="endYear != null" >
+        end_year = #{endYear,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentIds != null" >
+        equipment_ids = #{equipmentIds,jdbcType=VARCHAR},
+      </if>
+      <if test="keyWord != null" >
+        key_word = #{keyWord,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null" >
+        audit_status = #{auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="projectLeader != null" >
+        project_leader = #{projectLeader,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="documentDoc != null" >
+        document_doc = #{documentDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="setupYear != null" >
+        setup_year = #{setupYear,jdbcType=VARCHAR},
+      </if>
+      <if test="leadUnitName != null" >
+        lead_unit_name = #{leadUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUnitName != null" >
+        join_unit_name = #{joinUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="entrustUnitName != null" >
+        entrust_unit_name = #{entrustUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="leadUnitType != null" >
+        lead_unit_type = #{leadUnitType,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalFieldName != null" >
+        professional_field_name = #{professionalFieldName,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalFieldCode != null" >
+        professional_field_code = #{professionalFieldCode,jdbcType=VARCHAR},
+      </if>
+      <if test="belongDepartmentName != null" >
+        belong_department_name = #{belongDepartmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="belongDepartmentCode != null" >
+        belong_department_code = #{belongDepartmentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalDepartName != null" >
+        professional_depart_name = #{professionalDepartName,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalDepartCode != null" >
+        professional_depart_code = #{professionalDepartCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null" >
+        project_type = #{projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="professional != null" >
+        professional = #{professional,jdbcType=VARCHAR},
+      </if>
+      <if test="isContract != null" >
+        is_contract = #{isContract,jdbcType=VARCHAR},
+      </if>
+      <if test="erpNum != null" >
+        erp_num = #{erpNum,jdbcType=VARCHAR},
+      </if>
+      <if test="leadUnitCode != null" >
+        lead_unit_code = #{leadUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUnitCode != null" >
+        join_unit_code = #{joinUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="entrustUnitCode != null" >
+        entrust_unit_code = #{entrustUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectChargesCode != null" >
+        project_charges_code = #{projectChargesCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectChargesName != null" >
+        project_charges_name = #{projectChargesName,jdbcType=VARCHAR},
+      </if>
+      <if test="leadLinkmansCode != null" >
+        lead_linkmans_code = #{leadLinkmansCode,jdbcType=VARCHAR},
+      </if>
+      <if test="leadLinkmansName != null" >
+        lead_linkmans_name = #{leadLinkmansName,jdbcType=VARCHAR},
+      </if>
+      <if test="yearFeeStr != null" >
+        year_fee_str = #{yearFeeStr,jdbcType=VARCHAR},
+      </if>
+      <if test="yearFeeStrJoinUnit != null" >
+        year_fee_str_join_unit = #{yearFeeStrJoinUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUnitName != null" >
+        apply_unit_name = #{applyUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUnitCode != null" >
+        apply_unit_code = #{applyUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="taskWriteUserNames != null" >
+        task_write_user_names = #{taskWriteUserNames,jdbcType=VARCHAR},
+      </if>
+      <if test="taskWriteUsersIds != null" >
+        task_write_users_ids = #{taskWriteUsersIds,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPathIds != null" >
+        unit_path_ids = #{unitPathIds,jdbcType=VARCHAR},
+      </if>
+       <if test="unitPathNames != null" >
+        unit_path_names = #{unitPathNames,jdbcType=VARCHAR},
+      </if>
+     <if test="parentUnitPathNames != null" >
+        parent_unit_path_names = #{parentUnitPathNames,jdbcType=VARCHAR},
+      </if>
+      <if test="parentUnitPathIds != null" >
+        parent_unit_path_ids = #{parentUnitPathIds,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUnitIds != null" >
+        join_unit_ids = #{joinUnitIds,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUnitParentCodes != null" >
+        join_unit_parent_codes = #{joinUnitParentCodes,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUnitParentNames != null" >
+        join_unit_parent_names = #{joinUnitParentNames,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUnitId != null" >
+        apply_unit_id = #{applyUnitId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentApplyUnitCode != null" >
+        parent_apply_unit_code = #{parentApplyUnitCode,jdbcType=VARCHAR},
+      </if>
+      
+      
+      
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.equipment.SreProject" >
+    update sre_project
+    set contract_num = #{contractNum,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      project_money = #{projectMoney,jdbcType=DECIMAL},
+      update_user_id = #{updateUserId,jdbcType=VARCHAR},
+      begin_year = #{beginYear,jdbcType=VARCHAR},
+      end_year = #{endYear,jdbcType=VARCHAR},
+      equipment_ids = #{equipmentIds,jdbcType=VARCHAR},
+      key_word = #{keyWord,jdbcType=VARCHAR},
+      audit_status = #{auditStatus,jdbcType=VARCHAR},
+      project_leader = #{projectLeader,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      document_doc = #{documentDoc,jdbcType=VARCHAR},
+      setup_year = #{setupYear,jdbcType=VARCHAR},
+      lead_unit_name = #{leadUnitName,jdbcType=VARCHAR},
+      join_unit_name = #{joinUnitName,jdbcType=VARCHAR},
+      entrust_unit_name = #{entrustUnitName,jdbcType=VARCHAR},
+      lead_unit_type = #{leadUnitType,jdbcType=VARCHAR},
+      professional_field_name = #{professionalFieldName,jdbcType=VARCHAR},
+      professional_field_code = #{professionalFieldCode,jdbcType=VARCHAR},
+      belong_department_name = #{belongDepartmentName,jdbcType=VARCHAR},
+      belong_department_code = #{belongDepartmentCode,jdbcType=VARCHAR},
+      professional_depart_name = #{professionalDepartName,jdbcType=VARCHAR},
+      professional_depart_code = #{professionalDepartCode,jdbcType=VARCHAR},
+      project_type = #{projectType,jdbcType=VARCHAR},
+      professional = #{professional,jdbcType=VARCHAR},
+      is_contract = #{isContract,jdbcType=VARCHAR},
+      parent_unit_path_names = #{parentUnitPathNames,jdbcType=VARCHAR},
+      parent_unit_path_ids = #{parentUnitPathIds,jdbcType=VARCHAR},
+      erp_num = #{erpNum,jdbcType=VARCHAR},
+      lead_unit_code = #{leadUnitCode,jdbcType=VARCHAR},
+      join_unit_code = #{joinUnitCode,jdbcType=VARCHAR},
+      entrust_unit_code = #{entrustUnitCode,jdbcType=VARCHAR},
+      project_charges_code = #{projectChargesCode,jdbcType=VARCHAR},
+      project_charges_name = #{projectChargesName,jdbcType=VARCHAR},
+      lead_linkmans_code = #{leadLinkmansCode,jdbcType=VARCHAR},
+      join_unit_ids = #{joinUnitIds,jdbcType=VARCHAR},
+      join_unit_parent_codes = #{joinUnitParentCodes,jdbcType=VARCHAR},
+      join_unit_parent_names = #{joinUnitParentNames,jdbcType=VARCHAR},
+      lead_linkmans_name = #{leadLinkmansName,jdbcType=VARCHAR},
+      year_fee_str = #{yearFeeStr,jdbcType=VARCHAR},
+      unit_path_ids = #{unitPathIds,jdbcType=VARCHAR},
+      unit_path_names = #{unitPathNames,jdbcType=VARCHAR},
+      year_fee_str_join_unit = #{yearFeeStrJoinUnit,jdbcType=VARCHAR},
+      apply_unit_name = #{applyUnitName,jdbcType=VARCHAR},
+      apply_unit_code = #{applyUnitCode,jdbcType=VARCHAR},
+      
+      apply_unit_id = #{applyUnitId,jdbcType=VARCHAR},
+      parent_apply_unit_code = #{parentApplyUnitCode,jdbcType=VARCHAR},
+      task_write_user_names = #{taskWriteUserNames,jdbcType=VARCHAR},
+      task_write_users_ids = #{taskWriteUsersIds,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+  
+  
+  
+  
+  <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="keyWord != null and keyWord  !='' ">                                   AND t.key_word like CONCAT('%',#{keyWord},'%')</if>
+	     <if test="name != null and name  !='' ">                                         AND t.name like CONCAT('%',#{name},'%')</if>
+	     <if test="setupYear != null                  and setupYear !=''  ">              AND t.setup_year = #{setupYear}</if>
+	     <if test="auditStatus != null                and auditStatus !=''  ">            AND t.audit_status = #{auditStatus}</if>
+	     <if test="leadLinkmansName != null          and leadLinkmansName  !='' ">        AND t.lead_linkmans_name    like CONCAT('%',#{leadLinkmansName},'%')</if>
+	     <if test="leadUnitName != null              and leadUnitName  !='' ">            AND t.lead_unit_name    like CONCAT('%',#{leadUnitName},'%')</if>
+	     <if test="joinUnitName != null              and joinUnitName  !='' ">            AND t.join_unit_name    like CONCAT('%',#{joinUnitName},'%')</if>
+	     <if test="entrustUnitName != null           and entrustUnitName  !='' ">         AND t.entrust_unit_name like CONCAT('%',#{entrustUnitName},'%')</if>
+	     <if test="belongDepartmentName != null      and belongDepartmentName  !='' ">    AND t.belong_department_name like CONCAT('%',#{belongDepartmentName},'%')</if>
+	     <if test="professionalDepartName != null    and professionalDepartName  !='' ">    AND t.professional_depart_name like CONCAT('%',#{professionalDepartName},'%')</if>
+	     <if test="leadUnitCode != null              and leadUnitCode !=''  ">              AND t.lead_unit_code = #{leadUnitCode}</if>
+	     <if test="joinUnitCode != null              and joinUnitCode !=''  ">              AND t.join_unit_code = #{joinUnitCode}</if>
+	     <if test="entrustUnitCode != null           and entrustUnitCode !=''  ">           AND t.entrust_unit_code = #{entrustUnitCode}</if>
+	     <if test="professionalDepartCode != null    and professionalDepartCode !=''  ">    AND t.professional_depart_code = #{professionalDepartCode}</if>
+	     <if test="belongDepartmentCode != null      and belongDepartmentCode !=''  ">      AND t.belong_department_code = #{belongDepartmentCode}</if>
+	     <if test="contractNum != null               and contractNum !=''  ">               AND t.contract_num = #{contractNum}</if>
+	     <if test="taskWriteUsersIds != null         and taskWriteUsersIds !=''  ">         AND FIND_IN_SET(#{taskWriteUsersIds}, t.`task_write_users_ids`) </if>
+	      <if test="id != null                        and id !=''  ">                       AND t.id = #{id}</if>
+	     <if test="createUserId != null                and createUserId !=''  ">              AND t.create_user_id = #{createUserId}</if>
+	     <if test="professionalFieldCode != null       and professionalFieldCode !=''  ">     AND t.professional_field_code = #{professionalFieldCode}</if>
+	     <if test="professionalFieldName != null       and professionalFieldName !=''  ">     AND t.professional_field_name like CONCAT('%',#{professionalFieldName},'%')  </if>
+	     <if test="unitPathIds != null             and unitPathIds !=''  ">           AND t.unit_path_ids = #{unitPathIds}</if>
+	     <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.parent_unit_path_ids = #{parentUnitPathIds}</if>
+	     <if test="applyUnitId != null               and applyUnitId !=''  ">             AND t.apply_unit_id = #{applyUnitId}</if>
+	     <if test="parentApplyUnitCode != null       and parentApplyUnitCode !=''  ">     AND t.parent_apply_unit_code = #{parentApplyUnitCode}</if>
+         <if test="startMoney != null   and startMoney !='' ">      AND  t.project_money &gt;= #{startMoney}</if>
+         <if test="endMoney != null   and endMoney !='' ">      AND  t.project_money &lt;= #{endMoney}</if>
+	     <if test="sqlStr != null   and sqlStr !='' ">                                        AND ${sqlStr}</if>
+	 </trim>
+	</sql>
+    
+   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from sre_project t <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  create_date desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM sre_project t <include refid="selectCondition"/>
+    </select>
+    
+    <select id="getSelectDate" resultMap="BaseResultMap" parameterType="Map" >
+    select *  from sre_project
+  </select>
+    
+</mapper>

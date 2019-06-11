@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+
+
+<div class="searchBox">
+    <!--查询条件-->
+        <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month"  title="月份" value="${month}"  id="month">
+            <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
+        </label>
+       <div class="layui-input-inline"  style="margin-left:10px">
+           <select id="companyCode" name="companyCode" class="form-control"></select>
+        </div>
+       
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="renderTable()" data-type="searchEvent">查询</button>
+    </div>
+    <span style="float:right;margin-right:20px">(单位：万元)</<span>
+</div>
+
+
+
+<div class="tableBox">
+<div class="btnGroup" style="float:right;margin-right:20px"><button  onclick="exput_excel()" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg" >导出EXCEL</<button></div>
+    <h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt"></label>投资项目采购进度统计表</h3>
+    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table">
+</div>
+
+<script id="dateTpl" type="text/html"> {{formatTime(d.SQRI)}} </script>
+<script type="text/javascript">
+    // 时间格式化
+      function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+</script>
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script src="/stp/hana/common/hana_common.js"></script>
+<script>
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
+var table,selectRowData;
+var zlbm=$('#zlbm').val();
+
+layui.config({
+    base: '/layuiadmin/module/modules/' //静态资源所在路径
+}).use(['jquery','form', 'laydate','table','laypage'], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,form = layui.form
+      ,laydate = layui.laydate,
+	 form.render(null, 'component-form-group');
+	  laydate.render({
+          elem: '#month'
+        	  ,type: 'month'
+       });
+
+
+	  init_companyCode(functionId);
+            
+            
+            //加载表格      
+     	     renderTable();
+     	     //移除表头的复选框,去掉全选
+     	     $(".layui-table-header table thead th input").remove();  
+
+        // 触发不同的按钮事件
+        var $ = layui.$, active = {
+           
+            
+        };
+        //监听排序
+        table.on('sort(processdef-table)', function(obj){
+            console.log(this, obj.field, obj.type)
+            //return;
+            //服务端排序
+            table.reload('processdef-table', {
+                initSort: obj,
+                page: {curr: 1}, //重新从第一页开始
+                where: { //重新请求服务端
+                    orderKey: obj.field, //排序字段
+                    orderType: obj.type //排序方式
+                }
+            });
+        });
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+         
+        
+        
+        
+        
+        
+    });
+    
+    
+    function renderTable()
+    {
+    	var month=$('#month').val();
+    	month=month.replace("-","");
+    	var index = layer.load(1, {
+    		  shade: [0.1,'#fff'] 
+    		}); 
+    	var v_date=(new Date()).getTime();
+      //渲染
+      table.render({
+        elem: '#processdef-table',
+        url: '/tzxmcgjdtjb_data?v_date='+v_date,
+        method:"POST",
+        where: {param: {
+        	      "month":month,
+        	      "companyCode":$("#companyCode").val()
+               }},
+        
+        id: 'processdef-table',
+        cols: [[
+            {field:'g0GSJC',           title:'院所',           style:'cursor: pointer;',align: 'left', width: '11%',templet:function(d){return '<span onclick="view(\''+d.g0GSJC+'\')" style="color:#1890ff">'+d.g0GSJC+'</span>'}},
+            {field:'k0XMJHJE',         title:'采购计划金额',        style:'cursor: pointer;',align: 'left', width: '11%'},
+            {field:'k0XMDDJE',    title:'实际采购金额',        style:'cursor: pointer;',align: 'left', width: '11%'},
+            {field:'k0XMRKJE',       title:'实际入库金额',        style:'cursor: pointer;',align: 'left', width: '11%'},
+            {field:'k0XMYFWQJE',             title:'未清预付款',     style:'cursor: pointer;',align: 'left', width: '11%'},
+            {field:'k0XMFPJE',         title:'发票金额',     style:'cursor: pointer;',align: 'left', width: '11%'},
+            {field:'k0YQJE',       title:'已清付款',     style:'cursor: pointer;',align: 'left', width: '11%'},
+            {field:'k0WQJE',    title:'未清付款',     style:'cursor: pointer;',align: 'left', width: '11%'},
+            {field:'k0ZBJE',       title:'质保金',      style:'cursor: pointer;',align: 'left', width: '12%'}
+            
+            
+        ]],
+        done: function (res, curr, count) {
+             // 点击行联动选择框--单选
+            $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+            	var index=parseInt($(this).index()+1);
+                $('tr').removeClass('layui-table-click');
+                $(this).addClass('layui-table-click');
+                $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                selectRowData=res.data[index-1];
+            });
+            
+            layer.close(index);
+        }
+      });
+      
+      
+      
+}
+    function exput_excel()
+    {
+    	var companyCode=$('#companyCode').val();
+    	var month=$('#month').val();
+    	 month=month.replace("-","");
+    	window.open("/tzxmcgjdtjb_exput_excel?month="+month+"&companyCode="+companyCode);
+    } 
+        
+    
+   
+    function view(g0GSJC) 
+    {
+    	var companyName=g0GSJC;
+        var month=$("#month").val();
+        month=month.replace("-","");
+   	    var v_date=(new Date()).getTime();
+   	    //alert(companyName+"="+month);
+   	    var url= '/si/tzxmcgjdtjb_detail?month='+month+"&v_date="+v_date+"&companyName="+companyName;
+        layer.open({
+            title:'投资采购进度表-详情',
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+            maxmin: false,
+            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+            area: ['70%', '90%'],
+            content:  url
+        });
+    }
+
+</script>
+
+</body>
+</html>

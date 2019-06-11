@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+</head>
+
+<body>
+	<div class="form_tableAdd_container">
+		<div class="tableBox">
+			<div class="tableToolBox">
+				<div class="tableTitle">合同详情</div>
+			</div>
+			<table id="show-table1" class="layui-hide" lay-filter="tableData1"></table>
+		</div>
+		
+		<div class="tableBox">
+			<div class="tableToolBox">
+				<div class="tableTitle">报销详情</div>
+			</div>
+			<table id="show-table2" class="layui-hide" lay-filter="tableData2"></table>
+		</div>
+		
+		<div class="tableBox">
+			<div class="tableToolBox">
+				<div class="tableTitle">科研成果详情</div>
+			</div>
+			<table id="show-table3" class="layui-hide" lay-filter="tableData3"></table>
+		</div>
+		
+		<div class="tableBox">
+			<div class="tableToolBox">
+				<div class="tableTitle">项目奖励详情</div>
+			</div>
+			<table id="show-table4" class="layui-hide" lay-filter="tableData4"></table>
+		</div>
+	</div>
+
+	<!--表格数据操作js-->
+	<script>
+		var table, active, selectRowData = '';
+		var operMSG = "数据加载中....";
+		var xmid = "${xmid?default(0)}";
+		var hth = "xxxxxx";
+
+		layui.use([ 'jquery', 'table', 'laydate', 'laypage', 'laytpl' ], function() {
+			table = layui.table, $ = layui.jquery, laydate = layui.laydate, laypage = layui.laypage;
+			function renderTable() {
+				// 查询是哪个菜单
+
+				var lodingMsg = layer.msg(operMSG);
+				//渲染
+				table.render({
+					elem : '#show-table1',
+					url : '/whole-process/science/contract/data',
+					method : "POST",
+					where : {
+						param : {
+							"xmid" : xmid
+						}
+					},
+					id : 'show-table1',
+					height : 'auto',
+					cols : [ [{
+						title : '序号',
+						type : 'numbers',
+						width : 55
+					}, {
+						field : 'ysnd',
+						title : '预算年度',
+						width : '8%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'xmmc',
+						title : '项目名称',
+						width : '20%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'hth',
+						title : '合同号',
+						width : '10%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'ysje',
+						title : '金额',
+						width : '10%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'fzdw',
+						title : '负责单位',
+						width : '20%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'zycmc',
+						title : '专业处',
+						width : '8%',
+						style : 'cursor: pointer;'
+
+					}, {
+						field : 'define8',
+						title : '承担单位',
+						style : 'cursor: pointer;'
+					} ] ],
+					done : function(res, curr, count) {
+						layer.close(lodingMsg);
+						// 获取hth
+						var oldData = table.cache['show-table1'];
+		                for(var i=0; i < oldData.length; i++){
+		                      hth = hth + "," + oldData[i].hth
+		                }
+		                if (hth != '') {
+		                	renderTable2();
+							renderTable3();
+		                }
+						
+					}
+				});
+			}
+
+			// 付款情况
+			function renderTable2() {
+				var lodingMsg = layer.msg(operMSG);
+				//渲染
+				table.render({
+					elem : '#show-table2',
+					url : '/whole-process/science/pay/data',
+					method : "POST",
+					where : {
+						param : {
+							"hth" : hth
+						}
+					},
+					id : 'show-table2',
+					height : 'auto',
+					cols : [ [{
+						title : '序号',
+						type : 'numbers',
+						width : 55
+					}, {
+						field : 'suppName',
+						title : '供应商名称',
+						width : '25%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'suppCode',
+						title : '供应商编码',
+						width : '15%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'payAmount',
+						title : '应付款金额',
+						width : '10%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'payModeName',
+						title : '付款方式',
+						width : '10%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'billCode',
+						title : '业务单号',
+						width : '20%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'G0AUGDT',
+						title : '清帐日期',
+						style : 'cursor: pointer;'
+					} ] ],
+					done : function(res, curr, count) {
+						layer.close(lodingMsg);
+					}
+				});
+			}
+			
+			// 成果情况
+			function renderTable3() {
+				var lodingMsg = layer.msg(operMSG);
+				//渲染
+				table.render({
+					elem : '#show-table3',
+					url : '/whole-process/science/appraisal/data',
+					method : "POST",
+					where : {
+						param : {
+							"hth" : hth
+						}
+					},
+					id : 'show-table3',
+					height : 'auto',
+					cols : [ [{
+						title : '序号',
+						type : 'numbers',
+						width : 55
+					}, {
+						field : 'hth',
+						title : '合同号',
+						width : '10%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'xmmc',
+						title : '项目名称',
+						width : '15%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'cgmc',
+						title : '成果名称',
+						width : '20%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'sqjddw',
+						title : '鉴定单位',
+						width : '20%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'jdh',
+						title : '鉴定号',
+						width : '10%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'cglx',
+						title : '成果类型',
+						width : '10%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'zy',
+						title : '专业',
+						style : 'cursor: pointer;'
+					} ] ],
+					done : function(res, curr, count) {
+						layer.close(lodingMsg);
+					}
+				});
+			}
+			
+			// 项目奖励信息
+			function renderTable4() {
+				var lodingMsg = layer.msg(operMSG);
+				//渲染
+				table.render({
+					elem : '#show-table4',
+					url : '/whole-process/science/reward/data',
+					method : "POST",
+					where : {
+						param : {
+							"xmid" : xmid
+						}
+					},
+					id : 'show-table4',
+					height : 'auto',
+					cols : [ [{
+						title : '序号',
+						type : 'numbers',
+						width : 55
+					}, {
+						field : 'nd',
+						title : '年度',
+						width : '8%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'xmmc',
+						title : '项目名称',
+						width : '20%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'xmbh',
+						title : '项目编号',
+						width : '10%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'sbdw',
+						title : '奖励单位',
+						width : '20%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'psdj',
+						title : '等级',
+						width : '8%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'sbjz',
+						title : '奖项',
+						width : '10%',
+						style : 'cursor: pointer;'
+
+					}, {
+						field : 'xkfl',
+						title : '分类',
+						style : 'cursor: pointer;'
+					} ] ],
+					done : function(res, curr, count) {
+						layer.close(lodingMsg);
+					}
+				});
+			}
+			
+			renderTable();
+			renderTable4();
+			
+		});
+		
+	</script>
+
+</body>
+</html>

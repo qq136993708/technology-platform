@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <!--<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">-->
+
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+</head>
+<body>
+<div class="treeTableContainer">
+    <div class="treeBox">
+        <div class="title-box">
+            <span>模型列表</span>
+        </div>
+        <div class="layui-side-scroll">
+            <!-- 左侧子菜单 -->
+            <ul id="funTree" class="ztree"></ul>
+        </div>
+    </div>
+
+    <div class="treeTableBox">
+        <div class="searchBox">
+            <!--查询条件-->
+            <label class="dateInput">
+                <span>字段类型</span>
+                <select name="stype" id="stype" lay-verify="" lay-filter="test">
+                    <option value="">请选择</option>
+                    <option value="0">维度</option>
+                    <option value="1">指标</option>
+                </select>
+
+                <span>页面状态</span>
+                <select name="sfShow" id="sfShow" lay-verify="" lay-filter="test">
+                    <option value="">请选择</option>
+                    <option value="0">隐藏</option>
+                    <option value="1">显示</option>
+                </select>
+                <span>默认列表</span>
+                <select name="sfShowlist" id="sfShowlist" lay-verify="" lay-filter="test">
+                    <option value="">请选择</option>
+                    <option value="1">显示</option>
+                    <option value="0">隐藏</option>
+                </select>
+
+                <span>是否计算取值</span>
+
+                <select name="bak2" id="bak2" lay-verify="" lay-filter="test">
+                    <option value="">请选择</option>
+                    <option value="1">是</option>
+                    <option value="0">否</option>
+                </select>
+
+                <span>是否X轴</span>
+                <select name="sfX" id="sfX" lay-verify="" lay-filter="test">
+                    <option value="">请选择</option>
+                    <option value="1">是</option>
+                    <option value="0">否</option>
+                </select>
+            </label>
+            <!--按钮组-->
+            <div class="btnGroup">
+                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
+                </button>
+                <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
+                        data-type="resetEvent">重置
+                </button>
+            </div>
+        </div>
+        <div class="tableToolBox">
+            <div class="whiteLine"></div>
+            <div class="tableBtns">
+                <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
+                        data-type="addEvent">新增
+                </button>
+                <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
+                        data-type="editEvent">编辑
+                </button>
+                <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
+                        data-type="deleteEvent">删除
+                </button>
+                <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
+                        data-type="showLinkEvent">查看链接
+                </button>
+            </div>
+        </div>
+        <table id="reportColumnTableId" class="layui-hide" lay-filter="tableEvent"></table>
+    </div>
+</div>
+<script>
+    var parentId = "xxxxxxxx";
+
+    function initTree() {
+        var zNodes;
+        ajaxPost("/reportColumn/tree-data", null, function (data) {
+            zNodes = data;
+        });
+        var setting = {
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            },
+            callback: {
+                onClick: onClickMenu
+            }
+        };
+        $.fn.zTree.init($("#funTree"), setting, zNodes);
+    }
+
+    initTree();
+
+    function onClickMenu(event, treeId, treeNode, clickFlag) {
+        parentId = treeNode.id;
+        table.reload('reportColumnTableId', {
+            where: {
+                param: {
+                    "reportConfigId": parentId
+                    , "stype": $("#stype").val()
+                    , "sfShow": $("#sfShow").val()
+                    , "sfShowlist": $("#sfShowlist").val()
+                    , "bak2": $("#bak2").val()
+                    , "sfX": $("#sfX").val()
+                }
+            }
+        });
+        // $(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
+    }
+
+    function reloadtable() {
+        table.reload('reportColumnTableId', {
+            where: {
+                param: {
+                    "reportConfigId": parentId
+                    , "stype": $("#stype").val()
+                    , "sfShow": $("#sfShow").val()
+                    , "sfShowlist": $("#sfShowlist").val()
+                    , "bak2": $("#bak2").val()
+                    , "sfX": $("#sfX").val()
+                }
+            }
+        });
+    }
+</script>
+<script>
+    var selectRowData;
+    layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element'], function () {
+        var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer,
+            laydate = layui.laydate;
+        table = layui.table;
+
+        function loadtable() {
+            table.render({
+                elem: '#reportColumnTableId',
+                url: '/reportColumn/getTableData',
+                method: "POST",
+                where: {param: {"reportConfigId": parentId}},
+                limit: 60,
+                id: 'reportColumnTableId',
+                height: commonDislodgeTable(),
+                // cellMinWidth: 170,
+                page: {
+                    count: 500, //数据总数，从服务端得到
+                    groups: 15,
+                    limits: [15, 30, 45, 60],
+                    layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                    first: '首页', //不显示首页
+                    last: '尾页', //不显示尾页
+                    theme: '#0F9EE0'
+                },
+
+                cols: [[
+                    {type: 'checkbox', event: 'changeEvents'},
+                    {title: '序号', type: 'numbers'},
+                    {
+                        field: "stype",width:"8%",
+                        title: "类型", event: 'setActive', style: 'cursor: pointer;', templet: '#stypeTpl'
+                    },
+                    {
+                        field: "field",width:"15%",
+                        title: "字段名称", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "title",width:"25%",
+                        title: "字段描述", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    // {
+                    //     field: "align",
+                    //     title: "位置", event: 'setActive', style: 'cursor: pointer;', templet: '#alignTpl'
+                    // },
+                    {
+                        field: "sfShowlist",width:"12%",
+                        title: "列表默认显示", event: 'setActive', style: 'cursor: pointer;', templet: '#sfTpl'
+                    }
+                    ,
+                    {
+                        field: "ssort",width:"8%",
+                        title: "排序", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "sfShow",width:"12%",
+                        title: "页面状态", event: 'setActive', style: 'cursor: pointer;', templet: '#sfShowTpl'
+                    }
+                    ,
+                    {
+                        field: "sfUse",width:"12%",
+                        title: "启用停用", event: 'setActive', style: 'cursor: pointer;', templet: '#sfUseTpl'
+                    }
+                    // {
+                    //     field: "width",
+                    //     title: "width", event: 'setActive', style: 'cursor: pointer;'
+                    // }
+                    // ,
+                    // {
+                    //     field: "sfX",
+                    //     title: "默认显示图表X轴", event: 'setActive', style: 'cursor: pointer;'
+                    // },
+                    // {
+                    //     field: "sfY",
+                    //     title: "是否显示图表Y轴", event: 'setActive', style: 'cursor: pointer;'
+                    // },
+                    // {
+                    //     field: "sfAjax",
+                    //     title: "是否选择", event: 'setActive', style: 'cursor: pointer;'
+                    // },
+                    // {
+                    //     field: "stype",
+                    //     title: "条件或者指标类型", event: 'setActive', style: 'cursor: pointer;'
+                    // }
+
+
+                ]],
+                done: function (res, curr, count) {
+                    $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                        var index = parseInt($(this).index() + 1);
+                        $(this).parent().find('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $(this).parent().children('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $(this).children("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        selectRowData = res.data[index - 1];
+                    });
+                }
+            });
+            //移除表头的复选框,去掉全选
+            $(".layui-table-header table thead th input").remove();
+        }
+
+        // $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
+        //     var index = $(this).attr('data-index');
+        //     var tableBox = $(this).parents('.layui-table-box');
+        //     //存在固定列
+        //     if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
+        //         tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+        //     } else {
+        //         tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+        //     }
+        //     var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+        //     if (checkCell.length > 0) {
+        //         checkCell.click();
+        //     }
+        // });
+        // $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+        //     e.stopPropagation();
+        // });
+
+        loadtable();
+        // 触发不同的按钮事件
+        var $ = layui.$, active = {
+            searchEvent: function () { //点击查询按钮
+                table.reload('reportColumnTableId', {
+                    where: {
+                        param:
+                            {
+                                "reportConfigId": parentId
+                                , "stype": $("#stype").val()
+                                , "sfShow": $("#sfShow").val()
+                                , "sfShowlist": $("#sfShowlist").val()
+                                , "bak2": $("#bak2").val()
+                                , "sfX": $("#sfX").val()
+                            }
+                    }
+                });
+            },
+            resetEvent: function () { //点击查询按钮
+                $("#reportConfigId").val("");
+                $("#field").val("");
+                table.reload('reportColumnTableId', {
+                    where: {
+                        param:
+                            {
+                                "reportConfigId": ""
+                            }
+                    }
+                });
+            }, getChecked: function () {//多选
+                var ids = "";
+                var selectedData = active.getCheckData();
+                return selectedData;
+            }, getCheckData: function () { //获取选中数据
+                var checkStatus = table.checkStatus('reportColumnTableId')
+                    , data = checkStatus.data;
+                return data;
+            }
+            , getCheckLength: function () { //获取选中数目
+                var checkStatus = table.checkStatus('reportColumnTableId')
+                    , data = checkStatus.data;
+                layer.msg('选中了：' + data.length + ' 个');
+            }
+            , isAll: function () { //验证是否全选
+                var checkStatus = table.checkStatus('reportColumnTableId');
+                layer.msg(checkStatus.isAll ? '全选' : '未全选')
+            },
+            addEvent: function () { //点击新增按钮
+                openBaseWin("新增", "/reportColumn/edit?reportConfigId=" + parentId);
+            },
+            editEvent: function () { //点击编辑按钮
+                if (typeof (selectRowData) == "undefined") {
+                    layer.msg("请选择一条数据");
+                    return;
+                } else {
+                    openBaseWin("编辑", "/reportColumn/edit?id=" + selectRowData.id + "&reportConfigId=" + parentId);
+                }
+            }
+            ,
+            deleteEvent: function () { //点击删除按钮
+                if (typeof (selectRowData) == "undefined") {
+                    layer.msg("请选择一条数据");
+                    return;
+                }
+                layer.confirm('确定要删除吗?', {btn: ['确认', '取消'], title: "删除确认"}, function (index) {
+                    layer.close(index);
+                    ajaxPost("/reportColumn/del-real", {"id": selectRowData.id}, function (data) {
+                        layer.msg("文件删除成功");
+                        loadtable();
+                    });
+                });
+            }
+            ,
+            showLinkEvent:function () {
+                layer.msg("/reportNew/reportPageStp?name="+parentId);
+            }
+        };
+        $('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+
+</script>
+<script type="text/html" id="alignTpl">
+    {{#  if(d.align == 'left'){ }}
+    居左
+    {{#  } else{ }}
+    居右
+    {{#  } }}
+</script>
+<script type="text/html" id="sfTpl">
+    {{#  if(d.sfShowlist == '0'){ }}
+    隐藏
+    {{#  } else{ }}
+    展示
+    {{#  } }}
+</script>
+<script type="text/html" id="sfShowTpl">
+    {{#  if(d.sfShow == '0'){ }}
+    隐藏
+    {{#  } else{ }}
+    展示
+    {{#  } }}
+</script>
+<script type="text/html" id="stypeTpl">
+    {{#  if(d.stype == '0'){ }}
+    维度
+    {{#  } else{ }}
+    指标
+    {{#  } }}
+</script>
+<script type="text/html" id="sfUseTpl">
+    {{#  if(d.sfUse == '0'){ }}
+    启用
+    {{#  } else{ }}
+    禁用
+    {{#  } }}
+</script>
+</body>
+</html>

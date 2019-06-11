@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>科技管理平台</title>
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <#include "/common/public/publicImportIndex.html"/>
+    <style>
+        .content-info{ padding: 0 60px;}
+        .content-info .ci-title{font-size: 26px; color: #010101;text-align: center;
+            height: 90px;padding-top: 40px;}
+        .content-info .ci-field{ color: #ababab;font-size: 12px;height: 22px;border-bottom: 1px solid #e8e8e8;}
+        .content-info .ci-content{ padding: 20px 0;}
+        .content-wrapper-info{width: 94%; margin: auto;}
+    </style>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    <header class="main-header">
+        <div class="mh-logo">
+            <a href="javascript:;" class="logo">
+                <img src="/common/images/logo.png" alt="logo">
+            </a>
+            <a href="javascript:;" class="logo-text">科技管理平台</a>
+        </div>
+        <nav class="navbar navbar-static-top" role="navigation">
+            <ul class="menu-new">
+                <li class="first"><a href="javascript:;">全流程可视化</a></li>
+                <li class="second"><a href="javascript:;">国际项目</a></li>
+                <li class="third"><a href="javascript:;">科研装备</a></li>
+                <li class="fourth"><a href="javascript:;">技术族</a></li>
+                <li class="fifth"><a href="/decision/index.html">决策中心</a></li>
+                <li class="sixth active"><a href="/demo/demo.html">全成本分析</a></li>
+                <li class="seventh"></li>
+            </ul>
+            <div class="navbar-custom-menu mh-right">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown messages-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-envelope-o"></i>
+                            <span class="label label-success">4</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!--<li class="header"></li>-->
+                            <li>
+                                <ul class="menu">
+                                    <li><a href="#">
+                                        <div class="pull-left">
+
+                                        </div>
+                                        <h4><small><!--<i class="fa fa-clock-o"></i>--> </small></h4>
+                                        <p>
+
+                                        </p>
+                                    </a></li>
+                                </ul>
+                            </li>
+                            <li class="footer"><a href="#"></a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown notifications-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-bell-o"></i>
+                            <span class="label label-warning">10</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header"></li>
+                            <li>
+                                <ul class="menu">
+                                    <li>
+                                        <a href="#">
+                                            <!--<i class="fa fa-users text-aqua"></i>-->
+
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="footer"><a href="#"></a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown tasks-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-flag-o"></i>
+                            <span class="label label-danger">9</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header"></li>
+                            <li>
+                                <ul class="menu">
+                                    <li><a href="#">
+                                        <h3></h3>
+                                        <div class="progress xs">
+                                            <div class="progress-bar progress-bar-aqua" style="width:20%"
+                                                 role="progressbar" aria-valuenow="20" aria-valuemin="0"
+                                                 aria-valuemax="100">
+                                                <span class="sr-only"></span>
+                                            </div>
+                                        </div>
+                                    </a></li>
+                                </ul>
+                            </li>
+                            <li class="footer"><a href="#"></a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="/common/images/person.png" class="user-image" alt="User Image">
+                            <span class="hidden-xs">李工</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="set active"><a href="javascript:;">设置</a></li>
+                            <li class="close"><a href="javascript:;">退出</a></li>
+                        </ul>
+                    </li>
+                    <!--<li><a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a></li>-->
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <aside class="main-sidebar hide">
+        <section class="sidebar" style="height:auto;overflow: hidden;">
+            <ul class="menu-header">
+                <li class="header">全成本分析 <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"><span class="sr-only">Toggle navigation</span></a></li>
+            </ul>
+            <ul class="menu" id="menu">
+               <li class="menu-li"><a href="#" class="afinve"><span>工作流管理</span><span class="arrow"></span><i class="fa fa-angle-left pull-right"></i></a>
+                    <ul class="menu-ul">
+
+                        <li><a href="/demo/model-list.html" target="menuFrame"> demo</a></li>
+
+                        <li><a href="/pplus/workflow/model-list.html?a=3" target="menuFrame"> 工作流模型1</a></li>
+                        <li><a href="/demo/processdef-list.html?a=3" target="menuFrame"> 工作流定义</a></li>
+                        <li><a href="/pplus/workflow/pending-list.html?a=2" target="menuFrame"> 待办任务</a></li>
+                        <li><a href="/pplus/workflow/done-task-list.html?a=2" target="menuFrame"> 已办任务</a></li>
+                        <li><a href="/pplus/workflow/entrust-list.html?a=2" target="menuFrame"> 委托管理</a></li>
+                        <li><a href="/pplus/workflow/workflow-example.html?a=3" target="menuFrame"> 发起工作流程</a></li>
+                        <li><a href="/pplus/sample/dictionary.html" target="menuFrame"> 功能流程配置</a></li>
+                    </ul>
+                </li>
+                <li class="menu-li"><a href="#" class="afinve"><span>系统管理</span><span class="arrow"></span><i class="fa fa-angle-left pull-right"></i></a>
+                    <ul class="menu-ul">
+                        <li><a href="/user/user_page_list" target="menuFrame"> 用户管理</a></li>
+                        <li><a href="/role/role_list" target="menuFrame">角色管理</a></li>
+                        <li><a href="/function/function_tree" target="menuFrame">功能管理</a></li>
+                        <li><a href="/unit/unit_tree" target="menuFrame" target="menuFrame"> 组织机构管理</a></li>
+                        <li><a href="/pplus/sample/dictionary.html?a=2" target="menuFrame"> 数据字典</a></li>
+                        <li><a href="/pplus/sample/function_list.html?a=2" target="menuFrame"> 菜单管理</a></li>
+                    </ul>
+                </li>
+                <li class="menu-li"><a href="#" class="afinve"><span>系统管理</span><span class="arrow"></span><i class="fa fa-angle-left pull-right"></i></a>
+                    <ul class="menu-ul">
+
+                    </ul>
+                </li>
+                <li><a href="javascript:;" target="menuFrame" data-id="/demo/from.html"><span>Demo1</span></a></li>
+                <li><a href="javascript:;" target="menuFrame" data-id="/demo/from.html"><span>Demo2</span></a></li>
+                <li><a href="javascript:;" target="menuFrame" data-id="/demo/from.html"><span>Demo3</span></a></li>
+                <li><a href="javascript:;" target="menuFrame" data-id="/modal/dictionary.json"><span>Demo3</span></a></li>
+            </ul>
+
+            <ul class="menu-header hide">
+                <li class="header">全成本分析 <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"><span class="sr-only">Toggle navigation</span></a></li>
+            </ul>
+            <ul class="menu hide">
+                <li class="menu-li"><a href="#" class="afinve"><span>工作流管理</span><span class="arrow"></span><i class="fa fa-angle-left pull-right"></i></a>
+                    <ul class="menu-ul">
+
+                        <li><a href="/demo/dictionary-list.html?a=3" target="menuFrame"> demo</a></li>
+
+                        <li><a href="/pplus/workflow/model-list.html?a=3" target="menuFrame"> 工作流模型1</a></li>
+                        <li><a href="/demo/processdef-list.html?a=3" target="menuFrame"> 工作流定义</a></li>
+                        <li><a href="/pplus/workflow/pending-list.html?a=2" target="menuFrame"> 待办任务</a></li>
+                        <li><a href="/pplus/workflow/done-task-list.html?a=2" target="menuFrame"> 已办任务</a></li>
+                        <li><a href="/pplus/workflow/entrust-list.html?a=2" target="menuFrame"> 委托管理</a></li>
+                        <li><a href="/pplus/workflow/workflow-example.html?a=3" target="menuFrame"> 发起工作流程</a></li>
+                        <li><a href="/pplus/sample/dictionary.html" target="menuFrame"> 功能流程配置</a></li>
+                    </ul>
+                </li>
+                <li class="menu-li"><a href="#" class="afinve"><span>系统管理</span><span class="arrow"></span><i class="fa fa-angle-left pull-right"></i></a>
+                    <ul class="menu-ul">
+                        <li><a href="/user/user_page_list" target="menuFrame"> 用户管理</a></li>
+                        <li><a href="/role/role_list" target="menuFrame">角色管理</a></li>
+                        <li><a href="/function/function_tree" target="menuFrame">功能管理</a></li>
+                        <li><a href="/unit/unit_tree" target="menuFrame" target="menuFrame"> 组织机构管理</a></li>
+                        <li><a href="/pplus/sample/dictionary.html?a=2" target="menuFrame"> 数据字典</a></li>
+                        <li><a href="/pplus/sample/function_list.html?a=2" target="menuFrame"> 菜单管理</a></li>
+                    </ul>
+                </li>
+                <li class="menu-li"><a href="#" class="afinve"><span>系统管理</span><span class="arrow"></span><i class="fa fa-angle-left pull-right"></i></a>
+                    <ul class="menu-ul">
+
+                    </ul>
+                </li>
+                <li><a href="javascript:;" target="menuFrame" data-id="/demo/from.html"><span>Demo1</span></a></li>
+                <li><a href="javascript:;" target="menuFrame" data-id="/demo/from.html"><span>Demo2</span></a></li>
+                <li><a href="javascript:;" target="menuFrame" data-id="/demo/from.html"><span>Demo3</span></a></li>
+                <li><a href="javascript:;" target="menuFrame" data-id="/modal/dictionary.json"><span>Demo3</span></a></li>
+            </ul>
+
+
+            <ul class="menu-header hide">
+                <li class="header">全成本分析 <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"><span class="sr-only">Toggle navigation</span></a></li>
+            </ul>
+            <ul class="menu hide">
+                <li class="menu-li"><a href="#" class="afinve"><span>工作流管理</span><span class="arrow"></span><i class="fa fa-angle-left pull-right"></i></a>
+                    <ul class="menu-ul">
+
+                        <li><a href="/demo/dictionary-list.html?a=3" target="menuFrame"> demo</a></li>
+
+                        <li><a href="/pplus/workflow/model-list.html?a=3" target="menuFrame"> 工作流模型1</a></li>
+                        <li><a href="/demo/processdef-list.html?a=3" target="menuFrame"> 工作流定义</a></li>
+                        <li><a href="/pplus/workflow/pending-list.html?a=2" target="menuFrame"> 待办任务</a></li>
+                        <li><a href="/pplus/workflow/done-task-list.html?a=2" target="menuFrame"> 已办任务</a></li>
+                        <li><a href="/pplus/workflow/entrust-list.html?a=2" target="menuFrame"> 委托管理</a></li>
+                        <li><a href="/pplus/workflow/workflow-example.html?a=3" target="menuFrame"> 发起工作流程</a></li>
+                        <li><a href="/pplus/sample/dictionary.html" target="menuFrame"> 功能流程配置</a></li>
+                    </ul>
+                </li>
+                <li class="menu-li"><a href="#" class="afinve"><span>系统管理</span><span class="arrow"></span><i class="fa fa-angle-left pull-right"></i></a>
+                    <ul class="menu-ul">
+                        <li><a href="/user/user_page_list" target="menuFrame"> 用户管理</a></li>
+                        <li><a href="/role/role_list" target="menuFrame">角色管理</a></li>
+                        <li><a href="/function/function_tree" target="menuFrame">功能管理</a></li>
+                        <li><a href="/unit/unit_tree" target="menuFrame" target="menuFrame"> 组织机构管理</a></li>
+                        <li><a href="/pplus/sample/dictionary.html?a=2" target="menuFrame"> 数据字典</a></li>
+                        <li><a href="/pplus/sample/function_list.html?a=2" target="menuFrame"> 菜单管理</a></li>
+                    </ul>
+                </li>
+                <li class="menu-li"><a href="#" class="afinve"><span>系统管理</span><span class="arrow"></span><i class="fa fa-angle-left pull-right"></i></a>
+                    <ul class="menu-ul">
+
+                    </ul>
+                </li>
+                <li><a href="javascript:;" target="menuFrame" data-id="/demo/from.html"><span>Demo1</span></a></li>
+                <li><a href="javascript:;" target="menuFrame" data-id="/demo/from.html"><span>Demo2</span></a></li>
+                <li><a href="javascript:;" target="menuFrame" data-id="/demo/from.html"><span>Demo3</span></a></li>
+                <li><a href="javascript:;" target="menuFrame" data-id="/modal/dictionary.json"><span>Demo3</span></a></li>
+            </ul>
+        </section>
+    </aside>
+    <div class="content-wrapper content-wrapper-info">
+        <!--页签-->
+        <section class="content-header hide">
+            <div class="row content-tabs clearfix">
+                <button class="roll-nav roll-left J_tabLeft"><i class=""></i>
+                </button>
+                <nav class="page-tabs J_menuTabs">
+                    <div class="page-tabs-content">
+                            <ul>
+                                <li><a href="javascript:;" class="J_menuTab active" data-id="/demo/from.html">全流程可视化</a></li>
+                            </ul>
+                    </div>
+                </nav>
+                <button class="roll-nav roll-right J_tabRight"><i class=""></i></button>
+            </div>
+        </section>
+        <!--table表单-->
+        <section id="content-info" class="content-info">
+            <h4 class="ci-title" id="ci-title">${info.title}</h4>
+            <div class="ci-field">
+                <!--<span class="ci-field-source">信息来源：<span id="ci-field-source">中国石化报</span></span>-->
+                <span class="ci-field-date" id="ci-field">${info.date?date}</span>
+            </div>
+            <div class="ci-content" id="ci-content">
+                ${info.content}
+            </div>
+        </section>
+    </div>
+</div>
+<script>
+    var tem = "";
+    $(function() {
+        var token = "${token?default(0)}";
+        setCookie("token",token);
+
+    });
+    var mainHeaderHeight=$(".main-header").outerHeight();
+    var menuHeaderHeight=$(".menu-header").outerHeight();
+    var slimSHeight=$(document).height()-(menuHeaderHeight+mainHeaderHeight);
+    var slimSHeightHalf=parseInt(slimSHeight/$(".main-sidebar .menu:not(.hide)").length);
+    /*info*/
+    console.log(parseInt($("body").height()))
+    $("#content-info").slimScroll({
+        height: parseInt($("body").height())-parseInt(mainHeaderHeight),
+        size: '7px',
+        color: '#333',
+        alwaysVisible: true,
+        distance: '0',
+        start: "top",
+        railVisible: true,
+        railColor: '#f1f1f1',
+        railOpacity: 0,
+        wheelStep: 7,
+        allowPageScroll: false,
+        disableFadeOut: true
+    });
+    // 改变菜单,必须先加载，freemarker没办法异步获取
+    function changeMenu(id) {
+        $(".first").removeClass("active");
+        $("#up"+id).addClass("active");
+
+        $(".menu-header").addClass("hide");
+        $("#header"+id).removeClass("hide");
+
+        $(".menu").addClass("hide");
+        $("#"+id).removeClass("hide");
+
+        $(".sidebar .menu:not(.hide)").parent().addClass("hide");
+        if($("#"+id).parent().hasClass("slimScrollDiv")){
+            $("#"+id).parent().removeClass("hide");
+        }else {
+            $("#"+id).slimScroll({
+                width:"230px",
+                height: slimSHeightHalf,
+                size: '7px',
+                position: 'right',
+                color: '#666',
+                alwaysVisible: true,
+                distance: '0',
+                start: "top",
+                railVisible: true,
+                railColor: '#f1f1f1',
+                railOpacity: 0,
+                wheelStep: 7,
+                allowPageScroll: false,
+                disableFadeOut: true
+            });
+        }
+    }
+</script>
+</body>
+</html>

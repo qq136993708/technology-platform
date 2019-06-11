@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+      <script src="/common/js/jquery-1.11.3.min.js"></script>
+    <script src="/stp/hana/common/hana_common.js"></script>
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+
+
+<div class="searchBox">
+    <!--查询条件-->
+         <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month"  title="月份" value="${month}"  id="month">
+            <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
+        </label>
+       <div class="layui-input-inline"  style="margin-left:10px">
+           <select id="companyCode" name="companyCode" class="form-control"></select>
+        </div>
+       
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="renderTable()" data-type="searchEvent">查询</button>
+    </div><span style="float:right;margin-right:20px">(单位：万元)</<span>
+</div>
+
+
+
+<div class="tableBox">
+<h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt"></label>项目资金流向分析</h3>
+   <!--  <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"> -->
+    <table id="myTable" class="layui-table" lay-filter="myTable" >
+                 <thead>
+                  <tr>
+                      <th lay-data="{field:'g0GSJC', width:'8%',templet:viewv}" rowspan="2" >直属研究院</th>
+                      <th lay-data="{align:'center'}" colspan="9">累计</th>
+                      <th lay-data="{align:'center'}" colspan="9">本年</th>
+                  </tr>
+                  <tr>
+                      <th lay-data="{field:'k0ZTYSJE',       width:'7%',align:'right'}">总体预算 </th>
+                      <th lay-data="{field:'k0LJKYFPQCB',    width:'7%',align:'right'}">科研分配前成本</th>
+                      <th lay-data="{field:'k0LJKYFPHCB',    width:'7%',align:'right'}">科研分配后成本</th> 
+                      <th lay-data="{field:'k0LJGLFPHCB',     width:'7%',align:'right'}">管理分配后成本</th>
+                      <th lay-data="{field:'k0LJGLFPHJECB',       width:'7%',align:'right'}">实际支出合计</th> 
+                      <th lay-data="{field:'k0LJSJCNJE',       width:'7%',align:'right'}">资金承诺累计 </th> 
+                      <th lay-data="{field:'k0LJSJDJJE',       width:'7%',align:'right'}">定金 </th> 
+                      <th lay-data="{field:'k0LJZJSYBL',     width:'7%',align:'right'}">资金使用% </th>
+                      <th lay-data="{field:'k0LJYSJY',     width:'7%',align:'right'}">资金结余累计</th>
+                      
+                      <th lay-data="{field:'k0BNYSJHJE',      width:'7%',align:'right'}">本年预算 </th>
+                      <th lay-data="{field:'k0BNKYFPQCB',     width:'7%',align:'right'}">科研分配前成本</th>
+                      <th lay-data="{field:'k0BNKYFPHCB',     width:'7%',align:'right'}">科研分配后成本</th> 
+                      <th lay-data="{field:'k0BNGLFPHCB',     width:'7%',align:'right'}">管理分配后成本 </th>
+                      <th lay-data="{field:'k0BNGLFPHJECB',   width:'7%',align:'right'}">实际支出合计</th> 
+                      <th lay-data="{field:'k0BNSJCNJE',      width:'7%',align:'right'}">资金承诺 </th> 
+                      <th lay-data="{field:'k0BNSJDJJE',      width:'7%',align:'right'}">定金 </th> 
+                      <th lay-data="{field:'k0BNZJSYBL',      width:'7%',align:'right'}">资金使用% </th> 
+                      <th lay-data="{field:'k0BNYSJY',      width:'7%',align:'right'}">资金结余 </th> 
+                  </tr>
+                 </thead>
+             </table>
+             
+</div>
+<script id="viewv" type="text/html"> {{viewv(d.g0GSJC)}} </script>
+<script id="dateTpl" type="text/html"> {{formatTime(d.SQRI)}} </script>
+<script type="text/javascript">
+    // 时间格式化
+      function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+    
+      function viewv(d) 
+      {
+          if (d) 
+          {
+        	  var str= "<span onclick=\"view('"+d.g0GSJC+"')\" style=\"color:#1890ff;cursor:pointer\">"+d.g0GSJC+"</span>";
+              return str;
+          } else {
+              return '';
+          }
+      }
+      function view(g0GSJC) 
+      {
+    	  var companyName=g0GSJC;
+          var month=$("#month").val();
+          month=month.replace("-","");
+     	    var v_date=(new Date()).getTime();
+     	    //alert(companyName+"="+month);
+     	    var url= '/sf/to_getXmzjlxfxData_detail?month='+month+"&v_date="+v_date+"&companyName="+companyName;
+          layer.open({
+              title:'项目资金流向分析-详情',
+              skin: 'layui-layer-lan',
+              shadeClose: true,
+              type: 2,
+              fixed: false,
+              //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+              maxmin: false,
+              //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+              area: ['70%', '90%'],
+              content:  url
+          });
+      }
+</script>
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script>
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
+var table,selectRowData;
+var zlbm=$('#zlbm').val();
+
+layui.config({
+    base: '/layuiadmin/module/modules/' //静态资源所在路径
+}).use(['jquery','form', 'laydate','table','laypage','layer'], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,form = layui.form
+      ,layer = layui.layer
+      ,laydate = layui.laydate,
+	 form.render(null, 'component-form-group');
+	  laydate.render({
+		  elem: '#month',type: 'month'
+       });
+	  init_companyCode(functionId);
+      //加载表格      
+   	  renderTable();
+   	  //移除表头的复选框,去掉全选
+   	  $(".layui-table-header table thead th input").remove();  
+       // 触发不同的按钮事件
+        //监听排序
+        table.on('sort(model-table)', function(obj){
+            console.log(this, obj.field, obj.type)
+            //return;
+            //服务端排序
+            table.reload('model-table', {
+                initSort: obj,
+                page: {curr: 1}, //重新从第一页开始
+                where: { //重新请求服务端
+                    orderKey: obj.field, //排序字段
+                    orderType: obj.type //排序方式
+                }
+            });
+        });
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        
+        
+        
+        //监听行单击事件
+        table.on('row(processdef-table)', function(obj){
+            console.log(obj.data) //得到当前行数据
+            //obj.del(); //删除当前行
+            //obj.update(fields) //修改当前行数据
+            selectRowData=obj.data;
+        });
+        
+        
+
+    });
+    
+    
+   
+   
+    
+       
+       
+    function renderTable()
+    {
+    	layer.load(2);
+    	 var month=$("#month").val();
+    	 var companyCode=$("#companyCode").val();
+    	 month=month.replace("-","");
+    	 var v_date=(new Date()).getTime();
+    	 var url= '/xmzjlxfx_data?month='+month+"&v_date="+v_date+"&companyCode="+companyCode;
+    	 table.init('myTable', {
+    			  url: url
+    			  ,where: {} ,
+    			  done: function (res, curr, count) {layer.closeAll('loading');}
+    			  
+    			});
+    	 
+    	 
+    }
+
+</script>
+
+</body>
+</html>

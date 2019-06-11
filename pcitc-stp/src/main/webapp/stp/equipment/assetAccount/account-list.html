@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+
+<body>
+
+<div class="searchBox">
+    <!--查询条件-->
+    <label class="dateInput">
+        <span>上报单位</span>
+        <input type="text" name="name" title="提报单位" autocomplete="off" class="form-control" id="name">
+        
+        <span>资产名称</span>
+        <input type="text" name="name" title="提报单位" autocomplete="off" class="form-control" id="name">
+        
+    </label>
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+    </div>
+</div>
+
+
+<div class="tableBox">
+     <table class="layui-table">
+             <thead>
+	             <tr>
+	                <td>资产名称</td>
+	                <td>上报单位</td>
+	                <td>资产分类</td>
+	                <td>规格型号</td>
+	                <td>出厂编号</td>
+	                <td>数量</td>
+	                <td>单价金额</td>
+	                <td>计量单位</td>
+	                <td>国别</td>
+	                <td>使用状态</td>
+	                <td>资产状况</td>
+	                <td>账实相符情况</td>
+	             </tr>
+            </thead>
+            
+                <tr>
+	                <td>图像分析系统DS-9222</td>
+	                <td>勘探院</td>
+	                <td>软件</td>
+	                <td></td>
+	                <td></td>
+	                <td>1</td>
+	                <td>100</td>
+	                <td>套</td>
+	                <td>中国</td>
+	                <td>在用</td>
+	                <td>良好</td>
+	                <td>盘亏</td>
+	             </tr>
+	             
+	             <tr>
+	                <td>微波取仪器</td>
+	                <td>勘探院</td>
+	                <td>取仪器</td>
+	                <td>DDD121</td>
+	                <td></td>
+	                <td>1</td>
+	                <td>100</td>
+	                <td>台</td>
+	                <td>中国</td>
+	                <td>未使用</td>
+	                <td>已坏</td>
+	                <td>账实相符</td>
+	             </tr>
+	             
+     </table>
+</div>
+
+<script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
+<script type="text/javascript">
+    // 时间格式化
+    function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+</script>
+<script type="text/html" id="buttonTpl">
+          {{#  if(d.auditStatus == '0'){ }}
+            <button class="layui-btn layui-btn-warm layui-btn-xs">未审核</button>
+          {{#  } else if(d.auditStatus == '1'){ }}
+            <button class="layui-btn  layui-btn-xs">审批中</button>
+          {{#  } else if(d.auditStatus == '2'){ }}
+            <button class="layui-btn layui-btn-normal layui-btn-xs">审批通过</button>
+           {{#  } else if(d.auditStatus == '3'){ }}
+            <button class="layui-btn layui-btn-danger layui-btn-xs">审批不通过</button>
+          {{#  } else{ }}
+            <button class="layui-btn layui-btn-primary layui-btn-xs">未审核</button>
+          {{#  } }}
+</script>
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script>
+var table,selectRowData;
+var name=$('#name').val();
+    layui.use(['jquery','table','laypage','layer','laytpl'], function(){
+           table = layui.table,
+            $ = layui.jquery,
+            layer = layui.layer,
+            laypage = layui.laypage;
+	     //加载表格      
+	    // renderTable();
+	     //移除表头的复选框,去掉全选
+	     $(".layui-table-header table thead th input").remove();  
+         // 触发不同的按钮事件
+         var $ = layui.$, active = {
+            searchEvent: function() { //点击查询按钮
+            	renderTable();
+               
+            },
+            resetEvent: function() { //点击重置按钮
+            	$('#name').val("");
+            },
+            addEvent: function(){ //点击新增按钮
+                layer.open({
+                    title:'报废上报',
+                    skin: 'layui-layer-lan',
+                    shadeClose: true,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin: false,
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                   area: ['70%', '90%'],
+                    content:  '/sre-equipment/apply_waste'
+                });
+            }
+            ,editEvent: function(){  //点击编辑按钮
+            	
+            	if (typeof(selectRowData.equipmentId) == "undefined") {
+            		layer.msg('请点击选择一行数据');
+            	} else {
+            		 var equipmentId=selectRowData.equipmentId;
+           		     var url="/sre-equipment/update?equipmentId="+equipmentId;
+           		     
+           		  layer.open({
+                      title:'装备-修改',
+                      skin: 'layui-layer-lan',
+                      shadeClose: true,
+                      type: 2,
+                      fixed: false,
+                      //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                      maxmin: false,
+                      //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                      area: ['70%', '90%'],
+                      content:  url
+                  });
+            	}
+               
+            },deleteEvent: function(){  //点击删除按钮
+                 console.log('点击了删除按钮')
+                 if (typeof(selectRowData.equipmentId) == "undefined") 
+                 {
+            		layer.msg('请点击选择一行数据');
+            	 } else 
+            	 {
+            		  var equipmentId=selectRowData.equipmentId;
+           		      var url="/sre-equipment/delete/"+equipmentId;
+	           		  layer.confirm('确定要删除吗？', { btn: ['确定','取消']}, function(){
+	         				 ajaxDeleteOpt(url,"post","删除成功","删除失败");
+	         			}, function(){
+	         			 
+	         			});
+            	}
+            
+              
+            },
+            detailEvent: function(){  //点击详情按钮
+            	if (typeof(selectRowData.equipmentId) == "undefined") {
+            		layer.msg('请点击选择一行数据');
+            	} else {
+            		 var equipmentId=selectRowData.equipmentId;
+            		 var temUrl="/sre-equipment/get/" + equipmentId;
+            		 layer.open({
+                         title:'详情',
+                         skin: 'layui-layer-lan',
+                         shadeClose: true,
+                         type: 2,
+                         fixed: false,
+                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                         maxmin: false,
+                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                          area: ['70%', '90%'],
+                         content:  temUrl
+                     });
+            	}
+            
+            },
+            acceptSoftEvent: function(){  //软件验收
+            	if (typeof(selectRowData.equipmentId) == "undefined") {
+            		layer.msg('请点击选择一行数据');
+            	} else {
+            		 var equipmentId=selectRowData.equipmentId;
+            		 layer.open({
+                         title:'软件验收-》新增'
+                         ,skin: 'layui-layer-lan'
+                         ,shadeClose: true
+                         ,type: 2
+                         ,fixed: false
+                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                         ,maxmin: false
+                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                         ,area: ['60%', '80%']
+                         ,content: "/sre-accept/software/add?equipmentId="+equipmentId
+                     });
+            	}
+            },
+            acceptHareEvent: function(){  //硬件验收
+            	if (typeof(selectRowData.equipmentId) == "undefined") {
+            		layer.msg('请点击选择一行数据');
+            	} else {
+            		 var equipmentId=selectRowData.equipmentId;
+            		 layer.open({
+                         title:'硬件验收-》新增'
+                         ,skin: 'layui-layer-lan'
+                         ,shadeClose: true
+                         ,type: 2
+                         ,fixed: false
+                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                         ,maxmin: false
+                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                         ,area: ['60%', '80%']
+                         ,content: "/sre-accept/hardware/add?equipmentId="+equipmentId
+                     });
+            	}
+            }
+            
+        };
+
+      //监听排序
+        table.on('sort(model-table)', function(obj){
+            console.log(this, obj.field, obj.type)
+            //return;
+            //服务端排序
+            table.reload('model-table', {
+                initSort: obj,
+                page: {curr: 1}, //重新从第一页开始
+                where: { //重新请求服务端
+                    key: obj.field, //排序字段
+                    order: obj.type //排序方式
+                }
+            });
+        });
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+         
+        
+        
+    });
+    
+    
+    
+    
+    /* function renderTable()
+    { 
+    	
+       //渲染
+       table.render({
+           elem: '#processdef-table',
+           url: '/sre-equipment/list',
+           method:"POST",
+           where: {param: {"name":$("#name").val(),"equipmentIds":""}},
+           limit: 15,
+           id: 'processdef-table',
+           height: commonDislodgeTable(),
+           page: {
+               groups: 5,
+               limits: [15,30,45,60],
+               layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+               first: '首页', //不显示首页
+               last: '尾页', //不显示尾页
+               theme: '#0F9EE0'
+           },
+           cols: [[
+           	   {type : 'checkbox', event : 'changeEvents', width : 55},
+               {title : '序号', type : 'numbers', width : 55},
+               {field : 'auditStatus', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus1(d.auditStatus) }}</div>', width : 55},
+               {field : 'equipmentCode', title : '编号', style : 'cursor: pointer;', align : 'center', width : '20%'},
+               {field : 'name', title : '装备名称', style : 'cursor: pointer;', align : 'center', width : '15%'},
+               {field : 'planMoney', title : '计划金额(万元)', style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'applyAcount', title : '申请数量', style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'createDate', title : '时间', style : 'cursor: pointer;', align : 'center', templet : '#dateTpl'},
+               
+           ]],
+           done: function (res, curr, count) {
+               // 点击行联动选择框--单选
+               $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+               	var index=parseInt($(this).index()+1);
+                   $('tr').removeClass('layui-table-click');
+                   $(this).addClass('layui-table-click');
+                   $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                   $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                   selectRowData=res.data[index-1];
+                   var auditStatus=selectRowData.auditStatus;
+                   if(auditStatus=='0' || auditStatus=='3' )
+                   {
+                	  
+                	   $("#editEvent").attr("disabled",false);
+                	   $("#deleteEvent").attr("disabled",false);
+                   }else if(auditStatus=='1' || auditStatus=='2')
+                   {
+                	   $("#editEvent").attr("disabled",true);
+                	   $("#deleteEvent").attr("disabled",true);
+                   }
+                   
+                   
+               });
+           }
+       });
+    }
+     */
+    
+    /*formName：form表单名称，
+    type：post、get,delete,put 
+    backurl:操作成功后返回地址
+    successMsg：成功提示
+    failMsg：失败提示 */
+    function ajaxDeleteOpt(url,type,successMsg,failMsg)
+    {
+    	 $.ajax({
+      	     type:type,
+      	     url: url,
+      	     dataType:"json",
+      	     async: false, 
+      	     cache: false,
+      	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+             success:function(data,status)
+             {    
+        	  
+    	          if(data.success==true ||data.success=='true')
+    	          {
+    	        	  layer.alert(
+    	        			  successMsg, 
+    	                      {icon: 1,closeBtn: 0 },
+    	                      function () 
+    	                      {
+    	                    	 //  renderTable();
+    	                    	   layer.closeAll();
+    	                      });
+    	       	   
+    	          } else
+    	          {
+    	        	 layer.alert("操作失败");
+    	          }
+    	     
+    		   },
+    		   error:function()
+    		   {
+    		    	layer.alert("网络访问错误");
+    		   }
+        
+      });
+    } 
+    
+    
+   
+   
+
+</script>
+
+</body>
+</html>

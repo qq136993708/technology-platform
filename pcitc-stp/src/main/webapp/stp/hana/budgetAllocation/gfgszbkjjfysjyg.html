@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+<div class="searchBox">
+    <!--查询条件-->
+    <label class="dateInput">
+            <span>年份</span>
+            <input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
+    </label>
+       
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"  onclick="serarch()">查询</button>
+    </div>
+    
+</div>
+
+
+<table id="myTable" class="layui-table" lay-data="{url:'/ba/gfgszbkjjfysjyg_data'}">
+  <thead>
+    <tr>
+      <th lay-data="{type:'numbers'}" rowspan="2">序号</th>
+      <th lay-data="{field:'unit_name', width:'52%'}" rowspan="2">类别</th>
+      <th lay-data="{align:'center',width:'45%'}" colspan="3">科技经费预算</th>
+    </tr>
+    <tr>
+      <th lay-data="{field:'zbx_money',align:'right'}">资本性（万元）</th>
+      <th lay-data="{field:'fyx_money',align:'right'}">费用性（万元）</th>
+      <th lay-data="{field:'hj_money',align:'right'}">合计（万元）</th>
+    </tr>
+  </thead>
+</table>
+
+
+
+<script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
+<script type="text/javascript">
+    // 时间格式化
+    function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+</script>
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script>
+var table,selectRowData;
+var fzdw=$('#fzdw').val();
+
+
+layui.config({
+    base: '/layuiadmin/module/modules/' //静态资源所在路径
+}).use(['jquery','form', 'laydate','table','laypage'], function(){
+	$ = layui.jquery,table = layui.table,form = layui.form,laydate = layui.laydate,form.render(null, 'component-form-group');
+    laydate.render({elem: '#year',format: 'yyyy'});
+});
+
+function serarch()
+{
+	table.reload('myTable', {
+		  url: '/ba/gfgszbkjjfysjyg_data'
+		  ,where: {"year":$("#year").val()} 
+	});
+}
+serarch(); 
+</script>
+
+</body>
+</html>

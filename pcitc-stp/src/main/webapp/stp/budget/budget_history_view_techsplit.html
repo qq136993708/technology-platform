@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>历年参考数据</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        .con-box{margin: 10px 20px;}
+        .table-title{height: 10px;line-height: 10px;}
+    </style>
+</head>
+<body>
+<div class="con-box">
+    <#list tb_datas as tb>
+	    <p class="table-title">&nbsp;&nbsp;</p>
+	    <div class="bottom-table-box">
+	        <table id="${tb.dataId}" class="layui-table" lay-filter="${tb.dataId}" lay-data="{limit:100,totalRow: true,height: '350'}">
+	            <thead>
+	            	<tr>
+	                	<th lay-data="{field:'no', width: '10%', align:'center',totalRowText: '合计'}" rowspan="3">序号</th>
+	                    <th lay-data="{field:'displayName', width: '15%'}" rowspan="3">${tb.nd}预算项目</th>
+	                   	<th lay-data="{field:'jtgs', edit:true,align: 'right',totalRow: true,width:'100'}" rowspan="3">${tb.nd}集团公司</th>
+	                    <th lay-data="{align: 'center'}" colspan="9">${tb.nd}股份公司</th>
+	                    <th lay-data="{field:'xtw', edit:true,align:'right',totalRow: true,width:'100'}" rowspan="3"><span></span>${tb.nd}系统外</th>
+	                </tr>
+	                <tr>
+	                    <th lay-data="{align:'center'}"  colspan="8"><span></span>直属院</th>
+	                    <th lay-data="{field:'gfFzgs', edit:true,align: 'right',totalRow: true,width:'100'}"  rowspan="2">分子公司</th>
+	                </tr>
+	                <tr>
+	                    <th lay-data="{field:'gfZsyKty', edit:true,align: 'right',totalRow: true}">勘探院</th>
+	                    <th lay-data="{field:'gfZsyGcy', edit:true,align: 'right',totalRow: true}">工程院</th>
+	                    <th lay-data="{field:'gfZsyWty', edit:true,align: 'right',totalRow: true}">物探院</th>
+	                    <th lay-data="{field:'gfZsySky', edit:true,align: 'right',totalRow: true}">石科院</th>
+	                    <th lay-data="{field:'gfZsyBhy', edit:true,align: 'right',totalRow: true}">北化院</th>
+	                    <th lay-data="{field:'gfZsyFyy', edit:true,align: 'right',totalRow: true}">抚研院</th>
+	                    <th lay-data="{field:'gfZsyShy', edit:true,align: 'right',totalRow: true}">上海院</th>
+	                    <th lay-data="{field:'gfZsyQdy', edit:true,align: 'right',totalRow: true}">青岛院</th>
+	                </tr>
+	            </thead>
+	        </table>
+	    </div>
+    </#list>
+    
+</div>
+<div class="form-bottom">
+    <div class="form-bottom-btns">
+        <button type="button"
+                class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
+                id="cancel">关闭
+        </button>
+    </div>
+</div>
+    <script>
+        layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
+            var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
+            publicMethods.ajaxPost("/budget/search-techsplit-final-history-list",null, function (data) {
+            	$.each(data,function(index,dt){
+       				table.reload(dt.dataId, {"data": dt.items});
+       				/* var t2=t3=t4=t5=t6=t7=0;
+       				$.each(dt.items,function(i,dt){
+    					var align = dt.level == 0?"left":"right";
+    					var no = dt.level == 0?dt.no:"";
+    					$(".layui-table-body").eq(index).find("tr").eq(i).find('td').eq(1).attr("align",align);
+    					$(".layui-table-body").eq(index).find("tr").eq(i).find('td').eq(0).find("div").html(no);
+    					if(dt.level == 0){
+              				t2 += parseInt(dt.lyTotal);
+              				t3 += parseInt(dt.lyJz);
+              				t4 += parseInt(dt.lyXq);
+              				t5 += parseInt(dt.hgTotal);
+              				t6 += parseInt(dt.hgJz);
+              				t7 += parseInt(dt.hgXq);
+              			}
+    				});
+       				$(".layui-table-total").eq(index).find("tr").find('td').eq(2).find("div").html(t2);
+          			$(".layui-table-total").eq(index).find("tr").find('td').eq(3).find("div").html(t3);
+          			$(".layui-table-total").eq(index).find("tr").find('td').eq(4).find("div").html(t4);
+          			$(".layui-table-total").eq(index).find("tr").find('td').eq(5).find("div").html(t5);
+          			$(".layui-table-total").eq(index).find("tr").find('td').eq(6).find("div").html(t6);
+          			$(".layui-table-total").eq(index).find("tr").find('td').eq(7).find("div").html(t7); */
+          			
+       			});
+            	
+ 		   	});
+            $("#cancel").click(function () {
+    	        var index = parent.layer.getFrameIndex(window.name);
+    	        parent.layer.close(index);
+    	    });
+        });
+    </script>
+</body>
+</html>

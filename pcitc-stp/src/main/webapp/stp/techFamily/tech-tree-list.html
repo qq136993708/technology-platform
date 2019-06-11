@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>技术族分类</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+	<link rel="stylesheet" href="/layuiadmin/style/common.css">
+	<link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+	  
+	<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+	<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
+	<script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
+	<script src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/common/js/base.js"></script>
+
+</head>
+<body>
+	<div class="treeTableContainer">
+		<div class="treeBox">
+           <!--加标题-->
+           <div class="title-box">
+               <span>技术族树</span>
+           </div>
+           <div class="layui-side-scroll">
+               <!-- 左侧子菜单 -->
+               <ul id="showTree" class="ztree"></ul>
+           </div>
+	    </div>
+	
+		<div class="treeTableBox">
+		    <div class="searchBox">
+		        <!--查询条件-->
+		        <label class="dateInput">
+		            <span>技术名称</span>
+		            <input type="text" name="typeName" placeholder="请输入技术名称" title="技术名称" autocomplete="off" class="form-control" id="typeName">
+		        </label>
+		        <!--按钮组-->
+		        <div class="btnGroup">
+		            <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+		            <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
+		        </div>
+		    </div>
+			<div class="tableToolBox" id="userDiv">
+		        <div class="whiteLine"></div>
+		        <div  class="tableBtns">
+                    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg"
+                            data-type="templateDownload">模板下载
+                    </button>
+                    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_import btnMyBgImg"
+                            data-type="dataExpert">数据导入
+                    </button>
+		            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg " data-type="addEvent">新增</button>
+		            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent" >删除</button>
+		        </div>
+		    </div>
+		    <table id="showTable" class="layui-hide" lay-filter="tableEvent"></table>
+		</div>
+	</div>
+    <a id="templateDownloadhref" name="templateDownloadhref" href="/template/TfcTemplate.xls" target="_top"></a>
+
+<!--<div class="layui-footer" style="text-align: center">-->
+<!--© layui.com - 底部固定区域-->
+<!--</div>-->
+<!--树js-->
+<script type="text/javascript">
+	var zNodes;
+	var treeId;
+	var treeName;
+	var temTypeId;
+	var temTypeCode;
+	var temTypeName;
+	var temFunUrl='';
+	var selectRowData='';
+	
+	$(function() {
+		$.ajax({
+			url: "/tech-family/type/tech-type-tree",//这个就是请求地址对应sAjaxSource
+            type : 'get',
+            headers: {'Content-Type' : 'application/json'},
+            dataType : 'json',
+            async : false,
+            success : function(data){
+            	zNodes = data;
+            },
+            error : function(msg) {
+            	layer.msg(msg);
+            }
+        });
+	});
+	
+	// 决定某个节点是否进行异步操作的关键是isParent属性，当isParent为true，是异步启动的必要条件
+	var temUrl = '/tech-family/type/tech-type-tree';
+    var setting = {
+    	// 异步动态加载
+   		async: {
+               enable : true,
+               url : temUrl,
+               dataType :'json',
+               type : 'get',
+               //异步查询时，把节点code传递后台，查询此节点下的节点。
+               autoParam:["code"]	
+        },
+        data: {
+            simpleData: {
+                enable: true
+            }
+        },
+        view:{
+            showIcon: false
+        },
+        callback : {//请求成功后回调
+            onClick : onClickMenu,//点击相关节点触发的事件
+            onAsyncSuccess : ztreeOnAsyncSuccess,//异步加载成功后执行的方法
+        }
+    };
+    
+    //获取树成功后进行的回调操作。数据如果需要二次加工的话，调用此方法
+    function ztreeOnAsyncSuccess(event, treeId, treeNode) {
+    	
+    };
+    
+  	//局部刷新节点（当新增孩子/删除孩子时）
+    function ztreeAsyncChildNodes() {
+		var zTree = $.fn.zTree.getZTreeObj("showTree");
+		var type = "refresh";
+		var silent = false;
+		nodes = zTree.getSelectedNodes();
+		if (nodes.length == 0) {
+			alert("请先选择一个父节点");
+		}
+		for (var i=0, l=nodes.length; i<l; i++) {
+			zTree.reAsyncChildNodes(nodes[i], type, silent);
+			if (!silent) zTree.selectNode(nodes[i]);
+		}
+    };
+
+ 	// 点击树节点时，处理变量和右侧表格
+    function onClickMenu(event,treeId,treeNode,clickFlag) {
+    	treeId = treeNode.id;
+    	treeName = treeNode.name;
+    	temTypeCode = treeNode.code;
+    	temTypeId = treeNode.id;
+    	temTypeName = treeNode.name;
+    	temFunUrl = treeNode.treeUrl;
+    	
+    	active.searchEvent();
+    }
+
+    $(document).ready(function () {
+        $.fn.zTree.init($("#showTree"), setting, zNodes);
+    });
+
+
+<!--表格js-->
+	var table, active, laydate, laypage;
+	var messageInfo = '操作成功';
+	
+	layui.use(['jquery','table','laydate','laypage','laytpl'], function(){
+		table = layui.table,
+        $ = layui.jquery,
+        laydate = layui.laydate,
+        laypage = layui.laypage;
+        
+        function renderTable(){
+        	var typeName = $('#typeName').val();
+        	var param=JSON.parse(window.localStorage.getItem("param"));
+        	var lodingMsg = layer.msg('数据加载中....');
+            //渲染
+            table.render({
+                elem: '#showTable',
+                url: '/tech-family/type/tech-type-list',
+                method:"POST",
+                where: {param: {"typeCode":temTypeCode,"status":'1',"typeName":typeName,"functionCode":param.code}},
+                limit: 15,
+                id: 'showTable',
+                height: commonDislodgeTable(), 
+                page: {
+                    groups: 5,
+                    limits: [15,30,45,60],
+                    layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                    first: '首页', //不显示首页
+                    last: '尾页', //不显示尾页
+                    theme: '#0F9EE0'
+                },
+                cols: [[
+    				{type:'checkbox', event: 'changeEvents', width: '5%'},
+                    {title:'序号', type:'numbers', width: '5%'},
+                    {field:'typeName',   title:'分类名称', width: '30%',  style:'cursor: pointer;'},
+                    {field:'typeCode',      title:'分类编码', width: '15%', style:'cursor: pointer;'},
+                    {field:'typeScope',      title:'分类标签', width: '10%', style:'cursor: pointer;'},
+                    {field:'directionInfo',      title:'发展方向', width: '15%', style:'cursor: pointer;'},
+                    {field:'isHot',      title:'是否热点', style:'cursor: pointer;'},
+                    {field:'remarks',   title:'说明',  style:'cursor: pointer;'}
+                ]],
+                done: function (res, curr, count) {
+	            	layer.close(lodingMsg);
+	            	
+	            	$(document).on("click",".layui-table-body table.layui-table tbody tr", function () {
+                        var index = $(this).attr('data-index');
+                        var tableBox = $(this).parents('.layui-table-box');
+                        //存在固定列
+                        if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length>0) {
+                            tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+                        } else {
+                            tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+                        }
+                        var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+                        if (checkCell.length>0) {
+                            checkCell.click();
+                        }
+                    });
+                    $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+                        e.stopPropagation();
+                    });
+	                
+	                
+	            }
+            });
+        }
+    	
+        renderTable();
+        window.renderTable = renderTable;
+        // 触发不同的按钮事件
+        var $ = layui.$;
+     	active = {
+            addEvent: function(){ //点击新增按钮
+            	if (typeof(temTypeId) == "undefined") {
+            		layer.msg("请先选择左侧技术族分类节点");
+            	} else {
+            		var temUrl="/tech-family/type/ini-add?tfmTypeId="+temTypeId;
+                    layer.open({
+                        title:'新增',
+                        skin: 'layui-layer-lan',
+                        shadeClose: true,
+                        type: 2,
+                        fixed: false,
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        maxmin: true,
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        area: ['800px', '450px'],
+                        content:  temUrl
+                    });
+            	}
+            },
+            deleteEvent: function(){ //点击删除按钮
+            	var data = table.checkStatus('showTable').data;
+            	//layer.msg(JSON.stringify(data[0].id));
+            	var typeIds = "";
+            	var temParentId = "";
+            	var temTypeIndex = "";
+            	var alterFlag = "false";
+            	for (var i=0; i < data.length; i++) {
+            		typeIds = typeIds + data[i].typeIds + ",";
+            		temParentId = data[i].parentId;
+            		temTypeIndex = temTypeIndex + data[i].typeIndex + ",";
+            		if (data[i].isParent == '1') {
+            			alterFlag = "true";
+            		}
+            	}
+            	
+            	var jsonstr = {"tfmTypeId":typeIds, "typeIndex":temTypeIndex, "parentId":temParentId};
+                if (data.length == 0) {
+            		layer.msg('请点击选择要删除的数据!');
+            	} else {
+            		var alterStr = "确定要删除吗？";
+            		if (alterFlag == 'true') {
+            			alterStr = "要删除的节点中有子节点，确定要删除吗？";
+            		}
+            		layer.confirm(alterStr, function(){
+            			$.ajax({
+                			type : "DELETE",
+                            contentType : "application/json",
+                            dataType : "json",
+                            data : JSON.stringify(jsonstr),
+                            url : "/tech-family/type",
+                            error : function(data) {
+                            	renderTable();
+                            	ztreeAsyncChildNodes();
+                            },
+                            success : function(data) {
+                            	renderTable();
+                            	ztreeAsyncChildNodes();
+                            }
+                        });
+                    });
+            	}
+            },
+            searchEvent: function() { //点击查询按钮
+            	renderTable();
+            },
+            resetEvent: function() { //点击重置按钮
+            	$('#typeName').val("");
+            	active.searchEvent();
+            },
+            alertEvent: function() { //点击重置按钮
+            	$('#typeName').val("");
+            	layer.msg(messageInfo);
+            	active.searchEvent();
+            },
+            templateDownload: function () {
+                document.getElementById("templateDownloadhref").click();
+            },
+            dataExpert: function () {
+                var randomInt = Math.random();
+                upload_File(randomInt, '', 'edit', 'importFileStandard');
+            },
+        };
+
+        //监听排序
+        table.on('sort(showTable)', function(obj){
+            console.log(this, obj.field, obj.type)
+            //return;
+            //服务端排序
+            table.reload('showTable', {
+                initSort: obj,
+                page: {curr: 1}, //重新从第一页开始
+                where: { //重新请求服务端
+                    key: obj.field, //排序字段
+                    order: obj.type //排序方式
+                }
+            });
+        });
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+    });
+
+    function importFileStandard(data, param) {
+        //param:返回上面拼装的参数json字符串，data：json文件数组
+        var fileDatas = [];
+        for (var key in data) {
+            var obj_file = data[key];
+            fileDatas.push(obj_file);
+        }
+        ajaxPost("/standardBaseExpert/importFileTfc", {"param": JSON.stringify(fileDatas)}, function (data) {
+            alert(data.message);
+            renderTable();
+        });
+        renderTable();
+        ztreeAsyncChildNodes();
+    }
+</script>
+</body>
+</html>

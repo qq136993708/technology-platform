@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+<div class="searchBox">
+    <!--查询条件-->
+    <label class="dateInput">
+
+        <span>模型名称</span>
+        <input type="text" name="modelName" placeholder="请输入模型名称"
+               title="模型名称" autocomplete="off"
+               class="form-control" id="modelName1">
+    </label>
+    <label class="selectInput">
+        <span>城市</span>
+        <select name="city" lay-verify="" lay-filter="test">
+            <option value="">请选择一个城市</option>
+            <option value="010">北京</option>
+            <option value="021">上海</option>
+            <option value="0571">杭州</option>
+        </select>
+    </label>
+
+    <!--日期范围-->
+    <label class="dateInput">
+        <span>日期范围</span>
+        <input type="text" class="form-control" id="test-laydate-range-date" placeholder="请选择一个日期范围">
+    </label>
+
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
+        </button>
+        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
+                data-type="resetEvent">重置
+        </button>
+    </div>
+</div>
+
+<div class="tableBox">
+    <div class="tableToolBox">
+        <div class="tableBtns">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="all">
+                <span class="btn-state btn-all"></span>全部
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="draft">
+                <span class="btn-state btn-yellow"></span>草稿
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="approval">
+                <span class="btn-state btn-green"></span>审批中
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="approved">
+                <span class="btn-state btn-blue"></span>已审批
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_look btnMyBgImg"
+                    data-type="lookEvent">查看
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_reset2 btnMyBgImg"
+                    data-type="codeReset">密码重置
+            </button>
+            <!--按钮分割-->
+            <img src="/layuiadmin/layui/images/icon-cut.png" alt="">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save2 btnMyBgImg"
+                    data-type="saveEvent">保存
+            </button>
+            <img src="/layuiadmin/layui/images/icon-cut.png" alt="">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_print btnMyBgImg"
+                    data-type="printEvent">打印
+            </button>
+            <img src="/layuiadmin/layui/images/icon-cut.png" alt="">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
+                    data-type="addEvent">新增
+            </button>
+            <img src="/layuiadmin/layui/images/icon-cut.png" alt="">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"
+                    data-type="editEvent">编辑
+            </button>
+            <img src="/layuiadmin/layui/images/icon-cut.png" alt="">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"
+                    data-type="deployEvent">部署
+            </button>
+            <img src="/layuiadmin/layui/images/icon-cut.png" alt="">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg"
+                    data-type="exportEvent">导出
+            </button>
+            <img src="/layuiadmin/layui/images/icon-cut.png" alt="">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_import btnMyBgImg"
+                    data-type="importEvent">导入
+            </button>
+            <img src="/layuiadmin/layui/images/icon-cut.png" alt="">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg"
+                    data-type="detailEvent">详情
+            </button>
+            <img src="/layuiadmin/layui/images/icon-cut.png" alt="">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
+                    data-type="deleteEvent">删除
+            </button>
+        </div>
+    </div>
+
+    <table id="test" class="layui-hide" lay-filter="tableData"></table>
+</div>
+
+<!--表格数据操作js-->
+<script>
+    /*
+        1、时间戳转换 use引入laytpl 并定义util=layui.laytpl
+        2、table渲染 cols里有时间添加 templet:  '<div>{{ layui.laytpl.toDateString(d.createTime) }}</div>'
+           toDateString(d.createTime)   d.createTime里的createTime与field的一致
+    */
+    layui.use(['jquery', 'form', 'laydate', 'table', 'laypage','laytpl'], function () {
+        // var timer = null;
+        // var lodingMsg = layer.msg('数据加载中....')
+        var table = layui.table,
+            util = layui.laytpl,
+            form = layui.form,
+            laydate = layui.laydate,
+            $ = layui.jquery;
+        //获取当前行数据  设置全局变量
+        var selectRowData = '';
+        /*获取参数  id:param.id   code:param.code   functionbuttons:param.functionbuttons*/
+        var param=JSON.parse(window.localStorage.getItem("param"));
+
+        // ** 搜索框宽度随着内容自适应 加到公用js中
+        $(function(){
+            //propertychange监听input里面的字符变化,属性改变事件
+            $('.form-control').bind('input propertychange', function() {
+                var $this = $(this);
+                console.log($this);
+                var text_length = $this.val().length;//获取当前文本框的长度
+                var current_width = parseInt(text_length) *12;//该16是改变前的宽度除以当前字符串的长度,算出每个字符的长度
+                console.log(current_width)
+                $this.css("width",current_width+"px");
+            });
+        })
+        //** 搜索框宽度随着内容自适应End
+        function renderTable(){
+            table.render({
+                elem: '#test' //表格容器
+                , url: '/layuiadmin/json/table/demo1.json' //请求的url地址
+                , limit: 15 //每页默认显示的数量
+                , id: 'idTest'
+                , height: commonDislodgeTable()
+                , page: {
+                    count: 500 //数据总数，从服务端得到
+                    , groups: 5
+                    , limits: [15, 30, 45, 60]
+                    , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                    , first: '首页' //不显示首页
+                    , last: '尾页' //不显示尾页
+                    , theme: '#0F9EE0'
+                },
+                cols: [[
+                    {type: 'checkbox', event: 'changeEvents'}
+                    , {field: 'id', title: '序号',type:'numbers', style: 'cursor: pointer;'}
+                    , {field: 'state', title: '状态', style: 'cursor: pointer;',width: 54, templet:  '<div>{{ layui.laytpl.auditStatus(d.state) }}</div>'}
+                    , {field: 'username', title: '模型ID', style: 'cursor: pointer;'}
+                    , {field: 'email', title: '模型名称', style: 'cursor: pointer;'}
+                    , {field: 'sex', title: '模型Key', style: 'cursor: pointer;'}
+                    , {field: 'city', title: '模型类别', style: 'cursor: pointer;'}
+                    , {field: 'sign', title: '模型版本号', width: '30%', style: 'cursor: pointer;'}
+                    , {field: 'createTime', title: '创建时间', style: 'cursor: pointer;'}
+                    , {field: 'ip', title: '部署ID', style: 'cursor: pointer;', event: 'setActive', align:'right'}
+                ]],
+                done: function(res, curr, count){
+                    alarmTableRowSpan("sex",6);   // 在此处合并单元格,我在这里要合并fileid为areaName的列
+                }
+            });
+
+            /**
+             * name layui合并tbody中单元格的方法
+             * @param fieldName  要合并列的field属性值
+             * @param index 表格的索引值 从1开始
+             * @desc 此方式适用于没有列冻结的单元格合并
+             */
+            function alarmTableRowSpan(fieldName, index) {
+                var fixedNode = document.getElementsByClassName("layui-table-body")[index - 1];
+
+                if (!fixedNode) {
+                    return false;
+                }
+                var child = fixedNode.getElementsByTagName("td");
+                var childFilterArr = [];
+                // 获取data-field属性为fieldName的td
+                for (var i = 0; i < child.length; i++) {
+                    if (child[i].getAttribute("data-field") == fieldName) {
+                        childFilterArr.push(child[i]);
+                    }
+                }
+                // 获取td的个数和种类
+                var childFilterTextObj = {};
+                for (var i = 0; i < childFilterArr.length; i++) {
+                    var childText = childFilterArr[i].textContent;
+                    if (childFilterTextObj[childText] == undefined) {
+                        childFilterTextObj[childText] = 1;
+                    } else {
+                        var num = childFilterTextObj[childText];
+                        childFilterTextObj[childText] = num * 1 + 1;
+                    }
+                }
+                // 给获取到的td设置合并单元格属性
+                for (var key in childFilterTextObj) {
+                    var tdNum = childFilterTextObj[key];
+                    var canRowSpan = true;
+                    for (var i = 0; i < childFilterArr.length; i++) {
+                        if (childFilterArr[i].textContent == key) {
+                            if (canRowSpan) {
+                                childFilterArr[i].setAttribute("rowspan", tdNum);
+                                canRowSpan = false;
+                            } else {
+                                childFilterArr[i].style.display = "none";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        renderTable();
+    });
+
+</script>
+
+</body>
+</html>

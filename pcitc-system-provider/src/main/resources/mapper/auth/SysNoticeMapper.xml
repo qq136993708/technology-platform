@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.system.SysNoticeMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.system.SysNotice">
+    <id column="notice_id" jdbcType="VARCHAR" property="noticeId" />
+    <result column="notice_title" jdbcType="VARCHAR" property="noticeTitle" />
+    <result column="notice_summary" jdbcType="VARCHAR" property="noticeSummary" />
+    <result column="notice_content" jdbcType="VARCHAR" property="noticeContent" />
+    <result column="notice_creater" jdbcType="VARCHAR" property="noticeCreater" />
+    <result column="notice_createtime" jdbcType="VARCHAR" property="noticeCreatetime" />
+    <result column="notice_receiver" jdbcType="VARCHAR" property="noticeReceiver" />
+    <result column="notice_receiverNames" jdbcType="VARCHAR" property="noticeReceivernames" />
+    <result column="notice_publisher" jdbcType="VARCHAR" property="noticePublisher" />
+    <result column="notice_publishtime" jdbcType="VARCHAR" property="noticePublishtime" />
+    <result column="is_published" jdbcType="INTEGER" property="isPublished" />
+    <result column="is_variable" jdbcType="INTEGER" property="isVariable" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    notice_id, notice_title, notice_summary, notice_content, notice_creater, notice_createtime, 
+    notice_receiver, notice_receiverNames, notice_publisher, notice_publishtime, is_published, 
+    is_variable
+  </sql>
+  <select id="selectByExample" parameterType="com.pcitc.base.system.SysNoticeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from sys_notice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_notice
+    where notice_id = #{noticeId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sys_notice
+    where notice_id = #{noticeId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.system.SysNoticeExample">
+    delete from sys_notice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.system.SysNotice">
+    insert into sys_notice (notice_id, notice_title, notice_summary, 
+      notice_content, notice_creater, notice_createtime, 
+      notice_receiver, notice_receiverNames, notice_publisher, 
+      notice_publishtime, is_published, is_variable
+      )
+    values (#{noticeId,jdbcType=VARCHAR}, #{noticeTitle,jdbcType=VARCHAR}, #{noticeSummary,jdbcType=VARCHAR}, 
+      #{noticeContent,jdbcType=VARCHAR}, #{noticeCreater,jdbcType=VARCHAR}, #{noticeCreatetime,jdbcType=VARCHAR}, 
+      #{noticeReceiver,jdbcType=VARCHAR}, #{noticeReceivernames,jdbcType=VARCHAR}, #{noticePublisher,jdbcType=VARCHAR}, 
+      #{noticePublishtime,jdbcType=VARCHAR}, #{isPublished,jdbcType=INTEGER}, #{isVariable,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.system.SysNotice">
+    insert into sys_notice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="noticeId != null">
+        notice_id,
+      </if>
+      <if test="noticeTitle != null">
+        notice_title,
+      </if>
+      <if test="noticeSummary != null">
+        notice_summary,
+      </if>
+      <if test="noticeContent != null">
+        notice_content,
+      </if>
+      <if test="noticeCreater != null">
+        notice_creater,
+      </if>
+      <if test="noticeCreatetime != null">
+        notice_createtime,
+      </if>
+      <if test="noticeReceiver != null">
+        notice_receiver,
+      </if>
+      <if test="noticeReceivernames != null">
+        notice_receiverNames,
+      </if>
+      <if test="noticePublisher != null">
+        notice_publisher,
+      </if>
+      <if test="noticePublishtime != null">
+        notice_publishtime,
+      </if>
+      <if test="isPublished != null">
+        is_published,
+      </if>
+      <if test="isVariable != null">
+        is_variable,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="noticeId != null">
+        #{noticeId,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeTitle != null">
+        #{noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeSummary != null">
+        #{noticeSummary,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeContent != null">
+        #{noticeContent,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeCreater != null">
+        #{noticeCreater,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeCreatetime != null">
+        #{noticeCreatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeReceiver != null">
+        #{noticeReceiver,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeReceivernames != null">
+        #{noticeReceivernames,jdbcType=VARCHAR},
+      </if>
+      <if test="noticePublisher != null">
+        #{noticePublisher,jdbcType=VARCHAR},
+      </if>
+      <if test="noticePublishtime != null">
+        #{noticePublishtime,jdbcType=VARCHAR},
+      </if>
+      <if test="isPublished != null">
+        #{isPublished,jdbcType=INTEGER},
+      </if>
+      <if test="isVariable != null">
+        #{isVariable,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.system.SysNoticeExample" resultType="java.lang.Long">
+    select count(*) from sys_notice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sys_notice
+    <set>
+      <if test="record.noticeId != null">
+        notice_id = #{record.noticeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeTitle != null">
+        notice_title = #{record.noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeSummary != null">
+        notice_summary = #{record.noticeSummary,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeContent != null">
+        notice_content = #{record.noticeContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeCreater != null">
+        notice_creater = #{record.noticeCreater,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeCreatetime != null">
+        notice_createtime = #{record.noticeCreatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeReceiver != null">
+        notice_receiver = #{record.noticeReceiver,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeReceivernames != null">
+        notice_receiverNames = #{record.noticeReceivernames,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticePublisher != null">
+        notice_publisher = #{record.noticePublisher,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticePublishtime != null">
+        notice_publishtime = #{record.noticePublishtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isPublished != null">
+        is_published = #{record.isPublished,jdbcType=INTEGER},
+      </if>
+      <if test="record.isVariable != null">
+        is_variable = #{record.isVariable,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sys_notice
+    set notice_id = #{record.noticeId,jdbcType=VARCHAR},
+      notice_title = #{record.noticeTitle,jdbcType=VARCHAR},
+      notice_summary = #{record.noticeSummary,jdbcType=VARCHAR},
+      notice_content = #{record.noticeContent,jdbcType=VARCHAR},
+      notice_creater = #{record.noticeCreater,jdbcType=VARCHAR},
+      notice_createtime = #{record.noticeCreatetime,jdbcType=VARCHAR},
+      notice_receiver = #{record.noticeReceiver,jdbcType=VARCHAR},
+      notice_receiverNames = #{record.noticeReceivernames,jdbcType=VARCHAR},
+      notice_publisher = #{record.noticePublisher,jdbcType=VARCHAR},
+      notice_publishtime = #{record.noticePublishtime,jdbcType=VARCHAR},
+      is_published = #{record.isPublished,jdbcType=INTEGER},
+      is_variable = #{record.isVariable,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.system.SysNotice">
+    update sys_notice
+    <set>
+      <if test="noticeTitle != null">
+        notice_title = #{noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeSummary != null">
+        notice_summary = #{noticeSummary,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeContent != null">
+        notice_content = #{noticeContent,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeCreater != null">
+        notice_creater = #{noticeCreater,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeCreatetime != null">
+        notice_createtime = #{noticeCreatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeReceiver != null">
+        notice_receiver = #{noticeReceiver,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeReceivernames != null">
+        notice_receiverNames = #{noticeReceivernames,jdbcType=VARCHAR},
+      </if>
+      <if test="noticePublisher != null">
+        notice_publisher = #{noticePublisher,jdbcType=VARCHAR},
+      </if>
+      <if test="noticePublishtime != null">
+        notice_publishtime = #{noticePublishtime,jdbcType=VARCHAR},
+      </if>
+      <if test="isPublished != null">
+        is_published = #{isPublished,jdbcType=INTEGER},
+      </if>
+      <if test="isVariable != null">
+        is_variable = #{isVariable,jdbcType=INTEGER},
+      </if>
+    </set>
+    where notice_id = #{noticeId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.system.SysNotice">
+    update sys_notice
+    set notice_title = #{noticeTitle,jdbcType=VARCHAR},
+      notice_summary = #{noticeSummary,jdbcType=VARCHAR},
+      notice_content = #{noticeContent,jdbcType=VARCHAR},
+      notice_creater = #{noticeCreater,jdbcType=VARCHAR},
+      notice_createtime = #{noticeCreatetime,jdbcType=VARCHAR},
+      notice_receiver = #{noticeReceiver,jdbcType=VARCHAR},
+      notice_receiverNames = #{noticeReceivernames,jdbcType=VARCHAR},
+      notice_publisher = #{noticePublisher,jdbcType=VARCHAR},
+      notice_publishtime = #{noticePublishtime,jdbcType=VARCHAR},
+      is_published = #{isPublished,jdbcType=INTEGER},
+      is_variable = #{isVariable,jdbcType=INTEGER}
+    where notice_id = #{noticeId,jdbcType=VARCHAR}
+  </update>
+  <!-- 首页查询公告列表 -->
+  <select id="selectNoticeMain" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_notice where is_published=1 and is_variable=1
+      order by notice_publishtime desc limit 0,6
+  </select>
+  <resultMap id="PublishedNoticeMap" type="com.pcitc.base.system.SysNotice">
+    <id column="notice_id" jdbcType="VARCHAR" property="noticeId" />
+    <result column="notice_title" jdbcType="VARCHAR" property="noticeTitle" />
+    <result column="notice_summary" jdbcType="VARCHAR" property="noticeSummary" />
+    <result column="notice_content" jdbcType="VARCHAR" property="noticeContent" />
+    <result column="notice_creater" jdbcType="VARCHAR" property="noticeCreater" />
+    <result column="notice_createtime" jdbcType="VARCHAR" property="noticeCreatetime" />
+    <result column="notice_receiver" jdbcType="VARCHAR" property="noticeReceiver" />
+    <result column="notice_receiverNames" jdbcType="VARCHAR" property="noticeReceivernames" />
+    <result column="notice_publisher" jdbcType="VARCHAR" property="noticePublisher" />
+    <result column="notice_publishtime" jdbcType="VARCHAR" property="noticePublishtime" />
+    <result column="is_published" jdbcType="INTEGER" property="isPublished" />
+    <result column="is_variable" jdbcType="INTEGER" property="isVariable" />
+    <result column="user_notice_status" jdbcType="INTEGER" property="userNoticeStatus" />
+  </resultMap>
+  <select id="selectPubNoticeList" parameterType="java.util.HashMap" resultMap="PublishedNoticeMap">
+    SELECT 
+	  sn.*, sun.user_notice_status
+	FROM
+	  sys_notice sn 
+	  INNER JOIN sys_user_notice sun 
+	    ON sn.notice_id = sun.notice_id 
+	<where>
+	    <if test="userId != null and userId != '' ">
+	        sun.user_id = #{userId}
+	    </if>
+	    <if test="noticeTitle != null and noticeTitle != '' ">
+	        AND sn.notice_title LIKE CONCAT(CONCAT('%', #{noticeTitle}),'%')
+	    </if>
+	    <if test="userNoticeStatus != null and userNoticeStatus != '' ">
+	        AND sun.user_notice_status = #{userNoticeStatus}
+	    </if>
+	    <if test="isPublished != null and isPublished != '' ">
+	        AND sn.is_published = #{isPublished}
+	    </if>
+	    <if test="isVariableisPublished != null and isVariable != '' ">
+	        AND sn.is_variable = #{isVariable}
+	    </if>
+    </where>
+   	ORDER BY 
+  	<choose>    
+       	<when test="orderByClause != null">    
+            ${orderByClause}
+       	</when>  
+       	<otherwise>
+           	notice_publishtime DESC
+       	</otherwise> 
+   	</choose>    
+  </select> 
+</mapper>

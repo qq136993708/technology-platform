@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        .layui-table-click,.layui-table-hover,.layui-table tbody tr:hover{background: none;}
+        .layui-table-header{display: none;}
+        .layui-table-view,.layui-table-page,.tableBox table tr td{border: none;}
+        .layui-table-body{margin-top: 20px;}
+        .layui-table-cell{height: auto;margin-bottom: 10px;}
+        p{width: 500px;height: auto;overflow: hidden;white-space: normal;/*text-overflow: ellipsis;*/
+            font-size: 13px;word-break:break-all;word-wrap:break-word;line-height: 20px;}
+        .layui-table-body{margin-top: 0;}
+        .layui-table-page{margin-bottom: 20px;}
+        .tableBox,.searchBox{padding-left:18px;margin: 0 auto;}
+        .tableBox{width: 52%;float: left;margin-bottom: 70px;}
+        .searchBox{height: 50px;border-bottom: 1px solid #dfdfdf;margin: 0 20px 10px 28px;padding-left: 0;
+            padding-top: 30px;}
+        .relevant{width: 34%;float: right;margin-right: 20px;}
+        .hotspot>.item{width: 100%;text-align: left;padding: 0;padding-top: 10px;}
+        .hotspot>.item a{font-size: 14px;color: #1890ff;line-height: 26px;}
+        .hotspot>.item a:hover{text-decoration:underline;}
+        .form-control{height: 28px !important;line-height: 28px !important;}
+        .c-nameC{height: 0px;}
+        .relevant p{margin-top: 0}
+    </style>
+</head>
+<body>
+<div class="searchBox">
+    <!--查询条件-->
+    <label class="dateInput">
+        <span>名称</span>
+        <input type="text" name="cgmc" placeholder="请输名称" title="名称" autocomplete="off" class="form-control" id="cgmc">
+    </label>
+
+    <label class="dateInput">
+        <span>hth</span>
+        <input type="text" name="hth" placeholder="hth" title="hth" autocomplete="off" class="form-control" id="hth">
+    </label>
+
+
+    <label class="dateInput">
+        <span>描述</span>
+        <input type="text" name="xmmc" placeholder="描述" title="描述" autocomplete="off" class="form-control" id="xmmc">
+    </label>
+    <input type="hidden" name="keyword"  value="${keyword}"  id="keyword">
+
+    <!--
+       <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="year" placeholder="请选择月份" title="月份" value="${year}"  autocomplete="off" class="form-control" id="year">
+        </label> -->
+    <!-- <div class="layui-input-inline">
+     <select name="companyCode" id="companyCode" >
+          <#list companyCodeList as vo>
+               <#if vo.g0GSJC == '全部'>
+                   <option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
+               </#if>
+             <#if vo.g0GSJC != '全部'>
+                   <option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
+               </#if>
+           </#list>
+        </select>
+   </div>
+     -->
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"  onclick="renderTable()">查询</button>
+    </div>
+</div>
+<div class="tableBox">
+    <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table>
+</div>
+<div class="relevant">
+    <!--<p>相关内容</p>
+    <div class="relevant-cont">
+        <div class="item">
+            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
+            <a href="javascript:;">合同签订率</a>
+        </div>
+        <div class="item">
+            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
+            <a href="javascript:;">合同签订率</a>
+        </div>
+        <div class="item">
+            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
+            <a href="javascript:;">合同签订率</a>
+        </div>
+        <div class="item">
+            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
+            <a href="javascript:;">合同签订率</a>
+        </div>
+        <div class="item">
+            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
+            <a href="javascript:;">合同签订率</a>
+        </div>
+        <div class="item">
+            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
+            <a href="javascript:;">合同签订率</a>
+        </div>
+    </div>-->
+    <p>搜索热点</p>
+    <div class="relevant-cont hotspot">
+        <div class="item">
+            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法</a>
+        </div>
+        <div class="item">
+            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+        </div>
+        <div class="item">
+            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+        </div>
+        <div class="item">
+            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+        </div>
+        <div class="item">
+            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+        </div>
+        <div class="item">
+            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+        </div>
+    </div>
+</div>
+<script id="dateTpl" type="text/html"> {{formatTime(d.SQRI)}} </script>
+<script type="text/javascript">
+    // 时间格式化
+    function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+</script>
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script>
+    var table,selectRowData;
+    var cgmc=$('#cgmc').val();
+
+    layui.config({
+        base: '/layuiadmin/module/modules/' //静态资源所在路径
+    }).use(['jquery','form', 'laydate','table','laypage'], function(){
+        $ = layui.jquery
+            ,table = layui.table
+            ,form = layui.form
+            ,laydate = layui.laydate,
+            /*  form.render(null, 'component-form-group');
+                   laydate.render({
+                      elem: '#year'
+                      ,format: 'yyyy'
+
+                   }); */
+            //加载表格
+            renderTable();
+        //移除表头的复选框,去掉全选
+        $(".layui-table-header table thead th input").remove();
+
+        // 触发不同的按钮事件
+        var $ = layui.$, active = {
+
+
+        };
+        //监听排序
+        table.on('sort(model-table)', function(obj){
+            console.log(this, obj.field, obj.type)
+            //return;
+            //服务端排序
+            table.reload('model-table', {
+                initSort: obj,
+                page: {curr: 1}, //重新从第一页开始
+                where: { //重新请求服务端
+                    key: obj.field, //排序字段
+                    order: obj.type //排序方式
+                }
+            });
+        });
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+    function renderTable()
+    {
+
+        var index = layer.load(1, {
+            shade: [0.1,'#fff']
+        });
+
+        //渲染
+        table.render({
+            elem: '#processdef-table',
+            url: '/fullSearch/getTableDataAchivement',
+            method:"POST",
+            where: {param: {
+                    "hth":$("#hth").val(),
+                    "xmmc":$("#xmmc").val(),
+                    "cgmc":$("#cgmc").val(),
+                    "keyword":$("#keyword").val(),
+
+
+                }},
+            limit: 15,
+            id: 'processdef-table',
+            page: {
+                groups: 5,
+                limits: [15,30,45,60],
+                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                first: '首页', //不显示首页
+                last: '尾页', //不显示尾页
+                theme: '#0F9EE0'
+            },
+            cols: [[
+                {field:'LAY_TABLE_INDEX',title:'年度',
+                    templet:  '<div>{{ layui.laytpl.search(d) }}</div>' },
+            ]],
+            done: function (res, curr, count) {
+                // 点击行联动选择框--单选
+                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                    var index=parseInt($(this).index()+1);
+                    $('tr').removeClass('layui-table-click');
+                    $(this).addClass('layui-table-click');
+                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked");
+                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                    selectRowData=res.data[index-1];
+                });
+                parent.$("#achivement").html(count);
+                layer.close(index);
+            }
+        });
+    }
+    function back()
+    {
+
+    }
+</script>
+</body>
+</html>

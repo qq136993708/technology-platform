@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/joint/css/joint.min.css"/>
+
+    <script src="/layuiadmin/joint/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/layuiadmin/joint/js/template.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/layuiadmin/joint/js/lodash.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/layuiadmin/joint/js/backbone.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/layuiadmin/joint/js/joint.js" type="text/javascript" charset="utf-8"></script>
+
+    <style>
+        .clear {
+            clear: both;
+        }
+        body,
+        html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            width: 100%;
+            height: 100%;
+            margin-top:20px;
+        }
+
+        .department {
+            float: left;
+            width: 200px;
+            height: 800px;
+            position: relative;
+        }
+
+
+        .departmentnr {
+            text-align: center;
+            opacity: 0;
+        }
+        .departmentnr p{color: #000000;}
+        .departmentnr a {
+            width: 100px;
+            height: 60px;
+            display: inline-block;
+            text-align: center;
+            line-height: 60px;
+            text-decoration: none;
+            background: cornflowerblue;
+            color: #000000;
+            margin-top: 20px;
+            font-size: 20px;
+            border-radius: 10px;
+        }
+
+        #paper {
+            position: absolute;
+            top: 0;
+        }
+    </style>
+</head>
+
+<body>
+<div class="box"></div>
+<div id="paper"></div>
+<script type="text/javascript">
+    var json = {
+        "Item": [{
+            "NavigatItem": [{
+                "Id": "66f48322cf334263a8b392ff14919781",
+                "name": "打样",
+                "Url": "/q/mpic/20170731omsproofingnewhead",
+                "Display": "款式打样",
+                "Childs": [
+                    {
+                        "Id": "8081fa7b8ff24a5cb5a3c2d8ee3eb877",
+                        "name": "储运",
+                        "Url": "",
+                        "Display": "",
+                        "Childs": [
+
+                        ]
+                    }
+                ]
+            }]
+        }, {
+            "NavigatItem": [{
+                "Id": "8081fa7b8ff24a5cb5a3c2d8ee3eb877",
+                "name": "储运",
+                "Url": "",
+                "Display": "",
+                "Childs": [{
+                    "Id": "7ac835496b1946bcbe46d5727a68a172",
+                    "name": "付款",
+                    "Url": "",
+                    "Display": "",
+                    "Childs": []
+                },{
+                    "Id": "0b1281ca43634d1e87ccf1c803570a24",
+                    "name": "付款申请",
+                    "Url": "",
+                    "Display": "",
+                    "Childs": []
+                }]
+            }, {
+                "Id": "0b1281ca43634d1e87ccf1c803570a24",
+                "name": "付款申请",
+                "Url": "",
+                "Display": "",
+                "Childs": [{
+                    "Id": "7ac835496b1946bcbe46d5727a68a172",
+                    "name": "付款",
+                    "Url": "",
+                    "Display": "",
+                    "Childs": []
+                }]
+            },]
+        }, {
+            "NavigatItem": [{
+                "Id": "7ac835496b1946bcbe46d5727a68a172",
+                "name": "付款",
+                "Url": "",
+                "Display": "",
+                "Childs": []
+            }]
+        }]
+    }
+    var graph = new joint.dia.Graph;
+
+    var paper = new joint.dia.Paper({
+        el: $('#paper'),
+        width: $(document).width(),
+        height: $(document).height(),
+        gridSize: 1,
+        model: graph
+    });
+    //定义模块形状
+    function state(x, y, label, a, b) {
+        var cell = new joint.shapes.basic.Rect({
+            position: {
+                x: x,
+                y: y
+            }, //坐标
+            size: {
+                width: 100,
+                height: 40
+            }, //宽高
+            attrs: {
+                rect: {
+                    fill: '#1890ff',
+                    rx: 5,
+                    ry: 5,
+                    'stroke-width': 0
+                },
+                text: {
+                    text: label,
+                    fill: '#fff'
+                },
+            }
+            //rect为方形,circle为圆形，还有stroke：边框颜色
+        });
+        graph.addCell(cell);
+        $(a).click(function() {
+            window.open(b);//点击事件
+        });
+        cell.toBack();//改变z-index
+        return cell;
+    };
+
+    function link(source, target, label, vertices){
+
+        var cell = new joint.shapes.fsa.Arrow({
+            source: {
+                id: source.id
+            },
+            target: {
+                id: target.id
+            },
+            labels: [{
+                position: 0.5,
+                attrs: {
+                    text: {
+                        text: label || '',
+                        'font-weight': 'bold'
+                    }
+                }
+            }],
+            router: {
+                name: 'orthogonal'
+            },
+            connector: {
+                name: 'jumpover'
+            },
+            vertices: vertices || [],
+            attrs: ({
+                '.marker-target': {
+                    fill: '#000',
+                    d: 'M 10 0 L 0 5 L 10 10 z'
+                }
+            })
+        });
+        graph.addCell(cell);
+
+        cell.toBack()
+
+        return cell;
+    }
+    paper.$el.css('pointer-events', 'none')
+</script>
+<script>
+    var html = ""
+    for(var i = 0; i < json.Item.length; i++) {
+        //debugger
+        var html2 = ""
+        html += "<div class='department''>"
+        for(var o = 0; o < json.Item[i].NavigatItem.length; o++) {
+
+            html2 += "<div class='departmentnr'><a target='_blank' href='' id=" + json.Item[i].NavigatItem[o].Id + " title=" + json.Item[i].NavigatItem[o].Display + ">" + json.Item[i].NavigatItem[o].name + "</a><p>"+json.Item[i].NavigatItem[o].name +"</p></div>"
+        }
+        html += html2 + "</div>"
+    }
+    $(".box").html(html)
+    var num = 100 / json.Item.length - 1 + '%'
+    var arraylist = [];
+    $(".department").css("width", num);
+    $.each(json.Item, function(index, item) {
+        var name = item
+        $.each(item.NavigatItem, function(index, item2) {
+
+            var id2 = item2.Id;
+            var name2 = item2.name;
+            console.log( $("#" + id2))
+            var y2 = $("#" + id2).offset().top;
+            var x2 = $("#" + id2).offset().left;
+            //debugger
+            var arrValue2 = arraylist[id2];
+            if(arrValue2 == undefined) {
+                arraylist[id2] = state(x2, y2, name2);
+            }
+            if(item2.Childs.length > 0) {
+                $.each(item2.Childs, function(index, item3) {
+                    var id3 = item3.Id;
+                    var name3 = item3.name;
+                    var y3 = $("#" + id3).offset().top;
+                    var x3 = $("#" + id3).offset().left;
+
+                    var arrValue3 = arraylist[id3];
+                    if(arrValue3 == undefined) {
+                        arraylist[id3] = state(x3, y3, name3);
+                    }
+
+                    link(arraylist[id2], arraylist[id3]);
+                })
+            } else {
+                //						state(x2, y2, name2);
+            }
+
+        })
+    })
+</script>
+</body>
+
+</html>

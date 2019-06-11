@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+     <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<style>
+  
+    td{padding:3px}
+</style>
+<body>  
+<div class="searchBox">
+    <!--查询条件-->
+        <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}" autocomplete="off" class="form-control" id="month">
+        </label>
+       <div class="layui-input-inline">
+         <select name="companyCode" id="companyCode" >
+              <#list companyCodeList as vo>
+              	 <#if vo.g0GSJC == '全部'>
+              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
+              	 </#if>
+                 <#if vo.g0GSJC != '全部'>
+              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
+              	 </#if>
+               </#list>
+            </select>
+       </div>
+       <form class="layui-form layui-form1">
+            <div class="layui-input-inline">
+                <#list projectCodeList as vo>
+                   <input type="checkbox" name="like[write]" lay-skin="primary" title="${vo.g0XMGLLX}" checked="">
+                </#list>
+            </div>
+        </form>
+
+       
+       
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+    </div>
+    <span class="unitBox">单位：万元</span>
+</div>
+
+
+<!--echarts-->
+<div class="content-body container">
+
+     <div class="one-chart-box">
+         <div class="layui-row echarts">
+             <div id="main1" style="width: 100%;height: 400px;"></div>
+         </div>
+     </div>
+     
+     <!--图表二等分布局-->
+        <div class="layui-row two-charts-box">
+            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 echarts">
+                <div id="main2" style="width: 100%;height: 400px;"></div>
+            </div>
+            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 echarts">
+                <div id="main3" style="width: 100%;height: 400px;">
+                <div style="text-align:center;margin:10px;">资金使用率按资金来源异常项目清单</div>
+                  <table class="layui-table"   style="width:100%">
+                  <thead>
+			      <tr>
+			      <td  style="width:25%">异常项目执行清单</td>
+			      <td  style="width:25%">国家项目(前十)</td>
+			      <td  style="width:25%">总部项目(前十)</td>
+			      <td  style="width:25%">企业项目(前十)</td>
+			     </tr> 
+			     </thead>
+			     <tr>
+			       <td >G1</td>
+			       <td >20%</td>
+			       <td >30%</td>
+			       <td >50%</td>
+			     </tr>
+			     <tr>
+			       <td >G2</td>
+			       <td >20%</td>
+			       <td >30%</td>
+			       <td >50%</td>
+			     </tr>
+			     <tr>
+			       <td >G3</td>
+			       <td >20%</td>
+			       <td >30%</td>
+			       <td >50%</td>
+			     </tr>
+			     <tr>
+			       <td >G4</td>
+			       <td >20%</td>
+			       <td >30%</td>
+			       <td >50%</td>
+			     </tr>
+			     <tr>
+			       <td >Q1</td>
+			       <td >20%</td>
+			       <td >30%</td>
+			       <td >50%</td>
+			     </tr>
+			     <tr>
+			       <td >Q2</td>
+			       <td >20%</td>
+			       <td >30%</td>
+			       <td >50%</td>
+			     </tr>
+			     <tr>
+			       <td >Q3</td>
+			       <td >20%</td>
+			       <td >30%</td>
+			       <td >50%</td>
+			     </tr>
+			   </table>
+                
+                </div>
+            </div>
+        </div>
+     
+       <!--图表二等分布局-->
+        <div class="layui-row two-charts-box">
+            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 echarts">
+                <div id="main4" style="width: 100%;height: 400px;"></div>
+            </div>
+            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 echarts">
+                <div id="main5" style="width: 100%;height: 400px;">
+                 <div style="text-align:center;margin:10px;">资金使用率按管理级别异常项目清单</div>
+			     <table class="layui-table"   style="width:100%">
+			      <thead><tr>
+			      <td style="width:20%" >异常项目执行清单</td>
+			      <td style="width:20%">A(前十)</td>
+			      <td style="width:20%">B1(前十)</td>
+			      <td style="width:20%">B2(前十)</td>
+			      <td style="width:20%">C(前十)</td>
+			     </tr>
+			     </thead>
+			     <tr>
+			       <td >A1</td>
+			       <td >20%</td>
+			       <td >30%</td>
+			       <td >50%</td>
+			       <td >10%</td>
+			     </tr>
+			    <tr>
+			       <td >A2</td>
+			       <td >20%</td>
+			       <td >30%</td>
+			       <td >50%</td>
+			       <td >10%</td>
+			     </tr>
+			    <tr>
+			       <td >A3</td>
+			       <td >20%</td>
+			       <td >30%</td>
+			       <td >50%</td>
+			       <td >10%</td>
+			     </tr>
+			     <tr>
+			       <td >B1</td>
+			       <td >20%</td>
+			       <td >30%</td>
+			       <td >50%</td>
+			       <td >10%</td>
+			     </tr>
+			     <tr>
+			       <td >B2</td>
+			       <td >20%</td>
+			       <td >30%</td>
+			       <td >50%</td>
+			       <td >10%</td>
+			     </tr>
+			   <tr>
+			       <td >C1</td>
+			       <td >20%</td>
+			       <td >30%</td>
+			       <td >50%</td>
+			       <td >10%</td>
+			     </tr>
+			   </table>
+                </div>
+            </div>
+        </div>
+      
+
+
+</div>
+		
+		
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script type="text/javascript">
+
+layui.config({
+    base: '/layuiadmin/module/modules/' 
+}).use(['jquery','form', 'laydate','table','laypage'], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,form = layui.form
+      ,laydate = layui.laydate
+	  form.render(null, 'component-form-group');
+            laydate.render({
+               elem: '#month'
+               ,format: 'yyyyMM'
+            });
+});
+
+
+
+function init()
+{
+	
+		var allCode="${allCode?default('')}";
+		var allCode_text="全部院所";
+		var v_date=(new Date()).getTime();
+		var month=$('#month').val();
+		var companyCode=$('#companyCode').val();
+		var monthstr=getNowFormatDate($('#month').val());
+		var checkText=$("#companyCode").find("option:selected").text();
+		if(checkText=='全部')
+		{
+			checkText="全部院所";
+		}
+		
+		
+		
+		var seriesData_1=[
+	        {
+	            name:'预算批复',
+	            type:'bar',
+	            color: ['#37A2DA'],
+	            data:[222, 44, 74, 24,22, 44, 74, 24]
+	        },
+	        {
+	            name:'执行合同',
+	            type:'bar',
+	            color: ['#67E0E3'],
+	            data:[212, 44, 74, 24,22, 44, 74, 24]
+	        },
+	        
+	        {
+	            name:'实际执行%',
+	            type:'line',
+	            itemStyle : {  /*设置折线颜色*/
+                    normal : {
+                        color:'#c4cddc'
+                    }
+                },
+	            data:[1.2, 93, 32.2, 1.2,1.2, 23, 32.2, 8.2]
+	        },
+	        
+	        {
+	            name:'时间进度%',
+	            type:'line',
+	            itemStyle : {  /*设置折线颜色*/
+                    normal : {
+                        color:'#c4cddc'
+                    }
+                },
+	            data:[13.2, 21.3, 32.2, 1.2,1.2, 24.3, 32.2, 1.2]
+	        }
+	        
+	    ];
+		var yAxis=[
+		    {
+		        type: 'value',
+		        name: '金额（万元）',
+		        min: 0,
+		        max: 250,
+		        axisLabel: {
+		            formatter: '{value}'
+		        }
+		    },
+		    {
+		        type: 'value',
+		        name: '百分比',
+		        min: 0,
+		        max: 100,
+		        axisLabel: {
+		            formatter: '{value} %'
+		        }
+		    }
+		];
+		var legends_1=['预算批复','执行合同','实际执行%','时间进度%'];
+		var xAxisData_1=['石勘院','物探院','工程院','石科院','抚研院','北化院','上海院','安工院'];
+		load_mutl_bar_tt("main1","研究院资金使用率分析",legends_1,xAxisData_1,yAxis,seriesData_1,monthstr);
+		
+		
+		
+		
+		
+		var seriesData_2= [
+	        {
+	            name:'预算批复',
+	            type:'bar',
+	            color: ['#37A2DA'],
+	            data:[22, 44, 74]
+	        },
+	        {
+	            name:'合同执行',
+	            type:'bar',
+	            color: ['#67E0E3'],
+	            data:[222, 44, 74]
+	        },
+	        
+	        {
+	            name:'执行率',
+	            type:'line',
+	            itemStyle : {  /*设置折线颜色*/
+                    normal : {
+                        color:'#c4cddc'
+                    }
+                },
+	            data:[1.2, 9.3, 32.2]
+	        }
+	    ];
+		var yAxis2=[
+		    {
+		        type: 'value',
+		        name: '金额（万元）',
+		        min: 0,
+		        max: 250,
+		        axisLabel: {
+		            formatter: '{value}'
+		        }
+		    },
+		    {
+		        type: 'value',
+		        name: '百分比',
+		        min: 0,
+		        max: 100,
+		        axisLabel: {
+		            formatter: '{value} %'
+		        }
+		    }
+		];
+		var legends_2=['预算批复','合同执行','执行率'];
+		var xAxisData_2= ['国家项目','总部项目','企业项目'];
+		load_mutl_bar_tt("main2","资金使用率按资金来源分析",legends_2,xAxisData_2,yAxis2,seriesData_2,monthstr);
+		
+		
+
+		var seriesData_4=[
+	        {
+	            name:'预算批复',
+	            type:'bar',
+	            color: ['#37A2DA'],
+	            data:[202, 94, 74]
+	        },
+	        {
+	            name:'合同执行',
+	            type:'bar',
+	            color: ['#67E0E3'],
+	            data:[211, 64, 14]
+	        },
+	        
+	        {
+	            name:'执行%',
+	            type:'line',
+	            itemStyle : {  /*设置折线颜色*/
+                    normal : {
+                        color:'#c4cddc'
+                    }
+                },
+	            data:[1.2, 93, 32.2]
+	        }
+	    ];
+		var yAxis4=[
+		    {
+		        type: 'value',
+		        name: '金额（万元）',
+		        min: 0,
+		        max: 250,
+		        axisLabel: {
+		            formatter: '{value}'
+		        }
+		    },
+		    {
+		        type: 'value',
+		        name: '百分比',
+		        min: 0,
+		        max: 100,
+		        axisLabel: {
+		            formatter: '{value} %'
+		        }
+		    }
+		];
+		var legends_4=['预算批复','合同执行','执行%'];
+		var xAxisData_4= ['国家项目','总部项目','企业项目'];
+		load_mutl_bar_tt("main4","资金使用率按管理级别分析",legends_4,xAxisData_4,yAxis4,seriesData_4,monthstr);
+		
+		
+		
+		
+}		
+init();        
+        
+        
+        
+        
+        
+        
+        
+        function search_Event()
+        {
+        	init();
+        }
+            
+           
+    </script>
+</body>
+</html>

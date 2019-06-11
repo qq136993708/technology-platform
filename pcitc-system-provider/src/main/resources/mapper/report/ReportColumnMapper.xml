@@ -1,0 +1,1277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.report.ReportColumnMapper">
+
+    <resultMap id="BaseResultMap" type="com.pcitc.base.report.ReportColumn">
+
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="report_config_id" jdbcType="VARCHAR" property="reportConfigId"/>
+        <result column="field" jdbcType="VARCHAR" property="field"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="width" jdbcType="VARCHAR" property="width"/>
+        <result column="minWidth" jdbcType="VARCHAR" property="minwidth"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="sort" jdbcType="VARCHAR" property="sort"/>
+        <result column="unresize" jdbcType="VARCHAR" property="unresize"/>
+        <result column="edit" jdbcType="VARCHAR" property="edit"/>
+        <result column="event" jdbcType="VARCHAR" property="event"/>
+        <result column="style" jdbcType="VARCHAR" property="style"/>
+        <result column="align" jdbcType="VARCHAR" property="align"/>
+        <result column="colspan" jdbcType="VARCHAR" property="colspan"/>
+        <result column="rowspan" jdbcType="VARCHAR" property="rowspan"/>
+        <result column="templet" jdbcType="VARCHAR" property="templet"/>
+        <result column="toolbar" jdbcType="VARCHAR" property="toolbar"/>
+        <result column="role" jdbcType="VARCHAR" property="role"/>
+        <result column="sf_showlist" jdbcType="VARCHAR" property="sfShowlist"/>
+        <result column="sf_x" jdbcType="VARCHAR" property="sfX"/>
+        <result column="sf_y" jdbcType="VARCHAR" property="sfY"/>
+        <result column="sf_ajax" jdbcType="VARCHAR" property="sfAjax"/>
+        <result column="stype" jdbcType="VARCHAR" property="stype"/>
+        <result column="ssort" jdbcType="VARCHAR" property="ssort"/>
+        <result column="sf_show" jdbcType="VARCHAR" property="sfShow"/>
+        <result column="sf_del" jdbcType="VARCHAR" property="sfDel"/>
+        <result column="sf_use" jdbcType="VARCHAR" property="sfUse"/>
+        <result column="bak1" jdbcType="VARCHAR" property="bak1"/>
+        <result column="bak2" jdbcType="VARCHAR" property="bak2"/>
+        <result column="bak3" jdbcType="VARCHAR" property="bak3"/>
+        <result column="bak4" jdbcType="VARCHAR" property="bak4"/>
+        <result column="bak5" jdbcType="VARCHAR" property="bak5"/>
+        <result column="bak6" jdbcType="VARCHAR" property="bak6"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="create_user_id" jdbcType="VARCHAR" property="createUserId"/>
+        <result column="create_date" jdbcType="VARCHAR" property="createDate"/>
+        <result column="status" jdbcType="TIMESTAMP" property="status"/>
+        <result column="update_date" jdbcType="VARCHAR" property="updateDate"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
+        <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+        <result column="audit_status" jdbcType="VARCHAR" property="auditStatus"/>
+        <result column="fileId" jdbcType="VARCHAR" property="fileid"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id,
+        report_config_id,
+        field,
+        title,
+        width,
+        minWidth,
+        type,
+        sort,
+        unresize,
+        edit,
+        event,
+        style,
+        align,
+        colspan,
+        rowspan,
+        templet,
+        toolbar,
+        role,
+        sf_showlist,
+        sf_x,
+        sf_y,
+        sf_ajax,
+        stype,
+        ssort,
+        sf_show,
+        sf_del,
+        sf_use,
+        bak1,
+        bak2,
+        bak3,
+        bak4,
+        bak5,
+        bak6,
+        create_user,
+        create_user_id,
+        create_date,
+        status,
+        update_date,
+        update_user,
+        remarks,
+        audit_status,
+        fileId
+</sql>
+
+    <select id="selectByExample" parameterType="com.pcitc.base.report.ReportColumnExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from report_column
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from report_column
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from report_column
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.pcitc.base.report.ReportColumnExample">
+        delete from report_column
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.pcitc.base.report.ReportColumn">
+        insert into report_column (
+            id,
+            report_config_id,
+            field,
+            title,
+            width,
+            minWidth,
+            type,
+            sort,
+            unresize,
+            edit,
+            event,
+            style,
+            align,
+            colspan,
+            rowspan,
+            templet,
+            toolbar,
+            role,
+            sf_showlist,
+            sf_x,
+            sf_y,
+            sf_ajax,
+            stype,
+            ssort,
+            sf_show,
+            sf_del,
+            sf_use,
+            bak1,
+            bak2,
+            bak3,
+            bak4,
+            bak5,
+            bak6,
+            create_user,
+            create_user_id,
+            create_date,
+            status,
+            update_date,
+            update_user,
+            remarks,
+            audit_status,
+            fileId
+        )
+        values (
+
+    #{id,jdbcType=VARCHAR},
+    #{reportConfigId,jdbcType=VARCHAR},
+    #{field,jdbcType=VARCHAR},
+    #{title,jdbcType=VARCHAR},
+    #{width,jdbcType=VARCHAR},
+    #{minwidth,jdbcType=VARCHAR},
+    #{type,jdbcType=VARCHAR},
+    #{sort,jdbcType=VARCHAR},
+    #{unresize,jdbcType=VARCHAR},
+    #{edit,jdbcType=VARCHAR},
+    #{event,jdbcType=VARCHAR},
+    #{style,jdbcType=VARCHAR},
+    #{align,jdbcType=VARCHAR},
+    #{colspan,jdbcType=VARCHAR},
+    #{rowspan,jdbcType=VARCHAR},
+    #{templet,jdbcType=VARCHAR},
+    #{toolbar,jdbcType=VARCHAR},
+    #{role,jdbcType=VARCHAR},
+    #{sfShowlist,jdbcType=VARCHAR},
+    #{sfX,jdbcType=VARCHAR},
+    #{sfY,jdbcType=VARCHAR},
+    #{sfAjax,jdbcType=VARCHAR},
+    #{stype,jdbcType=VARCHAR},
+    #{ssort,jdbcType=VARCHAR},
+    #{sfShow,jdbcType=VARCHAR},
+    #{sfDel,jdbcType=VARCHAR},
+    #{sfUse,jdbcType=VARCHAR},
+    #{bak1,jdbcType=VARCHAR},
+    #{bak2,jdbcType=VARCHAR},
+    #{bak3,jdbcType=VARCHAR},
+    #{bak4,jdbcType=VARCHAR},
+    #{bak5,jdbcType=VARCHAR},
+    #{bak6,jdbcType=VARCHAR},
+    #{createUser,jdbcType=VARCHAR},
+    #{createUserId,jdbcType=VARCHAR},
+    #{createDate,jdbcType=VARCHAR},
+    #{status,jdbcType=TIMESTAMP},
+    #{updateDate,jdbcType=VARCHAR},
+    #{updateUser,jdbcType=VARCHAR},
+    #{remarks,jdbcType=VARCHAR},
+    #{auditStatus,jdbcType=VARCHAR},
+    #{fileid,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.pcitc.base.report.ReportColumn">
+        insert into report_column
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="id != null">
+                id,
+            </if>
+            <if test="reportConfigId != null">
+                report_config_id,
+            </if>
+            <if test="field != null">
+                field,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="width != null">
+                width,
+            </if>
+            <if test="minwidth != null">
+                minWidth,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="unresize != null">
+                unresize,
+            </if>
+            <if test="edit != null">
+                edit,
+            </if>
+            <if test="event != null">
+                event,
+            </if>
+            <if test="style != null">
+                style,
+            </if>
+            <if test="align != null">
+                align,
+            </if>
+            <if test="colspan != null">
+                colspan,
+            </if>
+            <if test="rowspan != null">
+                rowspan,
+            </if>
+            <if test="templet != null">
+                templet,
+            </if>
+            <if test="toolbar != null">
+                toolbar,
+            </if>
+            <if test="role != null">
+                role,
+            </if>
+            <if test="sfShowlist != null">
+                sf_showlist,
+            </if>
+            <if test="sfX != null">
+                sf_x,
+            </if>
+            <if test="sfY != null">
+                sf_y,
+            </if>
+            <if test="sfAjax != null">
+                sf_ajax,
+            </if>
+            <if test="stype != null">
+                stype,
+            </if>
+            <if test="ssort != null">
+                ssort,
+            </if>
+            <if test="sfShow != null">
+                sf_show,
+            </if>
+            <if test="sfDel != null">
+                sf_del,
+            </if>
+            <if test="sfUse != null">
+                sf_use,
+            </if>
+            <if test="bak1 != null">
+                bak1,
+            </if>
+            <if test="bak2 != null">
+                bak2,
+            </if>
+            <if test="bak3 != null">
+                bak3,
+            </if>
+            <if test="bak4 != null">
+                bak4,
+            </if>
+            <if test="bak5 != null">
+                bak5,
+            </if>
+            <if test="bak6 != null">
+                bak6,
+            </if>
+            <if test="createUser != null">
+                create_user,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+            <if test="updateUser != null">
+                update_user,
+            </if>
+            <if test="remarks != null">
+                remarks,
+            </if>
+            <if test="auditStatus != null">
+                audit_status,
+            </if>
+            <if test="fileid != null">
+                fileId
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+
+            <if test="id != null">
+                #{id ,jdbcType=VARCHAR},
+            </if>
+            <if test="reportConfigId != null">
+                #{reportConfigId ,jdbcType=VARCHAR},
+            </if>
+            <if test="field != null">
+                #{field ,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                #{title ,jdbcType=VARCHAR},
+            </if>
+            <if test="width != null">
+                #{width ,jdbcType=VARCHAR},
+            </if>
+            <if test="minwidth != null">
+                #{minwidth ,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type ,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                #{sort ,jdbcType=VARCHAR},
+            </if>
+            <if test="unresize != null">
+                #{unresize ,jdbcType=VARCHAR},
+            </if>
+            <if test="edit != null">
+                #{edit ,jdbcType=VARCHAR},
+            </if>
+            <if test="event != null">
+                #{event ,jdbcType=VARCHAR},
+            </if>
+            <if test="style != null">
+                #{style ,jdbcType=VARCHAR},
+            </if>
+            <if test="align != null">
+                #{align ,jdbcType=VARCHAR},
+            </if>
+            <if test="colspan != null">
+                #{colspan ,jdbcType=VARCHAR},
+            </if>
+            <if test="rowspan != null">
+                #{rowspan ,jdbcType=VARCHAR},
+            </if>
+            <if test="templet != null">
+                #{templet ,jdbcType=VARCHAR},
+            </if>
+            <if test="toolbar != null">
+                #{toolbar ,jdbcType=VARCHAR},
+            </if>
+            <if test="role != null">
+                #{role ,jdbcType=VARCHAR},
+            </if>
+            <if test="sfShowlist != null">
+                #{sfShowlist ,jdbcType=VARCHAR},
+            </if>
+            <if test="sfX != null">
+                #{sfX ,jdbcType=VARCHAR},
+            </if>
+            <if test="sfY != null">
+                #{sfY ,jdbcType=VARCHAR},
+            </if>
+            <if test="sfAjax != null">
+                #{sfAjax ,jdbcType=VARCHAR},
+            </if>
+            <if test="stype != null">
+                #{stype ,jdbcType=VARCHAR},
+            </if>
+            <if test="ssort != null">
+                #{ssort ,jdbcType=VARCHAR},
+            </if>
+            <if test="sfShow != null">
+                #{sfShow ,jdbcType=VARCHAR},
+            </if>
+            <if test="sfDel != null">
+                #{sfDel ,jdbcType=VARCHAR},
+            </if>
+            <if test="sfUse != null">
+                #{sfUse ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak1 != null">
+                #{bak1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak2 != null">
+                #{bak2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak3 != null">
+                #{bak3 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak4 != null">
+                #{bak4 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak5 != null">
+                #{bak5 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak6 != null">
+                #{bak6 ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+                #{createUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId ,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status ,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUser != null">
+                #{updateUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="remarks != null">
+                #{remarks ,jdbcType=VARCHAR},
+            </if>
+            <if test="auditStatus != null">
+                #{auditStatus ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileid != null">
+                #{fileid ,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.pcitc.base.report.ReportColumnExample" resultType="java.lang.Long">
+        select count(*) from report_column
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update report_column
+        <set>
+
+            <if test="record.id != null">
+                id=#{record.id,jdbcType=VARCHAR},
+            </if>
+            <if test="record.reportConfigId != null">
+                report_config_id=#{record.reportConfigId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.field != null">
+                field=#{record.field,jdbcType=VARCHAR},
+            </if>
+            <if test="record.title != null">
+                title=#{record.title,jdbcType=VARCHAR},
+            </if>
+            <if test="record.width != null">
+                width=#{record.width,jdbcType=VARCHAR},
+            </if>
+            <if test="record.minwidth != null">
+                minWidth=#{record.minwidth,jdbcType=VARCHAR},
+            </if>
+            <if test="record.type != null">
+                type=#{record.type,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sort != null">
+                sort=#{record.sort,jdbcType=VARCHAR},
+            </if>
+            <if test="record.unresize != null">
+                unresize=#{record.unresize,jdbcType=VARCHAR},
+            </if>
+            <if test="record.edit != null">
+                edit=#{record.edit,jdbcType=VARCHAR},
+            </if>
+            <if test="record.event != null">
+                event=#{record.event,jdbcType=VARCHAR},
+            </if>
+            <if test="record.style != null">
+                style=#{record.style,jdbcType=VARCHAR},
+            </if>
+            <if test="record.align != null">
+                align=#{record.align,jdbcType=VARCHAR},
+            </if>
+            <if test="record.colspan != null">
+                colspan=#{record.colspan,jdbcType=VARCHAR},
+            </if>
+            <if test="record.rowspan != null">
+                rowspan=#{record.rowspan,jdbcType=VARCHAR},
+            </if>
+            <if test="record.templet != null">
+                templet=#{record.templet,jdbcType=VARCHAR},
+            </if>
+            <if test="record.toolbar != null">
+                toolbar=#{record.toolbar,jdbcType=VARCHAR},
+            </if>
+            <if test="record.role != null">
+                role=#{record.role,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sfShowlist != null">
+                sf_showlist=#{record.sfShowlist,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sfX != null">
+                sf_x=#{record.sfX,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sfY != null">
+                sf_y=#{record.sfY,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sfAjax != null">
+                sf_ajax=#{record.sfAjax,jdbcType=VARCHAR},
+            </if>
+            <if test="record.stype != null">
+                stype=#{record.stype,jdbcType=VARCHAR},
+            </if>
+            <if test="record.ssort != null">
+                ssort=#{record.ssort,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sfShow != null">
+                sf_show=#{record.sfShow,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sfDel != null">
+                sf_del=#{record.sfDel,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sfUse != null">
+                sf_use=#{record.sfUse,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak1 != null">
+                bak1=#{record.bak1,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak2 != null">
+                bak2=#{record.bak2,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak3 != null">
+                bak3=#{record.bak3,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak4 != null">
+                bak4=#{record.bak4,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak5 != null">
+                bak5=#{record.bak5,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak6 != null">
+                bak6=#{record.bak6,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createUser != null">
+                create_user=#{record.createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createUserId != null">
+                create_user_id=#{record.createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createDate != null">
+                create_date=#{record.createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.status != null">
+                status=#{record.status,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.updateDate != null">
+                update_date=#{record.updateDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.updateUser != null">
+                update_user=#{record.updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="record.remarks != null">
+                remarks=#{record.remarks,jdbcType=VARCHAR},
+            </if>
+            <if test="record.auditStatus != null">
+                audit_status=#{record.auditStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fileid != null">
+                fileId=#{record.fileid,jdbcType=VARCHAR}
+            </if>
+
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update report_column
+        set
+        id=#{record.id,jdbcType=VARCHAR},
+        report_config_id=#{record.reportConfigId,jdbcType=VARCHAR},
+        field=#{record.field,jdbcType=VARCHAR},
+        title=#{record.title,jdbcType=VARCHAR},
+        width=#{record.width,jdbcType=VARCHAR},
+        minWidth=#{record.minwidth,jdbcType=VARCHAR},
+        type=#{record.type,jdbcType=VARCHAR},
+        sort=#{record.sort,jdbcType=VARCHAR},
+        unresize=#{record.unresize,jdbcType=VARCHAR},
+        edit=#{record.edit,jdbcType=VARCHAR},
+        event=#{record.event,jdbcType=VARCHAR},
+        style=#{record.style,jdbcType=VARCHAR},
+        align=#{record.align,jdbcType=VARCHAR},
+        colspan=#{record.colspan,jdbcType=VARCHAR},
+        rowspan=#{record.rowspan,jdbcType=VARCHAR},
+        templet=#{record.templet,jdbcType=VARCHAR},
+        toolbar=#{record.toolbar,jdbcType=VARCHAR},
+        role=#{record.role,jdbcType=VARCHAR},
+        sf_showlist=#{record.sfShowlist,jdbcType=VARCHAR},
+        sf_x=#{record.sfX,jdbcType=VARCHAR},
+        sf_y=#{record.sfY,jdbcType=VARCHAR},
+        sf_ajax=#{record.sfAjax,jdbcType=VARCHAR},
+        stype=#{record.stype,jdbcType=VARCHAR},
+        ssort=#{record.ssort,jdbcType=VARCHAR},
+        sf_show=#{record.sfShow,jdbcType=VARCHAR},
+        sf_del=#{record.sfDel,jdbcType=VARCHAR},
+        sf_use=#{record.sfUse,jdbcType=VARCHAR},
+        bak1=#{record.bak1,jdbcType=VARCHAR},
+        bak2=#{record.bak2,jdbcType=VARCHAR},
+        bak3=#{record.bak3,jdbcType=VARCHAR},
+        bak4=#{record.bak4,jdbcType=VARCHAR},
+        bak5=#{record.bak5,jdbcType=VARCHAR},
+        bak6=#{record.bak6,jdbcType=VARCHAR},
+        create_user=#{record.createUser,jdbcType=VARCHAR},
+        create_user_id=#{record.createUserId,jdbcType=VARCHAR},
+        create_date=#{record.createDate,jdbcType=VARCHAR},
+        status=#{record.status,jdbcType=TIMESTAMP},
+        update_date=#{record.updateDate,jdbcType=VARCHAR},
+        update_user=#{record.updateUser,jdbcType=VARCHAR},
+        remarks=#{record.remarks,jdbcType=VARCHAR},
+        audit_status=#{record.auditStatus,jdbcType=VARCHAR},
+        fileId=#{record.fileid,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.report.ReportColumn">
+        update report_column
+        <set>
+
+            <if test="reportConfigId != null">
+                report_config_id=#{reportConfigId ,jdbcType=VARCHAR},
+            </if>
+            <if test="field != null">
+                field=#{field ,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                title=#{title ,jdbcType=VARCHAR},
+            </if>
+            <if test="width != null">
+                width=#{width ,jdbcType=VARCHAR},
+            </if>
+            <if test="minwidth != null">
+                minWidth=#{minwidth ,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type=#{type ,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                sort=#{sort ,jdbcType=VARCHAR},
+            </if>
+            <if test="unresize != null">
+                unresize=#{unresize ,jdbcType=VARCHAR},
+            </if>
+            <if test="edit != null">
+                edit=#{edit ,jdbcType=VARCHAR},
+            </if>
+            <if test="event != null">
+                event=#{event ,jdbcType=VARCHAR},
+            </if>
+            <if test="style != null">
+                style=#{style ,jdbcType=VARCHAR},
+            </if>
+            <if test="align != null">
+                align=#{align ,jdbcType=VARCHAR},
+            </if>
+            <if test="colspan != null">
+                colspan=#{colspan ,jdbcType=VARCHAR},
+            </if>
+            <if test="rowspan != null">
+                rowspan=#{rowspan ,jdbcType=VARCHAR},
+            </if>
+            <if test="templet != null">
+                templet=#{templet ,jdbcType=VARCHAR},
+            </if>
+            <if test="toolbar != null">
+                toolbar=#{toolbar ,jdbcType=VARCHAR},
+            </if>
+            <if test="role != null">
+                role=#{role ,jdbcType=VARCHAR},
+            </if>
+            <if test="sfShowlist != null">
+                sf_showlist=#{sfShowlist ,jdbcType=VARCHAR},
+            </if>
+            <if test="sfX != null">
+                sf_x=#{sfX ,jdbcType=VARCHAR},
+            </if>
+            <if test="sfY != null">
+                sf_y=#{sfY ,jdbcType=VARCHAR},
+            </if>
+            <if test="sfAjax != null">
+                sf_ajax=#{sfAjax ,jdbcType=VARCHAR},
+            </if>
+            <if test="stype != null">
+                stype=#{stype ,jdbcType=VARCHAR},
+            </if>
+            <if test="ssort != null">
+                ssort=#{ssort ,jdbcType=VARCHAR},
+            </if>
+            <if test="sfShow != null">
+                sf_show=#{sfShow ,jdbcType=VARCHAR},
+            </if>
+            <if test="sfDel != null">
+                sf_del=#{sfDel ,jdbcType=VARCHAR},
+            </if>
+            <if test="sfUse != null">
+                sf_use=#{sfUse ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak1 != null">
+                bak1=#{bak1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak2 != null">
+                bak2=#{bak2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak3 != null">
+                bak3=#{bak3 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak4 != null">
+                bak4=#{bak4 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak5 != null">
+                bak5=#{bak5 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak6 != null">
+                bak6=#{bak6 ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+                create_user=#{createUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                create_user_id=#{createUserId ,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date=#{createDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status=#{status ,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                update_date=#{updateDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUser != null">
+                update_user=#{updateUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="remarks != null">
+                remarks=#{remarks ,jdbcType=VARCHAR},
+            </if>
+            <if test="auditStatus != null">
+                audit_status=#{auditStatus ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileid != null">
+                fileId=#{fileid ,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.pcitc.base.report.ReportColumn">
+        update report_column
+        set
+            report_config_id=#{reportConfigId,jdbcType=VARCHAR},
+            field=#{field,jdbcType=VARCHAR},
+            title=#{title,jdbcType=VARCHAR},
+            width=#{width,jdbcType=VARCHAR},
+            minWidth=#{minwidth,jdbcType=VARCHAR},
+            type=#{type,jdbcType=VARCHAR},
+            sort=#{sort,jdbcType=VARCHAR},
+            unresize=#{unresize,jdbcType=VARCHAR},
+            edit=#{edit,jdbcType=VARCHAR},
+            event=#{event,jdbcType=VARCHAR},
+            style=#{style,jdbcType=VARCHAR},
+            align=#{align,jdbcType=VARCHAR},
+            colspan=#{colspan,jdbcType=VARCHAR},
+            rowspan=#{rowspan,jdbcType=VARCHAR},
+            templet=#{templet,jdbcType=VARCHAR},
+            toolbar=#{toolbar,jdbcType=VARCHAR},
+            role=#{role,jdbcType=VARCHAR},
+            sf_showlist=#{sfShowlist,jdbcType=VARCHAR},
+            sf_x=#{sfX,jdbcType=VARCHAR},
+            sf_y=#{sfY,jdbcType=VARCHAR},
+            sf_ajax=#{sfAjax,jdbcType=VARCHAR},
+            stype=#{stype,jdbcType=VARCHAR},
+            ssort=#{ssort,jdbcType=VARCHAR},
+            sf_show=#{sfShow,jdbcType=VARCHAR},
+            sf_del=#{sfDel,jdbcType=VARCHAR},
+            sf_use=#{sfUse,jdbcType=VARCHAR},
+            bak1=#{bak1,jdbcType=VARCHAR},
+            bak2=#{bak2,jdbcType=VARCHAR},
+            bak3=#{bak3,jdbcType=VARCHAR},
+            bak4=#{bak4,jdbcType=VARCHAR},
+            bak5=#{bak5,jdbcType=VARCHAR},
+            bak6=#{bak6,jdbcType=VARCHAR},
+            create_user=#{createUser,jdbcType=VARCHAR},
+            create_user_id=#{createUserId,jdbcType=VARCHAR},
+            create_date=#{createDate,jdbcType=VARCHAR},
+            status=#{status,jdbcType=TIMESTAMP},
+            update_date=#{updateDate,jdbcType=VARCHAR},
+            update_user=#{updateUser,jdbcType=VARCHAR},
+            remarks=#{remarks,jdbcType=VARCHAR},
+            audit_status=#{auditStatus,jdbcType=VARCHAR},
+            fileId=#{fileid,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <!-- 分页查询 -->
+    <select id="findSysFileKindByPage" parameterType="com.pcitc.base.report.ReportColumn" resultMap="BaseResultMap">
+
+        select
+        id,
+        report_config_id,
+        field,
+        title,
+        width,
+        minWidth,
+        type,
+        sort,
+        unresize,
+        edit,
+        event,
+        style,
+        align,
+        colspan,
+        rowspan,
+        templet,
+        toolbar,
+        role,
+        sf_showlist,
+        sf_x,
+        sf_y,
+        sf_ajax,
+        stype,
+        ssort,
+        sf_show,
+        sf_del,
+        sf_use,
+        bak1,
+        bak2,
+        bak3,
+        bak4,
+        bak5,
+        bak6,
+        create_user,
+        create_user_id,
+        create_date,
+        status,
+        update_date,
+        update_user,
+        remarks,
+        audit_status,
+        fileId
+        from report_column
+        where 1=1
+        <if test="id!=null and id!=''.toString()">
+            and id like '%${id}%'
+        </if>
+        <if test="reportConfigId!=null and reportConfigId!=''.toString()">
+            and report_config_id like '%${reportConfigId}%'
+        </if>
+        <if test="field!=null and field!=''.toString()">
+            and field like '%${field}%'
+        </if>
+        <if test="title!=null and title!=''.toString()">
+            and title like '%${title}%'
+        </if>
+        <if test="width!=null and width!=''.toString()">
+            and width like '%${width}%'
+        </if>
+        <if test="minwidth!=null and minwidth!=''.toString()">
+            and minWidth like '%${minwidth}%'
+        </if>
+        <if test="type!=null and type!=''.toString()">
+            and type like '%${type}%'
+        </if>
+        <if test="sort!=null and sort!=''.toString()">
+            and sort like '%${sort}%'
+        </if>
+        <if test="unresize!=null and unresize!=''.toString()">
+            and unresize like '%${unresize}%'
+        </if>
+        <if test="edit!=null and edit!=''.toString()">
+            and edit like '%${edit}%'
+        </if>
+        <if test="event!=null and event!=''.toString()">
+            and event like '%${event}%'
+        </if>
+        <if test="style!=null and style!=''.toString()">
+            and style like '%${style}%'
+        </if>
+        <if test="align!=null and align!=''.toString()">
+            and align like '%${align}%'
+        </if>
+        <if test="colspan!=null and colspan!=''.toString()">
+            and colspan like '%${colspan}%'
+        </if>
+        <if test="rowspan!=null and rowspan!=''.toString()">
+            and rowspan like '%${rowspan}%'
+        </if>
+        <if test="templet!=null and templet!=''.toString()">
+            and templet like '%${templet}%'
+        </if>
+        <if test="toolbar!=null and toolbar!=''.toString()">
+            and toolbar like '%${toolbar}%'
+        </if>
+        <if test="role!=null and role!=''.toString()">
+            and role like '%${role}%'
+        </if>
+        <if test="sfShowlist!=null and sfShowlist!=''.toString()">
+            and sf_showlist like '%${sfShowlist}%'
+        </if>
+        <if test="sfX!=null and sfX!=''.toString()">
+            and sf_x like '%${sfX}%'
+        </if>
+        <if test="sfY!=null and sfY!=''.toString()">
+            and sf_y like '%${sfY}%'
+        </if>
+        <if test="sfAjax!=null and sfAjax!=''.toString()">
+            and sf_ajax like '%${sfAjax}%'
+        </if>
+        <if test="stype!=null and stype!=''.toString()">
+            and stype like '%${stype}%'
+        </if>
+        <if test="ssort!=null and ssort!=''.toString()">
+            and ssort like '%${ssort}%'
+        </if>
+        <if test="sfShow!=null and sfShow!=''.toString()">
+            and sf_show like '%${sfShow}%'
+        </if>
+        <if test="sfDel!=null and sfDel!=''.toString()">
+            and sf_del like '%${sfDel}%'
+        </if>
+        <if test="sfUse!=null and sfUse!=''.toString()">
+            and sf_use like '%${sfUse}%'
+        </if>
+        <if test="bak1!=null and bak1!=''.toString()">
+            and bak1 like '%${bak1}%'
+        </if>
+        <if test="bak2!=null and bak2!=''.toString()">
+            and bak2 like '%${bak2}%'
+        </if>
+        <if test="bak3!=null and bak3!=''.toString()">
+            and bak3 like '%${bak3}%'
+        </if>
+        <if test="bak4!=null and bak4!=''.toString()">
+            and bak4 like '%${bak4}%'
+        </if>
+        <if test="bak5!=null and bak5!=''.toString()">
+            and bak5 like '%${bak5}%'
+        </if>
+        <if test="bak6!=null and bak6!=''.toString()">
+            and bak6 like '%${bak6}%'
+        </if>
+        <if test="createUser!=null and createUser!=''.toString()">
+            and create_user like '%${createUser}%'
+        </if>
+        <if test="createUserId!=null and createUserId!=''.toString()">
+            and create_user_id like '%${createUserId}%'
+        </if>
+        <if test="createDate!=null and createDate!=''.toString()">
+            and create_date like '%${createDate}%'
+        </if>
+        <if test="status!=null and status!=''.toString()">
+            and status like '%${status}%'
+        </if>
+        <if test="updateDate!=null and updateDate!=''.toString()">
+            and update_date like '%${updateDate}%'
+        </if>
+        <if test="updateUser!=null and updateUser!=''.toString()">
+            and update_user like '%${updateUser}%'
+        </if>
+        <if test="remarks!=null and remarks!=''.toString()">
+            and remarks like '%${remarks}%'
+        </if>
+        <if test="auditStatus!=null and auditStatus!=''.toString()">
+            and audit_status like '%${auditStatus}%'
+        </if>
+        <if test="fileid!=null and fileid!=''.toString()">
+            and fileId like '%${fileid}%'
+        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+    <!-- 查询列表 -->
+    <select id="findReportColumnList" parameterType="com.pcitc.base.report.ReportColumn" resultMap="BaseResultMap">
+        select
+        id,
+        report_config_id,
+        field,
+        title,
+        width,
+        minWidth,
+        type,
+        sort,
+        unresize,
+        edit,
+        event,
+        style,
+        align,
+        colspan,
+        rowspan,
+        templet,
+        toolbar,
+        role,
+        sf_showlist,
+        sf_x,
+        sf_y,
+        sf_ajax,
+        stype,
+        ssort,
+        sf_show,
+        sf_del,
+        sf_use,
+        bak1,
+        bak2,
+        bak3,
+        bak4,
+        bak5,
+        bak6,
+        create_user,
+        create_user_id,
+        create_date,
+        status,
+        update_date,
+        update_user,
+        remarks,
+        audit_status,
+        fileId
+        from report_column
+        where 1=1
+        <if test="id!=null">
+            and id = #{id,jdbcType=VARCHAR}
+        </if>
+        <if test="reportConfigId!=null">
+            and report_config_id = #{reportConfigId,jdbcType=VARCHAR}
+        </if>
+        <if test="field!=null">
+            and field = #{field,jdbcType=VARCHAR}
+        </if>
+        <if test="title!=null">
+            and title = #{title,jdbcType=VARCHAR}
+        </if>
+        <if test="width!=null">
+            and width = #{width,jdbcType=VARCHAR}
+        </if>
+        <if test="minwidth!=null">
+            and minWidth = #{minwidth,jdbcType=VARCHAR}
+        </if>
+        <if test="type!=null">
+            and type = #{type,jdbcType=VARCHAR}
+        </if>
+        <if test="sort!=null">
+            and sort = #{sort,jdbcType=VARCHAR}
+        </if>
+        <if test="unresize!=null">
+            and unresize = #{unresize,jdbcType=VARCHAR}
+        </if>
+        <if test="edit!=null">
+            and edit = #{edit,jdbcType=VARCHAR}
+        </if>
+        <if test="event!=null">
+            and event = #{event,jdbcType=VARCHAR}
+        </if>
+        <if test="style!=null">
+            and style = #{style,jdbcType=VARCHAR}
+        </if>
+        <if test="align!=null">
+            and align = #{align,jdbcType=VARCHAR}
+        </if>
+        <if test="colspan!=null">
+            and colspan = #{colspan,jdbcType=VARCHAR}
+        </if>
+        <if test="rowspan!=null">
+            and rowspan = #{rowspan,jdbcType=VARCHAR}
+        </if>
+        <if test="templet!=null">
+            and templet = #{templet,jdbcType=VARCHAR}
+        </if>
+        <if test="toolbar!=null">
+            and toolbar = #{toolbar,jdbcType=VARCHAR}
+        </if>
+        <if test="role!=null">
+            and role = #{role,jdbcType=VARCHAR}
+        </if>
+        <if test="sfShowlist!=null">
+            and sf_showlist = #{sfShowlist,jdbcType=VARCHAR}
+        </if>
+        <if test="sfX!=null">
+            and sf_x = #{sfX,jdbcType=VARCHAR}
+        </if>
+        <if test="sfY!=null">
+            and sf_y = #{sfY,jdbcType=VARCHAR}
+        </if>
+        <if test="sfAjax!=null">
+            and sf_ajax = #{sfAjax,jdbcType=VARCHAR}
+        </if>
+        <if test="stype!=null">
+            and stype = #{stype,jdbcType=VARCHAR}
+        </if>
+        <if test="ssort!=null">
+            and ssort = #{ssort,jdbcType=VARCHAR}
+        </if>
+        <if test="sfShow!=null">
+            and sf_show = #{sfShow,jdbcType=VARCHAR}
+        </if>
+        <if test="sfDel!=null">
+            and sf_del = #{sfDel,jdbcType=VARCHAR}
+        </if>
+        <if test="sfUse!=null">
+            and sf_use = #{sfUse,jdbcType=VARCHAR}
+        </if>
+        <if test="bak1!=null">
+            and bak1 = #{bak1,jdbcType=VARCHAR}
+        </if>
+        <if test="bak2!=null">
+            and bak2 = #{bak2,jdbcType=VARCHAR}
+        </if>
+        <if test="bak3!=null">
+            and bak3 = #{bak3,jdbcType=VARCHAR}
+        </if>
+        <if test="bak4!=null">
+            and bak4 = #{bak4,jdbcType=VARCHAR}
+        </if>
+        <if test="bak5!=null">
+            and bak5 = #{bak5,jdbcType=VARCHAR}
+        </if>
+        <if test="bak6!=null">
+            and bak6 = #{bak6,jdbcType=VARCHAR}
+        </if>
+        <if test="createUser!=null">
+            and create_user = #{createUser,jdbcType=VARCHAR}
+        </if>
+        <if test="createUserId!=null">
+            and create_user_id = #{createUserId,jdbcType=VARCHAR}
+        </if>
+        <if test="createDate!=null">
+            and create_date = #{createDate,jdbcType=VARCHAR}
+        </if>
+        <if test="status!=null">
+            and status = #{status,jdbcType=VARCHAR}
+        </if>
+        <if test="updateDate!=null">
+            and update_date = #{updateDate,jdbcType=VARCHAR}
+        </if>
+        <if test="updateUser!=null">
+            and update_user = #{updateUser,jdbcType=VARCHAR}
+        </if>
+        <if test="remarks!=null">
+            and remarks = #{remarks,jdbcType=VARCHAR}
+        </if>
+        <if test="auditStatus!=null">
+            and audit_status = #{auditStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="fileid!=null">
+            and fileId = #{fileid,jdbcType=VARCHAR}
+        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+    <!-- 查询树 -->
+    <select id="selectTrees" resultType="com.pcitc.base.common.TreeNode">
+	  select id,'1' as 'pid','1' as 'parentId',name,name as text,id as code
+        from report_config
+        where status = 2
+    </select>
+</mapper>

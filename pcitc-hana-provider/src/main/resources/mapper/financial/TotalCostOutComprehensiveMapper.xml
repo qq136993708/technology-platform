@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.financial.TotalCostOutComprehensiveMapper">
+	
+	
+	 <!--  研究院科研经费预算批复和实际支出全成本分析 H1AS_KY_CB_1001_01--> 
+     <resultMap id="totalCostProjectPay01ReportResultMap" type="com.pcitc.base.hana.report.TotalCostProjectPay01" >
+       <result column="K0BNYSJHJE"      property="k0BNYSJHJE"    jdbcType="VARCHAR" />
+       <result column="K0BNGLFPHJECB"   property="k0BNGLFPHJECB" jdbcType="VARCHAR" />
+       <result column="K0BNYSJY"        property="k0BNYSJY"      jdbcType="VARCHAR" />
+       <result column="G0XMLXMS"        property="g0XMLXMS"      jdbcType="VARCHAR" />
+       <result column="G0XMLX"          property="g0XMLX"        jdbcType="VARCHAR" />
+       <result column="K0BNZJSYBL"      property="k0BNZJSYBL"    jdbcType="VARCHAR" />
+       <result column="G0XMGLLX"        property="g0XMGLLX"      jdbcType="VARCHAR" />
+       <result column="G0XMGLLY"        property="g0XMGLLY"      jdbcType="VARCHAR" />
+       <result column="G0XMGLJB"        property="g0XMGLJB"      jdbcType="VARCHAR" />
+     </resultMap>
+     
+	 <select id="getTotalCostProjectPay01Report" resultMap="totalCostProjectPay01ReportResultMap" parameterType="java.util.Map" >
+        SELECT
+			 "G0XMLXMS",
+			 round( sum("K0BNYSJHJE")/10000,2)    AS "K0BNYSJHJE",
+			 round( sum("K0BNGLFPHJECB")/10000,2) AS "K0BNGLFPHJECB",
+			 round( sum("K0BNYSJY")/10000,2)      AS "K0BNYSJY"
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1001_01"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY 
+	          "G0XMLXMS"
+	 </select>
+	 
+	 
+	 
+	 <!--  类型分析    H1AS_KY_CB_1001_01--> 
+	 <select id="getTotalCostProjectPay01ReportBy_G0XMGLLX" resultMap="totalCostProjectPay01ReportResultMap" parameterType="java.util.Map" >
+        SELECT
+			 "G0XMGLLX",
+			 round( sum("K0BNYSJHJE")/10000,2)    AS "K0BNYSJHJE",
+			 round( sum("K0BNGLFPHJECB")/10000,2) AS "K0BNGLFPHJECB",
+			 round( sum("K0BNYSJY")/10000,2)      AS "K0BNYSJY",
+			 case when sum("K0BNYSJHJE")=0 then 0
+	            else 
+			     round(sum("K0BNGLFPHJECB")/sum("K0BNYSJHJE")*100,2)
+			 end AS "K0BNZJSYBL" 
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1001_01"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY 
+			 "G0XMGLLX"
+	 </select>
+	  <!--  来源分析    H1AS_KY_CB_1001_01--> 
+	 <select id="getTotalCostProjectPay01ReportBy_G0XMGLLY" resultMap="totalCostProjectPay01ReportResultMap" parameterType="java.util.Map" >
+        SELECT
+			 "G0XMGLLY",
+			 round( sum("K0BNYSJHJE")/10000,2)    AS "K0BNYSJHJE",
+			 round( sum("K0BNGLFPHJECB")/10000,2) AS "K0BNGLFPHJECB",
+			 round( sum("K0BNYSJY")/10000,2)      AS "K0BNYSJY",
+			 case when sum("K0BNYSJHJE")=0 then 0
+	            else 
+			     round(sum("K0BNGLFPHJECB")/sum("K0BNYSJHJE")*100,2)
+			 end AS "K0BNZJSYBL" 
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1001_01"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY 
+			 "G0XMGLLY"
+	 </select>
+	 
+	 <!--  级别分析    H1AS_KY_CB_1001_01--> 
+	 <select id="getTotalCostProjectPay01ReportBy_G0XMGLJB" resultMap="totalCostProjectPay01ReportResultMap" parameterType="java.util.Map" >
+        SELECT
+			 "G0XMGLJB",
+			 round( sum("K0BNYSJHJE")/10000,2)    AS "K0BNYSJHJE",
+			 round( sum("K0BNGLFPHJECB")/10000,2) AS "K0BNGLFPHJECB",
+			 round( sum("K0BNYSJY")/10000,2)      AS "K0BNYSJY",
+			 case when sum("K0BNYSJHJE")=0 then 0
+	            else 
+			     round(sum("K0BNGLFPHJECB")/sum("K0BNYSJHJE")*100,2)
+			 end AS "K0BNZJSYBL" 
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1001_01"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY 
+			 "G0XMGLJB"
+	 </select>
+	 
+	 
+	 <resultMap id="totalCostProjectPay02ReportResultMap" type="com.pcitc.base.hana.report.TotalCostProjectPay02" >
+       <result column="G0XMGLLX"        property="g0XMGLLX"      jdbcType="VARCHAR" />
+       <result column="G0XMGLLY"        property="g0XMGLLY"      jdbcType="VARCHAR" />
+       <result column="G0XMGLJB"        property="g0XMGLJB"      jdbcType="VARCHAR" />
+       <result column="G0GSDM"          property="g0GSDM"      jdbcType="VARCHAR" />
+       <result column="G0GSJC"          property="g0GSJC"      jdbcType="VARCHAR" />
+       <result column="K0BNGLFPHJECB"        property="k0BNGLFPHJECB"      jdbcType="VARCHAR" />
+       <result column="K0SNGLFPHJECB"        property="k0SNGLFPHJECB"      jdbcType="VARCHAR" />
+       <result column="K0TBBL"               property="k0TBBL"             jdbcType="VARCHAR" />
+       <result column="G0FYFL"               property="g0FYFL"             jdbcType="VARCHAR" />
+       
+     </resultMap>
+	 
+	 <!--  费用细分类型使用率分析 H1AS_KY_CB_1001_02--> 
+	 <select id="getTotalCostProjectPay02ReportBy_G0FYFL" resultMap="totalCostProjectPay02ReportResultMap" parameterType="java.util.Map" >
+        SELECT
+			 "G0FYFL",
+			 round( sum("K0BNGLFPHJECB")/10000,2)  AS "K0BNGLFPHJECB",
+			 round( sum("K0SNGLFPHJECB")/10000,2)  AS "K0SNGLFPHJECB",
+			  case when sum("K0SNGLFPHJECB")=0 then 0
+			            else 
+					     round((sum("K0BNGLFPHJECB")-sum("K0SNGLFPHJECB"))/sum("K0SNGLFPHJECB")*100,2)
+					 end AS "K0TBBL" 
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1001_02"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY 
+			 "G0FYFL"
+	 </select>
+	 
+	 
+	 <!-- 费用细分类型占比分析  H1AS_KY_CB_1001_02--> 
+	 <select id="getTotalCostProjectPay02ReportBy_G0FYFL_02" resultMap="totalCostProjectPay02ReportResultMap" parameterType="java.util.Map" >
+        SELECT
+			 "G0FYFL",
+			 round( sum("K0BNGLFPHJECB")/10000,2)  AS "K0BNGLFPHJECB"
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1001_02"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY 
+			 "G0FYFL"
+	 </select>
+	 
+	 
+	  <!-- 研究院实际支出占比分析  H1AS_KY_CB_1001_02--> 
+	 <select id="getTotalCostProjectPay02ReportBy_G0GSJC" resultMap="totalCostProjectPay02ReportResultMap" parameterType="java.util.Map" >
+        SELECT
+			 "G0GSJC",
+			 round( sum("K0BNGLFPHJECB")/10000,2)  AS "K0BNGLFPHJECB"
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1001_02"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY 
+			 "G0GSJC"
+	 </select>
+	 
+	 
+	 <!-- 研究院人均实际支出分析 --> 
+	  <resultMap id="totalCostProjectPay03ReportResultMap" type="com.pcitc.base.hana.report.TotalCostProjectPay03" >
+       <result column="G0CALD"        property="g0CALD"      jdbcType="VARCHAR" />
+       <result column="G0GSDM"        property="g0GSDM"      jdbcType="VARCHAR" />
+       <result column="G0GSJC"        property="g0GSJC"      jdbcType="VARCHAR" />
+       <result column="K0BNRYSL"      property="k0BNRYSL"    jdbcType="VARCHAR" />
+       <result column="K0BNRJCB"      property="k0BNRJCB"    jdbcType="VARCHAR" />
+       <result column="K0BNRJXM"      property="k0BNRJXM"    jdbcType="VARCHAR" />
+       <result column="K0BNRJZL"      property="k0BNRJZL"    jdbcType="VARCHAR" />
+     </resultMap>
+	 
+	 <select id="getTotalCostProjectPay03Report" resultMap="totalCostProjectPay03ReportResultMap" parameterType="java.util.Map" >
+       SELECT
+			 "G0CALD",
+			  "G0GSJC",
+			 round( sum("K0BNRJCB")/10000,2) AS "K0BNRJCB",
+			 round( sum("K0BNRJXM")*100,2) AS "K0BNRJXM",
+			 round( sum("K0BNRJZL")*100,2) AS "K0BNRJZL"
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1001_03"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}')) 
+		GROUP BY "G0CALD", "G0GSJC"
+	 </select>
+	 
+	 
+	 
+	 
+
+</mapper>

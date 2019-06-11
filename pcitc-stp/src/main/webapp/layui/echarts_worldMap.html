@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>中国石化国际合作项目分布demo</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+    <script src="/layuiadmin/lib/extend/world.js"></script>
+</head>
+<body style="background: #000;">
+<!--WorldMap国际合作-->
+<div id="main" style="width: 100%;height: 500px;"></div>
+<script>
+    // 获取echarts的容器
+    var chart = echarts.init(document.getElementById("main"));
+
+    /*
+        关于国家的经纬度，可以用首都的经纬度或者其他城市的经纬度
+        获取经纬度的方法：https://jingyan.baidu.com/article/d45ad148b3deaa69542b8057.html
+    */
+    var geoCoordMap = {
+        '中国': [107.7539, 30.1904],
+        '芬兰': [24.909912, 60.169095],
+        '美国': [-100.696295, 33.679979],
+        '日本': [139.710164, 35.706962],
+        '韩国': [126.979208, 37.53875],
+        '瑞士': [7.445147, 46.956241],
+        '东南亚': [117.53244, 5.300343],
+        '澳大利亚': [135.193845, -25.304039],
+        '德国': [13.402393, 52.518569],
+        '英国': [-0.126608, 51.208425],
+        '加拿大': [-102.646409, 59.994255]
+    };
+
+    /*
+        记录下起点城市和终点城市的名称，以及权重
+        数组第一位为终点城市，数组第二位为起点城市，以及该城市的权重，就是图上圆圈的大小
+     */
+
+    // 中国
+    var CQData = [
+        [{name: '中国'}, {name: "芬兰",value: 30}],
+        [{name: '中国'}, {name: "德国",value: 90}],
+        [{name: '中国'}, {name: "英国",value: 30}],
+        [{name: '中国'}, {name: "韩国",value: 30}],
+        [{name: '中国'}, {name: "加拿大",value: 30}],
+        [{name: '中国'}, {name: "澳大利亚",value: 95}],
+        [{name: '中国'}, {name: "瑞士",value: 30}],
+        [{name: '中国'}, {name: "美国",value: 100}]
+    ];
+
+    var color  = ['#9ae5fc', '#dcbf71'];    // 自定义图中要用到的颜色
+    var series = [];                        // 用来存储地图数据
+
+    [['中国', CQData]].forEach(function(item, i) {
+        series.push( { // 散点效果
+            type: 'effectScatter',
+            coordinateSystem: 'geo',       // 表示使用的坐标系为地理坐标系
+            zlevel: 3,
+            rippleEffect: {
+                brushType: 'stroke'        // 波纹绘制效果
+            },
+            label: {
+                normal: {                  // 默认的文本标签显示样式
+                    show: true,
+                    position: 'left',      // 标签显示的位置
+                    formatter: '{b}'       // 标签内容格式器
+                }
+            },
+            itemStyle: {
+                normal: {
+                    color: color[0]
+                }
+            },
+            data: item[1].map(function(dataItem) {
+                return {
+                    name: dataItem[1].name,
+                    value: geoCoordMap[dataItem[1].name],  // 起点的位置
+                    symbolSize: dataItem[1].value / 8,  // 散点的大小，通过之前设置的权重来计算，val的值来自data返回的value
+                };
+            })
+        });
+    });
+
+    // 显示终点位置,类似于上面最后一个效果，放在外面写，是为了防止被循环执行多次
+    series.push({
+        type: 'effectScatter',
+        coordinateSystem: 'geo',
+        zlevel: 3,
+        rippleEffect: {
+            brushType: 'stroke'
+        },
+        label: {
+            normal: {
+                show: true,
+                position: 'left',
+                formatter: '{b}'
+            }
+        },
+        symbolSize: function(val) {
+            return val[2] / 8;
+        },
+        itemStyle: {
+            normal: {
+                color: color[1]
+            }
+        },
+        data: [{
+            // 这里面的数据，由于一开始就知道终点位置是什么，所以直接写死，如果通过ajax来获取数据的话，还要进行相应的处理
+            name: "中国",
+            value: [107.7539, 30.1904, 30],
+            label: {
+                normal: {
+                    position: 'top'
+                }
+            }
+        }]
+    });
+
+    // 最后初始化世界地图中的相关数据
+    chart.setOption({
+        title: {
+            text: '中石化国际合作项目分布',
+            textStyle: {
+                color: '#fff',
+                fontSize: 18
+            },
+            top: '10px',
+            left: '10px'
+        },
+        geo: {
+            map: 'world',       // 与引用进来的地图js名字一致
+            roam: false,        // 禁止缩放平移
+            itemStyle: {        // 每个区域的样式
+                normal: {
+                    areaColor: '#323c48'
+                },
+                emphasis: {
+                    areaColor: '#2a333d'
+                }
+            },
+            regions: [{        // 选中的区域
+                name: 'China',
+                selected: true,
+                itemStyle: {   // 高亮时候的样式
+                    emphasis: {
+                        areaColor: '#7d7d7d'
+                    }
+                },
+                label: {    // 高亮的时候不显示标签
+                    emphasis: {
+                        show: false
+                    }
+                }
+            }]
+        },
+        series: series,   // 将之前处理的数据放到这里
+        textStyle: {
+            fontSize: 12
+        }
+    });
+</script>
+</body>
+</html>

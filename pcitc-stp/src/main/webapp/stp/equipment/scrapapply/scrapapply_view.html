@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>科技管理平台</title>
+	<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+
+	<script src="/layuiadmin/layui/layui.js"></script>
+	<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+</head>
+<body>
+<input type="hidden" value="${id}" id="getid" name="getid">
+<input type="hidden" id="getList" name="getList" value='${getList}'/>
+
+<div class="">
+
+    <div class="tableBox">
+        <div class="tableToolBox">
+          <span id="priceandnumber"></span>
+        </div>
+        <table id="user_table" class="layui-hide" lay-filter="tableDataTwo"></table>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    // 时间格式化
+    function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+</script>
+<script type="text/javascript">
+    var AddData=[];
+	var selectRowData,table;
+	//reload后删除表头
+	function reloadTable(table,where)
+	{
+		layui.table.reload(table,{where: where});
+		$(".layui-table-header table thead th input").remove();
+	}
+		function view_project(id) 
+    {
+    var k=[];
+		    for(var i=0;i<AddData.length;i++)
+		    {
+		    if(AddData[i]!="undefined" && AddData[i]!=null && AddData[i]!="")
+			        {
+					    if(AddData[i].id==id)
+					    {
+					         delete AddData[i];
+					     }
+				        }
+		        }
+		        for(var i=0;i<AddData.length;i++)
+		        {
+			        if(AddData[i]!="undefined" && AddData[i]!=null && AddData[i]!="")
+			        {
+			        k.unshift({id:AddData[i].id,equipmentName:AddData[i].equipmentName,specification:AddData[i].specification,del:"删除"});
+			        }
+		        }
+		        AddData=k;
+		    table.reload('userListTable',{
+						data : AddData
+			}) 
+				$("#priceandnumber").html("合计100数量100"); 
+								 
+    }
+	function save()
+	{
+	if($("#applyName").val()=="")
+	{
+	layer.msg("请输入名称");
+	return;
+	}
+	var ids='';
+	var getid=$("#getid").val();
+		for(var i=0;i<AddData.length;i++)
+		{
+		ids=ids+","+AddData[i].id;
+		}
+		var name=$("#applyName").val();
+		 $.ajax({
+	           type : 'POST',
+	           url : "/sre-sreScrapApply/addApplyAndItem",
+	           data : {"name":name,"ids":ids,"id":getid,"addorupdate":"1"},
+	           success : function(data) {
+	           alert("保存成功！");
+	        	}
+	       });
+    	  
+	}
+	layui.use(['jquery', 'table', 'laypage'], function () {
+    	table = layui.table,$ = layui.jquery;
+    	    	
+    	 var $ = layui.$, active = {
+            roleSearchEvent: function() { //点击查询按钮
+            	rendRoleTable(); 
+            }
+        };
+    	
+    function rendRoleTable()
+    {
+        AddData=[];
+        var str=$("#getList").val();
+        var s =  JSON.parse(str);
+        var sprice=0;
+       for( var i=0;i<s.length;i++)
+       {
+         sprice=sprice+parseInt(s[i].sumprice);
+         }
+        AddData.unshift({id:"合计",equipmentName:"",specification:"",assetnumber:"",placepeople:"",sumprice:sprice});
+        for( var i=0;i<s.length;i++)
+        {
+       
+        AddData.unshift({id:s[i].detailid,equipmentName:s[i].equipmentName,specification:s[i].specification,assetnumber:s[i].assetnumber,placepeople:s[i].placepeople,sumprice:s[i].sumprice})
+        }
+       
+    	var lodingMsg = layer.msg('数据加载中....');
+    	var param = JSON.parse(window.localStorage.getItem("param"));
+	    //渲染第一个表格
+	    table.render({
+	        elem: '#role_table' //表格容器
+	        , url: '/sre-detail/list' //请求的url地址
+	        , limit : param.selfRownum //每页默认显示的数量
+	        , id: 'roleListTable'
+	        , where: {param: {"equipmentName":$("#equipmentName").val()}}
+	        , height: commonDislodgeTable()
+	        , method:"POST"
+	        ,loading:true
+	        , page: {
+	            groups: 5
+	            , limits : [ param.selfRownum, 15, 30, 45, 60 ]
+	            , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+	            , first: '首页' //不显示首页
+	            , last: '尾页' //不显示尾页
+	            , theme: '#0F9EE0'
+	        }
+	        , cols: [[
+	            	 {type: 'checkbox', event: 'roleCheckboxEvent'}
+	            	,{title:'序号', type:'numbers'}
+	            	, {field: 'id', title: 'id', style: 'cursor: pointer;'}
+	            	, {field: 'assetnumber', title: '资产编号', style: 'cursor: pointer;'}
+	            	, {field: 'equipmentName', title: '资产名称', style: 'cursor: pointer;'}
+	            	, {field: 'sumprice', title: '资产价值', style: 'cursor: pointer;'}
+	            	, {field: 'placepeople', title: '使用人', style: 'cursor: pointer;'}	
+	            	, {field: 'equipmentPrice', title: '装备单价', style: 'cursor: pointer;'}
+	            	, {field: 'equipmenNumber', title: '规格数量', style: 'cursor: pointer;'}
+	            	, {field: 'specification', title: '规格型号', style: 'cursor: pointer;'}
+	            	, {field: 'arrivaldate', title: '到货日期', style: 'cursor: pointer;', templet :function (row){
+                        return formatTime(row.arrivaldate);
+                        }  }
+	            	, {field: 'supplier', title: '供应商', style: 'cursor: pointer;'}
+	            	, {field: 'assetsClassification', title: '分类', style: 'cursor: pointer;'}
+	        ]]
+	        , done: function (res, curr, count) {
+	         $("[data-field='id']").css('display','none');
+	            // 点击行联动选择框--单选
+	            $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+	               
+	                 var index=parseInt($(this).index()+1);
+	                  selectRowData=res.data[index-1];
+                   $(this).addClass('layui-table-click');
+                   $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+               
+	                  var bo=false;
+	                  for(var i=0;i<AddData.length;i++)
+	                  {
+		                  if(AddData[i].id==selectRowData.id)
+		                  {
+		                  bo=true;
+		                  }
+	                  }
+	                  if(bo==false)
+	                  {
+						AddData.unshift({id:selectRowData.id,equipmentName:selectRowData.equipmentName,specification:selectRowData.specification,del:"删除"});
+					  }
+						table.reload('userListTable',{
+						data : AddData
+						}) 
+						$("#priceandnumber").html("合计100数量100");       
+	            })
+	        }
+	    });
+    }
+    
+
+    function rendUserTable(){
+    	var lodingMsg = layer.msg('数据加载中....');
+    	var param = JSON.parse(window.localStorage.getItem("param"));
+	    table.render({
+	        elem: '#user_table' //表格容器
+	        , id: 'userListTable'
+	        , height: commonDislodgeTable()
+	        , loading: true
+	        , cols: [[
+	              {title:'序号', type:'numbers'}
+	        	, {field: 'id', title: '编号', style: 'cursor: pointer;'}
+	        	, {field: 'assetnumber', title: '资产编号', style: 'cursor: pointer;'}
+	            , {field: 'equipmentName', title: '资产名称', style: 'cursor: pointer;'}
+	            , {field: 'sumprice', title: '资产价值', style: 'cursor: pointer;'}
+	            , {field: 'placepeople', title: '使用人', style: 'cursor: pointer;'}	
+	        	        ]],
+	        data:AddData
+	        , done: function (res, curr, count) {
+	        	layer.close(lodingMsg);
+	        }
+	        
+	    });
+	    $(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
+    }
+    rendRoleTable();
+    rendUserTable();
+    //区别按钮属性
+    $('.layui-btn').on('click', function () {
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
+    });
+});
+</script>
+</html>

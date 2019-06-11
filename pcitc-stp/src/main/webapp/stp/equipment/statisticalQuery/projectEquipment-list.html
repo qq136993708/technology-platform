@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        .searchBox{ height: auto;}
+        .searchBox label{margin-bottom: 10px;display: inline-block; }
+    </style>
+</head>
+
+<body>
+
+<div class="searchBox">
+    <form action=""  name="form1" id="form1" action="" method="POST">
+        <input type="hidden" name="departCode" id="departCode" value="${departCode}">
+        <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
+        <input type="hidden" name="isKJBPerson" id="isKJBPerson" value="${isKJBPerson}">
+    </form>
+    <!--查询条件-->
+    <label class="dateInput">
+        <span>立项年度</span>
+        <input type="text" name="setupYear" value="" readonly="readonly" placeholder="请选择立项年度" title="立项年度" autocomplete="off" class="form-control" id="setupYear">
+    </label>
+
+    <label class="dateInput">
+        <span>课题名称</span>
+        <input type="text" name="name" title="课题名称" autocomplete="off" class="form-control" id="name">
+    </label>
+
+    <label class="dateInput">
+        <span>总经费(万元)</span>
+        <input type="text" name="startMoney" title="开始金额" placeholder="￥(最大长度8位)" autocomplete="off" class="form-control" id="startMoney" onkeyup="this.value=this.value.replace(/\D/g, '')" maxlength="8">
+    </label>
+    --
+    <label class="dateInput">
+        <input type="text" name="endMoney" title="结束金额" placeholder="￥(最大长度8位)"autocomplete="off" class="form-control" id="endMoney" onkeyup="this.value=this.value.replace(/\D/g, '')" maxlength="8">
+    </label>
+
+    <label class="dateInput">
+        <span>归属部门</span>
+        <select name="belongDepartmentName" id="belongDepartmentName"  onchange="getDepartNameByUnitName(this.value)" class="form-control"  >
+            <option value="" >--请选择归属部门--</option>
+            <#list unitFieldList as vo>
+            <option value="${vo.unitName}"  >${vo.unitName}</option>
+        </#list>
+        </select>
+    </label>
+
+    <label class="dateInput">
+        <span>专业处</span>
+        <select id="professionalDepartName" name="professionalDepartName" onchange="getProfessionalNameListByUnitNameAndDept(this.value)" class="form-control" ></select>
+    </label>
+
+    <label class="dateInput">
+        <span>专业领域</span>
+        <select id="professionalFieldName" name="professionalFieldName" class="form-control" ></select>
+    </label>
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
+    </div>
+</div>
+
+
+<div class="tableBox">
+    <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table>
+</div>
+
+
+<script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
+<script type="text/javascript">
+    // 时间格式化
+    function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+</script>
+<script type="text/javascript">
+
+    getDepartNameByUnitName($("#belongDepartmentName").val());
+    function getDepartNameByUnitName(belongDepartmentName)
+    {
+        $("#belongDepartmentName").val(belongDepartmentName);
+        $("#professionalDepartName").empty();
+        var v_date=(new Date()).getTime();
+        $.ajax({
+            url : "/unitField/getDepartmentNameListByUnitName?v_date="+v_date+"&unitName="+belongDepartmentName,
+            type : "post",
+            async: false,
+            dataType : "json",
+            success : function(data)
+            {
+                $("#professionalDepartName").append("<option value=''>--请选择--</option>");
+                $.each(data, function(i, el)
+                {
+                    $("#professionalDepartName").append('<option value="'+ el.departmentName +'">' + el.departmentName+ '</option>');
+                    /* if(cityId==el.departmentName)
+                    {
+                        $("#professionalDepartName ").val(departmentName);
+                    } */
+
+                });
+            },
+            error : function()
+            {
+                alert("发生未知错误 ,请重新操作.");
+            }
+        });
+
+
+        getProfessionalNameListByUnitNameAndDept(belongDepartmentName);
+    }
+
+
+
+
+
+
+
+    function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
+    {
+
+        var belongDepartmentName= $("#belongDepartmentName").val();
+        $("#professionalFieldName").empty();
+        var v_date=(new Date()).getTime();
+        $.ajax({
+            url : "/unitField/getProfessionalNameListByUnitNameAndDept?v_date="+v_date+"&unitName="+belongDepartmentName+"&departmentName="+professionalDepartName,
+            type : "post",
+            async: false,
+            dataType : "json",
+            success : function(data)
+            {
+                $("#professionalFieldName").append("<option value=''>--请选择--</option>");
+                $.each(data, function(i, el)
+                {
+                    $("#professionalFieldName").append('<option value="'+ el.professionalFieldName +'">' + el.professionalFieldName+ '</option>');
+
+                });
+            },
+            error : function()
+            {
+                alert("发生未知错误 ,请重新操作.");
+            }
+        });
+    }
+
+</script>
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script>
+    var table,selectRowData;
+    var contractCode=$('#contractCode').val();
+    layui.use(['jquery','table','laypage','layer','laytpl','laydate'], function(){
+        table = layui.table,
+            $ = layui.jquery,
+            layer = layui.layer,
+            laydate = layui.laydate,
+            laypage = layui.laypage;
+
+        renderTable();
+        $(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
+
+        var setupYear = laydate.render({
+            elem: '#setupYear'
+            ,type: 'year'
+        });
+        // 触发不同的按钮事件
+        var $ = layui.$, active = {
+            searchEvent: function() { //点击查询按钮
+                var startMoney = $('#startMoney').val();
+                var endMoney = $('#endMoney').val();
+                if(startMoney!=null && endMoney!=null){
+                    renderTable();
+                }else{
+                    layer.alert("请输入开始金额或结束金额");
+                }
+
+            },
+            resetEvent: function() { //点击重置按钮
+                $('#setupYear').val("");
+                $('#name').val("");
+                $('#belongDepartmentName').val("");
+                $('#professionalFieldName').val("");
+                $('#professionalDepartName').val("");
+                $('#startMoney').val("");
+                $('#endMoney').val("");
+
+            }
+        };
+
+        //监听排序
+        table.on('sort(model-table)', function(obj){
+            console.log(this, obj.field, obj.type)
+            //return;
+            //服务端排序
+            table.reload('model-table', {
+                initSort: obj,
+                page: {curr: 1}, //重新从第一页开始
+                where: { //重新请求服务端
+                    key: obj.field, //排序字段
+                    order: obj.type //排序方式
+                }
+            });
+        });
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+    });
+
+    function renderTable()
+    {
+        //渲染
+        table.render({
+            elem: '#processdef-table',
+            url: '/sre-statisticalQuery/projectEquipmentList',
+            method:"POST",
+            where: {param: {"isKJBPerson":$("#isKJBPerson").val(),"setupYear":$("#setupYear").val(),"name":$("#name").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalFieldName":$("#professionalFieldName").val(),"professionalDepartName":$("#professionalDepartName").val(),"startMoney":$("#startMoney").val(),"endMoney":$("#endMoney").val()}},
+            limit: 15,
+            id: 'processdef-table',
+            height: commonDislodgeTable(),
+            page: {
+                groups: 5,
+                limits: [15,30,45,60],
+                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                first: '首页', //不显示首页
+                last: '尾页', //不显示尾页
+                theme: '#0F9EE0'
+            },
+            cols: [[
+                {type : 'checkbox', event : 'changeEvents', width : 55},
+                {title : '序号', type :'numbers', width : 55},
+                //{field : 'status',         title : '状态',            style : 'cursor: pointer;', align: 'center', width : '10%', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width : 55},
+                {field : 'name',           title : '课题名称',         style : 'cursor: pointer;', align: 'left',    width : '20%'},
+                {field : 'beginYear',      title : '投资期限',         style : 'cursor: pointer;', align: 'center',  width : '7%',templet:function(d){return '<div style="">'+d.beginYear+'-'+d.endYear+'</div><br/><div style="color:red">'+d.beginYear+'</div>'}},
+                {field : 'projectMoney',   title : '总经费(万元)',      style : 'cursor: pointer;', align: 'center',  width : '8%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
+                {field : 'leadUnitName',   title : '牵头单位',         style : 'cursor: pointer;', align: 'left', width : '20%'},
+                {field : 'belongDepartmentName',   title : '归属部门', style : 'cursor: pointer;', align: 'left', width : '7%'},
+                {field : 'professionalDepartName', title : '专业处',  style : 'cursor: pointer;', align: 'left', width : '7%'},
+                {field : 'professionalFieldName',  title : '专业领域', style : 'cursor: pointer;', align: 'left', width : '7%'},
+                {field : 'parentUnitPathNames',    title : '上报单位', style : 'cursor: pointer;', align: 'left', width : '20%'},
+                {field : 'applyUnitName',          title : '上报部门', style : 'cursor: pointer;', align: 'left', width : '10%'},
+                {field : 'createDate',             title : '上报时间', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl', width : '10%'}
+            ]],
+            done: function (res, curr, count) {
+                // 点击行联动选择框--单选
+                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                    var index=parseInt($(this).index()+1);
+                    $('tr').removeClass('layui-table-click');
+                    $(this).addClass('layui-table-click');
+                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                    selectRowData=res.data[index-1];
+                    var auditStatus=selectRowData.auditStatus;
+                });
+
+            }
+        });
+    }
+
+    /*formName：form表单名称，
+    type：post、get,delete,put
+    backurl:操作成功后返回地址
+    successMsg：成功提示
+    failMsg：失败提示 */
+    function ajaxDeleteOpt(url,type,successMsg,failMsg)
+    {
+        $.ajax({
+            type:type,
+            url: url,
+            dataType:"json",
+            async: false,
+            cache: false,
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            success:function(data,status)
+            {
+
+                if(data.success==true ||data.success=='true')
+                {
+                    layer.alert(
+                        successMsg,
+                        {icon: 1,closeBtn: 0 },
+                        function ()
+                        {
+                            renderTable();
+                            layer.closeAll();
+                        });
+
+                } else
+                {
+                    layer.alert("操作失败");
+                }
+
+            },
+            error:function()
+            {
+                layer.alert("网络访问错误");
+            }
+
+        });
+    }
+    function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
+    {
+        $.ajax({
+            type:type,
+            url: url,
+            dataType:"json",
+            data:$("#"+formName).serialize(),
+            async: false,
+            cache: false,
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            success:function(data,status)
+            {
+
+                if(data.success==true ||data.success=='true')
+                {
+
+
+                    layer.alert(
+                        successMsg,
+                        {icon: 1,closeBtn: 0 },
+                        function ()
+                        {
+                            renderTable();
+                            layer.closeAll();
+                        });
+
+                } else
+                {
+                    layer.alert(failMsg);
+                }
+
+            },
+            error:function()
+            {
+                layer.alert("网络访问错误");
+            }
+
+        });
+    }
+
+
+
+
+
+</script>
+
+</body>
+</html>

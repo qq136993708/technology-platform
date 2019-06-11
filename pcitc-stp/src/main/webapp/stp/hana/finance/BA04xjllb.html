@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+     <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<body>
+<div style="text-align: center; font-weight: bold; margin: 10px;">(直属研究院)现金流量表</div>
+<div class="searchBox">
+    <!--查询条件-->
+        <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control" id="month">
+        </label>
+       <div class="layui-input-inline">
+         <select name="companyCode" id="companyCode" >
+              <#list companyCodeList as vo>
+              	 <#if vo.g0GSJC == '全部'>
+              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
+              	 </#if>
+                 <#if vo.g0GSJC != '全部'>
+              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
+              	 </#if>
+               </#list>
+            </select>
+       </div>
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+    </div>
+    <span class="unitBox">单位：元</span>
+</div>
+
+	<div class="content-body container">
+		
+		<table class="layui-table">
+		<thead>
+		
+				
+					<tr>
+						<td>项 目</td>
+						<td>行次</td>
+						<td>本年数</td>
+						<td>上年数</td>
+						<td>项 目</td>
+						<td>行次</td>
+						<td>本年数</td>
+						<td>上年数</td>
+						<td></td>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<td>一、经营活动产生的现金流量：</td>
+						<td>1</td>
+						<td>——</td>
+						<td>——</td>
+						<td>处置固定资产、油气资产、无形资产和其他长期资产收回的现金净额</td>
+						<td>30</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>销售商品、提供劳务收到的现金</td>
+						<td>2</td>
+						<td></td>
+						<td></td>
+						<td>处置子公司及其他营业单位收到的现金净额</td>
+						<td>31</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>△客户存款和同业存放款项净增加额</td>
+						<td>3</td>
+						<td></td>
+						<td></td>
+						<td>收到其他与投资活动有关的现金</td>
+						<td>32</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>△向中央银行借款净增加额</td>
+						<td>4</td>
+						<td></td>
+						<td></td>
+						<td>投资活动现金流入小计</td>
+						<td>33</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>△向其他金融机构拆入资金净增加额</td>
+						<td>5</td>
+						<td></td>
+						<td></td>
+						<td>购建固定资产、油气资产、无形资产和其他长期资产支付的现金</td>
+						<td>34</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>△收到原保险合同保费取得的现金</td>
+						<td>6</td>
+						<td></td>
+						<td></td>
+						<td>投资支付的现金</td>
+						<td>35</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>△收到再保险业务现金净额</td>
+						<td>7</td>
+						<td></td>
+						<td></td>
+						<td>△质押贷款净增加额</td>
+						<td>36</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>△保户储金及投资款净增加额</td>
+						<td>8</td>
+						<td></td>
+						<td></td>
+						<td>取得子公司及其他营业单位支付的现金净额</td>
+						<td>37</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>△处置以公允价值计量且其变动计入当期损益的金融资产净增加额</td>
+						<td>9</td>
+						<td></td>
+						<td></td>
+						<td>支付其他与投资活动有关的现金</td>
+						<td>38</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>△收取利息、手续费及佣金的现金</td>
+						<td>10</td>
+						<td></td>
+						<td></td>
+						<td>投资活动现金流出小计</td>
+						<td>39</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>△拆入资金净增加额</td>
+						<td>11</td>
+						<td></td>
+						<td></td>
+						<td>投资活动产生的现金流量净额</td>
+						<td>40</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>△回购业务资金净增加额</td>
+						<td>12</td>
+						<td></td>
+						<td></td>
+						<td>三、筹资活动产生的现金流量：</td>
+						<td>41</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>收到的税费返还</td>
+						<td>13</td>
+						<td></td>
+						<td></td>
+						<td>吸收投资收到的现金</td>
+						<td>42</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>收到其他与经营活动有关的现金</td>
+						<td>14</td>
+						<td></td>
+						<td></td>
+						<td>其中：子公司吸收少数股东投资收到的现金</td>
+						<td>43</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>经营活动现金流入小计</td>
+						<td>15</td>
+						<td></td>
+						<td></td>
+						<td>取得借款收到的现金</td>
+						<td>44</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>购买商品、接受劳务支付的现金</td>
+						<td>16</td>
+						<td></td>
+						<td></td>
+						<td>△发行债券收到的现金</td>
+						<td>45</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>△客户贷款及垫款净增加额</td>
+						<td>17</td>
+						<td></td>
+						<td></td>
+						<td>收到其他与筹资活动有关的现金</td>
+						<td>46</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>△存放中央银行和同业款项净增加额</td>
+						<td>18</td>
+						<td></td>
+						<td></td>
+						<td>筹资活动现金流入小计</td>
+						<td>47</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>△支付原保险合同赔付款项的现金</td>
+						<td>19</td>
+						<td></td>
+						<td></td>
+						<td>偿还债务支付的现金</td>
+						<td>48</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>△支付利息、手续费及佣金的现金</td>
+						<td>20</td>
+						<td></td>
+						<td></td>
+						<td>分配股利、利润或偿付利息支付的现金</td>
+						<td>49</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>△支付保单红利的现金</td>
+						<td>21</td>
+						<td></td>
+						<td></td>
+						<td>其中：子公司支付给少数股东的股利、利润或偿付的利息</td>
+						<td>50</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>支付给职工以及为职工支付的现金</td>
+						<td>22</td>
+						<td></td>
+						<td></td>
+						<td>支付其他与筹资活动有关的现金</td>
+						<td>51</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>支付的各项税费</td>
+						<td>23</td>
+						<td></td>
+						<td></td>
+						<td>筹资活动现金流出小计</td>
+						<td>52</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>支付其他与经营活动有关的现金</td>
+						<td>24</td>
+						<td></td>
+						<td></td>
+						<td>筹资活动产生的现金流量净额</td>
+						<td>53</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>经营活动现金流出小计</td>
+						<td>25</td>
+						<td></td>
+						<td></td>
+						<td>四、汇率变动对现金及现金等价物的影响</td>
+						<td>54</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>经营活动产生的现金流量净额</td>
+						<td>26</td>
+						<td></td>
+						<td></td>
+						<td>五、现金及现金等价物净增加额</td>
+						<td>55</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>二、投资活动产生的现金流量：</td>
+						<td>27</td>
+						<td></td>
+						<td></td>
+						<td>加：期初现金及现金等价物余额</td>
+						<td>56</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>收回投资收到的现金</td>
+						<td>28</td>
+						<td></td>
+						<td></td>
+						<td>六、期末现金及现金等价物余额</td>
+						<td>57</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>取得投资收益收到的现金</td>
+						<td>29</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr></tr>
+				</tbody>
+			</table>
+	</div>
+
+	<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_chart.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script>
+
+
+var table,selectRowData;
+layui.config({
+    base: '/layuiadmin/module/modules/' //静态资源所在路径
+}).use(['jquery','form', 'laydate','table','laypage','layer'], function(){
+	  admin = layui.admin
+	  ,$ = layui.jquery
+      ,table = layui.table
+      ,layer = layui.layer
+      ,laydate = layui.laydate
+      ,form = layui.form
+      ,laypage = layui.laypage;
+	  form.render(null, 'component-form-group');
+            laydate.render({
+               elem: '#month'
+               ,format: 'yyyyMM'
+            });
+      //初始化表格
+      renderTable();
+});
+
+var allCode="${allCode?default('')}";
+var allCode_text="全部院所";
+
+
+</script>
+</body>
+</html>

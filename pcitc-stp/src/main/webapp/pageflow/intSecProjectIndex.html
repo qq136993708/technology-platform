@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Page Flow</title>
+    <meta name="description"
+          content="A workflow diagram showing navigation between web pages, with an editable list of comments and to-dos."/>
+    <meta charset="UTF-8">
+    <script src="/pageflow/gojs/release/go.js"></script>
+    <!--<script src="../assets/js/goSamples.js"></script>  &lt;!&ndash; this is only for the GoJS Samples framework &ndash;&gt;-->
+    <script id="code">
+        function init() {
+            // if (window.goSamples) goSamples();  // init for these samples -- you don't need to call this
+            var goJSAll = go.GraphObject.make;  // for conciseness in defining templates
+            var yellowgrad = goJSAll(go.Brush, "Linear", {0: "rgb(254, 201, 0)", 1: "rgb(254, 162, 0)"});
+            var greengrad = goJSAll(go.Brush, "Linear", {0: "#98FB98", 1: "#9ACD32"});
+            var bluegrad = goJSAll(go.Brush, "Linear", {0: "#B0E0E6", 1: "#87CEEB"});
+            var redgrad = goJSAll(go.Brush, "Linear", {0: "#C45245", 1: "#871E1B"});
+            var whitegrad = goJSAll(go.Brush, "Linear", {0: "#F0F8FF", 1: "#E6E6FA"});
+			var color_hui = goJSAll(go.Brush, "Linear", {0: "#f2f2f2", 1: "#f2f2f2"});
+
+            var bigfont = "bold 13pt Helvetica, Arial, sans-serif";
+            var smallfont = "bold 11pt Helvetica, Arial, sans-serif";
+
+            // Common text styling
+            function textStyle() {
+                return {
+                    margin: 6,
+                    wrap: go.TextBlock.WrapFit,
+                    textAlign: "center",
+                    editable: true,
+                    font: bigfont
+                }
+            }
+
+            myDiagram2 =
+                goJSAll(go.Diagram, "myDiagram2Div",
+                    {
+                        // have mouse wheel events zoom in and out instead of scroll up and down
+                        "toolManager.mouseWheelBehavior": go.ToolManager.WheelZoom,
+                        allowDrop: true,  // support drag-and-drop from the Palette
+                        initialAutoScale: go.Diagram.Uniform,
+                        "linkingTool.direction": go.LinkingTool.ForwardsOnly,
+                        initialContentAlignment: go.Spot.Center,
+                        layout: goJSAll(go.LayeredDigraphLayout, {isInitial: false, isOngoing: false, layerSpacing: 50}),
+                        "undoManager.isEnabled": true
+                    });
+
+            // when the document is modified, add a "*" to the title and enable the "Save" button
+            myDiagram2.addDiagramListener("Modified", function (e) {
+                var button = document.getElementById("SaveButton");
+                if (button) button.disabled = !myDiagram2.isModified;
+                var idx = document.title.indexOf("*");
+                if (myDiagram2.isModified) {
+                    if (idx < 0) document.title += "*";
+                } else {
+                    if (idx >= 0) document.title = document.title.substr(0, idx);
+                }
+            });
+
+            var defaultAdornment =
+                goJSAll(go.Adornment, "Spot",
+                    goJSAll(go.Panel, "Auto",
+                        goJSAll(go.Shape, {fill: null, stroke: "dodgerblue", strokeWidth: 4}),
+                        goJSAll(go.Placeholder)),
+                    // the button to create a "next" node, at the top-right corner
+                    goJSAll("Button",
+                        {
+                            alignment: go.Spot.TopRight,
+                            click: addNodeAndLink
+                        },  // this function is defined below
+                        new go.Binding("visible", "", function (a) {
+                            return !a.diagram.isReadOnly;
+                        }).ofObject(),
+                        goJSAll(go.Shape, "PlusLine", {desiredSize: new go.Size(6, 6)})
+                    )
+                );
+
+            // 画布空白即背景点击事件
+            myDiagram2.addDiagramListener("BackgroundSingleClicked", function(e) {
+                // console.log("点击了空白");
+            });
+            myDiagram2.addDiagramListener("ObjectSingleClicked", function(e) {
+                console.log(e.subject.part.data.key);
+                console.log(e.subject.part.data);
+                var key = e.subject.part.data.key;
+                // if(key=="-3"){
+                //window.open("http://www.baidu.com");
+                // }
+            });
+
+            // define the Node template
+            myDiagram2.nodeTemplate =
+                goJSAll(go.Node, "Auto",
+                    {selectionAdornmentTemplate: defaultAdornment},
+                    new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+                    // define the node's outer shape, which will surround the TextBlock
+                    goJSAll(go.Shape, "Rectangle",
+                        {
+                            fill: yellowgrad, stroke: "black",
+                            portId: "", fromLinkable: true, toLinkable: true, cursor: "pointer",
+                            toEndSegmentLength: 50, fromEndSegmentLength: 40
+                        }),
+                    goJSAll(go.TextBlock, "Page",
+                        {
+                            margin: 6,
+                            font: bigfont,
+                            editable: true
+                        },
+                        new go.Binding("text", "text").makeTwoWay()));
+
+            myDiagram2.nodeTemplateMap.add("Source",
+                goJSAll(go.Node, "Auto",
+                    new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+                    goJSAll(go.Shape, "RoundedRectangle",
+                        {
+                            fill: bluegrad,
+                            portId: "", fromLinkable: true, cursor: "pointer", fromEndSegmentLength: 40
+                        }),
+                    goJSAll(go.TextBlock, "Source", textStyle(),
+                        new go.Binding("text", "text").makeTwoWay())
+                ));
+
+            myDiagram2.nodeTemplateMap.add("DesiredEvent",
+                goJSAll(go.Node, "Auto",
+                    new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+                    goJSAll(go.Shape, "RoundedRectangle",
+                        {fill: greengrad, portId: "", toLinkable: true, toEndSegmentLength: 50}),
+                    goJSAll(go.TextBlock, "Success!", textStyle(),
+                        new go.Binding("text", "text").makeTwoWay())
+                ));
+
+            // Undesired events have a special adornment that allows adding additional "reasons"
+            var UndesiredEventAdornment =
+                goJSAll(go.Adornment, "Spot",
+                    goJSAll(go.Panel, "Auto",
+                        goJSAll(go.Shape, {fill: null, stroke: "dodgerblue", strokeWidth: 4}),
+                        goJSAll(go.Placeholder)),
+                    // the button to create a "next" node, at the top-right corner
+                    goJSAll("Button",
+                        {
+                            alignment: go.Spot.BottomRight,
+                            click: addReason
+                        },  // this function is defined below
+                        new go.Binding("visible", "", function (a) {
+                            return !a.diagram.isReadOnly;
+                        }).ofObject(),
+                        goJSAll(go.Shape, "TriangleDown", {desiredSize: new go.Size(10, 10)})
+                    )
+                );
+
+            var reasonTemplate = goJSAll(go.Panel, "Horizontal",
+                goJSAll(go.TextBlock, "Reason",
+                    {
+                        margin: new go.Margin(4, 0, 0, 0),
+                        maxSize: new go.Size(200, NaN),
+                        wrap: go.TextBlock.WrapFit,
+                        stroke: "whitesmoke",
+                        editable: true,
+                        font: smallfont
+                    },
+                    new go.Binding("text", "text").makeTwoWay())
+            );
+
+
+            myDiagram2.nodeTemplateMap.add("UndesiredEvent",
+                goJSAll(go.Node, "Auto",
+                    new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+                    {selectionAdornmentTemplate: UndesiredEventAdornment},
+                    goJSAll(go.Shape, "RoundedRectangle",
+                        {fill: redgrad, portId: "", toLinkable: true, toEndSegmentLength: 50}),
+                    goJSAll(go.Panel, "Vertical", {defaultAlignment: go.Spot.TopLeft},
+
+                        goJSAll(go.TextBlock, "Drop", textStyle(),
+                            {
+                                stroke: "whitesmoke",
+                                minSize: new go.Size(80, NaN)
+                            },
+                            new go.Binding("text", "text").makeTwoWay()),
+
+                        goJSAll(go.Panel, "Vertical",
+                            {
+                                defaultAlignment: go.Spot.TopLeft,
+                                itemTemplate: reasonTemplate
+                            },
+                            new go.Binding("itemArray", "reasonsList").makeTwoWay()
+                        )
+                    )
+                ));
+
+			myDiagram2.nodeTemplateMap.add("hui",
+                goJSAll(go.Node, "Auto",
+                    new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+                    goJSAll(go.Shape, "RoundedRectangle",
+                        {
+                            fill: color_hui,
+                            portId: "", fromLinkable: true, cursor: "pointer", fromEndSegmentLength: 40
+                        }),
+                    goJSAll(go.TextBlock, "Source", textStyle(),
+                        new go.Binding("text", "text").makeTwoWay())
+                ));
+
+            myDiagram2.nodeTemplateMap.add("Comment",
+                goJSAll(go.Node, "Auto",
+                    new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+                    goJSAll(go.Shape, "Rectangle",
+                        {portId: "", fill: whitegrad, fromLinkable: true}),
+                    goJSAll(go.TextBlock, "A comment",
+                        {
+                            margin: 9,
+                            maxSize: new go.Size(200, NaN),
+                            wrap: go.TextBlock.WrapFit,
+                            editable: true,
+                            font: smallfont
+                        },
+                        new go.Binding("text", "text").makeTwoWay())
+                    // no ports, because no links are allowed to connect with a comment
+                ));
+
+            // clicking the button on an UndesiredEvent node inserts a new text object into the panel
+            function addReason(e, obj) {
+                var adorn = obj.part;
+                if (adorn === null) return;
+                e.handled = true;
+                var arr = adorn.adornedPart.data.reasonsList;
+                myDiagram2.startTransaction("add reason");
+                myDiagram2.model.addArrayItem(arr, {});
+                myDiagram2.commitTransaction("add reason");
+            }
+
+            // clicking the button of a default node inserts a new node to the right of the selected node,
+            // and adds a link to that new node
+            function addNodeAndLink(e, obj) {
+                var adorn = obj.part;
+                if (adorn === null) return;
+                e.handled = true;
+                var diagram = adorn.diagram;
+                diagram.startTransaction("Add State");
+                // get the node data for which the user clicked the button
+                var fromNode = adorn.adornedPart;
+                var fromData = fromNode.data;
+                // create a new "State" data object, positioned off to the right of the adorned Node
+                var toData = {text: "new"};
+                var p = fromNode.location;
+                toData.loc = p.x + 200 + " " + p.y;  // the "loc" property is a string, not a Point object
+                // add the new node data to the model
+                var model = diagram.model;
+                model.addNodeData(toData);
+                // create a link data from the old node data to the new node data
+                var linkdata = {};
+                linkdata[model.linkFromKeyProperty] = model.getKeyForNodeData(fromData);
+                linkdata[model.linkToKeyProperty] = model.getKeyForNodeData(toData);
+                // and add the link data to the model
+                model.addLinkData(linkdata);
+                // select the new Node
+                var newnode = diagram.findNodeForData(toData);
+                diagram.select(newnode);
+                diagram.commitTransaction("Add State");
+            }
+
+            // replace the default Link template in the linkTemplateMap
+            myDiagram2.linkTemplate =
+                goJSAll(go.Link,  // the whole link panel
+                    new go.Binding("points").makeTwoWay(),
+                    {curve: go.Link.Bezier, toShortLength: 15},
+                    new go.Binding("curviness", "curviness"),
+                    goJSAll(go.Shape,  // the link shape
+                        {stroke: "#2F4F4F", strokeWidth: 2.5}),
+                    goJSAll(go.Shape,  // the arrowhead
+                        {toArrow: "kite", fill: "#2F4F4F", stroke: null, scale: 2})
+                );
+
+            myDiagram2.linkTemplateMap.add("Comment",
+                goJSAll(go.Link, {selectable: false},
+                    goJSAll(go.Shape, {strokeWidth: 2, stroke: "darkgreen"})));
+
+
+            var palette =
+                goJSAll(go.Palette, "myPaletteDiv2",  // create a new Palette in the HTML DIV element
+                    {
+                        // share the template map with the Palette
+                        nodeTemplateMap: myDiagram2.nodeTemplateMap,
+                        autoScale: go.Diagram.Uniform  // everything always fits in viewport
+                    });
+
+            palette.model.nodeDataArray = [
+                {category: "Source"},
+                {}, // default node
+                {category: "DesiredEvent"},
+				{category: "hui"},
+                {category: "UndesiredEvent", reasonsList: [{}]},
+                {category: "Comment"}
+            ];
+
+            // read in the JSON-format data from the "mySavedModel2" element
+            load();
+            layout();
+        }
+
+        function layout() {
+            myDiagram2.layoutDiagram(true);
+        }
+
+        // Show the diagram's model in JSON format
+        function save() {
+            document.getElementById("mySavedModel2").value = myDiagram2.model.toJson();
+            myDiagram2.isModified = false;
+        }
+
+        function load() {
+            myDiagram2.model = go.Model.fromJson(document.getElementById("mySavedModel2").value);
+        }
+    </script>
+</head>
+<body style="overflow: hidden;">
+<div id="sample2">
+    <div style="width: 100%; display: flex; justify-content: space-between">
+        <div id="myPaletteDiv2"
+             style="width: 100px; margin-right: 2px; background-color: whitesmoke; border: solid 1px black;display:none;"></div>
+        <div id="myDiagram2Div" style="flex-grow: 1; height: 170px; "></div>
+    </div>
+
+    <!--<button id="SaveButton" onclick="save()">Save</button>-->
+    <!--<button onclick="load()">Load</button>-->
+    <!--<button onclick="layout()">Layout</button>-->
+    <br/>
+    <textarea id="mySavedModel2" style="display: none;">
+{ "class": "go.GraphLinksModel",
+  "copiesArrays": true,
+  "copiesArrayObjects": true,
+  "nodeDataArray": [ 
+{"key":-1, "category":"Source", "text":"开始", "loc":"-48.726149909209525 36.122264699363"},
+{"category":"DesiredEvent", "key":-8, "loc":"470.3715435520378 46.47805128273123", "text":"商务谈判"},
+{"key":-9, "loc":"105.80864808283096 42.93942005534866", "text":"采购计划"},
+{"category":"DesiredEvent", "key":-3, "loc":"632.5214617891768 47.91397952914994", "group":10, "text":"采购订单"},
+{"key":-14, "category":"DesiredEvent", "group":12, "loc":"865.8030641021962 41.46329819011246", "text":"采购合同"},
+{"key":-17, "category":"hui", "loc":"1068.8610930689856 43.666616715312756", "text":"验收"},
+{"key":-18, "category":"hui", "loc":"1229.8882318195685 80.45358607616538", "text":"未完成"},
+{"text":"采购策略", "group":8, "loc":"301.97039991071085 44.16136160432043", "key":-26},
+{"category":"UndesiredEvent", "reasonsList":[ {"text":"质量问题"} ], "key":-20, "loc":"1313.3017317314404 125.41571981245504", "text":"分析原因"},
+{"key":-2, "loc":"1249.629014528038 9.987989842149204", "text":"入库"},
+{"key":-15, "loc":"1391.5150317266284 1.9498600538029085", "text":"结束"}
+ ],
+  "linkDataArray": [ 
+{"from":-1, "to":-9, "points":[4.442927460759321,48.403670843391,38.62419692861764,40.21972702400653,72.4082372926769,41.02999477770759,105.80864808283096,49.000556006180254]},
+{"from":-14, "to":-17, "points":[953.6363921017146,51.43998608260383,992.0509347319835,43.85701346368375,1030.4560139004845,43.73986600001532,1068.8610930689856,53.4962722858612]},
+{"from":-9, "to":-26, "points":[188.12859437189346,50.764646730509234,226.17552902915685,43.31592257938303,264.122797542096,43.552305786781346,301.97039991071085,51.45281906422751]},
+{"from":-8, "to":-3, "points":[558.2022877508902,55.30461788648425,583.125055684366,49.7318075010269,607.894110237009,49.951151337002266,632.5355201630222,55.9211549821219]},
+{"from":-3, "to":-14, "points":[720.3543841119978,57.701439422187256,768.4015332629333,48.00986757332705,816.8812634697808,46.66931054754298,865.8082211671734,53.751367249335196]},
+{"from":-26, "to":-8, "points":[384.29034619977335,51.89772219670097,413.4586370063924,46.12425895697323,442.1524427597468,46.97555724319037,470.38665027923366,54.07802420649447]},
+{"from":-17, "to":-18, "points":[1116.5210662135169,58.71477314107075,1157.69996525885,57.27142598270082,1195.489020460867,65.46358432974425,1229.8882318195688,81.33971793135346]},
+{"from":-18, "to":-20, "points":[1294.8781915363656,101.43788066941916,1306.4847949122736,103.25982087531992,1315.0091963599618,108.1662711617325,1333.0654962423628,125.56874459464142]},
+{"from":-17, "to":-2, "points":[1116.5210662135169,49.16809076004823,1157.9598704802875,31.114570997869304,1202.3291865851274,22.84818374480321,1249.6290145280373,24.858560700799973]},
+{"from":-2, "to":-15, "points":[1297.2889876725685,17.492760182647302,1327.7926877530447,6.767634511309312,1359.201369104398,4.988269199859184,1391.5150317266282,12.38125353057059]}
+ ]}
+  </textarea>
+</div>
+<script>init();load();</script>
+</body>
+</html>

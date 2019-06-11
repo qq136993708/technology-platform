@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+<div class="searchBox">
+    <!--查询条件-->
+    
+    <label class="dateInput">
+        <span>年份</span>
+        <input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
+    </label>
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"  onclick="serarch()">查询</button>
+    </div>
+    
+</div>
+<div style="margin:10px;font-weight:bold;text-align:center">各处、部门科技经费预算总表</div>
+
+<table id="myTable" class="layui-table" lay-data="{url:'/ba/cbmkjjfyszb_data',height:'auto'}">
+  <thead>
+    <tr>
+      <th lay-data="{type:'numbers'}" rowspan="2">序号</th>
+      <th lay-data="{field:'cb', width:'14%'}" rowspan="2">处别</th>
+      <th lay-data="{align:'center', width:'21%'}" colspan="3">经费预算总计</th>
+      <th lay-data="{align:'center', width:'21%'}" colspan="3">（1）集团预算合计</th>
+      <th lay-data="{align:'center', width:'21%'}" colspan="3">（2）资产预算合计</th>
+      <th lay-data="{align:'center', width:'21%'}" colspan="3">（3）股份预算合计</th>
+    </tr>
+    <tr>
+      <th lay-data="{field:'jfyszjys', align:'right',width:'7%'}">预算（万元）</th>
+      <th lay-data="{field:'jfyszjlht',  align:'right',width:'7%'}">老合同（万元）</th>
+      <th lay-data="{field:'jfyszjxq',  align:'right',width:'7%'}">新签（万元）</th>
+      
+      <th lay-data="{field:'jtyshjys',  align:'right',width:'7%'}">预算（万元）</th>
+      <th lay-data="{field:'jtyshjlht',  align:'right',width:'7%'}">老合同（万元）</th>
+      <th lay-data="{field:'jtyshxq',  align:'right',width:'7%'}">新签（万元）</th>
+      
+      <th lay-data="{field:'zcyshjys',  align:'right',width:'7%'}">预算（万元）</th>
+      <th lay-data="{field:'zcyshjlht',  align:'right',width:'7%'}">老合同（万元）</th>
+      <th lay-data="{field:'zcyshjxq',  align:'right',width:'7%'}">新签（万元）</th>
+      
+      <th lay-data="{field:'gfyshjys',  align:'right',width:'7%'}">预算（万元）</th>
+      <th lay-data="{field:'gfyshjlht',  align:'right',width:'7%'}">老合同（万元）</th>
+      <th lay-data="{field:'gfyshjxq',  align:'right',width:'7%'}">新签（万元）</th>
+      
+    </tr>
+  </thead>
+</table>
+<div style="margin: 20px">
+		1.本表集团预算中“油服”指石油工程公司；<br/>
+“其他”指新星石油、南化研究院、胜利石油管理局等；<br/>
+“计划”指按集团财务通知，只下达计划不拨付经费，涉及到单位有国勘、经济研究院及炼化工程公司。<br/>
+2.本表资产预算中资本部指资本运营部自管企业，如资产天津石化等；<br/>
+化工部指由化工事业部托管的资产公司下属企业，如川维、南化公司、资产金陵、资产仪征、资产巴陵、资产燕山；<br/>
+3.本表中经费全部指费用性经费。
+		
+		</div>
+
+
+<script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
+<script type="text/javascript">
+    // 时间格式化
+    function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+</script>
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script>
+var table,selectRowData;
+var fzdw=$('#fzdw').val();
+
+
+
+
+layui.config({
+    base: '/layuiadmin/module/modules/' //静态资源所在路径
+}).use(['jquery','form', 'laydate','table','laypage'], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,form = layui.form
+      ,laydate = layui.laydate,
+	  form.render(null, 'component-form-group');
+      laydate.render({
+         elem: '#year'
+         ,format: 'yyyy'
+         
+      });
+});
+
+/* function serarch()
+{
+	table.reload('myTable', {
+		  url: '/ba/cbmkjjfyszb_data'
+		  ,where: {} 
+		});
+}
+serarch();  */
+    
+   
+   
+
+</script>
+
+</body>
+</html>

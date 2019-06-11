@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <!--<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">-->
+
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+</head>
+<body>
+
+<div class="searchBox">
+    <!--查询条件-->
+    <label class="dateInput">
+        <span>名称</span>
+        <input type="text" name="name" id="name"
+               placeholder="请输入名称"
+               title="名称" autocomplete="off"
+               class="form-control" id="nameName">
+    </label>
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
+        </button>
+        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
+                data-type="resetEvent">重置
+        </button>
+    </div>
+</div>
+<div class="tableBox">
+
+    <div class="tableToolBox">
+        <div class="whiteLine"></div>
+        <div class="tableBtns">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
+                    data-type="addEvent">新增
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"
+                    data-type="editEvent">编辑
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
+                    data-type="deleteEvent">删除
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
+                    data-type="doEvent">生成
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
+                    data-type="doRepeatEvent">重新生成
+            </button>
+        </div>
+    </div>
+    <table id="reportConfigTableId" class="layui-hide" lay-filter="tableEvent"></table>
+</div>
+
+<script>
+    var selectRowData;
+    layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element'], function () {
+        var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer,
+            laydate = layui.laydate;
+        table = layui.table;
+
+        function loadtable() {
+            table.render({
+                elem: '#reportConfigTableId',
+                url: '/reportConfig/getTableData',
+                method: "POST",
+                where: {param: {}},
+                limit: 15,
+                id: 'reportConfigTableId',
+                height: commonDislodgeTable(),
+                page: {
+                    count: 500, //数据总数，从服务端得到
+                    groups: 5,
+                    limits: [15, 30, 45, 60],
+                    layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                    first: '首页', //不显示首页
+                    last: '尾页', //不显示尾页
+                    theme: '#0F9EE0'
+                },
+                cols: [[
+                    {type: 'checkbox', event: 'changeEvents'},
+                    {title: '序号', type: 'numbers'},
+                    {
+                        field: "name",
+                        title: "名称", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "status",
+                        title: "状态", event: 'setActive', style: 'cursor: pointer;',
+                        templet: function(d) {
+                            if (d.status == 2) {
+                                return "已生成";
+                            } else {
+                                return "待生成";
+                            }
+                        }
+                    }
+                ]],
+                done: function (res, curr, count) {
+                    $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                        var index = parseInt($(this).index() + 1);
+                        $(this).parent().find('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $(this).parent().children('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $(this).children("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        selectRowData = res.data[index - 1];
+                    });
+                }
+            });
+            //移除表头的复选框,去掉全选
+            $(".layui-table-header table thead th input").remove();
+        }
+
+        // $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
+        //     var index = $(this).attr('data-index');
+        //     var tableBox = $(this).parents('.layui-table-box');
+        //     //存在固定列
+        //     if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
+        //         tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+        //     } else {
+        //         tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+        //     }
+        //     var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+        //     if (checkCell.length > 0) {
+        //         checkCell.click();
+        //     }
+        // });
+        // $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+        //     e.stopPropagation();
+        // });
+
+        loadtable();
+        // 触发不同的按钮事件
+        var $ = layui.$, active = {
+            searchEvent: function () { //点击查询按钮
+                table.reload('reportConfigTableId', {
+                    where: {
+                        param:
+                            {
+                                "name": $("input[name=name]").val(),
+                            }
+                    }
+                });
+            },
+            resetEvent: function () { //点击查询按钮
+                $("#name").val("");
+                table.reload('reportConfigTableId', {
+                    where: {param: {"name":""}}
+                });
+            }, getChecked: function () {//多选
+                var ids = "";
+                var selectedData = active.getCheckData();
+                return selectedData;
+            }, getCheckData: function () { //获取选中数据
+                var checkStatus = table.checkStatus('reportConfigTableId')
+                    , data = checkStatus.data;
+                return data;
+            }
+            , getCheckLength: function () { //获取选中数目
+                var checkStatus = table.checkStatus('reportConfigTableId')
+                    , data = checkStatus.data;
+                layer.msg('选中了：' + data.length + ' 个');
+            }
+            , isAll: function () { //验证是否全选
+                var checkStatus = table.checkStatus('reportConfigTableId');
+                layer.msg(checkStatus.isAll ? '全选' : '未全选')
+            },
+            addEvent: function () { //点击新增按钮
+                openBaseWin("新增", "/reportConfig/edit");
+            },
+            editEvent: function () { //点击编辑按钮
+                if (typeof (selectRowData) == "undefined") {
+                    layer.msg("请选择一条数据");
+                    return;
+                } else {
+                    openBaseWin("编辑", "/reportConfig/edit?id=" + selectRowData.id);
+                }
+            }
+            ,
+            deleteEvent: function () { //点击删除按钮
+                if (typeof (selectRowData) == "undefined") {
+                    layer.msg("请选择一条数据");
+                    return;
+                }
+                layer.confirm('删除模型配置将同时删除与之对应的模型字段信息?', {btn: ['确认', '取消'], title: "删除确认"}, function (index) {
+                    layer.close(index);
+                    ajaxPost("/reportConfig/del-real", {"id": selectRowData.id}, function (data) {
+                        layer.msg("删除成功");
+                        loadtable();
+                        // if(data.success==false){
+                        //     layer.msg("删除失败:请先删除模型配置对应的模型字段信息");
+                        // }else {
+                        //     layer.msg("删除成功");
+                        //     loadtable();
+                        // }
+                    });
+                });
+            }          ,
+            doEvent: function () {
+                if (typeof (selectRowData) == "undefined") {
+                    layer.msg("请选择一条数据");
+                    return;
+                }
+                if(selectRowData.status=="2"){
+                    layer.msg("不能重复生成模型字段");
+                    return;
+                }
+                layer.confirm('确定要生成吗?', {btn: ['确认', '取消'], title: "确认"}, function (index) {
+                    layer.close(index);
+                        ajaxPost("/reportConfig/getReportConfigInfoDo", {"id": selectRowData.id}, function (data) {
+                            console.log(data);
+                        layer.msg("生成成功");
+                        loadtable();
+                    });
+                });
+            }
+            ,doRepeatEvent: function () {
+                if (typeof (selectRowData) == "undefined") {
+                    layer.msg("请选择一条数据");
+                    return;
+                }
+                layer.confirm('确定要重新生成吗?', {btn: ['确认', '取消'], title: "确认"}, function (index) {
+                    layer.close(index);
+                        ajaxPost("/reportConfig/getReportConfigInfoDoRepeat", {"id": selectRowData.id}, function (data) {
+                            ajaxPost("/reportConfig/getReportConfigInfoDo", {"id": selectRowData.id}, function (data) {
+                                layer.msg("生成成功");
+                                loadtable();
+                            });
+                    });
+                });
+            }
+        };
+        $('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,18 @@
+{
+  "msg":"","code":0,
+  "data":[
+    {"power":"18", "name":"国家科技政策","color":"#f10033","img":"/layuiadmin/layui/images/icon-party.png","class":"layui-col-md3","id":"","spareId":null},
+    {"power":"21", "name":"科研投入","color":"#aaae44","img":"/layuiadmin/layui/images/textTopTwo.png","class":"layui-col-md3","id":"home_budget","spareId":"textTopTwo"},
+    {"power":"31", "name":"科研装备","color":"#488c34","img":"/layuiadmin/layui/images/textTopThree.png","class":"layui-col-md3","id":"equipment","spareId":"equipment_id"},
+    {"power":"41", "name":"科研人才","color":"#8d49e0","img":"/layuiadmin/layui/images/icon-personnel.png","class":"layui-col-md3","id":"","spareId":null},
+    {"power":"51", "name":"重大专项及十条龙科技攻关","color":"#00a4e5","img":"/layuiadmin/layui/images/textTopOne.png","class":"layui-col-md6","id":"porject","spareId":"dragon_id"},
+    {"power":"61", "name":"科研合同","color":"#4b54a3","img":"/layuiadmin/layui/images/icon-contract.png","class":"layui-col-md3","id":"contract","spareId":"contract_id"},
+    {"power":"71", "name":"直属研究院概况","color":"#61a0a8","img":"/layuiadmin/layui/images/textBottomOne.png","class":"layui-col-md3","id":"mainLeader","spareId":null},
+    {"power":"81", "name":"待办督办","color":"#0094d3","img":"","class":"layui-col-md6","id":"","spareId":null},
+    {"power":"91", "name":"科技成果","color":"#159617","img":"/layuiadmin/layui/images/icon-achievements.png","class":"layui-col-md3","id":"achievements","spareId":"appraisalId"},
+    {"power":"101", "name":"知识产权","color":"#f36c00","img":"/layuiadmin/layui/images/textBottomThree.png","class":"layui-col-md3","id":"knowledge_right","spareId":"patentId"},
+    {"power":"111", "name":"重点实验室","color":"#ca163c","img":"/layuiadmin/layui/images/textBottomTwo.png","class":"layui-col-md3","id":"laboratory","spareId":"textBottomTwo"},
+    {"power":"121", "name":"国际合作年度报告","color":"#0094d3","img":"/layuiadmin/layui/images/icon-cooperation.png","class":"layui-col-md3","id":"","spareId":null},
+    {"power":"131", "name":"中国石化标准化","color":"#a544af","img":"/layuiadmin/layui/images/textBottomFour.png","class":"layui-col-md3","id":"","spareId":"petrifaction1"}
+  ]
+}

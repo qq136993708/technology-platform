@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<body >  
+<div class="searchBox">
+    <!--查询条件-->
+        <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control" id="month">
+        </label>
+       <div class="layui-input-inline">
+              <select id="companyCode" name="companyCode" class="form-control"></select>
+             </div>
+       <form class="layui-form layui-form1">
+            <div class="layui-input-inline">
+                <#list projectCodeList as vo>
+                   <input type="checkbox" name="checkbox_g0XMGLLX" lay-skin="primary" value="${vo.g0XMGLLX}" title="${vo.g0XMGLLX}" checked="">
+                </#list>
+            </div>
+        </form>
+
+       
+       
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+    </div>
+    <span class="unitBox">单位：万元</span>
+</div>
+
+
+<!--echarts-->
+<div class="content-body container">
+
+     <div class="one-chart-box">
+         <div class="layui-row echarts">
+             <div id="main1" style="width: 100%;height: 400px;"></div>
+         </div>
+     </div>
+     
+     
+     
+     
+        <!--图表二比一布局-->
+        <div class="layui-row two-one-box"  id="vvv" style="display:none">
+            <div class="layui-col-xs8 layui-col-sm8 layui-col-md8 twoBox echarts">
+                <div id="main2" style="width: 100%;height: 400px;">
+                      <div style="text-align:center;margin:10px;" id="ttt"></div>
+                      <div style="text-align:center;margin:10px;color:#ccc" id="tttv"></div>
+                      <table id="processdef-table" class="layui-hide" lay-filter="tableData" style="width:1800px"></table>
+                </div>
+            </div>
+            <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 oneBox echarts">
+                <div id="main3" style="width: 100%;height: 400px;"></div>
+            </div>
+        </div>
+        
+
+</div>
+
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script src="/stp/hana/common/hana_common.js"></script>
+<script type="text/javascript">
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
+var data=new Array(); 
+var defaultpro="";
+var defaultproName="";
+var legedata;
+var table,selectRowData;
+var foreachIn;
+layui.config({
+    base: '/layuiadmin/module/modules/' 
+}).use(['jquery','form', 'laydate','table','laypage','layer'], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,layer=layui.layer
+      ,form = layui.form
+      ,laydate = layui.laydate
+	  form.render(null, 'component-form-group');
+            laydate.render({
+               elem: '#month'
+               ,format: 'yyyyMM'
+            });
+});
+
+var  option_dot = {
+		backgroundColor: new echarts.graphic.RadialGradient(0.3, 0.3, 0.8, [{
+	        offset: 0,
+	        color: '#f7f8fa'
+	    }]),
+	    title: {
+	        text: '',
+	        x:'center',
+	        y: '10px',
+	        textStyle: {
+	            fontSize: 15,
+	            fontWeight: 'normal',
+	            color: '#000000'       
+	        },
+	        subtextStyle: {
+	            color: '#7B7B7B'        
+	        },
+	        subtext:''
+	    },
+	    tooltip: {
+            trigger: 'item',
+            formatter : function (param) 
+            {
+            	var name=param.data[3];
+            	var g0PROJCODE=param.data[5];
+            	var xname=param.data[0];
+            	var yname=param.data[1];
+            	var pname=param.data[4];
+	            return pname+" <br/>"+name +'<br/>'+"批复金额："+xname+"万元"+"<br/>使用率："+yname+"%<br/>说明：单击气泡查看详情";
+	                   
+	        },
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+	   
+	    legend: {
+	    	 bottom: 10,
+	        data: [],
+	        selectedMode: 'single'
+	        
+	    },
+	    xAxis: {
+	        splitLine: {
+	            lineStyle: {
+	                type: 'dashed'
+	            }
+	        },
+	        type : 'value',
+	        name: '预算批复(万元)'
+	    },
+	    yAxis: {
+	        splitLine: {
+	            lineStyle: {
+	                type: 'dashed'
+	            }
+	        },
+	        scale: true,
+	        type : 'value',
+	        name: '资金使用率%',
+	        /* min: 0,
+            max:100, */
+            axisLabel: {
+                formatter: '{value} %'
+            }
+	       
+	    },
+	    series: [
+	    ]
+	};	
+
+
+function init()
+{
+	init_companyCode(functionId);
+		var allCode="${allCode?default('')}";
+		var allCode_text="全部院所";
+		var v_date=(new Date()).getTime();
+		var month=$('#month').val();
+		var companyCode=$('#companyCode').val();
+		var monthstr=getNowFormatDate($('#month').val());
+		var checkText=$("#companyCode").find("option:selected").text();
+		if(checkText=='全部')
+		{
+			checkText="全部院所";
+		}
+		var id_array=new Array();  
+	    $("input[name='checkbox_g0XMGLLX']:checked").each(function(i){//把所有被选中的复选框的值存入数组
+	      var tt =$(this).val();
+	      id_array.push(tt);
+	    });
+	    var lengthv=id_array.length;
+	    if(lengthv>0)
+	    {
+		   	foreachIn=id_array.join(',');
+	    } 	
+		//alert(foreachIn); 	
+		var url_main1="/financial-decision/scientific_topic_develop_pot?companyCode="+companyCode+"&month="+month+"&v_date="+v_date+"&foreachIn="+foreachIn;
+		load_dot(url_main1,"main1","项目预算批复与资金使用率热点分析",monthstr)
+		
+}
+    
+        
+init();
+//柱线组合
+function load_dot(url,id,title,subtext)
+{
+		var echartsobj = echarts.init(document.getElementById(id));
+		option_dot.title.text=title;
+		option_dot.title.subtext=subtext;
+		echartsobj.showLoading();
+		dotAjax(url,echartsobj);
+		echartsobj.setOption(option_dot);
+		echartsobj.on('click', function (params) {
+		// console.log(params.value);
+	    var name=params.value[3];
+	    var g0PROJCODE=params.value[5];
+	    load_data(name,g0PROJCODE,subtext);
+	}); 
+}
+var color_value = ["#1f77b4", "#aec7e8", "#ff7f0e", "#ffbb78", "#2ca02c", "#98df8a", "#d62728", "#ff9896", "#9467bd", "#c5b0d5",          
+                   "#8c564b", "#c49c94", "#e377c2", "#f7b6d2", "#7f7f7f", "#c7c7c7", "#bcbd22", "#dbdb8d", "#17becf", "#9edae5"];  
+
+function dotAjax(url,echartsobj) 
+{
+   $.ajax({
+	     type:"GET",
+	     url: url,
+	     dataType:"json",
+	     timeout : 11000,
+	     cache: false,
+	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+         success:function(dataresult,status)
+         {    
+	          if(dataresult.success==true ||dataresult.success=='true')
+	          {
+	        	  
+	        	            echartsobj.hideLoading();
+	        	            var dataList=dataresult.data.dataList;
+	        	            defaultpro=  dataList[0].id;
+	        	            defaultproName=  dataList[0].name;
+	        	            var arrDateList=dataresult.data.arrDateList;
+	        	            var legendDataList=dataresult.data.legendDataList;
+	        	            data=arrDateList;
+	        	            //alert(dataresult.data.arrDateList.length);
+	        	            var seriesData=new Array(); 
+	        	            for(var i=0;i<legendDataList.length;i++)
+	        	            {
+	        	            	var name=legendDataList[i];
+	        	            	var seriesData_temp={
+		        	        	        name: name,
+		        	        	        data: data[i],
+		        	        	        type: 'scatter',
+		        	        	        symbolSize: 20,
+		        	        	        /*  symbolSize: function (data) {
+		        	        	        	 // 根据最大的交易量值 来控制气泡半径  （最小 3  最大 40）
+		        	        	              // return Math.round(3 + data[2] * 40 / 500);
+		        	        	               // return Math.sqrt(data[2]) / 5e2;
+		        	        	        },  */
+		        	        	        itemStyle: {
+		        	        	            normal: {
+		        	        	                shadowBlur: 10,
+		        	        	                shadowColor: 'rgba(120, 36, 50, 0.5)',
+		        	        	                shadowOffsetY: 5,
+		        	        	                color: color_value[i]
+		        	        	            }
+		        	        	        }
+		        	        	    };
+	        	            	seriesData.push(seriesData_temp);
+	        	            }
+	        	            echartsobj.setOption({
+	        	              legend: { data: legendDataList},
+	        	              series: seriesData
+	        	            });
+	        	           
+	          } else
+	          {
+	        	 alert("网络访问错误");
+	          }
+		   },
+		   error:function()
+		   {
+		    	alert("网络访问错误");
+		   },
+		   complete: function (XMLHttpRequest, status) {
+			   
+			   load_data(defaultproName,defaultpro,$('#month').val());
+		   }
+  });
+   
+} 
+function load_data(name,g0PROJCODE,subtext)
+{
+	
+	$("#vvv").show();
+	document.getElementById("ttt").innerHTML="课题研发支出分析";
+	document.getElementById("tttv").innerHTML=subtext+name;
+	renderTable(g0PROJCODE);
+	var v_date=(new Date()).getTime();
+	var month=$('#month').val();
+	var url_main5="/financial-decision/scientific_topic_develop_pot_detail_pie?g0PROJCODE="+g0PROJCODE+"&month="+month+"&v_date="+v_date;
+	loadPie(url_main5,"main3","课题实际成本占比分析",subtext+name);
+}
+
+
+
+function renderTable(g0PROJCODE)
+{    
+  layer.load(2,{fixed:false,offset: ['610px', '400px']});
+  //渲染
+  table.render({
+    elem: '#processdef-table',
+    id: 'processdef-table',
+    height: 320,
+    loading: true,
+    title:'ddd',
+    url: '/financial-decision/scientific_topic_develop_pot_detail_list',
+    method:"POST",
+    where: {param: {"g0PROJCODE":g0PROJCODE,"month":$("#month").val()}},
+     limit: 15,
+    page: {
+        groups: 5,
+        limits: [15,30,45,60],
+        layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+        first: '首页', //不显示首页
+        last: '尾页', //不显示尾页
+        theme: '#0F9EE0'
+    },
+    cols: [[
+    	 {title:'序号', type:'numbers', width: '4%'},
+         {field:'g0GSJC',    title:'公司',    style:'cursor: pointer;',align: 'left', width: '8%'},
+         //{field:'g0PROJCODE',  title:'项目编码',  style:'cursor: pointer;',align: 'center', width: '10%'},
+         //{field:'g0PROJTXT',  title:'项目名称',  style:'cursor: pointer;',align: 'center', width: '20%'},
+         {field:'g0WBSCODE',  title:'WBS编码',    style:'cursor: pointer;',align: 'left', width: '150'},
+         {field:'g0WBSTXT',  title:'WBS描述',    style:'cursor: pointer;',align: 'left', width: '150'},
+         {field:'k0ZTYSJE',  title:'项目总预算（元）',    style:'cursor: pointer;',align: 'left', width: '150',templet: '<div>{{ layui.laytpl.milliFormat(d.k0ZTYSJE,2) }}</div>'},
+         {field:'k0BNYSJHJE',  title:'年度预算（元）',    style:'cursor: pointer;',align: 'left', width: '150',templet: '<div>{{ layui.laytpl.milliFormat(d.k0BNYSJHJE,2) }}</div>'},
+         {field:'k0BNSJCBJE',  title:'年度实际成本（元）',  style:'cursor: pointer;',align: 'left', width: '150',templet: '<div>{{ layui.laytpl.milliFormat(d.k0BNSJCBJE,2) }}</div>'},
+         {field:'',            title:'年度资金结余（元）',    style:'cursor: pointer;',align: 'left', width: '150'},
+         {field:'k0LJSJCBJE',  title:'累计实际成本（元）',    style:'cursor: pointer;',align: 'left', width: '150',templet: '<div>{{ layui.laytpl.milliFormat(d.k0LJSJCBJE,2) }}</div>'},
+         {field:'',             title:'承诺项（元）',    style:'cursor: pointer;',align: 'left', width: '150'},
+         {field:'k0LJSJZYJE',  title:'预算占用（元）',    style:'cursor: pointer;',align: 'left', width: '150',templet: '<div>{{ layui.laytpl.milliFormat(d.k0LJSJZYJE,2) }}</div>'}
+         
+    ]], done: function (res, curr, count) {
+    	layer.closeAll('loading');
+    }
+  });
+}       
+
+
+function search_Event()
+{
+	init();
+}
+        
+</script>
+</body>
+</html>

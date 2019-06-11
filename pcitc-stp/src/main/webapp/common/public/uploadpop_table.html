@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+</head>
+<body>
+<div class="formBox">
+    <form id="upload-form" name="upload-form" method="post" lay-filter="upload-form" class="form-horizontal layui-form">
+        <input type="hidden"  name="file_edit_detail"     id="file_edit_detail" value="${file_edit_detail}" >
+        <input type="hidden"  name="file_opt_flag"        id="file_opt_flag"    value="${file_opt_flag}">
+        <input type="hidden"  name="file_id_name"             id="file_id_name"         value="${file_id_name}">
+        <input type="hidden"  name="file_ids_value"       id="file_ids_value"   value="${file_ids_value}">
+        <input type="hidden"  name="call_fun"       id="call_fun"   value="${call_fun}">
+        <input type="hidden" name="fileIds" id="fileIds" value="">
+
+        <div class="tableBox">
+            <div class="tableToolBox">
+                <div class="layui-form-item">
+                    <div id="file_upload">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-bottom">
+            <div class="form-bottom-btns">
+                <a class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"  onclick="save_file()">确定</a>
+                <!--<a type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"  onclick="cancle_file()">取消</a>-->
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    var file_id_name = $("#file_id_name").val();
+    var file_ids_value=$("#file_ids_value").val();
+    var file_edit_detail =   $("#file_edit_detail").val();
+    var file_opt_flag =      $("#file_opt_flag").val();
+    var call_fun =      $("#call_fun").val();
+    var param = '${param}';
+    param = eval('(' + param + ')');
+    $("#fileIds").val(file_ids_value);
+    $("#file_upload").load('/common/public/uploadlayuiload_table.html');
+
+    function save_file()
+    {
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    }
+    function cancle_file()
+    {
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+
+    }
+
+</script>
+</body>
+</html>

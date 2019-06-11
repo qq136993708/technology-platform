@@ -1,0 +1,10 @@
+.content-canvas .echarts { border: 1px solid #e7e7eb;height: auto; margin:5px;
+    padding: 0;width: 32.7%;border-radius: 4px;}
+.content-canvas .row,.content .container{ margin: 0;padding: 0;}
+.content-canvas .echarts:first-child{ margin-left: 0;}
+.content-canvas .echarts:last-child{ margin-right: 0;}
+.content-canvas>.echarts{ width: 100%;}
+.content-canvas>.echarts>div{ width: 100%;}
+.content-canvas .echarts p{font-size: 14px; text-indent: 1em;height: 38px; line-height: 38px;
+    background-color: #f5f5f5; border-bottom: 1px solid #e7e7eb}
+.echarts>div{height: 250px;}

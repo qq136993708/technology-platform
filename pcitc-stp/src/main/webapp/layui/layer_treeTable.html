@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+</head>
+<body>
+<div class="formBox">
+    <div class="treeTableContainer">
+        <div class="treeBox">
+            <!--加标题-->
+            <div class="title-box">
+                <span>省市结构</span>
+                <!--加操作按钮时去掉标题-->
+                <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button>
+            </div>
+
+            <div class="layui-side-scroll">
+                <!-- 左侧子菜单 -->
+                <ul id="treeDemo" class="ztree"></ul>
+            </div>
+        </div>
+
+        <div class="treeTableBox">
+            <div class="searchBox">
+                <!--查询条件-->
+                <label class="dateInput">
+                    <span>模型名称</span>
+                    <input type="text" name="modelName" placeholder="请输入模型名称"
+                           title="模型名称" autocomplete="off"
+                           class="form-control" id="modelName1">
+                </label>
+                <label class="dateInput">
+                    <span>select</span>
+                    <select name="userKind" id="userKind"  lay-filter="userKind" class="form-control">
+                        <option value="">请选择</option>
+                    </select>
+                </label>
+                <label class="dateInput">
+                    <span>组织机构</span>
+                    <div class="layui-input-block" style="display:inline-table; margin-left:0px; min-height:24px;">
+                        <div id="selectTree" class="layui-form-select select-tree"></div>
+                    </div>
+                </label>
+                <!--按钮组-->
+                <div class="btnGroup">
+                    <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
+                    </button>
+                    <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
+                            data-type="resetEvent">重置
+                    </button>
+                </div>
+            </div>
+            <table id="test" class="layui-hide" lay-filter="tableData"></table>
+
+            <textarea name="ckEditor" class="ckeditor"></textarea>
+        </div>
+    </div>
+</div>
+<div class="form-bottom">
+    <div class="form-bottom-btns">
+        <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="component-form-demo1">保存</button>
+        <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"  id="cancel">取消</button>
+    </div>
+</div>
+
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<!--树js-->
+<!--<script type="text/javascript">
+    var setting = {
+        view: {
+            selectedMulti: false
+        },
+        async: {
+            enable: true,
+            type: "get",
+            url: "/layuiadmin/ztree/asyncData/getNodes.json",
+            autoParam: ["id", "name=n", "level=lv"],
+            otherParam: {"token": "eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyTmFtZSI6IjEyMzQ1NiIsInJvbGVMaXN0IjpbXSwiZXhwIjoxNTM2MjMyMzM3LCJ1c2VySWQiOiIxMjMifQ.wYmBUq7gvshHPdm6dKQrKzC2LiFRr3HBZn5fKfZl5s9CxnD92fN-JYAgZb1niQvyXwhKGjmj7EcoAZLGQlfLOA"},
+            dataFilter: null
+        },
+        callback: {
+
+        }
+    };
+
+    $(document).ready(function () {
+        $.fn.zTree.init($("#treeDemo"), setting);
+    });
+
+</script>-->
+<!--表格数据操作js-->
+<script>
+    /*
+        *  1、ztree  引用 jqZtreeCore
+        *  2、selectTree  引用 selectTree
+        *  3、公共方法   引用  publicMethods
+        *  4、ckeditor   引用  ckeditor
+        */
+    layui.config({
+        base: '/layuiadmin/lib/extend/ckeditor/' //静态资源所在路径
+    }).extend({
+        ckeditor: 'ckeditor' //主入口模块
+    }).use(['jquery','table','jqZtreeCore','selectTree','publicMethods','ckeditor'], function () {
+        var table = layui.table,util=layui.laytpl,selectTree=layui.selectTree,publicMethods=layui.publicMethods,
+            $ = layui.jquery;
+        //获取当前行数据  设置全局变量
+        var selectRowData = '';
+        function renderTable(){
+            //渲染
+            table.render({
+                elem: '#test' //表格容器
+                , url: '../layuiadmin/json/table/demo1.json' //请求的url地址
+                , limit: 10 //每页默认显示的数量
+                , id: 'idTest'
+                , height: 'full-110'
+                , page: {
+                    count: 500 //数据总数，从服务端得到
+                    , groups: 5
+                    , limits: [15, 30, 45, 60]
+                    , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                    , first: '首页' //不显示首页
+                    , last: '尾页' //不显示尾页
+                    , theme: '#0F9EE0'
+                }
+                , cols: [[
+                    {type: 'checkbox', event: 'changeEvents'}
+                    , {field: 'id', title: '序号', style: 'cursor: pointer;', unresize: true}
+                    , {field: 'username', title: '模型ID', style: 'cursor: pointer;'}
+                    , {field: 'email', title: '模型名称', style: 'cursor: pointer;'}
+                    , {field: 'sex', title: '模型Key', style: 'cursor: pointer;'}
+                    , {field: 'city', title: '模型类别', style: 'cursor: pointer;'}
+                    , {field: 'sign', title: '模型版本号', style: 'cursor: pointer;'}
+                    , {field: 'createTime', title: '创建时间', style: 'cursor: pointer;', templet:  '<div>{{ layui.laytpl.toDateString(d.createTime) }}</div>'}
+                    , {field: 'ip', title: '部署ID', style: 'cursor: pointer;', event: 'setActive'}
+                ]]
+                , done: function (res, curr, count) {
+                    // 点击行联动选择框--单选
+                    $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                        var index=parseInt($(this).index()+1);
+                        $('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        selectRowData=res.data[index-1];
+                    });
+                }
+            });
+        }
+        renderTable();
+        //单选框 需要移除表头的复选框
+        $(".layui-table-header table thead th input").remove()
+        //单选框end
+
+        /*点击取消按钮*/
+        $("#cancel").click(function () {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        });
+        /*
+        * select 接口获取数据渲染
+        * publicMethods.selectRendering(url,id)
+        *  url id
+        *
+        */
+        publicMethods.selectRendering('/dictionary/list/ROOT_XTGL_YHLX',"userKind");
+        /*ztree开始*/
+        var setting = {
+            view: {
+                selectedMulti: false
+            },
+            async: {
+                enable: true,
+                type: "get",
+                url: "/layuiadmin/ztree/asyncData/getNodes.json",
+                autoParam: ["id", "name=n", "level=lv"],
+                otherParam: {"token": "eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyTmFtZSI6IjEyMzQ1NiIsInJvbGVMaXN0IjpbXSwiZXhwIjoxNTM2MjMyMzM3LCJ1c2VySWQiOiIxMjMifQ.wYmBUq7gvshHPdm6dKQrKzC2LiFRr3HBZn5fKfZl5s9CxnD92fN-JYAgZb1niQvyXwhKGjmj7EcoAZLGQlfLOA"},
+                dataType:"text",
+                dataFilter: filter
+            },
+            callback: {
+
+            }
+        };
+
+        $(document).ready(function () {
+            $.fn.zTree.init($("#treeDemo"), setting);
+        });
+        //根据json数据中的标识字段展示对应的图标
+        function filter(treeId, parentNode, childNodes) {
+            if (!childNodes) return null;
+            childNodes.forEach(function(obj){
+                if(obj.type == "bigCity"){
+                    console.log(obj)
+                    obj.icon = "/layuiadmin/layui/images/operation_03.png";
+                }
+            });
+            return childNodes;
+        }
+
+        /*ztree结束*/
+
+        /*下拉ztree开始*/
+        /*下拉树数据格式 —— 将返回的数据赋给 zNodes */
+        var zNodes = [
+            {id: 1, pId: 0, name: "北京",type:'bigCity'},
+            {id: 2, pId: 0, name: "天津",type:'bigCity'},
+            {id: 3, pId: 0, name: "上海",type:'bigCity'},
+            {id: 6, pId: 0, name: "重庆",type:'bigCity'},
+            {id: 4, pId: 0, name: "河北省"},
+            {id: 41, pId: 4, name: "石家庄"},
+            {id: 42, pId: 4, name: "保定"},
+            {id: 43, pId: 4, name: "邯郸"},
+            {id: 44, pId: 4, name: "承德"},
+            {id: 5, pId: 0, name: "广东省"},
+            {id: 51, pId: 5, name: "广州"},
+            {id: 52, pId: 5, name: "深圳"},
+            {id: 53, pId: 5, name: "东莞"},
+            {id: 54, pId: 5, name: "佛山"},
+            {id: 6, pId: 0, name: "福建省"},
+            {id: 61, pId: 6, name: "福州"},
+            {id: 62, pId: 6, name: "厦门"},
+            {id: 63, pId: 6, name: "泉州"},
+            {id: 64, pId: 6, name: "三明"}
+        ];
+        zNodes.forEach(function(obj){
+            if(obj.type == "bigCity"){
+                obj.icon = "/layuiadmin/layui/images/operation_03.png";
+            }
+        });
+        // 下拉树初始化
+        $(document).ready(function () {
+            /*
+             * initSelectTree参数：
+             * 参数1：div的id，
+             * 参数2：isMultiple 是否多选(true或false),
+             * 参数3：是否显示连接线(true或false),
+             * 参数4：是否显示图标(true或false),
+             *
+            */
+            selectTree.initSelectTree("selectTree", true, true, true, false,zNodes);
+            selectTree.initHideMenu();
+        })
+        /*下拉ztree结束*/
+
+        /*基于layui公共方法开始*/
+        publicMethods.ajaxPost("/user/upd-pass", data.field, function(dt, status) {
+            if(dt.success){
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+            }else{
+                parent.layer.alert(dt.message, {
+                    title : '信息'
+                });
+                return;
+            }
+        });
+
+        /*
+        * 弹出层
+        * 1、openBaseWinFull 全屏幕100%*100%
+        * 2、openBaseWinEight  800px*500px
+        * 3、openBaseWinSix    600px*400px
+        */
+        var temUrl='';
+        publicMethods.openBaseWinFull("新增用户",temUrl);
+        /*基于layui公共方法结束*/
+    });
+
+</script>
+
+</body>
+</html>

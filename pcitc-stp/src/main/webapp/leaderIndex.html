@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>科技管理平台</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico" />
+	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+	<link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
+</head>
+<body class="layui-layout-body">
+
+<div id="LAY_app">
+	<div class="layui-layout layui-layout-admin layui-leader-admin">
+		<div class="layui-header">
+			<!--搜索框-->
+			<div class="stpSearchBox">
+				<input type="text" placeholder="请输入关键字">
+				<button class="btn"></button>
+			</div>
+			<!--通知-->
+			<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+				<li class="layui-nav-item layui-nav-itemnew chat" title="通知">
+					<a id="numberChat" lay-href="/task/pending/list/ini" lay-text="会话"><span id="pendingCount" style="visibility: hidden"></span></a>
+					<div class="chat-content layui-hide">
+						<dl class="layui-nav-child-dl">
+							<dd>
+								<span class="layui-name">张三</span>
+								<span class="layui-text">leader请查看邮件请查看邮件请查看邮件请查看邮件</span>
+								<span class="layui-time">
+										<i class="fa fa-clock-o mr-1"></i>
+										4小时之前
+									</span>
+							</dd>
+							<dd>
+								<span class="layui-name">张三</span>
+								<span class="layui-text">leader请查看邮件请查看邮件请查看邮件请查看邮件</span>
+								<span class="layui-time">
+										<i class="fa fa-clock-o mr-1"></i>
+										4小时之前
+									</span>
+							</dd>
+							<dd>
+								<span class="layui-name">张三</span>
+								<span class="layui-text">leader请查看邮件请查看邮件请查看邮件请查看邮件</span>
+								<span class="layui-time">
+										<i class="fa fa-clock-o mr-1"></i>
+										4小时之前
+									</span>
+							</dd>
+							<dd>
+								<a href="javascript:void(0)">查看更多</a>
+							</dd>
+						</dl>
+					</div>
+				</li>
+				<li class="layui-nav-item layui-nav-itemnew deal" title="待办任务">
+					<a id="numberDeal" lay-href="/sysNotice/index_notice" lay-text="待办任务"><span id="nc" style="visibility: hidden"></span></a>
+					<div class="deal-content layui-hide">
+						<dl class="layui-nav-child-dl">
+							<dd>
+								<p>
+									<span class="layui-icon-span"><img src="/layuiadmin/layui/images/icon-information.png"/></span>
+									<span class="layui-text-span">OA待办（3条）</span>
+									<span class="layui-date">3小时之前</span>
+								</p>
+							</dd>
+							<dd>
+								<p>
+									<span class="layui-icon-span"><img src="/layuiadmin/layui/images/icon-information.png"/></span>
+									<span class="layui-text-span">知识产权管理系统待办（3条）</span>
+									<span class="layui-date">3小时之前</span>
+								</p>
+							</dd>
+							<dd>
+								<a href="javascript:void(0)">查看更多</a>
+							</dd>
+						</dl>
+					</div>
+				</li>
+				<li class="layui-nav-item layui-nav-itemnew " title="二维码">
+					<span class="QRCode"></span>
+					<div class="QRCode-content layui-hide">
+						<img src="/layuiadmin/layui/images/weixin.png" />
+					</div>
+				</li>
+				<li class="layui-nav-item">
+					<a href="javascript:;" style="color: #fff;" class="layui-nav-item-a">
+						${userInfo.userDisp!}
+						<span class="layui-nav-more"></span>
+					</a>
+					<div class="layui-hide information">
+						<dl class="layui-nav-child-dl">
+							<dd>
+								<a id="toUserInfo" href="javascript:void(0)">基本资料</a>
+							</dd>
+							<dd>
+								<a id="toUpdPass" href="javascript:void(0)">修改密码</a>
+							</dd>
+							<dd>
+								<a id="selfConfig" href="javascript:void(0)">个人设置</a>
+							</dd>
+							<dd>
+								<a id="changeIndex" href="javascript:void(0)">切换</a>
+							</dd>
+							<dd>
+								<a id="logout" href="javascript:void(0)">退出登录</a>
+							</dd>
+						</dl>
+					</div>
+				</li>
+
+				<!--<li class="layui-nav-item layui-nav-itemnew collection" title="收藏">
+					<a id="collection"></a>
+				</li>-->
+			</ul>
+		</div>
+
+		<!-- 侧边菜单 -->
+		<div class="layui-side layui-side-menu layui-side-menu-div" style="background: #fff !important; box-shadow: 0 10px 10px rgba(0, 0, 0, 0.6) !important;">
+			<div class="layui-side-scroll">
+				<!--logo-->
+				<div class="layui-logo" style="background: #17a2b8;">
+						<span>
+							<img src="/layuiadmin/layui/images/logo-stp.png" />
+						</span>
+				</div>
+				<!--左侧导航-->
+
+				<ul class="layui-nav layui-nav-tree" lay-shrink="all" lay-filter="layadmin-system-side-menu" id="nav${p.id}">
+					<li class="layui-nav-item">
+						<a href="#" title="科研项目">
+							<span>科研项目</span>
+							<span class="arrow"></span>
+							<i class="fa fa-angle-left pull-right"></i>
+						</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="#" title="预算投资">
+							<span>预算投资</span>
+							<span class="arrow"></span>
+							<i class="fa fa-angle-left pull-right"></i>
+						</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="#" title="科技成果">
+							<span>科技成果</span>
+							<span class="arrow"></span>
+							<i class="fa fa-angle-left pull-right"></i>
+						</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="#" title="知识产权">
+							<span>知识产权</span>
+							<span class="arrow"></span>
+							<i class="fa fa-angle-left pull-right"></i>
+						</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="#" title="技术族">
+							<span>技术族</span>
+							<span class="arrow"></span>
+							<i class="fa fa-angle-left pull-right"></i>
+						</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="#" title="标准化">
+							<span>标准化</span>
+							<span class="arrow"></span>
+							<i class="fa fa-angle-left pull-right"></i>
+						</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="#" title="专家库">
+							<span>专家库</span>
+							<span class="arrow"></span>
+							<i class="fa fa-angle-left pull-right"></i>
+						</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="#" title="年度科技报告">
+							<span>年度科技报告</span>
+							<span class="arrow"></span>
+							<i class="fa fa-angle-left pull-right"></i>
+						</a>
+					</li>
+				</ul>
+</div>
+</div>
+
+<!-- 主体内容 -->
+<div class="layui-body" id="LAY_app_body">
+	<div class="layadmin-tabsbody-item layui-show">
+		<iframe id="mainIframe" frameborder="0" class="layadmin-iframe"></iframe>
+	</div>
+</div>
+<div class="layui-footer">
+	<div>
+		<p>版权所有：石化盈科信息技术有限责任公司</p>
+	</div>
+</div>
+<!-- 辅助元素，一般用于移动设备下遮罩 -->
+<div class="layadmin-body-shade" layadmin-event="shade"></div>
+</div>
+<#include "/common/public/bottomTips.html"/>
+</div>
+
+<script src="/layuiadmin/layui/layui.js"></script>
+<script>
+    layui.config({
+        base : '../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index : 'lib/index' //主入口模块
+    }).use([ 'index', 'jquery' ], function() {
+        var $ = layui.jquery;
+
+        /*导航宽度*/
+        var layuiHeaderWidth = parseInt($(".layui-header").width());
+        var layuiHeaderUlActualWidth = 0, DValue = 0, ulLiNumber = 0;
+        var layuiHeaderUlMustWidth = layuiHeaderWidth - 250;
+        $(".layui-header-div .layui-layout-left li a").each(function() {
+            layuiHeaderUlActualWidth += parseInt($(this).html().length *14+40);
+            DValue = layuiHeaderUlActualWidth - layuiHeaderUlMustWidth;
+            if (DValue > 0) {
+                ulLiNumber = $(this).parent().index();
+                return false;
+            }
+        });
+        $(".layui-header-div").css("width", layuiHeaderUlMustWidth + "px");
+        if (DValue > 0) {
+            $(".layui-layout-left").css("left", "0px");
+            $(".layui-header .layui-icon-prev").removeClass("layui-hide");
+            var html = $(".layui-header-div").html();
+            $(".layui-header .layui-icon-prev").append(html);
+            $(".layui-layout-left").eq(1).addClass("layui-hide layui-layout-left-over");
+            $(".layui-layout-left:eq(1) li:lt(" + (ulLiNumber) + ")").remove();
+            $(".layui-header .layui-icon-prev").on({
+                mouseover : function() {
+                    $(".layui-layout-left").eq(1).removeClass("layui-hide");
+                },
+                mouseout : function() {
+                    $(".layui-layout-left").eq(1).toggleClass("layui-hide");
+                }
+
+            });
+        }
+        $(".layui-header .layui-layout-left li a").on("click", function() {
+            var id = $(this).attr("id")
+            $(".layui-nav-tree").addClass("layui-hide");
+            $("#nav" + id).removeClass("layui-hide");
+        });
+        function initNoticeSocket() {
+            //初始化websocket
+            var websocket = null;
+            if ('WebSocket' in window) {
+                websocket = new WebSocket("ws://" + document.location.host + "/pushNotice");
+                websocket.onerror = function() {
+                };
+                websocket.onopen = function(event) {
+                }
+                websocket.onclose = function() {
+                }
+                window.onbeforeunload = function() {
+                    websocket.close();
+                }
+                websocket.onmessage = function(event) {
+                    // getUserNoticeCount();
+                    var currentCount = 0;
+                    if ($("#nc").text() && parseInt($("#nc").text())) {
+                        currentCount = parseInt($("#nc").text());
+                    }
+                    currentCount += 1;
+                    $("#nc").text(currentCount);
+                    var notice = $.parseJSON(event.data);
+                    //使用参数：1.标题，2.链接地址，3.内容简介，4.标签名称
+                    var pop = new Pop(notice.noticeTitle, "/sysNotice/readNotice?id=" + notice.noticeId, notice.noticeSummary, "");
+                }
+            } else {
+                console.log('Not support websocket');
+            }
+        }
+        window.getUserNoticeCount = function() {
+            $.ajax({
+                type : 'post',
+                dataType : 'json',
+                async : false,
+                headers : {
+                    'Content-Type' : 'application/json',
+                },
+                url : '/sysNotice/getUserNoticeCount',
+                success : function(data) {
+                    if (data <= 0) {
+                        $("#nc").css("visibility", "hidden");
+                    } else {
+                        $("#nc").text(data);
+                        $("#nc").css("visibility", "visible");
+                    }
+                },
+                error : function(e) {
+                    console.log(e);
+                }
+            });
+        }
+        $("#toUserInfo").on("click", function() {
+            layer.open({
+                title : "用户详情",
+                skin : 'layui-layer-lan',
+                shadeClose : true,
+                type : 2,
+                fixed : false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin : false,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                area : [ '80%', '70%' ],
+                content : "/user/user-dispaly?userId=${userInfo.userId}"
+            });
+        });
+        $("#logout").on("click", function() {
+            layer.confirm('确定要退出登录吗？', {
+                title : "退出登录"
+            }, function(index) {
+                layer.close(index);
+                $.ajax({
+                    type : 'post',
+                    dataType : 'json',
+                    async : false,
+                    url : '/logout',
+                    success : function(data) {
+                        window.location.href = "/login";
+                    },
+                    error : function(e) {
+                        console.log(e);
+                    }
+                });
+            });
+        });
+        $("#toUpdPass").on("click", function() {
+            layer.open({
+                title : "修改密码",
+                skin : 'layui-layer-lan',
+                shadeClose : true,
+                type : 2,
+                fixed : false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin : false,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                area : [ '500px', '300px' ],
+                content : "/user/upd-pass?userId=${userInfo.userId}"
+            });
+        });
+        
+        $("#selfConfig").on("click", function() {
+			layer.open({
+				title : "个人设置",
+				skin : 'layui-layer-lan',
+				shadeClose : true,
+				type : 2,
+				fixed : false,
+				//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+				maxmin : false,
+				//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+				area : [ '500px', '300px' ],
+				content : "/user/ini-self-config"
+			});
+		});
+        
+        $("#changeIndex").on("click", function() {
+        	var host = window.location.host;
+        	window.location.href="http://"+host+"/work";
+		});
+
+        // 菜单收藏
+        $("#collectFunction").on("click", function() {
+            var param = JSON.parse(window.localStorage.getItem("param"));
+            $.ajax({
+                type : 'post',
+                dataType : 'json',
+                async : false,
+                url : '/admin/collect?functionCode='+param.code+"&functionName="+param.name+"&functionId="+param.id,
+                success : function(data) {
+                    layer.msg(data.message);
+
+                    if (data.success) {
+                        // 动态修改当前我的收藏
+                        var obj = eval('(' + data.data + ')');
+                        if (obj.status == '1') {
+                            var collectMenu = document.getElementById("dlCollect").innerHTML;
+                            collectMenu = collectMenu + "<dd id='"+obj.dataId+"'><a lay-href='"+obj.collectUrl+"' lay-text='"+obj.collectName+"' data-id='"+obj.functionId+"' data-code='"+obj.functionCode+"' data-functionbuttons='ALL'>"+obj.collectName+"</a></dd>"
+                            document.getElementById("dlCollect").innerHTML = collectMenu;
+                        } else if (obj.status == '0') {
+                            var dl = document.getElementById("dlCollect");
+                            // 查找dl里的所有dd
+                            var dds = document.getElementsByTagName('dd');
+                            for (var i = dds.length - 1; i >= 0; i--) {
+                                if (dds[i].id == obj.dataId) {
+                                    dl.removeChild(dds[i]);
+                                }
+                            }
+                        }
+
+                    }
+
+                },
+                error : function(e) {
+                    console.log(e);
+                }
+            });
+        });
+
+        //待办任务
+        $.ajax({
+            type : 'POST',
+            url : "/admin/pending-task-count",
+            dataType : 'json',
+            headers : {
+                'Content-Type' : 'application/json'
+            },
+            timeout : 3000, //超时时间设置，单位毫秒
+            error : function(XMLHttpRequest, status) {
+            },
+            success : function(data) { //请求成功后处理函数。
+                var pendingCount = data.pendingTaskCount;
+                if (pendingCount <= 0) {
+                    $("#pendingCount").css("visibility", "hidden");
+                    $("#mainIframe", parent.document.body).attr("src", "/mainLeader?taskCount=0")
+                } else {
+                    $("#pendingCount").text(pendingCount);
+                    $("#pendingCount").css("visibility", "visible");
+                    $("#mainIframe", parent.document.body).attr("src", "/mainLeader?taskCount=" + pendingCount)
+                }
+            }
+        });
+
+        $(function() {
+            initNoticeSocket();
+            getUserNoticeCount();
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.IntlProject.IntlProjectNoticeMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.IntlProject.IntlProjectNotice">
+    <id column="notice_id" jdbcType="VARCHAR" property="noticeId" />
+    <result column="notice_title" jdbcType="VARCHAR" property="noticeTitle" />
+    <result column="notice_content" jdbcType="VARCHAR" property="noticeContent" />
+    <result column="notice_type" jdbcType="VARCHAR" property="noticeType" />
+    <result column="notice_code" jdbcType="VARCHAR" property="noticeCode" />
+    <result column="notice_status" jdbcType="VARCHAR" property="noticeStatus" />
+    <result column="creater" jdbcType="VARCHAR" property="creater" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+    <result column="data_uuid" jdbcType="VARCHAR" property="dataUuid" />
+    <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
+    <result column="data_version" jdbcType="VARCHAR" property="dataVersion" />
+    <result column="unit_id" jdbcType="VARCHAR" property="unitId" />
+    <result column="append_files" jdbcType="VARCHAR" property="appendFiles" />
+    <result column="notice_sent_time" jdbcType="VARCHAR" property="noticeSentTime" />
+    <result column="target_users" jdbcType="VARCHAR" property="targetUsers" />
+    <result column="flow_status" jdbcType="INTEGER" property="flowStatus" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    notice_id, notice_title, notice_content, notice_type, notice_code, notice_status, 
+    creater, create_time, update_time, data_uuid, del_flag, data_version, unit_id, append_files, 
+    notice_sent_time, target_users, flow_status
+  </sql>
+  <select id="selectByExample" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectNoticeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from intl_project_notice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from intl_project_notice
+    where notice_id = #{noticeId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from intl_project_notice
+    where notice_id = #{noticeId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectNoticeExample">
+    delete from intl_project_notice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectNotice">
+    insert into intl_project_notice (notice_id, notice_title, notice_content, 
+      notice_type, notice_code, notice_status, 
+      creater, create_time, update_time, 
+      data_uuid, del_flag, data_version, 
+      unit_id, append_files, notice_sent_time, 
+      target_users, flow_status)
+    values (#{noticeId,jdbcType=VARCHAR}, #{noticeTitle,jdbcType=VARCHAR}, #{noticeContent,jdbcType=VARCHAR}, 
+      #{noticeType,jdbcType=VARCHAR}, #{noticeCode,jdbcType=VARCHAR}, #{noticeStatus,jdbcType=VARCHAR}, 
+      #{creater,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}, 
+      #{dataUuid,jdbcType=VARCHAR}, #{delFlag,jdbcType=INTEGER}, #{dataVersion,jdbcType=VARCHAR}, 
+      #{unitId,jdbcType=VARCHAR}, #{appendFiles,jdbcType=VARCHAR}, #{noticeSentTime,jdbcType=VARCHAR}, 
+      #{targetUsers,jdbcType=VARCHAR}, #{flowStatus,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectNotice">
+    insert into intl_project_notice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="noticeId != null">
+        notice_id,
+      </if>
+      <if test="noticeTitle != null">
+        notice_title,
+      </if>
+      <if test="noticeContent != null">
+        notice_content,
+      </if>
+      <if test="noticeType != null">
+        notice_type,
+      </if>
+      <if test="noticeCode != null">
+        notice_code,
+      </if>
+      <if test="noticeStatus != null">
+        notice_status,
+      </if>
+      <if test="creater != null">
+        creater,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="dataUuid != null">
+        data_uuid,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="dataVersion != null">
+        data_version,
+      </if>
+      <if test="unitId != null">
+        unit_id,
+      </if>
+      <if test="appendFiles != null">
+        append_files,
+      </if>
+      <if test="noticeSentTime != null">
+        notice_sent_time,
+      </if>
+      <if test="targetUsers != null">
+        target_users,
+      </if>
+      <if test="flowStatus != null">
+        flow_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="noticeId != null">
+        #{noticeId,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeTitle != null">
+        #{noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeContent != null">
+        #{noticeContent,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeType != null">
+        #{noticeType,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeCode != null">
+        #{noticeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeStatus != null">
+        #{noticeStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null">
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="dataUuid != null">
+        #{dataUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="dataVersion != null">
+        #{dataVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null">
+        #{unitId,jdbcType=VARCHAR},
+      </if>
+      <if test="appendFiles != null">
+        #{appendFiles,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeSentTime != null">
+        #{noticeSentTime,jdbcType=VARCHAR},
+      </if>
+      <if test="targetUsers != null">
+        #{targetUsers,jdbcType=VARCHAR},
+      </if>
+      <if test="flowStatus != null">
+        #{flowStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectNoticeExample" resultType="java.lang.Long">
+    select count(*) from intl_project_notice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update intl_project_notice
+    <set>
+      <if test="record.noticeId != null">
+        notice_id = #{record.noticeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeTitle != null">
+        notice_title = #{record.noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeContent != null">
+        notice_content = #{record.noticeContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeType != null">
+        notice_type = #{record.noticeType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeCode != null">
+        notice_code = #{record.noticeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeStatus != null">
+        notice_status = #{record.noticeStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creater != null">
+        creater = #{record.creater,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataUuid != null">
+        data_uuid = #{record.dataUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delFlag != null">
+        del_flag = #{record.delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.dataVersion != null">
+        data_version = #{record.dataVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitId != null">
+        unit_id = #{record.unitId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appendFiles != null">
+        append_files = #{record.appendFiles,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeSentTime != null">
+        notice_sent_time = #{record.noticeSentTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.targetUsers != null">
+        target_users = #{record.targetUsers,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flowStatus != null">
+        flow_status = #{record.flowStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update intl_project_notice
+    set notice_id = #{record.noticeId,jdbcType=VARCHAR},
+      notice_title = #{record.noticeTitle,jdbcType=VARCHAR},
+      notice_content = #{record.noticeContent,jdbcType=VARCHAR},
+      notice_type = #{record.noticeType,jdbcType=VARCHAR},
+      notice_code = #{record.noticeCode,jdbcType=VARCHAR},
+      notice_status = #{record.noticeStatus,jdbcType=VARCHAR},
+      creater = #{record.creater,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=VARCHAR},
+      data_uuid = #{record.dataUuid,jdbcType=VARCHAR},
+      del_flag = #{record.delFlag,jdbcType=INTEGER},
+      data_version = #{record.dataVersion,jdbcType=VARCHAR},
+      unit_id = #{record.unitId,jdbcType=VARCHAR},
+      append_files = #{record.appendFiles,jdbcType=VARCHAR},
+      notice_sent_time = #{record.noticeSentTime,jdbcType=VARCHAR},
+      target_users = #{record.targetUsers,jdbcType=VARCHAR},
+      flow_status = #{record.flowStatus,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectNotice">
+    update intl_project_notice
+    <set>
+      <if test="noticeTitle != null">
+        notice_title = #{noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeContent != null">
+        notice_content = #{noticeContent,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeType != null">
+        notice_type = #{noticeType,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeCode != null">
+        notice_code = #{noticeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeStatus != null">
+        notice_status = #{noticeStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null">
+        creater = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="dataUuid != null">
+        data_uuid = #{dataUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="dataVersion != null">
+        data_version = #{dataVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null">
+        unit_id = #{unitId,jdbcType=VARCHAR},
+      </if>
+      <if test="appendFiles != null">
+        append_files = #{appendFiles,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeSentTime != null">
+        notice_sent_time = #{noticeSentTime,jdbcType=VARCHAR},
+      </if>
+      <if test="targetUsers != null">
+        target_users = #{targetUsers,jdbcType=VARCHAR},
+      </if>
+      <if test="flowStatus != null">
+        flow_status = #{flowStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where notice_id = #{noticeId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectNotice">
+    update intl_project_notice
+    set notice_title = #{noticeTitle,jdbcType=VARCHAR},
+      notice_content = #{noticeContent,jdbcType=VARCHAR},
+      notice_type = #{noticeType,jdbcType=VARCHAR},
+      notice_code = #{noticeCode,jdbcType=VARCHAR},
+      notice_status = #{noticeStatus,jdbcType=VARCHAR},
+      creater = #{creater,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR},
+      data_uuid = #{dataUuid,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=INTEGER},
+      data_version = #{dataVersion,jdbcType=VARCHAR},
+      unit_id = #{unitId,jdbcType=VARCHAR},
+      append_files = #{appendFiles,jdbcType=VARCHAR},
+      notice_sent_time = #{noticeSentTime,jdbcType=VARCHAR},
+      target_users = #{targetUsers,jdbcType=VARCHAR},
+      flow_status = #{flowStatus,jdbcType=INTEGER}
+    where notice_id = #{noticeId,jdbcType=VARCHAR}
+  </update>
+</mapper>

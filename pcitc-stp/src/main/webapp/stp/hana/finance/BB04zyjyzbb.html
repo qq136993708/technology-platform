@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+     <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<body>
+	<div style="text-align: center; font-weight: bold; margin: 10px;">主要经营指标表</div>
+<div class="searchBox">
+    <!--查询条件-->
+        <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control" id="month">
+        </label>
+       <div class="layui-input-inline">
+         <select name="companyCode" id="companyCode" >
+              <#list companyCodeList as vo>
+              	 <#if vo.g0GSJC == '全部'>
+              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
+              	 </#if>
+                 <#if vo.g0GSJC != '全部'>
+              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
+              	 </#if>
+               </#list>
+            </select>
+       </div>
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+    </div>
+    <span class="unitBox">单位：元</span>
+</div>
+
+	<div class="content-body container">
+	
+		<table class="layui-table">
+			<thead>
+				<tr>
+					<td>项 目</td>
+					<td>行次</td>
+					<td>本年数</td>
+					<td>上年数</td>
+					<td>项 目</td>
+					<td>行次</td>
+					<td>本年数</td>
+					<td>上年数</td>
+					<td></td>
+				</tr>
+				</thead>
+				
+				<tbody>
+				<tr>
+					<td>一、利税总额</td>
+					<td>1</td>
+					<td>0</td>
+					<td>0</td>
+					<td>六、计提折旧、折耗及摊销情况：</td>
+					<td>31</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>（一）利润总额</td>
+					<td>2</td>
+					<td>0</td>
+					<td>0</td>
+					<td>（一）年末固定资产原价</td>
+					<td>32</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>（二）税金及附加</td>
+					<td>3</td>
+					<td>0</td>
+					<td>0</td>
+					<td>其中：房屋、建筑物</td>
+					<td>33</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>其中：增值税</td>
+					<td>4</td>
+					<td>0</td>
+					<td>0</td>
+					<td>机器设备</td>
+					<td>34</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>消费税</td>
+					<td>5</td>
+					<td>0</td>
+					<td>0</td>
+					<td>运输工具</td>
+					<td>35</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>环保税</td>
+					<td>6</td>
+					<td>0</td>
+					<td>—</td>
+					<td>其他</td>
+					<td>36</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>资源税</td>
+					<td>7</td>
+					<td>0</td>
+					<td>0</td>
+					<td>（二）计提折旧的全年平均固定资产原价</td>
+					<td>37</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>城建税</td>
+					<td>8</td>
+					<td>0</td>
+					<td>0</td>
+					<td>（三）本年提取的累计折旧</td>
+					<td>38</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>“四小”税</td>
+					<td>9</td>
+					<td>0</td>
+					<td>0</td>
+					<td>其中：房屋、建筑物</td>
+					<td>39</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>教育费附加</td>
+					<td>10</td>
+					<td>0</td>
+					<td>0</td>
+					<td>机器设备</td>
+					<td>40</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>石油特别收益金</td>
+					<td>11</td>
+					<td>0</td>
+					<td>0</td>
+					<td>运输工具</td>
+					<td>41</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>二、集中采购情况</td>
+					<td>12</td>
+					<td>0</td>
+					<td>0</td>
+					<td>其他</td>
+					<td>42</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>（一）采购总额</td>
+					<td>13</td>
+					<td>0</td>
+					<td>0</td>
+					<td>（四）固定资产综合折旧率</td>
+					<td>43</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>（二）集中采购额</td>
+					<td>14</td>
+					<td>0</td>
+					<td>0</td>
+					<td>（五）本年提取的油气资产累计折耗</td>
+					<td>44</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>1、集团总部集中采购额</td>
+					<td>15</td>
+					<td>0</td>
+					<td>0</td>
+					<td>（六）本年提取的各类资产累计摊销</td>
+					<td>45</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>2、企业自行组织集中采购额</td>
+					<td>16</td>
+					<td>0</td>
+					<td>0</td>
+					<td>七、当年固定资产投资总额（不含油气资产）</td>
+					<td>46</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>（三）集中采购度（%）</td>
+					<td>17</td>
+					<td>0</td>
+					<td>0</td>
+					<td>1、购置固定资产</td>
+					<td>47</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>（四）集中采购资金节约额</td>
+					<td>18</td>
+					<td>0</td>
+					<td>0</td>
+					<td>2、基建投资</td>
+					<td>48</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>三、节能减排情况：</td>
+					<td>19</td>
+					<td>0</td>
+					<td>0</td>
+					<td>3、其他投资</td>
+					<td>49</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>（一）本年企业支出的节能减排费用</td>
+					<td>20</td>
+					<td>0</td>
+					<td>0</td>
+					<td>八、当年油气资产投资总额</td>
+					<td>50</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>（二）能源消耗总量（万吨标煤）</td>
+					<td>21</td>
+					<td>0</td>
+					<td>0</td>
+					<td>1、购置油气资产</td>
+					<td>51</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>（三）万元增加值能耗（吨标煤/万元）</td>
+					<td>22</td>
+					<td>0</td>
+					<td>0</td>
+					<td>2、基建投资</td>
+					<td>52</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>（四）二氧化硫排放量（吨）</td>
+					<td>23</td>
+					<td>0</td>
+					<td>0</td>
+					<td>3、其他投资</td>
+					<td>53</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>（五）化学需氧量（吨）</td>
+					<td>24</td>
+					<td>0</td>
+					<td>0</td>
+					<td>九、企业累计向境外投资额</td>
+					<td>54</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>（六）二氧化碳排放量（吨）</td>
+					<td>25</td>
+					<td>0</td>
+					<td>0</td>
+					<td>其中：企业本年新增向境外投资额</td>
+					<td>55</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>四、本年企业支付的环境保护及生态恢复支出</td>
+					<td>26</td>
+					<td>0</td>
+					<td>0</td>
+					<td>十、企业外拓市场收入</td>
+					<td>56</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>（一）本年度上交政府统筹的支出</td>
+					<td>27</td>
+					<td>0</td>
+					<td>0</td>
+					<td>其中：出口产品及劳务收入</td>
+					<td>57</td>
+					<td>0</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>（二）本年度企业提取或据实列支的支出</td>
+					<td>28</td>
+					<td>0</td>
+					<td>0</td>
+					<td>海外机构收入</td>
+					<td>58</td>
+					<td>0</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>五、信息化建设总支出（包括信息系统固定资产投资和信息系统维护费用）</td>
+					<td>29</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>其中：网络安全总支出</td>
+					<td>30</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_chart.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script>
+
+
+var table,selectRowData;
+layui.config({
+    base: '/layuiadmin/module/modules/' //静态资源所在路径
+}).use(['jquery','form', 'laydate','table','laypage','layer'], function(){
+	  admin = layui.admin
+	  ,$ = layui.jquery
+      ,table = layui.table
+      ,layer = layui.layer
+      ,laydate = layui.laydate
+      ,form = layui.form
+      ,laypage = layui.laypage;
+	  form.render(null, 'component-form-group');
+            laydate.render({
+               elem: '#month'
+               ,format: 'yyyyMM'
+            });
+      //初始化表格
+      renderTable();
+});
+
+var allCode="${allCode?default('')}";
+var allCode_text="全部院所";
+
+
+</script>
+</body>
+</html>

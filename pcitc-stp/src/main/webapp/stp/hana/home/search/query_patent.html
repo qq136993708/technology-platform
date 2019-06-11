@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <!--<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">-->
+
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/common/js/base.js"></script>
+    <style>
+        .layui-table-click,.layui-table-hover,.layui-table tbody tr:hover{background: none;}
+        .layui-table-header{display: none;}
+        .layui-table-view,.layui-table-page,.tableBox table tr td{border: none;}
+        .layui-table-body{margin-top: 20px;}
+        .layui-table-cell{height: auto;margin-bottom: 10px;}
+        p{width: 500px;height: auto;overflow: hidden;white-space: normal;/*text-overflow: ellipsis;*/
+            font-size: 13px;word-break:break-all;word-wrap:break-word;line-height: 20px;}
+        .layui-table-body{margin-top: 20px;}
+        .layui-table-page{margin-bottom: 20px;}
+        .tableBox,.searchBox{padding-left:18px;margin: 0 auto;}
+        .tableBox{width: 53%;float: left;margin-bottom: 70px;}
+        .searchBox{margin-top: 20px;}
+        .relevant{width: 34%;float: right;margin-right: 20px;}
+        .hotspot>.item{width: 100%;text-align: left;padding: 0;padding-top: 10px;}
+        .hotspot>.item a{font-size: 14px;color: #1890ff;line-height: 26px;}
+        .hotspot>.item a:hover{text-decoration:underline;}
+        .c-nameC{height: 0px;}
+    </style>
+</head>
+<body>
+
+<!--<div class="searchBox">-->
+    <!--&lt;!&ndash;查询条件&ndash;&gt;-->
+    <!--<label class="dateInput">-->
+                        <!--</label>-->
+    <!--&lt;!&ndash;按钮组&ndash;&gt;-->
+    <!--<div class="btnGroup">-->
+        <!--<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询-->
+        <!--</button>-->
+        <!--<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"-->
+                <!--data-type="resetEvent">重置-->
+        <!--</button>-->
+    <!--</div>-->
+<!--</div>-->
+<!--<div class="tableToolBox">-->
+    <!--<div class="whiteLine"></div>-->
+    <!--<div class="tableBtns">-->
+        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+                <!--data-type="addEvent">新增-->
+        <!--</button>-->
+        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+                <!--data-type="editEvent">编辑-->
+        <!--</button>-->
+        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+                <!--data-type="deleteEvent">删除-->
+        <!--</button>-->
+    <!--</div>-->
+<!--</div>-->
+<input type="hidden" name="keyword"  value="${keyword}"  id="keyword">
+<div class="tableBox">
+    <table id="zjkZhuanliTableId" class="layui-hide" lay-filter="tableEvent"></table>
+</div>
+<div class="relevant">
+    <p>相关内容</p>
+    <div class="relevant-cont">
+        <div class="item">
+            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
+            <a href="javascript:;">合同签订率</a>
+        </div>
+        <div class="item">
+            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
+            <a href="javascript:;">合同签订率</a>
+        </div>
+        <div class="item">
+            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
+            <a href="javascript:;">合同签订率</a>
+        </div>
+        <div class="item">
+            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
+            <a href="javascript:;">合同签订率</a>
+        </div>
+        <div class="item">
+            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
+            <a href="javascript:;">合同签订率</a>
+        </div>
+        <div class="item">
+            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
+            <a href="javascript:;">合同签订率</a>
+        </div>
+    </div>
+    <!--<p>搜索热点</p>
+    <div class="relevant-cont hotspot">
+        <div class="item">
+            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法</a>
+        </div>
+        <div class="item">
+            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+        </div>
+        <div class="item">
+            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+        </div>
+        <div class="item">
+            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+        </div>
+        <div class="item">
+            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+        </div>
+        <div class="item">
+            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+        </div>
+    </div>-->
+</div>
+<script>
+    var selectRowData;
+    layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element'], function () {
+        var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer,
+                laydate = layui.laydate;
+        table = layui.table;
+
+        function loadtable() {
+            table.render({
+                elem: '#zjkZhuanliTableId',
+                url: '/zjkZhuanli/getTableData',
+                method: "POST",
+                where: {param: {"keyword":$("#keyword").val()}},
+                limit: 15,
+                id: 'zjkZhuanliTableId',
+                page: {
+                    count: 500, //数据总数，从服务端得到
+                    groups: 5,
+                    limits: [15, 30, 45, 60],
+                    layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                    first: '首页', //不显示首页
+                    last: '尾页', //不显示尾页
+                    theme: '#0F9EE0'
+                },
+
+                cols: [[
+                    {field:'patentCode',title:'年度',
+                    templet:  '<div>{{ layui.laytpl.search(d) }}</div>' }
+                ]],
+                done: function (res, curr, count) {
+                    parent.$("#patent").html(count);
+                    $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                        var index = parseInt($(this).index() + 1);
+                        $(this).parent().find('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $(this).parent().children('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $(this).children("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        selectRowData = res.data[index - 1];
+                    });
+                }
+            });
+            //移除表头的复选框,去掉全选
+            $(".layui-table-header table thead th input").remove();
+        }
+
+        // $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
+        //     var index = $(this).attr('data-index');
+        //     var tableBox = $(this).parents('.layui-table-box');
+        //     //存在固定列
+        //     if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
+        //         tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+        //     } else {
+        //         tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+        //     }
+        //     var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+        //     if (checkCell.length > 0) {
+        //         checkCell.click();
+        //     }
+        // });
+        // $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+        //     e.stopPropagation();
+        // });
+
+        loadtable();
+        // 触发不同的按钮事件
+        var $ = layui.$, active = {
+            searchEvent: function () { //点击查询按钮
+            table.reload('zjkZhuanliTableId', {
+            where: {param:
+            {
+            }
+            }
+            })},
+            resetEvent: function () { //点击查询按钮
+                table.reload('zjkZhuanliTableId', {
+                    where: {param:{
+            }
+                    }
+                });
+            }, getChecked: function () {//多选
+                var ids = "";
+                var selectedData = active.getCheckData();
+                return selectedData;
+            }, getCheckData: function () { //获取选中数据
+                var checkStatus = table.checkStatus('zjkZhuanliTableId')
+                        , data = checkStatus.data;
+                return data;
+            }
+            , getCheckLength: function () { //获取选中数目
+                var checkStatus = table.checkStatus('zjkZhuanliTableId')
+                        , data = checkStatus.data;
+                layer.msg('选中了：' + data.length + ' 个');
+            }
+            , isAll: function () { //验证是否全选
+                var checkStatus = table.checkStatus('zjkZhuanliTableId');
+                layer.msg(checkStatus.isAll ? '全选' : '未全选')
+            },
+            addEvent: function () { //点击新增按钮
+                openBaseWin("新增", "/zjkZhuanli/edit");
+            },
+            editEvent: function () { //点击编辑按钮
+                if(typeof (selectRowData)=="undefined"){
+                    layer.msg("请选择一条数据");
+                    return;
+                }else {
+                    openBaseWin("编辑", "/zjkZhuanli/edit?id=" + selectRowData.id);
+                }
+            }
+            ,
+            deleteEvent: function () { //点击删除按钮
+                if(typeof (selectRowData)=="undefined"){
+                    layer.msg("请选择一条数据");
+                    return;
+                }
+                layer.confirm('确定要删除吗?', {btn: ['确认', '取消'], title: "删除确认"}, function (index) {
+                    layer.close(index);
+                    ajaxPost("/zjkZhuanli/del-real", {"id": selectRowData.id}, function (data) {
+                        layer.msg("文件删除成功");
+                        loadtable();
+                    });
+                });
+            }
+        };
+        $('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
+</body>
+
+</html>

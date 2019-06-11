@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+     <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<body>
+<div class="searchBox">
+       <!--查询条件-->
+        <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month" placeholder="请选择月份" value="${month}"  title="月份" autocomplete="off" class="form-control" id="month">
+        </label>
+       <div class="layui-input-inline">
+         <select name="companyCode" id="companyCode" >
+              <#list companyCodeList as vo>
+              	 <#if vo.g0GSJC == '全部'>
+              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
+              	 </#if>
+                 <#if vo.g0GSJC != '全部'>
+              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
+              	 </#if>
+               </#list>
+            </select>
+       </div>
+        
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+    </div>
+    <span class="unitBox">单位：万元</span>
+</div>
+
+<!--echarts-->
+<div class="content-body container">
+     <div class="one-chart-box">
+         <div class="layui-row echarts">
+             <!--<p>科研经费预算投入年度趋势分析</p>-->
+             <div id="cash-flow-01" style="width: 100%;height: 400px;"></div>
+         </div>
+     </div>
+    <!-- <div class="three-charts-box">
+            <div class="layui-row">
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="cash_flow_03_13" style="width: 100%;height: 400px;"></div>
+                </div>
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="cash_flow_03_27" style="width: 100%;height: 400px;"></div>
+                </div>
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="cash_flow_03_46" style="width: 100%;height: 400px;"></div>
+                </div>
+            </div>
+        </div>  --> 
+        
+        
+        
+       <!--图表二比一布局-->
+        <div class="layui-row two-one-box">
+            <div class="layui-col-xs8 layui-col-sm8 layui-col-md8 twoBox echarts" style="height:auto">
+                <div style="text-align:center;margin:10px;">现金流量表</div>
+                <table id="processdef-table" class="layui-hide" lay-filter="tableData"></table>
+            </div>
+            <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 oneBox " style="height:auto">
+                <div id="cash_flow_03_13" class="echarts" style="width: 100%;height: 400px;"></div>
+                <div id="cash_flow_03_27" class="echarts" style="width: 100%;height: 400px;margin-top:10px;"></div>
+                <div id="cash_flow_03_46" class="echarts" style="width: 100%;height: 400px;margin-top:10px;"></div>
+            </div>
+        </div>
+        
+        
+        
+       <!--  <div style="width:100%">
+            <table id="processdef-table" class="layui-hide" lay-filter="tableData"></table>
+        </div> -->
+        
+</div>
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_chart.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script>
+
+
+var table,selectRowData;
+layui.config({
+    base: '/layuiadmin/module/modules/' //静态资源所在路径
+}).use(['jquery','form', 'laydate','table','laypage','layer'], function(){
+	  admin = layui.admin
+	  ,$ = layui.jquery
+      ,table = layui.table
+      ,layer = layui.layer
+      ,laydate = layui.laydate
+      ,form = layui.form
+      ,laypage = layui.laypage;
+	  form.render(null, 'component-form-group');
+            laydate.render({
+               elem: '#month'
+               ,format: 'yyyyMM'
+            });
+      //初始化表格
+      renderTable();
+});
+
+var allCode="${allCode?default('')}";
+var allCode_text="全部院所";
+
+function renderTable()
+{    
+  layer.load(2);
+  //渲染
+  table.render({
+    elem: '#processdef-table',
+    title:'ddd',
+    url: '/financial-decision/cash-flow-02',
+    method:"GET",
+    where: {month:  $("#month").val(), companyCode: $("#companyCode").val()},
+    limit: 150,
+    height: '1220',
+    cols: [[
+    	 /* {title:'序号', type:'numbers', width: '4%'}, */
+    	 {field:'g0XMHC',    title:'行次',       style:'cursor: pointer;',align: 'center', width: '10%'},
+         {field:'g0XMMS',    title:'项目名称',    style:'cursor: pointer;',align: 'left', width: '35%'},
+         {field:'k0BQLJJE',  title:'本期累计余额',  style:'cursor: pointer;',align: 'center', width: '20%'},
+         {field:'k0TBLJJE',  title:'同期累计余额',  style:'cursor: pointer;',align: 'center', width: '20%'},
+         {field:'k0TQLJJE',  title:'同期金额',    style:'cursor: pointer;',align: 'center', width: '20%'}
+    ]], done: function (res, curr, count) {
+    	layer.closeAll('loading');
+    }
+  });
+}       
+
+
+ 
+
+function initEchart()
+{
+	
+	var v_date=(new Date()).getTime();
+	var month=$('#month').val();
+	var companyCode=$('#companyCode').val();
+	var monthstr=getNowFormatDate($('#month').val());
+	var checkText=$("#companyCode").find("option:selected").text();
+	if(checkText=='全部')
+	{
+		checkText="全部院所";
+	}
+	
+	
+	
+	var url_cash_flow_01="/financial-decision/cash-flow-01?companyCode="+companyCode+"&month="+month+"&v_date="+v_date;
+	load_single_line(url_cash_flow_01,"cash-flow-01","科研资金净现金余额分析",monthstr);
+	
+	var url_cash_flow_03_13="/financial-decision/cash-flow-03?month="+month+"&v_date="+v_date+"&type=13&companyCode="+allCode;
+	loadPie(url_cash_flow_03_13,"cash_flow_03_13","经营活动现金流量净额占比分析",monthstr);
+	var url_cash_flow_03_27="/financial-decision/cash-flow-03?month="+month+"&v_date="+v_date+"&type=27&companyCode="+allCode;
+	loadPie(url_cash_flow_03_27,"cash_flow_03_27","投资活动现金流量净额占比分析",monthstr); 
+	var url_cash_flow_03_46="/financial-decision/cash-flow-03?month="+month+"&v_date="+v_date+"&type=46&companyCode="+allCode;
+	loadPie(url_cash_flow_03_46,"cash_flow_03_46","月期末现金流量占比分析",monthstr);
+}
+
+//初始化图形
+initEchart();
+//查询
+function search_Event()
+{
+	initEchart();
+	renderTable();
+}
+
+</script>
+</body>
+</html>

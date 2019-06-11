@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>待办任务-业务详情</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
+
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+
+</head>
+<body>
+	<form class="layui-form" id="detail-form">
+		<div>
+			<div class="layui-row">
+				<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label for="" class="layui-form-label">
+							委托人
+							<span class="must-fill">*</span>
+						</label>
+						<div class="layui-input-block">
+							<input class="layui-input readOnlyBox" disabled name="assigneeName" type="text" value="${delegateInfo.assigneeName}">
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="layui-row">
+				<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label for="" class="layui-form-label">
+							被委托人
+							<span class="must-fill">*</span>
+						</label>
+						<div class="layui-input-block">
+							<input class="layui-input readOnlyBox" disabled name="attorneyName" type="text" value="${delegateInfo.attorneyName}">
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label for="" class="layui-form-label">
+							委托日期
+							<span class="must-fill">*</span>
+						</label>
+						<div class="layui-input-block">
+							<input type="text" name="createDate" id="createDate" class="layui-input readOnlyBox" disabled>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="layui-row">
+				<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label for="" class="layui-form-label">
+							生效开始日期
+							<span class="must-fill">*</span>
+						</label>
+						<div class="layui-input-block">
+							<input type="text" name="startDate" id="startDate" class="layui-input readOnlyBox" disabled>
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label for="" class="layui-form-label">
+							生效开始日期
+							<span class="must-fill">*</span>
+						</label>
+						<div class="layui-input-block">
+							<input type="text" name="endDate" id="endDate" class="layui-input readOnlyBox" disabled>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="layui-form-item layui-form-text">
+				<label class="layui-form-label">说明</label>
+				<div class="layui-input-block">
+					<textarea class="layui-textarea readOnlyBox" name="remarks" id="remarks" disabled></textarea>
+				</div>
+			</div>
+		</div>
+	</form>
+</body>
+</html>

@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.equipment.SreTechMeetingMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.SreTechMeeting" >
+    <id column="meeting_id" property="meetingId" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="meeting_date" property="meetingDate" jdbcType="TIMESTAMP" />
+    <result column="meeting_place" property="meetingPlace" jdbcType="VARCHAR" />
+    <result column="meeting_emcee" property="meetingEmcee" jdbcType="VARCHAR" />
+    <result column="join_users" property="joinUsers" jdbcType="VARCHAR" />
+    <result column="meeting_content" property="meetingContent" jdbcType="VARCHAR" />
+    <result column="meeting_doc" property="meetingDoc" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="equitment_id" property="equitmentId" jdbcType="VARCHAR" />
+    <result column="project_id" property="projectId" jdbcType="VARCHAR" />
+    <result column="create_depart_name" property="createDepartName" jdbcType="VARCHAR" />
+    <result column="create_depart_code" property="createDepartCode" jdbcType="VARCHAR" />
+     <result column="parent_unit_path_names" property="parentUnitPathNames" jdbcType="VARCHAR" />
+    <result column="parent_unit_path_ids" property="parentUnitPathIds" jdbcType="VARCHAR" />
+    
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    meeting_id, title, meeting_date, meeting_place, meeting_emcee, join_users, meeting_content, 
+    meeting_doc, create_date, create_user_id, create_user_name, update_date, update_user_id, 
+    status, remark, equitment_id, project_id, create_depart_name, create_depart_code,parent_unit_path_names,parent_unit_path_ids
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sre_tech_meeting
+    where meeting_id = #{meetingId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sre_tech_meeting
+    where meeting_id = #{meetingId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SreTechMeeting" >
+    insert into sre_tech_meeting (meeting_id, title, meeting_date, 
+      meeting_place, meeting_emcee, join_users, 
+      meeting_content, meeting_doc, create_date, 
+      create_user_id, create_user_name, update_date, 
+      update_user_id, status, remark, 
+      equitment_id, project_id, create_depart_name, 
+      create_depart_code,parent_unit_path_names,parent_unit_path_ids)
+    values (#{meetingId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{meetingDate,jdbcType=TIMESTAMP}, 
+      #{meetingPlace,jdbcType=VARCHAR}, #{meetingEmcee,jdbcType=VARCHAR}, #{joinUsers,jdbcType=VARCHAR}, 
+      #{meetingContent,jdbcType=VARCHAR}, #{meetingDoc,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{equitmentId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{createDepartName,jdbcType=VARCHAR}, 
+      #{createDepartCode,jdbcType=VARCHAR}
+      
+       ,#{parentUnitPathNames,jdbcType=VARCHAR}
+      ,#{parentUnitPathIds,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreTechMeeting" >
+    insert into sre_tech_meeting
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="meetingId != null" >
+        meeting_id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="meetingDate != null" >
+        meeting_date,
+      </if>
+      <if test="meetingPlace != null" >
+        meeting_place,
+      </if>
+      <if test="meetingEmcee != null" >
+        meeting_emcee,
+      </if>
+      <if test="joinUsers != null" >
+        join_users,
+      </if>
+      <if test="meetingContent != null" >
+        meeting_content,
+      </if>
+      <if test="meetingDoc != null" >
+        meeting_doc,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="equitmentId != null" >
+        equitment_id,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="createDepartName != null" >
+        create_depart_name,
+      </if>
+      <if test="createDepartCode != null" >
+        create_depart_code,
+      </if>
+      
+      <if test="parentUnitPathNames != null" >
+        parent_unit_path_names,
+      </if>
+      <if test="parentUnitPathIds != null" >
+        parent_unit_path_ids,
+      </if>
+      
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="meetingId != null" >
+        #{meetingId,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingDate != null" >
+        #{meetingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="meetingPlace != null" >
+        #{meetingPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingEmcee != null" >
+        #{meetingEmcee,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUsers != null" >
+        #{joinUsers,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingContent != null" >
+        #{meetingContent,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingDoc != null" >
+        #{meetingDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="equitmentId != null" >
+        #{equitmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDepartName != null" >
+        #{createDepartName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDepartCode != null" >
+        #{createDepartCode,jdbcType=VARCHAR},
+      </if>
+      
+       <if test="parentUnitPathNames != null" >
+        #{parentUnitPathNames,jdbcType=VARCHAR},
+      </if>
+       <if test="parentUnitPathIds != null" >
+        #{parentUnitPathIds,jdbcType=VARCHAR},
+      </if>
+      
+      
+      
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.equipment.SreTechMeeting" >
+    update sre_tech_meeting
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingDate != null" >
+        meeting_date = #{meetingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="meetingPlace != null" >
+        meeting_place = #{meetingPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingEmcee != null" >
+        meeting_emcee = #{meetingEmcee,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUsers != null" >
+        join_users = #{joinUsers,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingContent != null" >
+        meeting_content = #{meetingContent,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingDoc != null" >
+        meeting_doc = #{meetingDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="equitmentId != null" >
+        equitment_id = #{equitmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+        project_id = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDepartName != null" >
+        create_depart_name = #{createDepartName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDepartCode != null" >
+        create_depart_code = #{createDepartCode,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="parentUnitPathNames != null" >
+        parent_unit_path_names = #{parentUnitPathNames,jdbcType=VARCHAR},
+      </if>
+      <if test="parentUnitPathIds != null" >
+        parent_unit_path_ids = #{parentUnitPathIds,jdbcType=VARCHAR},
+      </if>
+      
+      
+    </set>
+    where meeting_id = #{meetingId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.equipment.SreTechMeeting" >
+    update sre_tech_meeting
+    set title = #{title,jdbcType=VARCHAR},
+      meeting_date = #{meetingDate,jdbcType=TIMESTAMP},
+      meeting_place = #{meetingPlace,jdbcType=VARCHAR},
+      meeting_emcee = #{meetingEmcee,jdbcType=VARCHAR},
+      join_users = #{joinUsers,jdbcType=VARCHAR},
+      meeting_content = #{meetingContent,jdbcType=VARCHAR},
+      meeting_doc = #{meetingDoc,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      
+      parent_unit_path_names = #{parentUnitPathNames,jdbcType=VARCHAR},
+      parent_unit_path_ids = #{parentUnitPathIds,jdbcType=VARCHAR},
+      
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      equitment_id = #{equitmentId,jdbcType=VARCHAR},
+      project_id = #{projectId,jdbcType=VARCHAR},
+      create_depart_name = #{createDepartName,jdbcType=VARCHAR},
+      create_depart_code = #{createDepartCode,jdbcType=VARCHAR}
+    where meeting_id = #{meetingId,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+  
+  
+  
+  <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="title != null and title  !='' ">                     AND t.title like CONCAT('%',#{title},'%')</if>
+	     <if test="equitmentId != null              and equitmentId !=''  ">     AND t.equitment_id = #{equitmentId}</if>
+	     <if test="projectId != null                and projectId !=''  ">       AND t.project_id = #{projectId}</if>
+	      <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.parent_unit_path_ids = #{parentUnitPathIds}</if>
+	     <if test="sqlStr != null   and sqlStr !='' ">     AND   ${sqlStr}</if>
+	 </trim>
+	</sql>
+	
+	
+	 
+    
+   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from sre_tech_meeting t <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  create_date desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM sre_tech_meeting t <include refid="selectCondition"/>
+    </select>
+    
+    
+</mapper>

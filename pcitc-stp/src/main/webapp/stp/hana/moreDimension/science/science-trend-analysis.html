@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/mainStp.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
+</head>
+<body >
+<div class="layui-fluid">
+    <div class="layui-main-oil">
+        <div class="searchBox">
+            <!--查询条件-->
+            <label class="dateInput">
+                <span>月份</span>
+                <input type="text" name="year" placeholder="请选择月份" title="月份" value="${year}" autocomplete="off" class="form-control" id="year">
+            </label>
+            <div class="layui-input-inline">
+                <select name="companyCode" id="companyCode" >
+                    <#list companyCodeList as vo>
+                        <#if vo.g0GSJC == '全部'>
+                            <option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
+                        </#if>
+                        <#if vo.g0GSJC != '全部'>
+                            <option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
+                        </#if>
+                    </#list>
+                </select>
+            </div>
+            <form class="layui-form" style="display: inline;padding-left: 5px;">
+                <div class="layui-input-inline">
+                    <#list projectCodeList as vo>
+                        <input type="checkbox" name="like[write]" lay-skin="primary" title="${vo.g0XMGLLX}" checked="">
+                    </#list>
+                </div>
+            </form>
+            <!--按钮组-->
+            <div class="btnGroup">
+                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+            </div>
+            <span class="unitBox">单位：万元</span>
+        </div>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-sm8">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>科技奖励奖项数量年趋势分析
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart" id="main1" style="height:280px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-sm4">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>科技奖励奖项数量按奖项种类占比分析
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart" id="main2" style="height:280px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-sm4">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>科技奖励奖项数量按学科分类分布分析
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart" id="main3" style="height:280px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-sm4">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>科技奖励奖项数量按任务来源分布分析
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart" id="main4" style="height:280px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-sm4">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>科技奖励奖项数量按获奖等级分布分析
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart" id="main5" style="height:280px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-sm8">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>科技奖励奖项数量按研究院分布分析
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart" id="main6" style="height:280px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-sm4">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>科技奖励奖项数量按研究院占比分析
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart" id="main7" style="height:280px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/modules/bmap.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
+<script type="text/javascript">
+layui.config({
+    base: '/layuiadmin/module/modules/' 
+}).use(['jquery','form', 'laydate','table','layer'], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,form = layui.form
+      ,laydate = layui.laydate
+	  form.render(null, 'component-form-group');
+      var yearValY=$("#year").val();
+      $(".layui-time").html(yearValY+"年");
+            laydate.render({
+               elem: '#year'
+               ,format: 'yyyy'
+            });
+});
+
+
+
+
+
+
+function init()
+{
+	
+	var v_date=(new Date()).getTime();
+	var nd=$('#year').val();
+	var companyCode=$('#companyCode').val();
+    $(".layui-time").html(nd+"年");
+    
+    
+    
+    
+       var  yAxis= [
+            {
+            	 type: 'value',
+                 name: '数量（个）',
+                 position: 'left',
+                 axisLabel: {
+                     formatter: '{value}'
+                 }
+            }
+        ];
+        
+       
+       
+
+	var chart1_url="/more-dimension/reward_analysis_01?type=1&nd="+nd+"&v_date="+v_date;
+	var echart1=load_mutl_bar_down(chart1_url,"main1","","",yAxis);
+	echart1.on('click', function (params) {
+		var xName=params.name;
+		var legentName=params.seriesName;
+		var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+nd+"&ysnd="+year+"&ktlx="+legentName);
+        window.open("/instituteIndex?url="+url);
+    });
+	
+	var url_8="/more-dimension/reward_analysis_01?type=2&nd="+nd+"&v_date="+v_date;
+	var echart8=loadPie_02(url_8,"main2","","");
+	echart8.on('click', function (params) {
+		var xName=params.name;
+		var legentName=params.seriesName;
+		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+    });
+	
+	
+	
+	
+	
+	var chart1_url="/more-dimension/reward_analysis_01?type=3&nd="+nd+"&v_date="+v_date;
+	var echart1=load_mutl_bar_down(chart1_url,"main3","","",yAxis);
+	echart1.on('click', function (params) {
+		var xName=params.name;
+		var legentName=params.seriesName;
+		var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+nd+"&ysnd="+year+"&ktlx="+legentName);
+        window.open("/instituteIndex?url="+url);
+    });
+	
+	
+	var chart1_url="/more-dimension/reward_analysis_01?type=4&nd="+nd+"&v_date="+v_date;
+	var echart1=load_mutl_bar_down(chart1_url,"main5","","",yAxis);
+	echart1.on('click', function (params) {
+		var xName=params.name;
+		var legentName=params.seriesName;
+		var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+nd+"&ysnd="+year+"&ktlx="+legentName);
+        window.open("/instituteIndex?url="+url);
+    });
+	
+	
+	
+	
+
+	var chart1_url="/more-dimension/reward_analysis_02?type=1&nd="+nd+"&v_date="+v_date;
+	var echart1=load_mutl_bar_down(chart1_url,"main6","","",yAxis);
+	echart1.on('click', function (params) {
+		var xName=params.name;
+		var legentName=params.seriesName;
+		var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+nd+"&ysnd="+year+"&ktlx="+legentName);
+        window.open("/instituteIndex?url="+url);
+    });
+	
+	var url_8="/more-dimension/reward_analysis_02?type=2&nd="+nd+"&v_date="+v_date;
+	var echart8=loadPie_02(url_8,"main7","","");
+	echart8.on('click', function (params) {
+		var xName=params.name;
+		var legentName=params.seriesName;
+		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+    });
+	
+		
+			
+}		
+		
+init();     
+function search_Event()
+{
+	 init(); 
+}       
+                    
+                 
+                
+           
+    </script>
+</body>
+</html>

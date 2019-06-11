@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <title>科技管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/mobile/css/mobileNew.css">
+</head>
+<body>
+<header>
+    <div class="m_return child">
+        <a href="/mobile/indexTest"><img src="/mobile/images/icon-back.png"/> </a>
+        <h4>科研支出</h4>
+    </div>
+</header>
+<main class="main">
+            
+	<div class="layui-card layui-form " lay-filter="component-form-element">
+		<div class="layui-card-body layui-row layui-col-space10">
+			<div class="layui-col-xs4">
+				<input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control layui-input" id="month">
+			</div>
+			
+			
+			<div class="layui-col-xs4" >
+             <select id="companyCode" name="companyCode" ></select>
+            </div>
+        
+			<div class="layui-col-xs4" style="display:none">
+				<select name="city" lay-verify="">
+					<option value="">全部</option>
+					<option value="010">北京</option>
+					<option value="021">上海</option>
+					<option value="0571">杭州</option>
+				</select>
+			</div>
+			<div class="layui-col-xs2">
+				<button class="layui-btn layui-btn-primary" onclick="search_Event()">搜索</button>
+			</div>
+		</div>
+	</div>
+   <div class="main-card first-card">
+        <div class="main-card-header hasborder"><span class="layui_time"></span>科研支出</div>
+        <div class="main-card-body">
+         <div class="text-total">
+              <span>总计:<span class="text-total-blue"    id="pay_chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+              <span>新开课题:<span class="text-total-blue" id="pay_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+              <span>结转课题:<span class="text-total-blue" id="pay_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+          </div>
+          <div id="pay_chart1" style="width: 100%;height:300px;"></div>
+        </div>
+    </div>
+    
+    <div class="main-card first-card">
+        <div class="main-card-header hasborder"><span class="layui_time"></span>直属院各课题类型经费使用占比</div>
+        <div class="main-card-body">
+           <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table> 
+        </div>
+    </div>
+    
+    
+    <div class="main-card" id="isKJBPerson_id">
+        <div class="main-card-header hasborder"><span class="layui_time"></span>直属研究院科研支出</div>
+        <div class="main-card-body">
+             <div class="text-total">
+                 <span>总计:<span class="text-total-blue"    id="pay_chart3_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                 <span>资本性:<span class="text-total-blue" id="pay_chart3_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                 <span>费用性:<span class="text-total-blue" id="pay_chart3_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+             </div>
+       		<div id="pay_chart3" style="width: 100%;height:300px;"></div>
+        </div>
+    </div>
+    
+    <div class="main-card first-card">
+        <div class="main-card-header hasborder"><span class="layui_time"></span>直属研究院科研经费使用比率</div>
+        <div class="main-card-body"  style="height:360px;">
+            <table id="myTable233" class="layui-table"  lay-filter="myTable233">
+                            <thead>
+                            <tr>
+                                <th lay-data="{field:'g0GSJC', width:'20%'}" rowspan="2" >研究院</th>
+                                <th lay-data="{align:'center'}" colspan="2">总计</th>
+                               <!--  <th lay-data="{align:'center'}" colspan="3">费用性</th>
+                                <th lay-data="{align:'center'}" colspan="3">资本性</th> -->
+                            </tr>
+                            <tr>
+                                <th lay-data="{field:'zysje', width:'40%'}">实际拨款(亿元)</th>
+                                <th lay-data="{field:'k0BNYSJHJE', width:'40%',templet:function(d){return d.k0BNYSJHJE.toFixed(2)}}">实际支出(亿元)</th>
+                                <!-- <th lay-data="{field:'zRate', width:'30%'}">使用比率</th> -->
+
+                               <!--  <th lay-data="{field:'fyxysje', width:'10%'}">实际拨款(亿元)</th>
+                                <th lay-data="{field:'k0BNFYJE', width:'10%',templet:function(d){return d.k0BNFYJE.toFixed(2)}}">实际支出(亿元)</th>
+                                <th lay-data="{field:'fyxRate', width:'8%'}">使用比率</th>
+
+                                <th lay-data="{field:'zbxysje', width:'10%'}">实际拨款(亿元)</th>
+                                <th lay-data="{field:'k0BNZBJE', width:'10%',templet:function(d){return d.k0BNZBJE.toFixed(2)}}">实际支出(亿元)</th>
+                                <th lay-data="{field:'zbxRate', width:'8%'}">使用比率</th> -->
+                            </tr>
+                            </thead>
+                        </table> 
+        </div>
+    </div>
+    
+    
+    
+</main>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
+<script src="/stp/hana/common/hana_common.js"></script>
+
+
+<script type="text/javascript">
+
+(function(doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function() {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            docEl.style.fontSize =  (clientWidth / 10.8) + 'px';
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+	
+	
+var echart1;
+var echart7;
+var editObj=null,ptable=null,tableId='processdef-table';
+var table,treeGridCom;
+layui.config({
+	base: '/layuiadmin/lib/extend/'
+}).extend({
+	treeGridCom:'treeGridCom'
+}).use(['jquery','form','treeGridCom', 'laydate','table','laypage'], function(){
+	table = layui.table;
+	treeGridCom = layui.treeGridCom;
+	 var $ = layui.jquery
+      ,form = layui.form
+      ,laydate = layui.laydate;
+    
+   
+    var monthValY=$("#month").val().substring(4,0);
+    var monthValM=$("#month").val().substring(5);
+    $(".layui_time").html(monthValY+"年"+monthValM+"月");
+    form.render(null, 'component-form-group');
+    laydate.render({
+        elem: '#month'
+       ,type: 'month'
+        ,done: function(value, date, endDate){
+            $("#month").val(date.year+""+PrefixInteger(date.month, 2)); 
+        }
+    });
+   
+    renderTable();
+    renderTable2();
+  
+}); 
+
+function PrefixInteger(num, length) {
+	  return (num/Math.pow(10,length)).toFixed(length).substr(2);
+	}
+	
+init_companyCode("984b64b13cf54222bf57bd840759fabe");
+
+
+function initEchart(companyCode)
+{
+	
+	var v_date=(new Date()).getTime();
+	var month=$('#month').val();
+	 month=month.replace("-","");
+	var yAxis= [
+        {
+            type: 'value',
+            name: '金额(亿元)',
+            min: 0,
+            axisLabel: {
+                formatter: '{value}'
+            }
+        }
+    ];
+	
+	var companyCode=$("#companyCode").val();
+	//科研支出
+    $("#pay_chart1_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#pay_chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#pay_chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    //直属研究院科研支出
+    $("#pay_chart3_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#pay_chart3_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#pay_chart3_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    
+    
+    
+
+     var color=["#37a2da","#72c376"];
+    var chart1_url="/direct/pay_01?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+	echart1=load_mutl_bar_down(chart1_url,"pay_chart1","","",yAxis,50,color);
+	//
+    var colorNew=["#8278e9","#f7d454"];
+    var chart7_url="/direct/pay_03?type=1&month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+	echart7=load_mutl_bar_down_color(chart7_url,"pay_chart3","","",yAxis,colorNew);
+	 //
+	var setPay_count_count_url="/direct/pay_03?type=3&month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+	setPay_count(setPay_count_count_url); 
+	
+}
+
+//初始化图形
+initEchart();
+
+
+window.onresize = function()
+{
+	echart1.resize();       
+	echart7.resize();       
+}
+
+
+//查询
+function search_Event()
+{
+	
+	
+	 var monthValY=$("#month").val().substring(4,0);
+	    var monthValM=$("#month").val().substring(5);
+	    $(".layui_time").html(monthValY+"年"+monthValM+"月");
+	initEchart();
+	renderTable();
+	renderTable2();
+}
+
+function setPay_count(url) 
+{
+	
+   $.ajax({
+	     type:"GET",
+	     url: url,
+	     dataType:"json",
+	     timeout : 11000,
+	     cache: false,
+	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+         success:function(data,status)
+         {    
+	          if(data.success==true ||data.success=='true')
+	          {
+       	           $("#pay_chart3_01").html(data.data.k0BNYSJHJE.toFixed(2)+"亿元");
+       	           $("#pay_chart3_02").html(data.data.k0BNZBJE.toFixed(2)+"亿元");
+       	           $("#pay_chart3_03").html(data.data.k0BNFYJE.toFixed(2)+"亿元");
+	          } 
+		   },
+		   error:function()
+		   {
+		   },
+		   complete: function (XMLHttpRequest, status) 
+		   {
+	       }
+		  
+  });
+} 
+function renderTable()
+{  
+	  var companyCode=$("#companyCode").val();
+	  var month=$("#month").val();
+	  month=month.replace("-","");
+	  var url='/direct/pay_02?month='+month+"&companyCode="+companyCode;
+	  var  ptable=treeGridCom.render({
+	        id:tableId
+	        ,elem: '#processdef-table'
+	        ,url:url
+	        ,idField:'id'//必須字段
+	        ,treeId:'id'//树形id字段名称
+	        ,treeUpId:'pId'//树形父id字段名称
+	        ,treeShowName:'name'//以树形式显示的字段
+	        ,height:320
+	        ,isFilter:false
+	        ,iconOpen:false
+	        ,isOpenDefault:true
+	        ,loading: false
+	        ,method:'get'
+	        ,cols: [[
+	            {field:'name',  title: '名称',edit:'text', width: '30%'},
+	            {field:'extend02',  title:'实际拨款(亿元)',  style:'cursor: pointer;',align: 'left', width: '20%'},
+	            {field:'extend01',  title:'实际支出(亿元)',  style:'cursor: pointer;',align: 'right', width: '30%',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend01,2) }}</div>'},
+	            {field:'extend03',  title:'使用比率',       style:'cursor: pointer;',align: 'left', width: '20%'}
+	            
+	        ]]
+	        ,isPage:false
+	        ,parseData:function (res) {
+	            return res;
+	        }
+	        ,onClickRow:function (index, o) {
+	            console.log(index,o,"单击！");
+	        }
+	        ,onDblClickRow:function (index, o) {
+	            console.log(index,o,"双击");
+	        }
+	    }); 
+}
+
+function renderTable2()
+{
+
+	var month=$("#month").val();
+	 month=month.replace("-","");
+    var companyCode=$("#companyCode").val();
+    var url= '/direct/pay_03?month='+month+"&type=2&companyCode="+companyCode;
+    table.init('myTable233', {
+		  url: url
+		  ,height:"440px"
+		  ,where: {} 
+		});
+} 
+        
+</script>
+</body>
+</html>

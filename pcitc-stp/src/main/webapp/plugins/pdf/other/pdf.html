@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <title>pdf 在线预览插件</title>
+
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="jquery.media.js"></script>
+    <style type="text/css">
+
+        .selector {
+
+            width: 1000px;
+            height: 100px;
+            background-color: blue;
+        }
+
+    </style>
+</head>
+<body>
+
+
+<div class="selector">
+    <a onclick="next()"> next </a>
+    <br>
+    <a onclick="prev()"> prev </a>
+</div>
+
+<div class="pdf">
+    <iframe id="pdf_page" name="pdf_page" style="width:800px;height:500px">
+    </iframe>
+</div>
+
+<script type="text/javascript">
+    var next = function () {
+        var url = "自动化运维和数据化运维-从硬盘开始.pdf"
+        $(window.parent.document).find("#pdf_page").attr("src", url);
+        $(".pdf").media({width: 200, height: 800});
+    }
+
+
+    var prev = function () {
+
+        var url = "自动化运维和数据化运维-从硬盘开始.pdf"
+        $(window.parent.document).find("#pdf_page").attr("src", url);
+        $(".pdf").media({width: 200, height: 800});
+    }
+
+    $(document).ready(function () {
+        //var url = "E:/\前台/\jscode/\guice.pdf";
+        var url = "自动化运维和数据化运维-从硬盘开始.pdf";
+        $(window.parent.document).find("#pdf_page").attr("src", url);
+        $(".pdf").media();
+
+
+    });
+</script>
+</body>
+</html>
+
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <style type="text/css">
+        body {
+            text-align: center;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .div {
+            margin: 0 auto;
+            width: 800px;
+            height: 100%;
+        }
+    </style>
+    <title>查看</title>
+    <!--<script type="text/javascript" src="js/pdfobject.min.js"></script>-->
+    <!--<script type="text/javascript" src="js/jquery.min.js"></script>-->
+    <!--<script type="text/javascript" src="js/jquery.media.js"></script>-->
+
+    <!--<script type="text/javascript" src="/plugins/pdf/other/pdfobject.min.js"></script>-->
+    <script type="text/javascript" src="/plugins/pdf/pdfjs-2.0.943-dist/build/pdf.js"></script>
+    <script type="text/javascript" src="/plugins/jQuery/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="/plugins/pdf/other/jquery.media.js"></script>
+
+
+    <script>
+// chrome
+            var success = new PDFObject({url: "http://localhost:8080/plugins/pdf/自动化运维和数据化运维-从硬盘开始.pdf"}).embed();
+            if (!success) {
+                var opts = {
+                    width: 800,
+                    height: $(document).height(),
+                    autoplay: true
+                };
+                $('a.media').media(opts);
+            }
+    </script>
+</head>
+<body>
+<div class="div">
+    <a style="" class="media" id="media" href="http://localhost:8080/plugins/pdf/自动化运维和数据化运维-从硬盘开始.pdf">点此预览pdf</a>
+</div>
+<script>
+    // document.getElementById("media").click();
+</script>
+</body>
+</html>

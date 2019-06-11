@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/common/js/jquery-1.11.3.min.js"></script>
+
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+</head>
+<body>
+
+
+<div class="formBox">
+    <div class="box-body">
+        <form class="layui-form" name="form1" id="form1" action="" method="POST"
+              lay-filter="component-form-group layui-container">
+            <input name="id" id="id" value="${id}" type="hidden">
+            <input name="equipmentIds" id="equipmentIds" value="${sreProjectBasic.equipmentIds}" type="hidden">
+            <input name="documentDoc" id="documentDoc" value="${documentDoc}" type="hidden">
+            <input name="yearFeeStr" id="yearFeeStr" value="${sreProjectBasic.yearFeeStr}" type="hidden">
+            <input name="functionId" id="functionId" type="hidden">
+            <input name="userIds" id="userIds" type="hidden">
+            <input name="participatingUnitsCode" id="participatingUnitsCode"
+                   value="${sreProjectBasic.participatingUnitsCode}"
+                   type="hidden">
+            <!--<input name="participatingUnitsCode" id="participatingUnitsCode"
+                               value="2019-2020,苏州大学,014ef79138eb4fc49f24e4439419a5a9#2019,22,null#2020,0,null;2019-2020,北京经贸大学,01a180d1fac8465a9f283f7628dbf498#2019,0,null#2020,0,null" type="hidden">
+-->
+            <div class="layer-box">
+                <input name="leadUnitCode" id="leadUnitCode" value="${leadUnitCode}" type="hidden">
+                <input name="joinUnitCode" id="joinUnitCode" value="${sreProjectBasic.joinUnitCode}" type="hidden">
+                <input name="entrustUnitCode" id="entrustUnitCode" value="${sreProjectBasic.entrustUnitCode}"
+                       type="hidden">
+                <input name="belongDepartmentCode" id="belongDepartmentCode"
+                       value="${sreProjectBasic.belongDepartmentCode}"
+                       type="hidden">
+                <input name="yearFeeStrJoinUnit" id="yearFeeStrJoinUnit"
+                       value="${sreProjectBasic.yearFeeStrJoinUnit}"
+                       type="hidden">
+                <!--<input name="yearFeeStrJoinUnit" id="yearFeeStrJoinUnit"
+                       value="2019-2020,苏州大学,014ef79138eb4fc49f24e4439419a5a9#2019,22,null#2020,0,null;2019-2020,北京经贸大学,01a180d1fac8465a9f283f7628dbf498#2019,0,null#2020,0,null" type="hidden">-->
+                <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">课题名称</label>
+                            <div class="layui-input-block">
+                                <input class="layui-input readOnlyBox" name="name" id="name"
+                                       value="${sreProjectBasic.name}"
+                                       autocomplete="off" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">总金额(¥万元)</label>
+                            <div class="layui-input-block">
+                                <input class="layui-input readOnlyBox" style="color:red" name="projectMoney" id="projectMoney"
+                                       value="${sreProjectBasic.projectMoney}"
+                                       autocomplete="off" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                 
+					            
+					            
+
+                <!--行有两个的情况-->
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label layui-form-labelH">课题开发及投资目标</label>
+                    <div class="layui-input-block">
+                    <textarea placeholder="请简述开发及投资目标，原则上不超过500字" name="remarks" id="remarks"
+                              class="layui-textarea readOnlyBox">${sreProjectBasic.remarks}</textarea>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">选择装备</label>
+                    <div class="layui-input-block">
+                        <div class="tableBox">
+                            <div class="tableToolBox">
+                                <div class="whiteLine"></div>
+                                <div class="tableBtns">
+                                </div>
+                            </div>
+                            <table id="join_apply_table" class="layui-hide" lay-filter="JoinEvent"></table>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">建设年限</label>
+                    <div class="layui-input-block">
+                        <div class="layui-input-inline" style="float:left">
+                            <input type="text" class="layui-input readOnlyBox" name="beginYear" id="beginYear"
+                                   value="${beginYear}"
+                                   style="width:80px;float:left" placeholder="开始年份">
+                            <div class="layui-form-mid" style="width:8px;float:left"> -</div>
+                            <input type="text" class="layui-input readOnlyBox" id="endYear" name="endYear"
+                                   value="${endYear}"
+                                   style="width:80px;float:left" placeholder="结束年份">
+                        </div>
+                    </div>
+                </div>
+                
+                
+                 <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">牵头单位</label>
+                    <div class="layui-input-block" style="margin-bottom: 10px;">
+                        <input class="layui-input readOnlyBox" name="leadUnitName" id="leadUnitName"
+                                       value="${leadUnitName}"
+                                       autocomplete="off" type="text">
+                    </div>
+                </div>
+                
+
+
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-block" id="yearTr">
+                        <table class="layui-table">
+                            <thead>
+                            <tr>
+                                <td width="20%">年 度</td>
+                                <td width="8%">费用性支出(万元)</td>
+                                <td width="8%">资本性支出(万元)</td>
+                                <td width="8%">小 计(万元)</td>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">参加单位</label>
+                    <div class="layui-input-block" style="margin-bottom: 10px;">
+                        <input class="layui-input readOnlyBox" name="joinUnitName" id="joinUnitName"
+                               value="${sreProjectBasic.joinUnitName}" autocomplete="off" type="text">
+                    </div>
+                    <div id="units"></div>
+                </div>
+
+
+                <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">归属部门</label>
+                            <div class="layui-input-block">
+                                <select name="belongDepartmentName" id="belongDepartmentName" disabled="disabled"
+                                        lay-filter="getDepartNameByUnitName" style="width:200px">
+                                    <option value="">--请选择部门--</option>
+                                    <#list unitFieldList as vo>
+                                    <option value="${vo.unitName}"
+                                    <#if vo.unitName == sreProjectBasic.belongDepartmentName> selected="selected" </#if> >${vo.unitName}</option>
+                            </#list>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">专业处</label>
+                        <div class="layui-input-block">
+                            <select id="professionalDepartName" name="professionalDepartName"  disabled="disabled"
+                                    lay-filter="getProfessionalNameListByUnitNameAndDept"
+                                    style="width:200px"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">专业领域</label>
+                        <div class="layui-input-block">
+                            <select id="professionalFieldName" name="professionalFieldName"  disabled="disabled"
+                                    style="width:200px"></select>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+                <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">申报单位</label>
+                            <div class="layui-input-block">
+                                <input class="layui-input readOnlyBox" name="parentUnitPathNames" id="parentUnitPathNames"
+                                       value="${sreProjectBasic.parentUnitPathNames}"
+                                       autocomplete="off" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">申报部门</label>
+                            <div class="layui-input-block">
+                                <input class="layui-input readOnlyBox" name="applyUnitName" id="applyUnitName"
+                                       value="${sreProjectBasic.applyUnitName}"
+                                       autocomplete="off" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+                
+                 <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">申报人</label>
+                            <div class="layui-input-block">
+                                <input class="layui-input readOnlyBox" name="createUserName" id="createUserName"
+                                       value="${sreProjectBasic.createUserName}"
+                                       autocomplete="off" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">申报时间</label>
+                            <div class="layui-input-block">
+                             <input class="layui-input readOnlyBox" name="createDate" id="createDate" value="${sreProjectBasic.createDate?string("yyyy-MM-dd HH:mm:ss")}"     autocomplete="off" type="text">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+                 <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">安排任务填写人</label>
+                            <div class="layui-input-block">
+                                 <input class="layui-input readOnlyBox" name="taskWriteUserNames" id="taskWriteUserNames"
+                                       value="${sreProjectBasic.taskWriteUserNames}"
+                                       autocomplete="off" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+                 <div class="layui-row">
+					                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					                    <div class="layui-form-item">
+					                        <label for="" class="layui-form-label">课题审核状态</label>
+					                        <div class="layui-input-block">
+					                           <select name="auditStatus" id="auditStatus" disabled="disabled"  style="color:red;width:200px">
+					                                          <option value="">--未上报--</option>
+					                                           <#list dicList as vo> 
+																  <option value="${vo.numValue}" <#if vo.numValue ==sreProjectBasic.auditStatus> selected="selected" </#if> >${vo.name}</option>
+																</#list>
+					                            </select>
+					                        </div>
+					                    </div>
+					                </div>
+					            </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">附件</label>
+                    <div id="file_div" class="layui-input-block"></div>
+                </div>
+
+
+            </div>
+        </form>
+    </div>
+</div>
+
+    <script>
+        var publicMethods;
+        var param = JSON.parse(window.localStorage.getItem("param"));
+        var functionId = param.id;
+        var equipmentIds = $("#equipmentIds").val();
+        var file_ids = "documentDoc";
+        //detail:详情，edit：编辑
+        file_edit_detail = "detail";
+        //统管理-附件管理-附件配置：页面标识
+        file_opt_flag = "b3a52bbe7087419c80813d7716f37674";
+        var yearFeeStr = $("#yearFeeStr").val();
+        var beginYear = $("#beginYear").val();
+        var v_date = (new Date()).getTime();
+        var equipmentIds = $("#equipmentIds").val();
+        var belongDepartmentName="${sreProjectBasic.belongDepartmentName?default('')}";
+        var professionalDepartName="${sreProjectBasic.professionalDepartName?default('')}";
+        var professionalFieldName="${sreProjectBasic.professionalFieldName?default('')}";
+        //牵头单位名称
+        var leadUnitName = "${sreProjectBasic.leadUnitName?default('')}";
+        //牵头单位--表格
+        var yearFeeStr = "${sreProjectBasic.yearFeeStr?default('')}";
+        //参与单位名称
+        var joinUnitName = "${sreProjectBasic.joinUnitName?default('')}";
+        //参与单位名称--表格
+        var yearFeeStrJoinUnit = "${sreProjectBasic.yearFeeStrJoinUnit?default('')}";
+
+        var table, selectRowData;
+        layui.config({
+            //base: 'layuicommon/module/modules/' //静态资源所在路径
+        }).extend({
+            index: 'layui/tableDemo' //主入口模块
+        }).use(['form', 'table', 'laypage', 'layer', 'laydate', 'laytpl', 'jquery', "publicMethods"], function () {
+
+            var admin = layui.admin
+            element = layui.element
+                , table = layui.table
+                , layer = layui.layer
+                , laydate = layui.laydate
+                , laypage = layui.laypage
+                , $ = layui.jquery
+                , form = layui.form;
+            publicMethods = layui.publicMethods;
+            
+            
+            
+            
+            
+
+            form.on('select(getDepartNameByUnitName)',function(data){
+            	getDepartNameByUnitName(data.value);
+            })
+
+             form.on('select(getProfessionalNameListByUnitNameAndDept)',function(data){
+            	 getProfessionalNameListByUnitNameAndDept(data.value);
+            })
+
+
+    			getDepartNameByUnitName($("#belongDepartmentName").val());
+    			function getDepartNameByUnitName(belongDepartmentName)
+    			{
+    				 $("#belongDepartmentName").val(belongDepartmentName);
+    				 $("#professionalDepartName").empty();
+
+    				 var v_date=(new Date()).getTime();
+    				 $.ajax({
+    						url : "/unitField/getDepartmentNameListByUnitName?v_date="+v_date+"&unitName="+belongDepartmentName,
+    						type : "post",
+    						async: false,
+    						dataType : "json",
+    						success : function(data)
+    						{
+    							$("#professionalDepartName").append("<option value=''>--请选择--</option>");
+    							$.each(data, function(i, el)
+    							{
+    								var content='<option value="'+ el.departmentName +'" ';
+    								if(professionalDepartName==el.departmentName)
+    								{
+    									content+=' selected="selected" ';
+    								}
+    								content+=' >' + el.departmentName+ '</option>';
+    								$("#professionalDepartName").append(content);
+
+    							});
+    							form.render('select');
+    						},
+    						error : function()
+    						{
+    							alert("发生未知错误 ,请重新操作.");
+    						}
+    					});
+
+
+
+
+    				getProfessionalNameListByUnitNameAndDept(professionalDepartName);
+    			}
+
+
+    			function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
+    			{
+    				 var belongDepartmentName= $("#belongDepartmentName").val();
+    				 $("#professionalFieldName").empty();
+    				 var v_date=(new Date()).getTime();
+    				 $.ajax({
+    						url : "/unitField/getProfessionalNameListByUnitNameAndDept?v_date="+v_date+"&unitName="+belongDepartmentName+"&departmentName="+professionalDepartName,
+    						type : "post",
+    						async: false,
+    						dataType : "json",
+    						success : function(data)
+    						{
+    							$("#professionalFieldName").append("<option value=''>--请选择--</option>");
+
+    							$.each(data, function(i, el)
+    							{
+    								var content='<option value="'+ el.professionalFieldName +'" ';
+    								if(professionalFieldName==el.professionalFieldName)
+    								{
+    									content+=' selected="selected" ';
+    								}
+    								content+=' >' + el.professionalFieldName+ '</option>';
+
+    								$("#professionalFieldName").append(content);
+    							});
+    							form.render('select');
+    						},
+    						error : function()
+    						{
+    							alert("发生未知错误 ,请重新操作.");
+    						}
+    					});
+    			}
+
+
+    			
+    			
+    			
+
+
+            form.render();
+
+            renderTable(equipmentIds);
+            laydate.render({
+                elem: '#LAY-component-form-group-date'
+            });
+
+            //添加到form.render()之后
+            $("#file_div").load('/common/public/uploadlayuiload.html');
+
+
+            publicMethods.createTable($("#beginYear").val(), $("#endYear").val(), "yearTr", 2, yearFeeStr, true);
+            //关闭事件
+            $("#closeBtn1").click(function () {
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+            })
+            var arrD = yearFeeStrJoinUnit.split(";");
+            // alert(arrD)
+            if (arrD == '') {
+
+            } else {
+                $.each(arrD, function (i, val) {
+                    var arrDV = arrD[i].split("#");
+                    var yearFeeStrN = arrD[i].substring(arrD[i].indexOf('#') + 1);
+                    var html = ' <div class="layui-form-item layui-form-text" >' +
+                        '        <div class="layui-input-block" id="yearTr' + i + '">' +
+                        '        <label class="layui-form-label" style="width: 100%;margin-left: 0;text-align: left;">' + arrDV[0].split(",")[1] + '</label>' +
+                        '            <table class="layui-table">' +
+                        '             <thead>' +
+                        '             <tr>' +
+                        '                <td width="20%">年  度</td>' +
+                        '                <td width="8%">费用性支出(万元)</td>' +
+                        '                <td width="8%">资本性支出(万元)</td>' +
+                        '                <td width="8%">小  计(万元)</td>' +
+                        '             </tr>' +
+                        '            </thead>' +
+                        '            <tbody></tbody>' +
+                        '          </table>' +
+                        '        </div>' +
+                        '       </div>';
+                    $("#units").append(html);
+                    publicMethods.createTable($("#beginYear").val(), $("#endYear").val(), "yearTr" + i, 2, yearFeeStrN, true);
+                });
+            }
+        });
+
+
+        function renderTable(equipmentIds) {
+            $("#equipmentIds").val(equipmentIds);
+            table.render({
+                elem: '#join_apply_table',
+                url: '/sre-equipment/chooseEquipmentByIds?equipmentIds=' + equipmentIds,
+                //  limit: 15,
+                method: "GET",
+                id: 'join_apply_table',
+                //  height: 200,
+                //page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
+                cols: [[
+                    {title: '序号', type: 'numbers'},
+                    {field: 'name', title: '装备名称', style: 'cursor: pointer;', align: 'center', width: '28%'},
+                    {field: 'type', title: '装备分类', style: 'cursor: pointer;', align: 'center', width: '10%'},
+                    {field: 'unitPrice', title: '单价（万元）', style: 'cursor: pointer;', align: 'center', width: '10%'},
+                    {field: 'applyAcount', title: '申请数量', style: 'cursor: pointer;', align: 'center', width: '10%'},
+                    {
+                        field: 'allPrice',
+                        title: '总价￥（万元）',
+                        style: 'cursor: pointer;',
+                        align: 'center',
+                        width: '10%',
+                        templet: function (d) {
+                            return '<span style="color:red">' + d.allPrice + '</span>'
+                        }
+                    },
+                    {field: 'applyDepartName', title: '申报部门', style: 'cursor: pointer;', align: 'center', width: '16%'},
+                    {field: 'firstApplyUser', title: '第一申报人', style: 'cursor: pointer;', align: 'center', width: '10%'}
+
+                ]],
+                done: function (res, curr, count) {
+
+                    //项目分类，项目性质
+                    var dicMap = ['ROOT_ZBGL_ZBFL'];
+                    var dicVal = {};
+                    publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys", {"parentCodes": JSON.stringify(dicMap)}, function (data) {
+                        $.each(data, function (key, val) {
+                            $.each(val, function (i, dt) {
+                                dicVal[dt.code] = dt.name;
+                            });
+                        });
+                    });
+                    $.each(res.data, function (i, dt) {
+                        $("tr[data-index='" + i + "'] td[data-field='type'] div").html(dicVal[res.data[i].type]);
+                    });
+
+                }
+            });
+        }
+
+
+    </script>
+</body>
+</html>

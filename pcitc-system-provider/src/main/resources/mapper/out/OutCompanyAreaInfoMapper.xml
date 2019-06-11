@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.out.OutCompanyAreaInfoMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.out.OutCompanyAreaInfo">
+    <id column="data_id" jdbcType="VARCHAR" property="dataId" />
+    <result column="unit_code" jdbcType="VARCHAR" property="unitCode" />
+    <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+    <result column="abbr_name" jdbcType="VARCHAR" property="abbrName" />
+    <result column="short_name" jdbcType="VARCHAR" property="shortName" />
+    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+    <result column="parent_code" jdbcType="VARCHAR" property="parentCode" />
+    <result column="unit_type" jdbcType="VARCHAR" property="unitType" />
+    <result column="region_name" jdbcType="VARCHAR" property="regionName" />
+    <result column="region_code" jdbcType="VARCHAR" property="regionCode" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    data_id, unit_code, unit_name, abbr_name, short_name, parent_id, parent_code, unit_type, 
+    region_name, region_code
+  </sql>
+  <select id="selectByExample" parameterType="com.pcitc.base.stp.out.OutCompanyAreaInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from stp_institute
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from stp_institute
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from stp_institute
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.out.OutCompanyAreaInfoExample">
+    delete from stp_institute
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.out.OutCompanyAreaInfo">
+    insert into stp_institute (data_id, unit_code, unit_name, 
+      abbr_name, short_name, parent_id, 
+      parent_code, unit_type, region_name, 
+      region_code)
+    values (#{dataId,jdbcType=VARCHAR}, #{unitCode,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, 
+      #{abbrName,jdbcType=VARCHAR}, #{shortName,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, 
+      #{parentCode,jdbcType=VARCHAR}, #{unitType,jdbcType=VARCHAR}, #{regionName,jdbcType=VARCHAR}, 
+      #{regionCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.out.OutCompanyAreaInfo">
+    insert into stp_institute
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        data_id,
+      </if>
+      <if test="unitCode != null">
+        unit_code,
+      </if>
+      <if test="unitName != null">
+        unit_name,
+      </if>
+      <if test="abbrName != null">
+        abbr_name,
+      </if>
+      <if test="shortName != null">
+        short_name,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="parentCode != null">
+        parent_code,
+      </if>
+      <if test="unitType != null">
+        unit_type,
+      </if>
+      <if test="regionName != null">
+        region_name,
+      </if>
+      <if test="regionCode != null">
+        region_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        #{dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null">
+        #{unitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitName != null">
+        #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="abbrName != null">
+        #{abbrName,jdbcType=VARCHAR},
+      </if>
+      <if test="shortName != null">
+        #{shortName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCode != null">
+        #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitType != null">
+        #{unitType,jdbcType=VARCHAR},
+      </if>
+      <if test="regionName != null">
+        #{regionName,jdbcType=VARCHAR},
+      </if>
+      <if test="regionCode != null">
+        #{regionCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.stp.out.OutCompanyAreaInfoExample" resultType="java.lang.Long">
+    select count(*) from stp_institute
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update stp_institute
+    <set>
+      <if test="record.dataId != null">
+        data_id = #{record.dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitCode != null">
+        unit_code = #{record.unitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitName != null">
+        unit_name = #{record.unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.abbrName != null">
+        abbr_name = #{record.abbrName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shortName != null">
+        short_name = #{record.shortName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentId != null">
+        parent_id = #{record.parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentCode != null">
+        parent_code = #{record.parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitType != null">
+        unit_type = #{record.unitType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.regionName != null">
+        region_name = #{record.regionName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.regionCode != null">
+        region_code = #{record.regionCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update stp_institute
+    set data_id = #{record.dataId,jdbcType=VARCHAR},
+      unit_code = #{record.unitCode,jdbcType=VARCHAR},
+      unit_name = #{record.unitName,jdbcType=VARCHAR},
+      abbr_name = #{record.abbrName,jdbcType=VARCHAR},
+      short_name = #{record.shortName,jdbcType=VARCHAR},
+      parent_id = #{record.parentId,jdbcType=VARCHAR},
+      parent_code = #{record.parentCode,jdbcType=VARCHAR},
+      unit_type = #{record.unitType,jdbcType=VARCHAR},
+      region_name = #{record.regionName,jdbcType=VARCHAR},
+      region_code = #{record.regionCode,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.out.OutCompanyAreaInfo">
+    update stp_institute
+    <set>
+      <if test="unitCode != null">
+        unit_code = #{unitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitName != null">
+        unit_name = #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="abbrName != null">
+        abbr_name = #{abbrName,jdbcType=VARCHAR},
+      </if>
+      <if test="shortName != null">
+        short_name = #{shortName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCode != null">
+        parent_code = #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitType != null">
+        unit_type = #{unitType,jdbcType=VARCHAR},
+      </if>
+      <if test="regionName != null">
+        region_name = #{regionName,jdbcType=VARCHAR},
+      </if>
+      <if test="regionCode != null">
+        region_code = #{regionCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.out.OutCompanyAreaInfo">
+    update stp_institute
+    set unit_code = #{unitCode,jdbcType=VARCHAR},
+      unit_name = #{unitName,jdbcType=VARCHAR},
+      abbr_name = #{abbrName,jdbcType=VARCHAR},
+      short_name = #{shortName,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=VARCHAR},
+      parent_code = #{parentCode,jdbcType=VARCHAR},
+      unit_type = #{unitType,jdbcType=VARCHAR},
+      region_name = #{regionName,jdbcType=VARCHAR},
+      region_code = #{regionCode,jdbcType=VARCHAR}
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectProjectByCond" resultMap="BaseResultMap"
+		parameterType="com.pcitc.base.stp.out.OutCompanyAreaInfo">
+		select * from stp_institute
+		<!-- where
+		<if test="unitCode != null">
+			unitCode like '%${unitCode}%'
+		</if>
+		<if test="unitName != null">
+			and unitName like '%${unitName}%'
+		</if> -->
+		group by data_id
+	</select>
+</mapper>

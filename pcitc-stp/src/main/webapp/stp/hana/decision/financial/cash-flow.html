@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<body >
+<div class="layui-fluid">
+    <div class="layui-main-oil">
+        <div class="searchBox">
+            <!--查询条件-->
+             <label class="dateInput">
+	            <span>月份</span>
+	            <input type="text" name="month"  title="月份" value="${month}"  id="month">
+	            <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
+		        </label>
+		       <div class="layui-input-inline"  style="margin-left:10px">
+		           <select id="companyCode" name="companyCode" class="form-control"></select>
+		        </div>
+            <!--按钮组-->
+            <div class="btnGroup">
+                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+            </div>
+            <span class="unitBox">单位：万元</span>
+        </div>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-sm12">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>科研资金净现金余额分析
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart" id="cash-flow-01" style="height:280px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-sm4">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>经营活动现金流量净额占比分析
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart" id="cash_flow_03_13" style="height:280px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-sm4">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>投资活动现金流量净额占比分析
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart" id="cash_flow_03_27" style="height:280px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-sm4">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>月期末现金流量占比分析
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart" id="cash_flow_03_46" style="height:280px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-sm12">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        现金流量表
+                    </div>
+                    <div class="layui-row-main">
+                        <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_chart.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script src="/stp/hana/common/hana_common.js"></script>
+<script>
+
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
+var editObj=null,ptable=null,treeGridCom=null,tableId='processdef-table',layer=null;
+layui.config({
+    base: '/layuiadmin/lib/extend/'
+}).extend({
+    treeGridCom:'treeGridCom'
+}).use(['jquery','form', 'laydate','treeGridCom','layer'], function(){
+    var $=layui.jquery;
+    treeGridCom = layui.treeGridCom;//很重要
+    layer=layui.layer;
+
+    var monthValY=$("#month").val().substring(4,0);
+    var monthValM=$("#month").val().substring(5);
+    $(".layui-time").html(monthValY+"年"+monthValM+"月");
+    
+    laydate = layui.laydate;
+    form = layui.form;
+    form.render(null, 'component-form-group');
+    laydate.render({
+    	 elem: '#month',type: 'month'
+    });
+  
+    renderTable();
+});
+
+
+function renderTable()
+{  
+	
+	 var month=$("#month").val();
+	 var companyCode=$("#companyCode").val();
+	 month=month.replace("-","");
+	  ptable=treeGridCom.render({
+	        id:tableId
+	        ,elem: '#'+tableId
+	        ,url:'/financial-decision/cash-flow-02?month='+month+"&companyCode="+companyCode
+	        ,cellMinWidth: 100
+	        ,idField:'id'//必須字段
+	        ,treeId:'id'//树形id字段名称
+	        ,treeUpId:'pId'//树形父id字段名称
+	        ,treeShowName:'name'//以树形式显示的字段
+	        ,heightRemove:[".dHead",10]//不计算的高度,表格设定的是固定高度，此项不生效
+
+	        ,isFilter:false
+	        ,iconOpen:false//是否显示图标【默认显示】
+	        ,isOpenDefault:true//节点默认是展开还是折叠【默认展开】
+	        ,loading:true
+	        ,method:'get'
+	        ,cols: [[
+	            {field:'name', title: '项目名称',edit:'text',sort:true},
+	            {field:'k0BQLJJE',  title:'本期累计余额',  style:'cursor: pointer;',align: 'center', templet: '<div>{{ layui.laytpl.milliFormat(d.k0BQLJJE,2) }}</div>'},
+	            {field:'k0TBLJJE',  title:'同期累计余额',  style:'cursor: pointer;',align: 'center', templet: '<div>{{ layui.laytpl.milliFormat(d.k0TBLJJE,2) }}</div>'},
+	            {field:'k0TQLJJE',  title:'同期金额',    style:'cursor: pointer;',align: 'center', templet: '<div>{{ layui.laytpl.milliFormat(d.k0TQLJJE,2) }}</div>'}
+	            
+	        ]]
+	        ,isPage:false
+	        ,parseData:function (res) {
+	            return res;
+	        }
+	        ,onClickRow:function (index, o) {
+	            console.log(index,o,"单击！");
+	        }
+	        ,onDblClickRow:function (index, o) {
+	            console.log(index,o,"双击");
+	        }
+	    });
+}
+
+
+ 
+ init_companyCode(functionId);
+function initEchart()
+{
+	
+	var v_date=(new Date()).getTime();
+	var month=$('#month').val();
+	month=month.replace("-","");
+	var companyCode=$('#companyCode').val();
+	var monthstr=getNowFormatDate($('#month').val());
+	var checkText=$("#companyCode").find("option:selected").text();
+    var monthValY=$("#month").val().substring(4,0);
+    var monthValM=$("#month").val().substring(5);
+    $(".layui-time").html(monthValY+"年"+monthValM+"月");
+	
+	
+	var url_cash_flow_01="/financial-decision/cash-flow-01?companyCode="+companyCode+"&month="+month+"&v_date="+v_date;
+	load_single_line(url_cash_flow_01,"cash-flow-01","","");
+	
+	var url_cash_flow_03_13="/financial-decision/cash-flow-03?month="+month+"&v_date="+v_date+"&type=13&companyCode="+companyCode;
+	loadPie(url_cash_flow_03_13,"cash_flow_03_13","","");
+	var url_cash_flow_03_27="/financial-decision/cash-flow-03?month="+month+"&v_date="+v_date+"&type=27&companyCode="+companyCode;
+	loadPie(url_cash_flow_03_27,"cash_flow_03_27","","");
+	var url_cash_flow_03_46="/financial-decision/cash-flow-03?month="+month+"&v_date="+v_date+"&type=46&companyCode="+companyCode;
+	loadPie(url_cash_flow_03_46,"cash_flow_03_46","","");
+}
+
+//初始化图形
+initEchart();
+//查询
+function search_Event()
+{
+	initEchart();
+	renderTable();
+}
+
+</script>
+</body>
+</html>

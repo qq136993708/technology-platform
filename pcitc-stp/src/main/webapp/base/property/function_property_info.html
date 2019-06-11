@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>配置信息</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+	<link rel="stylesheet" href="/layuiadmin/style/common.css">
+	<script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        body{padding: 10px 10px 0;}
+    </style>
+</head>
+<body>
+<div class="formBox">
+<form id="dataForm" class="layui-form" action="" lay-filter="component-form-group layui-container">
+	<input type="hidden" id="id" name="id" />
+	<input type="hidden" id="functionId" name="functionId" value="${funcId}"/>
+	<input type="hidden" id="functionCode" name="functionCode" value="${funcCode}"/>
+	<input type="hidden" name="proName" id="proName">
+	<div class="box-body">
+		<div class="layui-row">
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label class="layui-form-label">配置名称<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+						<select id="sel_proName" name="sel_proName" lay-verify="required" lay-filter="sel_proName" lay-search></select>
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label class="layui-form-label">配置编码<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+						<input class="layui-input readOnlyBox" name="proCode" lay-verify="required" placeholder="请选择配置" autocomplete="off" type="text" readonly>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-form-item layui-form-text">
+			<div class="layui-form-item">
+				<label class="layui-form-label">是否可用</label>
+				<div class="layui-input-block">
+					<input type="radio" lay-filter="radioEvent" name="isAvailable" value="1" title="是" checked>
+					<input type="radio" lay-filter="radioEvent" name="isAvailable" value="0" title="否">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="form-bottom">
+		<div class="form-bottom-btns">
+			<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="component-form-save">保存</button>
+			<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="cancel">取消</button>
+		</div>
+	</div>
+</form>
+</div>
+<script>
+    layui.config({
+        base: '/layuiadmin/lib/extend/' //静态资源所在路径
+    }).extend({
+        enhanceform: 'enhanceform'
+    }).use(['jquery','form', 'laydate','table','enhanceform'], function(){
+        var $ = layui.jquery
+            ,$$ = parent.layui.jquery
+            ,layer = layui.layer
+            ,form = layui.form
+            ,enhanceForm = layui.enhanceform;
+
+        var isAvailable;
+        // 单选监听
+        form.on('radio(radioEvent)', function (data) {
+            // form.render('radio', 'radioEvent');
+            isAvailable=data.value;
+        });
+
+        /*监听select框*/
+        form.on('select(sel_proName)', function(data) {
+            // console.log(data)
+            var obj = {};
+            obj.functionId=$("#functionId").val();
+            obj.proName=data.elem[data.elem.selectedIndex].text;
+            obj.proCode=data.value;
+            $.ajax({
+                url : '/functionProperty/getData',
+                data : JSON.stringify(obj),
+                type : 'post',
+                dataType : 'json',
+                headers : {
+                    'Content-Type' : 'application/json',
+                },
+                async : false,
+                success : function(back) {
+                    //console.log(back);
+                    if(back.id){
+                        layer.msg('已存在该配置，请重新选择');
+                        initDicData();
+                        $("input[name=proCode]").val('');
+                        return false;
+                    } else {
+                        $("input[name=proName]").val(data.elem[data.elem.selectedIndex].text);
+                        $("input[name=proCode]").val(data.value);
+                        form.render('select', 'sel_proName');
+                    }
+                },
+                error : function(msg) {
+                    layer.msg('出错了');
+                }
+            });
+
+        });
+
+        /* 监听提交 */
+        form.on('submit(component-form-save)', function(data){
+            var formData = data.field;
+            if(isAvailable) formData.isAvailable=isAvailable;
+            // console.log(JSON.stringify(formData));
+            $.ajax({
+                type : 'post',
+                dataType : 'json',
+                data : JSON.stringify(formData),
+                headers: {
+                    'Content-Type' : 'application/json',
+                },
+                url : '/functionProperty/saveData',
+                async : false,
+                success : function(data) {
+                    if (data=='200') {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                        parent.layer.msg("保存成功");
+                        //刷新table;
+                        parent.layui.table.reload('funTable', {});
+                        $$(".layui-table-header table thead th input").remove();
+                        //$$("#comType").val("2222")
+                    } else {
+                        layer.msg("保存失败");
+                    }
+                },
+                error : function() {
+                    layer.msg("出错了");
+                }
+            });
+            return false;
+        });
+
+        $("#cancel").click(function () {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        });
+
+        function initDicData() {
+            $.ajax({
+                type : 'post',
+                dataType : 'json',
+                data : {parentCode : "ROOT_XTGL_SJPZLX"},
+                url : '/dictionary/dictionaryList',
+                async : false,
+                success : function(data) {
+                    $("#sel_proName").html("<option></option>");
+                    // console.log(data)
+                    $.each(data, function(index) {
+                        $("#sel_proName").append("<option value='"+data[index].numValue+"'>"+ data[index].name + "</option>");
+                    });
+                    form.render();
+                },
+                error : function() {
+                    layer.msg("出错了");
+                }
+            });
+        }
+
+		$(function () {
+            initDicData();
+            var id = "${id}";
+            if (id) {
+                var enhance = new enhanceForm({
+                    elem: '#dataForm' //表单选择器
+                });
+                $.ajax({
+                    type : 'post',
+                    dataType : 'json',
+                    async : false,
+                    data : {
+                        "id" : id
+                    },
+                    url : '/functionProperty/getDataById',
+                    success : function(data) {
+                        $("input[name=id]").val(data.id);
+                        $("input[name=proName]").val(data.proName);
+                        $("input[name=proCode]").val(data.proCode);
+                        enhance.setSelectVal("sel_proName",data.proCode,"true")
+                        $("input[name=isAvailable][value='" + data.isAvailable + "']")
+                            .prop("checked", "checked");
+                        form.render();
+                    },
+                    error : function(e) {
+                        layer.msg("出错了");
+                    }
+                });
+            }
+        })
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <title>科技管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/mobile/css/mobileNew.css">
+</head>
+<body>
+<header>
+    <div class="m_return child">
+        <a href="/mobile/indexTest"><img src="/mobile/images/icon-back.png"/> </a>
+        <h4>成果专利</h4>
+    </div>
+</header>
+<main class="main">
+            
+	<div class="layui-card layui-form " lay-filter="component-form-element">
+		<div class="layui-card-body layui-row layui-col-space10">
+			<div class="layui-col-xs4">
+				<input type="text" name="nd" placeholder="请选择年份" title="年份" value="${nd}"  autocomplete="off" class="form-control layui-input" id="nd">
+			</div>
+			<div class="layui-col-xs4" style="display:none">
+				<select name="city" lay-verify="">
+					<option value="">全部</option>
+					<option value="010">北京</option>
+					<option value="021">上海</option>
+					<option value="0571">杭州</option>
+				</select>
+			</div>
+			<div class="layui-col-xs2">
+				<button class="layui-btn layui-btn-primary" onclick="search_Event()">搜索</button>
+			</div>
+		</div>
+	</div>
+   <div class="main-card first-card">
+        <div class="main-card-header hasborder"><span class="layui_time"></span>年专利申请/授权数量</div>
+        <div class="main-card-body">
+         <div class="text-total">
+                            <span>总计:<span class="text-total-blue"    id="knowldege_chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>专利申请:<span class="text-total-blue" id="knowldege_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>专利授权:<span class="text-total-blue" id="knowldege_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                        </div>
+                        <div class="main-chart" id="knowldege_chart1" style="height:280px;width: 100%;"></div>
+        </div>
+    </div>
+    
+    <div class="main-card first-card">
+        <div class="main-card-header hasborder"><span class="layui_time"></span>年直属研究院专利授权数量</div>
+        <div class="main-card-body">
+           <div class="text-total" style="font-size: 12px;">
+                            <span>总计:<span class="text-total-blue"    id="knowldege_chart4_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>发明授权:<span class="text-total-blue" id="knowldege_chart4_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>外观设计:<span class="text-total-blue" id="knowldege_chart4_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>实用新型:<span class="text-total-blue" id="knowldege_chart4_04"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                        </div>
+                        <div class="main-chart" id="knowldege_chart4" style="height:285px;width: 100%;"></div>
+        </div>
+    </div>
+    
+    
+    <div class="main-card" id="isKJBPerson_id">
+        <div class="main-card-header hasborder"><span class="layui_time"></span>集团直属研究院成果数量</div>
+        <div class="main-card-body">
+             <div class="text-total">
+                        <span>成果数量总计：<span class="text-total-blue" id="chart_title_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                    </div>
+                    <div class="main-chart" id="chart1" style="height:280px;width: 100%;"></div>
+        </div>
+    </div>
+    
+    <div class="main-card first-card">
+        <div class="main-card-header hasborder"><span class="layui_time"></span>年集团成果数量技术分布情况</div>
+        <div class="main-card-body"  style="height:360px;">
+           <div class="text-total">
+                        <span>成果数量总计：<span class="text-total-blue" id="chart_title_05"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                    </div>
+                    <div class="main-chart" id="chart7" style="height:280px;width: 100%;"></div>
+        </div>
+    </div>
+    
+    
+    
+</main>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
+
+
+
+<script type="text/javascript">
+
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
+(function(doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function() {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            docEl.style.fontSize =  (clientWidth / 10.8) + 'px';
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+	
+var echart1;
+var echart4;
+var echart7;
+var echart1;
+var editObj=null,ptable=null,treeGridCom=null,layer=null;
+var ptable02=null,treeGridCom=null,tableId02='processdef_table_02';
+layui.config({
+    base: '/layuiadmin/lib/extend/'
+}).extend({
+    treeGridCom:'treeGridCom'
+}).use(['jquery','form', 'laydate','treeGridCom','layer'], function(){
+   // var $=layui.jquery;
+    treeGridCom = layui.treeGridCom;//很重要
+    layer=layui.layer;
+    laydate = layui.laydate;
+    form = layui.form;
+   
+    form.render(null, 'component-form-group');
+    laydate.render({
+    	      elem: '#nd',min: '2016-10-14'
+     	      ,type: 'year'
+        ,done: function(value, date, endDate){
+            $(".layui_time").html(date.year);
+            $("#nd").val(date.year); 
+            search_Event();
+        }
+    });
+    $(".layui_time").html($("#nd").val());
+});
+
+function initEchart()
+{
+
+	var v_date=(new Date()).getTime();
+	var nd=$('#nd').val();
+	var ndstr=nd+"年";
+	var yAxis= [
+        {
+            type: 'value',
+            name: '数量（个）',
+            position: 'left',
+            axisLabel: {
+                formatter: '{value}'
+            }
+        }
+    ];
+	
+	
+
+	//专利申请/授权数量
+    $("#knowldege_chart1_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#knowldege_chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#knowldege_chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    //直属研究院专利授权数量
+    $("#knowldege_chart4_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#knowldege_chart4_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#knowldege_chart4_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#knowldege_chart4_04").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    
+    var chart1_url="/direct/getKnowledgeBar_01?type=1&nd="+nd+"&v_date="+v_date;
+	echart1=load_mutl_bar_down(chart1_url,"knowldege_chart1","","",yAxis,20);
+	
+	
+	var chart4_url="/direct/getKnowledgeBar_02?nd="+nd+"&v_date="+v_date;
+	var color=["#37a1da","#ff9f7f","#fedb5b"];
+	//echart4=load_mutl_bar_down(chart4_url,"knowldege_chart4","","",yAxis,20,color);
+	   echart4=   load_mutl_bar_down_r(chart4_url,"knowldege_chart4","","",yAxis,true,20,color)
+	
+	
+    $("#chart_title_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#chart_title_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#chart_title_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#chart_title_04").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#chart_title_05").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    
+    
+    
+    
+	var chart1_url="/direct_second/direct_second_data_01?nd="+nd+"&v_date="+v_date;
+	echart1t=load_single_bar(chart1_url,"chart1","","",yAxis,["#87d359"],20,true,function(data){
+		var total_count = 0;
+		$.each(data.data.seriesDataList,function(index,dt){
+			total_count += dt;
+		});
+		$("#chart_title_01").html(total_count+"个");
+	});
+	
+	
+	var colorNew2=["#f4974a","#f3cc41","#95c740"];
+	var chart7_url="/direct_second/direct_second_data_05?nd="+nd+"&v_date="+v_date;
+	 echart7=load_single_bar(chart7_url,"chart7","","",yAxis,["#9799ec"],20,true,function(data){
+		var total_count = 0;
+		$.each(data.data.seriesDataList,function(index,dt){
+			total_count += dt;
+		});
+		$("#chart_title_05").html(total_count+"个");
+	});
+	
+}
+
+//初始化图形
+initEchart();
+
+window.onresize = function()
+{
+	
+	
+	echart1.resize();       
+	echart4.resize();       
+	echart7.resize();       
+	echart1t.resize();       
+}
+
+
+
+
+//查询
+function search_Event()
+{
+	initEchart();
+}    
+</script>
+</body>
+</html>

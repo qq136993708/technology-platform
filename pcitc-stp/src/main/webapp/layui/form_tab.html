@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>tab切换的form表单</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        .layui-tab-content{height: 300px;overflow-y: auto;border: 1px solid #f2f2f2;}
+    </style>
+</head>
+<body>
+<div class="layui-body">
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class="layui-this">基本信息</li>
+            <li>用户管理</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="formBox">
+                    <form class="layui-form" action="" lay-filter="component-form-group layui-container">
+                        <div class="box-body">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">只读框1<span class="must-fill">*</span></label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="user" readonly="readonly" autocomplete="off" class="layui-input readOnlyBox" value="只读框的值"></input>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">只读框2<span class="must-fill">*</span></label>
+                                <div class="layui-input-block">
+                                    <div class="layui-col-xs8 layui-col-sm8 layui-col-md8">
+                                        <input type="text" name="user" readonly="readonly" autocomplete="off" class="layui-input readOnlyBox" value="只读框的值"></input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">标题1<span class="must-fill">*</span></label>
+                                <div class="layui-input-block">
+                                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                                        <input class="layui-input" name="title" lay-verify="title" placeholder="请输入数字" autocomplete="off" type="text" id="formSlideryInput">
+                                        <div id="formSlider"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                                    <div class="layui-form-item">
+                                        <label for="" class="layui-form-label">标题2<span class="must-fill">*</span></label>
+                                        <div class="layui-input-block">
+                                            <input class="layui-input" name="title" lay-verify="title" placeholder="请输入标题" autocomplete="off" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">标题3<span class="must-fill">*</span></label>
+                                <div class="layui-input-block">
+                                    <div class="layui-col-xs4 layui-col-sm4 layui-col-md4">
+                                        <input class="layui-input" name="title" lay-verify="title" placeholder="请输入标题" autocomplete="off" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div class="formBox">
+                    <form class="layui-form" action="" lay-filter="component-form-group layui-container">
+                        <div class="box-body">
+                            <!--复选框-->
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">复选框</label>
+                                <div class="layui-input-block">
+                                    <input type="checkbox" name="like[write]" lay-skin="primary" title="写作" checked="">
+                                    <input type="checkbox" name="like[read]" lay-skin="primary" title="阅读">
+                                    <input type="checkbox" name="like[game]" lay-skin="primary" title="游戏" disabled="">
+                                </div>
+                            </div>
+                            <!--开关-->
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">开关关</label>
+                                <div class="layui-input-block">
+                                    <input type="checkbox" lay-skin="switch">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">开关开</label>
+                                <div class="layui-input-block">
+                                    <input type="checkbox" checked lay-skin="switch">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['jquery','element','form'], function(){
+        var $ = layui.jquery,
+            form = layui.form,
+            element = layui.element;
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,1289 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.financial.ScientificFundsMapper">
+	
+	   <resultMap id="scientificFundsResultMap" type="com.pcitc.base.hana.report.ScientificFunds" >
+       <result column="G0GSDM"          property="g0GSDM"      jdbcType="VARCHAR" />
+       <result column="G0GSJC"          property="g0GSJC"      jdbcType="VARCHAR" />
+       <result column="G0PROJCODE"      property="g0PROJCODE"  jdbcType="VARCHAR" />
+       <result column="G0YEARXM"        property="g0YEARXM"    jdbcType="VARCHAR" />
+       <result column="G0PROJTXT"       property="g0PROJTXT"   jdbcType="VARCHAR" />
+       <result column="G0XMGLLX"        property="g0XMGLLX"    jdbcType="VARCHAR" />
+       <result column="G0XMGLLY"        property="g0XMGLLY"    jdbcType="VARCHAR" />
+       <result column="G0XMGLJB"        property="g0XMGLJB"    jdbcType="VARCHAR" />
+       <result column="G0XMLX"          property="g0XMLX"      jdbcType="VARCHAR" />
+       <result column="G0XMZT"          property="g0XMZT"      jdbcType="VARCHAR" />
+       <result column="G0XMZTMS"        property="g0XMZTMS"      jdbcType="VARCHAR" />
+       <result column="K0BNGLFPHJECB"   property="k0BNGLFPHJECB" jdbcType="DECIMAL" />
+       <result column="K0BNKYFPQCB"     property="k0BNKYFPQCB"   jdbcType="DECIMAL" />
+       <result column="K0BNJJCB"        property="k0BNJJCB"      jdbcType="DECIMAL" />
+       <result column="K0BNBL"          property="k0BNBL"        jdbcType="DECIMAL" />
+       <result column="K0SNLJJJCB"      property="k0SNLJJJCB"    jdbcType="DECIMAL" />
+       <result column="K0SNKYFPQCB"     property="k0SNKYFPQCB"   jdbcType="DECIMAL" />
+       <result column="K0SNJJCB"        property="k0SNJJCB"      jdbcType="DECIMAL" />
+       <result column="K0SNBL"          property="k0SNBL"        jdbcType="DECIMAL" />
+       <result column="K0TBZJ"          property="k0TBZJ"        jdbcType="DECIMAL" />
+       <result column="K0TBJJ"          property="k0TBJJ"        jdbcType="DECIMAL" />
+       <result column="K0TBBL"          property="k0TBBL"        jdbcType="DECIMAL" />
+       <result column="K0TBZJ2"         property="k0TBZJ2"       jdbcType="DECIMAL" />
+       
+       <result column="K0BNCB_4"           property="k0BNCB_4"       jdbcType="DECIMAL" />
+       <result column="K0BNCB_411"         property="k0BNCB_411"       jdbcType="DECIMAL" />
+       <result column="K0BNCB_412"         property="k0BNCB_412"       jdbcType="DECIMAL" />
+       <result column="K0BNCB_413"         property="k0BNCB_413"       jdbcType="DECIMAL" />
+       <result column="K0BNCB_414"         property="k0BNCB_414"       jdbcType="DECIMAL" />
+       <result column="K0BNCB_415"         property="k0BNCB_415"       jdbcType="DECIMAL" />
+       <result column="K0BNCB_416"         property="k0BNCB_416"       jdbcType="DECIMAL" />
+       <result column="K0BNCB_417"         property="k0BNCB_417"       jdbcType="DECIMAL" />
+       <result column="K0BNCB_418"         property="k0BNCB_418"       jdbcType="DECIMAL" />
+       <result column="K0BNCB_419"         property="k0BNCB_419"       jdbcType="DECIMAL" />
+       <result column="K0BNCB_420"         property="k0BNCB_420"       jdbcType="DECIMAL" />
+       <result column="K0BNCB_430"         property="k0BNCB_430"       jdbcType="DECIMAL" />
+       
+       
+       
+       <result column="K0SNCB_4"           property="k0SNCB_4"       jdbcType="DECIMAL" />
+       <result column="K0SNCB_411"         property="k0SNCB_411"       jdbcType="DECIMAL" />
+       <result column="K0SNCB_412"         property="k0SNCB_412"       jdbcType="DECIMAL" />
+       <result column="K0SNCB_413"         property="k0SNCB_413"       jdbcType="DECIMAL" />
+       <result column="K0SNCB_414"         property="k0SNCB_414"       jdbcType="DECIMAL" />
+       <result column="K0SNCB_415"         property="k0SNCB_415"       jdbcType="DECIMAL" />
+       <result column="K0SNCB_416"         property="k0SNCB_416"       jdbcType="DECIMAL" />
+       <result column="K0SNCB_417"         property="k0SNCB_417"       jdbcType="DECIMAL" />
+       <result column="K0SNCB_418"         property="k0SNCB_418"       jdbcType="DECIMAL" />
+       <result column="K0SNCB_419"         property="k0SNCB_419"       jdbcType="DECIMAL" />
+       <result column="K0SNCB_420"         property="k0SNCB_420"       jdbcType="DECIMAL" />
+       <result column="K0SNCB_430"         property="k0SNCB_430"       jdbcType="DECIMAL" />
+       
+       <result column="K0TQCB_4"           property="k0TQCB_4"       jdbcType="DECIMAL" />
+       <result column="K0TQCB_411"         property="k0TQCB_411"       jdbcType="DECIMAL" />
+       <result column="K0TQCB_412"         property="k0TQCB_412"       jdbcType="DECIMAL" />
+       <result column="K0TQCB_413"         property="k0TQCB_413"       jdbcType="DECIMAL" />
+       <result column="K0TQCB_414"         property="k0TQCB_414"       jdbcType="DECIMAL" />
+       <result column="K0TQCB_415"         property="k0TQCB_415"       jdbcType="DECIMAL" />
+       <result column="K0TQCB_416"         property="k0TQCB_416"       jdbcType="DECIMAL" />
+       <result column="K0TQCB_417"         property="k0TQCB_417"       jdbcType="DECIMAL" />
+       <result column="K0TQCB_418"         property="k0TQCB_418"       jdbcType="DECIMAL" />
+       <result column="K0TQCB_419"         property="k0TQCB_419"       jdbcType="DECIMAL" />
+       <result column="K0TQCB_420"         property="k0TQCB_420"       jdbcType="DECIMAL" />
+       <result column="K0TQCB_430"         property="k0TQCB_430"       jdbcType="DECIMAL" />
+       <result column="K0BNCB"               property="k0BNCB"          jdbcType="DECIMAL" />
+       <result column="K0SNCB"               property="k0SNCB"          jdbcType="DECIMAL" />
+       <result column="K0TBCB"               property="k0TBCB"          jdbcType="DECIMAL" />
+       <result column="G0FYXLMS"             property="g0FYXLMS"        jdbcType="VARCHAR" />
+        <result column="K0BNCB_5"            property="k0BNCB_5"        jdbcType="DECIMAL" />
+        <result column="K0BNCB_510"          property="k0BNCB_510"      jdbcType="DECIMAL" />
+        <result column="K0BNCB_520"          property="k0BNCB_520"      jdbcType="DECIMAL" />
+        <result column="K0SNCB_5"            property="k0SNCB_5"        jdbcType="DECIMAL" />
+        <result column="K0SNCB_510"          property="k0SNCB_510"      jdbcType="DECIMAL" />
+        <result column="K0SNCB_520"          property="k0SNCB_520"      jdbcType="DECIMAL" />
+        <result column="K0TBCB_5"            property="k0TBCB_5"        jdbcType="DECIMAL" />
+        <result column="K0TBCB_510"          property="k0TBCB_510"      jdbcType="DECIMAL" />
+        <result column="K0TBCB_520"          property="k0TBCB_520"      jdbcType="DECIMAL" />
+        <result column="K0TBBL_5"            property="k0TBBL_5"        jdbcType="DECIMAL" />
+        <result column="K0TBBL_510"          property="k0TBBL_510"      jdbcType="DECIMAL" />
+        <result column="K0TBBL_520"          property="k0TBBL_520"      jdbcType="DECIMAL" />
+        
+        <result column="K0BNCB_431"          property="k0BNCB_431"      jdbcType="DECIMAL" />
+        <result column="K0BNCB_432"          property="k0BNCB_432"      jdbcType="DECIMAL" />
+        <result column="K0BNCB_433"          property="k0BNCB_433"      jdbcType="DECIMAL" />
+        <result column="K0BNCB_440"          property="k0BNCB_440"      jdbcType="DECIMAL" />
+        <result column="K0BNCB_441"          property="k0BNCB_441"      jdbcType="DECIMAL" />
+        <result column="K0BNCB_442"          property="k0BNCB_442"      jdbcType="DECIMAL" />
+        <result column="K0BNCB_443"          property="k0BNCB_443"      jdbcType="DECIMAL" />
+        <result column="K0BNCB_444"          property="k0BNCB_444"      jdbcType="DECIMAL" />
+        <result column="K0BNCB_445"          property="k0BNCB_445"      jdbcType="DECIMAL" />
+        <result column="K0BNCB_446"          property="k0BNCB_446"      jdbcType="DECIMAL" />
+        
+        
+	    <result column="K0BNCB_431"          property="k0BNCB_431"      jdbcType="DECIMAL" />
+        <result column="K0BNCB_432"          property="k0BNCB_432"      jdbcType="DECIMAL" />
+        <result column="K0BNCB_433"          property="k0BNCB_433"      jdbcType="DECIMAL" />
+        <result column="K0BNCB_440"          property="k0BNCB_440"      jdbcType="DECIMAL" />
+        <result column="K0BNCB_441"          property="k0BNCB_441"      jdbcType="DECIMAL" />
+        <result column="K0BNCB_442"          property="k0BNCB_442"      jdbcType="DECIMAL" />
+        <result column="K0BNCB_443"          property="k0BNCB_443"      jdbcType="DECIMAL" />
+        <result column="K0BNCB_444"          property="k0BNCB_444"      jdbcType="DECIMAL" />
+        <result column="K0BNCB_445"          property="k0BNCB_445"      jdbcType="DECIMAL" />
+        <result column="K0BNCB_446"          property="k0BNCB_446"      jdbcType="DECIMAL" />
+       
+       
+       
+        <result column="K0TBCB_431"          property="k0TBCB_431"      jdbcType="DECIMAL" />
+        <result column="K0TBCB_432"          property="k0TBCB_432"      jdbcType="DECIMAL" />
+        <result column="K0TBCB_433"          property="k0TBCB_433"      jdbcType="DECIMAL" />
+        <result column="K0TBCB_440"          property="k0TBCB_440"      jdbcType="DECIMAL" />
+        <result column="K0TBCB_441"          property="k0TBCB_441"      jdbcType="DECIMAL" />
+        <result column="K0TBCB_442"          property="k0TBCB_442"      jdbcType="DECIMAL" />
+        <result column="K0TBCB_443"          property="k0TBCB_443"      jdbcType="DECIMAL" />
+        <result column="K0TBCB_444"          property="k0TBCB_444"      jdbcType="DECIMAL" />
+        <result column="K0TBCB_445"          property="k0TBCB_445"      jdbcType="DECIMAL" />
+        <result column="K0TBCB_446"          property="k0TBCB_446"      jdbcType="DECIMAL" />
+       
+        <result column="K0BNYSJHJE"           property="k0BNYSJHJE"       jdbcType="DECIMAL" />
+        <result column="K0BNKYFPHCB"          property="k0BNKYFPHCB"      jdbcType="DECIMAL" />
+        <result column="K0BNGLFPHCB"          property="k0BNGLFPHCB"      jdbcType="DECIMAL" />
+        <result column="K0BNSJCNJE"           property="k0BNSJCNJE"       jdbcType="DECIMAL" />
+        <result column="K0BNSJDJJE"           property="k0BNSJDJJE"       jdbcType="DECIMAL" />
+        <result column="K0BNYSJY"             property="k0BNYSJY"         jdbcType="DECIMAL" />
+        <result column="K0BNZJSYBL"           property="k0BNZJSYBL"       jdbcType="DECIMAL" />
+        <result column="K0ZTYSJE"             property="k0ZTYSJE"         jdbcType="DECIMAL" />
+        <result column="K0LJKYFPQCB"          property="k0LJKYFPQCB"      jdbcType="DECIMAL" />
+        <result column="K0LJKYFPHCB"          property="k0LJKYFPHCB"      jdbcType="DECIMAL" />
+        <result column="K0LJGLFPHCB"          property="k0LJGLFPHCB"      jdbcType="DECIMAL" />
+        <result column="K0LJGLFPHJECB"       property="k0LJGLFPHJECB"    jdbcType="DECIMAL" />
+        <result column="K0LJSJCNJE"          property="k0LJSJCNJE"       jdbcType="DECIMAL" />
+        <result column="K0LJSJDJJE"          property="k0LJSJDJJE"       jdbcType="DECIMAL" />
+        <result column="K0LJYSJY"            property="k0LJYSJY"         jdbcType="DECIMAL" />
+        <result column="K0LJZJSYBL"          property="k0LJZJSYBL"       jdbcType="DECIMAL" />
+       
+	    
+       
+       
+       
+       
+       
+       
+     </resultMap>
+	
+     <sql id="selectCondition_zc_detail">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	      <if test="g0PROJTXT != null  and g0PROJTXT !='' ">            AND G0PROJTXT like '%${g0PROJTXT}%'</if>
+	      <if test="g0PROJCODE != null   and g0PROJCODE !=''  ">                AND G0PROJCODE  = '${g0PROJCODE}'</if>
+	   </trim>
+	 </sql>
+	 
+      <!-- 课题直间接费用统计表--> 
+	 <select id="getKtzjjfytjbData" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+	 SELECT 
+			"G0GSJC",
+			sum("K0BNGLFPHJECB") AS K0BNGLFPHJECB,
+			sum("K0BNKYFPQCB") AS K0BNKYFPQCB,
+			sum("K0BNBL")      AS K0BNBL,
+			sum("K0SNLJJJCB")  AS K0SNLJJJCB,
+			sum("K0SNKYFPQCB") AS K0SNKYFPQCB,
+			sum("K0SNJJCB") AS K0SNJJCB,
+			sum("K0SNBL")   AS K0SNBL,
+			sum("K0TBZJ")   AS K0TBZJ,  
+			sum("K0TBZJ2")  AS K0TBZJ2,
+			sum("K0TBJJ")   AS K0TBJJ,
+			sum("K0TBBL")   AS K0TBBL
+			FROM
+			(
+			SELECT
+					     "G0GSJC",
+					     "G0GSOR",
+					     ROUND(IFNULL(sum("K0BNGLFPHJECB")/10000,0),2)            AS "K0BNGLFPHJECB",   
+					     ROUND(IFNULL(sum("K0BNKYFPQCB"),0)/10000,2)              AS "K0BNKYFPQCB",
+					     ROUND(IFNULL(sum("K0BNJJCB"),0)/10000,2)                 AS "K0BNJJCB",
+					     CASE 
+					         WHEN  IFNULL(sum("K0BNJJCB"),0)=0 THEN 0
+					         ELSE   ROUND(IFNULL(sum("K0BNKYFPQCB")/10000,0)/IFNULL(sum("K0BNJJCB")/10000,0),4)            
+					     END                                       AS "K0BNBL",
+					     
+					     ROUND(IFNULL(sum("K0SNLJJJCB")/10000,0),2)               AS "K0SNLJJJCB",
+					     ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0),2)              AS "K0SNKYFPQCB",
+					     ROUND(IFNULL(sum("K0SNJJCB"),0)/10000,2)                 AS "K0SNJJCB",
+					      CASE 
+					         WHEN  IFNULL(sum("K0SNJJCB"),0)=0 THEN 0
+					         ELSE   ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0)/IFNULL(sum("K0SNJJCB")/10000,0),4)          
+					     END                                       AS "K0SNBL",   
+					      
+					     ROUND(IFNULL(IFNULL(sum("K0BNGLFPHJECB")/10000,0)-IFNULL(sum("K0SNLJJJCB")/10000,0),0),2)
+					                                               AS "K0TBZJ",  
+					     ROUND(IFNULL(IFNULL(sum("K0BNKYFPQCB")/10000,0)-IFNULL(sum("K0SNKYFPQCB")/10000,0),0),2)
+					                                               AS "K0TBZJ2",
+					     ROUND(IFNULL(IFNULL(sum("K0BNJJCB")/10000,0)-IFNULL(sum("K0SNJJCB")/10000,0),0),2)
+					                                               AS "K0TBJJ",
+					     CASE 
+					         WHEN   IFNULL(sum("K0BNJJCB"),0)=0 OR IFNULL(sum("K0SNJJCB"),0)=0 THEN 0
+					         ELSE  ROUND(IFNULL(sum("K0BNKYFPQCB")/10000,0)/IFNULL(sum("K0BNJJCB")/10000,0),4) 
+					             - ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0)/IFNULL(sum("K0SNJJCB")/10000,0),4)           
+					     END                                        AS "K0TBBL"                                                                
+					FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1014_01"
+					(
+					'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+					'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+					) 
+					GROUP BY     "G0GSJC","G0GSOR"
+			--		order by "G0GSOR"
+			
+			 union all 
+			 
+			SELECT
+					     '合计' as "G0GSJC",
+					     '0'    as  "G0GSOR",
+					     ROUND(IFNULL(sum("K0BNGLFPHJECB")/10000,0),2)            AS "K0BNGLFPHJECB",   
+					     ROUND(IFNULL(sum("K0BNKYFPQCB"),0)/10000,2)              AS "K0BNKYFPQCB",
+					     ROUND(IFNULL(sum("K0BNJJCB"),0)/10000,2)                 AS "K0BNJJCB",
+					     CASE 
+					         WHEN  IFNULL(sum("K0BNJJCB"),0)=0 THEN 0
+					         ELSE   ROUND(IFNULL(sum("K0BNKYFPQCB")/10000,0)/IFNULL(sum("K0BNJJCB")/10000,0),4)            
+					     END                                       AS "K0BNBL",
+					     
+					     ROUND(IFNULL(sum("K0SNLJJJCB")/10000,0),2)               AS "K0SNLJJJCB",
+					     ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0),2)              AS "K0SNKYFPQCB",
+					     ROUND(IFNULL(sum("K0SNJJCB"),0)/10000,2)                 AS "K0SNJJCB",
+					      CASE 
+					         WHEN  IFNULL(sum("K0SNJJCB"),0)=0 THEN 0
+					         ELSE   ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0)/IFNULL(sum("K0SNJJCB")/10000,0),4)          
+					     END                                       AS "K0SNBL",   
+					      
+					     ROUND(IFNULL(IFNULL(sum("K0BNGLFPHJECB")/10000,0)-IFNULL(sum("K0SNLJJJCB")/10000,0),0),2)
+					                                               AS "K0TBZJ",  
+					     ROUND(IFNULL(IFNULL(sum("K0BNKYFPQCB")/10000,0)-IFNULL(sum("K0SNKYFPQCB")/10000,0),0),2)
+					                                               AS "K0TBZJ2",
+					     ROUND(IFNULL(IFNULL(sum("K0BNJJCB")/10000,0)-IFNULL(sum("K0SNJJCB")/10000,0),0),2)
+					                                               AS "K0TBJJ",
+					     CASE 
+					         WHEN   IFNULL(sum("K0BNJJCB"),0)=0 OR IFNULL(sum("K0SNJJCB"),0)=0 THEN 0
+					         ELSE  ROUND(IFNULL(sum("K0BNKYFPQCB")/10000,0)/IFNULL(sum("K0BNJJCB")/10000,0),4) 
+					             - ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0)/IFNULL(sum("K0SNJJCB")/10000,0),4)           
+					     END                                        AS "K0TBBL"                                                                
+					FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1014_01"
+					(
+					'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+					'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+					) 
+					GROUP BY     "G0GSJC","G0GSOR"
+			)GROUP BY     "G0GSJC","G0GSOR"
+					order by "G0GSOR"
+	 
+	 
+	 </select>
+	 
+	 
+	 
+	 <sql id="getKtzjjfytjbData_detail_sql">
+	     SELECT 
+			"G0GSJC",
+			IFNULL("G0XMLXMS",'')   AS G0XMLXMS,
+			IFNULL("G0PROJCODE",'') AS G0PROJCODE,
+			IFNULL("G0PROJTXT",'')  AS G0PROJTXT ,
+			sum("K0BNGLFPHJECB") AS K0BNGLFPHJECB,
+			sum("K0BNKYFPQCB") AS K0BNKYFPQCB,
+			sum("K0BNJJCB")   as K0BNJJCB,	
+			sum("K0BNBL")      AS K0BNBL,
+
+			sum("K0SNLJJJCB")  AS K0SNLJJJCB,
+			sum("K0SNKYFPQCB") AS K0SNKYFPQCB,
+			sum("K0SNJJCB") AS K0SNJJCB,
+			sum("K0SNBL")   AS K0SNBL,
+			
+			sum("K0TBZJ")   AS K0TBZJ,  
+			sum("K0TBZJ2")  AS K0TBZJ2,
+			sum("K0TBJJ")   AS K0TBJJ,
+			sum("K0TBBL")   AS K0TBBL
+			
+			FROM
+			(
+			SELECT
+					     "G0GSJC",
+					     "G0GSOR",
+					     "G0XMLXMS",
+					     "G0PROJCODE",
+	                                     "G0PROJTXT",
+					     ROUND(IFNULL(sum("K0BNGLFPHJECB")/10000,0),2)            AS "K0BNGLFPHJECB",   
+					     ROUND(IFNULL(sum("K0BNKYFPQCB"),0)/10000,2)              AS "K0BNKYFPQCB",
+					     ROUND(IFNULL(sum("K0BNJJCB"),0)/10000,2)                 AS "K0BNJJCB",
+					     CASE 
+					         WHEN  IFNULL(sum("K0BNJJCB"),0)=0 THEN 0
+					         ELSE   ROUND(IFNULL(sum("K0BNKYFPQCB")/10000,0)/IFNULL(sum("K0BNJJCB")/10000,0),4)            
+					     END                                       AS "K0BNBL",
+					     
+					     ROUND(IFNULL(sum("K0SNLJJJCB")/10000,0),2)               AS "K0SNLJJJCB",
+					     ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0),2)              AS "K0SNKYFPQCB",
+					     ROUND(IFNULL(sum("K0SNJJCB"),0)/10000,2)                 AS "K0SNJJCB",
+					      CASE 
+					         WHEN  IFNULL(sum("K0SNJJCB"),0)=0 THEN 0
+					         ELSE   ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0)/IFNULL(sum("K0SNJJCB")/10000,0),4)          
+					     END                                       AS "K0SNBL",   
+					      
+					     ROUND(IFNULL(IFNULL(sum("K0BNGLFPHJECB")/10000,0)-IFNULL(sum("K0SNLJJJCB")/10000,0),0),2)
+					                                               AS "K0TBZJ",  
+					     ROUND(IFNULL(IFNULL(sum("K0BNKYFPQCB")/10000,0)-IFNULL(sum("K0SNKYFPQCB")/10000,0),0),2)
+					                                               AS "K0TBZJ2",
+					     ROUND(IFNULL(IFNULL(sum("K0BNJJCB")/10000,0)-IFNULL(sum("K0SNJJCB")/10000,0),0),2)
+					                                               AS "K0TBJJ",
+					     CASE 
+					         WHEN   IFNULL(sum("K0BNJJCB"),0)=0 OR IFNULL(sum("K0SNJJCB"),0)=0 THEN 0
+					         ELSE  ROUND(IFNULL(sum("K0BNKYFPQCB")/10000,0)/IFNULL(sum("K0BNJJCB")/10000,0),4) 
+					             - ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0)/IFNULL(sum("K0SNJJCB")/10000,0),4)           
+					     END                                        AS "K0TBBL"                                                                
+					FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1014_01"
+					(
+					'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+					'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+					) 
+					GROUP BY     "G0GSJC","G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS"
+			--		order by "G0GSOR"
+			
+			 union all 
+			 
+			SELECT
+					     '合计' as "G0GSJC",
+					     '0'    as  "G0GSOR",
+					     null as "G0XMLXMS",
+					     null as "G0PROJCODE",
+	                                     null as "G0PROJTXT",					     
+					     ROUND(IFNULL(sum("K0BNGLFPHJECB")/10000,0),2)            AS "K0BNGLFPHJECB",   
+					     ROUND(IFNULL(sum("K0BNKYFPQCB"),0)/10000,2)              AS "K0BNKYFPQCB",
+					     ROUND(IFNULL(sum("K0BNJJCB"),0)/10000,2)                 AS "K0BNJJCB",
+					     CASE 
+					         WHEN  IFNULL(sum("K0BNJJCB"),0)=0 THEN 0
+					         ELSE   ROUND(IFNULL(sum("K0BNKYFPQCB")/10000,0)/IFNULL(sum("K0BNJJCB")/10000,0),4)            
+					     END                                       AS "K0BNBL",
+					     
+					     ROUND(IFNULL(sum("K0SNLJJJCB")/10000,0),2)               AS "K0SNLJJJCB",
+					     ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0),2)              AS "K0SNKYFPQCB",
+					     ROUND(IFNULL(sum("K0SNJJCB"),0)/10000,2)                 AS "K0SNJJCB",
+					      CASE 
+					         WHEN  IFNULL(sum("K0SNJJCB"),0)=0 THEN 0
+					         ELSE   ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0)/IFNULL(sum("K0SNJJCB")/10000,0),4)          
+					     END                                       AS "K0SNBL",   
+					      
+					     ROUND(IFNULL(IFNULL(sum("K0BNGLFPHJECB")/10000,0)-IFNULL(sum("K0SNLJJJCB")/10000,0),0),2)
+					                                               AS "K0TBZJ",  
+					     ROUND(IFNULL(IFNULL(sum("K0BNKYFPQCB")/10000,0)-IFNULL(sum("K0SNKYFPQCB")/10000,0),0),2)
+					                                               AS "K0TBZJ2",
+					     ROUND(IFNULL(IFNULL(sum("K0BNJJCB")/10000,0)-IFNULL(sum("K0SNJJCB")/10000,0),0),2)
+					                                               AS "K0TBJJ",
+					     CASE 
+					         WHEN   IFNULL(sum("K0BNJJCB"),0)=0 OR IFNULL(sum("K0SNJJCB"),0)=0 THEN 0
+					         ELSE  ROUND(IFNULL(sum("K0BNKYFPQCB")/10000,0)/IFNULL(sum("K0BNJJCB")/10000,0),4) 
+					             - ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0)/IFNULL(sum("K0SNJJCB")/10000,0),4)           
+					     END                                        AS "K0TBBL"                                                                
+					FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1014_01"
+					(
+					'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+					'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+					) 
+					GROUP BY     "G0GSJC","G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS"
+			)
+			WHERE   (K0BNGLFPHJECB != 0 OR 
+					K0BNKYFPQCB != 0 OR 
+					K0BNBL != 0 )
+              <if test="g0PROJTXT != null  and g0PROJTXT !='' ">            AND G0PROJTXT like '%${g0PROJTXT}%'</if>
+	         <if test="g0PROJCODE != null   and g0PROJCODE !=''  ">                AND G0PROJCODE  = '${g0PROJCODE}'</if>
+			GROUP BY "G0GSJC","G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS"
+			order by "G0GSOR","G0XMLXMS","G0PROJCODE","G0PROJTXT"
+	 </sql>
+	 <select id="getKtzjjfytjbData_detail" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+	   <include refid="getKtzjjfytjbData_detail_sql"></include>
+        <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>   
+	 </select>
+	  <select id="getKtzjjfytjbData_detail_Count" resultType="int"  parameterType="java.util.Map" >
+         SELECT COUNT(*) FROM( <include refid="getKtzjjfytjbData_detail_sql"></include>)
+     </select>
+	 
+	 
+	  <!-- 人工成本支出统计表--> 
+      <select id="getRgcbzctjbData" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+      
+			SELECT 
+			 "G0GSJC", 
+			 --本年人工成本 
+			 sum("K0BNCB_4") AS "K0BNCB_4",     --总计
+			 sum("K0BNCB_411") AS "K0BNCB_411", --工资
+			 sum("K0BNCB_412") AS "K0BNCB_412", --社会保险费 
+			 sum("K0BNCB_413") AS "K0BNCB_413", --其他保险费 
+			 sum("K0BNCB_414") AS "K0BNCB_414", --福利费 
+			 sum("K0BNCB_415") AS "K0BNCB_415", --教育经费 
+			 sum("K0BNCB_416") AS "K0BNCB_416", --工会经费 
+			 sum("K0BNCB_417") AS "K0BNCB_417", --住房费用 
+			 sum("K0BNCB_418") AS "K0BNCB_418", --劳务费用 
+			 sum("K0BNCB_419") AS "K0BNCB_419", --非货币性福利 
+			 sum("K0BNCB_420") AS "K0BNCB_420", --辞退福利 
+			 sum("K0BNCB_430") AS "K0BNCB_430", --其他 
+			 --上年人工成本    
+			 sum("K0SNCB_4") AS "K0SNCB_4",     --总计 
+			 sum("K0SNCB_411") AS "K0SNCB_411", --工资 
+			 sum("K0SNCB_412") AS "K0SNCB_412", --社会保险费 
+			 sum("K0SNCB_413") AS "K0SNCB_413", --其他保险费 
+			 sum("K0SNCB_414") AS "K0SNCB_414", --福利费 
+			 sum("K0SNCB_415") AS "K0SNCB_415", --教育经费 
+			 sum("K0SNCB_416") AS "K0SNCB_416", --工会经费 
+			 sum("K0SNCB_417") AS "K0SNCB_417", --住房费用 
+			 sum("K0SNCB_418") AS "K0SNCB_418", --劳务费用 
+			 sum("K0SNCB_419") AS "K0SNCB_419", --非货币性福利 
+			 sum("K0SNCB_420") AS "K0SNCB_420", --辞退福利 
+			 sum("K0SNCB_430") AS "K0SNCB_430", --其他 
+			    --同比人工成本 
+			 sum("K0SNCB_4") AS "K0TQCB_4",     --总计 
+			 sum("K0SNCB_411") AS "K0TQCB_411", --工资 
+			 sum("K0SNCB_412") AS "K0TQCB_412", --社会保险费 
+			 sum("K0SNCB_413") AS "K0TQCB_413", --其他保险费 
+			 sum("K0SNCB_414") AS "K0TQCB_414", --福利费 
+			 sum("K0SNCB_415") AS "K0TQCB_415", --教育经费 
+			 sum("K0SNCB_416") AS "K0TQCB_416", --工会经费 
+			 sum("K0SNCB_417") AS "K0TQCB_417", --住房费用 
+			 sum("K0SNCB_418") AS "K0TQCB_418", --劳务费用 
+			 sum("K0SNCB_419") AS "K0TQCB_419", --非货币性福利 
+			 sum("K0SNCB_420") AS "K0TQCB_420", --辞退福利 
+			 sum("K0SNCB_430") AS "K0TQCB_430"  --其他 
+			 FROM
+			 (
+			 SELECT
+			     "G0GSJC",
+			     "G0GSOR",
+			     --本年人工成本
+			     ROUND(IFNULL(sum("K0BNCB_4"),0)/10000,2)   AS "K0BNCB_4",
+			     ROUND(IFNULL(sum("K0BNCB_411"),0)/10000,2) AS "K0BNCB_411",
+			     ROUND(IFNULL(sum("K0BNCB_412"),0)/10000,2) AS "K0BNCB_412",
+			     ROUND(IFNULL(sum("K0BNCB_413"),0)/10000,2) AS "K0BNCB_413",
+			     ROUND(IFNULL(sum("K0BNCB_414"),0)/10000,2) AS "K0BNCB_414",
+			     ROUND(IFNULL(sum("K0BNCB_415"),0)/10000,2) AS "K0BNCB_415",
+			     ROUND(IFNULL(sum("K0BNCB_416"),0)/10000,2) AS "K0BNCB_416",
+			     ROUND(IFNULL(sum("K0BNCB_417"),0)/10000,2) AS "K0BNCB_417",
+			     ROUND(IFNULL(sum("K0BNCB_418"),0)/10000,2) AS "K0BNCB_418",
+			     ROUND(IFNULL(sum("K0BNCB_419"),0)/10000,2) AS "K0BNCB_419",
+			     ROUND(IFNULL(sum("K0BNCB_420"),0)/10000,2) AS "K0BNCB_420",
+			     ROUND(IFNULL(sum("K0BNCB_430"),0)/10000,2) AS "K0BNCB_430",
+			    --上年人工成本
+			     ROUND(IFNULL(sum("K0SNCB_4"),0)/10000,2)   AS "K0SNCB_4",
+			     ROUND(IFNULL(sum("K0SNCB_411"),0)/10000,2) AS "K0SNCB_411",
+			     ROUND(IFNULL(sum("K0SNCB_412"),0)/10000,2) AS "K0SNCB_412",
+			     ROUND(IFNULL(sum("K0SNCB_413"),0)/10000,2) AS "K0SNCB_413",
+			     ROUND(IFNULL(sum("K0SNCB_414"),0)/10000,2) AS "K0SNCB_414",
+			     ROUND(IFNULL(sum("K0SNCB_415"),0)/10000,2) AS "K0SNCB_415",
+			     ROUND(IFNULL(sum("K0SNCB_416"),0)/10000,2) AS "K0SNCB_416",
+			     ROUND(IFNULL(sum("K0SNCB_417"),0)/10000,2) AS "K0SNCB_417",
+			     ROUND(IFNULL(sum("K0SNCB_418"),0)/10000,2) AS "K0SNCB_418",
+			     ROUND(IFNULL(sum("K0SNCB_419"),0)/10000,2) AS "K0SNCB_419",
+			     ROUND(IFNULL(sum("K0SNCB_420"),0)/10000,2) AS "K0SNCB_420",
+			     ROUND(IFNULL(sum("K0SNCB_430"),0)/10000,2) AS "K0SNCB_430",
+			    --同比人工成本
+			     ROUND(IFNULL(sum("K0BNCB_4"),0)/10000,2) 
+			       - ROUND(IFNULL(sum("K0SNCB_4"),0)/10000,2)   
+			                                                AS "K0TQCB_4",
+			     ROUND(IFNULL(sum("K0BNCB_411"),0)/10000,2)                                           
+			       - ROUND(IFNULL(sum("K0SNCB_411"),0)/10000,2) 
+			                                                AS "K0TQCB_411",
+			     ROUND(IFNULL(sum("K0BNCB_412"),0)/10000,2)
+			       - ROUND(IFNULL(sum("K0SNCB_412"),0)/10000,2) 
+			                                                AS "K0TQCB_412",
+			     ROUND(IFNULL(sum("K0BNCB_413"),0)/10000,2)                                           
+			       - ROUND(IFNULL(sum("K0SNCB_413"),0)/10000,2) 
+			                                                AS "K0TQCB_413",
+			     ROUND(IFNULL(sum("K0BNCB_414"),0)/10000,2)                                           
+			       - ROUND(IFNULL(sum("K0SNCB_414"),0)/10000,2) 
+			                                                AS "K0TQCB_414",
+			     ROUND(IFNULL(sum("K0BNCB_415"),0)/10000,2)                                           
+			       - ROUND(IFNULL(sum("K0SNCB_415"),0)/10000,2) 
+			                                                AS "K0TQCB_415",
+			     ROUND(IFNULL(sum("K0BNCB_416"),0)/10000,2)                                           
+			       - ROUND(IFNULL(sum("K0SNCB_416"),0)/10000,2) 
+			                                                AS "K0TQCB_416",
+			     ROUND(IFNULL(sum("K0BNCB_417"),0)/10000,2)                                           
+			       - ROUND(IFNULL(sum("K0SNCB_417"),0)/10000,2) 
+			                                                AS "K0TQCB_417",
+			     ROUND(IFNULL(sum("K0BNCB_418"),0)/10000,2)                                           
+			       - ROUND(IFNULL(sum("K0SNCB_418"),0)/10000,2) 
+			                                                AS "K0TQCB_418",
+			     ROUND(IFNULL(sum("K0BNCB_419"),0)/10000,2)                                           
+			       - ROUND(IFNULL(sum("K0SNCB_419"),0)/10000,2) 
+			                                                AS "K0TQCB_419",
+			     ROUND(IFNULL(sum("K0BNCB_420"),0)/10000,2)                                           
+			       - ROUND(IFNULL(sum("K0SNCB_420"),0)/10000,2) 
+			                                                AS "K0TQCB_420",
+			     ROUND(IFNULL(sum("K0BNCB_430"),0)/10000,2)                                           
+			       - ROUND(IFNULL(sum("K0SNCB_430"),0)/10000,2) 
+			                                                AS "K0TQCB_430"    
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1015_01"
+			    (
+			    'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+			    'PLACEHOLDER' = ('$$PR_GSDM$$',
+			     '${companyCode}')
+			     ) 
+			GROUP BY "G0GSJC","G0GSOR"
+			
+			UNION ALL 
+			
+			 SELECT
+			     '总计'    as "G0GSJC",
+			      '0'     as "G0GSOR",
+			     --本年人工成本
+			     ROUND(IFNULL(sum("K0BNCB_4"),0)/10000,2)   AS "K0BNCB_4",
+			     ROUND(IFNULL(sum("K0BNCB_411"),0)/10000,2) AS "K0BNCB_411",
+			     ROUND(IFNULL(sum("K0BNCB_412"),0)/10000,2) AS "K0BNCB_412",
+			     ROUND(IFNULL(sum("K0BNCB_413"),0)/10000,2) AS "K0BNCB_413",
+			     ROUND(IFNULL(sum("K0BNCB_414"),0)/10000,2) AS "K0BNCB_414",
+			     ROUND(IFNULL(sum("K0BNCB_415"),0)/10000,2) AS "K0BNCB_415",
+			     ROUND(IFNULL(sum("K0BNCB_416"),0)/10000,2) AS "K0BNCB_416",
+			     ROUND(IFNULL(sum("K0BNCB_417"),0)/10000,2) AS "K0BNCB_417",
+			     ROUND(IFNULL(sum("K0BNCB_418"),0)/10000,2) AS "K0BNCB_418",
+			     ROUND(IFNULL(sum("K0BNCB_419"),0)/10000,2) AS "K0BNCB_419",
+			     ROUND(IFNULL(sum("K0BNCB_420"),0)/10000,2) AS "K0BNCB_420",
+			     ROUND(IFNULL(sum("K0BNCB_430"),0)/10000,2) AS "K0BNCB_430",
+			    --上年人工成本
+			     ROUND(IFNULL(sum("K0SNCB_4"),0)/10000,2)   AS "K0SNCB_4",
+			     ROUND(IFNULL(sum("K0SNCB_411"),0)/10000,2) AS "K0SNCB_411",
+			     ROUND(IFNULL(sum("K0SNCB_412"),0)/10000,2) AS "K0SNCB_412",
+			     ROUND(IFNULL(sum("K0SNCB_413"),0)/10000,2) AS "K0SNCB_413",
+			     ROUND(IFNULL(sum("K0SNCB_414"),0)/10000,2) AS "K0SNCB_414",
+			     ROUND(IFNULL(sum("K0SNCB_415"),0)/10000,2) AS "K0SNCB_415",
+			     ROUND(IFNULL(sum("K0SNCB_416"),0)/10000,2) AS "K0SNCB_416",
+			     ROUND(IFNULL(sum("K0SNCB_417"),0)/10000,2) AS "K0SNCB_417",
+			     ROUND(IFNULL(sum("K0SNCB_418"),0)/10000,2) AS "K0SNCB_418",
+			     ROUND(IFNULL(sum("K0SNCB_419"),0)/10000,2) AS "K0SNCB_419",
+			     ROUND(IFNULL(sum("K0SNCB_420"),0)/10000,2) AS "K0SNCB_420",
+			     ROUND(IFNULL(sum("K0SNCB_430"),0)/10000,2) AS "K0SNCB_430",
+			    --同比人工成本
+			     ROUND(IFNULL(sum("K0BNCB_4"),0)/10000,2) 
+			       - ROUND(IFNULL(sum("K0SNCB_4"),0)/10000,2)   
+			                                                AS "K0TQCB_4",
+			     ROUND(IFNULL(sum("K0BNCB_411"),0)/10000,2)                                           
+			       - ROUND(IFNULL(sum("K0SNCB_411"),0)/10000,2) 
+			                                                AS "K0TQCB_411",
+			     ROUND(IFNULL(sum("K0BNCB_412"),0)/10000,2)
+			       - ROUND(IFNULL(sum("K0SNCB_412"),0)/10000,2) 
+			                                                AS "K0TQCB_412",
+			     ROUND(IFNULL(sum("K0BNCB_413"),0)/10000,2)                                           
+			       - ROUND(IFNULL(sum("K0SNCB_413"),0)/10000,2) 
+			                                                AS "K0TQCB_413",
+			     ROUND(IFNULL(sum("K0BNCB_414"),0)/10000,2)                                           
+			       - ROUND(IFNULL(sum("K0SNCB_414"),0)/10000,2) 
+			                                                AS "K0TQCB_414",
+			     ROUND(IFNULL(sum("K0BNCB_415"),0)/10000,2)                                           
+			       - ROUND(IFNULL(sum("K0SNCB_415"),0)/10000,2) 
+			                                                AS "K0TQCB_415",
+			     ROUND(IFNULL(sum("K0BNCB_416"),0)/10000,2)                                           
+			       - ROUND(IFNULL(sum("K0SNCB_416"),0)/10000,2) 
+			                                                AS "K0TQCB_416",
+			     ROUND(IFNULL(sum("K0BNCB_417"),0)/10000,2)                                           
+			       - ROUND(IFNULL(sum("K0SNCB_417"),0)/10000,2) 
+			                                                AS "K0TQCB_417",
+			     ROUND(IFNULL(sum("K0BNCB_418"),0)/10000,2)                                           
+			       - ROUND(IFNULL(sum("K0SNCB_418"),0)/10000,2) 
+			                                                AS "K0TQCB_418",
+			     ROUND(IFNULL(sum("K0BNCB_419"),0)/10000,2)                                           
+			       - ROUND(IFNULL(sum("K0SNCB_419"),0)/10000,2) 
+			                                                AS "K0TQCB_419",
+			     ROUND(IFNULL(sum("K0BNCB_420"),0)/10000,2)                                           
+			       - ROUND(IFNULL(sum("K0SNCB_420"),0)/10000,2) 
+			                                                AS "K0TQCB_420",
+			     ROUND(IFNULL(sum("K0BNCB_430"),0)/10000,2)                                           
+			       - ROUND(IFNULL(sum("K0SNCB_430"),0)/10000,2) 
+			                                                AS "K0TQCB_430"    
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1015_01"
+			    (
+			    'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+			    'PLACEHOLDER' = ('$$PR_GSDM$$',
+			     '${companyCode}')
+			     ) 
+			)
+			GROUP BY "G0GSJC","G0GSOR"
+			ORDER BY "G0GSOR"
+      </select>
+      
+      
+      <select id="getRgcbzctjbDataDetail" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+        SELECT
+			 "G0FYXLMS",
+			 ROUND(IFNULL(sum("K0BNCB"),0)/10000,2)  AS "K0BNCB",--本年累计分配
+			 ROUND(IFNULL(sum("K0SNCB"),0)/10000,2)  AS "K0SNCB", --上年累计分配
+			 ROUND(IFNULL(sum("K0BNCB"),0)/10000,2)
+			 - ROUND(IFNULL(sum("K0SNCB"),0)/10000,2)  
+			                                         AS "K0TBCB", --同比成本
+			CASE 
+			    WHEN ROUND(IFNULL(sum("K0SNCB"),0)/10000,2)=0 THEN 0 
+			    ELSE  ROUND((ROUND(IFNULL(sum("K0BNCB"),0)/10000,2) - ROUND(IFNULL(sum("K0SNCB"),0)/10000,2))
+			          / ROUND(IFNULL(sum("K0SNCB"),0)/10000,2),4)
+			END                                      AS "K0TBBL" --同比成本 比例
+			
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1015_02"
+			 (
+			  'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+			  'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+			 ) 
+			where "G0HC" > 0
+			GROUP BY "G0HC","G0FYXLMS" 
+			ORDER BY "G0HC" ASC
+      </select>
+      
+      
+      <!-- 原材料支出统计表--> 
+      <select id="getYclzctjbData" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+           SELECT
+			     "G0GSJC",
+			     --本年原材料支出
+			     ROUND(IFNULL(sum("K0BNCB_5"),0)/10000,2)   AS "K0BNCB_5",   --总计
+			     ROUND(IFNULL(sum("K0BNCB_510"),0)/10000,2) AS "K0BNCB_510", --原材料及主要材料
+			     ROUND(IFNULL(sum("K0BNCB_520"),0)/10000,2) AS "K0BNCB_520", --辅助材料
+			     --上年原材料支出
+			     ROUND(IFNULL(sum("K0SNCB_5"),0)/10000,2)   AS "K0SNCB_5",   --总计
+			     ROUND(IFNULL(sum("K0SNCB_510"),0)/10000,2) AS "K0SNCB_510", --原材料及主要材料
+			     ROUND(IFNULL(sum("K0SNCB_520"),0)/10000,2) AS "K0SNCB_520", --辅助材料
+			     -- 同比原材料支出
+			     ROUND(IFNULL(sum("K0BNCB_5"),0)/10000,2)
+			     - ROUND(IFNULL(sum("K0SNCB_5"),0)/10000,2)   
+			                                                AS "K0TBCB_5",   --总计
+			     ROUND(IFNULL(sum("K0BNCB_510"),0)/10000,2)
+			     - ROUND(IFNULL(sum("K0SNCB_510"),0)/10000,2) 
+			                                                AS "K0TBCB_510", --原材料及主要材料
+			     ROUND(IFNULL(sum("K0BNCB_520"),0)/10000,2)
+			     - ROUND(IFNULL(sum("K0SNCB_520"),0)/10000,2) 
+			                                                AS "K0TBCB_520",  --辅助材料
+			     -- 同比原材料支出%
+			    CASE 
+			        WHEN ROUND(IFNULL(sum("K0SNCB_5"),0)/10000,2) = 0 THEN 0 
+			             ELSE  ROUND((ROUND(IFNULL(sum("K0BNCB_5"),0)/10000,2)- ROUND(IFNULL(sum("K0SNCB_5"),0)/10000,2))
+			                   /ROUND(IFNULL(sum("K0SNCB_5"),0)/10000,2),4)   
+			    END                                         AS "K0TBBL_5",   --总计
+			    CASE 
+			        WHEN ROUND(IFNULL(sum("K0SNCB_510"),0)/10000,2) = 0 THEN 0 
+			          ELSE  ROUND((ROUND(IFNULL(sum("K0BNCB_510"),0)/10000,2)- ROUND(IFNULL(sum("K0SNCB_510"),0)/10000,2)) 
+			                /ROUND(IFNULL(sum("K0SNCB_510"),0)/10000,2),4) 
+			    END                                         AS "K0TBBL_510", --原材料及主要材料
+			    CASE 
+			        WHEN ROUND(IFNULL(sum("K0SNCB_520"),0)/10000,2) = 0 THEN 0 
+			          ELSE  ROUND((ROUND(IFNULL(sum("K0BNCB_520"),0)/10000,2)- ROUND(IFNULL(sum("K0SNCB_520"),0)/10000,2))
+			                /ROUND(IFNULL(sum("K0SNCB_520"),0)/10000,2),4) 
+			    END                                         AS "K0TBBL_520"  --辅助材料   
+			FROM
+			(
+			 SELECT
+			     "G0GSJC",
+			     "G0GSOR",
+			     --本年原材料支出
+			     sum("K0BNCB_5") AS "K0BNCB_5",
+			     sum("K0BNCB_510") AS "K0BNCB_510",
+			     sum("K0BNCB_520") AS "K0BNCB_520",
+			     --上年原材料支出
+			     sum("K0SNCB_5") AS "K0SNCB_5",
+			     sum("K0SNCB_510") AS "K0SNCB_510",
+			     sum("K0SNCB_520") AS "K0SNCB_520" 
+			     
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1016_01"
+			(
+			  'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+			  'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+			 ) 
+			GROUP BY "G0GSJC","G0GSOR"
+			
+			UNION ALL 
+			
+			 SELECT
+			     '总计'   AS  "G0GSJC",
+			     '0'     AS  "G0GSOR",
+			     --本年原材料支出
+			     sum("K0BNCB_5")   AS "K0BNCB_5",
+			     sum("K0BNCB_510") AS "K0BNCB_510",
+			     sum("K0BNCB_520") AS "K0BNCB_520",
+			     --上年原材料支出
+			     sum("K0SNCB_5")   AS "K0SNCB_5",
+			     sum("K0SNCB_510") AS "K0SNCB_510",
+			     sum("K0SNCB_520") AS "K0SNCB_520" 
+			     
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1016_01"
+			(
+			  'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+			  'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+			 ) 
+			 )
+			GROUP BY "G0GSJC","G0GSOR"
+			ORDER BY "G0GSOR"
+      </select>
+      
+      
+      <sql id="getYclzctjbData_sql">
+        SELECT
+			     "G0GSJC",
+			      IFNULL("G0XMLXMS",'') as G0XMLXMS,
+			     IFNULL("G0PROJCODE",'') as G0PROJCODE,
+			     IFNULL("G0PROJTXT",'')  as  G0PROJTXT,
+			     --本年原材料支出
+			     ROUND(IFNULL(sum("K0BNCB_5"),0),2)   AS "K0BNCB_5",   --总计
+			     ROUND(IFNULL(sum("K0BNCB_510"),0),2) AS "K0BNCB_510", --原材料及主要材料
+			     ROUND(IFNULL(sum("K0BNCB_520"),0),2) AS "K0BNCB_520", --辅助材料
+
+			     --上年原材料支出
+			     ROUND(IFNULL(sum("K0SNCB_5"),0),2)   AS "K0SNCB_5",   --总计
+			     ROUND(IFNULL(sum("K0SNCB_510"),0),2) AS "K0SNCB_510", --原材料及主要材料
+			     ROUND(IFNULL(sum("K0SNCB_520"),0),2) AS "K0SNCB_520", --辅助材料
+			     -- 同比原材料支出
+			     ROUND(IFNULL(sum("K0BNCB_5"),0),2)
+			     - ROUND(IFNULL(sum("K0SNCB_5"),0),2)   
+			                                                AS "K0TBCB_5",   --总计
+			     ROUND(IFNULL(sum("K0BNCB_510"),0),2)
+			     - ROUND(IFNULL(sum("K0SNCB_510"),0),2) 
+			                                                AS "K0TBCB_510", --原材料及主要材料
+			     ROUND(IFNULL(sum("K0BNCB_520"),0),2)
+			     - ROUND(IFNULL(sum("K0SNCB_520"),0),2) 
+			                                                AS "K0TBCB_520",  --辅助材料
+			     -- 同比原材料支出%
+			    CASE 
+			        WHEN ROUND(IFNULL(sum("K0SNCB_5"),0),2) = 0 THEN 0 
+			             ELSE  ROUND((ROUND(IFNULL(sum("K0BNCB_5"),0),2)- ROUND(IFNULL(sum("K0SNCB_5"),0),2))
+			                   /ROUND(IFNULL(sum("K0SNCB_5"),0),2),4)   
+			    END                                         AS "K0TBBL_5",   --总计
+
+			    CASE 
+			        WHEN ROUND(IFNULL(sum("K0SNCB_510"),0),2) = 0 THEN 0 
+			          ELSE  ROUND((ROUND(IFNULL(sum("K0BNCB_510"),0),2)- ROUND(IFNULL(sum("K0SNCB_510"),0),2)) 
+			                /ROUND(IFNULL(sum("K0SNCB_510"),0),2),4) 
+			    END                                         AS "K0TBBL_510", --原材料及主要材料
+			    CASE 
+			        WHEN ROUND(IFNULL(sum("K0SNCB_520"),0),2) = 0 THEN 0 
+			          ELSE  ROUND((ROUND(IFNULL(sum("K0BNCB_520"),0),2)- ROUND(IFNULL(sum("K0SNCB_520"),0),2))
+			                /ROUND(IFNULL(sum("K0SNCB_520"),0),2),4) 
+			    END                                         AS "K0TBBL_520"  --辅助材料   
+			FROM
+			(
+			 SELECT
+			     "G0GSJC",
+			     "G0GSOR",
+			     "G0XMLXMS",
+                             "G0PROJCODE",
+			     G0PROJTXT,			     
+			     --本年原材料支出
+			     sum("K0BNCB_5") AS "K0BNCB_5",
+			     sum("K0BNCB_510") AS "K0BNCB_510",
+			     sum("K0BNCB_520") AS "K0BNCB_520",
+			     --上年原材料支出
+			     sum("K0SNCB_5") AS "K0SNCB_5",
+			     sum("K0SNCB_510") AS "K0SNCB_510",
+			     sum("K0SNCB_520") AS "K0SNCB_520" 
+			     
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1016_01"
+			(
+			  'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+			  'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+			 ) 
+			WHERE K0BNCB_5 != 0 OR K0SNCB_5 != 0
+			GROUP BY "G0GSJC","G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS"
+			
+			UNION ALL 
+			
+			 SELECT
+			     '总计'   AS  "G0GSJC",
+			     '0'     AS  "G0GSOR",
+			     null    as "G0XMLXMS",
+                             null as "G0PROJCODE",
+			     null    as "G0PROJTXT",
+			     --本年原材料支出
+			     sum("K0BNCB_5")   AS "K0BNCB_5",
+			     sum("K0BNCB_510") AS "K0BNCB_510",
+			     sum("K0BNCB_520") AS "K0BNCB_520",
+			     --上年原材料支出
+			     sum("K0SNCB_5")   AS "K0SNCB_5",
+			     sum("K0SNCB_510") AS "K0SNCB_510",
+			     sum("K0SNCB_520") AS "K0SNCB_520" 
+			     
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1016_01"
+			(
+			  'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+			  'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+			 ) 
+			 
+			 ) AS T
+			 
+			 <include refid="selectCondition_zc_detail" />
+			GROUP BY "G0GSJC","G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS"
+			ORDER BY "G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS" 
+      </sql>
+      
+      
+       <select id="getYclzctjbData_Detail" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+            <include refid="getYclzctjbData_sql"></include>
+        <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>   
+      </select>
+      <select id="getYclzctjbData_Detail_Count" resultType="int"  parameterType="java.util.Map" >
+         SELECT COUNT(*) FROM( <include refid="getYclzctjbData_sql"></include>)
+      </select>
+      
+      
+      
+      
+      
+      <!-- 能耗支出统计表--> 
+      <select id="getNhzctjbData" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+           SELECT
+			     "G0GSJC",
+			     --本年能耗支出
+			     ROUND(IFNULL(sum("K0BNCB_4"),0)/10000,2)   AS "K0BNCB_4",  --总计
+			     ROUND(IFNULL(sum("K0BNCB_431"),0)/10000,2) AS "K0BNCB_431",--燃料油
+			     ROUND(IFNULL(sum("K0BNCB_432"),0)/10000,2) AS "K0BNCB_432",--燃料气
+			     ROUND(IFNULL(sum("K0BNCB_433"),0)/10000,2) AS "K0BNCB_433",--其他燃料
+			     ROUND(IFNULL(sum("K0BNCB_440"),0)/10000,2) AS "K0BNCB_440",--动力
+			     ROUND(IFNULL(sum("K0BNCB_441"),0)/10000,2) AS "K0BNCB_441",--水
+			     ROUND(IFNULL(sum("K0BNCB_442"),0)/10000,2) AS "K0BNCB_442",--电
+			     ROUND(IFNULL(sum("K0BNCB_443"),0)/10000,2) AS "K0BNCB_443",--风
+			     ROUND(IFNULL(sum("K0BNCB_444"),0)/10000,2) AS "K0BNCB_444",--蒸汽
+			     ROUND(IFNULL(sum("K0BNCB_445"),0)/10000,2) AS "K0BNCB_445",--燃气
+			     ROUND(IFNULL(sum("K0BNCB_446"),0)/10000,2) AS "K0BNCB_446",--其他动力
+			     --上年能耗支出
+			     ROUND(IFNULL(sum("K0SNCB_4"),0)/10000,2)   AS "K0SNCB_4",  --总计
+			     ROUND(IFNULL(sum("K0SNCB_431"),0)/10000,2) AS "K0SNCB_431",--燃料油
+			     ROUND(IFNULL(sum("K0SNCB_432"),0)/10000,2) AS "K0SNCB_432",--燃料气
+			     ROUND(IFNULL(sum("K0SNCB_433"),0)/10000,2) AS "K0SNCB_433",--其他燃料
+			     ROUND(IFNULL(sum("K0SNCB_440"),0)/10000,2) AS "K0SNCB_440",--动力
+			     ROUND(IFNULL(sum("K0SNCB_441"),0)/10000,2) AS "K0SNCB_441",--水
+			     ROUND(IFNULL(sum("K0SNCB_442"),0)/10000,2) AS "K0SNCB_442",--电
+			     ROUND(IFNULL(sum("K0SNCB_443"),0)/10000,2) AS "K0SNCB_443",--风
+			     ROUND(IFNULL(sum("K0SNCB_444"),0)/10000,2) AS "K0SNCB_444",--蒸汽
+			     ROUND(IFNULL(sum("K0SNCB_445"),0)/10000,2) AS "K0SNCB_445",--燃气
+			     ROUND(IFNULL(sum("K0SNCB_446"),0)/10000,2) AS "K0SNCB_446",--其他动力
+			     --同比能耗支出
+			     ROUND(IFNULL(sum("K0BNCB_4"),0)/10000,2)
+			     - ROUND(IFNULL(sum("K0SNCB_4"),0)/10000,2)   
+			                                                AS "K0TBCB_4",  --总计
+			     ROUND(IFNULL(sum("K0BNCB_431"),0)/10000,2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_431"),0)/10000,2) 
+			                                                AS "K0TBCB_431",--燃料油
+			     ROUND(IFNULL(sum("K0BNCB_432"),0)/10000,2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_432"),0)/10000,2) 
+			                                                AS "K0TBCB_432",--燃料气
+			     ROUND(IFNULL(sum("K0BNCB_433"),0)/10000,2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_433"),0)/10000,2) 
+			                                                AS "K0TBCB_433",--其他燃料
+			     ROUND(IFNULL(sum("K0BNCB_440"),0)/10000,2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_440"),0)/10000,2) 
+			                                                AS "K0TBCB_440",--动力
+			     ROUND(IFNULL(sum("K0BNCB_441"),0)/10000,2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_441"),0)/10000,2) 
+			                                                AS "K0TBCB_441",--水
+			     ROUND(IFNULL(sum("K0BNCB_442"),0)/10000,2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_442"),0)/10000,2) 
+			                                                AS "K0TBCB_442",--电
+			     ROUND(IFNULL(sum("K0BNCB_443"),0)/10000,2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_443"),0)/10000,2) 
+			                                                AS "K0TBCB_443",--风
+			     ROUND(IFNULL(sum("K0BNCB_444"),0)/10000,2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_444"),0)/10000,2) 
+			                                                AS "K0TBCB_444",--蒸汽
+			     ROUND(IFNULL(sum("K0BNCB_445"),0)/10000,2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_445"),0)/10000,2) 
+			                                                AS "K0TBCB_445",--燃气
+			     ROUND(IFNULL(sum("K0BNCB_446"),0)/10000,2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_446"),0)/10000,2) 
+			                                                AS "K0TBCB_446" --其他动力    
+			FROM 
+			(
+			 SELECT
+			     "G0GSJC",
+			     "G0GSOR",
+			     --本年能耗支出
+			     sum("K0BNCB_4") AS "K0BNCB_4",
+			     sum("K0BNCB_431") AS "K0BNCB_431",
+			     sum("K0BNCB_432") AS "K0BNCB_432",
+			     sum("K0BNCB_433") AS "K0BNCB_433",
+			     sum("K0BNCB_440") AS "K0BNCB_440",
+			     sum("K0BNCB_441") AS "K0BNCB_441",
+			     sum("K0BNCB_442") AS "K0BNCB_442",
+			     sum("K0BNCB_443") AS "K0BNCB_443",
+			     sum("K0BNCB_444") AS "K0BNCB_444",
+			     sum("K0BNCB_445") AS "K0BNCB_445",
+			     sum("K0BNCB_446") AS "K0BNCB_446",
+			     --上年能耗支出
+			     sum("K0SNCB_4") AS "K0SNCB_4",
+			     sum("K0SNCB_431") AS "K0SNCB_431",
+			     sum("K0SNCB_432") AS "K0SNCB_432",
+			     sum("K0SNCB_433") AS "K0SNCB_433",
+			     sum("K0SNCB_440") AS "K0SNCB_440",
+			     sum("K0SNCB_441") AS "K0SNCB_441",
+			     sum("K0SNCB_442") AS "K0SNCB_442",
+			     sum("K0SNCB_443") AS "K0SNCB_443",
+			     sum("K0SNCB_444") AS "K0SNCB_444",
+			     sum("K0SNCB_445") AS "K0SNCB_445",
+			     sum("K0SNCB_446") AS "K0SNCB_446" 
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1018_01"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			     '${month}'),
+			     'PLACEHOLDER' = ('$$PR_GSDM$$',
+			     '${companyCode}')) 
+			GROUP BY  "G0GSJC", "G0GSOR"
+			
+			UNION ALL 
+			
+			 SELECT
+			     '总计'   AS  "G0GSJC",
+			     '0'     AS  "G0GSOR",
+			     --本年能耗支出
+			     sum("K0BNCB_4") AS "K0BNCB_4",
+			     sum("K0BNCB_431") AS "K0BNCB_431",
+			     sum("K0BNCB_432") AS "K0BNCB_432",
+			     sum("K0BNCB_433") AS "K0BNCB_433",
+			     sum("K0BNCB_440") AS "K0BNCB_440",
+			     sum("K0BNCB_441") AS "K0BNCB_441",
+			     sum("K0BNCB_442") AS "K0BNCB_442",
+			     sum("K0BNCB_443") AS "K0BNCB_443",
+			     sum("K0BNCB_444") AS "K0BNCB_444",
+			     sum("K0BNCB_445") AS "K0BNCB_445",
+			     sum("K0BNCB_446") AS "K0BNCB_446",
+			     --上年能耗支出
+			     sum("K0SNCB_4") AS "K0SNCB_4",
+			     sum("K0SNCB_431") AS "K0SNCB_431",
+			     sum("K0SNCB_432") AS "K0SNCB_432",
+			     sum("K0SNCB_433") AS "K0SNCB_433",
+			     sum("K0SNCB_440") AS "K0SNCB_440",
+			     sum("K0SNCB_441") AS "K0SNCB_441",
+			     sum("K0SNCB_442") AS "K0SNCB_442",
+			     sum("K0SNCB_443") AS "K0SNCB_443",
+			     sum("K0SNCB_444") AS "K0SNCB_444",
+			     sum("K0SNCB_445") AS "K0SNCB_445",
+			     sum("K0SNCB_446") AS "K0SNCB_446" 
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1018_01"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			     '${month}'),
+			     'PLACEHOLDER' = ('$$PR_GSDM$$',
+			     '${companyCode}')) 
+			 )
+			 GROUP BY  "G0GSJC", "G0GSOR"
+			 ORDER BY "G0GSOR"
+       </select>
+       
+       <sql id="getNhzctjbData_detail_sql">
+               SELECT
+			     "G0GSJC",
+			    IFNULL("G0XMLXMS",'') as G0XMLXMS ,
+			    IFNULL("G0PROJCODE",'') as G0PROJCODE ,
+			    IFNULL("G0PROJTXT",'') as  G0PROJTXT,
+			     --本年能耗支出
+			     ROUND(IFNULL(sum("K0BNCB_4"),0),2)   AS "K0BNCB_4",  --总计
+			     ROUND(IFNULL(sum("K0BNCB_431"),0),2) AS "K0BNCB_431",--燃料油
+			     ROUND(IFNULL(sum("K0BNCB_432"),0),2) AS "K0BNCB_432",--燃料气
+			     ROUND(IFNULL(sum("K0BNCB_433"),0),2) AS "K0BNCB_433",--其他燃料
+			     ROUND(IFNULL(sum("K0BNCB_440"),0),2) AS "K0BNCB_440",--动力
+			     ROUND(IFNULL(sum("K0BNCB_441"),0),2) AS "K0BNCB_441",--水
+			     ROUND(IFNULL(sum("K0BNCB_442"),0),2) AS "K0BNCB_442",--电
+			     ROUND(IFNULL(sum("K0BNCB_443"),0),2) AS "K0BNCB_443",--风
+			     ROUND(IFNULL(sum("K0BNCB_444"),0),2) AS "K0BNCB_444",--蒸汽
+			     ROUND(IFNULL(sum("K0BNCB_445"),0),2) AS "K0BNCB_445",--燃气
+			     ROUND(IFNULL(sum("K0BNCB_446"),0),2) AS "K0BNCB_446",--其他动力
+			     --上年能耗支出
+			     ROUND(IFNULL(sum("K0SNCB_4"),0),2)   AS "K0SNCB_4",  --总计
+			     ROUND(IFNULL(sum("K0SNCB_431"),0),2) AS "K0SNCB_431",--燃料油
+			     ROUND(IFNULL(sum("K0SNCB_432"),0),2) AS "K0SNCB_432",--燃料气
+			     ROUND(IFNULL(sum("K0SNCB_433"),0),2) AS "K0SNCB_433",--其他燃料
+			     ROUND(IFNULL(sum("K0SNCB_440"),0),2) AS "K0SNCB_440",--动力
+			     ROUND(IFNULL(sum("K0SNCB_441"),0),2) AS "K0SNCB_441",--水
+			     ROUND(IFNULL(sum("K0SNCB_442"),0),2) AS "K0SNCB_442",--电
+			     ROUND(IFNULL(sum("K0SNCB_443"),0),2) AS "K0SNCB_443",--风
+			     ROUND(IFNULL(sum("K0SNCB_444"),0),2) AS "K0SNCB_444",--蒸汽
+			     ROUND(IFNULL(sum("K0SNCB_445"),0),2) AS "K0SNCB_445",--燃气
+			     ROUND(IFNULL(sum("K0SNCB_446"),0),2) AS "K0SNCB_446",--其他动力
+			     --同比能耗支出
+			     ROUND(IFNULL(sum("K0BNCB_4"),0),2)
+			     - ROUND(IFNULL(sum("K0SNCB_4"),0),2)   
+			                                                AS "K0TBCB_4",  --总计
+			     ROUND(IFNULL(sum("K0BNCB_431"),0),2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_431"),0),2) 
+			                                                AS "K0TBCB_431",--燃料油
+			     ROUND(IFNULL(sum("K0BNCB_432"),0),2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_432"),0),2) 
+			                                                AS "K0TBCB_432",--燃料气
+			     ROUND(IFNULL(sum("K0BNCB_433"),0),2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_433"),0),2) 
+			                                                AS "K0TBCB_433",--其他燃料
+			     ROUND(IFNULL(sum("K0BNCB_440"),0),2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_440"),0),2) 
+			                                                AS "K0TBCB_440",--动力
+			     ROUND(IFNULL(sum("K0BNCB_441"),0),2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_441"),0),2) 
+			                                                AS "K0TBCB_441",--水
+			     ROUND(IFNULL(sum("K0BNCB_442"),0),2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_442"),0),2) 
+			                                                AS "K0TBCB_442",--电
+			     ROUND(IFNULL(sum("K0BNCB_443"),0),2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_443"),0),2) 
+			                                                AS "K0TBCB_443",--风
+			     ROUND(IFNULL(sum("K0BNCB_444"),0),2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_444"),0),2) 
+			                                                AS "K0TBCB_444",--蒸汽
+			     ROUND(IFNULL(sum("K0BNCB_445"),0),2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_445"),0),2) 
+			                                                AS "K0TBCB_445",--燃气
+			     ROUND(IFNULL(sum("K0BNCB_446"),0),2)                                           
+			     - ROUND(IFNULL(sum("K0SNCB_446"),0),2) 
+			                                                AS "K0TBCB_446" --其他动力    
+			FROM 
+			(
+			 SELECT
+			     "G0GSJC",
+			     "G0GSOR",
+				"G0XMLXMS",
+		        "G0PROJCODE",
+                "G0PROJTXT",			     
+			     --本年能耗支出
+			     sum("K0BNCB_4") AS "K0BNCB_4",
+			     sum("K0BNCB_431") AS "K0BNCB_431",
+			     sum("K0BNCB_432") AS "K0BNCB_432",
+			     sum("K0BNCB_433") AS "K0BNCB_433",
+			     sum("K0BNCB_440") AS "K0BNCB_440",
+			     sum("K0BNCB_441") AS "K0BNCB_441",
+			     sum("K0BNCB_442") AS "K0BNCB_442",
+			     sum("K0BNCB_443") AS "K0BNCB_443",
+			     sum("K0BNCB_444") AS "K0BNCB_444",
+			     sum("K0BNCB_445") AS "K0BNCB_445",
+			     sum("K0BNCB_446") AS "K0BNCB_446",
+			     --上年能耗支出
+			     sum("K0SNCB_4") AS "K0SNCB_4",
+			     sum("K0SNCB_431") AS "K0SNCB_431",
+			     sum("K0SNCB_432") AS "K0SNCB_432",
+			     sum("K0SNCB_433") AS "K0SNCB_433",
+			     sum("K0SNCB_440") AS "K0SNCB_440",
+			     sum("K0SNCB_441") AS "K0SNCB_441",
+			     sum("K0SNCB_442") AS "K0SNCB_442",
+			     sum("K0SNCB_443") AS "K0SNCB_443",
+			     sum("K0SNCB_444") AS "K0SNCB_444",
+			     sum("K0SNCB_445") AS "K0SNCB_445",
+			     sum("K0SNCB_446") AS "K0SNCB_446" 
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1018_01"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			     '${month}'),
+			     'PLACEHOLDER' = ('$$PR_GSDM$$',
+			     '${companyCode}')) 
+			GROUP BY  "G0GSJC", "G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS" 
+			
+			UNION ALL 
+			
+			 SELECT
+			     '总计'   AS  "G0GSJC",
+			     '0'     AS  "G0GSOR",
+		        null as "G0XMLXMS",
+		        null as "G0PROJCODE",
+                null as "G0PROJTXT",			     
+			     --本年能耗支出
+			     sum("K0BNCB_4") AS "K0BNCB_4",
+			     sum("K0BNCB_431") AS "K0BNCB_431",
+			     sum("K0BNCB_432") AS "K0BNCB_432",
+			     sum("K0BNCB_433") AS "K0BNCB_433",
+			     sum("K0BNCB_440") AS "K0BNCB_440",
+			     sum("K0BNCB_441") AS "K0BNCB_441",
+			     sum("K0BNCB_442") AS "K0BNCB_442",
+			     sum("K0BNCB_443") AS "K0BNCB_443",
+			     sum("K0BNCB_444") AS "K0BNCB_444",
+			     sum("K0BNCB_445") AS "K0BNCB_445",
+			     sum("K0BNCB_446") AS "K0BNCB_446",
+			     --上年能耗支出
+			     sum("K0SNCB_4") AS "K0SNCB_4",
+			     sum("K0SNCB_431") AS "K0SNCB_431",
+			     sum("K0SNCB_432") AS "K0SNCB_432",
+			     sum("K0SNCB_433") AS "K0SNCB_433",
+			     sum("K0SNCB_440") AS "K0SNCB_440",
+			     sum("K0SNCB_441") AS "K0SNCB_441",
+			     sum("K0SNCB_442") AS "K0SNCB_442",
+			     sum("K0SNCB_443") AS "K0SNCB_443",
+			     sum("K0SNCB_444") AS "K0SNCB_444",
+			     sum("K0SNCB_445") AS "K0SNCB_445",
+			     sum("K0SNCB_446") AS "K0SNCB_446" 
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1018_01"
+			(
+			'PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			     '${month}'),
+			     'PLACEHOLDER' = ('$$PR_GSDM$$',
+			     '${companyCode}')
+			     ) 
+			 )
+			 <include refid="selectCondition_zc_detail" />
+			 GROUP BY  "G0GSJC", "G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS" 
+			 ORDER BY "G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS" 	
+       </sql>
+       <select id="getNhzctjbData_detail" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+          	  <include refid="getNhzctjbData_detail_sql"></include>
+             <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>
+      </select>
+      <select id="getNhzctjbData_detail_Count" resultType="int"  parameterType="java.util.Map" >
+         SELECT COUNT(*) FROM( <include refid="getNhzctjbData_detail_sql"></include>)
+      </select>
+      
+      <!-- 项目资金流向分析--> 
+      <select id="getXmzjlxfxData" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+          SELECT
+			  "G0GSJC",
+			  --本年
+			  sum("K0BNYSJHJE") as K0BNYSJHJE,      --本年预算
+			  sum("K0BNKYFPQCB") as K0BNKYFPQCB,     --科研分配前成本-本年
+			  sum("K0BNKYFPHCB") AS K0BNKYFPHCB,     --科研分配后成本-本年
+			  sum( "K0BNGLFPHCB") AS K0BNGLFPHCB,     --管理分配后成本-本年
+			  sum("K0BNGLFPHJECB") AS K0BNGLFPHJECB,   --实际支出合计-本年
+			  sum("K0BNSJCNJE") AS K0BNSJCNJE,      --资金承诺-本年
+			  sum( "K0BNSJDJJE") AS  K0BNSJDJJE,      --定金-本年
+			  sum("K0BNYSJY") AS K0BNYSJY ,          --资金结余-本年
+			  sum("K0BNZJSYBL") AS K0BNZJSYBL,      --资金使用%
+			--累计
+			  sum("K0ZTYSJE") AS K0ZTYSJE,        --总体预算 
+			  sum("K0LJKYFPQCB") AS K0LJKYFPQCB,     --科研分配前成本-累计
+			  sum("K0LJKYFPHCB") AS K0LJKYFPHCB,     --科研分配后成本-累计
+			  sum("K0LJGLFPHCB") AS K0LJGLFPHCB,     --管理分配后成本-累计
+			  sum("K0LJGLFPHJECB") AS K0LJGLFPHJECB,   --实际支出合计-累计
+			  sum("K0LJSJCNJE") AS  K0LJSJCNJE,      --资金承诺-累计
+			  sum("K0LJSJDJJE") AS K0LJSJDJJE ,      --定金-累计
+			  sum( "K0LJYSJY") AS K0LJYSJY,       --资金结余-累计
+			  sum( "K0LJZJSYBL") AS K0LJZJSYBL      --资金使用%--累计
+			FROM
+			(
+			                SELECT
+							"G0GSJC",
+							"G0GSOR" AS "G0GSOR",
+						     --本年
+						     0                         AS "K0BNYSJHJE",      --本年预算
+						     ROUND(IFNULL(sum("K0BNKYFPQCB"),0)/10000,2)        AS "K0BNKYFPQCB",     --科研分配前成本-本年
+						     ROUND(IFNULL(sum("K0BNKYFPHCB"),0)/10000,2)        AS "K0BNKYFPHCB",     --科研分配后成本-本年
+						     ROUND(IFNULL(sum("K0BNGLFPHCB"),0)/10000,2)        AS "K0BNGLFPHCB",     --管理分配后成本-本年
+						     ROUND(IFNULL(sum("K0BNGLFPHJECB"),0)/10000,2)      AS "K0BNGLFPHJECB",   --实际支出合计-本年
+						     ROUND(IFNULL(sum("K0BNSJCNJE"),0)/10000,2)         AS "K0BNSJCNJE",      --资金承诺-本年
+						     ROUND(IFNULL(sum("K0BNSJDJJE"),0)/10000,2)         AS "K0BNSJDJJE",      --定金-本年
+						     0                         AS "K0BNYSJY",          --资金结余-本年
+						     0                         AS "K0BNZJSYBL",      --资金使用%
+						    --累计
+						     0                         AS "K0ZTYSJE",        --总体预算 
+						     ROUND(IFNULL(sum("K0LJKYFPQCB"),0)/10000,2)        AS "K0LJKYFPQCB",     --科研分配前成本-累计
+						     ROUND(IFNULL(sum("K0LJKYFPHCB"),0)/10000,2)        AS "K0LJKYFPHCB",     --科研分配后成本-累计
+						     ROUND(IFNULL(sum("K0LJGLFPHCB"),0)/10000,2)        AS "K0LJGLFPHCB",     --管理分配后成本-累计
+						     ROUND(IFNULL(sum("K0LJGLFPHJECB"),0)/10000,2)      AS "K0LJGLFPHJECB",   --实际支出合计-累计
+						     ROUND(IFNULL(sum("K0LJSJCNJE"),0)/10000,2)         AS "K0LJSJCNJE",      --资金承诺-累计
+						     ROUND(IFNULL(sum("K0LJSJDJJE"),0)/10000,2)         AS "K0LJSJDJJE",      --定金-累计
+						     0                         AS "K0LJYSJY",          --资金结余-累计
+						     0                         AS "K0LJZJSYBL"       --资金使用%--累计
+						FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1017_01"
+						(
+						'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+						'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+						) 
+					GROUP BY   "G0GSJC", "G0GSOR"
+			        UNION ALL 
+			                 SELECT
+							'合计' as "G0GSJC",
+							'0'    as  "G0GSOR",
+						     --本年
+						     0                         AS "K0BNYSJHJE",      --本年预算
+						     ROUND(IFNULL(sum("K0BNKYFPQCB"),0)/10000,2)        AS "K0BNKYFPQCB",     --科研分配前成本-本年
+						     ROUND(IFNULL(sum("K0BNKYFPHCB"),0)/10000,2)        AS "K0BNKYFPHCB",     --科研分配后成本-本年
+						     ROUND(IFNULL(sum("K0BNGLFPHCB"),0)/10000,2)        AS "K0BNGLFPHCB",     --管理分配后成本-本年
+						     ROUND(IFNULL(sum("K0BNGLFPHJECB"),0)/10000,2)      AS "K0BNGLFPHJECB",   --实际支出合计-本年
+						     ROUND(IFNULL(sum("K0BNSJCNJE"),0)/10000,2)         AS "K0BNSJCNJE",      --资金承诺-本年
+						     ROUND(IFNULL(sum("K0BNSJDJJE"),0)/10000,2)         AS "K0BNSJDJJE",      --定金-本年
+						     0                         AS "K0BNYSJY",          --资金结余-本年
+						     0                         AS "K0BNZJSYBL",      --资金使用%
+						    --累计
+						     0                         AS "K0ZTYSJE",        --总体预算 
+						     ROUND(IFNULL(sum("K0LJKYFPQCB"),0)/10000,2)        AS "K0LJKYFPQCB",     --科研分配前成本-累计
+						     ROUND(IFNULL(sum("K0LJKYFPHCB"),0)/10000,2)        AS "K0LJKYFPHCB",     --科研分配后成本-累计
+						     ROUND(IFNULL(sum("K0LJGLFPHCB"),0)/10000,2)        AS "K0LJGLFPHCB",     --管理分配后成本-累计
+						     ROUND(IFNULL(sum("K0LJGLFPHJECB"),0)/10000,2)      AS "K0LJGLFPHJECB",   --实际支出合计-累计
+						     ROUND(IFNULL(sum("K0LJSJCNJE"),0)/10000,2)         AS "K0LJSJCNJE",      --资金承诺-累计
+						     ROUND(IFNULL(sum("K0LJSJDJJE"),0)/10000,2)         AS "K0LJSJDJJE",      --定金-累计
+						     0                         AS "K0LJYSJY",          --资金结余-累计
+						     0                         AS "K0LJZJSYBL"       --资金使用%--累计
+						FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1017_01"
+						(
+						'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+						'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+						) 
+					GROUP BY   "G0GSJC", "G0GSOR"       
+			)GROUP BY   "G0GSJC", "G0GSOR"  
+			ORDER BY  "G0GSOR"  
+          
+      </select>
+      
+      
+      <sql id="getXmzjlxfxData_sql">
+           SELECT
+			  "G0GSJC",
+			IFNULL("G0XMLXMS",'') as G0XMLXMS,
+			IFNULL("G0PROJCODE",'') as G0PROJCODE ,
+			IFNULL("G0PROJTXT",'')  as G0PROJTXT,
+			 --本年
+			  sum("K0BNYSJHJE")    as K0BNYSJHJE,      --本年预算
+			  sum("K0BNKYFPQCB")   as K0BNKYFPQCB,     --科研分配前成本-本年
+			  sum("K0BNKYFPHCB")   as K0BNKYFPHCB,     --科研分配后成本-本年
+			  sum( "K0BNGLFPHCB")  as K0BNGLFPHCB,     --管理分配后成本-本年
+			  sum("K0BNGLFPHJECB") as K0BNGLFPHJECB,   --实际支出合计-本年
+			  sum("K0BNSJCNJE")    as K0BNSJCNJE,      --资金承诺-本年
+			  sum("K0BNSJDJJE")    as K0BNSJDJJE,      --定金-本年
+			  sum("K0BNYSJY")      as K0BNYSJY,          --资金结余-本年
+			  sum("K0BNZJSYBL")    as K0BNZJSYBL,      --资金使用%
+			--累计
+			  sum("K0ZTYSJE")      as K0ZTYSJE,        --总体预算 
+			  sum("K0LJKYFPQCB")   as K0LJKYFPQCB,     --科研分配前成本-累计
+			  sum("K0LJKYFPHCB")   as K0LJKYFPHCB,     --科研分配后成本-累计
+			  sum("K0LJGLFPHCB")   as K0LJGLFPHCB,     --管理分配后成本-累计
+			  sum("K0LJGLFPHJECB") as K0LJGLFPHJECB,   --实际支出合计-累计
+			  sum("K0LJSJCNJE")    as K0LJSJCNJE,      --资金承诺-累计
+			  sum("K0LJSJDJJE")    as K0LJSJDJJE,      --定金-累计
+			  sum( "K0LJYSJY")     as K0LJYSJY,       --资金结余-累计
+			  sum( "K0LJZJSYBL")   as  K0LJZJSYBL     --资金使用%--累计
+			FROM
+			(
+			                SELECT
+							"G0GSJC",
+							"G0GSOR" AS "G0GSOR",
+							"G0XMLXMS",
+					        "G0PROJCODE",
+	                        "G0PROJTXT",
+						     --本年
+						     0                         AS "K0BNYSJHJE",      --本年预算
+						     ROUND(IFNULL(sum("K0BNKYFPQCB"),0)/10000,2)        AS "K0BNKYFPQCB",     --科研分配前成本-本年
+						     ROUND(IFNULL(sum("K0BNKYFPHCB"),0)/10000,2)        AS "K0BNKYFPHCB",     --科研分配后成本-本年
+						     ROUND(IFNULL(sum("K0BNGLFPHCB"),0)/10000,2)        AS "K0BNGLFPHCB",     --管理分配后成本-本年
+						     ROUND(IFNULL(sum("K0BNGLFPHJECB"),0)/10000,2)      AS "K0BNGLFPHJECB",   --实际支出合计-本年
+						     ROUND(IFNULL(sum("K0BNSJCNJE"),0)/10000,2)         AS "K0BNSJCNJE",      --资金承诺-本年
+						     ROUND(IFNULL(sum("K0BNSJDJJE"),0)/10000,2)         AS "K0BNSJDJJE",      --定金-本年
+						     0                         AS "K0BNYSJY",          --资金结余-本年
+						     0                         AS "K0BNZJSYBL",      --资金使用%
+						    --累计
+						     0                         AS "K0ZTYSJE",        --总体预算 
+						     ROUND(IFNULL(sum("K0LJKYFPQCB"),0)/10000,2)        AS "K0LJKYFPQCB",     --科研分配前成本-累计
+						     ROUND(IFNULL(sum("K0LJKYFPHCB"),0)/10000,2)        AS "K0LJKYFPHCB",     --科研分配后成本-累计
+						     ROUND(IFNULL(sum("K0LJGLFPHCB"),0)/10000,2)        AS "K0LJGLFPHCB",     --管理分配后成本-累计
+						     ROUND(IFNULL(sum("K0LJGLFPHJECB"),0)/10000,2)      AS "K0LJGLFPHJECB",   --实际支出合计-累计
+						     ROUND(IFNULL(sum("K0LJSJCNJE"),0)/10000,2)         AS "K0LJSJCNJE",      --资金承诺-累计
+						     ROUND(IFNULL(sum("K0LJSJDJJE"),0)/10000,2)         AS "K0LJSJDJJE",      --定金-累计
+						     0                         AS "K0LJYSJY",          --资金结余-累计
+						     0                         AS "K0LJZJSYBL"       --资金使用%--累计
+						FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1017_01"
+						(
+						'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+						'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+						) 
+					GROUP BY   "G0GSJC", "G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS"
+			        UNION ALL 
+			                 SELECT
+							'合计' as "G0GSJC",
+							'0'    as  "G0GSOR",
+					        null as "G0XMLXMS",
+					        null as "G0PROJCODE",
+	                        null as "G0PROJTXT",							
+						     --本年
+						     0                         AS "K0BNYSJHJE",      --本年预算
+						     ROUND(IFNULL(sum("K0BNKYFPQCB"),0)/10000,2)        AS "K0BNKYFPQCB",     --科研分配前成本-本年
+						     ROUND(IFNULL(sum("K0BNKYFPHCB"),0)/10000,2)        AS "K0BNKYFPHCB",     --科研分配后成本-本年
+						     ROUND(IFNULL(sum("K0BNGLFPHCB"),0)/10000,2)        AS "K0BNGLFPHCB",     --管理分配后成本-本年
+						     ROUND(IFNULL(sum("K0BNGLFPHJECB"),0)/10000,2)      AS "K0BNGLFPHJECB",   --实际支出合计-本年
+						     ROUND(IFNULL(sum("K0BNSJCNJE"),0)/10000,2)         AS "K0BNSJCNJE",      --资金承诺-本年
+						     ROUND(IFNULL(sum("K0BNSJDJJE"),0)/10000,2)         AS "K0BNSJDJJE",      --定金-本年
+						     0                         AS "K0BNYSJY",          --资金结余-本年
+						     0                         AS "K0BNZJSYBL",      --资金使用%
+						    --累计
+						     0                         AS "K0ZTYSJE",        --总体预算 
+						     ROUND(IFNULL(sum("K0LJKYFPQCB"),0)/10000,2)        AS "K0LJKYFPQCB",     --科研分配前成本-累计
+						     ROUND(IFNULL(sum("K0LJKYFPHCB"),0)/10000,2)        AS "K0LJKYFPHCB",     --科研分配后成本-累计
+						     ROUND(IFNULL(sum("K0LJGLFPHCB"),0)/10000,2)        AS "K0LJGLFPHCB",     --管理分配后成本-累计
+						     ROUND(IFNULL(sum("K0LJGLFPHJECB"),0)/10000,2)      AS "K0LJGLFPHJECB",   --实际支出合计-累计
+						     ROUND(IFNULL(sum("K0LJSJCNJE"),0)/10000,2)         AS "K0LJSJCNJE",      --资金承诺-累计
+						     ROUND(IFNULL(sum("K0LJSJDJJE"),0)/10000,2)         AS "K0LJSJDJJE",      --定金-累计
+						     0                         AS "K0LJYSJY",          --资金结余-累计
+						     0                         AS "K0LJZJSYBL"       --资金使用%--累计
+						FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1017_01"
+						(
+						'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+						'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+						) 
+					GROUP BY   "G0GSJC", "G0GSOR" ,"G0PROJCODE","G0PROJTXT","G0XMLXMS"      
+			)
+			<include refid="selectCondition_zc_detail" />
+			GROUP BY   "G0GSJC", "G0GSOR" ,"G0PROJCODE","G0PROJTXT","G0XMLXMS" 
+			ORDER BY  "G0GSOR","G0PROJCODE","G0PROJTXT","G0XMLXMS" 	
+      
+      </sql>
+	  <select id="getXmzjlxfxData_detail" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+            	<include refid="getXmzjlxfxData_sql"></include>
+                <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>
+      </select>
+      
+      
+      <select id="getXmzjlxfxData_detail_Count" resultType="int"  parameterType="java.util.Map" >
+         SELECT COUNT(*) FROM( <include refid="getXmzjlxfxData_sql"></include>)
+      </select>
+	  
+     
+</mapper>

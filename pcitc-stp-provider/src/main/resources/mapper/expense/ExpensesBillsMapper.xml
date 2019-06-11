@@ -1,0 +1,766 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.expenses.ExpensesBillsMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.expenses.ExpensesBills">
+    <id column="data_id" jdbcType="VARCHAR" property="dataId" />
+    <result column="billTypeCode" jdbcType="VARCHAR" property="billtypecode" />
+    <result column="billTypeName" jdbcType="VARCHAR" property="billtypename" />
+    <result column="billCode" jdbcType="VARCHAR" property="billcode" />
+    <result column="applyDate" jdbcType="VARCHAR" property="applydate" />
+    <result column="compCode" jdbcType="VARCHAR" property="compcode" />
+    <result column="compName" jdbcType="VARCHAR" property="compname" />
+    <result column="apprOrgName" jdbcType="VARCHAR" property="approrgname" />
+    <result column="apprOrgCode" jdbcType="VARCHAR" property="approrgcode" />
+    <result column="costCentName" jdbcType="VARCHAR" property="costcentname" />
+    <result column="costCentCode" jdbcType="VARCHAR" property="costcentcode" />
+    <result column="applyEmpId" jdbcType="VARCHAR" property="applyempid" />
+    <result column="applyEmpName" jdbcType="VARCHAR" property="applyempname" />
+    <result column="reimCode" jdbcType="VARCHAR" property="reimcode" />
+    <result column="reimName" jdbcType="VARCHAR" property="reimname" />
+    <result column="accoObjValueDesc" jdbcType="VARCHAR" property="accoobjvaluedesc" />
+    <result column="accoObjValue" jdbcType="VARCHAR" property="accoobjvalue" />
+    <result column="billAmount" jdbcType="VARCHAR" property="billamount" />
+    <result column="investment" jdbcType="VARCHAR" property="investment" />
+    <result column="deductionAmount" jdbcType="VARCHAR" property="deductionamount" />
+    <result column="data_code" jdbcType="VARCHAR" property="dataCode" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_user_id" jdbcType="VARCHAR" property="createUserId" />
+    <result column="create_date" jdbcType="VARCHAR" property="createDate" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_date" jdbcType="VARCHAR" property="updateDate" />
+    <result column="sts" jdbcType="VARCHAR" property="sts" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="bak1" jdbcType="VARCHAR" property="bak1" />
+    <result column="bak2" jdbcType="VARCHAR" property="bak2" />
+    <result column="bak3" jdbcType="VARCHAR" property="bak3" />
+    <result column="bak4" jdbcType="VARCHAR" property="bak4" />
+    <result column="bak5" jdbcType="VARCHAR" property="bak5" />
+    <result column="bak6" jdbcType="VARCHAR" property="bak6" />
+    <result column="bak7" jdbcType="VARCHAR" property="bak7" />
+    <result column="bak8" jdbcType="VARCHAR" property="bak8" />
+    <result column="bak9" jdbcType="VARCHAR" property="bak9" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    data_id, billTypeCode, billTypeName, billCode, applyDate, compCode, compName, apprOrgName, 
+    apprOrgCode, costCentName, costCentCode, applyEmpId, applyEmpName, reimCode, reimName, 
+    accoObjValueDesc, accoObjValue, billAmount, investment, deductionAmount, data_code, 
+    create_user, create_user_id, create_date, update_user, update_date, sts, remarks, 
+    bak1, bak2, bak3, bak4, bak5, bak6, bak7, bak8, bak9
+  </sql>
+  <select id="selectByExample" parameterType="com.pcitc.base.stp.expenses.ExpensesBillsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from expenses_bills
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from expenses_bills
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from expenses_bills
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.expenses.ExpensesBillsExample">
+    delete from expenses_bills
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.expenses.ExpensesBills">
+    insert into expenses_bills (data_id, billTypeCode, billTypeName, 
+      billCode, applyDate, compCode, 
+      compName, apprOrgName, apprOrgCode, 
+      costCentName, costCentCode, applyEmpId, 
+      applyEmpName, reimCode, reimName, 
+      accoObjValueDesc, accoObjValue, billAmount, 
+      investment, deductionAmount, data_code, 
+      create_user, create_user_id, create_date, 
+      update_user, update_date, sts, 
+      remarks, bak1, bak2, 
+      bak3, bak4, bak5, bak6, 
+      bak7, bak8, bak9)
+    values (#{dataId,jdbcType=VARCHAR}, #{billtypecode,jdbcType=VARCHAR}, #{billtypename,jdbcType=VARCHAR}, 
+      #{billcode,jdbcType=VARCHAR}, #{applydate,jdbcType=VARCHAR}, #{compcode,jdbcType=VARCHAR}, 
+      #{compname,jdbcType=VARCHAR}, #{approrgname,jdbcType=VARCHAR}, #{approrgcode,jdbcType=VARCHAR}, 
+      #{costcentname,jdbcType=VARCHAR}, #{costcentcode,jdbcType=VARCHAR}, #{applyempid,jdbcType=VARCHAR}, 
+      #{applyempname,jdbcType=VARCHAR}, #{reimcode,jdbcType=VARCHAR}, #{reimname,jdbcType=VARCHAR}, 
+      #{accoobjvaluedesc,jdbcType=VARCHAR}, #{accoobjvalue,jdbcType=VARCHAR}, #{billamount,jdbcType=VARCHAR}, 
+      #{investment,jdbcType=VARCHAR}, #{deductionamount,jdbcType=VARCHAR}, #{dataCode,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, 
+      #{updateUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=VARCHAR}, #{sts,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{bak1,jdbcType=VARCHAR}, #{bak2,jdbcType=VARCHAR}, 
+      #{bak3,jdbcType=VARCHAR}, #{bak4,jdbcType=VARCHAR}, #{bak5,jdbcType=VARCHAR}, #{bak6,jdbcType=VARCHAR}, 
+      #{bak7,jdbcType=VARCHAR}, #{bak8,jdbcType=VARCHAR}, #{bak9,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.expenses.ExpensesBills">
+    insert into expenses_bills
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        data_id,
+      </if>
+      <if test="billtypecode != null">
+        billTypeCode,
+      </if>
+      <if test="billtypename != null">
+        billTypeName,
+      </if>
+      <if test="billcode != null">
+        billCode,
+      </if>
+      <if test="applydate != null">
+        applyDate,
+      </if>
+      <if test="compcode != null">
+        compCode,
+      </if>
+      <if test="compname != null">
+        compName,
+      </if>
+      <if test="approrgname != null">
+        apprOrgName,
+      </if>
+      <if test="approrgcode != null">
+        apprOrgCode,
+      </if>
+      <if test="costcentname != null">
+        costCentName,
+      </if>
+      <if test="costcentcode != null">
+        costCentCode,
+      </if>
+      <if test="applyempid != null">
+        applyEmpId,
+      </if>
+      <if test="applyempname != null">
+        applyEmpName,
+      </if>
+      <if test="reimcode != null">
+        reimCode,
+      </if>
+      <if test="reimname != null">
+        reimName,
+      </if>
+      <if test="accoobjvaluedesc != null">
+        accoObjValueDesc,
+      </if>
+      <if test="accoobjvalue != null">
+        accoObjValue,
+      </if>
+      <if test="billamount != null">
+        billAmount,
+      </if>
+      <if test="investment != null">
+        investment,
+      </if>
+      <if test="deductionamount != null">
+        deductionAmount,
+      </if>
+      <if test="dataCode != null">
+        data_code,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="sts != null">
+        sts,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="bak1 != null">
+        bak1,
+      </if>
+      <if test="bak2 != null">
+        bak2,
+      </if>
+      <if test="bak3 != null">
+        bak3,
+      </if>
+      <if test="bak4 != null">
+        bak4,
+      </if>
+      <if test="bak5 != null">
+        bak5,
+      </if>
+      <if test="bak6 != null">
+        bak6,
+      </if>
+      <if test="bak7 != null">
+        bak7,
+      </if>
+      <if test="bak8 != null">
+        bak8,
+      </if>
+      <if test="bak9 != null">
+        bak9,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        #{dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="billtypecode != null">
+        #{billtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="billtypename != null">
+        #{billtypename,jdbcType=VARCHAR},
+      </if>
+      <if test="billcode != null">
+        #{billcode,jdbcType=VARCHAR},
+      </if>
+      <if test="applydate != null">
+        #{applydate,jdbcType=VARCHAR},
+      </if>
+      <if test="compcode != null">
+        #{compcode,jdbcType=VARCHAR},
+      </if>
+      <if test="compname != null">
+        #{compname,jdbcType=VARCHAR},
+      </if>
+      <if test="approrgname != null">
+        #{approrgname,jdbcType=VARCHAR},
+      </if>
+      <if test="approrgcode != null">
+        #{approrgcode,jdbcType=VARCHAR},
+      </if>
+      <if test="costcentname != null">
+        #{costcentname,jdbcType=VARCHAR},
+      </if>
+      <if test="costcentcode != null">
+        #{costcentcode,jdbcType=VARCHAR},
+      </if>
+      <if test="applyempid != null">
+        #{applyempid,jdbcType=VARCHAR},
+      </if>
+      <if test="applyempname != null">
+        #{applyempname,jdbcType=VARCHAR},
+      </if>
+      <if test="reimcode != null">
+        #{reimcode,jdbcType=VARCHAR},
+      </if>
+      <if test="reimname != null">
+        #{reimname,jdbcType=VARCHAR},
+      </if>
+      <if test="accoobjvaluedesc != null">
+        #{accoobjvaluedesc,jdbcType=VARCHAR},
+      </if>
+      <if test="accoobjvalue != null">
+        #{accoobjvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="billamount != null">
+        #{billamount,jdbcType=VARCHAR},
+      </if>
+      <if test="investment != null">
+        #{investment,jdbcType=VARCHAR},
+      </if>
+      <if test="deductionamount != null">
+        #{deductionamount,jdbcType=VARCHAR},
+      </if>
+      <if test="dataCode != null">
+        #{dataCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="sts != null">
+        #{sts,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="bak1 != null">
+        #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null">
+        #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="bak3 != null">
+        #{bak3,jdbcType=VARCHAR},
+      </if>
+      <if test="bak4 != null">
+        #{bak4,jdbcType=VARCHAR},
+      </if>
+      <if test="bak5 != null">
+        #{bak5,jdbcType=VARCHAR},
+      </if>
+      <if test="bak6 != null">
+        #{bak6,jdbcType=VARCHAR},
+      </if>
+      <if test="bak7 != null">
+        #{bak7,jdbcType=VARCHAR},
+      </if>
+      <if test="bak8 != null">
+        #{bak8,jdbcType=VARCHAR},
+      </if>
+      <if test="bak9 != null">
+        #{bak9,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.stp.expenses.ExpensesBillsExample" resultType="java.lang.Long">
+    select count(*) from expenses_bills
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update expenses_bills
+    <set>
+      <if test="record.dataId != null">
+        data_id = #{record.dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.billtypecode != null">
+        billTypeCode = #{record.billtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.billtypename != null">
+        billTypeName = #{record.billtypename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.billcode != null">
+        billCode = #{record.billcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applydate != null">
+        applyDate = #{record.applydate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.compcode != null">
+        compCode = #{record.compcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.compname != null">
+        compName = #{record.compname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.approrgname != null">
+        apprOrgName = #{record.approrgname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.approrgcode != null">
+        apprOrgCode = #{record.approrgcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.costcentname != null">
+        costCentName = #{record.costcentname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.costcentcode != null">
+        costCentCode = #{record.costcentcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applyempid != null">
+        applyEmpId = #{record.applyempid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applyempname != null">
+        applyEmpName = #{record.applyempname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reimcode != null">
+        reimCode = #{record.reimcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reimname != null">
+        reimName = #{record.reimname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accoobjvaluedesc != null">
+        accoObjValueDesc = #{record.accoobjvaluedesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accoobjvalue != null">
+        accoObjValue = #{record.accoobjvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.billamount != null">
+        billAmount = #{record.billamount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.investment != null">
+        investment = #{record.investment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deductionamount != null">
+        deductionAmount = #{record.deductionamount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataCode != null">
+        data_code = #{record.dataCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserId != null">
+        create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null">
+        update_date = #{record.updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sts != null">
+        sts = #{record.sts,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null">
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak1 != null">
+        bak1 = #{record.bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak2 != null">
+        bak2 = #{record.bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak3 != null">
+        bak3 = #{record.bak3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak4 != null">
+        bak4 = #{record.bak4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak5 != null">
+        bak5 = #{record.bak5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak6 != null">
+        bak6 = #{record.bak6,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak7 != null">
+        bak7 = #{record.bak7,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak8 != null">
+        bak8 = #{record.bak8,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak9 != null">
+        bak9 = #{record.bak9,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update expenses_bills
+    set data_id = #{record.dataId,jdbcType=VARCHAR},
+      billTypeCode = #{record.billtypecode,jdbcType=VARCHAR},
+      billTypeName = #{record.billtypename,jdbcType=VARCHAR},
+      billCode = #{record.billcode,jdbcType=VARCHAR},
+      applyDate = #{record.applydate,jdbcType=VARCHAR},
+      compCode = #{record.compcode,jdbcType=VARCHAR},
+      compName = #{record.compname,jdbcType=VARCHAR},
+      apprOrgName = #{record.approrgname,jdbcType=VARCHAR},
+      apprOrgCode = #{record.approrgcode,jdbcType=VARCHAR},
+      costCentName = #{record.costcentname,jdbcType=VARCHAR},
+      costCentCode = #{record.costcentcode,jdbcType=VARCHAR},
+      applyEmpId = #{record.applyempid,jdbcType=VARCHAR},
+      applyEmpName = #{record.applyempname,jdbcType=VARCHAR},
+      reimCode = #{record.reimcode,jdbcType=VARCHAR},
+      reimName = #{record.reimname,jdbcType=VARCHAR},
+      accoObjValueDesc = #{record.accoobjvaluedesc,jdbcType=VARCHAR},
+      accoObjValue = #{record.accoobjvalue,jdbcType=VARCHAR},
+      billAmount = #{record.billamount,jdbcType=VARCHAR},
+      investment = #{record.investment,jdbcType=VARCHAR},
+      deductionAmount = #{record.deductionamount,jdbcType=VARCHAR},
+      data_code = #{record.dataCode,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=VARCHAR},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=VARCHAR},
+      sts = #{record.sts,jdbcType=VARCHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      bak1 = #{record.bak1,jdbcType=VARCHAR},
+      bak2 = #{record.bak2,jdbcType=VARCHAR},
+      bak3 = #{record.bak3,jdbcType=VARCHAR},
+      bak4 = #{record.bak4,jdbcType=VARCHAR},
+      bak5 = #{record.bak5,jdbcType=VARCHAR},
+      bak6 = #{record.bak6,jdbcType=VARCHAR},
+      bak7 = #{record.bak7,jdbcType=VARCHAR},
+      bak8 = #{record.bak8,jdbcType=VARCHAR},
+      bak9 = #{record.bak9,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.expenses.ExpensesBills">
+    update expenses_bills
+    <set>
+      <if test="billtypecode != null">
+        billTypeCode = #{billtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="billtypename != null">
+        billTypeName = #{billtypename,jdbcType=VARCHAR},
+      </if>
+      <if test="billcode != null">
+        billCode = #{billcode,jdbcType=VARCHAR},
+      </if>
+      <if test="applydate != null">
+        applyDate = #{applydate,jdbcType=VARCHAR},
+      </if>
+      <if test="compcode != null">
+        compCode = #{compcode,jdbcType=VARCHAR},
+      </if>
+      <if test="compname != null">
+        compName = #{compname,jdbcType=VARCHAR},
+      </if>
+      <if test="approrgname != null">
+        apprOrgName = #{approrgname,jdbcType=VARCHAR},
+      </if>
+      <if test="approrgcode != null">
+        apprOrgCode = #{approrgcode,jdbcType=VARCHAR},
+      </if>
+      <if test="costcentname != null">
+        costCentName = #{costcentname,jdbcType=VARCHAR},
+      </if>
+      <if test="costcentcode != null">
+        costCentCode = #{costcentcode,jdbcType=VARCHAR},
+      </if>
+      <if test="applyempid != null">
+        applyEmpId = #{applyempid,jdbcType=VARCHAR},
+      </if>
+      <if test="applyempname != null">
+        applyEmpName = #{applyempname,jdbcType=VARCHAR},
+      </if>
+      <if test="reimcode != null">
+        reimCode = #{reimcode,jdbcType=VARCHAR},
+      </if>
+      <if test="reimname != null">
+        reimName = #{reimname,jdbcType=VARCHAR},
+      </if>
+      <if test="accoobjvaluedesc != null">
+        accoObjValueDesc = #{accoobjvaluedesc,jdbcType=VARCHAR},
+      </if>
+      <if test="accoobjvalue != null">
+        accoObjValue = #{accoobjvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="billamount != null">
+        billAmount = #{billamount,jdbcType=VARCHAR},
+      </if>
+      <if test="investment != null">
+        investment = #{investment,jdbcType=VARCHAR},
+      </if>
+      <if test="deductionamount != null">
+        deductionAmount = #{deductionamount,jdbcType=VARCHAR},
+      </if>
+      <if test="dataCode != null">
+        data_code = #{dataCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="sts != null">
+        sts = #{sts,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="bak1 != null">
+        bak1 = #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null">
+        bak2 = #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="bak3 != null">
+        bak3 = #{bak3,jdbcType=VARCHAR},
+      </if>
+      <if test="bak4 != null">
+        bak4 = #{bak4,jdbcType=VARCHAR},
+      </if>
+      <if test="bak5 != null">
+        bak5 = #{bak5,jdbcType=VARCHAR},
+      </if>
+      <if test="bak6 != null">
+        bak6 = #{bak6,jdbcType=VARCHAR},
+      </if>
+      <if test="bak7 != null">
+        bak7 = #{bak7,jdbcType=VARCHAR},
+      </if>
+      <if test="bak8 != null">
+        bak8 = #{bak8,jdbcType=VARCHAR},
+      </if>
+      <if test="bak9 != null">
+        bak9 = #{bak9,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.expenses.ExpensesBills">
+    update expenses_bills
+    set billTypeCode = #{billtypecode,jdbcType=VARCHAR},
+      billTypeName = #{billtypename,jdbcType=VARCHAR},
+      billCode = #{billcode,jdbcType=VARCHAR},
+      applyDate = #{applydate,jdbcType=VARCHAR},
+      compCode = #{compcode,jdbcType=VARCHAR},
+      compName = #{compname,jdbcType=VARCHAR},
+      apprOrgName = #{approrgname,jdbcType=VARCHAR},
+      apprOrgCode = #{approrgcode,jdbcType=VARCHAR},
+      costCentName = #{costcentname,jdbcType=VARCHAR},
+      costCentCode = #{costcentcode,jdbcType=VARCHAR},
+      applyEmpId = #{applyempid,jdbcType=VARCHAR},
+      applyEmpName = #{applyempname,jdbcType=VARCHAR},
+      reimCode = #{reimcode,jdbcType=VARCHAR},
+      reimName = #{reimname,jdbcType=VARCHAR},
+      accoObjValueDesc = #{accoobjvaluedesc,jdbcType=VARCHAR},
+      accoObjValue = #{accoobjvalue,jdbcType=VARCHAR},
+      billAmount = #{billamount,jdbcType=VARCHAR},
+      investment = #{investment,jdbcType=VARCHAR},
+      deductionAmount = #{deductionamount,jdbcType=VARCHAR},
+      data_code = #{dataCode,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=VARCHAR},
+      sts = #{sts,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      bak1 = #{bak1,jdbcType=VARCHAR},
+      bak2 = #{bak2,jdbcType=VARCHAR},
+      bak3 = #{bak3,jdbcType=VARCHAR},
+      bak4 = #{bak4,jdbcType=VARCHAR},
+      bak5 = #{bak5,jdbcType=VARCHAR},
+      bak6 = #{bak6,jdbcType=VARCHAR},
+      bak7 = #{bak7,jdbcType=VARCHAR},
+      bak8 = #{bak8,jdbcType=VARCHAR},
+      bak9 = #{bak9,jdbcType=VARCHAR}
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 查询最大更新时间 -->
+  <select id="selectMaxUpdate" resultType="string">
+      select max(update_date) from expenses_bills
+  </select>
+  
+  <!-- 批量插入数据 -->
+	<insert id="insertExpensesBillsBatch" parameterType="java.util.List">
+		insert into expenses_bills (data_id, billTypeCode, billTypeName, 
+	      billCode, applyDate, compCode, 
+	      compName, apprOrgName, apprOrgCode, 
+	      costCentName, costCentCode, applyEmpId, 
+	      applyEmpName, reimCode, reimName, 
+	      accoObjValueDesc, accoObjValue, billAmount, 
+	      investment, deductionAmount, data_code, 
+	      create_user, create_user_id, create_date, 
+	      update_user, update_date, sts, 
+	      remarks, bak1, bak2, 
+	      bak3, bak4, bak5, bak6, 
+	      bak7, bak8, bak9)
+	    values 
+	    <foreach collection="list" item="exObject" index="index" separator=",">
+		    (#{exObject.dataId,jdbcType=VARCHAR}, #{exObject.billtypecode,jdbcType=VARCHAR}, 
+		      #{exObject.billtypename,jdbcType=VARCHAR}, #{exObject.billcode,jdbcType=VARCHAR}, 
+		      #{exObject.applydate,jdbcType=VARCHAR}, #{exObject.compcode,jdbcType=VARCHAR}, 
+		      #{exObject.compname,jdbcType=VARCHAR}, #{exObject.approrgname,jdbcType=VARCHAR}, 
+		      #{exObject.approrgcode,jdbcType=VARCHAR}, #{exObject.costcentname,jdbcType=VARCHAR}, 
+		      #{exObject.costcentcode,jdbcType=VARCHAR}, #{exObject.applyempid,jdbcType=VARCHAR}, 
+		      #{exObject.applyempname,jdbcType=VARCHAR}, #{exObject.reimcode,jdbcType=VARCHAR}, 
+		      #{exObject.reimname,jdbcType=VARCHAR}, #{exObject.accoobjvaluedesc,jdbcType=VARCHAR}, 
+		      #{exObject.accoobjvalue,jdbcType=VARCHAR}, #{exObject.billamount,jdbcType=VARCHAR}, 
+		      #{exObject.investment,jdbcType=VARCHAR}, #{exObject.deductionamount,jdbcType=VARCHAR}, 
+		      #{exObject.dataCode,jdbcType=VARCHAR}, #{exObject.createUser,jdbcType=VARCHAR}, 
+		      #{exObject.createUserId,jdbcType=VARCHAR}, #{exObject.createDate,jdbcType=VARCHAR}, 
+		      #{exObject.updateUser,jdbcType=VARCHAR}, #{exObject.updateDate,jdbcType=VARCHAR}, 
+		      #{exObject.sts,jdbcType=VARCHAR}, #{exObject.remarks,jdbcType=VARCHAR}, 
+		      #{exObject.bak1,jdbcType=VARCHAR}, #{exObject.bak2,jdbcType=VARCHAR}, 
+		      #{exObject.bak3,jdbcType=VARCHAR}, #{exObject.bak4,jdbcType=VARCHAR}, 
+		      #{exObject.bak5,jdbcType=VARCHAR}, #{exObject.bak6,jdbcType=VARCHAR}, 
+		      #{exObject.bak7,jdbcType=VARCHAR}, #{exObject.bak8,jdbcType=VARCHAR}, 
+		      #{exObject.bak9,jdbcType=VARCHAR})
+		</foreach>
+	</insert>
+</mapper>

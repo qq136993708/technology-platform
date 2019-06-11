@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css">
+
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/common/js/base.js"></script>
+</head>
+<body>
+<div class="formBox">
+    <form id="zjkExtractConfig-form" name="zjkExtractConfig-form" lay-filter="zjkExtractConfig-form" class="form-horizontal layui-form">
+        <input type="hidden" name="groupId">
+        <div class="box-body">
+            <input type="hidden" name="dataId" id="dataId"/>
+
+            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                <div class="layui-form-item">
+                    <label  class="layui-form-label">项目阶段<span class="must-fill"></span></label>
+                    <div class="layui-input-block">
+                        <select name="projectStageId" id="projectStageId" disabled  lay-filter="projectStageId">
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="layui-form-item">-->
+                <!--<label class="layui-form-label">项目阶段名称<span class="must-fill">*</span></label>-->
+                <!--<div class="layui-input-block">-->
+                    <!--<input type="text" id="projectStageName" name="projectStageName" lay-verify="required" placeholder="请输入项目阶段名称" autocomplete="off" class="layui-input">-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                <div class="layui-form-item">
+                    <label  class="layui-form-label">专家职称<span class="must-fill"></span></label>
+                    <div class="layui-input-block">
+                        <div class="layui-select-more">
+                            <select id="expertProfessional" name="expertProfessional" xm-select="expertProfessional"></select>
+                        </div>
+                        <!--<select name="expertProfessional" id="expertProfessional"  lay-filter="expertProfessional">-->
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">被抽取次数/年<span class="must-fill">*</span></label>
+                <div class="layui-input-block">
+                    <input type="number" id="expertCount" name="expertCount" lay-verify="required" placeholder="请输入一年内允许被抽取的次数" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">区域范围<span class="must-fill">*</span></label>
+                <div class="layui-input-block">
+                    <select id="expertArea" name="expertArea" xm-select="expertArea"></select>
+                </div>
+            </div>
+            <!--<div class="layui-form-item">-->
+                <!--<label class="layui-form-label">间隔时间(天)<span class="must-fill">*</span></label>-->
+                <!--<div class="layui-input-block">-->
+                    <!--<input type="number" id="intervalTime" name="intervalTime" lay-verify="required" placeholder="请输入间隔时间" autocomplete="off" class="layui-input">-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="layui-form-item">-->
+                <!--<label class="layui-form-label">在职抽取权重(%)<span class="must-fill">*</span></label>-->
+                <!--<div class="layui-input-block">-->
+                    <!--<input type="number" id="extractWeightIn" name="extractWeightIn" lay-verify="required" placeholder="请输入在职抽取权重" autocomplete="off" class="layui-input">-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="layui-form-item">-->
+                <!--<label class="layui-form-label">离职抽取权重(%)<span class="must-fill">*</span></label>-->
+                <!--<div class="layui-input-block">-->
+                    <!--<input type="number" id="extractWeightOut" name="extractWeightOut" lay-verify="required" placeholder="请输入离职抽取权重" autocomplete="off" class="layui-input">-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">是否规避本院</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="companyAvoid" value="ROOT_UNIVERSAL_WEHTHER_YES" title="是">
+                    <input type="radio" name="companyAvoid" value="ROOT_UNIVERSAL_WEHTHER_NO" title="否" checked>
+                </div>
+            </div>
+
+            <div class="form-bottom">
+                <div class="form-bottom-btns">
+                    <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>
+                    <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">取消</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    var id = "${id?default(0)}";
+    if (id != "0") {
+        $("#id").val(id);
+    }
+    //项目
+    ajaxPost('/dictionary/list/ROOT_XTGL_XMJD', null, function (data, status) {
+        $.each(data,function(i,dt){
+            $("#projectStageId").append("<option value='"+data[i].code+"'>"+data[i].name+"</option>");
+        });
+    });
+    //专家职称
+    // ajaxPost('/dictionary/list/ZJK_ZCXX', null, function (data, status) {
+    //     $.each(data,function(i,dt){
+    //         $("#expertProfessional").append("<option value='"+data[i].code+"'>"+data[i].name+"</option>");
+    //     });
+    // });
+    //是否
+    // ajaxPost('/dictionary/list/ROOT_UNIVERSAL_WEHTHER', null, function (data, status) {
+    //     $.each(data,function(i,dt){
+    //         $("#companyAvoid").append("<option value='"+data[i].code+"'>"+data[i].name+"</option>");
+    //     });
+    // });
+
+    layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element','formSelects','publicMethods'],
+        function () {
+            var $ = layui.jquery, publicMethods = layui.publicMethods,admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form, formSelects = layui.formSelects;
+            form.render(null, 'zjkExtractConfig-form');
+
+            //多选开始
+            publicMethods.ajaxPost("/dictionary/list/ZJK_ZCXX", null, function (data) {
+                var arr = [];
+                $.each(data, function (index, item) {
+                    if (index < 8) {
+                        var obj = {"name": item.name, "value": item.code};
+                        arr.push(obj)
+                    }
+                });
+                formSelects.data('expertProfessional', 'local', {
+                    arr: arr
+                });
+                // $(".xm-input").val("选择机构");
+            });
+
+            $.ajax({
+                contentType: 'application/json;charset=utf-8',
+                async: false,
+                type: "POST",
+                url: "/sysAddress/list",
+                data: JSON.stringify({"depth": "1"}),
+                dataType: "json",
+                success: function (data) {
+                    var arr = [];
+                    for (var i = 0; i < data.length; i++) {
+                        var obj = {"name": data[i].cityname, "value": data[i].dataId};
+                        arr.push(obj);
+                    }
+                    formSelects.data('expertArea', 'local', {
+                        arr: arr
+                    });
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+            //多选结束
+
+            //初始赋值 component-form-group 当前form的lay-filter
+            if (id != "0") {
+                ajaxPost("/zjkExtractConfig/getZjkExtractConfigInfo", {"id": id}, function (data) {
+                    form.val("zjkExtractConfig-form", data);
+                    formSelects.value('expertProfessional',data.expertProfessional.split(","));
+                    formSelects.value('expertArea',data.expertArea.split(","));
+                });
+            }
+            /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
+            /* form.verify({
+                groupName : function(value,item) {
+                    if (value.length < 5) {
+                        return '标题至少得5个字符啊';
+                    }
+                },
+                orderNum : function(value){
+
+                },
+                content : function(value) {
+                    layedit.sync(editIndex);
+                }
+            }); */
+            /* 监听指定开关 */
+            form.on('switch(component-form-switchTest)', function (
+                data) {
+                layer.msg('开关checked：'
+                    + (this.checked ? 'true' : 'false'), {
+                    offset: '6px'
+                });
+                layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF',
+                    data.othis)
+            });
+            /*监听select框*/
+            form.on('select(userUnit)', function (data) {
+                console.log("下拉框");
+                console.log(data);
+            });
+            /* 监听提交 */
+            form.on('submit(submitBtn)', function (data) {
+                console.log(formSelects.value('expertProfessional', 'valStr'));
+                data.field.expertProfessional = formSelects.value('expertProfessional', 'valStr');
+                data.field.expertArea = formSelects.value('expertArea', 'valStr');
+
+                ajaxPost("/zjkExtractConfig/saveZjkExtractConfig", data.field, function (dt, status) {
+                    layer.msg("操作成功");
+                    parent.layui.table.reload('zjkExtractConfigTableId', {where: {param: {}}});
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                });
+                return false;
+            });
+            $("#closeBtn").click(function () {
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+            })
+        });
+</script>
+</body>
+</html>

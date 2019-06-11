@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>灵活分析</title>
+    <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" href="/layuiadmin/style/tab.css">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css">
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script>
+        console.log("树形1");
+        var isIndexFlag = false;
+        var stroreId = '${storeId}';
+        console.log("收藏或跳转");
+        console.log(stroreId);
+        if (stroreId != "") {
+            isIndexFlag = true;
+        }
+    </script>
+</head>
+<body>
+<div class="analysis layui-col-space15">
+    <div class="layui-col-sm2 condition">
+        <div id="mycard-plus">
+            <div class="default-tag tagbtn">
+                <div class="clearfix">
+                    <div class="hotspot">
+                        <ul class="layui-nav">
+                            <li><span>选择维度</span></li>
+                            <!--<li class="layui-nav-item" style="float:right; "><a class="hotspot-mr-a"
+                                                                                href="javascript:;">展开更多</a>
+                            </li>-->
+                        </ul>
+                        <ul class="layui-nav wd_show_obj_array">
+                            <li id="wd_show_obj_array" style="display: none !important;"><span>选择维度</span></li>
+                            <!--<li class="layui-nav-item" style="float:right; "><a class="hotspot-mr-a"
+                                                                                href="javascript:;">展开更多</a>
+                            </li>-->
+                        </ul>
+                    </div>
+                    <div class="hotspot-mr layui-hide" id="wd_hide_obj_array">
+                    </div>
+                </div>
+                <div class="clearfix">
+                    <div class="hotspot-target">
+                        <ul class="layui-nav">
+                            <li><span>选择指标</span></li>
+                            <!--<li class="layui-nav-item" style="float:right; "><a class="hotspot-target-a"
+                                                                                href="javascript:;">展开更多</a>
+                            </li>-->
+                        </ul>
+                        <ul class="layui-nav wd_show_obj_array">
+                            <li id="zb_show_obj_array" style="display: none !important;"><span>选择指标</span></li>
+                            <!--<li class="layui-nav-item" style="float:right; "><a class="hotspot-target-a"
+                                                                                href="javascript:;">展开更多</a>
+                            </li>-->
+                        </ul>
+                    </div>
+                    <div class="hotspot-target-mr layui-hide" id="zb_hide_obj_array">
+                    </div>
+                </div>
+                <div class="clearfix" style="display:none;">
+                    <!--<a value="-1" title="网络营销" href="javascript:void(0);">-->
+                    <!--<span>网络营销</span><em></em></a>-->
+                </div>
+            </div>
+            <div align="right"><a href="javascript:void(0);" id="change-tips" style="color:#3366cc;"></a>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-sm10">
+        <div class="layui-col-sm12">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    灵活分析
+                    <div class="layui-btn-group layuiadmin-btn-group layuiadmin-right">
+                        <ul class="layui-nav">
+                            <!--<li class="layui-nav-item"><a href="javascript:;"-->
+                            <!--class="layui-btn layui-btn-primary layui-btn-xs">设置</a></li>-->
+                            <li class="layui-nav-item"><a href="javascript:;" id="Collection"
+                                                          class="layui-btn layui-btn-primary layui-btn-xs">收藏</a></li>
+                            <li class="layui-nav-item">
+                                <a href="javascript:;" class="layui-btn layui-btn-primary layui-btn-xs">收藏列表</a>
+                                <dl class="layui-nav-child layui-anim layui-anim-upbit mxstorelist" id="mxstorelist">
+                                </dl>
+                            </li>
+                            <li class="layui-nav-item"><a data-type="clickHeight"
+                                                          class="header-stop layui-btn layui-btn-primary layui-btn-xs"
+                                                          href="javascript:;">收起</a></li>
+                            <li class="layui-nav-item">
+                                <a href="javascript:;" class="layui-btn layui-btn-primary layui-btn-xs">模型</a>
+                                <dl class="layui-nav-child layui-anim layui-anim-upbit mxlit" id="mxlit">
+                                </dl>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="layui-card-body">
+                    <div class="layui-row">
+                        <div class="plus-tag tagbtn clearfix layui-show" id="myTags">
+                            <div id="tj" class="tj parent-box">
+                                <ul class="layui-nav  list-one" id="barU">
+                                    <li><span>已选维度:</span></li>
+                                </ul>
+                            </div>
+
+                            <div id="zb" class="zb parent-box">
+                                <ul class="layui-nav  list-two" id="barD">
+                                    <li><span>已选指标:</span></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="time">
+                            <label>
+                                <span>查询日期:</span>
+                                <div class="layui-form">
+                                    <!--<input type="radio" name="time"  value="按年份" title="按年份">-->
+                                    <input type="radio" name="time" value="按月份" title="按月份" checked>
+                                    <input type="text" class="layui-input layui-input-timeY layui-hide"
+                                           id="test-laydate-type-year" placeholder="yyyy">
+                                    <input type="text" class="layui-input layui-input-timeM"
+                                           id="test-laydate-type-month"
+                                           placeholder="yyyy-MM">
+                                    <input type="hidden" name="dateRadio" id="dateRadio" value="">
+                                    <!--查询开始-->
+
+
+                                    <span class="layui-span">按公司:</span>
+                                    <div class="layui-select-new">
+                                        <div class="layui-select-more">
+
+                                            <select name="gsdm_select" id="gsdm_select" xm-select="select2">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!--查询结束-->
+                                    <div class="btnGroup">
+                                        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"
+                                                id="search" onclick="active.reload();">查询
+                                        </button>
+                                        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"
+                                                id="clear" onclick="pcitcReport.clearChecked();">清除
+                                        </button>
+                                        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
+                                                data-type="reset">重置
+                                        </button>
+                                        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"
+                                                onclick="active.openAll();">展开或折叠
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </label>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs3 layui-hide">
+                        <!--查询条件-->
+                        <div class="grid-demo grid-demo-bg1">
+                            <div class="layui-form-item" style="width: auto;">
+                                <!--<label class="layui-form-label">查询条件</label>-->
+                                <div class="layui-input-block">
+                                    <input type="hidden" name="modelName" title="查询条件" autocomplete="off"
+                                           class="layui-input" id="modelName">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm12 layui-col-sm12-tab ">
+            <!--<div class="layui-tab layui-tab-brief" lay-filter="component-tabs-brief">-->
+            <!--<ul class="layui-tab-title">-->
+            <!--<li style="display: none;">图表</li>-->
+            <!--&lt;!&ndash;<li>列表</li>&ndash;&gt;-->
+            <!--<li style="display: none;">列表</li>-->
+            <!--<li class="layui-this"></li>-->
+            <!--</ul>-->
+            <div class="layui-tab-content">
+                <div class="layui-tab-item ">
+                    <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+                    <script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+
+                    <div class="choice-x">
+                        <label>请选择业务分析维度:</label>
+                        <select name="xData" id="xData">
+                        </select>
+                        <div class="btnGroup">
+                            <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" id="ok"
+                                    onclick="changePic();">确定
+                            </button>
+                        </div>
+                    </div>
+                    <div id="main"></div>
+                    <!--<script src="example/www2/js/dist/echarts-all.js"></script>-->
+                </div>
+                <!--<div class="layui-tab-item">-->
+                <!--<div id="toolbarDemo" style="display: none;">-->
+                <!--单位:万元-->
+                <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_export" onclick="exportTableToExcel();">导出</button>-->
+                <!--</div>-->
+                <!--<div class="tableBox">-->
+                <!--<table id="testReload" class="layui-hide" lay-even></table>-->
+                <!--</div>-->
+                <!--</div>-->
+                <div class="layui-tab-item">
+
+                    <div class="tableBox">
+                        <table id="testReload2" class="layui-hide" lay-filter="demoEvent" lay-even></table>
+                    </div>
+                </div>
+                <div class="layui-tab-item treeTable layui-show">
+                    <!--<div id="toolbarDemo2" style="display: block;">-->
+                    <!--单位:万元-->
+                    <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_export" onclick="exportTableToExcel();">导出</button>-->
+                    <!--</div>-->
+                    <h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"></h3>
+                    <table class="layui-hidden" id="treeTable" lay-filter="treeTable"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--弹出层 文字-->
+<div class="layer-text layui-hide">
+    <div class="layer-style">
+        <div class="layui-tab layui-tab-brief" lay-filter="component-tabs-brief1">
+            <ul class="layui-tab-title">
+                <li class="layui-this">选择单值</li>
+                <li>排除单值</li>
+                <li>模糊单值</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <label class="dateInput">
+                        <input type="text" name="modelName" placeholder="请输入选择单值" title="选择单值" autocomplete="off"
+                               class="form-control equal">
+                    </label>
+                </div>
+                <div class="layui-tab-item">
+                    <label class="dateInput">
+                        <input type="text" name="modelName" placeholder="请输入排除单值" title="排除单值" autocomplete="off"
+                               class="form-control noEqual">
+                    </label>
+                </div>
+
+                <div class="layui-tab-item">
+                    <label class="dateInput">
+                        <input type="text" name="modelName" placeholder="请输入模糊单值" title="模糊单值" autocomplete="off"
+                               class="form-control vague">
+                    </label>
+                </div>
+            </div>
+            <div class="form-bottom">
+                <div class="form-bottom-btns">
+                    <a type="button"
+                       class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white reset">
+                        重置</a>
+                    <a class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue component-form-demo">确定</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--弹出层 金额-->
+<div class="layer-money layui-hide">
+    <div class="layer-style">
+        <div class="layui-tab layui-tab-brief" lay-filter="component-tabs-brief1">
+            <ul class="layui-tab-title">
+                <li class="layui-this">选择单值</li>
+                <li>选择范围</li>
+                <li>排除单值</li>
+                <!--<li>排除范围</li>-->
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <label class="dateInput">
+                        <input type="text" name="modelName" placeholder="请输入选择单值" title="选择单值" autocomplete="off"
+                               class="form-control equal">
+                    </label>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="dateInput dateInputSelect">
+                        <select id="nav" class="form-control">
+                            <option>大于等于</option>
+                            <option>小于等于</option>
+                        </select>
+                        <input type="text" name="modelName" placeholder="请输入选择范围" title="选择范围" autocomplete="off"
+                               class="form-control bigEqual">
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <label class="dateInput">
+                        <input type="text" name="modelName" placeholder="请输入排除单值" title="排除单值" autocomplete="off"
+                               class="form-control noEqual">
+                    </label>
+                </div>
+                <!--<div class="layui-tab-item">
+                    <label class="dateInput">
+                        <span>不等于</span>
+                        <input type="text" name="modelName" placeholder="请输入排除范围" title="排除范围" autocomplete="off" class="form-control noEqual" >
+                    </label>
+                </div>-->
+            </div>
+            <div class="form-bottom">
+                <div class="form-bottom-btns">
+                    <a type="button"
+                       class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white reset">
+                        重置</a>
+                    <a class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue component-form-demo">确定</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--收藏层-->
+<div class="layerCollection layui-hide">
+    <div class="layer-style">
+        <div class="layui-tab layui-tab-brief" lay-filter="component-tabs-brief1">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show" style="margin-top: 30px">
+                    <label class="dateInput">
+                        <span style="position: absolute;">名称:</span>
+                        <input type="text" name="storeName" id="storeName" placeholder="请输入名称" title="名称"
+                               autocomplete="off"
+                               class="form-control equal" value="" lay-verify="required"/>
+                    </label>
+                </div>
+            </div>
+            <div class="form-bottom">
+                <div class="form-bottom-btns">
+                    <a class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue component-form-demo">确定</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/stp/hana/reportconfig/report_lhfx_stp.js"></script>
+<script>
+    console.log("----------------------new---------------");
+    //维度
+    pcitcReport.createVar(JSON.parse(('${wd_obj_array}')));
+    //指标
+    pcitcReport.createVar(JSON.parse('${zb_obj_array}'));
+    //维度展示
+    pcitcReport.show_wd(JSON.parse('${wd_show_obj_array}'));
+    //维度隐藏
+    pcitcReport.hide_wd(JSON.parse('${wd_hide_obj_array}'));
+    //指标展示
+    pcitcReport.show_zb(JSON.parse('${zb_show_obj_array}'));
+    //指标隐藏
+    pcitcReport.hide_zb(JSON.parse('${zb_hide_obj_array}'));
+    //图表默认X轴
+    pcitcReport.x_default(JSON.parse('${default_x_obj_array}'));
+    //列表默认展示
+    pcitcReport.list_default(JSON.parse('${default_wd_zb_obj_array}'));
+    //字段默认值设置
+    pcitcReport.field_default(JSON.parse('${default_column_obj_array}'));
+    //模型类型
+    pcitcReport.strNameType = "${name}";
+    //设置日期
+    $("#dateRadio").val(pcitcReport.getNowDateMonth());
+    //初始化模型
+    pcitcReport.getMxList();
+    //初始化基本参数json对象
+    pcitcReport.tableTitle = JSON.parse('${jsonObject}');
+    //初始化公司代码下拉
+    pcitcReport.initGsdm(JSON.parse('${gsdmcode}'), JSON.parse('${gsdmname}'));
+    //TO DO 初始化参数
+    // {Go_xx,K0_xx,}
+    // var jsonparam = 'G0_HTH,G0_XMMC';//
+    var jsonparam = '${jsonparam}';
+    console.log("-----------------");
+    console.log(jsonparam);
+</script>
+
+<script>
+    var active;
+    var dataTableElement;
+    layui.config({
+        base: '/layuiadmin/lib/extend/'
+    }).extend({
+        treeGridComStp: 'treeGridComStp'
+    }).use(['element', 'table', 'layer', 'form', 'element', 'jquery', 'publicMethods', 'formSelects', 'treeGridComStp'], function () {
+        // var treeGrid = layui.treeGrid; //很重要
+        var element = layui.element;
+        dataTableElement = layui.element;
+        var publicMethods = layui.publicMethods;
+        var $ = layui.jquery;
+        var table = layui.table;
+        // var multiSelect = layui.multiSelect;//'multiSelect',
+        var formSelects = layui.formSelects;
+        var treeGridCom = layui.treeGridComStp;//很重要
+        pcitcReport.treeGridCom = layui.treeGridComStp;//很重要
+        //获取收藏内容,赋值
+        pcitcReport.getStoreModel('1');
+        console.log(pcitcReport.column);
+        // pcitcReport.calTableWidth();
+
+        treeGridCom.render({
+            elem: '#treeTable'
+            , id: "treeTable"
+            , url:(jsonparam!=""?"":'/reportNew/getTableReportStp')
+            , method: "post"
+            , limit: 500
+
+            , idField: 'id'//必須字段
+            , treeId: 'id'//树形id字段名称
+            , treeUpId: 'pid'//树形父id字段名称
+            , treeShowName: pcitcReport.strcolumns.split(",")[0]//以树形式显示的字段
+            , heightRemove: [".dHead", 10]//不计算的高度,表格设定的是固定高度，此项不生效
+            , height: '100%'
+            , isFilter: false
+            , iconOpen: false//是否显示图标【默认显示】
+            , isOpenDefault: true//节点默认是展开还是折叠【默认展开】
+            , loading: true
+            // ,method:'get'
+            , isPage: true
+
+
+            // , height: commonDislodgeTable()
+            , page: {
+                count: 500, //数据总数，从服务端得到
+                groups: 15,
+                limits: [500, 2000, 3000],
+                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                first: '首页', //不显示首页
+                last: '尾页', //不显示尾页
+                theme: '#0F9EE0'
+            }
+
+            /*列显示隐藏、打印、导出功能*/
+            // ,toolbar:{
+            //     toolbar:"#test"
+            // }
+            /*以数组的形式显示列、打印、导出三个中的那些功能
+              filter列显示隐藏、exports导出、print打印*/
+            // ,defaultToolbar:['filter','exports','print']
+            , cols: [pcitcReport.arrayColumns_tab]
+            , where: {
+                param: {
+                    "column": pcitcReport.strcolumns
+                    , "columnko": pcitcReport.strcolumnsko
+                    , "strall": pcitcReport.strall
+                    , "group": pcitcReport.strgroup
+                    , "where": pcitcReport.strwhere
+                    , "date": pcitcReport.date.replace("至", "`").replace("-", "")
+                    , "gsdm": pcitcReport.gsdm
+                    , "xfield": pcitcReport.arrayColumns_tab[0].field
+                    , "name": pcitcReport.strNameType
+                    , "sum": "sum"
+                }
+                ,
+                "column": pcitcReport.strcolumns
+                , "columnko": pcitcReport.strcolumnsko
+                , "strall": pcitcReport.strall
+                , "group": pcitcReport.strgroup
+                , "where": pcitcReport.strwhere
+                , "date": pcitcReport.date.replace("至", "`").replace("-", "")
+                , "gsdm": pcitcReport.gsdm
+                , "xfield": pcitcReport.arrayColumns_tab[0].field
+                , "name": pcitcReport.strNameType
+                , "sum": "sum"
+            }
+            // , parseData: function (res) {//数据加载后回调
+            //     console.log("--parseData---");
+            //     console.log(res);
+            //     console.log(res.data);
+            //     pcitcReport.setExt();
+            //     pcitcReport.changeTableId(res.data);
+            //     query();
+            // }
+            , done: function (res, curr, count) {
+
+                // $(".layui-table-body .layui-table-cell>div i").remove()
+                console.log("--data---");
+                console.log(res.data);
+                pcitcReport.setExt();
+                pcitcReport.changeTableId(res.data);
+                query();
+                $(".wq").parents("tr").addClass("layui-table-f2");
+            }
+        });
+        var $ = layui.jquery;
+        active = {
+            reload: function () {
+                pcitcReport.flag = true;
+                if (pcitcReport.getCheck() == false) {
+                    return;
+                }
+                pcitcReport.storeToValue('1');//收藏赋值
+                // pcitcReport.calTableWidth();
+                console.log("--reload--");
+                //转换静态表格
+                treeGridCom.render({
+                    elem: '#treeTable'
+                    , id: "treeTable"
+                    , url: '/reportNew/getTableReportStp'
+                    , method: "post"
+                    , limit: 500
+
+                    , idField: 'id'//必須字段
+                    , treeId: 'id'//树形id字段名称
+                    , treeUpId: 'pid'//树形父id字段名称
+                    , treeShowName: pcitcReport.strcolumns.split(",")[0]//以树形式显示的字段
+                    , heightRemove: [".dHead", 10]//不计算的高度,表格设定的是固定高度，此项不生效
+                    , height: '100%'
+                    , isFilter: false
+                    , iconOpen: false//是否显示图标【默认显示】
+                    , isOpenDefault: true//节点默认是展开还是折叠【默认展开】
+                    , loading: true
+                    // ,method:'get'
+                    , isPage: true
+
+
+                    // , height: commonDislodgeTable()
+                    , page: {
+                        count: 500, //数据总数，从服务端得到
+                        groups: 15,
+                        limits: [500, 2000, 3000],
+                        layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                        first: '首页', //不显示首页
+                        last: '尾页', //不显示尾页
+                        theme: '#0F9EE0'
+                    }
+
+                    /*列显示隐藏、打印、导出功能*/
+                    // ,toolbar:{
+                    //     toolbar:"#test"
+                    // }
+                    /*以数组的形式显示列、打印、导出三个中的那些功能
+                      filter列显示隐藏、exports导出、print打印*/
+                    // ,defaultToolbar:['filter','exports','print']
+                    , cols: [pcitcReport.arrayColumns_tab]
+                    , where: {
+                        param: {
+                            "column": pcitcReport.strcolumns
+                            , "columnko": pcitcReport.strcolumnsko
+                            , "strall": pcitcReport.strall
+                            , "group": pcitcReport.strgroup
+                            , "where": pcitcReport.strwhere
+                            , "date": pcitcReport.date.replace("至", "`").replace("-", "")
+                            , "gsdm": pcitcReport.gsdm
+                            , "xfield": pcitcReport.arrayColumns_tab[0].field
+                            , "name": pcitcReport.strNameType
+                            , "sum": "sum"
+                        }
+                        ,
+                        "column": pcitcReport.strcolumns
+                        , "columnko": pcitcReport.strcolumnsko
+                        , "strall": pcitcReport.strall
+                        , "group": pcitcReport.strgroup
+                        , "where": pcitcReport.strwhere
+                        , "date": pcitcReport.date.replace("至", "`").replace("-", "")
+                        , "gsdm": pcitcReport.gsdm
+                        , "xfield": pcitcReport.arrayColumns_tab[0].field
+                        , "name": pcitcReport.strNameType
+                        , "sum": "sum"
+                    }
+                    // , parseData: function (res) {//数据加载后回调
+                    //     console.log("--parseData---");
+                    //     console.log(res);
+                    //     console.log(res.data);
+                    //     pcitcReport.setExt();
+                    //     pcitcReport.changeTableId(res.data);
+                    //     query();
+                    // }
+                    , done: function (res, curr, count) {
+                        // $(".layui-table-body .layui-table-cell>div i").remove()
+
+                        pcitcReport.strwhere="";
+                        console.log("--data---");
+                        console.log(res.data);
+                        pcitcReport.setExt();
+                        pcitcReport.changeTableId(res.data);
+                        query();
+                        $(".wq").parents("tr").addClass("layui-table-f2");
+                    }
+                });
+            },
+            reset: function () {
+                query();
+                location.reload();
+            },
+            openAll: function () {
+                var treedata = treeGridCom.getDataTreeList("treeTable");
+                treeGridCom.treeOpenAll("treeTable", !treedata[0][treeGridCom.config.cols.isOpen]);
+            }, deleteEvent: function (storeId) {  //点击删除按钮
+                layer.confirm('确定要删除吗？', {title: "删除确认"}, function (index) {
+                    layer.close(index);
+                    ajaxPost("/reportStore//del-real/" + storeId, null, function (data) {
+                        layer.msg('删除成功');
+                    });
+                });
+            }
+        };
+
+        //add start
+        if (jsonparam!="") {
+            //g0_type_flag=12321,g0_project_scope=12312
+            $(".nowtips ul.wd_show_obj_array li").each(function () {
+                var valueG0 = $(this).find("a").attr("value");
+                if (valueG0 == undefined) {
+
+                } else if (jsonparam.indexOf(valueG0) >= 0) {
+                    $(this).find("a").click()
+                }
+            });
+            $(".hotspot-target ul.wd_show_obj_array li").each(function () {
+                var valueK0 = $(this).find("a").attr("value");
+                if (valueK0 == undefined) {
+
+                } else if (jsonparam.indexOf(valueK0) >= 0) {
+                    $(this).find("a").click()
+                }
+            });
+            //条件赋值
+            console.log("--where---条件");
+            if(jsonparam.indexOf("=")>-1){
+                pcitcReport.strwhere= jsonparam;
+            }
+            console.log(pcitcReport.strwhere);
+            active.reload();
+        }
+        //add end
+        $("#Collection").on('click', function () {
+            var layerCollection = $(".layerCollection").html();
+            layer.open({
+                title: "收藏",
+                skin: 'layui-layer-lan',
+                shadeClose: false,
+                type: 1,
+                fixed: false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin: false,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                area: ['35%', '30%'],
+                content: layerCollection
+            });
+        });
+
+        function query() {
+            /*添加图片 注释选择图片*/
+            // $(".treeTable .layui-table  thead tr th").each(function () {
+            //     $(this).find("span").append("<img src='/layuiadmin/layui/images/tableLogo.png'/>")
+            // });
+            /*添加点击事件*/
+            var index;
+            $(".treeTable .layui-table  thead tr th img").click(function () {
+                index = $(this).parent().parent().parent().index();
+                var text = $(this).parent().text();
+                var textValue = $(this).parent().parent().parent().attr("data-field");
+                var layerText = $(".layer-text").html();
+                var layerMoney = $(".layer-money").html();
+                if (pcitcReport.strcolumns.indexOf(textValue) == -1) {
+                    layer.open({
+                        title: text,
+                        skin: 'layui-layer-lan',
+                        shadeClose: true,
+                        type: 1,
+                        fixed: false,
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        maxmin: false,
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        area: ['35%', '30%'],
+                        content: layerMoney
+                    });
+                } else {
+                    layer.open({
+                        title: text,
+                        skin: 'layui-layer-lan',
+                        shadeClose: true,
+                        type: 1,
+                        fixed: false,
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        maxmin: false,
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        area: ['30%', '30%'],
+                        content: layerText
+                    });
+                }
+            });
+
+            function closeLayer() {
+                $(".layui-layer").remove();
+                $(".layui-layer-shade").remove();
+            }
+
+            /*重置*/
+            $(document).on('click', '.layui-layer .reset', function () {
+                $(".layui-layer .layui-tab-content input").each(function () {
+                    $(this).val("");
+                });
+            });
+
+
+            /*确定*/
+            $(document).off('click', '.layui-layer .component-form-demo').on('click', '.layui-layer .component-form-demo', function () {
+                /*var flag = $(".layui-layer .equal").parent().parent().hasClass("layui-show");
+                var flagN0 = $(".layui-layer .noEqual").parent().parent().hasClass("layui-show");
+                var flagBig = $(".layui-layer .bigEqual").parent().parent().hasClass("layui-show");
+                var flagBig1 = $(".layui-layer .vague").parent().parent().hasClass("layui-show");
+                if (flag) {
+                    var selectVal = $(".layui-layer .equal").val();
+                    pcitcReport.showtable(index, selectVal)
+                    $(".layui-layer").remove();
+                    $(".layui-layer-shade").remove();
+                } else if (flagN0) {
+                    var selectVal = $(".layui-layer .noEqual").val();
+                    pcitcReport.noEqual(index, selectVal);
+                    $(".layui-layer").remove();
+                    $(".layui-layer-shade").remove();
+                } else if (flagBig) {
+                    var selectVala = $(".layui-layer #nav option:selected").text();
+                    var selectVal = $(".layui-layer .bigEqual").val();
+                    if (selectVala == "大于等于") {
+                        pcitcReport.bigRange(index, selectVal);
+                    } else {
+                        pcitcReport.smallRange(index, selectVal);
+                    }
+                    $(".layui-layer").remove();
+                    $(".layui-layer-shade").remove();
+                } else if (flagBig1) {
+                    var selectVal = $(".layui-layer .vague").val();
+                    pcitcReport.vaguetable(index, selectVal);
+                    $(".layui-layer").remove();
+                    $(".layui-layer-shade").remove();
+                }*/
+                var param = {};
+                param.k1 = pcitcReport.k1;
+                param.k2 = pcitcReport.k2;
+                console.log("--------------param-------------");
+                var storeName = $(".layui-layer #storeName").val();//名称
+                if ($.isEmptyObject(param.k1)) {
+                    layer.msg('请选择指标和维度,点击\'查询\'获取搜索结果之后收藏');
+                    return false;
+                } else if (storeName == "") {
+                    layer.msg('请输入收藏名称');
+                    return false;
+                } else {
+                    $.ajax({
+                        type: 'post',
+                        // contentType: 'application/json;charset=utf-8',
+                        data: JSON.stringify({modelId: pcitcReport.strNameType, json: param}),
+                        dataType: 'json',
+                        async: false,
+                        url: '/reportStore/saveReportStoreByUserStp?json=' + encodeURIComponent(JSON.stringify(param)) + "&modelConfigId=" + pcitcReport.strNameType + "&bak4=" + storeName,
+                        success: function (xx) {
+                            alert("操作成功");
+                            $(".layui-layer").remove();
+                            $(".layui-layer-shade").remove();
+                        },
+                        error: function (e) {
+                            console.log(e);
+                        }
+                    });
+                }
+            });
+        }
+    });
+</script>
+<script>
+    layui.use(['jquery', 'table', 'element', 'form', 'laydate'], function () {
+        //     var table = layui.table;
+        var form = layui.form;
+        var element = layui.element;
+        var $ = layui.jquery;
+        var laydate = layui.laydate;
+        //年选择器
+        laydate.render({
+            elem: '#test-laydate-type-year'
+            , type: 'year'
+            , value: new Date().getFullYear()
+            // , value: new Date().getFullYear() + " 至 " + new Date().getFullYear()
+            // , range: '至'
+            , done: function (value, data) {
+                $("#dateRadio").val(value);
+            }
+        });
+
+        //年月选择器
+        laydate.render({
+            elem: '#test-laydate-type-month'
+            , type: 'month'
+            , value: new Date().getFullYear() + "-" + (new Date().getMonth() + 1)
+            // , value: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + " 至 " + new Date().getFullYear() + "-" + (new Date().getMonth() + 1)
+            , format: 'yyyy-MM'
+            // , range: '至'
+            , done: function (value, data) {
+                $("#dateRadio").val(value);
+            }
+        });
+
+        $(".layui-unselect").click(function () {
+            if ($(this).find("div").html() == "按年份") {
+                $(".layui-input-timeY").removeClass("layui-hide");
+                $(".layui-input-timeM").addClass("layui-hide");
+                $("#dateRadio").val($(".layui-input-timeY").val());
+            } else if ($(this).find("div").html() == "按月份") {
+                $(".layui-input-timeM").removeClass("layui-hide");
+                $(".layui-input-timeY").addClass("layui-hide");
+                $("#dateRadio").val($(".layui-input-timeM").val());
+
+            }
+        });
+        var $ = layui.jquery; active = {};
+        form.render('select', 'xData')
+        $('i').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        $('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        /*$(".hotspot a:last").on("click", function () {
+            if ($(".hotspot-mr").hasClass("layui-hide")) {
+                $(".hotspot a:last").html("收起更多")
+                $(".hotspot-mr").removeClass("layui-hide");
+            } else {
+                $(".hotspot a:last").html("展开更多")
+                $(".hotspot-mr").addClass("layui-hide")
+            }
+        });
+        $(".hotspot-target a:last").on("click", function () {
+            if ($(".hotspot-target-mr").hasClass("layui-hide")) {
+                $(".hotspot-target a:last").html("收起更多")
+                $(".hotspot-target-mr").removeClass("layui-hide")
+            } else {
+
+                $(".hotspot-target a:last").html("展开更多")
+                $(".hotspot-target-mr").addClass("layui-hide")
+            }
+        });*/
+        $(".condition").css("height", $(document).height())
+        var layuiCDHeight = parseInt($(window).height()) - parseInt($(".layui-card").height() + 20)
+        /* $(".layui-col-sm12-tab").css("height", layuiCDHeight)*/
+        $("#main").css('height', $(".layui-table-main").height())
+        $(".header-stop").on("click", function () {
+            if ($(".layui-card-body").hasClass("layui-hide")) {
+                $(".header-stop").html("收起")
+                $(".layui-card-body").removeClass("layui-hide");
+            } else {
+                $(".header-stop").html("展开")
+                $(".layui-card-body").addClass("layui-hide")
+            }
+            var layuiCDHeight = parseInt($(window).height()) - parseInt($(".layui-card").height() + 20);
+            /*$(".layui-col-sm12-tab").css("height", layuiCDHeight)*/
+        })
+        $(".tagbtn a").on("click", function () {
+            var layuiCDHeight = parseInt($(window).height()) - parseInt($(".layui-card").height() + 20)
+            /*$(".layui-col-sm12-tab").css("height", layuiCDHeight)*/
+        })
+        /*hover效果*/
+        $(".layui-collapse").mouseover(function () {
+            if ($(this).find("div").hasClass("layui-hide")) {
+                $(this).find("div").removeClass("layui-hide")
+            }
+        })
+    });
+    //设置默认X轴
+    // pcitcReport.setDefaultX();
+</script>
+<!--图表2-->
+<script>
+    layui.use(['jquery', 'table', 'element'], function () {
+        var table = layui.table;
+        var form = layui.form;
+        var element = layui.element;
+        var $ = layui.jquery;
+        var fullHeight = 350;
+        $(".header-stop").click(function () {
+            if ($(".layui-card-body").hasClass("layui-hide")) {
+                fullHeight = 260;
+            } else {
+                fullHeight = 350;
+            }
+
+        })
+        //渲染
+        //获取收藏内容,赋值
+        pcitcReport.getStoreModel('2');
+
+        table.render({
+            id: 'model2'
+            , elem: '#testReload2'
+            , limit: 5
+            , height: commonDislodgeTable() / 2
+            , method: 'POST'
+            , cache: false
+            , where: {
+                "column": pcitcReport.xfield + ","
+                , "columnko": pcitcReport.strcolumnsko
+                , "strall": pcitcReport.strall
+                , "group": pcitcReport.xfield
+                , "where": pcitcReport.strwhere
+                , "date": pcitcReport.date.replace("至", "`"),
+                "gsdm": pcitcReport.gsdm
+                , "name": pcitcReport.strNameType
+            }
+            , url: '/reportNew/getTableReportTemp'
+            , toolbar: '#toolbarDemo2'
+            , page: false
+            , cols: [pcitcReport.arrayColumns_pic]
+            , loading: true
+            , done: function (res, curr, count) {
+                // pcitcReport.initTable(res.data);
+            }
+        });
+
+        //监听单元格事件
+        table.on('tool(demoEvent)', function (obj) {
+            var data = obj.data;
+        });
+
+        var $ = layui.jquery; active = {
+            reloadPic: function () {
+                changePic();
+                // pcitcReport.arrayColumns_pic = pcitcReport.arrayColumns_pic.slice(0, 0);
+                // pcitcReport.getCheck2();
+                // //转换静态表格
+                // table.init('filter', {});
+                // var opt = {
+                //     id: 'model2'
+                //     , elem: '#testReload2'
+                //     , limit: 5
+                //     , height: 'full-' - fullHeight
+                //     , method: 'POST'
+                //     , cache: false
+                //     , where: {
+                //         "column": pcitcReport.xfield + ","
+                //         , "columnko": pcitcReport.strcolumnsko
+                //         , "strall": pcitcReport.strall
+                //         , "group": pcitcReport.xfield
+                //         , "where": pcitcReport.strwhere
+                //         , "date": pcitcReport.date.replace("至", "`"),
+                //         "gsdm": pcitcReport.gsdm
+                //         , "name": pcitcReport.strNameType
+                //     }
+                //     , url: '/reportNew/getTableReport'
+                //     , toolbar: '#toolbarDemo2'
+                //     , page: false
+                //     , loading: true
+                //     , cols: [pcitcReport.arrayColumns_pic]
+                //     , done: function (res, curr, count) {
+                //         console.log(pcitcReport.arrayColumns_pic);
+                //         console.log("------------done---------------");
+                //         console.log("这儿.......");
+                //         console.log(curr);
+                //         console.log(count);
+                //         console.log(res);
+                //         console.log(res.data);
+                //         pcitcReport.initTable(res.data);
+                //     }
+                // };
+                // var tableObj = table.render({});
+                // tableObj.reload(opt);
+            },
+            reset: function () {
+                location.reload();
+            }
+        };
+    });
+</script>
+<script>
+
+</script>
+<script>
+    //加载图形
+    paramFun();
+</script>
+<script type="text/javascript" src="/plugins/jQuery/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/lib/extend/tab.js"></script>
+<script type="text/javascript" src="/layuiadmin/lib/extend/Sortable.min.js"></script>
+<script>
+    pcitcReport.drag();
+    pcitcReport.getStoreModelList();
+</script>
+</body>
+</html>
