@@ -147,7 +147,7 @@
        	                	var index = parent.layer.getFrameIndex(window.name);
         			       	parent.layer.close(index);
        	                }else{
-       	                	parent.layer.alert("操作失败请重试", {
+       	                	parent.layer.alert(data.message, {
        							title : '信息'
        						});
        						return;

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>经费预算-集团经费预算分解</title>
+    <title>经费预算-资产经费预算分解</title>
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
     <script src="/layuiadmin/layui/layui.js"></script>
@@ -31,7 +31,7 @@
 </head>
 <body>
     <div class="headline-box">
-        <div class="headline-title" title="集团经费预算总表">
+        <div class="headline-title" title="资产经费预算总表">
             	<span class="nd">${nd}</span>年资产经费预算明细表(建议稿)
         </div>
         <div class="headline-tool">
@@ -164,7 +164,7 @@
                 }            
             });
             renderfunc = function removeHeaderCheckbox(){
-            	$(".layui-table-header table thead th i").remove();  //移除表头的复选框,去掉全选
+            	$(".layui-table-header table thead th .layui-unselect").remove();  //移除表头的复选框,去掉全选
 	        	//行单击选中事件绑定
 	        	$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
 	              	  var index=parseInt($(this).index()+1);
@@ -319,7 +319,7 @@
             var $ = layui.$, active = {
             	createEvent: function () { //点击查询按钮
                     layer.open({
-                        title: cu_date+'集团公司经费预算编制管理-创建预算表'
+                        title: cu_date+'资产公司经费预算编制管理-创建预算表'
                         , skin: 'layui-layer-lan'
                         , shadeClose: false
                         , type: 2
@@ -382,7 +382,7 @@
                 	console.log(curent_tabel_data[selectIndex]);
                 	var url = '/budget/budget_history_compare_assetsplit?nd='+cu_date+'&organCode='+curent_tabel_data[selectIndex].organCode+"&budgetInfoId="+curent_budget_info.dataId;
                    	layer.open({
-                        title: '集团公司经费预算编制管理-往年预算参考'
+                        title: '资产公司经费预算编制管理-往年预算参考'
                         , skin: 'layui-layer-lan'
                         , shadeClose: false
                         , type: 2
@@ -400,7 +400,7 @@
                 	} 
                 	var url = '/budget/budget_history_view_assetsplit?nd='+cu_date+'&budgetInfoId='+curent_budget_info.dataId;
                    	layer.open({
-                        title: '集团公司经费预算编制管理-历年参考数据'
+                        title: '资产公司经费预算编制管理-历年参考数据'
                         , skin: 'layui-layer-lan'
                         , shadeClose: false
                         , type: 2
