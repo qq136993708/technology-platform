@@ -497,29 +497,23 @@
                 <div class="layui-card-body">
                     <div class="layui-tab">
                         <ul class="layui-tab-title">
-                            <li class="layui-this">国家领导讲话</li>
+                            <li class="layui-this">最新讲话</li>
+                            <li>集团领导讲话</li>
                             <li>国家领导讲话</li>
                             <li>科技部领导讲话</li>
                         </ul>
                         <div class="layui-tab-content">
                             <div class="layui-tab-item layui-show">
-                                <ul>
-                                    <li><a href="javascript:;">让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子<span>[2019-01-03]</span></a></li>
-                                    <li><a href="javascript:;">让各族群众过上好日子<span>[2019-01-03]</span></a></li>
-                                    <li><a href="javascript:;">让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子<span>[2019-01-03]</span></a></li>
-                                    <li><a href="javascript:;">让各族群众过上好日子<span>[2019-01-03]</span></a></li>
-                                    <li><a href="javascript:;">让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子<span>[2019-01-03]</span></a></li>
-                                    <li><a href="javascript:;">让各族群众过上好日子<span>[2019-01-03]</span></a></li>
-                                    <li><a href="javascript:;">让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子<span>[2019-01-03]</span></a></li>
-                                    <li><a href="javascript:;">让各族群众过上好日子<span>[2019-01-03]</span></a></li>
-                                    <li><a href="javascript:;">让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子让各族群众过上好日子<span>[2019-01-03]</span></a></li>
-                                </ul>
+                               <ul id="ROOT_XTGL_XWLX_ZXJH"></ul>
                             </div>
                             <div class="layui-tab-item">
-
+                                      <ul id="ROOT_XTGL_XWLX_JTLDJH"></ul>
                             </div>
                             <div class="layui-tab-item">
-
+                                     <ul id="ROOT_XTGL_XWLX_GJLDJH"></ul>
+                            </div>
+                            <div class="layui-tab-item">
+                                     <ul id="ROOT_XTGL_XWLX_KJBLDJH"></ul>
                             </div>
                         </div>
                     </div>
@@ -681,6 +675,43 @@
                 laydate = layui.laydate;
                 publicMethods=layui.publicMethods;
                 /*新开页面*/
+                
+                
+                
+            var stype = "ROOT_XTGL_XWLX_KJBLDJH|ROOT_XTGL_XWLX_JTLDJH|ROOT_XTGL_XWLX_GJLDJH|ROOT_XTGL_XWLX_ZXJH|ROOT_XTGL_SPLX_PT";
+            var formIds = "";
+            var list = [];
+            var ROOT_XTGL_SPLX_PT = "";//视频
+            publicMethods.ajaxPost("/sysNews/getNewsIndexType", {"stype": stype, "bak3": 8}, function (data) {
+                var ROOT_XTGL_XWLX_KJBLDJH = "";//科技部领导讲话
+                var ROOT_XTGL_XWLX_JTLDJH = "";//集团领导讲话
+                var ROOT_XTGL_XWLX_GJLDJH = "";//国家领导讲话
+                var ROOT_XTGL_XWLX_ZXJH = "";//最新讲话
+                for (var i = data.length-1; i >0 ; i--) {
+                    var d = data[i];
+                    if (d.stype == "ROOT_XTGL_XWLX_KJBLDJH") {
+                        ROOT_XTGL_XWLX_KJBLDJH = ROOT_XTGL_XWLX_KJBLDJH + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
+                    } else if (d.stype == "ROOT_XTGL_XWLX_JTLDJH") {
+                        ROOT_XTGL_XWLX_JTLDJH = ROOT_XTGL_XWLX_JTLDJH + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
+                    } else if (d.stype == "ROOT_XTGL_XWLX_GJLDJH") {
+                        ROOT_XTGL_XWLX_GJLDJH = ROOT_XTGL_XWLX_GJLDJH + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
+                    } else if (d.stype == "ROOT_XTGL_XWLX_ZXJH") {
+                        ROOT_XTGL_XWLX_ZXJH = ROOT_XTGL_XWLX_ZXJH + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
+                    }
+                    else if (d.stype == "ROOT_XTGL_SPLX_PT") {
+                        list.push(d);
+                        // ROOT_XTGL_SPLX_PT = ROOT_XTGL_SPLX_PT + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
+                    }
+
+                }
+                $("#ROOT_XTGL_XWLX_KJBLDJH").html(ROOT_XTGL_XWLX_KJBLDJH);
+                $("#ROOT_XTGL_XWLX_JTLDJH").html(ROOT_XTGL_XWLX_JTLDJH);
+                $("#ROOT_XTGL_XWLX_GJLDJH").html(ROOT_XTGL_XWLX_GJLDJH);
+                $("#ROOT_XTGL_XWLX_ZXJH").html(ROOT_XTGL_XWLX_ZXJH);
+            });
+            
+            
+            
                 
                 
                 $("#actualPay").on("click", function () {

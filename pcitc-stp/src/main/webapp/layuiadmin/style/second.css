@@ -452,3 +452,20 @@ background: white;box-shadow: 0 0 5px #dadcde;}
     height: 9px;
     position: absolute;}
 .vm-d:after{background: none;width: 0;height: 0;content: none;}
+/*任务管理*/
+.task-view{padding: 20px;}
+.task-view .task-view-cont{height: auto;overflow: hidden;margin-bottom: 20px;}
+.task-view .task-view-cont>p{height: 34px;line-height: 34px;background:rgba(150,206,251,.3);font-size: 14px;
+    color: #1890FF;border-top: 1px solid #2495ff;text-indent: 16px;}
+.task-view .task-view-cont .item{height: 40px;line-height: 40px;font-size: 14px;color: #333;
+    background-color: #F7F8FC;}
+.task-view .task-view-cont .item:nth-child(2n){background-color: #fff;}
+.task-view .task-view-cont .item span:nth-child(1){width: 80px;text-align: right;}
+.task-view .task-view-cont .item span.red{color: #FF7775;}
+.task-view .task-view-cont .chart{background-color: #F7F8FC;height: 200px;margin-left: 6px;}
+.task-view-icon{padding:20px 16px;}
+.task-view-icon>p>span{padding:0 20px 0 26px;}
+.task-view-icon>p>span:nth-child(1){background: url("/layuiadmin/layui/images/task-view-l1.png") no-repeat;}
+.task-view-icon>p>span:nth-child(2){background: url("/layuiadmin/layui/images/task-view-l2.png") no-repeat;}
+.task-view-icon>p>span:nth-child(3){background: url("/layuiadmin/layui/images/task-view-l3.png") no-repeat;}
+.task-view-icon>p>span:nth-child(4){background: url("/layuiadmin/layui/images/task-view-l4.png") no-repeat;}
