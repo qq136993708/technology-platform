@@ -129,6 +129,13 @@ public class ProjectTaskController extends BaseController {
 		String unitPathIds =   sysUserInfo.getUnitPath();
 		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
+			
+			String arr[]=unitPathIds.split(",");
+			if(arr.length>2)
+			{
+				unitPathIds=arr[0];
+			}
+			System.out.println("--------------取第一个="+unitPathIds);
 			if(unitPathIds.length()>4)
 			{
 				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
@@ -224,6 +231,12 @@ public class ProjectTaskController extends BaseController {
 		String unitPathIds =   sysUserInfo.getUnitPath();
 		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
+			String arr[]=unitPathIds.split(",");
+			if(arr.length>2)
+			{
+				unitPathIds=arr[0];
+			}
+			System.out.println("--------------取第一个="+unitPathIds);
 			if(unitPathIds.length()>4)
 			{
 				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
@@ -437,6 +450,12 @@ public class ProjectTaskController extends BaseController {
 		String parentUnitPathNames =  "";
 		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
+			String arrv[]=unitPathIds.split(",");
+			if(arrv.length>2)
+			{
+				unitPathIds=arrv[0];
+			}
+			System.out.println("--------------取第一个="+unitPathIds);
 			if(unitPathIds.length()>4)
 			{
 				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
@@ -822,6 +841,13 @@ public class ProjectTaskController extends BaseController {
 		String parentApplyUnitPathName =  "";
 		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
+			
+			String arr[]=unitPathIds.split(",");
+			if(arr.length>2)
+			{
+				unitPathIds=arr[0];
+			}
+			System.out.println("--------------取第一个="+unitPathIds);
 			if(unitPathIds.length()>4)
 			{
 				parentApplyUnitPathCode=unitPathIds.substring(0, unitPathIds.length()-4);

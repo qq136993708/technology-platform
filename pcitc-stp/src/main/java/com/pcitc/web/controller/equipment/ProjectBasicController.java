@@ -84,6 +84,12 @@ public class ProjectBasicController extends BaseController {
 		String unitPathIds =   sysUserInfo.getUnitPath();
 		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
+			String arr[]=unitPathIds.split(",");
+			if(arr.length>2)
+			{
+				unitPathIds=arr[0];
+			}
+			System.out.println("--------------取第一个="+unitPathIds);
 			if(unitPathIds.length()>4)
 			{
 				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
@@ -113,6 +119,13 @@ public class ProjectBasicController extends BaseController {
 		String unitPathIds =   sysUserInfo.getUnitPath();
 		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
+			
+			String arr[]=unitPathIds.split(",");
+			if(arr.length>2)
+			{
+				unitPathIds=arr[0];
+			}
+			System.out.println("--------------取第一个="+unitPathIds);
 			if(unitPathIds.length()>4)
 			{
 				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
@@ -165,15 +178,25 @@ public class ProjectBasicController extends BaseController {
 		String leadUnitCode =  "";
 		String joinUnitIds =  "";//参与单位IDS
 		String unitPathIds =   sysUserInfo.getUnitPath();
+		System.out.println("--------------unitPathIds="+unitPathIds);
 		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
+			
+			String arr[]=unitPathIds.split(",");
+			if(arr.length>2)
+			{
+				unitPathIds=arr[0];
+			}
+			System.out.println("--------------取第一个="+unitPathIds);
 			if(unitPathIds.length()>4)
 			{
 				String	parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
+				System.out.println("--------------parentUnitPathIds="+parentUnitPathIds);
 				SysUnit sysUnit=EquipmentUtils.getUnitByUnitPath(parentUnitPathIds, restTemplate, httpHeaders);
 				if(sysUnit!=null)
 				{
 					leadUnitName = sysUnit.getUnitName();
+					System.out.println("--------------leadUnitName="+leadUnitName);
 					leadUnitCode =sysUnit.getUnitCode();
 				}
 			}
@@ -343,6 +366,12 @@ public class ProjectBasicController extends BaseController {
 		String parentUnitPathNames =  "";
 		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
+			String arr[]=unitPathIds.split(",");
+			if(arr.length>2)
+			{
+				unitPathIds=arr[0];
+			}
+			System.out.println("--------------取第一个="+unitPathIds);
 			if(unitPathIds.length()>4)
 			{
 				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);

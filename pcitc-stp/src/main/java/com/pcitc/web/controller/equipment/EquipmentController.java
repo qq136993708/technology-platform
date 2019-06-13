@@ -354,6 +354,12 @@ public class EquipmentController extends BaseController {
 		String unitPathIds =   sysUserInfo.getUnitPath();
 		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
+			String arr[]=unitPathIds.split(",");
+			if(arr.length>2)
+			{
+				unitPathIds=arr[0];
+			}
+			System.out.println("--------------取第一个="+unitPathIds);
 			if(unitPathIds.length()>4)
 			{
 				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
@@ -408,6 +414,12 @@ public class EquipmentController extends BaseController {
 		String unitPathIds =   sysUserInfo.getUnitPath();
 		if(unitPathIds!=null && unitPathIds!=null && !unitPathIds.equals(""))
 		{
+			String arr[]=unitPathIds.split(",");
+			if(arr.length>2)
+			{
+				unitPathIds=arr[0];
+			}
+			System.out.println("--------------取第一个="+unitPathIds);
 			if(unitPathIds.length()>4)
 			{
 				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
@@ -679,6 +691,13 @@ public class EquipmentController extends BaseController {
 		String parentUnitPathNames =  "";
 		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
+			String arr[]=unitPathIds.split(",");
+			if(arr.length>2)
+			{
+				unitPathIds=arr[0];
+			}
+			System.out.println("--------------取第一个="+unitPathIds);
+			
 			if(unitPathIds.length()>4)
 			{
 				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
