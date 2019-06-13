@@ -125,16 +125,8 @@ public class ProjectTaskController extends BaseController {
 		request.setAttribute("unitFieldList", unitFieldList);
 		
 		
-		String	parentUnitPathIds="";
-		String unitPathIds =   sysUserInfo.getUnitPath();
-		if(unitPathIds!=null && !unitPathIds.equals(""))
-		{
-			if(unitPathIds.length()>4)
-			{
-				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-				
-			}
-		}
+		String unitPathIds = sysUserInfo.getUnitPath();
+		String parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		
 		boolean isKJBPerson=EquipmentUtils.isKJBPerson(unitPathIds);
@@ -155,17 +147,6 @@ public class ProjectTaskController extends BaseController {
 		request.setAttribute("dicList", dicList);
 		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
 		request.setAttribute("unitFieldList", unitFieldList);
-		/*String	parentUnitPathIds="";
-		String unitPathIds =   sysUserInfo.getUnitPath();
-		if(unitPathIds!=null && !unitPathIds.equals(""))
-		{
-			if(unitPathIds.length()>4)
-			{
-				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-				
-			}
-		}
-		request.setAttribute("parentUnitPathIds", parentUnitPathIds);*/
 		
 		return "/stp/equipment/task/join_list";
 	}		
@@ -220,16 +201,8 @@ public class ProjectTaskController extends BaseController {
 		request.setAttribute("unitFieldList", unitFieldList);
 		
 		
-		String	parentUnitPathIds="";
-		String unitPathIds =   sysUserInfo.getUnitPath();
-		if(unitPathIds!=null && !unitPathIds.equals(""))
-		{
-			if(unitPathIds.length()>4)
-			{
-				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-				
-			}
-		}
+		String unitPathIds = sysUserInfo.getUnitPath();
+		String parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		return "/stp/equipment/task/confirm_list";
 	}
@@ -433,20 +406,11 @@ public class ProjectTaskController extends BaseController {
 		
 		String unitPathIds =   CommonUtil.getParameter(request, "unitPathIds",sysUserInfo.getUnitPath());
 		String unitPathNames = CommonUtil.getParameter(request, "unitPathNames", sysUserInfo.getUnitName());
-		String parentUnitPathIds ="";
-		String parentUnitPathNames =  "";
-		if(unitPathIds!=null && !unitPathIds.equals(""))
-		{
-			if(unitPathIds.length()>4)
-			{
-				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-				SysUnit sysUnit=EquipmentUtils.getUnitByUnitPath(parentUnitPathIds, restTemplate, httpHeaders);
-				if(sysUnit!=null)
-				{
-					parentUnitPathNames = sysUnit.getUnitName();
-				}
-			}
-		}
+		
+		String parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
+		
+		
+		String parentUnitPathNames = EquipmentUtils.getParentUnitPathName(parentUnitPathIds, restTemplate, httpHeaders);
 		System.out.println("----------------------topicId="+topicId);
 		if(arr!=null && arr.length>0)
 		{
@@ -818,20 +782,12 @@ public class ProjectTaskController extends BaseController {
 		paramMap.put("applyUserName", sysUserInfo.getUserDisp());
 		paramMap.put("applyUnitPathCode", sysUserInfo.getUnitPath());
 		String unitPathIds =   sysUserInfo.getUnitPath();
-		String parentApplyUnitPathCode ="";
-		String parentApplyUnitPathName =  "";
-		if(unitPathIds!=null && !unitPathIds.equals(""))
-		{
-			if(unitPathIds.length()>4)
-			{
-				parentApplyUnitPathCode=unitPathIds.substring(0, unitPathIds.length()-4);
-				SysUnit sysUnit=EquipmentUtils.getUnitByUnitPath(parentApplyUnitPathCode, restTemplate, httpHeaders);
-				if(sysUnit!=null)
-				{
-					parentApplyUnitPathName = sysUnit.getUnitName();
-				}
-			}
-		}
+		
+		
+		
+		String parentApplyUnitPathCode = EquipmentUtils.getParentUnitPathId(unitPathIds);
+		String parentApplyUnitPathName =  EquipmentUtils.getParentUnitPathName(parentApplyUnitPathCode, restTemplate, httpHeaders);
+		
 		paramMap.put("parentApplyUnitPathCode", parentApplyUnitPathCode);
 		paramMap.put("parentApplyUnitPathName", parentApplyUnitPathName);
 		
