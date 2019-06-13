@@ -139,10 +139,19 @@ layui.config({
     form = layui.form;
    
     form.render(null, 'component-form-group');
+    
     laydate.render({
-       elem: '#nd'
-       ,format: 'yyyy'
-    });
+      	 elem: '#nd',type: 'year'
+          ,done: function(value, date, endDate){
+              $(".layui-time").html(date.year);
+              $("#nd").val(date.year); 
+              search_Event();
+          }
+      });
+    
+    $(".layui-time").html(nd+"年");
+    
+    
     renderTable();
     $("#knowledge_table").click(function () {
     	parent.layui.index.openTabsPage("/home_achievement/award_table", "科技成果明细");
@@ -155,7 +164,6 @@ function initEchart()
 {
 
 	var v_date=(new Date()).getTime();
-    $(".layui-time").html(nd);
 	var ndstr=nd+"年";
 	var yAxis= [
         {

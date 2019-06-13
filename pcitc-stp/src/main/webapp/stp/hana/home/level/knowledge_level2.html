@@ -15,8 +15,8 @@
     <div class="layui-main-oil">
         <div class="searchBox">
             <label class="dateInput">
-                <span>月份</span>
-                <input type="text" name="year" placeholder="请选择月份" title="月份" value="${year}"  autocomplete="off" class="form-control" id="year">
+                <span>年份</span>
+                <input type="text" name="nd" placeholder="请选择年份" title="年份" value="${nd}"  autocomplete="off" class="form-control" id="nd">
             </label>
             <!--按钮组-->
             <div class="btnGroup">
@@ -132,12 +132,16 @@ layui.config({
       ,table = layui.table
       ,form = layui.form
       ,laydate = layui.laydate
-	  form.render(null, 'component-form-group');
-        laydate.render({
-           elem: '#year'
-           ,format: 'yyyy'
-        });
-        $(".layui-time").html($("#year").val());
+      laydate.render({
+    	   	 elem: '#nd',type: 'year'
+    	       ,done: function(value, date, endDate){
+    	           $(".layui-time").html(date.year);
+    	           $("#nd").val(date.year); 
+    	           search_Event();
+    	       }
+    	   });
+        
+        $(".layui-time").html($("#nd").val());
         $("#knowledge_table").click(function () {
             parent.layui.index.openTabsPage("/home_knowledge/knowledge_table", "知识产权明细");
         });
@@ -149,7 +153,7 @@ function initEchart()
 {
 	
 	var v_date=(new Date()).getTime();
-	var nd=$('#year').val();
+	var nd=$('#nd').val();
 	var ndstr=nd+"年";
 	var yAxis= [
         {
@@ -163,7 +167,6 @@ function initEchart()
             }
         }
     ];
-    $(".layui-time").html($("#year").val());
 	var chart1_url="/home_knowledge/getKnowledgeTypeList?type=1&nd="+nd+"&v_date="+v_date;
 	var echart1=load_mutl_bar_02(chart1_url,"chart1","","",yAxis);
 	echart1.on('click', function (params) {
