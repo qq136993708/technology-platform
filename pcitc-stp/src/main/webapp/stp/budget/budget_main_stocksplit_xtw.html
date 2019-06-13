@@ -31,7 +31,7 @@
 </head>
 <body>
     <div class="headline-box">
-        <div class="headline-title" title="集团经费预算总表">
+        <div class="headline-title" title="股份经费预算分解表">
             	<span class="nd">${nd}</span>年股份支付集团、外系统及盈科经费预算表(建议稿)
         </div>
         <div class="headline-tool">
@@ -161,7 +161,7 @@
                 }            
             });
             renderfunc = function removeHeaderCheckbox(){
-            	$(".layui-table-header table thead th i").remove();  //移除表头的复选框,去掉全选
+            	$(".layui-table-header table thead th .layui-unselect").remove();  //移除表头的复选框,去掉全选
 	        	//行单击选中事件绑定
 	        	$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
 	              	  var index=parseInt($(this).index()+1);
@@ -326,7 +326,7 @@
             var $ = layui.$, active = {
             	createEvent: function () { //点击查询按钮
                     layer.open({
-                        title: cu_date+'集团公司经费预算编制管理-创建预算表'
+                        title: cu_date+'股份公司经费预算编制管理-创建预算表'
                         , skin: 'layui-layer-lan'
                         , shadeClose: false
                         , type: 2

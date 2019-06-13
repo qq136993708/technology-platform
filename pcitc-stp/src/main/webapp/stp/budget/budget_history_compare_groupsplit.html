@@ -110,11 +110,13 @@
             //加载预算项
             publicMethods.ajaxAsyncPost("/budget/get-groupsplit-item",{"organCode":organCode,"budgetInfoId":budgetInfoId}, function (data) {
             	$(".nd").html(data.nd);
-            	groupTotalInfo = data;
-            	viewObj.itemData.push(groupTotalInfo);
+            	viewObj.itemData.push(data);
     			table.reload('itemTable',{
                     data:viewObj.itemData
                 });
+       		});
+            publicMethods.ajaxAsyncPost("/budget/budget-info-get",{"dataId":budgetInfoId}, function (data) {
+            	groupTotalInfo = data;
        		});
           	//加载历史
             publicMethods.ajaxAsyncPost("/budget/get-groupsplit-history-items",{"organCode":organCode,"nd":nd}, function (historydata) {
@@ -122,8 +124,8 @@
             		var tb_data = [];
             		tb_data.push(val);
 		    		table.reload(key,{data:tb_data});
-		    		console.log(key);
-		    		console.log(val);
+		    		//console.log(key);
+		    		//console.log(val);
             	});
        		});
             //预算项编辑事件监听
@@ -142,13 +144,13 @@
             });
             var $ = layui.$, active = {
            		saveEvent: function () {
-           			publicMethods.ajaxPost('/budget/save-groupsplit-item', viewObj.itemData[0], function (data, status) {
+           			publicMethods.ajaxAsyncPost('/budget/save-groupsplit-item', {"item":JSON.stringify(viewObj.itemData[0]),"info":JSON.stringify(groupTotalInfo)}, function (data, status) {
        	                if (data.success) {
        	                	parent.initDataVersion("${budgetInfoId}");
        	                	var index = parent.layer.getFrameIndex(window.name);
         			       	parent.layer.close(index);
        	                }else{
-       	                	parent.layer.alert("操作失败请重试", {
+       	                	parent.layer.alert(data.message, {
        							title : '信息'
        						});
        						return;

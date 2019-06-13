@@ -173,7 +173,7 @@
                 }            
             });
             renderfunc = function removeHeaderCheckbox(){
-            	$(".layui-table-header table thead th i").remove();  //移除表头的复选框,去掉全选
+            	$(".layui-table-header table thead th .layui-unselect").remove();  //移除表头的复选框,去掉全选
 	        	//行单击选中事件绑定
 	        	$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
 	              	  var index=parseInt($(this).index()+1);
@@ -345,6 +345,10 @@
                     });
                 },
                 resetJzEvent:function(){
+                	if($("#data_version").val()==""){
+                		parent.layer.alert("请选择预算版本", {title : '提示'});
+                		return;
+                	}
                		var lodingMsg = layer.msg('处理中....',{time: 15*1000});
    					publicMethods.ajaxAsyncPost("/budget/select-groupsplit-plan-data", {"nd":cu_date}, function (data) {
    						layer.msg('加载成功!',{time: 500});
@@ -409,8 +413,8 @@
                 		parent.layer.alert("请选择历史数据项", {title : '提示'});
                 		return;
                 	}
-                	console.log(curent_budget_info);
-                	console.log(curent_tabel_data[selectIndex]);
+                	//console.log(curent_budget_info);
+                	//console.log(curent_tabel_data[selectIndex]);
                 	var url = '/budget/budget_history_compare_groupsplit?nd='+cu_date+'&organCode='+curent_tabel_data[selectIndex].organCode+"&budgetInfoId="+curent_budget_info.dataId;
                    	layer.open({
                         title: '集团公司经费预算编制管理-往年预算参考'

@@ -183,9 +183,12 @@ public class SysDictionaryController extends BaseController {
 	 */
 	@RequestMapping(value = { "/dictionary/toDictionaryList" }, method = RequestMethod.GET)
 	public String toFuntionList() {
-		
-		
 		String menuType = request.getParameter("menuType");
+		String menuTypeName = "字典";
+		if("2".equals(menuType)) {
+			menuTypeName = "维度";
+		}
+		request.setAttribute("menuTypeName", menuTypeName);
 		request.setAttribute("menuType", menuType);
 		return "base/system/dictionary";
 	}
@@ -217,6 +220,11 @@ public class SysDictionaryController extends BaseController {
 		model.addAttribute("levelCode", levelCode);
 		model.addAttribute("parentName", parentName);
 		String menuType = request.getParameter("menuType");
+		String menuTypeName = "字典";
+		if("2".equals(menuType)) {
+			menuTypeName = "维度";
+		}
+		request.setAttribute("menuTypeName", menuTypeName);
 		request.setAttribute("menuType", menuType);
 		return "base/system/dictionary_info";
 	}

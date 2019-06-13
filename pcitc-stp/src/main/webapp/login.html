@@ -36,10 +36,10 @@
 			if ($("#loginErrorCount").val() != '') {
         		layer.msg('用户名或者密码不正确!');
         		if(parseInt($("#loginErrorCount").val())>=parseInt(maxErrorNum)){
-        			$(".layui-form-img").removeClass("layui-hide");
-                    $(".user-login").css("top","60px");
-                    var url = "/create_login_check_code?username="+$("#LAY-user-login-username").val();
-                    $("#LAY-user-get-vercode").attr("src",url);
+        			//$(".layui-form-img").removeClass("layui-hide");
+                    //$(".user-login").css("top","60px");
+                    //var url = "/create_login_check_code?username="+$("#LAY-user-login-username").val();
+                    //$("#LAY-user-get-vercode").attr("src",url);
         		}
         	}
 			
