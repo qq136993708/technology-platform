@@ -464,19 +464,8 @@
                                 <a lay-href="" lay-text="会议纪要">更多></a>
                                 <div class="lan">
                                     <table class="layui-table">
-                                        <tbody>
-                                        <tr>
-                                            <td style="width: 4px;">1</td>
-                                            <td>张三1</td>
-                                            <td>2019-03-28</td>
-                                            <td>处理集团所有预算统计</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 4px;">1</td>
-                                            <td>张三</td>
-                                            <td>2019-03-28</td>
-                                            <td>处理集团所有预算统计</td>
-                                        </tr>
+                                         <tbody id="list_data_top">
+                                        
                                         </tbody>
                                     </table>
                                 </div>
@@ -1382,8 +1371,76 @@
 
            }
 
+           //会议纪要
+           function renderTable()
+           { 
+        	   
+        	   $.ajax({
+                   type:"post",
+                   url: '/sys_meeting/list_data_top',
+                   timeout : 9000,
+                   dataType:"json",
+                   cache: false,
+                   contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                   success:function(data,status)
+                   {
+                	   var count = "";
+                	   for (var i = 0; i < data.length; i++) 
+                       {
+                		   
+                           var title = data[i].title;
+                           var meetingPlace= data[i].meetingPlace;
+                           var meetingDate= data[i].meetingDate;
+                           var id = data[i].id;
+                           count = count +" <tr><td  style='width: 4px;'>"+(i+1)+"</td><td><a  onclick=\"view('"+id+"')\" style='cursor:pointer'>"+title+"</a></td><td>"+meetingPlace+"</td><td>"+formatTime(meetingDate)+"</td></tr>";
+                       }
+                	   $("#list_data_top").append(count);
+                   },
+                   error:function()
+                   {
+                   },
+                   complete: function (XMLHttpRequest, status) {
+                   }
+               });
+              
+           }
+           function view(id) 
+           {
+           	 var temUrl="/sys_meeting/get/" + id;
+       		 layer.open({
+                   title:'详情',
+                   skin: 'layui-layer-lan',
+                   shadeClose: true,
+                   type: 2,
+                   fixed: false,
+                   maxmin: false,
+                   area: ['70%', '90%'],
+                   content:  temUrl
+               });
+           }
            
+           
+           function formatTime(d) {
+               if (d) {
+                   var date = new Date();
+                   date.setTime(d);
+                   var y = date.getFullYear();
+                   var m = date.getMonth() + 1;
+                   m = m < 10 ? ('0' + m) : m;
+                   var day = date.getDate();
+                   day = day < 10 ? ("0" + day) : day;
+                   var h = date.getHours();
+                   h = h < 10 ? ("0" + h) : h;
+                   var M = date.getMinutes();
+                   M = M < 10 ? ("0" + M) : M;
+                   var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+                   return str;
+               } else {
+                   return '';
+               }
+           }
             
         </script>
+        <script id="dateTpl" type="text/html"> {{formatTime(d.meetingDate)}} </script>
 </body>
 </html>

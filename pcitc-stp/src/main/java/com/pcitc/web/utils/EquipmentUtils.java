@@ -1122,7 +1122,42 @@ public class EquipmentUtils {
 		return userDetails;
 	}
 	
+	public static String getParentUnitPathId(String unitPathIds)
+	{
+		
+		System.out.println("-------------unitPathIds: " + unitPathIds);
+		String parentUnitPathIds = "";
+		if (unitPathIds != null && !unitPathIds.equals("")) 
+		{
+
+			String arr[] = unitPathIds.split(",");
+			if (arr.length > 1) 
+			{
+				unitPathIds = arr[1];
+				System.out.println("--------------取第一个" + unitPathIds);
+			} else {
+				unitPathIds = arr[0];
+			}
+			if (unitPathIds.length() > 4) 
+			{
+				parentUnitPathIds = unitPathIds.substring(0, unitPathIds.length() - 4);
+				System.out.println("------------parentUnitPathIds: " + parentUnitPathIds);
+			}
+		}
+		return parentUnitPathIds;
+	}
 	
+	
+	
+	public static String getParentUnitPathName(String parentUnitPathId,RestTemplate restTemplate,HttpHeaders httpHeaders)throws Exception 
+	{
+		String parentUnitPathNames="";
+		SysUnit sysUnit = EquipmentUtils.getUnitByUnitPath(parentUnitPathId, restTemplate, httpHeaders);
+		if (sysUnit != null) {
+			parentUnitPathNames = sysUnit.getUnitName();
+		}
+		return parentUnitPathNames;
+	}
 	
 	
 	/*	public static void main(String[] args) 
