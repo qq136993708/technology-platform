@@ -66,6 +66,9 @@
 .leftTable{margin-right: 276px;margin-left: 10px;}
 .left-side-tree,.right-side-tree{width:100%;height: 100%;padding-top: 34px;box-sizing: border-box;}
 .right-side-tree-box .title-box button{float:right;margin-right: 2px;}
+.title-select{width: 150px;}
+.title-select .layui-select-title input{height: 24px;line-height: 24px; }
+.title-select .layui-form-select dl{top: 24px;}
 /*两边树中间表*/
 .twoTree-tableBox{margin: 10px 276px 0;}
 .right-side-tree-box{position:absolute;right:10px;top:0;width: 260px;height: 100%;box-sizing: border-box;border: 1px solid #E6E6E6;}
@@ -314,8 +317,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .formBox{margin-bottom: 38px;}
 .layer-box .formBox{width: 100%; margin: 0; height: 100%;margin-bottom: 10px;}
 .layer-box .box-body{padding-top: 10px; margin-bottom: 0;border: 1px solid #e6e6e6}
-.layer-box .tableBox{margin: 0;}
-/*.layer-box .tableBox .tableToolBox{height: auto;line-height: normal;}*/
+.layer-box .tableBox{margin: 0;margin-bottom: 10px;}
 .layui-layer-title span{color: #ffffff; font-weight: 800;}
 .layui-layer-title .lastTitle{color: #eeeeff; font-weight: 400;}
 .form-bottom{position: fixed; left: 0; bottom: 0; width: 100%; height: 30px; padding-top: 3px; background: #ffffff; border-top: 1px solid #dddddd;
@@ -707,19 +709,26 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
     border: 1px solid #1890ff !important;}
 .layui-tab-brief>.layui-tab-title .layui-this{color: #1890ff}
 /*skill*/
-.skill{margin: 15px 10px;}
+.skill{padding: 6px 0px 15px;border: 1px solid #dadada;
+    border-radius: 3px;}
+.skill>p{margin-bottom: 10px;padding-bottom: 6px;border-bottom: 1px solid #dadada;padding-left: 10px;}
+.skill>p span{border-left: 3px solid #1890ff;display: inline-block;height: 14px;position: relative;
+    top: 2px;margin-right: 6px;}
 .skill .layui-card-body{padding: 10px 0px;}
 .skill .layui-tab-content{padding: 5px 0px;}
-.skill-left{width: 98%;margin: 0 auto;}
+.skill-left{margin: 0 auto;padding-left: 10px;}
 .skill-left>ul{height: auto;overflow: hidden;margin-bottom: 5px;}
-.skill-left>ul li{height: 40px;line-height: 40px;text-align: center;width: 25%;float: left;color: #1890ff;
-    background-color: #e5f3ff;margin-top: 2px;}
+.skill-left>ul li{height: 40px;line-height: 40px;text-align: center;width: 25%;float: left;color: #5258f3;
+    background-color: #e8e4ff;margin-top: 2px;}
 .skill-left .layui-tab .layui-tab-title li{margin: 0 4px;border-radius: 3px 3px 0 0;
     }
 .skill-left .layui-tab .layui-tab-title li:nth-child(1){margin-left: 0;}
 .skill-left .layui-tab-title .layui-this:after{height: 38px;border: none;}
 .skill-left .layui-tab-title li.layui-this{height: 35px;line-height: 35px;color: #fff;
-    background-color: #1791ff;border-radius: 4px;}
-.skill-left>ul li.layui-this{color: white;background-color: #1890ff;}
+    background-color: #53acff;border-radius: 4px;}
+.skill-left .layui-tab-title li span{color: #53acff !important;}
+.skill-left .layui-tab-title li.layui-this span{color: #fffc00 !important;}
+
+.skill-left>ul li.layui-this{color: white;background-color: #5258f3;}
 .skill-right{width: 35%;float: right;}
 .doc-box ul{margin-bottom: 10px;}

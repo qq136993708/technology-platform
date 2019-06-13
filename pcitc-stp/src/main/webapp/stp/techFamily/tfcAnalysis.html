@@ -51,8 +51,9 @@
     </style>
 </head>
 <body>
-<div class="skill">
-    <div class="skill-left">
+<div class="skill layui-row">
+    <p><span></span>技术族</p>
+    <div class="skill-left layui-col-md6">
         <ul id="tfcBase">
             <!--<li class="layui-this" onclick="changeTfcCode('@10@10001@');">勘探开发</li>-->
             <!--<li onclick="changeTfcCode('@10@10002@');">石油炼制</li>-->
@@ -84,14 +85,23 @@
                             </div>
                         </div>
                         <div class="layui-tab-item">
-                            <table id="indexOutAppraisalTableId" class="layui-hide" lay-filter="tableEvent"></table>
+                            <div class="lan">
+                                <table id="indexOutAppraisalTableId" class="layui-hide" lay-filter="tableEvent"></table>
+                            </div>
+
                         </div>
                         <div class="layui-tab-item">
-                            <table id="indexOutPatentTableId" class="layui-hide" lay-filter="tableEvent"></table>
+                            <div class="lan">
+                                <table id="indexOutPatentTableId" class="layui-hide" lay-filter="tableEvent"></table>
+                            </div>
+
                         </div>
                         <div class="layui-tab-item">
+                            <div class="lan">
+                                <table id="indexOutProjectInfoTableIdRy" class="layui-hide" style="display: none" lay-filter="tableEvent"></table>
+
+                            </div>
                             <!--<div style="display:none;">-->
-                            <table id="indexOutProjectInfoTableIdRy" class="layui-hide" style="display: none" lay-filter="tableEvent"></table>
                             <!--</div>-->
                             <!--<div id="indexOutProjectInfoTableIdRyShow"></div>-->
                         </div>
@@ -106,10 +116,11 @@
             </div>
         </div>
     </div>
+
+    <div class="layui-col-md6" id="container" style="height: 482px;"></div>
     <!--右侧-->
     <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
 </div>
-<div id="container" style="height: 500px;width: 98%"></div>
 <script>
     //初始化技术项
     var tfcCode = "";
@@ -180,7 +191,7 @@
             $(".skill-left>ul li").removeClass("layui-this");
             $(this).addClass("layui-this");
         });
-        $(".layui-tab-content").css("height", (parseInt(parent.$("#LAY_app_body .layui-show iframe").height()) - 132) + "px");
+        $(".layui-tab-content").css("height", (parseInt(parent.$("#LAY_app_body .layui-show iframe").height()) - 174) + "px");
         //人员
         var colsRy =
             [
@@ -209,7 +220,7 @@
                 , treeUpId: 'nd'//树形父id字段名称
                 , treeShowName: 'fzrxm'//以树形式显示的字段
                 , heightRemove: [".dHead", 10]//不计算的高度,表格设定的是固定高度，此项不生效
-                , height: commonDislodgeTable()-80
+                , height: commonDislodgeTable()-100
                 , isFilter: false
                 , iconOpen: true//是否显示图标【默认显示】
                 , isOpenDefault: true//节点默认是展开还是折叠【默认展开】
@@ -266,7 +277,7 @@
                 , treeUpId: 'parentId'//树形父id字段名称
                 , treeShowName: 'typeName'//以树形式显示的字段
                 , heightRemove: [".dHead", 10]//不计算的高度,表格设定的是固定高度，此项不生效
-                , height: commonDislodgeTable()-80
+                , height: commonDislodgeTable()-100
                 , isFilter: false
                 , iconOpen: true//是否显示图标【默认显示】
                 , isOpenDefault: true//节点默认是展开还是折叠【默认展开】
@@ -332,7 +343,7 @@
                         , "type": "fy"
                     }
             };
-            publicMethods.tableRenderH('indexOutProjectInfoTableIdFy', 'indexOutProjectInfoTableIdFy',commonDislodgeTable()-80, '/indexOutProjectInfo/getTableData', false, colsJf, where, false, function (res, curr, count) {
+            publicMethods.tableRenderH('indexOutProjectInfoTableIdFy', 'indexOutProjectInfoTableIdFy',commonDislodgeTable()-100, '/indexOutProjectInfo/getTableData', false, colsJf, where, false, function (res, curr, count) {
                 // $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                 //     var index = parseInt($(this).index() + 1);
                 //     $('tr').removeClass('layui-table-click');
@@ -391,7 +402,7 @@
                         "typeIndex": tfcCode
                     }
             };
-            publicMethods.tableRenderH('indexOutProjectInfoTableId', 'indexOutProjectInfoTableId',commonDislodgeTable()-80, '/indexOutProjectInfo/getTableData', false, cols, where, true, function (res, curr, count) {
+            publicMethods.tableRenderH('indexOutProjectInfoTableId', 'indexOutProjectInfoTableId',commonDislodgeTable()-100, '/indexOutProjectInfo/getTableData', false, cols, where, true, function (res, curr, count) {
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     var index = parseInt($(this).index() + 1);
                     $('tr').removeClass('layui-table-click');
@@ -438,7 +449,7 @@
                         "typeIndex": tfcCode
                     }
             };
-            publicMethods.tableRenderH('indexOutAppraisalTableId', 'indexOutAppraisalTableId',commonDislodgeTable()-80, '/indexOutAppraisal/getTableData', false, colsCg, where, true, function (res, curr, count) {
+            publicMethods.tableRenderH('indexOutAppraisalTableId', 'indexOutAppraisalTableId',commonDislodgeTable()-100, '/indexOutAppraisal/getTableData', false, colsCg, where, true, function (res, curr, count) {
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     var index = parseInt($(this).index() + 1);
                     $('tr').removeClass('layui-table-click');
@@ -491,7 +502,7 @@
                         "typeIndex": tfcCode
                     }
             };
-            publicMethods.tableRenderH('indexOutPatentTableId', 'indexOutPatentTableId',commonDislodgeTable()-80, '/indexOutPatent/getTableData', false, colsZl, where, true, function (res, curr, count) {
+            publicMethods.tableRenderH('indexOutPatentTableId', 'indexOutPatentTableId',commonDislodgeTable()-100, '/indexOutPatent/getTableData', false, colsZl, where, true, function (res, curr, count) {
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     var index = parseInt($(this).index() + 1);
                     $('tr').removeClass('layui-table-click');
@@ -527,6 +538,7 @@
             url: "/indexOutProjectInfo/selectByExampleByTypeIndexCode?typeIndex=" + tfcCode,
             dataType: 'json',
             success: function (d) {
+                console.log(d)
                 hours = d.y;
                 days = d.x;
                 data = d.data;
@@ -546,15 +558,18 @@
 
         option = {
             tooltip: {
-                position: 'top'
+                position: 'left',
+                formatter:function(params){
+                    console.log(params)
+                    return params.name+"年<br/>"+days[params.data[1]]+"个数:"+params.data[2]
+                }
             },
             animation: false,
             grid: {
-
                 top:"1%",
                 left: '3%',
-                right: '0%',
-                bottom: '10%',
+                right: '1.5%',
+                bottom: '0%',
                 containLabel: true
             },
             xAxis: {
@@ -562,6 +577,12 @@
                 data: hours,
                 splitArea: {
                     show: true
+                },
+                axisLabel: {
+                    show: false,
+                    textStyle: {
+                        color: '#fff'
+                    }
                 }
             },
             yAxis: {
@@ -569,15 +590,28 @@
                 data: days,
                 splitArea: {
                     show: true
+                },
+                axisTick: {
+                    show: false
+                },
+                axisLine: {
+                    show: false
+                },
+                axisLabel: {
+                    show: false,
+                    textStyle: {
+                        color: '#fff'
+                    }
                 }
             },
             visualMap: {
+                show:false,
                 min: 0,
                 max: 10,
                 calculable: true,
                 orient: 'horizontal',
                 left: 'center',
-                bottom: '2%'
+                bottom: '2%',
             },
             series: [{
                 name: '',
@@ -596,7 +630,6 @@
                 }
             }]
         };
-        ;
         if (option && typeof option === "object") {
             myChart.setOption(option, true);
         }

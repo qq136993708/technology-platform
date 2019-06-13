@@ -58,7 +58,7 @@
                         <label for="" class="layui-form-label">申报单位<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
                             <input class="layui-input" name="parentUnitPathName" readonly="readonly" id="parentUnitPathName"
-                                   value="${parentUnitPathName}" lay-verify="required" autocomplete="off" type="text">
+                                   value="中国石油化工股份有限公司青岛安全工程研究院" lay-verify="required" autocomplete="off" type="text">
                         </div>
                         <label for="" class="layui-form-label">申报人<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
@@ -71,7 +71,7 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">采购名称<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" placeholder="请输入采购名称" name="purchaseName" id="purchaseName" value="${purchaseName}" autocomplete="off" type="text">
+                            <input class="layui-input" placeholder="请输入采购名称" name="purchaseName" id="purchaseName" value="${purchaseName}" autocomplete="off" >
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -101,8 +101,8 @@
             </div>
                 <div class="form-bottom">
                     <div class="form-bottom-btns">
-                        <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
-                                lay-submit="" lay-filter="sub">保存
+                        <button type="button"  class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
+                                lay-submit="" lay-filter="sub" >保存
                         </button>
                         <button type="button"
                                 class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
@@ -284,6 +284,7 @@
                 });
                 $("#yearFeeStrJoinUnit").val(yearFeeStrJoinUnit.substring(0,yearFeeStrJoinUnit.length-1));
                }*/
+               alert(11);
             var check = table.checkStatus('join_apply_table');
             var topicId = $("#topicId").val();
             var purchaseName = $("#purchaseName").val();
@@ -309,7 +310,7 @@
                 var backurl="/sre_purchase/to-list?v_date="+v_date;
                 ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
             }
-            return false;
+            
         });
 
     });
