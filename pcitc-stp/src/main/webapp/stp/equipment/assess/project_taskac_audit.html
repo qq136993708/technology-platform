@@ -30,7 +30,7 @@
 			                    </div>
 			                </div>
     <div class="layui-form-item layui-form-text" >
-        <label for="" class="layui-form-label">验收描述<span class="must-fill">*</span></label>
+        <label for="" class="layui-form-label">评估描述<span class="must-fill">*</span></label>
         <div class="layui-input-block">
           <textarea placeholder="请输入评估描述" name="describe" id="describe" lay-verify="required"   class="layui-textarea">${sreEquipment.specification}</textarea>
         </div>
@@ -76,7 +76,16 @@ var publicMethods;
     });
       //流程
       function save(){
-
+	if($("#name").val()=="")
+			{
+			layer.alert("请选择课题！");
+			return;
+			}
+            if($("#describe").val()=="")
+			{
+			layer.alert("请输入评估描述！");
+			return;
+			}
     	  $.ajax({
 	           type : 'POST',
 	           url : "/sre_project_assess/addAudit",

@@ -276,7 +276,7 @@ var name=$('#name').val();
                          type: 2,
                          fixed: false,
                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                         maxmin: false,
+                         maxmin: true,
                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                          area: ['70%', '90%'],
                          content:  temUrl
@@ -387,11 +387,11 @@ var name=$('#name').val();
             cols: [[
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
-            	{field : 'purchaseName',     title : '采购名称', style : 'cursor: pointer;', align : 'left', width : '30%'},
-         	    {field : 'parentUnitPathNames',     title : '单位名称', style : 'cursor: pointer;', align : 'left', width : '25%'},
-         		{field : 'departName',     title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '30%'},
+            	{field : 'purchaseName',     title : '采购名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
+         	    {field : 'parentUnitPathNames',     title : '单位名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
+         		{field : 'departName',     title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
                 {field : 'proposerName',      		title : '申请人',         style : 'cursor: pointer;', align: 'center',  width : '10%',},
-                {field : 'createDate',      title : '创建时间', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl', width : '10%'}
+                {field : 'createDate',      title : '创建时间', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl', }
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选
@@ -456,134 +456,7 @@ var name=$('#name').val();
     
     
     
-    function dealFlow(id)
-    {
-    	
-    	var json = {functionId:functionId};
-    	 $.ajax({
-             type : 'POST',
-             url : "/workflow/start/audit-type",
-             contentType: "application/json;charset=UTF-8",
-             data : JSON.stringify(json),
-             //json中有functionId（projectId、departmentId等）用来区别processDefine的属性
-             success : function(data) 
-             {
-          	   if (data.code == 'role')
-          	   {
-              		// 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
-              		// roleCodes，参数名必须一致，方便公共弹出页面调用
-              		   roleCodes = data.data;  // 弹出页面的隐藏的查询条件
-              		  var temUrl="/task/deal/users/ini";
-                      layer.open({
-                          title:'选择审批人',
-                          skin: 'layui-layer-lan',
-                          shadeClose: true,
-                          type: 2,
-                          fixed: false,
-                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                          maxmin: true,
-                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                          area: ['800px', '550px'],
-                          content:  temUrl
-                      });
-              	} else if (data.code == 'unit' || data.code == 'post') 
-              	{
-              		// 按部门/岗位选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
-              		// unitCodes、postCodes，参数名必须一致，方便公共弹出页面调用
-    	          		if (data.code == 'unit') 
-    	          		{
-    	          			unitCodes = data.data;  // 弹出页面的隐藏的查询条件
-    	          		} else 
-    	          		{
-    	          			postCodes = data.data;  // 弹出页面的隐藏的查询条件
-    	          		}
-              		
-              		   var temUrl="/task/deal/user/unit/ini";
-                       layer.open({
-                          title:'选择审批人',
-                          skin: 'layui-layer-lan',
-                          shadeClose: true,
-                          type: 2,
-                          fixed: false,
-                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                          maxmin: true,
-                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                          area: ['800px', '550px'],
-                          content:  temUrl
-                      });
-              	} else if (data.code == 'int') 
-              	{
-              		layer.msg('启动参数不足');
-              	} else if (data.code == 'con') 
-              	{
-              		layer.msg('请给此功能菜单配置流程');
-              	} else if (data.code == 'exist') 
-              	{
-              		layer.msg('工作流部署异常，请联系管理员');
-              	} else 
-              	{
-              		// 直接处理此任务
-              		handleTask('');
-              	}
-             },
-             error : function(msg) {//请求失败处理函数  
-            }
-         });
-    }
-
-    //处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
-   function handleTask(userIds)
-    {
-    	
-    	$('#userIds').val(userIds);
-    	$('#applyEvent').attr("disabled",true);
-    	var v_date=(new Date()).getTime();
-        var url="/sre-project-basic/departName?v_date="+v_date;
-        var backurl="/sre-project-basic/to-list?v_date="+v_date;
-        ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
-        $('#applyEvent').attr("disabled",false);
-    }
     
-    function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
-    {
-    	 $.ajax({
-      	     type:type,
-      	     url: url,
-      	     dataType:"json",
-      	     data:$("#"+formName).serialize(),
-      	     async: false, 
-      	     cache: false,
-      	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
-             success:function(data,status)
-             {
-
-    	          if(data.success==true ||data.success=='true')
-    	          {
-
-    	        	  
-    	        	          layer.alert(
-    	        			  successMsg, 
-    	                      {icon: 1,closeBtn: 0 },
-    	                      function () 
-    	                      {
-    	                    	  renderTable();
-   	                    	      layer.closeAll();
-    	                      });
-    	        	  
-    	          } else
-    	          {
-    	        	 layer.alert(failMsg);
-    	          }
-    	     
-    		   },
-    		   error:function()
-    		   {
-    		    	layer.alert("网络访问错误");
-    		   }
-        
-      });
-    }
-   
 
 </script>
 

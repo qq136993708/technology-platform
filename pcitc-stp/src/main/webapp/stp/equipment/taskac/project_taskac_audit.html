@@ -76,7 +76,16 @@ var publicMethods;
     });
       //流程
       function save(){
-
+			if($("#name").val()=="")
+			{
+			layer.alert("请选择课题！");
+			return;
+			}
+            if($("#describe").val()=="")
+			{
+			layer.alert("请输入验收描述！");
+			return;
+			}
     	  $.ajax({
 	           type : 'POST',
 	           url : "/sre_project_taskac/addAudit",

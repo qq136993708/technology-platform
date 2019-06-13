@@ -107,7 +107,12 @@ var publicMethods;
 	         });
 	    	var $ = layui.$, active = {
 	    		searchEvent: function() { 
-                    table.reload("notjoin_apply_table",{where:{param:{"id":$("#topicId").val(),"name":$("#name").val(),"taskWriteUsersIds":$("#taskWriteUsersIds").val()}}});
+                                        table.reload("notjoin_apply_table",{where:{param:{"id":$("#topicId").val(),"topicName":$("#name").val(),"taskWriteUsersIds":$("#taskWriteUsersIds").val()}}});
+                },
+                resetEvent:function(){
+                $("#name").val("");
+                table.reload("notjoin_apply_table",{where:{param:{"id":$("#topicId").val(),"topicName":$("#name").val(),"taskWriteUsersIds":$("#taskWriteUsersIds").val()}}});
+                
                 },
                 addEvent:function(){
                 	var check = table.checkStatus('notjoin_apply_table');

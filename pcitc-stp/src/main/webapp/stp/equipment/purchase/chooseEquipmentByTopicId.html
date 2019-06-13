@@ -57,8 +57,8 @@ var publicMethods;
 	        	height: 360,
 	        	page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
 	            cols: [[
-	            	{type:'checkbox',event: 'changeEvents'}
-	             	,{title:'序号', type:'numbers'},
+	            	{type:'checkbox',event: 'changeEvents', width : 55}
+	             	,{title:'序号', type:'numbers', width : 55},
 	             	{field : 'auditStatus', title : '状态',    style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width : 55},
 	                {field : 'name',        title : '装备名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
 	                {field : 'type',        title : '装备分类', style : 'cursor: pointer;', align : 'center', width : '10%'},

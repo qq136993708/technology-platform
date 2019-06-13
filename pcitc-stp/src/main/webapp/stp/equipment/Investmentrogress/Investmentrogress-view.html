@@ -166,13 +166,13 @@ var name=$('#name').val();
             },
             cols: [[
             	{title : '序号', type :'numbers', width : 55},
-            	{field : 'equipmentName',           title : '单项名称',        style : 'cursor: pointer;', align: 'left',    width : '20%'},
-            	{field : 'unitPrice',           title : '单价（万元）',      style : 'cursor: pointer;', align: 'right',    width : '10%'},
-                {field : 'contractState',      title : '商务谈判及合同',    style : 'cursor: pointer;', align: 'center',  width : '10%',templet : '<div>{{ layui.laytpl.contractStatus_equipment(d.contractState) }}</div>'},
+            	{field : 'equipmentName',           title : '单项名称',        style : 'cursor: pointer;', align: 'left',    width : '15%'},
+            	{field : 'unitPrice',           title : '单价（万元）',      style : 'cursor: pointer;', align: 'center',    width : '15%'},
+                {field : 'contractState',      title : '商务谈判及合同',    style : 'cursor: pointer;', align: 'center',  width : '15%',templet : '<div>{{ layui.laytpl.contractStatus_equipment(d.contractState) }}</div>'},
                 {field : 'purchaseState',   title : '采购申请',      style : 'cursor: pointer;', align: 'center',  width : '11%',templet : '<div>{{ layui.laytpl.purchaseState_equipment(d.purchaseState) }}</div>'},
-                {field : 'forapplicationState',   title : '到货付款转资',      style : 'cursor: pointer;', align: 'center',  width : '11%',templet : '<div>{{ layui.laytpl.forapplicationStatus_equipment(d.forapplicationState) }}</div>'},
-                {field : 'acceptanceState',   title : '项目验收',         style : 'cursor: pointer;', align: 'left', width : '17%',templet : '<div>{{ layui.laytpl.acceptanceStatus_equipment(d.acceptanceState) }}</div>'},
-                {field : 'taskCloseState',    title : '任务关闭', style : 'cursor: pointer;', align: 'left', width : '15%', templet : '<div>{{ layui.laytpl.taskStatus_equipment(d.taskCloseState) }}</div>'}
+                {field : 'forapplicationState',   title : '到货付款转资',      style : 'cursor: pointer;', align: 'center',  width : '15%',templet : '<div>{{ layui.laytpl.forapplicationStatus_equipment(d.forapplicationState) }}</div>'},
+                {field : 'acceptanceState',   title : '项目验收',         style : 'cursor: pointer;', align: 'left', width : '10%',templet : '<div>{{ layui.laytpl.acceptanceStatus_equipment(d.acceptanceState) }}</div>'},
+                {field : 'taskCloseState',    title : '任务关闭', style : 'cursor: pointer;', align: 'left', templet : '<div>{{ layui.laytpl.taskStatus_equipment(d.taskCloseState) }}</div>'}
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选

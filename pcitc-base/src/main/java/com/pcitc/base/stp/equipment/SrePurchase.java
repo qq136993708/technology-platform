@@ -45,6 +45,10 @@ public class SrePurchase {
 
     private String isContractClosed;
 
+    private String remarks;
+
+    private String purchaseCode;
+
     public String getId() {
         return id;
     }
@@ -211,5 +215,21 @@ public class SrePurchase {
 
     public void setIsContractClosed(String isContractClosed) {
         this.isContractClosed = isContractClosed;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
+    public String getPurchaseCode() {
+        return purchaseCode;
+    }
+
+    public void setPurchaseCode(String purchaseCode) {
+        this.purchaseCode = purchaseCode;
     }
 }
