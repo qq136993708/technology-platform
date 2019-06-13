@@ -14,8 +14,7 @@ import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.stp.equipment.*;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysPost;
-import com.pcitc.base.util.DateUtil;
-import com.pcitc.base.util.ResultsDate;
+import com.pcitc.base.util.*;
 import com.pcitc.web.utils.WordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -29,8 +28,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.system.SysUnit;
-import com.pcitc.base.util.CommonUtil;
-import com.pcitc.base.util.IdUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
 
@@ -44,7 +41,8 @@ public class PurchaseController extends BaseController{
 
 	private static final String PAGE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/page";
 	private static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/get/";
-    private static final String PAGE_URL_CHOOSE_PROJECT = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/page";
+    //private static final String PAGE_URL_CHOOSE_PROJECT = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/page";
+    private static final String PAGE_URL_CHOOSE_PROJECT = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/chooseProjectPage";
     private static final String GET_BY_PROJECT_ID = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/getSreProject/";
     private static final String GET_PROJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/get/";
 
@@ -222,6 +220,8 @@ public class PurchaseController extends BaseController{
         String name         = "";
         String equipmentId  = "";
         String sreProjectEquipmentIds = "";
+        String remarks = "";
+        String purchaseCode = "";
                 String unitPathIds =   sysUserInfo.getUnitPath();
 		if(!unitPathIds.equals(""))
 		{
@@ -244,6 +244,7 @@ public class PurchaseController extends BaseController{
 		String createUserId=sysUserInfo.getUserName();
 		String id = CommonUtil.getParameter(request, "id", "");
 		request.setAttribute("id", id);
+        purchaseCode = CodeUtil.getCode("XTBM_0074", restTemplate, httpHeaders);
 		if(!id.equals(""))
 		{
             ResponseEntity<SrePurchase> srePurchaseResponseEntity= this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
@@ -252,7 +253,8 @@ public class PurchaseController extends BaseController{
             projectId = srePurchase.getProjectId();
             purchaseName = srePurchase.getPurchaseName();
             equipmentId = srePurchase.getEquipmentId();
-
+            remarks = srePurchase.getRemarks();
+            purchaseCode = srePurchase.getPurchaseCode();
             ResponseEntity<SreProject> SreProjectResponseEntity = this.restTemplate.exchange(GET_BY_PROJECT_ID + projectId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
                 if(SreProjectResponseEntity!=null){
                     SreProject sreProject = SreProjectResponseEntity.getBody();
@@ -272,6 +274,9 @@ public class PurchaseController extends BaseController{
         request.setAttribute("name", name);
         request.setAttribute("equipmentIds",equipmentId);
         request.setAttribute("sreProjectEquipmentIds",sreProjectEquipmentIds);
+        request.setAttribute("purchaseCode",purchaseCode);
+        request.setAttribute("remarks",remarks);
+
 
 
 
@@ -358,6 +363,8 @@ public class PurchaseController extends BaseController{
         String createUserName = CommonUtil.getParameter(request, "createUserName", "");
         String createUserId = CommonUtil.getParameter(request, "createUserId", "");
         String isContractClosed = CommonUtil.getParameter(request, "isContractClosed",Constant.PURCHASE_CONTRACT_STAY_CLOSE );
+        String remarks = CommonUtil.getParameter(request, "remarks", "");
+        String purchaseCode = CommonUtil.getParameter(request, "purchaseCode", "");
 
         String unitPathIds =   CommonUtil.getParameter(request, "unitPathIds",sysUserInfo.getUnitPath());
 
@@ -405,6 +412,8 @@ public class PurchaseController extends BaseController{
             srePurchase.setEquipmentId(equipmentIds);//装备ID
             srePurchase.setProjectId(topicId);//课题ID
             srePurchase.setIsContractClosed(isContractClosed);
+            srePurchase.setRemarks(remarks);
+            srePurchase.setPurchaseCode(purchaseCode);
 
 
         // 判断是新增还是修改
@@ -492,34 +501,42 @@ public class PurchaseController extends BaseController{
     public String getParticulars(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception
     {
         ResponseEntity<SrePurchase> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
-        int statusCode = responseEntity.getStatusCodeValue();
-        logger.info("============远程返回  statusCode " + statusCode);
-        SrePurchase srePurchase = responseEntity.getBody();
-        request.setAttribute("srePurchase",srePurchase);
-        String projectId = srePurchase.getProjectId();
-
-
+        int statusCode = 0;
+        String projectId = null;
+        SrePurchase srePurchase = null;
+        if(responseEntity!=null){
+            statusCode = responseEntity.getStatusCodeValue();
+            logger.info("============远程返回  statusCode " + statusCode);
+            srePurchase = responseEntity.getBody();
+            request.setAttribute("srePurchase",srePurchase);
+            projectId = srePurchase.getProjectId();
+        }
         ResponseEntity<SreProject> responseEntity1 = this.restTemplate.exchange(GET_PROJECT_URL + projectId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
-        int statusCode1 = responseEntity.getStatusCodeValue();
-        logger.info("============远程返回  statusCode " + statusCode);
-        SreProject sreProjectBasic = responseEntity1.getBody();
-        request.setAttribute("sreProjectBasic", sreProjectBasic);
-        String name = sreProjectBasic.getName();
-        System.out.println(name+"=================================");
+        if(responseEntity1!=null){
+            int statusCode1 = responseEntity.getStatusCodeValue();
+            logger.info("============远程返回  statusCode " + statusCode);
+            SreProject sreProjectBasic = responseEntity1.getBody();
+            request.setAttribute("sreProjectBasic", sreProjectBasic);
+            String name = sreProjectBasic.getName();
+            System.out.println(name+"=================================");
 
-        String proposerName = srePurchase.getProposerName();
-        String departCode = srePurchase.getDepartCode();
-        String departName = srePurchase.getDepartName();
-        String parentUnitPathNames = srePurchase.getParentUnitPathNames();
+            String proposerName = srePurchase.getProposerName();
+            String departCode = srePurchase.getDepartCode();
+            String departName = srePurchase.getDepartName();
+            String parentUnitPathNames = srePurchase.getParentUnitPathNames();
+            String remarks = srePurchase.getRemarks();
+            String purchaseCode = srePurchase.getPurchaseCode();
 
 
-        request.setAttribute("proposerName", proposerName);
-        request.setAttribute("departCode", departCode);
-        request.setAttribute("departName", departName);
-        request.setAttribute("parentUnitPathNames", parentUnitPathNames);
-        List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
-        request.setAttribute("unitFieldList", unitFieldList);
-
+            request.setAttribute("proposerName", proposerName);
+            request.setAttribute("departCode", departCode);
+            request.setAttribute("departName", departName);
+            request.setAttribute("parentUnitPathNames", parentUnitPathNames);
+            request.setAttribute("remarks", remarks);
+            request.setAttribute("purchaseCode", purchaseCode);
+            List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
+            request.setAttribute("unitFieldList", unitFieldList);
+        }
         List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
         request.setAttribute("dicList", dicList);
 

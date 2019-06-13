@@ -33,8 +33,8 @@
 	<div class="tableToolBox">
         <div class="whiteLine"></div>
         <div  class="tableBtns">
-                    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">上传评估准备材料</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="submitEvent">提交</button>
+                    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">添加</button>
+                    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="editEvent">查看</button>
            </div>
     </div>
    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table> 
@@ -127,7 +127,7 @@ var name=$('#name').val();
 	                    type: 2,
 	                    fixed: false,
 	                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-	                    maxmin: true,
+	                    maxmin: false,
 	                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
 	                    area: ['60%', '80%'],
 	                    content:  '/sre-meeting/add?taskId='+taskId
@@ -136,52 +136,37 @@ var name=$('#name').val();
             },
             addEvent: function(){ //点击新增按钮
          
-            	 if (typeof(selectRowData) == "undefined")
-                {
-                    layer.msg('请点击选择一个课题');
-                }else
-                {
-                        var id=selectRowData.id;
-                        var temUrl="/sre_project_assess/projecttaskpradd?id=" + id;
-                        layer.open({
-                            title:'上传采购合同',
-                            skin: 'layui-layer-lan',
-                            shadeClose: true,
-                            type: 2,
-                            fixed: false,
-                            maxmin: true,
-                            area: ['70%', '90%'],
-                            content:  temUrl
-                        });
-                }
+            		 layer.open({
+                         title:'验收申请',
+                         skin: 'layui-layer-lan',
+                         shadeClose: true,
+                         type: 2,
+                         fixed: false,
+                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                         maxmin: false,
+                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                         area: ['100%','100%'],
+                         content:  '/sre-sreScrapApply/project_taskpr_list'
+                     });  
             }
             ,editEvent: function(){  //点击编辑按钮
-            	if (typeof(selectRowData.taskId) == "undefined") {
+            	if (typeof(selectRowData) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
-            		 var taskId=selectRowData.taskId;
-            		 var topicId=selectRowData.topicId;
-           		     var url="/sre_project_assess/add?taskId="+taskId+"&topicId="+topicId;
-           		     var status=selectRowData.status;
-           		     if(status=='1' || status=='3')
-           		     {
-           		    	layer.msg('上报中或审核通过，不能修改');
-           		    	return;
-           		     }
-           		     
-	           		 layer.open({
-	                      title:'编辑',
-	                      skin: 'layui-layer-lan',
-	                      shadeClose: true,
-	                      type: 2,
-	                      fixed: false,
-	                      //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-	                      maxmin: true,
-	                      //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-	                      area: ['70%', '90%'],
-	                      content:  url
-	                 });
-           		  
+            		 var id=selectRowData.id;
+           		     var url="/sre-sreScrapApply/findview?id="+id;
+           		  layer.open({
+                      title:'装备-修改',
+                      skin: 'layui-layer-lan',
+                      shadeClose: true,
+                      type: 2,
+                      fixed: false,
+                      //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                      maxmin: true,
+                      //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                      area: ['70%', '90%'],
+                      content:  url
+                  });
             	}
                
             },deleteEvent: function(){  //点击删除按钮
@@ -192,7 +177,7 @@ var name=$('#name').val();
             	 } else 
             	 {
             		  var taskId=selectRowData.taskId;
-           		      var url="/sre_project_assess/delete/"+taskId;
+           		      var url="/sre_project_taskac/delete/"+taskId;
            		     var status=selectRowData.status;
          		     if(status=='1' || status=='3')
          		     {
@@ -214,7 +199,7 @@ var name=$('#name').val();
             		layer.msg('请点击选择一行数据');
             	} else {
             		 var taskId=selectRowData.taskId;
-            		 var temUrl="/sre_project_assess/get/" + taskId;
+            		 var temUrl="/sre_project_taskac/get/" + taskId;
             		 layer.open({
                          title:'详情',
                          skin: 'layui-layer-lan',
@@ -222,7 +207,7 @@ var name=$('#name').val();
                          type: 2,
                          fixed: false,
                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                         maxmin: true,
+                         maxmin: false,
                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                          area: ['70%', '90%'],
                          content:  temUrl
@@ -237,7 +222,7 @@ var name=$('#name').val();
             	}else 
             	{
             		 var taskId=selectRowData.taskId;
-            		 var temUrl="/sre_project_assess/createWord/" + taskId;
+            		 var temUrl="/sre_project_taskac/createWord/" + taskId;
             		 ajaxDeleteCreateWord(temUrl,"GET","生成WORD成功","生成WORD失败");
             	}
             },
@@ -257,7 +242,7 @@ var name=$('#name').val();
 	         				 var applicationId=selectRowData.id;
             		 $.ajax({
 			           type : 'GET',
-			           url : "/sre_project_assess/submitAudit?id="+applicationId+"&status="+"50",
+			           url : "/sre_project_taskac/submitAudit?id="+applicationId+"&status="+"20",
 			       
 			           success : function(data) {
 			           layer.alert("保存成功！", {icon: 1,closeBtn: 0 }, function () 
@@ -265,7 +250,7 @@ var name=$('#name').val();
 			                           var index = parent.layer.getFrameIndex(window.name); 
 								       parent.layer.close(index); 
 								       var v_date = (new Date()).getTime();
-								       var backurl="/sre_project_assess/to_list?v_date="+v_date;
+								       var backurl="/sre_project_taskac/to_list?v_date="+v_date;
 								       location.href = backurl;
 			                      });
 					 
@@ -301,9 +286,9 @@ var name=$('#name').val();
         });
         //监听表格双击事件
        // table.on('rowDouble(processdef-table)', function(obj){
-      //  	var temUrl = '/sre_project_assess/get/'+obj.data.id;
-      //  	openFullWin("详情",temUrl);
-      //  });
+       // 	var temUrl = '/sre_project_taskac/get/'+obj.data.id;
+        //	openFullWin("详情",temUrl);
+       // });
         
         //区别按钮属性
         $('.layui-btn').on('click', function(){
@@ -318,9 +303,9 @@ var name=$('#name').val();
     	//渲染
         table.render({
             elem: '#processdef-table',
-            url: '/sre_project_assess/list',
+            url: '/sre-sreScrapApply/getSreUsagePage',
             method:"POST",
-            where: {param: {"projecttask":$("#name").val(),"status":"40"}},
+            where: {param: {"projecttask":$("#name").val(),"status":"10"}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),
@@ -336,11 +321,19 @@ var name=$('#name').val();
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
                 {field : 'id', title : 'id', style : 'cursor: pointer;', align: 'left'},
-                {field : 'projecttask', title : '课题名称', style : 'cursor: pointer;', align: 'left',width : '30%'},
-                {field : 'content', title : '详情', style : 'cursor: pointer;', align: 'left',width : '59.5%'},
+                {field : 'equipmentId', title : '装备id', style : 'cursor: pointer;', align: 'left'},
+                {field : 'documentdoc', title : '详情', style : 'cursor: pointer;', align: 'left'},
+                {field : 'equipment_code', title : '装备编码', style : 'cursor: pointer;', align: 'left' ,width:'200'},
+                {field : 'name', title : '装备名称', style : 'cursor: pointer;', align: 'left',width:'150'},
+                {field : 'unitPrice', title : '单价（万元）', style : 'cursor: pointer;', align: 'left',width:'100'},
+                {field : 'allPrice', title : '总价（万元）', style : 'cursor: pointer;', align: 'left',width:'100'},
+                 {field : 'applyAcount', title : '申请数量', style : 'cursor: pointer;', align: 'left',width:'100'},
+                {field : 'specification', title : '规格型号', style : 'cursor: pointer;', align: 'left',width:'300'},
                ]],
             done: function (res, curr, count) {
              $("[data-field='id']").css('display','none');
+             $("[data-field='equipmentId']").css('display','none');
+             $("[data-field='documentdoc']").css('display','none');
                 // 点击行联动选择框--单选
                 $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
                 	var index=parseInt($(this).index()+1);

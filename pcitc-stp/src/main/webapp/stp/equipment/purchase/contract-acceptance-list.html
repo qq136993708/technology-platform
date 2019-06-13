@@ -19,8 +19,8 @@
     </form>
     <!--查询条件-->
     <label class="dateInput">
-        <span>合同编号</span>
-        <input type="text" name="contractCode" placeholder="请输入合同编号" title="合同编号" autocomplete="off" class="form-control" id="contractCode">
+        <span>申请名称</span>
+        <input type="text" name="purchaseName" value="" placeholder="请输入申请名称" title="申请名称" autocomplete="off" class="form-control" id="purchaseName">
     </label>
     <!--按钮组-->
     <div class="btnGroup">
@@ -86,7 +86,8 @@
 
             },
             resetEvent: function() { //点击重置按钮
-                $('#contractCode').val("");
+                $('#purchaseName').val("");
+
             },
             upQianEvent: function(){ //上传验收报告单
                 if (typeof(selectRowData) == "undefined")
@@ -102,7 +103,7 @@
                             shadeClose: true,
                             type: 2,
                             fixed: false,
-                            maxmin: false,
+                            maxmin: true,
                             area: ['70%', '90%'],
                             content:  temUrl
                         });
@@ -162,7 +163,7 @@
             elem: '#processdef-table',
             url: '/sre_purchase/list',
             method:"POST",
-            where: {param: {"departCode":$("#departCode").val(),"state":"40","innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {"purchaseName":$("#purchaseName").val(),"departCode":$("#departCode").val(),"state":"40","innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
             limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),
@@ -178,12 +179,12 @@
                 {type : 'checkbox', event : 'changeEvents', width : 55},
                 {title : '序号', type :'numbers', width : 55},
                 //{field : 'state', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.state) }}</div>', width : 55},
-                {field : 'purchaseName',     title : '采购名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
+                {field : 'purchaseName',     title : '申请名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
                 {field : 'parentUnitPathNames',     title : '单位名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
                 {field : 'departName',     title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
                 //{field : 'stage',      		title : '阶段',         style : 'cursor: pointer;', align: 'center',  width : '10%',},
                 {field : 'proposerName',      		title : '申请人',         style : 'cursor: pointer;', align: 'center',  width : '15%',},
-                {field : 'createDate',      title : '创建时间', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl', width : '15%'}
+                {field : 'createDate',      title : '创建时间', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选

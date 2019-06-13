@@ -260,6 +260,7 @@ public class ForApplicationController extends BaseController {
 		SreForApplication pplication = new SreForApplication();
 		ResponseEntity<String> responseEntity = null;
 		ResponseEntity<String> respo = null;
+		String UserDisp = sysUserInfo.getUserDisp();
 		String applyDepartName = sysUserInfo.getUnitName();
 		String applyDepartCode = sysUserInfo.getUnitCode();
 		String firstApplyUser=sysUserInfo.getUnitPath();
@@ -280,7 +281,7 @@ public class ForApplicationController extends BaseController {
 		pplication.setFirstApplyUser(firstApplyUser);
 		pplication.setApplicationName(froname);//转资名称
 		pplication.setApplicationTime(new Date());//申请时间
-		pplication.setApplicationUserName(applyDepartName);//当前操作人
+		pplication.setApplicationUserName(UserDisp);//当前操作人
 		pplication.setApplicationPurchaseid(equipmentIds);//装备ID
 		pplication.setApplicationState(Constant.OK_ZERO);//申请状态
 		responseEntity = this.restTemplate.exchange(ADD_URL, HttpMethod.POST, new HttpEntity<SreForApplication>(pplication, this.httpHeaders), String.class);
@@ -411,6 +412,8 @@ public class ForApplicationController extends BaseController {
     @ResponseBody
     public Object forapplicationWorkflow(HttpServletRequest request, HttpServletResponse response) throws Exception
     {
+    	
+    	
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
         String id = CommonUtil.getParameter(request, "id", "");
         String functionId = CommonUtil.getParameter(request, "functionId", "");

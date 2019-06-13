@@ -53,7 +53,7 @@
                     </div>
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label for="" class="layui-form-label">采购名称</label>
+                            <label for="" class="layui-form-label">申请名称</label>
                             <div class="layui-input-block">
                                 <input class="layui-input readOnlyBox" name="purchaseName" id="purchaseName"
                                        value="${srePurchase.purchaseName}"
@@ -125,12 +125,31 @@
                         </div>
                     </div>
                 </div>
-                
-                <!--<div class="layui-form-item">
-                    <label class="layui-form-label">附件</label>
-                    <div id="file_div" class="layui-input-block"></div>
-                </div>-->
+                <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">采购编码</label>
+                            <div class="layui-input-block">
+                                <input class="layui-input readOnlyBox" name="purchaseCode" id="purchaseCode"
+                                       value="${purchaseCode}"
+                                       autocomplete="off" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">备注</label>
+                    <div class="layui-input-block">
+                <textarea placeholder="请输入备注" name="remarks" id="remarks"
+                          class="layui-textarea">${remarks}</textarea>
+                    </div>
+                </div>
+                <div class="form-bottom">
+                    <div class="form-bottom-btns">
+                        <button type="button"class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">取消</button>
+                    </div>
+                </div>
 
             </div>
         </form>
@@ -286,7 +305,7 @@
 
 
             //关闭事件
-            $("#closeBtn1").click(function () {
+            $("#closeBtn").click(function () {
                 var index = parent.layer.getFrameIndex(window.name);
                 parent.layer.close(index);
             })
@@ -304,23 +323,23 @@
                 //  height: 200,
                 //page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
                 cols: [[
-                    {title: '序号', type: 'numbers'},
-                    {field: 'name', title: '装备名称', style: 'cursor: pointer;', align: 'center', width: '30%'},
+                    {title: '序号', type: 'numbers', width: '55px'},
+                    {field: 'name', title: '装备名称', style: 'cursor: pointer;', align: 'center', width: '20%'},
                     {field: 'type', title: '装备分类', style: 'cursor: pointer;', align: 'center', width: '10%'},
-                    {field: 'unitPrice', title: '单价（万元）', style: 'cursor: pointer;', align: 'center', width: '10%'},
+                    {field: 'unitPrice', title: '单价（万元）', style: 'cursor: pointer;', align: 'center', width: '12%'},
                     {field: 'applyAcount', title: '申请数量', style: 'cursor: pointer;', align: 'center', width: '10%'},
                     {
                         field: 'allPrice',
                         title: '总价￥（万元）',
                         style: 'cursor: pointer;',
                         align: 'center',
-                        width: '10%',
+                        width: '15%',
                         templet: function (d) {
                             return '<span style="color:red">' + d.allPrice + '</span>'
                         }
                     },
                     {field: 'applyDepartName', title: '申报部门', style: 'cursor: pointer;', align: 'center', width: '16%'},
-                    {field: 'firstApplyUser', title: '第一申报人', style: 'cursor: pointer;', align: 'center', width: '10%'}
+                    {field: 'firstApplyUser', title: '第一申报人', style: 'cursor: pointer;', align: 'center'}
 
                 ]],
                 done: function (res, curr, count) {

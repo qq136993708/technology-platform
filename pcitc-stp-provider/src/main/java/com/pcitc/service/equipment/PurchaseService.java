@@ -28,4 +28,6 @@ public interface PurchaseService {
     SreProject selectProjectBasic(String id)throws Exception;
 
 	Result dealPurchaseFlow(String id, Map map)throws Exception;
+
+	LayuiTableData getProjectPage(LayuiTableParam paramsJson);
 }

@@ -152,15 +152,23 @@ var name=$('#name').val();
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),
+            page: {
+                groups: 5,
+                limits: [15,30,45,60],
+                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                first: '首页', //不显示首页
+                last: '尾页', //不显示尾页
+                theme: '#0F9EE0'
+            },
             cols: [[
             	{title : '序号', type :'numbers', width : 55},
-            	{field : 'purchaseName',           title : '采购名称',        style : 'cursor: pointer;', align: 'left',    width : '20%'},
+            	{field : 'purchaseName',           title : '采购名称',        style : 'cursor: pointer;', align: 'left',    width : '13%'},
             	{field : 'purchaseState',           title : '采购状态',      style : 'cursor: pointer;', align: 'right',    width : '10%',templet : '<div>{{ layui.laytpl.purchaseState(d.purchaseState) }}</div>'},
-                {field : 'contractDockingState',      title : '合同对接状态',    style : 'cursor: pointer;', align: 'center',  width : '10%',templet : '<div>{{ layui.laytpl.contractDockingState(d.contractDockingState) }}</div>'},
-                {field : 'arrivalReceiptState',   title : '到货签收状态',      style : 'cursor: pointer;', align: 'center',  width : '11%',templet : '<div>{{ layui.laytpl.arrivalReceiptState(d.arrivalReceiptState) }}</div>'},
-                {field : 'contractAcceptanceState',   title : '合同验收状态',      style : 'cursor: pointer;', align: 'center',  width : '11%',templet : '<div>{{ layui.laytpl.contractAcceptanceState(d.contractAcceptanceState) }}</div>'},
-                {field : 'installationState',   title : '安装调试状态',         style : 'cursor: pointer;', align: 'left', width : '17%',templet : '<div>{{ layui.laytpl.installationState(d.installationState) }}</div>'},
-                {field : 'contractSlosureState',    title : '合同关闭状态', style : 'cursor: pointer;', align: 'left', width : '15%', templet : '<div>{{ layui.laytpl.contractSlosureState(d.contractSlosureState) }}</div>'}
+                {field : 'contractDockingState',      title : '合同对接状态',    style : 'cursor: pointer;', align: 'center',  width : '14%',templet : '<div>{{ layui.laytpl.contractDockingState(d.contractDockingState) }}</div>'},
+                {field : 'arrivalReceiptState',   title : '到货签收状态',      style : 'cursor: pointer;', align: 'center',  width : '14%',templet : '<div>{{ layui.laytpl.arrivalReceiptState(d.arrivalReceiptState) }}</div>'},
+                {field : 'contractAcceptanceState',   title : '合同验收状态',      style : 'cursor: pointer;', align: 'center',  width : '14%',templet : '<div>{{ layui.laytpl.contractAcceptanceState(d.contractAcceptanceState) }}</div>'},
+                {field : 'installationState',   title : '安装调试状态',         style : 'cursor: pointer;', align: 'left', width : '14%',templet : '<div>{{ layui.laytpl.installationState(d.installationState) }}</div>'},
+                {field : 'contractSlosureState',    title : '合同关闭状态', style : 'cursor: pointer;', align: 'left',  templet : '<div>{{ layui.laytpl.contractSlosureState(d.contractSlosureState) }}</div>'}
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选

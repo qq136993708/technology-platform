@@ -30,8 +30,8 @@
         <input type="text" name="proposerName" value="" placeholder="请输入申请人姓名" title="申请人" autocomplete="off" class="form-control" id="proposerName">
     </label>
     <label class="dateInput">
-        <span>采购名称</span>
-        <input type="text" name="purchaseName" value="" placeholder="请输入采购名称" title="采购名称" autocomplete="off" class="form-control" id="purchaseName">
+        <span>申请名称</span>
+        <input type="text" name="purchaseName" value="" placeholder="请输入申请名称" title="申请名称" autocomplete="off" class="form-control" id="purchaseName">
     </label>
     <!--按钮组-->
     <div class="btnGroup">
@@ -223,7 +223,7 @@ var name=$('#name').val();
                          type: 2,
                          fixed: false,
                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                         maxmin: false,
+                         maxmin: true,
                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                          area: ['70%','90%'],
                          content:  '/sre-purchase/add'
@@ -252,7 +252,7 @@ var name=$('#name').val();
 	                      type: 2,
 	                      fixed: false,
 	                      //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-	                      maxmin: false,
+	                      maxmin: true,
 	                      //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
 	                      area: ['70%', '90%'],
 	                      content:  url
@@ -299,7 +299,7 @@ var name=$('#name').val();
                          type: 2,
                          fixed: false,
                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                         maxmin: false,
+                         maxmin: true,
                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                          area: ['70%', '90%'],
                          content:  temUrl
@@ -392,7 +392,7 @@ var name=$('#name').val();
             method:"POST",
 		//查询条件            
             where: {param: {"proposerName":$("#proposerName").val(),"purchaseName":$("#purchaseName").val(),"state":$("#state").val(),"createDate":$("#createDate").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"departCode":$("#departCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
-            limit: 15,	
+            limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),
             page: {
@@ -407,11 +407,11 @@ var name=$('#name').val();
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
             	{field : 'state', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.state_purchase(d.state) }}</div>', width : 55},
-            	{field : 'purchaseName',     title : '采购名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
+            	{field : 'purchaseName',     title : '申请名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
          	    {field : 'parentUnitPathNames',     title : '单位名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
          		{field : 'departName',     title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
                 {field : 'proposerName',      		title : '申请人',         style : 'cursor: pointer;', align: 'center',  width : '15%',},
-                {field : 'createDate',      title : '创建时间', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl', width : '15%'}
+                {field : 'createDate',      title : '创建时间', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选
@@ -502,7 +502,7 @@ var name=$('#name').val();
                           //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                           maxmin: true,
                           //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                          area: ['800px', '550px'],
+                          area: [ '100%', '100%' ],
                           content:  temUrl
                       });
               	} else if (data.code == 'unit' || data.code == 'post') 
@@ -527,8 +527,8 @@ var name=$('#name').val();
                           //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                           maxmin: true,
                           //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                          area: ['800px', '550px'],
-                          content:  temUrl
+                          area: [ '100%', '100%' ],
+                           content:  temUrl
                       });
               	} else if (data.code == 'int') 
               	{
