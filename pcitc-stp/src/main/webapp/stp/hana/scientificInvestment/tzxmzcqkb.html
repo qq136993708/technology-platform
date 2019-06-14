@@ -177,7 +177,9 @@ layui.config({
     function exput_excel()
     {
     	var companyCode=$('#companyCode').val();
+    	
     	var month=$('#month').val();
+    	month=month.replace("-","");
     	window.open("/tzxmzcqkb_exput_excel?month="+month+"&companyCode="+companyCode);
     } 
         

@@ -59,14 +59,7 @@ public class TaskClosureController extends BaseController {
 	public String list(HttpServletRequest request, HttpServletResponse response) {
 		String	parentUnitPathIds="";
 		String unitPathIds =   sysUserInfo.getUnitPath();
-		if(unitPathIds!=null && !unitPathIds.equals(""))
-		{
-			if(unitPathIds.length()>4)
-			{
-				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-				
-			}
-		}
+		parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		return "/stp/equipment/taskclosure/task_closure_list";
 	}

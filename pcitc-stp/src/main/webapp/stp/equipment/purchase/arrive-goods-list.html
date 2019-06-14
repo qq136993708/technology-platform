@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <script src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 </head>
 
 <body>
@@ -20,6 +21,10 @@
         <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
     </form>
     <!--查询条件-->
+    <label class="dateInput">
+        <span>采购编码</span>
+        <input type="text" name="purchaseCode" value="" placeholder="请输入申请编号" title="申请编号" autocomplete="off" class="form-control" id="purchaseCode">
+    </label>
     <label class="dateInput">
         <span>申请名称</span>
         <input type="text" name="purchaseName" value="" placeholder="请输入申请名称" title="申请名称" autocomplete="off" class="form-control" id="purchaseName">
@@ -40,7 +45,7 @@
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="upQianEvent">上传到货验收单</button>
         </div>
     </div>
-    <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table>
+    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
 </div>
 
 
@@ -89,6 +94,7 @@
             },
             resetEvent: function() { //点击重置按钮
                 $('#purchaseName').val("");
+                $('#purchaseCode').val("");
             },
             upQianEvent: function(){ //上传到货签收单
                 if (typeof(selectRowData) == "undefined")
@@ -158,6 +164,11 @@
                 }
             });
         });
+        //监听表格双击事件
+        table.on('rowDouble(processdef-table)', function(obj){
+            var temUrl = '/sre-purchase/getParticulars/'+obj.data.id;
+            openFullWin("详情",temUrl);
+        });
         //区别按钮属性
         $('.layui-btn').on('click', function(){
             var type = $(this).data('type');
@@ -173,7 +184,7 @@
             elem: '#processdef-table',
             url: '/sre_purchase/list',
             method:"POST",
-            where: {param: {"departCode":$("#departCode").val(),"state":"30","innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"purchaseName":$("#purchaseName").val()}},
+            where: {param: {"departCode":$("#departCode").val(),"state":"30","innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"purchaseName":$("#purchaseName").val(),"purchaseCode":$("#purchaseCode").val()}},
             limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),
@@ -193,7 +204,7 @@
                 {field : 'parentUnitPathNames',     title : '单位名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
                 {field : 'departName',     title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
                 {field : 'proposerName',      		title : '申请人',         style : 'cursor: pointer;', align: 'center',  width : '15%',},
-                {field : 'createDate',      title : '创建时间', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
+                {field : 'createDate',      title : '申请日期', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选

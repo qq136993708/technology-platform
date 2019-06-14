@@ -62,15 +62,8 @@ public class PurchaseController extends BaseController{
         request.setAttribute("departCode", departCode);
 		String	parentUnitPathIds="";
 		String unitPathIds =   sysUserInfo.getUnitPath();
-		if(!unitPathIds.equals(""))
-		{
-			if(unitPathIds.length()>4)
-			{
-				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-
-			}
-		}
-		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+        parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
+        request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 
 		return "/stp/equipment/purchase/purchase-list";
 	}
@@ -82,14 +75,7 @@ public class PurchaseController extends BaseController{
         request.setAttribute("departCode", departCode);
         String	parentUnitPathIds="";
         String unitPathIds =   sysUserInfo.getUnitPath();
-        if(!unitPathIds.equals(""))
-        {
-            if(unitPathIds.length()>4)
-            {
-                parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-
-            }
-        }
+        parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
         request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 
         return "/stp/equipment/purchase/apply-list";
@@ -102,14 +88,7 @@ public class PurchaseController extends BaseController{
         request.setAttribute("departCode", departCode);
         String	parentUnitPathIds="";
         String unitPathIds =   sysUserInfo.getUnitPath();
-        if(!unitPathIds.equals(""))
-        {
-            if(unitPathIds.length()>4)
-            {
-                parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-
-            }
-        }
+        parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
         request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 
         return "/stp/equipment/purchase/arrive-goods-list";
@@ -123,14 +102,7 @@ public class PurchaseController extends BaseController{
         request.setAttribute("departCode", departCode);
         String	parentUnitPathIds="";
         String unitPathIds =   sysUserInfo.getUnitPath();
-        if(!unitPathIds.equals(""))
-        {
-            if(unitPathIds.length()>4)
-            {
-                parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-
-            }
-        }
+        parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
         request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 
         return "/stp/equipment/purchase/contract-acceptance-list";
@@ -143,14 +115,7 @@ public class PurchaseController extends BaseController{
         request.setAttribute("departCode", departCode);
         String	parentUnitPathIds="";
         String unitPathIds =   sysUserInfo.getUnitPath();
-        if(!unitPathIds.equals(""))
-        {
-            if(unitPathIds.length()>4)
-            {
-                parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-
-            }
-        }
+        parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
         request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 
         return "/stp/equipment/purchase/installation-list";
@@ -163,14 +128,7 @@ public class PurchaseController extends BaseController{
         request.setAttribute("departCode", departCode);
         String	parentUnitPathIds="";
         String unitPathIds =   sysUserInfo.getUnitPath();
-        if(!unitPathIds.equals(""))
-        {
-            if(unitPathIds.length()>4)
-            {
-                parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-
-            }
-        }
+        parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
         request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 
         return "/stp/equipment/purchase/contract-close-list";
@@ -222,22 +180,10 @@ public class PurchaseController extends BaseController{
         String sreProjectEquipmentIds = "";
         String remarks = "";
         String purchaseCode = "";
-                String unitPathIds =   sysUserInfo.getUnitPath();
-		if(!unitPathIds.equals(""))
-		{
+        String unitPathIds =   sysUserInfo.getUnitPath();
+        parentUnitPathId = EquipmentUtils.getParentUnitPathId(unitPathIds);
+        parentUnitPathName = EquipmentUtils.getParentUnitPathName(parentUnitPathId, restTemplate, httpHeaders);
 
-
-			if(unitPathIds.length()>4)
-			{
-				String	parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-				SysUnit sysUnit=EquipmentUtils.getUnitByUnitPath(parentUnitPathIds, restTemplate, httpHeaders);
-				if(sysUnit!=null)
-				{
-                    parentUnitPathName = sysUnit.getUnitName();
-                    parentUnitPathId =sysUnit.getUnitCode();
-				}
-			}
-		}
         String departName = sysUserInfo.getUnitName();
         String departCode = sysUserInfo.getUnitCode();
 		String createUserName=sysUserInfo.getUserDisp();
@@ -294,14 +240,7 @@ public class PurchaseController extends BaseController{
         request.setAttribute("applyUnitCode", applyUnitCode);
         String	parentUnitPathIds="";
         String unitPathIds =   sysUserInfo.getUnitPath();
-        if(!unitPathIds.equals(""))
-        {
-            if(unitPathIds.length()>4)
-            {
-                parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-
-            }
-        }
+        parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
         request.setAttribute("parentUnitPathIds", parentUnitPathIds);
         return "/stp/equipment/purchase/chooseProject";
     }
@@ -366,22 +305,6 @@ public class PurchaseController extends BaseController{
         String remarks = CommonUtil.getParameter(request, "remarks", "");
         String purchaseCode = CommonUtil.getParameter(request, "purchaseCode", "");
 
-        String unitPathIds =   CommonUtil.getParameter(request, "unitPathIds",sysUserInfo.getUnitPath());
-
-        String parentUnitPathIds ="";
-        String parentUnitPathNames =  "";
-            if(unitPathIds!=null && !unitPathIds.equals(""))
-        {
-            if(unitPathIds.length()>4)
-            {
-                parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-                SysUnit sysUnit=EquipmentUtils.getUnitByUnitPath(parentUnitPathIds, restTemplate, httpHeaders);
-                if(sysUnit!=null)
-                {
-                    parentUnitPathNames = sysUnit.getUnitName();
-                }
-            }
-        }
         SrePurchase srePurchase = null;
         ResponseEntity<String> responseEntity = null;
         // 判断是新增还是修改
@@ -403,7 +326,7 @@ public class PurchaseController extends BaseController{
             srePurchase.setState(status);
             srePurchase.setPurchaseName(purchaseName);//采购名称
             srePurchase.setParentUnitPathNames(parentUnitPathName);//单位名称
-            srePurchase.setParentUnitPathId(parentUnitPathIds);//单位ID
+            srePurchase.setParentUnitPathId(parentUnitPathId);//单位ID
             srePurchase.setDepartName(departName);//部门名称
             srePurchase.setDepartCode(departCode);//部门Code
             srePurchase.setProposerName(createUserName);//采购员姓名

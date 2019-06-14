@@ -53,7 +53,7 @@ var publicMethods;
 	           elem: '#notjoin_apply_table',
             url: '/sre_project_taskac/projectlist',
             method:"POST",
-            where: {param: {"name":$("#name").val(),"auditStatus":2,"isCheck":0}},
+            where: {param: {"name":$("#name").val()}},
             limit: 15,	
             id: 'notjoin_apply_table',
             height: commonDislodgeTable(),
@@ -69,7 +69,7 @@ var publicMethods;
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
                // {field : 'status', title : '状态', style : 'cursor: pointer;', align: 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width : 55},
-                {field : 'topicName', title : '课题名称', style : 'cursor: pointer;', align: 'left'},
+                {field : 'name', title : '课题名称', style : 'cursor: pointer;', align: 'left'},
                 {field : 'projectMoney', title : '总经费(万元)', style : 'cursor: pointer;', align: 'center',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
                 {field : 'leadUnitName', title : '牵头单位', style : 'cursor: pointer;', align: 'left'},
                 {field : 'applyUnitName', title : '申报单位', style : 'cursor: pointer;', align: 'left'},
@@ -84,8 +84,8 @@ var publicMethods;
 	                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
 	                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
 	                    selectRowData=res.data[index-1];
-	                    var id=selectRowData.taskId;
-	                    var name=selectRowData.topicName
+	                    var id=selectRowData.id;
+	                    var name=selectRowData.name
 
 	                    $("#topicId").val(id)
 	                    $("#name").val(name);
@@ -107,11 +107,11 @@ var publicMethods;
 	         });
 	    	var $ = layui.$, active = {
 	    		searchEvent: function() { 
-                                        table.reload("notjoin_apply_table",{where:{param:{"id":$("#topicId").val(),"topicName":$("#name").val(),"taskWriteUsersIds":$("#taskWriteUsersIds").val()}}});
+                                        table.reload("notjoin_apply_table",{where:{param:{"id":$("#topicId").val(),"name":$("#name").val(),"taskWriteUsersIds":$("#taskWriteUsersIds").val()}}});
                 },
                 resetEvent:function(){
                 $("#name").val("");
-                table.reload("notjoin_apply_table",{where:{param:{"id":$("#topicId").val(),"topicName":$("#name").val(),"taskWriteUsersIds":$("#taskWriteUsersIds").val()}}});
+                table.reload("notjoin_apply_table",{where:{param:{"id":$("#topicId").val(),"name":$("#name").val(),"taskWriteUsersIds":$("#taskWriteUsersIds").val()}}});
                 
                 },
                 addEvent:function(){

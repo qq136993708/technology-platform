@@ -74,7 +74,8 @@ public class PurchaseServiceImpl implements PurchaseService {
 		String parentUnitPathNames=getTableParam(param,"parentUnitPathNames","");
         String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
 		String createDate=getTableParam(param,"createDate","");
-		if(stage.equals(Constant.PURCHASE_CONTRACT_DOCKING)){
+        String purchaseCode = getTableParam(param, "purchaseCode", "");
+        if(stage.equals(Constant.PURCHASE_CONTRACT_DOCKING)){
             Map map=new HashMap();
             map.put("purchaseName", purchaseName);
             map.put("departName", departName);
@@ -84,6 +85,8 @@ public class PurchaseServiceImpl implements PurchaseService {
             map.put("parentUnitPathNames", parentUnitPathNames);
             map.put("parentUnitPathIds", parentUnitPathIds);
             map.put("createDate", createDate);
+            map.put("purchaseCode", purchaseCode);
+
 
 
             System.out.println(">>>>>>>>applyDepartCode="+departCode);
@@ -115,6 +118,7 @@ public class PurchaseServiceImpl implements PurchaseService {
             map.put("parentUnitPathNames", parentUnitPathNames);
             map.put("parentUnitPathIds", parentUnitPathIds);
             map.put("createDate", createDate);
+            map.put("purchaseCode", purchaseCode);
 
 
             System.out.println(">>>>>>>>applyDepartCode="+departCode);
@@ -146,6 +150,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 				map.put("parentUnitPathNames", parentUnitPathNames);
                 map.put("parentUnitPathIds", parentUnitPathIds);
 				map.put("createDate", createDate);
+                map.put("purchaseCode", purchaseCode);
 
 				System.out.println(">>>>>>>>applyDepartCode="+departCode);
 				StringBuffer applyUnitCodeStr=new StringBuffer(); if(!departCode.equals("")) {
@@ -175,6 +180,7 @@ public class PurchaseServiceImpl implements PurchaseService {
                 map.put("parentUnitPathNames", parentUnitPathNames);
                 map.put("parentUnitPathIds", parentUnitPathIds);
                 map.put("createDate", createDate);
+                map.put("purchaseCode", purchaseCode);
 
                  System.out.println(">>>>>>>>applyDepartCode="+departCode);
                  StringBuffer applyUnitCodeStr=new StringBuffer(); if(!departCode.equals("")) {

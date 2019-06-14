@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <script src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 </head>
 
 <body>
@@ -18,6 +19,10 @@
 
     </form>
     <!--查询条件-->
+    <label class="dateInput">
+        <span>申请编号</span>
+        <input type="text" name="purchaseCode" value="" placeholder="请输入申请编号" title="申请编号" autocomplete="off" class="form-control" id="purchaseCode">
+    </label>
     <label class="dateInput">
         <span>申请名称</span>
         <input type="text" name="purchaseName" value="" placeholder="请输入申请名称" title="申请名称" autocomplete="off" class="form-control" id="purchaseName">
@@ -37,7 +42,7 @@
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="contractCloseEvent">关闭合同</button>
         </div>
     </div>
-    <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table>
+    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
 </div>
 
 <script type="text/html" id="isContractClosed_temp">
@@ -94,6 +99,7 @@
             },
             resetEvent: function() { //点击重置按钮
                 $('#purchaseName').val("");
+                $('#purchaseCode').val("");
             },contractCloseEvent: function(){  //关闭合同按钮
 
                 if (typeof(selectRowData) == "undefined")
@@ -102,7 +108,7 @@
                 }
                 else
                 {
-                    layer.confirm('是否提交？', { btn: ['确定','取消']}, function(){
+                    layer.confirm('是否关闭？', { btn: ['确定','取消']}, function(){
                         var id=selectRowData.id;
                         var isContractClosed = selectRowData.isContractClosed;
                         var url="/sre-purchase/is-contract-closed/"+id;
@@ -135,6 +141,11 @@
                 }
             });
         });
+        //监听表格双击事件
+        table.on('rowDouble(processdef-table)', function(obj){
+            var temUrl = '/sre-purchase/getParticulars/'+obj.data.id;
+            openFullWin("详情",temUrl);
+        });
         //区别按钮属性
         $('.layui-btn').on('click', function(){
             var type = $(this).data('type');
@@ -150,7 +161,7 @@
             elem: '#processdef-table',
             url: '/sre_purchase/list',
             method:"POST",
-            where: {param: {"purchaseName":$("#purchaseName").val(),"departCode":$("#departCode").val(),"stage":"6","innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {"purchaseCode":$("#purchaseCode").val(),"purchaseName":$("#purchaseName").val(),"departCode":$("#departCode").val(),"stage":"6","innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
             limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),
@@ -171,7 +182,7 @@
                 {field : 'departName',     title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
                 //{field : 'stage',      		title : '阶段',         style : 'cursor: pointer;', align: 'center',  width : '10%',},
                 {field : 'proposerName',      		title : '申请人',         style : 'cursor: pointer;', align: 'center',  width : '15%',},
-                {field : 'createDate',      title : '创建时间', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
+                {field : 'createDate',      title : '申请日期', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选
