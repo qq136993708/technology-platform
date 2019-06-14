@@ -7,10 +7,11 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <script src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 </head>
 
 <body>
-
+s
 <div class="searchBox">
     <form action=""  name="form1" id="form1" action="" method="POST">
         <input type="hidden" name="departCode" id="departCode" value="${departCode}">
@@ -18,10 +19,10 @@
         <input type="hidden" name="isKJBPerson" id="isKJBPerson" value="${isKJBPerson}">
     </form>
     <!--查询条件-->
-    <label class="dateInput">
+    <!--<label class="dateInput">
         <span>采购年度</span>
         <input type="text" name="createDate" value="" readonly="readonly" placeholder="请选择采购年度" title="采购年度" autocomplete="off" class="form-control" id="createDate">
-    </label>
+    </label>-->
     <label class="dateInput">
         <span>采购名称</span>
         <input type="text" name="purchaseName" value="" placeholder="请输入采购名称" title="采购名称" autocomplete="off" class="form-control" id="purchaseName">
@@ -108,6 +109,11 @@
                     order: obj.type //排序方式
                 }
             });
+        });
+        //监听表格双击事件
+        table.on('rowDouble(tableEvent)', function(obj){
+            var temUrl = '/sre-purchase/getParticulars/'+obj.data.id;
+            openFullWin("详情",temUrl);
         });
         //区别按钮属性
         $('.layui-btn').on('click', function(){

@@ -30,6 +30,10 @@
 
     <!--查询条件-->
     <label class="dateInput">
+        <span>采购编码</span>
+        <input type="text" name="purchaseCode" value="" placeholder="请输入采购编码" title="采购编码" autocomplete="off" class="form-control" id="purchaseCode">
+    </label>
+    <label class="dateInput">
         <span>申请名称</span>
         <input type="text" name="purchaseName" value="" placeholder="请输入申请名称" title="申请名称" autocomplete="off" class="form-control" id="purchaseName">
     </label>
@@ -198,6 +202,7 @@
             resetEvent: function() { //点击重置按钮
 
                 $('#purchaseName').val("");
+                $('#purchaseCode').val("");
             },
             upQianEvent: function(){ //上传采购合同
                 if (typeof(selectRowData) == "undefined")
@@ -268,6 +273,8 @@
         });
         //监听表格双击事件
         table.on('rowDouble(processdef-table)', function(obj){
+            var temUrl = '/sre-purchase/getParticulars/'+obj.data.id;
+            openFullWin("详情",temUrl);
         });
 
         //区别按钮属性
@@ -285,7 +292,7 @@
             elem: '#processdef-table',
             url: '/sre_purchase/list',
             method:"POST",
-            where: {param: {"state":"20","stage":"2","parentUnitPathIds":$("#parentUnitPathIds").val(),"departCode":$("#departCode").val(),"purchaseName":$("#purchaseName").val()}},
+            where: {param: {"state":"20","stage":"2","parentUnitPathIds":$("#parentUnitPathIds").val(),"departCode":$("#departCode").val(),"purchaseName":$("#purchaseName").val(),"purchaseCode":$("#purchaseCode").val()}},
             limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),

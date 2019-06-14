@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <script src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 </head>
 
 <body>
@@ -18,6 +19,10 @@
 
     </form>
     <!--查询条件-->
+    <label class="dateInput">
+        <span>采购编码</span>
+        <input type="text" name="purchaseCode" value="" placeholder="请输入采购编码" title="采购编码" autocomplete="off" class="form-control" id="purchaseCode">
+    </label>
     <label class="dateInput">
         <span>申请名称</span>
         <input type="text" name="purchaseName" value="" placeholder="请输入申请名称" title="申请名称" autocomplete="off" class="form-control" id="purchaseName">
@@ -38,7 +43,7 @@
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="upQianEvent">上传附件</button>
         </div>
     </div>
-    <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table>
+    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
 </div>
 
 
@@ -71,12 +76,15 @@
 <script>
     var table,selectRowData;
     var contractCode=$('#contractCode').val();
-    layui.use(['jquery','table','laypage','layer','laytpl'], function(){
+    layui.use(['jquery','table','laypage','form','layer','laytpl','laydate',"publicMethods"], function(){
         table = layui.table,
             $ = layui.jquery,
             layer = layui.layer,
             laypage = layui.laypage;
-
+            form = layui.form,
+            laypage = layui.laypage;
+        publicMethods=layui.publicMethods;
+        //加载表格
         renderTable();
         $(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
         // 触发不同的按钮事件
@@ -87,6 +95,7 @@
             },
             resetEvent: function() { //点击重置按钮
                 $('#purchaseName').val("");
+                $('#purchaseCode').val("");
             },
             upQianEvent: function(){ //上传到货签收单
                 if (typeof(selectRowData) == "undefined")
@@ -94,20 +103,18 @@
                     layer.msg('请点击选择一条数据');
                 }else
                 {
-                    layer.confirm('是否提交？', { btn: ['确定','取消']}, function(){
-                        var id=selectRowData.id;
-                        var temUrl="/sre-purchase/upFileDoc?id=" + id;
-                        layer.open({
-                            title:'上传',
-                            skin: 'layui-layer-lan',
-                            shadeClose: true,
-                            type: 2,
-                            fixed: false,
-                            maxmin: true,
-                            area: ['70%', '90%'],
-                            content:  temUrl
-                        });
-                    })
+                    var id=selectRowData.id;
+                    var temUrl="/sre-purchase/upFileDoc?id=" + id;
+                    layer.open({
+                        title:'上传',
+                        skin: 'layui-layer-lan',
+                        shadeClose: true,
+                        type: 2,
+                        fixed: false,
+                        maxmin: true,
+                        area: ['70%', '90%'],
+                        content:  temUrl
+                    });
                 }
             },applyEvent: function(){  //点击上报按钮
 
@@ -149,6 +156,11 @@
                 }
             });
         });
+        //监听表格双击事件
+        table.on('rowDouble(processdef-table)', function(obj){
+            var temUrl = '/sre-purchase/getParticulars/'+obj.data.id;
+            openFullWin("详情",temUrl);
+        });
         //区别按钮属性
         $('.layui-btn').on('click', function(){
             var type = $(this).data('type');
@@ -164,7 +176,7 @@
             elem: '#processdef-table',
             url: '/sre_purchase/list',
             method:"POST",
-            where: {param: {"purchaseName":$("#purchaseName").val(),"departCode":$("#departCode").val(),"state":"50","innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {"purchaseCode":$("#purchaseCode").val(),"purchaseName":$("#purchaseName").val(),"departCode":$("#departCode").val(),"state":"50","innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
             limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),

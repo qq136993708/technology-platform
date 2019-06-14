@@ -63,14 +63,7 @@ public class InvestmentProgressController extends BaseController {
 		String	parentUnitPathIds="";
 		String unitPathIds =   sysUserInfo.getUnitPath();
 		String applyDepartCode = sysUserInfo.getUnitCode();
-		if(!unitPathIds.equals(""))
-		{
-			if(unitPathIds.length()>4)
-			{
-				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-				
-			}
-		}
+		parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
 		request.setAttribute("applyDepartCode", applyDepartCode);
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		return "/stp/equipment/Investmentrogress/Investmentrogress-list";

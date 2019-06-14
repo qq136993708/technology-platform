@@ -88,14 +88,7 @@ public class ForApplicationController extends BaseController {
 		String	parentUnitPathIds="";
 		String unitPathIds =   sysUserInfo.getUnitPath();
 		String applyDepartCode = sysUserInfo.getUnitCode();
-		if(!unitPathIds.equals(""))
-		{
-			if(unitPathIds.length()>4)
-			{
-				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-				
-			}
-		}
+		parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		request.setAttribute("applyDepartCode", applyDepartCode);
  		return "/stp/equipment/forapplication/application-list";
@@ -186,15 +179,7 @@ public class ForApplicationController extends BaseController {
 		}
 		String leadUnitName =  "";
 		String leadUnitCode =  "";
-		String unitPathIds =   sysUserInfo.getUnitPath();
-		if(unitPathIds!=null && unitPathIds!=null && !unitPathIds.equals(""))
-		{
-			if(unitPathIds.length()>4)
-			{
-				unitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-				
-			}
-		}
+		String unitPathIds =   EquipmentUtils.getParentUnitPathId(sysUserInfo.getUnitPath());
 		request.setAttribute("parentUnitPathIds", unitPathIds);
 		request.setAttribute("leadUnitName", leadUnitName);
 		request.setAttribute("leadUnitCode", leadUnitCode);
@@ -266,19 +251,13 @@ public class ForApplicationController extends BaseController {
 		String firstApplyUser=sysUserInfo.getUnitPath();
 		String unitPathIds=sysUserInfo.getUnitPath();
 		String attachmentDoc= IdUtil.createFileIdByTime();
-		if(!firstApplyUser.equals(""))
-		{
-			if(firstApplyUser.length()>4)
-			{
-				firstApplyUser=firstApplyUser.substring(0, firstApplyUser.length()-4);
-				
-			}
-		}
+		unitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
+
 		String id = UUID.randomUUID().toString().replaceAll("-", "");
 		pplication.setApplicationId(id);
 		pplication.setApplyDepartName(applyDepartName);
 		pplication.setApplyDepartCode(applyDepartCode);
-		pplication.setFirstApplyUser(firstApplyUser);
+		pplication.setFirstApplyUser(unitPathIds);
 		pplication.setApplicationName(froname);//转资名称
 		pplication.setApplicationTime(new Date());//申请时间
 		pplication.setApplicationUserName(UserDisp);//当前操作人
