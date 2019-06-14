@@ -135,7 +135,7 @@ public class PurchaseProviderClient
             sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_DRAFT);
             sreEquipmentMapper.updateByPrimaryKeySelective(sreEquipment);
         }
-        srePurchase.setState(Constant.PURCHASE_STATUS_REJECT);
+        srePurchase.setState(Constant.PURCHASE_STATUS_DRAFT);
         int count=purchaseService.updateSrePurchase(srePurchase);
         System.out.println("======业务系统处理--驳回 --后业务======="+id);
         return count;

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <script src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
     <style>
         .searchBox{ height: auto;}
         .searchBox label{margin-bottom: 10px;display: inline-block; }
@@ -29,7 +30,7 @@
 
     <label class="dateInput">
         <span>课题名称</span>
-        <input type="text" name="name" title="课题名称" autocomplete="off" class="form-control" id="name">
+        <input type="text" name="name" placeholder="请选择课题名称" title="课题名称"  autocomplete="off" class="form-control" id="name">
     </label>
 
     <label class="dateInput">
@@ -222,6 +223,11 @@
                     order: obj.type //排序方式
                 }
             });
+        });
+        //监听表格双击事件
+        table.on('rowDouble(tableEvent)', function(obj){
+            var temUrl = '/sre-project-basic/get/'+obj.data.id;
+            openFullWin("详情",temUrl);
         });
         //区别按钮属性
         $('.layui-btn').on('click', function(){

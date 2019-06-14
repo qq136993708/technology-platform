@@ -20,6 +20,7 @@ import com.pcitc.base.stp.equipment.SrePurchase;
 import com.pcitc.base.stp.equipment.UnitField;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.utils.EquipmentUtils;
 
 @Controller
 public class DetailController extends BaseController {
@@ -55,14 +56,7 @@ public class DetailController extends BaseController {
 
 		String	parentUnitPathIds="";
 		String unitPathIds =   sysUserInfo.getUnitPath();
-		if(!unitPathIds.equals(""))
-		{
-			if(unitPathIds.length()>4)
-			{
-				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-				
-			}
-		}
+		unitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
 		request.setAttribute("unitPathIds", unitPathIds);
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		return "/stp/equipment/detail/detail-list";

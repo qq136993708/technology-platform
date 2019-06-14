@@ -18,6 +18,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.utils.EquipmentUtils;
 
 @Controller
 public class ManagementLedgerController extends BaseController {
@@ -29,14 +30,7 @@ public class ManagementLedgerController extends BaseController {
 	public String list(HttpServletRequest request, HttpServletResponse response) {
 		String	parentUnitPathIds="";
 		String unitPathIds =   sysUserInfo.getUnitPath();
-		if(unitPathIds!=null && !unitPathIds.equals(""))
-		{
-			if(unitPathIds.length()>4)
-			{
-				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-				
-			}
-		}
+		parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SELECT_URL, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
 		int count = responseEntity.getBody();
 		Date data = new Date();

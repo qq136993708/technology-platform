@@ -323,10 +323,10 @@
                 //  height: 200,
                 //page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
                 cols: [[
-                    {title: '序号', type: 'numbers', width: '55px'},
+                    {title: '序号', type: 'numbers', width: '55'},
                     {field: 'name', title: '装备名称', style: 'cursor: pointer;', align: 'center', width: '20%'},
                     {field: 'type', title: '装备分类', style: 'cursor: pointer;', align: 'center', width: '10%'},
-                    {field: 'unitPrice', title: '单价（万元）', style: 'cursor: pointer;', align: 'center', width: '12%'},
+                    {field: 'unitPrice', title: '单价（万元）', style: 'cursor: pointer;', align: 'center', width: '15%'},
                     {field: 'applyAcount', title: '申请数量', style: 'cursor: pointer;', align: 'center', width: '10%'},
                     {
                         field: 'allPrice',
@@ -338,8 +338,8 @@
                             return '<span style="color:red">' + d.allPrice + '</span>'
                         }
                     },
-                    {field: 'applyDepartName', title: '申报部门', style: 'cursor: pointer;', align: 'center', width: '16%'},
-                    {field: 'firstApplyUser', title: '第一申报人', style: 'cursor: pointer;', align: 'center'}
+                    {field: 'applyDepartName', title: '申报部门', style: 'cursor: pointer;', align: 'center', width: '15%'},
+                    {field: 'firstApplyUser', title: '第一申报人', style: 'cursor: pointer;', align: 'center', width: '10%'}
 
                 ]],
                 done: function (res, curr, count) {
