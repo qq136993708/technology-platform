@@ -25,7 +25,7 @@ var file_ids = "appendFiles";
 	//detail:详情，edit：编辑
 	file_edit_detail = "detail";
 	//统管理-附件管理-附件配置：页面标识
-	file_opt_flag = "4c20bd28057543839c0db8754f417c6a";
+	file_opt_flag = "9ca77a7e92a94d7799a9cb3cdaf9c858";
 $(document).ready(function() {
 	layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element',"publicMethods" ],
 			function() {
@@ -87,13 +87,15 @@ $(document).ready(function() {
 			 	
 			 	
 	    		
-			 	$("input,textarea,radio").addClass('readOnlyBox');
-			 	$("input,textarea,radio").attr("readonly",'readonly');
-			 	$("select,radio").attr("disabled","disabled");
+			 	$("input[type='text']").addClass('readOnlyBox');
+			 	$("input[type='text']").attr("readonly",'readonly');
+			 	$("textarea").addClass('readOnlyBox');
+			 	$("textarea").attr("readonly",'readonly');
+			 	$("select").attr("disabled","disabled");
 	    		form.render();
 			 	//添加到form.render()之后
 			 	$("#file_div").load('/common/public/uploadlayuiload.html');
-			 	$("select").parent().find('input').addClass('readOnlyBox');
+			 	//$("select").parent().find('input').addClass('readOnlyBox');
 			 	
 				/* 自定义验证规则  title 要验证的input的 lay-verify=""*/
 				form.verify({
@@ -221,7 +223,7 @@ $(document).ready(function() {
 				<div class="layui-form-item"  id="password" >
 					<label for="" class="layui-form-label">申报编码<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-					 	<input type="text" class="layui-input readOnlyBox" readonly="readonly" lay-verify="required" id="applyCode" name="applyCode" placeholder="申报编码">
+					 	<input type="text" class="layui-input " readonly="readonly" lay-verify="required" id="applyCode" name="applyCode" placeholder="申报编码">
 					</div>
 				</div>
 			</div>
@@ -347,8 +349,8 @@ $(document).ready(function() {
 				<div class="layui-form-item">
 			        <label class="layui-form-label">是否含税</label>
 			        <div class="layui-input-block">
-			          <input type="radio" lay-filter="radioEvent" name="moneyContainTax" value="1" title="是" checked>
-			          <input type="radio" lay-filter="radioEvent" name="moneyContainTax" value="0" title="否">
+			          <input type="radio" disabled lay-filter="radioEvent" name="moneyContainTax" value="1" title="是" checked>
+			          <input type="radio" disabled lay-filter="radioEvent" name="moneyContainTax" value="0" title="否">
 			        </div>
 		      	</div>
 			</div>
@@ -357,37 +359,37 @@ $(document).ready(function() {
 		<!-- <div class="layui-form-item">
 	      	 <label class="layui-form-label">内容描述</label>
 	         <div class="layui-input-block">
-	         	   <textarea class="layui-textarea readOnlyBox" readonly="readonly" id="applyContent" name="applyContent" placeholder=""></textarea>
+	         	   <textarea class="layui-textarea " readonly="readonly" id="applyContent" name="applyContent" placeholder=""></textarea>
 	         </div>
        </div> -->
        <div class="layui-form-item">
 		      	 <label class="layui-form-label">项目研究优势</label>
 		         <div class="layui-input-block">
-		         	   <textarea class="layui-textarea readOnlyBox" readonly="readonly" id="projectAdvantage" name="projectAdvantage" placeholder=""></textarea>
+		         	   <textarea class="layui-textarea" readonly="readonly" id="projectAdvantage" name="projectAdvantage" placeholder=""></textarea>
 		         </div>
 	       	</div>
 	       	<div class="layui-form-item">
 		      	 <label class="layui-form-label">合作目的</label>
 		         <div class="layui-input-block">
-		         	   <textarea class="layui-textarea readOnlyBox" readonly="readonly" id="projectTarget" name="projectTarget" placeholder=""></textarea>
+		         	   <textarea class="layui-textarea" readonly="readonly" id="projectTarget" name="projectTarget" placeholder=""></textarea>
 		         </div>
 	       	</div>
 	       	<div class="layui-form-item">
 		      	 <label class="layui-form-label">研究内容</label>
 		         <div class="layui-input-block">
-		         	   <textarea class="layui-textarea readOnlyBox" readonly="readonly" id="projectResearchContent" name="projectResearchContent" placeholder=""></textarea>
+		         	   <textarea class="layui-textarea" readonly="readonly" id="projectResearchContent" name="projectResearchContent" placeholder=""></textarea>
 		         </div>
 	       	</div>
 	       	<div class="layui-form-item">
 		      	 <label class="layui-form-label layui-form-labelH">预期成果含人员培训情况</label>
 		         <div class="layui-input-block">
-		         	   <textarea class="layui-textarea readOnlyBox" readonly="readonly" id="projectResult" name="projectResult" placeholder=""></textarea>
+		         	   <textarea class="layui-textarea" readonly="readonly" id="projectResult" name="projectResult" placeholder=""></textarea>
 		         </div>
 	       	</div>
 	       	<div class="layui-form-item">
 		      	 <label class="layui-form-label layui-form-labelH">成果及知识产权状态</label>
 		         <div class="layui-input-block">
-		         	   <textarea class="layui-textarea readOnlyBox" readonly="readonly" id="projectRight" name="projectRight" placeholder=""></textarea>
+		         	   <textarea class="layui-textarea" readonly="readonly" id="projectRight" name="projectRight" placeholder=""></textarea>
 		         </div>
 	       	</div>
        

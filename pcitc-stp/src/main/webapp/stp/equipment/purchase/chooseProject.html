@@ -52,22 +52,27 @@
                 table.render({
                     elem: '#notjoin_apply_table',
                     url: '/sre-purchase/chooseProject_data',
-                    limit: 15,
+                    limit: 5,
                     method:"POST",
                     where: {param:{"applyUnitCode":$("#applyUnitCode").val(),"auditStatus":"2","name":$("#name").val(),"id":$("#topicId").val()}},
                     id: 'notjoin_apply_table',
                     height: 350,
-                    page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
+                    page: {
+                        limits:[5,10, 20, 30, 40, 50],
+                        first: '首页',
+                        last: '尾页',
+                        theme: '#0F9EE0'
+                    },
                     cols: [[
-                        {type:'checkbox',event: 'changeEvents'}
-                        ,{title:'序号', type:'numbers'},
+                        {type:'checkbox',event: 'changeEvents', width : 55}
+                        ,{title:'序号', type:'numbers', width : 55},
                         {field : 'name',            title : '课题名称',     style : 'cursor: pointer;', align : 'center', width : '30%'},
-                        {field : 'projectMoney',    title : '总经费(万元)', style : 'cursor: pointer;', align: 'center', templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
+                        {field : 'projectMoney',    title : '总经费(万元)', style : 'cursor: pointer;', align: 'center', width : '13%', templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
                         {field : 'parentUnitPathNames',    title : '课题申报单位', style : 'cursor: pointer;', align: 'left', width : '25%'},
                         {field : 'applyUnitName',   title : '课题申报部门',     style : 'cursor: pointer;', align : 'center', width : '20%'},
                         {field : 'createUserName',  title : '课题申报人',      style : 'cursor: pointer;', align : 'center', width : '10%'},
                         {field : 'taskWriteUserNames',  title : '要求填写人',      style : 'cursor: pointer;', align : 'center', width : '15%'},
-                        {field : 'createDate',          title : '时间',     style : 'cursor: pointer;', align: 'center', templet : '#dateTpl', width : '15%'}
+                        {field : 'createDate',          title : '时间',     style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
                     ]],
                     done: function (res, curr, count)
                     {
@@ -93,10 +98,24 @@
                             $("#leadUnitName").val(leadUnitName);
                             $("#equipmentIds").val(equipmentIds);
                         });
+                        //监听表格双击事件
+                        $('#notjoin_apply_table').next().find('.layui-table-body').find("table" ).find("tbody").children("tr").on('dblclick',function(){
+                            var id = JSON.stringify($('#notjoin_apply_table').next().find('.layui-table-body').find("table").find("tbody").find(".layui-table-hover").data('index'));
+                            selectRowData = res.data[id];
+                            var topicId = selectRowData.topicId;
+                            var equipmentIds = selectRowData.equipmentIds;
+                            var name = selectRowData.name;
+                            parent.document.getElementById("topicId").value=topicId;
+                            parent.document.getElementById("name").value=name;
+                            parent.document.getElementById("equipmentIds").value=equipmentIds;
+                            parent.call_back(equipmentIds);
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+                        })
                     }
 
                 });
-                $(".layui-table-header table thead th input").remove();
+                //$(".layui-table-header table thead th input").remove();
                 //多行点击事件
                 $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
                     var checkCell = $(this).parent().find("tr[data-index=" + $(this).attr('data-index') + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox");
@@ -111,12 +130,15 @@
                     searchEvent: function() {
                         table.reload("notjoin_apply_table",{where:{param:{"id":$("#topicId").val(),"name":$("#name").val(),"taskWriteUsersIds":$("#taskWriteUsersIds").val()}}});
                     },
+                    resetEvent: function() { //点击重置按钮
+                        $('#name').val("");
+                    },
                     addEvent:function(){
-                        var check = table.checkStatus('notjoin_apply_table');
+                        /*var check = table.checkStatus('notjoin_apply_table');
                         if(check.data.length == 0){
                             layer.msg('请点击选择装备数据!');
                             return;
-                        }
+                        }*/
                         var topicId=$("#topicId").val();
                         var name=$("#name").val();
                         var yearFeeStrJoinUnit=$("#yearFeeStrJoinUnit").val();

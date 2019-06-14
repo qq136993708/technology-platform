@@ -87,7 +87,7 @@ public class BudgetStockTotalController extends BaseController {
 	private static final String BUDGET_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/budget/start-budgetinfo-activity/";
 	private static final String BUDGET_STOCKTOTAL_ITEM_TREE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-stockitem-tree";
 	private static final String BUDGET_FINAL_INFO = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-final-budget";
-	
+	private static final String BUDGET_INFO_EDIT_CHECK = "http://pcitc-zuul/stp-proxy/stp-provider/budget/check-budgetinfo-edit/";
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_main_stocktotal")
 	public Object toBudgetStockPage(HttpServletRequest request) throws IOException 
@@ -229,6 +229,10 @@ public class BudgetStockTotalController extends BaseController {
 	@ResponseBody
 	public Object saveBudgetStockTotalItem(@ModelAttribute("item") BudgetStockTotal item,HttpServletRequest request) throws IOException 
 	{
+		Result result = this.restTemplate.exchange(BUDGET_INFO_EDIT_CHECK+item.getBudgetInfoId(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Result.class).getBody();
+		if(!result.isSuccess()) {
+			return result;
+		}
 		ResponseEntity<BudgetStockTotal> rs = this.restTemplate.exchange(BUDGET_STOCKTOTAL_SAVE_ITEM, HttpMethod.POST, new HttpEntity<BudgetStockTotal>(item, this.httpHeaders), BudgetStockTotal.class);
 		if (rs.getBody() != null) {
 			return new Result(true,rs.getBody());
@@ -242,8 +246,13 @@ public class BudgetStockTotalController extends BaseController {
 			@ModelAttribute("items") String items,
 			@ModelAttribute("info") String info,HttpServletRequest request) throws IOException 
 	{
-		List<BudgetStockTotal> stocklist = JSON.parseArray(items, BudgetStockTotal.class);
 		BudgetInfo budget = JSON.toJavaObject(JSON.parseObject(info), BudgetInfo.class);
+		//检查是否可编辑
+		Result result = this.restTemplate.exchange(BUDGET_INFO_EDIT_CHECK+budget.getDataId(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Result.class).getBody();
+		if(!result.isSuccess()) {
+			return result;
+		}
+		List<BudgetStockTotal> stocklist = JSON.parseArray(items, BudgetStockTotal.class);
 		ResponseEntity<Integer> infors = this.restTemplate.exchange(BUDGET_INFO_UPDATE, HttpMethod.POST, new HttpEntity<Object>(budget, this.httpHeaders), Integer.class);
 		ResponseEntity<Integer> stockrs = this.restTemplate.exchange(BUDGET_STOCKTOTAL_SAVE_ITEMS, HttpMethod.POST, new HttpEntity<Object>(stocklist, this.httpHeaders), Integer.class);
 		if (infors.getBody() >= 0 && stockrs.getBody() >= 0) 

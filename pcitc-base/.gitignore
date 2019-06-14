@@ -44,8 +44,9 @@ Thumbs.db
 *.ipr
 *.bowerrc
 *.gitattributes
-*.gitignore
 *.jshintrc
 *.travis
 *.yml
-/.apt_generated_tests/
+/target
+*/.idea/
+.idea/

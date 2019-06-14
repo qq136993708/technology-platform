@@ -48,7 +48,7 @@ public class MailSender {
         mailInfo.setMailServerPort("25");
         mailInfo.setValidate(true);
         mailInfo.setUserName("mlc19860417@163.com");
-        mailInfo.setPassword("mlcddxxxxxxxxxxx");
+        mailInfo.setPassword("mlc5201314");
         mailInfo.setFromAddress("mlc19860417@163.com");
         mailInfo.setSenderDisplay("石化盈科信息技术有限责任公司");
     }
@@ -91,7 +91,6 @@ public class MailSender {
         try {
             // 根据session创建一个邮件消息
             Message mailMessage = new MimeMessage(sendMailSession);
-//            mailMessage.addHeader("X-Mailer","Microsoft Outlook Express 6.00.2900.2869");
             // 创建邮件发送者地址
             Address from = new InternetAddress(Info.getFromAddress(), Info.getSenderDisplay());
             // 设置邮件消息的发送者
@@ -179,7 +178,6 @@ public class MailSender {
         try {
             // 根据session创建一个邮件消息
             Message mailMessage = new MimeMessage(sendMailSession);
-//            mailMessage.addHeader("X-Mailer","Microsoft Outlook Express 6.00.2900.2869");
             // 创建邮件发送者地址
             Address from = new InternetAddress(Info.getFromAddress(), Info.getSenderDisplay());
             // 设置邮件消息的发送者

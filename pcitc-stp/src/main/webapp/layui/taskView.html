@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
+    <link rel="stylesheet" href="/layuiadmin/style/second.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+<div class="task-view">
+    <div class="task-view-cont">
+        <p>基本信息</p>
+        <div class="layui-row">
+            <div class="layui-col-md10">
+                <div class="item">
+                    <div class="layui-col-sm5">
+                        <span>标题:</span>
+                        <span>标题</span>
+                    </div>
+                    <div class="layui-col-sm7">
+                        <span>创建单位:</span>
+                        <span>创建单位</span>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="layui-col-sm5">
+                        <span>类型:</span>
+                        <span class="red">标题</span>
+                    </div>
+                    <div class="layui-col-sm7">
+                        <span>当前处理人:</span>
+                        <span>创建单位</span>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="layui-col-sm5">
+                        <span>完成比例:</span>
+                        <span>标题</span>
+                    </div>
+                    <div class="layui-col-sm7">
+                        <span>转发:</span>
+                        <span>创建单位</span>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="layui-col-sm5">
+                        <span>权重:</span>
+                        <span>标题</span>
+                    </div>
+                    <div class="layui-col-sm7">
+                        <span>查看附件:</span>
+                        <span>创建单位</span>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="layui-col-md12">
+                        <span>任务描述:</span>
+                        <span>创建单位</span>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md2">
+                <div class="chart"></div>
+            </div>
+        </div>
+    </div>
+    <div class="task-view-cont">
+        <p>当前处理人</p>
+        <div class="task-view-icon">
+            <p><span>发起人</span><span>已完成</span><span>已超时</span><span>处理中</span></p>
+            <div class="task-view-pic">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['jquery', 'form', 'laydate', 'table', 'laypage','laytpl','publicMethods'], function () {
+        var table = layui.table, util = layui.laytpl, form = layui.form, laydate = layui.laydate, $ = layui.jquery,
+            laytpl = layui.laytpl, publicMethods = layui.publicMethods;
+
+    });
+
+</script>
+
+</body>
+</html>

@@ -382,10 +382,10 @@ var name=$('#name').val();
            cols: [[
            	   {type : 'checkbox', event : 'changeEvents', width : 55},
            	{title : '序号', type : 'numbers', width : 55},
-            {field : 'applicationState', title : '转资申请状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.fprappStatus_equipment(d.applicationState) }}</div>', width : '10%'},
+            {field : 'applicationState', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.fprappStatus_equipment(d.applicationState) }}</div>', width : '10%'},
             {field : 'applicationName',     title : '转资名称', style : 'cursor: pointer;', align : 'left', width : '30%',templet:function(d){return '<span onclick="view(\''+d.applicationId+'\')" style="color:#17a2b8">'+d.applicationName+'</span>'} },
-            {field : 'applicationUserName', title : '转资申请人', style : 'cursor: pointer;', align : 'left', width : '29%'},
-            {field : 'applicationTime', title : '转资时间', style : 'cursor: pointer;', align : 'center',width : '22%', templet : '#dateTpl'},
+            {field : 'applicationUserName', title : '转资申请人', style : 'cursor: pointer;', align : 'left', width : '28%'},
+            {field : 'applicationTime', title : '转资时间', style : 'cursor: pointer;', align : 'center', templet : '#dateTpl'},
            ]],
            done: function (res, curr, count) {
                // 点击行联动选择框--单选
@@ -484,7 +484,7 @@ var name=$('#name').val();
                           //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                           maxmin: true,
                           //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                          area: ['800px', '550px'],
+                          area: [ '100%', '100%' ],
                           content:  temUrl
                       });
               	} else if (data.code == 'unit' || data.code == 'post') 
@@ -509,7 +509,7 @@ var name=$('#name').val();
                           //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                           maxmin: true,
                           //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                          area: ['800px', '550px'],
+                          area: [ '100%', '100%' ],
                           content:  temUrl
                       });
               	} else if (data.code == 'int') 

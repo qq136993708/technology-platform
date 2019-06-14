@@ -978,3 +978,9 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-leader .deal{background: url("/layuiadmin/layui/images/stpicon_02.png")  0px 22px no-repeat;}
 .layui-leader .notify{background: url("/layuiadmin/layui/images/stpicon_03.png")  0px 22px no-repeat;}
 .layui-leader .QRCode{margin-top: 6px;}
+@media (min-width: 1033px) {
+    .layui-header-nav ul li {
+        margin: 0 12px;
+    }
+    #navPrev{left: 350px !important;;}
+}

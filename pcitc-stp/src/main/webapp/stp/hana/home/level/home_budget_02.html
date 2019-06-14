@@ -115,7 +115,7 @@ layui.config({
     treeGridCom:'treeGridCom'
 }).use(['jquery','form', 'laydate','treeGridCom','layer'], function(){
     var $=layui.jquery;
-    treeGridCom = layui.treeGridCom;
+    treeGridCom = layui.treeGridCom; 
     layer=layui.layer;
     laydate = layui.laydate;
     form = layui.form;
@@ -123,8 +123,12 @@ layui.config({
     $(".layui-time").html(nd+"年");
     form.render(null, 'component-form-group');
     laydate.render({
-       elem: '#nd'
-       ,format: 'yyyy'
+    	 elem: '#nd',type: 'year'
+    		 ,done: function(value, date, endDate){
+	                $(".layui-time").html(date.year);
+	                $("#nd").val(date.year); 
+	                search_Event();
+	            }
     });
     renderTable();
     renderTable_UNIT();

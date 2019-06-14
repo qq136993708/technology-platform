@@ -138,7 +138,7 @@
         	 return '<span style="color:red">未填写</span>';
         } else 
         {
-            return '<a onclick="view_setupId(\''+setupId+'\')" style="color:#1890ff">查看</a>';
+            return '<a onclick="view_setupId(\''+setupId+'\')" style="color:#1890ff">详情</a>';
         }
     }
     
@@ -468,7 +468,7 @@ var name=$('#name').val();
             cols: [[
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
-            	{field : 'topicName',      title : '课题', style :  'cursor: pointer;', align: 'center', width : '10%',templet:function(d){return '<span onclick="view_project(\''+d.topicId+'\')" style="color:#1890ff">查看</span>'}},
+            	{field : 'topicName',      title : '课题', style :  'cursor: pointer;', align: 'center', width : '10%',templet:function(d){return '<span onclick="view_project(\''+d.topicId+'\')" style="color:#1890ff">详情</span>'}},
             	{field : 'topicName',      title : '任务书', style : 'cursor: pointer;', align: 'left', width : '10%',templet:function(d){return '<span onclick="view_isWriteTask(\''+d.taskId+'\')" style="color:#1890ff">'+d.topicName+'</span>'}},
                 {field : 'setupId',   title : '立项报告', style : 'cursor: pointer;', align: 'center', width : '10%',templet : '#setupId'},
                 {field : 'setupYear',      title : '立项年份', style : 'cursor: pointer;', align: 'center', width : '10%'},

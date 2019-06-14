@@ -443,6 +443,14 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			hashmap.put("orderType", param.getOrderType());
 		}
 		
+		if (param.getParam().get("showType")!=null&&!StringUtils.isBlank(param.getParam().get("showType")+"")) {
+			hashmap.put("showType", param.getParam().get("showType"));
+		}
+		
+		if (param.getParam().get("xmlb")!=null&&!StringUtils.isBlank(param.getParam().get("xmlb")+"")) {
+			hashmap.put("xmlb", param.getParam().get("xmlb"));
+		}
+		
 		List list = outProjectPlanMapper.selectProjectCycleByCondition(hashmap);
 		System.out.println("1>>>>>>>>>查询分页结果"+list.size());
 		PageInfo<HashMap> pageInfo = new PageInfo<HashMap>(list);
@@ -452,6 +460,115 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		data.setData(pageInfo.getList());
 		Long total = pageInfo.getTotal();
 		data.setCount(total.intValue());
+		return data;
+	}
+	
+	/**
+     * 项目的详情：合同信息
+     */
+	public LayuiTableData getScienceProcessDetails(LayuiTableParam param) {
+
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		if (param.getOrderKey()!=null&&!StrUtil.isBlankOrNull(param.getOrderKey().toString())) {
+			// 排序，因为select后有关键字，自己手动在sql中调整。否则直接PageHelper.orderBy(param.getOrderKey().toString()
+			// + " " + param.getOrderType());
+			hashmap.put("orderKey", param.getOrderKey());
+			hashmap.put("orderType", param.getOrderType());
+		}
+		
+		hashmap.put("xmid", param.getParam().get("xmid"));
+		
+		List list = outProjectPlanMapper.getScienceProcessDetails(hashmap);
+		System.out.println("1>>>>>>>>>查询分页结果"+list.size());
+
+		LayuiTableData data = new LayuiTableData();
+		data.setData(list);
+		data.setCount(list.size());
+		return data;
+	}
+	
+	/**
+     * 合同付款详情
+     */
+	public LayuiTableData getContractPayDetails(LayuiTableParam param) {
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		if (param.getOrderKey()!=null&&!StrUtil.isBlankOrNull(param.getOrderKey().toString())) {
+			// 排序，因为select后有关键字，自己手动在sql中调整。否则直接PageHelper.orderBy(param.getOrderKey().toString()
+			// + " " + param.getOrderType());
+			hashmap.put("orderKey", param.getOrderKey());
+			hashmap.put("orderType", param.getOrderType());
+		}
+		
+		if (param.getParam().get("hth")!=null&&!StringUtils.isBlank(param.getParam().get("hth")+"")) {
+			List hth = new ArrayList();
+			String[] temS = param.getParam().get("hth").toString().split(",");
+			for (int i = 0; i<temS.length; i++) {
+				if (temS[i] != null && !temS[i].equals("")) {
+					hth.add(temS[i]);
+				}
+			}
+			hashmap.put("hth", hth);
+		}
+		List list = outProjectPlanMapper.getContractPayDetails(hashmap);
+		System.out.println("1>>>>>>>>>查询分页结果"+list.size());
+
+		LayuiTableData data = new LayuiTableData();
+		data.setData(list);
+		data.setCount(list.size());
+		return data;
+	}
+	
+	/**
+     * 合同成果详情
+     */
+	public LayuiTableData getContractAppraisalDetails(LayuiTableParam param) {
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		if (param.getOrderKey()!=null&&!StrUtil.isBlankOrNull(param.getOrderKey().toString())) {
+			// 排序，因为select后有关键字，自己手动在sql中调整。否则直接PageHelper.orderBy(param.getOrderKey().toString()
+			// + " " + param.getOrderType());
+			hashmap.put("orderKey", param.getOrderKey());
+			hashmap.put("orderType", param.getOrderType());
+		}
+		
+		if (param.getParam().get("hth")!=null&&!StringUtils.isBlank(param.getParam().get("hth")+"")) {
+			List hth = new ArrayList();
+			String[] temS = param.getParam().get("hth").toString().split(",");
+			for (int i = 0; i<temS.length; i++) {
+				if (temS[i] != null && !temS[i].equals("")) {
+					hth.add(temS[i]);
+				}
+			}
+			hashmap.put("hth", hth);
+		}
+		List list = outProjectPlanMapper.getContractAppraisalDetails(hashmap);
+		System.out.println("1>>>>>>>>>查询分页结果"+list.size());
+
+		LayuiTableData data = new LayuiTableData();
+		data.setData(list);
+		data.setCount(list.size());
+		return data;
+	}
+	
+	/**
+     * 项目奖励信息
+     */
+	public LayuiTableData getProjectRewardDetails(LayuiTableParam param) {
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		if (param.getOrderKey()!=null&&!StrUtil.isBlankOrNull(param.getOrderKey().toString())) {
+			// 排序，因为select后有关键字，自己手动在sql中调整。否则直接PageHelper.orderBy(param.getOrderKey().toString()
+			// + " " + param.getOrderType());
+			hashmap.put("orderKey", param.getOrderKey());
+			hashmap.put("orderType", param.getOrderType());
+		}
+		
+		hashmap.put("xmid", param.getParam().get("xmid"));
+		
+		List list = outProjectPlanMapper.getProjectRewardDetails(hashmap);
+		System.out.println("1>>>>>>>>>查询分页结果"+list.size());
+
+		LayuiTableData data = new LayuiTableData();
+		data.setData(list);
+		data.setCount(list.size());
 		return data;
 	}
 

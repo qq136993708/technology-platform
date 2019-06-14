@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.stp.out.OutProjectPlanExample;
 
@@ -90,5 +92,25 @@ public interface OutProjectPlanMapper {
      * 全生命周期查询，计划为起点
      */
 	public List selectProjectCycleByCondition(HashMap<String, Object> map);
+	
+	/**
+     * 项目的详情：合同信息
+     */
+	public List getScienceProcessDetails(HashMap<String, Object> map);
+	
+	/**
+     * 合同付款详情
+     */
+	public List getContractPayDetails(HashMap<String, Object> map);
+	
+	/**
+     * 合同成果详情
+     */
+	public List getContractAppraisalDetails(HashMap<String, Object> map);
+	
+	/**
+     * 项目成果详情
+     */
+	public List getProjectRewardDetails(HashMap<String, Object> map);
 	
 }

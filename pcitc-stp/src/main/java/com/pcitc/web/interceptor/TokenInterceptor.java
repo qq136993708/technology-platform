@@ -48,6 +48,8 @@ public class TokenInterceptor implements HandlerInterceptor {
 				// System.out.println("cookies is null ");
 				// login和index为了开发需要，避开统一身份认证
 				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome")) {
+					// 统一身份认证时，重定向到/stpHome
+					response.sendRedirect(request.getContextPath()+"/login");
 					return false;
 				}
 				
@@ -80,8 +82,11 @@ public class TokenInterceptor implements HandlerInterceptor {
 				System.out.println("token is null ");
 				// login和index为了开发需要，避开统一身份认证
 				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome")) {
+					// 统一身份认证时，重定向到/stpHome
+					response.sendRedirect(request.getContextPath()+"/login");
 					return false;
-				}  
+				}
+				
 				System.out.println("------特殊路径--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
 			}
 		} catch (Exception e) {

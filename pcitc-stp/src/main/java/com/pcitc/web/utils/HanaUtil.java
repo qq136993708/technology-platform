@@ -5180,10 +5180,19 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 			{
 				BudgetMysql f03 = list.get(i);
 				
-			
+				String fyxje ="0";
+				String zbxje ="0";
+				Object f03o=f03.getFyxje();
+				Object f03tt=f03.getZbxje();
+				if(f03o!=null)
+				{
+					fyxje =((BigDecimal)f03.getFyxje()).toString();
+				}
+				if(f03tt!=null)
+				{
+					zbxje =((BigDecimal)f03.getZbxje()).toString();
+				}
 				
-				String fyxje =((BigDecimal)f03.getFyxje()).toString();
-				String zbxje =((BigDecimal)f03.getZbxje()).toString();
 				
 				
 				

@@ -36,6 +36,34 @@ public class OutProjectPlanClient {
 		return outProjectPlanService.selectProjectCycleByCondition(param);
 	}
 	
+	@ApiOperation(value = "全生命周期, 项目的详情：合同信息", notes = " ")
+	@RequestMapping(value = "/out-project-plan-provider/project-contract/details", method = RequestMethod.POST)
+	public LayuiTableData getScienceProcessDetails(@RequestBody LayuiTableParam param) throws Exception {
+		logger.info("==================page getScienceProcessDetails===========================" + param);
+		return outProjectPlanService.getScienceProcessDetails(param);
+	}
+	
+	@ApiOperation(value = "全生命周期, 合同付款详情", notes = " ")
+	@RequestMapping(value = "/out-project-plan-provider/project-pay/details", method = RequestMethod.POST)
+	public LayuiTableData getContractPayDetails(@RequestBody LayuiTableParam param) throws Exception {
+		logger.info("==================page getContractPayDetails===========================" + param);
+		return outProjectPlanService.getContractPayDetails(param);
+	}
+	
+	@ApiOperation(value = "全生命周期, 合同成果详情", notes = " ")
+	@RequestMapping(value = "/out-project-plan-provider/project-appraisal/details", method = RequestMethod.POST)
+	public LayuiTableData getContractAppraisalDetails(@RequestBody LayuiTableParam param) throws Exception {
+		logger.info("==================page getContractAppraisalDetails===========================" + param);
+		return outProjectPlanService.getContractAppraisalDetails(param);
+	}
+	
+	@ApiOperation(value = "全生命周期, 项目奖励信息", notes = " ")
+	@RequestMapping(value = "/out-project-plan-provider/project-reward/details", method = RequestMethod.POST)
+	public LayuiTableData getProjectRewardDetails(@RequestBody LayuiTableParam param) throws Exception {
+		logger.info("==================page getProjectRewardDetails===========================" + param);
+		return outProjectPlanService.getProjectRewardDetails(param);
+	}
+	
 	@ApiOperation(value = "分页显示项目计划数据", notes = "分页显示项目计划数据")
 	@RequestMapping(value = "/out-project-plan-provider/project-plan/page/list", method = RequestMethod.POST)
 	public LayuiTableData selectProjectPlanByCond(@RequestBody LayuiTableParam param) throws Exception {

@@ -1,20 +1,16 @@
 package com.pcitc.service.expert;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.netflix.discovery.converters.Auto;
 import com.pcitc.StpProviderApplication;
 import com.pcitc.base.expert.*;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.mapper.expert.ZjkExpertMapper;
-import com.pcitc.service.msg.MailSentService;
-import com.pcitc.util.mail.MailSenderInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.*;
@@ -29,115 +25,98 @@ import static org.junit.Assert.*;
 @SpringBootTest(classes = StpProviderApplication.class)// 指定spring-boot的启动类
 public class ZjkBaseInfoServiceTest {
 
-//    @Autowired
-//    private ZjkBaseInfoService zjkBaseInfoService;
-//
-//    @Autowired
-//    private ZjkDataService zjkDataService;
-//
-//    @Autowired
-//    private ZjkExpertMapper zjkExpertMapper;
-//
-//    @Autowired
-//    private ZjkExpertProjectService zjkExpertProjectService;
-//
-//    @Autowired
-//    private ZjkZhuanliService zjkZhuanliService;
     @Autowired
-    private MailSentService mailSentService1;
+    private ZjkBaseInfoService zjkBaseInfoService;
+
     @Autowired
-    private ZjkChoiceService zjkChoiceService;
+    private ZjkDataService zjkDataService;
+
+    @Autowired
+    private ZjkExpertMapper zjkExpertMapper;
+
+    @Autowired
+    private ZjkExpertProjectService zjkExpertProjectService;
+
+    @Autowired
+    private ZjkZhuanliService zjkZhuanliService;
+    @Test
+    public void excelInto_zjkExpertPatent() {
+        System.out.println("导入专家zhuanli信息开始:");
+        Map<String, Object> map = new HashMap<>();
+        String sql = "SELECT zjk_expert.data_id,zjk_expert.expert_name,temp_zl.* from zjk_expert,temp_zl WHERE zjk_expert.bak3='1' and zjk_expert.bak5=temp_zl.`文档编号`";
+        map.put("sqlval", sql);
+        List<Map<String, Object>> maps = zjkExpertMapper.listSqlResult(map);
+        for (int i = 0; i < maps.size(); i++) {
+            Map<String, Object> d = maps.get(i);
+            ZjkPatent e = new ZjkPatent();
+            e.setDataId(UUID.randomUUID().toString().replace("-", ""));
+
+            e.setDocId(StrUtil.objectToString(d.get("文档编号")));
+            e.setNd(StrUtil.objectToString(d.get("年度")));
+            e.setPatentName(StrUtil.objectToString(d.get("专利名称")));
+            e.setCountry(StrUtil.objectToString(d.get("授权国")));
+            e.setPatentCode(StrUtil.objectToString(d.get("专利号")));
+            e.setExpertId(StrUtil.objectToString(d.get("data_id")));
+            e.setIsResult(StrUtil.objectToString(d.get("是否形成工业化成果")));
+            e.setInventPeopleName(StrUtil.objectToString(d.get("发明人（按顺序列出前3位）")));
+
+            e.setBak1(StrUtil.objectToString(d.get("年度")));//2010
+
+            e.setSysFlag("0");
+            e.setDataOrder(i);
+            e.setDelFlag(0);
+            e.setCreateUser("165553436ed_dfd5e137");
+            e.setCreateUserDisp("aaaaa");
+            e.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_DD));
+            e.setStatus("0");
+            e.setAuditStatus("0");
+            System.out.println(JSON.toJSONString(e));
+//            zjkZhuanliService.insert(e);
+        }
+        System.out.println("导入专家zhuanli信息结束");
+
+    }
 
     @Test
-    public void testMail(){
-        MailSenderInfo m = new MailSenderInfo();
-        m.setToAddress(new String[]{"635447170@qq.com"});
-        m.setContent("<p>尊敬的${name}您好:</p>\n" +
-                "\n" +
-                "<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 中国石化特邀您于${date}对${project}进行评审,请准时参加,联系电话:${mobile}</p>\n");
-        m.setSubject("我的标题");
-        System.out.println("邮件发送开始");
-        mailSentService1.sendMailFileInputStream(m);
-        System.out.println("结束");
-    }
-//    @Test
-//    public void excelInto_zjkExpertPatent() {
-//        System.out.println("导入专家zhuanli信息开始:");
-//        Map<String, Object> map = new HashMap<>();
-//        String sql = "SELECT zjk_expert.data_id,zjk_expert.expert_name,temp_zl.* from zjk_expert,temp_zl WHERE zjk_expert.bak3='1' and zjk_expert.bak5=temp_zl.`文档编号`";
-//        map.put("sqlval", sql);
-//        List<Map<String, Object>> maps = zjkExpertMapper.listSqlResult(map);
-//        for (int i = 0; i < maps.size(); i++) {
-//            Map<String, Object> d = maps.get(i);
-//            ZjkPatent e = new ZjkPatent();
-//            e.setDataId(UUID.randomUUID().toString().replace("-", ""));
-//
-//            e.setDocId(StrUtil.objectToString(d.get("文档编号")));
-//            e.setNd(StrUtil.objectToString(d.get("年度")));
-//            e.setPatentName(StrUtil.objectToString(d.get("专利名称")));
-//            e.setCountry(StrUtil.objectToString(d.get("授权国")));
-//            e.setPatentCode(StrUtil.objectToString(d.get("专利号")));
-//            e.setExpertId(StrUtil.objectToString(d.get("data_id")));
-//            e.setIsResult(StrUtil.objectToString(d.get("是否形成工业化成果")));
-//            e.setInventPeopleName(StrUtil.objectToString(d.get("发明人（按顺序列出前3位）")));
-//
-//            e.setBak1(StrUtil.objectToString(d.get("年度")));//2010
-//
-//            e.setSysFlag("0");
-//            e.setDataOrder(i);
-//            e.setDelFlag(0);
-//            e.setCreateUser("165553436ed_dfd5e137");
-//            e.setCreateUserDisp("aaaaa");
-//            e.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_DD));
-//            e.setStatus("0");
-//            e.setAuditStatus("0");
-//            System.out.println(JSON.toJSONString(e));
-////            zjkZhuanliService.insert(e);
-//        }
-//        System.out.println("导入专家zhuanli信息结束");
-//
-//    }
-//
-//    @Test
-//    public void excelInto_zjkExpertProject() {
-//        System.out.println("导入专家项目信息开始:");
-//        Map<String, Object> map = new HashMap<>();
-//        String sql = "SELECT zjk_expert.data_id,zjk_expert.expert_name,temp_year.* from zjk_expert,temp_year WHERE zjk_expert.bak3='1' and zjk_expert.bak5=temp_year.`文档编号`";
-//        map.put("sqlval", sql);
-//        List<Map<String, Object>> maps = zjkExpertMapper.listSqlResult(map);
-//        for (int i = 0; i < maps.size(); i++) {
-//            Map<String, Object> d = maps.get(i);
-//            ZjkExpertProject e = new ZjkExpertProject();
-//            e.setDataId(UUID.randomUUID().toString().replace("-", ""));
-//
-//            e.setAmount(StrUtil.objectToString(d.get("经费")));
-//            e.setDocId(StrUtil.objectToString(d.get("文档编号")));
-//            e.setYear(StrUtil.objectToString(d.get("年度")));
-//            e.setProjectName(StrUtil.objectToString(d.get("项目名称及编号")));
-//            e.setProjectType(StrUtil.objectToString(d.get("项目类")));
-//            e.setPeople(StrUtil.objectToString(d.get("承担人")));
-//            e.setExpertId(StrUtil.objectToString(d.get("data_id")));
-//            e.setStartEnd(StrUtil.objectToString(d.get("起止时间")));
-//
-//            e.setBak1(StrUtil.objectToString(d.get("年度")));
-//
-//            e.setSysFlag("0");
-//            e.setDataOrder(i);
-//            e.setDelFlag(0);
-//            e.setCreateUser("165553436ed_dfd5e137");
-//            e.setCreateUserDisp("aaaaa");
-//            e.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_DD));
-//            e.setStatus("0");
-//            e.setAuditStatus("0");
-//            System.out.println(JSON.toJSONString(e));
-////            zjkExpertProjectService.insert(e);
-//        }
-//        System.out.println("导入专家项目信息结束");
-//
-//    }
+    public void excelInto_zjkExpertProject() {
+        System.out.println("导入专家项目信息开始:");
+        Map<String, Object> map = new HashMap<>();
+        String sql = "SELECT zjk_expert.data_id,zjk_expert.expert_name,temp_year.* from zjk_expert,temp_year WHERE zjk_expert.bak3='1' and zjk_expert.bak5=temp_year.`文档编号`";
+        map.put("sqlval", sql);
+        List<Map<String, Object>> maps = zjkExpertMapper.listSqlResult(map);
+        for (int i = 0; i < maps.size(); i++) {
+            Map<String, Object> d = maps.get(i);
+            ZjkExpertProject e = new ZjkExpertProject();
+            e.setDataId(UUID.randomUUID().toString().replace("-", ""));
 
-//    @Test
-//    public void generatorCode0() {
+            e.setAmount(StrUtil.objectToString(d.get("经费")));
+            e.setDocId(StrUtil.objectToString(d.get("文档编号")));
+            e.setYear(StrUtil.objectToString(d.get("年度")));
+            e.setProjectName(StrUtil.objectToString(d.get("项目名称及编号")));
+            e.setProjectType(StrUtil.objectToString(d.get("项目类")));
+            e.setPeople(StrUtil.objectToString(d.get("承担人")));
+            e.setExpertId(StrUtil.objectToString(d.get("data_id")));
+            e.setStartEnd(StrUtil.objectToString(d.get("起止时间")));
+
+            e.setBak1(StrUtil.objectToString(d.get("年度")));
+
+            e.setSysFlag("0");
+            e.setDataOrder(i);
+            e.setDelFlag(0);
+            e.setCreateUser("165553436ed_dfd5e137");
+            e.setCreateUserDisp("aaaaa");
+            e.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_DD));
+            e.setStatus("0");
+            e.setAuditStatus("0");
+            System.out.println(JSON.toJSONString(e));
+//            zjkExpertProjectService.insert(e);
+        }
+        System.out.println("导入专家项目信息结束");
+
+    }
+
+    @Test
+    public void generatorCode0() {
         //修改bak3的数据
 //        Map<String, Object> map = new HashMap<>();
 //        String flag = "2";
@@ -164,11 +143,11 @@ public class ZjkBaseInfoServiceTest {
 //            }
 //        }
 //        System.out.println("leng:"+stringStringMap.size());
-//    }
+    }
 
     //高级专家
-//    @Test
-//    public void generatorCode1() {
+    @Test
+    public void generatorCode1() {
 
 //        System.out.println("测试开始");
 //        ZjkDataExample ex = new ZjkDataExample();
@@ -225,11 +204,11 @@ public class ZjkBaseInfoServiceTest {
 //            zjkBaseInfoService.insert(e);
 //        }
 //        System.out.println("结束");
-//    }
+    }
 
     //首席专家
-//    @Test
-//    public void generatorCode2() {
+    @Test
+    public void generatorCode2() {
 //        System.out.println("测试开始");
 //        ZjkDataExample ex = new ZjkDataExample();
 //        Map<String, Object> map = new HashMap<>();
@@ -286,7 +265,7 @@ public class ZjkBaseInfoServiceTest {
 //            zjkBaseInfoService.insert(e);
 //        }
 //        System.out.println("结束");
-//    }
+    }
 
 //    @Test
 //    public void generatorCode() {

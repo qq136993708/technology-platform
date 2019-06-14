@@ -23,12 +23,15 @@
     <result column="document_doc_install_debug" jdbcType="VARCHAR" property="documentDocInstallDebug" />
     <result column="document_doc_contract_close" jdbcType="VARCHAR" property="documentDocContractClose" />
     <result column="is_contract_closed" jdbcType="VARCHAR" property="isContractClosed" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="purchase_code" jdbcType="VARCHAR" property="purchaseCode" />
   </resultMap>
   <sql id="Base_Column_List">
     id, purchase_name, proposer_id, proposer_name, parent_unit_path_id, parent_unit_path_names, 
     depart_name, depart_code, stage, state, create_date, equipment_id, ischeck, project_id, 
     login_name, document_doc, document_doc_arrive_goods, document_doc_contract_acceptance, 
-    document_doc_install_debug, document_doc_contract_close, is_contract_closed
+    document_doc_install_debug, document_doc_contract_close, is_contract_closed, remarks, 
+    purchase_code
   </sql>
   <sql id="selectCondition">
     <trim prefix="WHERE" prefixOverrides="AND|OR">
@@ -60,7 +63,8 @@
       ischeck, project_id, login_name, 
       document_doc, document_doc_arrive_goods, document_doc_contract_acceptance, 
       document_doc_install_debug, document_doc_contract_close, 
-      is_contract_closed)
+      is_contract_closed, remarks, purchase_code
+      )
     values (#{id,jdbcType=VARCHAR}, #{purchaseName,jdbcType=VARCHAR}, #{proposerId,jdbcType=VARCHAR}, 
       #{proposerName,jdbcType=VARCHAR}, #{parentUnitPathId,jdbcType=VARCHAR}, #{parentUnitPathNames,jdbcType=VARCHAR}, 
       #{departName,jdbcType=VARCHAR}, #{departCode,jdbcType=VARCHAR}, #{stage,jdbcType=VARCHAR}, 
@@ -68,7 +72,8 @@
       #{ischeck,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, 
       #{documentDoc,jdbcType=VARCHAR}, #{documentDocArriveGoods,jdbcType=VARCHAR}, #{documentDocContractAcceptance,jdbcType=VARCHAR}, 
       #{documentDocInstallDebug,jdbcType=VARCHAR}, #{documentDocContractClose,jdbcType=VARCHAR}, 
-      #{isContractClosed,jdbcType=VARCHAR})
+      #{isContractClosed,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{purchaseCode,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SrePurchase">
     insert into sre_purchase
@@ -136,6 +141,12 @@
       <if test="isContractClosed != null">
         is_contract_closed,
       </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="purchaseCode != null">
+        purchase_code,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -200,6 +211,12 @@
       </if>
       <if test="isContractClosed != null">
         #{isContractClosed,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseCode != null">
+        #{purchaseCode,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -266,6 +283,12 @@
       <if test="isContractClosed != null">
         is_contract_closed = #{isContractClosed,jdbcType=VARCHAR},
       </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseCode != null">
+        purchase_code = #{purchaseCode,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -290,7 +313,9 @@
       document_doc_contract_acceptance = #{documentDocContractAcceptance,jdbcType=VARCHAR},
       document_doc_install_debug = #{documentDocInstallDebug,jdbcType=VARCHAR},
       document_doc_contract_close = #{documentDocContractClose,jdbcType=VARCHAR},
-      is_contract_closed = #{isContractClosed,jdbcType=VARCHAR}
+      is_contract_closed = #{isContractClosed,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      purchase_code = #{purchaseCode,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >

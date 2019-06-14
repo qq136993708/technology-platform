@@ -96,10 +96,10 @@
 	                	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}">序号</th>
 	                    <th lay-data="{field:'displayName', width: '20%'}">预算部门</th>
 	                    <th lay-data="{field:'remark', width: '25%'}">描述</th>
-	                   	<th lay-data="{field:'last_year_end',align: 'right',totalRow: true}">2018年实际完成</th>
-	                   	<th lay-data="{field:'plan_money',align: 'right',totalRow: true}">2019年经费计划</th>
+	                   	<th lay-data="{field:'last_year_end',align: 'right',totalRow: true}">${cnd}年实际完成</th>
+	                   	<th lay-data="{field:'plan_money',align: 'right',totalRow: true}">${nd}年经费计划</th>
 	                    <!-- <th lay-data="{field:'yjwc', edit:true,align: 'right',totalRow: true}">2018年预计完成</th> -->
-	                    <th lay-data="{field:'xmjf', edit:true,align: 'right',totalRow: true}">2019年经费预算</th>	                    
+	                    <th lay-data="{field:'xmjf', edit:true,align: 'right',totalRow: true}">${nd}年经费预算</th>	                    
 	                </tr>
                 </thead>
             </table>
@@ -155,7 +155,7 @@
                 }            
             });
             renderfunc = function removeHeaderCheckbox(){
-            	$(".layui-table-header table thead th i").remove();  //移除表头的复选框,去掉全选
+            	$(".layui-table-header table thead th .layui-unselect").remove();  //移除表头的复选框,去掉全选
 	        	//行单击选中事件绑定
 	        	$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
 	              	  var index=parseInt($(this).index()+1);

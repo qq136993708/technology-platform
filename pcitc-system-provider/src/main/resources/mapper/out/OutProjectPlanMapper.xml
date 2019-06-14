@@ -1600,8 +1600,16 @@
 																	 and out_project_info.PROJECT_TYPE != '1'
 																	 and out_project_info.define3 = '项目管理系统')	              
 				WHERE
-					   out_project_plan.PROJECT_TYPE != '1'
-					   and out_project_plan.define4 = '项目管理系统'
+					   out_project_plan.define4 = '项目管理系统'
+					   <if test="showType != null and showType != ''.toString() ">
+					   	   and out_project_plan.PROJECT_PROPERTY = '${showType}'
+					   </if>
+					   <if test="xmlb != null and xmlb == '科研装备' ">
+					   	   and out_project_plan.XMLBMC = '${xmlb}'
+					   </if>
+					   <if test="xmlb != null and xmlb == '非科研装备' ">
+					   	   and out_project_plan.XMLBMC != '科研装备'
+					   </if>
 					   <if test="startDate != null and startDate != ''.toString() ">
 					   	   and STRCMP(out_project_plan.KSSJ, ${orderKey}) > 0
 					   </if>
@@ -1624,5 +1632,59 @@
 		GROUP BY tableB.XMID
 		
 			
+	</select>
+	
+	<!-- 项目的详情：合同信息 -->
+	<select id="getScienceProcessDetails" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select nd,hth,xmmc,ysnd,ysje,zylb,fzdw,zycmc,define8
+		from out_project_info
+		where 
+			xmid = ${xmid}
+			and out_project_info.define3 = '项目管理系统'
+		order by out_project_info.ysnd desc, out_project_info.hth, out_project_info.define8
+	</select>
+	
+	<!-- 合同付款详情 -->
+	<select id="getContractPayDetails" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select expenses_bills_pay.suppName,expenses_bills_pay.suppCode,expenses_bills_pay.payAmount,expenses_bills_pay.payModeName,expenses_bills_pay.billCode,
+			   max(expenses_pay_hana.G0AUGDT) as G0AUGDT
+		from expenses_bills_pay left join expenses_pay_hana on (expenses_bills_pay.billCode = expenses_pay_hana.G0ZECSID)
+		where 
+			expenses_bills_pay.sts = '1'
+			<if test="hth != null">
+				and (
+				<foreach collection="hth" item="hth" index="index" separator=" or ">
+					expenses_bills_pay.bak1 like '%${hth}%'
+				</foreach>
+				)
+			</if>
+			and expenses_bills_pay.billCode IS NOT NULL
+		group by expenses_bills_pay.data_id
+		order by expenses_bills_pay.billCode desc
+	</select>
+	
+	<!-- 合同成果详情 -->
+	<select id="getContractAppraisalDetails" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select cgmc,sqjddw,sqdjh,cglx,zy,jdh,hth,xmmc
+		from out_appraisal
+		where 
+			out_appraisal.status = '1'
+			<if test="hth != null">
+				and (
+				<foreach collection="hth" item="hth" index="index" separator=" or ">
+					out_appraisal.hth like '%${hth}%'
+				</foreach>
+				)
+			</if>
+		group by out_appraisal.data_id
+	</select>
+	
+	<!-- 项目奖励信息 -->
+	<select id="getProjectRewardDetails" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select xmbh,nd,xmmc,sbdw,sbjz,xkfl,psdj,sbrq,jddw
+		from out_reward
+		where 
+			xmid = ${xmid}
+		order by out_reward.xmbh desc
 	</select>
 </mapper>

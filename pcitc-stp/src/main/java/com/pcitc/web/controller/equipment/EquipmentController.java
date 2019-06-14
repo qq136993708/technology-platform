@@ -350,16 +350,11 @@ public class EquipmentController extends BaseController {
 		//request.setAttribute("applyDepartCode", applyDepartCode);
 		
 		
-		String	parentUnitPathIds="";
-		String unitPathIds =   sysUserInfo.getUnitPath();
-		if(unitPathIds!=null && !unitPathIds.equals(""))
-		{
-			if(unitPathIds.length()>4)
-			{
-				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-				
-			}
-		}
+		String unitPathIds = sysUserInfo.getUnitPath();
+		String parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
+		
+		
+		
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		
 		
@@ -404,16 +399,12 @@ public class EquipmentController extends BaseController {
 		//request.setAttribute("applyDepartCode", applyDepartCode);
 		String isLinkedProject = request.getParameter("isLinkedProject");
 		request.setAttribute("isLinkedProject", isLinkedProject);
-		String	parentUnitPathIds="";
-		String unitPathIds =   sysUserInfo.getUnitPath();
-		if(unitPathIds!=null && unitPathIds!=null && !unitPathIds.equals(""))
-		{
-			if(unitPathIds.length()>4)
-			{
-				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-				
-			}
-		}
+		
+		
+		
+		
+		String unitPathIds = sysUserInfo.getUnitPath();
+		String parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		
 		return "/stp/equipment/equipment/chooseEquipment";
@@ -592,22 +583,6 @@ public class EquipmentController extends BaseController {
 		String firstApplyUser=sysUserInfo.getUserDisp();
 		String attachmentDoc= IdUtil.createFileIdByTime();
 		
-		/*String applyDepartName =  "";
-		String applyDepartCode =  "";
-		String unitPathIds =   sysUserInfo.getUnitPath();
-		if(unitPathIds!=null && !unitPathIds.equals(""))
-		{
-			if(unitPathIds.length()>4)
-			{
-				String	parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-				SysUnit sysUnit=EquipmentUtils.getUnitByUnitPath(parentUnitPathIds, restTemplate, httpHeaders);
-				if(sysUnit!=null)
-				{
-					applyDepartName = sysUnit.getUnitName();
-					applyDepartCode =sysUnit.getUnitCode();
-				}
-			}
-		}*/
 		
 		
 		
@@ -672,23 +647,11 @@ public class EquipmentController extends BaseController {
 		String unitPathNames = CommonUtil.getParameter(request, "unitPathNames", sysUserInfo.getUnitName());
 		
 		
+		String parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
+		String parentUnitPathNames = EquipmentUtils.getParentUnitPathName(parentUnitPathIds, restTemplate, httpHeaders);
 		
 		
 		
-		String parentUnitPathIds ="";
-		String parentUnitPathNames =  "";
-		if(unitPathIds!=null && !unitPathIds.equals(""))
-		{
-			if(unitPathIds.length()>4)
-			{
-				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-				SysUnit sysUnit=EquipmentUtils.getUnitByUnitPath(parentUnitPathIds, restTemplate, httpHeaders);
-				if(sysUnit!=null)
-				{
-					parentUnitPathNames = sysUnit.getUnitName();
-				}
-			}
-		}
 		
 		// 流程状态-是保存还是提交
 		String auditStatus = CommonUtil.getParameter(request, "auditStatus", Constant.AUDIT_STATUS_DRAFT);

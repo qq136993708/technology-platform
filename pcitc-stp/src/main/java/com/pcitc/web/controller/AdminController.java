@@ -307,7 +307,7 @@ public class AdminController extends BaseController {
 
 								// 个人工作台的二级、三级菜单
 								if (sysfun.getParentCode()!=null&&sysfun.getParentCode().startsWith("1027")&&!sysfun.getName().equals("个人工作台")) {
-									System.out.println("个人工作台================"+sysfun.getName());
+									//System.out.println("个人工作台================"+sysfun.getName());
 									grgztList.add(sysfun);
 								}
 							}
@@ -437,7 +437,7 @@ public class AdminController extends BaseController {
 
 				// 个人工作台的二级、三级菜单
 				if (sysfun.getParentCode()!=null&&sysfun.getParentCode().startsWith("1027")&&!sysfun.getName().equals("个人工作台")) {
-					System.out.println("个人工作台================"+sysfun.getName());
+					//System.out.println("个人工作台================"+sysfun.getName());
 					grgztList.add(sysfun);
 				}
 			}
@@ -496,7 +496,7 @@ public class AdminController extends BaseController {
 
 				// 个人工作台的二级、三级菜单
 				if (sysfun.getParentCode()!=null&&sysfun.getParentCode().startsWith("1027")&&!sysfun.getName().equals("个人工作台")) {
-					System.out.println("个人工作台================"+sysfun.getName());
+					//System.out.println("个人工作台================"+sysfun.getName());
 					grgztList.add(sysfun);
 				}
 			}
@@ -570,7 +570,7 @@ public class AdminController extends BaseController {
 			}
 
 			if (sysfun.getParentCode()!=null&&sysfun.getParentCode().startsWith("1027")&&!sysfun.getName().equals("个人工作台")) {
-				System.out.println("个人工作台================"+sysfun.getName());
+				//System.out.println("个人工作台================"+sysfun.getName());
 				grgztList.add(sysfun);
 			}
 		}

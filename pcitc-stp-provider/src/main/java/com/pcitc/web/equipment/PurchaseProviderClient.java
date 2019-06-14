@@ -140,4 +140,12 @@ public class PurchaseProviderClient
         System.out.println("======业务系统处理--驳回 --后业务======="+id);
         return count;
     }
+
+    @ApiOperation(value = "计划上报统计列表", notes = "计划上报统计列表")
+    @RequestMapping(value = "/sre-provider/purchase/chooseProjectPage", method = RequestMethod.POST)
+    public LayuiTableData getSreProjectBasicList(@RequestBody LayuiTableParam paramsJson)throws Exception
+    {
+        logger.info("==================page SreProjectBasic==========================="+paramsJson);
+        return purchaseService.getProjectPage(paramsJson);
+    }
 }

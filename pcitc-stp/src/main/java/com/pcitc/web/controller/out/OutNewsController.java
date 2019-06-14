@@ -38,9 +38,11 @@ public class OutNewsController extends BaseController
 		String result = getDataService(OUT_URL);
 		JSONArray jsArr = JSONObject.parseArray(result);
 		//[{"xxbt":"关于2019年新开科研项目合同（任务书）上报相关事宜的通知","fbsj":"2019-06-03T16:59:22"}]
-		System.out.println("-------------------------");
-		System.out.println(jsArr.toString());
-		return jsArr.toString();
+		if (jsArr != null) {
+			return jsArr.toString();
+		} else {
+			return null;
+		}
 	}
 	/**
 	 * 获取新闻列表

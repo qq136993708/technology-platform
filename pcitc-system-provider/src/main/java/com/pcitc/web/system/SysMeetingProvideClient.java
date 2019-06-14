@@ -1,5 +1,8 @@
 package com.pcitc.web.system;
 
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.system.SysMeeting;
@@ -34,6 +39,18 @@ public class SysMeetingProvideClient {
 		LayuiTableData rageResult=sysMeetingService.getSysMeetingPage(param) ;
 		return rageResult;
 	}
+	
+	
+
+	@ApiOperation(value = "会议纪要列表", notes = "会议纪要列表")
+	@RequestMapping(value = "/system-provider/sys_meeting/list", method = RequestMethod.POST)
+	public JSONArray getSysMeeting_List(@RequestBody Map map)throws Exception{
+		logger.info("============================getSysMeeting_List列表 =================");
+		List<SysMeeting> list= sysMeetingService.getSysMeetingListByMap(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+		return json;
+	}
+	
 	
 	@ApiOperation(value = "增加会议纪要", notes = "增加会议纪要")
 	@RequestMapping(value = "/system-provider/sys_meeting/add", method = RequestMethod.POST)
