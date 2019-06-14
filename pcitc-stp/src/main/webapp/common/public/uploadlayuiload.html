@@ -341,6 +341,7 @@
         var $ = layui.jquery,
             element = layui.element,
             upload = layui.upload;
+        var lodingMsg;
         //演示多文件列表
         var demoListView = $('#'+pcitcFile.file_table_id);
         var uploadListIns = upload.render({
@@ -359,11 +360,16 @@
             ,dataType:"json"
             , multiple: pcitcFile.multiple
             , exts: pcitcFile.ext
+
             , number: pcitcFile.number
             , auto: pcitcFile.auto
             , bindAction: '#testListAction'
             ,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致。
                 if (pcitcFile.complete!=""){
+                    $(".shade-box").css('display','block');
+                    lodingMsg = layer.msg('上传中...', {shade: [0.6, '#393D49'],time: false});
+                    $(".shade-box").css('width',parent.document.body.clientWidth);
+                    $(".shade-box").css('height',parent.document.body.clientHeight);
                     $("#testListAction").toggle();
                     $("#testListActionDisabled").toggle();
                 }
@@ -480,6 +486,8 @@
                     if (res.error == null) { //上传成功
                         console.log("-------------done------------" + index);
                         console.log(res);
+                        $('.shade-box').css('display','none');
+                        layer.close(lodingMsg);
                         var tr = demoListView.find('tr#upload-' + index)
                             , tds = tr.children();
                         tr.attr("id", "upload-" + (tds.eq(1).html() * 1 - 1));
