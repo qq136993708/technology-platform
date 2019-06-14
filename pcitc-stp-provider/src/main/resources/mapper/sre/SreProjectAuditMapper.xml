@@ -27,6 +27,14 @@
     from sre_project_audit
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  
+   <select id="selectBypid" resultType="java.lang.Integer"  parameterType="java.lang.String" >
+    select 
+   count(*)
+    from sre_project_audit
+    where projecttaskid = #{projecttaskid,jdbcType=VARCHAR}
+  </select>
+  
    <select id="getlist" resultMap="BaseResultMap" parameterType="Map">
      select * from sre_project_audit t  <include refid="selectCondition" />    
      
