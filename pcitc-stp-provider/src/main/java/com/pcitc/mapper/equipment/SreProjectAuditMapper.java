@@ -20,5 +20,7 @@ public interface SreProjectAuditMapper {
     
     List getlist(Map map);
     
+    int selectBypid(String projecttaskid);
+    
     int updateAuditById(SreProjectAudit record);
 }

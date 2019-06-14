@@ -117,7 +117,7 @@
                     </div>
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label for="" class="layui-form-label">申报时间</label>
+                            <label for="" class="layui-form-label">申请时间</label>
                             <div class="layui-input-block">
                              <input class="layui-input readOnlyBox" name="createDate" id="createDate" value="${srePurchase.createDate?string("yyyy-MM-dd HH:mm:ss")}"     autocomplete="off" type="text">
                                 
@@ -128,7 +128,7 @@
                 <div class="layui-row">
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label for="" class="layui-form-label">采购编码</label>
+                            <label for="" class="layui-form-label">申请编号</label>
                             <div class="layui-input-block">
                                 <input class="layui-input readOnlyBox" name="purchaseCode" id="purchaseCode"
                                        value="${purchaseCode}"
@@ -339,7 +339,7 @@
                         }
                     },
                     {field: 'applyDepartName', title: '申报部门', style: 'cursor: pointer;', align: 'center', width: '15%'},
-                    {field: 'firstApplyUser', title: '第一申报人', style: 'cursor: pointer;', align: 'center', width: '10%'}
+                    {field: 'firstApplyUser', title: '第一申报人', style: 'cursor: pointer;', align: 'center'}
 
                 ]],
                 done: function (res, curr, count) {

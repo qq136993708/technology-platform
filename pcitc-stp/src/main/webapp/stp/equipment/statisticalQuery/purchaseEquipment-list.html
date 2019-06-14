@@ -11,7 +11,6 @@
 </head>
 
 <body>
-s
 <div class="searchBox">
     <form action=""  name="form1" id="form1" action="" method="POST">
         <input type="hidden" name="departCode" id="departCode" value="${departCode}">
@@ -24,8 +23,8 @@ s
         <input type="text" name="createDate" value="" readonly="readonly" placeholder="请选择采购年度" title="采购年度" autocomplete="off" class="form-control" id="createDate">
     </label>-->
     <label class="dateInput">
-        <span>采购名称</span>
-        <input type="text" name="purchaseName" value="" placeholder="请输入采购名称" title="采购名称" autocomplete="off" class="form-control" id="purchaseName">
+        <span>申请名称</span>
+        <input type="text" name="purchaseName" value="" placeholder="请输入申请名称" title="申请名称" autocomplete="off" class="form-control" id="purchaseName">
     </label>
     <!--按钮组-->
     <div class="btnGroup">
@@ -146,12 +145,12 @@ s
                 {type : 'checkbox', event : 'changeEvents', width : 55},
                 {title : '序号', type :'numbers', width : 55},
                 //{field : 'state', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.state) }}</div>', width : 55},
-                {field : 'purchaseName',     title : '采购名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
+                {field : 'purchaseName',     title : '申请名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
                 {field : 'parentUnitPathNames',     title : '单位名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
                 {field : 'departName',     title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
                 //{field : 'stage',      		title : '阶段',         style : 'cursor: pointer;', align: 'center',  width : '10%',},
                 {field : 'proposerName',      		title : '申请人',         style : 'cursor: pointer;', align: 'center',  width : '15%',},
-                {field : 'createDate',      title : '创建时间', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl', width : '15%'}
+                {field : 'createDate',      title : '申请日期', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl', width : '15%'}
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选

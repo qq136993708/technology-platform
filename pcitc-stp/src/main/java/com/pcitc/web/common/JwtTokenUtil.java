@@ -19,11 +19,8 @@ public class JwtTokenUtil implements Serializable {
 
 	private static final long serialVersionUID = -3301605591108950415L;
 	private static final String CLAIM_KEY_USERNAME = "userName";
-	private static final String CLAIM_KEY_CREATED = "created";
 	private static final String CLAIM_KEY_EMAIL = "email";
 	private static final String CLAIM_KEY_USERDISP = "userDisp";
-	private static final String CLAIM_KEY_DEPARTMENTCODE = "departmentCode";
-	private static final String CLAIM_KEY_DEPARTMENTNAME = "departmentName";
 	private static final String CLAIM_KEY_USERID = "userId";
 	private static final String CLAIM_KEY_UNITNAME = "unitName";
 	private static final String CLAIM_KEY_UNITCODE = "unitCode";
@@ -31,8 +28,6 @@ public class JwtTokenUtil implements Serializable {
 	private static final String CLAIM_KEY_UNITPATH = "unitPath";
 	private static final String CLAIM_KEY_ROLELIST = "roleList";
 	private static final String CLAIM_KEY_FUNCTIONLIST = "functionList";
-	//private static final String INSTITUTE_CODE = "instituteCodes";
-	//private static final String INSTITUTE_NAME = "instituteNames";
 	private static final String CLAIM_KEY_POSTID = "postId";
 	private static final String CLAIM_KEY_LEVEL = "userLevel";
 	

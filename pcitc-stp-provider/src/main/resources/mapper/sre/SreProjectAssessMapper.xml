@@ -21,12 +21,21 @@
   <sql id="Base_Column_List" >
     id, projecttaskid,projecttask, content, create_user, create_date, status,documentdoc,documentdoctwo
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectBypid" resultType="java.lang.Integer"  parameterType="java.lang.String" >
+    select 
+   count(*)
+    from sre_project_assess
+    where projecttaskid = #{projecttaskid,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from sre_project_assess
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  
+  
    <select id="getlist" resultMap="BaseResultMap" parameterType="Map">
      select * from sre_project_assess t  <include refid="selectCondition" />    
      

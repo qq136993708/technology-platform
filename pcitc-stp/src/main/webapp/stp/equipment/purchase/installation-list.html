@@ -20,8 +20,8 @@
     </form>
     <!--查询条件-->
     <label class="dateInput">
-        <span>采购编码</span>
-        <input type="text" name="purchaseCode" value="" placeholder="请输入采购编码" title="采购编码" autocomplete="off" class="form-control" id="purchaseCode">
+        <span>申请编号</span>
+        <input type="text" name="purchaseCode" value="" placeholder="请输入申请编号" title="申请编号" autocomplete="off" class="form-control" id="purchaseCode">
     </label>
     <label class="dateInput">
         <span>申请名称</span>
@@ -197,7 +197,7 @@
                 {field : 'departName',     title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
                 //{field : 'stage',      		title : '阶段',         style : 'cursor: pointer;', align: 'center',  width : '10%',},
                 {field : 'proposerName',      		title : '申请人',         style : 'cursor: pointer;', align: 'center',  width : '15%',},
-                {field : 'createDate',      title : '创建时间', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
+                {field : 'createDate',      title : '申请日期', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选

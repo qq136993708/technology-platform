@@ -34,7 +34,7 @@ import com.pcitc.web.common.BaseController;
 @RequestMapping(value = "/sre_project_taskac")
 public class ProjectTaskAcController extends BaseController{
 	private static final String PROJECTPAGE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/sreProjectTaskAc/page";
-	private static final String PAGE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/page";
+	private static final String PAGE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/pagebyaccept";
 	private static final String AUDIT_URL="http://pcitc-zuul/stp-proxy/sre-provider/project_task/audit";
 	private static final String SUBMITAUDIT_URL="http://pcitc-zuul/stp-proxy/sre-provider/sreProjectTaskAc/submitaudit";
 	private static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/sreProjectTaskAc/get/";

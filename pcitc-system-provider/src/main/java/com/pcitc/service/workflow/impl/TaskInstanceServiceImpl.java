@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
@@ -278,7 +279,7 @@ public class TaskInstanceServiceImpl implements TaskInstanceService {
     	//新增委托单的时候，需要处理目前的已有待办任务
     	int returnInt = sysDelegateMapper.insert(delegate);
     	
-    	/*// 调用审批流程，此处调用同时实现事务
+    	// 调用审批流程，此处调用同时实现事务
     	JSONObject flowJson = new JSONObject();
     	// 业务主键id
     	flowJson.put("businessId", uuid);
@@ -302,7 +303,8 @@ public class TaskInstanceServiceImpl implements TaskInstanceService {
     	
     	// 非必填选项，当下一步审批者需要本次任务执行人（启动者）手动选择的时候，需要auditUserIds属性
     	String auditor = "16622d9cfc5_94712f71,16622e3f0df_1370e873";
-    	flowJson.put("auditor", auditor);
+    	String[] userIds = auditor.split(",");
+    	flowJson.put("auditor", Arrays.asList(userIds));
     	
     	// 特殊审批环节。当任务节点存在某个不确定的审批人，在流程图任务节点id设置为specialAuditor，同时提交时specialAuditor写入unit/role/post
     	// flowJson.put("specialAuditor", "ZSH_YFGCS_CJCXY");
@@ -322,7 +324,7 @@ public class TaskInstanceServiceImpl implements TaskInstanceService {
     	// 远程调用
     	System.out.println("=====远程调用开始");
     	workflowRemoteClient.startCommonWorkflow(flowJson.toJSONString());
-    	System.out.println("=====远程调用结束");*/
+    	System.out.println("=====远程调用结束");
     	
     	return returnInt;
     }

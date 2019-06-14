@@ -176,7 +176,7 @@
 				},
 				importEvent : function() { //点击导入按钮
 					var randomInt = Math.random();
-					upload_File(randomInt,'','edit','importBpmnFile');
+					upload_File(randomInt, '', 'edit', 'importBpmnFile');
 				},
 				deleteEvent : function() { //点击删除按钮
 					if (typeof (selectRowData.id) == "undefined") {
@@ -198,7 +198,7 @@
 									operMSG = '操作成功! 数据加载中....';
 									active.searchEvent();
 								} else {
-									layer.msg('操作失败！'+data.message);
+									layer.msg('操作失败！' + data.message);
 								}
 							}
 						});
@@ -311,16 +311,16 @@
 				active[type] ? active[type].call(this) : '';
 			});
 		});
-		
+
 		function importBpmnFile(data, param) {
-	        //param:返回上面拼装的参数json字符串，data：json文件数组
-	        var fileDatas=[];
-	        for (var key in data) {
-	            var obj_file = data[key];
-	            fileDatas.push(obj_file);
-	        }
-	        var uploadUrl = "/activiti-model/file/upload";
-	        $.ajax({
+			//param:返回上面拼装的参数json字符串，data：json文件数组
+			var fileDatas = [];
+			for ( var key in data) {
+				var obj_file = data[key];
+				fileDatas.push(obj_file);
+			}
+			var uploadUrl = "/activiti-model/file/upload";
+			$.ajax({
 				url : uploadUrl,
 				type : 'post',
 				data : JSON.stringify(fileDatas),
@@ -332,11 +332,11 @@
 						operMSG = '操作成功! 数据加载中....';
 						active.searchEvent();
 					} else {
-						layer.msg('操作失败！'+data.message);
+						layer.msg('操作失败！' + data.message);
 					}
 				}
 			});
-	    }
+		}
 	</script>
 
 </body>
