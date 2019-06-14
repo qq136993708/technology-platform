@@ -69,6 +69,7 @@ public class PlanController extends BaseController {
 
     /**
      * 用户选择:页面跳转
+     *
      * @param request
      * @return
      */
@@ -79,6 +80,7 @@ public class PlanController extends BaseController {
 
     /**
      * 用户信息弹出选择
+     *
      * @param param
      * @param request
      * @return
@@ -161,8 +163,9 @@ public class PlanController extends BaseController {
         }
         return dataObject.toString();
     }
+
     /**
-     * 跳转至列表页
+     * 跳转至任务列表页
      */
     @RequestMapping(method = RequestMethod.GET, value = "/pagePlanList")
     private String pagePlanList(HttpServletRequest request) {
@@ -172,7 +175,7 @@ public class PlanController extends BaseController {
     }
 
     /**
-     * 列表异步加载数据
+     * 列表
      */
     @RequestMapping(value = "/getTableData", method = RequestMethod.POST)
     @ResponseBody
@@ -190,7 +193,7 @@ public class PlanController extends BaseController {
     }
 
     /**
-     * 新建工单管理
+     * 新建任务
      */
     @RequestMapping(value = "/addPlanPage")
     public String pageAddPlan(HttpServletRequest request) {
@@ -211,6 +214,12 @@ public class PlanController extends BaseController {
         return "stp/plan/addPlanPage";
     }
 
+    /**
+     * 任务编辑
+     *
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/editPlanPage")
     public String editPlanPage(HttpServletRequest request) {
         Object dataId = request.getParameter("dataId");
@@ -228,28 +237,34 @@ public class PlanController extends BaseController {
     /**
      * 新建工单管理
      */
-    @RequestMapping(value = "/PageEditPlanBase")
-    public String goEditPlanBasePage(HttpServletRequest request) {
-        Object dataId = request.getParameter("dataId");
-        String flag = "edit";
-        if (dataId == null || "".equals(dataId)) {
-            dataId = UUID.randomUUID().toString().replace("-", "");
-            flag = "add";
-        }
-        request.setAttribute("flag", flag);
-        request.setAttribute("dataId", dataId);
-        request.setAttribute("userName", sysUserInfo.getUserDisp());
-        request.setAttribute("unitName", sysUserInfo.getUnitName());
-        return "stp/plan/pageEditPlanBase";
-    }
+//    @RequestMapping(value = "/PageEditPlanBase")
+//    public String goEditPlanBasePage(HttpServletRequest request) {
+//        Object dataId = request.getParameter("dataId");
+//        String flag = "edit";
+//        if (dataId == null || "".equals(dataId)) {
+//            dataId = UUID.randomUUID().toString().replace("-", "");
+//            flag = "add";
+//        }
+//        request.setAttribute("flag", flag);
+//        request.setAttribute("dataId", dataId);
+//        request.setAttribute("userName", sysUserInfo.getUserDisp());
+//        request.setAttribute("unitName", sysUserInfo.getUnitName());
+//        return "stp/plan/pageEditPlanBase";
+//    }
 
-    @RequestMapping(value = "/goTablePlanDetailList")
-    public String goTablePlanDetailList(HttpServletRequest request) {
-        Object dataId = request.getParameter("dataId");
-        request.setAttribute("dataId", dataId);
-        return "stp/plan/my/table_plan_detail_list";
-    }
+//    @RequestMapping(value = "/goTablePlanDetailList")
+//    public String goTablePlanDetailList(HttpServletRequest request) {
+//        Object dataId = request.getParameter("dataId");
+//        request.setAttribute("dataId", dataId);
+//        return "stp/plan/my/table_plan_detail_list";
+//    }
 
+    /**
+     * 任务下发
+     *
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/goAddBotWorkOrderZp")
     public String goAddBotWorkOrderZp(HttpServletRequest request) {
         Object dataId = request.getParameter("dataId");
@@ -265,6 +280,12 @@ public class PlanController extends BaseController {
         return "stp/plan/botWorkOrderAddZp";
     }
 
+    /**
+     * 跳转任务转发
+     *
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/toPageZfPlan")
     public String goAddBotWorkOrderZf(HttpServletRequest request) {
         Object dataId = request.getParameter("dataId");
@@ -291,7 +312,7 @@ public class PlanController extends BaseController {
     public int saveBotWorkOrder(HttpServletRequest request) {
         String code = CodeUtil.getCode("XTBM_0048", restTemplate, httpHeaders);
         String param = request.getParameter("param");
-        String strCreateUser = sysUserInfo.getUserId();
+//        String strCreateUser = sysUserInfo.getUserId();
         JSONObject jsStr = (JSONObject) JSON.parseObject(param);
         jsStr.put("dataCode", code);
         jsStr.put("auditSts", "0");
@@ -307,7 +328,7 @@ public class PlanController extends BaseController {
         jsStr.put("workOrderCode", code);
         jsStr.put("unitName", sysUserInfo.getUnitName());
         PlanBase bsv = JSONObject.toJavaObject(jsStr, PlanBase.class);
-        
+
         bsv.setDelFlag("0");
         List<PlanBaseDetail> matterList = new ArrayList<PlanBaseDetail>();
         List<PlanBase> baseList = new ArrayList<PlanBase>();
@@ -463,7 +484,6 @@ public class PlanController extends BaseController {
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(EDIT_BOT_WORK_ORDER, HttpMethod.POST, entity, Integer.class);
         int result = responseEntity.getBody();
 
-
         List<PlanBase> baseList = new ArrayList<PlanBase>();
         if (jsStr.containsKey("matterList")) {
             JSONArray array = jsStr.getJSONArray("matterList");
@@ -479,7 +499,7 @@ public class PlanController extends BaseController {
                 planBase.setBl("");
                 planBase.setWorkOrderType(wjbvo.getWorkOrderType());
                 planBase.setRedactUnitName(wjbvo.getRedactUnitName());
-                planBase.setCreateDate(DateUtil.dateToStr(new Date(),DateUtil.FMT_SS));
+                planBase.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
                 planBase.setBl(StrUtil.objectToString(detail.get("bl")));
                 System.out.println("announcements = " + detail.get("announcements"));
                 System.out.println("bl = " + detail.get("bl"));
@@ -523,14 +543,7 @@ public class PlanController extends BaseController {
     @RequestMapping(value = "/editBotWorkOrderZf")
     @ResponseBody
     public int editBotWorkOrderZf(HttpServletRequest request) {
-        //修改原数据
-
-        //新增此数据
-
-        //更新子数据
-
-        //页面判断不能重复转发,只能转发一次
-
+        //修改原数据 新增新数据 更新
         String param = request.getParameter("param");
         JSONObject jsStr = (JSONObject) JSON.parseObject(param);
         jsStr.put("visaApplyCode", null);
@@ -545,22 +558,19 @@ public class PlanController extends BaseController {
         wjbvo.setUpdateUser(sysUserInfo.getUserId());
         wjbvo.setUpdateUserName(sysUserInfo.getUserDisp());
         wjbvo.setDelFlag("0");
-        wjbvo.setWorkOrderName("(已转发)"+workOrderName);
+        wjbvo.setWorkOrderName("(已转发)" + workOrderName);
         wjbvo.setBak5("0");//0:转发
         wjbvo.setZpName(newDataId);
         wjbvo.setWorkOrderStatus("2");//转发状态设为2,完成
         HttpEntity<PlanBase> entity = new HttpEntity<PlanBase>(wjbvo, this.httpHeaders);
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(EDIT_BOT_WORK_ORDER, HttpMethod.POST, entity, Integer.class);
         int result = responseEntity.getBody();
-
-
-        //新增此数据
+        //新增
         wjbvoOld.setWorkOrderName(workOrderName);
         wjbvoOld.setWorkOrderAllotUserId(wjbvo.getBak2());
         wjbvoOld.setWorkOrderAllotUserName(wjbvo.getBak3());
         wjbvoOld.setBak2("");
         wjbvoOld.setBak3("");
-
         wjbvoOld.setBl(wjbvo.getBl());
         wjbvoOld.setWorkOrderType(wjbvo.getWorkOrderType());
         wjbvoOld.setDataId(newDataId);
@@ -570,7 +580,6 @@ public class PlanController extends BaseController {
         wjbvoOld.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
         HttpEntity<PlanBase> entityNew = new HttpEntity<PlanBase>(wjbvoOld, this.httpHeaders);
         ResponseEntity<Integer> responseEntityNew = this.restTemplate.exchange(SAVE_BOT_WORK_ORDER, HttpMethod.POST, entityNew, Integer.class);
-
 
         List<PlanBase> baseList = new ArrayList<PlanBase>();
         if (jsStr.containsKey("matterList")) {
@@ -593,7 +602,7 @@ public class PlanController extends BaseController {
             }
         }
         HttpEntity<List<PlanBase>> entityList = new HttpEntity<List<PlanBase>>(baseList, this.httpHeaders);
-        ResponseEntity<Integer> responseEntityList = this.restTemplate.exchange(SAVE_PLAN_BASE_BATCHZF, HttpMethod.POST, entityList, Integer.class);
+        this.restTemplate.exchange(SAVE_PLAN_BASE_BATCHZF, HttpMethod.POST, entityList, Integer.class);
 
         try {
             CommonUtil.updateFileFlag(restTemplate, httpHeaders, wjbvo.getDataId());
@@ -631,6 +640,12 @@ public class PlanController extends BaseController {
         return JSON.toJSONString(result);
     }
 
+    /**
+     * 跳转到我的任务
+     *
+     * @param request
+     * @return
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/my/goBotWorkOrderListPage")
     private String goMyBotWorkOrderListPage(HttpServletRequest request) {
         basePath = request.getContextPath();
@@ -646,7 +661,7 @@ public class PlanController extends BaseController {
     public Object getMyTableData(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request) throws IOException {
         Map<String, Object> map = param.getParam();
         map.put("workOrderAllotUserId", sysUserInfo.getUserId());
-        if(param.getParam().get("workOrderStatus")==null||"".equals(param.getParam().get("workOrderStatus"))){
+        if (param.getParam().get("workOrderStatus") == null || "".equals(param.getParam().get("workOrderStatus"))) {
             map.put("workOrderStatus", "1,2");
         }
         param.setParam(map);
@@ -713,8 +728,7 @@ public class PlanController extends BaseController {
         //jsStr.put("workOrderCode", code);
         jsStr.put("unitName", sysUserInfo.getUnitName());
 
-        PlanBase bsv = JSONObject.toJavaObject(jsStr, PlanBase.class);
-
+//        PlanBase bsv = JSONObject.toJavaObject(jsStr, PlanBase.class);
 
         List<PlanBaseDetail> matterList = new ArrayList<PlanBaseDetail>();
         if (jsStr.containsKey("matterList")) {
@@ -777,8 +791,8 @@ public class PlanController extends BaseController {
         JSONObject jsStr = (JSONObject) JSON.parseObject(param);
         String dataId = jsStr.getString("dataId");
 //        if (result == 200) {
-            ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SUBMIT_MY_BOT_WORK_ORDER + dataId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), Integer.class);
-            result = responseEntity.getBody();
+        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SUBMIT_MY_BOT_WORK_ORDER + dataId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), Integer.class);
+        result = responseEntity.getBody();
 //        }
         return result;
     }
