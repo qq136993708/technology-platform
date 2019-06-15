@@ -129,7 +129,7 @@
 
                 cols: [[
                     {type: 'checkbox', event: 'changeEvents'},
-                    {title: '序号', type: 'numbers' ,width : 55},
+                    {title: '序号', type: 'numbers',width: 55},
                     {
                         field: 'auditStatus',
                         title: '状态',
@@ -141,57 +141,42 @@
                     },
                     {
                         field: "expertName",
-                        title: "姓名", event: 'setActive', style: 'cursor: pointer;'
+                        title: "姓名", event: 'setActive', style: 'cursor: pointer;',width: 80
                     },
                     {
                         field: "sex",
-                        title: "性别", event: 'setActive', style: 'cursor: pointer;'
+                        title: "性别", event: 'setActive', style: 'cursor: pointer;',width: 50
                     },
                     {
-                        field: "age",
-                        title: "年龄", event: 'setActive', style: 'cursor: pointer;', align: "right"
+                        field: "expertProfessionalFieldName",
+                        title: "专业领域", event: 'setActive', style: 'cursor: pointer;'
                     },
                     {
                         field: "birthDate",
-                        title: "出生日期", event: 'setActive', style: 'cursor: pointer;'
+                        title: "出生日期", event: 'setActive', style: 'cursor: pointer;',width: 120
                     },
                     {
                         field: "email",
-                        title: "邮箱", event: 'setActive', style: 'cursor: pointer;'
+                        title: "邮箱", event: 'setActive', style: 'cursor: pointer;',width: 210
                     },
                     {
                         field: "mobile",
-                        title: "联系方式", event: 'setActive', style: 'cursor: pointer;'
+                        title: "联系方式", event: 'setActive', style: 'cursor: pointer;',width: 120
                     },
                     {
-                        field: "achievementCount",
-                        title: "成果数量", event: 'setActive', style: 'cursor: pointer;'
+                        field: "expertProfessionalField",
+                        title: "专业领域", event: 'setActive', style: 'cursor: pointer;'
                     },
                     {
-                        field: "patentCount",
-                        title: "专利数量", event: 'setActive', style: 'cursor: pointer;'
+                        field: "expertProfessinal",
+                        title: "职称", event: 'setActive', style: 'cursor: pointer;',width: 60
                     },
                     {
-                        field: "projectCount",
-                        title: "参与项目数量", event: 'setActive', style: 'cursor: pointer;'
-                    },
-                    {
-                        field: "bak1",
-                        title: "被投诉数量", event: 'setActive', style: 'cursor: pointer;'
-                    },
-                    // {
-                    //     field: "expertProfessionalField",
-                    //     title: "专业领域", event: 'setActive', style: 'cursor: pointer;'
-                    // },
-                    // {
-                    //     field: "expertProfessinal",
-                    //     title: "职称", event: 'setActive', style: 'cursor: pointer;'
-                    // },
-                    // {
-                    //     field: "company",
-                    //     title: "所属机构", event: 'setActive', style: 'cursor: pointer;'
-                    // }
+                        field: "companyName",
+                        title: "所属机构", event: 'setActive', style: 'cursor: pointer;'
+                    }
                 ]],
+
                 done: function (res, curr, count) {
                     $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                         var index = parseInt($(this).index() + 1);

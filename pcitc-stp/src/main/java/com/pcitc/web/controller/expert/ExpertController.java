@@ -691,6 +691,28 @@ public class ExpertController extends BaseController {
         return "/stp/expert/zjkOutProjectList";
     }
 
+    /**
+     * 成果列表-非专家关联
+     *
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/zjkAchievementList")
+    public String zjkAchievementList() throws Exception {
+        return "/stp/expert/zjkAchievementList";
+    }
+
+    /**
+     * 专利列表-专家关联
+     *
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/zjkPatentList")
+    public String zjkPatentList() throws Exception {
+        return "/stp/expert/zjkPatentList";
+    }
+
     @RequestMapping(value = "/zjkOutProjectList_tfc")
     public String zjkOutProjectList_tfc() throws Exception {
         request.setAttribute("typeName",request.getParameter("typeName"));

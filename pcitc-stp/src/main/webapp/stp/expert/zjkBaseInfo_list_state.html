@@ -138,38 +138,38 @@
                 cols: [[
                     {type: 'checkbox', event: 'changeEvents'},
                     {title: '序号', type: 'numbers',width: 55},
-                    // {
-                    //     field: 'auditStatus',
-                    //     title: '状态',
-                    //     event: 'setActive',
-                    //     align: 'center',
-                    //     style: 'cursor: pointer;',
-                    //     templet: '<div>{{ layui.laytpl.auditStatus(d.auditStatus) }}</div>',
-                    //     width: 55
-                    // },
+                    {
+                        field: 'auditStatus',
+                        title: '状态',
+                        event: 'setActive',
+                        align: 'center',
+                        style: 'cursor: pointer;',
+                        templet: '<div>{{ layui.laytpl.auditStatus(d.auditStatus) }}</div>',
+                        width: 55
+                    },
                     {
                         field: "expertName",
-                        title: "姓名", event: 'setActive', style: 'cursor: pointer;'
+                        title: "姓名", event: 'setActive', style: 'cursor: pointer;',width: 80
                     },
                     {
                         field: "sex",
-                        title: "性别", event: 'setActive', style: 'cursor: pointer;'
+                        title: "性别", event: 'setActive', style: 'cursor: pointer;',width: 50
                     },
                     {
-                        field: "age",
-                        title: "年龄", event: 'setActive', style: 'cursor: pointer;', align: "right"
+                        field: "expertProfessionalFieldName",
+                        title: "专业领域", event: 'setActive', style: 'cursor: pointer;'
                     },
                     {
                         field: "birthDate",
-                        title: "出生日期", event: 'setActive', style: 'cursor: pointer;'
+                        title: "出生日期", event: 'setActive', style: 'cursor: pointer;',width: 120
                     },
                     {
                         field: "email",
-                        title: "邮箱", event: 'setActive', style: 'cursor: pointer;'
+                        title: "邮箱", event: 'setActive', style: 'cursor: pointer;',width: 210
                     },
                     {
                         field: "mobile",
-                        title: "联系方式", event: 'setActive', style: 'cursor: pointer;'
+                        title: "联系方式", event: 'setActive', style: 'cursor: pointer;',width: 120
                     },
                     {
                         field: "expertProfessionalField",
@@ -177,13 +177,14 @@
                     },
                     {
                         field: "expertProfessinal",
-                        title: "职称", event: 'setActive', style: 'cursor: pointer;'
+                        title: "职称", event: 'setActive', style: 'cursor: pointer;',width: 60
                     },
                     {
-                        field: "company",
+                        field: "companyName",
                         title: "所属机构", event: 'setActive', style: 'cursor: pointer;'
                     }
                 ]],
+
                 done: function (res, curr, count) {
                     $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                         var index = parseInt($(this).index() + 1);
@@ -197,7 +198,7 @@
                     var param = {
                         data: res.data,//数据
                         element: ".layui-table-body table",// 当前的表格元素
-                        column: 3,//列数 从0开始
+                        column: 4,//列数 从0开始
                         field: "sex",//当前数据的字段
                         url: "/pageCommon/dic/ROOT_UNIVERSAL_XB"//接口
                     };
