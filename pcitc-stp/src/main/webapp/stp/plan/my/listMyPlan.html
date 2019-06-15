@@ -87,10 +87,10 @@
 	                {field:'workOrderStatus', title:'状态', event: 'setActive',align:'center',style:'cursor: pointer;', templet:  '<div>{{ layui.laytpl.auditStatus(d.workOrderStatus) }}</div>', width: 55},
 	                {field:'attachment', title:'附件', event: 'setActive',align:'center',style:'cursor: pointer;', width: 55,
                         templet:  '<div>{{ layui.laytpl.attToPic(d) }}</div>' },
-	                // {field:'workOrderCode', title:'编码' ,event: 'setActive',style:'cursor: pointer;',align:'center',sort: true,width: '25%'},
-	                {field:'workOrderName', title:'名称' ,event: 'setActive',style:'cursor: pointer;',sort: true,width: '30%'},
-	                {field:'workOrderType', title:'类型' ,event: 'setActive',style:'cursor: pointer;',sort: true,width: '25%'},
-	                {field:'createDate', title:'创建时间' ,event: 'setActive',style:'cursor: pointer;',align:'center',sort: true,width: '27%'}
+	                // {field:'workOrderCode', title:'编码' ,event: 'setActive',style:'cursor: pointer;',align:'center',width: '25%'},
+	                {field:'workOrderName', title:'名称' ,event: 'setActive',style:'cursor: pointer;',width: '30%'},
+	                {field:'workOrderType', title:'类型' ,event: 'setActive',style:'cursor: pointer;',width: '10%'},
+	                {field:'createDate', title:'创建时间' ,event: 'setActive',style:'cursor: pointer;',align:'center'}
 	                // {field:'createUserName', title:'发布人' ,event: 'setActive',style:'cursor: pointer;',sort: true}
 	             ]],
 	             done: function (res, curr, count) {
@@ -155,7 +155,8 @@
                 renderTable();
             },
             resetEvent: function() { //点击重置按钮
-            	$('#wbsName').val("");
+            	$('#workOrderName').val("");
+                renderTable();
             },
             editEvent: function(){  //点击编辑按钮
                 var id;

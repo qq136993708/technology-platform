@@ -68,9 +68,9 @@
             {field:'workOrderStatus', title:'状态', event: 'setActive',align:'center',style:'cursor: pointer;', templet:  '<div>{{ layui.laytpl.auditStatus(d.workOrderStatus) }}</div>', width:55},
             {field:'attachment', title:'附件', event: 'setActive',align:'center',style:'cursor: pointer;',width: 55,
                 templet:  '<div>{{ layui.laytpl.attToPic(d) }}</div>' },
-            {field:'workOrderName', title:'名称' ,event: 'setActive',style:'cursor: pointer;',sort: true,},
-            {field:'workOrderType', title:'类型' ,event: 'setActive',style:'cursor: pointer;',sort: true,},
-            {field:'createDate', title:'创建时间' ,event: 'setActive',style:'cursor: pointer;',align:'center',sort: true,   },
+            {field:'workOrderName', title:'名称' ,event: 'setActive',style:'cursor: pointer;',width:'30%'},
+            {field:'workOrderType', title:'类型' ,event: 'setActive',style:'cursor: pointer;',width:'8%'},
+            {field:'createDate', title:'创建时间' ,event: 'setActive',style:'cursor: pointer;',align:'center',width:'20%'   },
             {field:'workOrderAllotUserName', title:'处理人' ,event: 'setActive',style:'cursor: pointer;',sort: true}
         ];
         // elem,id,url,toolbar,cols,done
@@ -121,10 +121,10 @@
 	         //        {field:'workOrderStatus', title:'状态', event: 'setActive',align:'center',style:'cursor: pointer;', templet:  '<div>{{ layui.laytpl.auditStatus(d.workOrderStatus) }}</div>', width:55},
 	         //        {field:'attachment', title:'附件', event: 'setActive',align:'center',style:'cursor: pointer;', width:55,
               //           templet:  '<div>{{ layui.laytpl.attToPic(d) }}</div>' },
-	         //        {field:'workOrderCode', title:'编码' ,event: 'setActive',style:'cursor: pointer;',align:'center',sort: true,width: '25%'},
-	         //        {field:'workOrderName', title:'名称' ,event: 'setActive',style:'cursor: pointer;',sort: true,width: '25%'},
-	         //        {field:'workOrderType', title:'类型' ,event: 'setActive',style:'cursor: pointer;',sort: true,width: '10%'},
-	         //        {field:'createDate', title:'创建时间' ,event: 'setActive',style:'cursor: pointer;',align:'center',sort: true,width: '18%'},
+	         //        {field:'workOrderCode', title:'编码' ,event: 'setActive',style:'cursor: pointer;',align:'center',width: '25%'},
+	         //        {field:'workOrderName', title:'名称' ,event: 'setActive',style:'cursor: pointer;',width: '25%'},
+	         //        {field:'workOrderType', title:'类型' ,event: 'setActive',style:'cursor: pointer;',width: '10%'},
+	         //        {field:'createDate', title:'创建时间' ,event: 'setActive',style:'cursor: pointer;',align:'center',width: '18%'},
 	         //        {field:'workOrderAllotUserName', title:'处理人' ,event: 'setActive',style:'cursor: pointer;',sort: true}
 	         //     ]],
 	         //     done: function (res, curr, count) {
@@ -188,6 +188,7 @@
             },
             resetEvent: function() { //点击重置按钮
             	$('#workOrderName').val("");
+                renderTable();
             },
             addEvent: function(){ //点击新增按钮
             	layer.open({
