@@ -51,6 +51,9 @@
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
                     data-type="deleteEvent">删除
             </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"
+                    data-type="deleteEvent">批量
+            </button>
         </div>
     </div>
     <table id="zjkMsgTableId" class="layui-hide" lay-filter="tableEvent"></table>
@@ -101,7 +104,7 @@
                 },
                 {
                     field: "xmName",
-                    title: "项目名称", event: 'setActive', style: 'cursor: pointer;',width:'40%'
+                    title: "名称", event: 'setActive', style: 'cursor: pointer;',width:'40%'
                 },
                 {
                     field: "xmSteps",

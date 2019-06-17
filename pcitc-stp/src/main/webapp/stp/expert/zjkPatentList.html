@@ -15,27 +15,12 @@
 <div class="searchBox">
     <!--查询条件-->
     <label class="dateInput">
-        <span>年度</span>
-        <input type="text" id="nd" name="nd" placeholder="请输入年度" title="年度" class="form-control">
+        <span>专利名称</span>
+        <input type="text" id="fmmc" name="fmmc" placeholder="" title="专利名称" class="form-control">
     </label>
     <label class="dateInput">
-        <span>合同号</span>
-        <input type="text" id="hth" name="hth" placeholder="请输入合同号" title="合同号" class="form-control">
-    </label>
-    <label class="dateInput">
-        <span>项目名称</span>
-        <input type="text" id="xmmc" name="xmmc" placeholder="请输入项目名称" title="项目名称" class="form-control">
-    </label>
-    <label class="dateInput">
-        <span>项目类型</span>
-        <select name="project_property" id="project_property" lay-filter="project_property" class="form-control">
-            <option value="">请选择</option>
-            <option value="国家项目">国家项目</option>
-            <option value="重大专项">重大专项</option>
-            <option value="重点项目">重点项目</option>
-            <option value="十条龙项目">十条龙项目</option>
-            <option value="其他">其他</option>
-        </select>
+        <span>专利号</span>
+        <input type="text" id="fmh" name="fmh" placeholder="请输入专利号" title="专利号" class="form-control">
     </label>
     <!--按钮组-->
     <div class="btnGroup">
@@ -73,16 +58,12 @@
             //渲染
             table.render({
                 elem: '#showTable',
-                url: '/expertController/outProjectList',
+                url: '/indexOutPatent/getTableData',
                 method: "POST",
                 where: {
                     param: {
-                        "nd": $('#nd').val(),
-                        "hth": $('#hth').val(),
-                        "xmmc": $('#xmmc').val(),
-                        "leaderFlag": "1",
-                        "project_property": $("#project_property").val(),
-                        "functionCode": param.code
+                        "fmmc": $('#fmmc').val(),
+                        "fmh": $('#fmh').val()
                     }
                 },
                 limit: param.selfRownum,
@@ -98,74 +79,34 @@
                     last: '尾页', //不显示尾页
                     theme: '#0F9EE0'
                 },
-                cols: [[{
-                    type: 'checkbox',
-                    event: 'changeEvents'
-                }, {
-                    title: '序号',
-                    type: 'numbers',
-                    width:55
-                }, {
-                    field: 'nd',
-                    title: '立项年度',
-                    width: '6%',
-                    style: 'cursor: pointer;'
-                }, {
-                    field: 'hth',
-                    title: '合同号',
-                    width: '8%',
-                    style: 'cursor: pointer;'
-                }, {
-                    field: 'jf',
-                    title: '课题总额（万）',
-                    width: '9%',
-                    style: 'cursor: pointer;',
-                }, {
-                    field: 'xmmc',
-                    title: '项目名称',
-                    width: '18%',
-                    style: 'cursor: pointer;'
-                }, {
-                    field: 'zylb',
-                    title: '专业类别',
-                    width: '8%',
-                    style: 'cursor: pointer;'
-                }, {
-                    field: 'fzdw',
-                    title: '负责单位',
-                    width: '12%',
-                    style: 'cursor: pointer;'
-                }, {
-                    field: 'define8',
-                    title: '参与单位',
-                    width: '12%',
-                    style: 'cursor: pointer;'
-                }, {
-                    field: 'erpProjectName',
-                    title: '已匹配ERP',
-                    width: '40%',
-                    style: 'cursor: pointer;'
-                }
-                    // , {
-                    // 	title : '管理级别',
-                    // 	width : '12%',
-                    // 	style : 'cursor: pointer;',
-                    // 	templet: function (d) {
-                    //        // 模板的实现方式也是多种多样，这里简单返回固定的
-                    //        return '<select name="projectAbc" lay-filter="projectAbc" lay-verify="required" data-value="' + d.projectAbc + '" >\n' +
-                    //            '        <option value="A">A</option>\n' +
-                    //            '        <option value="B1">B1</option>\n' +
-                    //            '        <option value="B2">B2</option>\n' +
-                    //            '        <option value="C">C</option>\n' +
-                    //            '   </select>';
-                    //    }
-                    //
-                    // },
+                cols: [[                {type: 'checkbox', event: 'changeEvents', width: 55},
+                    {title: '序号', type: 'numbers', width: 55},
+                    {
+                        field: "sqri",
+                        title: "申请日", event: 'setActive', style: 'cursor: pointer;', width: '8%', templet: function (d) {
+                            return d.sqri.substring(0, 10);
+                        }
+                    },
+                    {
+                        field: "fmmc",
+                        title: "发明名称", event: 'setActive', style: 'cursor: pointer;', width: '30%'
+                    },
+                    {
+                        field: "shenqr",
+                        title: "申请人", event: 'setActive', style: 'cursor: pointer;', width: '16%'
+                    },
+                    {
+                        field: "fmr",
+                        title: "发明人", event: 'setActive', style: 'cursor: pointer;', width: '25%'
+                    },
+                    {
+                        field: "zlh",
+                        title: "专利号", event: 'setActive', style: 'cursor: pointer;'
+                    }
                 ]],
                 done: function (res, curr, count) {
                     // 关闭等待刷新
                     layer.close(lodingMsg);
-
                     // 点击行联动选择框--单选
                     $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                         var index = parseInt($(this).index() + 1);
@@ -175,31 +116,10 @@
                         $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                         selectRowData = res.data[index - 1];
                     });
-
-                    // 刷新时，把当前选择行的erpProjectCode更新, 供匹配时使用
-                    for (var i = 0; i < res.data.length; i++) {
-                        if (dateId != '' && res.data[i].dataId == dateId) {
-                            erpProjectCode = res.data[i].erpProjectCode;
-                        }
-                    }
-
-                    // count || this.elem.next('.layui-table-view').find('.layui-table-header').css('overflow', 'auto');
-                    // layui.each($('select'), function (index, item) {
-                    //     var elem = $(item);
-                    //     elem.val(elem.data('value')).parents('div.layui-table-cell').css('overflow', 'visible');
-                    // });
-                    form.render();
-
-
                 }
             });
         }
-
         renderTable();
-        laydate.render({
-            elem: '#nd'
-            ,type: 'year'
-        });
         $(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
 
         // 触发不同的按钮事件
@@ -210,11 +130,8 @@
                 renderTable();
             },
             resetEvent: function () { //点击重置按钮
-                $('#nd').val("");
-                $('#xmmc').val("");
-                $('#project_property').val("");
-                $('#projectName').val("");
-                $('.tableBtns').children('button').removeClass('active');
+                $('#fmmc').val("");
+                $('#fmh').val("");
                 active.searchEvent();
             },
             handleEvent: function () { //点击关联匹配按钮
@@ -239,10 +156,10 @@
                 }
             },
             expertEvent: function () {
-                if (typeof (selectRowData.xmid) == "undefined") {
+                if (typeof (selectRowData.dataId) == "undefined") {
                     layer.msg('请点击选择一行数据');
                 } else {
-                    openFullWin("专家选择", "/expertController/getUserChoicePage?flag=xm&projectId=" + selectRowData.xmid+"&projectName="+selectRowData.xmmc+"&unitCode="+selectRowData.define9);
+                    openFullWin("专家选择", "/expertController/getUserChoicePage?flag=zl&projectId=" + selectRowData.dataId+"&projectName="+selectRowData.fmmc+"&unitCode="+selectRowData.dataId);
                 }
             }, showExpertEvent: function () { //查看已选专家
                 if (typeof (selectRowData.xmid) == "undefined") {
@@ -277,7 +194,6 @@
 
         table.on('tool(tableData)', function (obj) {
             selectRowData = obj.data;
-            console.log(selectRowData)
         });
 
         //监听排序
@@ -321,21 +237,21 @@
 
 
         //监听行双击事件
-        table.on('rowDouble(tableData)', function (obj) {
-            var temUrl = "/out/project-detail/" + obj.data.dataId;
-            layer.open({
-                title: '详情',
-                skin: 'layui-layer-lan',
-                shadeClose: true,
-                type: 2,
-                fixed: false,
-                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                maxmin: true,
-                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                area: ['900px', '450px'],
-                content: temUrl
-            });
-        });
+        // table.on('rowDouble(tableData)', function (obj) {
+        //     var temUrl = "/out/project-detail/" + obj.data.dataId;
+        //     layer.open({
+        //         title: '详情',
+        //         skin: 'layui-layer-lan',
+        //         shadeClose: true,
+        //         type: 2,
+        //         fixed: false,
+        //         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+        //         maxmin: true,
+        //         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+        //         area: ['900px', '450px'],
+        //         content: temUrl
+        //     });
+        // });
 
         //区别按钮属性
         $('.layui-btn').on('click', function () {

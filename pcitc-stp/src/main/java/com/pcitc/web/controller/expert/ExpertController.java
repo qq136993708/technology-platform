@@ -548,7 +548,7 @@ public class ExpertController extends BaseController {
         FileResult body = responseEntityFiles.getBody();
 
         object.put("files", JSONArray.toJSONString(body.getList()));
-
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVECHOICE_BAT, HttpMethod.POST, new HttpEntity<JSONObject>(object, this.httpHeaders), Integer.class);
         Integer result = responseEntity.getBody();
         return result;
@@ -753,9 +753,17 @@ public class ExpertController extends BaseController {
         request.setAttribute("projectId", request.getParameter("projectId"));
         request.setAttribute("projectName", request.getParameter("projectName"));
         request.setAttribute("unitCode", request.getParameter("unitCode"));
+        request.setAttribute("flag", request.getParameter("flag"));
         request.setAttribute("bak6", UUID.randomUUID().toString().replace("-",""));
         SysUnit unit = this.restTemplate.exchange(UNIT_GET_UNIT + request.getParameter("unitId"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysUnit.class).getBody();
-        return "stp/expert/expert_choice";
+        String strFlag = request.getParameter("flag");
+        if("xm".equals(strFlag)){
+            return "stp/expert/expert_choice";
+        }else if ("zl".equals(strFlag)){
+            return "stp/expert/expert_choice_patent";
+        }else {
+            return "stp/expert/expert_choice_achiement";
+        }
     }
 
     /**

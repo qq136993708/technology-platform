@@ -61,15 +61,15 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">项目阶段</label>
                 <div class="layui-input-block">
-                    <input type="radio" name="option" value="ROOT_XTGL_XMJD_XMJH" title="项目计划">
-                    <input type="radio" name="option" value="ROOT_XTGL_XMJD_XMLX" title="项目立项" checked>
-                    <input type="radio" name="option" value="ROOT_XTGL_XMJD_GCGL" title="过程管理">
-                    <input type="radio" name="option" value="ROOT_XTGL_XMJD_ZQPG" title="中期评估">
-                    <input type="radio" name="option" value="ROOT_XTGL_XMJD_XMJTYS" title="项目结题验收">
-                    <input type="radio" name="option" value="ROOT_XTGL_XMJD_XMPY" title="项目评议">
+                    <!--<input type="radio" name="option" value="ROOT_XTGL_XMJD_XMJH" title="项目计划">-->
+                    <!--<input type="radio" name="option" value="ROOT_XTGL_XMJD_XMLX" title="项目立项" checked>-->
+                    <!--<input type="radio" name="option" value="ROOT_XTGL_XMJD_GCGL" title="过程管理">-->
+                    <!--<input type="radio" name="option" value="ROOT_XTGL_XMJD_ZQPG" title="中期评估">-->
+                    <!--<input type="radio" name="option" value="ROOT_XTGL_XMJD_XMJTYS" title="项目结题验收">-->
+                    <!--<input type="radio" name="option" value="ROOT_XTGL_XMJD_XMPY" title="项目评议">-->
                     <!--<input type="radio" name="option" value="ROOT_XTGL_XMJD_CGJD" id="ROOT_XTGL_XMJD_CGJD" title="成果鉴定">-->
-                    <!--<input type="radio" name="option" value="ROOT_XTGL_XMJD_JLPS" id="ROOT_XTGL_XMJD_JLPS" title="奖励评审">-->
-                    <input type="radio" name="option" value="ROOT_XTGL_XMJD_HPG" title="后评估">
+                    <input type="radio" name="option" value="ROOT_XTGL_XMJD_JLPS" checked id="ROOT_XTGL_XMJD_JLPS" title="奖励评审">
+                    <!--<input type="radio" name="option" value="ROOT_XTGL_XMJD_HPG" title="后评估">-->
                 </div>
             </div>
             <div class="layui-row">
@@ -248,7 +248,7 @@
 <script>
     var projectName = "${projectName}";
     var projectId = "${projectId}";
-    var unitCode = "${unitCode}";
+    // var unitCode = "${unitCode}";
     var flag = "${flag}";
     var bak6 = "${bak6}";
 
@@ -274,6 +274,7 @@
             for (let i = 0; i < sel.length; i++) {
                 var p = {};
                 var obj = sel[i];
+                console.log(obj);
                 p.xmId = projectId;
                 p.xmName = projectName;
                 p.companyId = obj.company;
@@ -316,7 +317,6 @@
         } else {
 
         }
-        console.log(plist);
         //保存
         $.ajax({
             type: 'post',
@@ -324,24 +324,17 @@
             data: {'param': JSON.stringify(plist)},
             url: '/expertController/addChoiceList',
             success: function (data) {
-                if (data == 200) {
-                    // var index = parent.layer.getFrameIndex(window.name);
-                    // parent.layer.close(index);
-                    // parent.layer.msg("提交成功");
-                    // parent.layui.table.reload('expertTable', {});
-                }
+
             },
             error: function (e) {
                 console.log(e);
-                // modals.info("出错了");
             }
         });
         layer.msg("操作成功");
-        // setTimeout(function (){
-        //     var index = parent.layer.getFrameIndex(window.name);
-        //     parent.layer.close(index);
-        // }, 1000);
-
+        setTimeout(function (){
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        }, 1000);
     }
 
     //zhuan huan
