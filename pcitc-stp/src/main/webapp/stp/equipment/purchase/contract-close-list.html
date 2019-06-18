@@ -105,23 +105,22 @@
                 if (typeof(selectRowData) == "undefined")
                 {
                     layer.msg('请点击选择一行数据');
-                }
-                else
+                } else
                 {
-                    layer.confirm('是否关闭？', { btn: ['确定','取消']}, function(){
-                        var id=selectRowData.id;
-                        var isContractClosed = selectRowData.isContractClosed;
-                        var url="/sre-purchase/is-contract-closed/"+id;
-                        var backurl="/sre-purchase/to-contract-close-list";
-                        var state=selectRowData.state;
-                        if(isContractClosed!='0'&& isContractClosed!="")
-                        {
-                            layer.alert('请选择待关闭的合同');
-                            return;
-                        }else{
+                    var id=selectRowData.id;
+                    var isContractClosed = selectRowData.isContractClosed;
+                    if(isContractClosed!='0'&& isContractClosed!="")
+                    {
+                        layer.alert('请选择待关闭的合同');
+                        return;
+                    }else{
+                        layer.confirm('是否关闭？', { btn: ['确定','取消']}, function(){
+                            var url="/sre-purchase/is-contract-closed/"+id;
+                            var backurl="/sre-purchase/to-contract-close-list";
+                            var state=selectRowData.state;
                             ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
-                        }
-                    })
+                        })
+                    }
                 }
             }
 

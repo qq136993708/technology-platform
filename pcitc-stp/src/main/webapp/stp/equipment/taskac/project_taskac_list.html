@@ -108,6 +108,7 @@ var name=$('#name').val();
          var $ = layui.$, active = {
             searchEvent: function() { //点击查询按钮
             	 renderTable();
+            	   $(".layui-table-header table thead th input").remove();  
             },
             resetEvent: function() { //点击重置按钮
             	$('#name').val("");
@@ -254,7 +255,7 @@ var name=$('#name').val();
 			           url : "/sre_project_taskac/submitAudit?id="+applicationId+"&status="+"20",
 			       
 			           success : function(data) {
-			           layer.alert("保存成功！", {icon: 1,closeBtn: 0 }, function () 
+			           layer.alert("提交成功！", {icon: 1,closeBtn: 0 }, function () 
 			                       {
 			                           var index = parent.layer.getFrameIndex(window.name); 
 								       parent.layer.close(index); 

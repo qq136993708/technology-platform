@@ -108,6 +108,7 @@ var name=$('#name').val();
          var $ = layui.$, active = {
             searchEvent: function() { //点击查询按钮
             	 renderTable();
+            	   $(".layui-table-header table thead th input").remove();  
             },
             resetEvent: function() { //点击重置按钮
             	$('#name').val("");
@@ -144,7 +145,7 @@ var name=$('#name').val();
                         var id=selectRowData.id;
                         var temUrl="/sre_project_assess/projecttaskpradd?id=" + id;
                         layer.open({
-                            title:'上传采购合同',
+                            title:'上传评估准备材料',
                             skin: 'layui-layer-lan',
                             shadeClose: true,
                             type: 2,
@@ -265,7 +266,7 @@ var name=$('#name').val();
 			                           var index = parent.layer.getFrameIndex(window.name); 
 								       parent.layer.close(index); 
 								       var v_date = (new Date()).getTime();
-								       var backurl="/sre_project_assess/to_list?v_date="+v_date;
+								       var backurl="/sre_project_assess/to_prlist?v_date="+v_date;
 								       location.href = backurl;
 			                      });
 					 

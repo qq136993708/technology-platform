@@ -900,7 +900,7 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/ld/project-info/zdstl")
 	public JSONArray getZDSTLProjectInfo(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getZDSTLProjectInfo===========================" + map);
-		
+		map.put("nd", "2018");
 		List temList = outProjectService.getZDSTLProjectInfo(map);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
@@ -956,10 +956,8 @@ public class OutProjectInfoClient {
 		logger.info("==================page getDragonProjectInfoByInstitute===========================" + map);
 		
 		List temList = outProjectService.getDragonProjectInfoByInstitute(map);
-		System.out.println("1=================www");
 		HashMap<String, String> map1 = new HashMap<String, String>();
-		outProjectRemoteClient.getLastCountryProject(map1);
-		System.out.println("2=================www");
+		//outProjectRemoteClient.getLastCountryProject(map1);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
@@ -968,7 +966,7 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/dragon/details")
 	public JSONArray getDragonProjectDetails(@RequestBody HashMap<String, Object> map) throws Exception {
 		logger.info("==================page getDragonProjectDetails===========================" + map);
-		
+		map.put("nd", "2018");
 		List temList = outProjectService.getDragonProjectDetails(map);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;

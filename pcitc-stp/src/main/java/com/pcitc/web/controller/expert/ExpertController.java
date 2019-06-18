@@ -113,7 +113,7 @@ public class ExpertController extends BaseController {
     public String queryAllExpert(){
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ZjkExpert expert = new ZjkExpert();
-        expert.setiSortCol("email");
+        expert.setiSortCol("expert_name");
         expert.setsSortDir_0("asc");
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(queryAllExpert, HttpMethod.POST, new HttpEntity<ZjkExpert>(expert, this.httpHeaders), JSONObject.class);
         JSONObject retJson = responseEntity.getBody();
