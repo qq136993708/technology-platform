@@ -37,7 +37,7 @@ $(document).ready(function() {
 				var year=new Date().getFullYear();
 				var div_index = 0;
 				//加载字典
-				var dicMap = ['GJXM_XMXZ','GJXMGL_XMJB','GJXM_JSXZ','GJXM_XMFL','ROOT_UNIVERSAL_GJHBBZ','ROOT_XTGL_ZSYJY'];
+				var dicMap = ['GJXM_XMXZ','GJXMGL_XMJB','GJXM_JSXZ','GJXM_XMFL','ROOT_UNIVERSAL_GJHBBZ','ROOT_ZGSHJT_GFGS_ZSYJY'];
 				publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
 					$.each(data,function(key,val){
 						$.each(val,function(i,dt){
@@ -273,7 +273,7 @@ $(document).ready(function() {
 				<div class="layui-form-item">
 					<label for="" class="layui-form-label">所属研究院<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-						<select name="unitId" id="ROOT_XTGL_ZSYJY" lay-verify="required"  lay-filter="unitId">
+						<select name="unitId" id="ROOT_ZGSHJT_GFGS_ZSYJY" lay-verify="required"  lay-filter="unitId">
 		                	<option value="">请选择</option>
 		             	</select>
 					</div>
