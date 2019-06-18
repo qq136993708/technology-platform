@@ -90,7 +90,7 @@
     var state = $("#state").val();
 
     //项目
-    ajaxPost('/dictionary/list/ROOT_XTGL_ZSYJY', null, function (data, status) {
+    ajaxPost('/dictionary/list/ROOT_ZGSHJT_GFGS_ZSYJY', null, function (data, status) {
         $.each(data, function (i, dt) {
             if (i <= 7) {
                 $("#company").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
@@ -216,7 +216,7 @@
                     //     element: ".layui-table-body table",// 当前的表格元素
                     //     column: 11,//列数 从0开始
                     //     field: "company",//当前数据的字段
-                    //     url: "/pageCommon/dic/ROOT_XTGL_ZSYJY"//接口
+                    //     url: "/pageCommon/dic/ROOT_ZGSHJT_GFGS_ZSYJY"//接口
                     // };
                     // publicMethods.dataDictionary(param);
                 }
