@@ -166,6 +166,14 @@ public class IndexOutPatentServiceImpl implements IndexOutPatentService {
         if (typeIndex != null) {
             c.andTypeIndexLike(typeIndex + "%");
         }
+        Object fmmc = param.getParam().get("fmmc");
+        if (fmmc != null) {
+            c.andFmmcLike(fmmc + "%");
+        }
+        Object fmh = param.getParam().get("fmh");
+        if (fmh != null) {
+            c.andZlhLike(fmh + "%");
+        }
         example.setOrderByClause("create_date desc");
         return this.findByExample(param, example);
 

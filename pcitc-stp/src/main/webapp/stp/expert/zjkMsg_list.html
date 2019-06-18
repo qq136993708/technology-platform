@@ -52,7 +52,7 @@
                     data-type="deleteEvent">删除
             </button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"
-                    data-type="deleteEvent">批量
+                    data-type="batEvent">批量
             </button>
         </div>
     </div>
@@ -100,11 +100,11 @@
                 // },
                 {
                     field: "zjkName",
-                    title: "专家名称", event: 'setActive', style: 'cursor: pointer;',width:'8%'
+                    title: "专家名称", event: 'setActive', style: 'cursor: pointer;', width: '8%'
                 },
                 {
                     field: "xmName",
-                    title: "名称", event: 'setActive', style: 'cursor: pointer;',width:'40%'
+                    title: "名称", event: 'setActive', style: 'cursor: pointer;', width: '40%'
                 },
                 {
                     field: "xmSteps",
@@ -133,21 +133,7 @@
 
             publicMethods.tableRender('zjkMsgTableId', 'zjkMsgTableId', '/zjkMsg/getTableData', false, cols, where, true, function (res, curr, count) {
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
-                    var index = parseInt($(this).index() + 1);
-                    $('tr').removeClass('layui-table-click');
-                    $(this).addClass('layui-table-click');
-                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                    $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                    selectRowData = res.data[index - 1];
-
                     $(document).off("click").on("click", ".onClickImg", function () {
-                        var dataId = $(this).attr("id");
-                        //附件文件配置ID
-                        publicMethods.viewAtt(dataId, param.id);
-                    });
-                });
-
-                $(document).off("click").on("click", ".onClickImg", function () {
                     var dataId = $(this).attr("id");
                     //附件文件配置ID
                     publicMethods.viewAtt(dataId, param.id);
@@ -178,6 +164,26 @@
                 publicMethods.dataDictionary(param);
             });
         }
+
+            //多选--开始
+            //单击行勾选checkbox事件——多选情况
+            $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
+                var index = $(this).attr('data-index');
+                var tableBox = $(this).parents('.layui-table-box');
+                //存在固定列
+                if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
+                    tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+                } else {
+                    tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+                }
+                var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+                if (checkCell.length > 0) {
+                    checkCell.click();
+                }
+            });
+            $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+                e.stopPropagation();
+            });
 
         renderTable();
         window.renderTable = renderTable;
@@ -256,6 +262,32 @@
                     layer.msg('请选择一条数据');
                     return;
                 }
+            }, batEvent: function () {
+                var ids;
+                selectRowData = active.getCheckData();
+                console.log(selectRowData);
+                if (selectRowData != undefined) {
+                    for (let i = 0; i < selectRowData.length; i++) {
+                        ids = ids == "" ? "" : (ids + ",") + selectRowData[i].dataId;
+                    }
+                    console.log("-----------batEvent-----------");
+                    console.log(ids);
+                    layer.open({
+                        title: param.name + '-批量',
+                        skin: 'layui-layer-lan',
+                        shadeClose: false,
+                        type: 2,
+                        fixed: false,
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        maxmin: true,
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        area: ['70%', '90%'],
+                        content: "/zjkMsgConfig/zjkMsg_bat?ids=" + ids
+                    });
+                } else {
+                    layer.msg('请选择一条数据');
+                    return;
+                }
             },
             detailEvent: function () {  //点击详情按钮
                 var dataId;
@@ -317,6 +349,7 @@
             getCheckData: function () { //获取选中数据
                 var checkStatus = table.checkStatus('zjkMsgTableId')
                     , data = checkStatus.data;
+                return data;
             },
             getCheckLength: function () { //获取选中数目
                 var checkStatus = table.checkStatus('zjkMsgTableId')

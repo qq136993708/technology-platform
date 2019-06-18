@@ -166,6 +166,10 @@ public class IndexOutAppraisalServiceImpl implements IndexOutAppraisalService {
         if (typeIndex != null) {
             c.andTypeIndexLike(typeIndex + "%");
         }
+        Object cgmc = param.getParam().get("cgmc");
+        if (cgmc != null) {
+            c.andCgmcLike(cgmc + "%");
+        }
         example.setOrderByClause("create_date desc");
         return this.findByExample(param, example);
 
