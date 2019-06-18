@@ -391,7 +391,7 @@ public class EquipmentUtils {
 		   List<String> arrayList = getPostDic( functionId , restTemplate, httpHeaders);
 		   //与字典表匹配
 		   List<SysDictionary> result=new ArrayList<SysDictionary> ();
-		   List<SysDictionary>  sysDictionaryList=  EquipmentUtils.getSysDictionaryListByParentCode("ROOT_XTGL_ZSYJY",  restTemplate, httpHeaders);
+		   List<SysDictionary>  sysDictionaryList=  EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY",  restTemplate, httpHeaders);
 		   if(sysDictionaryList!=null && sysDictionaryList.size()>0)
 		   {
 			    for(int v=0;v<sysDictionaryList.size();v++ ) 
@@ -473,7 +473,7 @@ public class EquipmentUtils {
 		   List<String> arrayList = getPostDic( functionId , restTemplate, httpHeaders);
 		   //与字典表匹配
 		   List<SysDictionary> result=new ArrayList<SysDictionary> ();
-		   List<SysDictionary>  sysDictionaryList=  EquipmentUtils.getSysDictionaryListByParentCode("ROOT_XTGL_ZSYJY",  restTemplate, httpHeaders);
+		   List<SysDictionary>  sysDictionaryList=  EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY",  restTemplate, httpHeaders);
 		   if(sysDictionaryList!=null && sysDictionaryList.size()>0)
 		   {
 			    for(int v=0;v<sysDictionaryList.size();v++ ) 

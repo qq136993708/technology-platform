@@ -55,7 +55,7 @@
     	table = layui.table;
     	param = JSON.parse(window.localStorage.getItem("param"));
     	//加载科研院所字典
-    	publicMethods.ajaxPost("/dictionary/list/ROOT_XTGL_ZSYJY", null, function (data) {
+    	publicMethods.ajaxPost("/dictionary/list/ROOT_ZGSHJT_GFGS_ZSYJY", null, function (data) {
 			$.each(data,function(i,dt){
 				unitMap[data[i].code] = data[i].name;
 	    	});
