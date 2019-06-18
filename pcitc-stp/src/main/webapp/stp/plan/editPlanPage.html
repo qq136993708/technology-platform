@@ -14,10 +14,13 @@
     <script src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
     <style>
-        /*.layui-table-body{overflow:-webkit-paged-x !important; }*/
+       /* .layui-table-body{overflow:-webkit-paged-x !important; }*/
         .layui-form-selectup dl{top: 20px !important;
             height: 180px;}
         .layui-table-cell{overflow: visible !important;}
+        .form_tableAdd_container .tableBox input{margin-top: 5px;}
+        .layui-table-body{overflow-y: auto;}
+        .layui-table-none{padding: 0 !important;}
     </style>
 </head>
 <body>
@@ -100,7 +103,7 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">任务描述<span class="must-fill"></span></label>
                             <div class="layui-input-block">
-                                <textarea name="remarks" id="remarks" style="width: 40%;"></textarea>
+                                <textarea name="remarks" id="remarks" style="width: 38%;"></textarea>
                                 <!--<textarea name="remarks" id="remarks" class="ckeditor"></textarea>-->
                             </div>
                         </div>
@@ -141,8 +144,8 @@
             </div>
         </div>
         <div class="tableBox">
-            <div class="tableToolBox">
-                <div class="layui-form-item">
+            <div class="tableToolBox" style="border: 0;">
+                <div class="layui-form-item" style="margin-bottom: 55px;">
                     <input type="hidden" name="attachId" id="attachId" value="${dataId}">
                     <div id="file_upload">
                     </div>
@@ -214,9 +217,9 @@
 
         $(document).on("click", ".layui-select-title", function () {
             if($(this).next().css("display")=="none"){
-                $(".layui-table-body").css("overflow","auto")
+                $(".layui-table-body").css("overflow-y","auto")
             }else {
-                $(".layui-table-body").css("overflow","-webkit-paged-x")
+                $(".layui-table-body").css("overflow-y","scroll")
             }
         });
 
@@ -487,7 +490,7 @@
                 {field: 'jsId', title: '接收人', event: 'setActive', style: 'cursor: pointer;', edit: true},
 
                 {field: 'announcements', title: '权重(%)', event: 'setActive', style: 'cursor: pointer;', edit: true}
-                ,{fixed: 'right', title:'查看', toolbar: '#showDetail', width:150}
+                ,{/*fixed: 'right',*/ title:'查看', toolbar: '#showDetail', width:150}
 
             ]],
             done: function (res, curr, count) {

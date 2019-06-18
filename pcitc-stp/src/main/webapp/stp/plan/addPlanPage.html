@@ -19,6 +19,9 @@
             top: 20px !important;
             height: 180px;
         }
+        .layui-table-body{overflow-y: auto !important;overflow-x:hidden !important;}
+        .layui-table-none{padding: 0 !important;}
+        .layui-table{width: 100% !important;}
     </style>
 </head>
 <body>
@@ -100,7 +103,7 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">任务描述<span class="must-fill"></span></label>
                             <div class="layui-input-block">
-                                <textarea name="remarks" id="remarks" style="width: 40%;"></textarea>
+                                <textarea name="remarks" id="remarks" style="width: 38%;"></textarea>
                                 <!--<textarea name="remarks" id="remarks" class="ckeditor"></textarea>-->
                             </div>
                         </div>
@@ -141,8 +144,8 @@
             </div>
         </div>
         <div class="tableBox">
-            <div class="tableToolBox">
-                <div class="layui-form-item">
+            <div class="tableToolBox" style="border: 0 !important;">
+                <div class="layui-form-item" style="margin-bottom: 55px;">
                     <input type="hidden" name="attachId" id="attachId" value="${dataId}">
                     <div id="file_upload">
                     </div>
@@ -220,7 +223,7 @@
                 $(".layui-table-body").css("overflow", "auto")
             } else {
 
-                $(".layui-table-body").css("overflow", "-webkit-paged-x")
+                $(".layui-table-body").css("overflow-y", "scroll")
             }
         });
         window.setWelder = setWelder;
@@ -458,11 +461,10 @@
                 {field: 'bl', title: '完成比例', event: 'setActive', style: 'cursor: pointer;', edit: true},
                 {field: 'jsId', title: '接收人', event: 'setActive', style: 'cursor: pointer;', edit: true},
                 {field: 'announcements', title: '权重(%)', event: 'setActive', style: 'cursor: pointer;', edit: true}
-                , {fixed: 'right', title: '查看', toolbar: '#showDetail', width: 150}
+                , {title: '查看', toolbar: '#showDetail', width: 150}
 
             ]],
             done: function (res, curr, count) {
-                $(".layui-table").css("width", "100%");
                 $("[data-field='dataId']").hide();
                 $("[data-field='workOrderAllotUserId']").hide();
                 $("[data-field='jsId']").hide();

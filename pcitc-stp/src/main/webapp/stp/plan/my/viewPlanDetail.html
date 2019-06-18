@@ -8,6 +8,11 @@
 	<link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
 	<script src="/layuiadmin/layui/layui.js"></script>
 	<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+	<style>
+		.tableBoxN{margin: 0 10px;}
+		.item{margin-bottom: 10px !important;}
+		.layui-table-none{padding: 0 !important;}
+	</style>
 </head>
 <body>
 <div class="form_tableAdd_container">
@@ -120,19 +125,15 @@
 				</div>
 			</div>
 
-            <div class="tableBox" style="height: 150px">
-                <div class="tableToolBox">
-                    <div class="layui-form-item">
-                        <input type="hidden" name="parentId" id="parentId" value="">
-                        <div id="file_upload_parent">
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="tableBoxN">
+			<div class="layui-form-item">
+				<input type="hidden" name="parentId" id="parentId" value="">
+				<div id="file_upload_parent">
+				</div>
+			</div>
+        </div>
 
-
-		</div>
-		<div class="tableBox">
+		<div class="tableBox item">
 			<div class="tableToolBox">
 				<div class="tableTitle">事项列表<span class="red"></span>
 				</div>
@@ -142,7 +143,7 @@
 				</table>
 			</div>
 		</div>
-		<div class="tableBox">
+		<div class="tableBox item">
 			<div class="tableToolBox">
 				<div class="tableTitle">事项反馈列表<span class="red"></span>
 				</div>
@@ -164,7 +165,7 @@
 			</div>
 		</div>
 		<div class="tableBox">
-			<div class="tableToolBox">
+			<div class="tableToolBox" style="border: 0;">
 				<div class="layui-form-item">
 					<input type="hidden" name="attachId" id="attachId" value="${dataId}">
 					<div id="file_upload">
@@ -398,7 +399,7 @@
             where: {param: {"workOrderId": dataId}},
             cols: [[
                 {type: 'checkbox'},
-                {title: '序号', type: 'numbers'},
+                {title: '序号', type: 'numbers' ,width : 55},
                 {field: 'dataId', title: '主键', event: 'setActive', style: 'cursor: pointer;', edit: true},
                 {field: 'workOrderName', title: '事项内容', event: 'setActive', style: 'cursor: pointer;', edit: true},
                 {
@@ -411,7 +412,7 @@
                 {field: 'bl', title: '完成比例', event: 'setActive', style: 'cursor: pointer;', edit: true},
                 {field: 'jsId', title: '接收人', event: 'setActive', style: 'cursor: pointer;', edit: true},
                 {field: 'announcements', title: '权重(%)', event: 'setActive', style: 'cursor: pointer;', edit: true}
-                ,{fixed: 'right', title:'查看', toolbar: '#showDetail', width:150}
+                ,{/*fixed: 'right', */title:'查看', toolbar: '#showDetail', width:150}
             ]]
         });
         table.render({
@@ -422,21 +423,19 @@
             where: {param: {"workOrderId": dataId}},
             cols: [[
                 {type: 'checkbox'},
-                {title: '序号', type: 'numbers'},
+                {title: '序号', type: 'numbers' ,width : 55},
                 {
                     field: 'remarks',
                     title: '事项反馈内容',
                     event: 'setActive',
                     style: 'cursor: pointer;',
                     edit: true,
-                    width: '72%'
                 },
                 {
                     field: 'workOrderEndDatatime',
                     title: '反馈日期',
                     event: 'setActive',
                     style: 'cursor: pointer;',
-                    width: '18%',
                     templet: function (d) {
                         var t = "<input type='text' value='" + d.workOrderEndDatatime + "' class='layui-input datetime inputVal' >";
                         return t;
@@ -445,7 +444,6 @@
                 {field: 'dataId', title: 'id'}
             ]],
             done: function (res, curr, count) {
-                $(".layui-table").css("width","100%");
                 $("[data-field='dataId']").hide();
                 $("[data-field='jsId']").hide();
                 $('#matterFeedBackTalbeDiv .layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {

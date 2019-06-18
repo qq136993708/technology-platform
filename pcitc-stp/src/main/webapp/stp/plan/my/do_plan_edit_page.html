@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
     <script src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <style>
+        .layui-table-body{overflow: hidden !important;}
+        .layui-table-none{padding: 0 !important;}
+    </style>
 </head>
 <body>
 <div class="form_tableAdd_container">
@@ -153,7 +157,7 @@
         </div>
 
 
-        <div class="tableBox" style="margin-bottom: 45px;">
+        <div class="tableBox" style="margin-bottom: 55px;">
             <input type="hidden" name="attachId" id="attachId" value="${dataId}">
             <div id="file_upload">
             </div>

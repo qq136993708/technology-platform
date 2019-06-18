@@ -14,6 +14,8 @@
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
     <style>
         .layui-table-cell{overflow: visible !important;}
+        .layui-table-body{overflow-y: auto !important;}
+        .layui-table-none{padding: 0 !important;}
     </style>
 </head>
 <body>
@@ -156,7 +158,7 @@
             </div>
         </div>
         <div class="tableBox">
-            <div class="tableToolBox">
+            <div class="tableToolBox" style="border: 0;">
                 <div class="layui-form-item">
                     <input type="hidden" name="attachId" id="attachId" value="${dataId}">
                     <div id="file_upload">
@@ -523,7 +525,7 @@
             if($(this).next().css("display")=="none"){
                 $(".layui-table-body").css("overflow","auto")
             }else {
-                $(".layui-table-body").css("overflow","-webkit-paged-x")
+                $(".layui-table-body").css("overflow-y","scroll")
             }
         });
         //动态添加事项

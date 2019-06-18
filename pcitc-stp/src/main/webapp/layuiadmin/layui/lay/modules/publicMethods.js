@@ -367,9 +367,9 @@ layui.define(['jquery','form','table','laydate'],
                 $(tbody).find("tr:last").append(tableTdHtml);
                 for(var i=0;i<number;i++){
                     if(i==0){
-                        $(tbody).find("tr:last td").eq(i).html("<div class='layui-table-cell laytable-cell-1-0 laytable-cell-checkbox' style='padding-right: 4px;'><input type='checkbox' lay-skin='primary'></div>")
+                        $(tbody).find("tr:last td").eq(i).html("<div class='layui-table-cell laytable-cell-1-0 laytable-cell-checkbox' style='padding-right: 24px;'><input type='checkbox' lay-skin='primary'></div>")
                     }else if(i==1){
-                        $(tbody).find("tr:last td").eq(i).css("text-align","center").html("<div style='padding-right: 4px;'>"+num+"</div>");
+                        $(tbody).find("tr:last td").eq(i).css("text-align","center").html("<div style='padding-right: 18px;'>"+num+"</div>");
                     }else if(column.indexOf(i)!=-1){
                         var columnIndex=column.indexOf(i);
                         var columnNum=column[columnIndex];
