@@ -25,7 +25,6 @@ import com.pcitc.base.common.DataTableParam;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
-import com.pcitc.base.common.enums.FlowStatusEnum;
 import com.pcitc.base.stp.IntlProject.IntlProjectApply;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
@@ -52,6 +51,7 @@ public class IntlProjectApplyController extends BaseController {
 	private static final String PROJECT_APPLY_JOIN_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/join-plant-apply-list";
 	private static final String PROJECT_APPLY_NOTJOIN_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/project/notjoin-plant-apply-list";
 	private static final String PROJECT_APPLY_CODE = "http://pcitc-zuul/stp-proxy/stp-provider/project/project-code";
+	private static final String PROJECT_WORKFLOW_CHECK = "http://pcitc-zuul/stp-proxy/stp-provider/project/apply-flow-check/";
 
 	/*
 	 * @RequestMapping(value = "/project/submit-apply-list", method =
@@ -87,8 +87,12 @@ public class IntlProjectApplyController extends BaseController {
 			// 先查询再更新
 			IntlProjectApply oldApply = this.restTemplate.exchange(PROJECT_APPLY_GET_URL + apply.getApplyId(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), IntlProjectApply.class).getBody();
 			// 如果已提交则不可更新
-			if (FlowStatusEnum.FLOW_START_STATUS_YES.getCode().equals(oldApply.getFlowStartStatus())) {
+			/*if (FlowStatusEnum.FLOW_START_STATUS_YES.getCode().equals(oldApply.getFlowStartStatus())) {
 				return new Result(false, "申报已提交不可再编辑");
+			}*/
+			Result result = this.restTemplate.exchange(PROJECT_WORKFLOW_CHECK+oldApply.getApplyId(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Result.class).getBody();
+			if(!result.isSuccess()) {
+				return result;
 			}
 			oldApply.setUnitId(sysUserInfo.getUnitId());
 			oldApply.setCreater(sysUserInfo.getUserId());
@@ -108,7 +112,10 @@ public class IntlProjectApplyController extends BaseController {
 
 	@RequestMapping(value = "/project/apply-close/{applyId}")
 	public Object delApply(@PathVariable("applyId") String applyId, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// 关闭
+		Result result = this.restTemplate.exchange(PROJECT_WORKFLOW_CHECK+applyId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Result.class).getBody();
+		if(!result.isSuccess()) {
+			return result;
+		}
 		ResponseEntity<Integer> presult = this.restTemplate.exchange(PROJECT_APPLY_CLOSE_URL + applyId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
 		if (presult.getBody() > 0) {
 			return new Result(true, "关闭成功！");
@@ -119,13 +126,16 @@ public class IntlProjectApplyController extends BaseController {
 
 	@RequestMapping(value = "/project/apply-delete/{applyId}")
 	public Object delApplyRel(@PathVariable("applyId") String applyId, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// 先查询再删除
+		/*// 先查询再删除
 		IntlProjectApply oldplant = this.restTemplate.exchange(PROJECT_APPLY_GET_URL + applyId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), IntlProjectApply.class).getBody();
 		// 如果已提交则不可删除
 		if (FlowStatusEnum.FLOW_START_STATUS_YES.getCode().equals(oldplant.getFlowStartStatus())) {
 			return new Result(false, "已提交不可删除");
+		}*/
+		Result result = this.restTemplate.exchange(PROJECT_WORKFLOW_CHECK+applyId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Result.class).getBody();
+		if(!result.isSuccess()) {
+			return result;
 		}
-		// 删除
 		ResponseEntity<Integer> presult = this.restTemplate.exchange(PROJECT_APPLY_DEL_URL + applyId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
 		if (presult.getBody() > 0) {
 			return new Result(true, "删除成功！");
@@ -144,7 +154,7 @@ public class IntlProjectApplyController extends BaseController {
 	public Object startProjectApplyWorkflow(@RequestParam(value = "applyId", required = true) String applyId,
 			@RequestParam(value = "functionId", required = true) String functionId, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("开始审批！！！！" + applyId);
+		
 		WorkflowVo vo = new WorkflowVo();
 		vo.setAuditUserIds(this.getUserProfile().getUserId());
 		vo.setFunctionId(functionId);

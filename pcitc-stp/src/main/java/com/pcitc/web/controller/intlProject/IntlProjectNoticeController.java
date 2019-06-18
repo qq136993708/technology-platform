@@ -33,6 +33,7 @@ public class IntlProjectNoticeController extends BaseController {
 	private static final String PROJECT_NOTICE_DEL = "http://pcitc-zuul/stp-proxy/stp-provider/project/del-notice/";
 	private static final String PROJECT_NOTICE_SENT = "http://pcitc-zuul/stp-proxy/stp-provider/project/sent-notice/";
 	private static final String PROJECT_NOTICE_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/start-notice-activity/";
+	private static final String PROJECT_WORKFLOW_CHECK = "http://pcitc-zuul/stp-proxy/stp-provider/project/notice-flow-check/";
 
 	
 	
@@ -80,6 +81,11 @@ public class IntlProjectNoticeController extends BaseController {
 
 	@RequestMapping(value = "/project/del-notice")
 	public Object delProjectNotice(@RequestParam(value = "noticeId", required = true) String noticeId) throws Exception {
+		
+		Result result = this.restTemplate.exchange(PROJECT_WORKFLOW_CHECK+noticeId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Result.class).getBody();
+		if(!result.isSuccess()) {
+			return result;
+		}
 		ResponseEntity<Integer> status = this.restTemplate.exchange(PROJECT_NOTICE_DEL + noticeId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
 		if (status.getBody() == 0) {
 			return new Result(false);
@@ -90,6 +96,10 @@ public class IntlProjectNoticeController extends BaseController {
 
 	@RequestMapping(value = "/project/close-notice")
 	public Object closeProjectNotice(@RequestParam(value = "noticeId", required = true) String noticeId) throws Exception {
+		Result result = this.restTemplate.exchange(PROJECT_WORKFLOW_CHECK+noticeId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Result.class).getBody();
+		if(!result.isSuccess()) {
+			return result;
+		}
 		ResponseEntity<Integer> status = this.restTemplate.exchange(PROJECT_NOTICE_CLOSE_URL + noticeId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
 		if (status.getBody() == 0) {
 			return new Result(false);

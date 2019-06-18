@@ -21,6 +21,8 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.DataTableParam;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
+import com.pcitc.base.common.enums.BudgetExceptionResultEnum;
 import com.pcitc.base.stp.IntlProject.IntlProjectApply;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.common.MailBean;
@@ -190,5 +192,22 @@ public class IntlProjectApplyProviderClient
 	public Object creatApplyCode(@RequestBody IntlProjectApply apply) 
 	{
 		return projectApplyService.createProjectApplyCode(apply);
+	}
+	@ApiOperation(value="审批检查",notes="检查审批状态")
+	@RequestMapping(value = "/stp-provider/project/apply-flow-check/{applyId}", method = RequestMethod.POST)
+	public Object checkFlowStatus(@PathVariable("applyId") String applyId) 
+	{
+		IntlProjectApply apply = projectApplyService.findProjectApply(applyId);
+		if(apply != null) {
+			if(BudgetAuditStatusEnum.AUDIT_STATUS_START.getCode().equals(apply.getFlowCurrentStatus())) 
+			{
+				return BudgetExceptionResultEnum.ERROR_FLOWING.getResult();
+			}
+			if(BudgetAuditStatusEnum.AUDIT_STATUS_PASS.getCode().equals(apply.getFlowCurrentStatus())) 
+			{
+				return BudgetExceptionResultEnum.ERROR_FLOWEND.getResult();
+			}
+		}
+		return new Result(true);
 	}
 }
