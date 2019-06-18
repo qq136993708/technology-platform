@@ -187,7 +187,7 @@
 	                    	 renderTable({param: {"plantName":$("#plantName").val()}});
 	                    	 layer.msg('操作成功!');
 	                     } else {
-	                    	 layer.msg('操作异常，请重试!');
+	                    	 layer.msg(data.message);
 	                     }
 	                 });
             	});
@@ -204,7 +204,7 @@
 	                    	 renderTable({param: {"plantName":$("#plantName").val()}});
 	                    	 layer.msg('操作成功!');
 	                     } else {
-	                    	 layer.msg('操作异常，请重试!');
+	                    	 layer.msg(data.message);
 	                     }
 	                });
             	});
