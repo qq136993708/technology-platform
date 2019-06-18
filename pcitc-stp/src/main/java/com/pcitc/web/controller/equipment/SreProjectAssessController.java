@@ -108,7 +108,7 @@ public class SreProjectAssessController extends BaseController{
 	}
 	@RequestMapping(value = "/project_audit")
 	public String audit(HttpServletRequest request, HttpServletResponse response) throws Exception {
-	    request.setAttribute("username",sysUserInfo.getUserName());
+	    request.setAttribute("username",sysUserInfo.getUserDisp());
 	    request.setAttribute("userDate",new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 		return "/stp/equipment/assess/project_taskac_audit";
 	}

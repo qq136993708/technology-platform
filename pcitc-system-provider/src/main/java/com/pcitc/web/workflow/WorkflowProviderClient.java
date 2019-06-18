@@ -235,7 +235,7 @@ public class WorkflowProviderClient {
 		System.out.println("1开始执行任务----------------"+taskVar.get("auditor"));
 		if (json.getString("signAuditRate") != null && taskVar.get("auditor") != null) {
 			System.out.println("1会签时1====" + taskVar.get("auditor"));
-			taskVar.put("assigneeList", Arrays.asList(taskVar.get("auditor").toString().split(",")));
+			taskVar.put("assigneeList", taskVar.get("auditor"));
 			System.out.println("2会签时2====" + taskVar.get("auditor"));
 		}
 		

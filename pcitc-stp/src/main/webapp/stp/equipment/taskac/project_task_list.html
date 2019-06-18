@@ -107,7 +107,8 @@ var publicMethods;
 	         });
 	    	var $ = layui.$, active = {
 	    		searchEvent: function() { 
-                                        table.reload("notjoin_apply_table",{where:{param:{"id":$("#topicId").val(),"name":$("#name").val(),"taskWriteUsersIds":$("#taskWriteUsersIds").val()}}});
+                table.reload("notjoin_apply_table",{where:{param:{"id":$("#topicId").val(),"name":$("#name").val(),"taskWriteUsersIds":$("#taskWriteUsersIds").val()}}});
+                $(".layui-table-header table thead th input").remove();  
                 },
                 resetEvent:function(){
                 $("#name").val("");
@@ -116,8 +117,8 @@ var publicMethods;
                 },
                 addEvent:function(){
                 	var check = table.checkStatus('notjoin_apply_table');
-                	if(check.data.length == 0){
-                		layer.msg('请点击选择装备数据!');
+                	if(check.data.length == 0 && ($("#topicId").val()==undefined || $("#topicId").val()=="")){
+                		layer.msg('请选择课题!');
                 		return;
                 	}
                 	var id=$("#topicId").val();

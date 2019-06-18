@@ -35,11 +35,11 @@
 
     <label class="dateInput">
         <span>总经费(万元)</span>
-        <input type="text" name="startMoney" title="开始金额" placeholder="￥(最大长度8位)" autocomplete="off" class="form-control" id="startMoney" onkeyup="this.value=this.value.replace(/\D/g, '')" maxlength="8">
+        <input type="text" name="startMoney" title="开始金额" placeholder="开始金额(最大长度8位)" autocomplete="off" class="form-control" id="startMoney" onkeyup="this.value=this.value.replace(/\D/g, '')" maxlength="8">
     </label>
     --
     <label class="dateInput">
-        <input type="text" name="endMoney" title="结束金额" placeholder="￥(最大长度8位)"autocomplete="off" class="form-control" id="endMoney" onkeyup="this.value=this.value.replace(/\D/g, '')" maxlength="8">
+        <input type="text" name="endMoney" title="结束金额" placeholder="结束金额(最大长度8位)"autocomplete="off" class="form-control" id="endMoney" onkeyup="this.value=this.value.replace(/\D/g, '')" maxlength="8">
     </label>
 
     <label class="dateInput">
@@ -54,12 +54,16 @@
 
     <label class="dateInput">
         <span>专业处</span>
-        <select id="professionalDepartName" name="professionalDepartName" onchange="getProfessionalNameListByUnitNameAndDept(this.value)" class="form-control" ></select>
+        <select id="professionalDepartName" name="professionalDepartName" onchange="getProfessionalNameListByUnitNameAndDept(this.value)" class="form-control" >
+            <option value="" >--请选择--</option>
+        </select>
     </label>
 
     <label class="dateInput">
         <span>专业领域</span>
-        <select id="professionalFieldName" name="professionalFieldName" class="form-control" ></select>
+        <select id="professionalFieldName" name="professionalFieldName" class="form-control" >
+            <option value="" >--请选择--</option>
+        </select>
     </label>
     <!--按钮组-->
     <div class="btnGroup">
@@ -191,7 +195,12 @@
             searchEvent: function() { //点击查询按钮
                 var startMoney = $('#startMoney').val();
                 var endMoney = $('#endMoney').val();
-                if(startMoney!=null && endMoney!=null){
+                //alert(startMoney)
+                //alert(endMoney)
+                if(startMoney!=null && startMoney!="" || endMoney!=null&&endMoney!=""){
+                    layer.alert("请输入开始金额或结束金额")
+                    return;
+                }else if(startMoney!=null && endMoney!=null){
                     renderTable();
                 }else{
                     layer.alert("请输入开始金额或结束金额");
@@ -199,7 +208,7 @@
 
             },
             resetEvent: function() { //点击重置按钮
-                $('#setupYear').val("");
+                //$('#setupYear').val("");
                 $('#name').val("");
                 $('#belongDepartmentName').val("");
                 $('#professionalFieldName').val("");
@@ -269,7 +278,7 @@
                 {field : 'professionalFieldName',  title : '专业领域', style : 'cursor: pointer;', align: 'left', width : '7%'},
                 {field : 'parentUnitPathNames',    title : '上报单位', style : 'cursor: pointer;', align: 'left', width : '20%'},
                 {field : 'applyUnitName',          title : '上报部门', style : 'cursor: pointer;', align: 'left', width : '10%'},
-                {field : 'createDate',             title : '上报时间', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl', width : '10%'}
+                {field : 'createDate',             title : '上报时间', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选

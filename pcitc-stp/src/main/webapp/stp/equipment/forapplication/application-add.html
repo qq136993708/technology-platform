@@ -248,8 +248,9 @@ var publicMethods;
                 		layer.alert("转资名称不能为空");
                 		 return false;
                 	}
+                	var arrlength = arr.length;
                 	if(arr.length ==0) {
-                		alert("资产编号不能为空");
+                		layer.msg("资产编号不能为空");
                		 	return false;
       	        	 }
                 	$.ajax({
