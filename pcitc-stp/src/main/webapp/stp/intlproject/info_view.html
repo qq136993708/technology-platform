@@ -30,7 +30,7 @@
 	            form = layui.form,publicMethods=layui.publicMethods,table = layui.table;	
 	    		var projectId = "${projectId?default(0)}";
 	    		//加载项目
-	    		publicMethods.ajaxPost("/project/apply-list-all",null, function (data) {
+	    		publicMethods.ajaxPost("/project/get-pass-apply-list",null, function (data) {
 					$.each(data,function(i,val){
 						$("#applyId").append('<option value="'+data[i].applyId+'">'+data[i].applyName+'</option>');
 					});

@@ -31,8 +31,8 @@
 	    	var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate,
 	            form = layui.form,publicMethods=layui.publicMethods,table = layui.table;	
 	    		var projectId = "${projectId?default(0)}";
-	    		//加载项目
-	    		publicMethods.ajaxPost("/project/apply-list-all",null, function (data) {
+	    		//加载项目 apply-list-all
+	    		publicMethods.ajaxPost("/project/get-pass-apply-list",null, function (data) {
 					$.each(data,function(i,val){
 						$("#applyId").append('<option value="'+data[i].applyId+'">'+data[i].applyName+'</option>');
 					});

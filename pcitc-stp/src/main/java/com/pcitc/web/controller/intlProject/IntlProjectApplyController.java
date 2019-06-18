@@ -14,14 +14,12 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
-import com.pcitc.base.common.DataTableParam;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
@@ -31,7 +29,6 @@ import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
-import com.pcitc.web.common.DataTableParameter;
 
 @RestController
 public class IntlProjectApplyController extends BaseController {
@@ -174,21 +171,13 @@ public class IntlProjectApplyController extends BaseController {
 	}
 
 	@RequestMapping(value = "/project/get-pass-apply-list")
-	public Object getPassApplyProjectList(@RequestBody List<Object> param, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		DataTableParam dataTableParam = new DataTableParam();
-		MyBeanUtils.transMap2Bean(MyBeanUtils.priseKVJSONToMap(param), dataTableParam);
-		System.out.println("获取已审批通过的申报信息。。。。" + JSON.toJSONString(dataTableParam));
-		com.alibaba.fastjson.JSONObject retJson = this.restTemplate.exchange(PROJECT_APPLY_PASS_LIST, HttpMethod.POST, new HttpEntity<DataTableParam>(dataTableParam, this.httpHeaders), com.alibaba.fastjson.JSONObject.class).getBody();
-		System.out.println("------------" + retJson.toString());
+	public Object getPassApplyProjectList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		System.out.println("获取已审批通过的申报信息。。。。");
+		List<?> rs = this.restTemplate.exchange(PROJECT_APPLY_PASS_LIST, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class).getBody();
 
-		DataTableParameter data = new DataTableParameter();
-		data.setAaData((List<?>) retJson.get("list"));
-		// 要显示的总条数
-		data.setiTotalDisplayRecords(Long.valueOf(retJson.get("totalCont") + ""));
-		// 真实的总条数
-		data.setiTotalRecords(Long.valueOf(retJson.get("totalCont") + ""));
 		// System.out.println("------------"+retJson.toString());
-		return data;
+		return JSON.toJSONString(rs);
 	}
 
 	@RequestMapping(value = "/project/join-plant-apply-list")

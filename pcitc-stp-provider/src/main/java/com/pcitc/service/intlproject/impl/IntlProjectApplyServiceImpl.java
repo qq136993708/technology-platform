@@ -13,11 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.common.DataTableParam;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.DelFlagEnum;
-import com.pcitc.base.common.enums.FlowStatusEnum;
 import com.pcitc.base.stp.IntlProject.IntlProjectApply;
 import com.pcitc.base.stp.IntlProject.IntlProjectApplyExample;
 import com.pcitc.base.stp.IntlProject.IntlProjectApplyPlant;
@@ -115,36 +113,27 @@ public class IntlProjectApplyServiceImpl implements IntlProjectApplyService {
 	{
 		IntlProjectApply apply = projectApplyMapper.selectByPrimaryKey(applyId);
 		if(apply != null){
-			apply.setFlowStartStatus(FlowStatusEnum.FLOW_START_STATUS_YES.getCode());
+			apply.setFlowStartStatus(WorkFlowStatusEnum.STATUS_RUNNING.getCode());
 			return projectApplyMapper.updateByPrimaryKey(apply);
 		}
 		return 0;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public PageInfo<IntlProjectApply> findByConn(DataTableParam dataTableParam) 
+	public List<IntlProjectApply> findAllFinalApplys() 
 	{
-		
-		int pageLength = dataTableParam.getiDisplayLength();
-		int startPage = dataTableParam.getiDisplayStart();
+		LayuiTableParam param = new LayuiTableParam();
+		param.setLimit(1000);
 		
 		IntlProjectApplyExample example = new IntlProjectApplyExample();
-		com.pcitc.base.stp.IntlProject.IntlProjectApplyExample.Criteria criteria = example.createCriteria();
+		IntlProjectApplyExample.Criteria criteria = example.createCriteria();
 		criteria.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		criteria.andFlowCurrentStatusEqualTo(WorkFlowStatusEnum.STATUS_PASS.getCode());
 		
-		startPage = startPage/pageLength+1;
-		// 1、设置分页信息，包括当前页数和每页显示的总计数
-		PageHelper.startPage(startPage, pageLength);
-		// 2、执行查询
-		List<IntlProjectApply> list = projectApplyMapper.selectByExample(example);
-		// 3、获取分页查询后的数据
-		PageInfo<IntlProjectApply> pageInfo = new PageInfo<IntlProjectApply>(list);
-		// 4、封装需要返回的分页实体
-		/*JSONObject retJson = new JSONObject();
-		retJson.put("totalCount", pageInfo.getTotal());
-		retJson.put("list", list);
-		return retJson;*/
-		return pageInfo;
+		LayuiTableData data = findByExample(param, example);
+		
+		return (List<IntlProjectApply>)data.getData();
 	}
 
 	@Override
@@ -167,8 +156,7 @@ public class IntlProjectApplyServiceImpl implements IntlProjectApplyService {
 		IntlProjectApplyExample example = new IntlProjectApplyExample();
 		IntlProjectApplyExample.Criteria criteria = example.createCriteria();
 		criteria.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
-		criteria.andFlowEndStatusEqualTo(FlowStatusEnum.FLOW_END_STATUS_YES.getCode());
-		criteria.andFlowCurrentStatusEqualTo(FlowStatusEnum.FLOW_CURRENT_STATUS_PASS.getCode());
+		criteria.andFlowCurrentStatusEqualTo(WorkFlowStatusEnum.STATUS_PASS.getCode());
 		if(param.getParam().get("applyTitle") != null) {
 			criteria.andApplyTitleLike("%"+param.getParam().get("applyTitle")+"%");
 		}
@@ -196,8 +184,7 @@ public class IntlProjectApplyServiceImpl implements IntlProjectApplyService {
 		IntlProjectApplyExample example = new IntlProjectApplyExample();
 		IntlProjectApplyExample.Criteria criteria = example.createCriteria();
 		criteria.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
-		criteria.andFlowEndStatusEqualTo(FlowStatusEnum.FLOW_END_STATUS_YES.getCode());
-		criteria.andFlowCurrentStatusEqualTo(FlowStatusEnum.FLOW_CURRENT_STATUS_PASS.getCode());
+		criteria.andFlowCurrentStatusEqualTo(WorkFlowStatusEnum.STATUS_PASS.getCode());
 		criteria.andApplyIdIn(applyIds);
 		
 		return this.findByExample(param, example);
