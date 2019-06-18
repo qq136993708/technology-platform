@@ -4,9 +4,9 @@ import com.pcitc.base.common.Result;
 
 public enum BudgetExceptionResultEnum 
 {
-	ERROR_FLOWING(501,new Result(false,null,"审批中不可修改!")),
-	ERROR_FLOWEND(502,new Result(false,null,"审批完成不可修改!")),
-	ERROR_FLOWRELASE(503,new Result(false,null,"最终版本不可修改!")),
+	ERROR_FLOWING(501,new Result(false,null,"审批中禁止修改!")),
+	ERROR_FLOWEND(502,new Result(false,null,"审批完成禁止修改!")),
+	ERROR_FLOWRELASE(503,new Result(false,null,"最终预算禁止修改!")),
 	ERROR(500,new Result(false,null,"操作异常"));
 	
 	private Integer code;
