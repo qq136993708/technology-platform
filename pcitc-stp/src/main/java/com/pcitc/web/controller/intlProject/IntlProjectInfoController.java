@@ -62,12 +62,13 @@ public class IntlProjectInfoController extends BaseController {
 
 	@RequestMapping(value = "/project/addorupd-project")
 	public Object saveProjectInfo(@ModelAttribute(value = "projectInfo") IntlProjectInfo info) throws Exception {
-		info.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
-		info.setCreater(sysUserInfo.getUserId());
-		info.setCreaterName(sysUserInfo.getUserDisp());
+		
 		if (info.getProjectId() == null || "".equals(info.getProjectId())) {
 			info.setFlowCurrentStatus(WorkFlowStatusEnum.STATUS_WAITING.getCode());
 			info.setProjectId(IdUtil.createIdByTime());
+			info.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
+			info.setCreater(sysUserInfo.getUserId());
+			info.setCreaterName(sysUserInfo.getUserDisp());
 		}
 		ResponseEntity<Integer> status = this.restTemplate.exchange(PROJECT_INFO_ADDORUPD, HttpMethod.POST, new HttpEntity<IntlProjectInfo>(info, this.httpHeaders), Integer.class);
 		if (status.getBody() == 0) {

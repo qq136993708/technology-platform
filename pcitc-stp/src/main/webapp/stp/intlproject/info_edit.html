@@ -17,7 +17,7 @@
     var file_ids2 = "appendFiles2";
     //detail:详情，edit：编辑
 	file_edit_detail = "edit";
-    file_edit_detail2 = "edit";
+    file_edit_detail2 = "detail";
 	//统管理-附件管理-附件配置：页面标识
 	file_opt_flag = "4c20bd28057543839c0db8754f417c6a";
 	file_opt_flag2 = "4c20bd28057543839c0db8754f417c6a";
@@ -40,22 +40,24 @@
 	    		//下拉改变
 	    		form.on('select(applyId)', function(dt){
 	    			publicMethods.ajaxAsyncPost('/project/get-apply', {applyId:dt.value}, function (data, status) {
-	             		form.val("info-form",data);
+	             		var appendFiles = $("#appendFiles").val();
+	    				form.val("info-form",data);
 	             		//applyEditor.setData(data.applyContent);
 	             		
-	             		// $("#appendFiles2").val(data.appendFiles);
+	             		$("#appendFiles2").val(data.appendFiles);
+	             		$("#appendFiles").val(appendFiles);
 	             		$("#file_div2").load('/common/public/uploadlayuiload2.html');
 	                });
 	    		});
 	    		
 	    		if(projectId != 0)
 	    		{
-	    			publicMethods.ajaxAsyncPost('/project/get-project', {projectId:projectId}, function (data, status) {
+	    			publicMethods.ajaxPost('/project/get-project', {projectId:projectId}, function (data, status) {
 	    				form.val("info-form",data);
 	    				//projectEditor.setData(data.projectContent);
 	                });
 	    		}else{
-	    			publicMethods.ajaxAsyncPost('/project/project-info-code', null, function (data, status) {
+	    			publicMethods.ajaxPost('/project/project-info-code', null, function (data, status) {
 	        			if (data.success) {
 	        				$("#projectCode").val(data.message);
 	        			}
@@ -64,11 +66,13 @@
 	    		form.render();
 	    		if($("#applyId").val() != null && $("#applyId").val() !="")
 	    		{
-	    			publicMethods.ajaxAsyncPost('/project/get-apply', {applyId:$("#applyId").val()}, function (dt, status) {
+	    			publicMethods.ajaxPost('/project/get-apply', {applyId:$("#applyId").val()}, function (dt, status) {
+	    				var appendFiles = $("#appendFiles").val();
 	             		form.val("info-form",dt);
 	             		//applyEditor.setData(dt.applyContent);
 	             		
-	             		// $("#appendFiles2").val(dt.appendFiles);
+	             		$("#appendFiles2").val(dt.appendFiles);
+	             		$("#appendFiles").val(appendFiles);
 	             		$("#file_div2").load('/common/public/uploadlayuiload2.html');
 	                });
 	    		}
@@ -78,7 +82,7 @@
 	    		
 	    		form.on('submit(submitBtn)', function(data) {
 					//data.field.projectContent = projectEditor.getData();
-					console.log(data.field.projectContent);
+					//console.log(data.field);
 					publicMethods.ajaxAsyncPost('/project/addorupd-project', data.field, function (data, status) {
                         if (data.success) {
                         	parent.layui.table.reload('infoTable',null);
@@ -88,7 +92,7 @@
                         	parent.layer.alert(data.message, {
 								title : '信息'
 							});
-							return;
+							return false;
                         }
                     });
 					return false;
@@ -101,7 +105,7 @@
 <form id="info-form" name="info-form" lay-filter="info-form" class="form-horizontal layui-form">
 	<input type="hidden" name="projectId" id="projectId" value="">
 	<input type="hidden" name="plantId" id="plantId" value="">
-	<input type="hidden" name="appendFiles" id="appendFiles" value="333">
+	<input type="hidden" name="appendFiles" id="appendFiles" value="${appendFiles?default(0)}">
 	<input type="hidden" name="appendFiles2" id="appendFiles2" value="444">
 	<div class="formBox">
 		<div class="box-body">
@@ -236,7 +240,7 @@
 			<div class="layui-row">
 				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 					<div class="layui-form-item">
-						<label for="" class="layui-form-label">申报项目名称<span class="must-fill">*</span></label>
+						<label for="" class="layui-form-label">申报项目名称<span class="must-fill"></span></label>
 						<div class="layui-input-block">
 							<input type="text" readonly="readonly" class="layui-input" id="applyName" name="applyName" placeholder="申报标题">
 						</div>
@@ -244,7 +248,7 @@
 				</div>
 				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 					<div class="layui-form-item"  id="password" >
-						<label for="" class="layui-form-label">申报编码<span class="must-fill">*</span></label>
+						<label for="" class="layui-form-label">申报编码<span class="must-fill"></span></label>
 						<div class="layui-input-block">
 						 	<input type="text" readonly="readonly" class="layui-input" id="applyCode" name="applyCode" placeholder="申报编码">
 						</div>
@@ -272,9 +276,9 @@
 			<div class="layui-row">
 				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 					<div class="layui-form-item">
-						<label for="" class="layui-form-label">项目负责人<span class="must-fill">*</span></label>
+						<label for="" class="layui-form-label">项目负责人<span class="must-fill"></span></label>
 						<div class="layui-input-block">
-							<input type="text" class="layui-input" lay-verify="required" id="managerName" name="managerName" placeholder="请输入邮箱">
+							<input type="text" class="layui-input" id="managerName" name="managerName" placeholder="项目负责人">
 						</div>
 					</div>
 				</div>

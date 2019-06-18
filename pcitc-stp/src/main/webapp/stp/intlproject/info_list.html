@@ -163,7 +163,7 @@
 			                    	 table.reload("infoTable",{where:{param: {"infoName":$("#infoName").val()}}});
 			                    	 layer.msg('删除成功!');
 			                     } else {
-			                    	 layer.msg('操作异常，请重试!');
+			                    	 layer.msg(data.message);
 			                     }
 			                });
 		            	});
@@ -181,7 +181,7 @@
 			                    	 table.reload("infoTable",{param: {"infoName":$("#infoName").val()}});
 			                    	 layer.msg(data.message);
 			                     } else {
-			                    	 layer.msg('操作异常，请重试!');
+			                    	 layer.msg(data.message);
 			                     }
 			                });
 		            	});

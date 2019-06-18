@@ -7,7 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -70,7 +69,7 @@ public class IntlProjectInfoServiceImpl implements IntlProjectInfoService {
 		if(info.getAppendFiles() == null) {
 			info.setAppendFiles(IdUtil.createFileIdByTime());
 		}
-		System.out.println(JSON.toJSONString(info));
+		//System.out.println(JSON.toJSONString(info));
 		if(project != null)
 		{
 			MyBeanUtils.copyPropertiesIgnoreNull(info, project);

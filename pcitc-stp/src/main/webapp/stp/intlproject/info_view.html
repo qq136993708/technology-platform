@@ -35,24 +35,12 @@
 						$("#applyId").append('<option value="'+data[i].applyId+'">'+data[i].applyName+'</option>');
 					});
 			   	});
-	    		//下拉改变
-	    		form.on('select(applyId)', function(dt){
-	    			publicMethods.ajaxPost('/project/get-apply', {applyId:dt.value}, function (data, status) {
-	             		form.val("info-form",data);
-	             		//applyEditor.setData(data.applyContent);
-	             		
-	             		$("#appendFiles2").val(data.appendFiles);
-	             		$("#file_div2").load('/common/public/uploadlayuiload2.html');
-	                });
-	    		});
-	    		
 	    		if(projectId != 0)
 	    		{
 	    			publicMethods.ajaxPost('/project/get-project', {projectId:projectId}, function (data, status) {
-	              		console.log(data);
+	              		//console.log(data);
 	    				form.val("info-form",data);
 	    				//projectEditor.setData(data.projectContent);
-	    				
 	                }); 
 	    		}
 	    		$("input,textarea,radio").addClass('readOnlyBox');
@@ -64,10 +52,12 @@
 	    		if($("#applyId").val() != null)
 	    		{
 	    			publicMethods.ajaxPost('/project/get-apply', {applyId:$("#applyId").val()}, function (dt, status) {
-	             		form.val("info-form",dt);
+	    				var appendFiles = $("#appendFiles").val();
+	    				form.val("info-form",dt);
 	             		//applyEditor.setData(dt.applyContent);
 	             		
 	             		$("#appendFiles2").val(dt.appendFiles);
+	             		$("#appendFiles").val(appendFiles);
 	             		$("#file_div2").load('/common/public/uploadlayuiload2.html');
 	                });
 	    		}
@@ -245,7 +235,7 @@
 		<div class="layui-row">
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				<div class="layui-form-item">
-					<label for="" class="layui-form-label">申报名称<span class="must-fill">*</span></label>
+					<label for="" class="layui-form-label">申报名称<span class="must-fill"></span></label>
 					<div class="layui-input-block">
 						<input type="text" readonly="readonly" class="layui-input readOnlyBox" id="applyName" name="applyName" placeholder="申报标题">
 					</div>
@@ -253,7 +243,7 @@
 			</div>
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				<div class="layui-form-item"  id="password" >
-					<label for="" class="layui-form-label">申报编码<span class="must-fill">*</span></label>
+					<label for="" class="layui-form-label">申报编码<span class="must-fill"></span></label>
 					<div class="layui-input-block">
 					 	<input type="text" readonly="readonly" class="layui-input readOnlyBox" id="applyCode" name="applyCode" placeholder="申报编码">
 					</div>
@@ -281,27 +271,9 @@
 		<div class="layui-row">
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				<div class="layui-form-item">
-					<label for="" class="layui-form-label">计划投资<span class="must-fill">*</span></label>
+					<label for="" class="layui-form-label">项目负责人<span class="must-fill"></span></label>
 					<div class="layui-input-block">
-						<input type="text"  readonly="readonly"  class="layui-input readOnlyBox" lay-verify="required" id="plantMoney" name="plantMoney" placeholder="计划投资额">
-					</div>
-				</div>
-			</div>
-			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-				<div class="layui-form-item">
-					<label for="" class="layui-form-label">建设年限</label>
-					<div class="layui-input-block">
-						<input type="text"  readonly="readonly" class="layui-input readOnlyBox" id="buildYears" name="buildYears">
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="layui-row">
-			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-				<div class="layui-form-item">
-					<label for="" class="layui-form-label">项目负责人<span class="must-fill">*</span></label>
-					<div class="layui-input-block">
-						<input type="text"  readonly="readonly" class="layui-input readOnlyBox" lay-verify="required" id="managerName" name="managerName" placeholder="请输入邮箱">
+						<input type="text"  readonly="readonly" class="layui-input readOnlyBox" id="managerName" name="managerName" placeholder="请输入邮箱">
 					</div>
 				</div>
 			</div>
