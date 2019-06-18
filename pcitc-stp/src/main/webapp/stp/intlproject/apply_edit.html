@@ -109,6 +109,12 @@ $(document).ready(function() {
 				form.on('submit(submitBtn)', function(data) {
 					//data.field.applyContent = editor.getData();
 					//计算金额
+					var sd = new Date($("#startDate").val());
+				    var ed = new Date($("#endDate").val());
+				    if(ed.getTime() < sd.getTime()){
+				    	parent.layer.alert("计划结束日期不能早于计划开始日期", {title : '信息'});
+						return false;
+				    }
 					var moneyItems = {};
 					$('input[name="build_year"]').each(function(i){
 						var dt_index = $(this).parents('.layui-row').attr("data-index");
@@ -125,7 +131,7 @@ $(document).ready(function() {
                         	parent.layer.alert(data.message, {
 								title : '信息'
 							});
-							return;
+							return false;
                         }
                     });
 					return false;
