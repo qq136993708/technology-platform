@@ -20,6 +20,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.WorkFlowStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
+import com.pcitc.base.common.enums.FlowStatusEnum;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfo;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.workflow.WorkflowVo;
@@ -62,7 +63,10 @@ public class IntlProjectInfoController extends BaseController {
 
 	@RequestMapping(value = "/project/addorupd-project")
 	public Object saveProjectInfo(@ModelAttribute(value = "projectInfo") IntlProjectInfo info) throws Exception {
-		
+		IntlProjectInfo prject = this.restTemplate.exchange(PROJECT_GET_INFO + info.getProjectId(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), IntlProjectInfo.class).getBody();
+		if (prject != null && FlowStatusEnum.FLOW_START_STATUS_YES.getCode().equals(prject.getFlowStartStatus())) {
+			return new Result(false, "已提交不可更改");
+		}
 		if (info.getProjectId() == null || "".equals(info.getProjectId())) {
 			info.setFlowCurrentStatus(WorkFlowStatusEnum.STATUS_WAITING.getCode());
 			info.setProjectId(IdUtil.createIdByTime());
@@ -80,6 +84,10 @@ public class IntlProjectInfoController extends BaseController {
 
 	@RequestMapping(value = "/project/del-project")
 	public Object delProjectInfo(@RequestParam(value = "projectId", required = true) String projectId) throws Exception {
+		IntlProjectInfo prject = this.restTemplate.exchange(PROJECT_GET_INFO + projectId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), IntlProjectInfo.class).getBody();
+		if (prject != null && FlowStatusEnum.FLOW_START_STATUS_YES.getCode().equals(prject.getFlowStartStatus())) {
+			return new Result(false, "已提交不可删除");
+		}
 		ResponseEntity<Integer> status = this.restTemplate.exchange(PROJECT_INFO_DEL + projectId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
 		if (status.getBody() == 0) {
 			return new Result(false);
@@ -90,6 +98,10 @@ public class IntlProjectInfoController extends BaseController {
 
 	@RequestMapping(value = "/project/close-project")
 	public Object closeProjectInfo(@RequestParam(value = "projectId", required = true) String projectId) throws Exception {
+		IntlProjectInfo prject = this.restTemplate.exchange(PROJECT_GET_INFO + projectId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), IntlProjectInfo.class).getBody();
+		if (prject != null && FlowStatusEnum.FLOW_START_STATUS_YES.getCode().equals(prject.getFlowStartStatus())) {
+			return new Result(false, "已提交不可删除");
+		}
 		ResponseEntity<Integer> status = this.restTemplate.exchange(PROJECT_INFO_CLOSE_URL + projectId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
 		if (status.getBody() == 0) {
 			return new Result(false);
