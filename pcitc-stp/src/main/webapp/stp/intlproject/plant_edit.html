@@ -101,7 +101,7 @@ $(document).ready(function() {
 	            	var check = table.checkStatus('join_apply_table');
 	            	for(var dt in check.data)
 	            	{
-	            		publicMethods.ajaxAsyncPost('/project/del-fromplant', {"plantId":$("#plantId").val(),"applyId":check.data[dt].applyId}, function (data, status) {
+	            		publicMethods.ajaxPost('/project/del-fromplant', {"plantId":$("#plantId").val(),"applyId":check.data[dt].applyId}, function (data, status) {
 	            			console.log("del...");
 		                });
 	            	}
@@ -177,7 +177,7 @@ $(document).ready(function() {
 				<div class="layui-form-item">
 					<label for="" class="layui-form-label">计划年度<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" class="layui-input" lay-verify="required|number" id="reportYear" name="reportYear" placeholder="计划年度">
+						<input type="text" class="layui-input" readonly="readonly" lay-verify="required|number" id="reportYear" name="reportYear" placeholder="计划年度">
 					</div>
 				</div>
 			</div>
