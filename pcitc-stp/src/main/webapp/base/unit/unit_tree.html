@@ -301,7 +301,7 @@
 		ajaxPost("/unit/ztree-unit-list", {"name":$("#searchUnitName").val()}, function (dt) {
 			unitNodes = dt;
 			zTreeObj = $.fn.zTree.init($("#unitTree"), setting, dt);
-			zTreeObj.expandAll(true);
+			//zTreeObj.expandAll(true);
 	    });
 		//如果指定某个节点，则选中出发选中事件
 		if(unitId)

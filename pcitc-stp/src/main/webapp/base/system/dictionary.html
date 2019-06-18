@@ -178,12 +178,12 @@
             cols: [[
 				{type:'checkbox',event: 'changeEvents'},
                 {title:'序号', type:'numbers' ,width : 55},
-                {field:'name', title:'${menuTypeName}名称',  style:'cursor: pointer;',align:'left'},
-                {field:'code', title:'${menuTypeName}编码',  style:'cursor: pointer;',align:'left'},
-                {field:'numValue', title:'数值', style:'cursor: pointer;',align:'left'},
-                {field:'levelCode', title:'层级', width: '10%',style:'cursor: pointer;',align:'left'},
+                {field:'name', title:'${menuTypeName}名称',  style:'cursor: pointer;',align:'left',width: '15%'},
+                {field:'code', title:'${menuTypeName}编码',  style:'cursor: pointer;',align:'left',width: '15%'},
+                {field:'numValue', title:'实际值', style:'cursor: pointer;',align:'left',width: '20%'},
+                {field:'levelCode', title:'层级', style:'cursor: pointer;',align:'left',width : 55},
+                {field:'isdelete', title:'排序号', style:'cursor: pointer;',align:'left',width : 75},
                 {field:'remark',   title:'描述',  style:'cursor: pointer;',align:'left'},
-                {field:'createTime',   title:'创建时间', style:'cursor: pointer;', width: '15%',align:'center', templet:  '<div>{{ layui.laytpl.toDateString(d.createTime) }}</div>'},
                 {field:'updateTime',  title:'修改时间',  style:'cursor: pointer;', width: '15%',align:'center', templet:  '<div>{{ layui.laytpl.toDateString(d.updateTime) }}</div>'}
             ]],
             
