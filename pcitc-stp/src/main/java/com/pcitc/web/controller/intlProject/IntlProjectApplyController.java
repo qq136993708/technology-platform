@@ -77,11 +77,11 @@ public class IntlProjectApplyController extends BaseController {
 			// 创建一个新的对象
 			IntlProjectApply newApply = (IntlProjectApply) MyBeanUtils.createDefaultModel(IntlProjectApply.class);
 			apply.setApplyId(IdUtil.createIdByTime());
-			apply.setAppendFiles(IdUtil.createFileIdByTime());
+			//apply.setAppendFiles(IdUtil.createFileIdByTime());
 			apply.setUnitId(sysUserInfo.getUnitId());
 			apply.setCreater(sysUserInfo.getUserId());
 			MyBeanUtils.copyPropertiesIgnoreNull(apply, newApply);
-			System.out.println(JSON.toJSONString(newApply));
+			//System.out.println(JSON.toJSONString(newApply));
 			status = this.restTemplate.exchange(PROJECT_APPLY_ADD_URL, HttpMethod.POST, new HttpEntity<IntlProjectApply>(newApply, this.httpHeaders), Integer.class);
 		} else {
 			// 先查询再更新

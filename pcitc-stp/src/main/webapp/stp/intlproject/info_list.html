@@ -62,9 +62,9 @@
 			                    selectRowData=res.data[index-1];
 			                }); 
 			                $.each(res.data,function(i,dt){
-			                	var flow_status = "待审批";
+			                	var flow_status = "未提交";
 		                		if(res.data[i].flowCurrentStatus == 0 ){
-		                			flow_status = "待审批";
+		                			flow_status = "未提交";
 								}else if(res.data[i].flowCurrentStatus == -1){
 									flow_status = "预审驳回";
 						   		}else if(res.data[i].flowCurrentStatus == 1){
@@ -72,7 +72,7 @@
 						   		}else if(res.data[i].flowCurrentStatus == 2){
 						   			flow_status = "预审通过";
 						   		}else{
-						   			flow_status = "待审批";
+						   			flow_status = "未提交";
 						   		}
 		                		$("tr[data-index='"+i+"'] td[data-field='flowCurrentStatus'] div").html(flow_status);
 				            	//显示字典数据
