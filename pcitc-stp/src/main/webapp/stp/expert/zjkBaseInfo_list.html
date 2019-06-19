@@ -282,16 +282,16 @@
                 loadtable();
             },
             editEvent: function () { //点击编辑按钮
-                if (typeof (selectRowData) == "undefined") {
-                    layer.msg("请选择一条数据");
-                    return;
-                } else {
-                    if (selectRowData.auditStatus != '0') {
-                        layer.msg('当前记录已经提交，不能进行编辑操作！');
-                    } else {
+                // if (typeof (selectRowData) == "undefined") {
+                //     layer.msg("请选择一条数据");
+                //     return;
+                // } else {
+                //     if (selectRowData.auditStatus != '0') {
+                //         layer.msg('当前记录已经提交，不能进行编辑操作！');
+                //     } else {
                         openFullWin("编辑", "/zjkBaseInfo/edit?id=" + selectRowData.dataId);
-                    }
-                }
+                    // }
+                // }
             }
             , viewEvent: function () { //点击编辑按钮
                 if (typeof (selectRowData) == "undefined") {
