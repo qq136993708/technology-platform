@@ -104,7 +104,7 @@
 						<div class="layui-form-item">
 							<label for="" class="layui-form-label">用户类型<span class="must-fill">*</span></label>
 							<div class="layui-input-block">
-								<select name="userKind" id="userKind" lay-verify="required"  lay-filter="userKind">
+								<select name="userKind" id="userKind" lay-verify="userKind"  lay-filter="userKind">
 									<option value="">请选择</option>
 								</select>
 							</div>
@@ -126,7 +126,7 @@
 						<div class="layui-form-item">
 							<label for="" class="layui-form-label">手机号<span class="must-fill"></span></label>
 							<div class="layui-input-block">
-								<input type="text" class="layui-input" lay-verify="" id="userMobile" name="userMobile" placeholder="请输入手机号">
+								<input type="text" class="layui-input" lay-verify="userMobile" id="userMobile" name="userMobile" placeholder="请输入手机号">
 							</div>
 						</div>
 					</div>
@@ -134,7 +134,7 @@
 						<div class="layui-form-item">
 							<label for="" class="layui-form-label">座机号<span class="must-fill"></span></label>
 							<div class="layui-input-block">
-								<input type="text" class="layui-input" id="userPhone" lay-verify="" name="userPhone" placeholder="请输入座机号">
+								<input type="text" class="layui-input" id="userPhone" lay-verify="userPhone" name="userPhone" placeholder="请输入座机号">
 							</div>
 						</div>
 					</div>
@@ -385,6 +385,24 @@
 					if(value=='' || value==null || value == "undefined")
 					{
 						return "请选择用户类别!";
+					}
+				},
+				userMobile:function(value,item){
+					if(value!='' && value != null && value != "undefined")
+					{
+						if(!(/^1[3456789]\d{9}$/.test(value)))
+						{      
+							return "填写正确手机号!";
+						}
+					}
+				},
+				userPhone:function(value,item){
+					if(value!='' && value != null && value != "undefined")
+					{
+						if(!(/^((0\d{2,3})-)(\d{7,8})$/.test(value)))
+						{      
+							return "填写正确座机号!";
+						}
 					}
 				},
 				userPost:function(value,item){
