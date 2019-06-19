@@ -151,40 +151,40 @@
                     // },
                     {
                         field: "expertName",
-                        title: "姓名", event: 'setActive', style: 'cursor: pointer;'
+                        title: "姓名", event: 'setActive', style: 'cursor: pointer;',width:'8%'
                     },
                     {
                         field: "sex",
-                        title: "性别", event: 'setActive', style: 'cursor: pointer;'
+                        title: "性别", event: 'setActive', style: 'cursor: pointer;',width:'6%'
                     },
                     {
-                        field: "age",
-                        title: "年龄", event: 'setActive', style: 'cursor: pointer;', align: "right"
+                        field: "expertProfessionalFieldName",
+                        title: "专业领域", event: 'setActive', style: 'cursor: pointer;',width:'10%'
                     },
                     {
                         field: "birthDate",
-                        title: "出生日期", event: 'setActive', style: 'cursor: pointer;'
+                        title: "出生日期", event: 'setActive', style: 'cursor: pointer;',width:'12%'
                     },
                     {
                         field: "email",
-                        title: "邮箱", event: 'setActive', style: 'cursor: pointer;'
+                        title: "邮箱", event: 'setActive', style: 'cursor: pointer;',width:'25%'
                     },
                     {
                         field: "mobile",
-                        title: "联系方式", event: 'setActive', style: 'cursor: pointer;'
+                        title: "联系方式", event: 'setActive', style: 'cursor: pointer;',width:'12%'
                     },
                     {
                         field: "expertProfessionalField",
-                        title: "专业领域", event: 'setActive', style: 'cursor: pointer;'
+                        title: "专业领域", event: 'setActive', style: 'cursor: pointer;',width:'8%'
                     },
                     {
                         field: "expertProfessinal",
                         title: "职称", event: 'setActive', style: 'cursor: pointer;'
                     },
-                    {
-                        field: "company",
-                        title: "所属机构", event: 'setActive', style: 'cursor: pointer;'
-                    }
+                    // {
+                    //     field: "company",
+                    //     title: "所属机构", event: 'setActive', style: 'cursor: pointer;'
+                    // }
                 ]],
                 done: function (res, curr, count) {
                     $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {

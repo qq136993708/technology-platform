@@ -713,6 +713,42 @@ public class ExpertController extends BaseController {
         return "/stp/expert/zjkPatentList";
     }
 
+    /**
+     * 项目列表-已发布
+     *
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/zjkOutProjectListPublic")
+    public String iniOutProjectListPublic() throws Exception {
+        //获取项目ID
+
+        return "/stp/expert/zjkOutProjectListPublic";
+    }
+
+    /**
+     * 成果列表-非专家关联-已发布
+     *
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/zjkAchievementListPublic")
+    public String zjkAchievementListPublic() throws Exception {
+        return "/stp/expert/zjkAchievementListPublic";
+    }
+
+    /**
+     * 专利列表-专家关联-已发布
+     *
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/zjkPatentListPublic")
+    public String zjkPatentListPublic() throws Exception {
+        return "/stp/expert/zjkPatentListPublic";
+    }
+
+
     @RequestMapping(value = "/zjkOutProjectList_tfc")
     public String zjkOutProjectList_tfc() throws Exception {
         request.setAttribute("typeName",request.getParameter("typeName"));

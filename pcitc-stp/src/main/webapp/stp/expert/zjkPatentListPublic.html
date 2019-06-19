@@ -15,13 +15,13 @@
 <div class="searchBox">
     <!--查询条件-->
     <label class="dateInput">
-        <span>成果名称</span>
-        <input type="text" id="cgmc" name="cgmc" placeholder="" title="成果名称" class="form-control">
+        <span>专利名称</span>
+        <input type="text" id="fmmc" name="fmmc" placeholder="" title="专利名称" class="form-control">
     </label>
-    <!--<label class="dateInput">-->
-        <!--<span>专利号</span>-->
-        <!--<input type="text" id="fmh" name="fmh" placeholder="请输入专利号" title="专利号" class="form-control">-->
-    <!--</label>-->
+    <label class="dateInput">
+        <span>专利号</span>
+        <input type="text" id="fmh" name="fmh" placeholder="请输入专利号" title="专利号" class="form-control">
+    </label>
     <!--按钮组-->
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
@@ -58,12 +58,12 @@
             //渲染
             table.render({
                 elem: '#showTable',
-                url: '/indexOutAppraisal/getTableData',
+                url: '/indexOutPatent/getTableData',
                 method: "POST",
                 where: {
                     param: {
-                        "cgmc": $('#cgmc').val(),
-                        // "fmh": $('#fmh').val()
+                        "fmmc": $('#fmmc').val(),
+                        "fmh": $('#fmh').val()
                     }
                 },
                 limit: param.selfRownum,
@@ -79,23 +79,31 @@
                     last: '尾页', //不显示尾页
                     theme: '#0F9EE0'
                 },
-                cols: [
-                    [
-                        {type: 'checkbox', event: 'changeEvents', width: 55},
-                        {title: '序号', type: 'numbers', width: 55},
-                        {
-                            field: "nd",
-                            title: "申请年度", event: 'setActive', style: 'cursor: pointer;', width: 100
-                        },
-                        {
-                            field: "cgmc",
-                            title: "成果名称", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "sqjddw",
-                            title: "申请单位", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                    ]],
+                cols: [[                {type: 'checkbox', event: 'changeEvents', width: 55},
+                    {title: '序号', type: 'numbers', width: 55},
+                    {
+                        field: "sqri",
+                        title: "申请日", event: 'setActive', style: 'cursor: pointer;', width: '8%', templet: function (d) {
+                            return d.sqri.substring(0, 10);
+                        }
+                    },
+                    {
+                        field: "fmmc",
+                        title: "发明名称", event: 'setActive', style: 'cursor: pointer;', width: '30%'
+                    },
+                    {
+                        field: "shenqr",
+                        title: "申请人", event: 'setActive', style: 'cursor: pointer;', width: '16%'
+                    },
+                    {
+                        field: "fmr",
+                        title: "发明人", event: 'setActive', style: 'cursor: pointer;', width: '25%'
+                    },
+                    {
+                        field: "zlh",
+                        title: "专利号", event: 'setActive', style: 'cursor: pointer;'
+                    }
+                ]],
                 done: function (res, curr, count) {
                     // 关闭等待刷新
                     layer.close(lodingMsg);
@@ -122,8 +130,8 @@
                 renderTable();
             },
             resetEvent: function () { //点击重置按钮
-                $('#cgmc').val("");
-                // $('#fmh').val("");
+                $('#fmmc').val("");
+                $('#fmh').val("");
                 active.searchEvent();
             },
             handleEvent: function () { //点击关联匹配按钮
@@ -151,7 +159,7 @@
                 if (typeof (selectRowData.dataId) == "undefined") {
                     layer.msg('请点击选择一行数据');
                 } else {
-                    openFullWin("专家选择", "/expertController/getUserChoicePage?flag=cg&projectId=" + selectRowData.dataId+"&projectName="+selectRowData.cgmc+"&unitCode="+selectRowData.dataId);
+                    openFullWin("专家选择", "/expertController/getUserChoicePage?flag=zl&projectId=" + selectRowData.dataId+"&projectName="+selectRowData.fmmc+"&unitCode="+selectRowData.dataId);
                 }
             }, showExpertEvent: function () { //查看已选专家
                 if (typeof (selectRowData.xmid) == "undefined") {
