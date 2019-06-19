@@ -1101,6 +1101,10 @@ public class OutProjectServiceImpl implements OutProjectService {
         if (param.getParam().get("leaderFlag") != null && !StringUtils.isBlank(param.getParam().get("leaderFlag") + "")) {
             opi.setLeaderFlag((String) param.getParam().get("leaderFlag"));
         }
+        //项目ID
+        if (param.getParam().get("xmid") != null && !StringUtils.isBlank(param.getParam().get("xmid") + "")) {
+            opi.setXmid((String) param.getParam().get("xmid"));
+        }
         List<OutProjectInfo> list = outProjectInfoMapper.selectProjectByCondExpert(opi);
         System.out.println("1>>>>>>>>>查询分页结果" + list.size());
         PageInfo<OutProjectInfo> pageInfo = new PageInfo<OutProjectInfo>(list);

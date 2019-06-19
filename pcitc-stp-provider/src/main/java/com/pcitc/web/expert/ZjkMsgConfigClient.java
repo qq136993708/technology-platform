@@ -137,4 +137,20 @@ public class ZjkMsgConfigClient {
         }
         return 500;
     }
+    /**
+     * 批量保存
+     *
+     * @param jsonObject
+     * @return
+     */
+    @ApiOperation(value = "修改专家回复消息配置表信息", notes = "批量修改专家回复消息配置表信息,操作成功返回500")
+    @RequestMapping(value = "/zjkmsgconfig-provider/zjkmsgconfig/save_zjkmsgconfig_bat", method = RequestMethod.POST)
+    public int updateOrInsertZjkMsgConfigBat(@RequestBody JSONObject jsonObject) {
+        try {
+            return zjkMsgConfigService.updateOrInsertZjkMsgConfigBat(jsonObject);
+        } catch (Exception e) {
+            logger.error("[保存信息失败：]", e);
+        }
+        return 500;
+    }
 }

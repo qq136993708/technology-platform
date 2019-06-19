@@ -1794,6 +1794,9 @@
         <if test="status != null">
             and out_project_info.status = #{status,jdbcType=VARCHAR}
         </if>
+        <if test="xmid != null">
+            and out_project_info.xmid in(#{xmid,jdbcType=VARCHAR})
+        </if>
         group by xmid
         order by define10
     </select>

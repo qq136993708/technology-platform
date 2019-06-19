@@ -90,7 +90,7 @@
     var state = $("#state").val();
 
     //项目
-    ajaxPost('/dictionary/list/ROOT_XTGL_ZSYJY', null, function (data, status) {
+    ajaxPost('/dictionary/list/ROOT_ZGSHJT_GFGS_ZSYJY', null, function (data, status) {
         $.each(data, function (i, dt) {
             if (i <= 7) {
                 $("#company").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
@@ -153,15 +153,15 @@
                     },
                     {
                         field: "birthDate",
-                        title: "出生日期", event: 'setActive', style: 'cursor: pointer;',width: 120
+                        title: "出生日期", event: 'setActive', style: 'cursor: pointer;',width: 100
                     },
                     {
                         field: "email",
-                        title: "邮箱", event: 'setActive', style: 'cursor: pointer;',width: 210
+                        title: "邮箱", event: 'setActive', style: 'cursor: pointer;',width: 110
                     },
                     {
                         field: "mobile",
-                        title: "联系方式", event: 'setActive', style: 'cursor: pointer;',width: 120
+                        title: "联系方式", event: 'setActive', style: 'cursor: pointer;',width: 100
                     },
                     {
                         field: "expertProfessionalField",
@@ -174,7 +174,23 @@
                     {
                         field: "companyName",
                         title: "所属机构", event: 'setActive', style: 'cursor: pointer;'
-                    }
+                    },
+                    {
+                        field: "achievementCount",
+                        title: "成果数量", event: 'setActive', style: 'cursor: pointer;',width: 100
+                    },
+                    {
+                        field: "patentCount",
+                        title: "专利数量", event: 'setActive', style: 'cursor: pointer;',width: 100
+                    },
+                    {
+                        field: "projectCount",
+                        title: "参与项目", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "bak1",
+                        title: "被投诉数量", event: 'setActive', style: 'cursor: pointer;'
+                    },
                 ]],
 
                 done: function (res, curr, count) {
@@ -216,7 +232,7 @@
                     //     element: ".layui-table-body table",// 当前的表格元素
                     //     column: 11,//列数 从0开始
                     //     field: "company",//当前数据的字段
-                    //     url: "/pageCommon/dic/ROOT_XTGL_ZSYJY"//接口
+                    //     url: "/pageCommon/dic/ROOT_ZGSHJT_GFGS_ZSYJY"//接口
                     // };
                     // publicMethods.dataDictionary(param);
                 }

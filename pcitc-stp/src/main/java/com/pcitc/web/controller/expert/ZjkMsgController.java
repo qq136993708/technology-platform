@@ -2,6 +2,7 @@ package com.pcitc.web.controller.expert;
 
 import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.expert.ZjkMsg;
@@ -42,6 +43,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -88,6 +90,39 @@ public class ZjkMsgController extends BaseController {
      * 保存
      */
     private static final String SAVE = "http://pcitc-zuul/stp-proxy/zjkmsg-provider/zjkmsg/save_zjkmsg";
+    /**
+     * 批量保存
+     */
+    private static final String SAVE_BAT = "http://pcitc-zuul/stp-proxy/zjkmsgconfig-provider/zjkmsgconfig/save_zjkmsgconfig_bat";
+
+
+    /**
+     * 批量更新-专家回复消息配置表
+     *
+     * @param record
+     * @return
+     */
+    @RequestMapping(value = "/saveZjkMsgBat")
+    @ResponseBody
+    @OperationFilter(modelName = "专家回复消息配置表", actionName = "批量保存saveZjkMsgBat")
+    public int saveZjkMsgBat(ZjkMsg record) {
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        if (record.getDataId() == null || "".equals(record.getDataId())) {
+            record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
+            record.setCreateUser(sysUserInfo.getUserId());
+            record.setCreateUserDisp(sysUserInfo.getUserName());
+        } else {
+            record.setUpdateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
+            record.setUpdatePersonId(sysUserInfo.getUserId());
+            record.setUpdatePersonName(sysUserInfo.getUserName());
+        }
+        record.setStatus("0");
+        JSONObject object = new JSONObject();
+        object.put("obj",JSONObject.toJSONString(record));
+        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVE_BAT, HttpMethod.POST, new HttpEntity<JSONObject>(object, this.httpHeaders), Integer.class);
+        Integer result = responseEntity.getBody();
+        return result;
+    }
 
     /**
      * 专家-回复管理-查询列表

@@ -1,5 +1,7 @@
 package com.pcitc.service.expert.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
@@ -12,7 +14,9 @@ import com.pcitc.base.expert.ZjkMsgConfigExample;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.TreeNodeUtil;
 import com.pcitc.mapper.expert.ZjkMsgConfigMapper;
+import com.pcitc.mapper.expert.ZjkMsgMapper;
 import com.pcitc.service.expert.ZjkMsgConfigService;
+import net.sf.json.JSONArray;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +41,8 @@ public class ZjkMsgConfigServiceImpl implements ZjkMsgConfigService {
 
     @Autowired
     private ZjkMsgConfigMapper zjkMsgConfigMapper;
+    @Autowired
+    private ZjkMsgMapper zjkMsgMapper;
 
     public List<ZjkMsgConfig> findZjkMsgConfigList(ZjkMsgConfig zjkMsgConfig) {
         List<ZjkMsgConfig> record = zjkMsgConfigMapper.findZjkMsgConfigList(zjkMsgConfig);
@@ -51,6 +57,32 @@ public class ZjkMsgConfigServiceImpl implements ZjkMsgConfigService {
         } else {
             zjkMsgConfig.setDataId(IdUtil.createIdByTime());
             zjkMsgConfigMapper.insertSelective(zjkMsgConfig);
+        }
+        result = 200;
+        return result;
+    }
+
+    public static void main(String[] args) {
+        String str = "[{xmSteps=null}]";
+
+        Object parse = JSON.parse(JSONObject.toJSONString(str));
+        System.out.println(parse);
+
+        com.alibaba.fastjson.JSONArray jsonArray = com.alibaba.fastjson.JSONArray.parseArray(str);
+//        List<ZjkMsg> list = JSONObject.parseArray(JSONObject.toJSONString(str),ZjkMsg.class);
+
+
+    }
+
+    @Override
+    public int updateOrInsertZjkMsgConfigBat(JSONObject jsonObject) {
+        int result = 500;
+        String str = jsonObject.getString("obj");
+        ZjkMsg ZjkMsg = JSONObject.parseObject(str, com.pcitc.base.expert.ZjkMsg.class);
+        String[] array = ZjkMsg.getDataId().split(",");
+        for (int i = 0; i < array.length; i++) {
+            ZjkMsg.setDataId(array[i]);
+            zjkMsgMapper.updateByPrimaryKeySelective(ZjkMsg);
         }
         result = 200;
         return result;
