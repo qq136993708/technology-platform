@@ -713,6 +713,8 @@ public class ExpertController extends BaseController {
         return "/stp/expert/zjkPatentList";
     }
 
+    private static final String LISTPAGE_choice = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/zjkchoice-page-choice";
+
     /**
      * 项目列表-已发布
      *
@@ -722,7 +724,19 @@ public class ExpertController extends BaseController {
     @RequestMapping(value = "/zjkOutProjectListPublic")
     public String iniOutProjectListPublic() throws Exception {
         //获取项目ID
-
+        LayuiTableParam param = new LayuiTableParam();
+        param.setLimit(100000000);
+        param.getParam().put("status","2");
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE_choice, HttpMethod.POST, entity, LayuiTableData.class);
+        LayuiTableData data = responseEntity.getBody();
+        List<ZjkChoice> zjkChoices = (List<ZjkChoice>) data.getData();
+        List<String> list = new ArrayList<>();
+        for (int i = 0,j=data.getData().size(); i < j; i++) {
+            Map m = (Map) data.getData().get(i);
+            list.add(m.get("xmId")+"");
+        }
+        request.setAttribute("xmid",org.apache.commons.lang.StringUtils.join(list.toArray(), ","));
         return "/stp/expert/zjkOutProjectListPublic";
     }
 
@@ -734,6 +748,20 @@ public class ExpertController extends BaseController {
      */
     @RequestMapping(value = "/zjkAchievementListPublic")
     public String zjkAchievementListPublic() throws Exception {
+        //获取项目ID
+        LayuiTableParam param = new LayuiTableParam();
+        param.setLimit(100000000);
+        param.getParam().put("status","2");
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE_choice, HttpMethod.POST, entity, LayuiTableData.class);
+        LayuiTableData data = responseEntity.getBody();
+        List<ZjkChoice> zjkChoices = (List<ZjkChoice>) data.getData();
+        List<String> list = new ArrayList<>();
+        for (int i = 0,j=data.getData().size(); i < j; i++) {
+            Map m = (Map) data.getData().get(i);
+            list.add(m.get("xmId")+"");
+        }
+        request.setAttribute("xmid",org.apache.commons.lang.StringUtils.join(list.toArray(), ","));
         return "/stp/expert/zjkAchievementListPublic";
     }
 
@@ -745,6 +773,20 @@ public class ExpertController extends BaseController {
      */
     @RequestMapping(value = "/zjkPatentListPublic")
     public String zjkPatentListPublic() throws Exception {
+        //获取项目ID
+        LayuiTableParam param = new LayuiTableParam();
+        param.setLimit(100000000);
+        param.getParam().put("status","2");
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE_choice, HttpMethod.POST, entity, LayuiTableData.class);
+        LayuiTableData data = responseEntity.getBody();
+        List<ZjkChoice> zjkChoices = (List<ZjkChoice>) data.getData();
+        List<String> list = new ArrayList<>();
+        for (int i = 0,j=data.getData().size(); i < j; i++) {
+            Map m = (Map) data.getData().get(i);
+            list.add(m.get("xmId")+"");
+        }
+        request.setAttribute("xmid",org.apache.commons.lang.StringUtils.join(list.toArray(), ","));
         return "/stp/expert/zjkPatentListPublic";
     }
 
