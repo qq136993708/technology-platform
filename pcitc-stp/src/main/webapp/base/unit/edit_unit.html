@@ -42,6 +42,26 @@
     			form.val("unit-form",dt);
     	    });
        	}
+       	form.verify({
+       		unitPhone:function(value,item){
+				if(value!='' && value != null && value != "undefined")
+				{
+					if(!(/^1[3456789]\d{9}$/.test(value)) && !(/^((0\d{2,3})-)(\d{7,8})$/.test(value)))
+					{      
+						return "填写正确电话号码!";
+					}
+				}
+			},
+			unitFax:function(value,item){
+				if(value!='' && value != null && value != "undefined")
+				{
+					if(!(/^((0\d{2,3})-)(\d{7,8})$/.test(value)))
+					{      
+						return "填写正确传真号!";
+					}
+				}
+			}
+       	});
         form.on('submit(submitBtn)', function(data) {
 			ajaxPost("/unit/add-unit", data.field, function(dt) {
 				if(!dt.success){
@@ -106,7 +126,7 @@
 		      </div>
 		      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 		        <div class="layui-form-item">
-		          <label for="" class="layui-form-label">账户</label>
+		          <label for="" class="layui-form-label">机构账户</label>
 		          <div class="layui-input-block">
 		          	<input type="text" id="unitAccount" name="unitAccount" lay-filter="unitAccount" autocomplete="off" class="layui-input">
 		          </div>
@@ -119,7 +139,7 @@
 		        <div class="layui-form-item">
 		          <label for="" class="layui-form-label">联系电话</label>
 		          <div class="layui-input-block">
-		          	<input type="text" id="unitPhone" name="unitPhone" lay-filter="unitPhone" autocomplete="off" class="layui-input">
+		          	<input type="text" id="unitPhone" name="unitPhone" lay-verify="unitPhone" autocomplete="off" class="layui-input">
 		          </div>
 		        </div>
 		      </div>
@@ -127,7 +147,7 @@
 		        <div class="layui-form-item">
 		          <label for="" class="layui-form-label">传真号码</label>
 		          <div class="layui-input-block">
-		          	<input type="text" id="unitFax" name="unitFax" lay-filter="unitFax" autocomplete="off" class="layui-input">
+		          	<input type="text" id="unitFax" name="unitFax" lay-verify="unitFax" autocomplete="off" class="layui-input">
 		          </div>
 		        </div>
 		      </div>
