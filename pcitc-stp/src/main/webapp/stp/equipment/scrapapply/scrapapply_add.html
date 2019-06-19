@@ -19,7 +19,7 @@
         <!--查询条件-->
         <label class="dateInput">
             <span>装备名称</span>
-            <input type="text" id="equipmentName" name="equipmentName" placeholder="请输入名称" title="名称" autocomplete="off" class="form-control">
+            <input type="text" id="equipmentName" name="equipmentName" placeholder="请输入装备名称" title="装备名称" autocomplete="off" class="form-control">
         </label>
         <!--按钮组-->
         <div class="btnGroup">
@@ -38,7 +38,7 @@
 	<div class="searchBox">
         <!--查询条件-->
         <label class="dateInput">
-            <span>名称</span>
+            <span>报废名称</span>
             <input type="text" name="userName" placeholder=""
                    title="用户名" autocomplete="off"
                    class="form-control" id="applyName">
@@ -129,7 +129,7 @@
 	{
 	if($("#applyName").val()=="")
 	{
-	layer.msg("请输入名称");
+	layer.msg("请输入报废名称");
 	return;
 	}
 	var ids='';
@@ -195,13 +195,13 @@
 	            , theme: '#0F9EE0'
 	        }
 	        , cols: [[
-	            	 {type: 'checkbox', event: 'roleCheckboxEvent'}
-	            	,{title:'序号', type:'numbers'}
+	            	 {type: 'checkbox', event: 'roleCheckboxEvent',width:55}
+	            	,{title:'序号', type:'numbers',width:55}
 	            	, {field: 'id', title: '编号', style: 'cursor: pointer;'}
 	            	, {field: 'equipmentPrice', title: '装备单价', style: 'cursor: pointer;'}
 	            	, {field: 'equipmenNumber', title: '规格数量', style: 'cursor: pointer;'}
-	            	, {field: 'equipmentName', title: '装备名称', style: 'cursor: pointer;'}
-	            	, {field: 'specification', title: '规格型号', style: 'cursor: pointer;'}
+	            	, {field: 'equipmentName', title: '装备名称', style: 'cursor: pointer;',width:100}
+	            	, {field: 'specification', title: '规格型号', style: 'cursor: pointer;',width:99}
 	            	, {field: 'arrivaldate', title: '到货日期', style: 'cursor: pointer;', templet :function (row){
                         return formatTime(row.arrivaldate);
                         }  }

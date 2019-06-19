@@ -85,7 +85,11 @@ public class IntlProjectPlantController extends BaseController {
 
 	@RequestMapping(value = "/project/plant-close/{plantId}")
 	public Object delPlant(@PathVariable("plantId") String plantId, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// 关闭
+		IntlProjectPlant oldplant = this.restTemplate.exchange(PROJECT_PLANT_GET_URL + plantId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), IntlProjectPlant.class).getBody();
+		// 如果已提交则不可删除
+		if (FlowStatusEnum.FLOW_START_STATUS_YES.getCode().equals(oldplant.getFlowStartStatus())) {
+			return new Result(false, "已提交不可删除");
+		}
 		ResponseEntity<Integer> presult = this.restTemplate.exchange(PROJECT_PLANT_CLOSE_URL + plantId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
 		if (presult.getBody() > 0) {
 			return new Result(true, "关闭成功！");
@@ -123,7 +127,7 @@ public class IntlProjectPlantController extends BaseController {
 	public Object startProjectPlantWorkflow(@RequestParam(value = "plantId", required = true) String plantId, 
 			@RequestParam(value = "functionId", required = true) String functionId,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("开始审批！！！！" + plantId);
+		//System.out.println("开始审批！！！！" + plantId);
 		WorkflowVo vo = new WorkflowVo();
 		vo.setAuditUserIds(this.getUserProfile().getUserId());
 		vo.setFunctionId(functionId);

@@ -175,9 +175,9 @@ public class IntlProjectReportDownloadController extends BaseController
 		
 		
 		List<String> pcodes = new ArrayList<String>();
-		pcodes.add("ROOT_XTGL_ZSYJY");
+		pcodes.add("ROOT_ZGSHJT_GFGS_ZSYJY");
 		Map<?,?> map = this.restTemplate.exchange(DICTIONARY_MAP_LIST, HttpMethod.POST, new HttpEntity<List<String>>(pcodes, this.httpHeaders), Map.class).getBody();
-		JSONArray array = JSON.parseArray(JSON.toJSONString(map.get("ROOT_XTGL_ZSYJY")));
+		JSONArray array = JSON.parseArray(JSON.toJSONString(map.get("ROOT_ZGSHJT_GFGS_ZSYJY")));
 		for(java.util.Iterator<?> iter = array.iterator();iter.hasNext();) {
 			SysDictionary dic = JSON.toJavaObject(JSON.parseObject(iter.next().toString()), SysDictionary.class);
 			if(dic.getCode().equals(beanMap.get("unitId"))) {

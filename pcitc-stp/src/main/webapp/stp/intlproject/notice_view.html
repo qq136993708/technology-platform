@@ -30,7 +30,7 @@ $(document).ready(function() {
 				var form = layui.form;
 				var noticeId = "${noticeId?default(0)}";
 				var publicMethods=layui.publicMethods;
-				var editor = CKEDITOR.replace("noticeContent");
+				var editor = CKEDITOR.replace("noticeContent",{toolbarCanCollapse: true, toolbarStartupExpanded: false});
 				//加载字典
 				var dicMap = ['GJXMGL_TZLX'];
 				publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {

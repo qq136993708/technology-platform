@@ -108,6 +108,7 @@ var name=$('#name').val();
          var $ = layui.$, active = {
             searchEvent: function() { //点击查询按钮
             	 renderTable();
+            	   $(".layui-table-header table thead th input").remove();  
             },
             resetEvent: function() { //点击重置按钮
             	$('#name').val("");

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
     <script src="/layuiadmin/layui/layui.js"></script>
+    <script src="/layuiadmin/modules/cnchar.min.js"></script>
 </head>
 <body>
     <div class="layui-fluid layui-personnel">
@@ -26,7 +27,7 @@
                            <span>院士:<span class="text-total-blue" id="chart1_01">11</span>人</span>
                            <span>集团首席科学家:<span class="text-total-blue" id="chart1_02">33</span>人</span>
                            <span>集团高级专家:<span class="text-total-blue" id="chart1_03">12</span>人</span>
-                           <span>直属单位首席、高级人才:<span class="text-total-blue" id="chart1_04">54</span>人</span>
+                           <span>首席高级专家:<span class="text-total-blue" id="chart1_04">54</span>人</span>
                        </div>
                        <img src="/layuiadmin/layui/images/icon-char-right.png" alt="">
                    </div>
@@ -185,7 +186,7 @@
         <div class="layui-main-personnel">
             <div class="expert">
                 <h4>集团首席专家</h4>
-                <p>姓名按首字母排列</p>
+                <p>姓名按姓氏笔画排列</p>
                 <div class="layui-expert">
                     <ul id="expert2">
 
@@ -196,7 +197,7 @@
         <div class="layui-main-personnel">
             <div class="expert">
                 <h4>集团高级专家</h4>
-                <p>姓名按首字母排列</p>
+                <p>姓名按姓氏笔画排列</p>
                 <div class="layui-expert">
                     <ul id="expert3">
                     </ul>
@@ -205,8 +206,8 @@
         </div>
         <div class="layui-main-personnel">
             <div class="expert">
-                <h4>直属单位首席、高级人才</h4>
-                <p>姓名按首字母排列</p>
+                <h4>首席高级专家</h4>
+                <p>姓名按姓氏笔画排列</p>
                 <div class="layui-expert">
                     <ul>
                         <li><a href="javascript:;">陈专家</a></li>
@@ -246,9 +247,9 @@
         <div class="layui-main-personnel">
             <div class="expert">
                 <h4>技术领军人物</h4>
-                <p>姓名按首字母排列</p>
+                <p>姓名按姓氏笔画排列</p>
                 <div class="layui-expert">
-                    <ul id="expertKy">
+                    <ul id="expert1">
                     </ul>
                 </div>
             </div>
@@ -259,29 +260,71 @@
         layui.use(['jquery', 'table', 'layer', 'laydate','publicMethods'], function () {
             var $ = layui.jquery, table = layui.table, laydate = layui.laydate,publicMethods= layui.publicMethods;
             publicMethods.ajaxGet("/expertController/queryAllExpert", null, function (data) {
-                var expertKy = "";
+                var expert1 = "";
                 var expert2 = "";
                 var expert3 = "";
                 var  e1 = 0;
                 var  e2 = 0;
                 var  e3 = 0;
+                
+                // 按笔画排序
+                var expertBH1 = [];
+                var expertBH2 = [];
+                var expertBH3 = [];
                 for (let i = 0,j=data.length; i <j; i++) {
                     var bak3 = data[i].bak3;
                     if(bak3=="ZJK_ZJLX_JSLJRW"){
-                        e1++;
-                        expertKy = expertKy+"<li><a href=\"/expertController/expertDetailIndex?dataId="+data[i].data_id+"\" target='_blank'>"+data[i].expert_name+"</a></li>\n";
+                        //e1++;
+                        //expert1 = expert1+"<li><a href=\"/expertController/expertDetailIndex?dataId="+data[i].data_id+"\" target='_blank'>"+data[i].expert_name+"</a></li>\n";
+                		var obj = {};
+                		// 存储笔画
+                		obj.stroke = data[i].expert_name.substring(0,1).stroke();
+                		obj.data = data[i];
+                		expertBH1.push(obj);
                     }else if(bak3=="ZJK_ZJLX_JTSXZJ"){
-                        e2++;
-                        expert2 = expert2+"<li><a href=\"/expertController/expertDetailIndex?dataId="+data[i].data_id+"\" target='_blank'>"+data[i].expert_name+"</a></li>\n";
+                    	var obj = {};
+                		// 存储笔画
+                		obj.stroke = data[i].expert_name.substring(0,1).stroke();
+                		obj.data = data[i];
+                		expertBH2.push(obj);
                     }else if(bak3=="ZJK_ZJLX_JTGJZJ"){
-                        e3++;
-                        expert3 = expert3+"<li><a href=\"/expertController/expertDetailIndex?dataId="+data[i].data_id+"\" target='_blank'>"+data[i].expert_name+"</a></li>\n";
+                    	var obj = {};
+                		// 存储笔画
+                		obj.stroke = data[i].expert_name.substring(0,1).stroke();
+                		obj.data = data[i];
+                		expertBH3.push(obj);
                     }
                 }
+                
+                // 排序 使用 expertBH1.stroke 也就是笔画排序
+            	expertBH1.sort(function(a,b){
+            		return a.stroke - b.stroke;
+            	});
+            	expertBH2.sort(function(a,b){
+            		return a.stroke - b.stroke;
+            	});
+            	expertBH3.sort(function(a,b){
+            		return a.stroke - b.stroke;
+            	});
+            	for (var i = 0; i <expertBH1.length; i++) {
+            		e1++;
+            	    expert1 = expert1+"<li><a href=\"/expertController/expertDetailIndex?dataId="+expertBH1[i].data.data_id+"\" target='_blank'>"+expertBH1[i].data.expert_name+"</a></li>\n";
+            	}
+            	for (var i = 0; i <expertBH2.length; i++) {
+            		e2++;
+            	    expert2 = expert2+"<li><a href=\"/expertController/expertDetailIndex?dataId="+expertBH2[i].data.data_id+"\" target='_blank'>"+expertBH2[i].data.expert_name+"</a></li>\n";
+            	}
+            	for (var i = 0; i <expertBH3.length; i++) {
+            		e1++;
+            	    expert3 = expert3+"<li><a href=\"/expertController/expertDetailIndex?dataId="+expertBH3[i].data.data_id+"\" target='_blank'>"+expertBH3[i].data.expert_name+"</a></li>\n";
+            	}
+                
                 $("#chart1_04").html(e1);
                 $("#chart1_02").html(e2);
                 $("#chart1_03").html(e3);
-                $("#expertKy").append(expertKy);
+                
+                console.info(expert1);
+                $("#expert1").append(expert1);
                 $("#expert2").append(expert2);
                 $("#expert3").append(expert3);
             });

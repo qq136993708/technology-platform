@@ -41,7 +41,7 @@ $(document).ready(function() {
 				
 				
 				//加载字典
-				var dicMap = ['GJXM_XMXZ','GJXMGL_XMJB','GJXM_JSXZ','GJXM_XMFL','ROOT_UNIVERSAL_GJHBBZ','ROOT_XTGL_ZSYJY'];
+				var dicMap = ['GJXM_XMXZ','GJXMGL_XMJB','GJXM_JSXZ','GJXM_XMFL','ROOT_UNIVERSAL_GJHBBZ','ROOT_ZGSHJT_GFGS_ZSYJY'];
 				publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
 					$.each(data,function(key,val){
 						$.each(val,function(i,dt){
@@ -94,11 +94,27 @@ $(document).ready(function() {
 			 	$("#file_div").load('/common/public/uploadlayuiload.html');
 				/* 自定义验证规则  title 要验证的input的 lay-verify=""*/
 				form.verify({
+					checkDate:function(value,item){
+						console.log(".................");
+						if(value=='' || value==null || value == "undefined")
+						{
+							return "计划结束日期不能小于计划开始日期!";
+						}else{
+							console.log($("#startDate").val());
+							console.log($("#endDate").val());
+						}
+					}
 				});
 				/* 监听提交 */
 				form.on('submit(submitBtn)', function(data) {
 					//data.field.applyContent = editor.getData();
 					//计算金额
+					var sd = new Date($("#startDate").val());
+				    var ed = new Date($("#endDate").val());
+				    if(ed.getTime() < sd.getTime()){
+				    	parent.layer.alert("计划结束日期不能早于计划开始日期", {title : '信息'});
+						return false;
+				    }
 					var moneyItems = {};
 					$('input[name="build_year"]').each(function(i){
 						var dt_index = $(this).parents('.layui-row').attr("data-index");
@@ -115,7 +131,7 @@ $(document).ready(function() {
                         	parent.layer.alert(data.message, {
 								title : '信息'
 							});
-							return;
+							return false;
                         }
                     });
 					return false;
@@ -214,7 +230,7 @@ $(document).ready(function() {
 				 <div class="layui-form-item">
 			          <label class="layui-form-label">项目分类<span class="must-fill">*</span></label>
 			          <div class="layui-input-block">
-			          	  <select name="dcProjectCategory" id="GJXM_XMFL" lay-verify="required"  lay-filter="userKind">
+			          	  <select name="dcProjectCategory" id="GJXM_XMFL" lay-verify="required"  lay-filter="dcProjectCategory">
 		                	<option value="">请选择</option>
 		             	  </select>
 			          </div>
@@ -224,7 +240,7 @@ $(document).ready(function() {
 				 <div class="layui-form-item">
 			          <label class="layui-form-label">项目性质<span class="must-fill">*</span></label>
 			          <div class="layui-input-block">
-			          	  <select name="dcProjectNature" id="GJXM_XMXZ" lay-verify="required"  lay-filter="userKind">
+			          	  <select name="dcProjectNature" id="GJXM_XMXZ" lay-verify="required"  lay-filter="dcProjectNature">
 		                	<option value="">请选择</option>
 		             	  </select>
 			          </div>
@@ -236,7 +252,7 @@ $(document).ready(function() {
 				<div class="layui-form-item">
 					<label for="" class="layui-form-label">计划开始日期<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" class="layui-input" lay-verify="required" id="startDate" name="startDate" placeholder="计划开始日期">
+						<input type="text" class="layui-input" readonly="readonly" lay-verify="required" id="startDate" name="startDate" placeholder="计划开始日期">
 					</div>
 				</div>
 			</div>
@@ -244,7 +260,7 @@ $(document).ready(function() {
 				<div class="layui-form-item">
 					<label for="" class="layui-form-label">计划结束日期<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" class="layui-input" id="endDate" lay-verify="required" name="endDate" placeholder="计划结束日期">
+						<input type="text" class="layui-input" id="endDate" readonly="readonly" lay-verify="required" lay-filter="checkDate" name="endDate" placeholder="计划结束日期">
 					</div>
 				</div>
 			</div>
@@ -254,7 +270,7 @@ $(document).ready(function() {
 				<div class="layui-form-item">
 					<label for="" class="layui-form-label">所属研究院<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-						<select name="unitId" id="ROOT_XTGL_ZSYJY" lay-verify="required"  lay-filter="unitId">
+						<select name="unitId" id="ROOT_ZGSHJT_GFGS_ZSYJY" lay-verify="required"  lay-filter="unitId">
 		                	<option value="">请选择</option>
 		             	</select>
 					</div>
@@ -312,7 +328,7 @@ $(document).ready(function() {
                     <div class="layui-form-item" style="margin-right: 10px;">
                         <label for="" class="layui-form-label">外币金额(万元)<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <select name="moneyType" id="ROOT_UNIVERSAL_GJHBBZ" lay-verify="required"  lay-filter="test">
+                            <select name="moneyType" id="ROOT_UNIVERSAL_GJHBBZ" lay-verify="required"  lay-filter="moneyType">
                                 <option value="">--请选择币种--</option>
                             </select>
                         </div>

@@ -205,6 +205,7 @@
 	  select id,parent_id as parentId ,name as text 
 	  from sys_dictionary 
 	  where parent_id = #{parentId}
+	  order by isdelete
   </select>
   
   
@@ -216,6 +217,7 @@
 	  <if test="levelCode != null and levelCode !=''.toString">
 	   and level_code &lt;= #{levelCode}
 	  </if>
+	  order by isdelete
   </select>
   <!-- 树只显示10级 -->
    <select id="selectTreeNodeByLevel" resultType="com.pcitc.base.common.TreeNode" parameterType="com.pcitc.base.system.SysDictionary">
@@ -226,12 +228,12 @@
 	  <if test="menuType != null" >
         and  (menu_type = #{menuType,jdbcType=VARCHAR} or menu_type ='' or menu_type is null)
       </if>
-	  order by create_time
+	  order by isdelete
   </select>
   
   <!-- 根据parentId查询子节点列表 -->
   <select id="selectDictionaryList" resultMap="BaseResultMap">
-  	  select id,parent_id as parentId ,name,level_code,code,create_time, update_time,is_leaf,remark,num_value
+  	  select id,parent_id as parentId ,name,level_code,code,create_time, update_time,is_leaf,remark,num_value,isdelete
 	  from sys_dictionary where (1=1)
 	  <if test="parentId != null and parentId !=''.toString">
 	   and parent_id = #{parentId}
@@ -242,15 +244,12 @@
 	  <if test="menuType != null" >
         and  menu_type = #{menuType,jdbcType=VARCHAR}
       </if>
-	  order by create_time
-	  <!-- <if test="iSortCol!=null and iSortCol!=''.toString()">
-    	order by ${iSortCol} ${sSortDir_0}
-   	  </if> -->
+	  order by isdelete
   </select>
   
   <!-- 根据id初始化详情 -->
   <select id="getDictionaryById" resultType="com.pcitc.base.system.SysDictionary">
-      select id,parent_id as parentId,name,level_code as levelCode,code,remark,isparent,is_leaf as isLeaf,parent_code as parentCode,num_value as numValue
+      select id,parent_id as parentId,name,level_code as levelCode,code,remark,isparent,is_leaf as isLeaf,parent_code as parentCode,num_value as numValue,isdelete
       from sys_dictionary
       where id = #{id}
   </select>
@@ -284,7 +283,7 @@
         and  menu_type = #{menuType,jdbcType=VARCHAR}
       </if>
       
-	  order by create_time
+	  order by isdelete
 	 <!--  <if test="iSortCol!=null and iSortCol!=''.toString()">
     	order by ${iSortCol} ${sSortDir_0}
    	  </if> -->

@@ -1,5 +1,7 @@
 package com.pcitc.web.interceptor;
 
+import java.io.PrintWriter;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,6 +35,13 @@ public class TokenInterceptor implements HandlerInterceptor {
 			}*/
 			// 手动设置几个常用页面不能直接访问，在InterceptorConfig文件中也可以批量设置
 			if (path != null && (path.indexOf("index.html") > -1 || path.indexOf("login.html") > -1 || path.indexOf("error.html") > -1)) {
+				// 统一身份认证时，重定向到/stpHome, 测试环境是/login
+				PrintWriter out = response.getWriter();  
+		        out.println("<html>");      
+		        out.println("<script>");      
+		        out.println("window.open ('"+request.getContextPath()+"/login','_top')");      
+		        out.println("</script>");      
+		        out.println("</html>");    
 				return false;
 			}
 			
@@ -48,8 +57,13 @@ public class TokenInterceptor implements HandlerInterceptor {
 				// System.out.println("cookies is null ");
 				// login和index为了开发需要，避开统一身份认证
 				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome")) {
-					// 统一身份认证时，重定向到/stpHome
-					response.sendRedirect(request.getContextPath()+"/login");
+					// 统一身份认证时，重定向到/stpHome, 测试环境是/login
+					PrintWriter out = response.getWriter();  
+			        out.println("<html>");      
+			        out.println("<script>");      
+			        out.println("window.open ('"+request.getContextPath()+"/login','_top')");      
+			        out.println("</script>");      
+			        out.println("</html>");    
 					return false;
 				}
 				
@@ -82,8 +96,13 @@ public class TokenInterceptor implements HandlerInterceptor {
 				System.out.println("token is null ");
 				// login和index为了开发需要，避开统一身份认证
 				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome")) {
-					// 统一身份认证时，重定向到/stpHome
-					response.sendRedirect(request.getContextPath()+"/login");
+					// 统一身份认证时，重定向到/stpHome, 测试环境是/login
+					PrintWriter out = response.getWriter();  
+			        out.println("<html>");      
+			        out.println("<script>");      
+			        out.println("window.open ('"+request.getContextPath()+"/login','_top')");      
+			        out.println("</script>");      
+			        out.println("</html>");    
 					return false;
 				}
 				

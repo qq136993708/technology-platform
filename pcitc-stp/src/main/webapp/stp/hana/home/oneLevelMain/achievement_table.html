@@ -126,7 +126,7 @@ var xmmc=$('#xmmc').val();
 
 layui.config({
 	  base: '/layuiadmin/lib/extend/'
-}).use(['jquery','form', 'laydate','table','laypage'], function(){
+}).use(['jquery','form', 'laydate','table','laypage','laytpl'], function(){
 	  $ = layui.jquery
       ,table = layui.table
       ,form = layui.form
@@ -332,18 +332,17 @@ layui.config({
         },
         cols: [[
         	{title:'序号',               type:'numbers', width: '4%'},
-      	  {field:'nd',                  title:'项目年度',             style:'cursor: pointer;',align: 'center', width: '150',sort : true},
+      	    {field:'nd',                title:'项目年度',             style:'cursor: pointer;',align: 'center', width: '100',sort : true},
             {field:'hth',               title:'合同号',              style:'cursor: pointer;',align: 'left', width: '150',sort : true},
             {field:'cgmc',              title:'成果名称',             style:'cursor: pointer;',align: 'left', width: '350',sort : true},
             {field:'xmmc',              title:'项目名称',            style:'cursor: pointer;',align: 'left', width: '380',sort : true},
-            {field:'jdh',             title:'鉴定号',         style:'cursor: pointer;',align: 'center', width: '150',sort : true},
-            {field:'jdjg',              title:'鉴定结果',        style:'cursor: pointer;',align: 'center', width: '150',sort : true},
-      	    {field:'define1',           title:'二级单位',           style:'cursor: pointer;',align: 'left', width: '150',sort : true},
-      	    {field:'zy',                title:'成果专业',        style:'cursor: pointer;',align: 'left', width: '150',sort : true},
-      	    {field:'define3',           title:'单位类别',        style:'cursor: pointer;',align: 'left', width: '150',sort : true},
-            {field:'cglx',              title:'专业类别',           style:'cursor: pointer;',align: 'left', width: '150',sort : true},
-            {field:'startTime',         title:'开始时间',           style:'cursor: pointer;',align: 'left', width: '150',sort : true},
-            {field:'endTime',           title:'结束时间',           style:'cursor: pointer;',align: 'left', width: '150',sort : true}
+            {field:'jdh',               title:'鉴定号',         style:'cursor: pointer;',align: 'center', width: '150',sort : true},
+      	    {field:'define1',           title:'二级单位',           style:'cursor: pointer;',align: 'left', width: '100',sort : true},
+      	    {field:'zy',                title:'成果专业',        style:'cursor: pointer;',align: 'left', width: '100',sort : true},
+      	    {field:'define3',           title:'单位类别',        style:'cursor: pointer;',align: 'left', width: '100',sort : true},
+            {field:'cglx',              title:'专业类别',           style:'cursor: pointer;',align: 'left', width: '100',sort : true},
+            {field:'starttime',         title:'开始时间',           style:'cursor: pointer;',align: 'left', width: '100',sort : true, templet : '<div>{{ d.starttime.substring(0, 10) }}</div>'},
+            {field:'endtime',           title:'结束时间',           style:'cursor: pointer;',align: 'left', width: '100',sort : true, templet : '<div>{{ d.endtime.substring(0, 10) }}</div>'}
          
             
         ]],

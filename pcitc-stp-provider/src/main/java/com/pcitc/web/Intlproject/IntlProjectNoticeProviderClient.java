@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
+import com.pcitc.base.common.enums.BudgetExceptionResultEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.IntlProject.IntlProjectNotice;
 import com.pcitc.base.system.SysUser;
@@ -201,5 +203,22 @@ public class IntlProjectNoticeProviderClient
 			intlProjectService.updProjectNotice(notice);
 			return new Result(true,"通知已下发!");
 		}
+	}
+	@ApiOperation(value="审批检查",notes="检查审批状态")
+	@RequestMapping(value = "/stp-provider/project/notice-flow-check/{noticeId}", method = RequestMethod.POST)
+	public Object checkFlowStatus(@PathVariable("noticeId") String noticeId) 
+	{
+		IntlProjectNotice notice = intlProjectService.findById(noticeId);
+		if(notice != null) {
+			if(BudgetAuditStatusEnum.AUDIT_STATUS_START.getCode().equals(notice.getFlowStatus())) 
+			{
+				return BudgetExceptionResultEnum.ERROR_FLOWING.getResult();
+			}
+			if(BudgetAuditStatusEnum.AUDIT_STATUS_PASS.getCode().equals(notice.getFlowStatus())) 
+			{
+				return BudgetExceptionResultEnum.ERROR_FLOWEND.getResult();
+			}
+		}
+		return new Result(true);
 	}
 }

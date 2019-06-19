@@ -535,6 +535,8 @@
   <select id="selectUnitList" resultMap="BaseResultMap">
 	  select unit_id, unit_name,unit_code
 	  from sys_unit
+	  where unit_delflag = 0
+	  order by unit_order
   </select>
 
   <!-- 组织机构树, 有组织机构和人员, 没有岗位  查询某些组织机构节点的组织机构树,同时查询直系父辈-->
@@ -554,6 +556,8 @@
 			    </foreach>
 	  	    )
 	  	)
+	  order by unit_order
+	  
 	  union all
 	  select sys_user.user_id as id, sys_user.user_disp as name, sys_user_unit.unit_id as pid, sys_user.user_name as code,
 	         'user' as nodeType,20 as levelCode
@@ -614,6 +618,7 @@
 			      sys_unit.unit_path = '${unitId}'
 			    </foreach>
 	  	    )
+	 order by unit_order
   </select>
 
   <!-- 组织机构树所有节点, 有组织机构和人员, 没有岗位 -->
@@ -625,6 +630,8 @@
 	  <if test="unitCode != null and unitCode !=''.toString">
 	   and unit_code like '${unitCode}%'
 	  </if>
+	  order by unit_order
+	  
 	  union all
 	  select sys_user.user_id as id, sys_user.user_disp as name, sys_user_unit.unit_id as pid, sys_user.user_name as code,
 	         'user' as nodeType,20 as levelCode,'/layuiadmin/layui/images/operation_19.png' as icon
@@ -648,6 +655,7 @@
 	  <if test="unitPath != null and unitPath !=''.toString">
 	   	  and unit_path like '${unitPath}%'
 	  </if>
+	  order by unit_order
 	  
 	  union all 
 	  select sys_user.user_id as id, sys_user.user_disp as name, sys_user_post.post_id as pid, sys_user.user_name as code, 100, 'user' as nodeType
@@ -692,6 +700,7 @@
   <if test="unitName != null and unitName != ''.toString()">
   	and unit_name like '%${unitName}%' 
   </if>
+  order by unit_order
   </select>
 
   <!-- 根据机构id查询机构名称 -->
@@ -710,6 +719,7 @@
 	  <if test="unitPath != null and unitPath !=''.toString">
 	   	  and unit_path like '${unitPath}%'
 	  </if>
+	  order by unit_order
 	  
 	  union all 
 	  select post_id as id, post_name as name, post_unit as pid, post_code as code, sys_post.post_level as nodeLevel, 'post' as nodeType

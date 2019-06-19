@@ -75,14 +75,15 @@
 	                ,theme: '#0F9EE0'
 	            },
 	            cols: [[
-	            	 {type:'checkbox'}
-	            	,{title:'序号',type:'numbers' ,width : 55}
-	                ,{field:'noticeTitle',title:'通知标题',width: '25%',style:'cursor: pointer;'}
+	            	 {type:'checkbox',width : 45}
+	            	,{title:'序号',type:'numbers' ,width : 45}
+	            	,{field:'flowStatus',title:'审批状态',width: 80,style:'cursor: pointer;',align:"center"}
+	                ,{field:'noticeStatus',title:'发送状态',width: 80,style:'cursor: pointer;',align:"center"}
+	                ,{field:'noticeTitle',title:'通知标题',style:'cursor: pointer;'}
 	                ,{field:'noticeType',title:'通知类别',width: '10%',style:'cursor: pointer;',align:"center"}
-	                ,{field:'createTime',title:'创建时间',width: '15%',style:'cursor: pointer;',align:"center"}
-	                ,{field:'updateTime',title:'更新时间',width: '15%',style:'cursor: pointer;',align:"center"}
-	                ,{field:'flowStatus',title:'审批状态',width: '10%',style:'cursor: pointer;',align:"center"}
-	                ,{field:'noticeStatus',title:'状态',style:'cursor: pointer;',align:"center"}
+	                ,{field:'createTime',title:'创建时间',width: '10%',style:'cursor: pointer;',align:"center"}
+	                ,{field:'updateTime',title:'更新时间',width: '10%',style:'cursor: pointer;',align:"center"}
+	                
 	               
 	            ]],
 	            done: function (res, curr, count) {
@@ -97,7 +98,7 @@
 	                    selectRowData=res.data[index-1];
 	                });
 	                //显示字典数据
-	                var flowStatus = {"0":"待审批","1":"审批中","2":"审批通过","-1":"审批驳回"};
+	                var flowStatus = {"0":"未提交","1":"审批中","2":"审批通过","-1":"审批驳回"};
 	                $.each(res.data,function(i,dt){
 		            	var ns = res.data[i].noticeStatus==1?"已发送":"未发送";
 		            	$("tr[data-index='"+i+"'] td[data-field='noticeStatus'] div").html(ns);
@@ -191,7 +192,7 @@
 	                    	 renderTable({param: {"noticeTitle":$("#noticeTitle").val()}});
 	                    	 layer.msg('操作成功!');
 	                     } else {
-	                    	 layer.msg('操作异常，请重试!');
+	                    	 layer.msg(data.message);
 	                     }
 	                });
             	});
