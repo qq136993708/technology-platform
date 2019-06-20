@@ -36,7 +36,6 @@ import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.OperationFilter;
 
 @Controller
-@RequestMapping("function")
 public class SysFunctionController extends BaseController {
 
 	private static final String FUNCTION_LIST = "http://pcitc-zuul/system-proxy/function-provider/function_list";
@@ -69,7 +68,7 @@ public class SysFunctionController extends BaseController {
 
 	private static final String CREATE_WEIGHT = "http://pcitc-zuul/system-proxy/function-provider/create-weight";
 
-	@RequestMapping(value = "/getTableData")
+	@RequestMapping(value = "/function/getTableData")
 	@ResponseBody
 	public Object getTableData(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request) throws IOException {
 
@@ -87,7 +86,7 @@ public class SysFunctionController extends BaseController {
 	 * @return
 	 */
 	@OperationFilter(modelName = "菜单管理", actionName = "新增或者修改菜单")
-	@RequestMapping(value = "/saveFunction")
+	@RequestMapping(value = "/function/saveFunction")
 	@ResponseBody
 	public int saveFunction(@RequestBody SysFunctionVo function) {
 		HttpEntity<SysFunctionVo> entity = new HttpEntity<SysFunctionVo>(function, this.httpHeaders);
@@ -103,7 +102,7 @@ public class SysFunctionController extends BaseController {
 	 * @return
 	 */
 	@OperationFilter(modelName = "菜单管理", actionName = "删除菜单")
-	@RequestMapping(value = "/deleteFunction")
+	@RequestMapping(value = "/function/deleteFunction")
 	@ResponseBody
 	public int deleteFunction(HttpServletRequest request) {
 		String id = request.getParameter("id");
@@ -112,7 +111,7 @@ public class SysFunctionController extends BaseController {
 		return result;
 	}
 
-	@RequestMapping(value = "/getFunction")
+	@RequestMapping(value = "/function/getFunction")
 	@ResponseBody
 	public Object getFunction(HttpServletRequest request) {
 		String id = request.getParameter("id");
@@ -128,7 +127,7 @@ public class SysFunctionController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/getTreeByLevel")
+	@RequestMapping(value = "/function/getTreeByLevel")
 	@ResponseBody
 	public String getTreeByLevel(HttpServletRequest request) throws Exception {
 		SysFunction function = new SysFunction();
@@ -151,7 +150,7 @@ public class SysFunctionController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/getCommonFunctionTree")
+	@RequestMapping(value = "/function/getCommonFunctionTree")
 	@ResponseBody
 	public String getCommonFunctionTree(HttpServletRequest request) throws Exception {
 		String levelCode = request.getParameter("levelCode");
@@ -161,7 +160,7 @@ public class SysFunctionController extends BaseController {
 		return JSONUtils.toJSONString(responseEntity.getBody());
 	}
 
-	@RequestMapping(value = "/complete-tree")
+	@RequestMapping(value = "/function/complete-tree")
 	@ResponseBody
 	public Object getSysFunctionCompleteTree() throws Exception {
 		Object obj = this.restTemplate.exchange(GET_FUNCTION_COMPLETE_TREE, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Object.class).getBody();
@@ -169,7 +168,7 @@ public class SysFunctionController extends BaseController {
 	}
 
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/saveFunctionRoleRel")
+	@RequestMapping(value = "/function/saveFunctionRoleRel")
 	@ResponseBody
 	public Object saveSysFunctionRoleRel(@RequestParam(value = "functionIds", required = false) String functionIds, @RequestParam(value = "roleId", required = false) String roleId) throws Exception {
 
@@ -194,7 +193,7 @@ public class SysFunctionController extends BaseController {
 	}
 
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/get-function-by-role")
+	@RequestMapping(value = "/function/get-function-by-role")
 	@ResponseBody
 	public List<SysFunction> getFunctionByRole(@RequestParam("roleId") String roleId) throws Exception {
 		List<SysFunction> functions = this.restTemplate.exchange(GET_FUNCTION_BY_ROLE, HttpMethod.POST, new HttpEntity<String>(roleId, this.httpHeaders), List.class).getBody();
@@ -214,7 +213,7 @@ public class SysFunctionController extends BaseController {
 	/**
 	 * 弹出模态框
 	 */
-	@RequestMapping(value = "/edit")
+	@RequestMapping(value = "/function/edit")
 	public String pageEdit(String id, String parentId, String parentCode, String levelCode, String parentName, Model model) {
 		if (StringUtils.isEmpty(id))
 			id = "";
@@ -234,8 +233,8 @@ public class SysFunctionController extends BaseController {
 		model.addAttribute("parentName", parentName);
 		return "base/system/function_info";
 	}
-	
-	@RequestMapping(value = "/function_edit_desk")
+
+	@RequestMapping(value = "/function/function_edit_desk")
 	public String iniFunctionEditDesk(String id, String parentId, String parentCode, String levelCode, String parentName, Model model) {
 		if (StringUtils.isEmpty(id)) {
 			id = "";
@@ -259,7 +258,7 @@ public class SysFunctionController extends BaseController {
 		return "base/system/function_edit_desk";
 	}
 
-	@RequestMapping(value = "/select-tree-function")
+	@RequestMapping(value = "/function/select-tree-function")
 	@ResponseBody
 	public String getComboboxUnitTree(HttpServletRequest request) throws Exception {
 		ResponseEntity<List> responseEntity = restTemplate.exchange(LIST, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
@@ -275,7 +274,7 @@ public class SysFunctionController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/editBtn")
+	@RequestMapping(value = "/function/editBtn")
 	public String editBtn(String id, String functionId, Model model) {
 		if (StringUtils.isEmpty(id))
 			id = "";
@@ -294,7 +293,7 @@ public class SysFunctionController extends BaseController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/getButtonTableData", method = RequestMethod.POST)
+	@RequestMapping(value = "/function/getButtonTableData", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getButtonTableData(@ModelAttribute LayuiTableParam param, HttpServletRequest request) throws IOException {
 
@@ -306,7 +305,7 @@ public class SysFunctionController extends BaseController {
 	}
 
 	@OperationFilter(modelName = "菜单管理", actionName = "保存按钮")
-	@RequestMapping(value = "/saveButton")
+	@RequestMapping(value = "/function/saveButton")
 	@ResponseBody
 	public int saveButton(@RequestBody SysButton button) {
 
@@ -318,7 +317,7 @@ public class SysFunctionController extends BaseController {
 		return result;
 	}
 
-	@RequestMapping(value = "/getButton")
+	@RequestMapping(value = "/function/getButton")
 	@ResponseBody
 	public Object getButton(HttpServletRequest request) {
 		String id = request.getParameter("id");
@@ -334,7 +333,7 @@ public class SysFunctionController extends BaseController {
 	 * @return
 	 */
 	@OperationFilter(modelName = "菜单管理", actionName = "删除按钮")
-	@RequestMapping(value = "/deleteButton")
+	@RequestMapping(value = "/function/deleteButton")
 	@ResponseBody
 	public int deleteButton(HttpServletRequest request) {
 		String id = request.getParameter("id");
@@ -349,7 +348,7 @@ public class SysFunctionController extends BaseController {
 	 * @param dictionary
 	 * @return
 	 */
-	@RequestMapping(value = "/create-code", method = RequestMethod.POST, consumes = "application/json;charset=utf-8")
+	@RequestMapping(value = "/function/create-code", method = RequestMethod.POST, consumes = "application/json;charset=utf-8")
 	@ResponseBody
 	public String createCode(@RequestBody SysFunction function) {
 		ResponseEntity<String> responseEntity = this.restTemplate.exchange(CREATE_CODE, HttpMethod.POST, new HttpEntity<SysFunction>(function, this.httpHeaders), String.class);
@@ -363,7 +362,7 @@ public class SysFunctionController extends BaseController {
 	 * @param dictionary
 	 * @return
 	 */
-	@RequestMapping(value = "/create-weight", method = RequestMethod.POST, consumes = "application/json;charset=utf-8")
+	@RequestMapping(value = "/function/create-weight", method = RequestMethod.POST, consumes = "application/json;charset=utf-8")
 	@ResponseBody
 	public String createWeight(@RequestBody SysFunction function) {
 		ResponseEntity<String> responseEntity = this.restTemplate.exchange(CREATE_WEIGHT, HttpMethod.POST, new HttpEntity<SysFunction>(function, this.httpHeaders), String.class);

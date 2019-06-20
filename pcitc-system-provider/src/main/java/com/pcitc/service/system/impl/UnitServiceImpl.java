@@ -429,7 +429,7 @@ public class UnitServiceImpl implements UnitService {
 		List<TreeNode> nodes = unitMapper.getUnitPostTree(paramMap);
 		for (int i = 0; i < nodes.size(); i++) {
 			TreeNode tree = nodes.get(i);
-			if (tree.getLevelCode() < 3) {
+			if (tree.getLevelCode() < 1) {
 				tree.setOpen("true");
 			} else {
 				tree.setOpen("false");
