@@ -279,7 +279,6 @@ public class ExpertController extends BaseController {
         request.setAttribute("zc", request.getParameter("zc"));
         request.setAttribute("gb", request.getParameter("gb"));
         List<String> gbcode = sysUserInfo.getInstituteCodes();
-        System.out.println(gbcode);
         request.setAttribute("gbcode", (gbcode == null || gbcode.size() == 0) ? "" : org.apache.commons.lang3.StringUtils.join(gbcode, ","));
         System.out.println(request.getParameter("gbcode"));
         return "stp/expert/queryExpert";
