@@ -46,7 +46,7 @@
         <div class="tableToolBox">
             <div class="whiteLine"></div>
             <div class="tableBtns">
-                <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg " data-type="downloadEvent">下载</button>
+                <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_download btnMyBgImg " data-type="downloadEvent">下载</button>
                 <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button>
             </div>
         </div>
@@ -121,7 +121,7 @@
                 },
                 cols: [[
                     {type: 'checkbox', event: 'changeEvents'},
-                    {title: '序号', type: 'numbers'},
+                    {title: '序号', type: 'numbers',width:55},
                     {field: 'fileName', title: '文件名称', event: 'setActive', style: 'cursor: pointer;'},
                     // {field: 'createUserId', title: '创建人', event: 'setActive', style: 'cursor: pointer;'},
                     {field: 'createDateTime', title: '创建时间', event: 'setActive', style: 'cursor: pointer;'},

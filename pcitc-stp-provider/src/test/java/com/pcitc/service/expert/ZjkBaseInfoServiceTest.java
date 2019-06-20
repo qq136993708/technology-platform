@@ -21,8 +21,8 @@ import static org.junit.Assert.*;
  * @author:Administrator
  * @date:2018/11/5
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = StpProviderApplication.class)// 指定spring-boot的启动类
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@SpringBootTest(classes = StpProviderApplication.class)// 指定spring-boot的启动类
 public class ZjkBaseInfoServiceTest {
 
     @Autowired
@@ -39,7 +39,7 @@ public class ZjkBaseInfoServiceTest {
 
     @Autowired
     private ZjkZhuanliService zjkZhuanliService;
-    @Test
+    //@Test
     public void excelInto_zjkExpertPatent() {
         System.out.println("导入专家zhuanli信息开始:");
         Map<String, Object> map = new HashMap<>();
@@ -77,7 +77,7 @@ public class ZjkBaseInfoServiceTest {
 
     }
 
-    @Test
+    //@Test
     public void excelInto_zjkExpertProject() {
         System.out.println("导入专家项目信息开始:");
         Map<String, Object> map = new HashMap<>();
@@ -115,7 +115,7 @@ public class ZjkBaseInfoServiceTest {
 
     }
 
-    @Test
+    //@Test
     public void generatorCode0() {
         //修改bak3的数据
 //        Map<String, Object> map = new HashMap<>();
@@ -146,7 +146,7 @@ public class ZjkBaseInfoServiceTest {
     }
 
     //高级专家
-    @Test
+    //@Test
     public void generatorCode1() {
 
 //        System.out.println("测试开始");
@@ -207,7 +207,7 @@ public class ZjkBaseInfoServiceTest {
     }
 
     //首席专家
-    @Test
+    //@Test
     public void generatorCode2() {
 //        System.out.println("测试开始");
 //        ZjkDataExample ex = new ZjkDataExample();
@@ -267,7 +267,7 @@ public class ZjkBaseInfoServiceTest {
 //        System.out.println("结束");
     }
 
-//    @Test
+//    //@Test
 //    public void generatorCode() {
 //        System.out.println("测试开始");
 //        ZjkDataExample ex = new ZjkDataExample();

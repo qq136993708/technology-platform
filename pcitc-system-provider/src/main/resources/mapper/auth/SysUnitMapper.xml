@@ -556,7 +556,6 @@
 			    </foreach>
 	  	    )
 	  	)
-	  order by unit_order
 	  
 	  union all
 	  select sys_user.user_id as id, sys_user.user_disp as name, sys_user_unit.unit_id as pid, sys_user.user_name as code,
@@ -630,7 +629,6 @@
 	  <if test="unitCode != null and unitCode !=''.toString">
 	   and unit_code like '${unitCode}%'
 	  </if>
-	  order by unit_order
 	  
 	  union all
 	  select sys_user.user_id as id, sys_user.user_disp as name, sys_user_unit.unit_id as pid, sys_user.user_name as code,
@@ -655,7 +653,6 @@
 	  <if test="unitPath != null and unitPath !=''.toString">
 	   	  and unit_path like '${unitPath}%'
 	  </if>
-	  order by unit_order
 	  
 	  union all 
 	  select sys_user.user_id as id, sys_user.user_disp as name, sys_user_post.post_id as pid, sys_user.user_name as code, 100, 'user' as nodeType
@@ -719,7 +716,6 @@
 	  <if test="unitPath != null and unitPath !=''.toString">
 	   	  and unit_path like '${unitPath}%'
 	  </if>
-	  order by unit_order
 	  
 	  union all 
 	  select post_id as id, post_name as name, post_unit as pid, post_code as code, sys_post.post_level as nodeLevel, 'post' as nodeType

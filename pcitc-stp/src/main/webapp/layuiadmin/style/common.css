@@ -347,7 +347,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .laydate-footer-btns {top: 4px !important;}
 .layui-layer-white .layui-layer-title{display: none;}
 .layui-layer-white .layui-layer-setwin{display:none;}
-.layui-laypage input:focus, .layui-laypage select:focus{border-color: #1e90ff !important;}
+.layui-laypage input:focus, .layui-laypage select:focus{border-color: #1e90ff !important;}stp/plan/pageSelectUser
 /*admin.css*/
 .layadmin-pagetabs,.layui-layout-admin .layui-body,.layui-layout-admin .layui-footer,.layui-layout-admin .layui-layout-left{left: 230px}
 .layadmin-pagetabs{position: fixed;top: 60px;right: 0;z-index: 999}
