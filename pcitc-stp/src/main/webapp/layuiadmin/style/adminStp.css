@@ -25,7 +25,7 @@ html #layuicss-layuiAdmin{display: none; position: absolute; width: 1989px;}
 
 
 /* 全局 */
-html{background-color: #f2f2f2; color: #666;}
+html{background-color: #F0F2F5; color: #666;}
 *[template],
 .layadmin-tabsbody-item{display: none;}
 *[lay-href],
@@ -43,7 +43,7 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-layout-admin .layui-header .layui-nav .layui-nav-child a{color: #333;}
 .layui-layout-admin .layui-side{width: 230px; top: 0; z-index: 1001;}
 .layui-layout-admin .layui-logo,
-.layui-layout-admin .layui-header .layui-nav .layui-nav-item{height: 49px; line-height: 49px;}
+.layui-layout-admin .layui-header .layui-nav .layui-nav-item{height: 89px; line-height: 89px;}
 .layui-nav-itemnew {width: 40px;}
 .layui-layout-admin .layui-logo{position: fixed; left: 0; top: 0; z-index: 1002; width: 230px; height: 49px;  box-sizing: border-box; overflow: hidden; font-weight: 300; background-repeat: no-repeat; background-position: center center;}
 .layui-layout-admin .layui-layout-left,
@@ -58,22 +58,22 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-layout-admin .layui-header .layui-nav-img{width: 26px; height: 26px;}
 .layui-layout-admin .layui-header .layui-nav-child{top: 55px;}
 .layui-layout-admin .layui-header .layui-layout-right .layui-nav-child{left: auto; right: 0;}
-.layui-layout-admin .layui-header .layui-layout-right{width: 370px;text-align: right;height: 50px;}
+.layui-layout-admin .layui-header .layui-layout-right{width: 370px;text-align: right;height: 90px;}
 .layui-layout-admin .layui-header .layui-layout-right .layui-nav-child dd{text-align: center;}
 .layui-layout-admin .layui-header .layui-nav .layui-nav-child dd.layui-this a,
 .layui-layout-admin .layui-header .layui-nav .layui-nav-child dd.layui-this{background: none}
 .agency{background: url("/layuiadmin/layui/images/daiban.png") 10px 25px no-repeat;}
 .notice{background: url("/layuiadmin/layui/images/announcement.png")  10px 25px no-repeat;}
 .info{background: url("/layuiadmin/layui/images/stpicon_05.png")  0px 16px no-repeat;}
-.chat{background: url("/layuiadmin/layui/images/stpicon_01.png")  0px 16px no-repeat;}
-.deal{background: url("/layuiadmin/layui/images/stpicon_02.png")  0px 16px no-repeat;}
+.chat{background: url("/layuiadmin/layui/images/stpicon_01.png")  0px 37px no-repeat;}
+.deal{background: url("/layuiadmin/layui/images/stpicon_02.png")  0px 37px no-repeat;}
 .notify{background: url("/layuiadmin/layui/images/stpicon_03.png")  0px 16px no-repeat;}
 
 .collection{background:#009ab0 url("/layuiadmin/layui/images/icon-collection.png")  center 15px no-repeat;
 width: 56px;}
 
 .QRCode{background: url("/layuiadmin/layui/images/stpicon_04.png") center center no-repeat;
-    display: inline-block; float: left;margin-top: 16px;cursor: pointer;width: 19px;height: 19px;}
+    display: inline-block; float: left;margin-top: 37px;cursor: pointer;width: 19px;height: 19px;}
 .QRCode-content img{box-shadow: 0 0 10px #c8c7c7;border-radius: 4px;top: 42px;position: absolute;left: -86px;}
 .layui-nav-child-dl,.layui-nav-child-span{background: white;border-radius: 4px;box-shadow: 0 0 10px #c8c7c7;padding: 10px 0;}
 .layui-nav-child-span{position: absolute;z-index: 99999;width: 106px;margin-left: -10px;}
@@ -102,7 +102,7 @@ width: 56px;}
     line-height: 14px;font-size: 12px;color: white;padding: 0 5px;position: relative;top: -10px;
     font-family: Arial;text-align: center;right: 10px;}
 /*顶部搜索框*/
-.stpSearchBox{width: 100%;height:28px;margin-top: 11px;}
+.stpSearchBox{width: 79%;height:28px;margin-top: 11px;}
 .stpSearchBox span{display: inline-block;background: #45b5c6;padding-left: 10px;height: 28px;
     line-height: 28px;color: #d2f9ff;border-radius: 4px;}
 .stpSearchBox .selectBox-span{width: 86px;margin-left: 262px;margin-right: 8px;}
@@ -490,7 +490,9 @@ font-size: 14px;color: #212529;text-indent: 0;
 .layadmin-header{display: none; height: 50px; line-height: 50px; margin-bottom: 0; border-radius: 0;}
 .layadmin-header .layui-breadcrumb{padding: 0 15px;}
 .layui-card-header{position: relative;border-bottom: 1px solid #e7e6eb;background: #fcfcfc;border-radius:6px 6px 0 0;}
-.layui-card{box-shadow:0 0 3px #dadcde;border:1px solid #dadcde; border-radius:6px;margin-bottom: 10px;}
+.layui-card{border-radius:2px;margin-bottom: 10px;}
+.layui-card:hover{box-shadow: 2px 2px 4px 0 rgba(47,156,255,0.10);}
+.layui-row-main{margin-bottom: 0 !important;}
 /*.layui-card:last-child{margin-bottom: 10px}*/
 .layui-card-header .layui-icon{line-height: initial; position: absolute; right: 15px; top: 50%; margin-top: -7px;}
 .layadmin-iframe{position: absolute; width: 100%; height: 100%; left: 0; top: 0; right: 0; bottom: 0;}
@@ -841,21 +843,23 @@ display: inline-block;vertical-align: top;margin: 6px 10px 0 0;}
 .paiNumber{font-size: 14px;}
 .layui-layer-lan .layui-layer-title{background-color: #00a3b4 !important}
 .layui-nav-tree .layui-this{background: none !important;}
-.layui-layer-btn .layui-layer-btn0 {border-color: #00a3b4 !important;background-color: #00a3b4 !important;color: #fff !important;}
+.layui-layer-btn .layui-layer-btn0 {border-color: #1890ff !important;
+    background-color: #1890ff !important;color: #fff !important;}
 
 .thirdChild {background: none !important;border-top:1px solid #ffffff;}
 .layui-nav-tree .layui-this .thirdChild{color: #666 !important; background: #ededed !important;background-image: none !important;}
 /*领导版框架*/
-.layui-leader .layui-header{background-color: #002a54;height: 56px;}
-.layui-leader .stpSearchBox{margin: 6px 0 0 30px;}
+.layui-leader .layui-header{background-color: #002a54;height: 90px;}
+.layui-leader .stpSearchBox{margin: 6px 0 0 30px;position: relative;}
 .layui-leader .logo{display: inline-block; margin-right: 40px;}
-.layui-leader .stpSearchBox .seacrhBox{width: 268px;top: 4px;}
+.layui-leader .stpSearchBox .seacrhBox{width: 268px;top: 24px;right: 3px;position: absolute;}
 .layui-leader .stpSearchBox .seacrhBox input{background-color: #335676;border: 1px solid #335676;width: 100%;
     color: #adb7c1;}
-.layui-leader .layui-body{bottom: 0;left: 22px;top: 66px;}
+.layui-leader .layui-body{bottom: 0;left: 22px;top: 96px;}
 .layui-leader .collection{height: 55px !important;line-height: 55px !important;
     background: #002142 url(/layuiadmin/layui/images/icon-collection.png) center 18px no-repeat;}
 .layui-leader .layui-index{text-align: left;}
-.layui-leader .layui-header .layui-layout-right{width: 430px;}
+.layui-leader .layui-header .layui-layout-right{width: 19%;}
+.stpSearchBox>a{    position: absolute;top: 20px;left: 400px;}
 /*人才*/
 .layui-leader  .layui-personnel{margin: 0;left: 0;top: 54px;}

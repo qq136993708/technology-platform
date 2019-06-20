@@ -66,7 +66,6 @@
 .leftTable{margin-right: 276px;margin-left: 10px;}
 .left-side-tree,.right-side-tree{width:100%;height: 100%;padding-top: 34px;box-sizing: border-box;}
 .right-side-tree-box .title-box button{float:right;margin-right: 2px;}
-.title-select{width: 150px;}
 .title-select .layui-select-title input{height: 24px;line-height: 24px; }
 .title-select .layui-form-select dl{top: 24px;}
 /*两边树中间表*/
@@ -98,7 +97,9 @@
 .btn_print:hover{background: #1890ff url(/layuiadmin/layui/images/operation_104.png) no-repeat;}
 .btn_print.active{background: #1890ff url(/layuiadmin/layui/images/operation_104.png) no-repeat;}
 .btn_add {background: url(/layuiadmin/layui/images/operation_78.png) no-repeat;}
+.btn_add1{background: none;padding:0 10px !important;}
 .btn_add:hover{background: #1890ff url(/layuiadmin/layui/images/operation_95.png) no-repeat;}
+.btn_add1:hover{background: #1890ff;}
 .btn_add.active{background: #1890ff url(/layuiadmin/layui/images/operation_95.png) no-repeat;}
 .btn_transfer {background: url(/layuiadmin/layui/images/operation_96.png) no-repeat;}
 .btn_transfer:hover{background: #1890ff url(/layuiadmin/layui/images/operation_62.png) no-repeat;}
@@ -346,7 +347,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .laydate-footer-btns {top: 4px !important;}
 .layui-layer-white .layui-layer-title{display: none;}
 .layui-layer-white .layui-layer-setwin{display:none;}
-.layui-laypage input:focus, .layui-laypage select:focus{border-color: #1e90ff !important;}
+.layui-laypage input:focus, .layui-laypage select:focus{border-color: #1e90ff !important;}stp/plan/pageSelectUser
 /*admin.css*/
 .layadmin-pagetabs,.layui-layout-admin .layui-body,.layui-layout-admin .layui-footer,.layui-layout-admin .layui-layout-left{left: 230px}
 .layadmin-pagetabs{position: fixed;top: 60px;right: 0;z-index: 999}
