@@ -1,8 +1,8 @@
-*{font-family: "arial-black", "微软雅黑", "黑体"}
+*{font-family: "arial-black", "寰蒋闆呴粦", "榛戜綋"}
 .lan .layui-table tr:nth-child(1) th{border-top: 2px solid #1890ff;}
 .lan .layui-table tr:nth-child(2n){background-color: #f5f9fc;}
 /*table.css*/
-/*搜索框*/
+/*鎼滅储妗�*/
 .searchBox {background: #ffffff;height: 36px;margin: 10px 10px 0; vertical-align: center;}
 .searchBox .layui-form-label{margin-left: 18px;}
 .searchBox .layui-input-block {margin-left: 84px;}
@@ -15,7 +15,7 @@
 .searchBox .selectInput select option:first-child{font-size: 12px;}
 .searchBox .selectInput select{position: absolute; top: -2px;border-radius: 3px;border-color: #cccccc;height: 26px; margin-right: 8px;
     padding: 2px; color: #666; font-size: 12px;min-width: 130px;}
-/*表格*/
+/*琛ㄦ牸*/
 .layui-table, .layui-table-view{margin: 0;}
 .layui-table-cell{height:32px;line-height: 32px;padding: 0 10px;}
 .tableToolBox {background: #EBF5FA;height: 34px;line-height: 27px;text-align: right;border: 1px solid #e6e6e6;border-bottom: 0px;}
@@ -35,20 +35,20 @@
 .my-table-sort { display: inline-block; margin-left: 4px;}
 .my-table-sort-asc {width:0;height:0;cursor: pointer;margin-top: -14px;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:6px solid #b2b2b2;}
 .my-table-sort-desc {width:0;height:0;margin-left: -12px;margin-top: 12px;cursor: pointer;border-left:6px solid transparent;border-right:6px solid transparent;border-top:6px solid #b2b2b2;}
-/*表格复选框禁用*/
+/*琛ㄦ牸澶嶉�夋绂佺敤*/
 .disabledCheckbox[lay-skin=primary] i{border-color: #ccc;color: #ccc;background: #ccc;}
 .disabledCheckbox[lay-skin=primary] i:hover{border-color: #ccc;color: #ccc;background: #ccc;}
 .disabledCheckbox.layui-form-checked {border-color: #ccc !important;color: #ccc !important;background: #ccc !important;}
 .disabledCheckbox.layui-form-checked[lay-skin=primary] i {border-color: #ccc !important;background-color: #ccc !important;}
 
-/*左树右表*/
+/*宸︽爲鍙宠〃*/
 .treeTableContainer{position:relative;height: 100%;width: 100%;}
 .treeBox{width: 260px;height: 100%;box-sizing:border-box;position: absolute;left: 10px;border: 1px solid #E6E6E6;background: #ffffff; padding-top: 34px;}
 .title-box{width: 100%;height: 34px;line-height: 34px;position: absolute;top: 0;align-items:center;background:#ecf5fa;box-sizing:border-box;
     padding-left: 10px;border-top: 1px solid #ffffff;border-bottom: 1px solid #E6E6E6;z-index: 999999;}
 .title-btns span{float: right; text-align: right; margin-top: -2px;}
 .title-btns span .layui-btn{margin-left: -2px;margin-right: 2px;}
-/*李博 16:45:50*/
+/*鏉庡崥 16:45:50*/
 .title-btns .title-text{float: left;margin-right: 10px;}
 .title-btns .select-box {float: left;margin-right: 10px;margin-top: 5px;margin-right: 6px;border: 0;}
 .title-btns .select-box span{float: left;margin-right: 6px;line-height: 30px;}
@@ -62,20 +62,20 @@
 .treeFormBox{margin-left: 276px;height: 100%;overflow: hidden;border: 1px solid #e6e6e6;}
 .treeFormBox .tree-form-paddingBox{padding-top: 44px;padding-right: 10px;}
 
-/*左表右树*/
+/*宸﹁〃鍙虫爲*/
 .leftTable{margin-right: 276px;margin-left: 10px;}
 .left-side-tree,.right-side-tree{width:100%;height: 100%;padding-top: 34px;box-sizing: border-box;}
 .right-side-tree-box .title-box button{float:right;margin-right: 2px;}
 .title-select .layui-select-title input{height: 24px;line-height: 24px; }
 .title-select .layui-form-select dl{top: 24px;}
-/*两边树中间表*/
+/*涓よ竟鏍戜腑闂磋〃*/
 .twoTree-tableBox{margin: 10px 276px 0;}
 .right-side-tree-box{position:absolute;right:10px;top:0;width: 260px;height: 100%;box-sizing: border-box;border: 1px solid #E6E6E6;}
 .left-tree-box{width: 260px;height: 100%;box-sizing:border-box;position: absolute;top: 0;left:10px;border: 1px solid #E6E6E6;background: #ffffff;}
 .twoTree-tableBox .postTable, .funcGroupTable{margin-bottom: 6px;}
 .twoTree-tableBox .layui-table-box:last-child{margin-bottom: 0;}
 
-/*按钮*/
+/*鎸夐挳*/
 .layui-btn+.layui-btn {margin-left: 6px;}
 .layui-btn{background-color: #1890ff}
 .layui-upload-list tr td>span{color: #1890ff !important;}
@@ -244,7 +244,7 @@
 .layui-form-item{margin-bottom: 8px;}
 .layui-form-label{width: 100px; font-size: 12px;line-height: 28px;margin-left: 10px; padding: 0;}
 .layui-form-labelH{line-height: 18px;text-align: left;}
-/*form表单*/
+/*form琛ㄥ崟*/
 .layui-form{font-size: 12px;position: relative;width: 100%;}
 .bb-title {width: 130px;text-align: right;padding-right: 0;height: 34px;line-height: 34px;font-weight: normal;}
 .col-sm-8-input{height: 34px;line-height: 34px;}
@@ -306,14 +306,14 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .formOperate i{font-size: 18px;cursor: pointer;height: 32px;line-height: 32px;}
 .formOperate i:hover{color: #1890ff;}
 
-/*form 导入*/
+/*form 瀵煎叆*/
 .sysLog-import>span{color: #ff0000;font-size: 14px; text-indent: .5em;height: 32px;
     line-height: 32px;background: #fffed1;display: inline-block;width: 100%;}
 .sysLog-import span img{ margin-right: 10px;}
 .sysLog-import a{color: #0c06ff;font-size: 14px; margin-left: 15px;text-decoration:underline;}
 .sysLog-import .layui-upload{margin: 30px 15px;}
 
-/*layer弹框*/
+/*layer寮规*/
 .layer-box{width: 98%;margin: 0 auto;padding-bottom: 50px;}
 .formBox{margin-bottom: 38px;}
 .layer-box .formBox{width: 100%; margin: 0; height: 100%;margin-bottom: 10px;}
@@ -397,7 +397,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .border-default{border: 1px solid #dddddd;border-radius: 2px;}
 /*.borderColor-blue:hover{color: #ffffff;background: #1890ff;}*/
 .layui-laypage .layui-laypage-curr .layui-laypage-em{background: #1890ff !important;}
-/*state按钮*/
+/*state鎸夐挳*/
 .borderStateColor-blue{border: 1px solid #e0ebf1;border-radius: 2px;background: none;
     float:left;padding: 0 6px 0 6px;margin-left: 10px;}
 .borderStateColor-blue:hover{border: 1px solid #1890ff;color: #1890ff;}
@@ -413,12 +413,12 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .btn-blue{background: url("/layuiadmin/layui/images/Red_Ball.png")   no-repeat;}
 .btn-maize{background: url("/layuiadmin/layui/images/Yellow_Ball.png")   no-repeat;}
 .btnYellow,.fontStateColorYellow{background: url("/layuiadmin/layui/images/Yellow_Ball.png")   no-repeat;}
-/*决策中心按钮*/
+/*鍐崇瓥涓績鎸夐挳*/
 .btn-decision{background: none;border: 1px solid #1890ff ;border-radius: 5px;
     line-height:28px;color: #1890ff }
 .btn-decision:hover{background: #1890ff;}
 .btn-decision.active{background: #1890ff ;color: white;}
-/** 滚动条 **/
+/** 婊氬姩鏉� **/
 ::-webkit-scrollbar{width: 8px; height: 8px;}
 ::-webkit-scrollbar-button:vertical{display: none;}
 ::-webkit-scrollbar-track, ::-webkit-scrollbar-corner{background-color: #e2e2e2;}
@@ -426,16 +426,16 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 ::-webkit-scrollbar-thumb:vertical:hover{background-color: rgba(0,0,0,.35);}
 ::-webkit-scrollbar-thumb:vertical:active{background-color: rgba(0,0,0,.38);}
 
-/*文件上传*/
+/*鏂囦欢涓婁紶*/
 .layui-tab{margin:0;}
 .layui-upload-list{margin: 0;}
 .layui-tab-content{padding: 0;}
 
-/*tab切换*/
+/*tab鍒囨崲*/
 .layui-tab-title{height: 36px;}
 .layui-tab-title li{line-height: 36px;}
 
-/*表单 - 表格操作*/
+/*琛ㄥ崟 - 琛ㄦ牸鎿嶄綔*/
 .treeFrom-container{ padding-top: 10px;}
 .form_tableAdd_container .box-body ,.hseForm .box-body{ padding-top: 10px; margin-bottom: 0px; border: 1px solid #e6e6e6;}
 .form_tableAdd_container .formBox { margin-bottom: 10px; }
@@ -462,20 +462,20 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .treeGridBox .layui-btn-group { margin-left: 5px;}
 .treeGridBox .layui-btn-group .layui-btn:first-child{ border-left: 1px solid #1890ff;}
 
-/*仅有树的弹框*/
+/*浠呮湁鏍戠殑寮规*/
 .onlyTree_container .treeBox{ width: 100%; border: 0; left: 0;  padding-top: 0; padding-bottom: 36px;}
 .onlyTree_container ul>li{ padding-left: 10px;}
 
-/*有照片的表单*/
+/*鏈夌収鐗囩殑琛ㄥ崟*/
 .form_photo_container .box-body{padding-top: 10px; border: 1px solid #e6e6e6;}
 .photo_box {width: 140px;height: 173px;border: 1px solid #ccc;border-radius: 3px; margin-left: 60px;
     background: url("/layuiadmin/layui/images/upload-photo.png") no-repeat center;cursor: pointer;}
 .idCard { box-sizing: border-box;width: 100%; padding-left: 10px; height: 30px; line-height: 30px;}
 
-/*echarts图表*/
+/*echarts鍥捐〃*/
 .charts-box{padding:0 10px 10px;}
 
-/*select 切换*/
+/*select 鍒囨崲*/
 .contentBox .box{text-align:center;display:none;}
 .contentBox .box.active{display:block;}
 .dateInputSelect{display: inline-block}
@@ -484,7 +484,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .separate{display: inline-block; font-size: 12px;margin-right: 14px;}
 .contentBox div{display: inline-block;float: none;}
 
-/*通知*/
+/*閫氱煡*/
 .notice-box { width: 100%; box-sizing: border-box; padding: 10px 5px 0;}
 .notice-box .layui-field-title{ margin: 10px 0 0; }
 .notice-box .notice-title { font-size: 20px; }
@@ -494,7 +494,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .notice-box .captions span{ margin-right: 10px;}
 .notice-box .layui-elem-field legend { font-size: 14px;}
 
-/*打印、导出、列筛选*/
+/*鎵撳嵃銆佸鍑恒�佸垪绛涢��*/
 .layui-icon-cols:before{content: url("/layuiadmin/layui/images/icon-filter.png");}
 .layui-icon-export:before{content: url("/layuiadmin/layui/images/icon-exports.png");}
 .layui-icon-print:before{content: url("/layuiadmin/layui/images/icon-print.png");}
@@ -503,18 +503,18 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .tableRowspanP{height: 32px;line-height: 32px;border-bottom: 1px solid #e6e6e6;padding-left: 15px;}
 .tableRowspanP:last-child{border: none;}
 
-/*加载中*/
+/*鍔犺浇涓�*/
 .loadingImg{width: 56px;height: auto;}
 .text-total .loadingImg{width: 24px; height: auto;}
 
-/*搜索图标*/
+/*鎼滅储鍥炬爣*/
 .formSearch{    position: absolute;right: 1px;top: 1px;width: 20px;height: 13px;
     padding: 7px 10px 12px;background: #f7f7f7;border-left: 1px solid #D2D2D2;cursor: pointer;}
 .notDele{background-color: #f2f2f2;}
 
 /*layui-title-right  */
 .layui-title-right{float: right;}
-/*选择器*/
+/*閫夋嫨鍣�*/
 .selector{height: auto;overflow: hidden;margin: 10px 10px;}
 .selector a{font-size: 14px;color: #000;}
 .selector>div{line-height: 38px;border-bottom: 1px #e7e7e7 dashed;font-size: 14px;display: flex;}
@@ -535,7 +535,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
     color: #888888;padding-left: 20px;}
 .conditionNew .dele a:hover{color: #1890ff;
     background: url("/layuiadmin/layui/images/operation_76.png") no-repeat center left;}
-/*搜索结果页面*/
+/*鎼滅储缁撴灉椤甸潰*/
 .layui-iframe{height: 100%;width: 100%;border: none;}
 .layui-q>.layui-tab-title li{background: url("/layuiadmin/layui/images/search-default.png") no-repeat;
     width: 110px;height: 74px;padding: 0;margin-right: 4px;}
@@ -635,7 +635,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .relevant-cont>.item a{display: inline-block;font-size: 12px;color: #333;line-height: 30px;}
 .relevant-cont>.item img{width: 100%;height: 100%;box-shadow: 0 0 10px #badbfa;border-radius: 3px;}
 
-    /*生命周期*/
+    /*鐢熷懡鍛ㄦ湡*/
 .cycle-title{font-size: 14px;height: 14px;line-height: 14px;color: #666;text-indent: 4px;margin: 20px 0 10px 11px;
     border-left: 3px solid #1890ff;}
 .cycle-search{background-color: #fff;border: 1px solid #e4e4e6;padding: 20px 10px;}
