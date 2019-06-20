@@ -51,8 +51,8 @@ public class NoticeSocket extends BaseController {
      */
     @OnOpen
     public void onOpen(Session session, EndpointConfig config) {
-        HttpHeaders httpHeaders = act.getBean(HttpHeaders.class);
-        session.getUserProperties().put("currentUser", sysUserInfo);
+        //HttpHeaders httpHeaders = act.getBean(HttpHeaders.class);
+        //session.getUserProperties().put("currentUser", sysUserInfo);
         this.session = session;
         webSocketSet.add(this); // 加入set中
         addOnlineCount(); // 在线数加1
