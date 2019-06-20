@@ -178,6 +178,9 @@
                     {
                         field: "achievementCount",
                         title: "成果数量", event: 'setActive', style: 'cursor: pointer;',width: 100
+                        ,templet: function (d) {
+                            return "<a href=''>"+d.achievementCount+"</a>"
+                        }
                     },
                     {
                         field: "patentCount",
