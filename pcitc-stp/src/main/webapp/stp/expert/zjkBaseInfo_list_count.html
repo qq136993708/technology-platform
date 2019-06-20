@@ -182,15 +182,18 @@
                     {
                         field: "patentCount",
                         title: "专利数量", event: 'setActive', style: 'cursor: pointer;',width: 100
-                    },
-                    {
-                        field: "projectCount",
-                        title: "参与项目", event: 'setActive', style: 'cursor: pointer;'
-                    },
-                    {
-                        field: "bak1",
-                        title: "被投诉数量", event: 'setActive', style: 'cursor: pointer;'
-                    },
+                        ,templet: function (d) {
+                            return "<a href=''>"+d.patentCount+"</a>"
+                        }
+                },
+                    // {
+                    //     field: "projectCount",
+                    //     title: "参与项目", event: 'setActive', style: 'cursor: pointer;'
+                    // },
+                    // {
+                    //     field: "bak1",
+                    //     title: "被投诉数量", event: 'setActive', style: 'cursor: pointer;'
+                    // },
                 ]],
 
                 done: function (res, curr, count) {
