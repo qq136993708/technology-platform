@@ -28,10 +28,10 @@
     </label>
 
     <!--<label class="selectInput">-->
-        <!--<span>所属机构</span>-->
-        <!--<select name="company" id="company" lay-filter="projectStageId">-->
-            <!--<option value="">请选择</option>-->
-        <!--</select>-->
+    <!--<span>所属机构</span>-->
+    <!--<select name="company" id="company" lay-filter="projectStageId">-->
+    <!--<option value="">请选择</option>-->
+    <!--</select>-->
     <!--</label>-->
 
 
@@ -89,6 +89,20 @@
 <script>
     var state = $("#state").val();
 
+    function showPatent(url) {
+        layer.open({
+            title: '查看',
+            skin: 'layui-layer-lan',
+            shadeClose: false,
+            type: 2,
+            fixed: false,
+            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+            maxmin: true,
+            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+            area: ['70%', '90%'],
+            content: url
+        });
+    }
     //项目
     ajaxPost('/dictionary/list/ROOT_ZGSHJT_GFGS_ZSYJY', null, function (data, status) {
         $.each(data, function (i, dt) {
@@ -129,7 +143,7 @@
 
                 cols: [[
                     {type: 'checkbox', event: 'changeEvents'},
-                    {title: '序号', type: 'numbers',width: 55},
+                    {title: '序号', type: 'numbers', width: 55},
                     {
                         field: 'auditStatus',
                         title: '状态',
@@ -141,11 +155,11 @@
                     },
                     {
                         field: "expertName",
-                        title: "姓名", event: 'setActive', style: 'cursor: pointer;',width: 80
+                        title: "姓名", event: 'setActive', style: 'cursor: pointer;', width: 80
                     },
                     {
                         field: "sex",
-                        title: "性别", event: 'setActive', style: 'cursor: pointer;',width: 50
+                        title: "性别", event: 'setActive', style: 'cursor: pointer;', width: 50
                     },
                     {
                         field: "expertProfessionalFieldName",
@@ -153,15 +167,15 @@
                     },
                     {
                         field: "birthDate",
-                        title: "出生日期", event: 'setActive', style: 'cursor: pointer;',width: 100
+                        title: "出生日期", event: 'setActive', style: 'cursor: pointer;', width: 100
                     },
                     {
                         field: "email",
-                        title: "邮箱", event: 'setActive', style: 'cursor: pointer;',width: 110
+                        title: "邮箱", event: 'setActive', style: 'cursor: pointer;', width: 110
                     },
                     {
                         field: "mobile",
-                        title: "联系方式", event: 'setActive', style: 'cursor: pointer;',width: 100
+                        title: "联系方式", event: 'setActive', style: 'cursor: pointer;', width: 100
                     },
                     {
                         field: "expertProfessionalField",
@@ -169,7 +183,7 @@
                     },
                     {
                         field: "expertProfessinal",
-                        title: "职称", event: 'setActive', style: 'cursor: pointer;',width: 60
+                        title: "职称", event: 'setActive', style: 'cursor: pointer;', width: 60
                     },
                     {
                         field: "companyName",
@@ -177,18 +191,18 @@
                     },
                     {
                         field: "achievementCount",
-                        title: "成果数量", event: 'setActive', style: 'cursor: pointer;',width: 100
-                        ,templet: function (d) {
-                            return "<a href=''>"+d.achievementCount+"</a>"
+                        title: "成果数量", event: 'setActive', style: 'cursor: pointer;', width: 100
+                        , templet: function (d) {
+                            return "<a href='javascript:void(0);return false;' onclick=showPatent('/zjkAchievement/toListPage?expertId=" + d.dataId + "')>" + d.achievementCount + "</a>"
                         }
                     },
                     {
                         field: "patentCount",
-                        title: "专利数量", event: 'setActive', style: 'cursor: pointer;',width: 100
-                        ,templet: function (d) {
-                            return "<a href=''>"+d.patentCount+"</a>"
+                        title: "专利数量", event: 'setActive', style: 'cursor: pointer;', width: 100
+                        , templet: function (d) {
+                            return "<a href='javascript:void(0);return false;' onclick=showPatent('/zjkPatent/toListPage?expertId=" + d.dataId + "')>" + d.patentCount + "</a>"
                         }
-                },
+                    },
                     // {
                     //     field: "projectCount",
                     //     title: "参与项目", event: 'setActive', style: 'cursor: pointer;'
@@ -272,8 +286,8 @@
                 loadtable()
             },
             resetEvent: function () { //点击查询按钮
-               $("#expertName").val("");
-               $("#email").val("");
+                $("#expertName").val("");
+                $("#email").val("");
                 loadtable();
             }, getChecked: function () {//多选
                 var ids = "";
