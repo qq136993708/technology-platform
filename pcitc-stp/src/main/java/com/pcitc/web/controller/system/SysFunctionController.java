@@ -205,7 +205,7 @@ public class SysFunctionController extends BaseController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = { "/toFuntionList" }, method = { RequestMethod.POST, RequestMethod.GET })
+	@RequestMapping(value = { "/function/toFuntionList" }, method = { RequestMethod.POST, RequestMethod.GET })
 	public String toFuntionList() {
 		return "base/system/function_list";
 	}
