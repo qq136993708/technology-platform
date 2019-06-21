@@ -187,6 +187,10 @@ public class ExpertController extends BaseController {
 //        return JSONObject.parseObject(JSONObject.toJSONString(responseEntity.getBody().get("results"))).toString();
     }
 
+    /**
+     * 专家画像
+     * @return
+     */
     @RequestMapping(value = "/expertIndexNewImg", method = RequestMethod.GET)
     @OperationFilter(modelName = "专家-首页跳转", actionName = "首页跳转pageExpertIndex")
     public String expertIndexNewImg() {
