@@ -255,7 +255,7 @@
             //初始化websocket
             var websocket = null;
             if ('WebSocket' in window) {
-                websocket = new WebSocket("ws://" + document.location.host + "/pushNotice");
+                websocket = new WebSocket("ws://" + document.location.host + "/pushNotice/${userId?default(0)}");
                 websocket.onerror = function() {
                 };
                 websocket.onopen = function(event) {
