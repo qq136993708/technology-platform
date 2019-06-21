@@ -469,6 +469,7 @@
    <if test="id != null and id!=''.toString()">
    and id != #{id}
    </if>
+   and status = '1'
   </select>
   
   <!-- 查询同一级下是否有相同名字的菜单 -->
