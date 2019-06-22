@@ -18,27 +18,30 @@
 <body>
 <div class="layui-fluid">
     <div class="">
-        <div class="searchBox">
-            <input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
-            <label class="dateInput">
-                <span>月份</span>
-                <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control" id="month">
-                 <i class="layui-icon layui-icon-date" style="margin-left:-35px"></i>
-            </label>
-           <!--按钮组-->
-           <!-- <div class="btnGroup">
-                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()">查询</button>
-            </div>-->
-            <div class="btnGroup"  style="margin-left:10px;display:none">
-                <button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
-                >详情</button>
-            </div>
+        <div class="fluid-top">
             <div class="breadcrumb" <#if isdisplay == 1>style="display:none"</#if>>
                 <a href="/stpHome" target="_parent">首页 > </a>
                 <a href="/instituteIndex?url=/home_ld/direct_depart" target="_parent">直属研究院概况 > </a>
                 <span>经费支出</span>
             </div>
+            <div class="searchBox">
+                <input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
+                <label class="dateInput" style="margin-right: 6px;">
+                    <span>月份</span>
+                    <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control" id="month">
+                    <i class="layui-icon layui-icon-date" style="margin-left:-35px"></i>
+                </label>
+                <!--按钮组-->
+                <!-- <div class="btnGroup">
+                     <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()">查询</button>
+                 </div>-->
+                <div class="btnGroup"  style="margin-left:10px;display:none">
+                    <button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
+                    >详情</button>
+                </div>
+            </div>
         </div>
+
         
          <div class="ayui-row layui-col-space15">
             <div class="layui-col-md6">

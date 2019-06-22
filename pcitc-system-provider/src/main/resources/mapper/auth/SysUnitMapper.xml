@@ -556,7 +556,6 @@
 			    </foreach>
 	  	    )
 	  	)
-	  order by unit_order
 	  
 	  union all
 	  select sys_user.user_id as id, sys_user.user_disp as name, sys_user_unit.unit_id as pid, sys_user.user_name as code,
@@ -630,7 +629,6 @@
 	  <if test="unitCode != null and unitCode !=''.toString">
 	   and unit_code like '${unitCode}%'
 	  </if>
-	  order by unit_order
 	  
 	  union all
 	  select sys_user.user_id as id, sys_user.user_disp as name, sys_user_unit.unit_id as pid, sys_user.user_name as code,
@@ -655,7 +653,6 @@
 	  <if test="unitPath != null and unitPath !=''.toString">
 	   	  and unit_path like '${unitPath}%'
 	  </if>
-	  order by unit_order
 	  
 	  union all 
 	  select sys_user.user_id as id, sys_user.user_disp as name, sys_user_post.post_id as pid, sys_user.user_name as code, 100, 'user' as nodeType
@@ -713,24 +710,26 @@
   
   <!-- 组织机构树所有节点, 有组织机构和岗位 -->
   <select id="getUnitPostTree" parameterType="java.util.HashMap" resultType="com.pcitc.base.common.TreeNode">
-	  select u.unit_id as id, u.unit_name as name,u.unit_relation as pid,u.unit_code as code, u.unit_level as levelCode, 'unit' as nodeType
-	  from sys_unit u 
-	  where unit_delflag = 0 
-	  <if test="unitPath != null and unitPath !=''.toString">
-	   	  and unit_path like '${unitPath}%'
-	  </if>
-	  order by unit_order
-	  
-	  union all 
-	  select post_id as id, post_name as name, post_unit as pid, post_code as code, sys_post.post_level as nodeLevel, 'post' as nodeType
-	  from sys_post 
-	  where post_delflag = 0 and post_unit in (
-	  		  select t.unit_id
-			  from sys_unit t 
-			  where unit_delflag = 0 
-			  <if test="unitPath != null and unitPath !=''.toString">
-			      and unit_path like '${unitPath}%'
-			  </if>
-	  )
+  	  select * from (
+		  select u.unit_id as id, u.unit_name as name,u.unit_relation as pid,u.unit_code as code, u.unit_level as levelCode, unit_order as bak1, 'unit' as nodeType
+		  from sys_unit u 
+		  where unit_delflag = 0 
+		  <if test="unitPath != null and unitPath !=''.toString">
+		   	  and unit_path like '${unitPath}%'
+		  </if>
+		  
+		  union all 
+		  select post_id as id, post_name as name, post_unit as pid, post_code as code, sys_post.post_level as nodeLevel, '9999' as bak1, 'post' as nodeType
+		  from sys_post 
+		  where post_delflag = 0 and post_unit in (
+		  		  select t.unit_id
+				  from sys_unit t 
+				  where unit_delflag = 0 
+				  <if test="unitPath != null and unitPath !=''.toString">
+				      and unit_path like '${unitPath}%'
+				  </if>
+		  )
+	  ) as tableA
+	  order by bak1
   </select>
 </mapper>

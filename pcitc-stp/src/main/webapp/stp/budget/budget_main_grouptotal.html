@@ -262,6 +262,7 @@
 			//刷新数据
 			window.reloadTable = function(tableId,tableData){
 				table.reload(tableId, {data: tableData});
+				//$('td[data-edit="true"]').css("pointer-events","none");
 				//格式化求和
 				$.each($(".layui-table-total tr td"),function(i,d){
 					if(i>=3){

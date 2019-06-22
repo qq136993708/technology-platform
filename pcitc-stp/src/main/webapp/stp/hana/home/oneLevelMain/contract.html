@@ -18,20 +18,21 @@
 <body>
 <div class="layui-fluid">
     <div class="">
-        <div class="searchBox">
-            <label class="dateInput">
-                <span>年份</span>
-                <input type="text" name="nd" placeholder="请选择年份" title="年份" value="${nd}"  autocomplete="off" class="form-control" id="nd">
-            </label>
-            <div class="btnGroup">
-                <button id="table_detail_id" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
-                >详情</button>
-            </div>
+        <div class="fluid-top">
             <div class="breadcrumb">
                 <a href="/stpHome" target="_parent">首页 > </a><span>科研合同</span>
             </div>
+            <div class="searchBox">
+                <label class="dateInput">
+                    <span>年份</span>
+                    <input type="text" name="nd" placeholder="请选择年份" title="年份" value="${nd}"  autocomplete="off" class="form-control" id="nd">
+                </label>
+                <div class="btnGroup">
+                    <button id="table_detail_id" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
+                    >详情</button>
+                </div>
+            </div>
         </div>
-
         <div class="layui-row layui-col-space15" >
             <div class="layui-col-md8">
                 <div class="layui-col-md5">
@@ -211,7 +212,8 @@
         setGauge("direct_contract_01");
         setGauge_count();
         var chart_01_01="/one_level_main/contract_01_01?type=1&nd="+nd+"&v_date="+v_date+"";
-        var echartchart_01_01=load_mutl_bar_down(chart_01_01,"direct_contract_01_01","","",yAxis2,30,"");
+        var colorOne=["#2F9CFF","#36CBCB","#FAD337"]
+        var echartchart_01_01=load_mutl_bar_down(chart_01_01,"direct_contract_01_01","","",yAxis2,30,colorOne);
         echartchart_01_01.on('click', function (params) {
             var xName=params.name;
             var legentName=params.seriesName;

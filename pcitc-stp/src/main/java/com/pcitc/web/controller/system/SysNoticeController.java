@@ -50,10 +50,11 @@ public class SysNoticeController extends BaseController {
 	 * 跳转到公告列表页
 	 */
 	@RequestMapping(value = "/sysNotice_list")
-	public String toList(String userNoticeStatus, Model model) {
+	public String toList(String userNoticeStatus, Model model,HttpServletRequest request, HttpServletResponse response) {
 		if (StringUtils.isEmpty(userNoticeStatus))
 			userNoticeStatus = "";
 		model.addAttribute("userNoticeStatus", userNoticeStatus);
+		request.setAttribute("userId", sysUserInfo.getUserId());
 		return "/base/system/sysNotice_list";
 	}
 

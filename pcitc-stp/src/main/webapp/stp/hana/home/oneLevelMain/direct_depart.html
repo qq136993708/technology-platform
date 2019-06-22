@@ -176,7 +176,7 @@
                    <div class="text-total">
                         	<span>总计：<span class="text-total-blue" id="chart_title_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                     	</div>
-                        <div class="main-chart" id="equipment_01_chart" style="height:280px;width: 100%;"></div>
+                        <div class="main-chart" id="equipment_01_chart" style="height:270px;width: 100%;"></div>
                     </div>
                 </div>
             </div>
@@ -204,7 +204,7 @@
                         ${nd}年直属研究院发明专利申请
                     </div>
                     <div class="layui-card-body btn-function">
-                        <div  style="height:294px;width: 100%;" id="bar02"></div>
+                        <div class="main-chart"  style="height:296px;width: 100%;" id="bar02"></div>
                     </div>
                 </div>
             </div>
@@ -214,7 +214,7 @@
                         ${nd}年直属研究院发明专利授权
                     </div>
                     <div class="layui-card-body btn-function">
-                        <div  style="height:294px;width: 100%;" id="bar03"></div>
+                        <div class="main-chart"  style="height:296px;width: 100%;" id="bar03"></div>
                     </div>
                 </div>
             </div>
@@ -574,7 +574,8 @@
             	 
             	
             	var chart1_url="/direct/topic_01?type=1&nd="+nd+"&v_date="+v_date+"&xmlbbm=fkyzb";
-            	var echart1=load_mutl_bar_down(chart1_url,"topic_chart1","","",yAxis);
+            	var colorOne=["#75C9C0","#5181E6"]
+            	var echart1=load_mutl_bar_down(chart1_url,"topic_chart1","","",yAxis,'',colorOne);
             	echart1.on('click', function (params) {
             		var xName=params.name;
             		var legentName=params.seriesName;
