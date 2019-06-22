@@ -6,9 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import com.pcitc.web.interceptor.RequestLogInterceptor;
 import com.pcitc.web.interceptor.TokenInterceptor;
 
 @Configuration
@@ -17,16 +17,18 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 	@Autowired
 	TokenInterceptor tokenInterceptor;
 	
+	@Autowired
+	RequestLogInterceptor logInterceptor;
+	
 	// 文件上传路径
 	@Value("${uploaderPathTemp}")
 	private String uploaderPathTemp;
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		// 添加拦截器
+		// 添加拦截器(拦截器中只有preHandle返回true时才继续执行下一个拦截器或者controller，否则直接返回)
+		registry.addInterceptor(logInterceptor).addPathPatterns("/**");
 		registry.addInterceptor(tokenInterceptor).addPathPatterns("/**");
-		// .excludePathPatterns("/mobile/**")
-		System.out.println("拦截器---------------------------------"+registry);
 		super.addInterceptors(registry);
 	}
 	

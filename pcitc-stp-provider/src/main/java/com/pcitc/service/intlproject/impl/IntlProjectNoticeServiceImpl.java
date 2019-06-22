@@ -96,6 +96,7 @@ public class IntlProjectNoticeServiceImpl implements IntlProjectNoticeService {
 
 	@Override
 	@Transactional
+	//@TxTransaction(isStart=true)
 	public boolean startWorkFlow(String businessId, String functionId, String workflowName,String authenticatedUserId,String authenticatedUserName) {
 		
 		try 
@@ -119,6 +120,7 @@ public class IntlProjectNoticeServiceImpl implements IntlProjectNoticeService {
 	    	flowJson.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-notice?noticeId="+businessId+"&workflow_status="+WorkFlowStatusEnum.STATUS_RETURN.getCode());
 
 	    	String rs = workflowRemoteClient.startCommonWorkflow(flowJson.toJSONString());
+	    	
 	    	if("true".equals(rs)) 
 			{
 	    		IntlProjectNotice notice = projectNoticeMapper.selectByPrimaryKey(businessId);
