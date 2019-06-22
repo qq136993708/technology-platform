@@ -15,10 +15,7 @@ import com.pcitc.base.system.EmailTemplate;
 import com.pcitc.base.system.SysFile;
 import com.pcitc.base.util.*;
 import com.pcitc.mapper.expert.ZjkChoiceMapper;
-import com.pcitc.service.expert.ZjkBaseInfoService;
-import com.pcitc.service.expert.ZjkChoiceService;
-import com.pcitc.service.expert.ZjkMsgConfigService;
-import com.pcitc.service.expert.ZjkMsgService;
+import com.pcitc.service.expert.*;
 import com.pcitc.service.feign.SystemRemoteClient;
 import com.pcitc.service.msg.MailSentService;
 import com.pcitc.service.system.EmailTemplateService;
@@ -197,6 +194,9 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         }
     }
 
+    @Autowired
+    private ZjkEvaluateService zjkEvaluateService;
+
     @Override
     public LayuiTableData findZjkChoiceByPageChoice(LayuiTableParam param) {
         ZjkChoiceExample example = new ZjkChoiceExample();
@@ -225,7 +225,23 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         }
 
         example.setOrderByClause("create_date desc");
-        return this.findByExample(param, example);
+        //查询评论表
+        //遍历集合,赋值
+        LayuiTableData data = this.findByExample(param, example);
+        List<ZjkChoice> zjkChoices = (List<ZjkChoice>) data.getData();
+        List<ZjkChoice> dataList = new ArrayList<>();
+        ZjkEvaluateExample e = new ZjkEvaluateExample();
+        e.createCriteria().andXmIdIn(zjkChoices.stream().map(ZjkChoice::getXmId).collect(Collectors.toList()));
+        e.createCriteria().andZjkIdIn(zjkChoices.stream().map(ZjkChoice::getZjId).collect(Collectors.toList()));
+        List<ZjkEvaluate> zjkEvaluates = zjkEvaluateService.selectByExample(e);
+        for (int i = 0,j = zjkChoices.size(); i < j; i++) {
+            ZjkChoice zjkChoice = zjkChoices.get(i);
+            List<ZjkEvaluate> collect = zjkEvaluates.stream().filter(obj -> obj.getXmId().equals(zjkChoice.getXmId())&&obj.getXmSteps().equals(zjkChoice.getBak1())&&obj.getZjkId().equals(zjkChoice.getZjId())).collect(Collectors.toList());
+            zjkChoice.setBak6((collect!=null&&collect.size()>0)?collect.get(0).getCreateDate():"");
+            dataList.add(zjkChoice);
+        }
+        data.setData(dataList);
+        return data;
 
     }
 

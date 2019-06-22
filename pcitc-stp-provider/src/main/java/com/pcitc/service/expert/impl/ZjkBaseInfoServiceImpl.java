@@ -598,7 +598,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
                 String firstValue = object_first_val == null ? "" : object_first_val.toString();
 
                 nodes.add(new ChartForceDataNode(0, firstName, firstValue, firstName));
-                System.out.println(column_show);
+//                System.out.println(column_show);
                 for (Map.Entry<String, Object> entry : maps.entrySet()) {
                     Object val = entry.getValue();
                     if (val==null){

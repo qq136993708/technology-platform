@@ -185,6 +185,17 @@
 </form>
 </div>
 <script>
+    $(function(){
+        //输入框的值改变时触发
+        $("#count").on("input",function(e){
+            //获取input输入的值
+            var newVal = e.delegateTarget.value;
+            const regex = /^([0-9]*[1-9][0-9]*(.[0-9]+)?|[0]+.[0-9]*[1-9][0-9]*)$/
+            if(!regex.test(newVal)) {//如果小于等于零
+                $("#count").val(10); //恢复原值
+            }
+        });
+    });
     //机构
     // function choose_joinUnitName_callback(unitIds, unitNames) {
     //     $("#companyName").val(unitNames);
@@ -288,6 +299,7 @@
                 p.bak4 = bak4;
                 p.bak5 = bak5;
                 p.bak6 = bak6;
+                p.userId = "zl";
                 plist.push(p);
             }
         } else if (stype == "guding") {
@@ -312,6 +324,8 @@
                 p.bak4 = bak4;
                 p.bak5 = bak5;
                 p.bak6 = bak6;
+                p.userId = "zl";
+
                 plist.push(p);
             }
         } else {

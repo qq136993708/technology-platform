@@ -53,6 +53,15 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">评价时间<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="createDate" name="createDate" placeholder="yyyy-MM-dd">
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="layui-row">
@@ -93,6 +102,11 @@
     layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element'],
         function () {
             var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
+            laydate.render({
+                elem: '#createDate'
+                , value: new Date()//必须遵循format参数设定的格式
+                , position: 'fixed'
+            });
             form.render(null, 'zjkEvaluate-form');
             //初始赋值 component-form-group 当前form的lay-filter
             if (id != "0") {
