@@ -128,7 +128,7 @@
                             <option value="">请选择</option>
                         </select>
                         <span>人数</span>
-                        <input type="number" id="count" name="count" title="专家姓名" value="10"
+                        <input type="number" id="count"   name="count" title="" value="10"
                                autocomplete="off" class="layui-input" style="    width: 10%;display: inline-block;">
                     </label>
                     <input type="button" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" value="换一批" onclick="renderTable()">
@@ -185,6 +185,17 @@
 </form>
 </div>
 <script>
+    $(function(){
+        //输入框的值改变时触发
+        $("#count").on("input",function(e){
+            //获取input输入的值
+            var newVal = e.delegateTarget.value;
+            const regex = /^([0-9]*[1-9][0-9]*(.[0-9]+)?|[0]+.[0-9]*[1-9][0-9]*)$/
+            if(!regex.test(newVal)) {//如果小于等于零
+                $("#count").val(10); //恢复原值
+            }
+        });
+    });
     //机构
     // function choose_joinUnitName_callback(unitIds, unitNames) {
     //     $("#companyName").val(unitNames);
