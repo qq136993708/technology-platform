@@ -65,11 +65,11 @@ public class IntlProjectRemarkServiceImpl implements IntlProjectRemarkService {
 				
 				
 				titleMap.put("authorPhone", "联系电话"); 
-            	titleMap.put("remarkTitle", "---纪要标题--"); 
-            	titleMap.put("remarkContent", "--纪要内容--"); 
-            	titleMap.put("createTime", "纪要日期"); 
+            	titleMap.put("remarkTitle", ""); //---纪要标题--
+            	titleMap.put("remarkContent", ""); //--纪要内容--
+            	titleMap.put("createTime", ""); //纪要日期
             	titleMap.put("projectId", "项目纪要-"+info.getProjectName()); 
-            	titleMap.put("remarkPeople", "负责人"); 
+            	titleMap.put("remarkPeople", ""); //负责人
             	titleMap.put("remarkType", "纪要类别");
             	titleMap.put("lay_che_disabled", true); 
 
