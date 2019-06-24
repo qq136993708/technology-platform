@@ -126,14 +126,23 @@
         });
 	    //创建空白预算表
 	    $("#creat_blank").on("click",function(){
-	    	publicMethods.ajaxPost("/budget/budget-info-create",{"nd":cu_date,"budgetType":budgetType}, function (dt) {
-	    		//提示消息
-	    		parent.layer.alert("操作成功", {title : '信息'});
-	    		//关闭当前页面
-				parent.layer.close(parent.layer.getFrameIndex(window.name));
-	    		//刷新父页面
-				parent.initDataVersion(dt.dataId);
- 		   	});
+	    	layer.prompt({formType: 2,value: '',title: '请填写预分配数(单位：万元)',area: ['300px', '25px']}, function(value, index, elem){
+	    		  if(!publicMethods.isPositiveInteger(value)){
+	    			  parent.layer.alert("请输入正整数!", {title : '提示'});
+	    			  return false;
+	    		  }else{
+	    			  layer.close(index);
+	    			  publicMethods.ajaxPost("/budget/budget-info-create",{"nd":cu_date,"budgetType":budgetType,"budgetMoney":value}, function (dt) {
+	  	  	    		//提示消息
+	  	  	    		parent.layer.alert("操作成功", {title : '信息'},function(i){
+	  	  	    			//关闭当前页面
+		  	  				parent.layer.close(parent.layer.getFrameIndex(window.name));
+		  	  	    		//刷新父页面
+		  	  				parent.initDataVersion(dt.dataId);
+	  	  	    		});
+	  	   		   	});
+	    		  }
+	    	});
 	    });
 	    //根据模板创建预算表
 	    $("#creat_bytemplate").on("click",function(){

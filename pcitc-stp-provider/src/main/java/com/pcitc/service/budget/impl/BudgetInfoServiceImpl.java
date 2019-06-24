@@ -150,7 +150,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		params.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_NO_START.getCode());
 		params.setBudgetType(info.getBudgetType());
 		params.setNd(nd);
-		params.setBudgetMoney(0d);
+		params.setBudgetMoney(info.getBudgetMoney()==null?0d:info.getBudgetMoney());
 		params.setCreaterId(info.getCreaterId());
 		params.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
 		params.setCreaterName(info.getCreaterName());
