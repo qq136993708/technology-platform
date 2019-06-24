@@ -33,11 +33,18 @@ public class BudgetInfoController extends BaseController
 	
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_create_total")
-	public Object toBudgetGroupAddPage(HttpServletRequest request) throws IOException 
+	public Object toBudgetInfoTotalAddPage(HttpServletRequest request) throws IOException 
 	{
 		request.setAttribute("nd", request.getParameter("nd"));
 		request.setAttribute("budgetType", request.getParameter("budgetType"));
 		return "stp/budget/budget_create_all_total";
+	}
+	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_create_split")
+	public Object toBudgetInfoSplitAddPage(HttpServletRequest request) throws IOException 
+	{
+		request.setAttribute("nd", request.getParameter("nd"));
+		request.setAttribute("budgetType", request.getParameter("budgetType"));
+		return "stp/budget/budget_create_all_split";
 	}
 	
 	@RequestMapping(value = "/budget/budget-info-get", method = RequestMethod.POST)
