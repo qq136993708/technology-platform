@@ -1,6 +1,7 @@
 package com.pcitc.service.budget.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -30,6 +31,8 @@ import com.pcitc.base.stp.budget.BudgetInfoExample;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.stp.out.OutUnit;
+import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.mapper.budget.BudgetGroupTotalMapper;
@@ -356,4 +359,37 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 
 		return null;
 	}
+
+	@Override
+	public Object createBudgetItemByTemplate(String dataId,BudgetInfo newInfo) throws Exception 
+	{
+		
+		List<BudgetGroupTotal> templates = selectBudgetGroupTotalByInfoId(dataId);
+		Map<String,String> idRel = new HashMap<String,String>();//新老ID对照
+		for(BudgetGroupTotal total:templates) 
+		{
+			String newId = IdUtil.createIdByTime();
+			idRel.put(total.getDataId(), newId);
+			
+			total.setBudgetInfoId(newInfo.getDataId());
+			total.setDataVersion(newInfo.getDataVersion());
+			total.setNd(newInfo.getNd());
+			total.setDataId(newId);
+			total.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+			total.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+			saveOrUpdateBudgetGroupTotal(total);
+		}
+		//处理二级预算单位
+		templates = selectBudgetGroupTotalByInfoId(newInfo.getDataId());
+		for(BudgetGroupTotal total:templates) 
+		{
+			if(total.getLevel()>0 && total.getParentDataId() != null) {
+				total.setParentDataId(idRel.get(total.getParentDataId()));
+				updateBudgetGroupTotal(total);
+			}
+		}
+		return null;
+	}
+
+	
 }

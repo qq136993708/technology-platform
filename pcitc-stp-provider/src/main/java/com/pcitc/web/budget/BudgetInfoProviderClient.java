@@ -1,5 +1,6 @@
 package com.pcitc.web.budget;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -43,41 +44,35 @@ public class BudgetInfoProviderClient
 	@Autowired
 	private BudgetGroupTotalService budgetGroupTotalService;
 	
-	
-	
-	
-	
-	@ApiOperation(value="预算管理-预算列表",notes="按年检索年度预算表信息。")
+	@ApiOperation(value="预算管理-预算列表",notes="按年检索年度预算表信息列表（不分页）。")
 	@RequestMapping(value = "/stp-provider/budget/budget-info-list", method = RequestMethod.POST)
 	public Object selectBudgetInfoList(@RequestBody BudgetInfo info) 
 	{
-		logger.info("budget-info-list...");
-		List<BudgetInfo> data = null;
+		//List<BudgetInfo> data = null;
+		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
 		try
 		{
-			System.out.println(JSON.toJSONString(info.getNd()));
-			data = budgetInfoService.selectBudgetInfoList(info.getNd(),info.getBudgetType());
-			System.out.println(JSON.toJSONString(data));
-			return data;
+			List<BudgetInfo> datalist = budgetInfoService.selectBudgetInfoList(info.getNd(),info.getBudgetType());
+			for(BudgetInfo dt:datalist) {
+				Map<String,Object> map = MyBeanUtils.transBean2Map(dt);
+				map.put("auditStatusDesc", BudgetAuditStatusEnum.getStatusByCode(dt.getAuditStatus()).getDesc());
+				rsdata.add(map);
+			}
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		return data;
+		return rsdata;
 	}
-	@ApiOperation(value="预算管理-预算列表",notes="按年检索年度预算表信息。")
+	@ApiOperation(value="预算管理-预算列表",notes="按年检索年度预算表信息（带分页）。")
 	@RequestMapping(value = "/stp-provider/budget/budget-info-table", method = RequestMethod.POST)
 	public Object selectBudgetInfoTable(@RequestBody LayuiTableParam param) 
 	{
-		logger.info("budget-grouptotal-info-list...");
 		LayuiTableData data = null;
 		try
 		{
-			System.out.println(JSON.toJSONString(param));
 			data = budgetInfoService.selectBudgetInfoPage(param);
-			System.out.println(JSON.toJSONString(data));
-			return data;
 		}
 		catch (Exception e)
 		{
@@ -85,6 +80,50 @@ public class BudgetInfoProviderClient
 		}
 		return data;
 	}
+	@ApiOperation(value="预算管理-创建年度预算",notes="创建年度预算空白预算表")
+	@RequestMapping(value = "/stp-provider/budget/budget-info-create", method = RequestMethod.POST)
+	public Object createBudgetInfo(@RequestBody BudgetInfo info) 
+	{
+		logger.info("budget-create-blank-total...");
+		BudgetInfo rsbean = null;
+		try
+		{
+			rsbean = budgetInfoService.createBlankBudgetInfo(info.getNd(),info);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rsbean;
+	}
+	@ApiOperation(value="预算管理-创建年度预算",notes="创建年度预算空白预算表(根据模板)")
+	@RequestMapping(value = "/stp-provider/budget/budget-info-create-bytemplate", method = RequestMethod.POST)
+	public Object createBudgetInfoByTemplate(@RequestBody BudgetInfo info) 
+	{
+		BudgetInfo newInfo = null;
+		try
+		{
+			newInfo = budgetInfoService.createBlankBudgetInfo(info.getNd(),info);
+			
+			BudgetInfo oldInfo = budgetInfoService.selectBudgetInfo(info.getDataId());
+			newInfo.setBudgetMoney(oldInfo.getBudgetMoney());
+			newInfo.setNd(oldInfo.getNd());
+			newInfo.setCreaterId(oldInfo.getCreaterId());
+			newInfo.setCreaterName(oldInfo.getCreaterName());
+			budgetInfoService.updateBudgetInfo(newInfo);
+			//集团预算总表
+			if(BudgetInfoEnum.GROUP_TOTAL.getCode().equals(info.getBudgetType())) {
+				budgetGroupTotalService.createBudgetItemByTemplate(info.getDataId(), newInfo);
+			}
+			
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return newInfo;
+	}
+	
 	@ApiOperation(value="获取年度最终预算",notes="获取年度最终预算表")
 	@RequestMapping(value = "/stp-provider/budget/get-final-budget", method = RequestMethod.POST)
 	public Object getFinalBudgetInfo(@RequestBody BudgetInfo info) 
@@ -140,15 +179,14 @@ public class BudgetInfoProviderClient
 	}
 	
 	@ApiOperation(value="预算管理",notes="删除年度预算表")
-	@RequestMapping(value = "/stp-provider/budget/budget-info-delete/{dataId}", method = RequestMethod.POST)
-	public Object deleteBudgetInfo(@PathVariable("dataId") String dataId) 
+	@RequestMapping(value = "/stp-provider/budget/budget-info-del", method = RequestMethod.POST)
+	public Object deleteBudgetInfo(@RequestBody BudgetInfo info) 
 	{
 		logger.info("delete-budget-info...");
 		Integer rs = 0;
 		try
 		{
-			rs = budgetInfoService.deleteBudgetInfo(dataId);
-			System.out.println(JSON.toJSONString(rs));
+			rs = budgetInfoService.deleteBudgetInfo(info.getDataId());
 		}
 		catch (Exception e)
 		{
@@ -221,17 +259,10 @@ public class BudgetInfoProviderClient
 				}
 			}
 			info.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
-			
 			//输出到辅助决策
-			if(BudgetInfoEnum.GROUP_TOTAL.getCode().equals(info.getBudgetType())) {
+			/*if(BudgetInfoEnum.GROUP_TOTAL.getCode().equals(info.getBudgetType())) {
 				budgetGroupTotalService.outDataToReport(info);
-			}else if(BudgetInfoEnum.GROUP_TOTAL.getCode().equals(info.getBudgetType())) 
-			{
-				
-			}
-			
-			
-			
+			}*/
 		}else {
 			//更新状态
 			info.setAuditStatus(workflow_status);
