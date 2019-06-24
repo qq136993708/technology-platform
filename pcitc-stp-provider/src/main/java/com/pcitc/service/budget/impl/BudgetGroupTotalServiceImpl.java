@@ -388,8 +388,6 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 				updateBudgetGroupTotal(total);
 			}
 		}
-		return null;
+		return newInfo;
 	}
-
-	
 }

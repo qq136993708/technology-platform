@@ -76,7 +76,7 @@ public class BudgetInfoController extends BaseController
 		info.setCreaterId(this.getUserProfile().getUserId());
 		info.setCreaterName(this.getUserProfile().getUserDisp());
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_INFO_CREATE, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
-		return JSON.toJSON(responseEntity.getBody());
+		return responseEntity.getBody();
 	}
 	@RequestMapping(value = "/budget/budget-info-create-bytemplate", method = RequestMethod.POST)
 	@ResponseBody
@@ -85,7 +85,7 @@ public class BudgetInfoController extends BaseController
 		info.setCreaterId(this.getUserProfile().getUserId());
 		info.setCreaterName(this.getUserProfile().getUserDisp());
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_INFO_CREATE_BYTEMPLATE, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
-		return JSON.toJSON(responseEntity.getBody()).toString();
+		return responseEntity.getBody();
 	}
 	
 	
