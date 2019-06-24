@@ -16,7 +16,7 @@ import com.pcitc.base.stp.out.OutUnit;
  * @author fb
  *
  */
-public interface BudgetAssetTotalService
+public interface BudgetAssetTotalService extends BudgetPublicService
 {
 	/**
 	 * 查询预算项

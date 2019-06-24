@@ -24,8 +24,10 @@ import com.pcitc.base.common.enums.BudgetInfoEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
+import com.pcitc.service.budget.BudgetAssetTotalService;
 import com.pcitc.service.budget.BudgetGroupTotalService;
 import com.pcitc.service.budget.BudgetInfoService;
+import com.pcitc.service.budget.BudgetStockTotalService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,6 +45,10 @@ public class BudgetInfoProviderClient
 	
 	@Autowired
 	private BudgetGroupTotalService budgetGroupTotalService;
+	@Autowired
+	private BudgetAssetTotalService budgetAssetTotalService;
+	@Autowired
+	private BudgetStockTotalService budgetStockTotalService;
 	
 	@ApiOperation(value="预算管理-预算列表",notes="按年检索年度预算表信息列表（不分页）。")
 	@RequestMapping(value = "/stp-provider/budget/budget-info-list", method = RequestMethod.POST)
@@ -114,6 +120,10 @@ public class BudgetInfoProviderClient
 			//集团预算总表
 			if(BudgetInfoEnum.GROUP_TOTAL.getCode().equals(info.getBudgetType())) {
 				budgetGroupTotalService.createBudgetItemByTemplate(info.getDataId(), newInfo);
+			}else if(BudgetInfoEnum.ASSETS_TOTAL.getCode().equals(info.getBudgetType())){
+				budgetAssetTotalService.createBudgetItemByTemplate(info.getDataId(), newInfo);
+			}else if(BudgetInfoEnum.STOCK_TOTAL.getCode().equals(info.getBudgetType())) {
+				budgetStockTotalService.createBudgetItemByTemplate(info.getDataId(), newInfo);
 			}
 			
 		}
