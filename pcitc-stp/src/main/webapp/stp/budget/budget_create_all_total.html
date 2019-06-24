@@ -126,7 +126,7 @@
         });
 	    //创建空白预算表
 	    $("#creat_blank").on("click",function(){
-	    	layer.prompt({formType: 2,value: '',title: '请填写预分配数(单位：万元)',area: ['300px', '25px']}, function(value, index, elem){
+	    	layer.prompt({formType:2,value: '',title: '请填写预分配数(单位：万元)',area: ['300px', '25px']}, function(value, index, elem){
 	    		  if(!publicMethods.isPositiveInteger(value)){
 	    			  parent.layer.alert("请输入正整数!", {title : '提示'});
 	    			  return false;
