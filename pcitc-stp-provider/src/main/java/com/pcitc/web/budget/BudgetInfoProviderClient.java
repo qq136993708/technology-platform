@@ -25,9 +25,11 @@ import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.service.budget.BudgetAssetTotalService;
+import com.pcitc.service.budget.BudgetB2cSplitService;
 import com.pcitc.service.budget.BudgetGroupTotalService;
 import com.pcitc.service.budget.BudgetInfoService;
 import com.pcitc.service.budget.BudgetStockTotalService;
+import com.pcitc.service.budget.BudgetTechSplitService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,6 +51,10 @@ public class BudgetInfoProviderClient
 	private BudgetAssetTotalService budgetAssetTotalService;
 	@Autowired
 	private BudgetStockTotalService budgetStockTotalService;
+	@Autowired
+	private BudgetB2cSplitService budgetB2cSplitService;
+	@Autowired
+	private BudgetTechSplitService budgetTechSplitService;
 	
 	@ApiOperation(value="预算管理-预算列表",notes="按年检索年度预算表信息列表（不分页）。")
 	@RequestMapping(value = "/stp-provider/budget/budget-info-list", method = RequestMethod.POST)
@@ -124,6 +130,12 @@ public class BudgetInfoProviderClient
 				budgetAssetTotalService.createBudgetItemByTemplate(info.getDataId(), newInfo);
 			}else if(BudgetInfoEnum.STOCK_TOTAL.getCode().equals(info.getBudgetType())) {
 				budgetStockTotalService.createBudgetItemByTemplate(info.getDataId(), newInfo);
+			}else if(BudgetInfoEnum.B2C_SPLIT.getCode().equals(info.getBudgetType())) {
+				budgetB2cSplitService.createBudgetItemByTemplate(info.getDataId(), newInfo);
+			}else if(BudgetInfoEnum.TECH_SPLIT.getCode().equals(info.getBudgetType())) {
+				budgetTechSplitService.createBudgetItemByTemplate(info.getDataId(), newInfo);
+			}else {
+				System.out.println("create by template is null..........");
 			}
 			
 		}
