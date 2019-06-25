@@ -707,7 +707,7 @@ public class BudgetGroupTotalProviderClient
 			workflowVo.setAuthenticatedUserName(info.getCreaterName());
 			//workflowVo.setFunctionId(workflowVo.getFunctionId());
 	    	// 待办业务详情、最终审批同意、最终审批不同意路径
-			workflowVo.setAuditDetailsPath("/budget/budget_main_grouptotal?budgetId="+info.getDataId());
+			workflowVo.setAuditDetailsPath("/budget/budget_detail_grouptotal?dataId="+info.getDataId());
 			workflowVo.setAuditAgreeMethod("http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-notice-budgetinfo?budgetId=" + info.getDataId()+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
 			workflowVo.setAuditRejectMethod("http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-notice-budgetinfo?budgetId=" + info.getDataId()+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_REFUSE.getCode());
 			Boolean rs = budgetInfoService.startWorkFlow(info,workflowVo);
