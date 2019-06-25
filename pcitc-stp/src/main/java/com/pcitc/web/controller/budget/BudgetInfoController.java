@@ -66,13 +66,16 @@ public class BudgetInfoController extends BaseController
 	public Object getBudgetInfo(@RequestParam(value = "dataId", required = true) String dataId,HttpServletRequest request) throws IOException 
 	{
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_GET_INFO+dataId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Object.class);
-		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
 		return responseEntity.getBody();
 	}
 	@RequestMapping(value = "/budget/budget-info-table", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getBudgetInfoTable(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request) throws IOException 
 	{
+		if(!InputCheckUtil.check(InputCheckUtil.pub_nd, param.getParam().get("nd")+"") || !InputCheckUtil.check(InputCheckUtil.budget_budgettype, param.getParam().get("budgetType")+"")) 
+		{
+			return "error";
+		}
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_INFO_TABLE, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), Object.class);
 		return responseEntity.getBody();
 	}
@@ -80,6 +83,11 @@ public class BudgetInfoController extends BaseController
 	@ResponseBody
 	public Object getBudgetInfoList(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
 	{
+		//输入验证
+		if(!InputCheckUtil.check(InputCheckUtil.pub_nd, info.getNd()) || !InputCheckUtil.check(InputCheckUtil.budget_budgettype, info.getBudgetType()+"")) 
+		{
+			return "error";
+		}
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_INFO_LIST, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
 		return responseEntity.getBody();
 	}
