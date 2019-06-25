@@ -18,6 +18,7 @@ import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.utils.InputCheckUtil;
 
 @Controller
 public class BudgetInfoController extends BaseController
@@ -35,15 +36,28 @@ public class BudgetInfoController extends BaseController
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_create_total")
 	public Object toBudgetInfoTotalAddPage(HttpServletRequest request) throws IOException 
 	{
-		request.setAttribute("nd", request.getParameter("nd"));
-		request.setAttribute("budgetType", request.getParameter("budgetType"));
+		
+		String nd = request.getParameter("nd");
+		String budgetType = request.getParameter("budgetType");
+		//验证输入有效性年度 和 预算类型
+		if(!InputCheckUtil.check(InputCheckUtil.pub_nd, nd) || !InputCheckUtil.check(InputCheckUtil.budget_budgettype, budgetType)) {
+			return "error";
+		}
+		request.setAttribute("nd", nd);
+		request.setAttribute("budgetType", budgetType);
 		return "stp/budget/budget_create_all_total";
 	}
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_create_split")
 	public Object toBudgetInfoSplitAddPage(HttpServletRequest request) throws IOException 
 	{
-		request.setAttribute("nd", request.getParameter("nd"));
-		request.setAttribute("budgetType", request.getParameter("budgetType"));
+		String nd = request.getParameter("nd");
+		String budgetType = request.getParameter("budgetType");
+		//验证输入有效性年度 和 预算类型
+		if(!InputCheckUtil.check(InputCheckUtil.pub_nd, nd) || !InputCheckUtil.check(InputCheckUtil.budget_budgettype, budgetType)) {
+			return "error";
+		}
+		request.setAttribute("nd", nd);
+		request.setAttribute("budgetType", budgetType);
 		return "stp/budget/budget_create_all_split";
 	}
 	
