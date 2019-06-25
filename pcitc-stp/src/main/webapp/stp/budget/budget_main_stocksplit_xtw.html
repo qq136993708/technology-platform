@@ -175,7 +175,7 @@
 			//数据版本选择
             $("#data_version").on("change",function(e){
             	curent_budget_info = budget_info_map[$("#data_version").val()];
-            	
+            	console.log(curent_budget_info);
             	if(curent_budget_info){
             		var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});
             		publicMethods.ajaxAsyncPost("/budget/budget-stocksplit-xtw-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
@@ -316,8 +316,8 @@
 	            	 	$.each(curent_tabel_data,function(index,dt){
 	            	 		${key}_total_money += parseInt(dt.${key}_total);
 	                	});
-	            	 	
-		            	$("#${key}").val(curent_budget_info.${key}+"/"+(curent_budget_info.${key}-${key}_total_money));//可分配数
+	            	 	$("#${key}").val(${key}_total_money+"/"+-${key}_total_money);//可分配数
+		            	//$("#${key}").val(curent_budget_info.${key}+"/"+(curent_budget_info.${key}-${key}_total_money));//可分配数
 	            	</#list> 
 	        	</#list>
           	}

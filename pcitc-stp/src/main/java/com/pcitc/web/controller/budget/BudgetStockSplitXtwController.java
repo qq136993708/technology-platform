@@ -97,6 +97,7 @@ public class BudgetStockSplitXtwController extends BaseController {
 		request.setAttribute("budgetType", BudgetInfoEnum.STOCK_XTY_SPLIT.getCode());
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_STOCKSPLIT_TITLES, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), List.class);
 		request.setAttribute("items", infors.getBody());
+		System.out.println(JSON.toJSONString(infors.getBody()));
 		return "stp/budget/budget_main_stocksplit_xtw";
 	}
 	
