@@ -121,9 +121,9 @@
                     cols: [[
                         {type: 'checkbox', event: 'changeEvents' ,width : 45}
                         , {title: '序号', type: 'numbers' ,width : 45}
-                        , {field: 'userName', title: '登录名称', style: 'cursor: pointer;'}
-                        , {field: 'userDisp', title: '用户姓名', style: 'cursor: pointer;'}
-                        , {field: 'userUnitDisp', title: '所属机构', style: 'cursor: pointer;'}
+                        , {field: 'userName', title: '登录名', style: 'cursor: pointer;',width : '20%'}
+                        , {field: 'userDisp', title: '姓名', style: 'cursor: pointer;',width : '15%'}
+                        , {field: 'userUnitDisp', title: '所属机构', style: 'cursor: pointer;',width : '30%'}
                         , {field: 'userPostDisp', title: '所属岗位', style: 'cursor: pointer;'}
                     ]],
                     done: function (res, curr, count) {
@@ -286,7 +286,7 @@
 	<div class="searchBox">
 		<label class="dateInput">
 			<span>名称</span>
-			<input type="text" name="userName" id="userName" placeholder="登录名称或用户名称" autocomplete="off" class="form-control">
+			<input type="text" name="userName" id="userName" placeholder="登录名或姓名" autocomplete="off" class="form-control">
 		</label>
 		<label class="dateInput">
 			<span>组织机构</span>

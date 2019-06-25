@@ -1,0 +1,9 @@
+{  
+    "nav" :{  
+        "home":"Home",  
+        "page1" :"PageOne",  
+        "page2" : "PageTwo",  
+        "button" : "Search",  
+        "input" : "Input your name"  
+    }  
+}
