@@ -880,9 +880,13 @@ public class SysFileServiceImpl implements SysFileService {
 				is = OSSUtil.getOssFileIS(sysfile.getFilePath().split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
 				// 设置输出的格式
 				os = response.getOutputStream();
-				response.setContentType("application/x-msdownload");
+
+                response.setHeader("content-type", "application/octet-stream");
+                response.setContentType("application/octet-stream");
+                response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(sysfile.getFileName(), "UTF-8"));
+//                response.setContentType("application/x-msdownload");
 				// 只有GBK才可以
-				response.addHeader("Content-Disposition", "attachment; filename=\""+new String(sysfile.getFileName().getBytes("GBK"), "iso8859-1")+"\"");
+//				response.addHeader("Content-Disposition", "attachment; filename=\""+new String(sysfile.getFileName().getBytes("GBK"), "iso8859-1")+"\"");
 				// 循环取出流中的数据
 				byte[] b = new byte[4096];
 				int len;
@@ -917,9 +921,15 @@ public class SysFileServiceImpl implements SysFileService {
 				is = OSSUtil.getOssFileIS(sysfile.getFilePath().split(OSSUtil.OSSPATH+"/"+OSSUtil.BUCKET+"/")[1]);
 				// 设置输出的格式
 				os = response.getOutputStream();
-				response.setContentType("application/x-msdownload");
+//				response.setContentType("application/x-msdownload");
 				// 只有GBK才可以
-				response.addHeader("Content-Disposition", "attachment; filename=\""+new String(sysfile.getFileName().getBytes("GBK"), "iso8859-1")+"\"");
+                response.setHeader("content-type", "application/octet-stream");
+                response.setContentType("application/octet-stream");
+                response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(sysfile.getFileName(), "UTF-8"));
+
+//                response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(sysfile.getFileName(), "UTF-8"));
+
+//                response.addHeader("Content-Disposition", "attachment; filename=\""+new String(sysfile.getFileName().getBytes("GBK"), "iso8859-1")+"\"");
 				// 循环取出流中的数据
 				byte[] b = new byte[4096];
 				int len = 0;
@@ -1552,7 +1562,7 @@ public class SysFileServiceImpl implements SysFileService {
 
 	/**
 	 * 关闭IO
-	 * 
+	 *
 	 * @param io
 	 */
 	public static void closeIO(Closeable io) {
