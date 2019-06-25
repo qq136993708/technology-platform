@@ -70,12 +70,12 @@ public class IntlProjectResultServiceImpl implements IntlProjectResultService {
                 ,{field:'authorPhone',title:'负责人联系电话',	style:'cursor: pointer;'}	 */
 				
 				titleMap.put("projectId", "项目成果-"+info.getProjectName()); 
-				titleMap.put("resultTitle", "----"); 
-            	titleMap.put("resultContent", "----"); 
-            	titleMap.put("resultCode", "项目编码"); 
-            	titleMap.put("resultType", "成果类型"); 
-            	titleMap.put("resultAuthor", "负责人"); 
-            	titleMap.put("authorPhone", "负责人联系电话"); 
+				titleMap.put("resultTitle", ""); //----
+            	titleMap.put("resultContent", "");//---- 
+            	titleMap.put("resultCode", ""); //项目编码
+            	titleMap.put("resultType", ""); //成果类型
+            	titleMap.put("resultAuthor", ""); //负责人
+            	titleMap.put("authorPhone", ""); //负责人联系电话
             	titleMap.put("lay_che_disabled", true); 
             	
             	

@@ -93,6 +93,7 @@ public class BudgetStockSplitZsyController extends BaseController {
 			nd = DateUtil.format(DateUtil.getNextYearDay(new Date()), DateUtil.FMT_YYYY);
 		}
 		request.setAttribute("nd", nd);
+		request.setAttribute("budgetType", BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode());
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_STOCKSPLIT_TITLES, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), List.class);
 		request.setAttribute("items", infors.getBody());
 		return "stp/budget/budget_main_stocksplit_zsy";

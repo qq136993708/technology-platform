@@ -120,6 +120,10 @@
                         field: "bak2",
                         title: "专家名称", event: 'setActive', style: 'cursor: pointer;'
                     },
+                    {
+                        field: "bak6",
+                        title: "评价时间", event: 'setActive', style: 'cursor: pointer;'
+                    },
                     // {
                     //     field: "userId",
                     //     title: "用户id", event: 'setActive', style: 'cursor: pointer;'
@@ -259,7 +263,7 @@
                     layer.msg("请选择一条数据");
                     return;
                 } else {
-                    openBaseWin("投诉", "/zjkEvaluate/editts?id=" + selectRowData.id+"&xmmc="+selectRowData.xmName+"&xmid="+selectRowData.xmId+"&zjid="+selectRowData.zjId+"&zjmc="+selectRowData.bak2+"&xmjd="+selectRowData.bak1);
+                    openBaseWin("评价", "/zjkEvaluate/editts?id=" + selectRowData.id+"&xmmc="+selectRowData.xmName+"&xmid="+selectRowData.xmId+"&zjid="+selectRowData.zjId+"&zjmc="+selectRowData.bak2+"&xmjd="+selectRowData.bak1);
                 }
             }
             ,

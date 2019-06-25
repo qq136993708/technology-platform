@@ -102,14 +102,22 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	@Override
 	public LayuiTableData selectBudgetInfoPage(LayuiTableParam param) throws Exception
 	{
-		if(param.getParam().get("nd")==null || param.getParam().get("budget_type") == null) 
+		Integer budgetType = null;
+		if(param.getParam().get("nd")==null || (param.getParam().get("budget_type") == null && param.getParam().get("budgetType") == null)) 
 		{
 			return null;
 		}
+		if(param.getParam().get("budget_type") != null) {
+			budgetType = new Integer(param.getParam().get("budget_type").toString());
+		}
+		if(param.getParam().get("budgetType") != null) {
+			budgetType = new Integer(param.getParam().get("budgetType").toString());
+		}
+		
 		BudgetInfoExample example = new BudgetInfoExample();
 		BudgetInfoExample.Criteria c = example.createCriteria();
 		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
-		c.andBudgetTypeEqualTo(new Integer(param.getParam().get("budget_type").toString()));
+		c.andBudgetTypeEqualTo(budgetType);
 		c.andNdEqualTo(param.getParam().get("nd").toString());
 		example.setOrderByClause("data_version");
 		LayuiTableData data = this.findByExample(param, example);
@@ -150,7 +158,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		params.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_NO_START.getCode());
 		params.setBudgetType(info.getBudgetType());
 		params.setNd(nd);
-		params.setBudgetMoney(0d);
+		params.setBudgetMoney(info.getBudgetMoney()==null?0d:info.getBudgetMoney());
 		params.setCreaterId(info.getCreaterId());
 		params.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
 		params.setCreaterName(info.getCreaterName());

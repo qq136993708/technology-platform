@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>预算编制管理-创建预算总表</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        .con-box{margin: auto 20px;}
+        .date-box{position: relative;width: 135px;height: 90px; line-height: 90px; vertical-align: middle;}
+        .date-box input{ height: 30px; width: 135px;border: 1px solid #c0c0c0;border-radius: 2px; padding-left: 6px;}
+        .date-box i{position: absolute;top: 0; right: 0;}
+        .create-table{width: 100%;height: 110px;margin-bottom: 50px;}
+        .dashborder-box{width: 100%;height: 108px; margin: 0 auto; border: 1px dashed #cccccc;}
+        .lg-btn{position: absolute;left: 50%; top: 50%; -webkit-transform: translate(-50%,-50%);-moz-transform: translate(-50%,-50%);
+            transform:translate(-50%,-50%);height: 48px; line-height: 48px; width: 178px; text-align: center;border: 1px solid #cccccc; border-radius: 2px; cursor: pointer;}
+        .lg-btn.left-btn{left: 30%;}
+        .dashborder-box select{position: absolute; width: 150px; left: 70%; top: 50%;-webkit-transform: translate(-50%,-50%);-moz-transform: translate(-50%,-50%);
+            transform:translate(-50%,-50%);}
+    </style>
+</head>
+<body>
+<div class="con-box">
+    <div class="date-box">
+        <input type="text" id="choose-year" readonly="readonly"><i class="layui-icon layui-icon-date"></i>
+    </div>
+    <div class="create-table">
+        <div class="layui-row layui-col-space20">
+            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                <div class="dashborder-box">
+                    <div id="creat_blank" class="lg-btn">创建空白预算表</div>
+                </div>
+            </div>
+            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                <div class="dashborder-box">
+                    <div class="lg-btn left-btn" id="creat_bytemplate">以历史模板创建</div>
+                    <select name="data_version" id="data_version" lay-verify="" lay-filter="test">
+                        <!-- <option value="01">V-2019</option>
+                        <option value="02">V-2018</option>
+                        <option value="03">V-2017</option> -->
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="tableBox">
+        <table id="dataTable" class="layui-table" lay-filter="dataTable"></table>
+    </div>
+</div>
+<div class="form-bottom">
+    <div class="form-bottom-btns">
+        <button type="button"
+                class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
+                id="cancel">关闭
+        </button>
+    </div>
+</div>
+<script>
+	//删除对象
+	
+	layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
+		var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
+		var cu_date = "${nd}";
+		var select_date ="${nd}";
+		var budgetType = "${budgetType}";
+		var curent_tabel_data = null;
+	 	laydate.render({
+           	elem: '#choose-year'
+           	,value: cu_date
+           	,type: 'year'
+           	,done:function (val, date, endDate) {
+           		select_date = val;
+            		reloadTable();
+            }
+	 	});
+        table.render({
+            elem: '#dataTable' //表格容器
+            , data: null 
+            , totalRow: true
+            , limit:100
+            , height: 300
+            , cols: [[
+                {field: 'dataVersion', title: '预算版本号'}
+                , {field: 'createrName', title: '创建人', style: 'cursor: pointer;'}
+                , {field: 'createTime', title: '创建时间', style: 'cursor: pointer;',align: 'center'}
+                , {field: 'updateTime', title: '最后更改时间', style: 'cursor: pointer;',align: 'center'}
+                , {field: 'status', title: '状态', style: 'cursor: pointer;',align: 'center'}
+                , {field: 'score', title: '操作', style: 'cursor: pointer;',align: 'center',
+                	 templet: function(d){
+                		 return '<a href="javascript:void(0)" lay-event="del" lay-id="\'+  d.dataId +\'">删除</a>';
+                         //return "<a href='javascript:void(0)' lay-event='del' lay-id='"+ d.dataId +"'>删除</a>";
+                     }
+                }
+            ]]
+        });
+	    function reloadTable()
+	    {
+	    	publicMethods.ajaxPost("/budget/budget-info-table",{page:1,limit:100,param: {"nd":select_date,"budgetType":budgetType}}, function (data) {
+	        	curent_tabel_data = data.data;
+	        	table.reload('dataTable', {data: data.data});
+	        	//处理下拉框
+	        	$("#data_version").html('<option value="">---请选择预算版本---</option>');
+	        	$.each(data.data,function(index,dt){
+            		$("#data_version").append('<option value="'+dt.dataId+'">'+dt.dataVersion+'</option>');
+            	});
+	   		}); 
+	    }
+	    reloadTable();
+	    table.on('tool(dataTable)', function (obj) {
+            var data = obj.data, event = obj.event, tr = obj.tr; //获得当前行 tr 的DOM对象;
+            switch(event){
+                case "del":
+                    layer.confirm('确定删除此行么？', function(index){
+                        obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                        layer.close(index);
+                        publicMethods.ajaxPost("/budget/budget-info-del",{"dataId":data.dataId}, function (data) {
+            	    		//刷新当前表格  
+                        	reloadTable();
+            	    		//刷新父页面
+            				parent.initDataVersion();
+            	   		}); 
+                    });
+               		break;
+            }
+        });
+	    //创建空白预算表
+	    $("#creat_blank").on("click",function(){
+	    	layer.prompt({formType:2,value: '',title: '请填写预分配数(单位：万元)',area: ['300px', '25px']}, function(value, index, elem){
+	    		  if(!publicMethods.isPositiveInteger(value)){
+	    			  parent.layer.alert("请输入正整数!", {title : '提示'});
+	    			  return false;
+	    		  }else{
+	    			  layer.close(index);
+	    			  publicMethods.ajaxPost("/budget/budget-info-create",{"nd":cu_date,"budgetType":budgetType,"budgetMoney":value}, function (dt) {
+	  	  	    		//提示消息
+	  	  	    		parent.layer.alert("操作成功", {title : '信息'},function(i){
+	  	  	    			//关闭当前页面
+		  	  				parent.layer.close(parent.layer.getFrameIndex(window.name));
+		  	  	    		//刷新父页面
+		  	  				parent.initDataVersion(dt.dataId);
+	  	  	    		});
+	  	   		   	});
+	    		  }
+	    	});
+	    });
+	    //根据模板创建预算表
+	    $("#creat_bytemplate").on("click",function(){
+	    	if($("#data_version").val()){
+	    		publicMethods.ajaxPost("/budget/budget-info-create-bytemplate",{"nd":cu_date,"budgetType":budgetType,"dataId":$("#data_version").val()}, function (dt) {
+	    			//提示消息
+		    		parent.layer.alert("操作成功", {title : '信息'});
+		    		//关闭当前页面
+					parent.layer.close(parent.layer.getFrameIndex(window.name));
+		    		//刷新父页面
+					parent.initDataVersion(dt.dataId);
+	 		   	});
+	    	}else{
+	    		parent.layer.alert("请选择参考历史预算表", {title : '信息'});
+	    	}
+	    });
+	    /*点击取消按钮*/
+	    $("#cancel").click(function () {
+	        var index = parent.layer.getFrameIndex(window.name);
+	        parent.layer.close(index);
+	    })
+	})
+</script>
+</body>
+</html>

@@ -850,7 +850,11 @@ layui.define(['jquery','form','table','laydate'],
                 columnSC=columnSC.substring(0,columnSC.length-1);
                 return columnSC;
             },
-
+            isPositiveInteger:function(s)
+            {//是否为正整数
+                var re = /^[1-9][0-9]+$/ ;
+                return re.test(s)
+            } 
         };
         
         

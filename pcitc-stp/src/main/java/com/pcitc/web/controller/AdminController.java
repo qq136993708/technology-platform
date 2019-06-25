@@ -581,6 +581,7 @@ public class AdminController extends BaseController {
 		request.setAttribute("userInfo", userDetails);
 
 		getContractParameter(request, response);
+		request.setAttribute("userId", userDetails.getUserId());
 		return "/instituteIndex";
 	}
 
