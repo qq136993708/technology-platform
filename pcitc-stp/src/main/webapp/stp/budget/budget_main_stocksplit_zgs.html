@@ -316,8 +316,8 @@
 	            	 	$.each(curent_tabel_data,function(index,dt){
 	            	 		${key}_total_money += parseInt(dt.${key}_total);
 	                	});
-	            	 	
-		            	$("#${key}").val(curent_budget_info.${key}+"/"+(curent_budget_info.${key}-${key}_total_money));//可分配数
+	            	 	$("#${key}").val(${key}_total_money+"/"+${key}_total_money);//可分配数
+		            	//$("#${key}").val(curent_budget_info.${key}+"/"+(curent_budget_info.${key}-${key}_total_money));//可分配数
 	            	</#list> 
 	        	</#list>
           	}
