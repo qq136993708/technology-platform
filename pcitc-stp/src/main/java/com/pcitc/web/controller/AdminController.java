@@ -615,10 +615,10 @@ public class AdminController extends BaseController {
 
 	}
 
-	private static final String	MY_BOT_WORK_ORDER_LIST				= "http://pcitc-zuul/system-proxy/PlanClient-provider/my/botWorkOrder_list";
-	private static final String	BOT_WORK_ORDER_LIST					= "http://pcitc-zuul/system-proxy/PlanClient-provider/botWorkOrder_list";
+	private static final String	MY_BOT_WORK_ORDER_LIST				= "http://pcitc-zuul/system-proxy/planClient-provider/my/botWorkOrder_list";
+	private static final String	BOT_WORK_ORDER_LIST					= "http://pcitc-zuul/system-proxy/planClient-provider/botWorkOrder_list";
 
-	private static final String	selectSonPlanBasesByCreateUserId	= "http://pcitc-zuul/system-proxy/PlanClient-provider/selectSonPlanBasesByCreateUserId";
+	private static final String	selectSonPlanBasesByCreateUserId	= "http://pcitc-zuul/system-proxy/planClient-provider/selectSonPlanBasesByCreateUserId";
 
 	/**
 	 * 首页的具体内容

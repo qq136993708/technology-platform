@@ -1,0 +1,18 @@
+{  
+    "nav" :{  
+        "home":"Home",  
+        "page1" :"PageOne",  
+        "page2" : "PageTwo",  
+        "button" : "Search",  
+        "input" : "Input your name"  
+    } , "basic" :{  
+        "userResource":"Basic",
+        "config":"Config",
+        "collect":"Collect",
+        "report":"Project Apply",
+        "person":"Personal Plat",
+        "audit":"Audit Handle"
+    } , "business" :{  
+        "processName":"Process Name"
+    } 
+}

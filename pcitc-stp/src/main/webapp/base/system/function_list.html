@@ -204,14 +204,7 @@
 						title : '状态',
 						width : '8%',
 						style : 'cursor: pointer;',
-						align : 'center',
-						templet : function(d) {
-							if (d.status == 1) {
-								return "生效";
-							} else {
-								return "失效";
-							}
-						}
+						align : 'center'
 					}, {
 						field : 'weight',
 						title : '排序号',
@@ -239,6 +232,25 @@
 							nodeId = selectRowData.id;
 							nodeName = selectRowData.name;
 
+						});
+						
+						$("[data-field='status']").children().each(function() {
+							if ($(this).text() == '1') {
+								$(this).text("生效");
+								// 对单元格背景色控制
+								// $(this).css('color', '#0F9EE0');
+
+								// 对单元格背景色控制
+								//$(this).css('background','#eee');
+
+								// 对整行背景色控制
+								//$(this).parent().parent().parent().css('background','#eee');
+
+							} else if ($(this).text() == '0') {
+								$(this).text("失效");
+
+								$(this).css('color', 'red');
+							}
 						});
 					}
 				});

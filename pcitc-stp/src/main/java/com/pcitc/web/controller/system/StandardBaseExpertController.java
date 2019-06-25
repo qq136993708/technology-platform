@@ -75,8 +75,8 @@ public class StandardBaseExpertController extends BaseController {
      */
     private static final String SAVE = "http://pcitc-zuul/system-proxy/standardbase-provider/standardbase/save_standardbase";
 
-    private static final String importFileStandard = "http://pcitc-zuul/system-proxy/PlanClient-provider/importFileStandard";
-    private static final String importFileTfc = "http://pcitc-zuul/system-proxy/PlanClient-provider/importFileTfc";
+    private static final String importFileStandard = "http://pcitc-zuul/system-proxy/planClient-provider/importFileStandard";
+    private static final String importFileTfc = "http://pcitc-zuul/system-proxy/planClient-provider/importFileTfc";
     private static final String TECH_TYPE_ADD_LIST = "http://pcitc-zuul/stp-proxy/tech-family-provider/type-insert-list";
 
     /**
