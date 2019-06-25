@@ -89,6 +89,7 @@ public class BudgetGroupTotalController extends BaseController {
 	{
 		request.setAttribute("nd", DateUtil.format(DateUtil.getNextYearDay(new Date()), DateUtil.FMT_YYYY));
 		request.setAttribute("cnd", DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		request.setAttribute("budgetType", BudgetInfoEnum.GROUP_TOTAL.getCode());
 		return "stp/budget/budget_main_grouptotal";
 	}
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_edit_grouptotal")
@@ -101,13 +102,13 @@ public class BudgetGroupTotalController extends BaseController {
 		request.setAttribute("nd", nd ==null?DateUtil.format(new Date(), DateUtil.FMT_YYYY):nd);
 		return "stp/budget/budget_edit_grouptotal";
 	}
-	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_create_grouptotal")
+	/*@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_create_grouptotal")
 	public Object toBudgetGroupAddPage(HttpServletRequest request) throws IOException 
 	{
-		//request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
 		request.setAttribute("nd", request.getParameter("nd"));
+		request.setAttribute("budget_type", request.getParameter("budget_type"));
 		return "stp/budget/budget_create_grouptotal";
-	}
+	}*/
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_history_compare_grouptotal")
 	public Object toBudgetGroupTotalHistoryPage(HttpServletRequest request) throws IOException 
 	{

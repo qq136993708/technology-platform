@@ -175,7 +175,7 @@
 			//数据版本选择
             $("#data_version").on("change",function(e){
             	curent_budget_info = budget_info_map[$("#data_version").val()];
-            	
+            	console.log(curent_budget_info);
             	if(curent_budget_info){
             		var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});
             		publicMethods.ajaxAsyncPost("/budget/budget-stocksplit-xtw-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
@@ -278,7 +278,7 @@
 			}
           	//初始化数据版本
             window.initDataVersion =function(budget_id){
-                publicMethods.ajaxAsyncPost("/budget/budget-stocksplit-xtw-info-list",{"nd":cu_date}, function (dt) {
+            	publicMethods.ajaxPost("/budget/budget-info-list",{"nd":cu_date,"budgetType":${budgetType}}, function (dt) {
                 	$("#data_version").html('<option value="">---请选择版本---</option>');
                 	budget_info_map = {};
                 	$.each(dt,function(index,data){
@@ -316,8 +316,8 @@
 	            	 	$.each(curent_tabel_data,function(index,dt){
 	            	 		${key}_total_money += parseInt(dt.${key}_total);
 	                	});
-	            	 	
-		            	$("#${key}").val(curent_budget_info.${key}+"/"+(curent_budget_info.${key}-${key}_total_money));//可分配数
+	            	 	$("#${key}").val(${key}_total_money+"/"+${key}_total_money);//可分配数
+		            	//$("#${key}").val(curent_budget_info.${key}+"/"+(curent_budget_info.${key}-${key}_total_money));//可分配数
 	            	</#list> 
 	        	</#list>
           	}
@@ -335,7 +335,7 @@
                         , maxmin: true
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                         , area: ['70%', '90%']
-                        , content: '/budget/budget_create_stocksplit_xtw?nd='+cu_date
+                        , content: '/budget/budget_create_split?nd='+cu_date+'&budgetType=${budgetType}'
                     });
                 },
                 saveEvent:function(){

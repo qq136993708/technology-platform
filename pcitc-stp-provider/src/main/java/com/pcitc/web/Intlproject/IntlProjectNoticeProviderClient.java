@@ -61,37 +61,6 @@ public class IntlProjectNoticeProviderClient
 		}else {
 			return new Result(false,"操作失败!");
 		}
-	
-		/*//workflowVo.setAuthenticatedUserId("111");
-		workflowVo.setProcessDefineId(WORKFLOW_DEFINE_ID); 
-		workflowVo.setBusinessId(noticeId);
-		workflowVo.setProcessInstanceName("通知审批："+notice.getNoticeTitle());
-		Map<String, Object> variables = new HashMap<String, Object>();  
-		//starter为必填项。流程图的第一个节点待办人变量必须为starter
-        variables.put("starter", workflowVo.getAuthenticatedUserId());
-        
-        //必须设置。流程中，需要的第二个节点的指派人；除starter外，所有待办人变量都指定为auditor(处长审批)
-        //处长审批 ZSH_JTZSZYC_GJHZC_CZ
-        List<SysUser> users = systemRemoteClient.selectUsersByPostCode("ZSH_JTZSZYC_GJHZC_CZ");
-        System.out.println("start userIds ... "+JSON.toJSONString(users));
-        variables.put("auditor", workflowVo.getAuthenticatedUserId());
-        if(users != null && users.size()>0) {
-        	variables.put("auditor", users.get(0).getUserId());
-        }
-        
-        //必须设置，统一流程待办任务中需要的业务详情
-        variables.put("auditDetailsPath", "/intl_project/notice_view?noticeId="+noticeId);
-       
-        //流程完全审批通过时，调用的方法
-        variables.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-notice?noticeId="+noticeId+"&workflow_status="+WorkFlowStatusEnum.STATUS_PASS.getCode());
-        
-        //流程驳回时，调用的方法（可能驳回到第一步，也可能驳回到第1+n步
-        variables.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-notice?noticeId="+noticeId+"&workflow_status="+WorkFlowStatusEnum.STATUS_RETURN.getCode());
-        
-        workflowVo.setVariables(variables);
-		String rs = systemRemoteClient.startWorkflowByProcessDefinitionId(workflowVo);
-		System.out.println("startwork  apply  rs...."+rs);*/
-		
 	}
 	@ApiOperation(value="审批流程回调通知",notes="审批结果回调通知")
 	@RequestMapping(value = "/stp-provider/project/callback-workflow-notice")

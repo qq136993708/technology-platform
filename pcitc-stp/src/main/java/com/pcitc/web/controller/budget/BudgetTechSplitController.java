@@ -90,6 +90,8 @@ public class BudgetTechSplitController extends BaseController {
 	public Object toBudgetTechPage(HttpServletRequest request) throws IOException 
 	{
 		request.setAttribute("nd", DateUtil.format(DateUtil.getNextYearDay(new Date()), DateUtil.FMT_YYYY));
+		request.setAttribute("cnd", DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		request.setAttribute("budgetType", BudgetInfoEnum.TECH_SPLIT.getCode());
 		return "stp/budget/budget_main_techsplit";
 	}
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_edit_techsplit")

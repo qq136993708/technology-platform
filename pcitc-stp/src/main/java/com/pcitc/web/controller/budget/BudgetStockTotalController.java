@@ -93,6 +93,8 @@ public class BudgetStockTotalController extends BaseController {
 	public Object toBudgetStockPage(HttpServletRequest request) throws IOException 
 	{
 		request.setAttribute("nd", DateUtil.format(DateUtil.getNextYearDay(new Date()), DateUtil.FMT_YYYY));
+		request.setAttribute("cnd", DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		request.setAttribute("budgetType", BudgetInfoEnum.STOCK_TOTAL.getCode());
 		return "stp/budget/budget_main_stocktotal";
 	}
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_edit_stocktotal")

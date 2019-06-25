@@ -2,6 +2,7 @@ package com.pcitc.service.budget.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -31,6 +32,8 @@ import com.pcitc.base.stp.budget.BudgetTechSplitExample;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.stp.out.OutUnit;
+import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.mapper.budget.BudgetInfoMapper;
 import com.pcitc.mapper.budget.BudgetTechSplitMapper;
@@ -342,5 +345,35 @@ public class BudgetTechSplitServiceImpl implements BudgetTechSplitService
 			rs.get(plan.getDefine9()).add(plan);
 		}
 		return rs;
+	}
+
+	@Override
+	public Object createBudgetItemByTemplate(String dataId, BudgetInfo newInfo) throws Exception 
+	{
+		List<BudgetTechSplit> templates = selectBudgetTechSplitByInfoId(dataId);
+		Map<String,String> idRel = new HashMap<String,String>();//新老ID对照
+		for(BudgetTechSplit total:templates) 
+		{
+			String newId = IdUtil.createIdByTime();
+			idRel.put(total.getDataId(), newId);
+			
+			total.setBudgetInfoId(newInfo.getDataId());
+			total.setDataVersion(newInfo.getDataVersion());
+			total.setNd(newInfo.getNd());
+			total.setDataId(newId);
+			total.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+			total.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+			saveOrUpdateBudgetTechSplit(total);
+		}
+		//处理二级预算单位
+		templates = selectBudgetTechSplitByInfoId(newInfo.getDataId());
+		for(BudgetTechSplit total:templates) 
+		{
+			if(total.getLevel()>0 && total.getParentDataId() != null) {
+				total.setParentDataId(idRel.get(total.getParentDataId()));
+				updateBudgetTechSplit(total);
+			}
+		}
+		return newInfo;
 	}
 }

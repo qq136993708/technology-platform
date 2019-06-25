@@ -92,6 +92,8 @@ public class BudgetB2cSplitController extends BaseController {
 	public Object toBudgetB2cPage(HttpServletRequest request) throws IOException 
 	{
 		request.setAttribute("nd", DateUtil.format(DateUtil.getNextYearDay(new Date()), DateUtil.FMT_YYYY));
+		request.setAttribute("cnd", DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		request.setAttribute("budgetType", BudgetInfoEnum.B2C_SPLIT.getCode());
 		return "stp/budget/budget_main_b2csplit";
 	}
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_edit_b2csplit")
