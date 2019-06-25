@@ -268,7 +268,7 @@
 						sthTrObj.workOrderEndDatatime = $(this).find("td").eq(3).text();
 					}
 					sthTrObj.dataCode = (dataCode++);
-					sthTrArr.push(sthTrObj)
+					sthTrArr.push(sthTrObj);
 				});
 				var jsonData = data.field;
 				jsonData.matterList = sthTrArr;
@@ -429,7 +429,7 @@
 					title : '处理日期',
 					event : 'setActive',
 					style : 'cursor: pointer;',
-					width : 100,
+					width : 140,
 					templet : function(d) {
 						var t = "<input type='text' value='" + d.workOrderEndDatatime + "' class='layui-input datetime inputVal' >";
 						return t;

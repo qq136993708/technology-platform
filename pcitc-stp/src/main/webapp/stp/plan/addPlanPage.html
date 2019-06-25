@@ -260,15 +260,15 @@
 					if ($(this).find("td").eq(3).find("input").length > 0) {
 						sthTrObj.dataId = $(this).find("td").eq(2).find("input").val();
 						sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
-						sthTrObj.workOrderAllotUserName = $(this).find(".tdSelect dl dd.layui-this").html();
-						sthTrObj.workOrderAllotUserId = $(this).find(".tdSelect dl dd.layui-this").attr("lay-value");
+						sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
+						sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
 						sthTrObj.announcements = $(this).find("td").eq(5).find("input").val();
 						sthTrObj.dataCode = (dataCode++);
 					} else {
 						sthTrObj.dataId = $(this).find("td").eq(2).text();
 						sthTrObj.workOrderName = $(this).find("td").eq(3).text();
-						sthTrObj.workOrderAllotUserName = $(this).find(".tdSelect dl dd.layui-this").html();
-						sthTrObj.workOrderAllotUserId = $(this).find(".tdSelect dl dd.layui-this").attr("lay-value");
+						sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
+						sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
 						sthTrObj.announcements = $(this).find("td").eq(5).text();
 						sthTrObj.dataCode = (dataCode++);
 					}
@@ -327,20 +327,18 @@
 					if ($(this).find("td").eq(3).find("input").length > 0) {
 						sthTrObj.dataId = $(this).find("td").eq(2).find("input").val();
 						sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
-						sthTrObj.workOrderAllotUserName = $(this).find(".tdSelect dl dd.layui-this").html();
-						sthTrObj.workOrderAllotUserId = $(this).find(".tdSelect dl dd.layui-this").attr("lay-value");
+						sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
+						sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
 						sthTrObj.announcements = $(this).find("td").eq(5).find("input").val();
 						sthTrObj.dataCode = (dataCode++);
 					} else {
 						sthTrObj.dataId = $(this).find("td").eq(2).text();
 						sthTrObj.workOrderName = $(this).find("td").eq(3).text();
-						sthTrObj.workOrderAllotUserName = $(this).find(".tdSelect dl dd.layui-this").html();
-						sthTrObj.workOrderAllotUserId = $(this).find(".tdSelect dl dd.layui-this").attr("lay-value");
+						sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
+						sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
 						sthTrObj.announcements = $(this).find("td").eq(5).text();
 						sthTrObj.dataCode = (dataCode++);
 					}
-					alert(sthTrObj.workOrderAllotUserName);
-					alert(sthTrObj.workOrderAllotUserId);
 					sthTrArr.push(sthTrObj)
 				});
 				var jsonData = data.field;

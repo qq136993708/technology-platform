@@ -381,7 +381,7 @@ public class PlanServiceImpl implements PlanService {
         }
         
         String parentId = (String) param.getParam().get("parentId");
-        if (parentId != null && !"1".equals(parentId)) {
+        if (parentId != null && "1".equals(parentId)) {
             c.andParentIdIsNull();
         }
 
