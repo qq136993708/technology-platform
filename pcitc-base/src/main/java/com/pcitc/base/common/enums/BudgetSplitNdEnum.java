@@ -9,14 +9,14 @@ import java.util.List;
  */
 public enum BudgetSplitNdEnum 
 {
-	//集团分解
+	/*//集团分解
 	SPLIT_GROUP_2018("2018",BudgetSplitEnum.SPLIT_GROUP_YF,BudgetSplitEnum.SPLIT_GROUP_JX,BudgetSplitEnum.SPLIT_GROUP_QT),
 	SPLIT_GROUP_2019("2019",BudgetSplitEnum.SPLIT_GROUP_YF,BudgetSplitEnum.SPLIT_GROUP_JX,BudgetSplitEnum.SPLIT_GROUP_QT),
 	SPLIT_GROUP_2020("2020",BudgetSplitEnum.SPLIT_GROUP_YF,BudgetSplitEnum.SPLIT_GROUP_JX,BudgetSplitEnum.SPLIT_GROUP_QT),
 	//资产分解
 	SPLIT_ASSET_2018("2018",BudgetSplitEnum.SPLIT_ASSET_LY,BudgetSplitEnum.SPLIT_ASSET_HG),
 	SPLIT_ASSET_2019("2019",BudgetSplitEnum.SPLIT_ASSET_LY,BudgetSplitEnum.SPLIT_ASSET_HG),
-	SPLIT_ASSET_2020("2020",BudgetSplitEnum.SPLIT_ASSET_LY,BudgetSplitEnum.SPLIT_ASSET_HG),
+	SPLIT_ASSET_2020("2020",BudgetSplitEnum.SPLIT_ASSET_LY,BudgetSplitEnum.SPLIT_ASSET_HG),*/
 	
 	
 	//集团公司一级分类

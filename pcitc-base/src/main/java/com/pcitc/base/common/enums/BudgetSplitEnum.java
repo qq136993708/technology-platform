@@ -10,12 +10,12 @@ import java.util.List;
  */
 public enum BudgetSplitEnum 
 {
-	SPLIT_GROUP_YF(101,"YF","油服"),
+	/*SPLIT_GROUP_YF(101,"YF","油服"),
 	SPLIT_GROUP_JX(102,"JX","机械"),
 	SPLIT_GROUP_QT(103,"QT","其他"),
 	
 	SPLIT_ASSET_LY(201,"HGB","资产部"),
-	SPLIT_ASSET_HG(202,"ZCB","化工部"),
+	SPLIT_ASSET_HG(202,"ZCB","化工部"),*/
 		
 	SPLIT_STOCK_YJY(301,"GFFZSY","股份付直属院"),
 	SPLIT_STOCK_YJY_KTY(3011,"ZSY_KTY","勘探院"),
