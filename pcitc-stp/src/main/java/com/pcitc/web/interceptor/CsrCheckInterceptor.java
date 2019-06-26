@@ -10,11 +10,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.pcitc.web.utils.InputCheckUtil;
+
 @Component
 public class CsrCheckInterceptor implements HandlerInterceptor 
 {
 	static String [] protocols = {"http","https"};
-	static String [] hosts = {"stmp.sinopec.com","localhost","127.0.0.1","10.238","10.246.94"};
+	static String [] hosts = {"stmp.sinopec.com","localhost","127.0.0.1","10.238.[\\d]{1,3}.[\\d]{1,3}","10.246.[\\d]{1,3}.[\\d]{1,3}"};
 	static String [] exceptionsURI = {"/index","/login","/stpHome","/instituteIndex"};
 	static Set<String> securityReferes = new HashSet<String>();
 	static Set<String> exceptionsURL = new HashSet<String>();
@@ -36,24 +38,27 @@ public class CsrCheckInterceptor implements HandlerInterceptor
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		String referer = request.getHeader("Referer");
+		String url = request.getRequestURL().toString();
 		if(referer != null) {
 			boolean checkPass = false;
 			for(String securityRefere:securityReferes) {
-				if(referer.startsWith(securityRefere)) {
+				if(InputCheckUtil.check(securityRefere+".*?",referer)) {
 					checkPass = true;
 					break;
 				}
 			}
 			if(!checkPass) {
-				System.out.println("跨站攻击被拦截,攻击来源:"+referer);
+				System.out.println("跨站攻击被拦截,攻击来源:referer:"+referer +" url:"+url);
 				return false;
 			}
 		}else{
-			String url = request.getRequestURL().toString();
-			if(!exceptionsURL.contains(url)) {
-				System.out.println("跨站攻击被拦截，攻击路径:"+request.getRequestURL());
-				return false;
+			for(String u:exceptionsURL) {
+				if(InputCheckUtil.check(u, url)) {
+					return true;
+				}
 			}
+			System.out.println("跨站攻击被拦截，攻击路径:"+request.getRequestURL());
+			return false;
 		}
 		return true;
 	}
