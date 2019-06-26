@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestTemplate;
@@ -17,7 +18,8 @@ import com.pcitc.base.system.SysUser;
  * @date:2018/5
  */
 @Controller
-public class BaseController {
+public class BaseController implements ErrorController
+{
 
     @Autowired
     public HttpServletRequest request;
@@ -43,6 +45,11 @@ public class BaseController {
 		return sysUserInfo;
 	}
 
+	@Override
+	public String getErrorPath() 
+	{
+		return "global_error";
+	}
 
 //    public HttpHeaders getHttpHeaders() {
 //        return httpHeaders;
