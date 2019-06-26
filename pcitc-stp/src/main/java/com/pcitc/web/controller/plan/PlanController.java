@@ -240,8 +240,10 @@ public class PlanController extends BaseController {
 				
 				// 记录父节点的相关信息，方便显示
 				planBase.setDataCode(bsv.getDataCode());
+				planBase.setWorkOrderCode(bsv.getDataCode());
 				planBase.setCreateUser(bsv.getCreateUser());
 				planBase.setCreateUserName(bsv.getCreateUserName());
+				planBase.setCreateDate(bsv.getCreateDate());
 				planBase.setStatus(bsv.getStatus());
 				
 				System.out.println("announcements = " + detail.get("announcements"));
@@ -384,8 +386,10 @@ public class PlanController extends BaseController {
 				
 				// 记录父节点的相关信息，方便显示
 				planBase.setDataCode(wjbvo.getDataCode());
+				planBase.setWorkOrderCode(wjbvo.getDataCode());
 				planBase.setCreateUser(wjbvo.getCreateUser());
 				planBase.setCreateUserName(wjbvo.getCreateUserName());
+				planBase.setCreateDate(wjbvo.getCreateDate());
 				planBase.setStatus(wjbvo.getStatus());
 				// Object objJsrId = detail.get("jsId");
 				// if (objJsrId != null && !"".equals(objJsrId)) {//
@@ -485,8 +489,10 @@ public class PlanController extends BaseController {
 				
 				// 记录父节点的相关信息，方便显示
 				planBase.setDataCode(wjbvo.getDataCode());
+				planBase.setWorkOrderCode(wjbvo.getDataCode());
 				planBase.setCreateUser(wjbvo.getCreateUser());
 				planBase.setCreateUserName(wjbvo.getCreateUserName());
+				planBase.setCreateDate(wjbvo.getCreateDate());
 				planBase.setStatus(wjbvo.getStatus());
 				baseList.add(planBase);
 			}

@@ -120,7 +120,6 @@
 			} ];
 			// elem,id,url,toolbar,cols,done
 			function renderTable() {
-				alert(workOrderStatus);
 				publicMethods.tableRender('tableListElem', 'tableList', '/plan/getTableData', false, cols, {
 					param : {
 						"workOrderStatus" : workOrderStatus,
@@ -205,7 +204,7 @@
 				editEvent : function() { //点击编辑按钮
 					var id;
 					if (selectRowData != undefined && selectRowData != "") {
-						if (selectRowData.workOrderStatus == '0' || selectRowData.workOrderStatus == '1') {
+						if (selectRowData.workOrderStatus == '0' || selectRowData.workOrderStatus == '') {
 							id = selectRowData.dataId;
 							layer.open({
 								title : param.name + '-编辑',
@@ -218,7 +217,7 @@
 								content : '/plan/editPlanPage?dataId=' + id
 							});
 						} else {
-							layer.msg('只可操作未下发的数据');
+							layer.msg('只可操作未下发的任务!');
 							return;
 						}
 					} else {
@@ -248,7 +247,7 @@
 				deleteEvent : function() { //点击删除按钮
 					var id;
 					if (selectRowData != undefined) {
-						if(selectRowData.workOrderStatus == '0'){
+						if(selectRowData.workOrderStatus == '0' || selectRowData.workOrderStatus == ''){
 							id = selectRowData.dataId;
 							layer.confirm('确认要删除吗？', {
 								icon : 3,
@@ -276,7 +275,7 @@
 								});
 							});
 						} else {
-							layer.msg('只能删除未下发的！');
+							layer.msg('只能删除未下发的任务！');
 							return;
 						}
 						

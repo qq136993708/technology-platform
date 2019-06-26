@@ -229,25 +229,24 @@
 				var matterLength = $("#matterTableDiv .layui-table-main  table tbody tr");
 				$(matterLength).each(function() {
 					var sthTrObj = {};
-
 					if ($(this).find("td").eq(3).find("input").length > 0) {
 						sthTrObj.dataId = $(this).find("td").eq(2).find("input").val();
 						sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
-						sthTrObj.workOrderAllotUserName = $(this).find(".tdSelect dl dd.layui-this").html();
-						sthTrObj.workOrderAllotUserId = $(this).find(".tdSelect dl dd.layui-this").attr("lay-value");
+						sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
+						sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
 						sthTrObj.announcements = $(this).find("td").eq(5).find("input").val();
 						sthTrObj.dataCode = (dataCode++);
 					} else {
 						sthTrObj.dataId = $(this).find("td").eq(2).text();
 						sthTrObj.workOrderName = $(this).find("td").eq(3).text();
-						sthTrObj.workOrderAllotUserName = $(this).find(".tdSelect dl dd.layui-this").html();
-						sthTrObj.workOrderAllotUserId = $(this).find(".tdSelect dl dd.layui-this").attr("lay-value");
+						sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
+						sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
 						sthTrObj.announcements = $(this).find("td").eq(5).text();
 						sthTrObj.dataCode = (dataCode++);
 					}
-					alert(sthTrObj);
 					sthTrArr.push(sthTrObj)
 				});
+				
 				console.log(sthTrArr);
 				var jsonData = data.field;
 				jsonData.matterList = sthTrArr;
@@ -300,15 +299,15 @@
 					if ($(this).find("td").eq(3).find("input").length > 0) {
 						sthTrObj.dataId = $(this).find("td").eq(2).find("input").val();
 						sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
-						sthTrObj.workOrderAllotUserName = $(this).find(".tdSelect dl dd.layui-this").html();
-						sthTrObj.workOrderAllotUserId = $(this).find(".tdSelect dl dd.layui-this").attr("lay-value");
+						sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
+						sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
 						sthTrObj.announcements = $(this).find("td").eq(5).find("input").val();
 						sthTrObj.dataCode = (dataCode++);
 					} else {
 						sthTrObj.dataId = $(this).find("td").eq(2).text();
 						sthTrObj.workOrderName = $(this).find("td").eq(3).text();
-						sthTrObj.workOrderAllotUserName = $(this).find(".tdSelect dl dd.layui-this").html();
-						sthTrObj.workOrderAllotUserId = $(this).find(".tdSelect dl dd.layui-this").attr("lay-value");
+						sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
+						sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
 						sthTrObj.announcements = $(this).find("td").eq(5).text();
 						sthTrObj.dataCode = (dataCode++);
 					}
@@ -454,31 +453,6 @@
 					$(".layui-table").css("width", "100%");
 					$("[data-field='dataId']").hide();
 					$("[data-field='workOrderAllotUserId']").hide();
-
-					/* // 为了保持样式的一致性，先删除原有的，同时添加新的一行
-					$("#matterTableDiv table tbody tr").eq(0).remove();
-					$("#matterTableDiv table tbody tr").eq(0).remove();
-
-					var trParam = {
-						"id" : "matterTableDiv",
-						"number" : 6,
-						"specialElement" : [ {
-							hide : true,
-							"column" : 2,
-							"element" : "input"
-						}, {
-							"column" : 4,
-							"element" : "select",
-							"value" : $("#workOrderAllotUserName").val(),
-							"valueId" : $("#workOrderAllotUserId").val()
-						}, {
-							hide : true,
-							"column" : 6,
-							"element" : "input"
-						} ]
-					};
-					publicMethods.addTableTr(trParam);
-					calTableQz(); */
 				}
 
 			});

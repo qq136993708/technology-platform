@@ -446,7 +446,8 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .form_tableAdd_container .pullBtn.active{ background: url('/layuiadmin/layui/images/icon-lower-arrow.png') no-repeat;
     -moz-transform:rotate(180deg);-webkit-transform:rotate(180deg);transform:rotate(180deg);filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=2);}
 .form_tableAdd_container .tableBox select { width: 98%;height: 26px;border: 1px solid #ccc;}
-.form_tableAdd_container .tableBox input { width: 98%; height: 26px; border: 1px solid #ccc; border-radius: 2px;padding-left: 4px;}
+.form_tableAdd_container .tableBox input { width: 90%; height: 26px; border: 1px solid #ccc; margin: 0 5%;
+    border-radius: 2px;padding-left: 4px;}
 .form_tableAdd_container .tableBox input[type="checkbox"] { width: 16px; height: 16px; border: 1px solid #1890ff; border-radius: 2px;padding-left: 4px;}
 .form_tableAdd_container .datetime{ background: url('/layuiadmin/layui/images/calendar.png') no-repeat 98% 4px;}
 .form_tableAdd_container .file-name { float:left;color: #1890ff; width: 60%; padding-left: 16px;
