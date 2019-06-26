@@ -109,7 +109,28 @@ public class PlanController extends BaseController {
 		JSONObject retJson = (JSONObject) JSON.toJSON(result);
 		return retJson;
 	}
-
+    /**
+     * 主页任务新增
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/plan/addPlanPageMain")
+    public String pageAddPlanMain(HttpServletRequest request) {
+        Object dataId = request.getParameter("dataId");
+        String flag = "edit";
+        if (dataId == null || "".equals(dataId)) {
+            dataId = UUID.randomUUID().toString().replace("-", "");
+            flag = "add";
+        }
+        request.setAttribute("flag", flag);
+        request.setAttribute("dataId", dataId);
+        request.setAttribute("userName", sysUserInfo.getUserDisp());
+        request.setAttribute("unitName", sysUserInfo.getUnitName());
+        request.setAttribute("bak6", sysUserInfo.getUserId());
+        request.setAttribute("bak4", sysUserInfo.getUserDisp());
+        request.setAttribute("closeType", "1");
+        return "stp/plan/addPlanPage";
+    }
 	/**
 	 * 新建任务
 	 */
@@ -127,7 +148,7 @@ public class PlanController extends BaseController {
 		request.setAttribute("unitName", sysUserInfo.getUnitName());
 		request.setAttribute("bak6", sysUserInfo.getUserId());
 		request.setAttribute("bak4", sysUserInfo.getUserDisp());
-		request.setAttribute("closeType", request.getParameter("closeType"));
+//		request.setAttribute("closeType", request.getParameter("closeType"));
 		
 		
 		request.setAttribute("userInfo", sysUserInfo);

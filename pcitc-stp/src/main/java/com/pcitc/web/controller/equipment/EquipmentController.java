@@ -38,6 +38,7 @@ import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.hana.report.DicSupplyer;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreProject;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserProperty;
@@ -63,12 +64,7 @@ public class EquipmentController extends BaseController {
 	private static final String DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/delete/";
 	private static final String BATCH_DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/batch-delete/";
 	private static final String LIST_BY_IDS_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/list-by-ids/";
-
 	private static final String chooseEquipmentByMap = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/list-by-map/";
-	
-
-
-
 	public static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/get/";
 	// 流程操作--同意
 	private static final String AUDIT_AGREE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/task/agree/";
@@ -78,6 +74,7 @@ public class EquipmentController extends BaseController {
 	private static final String GET_DIC_ASSET_TYPE = "http://pcitc-zuul/hana-proxy/hana/common/dic/asset_type";
 	private static final String GET_DIC_SUPPLYER = "http://pcitc-zuul/hana-proxy/hana/common/dic/supplyer";
 	private static final String chooseBusiness_data = "http://pcitc-zuul/hana-proxy/hana/common/dic/supplyer_table";
+	
 	
 
 	
@@ -279,10 +276,10 @@ public class EquipmentController extends BaseController {
 	@RequestMapping(value = "/to-choose-chooseBusiness")
 	public String tochooseBusiness(HttpServletRequest request, HttpServletResponse response) {
 		
-		SysUserProperty sysUserProperty=EquipmentUtils.getSysUserProperty(sysUserInfo.getUserId(), "G0DSM", restTemplate, httpHeaders);
+		/*SysUserProperty sysUserProperty=EquipmentUtils.getSysUserProperty(sysUserInfo.getUserId(), "G0DSM", restTemplate, httpHeaders);
 		String g0GSDM=sysUserProperty.getDataId();
 		request.setAttribute("g0GSDM", g0GSDM);
-		request.setAttribute("companyCode", g0GSDM);
+		request.setAttribute("companyCode", g0GSDM);*/
 		return "/stp/equipment/equipment/chooseBusiness";
 	}
 	
@@ -578,12 +575,70 @@ public class EquipmentController extends BaseController {
 	@RequestMapping(method = RequestMethod.GET, value = "/add")
 	public String add(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String applyDepartName = sysUserInfo.getUnitName();
-		String applyDepartCode = sysUserInfo.getUnitCode();
+		
+		
+		
+		
 		String firstApplyUser=sysUserInfo.getUserDisp();
 		String attachmentDoc= IdUtil.createFileIdByTime();
 		
 		
+		Map<String ,String> map=EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String parentUnitPathNames = map.get("parentUnitPathNames");//申报单位
+		String parentUnitPathIds =  map.get("parentUnitPathIds");//申报单位
+		String applyDepartName =  map.get("applyDepartName");//申报部门
+		String applyDepartCode =  map.get("applyDepartCode");//申报部门
+		
+		
+		
+		/*String firstApplyUser=sysUserInfo.getUserDisp();
+		String attachmentDoc= IdUtil.createFileIdByTime();
+		String unitCode = sysUserInfo.getUnitCode();//00000,108811,108811002
+		String unitName = sysUserInfo.getUnitName();//中国石油化工集团,中国石油化工股份有限公司石油勘探开发研究院,油气勘探研究所
+		System.out.println("==========unitName="+unitName+" unitCode:"+unitCode);
+		//字电表八大院，匹配用户机构(如果用户机构中包含字典表中的院，说明是院所人员)
+		List<SysDictionary> dicList = EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate,httpHeaders);
+		if(dicList!=null && dicList.size()>0)
+		{
+			for(int i=0;i<dicList.size();i++)
+			{
+				SysDictionary sysDictionary=dicList.get(i);
+				String value=sysDictionary.getNumValue();
+				String name=sysDictionary.getName();
+				String arr[]=unitCode.split(",");
+				if(arr!=null && arr.length>0)
+				{
+					for(int j=0;j<arr.length;j++)
+					{
+						String code=arr[j];
+						if(code.equals(value))
+						{
+							parentUnitPathIds=code;
+							parentUnitPathNames=name;
+						}
+					}
+				}
+			}
+		}
+		//根据单位--》找出下级部门（中国石油化工集团,中国石油化工股份有限公司石油勘探开发研究院,油气勘探研究所）
+		if(!parentUnitPathIds.equals(""))
+		{
+			String arr[]=unitCode.split(",");
+			if(arr!=null && arr.length>0)
+			{
+				for(int j=0;j<arr.length;j++)
+				{
+					String code=arr[j];
+					if(code.length()>6 && code.contains(parentUnitPathIds))//部门：9位,且包含单位代码
+					{
+						applyDepartCode=code;
+						applyDepartName= EquipmentUtils.getParentUnitPathName(applyDepartCode, restTemplate, httpHeaders);
+					}
+					
+				}
+			}
+		}
+		*/
 		
 		
 		String equipmentId = CommonUtil.getParameter(request, "equipmentId", "");
@@ -600,7 +655,13 @@ public class EquipmentController extends BaseController {
 			applyDepartCode = sreEquipment.getApplyDepartCode();
 			firstApplyUser=sreEquipment.getFirstApplyUser();
 			attachmentDoc=sreEquipment.getAttachmentDoc();
+			parentUnitPathNames=sreEquipment.getParentUnitPathNames();
+			parentUnitPathIds=sreEquipment.getParentUnitPathIds();
 		}
+		
+		
+		request.setAttribute("parentUnitPathNames", parentUnitPathNames);
+		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		request.setAttribute("attachmentDoc", attachmentDoc);
 		request.setAttribute("applyDepartName", applyDepartName);
 		request.setAttribute("applyDepartCode", applyDepartCode);
@@ -642,16 +703,17 @@ public class EquipmentController extends BaseController {
 		String originPlace =        CommonUtil.getParameter(request, "originPlace", "");
 		
 		String supplierIds =        CommonUtil.getParameter(request, "supplierIds", "");
-		    
+		/*    
 		String unitPathIds =   CommonUtil.getParameter(request, "unitPathIds",sysUserInfo.getUnitPath());
 		String unitPathNames = CommonUtil.getParameter(request, "unitPathNames", sysUserInfo.getUnitName());
 		
 		
 		String parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
-		String parentUnitPathNames = EquipmentUtils.getParentUnitPathName(parentUnitPathIds, restTemplate, httpHeaders);
+		String parentUnitPathNames = EquipmentUtils.getParentUnitPathName(parentUnitPathIds, restTemplate, httpHeaders);*/
 		
 		
-		
+		String parentUnitPathIds =        CommonUtil.getParameter(request, "parentUnitPathIds", "");
+		String parentUnitPathNames =        CommonUtil.getParameter(request, "parentUnitPathNames", "");
 		
 		// 流程状态-是保存还是提交
 		String auditStatus = CommonUtil.getParameter(request, "auditStatus", Constant.AUDIT_STATUS_DRAFT);
@@ -681,8 +743,8 @@ public class EquipmentController extends BaseController {
 			sreEquipment = se.getBody();
 		}
 		// 流程状态
-		sreEquipment.setUnitPathIds(unitPathIds);
-		sreEquipment.setUnitPathNames(unitPathNames);
+		sreEquipment.setUnitPathIds("");
+		sreEquipment.setUnitPathNames("");
 		sreEquipment.setParentUnitPathIds(parentUnitPathIds);
 		sreEquipment.setParentUnitPathNames(parentUnitPathNames); 
 		

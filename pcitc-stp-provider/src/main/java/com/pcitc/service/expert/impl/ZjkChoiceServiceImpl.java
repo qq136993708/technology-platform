@@ -231,8 +231,14 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         List<ZjkChoice> zjkChoices = (List<ZjkChoice>) data.getData();
         List<ZjkChoice> dataList = new ArrayList<>();
         ZjkEvaluateExample e = new ZjkEvaluateExample();
-        e.createCriteria().andXmIdIn(zjkChoices.stream().map(ZjkChoice::getXmId).collect(Collectors.toList()));
-        e.createCriteria().andZjkIdIn(zjkChoices.stream().map(ZjkChoice::getZjId).collect(Collectors.toList()));
+        List<String> xmidList = zjkChoices.stream().map(ZjkChoice::getXmId).collect(Collectors.toList());
+        List<String> zjidList = zjkChoices.stream().map(ZjkChoice::getZjId).collect(Collectors.toList());
+        if (xmidList!=null&&xmidList.size()>0){
+            e.createCriteria().andXmIdIn(xmidList);
+        }
+        if (zjidList!=null&&zjidList.size()>0){
+            e.createCriteria().andZjkIdIn(zjidList);
+        }
         List<ZjkEvaluate> zjkEvaluates = zjkEvaluateService.selectByExample(e);
         for (int i = 0,j = zjkChoices.size(); i < j; i++) {
             ZjkChoice zjkChoice = zjkChoices.get(i);
