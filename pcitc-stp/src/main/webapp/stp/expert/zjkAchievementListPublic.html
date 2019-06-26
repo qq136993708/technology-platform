@@ -154,7 +154,7 @@
                 if (typeof (selectRowData.dataId) == "undefined") {
                     layer.msg('请点击选择一行数据');
                 } else {
-                    openFullWin("专家选择", "/expertController/getUserChoicePage?flag=cg&projectId=" + selectRowData.dataId+"&projectName="+selectRowData.cgmc+"&unitCode="+selectRowData.dataId);
+                    openFullWin("选择专家", "/expertController/getUserChoicePage?flag=cg&projectId=" + selectRowData.dataId+"&projectName="+selectRowData.cgmc+"&unitCode="+selectRowData.dataId);
                 }
             }, showExpertEvent: function () { //查看已选专家
                 if (typeof (selectRowData.dataId) == "undefined") {

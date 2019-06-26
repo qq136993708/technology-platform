@@ -442,7 +442,8 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
 
             Object company = param.getParam().get("company");
             if (!StrUtil.isObjectEmpty(company)) {
-                c.andCompanyEqualTo(company.toString());
+                c.andCompanyIn(Arrays.asList(company.toString().split(",")));
+//                c.andCompanyEqualTo(company.toString());
             }
 
             data = zjkBaseInfoService.findByExample(param, example);
