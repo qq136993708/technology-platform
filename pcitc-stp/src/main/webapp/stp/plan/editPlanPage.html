@@ -225,7 +225,6 @@
 			}
 			form.on('submit(save)', function(data) {
 				var sthTrArr = [];
-				var dataCode = 0;
 				var matterLength = $("#matterTableDiv .layui-table-main  table tbody tr");
 				$(matterLength).each(function() {
 					var sthTrObj = {};
@@ -235,14 +234,12 @@
 						sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
 						sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
 						sthTrObj.announcements = $(this).find("td").eq(5).find("input").val();
-						sthTrObj.dataCode = (dataCode++);
 					} else {
 						sthTrObj.dataId = $(this).find("td").eq(2).text();
 						sthTrObj.workOrderName = $(this).find("td").eq(3).text();
 						sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
 						sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
 						sthTrObj.announcements = $(this).find("td").eq(5).text();
-						sthTrObj.dataCode = (dataCode++);
 					}
 					sthTrArr.push(sthTrObj)
 				});
@@ -259,7 +256,6 @@
 					url : url,
 					success : function(data) {
 						if (data == 200) {
-							var index = parent.layer.getFrameIndex(window.name);
 							url = '/plan/editBotWorkOrder';
 							dataStatus = 1;
 							var index = parent.layer.getFrameIndex(window.name);
@@ -292,7 +288,6 @@
 			form.on('submit(component-form-submit)', function(data) {
 				var sthTrArr = [];
 				JSON.stringify(data.field);
-				var dataCode = 0;
 				var matterLength = $("#matterTableDiv  .layui-table-main table tbody tr");
 				$(matterLength).each(function() {
 					var sthTrObj = {};
@@ -302,14 +297,12 @@
 						sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
 						sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
 						sthTrObj.announcements = $(this).find("td").eq(5).find("input").val();
-						sthTrObj.dataCode = (dataCode++);
 					} else {
 						sthTrObj.dataId = $(this).find("td").eq(2).text();
 						sthTrObj.workOrderName = $(this).find("td").eq(3).text();
 						sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
 						sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
 						sthTrObj.announcements = $(this).find("td").eq(5).text();
-						sthTrObj.dataCode = (dataCode++);
 					}
 					sthTrArr.push(sthTrObj);
 				});
