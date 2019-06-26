@@ -35,6 +35,14 @@
 .layui-table-none {
 	padding: 0 !important;
 }
+.form_tableAdd_container .tableBox input{width: 69.3% !important;}
+.form_tableAdd_container .tableBox .layui-table-cell input{width: 100% !important;margin-left: 15px;}
+.form_tableAdd_container .tableBox .layui-table-cell .layui-select-title input{margin-left: 3px;margin-top: 3px;}
+.layui-form-select dl{top:26px !important;left: 3px !important;}
+.tdSelect .layui-unselect input{ width: 100%!important;;}
+.tdSelect .layui-unselect {width: 70.5%;margin-left: 3px;}
+.tdSelect .layui-form-select dl{left: 8px !important;}
+.tdSelect .layui-form-select .layui-edge{right: 5px;}
 </style>
 </head>
 <body>
@@ -158,7 +166,7 @@
 			<div class="form-bottom">
 				<div class="form-bottom-btns">
 					<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue btn_save" lay-submit="" lay-filter="save">保存</button>
-					<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue btn_submit" lay-submit="" lay-filter="component-form-submit" id="btn_submit_xf">下发</button>
+					<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue btn_save" lay-submit="" lay-filter="component-form-submit" id="btn_submit_xf">下发</button>
 					<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
 				</div>
 			</div>
@@ -225,25 +233,14 @@
 			}
 			form.on('submit(save)', function(data) {
 				var sthTrArr = [];
-				var dataCode = 0;
 				var matterLength = $("#matterTableDiv .layui-table-main  table tbody tr");
 				$(matterLength).each(function() {
 					var sthTrObj = {};
-					if ($(this).find("td").eq(3).find("input").length > 0) {
-						sthTrObj.dataId = $(this).find("td").eq(2).find("input").val();
-						sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
-						sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
-						sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
-						sthTrObj.announcements = $(this).find("td").eq(5).find("input").val();
-						sthTrObj.dataCode = (dataCode++);
-					} else {
-						sthTrObj.dataId = $(this).find("td").eq(2).text();
-						sthTrObj.workOrderName = $(this).find("td").eq(3).text();
-						sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
-						sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
-						sthTrObj.announcements = $(this).find("td").eq(5).text();
-						sthTrObj.dataCode = (dataCode++);
-					}
+                    sthTrObj.dataId = $(this).find("td").eq(2).text();
+                    sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
+                    sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
+                    sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
+                    sthTrObj.announcements = $(this).find("td").eq(5).find("input").val();
 					sthTrArr.push(sthTrObj)
 				});
 				
@@ -259,7 +256,6 @@
 					url : url,
 					success : function(data) {
 						if (data == 200) {
-							var index = parent.layer.getFrameIndex(window.name);
 							url = '/plan/editBotWorkOrder';
 							dataStatus = 1;
 							var index = parent.layer.getFrameIndex(window.name);
@@ -292,25 +288,14 @@
 			form.on('submit(component-form-submit)', function(data) {
 				var sthTrArr = [];
 				JSON.stringify(data.field);
-				var dataCode = 0;
 				var matterLength = $("#matterTableDiv  .layui-table-main table tbody tr");
 				$(matterLength).each(function() {
 					var sthTrObj = {};
-					if ($(this).find("td").eq(3).find("input").length > 0) {
-						sthTrObj.dataId = $(this).find("td").eq(2).find("input").val();
-						sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
-						sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
-						sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
-						sthTrObj.announcements = $(this).find("td").eq(5).find("input").val();
-						sthTrObj.dataCode = (dataCode++);
-					} else {
-						sthTrObj.dataId = $(this).find("td").eq(2).text();
-						sthTrObj.workOrderName = $(this).find("td").eq(3).text();
-						sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
-						sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
-						sthTrObj.announcements = $(this).find("td").eq(5).text();
-						sthTrObj.dataCode = (dataCode++);
-					}
+                    sthTrObj.dataId = $(this).find("td").eq(2).text();
+                    sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
+                    sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
+                    sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
+                    sthTrObj.announcements = $(this).find("td").eq(5).find("input").val();
 					sthTrArr.push(sthTrObj);
 				});
 				var jsonData = data.field;
@@ -406,19 +391,20 @@
 					title : '主键',
 					event : 'setActive',
 					style : 'cursor: pointer;',
-					edit : true
 				}, {
 					field : 'workOrderName',
 					title : '工作事项内容',
 					event : 'setActive',
 					style : 'cursor: pointer;',
-					edit : true
+                    templet : function(d) {
+                        var t = "<input type='text' value='" + d.workOrderName + "' >";
+                        return t;
+                    }
 				}, {
 					field : 'workOrderAllotUserName',
 					title : '被安排人',
 					event : 'setActive',
 					style : 'cursor: pointer;',
-					width : '10%',
 					templet : function(d) {
 
 						var certTypeStr;
@@ -446,8 +432,10 @@
 					title : '权重(%)',
 					event : 'setActive',
 					style : 'cursor: pointer;',
-					width : '10%',
-					edit : true
+                    templet : function(d) {
+                        var t = "<input type='text' value='" + d.announcements + "' >";
+                        return t;
+                    }
 				} ] ],
 				done : function(res, curr, count) {
 					$(".layui-table").css("width", "100%");
@@ -525,7 +513,7 @@
 					} else {
 						sthTrObj.workOrderName = $(this).find("td").eq(3).text();
 						if (sthTrObj.workOrderName == "") {
-							$(this).find("td").eq(5).text(qz);
+							$(this).find("td").eq(5).find("input").val(qz);
 						}
 					}
 				});

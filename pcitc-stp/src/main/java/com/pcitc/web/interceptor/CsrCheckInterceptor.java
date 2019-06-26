@@ -39,6 +39,8 @@ public class CsrCheckInterceptor implements HandlerInterceptor
 			throws Exception {
 		String referer = request.getHeader("Referer");
 		String url = request.getRequestURL().toString();
+		System.out.println("referer:"+referer);
+		System.out.println("url:"+url);
 		if(referer != null) {
 			boolean checkPass = false;
 			for(String securityRefere:securityReferes) {

@@ -52,6 +52,7 @@
         .layui-form-select dl {
             top: 26px;
         }
+        .tableToolBox{height: auto !important;}
     </style>
 </head>
 <body>
@@ -91,16 +92,28 @@
                 </div>
             </div>
 
-            <div class="layui-row">
-                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">附件 </label>
-                        <div class="layui-input-block">
-                            <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" onclick="upload_File('${bak6}','','edit','');">选择文件</button>
+            <div class="layui-row" style="width: 97%;margin: 0 5%;">
+                <!--<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">-->
+                    <!--<div class="layui-form-item">-->
+                        <!--<label class="layui-form-label">附件 </label>-->
+                        <!--<div class="layui-input-block">-->
+                            <!--<button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" onclick="upload_File('${bak6}','','edit','');">选择文件</button>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <div class="tableBox">
+                    <div class="tableToolBox" style="border: 0 !important;">
+                        <div class="layui-form-item">
+                            <input type="hidden" name="attachId" id="attachId" value="${bak6}">
+                            <div id="file_upload">
+                            </div>
                         </div>
                     </div>
                 </div>
+
+
             </div>
+
         </div>
         <div>
             <input type="hidden" id="stype" name="stype" value="suiji"/>
@@ -185,6 +198,10 @@
 </form>
 </div>
 <script>
+    var file_opt_flag = "aa37ff4098174da38dead1064dd8427c";
+    var file_ids = "attachId";
+    var file_edit_detail = "edit";
+    $("#file_upload").load('/common/public/uploadlayuiload.html');
     $(function(){
         //输入框的值改变时触发
         $("#count").on("input",function(e){
@@ -239,7 +256,7 @@
             maxmin: false,
             //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
             area: ['80%', '70%'],
-            content: "/unit/chooseUnitMultiV2?initFuncName=initUnitTreeChoose&callbackFuncName=callbackUnitTreeChoose"
+            content: "/unit/chooseUnitMultiExpert?initFuncName=initUnitTreeChoose&callbackFuncName=callbackUnitTreeChoose"
         });
     });
 </script>
@@ -420,8 +437,8 @@
                 title: "性别", event: 'setActive', style: 'cursor: pointer;'
             },
             {
-                field: "age",
-                title: "年龄", event: 'setActive', style: 'cursor: pointer;', align: "right"
+                field: "birthDate",
+                title: "出生日期", event: 'setActive', style: 'cursor: pointer;', align: "right"
             },
             {
                 field: 'email',
@@ -429,7 +446,7 @@
                 event: 'setActive',
                 align: 'left',
                 style: 'cursor: pointer;',
-                width: 150,
+                width: 180,
             },
             {field: "mobile", title: "联系方式", event: 'setActive', style: 'cursor: pointer;'},
             // {fixed: 'right', title: '查看', toolbar: '#showDetail', width: 150, align: 'center'}

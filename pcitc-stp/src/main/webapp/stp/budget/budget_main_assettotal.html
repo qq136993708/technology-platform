@@ -68,6 +68,7 @@
                     <span>剩余可分配</span>
                     <input type="text" class="readOnlyBox" name="surplusMoney" id="surplusMoney"  readonly="readonly" value="0">
                 </label>
+                <label class="dateInput"><span id="warningMsg"></span></label>
             </div>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
                     data-type="addEvent">新增
@@ -276,7 +277,14 @@
             	$.each(curent_tabel_data,function(index,dt){
             		total_money += parseInt(dt.xmjf);
             	});
-          		$("#surplusMoney").val(parseInt($("#budgetMoney").val())-total_money);
+          		var available = parseInt($("#budgetMoney").val())-total_money;
+          		$("#surplusMoney").val(available);
+          		if(available < 0){
+          			$("#warningMsg").html("警告：已超出预算分配数！");
+          		}else{
+          			$("#warningMsg").html("");
+          		}
+          		return available;
           	}
           	//将方法转换为全局方法
           	window.initDataVersion = initDataVersion;
@@ -361,17 +369,36 @@
                 		parent.layer.alert("请选择需要保存的预算版本", {title : '提示'});
                 		return;
                 	}                
-   					publicMethods.ajaxAsyncPost("/budget/save-assettotal-items", {"info":JSON.stringify(curent_budget_info),"items":JSON.stringify(curent_tabel_data)}, function (data) {
-   	                     if (data.success) {    	                    	
-   	                    	 layer.msg('保存成功!');
-   	                    	 publicMethods.ajaxAsyncPost("/budget/budget-info-get", {"dataId":curent_budget_info.dataId}, function (dt) {
-   	                     		budget_info_map[dt.dataId]=dt
-	   	                     	initEmptyData(dt);
-	   	                	 });
-   	                     } else {
-   	                    	layer.msg(data.message);
-   	                     }
-   	                });                	
+   					function saveData(){
+   						publicMethods.ajaxAsyncPost("/budget/save-assettotal-items", {"info":JSON.stringify(curent_budget_info),"items":JSON.stringify(curent_tabel_data)}, function (data) {
+      	                     if (data.success) {    	                    	
+      	                    	 layer.msg('保存成功!');
+      	                    	 publicMethods.ajaxAsyncPost("/budget/budget-info-get", {"dataId":curent_budget_info.dataId}, function (dt) {
+      	                     		budget_info_map[dt.dataId]=dt
+   	   	                     	initEmptyData(dt);
+   	   	                	 });
+      	                     } else {
+      	                    	layer.msg(data.message);
+      	                     }
+      	                });
+   					}
+   					var rs = calculationSurplusMoney();
+                	var msg = "";
+                	if(rs > 0)
+                	{
+                		msg = '剩余可分配数'+rs+' 万元，确定要保存吗？';
+                	}
+                	if(rs <0){
+                		msg = '已超出可分配数'+Math.abs(rs)+' 万元，确定要保存吗？';
+                	}
+                	if(rs != 0){
+                		layer.confirm(msg,{title:"保存确认"},function(index){
+                			layer.close(index);
+                			saveData();
+                		});
+                	}else{
+                		saveData();
+                	}
                 },submitEvent:function(){
                 	if($("#data_version").val()==""){
                 		parent.layer.alert("请选择需要提交的预算版本", {title : '提示'});

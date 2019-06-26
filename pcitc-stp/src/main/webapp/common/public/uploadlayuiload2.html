@@ -24,7 +24,8 @@
             <div class="layui-tab-item layui-show">
                 <div class="tableToolBox">
                     <div class="tableBtns">
-                        <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" id="testList2">选择文件</button><input class="layui-upload-file" type="file" accept="undefined" name="file" multiple="">
+                        <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" id="testList2">选择文件</button>
+                        <input class="layui-upload-file" type="file" accept="undefined" name="file" multiple="">
                         <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" id="testListAction2">开始上传</button>
                         <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save layui-btn-disabled" style="display: none;" id="testListActionDisabled">开始上传</button>
                     </div>
@@ -32,12 +33,12 @@
                 <div class="layui-upload-list">
                     <table class="layui-table" id="uploadTable2">
                         <thead>
-                        <th  style="display: none;"><input type="checkbox" class="fileTableCheck_head" onclick="pcitcFile2.checkedAll();"></th>
-                        <th  style="display: none;">序号</th>
+                        <th style="display: none;"><input type="checkbox" class="fileTableCheck_head" onclick="pcitcFile2.checkedAll();"></th>
+                        <th style="display: none;">序号</th>
                         <th>文件名</th>
-                        <th>大小</th>
-                        <th>状态</th>
-                        <th>操作</th>
+                        <th width="15%">大小</th>
+                        <th width="15%">状态</th>
+                        <th width="25%">操作</th>
                         </thead>
                         <tbody id="demoList2"></tbody>
                     </table>
@@ -46,7 +47,8 @@
             <div class="layui-tab-item">
                 <div class="tableToolBox">
                     <div class="tableBtns">
-                        <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" id="test-upload-testList2">选择文件</button><input class="layui-upload-file" type="file" accept="undefined" name="file" multiple="">
+                        <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" id="test-upload-testList2">选择文件</button>
+                        <input class="layui-upload-file" type="file" accept="undefined" name="file" multiple="">
                         <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" id="test-upload-testListAction2">开始上传</button>
                     </div>
                 </div>
@@ -74,8 +76,8 @@
     var pcitc = pcitc || {};
     pcitc.fileUpload2 = pcitc.fileUpload2 || {};
     var pcitcFile2 = pcitc.fileUpload2 = {
-        fileObj:{},
-        url:"/sysfile/uploadMultipleFileLayui",
+        fileObj: {},
+        url: "/sysfile/uploadMultipleFileLayui",
         filedflag: "",
         fileIds: "fileIds",
         file_edit_detail: file_edit_detail2,
@@ -85,11 +87,11 @@
         auto: false,
         field: "file",
         size: "10240",
-        file_table_id:"demoList2",
+        file_table_id: "demoList2",
         multiple: "true",
         number: "10",
         drag: false,
-        complete:"",
+        complete: "",
         ajaxFile: function (url, data, callback) {
             var result = null;
             jQuery.ajax({
@@ -156,15 +158,16 @@
         }, downloadFilesAll: function () {
             var ids = "";
             $(".fileTableCheck").each(function (index, obj) {
-                if(obj.checked==true){
-                    ids = (ids==""?$(obj).val():(ids+"|"+$(obj).val()));
+                if (obj.checked == true) {
+                    ids = (ids == "" ? $(obj).val() : (ids + "|" + $(obj).val()));
                 }
             });
-            $("#download2").attr("href","/sysfile/download/"+ids);
-            document.getElementById("download2").click();        }, deleteFileAll: function () {
+            $("#download2").attr("href", "/sysfile/download/" + ids);
+            document.getElementById("download2").click();
+        }, deleteFileAll: function () {
             $(".fileTableCheck").each(function (index, obj) {
-                if(obj.checked==true){
-                    pcitcFile2.deleteFile($(obj).val(),($(obj).parent().parent().attr("id").split("-")[1])*1);
+                if (obj.checked == true) {
+                    pcitcFile2.deleteFile($(obj).val(), ($(obj).parent().parent().attr("id").split("-")[1]) * 1);
                 }
             });
         }, getFileConfig: function (fileFlag) {
@@ -174,74 +177,75 @@
                 pcitcFile2.size = result.fileSize;
                 pcitcFile2.ext = result.fileType;
             });
-        },checkedAll:function () {
-            if($(".fileTableCheck_head").prop("checked")==false){
+        }, checkedAll: function () {
+            if ($(".fileTableCheck_head").prop("checked") == false) {
                 $(".fileTableCheck").each(function (index, obj) {
                     obj.checked = false;
                 });
-            }else {
+            } else {
                 $(".fileTableCheck").each(function (index, obj) {
                     obj.checked = true;
                 });
             }
-        },tableSort:function () {
+        }, tableSort: function () {
             document.getElementById("tab1");
             $("#uploadTable2 tr").each(function (index, obj) {
-                if(index>0){
+                if (index > 0) {
                     $(obj).children().eq(1).html(index);
                 }
             });
-        },setHeadCheck:function () {
-            $(".fileTableCheck_head").prop("checked",false);
-        },validCallBack:function(functionName){
+        }, setHeadCheck: function () {
+            $(".fileTableCheck_head").prop("checked", false);
+        }, validCallBack: function (functionName) {
             try {
-                if(typeof functionName==="function"){
+                if (typeof functionName === "function") {
                     return true;
-                }else { //不是函数
+                } else { //不是函数
                     return false;
                 }
-            } catch(e) {}
+            } catch (e) {
+            }
         }, IEVersion: function ()//判断是否是IE浏览器，包括Edge浏览器
         {
             var userAgent = navigator.userAgent;
             //微信内置浏览器
-            if(userAgent.match(/MicroMessenger/i) == 'MicroMessenger') {
+            if (userAgent.match(/MicroMessenger/i) == 'MicroMessenger') {
                 return "MicroMessenger";
             }
             //QQ内置浏览器
-            else if(userAgent.match(/QQ/i) == 'QQ') {
+            else if (userAgent.match(/QQ/i) == 'QQ') {
                 return "QQ";
             }
             //Chrome
-            else if(userAgent.match(/Chrome/i) == 'Chrome') {
+            else if (userAgent.match(/Chrome/i) == 'Chrome') {
                 return "Chrome";
             }
             //Opera
-            else if(userAgent.match(/Opera/i) == 'Opera') {
+            else if (userAgent.match(/Opera/i) == 'Opera') {
                 return "Opera";
             }
             //Firefox
-            else if(userAgent.match(/Firefox/i) == 'Firefox') {
+            else if (userAgent.match(/Firefox/i) == 'Firefox') {
                 return "Firefox";
             }
             //Safari
-            else if(userAgent.match(/Safari/i) == 'Safari') {
+            else if (userAgent.match(/Safari/i) == 'Safari') {
                 return "Safari";
             }
             //IE
-            else if(!!window.ActiveXObject || "ActiveXObject" in window) {
+            else if (!!window.ActiveXObject || "ActiveXObject" in window) {
                 return "IE";
             }
             else {
-                return "未定义:"+userAgent;
+                return "未定义:" + userAgent;
             }
-        },reloadTable:function () {
+        }, reloadTable: function () {
             var fileList = pcitcFile2.getFileResult(pcitcFile2.fileIds);
             for (var i = 0; i < fileList.list.length; i++) {
                 var file = fileList.list[i];
                 var tr = $(['<tr id="upload-' + i + '">'
                     , '<td style="display: none;"><input type="checkbox" class=\'fileTableCheck\' value=\'' + file.id + '\' ></td>'
-                    , '<td  style="display: none;">' + (i+1) + '</td>'
+                    , '<td  style="display: none;">' + (i + 1) + '</td>'
                     , '<td>' + file.fileName + '</td>'
                     , '<td>' + (file.fileSize / 1014).toFixed(1) + 'kb</td>'
                     , '<td><span style="color: #5FB878;">上传成功</span></td>'
@@ -251,7 +255,7 @@
                     , '<a class=\'layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_import btnMyBgImg demo-delete\' target="_top" href=\"/sysfile/download/' + file.id + '">下载</a>'
                     , '</td>'
                     , '</tr>'].join(''));
-                $('#'+pcitcFile2.file_table_id).append(tr);
+                $('#' + pcitcFile2.file_table_id).append(tr);
             }
         }
     }
@@ -261,15 +265,15 @@
     if (pcitcFile2.file_edit_detail == "") {
         pcitcFile2.file_edit_detail = "detail";
     }
-    if(pcitcFile2.file_edit_detail=="detail"){
+    if (pcitcFile2.file_edit_detail == "detail") {
         $("#testList2").hide();
         $("#testListAction2").hide();
     }
     /***配置*/
     if (typeof (file_opt_flag2) != "undefined") {
         pcitcFile2.filedflag = file_opt_flag2;
-    }else {
-        pcitcFile2.filedflag=JSON.parse(window.localStorage.getItem("param")).code;
+    } else {
+        pcitcFile2.filedflag = JSON.parse(window.localStorage.getItem("param")).code;
     }
     /***默认*/
     if (typeof (file_accept2) != "undefined") {
@@ -297,11 +301,11 @@
     if (typeof (file_table_id2) != "undefined") {
         pcitcFile2.file_table_id2 = file_table_id2;
     }
-    if(pcitcFile2.IEVersion()=="IE"){
+    if (pcitcFile2.IEVersion() == "IE") {
         var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
         reIE.test(navigator.userAgent);
         var fIEVersion = parseFloat(RegExp["$1"]);
-        pcitcFile2.url="/sysfile/uploadMultipleFileLayuiIE";
+        pcitcFile2.url = "/sysfile/uploadMultipleFileLayuiIE";
     }
     //获取文件列表
     pcitcFile2.reloadTable();
@@ -312,31 +316,31 @@
 </script>
 <!--<script src="/layuiadmin/layui/layui.js"></script>-->
 <script>
-    layui.use(['element','upload'], function () {
+    layui.use(['element', 'upload'], function () {
         var $ = layui.jquery,
             element = layui.element,
             upload = layui.upload;
         //演示多文件列表
-        var demoListView = $('#'+pcitcFile2.file_table_id);
+        var demoListView = $('#' + pcitcFile2.file_table_id);
         var uploadListIns = upload.render({
             elem: '#testList2'
             , url: pcitcFile2.url
             , accept: pcitcFile2.accept
-            ,field:pcitcFile2.field
+            , field: pcitcFile2.field
             , acceptMime: pcitcFile2.acceptMime
-            ,size: pcitcFile2.size
+            , size: pcitcFile2.size
             , data: {
                 filedflag: pcitcFile2.filedflag
-                ,flag:"0"
-                ,formId:pcitcFile2.fileIds
+                , flag: "0"
+                , formId: pcitcFile2.fileIds
             }
             , multiple: pcitcFile2.multiple
             , exts: pcitcFile2.ext
             , number: pcitcFile2.number
             , auto: pcitcFile2.auto
             , bindAction: '#testListAction2'
-            ,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致。
-                if (pcitcFile2.complete!=""){
+            , before: function (obj) { //obj参数包含的信息，跟 choose回调完全一致。
+                if (pcitcFile2.complete != "") {
                     $("#testListAction").toggle();
                     $("#testListActionDisabled").toggle();
                 }
@@ -379,26 +383,26 @@
 
                     demoListView.append(tr);
                 });*/
-                if(pcitcFile2.IEVersion()=="IE"  && fIEVersion==9){
-                        var objInputFile=$(".layui-upload-file");
-                        objInputFile.select();
-                        objInputFile.focus();
-                        var urlText=document.selection.createRange().text;
-                        console.log(urlText)
-                        var fileName=urlText.replace(/^.+?\\([^\\]+?)(\.[^\.\\]*?)?$/gi,"$1");
-                        var tr = $(['<tr id="upload-' + 1 + '">'
-                            , '<td style="display: none;"><input type="checkbox" class=\'fileTableCheck\' value=\'' + ($(".fileTableCheck").length * 1 + 1) + '\'></td>'
-                            , '<td style="display: none;">' + ($(".fileTableCheck").length * 1 + 1) + '</td>'
-                            , '<td>' + fileName+ '</td>'
-                            , '<td>未知</td>'
-                            , '<td>等待上传</td>'
-                            , '<td>'
-                            , '<button class="layui-btn layui-btn-mini demo-reload btnMyBgImg layui-btn-blue layui-hide">重传</button>'
-                            , '<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg demo-delete">删除</button>'
-                            , '</td>'
-                            , '</tr>'].join(''));
-                        demoListView.append(tr);
-                }else {
+                if (pcitcFile2.IEVersion() == "IE" && fIEVersion == 9) {
+                    var objInputFile = $(".layui-upload-file");
+                    objInputFile.select();
+                    objInputFile.focus();
+                    var urlText = document.selection.createRange().text;
+                    console.log(urlText)
+                    var fileName = urlText.replace(/^.+?\\([^\\]+?)(\.[^\.\\]*?)?$/gi, "$1");
+                    var tr = $(['<tr id="upload-' + 1 + '">'
+                        , '<td style="display: none;"><input type="checkbox" class=\'fileTableCheck\' value=\'' + ($(".fileTableCheck").length * 1 + 1) + '\'></td>'
+                        , '<td style="display: none;">' + ($(".fileTableCheck").length * 1 + 1) + '</td>'
+                        , '<td>' + fileName + '</td>'
+                        , '<td>未知</td>'
+                        , '<td>等待上传</td>'
+                        , '<td>'
+                        , '<button class="layui-btn layui-btn-mini demo-reload btnMyBgImg layui-btn-blue layui-hide">重传</button>'
+                        , '<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg demo-delete">删除</button>'
+                        , '</td>'
+                        , '</tr>'].join(''));
+                    demoListView.append(tr);
+                } else {
                     obj.preview(function (index, file, result) {
                         var tr = $(['<tr id="upload-' + index + '">'
                             , '<td style="display: none;"><input type="checkbox" class=\'fileTableCheck\' value=\'' + ($(".fileTableCheck").length * 1 + 1) + '\'></td>'
@@ -427,7 +431,7 @@
                         demoListView.append(tr);
                     });
                 }
-                pcitcFile2.complete="1";
+                pcitcFile2.complete = "1";
             }
             , done: function (res, index, upload) {
                 /*if (res.error == null) { //上传成功
@@ -447,10 +451,10 @@
                 } else {
                     this.error(index, upload);
                 }*/
-                if(pcitcFile2.IEVersion()=="IE"  && fIEVersion==9){
-                        $('#'+pcitcFile2.file_table_id).html("");
-                        pcitcFile2.reloadTable();
-                }else {
+                if (pcitcFile2.IEVersion() == "IE" && fIEVersion == 9) {
+                    $('#' + pcitcFile2.file_table_id).html("");
+                    pcitcFile2.reloadTable();
+                } else {
                     if (res.error == null) { //上传成功
                         console.log("-------------done------------" + index);
                         console.log(res);
@@ -474,7 +478,7 @@
                 }
             }
             , allDone: function (obj) {
-                pcitcFile2.complete="1";
+                pcitcFile2.complete = "1";
                 $("#testListAction").toggle();
                 $("#testListActionDisabled").toggle();
 
@@ -484,15 +488,15 @@
                     var functionId = param.id;
                     var iframeId = param.code;
                     if (parent.$(".layui-layer-content").length > 0) {
-                        $('#'+pcitcFile2.file_table_id).html("");
+                        $('#' + pcitcFile2.file_table_id).html("");
                         pcitcFile2.reloadTable();
-                    }else {
+                    } else {
                         parent.document.getElementById(iframeId).src = parent.document.getElementById(iframeId).src;
                     }
                 }
             }
             , error: function (index, upload) {
-                pcitcFile2.complete="1";
+                pcitcFile2.complete = "1";
                 console.log("----------error---------");
                 var tr = demoListView.find('tr#upload2-' + index)
                     , tds = tr.children();
