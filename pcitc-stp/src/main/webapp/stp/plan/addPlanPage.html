@@ -357,7 +357,8 @@
 			});
 			//关闭事件
 			$("#closeBtn").click(function() {
-				closeType();
+				var index = parent.layer.getFrameIndex(window.name);
+				parent.layer.close(index);
 			});
 
 			//添加修改取值
