@@ -16,6 +16,8 @@
 .layui-table-none {
 	padding: 0 !important;
 }
+.form_tableAdd_container .tableBox{position: relative;}
+.file-span{position: absolute;top: 8px;left: 19px;font-size: 14px;color: #666;}
 </style>
 </head>
 <body>
@@ -130,6 +132,7 @@
 
 			<div class="tableBox">
 				<input type="hidden" name="parentId" id="parentId" value="">
+				<span  class="file-span">任务类附件</span>
 				<div id="file_upload_parent"></div>
 			</div>
 
@@ -164,6 +167,7 @@
 
 			<div class="tableBox" style="margin-bottom: 55px;">
 				<input type="hidden" name="attachId" id="attachId" value="${dataId}">
+				<span class="file-span">处理类附件</span>
 				<div id="file_upload"></div>
 			</div>
 

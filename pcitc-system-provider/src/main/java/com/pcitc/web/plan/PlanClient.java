@@ -22,9 +22,12 @@ import com.pcitc.base.plan.PlanBase;
 import com.pcitc.base.plan.PlanBaseDetail;
 import com.pcitc.base.plan.PlanBaseDetailExample;
 import com.pcitc.base.plan.PlanBaseDetailExample.Criteria;
+import com.pcitc.base.system.SysFile;
+import com.pcitc.base.system.SysFileExample;
 import com.pcitc.service.plan.PlanBaseDetailService;
 import com.pcitc.service.plan.PlanBaseService;
 import com.pcitc.service.plan.PlanService;
+import com.pcitc.service.system.SysFileService;
 
 @Api(value = "PlanClient-API", description = "计划任务相关的接口")
 @RestController
@@ -35,6 +38,9 @@ public class PlanClient {
 	
 	@Autowired
 	private PlanBaseDetailService planBaseDetailService;
+	
+	@Autowired
+	private SysFileService sysFileService;
 	
 	private final static Logger logger = LoggerFactory.getLogger(PlanClient.class);
 
@@ -108,6 +114,8 @@ public class PlanClient {
 			PlanBaseDetailExample example = new PlanBaseDetailExample();
 			Criteria cri = example.createCriteria();
 			cri.andWorkOrderIdEqualTo(vo.getJsId());
+			
+			// 复制原任务已经办理的业务反馈事项
 			List<PlanBaseDetail> list = planBaseDetailService.selectByExample(example);
 			for (int i = 0; i < list.size(); i++) {
 				PlanBaseDetail pbd = list.get(i);
@@ -115,6 +123,18 @@ public class PlanClient {
 				pbd.setWorkOrderId(vo.getDataId());
 				planBaseDetailService.insert(pbd);
 			}
+			
+			// 复制原任务反馈事项对应的附件
+			SysFileExample sysFileExample = new SysFileExample();
+			sysFileExample.createCriteria().andFormIdEqualTo(vo.getJsId());
+			List<SysFile> sysFiles = sysFileService.selectByExample(sysFileExample);
+			for (int i = 0; i<sysFiles.size(); i++) {
+				SysFile sf = sysFiles.get(i);
+				sf.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+				sf.setFormId(vo.getDataId());
+				sysFileService.insert(sf);
+			}
+			
 		} catch (Exception e) {
 			logger.error("[任务管理-保存计划任务失败]", e);
 		}

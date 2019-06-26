@@ -132,14 +132,19 @@
 					</div>
 				</div>
 			</div>
-			<div class="tableBox item">
+			<div class="tableBox">
+				<input type="hidden" name="parentId" id="parentId" value="">
+				<span  class="file-span">任务类附件</span>
+				<div id="file_upload_parent"></div>
+			</div>
+			<div class="tableBox item" id="matterFeedBackTalbeDiv">
 				<div class="tableToolBox">
 					<div class="tableTitle">工作处理列表</div>
 					<div class="tableBtns">
 						<span class="pullBtn active"></span>
 					</div>
 				</div>
-				<div style="display: block;" class="panel" id="matterFeedBackTalbeDiv">
+				<div style="display: block;" class="panel">
 					<table id="matterFeedBackTalbe" class="layui-table" lay-filter="tableData">
 					</table>
 				</div>
@@ -148,6 +153,7 @@
 				<div class="tableToolBox" style="border: 0;">
 					<div class="layui-form-item">
 						<input type="hidden" name="attachId" id="attachId" value="${dataId}">
+						<span class="file-span">处理类附件</span>
 						<div id="file_upload"></div>
 					</div>
 				</div>
@@ -162,10 +168,18 @@
 	</div>
 	<script>
 		var param = JSON.parse(window.localStorage.getItem("param"));
-		var file_opt_flag = param.id;
 		var i = 1;
+		
+		// 附件相关的参数
 		var file_ids = "dataId";
 		var file_edit_detail = "detail";
+		var file_opt_flag = param.id;
+		
+		// 原任务附件
+		var file_edit_detail2 = "detail";
+		var file_opt_flag2 = param.id;
+		var file_ids2 = "parentId";
+		
 		var selectData = "";
 		// 转发选中用户标示，有这个标示，只能选中一个转发人
 		var zfUserFlag = "1";
@@ -252,6 +266,7 @@
 					enhance.filling(dataJson);
 					selectData = data;
 					$("#remarks").val(dataJson.remarks);
+					$("#file_upload_parent").load('/common/public/uploadlayuiload2.html');
 
 					// 工作类型的初始化
 					$.ajax({
@@ -308,6 +323,9 @@
 				} ] ],
 				done : function(res, curr, count) {
 					$(".layui-table").css("width", "100%");
+					if (res.data.length == 0) {
+						document.getElementById("matterFeedBackTalbeDiv").style.display = "none";
+					}
 				}
 			});
 			

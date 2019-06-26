@@ -38,6 +38,10 @@ public class PlanController extends BaseController {
 	private static final String BOT_WORK_ORDER_LIST = "http://pcitc-zuul/system-proxy/planClient-provider/botWorkOrder_list";
 	// 保存新增
 	private static final String SAVE_BOT_WORK_ORDER = "http://pcitc-zuul/system-proxy/planClient-provider/saveBotWorkOrder";
+	
+	// 转发时新单据的复制
+	private static final String SAVE_ZF = "http://pcitc-zuul/system-proxy/planClient-provider/zf/saveBotWorkOrder";
+	
 	// 删除
 	private static final String DELETE_BOT_WORK_ORDER = "http://pcitc-zuul/system-proxy/planClient-provider/deleteBotWorkOrder/";
 	// 修改
@@ -184,6 +188,12 @@ public class PlanController extends BaseController {
 		request.setAttribute("dataId", request.getParameter("dataId"));
 		request.setAttribute("userName", sysUserInfo.getUserDisp());
 		request.setAttribute("unitName", sysUserInfo.getUnitName());
+		
+		String dataId = request.getParameter("dataId");
+		ResponseEntity<PlanBase> responseEntity = this.restTemplate.exchange(VIEW_BOT_WORK_ORDER + dataId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), PlanBase.class);
+		PlanBase planBase = responseEntity.getBody();
+		request.setAttribute("planBase", planBase);
+		
 		return "stp/plan/zf_plan_edit_page";
 	}
 
@@ -463,10 +473,8 @@ public class PlanController extends BaseController {
 		wjbvoOld.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
 		
 		HttpEntity<PlanBase> entityNew = new HttpEntity<PlanBase>(wjbvoOld, this.httpHeaders);
-		ResponseEntity<Integer> responseEntityNew = this.restTemplate.exchange(SAVE_BOT_WORK_ORDER, HttpMethod.POST, entityNew, Integer.class);
-
-		// 复制原任务已经办理的业务反馈事项
-		
+		// 保存，同时复制原任务已经办理的业务反馈事项
+		ResponseEntity<Integer> responseEntityNew = this.restTemplate.exchange(SAVE_ZF, HttpMethod.POST, entityNew, Integer.class);
 		return result;
 	}
 
