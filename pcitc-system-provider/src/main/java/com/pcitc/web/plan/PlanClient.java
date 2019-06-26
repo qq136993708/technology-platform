@@ -126,12 +126,12 @@ public class PlanClient {
 			
 			// 复制原任务反馈事项对应的附件
 			SysFileExample sysFileExample = new SysFileExample();
-			sysFileExample.createCriteria().andFormIdEqualTo(vo.getJsId());
+			sysFileExample.createCriteria().andDataidEqualTo(vo.getJsId());
 			List<SysFile> sysFiles = sysFileService.selectByExample(sysFileExample);
 			for (int i = 0; i<sysFiles.size(); i++) {
 				SysFile sf = sysFiles.get(i);
 				sf.setId(UUID.randomUUID().toString().replaceAll("-", ""));
-				sf.setFormId(vo.getDataId());
+				sf.setDataid(vo.getDataId());
 				sysFileService.insert(sf);
 			}
 			
