@@ -16,9 +16,9 @@
             form = layui.form,publicMethods=layui.publicMethods;
 			form.render();
 			var maxErrorNum = 3;//获取验证码次数，默认为3
-			publicMethods.ajaxPost('/dictionary/desc/ROOT_XTCSPZ_DLSRCWCS', null, function (data, status) { 
+			/* publicMethods.ajaxPost('/dictionary/desc/ROOT_XTCSPZ_DLSRCWCS', null, function (data, status) { 
 				maxErrorNum = data.numValue;
-		    });
+		    }); */
 			
 			//刷新验证码
 			$("#LAY-user-get-vercode").on("click",function(){
