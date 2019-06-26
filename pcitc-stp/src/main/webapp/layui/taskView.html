@@ -8,6 +8,12 @@
     <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
     <link rel="stylesheet" href="/layuiadmin/style/second.css">
     <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        ul li{float: left;}
+        ul li.task-item{position: relative;}
+        ul li img{width: 46px;height: 46px;margin: 6px 0;}
+        ul li span{display: block;font-size: 12px;text-indent:10px;}
+    </style>
 </head>
 <body>
 <div class="task-view">
@@ -72,7 +78,52 @@
         <div class="task-view-icon">
             <p><span>发起人</span><span>已完成</span><span>已超时</span><span>处理中</span></p>
             <div class="task-view-pic">
-
+                <ul>
+                    <li class="task-item">
+                        <div>
+                            <img src="/layuiadmin/layui/images/task-view-l1.png" alt="">
+                            <span>张三</span>
+                        </div>
+                        <ul>
+                            <li>
+                                <div>
+                                    <div class="layui-progress">
+                                        <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                    </div>
+                                    <img src="/layuiadmin/layui/images/task-view-l1.png" alt="">
+                                    <span>张三</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <div class="layui-progress">
+                                        <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                    </div>
+                                    <img src="/layuiadmin/layui/images/task-view-l1.png" alt="">
+                                    <span>张三</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <div class="layui-progress">
+                                        <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                    </div>
+                                    <img src="/layuiadmin/layui/images/task-view-l1.png" alt="">
+                                    <span>张三</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <div class="layui-progress">
+                                        <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                    </div>
+                                    <img src="/layuiadmin/layui/images/task-view-l1.png" alt="">
+                                    <span>张三</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

@@ -83,8 +83,15 @@
 				width : 45,
 				templet : '<div>{{ layui.laytpl.attToPic(d) }}</div>'
 			}, {
+				field : 'dataCode',
+				title : '任务编码',
+				event : 'setActive',
+				style : 'cursor: pointer;',
+				width : 200,
+				sort : true,
+			}, {
 				field : 'workOrderName',
-				title : '名称',
+				title : '工作任务名称',
 				event : 'setActive',
 				style : 'cursor: pointer;',
 				sort : true,
@@ -93,19 +100,22 @@
 				title : '类型',
 				event : 'setActive',
 				style : 'cursor: pointer;',
+				width : '7%',
 				sort : true,
 			}, {
 				field : 'createDate',
-				title : '创建时间',
+				title : '安排时间',
 				event : 'setActive',
 				style : 'cursor: pointer;',
 				align : 'center',
+				width : '15%',
 				sort : true,
 			}, {
 				field : 'workOrderAllotUserName',
-				title : '处理人',
+				title : '被安排人',
 				event : 'setActive',
 				style : 'cursor: pointer;',
+				width : '10%',
 				sort : true
 			} ];
 			// elem,id,url,toolbar,cols,done
@@ -113,7 +123,8 @@
 				publicMethods.tableRender('tableListElem', 'tableList', '/plan/getTableData', false, cols, {
 					param : {
 						"workOrderStatus" : workOrderStatus,
-						"workOrderName" : $('#workOrderName').val()
+						"workOrderName" : $('#workOrderName').val(),
+						"parentId" : '1', //只查询主任务列表
 					}
 				}, true, function(res, curr, count) {
 					$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
@@ -132,7 +143,7 @@
 					var p1 = {
 						data : res.data,//数据
 						element : ".layui-table-body table",// 当前的表格元素
-						column : 5,//列数 从0开始
+						column : 6,//列数 从0开始
 						field : "workOrderType",//当前数据的字段
 						url : "/pageCommon/dic/ROOT_RWGL_RWLX"//接口
 					};
@@ -185,17 +196,15 @@
 						shadeClose : false,
 						type : 2,
 						fixed : false,
-						//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
 						maxmin : true,
-						//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-						area : [ '70%', '90%' ],
+						area : [ '70%', '100%' ],
 						content : '/plan/addPlanPage'
 					});
 				},
 				editEvent : function() { //点击编辑按钮
 					var id;
 					if (selectRowData != undefined && selectRowData != "") {
-						if (selectRowData.workOrderStatus == '0' || selectRowData.workOrderStatus == '1') {
+						if (selectRowData.workOrderStatus == '0' || selectRowData.workOrderStatus == '') {
 							id = selectRowData.dataId;
 							layer.open({
 								title : param.name + '-编辑',
@@ -203,14 +212,12 @@
 								shadeClose : false,
 								type : 2,
 								fixed : false,
-								//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
 								maxmin : true,
-								//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-								area : [ '70%', '90%' ],
+								area : [ '90%', '90%' ],
 								content : '/plan/editPlanPage?dataId=' + id
 							});
 						} else {
-							layer.msg('只可操作未下发的数据');
+							layer.msg('只可操作未下发的任务!');
 							return;
 						}
 					} else {
@@ -228,13 +235,10 @@
 							shadeClose : false,
 							type : 2,
 							fixed : false,
-							//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
 							maxmin : true,
-							//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
 							area : [ '70%', '90%' ],
 							content : '/plan/viewPlanPage?dataId=' + dataId
 						});
-						// }
 					} else {
 						layer.msg('请选择一条数据');
 						return;
@@ -243,37 +247,38 @@
 				deleteEvent : function() { //点击删除按钮
 					var id;
 					if (selectRowData != undefined) {
-						// if(selectRowData.workOrderStatus == '0'){
-						id = selectRowData.dataId;
-						layer.confirm('确认要删除选中的条数据吗？', {
-							icon : 3,
-							btn : [ '确定', '取消' ]
-						}, function(index) {
-							layer.close(index);
-							$.ajax({
-								type : 'post',
-								dataType : 'text',
-								async : false,
-								data : {
-									"ids" : id
-								},
-								url : '/plan/deletePlan',
-								success : function(data) {
-									if (data == 200) {
-										layer.msg("删除成功");
-										active.searchEvent();
+						if(selectRowData.workOrderStatus == '0' || selectRowData.workOrderStatus == ''){
+							id = selectRowData.dataId;
+							layer.confirm('确认要删除吗？', {
+								icon : 3,
+								btn : [ '确定', '取消' ]
+							}, function(index) {
+								layer.close(index);
+								$.ajax({
+									type : 'post',
+									dataType : 'text',
+									async : false,
+									data : {
+										"ids" : id
+									},
+									url : '/plan/deletePlan',
+									success : function(data) {
+										if (data == 200) {
+											layer.msg("删除成功");
+											active.searchEvent();
+										}
+									},
+									error : function(e) {
+										alert("出错了");
+										console.log(e);
 									}
-								},
-								error : function(e) {
-									alert("出错了");
-									console.log(e);
-								}
+								});
 							});
-						});
-						// }else{
-						// 	layer.msg('当前记录已经提交,不能进行删除操作！');
-						// 	return;
-						// }
+						} else {
+							layer.msg('只能删除未下发的任务！');
+							return;
+						}
+						
 					} else {
 						layer.msg('请选择一条数据');
 						return;

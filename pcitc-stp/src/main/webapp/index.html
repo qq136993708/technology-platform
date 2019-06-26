@@ -351,6 +351,9 @@
 				var id = $(this).attr("id")
 				$(".layui-nav-tree").addClass("layui-hide");
 				$("#nav" + id).removeClass("layui-hide");
+				if($("#" + id).text()=="专家库"){
+                    parent.layui.index.openTabsPage("/expertController/expertIndexNew", "首页");
+				}
                 $(".layui-header .layui-layout-left li").removeClass("layui-this");
 				if(!$(this).parent().hasClass("layui-this")){
                     $(this).parent().addClass("layui-this");

@@ -1,0 +1,18 @@
+{  
+    "nav" :{  
+        "home":"主页",  
+        "page1" :"第一页",  
+        "page2" : "第二页",  
+        "button" : "搜索",  
+        "input" : "填入姓名"  
+    }, "basic" :{  
+        "userResource":"基本资料",
+        "config":"个人设置",
+        "collect":"我的收藏",
+        "report":"项目申报",
+        "person":"个人工作台",
+        "audit":"审批处理"
+    }, "business" :{  
+        "processName":"流程名称"
+    }   
+}

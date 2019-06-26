@@ -1,5 +1,15 @@
 package com.pcitc.service.plan.impl;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
@@ -8,20 +18,10 @@ import com.pcitc.base.plan.PlanBase;
 import com.pcitc.base.plan.PlanBaseDetail;
 import com.pcitc.base.plan.PlanBaseExample;
 import com.pcitc.base.system.SysUser;
-import com.pcitc.base.util.DateUtil;
 import com.pcitc.mapper.plan.PlanBaseDetailMapper;
 import com.pcitc.mapper.plan.PlanBaseMapper;
 import com.pcitc.service.plan.PlanService;
 import com.pcitc.service.system.UserService;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.lang.reflect.Array;
-import java.lang.reflect.Proxy;
-import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class PlanServiceImpl implements PlanService {
@@ -321,29 +321,13 @@ public class PlanServiceImpl implements PlanService {
         PlanBaseExample.Criteria c = example.createCriteria();
         example.setOrderByClause("create_date desc");
         if (workOrderId != null && !"".equals(workOrderId)) {
-//            vo.setParentId(workOrderId);
             c.andParentIdEqualTo(workOrderId);
         } else {
             return new LayuiTableData();
         }
-//        String delFlag = (String) param.getParam().get("delFlag");
-//        if (delFlag != null && !"".equals(delFlag)) {
-//            vo.setDelFlag(delFlag);
-//        }
-//        String auditSts = (String) param.getParam().get("auditSts");
-//        if (auditSts != null && !"".equals(auditSts)) {
-//            vo.setAuditSts(auditSts);
-//        }
-//        vo.setMatterType("0");
-        // 2、执行查询
-
         List<PlanBase> list = planBaseMapper.selectByExample(example);
-        //        List<PlanBaseDetail> list = planBaseDetailMapper.queryBotWorkOrderMatterList(vo);
-//        int total = planBaseDetailMapper.countByBotWorkOrderMatterById(vo).intValue();
-//        PageInfo<PlanBaseDetail> pageInfo = new PageInfo<PlanBaseDetail>(list);
         LayuiTableData data = new LayuiTableData();
         data.setData(list);
-//        data.setCount(total);
         return data;
     }
 
@@ -375,63 +359,44 @@ public class PlanServiceImpl implements PlanService {
 
         c.andDelFlagEqualTo("0");
 
-        PlanBase vo = new PlanBase();
         String wbsName = (String) param.getParam().get("wbsName");
         if (wbsName != null && !"".equals(wbsName)) {
             c.andWbsNameEqualTo(wbsName);
         }
-//        String workOrderAllotUserId = (String) param.getParam().get("workOrderAllotUserId");
-//        if (workOrderAllotUserId != null && !"".equals(workOrderAllotUserId)) {
-////			vo.setWorkOrderAllotUserId(workOrderAllotUserId);
-//            c.andWorkOrderAllotUserIdEqualTo(wbsName);
-//        } else {
-//            return new LayuiTableData();
-//        }
         String workOrderName = (String) param.getParam().get("workOrderName");
         if (workOrderName != null && !"".equals(workOrderName)) {
-            vo.setWorkOrderName(workOrderName);
             c.andWorkOrderNameEqualTo(workOrderName);
         }
         String workOrderStatus = (String) param.getParam().get("workOrderStatus");
         if (workOrderStatus != null && !"".equals(workOrderStatus)) {
-//			vo.setWorkOrderStatus(workOrderStatus);
             c.andWorkOrderStatusIn(Arrays.asList(workOrderStatus.split(",")));
         }
         String delFlag = (String) param.getParam().get("delFlag");
         if (delFlag != null && !"".equals(delFlag)) {
-            vo.setDelFlag(delFlag);
             c.andDelFlagNotEqualTo(delFlag);
         }
         String auditSts = (String) param.getParam().get("auditSts");
         if (auditSts != null && !"".equals(auditSts)) {
-            vo.setAuditSts(auditSts);
             c.andAuditStsEqualTo(auditSts);
+        }
+        
+        String parentId = (String) param.getParam().get("parentId");
+        if (parentId != null && "1".equals(parentId)) {
+            c.andParentIdIsNull();
         }
 
         //创建人为当前人或被指派给当前人
         String createUser = (String) param.getParam().get("createUser");
         if (createUser != null && !"".equals(createUser)) {
-            vo.setCreateUser(createUser);
             c.andCreateUserEqualTo(createUser);
         }
-//        Object workOrderAllotUserName = param.getParam().get("workOrderAllotUserName");
-//        if (workOrderAllotUserName != null && !"".equals(workOrderAllotUserName)) {
-//            PlanBaseExample.Criteria criteria2 = example.or();
-//            criteria2.andWorkOrderAllotUserNameEqualTo(workOrderAllotUserName.toString());
-//            criteria2.andDelFlagEqualTo("0");
-//            example.or(criteria2);
-//        }
+        
         Object workOrderAllotUserId = param.getParam().get("workOrderAllotUserId");
         if (workOrderAllotUserId != null && !"".equals(workOrderAllotUserId)) {
-//            PlanBaseExample.Criteria criteria2 = example.or();
             c.andWorkOrderAllotUserIdEqualTo(workOrderAllotUserId.toString());
-//            criteria2.andWorkOrderAllotUserIdEqualTo(workOrderAllotUserId.toString());
-//            criteria2.andDelFlagEqualTo("0");
             c.andDelFlagEqualTo("0");
-//            example.or(criteria2);
         }
         // 2、执行查询
-//		List<PlanBase> list = planBaseMapper.queryMyBotWorkOrderListByPage(vo);
         example.setOrderByClause("create_date desc");
         List<PlanBase> list = planBaseMapper.selectByExample(example);
 
@@ -441,11 +406,6 @@ public class PlanServiceImpl implements PlanService {
         Long total = pageInfo.getTotal();
         data.setCount(total.intValue());
 
-//        int total = planBaseMapper.countByMyBotWorkOrder(vo).intValue();
-//        PageInfo<PlanBase> pageInfo = new PageInfo<PlanBase>(list);
-//        LayuiTableData data = new LayuiTableData();
-//        data.setData(pageInfo.getList());
-//        data.setCount(total);
         return data;
     }
 
