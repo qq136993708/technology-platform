@@ -271,17 +271,18 @@
 					title : '处理内容',
 					event : 'setActive',
 					style : 'cursor: pointer;',
-					edit : true,
+				}, {
+					field : 'createUserName',
+					title : '处理人',
+					event : 'setActive',
+					style : 'cursor: pointer;',
+					width : 140,
 				}, {
 					field : 'workOrderEndDatatime',
 					title : '处理日期',
 					event : 'setActive',
 					style : 'cursor: pointer;',
-					width : 100,
-					templet : function(d) {
-						var t = "<input type='text' value='" + d.workOrderEndDatatime + "' class='layui-input datetime inputVal' >";
-						return t;
-					}
+					width : 140
 				} ] ],
 				done : function(res, curr, count) {
 					$(".layui-table").css("width", "100%");

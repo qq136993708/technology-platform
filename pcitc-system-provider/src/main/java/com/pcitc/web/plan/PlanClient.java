@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,9 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.plan.PlanBase;
 import com.pcitc.base.plan.PlanBaseDetail;
+import com.pcitc.base.plan.PlanBaseDetailExample;
+import com.pcitc.base.plan.PlanBaseDetailExample.Criteria;
+import com.pcitc.service.plan.PlanBaseDetailService;
 import com.pcitc.service.plan.PlanBaseService;
 import com.pcitc.service.plan.PlanService;
 
@@ -28,6 +32,10 @@ public class PlanClient {
 
 	@Autowired
 	private PlanService planBaseService;
+	
+	@Autowired
+	private PlanBaseDetailService planBaseDetailService;
+	
 	private final static Logger logger = LoggerFactory.getLogger(PlanClient.class);
 
 	/**
@@ -79,6 +87,34 @@ public class PlanClient {
 		int result = 500;
 		try {
 			result = planBaseService.saveBotWorkOrder(vo);
+		} catch (Exception e) {
+			logger.error("[任务管理-保存计划任务失败]", e);
+		}
+		return result;
+	}
+	
+	/**
+	 * 转发任务时，保存新任务信息，同时复制原任务对应的反馈、附件信息
+	 *
+	 * @param vo
+	 * @return
+	 */
+	@ApiOperation(value = "新增计划任务保存", notes = "新增计划任务保存")
+	@RequestMapping(value = "/planClient-provider/zf/saveBotWorkOrder", method = RequestMethod.POST)
+	public int saveBotWorkOrderForZF(@RequestBody PlanBase vo) {
+		int result = 500;
+		try {
+			result = planBaseService.saveBotWorkOrder(vo);
+			PlanBaseDetailExample example = new PlanBaseDetailExample();
+			Criteria cri = example.createCriteria();
+			cri.andWorkOrderIdEqualTo(vo.getJsId());
+			List<PlanBaseDetail> list = planBaseDetailService.selectByExample(example);
+			for (int i = 0; i < list.size(); i++) {
+				PlanBaseDetail pbd = list.get(i);
+				pbd.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
+				pbd.setWorkOrderId(vo.getDataId());
+				planBaseDetailService.insert(pbd);
+			}
 		} catch (Exception e) {
 			logger.error("[任务管理-保存计划任务失败]", e);
 		}

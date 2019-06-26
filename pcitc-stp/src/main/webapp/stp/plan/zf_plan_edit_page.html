@@ -132,6 +132,18 @@
 					</div>
 				</div>
 			</div>
+			<div class="tableBox item">
+				<div class="tableToolBox">
+					<div class="tableTitle">工作处理列表</div>
+					<div class="tableBtns">
+						<span class="pullBtn active"></span>
+					</div>
+				</div>
+				<div style="display: block;" class="panel" id="matterFeedBackTalbeDiv">
+					<table id="matterFeedBackTalbe" class="layui-table" lay-filter="tableData">
+					</table>
+				</div>
+			</div>
 			<div class="tableBox">
 				<div class="tableToolBox" style="border: 0;">
 					<div class="layui-form-item">
@@ -155,6 +167,8 @@
 		var file_ids = "dataId";
 		var file_edit_detail = "detail";
 		var selectData = "";
+		// 转发选中用户标示，有这个标示，只能选中一个转发人
+		var zfUserFlag = "1";
 		var $;
 		var publicMethods;
 		layui.config({
@@ -175,46 +189,15 @@
 			}
 
 			window.setWelder = setWelder;
-			var dataStatus = 0;
 
 			//显示文件上传部分
 			$("#file_upload").load('/common/public/uploadlayuiload.html');
 			
 			
-			/* 监听保存 */
-			var url = '/plan/saveBotWorkOrder';
-			if ('${flag}' == "edit") {
-				url = "/plan/editBotWorkOrderZf";
-				dataStatus = 1;
-			}
+			/* 监听保存, 转发时把原任务反馈信息复制一份 */
+			var url = "/plan/editBotWorkOrderZf";
 			form.on('submit(save)', function(data) {
-				var sthTrArr = [];
-				JSON.stringify(data.field);
-				var dataCode = 0;
-				var matterLength = $("#matterTableDiv table tbody tr");
-				$(matterLength).each(function() {
-					var sthTrObj = {};
-					if ($(this).find("td").eq(3).find("input").length > 0) {
-						sthTrObj.dataId = $(this).find("td").eq(2).find("input").val();
-						sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
-						sthTrObj.workOrderAllotUserName = $(this).find("td").eq(4).find("input").val();
-						sthTrObj.workOrderAllotUserId = $(this).find("td").eq(5).find("input").val();
-						sthTrObj.bl = $(this).find("td").eq(6).find("input").val();
-						sthTrObj.jsId = $(this).find("td").eq(7).find("input").val();
-						sthTrObj.dataCode = (dataCode++);
-					} else {
-						sthTrObj.dataId = $(this).find("td").eq(2).text();
-						sthTrObj.workOrderName = $(this).find("td").eq(3).text();
-						sthTrObj.workOrderAllotUserName = $(this).find("td").eq(4).text();
-						sthTrObj.workOrderAllotUserId = $(this).find("td").eq(5).text();
-						sthTrObj.bl = $(this).find("td").eq(6).text();
-						sthTrObj.jsId = $(this).find("td").eq(7).text();
-						sthTrObj.dataCode = (dataCode++);
-					}
-					sthTrArr.push(sthTrObj)
-				});
 				var jsonData = data.field;
-				jsonData.matterList = sthTrArr;
 				$.ajax({
 					type : 'post',
 					dataType : 'json',
@@ -225,8 +208,6 @@
 					success : function(data) {
 						if (data == 200) {
 							var index = parent.layer.getFrameIndex(window.name);
-							url = '/plan/editBotWorkOrderZf';
-							dataStatus = 1;
 							parent.layer.close(index);
 							parent.layer.msg("保存成功");
 							parent.layui.table.reload('tableList', {});
@@ -289,6 +270,44 @@
 				},
 				error : function(e) {
 					console.log(e);
+				}
+			});
+			
+			//本任务反馈列表
+			table.render({
+				elem : '#matterFeedBackTalbe',
+				url : '/plan/queryMyBotWorkOrderMatterList',
+				limit : 100,
+				method : "POST",
+				where : {
+					param : {
+						"workOrderId" : dataId
+					}
+				},
+				cols : [ [ {
+					title : '序号',
+					type : 'numbers',
+					width : 45
+				}, {
+					field : 'remarks',
+					title : '处理内容',
+					event : 'setActive',
+					style : 'cursor: pointer;',
+				}, {
+					field : 'createUserName',
+					title : '处理人',
+					event : 'setActive',
+					style : 'cursor: pointer;',
+					width : 140,
+				}, {
+					field : 'workOrderEndDatatime',
+					title : '处理日期',
+					event : 'setActive',
+					style : 'cursor: pointer;',
+					width : 140
+				} ] ],
+				done : function(res, curr, count) {
+					$(".layui-table").css("width", "100%");
 				}
 			});
 			

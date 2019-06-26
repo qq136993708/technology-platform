@@ -337,6 +337,8 @@ layui.define(['jquery','form','table','laydate'],
             *
             */
             addTableTr:function(trParam){
+                /* 获取选中的th*/
+                var classNs=$("#"+trParam.id+" .layui-table-header table tr th:eq(0)>div").attr("class");
                 var oNumber=trParam.orderNumber==undefined ? true : trParam.orderNumber;
                 $(".layui-none").remove();
                 var number=trParam.number;
@@ -363,14 +365,14 @@ layui.define(['jquery','form','table','laydate'],
                 }
                 for(var i=0;i<number;i++){
                     var width=$("#"+trParam.id+" .layui-table-header table th:eq("+i+") div").outerWidth();
-                    tableTdHtml+="<td style='width: "+width+"px'><input style='width: 90%;margin-left: 5px;' type='text'></td>";
+                    tableTdHtml+="<td style='width: "+width+"px'><input style='margin-left: 10px;' type='text'></td>";
                 }
                 $(tbody).find("tr:last").append(tableTdHtml);
                 for(var i=0;i<number;i++){
                     if(i==0){
-                        $(tbody).find("tr:last td").eq(i).html("<div class='layui-table-cell laytable-cell-checkbox'><input type='checkbox' lay-skin='primary'></div>")
+                        $(tbody).find("tr:last td").eq(i).html("<div class='"+classNs+"'><input type='checkbox' lay-skin='primary'></div>")
                     }else if(i==1 && oNumber==true){
-                        $(tbody).find("tr:last td").eq(i).css("text-align","center").html("<div  class='layui-table-cell' style='width: 55px;'>"+num+"</div>");
+                        $(tbody).find("tr:last td").eq(i).css("text-align","center").html("<div  class='layui-table-cell' style='width: 45px;'>"+num+"</div>");
                     }else if(column.indexOf(i)!=-1){
                         var columnIndex=column.indexOf(i);
                         var columnNum=column[columnIndex];
@@ -418,7 +420,7 @@ layui.define(['jquery','form','table','laydate'],
                             certTypeStr += "</select>";
                             $(tbody).find("tr:last td").addClass("tdSelect").eq(columnNum).html(certTypeStr)
                         }else if(columnElement=="laydate"){
-                            $(tbody).find("tr:last td").eq(columnNum).html("<div class='layui-table-cell'><input type='text' class='layui-input datetime inputVal' placeholder='请选择日期' style='width:92%'></div>");
+                            $(tbody).find("tr:last td").eq(columnNum).html("<input style='width: 52.5%;' type='text' class='layui-input datetime inputVal' placeholder='请选择日期'>");
                         }else  if(columnElement=="a"){
                             $(tbody).find("tr:last td").eq(columnNum).html(columnValue)
                         }else if(columnElement=="td"){

@@ -260,13 +260,8 @@
 				var matterLength = $("#matterFeedBackTalbeDiv table tbody tr");
 				$(matterLength).each(function() {
 					var sthTrObj = {};
-					if ($(this).find("td").eq(2).find("input").length > 0) {
-						sthTrObj.remarks = $(this).find("td").eq(2).find("input").val();
-						sthTrObj.workOrderEndDatatime = $(this).find("td").eq(3).find("input").val();
-					} else {
-						sthTrObj.remarks = $(this).find("td").eq(2).text();
-						sthTrObj.workOrderEndDatatime = $(this).find("td").eq(3).text();
-					}
+                    sthTrObj.remarks = $(this).find("td").eq(2).find("input").val();
+                    sthTrObj.workOrderEndDatatime = $(this).find("td").eq(3).find("input").val();
 					sthTrObj.dataCode = (dataCode++);
 					sthTrArr.push(sthTrObj);
 				});
@@ -303,13 +298,10 @@
 						var matterLength = $("#matterFeedBackTalbeDiv table tbody tr");
 						$(matterLength).each(function() {
 							var sthTrObj = {};
-							if ($(this).find("td").eq(2).find("input").length > 0) {
-								sthTrObj.remarks = $(this).find("td").eq(2).find("input").val();
-								sthTrObj.workOrderEndDatatime = $(this).find("td").eq(3).find("input").val();
-							} else {
-								sthTrObj.remarks = $(this).find("td").eq(2).text();
-								sthTrObj.workOrderEndDatatime = $(this).find("td").eq(3).text();
-							}
+                            sthTrObj.remarks = $(this).find("td").eq(2).find("input").val();
+                            sthTrObj.workOrderEndDatatime = $(this).find("td").eq(3).find("input").val();
+                            alert($(this).find("td").eq(2).find("input").val())
+                            alert($(this).find("td").eq(3).find("input").val())
 							sthTrObj.dataCode = (dataCode++);
 							sthTrArr.push(sthTrObj)
 						});
@@ -423,7 +415,10 @@
 					title : '处理内容',
 					event : 'setActive',
 					style : 'cursor: pointer;',
-					edit : true
+                    templet : function(d) {
+                        var t = "<input type='text' value='" + d.remarks + "' >";
+                        return t;
+                    }
 				}, {
 					field : 'workOrderEndDatatime',
 					title : '处理日期',
@@ -431,7 +426,7 @@
 					style : 'cursor: pointer;',
 					width : 140,
 					templet : function(d) {
-						var t = "<input type='text' value='" + d.workOrderEndDatatime + "' class='layui-input datetime inputVal' >";
+						var t = "<input style='margin-left: 1px;margin-top: 3px;' type='text' value='" + d.workOrderEndDatatime + "' class='layui-input datetime inputVal' >";
 						return t;
 					}
 				}, {

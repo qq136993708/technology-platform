@@ -241,10 +241,15 @@
                     }
                 },
                 okEvent: function () {
+                	
                     var list = [];
                     for (var key in map) {
                         list.push(map[key]);
                     }
+                    if (typeof parent.zfUserFlag != "undefined" && parent.zfUserFlag == "1" && list.length > 1) {
+                    	layer.msg("转发只能选中一个人");
+                    	return false;
+                	}
                     try {
                         parent.setWelder(list);
                     } catch (e) {
