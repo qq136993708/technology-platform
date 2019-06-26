@@ -42,8 +42,7 @@
 				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="doEvent">处理</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="editEvent">下发</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="zfEvent">转发</button>
-				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg" data-type="detailEvent">查看反馈</button>
-				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg" data-type="detailxfEvent">查看下发</button>
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg" data-type="detailEvent">任务追踪</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button>
 			</div>
 			<div class="whiteLine"></div>
@@ -204,7 +203,7 @@
 					var id;
 					if (selectRowData != undefined) {
 						if (selectRowData.bak5 == "0" || selectRowData.workOrderStatus == "2") {
-							layer.msg('任务已转发或完成,不能编辑!');
+							layer.msg('任务已转发或完成,不能下发!');
 							return;
 						}
 						id = selectRowData.dataId;
@@ -247,7 +246,6 @@
 					}
 				},
 				doEvent : function() { //点击处理按钮
-					var id;
 					if (selectRowData != undefined) {
 						if (selectRowData.bak5 == "0") {
 							layer.msg('任务已转发，不能再处理!');
@@ -257,7 +255,10 @@
 							layer.msg('任务已完成,不能再处理!');
 							return;
 						}
-						id = selectRowData.dataId;
+						if (typeof selectRowData.bak4 != "undefined" && selectRowData.bak4 != "") {
+							layer.msg('任务已下发,不能再处理!');
+							return;
+						}
 						layer.open({
 							title : "任务处理",
 							skin : 'layui-layer-lan',
@@ -266,7 +267,7 @@
 							fixed : false,
 							maxmin : true,
 							area : [ '80%', '90%' ],
-							content : '/plan/my/goEditPlanDetail?dataId=' + id
+							content : '/plan/my/goEditPlanDetail?dataId=' + selectRowData.dataId
 						});
 					} else {
 						layer.msg('请选择一条数据');
@@ -278,7 +279,7 @@
 					if (selectRowData != undefined) {
 						id = selectRowData.dataId;
 						layer.open({
-							title : '查看反馈',
+							title : '任务追踪',
 							skin : 'layui-layer-lan',
 							shadeClose : false,
 							type : 2,
@@ -292,28 +293,17 @@
 						return;
 					}
 				},
-				detailxfEvent : function() { //点击详情按钮
-					var id;
-					if (selectRowData != undefined) {
-						id = selectRowData.dataId;
-						layer.open({
-							title : '查看下发',
-							skin : 'layui-layer-lan',
-							shadeClose : false,
-							type : 2,
-							fixed : false,
-							maxmin : true,
-							area : [ '80%', '90%' ],
-							content : '/plan/viewPlanPage?dataId=' + id
-						});
-					} else {
-						layer.msg('请选择一条数据');
-						return;
-					}
-				},
 				deleteEvent : function() { //点击删除按钮
 					var id;
 					if (selectRowData != undefined) {
+						if (selectRowData.bak5 == "0") {
+							layer.msg('任务已转发，不能再删除!');
+							return;
+						}
+						if (selectRowData.workOrderStatus == "2") {
+							layer.msg('任务已完成,不能再删除!');
+							return;
+						}
 						id = selectRowData.dataId;
 						layer.confirm('确认要删除选中的条数据吗？', {
 							icon : 3,

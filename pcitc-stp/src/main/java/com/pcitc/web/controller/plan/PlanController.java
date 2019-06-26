@@ -186,11 +186,7 @@ public class PlanController extends BaseController {
 	@RequestMapping(value = "/plan/goAddBotWorkOrderZp")
 	public String goAddBotWorkOrderZp(HttpServletRequest request) {
 		Object dataId = request.getParameter("dataId");
-		String flag = "edit";
-		if (dataId == null || "".equals(dataId)) {
-			dataId = UUID.randomUUID().toString().replace("-", "");
-			flag = "add";
-		}
+		String flag = "add";
 		request.setAttribute("flag", flag);
 		request.setAttribute("dataId", dataId);
 		request.setAttribute("userName", sysUserInfo.getUserDisp());
@@ -291,10 +287,7 @@ public class PlanController extends BaseController {
 	}
 
 	/**
-	 * 下发工单管理
-	 *
-	 * @param request
-	 * @return
+	 * 新增、编辑工作任务单时的保存方法
 	 */
 	@RequestMapping(value = "/plan/submitBotWorkOrder")
 	@ResponseBody
@@ -313,6 +306,70 @@ public class PlanController extends BaseController {
 			ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SUBMIT_BOT_WORK_ORDER + dataId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), Integer.class);
 			result = responseEntity.getBody();
 		}
+		return result;
+	}
+	
+	/**
+	 * 下发时的保存方法
+	 */
+	@RequestMapping(value = "/plan/xf/submitBotWorkOrder")
+	@ResponseBody
+	public int submitBotWorkOrderXF(HttpServletRequest request) {
+		// 下发时，原任务单据直接修改状态为已完成，新生成n条任务单
+		String param = request.getParameter("param");
+		JSONObject jsStr = (JSONObject) JSON.parseObject(param);
+		jsStr.put("visaApplyCode", null);
+		String dataId = jsStr.getString("dataId");
+		ResponseEntity<PlanBase> resultEntity = this.restTemplate.exchange(VIEW_BOT_WORK_ORDER + dataId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), PlanBase.class);
+		PlanBase wjbvo = resultEntity.getBody();
+		wjbvo = (PlanBase) JSONObject.toJavaObject(jsStr, PlanBase.class);
+		wjbvo.setUpdateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
+		wjbvo.setUpdateUser(sysUserInfo.getUserId());
+		wjbvo.setUpdateUserName(sysUserInfo.getUserDisp());
+		wjbvo.setDelFlag("0");
+		wjbvo.setWorkOrderStatus(request.getParameter("workOrderStatus"));
+		HttpEntity<PlanBase> entity = new HttpEntity<PlanBase>(wjbvo, this.httpHeaders);
+		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(EDIT_BOT_WORK_ORDER, HttpMethod.POST, entity, Integer.class);
+		int result = responseEntity.getBody();
+
+		List<PlanBase> baseList = new ArrayList<PlanBase>();
+		if (jsStr.containsKey("matterList")) {
+			JSONArray array = jsStr.getJSONArray("matterList");
+			for (int i = 0; i < array.size(); i++) {
+				// 取值赋给PlanBase
+				JSONObject detail = array.getJSONObject(i);
+				PlanBase planBase = JSONObject.toJavaObject((JSON) JSON.toJSON(detail), PlanBase.class);
+				planBase.setParentId(wjbvo.getDataId());
+				System.out.println("dataId = " + "".equals(detail.get("dataId")));
+				planBase.setDataId("".equals(detail.get("dataId")) ? UUID.randomUUID().toString().replace("-", "") : detail.get("dataId").toString());
+				planBase.setWorkOrderStatus("1");
+				planBase.setDelFlag("0");
+				planBase.setWorkOrderType(wjbvo.getWorkOrderType());
+				planBase.setRedactUnitName(wjbvo.getRedactUnitName());
+				planBase.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
+				planBase.setBl(StrUtil.objectToString(detail.get("bl")));
+				planBase.setAnnouncements(StrUtil.objectToString(detail.get("announcements")));
+				
+				// 记录父节点的相关信息，方便显示
+				planBase.setDataCode(wjbvo.getDataCode());
+				planBase.setWorkOrderCode(wjbvo.getDataCode());
+				planBase.setCreateUser(wjbvo.getWorkOrderAllotUserId());
+				planBase.setCreateUserName(wjbvo.getWorkOrderAllotUserName());
+				planBase.setStatus(wjbvo.getStatus());
+				baseList.add(planBase);
+			}
+		}
+
+		HttpEntity<List<PlanBase>> entityList = new HttpEntity<List<PlanBase>>(baseList, this.httpHeaders);
+		ResponseEntity<Integer> responseEntityList = this.restTemplate.exchange(SAVE_PLAN_BASE_BATCH, HttpMethod.POST, entityList, Integer.class);
+
+		try {
+			CommonUtil.updateFileFlag(restTemplate, httpHeaders, wjbvo.getDataId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = 500;
+		}
+		
 		return result;
 	}
 
@@ -404,8 +461,6 @@ public class PlanController extends BaseController {
 				planBase.setRedactUnitName(wjbvo.getRedactUnitName());
 				planBase.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
 				planBase.setBl(StrUtil.objectToString(detail.get("bl")));
-				System.out.println("announcements = " + detail.get("announcements"));
-				System.out.println("bl = " + detail.get("bl"));
 				planBase.setAnnouncements(StrUtil.objectToString(detail.get("announcements")));
 				
 				// 记录父节点的相关信息，方便显示
@@ -415,21 +470,6 @@ public class PlanController extends BaseController {
 				planBase.setCreateUserName(wjbvo.getCreateUserName());
 				planBase.setCreateDate(wjbvo.getCreateDate());
 				planBase.setStatus(wjbvo.getStatus());
-				// Object objJsrId = detail.get("jsId");
-				// if (objJsrId != null && !"".equals(objJsrId)) {//
-				// planBase.setJsId(objJsrId.toString());//指派给他人
-				// //指派给他人,新增一条数据
-				// PlanBase planBaseZp = new PlanBase();
-				// planBaseZp.setWorkOrderName(planBase.getRemarks());
-				// planBaseZp.setParentId(planBase.getDataId());
-				// planBaseZp.setBl("");
-				// planBaseZp.setDataId(UUID.randomUUID().toString().replace("-",
-				// ""));
-				// planBaseZp.setWorkOrderAllotUserName(objJsrId.toString());//当前节点处理人
-				// planBaseZp.setWorkOrderStatus("0");
-				// planBaseZp.setDelFlag("0");
-				// baseList.add(planBaseZp);
-				// }
 				baseList.add(planBase);
 			}
 		}
@@ -490,7 +530,7 @@ public class PlanController extends BaseController {
 		
 		// 转发时，实际的分配人就是此次的转发人
 		wjbvoOld.setCreateUser(sysUserInfo.getUserId());
-		wjbvoOld.setCreateUserName(sysUserInfo.getUserName());
+		wjbvoOld.setCreateUserName(sysUserInfo.getUserDisp());
 		wjbvoOld.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
 		
 		HttpEntity<PlanBase> entityNew = new HttpEntity<PlanBase>(wjbvoOld, this.httpHeaders);
