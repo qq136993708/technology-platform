@@ -102,13 +102,6 @@
 						width : 45,
 						templet : '<div>{{ layui.laytpl.attToPic(d) }}</div>'
 					}, {
-						field : 'workOrderCode',
-						title : '任务编码',
-						event : 'setActive',
-						style : 'cursor: pointer;',
-						align : 'center',
-						width : 200,
-					}, {
 						field : 'createUserName',
 						title : '安排人',
 						event : 'setActive',
@@ -151,7 +144,7 @@
 						var param = {
 							data : res.data,//数据
 							element : ".layui-table-body table",// 当前的表格元素
-							column : 7,//列数 从0开始
+							column : 6,//列数 从0开始
 							field : "workOrderType",//当前数据的字段
 							url : "/pageCommon/dic/ROOT_RWGL_RWLX"//接口
 						};
@@ -197,11 +190,12 @@
 				},
 				resetEvent : function() { //点击重置按钮
 					$('#workOrderName').val("");
+					workOrderStatus = '';
 					renderTable();
 				},
 				editEvent : function() { //点击编辑按钮
 					var id;
-					if (selectRowData != undefined) {
+					if (selectRowData != undefined && selectRowData != "") {
 						if (selectRowData.bak5 == "0" || selectRowData.workOrderStatus == "2") {
 							layer.msg('任务已转发或完成,不能下发!');
 							return;
@@ -224,7 +218,7 @@
 				},
 				zfEvent : function() { //点击编辑按钮
 					var id;
-					if (selectRowData != undefined) {
+					if (selectRowData != undefined && selectRowData != "") {
 						if (selectRowData.bak5 == "0" || selectRowData.workOrderStatus == "2" || (typeof selectRowData.bak4 != "undefined" && selectRowData.bak4 != "")) {
 							layer.msg('任务已转发/下发/完成,不能操作!');
 							return;
@@ -246,7 +240,7 @@
 					}
 				},
 				doEvent : function() { //点击处理按钮
-					if (selectRowData != undefined) {
+					if (selectRowData != undefined && selectRowData != "") {
 						if (selectRowData.bak5 == "0") {
 							layer.msg('任务已转发，不能再处理!');
 							return;
@@ -276,7 +270,7 @@
 				},
 				detailEvent : function() { //点击详情按钮
 					var id;
-					if (selectRowData != undefined) {
+					if (selectRowData != undefined && selectRowData != "") {
 						id = selectRowData.dataId;
 						layer.open({
 							title : '任务追踪',
@@ -295,7 +289,7 @@
 				},
 				deleteEvent : function() { //点击删除按钮
 					var id;
-					if (selectRowData != undefined) {
+					if (selectRowData != undefined && selectRowData != "") {
 						if (selectRowData.bak5 == "0") {
 							layer.msg('任务已转发，不能再删除!');
 							return;

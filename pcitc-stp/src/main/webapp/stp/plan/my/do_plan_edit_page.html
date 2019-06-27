@@ -270,7 +270,9 @@
 					sthTrArr.push(sthTrObj);
 				});
 				var jsonData = data.field;
-				jsonData.matterList = sthTrArr;
+				if (sthTrArr.length > 0) {
+					jsonData.matterList = sthTrArr;
+				}
 				$.ajax({
 					type : 'post',
 					dataType : 'json',
@@ -283,6 +285,7 @@
 						var index = parent.layer.getFrameIndex(window.name);
 						parent.layer.close(index);
 						parent.layer.msg("保存成功");
+						parent.selectRowData = "";
 						parent.layui.table.reload('tableList', {});
 					},
 					error : function(e) {
@@ -310,7 +313,9 @@
 							sthTrArr.push(sthTrObj)
 						});
 						var jsonData = data.field;
-						jsonData.matterList = sthTrArr;
+						if (sthTrArr.length > 0) {
+							jsonData.matterList = sthTrArr;
+						}
 						$.ajax({
 							type : 'post',
 							dataType : 'json',
@@ -322,6 +327,7 @@
 								var index = parent.layer.getFrameIndex(window.name);
 								parent.layer.close(index);
 								parent.layer.msg("提交成功");
+								parent.selectRowData = "";
 								parent.layui.table.reload('tableList', {});
 							},
 							error : function(e) {
@@ -396,6 +402,7 @@
 				}
 			});
 			
+			// 工作的处理内容
 			table.render({
 				elem : '#matterFeedBackTalbe',
 				url : '/plan/queryMyBotWorkOrderMatterList',

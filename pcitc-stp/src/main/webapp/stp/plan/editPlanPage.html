@@ -14,26 +14,22 @@
 <script src="/layuiadmin/layui/layui.js"></script>
 <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 <style>
-/* .layui-table-body{overflow:-webkit-paged-x !important; }*/
 .layui-form-selectup dl {
 	top: 20px !important;
 	height: 180px;
 }
 
-.layui-table-cell {
+.layui-table-body {
 	overflow: visible !important;
 }
 
-.form_tableAdd_container .tableBox input {
-	margin-top: 5px;
-}
-
-.layui-table-body {
-	overflow-y: auto;
-}
 
 .layui-table-none {
 	padding: 0 !important;
+}
+
+.layui-table {
+	width: 100% !important;
 }
 .form_tableAdd_container .tableBox input{width: 69.3% !important;}
 .form_tableAdd_container .tableBox .layui-table-cell input{width: 100% !important;margin-left: 15px;}
@@ -41,8 +37,9 @@
 .layui-form-select dl{top:26px !important;left: 3px !important;}
 .tdSelect .layui-unselect input{ width: 100%!important;;}
 .tdSelect .layui-unselect {width: 70.5%;margin-left: 3px;}
-.tdSelect .layui-form-select dl{left: 8px !important;}
+.tdSelect .layui-form-select dl{left: 8px !important;max-height:140px;}
 .tdSelect .layui-form-select .layui-edge{right: 5px;}
+.layui-table-box,.layui-table-cell, .layui-table-tool-panel li{overflow: visible !important;}
 </style>
 </head>
 <body>
@@ -58,7 +55,8 @@
 					</div>
 				</div>
 				<div class="box-body">
-					<input type="hidden" id="dataId" name="dataId" value="${dataId}" /> <input type="hidden" id="workOrderAllotUserId" name="workOrderAllotUserId" />
+					<input type="hidden" id="dataId" name="dataId" value="${dataId}" />
+					<input type="hidden" id="workOrderAllotUserId" name="workOrderAllotUserId" />
 					<div class="layui-row">
 						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 							<div class="layui-form-item">
@@ -165,8 +163,8 @@
 			</div>
 			<div class="form-bottom">
 				<div class="form-bottom-btns">
-					<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue btn_save" lay-submit="" lay-filter="save">保存</button>
-					<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue btn_save" lay-submit="" lay-filter="component-form-submit" id="btn_submit_xf">下发</button>
+					<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue btn_save" lay-submit="" lay-filter="save">保存草稿</button>
+					<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue btn_save" lay-submit="" lay-filter="component-form-submit" id="btn_submit_xf">提交任务</button>
 					<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
 				</div>
 			</div>
@@ -236,14 +234,14 @@
 				var matterLength = $("#matterTableDiv .layui-table-main  table tbody tr");
 				$(matterLength).each(function() {
 					var sthTrObj = {};
-                    sthTrObj.dataId = $(this).find("td").eq(2).text();
-                    sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
-                    sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
-                    sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
-                    sthTrObj.announcements = $(this).find("td").eq(5).find("input").val();
+					sthTrObj.dataId = $(this).find("td").eq(2).text();
+					sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
+					sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
+					sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
+					sthTrObj.announcements = $(this).find("td").eq(5).find("input").val();
 					sthTrArr.push(sthTrObj)
 				});
-				
+
 				console.log(sthTrArr);
 				var jsonData = data.field;
 				jsonData.matterList = sthTrArr;
@@ -291,11 +289,11 @@
 				var matterLength = $("#matterTableDiv  .layui-table-main table tbody tr");
 				$(matterLength).each(function() {
 					var sthTrObj = {};
-                    sthTrObj.dataId = $(this).find("td").eq(2).text();
-                    sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
-                    sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
-                    sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
-                    sthTrObj.announcements = $(this).find("td").eq(5).find("input").val();
+					sthTrObj.dataId = $(this).find("td").eq(2).text();
+					sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
+					sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
+					sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
+					sthTrObj.announcements = $(this).find("td").eq(5).find("input").val();
 					sthTrArr.push(sthTrObj);
 				});
 				var jsonData = data.field;
@@ -396,10 +394,10 @@
 					title : '工作事项内容',
 					event : 'setActive',
 					style : 'cursor: pointer;',
-                    templet : function(d) {
-                        var t = "<input type='text' value='" + d.workOrderName + "' >";
-                        return t;
-                    }
+					templet : function(d) {
+						var t = "<input type='text' value='" + d.workOrderName + "' >";
+						return t;
+					}
 				}, {
 					field : 'workOrderAllotUserName',
 					title : '工作处理人',
@@ -432,10 +430,10 @@
 					title : '权重(%)',
 					event : 'setActive',
 					style : 'cursor: pointer;',
-                    templet : function(d) {
-                        var t = "<input type='text' value='" + d.announcements + "' >";
-                        return t;
-                    }
+					templet : function(d) {
+						var t = "<input type='text' value='" + d.announcements + "' >";
+						return t;
+					}
 				} ] ],
 				done : function(res, curr, count) {
 					$(".layui-table").css("width", "100%");

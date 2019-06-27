@@ -14,16 +14,15 @@
 <script src="/layuiadmin/layui/layui.js"></script>
 <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 <style>
-/*.layui-table-body{overflow:-webkit-paged-x !important; }*/
 .layui-form-selectup dl {
 	top: 20px !important;
 	height: 180px;
 }
 
 .layui-table-body {
-	overflow-y: auto !important;
-	overflow-x: hidden !important;
+	overflow: visible !important;
 }
+
 
 .layui-table-none {
 	padding: 0 !important;
@@ -32,6 +31,15 @@
 .layui-table {
 	width: 100% !important;
 }
+.form_tableAdd_container .tableBox input{width: 69.3% !important;}
+.form_tableAdd_container .tableBox .layui-table-cell input{width: 100% !important;margin-left: 15px;}
+.form_tableAdd_container .tableBox .layui-table-cell .layui-select-title input{margin-left: 3px;margin-top: 3px;}
+.layui-form-select dl{top:26px !important;left: 3px !important;}
+.tdSelect .layui-unselect input{ width: 100%!important;;}
+.tdSelect .layui-unselect {width: 70.5%;margin-left: 3px;}
+.tdSelect .layui-form-select dl{left: 8px !important;max-height:140px;}
+.tdSelect .layui-form-select .layui-edge{right: 5px;}
+.layui-table-box,.layui-table-cell, .layui-table-tool-panel li{overflow: visible !important;}
 </style>
 </head>
 <body>
@@ -47,7 +55,8 @@
 					</div>
 				</div>
 				<div class="box-body">
-					<input type="hidden" id="dataId" name="dataId" value="${dataId}" /> <input type="hidden" id="workOrderAllotUserId" name="workOrderAllotUserId" />
+					<input type="hidden" id="dataId" name="dataId" value="${dataId}" />
+					<input type="hidden" id="workOrderAllotUserId" name="workOrderAllotUserId" />
 					<div class="layui-row">
 						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 							<div class="layui-form-item">
@@ -157,8 +166,8 @@
 			</div>
 			<div class="form-bottom">
 				<div class="form-bottom-btns">
-					<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue " lay-submit="" lay-filter="save">保存</button>
-					<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue " lay-submit="" lay-filter="component-form-submit">下发</button>
+					<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue " lay-submit="" lay-filter="save">保存草稿</button>
+					<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue " lay-submit="" lay-filter="component-form-submit">提交任务</button>
 					<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
 				</div>
 			</div>
@@ -222,7 +231,7 @@
 			form.verify({
 				title : function(value) {
 					if (value.length < 4) {
-						return '工作任务名称至少得4个字符啊';
+						return '工作任务名称至少得4个字符';
 					}
 				}
 			});
@@ -271,13 +280,11 @@
 					}
 					console.log(sthTrObj);
 					console.log(eval(sthTrObj));
-					sthTrArr.push(sthTrObj)
-
+					sthTrArr.push(eval(sthTrObj))
 				});
-
+				
 				var jsonData = data.field;
 				jsonData.matterList = sthTrArr;
-				console.log(jsonData.matterList);
 				$.ajax({
 					type : 'post',
 					dataType : 'json',
@@ -303,9 +310,9 @@
 
 			$('#workOrderAllotUserName').click(function() {
 				layer.open({
-					title : "<span>选择工作处理人</span>",
+					title : "选择工作处理人",
 					skin : 'layui-layer-lan',
-					shadeClose : true,
+					shadeClose : false,
 					type : 2,
 					fixed : false,
 					maxmin : true,
@@ -547,6 +554,8 @@
 				var index = parent.layer.getFrameIndex(window.name);
 				parent.layer.close(index);
 				parent.layer.msg("操作成功");
+				// 原表单的行选中状态恢复
+				parent.selectRowData = "";
 				parent.layui.table.reload('tableList', {});
 			}
 		}

@@ -52,9 +52,6 @@ public class PlanController extends BaseController {
 	private static final String AFFIRM_BOT_WORK_ORDER = "http://pcitc-zuul/system-proxy/planClient-provider/affirmBotWorkOrder/";
 	// 提交
 	private static final String SUBMIT_BOT_WORK_ORDER = "http://pcitc-zuul/system-proxy/planClient-provider/submitBotWorkOrder/";
-	// 批量保存工单事项
-	private static final String SAVE_BOT_WORK_ORDER_MATTER_BATCH = "http://pcitc-zuul/system-proxy/planClient-provider/saveBotWorkOrderMatterBatch";
-
 	// 批量保存任务
 	private static final String SAVE_PLAN_BASE_BATCH = "http://pcitc-zuul/system-proxy/planClient-provider/savePlanBaseBatch";
 	// 转发修改子节点
@@ -640,7 +637,6 @@ public class PlanController extends BaseController {
 	public int saveMyBotWorkOrderMatterFeedBack(HttpServletRequest request) {
 		String param = request.getParameter("param");
 		JSONObject jsStr = (JSONObject) JSON.parseObject(param);
-		// jsStr.put("dataCode", code);
 		jsStr.put("auditSts", "0");
 		jsStr.put("createDate", DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
 		jsStr.put("dataOrder", new Date().getTime() + "");
@@ -649,8 +645,6 @@ public class PlanController extends BaseController {
 		jsStr.put("updateUserName", sysUserInfo.getUserDisp());
 		jsStr.put("status", "0");
 		jsStr.put("unitName", sysUserInfo.getUnitName());
-
-		// PlanBase bsv = JSONObject.toJavaObject(jsStr, PlanBase.class);
 
 		List<PlanBaseDetail> matterList = new ArrayList<PlanBaseDetail>();
 		if (jsStr.containsKey("matterList")) {
@@ -683,7 +677,10 @@ public class PlanController extends BaseController {
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(EDIT_BOT_WORK_ORDER, HttpMethod.POST, entity, Integer.class);
 
 		// 保存从表新
-		HttpEntity<List<PlanBaseDetail>> entityList = new HttpEntity<List<PlanBaseDetail>>(matterList, this.httpHeaders);
+		PlanBase pb = new PlanBase();
+		pb.setDataId(wjbvo.getDataId());
+		pb.setPlanBaseDetailList(matterList);
+		HttpEntity<PlanBase> entityList = new HttpEntity<PlanBase>(pb, this.httpHeaders);
 		ResponseEntity<Integer> responseEntityList = this.restTemplate.exchange(SAVE_MY_BOT_WORK_ORDER_MATTER_BATCH, HttpMethod.POST, entityList, Integer.class);
 		int result = responseEntityList.getBody();
 		try {
