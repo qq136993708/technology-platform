@@ -263,7 +263,7 @@
 											<th>工作安排人</th>
 											<th>安排时间</th>
 											<th>工作内容</th>
-											<th>完成进度</th>
+											<th>完成进度(%)</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -1107,15 +1107,7 @@
             }
             
             
-            
-            
-            
-            
-            
-            
-            
-            function set_wait_work_id_count() 
-            {
+            function set_wait_work_id_count() {
             	var url="/task/pending-list";
                 $.ajax({
                     type: "POST",
