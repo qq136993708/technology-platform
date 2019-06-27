@@ -1,5 +1,7 @@
 package com.pcitc.web.interceptor;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,7 +19,7 @@ public class CsrCheckInterceptor implements HandlerInterceptor
 {
 	static String [] protocols = {"http","https"};
 	static String [] hosts = {"stmp.sinopec.com","localhost","127.0.0.1","10.238.[\\d]{1,3}.[\\d]{1,3}","10.246.[\\d]{1,3}.[\\d]{1,3}"};
-	static String [] exceptionsURI = {"/index","/login","/stpHome","/instituteIndex"};
+	static String [] exceptionsURI = {"/login"};
 	static Set<String> securityReferes = new HashSet<String>();
 	static Set<String> exceptionsURL = new HashSet<String>();
 	static 
@@ -39,8 +41,6 @@ public class CsrCheckInterceptor implements HandlerInterceptor
 			throws Exception {
 		String referer = request.getHeader("Referer");
 		String url = request.getRequestURL().toString();
-		System.out.println("referer:"+referer);
-		System.out.println("url:"+url);
 		if(referer != null) {
 			boolean checkPass = false;
 			for(String securityRefere:securityReferes) {
@@ -51,6 +51,7 @@ public class CsrCheckInterceptor implements HandlerInterceptor
 			}
 			if(!checkPass) {
 				System.out.println("跨站攻击被拦截,攻击来源:referer:"+referer +" url:"+url);
+				outErrorInfo(response);
 				return false;
 			}
 		}else{
@@ -60,6 +61,7 @@ public class CsrCheckInterceptor implements HandlerInterceptor
 				}
 			}
 			System.out.println("跨站攻击被拦截，攻击路径:"+request.getRequestURL());
+			outErrorInfo(response);
 			return false;
 		}
 		return true;
@@ -73,5 +75,13 @@ public class CsrCheckInterceptor implements HandlerInterceptor
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
+	}
+	private void outErrorInfo(HttpServletResponse response) throws IOException 
+	{
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.print("<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><title>非法访问</title></head><body><h1>您的访问涉嫌非法！<h1></body></html>");
+		out.close();
 	}
 }

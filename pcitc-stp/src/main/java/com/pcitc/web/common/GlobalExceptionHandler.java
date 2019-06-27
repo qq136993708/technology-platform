@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.Result;
 
 
@@ -35,7 +36,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler
 	    public String jsonHandler(HttpServletRequest request, Exception e) {
 	        logger.error("请求路径："+request.getRequestURL().toString()+"; 发生错误！");
 	        log(e,request);
-	        return new Result(false,"ERROR","请求过程发生异常，请联系管理员!","500").toString();
+	        return JSON.toJSONString(new Result(false,"ERROR","请求过程发生异常，请联系管理员!","500"));
 	    }
 	 
 	    private void log(Exception ex, HttpServletRequest request) {
