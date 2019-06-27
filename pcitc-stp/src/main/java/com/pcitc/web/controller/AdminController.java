@@ -665,6 +665,7 @@ public class AdminController extends BaseController {
 		map.put("workOrderAllotUserId", sysUserInfo.getUserId());
 		map.put("workOrderStatus", "1");
 		param.setParam(map);
+		param.setLimit(10); //首页不能过多显示
 		HttpEntity<LayuiTableParam> entityMy = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntityMy = this.restTemplate.exchange(MY_BOT_WORK_ORDER_LIST, HttpMethod.POST, entityMy, LayuiTableData.class);
 		LayuiTableData resultMy = responseEntityMy.getBody();

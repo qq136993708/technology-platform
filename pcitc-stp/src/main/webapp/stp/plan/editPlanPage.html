@@ -84,7 +84,7 @@
 						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 							<div class="layui-form-item">
 								<label class="layui-form-label">
-									安排人
+									工作发起人
 									<span class="must-fill">*</span>
 								</label>
 								<div class="layui-input-block">
@@ -95,7 +95,7 @@
 						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 							<div class="layui-form-item">
 								<label class="layui-form-label">
-									安排时间
+									创建时间
 									<span class="must-fill">*</span>
 								</label>
 								<div class="layui-input-block">
@@ -109,11 +109,11 @@
 						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 							<div class="layui-form-item">
 								<label for="" class="layui-form-label">
-									被安排人
+									工作处理人
 									<span class="must-fill">*</span>
 								</label>
 								<div class="layui-input-block">
-									<input class="layui-input" name="workOrderAllotUserName" id="workOrderAllotUserName" placeholder="请选择被安排人" readOnly="true" autocomplete="off" type="text">
+									<input class="layui-input" name="workOrderAllotUserName" id="workOrderAllotUserName" placeholder="请选择工作处理人" readOnly="true" autocomplete="off" type="text">
 								</div>
 							</div>
 						</div>
@@ -141,7 +141,7 @@
 			<div class="tableBox">
 				<div class="tableToolBox">
 					<div class="tableTitle">
-						工作安排列表
+						工作处理列表
 						<span class="red">（请输入至少一项）</span>
 					</div>
 					<div class="tableBtns">
@@ -402,7 +402,7 @@
                     }
 				}, {
 					field : 'workOrderAllotUserName',
-					title : '被安排人',
+					title : '工作处理人',
 					event : 'setActive',
 					style : 'cursor: pointer;',
 					templet : function(d) {
@@ -447,7 +447,7 @@
 			//动态添加事项
 			$('#addMatter').click(function() {
 				if ($("#workOrderAllotUserName").val() == "") {
-					layer.msg("请选择被安排人");
+					layer.msg("请选择工作处理人");
 					return;
 				}
 				var trParam = {
