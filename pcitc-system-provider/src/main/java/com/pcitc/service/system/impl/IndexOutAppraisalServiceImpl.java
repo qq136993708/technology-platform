@@ -164,7 +164,7 @@ public class IndexOutAppraisalServiceImpl implements IndexOutAppraisalService {
         }
         Object cgmc = param.getParam().get("cgmc");
         if (cgmc != null) {
-            c.andCgmcLike(cgmc + "%");
+            c.andCgmcLike( "%"+cgmc + "%");
         }
         Object dataId = param.getParam().get("dataId");
         if (dataId != null) {
