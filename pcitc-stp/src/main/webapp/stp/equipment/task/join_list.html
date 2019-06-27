@@ -18,7 +18,6 @@
 <div class="searchBox">
 <input  name="functionId"       id="functionId"                                    type="hidden">
 <input  name="applyUnitCode"    id="applyUnitCode"     value="${applyUnitCode}"    type="hidden">
-<input  name="leadUnitCode"     id="leadUnitCode"      value="${leadUnitCode}"    type="hidden">
 <input  name="joinUnitCode"     id="joinUnitCode"      value="${joinUnitCode}"    type="hidden">
 
 
@@ -26,7 +25,7 @@
     <!--查询条件-->
     <label class="dateInput">
         <span>立项年度</span>
-        <input type="text" name="setupYear" value="" readonly="readonly" placeholder="请选择立项年度" title="立项年度" autocomplete="off" class="form-control" id="setupYear">
+        <input type="text" name="setupYear"  style="cursor:pointer"  value="" readonly="readonly" placeholder="请选择立项年度" title="立项年度" autocomplete="off" class="form-control" id="setupYear">
     </label>
     
     <label class="dateInput">
@@ -40,16 +39,27 @@
         <input type="text" name="contractNum"  title="合同号" autocomplete="off" class="form-control" id="contractNum">
     </label>
     
-     <label class="dateInput">
+     <!-- <label class="dateInput">
         <span>牵头单位</span>
         <input type="text" name="leadUnitName"  title="牵头单位"  autocomplete="off" class="form-control" id="leadUnitName">
+     </label> -->
+     
+     
+     <label class="dateInput">
+         <span>牵头单位</span>
+         <select name="leadUnitCode" id="leadUnitCode"  class="form-control"  >
+             <option value="" >--请选择--</option>
+             <#list leaddicList as vo> 
+		          <option value="${vo.numValue}"  >${vo.name}</option>
+		      </#list>
+		 </select>
      </label>
      
      
      <label class="dateInput">
          <span>归属部门</span>
          <select name="belongDepartmentName" id="belongDepartmentName"  onchange="getDepartNameByUnitName(this.value)"  class="form-control">
-             <option value="" >--请选择部门--</option>
+             <option value="" >--请选择--</option>
              <#list unitFieldList as vo> 
 		          <option value="${vo.unitName}"  >${vo.unitName}</option>
 		      </#list>
@@ -291,7 +301,7 @@ var name=$('#name').val();
             },
             resetEvent: function() { //点击重置按钮
             	$('#topicName').val("");
-            	$('#leadUnitName').val("");
+            	//$('#leadUnitName').val("");
             	$('#leadUnitCode').val("");
             	$('#setupYear').val("");
             	$('#contractNum').val("");
@@ -374,7 +384,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre_project_task/list',
             method:"POST",
-            where: {param: {"setupYear":$("#setupYear").val(),"topicName":$("#topicName").val(),"leadUnitName":$("#leadUnitName").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"contractNum":$("#contractNum").val()}},
+            where: {param: {"setupYear":$("#setupYear").val(),"topicName":$("#topicName").val(),"leadUnitCode":$("#leadUnitCode").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"contractNum":$("#contractNum").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),

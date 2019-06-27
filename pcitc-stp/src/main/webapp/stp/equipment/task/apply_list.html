@@ -26,11 +26,11 @@
 <input type="hidden" name="specialAuditor0" id="specialAuditor0" value="">
 <input type="hidden" name="isKJBPerson" id="isKJBPerson" value="${isKJBPerson}">
 </form>
-
+<div class="searchBox">
     <!--查询条件-->
     <label class="dateInput">
         <span>立项年度</span>
-        <input type="text" name="setupYear" value="" readonly="readonly" placeholder="请选择立项年度" title="立项年度" autocomplete="off" class="form-control" id="setupYear">
+        <input type="text" name="setupYear"  style="cursor:pointer"   style="cursor:pointer"  value="" readonly="readonly" placeholder="请选择立项年度" title="立项年度" autocomplete="off" class="form-control" id="setupYear">
     </label>
     <label class="dateInput">
         <span>任务名称</span>
@@ -90,7 +90,7 @@
               <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg"  id="createSetupWordEvent" data-type="createSetupWordEvent">预览立项报告WORD文档</button>
               <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg"  id="createQianEvent" data-type="createQianEvent">预览签字盖章WORD模板</button>
               <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg"  id="upQianEvent" data-type="upQianEvent">上传签字盖章页</button>
-              <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"  id="createErp" data-type="createErp">对接ERP号</button>
+              <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"  id="createErp" data-type="createErp">录入ERP号</button>
         </div>
     </div>
    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table> 
@@ -451,15 +451,17 @@ var name=$('#name').val();
             	     }else
            	    	 {
 	           	    	    var taskId=selectRowData.taskId;
-		           	    	var temUrl="/sre_project_task/getErpInfo?taskId=" + taskId;
+	           	    	    var leadUnitCode=selectRowData.leadUnitCode;
+	           	    	    var setupYear=selectRowData.setupYear;
+		           	    	var temUrl="/sre_project_task/getErpInfo?taskId=" + taskId+"&leadUnitCode="+leadUnitCode+"&setupYear="+setupYear;
 		           		    layer.open({
-		                       title:'ERP号',
+		                       title:'选择ERP号',
 		                       skin: 'layui-layer-lan',
 		                       shadeClose: true,
 		                       type: 2,
 		                       fixed: false,
 		                       maxmin: false,
-		                       area: ['70%', '90%'],
+		                       area: ['60%', '80%'],
 		                       content:  temUrl
 		                   });
            	    	 }
@@ -507,7 +509,7 @@ var name=$('#name').val();
             where: {param: {"topicName":$("#topicName").val(),"auditStatus":$("#auditStatus").val(),"innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
             limit: 15,	
             id: 'processdef-table',
-            height: commonDislodgeTable(),
+           // height: commonDislodgeTable(),
             page: {
                 groups: 5,
                 limits: [15,30,45,60],

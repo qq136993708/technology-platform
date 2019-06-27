@@ -38,6 +38,9 @@
             <input type="hidden" name="supplierStr" id="supplierStr" value="${sreEquipment.supplierStr}">
             <!-- 意向供应商-->
             <input type="hidden" name="supplierWillStr" id="supplierWillStr" value="${sreEquipment.supplierWillStr}">
+            
+            <input type="hidden" name="parentUnitPathNames" id="parentUnitPathNames"   value="${parentUnitPathNames}">
+            <input type="hidden" name="parentUnitPathIds"   id="parentUnitPathIds"     value="${parentUnitPathIds}">
 
             <!-- 行有两个的情况 -->
             <div class="layui-row">
@@ -472,11 +475,12 @@
     });
 
     function chooseBusiness_data() {
-        var dataId = checkSysUserProperty();
+       /*  var dataId = checkSysUserProperty();
         if (dataId == '') {
             layer.alert("请先到“系统管理”中配置直属研究院数据");
             return;
-        }
+        } */
+        var dataId="";
         var v_date = (new Date()).getTime();
         var temUrl = "/sre-equipment/to-choose-chooseBusiness?v_date=" + v_date + "&companyCode=" + dataId;
         layer.open({

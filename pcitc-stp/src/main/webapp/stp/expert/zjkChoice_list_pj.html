@@ -102,7 +102,7 @@
                     // },
                     {
                         field: "xmName",
-                        title: "项目名称", event: 'setActive', style: 'cursor: pointer;'
+                        title: "名称", event: 'setActive', style: 'cursor: pointer;'
                     },
                     // {
                     //     field: "companyId",
@@ -224,10 +224,10 @@
                 })
             },
             resetEvent: function () { //点击查询按钮
+                $("#xmName").val("");
+                $("#bak1").val("");
                 table.reload('zjkChoiceTableId', {
-                    where: {
-                        param: {}
-                    }
+                    where: {param: {"status": "2", "bak1":"", "xmName": ""}}
                 });
             }, getChecked: function () {//多选
                 var ids = "";
