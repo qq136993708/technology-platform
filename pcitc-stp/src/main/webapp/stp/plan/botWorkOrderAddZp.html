@@ -151,6 +151,7 @@
 				</div>
 			</div>
 			<div class="tableBox">
+				<span class="file-span">处理类附件</span>
 				<div class="tableToolBox" style="border: 0;">
 					<div class="layui-form-item" style="margin-bottom: 55px;">
 						<input type="hidden" name="attachId" id="attachId" value="${dataId}">
@@ -219,23 +220,22 @@
 			form.on('submit(save)', function(data) {
 				var sthTrArr = [];
 				var matterLength = $("#matterTableDiv  .layui-table-main table tbody tr");
-				$(matterLength).each(function() {
-					var sthTrObj = {};
-					if ($(this).find("td").eq(3).find("input").length > 0) {
+				if(!$(matterLength).find("td").attr("data-off")==1){
+					$(matterLength).each(function() {
+						var sthTrObj = {};
 						sthTrObj.dataId = $(this).find("td").eq(2).find("input").val();
 						sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
 						sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
 						sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
 						sthTrObj.announcements = $(this).find("td").eq(5).find("input").val();
-					} else {
-						sthTrObj.dataId = $(this).find("td").eq(2).text();
-						sthTrObj.workOrderName = $(this).find("td").eq(3).text();
-						sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
-						sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
-						sthTrObj.announcements = $(this).find("td").eq(5).text();
-					}
-					sthTrArr.push(sthTrObj);
-				});
+						sthTrArr.push(sthTrObj);
+					});
+				}
+				if (sthTrArr.length < 1) {
+					layer.msg('请至少输入一项工作安排');
+					return false;
+				}
+				
 				var jsonData = data.field;
 				jsonData.matterList = sthTrArr;
 				$.ajax({
@@ -343,7 +343,7 @@
 					edit : true
 				}, {
 					field : 'workOrderAllotUserName',
-					title : '下发人员',
+					title : '工作处理人',
 					event : 'setActive',
 					style : 'cursor: pointer;',
 					width : '10%',

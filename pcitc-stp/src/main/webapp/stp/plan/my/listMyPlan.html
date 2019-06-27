@@ -43,7 +43,7 @@
 				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="editEvent">下发</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="zfEvent">转发</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg" data-type="detailEvent">任务追踪</button>
-				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button>
+				<!-- <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button> -->
 			</div>
 			<div class="whiteLine"></div>
 		</div>
@@ -216,7 +216,7 @@
 						return;
 					}
 				},
-				zfEvent : function() { //点击编辑按钮
+				zfEvent : function() {
 					var id;
 					if (selectRowData != undefined && selectRowData != "") {
 						if (selectRowData.bak5 == "0" || selectRowData.workOrderStatus == "2" || (typeof selectRowData.bak4 != "undefined" && selectRowData.bak4 != "")) {
