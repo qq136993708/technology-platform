@@ -51,7 +51,14 @@
                 <input name="joinUnitIds" id="joinUnitIds" value="${sreProjectBasic.joinUnitIds}" type="hidden">
                 <!--<input name="yearFeeStrJoinUnit" id="yearFeeStrJoinUnit"
                        value="2019-2020,苏州大学,014ef79138eb4fc49f24e4439419a5a9#2019,22,null#2020,0,null;2019-2020,北京经贸大学,01a180d1fac8465a9f283f7628dbf498#2019,0,null#2020,0,null" type="hidden">-->
-                
+                <input name="applyUnitCode" id="applyUnitCode" value="${applyUnitCode}"
+                       type="hidden">
+                <input name="applyUnitName" id="applyUnitName" value="${applyUnitName}" type="hidden">
+                <input name="applyUnitId"   id="applyUnitId"   value="${applyUnitId}" type="hidden">       
+                <input name="parentUnitPathIds"   id="parentUnitPathIds"   value="${parentUnitPathIds}" type="hidden">       
+                <input name="parentUnitPathNames"   id="parentUnitPathNames"   value="${parentUnitPathNames}" type="hidden">       
+                   
+                       
                 
                  <div class="layui-form-item">
                     <label class="layui-form-label">课题名称<span class="must-fill">*</span></label>
@@ -521,7 +528,7 @@
            if(joinUnitName!=null && joinUnitName!='')
        	   {
         	   var arrJ = $("#joinUnitName").val().split(",");
-               var arrId=$("#joinUnitCode").val().split(",");
+               var arrId=$("#joinUnitIds").val().split(",");
                var yearFeeStrJoinUnit='';
                $.each(arrJ, function (i, val) {
                    var year=$("#beginYear").val()+"-"+$("#endYear").val();
@@ -669,6 +676,7 @@
 
     //参加单位--多个
     function choose_joinUnitName_callback(unitIds, unitNames,unitCode) {
+    	//alert("joinUnitCode="+unitIds+" joinUnitName="+unitNames);
         $("#joinUnitName").val(unitNames);
         $("#joinUnitCode").val(unitCode);
         $("#joinUnitIds").val(unitIds);

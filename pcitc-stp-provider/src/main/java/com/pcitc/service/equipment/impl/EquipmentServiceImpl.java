@@ -1,5 +1,6 @@
 package com.pcitc.service.equipment.impl;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -187,7 +188,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("isLinkedProject", isLinkedProject);
 		System.out.println(">>>>>>>>applyDepartCode="+applyDepartCode);
 		StringBuffer applyUnitCodeStr=new StringBuffer();
-		if(!applyDepartCode.equals(""))
+		/*if(!applyDepartCode.equals(""))
 		{
 			applyUnitCodeStr.append(" (");
 			String arr[]=applyDepartCode.split(",");
@@ -205,7 +206,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 			applyUnitCodeStr.append(" )");
 		}
 		
-		map.put("sqlStr", applyUnitCodeStr.toString());
+		map.put("sqlStr", applyUnitCodeStr.toString());*/
 		
 		
 		List<SreEquipment> list = sreEquipmentMapper.getList(map);
@@ -312,7 +313,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("parentUnitPathIds", parentUnitPathIds);
 		System.out.println(">>>>>>>>applyUnitCode="+applyUnitCode);
 		StringBuffer applyUnitCodeStr=new StringBuffer();
-		if(!applyUnitCode.equals(""))
+		
+		/*if(!applyUnitCode.equals(""))
 		{
 			applyUnitCodeStr.append(" (");
 			String arr[]=applyUnitCode.split(",");
@@ -329,8 +331,9 @@ public class EquipmentServiceImpl implements EquipmentService {
 			}
 			applyUnitCodeStr.append(" )");
 		}
+		map.put("sqlStr", applyUnitCodeStr.toString());*/
 		
-		map.put("sqlStr", applyUnitCodeStr.toString());
+		
 		
 		System.out.println(">>>>>>>>sqlstr"+applyUnitCodeStr.toString());
 		List<SreProject> list = sreProjectMapper.getList(map);
@@ -626,7 +629,13 @@ public class EquipmentServiceImpl implements EquipmentService {
     	// flowJson.put("flowUnitId", "");
     	
     	// 非必填选项，当下一步审批者需要本次任务执行人（启动者）手动选择的时候，需要auditUserIds属性
-    	flowJson.put("auditor", auditor);
+    	if (auditor!=null && !auditor.equals("")) 
+		{
+			String[] userIds_arr = auditor.split(",");
+			flowJson.put("auditor", Arrays.asList(userIds_arr));
+		}
+    	
+    	//flowJson.put("auditor", auditor);
     	flowJson.put("specialAuditor0", specialAuditor0); 
 		// 非必填选项, 对流程中出现的多个判断条件，比如money>100等，需要把事先把money条件输入
 		// flowJson.put("money", 50); // 环节1需要用到
@@ -743,7 +752,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("isCheck", isCheck);
 		System.out.println(">>>>>>>>applyUnitCode="+applyUnitCode);
 		StringBuffer applyUnitCodeStr=new StringBuffer();
-		if(!applyUnitCode.equals(""))
+		/*if(!applyUnitCode.equals(""))
 		{
 			applyUnitCodeStr.append(" (");
 			String arr[]=applyUnitCode.split(",");
@@ -765,7 +774,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		
 		
 		map.put("sqlStr", applyUnitCodeStr.toString());
-		System.out.println(">>>>>>>>sqlstr"+applyUnitCodeStr.toString());
+		System.out.println(">>>>>>>>sqlstr"+applyUnitCodeStr.toString());*/
 		
 		
 		List<SreProjectTask> list = sreProjectTaskMapper.getList(map);
@@ -798,14 +807,14 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String functionId=(String)map.get("functionId");
 		String auditor=(String)map.get("auditor");
 		//申请者机构信息
-		String applyUnitCode=(String)map.get("applyUnitCode");
-		String parentApplyUnitCode=(String)map.get("parentApplyUnitCode");
-		String applyUnitName=(String)map.get("applyUnitName");
+		//String applyUnitCode=(String)map.get("applyUnitCode");
+		//String parentApplyUnitCode=(String)map.get("parentApplyUnitCode");
+		//String applyUnitName=(String)map.get("applyUnitName");
 		String applyUserId=(String)map.get("applyUserId");
 		String applyUserName=(String)map.get("applyUserName");
-		String applyUnitPathCode=(String)map.get("applyUnitPathCode");
-		String parentApplyUnitPathCode=(String)map.get("parentApplyUnitPathCode");
-		String parentApplyUnitPathName=(String)map.get("parentApplyUnitPathName");
+	//	String applyUnitPathCode=(String)map.get("applyUnitPathCode");
+		//String parentApplyUnitPathCode=(String)map.get("parentApplyUnitPathCode");
+		//String parentApplyUnitPathName=(String)map.get("parentApplyUnitPathName");
 		//指定岗位
 		String specialAuditor1=(String)map.get("specialAuditor1");
 		String specialAuditor2=(String)map.get("specialAuditor2");
@@ -836,7 +845,16 @@ public class EquipmentServiceImpl implements EquipmentService {
     	// flowJson.put("flowUnitId", "");
     	flowJson.put("branchFlag", branchFlag);
     	// 非必填选项，当下一步审批者需要本次任务执行人（启动者）手动选择的时候，需要auditUserIds属性
-    	flowJson.put("auditor", auditor);
+    	
+    	
+    	if (auditor!=null && !auditor.equals("")) 
+		{
+			String[] userIds_arr = auditor.split(",");
+			flowJson.put("auditor", Arrays.asList(userIds_arr));
+		}
+    	
+    	
+    	//flowJson.put("auditor", auditor);
     	
 		// 非必填选项, 对流程中出现的多个判断条件，比如money>100等，需要把事先把money条件输入
 		// flowJson.put("money", 50); // 环节1需要用到
@@ -856,14 +874,10 @@ public class EquipmentServiceImpl implements EquipmentService {
 		if("true".equals(str)) 
 		{
 			sreProject.setInnerAuditStatus(Constant.AUDIT_STATUS_SUBMIT);
-			sreProject.setApplyUnitCode(applyUnitCode);
-			sreProject.setApplyUnitName(applyUnitName);
-			sreProject.setApplyUnitPathCode(applyUnitPathCode);
+			
 			sreProject.setApplyUserId(applyUserId);
 			sreProject.setApplyUserName(applyUserName);
-			sreProject.setParentApplyUnitCode(parentApplyUnitCode);
-			sreProject.setParentApplyUnitPathCode(parentApplyUnitPathCode);
-			sreProject.setParentApplyUnitPathName(parentApplyUnitPathName);
+			
 			sreProjectTaskMapper.updateByPrimaryKey(sreProject);
 			return new Result(true,"操作成功!");
 		}else 

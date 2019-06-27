@@ -24,6 +24,7 @@
        <input type="hidden" name="id" id="id" >
        <input type="hidden" name="applyUnitCode" id="applyUnitCode" value="${applyUnitCode}">
        <input type="hidden" name="isKJBPerson" id="isKJBPerson" value="${isKJBPerson}">
+       <input type="hidden" name="leadUnitCode" id="leadUnitCode" value="${leadUnitCode}">
     </form>
      <form action="" name="form2"  id="form2" >
        <input type="hidden" name="auditStatus" id="auditStatus" value="${auditStatus}">
@@ -364,7 +365,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre-project-basic/list',
             method:"POST",
-            where: {param: {"name":$("#name").val(),"auditStatus":"2","setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"applyUnitCode":$("#applyUnitCode").val()}},
+            where: {param: {"name":$("#name").val(),"auditStatus":"2","setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"leadUnitCode":$("#leadUnitCode").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),
