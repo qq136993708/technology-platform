@@ -65,14 +65,18 @@ public class ProjectBasicController extends BaseController {
 	@RequestMapping(value = "/to-list")
 	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		List<UnitField> unitFieldList = CommonUtil.getUnitNameList(restTemplate, httpHeaders);
-		request.setAttribute("unitFieldList", unitFieldList);
 		String unitPathIds = sysUserInfo.getUnitPath();
 		
 		
         String leadUnitCode = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);// .getParentUnitPathId(unitPathIds);
 		request.setAttribute("leadUnitCode", leadUnitCode);
 		
+		//归属部门
+		List<SysDictionary> departmentList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
+		request.setAttribute("departmentList", departmentList);
+		//专业领域
+		List<SysDictionary> fieldList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZBGL_ZYLY", restTemplate, httpHeaders);
+		request.setAttribute("fieldList", fieldList);
 		
 		
 		
@@ -203,10 +207,33 @@ public class ProjectBasicController extends BaseController {
 		request.setAttribute("beginYear", beginYear);
 		request.setAttribute("joinUnitIds", joinUnitIds);
 		logger.info("============远程返回  beginYear " + beginYear);
-		List<UnitField> unitFieldList = CommonUtil.getUnitNameList(restTemplate, httpHeaders);
-		request.setAttribute("unitFieldList", unitFieldList);
-
+		
+		
+		//归属部门
+		List<SysDictionary> departmentList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
+		request.setAttribute("departmentList", departmentList);
+		//专业领域
+		List<SysDictionary> fieldList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZBGL_ZYLY", restTemplate, httpHeaders);
+		request.setAttribute("fieldList", fieldList);
+		
+		
+		
+		
+		
 		return "/stp/equipment/project/project-basic-add";
+	}
+	
+	
+	
+	@RequestMapping(value = "/getDicListByParentCode")
+	@ResponseBody
+	public String getDicListByParentCode(HttpServletRequest request, HttpServletResponse response) 
+	{
+		String belongDepartmentCode = CommonUtil.getParameter(request, "belongDepartmentCode", "");
+		List<SysDictionary> list=	EquipmentUtils.getSysDictionaryListByParentCode(belongDepartmentCode, restTemplate, httpHeaders);
+		JSONArray result = JSONArray.parseArray(JSON.toJSONString(list));
+		logger.info("============result" + result);
+		return result.toString();
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/chooseProject")
@@ -318,8 +345,6 @@ public class ProjectBasicController extends BaseController {
 		String applyUnitId = CommonUtil.getParameter(request, "applyUnitId", "");
 		String parentUnitPathIds = CommonUtil.getParameter(request, "parentUnitPathIds", "");
 		String parentUnitPathNames = CommonUtil.getParameter(request, "parentUnitPathNames", "");
-		
-		
 		
 
 		String joinUnitParentNames = "";
@@ -678,9 +703,17 @@ public class ProjectBasicController extends BaseController {
 		request.setAttribute("createUserId", createUserId);
 		request.setAttribute("endYear", endYear);
 		request.setAttribute("beginYear", beginYear);
-		List<UnitField> unitFieldList = CommonUtil.getUnitNameList(restTemplate, httpHeaders);
-		request.setAttribute("unitFieldList", unitFieldList);
+		
+		//归属部门
+		List<SysDictionary> departmentList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
+		request.setAttribute("departmentList", departmentList);
+		//专业领域
+		List<SysDictionary> fieldList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZBGL_ZYLY", restTemplate, httpHeaders);
+		request.setAttribute("fieldList", fieldList);
+		
 
+		
+		
 		List<SysDictionary> dicList = CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate,
 				httpHeaders);
 		request.setAttribute("dicList", dicList);

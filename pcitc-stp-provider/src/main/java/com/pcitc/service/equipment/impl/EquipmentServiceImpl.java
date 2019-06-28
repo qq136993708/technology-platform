@@ -288,9 +288,14 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String unitPathIds=getTableParam(param,"unitPathIds","");
 		String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
 		
+		String belongDepartmentCode=getTableParam(param,"belongDepartmentCode","");
+		String professionalDepartCode=getTableParam(param,"professionalDepartCode","");
+		
 		Map map=new HashMap();
 		map.put("belongDepartmentName", belongDepartmentName);
+		map.put("belongDepartmentCode", belongDepartmentCode);
 		map.put("professionalDepartName", professionalDepartName);
+		map.put("professionalDepartCode", professionalDepartCode);
 		map.put("name", name);
 		map.put("equipmentIds", equipmentIds);
 		map.put("auditStatus", auditStatus);
@@ -725,10 +730,19 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
 		String closeStatus=getTableParam(param,"closeStatus","");
 		String isCheck=getTableParam(param,"isCheck","");
+		String belongDepartmentCode=getTableParam(param,"belongDepartmentCode","");
+		String professionalDepartCode=getTableParam(param,"professionalDepartCode","");
+		
 		
 		Map map=new HashMap();
 		map.put("belongDepartmentName", belongDepartmentName);
+		map.put("belongDepartmentCode", belongDepartmentCode);
 		map.put("professionalDepartName", professionalDepartName);
+		map.put("professionalDepartCode", professionalDepartCode);
+		map.put("professionalFieldCode", professionalFieldCode);
+		map.put("professionalFieldName", professionalFieldName);
+		
+		
 		map.put("topicName", topicName);
 		map.put("auditStatus", auditStatus);
 		map.put("leadUnitName", leadUnitName);
@@ -743,8 +757,6 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("innerAuditStatus", innerAuditStatus);
 		map.put("createUserId", createUserId);
 		map.put("createUserName", createUserName);
-		map.put("professionalFieldCode", professionalFieldCode);
-		map.put("professionalFieldName", professionalFieldName);
 		map.put("setupId", setupId);
 		map.put("unitPathIds", unitPathIds);
 		map.put("parentUnitPathIds", parentUnitPathIds);
@@ -939,7 +951,12 @@ public class EquipmentServiceImpl implements EquipmentService {
 	    	// flowJson.put("flowUnitId", "");
 	    	
 	    	// 非必填选项，当下一步审批者需要本次任务执行人（启动者）手动选择的时候，需要auditUserIds属性
-	    	flowJson.put("auditor", auditor);
+	    	if (auditor!=null && !auditor.equals("")) 
+			{
+				String[] userIds_arr = auditor.split(",");
+				flowJson.put("auditor", Arrays.asList(userIds_arr));
+			}
+	    	//flowJson.put("auditor", auditor);
 	    	
 			// 非必填选项, 对流程中出现的多个判断条件，比如money>100等，需要把事先把money条件输入
 			// flowJson.put("money", 50); // 环节1需要用到
@@ -1044,7 +1061,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("contractNum", contractNum);
 		System.out.println(">>>>>>>>applyUnitCode="+applyUnitCode);
 		StringBuffer applyUnitCodeStr=new StringBuffer();
-		if(!applyUnitCode.equals(""))
+		/*if(!applyUnitCode.equals(""))
 		{
 			applyUnitCodeStr.append(" (");
 			String arr[]=applyUnitCode.split(",");
@@ -1064,7 +1081,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		
 		map.put("sqlStr", applyUnitCodeStr.toString());
 		System.out.println(">>>>>>>>sqlstr"+applyUnitCodeStr.toString());
-		
+		*/
 		
 		List<SreProjectSetup> list = sreProjectSetupMapper.getList(map);
 		PageInfo<SreProjectSetup> pageInfo = new PageInfo<SreProjectSetup>(list);

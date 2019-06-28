@@ -506,10 +506,10 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre_project_task/list',
             method:"POST",
-            where: {param: {"topicName":$("#topicName").val(),"auditStatus":$("#auditStatus").val(),"innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {"topicName":$("#topicName").val(),"auditStatus":$("#auditStatus").val(),"innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"leadUnitCode":$("#leadUnitCode").val()}},
             limit: 15,	
             id: 'processdef-table',
-           // height: commonDislodgeTable(),
+            height: commonDislodgeTable(),
             page: {
                 groups: 5,
                 limits: [15,30,45,60],

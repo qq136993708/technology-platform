@@ -41,22 +41,25 @@
     
      <label class="dateInput">
          <span>归属部门</span>
-         <select name="belongDepartmentName" id="belongDepartmentName"  onchange="getDepartNameByUnitName(this.value)" class="form-control"  >
-             <option value="" >--请选择归属部门--</option>
-             <#list unitFieldList as vo> 
-		          <option value="${vo.unitName}"  >${vo.unitName}</option>
-		      </#list>
+         <select name="belongDepartmentCode" id="belongDepartmentCode"  onchange="getDepartNameByUnitName(this.value)" class="form-control"  >
+              <option value="ROOT_ZGSHJT_ZBJG_KJB" >科技部</option>
 		 </select>
      </label>
-    
+     
      <label class="dateInput">
          <span>专业处</span>
-         <select id="professionalDepartName" name="professionalDepartName" onchange="getProfessionalNameListByUnitNameAndDept(this.value)" class="form-control" ></select>
+         <select id="professionalDepartCode" name="professionalDepartCode"  class="form-control" ></select>
      </label>
     
       <label class="dateInput">
          <span>专业领域</span>
-         <select id="professionalFieldName" name="professionalFieldName" class="form-control" ></select>
+         
+          <select name="professionalFieldCode" id="professionalFieldCode"   class="form-control"  >
+             <option value="" >--请选择--</option>
+             <#list fieldList as vo> 
+		          <option value="${vo.code}"  >${vo.name}</option>
+		      </#list>
+		 </select>
      </label>
     
     <!--按钮组-->
@@ -144,72 +147,40 @@
 </script>
 <script type="text/javascript">
 
-getDepartNameByUnitName($("#belongDepartmentName").val());
-function getDepartNameByUnitName(belongDepartmentName)
-{
-	 $("#belongDepartmentName").val(belongDepartmentName);
-	 $("#professionalDepartName").empty();
-	 var v_date=(new Date()).getTime();
-	 $.ajax({
-			url : "/unitField/getDepartmentNameListByUnitName?v_date="+v_date+"&unitName="+belongDepartmentName,
-			type : "post",
-			async: false,
-			dataType : "json",
-			success : function(data) 
-			{
-				$("#professionalDepartName").append("<option value=''>--请选择--</option>");
-				$.each(data, function(i, el) 
-				{
-					$("#professionalDepartName").append('<option value="'+ el.departmentName +'">' + el.departmentName+ '</option>');
-					/* if(cityId==el.departmentName)
-					{
-						$("#professionalDepartName ").val(departmentName);  
-					} */
-	  			  	
-				});
-			},
-			error : function() 
-			{
-				alert("发生未知错误 ,请重新操作.");
-			}
-		});
-	 
-	 
-	 getProfessionalNameListByUnitNameAndDept(belongDepartmentName);
-}
-
-
-
-
-
-
-
-function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
+getDepartNameByUnitName($("#belongDepartmentCode").val());
+function getDepartNameByUnitName(belongDepartmentCode)
 {
 	
-	 var belongDepartmentName= $("#belongDepartmentName").val();
-	 $("#professionalFieldName").empty();
+	 $("#professionalDepartCode").empty();
 	 var v_date=(new Date()).getTime();
-	 $.ajax({
-			url : "/unitField/getProfessionalNameListByUnitNameAndDept?v_date="+v_date+"&unitName="+belongDepartmentName+"&departmentName="+professionalDepartName,
-			type : "post",
-			async: false,
-			dataType : "json",
-			success : function(data) 
-			{
-				$("#professionalFieldName").append("<option value=''>--请选择--</option>");
-				$.each(data, function(i, el) 
+	 if(belongDepartmentCode!=null && belongDepartmentCode!='')
+     {
+		 
+		 $.ajax({
+				url : "/sre-project-basic/getDicListByParentCode?v_date="+v_date+"&belongDepartmentCode="+belongDepartmentCode,
+				type : "post",
+				async: false,
+				dataType : "json",
+				success : function(data) 
 				{
-					$("#professionalFieldName").append('<option value="'+ el.professionalFieldName +'">' + el.professionalFieldName+ '</option>');
-	  			  	
-				});
-			},
-			error : function() 
-			{
-				alert("发生未知错误 ,请重新操作.");
-			}
-		});
+					$("#professionalDepartCode").append("<option value=''>--请选择--</option>");
+					$.each(data, function(i, el) 
+					{
+						$("#professionalDepartCode").append('<option value="'+ el.code +'">' + el.name+ '</option>');
+					});
+				},
+				error : function() 
+				{
+					alert("发生未知错误 ,请重新操作.");
+				}
+			});
+     }
+	 
+	 
+	 
 }
+
+
 
 </script>
 <!--表格数据操作js-->
@@ -263,9 +234,9 @@ var name=$('#name').val();
             	$('#name').val("");
             	$('#setupYear').val("");
             	$('#auditStatus').val("");
-            	$('#belongDepartmentName').val("");
-            	$('#professionalDepartName').val("");
-            	$('#professionalFieldName').val("");
+            	$('#belongDepartmentCode').val("");
+            	$('#professionalDepartCode').val("");
+            	$('#professionalFieldCode').val("");
              
             },
             
@@ -441,7 +412,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre-project-basic/list',
             method:"POST",
-            where: {param: {"name":$("#name").val(),"auditStatus":$("#auditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"applyUnitCode":$("#applyUnitCode").val(),"leadUnitCode":$("#leadUnitCode").val()}},
+            where: {param: {"name":$("#name").val(),"auditStatus":$("#auditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentCode":$("#belongDepartmentCode").val(),"professionalDepartCode":$("#professionalDepartCode").val(),"professionalFieldCode":$("#professionalFieldCode").val(),"applyUnitCode":$("#applyUnitCode").val(),"leadUnitCode":$("#leadUnitCode").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),
@@ -461,9 +432,9 @@ var name=$('#name').val();
                 {field : 'beginYear',      title : '投资期限',         style : 'cursor: pointer;', align: 'center',  width : '7%',templet:function(d){return '<div style="">'+d.beginYear+'-'+d.endYear+'</div><br/><div style="color:red">'+d.beginYear+'</div>'}},
                 {field : 'projectMoney',   title : '总经费(万元)',      style : 'cursor: pointer;', align: 'center',  width : '8%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
                 {field : 'leadUnitName',   title : '牵头单位',         style : 'cursor: pointer;', align: 'left', width : '20%'},
-                {field : 'belongDepartmentName',   title : '归属部门', style : 'cursor: pointer;', align: 'left', width : '7%'},
-                {field : 'professionalDepartName', title : '专业处',  style : 'cursor: pointer;', align: 'left', width : '7%'},
-                {field : 'professionalFieldName',  title : '专业领域', style : 'cursor: pointer;', align: 'left', width : '7%'},
+                {field : 'belongDepartmentCode',   title : '归属部门', style : 'cursor: pointer;', align: 'left', width : '7%'},
+                {field : 'professionalDepartCode', title : '专业处',  style : 'cursor: pointer;', align: 'left', width : '7%'},
+                {field : 'professionalFieldCode',  title : '专业领域', style : 'cursor: pointer;', align: 'left', width : '7%'},
                 {field : 'parentUnitPathNames',    title : '上报单位', style : 'cursor: pointer;', align: 'left', width : '20%'},
                 {field : 'applyUnitName',          title : '上报部门', style : 'cursor: pointer;', align: 'left', width : '10%'},
                 {field : 'createDate',             title : '上报时间', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl', width : '10%'}
@@ -480,6 +451,23 @@ var name=$('#name').val();
                     var auditStatus=selectRowData.auditStatus;
                     //alert(auditStatus);
                 });
+                
+                //项目分类，项目性质
+                  var dicMap = ['ROOT_ZGSHJT_ZBJG','ROOT_ZGSHJT_ZBJG_KJB','ROOT_ZBGL_ZYLY'];
+                  var dicVal = {};
+   				  publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
+   					$.each(data,function(key,val){
+   						$.each(val,function(i,dt){
+   							dicVal[dt.code] = dt.name;
+   						});
+   					});
+   			   	}); 
+   				$.each(res.data,function(i,dt){
+   					$("tr[data-index='"+i+"'] td[data-field='belongDepartmentCode'] div").html(dicVal[res.data[i].belongDepartmentCode]); 
+   					$("tr[data-index='"+i+"'] td[data-field='professionalDepartCode'] div").html(dicVal[res.data[i].professionalDepartCode]); 
+   					$("tr[data-index='"+i+"'] td[data-field='professionalFieldCode'] div").html(dicVal[res.data[i].professionalFieldCode]); 
+   			   	}); 
+   			   	
             }
         });
 	 }

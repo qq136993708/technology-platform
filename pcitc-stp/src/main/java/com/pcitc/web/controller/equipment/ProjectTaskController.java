@@ -119,18 +119,17 @@ public class ProjectTaskController extends BaseController {
 	@RequestMapping(value = "/apply_list")
 	public String apply_list(HttpServletRequest request, HttpServletResponse response)throws Exception {
 		
-		
-		
 		List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
 		request.setAttribute("dicList", dicList);
-		
 		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
 		request.setAttribute("unitFieldList", unitFieldList);
-		
-		
 		String unitPathIds = sysUserInfo.getUnitPath();
+		String leadUnitCode = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);// .getParentUnitPathId(unitPathIds);
+		request.setAttribute("leadUnitCode", leadUnitCode);
+		   
+		/*
 		String parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
-		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+		request.setAttribute("parentUnitPathIds", parentUnitPathIds);*/
 		
 		boolean isKJBPerson=EquipmentUtils.isKJBPerson(unitPathIds);
 		request.setAttribute("isKJBPerson", isKJBPerson);
