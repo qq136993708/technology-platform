@@ -177,16 +177,15 @@
 							<div id="circleOne">
 								<span></span>
 							</div>
-
-
-
 							<p>上周工作完成度</p>
+							<a lay-href="/admin/plan/my/listMyPlan" lay-text="工作受理" id="listMyPlan"></a>
 						</div>
 						<div class="work-summary-right layui-col-md5">
 							<div id="circleTwo">
 								<span></span>
 							</div>
 							<p>本周工作安排度</p>
+							<a lay-href="/admin/plan/listPlanPage" lay-text="工作安排" id="listPlanPage"></a>
 						</div>
 					</div>
 				</div>
@@ -506,6 +505,11 @@
             	}
         });
         
+        var lastWeekTotal = "0";   // 上周应该处理的工作总数
+        var lastWeekHaved = "0";   // 上周处理的工作总数
+        var thisWeekTotal = "0";   // 本周安排出去的工作总数
+        var thisWeekHaved = "0";   // 本周安排出去已经完成的工作
+        
         
         
                      　 /* $.post(url,"",function(data){
@@ -572,8 +576,6 @@
         } 
         
         
-        </script>
-			<script>
             var companyCode = $("#companyCode").val();
             var nd = $("#nd").val();
             var element ;
@@ -705,15 +707,35 @@
                 },function () {
                     $(this).find("div").fadeOut(900);
                 });
-                circle("circleOne",0,"3/9");
-                circle("circleTwo",0,"7/10");
-                $(".work-summary").hover(function(){
-                    circle("circleOne",(3/9).toFixed(2),"3/9");
-                    circle("circleTwo",(7/10).toFixed(2),"7/10");
-                },function(){
-                    circle("circleOne",0,"3/9");
-                    circle("circleTwo",0,"7/10");
+                
+                // 工作完成情况统计
+                publicMethods.ajaxAsyncPost('/admin/workorder/stat', null, function (data, status) {
+                	if (data.success == true || data.success == 'true') {
+                		lastWeekTotal = data.data.lastWeekTotal;   // 上周应该处理的工作总数
+                        lastWeekHaved = data.data.lastWeekHaved;   // 上周处理的工作总数
+                        thisWeekTotal = data.data.thisWeekTotal;   // 本周安排出去的工作总数
+                        thisWeekHaved = data.data.thisWeekHaved;   // 本周安排出去已经完成的工作
+                	}
+                	circle("circleOne",0,lastWeekHaved+"/"+lastWeekTotal);
+                    circle("circleTwo",0,thisWeekHaved+"/"+thisWeekTotal);
+                    $(".work-summary").hover(function(){
+                        circle("circleOne",(lastWeekHaved/lastWeekTotal).toFixed(2),lastWeekHaved+"/"+lastWeekTotal);
+                        circle("circleTwo",(thisWeekHaved/thisWeekTotal).toFixed(2),thisWeekHaved+"/"+thisWeekTotal);
+                    },function(){
+                        circle("circleOne",0,lastWeekHaved+"/"+lastWeekTotal);
+                        circle("circleTwo",0,thisWeekHaved+"/"+thisWeekTotal);
+                    });
+                    
                 });
+                
+                $("#circleOne").click(function () {
+                	$("#listMyPlan")[0].click();
+                });
+                
+                $("#circleTwo").click(function () {
+                	$("#listPlanPage")[0].click();
+                });
+              
                 $(".layui-table tbody tr").click(function () {
                     layer.open({
                         title: '任务计划-新增',
@@ -1095,7 +1117,7 @@
             function addPlan() { //点击新增按钮
                 //parent.layui.index.openTabsPage("/plan/addPlanPageMain", "任务计划-新增");
             	layer.open({
-					title : '-新增',
+					title : '工作安排-新增',
 					skin : 'layui-layer-lan',
 					shadeClose : false,
 					type : 2,

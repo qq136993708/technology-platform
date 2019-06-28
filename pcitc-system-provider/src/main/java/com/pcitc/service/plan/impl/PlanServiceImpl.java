@@ -1,6 +1,7 @@
 package com.pcitc.service.plan.impl;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -393,6 +394,15 @@ public class PlanServiceImpl implements PlanService {
 			c.andWorkOrderAllotUserIdEqualTo(workOrderAllotUserId.toString());
 			c.andDelFlagEqualTo("0");
 		}
+		
+		if (param.getParam().get("startTime") != null && !"".equals(param.getParam().get("startTime"))) {
+			c.andCreateDateGreaterThan(param.getParam().get("startTime") + " 00:00:00");
+		}
+		
+		if (param.getParam().get("endTime") != null && !"".equals(param.getParam().get("endTime"))) {
+			c.andCreateDateLessThan(param.getParam().get("endTime") + " 23:59:59");
+		}
+		
 		// 2、执行查询
 		example.setOrderByClause("create_date desc");
 		List<PlanBase> list = planBaseMapper.selectByExample(example);
@@ -459,5 +469,5 @@ public class PlanServiceImpl implements PlanService {
 		}
 		return result;
 	}
-
+	
 }

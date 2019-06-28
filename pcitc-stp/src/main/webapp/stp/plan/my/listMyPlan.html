@@ -17,6 +17,14 @@
 			<span>任务名称</span>
 			<input type="text" id="workOrderName" name="workOrderName" placeholder="请输入任务名称" title="任务名称" autocomplete="off" class="form-control">
 		</label>
+		<label class="dateInput">
+			<span>开始时间</span>
+			<input type="text" name="startTime" placeholder="请输入开始时间" title="开始时间" autocomplete="off" class="form-control" id="startTime" value="${startTime}">
+		</label>
+		<label class="dateInput">
+			<span>结束时间</span>
+			<input type="text" name="endTime" placeholder="请输入结束时间" title="结束时间" autocomplete="off" class="form-control" id="endTime" value="${endTime}">
+		</label>
 		<!--按钮组-->
 		<div class="btnGroup">
 			<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg btn_search" data-type="searchEvent">查询</button>
@@ -53,8 +61,19 @@
 	<script>
 		var param = JSON.parse(window.localStorage.getItem("param"));
 		var table, selectRowData, workOrderStatus;
-		layui.use([ 'jquery', 'table', 'laypage', 'publicMethods' ], function() {
-			table = layui.table, $ = layui.jquery, layer = layui.layer, publicMethods = layui.publicMethods, laypage = layui.laypage;
+		layui.use([ 'jquery', 'table', 'laypage', 'publicMethods', 'laydate' ], function() {
+			table = layui.table, $ = layui.jquery, layer = layui.layer, publicMethods = layui.publicMethods, laypage = layui.laypage, laydate = layui.laydate;
+			
+			laydate.render({
+				elem : '#startTime',
+				format : 'yyyy-MM-dd'
+			});
+
+			laydate.render({
+				elem : '#endTime',
+				format : 'yyyy-MM-dd'
+			});
+			
 			function renderTable() {
 				table.render({
 					id : 'tableList', //唯一即可
@@ -64,6 +83,8 @@
 					where : {
 						param : {
 							workOrderName : $("#workOrderName").val(),
+							"startTime" : $("#startTime").val(),
+							"endTime" : $("#endTime").val(),
 							"workOrderStatus" : workOrderStatus
 						}
 					},
@@ -190,6 +211,8 @@
 				},
 				resetEvent : function() { //点击重置按钮
 					$('#workOrderName').val("");
+					$('#startTime').val("");
+					$('#endTime').val("");
 					workOrderStatus = '';
 					renderTable();
 				},
