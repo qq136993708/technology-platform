@@ -3,20 +3,32 @@ package com.pcitc.web.controller.equipment;
 
 import java.io.*;
 import java.math.BigDecimal;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.FormParam;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
+import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.equipment.*;
 import com.pcitc.base.system.SysDictionary;
-import com.pcitc.base.system.SysPost;
 import com.pcitc.base.util.*;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.utils.WordUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.lang.StringUtils;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -27,7 +39,6 @@ import org.springframework.web.bind.annotation.*;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.system.SysUnit;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
 
@@ -41,8 +52,9 @@ public class PurchaseController extends BaseController{
 
 	private static final String PAGE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/page";
 	private static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/get/";
-    //private static final String PAGE_URL_CHOOSE_PROJECT = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/page";
     private static final String PAGE_URL_CHOOSE_PROJECT = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/chooseProjectPage";
+    private static final String PAGE_URL_PROJECT_TASK = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/projectTask/page";
+
     private static final String GET_BY_PROJECT_ID = "http://pcitc-zuul/stp-proxy/sre-provider/purchase/getSreProject/";
     private static final String GET_PROJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/get/";
 
@@ -190,7 +202,7 @@ public class PurchaseController extends BaseController{
 		String createUserId=sysUserInfo.getUserName();
 		String id = CommonUtil.getParameter(request, "id", "");
 		request.setAttribute("id", id);
-        purchaseCode = CodeUtil.getCode("XTBM_0074", restTemplate, httpHeaders);
+        //purchaseCode = CodeUtil.getCode("XTBM_0074", restTemplate, httpHeaders);
 		if(!id.equals(""))
 		{
             ResponseEntity<SrePurchase> srePurchaseResponseEntity= this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
@@ -262,6 +274,40 @@ public class PurchaseController extends BaseController{
     }
 
     /**
+     * 查询合同数据
+     * @param param
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/sre-purchase/project_task/list")
+    @ResponseBody
+    public String list(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+
+        JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(param));
+        logger.info("============参数：" + parmamss.toString());
+        //
+        String applyDepartCode=sysUserInfo.getUnitCode();
+
+
+
+
+
+
+
+        LayuiTableData layuiTableData = new LayuiTableData();
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_URL_PROJECT_TASK, HttpMethod.POST, entity, LayuiTableData.class);
+        int statusCode = responseEntity.getStatusCodeValue();
+        if (statusCode == 200) {
+            layuiTableData = responseEntity.getBody();
+        }
+        JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+        logger.info("============查询结果：" + result);
+        return result.toString();
+    }
+
+    /**
      * 保存-更新操作
      *
      * @param request
@@ -304,6 +350,7 @@ public class PurchaseController extends BaseController{
         String isContractClosed = CommonUtil.getParameter(request, "isContractClosed",Constant.PURCHASE_CONTRACT_STAY_CLOSE );
         String remarks = CommonUtil.getParameter(request, "remarks", "");
         String purchaseCode = CommonUtil.getParameter(request, "purchaseCode", "");
+        String taskId = CommonUtil.getParameter(request, "taskId", "");
 
         SrePurchase srePurchase = null;
         ResponseEntity<String> responseEntity = null;
@@ -323,6 +370,7 @@ public class PurchaseController extends BaseController{
             srePurchase = se.getBody();
         }
         // 流程状态
+            srePurchase.setTaskId(taskId);
             srePurchase.setState(status);
             srePurchase.setPurchaseName(purchaseName);//采购名称
             srePurchase.setParentUnitPathNames(parentUnitPathName);//单位名称
@@ -381,7 +429,8 @@ public class PurchaseController extends BaseController{
     @RequestMapping(value = "/sre-purchase/delete/{id}")
     public String delete(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Result resultsDate = new Result();
-        if(id!=null && id!=""){
+        if(StringUtils.isNotBlank(id)){
+        /*if(id!=null && !"".equals(id)){*/
             SrePurchase srePurchase = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class).getBody();
             if(srePurchase!=null){
                 String equipmentIds = srePurchase.getEquipmentId();
@@ -421,7 +470,7 @@ public class PurchaseController extends BaseController{
      * @throws Exception
      */
     @RequestMapping(value = "/sre-purchase/getParticulars/{id}", method = RequestMethod.GET)
-    public String getParticulars(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception
+    public String getParticulars(@PathVariable("id") String id,HttpServletRequest request, HttpServletResponse response) throws Exception
     {
         ResponseEntity<SrePurchase> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
         int statusCode = 0;
@@ -450,7 +499,65 @@ public class PurchaseController extends BaseController{
             String remarks = srePurchase.getRemarks();
             String purchaseCode = srePurchase.getPurchaseCode();
 
+            request.setAttribute("proposerName", proposerName);
+            request.setAttribute("departCode", departCode);
+            request.setAttribute("departName", departName);
+            request.setAttribute("parentUnitPathNames", parentUnitPathNames);
+            request.setAttribute("remarks", remarks);
+            request.setAttribute("purchaseCode", purchaseCode);
+            List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
+            request.setAttribute("unitFieldList", unitFieldList);
+        }
+        List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+        request.setAttribute("dicList", dicList);
 
+
+        return "/stp/equipment/purchase/purchase-view";
+    }
+    /**
+     * 详情(多参数)
+     *
+     * @param request
+     * @param response
+     * @return
+     *
+     * @throws Exception
+     */
+    @RequestMapping(value = "/sre-purchase/getParticularsDouble", method = RequestMethod.GET)
+    public String getParticulars(HttpServletRequest request, HttpServletResponse response) throws Exception
+    {
+        String id = CommonUtil.getParameter(request, "id", "");
+        String uploadState = CommonUtil.getParameter(request, "uploadState", "");
+        System.out.println(id);
+        System.out.println(uploadState);
+        ResponseEntity<SrePurchase> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
+        int statusCode = 0;
+        String projectId = null;
+        SrePurchase srePurchase = null;
+        if(responseEntity!=null){
+            statusCode = responseEntity.getStatusCodeValue();
+            logger.info("============远程返回  statusCode " + statusCode);
+            srePurchase = responseEntity.getBody();
+            request.setAttribute("srePurchase",srePurchase);
+            projectId = srePurchase.getProjectId();
+        }
+        ResponseEntity<SreProject> responseEntity1 = this.restTemplate.exchange(GET_PROJECT_URL + projectId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
+        if(responseEntity1!=null){
+            int statusCode1 = responseEntity.getStatusCodeValue();
+            logger.info("============远程返回  statusCode " + statusCode);
+            SreProject sreProjectBasic = responseEntity1.getBody();
+            request.setAttribute("sreProjectBasic", sreProjectBasic);
+            String name = sreProjectBasic.getName();
+            System.out.println(name+"=================================");
+
+            String proposerName = srePurchase.getProposerName();
+            String departCode = srePurchase.getDepartCode();
+            String departName = srePurchase.getDepartName();
+            String parentUnitPathNames = srePurchase.getParentUnitPathNames();
+            String remarks = srePurchase.getRemarks();
+            String purchaseCode = srePurchase.getPurchaseCode();
+
+            request.setAttribute("uploadState", uploadState);
             request.setAttribute("proposerName", proposerName);
             request.setAttribute("departCode", departCode);
             request.setAttribute("departName", departName);
@@ -650,6 +757,24 @@ public class PurchaseController extends BaseController{
         }
         return resultsDate;
     }
+    //根据ID查询课题信息
+    @RequestMapping(value = "/sre-purchase/getProject/{topicId}", method = RequestMethod.GET)
+    @ResponseBody
+    public Result get(@PathVariable("topicId") String topicId) throws Exception {
+        Result resultsDate = new Result();
+
+        ResponseEntity<SreProject> exchange = this.restTemplate.exchange(GET_BY_PROJECT_ID + topicId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
+        SreProject sreProject = exchange.getBody();
+        int statusCodeValue = exchange.getStatusCodeValue();
+        if (statusCodeValue == 200) {
+            resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
+            resultsDate.setData(sreProject);
+        } else
+        {
+            resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
+        }
+        return resultsDate;
+    }
     /* =================================生成word文档  START================================*/
     //生成采购单word模板
     @RequestMapping(value = "/sre-purchase/createWord/{id}", method = RequestMethod.GET)
@@ -668,7 +793,7 @@ public class PurchaseController extends BaseController{
         }
         return null;
     }
-    //生成采购单word数据
+    //导出采购单word数据
     private String  createPurchaseWord(String id,String ftlName, HttpServletResponse response)
     {
 
@@ -681,33 +806,48 @@ public class PurchaseController extends BaseController{
             List<Map<String, Object>> purchaseEquipmentList = new ArrayList<Map<String, Object>>();
             Map<String, Object> dataMap = new HashMap<String, Object>();
             SrePurchase srePurchase = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class).getBody();
-            String purchaseName = srePurchase.getPurchaseName();
-            String equipmentIds = srePurchase.getEquipmentId();
-            SreEquipment sreEquipment = new SreEquipment();
-            String[] arr = equipmentIds.split(",");
+            if(srePurchase!=null){
+                String projectName =null;                           //课题名称
+                String purchaseName = srePurchase.getPurchaseName();//申请名称
+                String proposerName = srePurchase.getProposerName();//申请人姓名
+                String parentUnitPathNames = srePurchase.getParentUnitPathNames();//申请单位
+                Date createDate = srePurchase.getCreateDate();      //申请时间
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String dateString = formatter.format(createDate);
 
-            for (int i = 0; i < arr.length; i++) {
-                sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
-                if(sreEquipment!=null){
-                    String name = sreEquipment.getName();
-                    String specification = sreEquipment.getSpecification();
-                    Integer applyAcount = sreEquipment.getApplyAcount();
-                    BigDecimal unitPrice = sreEquipment.getUnitPrice();
-                    String unitPathNames = sreEquipment.getUnitPathNames();
 
-                    Map<String, Object> map = new HashMap<String, Object>();
-                    map.put("name",name);
-                    map.put("specification",specification);
-                    map.put("applyAcount",applyAcount);
-                    map.put("unitPrice",unitPrice);
-                    map.put("unitPathNames",unitPathNames);
-                    purchaseEquipmentList.add(map);
+                String projectId = srePurchase.getProjectId();
+                SreProject sreProject = EquipmentUtils.getSreProject(projectId, restTemplate, httpHeaders);
+                if(sreProject!=null){
+                    projectName = sreProject.getName();//课题名称
                 }
+                String[] equipmentIds = srePurchase.getEquipmentId().split(",");//采购申请下的装备ID
+                for (int i = 0; i < equipmentIds.length; i++) {//循环装备id,获取所有装备信息
+                    String equipmentId = equipmentIds[i];
+                    SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(equipmentId, restTemplate, httpHeaders);
+                    if(sreEquipment!=null){
+                        String equipmentName= sreEquipment.getName(); //装备名称
+                        String specification = sreEquipment.getSpecification();
+                        Integer applyAcount = sreEquipment.getApplyAcount();
+                        BigDecimal unitPrice = sreEquipment.getUnitPrice();
 
+                        Map<String, Object> map = new HashMap<String, Object>();
+
+                        map.put("projectName",projectName);                      //课题名称
+                        map.put("purchaseName",purchaseName);                    //申请名称
+                        map.put("parentUnitPathNames",parentUnitPathNames);     //申请单位
+                        map.put("proposerName",proposerName);                   //申请人
+                        map.put("createDate",dateString);                       //申请时间
+                        map.put("equipmentName",equipmentName);                   //装备名称
+                        map.put("specification",specification);                   //规格型号
+                        map.put("applyAcount",applyAcount);                   //数量
+                        map.put("unitPrice",unitPrice);                   //下达金额（万元）
+
+                        purchaseEquipmentList.add(map);
+                    }
+                }
+                dataMap.put("purchaseEquipmentList",purchaseEquipmentList);
             }
-            dataMap.put("purchaseEquipmentList",purchaseEquipmentList);
-            dataMap.put("purchaseName",purchaseName);
-            
             /** 生成word */
             boolean flage= WordUtil.createWord(dataMap, ftlName, filePath, fileName);
             if(flage==true)
@@ -720,9 +860,78 @@ public class PurchaseController extends BaseController{
         return resutl;
     }
 
+    //生成到货签收单word模板
+    @RequestMapping(value = "/sre-purchase/createWordArriveGoods/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public String createWordArriveGoods(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception
+    {
+        Result resultsDate = new Result();
+        String fileName=exportDataArriveGoods( id,"arriveGoods.ftl",  response);
+        if (!fileName.equals(""))
+        {
+            resultsDate = new Result(true);
+            download(TEMP_FILE_PATH+fileName, response);
+            deleteFile(TEMP_FILE_PATH+fileName);
+        } else {
+            resultsDate = new Result(false, "生成文件失败！");
+        }
+        return null;
+    }
 
+    //导出到货签收单word数据
+    private String  exportDataArriveGoods(String id,String ftlName, HttpServletResponse response)
+    {
 
+        String  resutl="";
+        // 文件路径
+        String filePath = TEMP_FILE_PATH;
+        // 文件名称
+        String fileName =DateUtil.dateToStr(new Date(), DateUtil.FMT_SSS_02)+".doc";
+        try {
+            List<Map<String, Object>> arriveGoodsListList = new ArrayList<Map<String, Object>>();
+            Map<String, Object> dataMap = new HashMap<String, Object>();
 
+            SrePurchase srePurchase = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class).getBody();
+            if (srePurchase!=null){
+                int number=0;
+                String contractNum =null;
+                String topicName   =null;
+                String[] equipmentIds = srePurchase.getEquipmentId().split(",");//采购下的装备ID
+                String taskId = srePurchase.getTaskId();//任务书ID
+                SreProjectTask sreProjectTask = EquipmentUtils.getSreProjectTask(taskId, restTemplate, httpHeaders);//获取任务书信息
+                if(sreProjectTask!=null){
+                    contractNum = sreProjectTask.getContractNum();//合同号
+                    topicName = sreProjectTask.getTopicName();//合同名称
+                }
+                for (int i = 0; i < equipmentIds.length; i++) {//遍历获取所有装备ID
+                    number++;
+                    String equipmentId = equipmentIds[i];
+                    SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(equipmentId, restTemplate, httpHeaders);
+                    String sreEquipmentName = sreEquipment.getName();//装备名称
+                    String specialNotes = sreEquipment.getSpecialNotes();//主要功能与用途（简述）
+                    Map<String, Object> equipmentMap = new HashMap<String, Object>();
+                    equipmentMap.put("number",number);
+                    equipmentMap.put("sreEquipmentName",sreEquipmentName);
+                    equipmentMap.put("specialNotes",specialNotes);
+                    arriveGoodsListList.add(equipmentMap);
+                }
+                /** 组装数据 */
+                dataMap.put("contractNum",contractNum);//合同编号
+                dataMap.put("topicName",topicName);//合同名称
+                dataMap.put("arriveGoodsListList",arriveGoodsListList);
+
+            }
+            /** 生成word */
+            boolean flage= WordUtil.createWord(dataMap, ftlName, filePath, fileName);
+            if(flage==true)
+            {
+                resutl=fileName;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resutl;
+    }
 
 
 
@@ -784,7 +993,7 @@ public class PurchaseController extends BaseController{
     }
     /* =================================生成word文档  END================================*/
     /**
-     * 上传附件
+     * 跳转到上传附件页面
      * @param request
      * @param response
      * @return
@@ -796,45 +1005,72 @@ public class PurchaseController extends BaseController{
 
 
         String id = CommonUtil.getParameter(request, "id", "");
-        request.setAttribute("id", id);
-
+        String uploadState = CommonUtil.getParameter(request, "uploadState", "");
         if(!id.equals(""))
         {
             ResponseEntity<SrePurchase> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
             SrePurchase srePurchase = responseEntity.getBody();
             request.setAttribute("srePurchase", srePurchase);
+            String documentDocPurchaseRequest = srePurchase.getDocumentDocPurchaseRequest();
             String documentDoc = srePurchase.getDocumentDoc();
             String docArriveGoods = srePurchase.getDocumentDocArriveGoods();
             String documentDocInstallDebug = srePurchase.getDocumentDocInstallDebug();
             String documentDocContractAcceptance = srePurchase.getDocumentDocContractAcceptance();
-            String stage = srePurchase.getStage();
-            if(stage.equals(Constant.PURCHASE_CONTRACT_DOCKING)){
+            String documentDocContractClose = srePurchase.getDocumentDocContractClose();
+            String documentDocTender = srePurchase.getDocumentDocTender();
+            String documentDocAgreement = srePurchase.getDocumentDocAgreement();
+
+            if(uploadState.equals(Constant.PURCHASE_REQUEST)){//采购申请页面标识
+                if(documentDocPurchaseRequest==null || documentDocPurchaseRequest.equals(""))
+                {
+                    documentDocPurchaseRequest= IdUtil.createFileIdByTime();
+                }
+                request.setAttribute("documentDocPurchaseRequest", documentDocPurchaseRequest);
+            }else if(uploadState.equals(Constant.PURCHASE_CONTRACT_DOCKING)){//合同系统对接页面标识
                 if(documentDoc==null || documentDoc.equals(""))
                 {
                     documentDoc= IdUtil.createFileIdByTime();
                 }
                 request.setAttribute("documentDoc", documentDoc);
-            }else if(stage.equals(Constant.PURCHASE_ARRIVE_GOODS)){
+            }else if(uploadState.equals(Constant.PURCHASE_ARRIVE_GOODS)){//到货签收页面标识
                 if(docArriveGoods==null || docArriveGoods.equals(""))
                 {
                     docArriveGoods= IdUtil.createFileIdByTime();
                 }
                 request.setAttribute("docArriveGoods", docArriveGoods);
-            }else if(stage.equals(Constant.PURCHASE_CONTRACT_CHECK)){
+            }else if(uploadState.equals(Constant.PURCHASE_CONTRACT_CHECK)){//合同验收页面标识
                 if(documentDocContractAcceptance==null || documentDocContractAcceptance.equals(""))
                 {
                     documentDocContractAcceptance= IdUtil.createFileIdByTime();
                 }
                 request.setAttribute("documentDocContractAcceptance", documentDocContractAcceptance);
-            }else if(stage.equals(Constant.PURCHASE_INSTALL_DEBUG)){
+            }else if(uploadState.equals(Constant.PURCHASE_INSTALL_DEBUG)){//安装调试页面标识
                 if(documentDocInstallDebug==null || documentDocInstallDebug.equals(""))
                 {
                     documentDocInstallDebug= IdUtil.createFileIdByTime();
                 }
                 request.setAttribute("documentDocInstallDebug", documentDocInstallDebug);
+            }else if(uploadState.equals(Constant.PURCHASE_CONTRACT_CLOSE)){//合同关闭页面标识
+                if(documentDocContractClose==null || documentDocContractClose.equals(""))
+                {
+                    documentDocContractClose= IdUtil.createFileIdByTime();
+                }
+                request.setAttribute("documentDocContractClose", documentDocContractClose);
+            }else if(uploadState.equals("7") || uploadState.equals("9")){//上传标书
+                if(documentDocTender==null || documentDocTender.equals(""))
+                {
+                    documentDocTender= IdUtil.createFileIdByTime();
+                }
+                request.setAttribute("documentDocTender", documentDocTender);
+            }else if(uploadState.equals("8") || uploadState.equals("10")){//上传协议
+                if(documentDocAgreement==null || documentDocAgreement.equals(""))
+                {
+                    documentDocAgreement= IdUtil.createFileIdByTime();
+                }
+                request.setAttribute("documentDocAgreement", documentDocAgreement);
             }
-            request.setAttribute("stage", stage);
-
+            request.setAttribute("id", id);
+            request.setAttribute("uploadState", uploadState);
         }
 
         return "/stp/equipment/purchase/upFileDoc";
@@ -844,38 +1080,70 @@ public class PurchaseController extends BaseController{
 
         Result resultsDate = new Result();
         String id = CommonUtil.getParameter(request, "id", "");
-        String stage = CommonUtil.getParameter(request, "stage", "");
+        String uploadState = CommonUtil.getParameter(request, "uploadState", "");
+
+        String documentDocPurchaseRequest = CommonUtil.getParameter(request, "documentDocPurchaseRequest", "");
         String documentDoc = CommonUtil.getParameter(request, "documentDoc", "");
         String docArriveGoods = CommonUtil.getParameter(request, "docArriveGoods", "");
         String documentDocInstallDebug = CommonUtil.getParameter(request, "documentDocInstallDebug", "");
         String documentDocContractAcceptance = CommonUtil.getParameter(request, "documentDocContractAcceptance", "");
+        String documentDocContractClose = CommonUtil.getParameter(request, "documentDocContractClose", "");
+        String documentDocTender = CommonUtil.getParameter(request, "documentDocTender", "");
+        String documentDocAgreement = CommonUtil.getParameter(request, "documentDocAgreement", "");
+
+
         String resutl="";
 
         int statusCodeValue = 0;
         if(!id.equals(""))
         {
-            if(stage.equals(Constant.PURCHASE_CONTRACT_DOCKING)){
+            if(uploadState.equals(Constant.PURCHASE_REQUEST)){
+                ResponseEntity<SrePurchase> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
+                SrePurchase srePurchase = responseEntity.getBody();
+                srePurchase.setDocumentDocPurchaseRequest(documentDocPurchaseRequest);
+                ResponseEntity<String>  exchange = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
+                statusCodeValue = responseEntity.getStatusCodeValue();
+            }
+            else if(uploadState.equals(Constant.PURCHASE_CONTRACT_DOCKING)){
                 ResponseEntity<SrePurchase> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
                 SrePurchase srePurchase = responseEntity.getBody();
                 srePurchase.setDocumentDoc(documentDoc);
                 ResponseEntity<String>  exchange = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
                 statusCodeValue = responseEntity.getStatusCodeValue();
-            }else if (stage.equals(Constant.PURCHASE_ARRIVE_GOODS)){
+            }else if (uploadState.equals(Constant.PURCHASE_ARRIVE_GOODS)){
                 ResponseEntity<SrePurchase> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
                 SrePurchase srePurchase = responseEntity.getBody();
                 srePurchase.setDocumentDocArriveGoods(docArriveGoods);
                 ResponseEntity<String>  exchange = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
                 statusCodeValue = responseEntity.getStatusCodeValue();
-            }else if (stage.equals(Constant.PURCHASE_CONTRACT_CHECK)){
+            }else if (uploadState.equals(Constant.PURCHASE_CONTRACT_CHECK)){
                 ResponseEntity<SrePurchase> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
                 SrePurchase srePurchase = responseEntity.getBody();
                 srePurchase.setDocumentDocContractAcceptance(documentDocContractAcceptance);
                 ResponseEntity<String>  exchange = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
                 statusCodeValue = responseEntity.getStatusCodeValue();
-            }else if (stage.equals(Constant.PURCHASE_INSTALL_DEBUG)){
+            }else if (uploadState.equals(Constant.PURCHASE_INSTALL_DEBUG)){
                 ResponseEntity<SrePurchase> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
                 SrePurchase srePurchase = responseEntity.getBody();
                 srePurchase.setDocumentDocInstallDebug(documentDocInstallDebug);
+                ResponseEntity<String>  exchange = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
+                statusCodeValue = responseEntity.getStatusCodeValue();
+            }else if (uploadState.equals(Constant.PURCHASE_CONTRACT_CLOSE)){
+                ResponseEntity<SrePurchase> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
+                SrePurchase srePurchase = responseEntity.getBody();
+                srePurchase.setDocumentDocContractClose(documentDocContractClose);
+                ResponseEntity<String>  exchange = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
+                statusCodeValue = responseEntity.getStatusCodeValue();
+            }else if (uploadState.equals("7")){
+                ResponseEntity<SrePurchase> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
+                SrePurchase srePurchase = responseEntity.getBody();
+                srePurchase.setDocumentDocTender(documentDocTender);
+                ResponseEntity<String>  exchange = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
+                statusCodeValue = responseEntity.getStatusCodeValue();
+            }else if (uploadState.equals("8")){
+                ResponseEntity<SrePurchase> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
+                SrePurchase srePurchase = responseEntity.getBody();
+                srePurchase.setDocumentDocAgreement(documentDocAgreement);
                 ResponseEntity<String>  exchange = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
                 statusCodeValue = responseEntity.getStatusCodeValue();
             }
@@ -883,6 +1151,41 @@ public class PurchaseController extends BaseController{
         if (statusCodeValue==200)
         {
             resultsDate.setSuccess(true);
+
+            if(uploadState.equals(Constant.PURCHASE_REQUEST)){//采购申请通过
+                SrePurchase srePurchase = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class).getBody();
+                if (srePurchase!=null){
+                    String[] equipmentIds = srePurchase.getEquipmentId().split(",");
+                    for (int i = 0; i < equipmentIds.length; i++) {
+                        String equipmentId = equipmentIds[i];
+                        SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(equipmentId, restTemplate, httpHeaders);
+                        if(sreEquipment!=null){
+                            sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_PASS);
+                            EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
+                        }
+                    }
+                    srePurchase.setStage(Constant.PURCHASE_CONTRACT_DOCKING);
+                    srePurchase.setState(Constant.PURCHASE_STATUS_PASS);
+                    ResponseEntity<String> exchange1 = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
+                }
+            }else if(uploadState.equals(Constant.PURCHASE_CONTRACT_CLOSE)){//关闭合同
+                SrePurchase srePurchase = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class).getBody();
+                if (srePurchase!=null){
+                    String equipmentIds = srePurchase.getEquipmentId();
+                    String[] arr = equipmentIds.split(",");
+                    for (int i = 0; i < arr.length; i++) {
+                        System.err.println(arr[i]);
+                        SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
+                        if(sreEquipment!=null){
+                            sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_CONTRACT_CLOSE);
+                            EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
+                        }
+                    }
+                    srePurchase.setState(Constant.PURCHASE_STATUS_CONTRACT_CLOSE);
+                    srePurchase.setIsContractClosed(Constant.PURCHASE_CONTRACT_CLOSED);
+                }
+                ResponseEntity<String> exchange1 = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
+            }
         } else
         {
             resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
@@ -896,4 +1199,113 @@ public class PurchaseController extends BaseController{
         out.close();
         return null;
     }
+
+    /* =================================导出Excel文档  START================================*/
+    @RequestMapping("sre_purchase/exportExcel")
+    public void downBudgetGroupSplit(HttpServletResponse res) throws IOException
+    {
+        LayuiTableParam param = new LayuiTableParam();
+        param.setLimit(100);
+        param.setPage(1);
+        System.out.println(JSON.toJSONString(param));
+        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PAGE_URL, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), LayuiTableData.class);
+        LayuiTableData tabldata = responseEntity.getBody();
+
+        Map<String,String> parammap = new HashMap<String,String>();
+
+
+        URL path = this.getClass().getResource("/");
+        File f = new File(path.getPath() + "static/template/purchaseExcel.xlsx");/*模板===*/
+        //写入新文件采购申请单
+        String newFilePath = path.getPath() + "static/template/采购申请Excel测试_"+DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss")+".xlsx";
+        File outFile = new File(newFilePath);
+
+        processDataAndDownload(f,tabldata,parammap,outFile);
+        //下载文件
+        this.fileDownload(new File(newFilePath), res);
+    }
+
+
+    private XSSFWorkbook workbook;
+    private XSSFSheet sheet;
+    private void processDataAndDownload(File template,LayuiTableData tableData,Map<String,String> param,File outFile)
+    {
+        try {
+            InputStream is = new FileInputStream(template);
+            workbook = new XSSFWorkbook(is);
+            sheet = workbook.getSheetAt(0);
+
+            //从第二行开始数据
+            int c_index = 1;
+            int cout=0;
+            for(java.util.Iterator<?> iter = tableData.getData().iterator();iter.hasNext();)
+            {
+                c_index++;
+                cout++;
+                JSONObject json = JSON.parseObject(JSON.toJSONString(iter.next()));
+                String purchaseName = json.getString("purchaseName");
+
+                Row row = sheet.getRow(c_index);
+                if(row == null) {
+                    row = sheet.createRow(c_index);
+                }
+
+                row.createCell(0).setCellValue(cout);
+                row.createCell(1).setCellValue(purchaseName);
+            }
+
+            //写入新文件
+            FileOutputStream fos  = new FileOutputStream(outFile);
+            workbook.write(fos);
+            //关闭流
+            closeIO(fos);
+            closeIO(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void fileDownload(File file,HttpServletResponse res)
+    {
+        OutputStream out = null;
+        InputStream in = null;
+        try
+        {
+
+            res.setHeader("content-type", "application/octet-stream");
+            res.setContentType("application/octet-stream");
+            res.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(file.getName(), "UTF-8"));
+
+            out = res.getOutputStream();
+            in = new FileInputStream(file);
+
+            byte[] b = new byte[1000];
+            int len;
+            while ((len = in.read(b)) > 0)
+            {
+                out.write(b, 0, len);
+            }
+            closeIO(in);
+            closeIO(out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void closeIO(Closeable io)
+    {
+        if(io != null)
+        {
+            try
+            {
+                io.close();
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /* =================================导出Excel文档  END================================*/
 }

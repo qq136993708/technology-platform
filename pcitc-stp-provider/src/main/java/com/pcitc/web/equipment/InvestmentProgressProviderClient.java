@@ -69,4 +69,12 @@ public class InvestmentProgressProviderClient
 		LayuiTableData rageResult=investService.getManagementLedgerPage(param);
 		return rageResult;
 	}
+	
+	@ApiOperation(value = "根据ERP号获取ERP采购，入库数据", notes = "根据ERP号获取ERP采购，入库数据")
+	@RequestMapping(value = "/sre-provider/mana/erplist", method = RequestMethod.POST)
+	public LayuiTableData getManagementERPList(@RequestBody LayuiTableParam param)throws Exception
+	{
+		LayuiTableData rageResult=investService.getManagementERPList(param);
+		return rageResult;
+	}
 }

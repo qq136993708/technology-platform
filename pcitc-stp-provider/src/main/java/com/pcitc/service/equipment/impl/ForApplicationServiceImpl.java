@@ -222,7 +222,7 @@ public  class ForApplicationServiceImpl implements ForApplicationService {
 	public int upForapplication(String id) {
 		SreForApplication record = new SreForApplication();
 		record.setApplicationId(id);
-		record.setApplicationState(Constant.OK_NEO);
+		record.setApplicationState(Constant.OK_THREE);
 		return sreforapplicationMapper.updateByPrimaryKeySelective(record);
 	}
 
@@ -357,6 +357,13 @@ public  class ForApplicationServiceImpl implements ForApplicationService {
 			data.setCount(total.intValue());
 		    return data;
 		}
+	}
+
+
+	@Override
+	public Integer updateSreForApplication(SreForApplication sreForApplication) {
+		// TODO Auto-generated method stub
+		return sreforapplicationMapper.updateByPrimaryKey(sreForApplication);
 	}
 
 }

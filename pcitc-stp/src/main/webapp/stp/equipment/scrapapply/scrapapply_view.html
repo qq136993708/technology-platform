@@ -15,7 +15,7 @@
 <body>
 <input type="hidden" value="${id}" id="getid" name="getid">
 <input type="hidden" id="getList" name="getList" value='${getList}'/>
-
+    <input name="documentDoc" id="documentDoc" value="${documentDoc}" type="hidden">
 <div class="">
 
     <div class="tableBox">
@@ -23,7 +23,12 @@
           <span id="priceandnumber"></span>
         </div>
         <table id="user_table" class="layui-hide" lay-filter="tableDataTwo"></table>
+           <div class="layui-form-item" style="padding:10px;margin-left:-100px;">
+                <label class="layui-form-label">附件</label>
+                <div id="file_div" class="layui-input-block"></div>
+            </div>
     </div>
+  
 </div>
 </body>
 <script type="text/javascript">
@@ -51,6 +56,13 @@
 <script type="text/javascript">
     var AddData=[];
 	var selectRowData,table;
+	    var file_ids = "documentDoc";
+        //detail:详情，edit：编辑
+        file_edit_detail = "detail";
+        //统管理-附件管理-附件配置：页面标识
+        file_opt_flag = "98c8e383481f44c7a3f12d253fb1b3d4";
+  //添加到form.render()之后
+$("#file_div").load('/common/public/uploadlayuiload.html');
 	//reload后删除表头
 	function reloadTable(table,where)
 	{

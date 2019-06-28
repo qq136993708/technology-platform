@@ -34,6 +34,7 @@
     </div>
 </div>
 
+ 
 <!--
 <div class="tableBox">
 	<div class="tableToolBox">
@@ -287,7 +288,7 @@ var name=$('#name').val();
            cols: [[
         	   {title : '序号', type : 'numbers', width : 55},
                {field : 'equipmentName',     title : '装备名称', style : 'cursor: pointer;', align : 'center', width : '10%'},
-               {field : 'equipmentPrice', title : '单价（万元）', style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'equipmentPrice', title : '单价（万元）', style : 'cursor: pointer;', align : 'center', width : '15%'},
                {field : 'equipmenNumber', title : '装备数量', style : 'cursor: pointer;', align : 'center', width : '10%'},
                {field : 'declareUnit', title : '申报单位', style : 'cursor: pointer;', align : 'left', width : '20%'},
                {field : 'declareDepartment', title : '申报部门', style : 'cursor: pointer;', align : 'left', width : '13%'},
@@ -333,6 +334,7 @@ var name=$('#name').val();
 			   	}); 
            }
        });
+       $(".layui-table-header table thead th input").remove()
     }
     
     

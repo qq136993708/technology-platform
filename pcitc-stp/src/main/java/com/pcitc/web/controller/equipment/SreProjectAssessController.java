@@ -14,6 +14,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -36,6 +37,7 @@ public class SreProjectAssessController extends BaseController{
 	private static final String SUBMITAUDIT_URL="http://pcitc-zuul/stp-proxy/sre-provider/sreProjectAssess/submitAssess";
 	private static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/sreProjectAssess/get/";
 	private static final String UPDATE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/sreProjectAssess/updateAssess";
+	private static final String DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/sreProjectAssess/delete/";
 	@RequestMapping(value = "/to_list")
 	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return "/stp/equipment/assess/project_taskac_list";
@@ -125,9 +127,9 @@ public class SreProjectAssessController extends BaseController{
 		s.setProjecttaskid(id);
 		s.setProjecttask(name);
 		s.setContent(content);
-		s.setStatus("10");
+		s.setStatus("20");
 		s.setCreateUserid(sysUserInfo.getUserId());
-		s.setCreateUser(sysUserInfo.getUserName());
+		s.setCreateUser(sysUserInfo.getUserDisp());
 		s.setCreateDate(new Date());
 		responseEntity = restTemplate.exchange(AUDIT_URL, HttpMethod.POST,new HttpEntity<SreProjectAssess>(s, this.httpHeaders),String.class);
 		String success= "{}";
@@ -171,6 +173,7 @@ public class SreProjectAssessController extends BaseController{
 
 
 	        String id = CommonUtil.getParameter(request, "id", "");
+	        String uploadState = CommonUtil.getParameter(request, "uploadState", "");
 	        request.setAttribute("id", id);
 	        if(!id.equals(""))
 	        {
@@ -180,7 +183,7 @@ public class SreProjectAssessController extends BaseController{
 	            String documentDoc = sreProjectAssess.getDocumentdoc();
 	            String docArriveGoods = sreProjectAssess.getDocumentdoctwo();
 	            String stage = sreProjectAssess.getStatus();
-	            if(stage.equals("20")){//合同系统对接 阶段
+	            if(stage.equals("20")){
 	                if(documentDoc==null || documentDoc.equals(""))
 	                {
 	                    documentDoc= IdUtil.createFileIdByTime();
@@ -193,7 +196,13 @@ public class SreProjectAssessController extends BaseController{
 	                }
 	                request.setAttribute("docArriveGoods", docArriveGoods);
 	            }
+	            if(uploadState.equals("1")) {
+	            	 request.setAttribute("documentDoc", documentDoc);
+	            }else {
+	            	 request.setAttribute("docArriveGoods", docArriveGoods);
+	            }
 	            request.setAttribute("stage", stage);
+	            request.setAttribute("uploadState", uploadState);
 
 	        }
 	        return "/stp/equipment/assess/project_taskpr_add";
@@ -254,10 +263,40 @@ public class SreProjectAssessController extends BaseController{
              SreProjectAssess sreProjectAssess = responseEntity.getBody();
              sreProjectAssess.setId(id);
              sreProjectAssess.setUsersid(usersid);
+             sreProjectAssess.setStatus("40");
              sreProjectAssess.setInformcontent(informcontent);
              sreProjectAssess.setTestdate(new Date());
              sreProjectAssess.setInformuser(sysUserInfo.getUserId());
              ResponseEntity<String>  exchange = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SreProjectAssess>(sreProjectAssess, this.httpHeaders), String.class);
            return "";	
 	       }
+	    
+	    /**
+		 * 删除
+		 * 
+		 * @param request
+		 * @param response
+		 * @return
+		 * @throws Exception
+		 */
+		@RequestMapping(value = "/delete/{id}")
+		public String delete(@PathVariable("id") String id,HttpServletRequest request, HttpServletResponse response) throws Exception {
+			Result resultsDate = new Result();
+			ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(DEL_URL + id, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			int status = responseEntity.getBody();
+			logger.info("============远程返回  statusCode " + statusCode + "  status=" + status);
+			if (responseEntity.getBody() > 0) {
+				resultsDate = new Result(true);
+			} else {
+				resultsDate = new Result(false, "删除失败，请联系系统管理员！");
+			}
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+			out.println(ob.toString());
+			out.flush();
+			out.close();
+			return null;
+		}
 }

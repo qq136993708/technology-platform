@@ -34,15 +34,7 @@
         <form class="layui-form" name="form1" id="form1" action="" method="POST"
               lay-filter="component-form-group layui-container">
             <input name="id" id="id" value="${id}" type="hidden">
-            <input name="documentDocPurchaseRequest" id="documentDocPurchaseRequest" value="${documentDocPurchaseRequest}" type="hidden">
-            <input name="documentDoc" id="documentDoc" value="${documentDoc}" type="hidden">
-            <input name="docArriveGoods" id="docArriveGoods" value="${docArriveGoods}" type="hidden">
-            <input name="documentDocInstallDebug" id="documentDocInstallDebug" value="${documentDocInstallDebug}" type="hidden">
-            <input name="documentDocContractAcceptance" id="documentDocContractAcceptance" value="${documentDocContractAcceptance}" type="hidden">
-            <input name="documentDocContractClose" id="documentDocContractClose" value="${documentDocContractClose}" type="hidden">
-            <input name="documentDocTender" id="documentDocTender" value="${documentDocTender}" type="hidden">
-            <input name="documentDocAgreement" id="documentDocAgreement" value="${documentDocAgreement}" type="hidden">
-            <input name="uploadState" id="uploadState" value="${uploadState}" type="hidden">
+            <input name=applicationUpload id="applicationUpload" value="${applicationUpload}" type="hidden">
 
             <div class="layui-form-item" style="padding:10px">
                 <label class="layui-form-label">附件</label>
@@ -77,71 +69,12 @@
     $('#functionId').val(functionId);
 
     var v_date = (new Date()).getTime();
-    var uploadState = $("#uploadState").val();
-    var documentDocTender = $("#documentDocTender").val();
+        var file_ids = "applicationUpload";
+        //detail:详情，edit：编辑
+        file_edit_detail = "edit";
+        //统管理-附件管理-附件配置：页面标识
+        file_opt_flag = "7b6f6480989040ac9d3fbe7899fabc7b";
 
-    if(uploadState=="1"){
-        var file_ids = "documentDocPurchaseRequest";
-        //detail:详情，edit：编辑
-        file_edit_detail = "edit";
-        //统管理-附件管理-附件配置：页面标识
-        file_opt_flag = "2a6704a9117441dea1d39bd5b1646f1b";
-    }
-    else if (uploadState=="2"){
-        var file_ids = "documentDoc";
-        //detail:详情，edit：编辑
-        file_edit_detail = "edit";
-        //统管理-附件管理-附件配置：页面标识
-        file_opt_flag = "22d87bd321a44332acbb7199756dbc98";
-    }else if (uploadState=="3") {
-        var file_ids = "docArriveGoods";
-        //detail:详情，edit：编辑
-        file_edit_detail = "edit";
-        //统管理-附件管理-附件配置：页面标识
-        file_opt_flag = "bf250d24bbee43f49e1be190c01653d1";
-    }else if(uploadState=="4"){
-        var file_ids = "documentDocContractAcceptance";
-        //detail:详情，edit：编辑
-        file_edit_detail = "edit";
-        //统管理-附件管理-附件配置：页面标识
-        file_opt_flag = "056a54830ecc4e3f8063a0a43aeca06d";
-    }else if (uploadState=="5") {
-        var file_ids = "documentDocInstallDebug";
-        //detail:详情，edit：编辑
-        file_edit_detail = "edit";
-        //统管理-附件管理-附件配置：页面标识
-        file_opt_flag = "7f77444e12e44a688618117809982f15";
-    }else if (uploadState=="6") {
-        var file_ids = "documentDocContractClose";
-        //detail:详情，edit：编辑
-        file_edit_detail = "edit";
-        //统管理-附件管理-附件配置：页面标识
-        file_opt_flag = "2b6913f158e740f18a2691972abaf4c6";
-    }else if (uploadState=="7") {//上传标书
-        var file_ids = "documentDocTender";
-        //detail:详情，edit：编辑
-        file_edit_detail = "edit";
-        //统管理-附件管理-附件配置：页面标识
-        file_opt_flag = "6985bb5ac457409cb8d734507fbf2467";
-    }else if (uploadState=="8") {//上传协议
-        var file_ids = "documentDocAgreement";
-        //detail:详情，edit：编辑
-        file_edit_detail = "edit";
-        //统管理-附件管理-附件配置：页面标识
-        file_opt_flag = "6985bb5ac457409cb8d734507fbf2467";
-    }else if (uploadState=="9") {//查看标书
-        var file_ids = "documentDocTender";
-        //detail:详情，edit：编辑
-        file_edit_detail = "detail";
-        //统管理-附件管理-附件配置：页面标识
-        file_opt_flag = "6985bb5ac457409cb8d734507fbf2467";
-    }else if (uploadState=="10") {//查看协议
-        var file_ids = "documentDocAgreement";
-        //detail:详情，edit：编辑
-        file_edit_detail = "detail";
-        //统管理-附件管理-附件配置：页面标识
-        file_opt_flag = "6985bb5ac457409cb8d734507fbf2467";
-    }
     var equipmentIds = $("#equipmentIds").val();
     var yearFeeStr = $("#yearFeeStr").val();
     var beginYear = $("#beginYear").val();
@@ -179,33 +112,8 @@
         /* 监听提交 */
         form.on('submit(sub)', function (data)
         {
-            var uploadState = $("#uploadState").val();
-            if (uploadState=="1") {
-                var url="/sre-purchase/updateFileDoc?v_date="+v_date;
-                var backurl="/sre_purchase/to-list?v_date="+v_date;
-            }
-            else if(uploadState=="2"){
-                var url="/sre-purchase/updateFileDoc?v_date="+v_date;
-                var backurl="/sre-purchase/apply_list?v_date="+v_date;
-            }else if(uploadState=="3"){
-                var url="/sre-purchase/updateFileDoc?v_date="+v_date;
-                var backurl="/sre-purchase/to-arrive-goods-list?v_date="+v_date;
-            }else if(uploadState=="4"){
-                var url="/sre-purchase/updateFileDoc?v_date="+v_date;
-                var backurl="/sre-purchase/to-contract-acceptance-list?v_date="+v_date;
-            }else if(uploadState=="5"){
-                var url="/sre-purchase/updateFileDoc?v_date="+v_date;
-                var backurl="/sre-purchase/to-installation-list?v_date="+v_date;
-            }else if(uploadState=="6"){
-                var url="/sre-purchase/updateFileDoc?v_date="+v_date;
-                var backurl="/sre-purchase/to-contract-close-list?v_date="+v_date;
-            }else if(uploadState=="7"){
-                var url="/sre-purchase/updateFileDoc?v_date="+v_date;
-                var backurl="/sre-purchase/apply_list?v_date="+v_date;
-            }else if(uploadState=="8"){
-                var url="/sre-purchase/updateFileDoc?v_date="+v_date;
-                var backurl="/sre-purchase/apply_list?v_date="+v_date;
-            }
+            var url="/sre-forapplication/updateFileDoc?v_date="+v_date;
+            var backurl="/sre-forapplication/to-list?v_date="+v_date;
             ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
             return false;
         });

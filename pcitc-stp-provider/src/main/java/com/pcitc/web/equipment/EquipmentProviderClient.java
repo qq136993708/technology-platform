@@ -695,7 +695,13 @@ public class EquipmentProviderClient
 	
 	
 
-	
+	@ApiOperation(value = "ERP", notes = "ERP")
+	@RequestMapping(value = "/sre-provider/project_taskByErpnum/page", method = RequestMethod.POST)
+	public LayuiTableData getSreProjectTaskByErpnumList(@RequestBody LayuiTableParam paramsJson)throws Exception
+	{
+		logger.info("==================page SreSreProjectTask==========================="+paramsJson);
+		return equipmentService.getSreProjectTaskByErpnumPage(paramsJson);
+	}
 	
 
 }

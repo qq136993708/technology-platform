@@ -40,6 +40,7 @@ public interface EquipmentService {
 	public List<SreEquipment> getEquipmentListByIds(List<String> list)throws Exception;
 	public List<SreEquipment> getEquipmentListByMap(Map map)throws Exception;
 	
+	public LayuiTableData getSreProjectTaskByErpnumPage(LayuiTableParam param)throws Exception;
 	
 	/**===========================================项目==========================================*/
 	

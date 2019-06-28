@@ -45,7 +45,7 @@
 	<div class="tableToolBox">
         <div class="whiteLine"></div>
         <div  class="tableBtns">
-           <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+           <!--<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
                     data-type="draftEvent">
                 <span class="btn-state btnYellow"></span>未上报
             </button>
@@ -57,14 +57,16 @@
                     data-type="passEvent">
                 <span class="btn-state btn-blue"></span>已通过
             </button>
-           <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
                 data-type="rejectEvent">
-            <span class="btn-state btn-yellow"></span>退回调整
-            </button>
+            <span class="btn-state btn-yellow"></span>审批未通过
+            </button> -->
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"     data-type="addEvent"  id="addEvent" > 新增</button>
             <!-- <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit"    data-type="editEvent"  id="editEvent" >编辑</button> -->
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent" id="detailEvent" >详情</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="upforEvent" id="upforEvent" >上报</button>
+           <!-- <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="upforEvent" id="upforEvent" >上报</button> --> 
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="upQianEvent" data-type="upQianEvent">上传</button>
+             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createWord" data-type="createWord">导出</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="deleteEvent" id="deleteEvent" >删除</button>
           <!--   <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="acceptSoftEvent" >软件验收</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="acceptHareEvent" >硬件验收</button> -->
@@ -104,6 +106,13 @@
 	<option value="2">测试上海</option>
 </select>
 -->
+</script>
+<script type="text/html" id="applicationState_temp">
+    {{#  if(d.applicationState == '30'){ }}
+    <button class="layui-btn layui-btn-normal layui-btn-xs">已通过</button>
+    {{#  } else{ }}
+    <button class="layui-btn layui-btn-primary layui-btn-xs">未上传</button>
+    {{#  } }}
 </script>
 <script type="text/javascript">
     // 时间格式化
@@ -170,6 +179,37 @@ var name=$('#name').val();
             	$('#name').val("");
             	$('#auditStatus').val("");
             },
+            upQianEvent: function(){ //上传转资对接告单
+                if (typeof(selectRowData) == "undefined")
+                {
+                    layer.msg('请点击选择一条数据');
+                }else
+                {
+                        var id=selectRowData.applicationId;
+                        var temUrl="/sre-forapplication/upFileDoc?id=" + id;
+                        layer.open({
+                            title:'上传转资申请单',
+                            skin: 'layui-layer-lan',
+                            shadeClose: true,
+                            type: 2,
+                            fixed: false,
+                            maxmin: true,
+                            area: ['70%', '90%'],
+                            content:  temUrl
+                        });
+                }
+            },
+            createWord: function(){//导出转资申请单
+                if (typeof(selectRowData) == "undefined")
+                {
+                    layer.msg('请点击选择一行数据');
+                }else
+                {
+                	var id=selectRowData.applicationId;
+                    var temUrl="/sre-forApplication/createWord/" + id;
+                    location.href=temUrl;
+                }
+            },
             addEvent: function(){ //点击新增按钮
                 layer.open({
                     title:'转资-新增',
@@ -178,7 +218,7 @@ var name=$('#name').val();
                     type: 2,
                     fixed: false,
                     //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                    maxmin: false,
+                    maxmin: true,
                     //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                    area: ['70%', '90%'],
                     content:  '/sre-forapplication/add'
@@ -256,7 +296,7 @@ var name=$('#name').val();
                          type: 2,
                          fixed: false,
                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                         maxmin: false,
+                         maxmin: true,
                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                           area: ['70%', '90%'],
                          content:  temUrl
@@ -276,7 +316,7 @@ var name=$('#name').val();
                          ,type: 2
                          ,fixed: false
                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                         ,maxmin: false
+                         ,maxmin: true
                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                          ,area: ['60%', '80%']
                          ,content: "/sre-accept/software/add?equipmentId="+equipmentId
@@ -356,6 +396,23 @@ var name=$('#name').val();
         
     });
     
+    function view(applicationId) 
+    {
+    	var temUrl="/sre-forapplication/get/"+applicationId;
+		 layer.open({
+            title:'详情',
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+            maxmin: true,
+            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+             area: ['70%', '90%'],
+            content:  temUrl
+        });
+    }
+    
     
     
     
@@ -382,8 +439,8 @@ var name=$('#name').val();
            cols: [[
            	   {type : 'checkbox', event : 'changeEvents', width : 55},
            	{title : '序号', type : 'numbers', width : 55},
-            {field : 'applicationState', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.fprappStatus_equipment(d.applicationState) }}</div>', width : '10%'},
-            {field : 'applicationName',     title : '转资名称', style : 'cursor: pointer;', align : 'left', width : '30%' },
+            {field : 'applicationState', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '#applicationState_temp', width : '10%'},
+            {field : 'applicationName',     title : '转资名称', style : 'cursor: pointer;', align : 'left', width : '30%' ,templet:function(d){return '<span onclick="view(\''+d.applicationId+'\')" style="color:#1890ff">'+d.applicationName+'</span>'}},
             {field : 'applicationUserName', title : '转资申请人', style : 'cursor: pointer;', align : 'left', width : '28%'},
             {field : 'applicationTime', title : '转资时间', style : 'cursor: pointer;', align : 'center', templet : '#dateTpl'},
            ]],
@@ -413,6 +470,7 @@ var name=$('#name').val();
 			   	});
            }
        });
+       $(".layui-table-header table thead th input").remove();
     }
     
     

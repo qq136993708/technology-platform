@@ -4,6 +4,7 @@ package com.pcitc.mapper.equipment;
 import com.pcitc.base.stp.equipment.SrePurchaseArrival;
 
 import java.util.List;
+import java.util.Map;
 
 public interface SrePurchaseArrivalMapper {
     int deleteByPrimaryKey(String id);
@@ -21,4 +22,7 @@ public interface SrePurchaseArrivalMapper {
     int deletePurchaseArrival();
 
     void insertPurchaseArrivalList(List<SrePurchaseArrival> srePurchaseArrivals);
+
+	SrePurchaseArrival selectErpnum(Map map);
+	
 }
