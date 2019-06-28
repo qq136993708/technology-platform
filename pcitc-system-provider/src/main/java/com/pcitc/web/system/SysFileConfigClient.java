@@ -78,7 +78,7 @@ public class SysFileConfigClient {
         if ((sysFileConfigList == null || sysFileConfigList.size() == 0)) {
             sysFileConfig.setId(sysFileConfigId);
             sysFileConfig.setMenuId(sysFileConfigId);
-            sysFileConfig.setFileCount("1");
+            sysFileConfig.setFileCount("10");
             sysFileConfig.setFileSize("102400");
             sysFileConfig.setPosition(sysFileConfigId);
             sysFileConfig.setFileType(com.pcitc.base.common.Constant.default_file_type);
