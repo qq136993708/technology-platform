@@ -135,7 +135,7 @@ public class PurchaseProviderClient
             sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_DRAFT);
             sreEquipmentMapper.updateByPrimaryKeySelective(sreEquipment);
         }
-        srePurchase.setState(Constant.PURCHASE_STATUS_DRAFT);
+        srePurchase.setState(Constant.PURCHASE_STATUS_REJECT);
         int count=purchaseService.updateSrePurchase(srePurchase);
         System.out.println("======业务系统处理--驳回 --后业务======="+id);
         return count;
@@ -147,5 +147,12 @@ public class PurchaseProviderClient
     {
         logger.info("==================page SreProjectBasic==========================="+paramsJson);
         return purchaseService.getProjectPage(paramsJson);
+    }
+    @ApiOperation(value = "任务书统计列表", notes = "任务书统计列表")
+    @RequestMapping(value = "/sre-provider/purchase/projectTask/page", method = RequestMethod.POST)
+    public LayuiTableData getSreProjecTaskList(@RequestBody LayuiTableParam paramsJson)throws Exception
+    {
+        logger.info("==================page SreSreProjectTask==========================="+paramsJson);
+        return purchaseService.getSreProjectTaskPage(paramsJson);
     }
 }

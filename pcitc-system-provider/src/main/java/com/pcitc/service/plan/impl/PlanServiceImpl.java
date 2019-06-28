@@ -1,6 +1,7 @@
 package com.pcitc.service.plan.impl;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,439 +27,447 @@ import com.pcitc.service.system.UserService;
 @Service
 public class PlanServiceImpl implements PlanService {
 
-    @Resource
-    private PlanBaseMapper planBaseMapper;
-//	private planBaseMapper planBaseMapper;
+	@Resource
+	private PlanBaseMapper planBaseMapper;
+	// private planBaseMapper planBaseMapper;
 
-    @Resource
-    private PlanBaseDetailMapper planBaseDetailMapper;
+	@Resource
+	private PlanBaseDetailMapper planBaseDetailMapper;
 
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private UserService userService;
 
+	@Override
+	public PlanBase findBotWorkOrderById(String dataId) {
+		PlanBase vo = planBaseMapper.selectByPrimaryKey(dataId);
+		return vo;
+	}
 
-    @Override
-    public PlanBase findBotWorkOrderById(String dataId) {
-        PlanBase vo = planBaseMapper.selectByPrimaryKey(dataId);
-        return vo;
-    }
+	@Override
+	public int saveBotWorkOrder(PlanBase vo) {
+		int result = 200;
+		try {
+			// SysUser sysUser =
+			// userService.selectUserByUserId(vo.getWorkOrderAllotUserId());
+			// vo.setWorkOrderAllotUserName(sysUser==null?"":sysUser.getUserName());
+			planBaseMapper.insert(vo);
+		} catch (Exception e) {
+			result = 500;
+		}
+		return result;
+	}
 
-    @Override
-    public int saveBotWorkOrder(PlanBase vo) {
-        int result = 200;
-        try {
-//            SysUser sysUser = userService.selectUserByUserId(vo.getWorkOrderAllotUserId());
-//            vo.setWorkOrderAllotUserName(sysUser==null?"":sysUser.getUserName());
-            planBaseMapper.insert(vo);
-        } catch (Exception e) {
-            result = 500;
-        }
-        return result;
-    }
+	@Override
+	public int deleteBotWorkOrder(String id) {
+		int result = 200;
+		try {
+			if (StringUtils.isNotEmpty(id)) {
+				String[] arr = id.split(",");
+				List<String> ids = Arrays.asList(arr);
+				// for (int i = 0; i < arr.length; i++) {
+				// planBaseMapper.deleteByPrimaryKey(arr[i]);
+				// }
+				planBaseMapper.deleteByIds(ids);
+			}
+		} catch (Exception e) {
+			result = 500;
+		}
+		return result;
+	}
 
-    @Override
-    public int deleteBotWorkOrder(String id) {
-        int result = 200;
-        try {
-            if (StringUtils.isNotEmpty(id)) {
-                String[] arr = id.split(",");
-                List<String> ids = Arrays.asList(arr);
-//                for (int i = 0; i < arr.length; i++) {
-//                    planBaseMapper.deleteByPrimaryKey(arr[i]);
-//                }
-                planBaseMapper.deleteByIds(ids);
-            }
-        } catch (Exception e) {
-            result = 500;
-        }
-        return result;
-    }
+	@Override
+	public int editBotWorkOrder(PlanBase vo) {
+		int result = 200;
+		try {
+			planBaseMapper.updateByPrimaryKeySelective(vo);
+		} catch (Exception e) {
+			result = 500;
+		}
+		return result;
+	}
 
-    @Override
-    public int editBotWorkOrder(PlanBase vo) {
-        int result = 200;
-        try {
-            planBaseMapper.updateByPrimaryKeySelective(vo);
-        } catch (Exception e) {
-            result = 500;
-        }
-        return result;
-    }
+	@Override
+	public int affirmBotWorkOrder(String id) {
+		int result = 200;
+		try {
+			if (StringUtils.isNotEmpty(id)) {
+				String[] arr = id.split(",");
+				List<String> ids = Arrays.asList(arr);
+				planBaseMapper.affirmByIds(ids);
+			}
+		} catch (Exception e) {
+			result = 500;
+		}
+		return result;
+	}
 
-    @Override
-    public int affirmBotWorkOrder(String id) {
-        int result = 200;
-        try {
-            if (StringUtils.isNotEmpty(id)) {
-                String[] arr = id.split(",");
-                List<String> ids = Arrays.asList(arr);
-                planBaseMapper.affirmByIds(ids);
-            }
-        } catch (Exception e) {
-            result = 500;
-        }
-        return result;
-    }
+	@Override
+	public LayuiTableData queryBotWorkOrderListByPage(LayuiTableParam param) {
+		// 每页显示条数
+		int pageSize = param.getLimit();
+		// 从第多少条开始
+		int pageStart = (param.getPage() - 1) * pageSize;
+		// 当前是第几页
+		int pageNum = pageStart / pageSize + 1;
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
+		// 设置查询条件
+		PlanBase vo = new PlanBase();
+		String wbsName = (String) param.getParam().get("wbsName");
+		if (wbsName != null && !"".equals(wbsName)) {
+			vo.setWbsName(wbsName);
+		}
+		String workOrderName = (String) param.getParam().get("workOrderName");
+		if (workOrderName != null && !"".equals(workOrderName)) {
+			vo.setWorkOrderName(workOrderName);
+		}
+		String workOrderStatus = (String) param.getParam().get("workOrderStatus");
+		if (workOrderStatus != null && !"".equals(workOrderStatus)) {
+			vo.setWorkOrderStatus(workOrderStatus);
+		}
+		String delFlag = (String) param.getParam().get("delFlag");
+		if (delFlag != null && !"".equals(delFlag)) {
+			vo.setDelFlag(delFlag);
+		}
+		String auditSts = (String) param.getParam().get("auditSts");
+		if (auditSts != null && !"".equals(auditSts)) {
+			vo.setAuditSts(auditSts);
+		}
+		// 2、执行查询
+		List<PlanBase> list = planBaseMapper.queryBotWorkOrderListByPage(vo);
+		int total = planBaseMapper.countByBotWorkOrder(vo).intValue();
+		PageInfo<PlanBase> pageInfo = new PageInfo<PlanBase>(list);
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		data.setCount(total);
+		return data;
+	}
 
-    @Override
-    public LayuiTableData queryBotWorkOrderListByPage(LayuiTableParam param) {
-        //每页显示条数
-        int pageSize = param.getLimit();
-        //从第多少条开始
-        int pageStart = (param.getPage() - 1) * pageSize;
-        //当前是第几页
-        int pageNum = pageStart / pageSize + 1;
-        // 1、设置分页信息，包括当前页数和每页显示的总计数
-        PageHelper.startPage(pageNum, pageSize);
-        //设置查询条件
-        PlanBase vo = new PlanBase();
-        String wbsName = (String) param.getParam().get("wbsName");
-        if (wbsName != null && !"".equals(wbsName)) {
-            vo.setWbsName(wbsName);
-        }
-        String workOrderName = (String) param.getParam().get("workOrderName");
-        if (workOrderName != null && !"".equals(workOrderName)) {
-            vo.setWorkOrderName(workOrderName);
-        }
-        String workOrderStatus = (String) param.getParam().get("workOrderStatus");
-        if (workOrderStatus != null && !"".equals(workOrderStatus)) {
-            vo.setWorkOrderStatus(workOrderStatus);
-        }
-        String delFlag = (String) param.getParam().get("delFlag");
-        if (delFlag != null && !"".equals(delFlag)) {
-            vo.setDelFlag(delFlag);
-        }
-        String auditSts = (String) param.getParam().get("auditSts");
-        if (auditSts != null && !"".equals(auditSts)) {
-            vo.setAuditSts(auditSts);
-        }
-        // 2、执行查询
-        List<PlanBase> list = planBaseMapper.queryBotWorkOrderListByPage(vo);
-        int total = planBaseMapper.countByBotWorkOrder(vo).intValue();
-        PageInfo<PlanBase> pageInfo = new PageInfo<PlanBase>(list);
-        LayuiTableData data = new LayuiTableData();
-        data.setData(pageInfo.getList());
-        data.setCount(total);
-        return data;
-    }
+	@Override
+	public int submitBotWorkOrder(String id) {
+		int result = 200;
+		try {
+			planBaseMapper.submitBotWorkOrder(id);
+			updatePlanSonWorkOrderStatus(id);
+		} catch (Exception e) {
+			result = 500;
+		}
+		return result;
+	}
 
-    @Override
-    public int submitBotWorkOrder(String id) {
-        int result = 200;
-        try {
-            planBaseMapper.submitBotWorkOrder(id);
-            updatePlanSonWorkOrderStatus(id);
-        } catch (Exception e) {
-            result = 500;
-        }
-        return result;
-    }
+	@Override
+	public int updatePlanSonWorkOrderStatus(String id) {
+		int result = 200;
+		try {
+			planBaseMapper.updatePlanSonWorkOrderStatus(id);
+		} catch (Exception e) {
+			result = 500;
+		}
+		return result;
+	}
 
-    @Override
-    public int updatePlanSonWorkOrderStatus(String id) {
-        int result = 200;
-        try {
-            planBaseMapper.updatePlanSonWorkOrderStatus(id);
-        } catch (Exception e) {
-            result = 500;
-        }
-        return result;
-    }
+	@Override
+	public PlanBaseDetail findBotWorkOrderMatterById(String dataId) {
+		PlanBaseDetail vo = planBaseDetailMapper.selectByPrimaryKey(dataId);
+		return vo;
+	}
 
-    @Override
-    public PlanBaseDetail findBotWorkOrderMatterById(String dataId) {
-        PlanBaseDetail vo = planBaseDetailMapper.selectByPrimaryKey(dataId);
-        return vo;
-    }
+	@Override
+	public int saveBotWorkOrderMatterBatch(List<PlanBaseDetail> list) {
+		int result = 200;
+		try {
+			planBaseDetailMapper.deleteByWorkOrderId(list.get(0).getWorkOrderId());
+			planBaseDetailMapper.insertBotWorkOrderMatterBatch(list);
+		} catch (Exception e) {
+			result = 500;
+		}
+		return result;
+	}
 
-    @Override
-    public int saveBotWorkOrderMatterBatch(List<PlanBaseDetail> list) {
-        int result = 200;
-        try {
-            planBaseDetailMapper.deleteByWorkOrderId(list.get(0).getWorkOrderId());
-            planBaseDetailMapper.insertBotWorkOrderMatterBatch(list);
-        } catch (Exception e) {
-            result = 500;
-        }
-        return result;
-    }
+	@Override
+	public int savePlanBaseBatchZf(List<PlanBase> list) {
+		int result = 200;
+		try {
+			// 更新当前所有子节点信息
+			int leng = list.size();
+			for (int i = 0; i < leng; i++) {
+				PlanBase pb = list.get(i);
+				PlanBase planBase = planBaseMapper.selectByPrimaryKey(pb.getDataId());
+				if (planBase == null) {
+					SysUser sysUser = userService.selectUserByUserId(pb.getWorkOrderAllotUserId());
+					pb.setWorkOrderAllotUserName(sysUser == null ? "" : sysUser.getUserName());
+					planBaseMapper.insert(pb);
+				} else {
+					planBase.setParentId(pb.getParentId());
+					planBase.setWorkOrderStatus(pb.getWorkOrderStatus());
+					planBase.setDelFlag(pb.getDelFlag());
+					planBase.setBl(pb.getBl());
+					planBase.setWorkOrderType(pb.getWorkOrderType());
+					planBase.setRedactUnitName(pb.getRedactUnitName());
+					planBaseMapper.updateByPrimaryKey(planBase);
+				}
+			}
+		} catch (Exception e) {
+			result = 500;
+		}
+		return result;
+	}
 
-    @Override
-    public int savePlanBaseBatchZf(List<PlanBase> list) {
-        int result = 200;
-        try {
-            //更新当前所有子节点信息
-            int leng = list.size();
-            for (int i = 0; i < leng; i++) {
-                PlanBase pb = list.get(i);
-                PlanBase planBase = planBaseMapper.selectByPrimaryKey(pb.getDataId());
-                if(planBase==null){
-                    SysUser sysUser = userService.selectUserByUserId(pb.getWorkOrderAllotUserId());
-                    pb.setWorkOrderAllotUserName(sysUser==null?"":sysUser.getUserName());
-                    planBaseMapper.insert(pb);
-                }else {
-                    planBase.setParentId(pb.getParentId());
-                    planBase.setWorkOrderStatus(pb.getWorkOrderStatus());
-                    planBase.setDelFlag(pb.getDelFlag());
-                    planBase.setBl(pb.getBl());
-                    planBase.setWorkOrderType(pb.getWorkOrderType());
-                    planBase.setRedactUnitName(pb.getRedactUnitName());
-                    planBaseMapper.updateByPrimaryKey(planBase);
-                }
-            }
-        } catch (Exception e) {
-            result = 500;
-        }
-        return result;
-    }
+	@Override
+	public int savePlanBaseBatch(List<PlanBase> list) {
+		int result = 200;
+		try {
+			// this.savePlanBaseBatchZf(list);
+			int leng = list.size();
+			PlanBaseExample planBaseExample = new PlanBaseExample();
+			planBaseExample.createCriteria().andParentIdEqualTo(list.get(0).getParentId());
+			List<PlanBase> planBases = planBaseMapper.selectByExample(planBaseExample);
 
-    @Override
-    public int savePlanBaseBatch(List<PlanBase> list) {
-        int result = 200;
-        try {
-//            this.savePlanBaseBatchZf(list);
-            int leng = list.size();
-            PlanBaseExample planBaseExample = new PlanBaseExample();
-            planBaseExample.createCriteria().andParentIdEqualTo(list.get(0).getParentId());
-            List<PlanBase> planBases = planBaseMapper.selectByExample(planBaseExample);
+			for (int i = 0; i < planBases.size(); i++) {
+				String strDataId = planBases.get(i).getDataId();
+				List<PlanBase> listIn = list.stream().filter(a -> a.getDataId().equals(strDataId)).collect(Collectors.toList());
+				if (listIn != null && listIn.size() > 0) {
+					// 包含 更新
+					PlanBase planBase = planBases.get(i);
+					int index = list.indexOf(listIn.get(0));
+					planBase.setParentId(listIn.get(0).getParentId());
+					planBase.setWorkOrderStatus(listIn.get(0).getWorkOrderStatus());
+					planBase.setDelFlag(listIn.get(0).getDelFlag());
+					planBase.setBl(listIn.get(0).getBl());
+					planBase.setWorkOrderType(listIn.get(0).getWorkOrderType());
+					planBase.setRedactUnitName(listIn.get(0).getRedactUnitName());
+					planBase.setAnnouncements(listIn.get(0).getAnnouncements());
 
-            for (int i = 0; i < planBases.size(); i++) {
-                String strDataId = planBases.get(i).getDataId();
-                List<PlanBase> listIn = list.stream().filter(a -> a.getDataId().equals(strDataId)).collect(Collectors.toList());
-                if(listIn!=null&&listIn.size()>0){
-                    //包含 更新
-                    PlanBase planBase = planBases.get(i);
-                    int index = list.indexOf(listIn.get(0));
-                    planBase.setParentId(listIn.get(0).getParentId());
-                    planBase.setWorkOrderStatus(listIn.get(0).getWorkOrderStatus());
-                    planBase.setDelFlag(listIn.get(0).getDelFlag());
-                    planBase.setBl(listIn.get(0).getBl());
-                    planBase.setWorkOrderType(listIn.get(0).getWorkOrderType());
-                    planBase.setRedactUnitName(listIn.get(0).getRedactUnitName());
-                    planBase.setAnnouncements(listIn.get(0).getAnnouncements());
+					planBase.setWorkOrderAllotUserId(listIn.get(0).getWorkOrderAllotUserId());
+					planBase.setWorkOrderAllotUserName(listIn.get(0).getWorkOrderAllotUserName());
 
-                    planBase.setWorkOrderAllotUserId(listIn.get(0).getWorkOrderAllotUserId());
-                    planBase.setWorkOrderAllotUserName(listIn.get(0).getWorkOrderAllotUserName());
+					planBaseMapper.updateByPrimaryKey(planBase);
+					list.remove(index);
+				} else {
+					// 删除
+					planBaseMapper.deleteByPrimaryKey(strDataId);
+				}
+			}
+			for (int i = 0; i < list.size(); i++) {
+				// SysUser sysUser =
+				// userService.selectUserByUserId(list.get(i).getWorkOrderAllotUserId());
+				// list.get(i).setWorkOrderAllotUserName(sysUser==null?"":sysUser.getUserName());
+				planBaseMapper.insert(list.get(i));
+			}
 
-                    planBaseMapper.updateByPrimaryKey(planBase);
-                    list.remove(index);
-                }else {
-                    //删除
-                    planBaseMapper.deleteByPrimaryKey(strDataId);
-                }
-            }
-            for (int i = 0; i < list.size(); i++) {
-//                SysUser sysUser = userService.selectUserByUserId(list.get(i).getWorkOrderAllotUserId());
-//                list.get(i).setWorkOrderAllotUserName(sysUser==null?"":sysUser.getUserName());
-                planBaseMapper.insert(list.get(i));
-            }
+			// planBaseMapper.deleteByExample(planBaseExample);
+			// //add
+			// for (int i = 0; i < leng; i++) {
+			//
+			//
+			// System.out.println("dataId = " + list.get(i).getDataId());
+			// //判断是否有数据
+			// planBaseMapper.insert(list.get(i));
+			// }
+		} catch (Exception e) {
+			result = 500;
+		}
+		return result;
+	}
 
+	@Override
+	public int deleteBotWorkOrderMatter(String id) {
+		int result = 200;
+		try {
+			if (StringUtils.isNotEmpty(id)) {
+				String[] arr = id.split(",");
+				List<String> ids = Arrays.asList(arr);
+				planBaseDetailMapper.deleteByIds(ids);
+			}
+		} catch (Exception e) {
+			result = 500;
+		}
+		return result;
+	}
 
+	@Override
+	public int editBotWorkOrderMatter(PlanBaseDetail vo) {
+		int result = 200;
+		try {
+			planBaseDetailMapper.updateByPrimaryKeySelective(vo);
+		} catch (Exception e) {
+			result = 500;
+		}
+		return result;
+	}
 
+	@Override
+	public int affirmBotWorkOrderMatter(String id) {
+		int result = 200;
+		try {
+			if (StringUtils.isNotEmpty(id)) {
+				String[] arr = id.split(",");
+				List<String> ids = Arrays.asList(arr);
+				planBaseDetailMapper.affirmByIds(ids);
+			}
+		} catch (Exception e) {
+			result = 500;
+		}
+		return result;
+	}
 
-//            planBaseMapper.deleteByExample(planBaseExample);
-//            //add
-//            for (int i = 0; i < leng; i++) {
-//
-//
-//                System.out.println("dataId = " + list.get(i).getDataId());
-//                //判断是否有数据
-//                planBaseMapper.insert(list.get(i));
-//            }
-        } catch (Exception e) {
-            result = 500;
-        }
-        return result;
-    }
+	@Override
+	public LayuiTableData queryBotWorkOrderMatterList(LayuiTableParam param) {
+		// 设置查询条件
+		PlanBase vo = new PlanBase();
+		String workOrderId = (String) param.getParam().get("workOrderId");
+		PlanBaseExample example = new PlanBaseExample();
+		PlanBaseExample.Criteria c = example.createCriteria();
+		example.setOrderByClause("create_date desc");
+		if (workOrderId != null && !"".equals(workOrderId)) {
+			c.andParentIdEqualTo(workOrderId);
+		} else {
+			return new LayuiTableData();
+		}
+		List<PlanBase> list = planBaseMapper.selectByExample(example);
+		LayuiTableData data = new LayuiTableData();
+		data.setData(list);
+		return data;
+	}
 
-    @Override
-    public int deleteBotWorkOrderMatter(String id) {
-        int result = 200;
-        try {
-            if (StringUtils.isNotEmpty(id)) {
-                String[] arr = id.split(",");
-                List<String> ids = Arrays.asList(arr);
-                planBaseDetailMapper.deleteByIds(ids);
-            }
-        } catch (Exception e) {
-            result = 500;
-        }
-        return result;
-    }
+	@Override
+	public int submitBotWorkOrderMatter(String id) {
+		int result = 200;
+		try {
+			planBaseDetailMapper.submitBotWorkOrderMatter(id);
+		} catch (Exception e) {
+			result = 500;
+		}
+		return result;
+	}
 
-    @Override
-    public int editBotWorkOrderMatter(PlanBaseDetail vo) {
-        int result = 200;
-        try {
-            planBaseDetailMapper.updateByPrimaryKeySelective(vo);
-        } catch (Exception e) {
-            result = 500;
-        }
-        return result;
-    }
+	@Override
+	public LayuiTableData queryMyBotWorkOrderListByPage(LayuiTableParam param) {
+		// 每页显示条数
+		int pageSize = param.getLimit();
+		// 从第多少条开始
+		int pageStart = (param.getPage() - 1) * pageSize;
+		// 当前是第几页
+		int pageNum = pageStart / pageSize + 1;
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
+		// 设置查询条件
+		PlanBaseExample example = new PlanBaseExample();
+		PlanBaseExample.Criteria c = example.createCriteria();
 
-    @Override
-    public int affirmBotWorkOrderMatter(String id) {
-        int result = 200;
-        try {
-            if (StringUtils.isNotEmpty(id)) {
-                String[] arr = id.split(",");
-                List<String> ids = Arrays.asList(arr);
-                planBaseDetailMapper.affirmByIds(ids);
-            }
-        } catch (Exception e) {
-            result = 500;
-        }
-        return result;
-    }
+		c.andDelFlagEqualTo("0");
 
-    @Override
-    public LayuiTableData queryBotWorkOrderMatterList(LayuiTableParam param) {
-        //设置查询条件
-        PlanBase vo = new PlanBase();
-        String workOrderId = (String) param.getParam().get("workOrderId");
-        PlanBaseExample example = new PlanBaseExample();
-        PlanBaseExample.Criteria c = example.createCriteria();
-        example.setOrderByClause("create_date desc");
-        if (workOrderId != null && !"".equals(workOrderId)) {
-            c.andParentIdEqualTo(workOrderId);
-        } else {
-            return new LayuiTableData();
-        }
-        List<PlanBase> list = planBaseMapper.selectByExample(example);
-        LayuiTableData data = new LayuiTableData();
-        data.setData(list);
-        return data;
-    }
+		String wbsName = (String) param.getParam().get("wbsName");
+		if (wbsName != null && !"".equals(wbsName)) {
+			c.andWbsNameEqualTo(wbsName);
+		}
+		String workOrderName = (String) param.getParam().get("workOrderName");
+		if (workOrderName != null && !"".equals(workOrderName)) {
+			c.andWorkOrderNameLike("%" + workOrderName + "%");
+		}
+		String workOrderStatus = (String) param.getParam().get("workOrderStatus");
+		if (workOrderStatus != null && !"".equals(workOrderStatus)) {
+			c.andWorkOrderStatusIn(Arrays.asList(workOrderStatus.split(",")));
+		}
+		String delFlag = (String) param.getParam().get("delFlag");
+		if (delFlag != null && !"".equals(delFlag)) {
+			c.andDelFlagNotEqualTo(delFlag);
+		}
+		String auditSts = (String) param.getParam().get("auditSts");
+		if (auditSts != null && !"".equals(auditSts)) {
+			c.andAuditStsEqualTo(auditSts);
+		}
 
-    @Override
-    public int submitBotWorkOrderMatter(String id) {
-        int result = 200;
-        try {
-            planBaseDetailMapper.submitBotWorkOrderMatter(id);
-        } catch (Exception e) {
-            result = 500;
-        }
-        return result;
-    }
+		String parentId = (String) param.getParam().get("parentId");
+		if (parentId != null && "1".equals(parentId)) {
+			c.andParentIdIsNull();
+		}
 
-    @Override
-    public LayuiTableData queryMyBotWorkOrderListByPage(LayuiTableParam param) {
-        //每页显示条数
-        int pageSize = param.getLimit();
-        //从第多少条开始
-        int pageStart = (param.getPage() - 1) * pageSize;
-        //当前是第几页
-        int pageNum = pageStart / pageSize + 1;
-        // 1、设置分页信息，包括当前页数和每页显示的总计数
-        PageHelper.startPage(pageNum, pageSize);
-        //设置查询条件
-        PlanBaseExample example = new PlanBaseExample();
-        PlanBaseExample.Criteria c = example.createCriteria();
+		// 创建人为当前人或被指派给当前人
+		String createUser = (String) param.getParam().get("createUser");
+		if (createUser != null && !"".equals(createUser)) {
+			c.andCreateUserEqualTo(createUser);
+		}
 
+		Object workOrderAllotUserId = param.getParam().get("workOrderAllotUserId");
+		if (workOrderAllotUserId != null && !"".equals(workOrderAllotUserId)) {
+			c.andWorkOrderAllotUserIdEqualTo(workOrderAllotUserId.toString());
+			c.andDelFlagEqualTo("0");
+		}
+		
+		if (param.getParam().get("startTime") != null && !"".equals(param.getParam().get("startTime"))) {
+			c.andCreateDateGreaterThan(param.getParam().get("startTime") + " 00:00:00");
+		}
+		
+		if (param.getParam().get("endTime") != null && !"".equals(param.getParam().get("endTime"))) {
+			c.andCreateDateLessThan(param.getParam().get("endTime") + " 23:59:59");
+		}
+		
+		// 2、执行查询
+		example.setOrderByClause("create_date desc");
+		List<PlanBase> list = planBaseMapper.selectByExample(example);
 
-        c.andDelFlagEqualTo("0");
+		PageInfo<PlanBase> pageInfo = new PageInfo<PlanBase>(list);
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
 
-        String wbsName = (String) param.getParam().get("wbsName");
-        if (wbsName != null && !"".equals(wbsName)) {
-            c.andWbsNameEqualTo(wbsName);
-        }
-        String workOrderName = (String) param.getParam().get("workOrderName");
-        if (workOrderName != null && !"".equals(workOrderName)) {
-            c.andWorkOrderNameEqualTo(workOrderName);
-        }
-        String workOrderStatus = (String) param.getParam().get("workOrderStatus");
-        if (workOrderStatus != null && !"".equals(workOrderStatus)) {
-            c.andWorkOrderStatusIn(Arrays.asList(workOrderStatus.split(",")));
-        }
-        String delFlag = (String) param.getParam().get("delFlag");
-        if (delFlag != null && !"".equals(delFlag)) {
-            c.andDelFlagNotEqualTo(delFlag);
-        }
-        String auditSts = (String) param.getParam().get("auditSts");
-        if (auditSts != null && !"".equals(auditSts)) {
-            c.andAuditStsEqualTo(auditSts);
-        }
-        
-        String parentId = (String) param.getParam().get("parentId");
-        if (parentId != null && "1".equals(parentId)) {
-            c.andParentIdIsNull();
-        }
+		return data;
+	}
 
-        //创建人为当前人或被指派给当前人
-        String createUser = (String) param.getParam().get("createUser");
-        if (createUser != null && !"".equals(createUser)) {
-            c.andCreateUserEqualTo(createUser);
-        }
-        
-        Object workOrderAllotUserId = param.getParam().get("workOrderAllotUserId");
-        if (workOrderAllotUserId != null && !"".equals(workOrderAllotUserId)) {
-            c.andWorkOrderAllotUserIdEqualTo(workOrderAllotUserId.toString());
-            c.andDelFlagEqualTo("0");
-        }
-        // 2、执行查询
-        example.setOrderByClause("create_date desc");
-        List<PlanBase> list = planBaseMapper.selectByExample(example);
+	@Override
+	public LayuiTableData queryMyBotWorkOrderMatterList(LayuiTableParam param) {
+		// 设置查询条件
+		PlanBaseDetail vo = new PlanBaseDetail();
+		String workOrderId = (String) param.getParam().get("workOrderId");
+		if (workOrderId != null && !"".equals(workOrderId)) {
+			vo.setWorkOrderId(workOrderId);
+		} else {
+			return new LayuiTableData();
+		}
+		String delFlag = (String) param.getParam().get("delFlag");
+		if (delFlag != null && !"".equals(delFlag)) {
+			vo.setDelFlag(delFlag);
+		}
+		String auditSts = (String) param.getParam().get("auditSts");
+		if (auditSts != null && !"".equals(auditSts)) {
+			vo.setAuditSts(auditSts);
+		}
+		vo.setMatterType("1");
+		// 2、执行查询
+		List<PlanBaseDetail> list = planBaseDetailMapper.queryBotWorkOrderMatterList(vo);
+		int total = planBaseDetailMapper.countByBotWorkOrderMatterById(vo).intValue();
+		PageInfo<PlanBaseDetail> pageInfo = new PageInfo<PlanBaseDetail>(list);
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		data.setCount(total);
+		return data;
+	}
 
-        PageInfo<PlanBase> pageInfo = new PageInfo<PlanBase>(list);
-        LayuiTableData data = new LayuiTableData();
-        data.setData(pageInfo.getList());
-        Long total = pageInfo.getTotal();
-        data.setCount(total.intValue());
+	@Override
+	public int saveMyBotWorkOrderMatterBatch(PlanBase planBase) {
+		int result = 200;
+		try {
+			planBaseDetailMapper.deleteMyByWorkOrderId(planBase.getDataId());
+			if (planBase.getPlanBaseDetailList() != null && planBase.getPlanBaseDetailList().size() > 0) {
+				planBaseDetailMapper.insertBotWorkOrderMatterBatch(planBase.getPlanBaseDetailList());
+			}
+		} catch (Exception e) {
+			result = 500;
+		}
+		return result;
+	}
 
-        return data;
-    }
-
-    @Override
-    public LayuiTableData queryMyBotWorkOrderMatterList(LayuiTableParam param) {
-        //设置查询条件
-        PlanBaseDetail vo = new PlanBaseDetail();
-        String workOrderId = (String) param.getParam().get("workOrderId");
-        if (workOrderId != null && !"".equals(workOrderId)) {
-            vo.setWorkOrderId(workOrderId);
-        } else {
-            return new LayuiTableData();
-        }
-        String delFlag = (String) param.getParam().get("delFlag");
-        if (delFlag != null && !"".equals(delFlag)) {
-            vo.setDelFlag(delFlag);
-        }
-        String auditSts = (String) param.getParam().get("auditSts");
-        if (auditSts != null && !"".equals(auditSts)) {
-            vo.setAuditSts(auditSts);
-        }
-        vo.setMatterType("1");
-        // 2、执行查询
-        List<PlanBaseDetail> list = planBaseDetailMapper.queryBotWorkOrderMatterList(vo);
-        int total = planBaseDetailMapper.countByBotWorkOrderMatterById(vo).intValue();
-        PageInfo<PlanBaseDetail> pageInfo = new PageInfo<PlanBaseDetail>(list);
-        LayuiTableData data = new LayuiTableData();
-        data.setData(pageInfo.getList());
-        data.setCount(total);
-        return data;
-    }
-
-    @Override
-    public int saveMyBotWorkOrderMatterBatch(List<PlanBaseDetail> list) {
-        int result = 200;
-        try {
-            planBaseDetailMapper.deleteMyByWorkOrderId(list.get(0).getWorkOrderId());
-            planBaseDetailMapper.insertBotWorkOrderMatterBatch(list);
-        } catch (Exception e) {
-            result = 500;
-        }
-        return result;
-    }
-
-    @Override
-    public int submitMyBotWorkOrder(String id) {
-        int result = 200;
-        try {
-            planBaseMapper.submitMyBotWorkOrder(id);
-        } catch (Exception e) {
-            result = 500;
-        }
-        return result;
-    }
-
+	@Override
+	public int submitMyBotWorkOrder(String id) {
+		int result = 200;
+		try {
+			planBaseMapper.submitMyBotWorkOrder(id);
+		} catch (Exception e) {
+			result = 500;
+		}
+		return result;
+	}
+	
 }

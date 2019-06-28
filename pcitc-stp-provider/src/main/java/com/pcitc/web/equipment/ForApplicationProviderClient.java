@@ -96,6 +96,14 @@ public class ForApplicationProviderClient
 		return forapplicationService.upForapplication(id);
 	}
 	
+	@ApiOperation(value = "修改采购申请单", notes = "修改采购申请单")
+    @RequestMapping(value = "/sre-provider/forapplication/update", method = RequestMethod.POST)
+    public Integer updateSreForApplication(@RequestBody SreForApplication sreForApplication) throws Exception{
+        logger.info("==================update SrePurchase===========================");
+
+        return forapplicationService.updateSreForApplication(sreForApplication);
+    }
+	
 	@ApiOperation(value="转资申请确认流程",notes="转资申请确认流程")
 	@RequestMapping(value = "/stp-provider/forapplication/forapplication_activity/{id}", method = RequestMethod.POST)
 	public Result start_purchase_activity(@PathVariable("id") String id, @RequestBody Map map)throws Exception
@@ -158,5 +166,12 @@ public class ForApplicationProviderClient
 	{
 		LayuiTableData rageResult=forapplicationService.getResearchAssetsList(param);
 		return rageResult;
+	}
+    
+    @ApiOperation(value = "获取装备明细", notes = "根据ID获取装备明细")
+	@RequestMapping(value = "/sre-provider/sreDetail/get/{id}", method = RequestMethod.GET)
+	public SreDetail selectSreDetailId(@PathVariable(value = "id", required = true) String id) throws Exception {
+		logger.info("===============================get sreEquipment id "+id+"===========");
+		return detailService.selectSreDetailId(id);
 	}
 }

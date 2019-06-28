@@ -32,10 +32,10 @@
         <span>采购名称</span>
         <input type="text" name="purchaseName" value="" placeholder="请输入采购名称" title="采购名称" autocomplete="off" class="form-control" id="purchaseName">
     </label>
-    <label class="dateInput">
+  <!--  <label class="dateInput">
         <span>立项年度</span>
         <input type="text" name="createDate" value="" placeholder="请输入立项年度" title="申请开始时间" autocomplete="off" class="form-control" id="createDate">
-    </label>
+    </label>-->
     <!--按钮组-->
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
@@ -350,11 +350,6 @@ var name=$('#name').val();
                 }
             });
         });
-        //监听表格双击事件
-        table.on('rowDouble(processdef-table)', function(obj){
-        	var temUrl = '/sre-purchase/getParticulars/'+obj.data.id;
-        	openFullWin("详情",temUrl);
-        });
         
         //区别按钮属性
         $('.layui-btn').on('click', function(){
@@ -363,6 +358,23 @@ var name=$('#name').val();
         });
     });
     
+    function view(id) 
+    {
+    	 var purchaseId=selectRowData.id;
+		 var temUrl="/sre-procurementprogram/get/" + purchaseId;
+		 layer.open({
+             title:'实施进度查看',
+             skin: 'layui-layer-lan',
+             shadeClose: true,
+             type: 2,
+             fixed: false,
+             //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+             maxmin: true,
+             //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+             area: ['70%', '90%'],
+             content:  temUrl
+         });
+    }
     
     function renderTable()
 	{    
@@ -387,7 +399,7 @@ var name=$('#name').val();
             cols: [[
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
-            	{field : 'purchaseName',     title : '采购名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
+            	{field : 'purchaseName',     title : '采购名称', style : 'cursor: pointer;', align : 'left', width : '20%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.purchaseName+'</span>'}},
          	    {field : 'parentUnitPathNames',     title : '单位名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
          		{field : 'departName',     title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
                 {field : 'proposerName',      		title : '申请人',         style : 'cursor: pointer;', align: 'center',  width : '10%',},
@@ -407,6 +419,7 @@ var name=$('#name').val();
                 });
             }
         });
+        $(".layui-table-header table thead th input").remove()
 	 }
     
     /*formName：form表单名称，

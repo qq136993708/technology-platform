@@ -1,52 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>首页</title>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="Access-Control-Allow-Origin" content="*" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico"/>
-    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/adminStp_.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/mainStp_.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
-    <!--<link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">-->
+<meta charset="UTF-8">
+<title>首页</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="Access-Control-Allow-Origin" content="*" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico" />
+<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/adminStp_.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/mainStp_.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
+<!--<link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">-->
 
-    <style>
-        .refreshBox {
-            display: none;
-            width: 100%;
-            height: 100px;
-            line-height: 100px;
-            text-align: center;
-            font-size: 12px;
-        }
+<style>
+.refreshBox {
+	display: none;
+	width: 100%;
+	height: 100px;
+	line-height: 100px;
+	text-align: center;
+	font-size: 12px;
+}
 
-        .loadingImg {
-            width: 24px;
-            height: auto;
-        }
+.loadingImg {
+	width: 24px;
+	height: auto;
+}
 
-        .anchorBL {
-            display: none
-        }
-        .layui-table-body .layui-none{
-            padding: 0;
-        }
-    </style>
+.anchorBL {
+	display: none
+}
+
+.layui-table-body .layui-none {
+	padding: 0;
+}
+</style>
 </head>
-<body >
+<body>
 
-<input type="hidden" name="month" value="${month}" id="month">
-<input type="hidden" name="nd" value="${nd}" id="nd">
-<input type="hidden" name="companyCode" value="${companyCode}" id="companyCode">
-<div class="layui-fluid">
-    <div class="layui-row layui-col-space10">
-        <div class="layui-col-md12 layui-top" id="isKJBPerson_id" <#if isKJBPerson == false || isKJBPerson=='false'>style="display:none"</#if>>
-            <div class="layui-col-md15">
+	<input type="hidden" name="month" value="${month}" id="month">
+	<input type="hidden" name="nd" value="${nd}" id="nd">
+	<input type="hidden" name="companyCode" value="${companyCode}" id="companyCode">
+	<div class="layui-fluid">
+		<div class="layui-row layui-col-space10">
+			<div class="layui-col-md12 layui-top" id="isKJBPerson_id"
+				<#if isKJBPerson == false || isKJBPerson=='false'>style="display:none"</#if>>
+				<div class="layui-col-md15">
                 <div class="layui-main-box" id="home_project">
                     <span class="layui-box-icon bg-1"></span>
                     <div class="layui-box-content">
@@ -139,19 +140,21 @@
             </div>
         </div>
 
-        <div class="layui-col-md12 work">
-            <div class="layui-col-md4">
-                <div class="stay-do">
-                    <div class="stay-do-m">
-                        <p class="work-title">我的待办</p>
-                        <p class="stay-doz-n" id="wait_work_id_count">
-                          <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
-                        </p>
-                        <p class="stay-doz-i"><img src="/layuiadmin/layui/images/stay-i.png"/> </p>
-                        <div>
-                            <ul id="wait_work_id_list">
-                            
-                                <!-- <li><span class="date">04/01</span><span class="time">09：00</span><span class="content">项目组组建</span></li>
+			<div class="layui-col-md12 work">
+				<div class="layui-col-md4">
+					<div class="stay-do">
+						<div class="stay-do-m">
+							<p class="work-title">我的待办</p>
+							<p class="stay-doz-n" id="wait_work_id_count">
+								<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+							</p>
+							<p class="stay-doz-i">
+								<img src="/layuiadmin/layui/images/stay-i.png" />
+							</p>
+							<div>
+								<ul id="wait_work_id_list">
+
+									<!-- <li><span class="date">04/01</span><span class="time">09：00</span><span class="content">项目组组建</span></li>
                                 <li><span class="date">03/28</span>
                                     <span class="time">09：00</span>
                                     <span class="content">组内工作安排</span></li>
@@ -161,396 +164,306 @@
                                 <li><span class="date">03/26</span>
                                     <span class="time">09：00</span>
                                     <span class="content">复查工作进度</span></li> -->
-                            </ul>
-                            <a lay-href="/task/pending/list/ini" lay-text="我的待办">更多... ...</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-md4">
-                <div class="work-summary">
-                    <p class="work-title">工作总结</p>
-                    <div class="work-summary-left layui-col-md5">
-                        <div id="circleOne">
-                            <span></span>
-                        </div>
-                        
-					
-					
-                        <p>上周工作完成度</p>
-                    </div>
-                    <div class="work-summary-right layui-col-md5">
-                        <div id="circleTwo">
-                            <span></span>
-                        </div>
-                        <p>本周工作安排度</p>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-md4">
-                <div class="work-collect">
-                    <p class="work-title">我的收藏</p>
-                    <ul id="work-title_id">
-                                  <#list scList as sc>
-											<li>
-												<a lay-href="${sc.collectUrl}"  data-id="${sc.functionId}" lay-text="${sc.collectName}">
-												  ${sc.collectName}
-												</a>
-											</li>
+								</ul>
+								<a lay-href="/task/pending/list/ini" lay-text="我的待办">更多... ...</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-md4">
+					<div class="work-summary">
+						<p class="work-title">工作总结</p>
+						<div class="work-summary-left layui-col-md5">
+							<div id="circleOne">
+								<span></span>
+							</div>
+							<p>上周工作完成度</p>
+							<a lay-href="/admin/plan/my/listMyPlan" lay-text="工作受理" id="listMyPlan"></a>
+						</div>
+						<div class="work-summary-right layui-col-md5">
+							<div id="circleTwo">
+								<span></span>
+							</div>
+							<p>本周工作安排度</p>
+							<a lay-href="/admin/plan/listPlanPage" lay-text="工作安排" id="listPlanPage"></a>
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-md4">
+					<div class="work-collect">
+						<p class="work-title">我的收藏</p>
+						<ul id="work-title_id">
+							<#list scList as sc>
+							<li><a lay-href="${sc.collectUrl}" data-id="${sc.functionId}" lay-text="${sc.collectName}"> ${sc.collectName} </a></li> </#list>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-md12 project">
+				<div class="layui-card" style="margin: 0;">
+					<div class="layui-card-header">
+						<p>工作安排</p>
+						<div class="layui-tool">
+							<button type="button" class="btn btn-tool collapse"></button>
+							<button type="button" class="btn btn-tool remove"></button>
+						</div>
+					</div>
+					<div class="layui-card-body btn-function">
+						<div class="layui-col-md5 arrange">
+							<div class="arrange-title">
+								<span>工作安排</span>
+								<button class="layui-btn layui-btn-sm" data-type="handleEvent" onclick="addPlan()">新增</button>
+								<a href="javascript:parent.layui.index.openTabsPage('/plan/pagePlanList', '工作安排');">更多></a>
+							</div>
+							<table class="layui-table">
+								<thead>
+									<tr>
+										<th></th>
+										<th>工作受理人</th>
+										<th>安排时间</th>
+										<th>工作内容</th>
+										<th>完成进度(%)</th>
+									</tr>
+								</thead>
+								<tbody>
+									<#list taskList as taskList > <#if taskList?exists>
+									<tr>
+										<td>${taskList_index+1}</td>
+										<td>${taskList.workOrderAllotUserName}</td>
+										<td>${taskList.createDate}</td>
+										<td>${taskList.workOrderName}</td>
+										<td align="right"><#if taskList.bl==''>
+											<div class="layui-progress">
+												<div class="layui-progress-bar" lay-percent="0%"></div>
+											</div>0% </#if> <#if taskList.bl!=''>
+											<div class="layui-progress">
+												<div class="layui-progress-bar" lay-percent="${taskList.bl}%"></div>
+											</div> ${taskList.bl}% </#if>
+										</td>
+									</tr>
+									</#if> <#else>
+									<tr>
+										<td colspan="5" style="text-align: center;">无数据</td>
+									</tr>
 									</#list>
-                      <!--   <li><a href="javascript:;">科技资金现金流分析</a></li>
-                        <li><a href="javascript:;">重大科研项目分析</a></li>
-                        <li><a href="javascript:;">十条龙项目分析</a></li>
-                        <li><a href="javascript:;">装备上报</a></li>
-                        <li><a href="javascript:;">装备计划上报</a></li>
-                        <li><a href="javascript:;">课题研发支出分析</a></li> -->
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="layui-col-md12 project">
-            <div class="layui-card" style="margin: 0;">
-                <div class="layui-card-header">
-                    <p>
-                        工作安排
-                    </p>
-                    <div class="layui-tool">
-                        <button type="button" class="btn btn-tool collapse"></button>
-                        <button type="button" class="btn btn-tool remove"></button>
-                    </div>
-                </div>
-                <div class="layui-card-body btn-function">
-                    <div class="layui-col-md5 arrange">
-                        <div class="arrange-title">
-                            <span>工作安排追踪</span>
-                            <button class="layui-btn layui-btn-sm"
-                                    data-type="handleEvent" onclick="addPlan()">新增</button>
-                            <a href="javascript:parent.layui.index.openTabsPage('/plan/pagePlanList', '任务管理');">更多></a>
-                        </div>
-                        <table class="layui-table">
-                            <thead>
-                            <tr>
-                                <th></th>
-                                <th>工作受理人</th>
-                                <th>安排时间</th>
-                                <th>工作内容</th>
-                                <th>完成进度(%)</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <#list taskList as taskList >
-                            <#if taskList?exists>
-                            <tr>
-                                <td>${taskList_index+1}</td>
-                                <td>${taskList.workOrderAllotUserName}</td>
-                                <td>${taskList.createDate}</td>
-                                <td>${taskList.workOrderName}</td>
-                                <td align="right">
-                                    <#if taskList.bl==''>
-                                    <div class="layui-progress">
-                                        <div class="layui-progress-bar" lay-percent="0%"></div>
-                                    </div>0%
-                                </#if>
-                                <#if taskList.bl!=''>
-                                <div class="layui-progress">
-                                    <div class="layui-progress-bar" lay-percent="${taskList.bl}%"></div>
-                                </div>
-                                ${taskList.bl}%
-                            </#if>
-                            </td>
-                            </tr>
-                            </#if>
-                            <#else>
-                            <tr>
-                                <td colspan="5" style="text-align: center;">无数据</td>
-                            </tr>
-                            </#list>
-                            <!--<tr>-->
-                                <!--<td>1</td>-->
-                                <!--<td>张三</td>-->
-                                <!--<td>2019-03-28</td>-->
-                                <!--<td>处理集团所有预算统计</td>-->
-                                <!--<td></td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td>2</td>-->
-                                <!--<td>李四</td>-->
-                                <!--<td>2019-03-27</td>-->
-                                <!--<td>标准化系统上传新资料</td>-->
-                                <!--<td></td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td>3</td>-->
-                                <!--<td>王五</td>-->
-                                <!--<td>2019-03-25</td>-->
-                                <!--<td>整理所里实验室成果情况</td>-->
-                                <!--<td></td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td>4</td>-->
-                                <!--<td>赵六</td>-->
-                                <!--<td>2019-03-23</td>-->
-                                <!--<td>为XX项目制定10名技术专家</td>-->
-                                <!--<td></td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td>5</td>-->
-                                <!--<td>冯七</td>-->
-                                <!--<td>2019-03-26</td>-->
-                                <!--<td>追踪XX合同的回款情况</td>-->
-                                <!--<td></td>-->
-                            <!--</tr>-->
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="layui-col-md5">
-                        <div class="accept">
-                            <div class="accept-title">
-                                <span>工作受理列表</span>
-                                <a href="javascript:parent.layui.index.openTabsPage('/plan/my/goBotWorkOrderListPage', '我的任务');">更多></a>
-                            </div>
-                            <table class="layui-table">
-                                <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>工作受理人</th>
-                                    <th>安排时间</th>
-                                    <th>工作内容</th>
-                                    <th>完成进度</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <#list taskListMy as taskList >
-                                <#if taskList?exists>
-                                <tr>
-                                    <td>${taskList_index+1}</td>
-                                    <td>${taskList.workOrderAllotUserName}</td>
-                                    <td>${taskList.createDate}</td>
-                                    <td>${taskList.workOrderName}</td>
-                                    <td align="right">
-                                        <#if taskList.bl==''>
-                                        <div class="layui-progress">
-                                            <div class="layui-progress-bar" lay-percent="0%"></div>
-                                        </div>0%
-                                    </#if>
-                                    <#if taskList.bl!=''>
-                                    <div class="layui-progress">
-                                        <div class="layui-progress-bar" lay-percent="${taskList.bl}%"></div>
-                                    </div>
-                                    ${taskList.bl}%
-                                </#if>
-                                </td>
-                                </tr>
-                                </#if>
-                                <#else>
-                                <tr>
-                                    <td colspan="5" style="text-align: center;">无数据</td>
-                                </tr>
-                                </#list>
-                                <!---->
-                                <!--<tr>
-                                    <td>1</td>
-                                    <td>张三</td>
-                                    <td>2019-03-28</td>
-                                    <td>处理集团所有预算统计</td>
-                                    <td></td>
-                                </tr>-->
-                                <!--<tr>-->
-                                    <!--<td>2</td>-->
-                                    <!--<td>李四</td>-->
-                                    <!--<td>2019-03-27</td>-->
-                                    <!--<td>标准化系统上传新资料</td>-->
-                                    <!--<td></td>-->
-                                <!--</tr>-->
-                                <!--<tr>-->
-                                    <!--<td>3</td>-->
-                                    <!--<td>王五</td>-->
-                                    <!--<td>2019-03-25</td>-->
-                                    <!--<td>整理所里实验室成果情况</td>-->
-                                    <!--<td></td>-->
-                                <!--</tr>-->
-                                <!--<tr>-->
-                                    <!--<td>4</td>-->
-                                    <!--<td>赵六</td>-->
-                                    <!--<td>2019-03-23</td>-->
-                                    <!--<td>为XX项目制定10名技术专家</td>-->
-                                    <!--<td></td>-->
-                                <!--</tr>-->
-                                <!--<tr>-->
-                                    <!--<td>5</td>-->
-                                    <!--<td>冯七</td>-->
-                                    <!--<td>2019-03-26</td>-->
-                                    <!--<td>追踪XX合同的回款情况</td>-->
-                                    <!--<td></td>-->
-                                <!--</tr>-->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="layui-col-md12 workNews">
-            <div class="layui-card layui-col-md5" style="margin-right: 3px;">
-                <div class="layui-card-header">
-                    <p>工作动态
-                    </p>
-                    <div class="layui-tool">
-                        <button type="button" class="btn btn-tool collapse"></button>
-                        <button type="button" class="btn btn-tool remove"></button>
-                    </div>
-                </div>
-                <div class="layui-card-body">
-                    <div class="layui-tab">
-                        <ul class="layui-tab-title">
-                            <li class="layui-this">科研项目</li>
-                            <li>知识产权</li>
-                            <li>科技成果</li>
-                            <li>会议纪要</li>
-                        </ul>
-                        <div class="layui-tab-content">
-                            <div class="layui-tab-item layui-show">
-                                <a lay-href="" lay-text="科研项目"><!-- 更多> --></a>
-                                <div class="lan">
-                                    <table class="layui-table" id="news-workdynamics-list-table">
-                                        <tbody>
-                                            <tr>
-                                                <td style="width: 10px;">1</td>
-                                                <!-- <td>张三</td> -->
-                                                <td>处理集团所有预算统计</td>
-                                                <td>2019-03-28</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="width: 10px;">1</td>
-                                               	<!--  <td>张三</td> -->
-                                                <td>处理集团所有预算统计</td>
-                                                <td>2019-03-28</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="layui-tab-item">
-                                <a lay-href="" lay-text="知识产权">更多></a>
-                                <div class="lan">
-                                    <table class="layui-table">
-                                        <tbody>
-                                        <tr>
-                                            <td style="width: 4px;">1</td>
-                                            <td>张三</td>
-                                            <td>2019-03-28</td>
-                                            <td>处理集团所有预算统计</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 4px;">1</td>
-                                            <td>张三</td>
-                                            <td>2019-03-28</td>
-                                            <td>处理集团所有预算统计</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="layui-tab-item">
-                                <a lay-href="" lay-text="科技成果">更多></a>
-                                <div class="lan">
-                                    <table class="layui-table">
-                                        <tbody>
-                                        <tr>
-                                            <td style="width: 4px;">1</td>
-                                            <td>张三</td>
-                                            <td>2019-03-28</td>
-                                            <td>处理集团所有预算统计</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 4px;">1</td>
-                                            <td>张三</td>
-                                            <td>2019-03-28</td>
-                                            <td>处理集团所有预算统计</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="layui-tab-item">
-                                <a lay-href="" lay-text="会议纪要">更多></a>
-                                <div class="lan">
-                                    <table class="layui-table">
-                                         <tbody id="list_data_top">
-                                        
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+								</tbody>
+							</table>
+						</div>
+						<div class="layui-col-md5">
+							<div class="accept">
+								<div class="accept-title">
+									<span>工作受理</span>
+									<a href="javascript:parent.layui.index.openTabsPage('/plan/my/goBotWorkOrderListPage', '工作受理');">更多></a>
+								</div>
+								<table class="layui-table">
+									<thead>
+										<tr>
+											<th></th>
+											<th>工作安排人</th>
+											<th>安排时间</th>
+											<th>工作内容</th>
+											<th>完成进度(%)</th>
+										</tr>
+									</thead>
+									<tbody>
+										<#list taskListMy as taskList > <#if taskList?exists>
+										<tr>
+											<td>${taskList_index+1}</td>
+											<td>${taskList.createUserName}</td>
+											<td>${taskList.createDate}</td>
+											<td>${taskList.workOrderName}</td>
+											<td align="right"><#if taskList.bl==''>
+												<div class="layui-progress">
+													<div class="layui-progress-bar" lay-percent="0%"></div>
+												</div>0% </#if> <#if taskList.bl!=''>
+												<div class="layui-progress">
+													<div class="layui-progress-bar" lay-percent="${taskList.bl}%"></div>
+												</div> ${taskList.bl}% </#if>
+											</td>
+										</tr>
+										</#if> <#else>
+										<tr>
+											<td colspan="5" style="text-align: center;">无数据</td>
+										</tr>
+										</#list>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-md12 workNews">
+				<div class="layui-card layui-col-md5" style="margin-right: 3px;">
+					<div class="layui-card-header">
+						<p>工作动态</p>
+						<div class="layui-tool">
+							<button type="button" class="btn btn-tool collapse"></button>
+							<button type="button" class="btn btn-tool remove"></button>
+						</div>
+					</div>
+					<div class="layui-card-body">
+						<div class="layui-tab">
+							<ul class="layui-tab-title">
+								<li class="layui-this">科研项目</li>
+								<li>知识产权</li>
+								<li>科技成果</li>
+								<li>会议纪要</li>
+							</ul>
+							<div class="layui-tab-content">
+								<div class="layui-tab-item layui-show">
+									<a lay-href="" lay-text="科研项目">
+										<!-- 更多> -->
+									</a>
+									<div class="lan">
+										<table class="layui-table" id="news-workdynamics-list-table">
+											<tbody>
+												<tr>
+													<td style="width: 10px;">1</td>
+													<!-- <td>张三</td> -->
+													<td>处理集团所有预算统计</td>
+													<td>2019-03-28</td>
+												</tr>
+												<tr>
+													<td style="width: 10px;">1</td>
+													<!--  <td>张三</td> -->
+													<td>处理集团所有预算统计</td>
+													<td>2019-03-28</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="layui-tab-item">
+									<a lay-href="" lay-text="知识产权">更多></a>
+									<div class="lan">
+										<table class="layui-table">
+											<tbody>
+												<tr>
+													<td style="width: 4px;">1</td>
+													<td>张三</td>
+													<td>2019-03-28</td>
+													<td>处理集团所有预算统计</td>
+												</tr>
+												<tr>
+													<td style="width: 4px;">1</td>
+													<td>张三</td>
+													<td>2019-03-28</td>
+													<td>处理集团所有预算统计</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="layui-tab-item">
+									<a lay-href="" lay-text="科技成果">更多></a>
+									<div class="lan">
+										<table class="layui-table">
+											<tbody>
+												<tr>
+													<td style="width: 4px;">1</td>
+													<td>张三</td>
+													<td>2019-03-28</td>
+													<td>处理集团所有预算统计</td>
+												</tr>
+												<tr>
+													<td style="width: 4px;">1</td>
+													<td>张三</td>
+													<td>2019-03-28</td>
+													<td>处理集团所有预算统计</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="layui-tab-item">
+									<a lay-href="" lay-text="会议纪要">更多></a>
+									<div class="lan">
+										<table class="layui-table">
+											<tbody id="list_data_top">
 
-            <div class="layui-card layui-col-md5" style="margin-left: 3px;">
-                <div class="layui-card-header">
-                    <p>新闻</p>
-                    <div class="layui-tool">
-                        <button type="button" class="btn btn-tool collapse"></button>
-                        <button type="button" class="btn btn-tool remove"></button>
-                    </div>
-                </div>
-                <div class="layui-card-body">
-                    <div class="layui-tab">
-                        <ul class="layui-tab-title">
-                            <li class="layui-this">最新讲话</li>
-                            <li>集团领导讲话</li>
-                            <li>国家领导讲话</li>
-                            <li>科技部领导讲话</li>
-                        </ul>
-                        <div class="layui-tab-content">
-                            <div class="layui-tab-item layui-show">
-                               <ul id="ROOT_XTGL_XWLX_ZXJH"></ul>
-                            </div>
-                            <div class="layui-tab-item">
-                                      <ul id="ROOT_XTGL_XWLX_JTLDJH"></ul>
-                            </div>
-                            <div class="layui-tab-item">
-                                     <ul id="ROOT_XTGL_XWLX_GJLDJH"></ul>
-                            </div>
-                            <div class="layui-tab-item">
-                                     <ul id="ROOT_XTGL_XWLX_KJBLDJH"></ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div>
-            <table class="message_outside" border="0" cellpadding="0" cellspacing="0" >
-		        <tr>
-		            <td align="center"></td>
-		        	<td align="center"><span>办公自动化：
-		        	<a href="http://10.1.4.10/kjb/_layouts/15/ZBAppPage/oalogin.aspx"  target="_blank" style="text-decoration:none;color:blue;"><b><font  id="kjb_oadb" style="color:red">0</font></b>条待办</a>
-		        	<a href="http://10.1.4.10/kjb/_layouts/15/ZBAppPage/oalogin.aspx"  target="_blank" style="text-decoration:none;color:blue;"><b><font  id="kjb_oady" style="color:red">0</font></b>条待阅</a>
-		        	&nbsp;&nbsp;电子邮件：
-		        	<a href="http://10.1.4.10/kjb/_layouts/15/ZBAppPage/owalogin.aspx"  target="_blank" style="text-decoration:none;color:blue;"><b><font id="kjb_owa" style="color:red">0</font></b>条未读</a>
-		        	</span></td>
-		            <td align="center">&nbsp;&nbsp;督办管理：
-		            <a href="http://10.1.4.10/_layouts/15/autologon?appid=61&amp;step=1"  target="_blank" style="text-decoration:none;color:blue;"><b><font  id="smdb" style="color:red">0</font></b>条待办</a>
-		            <a href="http://10.1.4.10/_layouts/15/autologon?appid=61&amp;step=1"  target="_blank" style="text-decoration:none;color:blue;"><b><font  id="smdy" style="color:red">0</font></b>条待阅</a></td>
-		        </tr>
-            </table>
-        </div>
-                
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
-        <script src="/common/js/jquery-1.11.3.min.js"></script>
-        <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-        <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
-        <script type="text/javascript" src="/plugins/echarts/walden.js"></script>
-        <script type="text/javascript" src="/stp/hana/common/stp_common_chart.js"></script>
-        <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
-        <script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
-        <script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
-        <script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
-        <script type="text/javascript" src="/layuiadmin/javascript/circle-progress.min.js"></script>
-        
-        <script type="text/javascript">
+				<div class="layui-card layui-col-md5" style="margin-left: 3px;">
+					<div class="layui-card-header">
+						<p>新闻</p>
+						<div class="layui-tool">
+							<button type="button" class="btn btn-tool collapse"></button>
+							<button type="button" class="btn btn-tool remove"></button>
+						</div>
+					</div>
+					<div class="layui-card-body">
+						<div class="layui-tab">
+							<ul class="layui-tab-title">
+								<li class="layui-this">最新讲话</li>
+								<li>集团领导讲话</li>
+								<li>国家领导讲话</li>
+								<li>科技部领导讲话</li>
+							</ul>
+							<div class="layui-tab-content">
+								<div class="layui-tab-item layui-show">
+									<ul id="ROOT_XTGL_XWLX_ZXJH"></ul>
+								</div>
+								<div class="layui-tab-item">
+									<ul id="ROOT_XTGL_XWLX_JTLDJH"></ul>
+								</div>
+								<div class="layui-tab-item">
+									<ul id="ROOT_XTGL_XWLX_GJLDJH"></ul>
+								</div>
+								<div class="layui-tab-item">
+									<ul id="ROOT_XTGL_XWLX_KJBLDJH"></ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div>
+				<table class="message_outside" border="0" cellpadding="0" cellspacing="0">
+					<tr>
+						<td align="center"></td>
+						<td align="center"><span>
+								办公自动化：
+								<a href="http://10.1.4.10/kjb/_layouts/15/ZBAppPage/oalogin.aspx" target="_blank" style="text-decoration: none; color: blue;">
+									<b><font id="kjb_oadb" style="color: red">0</font></b>条待办
+								</a>
+								<a href="http://10.1.4.10/kjb/_layouts/15/ZBAppPage/oalogin.aspx" target="_blank" style="text-decoration: none; color: blue;">
+									<b><font id="kjb_oady" style="color: red">0</font></b>条待阅
+								</a>
+								&nbsp;&nbsp;电子邮件：
+								<a href="http://10.1.4.10/kjb/_layouts/15/ZBAppPage/owalogin.aspx" target="_blank" style="text-decoration: none; color: blue;">
+									<b><font id="kjb_owa" style="color: red">0</font></b>条未读
+								</a>
+							</span></td>
+						<td align="center">&nbsp;&nbsp;督办管理： <a href="http://10.1.4.10/_layouts/15/autologon?appid=61&amp;step=1" target="_blank" style="text-decoration: none; color: blue;">
+								<b><font id="smdb" style="color: red">0</font></b>条待办
+							</a> <a href="http://10.1.4.10/_layouts/15/autologon?appid=61&amp;step=1" target="_blank" style="text-decoration: none; color: blue;">
+								<b><font id="smdy" style="color: red">0</font></b>条待阅
+							</a></td>
+					</tr>
+				</table>
+			</div>
+
+
+			<script src="/common/js/jquery-1.11.3.min.js"></script>
+			<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+			<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+			<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+			<script type="text/javascript" src="/stp/hana/common/stp_common_chart.js"></script>
+			<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+			<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+			<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+			<script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
+			<script type="text/javascript" src="/layuiadmin/javascript/circle-progress.min.js"></script>
+
+			<script type="text/javascript">
         var host="http://10.1.4.10:80";
         //办公自动化待办
         var url=host+"/kjb/_layouts/15/ZBAppPage/oacount.aspx";
@@ -591,6 +504,11 @@
             	  $("#smdy").html("0");
             	}
         });
+        
+        var lastWeekTotal = "0";   // 上周应该处理的工作总数
+        var lastWeekHaved = "0";   // 上周处理的工作总数
+        var thisWeekTotal = "0";   // 本周安排出去的工作总数
+        var thisWeekHaved = "0";   // 本周安排出去已经完成的工作
         
         
         
@@ -658,8 +576,6 @@
         } 
         
         
-        </script>
-        <script>
             var companyCode = $("#companyCode").val();
             var nd = $("#nd").val();
             var element ;
@@ -791,15 +707,35 @@
                 },function () {
                     $(this).find("div").fadeOut(900);
                 });
-                circle("circleOne",0,"3/9");
-                circle("circleTwo",0,"7/10");
-                $(".work-summary").hover(function(){
-                    circle("circleOne",(3/9).toFixed(2),"3/9");
-                    circle("circleTwo",(7/10).toFixed(2),"7/10");
-                },function(){
-                    circle("circleOne",0,"3/9");
-                    circle("circleTwo",0,"7/10");
+                
+                // 工作完成情况统计
+                publicMethods.ajaxAsyncPost('/admin/workorder/stat', null, function (data, status) {
+                	if (data.success == true || data.success == 'true') {
+                		lastWeekTotal = data.data.lastWeekTotal;   // 上周应该处理的工作总数
+                        lastWeekHaved = data.data.lastWeekHaved;   // 上周处理的工作总数
+                        thisWeekTotal = data.data.thisWeekTotal;   // 本周安排出去的工作总数
+                        thisWeekHaved = data.data.thisWeekHaved;   // 本周安排出去已经完成的工作
+                	}
+                	circle("circleOne",0,lastWeekHaved+"/"+lastWeekTotal);
+                    circle("circleTwo",0,thisWeekHaved+"/"+thisWeekTotal);
+                    $(".work-summary").hover(function(){
+                        circle("circleOne",(lastWeekHaved/lastWeekTotal).toFixed(2),lastWeekHaved+"/"+lastWeekTotal);
+                        circle("circleTwo",(thisWeekHaved/thisWeekTotal).toFixed(2),thisWeekHaved+"/"+thisWeekTotal);
+                    },function(){
+                        circle("circleOne",0,lastWeekHaved+"/"+lastWeekTotal);
+                        circle("circleTwo",0,thisWeekHaved+"/"+thisWeekTotal);
+                    });
+                    
                 });
+                
+                $("#circleOne").click(function () {
+                	$("#listMyPlan")[0].click();
+                });
+                
+                $("#circleTwo").click(function () {
+                	$("#listPlanPage")[0].click();
+                });
+              
                 $(".layui-table tbody tr").click(function () {
                     layer.open({
                         title: '任务计划-新增',
@@ -1179,31 +1115,21 @@
 
 
             function addPlan() { //点击新增按钮
-                parent.layui.index.openTabsPage("/plan/addPlanPageMain", "任务计划-新增");
-                /*layer.open({
-                    title: '任务计划-新增',
-                    skin: 'layui-layer-lan',
-                    shadeClose: false,
-                    type: 2,
-                    fixed: false,
-                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                    maxmin: true,
-                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                    area: ['80%', '90%'],
-                    content: '/plan/addPlanPage?closeType=1'
-                });*/
+                //parent.layui.index.openTabsPage("/plan/addPlanPageMain", "任务计划-新增");
+            	layer.open({
+					title : '工作安排-新增',
+					skin : 'layui-layer-lan',
+					shadeClose : false,
+					type : 2,
+					fixed : false,
+					maxmin : true,
+					area : [ '70%', '100%' ],
+					content : '/plan/addPlanPage'
+				});
             }
             
             
-            
-            
-            
-            
-            
-            
-            
-            function set_wait_work_id_count() 
-            {
+            function set_wait_work_id_count() {
             	var url="/task/pending-list";
                 $.ajax({
                     type: "POST",
@@ -1467,6 +1393,6 @@
            }
             
         </script>
-        <script id="dateTpl" type="text/html"> {{formatTime(d.meetingDate)}} </script>
+			<script id="dateTpl" type="text/html"> {{formatTime(d.meetingDate)}} </script>
 </body>
 </html>

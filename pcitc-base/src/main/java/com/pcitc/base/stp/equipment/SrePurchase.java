@@ -49,6 +49,14 @@ public class SrePurchase {
 
     private String purchaseCode;
 
+    private String documentDocPurchaseRequest;
+
+    private String documentDocAgreement;
+
+    private String documentDocTender;
+
+    private String taskId;
+
     public String getId() {
         return id;
     }
@@ -231,5 +239,37 @@ public class SrePurchase {
 
     public void setPurchaseCode(String purchaseCode) {
         this.purchaseCode = purchaseCode;
+    }
+
+    public String getDocumentDocPurchaseRequest() {
+        return documentDocPurchaseRequest;
+    }
+
+    public void setDocumentDocPurchaseRequest(String documentDocPurchaseRequest) {
+        this.documentDocPurchaseRequest = documentDocPurchaseRequest;
+    }
+
+    public String getDocumentDocAgreement() {
+        return documentDocAgreement;
+    }
+
+    public void setDocumentDocAgreement(String documentDocAgreement) {
+        this.documentDocAgreement = documentDocAgreement;
+    }
+
+    public String getDocumentDocTender() {
+        return documentDocTender;
+    }
+
+    public void setDocumentDocTender(String documentDocTender) {
+        this.documentDocTender = documentDocTender;
+    }
+
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
     }
 }

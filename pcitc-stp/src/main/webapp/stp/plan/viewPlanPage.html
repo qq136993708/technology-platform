@@ -34,7 +34,8 @@
 					</div>
 				</div>
 				<div class="box-body">
-					<input type="hidden" id="dataId" name="dataId" value="${dataId}" /> <input type="hidden" id="workOrderAllotUserId" name="workOrderAllotUserId" />
+					<input type="hidden" id="dataId" name="dataId" value="${dataId}" />
+					<input type="hidden" id="workOrderAllotUserId" name="workOrderAllotUserId" />
 					<div class="layui-row">
 						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 							<div class="layui-form-item">
@@ -60,7 +61,7 @@
 						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 							<div class="layui-form-item">
 								<label class="layui-form-label">
-									安排人
+									工作发起人
 									<span class="must-fill">*</span>
 								</label>
 								<div class="layui-input-block">
@@ -71,7 +72,7 @@
 						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 							<div class="layui-form-item">
 								<label class="layui-form-label">
-									安排时间
+									创建时间
 									<span class="must-fill">*</span>
 								</label>
 								<div class="layui-input-block">
@@ -85,7 +86,7 @@
 						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 							<div class="layui-form-item">
 								<label for="" class="layui-form-label">
-									被安排人
+									工作处理人
 									<span class="must-fill">*</span>
 								</label>
 								<div class="layui-input-block">
@@ -108,7 +109,7 @@
 					<div class="layui-form-item layui-form-text">
 						<label class="layui-form-label">任务描述</label>
 						<div class="layui-input-block">
-							<textarea class="layui-textarea" name="remarks" id="remarks" style="min-height: 50px;"></textarea>
+							<textarea class="layui-textarea readOnlyBox" name="remarks" id="remarks" style="min-height: 50px;" readonly="true"></textarea>
 						</div>
 					</div>
 				</div>
@@ -123,6 +124,7 @@
 				</div>
 			</div>
 			<div class="tableBox">
+				<span class="file-span">任务附件</span>
 				<div class="tableToolBox" style="border: 0;">
 					<div class="layui-form-item">
 						<input type="hidden" name="attachId" id="attachId" value="${dataId}">
@@ -138,7 +140,7 @@
 		</form>
 	</div>
 	<script type="text/html" id="showDetail">
-		<a class="layui-btn layui-btn-xs" lay-event="showDetail">任务追踪</a>
+		<a class="layui-btn layui-btn-xs" lay-event="showDetail">处理详情</a>
 	</script>
 	<script>
 		var param = JSON.parse(window.localStorage.getItem("param"));
@@ -237,14 +239,14 @@
 					style : 'cursor: pointer;'
 				}, {
 					field : 'workOrderAllotUserName',
-					title : '被安排人',
+					title : '工作处理人',
 					style : 'cursor: pointer;',
 					width : 80
 				}, {
 					field : 'bl',
-					title : '完成比例',
+					title : '已完成比例',
 					style : 'cursor: pointer;',
-					width : 70
+					width : 80
 				}, {
 					field : 'announcements',
 					title : '权重(%)',

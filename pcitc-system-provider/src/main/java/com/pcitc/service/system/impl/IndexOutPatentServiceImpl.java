@@ -164,11 +164,11 @@ public class IndexOutPatentServiceImpl implements IndexOutPatentService {
         }
         Object fmmc = param.getParam().get("fmmc");
         if (fmmc != null) {
-            c.andFmmcLike(fmmc + "%");
+            c.andFmmcLike("%"+fmmc + "%");
         }
         Object fmh = param.getParam().get("fmh");
         if (fmh != null) {
-            c.andZlhLike(fmh + "%");
+            c.andZlhLike("%"+fmh + "%");
         }
         Object dataId = param.getParam().get("dataId");
         if (dataId != null) {

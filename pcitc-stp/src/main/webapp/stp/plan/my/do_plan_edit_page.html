@@ -16,8 +16,18 @@
 .layui-table-none {
 	padding: 0 !important;
 }
-.form_tableAdd_container .tableBox{position: relative;}
-.file-span{position: absolute;top: 8px;left: 19px;font-size: 14px;color: #666;}
+
+.form_tableAdd_container .tableBox {
+	position: relative;
+}
+
+.file-span {
+	position: absolute;
+	top: 8px;
+	left: 19px;
+	font-size: 14px;
+	color: #666;
+}
 </style>
 </head>
 <body>
@@ -33,7 +43,8 @@
 					</div>
 				</div>
 				<div class="box-body">
-					<input type="hidden" id="dataId" name="dataId" value="${dataId}" /> <input type="hidden" id="workOrderAllotUserId" name="workOrderAllotUserId" />
+					<input type="hidden" id="dataId" name="dataId" value="${dataId}" />
+					<input type="hidden" id="workOrderAllotUserId" name="workOrderAllotUserId" />
 					<div class="layui-row">
 						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 							<div class="layui-form-item">
@@ -75,7 +86,7 @@
 						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 							<div class="layui-form-item">
 								<label for="" class="layui-form-label">
-									被安排人
+									工作处理人
 									<span class="must-fill">*</span>
 								</label>
 								<div class="layui-input-block">
@@ -132,7 +143,7 @@
 
 			<div class="tableBox">
 				<input type="hidden" name="parentId" id="parentId" value="">
-				<span  class="file-span">任务类附件</span>
+				<span class="file-span">任务附件</span>
 				<div id="file_upload_parent"></div>
 			</div>
 
@@ -175,8 +186,8 @@
 
 			<div class="form-bottom">
 				<div class="form-bottom-btns">
-					<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="save">保存</button>
-					<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="component-form-submit">完成</button>
+					<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="save">阶段性完成</button>
+					<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="component-form-submit">最终完成</button>
 					<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
 				</div>
 			</div>
@@ -259,18 +270,22 @@
 			/* 监听保存 */
 			form.on('submit(save)', function(data) {
 				var sthTrArr = [];
-				JSON.stringify(data.field);
-				var dataCode = 0;
 				var matterLength = $("#matterFeedBackTalbeDiv table tbody tr");
-				$(matterLength).each(function() {
-					var sthTrObj = {};
-                    sthTrObj.remarks = $(this).find("td").eq(2).find("input").val();
-                    sthTrObj.workOrderEndDatatime = $(this).find("td").eq(3).find("input").val();
-					sthTrObj.dataCode = (dataCode++);
-					sthTrArr.push(sthTrObj);
-				});
+				if (!$(matterLength).find("td").attr("data-off") == 1) {
+					$(matterLength).each(function() {
+						var sthTrObj = {};
+						sthTrObj.remarks = $(this).find("td").eq(2).find("input").val();
+						sthTrObj.workOrderEndDatatime = $(this).find("td").eq(3).find("input").val();
+						sthTrArr.push(sthTrObj);
+					});
+				}
+				if (sthTrArr.length < 1) {
+					layer.msg('请至少输入一项工作处理内容');
+					return false;
+				}
 				var jsonData = data.field;
 				jsonData.matterList = sthTrArr;
+
 				$.ajax({
 					type : 'post',
 					dataType : 'json',
@@ -283,6 +298,7 @@
 						var index = parent.layer.getFrameIndex(window.name);
 						parent.layer.close(index);
 						parent.layer.msg("保存成功");
+						parent.selectRowData = "";
 						parent.layui.table.reload('tableList', {});
 					},
 					error : function(e) {
@@ -292,45 +308,58 @@
 				});
 				return false;
 			});
-			
+
 			form.on('submit(component-form-submit)', function(data) {
-				if ($("#bl").val() < 100) {
-					layer.confirm('确认要提交未完成的任务吗？',{icon:3,btn:['确定','取消']},function(index){
-						var sthTrArr = [];
-						JSON.stringify(data.field);
-						var dataCode = 0;
-						var matterLength = $("#matterFeedBackTalbeDiv table tbody tr");
-						$(matterLength).each(function() {
-							var sthTrObj = {};
-                            sthTrObj.remarks = $(this).find("td").eq(2).find("input").val();
-                            sthTrObj.workOrderEndDatatime = $(this).find("td").eq(3).find("input").val();
-                            alert($(this).find("td").eq(2).find("input").val())
-                            alert($(this).find("td").eq(3).find("input").val())
-							sthTrObj.dataCode = (dataCode++);
-							sthTrArr.push(sthTrObj)
-						});
-						var jsonData = data.field;
-						jsonData.matterList = sthTrArr;
-						$.ajax({
-							type : 'post',
-							dataType : 'json',
-							data : {
-								'param' : JSON.stringify(jsonData)
-							},
-							url : '/plan/submitMyBotWorkOrder?workOrderStatus=2',
-							success : function(data) {
-								var index = parent.layer.getFrameIndex(window.name);
-								parent.layer.close(index);
-								parent.layer.msg("提交成功");
-								parent.layui.table.reload('tableList', {});
-							},
-							error : function(e) {
-								modals.info("出错了");
-								console.log(e);
-							}
-						});
-                    });
+				var sthTrArr = [];
+				var matterLength = $("#matterFeedBackTalbeDiv table tbody tr");
+				var matterFlag = "1";
+				if(!$(matterLength).find("td").attr("data-off")==1){
+					$(matterLength).each(function() {
+						var sthTrObj = {};
+						sthTrObj.remarks = $(this).find("td").eq(2).find("input").val();
+						if (sthTrObj.remarks == '') {
+							matterFlag = "0";
+						}
+						sthTrObj.workOrderEndDatatime = $(this).find("td").eq(3).find("input").val();
+						sthTrArr.push(sthTrObj)
+					});
 				}
+				if (matterFlag == '0') {
+					layer.msg('工作处理必须要有内容！');
+					return false;
+				}
+				if (sthTrArr.length < 1) {
+					layer.msg('请至少输入一项工作处理');
+					return false;
+				}
+				
+				layer.confirm('确认提交任务吗？提交后不能修改！', {
+					icon : 3,
+					btn : [ '确定', '取消' ]
+				}, function(index) {
+					var jsonData = data.field;
+					jsonData.matterList = sthTrArr;
+					
+					$.ajax({
+						type : 'post',
+						dataType : 'json',
+						data : {
+							'param' : JSON.stringify(jsonData)
+						},
+						url : '/plan/submitMyBotWorkOrder?workOrderStatus=2',
+						success : function(data) {
+							var index = parent.layer.getFrameIndex(window.name);
+							parent.layer.close(index);
+							parent.layer.msg("提交成功");
+							parent.selectRowData = "";
+							parent.layui.table.reload('tableList', {});
+						},
+						error : function(e) {
+							modals.info("出错了");
+							console.log(e);
+						}
+					});
+				});
 				return false;
 			});
 			//关闭事件
@@ -338,7 +367,7 @@
 				var index = parent.layer.getFrameIndex(window.name);
 				parent.layer.close(index);
 			})
-			
+
 			//任务接收后，再次下发列表
 			table.render({
 				elem : '#matterTalbe',
@@ -361,7 +390,7 @@
 					style : 'cursor: pointer;',
 				}, {
 					field : 'workOrderAllotUserName',
-					title : '被安排人',
+					title : '工作处理人',
 					event : 'setActive',
 					style : 'cursor: pointer;',
 					width : 120
@@ -395,7 +424,8 @@
 					}
 				}
 			});
-			
+
+			// 工作的处理内容
 			table.render({
 				elem : '#matterFeedBackTalbe',
 				url : '/plan/queryMyBotWorkOrderMatterList',
@@ -419,10 +449,10 @@
 					title : '处理内容',
 					event : 'setActive',
 					style : 'cursor: pointer;',
-                    templet : function(d) {
-                        var t = "<input type='text' value='" + d.remarks + "' >";
-                        return t;
-                    }
+					templet : function(d) {
+						var t = "<input type='text' value='" + d.remarks + "' >";
+						return t;
+					}
 				}, {
 					field : 'workOrderEndDatatime',
 					title : '处理日期',
@@ -458,7 +488,7 @@
 				}
 			});
 			$(".layui-table-header table thead th input").remove();
-			
+
 			//动态添加事项
 			$('#addMatter').click(function() {
 				var trParam = {
@@ -472,13 +502,13 @@
 				publicMethods.addTableTr(trParam);
 				publicMethods.timeAdd();
 			});
-			
+
 			//动态移除事项, 暂时可以随便删除，保存后的也可以删除，不控制
 			$("#deleteMatter").click(function() {
 				var index = $("#matterFeedBackTalbeDiv table tbody tr.layui-table-click").index();
 				if (index >= 0) {
 					$("#matterFeedBackTalbeDiv table tbody tr").eq(index).remove();
-					
+
 					if ($("#matterFeedBackTalbeDiv table tbody tr").length <= 0) {
 						$(".layui-none").show();
 					}

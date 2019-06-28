@@ -61,18 +61,19 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">转资名称<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" name="froappname" id="froappname" value="${sreProjectBasic.name}"
+                            <input class="layui-input" name="froappname" id="froappname" value=""
                                    lay-verify="required" autocomplete="off" type="text">
                         </div>
                     </div>
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-		          <div class="layui-form-item">
-		            <label for="" class="layui-form-label">申请人</label>
-		            <div class="layui-input-block">
-		              <input class="layui-input readOnlyBox"  name="firstApplyUser" id="firstApplyUser" value="${firstApplyUser}"  readonly="readonly"   autocomplete="off" type="text" >
-		            </div>
-		          </div>
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">公司代码<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" name="companyCode" id="companyCode" value=""
+                                   lay-verify="required" autocomplete="off" type="text">
+                        </div>
+                    </div>
 		        </div>
             </div>
 
@@ -86,6 +87,14 @@
             </div>
           </div>
         </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+		          <div class="layui-form-item">
+		            <label for="" class="layui-form-label">申请人</label>
+		            <div class="layui-input-block">
+		              <input class="layui-input readOnlyBox"  name="firstApplyUser" id="firstApplyUser" value="${firstApplyUser}"  readonly="readonly"   autocomplete="off" type="text" >
+		            </div>
+		          </div>
+		        </div>
       </div>
             <!--行有两个的情况-->
             <div class="layui-form-item" id="equipment">
@@ -164,13 +173,13 @@ var publicMethods;
 	                theme: '#0F9EE0'
 	            },
 	            cols: [[
-	            	{type:'checkbox',event: 'changeEvents', width : 55}
-	             	,{title:'序号', type:'numbers', width : 55},
-	             	 {field : 'assetNumber ', title : '资产编号', style : 'cursor: pointer;', align : 'left', width : '15%',edit: 'text'},
+	            	{type:'checkbox',event: 'changeEvents', width : 55},
+					{title:'序号', type:'numbers', width : 55},
+	             	{field : 'assetNumber ', title : '资产编号', style : 'cursor: pointer;', align : 'left', width : '18%',edit: 'text'},
 	                {field : 'name',        title : '装备名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
-	                {field : 'unitPrice',   title : '单价（万元）', style : 'cursor: pointer;', align : 'center', width : '20%'},
-	                {field : 'applyAcount', title : '申请数量',    style : 'cursor: pointer;', align : 'center', width : '15%'},
-	                {field : 'allPrice',    title : '总价¥（万元）', style : 'cursor: pointer;', align : 'center', width : '20%',templet:function(d){return '<span style="color:red">'+d.allPrice+'</span>'}},
+	                {field : 'unitPrice',   title : '单价（万元）', style : 'cursor: pointer;', align : 'center', width : '23%'},
+	                {field : 'applyAcount', title : '申请数量',    style : 'cursor: pointer;', align : 'center', width : '23%'},
+	                {field : 'allPrice',    title : '总价¥（万元）', style : 'cursor: pointer;', align : 'center', width : '23%'},
 	                {field : 'parentUnitPathNames', title : '申报单位', style : 'cursor: pointer;', align : 'left', width : '15%'},
 	                {field : 'applyDepartName', title : '申报部门', style : 'cursor: pointer;', align : 'left', width : '15%'},
 	                {field : 'createDate',  title : '申报时间', style : 'cursor: pointer;', align : 'left',  width : '20%', templet : '#dateTpl'},
@@ -203,7 +212,8 @@ var publicMethods;
 	    	//多行点击事件
 	        $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
 	     	   	var checkCell = $(this).parent().find("tr[data-index=" + $(this).attr('data-index') + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox");
-	             if (checkCell.length > 0) {
+	            console.log("checkCell---",checkCell); 
+	     	   	if (checkCell.length > 0) {
 	                 checkCell.click();
 	             }
 	         });
@@ -211,22 +221,20 @@ var publicMethods;
 	             e.stopPropagation();
 	         });
 	         var arr = [];
-	         table.on('edit(JoinEvent)',function(obj){
-   	        	 var arrIn = $(this).parent().parent().attr('data-index')
-   	        	 if(arr.length ==0) {
-   	        		 arr.push(obj.value);
-   	        	 }else {
-   		        	 for ( var i = 0; i <arr.length; i++){
-   		        		 if(arr.length > arrIn) {
-   		        			 arr[arrIn]=obj.value;
-   		        		 }else {
-   		        			 arr.push(obj.value);
-   		        		 }
-   		        		}
-   	        	 }
-//   	        	 console.log(vobjes)
-   	         })
-	         
+	         var size = 0;
+	          table.on('edit(JoinEvent)',function(obj){
+	              var arrln = $(this).parent().parent().attr('data-index')
+	              //var check = table.checkStatus('notjoin_apply_table');
+	              arr[arrln] = obj.value;
+					console.log("obj--",obj);
+					console.log("arrln--",arrln);
+	              //console.log("check--",check);
+	              //console.log("check.data--",check.data);
+	              console.log("arr---",arr);
+	              size++;
+		
+             })
+			console.log("arr--",arr);
 	    	var $ = layui.$, active = {
 	    		searchEvent: function() { 
                     table.reload("notjoin_apply_table",{where:{param:{"equipmentIds":$("#equipmentIds").val(),"name":$("#name").val()}}});
@@ -248,15 +256,26 @@ var publicMethods;
                 		layer.alert("转资名称不能为空");
                 		 return false;
                 	}
+                	
+                	var companyCode = $("#companyCode").val();
+                	if(companyCode == null || companyCode == "") {
+                		layer.alert("公司代码不能为空");
+                		 return false;
+                	}
                 	var arrlength = arr.length;
+					if(arr.length!=size){
+						layer.msg("有未填写的资产编号或未勾选装备");
+               		 	return false;
+                	}
                 	if(arr.length ==0) {
                 		layer.msg("资产编号不能为空");
                		 	return false;
       	        	 }
+                	var companyCode = $("#companyCode").val();
                 	$.ajax({
                         type : "POST",
                         url: "/sre-forapplicatio/save",
-                        data: {"arr": arr,"equipmentIds":equipmentIds,"froname":froname},
+                        data: {"arr": arr,"equipmentIds":equipmentIds,"froname":froname,"companyCode":companyCode}, 
                         traditional : true,
                         async : true,   
                         dataType:"json",

@@ -145,8 +145,12 @@ public class ZjkEvaluateController extends BaseController {
     @OperationFilter(modelName = "专家库-专家评价", actionName = "保存saveRecord")
     public int saveRecord(ZjkEvaluate record) {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        if(record.getCreateDate()==null||"".equals(record.getCreateDate())){
+            record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_DD));
+        }else{
+            record.setCreateDate(record.getCreateDate());
+        }
         if (record.getId() == null || "".equals(record.getId())) {
-            record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
             record.setCreateUser(sysUserInfo.getUserId());
             record.setCreateUserDisp(sysUserInfo.getUserName());
         } else {
@@ -154,6 +158,7 @@ public class ZjkEvaluateController extends BaseController {
             record.setUpdatePersonId(sysUserInfo.getUserId());
             record.setUpdatePersonName(sysUserInfo.getUserName());
         }
+
         record.setStatus("0");
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVE, HttpMethod.POST, new HttpEntity<ZjkEvaluate>(record, this.httpHeaders), Integer.class);
         Integer result = responseEntity.getBody();
@@ -191,7 +196,6 @@ public class ZjkEvaluateController extends BaseController {
     /**
      * 详情页面-专家库-专家评价
      *
-     * @param id
      * @param model
      * @return
      */

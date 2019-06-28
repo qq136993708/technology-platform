@@ -14,15 +14,13 @@
 <script src="/layuiadmin/layui/layui.js"></script>
 <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 <style>
-/*.layui-table-body{overflow:-webkit-paged-x !important; }*/
 .layui-form-selectup dl {
 	top: 20px !important;
 	height: 180px;
 }
 
 .layui-table-body {
-	overflow-y: auto !important;
-	overflow-x: hidden !important;
+	overflow: visible !important;
 }
 
 .layui-table-none {
@@ -31,6 +29,48 @@
 
 .layui-table {
 	width: 100% !important;
+}
+
+.form_tableAdd_container .tableBox input {
+	width: 69.3% !important;
+}
+
+.form_tableAdd_container .tableBox .layui-table-cell input {
+	width: 100% !important;
+	margin-left: 15px;
+}
+
+.form_tableAdd_container .tableBox .layui-table-cell .layui-select-title input
+	{
+	margin-left: 3px;
+	margin-top: 3px;
+}
+
+.layui-form-select dl {
+	top: 26px !important;
+	left: 3px !important;
+}
+
+.tdSelect .layui-unselect input {
+	width: 100% !important;;
+}
+
+.tdSelect .layui-unselect {
+	width: 70.5%;
+	margin-left: 3px;
+}
+
+.tdSelect .layui-form-select dl {
+	left: 8px !important;
+	max-height: 140px;
+}
+
+.tdSelect .layui-form-select .layui-edge {
+	right: 5px;
+}
+
+.layui-table-box, .layui-table-cell, .layui-table-tool-panel li {
+	overflow: visible !important;
 }
 </style>
 </head>
@@ -47,7 +87,8 @@
 					</div>
 				</div>
 				<div class="box-body">
-					<input type="hidden" id="dataId" name="dataId" value="${dataId}" /> <input type="hidden" id="workOrderAllotUserId" name="workOrderAllotUserId" />
+					<input type="hidden" id="dataId" name="dataId" value="${dataId}" />
+					<input type="hidden" id="workOrderAllotUserId" name="workOrderAllotUserId" />
 					<div class="layui-row">
 						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 							<div class="layui-form-item">
@@ -75,7 +116,7 @@
 						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 							<div class="layui-form-item">
 								<label class="layui-form-label">
-									安排人
+									工作发起人
 									<span class="must-fill">*</span>
 								</label>
 								<div class="layui-input-block">
@@ -86,7 +127,7 @@
 						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 							<div class="layui-form-item">
 								<label class="layui-form-label">
-									安排时间
+									创建时间
 									<span class="must-fill">*</span>
 								</label>
 								<div class="layui-input-block">
@@ -100,11 +141,11 @@
 						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 							<div class="layui-form-item">
 								<label for="" class="layui-form-label">
-									被安排人
+									工作处理人
 									<span class="must-fill">*</span>
 								</label>
 								<div class="layui-input-block">
-									<input class="layui-input" name="workOrderAllotUserName" id="workOrderAllotUserName" placeholder="请选择被安排人" readOnly="true" autocomplete="off" type="text">
+									<input class="layui-input" name="workOrderAllotUserName" id="workOrderAllotUserName" placeholder="请选择工作处理人" readOnly="true" autocomplete="off" type="text">
 								</div>
 							</div>
 						</div>
@@ -148,6 +189,7 @@
 				</div>
 			</div>
 			<div class="tableBox">
+				<span class="file-span">任务附件</span>
 				<div class="tableToolBox" style="border: 0 !important;">
 					<div class="layui-form-item" style="margin-bottom: 55px;">
 						<input type="hidden" name="attachId" id="attachId" value="${dataId}">
@@ -157,8 +199,8 @@
 			</div>
 			<div class="form-bottom">
 				<div class="form-bottom-btns">
-					<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue " lay-submit="" lay-filter="save">保存</button>
-					<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue " lay-submit="" lay-filter="component-form-submit">下发</button>
+					<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue " lay-submit="" lay-filter="save">保存草稿</button>
+					<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue " lay-submit="" lay-filter="component-form-submit">提交任务</button>
 					<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
 				</div>
 			</div>
@@ -222,7 +264,7 @@
 			form.verify({
 				title : function(value) {
 					if (value.length < 4) {
-						return '工作任务名称至少得4个字符啊';
+						return '工作任务名称至少得4个字符';
 					}
 				}
 			});
@@ -254,30 +296,23 @@
 			form.on('submit(save)', function(data) {
 				var sthTrArr = [];
 				var matterLength = $("#matterTableDiv .layui-table-main  table tbody tr");
-				$(matterLength).each(function() {
-					var sthTrObj = {};
-					if ($(this).find("td").eq(3).find("input").length > 0) {
-						sthTrObj.dataId = $(this).find("td").eq(2).find("input").val();
+				if(!$(matterLength).find("td").attr("data-off")==1){
+					$(matterLength).each(function() {
+						var sthTrObj = {};
+						sthTrObj.dataId = $(this).find("td").eq(2).text();
 						sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
 						sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
 						sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
 						sthTrObj.announcements = $(this).find("td").eq(5).find("input").val();
-					} else {
-						sthTrObj.dataId = $(this).find("td").eq(2).text();
-						sthTrObj.workOrderName = $(this).find("td").eq(3).text();
-						sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
-						sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
-						sthTrObj.announcements = $(this).find("td").eq(5).text();
-					}
-					console.log(sthTrObj);
-					console.log(eval(sthTrObj));
-					sthTrArr.push(sthTrObj)
-
-				});
-
+						sthTrArr.push(sthTrObj);
+					});
+				}
+				if (sthTrArr.length < 1) {
+					layer.msg('请至少输入一项工作安排');
+					return false;
+				}
 				var jsonData = data.field;
 				jsonData.matterList = sthTrArr;
-				console.log(jsonData.matterList);
 				$.ajax({
 					type : 'post',
 					dataType : 'json',
@@ -303,9 +338,9 @@
 
 			$('#workOrderAllotUserName').click(function() {
 				layer.open({
-					title : "<span>选择被安排人</span>",
+					title : "选择工作处理人",
 					skin : 'layui-layer-lan',
-					shadeClose : true,
+					shadeClose : false,
 					type : 2,
 					fixed : false,
 					maxmin : true,
@@ -317,47 +352,60 @@
 			form.on('submit(component-form-submit)', function(data) {
 				var sthTrArr = [];
 				var matterLength = $("#matterTableDiv  .layui-table-main table tbody tr");
-				$(matterLength).each(function() {
-					var sthTrObj = {};
-					if ($(this).find("td").eq(3).find("input").length > 0) {
-						sthTrObj.dataId = $(this).find("td").eq(2).find("input").val();
+				var matterFlag = "1";
+				if(!$(matterLength).find("td").attr("data-off")==1) {
+					$(matterLength).each(function() {
+						var sthTrObj = {};
+						sthTrObj.dataId = $(this).find("td").eq(2).text();
 						sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
+						if (sthTrObj.workOrderName == '') {
+							matterFlag = "0";
+						}
 						sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
 						sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
 						sthTrObj.announcements = $(this).find("td").eq(5).find("input").val();
-					} else {
-						sthTrObj.dataId = $(this).find("td").eq(2).text();
-						sthTrObj.workOrderName = $(this).find("td").eq(3).text();
-						sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
-						sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
-						sthTrObj.announcements = $(this).find("td").eq(5).text();
-					}
-					sthTrArr.push(sthTrObj)
-				});
-				var jsonData = data.field;
-				jsonData.matterList = sthTrArr;
-				$.ajax({
-					type : 'post',
-					dataType : 'json',
-					data : {
-						'param' : JSON.stringify(jsonData)
-					},
-					url : '/plan/submitBotWorkOrder?workOrderStatus=' + dataStatus,
-					success : function(data) {
-						if (data == 200) {
-							closeType();
+						sthTrArr.push(sthTrObj);
+					});
+				}
+				if (matterFlag == '0') {
+					layer.msg('工作事项内容必须要有内容！');
+					return false;
+				}
+				if (sthTrArr.length < 1) {
+					layer.msg('请至少输入一项工作安排');
+					return false;
+				}
+				layer.confirm('确认提交吗？提交后不能修改！', {
+					icon : 3,
+					btn : [ '确定', '取消' ]
+				}, function(index) {
+					var jsonData = data.field;
+					jsonData.matterList = sthTrArr;
+					$.ajax({
+						type : 'post',
+						dataType : 'json',
+						data : {
+							'param' : JSON.stringify(jsonData)
+						},
+						url : '/plan/submitBotWorkOrder?workOrderStatus=' + dataStatus,
+						success : function(data) {
+							if (data == 200) {
+								closeType();
+							}
+						},
+						error : function(e) {
+							modals.info("出错了");
+							console.log(e);
 						}
-					},
-					error : function(e) {
-						modals.info("出错了");
-						console.log(e);
-					}
+					});
 				});
+				
 				return false;
 			});
 			//关闭事件
 			$("#closeBtn").click(function() {
-				closeType();
+				var index = parent.layer.getFrameIndex(window.name);
+				parent.layer.close(index);
 			});
 
 			//添加修改取值
@@ -401,8 +449,7 @@
 					field : 'dataId',
 					title : '主键',
 					event : 'setActive',
-					style : 'cursor: pointer;',
-					edit : true
+					style : 'cursor: pointer;'
 				}, {
 					field : 'workOrderName',
 					title : '工作事项内容',
@@ -411,15 +458,17 @@
 					edit : true
 				}, {
 					field : 'workOrderAllotUserName',
-					title : '被安排人',
+					title : '工作处理人',
 					event : 'setActive',
 					style : 'cursor: pointer;',
+					width : 100,
 					edit : true
 				}, {
 					field : 'announcements',
 					title : '权重(%)',
 					event : 'setActive',
 					style : 'cursor: pointer;',
+					width : 90,
 					edit : true
 				}
 
@@ -433,7 +482,7 @@
 			//动态添加事项
 			$('#addMatter').click(function() {
 				if ($("#workOrderAllotUserName").val() == "") {
-					layer.msg("请选择被安排人");
+					layer.msg("请选择工作处理人");
 					return;
 				}
 				var trParam = {
@@ -546,6 +595,8 @@
 				var index = parent.layer.getFrameIndex(window.name);
 				parent.layer.close(index);
 				parent.layer.msg("操作成功");
+				// 原表单的行选中状态恢复
+				parent.selectRowData = "";
 				parent.layui.table.reload('tableList', {});
 			}
 		}

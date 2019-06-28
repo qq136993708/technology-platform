@@ -19,7 +19,7 @@ public class SreScrapApply {
     
     private String updateUserId;
     
- 
+    private String documentdoc;
 
 	private String updateUser;
 
@@ -33,11 +33,25 @@ public class SreScrapApply {
         return id;
     }
 
-    public void setId(String id) {
+ 
+
+	public void setId(String id) {
         this.id = id;
     }
 
-    public String getName() {
+    public String getDocumentdoc() {
+		return documentdoc;
+	}
+
+
+
+	public void setDocumentdoc(String documentdoc) {
+		this.documentdoc = documentdoc;
+	}
+
+
+
+	public String getName() {
         return name;
     }
 

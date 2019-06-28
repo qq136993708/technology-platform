@@ -630,41 +630,24 @@
 		<if test="userId != null and userId != ''">
 			AND sys_user.user_id = '${userId}'
 		</if>
+		<if test="unitId != null">
+			and (
+			<foreach collection="unitId" item="unitId" index="index" separator=" or ">
+				sys_unit.unit_id like '%${unitId}%'
+			</foreach>
+			)
+		</if>
+		<if test="unitName != null">
+			and (
+			<foreach collection="unitName" item="unitName" index="index" separator=" or ">
+				sys_unit.unit_name like '%${unitName}%'
+			</foreach>
+			)
+		</if>
 		group by sys_user.user_id
+		order by user_disp desc 
 	</select>
 	
-	
-	
-	
-	
-	<select id="querySysUserListByPage" resultMap="BaseResultMap">
-		select 
-		<include refid="Base_Column_List" />
-			from sys_user where user_delflag = '0' 
-		<if test="userDisp != null and userDisp != ''">
-			and user_disp like '%${userDisp}%' 
-		</if>
-		<if test="userUnit != null and userUnit != ''">
-			and user_unit = #{userUnit} 
-		</if>
-			order by user_disp desc 
-   </select>
-   <select id="countByQuerySysUserList" resultType="java.lang.Long">
-		select count(*) from sys_user where user_delflag = '0'  
-    	<if test="userDisp != null and userDisp != ''">
-			and user_disp like '%${userDisp}%' 
-		</if>
-		<if test="userUnit != null and userUnit != ''">
-			and user_unit = #{userUnit} 
-		</if>
-  </select>
-  
-  
-  
-  
-  
-  
-  
   <select id="getSysUserListByUserUnit" resultMap="BaseResultMap">
 		select 
 		<include refid="Base_Column_List" />
@@ -677,19 +660,6 @@
 		</if>
 			order by user_disp desc 
    </select>
-   <select id="getSysUserCountByUserUnit" resultType="java.lang.Long">
-		select count(*) from sys_user where user_delflag = '0'  
-    	<if test="userDisp != null and userDisp != ''">
-			and user_disp like '%${userDisp}%' 
-		</if>
-		<if test="userUnit != null and userUnit != ''">
-			and FIND_IN_SET(#{userUnit},user_unit)
-		</if>
-  </select>
-	
-  
-  
-	
 	
 	
 </mapper>

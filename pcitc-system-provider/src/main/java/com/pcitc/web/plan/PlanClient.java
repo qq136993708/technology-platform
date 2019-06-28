@@ -329,10 +329,10 @@ public class PlanClient {
 	 */
 	@ApiOperation(value = "新增工单事项保存", notes = "新增工单事项保存")
 	@RequestMapping(value = "/planClient-provider/saveMyBotWorkOrderMatterBatch", method = RequestMethod.POST)
-	public int saveMyBotWorkOrderMatterBatch(@RequestBody List<PlanBaseDetail> list) {
+	public int saveMyBotWorkOrderMatterBatch(@RequestBody PlanBase planBase) {
 		int result = 500;
 		try {
-			result = planBaseService.saveMyBotWorkOrderMatterBatch(list);
+			result = planBaseService.saveMyBotWorkOrderMatterBatch(planBase);
 		} catch (Exception e) {
 			logger.error("[任务管理-保存工单事项失败]", e);
 		}

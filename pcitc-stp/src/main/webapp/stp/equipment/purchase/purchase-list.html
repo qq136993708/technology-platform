@@ -18,17 +18,11 @@
 <input  name="id"         id="id"          type="hidden" >
 <input type="hidden" name="departCode" id="departCode" value="${departCode}">
 <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
-    <input  name="specialAuditor0"  id="specialAuditor0"           type="hidden" >
-    <input  name="branchFlag"  id="branchFlag"           type="hidden" >
 
 </form>
 
     <!--查询条件-->
     <input type="hidden" name="state" id="state" value="${state}">
-    <label class="dateInput">
-        <span>申请编号</span>
-        <input type="text" name="purchaseCode" value="" placeholder="请输入申请编号" title="申请编号" autocomplete="off" class="form-control" id="purchaseCode">
-    </label>
     <label class="dateInput">
         <span>申请人</span>
         <input type="text" name="proposerName" value="" placeholder="请输入申请人姓名" title="申请人" autocomplete="off" class="form-control" id="proposerName">
@@ -48,7 +42,7 @@
         <div class="whiteLine"></div>
         <div  class="tableBtns">
         
-            <button id="allData" class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue active btnMyBgImg" data-type="allEvent">
+            <!--<button id="allData" class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue active btnMyBgImg" data-type="allEvent">
 					<span class="btn-state btn-all-ryg"></span>
 					全部
 				</button>
@@ -67,17 +61,30 @@
             <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
                     data-type="rejectEvent">
                 <span class="btn-state btn-yellow"></span>审批未通过
-            </button>
+            </button>-->
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">新增</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" id="editEvent" data-type="editEvent">编辑</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="applyEvent" data-type="applyEvent">上报</button>
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="applyEvent" data-type="applyEvent">上报</button>-->
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="upQianEvent">上传采购申请单</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" id="detailEvent" data-type="detailEvent">详情</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  id="deleteEvent" data-type="deleteEvent">删除</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createWord" data-type="createWord">导出</button>
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg"id="exportEvent"data-type="exportEvent">导出Excel</button>-->
         </div>
     </div>
    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table> 
 </div>
+
+<script type="text/html" id="stage_temp">
+    {{#  if(d.stage == '1'){ }}
+    <button class="layui-btn layui-btn-primary layui-btn-xs">未上传</button>
+    {{#  } else if(d.stage != '1'){ }}
+    <button class="layui-btn layui-btn-normal layui-btn-xs">已通过</button>
+    {{#  } else{ }}
+    <button class="layui-btn layui-btn-primary layui-btn-xs">未上传</button>
+    {{#  } }}
+</script>
+
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script type="text/javascript">
     // 时间格式化
@@ -100,80 +107,28 @@
             return '';
         }
     }
-</script>
-<script type="text/javascript">
 
-getDepartNameByUnitName($("#belongDepartmentName").val());
-function getDepartNameByUnitName(belongDepartmentName)
-{
-	 $("#belongDepartmentName").val(belongDepartmentName);
-	 $("#professionalDepartName").empty();
-	 var v_date=(new Date()).getTime();
-	 $.ajax({
-			url : "/unitField/getDepartmentNameListByUnitName?v_date="+v_date+"&unitName="+belongDepartmentName,
-			type : "post",
-			async: false,
-			dataType : "json",
-			success : function(data) 
-			{
-				$("#professionalDepartName").append("<option value=''>--请选择--</option>");
-				$.each(data, function(i, el) 
-				{
-					$("#professionalDepartName").append('<option value="'+ el.departmentName +'">' + el.departmentName+ '</option>');
-					/* if(cityId==el.departmentName)
-					{
-						$("#professionalDepartName ").val(departmentName);  
-					} */
-	  			  	
-				});
-			},
-			error : function() 
-			{
-				alert("发生未知错误 ,请重新操作.");
-			}
-		});
-	 
-	 
-	 getProfessionalNameListByUnitNameAndDept(belongDepartmentName);
-}
+    function view(id) {
 
+        var uploadState="1";
+        var temUrl="/sre-purchase/getParticularsDouble?id=" + id +"&uploadState="+uploadState;
+        layer.open({
+            title:'详情',
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+            maxmin: true,
+            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+            area: ['70%', '90%'],
+            content:  temUrl
 
-
-
-
-
-
-function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
-{
-	
-	 var belongDepartmentName= $("#belongDepartmentName").val();
-	 $("#professionalFieldName").empty();
-	 var v_date=(new Date()).getTime();
-	 $.ajax({
-			url : "/unitField/getProfessionalNameListByUnitNameAndDept?v_date="+v_date+"&unitName="+belongDepartmentName+"&departmentName="+professionalDepartName,
-			type : "post",
-			async: false,
-			dataType : "json",
-			success : function(data) 
-			{
-				$("#professionalFieldName").append("<option value=''>--请选择--</option>");
-				$.each(data, function(i, el) 
-				{
-					$("#professionalFieldName").append('<option value="'+ el.professionalFieldName +'">' + el.professionalFieldName+ '</option>');
-	  			  	
-				});
-			},
-			error : function() 
-			{
-				alert("发生未知错误 ,请重新操作.");
-			}
-		});
-}
+        });
+    }
 
 </script>
 <!--表格数据操作js-->
-
-
 <script>
 var publicMethods;
 var param=JSON.parse(window.localStorage.getItem("param"));
@@ -182,8 +137,6 @@ $('#functionId').val(functionId);
 var roleCodes = "";
 var unitCodes = "";
 var postCodes = "";
-
-
 
 var table,selectRowData;
 var name=$('#name').val();
@@ -212,10 +165,10 @@ var name=$('#name').val();
          var $ = layui.$, active = {
             searchEvent: function() { //点击查询按钮
             	 renderTable();
+                $(".layui-table-header table thead th input").remove()
             },
             resetEvent: function() { //点击重置按钮
             	$('#purchaseName').val("");
-                $('#purchaseCode').val("");
             	$('#createDate').val("");
             	$('#proposerName').val("");
 
@@ -246,9 +199,11 @@ var name=$('#name').val();
             		 var id=selectRowData.id;
            		     var url="/sre-purchase/add?id="+id;
            		     var state=selectRowData.state;
-           		     if(state!='10' && state!='13')
-           		     {
-           		    	layer.alert('上报中或审核通过，不能修改');
+                    var stage=selectRowData.stage;
+                    if(stage!="1"){
+           		     /*if(state!='10' && state!='13')
+           		     {*/
+           		    	layer.alert('审核通过，不能修改');
            		    	return;
            		     }
 	           		 layer.open({
@@ -277,9 +232,11 @@ var name=$('#name').val();
            		      var url="/sre-purchase/delete/"+id;
 
            		     var state=selectRowData.state;
-         		     if(state!='10' && state!='13')
+                     var stage=selectRowData.stage;
+                     if(stage!=1)
+         		     /*if(state!='10' && state!='13')*/
          		     {
-         		    	layer.alert('上报中或审核通过，不能删除');
+         		    	layer.alert('审核通过，不能删除');
          		    	return;
          		     }
          		     
@@ -289,15 +246,14 @@ var name=$('#name').val();
 	         			 
 	         			});
             	}
-            
-              
             },
             detailEvent: function(){  //点击详情按钮
             	if (typeof(selectRowData) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
             		 var id=selectRowData.id;
-            		 var temUrl="/sre-purchase/getParticulars/" + id;
+                     var uploadState="1";
+            		 var temUrl="/sre-purchase/getParticularsDouble?id=" + id +"&uploadState="+uploadState;
             		 layer.open({
                          title:'详情',
                          skin: 'layui-layer-lan',
@@ -313,6 +269,27 @@ var name=$('#name').val();
             	}
             
             },
+             upQianEvent: function(){ //上传验收报告单
+                 if (typeof(selectRowData) == "undefined")
+                 {
+                     layer.msg('请点击选择一条数据');
+                 }else
+                 {
+                     var id=selectRowData.id;
+                     var uploadState="1";
+                     var temUrl="/sre-purchase/upFileDoc?id=" + id +"&uploadState="+uploadState;
+                     layer.open({
+                         title:'上传采购申请单',
+                         skin: 'layui-layer-lan',
+                         shadeClose: true,
+                         type: 2,
+                         fixed: false,
+                         maxmin: true,
+                         area: ['70%', '90%'],
+                         content:  temUrl
+                     });
+                 }
+             },
              applyEvent: function(){//上报
                  if (typeof(selectRowData) == "undefined")
                  {
@@ -340,7 +317,13 @@ var name=$('#name').val();
                      var temUrl="/sre-purchase/createWord/" + id;
                      location.href=temUrl;
                  }
-             },
+             },exportEvent:function(){
+                 /*if($("#data_version").val()==""){
+                     parent.layer.alert("请选择需要导出的预算版本", {title : '提示'});
+                     return;
+                 }*/
+                 window.open("/sre_purchase/exportExcel/");
+            },
             allEvent: function(){ 
             	$("#state").val("");
             	renderTable();
@@ -377,7 +360,8 @@ var name=$('#name').val();
         });
         //监听表格双击事件
         table.on('rowDouble(processdef-table)', function(obj){
-        	var temUrl = '/sre-purchase/getParticulars/'+obj.data.id;
+            var uploadState="1";
+        	var temUrl = '/sre-purchase/getParticularsDouble?id='+obj.data.id +"&uploadState="+uploadState;;
         	openFullWin("详情",temUrl);
         });
         
@@ -397,7 +381,7 @@ var name=$('#name').val();
             url: '/sre_purchase/list',
             method:"POST",
 		//查询条件            
-            where: {param: {"purchaseCode":$("#purchaseCode").val(),"proposerName":$("#proposerName").val(),"purchaseName":$("#purchaseName").val(),"state":$("#state").val(),"createDate":$("#createDate").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"departCode":$("#departCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {"proposerName":$("#proposerName").val(),"purchaseName":$("#purchaseName").val(),"state":$("#state").val(),"createDate":$("#createDate").val(),"departCode":$("#departCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
             limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),
@@ -412,10 +396,11 @@ var name=$('#name').val();
             cols: [[
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
-            	{field : 'state', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.state_purchase(d.state) }}</div>', width : 55},
-            	{field : 'purchaseName',     title : '申请名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
-         	    {field : 'parentUnitPathNames',     title : '单位名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
-         		{field : 'departName',     title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
+            	/*{field : 'state', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.state_purchase(d.state) }}</div>', width : 55},*/
+                {field : 'stage', title : '状态', style : 'cursor: pointer;', align : 'center',templet : '#stage_temp', width : '10%'},
+                {field : 'purchaseName',     title : '申请名称', style : 'cursor: pointer;', align : 'left', width : '18%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.purchaseName+'</span>'}},
+         	    {field : 'parentUnitPathNames',     title : '单位名称', style : 'cursor: pointer;', align : 'left', width : '18%'},
+         		{field : 'departName',     title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '18%'},
                 {field : 'proposerName',      		title : '申请人',         style : 'cursor: pointer;', align: 'center',  width : '15%',},
                 {field : 'createDate',      title : '申请日期', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
             ]],
@@ -460,6 +445,7 @@ var name=$('#name').val();
     	                      {
     	                    	   renderTable();
     	                    	   layer.closeAll();
+                                  $(".layui-table-header table thead th input").remove()
     	                      });
     	       	   
     	          } else
@@ -604,9 +590,6 @@ var name=$('#name').val();
         
       });
     }
-   
-
 </script>
-
 </body>
 </html>

@@ -239,6 +239,7 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         if (zjidList!=null&&zjidList.size()>0){
             e.createCriteria().andZjkIdIn(zjidList);
         }
+        e.setOrderByClause("create_date desc");
         List<ZjkEvaluate> zjkEvaluates = zjkEvaluateService.selectByExample(e);
         for (int i = 0,j = zjkChoices.size(); i < j; i++) {
             ZjkChoice zjkChoice = zjkChoices.get(i);

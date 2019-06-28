@@ -17,6 +17,14 @@
 			<span>任务名称</span>
 			<input type="text" id="workOrderName" name="workOrderName" placeholder="请输入任务名称" title="任务名称" autocomplete="off" class="form-control">
 		</label>
+		<label class="dateInput">
+			<span>开始时间</span>
+			<input type="text" name="startTime" placeholder="请输入开始时间" title="开始时间" autocomplete="off" class="form-control" id="startTime" value="${startTime}">
+		</label>
+		<label class="dateInput">
+			<span>结束时间</span>
+			<input type="text" name="endTime" placeholder="请输入结束时间" title="结束时间" autocomplete="off" class="form-control" id="endTime" value="${endTime}">
+		</label>
 		<!--按钮组-->
 		<div class="btnGroup">
 			<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg btn_search" data-type="searchEvent">查询</button>
@@ -34,7 +42,7 @@
 				</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="draftEvent">
 					<span class="btn-state btn-yellow"></span>
-					未下发
+					草稿
 				</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="approvalEvent">
 					<span class="btn-state btn-green"></span>
@@ -56,8 +64,8 @@
 	<script>
 		var param = JSON.parse(window.localStorage.getItem("param"));
 		var table, selectRowData, workOrderStatus = '';
-		layui.use([ 'jquery', 'table', 'laypage', 'publicMethods' ], function() {
-			table = layui.table, $ = layui.jquery, layer = layui.layer, publicMethods = layui.publicMethods, laypage = layui.laypage;
+		layui.use([ 'jquery', 'table', 'laypage', 'publicMethods', 'laydate' ], function() {
+			table = layui.table, $ = layui.jquery, layer = layui.layer, publicMethods = layui.publicMethods, laypage = layui.laypage, laydate = layui.laydate;
 			var cols = [ {
 				type : 'checkbox',
 				event : 'changeEvents',
@@ -83,13 +91,6 @@
 				width : 45,
 				templet : '<div>{{ layui.laytpl.attToPic(d) }}</div>'
 			}, {
-				field : 'dataCode',
-				title : '任务编码',
-				event : 'setActive',
-				style : 'cursor: pointer;',
-				width : 200,
-				sort : true,
-			}, {
 				field : 'workOrderName',
 				title : '工作任务名称',
 				event : 'setActive',
@@ -112,18 +113,30 @@
 				sort : true,
 			}, {
 				field : 'workOrderAllotUserName',
-				title : '被安排人',
+				title : '工作处理人',
 				event : 'setActive',
 				style : 'cursor: pointer;',
-				width : '10%',
+				width : '15%',
 				sort : true
 			} ];
-			// elem,id,url,toolbar,cols,done
+			
+			laydate.render({
+				elem : '#startTime',
+				format : 'yyyy-MM-dd'
+			});
+
+			laydate.render({
+				elem : '#endTime',
+				format : 'yyyy-MM-dd'
+			});
+			
 			function renderTable() {
 				publicMethods.tableRender('tableListElem', 'tableList', '/plan/getTableData', false, cols, {
 					param : {
 						"workOrderStatus" : workOrderStatus,
 						"workOrderName" : $('#workOrderName').val(),
+						"startTime" : $("#startTime").val(),
+						"endTime" : $("#endTime").val(),
 						"parentId" : '1', //只查询主任务列表
 					}
 				}, true, function(res, curr, count) {
@@ -143,7 +156,7 @@
 					var p1 = {
 						data : res.data,//数据
 						element : ".layui-table-body table",// 当前的表格元素
-						column : 6,//列数 从0开始
+						column : 5,//列数 从0开始
 						field : "workOrderType",//当前数据的字段
 						url : "/pageCommon/dic/ROOT_RWGL_RWLX"//接口
 					};
@@ -188,6 +201,9 @@
 				resetEvent : function() { //点击重置按钮
 					workOrderStatus = '';
 					$('#workOrderName').val("");
+					$('#startTime').val("");
+					$('#endTime').val("");
+					renderTable();
 				},
 				addEvent : function() { //点击新增按钮
 					layer.open({
@@ -197,7 +213,7 @@
 						type : 2,
 						fixed : false,
 						maxmin : true,
-						area : [ '70%', '90%' ],
+						area : [ '70%', '100%' ],
 						content : '/plan/addPlanPage'
 					});
 				},
@@ -213,11 +229,11 @@
 								type : 2,
 								fixed : false,
 								maxmin : true,
-								area : [ '70%', '90%' ],
+								area : [ '70%', '100%' ],
 								content : '/plan/editPlanPage?dataId=' + id
 							});
 						} else {
-							layer.msg('只可操作未下发的任务!');
+							layer.msg('只可操作草稿状态的工作任务!');
 							return;
 						}
 					} else {
@@ -227,7 +243,7 @@
 				},
 				detailEvent : function() { //点击详情按钮
 					var dataId;
-					if (selectRowData != undefined) {
+					if (selectRowData != undefined && selectRowData != "") {
 						dataId = selectRowData.dataId;
 						layer.open({
 							title : param.name + '-查看',
@@ -236,7 +252,7 @@
 							type : 2,
 							fixed : false,
 							maxmin : true,
-							area : [ '70%', '90%' ],
+							area : [ '70%', '100%' ],
 							content : '/plan/viewPlanPage?dataId=' + dataId
 						});
 					} else {
@@ -246,7 +262,7 @@
 				},
 				deleteEvent : function() { //点击删除按钮
 					var id;
-					if (selectRowData != undefined) {
+					if (selectRowData != undefined && selectRowData != "") {
 						if(selectRowData.workOrderStatus == '0' || selectRowData.workOrderStatus == ''){
 							id = selectRowData.dataId;
 							layer.confirm('确认要删除吗？', {
@@ -275,7 +291,7 @@
 								});
 							});
 						} else {
-							layer.msg('只能删除未下发的任务！');
+							layer.msg('只能删除草稿状态的工作任务！');
 							return;
 						}
 						
