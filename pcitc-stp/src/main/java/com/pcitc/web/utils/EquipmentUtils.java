@@ -26,6 +26,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.stp.equipment.JoinUnitWord;
+import com.pcitc.base.stp.equipment.SreDetail;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectSetup;
@@ -75,7 +76,7 @@ public class EquipmentUtils {
      //hana-虚拟通用菜单
      public static final String SYS_FUNCTION_FICTITIOUS = "984b64b13cf54222bf57bd840759fabe";
      
-     
+     private static final String GET_URL_Detail = "http://pcitc-zuul/stp-proxy/sre-provider/sreDetail/get/";
      
      
      
@@ -392,7 +393,7 @@ public class EquipmentUtils {
 		   List<String> arrayList = getPostDic( functionId , restTemplate, httpHeaders);
 		   //与字典表匹配
 		   List<SysDictionary> result=new ArrayList<SysDictionary> ();
-		   List<SysDictionary>  sysDictionaryList=  EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY",  restTemplate, httpHeaders);
+		   List<SysDictionary>  sysDictionaryList=  EquipmentUtils.getSysDictionaryListByParentCode("ROOT_XTGL_ZSYJY",  restTemplate, httpHeaders);
 		   if(sysDictionaryList!=null && sysDictionaryList.size()>0)
 		   {
 			    for(int v=0;v<sysDictionaryList.size();v++ ) 
@@ -474,7 +475,7 @@ public class EquipmentUtils {
 		   List<String> arrayList = getPostDic( functionId , restTemplate, httpHeaders);
 		   //与字典表匹配
 		   List<SysDictionary> result=new ArrayList<SysDictionary> ();
-		   List<SysDictionary>  sysDictionaryList=  EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY",  restTemplate, httpHeaders);
+		   List<SysDictionary>  sysDictionaryList=  EquipmentUtils.getSysDictionaryListByParentCode("ROOT_XTGL_ZSYJY",  restTemplate, httpHeaders);
 		   if(sysDictionaryList!=null && sysDictionaryList.size()>0)
 		   {
 			    for(int v=0;v<sysDictionaryList.size();v++ ) 
@@ -1090,19 +1091,19 @@ public class EquipmentUtils {
 		}
 		if(professionalDepartName.contains("化工")==true)
 		{
-			specialAuditor0="30130057_HGC_ZYCCZ";//方志平
+			specialAuditor0="";//方志平
 		}
-		if(professionalDepartName.contains("材料")==true)
+		if(professionalDepartName.contains("合成材料")==true)
 		{
-			specialAuditor0="30130058_CLC_ZYCCZ";//庄毅
+			specialAuditor0="";//庄毅
 		}
 		if(professionalDepartName.contains("装备与储运")==true)
 		{
-			specialAuditor0="30130059_CYC_ZYCCZ";//卢衍波
+			specialAuditor0="";//卢衍波
 		}
 		if(professionalDepartName.contains("知识产权")==true)
 		{
-			specialAuditor0="30130061_ZSCQC_ZYCCZ";//陈蓓艳
+			specialAuditor0="";//陈蓓艳
 		}
 		if(professionalDepartName.contains("三剂")==true)
 		{
@@ -1110,7 +1111,7 @@ public class EquipmentUtils {
 		}
 		if(professionalDepartName.contains("技术监督")==true)
 		{
-			specialAuditor0="30130063_JSJDC_ZYCCZ";//秦士珍--岗位编码
+			specialAuditor0="30130063_JSJDC_ZYCCZ";//秦士珍
 		}
 		return specialAuditor0;
 	}
@@ -1127,16 +1128,14 @@ public class EquipmentUtils {
 	public static Map getDepartInfoBySysUser(SysUser sysUserInfo,RestTemplate restTemplate,HttpHeaders httpHeaders)throws Exception
 	{
 		Map<String ,String> map=new HashMap<String ,String>();
-		String unitName = "";//申报单位
-		String unitCode = "";//申报单位
-		String applyDepartName = "";//具体部门
-		String applyDepartCode = "";//具体部门
-		String applyUnitId="";
-		String applyUnitPath="";
+		String parentUnitPathNames = "";//申报单位
+		String parentUnitPathIds = "";//申报单位
+		String applyDepartName = "";//申报部门
+		String applyDepartCode = "";//申报部门
 		
-		String unitCodes = sysUserInfo.getUnitCode();//00000,108811,108811002
-		String unitNames = sysUserInfo.getUnitName();//中国石油化工集团,中国石油化工股份有限公司石油勘探开发研究院,油气勘探研究所
-		System.out.println("==========unitNames="+unitNames+" unitCodes:"+unitCodes);
+		String unitCode = sysUserInfo.getUnitCode();//00000,108811,108811002
+		String unitName = sysUserInfo.getUnitName();//中国石油化工集团,中国石油化工股份有限公司石油勘探开发研究院,油气勘探研究所
+		System.out.println("==========unitName="+unitName+" unitCode:"+unitCode);
 		//字电表八大院，匹配用户机构(如果用户机构中包含字典表中的院，说明是院所人员)
 		List<SysDictionary> dicList = EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate,httpHeaders);
 		if(dicList!=null && dicList.size()>0)
@@ -1146,7 +1145,7 @@ public class EquipmentUtils {
 				SysDictionary sysDictionary=dicList.get(i);
 				String value=sysDictionary.getNumValue();
 				String name=sysDictionary.getName();
-				String arr[]=unitCodes.split(",");
+				String arr[]=unitCode.split(",");
 				if(arr!=null && arr.length>0)
 				{
 					for(int j=0;j<arr.length;j++)
@@ -1154,161 +1153,39 @@ public class EquipmentUtils {
 						String code=arr[j];
 						if(code.equals(value))
 						{
-							unitCode=code;
-							unitName=name;
+							parentUnitPathIds=code;
+							parentUnitPathNames=name;
 						}
 					}
 				}
 			}
 		}
 		//根据单位--》找出下级部门（中国石油化工集团,中国石油化工股份有限公司石油勘探开发研究院,油气勘探研究所）
-		if(!unitCode.equals(""))
+		if(!parentUnitPathIds.equals(""))
 		{
-			String arr[]=unitCodes.split(",");
+			String arr[]=unitCode.split(",");
 			if(arr!=null && arr.length>0)
 			{
 				for(int j=0;j<arr.length;j++)
 				{
 					String code=arr[j];
-					if(code.length()>6 && code.contains(unitCode))//部门：9位,且包含单位代码
+					if(code.length()>6 && code.contains(parentUnitPathIds))//部门：9位,且包含单位代码
 					{
 						applyDepartCode=code;
-						SysUnit sysUnit= getUnitByUnitCode(applyDepartCode, restTemplate, httpHeaders);
-						if(sysUnit!=null)
-						{
-							applyDepartName=sysUnit.getUnitName();
-							applyUnitId=sysUnit.getUnitId();
-							applyUnitPath=sysUnit.getUnitPath();
-						}
+						applyDepartName= getParentUnitPathName(applyDepartCode, restTemplate, httpHeaders);
 					}
 					
 				}
 			}
 		}
 		
-		map.put("unitName", unitName);
-		map.put("unitCode", unitCode);
+		map.put("parentUnitPathNames", parentUnitPathNames);
+		map.put("parentUnitPathIds", parentUnitPathIds);
 		map.put("applyDepartName", applyDepartName);
 		map.put("applyDepartCode", applyDepartCode);
-		map.put("applyUnitId", applyUnitId);
-		map.put("applyUnitPath", applyUnitPath);
-		
-		System.out.println("==========单位 unitCode="+unitCode);
-		System.out.println("==========单位 unitName="+unitName);
-		System.out.println("==========部门 applyDepartName="+applyDepartName);
-		System.out.println("==========部门 applyDepartCode="+applyDepartCode);
-		System.out.println("==========部门 applyUnitId="+applyUnitId);
-		System.out.println("==========部门 applyUnitPath="+applyUnitPath);
 		
 		return map;
 		
-	}
-	
-	
-	
-	
-	
-	//取得当前人的单位代码
-	public static String getEquipmentUnitCode(SysUser sysUserInfo,RestTemplate restTemplate,HttpHeaders httpHeaders)
-	{
-		
-		
-		String unitCode = "";//申报单位
-		
-		String unitCodes = sysUserInfo.getUnitCode();//00000,108811,108811002
-		String unitNames = sysUserInfo.getUnitName();//中国石油化工集团,中国石油化工股份有限公司石油勘探开发研究院,油气勘探研究所
-		System.out.println("==========unitNames="+unitNames+" unitCodes:"+unitCodes);
-		//字电表八大院，匹配用户机构(如果用户机构中包含字典表中的院，说明是院所人员)
-		List<SysDictionary> dicList = EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate,httpHeaders);
-		if(dicList!=null && dicList.size()>0)
-		{
-			for(int i=0;i<dicList.size();i++)
-			{
-				SysDictionary sysDictionary=dicList.get(i);
-				String value=sysDictionary.getNumValue();
-				String name=sysDictionary.getName();
-				String arr[]=unitCodes.split(",");
-				if(arr!=null && arr.length>0)
-				{
-					for(int j=0;j<arr.length;j++)
-					{
-						String code=arr[j];
-						if(code.equals(value))
-						{
-							unitCode=code;
-						}
-					}
-				}
-			}
-		}
-		return unitCode;
-	}
-	
-	
-	
-	
-	public static String getHanaUnitNameByUnitCode(String unitCode,RestTemplate restTemplate,HttpHeaders httpHeaders)
-	{
-		        System.out.println("-------根据8院UnitCode:"+unitCode+"得到HANA院所名（三个字）-----------" );
-		        String g0GSJC="";
-		        //装备直属院（103111->安工院）
-				List<SysDictionary>  leaddicList= EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
-				if(leaddicList!=null) 
-				{
-				   for(int i=0;i<leaddicList.size();i++)
-				   {
-					   SysDictionary sysDictionary= leaddicList.get(i);
-					   String numValue =sysDictionary.getNumValue();
-					   if(numValue.equals(unitCode))
-					   {
-						   g0GSJC=sysDictionary.getRemark();
-					   }
-				   }
-				}
-				System.out.println("-------根据8院UnitCode: " + unitCode+"-->转换为HANA院所名（三个字）："+g0GSJC);
-				return g0GSJC;
-	}
-	//根据8院UnitCode得到HANA code
-	public static String getHanaUnitCodeByUnitCode(String unitCode,RestTemplate restTemplate,HttpHeaders httpHeaders)
-	{
-		        System.out.println("-------根据8院UnitCode得到HANA -----unitCode: " + unitCode);
-		        String g0GSJC="";
-		        String companyCode="";
-		        //装备直属院（103111->安工院）
-				List<SysDictionary>  leaddicList= EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
-				if(leaddicList!=null) 
-				{
-				   for(int i=0;i<leaddicList.size();i++)
-				   {
-					   SysDictionary sysDictionary= leaddicList.get(i);
-					   String numValue =sysDictionary.getNumValue();
-					   if(numValue.equals(unitCode))
-					   {
-						   g0GSJC=sysDictionary.getRemark();
-					   }
-				   }
-				}
-				
-				//HANA直属院（安工院-》1100,1101）
-				if(!g0GSJC.equals(""))
-				{
-					List<SysDictionary>  dicList= EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY", restTemplate, httpHeaders);
-					if(dicList!=null) 
-					{
-					   for(int i=0;i<dicList.size();i++)
-					   {
-						   SysDictionary sysDictionary= dicList.get(i);
-						   String name =sysDictionary.getName();
-						   if(name.equals(g0GSJC))
-						   {
-							   companyCode=sysDictionary.getNumValue();
-						   }
-					   }
-					}
-					
-				}
-				System.out.println("-------机构unitCode: " + unitCode+"-->转换为Hana："+companyCode);
-				return companyCode;
 	}
 	
 	
@@ -1361,5 +1238,16 @@ public class EquipmentUtils {
 		
 	}*/
 	
-
+	
+	public static SreDetail getSreDetail(String id,RestTemplate restTemplate,HttpHeaders httpHeaders)
+	{
+		SreDetail	sreDetail = null;
+		ResponseEntity<SreDetail> responseEntity = restTemplate.exchange(GET_URL_Detail + id, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SreDetail.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200)
+		{
+			sreDetail = responseEntity.getBody();
+		}
+		return sreDetail;
+	}
 }
