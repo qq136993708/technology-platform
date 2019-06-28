@@ -81,7 +81,20 @@ public class SysFileConfigServiceImpl implements SysFileConfigService {
 
     @Override
     public SysFileConfig selectByPrimaryKey(String menuId) {
-        return sysFileConfigMapper.selectByPrimaryKey(menuId);
+        SysFileConfig sysFileConfig = sysFileConfigMapper.selectByPrimaryKey(menuId);
+        if (sysFileConfig==null){
+            sysFileConfig.setId(menuId);
+            sysFileConfig.setMenuId(menuId);
+            sysFileConfig.setFileCount("10");
+            sysFileConfig.setFileSize("102400");
+            sysFileConfig.setPosition(menuId);
+            sysFileConfig.setFileType(com.pcitc.base.common.Constant.default_file_type);
+            sysFileConfig.setFileTheme("1");
+            sysFileConfig.setBz("0.5f");
+            this.insertObject(sysFileConfig);
+            sysFileConfig = sysFileConfigMapper.selectByPrimaryKey(menuId);
+        }
+        return sysFileConfig;
     }
 
     @Override

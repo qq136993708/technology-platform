@@ -166,6 +166,7 @@
                 publicMethods.dataDictionary(param);
 
             });
+            $(".layui-table-header table thead th input").remove();
         }
 
         renderTable();
@@ -249,6 +250,7 @@
             },
             detailEvent: function () {  //点击详情按钮
                 var dataId;
+                console.log(selectRowData);
                 if (selectRowData != undefined) {
                     dataId = selectRowData.dataId;
                     layer.open({

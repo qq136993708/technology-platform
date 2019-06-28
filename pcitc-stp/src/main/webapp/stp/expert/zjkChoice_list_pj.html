@@ -259,7 +259,7 @@
                 }
             }
             , tsEvent: function () { //点击编辑按钮
-                if (typeof (selectRowData) == "undefined") {
+                if (typeof (selectRowData) == "undefined"||selectRowData=="") {
                     layer.msg("请选择一条数据");
                     return;
                 } else {
