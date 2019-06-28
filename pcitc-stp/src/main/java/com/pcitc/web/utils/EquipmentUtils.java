@@ -38,6 +38,7 @@ import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserProperty;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.IdUtil;
 import com.pcitc.web.common.JwtTokenUtil;
 
 
@@ -1122,6 +1123,73 @@ public class EquipmentUtils {
 		SysUser userDetails = restTemplate.exchange(USER_DETAILS_URL + userId, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SysUser.class).getBody();
 		return userDetails;
 	}
+	
+	
+	public static Map getDepartInfoBySysUser(SysUser sysUserInfo,RestTemplate restTemplate,HttpHeaders httpHeaders)throws Exception
+	{
+		Map<String ,String> map=new HashMap<String ,String>();
+		String parentUnitPathNames = "";//申报单位
+		String parentUnitPathIds = "";//申报单位
+		String applyDepartName = "";//申报部门
+		String applyDepartCode = "";//申报部门
+		
+		String unitCode = sysUserInfo.getUnitCode();//00000,108811,108811002
+		String unitName = sysUserInfo.getUnitName();//中国石油化工集团,中国石油化工股份有限公司石油勘探开发研究院,油气勘探研究所
+		System.out.println("==========unitName="+unitName+" unitCode:"+unitCode);
+		//字电表八大院，匹配用户机构(如果用户机构中包含字典表中的院，说明是院所人员)
+		List<SysDictionary> dicList = EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate,httpHeaders);
+		if(dicList!=null && dicList.size()>0)
+		{
+			for(int i=0;i<dicList.size();i++)
+			{
+				SysDictionary sysDictionary=dicList.get(i);
+				String value=sysDictionary.getNumValue();
+				String name=sysDictionary.getName();
+				String arr[]=unitCode.split(",");
+				if(arr!=null && arr.length>0)
+				{
+					for(int j=0;j<arr.length;j++)
+					{
+						String code=arr[j];
+						if(code.equals(value))
+						{
+							parentUnitPathIds=code;
+							parentUnitPathNames=name;
+						}
+					}
+				}
+			}
+		}
+		//根据单位--》找出下级部门（中国石油化工集团,中国石油化工股份有限公司石油勘探开发研究院,油气勘探研究所）
+		if(!parentUnitPathIds.equals(""))
+		{
+			String arr[]=unitCode.split(",");
+			if(arr!=null && arr.length>0)
+			{
+				for(int j=0;j<arr.length;j++)
+				{
+					String code=arr[j];
+					if(code.length()>6 && code.contains(parentUnitPathIds))//部门：9位,且包含单位代码
+					{
+						applyDepartCode=code;
+						applyDepartName= getParentUnitPathName(applyDepartCode, restTemplate, httpHeaders);
+					}
+					
+				}
+			}
+		}
+		
+		map.put("parentUnitPathNames", parentUnitPathNames);
+		map.put("parentUnitPathIds", parentUnitPathIds);
+		map.put("applyDepartName", applyDepartName);
+		map.put("applyDepartCode", applyDepartCode);
+		
+		return map;
+		
+	}
+	
+	
+	
 	
 	public static String getParentUnitPathId(String unitPathIds)
 	{
