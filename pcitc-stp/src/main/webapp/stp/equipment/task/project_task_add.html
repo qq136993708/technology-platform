@@ -175,7 +175,7 @@
         <div class="tableBox">
             <div class="layui-row" id="task_content">
                 <div class="tableToolBox" id="task_content_yearTr">
-                    <div class="tableTitle">项目内容和主要图表</div>
+                    <div class="tableTitle"><span style="color:red">*</span>项目内容和主要图表</div>
                     <div class="tableBtns">
                         <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
                            data-type="taskAddEvent">新增
@@ -198,8 +198,7 @@
             </div>
             <div class="layui-row" id="task_assessment_content">
                 <div class="tableToolBox">
-                    <div class="tableTitle">
-                        计划进度和考核目标
+                    <div class="tableTitle"><span style="color:red">*</span>计划进度和考核目标
                     </div>
                     <div class="tableBtns">
                         <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
@@ -260,7 +259,7 @@
 
 <div class="layui-row" id="budget_tableNew">
     <div class="tableToolBox">
-        <div class="tableTitle">资金概算表</div>
+        <div class="tableTitle"><span style="color:red">*</span>资金概算表</div>
     </div>
     <table class="layui-table">
         <thead>
@@ -430,7 +429,7 @@
 
 <div class="layui-row" id="funds_sources_table">
     <div class="tableToolBox">
-        <div class="tableTitle"> 资金来源表</div>
+        <div class="tableTitle"><span style="color:red">*</span>资金来源表</div>
         <div class="tableBtns">
             <!--<a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
                data-type="fundsAddEvent">新增
@@ -452,11 +451,11 @@
 
 
         <tr>
-            <td><input lay-verify='specialCharacters' type='text' value='金额'/></td>
-            <td><input type='number' class='fundsNumber' value='0'/></td>
-            <td><input type='number' class='fundsNumber' value='0'/></td>
-            <td><input type='number' class='fundsNumber' value='0'/></td>
-            <td><input type='number' class='fundsNumber' value='0'/></td>
+            <td><input lay-verify='specialCharacters' type='text' readonly="readonly" class="readOnlyBox" value='金额'/></td>
+            <td><input type='number' class='fundsNumber' value='0'  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></td>
+            <td><input type='number' class='fundsNumber' value='0'  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></td>
+            <td><input type='number' class='fundsNumber' value='0'  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></td>
+            <td><input type='number' class='fundsNumber' value='0'  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></td>
             <td></td>
         </tr>
         </tbody>
@@ -525,7 +524,7 @@
 
         //开始日期
         var insStart = laydate.render({
-            elem: '#beginProjectMonth', format: 'yyyy年MM月'
+            elem: '#beginProjectMonth',type: 'month', format: 'yyyy年MM月'
             , min: 0
             , done: function (value, date) {
                 //更新结束日期的最小日期
@@ -539,7 +538,7 @@
 
         //结束日期
         var insEnd = laydate.render({
-            elem: '#endProjectMonth', format: 'yyyy年MM月'
+            elem: '#endProjectMonth',type: 'month', format: 'yyyy年MM月'
             , min: 0
             , done: function (value, date) {
                 //更新开始日期的最大日期
@@ -623,7 +622,7 @@
                 var tr = "<tr><td>" + taskVal[0] + "</td>" +
                     "<td><textarea lay-verify='specialCharacters' placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'>" + taskVal[1] + "</textarea>  </td>" +
                     "<td><textarea lay-verify='specialCharacters' placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'>" + taskVal[2] + "</textarea>   " +
-                    "</td><td><input type='number' value='" + taskVal[3] + "'/> </td>" +
+                    "</td><td><input type='number'   value='" + taskVal[3] + "'/> </td>" +
                     "<td><textarea lay-verify='specialCharacters' placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'>" + (taskVal[4] == 'null' ? '' : taskVal[4]) + "</textarea></td>" +
                     "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
                 addTr("task_content", tr);

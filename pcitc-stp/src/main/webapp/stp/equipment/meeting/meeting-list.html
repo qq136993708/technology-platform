@@ -116,7 +116,7 @@ var table,selectRowData;
             }
             ,editEvent: function(){  //点击编辑按钮
             	
-            	if (typeof(selectRowData.meetingId) == "undefined") {
+            	if (typeof(selectRowData) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
             		 var meetingId=selectRowData.meetingId;
@@ -138,7 +138,7 @@ var table,selectRowData;
                
             },deleteEvent: function(){  //点击删除按钮
                  console.log('点击了删除按钮')
-                 if (typeof(selectRowData.meetingId) == "undefined") 
+                 if (typeof(selectRowData) == "undefined") 
                  {
             		layer.msg('请点击选择一行数据');
             	 } else 
@@ -155,7 +155,7 @@ var table,selectRowData;
               
             },
             detailEvent: function(){  //点击详情按钮
-            	if (typeof(selectRowData.meetingId) == "undefined") {
+            	if (typeof(selectRowData) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
             		 var meetingId=selectRowData.meetingId;

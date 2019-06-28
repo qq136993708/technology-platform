@@ -81,8 +81,13 @@ public class ProjectBasicController extends BaseController {
 		List<UnitField> unitFieldList = CommonUtil.getUnitNameList(restTemplate, httpHeaders);
 		request.setAttribute("unitFieldList", unitFieldList);
 		String unitPathIds = sysUserInfo.getUnitPath();
-		String parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
-		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+		
+		
+		
+		List<SysDictionary> dicList = CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate,
+						httpHeaders);
+				request.setAttribute("dicList", dicList);
+				
 		return "/stp/equipment/project/project-list-kjb";
 	}
 

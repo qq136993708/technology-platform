@@ -79,7 +79,7 @@
 						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 							<div class="layui-form-item">
 								<label for="" class="layui-form-label">
-									被安排人
+									工作处理人
 									<span class="must-fill">*</span>
 								</label>
 								<div class="layui-input-block">
@@ -134,7 +134,7 @@
 			</div>
 			<div class="tableBox">
 				<input type="hidden" name="parentId" id="parentId" value="">
-				<span  class="file-span">任务类附件</span>
+				<span  class="file-span">任务附件</span>
 				<div id="file_upload_parent"></div>
 			</div>
 			<div class="tableBox item" id="matterFeedBackTalbeDiv">
@@ -237,9 +237,9 @@
 			
 			$('#bak3').click(function() {
 				layer.open({
-					title : "<span>选择接收人</span>",
+					title : "选择转发人员",
 					skin : 'layui-layer-lan',
-					shadeClose : true,
+					shadeClose : false,
 					type : 2,
 					fixed : false,
 					maxmin : true,

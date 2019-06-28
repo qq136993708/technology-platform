@@ -2,8 +2,10 @@ package com.pcitc.service.equipment.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +27,8 @@ import com.pcitc.base.stp.equipment.SreProcurementProgram;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectTask;
 import com.pcitc.base.stp.equipment.SrePurchase;
+import com.pcitc.base.stp.equipment.SrePurchaseArrival;
+import com.pcitc.base.stp.equipment.SrePurchaseOrder;
 import com.pcitc.base.stp.equipment.SreScrapApply;
 import com.pcitc.base.stp.equipment.sre_scrap_apply_item;
 import com.pcitc.mapper.equipment.SreDetailMapper;
@@ -32,7 +36,9 @@ import com.pcitc.mapper.equipment.SreEquipmentMapper;
 import com.pcitc.mapper.equipment.SreForApplicationMapper;
 import com.pcitc.mapper.equipment.SreProjectMapper;
 import com.pcitc.mapper.equipment.SreProjectTaskMapper;
+import com.pcitc.mapper.equipment.SrePurchaseArrivalMapper;
 import com.pcitc.mapper.equipment.SrePurchaseMapper;
+import com.pcitc.mapper.equipment.SrePurchaseOrderMapper;
 import com.pcitc.mapper.equipment.SreScrapApplyMapper;
 import com.pcitc.mapper.equipment.sre_scrap_apply_itemMapper;
 import com.pcitc.service.equipment.InvestService;
@@ -56,6 +62,10 @@ public  class InvestServiceImpl implements InvestService {
 	private SreDetailMapper sreDetailMapper;
 	@Autowired
 	private sre_scrap_apply_itemMapper srescrapapplyitemMapper;
+	@Autowired
+	private SrePurchaseOrderMapper srePurchaseOederMapper;
+	@Autowired
+	private SrePurchaseArrivalMapper srePurchaseArrivalMapper;
 	
 	private String getTableParam(LayuiTableParam param,String paramName,String defaultstr)
 	{
@@ -185,11 +195,15 @@ public  class InvestServiceImpl implements InvestService {
 		String projectName=getTableParam(param,"projectName","");
 		String equipmentName=getTableParam(param,"equipmentName","");
 		String setupYear=getTableParam(param,"setupYear","");
+		String erpNum=getTableParam(param,"erpNum","");
+		String contractNum=getTableParam(param,"contractNum","");
 		Map map=new HashMap();
 		map.put("setupYear", setupYear);
 		map.put("parentUnitPathIds", parentUnitPathIds);
 		map.put("applyUnitCode", applyDepartCode);
 		map.put("name", projectName);
+		map.put("contractNum", contractNum);
+		map.put("erpNum", erpNum);
 		StringBuffer applyUnitCodeStr=new StringBuffer();
 		if(!applyDepartCode.equals(""))
 		{
@@ -212,50 +226,69 @@ public  class InvestServiceImpl implements InvestService {
 		map.put("sqlStr", applyUnitCodeStr.toString());
 		List<SreProject> list = sreProjectMapper.getList(map);
 		List<SrePlanCompletion> plancompletionlist = new ArrayList<SrePlanCompletion>();
+		 Set set=new HashSet();
 		if(list.size()!=0) {
 			for(SreProject sretask :list) {
 				String[] sreEqumimpId =  sretask.getEquipmentIds().split(",");
-				for(int i=0;i<sreEqumimpId.length;i++) {
-					SreEquipment quipment = sreEquipmentMapper.selectByPrimaryKey(sreEqumimpId[i]);
-					if(quipment!=null) {
+//				for(int i=0;i<sreEqumimpId.length;i++) {
+//					SreEquipment quipment = sreEquipmentMapper.selectByPrimaryKey(sreEqumimpId[i]);
+					//if(quipment!=null) {
 						SrePlanCompletion plancompletion = new SrePlanCompletion();
 						plancompletion.setProjectName(sretask.getName());//获取项目名称
-						plancompletion.setEquipmentName(quipment.getName());//获取装备名称
+						plancompletion.setUseDepartment(sretask.getErpNum());
+						//plancompletion.setEquipmentName(quipment.getName());//获取装备名称
 						plancompletion.setProjectPrice(sretask.getProjectMoney());//获取计划金额
-						if(quipment.getType().equals("ROOT_ZBGL_ZBFL_YJ")) {
-							plancompletion.setEquipmentType("硬件");//获取装备分类
-						}else {
-							plancompletion.setEquipmentType("软件");//获取装备分类
-						}
 						plancompletion.setDeclarationUnit(sretask.getApplyUnitName());//获取申报单位
 						//SreProjectTask sreProjectTask = sreProjectTaskMapper.selectByTopicKey(sretask.getId());//查询合同号
 						plancompletion.setContractNumber(sretask.getContractNum());//获取合同编号
 						plancompletion.setContractPrice(sretask.getProjectMoney());//获取合同金额
-						plancompletion.setSupplier(quipment.getSupplierWillStr());//获取意向供应商
-						plancompletion.setPrice(quipment.getUnitPrice());//获取装备单价
-						plancompletion.setNumber(quipment.getApplyAcount());//获取装备数量
-						plancompletion.setTotalPrice(quipment.getAllPrice());//获取装备总价
-						SreDetail sredetail = sreDetailMapper.selectaRchaseidKey(quipment.getEquipmentId());//根据装备ID查询转资编号
-						if(sredetail!=null) {
-							plancompletion.setFixedAssetsNumber(sredetail.getAssetNumber());//获取资产编号
-							plancompletion.setTransferFunds("已转资");
-							sre_scrap_apply_item srescra = srescrapapplyitemMapper.scrpeqdetailid(sredetail.getId());//根据台账ID获取报废信息
-							if(srescra!=null) {
-								plancompletion.setScrap("已报废");
-							}else {
-								plancompletion.setScrap("未报废");
-							}
-						}else {
-							plancompletion.setTransferFunds("未转资");
-							plancompletion.setScrap("未报废");
+						if(sretask.getErpNum()!=null&&sretask.getContractNum()!=null){
+							plancompletionlist.add(plancompletion);
 						}
 						plancompletionlist.add(plancompletion);
 					}
 				}
+		//}
+		List<SrePlanCompletion> setonlist = new ArrayList<SrePlanCompletion>();
+		for(SrePlanCompletion sretask :plancompletionlist) {
+			if (!setonlist.contains(sretask)) {
+				setonlist.add(sretask);
 			}
 		}
-		
-		PageInfo<SrePlanCompletion> pageInfo = new PageInfo<SrePlanCompletion>(plancompletionlist);
+		PageInfo<SrePlanCompletion> pageInfo = new PageInfo<SrePlanCompletion>(setonlist);
+		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+	    return data;
+	}
+
+
+	@Override
+	public LayuiTableData getManagementERPList(LayuiTableParam param) {
+		String g0projcode=getTableParam(param,"erp","");
+		List<SrePurchaseOrder> list = srePurchaseOederMapper.selectErpnum(g0projcode);
+		List<SrePurchaseOrder> rdelist = new ArrayList<SrePurchaseOrder>();
+		if(list.size()!=0) {
+		for(SrePurchaseOrder orderlist : list) {
+			String g0ebeln  = orderlist.getG0ebeln();
+			String g0ebelp  = orderlist.getG0ebelp();
+			Map map=new HashMap();
+			map.put("g0ebelp", g0ebelp);
+			map.put("g0ebeln", g0ebeln);
+			if(!g0ebeln.equals("")&&g0ebeln!=null|| !g0ebelp.equals("")&&g0ebelp!=null) {
+			SrePurchaseArrival srePurchaseArriva = srePurchaseArrivalMapper.selectErpnum(map);
+			if(srePurchaseArriva!=null) {
+				orderlist.setArrival("已入库");
+			}else {
+				orderlist.setArrival("未入库");
+			}
+			}
+			rdelist.add(orderlist);
+		}
+		}
+		PageInfo<SrePurchaseOrder> pageInfo = new PageInfo<SrePurchaseOrder>(rdelist);
 		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
 		LayuiTableData data = new LayuiTableData();
 		data.setData(pageInfo.getList());
@@ -344,6 +377,25 @@ public  class InvestServiceImpl implements InvestService {
 //						plancompletionlist.add(plancompletion);
 //					}
 //				}
+	
+//	plancompletion.setSupplier(quipment.getSupplierWillStr());//获取意向供应商
+//	plancompletion.setPrice(quipment.getUnitPrice());//获取装备单价
+//	plancompletion.setNumber(quipment.getApplyAcount());//获取装备数量
+//	plancompletion.setTotalPrice(quipment.getAllPrice());//获取装备总价
+//	SreDetail sredetail = sreDetailMapper.selectaRchaseidKey(quipment.getEquipmentId());//根据装备ID查询转资编号
+//	if(sredetail!=null) {
+//		plancompletion.setFixedAssetsNumber(sredetail.getAssetNumber());//获取资产编号
+//		plancompletion.setTransferFunds("已转资");
+//		sre_scrap_apply_item srescra = srescrapapplyitemMapper.scrpeqdetailid(sredetail.getId());//根据台账ID获取报废信息
+//		if(srescra!=null) {
+//			plancompletion.setScrap("已报废");
+//		}else {
+//			plancompletion.setScrap("未报废");
+//		}
+//	}else {
+//		plancompletion.setTransferFunds("未转资");
+//		plancompletion.setScrap("未报废");
+//	}
 //			}
 //		}
 //		

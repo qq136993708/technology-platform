@@ -371,4 +371,11 @@
     from sre_equipment_detail
     where equipment_id like CONCAT('%',#{equipmentId},'%')
   </select>
+  
+  <select id="selectSreDetailId"  resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.equipment.SreDetail" >
+    select 
+			*
+    from sre_equipment_detail
+    where equipment_id = #{id,jdbcType=VARCHAR}
+  </select>
 </mapper>

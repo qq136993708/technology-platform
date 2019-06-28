@@ -731,7 +731,8 @@
 	     <if test="entrustUnitCode != null           and entrustUnitCode !=''  ">           AND t.entrust_unit_code = #{entrustUnitCode}</if>
 	     <if test="professionalDepartCode != null    and professionalDepartCode !=''  ">    AND t.professional_depart_code = #{professionalDepartCode}</if>
 	     <if test="belongDepartmentCode != null      and belongDepartmentCode !=''  ">      AND t.belong_department_code = #{belongDepartmentCode}</if>
-	     <if test="contractNum != null               and contractNum !=''  ">               AND t.contract_num = #{contractNum}</if>
+	     <if test="erpNum != null               and erpNum !=''  ">              			 AND t.erp_num  like CONCAT('%',#{erpNum},'%') </if>
+	     <if test="contractNum != null               and contractNum !=''  ">               AND t.contract_num like CONCAT('%',#{contractNum},'%')</if>
 	     <if test="taskWriteUsersIds != null         and taskWriteUsersIds !=''  ">         AND FIND_IN_SET(#{taskWriteUsersIds}, t.`task_write_users_ids`) </if>
 	      <if test="id != null                        and id !=''  ">                       AND t.id = #{id}</if>
 	     <if test="createUserId != null                and createUserId !=''  ">              AND t.create_user_id = #{createUserId}</if>

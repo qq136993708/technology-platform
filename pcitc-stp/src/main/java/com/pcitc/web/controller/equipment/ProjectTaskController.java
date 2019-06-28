@@ -148,11 +148,26 @@ public class ProjectTaskController extends BaseController {
 		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
 		request.setAttribute("unitFieldList", unitFieldList);
 		
+		
+		List<SysDictionary>  leaddicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
+		request.setAttribute("leaddicList", leaddicList);
+		
 		return "/stp/equipment/task/join_list";
 	}		
 	
 	
-	
+	    //任务书查询
+		@RequestMapping(value = "/join_list_kjb")
+		public String join_list_kjb(HttpServletRequest request, HttpServletResponse response) throws Exception {
+			List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+			request.setAttribute("dicList", dicList);
+			List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
+			request.setAttribute("unitFieldList", unitFieldList);
+			
+			List<SysDictionary>  leaddicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
+			request.setAttribute("leaddicList", leaddicList);
+			return "/stp/equipment/task/join_list_kjb";
+		}		
 	
 
 	@RequestMapping(value = "/to_list")
@@ -297,15 +312,11 @@ public class ProjectTaskController extends BaseController {
 					
 				}
 			}
+			resultsDate.setSuccess(true);
 			
-			
-		}
-		if (resutl.equals(""))
+		}else
 		{
 			resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
-		} else 
-		{
-			resultsDate.setSuccess(true);
 		}
 
 		response.setContentType("text/html;charset=UTF-8");
@@ -1173,15 +1184,61 @@ public class ProjectTaskController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/getErpInfo")
-	public String getErpInfo(HttpServletRequest request, HttpServletResponse response) {
+	public String getErpInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		SysUserProperty sysUserProperty=EquipmentUtils.getSysUserProperty(sysUserInfo.getUserId(), "G0DSM", restTemplate, httpHeaders);
-		String g0GSDM=sysUserProperty.getDataId();
-		request.setAttribute("g0GSDM", g0GSDM);
-		request.setAttribute("companyCode", g0GSDM);
+	
 		
+		
+		String g0GSDM="";
+		String g0GSJC="";
+		String companyCode="";
 		String taskId = CommonUtil.getParameter(request, "taskId", "");
 		request.setAttribute("taskId", taskId);
+		String leadUnitCode = CommonUtil.getParameter(request, "leadUnitCode", "");
+		request.setAttribute("leadUnitCode", leadUnitCode);
+		String setupYear = CommonUtil.getParameter(request, "setupYear", "");
+		request.setAttribute("setupYear", setupYear);
+		
+		System.out.println(">>>>>>>leadUnitCode =   " + leadUnitCode+"  taskId="+taskId);
+		//装备直属院（103111->安工院）
+		List<SysDictionary>  leaddicList= EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
+		if(leaddicList!=null) 
+		{
+		   for(int i=0;i<leaddicList.size();i++)
+		   {
+			   SysDictionary sysDictionary= leaddicList.get(i);
+			   String numValue =sysDictionary.getNumValue();
+			   if(numValue.equals(leadUnitCode))
+			   {
+				   g0GSJC=sysDictionary.getRemark();
+			   }
+		   }
+		}
+		
+		//HANA直属院（安工院-》1100,1101）
+		/*if(!g0GSDM.equals(""))
+		{
+			List<SysDictionary>  dicList= EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY", restTemplate, httpHeaders);
+			if(dicList!=null) 
+			{
+			   for(int i=0;i<dicList.size();i++)
+			   {
+				   SysDictionary sysDictionary= dicList.get(i);
+				   String name =sysDictionary.getName();
+				   if(name.equals(g0GSDM))
+				   {
+					   companyCode=sysDictionary.getNumValue();
+				   }
+			   }
+			}
+			
+		}
+		request.setAttribute("companyCode", companyCode);
+		*/
+		request.setAttribute("g0GSDM", g0GSDM);
+		System.out.println(">>>>>>>getErpInfo g0GSDM=   " + g0GSDM);
+		request.setAttribute("g0GSJC", g0GSJC);//各院按汉字匹配--院所
+		request.setAttribute("g0YEARXM", setupYear);//年份
 		return "/stp/equipment/task/getErpInfo";
 	}
 	

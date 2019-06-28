@@ -162,12 +162,12 @@ public class CommonServiceImpl implements ICommonService {
  		Page p=new Page(pageNum,pageSize);
 		int start=(pageNum-1)*p.getPageSize();
 		
-		String g0YEARXM=getTableParam(param,"g0YEARXM","");
-		String g0GSDM=getTableParam(param,"g0GSDM","");
-		String g0GSJC=getTableParam(param,"g0GSJC","");
-		String g0PROJCODE=getTableParam(param,"g0PROJCODE","");
-		String g0PROJTXT=getTableParam(param,"g0PROJTXT","");
-		String g0XMLXMS=getTableParam(param,"g0XMLXMS","");
+		String g0YEARXM=getTableParam(param,"g0YEARXM","");//年份
+		String g0GSDM=getTableParam(param,"g0GSDM","");//院所代码
+		String g0GSJC=getTableParam(param,"g0GSJC","");//院所名
+		String g0PROJCODE=getTableParam(param,"g0PROJCODE","");//项目代码
+		String g0PROJTXT=getTableParam(param,"g0PROJTXT","");//项目名称
+		String g0XMLXMS=getTableParam(param,"g0XMLXMS","");//分类
  		Map map=new HashMap();
  		map.put("start", start);
  		map.put("pageSize", pageSize);
@@ -177,41 +177,9 @@ public class CommonServiceImpl implements ICommonService {
  		map.put("g0PROJCODE", g0PROJCODE);
  		map.put("g0PROJTXT", g0PROJTXT);
  		map.put("g0XMLXMS", g0XMLXMS);
+ 		map.put("g0YEARXM", g0YEARXM);
  		
  		
- 		List<String> list=null;
- 		if(g0GSDM!=null)
- 		{
- 			String arr[]=g0GSDM.split(",");
- 	 		if(arr!=null)
- 	 		{
- 	 			list=new ArrayList<String>();
- 	 			for(int i=0;i<arr.length;i++)
- 	 			{
- 	 				String str=arr[i];
- 	 				if(str!=null && !str.equals(""))
- 	 				{
- 	 					list.add(str);
- 	 				}
- 	 			}
- 	 		}
- 		}
- 		StringBuffer stringBuffer=new StringBuffer();
- 		if(list!=null && list.size()>0)
- 		{
- 			stringBuffer.append(" and G0GSDM in (");
- 			for(int i=0;i<list.size();i++)
- 			{
- 				String str=list.get(i);
- 				if(i>0)
- 				{
- 					stringBuffer.append(",");
- 				}
- 				stringBuffer.append("'").append(str).append("'");
- 			}
- 			stringBuffer.append(")");
- 		}
- 		map.put("sqlStr", stringBuffer.toString());
  		List<ErpInfo> listDicSupplyer = commonMapper.getErpInfoList(map);
  		Integer totalRecords = commonMapper.getErpInfoCount(map);
  		System.out.println(">>>>>>>表格："+totalRecords);

@@ -294,12 +294,25 @@ var name=$('#name').val();
             	 } else 
             	 {
             		  var id=selectRowData.taskId;
-           		      var url="/sre-task-closure/uppdata/"+id;
-	           		  layer.confirm('确定要关闭吗？', { btn: ['确定','取消']}, function(){
-	         				 ajaxDeleteOpt(url,"post","关闭成功","关闭失败");
-	         			}, function(){
-	         			 
-	         			});
+            		  $.ajax({
+	                       type : "POST",
+	                       url: "/sre-task-closure/uppdata/"+id,
+	                       data: {"id":id},
+	                       traditional : true,
+	                       async : true,   
+	                       dataType:"json",
+	                       success : function(data){
+	                    	   if(data.result == 1){
+	                    		   layer.alert("任务关闭成功!!", function(index){
+		                       			location.href = '/sre-task-closure/to-list';
+		                       		}); 
+	                       	}else if(data.result == 2){
+	                       		layer.alert("当前任务有未转资的装备，不能进行关闭!!")
+	                       	}else{
+								layer.alert("关闭失败，请联系管理员!!")
+	                       	}
+	                       },
+                  }); 
             	}
             
               
@@ -421,12 +434,12 @@ var name=$('#name').val();
             cols: [[
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
-            	{field : 'topicName',      title : '任务书', style : 'cursor: pointer;', align: 'left', width : '10%',templet:function(d){return '<span onclick="view_isWriteTask(\''+d.taskId+'\')" style="color:#17a2b8">'+d.topicName+'</span>'}},
+            	{field : 'topicName',      title : '任务书名称', style : 'cursor: pointer;', align: 'left', width : '10%'},
                 {field : 'setupYear',      title : '立项年份', style : 'cursor: pointer;', align: 'center', width : '10%'},
                 {field : 'contractNum', title : '合同号', style : 'cursor: pointer;', align: 'center', width : '10%'},
                 {field : 'parentUnitPathNames',  title : '填写单位', style : 'cursor: pointer;', align: 'left', width : '15%'},
                 {field : 'createUnitName',  title : '填写部门', style : 'cursor: pointer;', align: 'left', width : '10%'},
-                {field : 'createDate',     title : '任务书填写时间', style : 'cursor: pointer;', align: 'center', width : '13%', templet : '#dateTpl'},
+                {field : 'createDate',     title : '任务书填写时间', style : 'cursor: pointer;', align: 'center', width : '15%', templet : '#dateTpl'},
             	{field : 'createUserName', title : '任务书填写人', style : 'cursor: pointer;', align: 'center', }
             
                 ]],
@@ -456,6 +469,7 @@ var name=$('#name').val();
  			   	}); 
             }
         });
+        $(".layui-table-header table thead th input").remove()
 	 }
     
     /*formName：form表单名称，

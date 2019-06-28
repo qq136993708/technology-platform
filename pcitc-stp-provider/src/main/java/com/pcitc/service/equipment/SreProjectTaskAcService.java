@@ -16,4 +16,8 @@ public interface SreProjectTaskAcService {
 	public SreProjectAssess selectProjectAssessById(String id)throws Exception;
 	public int updateAssessByPrimaryKey(SreProjectAssess record)throws Exception;
 	public String addAssess(SreProjectAssess sreProjectAssess)throws Exception;
+
+    int delete(String id)throws Exception;
+
+	Integer deleteDetail(String id)throws Exception;
 }

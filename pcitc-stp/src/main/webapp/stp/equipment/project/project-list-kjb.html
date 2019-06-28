@@ -20,7 +20,6 @@
 <input  name="functionId"     id="functionId"      type="hidden">
 <input  name="userIds"        id="userIds"         type="hidden">
 <input  name="id"             id="id"                type="hidden" >
-<input type="hidden"          name="parentUnitPathIds" id="parentUnitPathIds"   value="${parentUnitPathIds}">
 <input type="hidden"          name="specialAuditor0"   id="specialAuditor0"     value="">
  <input type="hidden" name="isKJBPerson" id="isKJBPerson" value="${isKJBPerson}">
 </form>
@@ -29,13 +28,24 @@
     <input type="hidden" name="auditStatus" id="auditStatus" value="${auditStatus}">
     <label class="dateInput">
         <span>立项年度</span>
-        <input type="text" name="setupYear" value="" readonly="readonly" placeholder="请选择立项年度" title="立项年度" autocomplete="off" class="form-control" id="setupYear">
+        <input type="text" name="setupYear" value=""  style="cursor:pointer" readonly="readonly" placeholder="请选择立项年度" title="立项年度" autocomplete="off" class="form-control" id="setupYear">
     </label>
     
     <label class="dateInput">
         <span>课题名称</span>
         <input type="text" name="name" title="课题名称" autocomplete="off" class="form-control" id="name">
     </label>
+    
+     <label class="dateInput">
+         <span>牵头单位</span>
+         <select name="leadUnitCode" id="leadUnitCode"  class="form-control"  >
+             <option value="" >--请选择--</option>
+             <#list dicList as vo> 
+		          <option value="${vo.numValue}"  >${vo.name}</option>
+		      </#list>
+		 </select>
+     </label>
+     
     
      <label class="dateInput">
          <span>归属部门</span>
@@ -255,7 +265,8 @@ var name=$('#name').val();
             	$('#belongDepartmentName').val("");
             	$('#professionalDepartName').val("");
             	$('#professionalFieldName').val("");
-             
+            	$('#leadUnitCode').val("");
+            	
             },
             
            
@@ -337,7 +348,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre-project-basic/list',
             method:"POST",
-            where: {param: {"name":$("#name").val(),"auditStatus":$("#auditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {"name":$("#name").val(),"auditStatus":$("#auditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"leadUnitCode":$("#leadUnitCode").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),

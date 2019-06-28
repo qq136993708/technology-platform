@@ -22,6 +22,9 @@ public interface InvestService {
 	//计划完成管理台账查询总数方法
 	public List<SreProject> getSelectProject();
 	
+	public LayuiTableData getManagementERPList(LayuiTableParam param);
+	
+	
 	//List<SrePlanCompletion> getSrePlanCompletion(LayuiTableParam param) throws Exception;
 	
 	

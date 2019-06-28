@@ -29,5 +29,7 @@ public interface PurchaseService {
 
 	Result dealPurchaseFlow(String id, Map map)throws Exception;
 
-	LayuiTableData getProjectPage(LayuiTableParam paramsJson);
+	LayuiTableData getProjectPage(LayuiTableParam paramsJson)throws Exception;
+
+	LayuiTableData getSreProjectTaskPage(LayuiTableParam param)throws Exception;
 }

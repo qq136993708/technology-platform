@@ -24,6 +24,20 @@ public class SreForApplication {
 	private String applyDepartCode;
 
 	private String firstApplyUser;
+	
+	private String companyCode;
+	
+	private String applicationUpload;
+	
+	
+
+	public String getApplicationUpload() {
+		return applicationUpload;
+	}
+
+	public void setApplicationUpload(String applicationUpload) {
+		this.applicationUpload = applicationUpload;
+	}
 
 	public String getApplicationId() {
 		return applicationId;
@@ -113,6 +127,14 @@ public class SreForApplication {
 		this.firstApplyUser = firstApplyUser;
 	}
 
+	public String getCompanyCode() {
+		return companyCode;
+	}
+
+	public void setCompanyCode(String companyCode) {
+		this.companyCode = companyCode;
+	}
+
 	@Override
 	public String toString() {
 		return "SreForApplication [applicationId=" + applicationId + ", applicationName=" + applicationName
@@ -120,9 +142,19 @@ public class SreForApplication {
 				+ ", applicationUserName=" + applicationUserName + ", applicationMoney=" + applicationMoney
 				+ ", applicationState=" + applicationState + ", applicationPurchaseid=" + applicationPurchaseid
 				+ ", applyDepartName=" + applyDepartName + ", applyDepartCode=" + applyDepartCode + ", firstApplyUser="
-				+ firstApplyUser + "]";
+				+ firstApplyUser + ", companyCode=" + companyCode + ", applicationUpload=" + applicationUpload
+				+ ", getApplicationUpload()=" + getApplicationUpload() + ", getApplicationId()=" + getApplicationId()
+				+ ", getApplicationName()=" + getApplicationName() + ", getApplicationTime()=" + getApplicationTime()
+				+ ", getApplicationAccount()=" + getApplicationAccount() + ", getApplicationUserName()="
+				+ getApplicationUserName() + ", getApplicationMoney()=" + getApplicationMoney()
+				+ ", getApplicationState()=" + getApplicationState() + ", getApplicationPurchaseid()="
+				+ getApplicationPurchaseid() + ", getApplyDepartName()=" + getApplyDepartName()
+				+ ", getApplyDepartCode()=" + getApplyDepartCode() + ", getFirstApplyUser()=" + getFirstApplyUser()
+				+ ", getCompanyCode()=" + getCompanyCode() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
+				+ ", toString()=" + super.toString() + "]";
 	}
 
+	
 	
 
     

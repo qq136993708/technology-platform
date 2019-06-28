@@ -36,6 +36,7 @@
     <div class="box-body">
         <form class="layui-form" name="form1" id="form1" action="" method="POST"
               lay-filter="component-form-group layui-container">
+            <input name="taskId" id="taskId" value="${taskId}" type="hidden">
             <input name="topicId" id="topicId" value="${topicId}" type="hidden">
             <input name="taskWriteUsersIds" id="taskWriteUsersIds" value="${taskWriteUsersIds}" type="hidden">
             <input name="id" id="id" value="${id}" type="hidden">
@@ -51,7 +52,7 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">选择课题<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input readOnlyBox" placeholder="请选择课题" name="name" id="name" value="${name}" readonly="readonly" onclick="choosePurchase('${topicId}')"
+                            <input class="layui-input readOnlyBox" placeholder="请选择课题" name="topicName" id="topicName" value="${topicName}" readonly="readonly" onclick="choosePurchase()"
                                    autocomplete="off" type="text">
                         </div>
                     </div>
@@ -77,10 +78,9 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">申请编号<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">旧合同号</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" name="purchaseCode" readonly="readonly" id="purchaseCode"
-                                   value="${purchaseCode}" lay-verify="required" autocomplete="off" type="text">
+                            <input class="layui-input" placeholder="请输入旧合同号" name="purchaseCode" id="purchaseCode" value="${purchaseCode}" autocomplete="off" type="text">
                         </div>
                     </div>
                 </div>
@@ -121,6 +121,10 @@
                           class="layui-textarea">${remarks}</textarea>
                 </div>
             </div>
+           <!-- <div class="layui-form-item">
+                <label class="layui-form-label">附件</label>
+                <div id="file_div" class="layui-input-block"></div>
+            </div>-->
 
 
 
@@ -144,13 +148,25 @@
 
 </script>
 <script>
-    function call_back(equipmentIds)
+    function call_back(topicId)
     {
-        renderTable(equipmentIds);
+        $.ajax({
+            type: "GET",
+            url: "/sre-purchase/getProject/" + topicId,
+            //data: {"topicId":topicId},
+            dataType: "json",
+            success: function(data){
+                var equipmentIds = data.data.equipmentIds;
+                renderTable(equipmentIds);
+            },
+            error : function(){
+                alert("error")
+            }
+        });
     }
     function choosePurchase(id)
     {
-        var temUrl = '/sre-purchase/chooseProject?taskWriteUsersIds='+$("#taskWriteUsersIds").val()+"&id="+id;
+        var temUrl = '/sre-purchase/chooseProject'
         publicMethods.openBaseWin("选择课题",temUrl,"90%","80%");
     }
     var publicMethods;
@@ -158,22 +174,14 @@
     var param = JSON.parse(window.localStorage.getItem("param"));
     var functionId = param.id;
     $('#functionId').val(functionId);
-    var roleCodes = "";
-    var unitCodes = "";
-    var postCodes = "";
-    var belongDepartmentName="${sreProjectBasic.belongDepartmentName?default('')}";
-    var professionalDepartName="${sreProjectBasic.professionalDepartName?default('')}";
-    var professionalFieldName="${sreProjectBasic.professionalFieldName?default('')}";
     var v_date = (new Date()).getTime();
+    /*//上传附件
     var file_ids = "documentDoc";
     //detail:详情，edit：编辑
     file_edit_detail = "edit";
     //统管理-附件管理-附件配置：页面标识
     file_opt_flag = "b3a52bbe7087419c80813d7716f37674";
-    var equipmentIds = $("#equipmentIds").val();
-    var yearFeeStr = $("#yearFeeStr").val();
-    var beginYear = $("#beginYear").val();
-
+*/
     var table, selectRowData;
     layui.use(['form', 'table', 'laypage', 'layer', 'laydate', 'laytpl', 'jquery', "publicMethods"], function () {
 
@@ -214,7 +222,6 @@
                 layer.alert("请输入申请名称");
             }else if(check.data.length == 0)
             {
-                console.log(check.data.length);
                 layer.alert("请点击选择装备数据");
             } else {
                 var equipmentIds="";
@@ -292,15 +299,15 @@
                 {type : 'checkbox', event : 'changeEvents', width : 55},
                 {title: '序号', type: 'numbers', width : 55},
                 {field: 'name', title: '装备名称', style: 'cursor: pointer;', align: 'center', width: '30%'},
-                {field: 'type', title: '装备分类', style: 'cursor: pointer;', align: 'center', width: '10%'},
-                {field: 'unitPrice', title: '单价（万元）', style: 'cursor: pointer;', align: 'center', width: '10%'},
-                {field: 'applyAcount', title: '申请数量', style: 'cursor: pointer;', align: 'center', width: '10%'},
+                {field: 'type', title: '装备分类', style: 'cursor: pointer;', align: 'center', width: '15%'},
+                {field: 'unitPrice', title: '单价（万元）', style: 'cursor: pointer;', align: 'center', width: '20%'},
+                {field: 'applyAcount', title: '申请数量', style: 'cursor: pointer;', align: 'center', width: '15%'},
                 {
                     field: 'allPrice',
                     title: '总价￥（万元）',
                     style: 'cursor: pointer;',
                     align: 'center',
-                    width: '10%',
+                    width: '23%',
                     templet: function (d) {
                         return '<span style="color:red">' + d.allPrice + '</span>'
                     }

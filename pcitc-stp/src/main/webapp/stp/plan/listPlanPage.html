@@ -34,7 +34,7 @@
 				</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="draftEvent">
 					<span class="btn-state btn-yellow"></span>
-					未下发
+					草稿
 				</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="approvalEvent">
 					<span class="btn-state btn-green"></span>
@@ -83,13 +83,6 @@
 				width : 45,
 				templet : '<div>{{ layui.laytpl.attToPic(d) }}</div>'
 			}, {
-				field : 'dataCode',
-				title : '任务编码',
-				event : 'setActive',
-				style : 'cursor: pointer;',
-				width : 200,
-				sort : true,
-			}, {
 				field : 'workOrderName',
 				title : '工作任务名称',
 				event : 'setActive',
@@ -112,10 +105,10 @@
 				sort : true,
 			}, {
 				field : 'workOrderAllotUserName',
-				title : '被安排人',
+				title : '工作处理人',
 				event : 'setActive',
 				style : 'cursor: pointer;',
-				width : '10%',
+				width : '15%',
 				sort : true
 			} ];
 			// elem,id,url,toolbar,cols,done
@@ -143,7 +136,7 @@
 					var p1 = {
 						data : res.data,//数据
 						element : ".layui-table-body table",// 当前的表格元素
-						column : 6,//列数 从0开始
+						column : 5,//列数 从0开始
 						field : "workOrderType",//当前数据的字段
 						url : "/pageCommon/dic/ROOT_RWGL_RWLX"//接口
 					};
@@ -188,6 +181,7 @@
 				resetEvent : function() { //点击重置按钮
 					workOrderStatus = '';
 					$('#workOrderName').val("");
+					renderTable();
 				},
 				addEvent : function() { //点击新增按钮
 					layer.open({
@@ -197,7 +191,7 @@
 						type : 2,
 						fixed : false,
 						maxmin : true,
-						area : [ '70%', '90%' ],
+						area : [ '70%', '100%' ],
 						content : '/plan/addPlanPage'
 					});
 				},
@@ -213,11 +207,11 @@
 								type : 2,
 								fixed : false,
 								maxmin : true,
-								area : [ '70%', '90%' ],
+								area : [ '70%', '100%' ],
 								content : '/plan/editPlanPage?dataId=' + id
 							});
 						} else {
-							layer.msg('只可操作未下发的任务!');
+							layer.msg('只可操作草稿状态的工作任务!');
 							return;
 						}
 					} else {
@@ -227,7 +221,7 @@
 				},
 				detailEvent : function() { //点击详情按钮
 					var dataId;
-					if (selectRowData != undefined) {
+					if (selectRowData != undefined && selectRowData != "") {
 						dataId = selectRowData.dataId;
 						layer.open({
 							title : param.name + '-查看',
@@ -236,7 +230,7 @@
 							type : 2,
 							fixed : false,
 							maxmin : true,
-							area : [ '70%', '90%' ],
+							area : [ '70%', '100%' ],
 							content : '/plan/viewPlanPage?dataId=' + dataId
 						});
 					} else {
@@ -246,7 +240,7 @@
 				},
 				deleteEvent : function() { //点击删除按钮
 					var id;
-					if (selectRowData != undefined) {
+					if (selectRowData != undefined && selectRowData != "") {
 						if(selectRowData.workOrderStatus == '0' || selectRowData.workOrderStatus == ''){
 							id = selectRowData.dataId;
 							layer.confirm('确认要删除吗？', {
@@ -275,7 +269,7 @@
 								});
 							});
 						} else {
-							layer.msg('只能删除未下发的任务！');
+							layer.msg('只能删除草稿状态的工作任务！');
 							return;
 						}
 						

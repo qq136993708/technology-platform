@@ -14,6 +14,11 @@
    <result column="detailid" property="detailid" jdbcType="VARCHAR" />
     <result column="equipmentName" property="equipmentName" jdbcType="VARCHAR" />
      <result column="specification" property="specification" jdbcType="VARCHAR" />
+     <result column="assetnumber" property="assetnumber" jdbcType="VARCHAR" />
+      <result column="placepeople" property="placepeople" jdbcType="VARCHAR" />
+       <result column="sumprice" property="sumprice" jdbcType="VARCHAR" />
+        <result column="price" property="price" jdbcType="VARCHAR" />
+       <result column="number" property="number" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     account_id, applyid, eqdetailid, create_date, create_user_id, update_user_id, update_date

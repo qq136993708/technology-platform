@@ -95,7 +95,7 @@
 			                        <div class="layui-form-item">
 			                            <label for="" class="layui-form-label">课题名称</label>
 			                            <div class="layui-input-block">
-			                                 <input class="layui-input readOnlyBox" onclick="view_project('${sreProject.id}')" title="点击查看课题信息" style="color:blue;cursor:pointer" name="name" id="name" readonly="readonly"
+			                                 <input class="layui-input readOnlyBox"  readonly="readonly" onclick="view_project('${sreProject.id}')" title="点击查看课题信息" style="color:blue;cursor:pointer" name="name" id="name" readonly="readonly"
 							                               value="${sreProject.name}" autocomplete="off" type="text">
 			                            </div>
 			                        </div>
@@ -104,7 +104,7 @@
 			                        <div class="layui-form-item">
 			                            <label for="" class="layui-form-label">总金额(¥万元)</label>
 			                            <div class="layui-input-block">
-			                                <input class="layui-input readOnlyBox" style="color:red" name="projectMoney" id="projectMoney"
+			                                <input class="layui-input readOnlyBox" style="color:red" name="projectMoney" id="projectMoney"  readonly="readonly"
 			                                       value="${sreProject.projectMoney}"
 			                                       autocomplete="off" type="text">
 			                            </div>
@@ -195,7 +195,7 @@
 				                                   id="beginProjectMonth" value="${sreProjectTask.beginProjectMonth}"
 				                                   style="width:150px;float:left" placeholder="开始月份">
 				                            <div class="layui-form-mid" style="width:8px;float:left"> -</div>
-				                            <input type="text" class="layui-input readOnlyBox" id="endProjectMonth" name="endProjectMonth"
+				                            <input type="text" class="layui-input readOnlyBox" id="endProjectMonth" name="endProjectMonth"  readonly="readonly"
 				                                   value="${sreProjectTask.endProjectMonth}" style="width:150px;float:left"
 				                                   placeholder="结束月份">
 				                        </div>
@@ -206,7 +206,7 @@
 				                <div class="layui-form-item layui-form-text">
 				                    <label class="layui-form-label">目标和主要任务</label>
 				                    <div class="layui-input-block">
-				                    <textarea placeholder="请简述目标和主要任务，原则上不超过500字" name="taskMainTaskContent" id="taskMainTaskContent"
+				                    <textarea placeholder="请简述目标和主要任务，原则上不超过500字" name="taskMainTaskContent" id="taskMainTaskContent"  readonly="readonly"
 				                              class="layui-textarea readOnlyBox">${sreProjectTask.taskMainTaskContent}</textarea>
 				                    </div>
 				                </div>
@@ -219,7 +219,7 @@
 					                    <div class="layui-form-item">
 					                        <label for="" class="layui-form-label">牵头单位</label>
 					                        <div class="layui-input-block">
-					                            <input class="layui-input readOnlyBox" name="leadUnitName" id="leadUnitName" value="${sreProjectTask.leadUnitName}"
+					                            <input class="layui-input readOnlyBox" name="leadUnitName" id="leadUnitName" value="${sreProjectTask.leadUnitName}"  readonly="readonly"
 					                                   lay-verify="required" autocomplete="off" type="text">
 					                        </div>
 					                    </div>
@@ -228,7 +228,7 @@
 					                    <div class="layui-form-item">
 					                        <label for="" class="layui-form-label">参与单位</label>
 					                        <div class="layui-input-block">
-					                            <input class="layui-input readOnlyBox" name="joinUnitName" id="joinUnitName" value="${sreProjectTask.joinUnitName}"
+					                            <input class="layui-input readOnlyBox" name="joinUnitName" id="joinUnitName" value="${sreProjectTask.joinUnitName}"  readonly="readonly"
 					                                   autocomplete="off" type="text">
 					                        </div>
 					                    </div>
@@ -242,7 +242,7 @@
 					                    <div class="layui-form-item">
 					                        <label for="" class="layui-form-label">填写单位</label>
 					                        <div class="layui-input-block">
-					                            <input class="layui-input readOnlyBox" name="parentUnitPathNames" id="parentUnitPathNames" value="${sreProjectTask.parentUnitPathNames}"
+					                            <input class="layui-input readOnlyBox" name="parentUnitPathNames" id="parentUnitPathNames" value="${sreProjectTask.parentUnitPathNames}"  readonly="readonly"
 					                                   lay-verify="required" autocomplete="off" type="text">
 					                        </div>
 					                    </div>
@@ -251,7 +251,7 @@
 					                    <div class="layui-form-item">
 					                        <label for="" class="layui-form-label">填写部门</label>
 					                        <div class="layui-input-block">
-					                            <input class="layui-input readOnlyBox" name="unitPathNames" id="unitPathNames" value="${sreProjectTask.unitPathNames}"
+					                            <input class="layui-input readOnlyBox" name="unitPathNames" id="unitPathNames" value="${sreProjectTask.unitPathNames}"  readonly="readonly"
 					                                   autocomplete="off" type="text">
 					                        </div>
 					                    </div>
@@ -263,7 +263,7 @@
 					                    <div class="layui-form-item">
 					                        <label for="" class="layui-form-label">填写人</label>
 					                        <div class="layui-input-block">
-					                            <input class="layui-input readOnlyBox" name="createUserName" id="createUserName" value="${sreProjectTask.createUserName}"
+					                            <input class="layui-input readOnlyBox" name="createUserName" id="createUserName" value="${sreProjectTask.createUserName}" readonly="readonly"
 					                                   lay-verify="required" autocomplete="off" type="text">
 					                        </div>
 					                    </div>
@@ -272,7 +272,7 @@
 					                    <div class="layui-form-item">
 					                        <label for="" class="layui-form-label">任务填写时间</label>
 					                        <div class="layui-input-block">
-					                         <input class="layui-input readOnlyBox" name="createDate" id="createDate" value="${sreProjectTask.createDate?string("yyyy-MM-dd HH:mm:ss")}"     autocomplete="off" type="text">
+					                         <input class="layui-input readOnlyBox"  readonly="readonly" name="createDate" id="createDate" value="${sreProjectTask.createDate?string("yyyy-MM-dd HH:mm:ss")}"     autocomplete="off" type="text">
 				                            </div>
 
 					                    </div>
@@ -283,7 +283,7 @@
 				                        <div class="layui-form-item">
 				                            <label for="" class="layui-form-label">上报人</label>
 				                            <div class="layui-input-block">
-				                                  <input class="layui-input readOnlyBox" name="applyUserName" id="applyUserName" value="${sreProjectTask.applyUserName}"
+				                                  <input class="layui-input readOnlyBox" name="applyUserName" id="applyUserName" value="${sreProjectTask.applyUserName}"  readonly="readonly"
 					                                   autocomplete="off" type="text">
 					                        </div>
 				                        </div>
@@ -294,7 +294,7 @@
 					                    <div class="layui-form-item">
 					                        <label for="" class="layui-form-label">上报单位</label>
 					                        <div class="layui-input-block">
-					                            <input class="layui-input readOnlyBox" name="parentApplyUnitPathName" id="parentApplyUnitPathName" value="${sreProjectTask.parentApplyUnitPathName}"
+					                            <input class="layui-input readOnlyBox" name="parentApplyUnitPathName" id="parentApplyUnitPathName" value="${sreProjectTask.parentApplyUnitPathName}"  readonly="readonly"
 					                                   lay-verify="required" autocomplete="off" type="text">
 					                        </div>
 					                    </div>
@@ -303,7 +303,7 @@
 					                    <div class="layui-form-item">
 					                        <label for="" class="layui-form-label">上报部门</label>
 					                        <div class="layui-input-block">
-					                            <input class="layui-input readOnlyBox" name="applyUnitName" id="applyUnitName" value="${sreProjectTask.applyUnitName}"
+					                            <input class="layui-input readOnlyBox" name="applyUnitName" id="applyUnitName" value="${sreProjectTask.applyUnitName}"  readonly="readonly"
 					                                   autocomplete="off" type="text">
 					                        </div>
 					                    </div>

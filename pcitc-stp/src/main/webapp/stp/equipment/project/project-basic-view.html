@@ -57,7 +57,7 @@
                         <div class="layui-form-item">
                             <label for="" class="layui-form-label">课题名称</label>
                             <div class="layui-input-block">
-                                <input class="layui-input readOnlyBox" name="name" id="name"
+                                <input class="layui-input readOnlyBox" name="name" id="name" readonly="readonly"
                                        value="${sreProjectBasic.name}"
                                        autocomplete="off" type="text">
                             </div>
@@ -67,7 +67,7 @@
                         <div class="layui-form-item">
                             <label for="" class="layui-form-label">总金额(¥万元)</label>
                             <div class="layui-input-block">
-                                <input class="layui-input readOnlyBox" style="color:red" name="projectMoney" id="projectMoney"
+                                <input class="layui-input readOnlyBox" style="color:red" name="projectMoney" id="projectMoney"  readonly="readonly"
                                        value="${sreProjectBasic.projectMoney}"
                                        autocomplete="off" type="text">
                             </div>
@@ -84,7 +84,7 @@
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label layui-form-labelH">课题开发及投资目标</label>
                     <div class="layui-input-block">
-                    <textarea placeholder="请简述开发及投资目标，原则上不超过500字" name="remarks" id="remarks"
+                    <textarea placeholder="请简述开发及投资目标，原则上不超过500字" name="remarks" id="remarks"  readonly="readonly"
                               class="layui-textarea readOnlyBox">${sreProjectBasic.remarks}</textarea>
                     </div>
                 </div>
@@ -108,11 +108,11 @@
                     <label class="layui-form-label">建设年限</label>
                     <div class="layui-input-block">
                         <div class="layui-input-inline" style="float:left">
-                            <input type="text" class="layui-input readOnlyBox" name="beginYear" id="beginYear"
+                            <input type="text" class="layui-input readOnlyBox" name="beginYear" id="beginYear"  readonly="readonly"
                                    value="${beginYear}"
                                    style="width:80px;float:left" placeholder="开始年份">
                             <div class="layui-form-mid" style="width:8px;float:left"> -</div>
-                            <input type="text" class="layui-input readOnlyBox" id="endYear" name="endYear"
+                            <input type="text" class="layui-input readOnlyBox" id="endYear" name="endYear"  readonly="readonly"
                                    value="${endYear}"
                                    style="width:80px;float:left" placeholder="结束年份">
                         </div>
@@ -123,7 +123,7 @@
                  <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">牵头单位</label>
                     <div class="layui-input-block" style="margin-bottom: 10px;">
-                        <input class="layui-input readOnlyBox" name="leadUnitName" id="leadUnitName"
+                        <input class="layui-input readOnlyBox" name="leadUnitName" id="leadUnitName"  readonly="readonly"
                                        value="${leadUnitName}"
                                        autocomplete="off" type="text">
                     </div>
@@ -151,7 +151,7 @@
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">参加单位</label>
                     <div class="layui-input-block" style="margin-bottom: 10px;">
-                        <input class="layui-input readOnlyBox" name="joinUnitName" id="joinUnitName"
+                        <input class="layui-input readOnlyBox" name="joinUnitName" id="joinUnitName"  readonly="readonly"
                                value="${sreProjectBasic.joinUnitName}" autocomplete="off" type="text">
                     </div>
                     <div id="units"></div>
@@ -204,7 +204,7 @@
                         <div class="layui-form-item">
                             <label for="" class="layui-form-label">申报单位</label>
                             <div class="layui-input-block">
-                                <input class="layui-input readOnlyBox" name="parentUnitPathNames" id="parentUnitPathNames"
+                                <input class="layui-input readOnlyBox" name="parentUnitPathNames" id="parentUnitPathNames"  readonly="readonly"
                                        value="${sreProjectBasic.parentUnitPathNames}"
                                        autocomplete="off" type="text">
                             </div>
@@ -214,7 +214,7 @@
                         <div class="layui-form-item">
                             <label for="" class="layui-form-label">申报部门</label>
                             <div class="layui-input-block">
-                                <input class="layui-input readOnlyBox" name="applyUnitName" id="applyUnitName"
+                                <input class="layui-input readOnlyBox" name="applyUnitName" id="applyUnitName"  readonly="readonly"
                                        value="${sreProjectBasic.applyUnitName}"
                                        autocomplete="off" type="text">
                             </div>
@@ -230,7 +230,7 @@
                         <div class="layui-form-item">
                             <label for="" class="layui-form-label">申报人</label>
                             <div class="layui-input-block">
-                                <input class="layui-input readOnlyBox" name="createUserName" id="createUserName"
+                                <input class="layui-input readOnlyBox" name="createUserName" id="createUserName"  readonly="readonly"
                                        value="${sreProjectBasic.createUserName}"
                                        autocomplete="off" type="text">
                             </div>
@@ -254,7 +254,7 @@
                         <div class="layui-form-item">
                             <label for="" class="layui-form-label">安排任务填写人</label>
                             <div class="layui-input-block">
-                                 <input class="layui-input readOnlyBox" name="taskWriteUserNames" id="taskWriteUserNames"
+                                 <input class="layui-input readOnlyBox" name="taskWriteUserNames" id="taskWriteUserNames"  readonly="readonly"
                                        value="${sreProjectBasic.taskWriteUserNames}"
                                        autocomplete="off" type="text">
                             </div>
