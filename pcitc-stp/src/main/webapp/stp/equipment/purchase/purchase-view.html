@@ -29,17 +29,24 @@
               lay-filter="component-form-group layui-container">
             <input name="id" id="id" value="${id}" type="hidden">
             <input name="equipmentIds" id="equipmentIds" value="${srePurchase.equipmentId}" type="hidden">
+            <input name="uploadState" id="uploadState" value="${uploadState}" type="hidden">
+            <input name="documentDocPurchaseRequest" id="documentDocPurchaseRequest" value="${srePurchase.documentDocPurchaseRequest}" type="hidden"><!--采购申请-->
+            <input name="documentDoc" id="documentDoc" value="${srePurchase.documentDoc}" type="hidden"><!--合同系统对接-->
+            <input name="docArriveGoods" id="docArriveGoods" value="${srePurchase.docArriveGoods}" type="hidden"><!--到货签收-->
+            <input name="documentDocContractAcceptance" id="documentDocContractAcceptance" value="${srePurchase.documentDocContractAcceptance}" type="hidden"><!--合同验收-->
+            <input name="documentDocInstallDebug" id="documentDocInstallDebug" value="${srePurchase.documentDocInstallDebug}" type="hidden"><!--安装调试-->
+            <input name="documentDocContractClose" id="documentDocContractClose" value="${srePurchase.documentDocContractClose}" type="hidden"><!--采购合同关闭-->
+
+
+
+
             <div class="layer-box">
                 <input name="leadUnitCode" id="leadUnitCode" value="${leadUnitCode}" type="hidden">
                 <input name="joinUnitCode" id="joinUnitCode" value="${sreProjectBasic.joinUnitCode}" type="hidden">
-                <input name="entrustUnitCode" id="entrustUnitCode" value="${sreProjectBasic.entrustUnitCode}"
-                       type="hidden">
-                <input name="belongDepartmentCode" id="belongDepartmentCode"
-                       value="${sreProjectBasic.belongDepartmentCode}"
-                       type="hidden">
-                <input name="yearFeeStrJoinUnit" id="yearFeeStrJoinUnit"
-                       value="${sreProjectBasic.yearFeeStrJoinUnit}"
-                       type="hidden">
+                <input name="entrustUnitCode" id="entrustUnitCode" value="${sreProjectBasic.entrustUnitCode}"type="hidden">
+                <input name="belongDepartmentCode" id="belongDepartmentCode" value="${sreProjectBasic.belongDepartmentCode}" type="hidden">
+                <input name="yearFeeStrJoinUnit" id="yearFeeStrJoinUnit" value="${sreProjectBasic.yearFeeStrJoinUnit}" type="hidden">
+
                 <div class="layui-row">
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
@@ -128,7 +135,7 @@
                 <div class="layui-row">
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label for="" class="layui-form-label">申请编号</label>
+                            <label for="" class="layui-form-label">旧合同号</label>
                             <div class="layui-input-block">
                                 <input class="layui-input readOnlyBox" name="purchaseCode" id="purchaseCode"
                                        value="${purchaseCode}"
@@ -141,9 +148,13 @@
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">备注</label>
                     <div class="layui-input-block">
-                <textarea placeholder="请输入备注" name="remarks" id="remarks"
-                          class="layui-textarea">${remarks}</textarea>
+                        <textarea placeholder="请输入备注" name="remarks" id="remarks"class="layui-textarea">${remarks}</textarea>
                     </div>
+                </div>
+
+                <div class="layui-form-item" style="padding:10px">
+                    <label class="layui-form-label">附件</label>
+                    <div id="file_div" class="layui-input-block"></div>
                 </div>
                 <div class="form-bottom">
                     <div class="form-bottom-btns">
@@ -159,27 +170,57 @@
     <script>
         var publicMethods;
         var param = JSON.parse(window.localStorage.getItem("param"));
-        var functionId = param.id;
+
+
+
+
+        var uploadState = $("#uploadState").val();
+        if(uploadState=="1"){
+            var file_ids = "documentDocPurchaseRequest";
+            //detail:详情，edit：编辑
+            file_edit_detail = "detail";
+            //统管理-附件管理-附件配置：页面标识
+            file_opt_flag = "2a6704a9117441dea1d39bd5b1646f1b";
+        }
+        else if (uploadState=="2"){
+            var file_ids = "documentDoc";
+            //detail:详情，edit：编辑
+            file_edit_detail = "detail";
+            //统管理-附件管理-附件配置：页面标识
+            file_opt_flag = "22d87bd321a44332acbb7199756dbc98";
+        }else if (uploadState=="3") {
+            var file_ids = "docArriveGoods";
+            //detail:详情，edit：编辑
+            file_edit_detail = "detail";
+            //统管理-附件管理-附件配置：页面标识
+            file_opt_flag = "bf250d24bbee43f49e1be190c01653d1";
+        }else if(uploadState=="4"){
+            var file_ids = "documentDocContractAcceptance";
+            //detail:详情，edit：编辑
+            file_edit_detail = "detail";
+            //统管理-附件管理-附件配置：页面标识
+            file_opt_flag = "056a54830ecc4e3f8063a0a43aeca06d";
+        }else if (uploadState=="5") {
+            var file_ids = "documentDocInstallDebug";
+            //detail:详情，edit：编辑
+            file_edit_detail = "detail";
+            //统管理-附件管理-附件配置：页面标识
+            file_opt_flag = "7f77444e12e44a688618117809982f15";
+        }else if (uploadState=="6") {
+            var file_ids = "documentDocContractClose";
+            //detail:详情，edit：编辑
+            file_edit_detail = "detail";
+            //统管理-附件管理-附件配置：页面标识
+            file_opt_flag = "2b6913f158e740f18a2691972abaf4c6";
+        }
+
+
+
+
+
+
+
         var equipmentIds = $("#equipmentIds").val();
-        var file_ids = "documentDoc";
-        //detail:详情，edit：编辑
-        file_edit_detail = "detail";
-        //统管理-附件管理-附件配置：页面标识
-        file_opt_flag = "b3a52bbe7087419c80813d7716f37674";
-        var yearFeeStr = $("#yearFeeStr").val();
-        var v_date = (new Date()).getTime();
-        var equipmentIds = $("#equipmentIds").val();
-        var belongDepartmentName="${sreProjectBasic.belongDepartmentName?default('')}";
-        var professionalDepartName="${sreProjectBasic.professionalDepartName?default('')}";
-        var professionalFieldName="${sreProjectBasic.professionalFieldName?default('')}";
-        //牵头单位名称
-        var leadUnitName = "${sreProjectBasic.leadUnitName?default('')}";
-        //牵头单位--表格
-        var yearFeeStr = "${sreProjectBasic.yearFeeStr?default('')}";
-        //参与单位名称
-        var joinUnitName = "${sreProjectBasic.joinUnitName?default('')}";
-        //参与单位名称--表格
-        //var yearFeeStrJoinUnit = "${sreProjectBasic.yearFeeStrJoinUnit?default('')}";
 
         var table, selectRowData;
         layui.config({
@@ -197,108 +238,12 @@
                 , $ = layui.jquery
                 , form = layui.form;
             publicMethods = layui.publicMethods;
-            
-            
-            
-            
-            
-
-            form.on('select(getDepartNameByUnitName)',function(data){
-            	getDepartNameByUnitName(data.value);
-            })
-
-             form.on('select(getProfessionalNameListByUnitNameAndDept)',function(data){
-            	 getProfessionalNameListByUnitNameAndDept(data.value);
-            })
-
-
-    			getDepartNameByUnitName($("#belongDepartmentName").val());
-    			function getDepartNameByUnitName(belongDepartmentName)
-    			{
-    				 $("#belongDepartmentName").val(belongDepartmentName);
-    				 $("#professionalDepartName").empty();
-
-    				 var v_date=(new Date()).getTime();
-    				 $.ajax({
-    						url : "/unitField/getDepartmentNameListByUnitName?v_date="+v_date+"&unitName="+belongDepartmentName,
-    						type : "post",
-    						async: false,
-    						dataType : "json",
-    						success : function(data)
-    						{
-    							$("#professionalDepartName").append("<option value=''>--请选择--</option>");
-    							$.each(data, function(i, el)
-    							{
-    								var content='<option value="'+ el.departmentName +'" ';
-    								if(professionalDepartName==el.departmentName)
-    								{
-    									content+=' selected="selected" ';
-    								}
-    								content+=' >' + el.departmentName+ '</option>';
-    								$("#professionalDepartName").append(content);
-
-    							});
-    							form.render('select');
-    						},
-    						error : function()
-    						{
-    							alert("发生未知错误 ,请重新操作.");
-    						}
-    					});
-
-
-
-
-    				getProfessionalNameListByUnitNameAndDept(professionalDepartName);
-    			}
-
-
-    			function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
-    			{
-    				 var belongDepartmentName= $("#belongDepartmentName").val();
-    				 $("#professionalFieldName").empty();
-    				 var v_date=(new Date()).getTime();
-    				 $.ajax({
-    						url : "/unitField/getProfessionalNameListByUnitNameAndDept?v_date="+v_date+"&unitName="+belongDepartmentName+"&departmentName="+professionalDepartName,
-    						type : "post",
-    						async: false,
-    						dataType : "json",
-    						success : function(data)
-    						{
-    							$("#professionalFieldName").append("<option value=''>--请选择--</option>");
-
-    							$.each(data, function(i, el)
-    							{
-    								var content='<option value="'+ el.professionalFieldName +'" ';
-    								if(professionalFieldName==el.professionalFieldName)
-    								{
-    									content+=' selected="selected" ';
-    								}
-    								content+=' >' + el.professionalFieldName+ '</option>';
-
-    								$("#professionalFieldName").append(content);
-    							});
-    							form.render('select');
-    						},
-    						error : function()
-    						{
-    							alert("发生未知错误 ,请重新操作.");
-    						}
-    					});
-    			}
-
-
-    			
-    			
-    			
-
 
             form.render();
-
             renderTable(equipmentIds);
-            laydate.render({
+            /*laydate.render({
                 elem: '#LAY-component-form-group-date'
-            });
+            });*/
 
             //添加到form.render()之后
             $("#file_div").load('/common/public/uploadlayuiload.html');
@@ -325,15 +270,15 @@
                 cols: [[
                     {title: '序号', type: 'numbers', width: '55'},
                     {field: 'name', title: '装备名称', style: 'cursor: pointer;', align: 'center', width: '20%'},
-                    {field: 'type', title: '装备分类', style: 'cursor: pointer;', align: 'center', width: '10%'},
-                    {field: 'unitPrice', title: '单价（万元）', style: 'cursor: pointer;', align: 'center', width: '15%'},
-                    {field: 'applyAcount', title: '申请数量', style: 'cursor: pointer;', align: 'center', width: '10%'},
+                    {field: 'type', title: '装备分类', style: 'cursor: pointer;', align: 'center', width: '15%'},
+                    {field: 'unitPrice', title: '单价（万元）', style: 'cursor: pointer;', align: 'center', width: '20%'},
+                    {field: 'applyAcount', title: '申请数量', style: 'cursor: pointer;', align: 'center', width: '15%'},
                     {
                         field: 'allPrice',
                         title: '总价￥（万元）',
                         style: 'cursor: pointer;',
                         align: 'center',
-                        width: '15%',
+                        width: '23%',
                         templet: function (d) {
                             return '<span style="color:red">' + d.allPrice + '</span>'
                         }

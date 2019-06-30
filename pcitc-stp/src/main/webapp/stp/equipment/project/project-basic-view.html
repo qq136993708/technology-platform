@@ -44,9 +44,7 @@
                 <input name="joinUnitCode" id="joinUnitCode" value="${sreProjectBasic.joinUnitCode}" type="hidden">
                 <input name="entrustUnitCode" id="entrustUnitCode" value="${sreProjectBasic.entrustUnitCode}"
                        type="hidden">
-                <input name="belongDepartmentCode" id="belongDepartmentCode"
-                       value="${sreProjectBasic.belongDepartmentCode}"
-                       type="hidden">
+                
                 <input name="yearFeeStrJoinUnit" id="yearFeeStrJoinUnit"
                        value="${sreProjectBasic.yearFeeStrJoinUnit}"
                        type="hidden">
@@ -163,12 +161,12 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">归属部门</label>
                             <div class="layui-input-block">
-                                <select name="belongDepartmentName" id="belongDepartmentName" disabled="disabled"
+                                <select name="belongDepartmentCode" id="belongDepartmentCode" disabled="disabled"
                                         lay-filter="getDepartNameByUnitName" style="width:200px">
                                     <option value="">--请选择部门--</option>
-                                    <#list unitFieldList as vo>
-                                    <option value="${vo.unitName}"
-                                    <#if vo.unitName == sreProjectBasic.belongDepartmentName> selected="selected" </#if> >${vo.unitName}</option>
+                                    <#list departmentList as vo>
+                                    <option value="${vo.code}"
+                                    <#if vo.code == sreProjectBasic.belongDepartmentCode> selected="selected" </#if> >${vo.name}</option>
                             </#list>
                             </select>
                         </div>
@@ -180,8 +178,8 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">专业处</label>
                         <div class="layui-input-block">
-                            <select id="professionalDepartName" name="professionalDepartName"  disabled="disabled"
-                                    lay-filter="getProfessionalNameListByUnitNameAndDept"
+                            <select id="professionalDepartCode" name="professionalDepartCode"  disabled="disabled"
+                                    
                                     style="width:200px"></select>
                         </div>
                     </div>
@@ -191,8 +189,16 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">专业领域</label>
                         <div class="layui-input-block">
-                            <select id="professionalFieldName" name="professionalFieldName"  disabled="disabled"
-                                    style="width:200px"></select>
+                        <select name="professionalFieldCode" id="professionalFieldCode" disabled="disabled"
+                                         style="width:200px">
+                                    <option value="">--请选择部门--</option>
+                                    <#list fieldList as vo>
+                                    <option value="${vo.code}"
+                                    <#if vo.code == sreProjectBasic.professionalFieldCode> selected="selected" </#if> >${vo.name}</option>
+                            </#list>
+                            </select>
+                        
+                        
                         </div>
                     </div>
                 </div>
@@ -306,8 +312,7 @@
         var beginYear = $("#beginYear").val();
         var v_date = (new Date()).getTime();
         var equipmentIds = $("#equipmentIds").val();
-        var belongDepartmentName="${sreProjectBasic.belongDepartmentName?default('')}";
-        var professionalDepartName="${sreProjectBasic.professionalDepartName?default('')}";
+        var professionalDepartCode="${sreProjectBasic.professionalDepartCode?default('')}";
         var professionalFieldName="${sreProjectBasic.professionalFieldName?default('')}";
         //牵头单位名称
         var leadUnitName = "${sreProjectBasic.leadUnitName?default('')}";
@@ -344,87 +349,52 @@
             	getDepartNameByUnitName(data.value);
             })
 
-             form.on('select(getProfessionalNameListByUnitNameAndDept)',function(data){
-            	 getProfessionalNameListByUnitNameAndDept(data.value);
-            })
 
 
-    			getDepartNameByUnitName($("#belongDepartmentName").val());
-    			function getDepartNameByUnitName(belongDepartmentName)
+    			getDepartNameByUnitName($("#belongDepartmentCode").val());
+    			function getDepartNameByUnitName(depp_code)
     			{
-    				 $("#belongDepartmentName").val(belongDepartmentName);
-    				 $("#professionalDepartName").empty();
+    				 $("#professionalDepartCode").empty();
+    				 if(depp_code!=null && depp_code!='')
+    	                {
+    	                	 var v_date=(new Date()).getTime();
+    	    				 $.ajax({
+    	    						url : "/sre-project-basic/getDicListByParentCode?v_date="+v_date+"&belongDepartmentCode="+depp_code,
+    	    						type : "post",
+    	    						async: false,
+    	    						dataType : "json",
+    	    						success : function(data)
+    	    						{
+    	    							$("#professionalDepartCode").append("<option value=''>--请选择--</option>");
+    	    							$.each(data, function(i, el)
+    	    							{
+    	    								var content='<option value="'+ el.code +'" ';
+    	    								if(professionalDepartCode==el.code)
+    	    								{
+    	    									content+=' selected="selected" ';
+    	    								}
+    	    								content+=' >' + el.name+ '</option>';
+    	    								$("#professionalDepartCode").append(content);
 
-    				 var v_date=(new Date()).getTime();
-    				 $.ajax({
-    						url : "/unitField/getDepartmentNameListByUnitName?v_date="+v_date+"&unitName="+belongDepartmentName,
-    						type : "post",
-    						async: false,
-    						dataType : "json",
-    						success : function(data)
-    						{
-    							$("#professionalDepartName").append("<option value=''>--请选择--</option>");
-    							$.each(data, function(i, el)
-    							{
-    								var content='<option value="'+ el.departmentName +'" ';
-    								if(professionalDepartName==el.departmentName)
-    								{
-    									content+=' selected="selected" ';
-    								}
-    								content+=' >' + el.departmentName+ '</option>';
-    								$("#professionalDepartName").append(content);
-
-    							});
-    							form.render('select');
-    						},
-    						error : function()
-    						{
-    							alert("发生未知错误 ,请重新操作.");
-    						}
-    					});
+    	    							});
+    	    							
+    	    						},
+    	    						error : function()
+    	    						{
+    	    							alert("发生未知错误 ,请重新操作.");
+    	    						}
+    	    					});
+    	                }
+    	                
+    	                form.render('select');
 
 
 
 
-    				getProfessionalNameListByUnitNameAndDept(professionalDepartName);
     			}
 
 
-    			function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
-    			{
-    				 var belongDepartmentName= $("#belongDepartmentName").val();
-    				 $("#professionalFieldName").empty();
-    				 var v_date=(new Date()).getTime();
-    				 $.ajax({
-    						url : "/unitField/getProfessionalNameListByUnitNameAndDept?v_date="+v_date+"&unitName="+belongDepartmentName+"&departmentName="+professionalDepartName,
-    						type : "post",
-    						async: false,
-    						dataType : "json",
-    						success : function(data)
-    						{
-    							$("#professionalFieldName").append("<option value=''>--请选择--</option>");
-
-    							$.each(data, function(i, el)
-    							{
-    								var content='<option value="'+ el.professionalFieldName +'" ';
-    								if(professionalFieldName==el.professionalFieldName)
-    								{
-    									content+=' selected="selected" ';
-    								}
-    								content+=' >' + el.professionalFieldName+ '</option>';
-
-    								$("#professionalFieldName").append(content);
-    							});
-    							form.render('select');
-    						},
-    						error : function()
-    						{
-    							alert("发生未知错误 ,请重新操作.");
-    						}
-    					});
-    			}
-
-
+    			
     			
     			
     			

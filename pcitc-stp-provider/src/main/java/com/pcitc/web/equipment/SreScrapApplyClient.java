@@ -240,4 +240,10 @@ public class SreScrapApplyClient {
         System.out.println("======业务系统处理--驳回 --后业务======="+id);
         return count;
     }
+    @ApiOperation(value = "更改申请", notes = "更改申请")
+	@RequestMapping(value = "/sre-provider/sreScrapApply/update", method = RequestMethod.POST)
+	public int updateByPrimaryKey(@RequestBody SreScrapApply record) throws Exception
+	{
+		return sreScrapApplyService.updateByPrimaryKeySelective(record);
+	}
 }

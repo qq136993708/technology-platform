@@ -47,7 +47,7 @@ public interface PlanService {
 
 	LayuiTableData queryMyBotWorkOrderMatterList(LayuiTableParam param);
 
-	int saveMyBotWorkOrderMatterBatch(List<PlanBaseDetail> list);
+	int saveMyBotWorkOrderMatterBatch(PlanBase planBase);
 
 	int submitMyBotWorkOrder(String id);
 	

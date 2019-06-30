@@ -17,6 +17,14 @@
 			<span>任务名称</span>
 			<input type="text" id="workOrderName" name="workOrderName" placeholder="请输入任务名称" title="任务名称" autocomplete="off" class="form-control">
 		</label>
+		<label class="dateInput">
+			<span>开始时间</span>
+			<input type="text" name="startTime" placeholder="请输入开始时间" title="开始时间" autocomplete="off" class="form-control" id="startTime" value="${startTime}">
+		</label>
+		<label class="dateInput">
+			<span>结束时间</span>
+			<input type="text" name="endTime" placeholder="请输入结束时间" title="结束时间" autocomplete="off" class="form-control" id="endTime" value="${endTime}">
+		</label>
 		<!--按钮组-->
 		<div class="btnGroup">
 			<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg btn_search" data-type="searchEvent">查询</button>
@@ -43,7 +51,7 @@
 				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="editEvent">下发</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="zfEvent">转发</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg" data-type="detailEvent">任务追踪</button>
-				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button>
+				<!-- <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button> -->
 			</div>
 			<div class="whiteLine"></div>
 		</div>
@@ -53,8 +61,19 @@
 	<script>
 		var param = JSON.parse(window.localStorage.getItem("param"));
 		var table, selectRowData, workOrderStatus;
-		layui.use([ 'jquery', 'table', 'laypage', 'publicMethods' ], function() {
-			table = layui.table, $ = layui.jquery, layer = layui.layer, publicMethods = layui.publicMethods, laypage = layui.laypage;
+		layui.use([ 'jquery', 'table', 'laypage', 'publicMethods', 'laydate' ], function() {
+			table = layui.table, $ = layui.jquery, layer = layui.layer, publicMethods = layui.publicMethods, laypage = layui.laypage, laydate = layui.laydate;
+			
+			laydate.render({
+				elem : '#startTime',
+				format : 'yyyy-MM-dd'
+			});
+
+			laydate.render({
+				elem : '#endTime',
+				format : 'yyyy-MM-dd'
+			});
+			
 			function renderTable() {
 				table.render({
 					id : 'tableList', //唯一即可
@@ -64,6 +83,8 @@
 					where : {
 						param : {
 							workOrderName : $("#workOrderName").val(),
+							"startTime" : $("#startTime").val(),
+							"endTime" : $("#endTime").val(),
 							"workOrderStatus" : workOrderStatus
 						}
 					},
@@ -101,13 +122,6 @@
 						style : 'cursor: pointer;',
 						width : 45,
 						templet : '<div>{{ layui.laytpl.attToPic(d) }}</div>'
-					}, {
-						field : 'workOrderCode',
-						title : '任务编码',
-						event : 'setActive',
-						style : 'cursor: pointer;',
-						align : 'center',
-						width : 200,
 					}, {
 						field : 'createUserName',
 						title : '安排人',
@@ -151,7 +165,7 @@
 						var param = {
 							data : res.data,//数据
 							element : ".layui-table-body table",// 当前的表格元素
-							column : 7,//列数 从0开始
+							column : 6,//列数 从0开始
 							field : "workOrderType",//当前数据的字段
 							url : "/pageCommon/dic/ROOT_RWGL_RWLX"//接口
 						};
@@ -197,11 +211,14 @@
 				},
 				resetEvent : function() { //点击重置按钮
 					$('#workOrderName').val("");
+					$('#startTime').val("");
+					$('#endTime').val("");
+					workOrderStatus = '';
 					renderTable();
 				},
 				editEvent : function() { //点击编辑按钮
 					var id;
-					if (selectRowData != undefined) {
+					if (selectRowData != undefined && selectRowData != "") {
 						if (selectRowData.bak5 == "0" || selectRowData.workOrderStatus == "2") {
 							layer.msg('任务已转发或完成,不能下发!');
 							return;
@@ -222,9 +239,9 @@
 						return;
 					}
 				},
-				zfEvent : function() { //点击编辑按钮
+				zfEvent : function() {
 					var id;
-					if (selectRowData != undefined) {
+					if (selectRowData != undefined && selectRowData != "") {
 						if (selectRowData.bak5 == "0" || selectRowData.workOrderStatus == "2" || (typeof selectRowData.bak4 != "undefined" && selectRowData.bak4 != "")) {
 							layer.msg('任务已转发/下发/完成,不能操作!');
 							return;
@@ -246,7 +263,7 @@
 					}
 				},
 				doEvent : function() { //点击处理按钮
-					if (selectRowData != undefined) {
+					if (selectRowData != undefined && selectRowData != "") {
 						if (selectRowData.bak5 == "0") {
 							layer.msg('任务已转发，不能再处理!');
 							return;
@@ -276,7 +293,7 @@
 				},
 				detailEvent : function() { //点击详情按钮
 					var id;
-					if (selectRowData != undefined) {
+					if (selectRowData != undefined && selectRowData != "") {
 						id = selectRowData.dataId;
 						layer.open({
 							title : '任务追踪',
@@ -295,7 +312,7 @@
 				},
 				deleteEvent : function() { //点击删除按钮
 					var id;
-					if (selectRowData != undefined) {
+					if (selectRowData != undefined && selectRowData != "") {
 						if (selectRowData.bak5 == "0") {
 							layer.msg('任务已转发，不能再删除!');
 							return;

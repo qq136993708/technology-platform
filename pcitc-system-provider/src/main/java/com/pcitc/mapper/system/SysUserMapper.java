@@ -9,62 +9,46 @@ import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserExample;
 
 public interface SysUserMapper {
-    int countByExample(SysUserExample example);
+	int countByExample(SysUserExample example);
 
-    int deleteByExample(SysUserExample example);
+	int deleteByExample(SysUserExample example);
 
-    int deleteByPrimaryKey(String userId);
+	int deleteByPrimaryKey(String userId);
 
-    int insert(SysUser record);
+	int insert(SysUser record);
 
-    int insertSelective(SysUser record);
+	int insertSelective(SysUser record);
 
-    List<SysUser> selectByExample(SysUserExample example);
+	List<SysUser> selectByExample(SysUserExample example);
 
-    SysUser selectByPrimaryKey(String userId);
+	SysUser selectByPrimaryKey(String userId);
 
-    int updateByExampleSelective(@Param("record") SysUser record, @Param("example") SysUserExample example);
+	int updateByExampleSelective(@Param("record") SysUser record, @Param("example") SysUserExample example);
 
-    int updateByExample(@Param("record") SysUser record, @Param("example") SysUserExample example);
+	int updateByExample(@Param("record") SysUser record, @Param("example") SysUserExample example);
 
-    int updateByPrimaryKeySelective(SysUser record);
+	int updateByPrimaryKeySelective(SysUser record);
 
-    int updateByPrimaryKey(SysUser record);
-    
-    /**
+	int updateByPrimaryKey(SysUser record);
+
+	/**
 	 * @param roleCodes
-	 * @return
-	 * 根据角色编码（多个），获取所属人员
+	 * @return 根据角色编码（多个），获取所属人员
 	 */
-	public List<SysUser> findUserByRoleCodes(Map<String,Object> paramMap);
-	
+	public List<SysUser> findUserByRoleCodes(Map<String, Object> paramMap);
+
 	/**
 	 * @param paramMap
-	 * @return
-	 * 在act的视图表中，查询某个groupid对应的用户
+	 * @return 在act的视图表中，查询某个groupid对应的用户
 	 */
 	public List<String> findUserByGroupIdFromACT(List list);
-	
+
 	/**
 	 * @param roleCodes
-	 * @return
-	 * 根据角色编码（多个），获取所属人员
+	 * @return 根据角色编码（多个），获取所属人员
 	 */
-	public List<SysUser> selectUserDetail(Map<String,Object> paramMap);
-	
-	
-	List<SysUser> querySysUserListByPage(SysUser vo);
+	public List<SysUser> selectUserDetail(Map<String, Object> paramMap);
 
-	Long countByQuerySysUserList(SysUser vo);
-	
-	
 	List<SysUser> getSysUserListByUserUnit(SysUser vo);
 
-	Long getSysUserCountByUserUnit(SysUser vo);
-	
-	
-	
-	
-
-	
 }

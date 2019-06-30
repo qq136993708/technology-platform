@@ -18,13 +18,14 @@
 
 <script type="text/javascript">
 var publicMethods;
+var table;
 var v_date=(new Date()).getTime();
     $(document).ready(function() {
     	layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element','publicMethods' ],function() {
  			var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
  			publicMethods=layui.publicMethods;
  			var form = layui.form;
- 			var table = layui.table;
+ 			table = layui.table;
  			
  			  form.render();
  			 var setupYear = laydate.render({
@@ -32,43 +33,8 @@ var v_date=(new Date()).getTime();
  		           ,type: 'year'
  		       });
  			 
- 			 
-	    	table.render({
-	            elem: '#layer_table',
-	            url: '/sre_project_task/getErpInfoList',
-	            limit: 15,
-	            method:"POST",
-	            where: {param:{"g0YEARXM":$("#g0YEARXM").val(),"g0PROJTXT":$("#g0PROJTXT").val(),"g0GSJC":$("#g0GSJC").val(),"v_date":v_date}},
-	        	id: 'layer_table',
-	        	height: 350,
-	        	page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
-	            cols: [[
-	            	{type:'checkbox',event: 'changeEvents'}
-	             	,{title:'序号', type:'numbers'},
-	             	{field : 'g0YEARXM',          title : '项目年度', style : 'cursor: pointer;', align : 'left', width : '10%'},
-	                {field : 'g0GSDM',            title : '责任单位', style : 'cursor: pointer;', align : 'left', width : '10%'},
-	                {field : 'g0GSJC',            title : '责任单位描述',   style : 'cursor: pointer;', align : 'center', width : '10%'},
-	                {field : 'g0PROJCODE',        title : '投资项目代码', style : 'cursor: pointer;', align : 'center', width : '10%'},
-	                {field : 'g0PROJTXT',         title : '投资项目名称', style : 'cursor: pointer;', align : 'left', width : '30%'},
-	                {field : 'g0XMLXMS',          title : '项目类型', style : 'cursor: pointer;', align : 'left', width : '15%'}
-	            ]],
-	            done: function (res, curr, count) {
-	            	
-	            	
-	            	$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-	                	var index=parseInt($(this).index()+1);
-	                    $('tr').removeClass('layui-table-click');
-	                    $(this).addClass('layui-table-click');
-	                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-	                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-	                    selectRowData=res.data[index-1];
-	                    var g0PROJCODE=selectRowData.g0PROJCODE;
-	                    $("#g0PROJCODE").val(g0PROJCODE)
-	                });
-	            	
-	 				
-	            }
-	        });
+ 			renderTable();
+	    	
 	    	 $(".layui-table-header table thead th input").remove();  
 		    	//多行点击事件
 		        $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
@@ -81,9 +47,6 @@ var v_date=(new Date()).getTime();
 		             e.stopPropagation();
 		         });
 	    	var $ = layui.$, active = {
-	    		searchEvent: function() { 
-                    table.reload("layer_table",{where:{param:{"g0YEARXM":$("#g0YEARXM").val(),"g0PROJTXT":$("#g0PROJTXT").val(),"g0GSJC":$("#g0GSJC").val()}}});
-                },
                 addEvent:function(){
                 	var check = table.checkStatus('layer_table');
                 	if(check.data.length == 0){
@@ -114,16 +77,59 @@ var v_date=(new Date()).getTime();
 			});
     	});
     });
+    
+    function renderTable()
+    {
+    	table.render({
+            elem: '#layer_table',
+            url: '/sre_project_task/getErpInfoList',
+            limit: 15,
+            method:"POST",
+            where: {param:{"g0YEARXM":$("#g0YEARXM").val(),"g0PROJTXT":$("#g0PROJTXT").val(),"g0PROJCODE":$("#g0PROJCODE").val(),"g0GSJC":$("#g0GSJC").val(),"v_date":v_date}},
+        	id: 'layer_table',
+        	height: 350,
+        	page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
+            cols: [[
+            	{type:'checkbox',event: 'changeEvents'}
+             	,{title:'序号', type:'numbers'},
+             	{field : 'g0YEARXM',          title : '项目年度', style : 'cursor: pointer;', align : 'left', width : '10%'},
+                {field : 'g0GSDM',            title : '责任单位', style : 'cursor: pointer;', align : 'left', width : '10%'},
+                {field : 'g0GSJC',            title : '责任单位描述',   style : 'cursor: pointer;', align : 'center', width : '10%'},
+                {field : 'g0PROJCODE',        title : '投资项目代码', style : 'cursor: pointer;', align : 'center', width : '10%'},
+                {field : 'g0PROJTXT',         title : '投资项目名称', style : 'cursor: pointer;', align : 'left', width : '30%'},
+                {field : 'g0XMLXMS',          title : '项目类型', style : 'cursor: pointer;', align : 'left', width : '15%'}
+            ]],
+            done: function (res, curr, count) {
+            	
+            	
+            	$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                	var index=parseInt($(this).index()+1);
+                    $('tr').removeClass('layui-table-click');
+                    $(this).addClass('layui-table-click');
+                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                    selectRowData=res.data[index-1];
+                    var g0PROJCODE=selectRowData.g0PROJCODE;
+                    $("#g0PROJCODE").val(g0PROJCODE)
+                });
+            	
+ 				
+            }
+        });
+    }
 </script>
 </head>
 <body>
 <div class="formBox">
 	<input type="hidden" name="g0GSJC"         id="g0GSJC"        value="${g0GSJC}">
 	<input type="hidden" name="taskId"         id="taskId"        value="${taskId}">
-	<input type="hidden" name="g0PROJCODE"     id="g0PROJCODE"    >
 	
 	
 	<div class="searchBox">
+	<label class="dateInput">
+        	<span>ERP项目编码</span>
+        	<input type="text" name="g0PROJCODE" id="g0PROJCODE" placeholder="请输入ERP项目编码" autocomplete="off" class="form-control">
+    	</label>
 		<label class="dateInput">
         	<span>ERP项目名称</span>
         	<input type="text" name="g0PROJTXT" id="g0PROJTXT" placeholder="请输入ERP项目名称" autocomplete="off" class="form-control">
@@ -134,7 +140,7 @@ var v_date=(new Date()).getTime();
     	</label>
     	
     	<div class="btnGroup">
-        	<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+        	<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="renderTable()">查询</button>
     	</div>
 	</div>
 	<div class="tableBox">

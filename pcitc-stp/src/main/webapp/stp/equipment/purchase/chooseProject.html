@@ -53,10 +53,10 @@
                 var selectRowData = '';
                 table.render({
                     elem: '#notjoin_apply_table',
-                    url: '/sre-purchase/chooseProject_data',
-                    limit: 5,
+                    url: '/sre-purchase/project_task/list',
                     method:"POST",
-                    where: {param:{"applyUnitCode":$("#applyUnitCode").val(),"auditStatus":"2","name":$("#name").val(),"id":$("#topicId").val()}},
+                    where: {param: {"auditStatus":"2","setupYear":$("#setupYear").val(),"topicName":$("#topicName").val(),"leadUnitName":$("#leadUnitName").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"contractNum":$("#contractNum").val()}},
+                    limit: 15,
                     id: 'notjoin_apply_table',
                     height: 350,
                     page: {
@@ -66,15 +66,24 @@
                         theme: '#0F9EE0'
                     },
                     cols: [[
-                        {type:'checkbox',event: 'changeEvents', width : 55}
-                        ,{title:'序号', type:'numbers', width : 55},
-                        {field : 'name',            title : '课题名称',     style : 'cursor: pointer;', align : 'center', width : '30%'},
-                        {field : 'projectMoney',    title : '总经费(万元)', style : 'cursor: pointer;', align: 'center', width : '15%', templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
-                        {field : 'parentUnitPathNames',    title : '课题申报单位', style : 'cursor: pointer;', align: 'left', width : '25%'},
-                        {field : 'applyUnitName',   title : '课题申报部门',     style : 'cursor: pointer;', align : 'center', width : '20%'},
-                        {field : 'createUserName',  title : '课题申报人',      style : 'cursor: pointer;', align : 'center', width : '15%'},
-                        {field : 'taskWriteUserNames',  title : '要求填写人',      style : 'cursor: pointer;', align : 'center', width : '15%'},
-                        {field : 'createDate',          title : '时间',     style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
+                        {type : 'checkbox', event : 'changeEvents', width : 55},
+                        {title : '序号', type :'numbers', width : 55},
+                        {field : 'contractNum', title : '合同号', style : 'cursor: pointer;', align: 'center', width : '10%'},
+                        {field : 'erpNum', title : 'ERP号', style : 'cursor: pointer;', align: 'center', width : '15%'},
+                        {field : 'topicName',     title : '课题名称',      style : 'cursor: pointer;', align: 'center', width : '15%'/*,templet:function(d){return '<span onclick="view_project(\''+d.topicId+'\')" style="color:#1890ff">详情</span>'}*/},
+                        {field : 'topicName',     title : '任务书',     style : 'cursor: pointer;', align: 'left', width : '10%'/*,templet:function(d){return '<span   onclick="view_isWriteTask(\''+d.taskId+'\')" style="color: #1890ff">'+d.topicName+'</span>'}*/},
+                        {field : 'isWriteSetup',  title : '立项报告',  style : 'cursor: pointer;', align: 'center', width : '15%'/*,templet:function(d){return '<span   onclick="view_isWriteSetup(\''+d.setupId+'\')" style="color: #1890ff">详情</span>'}*/},
+                        {field : 'setupYear',      title : '立项年份', style : 'cursor: pointer;', align: 'center', width : '15%'},
+                        {field : 'projectMoney',   title : '总经费(万元)', style : 'cursor: pointer;', align: 'center', width : '15%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
+                        {field : 'taskVersion',      title : '任务书版本号', style : 'cursor: pointer;', align: 'center', width : '20%',templet : '#view_taskVersion'},
+                        {field : 'leadUnitName',   title : '牵头单位',    style : 'cursor: pointer;', align: 'left', width : '20%'},
+                        {field : 'belongDepartmentName', title : '归属部门', style : 'cursor: pointer;', align: 'left', width : '15%'},
+                        {field : 'professionalDepartName', title : '专业处',  style : 'cursor: pointer;', align: 'left', width : '10%'},
+                        {field : 'professionalFieldName',  title : '专业领域', style : 'cursor: pointer;', align: 'left', width : '15%'},
+                        {field : 'parentApplyUnitPathName',   title : '上报单位',  style : 'cursor: pointer;', align: 'left', width : '20%'},
+                        {field : 'applyUnitName',             title : '上报部门',  style : 'cursor: pointer;', align: 'left', width : '15%'},
+                        {field : 'applyUserName', title : '上报人',      style : 'cursor: pointer;', align: 'left', width : '10%'},
+                        {field : 'createDate',     title : '上报时间',     style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
                     ]],
                     done: function (res, curr, count)
                     {
@@ -86,32 +95,27 @@
                             $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
                             $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                             selectRowData=res.data[index-1];
+                            var taskId=selectRowData.taskId;
+                            var topicId=selectRowData.topicId;
                             var id=selectRowData.id;
-                            var name=selectRowData.name;
-                            var yearFeeStrJoinUnit=selectRowData.yearFeeStrJoinUnit;
-                            var yearFeeStr=selectRowData.yearFeeStr;
-                            var projectMoney=selectRowData.projectMoney;
-                            var leadUnitName=selectRowData.leadUnitName;
-                            var equipmentIds=selectRowData.equipmentIds;
-                            $("#topicId").val(id)
-                            $("#name").val(name);
-                            $("#yearFeeStrJoinUnit").val(yearFeeStrJoinUnit);
-                            $("#yearFeeStr").val(yearFeeStr);
-                            $("#projectMoney").val(projectMoney);
-                            $("#leadUnitName").val(leadUnitName);
-                            $("#equipmentIds").val(equipmentIds);
+                            var topicName=selectRowData.topicName;
+                            //var equipmentIds=selectRowData.equipmentIds;
+                            $("#topicId").val(topicId)
+                            $("#topicName").val(topicName);
+                            $("#taskId").val(taskId);
                         });
                         //监听表格双击事件
                         $('#notjoin_apply_table').next().find('.layui-table-body').find("table" ).find("tbody").children("tr").on('dblclick',function(){
                             var id = JSON.stringify($('#notjoin_apply_table').next().find('.layui-table-body').find("table").find("tbody").find(".layui-table-hover").data('index'));
                             selectRowData = res.data[id];
-                            var topicId = selectRowData.topicId;
-                            var equipmentIds = selectRowData.equipmentIds;
-                            var name = selectRowData.name;
+                            var taskId=selectRowData.taskId;
+                            var topicId =selectRowData.topicId;
+                            var topicName = selectRowData.topicName;
+                            //alert(taskId)
+                            parent.document.getElementById("taskId").value=taskId;
                             parent.document.getElementById("topicId").value=topicId;
-                            parent.document.getElementById("name").value=name;
-                            parent.document.getElementById("equipmentIds").value=equipmentIds;
-                            parent.call_back(equipmentIds);
+                            parent.document.getElementById("topicName").value=topicName;
+                            parent.call_back(topicId);
                             var index = parent.layer.getFrameIndex(window.name);
                             parent.layer.close(index);
                         })
@@ -121,32 +125,30 @@
                 $(".layui-table-header table thead th input").remove()
                 var $ = layui.$, active = {
                     searchEvent: function() {
-                        table.reload("notjoin_apply_table",{where:{param:{"id":$("#topicId").val(),"name":$("#name").val(),"taskWriteUsersIds":$("#taskWriteUsersIds").val()}}});
+                        table.reload("notjoin_apply_table",{where:{param:{"id":$("#topicId").val(),"topicName":$("#topicName").val(),"taskWriteUsersIds":$("#taskWriteUsersIds").val()}}});
                         $(".layui-table-header table thead th input").remove()
                         },
                     resetEvent: function() { //点击重置按钮
-                        $('#name').val("");
+                        $('#topicName').val("");
                     },
                     addEvent:function(){
+
+                        var taskId=$("#taskId").val();
                         var topicId=$("#topicId").val();
-                        var name=$("#name").val();
+                        var topicName=$("#topicName").val();
+                        var equipmentIds=$("#equipmentIds").val();
                         var check = table.checkStatus('notjoin_apply_table');
-                        //console.log(selectRowData)
                         if(selectRowData == 0){
                             layer.msg('请选择选择课题!');
                             return;
                         }
-                        var yearFeeStrJoinUnit=$("#yearFeeStrJoinUnit").val();
-                        var yearFeeStr=$("#yearFeeStr").val();
-                        var projectMoney=$("#projectMoney").val();
-                        var leadUnitName=$("#leadUnitName").val();
-                        var equipmentIds=$("#equipmentIds").val();
-                        //alert(topicId);
+
+                        parent.document.getElementById("taskId").value=taskId;
                         parent.document.getElementById("topicId").value=topicId;
-                        parent.document.getElementById("name").value=name;
+                        parent.document.getElementById("topicName").value=topicName;
                         parent.document.getElementById("equipmentIds").value=equipmentIds;
-                       //parent.document.getElementById("projectMoney").value=projectMoney;
-                        parent.call_back(equipmentIds);
+
+                        parent.call_back(topicId);
 
                         //parent.setPorject(yearFeeStrJoinUnit,yearFeeStr,leadUnitName);
                         var index = parent.layer.getFrameIndex(window.name);
@@ -179,7 +181,7 @@
     <div class="searchBox">
         <label class="dateInput">
             <span>课题名称</span>
-            <input type="text" name="name" id="name" placeholder="请输入课题名称" autocomplete="off" class="form-control">
+            <input type="text" name="topicName" id="topicName" placeholder="请输入课题名称" autocomplete="off" class="form-control">
         </label>
         <div class="btnGroup">
             <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"                 data-type="searchEvent">查询</button>

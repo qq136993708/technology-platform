@@ -26,7 +26,6 @@
 <input  name="joinUnitCodes"  id="joinUnitCodes"           type="hidden" >
 <input  name="specialAuditor0"  id="specialAuditor0"           type="hidden" >
 <input  name="branchFlag"  id="branchFlag"           type="hidden" >
-
 </form>
     <!--查询条件-->
     <label class="dateInput">
@@ -421,7 +420,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre_project_task/list',
             method:"POST",
-            where: {param: {"topicName":$("#topicName").val(),"innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"auditStatus":$("#auditStatus").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {"topicName":$("#topicName").val(),"innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"auditStatus":$("#auditStatus").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"leadUnitCode":$("#leadUnitCode").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),

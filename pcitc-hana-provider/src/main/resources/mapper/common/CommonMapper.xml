@@ -168,6 +168,8 @@
 		 "G0TELFX"
 	FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1000_05"('PLACEHOLDER' = ('$$PR_GSDM$$',
 		 '${companyCode}'))  where "G0KTOKK" not in ('SK97','SK98')
+		<if test="g0NAME1 != null   and g0NAME1  !='' ">         AND G0NAME1 like '%${g0NAME1}%' </if>
+	     <if test="g0MCOD3 != null   and g0MCOD3  !='' ">         AND G0MCOD3 like '%${g0MCOD3}%'  </if>
 	GROUP BY "G0LAND1",
 		 "G0MCOD3",
 		 "G0SORTL",
@@ -179,7 +181,6 @@
 		 "G0ADRNR",
 		 "G0TELF1",
 		 "G0TELFX"
-		<include refid="selectConditionDicSupplyer" /> 
 		<if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>   
 	 </select>
 	 
@@ -200,6 +201,8 @@
 		 "G0TELFX"
 	FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1000_05"('PLACEHOLDER' = ('$$PR_GSDM$$',
 		 '${companyCode}'))  where "G0KTOKK" not in ('SK97','SK98')
+		 <if test="g0NAME1 != null   and g0NAME1  !='' ">         AND G0NAME1 like '%${g0NAME1}%' </if>
+	     <if test="g0MCOD3 != null   and g0MCOD3  !='' ">         AND G0MCOD3 like '%${g0MCOD3}%'  </if>
 	GROUP BY "G0LAND1",
 		 "G0MCOD3",
 		 "G0SORTL",
@@ -211,7 +214,7 @@
 		 "G0ADRNR",
 		 "G0TELF1",
 		 "G0TELFX"
-		<include refid="selectConditionDicSupplyer" /> 
+		
 		)
 	 </select>
 	 

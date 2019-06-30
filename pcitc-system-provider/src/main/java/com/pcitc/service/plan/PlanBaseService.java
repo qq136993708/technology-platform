@@ -6,8 +6,10 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.plan.PlanBase;
 import com.pcitc.base.plan.PlanBaseExample;
+
 import org.apache.ibatis.annotations.Param;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -191,4 +193,9 @@ public interface PlanBaseService {
 
     public void importFileStandard(JSONObject jsonObject);
     public JSONObject importFileTfc(JSONObject jsonObject);
+    
+    /**
+     * 统计首页中上周、本周的工作任务情况 
+     */
+    public HashMap<String, String> getWorkOrderInfoForStat(HashMap<String, String> map);
 }

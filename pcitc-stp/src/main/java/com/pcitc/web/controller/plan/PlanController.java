@@ -8,12 +8,14 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,10 +40,10 @@ public class PlanController extends BaseController {
 	private static final String BOT_WORK_ORDER_LIST = "http://pcitc-zuul/system-proxy/planClient-provider/botWorkOrder_list";
 	// 保存新增
 	private static final String SAVE_BOT_WORK_ORDER = "http://pcitc-zuul/system-proxy/planClient-provider/saveBotWorkOrder";
-	
+
 	// 转发时新单据的复制
 	private static final String SAVE_ZF = "http://pcitc-zuul/system-proxy/planClient-provider/zf/saveBotWorkOrder";
-	
+
 	// 删除
 	private static final String DELETE_BOT_WORK_ORDER = "http://pcitc-zuul/system-proxy/planClient-provider/deleteBotWorkOrder/";
 	// 修改
@@ -52,9 +54,6 @@ public class PlanController extends BaseController {
 	private static final String AFFIRM_BOT_WORK_ORDER = "http://pcitc-zuul/system-proxy/planClient-provider/affirmBotWorkOrder/";
 	// 提交
 	private static final String SUBMIT_BOT_WORK_ORDER = "http://pcitc-zuul/system-proxy/planClient-provider/submitBotWorkOrder/";
-	// 批量保存工单事项
-	private static final String SAVE_BOT_WORK_ORDER_MATTER_BATCH = "http://pcitc-zuul/system-proxy/planClient-provider/saveBotWorkOrderMatterBatch";
-
 	// 批量保存任务
 	private static final String SAVE_PLAN_BASE_BATCH = "http://pcitc-zuul/system-proxy/planClient-provider/savePlanBaseBatch";
 	// 转发修改子节点
@@ -70,7 +69,6 @@ public class PlanController extends BaseController {
 	private static final String SAVE_MY_BOT_WORK_ORDER_MATTER_BATCH = "http://pcitc-zuul/system-proxy/planClient-provider/saveMyBotWorkOrderMatterBatch";
 	// 提交
 	private static final String SUBMIT_MY_BOT_WORK_ORDER = "http://pcitc-zuul/system-proxy/planClient-provider/submitMyBotWorkOrder/";
-
 
 	/**
 	 * 用户选择:页面跳转
@@ -88,8 +86,6 @@ public class PlanController extends BaseController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/plan/pagePlanList")
 	private String pagePlanList(HttpServletRequest request) {
-		basePath = request.getContextPath();
-		request.setAttribute("basePath", basePath);
 		return "stp/plan/listPlanPage";
 	}
 
@@ -101,7 +97,7 @@ public class PlanController extends BaseController {
 	public Object getTableData(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request) throws IOException {
 		// 只查询本人创建的
 		param.getParam().put("createUser", sysUserInfo.getUserId());
-		
+
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(BOT_WORK_ORDER_LIST, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData result = responseEntity.getBody();
@@ -109,28 +105,31 @@ public class PlanController extends BaseController {
 		JSONObject retJson = (JSONObject) JSON.toJSON(result);
 		return retJson;
 	}
-    /**
-     * 主页任务新增
-     * @param request
-     * @return
-     */
-    @RequestMapping(value = "/plan/addPlanPageMain")
-    public String pageAddPlanMain(HttpServletRequest request) {
-        Object dataId = request.getParameter("dataId");
-        String flag = "edit";
-        if (dataId == null || "".equals(dataId)) {
-            dataId = UUID.randomUUID().toString().replace("-", "");
-            flag = "add";
-        }
-        request.setAttribute("flag", flag);
-        request.setAttribute("dataId", dataId);
-        request.setAttribute("userName", sysUserInfo.getUserDisp());
-        request.setAttribute("unitName", sysUserInfo.getUnitName());
-        request.setAttribute("bak6", sysUserInfo.getUserId());
-        request.setAttribute("bak4", sysUserInfo.getUserDisp());
-        request.setAttribute("closeType", "1");
-        return "stp/plan/addPlanPage";
-    }
+
+	/**
+	 * 主页任务新增
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/plan/addPlanPageMain")
+	public String pageAddPlanMain(HttpServletRequest request) {
+		Object dataId = request.getParameter("dataId");
+		String flag = "edit";
+		if (dataId == null || "".equals(dataId)) {
+			dataId = UUID.randomUUID().toString().replace("-", "");
+			flag = "add";
+		}
+		request.setAttribute("flag", flag);
+		request.setAttribute("dataId", dataId);
+		request.setAttribute("userName", sysUserInfo.getUserDisp());
+		request.setAttribute("unitName", sysUserInfo.getUnitName());
+		request.setAttribute("bak6", sysUserInfo.getUserId());
+		request.setAttribute("bak4", sysUserInfo.getUserDisp());
+		request.setAttribute("closeType", "1");
+		return "stp/plan/addPlanPage";
+	}
+
 	/**
 	 * 新建任务
 	 */
@@ -148,9 +147,8 @@ public class PlanController extends BaseController {
 		request.setAttribute("unitName", sysUserInfo.getUnitName());
 		request.setAttribute("bak6", sysUserInfo.getUserId());
 		request.setAttribute("bak4", sysUserInfo.getUserDisp());
-//		request.setAttribute("closeType", request.getParameter("closeType"));
-		
-		
+		// request.setAttribute("closeType", request.getParameter("closeType"));
+
 		request.setAttribute("userInfo", sysUserInfo);
 		return "stp/plan/addPlanPage";
 	}
@@ -175,7 +173,6 @@ public class PlanController extends BaseController {
 		request.setAttribute("unitName", sysUserInfo.getUnitName());
 		return "stp/plan/editPlanPage";
 	}
-
 
 	/**
 	 * 任务下发
@@ -205,12 +202,12 @@ public class PlanController extends BaseController {
 		request.setAttribute("dataId", request.getParameter("dataId"));
 		request.setAttribute("userName", sysUserInfo.getUserDisp());
 		request.setAttribute("unitName", sysUserInfo.getUnitName());
-		
+
 		String dataId = request.getParameter("dataId");
 		ResponseEntity<PlanBase> responseEntity = this.restTemplate.exchange(VIEW_BOT_WORK_ORDER + dataId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), PlanBase.class);
 		PlanBase planBase = responseEntity.getBody();
 		request.setAttribute("planBase", planBase);
-		
+
 		return "stp/plan/zf_plan_edit_page";
 	}
 
@@ -257,7 +254,7 @@ public class PlanController extends BaseController {
 				planBase.setWorkOrderStatus("0");
 				planBase.setRedactUnitName(bsv.getRedactUnitName());
 				planBase.setWorkOrderType(bsv.getWorkOrderType());
-				
+
 				// 记录父节点的相关信息，方便显示
 				planBase.setDataCode(bsv.getDataCode());
 				planBase.setWorkOrderCode(bsv.getDataCode());
@@ -265,7 +262,7 @@ public class PlanController extends BaseController {
 				planBase.setCreateUserName(bsv.getCreateUserName());
 				planBase.setCreateDate(bsv.getCreateDate());
 				planBase.setStatus(bsv.getStatus());
-				
+
 				System.out.println("announcements = " + detail.get("announcements"));
 				planBase.setAnnouncements(StrUtil.objectToString(detail.get("announcements")));
 				baseList.add(planBase);
@@ -308,7 +305,7 @@ public class PlanController extends BaseController {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 下发时的保存方法
 	 */
@@ -349,7 +346,7 @@ public class PlanController extends BaseController {
 				planBase.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
 				planBase.setBl(StrUtil.objectToString(detail.get("bl")));
 				planBase.setAnnouncements(StrUtil.objectToString(detail.get("announcements")));
-				
+
 				// 记录父节点的相关信息，方便显示
 				planBase.setDataCode(wjbvo.getDataCode());
 				planBase.setWorkOrderCode(wjbvo.getDataCode());
@@ -369,7 +366,7 @@ public class PlanController extends BaseController {
 			e.printStackTrace();
 			result = 500;
 		}
-		
+
 		return result;
 	}
 
@@ -406,6 +403,15 @@ public class PlanController extends BaseController {
 	public String viewPlanPage(HttpServletRequest request) {
 		request.setAttribute("dataId", request.getParameter("dataId"));
 		return "stp/plan/viewPlanPage";
+	}
+
+	/**
+	 * 跳转至查看工单管理页面, 换一种链接方法
+	 */
+	@RequestMapping(value = "/plan/viewPlanPage/{dataId}")
+	public String viewPlanPageLD(@PathVariable("dataId") String dataId, HttpServletRequest request) {
+		System.out.println("====================viewPlanPageLD"+dataId);
+		return "/stp/plan/viewPlanPage";
 	}
 
 	/**
@@ -462,7 +468,7 @@ public class PlanController extends BaseController {
 				planBase.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
 				planBase.setBl(StrUtil.objectToString(detail.get("bl")));
 				planBase.setAnnouncements(StrUtil.objectToString(detail.get("announcements")));
-				
+
 				// 记录父节点的相关信息，方便显示
 				planBase.setDataCode(wjbvo.getDataCode());
 				planBase.setWorkOrderCode(wjbvo.getDataCode());
@@ -527,12 +533,12 @@ public class PlanController extends BaseController {
 		wjbvoOld.setWorkOrderType(wjbvo.getWorkOrderType());
 		wjbvoOld.setDataId(newDataId);
 		wjbvoOld.setJsId(wjbvo.getDataId());
-		
+
 		// 转发时，实际的分配人就是此次的转发人
 		wjbvoOld.setCreateUser(sysUserInfo.getUserId());
 		wjbvoOld.setCreateUserName(sysUserInfo.getUserDisp());
 		wjbvoOld.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
-		
+
 		HttpEntity<PlanBase> entityNew = new HttpEntity<PlanBase>(wjbvoOld, this.httpHeaders);
 		// 保存，同时复制原任务已经办理的业务反馈事项
 		ResponseEntity<Integer> responseEntityNew = this.restTemplate.exchange(SAVE_ZF, HttpMethod.POST, entityNew, Integer.class);
@@ -640,7 +646,6 @@ public class PlanController extends BaseController {
 	public int saveMyBotWorkOrderMatterFeedBack(HttpServletRequest request) {
 		String param = request.getParameter("param");
 		JSONObject jsStr = (JSONObject) JSON.parseObject(param);
-		// jsStr.put("dataCode", code);
 		jsStr.put("auditSts", "0");
 		jsStr.put("createDate", DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
 		jsStr.put("dataOrder", new Date().getTime() + "");
@@ -649,8 +654,6 @@ public class PlanController extends BaseController {
 		jsStr.put("updateUserName", sysUserInfo.getUserDisp());
 		jsStr.put("status", "0");
 		jsStr.put("unitName", sysUserInfo.getUnitName());
-
-		// PlanBase bsv = JSONObject.toJavaObject(jsStr, PlanBase.class);
 
 		List<PlanBaseDetail> matterList = new ArrayList<PlanBaseDetail>();
 		if (jsStr.containsKey("matterList")) {
@@ -683,7 +686,10 @@ public class PlanController extends BaseController {
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(EDIT_BOT_WORK_ORDER, HttpMethod.POST, entity, Integer.class);
 
 		// 保存从表新
-		HttpEntity<List<PlanBaseDetail>> entityList = new HttpEntity<List<PlanBaseDetail>>(matterList, this.httpHeaders);
+		PlanBase pb = new PlanBase();
+		pb.setDataId(wjbvo.getDataId());
+		pb.setPlanBaseDetailList(matterList);
+		HttpEntity<PlanBase> entityList = new HttpEntity<PlanBase>(pb, this.httpHeaders);
 		ResponseEntity<Integer> responseEntityList = this.restTemplate.exchange(SAVE_MY_BOT_WORK_ORDER_MATTER_BATCH, HttpMethod.POST, entityList, Integer.class);
 		int result = responseEntityList.getBody();
 		try {

@@ -12,10 +12,18 @@
 <body>
 	<div class="searchBox">
 		<!--查询条件-->
-		<input type="hidden" name="status" id="status" value="all"> <label class="dateInput"> <span>流程名称</span> <input type="text" name="processName"
-			placeholder="请输入流程名称" title="流程名称" autocomplete="off" class="form-control" id="processName">
-		</label> <label class="dateInput"> <span>开始时间</span> <input type="text" name="startTime" placeholder="请输入开始时间" title="开始时间" autocomplete="off" class="form-control" id="startTime">
-		</label> <label class="dateInput"> <span>结束时间</span> <input type="text" name="endTime" placeholder="请输入结束时间" title="结束时间" autocomplete="off" class="form-control" id="endTime">
+		<input type="hidden" name="status" id="status" value="all">
+		<label class="dateInput">
+			<span>流程名称</span>
+			<input type="text" name="processName" placeholder="请输入流程名称" title="流程名称" autocomplete="off" class="form-control" id="processName">
+		</label>
+		<label class="dateInput">
+			<span>开始时间</span>
+			<input type="text" name="startTime" placeholder="请输入开始时间" title="开始时间" autocomplete="off" class="form-control" id="startTime">
+		</label>
+		<label class="dateInput">
+			<span>结束时间</span>
+			<input type="text" name="endTime" placeholder="请输入结束时间" title="结束时间" autocomplete="off" class="form-control" id="endTime">
 		</label>
 		<!--按钮组-->
 		<div class="btnGroup">
@@ -29,13 +37,16 @@
 			<div class="whiteLine"></div>
 			<div class="tableBtns">
 				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue active btnMyBgImg" data-type="allEvent">
-					<span class="btn-state btn-two-state"></span> 全部
+					<span class="btn-state btn-two-state"></span>
+					全部
 				</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="completeEvent">
-					<span class="btn-state btn-blue"></span> 已完成
+					<span class="btn-state btn-blue"></span>
+					已完成
 				</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="approvedEvent">
-					<span class="btn-state btn-yellow"></span> 执行中
+					<span class="btn-state btn-yellow"></span>
+					执行中
 				</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent">详情</ button>
 			</div>

@@ -261,7 +261,7 @@
 	        	 {field: 'id', title: '编号', style: 'cursor: pointer;'}
 	           , {field: 'equipmentName', title: '装备名称', style: 'cursor: pointer;'}
 	           , {field: 'specification', title: '规格型号', style: 'cursor: pointer;'}
-	           , {field: 'del', title :'删除', style :'cursor: pointer;color: red;', align: 'center', width : '10%',templet:function(d){return '<span onclick="view_project(&#39;'+d.id+'&#39;)" style="color:red">删除</span>'}}
+	           , {field: 'del', title :'删除', style :'cursor: pointer;color: red;', align: 'center', templet:function(d){return '<span onclick="view_project(&#39;'+d.id+'&#39;)" style="color:red">删除</span>'}}
 	        ]],
 	        data:AddData
 	        , done: function (res, curr, count) {

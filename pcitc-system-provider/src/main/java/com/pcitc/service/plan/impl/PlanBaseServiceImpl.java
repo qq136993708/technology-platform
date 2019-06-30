@@ -22,6 +22,7 @@ import com.pcitc.service.plan.PlanBaseService;
 import com.pcitc.service.system.StandardBaseService;
 import com.pcitc.service.system.SysFileService;
 import com.pcitc.utils.OSSUtil;
+
 import org.apache.ibatis.annotations.Param;
 import org.olap4j.Axis;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -333,7 +334,13 @@ public class PlanBaseServiceImpl implements PlanBaseService {
         }finally {
             return jsonObject;
         }
-
+    }
+    
+    /**
+     * 统计首页中上周、本周的工作任务情况 
+     */
+    public HashMap<String, String> getWorkOrderInfoForStat(HashMap<String, String> map) {
+    	return planBaseMapper.getWorkOrderInfoForStat(map);
     }
 
 }

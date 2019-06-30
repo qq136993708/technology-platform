@@ -814,6 +814,12 @@
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
    </select>
    
+     <select id="getListByErpnum" resultMap="BaseResultMap" parameterType="Map" >
+     select * from sre_project_task t  where t.erp_num is not null and  t.erp_num !=''
+     ORDER BY  create_date desc
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
     <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
       SELECT count(*) FROM sre_project_task t <include refid="selectCondition"/>
     </select>

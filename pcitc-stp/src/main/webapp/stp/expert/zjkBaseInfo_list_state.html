@@ -155,10 +155,10 @@
                         field: "sex",
                         title: "性别", event: 'setActive', style: 'cursor: pointer;',width: 50
                     },
-                    {
-                        field: "expertProfessionalFieldName",
-                        title: "专业领域", event: 'setActive', style: 'cursor: pointer;'
-                    },
+                    // {
+                    //     field: "expertProfessionalFieldName",
+                    //     title: "专业领域", event: 'setActive', style: 'cursor: pointer;'
+                    // },
                     {
                         field: "birthDate",
                         title: "出生日期", event: 'setActive', style: 'cursor: pointer;',width: 120
@@ -177,7 +177,7 @@
                     },
                     {
                         field: "expertProfessinal",
-                        title: "职称", event: 'setActive', style: 'cursor: pointer;',width: 60
+                        title: "职称", event: 'setActive', style: 'cursor: pointer;',width: 120
                     },
                     {
                         field: "companyName",
@@ -258,11 +258,10 @@
                 loadtable()
             },
             resetEvent: function () { //点击查询按钮
-                table.reload('zjkBaseInfoTableId', {
-                    where: {
-                        param: {}
-                    }
-                });
+                $("#expertName").val("");
+                $("#email").val("");
+                $("#email").val("");
+                loadtable();
             }, getChecked: function () {//多选
                 var ids = "";
                 var selectedData = active.getCheckData();
@@ -344,7 +343,7 @@
                     layer.msg("请选择一条数据");
                     return;
                 }
-                layer.confirm('确定要执行冻结吗?', {btn: ['确认', '取消'], title: "删除确认"}, function (index) {
+                layer.confirm('确定要执行冻结吗?', {btn: ['确认', '取消'], title: "冻结确认"}, function (index) {
                         layer.close(index);
                         ajaxPost("/zjkBaseInfo/updateExpertByType", {"dataId": selectRowData.dataId,"bak1":"1","sysFlag":"1"}, function (data) {
                             layer.msg("操作成功");
@@ -358,7 +357,7 @@
                     layer.msg("请选择一条数据");
                     return;
                 }
-                layer.confirm('确定要执行解冻吗?', {btn: ['确认', '取消'], title: "删除确认"}, function (index) {
+                layer.confirm('确定要执行解冻吗?', {btn: ['确认', '取消'], title: "解冻确认"}, function (index) {
                     layer.close(index);
                     ajaxPost("/zjkBaseInfo/updateExpertByType", {"dataId": selectRowData.dataId,"bak1":"1","sysFlag":"0"}, function (data) {
                         layer.msg("操作成功");

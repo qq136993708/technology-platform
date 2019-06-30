@@ -103,45 +103,14 @@ public class CommonServiceImpl implements ICommonService {
  		String g0NAME1=(String)param.getParam().get("g0NAME1");
  		String g0MCOD3=(String)param.getParam().get("g0MCOD3");
  		String g0GSDM=(String)param.getParam().get("g0GSDM");
- 		/*List<String> list=null;
- 		if(g0GSDM!=null)
- 		{
- 			String arr[]=g0GSDM.split(",");
- 	 		if(arr!=null)
- 	 		{
- 	 			list=new ArrayList<String>();
- 	 			for(int i=0;i<arr.length;i++)
- 	 			{
- 	 				String str=arr[i];
- 	 				if(str!=null && !str.equals(""))
- 	 				{
- 	 					list.add(str);
- 	 				}
- 	 			}
- 	 		}
- 		}
- 		StringBuffer stringBuffer=new StringBuffer();
- 		if(list!=null && list.size()>0)
- 		{
- 			stringBuffer.append(" and G0GSDM in (");
- 			for(int i=0;i<list.size();i++)
- 			{
- 				String str=list.get(i);
- 				if(i>0)
- 				{
- 					stringBuffer.append(",");
- 				}
- 				stringBuffer.append("'").append(str).append("'");
- 			}
- 			stringBuffer.append(")");
- 		}
- 		*/
+ 		String companyCode=(String)param.getParam().get("companyCode");
+ 		
  		Map map=new HashMap();
  		map.put("start", start);
  		map.put("pageSize", pageSize);
  		map.put("g0NAME1", g0NAME1);
  		map.put("g0MCOD3", g0MCOD3);
- 		map.put("companyCode", g0GSDM);
+ 		map.put("companyCode", companyCode);
  		List<DicSupplyer> listDicSupplyer = commonMapper.getDicSupplyerList_table(map);
  		Integer totalRecords = commonMapper.getDicSupplyCount(map);
  		System.out.println(">>>>>>>表格："+totalRecords);

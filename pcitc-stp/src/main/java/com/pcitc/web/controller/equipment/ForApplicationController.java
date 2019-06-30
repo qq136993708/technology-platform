@@ -1,8 +1,15 @@
 package com.pcitc.web.controller.equipment;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -41,10 +48,12 @@ import com.pcitc.base.stp.equipment.SrePurchase;
 import com.pcitc.base.stp.equipment.UnitField;
 import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.util.CommonUtil;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.config.SpringContextUtil;
 import com.pcitc.web.utils.EquipmentUtils;
+import com.pcitc.web.utils.WordUtil;
 
 @Controller
 public class ForApplicationController extends BaseController {
@@ -58,7 +67,10 @@ public class ForApplicationController extends BaseController {
 	private static final String EQU_URL = "http://pcitc-zuul/stp-proxy/sre-provider/forapplicationequipment/page";
 	private static final String DETAIL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/Detail/add";
 	private static final String UPFOR_URL = "http://pcitc-zuul/stp-proxy/sre-provider/forapplication/upfor/";
-	 private static final String PURCHASE_INNER_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/forapplication/forapplication_activity/";
+	private static final String UPDATE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/forapplication/update";
+	private static final String PURCHASE_INNER_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/forapplication/forapplication_activity/";
+	//临时导出文件目录
+	private static final String TEMP_FILE_PATH = "src/main/resources/tem/";
 	/**
 	 * 列表
 	 * 
@@ -240,7 +252,7 @@ public class ForApplicationController extends BaseController {
 	 */
 	@ResponseBody
 	@RequestMapping(method = RequestMethod.POST, value = "/sre-forapplicatio/save")
-	public String savePrivilege(String[] arr,String equipmentIds,String froname,HttpServletResponse response) throws IOException{ 
+	public String savePrivilege(String[] arr,String equipmentIds,String froname,String companyCode,HttpServletResponse response) throws IOException{ 
 		String result = "";
 		SreForApplication pplication = new SreForApplication();
 		ResponseEntity<String> responseEntity = null;
@@ -262,6 +274,7 @@ public class ForApplicationController extends BaseController {
 		pplication.setApplicationTime(new Date());//申请时间
 		pplication.setApplicationUserName(UserDisp);//当前操作人
 		pplication.setApplicationPurchaseid(equipmentIds);//装备ID
+		pplication.setCompanyCode(companyCode);//公司代码
 		pplication.setApplicationState(Constant.OK_ZERO);//申请状态
 		responseEntity = this.restTemplate.exchange(ADD_URL, HttpMethod.POST, new HttpEntity<SreForApplication>(pplication, this.httpHeaders), String.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -419,4 +432,197 @@ public class ForApplicationController extends BaseController {
         Result rs = this.restTemplate.exchange(PURCHASE_INNER_WORKFLOW_URL + id, HttpMethod.POST, httpEntity, Result.class).getBody();
         return rs;
     }
+    
+    /* =================================生成word文档  START================================*/
+    //生成采购单word模板
+    @RequestMapping(value = "/sre-forApplication/createWord/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public String createWord(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception
+    {
+        Result resultsDate = new Result();
+        String fileName=createPurchaseWord( id,"forApplication.ftl",  response);
+        if (!fileName.equals(""))
+        {
+            resultsDate = new Result(true);
+            download(TEMP_FILE_PATH+fileName, response);
+            deleteFile(TEMP_FILE_PATH+fileName);
+        } else {
+            resultsDate = new Result(false, "生成文件失败！");
+        }
+        return null;
+    }
+    //生成采购单word数据
+    private String  createPurchaseWord(String id,String ftlName, HttpServletResponse response)
+    {
+
+        String  resutl="";
+        // 文件路径
+        String filePath = TEMP_FILE_PATH;
+        // 文件名称
+        String fileName =DateUtil.dateToStr(new Date(), DateUtil.FMT_SSS_02)+".doc";
+        try {
+            List<Map<String, Object>> purchaseEquipmentList = new ArrayList<Map<String, Object>>();
+            Map<String, Object> dataMap = new HashMap<String, Object>();
+            SreForApplication sreForApplication = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreForApplication.class).getBody();
+           if(sreForApplication!=null) {
+        	   String applicationpurchaseid[] = sreForApplication.getApplicationPurchaseid().split(",");
+
+            for (int i = 0; i < applicationpurchaseid.length; i++) {
+            	SreDetail sreDetail = EquipmentUtils.getSreDetail(applicationpurchaseid[i], restTemplate, httpHeaders);
+                if(sreDetail!=null){
+                	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String dateString = formatter.format(sreForApplication.getApplicationTime());
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    map.put("applicationName",sreForApplication.getApplicationName());
+                    map.put("applicationTime",dateString);
+                    map.put("applicationUserName",sreForApplication.getApplicationUserName());
+                    map.put("companyCode",sreForApplication.getCompanyCode());
+                    map.put("name",sreDetail.getEquipmentName());
+                    map.put("equipmentPrice",sreDetail.getEquipmentPrice());
+                    map.put("equipmenNumber",sreDetail.getEquipmenNumber());
+                    map.put("declareUnit",sreDetail.getDeclareUnit());
+                    map.put("assetNumber",sreDetail.getAssetNumber());
+                    purchaseEquipmentList.add(map);
+                }
+            }
+
+            }
+            dataMap.put("purchaseEquipmentList",purchaseEquipmentList);
+            dataMap.put("applicationName",sreForApplication.getApplicationName());
+            
+            /** 生成word */
+            boolean flage= WordUtil.createWord(dataMap, ftlName, filePath, fileName);
+            if(flage==true)
+            {
+                resutl=fileName;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resutl;
+    }
+
+
+
+
+
+
+
+    public HttpServletResponse download(String path, HttpServletResponse response)
+    {
+        try {
+            // path是指欲下载的文件的路径。
+            File file = new File(path);
+            // 取得文件名。
+            String filename = file.getName();
+            // 取得文件的后缀名。
+            String ext = filename.substring(filename.lastIndexOf(".") + 1).toUpperCase();
+
+            // 以流的形式下载文件。
+            InputStream fis = new BufferedInputStream(new FileInputStream(path));
+            byte[] buffer = new byte[fis.available()];
+            fis.read(buffer);
+            fis.close();	
+            // 清空response
+            response.reset();
+            // 设置response的Header
+            response.setCharacterEncoding("UTF-8");
+            response.addHeader("Content-Disposition", "attachment;filename=" + new String(filename.getBytes()));
+            response.addHeader("Content-Length", "" + file.length());
+            OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+            response.setContentType("application/octet-stream");
+            toClient.write(buffer);
+            toClient.flush();
+            toClient.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return response;
+    }
+
+
+
+
+    public  boolean deleteFile(String fileName)
+    {
+        File file = new File(fileName);
+        // 如果文件路径所对应的文件存在，并且是一个文件，则直接删除
+        if (file.exists() && file.isFile())
+        {
+            if (file.delete())
+            {
+                System.out.println("删除单个文件" + fileName + "成功！");
+                return true;
+            } else
+            {
+                System.out.println("删除单个文件" + fileName + "失败！");
+                return false;
+            }
+        } else
+        {
+            System.out.println("删除单个文件失败：" + fileName + "不存在！");
+            return false;
+        }
+    }
+    /* =================================生成word文档  END================================*/
+    
+    /**
+     * 上传附件
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/sre-forapplication/upFileDoc")
+    public String upFileDoc(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String id = CommonUtil.getParameter(request, "id", "");
+        request.setAttribute("id", id);
+        if(!id.equals(""))
+        {
+        	ResponseEntity<SreForApplication> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreForApplication.class);
+            SreForApplication sreForApplication = responseEntity.getBody();
+            request.setAttribute("sreForApplication", sreForApplication);
+            String applicationUpload = sreForApplication.getApplicationUpload();
+                if(applicationUpload==null || applicationUpload.equals(""))
+                {
+                	applicationUpload= IdUtil.createFileIdByTime();
+                }
+                request.setAttribute("applicationUpload", applicationUpload);
+        }
+        return "/stp/equipment/forapplication/upFileDoc";
+    }
+    @RequestMapping(value = "/sre-forapplication/updateFileDoc")
+    public String updateFileDoc(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        Result resultsDate = new Result();
+        String id = CommonUtil.getParameter(request, "id", "");
+        String applicationUpload = CommonUtil.getParameter(request, "applicationUpload", "");
+        String resutl="";
+
+        int statusCodeValue = 0;
+        if(!id.equals(""))
+        {
+                ResponseEntity<SreForApplication> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreForApplication.class);
+                SreForApplication sreForApplication = responseEntity.getBody();
+                sreForApplication.setApplicationUpload(applicationUpload);
+                ResponseEntity<String>  exchange = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SreForApplication>(sreForApplication, this.httpHeaders), String.class);
+                statusCodeValue = responseEntity.getStatusCodeValue();
+        }
+        if (statusCodeValue==200)
+        {
+        	ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPFOR_URL + id, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
+            resultsDate.setSuccess(true);
+        } else
+        {
+            resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
+        }
+
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+        out.println(ob.toString());
+        out.flush();
+        out.close();
+        return null;
+}
 }

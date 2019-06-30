@@ -38,7 +38,7 @@
               lay-filter="component-form-group layui-container">
             <input name="id" id="id" value="${id}" type="hidden">
             <input name="equipmentIds" id="equipmentIds" value="${pplication.applicationId}" type="hidden">
-            <input name="documentDoc" id="documentDoc" value="${documentDoc}" type="hidden">
+            <input name="applicationUpload" id="applicationUpload" value="${pplication.applicationUpload}" type="hidden">
             <input name="yearFeeStr" id="yearFeeStr" value="${sreProjectBasic.yearFeeStr}" type="hidden">
             <input name="functionId" id="functionId" type="hidden">
             <input name="userIds" id="userIds" type="hidden">
@@ -105,7 +105,10 @@
                 </div>
             </div>
 
-
+		<div class="layui-form-item">
+	      	 <label class="layui-form-label">附件</label>
+	         <div id="file_div" class="layui-input-block"></div>
+       	</div>
 
 
                 <div class="form-bottom">
@@ -144,6 +147,36 @@ function formatTime(d) {
     }
 }
 
+var v_date=(new Date()).getTime();
+var publicMethods;
+var file_ids = "applicationUpload";
+//detail:详情，edit：编辑
+file_edit_detail = "detail";
+//统管理-附件管理-附件配置：页面标识
+file_opt_flag = "7b6f6480989040ac9d3fbe7899fabc7b";
+var supplierStr =$("#supplierStr").val();
+var supplierWillStr =$("#supplierWillStr").val();
+
+layui.config({
+}).extend({
+    index: 'layui/tableDemo' //主入口模块
+}).use(['form', 'table', 'laypage', 'layer', 'laydate', 'laytpl', 'jquery', "publicMethods"], function () {
+
+    var admin = layui.admin
+    element = layui.element
+        , table = layui.table
+        , layer = layui.layer
+        , laydate = layui.laydate
+        , laypage = layui.laypage
+        , form = layui.form
+        , $ = layui.jquery;
+       publicMethods = layui.publicMethods;
+       //添加到form.render()之后
+	 	$("#file_div").load('/common/public/uploadlayuiload.html');
+		form.render();
+			 	
+			 	
+		});
 
 
 var publicMethods;

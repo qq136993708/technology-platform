@@ -129,13 +129,14 @@
 					<div class="layui-form-item layui-form-text">
 						<label class="layui-form-label">任务描述</label>
 						<div class="layui-input-block">
-							<textarea class="layui-textarea" name="remarks" id="remarks" style="min-height: 50px;"></textarea>
+							<textarea class="layui-textarea readOnlyBox" name="remarks" id="remarks" style="min-height: 50px;" readonly="true"></textarea>
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<div class="tableBoxN">
+			<div class="tableBox">
+				<span class="file-span">任务附件</span>
 				<div class="layui-form-item">
 					<input type="hidden" name="parentId" id="parentId" value="">
 					<div id="file_upload_parent"></div>
@@ -158,7 +159,7 @@
 			<!--下发情况，有下发的才显示-->
 			<div class="tableBox item" id="matterTableDivParent">
 				<div class="tableToolBox">
-					<div class="tableTitle">工作下发列表</div>
+					<div class="tableTitle">工作安排列表</div>
 				</div>
 				<div style="display: block;" class="panel" id="matterTableDiv">
 					<table id="matterTalbe" class="layui-table" lay-filter="tableData">
@@ -167,6 +168,7 @@
 			</div>
 			
 			<div class="tableBox">
+				<span class="file-span">处理类附件</span>
 				<div class="tableToolBox" style="border: 0;">
 					<div class="layui-form-item">
 						<input type="hidden" name="attachId" id="attachId" value="${dataId}">
@@ -300,7 +302,7 @@
 				}
 			});
 
-			//任务接收后，下发列表
+			//任务接收后，下发给其他人员的工作安排列表
 			table.render({
 				elem : '#matterTalbe',
 				url : '/plan/queryBotWorkOrderMatterList',

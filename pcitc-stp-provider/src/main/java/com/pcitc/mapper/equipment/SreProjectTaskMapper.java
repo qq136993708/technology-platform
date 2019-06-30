@@ -27,6 +27,9 @@ public interface SreProjectTaskMapper {
     
     
     List getList(Map map);
+    
+    List getListByErpnum(Map map);
+    
     int getCount(Map map);
 
 	List<SreProjectTask> getTaskClosureList(Map map);

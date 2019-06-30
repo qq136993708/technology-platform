@@ -13,11 +13,13 @@
     <result column="apply_depart_name" property="applyDepartName" jdbcType="VARCHAR" />
     <result column="apply_depart_code" property="applyDepartCode" jdbcType="VARCHAR" />
     <result column="first_apply_user" property="firstApplyUser" jdbcType="VARCHAR" />
+    <result column="company_Code" property="companyCode" jdbcType="VARCHAR" />
+    <result column="application_Upload" property="applicationUpload" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     application_id, application_name, application_time, application_account, application_user_name, 
     application_money, application_state, application_purchaseid, apply_depart_name, 
-    apply_depart_code, first_apply_user
+    apply_depart_code, first_apply_user,company_Code,application_Upload
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -33,12 +35,13 @@
     insert into sre_for_application (application_id, application_name, application_time, 
       application_account, application_user_name, 
       application_money, application_state, application_purchaseid, 
-      apply_depart_name, apply_depart_code, first_apply_user
+      apply_depart_name, apply_depart_code, first_apply_user,company_Code,application_Upload
       )
     values (#{applicationId,jdbcType=VARCHAR}, #{applicationName,jdbcType=VARCHAR}, #{applicationTime,jdbcType=TIMESTAMP}, 
       #{applicationAccount,jdbcType=VARCHAR}, #{applicationUserName,jdbcType=VARCHAR}, 
       #{applicationMoney,jdbcType=VARCHAR}, #{applicationState,jdbcType=VARCHAR}, #{applicationPurchaseid,jdbcType=VARCHAR}, 
-      #{applyDepartName,jdbcType=VARCHAR}, #{applyDepartCode,jdbcType=VARCHAR}, #{firstApplyUser,jdbcType=VARCHAR}
+      #{applyDepartName,jdbcType=VARCHAR}, #{applyDepartCode,jdbcType=VARCHAR}, #{firstApplyUser,jdbcType=VARCHAR},
+      #{companyCode,jdbcType=VARCHAR},#{applicationUpload,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreForApplication" >
@@ -77,6 +80,12 @@
       <if test="firstApplyUser != null" >
         first_apply_user,
       </if>
+      <if test="companyCode != null" >
+        company_Code,
+      </if>
+      <if test="applicationUpload != null" >
+        application_Upload,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="applicationId != null" >
@@ -111,6 +120,12 @@
       </if>
       <if test="firstApplyUser != null" >
         #{firstApplyUser,jdbcType=VARCHAR},
+      </if>
+      <if test="companyCode != null" >
+        #{companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationUpload != null" >
+        #{applicationUpload,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -147,6 +162,12 @@
       <if test="firstApplyUser != null" >
         first_apply_user = #{firstApplyUser,jdbcType=VARCHAR},
       </if>
+      <if test="companyCode != null" >
+        company_Code = #{companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationUpload != null" >
+        application_Upload = #{applicationUpload,jdbcType=VARCHAR},
+      </if>
     </set>
     where application_id = #{applicationId,jdbcType=VARCHAR}
   </update>
@@ -161,7 +182,9 @@
       application_purchaseid = #{applicationPurchaseid,jdbcType=VARCHAR},
       apply_depart_name = #{applyDepartName,jdbcType=VARCHAR},
       apply_depart_code = #{applyDepartCode,jdbcType=VARCHAR},
-      first_apply_user = #{firstApplyUser,jdbcType=VARCHAR}
+      first_apply_user = #{firstApplyUser,jdbcType=VARCHAR},
+      company_Code = #{companyCode,jdbcType=VARCHAR},
+      application_Upload = #{applicationUpload,jdbcType=VARCHAR}
     where application_id = #{applicationId,jdbcType=VARCHAR}
   </update>
   

@@ -26,12 +26,12 @@
  <input type="hidden" name="applicationState" id="applicationState" value="${applicationState}">
  <input type="hidden" name="applyDepartCode" id="applyDepartCode" value="${applyDepartCode}">
  <input type="hidden" name="isKJBPerson" id="isKJBPerson" value="true">
-    <!--查询条件-->
+    <!--查询条件
     <label class="dateInput">
     <span>资产立项年度</span>
     <input type="text" name="setupYear" value="" readonly="readonly" placeholder="请选择资产立项年度" title="资产立项年度" autocomplete="off" class="form-control" id="setupYear">
     </label>
-    
+    -->
     <label class="dateInput">
         <span>资产名称</span>
         <input type="text" name="name" id="name" placeholder="请输入资产名称" title="资产名称" autocomplete="off" class="form-control" >
@@ -412,7 +412,6 @@ var name=$('#name').val();
             {field : 'applyDepartName',     title : '资产申请部门', style : 'cursor: pointer;', align : 'left', width : '15%' },
             {field : 'equipmentName', title : '装备名称', style : 'cursor: pointer;', align : 'left', width : '15%'},
             {field : 'equipmenNumber', title : '数量', style : 'cursor: pointer;', align : 'center',width : '15%'},
-            {field : 'assetNumber', title : '资产编号', style : 'cursor: pointer;', align : 'left', width : '15%'},
             {field : 'isscrap', title : '是否报废', style : 'cursor: pointer;', align : 'center'},
             ]],
            done: function (res, curr, count) {

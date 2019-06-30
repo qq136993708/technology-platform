@@ -531,4 +531,11 @@
       )
     </foreach>
   </insert>
+  <select id="selectErpnum" resultMap="BaseResultMap" parameterType="Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from sre_purchase_arrival
+    where G0EBELN =#{g0ebeln} and G0EBELP = #{g0ebelp}
+  </select>
+  
 </mapper>

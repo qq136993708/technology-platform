@@ -1910,4 +1910,17 @@
         ORDER BY CREATE_DATE
         limit 10
     </select>
+    
+    <!--  统计首页中上周、本周的工作任务情况 -->
+	<select id="getWorkOrderInfoForStat" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select 
+			 sum(case when parent_id is null and CREATE_DATE &gt; '${lastWeekStart} 00:00:00' and CREATE_DATE &lt; '${lastWeekEnd} 23:59:59"' then 1 else 0 end) lastWeekTotal,
+			 sum(case when parent_id is null and CREATE_DATE &gt; '${lastWeekStart} 00:00:00' and CREATE_DATE &lt; '${lastWeekEnd} 23:59:59"' and WORK_ORDER_STATUS = '2' then 1 else 0 end) lastWeekHaved,
+			 sum(case when parent_id is not null and CREATE_DATE &gt; '${thisWeekStart} 00:00:00' and CREATE_DATE &lt; '${thisWeekEnd} 23:59:59"' then 1 else 0 end) thisWeekTotal,
+			 sum(case when parent_id is not null and CREATE_DATE &gt; '${thisWeekStart} 00:00:00' and CREATE_DATE &lt; '${thisWeekEnd} 23:59:59"' and WORK_ORDER_STATUS = '2' then 1 else 0 end) thisWeekHaved
+		from plan_base
+		where
+			DEL_FLAG = '0'
+		
+	</select>
 </mapper>
