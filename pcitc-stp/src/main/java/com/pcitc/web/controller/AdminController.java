@@ -219,6 +219,9 @@ public class AdminController extends BaseController {
 		cookie.setPath("/");
 		response.addCookie(cookie);
 
+		// oa系统的服务器地址
+		request.setAttribute("outOAIp", "10.1.4.10");
+		
 		String cFlag = request.getParameter("cFlag");
 		request.setAttribute("userId", rsUser.getUserId());
 		if (rsUser.getUserLevel() != null && rsUser.getUserLevel() == 1 && cFlag == null) {
@@ -675,6 +678,9 @@ public class AdminController extends BaseController {
 		String unitPathId = sysUserInfo.getUnitPath();
 		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
 		request.setAttribute("isKJBPerson", isKJBPerson);
+		
+		// oa系统的服务器地址
+		request.setAttribute("outOAIp", "10.1.4.10");
 
 		return "/mainStp";
 	}

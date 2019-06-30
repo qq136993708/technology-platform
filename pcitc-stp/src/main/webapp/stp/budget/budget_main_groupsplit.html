@@ -38,7 +38,7 @@
             <div class="tool-left">
                 <label class="dateInput">
                     <span>编制年度</span>
-                    <input type="text" id="choose-year">
+                    <input type="text" readonly="readonly" id="choose-year">
                     <i class="layui-icon layui-icon-date"></i>
                 </label>
                 <label class="selectInput" style="margin-left: 20px;">
@@ -89,28 +89,28 @@
 	                <tr>
 	                	<th lay-data="{type:'checkbox'}" rowspan="3"></th>
 	                	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}" rowspan="3">序号</th>
-	                    <th lay-data="{field:'organName', width: '15%'}" rowspan="3">专业处/部门</th>
-	                    <th lay-data="{field:'total', align: 'right', width: '10%',totalRow: true}" rowspan="3">预算合计</th>
+	                    <th lay-data="{field:'organName', width: '10%'}" rowspan="3">专业处/部门</th>
+	                    <th lay-data="{field:'total', align: 'right', width: '5%',totalRow: true}" rowspan="3">预算合计</th>
 	                   	<th lay-data="{align: 'center',totalRow: true}" colspan="${items?size+2}">${nd}年结转项目经费</th>
 	                    <th lay-data="{align: 'center', totalRow: true}" colspan="${items?size+2}">${nd}年新签项目经费</th>
 	                </tr>
 	                <tr>
-	                    <th lay-data="{field:'total_jz', align: 'right',totalRow: true,width: 100}"  rowspan="2">合计</th>
-	                    <th lay-data="{align: 'right',totalRow: true,width: 100}"  colspan="${items?size}">拨款</th>
-	                    <th lay-data="{field:'plan_jz', edit:true,align: 'right',totalRow: true,width: 100}"  rowspan="2">计划</th>
-	                    <th lay-data="{field:'total_xq', align: 'right',totalRow: true,width: 100}"  rowspan="2">合计</th>
-	                    <th lay-data="{align: 'right',totalRow: true,width: 100}"  colspan="${items?size}">拨款</th>
-	                    <th lay-data="{field:'plan_xq', edit:true,align: 'right',totalRow: true,width: 100}"  rowspan="2">计划</th>
+	                    <th lay-data="{field:'total_jz', align: 'right',totalRow: true,width: 80}"  rowspan="2">合计</th>
+	                    <th lay-data="{align: 'right',totalRow: true,width: 80}"  colspan="${items?size}">拨款</th>
+	                    <th lay-data="{field:'plan_jz', edit:true,align: 'right',totalRow: true,width: 80}"  rowspan="2">计划</th>
+	                    <th lay-data="{field:'total_xq', align: 'right',totalRow: true,width: 80}"  rowspan="2">合计</th>
+	                    <th lay-data="{align: 'right',totalRow: true,width: 80}"  colspan="${items?size}">拨款</th>
+	                    <th lay-data="{field:'plan_xq', edit:true,align: 'right',totalRow: true,width: 80}"  rowspan="2">计划</th>
 	                </tr>
 	                 <tr>
 	                 	<#list items as item>
 	                 		<#list item?keys as key> 
-	                    		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true,width: 100}">${item[key]}</th>
+	                    		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true,width: 80}">${item[key]}</th>
 	                    	</#list>
 	                    </#list>
 	                    <#list items as item>
 	                 		<#list item?keys as key> 
-	                    		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true,width: 100}">${item[key]}</th>
+	                    		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true,width: 80}">${item[key]}</th>
 	                    	</#list>
 	                    </#list>
 	                </tr>
@@ -136,7 +136,7 @@
         <p>请注意:</p>
         <ul>
             <li>1、可分配数取自当年最终预算总表，剩余可分配数为可分配数与已填入的预算数之差，剩余可分配数自动计算，不可更改</li>
-            <li>2、预算编制状态包括：编制中、审批中、初审驳回、审批通过、最终预算等五种，审批发起后不可再编辑</li>
+            <li>2、预算编制状态包括：编制中、审批中、审批驳回、审批通过、最终预算等五种，审批发起后不可再编辑</li>
             <li>3、预算按年度编制，编制年度可自定义，默认编制下一年度</li>
             <li>4、预算表创建时生成一个版本号，版本号规则：vs-年度-三位类别编码-三位顺序号</li>
             <li>5、历年参照预算数据中的数据为该年审批通过的最终预算版本</li>
@@ -290,7 +290,7 @@
 			}
           	//初始化数据版本
             window.initDataVersion =function(budget_id){
-            	publicMethods.ajaxPost("/budget/budget-info-list",{"nd":cu_date,"budgetType":${budgetType}}, function (dt) {
+            	publicMethods.ajaxPost("/budget/budget-groupsplit-info-list",{"nd":cu_date}, function (dt) {
                 	$("#data_version").html('<option value="">---请选择版本---</option>');
                 	budget_info_map = {};
                 	$.each(dt,function(index,data){

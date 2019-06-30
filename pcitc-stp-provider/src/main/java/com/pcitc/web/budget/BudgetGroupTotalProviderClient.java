@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.common.Result;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
@@ -40,7 +39,6 @@ import com.pcitc.base.stp.out.OutUnit;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
-import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.service.budget.BudgetGroupTotalService;
 import com.pcitc.service.budget.BudgetInfoService;
 import com.pcitc.service.feign.SystemRemoteClient;
@@ -688,7 +686,7 @@ public class BudgetGroupTotalProviderClient
 		}
 		return plans;
 	}
-	@ApiOperation(value="集团公司预算-集团预算审批",notes="发起集团预算表审批")
+	/*@ApiOperation(value="集团公司预算-集团预算审批",notes="发起集团预算表审批")
 	@RequestMapping(value = "/stp-provider/budget/start-budget-grouptotal-activity/{budgetInfoId}", method = RequestMethod.POST)
 	public Object startBudgetGroupTotalActivity(@PathVariable("budgetInfoId") String budgetInfoId,@RequestBody WorkflowVo workflowVo) 
 	{
@@ -723,7 +721,7 @@ public class BudgetGroupTotalProviderClient
 			e.printStackTrace();
 		}
 		return new Result(false);
-	}
+	}*/
 	@ApiOperation(value="集团公司预算-审批流程回调通知",notes="审批结果回调通知")
 	@RequestMapping(value = "/stp-provider/budget/callback-workflow-grouptotal-notice")
 	public Object callBackProjectNoticeWorkflow(@RequestParam(value = "budgetId", required = true) String budgetId,
