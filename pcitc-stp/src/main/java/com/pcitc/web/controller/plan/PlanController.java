@@ -410,7 +410,7 @@ public class PlanController extends BaseController {
 	 */
 	@RequestMapping(value = "/plan/viewPlanPage/{dataId}")
 	public String viewPlanPageLD(@PathVariable("dataId") String dataId, HttpServletRequest request) {
-		System.out.println("====================viewPlanPageLD"+dataId);
+		System.out.println("====================viewPlanPageLD" + dataId);
 		return "/stp/plan/viewPlanPage";
 	}
 
@@ -569,6 +569,10 @@ public class PlanController extends BaseController {
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(VIEW_BOT_WORK_ORDER_MATTER_LIST, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData result = responseEntity.getBody();
+
+		// 安全设置：归档文件下载
+		response.setHeader("Pragma", "no-cache");
+		response.setHeader("Cache-Control", "no-cache");
 		return JSON.toJSONString(result);
 	}
 

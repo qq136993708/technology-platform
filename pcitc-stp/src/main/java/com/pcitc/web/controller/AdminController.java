@@ -703,6 +703,10 @@ public class AdminController extends BaseController {
 			resultsDate.setSuccess(false);
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		
+		// 安全设置：归档文件下载
+		response.setHeader("Pragma","no-cache");
+		response.setHeader("Cache-Control","no-cache");
 		return result.toJSONString();
 	}
 

@@ -56,62 +56,62 @@ import com.pcitc.web.utils.HanaUtil;
 
 // 高层首页
 @Controller
-public class OneLevelMainController extends BaseController{
+public class OneLevelMainController extends BaseController {
 
 	// 知识产权
-	private static final String	knowledge_01				= "http://pcitc-zuul/system-proxy/out-patent-provider/lx/apply-agree";
-	private static final String	knowledge_02				= "http://pcitc-zuul/system-proxy/out-patent-provider/institute/lx/apply-agree";
-	private static final String	knowledge_pie				= "http://pcitc-zuul/system-proxy/out-patent-provider/company-type/apply-agree";
+	private static final String knowledge_01 = "http://pcitc-zuul/system-proxy/out-patent-provider/lx/apply-agree";
+	private static final String knowledge_02 = "http://pcitc-zuul/system-proxy/out-patent-provider/institute/lx/apply-agree";
+	private static final String knowledge_pie = "http://pcitc-zuul/system-proxy/out-patent-provider/company-type/apply-agree";
 
 	// 合同
-	private static final String	contract_01					= "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/total";
-	private static final String	contract_01_01				= "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/money-type";
-	private static final String	contract_02					= "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/company-type";
-	private static final String	contract_03					= "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/institute";
-	private static final String	contract_04					= "http://pcitc-zuul/system-proxy/out-project-provider/project-money/institute";
-	private static final String	contract_05					= "http://pcitc-zuul/system-proxy/out-project-plan-provider/contract-rate/details";
-	private static final String	contract_dic				= "http://pcitc-zuul/system-proxy/out-project-provider/select-condition/list";
+	private static final String contract_01 = "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/total";
+	private static final String contract_01_01 = "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/money-type";
+	private static final String contract_02 = "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/company-type";
+	private static final String contract_03 = "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/institute";
+	private static final String contract_04 = "http://pcitc-zuul/system-proxy/out-project-provider/project-money/institute";
+	private static final String contract_05 = "http://pcitc-zuul/system-proxy/out-project-plan-provider/contract-rate/details";
+	private static final String contract_dic = "http://pcitc-zuul/system-proxy/out-project-provider/select-condition/list";
 
 	// 科技成果
-	private static final String	achievement_01				= "http://pcitc-zuul/system-proxy/out-appraisal-provider/institution/cg/info";
-	private static final String	achievement_02				= "http://pcitc-zuul/system-proxy/out-appraisal-provider/cg/count/company-type";
-	private static final String	achievement_03				= "http://pcitc-zuul/system-proxy/out-appraisal-provider/zy/cg/info";
-	private static final String	achievement_04				= "http://pcitc-zuul/system-proxy/out-provider/reward-list";
-	private static final String	achievement_05				= "http://pcitc-zuul/system-proxy/out-provider/reward-year-list";
+	private static final String achievement_01 = "http://pcitc-zuul/system-proxy/out-appraisal-provider/institution/cg/info";
+	private static final String achievement_02 = "http://pcitc-zuul/system-proxy/out-appraisal-provider/cg/count/company-type";
+	private static final String achievement_03 = "http://pcitc-zuul/system-proxy/out-appraisal-provider/zy/cg/info";
+	private static final String achievement_04 = "http://pcitc-zuul/system-proxy/out-provider/reward-list";
+	private static final String achievement_05 = "http://pcitc-zuul/system-proxy/out-provider/reward-year-list";
 
 	// 科研装备
-	private static final String	equipment_01				= "http://pcitc-zuul/hana-proxy/hana/home/get_home_KYZB";
-	private static final String	equipment_02				= "http://pcitc-zuul/hana-proxy/hana/home/get_home_KYZB_02";
-	private static final String	equipment_03				= "http://pcitc-zuul/hana-proxy/hana/home/get_home_KYZB_detail";
-	private static final String	equipment_04				= "http://pcitc-zuul/hana-proxy/hana/home/get_home_KYZB_DETAIL_ALL_COUNT";
+	private static final String equipment_01 = "http://pcitc-zuul/hana-proxy/hana/home/get_home_KYZB";
+	private static final String equipment_02 = "http://pcitc-zuul/hana-proxy/hana/home/get_home_KYZB_02";
+	private static final String equipment_03 = "http://pcitc-zuul/hana-proxy/hana/home/get_home_KYZB_detail";
+	private static final String equipment_04 = "http://pcitc-zuul/hana-proxy/hana/home/get_home_KYZB_DETAIL_ALL_COUNT";
 
 	// 十条龙
-	private static final String	dragon_01					= "http://pcitc-zuul/system-proxy/out-project-provider/dragon/type/project-info";
-	private static final String	dragon_02					= "http://pcitc-zuul/system-proxy/out-project-provider/dragon/out-in/project-info";
-	private static final String	getZdstlTable				= "http://pcitc-zuul/system-proxy/out-project-provider/ld/project-info/zdstl";
-	private static final String	dragon_03					= "http://pcitc-zuul/system-proxy/out-project-provider/dragon/institute/project-info";
-	private static final String	dragon_count				= "http://pcitc-zuul/system-proxy/out-provider/dragon/project-count";
-	private static final String	getStlTable					= "http://pcitc-zuul/system-proxy/out-project-provider/dragon/details";
-	private static final String	dragon_search_con			= "http://pcitc-zuul/system-proxy/out-project-provider/dragon/select-condition/list";
+	private static final String dragon_01 = "http://pcitc-zuul/system-proxy/out-project-provider/dragon/type/project-info";
+	private static final String dragon_02 = "http://pcitc-zuul/system-proxy/out-project-provider/dragon/out-in/project-info";
+	private static final String getZdstlTable = "http://pcitc-zuul/system-proxy/out-project-provider/ld/project-info/zdstl";
+	private static final String dragon_03 = "http://pcitc-zuul/system-proxy/out-project-provider/dragon/institute/project-info";
+	private static final String dragon_count = "http://pcitc-zuul/system-proxy/out-provider/dragon/project-count";
+	private static final String getStlTable = "http://pcitc-zuul/system-proxy/out-project-provider/dragon/details";
+	private static final String dragon_search_con = "http://pcitc-zuul/system-proxy/out-project-provider/dragon/select-condition/list";
 
 	// 科研投入
-	private static final String	investment_01				= "http://pcitc-zuul/system-proxy/out-project-plan-provider/money/complete-rate/company-type";
-	private static final String	investment_02				= "http://pcitc-zuul/system-proxy/out-project-plan-provider/money/complete-rate/institute";
-	private static final String	investment_first_page_count	= "http://pcitc-zuul/system-proxy/out-provider/project-money";
-	private static final String	contract_count				= "http://pcitc-zuul/system-proxy/out-provider/project-count";
-	private static final String	investment_03				= "http://pcitc-zuul/system-proxy/out-project-plan-provider/plan-money/department";
+	private static final String investment_01 = "http://pcitc-zuul/system-proxy/out-project-plan-provider/money/complete-rate/company-type";
+	private static final String investment_02 = "http://pcitc-zuul/system-proxy/out-project-plan-provider/money/complete-rate/institute";
+	private static final String investment_first_page_count = "http://pcitc-zuul/system-proxy/out-provider/project-money";
+	private static final String contract_count = "http://pcitc-zuul/system-proxy/out-provider/project-count";
+	private static final String investment_03 = "http://pcitc-zuul/system-proxy/out-project-plan-provider/plan-money/department";
 
 	// 新闻
-	private static final String	get_news					= "http://pcitc-zuul/stp-proxy/news-provider/select_news_main";
-	private static final String	common_table				= "http://pcitc-zuul/system-proxy/out-project-plan-provider/project-plan/page/list";
-	private static final String	count_table_data			= "http://pcitc-zuul/system-proxy/out-project-provider/common-project/list";
+	private static final String get_news = "http://pcitc-zuul/stp-proxy/news-provider/select_news_main";
+	private static final String common_table = "http://pcitc-zuul/system-proxy/out-project-plan-provider/project-plan/page/list";
+	private static final String count_table_data = "http://pcitc-zuul/system-proxy/out-project-provider/common-project/list";
 
-	private static final String	country_table_data			= "http://pcitc-zuul/system-proxy/out-project-provider/country-project/list";
+	private static final String country_table_data = "http://pcitc-zuul/system-proxy/out-project-provider/country-project/list";
 
 	// 数量--成果
-	private static final String	achievement_table_dic		= "http://pcitc-zuul/system-proxy/out-provider/appraisal/select-condition/list";
+	private static final String achievement_table_dic = "http://pcitc-zuul/system-proxy/out-provider/appraisal/select-condition/list";
 	// 数量--知识
-	private static final String	achievement_table_data		= "http://pcitc-zuul/system-proxy/out-provider/project/appraisal-list";
+	private static final String achievement_table_data = "http://pcitc-zuul/system-proxy/out-provider/project/appraisal-list";
 
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/investment_first_page_count")
 	@ResponseBody
@@ -119,7 +119,7 @@ public class OneLevelMainController extends BaseController{
 
 		String resault = "";
 		Result result = new Result();
-		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
@@ -131,10 +131,10 @@ public class OneLevelMainController extends BaseController{
 		if (!nd.equals("")) {
 			ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(investment_first_page_count, HttpMethod.POST, entity, JSONObject.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode==200) {
+			if (statusCode == 200) {
 
 				JSONObject jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>investment_first_page_count jSONArray-> "+jSONArray.toString());
+				System.out.println(">>>>>>>>>>>>>>investment_first_page_count jSONArray-> " + jSONArray.toString());
 				String projectMoney = String.valueOf(jSONArray.getString("projectMoney"));
 				projectMoney = String.format("%.2f", Double.valueOf(projectMoney));
 				Map map = new HashMap();
@@ -150,7 +150,7 @@ public class OneLevelMainController extends BaseController{
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 		resault = resultObj.toString();
-		System.out.println(">>>>>>>>>>>>>investment_first_page_count "+resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>investment_first_page_count " + resultObj.toString());
 
 		return resault;
 	}
@@ -161,10 +161,10 @@ public class OneLevelMainController extends BaseController{
 
 		String resault = "";
 		Result result = new Result();
-		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
-		System.out.println("1---领导标识，不控制数据"+sysUserInfo.getUserLevel());
+		System.out.println("1---领导标识，不控制数据" + sysUserInfo.getUserLevel());
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			// 领导标识，不控制数据
 			System.out.println("2---领导标识，不控制数据");
@@ -175,9 +175,9 @@ public class OneLevelMainController extends BaseController{
 		if (!nd.equals("")) {
 			ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(contract_count, HttpMethod.POST, entity, JSONObject.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode==200) {
+			if (statusCode == 200) {
 				JSONObject jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>contract_count jSONArray-> "+jSONArray.toString());
+				System.out.println(">>>>>>>>>>>>>>contract_count jSONArray-> " + jSONArray.toString());
 				Integer projectCount = jSONArray.getInteger("projectCount");
 				Map map = new HashMap();
 				map.put("projectCount", projectCount);
@@ -191,7 +191,7 @@ public class OneLevelMainController extends BaseController{
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 		resault = resultObj.toString();
-		System.out.println(">>>>>>>>>>>>>contract_count "+resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>contract_count " + resultObj.toString());
 
 		return resault;
 	}
@@ -225,21 +225,21 @@ public class OneLevelMainController extends BaseController{
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_table_dic, HttpMethod.POST, entity, JSONArray.class);
 
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>>knowledge_table:"+jSONArray.toString());
+			System.out.println(">>>>>>>>>>>>>knowledge_table:" + jSONArray.toString());
 
 			List<String> define1List = new ArrayList<String>();
 			List<String> define31List = new ArrayList<String>();// 8大研究院
 			List<String> cglxList = new ArrayList<String>();
 			List<String> zyList = new ArrayList<String>();
 
-			for (int i = 0; i<jSONArray.size(); i++) {
+			for (int i = 0; i < jSONArray.size(); i++) {
 				Map object = (Map) jSONArray.get(i);
 				String showCode = (String) object.get("showCode");
 				String showName = (String) object.get("showName");
 				if (showCode.equals("define1")) {
-					if (showName!=null&&!showName.equals("")) {
+					if (showName != null && !showName.equals("")) {
 						define1List.add(showName);
 					}
 				}
@@ -267,17 +267,17 @@ public class OneLevelMainController extends BaseController{
 	@ResponseBody
 	public String knowledge_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-		System.out.println(">>>>>>>>>>>>knowledge_table_data>param:"+JSONObject.toJSONString(param));
+		System.out.println(">>>>>>>>>>>>knowledge_table_data>param:" + JSONObject.toJSONString(param));
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(achievement_table_data, HttpMethod.POST, entity, LayuiTableData.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>knowledge_table_data:"+result.toString());
+		System.out.println(">>>>>>>>>>>>>knowledge_table_data:" + result.toString());
 		return result.toString();
 	}
 
@@ -311,21 +311,21 @@ public class OneLevelMainController extends BaseController{
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_table_dic, HttpMethod.POST, entity, JSONArray.class);
 
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>>achievement_table:"+jSONArray.toString());
+			System.out.println(">>>>>>>>>>>>>achievement_table:" + jSONArray.toString());
 
 			List<String> define1List = new ArrayList<String>();
 			List<String> define31List = new ArrayList<String>();// 8大研究院
 			List<String> cglxList = new ArrayList<String>();
 			List<String> zyList = new ArrayList<String>();
 
-			for (int i = 0; i<jSONArray.size(); i++) {
+			for (int i = 0; i < jSONArray.size(); i++) {
 				Map object = (Map) jSONArray.get(i);
 				String showCode = (String) object.get("showCode");
 				String showName = (String) object.get("showName");
 				if (showCode.equals("define1")) {
-					if (showName!=null&&!showName.equals("")) {
+					if (showName != null && !showName.equals("")) {
 						define1List.add(showName);
 					}
 				}
@@ -352,17 +352,17 @@ public class OneLevelMainController extends BaseController{
 	@ResponseBody
 	public String achievement_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-		System.out.println(">>>>>>>>>>>>achievement_table_data>param:"+JSONObject.toJSONString(param));
+		System.out.println(">>>>>>>>>>>>achievement_table_data>param:" + JSONObject.toJSONString(param));
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(achievement_table_data, HttpMethod.POST, entity, LayuiTableData.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>achievement_table_data:"+result.toString());
+		System.out.println(">>>>>>>>>>>>>achievement_table_data:" + result.toString());
 		return result.toString();
 	}
 
@@ -418,7 +418,7 @@ public class OneLevelMainController extends BaseController{
 
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_dic, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
 			List<String> define1List = new ArrayList<String>();
 			List<String> define21List = new ArrayList<String>();// 8大研究院
@@ -427,12 +427,12 @@ public class OneLevelMainController extends BaseController{
 			List<String> zycmcList = new ArrayList<String>();
 			List<String> define11List = new ArrayList<String>();
 			List<String> define12List = new ArrayList<String>();
-			for (int i = 0; i<jSONArray.size(); i++) {
+			for (int i = 0; i < jSONArray.size(); i++) {
 				Map object = (Map) jSONArray.get(i);
 				String showCode = (String) object.get("showCode");
 				String showName = (String) object.get("showName");
 				if (showCode.equals("define1")) {
-					if (showName!=null&&!showName.equals("")) {
+					if (showName != null && !showName.equals("")) {
 						define1List.add(showName);
 					}
 
@@ -448,7 +448,7 @@ public class OneLevelMainController extends BaseController{
 				}
 				if (showCode.equals("define10")) {
 
-					if (showName!=null&&!showName.equals("")) {
+					if (showName != null && !showName.equals("")) {
 						zycmcList.add(showName);
 					}
 
@@ -456,14 +456,14 @@ public class OneLevelMainController extends BaseController{
 
 				if (showCode.equals("define11")) {
 
-					if (showName!=null&&!showName.equals("")) {
+					if (showName != null && !showName.equals("")) {
 						define11List.add(showName);
 					}
 
 				}
 				if (showCode.equals("define12")) {
 
-					if (showName!=null&&!showName.equals("")) {
+					if (showName != null && !showName.equals("")) {
 						define12List.add(showName);
 					}
 
@@ -491,17 +491,17 @@ public class OneLevelMainController extends BaseController{
 	@ResponseBody
 	public String country_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-		System.out.println(">>>>>>>>>>>>country_table_data>param:"+JSONObject.toJSONString(param));
+		System.out.println(">>>>>>>>>>>>country_table_data>param:" + JSONObject.toJSONString(param));
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(country_table_data, HttpMethod.POST, entity, LayuiTableData.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>country_table_data:"+result.toString());
+		System.out.println(">>>>>>>>>>>>>country_table_data:" + result.toString());
 		return result.toString();
 	}
 
@@ -559,7 +559,7 @@ public class OneLevelMainController extends BaseController{
 
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_dic, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
 			List<String> define1List = new ArrayList<String>();
 			List<String> define21List = new ArrayList<String>();// 8大研究院
@@ -568,12 +568,12 @@ public class OneLevelMainController extends BaseController{
 			List<String> zycmcList = new ArrayList<String>();
 			List<String> define11List = new ArrayList<String>();
 			List<String> define12List = new ArrayList<String>();
-			for (int i = 0; i<jSONArray.size(); i++) {
+			for (int i = 0; i < jSONArray.size(); i++) {
 				Map object = (Map) jSONArray.get(i);
 				String showCode = (String) object.get("showCode");
 				String showName = (String) object.get("showName");
 				if (showCode.equals("define1")) {
-					if (showName!=null&&!showName.equals("")) {
+					if (showName != null && !showName.equals("")) {
 						define1List.add(showName);
 					}
 
@@ -589,7 +589,7 @@ public class OneLevelMainController extends BaseController{
 				}
 				if (showCode.equals("define10")) {
 
-					if (showName!=null&&!showName.equals("")) {
+					if (showName != null && !showName.equals("")) {
 						zycmcList.add(showName);
 					}
 
@@ -597,14 +597,14 @@ public class OneLevelMainController extends BaseController{
 
 				if (showCode.equals("define11")) {
 
-					if (showName!=null&&!showName.equals("")) {
+					if (showName != null && !showName.equals("")) {
 						define11List.add(showName);
 					}
 
 				}
 				if (showCode.equals("define12")) {
 
-					if (showName!=null&&!showName.equals("")) {
+					if (showName != null && !showName.equals("")) {
 						define12List.add(showName);
 					}
 
@@ -632,17 +632,17 @@ public class OneLevelMainController extends BaseController{
 	@ResponseBody
 	public String count_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-		System.out.println(">>>>>>>>>>>>count_table_data>param:"+JSONObject.toJSONString(param));
+		System.out.println(">>>>>>>>>>>>count_table_data>param:" + JSONObject.toJSONString(param));
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(count_table_data, HttpMethod.POST, entity, LayuiTableData.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>count_table_data:"+result.toString());
+		System.out.println(">>>>>>>>>>>>>count_table_data:" + result.toString());
 		return result.toString();
 	}
 
@@ -671,14 +671,14 @@ public class OneLevelMainController extends BaseController{
 		// System.out.println(JSON.toJSONString(responseEntity.getBody()));
 
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
 			List<String> xmflList = new ArrayList<String>();
 			List<String> xmztList = new ArrayList<String>();
 			List<String> yjyList = new ArrayList<String>();
 			List<String> yjdwList = new ArrayList<String>();
 
-			for (int i = 0; i<jSONArray.size(); i++) {
+			for (int i = 0; i < jSONArray.size(); i++) {
 				Map<?, ?> object = (Map<?, ?>) jSONArray.get(i);
 				String showCode = (String) object.get("showCode");
 				String showName = (String) object.get("showName");
@@ -691,7 +691,7 @@ public class OneLevelMainController extends BaseController{
 				} else if (showCode.equals("status")) {
 					xmztList.add(showName);
 				} else {
-					System.out.println("other param:"+showCode+":"+showName);
+					System.out.println("other param:" + showCode + ":" + showName);
 				}
 			}
 			request.setAttribute("yjyList", yjyList);
@@ -707,18 +707,18 @@ public class OneLevelMainController extends BaseController{
 	@ResponseBody
 	public String ten_dragon_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-		System.out.println(">>>>>>>>>>>>ten_dragon_table_data>param:"+JSONObject.toJSONString(param));
+		System.out.println(">>>>>>>>>>>>ten_dragon_table_data>param:" + JSONObject.toJSONString(param));
 		PageResult pageResult = new PageResult();
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", param.getParam().get("nd"));
 		paramsMap.put("xmmc", param.getParam().get("xmmc"));
 
-		paramsMap.put("define2", param.getParam().get("yjyItem")=="" ? null : param.getParam().get("yjyItem"));// 研究院
-		paramsMap.put("xmlbmc", param.getParam().get("xmflItem")=="" ? null : param.getParam().get("xmflItem"));// 项目分类
-		paramsMap.put("type_flag", param.getParam().get("yjdwItem")=="" ? null : param.getParam().get("yjdwItem"));// 一级单位（9个机构）
-		paramsMap.put("status", param.getParam().get("xmztItem")=="" ? null : param.getParam().get("xmztItem"));// 项目状态
-		
+		paramsMap.put("define2", param.getParam().get("yjyItem") == "" ? null : param.getParam().get("yjyItem"));// 研究院
+		paramsMap.put("xmlbmc", param.getParam().get("xmflItem") == "" ? null : param.getParam().get("xmflItem"));// 项目分类
+		paramsMap.put("type_flag", param.getParam().get("yjdwItem") == "" ? null : param.getParam().get("yjdwItem"));// 一级单位（9个机构）
+		paramsMap.put("status", param.getParam().get("xmztItem") == "" ? null : param.getParam().get("xmztItem"));// 项目状态
+
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			// 领导标识，不控制数据
 			paramsMap.put("leaderFlag", "1");
@@ -729,16 +729,16 @@ public class OneLevelMainController extends BaseController{
 
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getStlTable, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>ten_dragon_table_data jSONArray>>> "+jSONArray.toString());
+			System.out.println(">>>>>>>>>>>>ten_dragon_table_data jSONArray>>> " + jSONArray.toString());
 			pageResult.setData(jSONArray);
 			pageResult.setCode(0);
 			pageResult.setCount(Long.valueOf(jSONArray.size()));
 			pageResult.setLimit(1000);
 			pageResult.setPage(1l);
 		}
-		System.out.println(">>>>>>>>>>>>>>>ten_dragon_table_data "+JSON.toJSON(pageResult).toString());
+		System.out.println(">>>>>>>>>>>>>>>ten_dragon_table_data " + JSON.toJSON(pageResult).toString());
 		return JSON.toJSON(pageResult).toString();
 	}
 
@@ -792,9 +792,9 @@ public class OneLevelMainController extends BaseController{
 
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_dic, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>>common_table jSONArray "+jSONArray.toString());
+			System.out.println(">>>>>>>>>>>>>common_table jSONArray " + jSONArray.toString());
 
 			List<String> define1List = new ArrayList<String>();
 			List<String> define21List = new ArrayList<String>();// 8大研究院
@@ -803,12 +803,12 @@ public class OneLevelMainController extends BaseController{
 			List<String> zycmcList = new ArrayList<String>();
 			List<String> define11List = new ArrayList<String>();
 			List<String> define12List = new ArrayList<String>();
-			for (int i = 0; i<jSONArray.size(); i++) {
+			for (int i = 0; i < jSONArray.size(); i++) {
 				Map object = (Map) jSONArray.get(i);
 				String showCode = (String) object.get("showCode");
 				String showName = (String) object.get("showName");
 				if (showCode.equals("define1")) {
-					if (showName!=null&&!showName.equals("")) {
+					if (showName != null && !showName.equals("")) {
 						define1List.add(showName);
 					}
 
@@ -824,20 +824,20 @@ public class OneLevelMainController extends BaseController{
 				}
 				if (showCode.equals("define10")) {
 
-					if (showName!=null&&!showName.equals("")) {
+					if (showName != null && !showName.equals("")) {
 						zycmcList.add(showName);
 					}
 				}
 				if (showCode.equals("define11")) {
 
-					if (showName!=null&&!showName.equals("")) {
+					if (showName != null && !showName.equals("")) {
 						define11List.add(showName);
 					}
 				}
 
 				if (showCode.equals("define12")) {
 
-					if (showName!=null&&!showName.equals("")) {
+					if (showName != null && !showName.equals("")) {
 						define12List.add(showName);
 					}
 				}
@@ -863,20 +863,19 @@ public class OneLevelMainController extends BaseController{
 	@ResponseBody
 	public String common_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-		System.out.println(">>>>>>>>>>>>common_table_data>param:"+JSONObject.toJSONString(param));
+		System.out.println(">>>>>>>>>>>>common_table_data>param:" + JSONObject.toJSONString(param));
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(common_table, HttpMethod.POST, entity, LayuiTableData.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>common_table:"+result.toString());
+		System.out.println(">>>>>>>>>>>>>common_table:" + result.toString());
 		return result.toString();
 	}
-
 
 	/** ======================高层首页-知识产权================================== */
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/knowledge")
@@ -897,7 +896,7 @@ public class OneLevelMainController extends BaseController{
 	public String knowledge_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result result = new Result();
 
-		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
@@ -912,10 +911,10 @@ public class OneLevelMainController extends BaseController{
 		if (!nd.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(knowledge_01, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode==200) {
+			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>knowledge_01 jSONArray-> "+jSONArray.toString());
+				System.out.println(">>>>>>>>>>>>>>knowledge_01 jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 
 				ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -943,7 +942,7 @@ public class OneLevelMainController extends BaseController{
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>knowledge_01 type= "+type+" : "+resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>>knowledge_01 type= " + type + " : " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -952,7 +951,7 @@ public class OneLevelMainController extends BaseController{
 	public String knowledge_pie_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result result = new Result();
 
-		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
@@ -967,16 +966,16 @@ public class OneLevelMainController extends BaseController{
 		if (!nd.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(knowledge_02, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode==200) {
+			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>knowledge_pie_01 jSONArray-> "+jSONArray.toString());
+				System.out.println(">>>>>>>>>>>>>>knowledge_pie_01 jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 
 				ChartPieResultData pie = new ChartPieResultData();
 				List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
 				List<String> legendDataList = new ArrayList<String>();
-				for (int i = 0; i<list.size(); i++) {
+				for (int i = 0; i < list.size(); i++) {
 					Knowledge f2 = list.get(i);
 					String projectName = f2.getLx();
 					String value = "0";
@@ -1003,7 +1002,7 @@ public class OneLevelMainController extends BaseController{
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>knowledge_pie_01 type= "+type+" : "+resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>>knowledge_pie_01 type= " + type + " : " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -1012,7 +1011,7 @@ public class OneLevelMainController extends BaseController{
 	public String knowledge_pie(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result result = new Result();
 
-		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
@@ -1027,16 +1026,16 @@ public class OneLevelMainController extends BaseController{
 		if (!nd.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(knowledge_pie, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode==200) {
+			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>knowledge_pie jSONArray-> "+jSONArray.toString());
+				System.out.println(">>>>>>>>>>>>>>knowledge_pie jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 
 				ChartPieResultData pie = new ChartPieResultData();
 				List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
 				List<String> legendDataList = new ArrayList<String>();
-				for (int i = 0; i<list.size(); i++) {
+				for (int i = 0; i < list.size(); i++) {
 					Knowledge f2 = list.get(i);
 					String projectName = f2.getDefine3();
 					Integer value = 0;
@@ -1066,7 +1065,7 @@ public class OneLevelMainController extends BaseController{
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>knowledge_pie type= "+type+" : "+resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>>knowledge_pie type= " + type + " : " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -1075,7 +1074,7 @@ public class OneLevelMainController extends BaseController{
 	public String knowledge_bar_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result result = new Result();
 
-		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
@@ -1090,10 +1089,10 @@ public class OneLevelMainController extends BaseController{
 		if (!nd.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(knowledge_pie, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode==200) {
+			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>knowledge_bar_02 jSONArray-> "+jSONArray.toString());
+				System.out.println(">>>>>>>>>>>>>>knowledge_bar_02 jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 
 				ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -1120,7 +1119,7 @@ public class OneLevelMainController extends BaseController{
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>knowledge_bar_02 type= "+type+" : "+resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>>knowledge_bar_02 type= " + type + " : " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -1129,7 +1128,7 @@ public class OneLevelMainController extends BaseController{
 	public String knowledge_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
-		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
@@ -1143,10 +1142,10 @@ public class OneLevelMainController extends BaseController{
 		if (!nd.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(knowledge_02, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode==200) {
+			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getKnowledgeBar_02 jSONArray-> "+jSONArray.toString());
+				System.out.println(">>>>>>>>>>>>>>getKnowledgeBar_02 jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 
 				ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -1177,7 +1176,7 @@ public class OneLevelMainController extends BaseController{
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>knowledge_03 "+resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>>>knowledge_03 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -1202,7 +1201,7 @@ public class OneLevelMainController extends BaseController{
 
 		String resault = "";
 		Result result = new Result();
-		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
@@ -1216,10 +1215,10 @@ public class OneLevelMainController extends BaseController{
 		if (!nd.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_01, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode==200) {
+			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>contract_01 jSONArray-> "+jSONArray.toString());
+				System.out.println(">>>>>>>>>>>>>>contract_01 jSONArray-> " + jSONArray.toString());
 				List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
 				Contract contract = list.get(0);
 				Integer yqht = (Integer) contract.getYqht();
@@ -1227,7 +1226,7 @@ public class OneLevelMainController extends BaseController{
 				Integer zsl = (Integer) contract.getZsl();
 				Object o = contract.getQdl();
 				String qdl = "0";
-				if (o!=null) {
+				if (o != null) {
 					qdl = ((BigDecimal) contract.getQdl()).toString();
 				}
 				if (type.equals("1")) {
@@ -1257,7 +1256,7 @@ public class OneLevelMainController extends BaseController{
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 		resault = resultObj.toString();
-		System.out.println(">>>>>>>>>>>>>>type="+type+"    contract_01 "+resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>>type=" + type + "    contract_01 " + resultObj.toString());
 
 		return resault;
 	}
@@ -1269,7 +1268,7 @@ public class OneLevelMainController extends BaseController{
 		String resault = "";
 		PageResult pageResult = new PageResult();
 		Result result = new Result();
-		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
@@ -1282,10 +1281,10 @@ public class OneLevelMainController extends BaseController{
 		if (!nd.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_01_01, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode==200) {
+			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>contract_01_01 jSONArray-> "+jSONArray.toString());
+				System.out.println(">>>>>>>>>>>>>>contract_01_01 jSONArray-> " + jSONArray.toString());
 				List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
 				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -1328,11 +1327,11 @@ public class OneLevelMainController extends BaseController{
 		if (type.equals("1")) {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>>>>>1>>>>>contract_01_01 "+resultObj.toString());
+			System.out.println(">>>>>>>>>>1>>>>>contract_01_01 " + resultObj.toString());
 		} else {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>>>>>>>2>>>contract_01_01 "+resultObj.toString());
+			System.out.println(">>>>>>>>>>>>2>>>contract_01_01 " + resultObj.toString());
 		}
 
 		return resault;
@@ -1345,23 +1344,23 @@ public class OneLevelMainController extends BaseController{
 		temp.setDefine1("总计");
 		int jhqds_count = 0;
 		int sjqds_count = 0;
-		for (int i = 0; i<list.size(); i++) {
+		for (int i = 0; i < list.size(); i++) {
 			Contract contract = list.get(i);
 			Integer jhqds = (Integer) contract.getJhqds();
 			Integer sjqds = (Integer) contract.getSjqds();
-			jhqds_count = jhqds_count+jhqds;
-			sjqds_count = sjqds_count+sjqds;
+			jhqds_count = jhqds_count + jhqds;
+			sjqds_count = sjqds_count + sjqds;
 		}
 		temp.setJhqds(jhqds_count);
 		temp.setSjqds(sjqds_count);
 		DecimalFormat df = new DecimalFormat("0.00");
 		String str = "0";
-		if (jhqds_count!=0) {
-			str = df.format(((float) sjqds_count/jhqds_count)*100);
+		if (jhqds_count != 0) {
+			str = df.format(((float) sjqds_count / jhqds_count) * 100);
 		}
 		temp.setHtqdl(str);
 		resutList.add(temp);
-		for (int i = 0; i<list.size(); i++) {
+		for (int i = 0; i < list.size(); i++) {
 			Contract contract = list.get(i);
 			resutList.add(contract);
 		}
@@ -1372,7 +1371,7 @@ public class OneLevelMainController extends BaseController{
 	@ResponseBody
 	public String contract_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result result = new Result();
-		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
@@ -1386,20 +1385,20 @@ public class OneLevelMainController extends BaseController{
 		ChartSingleLineResultData chartSingleLineResultData = new ChartSingleLineResultData();
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_02, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>>>>contract_02 jSONArray"+jSONArray.toString());
+			System.out.println(">>>>>>>>>>>>>>>contract_02 jSONArray" + jSONArray.toString());
 
 			List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
 
 			List<String> xAxisDataList = new ArrayList<String>();
 			List<Object> seriesDataList = new ArrayList<Object>();
 
-			for (int i = 0; i<list.size(); i++) {
+			for (int i = 0; i < list.size(); i++) {
 				Contract contract = (Contract) list.get(i);
 				String define3 = contract.getDefine3();
 				Object qdbl = contract.getQdbl();
-				if (qdbl!=null&&!qdbl.toString().equals("0")) {
+				if (qdbl != null && !qdbl.toString().equals("0")) {
 					String str = String.format("%.2f", Double.valueOf(String.valueOf(qdbl)));
 					seriesDataList.add(str);
 					xAxisDataList.add(define3);
@@ -1413,7 +1412,7 @@ public class OneLevelMainController extends BaseController{
 		}
 
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>contract_02 "+resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>>>contract_02 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -1424,7 +1423,7 @@ public class OneLevelMainController extends BaseController{
 		String resault = "";
 		PageResult pageResult = new PageResult();
 		Result result = new Result();
-		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
@@ -1437,10 +1436,10 @@ public class OneLevelMainController extends BaseController{
 		if (!nd.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_03, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode==200) {
+			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>contract_03 jSONArray-> "+jSONArray.toString());
+				System.out.println(">>>>>>>>>>>>>>contract_03 jSONArray-> " + jSONArray.toString());
 				List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
 				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -1478,11 +1477,11 @@ public class OneLevelMainController extends BaseController{
 		if (type.equals("1")) {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>>>>>>>>>>contract_03 "+resultObj.toString());
+			System.out.println(">>>>>>>>>>>>>>>contract_03 " + resultObj.toString());
 		} else {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>>>>>>>>>>contract_03 "+resultObj.toString());
+			System.out.println(">>>>>>>>>>>>>>>contract_03 " + resultObj.toString());
 		}
 		return resault;
 	}
@@ -1493,7 +1492,7 @@ public class OneLevelMainController extends BaseController{
 
 		Result result = new Result();
 		String type = CommonUtil.getParameter(request, "type", "");
-		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
@@ -1505,9 +1504,9 @@ public class OneLevelMainController extends BaseController{
 		if (!nd.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_04, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode==200) {
+			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>contract_04 jSONArray-> "+jSONArray.toString());
+				System.out.println(">>>>>>>>>>>>>>contract_04 jSONArray-> " + jSONArray.toString());
 				List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
 				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -1534,23 +1533,23 @@ public class OneLevelMainController extends BaseController{
 					int zsl_count = 0;
 					int fyxsl_count = 0;
 					int zbxsl_count = 0;
-					for (int i = 0; i<list.size(); i++) {
+					for (int i = 0; i < list.size(); i++) {
 						Contract contract = list.get(i);
 						Integer fyxsl = Double.valueOf(String.valueOf(contract.getFyxsl())).intValue();
 						Integer zbxsl = Double.valueOf(String.valueOf(contract.getZbxsl())).intValue();
 						Integer zsl = Double.valueOf(String.valueOf(contract.getZsl())).intValue();
 
-						zsl_count = zsl_count+zsl;
-						fyxsl_count = fyxsl_count+fyxsl;
-						zbxsl_count = zbxsl_count+zbxsl;
+						zsl_count = zsl_count + zsl;
+						fyxsl_count = fyxsl_count + fyxsl;
+						zbxsl_count = zbxsl_count + zbxsl;
 					}
 
 					DecimalFormat df = new DecimalFormat("0.00");
-					double fyxsl_rate = new BigDecimal((float) fyxsl_count/zsl_count).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-					double zbxsl_rate = new BigDecimal((float) zbxsl_count/zsl_count).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+					double fyxsl_rate = new BigDecimal((float) fyxsl_count / zsl_count).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+					double zbxsl_rate = new BigDecimal((float) zbxsl_count / zsl_count).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 
-					map.put("fyxsl_rate", fyxsl_rate*100+"%");
-					map.put("zbxsl_rate", zbxsl_rate*100+"%");
+					map.put("fyxsl_rate", fyxsl_rate * 100 + "%");
+					map.put("zbxsl_rate", zbxsl_rate * 100 + "%");
 					result.setSuccess(true);
 					result.setData(map);
 				}
@@ -1562,7 +1561,7 @@ public class OneLevelMainController extends BaseController{
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>contract_04 "+resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>>>contract_04 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -1571,7 +1570,7 @@ public class OneLevelMainController extends BaseController{
 	public String contract_05(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		PageResult pageResult = new PageResult();
-		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
@@ -1585,9 +1584,9 @@ public class OneLevelMainController extends BaseController{
 
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_05, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>>>>contract_05 jSONArray"+jSONArray.toString());
+			System.out.println(">>>>>>>>>>>>>>>contract_05 jSONArray" + jSONArray.toString());
 
 			// List<Contract> list =
 			// JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
@@ -1605,7 +1604,7 @@ public class OneLevelMainController extends BaseController{
 		}
 
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-		System.out.println(">>>>>>>>>>>>>>>contract_05 "+resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>>>contract_05 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -1616,24 +1615,24 @@ public class OneLevelMainController extends BaseController{
 		temp.setDefine2("总计");
 		int zsl_count = 0;
 		int yqhtzj_count = 0;
-		for (int i = 0; i<list.size(); i++) {
+		for (int i = 0; i < list.size(); i++) {
 			Contract contract = list.get(i);
 			Integer zsl = (Integer) contract.getZsl();
 			Integer yqhtzj = (Integer) contract.getYqhtzj();
-			zsl_count = zsl_count+zsl;
-			yqhtzj_count = yqhtzj_count+yqhtzj;
+			zsl_count = zsl_count + zsl;
+			yqhtzj_count = yqhtzj_count + yqhtzj;
 
 		}
 		temp.setZsl(zsl_count);
 		temp.setYqhtzj(yqhtzj_count);
 		DecimalFormat df = new DecimalFormat("0.00");
-		System.out.println("yqhtzj_count="+yqhtzj_count+"zsl_count="+zsl_count);
+		System.out.println("yqhtzj_count=" + yqhtzj_count + "zsl_count=" + zsl_count);
 
-		String str = df.format(((float) yqhtzj_count/zsl_count)*100);
+		String str = df.format(((float) yqhtzj_count / zsl_count) * 100);
 
 		temp.setQdlzj(str);
 		resutList.add(temp);
-		for (int i = 0; i<list.size(); i++) {
+		for (int i = 0; i < list.size(); i++) {
 			Contract contract = list.get(i);
 			resutList.add(contract);
 		}
@@ -1669,14 +1668,14 @@ public class OneLevelMainController extends BaseController{
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_01, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
 			List<AchievementsAnalysis> list = JSONObject.parseArray(jSONArray.toJSONString(), AchievementsAnalysis.class);
-			System.out.println(">>>>>>>>>>>>>>achievement_01 jSONArray-> "+jSONArray.toString());
+			System.out.println(">>>>>>>>>>>>>>achievement_01 jSONArray-> " + jSONArray.toString());
 			ChartPieResultData pie = new ChartPieResultData();
 			List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
 			List<String> legendDataList = new ArrayList<String>();
-			for (int i = 0; i<list.size(); i++) {
+			for (int i = 0; i < list.size(); i++) {
 				AchievementsAnalysis f2 = list.get(i);
 				String projectName = f2.getDefine1();
 				Integer value = f2.getSl();
@@ -1690,7 +1689,7 @@ public class OneLevelMainController extends BaseController{
 
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>achievement_01 "+resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>>>achievement_01 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -1711,10 +1710,10 @@ public class OneLevelMainController extends BaseController{
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_02, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
 			List<AchievementsAnalysis> list = JSONObject.parseArray(jSONArray.toJSONString(), AchievementsAnalysis.class);
-			System.out.println(">>>>>>>>>>>>>>achievement_02 jSONArray-> "+jSONArray.toString());
+			System.out.println(">>>>>>>>>>>>>>achievement_02 jSONArray-> " + jSONArray.toString());
 
 			if (type.equals("1")) {
 				ChartSingleLineResultData csr = new ChartSingleLineResultData();
@@ -1735,7 +1734,7 @@ public class OneLevelMainController extends BaseController{
 				ChartPieResultData pie = new ChartPieResultData();
 				List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
 				List<String> legendDataList = new ArrayList<String>();
-				for (int i = 0; i<list.size(); i++) {
+				for (int i = 0; i < list.size(); i++) {
 					AchievementsAnalysis f2 = list.get(i);
 					String projectName = f2.getDefine3();
 					Integer value = f2.getSl();
@@ -1750,7 +1749,7 @@ public class OneLevelMainController extends BaseController{
 
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println("type>>>>>>>>>>>"+type+">>>>>>>>>>>>>>>achievement_02 "+resultObj.toString());
+		System.out.println("type>>>>>>>>>>>" + type + ">>>>>>>>>>>>>>>achievement_02 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -1770,10 +1769,10 @@ public class OneLevelMainController extends BaseController{
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_03, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
 			List<AchievementsAnalysis> list = JSONObject.parseArray(jSONArray.toJSONString(), AchievementsAnalysis.class);
-			System.out.println(">>>>>>>>>>>>>>achievement_03 jSONArray-> "+jSONArray.toString());
+			System.out.println(">>>>>>>>>>>>>>achievement_03 jSONArray-> " + jSONArray.toString());
 
 			ChartSingleLineResultData csr = new ChartSingleLineResultData();
 			// X轴数据
@@ -1791,7 +1790,7 @@ public class OneLevelMainController extends BaseController{
 
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>achievement_03 "+resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>>>achievement_03 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -1799,7 +1798,7 @@ public class OneLevelMainController extends BaseController{
 	@ResponseBody
 	public String achievement_04(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-		System.out.println("achievement_04 param=   "+JSONObject.toJSONString(param));
+		System.out.println("achievement_04 param=   " + JSONObject.toJSONString(param));
 		String nd = CommonUtil.getParameter(request, "nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
 		param.setLimit(2000);
 		param.getParam().put("nd", nd);
@@ -1807,11 +1806,11 @@ public class OneLevelMainController extends BaseController{
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(achievement_04, HttpMethod.POST, entity, LayuiTableData.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println("achievement_04 result=   "+result.toJSONString());
+		System.out.println("achievement_04 result=   " + result.toJSONString());
 		return result.toString();
 	}
 
@@ -1826,10 +1825,10 @@ public class OneLevelMainController extends BaseController{
 		HttpEntity<Object> entity = new HttpEntity<Object>(httpHeaders);
 		ResponseEntity<Object> responseEntity = restTemplate.exchange(achievement_05, HttpMethod.POST, entity, Object.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			rs = responseEntity.getBody();
 		}
-		System.out.println("achievement_05 result=   "+JSON.toJSONString(rs));
+		System.out.println("achievement_05 result=   " + JSON.toJSONString(rs));
 		return JSON.toJSONString(rs);
 	}
 
@@ -1839,16 +1838,14 @@ public class OneLevelMainController extends BaseController{
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/equipment")
 	public String equipment(HttpServletRequest request) throws Exception {
 
-
 		String year = HanaUtil.getCurrrentYear();
 		request.setAttribute("year", year);
-		
-		
-		String  companyCode=EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders) ;
+
+		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 		request.setAttribute("companyCode", companyCode);
 		String month = HanaUtil.getCurrrentYear_Moth();
-        request.setAttribute("month", month);
-        
+		request.setAttribute("month", month);
+
 		return "stp/hana/home/oneLevelMain/equipment";
 	}
 
@@ -1856,7 +1853,7 @@ public class OneLevelMainController extends BaseController{
 	@ResponseBody
 	public String equipment_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result result = new Result();
-		String month = CommonUtil.getParameter(request, "month", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 		String type = CommonUtil.getParameter(request, "type", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
@@ -1872,9 +1869,9 @@ public class OneLevelMainController extends BaseController{
 		ChartBarLineResultData barLine = new ChartBarLineResultData();
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(equipment_01, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>>>>equipment_01 jSONArray"+jSONArray.toString());
+			System.out.println(">>>>>>>>>>>>>>>equipment_01 jSONArray" + jSONArray.toString());
 			List<H1AMKYSY100117> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100117.class);
 			List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "g0GSJC");
 			barLine.setxAxisDataList(xAxisDataList);
@@ -1900,7 +1897,7 @@ public class OneLevelMainController extends BaseController{
 		}
 
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>equipment_01 "+resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>>>equipment_01 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -1909,7 +1906,7 @@ public class OneLevelMainController extends BaseController{
 	public String equipment_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		PageResult pageResult = new PageResult();
-		String month = CommonUtil.getParameter(request, "month", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
@@ -1923,9 +1920,9 @@ public class OneLevelMainController extends BaseController{
 
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(equipment_02, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>>>>equipment_02 "+jSONArray.toString());
+			System.out.println(">>>>>>>>>>>>>>>equipment_02 " + jSONArray.toString());
 
 			List<H1AMKYSY100117> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100117.class);
 			// List<String>
@@ -1934,7 +1931,7 @@ public class OneLevelMainController extends BaseController{
 			// HanaUtil.getChildChartH1AMKYSY100117(lista,list);
 
 			List<TreeNode2> chartCircleList = new ArrayList<TreeNode2>();
-			for (int i = 0; i<list.size(); i++) {
+			for (int i = 0; i < list.size(); i++) {
 				H1AMKYSY100117 bean = list.get(i);
 				TreeNode2 node = new TreeNode2();
 				node.setExtend01(bean.getG0ZCXLMS());// 设备类型
@@ -1946,26 +1943,26 @@ public class OneLevelMainController extends BaseController{
 
 				DecimalFormat decimalFormat = new DecimalFormat(".00");
 				node.setExtend07(bean.getG0NCGZYZJE());// 购置金额(万元)
-				if (bean.getG0NCGZYZJE()!=null) {
-					node.setExtend07(decimalFormat.format(Double.valueOf(bean.getG0NCGZYZJE())/10000l));
+				if (bean.getG0NCGZYZJE() != null) {
+					node.setExtend07(decimalFormat.format(Double.valueOf(bean.getG0NCGZYZJE()) / 10000l));
 				}
 				node.setExtend08(bean.getG0LJZJJE());// 折旧金额（万元）
-				if (bean.getG0LJZJJE()!=null) {
-					node.setExtend08(decimalFormat.format(Double.valueOf(bean.getG0LJZJJE())/10000l));
+				if (bean.getG0LJZJJE() != null) {
+					node.setExtend08(decimalFormat.format(Double.valueOf(bean.getG0LJZJJE()) / 10000l));
 				}
 				node.setExtend09("0");
-				if (bean.getG0NCGZYZJE()!=null&&bean.getG0LJZJJE()!=null) {
-					Double rs = Double.valueOf(node.getExtend07())-Double.valueOf(node.getExtend08());
+				if (bean.getG0NCGZYZJE() != null && bean.getG0LJZJJE() != null) {
+					Double rs = Double.valueOf(node.getExtend07()) - Double.valueOf(node.getExtend08());
 					node.setExtend09(decimalFormat.format(rs));
 				}
-				node.setExtend10(bean.getBl()+"%");// 折旧率
+				node.setExtend10(bean.getBl() + "%");// 折旧率
 
 				chartCircleList.add(node);
 			}
 			// 把合计放到第一位置（查询结果在队列末尾）
-			chartCircleList.set(0, chartCircleList.get(chartCircleList.size()-1));
+			chartCircleList.set(0, chartCircleList.get(chartCircleList.size() - 1));
 			// 移除最后位置的合计值
-			chartCircleList.remove(chartCircleList.size()-1);
+			chartCircleList.remove(chartCircleList.size() - 1);
 
 			pageResult.setData(chartCircleList);
 			pageResult.setCode(0);
@@ -1987,20 +1984,19 @@ public class OneLevelMainController extends BaseController{
 		String type = CommonUtil.getParameter(request, "type", "");
 		String month = CommonUtil.getParameter(request, "month", "");
 
-		String  companyCode=EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders) ;
-		
+		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 
 		String companyName = CommonUtil.getParameter(request, "companyName", "");
 		String legentName = CommonUtil.getParameter(request, "legentName", "");
-		if(!companyName.equals(""))
-		{
-			companyCode=EquipmentUtils.getCompanyCodeByHanaName(companyName, restTemplate, httpHeaders);
+		if (!companyName.equals("")) {
+			companyCode = EquipmentUtils.getCompanyCodeByHanaName(companyName, restTemplate, httpHeaders);
 		}
 		/*
-		List<CompanyCode> companyCodeList = HanaUtil.getCompanyCode(restTemplate, httpHeaders);
-		if (!companyName.equals("")) {
-			companyCode = HanaUtil.getCompanyCodeByName(companyCodeList, companyName);
-		}*/
+		 * List<CompanyCode> companyCodeList =
+		 * HanaUtil.getCompanyCode(restTemplate, httpHeaders); if
+		 * (!companyName.equals("")) { companyCode =
+		 * HanaUtil.getCompanyCodeByName(companyCodeList, companyName); }
+		 */
 		request.setAttribute("companyName", companyName);
 		request.setAttribute("type", type);
 		request.setAttribute("month", month);
@@ -2016,16 +2012,16 @@ public class OneLevelMainController extends BaseController{
 	@ResponseBody
 	public String equipment_03(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-		System.out.println("equipment_03 param=   "+JSONObject.toJSONString(param));
+		System.out.println("equipment_03 param=   " + JSONObject.toJSONString(param));
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(equipment_03, HttpMethod.POST, entity, LayuiTableData.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println("equipment_03 result=   "+result.toJSONString());
+		System.out.println("equipment_03 result=   " + result.toJSONString());
 		return result.toString();
 	}
 
@@ -2033,7 +2029,7 @@ public class OneLevelMainController extends BaseController{
 	@ResponseBody
 	public String equipment_04(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result result = new Result();
-		String month = CommonUtil.getParameter(request, "month", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 		String type = CommonUtil.getParameter(request, "type", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
@@ -2048,13 +2044,13 @@ public class OneLevelMainController extends BaseController{
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(equipment_04, HttpMethod.POST, entity, JSONObject.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			JSONObject jSONArray = responseEntity.getBody();
 			result.setSuccess(true);
 			result.setData(jSONArray.toString());
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>equipment_04 "+resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>>>equipment_04 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -2079,7 +2075,7 @@ public class OneLevelMainController extends BaseController{
 	public String dragon_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
-		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
@@ -2094,16 +2090,16 @@ public class OneLevelMainController extends BaseController{
 		if (!nd.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_01, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode==200) {
+			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>dragon_01 jSONArray-> "+jSONArray.toString());
+				System.out.println(">>>>>>>>>>>>>>dragon_01 jSONArray-> " + jSONArray.toString());
 				List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
 
 				ChartPieResultData pie = new ChartPieResultData();
 				List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
 				List<String> legendDataList = new ArrayList<String>();
-				for (int i = 0; i<list.size(); i++) {
+				for (int i = 0; i < list.size(); i++) {
 					ProjectForMysql f2 = list.get(i);
 					String projectName = (String) f2.getXmlbmc();
 					Integer value = (Integer) f2.getSl();
@@ -2122,7 +2118,7 @@ public class OneLevelMainController extends BaseController{
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>dragon_01 type= "+type+" : "+resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>>dragon_01 type= " + type + " : " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -2130,7 +2126,7 @@ public class OneLevelMainController extends BaseController{
 	@ResponseBody
 	public String dragon_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result result = new Result();
-		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		String l_nd = DateUtil.format(DateUtil.dateAdd(DateUtil.strToDate(nd, DateUtil.FMT_YYYY), -365), DateUtil.FMT_YYYY);
 
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
@@ -2147,15 +2143,15 @@ public class OneLevelMainController extends BaseController{
 		ChartSingleLineResultData chartSingleLineResultData = new ChartSingleLineResultData();
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_02, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>>>>dragon_02 jSONArray"+jSONArray.toString());
+			System.out.println(">>>>>>>>>>>>>>>dragon_02 jSONArray" + jSONArray.toString());
 			// List<ProjectForMysql> list =
 			// JSONObject.parseArray(jSONArray.toJSONString(),
 			// ProjectForMysql.class);
 			List<String> xAxisDataList = new ArrayList<String>();
 			List<Object> seriesDataList = new ArrayList<Object>();
-			if (jSONArray!=null&&jSONArray.size()>0) {
+			if (jSONArray != null && jSONArray.size() > 0) {
 				// ProjectForMysql contract = (ProjectForMysql) list.get(0);
 				JSONObject obj = jSONArray.getJSONObject(0);
 
@@ -2186,7 +2182,7 @@ public class OneLevelMainController extends BaseController{
 			result.setData(chartSingleLineResultData);
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>dragon_02 "+resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>>>dragon_02 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -2210,9 +2206,9 @@ public class OneLevelMainController extends BaseController{
 		if (!companyCode.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_03, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode==200) {
+			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>dragon_03 jSONArray-> "+jSONArray.toString());
+				System.out.println(">>>>>>>>>>>>>>dragon_03 jSONArray-> " + jSONArray.toString());
 				List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
 				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "define2");
 				barLine.setxAxisDataList(xAxisDataList);
@@ -2238,7 +2234,7 @@ public class OneLevelMainController extends BaseController{
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>dragon_03 "+resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>>dragon_03 " + resultObj.toString());
 
 		return resultObj.toString();
 	}
@@ -2254,7 +2250,7 @@ public class OneLevelMainController extends BaseController{
 		paramsMap.put("nd", nd);
 		paramsMap.put("type_flag", "研究院");
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_01, HttpMethod.POST, new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders), JSONArray.class);
-		System.out.println(">>>>>>>>>>>>>>dragon_03-01 "+responseEntity.getBody().toString());
+		System.out.println(">>>>>>>>>>>>>>dragon_03-01 " + responseEntity.getBody().toString());
 
 		return responseEntity.getBody().toString();
 	}
@@ -2264,7 +2260,7 @@ public class OneLevelMainController extends BaseController{
 	@ResponseBody
 	public String getZdstlTable(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		PageResult pageResult = new PageResult();
-		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 		// String type = CommonUtil.getParameter(request, "type", "重点专项");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
@@ -2279,9 +2275,9 @@ public class OneLevelMainController extends BaseController{
 
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getZdstlTable, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>getZdstlTable jSONArray>>> "+jSONArray.toString());
+			System.out.println(">>>>>>>>>>>>getZdstlTable jSONArray>>> " + jSONArray.toString());
 			// List<ProjectForMysql> list =
 			// JSONObject.parseArray(jSONArray.toJSONString(),
 			// ProjectForMysql.class);
@@ -2293,7 +2289,7 @@ public class OneLevelMainController extends BaseController{
 		}
 
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-		System.out.println(">>>>>>>>>>>>>>>getZdstlTable "+resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>>>getZdstlTable " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -2303,7 +2299,7 @@ public class OneLevelMainController extends BaseController{
 
 		String resault = "";
 		Result result = new Result();
-		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
@@ -2315,10 +2311,10 @@ public class OneLevelMainController extends BaseController{
 		if (!nd.equals("")) {
 			ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(dragon_count, HttpMethod.POST, entity, JSONObject.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode==200) {
+			if (statusCode == 200) {
 
 				JSONObject jSONObject = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>jSONObject -> "+jSONObject.toString());
+				System.out.println(">>>>>>>>>>>>>>jSONObject -> " + jSONObject.toString());
 				result.setSuccess(true);
 				result.setData(jSONObject);
 
@@ -2330,7 +2326,7 @@ public class OneLevelMainController extends BaseController{
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 		resault = resultObj.toString();
-		System.out.println(">>>>>>>>>>>>>dragon_count "+resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>dragon_count " + resultObj.toString());
 
 		return resault;
 	}
@@ -2355,9 +2351,9 @@ public class OneLevelMainController extends BaseController{
 
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getStlTable, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>getStlTable jSONArray>>> "+jSONArray.toString());
+			System.out.println(">>>>>>>>>>>>getStlTable jSONArray>>> " + jSONArray.toString());
 			// List<ProjectForMysql> list =
 			// JSONObject.parseArray(jSONArray.toJSONString(),
 			// ProjectForMysql.class);
@@ -2369,7 +2365,7 @@ public class OneLevelMainController extends BaseController{
 		}
 		// JSONObject resultObj =
 		// JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-		System.out.println(">>>>>>>>>>>>>>>getStlTable "+JSON.toJSON(pageResult).toString());
+		System.out.println(">>>>>>>>>>>>>>>getStlTable " + JSON.toJSON(pageResult).toString());
 		return JSON.toJSON(pageResult).toString();
 	}
 
@@ -2378,7 +2374,7 @@ public class OneLevelMainController extends BaseController{
 	public void downLoadPlantRunningListInfo(HttpServletResponse res, @PathVariable("year") String year) throws IOException {
 
 		URL path = this.getClass().getResource("/");
-		File f = new File(path.getPath()+"static/ten_dragon/ten_dragon_report_20121120.doc");
+		File f = new File(path.getPath() + "static/ten_dragon/ten_dragon_report_20121120.doc");
 
 		FileUtil.fileDownload(f, res);
 	}
@@ -2403,7 +2399,7 @@ public class OneLevelMainController extends BaseController{
 
 		Result result = new Result();
 		ChartBarLineResultData barLine = new ChartBarLineResultData();
-		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
@@ -2417,9 +2413,9 @@ public class OneLevelMainController extends BaseController{
 		if (!companyCode.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_01, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode==200) {
+			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>investment_01 jSONArray-> "+jSONArray.toString());
+				System.out.println(">>>>>>>>>>>>>>investment_01 jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 
 				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "define3");
@@ -2446,7 +2442,7 @@ public class OneLevelMainController extends BaseController{
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>investment_01 "+resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>>investment_01 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -2455,7 +2451,7 @@ public class OneLevelMainController extends BaseController{
 	public String investment_0101(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
-		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
@@ -2469,9 +2465,9 @@ public class OneLevelMainController extends BaseController{
 		if (!nd.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_01, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode==200) {
+			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>investment_0101 jSONArray-> "+jSONArray.toString());
+				System.out.println(">>>>>>>>>>>>>>investment_0101 jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 				result.setSuccess(true);
 				result.setData(list);
@@ -2482,7 +2478,11 @@ public class OneLevelMainController extends BaseController{
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>investment_0101 "+resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>>investment_0101 " + resultObj.toString());
+
+		// 安全设置：归档文件下载
+		response.setHeader("Pragma", "no-cache");
+		response.setHeader("Cache-Control", "no-cache");
 		return resultObj.toString();
 	}
 
@@ -2491,7 +2491,7 @@ public class OneLevelMainController extends BaseController{
 	@ResponseBody
 	public String investment_01_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		PageResult pageResult = new PageResult();
-		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 		String type = CommonUtil.getParameter(request, "type", "重点专项");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
@@ -2507,13 +2507,13 @@ public class OneLevelMainController extends BaseController{
 
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_01, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
 			// System.out.println(">>>>>>>>>>>>investment_01_01 jSONArray>>> " +
 			// jSONArray.toString());
 			List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 
-			for (int i = 0; i<list.size(); i++) {
+			for (int i = 0; i < list.size(); i++) {
 				BudgetMysql budgetMysql = list.get(i);
 				Object fyxRate = budgetMysql.getFyxRate();
 				Object jeRate = budgetMysql.getJeRate();
@@ -2523,7 +2523,7 @@ public class OneLevelMainController extends BaseController{
 				// System.out.println(">>>>>>>>>>>> fyxRate>>> " + fyxRate);
 
 				Object fyxRate_str = "0";
-				if (fyxRate==null) {
+				if (fyxRate == null) {
 					fyxRate_str = "0";
 				} else if (fyxRate.toString().equals("0")) {
 					fyxRate_str = "0";
@@ -2533,7 +2533,7 @@ public class OneLevelMainController extends BaseController{
 
 				Object jeRate_str = "0";
 
-				if (jeRate==null) {
+				if (jeRate == null) {
 					jeRate_str = 0;
 				} else if (jeRate.toString().equals("0")) {
 					jeRate_str = "0";
@@ -2543,7 +2543,7 @@ public class OneLevelMainController extends BaseController{
 
 				Object zbxRate_str = "0";
 
-				if (zbxRate==null) {
+				if (zbxRate == null) {
 					zbxRate_str = 0;
 				} else if (zbxRate.toString().equals("0")) {
 					zbxRate_str = "0";
@@ -2552,7 +2552,7 @@ public class OneLevelMainController extends BaseController{
 				}
 
 				Object zRate_str = "0";
-				if (zRate==null) {
+				if (zRate == null) {
 					zRate_str = 0;
 				} else if (zRate.toString().equals("0")) {
 					zRate_str = "0";
@@ -2586,7 +2586,7 @@ public class OneLevelMainController extends BaseController{
 
 		Result result = new Result();
 		ChartBarLineResultData barLine = new ChartBarLineResultData();
-		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
@@ -2600,10 +2600,10 @@ public class OneLevelMainController extends BaseController{
 		if (!nd.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_02, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode==200) {
+			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>investment_02 jSONArray-> "+jSONArray.toString());
+				System.out.println(">>>>>>>>>>>>>>investment_02 jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "define2");
 				barLine.setxAxisDataList(xAxisDataList);
@@ -2632,7 +2632,7 @@ public class OneLevelMainController extends BaseController{
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>investment_02 "+resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>>investment_02 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -2644,7 +2644,7 @@ public class OneLevelMainController extends BaseController{
 		Result result = new Result();
 		PageResult pageResult = new PageResult();
 		ChartBarLineResultData barLine = new ChartBarLineResultData();
-		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 		String type = CommonUtil.getParameter(request, "type", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
@@ -2659,9 +2659,9 @@ public class OneLevelMainController extends BaseController{
 		if (!nd.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_03, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode==200) {
+			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>investment_03 jSONArray-> "+jSONArray.toString());
+				System.out.println(">>>>>>>>>>>>>>investment_03 jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 				if (type.equals("1")) {
 					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "zycmc");
@@ -2696,7 +2696,7 @@ public class OneLevelMainController extends BaseController{
 			result.setSuccess(false);
 			result.setMessage("参数为空");
 		}
-		System.out.println(">>>>>>>type="+type+">>>>>>>investment_03 "+resultObj.toString());
+		System.out.println(">>>>>>>type=" + type + ">>>>>>>investment_03 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -2705,7 +2705,7 @@ public class OneLevelMainController extends BaseController{
 	public String investment_02_count(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
-		String nd = CommonUtil.getParameter(request, "nd", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
@@ -2719,38 +2719,38 @@ public class OneLevelMainController extends BaseController{
 		if (!nd.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_02, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode==200) {
+			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>investment_02_count jSONArray-> "+jSONArray.toString());
+				System.out.println(">>>>>>>>>>>>>>investment_02_count jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 
 				List<Object> dataList = new ArrayList<Object>();
-				if (list!=null&&list.size()>0) {
-					for (int i = 0; i<list.size(); i++) {
+				if (list != null && list.size() > 0) {
+					for (int i = 0; i < list.size(); i++) {
 						BudgetMysql f03 = list.get(i);
 						String zsjje = ((BigDecimal) f03.getZsjje()).toString();// 实际下达
 						String wxdje = "0";
 						Object tt = f03.getWxdje();
-						if (tt!=null) {
+						if (tt != null) {
 							wxdje = ((BigDecimal) f03.getWxdje()).toString(); // 未下达
 						}
 
 						String zysje = "0";
 						Object ttt = f03.getZysje();
-						if (ttt!=null) {
+						if (ttt != null) {
 							zysje = ((BigDecimal) f03.getZysje()).toString(); // 总金额
 						}
 
 						String jeRate = "0";
 						Object o = f03.getJeRate();
-						if (o!=null) {
+						if (o != null) {
 							jeRate = ((BigDecimal) f03.getJeRate()).toString();
 						}
 						//
-						zsjje = String.format("%.4f", Double.valueOf(zsjje)/10000);
-						wxdje = String.format("%.4f", Double.valueOf(wxdje)/10000);
-						zysje = String.format("%.4f", Double.valueOf(zysje)/10000);
+						zsjje = String.format("%.4f", Double.valueOf(zsjje) / 10000);
+						wxdje = String.format("%.4f", Double.valueOf(wxdje) / 10000);
+						zysje = String.format("%.4f", Double.valueOf(zysje) / 10000);
 						//
 						f03.setZsjje(zsjje);
 						f03.setWxdje(wxdje);
@@ -2769,7 +2769,7 @@ public class OneLevelMainController extends BaseController{
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>investment_02_count "+resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>>investment_02_count " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -2778,22 +2778,22 @@ public class OneLevelMainController extends BaseController{
 	@ResponseBody
 	public String get_news(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result result = new Result();
-		String month = CommonUtil.getParameter(request, "month", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
-		
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(get_news, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode==200) {
+		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
 			List<SysNewsVo> list = JSONObject.parseArray(jSONArray.toJSONString(), SysNewsVo.class);
-			for (int i = 0; i<list.size(); i++) {
+			for (int i = 0; i < list.size(); i++) {
 				SysNewsVo sysNews = list.get(i);
 				String str = "";
 				String createtime = sysNews.getCreatetime();
-				if (createtime!=null) {
+				if (createtime != null) {
 					str = DateUtil.dateToStr(DateUtil.strToDate(sysNews.getCreatetime(), DateUtil.FMT_DD), DateUtil.FMT_DD);
 				}
 				sysNews.setCreatetimestr(str);
