@@ -52,6 +52,10 @@ public class TokenInterceptor implements HandlerInterceptor {
 			// 只信任同源的
 			response.setHeader("x-frame-options", "SAMEORIGIN");
 			
+			// 安全设置：归档文件下载
+			response.setHeader("Pragma", "no-cache");
+			response.setHeader("Cache-Control", "no-cache");
+			
 			// 默认走这个格式，对于form等格式，自己在处理时特殊处理
 			httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 			String token = null;
