@@ -25,6 +25,7 @@
 	
 	<input type="hidden" name="xmjf" id="xmjf" value="0">
 	<input type="hidden" name="zxjf" id="zxjf" value="0">
+	<input type="hidden" name="total" id="total" value="0">
     <div class="con-box">
         <div class="formBox">
             <div class="layui-row">
@@ -295,8 +296,10 @@
         }
         // 点击保存按钮
         form.on('submit(saveEvent)', function(data){
-        	data.field.zxjf = data.field.zxjfJz +data.field.zxjfXq;
-        	data.field.xmjf = data.field.xmjfJz +data.field.xmjfXq;
+        	data.field.zxjf = parseInt(data.field.zxjfJz) + parseInt(data.field.zxjfXq);
+        	data.field.xmjf = parseInt(data.field.xmjfJz) + parseInt(data.field.xmjfXq);
+        	data.field.total = data.field.zxjf+data.field.xmjf;
+        	data.field.simpleName = $("#simpleCode").find("option:selected").text();
         	
             var formData = JSON.stringify(data.field);
             console.log("表单数据："+formData + '\n' +"表格数据:" + getTableData());
