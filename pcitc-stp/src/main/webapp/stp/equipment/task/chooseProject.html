@@ -54,7 +54,7 @@ var publicMethods;
 	            url: '/sre-project-basic/chooseProject_data',
 	            limit: 15,
 	            method:"POST",
-	            where: {param:{"taskWriteUsersIds":$("#taskWriteUsersIds").val(),"name":$("#name").val(),"id":$("#topicId").val()}},
+	            where: {param:{"taskWriteUsersIds":$("#taskWriteUsersIds").val(),"name":$("#name").val(),"id":$("#topicId").val(),"leadUnitCode":$("#leadUnitCode").val()}},
 	        	id: 'notjoin_apply_table',
 	        	height: 350,
 	        	page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
@@ -148,7 +148,7 @@ var publicMethods;
 <div class="formBox">
 	<input type="hidden" name="taskWriteUsersIds" id="taskWriteUsersIds" value="${taskWriteUsersIds}">
 	<input type="hidden" name="topicId" id="topicId" value="${topicId}">
-	<input type="hidden" name="topicId" id="topicId" value="${topicId}">
+	<input type="hidden" name="leadUnitCode" id="leadUnitCode" value="${leadUnitCode}">
 	<input type="hidden" name="yearFeeStrJoinUnit" id="yearFeeStrJoinUnit" value="">
 	<input type="hidden" name="yearFeeStr" id="yearFeeStr" value="">
 	<input type="hidden" name="projectMoney" id="projectMoney" value="">

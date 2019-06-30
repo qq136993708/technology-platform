@@ -276,10 +276,10 @@ public class EquipmentController extends BaseController {
 	@RequestMapping(value = "/to-choose-chooseBusiness")
 	public String tochooseBusiness(HttpServletRequest request, HttpServletResponse response) {
 		
-		/*SysUserProperty sysUserProperty=EquipmentUtils.getSysUserProperty(sysUserInfo.getUserId(), "G0DSM", restTemplate, httpHeaders);
-		String g0GSDM=sysUserProperty.getDataId();
-		request.setAttribute("g0GSDM", g0GSDM);
-		request.setAttribute("companyCode", g0GSDM);*/
+		
+		String unitCode = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);// .getParentUnitPathId(unitPathIds);
+		String companyCode=EquipmentUtils.getHanaUnitCodeByUnitCode(unitCode, restTemplate, httpHeaders);
+		request.setAttribute("companyCode", companyCode);
 		return "/stp/equipment/equipment/chooseBusiness";
 	}
 	
@@ -343,12 +343,10 @@ public class EquipmentController extends BaseController {
 
 	@RequestMapping(value = "/to-list")
 	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		//String applyDepartCode=sysUserInfo.getUnitCode();
-		//request.setAttribute("applyDepartCode", applyDepartCode);
 		
 		
 		String unitPathIds = sysUserInfo.getUnitPath();
-		String parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
+		String parentUnitPathIds = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);// .getParentUnitPathId(unitPathIds);
 		
 		
 		
@@ -392,16 +390,11 @@ public class EquipmentController extends BaseController {
 	{
 		String equipmentIds = request.getParameter("equipmentIds");
 		request.setAttribute("equipmentIds", equipmentIds);
-        //String applyDepartCode=sysUserInfo.getUnitCode();
-		//request.setAttribute("applyDepartCode", applyDepartCode);
 		String isLinkedProject = request.getParameter("isLinkedProject");
 		request.setAttribute("isLinkedProject", isLinkedProject);
 		
 		
-		
-		
-		String unitPathIds = sysUserInfo.getUnitPath();
-		String parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
+		String parentUnitPathIds = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);// .getParentUnitPathId(unitPathIds);
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		
 		return "/stp/equipment/equipment/chooseEquipment";
@@ -582,10 +575,9 @@ public class EquipmentController extends BaseController {
 		String firstApplyUser=sysUserInfo.getUserDisp();
 		String attachmentDoc= IdUtil.createFileIdByTime();
 		
-		
 		Map<String ,String> map=EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
-		String parentUnitPathNames = map.get("parentUnitPathNames");//申报单位
-		String parentUnitPathIds =  map.get("parentUnitPathIds");//申报单位
+		String parentUnitPathNames = map.get("unitName");//申报单位
+		String parentUnitPathIds =  map.get("unitCode");//申报单位
 		String applyDepartName =  map.get("applyDepartName");//申报部门
 		String applyDepartCode =  map.get("applyDepartCode");//申报部门
 		
