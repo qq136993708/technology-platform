@@ -278,7 +278,7 @@
 					}
 				});
 				//如果是审批中或者最终版本，禁止修改
-				if(curent_budget_info.auditStatus >= 1){
+				if(curent_budget_info && curent_budget_info.auditStatus >= 1){
 					$('td[data-edit="true"]').css("pointer-events","none");
 				}
 			}
