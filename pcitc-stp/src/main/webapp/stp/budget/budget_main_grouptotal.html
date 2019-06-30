@@ -270,7 +270,6 @@
 			//刷新数据
 			window.reloadTable = function(tableId,tableData){
 				table.reload(tableId, {data: tableData});
-				//$('td[data-edit="true"]').css("pointer-events","none");
 				//格式化求和
 				$.each($(".layui-table-total tr td"),function(i,d){
 					if(i>=3){
@@ -278,6 +277,10 @@
 						$(this).find("div").html(parseInt(val));
 					}
 				});
+				//如果是审批中或者最终版本，禁止修改
+				if(curent_budget_info.auditStatus >= 1){
+					$('td[data-edit="true"]').css("pointer-events","none");
+				}
 			}
           	//初始化数据版本
             function initDataVersion(budget_id){
@@ -352,7 +355,11 @@
                 	if($("#data_version").val()==""){
                 		parent.layer.alert("请选择预算版本", {title : '提示'});
                 		return;
-                	} 
+                	}
+                	if(curent_budget_info.auditStatus >= 1){
+                		parent.layer.alert("状态："+curent_budget_info.auditStatusDesc+" 不可操作!", {title : '提示'});
+    					return false;
+    				}
                 	var url = '/budget/budget_edit_grouptotal?budgetInfoId='+curent_budget_info.dataId+'&nd='+cu_date;
                    	publicMethods.openBaseWinFull('集团公司经费预算编制管理-预算项新增',url);
                 },
@@ -371,6 +378,10 @@
                 		parent.layer.alert("请选择需要删除的行", {title : '提示'});
                 		return;
                 	}
+                	if(curent_budget_info.auditStatus >= 1){
+                		parent.layer.alert("状态："+curent_budget_info.auditStatusDesc+" 不可操作!", {title : '提示'});
+    					return false;
+    				}
                 	layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
     					layer.close(index);
     					publicMethods.ajaxAsyncPost("/budget/del-group-item/"+curent_tabel_data[selectIndex].dataId, null, function (data) {
@@ -390,6 +401,10 @@
                 		parent.layer.alert("请选择需要保存的预算版本", {title : '提示'});
                 		return;
                 	}
+                	if(curent_budget_info.auditStatus >= 1){
+                		parent.layer.alert("状态："+curent_budget_info.auditStatusDesc+" 不可操作!", {title : '提示'});
+    					return false;
+    				}
                 	function saveData(){
                 		layer.msg("处理中...");
        					publicMethods.ajaxAsyncPost("/budget/save-grouptotal-items", {"info":JSON.stringify(curent_budget_info),"items":JSON.stringify(curent_tabel_data)}, function (data) {
@@ -425,7 +440,11 @@
                 	if($("#data_version").val()==""){
                 		parent.layer.alert("请选择需要提交的预算版本", {title : '提示'});
                 		return;
-                	}  
+                	}
+                	if(curent_budget_info.auditStatus >= 1){
+                		parent.layer.alert("状态："+curent_budget_info.auditStatusDesc+" 不可操作!", {title : '提示'});
+    					return false;
+    				}
                 	layer.confirm('提交后将不可再编辑！确定要提交审批吗？',{title:"提交确认"},function(index){
     					layer.close(index);
     					publicMethods.ajaxAsyncPost("/budget/start-budget-grouptotal-activity", {"budgetInfoId":curent_budget_info.dataId,"functionId":param.id}, function (data) {
