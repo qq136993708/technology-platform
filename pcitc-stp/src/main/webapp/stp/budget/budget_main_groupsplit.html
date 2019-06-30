@@ -290,7 +290,7 @@
 			}
           	//初始化数据版本
             window.initDataVersion =function(budget_id){
-            	publicMethods.ajaxPost("/budget/budget-info-list",{"nd":cu_date,"budgetType":${budgetType}}, function (dt) {
+            	publicMethods.ajaxPost("/budget/budget-groupsplit-info-list",{"nd":cu_date}, function (dt) {
                 	$("#data_version").html('<option value="">---请选择版本---</option>');
                 	budget_info_map = {};
                 	$.each(dt,function(index,data){
