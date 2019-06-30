@@ -565,7 +565,7 @@ public class PlanController extends BaseController {
 	 */
 	@RequestMapping(value = "/plan/queryBotWorkOrderMatterList")
 	@ResponseBody
-	public Object queryBotWorkOrderMatterList(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request) {
+	public Object queryBotWorkOrderMatterList(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(VIEW_BOT_WORK_ORDER_MATTER_LIST, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData result = responseEntity.getBody();
@@ -583,9 +583,13 @@ public class PlanController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/plan/my/goBotWorkOrderListPage")
-	private String goMyBotWorkOrderListPage(HttpServletRequest request) {
+	private String goMyBotWorkOrderListPage(HttpServletRequest request, HttpServletResponse response) {
 		basePath = request.getContextPath();
 		request.setAttribute("basePath", basePath);
+
+		// 安全设置：归档文件下载
+		response.setHeader("Pragma", "no-cache");
+		response.setHeader("Cache-Control", "no-cache");
 		return "stp/plan/my/listMyPlan";
 	}
 
