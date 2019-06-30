@@ -180,6 +180,7 @@ public class PostProviderClient {
 			SysPost post = new SysPost();
 			String postId = UUID.randomUUID().toString().replaceAll("-", "");
 			post.setPostId(postId);
+			post.setPostCode(json.getString("unitCode") + "_BMTYGW");
 			post.setPostName(json.getString("postName"));
 			post.setPostKind("ROOT_XTGL_GWLX_NBGW");
 			post.setPostComment("统一身份添加人员时自动添加");

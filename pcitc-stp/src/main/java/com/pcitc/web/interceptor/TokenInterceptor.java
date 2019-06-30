@@ -30,6 +30,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 		try {
 			System.out.println("TokenInterceptor--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
 			String path = request.getRequestURI();
+			
 			/*if(!doLoginInterceptor(path, basePath) ){//是否进行登陆拦截
 				return true;
 			}*/
@@ -44,6 +45,9 @@ public class TokenInterceptor implements HandlerInterceptor {
 		        out.println("</html>");    
 				return false;
 			}
+			
+			// 缺少“Content-Security-Policy”头 , 此设置其资源只能自己访问
+			response.setHeader("Content-Security-Policy", "frame-ancestors 'self'");
 			
 			// 只信任同源的
 			response.setHeader("x-frame-options", "SAMEORIGIN");

@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>首页</title>
 <meta name="renderer" content="webkit">
-<meta http-equiv="Access-Control-Allow-Origin" content="*" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico" />
@@ -12,7 +11,6 @@
 <link rel="stylesheet" href="/layuiadmin/style/adminStp_.css" media="all">
 <link rel="stylesheet" href="/layuiadmin/style/mainStp_.css" media="all">
 <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
-<!--<link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">-->
 
 <style>
 .refreshBox {
@@ -431,20 +429,20 @@
 						<td align="center"></td>
 						<td align="center"><span>
 								办公自动化：
-								<a href="http://10.1.4.10/kjb/_layouts/15/ZBAppPage/oalogin.aspx" target="_blank" style="text-decoration: none; color: blue;">
+								<a href="http://${outOAIp}/kjb/_layouts/15/ZBAppPage/oalogin.aspx" target="_blank" style="text-decoration: none; color: blue;">
 									<b><font id="kjb_oadb" style="color: red">0</font></b>条待办
 								</a>
-								<a href="http://10.1.4.10/kjb/_layouts/15/ZBAppPage/oalogin.aspx" target="_blank" style="text-decoration: none; color: blue;">
+								<a href="http://${outOAIp}/kjb/_layouts/15/ZBAppPage/oalogin.aspx" target="_blank" style="text-decoration: none; color: blue;">
 									<b><font id="kjb_oady" style="color: red">0</font></b>条待阅
 								</a>
 								&nbsp;&nbsp;电子邮件：
-								<a href="http://10.1.4.10/kjb/_layouts/15/ZBAppPage/owalogin.aspx" target="_blank" style="text-decoration: none; color: blue;">
+								<a href="http://${outOAIp}/kjb/_layouts/15/ZBAppPage/owalogin.aspx" target="_blank" style="text-decoration: none; color: blue;">
 									<b><font id="kjb_owa" style="color: red">0</font></b>条未读
 								</a>
 							</span></td>
-						<td align="center">&nbsp;&nbsp;督办管理： <a href="http://10.1.4.10/_layouts/15/autologon?appid=61&amp;step=1" target="_blank" style="text-decoration: none; color: blue;">
+						<td align="center">&nbsp;&nbsp;督办管理： <a href="http://${outOAIp}/_layouts/15/autologon?appid=61&amp;step=1" target="_blank" style="text-decoration: none; color: blue;">
 								<b><font id="smdb" style="color: red">0</font></b>条待办
-							</a> <a href="http://10.1.4.10/_layouts/15/autologon?appid=61&amp;step=1" target="_blank" style="text-decoration: none; color: blue;">
+							</a> <a href="http://${outOAIp}/_layouts/15/autologon?appid=61&amp;step=1" target="_blank" style="text-decoration: none; color: blue;">
 								<b><font id="smdy" style="color: red">0</font></b>条待阅
 							</a></td>
 					</tr>
@@ -464,7 +462,7 @@
 			<script type="text/javascript" src="/layuiadmin/javascript/circle-progress.min.js"></script>
 
 			<script type="text/javascript">
-        var host="http://10.1.4.10:80";
+        var host="http://${outOAIp}";
         //办公自动化待办
         var url=host+"/kjb/_layouts/15/ZBAppPage/oacount.aspx";
         sendPost(url,"POST", function (data){
