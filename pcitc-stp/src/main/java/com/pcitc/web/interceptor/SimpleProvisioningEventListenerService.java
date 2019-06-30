@@ -381,8 +381,13 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					}
 
 					if (sysUser.getUserUnit()==null || sysUser.getUserUnit().equals("")) {
-						// 盈科
-						sysUser.setUserUnit("109511002");
+						if (sysUser.getUserExtend() != null && sysUser.getUserExtend().contains("30130006")) {
+							sysUser.setUserUnit("30130006");
+						} else {
+							// 盈科
+							sysUser.setUserUnit("109511002");
+						}
+						
 					}
 					sysUser.setUserFlag("1");// 暂时写常量（也可在消息队列中查询）
 					sysUser.setUserOrder(1);
