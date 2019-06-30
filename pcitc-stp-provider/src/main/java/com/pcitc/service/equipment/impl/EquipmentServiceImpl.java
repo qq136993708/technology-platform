@@ -1346,8 +1346,6 @@ public class EquipmentServiceImpl implements EquipmentService {
 	    return data;
 	}
 
-	
-	
 	public LayuiTableData getSreProjectTaskByErpnumPage(LayuiTableParam param)throws Exception
 	{
         //每页显示条数
@@ -1392,6 +1390,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 		data.setCount(total.intValue());
 	    return data;
 	}
+	
+	
 	
 	
 
