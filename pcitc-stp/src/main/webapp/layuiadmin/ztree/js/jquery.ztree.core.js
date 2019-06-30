@@ -7,7 +7,6 @@
  * Licensed same as jquery - MIT License
  * http://www.opensource.org/licenses/mit-license.php
  *
- * email: hunter.z@263.net
  * Date: 2017-06-19
  */
 (function ($) {
