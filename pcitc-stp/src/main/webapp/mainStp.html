@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>首页</title>
 <meta name="renderer" content="webkit">
-<meta http-equiv="Access-Control-Allow-Origin" content="*" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico" />
@@ -463,7 +462,7 @@
 			<script type="text/javascript" src="/layuiadmin/javascript/circle-progress.min.js"></script>
 
 			<script type="text/javascript">
-        var host="http://" + ${outOAIp};
+        var host="http://${outOAIp}";
         //办公自动化待办
         var url=host+"/kjb/_layouts/15/ZBAppPage/oacount.aspx";
         sendPost(url,"POST", function (data){
