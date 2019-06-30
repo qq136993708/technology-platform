@@ -404,13 +404,17 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					System.out.println(sysUser.getUserUnit()+"---getUserUnit======");
 					SysUnit unit = this.restTemplate.exchange(UNIT_CODE_GET_UNIT+sysUser.getUserUnit(), HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysUnit.class).getBody();
 					String unitId = "";
+					String unitCode = "";
 					if (unit==null) {
 						unitId = "fc1c18a6b5ac461a82c0ecaf09722e17";
+						unitCode = "30130006";
 					} else {
 						unitId = unit.getUnitId();
+						unitCode = unit.getUnitCode();
 					}
 					JSONObject json = new JSONObject();
 					json.put("unitId", unitId);
+					json.put("unitCode", unitCode);
 					json.put("postId", UUID.randomUUID().toString().replaceAll("-", ""));
 					json.put("postName", "部门通用岗位");
 					
