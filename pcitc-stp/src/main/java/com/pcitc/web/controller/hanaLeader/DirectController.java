@@ -15,6 +15,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,6 +27,8 @@ import com.pcitc.base.common.ChartBarLineSeries;
 import com.pcitc.base.common.ChartPieDataValue;
 import com.pcitc.base.common.ChartPieResultData;
 import com.pcitc.base.common.ChartSingleLineResultData;
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.PageResult;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.TreeNode2;
@@ -83,6 +86,11 @@ public class DirectController extends BaseController {
 	private static final String	topic_equipment_count	= "http://pcitc-zuul/system-proxy/out-provider/kyzb/project-count";
 
 
+	
+	private static final String	actualPay_detail_data		= "http://pcitc-zuul/hana-proxy/hana/home/actualPay_detail_data";
+	
+	
+	
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/topic_equipment_count")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
@@ -625,7 +633,7 @@ public class DirectController extends BaseController {
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getBeforeYear();
 		request.setAttribute("year", year);
 		return "stp/hana/home/oneLevelMain/direct/contract";
 	}
@@ -1697,12 +1705,54 @@ public class DirectController extends BaseController {
 	 * =========================================科研实际支出==========================
 	 * =======
 	 */
+	
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/direct/actualPay_detail")
+	public String actualPay_detail(HttpServletRequest request) throws Exception {
+		
+		String  companyCode=EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders) ;
+		String month = HanaUtil.getCurrrentYear_Moth();
+        request.setAttribute("month", month);
+        String isdisplay = CommonUtil.getParameter(request, "isdisplay", "");
+		request.setAttribute("isdisplay", isdisplay);
+		String companyName = CommonUtil.getParameter(request, "companyName", "");
+		if(!companyName.equals(""))
+		{
+			companyCode=EquipmentUtils.getCompanyCodeByHanaName(companyName, restTemplate, httpHeaders);
+		}
+		request.setAttribute("isdisplay", isdisplay);
+		request.setAttribute("companyCode", companyCode);
+		
+		 String g0XMDL = CommonUtil.getParameter(request, "g0XMDL", "");
+			request.setAttribute("g0XMDL", g0XMDL);
+			
+		return "stp/hana/home/oneLevelMain/direct/actualPay_detail";
+	}
+
+      @RequestMapping(method = RequestMethod.POST, value = "/actualPay_detail_data")
+	  @ResponseBody
+	  public String actualPay_detail_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
+		{
+			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(param));
+			System.out.println(">>>>>>>>>>>>>>>>>actualPay_detail_data 参数 "+resultObj.toString());
+			
+			LayuiTableData layuiTableData = new LayuiTableData();
+			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(actualPay_detail_data, HttpMethod.POST, entity, LayuiTableData.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200)
+			{
+				layuiTableData = responseEntity.getBody();
+			}
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+			System.out.println(">>>>>>>>>>>>>actualPay_detail_data 返回结果:" + result.toString());
+			return result.toString();
+		}
+	
+	
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/actualPay")
 	public String actualPay(HttpServletRequest request) throws Exception {
 		
-		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		String unitCode = userInfo.getUnitCode();
-		request.setAttribute("unitCode", unitCode);
 		String  companyCode=EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders) ;
 		request.setAttribute("companyCode", companyCode);
 		String year= HanaUtil.getCurrrentYear();

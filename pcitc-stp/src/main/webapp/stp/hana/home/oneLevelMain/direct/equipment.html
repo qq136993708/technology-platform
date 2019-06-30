@@ -180,7 +180,6 @@ layui.config({
       	layer.alert("请配置直属院数据权限");
       }
 	  
-	  
 	  form.render(null, 'component-form-group');
         laydate.render({
         	 elem: '#month',type: 'month'
@@ -286,7 +285,9 @@ function initEchart()
 	data7.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+	alert(xName);
+		 var url=　encodeURIComponent("/one_level_main/equipment_03_detail?month="+$("#month").val()+"&companyName="+xName);
+		 window.open("/instituteIndex?url="+url);
     });
 
 	var chart5_url="/direct/equipment_03?companyCode="+companyCode+"&v_date="+v_date+"&month="+month;
@@ -306,7 +307,8 @@ function initEchart()
 	echart5.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+		var url=　encodeURIComponent("/one_level_main/equipment_03_detail?month="+$("#month").val()+"&companyName="+xName);
+		 window.open("/instituteIndex?url="+url);
     });
 
 

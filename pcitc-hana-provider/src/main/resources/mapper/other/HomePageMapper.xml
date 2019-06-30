@@ -42,7 +42,7 @@
        <result column="G0XMZT"        property="g0XMZT"          jdbcType="VARCHAR" />
        <result column="G0XMZTMS"      property="g0XMZTMS"        jdbcType="VARCHAR" />
        <result column="K0XMZXSL"      property="k0XMZXSL"        jdbcType="VARCHAR" />
-       <result column="K0BNYSJHJE"    property="k0BNYSJHJE"      jdbcType="VARCHAR" />
+      
        <result column="K0BNGLFPHJECB" property="k0BNGLFPHJECB"  jdbcType="VARCHAR" />
        <result column="K0BNYSL"   property="k0BNYSL"   jdbcType="VARCHAR" />
        <result column="K0BNYSJY"  property="k0BNYSJY"  jdbcType="VARCHAR" />
@@ -55,9 +55,126 @@
          <result column="G0XMXZ"  property="g0XMXZ"  jdbcType="VARCHAR" /> 
         
         
+         <result column="K0BNYSJHJE"    property="k0BNYSJHJE"      jdbcType="DECIMAL" />
+         <result column="K0BNZBJE"  property="k0BNZBJE"  jdbcType="DECIMAL" /> 
+         <result column="K0BNFYJE"  property="k0BNFYJE"  jdbcType="DECIMAL" /> 
         
         
      </resultMap>
+     
+     
+     <sql id="select_getActualPayDetailData_sql">
+	     <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	       <if test="g0PROJCODE != null   and g0PROJCODE !=''  ">                AND G0PROJCODE  = '${g0PROJCODE}'</if>
+	       <if test="g0PROJTXT != null  and g0PROJTXT !='' ">                    AND G0PROJTXT like '%${g0PROJTXT}%'</if>
+	       <if test="g0XMDL != null and g0XMDL !=''">  G0XMDL='${g0XMDL}' </if> 
+	   </trim>
+	</sql>
+     <!-- 经费支出--> 
+        <sql id="getActualPayDetailData_sql">
+         select
+				 "G0GSJC",
+				 case  when  "G0XMDL"='Z' then '资本性' 
+				 else '费用性'
+				 end as  "G0XMDL",
+				 "G0PROJCODE",
+				 "G0PROJTXT",
+				 round(ifnull(sum("K0BNYSJHJE"),0)/10000,
+				4) as K0BNYSJHJE,
+				 round(ifnull(sum("K0BNZBJE"),0)/10000,
+				4) as K0BNZBJE,
+				 round(ifnull(sum("K0BNFYJE"),0)/10000,
+				4) as K0BNFYJE 
+			from ( 
+			    SELECT
+				 "G0GSJC",
+				 "G0GSOR",
+				 "G0XMDL",
+				 "G0PROJCODE",
+				 "G0PROJTXT",
+				 sum("K0BNGLFPHJECB")AS "K0BNYSJHJE",
+				 case when "G0XMDL" = 'Z' 
+				THEN sum("K0BNGLFPHJECB") 
+				END AS "K0BNZBJE",
+				 case when "G0XMDL" = 'F' 
+				then sum("K0BNGLFPHJECB") 
+				end AS "K0BNFYJE" 
+				FROM ( SELECT
+				 "G0GSSP",
+				 "G0GSJC",
+				 "G0XMXZ",
+				 "G0XMDL",
+				 "G0GSOR",
+				 "G0PROJCODE",
+				 "G0PROJTXT",	 
+				 sum("K0BNYSJHJE") AS "K0BNYSJHJE",
+				 sum("K0BNGLFPHJECB") AS "K0BNGLFPHJECB" 
+					FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_SY_1001_01"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+				 '${month}'),
+				 'PLACEHOLDER' = ('$$PR_GSDM$$',
+				 '${companyCode}')) 
+				 where "K0BNYSJHJE" != 0 or "K0BNGLFPHJECB" != 0
+				group by "G0GSSP",
+				 "G0GSJC",
+				 "G0XMDL",
+				 "G0GSOR",
+				 "G0XMXZ",
+				 "G0PROJCODE",
+				 "G0PROJTXT" 
+					UNION ALL SELECT
+				 "G0GSSP",
+				 "G0GSJC",
+				 "G0XMXZ",
+				 "G0XMDL",
+				 "G0GSOR",
+				 "G0PROJCODE",
+				 "G0PROJTXT",
+				 sum("K0BNYSJHJE") AS "K0BNYSJHJE",
+				 sum("K0BNGLFPHJECB") AS "K0BNGLFPHJECB" 
+					FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_SY_1001_04"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+				 '${month}'),
+				 'PLACEHOLDER' = ('$$PR_GSDM$$',
+				 '${companyCode}')) 
+				  where "K0BNYSJHJE" != 0 or "K0BNGLFPHJECB" != 0
+					group by "G0GSSP",
+				 "G0GSJC",
+				 "G0XMDL",
+				 "G0GSOR",
+				 "G0XMXZ",
+				 "G0PROJCODE",
+				 "G0PROJTXT"
+				  ) 
+				group by "G0GSJC",
+				 "G0XMDL",
+				 "G0GSOR",
+				 "G0PROJCODE",
+				 "G0PROJTXT"
+				 )
+				 <include refid="select_getActualPayDetailData_sql"></include>
+			group by 
+			     "G0GSJC",
+				 "G0GSOR" ,
+				 "G0XMDL",
+				 "G0PROJCODE",
+				 "G0PROJTXT"	 
+			ORDER BY "G0GSOR","G0PROJCODE"
+      </sql>
+      
+      <select id="getActualPayDetailData" resultMap="H1AMKYSY100104ResultMap" parameterType="java.util.Map" >
+            <include refid="getActualPayDetailData_sql"></include>
+            <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>   
+      </select>
+      <select id="getActualPayDetailData_Count" resultType="int"  parameterType="java.util.Map" >
+         SELECT COUNT(*) FROM( <include refid="getActualPayDetailData_sql"></include>)
+      </select>
+      
+      
+      
+     
+     
+     
+     
+     
      
      <!-- H1AM_KY_SY_1001_04 科研装备--> 
 	 <select id="getkyzb" resultMap="H1AMKYSY100104ResultMap" parameterType="java.util.Map" >

@@ -498,7 +498,27 @@ public class EquipmentUtils {
 	}
 	
 	
-	
+	   //物探院->1130
+		public static String getCompanyCodeByHanaName(String companyName,RestTemplate restTemplate,HttpHeaders httpHeaders)
+		{
+			
+			
+			String companyCode = "";//申报单位
+			List<SysDictionary>  dicList= EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY", restTemplate, httpHeaders);
+			if(dicList!=null) 
+			{
+			   for(int i=0;i<dicList.size();i++)
+			   {
+				   SysDictionary sysDictionary= dicList.get(i);
+				   String name =sysDictionary.getName();
+				   if(name.equals(companyName))
+				   {
+					   companyCode=sysDictionary.getNumValue();
+				   }
+			   }
+			}
+			return companyCode;
+		}
 	
 	
 	//数据控制配置（直属院）
@@ -585,7 +605,7 @@ public class EquipmentUtils {
 		   List<String> arrayList = getPostDic( functionId , restTemplate, httpHeaders);
 		   //与字典表匹配
 		   List<SysDictionary> result=new ArrayList<SysDictionary> ();
-		   List<SysDictionary>  sysDictionaryList=  EquipmentUtils.getSysDictionaryListByParentCode("ROOT_XTGL_ZSYJY",  restTemplate, httpHeaders);
+		   List<SysDictionary>  sysDictionaryList=  EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY",  restTemplate, httpHeaders);
 		   if(sysDictionaryList!=null && sysDictionaryList.size()>0)
 		   {
 			    for(int v=0;v<sysDictionaryList.size();v++ ) 
@@ -667,7 +687,7 @@ public class EquipmentUtils {
 		   List<String> arrayList = getPostDic( functionId , restTemplate, httpHeaders);
 		   //与字典表匹配
 		   List<SysDictionary> result=new ArrayList<SysDictionary> ();
-		   List<SysDictionary>  sysDictionaryList=  EquipmentUtils.getSysDictionaryListByParentCode("ROOT_XTGL_ZSYJY",  restTemplate, httpHeaders);
+		   List<SysDictionary>  sysDictionaryList=  EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY",  restTemplate, httpHeaders);
 		   if(sysDictionaryList!=null && sysDictionaryList.size()>0)
 		   {
 			    for(int v=0;v<sysDictionaryList.size();v++ ) 

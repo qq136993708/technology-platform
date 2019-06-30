@@ -1191,7 +1191,7 @@ public class OneLevelMainController extends BaseController{
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		String nd = HanaUtil.getCurrrentYear();
+		String nd = HanaUtil.getBeforeYear();
 		request.setAttribute("nd", nd);
 		return "stp/hana/home/oneLevelMain/contract";
 	}
@@ -1839,22 +1839,16 @@ public class OneLevelMainController extends BaseController{
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/equipment")
 	public String equipment(HttpServletRequest request) throws Exception {
 
-		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		
-		String unitCode = userInfo.getUnitCode();
-		request.setAttribute("unitCode", unitCode);
 
 		String year = HanaUtil.getCurrrentYear();
 		request.setAttribute("year", year);
-
 		
 		
 		String  companyCode=EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders) ;
 		request.setAttribute("companyCode", companyCode);
-		String month = HanaUtil.getCurrrentYearMoth();
+		String month = HanaUtil.getCurrrentYear_Moth();
         request.setAttribute("month", month);
         
-
 		return "stp/hana/home/oneLevelMain/equipment";
 	}
 
@@ -1993,14 +1987,20 @@ public class OneLevelMainController extends BaseController{
 		String type = CommonUtil.getParameter(request, "type", "");
 		String month = CommonUtil.getParameter(request, "month", "");
 
-		String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+		String  companyCode=EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders) ;
+		
 
 		String companyName = CommonUtil.getParameter(request, "companyName", "");
 		String legentName = CommonUtil.getParameter(request, "legentName", "");
+		if(!companyName.equals(""))
+		{
+			companyCode=EquipmentUtils.getCompanyCodeByHanaName(companyName, restTemplate, httpHeaders);
+		}
+		/*
 		List<CompanyCode> companyCodeList = HanaUtil.getCompanyCode(restTemplate, httpHeaders);
 		if (!companyName.equals("")) {
 			companyCode = HanaUtil.getCompanyCodeByName(companyCodeList, companyName);
-		}
+		}*/
 		request.setAttribute("companyName", companyName);
 		request.setAttribute("type", type);
 		request.setAttribute("month", month);

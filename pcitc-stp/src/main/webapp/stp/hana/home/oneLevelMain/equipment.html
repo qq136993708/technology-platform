@@ -18,17 +18,15 @@
 <body>
 <div class="layui-fluid">
  
-   <input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
+    <input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
+    <input type="hidden" name="month"  value="${month}"   id="month">
+    
     <div class="">
         <div class="fluid-top">
             <div class="breadcrumb">
                 <a href="/stpHome" target="_parent">首页 > </a><span>科研装备</span>
             </div>
             <div class="searchBox">
-                <label class="dateInput">
-                    <span>年月</span>
-                    <input type="text" name="month" placeholder="请选择年月" title="年月" value="${month}"  autocomplete="off" class="form-control" id="month">
-                </label>
                 <div class="btnGroup">
                     <button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
                     >详情</button>
@@ -96,8 +94,7 @@ layui.config({
 
     form.render(null, 'component-form-group');
     laydate.render({
-        elem: '#month'
-        ,format: 'yyyyMM'
+        elem: '#month',type: 'month'
         ,done: function(value, date, endDate){
             $(".layui-time").html(date.year+"年"+date.month+"月");
             search_Event();
@@ -108,10 +105,9 @@ layui.config({
    renderTable();
 
     var monthValY=$("#month").val().substring(4,0);
-    var monthValM=$("#month").val().substring(4);
+    var monthValM=$("#month").val().substring(5);
     $(".layui-time").html(monthValY+"年"+monthValM+"月");
     $("#knowledge_table").click(function () {
-    	
     	
     	var url=　encodeURIComponent("/one_level_main/equipment_03_detail?month="+$("#month").val());
         window.open("/instituteIndex?url="+url);
@@ -155,8 +151,9 @@ function initEchart()
 	
 	
 	
-
-	var chart1_url="/one_level_main/equipment_01?month="+$("#month").val()+"&v_date="+v_date+"&companyCode="+companyCode;
+	var month=$("#month").val();
+	month=month.replace("-","");
+	var chart1_url="/one_level_main/equipment_01?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
 	var echart1=load_mutl_bar_down(chart1_url,"equipment_01_chart","","",yAxis2);
 	echart1.on('click', function (params) {
 		var xName=params.name;
@@ -195,6 +192,7 @@ function search_Event()
 }
 function renderTable(){
 	var month=$("#month").val();
+	month=month.replace("-","");
 	var companyCode=$("#companyCode").val();
     table.render({
         elem: '#processdef_table_02' //表格容器

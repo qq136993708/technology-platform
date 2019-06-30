@@ -12,13 +12,24 @@
 
 
 <div class="searchBox">
-<input name="month" id="month" type="hidden" value="${month}" >
-<input name="companyCode" id="companyCode" type="hidden" value="${companyCode}" >
 <input name="type" id="type" type="hidden" value="${type}" >
+
+
+<label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month"  title="月份" value="${month}"  id="month">
+            <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
+        </label>
+        <div class="layui-input-inline"  style="margin-left:10px">
+           <select id="companyCode" name="companyCode" class="form-control"></select>
+        </div>
+        
+         <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="renderTable()" >查询</button>
+    </div>
 </div>
 
 <div class="tableBox" >
-<h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt"></label>${monthName}&nbsp;${companyName}${legentName}设备</h3>
     <table id="processdef-table" class="layui-hide" lay-filter="tableEvent">
 </div>
 
@@ -48,6 +59,7 @@
 
 <!--表格数据操作js-->
 <script src="/common/js/jquery-1.11.3.min.js"></script>
+ <script src="/stp/hana/common/hana_common.js"></script>
 <script>
 var table,selectRowData;
 layui.config({
@@ -60,10 +72,10 @@ layui.config({
 	 form.render(null, 'component-form-group');
 	  laydate.render({
           elem: '#month'
-          ,format: 'yyyyMM'
+        	  ,type: 'month'
        });
 
-
+	  init_companyCode("984b64b13cf54222bf57bd840759fabe");
 
             
             
@@ -110,13 +122,18 @@ layui.config({
     		  shade: [0.1,'#fff'] 
     		}); 
     	
+    	
+    	var month=$('#month').val();
+    	month=month.replace("-","");
+    	
+    	
       //渲染
       table.render({
         elem: '#processdef-table',
         url: '/one_level_main/equipment_03',
         method:"POST",
         where: {param: {
-        	      "month":$("#month").val(),
+        	      "month":month,
         	      "companyCode":$("#companyCode").val(),
         	      "type":$("#type").val()
                }},

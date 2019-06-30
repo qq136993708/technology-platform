@@ -165,7 +165,7 @@ layui.config({
       }
 	
     var monthValY=$("#month").val().substring(4,0);
-    var monthValM=$("#month").val().substring(4);
+    var monthValM=$("#month").val().substring(5);
     $(".layui-time").html(monthValY+"年"+monthValM+"月");
     form.render(null, 'component-form-group');
     laydate.render({
@@ -221,8 +221,6 @@ function initEchart()
     $("#pay_chart3_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
     
     
-    
-    
 
     var color=["#37a2da","#72c376"];
     var chart1_url="/direct/pay_01?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
@@ -230,16 +228,34 @@ function initEchart()
 	echart1.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+		var g0XMDL="";
+		if(xName=='资本性')
+    	{
+    	  g0XMDL="Z";
+    	}else
+   		{
+   		g0XMDL="F";
+   		}
+		window.open("/direct/actualPay_detail?companyCode="+companyCode+"&month="+month+"&g0XMDL="+g0XMDL);
     });
+	
+	
 	//
     var colorNew=["#8278e9","#f7d454"];
     var chart7_url="/direct/pay_03?type=1&month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
 	var echart7=load_mutl_bar_down_color(chart7_url,"pay_chart3","","",yAxis,colorNew);
 	echart7.on('click', function (params) {
-		var xName=params.name;
+		var companyName=params.name;
 		var legentName=params.seriesName;
-		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+		var g0XMDL="";
+		if(legentName=='资本性')
+	    {
+			g0XMDL="Z";
+	    }else
+    	{
+    	  g0XMDL="F";
+    	}
+		window.open("/direct/actualPay_detail?companyName="+companyName+"&month="+month+"&g0XMDL="+g0XMDL);
     });
 	 //
 	var setPay_count_count_url="/direct/pay_03?type=3&month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
