@@ -1453,22 +1453,22 @@
 				) as tableA
 		WHERE 
 			1 = 1
-			<if test="nd != null">
+			<if test="nd != null and nd != ''">
 				and tableA.nd = #{nd}
 			</if>
-			<if test="ysnd != null">
+			<if test="ysnd != null and ysnd != ''">
 				and tableA.ysnd = #{ysnd}
 			</if>
-			<if test="hth != null">
+			<if test="hth != null and hth != ''">
 				and tableA.hth like '%${hth}%'
 			</if>
-			<if test="xmmc != null">
+			<if test="xmmc != null and xmmc != ''">
 				and tableA.xmmc like '%${xmmc}%'
 			</if>
-			<if test="ktlx != null and ktlx == '新开课题' and nd != null">
+			<if test="ktlx != null and ktlx == '新开课题' and nd != null and nd != ''">
 				and tableA.ysnd = #{nd} and tableA.nd = #{nd} 
 			</if>
-			<if test="ktlx != null and ktlx == '结转课题' and ysnd != null">
+			<if test="ktlx != null and ktlx == '结转课题' and ysnd != null and ysnd != ''">
 				and tableA.ysnd = #{ysnd} and tableA.nd &lt; #{ysnd} 
 			</if>
 			<if test="qdbz != null and qdbz == '已签订'">
