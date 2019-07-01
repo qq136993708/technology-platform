@@ -84,9 +84,9 @@
                 <thead>
 	                <tr>
 	                	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
-	                	<th lay-data="{field:'no',align: 'center', width: '45',totalRowText: '合计'}" rowspan="2">序号</th>
-	                    <th lay-data="{field:'organName', width: '6%'}" rowspan="2">专业处/部门</th>
-	                    <th lay-data="{field:'total', width: '4%',align: 'center',totalRow: true}" rowspan="2">合计</th>
+	                	<th lay-data="{field:'no',align: 'center', width: '5%',totalRowText: '合计'}" rowspan="2">序号</th>
+	                    <th lay-data="{field:'organName', width: '10%'}" rowspan="2">专业处/部门</th>
+	                    <th lay-data="{field:'total', width: '5%',align: 'center',totalRow: true}" rowspan="2">合计</th>
 	                    <#list items as item>
 	                    	<#list item?keys as key> 
 	                    		<th lay-data="{align: 'center',totalRow: true}" colspan="3">${item[key]}</th>
@@ -96,9 +96,9 @@
 	                 <tr>
 	                    <#list items as item>
 	                    	<#list item?keys as key>
-	                    		<th lay-data="{field:'${key}_total', align: 'right',totalRow: true,width: 60}">预算</th> 
-	                    		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true,width: 60}">结转</th>
-	                    		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true,width: 60}">新签</th>
+	                    		<th lay-data="{field:'${key}_total', align: 'right',totalRow: true,width: 80}">预算</th> 
+	                    		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true,width: 80}">结转</th>
+	                    		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true,width: 80}">新签</th>
 	                    	</#list> 
 	                    </#list>
 	                </tr>
