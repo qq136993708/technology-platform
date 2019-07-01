@@ -153,7 +153,9 @@
 <!-- 经费来源 -->
 <input type="hidden" name="define11"    value="${define11}"    id="define11">
 <input type="hidden" name="define12"    value="${define12}"    id="define12">
-    
+<input type="hidden" name="leaderFlag"    value="${leaderFlag}"    id="leaderFlag">
+
+
      <label class="dateInput">
         <span>项目名称</span>
         <input type="text" name="xmmc" title="项目名称" autocomplete="off" class="form-control" id="xmmc">
@@ -470,6 +472,7 @@ layui.config({
         	      "zylb":specialtySelectedItem,
         	      "qdbz":specialtySelectedItem_qdbz,
         	      "project_scope":$("#project_scope").val(),
+        	      "leaderFlag":$("#leaderFlag").val(),
         	      "project_property":$("#project_property").val(),
         	      "projectId":$("#projectId").val()
         	

@@ -1071,7 +1071,6 @@ public class DirectController extends BaseController {
 		request.setAttribute("year", year);
 		return "stp/hana/home/oneLevelMain/direct/topic";
 	}
-
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/topic_01")
 	@ResponseBody
 	public String topic_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -1405,10 +1404,7 @@ public class DirectController extends BaseController {
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/equipment")
 	public String equipment(HttpServletRequest request) throws Exception {
 
-		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 		
-		String unitCode = userInfo.getUnitCode();
-		request.setAttribute("unitCode", unitCode);
 
 		String  companyCode=EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders) ;
 		request.setAttribute("companyCode", companyCode);
