@@ -367,7 +367,7 @@ background: white;box-shadow: 0 0 5px #dadcde;}
 .searchH{background: #f3f5f7;margin: 0px 0 30px;}
 .searchOption{margin: 0 auto;padding: 38px 0 0;}
 .searchOption a{padding: 0 18px; background: white;height: 38px;line-height: 38px;border-radius: 3px;
-    color: #222323;font-size: 16px;display: inline-block;margin-right: 15px;}
+    color: #222323;font-size: 14px;display: inline-block;margin-right: 15px;}
 .searchOption a:nth-child(1){margin-left: 0;}
 .searchOption a:hover,.searchOption a.layui-this{color: white;background: #1890ff;}
 @media screen and (max-width: 1920px) {
