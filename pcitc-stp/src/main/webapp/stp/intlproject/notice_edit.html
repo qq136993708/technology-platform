@@ -12,7 +12,7 @@
 <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
 <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
 
-<script type="text/javascript" src="/plugins/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="/layuiadmin/javascript/ckeditor5/ckeditor.js"></script>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 
@@ -30,7 +30,10 @@ $(document).ready(function() {
 				var form = layui.form;
 				var noticeId = "${noticeId?default(0)}";
 				var publicMethods=layui.publicMethods;
-				var editor = CKEDITOR.replace("noticeContent");
+                var myEditor = null;
+                ClassicEditor.create(document.querySelector('#noticeContent'),{}).then(editor => {
+                    myEditor = editor;
+            	});
 				//加载字典
 				var dicMap = ['GJXMGL_TZLX'];
 				publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
@@ -45,7 +48,7 @@ $(document).ready(function() {
 			 		$("#noticeId").val(noticeId);
 			 		publicMethods.ajaxPost('/project/get-notice', {"noticeId":noticeId}, function (data, status) {
 		        		form.val("apply-form",data);
-		        		editor.setData(data.noticeContent);
+                        myEditor.setData(data.noticeContent);
 		            });
 		        }else{
 		    		$("#appendFiles").val("${appendFiles}");
@@ -56,7 +59,7 @@ $(document).ready(function() {
 				/* 自定义验证规则  title 要验证的input的 lay-verify=""*/
 				form.verify({
 					noticeContent:function(value,item){
-						if(editor.getData()=='' || editor.getData()==null || editor.getData() == "undefined")
+						if(myEditor.getData()=='' || myEditor.getData()==null || myEditor.getData() == "undefined")
 						{
 							return "请输入通知内容!";
 						}
@@ -64,7 +67,7 @@ $(document).ready(function() {
 				});
 				/* 监听提交 */
 				form.on('submit(submitBtn)', function(data) {
-					data.field.noticeContent = editor.getData();
+					data.field.noticeContent = myEditor.getData();
 					publicMethods.ajaxPost('/project/addorupd-notice', data.field, function (data, status) {
                         if (data.success) {
                         	parent.layui.table.reload('noticeTable',null);
