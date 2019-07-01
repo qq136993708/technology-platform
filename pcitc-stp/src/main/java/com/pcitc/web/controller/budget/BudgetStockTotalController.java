@@ -153,6 +153,7 @@ public class BudgetStockTotalController extends BaseController {
 		BudgetInfo rs = this.restTemplate.exchange(BUDGET_FINAL_INFO, HttpMethod.POST, new HttpEntity<Object>(param,this.httpHeaders), BudgetInfo.class).getBody();
 		
 		request.setAttribute("nd", nd);
+		request.setAttribute("cnd", DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		request.setAttribute("dataId", rs == null?"0":rs.getDataId());
 		return "stp/budget/budget_detail_stocktotal";
 	}

@@ -38,7 +38,7 @@
             <div class="tool-left">
                 <label class="dateInput">
                     <span>编制年度</span>
-                    <input type="text" id="choose-year">
+                    <input type="text" readonly="readonly" id="choose-year">
                     <i class="layui-icon layui-icon-date"></i>
                 </label>
                 <label class="selectInput" style="margin-left: 20px;">
@@ -96,9 +96,9 @@
                 	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
                 	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}" rowspan="2">序号</th>
                     <th lay-data="{field:'displayName', width: '20%'}" rowspan="2">类别</th>
-                   	<th lay-data="{field:'last_year_end',align: 'right', width: '15%'}" rowspan="2">年预算完成</th>
-                    <th lay-data="{field:'plan_money',align: 'right', width: '15%'}" rowspan="2">年计划金额</th>
-                    <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年科技经费预计完成</th>
+                   	<!-- <th lay-data="{field:'last_year_end',align: 'right', width: '15%'}" rowspan="2">年预算完成</th>
+                    <th lay-data="{field:'plan_money',align: 'right', width: '15%'}" rowspan="2">年计划金额</th> -->
+                    <th lay-data="{align:'center'}", colspan="3"><span>${cnd}</span>年科技经费预计完成</th>
                     <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年科技经费预算</th>
                 </tr>
                 <tr>
@@ -218,10 +218,10 @@
 			//初始化时间选择
 			function initDateView(){
 				$(".nd").html(cu_date);
-            	$(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(3).find('span').text((cu_date-1)+"年预算完成");
-            	$(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(4).find('span').text(cu_date+"年计划金额");
-            	$(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(5).find('span').text((cu_date)+"年科技经费预计完成");
-            	$(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(6).find('span').text(cu_date+"年科技经费预算");
+            	/* $(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(3).find('span').text((cu_date-1)+"年预算完成");
+            	$(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(4).find('span').text(cu_date+"年计划金额"); */
+            	$(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(3).find('span').text((cu_date-1)+"年科技经费预计完成");
+            	$(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(4).find('span').text(cu_date+"年科技经费预算");
 			}
 			function reloadDataAndTableFormart(data)
 			{
@@ -328,8 +328,8 @@
           		var t3=t4=t5=t6=t7=t8=t9=t10=0;
           		$.each(curent_tabel_data,function(index,dt){
           			if(dt.level == 0){
-          				t3 += parseInt(dt.last_year_end);
-          				t4 += parseInt(dt.plan_money);
+          				//t3 += parseInt(dt.last_year_end);
+          				//t4 += parseInt(dt.plan_money);
           				t5 += parseInt(dt.yjwcTotal);
           				t6 += parseInt(dt.yjwcZbx);
           				t7 += parseInt(dt.yjwcFyx);
@@ -338,12 +338,12 @@
           				t10 += parseInt(dt.xmjfFyx);
           			}
           		});
-          		$(".layui-table-total").find("tr").find('td').eq(5).find("div").html(t5);
-      			$(".layui-table-total").find("tr").find('td').eq(6).find("div").html(t6);
-      			$(".layui-table-total").find("tr").find('td').eq(7).find("div").html(t7);
-      			$(".layui-table-total").find("tr").find('td').eq(8).find("div").html(t8);
-      			$(".layui-table-total").find("tr").find('td').eq(9).find("div").html(t9);
-      			$(".layui-table-total").find("tr").find('td').eq(10).find("div").html(t10);
+          		$(".layui-table-total").find("tr").find('td').eq(3).find("div").html(t5);
+      			$(".layui-table-total").find("tr").find('td').eq(4).find("div").html(t6);
+      			$(".layui-table-total").find("tr").find('td').eq(5).find("div").html(t7);
+      			$(".layui-table-total").find("tr").find('td').eq(6).find("div").html(t8);
+      			$(".layui-table-total").find("tr").find('td').eq(7).find("div").html(t9);
+      			$(".layui-table-total").find("tr").find('td').eq(8).find("div").html(t10);
       			
       			var available = parseInt($("#budgetMoney").val())-total_money;
       			$("#surplusMoney").val(available);
