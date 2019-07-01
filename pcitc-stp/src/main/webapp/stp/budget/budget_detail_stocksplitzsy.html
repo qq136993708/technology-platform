@@ -53,7 +53,7 @@
 	                <tr>
 	                	<th lay-data="{field:'no',align: 'center', width: '5%',totalRowText: '合计'}" rowspan="2">序号</th>
 	                    <th lay-data="{field:'organName', width: '15%'}" rowspan="2">专业处/部门</th>
-	                    <!--  <th lay-data="{field:'total', width: '6%',align: 'center',totalRow: true}" rowspan="2">合计</th> -->
+	                    <th lay-data="{field:'total', width: '6%',align: 'center',totalRow: true}" rowspan="2">合计</th>
 	                    <#list items as item>
 	                    	<#list item?keys as key> 
 	                    		<th lay-data="{field:'${key}_total', align: 'right',totalRow: true}" colspan="3">${item[key]}</th>
@@ -64,8 +64,8 @@
 	                    <#list items as item>
 	                    	<#list item?keys as key> 
 	                    		<th lay-data="{field:'${key}_total',align: 'right',totalRow: true}">预算</th>
-	                    		<th lay-data="{field:'${key}_jz', align: 'right',totalRow: true}">老合同</th>
-	                    		<th lay-data="{field:'${key}_xq', align: 'right',totalRow: true}">可新签</th>
+	                    		<!-- <th lay-data="{field:'${key}_jz', align: 'right',totalRow: true}">老合同</th>
+	                    		<th lay-data="{field:'${key}_xq', align: 'right',totalRow: true}">可新签</th> -->
 	                    	</#list> 
 	                    </#list>
 	                </tr>
@@ -113,7 +113,7 @@
 				table.reload(tableId, {data: tableData});
 				//格式化求和
 				$.each($(".layui-table-total tr td"),function(i,d){
-					if(i>=3){
+					if(i>=2){
 						var val = $(this).find("div").html();
 						$(this).find("div").html(parseInt(val));
 					}
