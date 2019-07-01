@@ -55,7 +55,7 @@
     	table = layui.table;
     	param = JSON.parse(window.localStorage.getItem("param"));
     	//加载科研院所字典
-    	publicMethods.ajaxPost("/dictionary/list/ROOT_XTGL_ZSYJY", null, function (data) {
+    	publicMethods.ajaxPost("/dictionary/list/ROOT_ZGSHJT_GFGS_ZSYJY", null, function (data) {
 			$.each(data,function(i,dt){
 				unitMap[data[i].code] = data[i].name;
 	    	});
@@ -81,13 +81,14 @@
 	            cols: [[
 	            	 {type:'checkbox',align:"center"}
 	            	,{title:'序号', type:'numbers',align:"center" ,width : 55}
-	                ,{field:'plantName',   title:'计划名称',    width: '25%',  style:'cursor: pointer;',align:"left"}
-	                ,{field:'plantCode',title:'项目计划编码',	width: '20%',   style:'cursor: pointer;',align:"left"}
-	                ,{field:'reportYear',title:'计划年度',	width: '15%',   style:'cursor: pointer;',align:"center"}
-	                ,{field:'plantMoney',title:'计划投资人民币(万元)',	width: '15%',   style:'cursor: pointer;',align:"right"}
+	            	,{field:'flowStartStatus',  title:'审批状态',width : 80, style:'cursor: pointer;',align:"center"}
+	                ,{field:'plantName',   title:'计划名称',    style:'cursor: pointer;',align:"left"}
+	                ,{field:'plantCode',title:'项目计划编码',	width: '10%',   style:'cursor: pointer;',align:"left"}
+	                ,{field:'reportYear',title:'计划年度',	width: '10%',   style:'cursor: pointer;',align:"center"}
+	                ,{field:'plantMoney',title:'计划投资人民币(万元)',	width: '10%',   style:'cursor: pointer;',align:"right"}
 	                //,{field:'unitId',title:'执行单位',	width: '10%',   style:'cursor: pointer;',align:"left"}
 	                //,{field:'buildYears',title:'建设年限',	width: '10%',   style:'cursor: pointer;',align:"center"}
-	                ,{field:'flowStartStatus',  title:'状态', style:'cursor: pointer;',align:"center"}
+	                
 	            ]],
 	            done: function (res, curr, count) {
 	            	layer.close(lodingMsg);
@@ -101,17 +102,17 @@
 	                    selectRowData=res.data[index-1];
 	                }); 
 	                $.each(res.data,function(i,dt){
-	                	var apply_status = "待审批";
+	                	var apply_status = "未提交";
                 		if(res.data[i].flowCurrentStatus ==0){
-                			apply_status = "待审批";
+                			apply_status = "未提交";
 						}else if(res.data[i].flowCurrentStatus == -1){
-				   			apply_status = "预审驳回";
+				   			apply_status = "审批驳回";
 				   		}else if(res.data[i].flowCurrentStatus == 1){
 							apply_status = "审批中";
 				   		}else if(res.data[i].flowCurrentStatus == 2){
-							apply_status = "预审通过";
+							apply_status = "审批通过";
 				   		}else{
-				   			apply_status = "待审批";
+				   			apply_status = "未提交";
 				   		}
 		            	$("tr[data-index='"+i+"'] td[data-field='flowStartStatus'] div").html(apply_status);
 		            	//$("tr[data-index='"+i+"'] td[data-field='unitId'] div").html(unitMap[res.data[i].unitId]);
@@ -186,7 +187,7 @@
 	                    	 renderTable({param: {"plantName":$("#plantName").val()}});
 	                    	 layer.msg('操作成功!');
 	                     } else {
-	                    	 layer.msg('操作异常，请重试!');
+	                    	 layer.msg(data.message);
 	                     }
 	                 });
             	});
@@ -203,7 +204,7 @@
 	                    	 renderTable({param: {"plantName":$("#plantName").val()}});
 	                    	 layer.msg('操作成功!');
 	                     } else {
-	                    	 layer.msg('操作异常，请重试!');
+	                    	 layer.msg(data.message);
 	                     }
 	                });
             	});
@@ -236,7 +237,7 @@
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent">新增</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="editEvent">编辑</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg" data-type="detailEvent">查看</button>
-             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_download btnMyBgImg" data-type="exportEvent">下载</button>
+             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_download btnMyBgImg" data-type="exportEvent">导出</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save2 btnMyBgImg" data-type="commitEvent">提交</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="closeEvent">删除</button>
             <!-- <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button> -->

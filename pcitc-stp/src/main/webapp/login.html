@@ -16,9 +16,9 @@
             form = layui.form,publicMethods=layui.publicMethods;
 			form.render();
 			var maxErrorNum = 3;//获取验证码次数，默认为3
-			publicMethods.ajaxPost('/dictionary/desc/ROOT_XTCSPZ_DLSRCWCS', null, function (data, status) { 
+			/* publicMethods.ajaxPost('/dictionary/desc/ROOT_XTCSPZ_DLSRCWCS', null, function (data, status) { 
 				maxErrorNum = data.numValue;
-		    });
+		    }); */
 			
 			//刷新验证码
 			$("#LAY-user-get-vercode").on("click",function(){
@@ -36,10 +36,10 @@
 			if ($("#loginErrorCount").val() != '') {
         		layer.msg('用户名或者密码不正确!');
         		if(parseInt($("#loginErrorCount").val())>=parseInt(maxErrorNum)){
-        			$(".layui-form-img").removeClass("layui-hide");
-                    $(".user-login").css("top","60px");
-                    var url = "/create_login_check_code?username="+$("#LAY-user-login-username").val();
-                    $("#LAY-user-get-vercode").attr("src",url);
+        			//$(".layui-form-img").removeClass("layui-hide");
+                    //$(".user-login").css("top","60px");
+                    //var url = "/create_login_check_code?username="+$("#LAY-user-login-username").val();
+                    //$("#LAY-user-get-vercode").attr("src",url);
         		}
         	}
 			

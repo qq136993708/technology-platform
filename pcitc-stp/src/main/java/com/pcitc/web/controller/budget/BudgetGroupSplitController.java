@@ -94,6 +94,7 @@ public class BudgetGroupSplitController extends BaseController {
 	{
 		String nd = request.getParameter("nd")==null? DateUtil.format(DateUtil.getNextYearDay(new Date()), DateUtil.FMT_YYYY):request.getParameter("nd");
 		request.setAttribute("nd", nd);
+		request.setAttribute("budgetType", BudgetInfoEnum.GROUP_SPLIT.getCode());
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPSPLIT_TITLES, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), List.class);
 		request.setAttribute("items", infors.getBody());
 		return "stp/budget/budget_main_groupsplit";

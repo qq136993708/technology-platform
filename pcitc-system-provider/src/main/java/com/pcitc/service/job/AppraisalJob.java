@@ -57,6 +57,10 @@ public class AppraisalJob implements Job, Serializable {
 					String SBZT = object.getString("SBZT");
 					String JDJG = object.getString("JDJG");
 					
+					if (ZY != null && ZY.contains("化纤")) {
+						ZY = ZY.replace("化纤", "材料");
+					}
+					
 					String sqlNameHt = "GetHTHfromCGJD";
 					JsonObject joHt = new JsonObject();
 					joHt.addProperty("xmid", cgid);

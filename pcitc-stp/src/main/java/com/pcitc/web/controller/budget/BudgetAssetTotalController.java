@@ -90,6 +90,8 @@ public class BudgetAssetTotalController extends BaseController {
 	public Object toBudgetAssetPage(HttpServletRequest request) throws IOException 
 	{
 		request.setAttribute("nd", DateUtil.format(DateUtil.getNextYearDay(new Date()), DateUtil.FMT_YYYY));
+		request.setAttribute("cnd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
+		request.setAttribute("budgetType", BudgetInfoEnum.ASSETS_TOTAL.getCode());
 		return "stp/budget/budget_main_assettotal";
 	}
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_edit_assettotal")

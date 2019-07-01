@@ -308,4 +308,7 @@
       #{purchaseOrder.createDate,jdbcType=TIMESTAMP})
     </foreach>
   </insert>
+  <select id="selectErpnum" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	SELECT * FROM sre_purchase_order where G0PROJCODE =#{g0projcode,jdbcType=VARCHAR} 
+  </select>
 </mapper>

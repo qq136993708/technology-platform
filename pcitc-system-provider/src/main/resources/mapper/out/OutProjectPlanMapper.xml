@@ -1278,7 +1278,7 @@
 	
 	<!-- 直属研究院二级页面（领导），各个院的合同签订率-->
 	<select id="getPlanCompleteRateByInstitute" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select SUBSTR(tableB.DEFINE2 FROM 4) as define2,count(xmid) as zsl,
+		select SUBSTR(tableB.DEFINE2 FROM 6) as define2,count(xmid) as zsl,
 			sum(case when tableB.temId is not null then 1 else 0 end) as yqhtzj,
 			sum(case when tableB.temId is null then 1 else 0 end) as wqhtzj,
 			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(xmid)*100,2) as qdlzj,
@@ -1287,8 +1287,7 @@
 			sum(case when tableB.temId is not null and define1 = '费用性' then 1 else 0 end) as fyxsjsl,
 			sum(case when tableB.temId is not null and define1 = '资本性' then 1 else 0 end) as zbxsjsl
 		from (
-			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,
-			       out_project_plan.DEFINE1,out_project_plan.DEFINE2
+			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1,out_project_plan.DEFINE2
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
 																 and out_project_info.define3 = '项目管理系统' 
 																 and out_project_info.type_flag like '%直属研究院%'
@@ -1309,7 +1308,7 @@
 				round(zsjje/(out_tem_money_total.zbx_money+out_tem_money_total.fyx_money)*100,4) as jeRate
 		from (
 			select 
-						 SUBSTR(out_project_info.define2 FROM 4) as define2,
+						 SUBSTR(out_project_info.define2 FROM 6) as define2,
 						 round(sum(ysje),4) as zsjje
 			from out_project_info
 			WHERE
@@ -1339,7 +1338,7 @@
 	
 	<!-- 领导首页-科研合同，项目计划完成的比率，按照直属研究所、分子公司等9个来分组 -->
 	<select id="getPlanCompleteRateByCompanyType" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select SUBSTR(tableB.DEFINE3 FROM 2) as define3,count(xmid) as jhqds,
+		select SUBSTR(tableB.DEFINE3 FROM 4) as define3,count(xmid) as jhqds,
 			sum(case when tableB.temId is not null then 1 else 0 end) as sjqds,
 			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(xmid)*100,4) as qdbl,
 			round(sum(case when tableB.xmlbbm1 is not null then jf1 else 0 end),4) as zysje,
@@ -1355,7 +1354,7 @@
 			round(sum(case when tableB.xmlbbm2 is not null and tableB.xmlbbm2!='KYZB' then jf2 else 0 end)/sum(case when tableB.xmlbbm1 is not null and tableB.xmlbbm1!='KYZB' then jf1 else 0 end)*100,4) as fyxRate
 
 		from (
-			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,case when out_project_plan.DEFINE3 is null then 'J其他' else out_project_plan.DEFINE3 end as DEFINE3,
+			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,case when out_project_plan.DEFINE3 is null then 'J00其他' else out_project_plan.DEFINE3 end as DEFINE3,
 						 out_project_plan.jf as jf1,out_project_plan.jf as jf2,out_project_plan.xmlbbm as xmlbbm1,out_project_info.xmlbbm as xmlbbm2
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
 																	and out_project_info.define3 = '项目管理系统' and out_project_info.ND= '${nd}')
@@ -1383,7 +1382,7 @@
 			round(tableB.fyxsjje/out_tem_money_total.fyx_money *100, 4) fyxRate,
 			round((tableB.zbxsjje+tableB.fyxsjje)/(out_tem_money_total.zbx_money+out_tem_money_total.fyx_money) *100, 4) zRate
 			FROM (			
-				select SUBSTR(tableA.DEFINE3 FROM 2) as define3, tableA.DEFINE3 as temOrder, zbxsjje, fyxsjje from (
+				select SUBSTR(tableA.DEFINE3 FROM 4) as define3, tableA.DEFINE3 as temOrder, zbxsjje, fyxsjje from (
 						select 
 							 case when out_project_info.type_flag is null then 'L其他' else out_project_info.type_flag end as DEFINE3,
 							 round(sum(yszbxje),4) as zbxsjje,
@@ -1402,12 +1401,12 @@
 	
 	<!-- 领导首页-科研合同，科研合同签订率清单-->
 	<select id="getPlanCompleteRateDetails" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select SUBSTR(tableB.DEFINE3 FROM 2) as define3,SUBSTR(tableB.DEFINE2 FROM 4) as define2,count(xmid) as zsl,
+		select SUBSTR(tableB.DEFINE3 FROM 4) as define3,SUBSTR(tableB.DEFINE2 FROM 6) as define2,count(xmid) as zsl,
 			sum(case when tableB.temId is not null then 1 else 0 end) as yqhtzj,
 			sum(case when tableB.temId is null then 1 else 0 end) as wqhtzj,
 			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(xmid)*100,2) as qdlzj
 		from (
-			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,IFNULL(out_project_plan.DEFINE2,'J01其他') as DEFINE2,IFNULL(out_project_plan.DEFINE3,'J其他') as DEFINE3
+			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,IFNULL(out_project_plan.DEFINE2,'J0100其他') as DEFINE2,IFNULL(out_project_plan.DEFINE3,'J00其他') as DEFINE3
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' and out_project_info.project_property not like '%国家%')
 			WHERE
 				out_project_plan.ND = '${nd}' 
@@ -1430,13 +1429,13 @@
 			   case when tableA.qdbz is null then '未签订' else '已签订' end as qdbz
 		from (
 			select out_project_plan.DEFINE1,out_project_plan.DEFINE9,
-				   SUBSTR(out_project_plan.DEFINE2 FROM 4) as DEFINE2,
-				   SUBSTR(out_project_plan.DEFINE3 FROM 2) as DEFINE3,
+				   SUBSTR(out_project_plan.DEFINE2 FROM 6) as DEFINE2,
+				   SUBSTR(out_project_plan.DEFINE3 FROM 4) as DEFINE3,
 				   SUBSTR(out_project_plan.DEFINE10 FROM 4) as DEFINE10,
 				   SUBSTR(out_project_plan.DEFINE11 FROM 2) as DEFINE11,
-				   SUBSTR(out_project_plan.DEFINE12 FROM 2) as DEFINE12,
-				   SUBSTR(out_project_plan.FZDWUNITCW FROM 4) as FZDWUNITCW,
-				   SUBSTR(out_project_plan.FZDWUNIT FROM 2) as FZDWUNIT,
+				   SUBSTR(out_project_plan.DEFINE12 FROM 4) as DEFINE12,
+				   SUBSTR(out_project_plan.FZDWUNITCW FROM 6) as FZDWUNITCW,
+				   SUBSTR(out_project_plan.FZDWUNIT FROM 4) as FZDWUNIT,
 				   out_project_plan.XMID,out_project_plan.XMMC,out_project_plan.YSND,
 				   out_project_plan.JF,out_project_plan.YSJE,
 				   out_project_plan.YSZBXJE,out_project_plan.YSFYXJE,
@@ -1454,23 +1453,23 @@
 				) as tableA
 		WHERE 
 			1 = 1
-			<if test="nd != null">
+			<if test="nd != null and nd != ''">
 				and tableA.nd = #{nd}
 			</if>
-			<if test="ysnd != null">
+			<if test="ysnd != null and ysnd != ''">
 				and tableA.ysnd = #{ysnd}
 			</if>
-			<if test="hth != null">
+			<if test="hth != null and hth != ''">
 				and tableA.hth like '%${hth}%'
 			</if>
-			<if test="xmmc != null">
+			<if test="xmmc != null and xmmc != ''">
 				and tableA.xmmc like '%${xmmc}%'
 			</if>
-			<if test="ktlx != null and ktlx == '新开课题' and nd != null">
+			<if test="ktlx != null and ktlx == '新开课题' and nd != null and nd != ''">
 				and tableA.ysnd = #{nd} and tableA.nd = #{nd} 
 			</if>
-			<if test="ktlx != null and ktlx == '结转课题' and nd != null">
-				and tableA.ysnd = #{nd} and tableA.nd &lt; #{nd} 
+			<if test="ktlx != null and ktlx == '结转课题' and ysnd != null and ysnd != ''">
+				and tableA.ysnd = #{ysnd} and tableA.nd &lt; #{ysnd} 
 			</if>
 			<if test="qdbz != null and qdbz == '已签订'">
 				and tableA.qdbz is not null
@@ -1600,8 +1599,16 @@
 																	 and out_project_info.PROJECT_TYPE != '1'
 																	 and out_project_info.define3 = '项目管理系统')	              
 				WHERE
-					   out_project_plan.PROJECT_TYPE != '1'
-					   and out_project_plan.define4 = '项目管理系统'
+					   out_project_plan.define4 = '项目管理系统'
+					   <if test="showType != null and showType != ''.toString() ">
+					   	   and out_project_plan.PROJECT_PROPERTY = '${showType}'
+					   </if>
+					   <if test="xmlb != null and xmlb == '科研装备' ">
+					   	   and out_project_plan.XMLBMC = '${xmlb}'
+					   </if>
+					   <if test="xmlb != null and xmlb == '非科研装备' ">
+					   	   and out_project_plan.XMLBMC != '科研装备'
+					   </if>
 					   <if test="startDate != null and startDate != ''.toString() ">
 					   	   and STRCMP(out_project_plan.KSSJ, ${orderKey}) > 0
 					   </if>
@@ -1624,5 +1631,59 @@
 		GROUP BY tableB.XMID
 		
 			
+	</select>
+	
+	<!-- 项目的详情：合同信息 -->
+	<select id="getScienceProcessDetails" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select nd,hth,xmmc,ysnd,ysje,zylb,fzdw,zycmc,define8
+		from out_project_info
+		where 
+			xmid = ${xmid}
+			and out_project_info.define3 = '项目管理系统'
+		order by out_project_info.ysnd desc, out_project_info.hth, out_project_info.define8
+	</select>
+	
+	<!-- 合同付款详情 -->
+	<select id="getContractPayDetails" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select expenses_bills_pay.suppName,expenses_bills_pay.suppCode,expenses_bills_pay.payAmount,expenses_bills_pay.payModeName,expenses_bills_pay.billCode,
+			   max(expenses_pay_hana.G0AUGDT) as G0AUGDT
+		from expenses_bills_pay left join expenses_pay_hana on (expenses_bills_pay.billCode = expenses_pay_hana.G0ZECSID)
+		where 
+			expenses_bills_pay.sts = '1'
+			<if test="hth != null">
+				and (
+				<foreach collection="hth" item="hth" index="index" separator=" or ">
+					expenses_bills_pay.bak1 like '%${hth}%'
+				</foreach>
+				)
+			</if>
+			and expenses_bills_pay.billCode IS NOT NULL
+		group by expenses_bills_pay.data_id
+		order by expenses_bills_pay.billCode desc
+	</select>
+	
+	<!-- 合同成果详情 -->
+	<select id="getContractAppraisalDetails" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select cgmc,sqjddw,sqdjh,cglx,zy,jdh,hth,xmmc
+		from out_appraisal
+		where 
+			out_appraisal.status = '1'
+			<if test="hth != null">
+				and (
+				<foreach collection="hth" item="hth" index="index" separator=" or ">
+					out_appraisal.hth like '%${hth}%'
+				</foreach>
+				)
+			</if>
+		group by out_appraisal.data_id
+	</select>
+	
+	<!-- 项目奖励信息 -->
+	<select id="getProjectRewardDetails" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select xmbh,nd,xmmc,sbdw,sbjz,xkfl,psdj,sbrq,jddw
+		from out_reward
+		where 
+			xmid = ${xmid}
+		order by out_reward.xmbh desc
 	</select>
 </mapper>

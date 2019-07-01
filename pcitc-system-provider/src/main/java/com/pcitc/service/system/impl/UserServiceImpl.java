@@ -1,6 +1,7 @@
 package com.pcitc.service.system.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.DelFlagEnum;
+import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.system.SysCollect;
 import com.pcitc.base.system.SysCollectExample;
 import com.pcitc.base.system.SysCollectExample.Criteria;
@@ -67,7 +69,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private SysUserPropertyMapper sysUserPropertyMapper;
-	
+
 	@Autowired
 	private SysCollectMapper sysCollectMapper;
 
@@ -194,14 +196,14 @@ public class UserServiceImpl implements UserService {
 	// @Cacheable(key = "'userDetails_'+#userId", value = "userCache")
 	public SysUser selectUserDetailsByUserId(String userId) throws Exception {
 		SysUser user = userMapper.selectByPrimaryKey(userId);
-		//System.out.println(user+"======selectUserDetailsByUserId------------"+userId);
-		
+		// System.out.println(user+"======selectUserDetailsByUserId------------"+userId);
+
 		// 此人有哪些菜单权限，每个菜单对应的数据控制项
 		List<SysFunction> funList = functionMapper.selectFuntionByUserId(userId);
-		
-		//System.out.println("======funList------------"+funList);
+
+		// System.out.println("======funList------------"+funList);
 		user.setFunList(funList);
-		
+
 		// 此人收藏的菜单
 		SysCollectExample sysCollectExample = new SysCollectExample();
 		Criteria cri = sysCollectExample.createCriteria();
@@ -537,127 +539,136 @@ public class UserServiceImpl implements UserService {
 		if (paramMap.get("userPassword") != null && paramMap.get("userPassword").equals("")) {
 			paramMap.put("userPassword", null);
 		}
+		
+        if (paramMap.get("unitName") != null && !StringUtils.isBlank(paramMap.get("unitName") + "")) {
+            List unitName = new ArrayList();
+            String[] temS = paramMap.get("unitName").toString().split(",");
+            for (int i = 0; i < temS.length; i++) {
+            	unitName.add(temS[i]);
+            }
+            paramMap.put("unitName", unitName);
+        }
+        
+        if (paramMap.get("unitId") != null && !StringUtils.isBlank(paramMap.get("unitId") + "")) {
+            List unitName = new ArrayList();
+            String[] temS = paramMap.get("unitId").toString().split(",");
+            for (int i = 0; i < temS.length; i++) {
+            	unitName.add(temS[i]);
+            }
+            paramMap.put("unitId", unitName);
+        }
 
 		List<SysUser> list = userMapper.selectUserDetail(paramMap);
-		
+
 		/*
-		List<String> instituteNameList = new ArrayList<String>();
-		List<String> instituteCodeList = new ArrayList<String>();
-		// 本人管理的研究院
-		for (int i = 0; i < list.size(); i++) {
-			SysUser su = list.get(i);
-			SysUserProperty sup = sysUserPropertyMapper.getDataIdByUserIdAndDataType(su.getUserId(), "G0DSM");
-			if (sup != null) {
-				if (sup.getDataId() != null && sup.getDataId().contains("1120")) {
-					instituteNameList.add("勘探院");
-					instituteCodeList.add("1120,1123,1124,1127");
-				}
-				if (sup.getDataId() != null && sup.getDataId().contains("1130")) {
-					instituteNameList.add("物探院");
-					instituteCodeList.add("1130");
-				}
-				if (sup.getDataId() != null && sup.getDataId().contains("4360")) {
-					instituteNameList.add("工程院");
-					instituteCodeList.add("4360");
-				}
-				if (sup.getDataId() != null && sup.getDataId().contains("1020")) {
-					instituteNameList.add("石科院");
-					instituteCodeList.add("1020");
-				}
-				if (sup.getDataId() != null && sup.getDataId().contains("1060")) {
-					instituteNameList.add("大连院");
-					instituteCodeList.add("1060,1061");
-				}
-				if (sup.getDataId() != null && sup.getDataId().contains("1040")) {
-					instituteNameList.add("北化院");
-					instituteCodeList.add("1040,1041");
-				}
-				if (sup.getDataId() != null && sup.getDataId().contains("1080")) {
-					instituteNameList.add("上海院");
-					instituteCodeList.add("1080");
-				}
-				if (sup.getDataId() != null && sup.getDataId().contains("1100")) {
-					instituteNameList.add("安工院");
-					instituteCodeList.add("1100,1101");
-				}
-			}
-			su.setInstituteCodes(instituteCodeList);
-			su.setInstituteNames(instituteNameList);
-		}*/
-		
+		 * List<String> instituteNameList = new ArrayList<String>();
+		 * List<String> instituteCodeList = new ArrayList<String>(); // 本人管理的研究院
+		 * for (int i = 0; i < list.size(); i++) { SysUser su = list.get(i);
+		 * SysUserProperty sup =
+		 * sysUserPropertyMapper.getDataIdByUserIdAndDataType(su.getUserId(),
+		 * "G0DSM"); if (sup != null) { if (sup.getDataId() != null &&
+		 * sup.getDataId().contains("1120")) { instituteNameList.add("勘探院");
+		 * instituteCodeList.add("1120,1123,1124,1127"); } if (sup.getDataId()
+		 * != null && sup.getDataId().contains("1130")) {
+		 * instituteNameList.add("物探院"); instituteCodeList.add("1130"); } if
+		 * (sup.getDataId() != null && sup.getDataId().contains("4360")) {
+		 * instituteNameList.add("工程院"); instituteCodeList.add("4360"); } if
+		 * (sup.getDataId() != null && sup.getDataId().contains("1020")) {
+		 * instituteNameList.add("石科院"); instituteCodeList.add("1020"); } if
+		 * (sup.getDataId() != null && sup.getDataId().contains("1060")) {
+		 * instituteNameList.add("大连院"); instituteCodeList.add("1060,1061"); }
+		 * if (sup.getDataId() != null && sup.getDataId().contains("1040")) {
+		 * instituteNameList.add("北化院"); instituteCodeList.add("1040,1041"); }
+		 * if (sup.getDataId() != null && sup.getDataId().contains("1080")) {
+		 * instituteNameList.add("上海院"); instituteCodeList.add("1080"); } if
+		 * (sup.getDataId() != null && sup.getDataId().contains("1100")) {
+		 * instituteNameList.add("安工院"); instituteCodeList.add("1100,1101"); } }
+		 * su.setInstituteCodes(instituteCodeList);
+		 * su.setInstituteNames(instituteNameList); }
+		 */
+
 		JSONObject retJson = new JSONObject();
 		retJson.put("list", list);
 		return retJson;
 	}
-	
-	
-	
-	
-	
+
 	@Override
 	public LayuiTableData querySysUserListByPage(LayuiTableParam param) {
-		//每页显示条数
-		int pageSize = param.getLimit();
-		//从第多少条开始
-		int pageStart = (param.getPage()-1)*pageSize;
-		//当前是第几页
-		int pageNum = pageStart/pageSize + 1;
-		// 1、设置分页信息，包括当前页数和每页显示的总计数
-		PageHelper.startPage(pageNum, pageSize);
+		// 每页显示条数
+        int pageSize = param.getLimit();
+        // 当前是第几页
+        int pageNum = param.getPage();
+        // 1、设置分页信息，包括当前页数和每页显示的总计数
+        PageHelper.startPage(pageNum, pageSize);
+
 		SysUser vo = new SysUser();
-		String unitId = (String) param.getParam().get("unitId");
-		if(unitId != null && !"".equals(unitId)) {
-			vo.setUserUnit(unitId);
-		}
-		String userDisp = (String) param.getParam().get("userDisp");
-		if(userDisp != null && !"".equals(userDisp)) {
-			vo.setUserDisp(userDisp);
-		}
-		List<SysUser> list = userMapper.querySysUserListByPage(vo);
-		int total = userMapper.countByQuerySysUserList(vo).intValue();
-		PageInfo<SysUser> pageInfo= new PageInfo<SysUser>(list);
-		LayuiTableData data = new LayuiTableData();
-		data.setData(pageInfo.getList());
-		data.setCount(total);
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		
+		if (param.getParam().get("userDisp") != null && !StringUtils.isBlank(param.getParam().get("userDisp") + "")) {
+            hashmap.put("userDisp", param.getParam().get("userDisp"));
+        }
+		if (param.getParam().get("userName") != null && !StringUtils.isBlank(param.getParam().get("userName") + "")) {
+            hashmap.put("userName", param.getParam().get("userName"));
+        }
+		if (param.getParam().get("unitName") != null && !StringUtils.isBlank(param.getParam().get("unitName") + "")) {
+            List unitName = new ArrayList();
+            String[] temS = param.getParam().get("unitName").toString().split(",");
+            for (int i = 0; i < temS.length; i++) {
+            	unitName.add(temS[i]);
+            }
+            hashmap.put("unitName", unitName);
+        }
+        
+        if (param.getParam().get("unitId") != null && !StringUtils.isBlank(param.getParam().get("unitId") + "")) {
+            List unitName = new ArrayList();
+            String[] temS = param.getParam().get("unitId").toString().split(",");
+            for (int i = 0; i < temS.length; i++) {
+            	unitName.add(temS[i]);
+            }
+            hashmap.put("unitId", unitName);
+        }
+		List<SysUser> list = userMapper.selectUserDetail(hashmap);
+        PageInfo<SysUser> pageInfo = new PageInfo<SysUser>(list);
+
+        LayuiTableData data = new LayuiTableData();
+        data.setData(pageInfo.getList());
+        Long total = pageInfo.getTotal();
+        data.setCount(total.intValue());
 		return data;
 	}
-	
-	
-	
-	
+
 	public LayuiTableData getSysUserListByUserUnitPage(LayuiTableParam param) {
-		//每页显示条数
-		int pageSize = param.getLimit();
-		//从第多少条开始
-		int pageStart = (param.getPage()-1)*pageSize;
-		//当前是第几页
-		int pageNum = pageStart/pageSize + 1;
-		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		// 每页显示条数
+        int pageSize = param.getLimit();
+        // 当前是第几页
+        int pageNum = param.getPage();
+        // 1、设置分页信息，包括当前页数和每页显示的总计数
 		PageHelper.startPage(pageNum, pageSize);
+		
 		SysUser vo = new SysUser();
 		String unitId = (String) param.getParam().get("unitId");
-		if(unitId != null && !"".equals(unitId)) {
+		if (unitId != null && !"".equals(unitId)) {
 			vo.setUserUnit(unitId);
 		}
 		String userDisp = (String) param.getParam().get("userDisp");
-		if(userDisp != null && !"".equals(userDisp)) {
+		if (userDisp != null && !"".equals(userDisp)) {
 			vo.setUserDisp(userDisp);
 		}
 		List<SysUser> list = userMapper.getSysUserListByUserUnit(vo);
-		int total = userMapper.getSysUserCountByUserUnit(vo).intValue();
-		PageInfo<SysUser> pageInfo= new PageInfo<SysUser>(list);
-		LayuiTableData data = new LayuiTableData();
-		data.setData(pageInfo.getList());
-		data.setCount(total);
+		PageInfo<SysUser> pageInfo = new PageInfo<SysUser>(list);
+
+        LayuiTableData data = new LayuiTableData();
+        data.setData(pageInfo.getList());
+        Long total = pageInfo.getTotal();
+        data.setCount(total.intValue());
 		return data;
 	}
-	
+
 	/**
 	 * mybatis自带查询用户信息
 	 */
 	public List<SysUser> selectByExample(SysUserExample example) {
 		return userMapper.selectByExample(example);
 	}
-
 
 }

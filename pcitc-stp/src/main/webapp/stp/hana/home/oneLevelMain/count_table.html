@@ -164,6 +164,8 @@
 <!-- 经费来源 -->
 <input type="hidden" name="define11"    value="${define11}"    id="define11">
 <input type="hidden" name="define12"    value="${define12}"    id="define12">
+<input type="hidden" name="leaderFlag"    value="${leaderFlag}"    id="leaderFlag">
+
      <label class="dateInput">
         <span>项目名称</span>
         <input type="text" name="xmmc" title="项目名称" autocomplete="off" class="form-control" id="xmmc">
@@ -333,10 +335,11 @@ layui.config({
         $(".specialt_ktlx ul li").each(function () {
             var htmlA=$(this).find("a").html(),htmlT=$("#ktlx").val(),
                 htmlName=$(this).parents(".selector-right").prev().html();
-            if(htmlA==htmlT && htmlA!=""){
+            if(htmlA==htmlT && htmlA!="")
+            {
                 $(this).addClass("layui-this");
                 $(".dateInputP").addClass("layui-hide");
-                $("#ysnd").val("");
+               // $("#ysnd").val("");
                 $(".conditionNew").removeClass("layui-hide");
                 $(".conditionNew ul").append("<li>"+htmlName+"<a href='javascript:;'>"+htmlA+"</a></li>");
                 renderTable();
@@ -401,7 +404,7 @@ layui.config({
             }
             if($(".specialt_ktlx ul li.layui-this").length>0){
                 $(".dateInputP").addClass("layui-hide");
-                $("#ysnd").val("");
+               // $("#ysnd").val("");
             }else {
                 $(".dateInputP").removeClass("layui-hide");
             }
@@ -506,6 +509,7 @@ layui.config({
         	      "ktlx":specialtySelectedspecialt_ktlx,
         	      "project_scope":$("#project_scope").val(),
         	      "project_property":$("#project_property").val(),
+        	      "leaderFlag":$("#leaderFlag").val(),
         	      "projectId":$("#projectId").val()
         	
                }},

@@ -39,6 +39,19 @@ public class HomeProviderClient {
 	@Autowired
 	private IHomeService homeService;
 	
+	
+	
+	
+	
+	@ApiOperation(value = "人工成本支出详细", notes = "人工成本支出详细")
+	@RequestMapping(value = "/actualPay_detail_data", method = RequestMethod.POST)
+	public LayuiTableData actualPay_detail_data(@RequestBody LayuiTableParam param)throws Exception
+	{
+		return homeService.actualPayDetailData(param);
+	}
+	
+	
+	
     
     @ApiOperation(value = "首页--科研项目 ", notes = "首页--科研项目 ")
 	@RequestMapping(value = "/H1AMKYSY100101", method = RequestMethod.POST)
@@ -209,7 +222,6 @@ public class HomeProviderClient {
    		System.out.println(">>>>>>>>>>>>>>>>>get_direct_KYZB " + json.toString());
    		return json;
    	}
-    
     
     
     

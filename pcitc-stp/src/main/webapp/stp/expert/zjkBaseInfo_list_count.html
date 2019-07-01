@@ -28,10 +28,10 @@
     </label>
 
     <!--<label class="selectInput">-->
-        <!--<span>所属机构</span>-->
-        <!--<select name="company" id="company" lay-filter="projectStageId">-->
-            <!--<option value="">请选择</option>-->
-        <!--</select>-->
+    <!--<span>所属机构</span>-->
+    <!--<select name="company" id="company" lay-filter="projectStageId">-->
+    <!--<option value="">请选择</option>-->
+    <!--</select>-->
     <!--</label>-->
 
 
@@ -51,37 +51,6 @@
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg"
                     data-type="viewEvent">查看
             </button>
-            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"-->
-            <!--data-type="all">-->
-            <!--<span class="btn-state btn-all"></span>全部-->
-            <!--</button>-->
-            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"-->
-            <!--data-type="draft">-->
-            <!--<span class="btn-state btn-yellow"></span>草稿-->
-            <!--</button>-->
-            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"-->
-            <!--data-type="approval">-->
-            <!--<span class="btn-state btn-green"></span>审批中-->
-            <!--</button>-->
-            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"-->
-            <!--data-type="approved">-->
-            <!--<span class="btn-state btn-blue"></span>已审批-->
-            <!--</button>-->
-            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
-            <!--data-type="addEvent">新增-->
-            <!--</button>-->
-            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
-            <!--data-type="editEvent">编辑-->
-            <!--</button>-->
-
-            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
-            <!--data-type="deleteEvent">删除-->
-            <!--</button>-->
-
-            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" id="jd"-->
-            <!--data-type="okEvent">确定-->
-            <!--</button>-->
-
         </div>
     </div>
     <table id="zjkBaseInfoTableId" class="layui-hide" lay-filter="tableEvent"></table>
@@ -89,8 +58,22 @@
 <script>
     var state = $("#state").val();
 
+    function showPatent(url) {
+        layer.open({
+            title: '查看',
+            skin: 'layui-layer-lan',
+            shadeClose: false,
+            type: 2,
+            fixed: false,
+            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+            maxmin: true,
+            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+            area: ['70%', '90%'],
+            content: url
+        });
+    }
     //项目
-    ajaxPost('/dictionary/list/ROOT_XTGL_ZSYJY', null, function (data, status) {
+    ajaxPost('/dictionary/list/ROOT_ZGSHJT_GFGS_ZSYJY', null, function (data, status) {
         $.each(data, function (i, dt) {
             if (i <= 7) {
                 $("#company").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
@@ -129,7 +112,7 @@
 
                 cols: [[
                     {type: 'checkbox', event: 'changeEvents'},
-                    {title: '序号', type: 'numbers' ,width : 55},
+                    {title: '序号', type: 'numbers', width: 55},
                     {
                         field: 'auditStatus',
                         title: '状态',
@@ -141,57 +124,64 @@
                     },
                     {
                         field: "expertName",
-                        title: "姓名", event: 'setActive', style: 'cursor: pointer;'
+                        title: "姓名", event: 'setActive', style: 'cursor: pointer;', width: 80
                     },
                     {
                         field: "sex",
-                        title: "性别", event: 'setActive', style: 'cursor: pointer;'
+                        title: "性别", event: 'setActive', style: 'cursor: pointer;', width: 50
                     },
                     {
-                        field: "age",
-                        title: "年龄", event: 'setActive', style: 'cursor: pointer;', align: "right"
+                        field: "expertProfessionalFieldName",
+                        title: "专业领域", event: 'setActive', style: 'cursor: pointer;', width: 100
                     },
                     {
                         field: "birthDate",
-                        title: "出生日期", event: 'setActive', style: 'cursor: pointer;'
+                        title: "出生日期", event: 'setActive', style: 'cursor: pointer;', width: 100
                     },
                     {
                         field: "email",
-                        title: "邮箱", event: 'setActive', style: 'cursor: pointer;'
+                        title: "邮箱", event: 'setActive', style: 'cursor: pointer;', width: 190
                     },
                     {
                         field: "mobile",
-                        title: "联系方式", event: 'setActive', style: 'cursor: pointer;'
+                        title: "联系方式", event: 'setActive', style: 'cursor: pointer;', width: 110
+                    },
+                    {
+                        field: "expertProfessionalField",
+                        title: "专业领域", event: 'setActive', style: 'cursor: pointer;', width: 90
+                    },
+                    {
+                        field: "expertProfessinal",
+                        title: "职称", event: 'setActive', style: 'cursor: pointer;', width: 60
+                    },
+                    {
+                        field: "companyName",
+                        title: "所属机构", event: 'setActive', style: 'cursor: pointer;'
                     },
                     {
                         field: "achievementCount",
-                        title: "成果数量", event: 'setActive', style: 'cursor: pointer;'
+                        title: "成果数量", event: 'setActive', style: 'cursor: pointer;', width: 100
+                        , templet: function (d) {
+                            return "<a href='javascript:void(0);return false;' onclick=showPatent('/zjkAchievement/toListPage?expertId=" + d.dataId + "')>" + d.achievementCount + "</a>"
+                        }
                     },
                     {
                         field: "patentCount",
-                        title: "专利数量", event: 'setActive', style: 'cursor: pointer;'
-                    },
-                    {
-                        field: "projectCount",
-                        title: "参与项目数量", event: 'setActive', style: 'cursor: pointer;'
-                    },
-                    {
-                        field: "bak1",
-                        title: "被投诉数量", event: 'setActive', style: 'cursor: pointer;'
+                        title: "专利数量", event: 'setActive', style: 'cursor: pointer;', width: 100
+                        , templet: function (d) {
+                            return "<a href='javascript:void(0);return false;' onclick=showPatent('/zjkPatent/toListPage?expertId=" + d.dataId + "')>" + d.patentCount + "</a>"
+                        }
                     },
                     // {
-                    //     field: "expertProfessionalField",
-                    //     title: "专业领域", event: 'setActive', style: 'cursor: pointer;'
+                    //     field: "projectCount",
+                    //     title: "参与项目", event: 'setActive', style: 'cursor: pointer;'
                     // },
                     // {
-                    //     field: "expertProfessinal",
-                    //     title: "职称", event: 'setActive', style: 'cursor: pointer;'
+                    //     field: "bak1",
+                    //     title: "被投诉数量", event: 'setActive', style: 'cursor: pointer;'
                     // },
-                    // {
-                    //     field: "company",
-                    //     title: "所属机构", event: 'setActive', style: 'cursor: pointer;'
-                    // }
                 ]],
+
                 done: function (res, curr, count) {
                     $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                         var index = parseInt($(this).index() + 1);
@@ -231,7 +221,7 @@
                     //     element: ".layui-table-body table",// 当前的表格元素
                     //     column: 11,//列数 从0开始
                     //     field: "company",//当前数据的字段
-                    //     url: "/pageCommon/dic/ROOT_XTGL_ZSYJY"//接口
+                    //     url: "/pageCommon/dic/ROOT_ZGSHJT_GFGS_ZSYJY"//接口
                     // };
                     // publicMethods.dataDictionary(param);
                 }
@@ -265,8 +255,8 @@
                 loadtable()
             },
             resetEvent: function () { //点击查询按钮
-               $("#expertName").val("");
-               $("#email").val("");
+                $("#expertName").val("");
+                $("#email").val("");
                 loadtable();
             }, getChecked: function () {//多选
                 var ids = "";
@@ -334,7 +324,7 @@
                     layer.msg("请选择一条数据");
                     return;
                 } else {
-                    openFullWin("编辑", "/zjkBaseInfo/view/" + selectRowData.dataId);
+                    openFullWin("查看", "/zjkBaseInfo/view/" + selectRowData.dataId);
                 }
             }
             ,

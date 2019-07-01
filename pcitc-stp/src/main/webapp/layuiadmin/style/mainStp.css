@@ -17,15 +17,15 @@
 .layui-col-md15:last-child{margin: 0;}
 .layui-main-box .layui-box-icon{width: 64px;height: 70px;display: inline-block;float: left;
     box-shadow: 1px 1px 1px #f5f5f5;}
-.layui-main-box .bg-1{background: url("/layuiadmin/layui/images/icon-project.png") no-repeat;}
-.layui-main-box .bg-2{background: url("/layuiadmin/layui/images/icon-budget.png") no-repeat;}
-.layui-main-box .bg-3{background: url("/layuiadmin/layui/images/icon-funds.png") no-repeat;}
-.layui-main-box .bg-4{background: url("/layuiadmin/layui/images/icon-equipment.png") no-repeat;}
-.layui-main-box .bg-5{background: url("/layuiadmin/layui/images/icon-knowledge.png") no-repeat;}
-.layui-main-box .bg-6{background: url("/layuiadmin/layui/images/icon-achievement.png") no-repeat;}
-.layui-main-box .bg-7{background: url("/layuiadmin/layui/images/icon-cooperation.png") no-repeat;}
+.layui-main-box .bg-1{background: url("/layuiadmin/layui/images/icon-project.png") no-repeat;background-size: cover;}
+.layui-main-box .bg-2{background: url("/layuiadmin/layui/images/icon-budget.png") no-repeat;background-size: cover;}
+.layui-main-box .bg-3{background: url("/layuiadmin/layui/images/icon-funds.png") no-repeat;background-size: cover;}
+.layui-main-box .bg-4{background: url("/layuiadmin/layui/images/icon-equipment.png") no-repeat;background-size: cover;}
+.layui-main-box .bg-5{background: url("/layuiadmin/layui/images/icon-knowledge.png") no-repeat;background-size: cover;}
+.layui-main-box .bg-6{background: url("/layuiadmin/layui/images/icon-achievement.png") no-repeat;background-size: cover;}
+.layui-main-box .bg-7{background: url("/layuiadmin/layui/images/icon-cooperation.png") no-repeat;background-size: cover;}
 .layui-fluid .layui-main-box .bg-7{background: url("/layuiadmin/layui/images/icon-hz.png") no-repeat;    background-size: cover}
-.layui-main-box .bg-8{background: url("/layuiadmin/layui/images/icon-revise.png") no-repeat;}
+.layui-main-box .bg-8{background: url("/layuiadmin/layui/images/icon-revise.png") no-repeat;background-size: cover;}
 .layui-main-box .layui-box-content{margin-left: 70px;}
 .layui-main-box .layui-box-content span{display: block;height: 32px;line-height: 32px;}
 .layui-main-box .layui-box-content span:first-child{font-size: 16px;color: #000;}

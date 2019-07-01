@@ -83,7 +83,7 @@
 
 <script>
     //项目
-    ajaxPost('/dictionary/list/ROOT_XTGL_ZSYJY', null, function (data, status) {
+    ajaxPost('/dictionary/list/ROOT_ZGSHJT_GFGS_ZSYJY', null, function (data, status) {
         $.each(data, function (i, dt) {
             if (i <= 7) {
                 $("#company").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
@@ -134,27 +134,27 @@
                     },
                     {
                         field: "expertName",
-                        title: "姓名", event: 'setActive', style: 'cursor: pointer;'
+                        title: "姓名", event: 'setActive', style: 'cursor: pointer;',width: 80
                     },
                     {
                         field: "sex",
-                        title: "性别", event: 'setActive', style: 'cursor: pointer;'
+                        title: "性别", event: 'setActive', style: 'cursor: pointer;',width: 50
                     },
-                    {
-                        field: "age",
-                        title: "年龄", event: 'setActive', style: 'cursor: pointer;', align: "right"
-                    },
+                    // {
+                    //     field: "expertProfessionalFieldName",
+                    //     title: "专业领域", event: 'setActive', style: 'cursor: pointer;'
+                    // },
                     {
                         field: "birthDate",
-                        title: "出生日期", event: 'setActive', style: 'cursor: pointer;'
+                        title: "出生日期", event: 'setActive', style: 'cursor: pointer;',width: 120
                     },
                     {
                         field: "email",
-                        title: "邮箱", event: 'setActive', style: 'cursor: pointer;'
+                        title: "邮箱", event: 'setActive', style: 'cursor: pointer;',width: 210
                     },
                     {
                         field: "mobile",
-                        title: "联系方式", event: 'setActive', style: 'cursor: pointer;'
+                        title: "联系方式", event: 'setActive', style: 'cursor: pointer;',width: 120
                     },
                     {
                         field: "expertProfessionalField",
@@ -162,7 +162,7 @@
                     },
                     {
                         field: "expertProfessinal",
-                        title: "职称", event: 'setActive', style: 'cursor: pointer;'
+                        title: "职称", event: 'setActive', style: 'cursor: pointer;',width: 60
                     },
                     {
                         field: "companyName",
@@ -187,20 +187,20 @@
                         url: "/pageCommon/dic/ROOT_UNIVERSAL_XB"//接口
                     };
                     publicMethods.dataDictionary(param);
-                    var param = {
-                        data: res.data,//数据
-                        element: ".layui-table-body table",// 当前的表格元素
-                        column: 9,//列数 从0开始
-                        field: "expertProfessionalField",//当前数据的字段
-                        url: "/pageCommon/dic/ZJK_ZYFL"//接口
-                    };
-                    publicMethods.dataDictionary(param);
+                    // var param = {
+                    //     data: res.data,//数据
+                    //     element: ".layui-table-body table",// 当前的表格元素
+                    //     column: 10,//列数 从0开始
+                    //     field: "expertProfessionalField",//当前数据的字段
+                    //     url: "/pageCommon/dic/ZJK_ZYFL"//接口
+                    // };
+                    // publicMethods.dataDictionary(param);
                     var param = {
                         data: res.data,//数据
                         element: ".layui-table-body table",// 当前的表格元素
                         column: 10,//列数 从0开始
-                        field: "expertProfessinal",//当前数据的字段
-                        url: "/pageCommon/dic/ZJK_ZCXX"//接口
+                        field: "company",//当前数据的字段
+                        url: "/pageCommon/dic/ROOT_ZGSHJT_GFGS_ZSYJY"//接口
                     };
                     publicMethods.dataDictionary(param);
                     // var param = {
@@ -208,7 +208,7 @@
                     //     element: ".layui-table-body table",// 当前的表格元素
                     //     column: 11,//列数 从0开始
                     //     field: "company",//当前数据的字段
-                    //     url: "/pageCommon/dic/ROOT_XTGL_ZSYJY"//接口
+                    //     url: "/pageCommon/dic/ROOT_ZGSHJT_GFGS_ZSYJY"//接口
                     // };
                     // publicMethods.dataDictionary(param);
                 }
@@ -282,23 +282,23 @@
                 loadtable();
             },
             editEvent: function () { //点击编辑按钮
-                if (typeof (selectRowData) == "undefined") {
-                    layer.msg("请选择一条数据");
-                    return;
-                } else {
-                    if (selectRowData.auditStatus != '0') {
-                        layer.msg('当前记录已经提交，不能进行编辑操作！');
-                    } else {
+                // if (typeof (selectRowData) == "undefined") {
+                //     layer.msg("请选择一条数据");
+                //     return;
+                // } else {
+                //     if (selectRowData.auditStatus != '0') {
+                //         layer.msg('当前记录已经提交，不能进行编辑操作！');
+                //     } else {
                         openFullWin("编辑", "/zjkBaseInfo/edit?id=" + selectRowData.dataId);
-                    }
-                }
+                    // }
+                // }
             }
             , viewEvent: function () { //点击编辑按钮
                 if (typeof (selectRowData) == "undefined") {
                     layer.msg("请选择一条数据");
                     return;
                 } else {
-                    openFullWin("编辑", "/zjkBaseInfo/view/" + selectRowData.dataId);
+                    openFullWin("查看", "/zjkBaseInfo/view/" + selectRowData.dataId);
                 }
             }
             ,
@@ -310,7 +310,8 @@
                 if (selectRowData.auditStatus != '0') {
                     layer.msg('当前记录已经提交，不能进行编辑操作！');
                 } else {
-                    layer.confirm('确定要删除吗?', {btn: ['确认', '取消'], title: "删除确认"}, function (index) {
+                    layer.confirm('确认要删除选中的数据吗？', {icon: 3, btn: ['确定', '取消']}, function (index) {
+                        // layer.confirm('确定要删除吗?', {btn: ['确认', '取消'], title: "删除确认"}, function (index) {
                         layer.close(index);
                         ajaxPost("/zjkBaseInfo/del", {"id": selectRowData.dataId}, function (data) {
                             layer.msg("操作成功");

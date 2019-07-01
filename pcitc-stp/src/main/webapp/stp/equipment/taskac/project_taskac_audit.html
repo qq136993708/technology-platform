@@ -22,9 +22,9 @@
 <div  class="layer-box" style="padding:10px">
  <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 			                    <div class="layui-form-item">
-			                        <label for="" class="layui-form-label">选择课题<span class="must-fill">*</span></label>
+			                        <label for="" class="layui-form-label">选择任务书<span class="must-fill">*</span></label>
 			                        <div class="layui-input-block">
-			                            <input class="layui-input readOnlyBox" placeholder="请选择课题" name="name" id="name" value="" readonly="readonly" onclick="chooseProject()" 
+			                            <input class="layui-input readOnlyBox" placeholder="请选择任务书" name="name" id="name" value="" readonly="readonly" onclick="chooseProject()" 
 			                                   autocomplete="off" type="text">
 			                        </div>
 			                    </div>
@@ -56,7 +56,7 @@
 			                </div>
 	  	<div class="form-bottom">
 	  		<div class="form-bottom-btns">
-	    		<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="sub" lay-filter="sub" onclick="save()">提交</button>
+	    		<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="sub" lay-filter="sub" onclick="save()">保存</button>
       	  		</div>
 		</div>
   </div>
@@ -76,7 +76,16 @@ var publicMethods;
     });
       //流程
       function save(){
-
+			if($("#name").val()=="")
+			{
+			layer.alert("请选择课题！");
+			return;
+			}
+            if($("#describe").val()=="")
+			{
+			layer.alert("请输入验收描述！");
+			return;
+			}
     	  $.ajax({
 	           type : 'POST',
 	           url : "/sre_project_taskac/addAudit",
@@ -107,7 +116,7 @@ var publicMethods;
           function chooseProject()
     {
     	var temUrl = '/sre_project_taskac/task_list';
-        publicMethods.openBaseWin("选择课题",temUrl,"90%","80%");
+        publicMethods.openBaseWin("选择任务",temUrl,"90%","80%");
     }
 </script>
 </body>

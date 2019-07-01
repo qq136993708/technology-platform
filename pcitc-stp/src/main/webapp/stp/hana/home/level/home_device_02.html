@@ -103,10 +103,19 @@ layui.config({
     laydate = layui.laydate;
     form = layui.form;
     form.render(null, 'component-form-group');
+    
     laydate.render({
-       elem: '#nd'
-       ,format: 'yyyy'
-    });
+   	 elem: '#nd',type: 'year'
+       ,done: function(value, date, endDate){
+           $(".layui-time").html(date.year);
+           $("#nd").val(date.year); 
+           search_Event();
+       }
+   });
+    
+    
+    
+    
     renderTable();
     renderTable_UNIT();
     $(".layui-time").html(nd+"年");
@@ -122,7 +131,6 @@ layui.config({
 function initEchart()
 {
 	
-	 $(".layui-time").html(nd+"年");
 	    
 	 var companyCode=$("#companyCode").val();
 	var v_date=(new Date()).getTime();

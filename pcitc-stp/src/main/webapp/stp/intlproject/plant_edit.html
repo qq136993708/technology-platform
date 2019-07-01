@@ -32,7 +32,7 @@ $(document).ready(function() {
 		var table = layui.table;
 		laydate.render({elem: '#reportYear',type: 'year'});
 		//研究院字典
-    	var dicMap = ['ROOT_XTGL_ZSYJY'];
+    	var dicMap = ['ROOT_ZGSHJT_GFGS_ZSYJY'];
     	publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
 			$.each(data,function(key,val){
 				$.each(val,function(i,dt){
@@ -101,7 +101,7 @@ $(document).ready(function() {
 	            	var check = table.checkStatus('join_apply_table');
 	            	for(var dt in check.data)
 	            	{
-	            		publicMethods.ajaxAsyncPost('/project/del-fromplant', {"plantId":$("#plantId").val(),"applyId":check.data[dt].applyId}, function (data, status) {
+	            		publicMethods.ajaxPost('/project/del-fromplant', {"plantId":$("#plantId").val(),"applyId":check.data[dt].applyId}, function (data, status) {
 	            			console.log("del...");
 		                });
 	            	}
@@ -167,7 +167,7 @@ $(document).ready(function() {
 				 <div class="layui-form-item">
 			          <label class="layui-form-label">计划执行单位<span class="must-fill">*</span></label>
 			          <div class="layui-input-block">
-			          	  <select name="unitId" id="ROOT_XTGL_ZSYJY" lay-verify="required"  lay-filter="unitId">
+			          	  <select name="unitId" id="ROOT_ZGSHJT_GFGS_ZSYJY" lay-verify="required"  lay-filter="unitId">
 		                	<option value="">请选择</option>
 		             	  </select>
 			          </div>
@@ -177,7 +177,7 @@ $(document).ready(function() {
 				<div class="layui-form-item">
 					<label for="" class="layui-form-label">计划年度<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" class="layui-input" lay-verify="required|number" id="reportYear" name="reportYear" placeholder="计划年度">
+						<input type="text" class="layui-input" readonly="readonly" lay-verify="required|number" id="reportYear" name="reportYear" placeholder="计划年度">
 					</div>
 				</div>
 			</div>

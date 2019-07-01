@@ -422,7 +422,7 @@
   </select>
   
   <select id="selectFuntionByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
-	select sys_function.id,sys_function.code,sys_function.name,sys_function.parent_id,sys_function.url,
+	select sys_function.id,sys_function.code,sys_function.name,sys_function.parent_id,sys_function.url,sys_function.remark,
 		   sys_function.parent_code,group_concat(sys_post_function.function_buttons) as function_buttons
     from sys_post_function,sys_user,sys_function,sys_user_post
     where 
@@ -469,6 +469,7 @@
    <if test="id != null and id!=''.toString()">
    and id != #{id}
    </if>
+   and status = '1'
   </select>
   
   <!-- 查询同一级下是否有相同名字的菜单 -->

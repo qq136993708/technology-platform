@@ -38,7 +38,7 @@
             <div class="tool-left">
                 <label class="dateInput">
                     <span>编制年度</span>
-                    <input type="text" id="choose-year">
+                    <input type="text" readonly="readonly" id="choose-year">
                     <i class="layui-icon layui-icon-date"></i>
                 </label>
             </div>
@@ -81,7 +81,7 @@
             var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods; 
             var param = JSON.parse(window.localStorage.getItem("param"));
             renderfunc = function(){
-            	$(".layui-table-header table thead th i").remove();  //移除表头的复选框,去掉全选
+            	$(".layui-table-header table thead th .layui-unselect").remove();  //移除表头的复选框,去掉全选
 	        	//行单击选中事件绑定
 	        	$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
 	              	  var index=parseInt($(this).index()+1);
@@ -118,17 +118,41 @@
 					$(".layui-table-body").find("tr").eq(index).find('td').eq(1).attr("align",align);
 					$(".layui-table-body").find("tr").eq(index).find('td').eq(0).find("div").html(no);
 				});
+				calculationSurplusMoney();
 			}
 			//数据版本选择
 	        publicMethods.ajaxAsyncPost("/budget/budget-b2csplit-items",{page:1,limit:100,param: {"budget_info_id":dataId}}, function (data) {
-       			reloadTable('dataTable', data.data);
+	        	curent_tabel_data = data.data;
+	        	reloadTable('dataTable', data.data);
             	if(data.data.length >0){
             		cu_date = data.data[0].nd;
             	}
        			
        			renderfunc();
             	initDateView();
-		   	}); 
+		   	});
+	        function calculationSurplusMoney(){
+          		//5,6,7,8,9,10行 以汇总计算
+          		var t3=t4=t5=t6=t7=t8=0;
+          		$.each(curent_tabel_data,function(index,dt){
+          			if(dt.level == 0){
+          				t3 += parseInt(dt.lyTotal);
+          				t4 += parseInt(dt.lyJz);
+          				t5 += parseInt(dt.lyXq);
+          				t6 += parseInt(dt.hgTotal);
+          				t7 += parseInt(dt.hgJz);
+          				t8 += parseInt(dt.hgXq);
+          				
+          			}
+          		});
+          		$(".layui-table-total").find("tr").find('td').eq(2).find("div").html(t3);
+      			$(".layui-table-total").find("tr").find('td').eq(3).find("div").html(t4);
+          		$(".layui-table-total").find("tr").find('td').eq(4).find("div").html(t5);
+      			$(".layui-table-total").find("tr").find('td').eq(5).find("div").html(t6);
+      			$(".layui-table-total").find("tr").find('td').eq(6).find("div").html(t7);
+      			$(".layui-table-total").find("tr").find('td').eq(7).find("div").html(t8);
+      			
+          	}
         });
     </script>
 </body>

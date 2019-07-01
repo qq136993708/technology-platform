@@ -3,8 +3,6 @@ package com.pcitc.service.intlproject;
 import java.util.List;
 import java.util.Map;
 
-import com.github.pagehelper.PageInfo;
-import com.pcitc.base.common.DataTableParam;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.IntlProject.IntlProjectApply;
@@ -63,7 +61,7 @@ public interface IntlProjectApplyService
 	 * 
 	 * @return
 	 */
-	public PageInfo<IntlProjectApply> findByConn(DataTableParam dataTableParam);
+	public List<IntlProjectApply> findAllFinalApplys();
 	/**
 	 * 获取没有加入计划的apply
 	 * @param plantId

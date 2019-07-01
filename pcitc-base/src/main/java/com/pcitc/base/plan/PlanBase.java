@@ -1,11 +1,10 @@
 package com.pcitc.base.plan;
 
-import com.pcitc.base.common.DataEntity;
-
+import java.io.Serializable;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-
-import java.io.Serializable;
+import com.pcitc.base.common.DataEntity;
 
 /**
  * <p>实体类</p>
@@ -327,9 +326,18 @@ public class PlanBase extends DataEntity implements Serializable {
      * bak6 -
      */
     private String bak6;
+    
+    private List<PlanBaseDetail> planBaseDetailList;
 
+    public List<PlanBaseDetail> getPlanBaseDetailList() {
+		return planBaseDetailList;
+	}
 
-    public String getDataId() {
+	public void setPlanBaseDetailList(List<PlanBaseDetail> planBaseDetailList) {
+		this.planBaseDetailList = planBaseDetailList;
+	}
+
+	public String getDataId() {
         return this.dataId;
     }
 

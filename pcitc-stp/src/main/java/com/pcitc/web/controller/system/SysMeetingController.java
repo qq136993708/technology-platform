@@ -4,6 +4,9 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,17 +19,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.PageResult;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
+import com.pcitc.base.hana.report.ProjectCost;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.system.SysMeeting;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.utils.HanaUtil;
 @Controller
 public class SysMeetingController extends BaseController {
 
@@ -35,6 +43,9 @@ public class SysMeetingController extends BaseController {
 	public  static final String ADD_URL =    "http://pcitc-zuul/system-proxy/system-provider/sys_meeting/add";
 	public  static final String UPDATE_URL = "http://pcitc-zuul/system-proxy/system-provider/sys_meeting/update";
 	private static final String DEL_URL =    "http://pcitc-zuul/system-proxy/system-provider/sys_meeting/delete/";
+	
+	
+	private static final String LIST_URL =   "http://pcitc-zuul/system-proxy/system-provider/sys_meeting/list";
 	
 	
 	@RequestMapping(value = "/sys_meeting/list")
@@ -61,6 +72,34 @@ public class SysMeetingController extends BaseController {
 		logger.info("============查询结果：" + result);
 		return result.toString();
 	}
+    
+    
+    
+    
+     @RequestMapping(value = "/sys_meeting/list_data_top")
+	 @ResponseBody
+	 public String list_data_top(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	 List<SysMeeting> list =null;
+    	 JSONArray jSONArray =null;
+		String month = CommonUtil.getParameter(request, "month", "" );
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put("top", 5);
+		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+		
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(LIST_URL, HttpMethod.POST, entity, JSONArray.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200) 
+			{
+				jSONArray = responseEntity.getBody();
+				list = JSONObject.parseArray(jSONArray.toJSONString(), SysMeeting.class);
+				System.out.println(">>>>>>>>>>>>>>>>>list_data_top " + jSONArray .toString());
+			}
+		
+		return jSONArray.toString();
+	}
+    
+    
     
     
     

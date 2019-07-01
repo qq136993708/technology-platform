@@ -30,7 +30,7 @@
 			                    </div>
 			                </div>
     <div class="layui-form-item layui-form-text" >
-        <label for="" class="layui-form-label">验收描述<span class="must-fill">*</span></label>
+        <label for="" class="layui-form-label">评估描述<span class="must-fill">*</span></label>
         <div class="layui-input-block">
           <textarea placeholder="请输入评估描述" name="describe" id="describe" lay-verify="required"   class="layui-textarea">${sreEquipment.specification}</textarea>
         </div>
@@ -56,7 +56,9 @@
 			                </div>
 	  	<div class="form-bottom">
 	  		<div class="form-bottom-btns">
-	    		<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="sub" lay-filter="sub" onclick="save()">提交</button>
+	    		<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="sub" lay-filter="sub" onclick="save()">保存</button>
+	    		<button class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" lay-submit="sub" lay-filter="close" onclick="close()" id="close">关闭</button>
+      	  		
       	  		</div>
 		</div>
   </div>
@@ -76,7 +78,16 @@ var publicMethods;
     });
       //流程
       function save(){
-
+	if($("#name").val()=="")
+			{
+			layer.alert("请选择课题！");
+			return;
+			}
+            if($("#describe").val()=="")
+			{
+			layer.alert("请输入评估描述！");
+			return;
+			}
     	  $.ajax({
 	           type : 'POST',
 	           url : "/sre_project_assess/addAudit",
@@ -109,6 +120,10 @@ var publicMethods;
     	var temUrl = '/sre_project_assess/task_list';
         publicMethods.openBaseWin("选择课题",temUrl,"90%","80%");
     }
+          $("#close").click(function () {
+			    var index = parent.layer.getFrameIndex(window.name);
+			    parent.layer.close(index);
+			});
 </script>
 </body>
 </html>

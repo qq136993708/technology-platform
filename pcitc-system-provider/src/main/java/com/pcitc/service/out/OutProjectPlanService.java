@@ -85,4 +85,24 @@ public interface OutProjectPlanService {
      */
 	public LayuiTableData selectProjectCycleByCondition(LayuiTableParam param);
 	
+	/**
+     * 项目的详情：合同信息
+     */
+	public LayuiTableData getScienceProcessDetails(LayuiTableParam param);
+	
+	/**
+     * 合同付款详情
+     */
+	public LayuiTableData getContractPayDetails(LayuiTableParam param);
+	
+	/**
+     * 合同成果详情
+     */
+	public LayuiTableData getContractAppraisalDetails(LayuiTableParam param);
+	
+	/**
+     * 项目奖励信息
+     */
+	public LayuiTableData getProjectRewardDetails(LayuiTableParam param);
+	
 }

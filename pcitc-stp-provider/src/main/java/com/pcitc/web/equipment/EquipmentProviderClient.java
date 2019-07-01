@@ -194,8 +194,20 @@ public class EquipmentProviderClient
 		logger.info("==================page SreProjectBasic==========================="+paramsJson);
 		return equipmentService.getProjectPage(paramsJson);
 	}
-	
-	
+	@ApiOperation(value = "课题列表", notes = "课题列表")
+	@RequestMapping(value = "/sre-provider/project_basic/pagebyaccept", method = RequestMethod.POST)
+	public LayuiTableData getSreProjectbyacceptList(@RequestBody LayuiTableParam paramsJson)throws Exception
+	{
+		logger.info("==================page SreProjectBasic==========================="+paramsJson);
+		return equipmentService.getProjectPagebyaccept(paramsJson);
+	}
+	@ApiOperation(value = "课题列表", notes = "课题列表")
+	@RequestMapping(value = "/sre-provider/project_basic/pagebyacceptTwo", method = RequestMethod.POST)
+	public LayuiTableData getSreProjectbyacceptTwoList(@RequestBody LayuiTableParam paramsJson)throws Exception
+	{
+		logger.info("==================page SreProjectBasic==========================="+paramsJson);
+		return equipmentService.getProjectPagebyacceptTwo(paramsJson);
+	}
 	@ApiOperation(value = "增加计划上报", notes = "增加计划上报")
 	@RequestMapping(value = "/sre-provider/project_basic/add", method = RequestMethod.POST)
 	public String insertSreProjectBasic(@RequestBody SreProject sreProjectBasic) throws Exception{
@@ -683,7 +695,13 @@ public class EquipmentProviderClient
 	
 	
 
-	
+	@ApiOperation(value = "ERP", notes = "ERP")
+	@RequestMapping(value = "/sre-provider/project_taskByErpnum/page", method = RequestMethod.POST)
+	public LayuiTableData getSreProjectTaskByErpnumList(@RequestBody LayuiTableParam paramsJson)throws Exception
+	{
+		logger.info("==================page SreSreProjectTask==========================="+paramsJson);
+		return equipmentService.getSreProjectTaskByErpnumPage(paramsJson);
+	}
 	
 
 }

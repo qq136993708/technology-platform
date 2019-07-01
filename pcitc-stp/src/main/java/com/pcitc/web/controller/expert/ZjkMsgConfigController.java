@@ -4,6 +4,7 @@ import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.expert.ZjkMsg;
 import com.pcitc.base.expert.ZjkMsgConfig;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
@@ -144,7 +145,7 @@ public class ZjkMsgConfigController extends BaseController {
     @OperationFilter(modelName = "专家回复消息配置表", actionName = "保存saveRecord")
     public int saveRecord(ZjkMsgConfig record) {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        if (record.getId() == null || "".equals(record.getId())) {
+        if (record.getDataId() == null || "".equals(record.getDataId())) {
             record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
             record.setCreateUser(sysUserInfo.getUserId());
             record.setCreateUserDisp(sysUserInfo.getUserName());
@@ -159,6 +160,7 @@ public class ZjkMsgConfigController extends BaseController {
         return result;
     }
 
+
     /**
      * 调整编辑页面-专家回复消息配置表
      *
@@ -172,6 +174,13 @@ public class ZjkMsgConfigController extends BaseController {
         model.addAttribute("id", id);
         model.addAttribute("opt", opt);
         return "stp/expert/zjkMsgConfig_edit";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/zjkMsg_bat")
+    @OperationFilter(modelName = "专家回复消息配置表", actionName = "跳转批量设置页面zjkMsg_bat")
+    public String zjkMsg_bat(String ids, Model model, String opt) {
+        model.addAttribute("ids", ids);
+        return "stp/expert/zjkMsg_bat";
     }
 
     /**

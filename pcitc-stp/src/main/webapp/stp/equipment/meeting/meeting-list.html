@@ -116,7 +116,7 @@ var table,selectRowData;
             }
             ,editEvent: function(){  //点击编辑按钮
             	
-            	if (typeof(selectRowData.meetingId) == "undefined") {
+            	if (typeof(selectRowData) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
             		 var meetingId=selectRowData.meetingId;
@@ -138,7 +138,7 @@ var table,selectRowData;
                
             },deleteEvent: function(){  //点击删除按钮
                  console.log('点击了删除按钮')
-                 if (typeof(selectRowData.meetingId) == "undefined") 
+                 if (typeof(selectRowData) == "undefined") 
                  {
             		layer.msg('请点击选择一行数据');
             	 } else 
@@ -155,7 +155,7 @@ var table,selectRowData;
               
             },
             detailEvent: function(){  //点击详情按钮
-            	if (typeof(selectRowData.meetingId) == "undefined") {
+            	if (typeof(selectRowData) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
             		 var meetingId=selectRowData.meetingId;
@@ -246,7 +246,7 @@ var table,selectRowData;
            cols: [[
 	           	{type : 'checkbox', event: 'changeEvents', width : 55},
 	           	{title : '序号', type : 'numbers', width : 55},
-	            {field : 'title',        title : '会议主题', style : 'cursor: pointer;', align : 'center',width:'33%',templet:function(d){return '<span onclick="view(\''+d.meetingId+'\')" style="color:#17a2b8">'+d.title+'</span>'}},
+	            {field : 'title',        title : '会议主题', style : 'cursor: pointer;', align : 'center',width:'33%',templet:function(d){return '<span onclick="view(\''+d.meetingId+'\')" style="color:#1890ff">'+d.title+'</span>'}},
 	            {field : 'meetingPlace', title : '会议地点', style : 'cursor: pointer;', align : 'center',width:'10%'},
 	            {field : 'parentUnitPathNames', title : '会议发起单位', style : 'cursor: pointer;', align : 'center',width:'20%'},
 	            {field : 'createDepartName', title : '会议发起部门', style : 'cursor: pointer;', align : 'center',width:'10%'},

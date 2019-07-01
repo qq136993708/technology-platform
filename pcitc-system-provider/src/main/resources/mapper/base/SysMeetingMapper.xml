@@ -176,6 +176,8 @@
       </otherwise>
      </choose>
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+     <if test="top != null and top !=''"> limit #{top}</if>    
+     
    </select>
    
     <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >

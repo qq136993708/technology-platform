@@ -22,11 +22,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import java.util.Date;
+import java.util.*;
 
 /**
  * <p>接口实现类</p>
@@ -165,6 +161,14 @@ public class IndexOutAppraisalServiceImpl implements IndexOutAppraisalService {
         Object typeIndex = param.getParam().get("typeIndex");
         if (typeIndex != null) {
             c.andTypeIndexLike(typeIndex + "%");
+        }
+        Object cgmc = param.getParam().get("cgmc");
+        if (cgmc != null) {
+            c.andCgmcLike( "%"+cgmc + "%");
+        }
+        Object dataId = param.getParam().get("dataId");
+        if (dataId != null) {
+            c.andDataIdIn(Arrays.asList(dataId.toString().split(",")));
         }
         example.setOrderByClause("create_date desc");
         return this.findByExample(param, example);

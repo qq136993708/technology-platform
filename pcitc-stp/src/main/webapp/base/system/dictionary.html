@@ -18,7 +18,7 @@
 <div class="treeTableContainer">
 <div class="treeBox">
 <div class="title-box">
-                <span>数据字典</span>
+                <span>${menuTypeName}维护</span>
             </div>
         <div class="layui-side-scroll">
             <!-- 左侧子菜单 -->
@@ -30,9 +30,9 @@
     <div class="searchBox">
         <!--查询条件-->
         <label class="dateInput">
-            <span>字典名称</span>
-            <input type="text" name="dictionaryName" placeholder="请输入字典名称"
-                   title="字典名称" autocomplete="off"
+            <span>${menuTypeName}名称</span>
+            <input type="text" name="dictionaryName" placeholder="请输入${menuTypeName}名称"
+                   title="${menuTypeName}名称" autocomplete="off"
                    class="form-control" id="name">
         </label>
         <!--按钮组-->
@@ -178,12 +178,12 @@
             cols: [[
 				{type:'checkbox',event: 'changeEvents'},
                 {title:'序号', type:'numbers' ,width : 55},
-                {field:'name', title:'字典名称',  style:'cursor: pointer;',align:'left'},
-                {field:'code', title:'字典编码',  style:'cursor: pointer;',align:'left'},
-                {field:'numValue', title:'数值', style:'cursor: pointer;',align:'left'},
-                {field:'levelCode', title:'层级', width: '10%',style:'cursor: pointer;',align:'left'},
+                {field:'name', title:'${menuTypeName}名称',  style:'cursor: pointer;',align:'left',width: '15%'},
+                {field:'code', title:'${menuTypeName}编码',  style:'cursor: pointer;',align:'left',width: '15%'},
+                {field:'numValue', title:'实际值', style:'cursor: pointer;',align:'left',width: '20%'},
+                {field:'levelCode', title:'层级', style:'cursor: pointer;',align:'left',width : 55},
+                {field:'isdelete', title:'排序号', style:'cursor: pointer;',align:'left',width : 75},
                 {field:'remark',   title:'描述',  style:'cursor: pointer;',align:'left'},
-                {field:'createTime',   title:'创建时间', style:'cursor: pointer;', width: '15%',align:'center', templet:  '<div>{{ layui.laytpl.toDateString(d.createTime) }}</div>'},
                 {field:'updateTime',  title:'修改时间',  style:'cursor: pointer;', width: '15%',align:'center', templet:  '<div>{{ layui.laytpl.toDateString(d.updateTime) }}</div>'}
             ]],
             
@@ -215,7 +215,7 @@
         var $ = layui.$, active = {
             addEvent: function(){ //点击新增按钮
             	if (typeof(parentId) == "undefined") {
-            		layer.msg("请先选择一个树节点字典");
+            		layer.msg("请先选择一个树节点${menuTypeName}");
             	} else {
             		var temUrl="/dictionary/dictionary_info?parentCode="+parentCode+"&parentId="+parentId+"&levelCode="+levelCode+"&parentName="+parentName+"&menuType="+menuType;
             		temUrl = encodeURI(temUrl);
@@ -249,7 +249,7 @@
                     temFunctionId = dataIds;
                 } 
             	if (typeof(temFunctionId) == "undefined" || temFunctionId.length> 32) {
-            		layer.msg("请选择一个字典");
+            		layer.msg("请选择一个${menuTypeName}");
             	} else {
             		var temUrl="/dictionary/dictionary_info?id="+temFunctionId+"&menuType="+menuType;
                     layer.open({
@@ -310,7 +310,7 @@
 	                                	dataIds = "";
 	                                	//alert(dataIds);
 	        		            	}else if(data==101){
-	        		            		layer.msg("请先删除下级字典");
+	        		            		layer.msg("请先删除下级${menuTypeName}");
 	        		            	}
 	                            	
 	                            }
@@ -318,7 +318,7 @@
 	             		});
                 	}
                 }else if(dataIds.length == 0 && isBlank(nodeId)){
-                	layer.msg("请选择要删除的数据字典!");            		
+                	layer.msg("请选择要删除的数据${menuTypeName}!");            		
                 }
                
         		 if(!isBlank(nodeId) && dataIds.length == 0){
@@ -343,7 +343,7 @@
 	                                	//dictionaryTree.removeNode(dicTreeNode);
 	                                	initTree();
 	        		            	}else if(data==101){
-	        		            		layer.msg("请先删除下级字典");
+	        		            		layer.msg("请先删除下级${menuTypeName}");
 	        		            	}
 	                            	
 	                            }

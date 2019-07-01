@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <script src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
     <style>
         .searchBox{ height: auto;}
         .searchBox label{margin-bottom: 10px;display: inline-block; }
@@ -29,16 +30,16 @@
 
     <label class="dateInput">
         <span>课题名称</span>
-        <input type="text" name="name" title="课题名称" autocomplete="off" class="form-control" id="name">
+        <input type="text" name="name" placeholder="请选择课题名称" title="课题名称"  autocomplete="off" class="form-control" id="name">
     </label>
 
     <label class="dateInput">
         <span>总经费(万元)</span>
-        <input type="text" name="startMoney" title="开始金额" placeholder="￥(最大长度8位)" autocomplete="off" class="form-control" id="startMoney" onkeyup="this.value=this.value.replace(/\D/g, '')" maxlength="8">
+        <input type="text" name="startMoney" title="开始金额" placeholder="开始金额(最大长度8位)" autocomplete="off" class="form-control" id="startMoney" onkeyup="this.value=this.value.replace(/\D/g, '')" maxlength="8">
     </label>
     --
     <label class="dateInput">
-        <input type="text" name="endMoney" title="结束金额" placeholder="￥(最大长度8位)"autocomplete="off" class="form-control" id="endMoney" onkeyup="this.value=this.value.replace(/\D/g, '')" maxlength="8">
+        <input type="text" name="endMoney" title="结束金额" placeholder="结束金额(最大长度8位)"autocomplete="off" class="form-control" id="endMoney" onkeyup="this.value=this.value.replace(/\D/g, '')" maxlength="8">
     </label>
 
     <label class="dateInput">
@@ -53,12 +54,16 @@
 
     <label class="dateInput">
         <span>专业处</span>
-        <select id="professionalDepartName" name="professionalDepartName" onchange="getProfessionalNameListByUnitNameAndDept(this.value)" class="form-control" ></select>
+        <select id="professionalDepartName" name="professionalDepartName" onchange="getProfessionalNameListByUnitNameAndDept(this.value)" class="form-control" >
+            <option value="" >--请选择--</option>
+        </select>
     </label>
 
     <label class="dateInput">
         <span>专业领域</span>
-        <select id="professionalFieldName" name="professionalFieldName" class="form-control" ></select>
+        <select id="professionalFieldName" name="professionalFieldName" class="form-control" >
+            <option value="" >--请选择--</option>
+        </select>
     </label>
     <!--按钮组-->
     <div class="btnGroup">
@@ -190,7 +195,12 @@
             searchEvent: function() { //点击查询按钮
                 var startMoney = $('#startMoney').val();
                 var endMoney = $('#endMoney').val();
-                if(startMoney!=null && endMoney!=null){
+                //alert(startMoney)
+                //alert(endMoney)
+                if(startMoney!=null && startMoney!="" || endMoney!=null&&endMoney!=""){
+                    layer.alert("请输入开始金额或结束金额")
+                    return;
+                }else if(startMoney!=null && endMoney!=null){
                     renderTable();
                 }else{
                     layer.alert("请输入开始金额或结束金额");
@@ -198,7 +208,7 @@
 
             },
             resetEvent: function() { //点击重置按钮
-                $('#setupYear').val("");
+                //$('#setupYear').val("");
                 $('#name').val("");
                 $('#belongDepartmentName').val("");
                 $('#professionalFieldName').val("");
@@ -222,6 +232,11 @@
                     order: obj.type //排序方式
                 }
             });
+        });
+        //监听表格双击事件
+        table.on('rowDouble(tableEvent)', function(obj){
+            var temUrl = '/sre-project-basic/get/'+obj.data.id;
+            openFullWin("详情",temUrl);
         });
         //区别按钮属性
         $('.layui-btn').on('click', function(){
@@ -255,15 +270,15 @@
                 {title : '序号', type :'numbers', width : 55},
                 //{field : 'status',         title : '状态',            style : 'cursor: pointer;', align: 'center', width : '10%', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width : 55},
                 {field : 'name',           title : '课题名称',         style : 'cursor: pointer;', align: 'left',    width : '20%'},
-                {field : 'beginYear',      title : '投资期限',         style : 'cursor: pointer;', align: 'center',  width : '7%',templet:function(d){return '<div style="">'+d.beginYear+'-'+d.endYear+'</div><br/><div style="color:red">'+d.beginYear+'</div>'}},
-                {field : 'projectMoney',   title : '总经费(万元)',      style : 'cursor: pointer;', align: 'center',  width : '8%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
+                {field : 'beginYear',      title : '投资期限',         style : 'cursor: pointer;', align: 'center',  width : '10%',templet:function(d){return '<div style="">'+d.beginYear+'-'+d.endYear+'</div><br/><div style="color:red">'+d.beginYear+'</div>'}},
+                {field : 'projectMoney',   title : '总经费(万元)',      style : 'cursor: pointer;', align: 'center',  width : '13%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
                 {field : 'leadUnitName',   title : '牵头单位',         style : 'cursor: pointer;', align: 'left', width : '20%'},
                 {field : 'belongDepartmentName',   title : '归属部门', style : 'cursor: pointer;', align: 'left', width : '7%'},
                 {field : 'professionalDepartName', title : '专业处',  style : 'cursor: pointer;', align: 'left', width : '7%'},
                 {field : 'professionalFieldName',  title : '专业领域', style : 'cursor: pointer;', align: 'left', width : '7%'},
                 {field : 'parentUnitPathNames',    title : '上报单位', style : 'cursor: pointer;', align: 'left', width : '20%'},
                 {field : 'applyUnitName',          title : '上报部门', style : 'cursor: pointer;', align: 'left', width : '10%'},
-                {field : 'createDate',             title : '上报时间', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl', width : '10%'}
+                {field : 'createDate',             title : '上报时间', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选

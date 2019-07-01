@@ -32,15 +32,8 @@ public class StatisticalQueryController extends BaseController {
         String departCode=sysUserInfo.getUnitCode();
         String	parentUnitPathIds="";
         String unitPathIds =   sysUserInfo.getUnitPath();
-        if(!unitPathIds.equals(""))
-        {
-            if(unitPathIds.length()>4)
-            {
-                parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-
-            }
-        }
-        boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
+        parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
+        boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);/*"100106851234"*/
         request.setAttribute("isKJBPerson", isKJBPerson);
         request.setAttribute("departCode", departCode);
         request.setAttribute("parentUnitPathIds", parentUnitPathIds);
@@ -56,17 +49,9 @@ public class StatisticalQueryController extends BaseController {
         List<UnitField> unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
         String	parentUnitPathIds="";
         String unitPathIds =   sysUserInfo.getUnitPath();
-        if(!unitPathIds.equals(""))
-        {
-            if(unitPathIds.length()>4)
-            {
-                parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
+        parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
 
-            }
-        }
-
-
-        boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
+        boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);/*"100106851234"*/
         request.setAttribute("isKJBPerson", isKJBPerson);
         request.setAttribute("departCode", departCode);
         request.setAttribute("parentUnitPathIds", parentUnitPathIds);

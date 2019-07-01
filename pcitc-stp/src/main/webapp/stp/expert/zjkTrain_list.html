@@ -15,19 +15,19 @@
 
 <div class="searchBox">
     <!--查询条件-->
-    <label class="dateInput selectInput">
+    <label class="dateInput">
 
         <span>主讲人</span>
         <input type="text" name="zjkName" id="zjkName"
                placeholder="请输入主讲人"
                title="主讲人" autocomplete="off"
-               class="form-control" id="zjkNameName"/>
+               class="form-control" id="zjkName"/>
 
         <span>培训主题</span>
         <input type="text" name="trainTheme" id="trainTheme"
                placeholder="请输入培训主题"
                title="培训主题" autocomplete="off"
-               class="form-control" id="trainThemeName"/>
+               class="form-control" id="trainTheme"/>
     </label>
     <!--按钮组-->
     <div class="btnGroup">
@@ -94,11 +94,11 @@
                 // },
                 {
                     field: "zjkName",
-                    title: "主讲人", event: 'setActive', style: 'cursor: pointer;'
+                    title: "主讲人", event: 'setActive', style: 'cursor: pointer;',width:'8%'
                 },
                 {
                     field: "trainTheme",
-                    title: "培训主题", event: 'setActive', style: 'cursor: pointer;'
+                    title: "培训主题", event: 'setActive', style: 'cursor: pointer;',width:'40%'
                 },
                 {
                     field: "trainDate",
@@ -154,6 +154,8 @@
                 });
 
             });
+            $(".layui-table-header table thead th input").remove();
+
         }
 
         renderTable();
@@ -262,7 +264,7 @@
                 if (selectRowData != undefined) {
                     // if (selectRowData.workOrderStatus == '0') {
                     id = selectRowData.dataId;
-                    layer.confirm('确认要删除选中的条数据吗？', {icon: 3, btn: ['确定', '取消']}, function (index) {
+                    layer.confirm('确认要删除选中的数据吗？', {icon: 3, btn: ['确定', '取消']}, function (index) {
                         layer.close(index);
                         $.ajax({
                             type: 'post',

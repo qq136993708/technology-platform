@@ -102,7 +102,7 @@
                     // },
                     {
                         field: "xmName",
-                        title: "项目名称", event: 'setActive', style: 'cursor: pointer;'
+                        title: "名称", event: 'setActive', style: 'cursor: pointer;'
                     },
                     // {
                     //     field: "companyId",
@@ -119,6 +119,10 @@
                     {
                         field: "bak2",
                         title: "专家名称", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "bak6",
+                        title: "评价时间", event: 'setActive', style: 'cursor: pointer;'
                     },
                     // {
                     //     field: "userId",
@@ -220,10 +224,10 @@
                 })
             },
             resetEvent: function () { //点击查询按钮
+                $("#xmName").val("");
+                $("#bak1").val("");
                 table.reload('zjkChoiceTableId', {
-                    where: {
-                        param: {}
-                    }
+                    where: {param: {"status": "2", "bak1":"", "xmName": ""}}
                 });
             }, getChecked: function () {//多选
                 var ids = "";
@@ -255,11 +259,11 @@
                 }
             }
             , tsEvent: function () { //点击编辑按钮
-                if (typeof (selectRowData) == "undefined") {
+                if (typeof (selectRowData) == "undefined"||selectRowData=="") {
                     layer.msg("请选择一条数据");
                     return;
                 } else {
-                    openBaseWin("投诉", "/zjkEvaluate/editts?id=" + selectRowData.id+"&xmmc="+selectRowData.xmName+"&xmid="+selectRowData.xmId+"&zjid="+selectRowData.zjId+"&zjmc="+selectRowData.bak2+"&xmjd="+selectRowData.bak1);
+                    openBaseWin("评价", "/zjkEvaluate/editts?id=" + selectRowData.id+"&xmmc="+selectRowData.xmName+"&xmid="+selectRowData.xmId+"&zjid="+selectRowData.zjId+"&zjmc="+selectRowData.bak2+"&xmjd="+selectRowData.bak1);
                 }
             }
             ,

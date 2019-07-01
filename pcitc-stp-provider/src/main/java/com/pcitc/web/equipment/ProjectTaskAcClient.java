@@ -121,4 +121,18 @@ public class ProjectTaskAcClient {
 	public String addAssess(@RequestBody SreProjectAssess sreProjectAssess)throws Exception{
 		return sreProjectTaskAcService.addAssess(sreProjectAssess);
 	}
+
+	@ApiOperation(value = "根据ID删除",notes = "根据ID删除")
+	@RequestMapping(value = "/sre-provider/sreProjectTaskAc/delete/{id}",method = RequestMethod.GET)
+	public int  delete(@PathVariable("id") String id) throws Exception{
+		logger.info("=============================delete sreProjectTaskAc=================");
+		return sreProjectTaskAcService.delete(id);
+	}
+
+	@RequestMapping(value = "/sre-provider/sreProjectAssess/delete/{id}", method = RequestMethod.POST)
+	public int deleteSreForapplication(@PathVariable("id") String id)throws Exception{
+		logger.info("=============================delete sreForapplication=================");
+		Integer count =  sreProjectTaskAcService.deleteDetail(id);
+		return count;
+	}
 }

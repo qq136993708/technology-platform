@@ -34,6 +34,7 @@
     </div>
 </div>
 
+ 
 <!--
 <div class="tableBox">
 	<div class="tableToolBox">
@@ -285,17 +286,15 @@ var name=$('#name').val();
                theme: '#0F9EE0'
            },
            cols: [[
-               {title : '序号', type : 'numbers', width : 55},
+        	   {title : '序号', type : 'numbers', width : 55},
                {field : 'equipmentName',     title : '装备名称', style : 'cursor: pointer;', align : 'center', width : '10%'},
-               {field : 'equipmentPrice', title : '单价（万元）', style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'equipmentPrice', title : '单价（万元）', style : 'cursor: pointer;', align : 'center', width : '15%'},
                {field : 'equipmenNumber', title : '装备数量', style : 'cursor: pointer;', align : 'center', width : '10%'},
                {field : 'declareUnit', title : '申报单位', style : 'cursor: pointer;', align : 'left', width : '20%'},
-               {field : 'declareDepartment', title : '申报部门', style : 'cursor: pointer;', align : 'left', width : '20%'},
+               {field : 'declareDepartment', title : '申报部门', style : 'cursor: pointer;', align : 'left', width : '13%'},
                {field : 'declarePeople', title : '第一申报人', style : 'cursor: pointer;', align : 'left', width : '10%'},
-               {field : 'declareTime', title : '申请时间', style : 'cursor: pointer;', align : 'center',width : '10%', templet : '#dateTpl'},
-               {field : 'assetNumber', title : '资产编号', style : 'cursor: pointer;', align : 'left', width : '20%'},
-              
-               
+               {field : 'assetNumber', title : '资产编号', style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'declareTime', title : '申请时间', style : 'cursor: pointer;', align : 'center', templet : '#dateTpl'}
            ]],
            done: function (res, curr, count) {
                // 点击行联动选择框--单选
@@ -335,6 +334,7 @@ var name=$('#name').val();
 			   	}); 
            }
        });
+       $(".layui-table-header table thead th input").remove()
     }
     
     

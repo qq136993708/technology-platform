@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>经费预算-集团经费预算详情</title>
+    <title>经费预算-资产经费预算详情</title>
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
     <script src="/layuiadmin/layui/layui.js"></script>
@@ -38,7 +38,7 @@
             <div class="tool-left">
                 <label class="dateInput">
                     <span>编制年度</span>
-                    <input type="text" id="choose-year">
+                    <input type="text" readonly="readonly" id="choose-year">
                     <i class="layui-icon layui-icon-date"></i>
                 </label>
             </div>
@@ -54,10 +54,10 @@
 	                	<th lay-data="{field:'no',align: 'center', width: 55,totalRowText: '合计'}">序号</th>
 	                    <th lay-data="{field:'displayName', width: '20%'}">预算部门</th>
 	                    <th lay-data="{field:'remark', width: '25%'}">描述</th>
-	                   	<th lay-data="{field:'last_year_end',align: 'right',totalRow: true}">2018年实际完成</th>
-	                   	<th lay-data="{field:'plan_money',align: 'right',totalRow: true}">2019年经费计划</th>
-	                    <!-- <th lay-data="{field:'yjwc', edit:true,align: 'right',totalRow: true}">2018年预计完成</th> -->
-	                    <th lay-data="{field:'xmjf', edit:true,align: 'right',totalRow: true}">2019年经费预算</th>	                    
+	                   	<!-- <th lay-data="{field:'last_year_end',align: 'right',totalRow: true}">2018年实际完成</th> -->
+	                   	<!-- <th lay-data="{field:'plan_money',align: 'right',totalRow: true}">${nd}年经费计划</th> -->
+	                    <th lay-data="{field:'yjwc', edit:true,align: 'right',totalRow: true}">${nd}年预计完成</th>
+	                    <th lay-data="{field:'xmjf', edit:true,align: 'right',totalRow: true}">${nd}年经费预算</th>	                    
 	                </tr>
                 </thead>
             </table>
@@ -76,7 +76,7 @@
             var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods; 
             var param = JSON.parse(window.localStorage.getItem("param"));
             renderfunc = function(){
-            	$(".layui-table-header table thead th i").remove();  //移除表头的复选框,去掉全选
+            	$(".layui-table-header table thead th .layui-unselect").remove();  //移除表头的复选框,去掉全选
 	        	//行单击选中事件绑定
 	        	$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
 	              	  var index=parseInt($(this).index()+1);
@@ -97,9 +97,9 @@
             initDateView = function(){
 				$(".nd").html(cu_date);
 			
-				$(".layui-table-header .layui-table").find('th').eq(4).find('span').text((cu_date-1)+"年实际完成");
-            	$(".layui-table-header .layui-table").find('th').eq(5).find('span').text(cu_date+"年经费计划");
-            	$(".layui-table-header .layui-table").find('th').eq(6).find('span').text(cu_date+"年经费预算");
+				$(".layui-table-header .layui-table").find('th').eq(3).find('span').text(cu_date+"年实际完成");
+            	$(".layui-table-header .layui-table").find('th').eq(4).find('span').text((cu_date-1)+"年经费计划");
+            	$(".layui-table-header .layui-table").find('th').eq(5).find('span').text(cu_date+"年经费预算");
 			}
             reloadTable = function(tableId,tableData){
 				table.reload(tableId, {data: tableData});

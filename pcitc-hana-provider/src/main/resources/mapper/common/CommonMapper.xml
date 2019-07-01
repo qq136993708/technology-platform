@@ -168,6 +168,8 @@
 		 "G0TELFX"
 	FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1000_05"('PLACEHOLDER' = ('$$PR_GSDM$$',
 		 '${companyCode}'))  where "G0KTOKK" not in ('SK97','SK98')
+		<if test="g0NAME1 != null   and g0NAME1  !='' ">         AND G0NAME1 like '%${g0NAME1}%' </if>
+	     <if test="g0MCOD3 != null   and g0MCOD3  !='' ">         AND G0MCOD3 like '%${g0MCOD3}%'  </if>
 	GROUP BY "G0LAND1",
 		 "G0MCOD3",
 		 "G0SORTL",
@@ -179,7 +181,6 @@
 		 "G0ADRNR",
 		 "G0TELF1",
 		 "G0TELFX"
-		<include refid="selectConditionDicSupplyer" /> 
 		<if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>   
 	 </select>
 	 
@@ -200,6 +201,8 @@
 		 "G0TELFX"
 	FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1000_05"('PLACEHOLDER' = ('$$PR_GSDM$$',
 		 '${companyCode}'))  where "G0KTOKK" not in ('SK97','SK98')
+		 <if test="g0NAME1 != null   and g0NAME1  !='' ">         AND G0NAME1 like '%${g0NAME1}%' </if>
+	     <if test="g0MCOD3 != null   and g0MCOD3  !='' ">         AND G0MCOD3 like '%${g0MCOD3}%'  </if>
 	GROUP BY "G0LAND1",
 		 "G0MCOD3",
 		 "G0SORTL",
@@ -211,7 +214,7 @@
 		 "G0ADRNR",
 		 "G0TELF1",
 		 "G0TELFX"
-		<include refid="selectConditionDicSupplyer" /> 
+		
 		)
 	 </select>
 	 
@@ -233,20 +236,22 @@
      
       <sql id="selectConditionERP">
 	     <if test="g0PROJTXT != null   and g0PROJTXT  !='' ">         AND G0PROJTXT like '%${g0PROJTXT}%' </if>
-	     <if test="g0GSDM != null   and g0GSDM  !='' ">               AND G0GSDM = ${g0GSDM}  </if>
+	     <if test="g0GSJC != null   and g0GSJC  !='' ">               AND G0GSJC like    '%${g0GSJC}%' </if>
+	     <if test="g0YEARXM != null   and g0YEARXM  !='' ">           AND G0YEARXM =     '${g0YEARXM}' </if>
+	     <if test="g0PROJCODE != null   and g0PROJCODE  !='' ">       AND G0PROJCODE =   '${g0PROJCODE}' </if>
 	     <if test="sqlStr != null   and sqlStr !='' ">                ${sqlStr}</if>
 	</sql>
 	
     <select id="getErpInfoList" resultMap="ERPResultMap"  parameterType="java.util.Map" >
-    SELECT
-       "G0YEARXM", 
-         "G0GSDM",   
-	     "G0GSJC",  
-	     "G0PROJCODE",
-	     "G0PROJTXT",  
-	     "G0XMLXMS"    
-	FROM "H"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY::H1AM_KY_ZH_0000_01.H1AM_KY_ZH_1000_02" 
-	WHERE ("G0STUFE" = '1' 
+	    SELECT
+	       "G0YEARXM", 
+	         "G0GSDM",   
+		     "G0GSJC",  
+		     "G0PROJCODE",
+		     "G0PROJTXT",  
+		     "G0XMLXMS"    
+		FROM "H"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY::H1AM_KY_ZH_0000_01.H1AM_KY_ZH_1000_02" 
+		WHERE ("G0STUFE" = '1' 
 	    AND "G0XMDL" = 'Z')
 		<include refid="selectConditionERP" /> 
 		<if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>   

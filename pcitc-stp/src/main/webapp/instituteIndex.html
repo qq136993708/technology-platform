@@ -18,7 +18,8 @@
 			<div class="layui-header">
 				<!--搜索框-->
 				<div class="stpSearchBox">
-					<div class="logo"><img src="/layuiadmin/layui/images/icon-logo-leader-i.png" style="margin-top: 4px;"></div>
+					<div class="logo"><img src="/layuiadmin/layui/images/logo-leader-new.png" style="margin-top: 10px;"></div>
+					<a href="/stpHome"><img src="/layuiadmin/layui/images/icon-index.png"/> </a>
 					<div class="seacrhBox">
 						<input type="text" placeholder="搜索">
 						<img src="/layuiadmin/layui/images/stpicon_06.png" alt="">
@@ -26,9 +27,6 @@
 				</div>
 				<!--通知-->
 				<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
-					<li class="layui-index layui-nav-item layui-nav-itemnew" title="首页">
-						<a href="/stpHome"><img src="/layuiadmin/layui/images/icon-index.png"/> </a>
-					</li>
 					<li class="layui-index layui-nav-item layui-nav-itemnew" title="工作平台">
 						<a href="/stpHome?cFlag=1"><img src="/layuiadmin/layui/images/icon-system-r.png"/> </a>
 					</li>
@@ -73,6 +71,11 @@
 			<div class="layui-body" id="LAY_app_body">
 				<div class="layadmin-tabsbody-item layui-show">
 					<iframe id="mainIframe" frameborder="0" class="layadmin-iframe"></iframe>
+				</div>
+			</div>
+			<div class="layui-footer">
+				<div>
+					<p>版权所有：石化盈科信息技术有限责任公司</p>
 				</div>
 			</div>
 			<!-- 辅助元素，一般用于移动设备下遮罩 -->
@@ -134,7 +137,7 @@
 				//初始化websocket
 				var websocket = null;
 				if ('WebSocket' in window) {
-					websocket = new WebSocket("ws://" + document.location.host + "/pushNotice");
+					websocket = new WebSocket("ws://" + document.location.host + "/pushNotice/${userId?default(0)}");
 					websocket.onerror = function() {
 					};
 					websocket.onopen = function(event) {

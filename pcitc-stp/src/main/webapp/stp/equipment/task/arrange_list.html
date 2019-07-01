@@ -24,6 +24,7 @@
        <input type="hidden" name="id" id="id" >
        <input type="hidden" name="applyUnitCode" id="applyUnitCode" value="${applyUnitCode}">
        <input type="hidden" name="isKJBPerson" id="isKJBPerson" value="${isKJBPerson}">
+       <input type="hidden" name="leadUnitCode" id="leadUnitCode" value="${leadUnitCode}">
     </form>
      <form action="" name="form2"  id="form2" >
        <input type="hidden" name="auditStatus" id="auditStatus" value="${auditStatus}">
@@ -31,9 +32,9 @@
      </form>
     
     
-      <label class="dateInput">
+    <label class="dateInput">
         <span>立项年度</span>
-        <input type="text" name="setupYear" value="" readonly="readonly" placeholder="请选择立项年度" title="立项年度" autocomplete="off" class="form-control" id="setupYear">
+        <input type="text" name="setupYear"  style="cursor:pointer"  value="" readonly="readonly" placeholder="请选择立项年度" title="立项年度" autocomplete="off" class="form-control" id="setupYear">
     </label>
     
     <label class="dateInput">
@@ -42,24 +43,27 @@
     </label>
     
     
-     <label class="dateInput">
+    <label class="dateInput">
          <span>归属部门</span>
-         <select name="belongDepartmentName" id="belongDepartmentName"  onchange="getDepartNameByUnitName(this.value)" class="form-control" >
-             <option value="" >--请选择归属部门--</option>
-             <#list unitFieldList as vo> 
-		          <option value="${vo.unitName}"  >${vo.unitName}</option>
-		      </#list>
+         <select name="belongDepartmentCode" id="belongDepartmentCode"  onchange="getDepartNameByUnitName(this.value)" class="form-control"  >
+              <option value="ROOT_ZGSHJT_ZBJG_KJB" >科技部</option>
 		 </select>
      </label>
-    
+     
      <label class="dateInput">
          <span>专业处</span>
-         <select id="professionalDepartName" name="professionalDepartName" onchange="getProfessionalNameListByUnitNameAndDept(this.value)" class="form-control"></select>
+         <select id="professionalDepartCode" name="professionalDepartCode"  class="form-control" ></select>
      </label>
     
       <label class="dateInput">
          <span>专业领域</span>
-         <select id="professionalFieldName" name="professionalFieldName" class="form-control"></select>
+         
+          <select name="professionalFieldCode" id="professionalFieldCode"   class="form-control"  >
+             <option value="" >--请选择--</option>
+             <#list fieldList as vo> 
+		          <option value="${vo.code}"  >${vo.name}</option>
+		      </#list>
+		 </select>
      </label>
      
     
@@ -134,71 +138,37 @@
 </script>
 <script type="text/javascript">
 
-getDepartNameByUnitName($("#belongDepartmentName").val());
-function getDepartNameByUnitName(belongDepartmentName)
-{
-	 $("#belongDepartmentName").val(belongDepartmentName);
-	 $("#professionalDepartName").empty();
-	 var v_date=(new Date()).getTime();
-	 $.ajax({
-			url : "/unitField/getDepartmentNameListByUnitName?v_date="+v_date+"&unitName="+belongDepartmentName,
-			type : "post",
-			async: false,
-			dataType : "json",
-			success : function(data) 
-			{
-				$("#professionalDepartName").append("<option value=''>--请选择--</option>");
-				$.each(data, function(i, el) 
-				{
-					$("#professionalDepartName").append('<option value="'+ el.departmentName +'">' + el.departmentName+ '</option>');
-					/* if(cityId==el.departmentName)
-					{
-						$("#professionalDepartName ").val(departmentName);  
-					} */
-	  			  	
-				});
-			},
-			error : function() 
-			{
-				alert("发生未知错误 ,请重新操作.");
-			}
-		});
-	 
-	 
-	 getProfessionalNameListByUnitNameAndDept(belongDepartmentName);
-}
-
-
-
-
-
-
-
-function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
+getDepartNameByUnitName($("#belongDepartmentCode").val());
+function getDepartNameByUnitName(belongDepartmentCode)
 {
 	
-	 var belongDepartmentName= $("#belongDepartmentName").val();
-	 $("#professionalFieldName").empty();
+	 $("#professionalDepartCode").empty();
 	 var v_date=(new Date()).getTime();
-	 $.ajax({
-			url : "/unitField/getProfessionalNameListByUnitNameAndDept?v_date="+v_date+"&unitName="+belongDepartmentName+"&departmentName="+professionalDepartName,
-			type : "post",
-			async: false,
-			dataType : "json",
-			success : function(data) 
-			{
-				$("#professionalFieldName").append("<option value=''>--请选择--</option>");
-				$.each(data, function(i, el) 
+	 if(belongDepartmentCode!=null && belongDepartmentCode!='')
+     {
+		 
+		 $.ajax({
+				url : "/sre-project-basic/getDicListByParentCode?v_date="+v_date+"&belongDepartmentCode="+belongDepartmentCode,
+				type : "post",
+				async: false,
+				dataType : "json",
+				success : function(data) 
 				{
-					$("#professionalFieldName").append('<option value="'+ el.professionalFieldName +'">' + el.professionalFieldName+ '</option>');
-	  			  	
-				});
-			},
-			error : function() 
-			{
-				alert("发生未知错误 ,请重新操作.");
-			}
-		});
+					$("#professionalDepartCode").append("<option value=''>--请选择--</option>");
+					$.each(data, function(i, el) 
+					{
+						$("#professionalDepartCode").append('<option value="'+ el.code +'">' + el.name+ '</option>');
+					});
+				},
+				error : function() 
+				{
+					alert("发生未知错误 ,请重新操作.");
+				}
+			});
+     }
+	 
+	 
+	 
 }
 
 </script>
@@ -254,6 +224,9 @@ var name=$('#name').val();
             	$('#name').val("");
             	$('#setupYear').val("");
             	$('#auditStatus').val("");
+            	$('#belongDepartmentCode').val("");
+            	$('#professionalDepartCode').val("");
+            	$('#professionalFieldCode').val("");
             },
              taskEvent: function(){  //点击详情按钮
             	
@@ -361,7 +334,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre-project-basic/list',
             method:"POST",
-            where: {param: {"name":$("#name").val(),"auditStatus":"2","setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"applyUnitCode":$("#applyUnitCode").val()}},
+            where: {param: {"name":$("#name").val(),"auditStatus":"2","setupYear":$("#setupYear").val(),"belongDepartmentCode":$("#belongDepartmentCode").val(),"professionalDepartCode":$("#professionalDepartCode").val(),"professionalFieldCode":$("#professionalFieldCode").val(),"leadUnitCode":$("#leadUnitCode").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),

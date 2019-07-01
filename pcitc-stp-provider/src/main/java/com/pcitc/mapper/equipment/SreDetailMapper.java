@@ -23,5 +23,8 @@ public interface SreDetailMapper {
     int updateByid(String id);
 
 	SreDetail selectaRchaseidKey(String equipmentId);
+
+	SreDetail selectSreDetailId(String id);
+	
 	
 }

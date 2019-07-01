@@ -38,7 +38,7 @@
     <table id="myTable" class="layui-table" lay-filter="myTable" >
                  <thead>
                   <tr>
-                      <th lay-data="{field:'g0GSJC', width:'8%',templet:viewv}" rowspan="2" >直属研究院</th>
+                      <th lay-data="{field:'g0GSJC', width:'8%',templet:viewv}" rowspan="2" >院所</th>
                       <th lay-data="{align:'center'}" colspan="9">累计</th>
                       <th lay-data="{align:'center'}" colspan="9">本年</th>
                   </tr>
@@ -197,6 +197,7 @@ layui.config({
     	 var companyCode=$("#companyCode").val();
     	 month=month.replace("-","");
     	 var v_date=(new Date()).getTime();
+    	 alert(companyCode);
     	 var url= '/xmzjlxfx_data?month='+month+"&v_date="+v_date+"&companyCode="+companyCode;
     	 table.init('myTable', {
     			  url: url

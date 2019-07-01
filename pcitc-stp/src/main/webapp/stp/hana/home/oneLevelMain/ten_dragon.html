@@ -20,32 +20,35 @@
     <input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
 
     <div class="">
-        <div class="searchBox">
-            <label class="dateInput">
-                <span>年份</span>
-                <input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
-            </label>
-
-            <!-- <div class="layui-input-inline">
-                <select name="companyCode" id="companyCode"  >
-                    <#list companyCodeList as vo>
-                    <#if vo.g0GSJC == '全部'>
-                    <option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
-                </#if>
-                <#if vo.g0GSJC != '全部'>
-                <option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
-                    </#if>
-                </#list>
-                </select>
-            </div> -->
-            <!--按钮组-->
-           <!-- <div class="btnGroup">
-                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()">查询</button>
-            </div>-->
+        <div class="fluid-top">
             <div class="breadcrumb">
                 <a href="/stpHome" target="_parent">首页 > </a><span>重大项目及十条龙科技攻关</span>
             </div>
+            <div class="searchBox">
+                <label class="dateInput">
+                    <span>年份</span>
+                    <input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
+                </label>
+
+                <!-- <div class="layui-input-inline">
+                    <select name="companyCode" id="companyCode"  >
+                        <#list companyCodeList as vo>
+                        <#if vo.g0GSJC == '全部'>
+                        <option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
+                    </#if>
+                    <#if vo.g0GSJC != '全部'>
+                    <option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
+                        </#if>
+                    </#list>
+                    </select>
+                </div> -->
+                <!--按钮组-->
+                <!-- <div class="btnGroup">
+                     <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()">查询</button>
+                 </div>-->
+            </div>
         </div>
+
 
 
         <div class="layui-row layui-col-space15">
@@ -73,7 +76,7 @@
                         <div class="text-total">
                             <span>总数:<span class="text-total-blue" id="dragon2_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
-                        <div class="layui-col-md6" id="dragon2"    style="height:280px;width: 100%;"></div>
+                        <div class="layui-col-md6" id="dragon2"    style="height:270px;width: 100%;"></div>
                     </div>
                 </div>
             </div>
@@ -93,7 +96,7 @@
                             <span>重大项目数:<span class="text-total-blue" id="dragon3_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
 
-                        <div class="main-chart" id="dragon3" style="height:280px;width: 100%;"></div>
+                        <div class="main-chart" id="dragon3" style="height:275px;width: 100%;"></div>
                     </div>
                 </div>
             </div>

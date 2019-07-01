@@ -16,8 +16,6 @@ import org.springframework.web.client.RestTemplate;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
-import com.pcitc.base.system.SysUserPost;
-import com.pcitc.base.system.SysUserUnit;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.config.SpringContextUtil;
 import com.sinopec.siam.provisioning.entity.Attribute;
@@ -46,10 +44,12 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 	private static final String	GET_UNIT_CODE		= "http://pcitc-zuul/system-proxy/unit-provider/unit/unit-code";
 	private static final String	GET_USER_INFO		= "http://pcitc-zuul/system-proxy/user-provider/user/get-user-byname/";
 	private static final String	USER_ADD_URL		= "http://pcitc-zuul/system-proxy/user-provider/user/add-user";
-	private static final String	USER_UNIT_ADD_URL	= "http://pcitc-zuul/system-proxy/user-provider/user/add-user_unit";
 	private static final String	USER_UPDATE_URL		= "http://pcitc-zuul/system-proxy/user-provider/user/update-user";
 
 	private static final String	UNIT_CODE_GET_UNIT		= "http://pcitc-zuul/system-proxy/unit-provider/unit/get-unit-bycode/";
+	
+	private static final String	ADD_POST_FUNCTION	= "http://pcitc-zuul/system-proxy/post-provider/post/unified-identity/add-post-function";
+	
 	public SimpleProvisioningEventListenerService() {
 		super();
 	}
@@ -381,8 +381,13 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					}
 
 					if (sysUser.getUserUnit()==null || sysUser.getUserUnit().equals("")) {
-						// 盈科
-						sysUser.setUserUnit("109511002");
+						if (sysUser.getUserExtend() != null && sysUser.getUserExtend().contains("30130006")) {
+							sysUser.setUserUnit("30130006");
+						} else {
+							// 盈科
+							sysUser.setUserUnit("109511002");
+						}
+						
 					}
 					sysUser.setUserFlag("1");// 暂时写常量（也可在消息队列中查询）
 					sysUser.setUserOrder(1);
@@ -399,18 +404,32 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					System.out.println(sysUser.getUserUnit()+"---getUserUnit======");
 					SysUnit unit = this.restTemplate.exchange(UNIT_CODE_GET_UNIT+sysUser.getUserUnit(), HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysUnit.class).getBody();
 					String unitId = "";
+					String unitCode = "";
 					if (unit==null) {
 						unitId = "fc1c18a6b5ac461a82c0ecaf09722e17";
+						unitCode = "30130006";
 					} else {
 						unitId = unit.getUnitId();
+						unitCode = unit.getUnitCode();
 					}
+					JSONObject json = new JSONObject();
+					json.put("unitId", unitId);
+					json.put("unitCode", unitCode);
+					json.put("postId", UUID.randomUUID().toString().replaceAll("-", ""));
+					json.put("postName", "部门通用岗位");
+					
+					// 判断默认的部门通用岗位是否存在，不存在，在本组织机构节点中保存，并给此岗位配置基本功能
+					// 存在此岗位的话，不用再配置基本菜单功能，一般第一次都需要配置岗位菜单
+					
+					String realPostId = this.restTemplate.exchange(ADD_POST_FUNCTION, HttpMethod.POST, new HttpEntity<String>(json.toString(), this.httpHeaders), String.class).getBody();
+					
 					
 					sysUser.setUserUnit(unitId); //用户的组织机构信息，保存用户时会直接保存关系表
-					sysUser.setUserPost("16a85a3983c_6746debf"); //用户的岗位信息，保存用户时会直接保存关系表
-					sysUser.setUserId(UUID.randomUUID().toString().replaceAll("-", ""));
+					sysUser.setUserPost(realPostId); //用户的岗位信息，保存用户时会直接保存关系表
+					String userID = UUID.randomUUID().toString().replaceAll("-", "");
+					sysUser.setUserId(userID);
 					
 					System.out.println("用户保存前信息==========="+JSONObject.toJSONString(sysUser));
-					
 					// 插入用户数据
 					this.restTemplate.exchange(USER_ADD_URL, HttpMethod.POST, new HttpEntity<SysUser>(sysUser, httpHeaders), Integer.class);
 					

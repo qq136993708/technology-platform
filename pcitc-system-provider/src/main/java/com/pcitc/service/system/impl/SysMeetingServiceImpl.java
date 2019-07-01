@@ -44,14 +44,10 @@ public class SysMeetingServiceImpl implements SysMeetingService {
 	public List<SysMeeting> getSysMeetingListByMap(Map map)throws Exception
 	{
 		
-		Map map_para=new HashMap();
 		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(map));
 		System.out.println(">>>>>>>>>> getSysMeetingListByMap 参数: "+parmamss.toJSONString());
-		String type=(String)map.get("type");
-		String name=(String)map.get("name");
-		String parentId=(String)map.get("parentId");
 		
-    	List<SysMeeting> list = sysMeetingMapper.getList(map_para);
+    	List<SysMeeting> list = sysMeetingMapper.getList(map);
     	return list;
 	}
 

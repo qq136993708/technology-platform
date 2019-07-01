@@ -233,7 +233,7 @@ var name=$('#name').val();
                          type: 2,
                          fixed: false,
                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                         maxmin: false,
+                         maxmin: true,
                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                          area: ['70%','90%'],
                          content:  '/sre-project-basic/add'
@@ -252,7 +252,7 @@ var name=$('#name').val();
                          type: 2,
                          fixed: false,
                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                         maxmin: false,
+                         maxmin: true,
                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                          area: ['70%', '90%'],
                          content:  temUrl
@@ -260,28 +260,10 @@ var name=$('#name').val();
             	}
             
             },
-            allEvent: function(){ 
-            	$("#auditStatus").val("");
-            	renderTable();
-            },
-            draftEvent: function(){ 
-            	$("#auditStatus").val("0");//0未审批(草稿), 1审批中(已提交)  2审批通过   0审批不通过
-            	renderTable();
-            },
-            submitEvent: function(){ 
-            	$("#auditStatus").val("1");
-            	renderTable();
-            },
-            passEvent: function(){ 
-            	$("#auditStatus").val("2");
-            	renderTable();
-            },
-            rejectEvent: function(){ 
-            	$("#auditStatus").val("0");
-            	renderTable();
-            }
             
         };
+         
+         
         //监听排序
         table.on('sort(model-table)', function(obj){
             console.log(this, obj.field, obj.type)
@@ -304,6 +286,23 @@ var name=$('#name').val();
         });
     });
     
+    function view(id) 
+    {
+   	 	 var InvestmentrogressId=selectRowData.id;
+		 var temUrl="/sre-Investmentrogress/get/" + InvestmentrogressId;
+		 layer.open({
+            title:'实施进展阶段',
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+            maxmin: true,
+            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+            area: ['70%', '90%'],
+            content:  temUrl
+        });
+    }
     
     function renderTable()
 	{    
@@ -327,13 +326,13 @@ var name=$('#name').val();
             cols: [[
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
-                {field : 'name',           title : '项目名称',         style : 'cursor: pointer;', align: 'left',    width : '20%',templet:function(d){return '<span onclick="view_project(\''+d.id+'\')" style="color:#17a2b8">'+d.name+'</span>'}},
-                {field : 'beginYear',      title : '投资期限',         style : 'cursor: pointer;', align: 'center',  width : '10%',templet:function(d){return '<div style="">'+d.beginYear+'-'+d.endYear+'</div><br/><div style="color:red">'+d.beginYear+'</div>'}},
-                {field : 'projectMoney',   title : '总经费(万元)',      style : 'cursor: pointer;', align: 'center',  width : '10%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
+                {field : 'name',           title : '项目名称',         style : 'cursor: pointer;', align: 'left', width : '15%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.name+'</span>'}},
+                {field : 'beginYear',      title : '投资期限',         style : 'cursor: pointer;', align: 'center',  width : '9%'},
+                {field : 'projectMoney',   title : '总经费(万元)',      style : 'cursor: pointer;', align: 'center',  width : '9%'},
                 {field : 'leadUnitName',   title : '牵头单位',         style : 'cursor: pointer;', align: 'left', width : '20%'},
                 {field : 'parentUnitPathNames',    title : '上报单位', style : 'cursor: pointer;', align: 'left', width : '20%'},
                 {field : 'applyUnitName',          title : '上报部门', style : 'cursor: pointer;', align: 'left', width : '10%'},
-                {field : 'createDate',             title : '上报时间', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl', width : '10%'}
+                {field : 'createDate',title :'上报时间', style : 'cursor: pointer;',align:'center',templet:'#dateTpl'}
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选
@@ -349,6 +348,7 @@ var name=$('#name').val();
                 });
             }
         });
+        $(".layui-table-header table thead th input").remove()
 	 }
 
 </script>

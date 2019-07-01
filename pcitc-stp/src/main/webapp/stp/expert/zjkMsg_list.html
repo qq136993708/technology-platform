@@ -51,6 +51,9 @@
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
                     data-type="deleteEvent">删除
             </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"
+                    data-type="batEvent">批量
+            </button>
         </div>
     </div>
     <table id="zjkMsgTableId" class="layui-hide" lay-filter="tableEvent"></table>
@@ -97,11 +100,11 @@
                 // },
                 {
                     field: "zjkName",
-                    title: "专家名称", event: 'setActive', style: 'cursor: pointer;'
+                    title: "专家名称", event: 'setActive', style: 'cursor: pointer;', width: '8%'
                 },
                 {
                     field: "xmName",
-                    title: "项目名称", event: 'setActive', style: 'cursor: pointer;'
+                    title: "名称", event: 'setActive', style: 'cursor: pointer;', width: '40%'
                 },
                 {
                     field: "xmSteps",
@@ -130,20 +133,7 @@
 
             publicMethods.tableRender('zjkMsgTableId', 'zjkMsgTableId', '/zjkMsg/getTableData', false, cols, where, true, function (res, curr, count) {
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
-                    var index = parseInt($(this).index() + 1);
-                    $('tr').removeClass('layui-table-click');
-                    $(this).addClass('layui-table-click');
-                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                    $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                    selectRowData = res.data[index - 1];
-
-                    $(document).off("click").on("click", ".onClickImg", function () {
-                        var dataId = $(this).attr("id");
-                        //附件文件配置ID
-                        publicMethods.viewAtt(dataId, param.id);
-                    });
                 });
-
                 $(document).off("click").on("click", ".onClickImg", function () {
                     var dataId = $(this).attr("id");
                     //附件文件配置ID
@@ -173,8 +163,29 @@
                     url: "/pageCommon/dic/ZJK_XXHFLX"//接口
                 };
                 publicMethods.dataDictionary(param);
+                //多选--开始
+                //单击行勾选checkbox事件——多选情况
+                $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
+                    var index = $(this).attr('data-index');
+                    var tableBox = $(this).parents('.layui-table-box');
+                    //存在固定列
+                    if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
+                        tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+                    } else {
+                        tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+                    }
+                    var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+                    if (checkCell.length > 0) {
+                        checkCell.click();
+                    }
+                });
+                $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+                    e.stopPropagation();
+                });
             });
         }
+
+
 
         renderTable();
         window.renderTable = renderTable;
@@ -230,9 +241,10 @@
             },
             editEvent: function () {  //点击编辑按钮
                 var id;
-                if (selectRowData != undefined) {
+                selectRowData = active.getCheckData();
+                if (selectRowData.length == 1) {
                     // if (selectRowData.workOrderStatus == '0') {
-                    id = selectRowData.dataId;
+                    id = selectRowData[0].dataId;
                     layer.open({
                         title: param.name + '-编辑',
                         skin: 'layui-layer-lan',
@@ -243,7 +255,7 @@
                         maxmin: true,
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                         area: ['70%', '90%'],
-                        content: "/zjkMsg/edit?id=" + selectRowData.dataId
+                        content: "/zjkMsg/edit?id=" + selectRowData[0].dataId
                     });
                     // } else {
                     //     layer.msg('只可操作未下发的数据');
@@ -253,11 +265,38 @@
                     layer.msg('请选择一条数据');
                     return;
                 }
+            }, batEvent: function () {
+                var ids = "";
+                selectRowData = active.getCheckData();
+                if (selectRowData.length > 0) {
+                    console.log(selectRowData.length);
+                    for (var i = 0; i < selectRowData.length; i++) {
+                        ids = (ids == "" ? "" : (ids + ",")) + selectRowData[i].dataId;
+                    }
+                    console.log("-----------batEvent-----------");
+                    console.log(ids);
+                    layer.open({
+                        title: param.name + '-批量',
+                        skin: 'layui-layer-lan',
+                        shadeClose: false,
+                        type: 2,
+                        fixed: false,
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        maxmin: true,
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        area: ['70%', '90%'],
+                        content: "/zjkMsgConfig/zjkMsg_bat?ids=" + ids
+                    });
+                } else {
+                    layer.msg('请选择一条数据');
+                    return;
+                }
             },
             detailEvent: function () {  //点击详情按钮
                 var dataId;
-                if (selectRowData != undefined) {
-                    dataId = selectRowData.dataId;
+                selectRowData = active.getCheckData();
+                if (selectRowData.length == 1) {
+                    dataId = selectRowData[0].dataId;
                     layer.open({
                         title: param.name + '-查看',
                         skin: 'layui-layer-lan',
@@ -268,7 +307,7 @@
                         maxmin: true,
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                         area: ['70%', '90%'],
-                        content: "/zjkMsg/view?id=" + selectRowData.dataId
+                        content: "/zjkMsg/view?id=" + selectRowData[0].dataId
                         // content: '/plan/viewPlanPage?dataId='+dataId
                     });
                     // }
@@ -279,16 +318,16 @@
             },
             deleteEvent: function () { //点击删除按钮
                 var id;
-                if (selectRowData != undefined) {
-                    // if (selectRowData.workOrderStatus == '0') {
-                    id = selectRowData.dataId;
-                    layer.confirm('确认要删除选中的条数据吗？', {icon: 3, btn: ['确定', '取消']}, function (index) {
+                selectRowData = active.getCheckData();
+                if (selectRowData.length == 1) {                    // if (selectRowData.workOrderStatus == '0') {
+                    id = selectRowData[0].dataId;
+                    layer.confirm('确认要删除选中的数据吗？', {icon: 3, btn: ['确定', '取消']}, function (index) {
                         layer.close(index);
                         $.ajax({
                             type: 'post',
                             dataType: 'text',
                             async: false,
-                            data: {"id": selectRowData.dataId},
+                            data: {"id": selectRowData[0].dataId},
                             url: '/zjkMsg/del-real',
                             success: function (data) {
                                 // if(data==200){
@@ -314,6 +353,7 @@
             getCheckData: function () { //获取选中数据
                 var checkStatus = table.checkStatus('zjkMsgTableId')
                     , data = checkStatus.data;
+                return data;
             },
             getCheckLength: function () { //获取选中数目
                 var checkStatus = table.checkStatus('zjkMsgTableId')

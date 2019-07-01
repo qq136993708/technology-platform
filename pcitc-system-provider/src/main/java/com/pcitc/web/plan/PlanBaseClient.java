@@ -1,19 +1,28 @@
 package com.pcitc.web.plan;
 
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+import java.util.HashMap;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.plan.PlanBase;
 import com.pcitc.service.plan.PlanBaseService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * <p>服务接口</p>
@@ -139,6 +148,14 @@ public class PlanBaseClient {
             logger.error("[保存信息失败：]", e);
         }
         return 500;
+    }
+    
+    @ApiOperation(value = "统计首页中上周、本周的工作任务情况 ", notes = "首页查询使用")
+	@RequestMapping(value = "/planbase-provider/workorder/stat", method = RequestMethod.POST)
+	public JSONObject getWorkOrderInfoForStat(@RequestBody HashMap<String, String> map) {
+		
+		HashMap<String, String> temMap = planBaseService.getWorkOrderInfoForStat(map);
+		return JSONObject.parseObject(JSON.toJSONString(temMap));
     }
 
 }

@@ -79,6 +79,9 @@
 			<artifactId>spring-boot-autoconfigure</artifactId>
 		</dependency>
 
+
+
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -132,6 +135,13 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional>
 		</dependency>
+		
+		<!--外置tomcat时的启动bug -->
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-common</artifactId>
+		</dependency>
+
 
 		<!--httpclient start -->
 		<dependency>
@@ -160,6 +170,8 @@
 		<!--<artifactId>spring-cloud-starter-feign</artifactId> -->
 		<!--</dependency> -->
 		<!--httpclient end -->
+
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-freemarker</artifactId>
@@ -266,8 +278,8 @@
 					<include>**/**</include>
 				</includes>
 			</resource>
-			
-			<!--包含二进制的文件不能被处理-->
+
+			<!--包含二进制的文件不能被处理 -->
 			<resource>
 				<directory>src/main/resources/</directory>
 				<filtering>false</filtering>
@@ -275,7 +287,7 @@
 					<include>**/**</include>
 				</includes>
 			</resource>
-			
+
 			<resource>
 				<directory>src/main/java/com/sinopec</directory>
 				<filtering>false</filtering>

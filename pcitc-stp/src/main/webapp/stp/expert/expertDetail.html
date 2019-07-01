@@ -23,17 +23,12 @@
     </div>
 </div>-->
 <div class="layui-main-oil layui-expert">
-    <div class="layui-row layui-col-space15">
+    <div class="layui-row">
         <div class="layui-col-md5 layui-expert-div">
             <div class="layui-card">
-                <div class="layui-col-md4" style="border: 1px solid #ccc;"><img id="${zjkBaseInfo.dataId}" src="/stp/expert/img/default.png" style=" width: 100%;"></div>
-                <div class="layui-col-md8" style="padding-left: 30px;">
+                <div class="layui-col-md3"><img id="${zjkBaseInfo.dataId}" src="/stp/expert/img/default.png" style=" height: 234px;"></div>
+                <div class="layui-col-md9">
                     <p>${zjkBaseInfo.expertName}</p>
-                    <span>参与评标累计项目总数量 <span class="red">${xmCount}</span>个</span>
-                    <span>参与评标机构总数量 <span class="red">${jgCount}</span> 个</span>
-                    <span>成果数量<span class="red">${listCgCount}</span>个</span>
-                    <span>专利数量<span class="red">${listZlCount}</span>个</span>
-                    <span>同一行业领域共计<span class="red">${hylyCount}</span>人</span>
                     <span class="layui-zc">职称：${zjkBaseInfo.expertProfessinal}</span>
                     <span class="layui-pone">电话：${zjkBaseInfo.mobile}</span>
                     <span class="layui-e">邮箱：${zjkBaseInfo.email}</span>
@@ -45,9 +40,15 @@
                     </div>
                 </div>
             </div>
-
         </div>
-        <div class="layui-col-md5">
+        <div class="expert-bottom">
+            <span>成果数量<span class="red">${listCgCount}</span>个</span>
+            <span>参与评标累计项目总数量 <span class="red">${xmCount}</span>个</span>
+            <span>参与评标机构总数量 <span class="red">${jgCount}</span> 个</span>
+            <span>专利数量<span class="red">${listZlCount}</span>个</span>
+            <span>同一行业领域共计<span class="red">${hylyCount}</span>人</span>
+        </div>
+        <div class="layui-col-md5 expert-h">
             <div class="layui-card">
                 <div class="layui-tab layui-tab-brief" lay-filter="component-tabs-hash">
                     <ul class="layui-tab-title">
@@ -85,7 +86,7 @@
     <div class="layui-col-md5">
         <div class="layui-card">
             <div class="layui-card-header">
-                与<span style="color: red;">${zjkBaseInfo.expertName}</span>有过合作的机构关系图
+                与<span class="border-span">${zjkBaseInfo.expertName}</span>有过合作的机构关系图
             </div>
             <div class="layui-row-main">
                 <div class="main-chart" id="one" style="height:250px;width: 100%;"></div>
@@ -95,17 +96,17 @@
     <div class="layui-col-md5">
         <div class="layui-card">
             <div class="layui-card-header">
-                <span style="color: red;">${zjkBaseInfo.expertName}</span>参与评标项目数量统计图
+                <span class="border-span">${zjkBaseInfo.expertName}</span>参与评标项目数量统计图
             </div>
             <div class="layui-row-main">
                 <div class="main-chart" id="two" style="height:250px;width: 100%;"></div>
             </div>
         </div>
     </div>
-    <div class="layui-col-md12">
+    <div class="layui-col-md12" style="padding-right: 9px;">
         <div class="layui-card">
             <div class="layui-card-header">
-                <span style="color: red;">${zjkBaseInfo.expertName}</span>(${zjkBaseInfo.age}岁)所在行业领域(${zjkBaseInfo.expertProfessionalFieldName})年龄段统计图
+                <span class="border-span">${zjkBaseInfo.expertName}</span>(${zjkBaseInfo.age}岁)所在行业领域(${zjkBaseInfo.expertProfessionalFieldName})年龄段统计图
             </div>
             <div class="layui-row-main">
                 <div class="main-chart" id="five" style="height:250px;width: 100%;"></div>
@@ -133,6 +134,7 @@
             var form = layui.form;
             var publicMethods = layui.publicMethods;
 
+            $(".expert-bottom").css({width:$(".layui-expert-div .layui-col-md9").outerWidth()+"px"});
             $("#addBx").click(function () {
                 addBx();
             });

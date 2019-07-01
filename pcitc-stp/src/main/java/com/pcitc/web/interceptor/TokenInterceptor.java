@@ -1,5 +1,7 @@
 package com.pcitc.web.interceptor;
 
+import java.io.PrintWriter;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,16 +30,31 @@ public class TokenInterceptor implements HandlerInterceptor {
 		try {
 			System.out.println("TokenInterceptor--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
 			String path = request.getRequestURI();
+			
 			/*if(!doLoginInterceptor(path, basePath) ){//是否进行登陆拦截
 				return true;
 			}*/
 			// 手动设置几个常用页面不能直接访问，在InterceptorConfig文件中也可以批量设置
 			if (path != null && (path.indexOf("index.html") > -1 || path.indexOf("login.html") > -1 || path.indexOf("error.html") > -1)) {
+				// 统一身份认证时，重定向到/stpHome, 测试环境是/login
+				PrintWriter out = response.getWriter();  
+		        out.println("<html>");      
+		        out.println("<script>");      
+		        out.println("window.open ('"+request.getContextPath()+"/login','_top')");      
+		        out.println("</script>");      
+		        out.println("</html>");    
 				return false;
 			}
 			
+			// 缺少“Content-Security-Policy”头 , 此设置其资源只能自己访问
+			response.setHeader("Content-Security-Policy", "frame-ancestors 'self'");
+			
 			// 只信任同源的
 			response.setHeader("x-frame-options", "SAMEORIGIN");
+			
+			// 安全设置：归档文件下载
+			response.setHeader("Pragma", "no-cache");
+			response.setHeader("Cache-Control", "no-cache");
 			
 			// 默认走这个格式，对于form等格式，自己在处理时特殊处理
 			httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
@@ -48,6 +65,13 @@ public class TokenInterceptor implements HandlerInterceptor {
 				// System.out.println("cookies is null ");
 				// login和index为了开发需要，避开统一身份认证
 				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome")) {
+					// 统一身份认证时，重定向到/stpHome, 测试环境是/login
+					PrintWriter out = response.getWriter();  
+			        out.println("<html>");      
+			        out.println("<script>");      
+			        out.println("window.open ('"+request.getContextPath()+"/login','_top')");      
+			        out.println("</script>");      
+			        out.println("</html>");    
 					return false;
 				}
 				
@@ -80,8 +104,16 @@ public class TokenInterceptor implements HandlerInterceptor {
 				System.out.println("token is null ");
 				// login和index为了开发需要，避开统一身份认证
 				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome")) {
+					// 统一身份认证时，重定向到/stpHome, 测试环境是/login
+					PrintWriter out = response.getWriter();  
+			        out.println("<html>");      
+			        out.println("<script>");      
+			        out.println("window.open ('"+request.getContextPath()+"/login','_top')");      
+			        out.println("</script>");      
+			        out.println("</html>");    
 					return false;
-				}  
+				}
+				
 				System.out.println("------特殊路径--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
 			}
 		} catch (Exception e) {

@@ -9,11 +9,13 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -34,11 +36,15 @@ import com.pcitc.web.common.BaseController;
 @RequestMapping(value = "/sre_project_taskac")
 public class ProjectTaskAcController extends BaseController{
 	private static final String PROJECTPAGE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/sreProjectTaskAc/page";
-	private static final String PAGE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/page";
+	private static final String PAGE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/pagebyaccept";
 	private static final String AUDIT_URL="http://pcitc-zuul/stp-proxy/sre-provider/project_task/audit";
 	private static final String SUBMITAUDIT_URL="http://pcitc-zuul/stp-proxy/sre-provider/sreProjectTaskAc/submitaudit";
 	private static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/sreProjectTaskAc/get/";
 	private static final String UPDATE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/sreProjectTaskAc/updateAudit";
+	private static final String ERPPAGE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_taskByErpnum/page";
+
+	private static final String DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/sreProjectTaskAc/delete/";
+
 	@RequestMapping(value = "/to_list")
 	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return "/stp/equipment/taskac/project_taskac_list";
@@ -87,7 +93,7 @@ public class ProjectTaskAcController extends BaseController{
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_URL, HttpMethod.POST, entity, LayuiTableData.class);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(ERPPAGE_URL, HttpMethod.POST, entity, LayuiTableData.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			layuiTableData = responseEntity.getBody();
@@ -111,7 +117,7 @@ public class ProjectTaskAcController extends BaseController{
 	}
 	@RequestMapping(value = "/project_audit")
 	public String audit(HttpServletRequest request, HttpServletResponse response) throws Exception {
-	    request.setAttribute("username",sysUserInfo.getUserName());
+	    request.setAttribute("username",sysUserInfo.getUserDisp());
 	    request.setAttribute("userDate",new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 		return "/stp/equipment/taskac/project_taskac_audit";
 	}
@@ -128,9 +134,9 @@ public class ProjectTaskAcController extends BaseController{
 		s.setProjecttaskid(id);
 		s.setProjecttask(name);
 		s.setContent(content);
-		s.setStatus("10");
+		s.setStatus("20");
 		s.setCreateUserid(sysUserInfo.getUserId());
-		s.setCreateUser(sysUserInfo.getUserName());
+		s.setCreateUser(sysUserInfo.getUserDisp());
 		s.setCreateDate(new Date());
 		responseEntity = restTemplate.exchange(AUDIT_URL, HttpMethod.POST,new HttpEntity<SreProjectAudit>(s, this.httpHeaders),String.class);
 		String success= "{}";
@@ -174,7 +180,10 @@ public class ProjectTaskAcController extends BaseController{
 
 
 	        String id = CommonUtil.getParameter(request, "id", "");
-	        request.setAttribute("id", id);
+            String uploadState = CommonUtil.getParameter(request, "uploadState", "");
+
+          request.setAttribute("id", id);
+          request.setAttribute("uploadState", uploadState);
 	        if(!id.equals(""))
 	        {
 	            ResponseEntity<SreProjectAudit> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProjectAudit.class);
@@ -183,13 +192,13 @@ public class ProjectTaskAcController extends BaseController{
 	            String documentDoc = sreProjectAudit.getDocumentdoc();
 	            String docArriveGoods = sreProjectAudit.getDocumentdoctwo();
 	            String stage = sreProjectAudit.getStatus();
-	            if(stage.equals("20")){//合同系统对接 阶段
+	            if(uploadState.equals("1")|| uploadState.equals("3")){//验收准备材料
 	                if(documentDoc==null || documentDoc.equals(""))
 	                {
 	                    documentDoc= IdUtil.createFileIdByTime();
 	                }
 	                request.setAttribute("documentDoc", documentDoc);
-	            }else if(stage.equals("40")){
+	            }else if(uploadState.equals("2")|| uploadState.equals("4")){
 	                if(docArriveGoods==null || docArriveGoods.equals(""))
 	                {
 	                    docArriveGoods= IdUtil.createFileIdByTime();
@@ -210,18 +219,21 @@ public class ProjectTaskAcController extends BaseController{
 	        String stage = CommonUtil.getParameter(request, "stage", "");
 	        String documentDoc = CommonUtil.getParameter(request, "documentDoc", "");
 	        String docArriveGoods = CommonUtil.getParameter(request, "docArriveGoods", "");
-	        String resutl="";
+
+          String uploadState = CommonUtil.getParameter(request, "uploadState", "");
+
+          String resutl="";
 
 	        int statusCodeValue = 0;
 	        if(!id.equals(""))
 	        {
-	            if(stage.equals("20")){
+	            if(uploadState.equals("1")){
 	                ResponseEntity<SreProjectAudit> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProjectAudit.class);
 	                SreProjectAudit sreProjectAudit = responseEntity.getBody();
 	                sreProjectAudit.setDocumentdoc(documentDoc);
 	                ResponseEntity<String>  exchange = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SreProjectAudit>(sreProjectAudit, this.httpHeaders), String.class);
 	                statusCodeValue = responseEntity.getStatusCodeValue();
-	            }else if (stage.equals("40")){
+	            }else if (uploadState.equals("2")){
 	                ResponseEntity<SreProjectAudit> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProjectAudit.class);
 	                SreProjectAudit sreProjectAudit = responseEntity.getBody();
 	                sreProjectAudit.setDocumentdoctwo(docArriveGoods);
@@ -260,7 +272,39 @@ public class ProjectTaskAcController extends BaseController{
              sreProjectAudit.setInformcontent(informcontent);
              sreProjectAudit.setTestdate(new Date());
              sreProjectAudit.setInformuser(sysUserInfo.getUserId());
+            sreProjectAudit.setStatus("40");
              ResponseEntity<String>  exchange = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SreProjectAudit>(sreProjectAudit, this.httpHeaders), String.class);
            return "";	
 	       }
-	    }
+
+	/**
+	 * 根据id删除
+	 * @param id
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/delete/{id}")
+	public String delete(@PathVariable("id") String id, HttpServletResponse response)throws Exception{
+		Result resultsDate = new Result();
+        ResponseEntity<Integer> exchange =null;
+		if(StringUtils.isNotBlank(id)){
+				exchange = this.restTemplate.exchange(DEL_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), Integer.class);
+
+		}
+        int statusCode = exchange.getStatusCodeValue();
+        int status = exchange.getBody();
+        logger.info("============远程返回  statusCode " + statusCode + "  status=" + status);
+        if (exchange.getBody() > 0) {
+            resultsDate = new Result(true);
+        } else {
+            resultsDate = new Result(false, "删除失败，请联系系统管理员！");
+        }
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		out.println(ob.toString());
+		out.flush();
+		out.close();
+		return null;
+	}
+}

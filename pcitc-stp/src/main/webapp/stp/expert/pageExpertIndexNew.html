@@ -257,7 +257,7 @@
 
     <div class="main-content" id="main-content-first">
         <#list expert as vo>
-        <#if vo_index<7>
+        <#if vo_index<5>
         <div class="main-expert">
             <div class="expert-i"><img id="${vo.dataId}" height="110" src="/stp/expert/img/default.png" alt=""></div>
             <!--<div class="expert-i"><img src="/layuiadmin/layui/images/expert-img.png" alt=""></div>-->
@@ -275,7 +275,7 @@
     </div>
     <div class="main-content" id="main-content-end" style="margin-top: 20px;">
         <#list expert as vo>
-        <#if vo_index<7>
+        <#if vo_index<5>
         <#else>
         <div class="main-expert">
             <div class="expert-i"><img id="${vo.dataId}" height="110" src="/stp/expert/img/default.png" alt=""></div>
@@ -401,7 +401,7 @@
 
 
         //研究院
-        // publicMethods.ajaxPost("/pageCommon/dic/ROOT_XTGL_ZSYJY", null, function (data) {
+        // publicMethods.ajaxPost("/pageCommon/dic/ROOT_ZGSHJT_GFGS_ZSYJY", null, function (data) {
         //     var arr = [];
         //     $.each(data, function (index, item) {
         //         if (index < 8) {

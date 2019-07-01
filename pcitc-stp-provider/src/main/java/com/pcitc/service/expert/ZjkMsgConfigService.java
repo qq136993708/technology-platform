@@ -1,5 +1,6 @@
 package com.pcitc.service.expert;
 
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
@@ -36,6 +37,7 @@ public interface ZjkMsgConfigService {
      * @throws Exception
      */
     int updateOrInsertZjkMsgConfig(ZjkMsgConfig record) throws Exception;
+    int updateOrInsertZjkMsgConfigBat(JSONObject jsonObject) throws Exception;
 
     /**
      * 根据id删除

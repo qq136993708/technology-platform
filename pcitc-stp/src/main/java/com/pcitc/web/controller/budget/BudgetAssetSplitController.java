@@ -51,6 +51,7 @@ import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.DateUtils;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.utils.InputCheckUtil;
 /**
  * 资产预算分解表
  * @author fb
@@ -92,7 +93,12 @@ public class BudgetAssetSplitController extends BaseController {
 		if(nd == null) {
 			nd = DateUtil.format(DateUtil.getNextYearDay(new Date()), DateUtil.FMT_YYYY);
 		}
+		//输入验证
+		if(!InputCheckUtil.check(InputCheckUtil.pub_nd, nd)) {
+			return "error";
+		}
 		request.setAttribute("nd", nd);
+		request.setAttribute("budgetType", BudgetInfoEnum.ASSET_SPLIT.getCode());
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_ASSETSPLIT_TITLES, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), List.class);
 		request.setAttribute("items", infors.getBody());
 		return "stp/budget/budget_main_assetsplit";

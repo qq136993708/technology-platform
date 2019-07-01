@@ -44,9 +44,7 @@
                 <input name="joinUnitCode" id="joinUnitCode" value="${sreProjectBasic.joinUnitCode}" type="hidden">
                 <input name="entrustUnitCode" id="entrustUnitCode" value="${sreProjectBasic.entrustUnitCode}"
                        type="hidden">
-                <input name="belongDepartmentCode" id="belongDepartmentCode"
-                       value="${sreProjectBasic.belongDepartmentCode}"
-                       type="hidden">
+                
                 <input name="yearFeeStrJoinUnit" id="yearFeeStrJoinUnit"
                        value="${sreProjectBasic.yearFeeStrJoinUnit}"
                        type="hidden">
@@ -57,7 +55,7 @@
                         <div class="layui-form-item">
                             <label for="" class="layui-form-label">课题名称</label>
                             <div class="layui-input-block">
-                                <input class="layui-input readOnlyBox" name="name" id="name"
+                                <input class="layui-input readOnlyBox" name="name" id="name" readonly="readonly"
                                        value="${sreProjectBasic.name}"
                                        autocomplete="off" type="text">
                             </div>
@@ -67,7 +65,7 @@
                         <div class="layui-form-item">
                             <label for="" class="layui-form-label">总金额(¥万元)</label>
                             <div class="layui-input-block">
-                                <input class="layui-input readOnlyBox" style="color:red" name="projectMoney" id="projectMoney"
+                                <input class="layui-input readOnlyBox" style="color:red" name="projectMoney" id="projectMoney"  readonly="readonly"
                                        value="${sreProjectBasic.projectMoney}"
                                        autocomplete="off" type="text">
                             </div>
@@ -84,7 +82,7 @@
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label layui-form-labelH">课题开发及投资目标</label>
                     <div class="layui-input-block">
-                    <textarea placeholder="请简述开发及投资目标，原则上不超过500字" name="remarks" id="remarks"
+                    <textarea placeholder="请简述开发及投资目标，原则上不超过500字" name="remarks" id="remarks"  readonly="readonly"
                               class="layui-textarea readOnlyBox">${sreProjectBasic.remarks}</textarea>
                     </div>
                 </div>
@@ -108,11 +106,11 @@
                     <label class="layui-form-label">建设年限</label>
                     <div class="layui-input-block">
                         <div class="layui-input-inline" style="float:left">
-                            <input type="text" class="layui-input readOnlyBox" name="beginYear" id="beginYear"
+                            <input type="text" class="layui-input readOnlyBox" name="beginYear" id="beginYear"  readonly="readonly"
                                    value="${beginYear}"
                                    style="width:80px;float:left" placeholder="开始年份">
                             <div class="layui-form-mid" style="width:8px;float:left"> -</div>
-                            <input type="text" class="layui-input readOnlyBox" id="endYear" name="endYear"
+                            <input type="text" class="layui-input readOnlyBox" id="endYear" name="endYear"  readonly="readonly"
                                    value="${endYear}"
                                    style="width:80px;float:left" placeholder="结束年份">
                         </div>
@@ -123,7 +121,7 @@
                  <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">牵头单位</label>
                     <div class="layui-input-block" style="margin-bottom: 10px;">
-                        <input class="layui-input readOnlyBox" name="leadUnitName" id="leadUnitName"
+                        <input class="layui-input readOnlyBox" name="leadUnitName" id="leadUnitName"  readonly="readonly"
                                        value="${leadUnitName}"
                                        autocomplete="off" type="text">
                     </div>
@@ -151,7 +149,7 @@
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">参加单位</label>
                     <div class="layui-input-block" style="margin-bottom: 10px;">
-                        <input class="layui-input readOnlyBox" name="joinUnitName" id="joinUnitName"
+                        <input class="layui-input readOnlyBox" name="joinUnitName" id="joinUnitName"  readonly="readonly"
                                value="${sreProjectBasic.joinUnitName}" autocomplete="off" type="text">
                     </div>
                     <div id="units"></div>
@@ -163,12 +161,12 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">归属部门</label>
                             <div class="layui-input-block">
-                                <select name="belongDepartmentName" id="belongDepartmentName" disabled="disabled"
+                                <select name="belongDepartmentCode" id="belongDepartmentCode" disabled="disabled"
                                         lay-filter="getDepartNameByUnitName" style="width:200px">
                                     <option value="">--请选择部门--</option>
-                                    <#list unitFieldList as vo>
-                                    <option value="${vo.unitName}"
-                                    <#if vo.unitName == sreProjectBasic.belongDepartmentName> selected="selected" </#if> >${vo.unitName}</option>
+                                    <#list departmentList as vo>
+                                    <option value="${vo.code}"
+                                    <#if vo.code == sreProjectBasic.belongDepartmentCode> selected="selected" </#if> >${vo.name}</option>
                             </#list>
                             </select>
                         </div>
@@ -180,8 +178,8 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">专业处</label>
                         <div class="layui-input-block">
-                            <select id="professionalDepartName" name="professionalDepartName"  disabled="disabled"
-                                    lay-filter="getProfessionalNameListByUnitNameAndDept"
+                            <select id="professionalDepartCode" name="professionalDepartCode"  disabled="disabled"
+                                    
                                     style="width:200px"></select>
                         </div>
                     </div>
@@ -191,8 +189,16 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">专业领域</label>
                         <div class="layui-input-block">
-                            <select id="professionalFieldName" name="professionalFieldName"  disabled="disabled"
-                                    style="width:200px"></select>
+                        <select name="professionalFieldCode" id="professionalFieldCode" disabled="disabled"
+                                         style="width:200px">
+                                    <option value="">--请选择部门--</option>
+                                    <#list fieldList as vo>
+                                    <option value="${vo.code}"
+                                    <#if vo.code == sreProjectBasic.professionalFieldCode> selected="selected" </#if> >${vo.name}</option>
+                            </#list>
+                            </select>
+                        
+                        
                         </div>
                     </div>
                 </div>
@@ -204,7 +210,7 @@
                         <div class="layui-form-item">
                             <label for="" class="layui-form-label">申报单位</label>
                             <div class="layui-input-block">
-                                <input class="layui-input readOnlyBox" name="parentUnitPathNames" id="parentUnitPathNames"
+                                <input class="layui-input readOnlyBox" name="parentUnitPathNames" id="parentUnitPathNames"  readonly="readonly"
                                        value="${sreProjectBasic.parentUnitPathNames}"
                                        autocomplete="off" type="text">
                             </div>
@@ -214,7 +220,7 @@
                         <div class="layui-form-item">
                             <label for="" class="layui-form-label">申报部门</label>
                             <div class="layui-input-block">
-                                <input class="layui-input readOnlyBox" name="applyUnitName" id="applyUnitName"
+                                <input class="layui-input readOnlyBox" name="applyUnitName" id="applyUnitName"  readonly="readonly"
                                        value="${sreProjectBasic.applyUnitName}"
                                        autocomplete="off" type="text">
                             </div>
@@ -230,7 +236,7 @@
                         <div class="layui-form-item">
                             <label for="" class="layui-form-label">申报人</label>
                             <div class="layui-input-block">
-                                <input class="layui-input readOnlyBox" name="createUserName" id="createUserName"
+                                <input class="layui-input readOnlyBox" name="createUserName" id="createUserName"  readonly="readonly"
                                        value="${sreProjectBasic.createUserName}"
                                        autocomplete="off" type="text">
                             </div>
@@ -254,7 +260,7 @@
                         <div class="layui-form-item">
                             <label for="" class="layui-form-label">安排任务填写人</label>
                             <div class="layui-input-block">
-                                 <input class="layui-input readOnlyBox" name="taskWriteUserNames" id="taskWriteUserNames"
+                                 <input class="layui-input readOnlyBox" name="taskWriteUserNames" id="taskWriteUserNames"  readonly="readonly"
                                        value="${sreProjectBasic.taskWriteUserNames}"
                                        autocomplete="off" type="text">
                             </div>
@@ -306,8 +312,7 @@
         var beginYear = $("#beginYear").val();
         var v_date = (new Date()).getTime();
         var equipmentIds = $("#equipmentIds").val();
-        var belongDepartmentName="${sreProjectBasic.belongDepartmentName?default('')}";
-        var professionalDepartName="${sreProjectBasic.professionalDepartName?default('')}";
+        var professionalDepartCode="${sreProjectBasic.professionalDepartCode?default('')}";
         var professionalFieldName="${sreProjectBasic.professionalFieldName?default('')}";
         //牵头单位名称
         var leadUnitName = "${sreProjectBasic.leadUnitName?default('')}";
@@ -344,87 +349,52 @@
             	getDepartNameByUnitName(data.value);
             })
 
-             form.on('select(getProfessionalNameListByUnitNameAndDept)',function(data){
-            	 getProfessionalNameListByUnitNameAndDept(data.value);
-            })
 
 
-    			getDepartNameByUnitName($("#belongDepartmentName").val());
-    			function getDepartNameByUnitName(belongDepartmentName)
+    			getDepartNameByUnitName($("#belongDepartmentCode").val());
+    			function getDepartNameByUnitName(depp_code)
     			{
-    				 $("#belongDepartmentName").val(belongDepartmentName);
-    				 $("#professionalDepartName").empty();
+    				 $("#professionalDepartCode").empty();
+    				 if(depp_code!=null && depp_code!='')
+    	                {
+    	                	 var v_date=(new Date()).getTime();
+    	    				 $.ajax({
+    	    						url : "/sre-project-basic/getDicListByParentCode?v_date="+v_date+"&belongDepartmentCode="+depp_code,
+    	    						type : "post",
+    	    						async: false,
+    	    						dataType : "json",
+    	    						success : function(data)
+    	    						{
+    	    							$("#professionalDepartCode").append("<option value=''>--请选择--</option>");
+    	    							$.each(data, function(i, el)
+    	    							{
+    	    								var content='<option value="'+ el.code +'" ';
+    	    								if(professionalDepartCode==el.code)
+    	    								{
+    	    									content+=' selected="selected" ';
+    	    								}
+    	    								content+=' >' + el.name+ '</option>';
+    	    								$("#professionalDepartCode").append(content);
 
-    				 var v_date=(new Date()).getTime();
-    				 $.ajax({
-    						url : "/unitField/getDepartmentNameListByUnitName?v_date="+v_date+"&unitName="+belongDepartmentName,
-    						type : "post",
-    						async: false,
-    						dataType : "json",
-    						success : function(data)
-    						{
-    							$("#professionalDepartName").append("<option value=''>--请选择--</option>");
-    							$.each(data, function(i, el)
-    							{
-    								var content='<option value="'+ el.departmentName +'" ';
-    								if(professionalDepartName==el.departmentName)
-    								{
-    									content+=' selected="selected" ';
-    								}
-    								content+=' >' + el.departmentName+ '</option>';
-    								$("#professionalDepartName").append(content);
-
-    							});
-    							form.render('select');
-    						},
-    						error : function()
-    						{
-    							alert("发生未知错误 ,请重新操作.");
-    						}
-    					});
+    	    							});
+    	    							
+    	    						},
+    	    						error : function()
+    	    						{
+    	    							alert("发生未知错误 ,请重新操作.");
+    	    						}
+    	    					});
+    	                }
+    	                
+    	                form.render('select');
 
 
 
 
-    				getProfessionalNameListByUnitNameAndDept(professionalDepartName);
     			}
 
 
-    			function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
-    			{
-    				 var belongDepartmentName= $("#belongDepartmentName").val();
-    				 $("#professionalFieldName").empty();
-    				 var v_date=(new Date()).getTime();
-    				 $.ajax({
-    						url : "/unitField/getProfessionalNameListByUnitNameAndDept?v_date="+v_date+"&unitName="+belongDepartmentName+"&departmentName="+professionalDepartName,
-    						type : "post",
-    						async: false,
-    						dataType : "json",
-    						success : function(data)
-    						{
-    							$("#professionalFieldName").append("<option value=''>--请选择--</option>");
-
-    							$.each(data, function(i, el)
-    							{
-    								var content='<option value="'+ el.professionalFieldName +'" ';
-    								if(professionalFieldName==el.professionalFieldName)
-    								{
-    									content+=' selected="selected" ';
-    								}
-    								content+=' >' + el.professionalFieldName+ '</option>';
-
-    								$("#professionalFieldName").append(content);
-    							});
-    							form.render('select');
-    						},
-    						error : function()
-    						{
-    							alert("发生未知错误 ,请重新操作.");
-    						}
-    					});
-    			}
-
-
+    			
     			
     			
     			

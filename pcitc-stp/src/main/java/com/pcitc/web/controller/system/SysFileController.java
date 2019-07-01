@@ -314,12 +314,24 @@ public class SysFileController extends BaseController {
     public ResponseEntity<byte[]> downloadFile(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws IOException {
         
     	System.out.println("downloadFile==========="+id);
-    	
-    	MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
+
+        String agent = request.getHeader("User-Agent");
+        boolean isMSIE = ((agent != null && agent.indexOf("MSIE") != -1 ) || ( null != agent && -1 != agent.indexOf("like Gecko")));
+        MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
+        form.add("isMSIE", isMSIE+"");
+//        if(isMSIE){
+//            System.out.println("----ie内核");
+//            fileName = new String(fileName.getBytes("GBK"),"ISO8859-1");  
+//        } else {
+//            System.out.println("------chrome");
+//            fileName = new String(fileName.getBytes("UTF8"), "ISO8859-1");
+//        }
+
+
         form.add("id", id);
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(form, this.httpHeaders);
-        ResponseEntity<byte[]> responseEntity = this.restTemplate.postForEntity(((id.split("\\|").length > 1) ? downloads : download) + id, httpEntity, byte[].class);
-        byte[] result = responseEntity.getBody();
+            ResponseEntity<byte[]> responseEntity = this.restTemplate.postForEntity(((id.split("\\|").length > 1) ? downloads : download) + id, httpEntity, byte[].class);
+//        byte[] result = responseEntity.getBody();
         httpHeaders.add("x-frame-options", "SAMEORIGIN");
         response.addHeader("x-frame-options", "SAMEORIGIN");
         return responseEntity;

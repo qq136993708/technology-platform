@@ -29,6 +29,10 @@ public interface DetailService {
 	
 	
 	public int updateByid(String id)throws Exception;
+
+
+	public SreDetail selectSreDetailId(String id);
+	
 	
 	
 	

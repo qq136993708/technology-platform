@@ -10,7 +10,8 @@
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/plugins/ckeditor/ckeditor.js"></script>
     <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
-    <script type="text/javascript" src="/common/js/base.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <!--<script type="text/javascript" src="/common/js/base.js"></script>-->
 </head>
 <body>
 <div class="formBox">
@@ -50,6 +51,15 @@
                         <div class="layui-input-block">
                             <select name="xmSteps" id="xmSteps" lay-filter="xmSteps">
                             </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">评价时间<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="createDate" readonly="readonly" name="createDate" placeholder="yyyy-MM-dd">
                         </div>
                     </div>
                 </div>
@@ -93,10 +103,18 @@
     layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element'],
         function () {
             var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
+            laydate.render({
+                elem: '#createDate'
+                , value: new Date()//必须遵循format参数设定的格式
+                , position: 'fixed'
+            });
             form.render(null, 'zjkEvaluate-form');
             //初始赋值 component-form-group 当前form的lay-filter
+            console.log("----------");
+            console.log(id);
             if (id != "0") {
                 ajaxPost("/zjkEvaluate/getZjkEvaluateInfo", {"id": id}, function (data) {
+                    console.log(data);
                     form.val("zjkEvaluate-form", data);
                     CKEDITOR.instances.evalDesc.setData(data.evalDesc);
                 });
@@ -135,9 +153,13 @@
                 data.field.evalDesc=CKEDITOR.instances.evalDesc.getData();
                 ajaxPost("/zjkEvaluate/saveZjkEvaluate", data.field, function (dt, status) {
                     layer.msg("操作成功");
-                    parent.layui.table.reload('zjkEvaluateTableId', {where: {param: {}}});
-                    var index = parent.layer.getFrameIndex(window.name);
-                    parent.layer.close(index);
+                    setTimeout(function (){
+                        parent.layui.table.reload('zjkChoiceTableId', {where: {param: {}}});
+                        parent.selectRowData="";
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                    }, 1000);
+
                 });
                 return false;
             });

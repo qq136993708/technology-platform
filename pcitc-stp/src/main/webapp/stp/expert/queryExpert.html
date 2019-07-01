@@ -27,11 +27,11 @@
                 <p>行业领域</p>
             </div>
             <div class="searchYard" >
-                <p>机构</p>
                 <div class="selectTreeBox" style="position: relative;margin-top: 10px;">
+                    <span>机构</span>
                     <input type="hidden" value="" id="searchYardDivValue" name="searchYardDivValue"/>
 
-                    <input class="layui-input" name="companyName" id="companyName"  value=""  autocomplete="off" type="text">
+                    <input class="layui-input" style="width: 50%" name="companyName" id="companyName"  value=""   type="text">
                     <!--onclick="chooseUnitMulti('choose_joinUnitName_callback')" placeholder="请选择"-->
                     <!--<div id="searchYardDiv"></div>-->
                 </div>
@@ -136,13 +136,6 @@
     var gb = "${gb}";
     var gbcode = "${gbcode}";
     var selectedTreeIds ="${jg}";
-    console.log(hyly);
-    console.log("机构："+jg);
-    console.log(zjmc);
-    console.log(key);
-    console.log(nld);
-    console.log(zc);
-    console.log("规避:" + gbcode);
 </script>
 <script>
     var param = JSON.parse(window.localStorage.getItem("param"));
@@ -176,7 +169,7 @@
             })
         });
         //研究院
-        // publicMethods.ajaxPost("/pageCommon/dic/ROOT_XTGL_ZSYJY", null, function (data) {
+        // publicMethods.ajaxPost("/pageCommon/dic/ROOT_ZGSHJT_GFGS_ZSYJY", null, function (data) {
         //     $.each(data, function (index, item) {
         //         if (index < 8) {
         //             var html = "";
@@ -224,16 +217,16 @@
                 title: '姓名',
                 event: 'setActive',
                 align: 'left',
-                style: 'cursor: pointer;',
-                width: 120
+                style: 'cursor: pointer;'
+            , width: '12%'
             },
             {
                 field: "sex",
-                title: "性别", event: 'setActive', style: 'cursor: pointer;',width: 120
+                title: "性别", event: 'setActive', style: 'cursor: pointer;', width: '12%'
             },
             {
-                field: "age",
-                title: "年龄", event: 'setActive', style: 'cursor: pointer;', align: "right"
+                field: "birthDate",
+                title: "出生日期", event: 'setActive', style: 'cursor: pointer;',width: '15%'
             },
             {
                 field: 'email',
@@ -241,11 +234,11 @@
                 event: 'setActive',
                 align: 'left',
                 style: 'cursor: pointer;',
-                width: 150,
+                width: '20%'
             },
             {
                 field: "mobile",
-                title: "联系方式", event: 'setActive', style: 'cursor: pointer;'
+                title: "联系方式", event: 'setActive', style: 'cursor: pointer;', width: '20%'
             }
             , {fixed: 'right', title: '查看', toolbar: '#showDetail', width: 150, align: 'center'}
         ];

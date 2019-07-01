@@ -38,7 +38,7 @@
             <div class="tool-left">
                 <label class="dateInput">
                     <span>编制年度</span>
-                    <input type="text" id="choose-year">
+                    <input type="text" readonly="readonly" id="choose-year">
                     <i class="layui-icon layui-icon-date"></i>
                 </label>
                 <label class="selectInput" style="margin-left: 20px;">
@@ -84,9 +84,9 @@
                 <thead>
 	                <tr>
 	                	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
-	                	<th lay-data="{field:'no',align: 'center', width: '5%',totalRowText: '合计'}" rowspan="2">序号</th>
-	                    <th lay-data="{field:'organName', width: '15%'}" rowspan="2">专业处/部门</th>
-	                    <th lay-data="{field:'total', width: '6%',align: 'center',totalRow: true}" rowspan="2">合计</th>
+	                	<th lay-data="{field:'no',align: 'center', width: '45',totalRowText: '合计'}" rowspan="2">序号</th>
+	                    <th lay-data="{field:'organName', width: '6%'}" rowspan="2">专业处/部门</th>
+	                    <th lay-data="{field:'total', width: '4%',align: 'center',totalRow: true}" rowspan="2">合计</th>
 	                    <#list items as item>
 	                    	<#list item?keys as key> 
 	                    		<th lay-data="{align: 'center',totalRow: true}" colspan="3">${item[key]}</th>
@@ -96,9 +96,9 @@
 	                 <tr>
 	                    <#list items as item>
 	                    	<#list item?keys as key>
-	                    		<th lay-data="{field:'${key}_total', align: 'right',totalRow: true,width: 100}">预算</th> 
-	                    		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true,width: 100}">老合同</th>
-	                    		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true,width: 100}">可新签</th>
+	                    		<th lay-data="{field:'${key}_total', align: 'right',totalRow: true,width: 60}">预算</th> 
+	                    		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true,width: 60}">结转</th>
+	                    		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true,width: 60}">新签</th>
 	                    	</#list> 
 	                    </#list>
 	                </tr>
@@ -124,7 +124,7 @@
         <p>请注意:</p>
         <ul>
             <li>1、可分配数取自当年最终预算总表，剩余可分配数为可分配数与已填入的预算数之差，剩余可分配数自动计算，不可更改</li>
-            <li>2、预算编制状态包括：编制中、审批中、初审驳回、审批通过、最终预算等五种，审批发起后不可再编辑</li>
+            <li>2、预算编制状态包括：编制中、审批中、审批驳回、审批通过、最终预算等五种，审批发起后不可再编辑</li>
             <li>3、预算按年度编制，编制年度可自定义，默认编制下一年度</li>
             <li>4、预算表创建时生成一个版本号，版本号规则：vs-年度-三位类别编码-三位顺序号</li>
             <li>5、历年参照预算数据中的数据为该年审批通过的最终预算版本</li>
@@ -161,7 +161,7 @@
                 }            
             });
             renderfunc = function removeHeaderCheckbox(){
-            	$(".layui-table-header table thead th i").remove();  //移除表头的复选框,去掉全选
+            	$(".layui-table-header table thead th .layui-unselect").remove();  //移除表头的复选框,去掉全选
 	        	//行单击选中事件绑定
 	        	$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
 	              	  var index=parseInt($(this).index()+1);
@@ -278,7 +278,8 @@
 			}
           	//初始化数据版本
             window.initDataVersion =function(budget_id){
-                publicMethods.ajaxAsyncPost("/budget/budget-stocksplit-zsy-info-list",{"nd":cu_date}, function (dt) {
+            	//publicMethods.ajaxPost("/budget/budget-info-list",{"nd":cu_date,"budgetType":${budgetType}}, function (dt) {
+            	publicMethods.ajaxAsyncPost("/budget/budget-stocksplit-zsy-info-list",{"nd":cu_date}, function (dt) {
                 	$("#data_version").html('<option value="">---请选择版本---</option>');
                 	budget_info_map = {};
                 	$.each(dt,function(index,data){
@@ -322,7 +323,7 @@
             var $ = layui.$, active = {
             	createEvent: function () { //点击查询按钮
                     layer.open({
-                        title: cu_date+'集团公司经费预算编制管理-创建预算表'
+                        title: cu_date+'股份公司经费预算编制管理-创建预算表'
                         , skin: 'layui-layer-lan'
                         , shadeClose: false
                         , type: 2
@@ -331,7 +332,7 @@
                         , maxmin: true
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                         , area: ['70%', '90%']
-                        , content: '/budget/budget_create_stocksplit_zsy?nd='+cu_date
+                        , content: '/budget/budget_create_split?nd='+cu_date+'&budgetType=${budgetType}'
                     });
                 },
                 saveEvent:function(){
@@ -385,7 +386,7 @@
                 	console.log(curent_tabel_data[selectIndex]);
                 	var url = '/budget/budget_history_compare_stocksplit_zsy?nd='+cu_date+'&organCode='+curent_tabel_data[selectIndex].organCode+"&budgetInfoId="+curent_budget_info.dataId;
                    	layer.open({
-                        title: '研究院经费分解编制管理-往年预算参考'
+                        title: '直属院经费分解编制管理-往年预算参考'
                         , skin: 'layui-layer-lan'
                         , shadeClose: false
                         , type: 2
@@ -403,7 +404,7 @@
                 	} 
                 	var url = '/budget/budget_history_view_stocksplit_zsy?nd='+cu_date+'&budgetInfoId='+curent_budget_info.dataId;
                    	layer.open({
-                        title: '研究院经费分解编制管理-历年参考数据'
+                        title: '直属院经费分解编制管理-历年参考数据'
                         , skin: 'layui-layer-lan'
                         , shadeClose: false
                         , type: 2

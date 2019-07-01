@@ -14,25 +14,21 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
-import com.pcitc.base.common.DataTableParam;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
-import com.pcitc.base.common.enums.FlowStatusEnum;
 import com.pcitc.base.stp.IntlProject.IntlProjectApply;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
-import com.pcitc.web.common.DataTableParameter;
 
 @RestController
 public class IntlProjectApplyController extends BaseController {
@@ -52,6 +48,7 @@ public class IntlProjectApplyController extends BaseController {
 	private static final String PROJECT_APPLY_JOIN_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/join-plant-apply-list";
 	private static final String PROJECT_APPLY_NOTJOIN_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/project/notjoin-plant-apply-list";
 	private static final String PROJECT_APPLY_CODE = "http://pcitc-zuul/stp-proxy/stp-provider/project/project-code";
+	private static final String PROJECT_WORKFLOW_CHECK = "http://pcitc-zuul/stp-proxy/stp-provider/project/apply-flow-check/";
 
 	/*
 	 * @RequestMapping(value = "/project/submit-apply-list", method =
@@ -77,17 +74,25 @@ public class IntlProjectApplyController extends BaseController {
 			// 创建一个新的对象
 			IntlProjectApply newApply = (IntlProjectApply) MyBeanUtils.createDefaultModel(IntlProjectApply.class);
 			apply.setApplyId(IdUtil.createIdByTime());
-			apply.setAppendFiles(IdUtil.createFileIdByTime());
+			// apply.setAppendFiles(IdUtil.createFileIdByTime());
 			apply.setUnitId(sysUserInfo.getUnitId());
 			apply.setCreater(sysUserInfo.getUserId());
 			MyBeanUtils.copyPropertiesIgnoreNull(apply, newApply);
+			// System.out.println(JSON.toJSONString(newApply));
 			status = this.restTemplate.exchange(PROJECT_APPLY_ADD_URL, HttpMethod.POST, new HttpEntity<IntlProjectApply>(newApply, this.httpHeaders), Integer.class);
 		} else {
 			// 先查询再更新
 			IntlProjectApply oldApply = this.restTemplate.exchange(PROJECT_APPLY_GET_URL + apply.getApplyId(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), IntlProjectApply.class).getBody();
 			// 如果已提交则不可更新
-			if (FlowStatusEnum.FLOW_START_STATUS_YES.getCode().equals(oldApply.getFlowStartStatus())) {
-				return new Result(false, "申报已提交不可再编辑");
+			/*
+			 * if
+			 * (FlowStatusEnum.FLOW_START_STATUS_YES.getCode().equals(oldApply
+			 * .getFlowStartStatus())) { return new Result(false, "申报已提交不可再编辑");
+			 * }
+			 */
+			Result result = this.restTemplate.exchange(PROJECT_WORKFLOW_CHECK + oldApply.getApplyId(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Result.class).getBody();
+			if (!result.isSuccess()) {
+				return result;
 			}
 			oldApply.setUnitId(sysUserInfo.getUnitId());
 			oldApply.setCreater(sysUserInfo.getUserId());
@@ -107,7 +112,10 @@ public class IntlProjectApplyController extends BaseController {
 
 	@RequestMapping(value = "/project/apply-close/{applyId}")
 	public Object delApply(@PathVariable("applyId") String applyId, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// 关闭
+		Result result = this.restTemplate.exchange(PROJECT_WORKFLOW_CHECK + applyId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Result.class).getBody();
+		if (!result.isSuccess()) {
+			return result;
+		}
 		ResponseEntity<Integer> presult = this.restTemplate.exchange(PROJECT_APPLY_CLOSE_URL + applyId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
 		if (presult.getBody() > 0) {
 			return new Result(true, "关闭成功！");
@@ -118,13 +126,19 @@ public class IntlProjectApplyController extends BaseController {
 
 	@RequestMapping(value = "/project/apply-delete/{applyId}")
 	public Object delApplyRel(@PathVariable("applyId") String applyId, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// 先查询再删除
-		IntlProjectApply oldplant = this.restTemplate.exchange(PROJECT_APPLY_GET_URL + applyId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), IntlProjectApply.class).getBody();
-		// 如果已提交则不可删除
-		if (FlowStatusEnum.FLOW_START_STATUS_YES.getCode().equals(oldplant.getFlowStartStatus())) {
-			return new Result(false, "已提交不可删除");
+		/*
+		 * // 先查询再删除 IntlProjectApply oldplant =
+		 * this.restTemplate.exchange(PROJECT_APPLY_GET_URL + applyId,
+		 * HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders),
+		 * IntlProjectApply.class).getBody(); // 如果已提交则不可删除 if
+		 * (FlowStatusEnum.FLOW_START_STATUS_YES
+		 * .getCode().equals(oldplant.getFlowStartStatus())) { return new
+		 * Result(false, "已提交不可删除"); }
+		 */
+		Result result = this.restTemplate.exchange(PROJECT_WORKFLOW_CHECK + applyId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Result.class).getBody();
+		if (!result.isSuccess()) {
+			return result;
 		}
-		// 删除
 		ResponseEntity<Integer> presult = this.restTemplate.exchange(PROJECT_APPLY_DEL_URL + applyId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
 		if (presult.getBody() > 0) {
 			return new Result(true, "删除成功！");
@@ -140,10 +154,8 @@ public class IntlProjectApplyController extends BaseController {
 	}
 
 	@RequestMapping(value = "/project/apply-start-workflow")
-	public Object startProjectApplyWorkflow(@RequestParam(value = "applyId", required = true) String applyId,
-			@RequestParam(value = "functionId", required = true) String functionId, 
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("开始审批！！！！" + applyId);
+	public Object startProjectApplyWorkflow(@RequestParam(value = "applyId", required = true) String applyId, @RequestParam(value = "functionId", required = true) String functionId, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
 		WorkflowVo vo = new WorkflowVo();
 		vo.setAuditUserIds(this.getUserProfile().getUserId());
 		vo.setFunctionId(functionId);
@@ -151,7 +163,7 @@ public class IntlProjectApplyController extends BaseController {
 		vo.setAuthenticatedUserName(this.getUserProfile().getUserDisp());
 		vo.setBusinessId(applyId);
 		vo.setProcessDefinitionName("项目申报审批");
-		
+
 		HttpEntity<WorkflowVo> entity = new HttpEntity<WorkflowVo>(vo, this.httpHeaders);
 		Result rs = this.restTemplate.exchange(PROJECT_APPLY_WORKFLOW_URL + applyId, HttpMethod.POST, entity, Result.class).getBody();
 		return rs;
@@ -163,21 +175,13 @@ public class IntlProjectApplyController extends BaseController {
 	}
 
 	@RequestMapping(value = "/project/get-pass-apply-list")
-	public Object getPassApplyProjectList(@RequestBody List<Object> param, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		DataTableParam dataTableParam = new DataTableParam();
-		MyBeanUtils.transMap2Bean(MyBeanUtils.priseKVJSONToMap(param), dataTableParam);
-		System.out.println("获取已审批通过的申报信息。。。。" + JSON.toJSONString(dataTableParam));
-		com.alibaba.fastjson.JSONObject retJson = this.restTemplate.exchange(PROJECT_APPLY_PASS_LIST, HttpMethod.POST, new HttpEntity<DataTableParam>(dataTableParam, this.httpHeaders), com.alibaba.fastjson.JSONObject.class).getBody();
-		System.out.println("------------" + retJson.toString());
+	public Object getPassApplyProjectList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		DataTableParameter data = new DataTableParameter();
-		data.setAaData((List<?>) retJson.get("list"));
-		// 要显示的总条数
-		data.setiTotalDisplayRecords(Long.valueOf(retJson.get("totalCont") + ""));
-		// 真实的总条数
-		data.setiTotalRecords(Long.valueOf(retJson.get("totalCont") + ""));
+		System.out.println("获取已审批通过的申报信息。。。。");
+		List<?> rs = this.restTemplate.exchange(PROJECT_APPLY_PASS_LIST, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class).getBody();
+
 		// System.out.println("------------"+retJson.toString());
-		return data;
+		return JSON.toJSONString(rs);
 	}
 
 	@RequestMapping(value = "/project/join-plant-apply-list")
@@ -207,9 +211,13 @@ public class IntlProjectApplyController extends BaseController {
 	}
 
 	@RequestMapping(value = "/project/project-code")
-	public Object getUnitCodeByUnitName(@ModelAttribute("apply") IntlProjectApply apply) {
+	public Object getUnitCodeByUnitName(@ModelAttribute("apply") IntlProjectApply apply, HttpServletResponse response) {
 		ResponseEntity<String> responseEntity = restTemplate.exchange(PROJECT_APPLY_CODE, HttpMethod.POST, new HttpEntity<IntlProjectApply>(apply, this.httpHeaders), String.class);
 		String rs = responseEntity.getBody();
+
+		// 安全设置：归档文件下载
+		response.setHeader("Pragma", "no-cache");
+		response.setHeader("Cache-Control", "no-cache");
 		return new Result(true, rs);
 	}
 

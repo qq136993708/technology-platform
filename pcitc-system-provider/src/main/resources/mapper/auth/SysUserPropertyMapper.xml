@@ -486,7 +486,7 @@
 		<if test="dataType!=null and dataType!=''.toString">
 			and up.data_type = #{dataType}
 		</if>
-		where dic.parent_code = 'ROOT_XTGL_ZSYJY'
+		where dic.parent_code = 'ROOT_ZGSHJT_GFGS_ZSYJY'
 		<if test="projectName!= null and projectName!= ''.toString">
 			and dic.name like '%${projectName}%'
 		</if>

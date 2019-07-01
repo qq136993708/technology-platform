@@ -18,7 +18,7 @@ import com.pcitc.base.workflow.WorkflowVo;
  * @author fb
  *
  */
-public interface BudgetGroupTotalService
+public interface BudgetGroupTotalService extends BudgetPublicService
 {
 	/**
 	 * 查询预算项

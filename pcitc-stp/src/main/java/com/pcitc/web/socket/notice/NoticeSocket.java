@@ -11,6 +11,7 @@ import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
 import org.apache.commons.lang.StringUtils;
@@ -30,7 +31,7 @@ import com.pcitc.web.socket.ApplicationContextRegister;
 
 //Spring容器会去扫描包，将WebSocket加入容器。此时对于WebSocket则使用Spring的注解:
 //configurator = SpringConfigurator.class 为Spring提供的一个类。通过这个类,该WebSocket中就可以注入Spring容器的bean。经测试目前的Spring版本注入不成功...
-@ServerEndpoint(value = "/pushNotice")
+@ServerEndpoint(value = "/pushNotice/{userId}")
 @Component
 public class NoticeSocket extends BaseController {
     // 静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
@@ -45,14 +46,16 @@ public class NoticeSocket extends BaseController {
     private static ApplicationContext act = ApplicationContextRegister.getApplicationContext();
 
     private static final String PUBLISH_NOTICE = "http://pcitc-zuul/system-proxy/sysNotice-provider/publishSysNotice/";
-
+    private static final String	USER_DETAILS_URL	= "http://pcitc-zuul/system-proxy/user-provider/user/user-details/";
     /**
      * 连接建立成功调用的方法
      */
     @OnOpen
-    public void onOpen(Session session, EndpointConfig config) {
+    public void onOpen(@PathParam(value="userId") String userId,Session session, EndpointConfig config) {
         HttpHeaders httpHeaders = act.getBean(HttpHeaders.class);
-        session.getUserProperties().put("currentUser", sysUserInfo);
+    	RestTemplate restTemplate = act.getBean(RestTemplate.class);
+    	SysUser sysUserInfo = restTemplate.exchange(USER_DETAILS_URL+userId, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SysUser.class).getBody();
+    	session.getUserProperties().put("currentUser", sysUserInfo);
         this.session = session;
         webSocketSet.add(this); // 加入set中
         addOnlineCount(); // 在线数加1
@@ -77,11 +80,9 @@ public class NoticeSocket extends BaseController {
     @OnMessage
     public void onMessage(String message, Session session) {
         if (StringUtils.isNotEmpty(message)) {
-            logger.info("发布的公告:" + message);
             HttpHeaders httpHeaders = act.getBean(HttpHeaders.class);
             RestTemplate restTemplate = act.getBean(RestTemplate.class);
-            ResponseEntity<SysNotice> responseEntity = restTemplate.exchange(PUBLISH_NOTICE + message, HttpMethod.POST,
-                    new HttpEntity<String>(httpHeaders), SysNotice.class);
+            ResponseEntity<SysNotice> responseEntity = restTemplate.exchange(PUBLISH_NOTICE + message, HttpMethod.POST,new HttpEntity<String>(httpHeaders), SysNotice.class);
             SysNotice sysNotice = responseEntity.getBody();
             String mseeage = JSON.toJSONString(sysNotice);
             for (NoticeSocket item : webSocketSet) {
@@ -89,19 +90,24 @@ public class NoticeSocket extends BaseController {
                     SysUser sysUser = (SysUser) item.session.getUserProperties().get("currentUser");
                     String[] noticeReceiverArr = sysNotice.getNoticeReceiver().split(",");
                     List<String> noticeReceiverList = Arrays.asList(noticeReceiverArr);
-                    String[] userUintArr = sysUser.getUnitId().split(",");
+                    String[] userUintArr = sysUser.getUserUnit().split(",");
                     for (String userUint : userUintArr) {
                         if (noticeReceiverList.contains(userUint)) {
                             item.sendMessage(mseeage);// 向客户端发消息
                             break;
                         }
                     }
-                    //test
-//					item.sendMessage(mseeage);
                 } catch (IOException e) {
+                	e.printStackTrace();
                     logger.error(e.getMessage());
                 }
             }
+            //发送给自己
+            try {
+				this.sendMessage(message);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         }
     }
 

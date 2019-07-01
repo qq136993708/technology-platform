@@ -13,36 +13,36 @@
 </head>
 <body>
 
-<div class="searchBox">
-    <!--查询条件-->
-    <label class="dateInput selectInput">
-    </label>
-    <!--按钮组-->
-    <div class="btnGroup">
-        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
-        </button>
-        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
-                data-type="resetEvent">重置
-        </button>
-    </div>
-</div>
-<div class="tableToolBox">
-    <div class="whiteLine"></div>
-    <div class="tableBtns">
-        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
-                data-type="addEvent">新增
-        </button>
-        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"
-                data-type="editEvent">编辑
-        </button>
-        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_verify btnMyBgImg"
-                data-type="detailEvent">查看
-        </button>
-        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
-                data-type="deleteEvent">删除
-        </button>
-    </div>
-</div>
+<!--<div class="searchBox">-->
+    <!--&lt;!&ndash;查询条件&ndash;&gt;-->
+    <!--<label class="dateInput selectInput">-->
+    <!--</label>-->
+    <!--&lt;!&ndash;按钮组&ndash;&gt;-->
+    <!--<div class="btnGroup">-->
+        <!--<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询-->
+        <!--</button>-->
+        <!--<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"-->
+                <!--data-type="resetEvent">重置-->
+        <!--</button>-->
+    <!--</div>-->
+<!--</div>-->
+<!--<div class="tableToolBox">-->
+    <!--<div class="whiteLine"></div>-->
+    <!--<div class="tableBtns">-->
+        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"-->
+                <!--data-type="addEvent">新增-->
+        <!--</button>-->
+        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"-->
+                <!--data-type="editEvent">编辑-->
+        <!--</button>-->
+        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_verify btnMyBgImg"-->
+                <!--data-type="detailEvent">查看-->
+        <!--</button>-->
+        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+                <!--data-type="deleteEvent">删除-->
+        <!--</button>-->
+    <!--</div>-->
+<!--</div>-->
 <table id="zjkPatentTableId" class="layui-hide" lay-filter="tableEvent"></table>
 
 <script>
@@ -78,14 +78,14 @@
                 //     width: 55,
                 //     templet: '<div>{{ layui.laytpl.attToPic(d) }}</div>'
                 // },
-                {
-                    field: "userId",
-                    title: "用户id", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "expertId",
-                    title: "专家id", event: 'setActive', style: 'cursor: pointer;'
-                },
+                // {
+                //     field: "userId",
+                //     title: "用户id", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "expertId",
+                //     title: "专家id", event: 'setActive', style: 'cursor: pointer;'
+                // },
                 {
                     field: "patentName",
                     title: "专利名称", event: 'setActive', style: 'cursor: pointer;'
@@ -94,146 +94,146 @@
                     field: "patentCode",
                     title: "专利号", event: 'setActive', style: 'cursor: pointer;'
                 },
-                {
-                    field: "patentDesc",
-                    title: "专利描述", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "patentKeys",
-                    title: "专利关键字", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "patentePeopleName",
-                    title: "专利权人名称", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "patentePeopleId",
-                    title: "专利权人ID", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "inventPeopleId",
-                    title: "发明人ID", event: 'setActive', style: 'cursor: pointer;'
-                },
+                // {
+                //     field: "patentDesc",
+                //     title: "专利描述", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "patentKeys",
+                //     title: "专利关键字", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "patentePeopleName",
+                //     title: "专利权人名称", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "patentePeopleId",
+                //     title: "专利权人ID", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "inventPeopleId",
+                //     title: "发明人ID", event: 'setActive', style: 'cursor: pointer;'
+                // },
                 {
                     field: "inventPeopleName",
                     title: "发明人", event: 'setActive', style: 'cursor: pointer;'
                 },
-                {
-                    field: "applyPeople",
-                    title: "申请人", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "publicDate",
-                    title: "公开时间", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "applyDate",
-                    title: "申请日期", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "bak1",
-                    title: "所属技术分类名称", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "bak2",
-                    title: "", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "bak3",
-                    title: "", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "bak4",
-                    title: "", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "bak5",
-                    title: "", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "bak6",
-                    title: "", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "modifyUserDisp",
-                    title: "修改人姓名", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "ownerTechType",
-                    title: "所属技术分类", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "patenteBackground",
-                    title: "专利背景", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "ownerProjectName",
-                    title: "所属项目名称", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "expertNationality",
-                    title: "国籍", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "ownerProjectId",
-                    title: "所属项目ID", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "company",
-                    title: "所属公司（机构）", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "companId",
-                    title: "所属机构ID", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "sysFlag",
-                    title: "状态位", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "dataOrder",
-                    title: "排序", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "delFlag",
-                    title: "状态", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "createDate",
-                    title: "创建时间", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "createUser",
-                    title: "创建人id", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "createUserDisp",
-                    title: "创建人姓名", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "modifyDate",
-                    title: "修改时间", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "modifyUser",
-                    title: "修改人id", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "docId",
-                    title: "文档编号", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "nd",
-                    title: "年度", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "country",
-                    title: "授权国家", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "isResult",
-                    title: "是否形成工业化成果", event: 'setActive', style: 'cursor: pointer;'
-                },
+                // {
+                //     field: "applyPeople",
+                //     title: "申请人", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "publicDate",
+                //     title: "公开时间", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "applyDate",
+                //     title: "申请日期", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "bak1",
+                //     title: "所属技术分类名称", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "bak2",
+                //     title: "", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "bak3",
+                //     title: "", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "bak4",
+                //     title: "", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "bak5",
+                //     title: "", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "bak6",
+                //     title: "", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "modifyUserDisp",
+                //     title: "修改人姓名", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "ownerTechType",
+                //     title: "所属技术分类", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "patenteBackground",
+                //     title: "专利背景", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "ownerProjectName",
+                //     title: "所属项目名称", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "expertNationality",
+                //     title: "国籍", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "ownerProjectId",
+                //     title: "所属项目ID", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "company",
+                //     title: "所属公司（机构）", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "companId",
+                //     title: "所属机构ID", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "sysFlag",
+                //     title: "状态位", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "dataOrder",
+                //     title: "排序", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "delFlag",
+                //     title: "状态", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "createDate",
+                //     title: "创建时间", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "createUser",
+                //     title: "创建人id", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "createUserDisp",
+                //     title: "创建人姓名", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "modifyDate",
+                //     title: "修改时间", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "modifyUser",
+                //     title: "修改人id", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "docId",
+                //     title: "文档编号", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "nd",
+                //     title: "年度", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "country",
+                //     title: "授权国家", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "isResult",
+                //     title: "是否形成工业化成果", event: 'setActive', style: 'cursor: pointer;'
+                // },
             ];
 
         function renderTable() {
@@ -242,6 +242,7 @@
                 param:
                     {
                         // "workOrderStatus":workOrderStatus
+                        "expertId":"${expertId}"
                     }
             };
 
@@ -374,7 +375,7 @@
                 if (selectRowData != undefined) {
                     // if (selectRowData.workOrderStatus == '0') {
                     id = selectRowData.dataId;
-                    layer.confirm('确认要删除选中的条数据吗？', {icon: 3, btn: ['确定', '取消']}, function (index) {
+                    layer.confirm('确认要删除选中的数据吗？', {icon: 3, btn: ['确定', '取消']}, function (index) {
                         layer.close(index);
                         $.ajax({
                             type: 'post',

@@ -31,14 +31,14 @@
 </head>
 <body>
     <div class="headline-box">
-        <div class="headline-title" title="集团经费预算总表">
+        <div class="headline-title" title="股份经费预算分解表">
             	<span class="nd">${nd}</span>年股份支付集团、外系统及盈科经费预算表(建议稿)
         </div>
         <div class="headline-tool">
             <div class="tool-left">
                 <label class="dateInput">
                     <span>编制年度</span>
-                    <input type="text" id="choose-year">
+                    <input type="text" readonly="readonly" id="choose-year">
                     <i class="layui-icon layui-icon-date"></i>
                 </label>
                 <label class="selectInput" style="margin-left: 20px;">
@@ -124,7 +124,7 @@
         <p>请注意:</p>
         <ul>
             <li>1、可分配数取自当年最终预算总表，剩余可分配数为可分配数与已填入的预算数之差，剩余可分配数自动计算，不可更改</li>
-            <li>2、预算编制状态包括：编制中、审批中、初审驳回、审批通过、最终预算等五种，审批发起后不可再编辑</li>
+            <li>2、预算编制状态包括：编制中、审批中、审批驳回、审批通过、最终预算等五种，审批发起后不可再编辑</li>
             <li>3、预算按年度编制，编制年度可自定义，默认编制下一年度</li>
             <li>4、预算表创建时生成一个版本号，版本号规则：vs-年度-三位类别编码-三位顺序号</li>
             <li>5、历年参照预算数据中的数据为该年审批通过的最终预算版本</li>
@@ -161,7 +161,7 @@
                 }            
             });
             renderfunc = function removeHeaderCheckbox(){
-            	$(".layui-table-header table thead th i").remove();  //移除表头的复选框,去掉全选
+            	$(".layui-table-header table thead th .layui-unselect").remove();  //移除表头的复选框,去掉全选
 	        	//行单击选中事件绑定
 	        	$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
 	              	  var index=parseInt($(this).index()+1);
@@ -175,7 +175,7 @@
 			//数据版本选择
             $("#data_version").on("change",function(e){
             	curent_budget_info = budget_info_map[$("#data_version").val()];
-            	
+            	console.log(curent_budget_info);
             	if(curent_budget_info){
             		var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});
             		publicMethods.ajaxAsyncPost("/budget/budget-stocksplit-xtw-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
@@ -278,7 +278,8 @@
 			}
           	//初始化数据版本
             window.initDataVersion =function(budget_id){
-                publicMethods.ajaxAsyncPost("/budget/budget-stocksplit-xtw-info-list",{"nd":cu_date}, function (dt) {
+            	//publicMethods.ajaxPost("/budget/budget-info-list",{"nd":cu_date,"budgetType":${budgetType}}, function (dt) {
+            	publicMethods.ajaxAsyncPost("/budget/budget-stocksplit-xtw-info-list",{"nd":cu_date}, function (dt) {
                 	$("#data_version").html('<option value="">---请选择版本---</option>');
                 	budget_info_map = {};
                 	$.each(dt,function(index,data){
@@ -316,7 +317,7 @@
 	            	 	$.each(curent_tabel_data,function(index,dt){
 	            	 		${key}_total_money += parseInt(dt.${key}_total);
 	                	});
-	            	 	
+	            	 	//$("#${key}").val(${key}_total_money+"/"+${key}_total_money);//可分配数
 		            	$("#${key}").val(curent_budget_info.${key}+"/"+(curent_budget_info.${key}-${key}_total_money));//可分配数
 	            	</#list> 
 	        	</#list>
@@ -326,7 +327,7 @@
             var $ = layui.$, active = {
             	createEvent: function () { //点击查询按钮
                     layer.open({
-                        title: cu_date+'集团公司经费预算编制管理-创建预算表'
+                        title: cu_date+'股份公司经费预算编制管理-创建预算表'
                         , skin: 'layui-layer-lan'
                         , shadeClose: false
                         , type: 2
@@ -335,7 +336,7 @@
                         , maxmin: true
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                         , area: ['70%', '90%']
-                        , content: '/budget/budget_create_stocksplit_xtw?nd='+cu_date
+                        , content: '/budget/budget_create_split?nd='+cu_date+'&budgetType=${budgetType}'
                     });
                 },
                 saveEvent:function(){

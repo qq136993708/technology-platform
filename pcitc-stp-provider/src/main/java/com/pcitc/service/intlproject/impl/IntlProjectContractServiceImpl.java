@@ -21,6 +21,7 @@ import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.HanyuPinyinHelper;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
+import com.pcitc.common.WorkFlowStatusEnum;
 import com.pcitc.mapper.IntlProject.IntlProjectContractMapper;
 import com.pcitc.mapper.IntlProject.IntlProjectInfoMapper;
 import com.pcitc.service.intlproject.IntlProjectContractService;
@@ -184,6 +185,7 @@ public class IntlProjectContractServiceImpl implements IntlProjectContractServic
 		IntlProjectInfoExample infoExample = new IntlProjectInfoExample();
 		IntlProjectInfoExample.Criteria criteria = infoExample.createCriteria();
 		criteria.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		criteria.andFlowCurrentStatusEqualTo(WorkFlowStatusEnum.STATUS_PASS.getCode());
 		List<IntlProjectContract> contracts = selectAllProjctContract();
 		if(contracts != null && contracts.size() > 0) {
 			List<String> ids = new ArrayList<String>();

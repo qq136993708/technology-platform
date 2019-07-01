@@ -165,4 +165,11 @@ public class DetailServiceImpl implements DetailService {
 		return detailMapper.updateByid(id);
 		
 	}
+
+
+	@Override
+	public SreDetail selectSreDetailId(String id) {
+		// TODO Auto-generated method stub
+		return detailMapper.selectSreDetailId(id);
+	}
 }

@@ -94,7 +94,7 @@
         </div>
     </div>
     <table id="standardBaseTableId" class="layui-hide" lay-filter="tableEvent"></table>
-    <a id="templateDownloadhref" name="templateDownloadhref" href="/template/standardTemplate.xls" target="_top"></a>
+    <a id="templateDownloadhref" name="templateDownloadhref" href="/template/标准化模板.xls" target="_top"></a>
 </div>
 <script>
     function setWelderIcs(selectData) {
@@ -400,7 +400,7 @@
                 if (selectRowData != undefined && selectRowData != "") {
                     // if (selectRowData.workOrderStatus == '0') {
                     id = selectRowData.dataId;
-                    layer.confirm('确认要删除选中的条数据吗？', {icon: 3, btn: ['确定', '取消']}, function (index) {
+                    layer.confirm('确认要删除选中的数据吗？', {icon: 3, btn: ['确定', '取消']}, function (index) {
                         layer.close(index);
                         $.ajax({
                             type: 'post',

@@ -25,6 +25,7 @@
 			<span>部署ID</span>
 			<input type="text" name="deploymentId" placeholder="请输入部署ID" title="部署ID" autocomplete="off" class="form-control" id="deploymentId">
 		</label>
+		
 		<!--按钮组-->
 		<div class="btnGroup">
 			<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
@@ -41,7 +42,7 @@
 				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_deploy" data-type="deployEvent">部署</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_export" data-type="exportEvent">导出</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_import" data-type="importEvent">导入</button>
-				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent">查看</button>
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent">详情</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="deleteEvent">删除</button>
 			</div>
 		</div>
@@ -89,11 +90,11 @@
 					cols : [ [ {
 						type : 'checkbox',
 						event : 'changeEvents',
-						width : 55
+						width : 45
 					}, {
 						title : '序号',
 						type : 'numbers',
-						width : 55
+						width : 45
 					}, {
 						field : 'id',
 						title : '模型ID',
@@ -176,7 +177,7 @@
 				},
 				importEvent : function() { //点击导入按钮
 					var randomInt = Math.random();
-					upload_File(randomInt,'','edit','importBpmnFile');
+					upload_File(randomInt, '', 'edit', 'importBpmnFile');
 				},
 				deleteEvent : function() { //点击删除按钮
 					if (typeof (selectRowData.id) == "undefined") {
@@ -198,7 +199,7 @@
 									operMSG = '操作成功! 数据加载中....';
 									active.searchEvent();
 								} else {
-									layer.msg('操作失败！'+data.message);
+									layer.msg('操作失败！' + data.message);
 								}
 							}
 						});
@@ -311,16 +312,16 @@
 				active[type] ? active[type].call(this) : '';
 			});
 		});
-		
+
 		function importBpmnFile(data, param) {
-	        //param:返回上面拼装的参数json字符串，data：json文件数组
-	        var fileDatas=[];
-	        for (var key in data) {
-	            var obj_file = data[key];
-	            fileDatas.push(obj_file);
-	        }
-	        var uploadUrl = "/activiti-model/file/upload";
-	        $.ajax({
+			//param:返回上面拼装的参数json字符串，data：json文件数组
+			var fileDatas = [];
+			for ( var key in data) {
+				var obj_file = data[key];
+				fileDatas.push(obj_file);
+			}
+			var uploadUrl = "/activiti-model/file/upload";
+			$.ajax({
 				url : uploadUrl,
 				type : 'post',
 				data : JSON.stringify(fileDatas),
@@ -332,11 +333,11 @@
 						operMSG = '操作成功! 数据加载中....';
 						active.searchEvent();
 					} else {
-						layer.msg('操作失败！'+data.message);
+						layer.msg('操作失败！' + data.message);
 					}
 				}
 			});
-	    }
+		}
 	</script>
 
 </body>

@@ -86,7 +86,7 @@
 						<div class="tableToolBox">
 							研究院配置项
 							<span>
-								<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg thirdBtn" data-type="saveInstituteEvent">保存</button>
+								<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add1 btnMyBgImg thirdBtn" data-type="saveInstituteEvent">保存</button>
 							</span>
 							连接符
 							<span>
@@ -108,7 +108,7 @@
 						<div class="tableToolBox">
 							专业处
 							<span>
-								<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg thirdBtn" data-type="saveZycmcEvent">保存</button>
+								<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add1 btnMyBgImg thirdBtn" data-type="saveZycmcEvent">保存</button>
 							</span>
 							连接符
 							<span>
@@ -267,6 +267,7 @@
 					}, {
 						title : '序号',
 						type : 'numbers'
+                        ,width : 55
 					}, {
 						field : 'proName',
 						title : '院所名称',
@@ -939,15 +940,16 @@
 				"proCode" : configProCode,
 				"postId" : configSelectPostId,
 				"functionId" : $('#funcId').val(),
-				"keyWord" : 'ROOT_XTGL_ZSYJY',
+				"keyWord" : 'ROOT_ZGSHJT_GFGS_ZSYJY',
 			},
-			height : commonDislodgeTable() / 2 - 10,
+			height : commonDislodgeTable() / 2 - 45,
 			cols : [ [ {
 				type : 'checkbox',
 				event : 'changeEvents'
 			}, {
 				title : '序号',
-				type : 'numbers'
+				type : 'numbers',
+                width : 45
 			}, {
 				field : 'name',
 				title : '名称',
@@ -1053,13 +1055,14 @@
 				"functionId" : $('#funcId').val(),
 				"keyWord" : 'ROOT_SJKZ_ZYC',
 			},
-			height : commonDislodgeTable() / 2 - 10,
+			height : commonDislodgeTable() / 2 - 45,
 			cols : [ [ {
 				type : 'checkbox',
 				event : 'changeEvents'
 			}, {
 				title : '序号',
-				type : 'numbers'
+				type : 'numbers',
+				width : 45
 			}, {
 				field : 'name',
 				title : '名称',

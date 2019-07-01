@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <script src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 </head>
 
 <body>
@@ -21,8 +22,8 @@
     </form>
     <!--查询条件-->
     <label class="dateInput">
-        <span>合同编号</span>
-        <input type="text" name="contractCode" placeholder="请输入合同编号" title="合同编号" autocomplete="off" class="form-control" id="contractCode">
+        <span>申请名称</span>
+        <input type="text" name="purchaseName" value="" placeholder="请输入申请名称" title="申请名称" autocomplete="off" class="form-control" id="purchaseName">
     </label>
     <!--按钮组-->
     <div class="btnGroup">
@@ -36,13 +37,24 @@
     <div class="tableToolBox">
         <div class="whiteLine"></div>
         <div  class="tableBtns" >
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" id="applyEvent" data-type="applyEvent">上报</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" id="applyEvent" data-type="applyEvent">签收</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="upQianEvent">上传到货验收单</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createWord" data-type="createWord">导出到货签收单</button>
         </div>
     </div>
-    <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table>
+    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
 </div>
 
+
+<script type="text/html" id="stage_temp">
+    {{#  if(d.stage == '3'){ }}
+    <button class="layui-btn layui-btn-primary layui-btn-xs">未签收</button>
+    {{#  } else if(d.stage != '3'){ }}
+    <button class="layui-btn layui-btn-normal layui-btn-xs">已通过</button>
+    {{#  } else{ }}
+    <button class="layui-btn layui-btn-primary layui-btn-xs">未签收</button>
+    {{#  } }}
+</script>
 
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script type="text/javascript">
@@ -66,6 +78,25 @@
             return '';
         }
     }
+
+    function view(id) {
+
+        var uploadState="3";
+        var temUrl="/sre-purchase/getParticularsDouble?id=" + id +"&uploadState="+uploadState;
+        layer.open({
+            title:'详情',
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+            maxmin: true,
+            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+            area: ['70%', '90%'],
+            content:  temUrl
+
+        });
+    }
 </script>
 
 <!--表格数据操作js-->
@@ -85,10 +116,10 @@
         var $ = layui.$, active = {
             searchEvent: function() { //点击查询按钮
                 renderTable();
-
+                $(".layui-table-header table thead th input").remove()
             },
             resetEvent: function() { //点击重置按钮
-                $('#contractCode').val("");
+                $('#purchaseName').val("");
             },
             upQianEvent: function(){ //上传到货签收单
                 if (typeof(selectRowData) == "undefined")
@@ -96,27 +127,19 @@
                     layer.msg('请点击选择一条数据');
                 }else
                 {
-                    var contractNum=selectRowData.contractNum;
-                    //if(contractNum==null || contractNum=='')
-                    if(1!=1)
-                    {
-                        layer.alert('合同号未生成,不能上传签字页');
-                    }else
-                    {
-                        var id=selectRowData.id;
-                        var temUrl="/sre-purchase/upFileDoc?id=" + id;
-                        layer.open({
-                            title:'上传到货签收单',
-                            skin: 'layui-layer-lan',
-                            shadeClose: true,
-                            type: 2,
-                            fixed: false,
-                            maxmin: false,
-                            area: ['70%', '90%'],
-                            content:  temUrl
-                        });
-                    }
-
+                    var id=selectRowData.id;
+                    var uploadState="3";
+                    var temUrl="/sre-purchase/upFileDoc?id=" + id +"&uploadState="+uploadState;
+                    layer.open({
+                        title:'上传到货签收单',
+                        skin: 'layui-layer-lan',
+                        shadeClose: true,
+                        type: 2,
+                        fixed: false,
+                        maxmin: true,
+                        area: ['70%', '90%'],
+                        content:  temUrl
+                    });
                 }
             },applyEvent: function(){  //点击上报按钮
 
@@ -126,19 +149,32 @@
                 }
                 else
                 {
-                    layer.confirm('是否提交？', { btn: ['确定','取消']}, function(){
-                        var id=selectRowData.id;
-                        var url="/sre-purchase/arriveGoodsSubmission/"+id;
-                        var backurl="/sre-purchase/to-arrive-goods-list";
-                        var state=selectRowData.state;
-                        if(state!='30')
-                        {
-                            layer.alert('请选择未上报的申请');
-                            return;
-                        }else{
+                    var id=selectRowData.id;
+                    var state=selectRowData.state;
+
+
+                    if(state!='30')
+                    {
+                        layer.alert('请选择未签收的申请');
+                        return;
+                    }else{
+                        layer.confirm('是否签收？', { btn: ['确定','取消']}, function(){
+                            var url="/sre-purchase/arriveGoodsSubmission/"+id;
+                            var backurl="/sre-purchase/to-arrive-goods-list";
                             ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
-                        }
-                    })
+                        })
+
+                    }
+                }
+            },createWord: function(){//预览采购申请单
+                if (typeof(selectRowData) == "undefined")
+                {
+                    layer.msg('请点击选择一行数据');
+                }else
+                {
+                    var id=selectRowData.id;
+                    var temUrl="/sre-purchase/createWordArriveGoods/" + id;
+                    location.href=temUrl;
                 }
             }
 
@@ -158,6 +194,12 @@
                 }
             });
         });
+        //监听表格双击事件
+        table.on('rowDouble(processdef-table)', function(obj){
+            var uploadState="3";
+            var temUrl = '/sre-purchase/getParticularsDouble?id='+obj.data.id +"&uploadState="+uploadState;;
+            openFullWin("详情",temUrl);
+        });
         //区别按钮属性
         $('.layui-btn').on('click', function(){
             var type = $(this).data('type');
@@ -173,7 +215,7 @@
             elem: '#processdef-table',
             url: '/sre_purchase/list',
             method:"POST",
-            where: {param: {"departCode":$("#departCode").val(),"state":"30","innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {"departCode":$("#departCode").val(),"stage":"3","parentUnitPathIds":$("#parentUnitPathIds").val(),"purchaseName":$("#purchaseName").val()}},
             limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),
@@ -188,12 +230,12 @@
             cols: [[
                 {type : 'checkbox', event : 'changeEvents', width : 55},
                 {title : '序号', type :'numbers', width : 55},
-                //{field : 'state', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.state) }}</div>', width : 55},
-                {field : 'purchaseName',     title : '采购名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
-                {field : 'parentUnitPathNames',     title : '单位名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
-                {field : 'departName',     title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
+                {field : 'stage', title : '状态', style : 'cursor: pointer;', align : 'center',templet : '#stage_temp', width : '10%'},
+                {field : 'purchaseName',     title : '申请名称', style : 'cursor: pointer;', align : 'left', width : '18%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.purchaseName+'</span>'}},
+                {field : 'parentUnitPathNames',     title : '单位名称', style : 'cursor: pointer;', align : 'left', width : '18%'},
+                {field : 'departName',     title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '18%'},
                 {field : 'proposerName',      		title : '申请人',         style : 'cursor: pointer;', align: 'center',  width : '15%',},
-                {field : 'createDate',      title : '创建时间', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl', width : '15%'}
+                {field : 'createDate',      title : '申请日期', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选

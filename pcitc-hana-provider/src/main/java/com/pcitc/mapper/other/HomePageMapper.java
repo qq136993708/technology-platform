@@ -6,10 +6,15 @@ import com.pcitc.base.hana.report.H1AMKYSY100101;
 import com.pcitc.base.hana.report.H1AMKYSY100104;
 import com.pcitc.base.hana.report.H1AMKYSY100109;
 import com.pcitc.base.hana.report.H1AMKYSY100117;
+import com.pcitc.base.hana.report.ScientificFunds;
 import com.pcitc.base.hana.report.TopicDevelop;
 public interface HomePageMapper 
 {
 	
+	
+	public List<H1AMKYSY100104> getActualPayDetailData(Map param)throws Exception;
+	 public Integer getActualPayDetailData_Count(Map map);
+	 
 	 // 科研项目
      public List<H1AMKYSY100101> getKyxm (Map map);
      //科研装备

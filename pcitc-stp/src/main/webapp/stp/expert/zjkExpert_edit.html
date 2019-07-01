@@ -648,7 +648,7 @@
 
     var global_hos = {};//省市县定义全局变量
 
-    // ajaxPost('/dictionary/list/ROOT_XTGL_ZSYJY', null, function (data, status) {
+    // ajaxPost('/dictionary/list/ROOT_ZGSHJT_GFGS_ZSYJY', null, function (data, status) {
     //     $.each(data, function (i, dt) {
     //         if (i < 8) {
     //             $("#company").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
@@ -937,7 +937,7 @@
     //附件上传-start
     $('#upload_File_photoAttach').click(function () {
         // 取消上次延时未执行的方法
-        // clearTimeout(TimeFn);
+        clearTimeout(TimeFn);
         //执行延时
         TimeFn = setTimeout(function () {
             //do function在此处写单击事件要执行的代码
@@ -953,10 +953,11 @@
         }, 300);
     });
     $('#upload_File_photoAttach').dblclick(function () {
+        return false;
         //取消上次延时未执行的方法
         // clearTimeout(TimeFn);
         //双击查看免冠照片
-        showImg(photofilePath);
+        // showImg(photofilePath);
     });
 
     function call_fun(data, param) {

@@ -104,16 +104,20 @@
                 // },
                 {
                     field: "zjkName",
-                    title: "专家名称", event: 'setActive', style: 'cursor: pointer;'
+                    title: "专家名称", event: 'setActive', style: 'cursor: pointer;', width: '8%'
                 },
                 {
                     field: "xmName",
-                    title: "项目名称", event: 'setActive', style: 'cursor: pointer;'
+                    title: "名称", event: 'setActive', style: 'cursor: pointer;', width: '40%'
                 },
                 {
                     field: "xmSteps",
                     title: "项目阶段", event: 'setActive', style: 'cursor: pointer;'
                 },
+                {
+                field: "createDate",
+                title: "评价时间", event: 'setActive', style: 'cursor: pointer;'
+            },
             ];
 
         function renderTable() {
@@ -162,6 +166,7 @@
                 publicMethods.dataDictionary(param);
 
             });
+            $(".layui-table-header table thead th input").remove();
         }
 
         renderTable();
@@ -245,6 +250,7 @@
             },
             detailEvent: function () {  //点击详情按钮
                 var dataId;
+                console.log(selectRowData);
                 if (selectRowData != undefined) {
                     dataId = selectRowData.dataId;
                     layer.open({
@@ -271,7 +277,7 @@
                 if (selectRowData != undefined) {
                     // if (selectRowData.workOrderStatus == '0') {
                     id = selectRowData.dataId;
-                    layer.confirm('确认要删除选中的条数据吗？', {icon: 3, btn: ['确定', '取消']}, function (index) {
+                    layer.confirm('确认要删除选中的数据吗？', {icon: 3, btn: ['确定', '取消']}, function (index) {
                         layer.close(index);
                         $.ajax({
                             type: 'post',

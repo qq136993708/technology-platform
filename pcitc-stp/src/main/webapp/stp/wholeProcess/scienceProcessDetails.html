@@ -1,267 +1,311 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <meta charset="UTF-8">
-    <title></title>
-    <link rel="stylesheet" type="text/css" href="/layuiadmin/joint/css/joint.min.css"/>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
-    <script src="/layuiadmin/joint/js/jquery.js" type="text/javascript" charset="utf-8"></script>
-    <script src="/layuiadmin/joint/js/template.js" type="text/javascript" charset="utf-8"></script>
-    <script src="/layuiadmin/joint/js/lodash.js" type="text/javascript" charset="utf-8"></script>
-    <script src="/layuiadmin/joint/js/backbone.js" type="text/javascript" charset="utf-8"></script>
-    <script src="/layuiadmin/joint/js/joint.js" type="text/javascript" charset="utf-8"></script>
-
-    <style>
-        .clear {
-            clear: both;
-        }
-        body,
-        html {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-
-        .box {
-            width: 100%;
-            height: 100%;
-            margin-top:20px;
-        }
-
-        .department {
-            float: left;
-            width: 200px;
-            height: 800px;
-            position: relative;
-        }
-
-
-        .departmentnr {
-            text-align: center;
-            opacity: 0;
-        }
-        .departmentnr p{color: #000000;}
-        .departmentnr a {
-            width: 100px;
-            height: 60px;
-            display: inline-block;
-            text-align: center;
-            line-height: 60px;
-            text-decoration: none;
-            background: cornflowerblue;
-            color: #000000;
-            margin-top: 20px;
-            font-size: 20px;
-            border-radius: 10px;
-        }
-
-        #paper {
-            position: absolute;
-            top: 0;
-        }
-    </style>
+<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 </head>
 
 <body>
-<div class="box"></div>
-<div id="paper"></div>
-<script type="text/javascript">
-    var json = {
-        "Item": [{
-            "NavigatItem": [{
-                "Id": "66f48322cf334263a8b392ff14919781",
-                "name": "打样",
-                "Url": "/q/mpic/20170731omsproofingnewhead",
-                "Display": "款式打样",
-                "Childs": [
-                    {
-                        "Id": "8081fa7b8ff24a5cb5a3c2d8ee3eb877",
-                        "name": "储运",
-                        "Url": "",
-                        "Display": "",
-                        "Childs": [
+	<div class="form_tableAdd_container">
+		<div class="tableBox">
+			<div class="tableToolBox">
+				<div class="tableTitle">合同详情</div>
+			</div>
+			<table id="show-table1" class="layui-hide" lay-filter="tableData1"></table>
+		</div>
+		
+		<div class="tableBox">
+			<div class="tableToolBox">
+				<div class="tableTitle">报销详情</div>
+			</div>
+			<table id="show-table2" class="layui-hide" lay-filter="tableData2"></table>
+		</div>
+		
+		<div class="tableBox">
+			<div class="tableToolBox">
+				<div class="tableTitle">科研成果详情</div>
+			</div>
+			<table id="show-table3" class="layui-hide" lay-filter="tableData3"></table>
+		</div>
+		
+		<div class="tableBox">
+			<div class="tableToolBox">
+				<div class="tableTitle">项目奖励详情</div>
+			</div>
+			<table id="show-table4" class="layui-hide" lay-filter="tableData4"></table>
+		</div>
+	</div>
 
-                        ]
-                    }
-                ]
-            }]
-        }, {
-            "NavigatItem": [{
-                "Id": "8081fa7b8ff24a5cb5a3c2d8ee3eb877",
-                "name": "储运",
-                "Url": "",
-                "Display": "",
-                "Childs": [{
-                    "Id": "7ac835496b1946bcbe46d5727a68a172",
-                    "name": "付款",
-                    "Url": "",
-                    "Display": "",
-                    "Childs": []
-                },{
-                    "Id": "0b1281ca43634d1e87ccf1c803570a24",
-                    "name": "付款申请",
-                    "Url": "",
-                    "Display": "",
-                    "Childs": []
-                }]
-            }, {
-                "Id": "0b1281ca43634d1e87ccf1c803570a24",
-                "name": "付款申请",
-                "Url": "",
-                "Display": "",
-                "Childs": [{
-                    "Id": "7ac835496b1946bcbe46d5727a68a172",
-                    "name": "付款",
-                    "Url": "",
-                    "Display": "",
-                    "Childs": []
-                }]
-            },]
-        }, {
-            "NavigatItem": [{
-                "Id": "7ac835496b1946bcbe46d5727a68a172",
-                "name": "付款",
-                "Url": "",
-                "Display": "",
-                "Childs": []
-            }]
-        }]
-    }
-    var graph = new joint.dia.Graph;
+	<!--表格数据操作js-->
+	<script>
+		var table, active, selectRowData = '';
+		var operMSG = "数据加载中....";
+		var xmid = "${xmid?default(0)}";
+		var hth = "xxxxxx";
 
-    var paper = new joint.dia.Paper({
-        el: $('#paper'),
-        width: $(document).width(),
-        height: $(document).height(),
-        gridSize: 1,
-        model: graph
-    });
-    //定义模块形状
-    function state(x, y, label, a, b) {
-        var cell = new joint.shapes.basic.Rect({
-            position: {
-                x: x,
-                y: y
-            }, //坐标
-            size: {
-                width: 100,
-                height: 40
-            }, //宽高
-            attrs: {
-                rect: {
-                    fill: '#1890ff',
-                    rx: 5,
-                    ry: 5,
-                    'stroke-width': 0
-                },
-                text: {
-                    text: label,
-                    fill: '#fff'
-                },
-            }
-            //rect为方形,circle为圆形，还有stroke：边框颜色
-        });
-        graph.addCell(cell);
-        $(a).click(function() {
-            window.open(b);//点击事件
-        });
-        cell.toBack();//改变z-index
-        return cell;
-    };
+		layui.use([ 'jquery', 'table', 'laydate', 'laypage', 'laytpl' ], function() {
+			table = layui.table, $ = layui.jquery, laydate = layui.laydate, laypage = layui.laypage;
+			function renderTable() {
+				// 查询是哪个菜单
 
-    function link(source, target, label, vertices){
+				var lodingMsg = layer.msg(operMSG);
+				//渲染
+				table.render({
+					elem : '#show-table1',
+					url : '/whole-process/science/contract/data',
+					method : "POST",
+					where : {
+						param : {
+							"xmid" : xmid
+						}
+					},
+					id : 'show-table1',
+					height : 'auto',
+					cols : [ [{
+						title : '序号',
+						type : 'numbers',
+						width : 55
+					}, {
+						field : 'ysnd',
+						title : '预算年度',
+						width : '8%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'xmmc',
+						title : '项目名称',
+						width : '20%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'hth',
+						title : '合同号',
+						width : '10%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'ysje',
+						title : '金额',
+						width : '10%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'fzdw',
+						title : '负责单位',
+						width : '20%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'zycmc',
+						title : '专业处',
+						width : '8%',
+						style : 'cursor: pointer;'
 
-        var cell = new joint.shapes.fsa.Arrow({
-            source: {
-                id: source.id
-            },
-            target: {
-                id: target.id
-            },
-            labels: [{
-                position: 0.5,
-                attrs: {
-                    text: {
-                        text: label || '',
-                        'font-weight': 'bold'
-                    }
-                }
-            }],
-            router: {
-                name: 'orthogonal'
-            },
-            connector: {
-                name: 'jumpover'
-            },
-            vertices: vertices || [],
-            attrs: ({
-                '.marker-target': {
-                    fill: '#000',
-                    d: 'M 10 0 L 0 5 L 10 10 z'
-                }
-            })
-        });
-        graph.addCell(cell);
+					}, {
+						field : 'define8',
+						title : '承担单位',
+						style : 'cursor: pointer;'
+					} ] ],
+					done : function(res, curr, count) {
+						layer.close(lodingMsg);
+						// 获取hth
+						var oldData = table.cache['show-table1'];
+		                for(var i=0; i < oldData.length; i++){
+		                      hth = hth + "," + oldData[i].hth
+		                }
+		                if (hth != '') {
+		                	renderTable2();
+							renderTable3();
+		                }
+						
+					}
+				});
+			}
 
-        cell.toBack()
+			// 付款情况
+			function renderTable2() {
+				var lodingMsg = layer.msg(operMSG);
+				//渲染
+				table.render({
+					elem : '#show-table2',
+					url : '/whole-process/science/pay/data',
+					method : "POST",
+					where : {
+						param : {
+							"hth" : hth
+						}
+					},
+					id : 'show-table2',
+					height : 'auto',
+					cols : [ [{
+						title : '序号',
+						type : 'numbers',
+						width : 55
+					}, {
+						field : 'suppName',
+						title : '供应商名称',
+						width : '25%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'suppCode',
+						title : '供应商编码',
+						width : '15%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'payAmount',
+						title : '应付款金额',
+						width : '10%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'payModeName',
+						title : '付款方式',
+						width : '10%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'billCode',
+						title : '业务单号',
+						width : '20%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'G0AUGDT',
+						title : '清帐日期',
+						style : 'cursor: pointer;'
+					} ] ],
+					done : function(res, curr, count) {
+						layer.close(lodingMsg);
+					}
+				});
+			}
+			
+			// 成果情况
+			function renderTable3() {
+				var lodingMsg = layer.msg(operMSG);
+				//渲染
+				table.render({
+					elem : '#show-table3',
+					url : '/whole-process/science/appraisal/data',
+					method : "POST",
+					where : {
+						param : {
+							"hth" : hth
+						}
+					},
+					id : 'show-table3',
+					height : 'auto',
+					cols : [ [{
+						title : '序号',
+						type : 'numbers',
+						width : 55
+					}, {
+						field : 'hth',
+						title : '合同号',
+						width : '10%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'xmmc',
+						title : '项目名称',
+						width : '15%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'cgmc',
+						title : '成果名称',
+						width : '20%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'sqjddw',
+						title : '鉴定单位',
+						width : '20%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'jdh',
+						title : '鉴定号',
+						width : '10%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'cglx',
+						title : '成果类型',
+						width : '10%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'zy',
+						title : '专业',
+						style : 'cursor: pointer;'
+					} ] ],
+					done : function(res, curr, count) {
+						layer.close(lodingMsg);
+					}
+				});
+			}
+			
+			// 项目奖励信息
+			function renderTable4() {
+				var lodingMsg = layer.msg(operMSG);
+				//渲染
+				table.render({
+					elem : '#show-table4',
+					url : '/whole-process/science/reward/data',
+					method : "POST",
+					where : {
+						param : {
+							"xmid" : xmid
+						}
+					},
+					id : 'show-table4',
+					height : 'auto',
+					cols : [ [{
+						title : '序号',
+						type : 'numbers',
+						width : 55
+					}, {
+						field : 'nd',
+						title : '年度',
+						width : '8%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'xmmc',
+						title : '项目名称',
+						width : '20%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'xmbh',
+						title : '项目编号',
+						width : '10%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'sbdw',
+						title : '奖励单位',
+						width : '20%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'psdj',
+						title : '等级',
+						width : '8%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'sbjz',
+						title : '奖项',
+						width : '10%',
+						style : 'cursor: pointer;'
 
-        return cell;
-    }
-    paper.$el.css('pointer-events', 'none')
-</script>
-<script>
-    var html = ""
-    for(var i = 0; i < json.Item.length; i++) {
-        //debugger
-        var html2 = ""
-        html += "<div class='department''>"
-        for(var o = 0; o < json.Item[i].NavigatItem.length; o++) {
+					}, {
+						field : 'xkfl',
+						title : '分类',
+						style : 'cursor: pointer;'
+					} ] ],
+					done : function(res, curr, count) {
+						layer.close(lodingMsg);
+					}
+				});
+			}
+			
+			renderTable();
+			renderTable4();
+			
+		});
+		
+	</script>
 
-            html2 += "<div class='departmentnr'><a target='_blank' href='' id=" + json.Item[i].NavigatItem[o].Id + " title=" + json.Item[i].NavigatItem[o].Display + ">" + json.Item[i].NavigatItem[o].name + "</a><p>"+json.Item[i].NavigatItem[o].name +"</p></div>"
-        }
-        html += html2 + "</div>"
-    }
-    $(".box").html(html)
-    var num = 100 / json.Item.length - 1 + '%'
-    var arraylist = [];
-    $(".department").css("width", num);
-    $.each(json.Item, function(index, item) {
-        var name = item
-        $.each(item.NavigatItem, function(index, item2) {
-
-            var id2 = item2.Id;
-            var name2 = item2.name;
-            console.log( $("#" + id2))
-            var y2 = $("#" + id2).offset().top;
-            var x2 = $("#" + id2).offset().left;
-            //debugger
-            var arrValue2 = arraylist[id2];
-            if(arrValue2 == undefined) {
-                arraylist[id2] = state(x2, y2, name2);
-            }
-            if(item2.Childs.length > 0) {
-                $.each(item2.Childs, function(index, item3) {
-                    var id3 = item3.Id;
-                    var name3 = item3.name;
-                    var y3 = $("#" + id3).offset().top;
-                    var x3 = $("#" + id3).offset().left;
-
-                    var arrValue3 = arraylist[id3];
-                    if(arrValue3 == undefined) {
-                        arraylist[id3] = state(x3, y3, name3);
-                    }
-
-                    link(arraylist[id2], arraylist[id3]);
-                })
-            } else {
-                //						state(x2, y2, name2);
-            }
-
-        })
-    })
-</script>
 </body>
-
 </html>

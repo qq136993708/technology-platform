@@ -305,7 +305,7 @@
                 if (selectRowData != undefined) {
                     if (selectRowData.workOrderStatus == '0') {
                         id = selectRowData.dataId;
-                        layer.confirm('确认要删除选中的条数据吗？', {icon: 3, btn: ['确定', '取消']}, function (index) {
+                        layer.confirm('确认要删除选中的数据吗？', {icon: 3, btn: ['确定', '取消']}, function (index) {
                             layer.close(index);
                             $.ajax({
                                 type: 'post',

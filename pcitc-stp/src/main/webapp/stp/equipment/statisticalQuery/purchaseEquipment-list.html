@@ -7,10 +7,10 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <script src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 </head>
 
 <body>
-
 <div class="searchBox">
     <form action=""  name="form1" id="form1" action="" method="POST">
         <input type="hidden" name="departCode" id="departCode" value="${departCode}">
@@ -18,13 +18,13 @@
         <input type="hidden" name="isKJBPerson" id="isKJBPerson" value="${isKJBPerson}">
     </form>
     <!--查询条件-->
-    <label class="dateInput">
+    <!--<label class="dateInput">
         <span>采购年度</span>
         <input type="text" name="createDate" value="" readonly="readonly" placeholder="请选择采购年度" title="采购年度" autocomplete="off" class="form-control" id="createDate">
-    </label>
+    </label>-->
     <label class="dateInput">
-        <span>采购名称</span>
-        <input type="text" name="purchaseName" value="" placeholder="请输入采购名称" title="采购名称" autocomplete="off" class="form-control" id="purchaseName">
+        <span>申请名称</span>
+        <input type="text" name="purchaseName" value="" placeholder="请输入申请名称" title="申请名称" autocomplete="off" class="form-control" id="purchaseName">
     </label>
     <!--按钮组-->
     <div class="btnGroup">
@@ -109,6 +109,11 @@
                 }
             });
         });
+        //监听表格双击事件
+        table.on('rowDouble(tableEvent)', function(obj){
+            var temUrl = '/sre-purchase/getParticulars/'+obj.data.id;
+            openFullWin("详情",temUrl);
+        });
         //区别按钮属性
         $('.layui-btn').on('click', function(){
             var type = $(this).data('type');
@@ -139,13 +144,13 @@
             cols: [[
                 {type : 'checkbox', event : 'changeEvents', width : 55},
                 {title : '序号', type :'numbers', width : 55},
-                //{field : 'state', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.state) }}</div>', width : 55},
-                {field : 'purchaseName',     title : '采购名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
+                //{field : 'state', title : '状态',  style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.state) }}</div>', width : 55},
+                {field : 'purchaseName',     title : '申请名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
                 {field : 'parentUnitPathNames',     title : '单位名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
-                {field : 'departName',     title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
+                {field : 'departName',     title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '19%'},
                 //{field : 'stage',      		title : '阶段',         style : 'cursor: pointer;', align: 'center',  width : '10%',},
                 {field : 'proposerName',      		title : '申请人',         style : 'cursor: pointer;', align: 'center',  width : '15%',},
-                {field : 'createDate',      title : '创建时间', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl', width : '15%'}
+                {field : 'createDate',      title : '申请日期', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl', width : '15%'}
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选

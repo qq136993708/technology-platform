@@ -23,24 +23,44 @@
     <result column="document_doc_install_debug" jdbcType="VARCHAR" property="documentDocInstallDebug" />
     <result column="document_doc_contract_close" jdbcType="VARCHAR" property="documentDocContractClose" />
     <result column="is_contract_closed" jdbcType="VARCHAR" property="isContractClosed" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="purchase_code" jdbcType="VARCHAR" property="purchaseCode" />
+    <result column="document_doc_purchase_request" jdbcType="VARCHAR" property="documentDocPurchaseRequest" />
+    <result column="document_doc_agreement" jdbcType="VARCHAR" property="documentDocAgreement" />
+    <result column="document_doc_tender" jdbcType="VARCHAR" property="documentDocTender" />
+    <result column="task_id" jdbcType="VARCHAR" property="taskId" />
   </resultMap>
   <sql id="Base_Column_List">
     id, purchase_name, proposer_id, proposer_name, parent_unit_path_id, parent_unit_path_names, 
     depart_name, depart_code, stage, state, create_date, equipment_id, ischeck, project_id, 
     login_name, document_doc, document_doc_arrive_goods, document_doc_contract_acceptance, 
-    document_doc_install_debug, document_doc_contract_close, is_contract_closed
+    document_doc_install_debug, document_doc_contract_close, is_contract_closed, remarks, 
+    purchase_code, document_doc_purchase_request, document_doc_agreement, document_doc_tender, 
+    task_id
   </sql>
   <sql id="selectCondition">
     <trim prefix="WHERE" prefixOverrides="AND|OR">
       <if test="state != null     and state !=''  ">   AND t.state = #{state}</if>
-      <if test="stage != null     and stage !=''  ">   AND t.stage = #{stage}</if>
+      <if test="stage != null     and stage !=''  ">   AND t.stage >= #{stage}</if>
       <if test="proposerName != null and proposerName  !='' ">               AND t.proposer_name like CONCAT('%',#{proposerName},'%')</if>
       <if test="purchaseName != null and purchaseName  !='' ">               AND t.purchase_name like CONCAT('%',#{purchaseName},'%')</if>
+      <if test="purchaseCode != null and purchaseCode  !='' ">               AND t.purchase_code like CONCAT('%',#{purchaseCode},'%')</if>
       <if test="createDate!= null       and createDate !=''  ">     AND t.create_date = #{createDate}</if>
       <if test="departCode != null        and departCode !=''  ">       AND t.depart_code = #{departCode}</if>
       <if test="parentUnitPathIds != null        and parentUnitPathIds !=''  ">       AND t.parent_unit_path_id = #{parentUnitPathIds}</if>
       <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
     </trim>
+  </sql>
+  <sql id="selectCondition2">
+    <if test="stage != null     and stage !=''  ">   AND t.stage >= #{stage}</if>
+    <if test="proposerName != null and proposerName  !='' ">               AND t.proposer_name like CONCAT('%',#{proposerName},'%')</if>
+    <if test="purchaseName != null and purchaseName  !='' ">               AND t.purchase_name like CONCAT('%',#{purchaseName},'%')</if>
+    <if test="purchaseCode != null and purchaseCode  !='' ">               AND t.purchase_code like CONCAT('%',#{purchaseCode},'%')</if>
+    <if test="createDate!= null       and createDate !=''  ">     AND t.create_date = #{createDate}</if>
+    <if test="departCode != null        and departCode !=''  ">       AND t.depart_code = #{departCode}</if>
+    <if test="parentUnitPathIds != null        and parentUnitPathIds !=''  ">       AND t.parent_unit_path_id = #{parentUnitPathIds}</if>
+    <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
+    <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -60,7 +80,9 @@
       ischeck, project_id, login_name, 
       document_doc, document_doc_arrive_goods, document_doc_contract_acceptance, 
       document_doc_install_debug, document_doc_contract_close, 
-      is_contract_closed)
+      is_contract_closed, remarks, purchase_code, 
+      document_doc_purchase_request, document_doc_agreement, 
+      document_doc_tender, task_id)
     values (#{id,jdbcType=VARCHAR}, #{purchaseName,jdbcType=VARCHAR}, #{proposerId,jdbcType=VARCHAR}, 
       #{proposerName,jdbcType=VARCHAR}, #{parentUnitPathId,jdbcType=VARCHAR}, #{parentUnitPathNames,jdbcType=VARCHAR}, 
       #{departName,jdbcType=VARCHAR}, #{departCode,jdbcType=VARCHAR}, #{stage,jdbcType=VARCHAR}, 
@@ -68,7 +90,9 @@
       #{ischeck,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, 
       #{documentDoc,jdbcType=VARCHAR}, #{documentDocArriveGoods,jdbcType=VARCHAR}, #{documentDocContractAcceptance,jdbcType=VARCHAR}, 
       #{documentDocInstallDebug,jdbcType=VARCHAR}, #{documentDocContractClose,jdbcType=VARCHAR}, 
-      #{isContractClosed,jdbcType=VARCHAR})
+      #{isContractClosed,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{purchaseCode,jdbcType=VARCHAR}, 
+      #{documentDocPurchaseRequest,jdbcType=VARCHAR}, #{documentDocAgreement,jdbcType=VARCHAR}, 
+      #{documentDocTender,jdbcType=VARCHAR}, #{taskId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SrePurchase">
     insert into sre_purchase
@@ -136,6 +160,24 @@
       <if test="isContractClosed != null">
         is_contract_closed,
       </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="purchaseCode != null">
+        purchase_code,
+      </if>
+      <if test="documentDocPurchaseRequest != null">
+        document_doc_purchase_request,
+      </if>
+      <if test="documentDocAgreement != null">
+        document_doc_agreement,
+      </if>
+      <if test="documentDocTender != null">
+        document_doc_tender,
+      </if>
+      <if test="taskId != null">
+        task_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -200,6 +242,24 @@
       </if>
       <if test="isContractClosed != null">
         #{isContractClosed,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseCode != null">
+        #{purchaseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="documentDocPurchaseRequest != null">
+        #{documentDocPurchaseRequest,jdbcType=VARCHAR},
+      </if>
+      <if test="documentDocAgreement != null">
+        #{documentDocAgreement,jdbcType=VARCHAR},
+      </if>
+      <if test="documentDocTender != null">
+        #{documentDocTender,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -266,6 +326,24 @@
       <if test="isContractClosed != null">
         is_contract_closed = #{isContractClosed,jdbcType=VARCHAR},
       </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseCode != null">
+        purchase_code = #{purchaseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="documentDocPurchaseRequest != null">
+        document_doc_purchase_request = #{documentDocPurchaseRequest,jdbcType=VARCHAR},
+      </if>
+      <if test="documentDocAgreement != null">
+        document_doc_agreement = #{documentDocAgreement,jdbcType=VARCHAR},
+      </if>
+      <if test="documentDocTender != null">
+        document_doc_tender = #{documentDocTender,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null">
+        task_id = #{taskId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -290,7 +368,13 @@
       document_doc_contract_acceptance = #{documentDocContractAcceptance,jdbcType=VARCHAR},
       document_doc_install_debug = #{documentDocInstallDebug,jdbcType=VARCHAR},
       document_doc_contract_close = #{documentDocContractClose,jdbcType=VARCHAR},
-      is_contract_closed = #{isContractClosed,jdbcType=VARCHAR}
+      is_contract_closed = #{isContractClosed,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      purchase_code = #{purchaseCode,jdbcType=VARCHAR},
+      document_doc_purchase_request = #{documentDocPurchaseRequest,jdbcType=VARCHAR},
+      document_doc_agreement = #{documentDocAgreement,jdbcType=VARCHAR},
+      document_doc_tender = #{documentDocTender,jdbcType=VARCHAR},
+      task_id = #{taskId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
@@ -304,23 +388,9 @@
     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>
   </select>
   <select id="getPassList" resultMap="BaseResultMap" parameterType="Map" >
-    select * from sre_purchase t where t.state >=${state}
-    <if test="proposerName != null and proposerName  !='' ">               AND t.proposer_name like CONCAT('%',#{proposerName},'%')</if>
-    <if test="purchaseName != null and purchaseName  !='' ">               AND t.purchase_name like CONCAT('%',#{purchaseName},'%')</if>
-    <if test="createDate!= null       and createDate !=''  ">     AND t.create_date = #{createDate}</if>
-    <if test="departCode != null        and departCode !=''  ">       AND t.depart_code = #{departCode}</if>
-    <if test="parentUnitPathIds != null        and parentUnitPathIds !=''  ">       AND t.parent_unit_path_id = #{parentUnitPathIds}</if>
-    <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
-    <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>
+    select * from sre_purchase t where t.state >=${state} <include refid="selectCondition2" />
   </select>
   <select id="getContractClosedList" resultMap="BaseResultMap" parameterType="Map" >
-    select * from sre_purchase t where stage=${stage} and t.state='60' or t.state='70'
-    <if test="proposerName != null and proposerName  !='' ">               AND t.proposer_name like CONCAT('%',#{proposerName},'%')</if>
-    <if test="purchaseName != null and purchaseName  !='' ">               AND t.purchase_name like CONCAT('%',#{purchaseName},'%')</if>
-    <if test="createDate!= null       and createDate !=''  ">     AND t.create_date = #{createDate}</if>
-    <if test="departCode != null        and departCode !=''  ">       AND t.depart_code = #{departCode}</if>
-    <if test="parentUnitPathIds != null        and parentUnitPathIds !=''  ">       AND t.parent_unit_path_id = #{parentUnitPathIds}</if>
-    <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
-    <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>
+    select * from sre_purchase t where  t.state='60' or t.state='70' <include refid="selectCondition2" />
   </select>
 </mapper>

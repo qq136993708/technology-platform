@@ -21,5 +21,7 @@ public interface SreProjectAssessMapper {
     
     List getlist(Map map);
     
+    int selectBypid(String projecttaskid);
+    
     int updateAuditById(SreProjectAssess record);
 }

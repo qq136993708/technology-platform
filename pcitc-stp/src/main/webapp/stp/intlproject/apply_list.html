@@ -74,13 +74,14 @@
 	            cols: [[
 	            	 {type:'checkbox',align:"center"}
 	            	,{title:'序号', type:'numbers',align:"center" ,width : 55}
+	            	,{field:'flowStartStatus',  title:'审批状态', width: 80,style:'cursor: pointer;',align:"center"}
 	                ,{field:'applyName',   title:'申报项目名称',  style:'cursor: pointer;',align:"left"}
-	                ,{field:'applyCode',title:'项目编码',	width: '15%',   style:'cursor: pointer;',align:"left"}
+	                ,{field:'applyCode',title:'项目编码',	width: '10%',   style:'cursor: pointer;',align:"left"}
 	                ,{field:'outerCompanyName',title:'中方合作单位',	width: '10%',   style:'cursor: pointer;',align:"left"}
 	                ,{field:'dcProjectCategory',title:'项目分类',	width: '10%',   style:'cursor: pointer;',align:"left"}
 	                ,{field:'dcProjectNature',title:'项目性质',	width: '10%',   style:'cursor: pointer;',align:"left"}
 	                ,{field:'moneyRmb',   title:'总投资人民币(万元)',   width: '10%',  style:'cursor: pointer;',align:"right"}
-	                ,{field:'flowStartStatus',  title:'状态', width: '8%',style:'cursor: pointer;',align:"center"}
+	                
 	            ]],
 	            done: function (res, curr, count) {
 	            	/* var html="<tr style='height:60px;'><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>";
@@ -108,17 +109,17 @@
 					//建设单位
 					console.log(dicVal);
 	                $.each(res.data,function(i,dt){
-	                	var apply_status = "待审批";
+	                	var apply_status = "未提交";
                 		if(res.data[i].flowCurrentStatus ==0){
-                			apply_status = "待审批";
+                			apply_status = "未提交";
 						}else if(res.data[i].flowCurrentStatus == -1){
-				   			apply_status = "预审驳回";
+				   			apply_status = "审批驳回";
 				   		}else if(res.data[i].flowCurrentStatus == 1){
 							apply_status = "审批中";
 				   		}else if(res.data[i].flowCurrentStatus == 2){
-							apply_status = "预审通过";
+							apply_status = "审批通过";
 				   		}else{
-				   			apply_status = "待审批";
+				   			apply_status = "未提交";
 				   		}
 		            	$("tr[data-index='"+i+"'] td[data-field='flowStartStatus'] div").html(apply_status);
 		            	$("tr[data-index='"+i+"'] td[data-field='dcProjectCategory'] div").html(dicVal[res.data[i].dcProjectCategory]);
@@ -205,7 +206,7 @@
 	                    	 renderTable({param: {"applyName":$("#applyName").val()}});
 	                    	 layer.msg('操作成功!');
 	                     } else {
-	                    	 layer.msg('操作异常，请重试!');
+	                    	 layer.msg(data.message);
 	                     }
 	                });
             	});
@@ -255,7 +256,7 @@
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent">新增</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="editEvent">编辑</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg" data-type="detailEvent">查看</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_download btnMyBgImg" data-type="exportEvent">下载</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_download btnMyBgImg" data-type="exportEvent">导出</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save2 btnMyBgImg" data-type="commitEvent">提交</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="closeEvent">删除</button>
             <!-- <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button> -->

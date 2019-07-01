@@ -19,36 +19,15 @@
 
 <script type="text/javascript">
 var publicMethods;
+var table;
     $(document).ready(function() {
     	layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element','publicMethods' ],function() {
  			var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
  			publicMethods=layui.publicMethods;
  			var form = layui.form;
- 			var table = layui.table;
-	    	table.render({
-	            elem: '#notjoin_apply_table',
-	            url: '/sre-equipment/chooseBusiness_data',
-	            limit: 15,
-	            method:"POST",
-	            where: {param:{"g0MCOD3":$("#g0MCOD3").val(),"g0NAME1":$("#g0NAME1").val(),"g0GSDM":$("#g0GSDM").val(),"companyCode":$("#companyCode").val()}},
-	        	id: 'notjoin_apply_table',
-	        	height: 350,
-	        	page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
-	            cols: [[
-	            	{type:'checkbox',event: 'changeEvents'}
-	             	,{title:'序号', type:'numbers'},
-	             	{field : 'g0LIFNR',        title : '供应商ID', style : 'cursor: pointer;', align : 'left', width : '10%'},
-	                {field : 'g0NAME1',        title : '供应商名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
-	                {field : 'g0MCOD3',        title : '所在城市',   style : 'cursor: pointer;', align : 'center', width : '10%'},
-	                {field : 'g0GSJC',         title : '所属单位', style : 'cursor: pointer;', align : 'center', width : '10%'},
-	                {field : 'g0TELF1',         title : '电话', style : 'cursor: pointer;', align : 'center', width : '10%'},
-	                {field : 'g0TELFX',         title : '传真', style : 'cursor: pointer;', align : 'center', width : '10%'},
-	                {field : 'g0ADRNR',         title : '地址', style : 'cursor: pointer;', align : 'center', width : '20%'}
-	            ]],
-	            done: function (res, curr, count) {
-	 				
-	            }
-	        });
+ 			table = layui.table;
+ 			renderTable();
+	    	
 	    	//多行点击事件
 	        $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
 	     	   	var checkCell = $(this).parent().find("tr[data-index=" + $(this).attr('data-index') + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox");
@@ -60,9 +39,6 @@ var publicMethods;
 	             e.stopPropagation();
 	         });
 	    	var $ = layui.$, active = {
-	    		searchEvent: function() { 
-                    table.reload("notjoin_apply_table",{where:{param:{"g0MCOD3":$("#g0MCOD3").val(),"g0NAME1":$("#g0NAME1").val(),"g0GSDM":$("#g0GSDM").val(),"companyCode":$("#companyCode").val()}}});
-                },
                 addEvent:function(){
                 	var check = table.checkStatus('notjoin_apply_table');
                 	if(check.data.length == 0){
@@ -104,6 +80,36 @@ var publicMethods;
 			});
     	});
     });
+    
+    
+    function renderTable()
+    { 
+    	table.render({
+            elem: '#notjoin_apply_table',
+            url: '/sre-equipment/chooseBusiness_data',
+            limit: 15,
+            method:"POST",
+            where: {param:{"g0MCOD3":$("#g0MCOD3").val(),"g0NAME1":$("#g0NAME1").val(),"g0GSDM":$("#g0GSDM").val(),"companyCode":$("#companyCode").val()}},
+        	id: 'notjoin_apply_table',
+        	height: 350,
+        	page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
+            cols: [[
+            	{type:'checkbox',event: 'changeEvents'}
+             	,{title:'序号', type:'numbers'},
+             	{field : 'g0LIFNR',        title : '供应商ID', style : 'cursor: pointer;', align : 'left', width : '10%'},
+                {field : 'g0NAME1',        title : '供应商名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
+                {field : 'g0MCOD3',        title : '所在城市',   style : 'cursor: pointer;', align : 'center', width : '10%'},
+                {field : 'g0GSJC',         title : '所属单位', style : 'cursor: pointer;', align : 'center', width : '10%'},
+                {field : 'g0TELF1',         title : '电话', style : 'cursor: pointer;', align : 'center', width : '10%'},
+                {field : 'g0TELFX',         title : '传真', style : 'cursor: pointer;', align : 'center', width : '10%'},
+                {field : 'g0ADRNR',         title : '地址', style : 'cursor: pointer;', align : 'center', width : '20%'}
+            ]],
+            done: function (res, curr, count) {
+ 				
+            }
+        });
+    	
+    }
 </script>
 </head>
 <body>
@@ -125,7 +131,7 @@ var publicMethods;
     	</label>
     	
     	<div class="btnGroup">
-        	<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+        	<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="renderTable()" >查询</button>
     	</div>
 	</div>
 	<div class="tableBox">

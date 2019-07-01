@@ -1,11 +1,13 @@
 package com.pcitc.mapper.plan;
 
-import com.pcitc.base.plan.PlanBase;
-import com.pcitc.base.plan.PlanBaseExample;
-import org.apache.ibatis.annotations.Param;
-
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.pcitc.base.plan.PlanBase;
+import com.pcitc.base.plan.PlanBaseExample;
 
 public interface PlanBaseMapper {
     long countByExample(PlanBaseExample example);
@@ -56,4 +58,9 @@ public interface PlanBaseMapper {
     Long countByMyBotWorkOrder(PlanBase vo);
 
     void submitMyBotWorkOrder(String id);
+    
+    /**
+     * 统计首页中上周、本周的工作任务情况 
+     */
+    HashMap<String, String> getWorkOrderInfoForStat(HashMap<String, String> map);
 }

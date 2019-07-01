@@ -19,6 +19,7 @@ import com.pcitc.base.hana.report.H1AMKYSY100101;
 import com.pcitc.base.hana.report.H1AMKYSY100104;
 import com.pcitc.base.hana.report.H1AMKYSY100109;
 import com.pcitc.base.hana.report.H1AMKYSY100117;
+import com.pcitc.base.hana.report.ScientificFunds;
 import com.pcitc.mapper.common.CommonMapper;
 import com.pcitc.mapper.other.DecisionMapper;
 import com.pcitc.mapper.other.HomeBudgetMapper;
@@ -67,6 +68,54 @@ public class HomeServiceImpl implements IHomeService{
     
     
     private final static Logger logger = LoggerFactory.getLogger(DecisionFinancialServiceImpl.class);
+    
+    
+    
+    
+    
+    
+    
+    
+    public LayuiTableData actualPayDetailData(LayuiTableParam param)throws Exception
+	 {
+		 //每页显示条数
+	  		int pageSize = param.getLimit();
+	  		int pageNum = param.getPage();
+	  		Page p=new Page(pageNum,pageSize);
+			int start=(pageNum-1)*p.getPageSize();
+	  		String month=(String)param.getParam().get("month");
+	  		String companyCode=(String)param.getParam().get("companyCode");
+	  		String g0PROJCODE=(String)param.getParam().get("g0PROJCODE");
+	  		String g0PROJTXT=(String)param.getParam().get("g0PROJTXT");
+	  		String g0XMDL=(String)param.getParam().get("g0XMDL");
+	  		
+	  		logger.info("=====actualPayDetailData param: "+JSONObject.toJSONString(param));
+	  		Map map=new HashMap();
+	  		map.put("start", start);
+	  		map.put("pageSize", pageSize);
+	  		map.put("g0XMDL", g0XMDL);
+	  		map.put("month", month);
+	  		map.put("companyCode", companyCode);
+	  		map.put("g0PROJCODE", g0PROJCODE);
+	  		map.put("g0PROJTXT", g0PROJTXT);
+	  		List<H1AMKYSY100104> list =       homePageMapper.getActualPayDetailData(map);
+	  		Integer totalRecords =            homePageMapper.getActualPayDetailData_Count(map);
+	  		System.out.println(">>>>actualPayDetailData>>totalRecords："+totalRecords);
+	  		LayuiTableData data = new LayuiTableData();
+	  		data.setData(list);
+	  		data.setCount(totalRecords);
+	  	    return data;
+	 }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     public List<H1AMKYSY100101> getH1AMKYSY100101Count(Map map)throws Exception

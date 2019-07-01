@@ -52,6 +52,7 @@
         .layui-form-select dl {
             top: 26px;
         }
+        .tableToolBox{height: auto !important;}
     </style>
 </head>
 <body>
@@ -67,8 +68,8 @@
                     <input type="radio" name="option" value="ROOT_XTGL_XMJD_ZQPG" title="中期评估">
                     <input type="radio" name="option" value="ROOT_XTGL_XMJD_XMJTYS" title="项目结题验收">
                     <input type="radio" name="option" value="ROOT_XTGL_XMJD_XMPY" title="项目评议">
-                    <input type="radio" name="option" value="ROOT_XTGL_XMJD_CGJD" title="成果鉴定">
-                    <input type="radio" name="option" value="ROOT_XTGL_XMJD_JLPS" title="奖励评审">
+                    <!--<input type="radio" name="option" value="ROOT_XTGL_XMJD_CGJD" id="ROOT_XTGL_XMJD_CGJD" title="成果鉴定">-->
+                    <!--<input type="radio" name="option" value="ROOT_XTGL_XMJD_JLPS" id="ROOT_XTGL_XMJD_JLPS" title="奖励评审">-->
                     <input type="radio" name="option" value="ROOT_XTGL_XMJD_HPG" title="后评估">
                 </div>
             </div>
@@ -91,16 +92,28 @@
                 </div>
             </div>
 
-            <div class="layui-row">
-                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">附件 </label>
-                        <div class="layui-input-block">
-                            <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" onclick="upload_File('${bak6}','','edit','');">选择文件</button>
+            <div class="layui-row" style="width: 97%;margin: 0 5%;">
+                <!--<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">-->
+                    <!--<div class="layui-form-item">-->
+                        <!--<label class="layui-form-label">附件 </label>-->
+                        <!--<div class="layui-input-block">-->
+                            <!--<button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" onclick="upload_File('${bak6}','','edit','');">选择文件</button>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <div class="tableBox">
+                    <div class="tableToolBox" style="border: 0 !important;">
+                        <div class="layui-form-item">
+                            <input type="hidden" name="attachId" id="attachId" value="${bak6}">
+                            <div id="file_upload">
+                            </div>
                         </div>
                     </div>
                 </div>
+
+
             </div>
+
         </div>
         <div>
             <input type="hidden" id="stype" name="stype" value="suiji"/>
@@ -128,7 +141,7 @@
                             <option value="">请选择</option>
                         </select>
                         <span>人数</span>
-                        <input type="number" id="count" name="count" title="专家姓名" value="10"
+                        <input type="number" id="count"   name="count" title="" value="10"
                                autocomplete="off" class="layui-input" style="    width: 10%;display: inline-block;">
                     </label>
                     <input type="button" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" value="换一批" onclick="renderTable()">
@@ -185,6 +198,21 @@
 </form>
 </div>
 <script>
+    var file_opt_flag = "aa37ff4098174da38dead1064dd8427c";
+    var file_ids = "attachId";
+    var file_edit_detail = "edit";
+    $("#file_upload").load('/common/public/uploadlayuiload.html');
+    $(function(){
+        //输入框的值改变时触发
+        $("#count").on("input",function(e){
+            //获取input输入的值
+            var newVal = e.delegateTarget.value;
+            const regex = /^([0-9]*[1-9][0-9]*(.[0-9]+)?|[0]+.[0-9]*[1-9][0-9]*)$/
+            if(!regex.test(newVal)) {//如果小于等于零
+                $("#count").val(10); //恢复原值
+            }
+        });
+    });
     //机构
     // function choose_joinUnitName_callback(unitIds, unitNames) {
     //     $("#companyName").val(unitNames);
@@ -228,7 +256,7 @@
             maxmin: false,
             //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
             area: ['80%', '70%'],
-            content: "/unit/chooseUnitMultiV2?initFuncName=initUnitTreeChoose&callbackFuncName=callbackUnitTreeChoose"
+            content: "/unit/chooseUnitMultiExpert?initFuncName=initUnitTreeChoose&callbackFuncName=callbackUnitTreeChoose"
         });
     });
 </script>
@@ -249,7 +277,7 @@
     var projectName = "${projectName}";
     var projectId = "${projectId}";
     var unitCode = "${unitCode}";
-
+    var flag = "${flag}";
     var bak6 = "${bak6}";
 
     function okEvent() {
@@ -287,6 +315,7 @@
                 p.bak4 = bak4;
                 p.bak5 = bak5;
                 p.bak6 = bak6;
+                p.userId = "xm";
                 plist.push(p);
             }
         } else if (stype == "guding") {
@@ -311,11 +340,13 @@
                 p.bak4 = bak4;
                 p.bak5 = bak5;
                 p.bak6 = bak6;
+                p.userId = "xm";
                 plist.push(p);
             }
         } else {
 
         }
+        console.log(plist);
         //保存
         $.ajax({
             type: 'post',
@@ -331,25 +362,36 @@
                 }
             },
             error: function (e) {
-                modals.info("出错了");
+                console.log(e);
+                // modals.info("出错了");
             }
         });
-        var index = parent.layer.getFrameIndex(window.name);
-        parent.layer.close(index);
+        layer.msg("操作成功");
+        setTimeout(function (){
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        }, 1000);
 
     }
 
     //zhuan huan
     var map = {};
-    map['ROOT_XTGL_XMJD_XMLX'] = '168db5b7282_7ed760ca';
-    map['ROOT_XTGL_XMJD_GCGL'] = '168db5c06bd_115645c8';
-    map['ROOT_XTGL_XMJD_ZQPG'] = '168db5c66f6_f2f6721a';
-    map['ROOT_XTGL_XMJD_XMJTYS'] = '168db5cbc8e_f151d7be';
-    map['ROOT_XTGL_XMJD_XMPY'] = '168db5cf6a8_f950855c';
-    map['ROOT_XTGL_XMJD_CGJD'] = '168db5d4304_2340f4b6';
-    map['ROOT_XTGL_XMJD_JLPS'] = '168db5d7ba1_76333085';
-    map['ROOT_XTGL_XMJD_HPG'] = '168db5dce51_717a9115';
-    map['ROOT_XTGL_XMJD_XMJH'] = '168db68869f_f8e49a82';
+    // if (flag=='xm'){
+        map['ROOT_XTGL_XMJD_XMLX'] = '168db5b7282_7ed760ca';
+        map['ROOT_XTGL_XMJD_GCGL'] = '168db5c06bd_115645c8';
+        map['ROOT_XTGL_XMJD_ZQPG'] = '168db5c66f6_f2f6721a';
+        map['ROOT_XTGL_XMJD_XMJTYS'] = '168db5cbc8e_f151d7be';
+        map['ROOT_XTGL_XMJD_XMPY'] = '168db5cf6a8_f950855c';
+        // map['ROOT_XTGL_XMJD_JLPS'] = '168db5d7ba1_76333085';
+        // map['ROOT_XTGL_XMJD_HPG'] = '168db5dce51_717a9115';
+        map['ROOT_XTGL_XMJD_XMJH'] = '168db68869f_f8e49a82';
+    // } else if (flag=='zl'){
+        map['ROOT_XTGL_XMJD_HPG'] = '168db5dce51_717a9115';
+    // } else {
+        map['ROOT_XTGL_XMJD_CGJD'] = '168db5d4304_2340f4b6';
+        map['ROOT_XTGL_XMJD_JLPS'] = '168db5d7ba1_76333085';
+    // }
+
 
     //改变状态
     function changeStype(f) {
@@ -395,8 +437,8 @@
                 title: "性别", event: 'setActive', style: 'cursor: pointer;'
             },
             {
-                field: "age",
-                title: "年龄", event: 'setActive', style: 'cursor: pointer;', align: "right"
+                field: "birthDate",
+                title: "出生日期", event: 'setActive', style: 'cursor: pointer;', align: "right"
             },
             {
                 field: 'email',
@@ -404,7 +446,7 @@
                 event: 'setActive',
                 align: 'left',
                 style: 'cursor: pointer;',
-                width: 150,
+                width: 180,
             },
             {field: "mobile", title: "联系方式", event: 'setActive', style: 'cursor: pointer;'},
             // {fixed: 'right', title: '查看', toolbar: '#showDetail', width: 150, align: 'center'}

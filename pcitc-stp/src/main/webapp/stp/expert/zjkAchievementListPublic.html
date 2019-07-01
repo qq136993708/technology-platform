@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/common/js/base.js"></script>
+</head>
+
+<body>
+<div class="searchBox">
+    <!--查询条件-->
+    <label class="dateInput">
+        <span>成果名称</span>
+        <input type="text" id="cgmc" name="cgmc" placeholder="" title="成果名称" class="form-control">
+        <input type="hidden" id="xmid" name="xmid" value="${xmid}">
+    </label>
+    <!--<label class="dateInput">-->
+        <!--<span>专利号</span>-->
+        <!--<input type="text" id="fmh" name="fmh" placeholder="请输入专利号" title="专利号" class="form-control">-->
+    <!--</label>-->
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
+    </div>
+</div>
+
+<div class="tableBox">
+    <div class="tableToolBox">
+        <div class="whiteLine"></div>
+        <div class="tableBtns">
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent">项目详情</button>-->
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="handleEvent">课题匹配</button>-->
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_selectExpert" data-type="expertEvent">选择专家</button>-->
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="dbEvent">查看对比</button>-->
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="bxEvent">查看备选</button>-->
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_selectedExperts" data-type="showExpertEvent">已选专家</button>
+        </div>
+    </div>
+    <table id="showTable" class="layui-table" lay-filter="tableData"></table>
+</div>
+
+
+<!--表格数据操作js-->
+<script>
+    var table, active, dateId, xmid, erpProjectCode, selectRowData = '';
+    layui.use(['jquery', 'table', 'laydate', 'form', 'laypage', 'laytpl'], function () {
+        table = layui.table, $ = layui.jquery, laydate = layui.laydate, laypage = layui.laypage, form = layui.form;
+
+        function renderTable() {
+            var param = JSON.parse(window.localStorage.getItem("param"));
+            var lodingMsg = layer.msg('数据加载中....');
+
+            //渲染
+            table.render({
+                elem: '#showTable',
+                url: '/indexOutAppraisal/getTableData',
+                method: "POST",
+                where: {
+                    param: {
+
+                        "dataId": $('#xmid').val(),
+                        "cgmc": $('#cgmc').val(),
+                        // "fmh": $('#fmh').val()
+                    }
+                },
+                limit: param.selfRownum,
+                // limit: 15,
+                id: 'showTable',
+                height: commonDislodgeTable(),
+                page: {
+                    groups: 5,
+                    limits: [param.selfRownum,  30, 45, 60],
+                    // layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                    first: '首页', //不显示首页
+                    last: '尾页', //不显示尾页
+                    theme: '#0F9EE0'
+                },
+                cols: [
+                    [
+                        {type: 'checkbox', event: 'changeEvents', width: 55},
+                        {title: '序号', type: 'numbers', width: 55},
+                        {
+                            field: "nd",
+                            title: "申请年度", event: 'setActive', style: 'cursor: pointer;', width: 100
+                        },
+                        {
+                            field: "cgmc",
+                            title: "成果名称", event: 'setActive', style: 'cursor: pointer;'
+                        },
+                        {
+                            field: "sqjddw",
+                            title: "申请单位", event: 'setActive', style: 'cursor: pointer;'
+                        },
+                    ]],
+                done: function (res, curr, count) {
+                    // 关闭等待刷新
+                    layer.close(lodingMsg);
+                    // 点击行联动选择框--单选
+                    $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                        var index = parseInt($(this).index() + 1);
+                        $('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        selectRowData = res.data[index - 1];
+                    });
+                }
+            });
+        }
+        renderTable();
+        $(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
+
+        // 触发不同的按钮事件
+        var $ = layui.$;
+        active = {
+            searchEvent: function () { //点击查询按钮
+                selectRowData = '';
+                renderTable();
+            },
+            resetEvent: function () { //点击重置按钮
+                $('#cgmc').val("");
+                // $('#fmh').val("");
+                active.searchEvent();
+            },
+            handleEvent: function () { //点击关联匹配按钮
+                if (typeof (selectRowData.xmid) == "undefined") {
+                    layer.msg('请点击选择一行数据');
+                } else {
+                    erpProjectCode = selectRowData.erpProjectCode;
+                    xmid = selectRowData.xmid
+                    var temUrl = "/out/erp-project-config/" + selectRowData.xmid;
+                    layer.open({
+                        title: '课题匹配',
+                        skin: 'layui-layer-lan',
+                        shadeClose: true,
+                        type: 2,
+                        fixed: false,
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        maxmin: false,
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        area: ['900px', '500px'],
+                        content: temUrl
+                    });
+                }
+            },
+            expertEvent: function () {
+                if (typeof (selectRowData.dataId) == "undefined") {
+                    layer.msg('请点击选择一行数据');
+                } else {
+                    openFullWin("选择专家", "/expertController/getUserChoicePage?flag=cg&projectId=" + selectRowData.dataId+"&projectName="+selectRowData.cgmc+"&unitCode="+selectRowData.dataId);
+                }
+            }, showExpertEvent: function () { //查看已选专家
+                if (typeof (selectRowData.dataId) == "undefined") {
+                    layer.msg('请点击选择一行数据');
+                } else {
+                    openBaseWin("已选专家列表", "/expertController/showExpertPage?projectId=" + selectRowData.dataId+"&projectName="+selectRowData.cgmc);
+                }
+            },
+            detailEvent: function () { //点击详情按钮
+                if (typeof (selectRowData.dataId) == "undefined") {
+                    layer.msg('请点击选择一行数据');
+                } else {
+                    var temUrl = "/out/project-detail/" + selectRowData.dataId;
+                    layer.open({
+                        title: '详情',
+                        skin: 'layui-layer-lan',
+                        shadeClose: true,
+                        type: 2,
+                        fixed: false,
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        maxmin: true,
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        area: ['900px', '450px'],
+                        content: temUrl
+                    });
+                }
+            },
+            refresh: function () { //点击查询按钮
+                renderTable();
+            },
+        };
+
+        table.on('tool(tableData)', function (obj) {
+            selectRowData = obj.data;
+        });
+
+        //监听排序
+        table.on('sort(showTable)', function (obj) {
+            console.log(this, obj.field, obj.type)
+            //return;
+            //服务端排序
+            table.reload('showTable', {
+                initSort: obj,
+                page: {
+                    curr: 1
+                }, //重新从第一页开始
+                where: { //重新请求服务端
+                    key: obj.field, //排序字段
+                    order: obj.type
+                    //排序方式
+                }
+            });
+        });
+
+        form.on('select(projectAbc)', function (data) {
+            var jsonstr = {
+                "dataId": selectRowData.dataId,
+                "projectAbc": data.value
+            };
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(jsonstr),
+                url: "/out/update-project",
+                error: function (data) {
+                    layer.msg('操作失败!');
+                },
+                success: function (data) {
+                    layer.msg('操作成功!');
+                }
+            });
+            // 其他的操作看需求 TODO
+        });
+
+
+        //监听行双击事件
+        // table.on('rowDouble(tableData)', function (obj) {
+        //     var temUrl = "/out/project-detail/" + obj.data.dataId;
+        //     layer.open({
+        //         title: '详情',
+        //         skin: 'layui-layer-lan',
+        //         shadeClose: true,
+        //         type: 2,
+        //         fixed: false,
+        //         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+        //         maxmin: true,
+        //         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+        //         area: ['900px', '450px'],
+        //         content: temUrl
+        //     });
+        // });
+
+        //区别按钮属性
+        $('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+    });
+</script>
+
+</body>
+</html>

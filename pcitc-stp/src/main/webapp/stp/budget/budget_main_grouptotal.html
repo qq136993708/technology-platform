@@ -38,7 +38,7 @@
             <div class="tool-left">
                 <label class="dateInput">
                     <span>编制年度</span>
-                    <input type="text" id="choose-year">
+                    <input type="text" id="choose-year" readonly="readonly">
                     <i class="layui-icon layui-icon-date"></i>
                 </label>
                 <label class="selectInput" style="margin-left: 20px;">
@@ -69,6 +69,7 @@
                     <span>剩余可分配</span>
                     <input type="text" class="readOnlyBox" name="surplusMoney" id="surplusMoney"  readonly="readonly" value="0">
                 </label>
+                <label class="dateInput"><span id="warningMsg"></span></label>
             </div>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
                     data-type="addEvent">新增
@@ -136,7 +137,7 @@
         <p>请注意:</p>
         <ul>
             <li>1、预分配数请自行设定，剩余可分配数为预分配数减去已填入的预算数之差，剩余可分配数自动计算，不可更改</li>
-            <li>2、预算编制状态包括：编制中、审批中、初审驳回、审批通过、最终预算等五种，审批发起后不可再编辑</li>
+            <li>2、预算编制状态包括：编制中、审批中、审批驳回、审批通过、最终预算等五种，审批发起后不可再编辑</li>
             <li>3、预算按年度编制，编制年度可自定义，默认编制下一年度</li>
             <li>4、预算表创建时生成一个版本号，版本号规则：vs-年度-三位类别编码-三位顺序号</li>
             <li>5、历年参照预算数据中的数据为该年审批通过的最终预算版本</li>
@@ -164,7 +165,7 @@
                 }            
             });
             renderfunc = function removeHeaderCheckbox(){
-            	$(".layui-table-header table thead th i").remove();  //移除表头的复选框,去掉全选
+            	$(".layui-table-header table thead th .layui-unselect").remove();  //移除表头的复选框,去掉全选
 	        	//行单击选中事件绑定
 	        	$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
 	              	  var index=parseInt($(this).index()+1);
@@ -256,8 +257,15 @@
             	calculationSurplusMoney();
             });
 			$("#budgetMoney").on("keyup",function(){
-				curent_budget_info.budgetMoney = $("#budgetMoney").val();
-				calculationSurplusMoney();
+				if($("#data_version").val()==""){
+            		layer.msg("请选择预算版本!",{time:1000});
+            		return false;
+            	} 
+				var m = $("#budgetMoney").val();
+				if(publicMethods.isPositiveInteger(m)){
+					curent_budget_info.budgetMoney = m;
+					calculationSurplusMoney();
+				}
 			});
 			//刷新数据
 			window.reloadTable = function(tableId,tableData){
@@ -269,10 +277,14 @@
 						$(this).find("div").html(parseInt(val));
 					}
 				});
+				//如果是审批中或者最终版本，禁止修改
+				if(curent_budget_info && curent_budget_info.auditStatus >= 1){
+					$('td[data-edit="true"]').css("pointer-events","none");
+				}
 			}
           	//初始化数据版本
             function initDataVersion(budget_id){
-                publicMethods.ajaxPost("/budget/budget-group-info-list",{"nd":cu_date}, function (dt) {
+                publicMethods.ajaxPost("/budget/budget-info-list",{"nd":cu_date,"budgetType":${budgetType}}, function (dt) {
                 	$("#data_version").html('<option value="">---请选择版本---</option>');
                 	budget_info_map = {};
                 	$.each(dt,function(index,data){
@@ -295,26 +307,23 @@
         			
         			total_money += parseInt(dt.total);
             	});
-          		$("#surplusMoney").val(parseInt($("#budgetMoney").val())-total_money);
+            	var available = parseInt($("#budgetMoney").val())-total_money;
+          		$("#surplusMoney").val(available);
+          		if(available < 0){
+          			$("#warningMsg").html("警告：已超出预算分配数！");
+          		}else{
+          			$("#warningMsg").html("");
+          		}
+          		return available;
           	}
           	//将方法转换为全局方法
           	window.initDataVersion = initDataVersion;
             initDataVersion();
             // 触发不同的按钮事件
             var $ = layui.$, active = {
-            	createEvent: function () { //点击查询按钮
-                    layer.open({
-                        title: cu_date+'集团公司经费预算编制管理-创建预算表'
-                        , skin: 'layui-layer-lan'
-                        , shadeClose: false
-                        , type: 2
-                        , fixed: false
-                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                        , maxmin: true
-                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                        , area: ['70%', '90%']
-                        , content: '/budget/budget_create_grouptotal?nd='+cu_date
-                    });
+            	createEvent: function () { 
+                    var url = '/budget/budget_create_total?nd='+cu_date+'&budgetType=${budgetType}';
+                    publicMethods.openBaseWinFull(cu_date+'集团公司经费预算编制管理-创建预算表',url);
                 },
                 resetJzEvent:function(){
                 	if($("#data_version").val()==""){
@@ -346,20 +355,13 @@
                 	if($("#data_version").val()==""){
                 		parent.layer.alert("请选择预算版本", {title : '提示'});
                 		return;
-                	} 
+                	}
+                	if(curent_budget_info.auditStatus >= 1){
+                		parent.layer.alert("状态："+curent_budget_info.auditStatusDesc+" 不可操作!", {title : '提示'});
+    					return false;
+    				}
                 	var url = '/budget/budget_edit_grouptotal?budgetInfoId='+curent_budget_info.dataId+'&nd='+cu_date;
-                   	layer.open({
-                        title: cu_date+'集团公司经费预算编制管理-预算项新增'
-                        , skin: 'layui-layer-lan'
-                        , shadeClose: false
-                        , type: 2
-                        , fixed: false
-                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                        , maxmin: true
-                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                        , area: ['70%', '90%']
-                        , content: url
-                    });
+                   	publicMethods.openBaseWinFull('集团公司经费预算编制管理-预算项新增',url);
                 },
                 editEvent: function() {
                 	var selectIndex = $(".layui-form-checked").parents("tr").attr("data-index");
@@ -368,18 +370,7 @@
                 		return;
                 	}
                 	var url = '/budget/budget_edit_grouptotal?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId+"&nd="+cu_date;
-                   	layer.open({
-                        title: cu_date+'集团公司经费预算编制管理-预算项编辑'
-                        , skin: 'layui-layer-lan'
-                        , shadeClose: false
-                        , type: 2
-                        , fixed: false
-                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                        , maxmin: true
-                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                        , area: ['70%', '90%']
-                        , content: url
-                    });
+                   	publicMethods.openBaseWinFull('集团公司经费预算编制管理-预算项编辑',url);
                 },
                 deleteEvent:function(){
                 	var selectIndex = $(".layui-form-checked").parents("tr").attr("data-index");
@@ -387,6 +378,10 @@
                 		parent.layer.alert("请选择需要删除的行", {title : '提示'});
                 		return;
                 	}
+                	if(curent_budget_info.auditStatus >= 1){
+                		parent.layer.alert("状态："+curent_budget_info.auditStatusDesc+" 不可操作!", {title : '提示'});
+    					return false;
+    				}
                 	layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
     					layer.close(index);
     					publicMethods.ajaxAsyncPost("/budget/del-group-item/"+curent_tabel_data[selectIndex].dataId, null, function (data) {
@@ -406,23 +401,50 @@
                 		parent.layer.alert("请选择需要保存的预算版本", {title : '提示'});
                 		return;
                 	}
-                	layer.msg("处理中...");
-   					publicMethods.ajaxAsyncPost("/budget/save-grouptotal-items", {"info":JSON.stringify(curent_budget_info),"items":JSON.stringify(curent_tabel_data)}, function (data) {
-   	                     if (data.success) {    	                    	
-   	                    	 layer.msg('保存成功!');
-   	                    	 publicMethods.ajaxAsyncPost("/budget/budget-info-get", {"dataId":curent_budget_info.dataId}, function (dt) {
-   	                    		budget_info_map[dt.dataId]=dt
-   	                    		initEmptyData(dt);
-   	   	                	 });  
-   	                     } else {
-   	                    	layer.msg(data.message);
-   	                     }
-   	                });                	
+                	if(curent_budget_info.auditStatus >= 1){
+                		parent.layer.alert("状态："+curent_budget_info.auditStatusDesc+" 不可操作!", {title : '提示'});
+    					return false;
+    				}
+                	function saveData(){
+                		layer.msg("处理中...");
+       					publicMethods.ajaxAsyncPost("/budget/save-grouptotal-items", {"info":JSON.stringify(curent_budget_info),"items":JSON.stringify(curent_tabel_data)}, function (data) {
+       	                     if (data.success) {    	                    	
+       	                    	 layer.msg('保存成功!');
+       	                    	 publicMethods.ajaxAsyncPost("/budget/budget-info-get", {"dataId":curent_budget_info.dataId}, function (dt) {
+       	                    		budget_info_map[dt.dataId]=dt
+       	                    		initEmptyData(dt);
+       	   	                	 });  
+       	                     } else {
+       	                    	layer.msg(data.message);
+       	                     }
+       	                });  
+                	}
+                	var rs = calculationSurplusMoney();
+                	var msg = "";
+                	if(rs > 0)
+                	{
+                		msg = '剩余可分配数'+rs+' 万元，确定要保存吗？';
+                	}
+                	if(rs <0){
+                		msg = '已超出可分配数'+Math.abs(rs)+' 万元，确定要保存吗？';
+                	}
+                	if(rs != 0){
+                		layer.confirm(msg,{title:"保存确认"},function(index){
+                			layer.close(index);
+                			saveData();
+                		});
+                	}else{
+                		saveData();
+                	}
                 },submitEvent:function(){
                 	if($("#data_version").val()==""){
                 		parent.layer.alert("请选择需要提交的预算版本", {title : '提示'});
                 		return;
-                	}  
+                	}
+                	if(curent_budget_info.auditStatus >= 1){
+                		parent.layer.alert("状态："+curent_budget_info.auditStatusDesc+" 不可操作!", {title : '提示'});
+    					return false;
+    				}
                 	layer.confirm('提交后将不可再编辑！确定要提交审批吗？',{title:"提交确认"},function(index){
     					layer.close(index);
     					publicMethods.ajaxAsyncPost("/budget/start-budget-grouptotal-activity", {"budgetInfoId":curent_budget_info.dataId,"functionId":param.id}, function (data) {
@@ -449,36 +471,14 @@
                 		return;
                 	}
                 	var url = '/budget/budget_history_compare_grouptotal?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId;
-                   	layer.open({
-                        title: '集团公司经费预算编制管理-往年预算参考'
-                        , skin: 'layui-layer-lan'
-                        , shadeClose: false
-                        , type: 2
-                        , fixed: false
-                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                        , maxmin: true
-                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                        , area: ['70%', '90%']
-                        , content: url
-                    });                	
+                   	publicMethods.openBaseWinFull('集团公司经费预算编制管理-往年预算参考',url);
                 },historyView:function(){
                 	if($("#data_version").val()==""){
                 		parent.layer.alert("请选择预算版本", {title : '提示'});
                 		return;
                 	} 
                 	var url = '/budget/budget_history_view_grouptotal?budgetInfoId='+curent_budget_info.dataId;
-                   	layer.open({
-                        title: '集团公司经费预算编制管理-历年参考数据'
-                        , skin: 'layui-layer-lan'
-                        , shadeClose: false
-                        , type: 2
-                        , fixed: false
-                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                        , maxmin: true
-                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                        , area: ['70%', '90%']
-                        , content: url
-                    });         
+                   	publicMethods.openBaseWinFull('集团公司经费预算编制管理-历年参考数据',url);
                 }
             }
         })

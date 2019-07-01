@@ -22,11 +22,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import java.util.Date;
+import java.util.*;
 
 /**
  * <p>接口实现类</p>
@@ -165,6 +161,18 @@ public class IndexOutPatentServiceImpl implements IndexOutPatentService {
         Object typeIndex = param.getParam().get("typeIndex");
         if (typeIndex != null) {
             c.andTypeIndexLike(typeIndex + "%");
+        }
+        Object fmmc = param.getParam().get("fmmc");
+        if (fmmc != null) {
+            c.andFmmcLike("%"+fmmc + "%");
+        }
+        Object fmh = param.getParam().get("fmh");
+        if (fmh != null) {
+            c.andZlhLike("%"+fmh + "%");
+        }
+        Object dataId = param.getParam().get("dataId");
+        if (dataId != null) {
+            c.andDataIdIn(Arrays.asList(dataId.toString().split(",")));
         }
         example.setOrderByClause("create_date desc");
         return this.findByExample(param, example);

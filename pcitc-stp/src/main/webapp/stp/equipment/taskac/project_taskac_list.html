@@ -34,11 +34,43 @@
         <div class="whiteLine"></div>
         <div  class="tableBtns">
                     <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">新增验收申请</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="submitEvent">提交</button>
+            <!--  <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="submitEvent">提交</button>-->
+                    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="uploadEvent">上传验收准备材料</button>
+                    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="planEvent">安排填写人</button>
+                    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="reportEvent">上传验收报告材料</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="deleteEvent">删除</button>
            </div>
     </div>
    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table> 
 </div>
+
+<script type="text/html" id="status1">
+    {{#  if(d.status == '20'){ }}
+    <button class="layui-btn layui-btn-primary layui-btn-xs">未上传</button>
+    {{#  } else if(d.status >= '20'){ }}
+    <button class="layui-btn layui-btn-normal layui-btn-xs">已上传</button>
+    {{#  } else{ }}
+    <button class="layui-btn layui-btn-primary layui-btn-xs">未上传</button>
+    {{#  } }}
+</script>
+<script type="text/html" id="status2">
+    {{#  if(d.status == '30'){ }}
+    <button class="layui-btn layui-btn-primary layui-btn-xs">未安排</button>
+    {{#  } else if(d.status >= '30'){ }}
+    <button class="layui-btn layui-btn-normal layui-btn-xs">已安排</button>
+    {{#  } else{ }}
+    <button class="layui-btn layui-btn-primary layui-btn-xs">未安排</button>
+    {{#  } }}
+</script>
+<script type="text/html" id="status3">
+    {{#  if(d.status == '40'){ }}
+    <button class="layui-btn layui-btn-primary layui-btn-xs">未上传</button>
+    {{#  } else if(d.status >= '40'){ }}
+    <button class="layui-btn layui-btn-normal layui-btn-xs">已上传</button>
+    {{#  } else{ }}
+    <button class="layui-btn layui-btn-primary layui-btn-xs">未上传</button>
+    {{#  } }}
+</script>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script type="text/javascript">
     // 时间格式化
@@ -60,6 +92,36 @@
         } else {
             return '';
         }
+    }
+    //查看验收准备材料
+    function view_preparation(id) {
+        var uploadState ="3";
+        var temUrl="/sre_project_taskac/projecttaskpradd?id=" + id +"&uploadState="+uploadState;
+        layer.open({
+            title:'查看验收准备材料',
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            maxmin: true,
+            area: ['70%', '90%'],
+            content:  temUrl
+        });
+    }
+    //查看验收报告材料
+    function view_report(id) {
+        var uploadState="4";
+        var temUrl="/sre_project_taskac/projecttaskpradd?id=" + id+"&uploadState="+uploadState;
+        layer.open({
+            title:'查看验收准备材料',
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            maxmin: true,
+            area: ['70%', '90%'],
+            content:  temUrl
+        });
     }
 </script>
 <script type="text/html" id="buttonTpl">
@@ -108,6 +170,7 @@ var name=$('#name').val();
          var $ = layui.$, active = {
             searchEvent: function() { //点击查询按钮
             	 renderTable();
+            	   $(".layui-table-header table thead th input").remove();  
             },
             resetEvent: function() { //点击重置按钮
             	$('#name').val("");
@@ -127,7 +190,7 @@ var name=$('#name').val();
 	                    type: 2,
 	                    fixed: false,
 	                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-	                    maxmin: false,
+	                    maxmin:true,
 	                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
 	                    area: ['60%', '80%'],
 	                    content:  '/sre-meeting/add?taskId='+taskId
@@ -143,11 +206,105 @@ var name=$('#name').val();
                          type: 2,
                          fixed: false,
                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                         maxmin: false,
+                         maxmin: true,
                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                          area: ['70%','90%'],
                          content:  '/sre_project_taskac/project_audit'
                      });  
+            },
+            uploadEvent: function(){ //上传验收准备材料
+         
+         
+            	 if (typeof(selectRowData) == "undefined")
+                {
+                    layer.msg('请点击选择一行数据');
+                }else
+                {
+                if(selectRowData.status!="20")
+                {
+                 layer.msg('已经上传过准备材料');
+                 return;
+                }
+                        var id=selectRowData.id;
+                        var uploadState="1";
+                        var temUrl="/sre_project_taskac/projecttaskpradd?id=" + id+"&uploadState="+uploadState;
+                        layer.open({
+                            title:'上传验收准备材料',
+                            skin: 'layui-layer-lan',
+                            shadeClose: true,
+                            type: 2,
+                            fixed: false,
+                            maxmin: true,
+                            area: ['70%', '90%'],
+                            content:  temUrl
+                        });
+                }
+            },
+           planEvent: function(){ //安排填写人
+         	if (typeof(selectRowData) == "undefined") {
+            		layer.msg('请点击选择一行数据');
+            	}
+            	else{
+            	   if(selectRowData.status=="20")
+	                {
+	                 layer.msg('请上传验收准备材料');
+	                 return;
+	                }
+	                if(selectRowData.status!="30")
+	                {
+	                 layer.msg('已经填写过安排人');
+	                 return;
+	                }
+            		 layer.open({
+                         title:'安排填写人',
+                         skin: 'layui-layer-lan',
+                         shadeClose: true,
+                         type: 2,
+                         fixed: false,
+                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                         maxmin: true,
+                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                         area: ['100%','100%'],
+                         content:  '/sre_project_taskac/projectusers?id='+selectRowData.id
+                     });  
+                     }
+            },
+             reportEvent: function(){ //上传验收报告材料
+         
+            	 if (typeof(selectRowData) == "undefined")
+                {
+                    layer.msg('请点击选择一行数据');
+                }else
+                {
+                 if(selectRowData.status=="20")
+	                {
+	                 layer.msg('请上传验收准备材料');
+	                 return;
+	                }
+	                if(selectRowData.status=="30")
+	                {
+	                 layer.msg('请选择安排人');
+	                 return;
+	                }
+	                  if(selectRowData.status!="40")
+	                {
+	                 layer.msg('已上传验收报告材料');
+	                 return;
+	                }
+                        var id=selectRowData.id;
+                    var uploadState="2";
+                    var temUrl="/sre_project_taskac/projecttaskpradd?id=" + id+"&uploadState="+uploadState;
+                        layer.open({
+                            title:'上传验收准备材料',
+                            skin: 'layui-layer-lan',
+                            shadeClose: true,
+                            type: 2,
+                            fixed: false,
+                            maxmin: true,
+                            area: ['70%', '90%'],
+                            content:  temUrl
+                        });
+                }
             }
             ,editEvent: function(){  //点击编辑按钮
             	if (typeof(selectRowData.taskId) == "undefined") {
@@ -170,7 +327,7 @@ var name=$('#name').val();
 	                      type: 2,
 	                      fixed: false,
 	                      //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-	                      maxmin: false,
+	                      maxmin: true,
 	                      //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
 	                      area: ['70%', '90%'],
 	                      content:  url
@@ -180,25 +337,24 @@ var name=$('#name').val();
                
             },deleteEvent: function(){  //点击删除按钮
                  console.log('点击了删除按钮')
-                 if (typeof(selectRowData.taskId) == "undefined") 
+                 if (typeof(selectRowData) == "undefined")
                  {
             		layer.msg('请点击选择一行数据');
             	 } else 
             	 {
-            		  var taskId=selectRowData.taskId;
-           		      var url="/sre_project_taskac/delete/"+taskId;
+            		  var id=selectRowData.id;
+           		      var url="/sre_project_taskac/delete/"+id;
            		     var status=selectRowData.status;
-         		     if(status=='1' || status=='3')
+         		     if(status!="20")
          		     {
-         		    	layer.msg('上报中或审核通过，不能删除');
+         		    	layer.msg('数据已通过,不能删除');
          		    	return;
-         		     }
-         		     
-	           		  layer.confirm('确定要删除吗？', { btn: ['确定','取消']}, function(){
-	         				 ajaxDeleteOpt(url,"post","删除成功","删除失败");
-	         			}, function(){
-	         			 
-	         			});
+         		     }else{
+                         layer.confirm('确定要删除吗？', { btn: ['确定','取消']}, function(){
+                         ajaxDeleteOpt(url,"post","删除成功","删除失败");
+                         });
+                     }
+
             	}
             
               
@@ -216,7 +372,7 @@ var name=$('#name').val();
                          type: 2,
                          fixed: false,
                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                         maxmin: false,
+                         maxmin: true,
                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                          area: ['70%', '90%'],
                          content:  temUrl
@@ -254,7 +410,7 @@ var name=$('#name').val();
 			           url : "/sre_project_taskac/submitAudit?id="+applicationId+"&status="+"20",
 			       
 			           success : function(data) {
-			           layer.alert("保存成功！", {icon: 1,closeBtn: 0 }, function () 
+			           layer.alert("提交成功！", {icon: 1,closeBtn: 0 }, function () 
 			                       {
 			                           var index = parent.layer.getFrameIndex(window.name); 
 								       parent.layer.close(index); 
@@ -314,7 +470,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre_project_taskac/list',
             method:"POST",
-            where: {param: {"projecttask":$("#name").val(),"status":"10"}},
+            where: {param: {"projecttask":$("#name").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),
@@ -330,9 +486,18 @@ var name=$('#name').val();
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
                 {field : 'id', title : 'id', style : 'cursor: pointer;', align: 'left'},
-                {field : 'projecttask', title : '课题名称', style : 'cursor: pointer;', align: 'left'},
-                {field : 'content', title : '详情', style : 'cursor: pointer;', align: 'left'},
-               ]],
+                {field : 'status', title : '验收准备材料', style : 'cursor: pointer;', align : 'center',templet : '#status1', width : '10%'},
+                {field : 'status', title : '安排填写人', style : 'cursor: pointer;', align : 'center',templet : '#status2', width : '10%'},
+                {field : 'status', title : '验收报告材料', style : 'cursor: pointer;', align : 'center',templet : '#status3', width : '10%'},
+                {field : 'projecttask', title : '课题名称', style : 'cursor: pointer;', align: 'left',width : '15%'},
+                {field : 'documentDocTender',     title : '验收准备材料', style : 'cursor: pointer;', align : 'left', width : '10%',templet:function(d){return '<span onclick="view_preparation(\''+d.id+'\')" style="color:#1890ff">验收准备材料</span>'}},
+                {field : 'informcontent', title : '填写人', style : 'cursor: pointer;', align: 'left',width : '10%'},
+                {field : 'documentDocAgreement',     title : '验收报告材料', style : 'cursor: pointer;', align : 'left', width : '10%',templet:function(d){return '<span onclick="view_report(\''+d.id+'\')" style="color:#1890ff">验收报告材料</span>'}},
+                {field : 'content', title : '验收描述', style : 'cursor: pointer;', align: 'left',width : '15%'},
+                {field : 'createUser', title : '创建人', style : 'cursor: pointer;', align: 'left',width : '10%'},
+                {field : 'createDate', title : '创建时间', style : 'cursor: pointer;', align: 'left', templet : '#dateTpl'},
+
+            ]],
             done: function (res, curr, count) {
              $("[data-field='id']").css('display','none');
                 // 点击行联动选择框--单选

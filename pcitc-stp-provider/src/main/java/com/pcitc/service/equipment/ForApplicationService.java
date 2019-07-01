@@ -35,6 +35,8 @@ public interface ForApplicationService {
 	//科技资产查询
 	public LayuiTableData getResearchAssetsList(LayuiTableParam param);
 
+	public Integer updateSreForApplication(SreForApplication sreForApplication);
+
 	
 	
 	

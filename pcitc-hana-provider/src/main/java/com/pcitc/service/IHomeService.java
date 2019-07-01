@@ -11,7 +11,7 @@ import com.pcitc.base.hana.report.H1AMKYSY100109;
 import com.pcitc.base.hana.report.H1AMKYSY100117;
 
 public interface IHomeService {
-	
+	public LayuiTableData actualPayDetailData(LayuiTableParam param)throws Exception;
 	public List<H1AMKYSY100101> getH1AMKYSY100101Count (Map map)throws Exception;
 	
     public List<H1AMKYSY100104> getH1AMKYSY100104Count (Map map)throws Exception;

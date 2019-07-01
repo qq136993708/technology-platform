@@ -21,10 +21,10 @@
                placeholder="请输入专家名称"
                title="专家名称" autocomplete="off"
                class="form-control" >
-        <span>项目名称</span>
+        <span>名称</span>
         <input type="text" name="xmName" id="xmName"
-               placeholder="请输入项目名称"
-               title="项目名称" autocomplete="off"
+               placeholder=""
+               title="" autocomplete="off"
                class="form-control" >
         <span>项目阶段</span>
         <select name="xmSteps" id="xmSteps" lay-filter="xmSteps">
@@ -115,23 +115,23 @@
                 // },
                 {
                     field: "zjkName",
-                    title: "被投诉专家名称", event: 'setActive', style: 'cursor: pointer;'
+                    title: "被投诉专家名称", event: 'setActive', style: 'cursor: pointer;',width:'10%'
                 },
                 {
                     field: "xmName",
-                    title: "所属项目", event: 'setActive', style: 'cursor: pointer;'
+                    title: "名称", event: 'setActive', style: 'cursor: pointer;',width:'40%'
                 },
                 {
                     field: "xmSteps",
-                    title: "项目阶段", event: 'setActive', style: 'cursor: pointer;'
+                    title: "项目阶段", event: 'setActive', style: 'cursor: pointer;',width:'8%'
                 },
                 {
                     field: "complaintType",
-                    title: "投诉类型", event: 'setActive', style: 'cursor: pointer;'
+                    title: "投诉类型", event: 'setActive', style: 'cursor: pointer;',width:'8%'
                 },
                 {
                     field: "complaintUserName",
-                    title: "投诉人名称", event: 'setActive', style: 'cursor: pointer;'
+                    title: "投诉人名称", event: 'setActive', style: 'cursor: pointer;',width:'8%'
                 },
                 // {
                 //     field: "complaintDesc",
@@ -218,8 +218,9 @@
                     url: "/pageCommon/dic/ROOT_UNIVERSAL_WEHTHER"//接口
                 };
                 publicMethods.dataDictionary(param);
-
             });
+            $(".layui-table-header table thead th input").remove();
+
         }
 
         renderTable();
@@ -331,7 +332,7 @@
                 if (selectRowData != undefined) {
                     // if (selectRowData.workOrderStatus == '0') {
                         id = selectRowData.dataId;
-                        layer.confirm('确认要删除选中的条数据吗？', {icon: 3, btn: ['确定', '取消']}, function (index) {
+                        layer.confirm('确认要删除选中的数据吗？', {icon: 3, btn: ['确定', '取消']}, function (index) {
                             layer.close(index);
                             $.ajax({
                                 type: 'post',

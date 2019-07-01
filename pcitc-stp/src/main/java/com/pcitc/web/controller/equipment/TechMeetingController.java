@@ -39,7 +39,6 @@ import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
 
 @Controller
-@RequestMapping(value = "/sre-meeting")
 public class TechMeetingController extends BaseController {
 
 	/*
@@ -54,12 +53,12 @@ public class TechMeetingController extends BaseController {
 	private static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/meeting/get/";
 	private static final String BATCH_DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/meeting/batch-delete/";
 
-	@RequestMapping(value = "/to-list")
+	@RequestMapping(value = "/sre-meeting/to-list")
 	public String list(HttpServletRequest request, HttpServletResponse response) {
 		return "/stp/equipment/meeting/meeting-list";
 	}
 
-	@RequestMapping(value = "/list")
+	@RequestMapping(value = "/sre-meeting/list")
 	@ResponseBody
 	public String ajaxlist(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 		LayuiTableData layuiTableData = new LayuiTableData();
@@ -70,7 +69,9 @@ public class TechMeetingController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		logger.info("============result" + result);
+		// 安全设置：归档文件下载
+		response.setHeader("Pragma", "no-cache");
+		response.setHeader("Cache-Control", "no-cache");
 		return result.toString();
 	}
 
@@ -81,7 +82,7 @@ public class TechMeetingController extends BaseController {
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping(value = "/search-equipment")
+	@RequestMapping(value = "/sre-meeting/search-equipment")
 	public String searchEquipment(HttpServletRequest request, HttpServletResponse response) {
 
 		String name = CommonUtil.getParameter(request, "name", "");
@@ -121,12 +122,12 @@ public class TechMeetingController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/add")
+	@RequestMapping(value = "/sre-meeting/add")
 	public String add(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String equipmentId = CommonUtil.getParameter(request, "equipmentId", "");
 		request.setAttribute("equipmentId", equipmentId);
-		
-		String meetingDoc= IdUtil.createFileIdByTime();
+
+		String meetingDoc = IdUtil.createFileIdByTime();
 		request.setAttribute("meetingDoc", meetingDoc);
 
 		return "/stp/equipment/meeting/meeting-add";
@@ -140,7 +141,7 @@ public class TechMeetingController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(method = RequestMethod.POST, value = "/save")
+	@RequestMapping(method = RequestMethod.POST, value = "/sre-meeting/save")
 	public String saveOrUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result resultsDate = new Result();
@@ -155,31 +156,24 @@ public class TechMeetingController extends BaseController {
 		String joinUsers = CommonUtil.getParameter(request, "joinUsers", "");
 		String projectId = CommonUtil.getParameter(request, "projectId", "");
 		String equipmentId = CommonUtil.getParameter(request, "equipmentId", "");
-		
+
 		String meetingDoc = CommonUtil.getParameter(request, "meetingDoc", "");
-		
-		
-		String unitPathIds =   CommonUtil.getParameter(request, "unitPathIds",sysUserInfo.getUnitPath());
-		String parentUnitPathIds ="";
-		String parentUnitPathNames =  "";
-		if(!unitPathIds.equals(""))
-		{
-			if(unitPathIds.length()>4)
-			{
-				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-				SysUnit sysUnit=EquipmentUtils.getUnitByUnitPath(parentUnitPathIds, restTemplate, httpHeaders);
-				if(sysUnit!=null)
-				{
+
+		String unitPathIds = CommonUtil.getParameter(request, "unitPathIds", sysUserInfo.getUnitPath());
+		String parentUnitPathIds = "";
+		String parentUnitPathNames = "";
+		if (!unitPathIds.equals("")) {
+			if (unitPathIds.length() > 4) {
+				parentUnitPathIds = unitPathIds.substring(0, unitPathIds.length() - 4);
+				SysUnit sysUnit = EquipmentUtils.getUnitByUnitPath(parentUnitPathIds, restTemplate, httpHeaders);
+				if (sysUnit != null) {
 					parentUnitPathNames = sysUnit.getUnitName();
 				}
 			}
 		}
-		
-		
-		
+
 		SreTechMeeting sreTechMeeting = null;
-		if (meetingId.equals("")) 
-		{
+		if (meetingId.equals("")) {
 			sreTechMeeting = new SreTechMeeting();
 			sreTechMeeting.setCreateDate(new Date());
 			sreTechMeeting.setCreateUserId(sysUserInfo.getUserId());
@@ -192,7 +186,7 @@ public class TechMeetingController extends BaseController {
 			ResponseEntity<SreTechMeeting> se = this.restTemplate.exchange(GET_URL + meetingId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreTechMeeting.class);
 			sreTechMeeting = se.getBody();
 		}
-		
+
 		sreTechMeeting.setParentUnitPathIds(parentUnitPathIds);
 		sreTechMeeting.setParentUnitPathNames(parentUnitPathNames);
 		sreTechMeeting.setMeetingDoc(meetingDoc);
@@ -202,7 +196,7 @@ public class TechMeetingController extends BaseController {
 		sreTechMeeting.setMeetingDate(DateUtil.strToDate(meetingDate, DateUtil.FMT_SS));
 		sreTechMeeting.setTitle(title);
 		sreTechMeeting.setJoinUsers(joinUsers);
-		sreTechMeeting.setEquitmentId(equipmentId); 
+		sreTechMeeting.setEquitmentId(equipmentId);
 		sreTechMeeting.setProjectId(projectId);
 		sreTechMeeting.setMeetingEmcee(meetingEmcee);
 		sreTechMeeting.setStatus(status);
@@ -248,7 +242,7 @@ public class TechMeetingController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/update")
+	@RequestMapping(value = "/sre-meeting/update")
 	public String update(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String meetingId = CommonUtil.getParameter(request, "meetingId", "");
@@ -261,7 +255,6 @@ public class TechMeetingController extends BaseController {
 		request.setAttribute("meetingDoc", sreTechMeeting.getMeetingDoc());
 		String backurl = CommonUtil.getParameter(request, "backurl", "");
 		request.setAttribute("backurl", backurl);
-		
 
 		return "/stp/equipment/meeting/meeting-add";
 	}
@@ -274,7 +267,7 @@ public class TechMeetingController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/delete/{id}")
+	@RequestMapping(value = "/sre-meeting/delete/{id}")
 	public String delete(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result resultsDate = new Result();
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(DEL_URL + id, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
@@ -295,7 +288,7 @@ public class TechMeetingController extends BaseController {
 		return null;
 	}
 
-	@RequestMapping(value = "/bacth-delete")
+	@RequestMapping(value = "/sre-meeting/bacth-delete")
 	public String deleteBatch(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result resultsDate = new Result();
@@ -344,7 +337,7 @@ public class TechMeetingController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/sre-meeting/get/{id}", method = RequestMethod.GET)
 	public String get(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ResponseEntity<SreTechMeeting> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreTechMeeting.class);
 		int statusCode = responseEntity.getStatusCodeValue();

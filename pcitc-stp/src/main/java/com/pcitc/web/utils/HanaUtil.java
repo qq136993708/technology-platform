@@ -4916,12 +4916,12 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {
 				H1AMKYSY100104 f03 = list.get(i);
-				String K0BNYSJHJE = f03.getK0BNYSJHJE();
+				BigDecimal K0BNYSJHJE = f03.getK0BNYSJHJE();
 				String K0BNGLFPHJECB = f03.getK0BNGLFPHJECB();
-
+				
 
 				if (name.equals("K0BNYSJHJE")) {
-					dataList.add(Double.valueOf(K0BNYSJHJE).intValue());
+					dataList.add(K0BNYSJHJE.toString());
 				}
 				if (name.equals("K0BNGLFPHJECB")) {
 					dataList.add(Double.valueOf(K0BNGLFPHJECB).intValue());
@@ -5180,10 +5180,19 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 			{
 				BudgetMysql f03 = list.get(i);
 				
-			
+				String fyxje ="0";
+				String zbxje ="0";
+				Object f03o=f03.getFyxje();
+				Object f03tt=f03.getZbxje();
+				if(f03o!=null)
+				{
+					fyxje =((BigDecimal)f03.getFyxje()).toString();
+				}
+				if(f03tt!=null)
+				{
+					zbxje =((BigDecimal)f03.getZbxje()).toString();
+				}
 				
-				String fyxje =((BigDecimal)f03.getFyxje()).toString();
-				String zbxje =((BigDecimal)f03.getZbxje()).toString();
 				
 				
 				
@@ -5858,13 +5867,13 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 			for (int i = 0; i < list.size(); i++) {
 				H1AMKYSY100104 f03 = list.get(i);
 				
-				String K0BNYSJHJE = f03.getK0BNYSJHJE();
+				BigDecimal K0BNYSJHJE = f03.getK0BNYSJHJE();
 				String K0BNGLFPHJECB = f03.getK0BNGLFPHJECB();
 
 			
 				
 				if (name.equals("K0BNYSJHJE")) {
-					dataList.add(Double.valueOf(K0BNYSJHJE).intValue());
+					dataList.add(K0BNYSJHJE.toString());
 				}
 				if (name.equals("K0BNGLFPHJECB")) {
 					dataList.add(Double.valueOf(K0BNGLFPHJECB).intValue());

@@ -96,6 +96,18 @@
     </form>
 </div>
 <script>
+    $(function(){
+        //输入框的值改变时触发
+        $("#expertCount").on("input",function(e){
+            //获取input输入的值
+            var newVal = e.delegateTarget.value;
+            const regex = /^([0-9]*[1-9][0-9]*(.[0-9]+)?|[0]+.[0-9]*[1-9][0-9]*)$/
+            if(!regex.test(newVal)) {//如果小于等于零
+                $("#expertCount").val(0); //恢复原值
+            }
+        });
+    });
+
     var id = "${id?default(0)}";
     if (id != "0") {
         $("#id").val(id);

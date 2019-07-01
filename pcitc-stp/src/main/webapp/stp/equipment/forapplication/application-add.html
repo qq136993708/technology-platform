@@ -61,13 +61,41 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">转资名称<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" name="froappname" id="froappname" value="${sreProjectBasic.name}"
+                            <input class="layui-input" name="froappname" id="froappname" value=""
                                    lay-verify="required" autocomplete="off" type="text">
                         </div>
                     </div>
                 </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">公司代码<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" name="companyCode" id="companyCode" value=""
+                                   lay-verify="required" autocomplete="off" type="text">
+                        </div>
+                    </div>
+		        </div>
             </div>
 
+
+			<div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">申请部门</label>
+            <div class="layui-input-block">
+            <input class="layui-input readOnlyBox"  name="applyDepartName" id="applyDepartName" value="${applyDepartName}"  readonly="readonly"   autocomplete="off" type="text" >
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+		          <div class="layui-form-item">
+		            <label for="" class="layui-form-label">申请人</label>
+		            <div class="layui-input-block">
+		              <input class="layui-input readOnlyBox"  name="firstApplyUser" id="firstApplyUser" value="${firstApplyUser}"  readonly="readonly"   autocomplete="off" type="text" >
+		            </div>
+		          </div>
+		        </div>
+      </div>
             <!--行有两个的情况-->
             <div class="layui-form-item" id="equipment">
                 <label class="layui-form-label">选择装备<span class="must-fill">*</span></label>
@@ -81,7 +109,7 @@
                 </div>
             </div>
 
-
+			
 
 
                 <div class="form-bottom">
@@ -97,6 +125,29 @@
 <script type="text/javascript">
 
 </script>
+<script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
+<script type="text/javascript">
+    // 时间格式化
+    function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+</script>
 <script type="text/javascript">
 var publicMethods;
     $(document).ready(function() {
@@ -108,24 +159,31 @@ var publicMethods;
 	    	table.render({
 	            elem: '#notjoin_apply_table',
 	            url: '/sre-forapplication/listfor',
-	            limit: 15,
-	            method:"POST",
-	            where: {param:{"equipmentIds":$("#equipmentIds").val(),"applyName":$("#applyName").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"isLinkedProject":$("#isLinkedProject").val()}},
+	            limit: 5,
+	            method:"POST",  
+	            where: {param:{"beizhu":$("#beizhu").val(),"equipmentIds":$("#equipmentIds").val(),"applyName":$("#applyName").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"isLinkedProject":$("#isLinkedProject").val()}},
 	        	id: 'notjoin_apply_table',
-	        	height: 360,
-	        	page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
+	        	height: 220,
+	        	page: {
+	                groups: 5,
+	                limits: [5,10,15,20],
+	                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+	                first: '首页', //不显示首页
+	                last: '尾页', //不显示尾页
+	                theme: '#0F9EE0'
+	            },
 	            cols: [[
-	            	{type:'checkbox',event: 'changeEvents'}
-	             	,{title:'序号', type:'numbers'},
-	             	 {field : 'assetNumber ', title : '资产编号', style : 'cursor: pointer;', align : 'left', width : '15%',edit: 'text'},
+	            	{type:'checkbox',event: 'changeEvents', width : 55},
+					{title:'序号', type:'numbers', width : 55},
+	             	{field : 'assetNumber ', title : '资产编号', style : 'cursor: pointer;', align : 'left', width : '18%',edit: 'text'},
 	                {field : 'name',        title : '装备名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
-	                {field : 'unitPrice',   title : '单价（万元）', style : 'cursor: pointer;', align : 'center', width : '10%'},
-	                {field : 'applyAcount', title : '申请数量',    style : 'cursor: pointer;', align : 'center', width : '10%'},
-	                {field : 'allPrice',    title : '总价¥（万元）', style : 'cursor: pointer;', align : 'center', width : '10%',templet:function(d){return '<span style="color:red">'+d.allPrice+'</span>'}},
-	                {field : 'parentUnitPathNames', title : '申报单位', style : 'cursor: pointer;', align : 'left', width : '30%'},
-	                {field : 'applyDepartName', title : '申报部门', style : 'cursor: pointer;', align : 'left', width : '20%'},
-	                {field : 'firstApplyUser',  title : '第一申报人', style : 'cursor: pointer;', align : 'left', width : '10%'},
-	                {field : 'createDate',  title : '申报时间', style : 'cursor: pointer;', align : 'left', width : '15%', templet : '#dateTpl'}
+	                {field : 'unitPrice',   title : '单价（万元）', style : 'cursor: pointer;', align : 'center', width : '23%'},
+	                {field : 'applyAcount', title : '申请数量',    style : 'cursor: pointer;', align : 'center', width : '23%'},
+	                {field : 'allPrice',    title : '总价¥（万元）', style : 'cursor: pointer;', align : 'center', width : '23%'},
+	                {field : 'parentUnitPathNames', title : '申报单位', style : 'cursor: pointer;', align : 'left', width : '15%'},
+	                {field : 'applyDepartName', title : '申报部门', style : 'cursor: pointer;', align : 'left', width : '15%'},
+	                {field : 'createDate',  title : '申报时间', style : 'cursor: pointer;', align : 'left',  width : '20%', templet : '#dateTpl'},
+	                {field : 'firstApplyUser',  title : '第一申报人', style : 'cursor: pointer;', align : 'left'}
 	                ]],
 	            done: function (res, curr, count) {
 	            	var equipmentIds="";
@@ -154,7 +212,8 @@ var publicMethods;
 	    	//多行点击事件
 	        $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
 	     	   	var checkCell = $(this).parent().find("tr[data-index=" + $(this).attr('data-index') + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox");
-	             if (checkCell.length > 0) {
+	            console.log("checkCell---",checkCell); 
+	     	   	if (checkCell.length > 0) {
 	                 checkCell.click();
 	             }
 	         });
@@ -162,22 +221,20 @@ var publicMethods;
 	             e.stopPropagation();
 	         });
 	         var arr = [];
-	         table.on('edit(JoinEvent)',function(obj){
-   	        	 var arrIn = $(this).parent().parent().attr('data-index')
-   	        	 if(arr.length ==0) {
-   	        		 arr.push(obj.value);
-   	        	 }else {
-   		        	 for ( var i = 0; i <arr.length; i++){
-   		        		 if(arr.length > arrIn) {
-   		        			 arr[arrIn]=obj.value;
-   		        		 }else {
-   		        			 arr.push(obj.value);
-   		        		 }
-   		        		}
-   	        	 }
-//   	        	 console.log(vobjes)
-   	         })
-	         
+	         var size = 0;
+	          table.on('edit(JoinEvent)',function(obj){
+	              var arrln = $(this).parent().parent().attr('data-index')
+	              //var check = table.checkStatus('notjoin_apply_table');
+	              arr[arrln] = obj.value;
+					console.log("obj--",obj);
+					console.log("arrln--",arrln);
+	              //console.log("check--",check);
+	              //console.log("check.data--",check.data);
+	              console.log("arr---",arr);
+	              size++;
+		
+             })
+			console.log("arr--",arr);
 	    	var $ = layui.$, active = {
 	    		searchEvent: function() { 
                     table.reload("notjoin_apply_table",{where:{param:{"equipmentIds":$("#equipmentIds").val(),"name":$("#name").val()}}});
@@ -199,21 +256,34 @@ var publicMethods;
                 		layer.alert("转资名称不能为空");
                 		 return false;
                 	}
+                	
+                	var companyCode = $("#companyCode").val();
+                	if(companyCode == null || companyCode == "") {
+                		layer.alert("公司代码不能为空");
+                		 return false;
+                	}
+                	var arrlength = arr.length;
+					if(arr.length!=size){
+						layer.msg("有未填写的资产编号或未勾选装备");
+               		 	return false;
+                	}
                 	if(arr.length ==0) {
-                		alert("资产编号不能为空");
+                		layer.msg("资产编号不能为空");
                		 	return false;
       	        	 }
+                	var companyCode = $("#companyCode").val();
                 	$.ajax({
                         type : "POST",
                         url: "/sre-forapplicatio/save",
-                        data: {"arr": arr,"equipmentIds":equipmentIds,"froname":froname},
+                        data: {"arr": arr,"equipmentIds":equipmentIds,"froname":froname,"companyCode":companyCode}, 
                         traditional : true,
                         async : true,   
                         dataType:"json",
                         success : function(data){
                         	if(data.result == 1) {
-                        		alert("添加成功!!");
-                        		parent.location.href = '/sre-forapplication/to-list';
+                        		layer.alert("添加成功!!", function(index){
+                        			parent.location.href = '/sre-forapplication/to-list';
+                        		});
                         	}else {
                         		layer.alert("添加失败,请联系管理员!!");
                         	}

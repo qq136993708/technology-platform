@@ -38,7 +38,7 @@
             <div class="tool-left">
                 <label class="dateInput">
                     <span>编制年度</span>
-                    <input type="text" id="choose-year">
+                    <input type="text" readonly="readonly" id="choose-year">
                     <i class="layui-icon layui-icon-date"></i>
                 </label>
             </div>
@@ -89,7 +89,7 @@
             var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods; 
             var param = JSON.parse(window.localStorage.getItem("param"));
             renderfunc = function(){
-            	$(".layui-table-header table thead th i").remove();  //移除表头的复选框,去掉全选
+            	$(".layui-table-header table thead th .layui-unselect").remove();  //移除表头的复选框,去掉全选
 	        	//行单击选中事件绑定
 	        	$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
 	              	  var index=parseInt($(this).index()+1);
@@ -115,7 +115,7 @@
 				table.reload(tableId, {data: tableData});
 				//格式化求和
 				$.each($(".layui-table-total tr td"),function(i,d){
-					if(i>=3){
+					if(i>=2){
 						var val = $(this).find("div").html();
 						$(this).find("div").html(parseInt(val));
 					}

@@ -138,4 +138,14 @@ public class ProjectTaskAcServiceImpl implements SreProjectTaskAcService{
 		}
 	
 	}
+
+	@Override
+	public int delete(String id)throws Exception {
+		return sreProjectAuditMapper.deleteByPrimaryKey(id);
+	}
+
+	@Override
+	public Integer deleteDetail(String id) throws Exception{
+		return sreProjectAssessMapper.deleteByPrimaryKey(id);
+	}
 }

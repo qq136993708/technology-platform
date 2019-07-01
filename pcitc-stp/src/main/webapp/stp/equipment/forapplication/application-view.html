@@ -25,7 +25,7 @@
     <div class="formBox">
         <div class="tableToolBox">
             <div class="tableBtns">
-                <div class="tableTitle">基本信息<span class="red">（标*号为必填项）</span>
+                <div class="tableTitle">基本信息</span>
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
               lay-filter="component-form-group layui-container">
             <input name="id" id="id" value="${id}" type="hidden">
             <input name="equipmentIds" id="equipmentIds" value="${pplication.applicationId}" type="hidden">
-            <input name="documentDoc" id="documentDoc" value="${documentDoc}" type="hidden">
+            <input name="applicationUpload" id="applicationUpload" value="${pplication.applicationUpload}" type="hidden">
             <input name="yearFeeStr" id="yearFeeStr" value="${sreProjectBasic.yearFeeStr}" type="hidden">
             <input name="functionId" id="functionId" type="hidden">
             <input name="userIds" id="userIds" type="hidden">
@@ -54,17 +54,43 @@
                    
             <!--<input name="yearFeeStrJoinUnit" id="yearFeeStrJoinUnit"
                    value="2019-2020,苏州大学,014ef79138eb4fc49f24e4439419a5a9#2019,22,null#2020,0,null;2019-2020,北京经贸大学,01a180d1fac8465a9f283f7628dbf498#2019,0,null#2020,0,null" type="hidden">-->
-            <div class="layui-row">
-                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                    <div class="layui-form-item">
-                        <label for="" class="layui-form-label">转资名称<span class="must-fill">*</span></label>
-                        <div class="layui-input-block">
-                            <input class="layui-input" name="froappname" id="froappname" value="${pplication.applicationName}"
-                                   lay-verify="required" autocomplete="off"  type="text"  maxlength="0">
-                        </div>
-                    </div>
-                </div>
+        <div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">转资编码</label>
+            <div class="layui-input-block">
+              <input class="layui-input readOnlyBox"  name="froappname" id="froappname" value="${pplication.applicationName}"  readonly="readonly"   autocomplete="off" type="text" >
             </div>
+          </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">申请时间</label>
+            <div class="layui-input-block">
+            	  <input class="layui-input readOnlyBox" name="applicationTime" id="applicationTime" value="${pplication.applicationTime?string("yyyy-MM-dd HH:mm:ss")}"     autocomplete="off" type="text">
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">申请人</label>
+            <div class="layui-input-block">
+              <input class="layui-input readOnlyBox"  name="applicationUserName" id="applicationUserName" value="${pplication.applicationUserName}"  readonly="readonly"   autocomplete="off" type="text" >
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">申请部门</label>
+            <div class="layui-input-block">
+            <input class="layui-input readOnlyBox"  name="applyDepartName" id="applyDepartName" value="${pplication.applyDepartName}"  readonly="readonly"   autocomplete="off" type="text" >
+            </div>
+          </div>
+        </div>
+      </div>
 
             <!--行有两个的情况-->
             <div class="layui-form-item" id="equipment">
@@ -79,7 +105,10 @@
                 </div>
             </div>
 
-
+		<div class="layui-form-item">
+	      	 <label class="layui-form-label">附件</label>
+	         <div id="file_div" class="layui-input-block"></div>
+       	</div>
 
 
                 <div class="form-bottom">
@@ -118,6 +147,36 @@ function formatTime(d) {
     }
 }
 
+var v_date=(new Date()).getTime();
+var publicMethods;
+var file_ids = "applicationUpload";
+//detail:详情，edit：编辑
+file_edit_detail = "detail";
+//统管理-附件管理-附件配置：页面标识
+file_opt_flag = "7b6f6480989040ac9d3fbe7899fabc7b";
+var supplierStr =$("#supplierStr").val();
+var supplierWillStr =$("#supplierWillStr").val();
+
+layui.config({
+}).extend({
+    index: 'layui/tableDemo' //主入口模块
+}).use(['form', 'table', 'laypage', 'layer', 'laydate', 'laytpl', 'jquery', "publicMethods"], function () {
+
+    var admin = layui.admin
+    element = layui.element
+        , table = layui.table
+        , layer = layui.layer
+        , laydate = layui.laydate
+        , laypage = layui.laypage
+        , form = layui.form
+        , $ = layui.jquery;
+       publicMethods = layui.publicMethods;
+       //添加到form.render()之后
+	 	$("#file_div").load('/common/public/uploadlayuiload.html');
+		form.render();
+			 	
+			 	
+		});
 
 
 var publicMethods;
@@ -130,22 +189,29 @@ var publicMethods;
 	    	table.render({
 	            elem: '#notjoin_apply_table',
 	            url: '/sre-forapplication/listView',
-	            limit: 15,
+	            limit: 5,
 	            method:"POST",
 	            where: {param:{"equipmentIds":$("#equipmentIds").val(),"applyName":$("#applyName").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"isLinkedProject":$("#isLinkedProject").val()}},
 	        	id: 'notjoin_apply_table',
-	        	height: 360,
-	        	page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
+	        	height: 200,
+	        	page: {
+	                groups: 5,
+	                limits: [5,10,15,20],
+	                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+	                first: '首页', //不显示首页
+	                last: '尾页', //不显示尾页
+	                theme: '#0F9EE0'
+	            },
 	            cols: [[
-	             	{title:'序号', type:'numbers'},
-	             	{field : 'assetNumber', title : '资产编号', style : 'cursor: pointer;', align : 'left', width : '9%'},
+	             	{title:'序号', type:'numbers', width : 55},
+	             	{field : 'assetNumber', title : '资产编号', style : 'cursor: pointer;', align : 'left', width : '15%'},
 	                {field : 'equipmentName',        title : '装备名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
-	                {field : 'equipmentPrice',   title : '单价（万元）', style : 'cursor: pointer;', align : 'center', width : '10%'},
-	                {field : 'equipmenNumber', title : '申请数量',    style : 'cursor: pointer;', align : 'center', width : '10%'},
-	                {field : 'declareUnit', title : '申报单位', style : 'cursor: pointer;', align : 'left', width : '30%'},
-	                {field : 'declareDepartment', title : '申报部门', style : 'cursor: pointer;', align : 'left', width : '20%'},
-	                {field : 'declarePeople',  title : '第一申报人', style : 'cursor: pointer;', align : 'left', width : '10%'},
-	                {field : 'declareTime',  title : '申报时间', style : 'cursor: pointer;', align : 'left', width : '15%', templet:'#dateTpl'}
+	                {field : 'equipmentPrice',   title : '单价（万元）', style : 'cursor: pointer;', align : 'center', width : '20%'},
+	                {field : 'equipmenNumber', title : '申请数量',    style : 'cursor: pointer;', align : 'center', width : '15%'},
+	                {field : 'declareUnit', title : '申报单位', style : 'cursor: pointer;', align : 'left', width : '15%'},
+	                {field : 'declareDepartment', title : '申报部门', style : 'cursor: pointer;', align : 'left', width : '15%'},
+	                {field : 'declarePeople',  title : '第一申报人', style : 'cursor: pointer;', align : 'left', width : '20%'},
+	                {field : 'declareTime',  title : '申报时间', style : 'cursor: pointer;', align : 'left',  templet:'#dateTpl'}
 	                ]],
 	            done: function (res, curr, count) {
 	            	var equipmentIds="";

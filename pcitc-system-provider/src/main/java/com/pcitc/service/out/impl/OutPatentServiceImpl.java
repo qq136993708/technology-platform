@@ -85,7 +85,7 @@ public class OutPatentServiceImpl implements OutPatentService {
 		if (paraMap.get("zlh") != null && !paraMap.get("zlh").equals("")) {
 			criteria.andZlhLike("%" + paraMap.get("zlh").toString() + "%");
 		}
-		example.setOrderByClause(" remarks desc ");
+		example.setOrderByClause(" zlh desc ");
 
 		List<OutPatent> list = outPatentMapper.selectByExample(example);
 		PageInfo<OutPatent> pageInfo = new PageInfo<OutPatent>(list);

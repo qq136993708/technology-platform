@@ -70,8 +70,20 @@ public class SrePurchaseOrder {
     private Double k0xmddje;
 
     private Date createDate;
+    
+    private String arrival;
+    
+    
 
-    public String getG0flag() {
+    public String getArrival() {
+		return arrival;
+	}
+
+	public void setArrival(String arrival) {
+		this.arrival = arrival;
+	}
+
+	public String getG0flag() {
         return g0flag;
     }
 

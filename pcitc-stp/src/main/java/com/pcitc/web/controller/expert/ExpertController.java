@@ -113,7 +113,7 @@ public class ExpertController extends BaseController {
     public String queryAllExpert(){
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ZjkExpert expert = new ZjkExpert();
-        expert.setiSortCol("email");
+        expert.setiSortCol("expert_name");
         expert.setsSortDir_0("asc");
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(queryAllExpert, HttpMethod.POST, new HttpEntity<ZjkExpert>(expert, this.httpHeaders), JSONObject.class);
         JSONObject retJson = responseEntity.getBody();
@@ -187,6 +187,10 @@ public class ExpertController extends BaseController {
 //        return JSONObject.parseObject(JSONObject.toJSONString(responseEntity.getBody().get("results"))).toString();
     }
 
+    /**
+     * 专家画像
+     * @return
+     */
     @RequestMapping(value = "/expertIndexNewImg", method = RequestMethod.GET)
     @OperationFilter(modelName = "专家-首页跳转", actionName = "首页跳转pageExpertIndex")
     public String expertIndexNewImg() {
@@ -279,7 +283,6 @@ public class ExpertController extends BaseController {
         request.setAttribute("zc", request.getParameter("zc"));
         request.setAttribute("gb", request.getParameter("gb"));
         List<String> gbcode = sysUserInfo.getInstituteCodes();
-        System.out.println(gbcode);
         request.setAttribute("gbcode", (gbcode == null || gbcode.size() == 0) ? "" : org.apache.commons.lang3.StringUtils.join(gbcode, ","));
         System.out.println(request.getParameter("gbcode"));
         return "stp/expert/queryExpert";
@@ -548,7 +551,7 @@ public class ExpertController extends BaseController {
         FileResult body = responseEntityFiles.getBody();
 
         object.put("files", JSONArray.toJSONString(body.getList()));
-
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVECHOICE_BAT, HttpMethod.POST, new HttpEntity<JSONObject>(object, this.httpHeaders), Integer.class);
         Integer result = responseEntity.getBody();
         return result;
@@ -691,6 +694,106 @@ public class ExpertController extends BaseController {
         return "/stp/expert/zjkOutProjectList";
     }
 
+    /**
+     * 成果列表-非专家关联
+     *
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/zjkAchievementList")
+    public String zjkAchievementList() throws Exception {
+        return "/stp/expert/zjkAchievementList";
+    }
+
+    /**
+     * 专利列表-专家关联
+     *
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/zjkPatentList")
+    public String zjkPatentList() throws Exception {
+        return "/stp/expert/zjkPatentList";
+    }
+
+    private static final String LISTPAGE_choice = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/zjkchoice-page-choice";
+
+    /**
+     * 项目列表-已发布
+     *
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/zjkOutProjectListPublic")
+    public String iniOutProjectListPublic() throws Exception {
+        //获取项目ID
+        LayuiTableParam param = new LayuiTableParam();
+        param.setLimit(100000000);
+        param.getParam().put("status","2");
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE_choice, HttpMethod.POST, entity, LayuiTableData.class);
+        LayuiTableData data = responseEntity.getBody();
+        List<ZjkChoice> zjkChoices = (List<ZjkChoice>) data.getData();
+        List<String> list = new ArrayList<>();
+        for (int i = 0,j=data.getData().size(); i < j; i++) {
+            Map m = (Map) data.getData().get(i);
+            list.add(m.get("xmId")+"");
+        }
+        request.setAttribute("xmid",org.apache.commons.lang.StringUtils.join(list.toArray(), ","));
+        return "/stp/expert/zjkOutProjectListPublic";
+    }
+
+    /**
+     * 成果列表-非专家关联-已发布
+     *
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/zjkAchievementListPublic")
+    public String zjkAchievementListPublic() throws Exception {
+        //获取项目ID
+        LayuiTableParam param = new LayuiTableParam();
+        param.setLimit(100000000);
+        param.getParam().put("status","2");
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE_choice, HttpMethod.POST, entity, LayuiTableData.class);
+        LayuiTableData data = responseEntity.getBody();
+        List<ZjkChoice> zjkChoices = (List<ZjkChoice>) data.getData();
+        List<String> list = new ArrayList<>();
+        for (int i = 0,j=data.getData().size(); i < j; i++) {
+            Map m = (Map) data.getData().get(i);
+            list.add(m.get("xmId")+"");
+        }
+        request.setAttribute("xmid",org.apache.commons.lang.StringUtils.join(list.toArray(), ","));
+        return "/stp/expert/zjkAchievementListPublic";
+    }
+
+    /**
+     * 专利列表-专家关联-已发布
+     *
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/zjkPatentListPublic")
+    public String zjkPatentListPublic() throws Exception {
+        //获取项目ID
+        LayuiTableParam param = new LayuiTableParam();
+        param.setLimit(100000000);
+        param.getParam().put("status","2");
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE_choice, HttpMethod.POST, entity, LayuiTableData.class);
+        LayuiTableData data = responseEntity.getBody();
+        List<ZjkChoice> zjkChoices = (List<ZjkChoice>) data.getData();
+        List<String> list = new ArrayList<>();
+        for (int i = 0,j=data.getData().size(); i < j; i++) {
+            Map m = (Map) data.getData().get(i);
+            list.add(m.get("xmId")+"");
+        }
+        request.setAttribute("xmid",org.apache.commons.lang.StringUtils.join(list.toArray(), ","));
+        return "/stp/expert/zjkPatentListPublic";
+    }
+
+
     @RequestMapping(value = "/zjkOutProjectList_tfc")
     public String zjkOutProjectList_tfc() throws Exception {
         request.setAttribute("typeName",request.getParameter("typeName"));
@@ -731,9 +834,17 @@ public class ExpertController extends BaseController {
         request.setAttribute("projectId", request.getParameter("projectId"));
         request.setAttribute("projectName", request.getParameter("projectName"));
         request.setAttribute("unitCode", request.getParameter("unitCode"));
+        request.setAttribute("flag", request.getParameter("flag"));
         request.setAttribute("bak6", UUID.randomUUID().toString().replace("-",""));
         SysUnit unit = this.restTemplate.exchange(UNIT_GET_UNIT + request.getParameter("unitId"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysUnit.class).getBody();
-        return "stp/expert/expert_choice";
+        String strFlag = request.getParameter("flag");
+        if("xm".equals(strFlag)){
+            return "stp/expert/expert_choice";
+        }else if ("zl".equals(strFlag)){
+            return "stp/expert/expert_choice_patent";
+        }else {
+            return "stp/expert/expert_choice_achiement";
+        }
     }
 
     /**

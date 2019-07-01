@@ -182,7 +182,7 @@
                     }
 
                     count || this.elem.next('.layui-table-view').find('.layui-table-header').css('overflow', 'auto');
-                    layui.each($('select'), function (index, item) {
+                    layui.each($('table tbody tr select'), function (index, item) {
                         var elem = $(item);
                         elem.val(elem.data('value')).parents('div.layui-table-cell').css('overflow', 'visible');
                     });
@@ -237,7 +237,7 @@
                 if (typeof (selectRowData.xmid) == "undefined") {
                     layer.msg('请点击选择一行数据');
                 } else {
-                    openFullWin("专家选择", "/expertController/getUserChoicePage?projectId=" + selectRowData.xmid+"&projectName="+selectRowData.xmmc+"&unitCode="+selectRowData.define9);
+                    openFullWin("选择专家", "/expertController/getUserChoicePage?projectId=" + selectRowData.xmid+"&projectName="+selectRowData.xmmc+"&unitCode="+selectRowData.define9);
                 }
             }, showExpertEvent: function () { //查看已选专家
                 if (typeof (selectRowData.xmid) == "undefined") {

@@ -1,6 +1,6 @@
 package com.pcitc.web.Intlproject;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
-import com.pcitc.base.common.DataTableParam;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
+import com.pcitc.base.common.enums.BudgetExceptionResultEnum;
 import com.pcitc.base.stp.IntlProject.IntlProjectApply;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.common.MailBean;
@@ -119,6 +119,7 @@ public class IntlProjectApplyProviderClient
 			IntlProjectApply apply = projectApplyService.findProjectApply(applyId);
 			if(apply != null) {
 				apply.setFlowCurrentStatus(workflow_status);
+				apply.setFlowEndStatus(WorkFlowStatusEnum.STATUS_PASS.getCode());
 				projectApplyService.updProjectApply(apply);
 			}
 		}
@@ -141,15 +142,11 @@ public class IntlProjectApplyProviderClient
 	
 	@ApiOperation(value="通过审批的项目列表",notes="获取审批通过的项目列表，编制计划时获取所有审批通过的项目申报。")
 	@RequestMapping(value = "/stp-provider/project/get-pass-apply-list")
-	public Object getWorkflowPassApplyProject(@RequestBody DataTableParam dataTableParam,HttpServletRequest request, HttpServletResponse response) throws Exception 
+	public Object getWorkflowPassApplyProject(HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
-		System.out.println("获取已通过的项目申报....."+JSON.toJSONString(dataTableParam));
-		PageInfo<IntlProjectApply> pageInfo = projectApplyService.findByConn(dataTableParam);
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("totalCont", pageInfo.getTotal());
-		map.put("list", pageInfo.getList());
-		System.out.println(JSON.toJSON(map).toString());
-		return JSON.toJSON(map);
+		List<IntlProjectApply> applys = projectApplyService.findAllFinalApplys();
+		
+		return JSON.toJSON(applys);
 	}
 	@ApiOperation(value="计划已选申报列表",notes="获取已加入计划的申报项目列表。")
 	@RequestMapping(value = "/stp-provider/project/join-plant-apply-list")
@@ -190,5 +187,22 @@ public class IntlProjectApplyProviderClient
 	public Object creatApplyCode(@RequestBody IntlProjectApply apply) 
 	{
 		return projectApplyService.createProjectApplyCode(apply);
+	}
+	@ApiOperation(value="审批检查",notes="检查审批状态")
+	@RequestMapping(value = "/stp-provider/project/apply-flow-check/{applyId}", method = RequestMethod.POST)
+	public Object checkFlowStatus(@PathVariable("applyId") String applyId) 
+	{
+		IntlProjectApply apply = projectApplyService.findProjectApply(applyId);
+		if(apply != null) {
+			if(BudgetAuditStatusEnum.AUDIT_STATUS_START.getCode().equals(apply.getFlowCurrentStatus())) 
+			{
+				return BudgetExceptionResultEnum.ERROR_FLOWING.getResult();
+			}
+			if(BudgetAuditStatusEnum.AUDIT_STATUS_PASS.getCode().equals(apply.getFlowCurrentStatus())) 
+			{
+				return BudgetExceptionResultEnum.ERROR_FLOWEND.getResult();
+			}
+		}
+		return new Result(true);
 	}
 }

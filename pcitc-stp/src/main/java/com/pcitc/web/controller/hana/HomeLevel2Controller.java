@@ -1,5 +1,6 @@
 package com.pcitc.web.controller.hana;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,9 +11,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,23 +19,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.ChartBarLineResultData;
 import com.pcitc.base.common.ChartBarLineSeries;
 import com.pcitc.base.common.ChartCircle;
-import com.pcitc.base.common.ChartCircle2;
 import com.pcitc.base.common.ChartPieDataValue;
 import com.pcitc.base.common.ChartPieResultData;
-import com.pcitc.base.common.ChartSingleLineResultData;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
-import com.pcitc.base.hana.report.Award;
 import com.pcitc.base.hana.report.H1AMKYSY100104;
-import com.pcitc.base.hana.report.Knowledge;
 import com.pcitc.base.hana.report.ProjectCode;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
@@ -457,10 +451,10 @@ public class HomeLevel2Controller extends BaseController {
 							for (int i = 0; i < list.size(); i++) {
 								H1AMKYSY100104 f2 = list.get(i);
 								String name = f2.getG0GSJC();
-								String value = f2.getK0BNYSJHJE();
+								BigDecimal value = f2.getK0BNYSJHJE();
 								
-								DecimalFormat decimalFormat=new DecimalFormat(".00");
-								value=decimalFormat.format(Float.valueOf(value));
+								/*DecimalFormat decimalFormat=new DecimalFormat(".00");
+								value=decimalFormat.format(Float.valueOf(value));*/
 								
 								legendDataList.add(name);
 								dataList.add(new ChartPieDataValue(value, name));

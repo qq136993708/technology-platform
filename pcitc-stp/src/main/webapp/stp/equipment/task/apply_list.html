@@ -9,6 +9,7 @@
     <script src="/common/js/jquery-1.11.3.min.js"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
        <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+       <script type="text/javascript" src="/stp/equipment/js/equipment.js"></script>
            <style>
         .searchBox{ height: auto;}
         .searchBox label{margin-bottom: 10px;display: inline-block; }
@@ -26,11 +27,11 @@
 <input type="hidden" name="specialAuditor0" id="specialAuditor0" value="">
 <input type="hidden" name="isKJBPerson" id="isKJBPerson" value="${isKJBPerson}">
 </form>
-
+<div class="searchBox">
     <!--查询条件-->
     <label class="dateInput">
         <span>立项年度</span>
-        <input type="text" name="setupYear" value="" readonly="readonly" placeholder="请选择立项年度" title="立项年度" autocomplete="off" class="form-control" id="setupYear">
+        <input type="text" name="setupYear"  style="cursor:pointer"   style="cursor:pointer"  value="" readonly="readonly" placeholder="请选择立项年度" title="立项年度" autocomplete="off" class="form-control" id="setupYear">
     </label>
     <label class="dateInput">
         <span>任务名称</span>
@@ -56,22 +57,26 @@
     </label> 
     <label class="dateInput">
          <span>归属部门</span>
-         <select name="belongDepartmentName" id="belongDepartmentName"  onchange="getDepartNameByUnitName(this.value)"  class="form-control">
-             <option value="" >--请选择部门--</option>
-             <#list unitFieldList as vo> 
-		          <option value="${vo.unitName}"  >${vo.unitName}</option>
-		      </#list>
+         <select name="belongDepartmentCode" id="belongDepartmentCode"  onchange="getDepartNameByUnitName(this.value)" class="form-control"  >
+              <option value="ROOT_ZGSHJT_ZBJG_KJB" >科技部</option>
 		 </select>
      </label>
+     
      <label class="dateInput">
          <span>专业处</span>
-         <select id="professionalDepartName" name="professionalDepartName" onchange="getProfessionalNameListByUnitNameAndDept(this.value)"  class="form-control"></select>
+         <select id="professionalDepartCode" name="professionalDepartCode"  class="form-control" ></select>
      </label>
-      <label class="dateInput" >
+    
+      <label class="dateInput">
          <span>专业领域</span>
-         <select id="professionalFieldName" name="professionalFieldName"  class="form-control"></select>
-     </label>
-                
+         
+          <select name="professionalFieldCode" id="professionalFieldCode"   class="form-control"  >
+             <option value="" >--请选择--</option>
+             <#list fieldList as vo> 
+		          <option value="${vo.code}"  >${vo.name}</option>
+		      </#list>
+		 </select>
+     </label> 
                  
     
     
@@ -90,7 +95,7 @@
               <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg"  id="createSetupWordEvent" data-type="createSetupWordEvent">预览立项报告WORD文档</button>
               <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg"  id="createQianEvent" data-type="createQianEvent">预览签字盖章WORD模板</button>
               <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg"  id="upQianEvent" data-type="upQianEvent">上传签字盖章页</button>
-              <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"  id="createErp" data-type="createErp">对接ERP号</button>
+              <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"  id="createErp" data-type="createErp">录入ERP号</button>
         </div>
     </div>
    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table> 
@@ -176,76 +181,39 @@
         });
     }
     
-    
-    
 
-    getDepartNameByUnitName($("#belongDepartmentName").val());
-    function getDepartNameByUnitName(belongDepartmentName)
-    {
-    	 $("#belongDepartmentName").val(belongDepartmentName);
-    	 $("#professionalDepartName").empty();
-    	 var v_date=(new Date()).getTime();
-    	 $.ajax({
-    			url : "/unitField/getDepartmentNameListByUnitName?v_date="+v_date+"&unitName="+belongDepartmentName,
-    			type : "post",
-    			async: false,
-    			dataType : "json",
-    			success : function(data) 
-    			{
-    				$("#professionalDepartName").append("<option value=''>--请选择--</option>");
-    				$.each(data, function(i, el) 
-    				{
-    					$("#professionalDepartName").append('<option value="'+ el.departmentName +'">' + el.departmentName+ '</option>');
-    					/* if(cityId==el.departmentName)
-    					{
-    						$("#professionalDepartName ").val(departmentName);  
-    					} */
-    	  			  	
-    				});
-    			},
-    			error : function() 
-    			{
-    				alert("发生未知错误 ,请重新操作.");
-    			}
-    		});
-    	 
-    	 
-    	 getProfessionalNameListByUnitNameAndDept(belongDepartmentName);
-    }
-
-
-
-
-
-
-
-    function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
+    getDepartNameByUnitName($("#belongDepartmentCode").val());
+    function getDepartNameByUnitName(belongDepartmentCode)
     {
     	
-    	 var belongDepartmentName= $("#belongDepartmentName").val();
-    	 $("#professionalFieldName").empty();
+    	 $("#professionalDepartCode").empty();
     	 var v_date=(new Date()).getTime();
-    	 $.ajax({
-    			url : "/unitField/getProfessionalNameListByUnitNameAndDept?v_date="+v_date+"&unitName="+belongDepartmentName+"&departmentName="+professionalDepartName,
-    			type : "post",
-    			async: false,
-    			dataType : "json",
-    			success : function(data) 
-    			{
-    				$("#professionalFieldName").append("<option value=''>--请选择--</option>");
-    				$.each(data, function(i, el) 
+    	 if(belongDepartmentCode!=null && belongDepartmentCode!='')
+         {
+    		 
+    		 $.ajax({
+    				url : "/sre-project-basic/getDicListByParentCode?v_date="+v_date+"&belongDepartmentCode="+belongDepartmentCode,
+    				type : "post",
+    				async: false,
+    				dataType : "json",
+    				success : function(data) 
     				{
-    					$("#professionalFieldName").append('<option value="'+ el.professionalFieldName +'">' + el.professionalFieldName+ '</option>');
-    	  			  	
-    				});
-    			},
-    			error : function() 
-    			{
-    				alert("发生未知错误 ,请重新操作.");
-    			}
-    		});
+    					$("#professionalDepartCode").append("<option value=''>--请选择--</option>");
+    					$.each(data, function(i, el) 
+    					{
+    						$("#professionalDepartCode").append('<option value="'+ el.code +'">' + el.name+ '</option>');
+    					});
+    				},
+    				error : function() 
+    				{
+    					alert("发生未知错误 ,请重新操作.");
+    				}
+    			});
+         }
+    	 
+    	 
+    	 
     }
-
     
 </script>
 
@@ -323,9 +291,9 @@ var name=$('#name').val();
             	$('#setupYear').val("");
             	$('#auditStatus').val("");
             	$('#innerAuditStatus').val("");
-            	$('#belongDepartmentName').val("");
-            	$('#professionalDepartName').val("");
-            	$('#professionalFieldName').val("");
+            	$('#belongDepartmentCode').val("");
+            	$('#professionalDepartCode').val("");
+            	$('#professionalFieldCode').val("");
             	
             	
             	
@@ -451,15 +419,17 @@ var name=$('#name').val();
             	     }else
            	    	 {
 	           	    	    var taskId=selectRowData.taskId;
-		           	    	var temUrl="/sre_project_task/getErpInfo?taskId=" + taskId;
+	           	    	    var leadUnitCode=selectRowData.leadUnitCode;
+	           	    	    var setupYear=selectRowData.setupYear;
+		           	    	var temUrl="/sre_project_task/getErpInfo?taskId=" + taskId+"&leadUnitCode="+leadUnitCode+"&setupYear="+setupYear;
 		           		    layer.open({
-		                       title:'ERP号',
+		                       title:'选择ERP号',
 		                       skin: 'layui-layer-lan',
 		                       shadeClose: true,
 		                       type: 2,
 		                       fixed: false,
 		                       maxmin: false,
-		                       area: ['70%', '90%'],
+		                       area: ['60%', '80%'],
 		                       content:  temUrl
 		                   });
            	    	 }
@@ -504,7 +474,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre_project_task/list',
             method:"POST",
-            where: {param: {"topicName":$("#topicName").val(),"auditStatus":$("#auditStatus").val(),"innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {"topicName":$("#topicName").val(),"auditStatus":$("#auditStatus").val(),"innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentCode":$("#belongDepartmentCode").val(),"professionalDepartCode":$("#professionalDepartCode").val(),"professionalFieldCode":$("#professionalFieldCode").val(),"leadUnitCode":$("#leadUnitCode").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),
@@ -521,9 +491,9 @@ var name=$('#name').val();
             	{title : '序号', type :'numbers', width : 55},
             	{field : 'innerAuditStatus',    title : '院内确认状态',   style : 'cursor: pointer;', align: 'center', width : '10%', width : 100,templet : '#innerAuditStatus_temp'},
             	{field : 'auditStatus',    title : '总部审核状态',        style : 'cursor: pointer;', align: 'center', width : '10%', width : 100,templet : '#auditStatus_tepm'},
-                {field : 'topicName',     title : '课题名称',    style : 'cursor: pointer;', align: 'center', width : '10%',templet:function(d){return '<span onclick="view_project(\''+d.topicId+'\')" style="color:#1890ff">查看</span>'}},
+                {field : 'topicName',     title : '课题名称',    style : 'cursor: pointer;', align: 'center', width : '10%',templet:function(d){return '<span onclick="view_project(\''+d.topicId+'\')" style="color:#1890ff">详情</span>'}},
                 {field : 'topicName',     title : '任务书名称', style : 'cursor: pointer;', align: 'left', width : '10%',templet:function(d){return '<span   onclick="view_isWriteTask(\''+d.taskId+'\')" style="color: #1890ff">'+d.topicName+'</span>'}},
-                {field : 'isWriteSetup',  title : '立项报告否填写', style : 'cursor: pointer;', align: 'center', width : '10%',templet:function(d){return '<span   onclick="view_isWriteSetup(\''+d.setupId+'\')" style="color: #1890ff">查看</span>'}},
+                {field : 'isWriteSetup',  title : '立项报告否填写', style : 'cursor: pointer;', align: 'center', width : '10%',templet:function(d){return '<span   onclick="view_isWriteSetup(\''+d.setupId+'\')" style="color: #1890ff">详情</span>'}},
                 {field : 'contractNum', title : '合同号', style : 'cursor: pointer;', align: 'center', width : '10%'},
                 {field : 'erpNum', title : 'ERP号', style : 'cursor: pointer;', align: 'center', width : '10%'},
                 {field : 'setupYear', title : '立项年份', style : 'cursor: pointer;', align: 'center', width : '10%'},
@@ -671,7 +641,6 @@ var name=$('#name').val();
     	var specialAuditor0 =getTaskSpecialAuditor0ByProfessionalDepartName(professionalDepartName);
     	$("#specialAuditor0").val(specialAuditor0);
     	//alert(specialAuditor0);
-    	//return;
     	var json = {functionId:functionId,specialAuditor0:specialAuditor0};
     	 $.ajax({
              type : 'POST',
@@ -802,47 +771,6 @@ var name=$('#name').val();
         var backurl="/sre_project_task/apply_list?v_date="+v_date;
         ajaxOpt(url,"form1","POST",backurl,"ERP号对接成功","ERP号对接失败");
     }
-    function  getTaskSpecialAuditor0ByProfessionalDepartName(professionalDepartName)
-	{
-		var specialAuditor0="";
-		if(professionalDepartName.indexOf("勘探开发")!= -1)
-		{
-			specialAuditor0="";//关晓东
-		}
-		if(professionalDepartName.indexOf("石油工程")!= -1)
-		{
-			specialAuditor0="";//陈本池
-		}
-		if(professionalDepartName.indexOf("炼油")!= -1)
-		{
-			specialAuditor0="30130056_LYC_ZYCCZ";//潘煜
-		}
-		if(professionalDepartName.indexOf("化工")!= -1)
-		{
-			specialAuditor0="";//方志平
-		}
-		if(professionalDepartName.indexOf("合成材料")!= -1)
-		{
-			specialAuditor0="";//庄毅
-		}
-		if(professionalDepartName.indexOf("装备与储运")!= -1)
-		{
-			specialAuditor0="";//卢衍波
-		}
-		if(professionalDepartName.indexOf("知识产权")!= -1)
-		{
-			specialAuditor0="";//陈蓓艳
-		}
-		if(professionalDepartName.indexOf("三剂")!= -1)
-		{
-			specialAuditor0="30130062_SJC_ZYCCZ";//林雯
-		}
-		if(professionalDepartName.indexOf("技术监督")!= -1)
-		{
-			specialAuditor0="30130063_JSJDC_ZYCCZ";//秦士珍
-		}
-		return specialAuditor0;
-	}
 </script>
 
 </body>

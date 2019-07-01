@@ -113,7 +113,7 @@
 		      </div>
 		      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 		        <div class="layui-form-item">
-		          <label for="" class="layui-form-label">账户</label>
+		          <label for="" class="layui-form-label">机构账户</label>
 		          <div class="layui-input-block">
 		          	<input type="text" id="unitAccount" name="unitAccount" lay-filter="unitAccount" autocomplete="off" class="layui-input" readonly="readonly" style="background: #eee">
 		          </div>
@@ -301,7 +301,7 @@
 		ajaxPost("/unit/ztree-unit-list", {"name":$("#searchUnitName").val()}, function (dt) {
 			unitNodes = dt;
 			zTreeObj = $.fn.zTree.init($("#unitTree"), setting, dt);
-			zTreeObj.expandAll(true);
+			//zTreeObj.expandAll(true);
 	    });
 		//如果指定某个节点，则选中出发选中事件
 		if(unitId)
