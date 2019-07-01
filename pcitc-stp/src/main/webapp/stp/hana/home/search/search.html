@@ -17,6 +17,10 @@
         .layui-tab-bar{display: none;}
         .information{top: 56px;}
         .layui-tab-i{width: 74%;margin: 0 auto;background: white;}
+        .layui-leader .layui-footer {
+            left: 200px;
+            right: 200px;
+        }
     </style>
 </head>
 <body class="layui-layout-body">
@@ -200,7 +204,11 @@
                 </div>
             </div>
         </div>
-
+        <div class="layui-footer">
+            <div>
+                <p>版权所有：石化盈科信息技术有限责任公司</p>
+            </div>
+        </div>
     </div>
 </div>
 <script src="/layuiadmin/layui/layui.js"></script>
@@ -213,7 +221,7 @@
         index : 'lib/index' //主入口模块
     }).use(['index' ,'jquery','element'], function() {
         var $ = layui.jquery;
-        $(".layui-tab-i").css("height",$(document).height()-110+"px");
+        $(".layui-tab-i").css("height",$(document).height()-240+"px");
         search();
         $("#toUserInfo").on("click", function() {
             layer.open({

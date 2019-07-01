@@ -2980,22 +2980,22 @@
 		where
 			 out_project_info.project_type != '1'
 			 and define3 = '项目管理系统'
-			<if test="nd != null">
+			<if test="nd != null and nd != ''">
 				and out_project_info.nd = #{nd}
 			</if>
-			<if test="ysnd != null">
+			<if test="ysnd != null and ysnd != ''">
 				and out_project_info.ysnd = #{ysnd}
 			</if>
-			<if test="ktlx != null and ktlx == '新开课题' and nd != null">
+			<if test="ktlx != null and ktlx == '新开课题' and nd != null and nd != ''">
 				and out_project_info.ysnd = #{nd} and out_project_info.nd = #{nd} 
 			</if>
-			<if test="ktlx != null and ktlx == '结转课题' and nd != null">
-				and out_project_info.ysnd = #{nd} and out_project_info.nd &lt; #{nd} 
+			<if test="ktlx != null and ktlx == '结转课题' and ysnd != null and ysnd != ''">
+				and out_project_info.ysnd = #{ysnd} and out_project_info.nd &lt; #{ysnd} 
 			</if>
-			<if test="hth != null">
+			<if test="hth != null and hth != ''">
 				and out_project_info.hth like '%${hth}%'
 			</if>
-			<if test="xmmc != null">
+			<if test="xmmc != null and xmmc != ''">
 				and out_project_info.xmmc like '%${xmmc}%'
 			</if>
 			<if test="define1 != null">
@@ -3132,22 +3132,22 @@
 		where
 			 out_project_info.project_type != '1'
 			 and out_project_info.project_property = '国家项目'
-			<if test="nd != null">
+			<if test="nd != null and nd != ''">
 				and out_project_info.nd = #{nd}
 			</if>
-			<if test="ysnd != null">
+			<if test="ysnd != null and ysnd != ''">
 				and out_project_info.ysnd = #{ysnd}
 			</if>
-			<if test="ktlx != null and ktlx == '新开课题' and nd != null">
+			<if test="ktlx != null and ktlx == '新开课题' and nd != null and nd != ''">
 				and out_project_info.ysnd = #{nd} and out_project_info.nd = #{nd} 
 			</if>
-			<if test="ktlx != null and ktlx == '结转课题' and nd != null">
-				and out_project_info.ysnd = #{nd} and out_project_info.nd &lt; #{nd} 
+			<if test="ktlx != null and ktlx == '结转课题' and ysnd != null and ysnd != ''">
+				and out_project_info.ysnd = #{ysnd} and out_project_info.nd &lt; #{ysnd} 
 			</if>
-			<if test="hth != null">
+			<if test="hth != null and hth != ''">
 				and out_project_info.hth like '%${hth}%'
 			</if>
-			<if test="xmmc != null">
+			<if test="xmmc != null and xmmc != ''">
 				and out_project_info.xmmc like '%${xmmc}%'
 			</if>
 			<if test="define1 != null">

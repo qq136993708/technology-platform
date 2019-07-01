@@ -863,3 +863,5 @@ display: inline-block;vertical-align: top;margin: 6px 10px 0 0;}
 .stpSearchBox>a{    position: absolute;top: 20px;left: 400px;}
 /*人才*/
 .layui-leader  .layui-personnel{margin: 0;left: 0;top: 54px;}
+.layui-leader .layui-body{height: 82%;}
+.layui-leader  .layui-footer{left: 32px;right: 30px;}
