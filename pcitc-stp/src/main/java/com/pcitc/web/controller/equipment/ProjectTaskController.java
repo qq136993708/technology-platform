@@ -138,20 +138,13 @@ public class ProjectTaskController extends BaseController {
 		request.setAttribute("leadUnitCode", leadUnitCode);
 		
 		
-		
-		
 		//归属部门
-				List<SysDictionary> departmentList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
-				request.setAttribute("departmentList", departmentList);
-				//专业领域
-				List<SysDictionary> fieldList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZBGL_ZYLY", restTemplate, httpHeaders);
-				request.setAttribute("fieldList", fieldList);
+		List<SysDictionary> departmentList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
+		request.setAttribute("departmentList", departmentList);
+		//专业领域
+		List<SysDictionary> fieldList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZBGL_ZYLY", restTemplate, httpHeaders);
+		request.setAttribute("fieldList", fieldList);
 				
-				
-		   
-		/*
-		String parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
-		request.setAttribute("parentUnitPathIds", parentUnitPathIds);*/
 		
 		boolean isKJBPerson=EquipmentUtils.isKJBPerson(unitPathIds);
 		request.setAttribute("isKJBPerson", isKJBPerson);
@@ -388,11 +381,6 @@ public class ProjectTaskController extends BaseController {
 	{
 
 		
-		Map<String ,String> map=EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
-		String leadUnitName = map.get("unitName");//申报单位
-		String leadUnitCode =  map.get("unitCode");//申报单位
-		String applyDepartName =  map.get("applyDepartName");//申报部门
-		String applyDepartCode =  map.get("applyDepartCode");//申报部门
 		
 		
 		
@@ -424,14 +412,10 @@ public class ProjectTaskController extends BaseController {
 			documentDoc=sreProjectTask.getDocumentDoc();
 		}
 		request.setAttribute("documentDoc", documentDoc);
-		request.setAttribute("leadUnitName", leadUnitName);
-		request.setAttribute("leadUnitCode", leadUnitCode);
 		request.setAttribute("createUserId", createUserId);
 		List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_ZBGL_YTJYSDNR", restTemplate, httpHeaders);
 		request.setAttribute("dicList", dicList);
 		
-		request.setAttribute("createUnitCode", leadUnitCode);
-		request.setAttribute("createUnitName", leadUnitName);
 		return "/stp/equipment/task/project_task_add";
 	}
 	
@@ -472,16 +456,7 @@ public class ProjectTaskController extends BaseController {
 		String arr[]=request.getParameterValues("taskCheckContents");
 		
 		
-		String createUnitCode = CommonUtil.getParameter(request, "createUnitCode", "");
-		String createUnitName = CommonUtil.getParameter(request, "createUnitName", "");
 		
-		/*String unitPathIds =   CommonUtil.getParameter(request, "unitPathIds",sysUserInfo.getUnitPath());
-		String unitPathNames = CommonUtil.getParameter(request, "unitPathNames", sysUserInfo.getUnitName());
-		
-		String parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
-		
-		
-		String parentUnitPathNames = EquipmentUtils.getParentUnitPathName(parentUnitPathIds, restTemplate, httpHeaders);*/
 		System.out.println("----------------------topicId="+topicId);
 		if(arr!=null && arr.length>0)
 		{
@@ -496,15 +471,12 @@ public class ProjectTaskController extends BaseController {
 		}
 		SreProjectTask sreProjectBasic = null;
 		ResponseEntity<String> responseEntity = null;
-		
 		// 判断是新增还是修改
 		if (taskId.equals("")) 
 		{
+			
 			sreProjectBasic = new SreProjectTask();
 			sreProjectBasic.setCreateDate(new Date());
-			//创建人
-			sreProjectBasic.setCreateUserId(sysUserInfo.getUserId());
-			sreProjectBasic.setCreateUserName(sysUserInfo.getUserDisp());
 			String idv = UUID.randomUUID().toString().replaceAll("-", "");
 			sreProjectBasic.setTaskId(idv);
 			sreProjectBasic.setAuditStatus(auditStatus);
@@ -514,6 +486,9 @@ public class ProjectTaskController extends BaseController {
 			sreProjectBasic.setTaskVersion(taskVersion);
 			sreProjectBasic.setCloseStatus("0");
 			sreProjectBasic.setIsCheck("0");
+			
+			
+			
 		} else 
 		{
 			ResponseEntity<SreProjectTask> se = this.restTemplate.exchange(GET_URL + taskId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProjectTask.class);
@@ -521,22 +496,6 @@ public class ProjectTaskController extends BaseController {
 		}
 		// 流程状态
 		sreProjectBasic.setAuditStatus(auditStatus);
-		//BigDecimal projectMoney=BigDecimal.ZERO;
-		/*if (!yearFeeStr.equals("")) //2019,55,5,60#2020,553,5,558
-		{
-			String array[]=yearFeeStr.split("#");
-			if(array!=null && array.length>0)
-			{
-				for(int i=0;i<array.length;i++)
-				{
-					String year=array[i];
-					String arr[]=year.split(",");
-					projectMoney=projectMoney.add(new BigDecimal(arr[3]));
-				}
-			}
-			
-		}*/
-		
 		SreProject sreProject=EquipmentUtils.getSreProject(topicId,restTemplate,httpHeaders);
 		if(sreProject!=null)
 		{
@@ -556,10 +515,23 @@ public class ProjectTaskController extends BaseController {
 			sreProjectBasic.setProfessionalFieldCode(sreProject.getProfessionalFieldCode());
 			sreProjectBasic.setJoinUnitParentCodes(sreProject.getJoinUnitParentCodes());
 			sreProjectBasic.setJoinUnitParentNames(sreProject.getJoinUnitParentNames());
-			sreProjectBasic.setApplyUnitName(sreProject.getApplyUnitName());
-			sreProjectBasic.setApplyUnitCode(sreProject.getApplyUnitCode());
 			
 		}
+		Map<String ,String> map=EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String leadUnitName = map.get("unitName");//申报单位
+		String leadUnitCode =  map.get("unitCode");//申报单位
+		String createUnitName =  map.get("applyDepartName");//申报部门
+		String createUnitCode =  map.get("applyDepartCode");//申报部门
+		//填写人部门
+		sreProjectBasic.setCreateUserId(sysUserInfo.getUserId());
+		sreProjectBasic.setCreateUserName(sysUserInfo.getUserDisp());
+		sreProjectBasic.setCreateUnitCode(createUnitCode);
+		sreProjectBasic.setCreateUnitName(createUnitName);
+		sreProjectBasic.setUnitPathIds(createUnitCode);
+		sreProjectBasic.setUnitPathNames(createUnitName);
+		sreProjectBasic.setParentUnitPathIds(leadUnitCode);
+		sreProjectBasic.setParentUnitPathNames(leadUnitName);
+		
 		sreProjectBasic.setTopicId(topicId); 
 		sreProjectBasic.setContractNum(contractNum);
 		sreProjectBasic.setBudgetTable(budgetTable);
@@ -574,12 +546,6 @@ public class ProjectTaskController extends BaseController {
 		sreProjectBasic.setBeginProjectMonth(beginProjectMonth);
 		sreProjectBasic.setEndProjectMonth(endProjectMonth);
 		
-		sreProjectBasic.setCreateUnitCode(createUnitCode);
-		sreProjectBasic.setCreateUnitName(createUnitName);
-		sreProjectBasic.setParentUnitPathIds("");
-		sreProjectBasic.setParentUnitPathNames(""); 
-		sreProjectBasic.setUnitPathIds("");
-		sreProjectBasic.setUnitPathNames("");
 		
 		
 		// 判断是新增还是修改
@@ -666,31 +632,23 @@ public class ProjectTaskController extends BaseController {
 		paramMap.put("authenticatedUserName", sysUserInfo.getUserDisp());
 		paramMap.put("auditor", userIds);
 		paramMap.put("branchFlag", branchFlag);
+		
+		
+		
+		Map<String ,String> map=EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String leadUnitName = map.get("unitName");//申报单位
+		String leadUnitCode =  map.get("unitCode");//申报单位
+		String createUnitName =  map.get("applyDepartName");//申报部门
+		String createUnitCode =  map.get("applyDepartCode");//申报部门
 		//申请者机构信息
-		
-		/*Map<String ,String> map=EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
-		String parentUnitPathNames = map.get("unitName");//申报单位
-		String parentUnitPathIds =  map.get("unitCode");//申报单位
-		String applyDepartName =  map.get("applyDepartName");//申报部门
-		String applyDepartCode =  map.get("applyDepartCode");//申报部门
-		
-		
-		paramMap.put("applyUnitCode", applyDepartCode);//上报部门
-		paramMap.put("applyUnitName", applyDepartName);
-		paramMap.put("applyUnitName", applyDepartName);
-		
 		paramMap.put("applyUserId", sysUserInfo.getUserId());
 		paramMap.put("applyUserName", sysUserInfo.getUserDisp());
-		paramMap.put("applyUnitPathCode", sysUserInfo.getUnitPath());
-		String unitPathIds =   sysUserInfo.getUnitPath();
-		paramMap.put("parentApplyUnitCode", "");
-		
-		
-		String parentApplyUnitPathCode = EquipmentUtils.getParentUnitPathId(unitPathIds);
-		String parentApplyUnitPathName =  EquipmentUtils.getParentUnitPathName(parentApplyUnitPathCode, restTemplate, httpHeaders);
-		
-		paramMap.put("parentApplyUnitPathCode", parentApplyUnitPathCode);
-		paramMap.put("parentApplyUnitPathName", parentApplyUnitPathName);*/
+		paramMap.put("applyUnitCode", createUnitCode);
+		paramMap.put("applyUnitPathCode", createUnitCode);
+		paramMap.put("applyUnitName", createUnitName);
+		paramMap.put("parentApplyUnitCode", leadUnitCode);
+		paramMap.put("parentApplyUnitPathCode", leadUnitCode);
+		paramMap.put("parentApplyUnitPathName", leadUnitName);
 		
 		
 		//指定岗位
