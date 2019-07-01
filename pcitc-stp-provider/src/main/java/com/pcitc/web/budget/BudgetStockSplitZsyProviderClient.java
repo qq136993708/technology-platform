@@ -77,7 +77,8 @@ public class BudgetStockSplitZsyProviderClient
 					List<BudgetStockTotal> totals = budgetStockTotalService.selectItemsByBudgetId(finalBudgetInfo.getDataId());
 					Optional<BudgetStockTotal> rs = totals.stream().filter(a -> BudgetSplitEnum.SPLIT_STOCK_YJY.getCode().equals(a.getDisplayCode())).findFirst();
 					if(rs != null && rs.isPresent()) {
-						dt.setBudgetMoney(rs.get().getXmjfTotal());
+						//dt.setBudgetMoney(rs.get().getXmjfTotal());
+						dt.setBudgetMoney(rs.get().getXmjfFyx());
 					}
 				}
 				Map<String,Object> map = MyBeanUtils.transBean2Map(dt);
