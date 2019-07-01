@@ -657,7 +657,7 @@ public class BudgetAssetTotalProviderClient
 			List<BudgetAssetTotal> totals = budgetAssetTotalService.selectItemsByBudgetId(info.getDataId());
 			Double items_total = 0d;
 			for(BudgetAssetTotal total:totals) {
-				items_total += total.getTotal();
+				items_total += (total.getTotal()==null?0:total.getTotal());
 			}
 			rsmap.put("items", totals);
 			rsmap.put("items_total", items_total);
