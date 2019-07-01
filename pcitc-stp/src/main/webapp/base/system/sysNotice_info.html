@@ -13,6 +13,8 @@
 	<link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
 	<link rel="stylesheet" href="/layuiadmin/style/common.css">
 	<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+	<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
+	<script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
 	<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 	<script type="text/javascript" src="/layuiadmin/javascript/ckeditor5/ckeditor.js"></script>
 	<style>
@@ -74,7 +76,7 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">公告内容<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-						<textarea name="ckEditor" class="ckeditor" id="ckeditor"></textarea>
+						<textarea name="ckEditor" class="ckeditor" id="content"></textarea>
 					</div>
 				</div>
 			</div>
@@ -100,22 +102,22 @@
             ,layer = layui.layer
             ,laydate = layui.laydate
             ,form = layui.form;
-        var id = "${id}";
         var myEditor = null;
-        ClassicEditor.create(document.querySelector('#ckeditor'),{}).then(editor => {
+        ClassicEditor.create(document.querySelector('#content'),{}).then(editor => {
             myEditor = editor;
-    });
+            console.log(myEditor)
+    	});
+        var id = "${id}";
         if (id) {
             $.ajax({
                 type : 'post',
                 dataType : 'json',
-                async : false,
+                async : true,
                 data : {
                     "id" : id
                 },
                 url : '/sysNotice/getSysNotice',
                 success : function(data) {
-                    myEditor.setData(data.noticeContent);
                     $("input[name=noticeId]").val(data.noticeId);
                     $("input[name=noticeTitle]").val(data.noticeTitle);
                     $("input[name=noticeCreater]").val(data.noticeCreater);
@@ -128,6 +130,7 @@
                             form.render();
                         }
                     }); */
+                    myEditor.setData(data.noticeContent);
                     $("input[name=isVariable][value='" + data.isVariable + "']").prop("checked", "checked");
                     form.render();
                 },

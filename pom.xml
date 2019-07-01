@@ -21,7 +21,7 @@
 		<version>1.5.5.RELEASE</version>
 	</parent>
 
-	<repositories>
+	<!-- <repositories>
 		
 		<repository>
 			<id>Central</id>
@@ -50,7 +50,7 @@
 		</repository>
 
 		
-	</repositories>
+	</repositories> -->
 
 	<dependencyManagement>
 		<dependencies>
