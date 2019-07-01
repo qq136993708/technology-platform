@@ -1,6 +1,7 @@
 package com.pcitc.service.budget.impl;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -168,6 +169,13 @@ public class BudgetAssetSplitServiceImpl implements BudgetAssetSplitService
 		if(dis.size()==0) {
 			dis = systemRemoteClient.getDictionaryListByParentCode("ROOT_JFYS_ZCDWFL");
 		}
+		dis.sort(new Comparator<SysDictionary>() {
+			@Override
+			public int compare(SysDictionary o1, SysDictionary o2) {
+				Integer s1 = o1.getIsdelete()==null?0:o1.getIsdelete();
+				Integer s2 = o2.getIsdelete()==null?0:o2.getIsdelete();
+				return s1-s2;
+			}});
 		return dis;
 	}
 	@Override
