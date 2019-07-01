@@ -157,10 +157,10 @@
                         field: "sex",
                         title: "性别", event: 'setActive', style: 'cursor: pointer;',width:'6%'
                     },
-                    {
-                        field: "expertProfessionalFieldName",
-                        title: "专业领域", event: 'setActive', style: 'cursor: pointer;',width:'10%'
-                    },
+                    // {
+                    //     field: "expertProfessionalFieldName",
+                    //     title: "专业领域", event: 'setActive', style: 'cursor: pointer;',width:'10%'
+                    // },
                     {
                         field: "birthDate",
                         title: "出生日期", event: 'setActive', style: 'cursor: pointer;',width:'12%'
@@ -207,7 +207,7 @@
                     var param = {
                         data: res.data,//数据
                         element: ".layui-table-body table",// 当前的表格元素
-                        column: 8,//列数 从0开始
+                        column: 7,//列数 从0开始
                         field: "expertProfessionalField",//当前数据的字段
                         url: "/pageCommon/dic/ZJK_ZYFL"//接口
                     };
@@ -215,7 +215,7 @@
                     var param = {
                         data: res.data,//数据
                         element: ".layui-table-body table",// 当前的表格元素
-                        column: 9,//列数 从0开始
+                        column: 8,//列数 从0开始
                         field: "expertProfessinal",//当前数据的字段
                         url: "/pageCommon/dic/ZJK_ZCXX"//接口
                     };
@@ -223,7 +223,7 @@
                     var param = {
                         data: res.data,//数据
                         element: ".layui-table-body table",// 当前的表格元素
-                        column: 10,//列数 从0开始
+                        column: 9,//列数 从0开始
                         field: "company",//当前数据的字段
                         url: "/pageCommon/dic/ROOT_ZGSHJT_GFGS_ZSYJY"//接口
                     };

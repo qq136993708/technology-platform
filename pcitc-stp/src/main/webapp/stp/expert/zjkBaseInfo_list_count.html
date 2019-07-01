@@ -89,9 +89,7 @@
         table = layui.table;
 
         function loadtable() {
-            console.log("----查询-----");
             var where = {"expertName": $("#expertName").val(), "email": $("#email").val(), "company": $("#company option:selected").val(), "auditStatus": $("#auditStatus").val(), "sysFlag": $("#state").val()};
-            console.log(where);
             table.render({
                 elem: '#zjkBaseInfoTableId',
                 url: '/zjkBaseInfo/getTableDataCount',
@@ -130,10 +128,10 @@
                         field: "sex",
                         title: "性别", event: 'setActive', style: 'cursor: pointer;', width: 50
                     },
-                    {
-                        field: "expertProfessionalFieldName",
-                        title: "专业领域", event: 'setActive', style: 'cursor: pointer;', width: 100
-                    },
+                    // {
+                    //     field: "expertProfessionalFieldName",
+                    //     title: "专业领域", event: 'setActive', style: 'cursor: pointer;', width: 100
+                    // },
                     {
                         field: "birthDate",
                         title: "出生日期", event: 'setActive', style: 'cursor: pointer;', width: 100
@@ -216,14 +214,14 @@
                     //     url: "/pageCommon/dic/ZJK_ZCXX"//接口
                     // };
                     // publicMethods.dataDictionary(param);
-                    // var param = {
-                    //     data: res.data,//数据
-                    //     element: ".layui-table-body table",// 当前的表格元素
-                    //     column: 11,//列数 从0开始
-                    //     field: "company",//当前数据的字段
-                    //     url: "/pageCommon/dic/ROOT_ZGSHJT_GFGS_ZSYJY"//接口
-                    // };
-                    // publicMethods.dataDictionary(param);
+                    var param = {
+                        data: res.data,//数据
+                        element: ".layui-table-body table",// 当前的表格元素
+                        column: 10,//列数 从0开始
+                        field: "companyName",//当前数据的字段
+                        url: "/pageCommon/dic/ROOT_ZGSHJT_GFGS_ZSYJY"//接口
+                    };
+                    publicMethods.dataDictionary(param);
                 }
             });
             //移除表头的复选框,去掉全选

@@ -150,10 +150,10 @@
                         field: "sex",
                         title: "性别", event: 'setActive', style: 'cursor: pointer;',width: 50
                     },
-                    {
-                        field: "expertProfessionalFieldName",
-                        title: "专业领域", event: 'setActive', style: 'cursor: pointer;'
-                    },
+                    // {
+                    //     field: "expertProfessionalFieldName",
+                    //     title: "专业领域", event: 'setActive', style: 'cursor: pointer;'
+                    // },
                     {
                         field: "birthDate",
                         title: "出生日期", event: 'setActive', style: 'cursor: pointer;',width: 120
@@ -164,20 +164,20 @@
                     },
                     {
                         field: "mobile",
-                        title: "联系方式", event: 'setActive', style: 'cursor: pointer;',width: 120
+                        title: "联系方式", event: 'setActive', style: 'cursor: pointer;'
                     },
-                    {
-                        field: "expertProfessionalField",
-                        title: "专业领域", event: 'setActive', style: 'cursor: pointer;'
-                    },
-                    {
-                        field: "expertProfessinal",
-                        title: "职称", event: 'setActive', style: 'cursor: pointer;',width: 60
-                    },
-                    {
-                        field: "companyName",
-                        title: "所属机构", event: 'setActive', style: 'cursor: pointer;'
-                    }
+                    // {
+                    //     field: "expertProfessionalField",
+                    //     title: "专业领域", event: 'setActive', style: 'cursor: pointer;'
+                    // },
+                    // {
+                    //     field: "expertProfessinal",
+                    //     title: "职称", event: 'setActive', style: 'cursor: pointer;',width: 60
+                    // },
+                    // {
+                    //     field: "company",
+                    //     title: "所属机构", event: 'setActive', style: 'cursor: pointer;',width: 120
+                    // }
                 ]],
 
                 done: function (res, curr, count) {
@@ -198,30 +198,30 @@
                         url: "/pageCommon/dic/ROOT_UNIVERSAL_XB"//接口
                     };
                     publicMethods.dataDictionary(param);
-                    var param = {
-                        data: res.data,//数据
-                        element: ".layui-table-body table",// 当前的表格元素
-                        column: 9,//列数 从0开始
-                        field: "expertProfessionalField",//当前数据的字段
-                        url: "/pageCommon/dic/ZJK_ZYFL"//接口
-                    };
-                    publicMethods.dataDictionary(param);
-                    var param = {
-                        data: res.data,//数据
-                        element: ".layui-table-body table",// 当前的表格元素
-                        column: 10,//列数 从0开始
-                        field: "expertProfessinal",//当前数据的字段
-                        url: "/pageCommon/dic/ZJK_ZCXX"//接口
-                    };
-                    publicMethods.dataDictionary(param);
-                    var param = {
-                        data: res.data,//数据
-                        element: ".layui-table-body table",// 当前的表格元素
-                        column: 11,//列数 从0开始
-                        field: "company",//当前数据的字段
-                        url: "/pageCommon/dic/ROOT_ZGSHJT_GFGS_ZSYJY"//接口
-                    };
-                    publicMethods.dataDictionary(param);
+                    // var param = {
+                    //     data: res.data,//数据
+                    //     element: ".layui-table-body table",// 当前的表格元素
+                    //     column: 9,//列数 从0开始
+                    //     field: "expertProfessionalField",//当前数据的字段
+                    //     url: "/pageCommon/dic/ZJK_ZYFL"//接口
+                    // };
+                    // publicMethods.dataDictionary(param);
+                    // var param = {
+                    //     data: res.data,//数据
+                    //     element: ".layui-table-body table",// 当前的表格元素
+                    //     column: 10,//列数 从0开始
+                    //     field: "expertProfessinal",//当前数据的字段
+                    //     url: "/pageCommon/dic/ZJK_ZCXX"//接口
+                    // };
+                    // publicMethods.dataDictionary(param);
+                    // var param = {
+                    //     data: res.data,//数据
+                    //     element: ".layui-table-body table",// 当前的表格元素
+                    //     column: 8,//列数 从0开始
+                    //     field: "company",//当前数据的字段
+                    //     url: "/pageCommon/dic/ROOT_ZGSHJT_GFGS_ZSYJY"//接口
+                    // };
+                    // publicMethods.dataDictionary(param);
                 }
             });
             //移除表头的复选框,去掉全选
@@ -253,11 +253,11 @@
                 loadtable()
             },
             resetEvent: function () { //点击查询按钮
-                table.reload('zjkBaseInfoTableId', {
-                    where: {
-                        param: {}
-                    }
-                });
+
+                $("#expertName").val("");
+                $("#email").val("");
+                loadtable();
+
             }, getChecked: function () {//多选
                 var ids = "";
                 var selectedData = active.getCheckData();
