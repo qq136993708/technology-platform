@@ -61,6 +61,10 @@ public class OutProjectServiceImpl implements OutProjectService {
      * 分页显示项目数据数据,统计的第三级展示
      */
     public LayuiTableData selectCommonProjectByCond(LayuiTableParam param) {
+    	
+    	
+    	JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(param));
+    	System.out.println(">>>>>>>入口->参数： " + parmamss.toString());
         // 每页显示条数
         int pageSize = param.getLimit();
         // 当前是第几页
@@ -200,13 +204,10 @@ public class OutProjectServiceImpl implements OutProjectService {
         if (param.getParam().get("nd") != null && !StringUtils.isBlank(param.getParam().get("nd") + "")) {
             hashmap.put("nd", param.getParam().get("nd"));
         }
-        System.out.println("1234>>>>>>>>>ysnd" + param.getParam().get("ysnd"));
-        System.out.println("1234>>>>>>>>>zycmc" + param.getParam().get("define10"));
-        System.out.println("1234>>>>>>>>>zylb" + param.getParam().get("zylb"));
-        System.out.println("1234>>>>>>>>>type_flag" + param.getParam().get("type_flag"));
-        System.out.println("1234>>>>>>>>>define1" + param.getParam().get("define1"));
-        System.out.println("1234>>>>>>>>>define2" + param.getParam().get("define2"));
-        System.out.println("1234>>>>>>>>>fzdwflag" + param.getParam().get("fzdwflag"));
+        if (param.getParam().get("leaderFlag") != null && !StringUtils.isBlank(param.getParam().get("leaderFlag") + "")) {
+            hashmap.put("leaderFlag", param.getParam().get("leaderFlag"));
+        }
+       
 
         if (param.getParam().get("ysnd") != null && !StringUtils.isBlank(param.getParam().get("ysnd") + "")) {
             hashmap.put("ysnd", param.getParam().get("ysnd"));
@@ -216,6 +217,13 @@ public class OutProjectServiceImpl implements OutProjectService {
         if (param.getParam().get("ktlx") != null && !StringUtils.isBlank(param.getParam().get("ktlx") + "")) {
             hashmap.put("ktlx", param.getParam().get("ktlx"));
         }
+        
+        
+        JSONObject hashmapstr = JSONObject.parseObject(JSONObject.toJSONString(hashmap));
+    	System.out.println(">>>>>>>封装后->参数： " + hashmapstr.toString());
+        
+        
+        
 
         List<OutProjectInfo> list = outProjectInfoMapper.selectCommonProjectByCond(hashmap);
         System.out.println("1>>>>>>>>>查询分页结果" + list.size());
@@ -1032,6 +1040,8 @@ public class OutProjectServiceImpl implements OutProjectService {
      * 获取项目详情的查询维度（条件）
      */
     public List getProjectInfoSelectCondition(HashMap<String, String> map) {
+    	JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(map));
+		System.out.println(">>>>>>>>获取项目详情的查询维度参数: "+parmamss.toString());
         return outProjectInfoMapper.getProjectInfoSelectCondition(map);
     }
 

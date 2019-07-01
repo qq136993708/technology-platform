@@ -38,7 +38,7 @@
             <div class="tool-left">
                 <label class="dateInput">
                     <span>编制年度</span>
-                    <input type="text" id="choose-year">
+                    <input type="text" readonly="readonly" id="choose-year">
                     <i class="layui-icon layui-icon-date"></i>
                 </label>
             </div>
@@ -120,7 +120,7 @@
 				table.reload(tableId, {data: tableData});
 				//格式化求和
 				$.each($(".layui-table-total tr td"),function(i,d){
-					if(i>=3){
+					if(i>=2){
 						var val = $(this).find("div").html();
 						$(this).find("div").html(parseInt(val));
 					}

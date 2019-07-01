@@ -119,9 +119,9 @@ public class BudgetInfoProviderClient
 			
 			BudgetInfo oldInfo = budgetInfoService.selectBudgetInfo(info.getDataId());
 			newInfo.setBudgetMoney(oldInfo.getBudgetMoney());
-			newInfo.setNd(oldInfo.getNd());
-			newInfo.setCreaterId(oldInfo.getCreaterId());
-			newInfo.setCreaterName(oldInfo.getCreaterName());
+			newInfo.setNd(info.getNd());
+			newInfo.setCreaterId(info.getCreaterId());
+			newInfo.setCreaterName(info.getCreaterName());
 			budgetInfoService.updateBudgetInfo(newInfo);
 			//集团预算总表
 			if(BudgetInfoEnum.GROUP_TOTAL.getCode().equals(info.getBudgetType())) {
