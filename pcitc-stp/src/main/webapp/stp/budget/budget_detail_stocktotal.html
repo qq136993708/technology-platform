@@ -107,14 +107,14 @@
 			
 				/* $(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(3).find('span').text((cu_date-1)+"年预算完成");
             	$(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(4).find('span').text(cu_date+"年计划金额"); */
-            	$(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(3).find('span').text((cu_date-1)+"年科技经费预计完成");
-            	$(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(4).find('span').text(cu_date+"年科技经费预算");
+            	$(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(2).find('span').text((cu_date-1)+"年科技经费预计完成");
+            	$(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(3).find('span').text(cu_date+"年科技经费预算");
 			}
             reloadTable = function(tableId,tableData){
 				table.reload(tableId, {data: tableData});
 				//格式化求和
 				$.each($(".layui-table-total tr td"),function(i,d){
-					if(i>=3){
+					if(i>=2){
 						var val = $(this).find("div").html();
 						$(this).find("div").html(parseInt(val));
 					}
@@ -125,17 +125,39 @@
 					$(".layui-table-body").find("tr").eq(index).find('td').eq(1).attr("align",align);
 					$(".layui-table-body").find("tr").eq(index).find('td').eq(0).find("div").html(no);
 				});
+				calculationSurplusMoney();
 			}
 			//数据版本选择
 	        publicMethods.ajaxAsyncPost("/budget/budget-stocktotal-items",{page:1,limit:100,param: {"budget_info_id":dataId}}, function (data) {
-       			reloadTable('dataTable', data.data);
+	        	curent_tabel_data = data.data;
+	        	reloadTable('dataTable', data.data);
             	if(data.data.length >0){
             		cu_date = data.data[0].nd;
             	}
        			
        			renderfunc();
             	initDateView();
-		   	}); 
+		   	});
+	        function calculationSurplusMoney(){
+          		//5,6,7,8,9,10行 以汇总计算
+          		var t5=t6=t7=t8=t9=t10=0;
+          		$.each(curent_tabel_data,function(index,dt){
+          			if(dt.level == 0){
+          				t5 += parseInt(dt.yjwcTotal);
+          				t6 += parseInt(dt.yjwcZbx);
+          				t7 += parseInt(dt.yjwcFyx);
+          				t8 += parseInt(dt.xmjfTotal);
+          				t9 += parseInt(dt.xmjfZbx);
+          				t10 += parseInt(dt.xmjfFyx);
+          			}
+          		});
+          		$(".layui-table-total").find("tr").find('td').eq(2).find("div").html(t5);
+      			$(".layui-table-total").find("tr").find('td').eq(3).find("div").html(t6);
+      			$(".layui-table-total").find("tr").find('td').eq(4).find("div").html(t7);
+      			$(".layui-table-total").find("tr").find('td').eq(5).find("div").html(t8);
+      			$(".layui-table-total").find("tr").find('td').eq(6).find("div").html(t9);
+      			$(".layui-table-total").find("tr").find('td').eq(7).find("div").html(t10);
+          	}
         });
     </script>
 </body>

@@ -328,8 +328,8 @@
           		var t3=t4=t5=t6=t7=t8=t9=t10=0;
           		$.each(curent_tabel_data,function(index,dt){
           			if(dt.level == 0){
-          				t3 += parseInt(dt.last_year_end);
-          				t4 += parseInt(dt.plan_money);
+          				//t3 += parseInt(dt.last_year_end);
+          				//t4 += parseInt(dt.plan_money);
           				t5 += parseInt(dt.yjwcTotal);
           				t6 += parseInt(dt.yjwcZbx);
           				t7 += parseInt(dt.yjwcFyx);
@@ -338,12 +338,12 @@
           				t10 += parseInt(dt.xmjfFyx);
           			}
           		});
-          		$(".layui-table-total").find("tr").find('td').eq(5).find("div").html(t5);
-      			$(".layui-table-total").find("tr").find('td').eq(6).find("div").html(t6);
-      			$(".layui-table-total").find("tr").find('td').eq(7).find("div").html(t7);
-      			$(".layui-table-total").find("tr").find('td').eq(8).find("div").html(t8);
-      			$(".layui-table-total").find("tr").find('td').eq(9).find("div").html(t9);
-      			$(".layui-table-total").find("tr").find('td').eq(10).find("div").html(t10);
+          		$(".layui-table-total").find("tr").find('td').eq(3).find("div").html(t5);
+      			$(".layui-table-total").find("tr").find('td').eq(4).find("div").html(t6);
+      			$(".layui-table-total").find("tr").find('td').eq(5).find("div").html(t7);
+      			$(".layui-table-total").find("tr").find('td').eq(6).find("div").html(t8);
+      			$(".layui-table-total").find("tr").find('td').eq(7).find("div").html(t9);
+      			$(".layui-table-total").find("tr").find('td').eq(8).find("div").html(t10);
       			
       			var available = parseInt($("#budgetMoney").val())-total_money;
       			$("#surplusMoney").val(available);
