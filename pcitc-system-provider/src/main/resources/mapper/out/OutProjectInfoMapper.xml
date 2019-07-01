@@ -2989,8 +2989,8 @@
 			<if test="ktlx != null and ktlx == '新开课题' and nd != null">
 				and out_project_info.ysnd = #{nd} and out_project_info.nd = #{nd} 
 			</if>
-			<if test="ktlx != null and ktlx == '结转课题' and nd != null">
-				and out_project_info.ysnd = #{nd} and out_project_info.nd &lt; #{nd} 
+			<if test="ktlx != null and ktlx == '结转课题' and ysnd != null">
+				and out_project_info.ysnd = #{ysnd} and out_project_info.nd &lt; #{ysnd} 
 			</if>
 			<if test="hth != null">
 				and out_project_info.hth like '%${hth}%'
@@ -3141,8 +3141,8 @@
 			<if test="ktlx != null and ktlx == '新开课题' and nd != null">
 				and out_project_info.ysnd = #{nd} and out_project_info.nd = #{nd} 
 			</if>
-			<if test="ktlx != null and ktlx == '结转课题' and nd != null">
-				and out_project_info.ysnd = #{nd} and out_project_info.nd &lt; #{nd} 
+			<if test="ktlx != null and ktlx == '结转课题' and ysnd != null">
+				and out_project_info.ysnd = #{ysnd} and out_project_info.nd &lt; #{ysnd} 
 			</if>
 			<if test="hth != null">
 				and out_project_info.hth like '%${hth}%'
