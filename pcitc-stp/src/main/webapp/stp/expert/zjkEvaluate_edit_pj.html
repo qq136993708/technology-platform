@@ -153,10 +153,13 @@
                 data.field.evalDesc=CKEDITOR.instances.evalDesc.getData();
                 ajaxPost("/zjkEvaluate/saveZjkEvaluate", data.field, function (dt, status) {
                     layer.msg("操作成功");
-                    parent.layui.table.reload('zjkChoiceTableId', {where: {param: {}}});
-                    parent.selectRowData="";
-                    var index = parent.layer.getFrameIndex(window.name);
-                    parent.layer.close(index);
+                    setTimeout(function (){
+                        parent.layui.table.reload('zjkChoiceTableId', {where: {param: {}}});
+                        parent.selectRowData="";
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                    }, 1000);
+
                 });
                 return false;
             });

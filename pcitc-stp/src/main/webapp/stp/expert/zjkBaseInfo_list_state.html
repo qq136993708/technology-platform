@@ -343,7 +343,7 @@
                     layer.msg("请选择一条数据");
                     return;
                 }
-                layer.confirm('确定要执行冻结吗?', {btn: ['确认', '取消'], title: "冻结确认"}, function (index) {
+                        layer.confirm('确定要执行冻结吗?', {icon: 3,btn: ['确认', '取消'], title: "冻结确认"}, function (index) {
                         layer.close(index);
                         ajaxPost("/zjkBaseInfo/updateExpertByType", {"dataId": selectRowData.dataId,"bak1":"1","sysFlag":"1"}, function (data) {
                             layer.msg("操作成功");
@@ -357,7 +357,7 @@
                     layer.msg("请选择一条数据");
                     return;
                 }
-                layer.confirm('确定要执行解冻吗?', {btn: ['确认', '取消'], title: "解冻确认"}, function (index) {
+                layer.confirm('确定要执行解冻吗?', {icon: 3,btn: ['确认', '取消'], title: "解冻确认"}, function (index) {
                     layer.close(index);
                     ajaxPost("/zjkBaseInfo/updateExpertByType", {"dataId": selectRowData.dataId,"bak1":"1","sysFlag":"0"}, function (data) {
                         layer.msg("操作成功");
