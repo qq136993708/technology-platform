@@ -89,9 +89,12 @@ public class ProjectBasicController extends BaseController {
 	@RequestMapping(value = "/project-list-kjb")
 	public String kjb(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		List<UnitField> unitFieldList = CommonUtil.getUnitNameList(restTemplate, httpHeaders);
-		request.setAttribute("unitFieldList", unitFieldList);
-		
+		//归属部门
+		List<SysDictionary> departmentList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
+		request.setAttribute("departmentList", departmentList);
+		//专业领域
+		List<SysDictionary> fieldList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZBGL_ZYLY", restTemplate, httpHeaders);
+		request.setAttribute("fieldList", fieldList);
 		
 		
 		List<SysDictionary> dicList = CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate,

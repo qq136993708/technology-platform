@@ -9,6 +9,7 @@
     <script src="/common/js/jquery-1.11.3.min.js"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <script type="text/javascript" src="/stp/equipment/js/equipment.js"></script>
     <style>
         .searchBox{ height: auto;}
         .searchBox label{margin-bottom: 10px;display: inline-block; }
@@ -652,48 +653,7 @@ var name=$('#name').val();
       });
     }
     
-    
-    function  getTaskSpecialAuditor0ByProfessionalDepartName(professionalDepartName)
-	{
-		var specialAuditor0="";
-		if(professionalDepartName.indexOf("勘探开发")!= -1)
-		{
-			specialAuditor0="";//关晓东
-		}
-		if(professionalDepartName.indexOf("石油工程")!= -1)
-		{
-			specialAuditor0="";//陈本池
-		}
-		if(professionalDepartName.indexOf("炼油")!= -1)
-		{
-			specialAuditor0="30130056_LYC_ZYCCZ";//潘煜
-		}
-		if(professionalDepartName.indexOf("化工")!= -1)
-		{
-			specialAuditor0="";//方志平
-		}
-		if(professionalDepartName.indexOf("合成材料")!= -1)
-		{
-			specialAuditor0="";//庄毅
-		}
-		if(professionalDepartName.indexOf("装备与储运")!= -1)
-		{
-			specialAuditor0="";//卢衍波
-		}
-		if(professionalDepartName.indexOf("知识产权")!= -1)
-		{
-			specialAuditor0="";//陈蓓艳
-		}
-		if(professionalDepartName.indexOf("三剂")!= -1)
-		{
-			specialAuditor0="30130062_SJC_ZYCCZ";//林雯
-		}
-		if(professionalDepartName.indexOf("技术监督")!= -1)
-		{
-			specialAuditor0="30130063_JSJDC_ZYCCZ";//秦士珍
-		}
-		return specialAuditor0;
-	}
+   
 
 </script>
 

@@ -335,10 +335,11 @@ layui.config({
         $(".specialt_ktlx ul li").each(function () {
             var htmlA=$(this).find("a").html(),htmlT=$("#ktlx").val(),
                 htmlName=$(this).parents(".selector-right").prev().html();
-            if(htmlA==htmlT && htmlA!=""){
+            if(htmlA==htmlT && htmlA!="")
+            {
                 $(this).addClass("layui-this");
                 $(".dateInputP").addClass("layui-hide");
-                $("#ysnd").val("");
+               // $("#ysnd").val("");
                 $(".conditionNew").removeClass("layui-hide");
                 $(".conditionNew ul").append("<li>"+htmlName+"<a href='javascript:;'>"+htmlA+"</a></li>");
                 renderTable();
@@ -403,7 +404,7 @@ layui.config({
             }
             if($(".specialt_ktlx ul li.layui-this").length>0){
                 $(".dateInputP").addClass("layui-hide");
-                $("#ysnd").val("");
+               // $("#ysnd").val("");
             }else {
                 $(".dateInputP").removeClass("layui-hide");
             }
