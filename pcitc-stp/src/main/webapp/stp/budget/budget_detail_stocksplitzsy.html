@@ -51,16 +51,16 @@
             <table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true}">
                 <thead>
 	                <tr>
-	                	<th lay-data="{field:'no',align: 'center', width: '5%',totalRowText: '合计'}" rowspan="2">序号</th>
-	                    <th lay-data="{field:'organName', width: '15%'}" rowspan="2">专业处/部门</th>
-	                    <!--  <th lay-data="{field:'total', width: '6%',align: 'center',totalRow: true}" rowspan="2">合计</th> -->
+	                	<th lay-data="{field:'no',align: 'center', width: '5%',totalRowText: '合计'}" >序号</th>
+	                    <th lay-data="{field:'organName', width: '15%'}" >专业处/部门</th>
+	                    <th lay-data="{field:'total', width: '10%',align: 'center',totalRow: true}" >合计</th>
 	                    <#list items as item>
 	                    	<#list item?keys as key> 
-	                    		<th lay-data="{field:'${key}_total', align: 'right',totalRow: true}" colspan="3">${item[key]}</th>
+	                    		<th lay-data="{field:'${key}_total', align: 'right',totalRow: true}">${item[key]}</th>
 	                    	</#list> 
 	                    </#list>
 	                </tr>
-	                 <tr>
+	                 <!-- <tr>
 	                    <#list items as item>
 	                    	<#list item?keys as key> 
 	                    		<th lay-data="{field:'${key}_total',align: 'right',totalRow: true}">预算</th>
@@ -68,7 +68,7 @@
 	                    		<th lay-data="{field:'${key}_xq', align: 'right',totalRow: true}">可新签</th>
 	                    	</#list> 
 	                    </#list>
-	                </tr>
+	                </tr> -->
                 </thead>
             </table>
         </div>
@@ -113,7 +113,7 @@
 				table.reload(tableId, {data: tableData});
 				//格式化求和
 				$.each($(".layui-table-total tr td"),function(i,d){
-					if(i>=3){
+					if(i>=2){
 						var val = $(this).find("div").html();
 						$(this).find("div").html(parseInt(val));
 					}
