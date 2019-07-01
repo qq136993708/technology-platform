@@ -38,8 +38,6 @@ import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.hana.report.DicSupplyer;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreProject;
-import com.pcitc.base.system.SysDictionary;
-import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserProperty;
 import com.pcitc.base.util.CommonUtil;
@@ -50,7 +48,6 @@ import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
 
 @Controller
-@RequestMapping(value = "/sre-equipment")
 public class EquipmentController extends BaseController {
 
 	/*
@@ -74,111 +71,91 @@ public class EquipmentController extends BaseController {
 	private static final String GET_DIC_ASSET_TYPE = "http://pcitc-zuul/hana-proxy/hana/common/dic/asset_type";
 	private static final String GET_DIC_SUPPLYER = "http://pcitc-zuul/hana-proxy/hana/common/dic/supplyer";
 	private static final String chooseBusiness_data = "http://pcitc-zuul/hana-proxy/hana/common/dic/supplyer_table";
-	
-	
 
-	
-	@RequestMapping(value = "/guihua")
+	@RequestMapping(value = "/sre-equipment/guihua")
 	public String guihua(HttpServletRequest request, HttpServletResponse response) {
 		return "/stp/equipment/guihua";
 	}
-	@RequestMapping(value = "/guihua_list")
+
+	@RequestMapping(value = "/sre-equipment/guihua_list")
 	public String guihua_list(HttpServletRequest request, HttpServletResponse response) {
 		return "/stp/equipment/guihua_list";
 	}
-	
-	
-	//计划上报
-	@RequestMapping(value = "/plan_up")
+
+	// 计划上报
+	@RequestMapping(value = "/sre-equipment/plan_up")
 	public String plan_up(HttpServletRequest request, HttpServletResponse response) {
 		return "/stp/equipment/plan_up";
 	}
-	
-	
-	@RequestMapping(value = "/plan_up_list")
+
+	@RequestMapping(value = "/sre-equipment/plan_up_list")
 	public String plan_up_list(HttpServletRequest request, HttpServletResponse response) {
 		return "/stp/equipment/plan_up_list";
 	}
-	
-	@RequestMapping(value = "/plan_update")
+
+	@RequestMapping(value = "/sre-equipment/plan_update")
 	public String plan_update(HttpServletRequest request, HttpServletResponse response) {
 		return "/stp/equipment/plan_update";
 	}
-	
-	
-	
-	//规划审批
-	@RequestMapping(value = "/plan_audit_list")
-			public String plan_audit_list(HttpServletRequest request, HttpServletResponse response) {
-				return "/stp/equipment/plan_audit_list";
-			}
-	
-	
-	
-	//规划审批
-	@RequestMapping(value = "/plan_audit")
+
+	// 规划审批
+	@RequestMapping(value = "/sre-equipment/plan_audit_list")
+	public String plan_audit_list(HttpServletRequest request, HttpServletResponse response) {
+		return "/stp/equipment/plan_audit_list";
+	}
+
+	// 规划审批
+	@RequestMapping(value = "/sre-equipment/plan_audit")
 	public String plan_audit(HttpServletRequest request, HttpServletResponse response) {
 		return "/stp/equipment/plan_audit";
 	}
-		
-	
-	
-	
-	//接收计划
-	@RequestMapping(value = "/over_plan")
+
+	// 接收计划
+	@RequestMapping(value = "/sre-equipment/over_plan")
 	public String over_plan(HttpServletRequest request, HttpServletResponse response) {
 		return "/stp/equipment/over_plan";
 	}
-	
-	
-	//采购信息
-	@RequestMapping(value = "/plan_info")
+
+	// 采购信息
+	@RequestMapping(value = "/sre-equipment/plan_info")
 	public String plan_info(HttpServletRequest request, HttpServletResponse response) {
 		return "/stp/equipment/plan_info";
 	}
-		
-		
 
-	//验收
-	@RequestMapping(value = "/check_list")
+	// 验收
+	@RequestMapping(value = "/sre-equipment/check_list")
 	public String check_list(HttpServletRequest request, HttpServletResponse response) {
 		return "/stp/equipment/check_list";
 	}
-	
-	
-	  //报废处置
-		@RequestMapping(value = "/apply_waste_list")
-		public String apply_waste_list(HttpServletRequest request, HttpServletResponse response) {
-			return "/stp/equipment/apply_waste_list";
-		}
-			@RequestMapping(value = "/apply_waste")
-			public String apply_waste(HttpServletRequest request, HttpServletResponse response) {
-				return "/stp/equipment/apply_waste";
-			}
-			
-			
-			
-			
-			//设备资料归档
-			@RequestMapping(value = "/assets_list")
-			public String assets_list(HttpServletRequest request, HttpServletResponse response) {
-				return "/stp/equipment/assets_list";
-			}
-			@RequestMapping(value = "/assets")
-			public String assets(HttpServletRequest request, HttpServletResponse response) {
-				return "/stp/equipment/assets";
-			}
-			
-			
 
-			//转资
-			@RequestMapping(value = "/transfer_funds_list")
-			public String transfer_funds_list(HttpServletRequest request, HttpServletResponse response) {
-				return "/stp/equipment/transfer_funds_list";
-			}
-			
-			
-		
+	// 报废处置
+	@RequestMapping(value = "/sre-equipment/apply_waste_list")
+	public String apply_waste_list(HttpServletRequest request, HttpServletResponse response) {
+		return "/stp/equipment/apply_waste_list";
+	}
+
+	@RequestMapping(value = "/sre-equipment/apply_waste")
+	public String apply_waste(HttpServletRequest request, HttpServletResponse response) {
+		return "/stp/equipment/apply_waste";
+	}
+
+	// 设备资料归档
+	@RequestMapping(value = "/sre-equipment/assets_list")
+	public String assets_list(HttpServletRequest request, HttpServletResponse response) {
+		return "/stp/equipment/assets_list";
+	}
+
+	@RequestMapping(value = "/sre-equipment/assets")
+	public String assets(HttpServletRequest request, HttpServletResponse response) {
+		return "/stp/equipment/assets";
+	}
+
+	// 转资
+	@RequestMapping(value = "/sre-equipment/transfer_funds_list")
+	public String transfer_funds_list(HttpServletRequest request, HttpServletResponse response) {
+		return "/stp/equipment/transfer_funds_list";
+	}
+
 	/**
 	 * 选择资产分类
 	 * 
@@ -186,12 +163,12 @@ public class EquipmentController extends BaseController {
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping(value = "/to-chooseType")
+	@RequestMapping(value = "/sre-equipment/to-chooseType")
 	public String toChooseType(HttpServletRequest request, HttpServletResponse response) {
 		return "/stp/equipment/equipment/chooseType";
 	}
 
-	@RequestMapping(value = "/chooseType")
+	@RequestMapping(value = "/sre-equipment/chooseType")
 	@ResponseBody
 	public String chooseType(HttpServletRequest request) throws Exception {
 		JSONArray treeNodes = new JSONArray();
@@ -244,27 +221,22 @@ public class EquipmentController extends BaseController {
 		System.out.println("=============treeNodes:" + treeNodes);
 		return treeNodes.toString();
 	}
-	
-	
-	//判断有没有数据权限
-	@RequestMapping(value = "/checkSysUserProperty")
+
+	// 判断有没有数据权限
+	@RequestMapping(value = "/sre-equipment/checkSysUserProperty")
 	@ResponseBody
-	public String checkSysUserProperty(HttpServletRequest request, HttpServletResponse response) 
-	{
+	public String checkSysUserProperty(HttpServletRequest request, HttpServletResponse response) {
 		Result resultsDate = new Result();
-		SysUserProperty sysUserProperty=EquipmentUtils.getSysUserProperty(sysUserInfo.getUserId(), "G0DSM", restTemplate, httpHeaders);
-		if(sysUserProperty!=null)
-		{
+		SysUserProperty sysUserProperty = EquipmentUtils.getSysUserProperty(sysUserInfo.getUserId(), "G0DSM", restTemplate, httpHeaders);
+		if (sysUserProperty != null) {
 			resultsDate.setSuccess(true);
 			resultsDate.setData(sysUserProperty);
-		}else
-		{
+		} else {
 			resultsDate.setSuccess(false);
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
 		return result.toString();
 	}
-	
 
 	/**
 	 * 选择供应商
@@ -273,59 +245,52 @@ public class EquipmentController extends BaseController {
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping(value = "/to-choose-chooseBusiness")
+	@RequestMapping(value = "/sre-equipment/to-choose-chooseBusiness")
 	public String tochooseBusiness(HttpServletRequest request, HttpServletResponse response) {
-		
-		
+
 		String unitCode = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);// .getParentUnitPathId(unitPathIds);
-		String companyCode=EquipmentUtils.getHanaUnitCodeByUnitCode(unitCode, restTemplate, httpHeaders);
+		String companyCode = EquipmentUtils.getHanaUnitCodeByUnitCode(unitCode, restTemplate, httpHeaders);
 		request.setAttribute("companyCode", companyCode);
 		return "/stp/equipment/equipment/chooseBusiness";
 	}
-	
 
-	@RequestMapping(value = "/chooseBusiness")
+	@RequestMapping(value = "/sre-equipment/chooseBusiness")
 	@ResponseBody
 	public String chooseBusiness(HttpServletRequest request) throws Exception {
-		
+
 		String name = CommonUtil.getParameter(request, "name", "");
 		String cityName = CommonUtil.getParameter(request, "cityName", "");
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
-		
+
 		DicSupplyer function = new DicSupplyer();
-		
+
 		function.setG0GSDM(companyCode);
 		function.setG0NAME1(name);
 		function.setG0MCOD3(cityName);
-		
-		
+
 		ResponseEntity<List> responseEntity = restTemplate.exchange(GET_DIC_SUPPLYER, HttpMethod.POST, new HttpEntity<DicSupplyer>(function, this.httpHeaders), List.class);
 		List treeNodes = responseEntity.getBody();
 		return JSONUtils.toJSONString(treeNodes);
 	}
-	
-	
-	
-	    @RequestMapping( value = "/chooseBusiness_data")
-		@ResponseBody
-		public String chooseBusiness_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-			System.out.println("equipment_03 param=   " + JSONObject.toJSONString(param));
-			LayuiTableData layuiTableData = new LayuiTableData();
-			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(chooseBusiness_data, HttpMethod.POST, entity, LayuiTableData.class);
-			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode == 200) {
-				layuiTableData = responseEntity.getBody();
-			}
-			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-			System.out.println("chooseBusiness_data result=   " + result.toJSONString());
-			return result.toString();
+	@RequestMapping(value = "/sre-equipment/chooseBusiness_data")
+	@ResponseBody
+	public String chooseBusiness_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+
+		System.out.println("equipment_03 param=   " + JSONObject.toJSONString(param));
+		LayuiTableData layuiTableData = new LayuiTableData();
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(chooseBusiness_data, HttpMethod.POST, entity, LayuiTableData.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200) {
+			layuiTableData = responseEntity.getBody();
 		}
-	 
-	 
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+		System.out.println("chooseBusiness_data result=   " + result.toJSONString());
+		return result.toString();
+	}
 
-	@RequestMapping(value = "/uploadFile")
+	@RequestMapping(value = "/sre-equipment/uploadFile")
 	public String uploadFile(HttpServletRequest request, HttpServletResponse response) {
 
 		String file_edit_detail = CommonUtil.getParameter(request, "file_edit_detail", "");
@@ -341,22 +306,17 @@ public class EquipmentController extends BaseController {
 		return "/stp/equipment/common/uploadFile";
 	}
 
-	@RequestMapping(value = "/to-list")
+	@RequestMapping(value = "/sre-equipment/to-list")
 	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		
+
 		String unitPathIds = sysUserInfo.getUnitPath();
 		String parentUnitPathIds = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);// .getParentUnitPathId(unitPathIds);
-		
-		
-		
+
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
-		
-		
-		
-		boolean isKJBPerson=EquipmentUtils.isKJBPerson(unitPathIds);
+
+		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathIds);
 		request.setAttribute("isKJBPerson", isKJBPerson);
-		
+
 		return "/stp/equipment/equipment/equipment-list";
 	}
 
@@ -367,10 +327,10 @@ public class EquipmentController extends BaseController {
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping(value = "/list")
+	@RequestMapping(value = "/sre-equipment/list")
 	@ResponseBody
 	public String ajaxlist(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
-		
+
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_URL, HttpMethod.POST, entity, LayuiTableData.class);
@@ -379,66 +339,56 @@ public class EquipmentController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		logger.info("============result" + result);
+		// 安全设置：归档文件下载
+		response.setHeader("Pragma", "no-cache");
+		response.setHeader("Cache-Control", "no-cache");
 		return result.toString();
 	}
-	
-	
-	
-	@RequestMapping(method = RequestMethod.GET, value = "/chooseEquipmentByUser")
-	private String chooseEquipmentByUser(HttpServletRequest request) 
-	{
+
+	@RequestMapping(method = RequestMethod.GET, value = "/sre-equipment/chooseEquipmentByUser")
+	private String chooseEquipmentByUser(HttpServletRequest request) {
 		String equipmentIds = request.getParameter("equipmentIds");
 		request.setAttribute("equipmentIds", equipmentIds);
 		String isLinkedProject = request.getParameter("isLinkedProject");
 		request.setAttribute("isLinkedProject", isLinkedProject);
-		
-		
+
 		String parentUnitPathIds = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);// .getParentUnitPathId(unitPathIds);
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
-		
+
 		return "/stp/equipment/equipment/chooseEquipment";
-		
-    }
 
+	}
 
-
-	@RequestMapping(method = RequestMethod.GET, value = "/chooseEquipmentByTopicId")
-	private String chooseEquipmentByTopicId(HttpServletRequest request)
-	{
+	@RequestMapping(method = RequestMethod.GET, value = "/sre-equipment/chooseEquipmentByTopicId")
+	private String chooseEquipmentByTopicId(HttpServletRequest request) {
 		String topicId = request.getParameter("topicId");
 
-
-		SreProject sreProject=EquipmentUtils.getSreProject(topicId,restTemplate,httpHeaders);
-		String equipmentIds=sreProject.getEquipmentIds();
+		SreProject sreProject = EquipmentUtils.getSreProject(topicId, restTemplate, httpHeaders);
+		String equipmentIds = sreProject.getEquipmentIds();
 		request.setAttribute("equipmentIds", equipmentIds);
 
 		return "/stp/equipment/purchase/chooseEquipmentByTopicId";
 	}
 
-	
-	@RequestMapping(value = "/chooseEquipmentByIds")
+	@RequestMapping(value = "/sre-equipment/chooseEquipmentByIds")
 	@ResponseBody
 	public String chooseEquipmentByIds(HttpServletRequest request, HttpServletResponse response) {
 		LayuiTableData layuiTableData = new LayuiTableData();
 		ResponseEntity<List> responseEntity = null;
 		List returnlist = new ArrayList();
 		String ids = CommonUtil.getParameter(request, "equipmentIds", "");
-		
-	   if (!ids.equals("")) 
-		{
+
+		if (!ids.equals("")) {
 			String chkbox[] = ids.split(",");
-			if (chkbox != null && chkbox.length > 0)
-			{
+			if (chkbox != null && chkbox.length > 0) {
 				List<String> list = Arrays.asList(chkbox);
 				JSONArray jsonObject = JSONArray.parseArray(JSON.toJSONString(list));
 				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 				responseEntity = restTemplate.exchange(LIST_BY_IDS_URL, HttpMethod.POST, entity, List.class);
 				int statusCode = responseEntity.getStatusCodeValue();
-				if (statusCode == 200) 
-				{
+				if (statusCode == 200) {
 					returnlist = responseEntity.getBody();
-					
+
 				}
 			}
 		}
@@ -446,33 +396,28 @@ public class EquipmentController extends BaseController {
 		layuiTableData.setCode(0);
 		layuiTableData.setCount(returnlist.size());
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		//logger.info("============result" + result);
+		// logger.info("============result" + result);
 		return result.toString();
-		
+
 	}
-	
-	
-	
-	
-	
-	@RequestMapping(value = "/chooseEquipmentByMap")
+
+	@RequestMapping(value = "/sre-equipment/chooseEquipmentByMap")
 	@ResponseBody
 	public String chooseEquipmentByMap(HttpServletRequest request, HttpServletResponse response) {
 		LayuiTableData layuiTableData = new LayuiTableData();
 		ResponseEntity<List> responseEntity = null;
 		List returnlist = new ArrayList();
-		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);// 设置参数类型和编码
 		String ids = CommonUtil.getParameter(request, "equipmentIds", "");
 		String purchaseStatus = CommonUtil.getParameter(request, "purchaseStatus", "");
-		
-		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+
+		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("equipmentIds", ids);
 		paramMap.put("purchaseStatus", purchaseStatus);
-		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap, this.httpHeaders);
 		responseEntity = restTemplate.exchange(chooseEquipmentByMap, HttpMethod.POST, httpEntity, List.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode == 200) 
-		{
+		if (statusCode == 200) {
 			returnlist = responseEntity.getBody();
 		}
 		layuiTableData.setData(returnlist);
@@ -480,44 +425,34 @@ public class EquipmentController extends BaseController {
 		layuiTableData.setCount(returnlist.size());
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
 		return result.toString();
-		
+
 	}
-	
-	
-	
-	
-	
-	//所选装备总金额
-	@RequestMapping(value = "/get_money_by_ids")
+
+	// 所选装备总金额
+	@RequestMapping(value = "/sre-equipment/get_money_by_ids")
 	@ResponseBody
-	public String list_by_ids(HttpServletRequest request, HttpServletResponse response) 
-	{
+	public String list_by_ids(HttpServletRequest request, HttpServletResponse response) {
 		Result resultsDate = new Result();
 		String ids = CommonUtil.getParameter(request, "equipmentIds", "");
-		BigDecimal resultMoney=BigDecimal.ZERO;
-		if (!ids.equals("")) 
-		{
+		BigDecimal resultMoney = BigDecimal.ZERO;
+		if (!ids.equals("")) {
 			String chkbox[] = ids.split(",");
-			if (chkbox != null && chkbox.length > 0)
-			{
+			if (chkbox != null && chkbox.length > 0) {
 				List<String> list = Arrays.asList(chkbox);
 				JSONArray jsonObject = JSONArray.parseArray(JSON.toJSONString(list));
 				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 				ResponseEntity<JSONArray> response_Entity = restTemplate.exchange(LIST_BY_IDS_URL, HttpMethod.POST, entity, JSONArray.class);
 				int statusCode = response_Entity.getStatusCodeValue();
-				if (statusCode == 200) 
-				{
-					
+				if (statusCode == 200) {
+
 					JSONArray array = response_Entity.getBody();
 					List<SreEquipment> returnlist = JSONObject.parseArray(array.toJSONString(), SreEquipment.class);
 					logger.info("============远程返回  list=" + list.size());
-					if(returnlist!=null && returnlist.size()>0)
-					{
-						for(int i=0;i<returnlist.size();i++)
-						{
-							SreEquipment sreEquipment=(SreEquipment)returnlist.get(i);
-							BigDecimal price=sreEquipment.getAllPrice();
-							resultMoney=resultMoney.add(price);
+					if (returnlist != null && returnlist.size() > 0) {
+						for (int i = 0; i < returnlist.size(); i++) {
+							SreEquipment sreEquipment = (SreEquipment) returnlist.get(i);
+							BigDecimal price = sreEquipment.getAllPrice();
+							resultMoney = resultMoney.add(price);
 							resultsDate.setData(resultMoney);
 							resultsDate.setSuccess(true);
 						}
@@ -529,8 +464,7 @@ public class EquipmentController extends BaseController {
 		logger.info("============result" + result);
 		return result.toString();
 	}
-	
-	
+
 	/**
 	 * 选择装备
 	 * 
@@ -538,7 +472,7 @@ public class EquipmentController extends BaseController {
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping(value = "/search-equipment")
+	@RequestMapping(value = "/sre-equipment/search-equipment")
 	public String searchEquipment(HttpServletRequest request, HttpServletResponse response) {
 
 		String equipmentIds = CommonUtil.getParameter(request, "equipmentIds", "");
@@ -546,17 +480,12 @@ public class EquipmentController extends BaseController {
 		return "/stp/equipment/equipment/equipment-search";
 	}
 
-	
-
-	
-	
-	@RequestMapping(value = "/get_sreEquipment")
+	@RequestMapping(value = "/sre-equipment/get_sreEquipment")
 	public Object get_sreEquipment(@RequestParam(value = "equipmentId", required = true) String equipmentId, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("equipmentId................." + equipmentId);
 		return this.restTemplate.exchange(GET_URL + equipmentId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SreEquipment.class).getBody();
 	}
-	
-	
+
 	/**
 	 * 增加
 	 * 
@@ -565,93 +494,65 @@ public class EquipmentController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(method = RequestMethod.GET, value = "/add")
+	@RequestMapping(method = RequestMethod.GET, value = "/sre-equipment/add")
 	public String add(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		
-		
-		
-		
-		String firstApplyUser=sysUserInfo.getUserDisp();
-		String attachmentDoc= IdUtil.createFileIdByTime();
-		
-		Map<String ,String> map=EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
-		String parentUnitPathNames = map.get("unitName");//申报单位
-		String parentUnitPathIds =  map.get("unitCode");//申报单位
-		String applyDepartName =  map.get("applyDepartName");//申报部门
-		String applyDepartCode =  map.get("applyDepartCode");//申报部门
-		
-		
-		
-		/*String firstApplyUser=sysUserInfo.getUserDisp();
-		String attachmentDoc= IdUtil.createFileIdByTime();
-		String unitCode = sysUserInfo.getUnitCode();//00000,108811,108811002
-		String unitName = sysUserInfo.getUnitName();//中国石油化工集团,中国石油化工股份有限公司石油勘探开发研究院,油气勘探研究所
-		System.out.println("==========unitName="+unitName+" unitCode:"+unitCode);
-		//字电表八大院，匹配用户机构(如果用户机构中包含字典表中的院，说明是院所人员)
-		List<SysDictionary> dicList = EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate,httpHeaders);
-		if(dicList!=null && dicList.size()>0)
-		{
-			for(int i=0;i<dicList.size();i++)
-			{
-				SysDictionary sysDictionary=dicList.get(i);
-				String value=sysDictionary.getNumValue();
-				String name=sysDictionary.getName();
-				String arr[]=unitCode.split(",");
-				if(arr!=null && arr.length>0)
-				{
-					for(int j=0;j<arr.length;j++)
-					{
-						String code=arr[j];
-						if(code.equals(value))
-						{
-							parentUnitPathIds=code;
-							parentUnitPathNames=name;
-						}
-					}
-				}
-			}
-		}
-		//根据单位--》找出下级部门（中国石油化工集团,中国石油化工股份有限公司石油勘探开发研究院,油气勘探研究所）
-		if(!parentUnitPathIds.equals(""))
-		{
-			String arr[]=unitCode.split(",");
-			if(arr!=null && arr.length>0)
-			{
-				for(int j=0;j<arr.length;j++)
-				{
-					String code=arr[j];
-					if(code.length()>6 && code.contains(parentUnitPathIds))//部门：9位,且包含单位代码
-					{
-						applyDepartCode=code;
-						applyDepartName= EquipmentUtils.getParentUnitPathName(applyDepartCode, restTemplate, httpHeaders);
-					}
-					
-				}
-			}
-		}
-		*/
-		
-		
+		String firstApplyUser = sysUserInfo.getUserDisp();
+		String attachmentDoc = IdUtil.createFileIdByTime();
+
+		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String parentUnitPathNames = map.get("unitName");// 申报单位
+		String parentUnitPathIds = map.get("unitCode");// 申报单位
+		String applyDepartName = map.get("applyDepartName");// 申报部门
+		String applyDepartCode = map.get("applyDepartCode");// 申报部门
+
+		/*
+		 * String firstApplyUser=sysUserInfo.getUserDisp(); String
+		 * attachmentDoc= IdUtil.createFileIdByTime(); String unitCode =
+		 * sysUserInfo.getUnitCode();//00000,108811,108811002 String unitName =
+		 * sysUserInfo.getUnitName();//中国石油化工集团,中国石油化工股份有限公司石油勘探开发研究院,油气勘探研究所
+		 * System
+		 * .out.println("==========unitName="+unitName+" unitCode:"+unitCode);
+		 * //字电表八大院，匹配用户机构(如果用户机构中包含字典表中的院，说明是院所人员) List<SysDictionary> dicList
+		 * =
+		 * EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_BDYJY"
+		 * , restTemplate,httpHeaders); if(dicList!=null && dicList.size()>0) {
+		 * for(int i=0;i<dicList.size();i++) { SysDictionary
+		 * sysDictionary=dicList.get(i); String
+		 * value=sysDictionary.getNumValue(); String
+		 * name=sysDictionary.getName(); String arr[]=unitCode.split(",");
+		 * if(arr!=null && arr.length>0) { for(int j=0;j<arr.length;j++) {
+		 * String code=arr[j]; if(code.equals(value)) { parentUnitPathIds=code;
+		 * parentUnitPathNames=name; } } } } }
+		 * //根据单位--》找出下级部门（中国石油化工集团,中国石油化工股份有限公司石油勘探开发研究院,油气勘探研究所）
+		 * if(!parentUnitPathIds.equals("")) { String arr[]=unitCode.split(",");
+		 * if(arr!=null && arr.length>0) { for(int j=0;j<arr.length;j++) {
+		 * String code=arr[j]; if(code.length()>6 &&
+		 * code.contains(parentUnitPathIds))//部门：9位,且包含单位代码 {
+		 * applyDepartCode=code; applyDepartName=
+		 * EquipmentUtils.getParentUnitPathName(applyDepartCode, restTemplate,
+		 * httpHeaders); }
+		 * 
+		 * } } }
+		 */
+
 		String equipmentId = CommonUtil.getParameter(request, "equipmentId", "");
 		request.setAttribute("equipmentId", equipmentId);
-		if(!equipmentId.equals(""))
-		{
+		if (!equipmentId.equals("")) {
 			ResponseEntity<SreEquipment> responseEntity = this.restTemplate.exchange(GET_URL + equipmentId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreEquipment.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			logger.info("============远程返回  statusCode " + statusCode);
 			SreEquipment sreEquipment = responseEntity.getBody();
 			request.setAttribute("sreEquipment", sreEquipment);
-			
+
 			applyDepartName = sreEquipment.getApplyDepartName();
 			applyDepartCode = sreEquipment.getApplyDepartCode();
-			firstApplyUser=sreEquipment.getFirstApplyUser();
-			attachmentDoc=sreEquipment.getAttachmentDoc();
-			parentUnitPathNames=sreEquipment.getParentUnitPathNames();
-			parentUnitPathIds=sreEquipment.getParentUnitPathIds();
+			firstApplyUser = sreEquipment.getFirstApplyUser();
+			attachmentDoc = sreEquipment.getAttachmentDoc();
+			parentUnitPathNames = sreEquipment.getParentUnitPathNames();
+			parentUnitPathIds = sreEquipment.getParentUnitPathIds();
 		}
-		
-		
+
 		request.setAttribute("parentUnitPathNames", parentUnitPathNames);
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		request.setAttribute("attachmentDoc", attachmentDoc);
@@ -669,7 +570,7 @@ public class EquipmentController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(method = RequestMethod.POST, value = "/save")
+	@RequestMapping(method = RequestMethod.POST, value = "/sre-equipment/save")
 	public String saveOrUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result resultsDate = new Result();
@@ -681,40 +582,44 @@ public class EquipmentController extends BaseController {
 		String notes = CommonUtil.getParameter(request, "notes", "");
 		String applyAcount = CommonUtil.getParameter(request, "applyAcount", "");
 		String type = CommonUtil.getParameter(request, "type", "");
-		
+
 		String unitPrice = CommonUtil.getParameter(request, "unitPrice", "");
 		String attachmentDoc = CommonUtil.getParameter(request, "attachmentDoc", "");
 		String specification = CommonUtil.getParameter(request, "specification", "");
-		String voteCount =     CommonUtil.getParameter(request, "voteCount", "1");
+		String voteCount = CommonUtil.getParameter(request, "voteCount", "1");
 		String supplierWillStr = CommonUtil.getParameter(request, "supplierWillStr", "");
 		String supplierStr = CommonUtil.getParameter(request, "supplierStr", "");
-		String erpNo =        CommonUtil.getParameter(request, "erpNo", "");
-		
-		String applyDepartName =        CommonUtil.getParameter(request, "applyDepartName", "");
-		String applyDepartCode =        CommonUtil.getParameter(request, "applyDepartCode", "");
-		String originPlace =        CommonUtil.getParameter(request, "originPlace", "");
-		
-		String supplierIds =        CommonUtil.getParameter(request, "supplierIds", "");
-		/*    
-		String unitPathIds =   CommonUtil.getParameter(request, "unitPathIds",sysUserInfo.getUnitPath());
-		String unitPathNames = CommonUtil.getParameter(request, "unitPathNames", sysUserInfo.getUnitName());
-		
-		
-		String parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
-		String parentUnitPathNames = EquipmentUtils.getParentUnitPathName(parentUnitPathIds, restTemplate, httpHeaders);*/
-		
-		
-		String parentUnitPathIds =        CommonUtil.getParameter(request, "parentUnitPathIds", "");
-		String parentUnitPathNames =        CommonUtil.getParameter(request, "parentUnitPathNames", "");
-		
+		String erpNo = CommonUtil.getParameter(request, "erpNo", "");
+
+		String applyDepartName = CommonUtil.getParameter(request, "applyDepartName", "");
+		String applyDepartCode = CommonUtil.getParameter(request, "applyDepartCode", "");
+		String originPlace = CommonUtil.getParameter(request, "originPlace", "");
+
+		String supplierIds = CommonUtil.getParameter(request, "supplierIds", "");
+		/*
+		 * String unitPathIds = CommonUtil.getParameter(request,
+		 * "unitPathIds",sysUserInfo.getUnitPath()); String unitPathNames =
+		 * CommonUtil.getParameter(request, "unitPathNames",
+		 * sysUserInfo.getUnitName());
+		 * 
+		 * 
+		 * String parentUnitPathIds =
+		 * EquipmentUtils.getParentUnitPathId(unitPathIds); String
+		 * parentUnitPathNames =
+		 * EquipmentUtils.getParentUnitPathName(parentUnitPathIds, restTemplate,
+		 * httpHeaders);
+		 */
+
+		String parentUnitPathIds = CommonUtil.getParameter(request, "parentUnitPathIds", "");
+		String parentUnitPathNames = CommonUtil.getParameter(request, "parentUnitPathNames", "");
+
 		// 流程状态-是保存还是提交
 		String auditStatus = CommonUtil.getParameter(request, "auditStatus", Constant.AUDIT_STATUS_DRAFT);
 		String userIds = CommonUtil.getParameter(request, "userIds", "");
 		SreEquipment sreEquipment = null;
 		ResponseEntity<String> responseEntity = null;
 		// 判断是新增还是修改
-		if (equipmentId.equals("")) 
-		{
+		if (equipmentId.equals("")) {
 			sreEquipment = new SreEquipment();
 			sreEquipment.setCreateDate(new Date());
 			sreEquipment.setCreateUserId(sysUserInfo.getUserName());
@@ -738,8 +643,8 @@ public class EquipmentController extends BaseController {
 		sreEquipment.setUnitPathIds("");
 		sreEquipment.setUnitPathNames("");
 		sreEquipment.setParentUnitPathIds(parentUnitPathIds);
-		sreEquipment.setParentUnitPathNames(parentUnitPathNames); 
-		
+		sreEquipment.setParentUnitPathNames(parentUnitPathNames);
+
 		sreEquipment.setAuditStatus(String.valueOf(auditStatus));
 		sreEquipment.setName(name);
 		sreEquipment.setApplyAcount(Integer.valueOf(applyAcount));
@@ -755,7 +660,7 @@ public class EquipmentController extends BaseController {
 		sreEquipment.setSpecification(specification);
 		sreEquipment.setAttachmentDoc(attachmentDoc);
 		sreEquipment.setVoteCount(Integer.valueOf(voteCount));
-		sreEquipment.setSupplierStr(supplierStr); 
+		sreEquipment.setSupplierStr(supplierStr);
 		sreEquipment.setSupplierWillStr(supplierWillStr);
 		sreEquipment.setFirstApplyUser(firstApplyUser);
 		sreEquipment.setOriginPlace(originPlace);
@@ -769,13 +674,10 @@ public class EquipmentController extends BaseController {
 		// 返回结果代码
 		int statusCode = responseEntity.getStatusCodeValue();
 		System.out.println(">>>>>>>>>>>>>>>>>>>返回  statusCode=" + statusCode);
-		if (statusCode == 200) 
-		{
-			if (auditStatus.equals("0")) 
-			{
+		if (statusCode == 200) {
+			if (auditStatus.equals("0")) {
 				resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
-			} else if (auditStatus.equals("1")) 
-			{
+			} else if (auditStatus.equals("1")) {
 				String dataId = "";
 				if (equipmentId.equals("")) {
 					dataId = responseEntity.getBody();
@@ -864,7 +766,7 @@ public class EquipmentController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(method = RequestMethod.GET, value = "/update")
+	@RequestMapping(method = RequestMethod.GET, value = "/sre-equipment/update")
 	public String update(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String equipmentId = CommonUtil.getParameter(request, "equipmentId", "");
 		request.setAttribute("equipmentId", equipmentId);
@@ -890,7 +792,7 @@ public class EquipmentController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/delete/{equipmentId}")
+	@RequestMapping(value = "/sre-equipment/delete/{equipmentId}")
 	public String delete(@PathVariable("equipmentId") String equipmentId, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result resultsDate = new Result();
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(DEL_URL + equipmentId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
@@ -910,8 +812,6 @@ public class EquipmentController extends BaseController {
 		out.close();
 		return null;
 	}
-	
-	
 
 	/**
 	 * 批量删除
@@ -921,7 +821,7 @@ public class EquipmentController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/bacth-delete")
+	@RequestMapping(value = "/sre-equipment/bacth-delete")
 	public String deleteBatch(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result resultsDate = new Result();
@@ -962,8 +862,6 @@ public class EquipmentController extends BaseController {
 		return null;
 
 	}
-	
-	
 
 	/**
 	 * 详情
@@ -973,7 +871,7 @@ public class EquipmentController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/get/{equipmentId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/sre-equipment/get/{equipmentId}", method = RequestMethod.GET)
 	public String get(@PathVariable("equipmentId") String equipmentId, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ResponseEntity<SreEquipment> responseEntity = this.restTemplate.exchange(GET_URL + equipmentId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreEquipment.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -982,30 +880,29 @@ public class EquipmentController extends BaseController {
 		request.setAttribute("sreEquipment", sreEquipment);
 		return "/stp/equipment/equipment/equipment-view";
 	}
-	
-	
-	
-	/*private String aa()
-	{
-		MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
-		Map<String,Object> paramMap = new HashMap<String,Object>();
-		paramMap.put("userId", sysUserInfo.getUserId());
-	    requestBody.add("jsonStr", JsonUtil.parseMapToJson(paramMap));
-	    HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
-	    ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(USER_DATA_FILTER_URL+sysUserInfo.getUserId()+"/"+inPro.getParam().get("functionCode"), HttpMethod.POST, entity, JSONArray.class);
-	    JSONArray retJson = responseEntity.getBody();
-	    if (retJson != null) {
-	    	List<SysUserProperty> supList = JSONArray.parseArray(retJson.toString(), SysUserProperty.class);
-	    	
-	    	System.out.println("此人此功能配置的控制数据 : " + inPro.getParam().get("functionCode"));
-    	    for (SysUserProperty supVO : supList) {
-        	    if (inPro !=null && inPro.getParam().get(supVO.getDataType()) == null) {
-        	    	System.out.println(supVO.getDataType()+"========自动加入的控制数据key-value================"+supVO.getDataId());
-        	    	inPro.getParam().put(supVO.getDataType(), supVO.getDataId());
-        		}
-    	    }
-    	    args[0] = inPro;
-	    }
-	}*/
+
+	/*
+	 * private String aa() { MultiValueMap<String, String> requestBody = new
+	 * LinkedMultiValueMap<String, String>(); Map<String,Object> paramMap = new
+	 * HashMap<String,Object>(); paramMap.put("userId",
+	 * sysUserInfo.getUserId()); requestBody.add("jsonStr",
+	 * JsonUtil.parseMapToJson(paramMap)); HttpEntity<MultiValueMap<String,
+	 * String>> entity = new HttpEntity<MultiValueMap<String,
+	 * String>>(requestBody, this.httpHeaders); ResponseEntity<JSONArray>
+	 * responseEntity =
+	 * this.restTemplate.exchange(USER_DATA_FILTER_URL+sysUserInfo
+	 * .getUserId()+"/"+inPro.getParam().get("functionCode"), HttpMethod.POST,
+	 * entity, JSONArray.class); JSONArray retJson = responseEntity.getBody();
+	 * if (retJson != null) { List<SysUserProperty> supList =
+	 * JSONArray.parseArray(retJson.toString(), SysUserProperty.class);
+	 * 
+	 * System.out.println("此人此功能配置的控制数据 : " +
+	 * inPro.getParam().get("functionCode")); for (SysUserProperty supVO :
+	 * supList) { if (inPro !=null && inPro.getParam().get(supVO.getDataType())
+	 * == null) { System.out.println(supVO.getDataType()+
+	 * "========自动加入的控制数据key-value================"+supVO.getDataId());
+	 * inPro.getParam().put(supVO.getDataType(), supVO.getDataId()); } } args[0]
+	 * = inPro; } }
+	 */
 
 }
