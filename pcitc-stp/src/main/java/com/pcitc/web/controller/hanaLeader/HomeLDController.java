@@ -50,10 +50,7 @@ public class HomeLDController extends BaseController{
 	
 	@RequestMapping( value = "/home_ld/direct_depart") 
 	public String direct_depart(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-	   
-	    String unitCode=userInfo.getUnitCode();
-	    request.setAttribute("unitCode", unitCode);
+		
 	    
 	    String nd= HanaUtil.getBeforeYear();
 	    request.setAttribute("nd", nd);
