@@ -1,0 +1,961 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.laboratory.LaboratoryBasicProjectMapper">
+
+    <resultMap id="BaseResultMap" type="com.pcitc.base.laboratory.LaboratoryBasicProject">
+
+        <result column="data_id" jdbcType="VARCHAR" property="dataId"/>
+        <result column="base_id" jdbcType="VARCHAR" property="baseId"/>
+        <result column="project_sources" jdbcType="VARCHAR" property="projectSources"/>
+        <result column="research_direction" jdbcType="VARCHAR" property="researchDirection"/>
+        <result column="project_name" jdbcType="LONGVARCHAR" property="projectName"/>
+        <result column="project_people" jdbcType="VARCHAR" property="projectPeople"/>
+        <result column="tech_officer" jdbcType="VARCHAR" property="techOfficer"/>
+        <result column="project_year" jdbcType="VARCHAR" property="projectYear"/>
+        <result column="research_cycle" jdbcType="VARCHAR" property="researchCycle"/>
+        <result column="project_funds" jdbcType="VARCHAR" property="projectFunds"/>
+        <result column="project_completion" jdbcType="LONGVARCHAR" property="projectCompletion"/>
+        <result column="project_unit" jdbcType="VARCHAR" property="projectUnit"/>
+        <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+        <result column="sys_flag" jdbcType="VARCHAR" property="sysFlag"/>
+        <result column="data_order" jdbcType="INTEGER" property="dataOrder"/>
+        <result column="del_flag" jdbcType="INTEGER" property="delFlag"/>
+        <result column="create_date" jdbcType="VARCHAR" property="createDate"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="create_user_disp" jdbcType="VARCHAR" property="createUserDisp"/>
+        <result column="modify_date" jdbcType="VARCHAR" property="modifyDate"/>
+        <result column="modify_user" jdbcType="VARCHAR" property="modifyUser"/>
+        <result column="modify_user_disp" jdbcType="VARCHAR" property="modifyUserDisp"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="audit_status" jdbcType="VARCHAR" property="auditStatus"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
+        <result column="update_date" jdbcType="VARCHAR" property="updateDate"/>
+        <result column="bak1" jdbcType="VARCHAR" property="bak1"/>
+        <result column="bak2" jdbcType="VARCHAR" property="bak2"/>
+        <result column="bak3" jdbcType="VARCHAR" property="bak3"/>
+        <result column="bak4" jdbcType="VARCHAR" property="bak4"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        data_id,
+        base_id,
+        project_sources,
+        research_direction,
+        project_name,
+        project_people,
+        tech_officer,
+        project_year,
+        research_cycle,
+        project_funds,
+        project_completion,
+        project_unit,
+        remarks,
+        sys_flag,
+        data_order,
+        del_flag,
+        create_date,
+        create_user,
+        create_user_disp,
+        modify_date,
+        modify_user,
+        modify_user_disp,
+        status,
+        audit_status,
+        update_user,
+        update_date,
+        bak1,
+        bak2,
+        bak3,
+        bak4
+</sql>
+
+    <select id="selectByExample" parameterType="com.pcitc.base.laboratory.LaboratoryBasicProjectExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from laboratory_basic_project
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from laboratory_basic_project
+        where = #{
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from laboratory_basic_project
+        where  = #{
+    </delete>
+    <delete id="deleteByExample" parameterType="com.pcitc.base.laboratory.LaboratoryBasicProjectExample">
+        delete from laboratory_basic_project
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.pcitc.base.laboratory.LaboratoryBasicProject">
+        insert into laboratory_basic_project (
+            data_id,
+            base_id,
+            project_sources,
+            research_direction,
+            project_name,
+            project_people,
+            tech_officer,
+            project_year,
+            research_cycle,
+            project_funds,
+            project_completion,
+            project_unit,
+            remarks,
+            sys_flag,
+            data_order,
+            del_flag,
+            create_date,
+            create_user,
+            create_user_disp,
+            modify_date,
+            modify_user,
+            modify_user_disp,
+            status,
+            audit_status,
+            update_user,
+            update_date,
+            bak1,
+            bak2,
+            bak3,
+            bak4
+        )
+        values (
+
+    #{dataId,jdbcType=VARCHAR},
+    #{baseId,jdbcType=VARCHAR},
+    #{projectSources,jdbcType=VARCHAR},
+    #{researchDirection,jdbcType=VARCHAR},
+    #{projectName,jdbcType=LONGVARCHAR},
+    #{projectPeople,jdbcType=VARCHAR},
+    #{techOfficer,jdbcType=VARCHAR},
+    #{projectYear,jdbcType=VARCHAR},
+    #{researchCycle,jdbcType=VARCHAR},
+    #{projectFunds,jdbcType=VARCHAR},
+    #{projectCompletion,jdbcType=LONGVARCHAR},
+    #{projectUnit,jdbcType=VARCHAR},
+    #{remarks,jdbcType=VARCHAR},
+    #{sysFlag,jdbcType=VARCHAR},
+    #{dataOrder,jdbcType=INTEGER},
+    #{delFlag,jdbcType=INTEGER},
+    #{createDate,jdbcType=VARCHAR},
+    #{createUser,jdbcType=VARCHAR},
+    #{createUserDisp,jdbcType=VARCHAR},
+    #{modifyDate,jdbcType=VARCHAR},
+    #{modifyUser,jdbcType=VARCHAR},
+    #{modifyUserDisp,jdbcType=VARCHAR},
+    #{status,jdbcType=VARCHAR},
+    #{auditStatus,jdbcType=VARCHAR},
+    #{updateUser,jdbcType=VARCHAR},
+    #{updateDate,jdbcType=VARCHAR},
+    #{bak1,jdbcType=VARCHAR},
+    #{bak2,jdbcType=VARCHAR},
+    #{bak3,jdbcType=VARCHAR},
+    #{bak4,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.pcitc.base.laboratory.LaboratoryBasicProject">
+        insert into laboratory_basic_project
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="dataId != null">
+                data_id,
+            </if>
+            <if test="baseId != null">
+                base_id,
+            </if>
+            <if test="projectSources != null">
+                project_sources,
+            </if>
+            <if test="researchDirection != null">
+                research_direction,
+            </if>
+            <if test="projectName != null">
+                project_name,
+            </if>
+            <if test="projectPeople != null">
+                project_people,
+            </if>
+            <if test="techOfficer != null">
+                tech_officer,
+            </if>
+            <if test="projectYear != null">
+                project_year,
+            </if>
+            <if test="researchCycle != null">
+                research_cycle,
+            </if>
+            <if test="projectFunds != null">
+                project_funds,
+            </if>
+            <if test="projectCompletion != null">
+                project_completion,
+            </if>
+            <if test="projectUnit != null">
+                project_unit,
+            </if>
+            <if test="remarks != null">
+                remarks,
+            </if>
+            <if test="sysFlag != null">
+                sys_flag,
+            </if>
+            <if test="dataOrder != null">
+                data_order,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="createUser != null">
+                create_user,
+            </if>
+            <if test="createUserDisp != null">
+                create_user_disp,
+            </if>
+            <if test="modifyDate != null">
+                modify_date,
+            </if>
+            <if test="modifyUser != null">
+                modify_user,
+            </if>
+            <if test="modifyUserDisp != null">
+                modify_user_disp,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="auditStatus != null">
+                audit_status,
+            </if>
+            <if test="updateUser != null">
+                update_user,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+            <if test="bak1 != null">
+                bak1,
+            </if>
+            <if test="bak2 != null">
+                bak2,
+            </if>
+            <if test="bak3 != null">
+                bak3,
+            </if>
+            <if test="bak4 != null">
+                bak4
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+
+            <if test="dataId != null">
+                #{dataId ,jdbcType=VARCHAR},
+            </if>
+            <if test="baseId != null">
+                #{baseId ,jdbcType=VARCHAR},
+            </if>
+            <if test="projectSources != null">
+                #{projectSources ,jdbcType=VARCHAR},
+            </if>
+            <if test="researchDirection != null">
+                #{researchDirection ,jdbcType=VARCHAR},
+            </if>
+            <if test="projectName != null">
+                #{projectName ,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="projectPeople != null">
+                #{projectPeople ,jdbcType=VARCHAR},
+            </if>
+            <if test="techOfficer != null">
+                #{techOfficer ,jdbcType=VARCHAR},
+            </if>
+            <if test="projectYear != null">
+                #{projectYear ,jdbcType=VARCHAR},
+            </if>
+            <if test="researchCycle != null">
+                #{researchCycle ,jdbcType=VARCHAR},
+            </if>
+            <if test="projectFunds != null">
+                #{projectFunds ,jdbcType=VARCHAR},
+            </if>
+            <if test="projectCompletion != null">
+                #{projectCompletion ,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="projectUnit != null">
+                #{projectUnit ,jdbcType=VARCHAR},
+            </if>
+            <if test="remarks != null">
+                #{remarks ,jdbcType=VARCHAR},
+            </if>
+            <if test="sysFlag != null">
+                #{sysFlag ,jdbcType=VARCHAR},
+            </if>
+            <if test="dataOrder != null">
+                #{dataOrder ,jdbcType=INTEGER},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag ,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+                #{createDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+                #{createUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserDisp != null">
+                #{createUserDisp ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyDate != null">
+                #{modifyDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUser != null">
+                #{modifyUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUserDisp != null">
+                #{modifyUserDisp ,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status ,jdbcType=VARCHAR},
+            </if>
+            <if test="auditStatus != null">
+                #{auditStatus ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUser != null">
+                #{updateUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak1 != null">
+                #{bak1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak2 != null">
+                #{bak2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak3 != null">
+                #{bak3 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak4 != null">
+                #{bak4 ,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.pcitc.base.laboratory.LaboratoryBasicProjectExample" resultType="java.lang.Long">
+        select count(*) from laboratory_basic_project
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update laboratory_basic_project
+        <set>
+
+            <if test="record.dataId != null">
+                data_id=#{record.dataId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.baseId != null">
+                base_id=#{record.baseId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.projectSources != null">
+                project_sources=#{record.projectSources,jdbcType=VARCHAR},
+            </if>
+            <if test="record.researchDirection != null">
+                research_direction=#{record.researchDirection,jdbcType=VARCHAR},
+            </if>
+            <if test="record.projectName != null">
+                project_name=#{record.projectName,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="record.projectPeople != null">
+                project_people=#{record.projectPeople,jdbcType=VARCHAR},
+            </if>
+            <if test="record.techOfficer != null">
+                tech_officer=#{record.techOfficer,jdbcType=VARCHAR},
+            </if>
+            <if test="record.projectYear != null">
+                project_year=#{record.projectYear,jdbcType=VARCHAR},
+            </if>
+            <if test="record.researchCycle != null">
+                research_cycle=#{record.researchCycle,jdbcType=VARCHAR},
+            </if>
+            <if test="record.projectFunds != null">
+                project_funds=#{record.projectFunds,jdbcType=VARCHAR},
+            </if>
+            <if test="record.projectCompletion != null">
+                project_completion=#{record.projectCompletion,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="record.projectUnit != null">
+                project_unit=#{record.projectUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="record.remarks != null">
+                remarks=#{record.remarks,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sysFlag != null">
+                sys_flag=#{record.sysFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="record.dataOrder != null">
+                data_order=#{record.dataOrder,jdbcType=INTEGER},
+            </if>
+            <if test="record.delFlag != null">
+                del_flag=#{record.delFlag,jdbcType=INTEGER},
+            </if>
+            <if test="record.createDate != null">
+                create_date=#{record.createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createUser != null">
+                create_user=#{record.createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createUserDisp != null">
+                create_user_disp=#{record.createUserDisp,jdbcType=VARCHAR},
+            </if>
+            <if test="record.modifyDate != null">
+                modify_date=#{record.modifyDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.modifyUser != null">
+                modify_user=#{record.modifyUser,jdbcType=VARCHAR},
+            </if>
+            <if test="record.modifyUserDisp != null">
+                modify_user_disp=#{record.modifyUserDisp,jdbcType=VARCHAR},
+            </if>
+            <if test="record.status != null">
+                status=#{record.status,jdbcType=VARCHAR},
+            </if>
+            <if test="record.auditStatus != null">
+                audit_status=#{record.auditStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="record.updateUser != null">
+                update_user=#{record.updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="record.updateDate != null">
+                update_date=#{record.updateDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak1 != null">
+                bak1=#{record.bak1,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak2 != null">
+                bak2=#{record.bak2,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak3 != null">
+                bak3=#{record.bak3,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak4 != null">
+                bak4=#{record.bak4,jdbcType=VARCHAR}
+            </if>
+
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update laboratory_basic_project
+        set
+        data_id=#{record.dataId,jdbcType=VARCHAR},
+        base_id=#{record.baseId,jdbcType=VARCHAR},
+        project_sources=#{record.projectSources,jdbcType=VARCHAR},
+        research_direction=#{record.researchDirection,jdbcType=VARCHAR},
+        project_name=#{record.projectName,jdbcType=LONGVARCHAR},
+        project_people=#{record.projectPeople,jdbcType=VARCHAR},
+        tech_officer=#{record.techOfficer,jdbcType=VARCHAR},
+        project_year=#{record.projectYear,jdbcType=VARCHAR},
+        research_cycle=#{record.researchCycle,jdbcType=VARCHAR},
+        project_funds=#{record.projectFunds,jdbcType=VARCHAR},
+        project_completion=#{record.projectCompletion,jdbcType=LONGVARCHAR},
+        project_unit=#{record.projectUnit,jdbcType=VARCHAR},
+        remarks=#{record.remarks,jdbcType=VARCHAR},
+        sys_flag=#{record.sysFlag,jdbcType=VARCHAR},
+        data_order=#{record.dataOrder,jdbcType=INTEGER},
+        del_flag=#{record.delFlag,jdbcType=INTEGER},
+        create_date=#{record.createDate,jdbcType=VARCHAR},
+        create_user=#{record.createUser,jdbcType=VARCHAR},
+        create_user_disp=#{record.createUserDisp,jdbcType=VARCHAR},
+        modify_date=#{record.modifyDate,jdbcType=VARCHAR},
+        modify_user=#{record.modifyUser,jdbcType=VARCHAR},
+        modify_user_disp=#{record.modifyUserDisp,jdbcType=VARCHAR},
+        status=#{record.status,jdbcType=VARCHAR},
+        audit_status=#{record.auditStatus,jdbcType=VARCHAR},
+        update_user=#{record.updateUser,jdbcType=VARCHAR},
+        update_date=#{record.updateDate,jdbcType=VARCHAR},
+        bak1=#{record.bak1,jdbcType=VARCHAR},
+        bak2=#{record.bak2,jdbcType=VARCHAR},
+        bak3=#{record.bak3,jdbcType=VARCHAR},
+        bak4=#{record.bak4,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.laboratory.LaboratoryBasicProject">
+        update laboratory_basic_project
+        <set>
+
+            <if test="dataId != null">
+                data_id=#{dataId ,jdbcType=VARCHAR},
+            </if>
+            <if test="baseId != null">
+                base_id=#{baseId ,jdbcType=VARCHAR},
+            </if>
+            <if test="projectSources != null">
+                project_sources=#{projectSources ,jdbcType=VARCHAR},
+            </if>
+            <if test="researchDirection != null">
+                research_direction=#{researchDirection ,jdbcType=VARCHAR},
+            </if>
+            <if test="projectName != null">
+                project_name=#{projectName ,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="projectPeople != null">
+                project_people=#{projectPeople ,jdbcType=VARCHAR},
+            </if>
+            <if test="techOfficer != null">
+                tech_officer=#{techOfficer ,jdbcType=VARCHAR},
+            </if>
+            <if test="projectYear != null">
+                project_year=#{projectYear ,jdbcType=VARCHAR},
+            </if>
+            <if test="researchCycle != null">
+                research_cycle=#{researchCycle ,jdbcType=VARCHAR},
+            </if>
+            <if test="projectFunds != null">
+                project_funds=#{projectFunds ,jdbcType=VARCHAR},
+            </if>
+            <if test="projectCompletion != null">
+                project_completion=#{projectCompletion ,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="projectUnit != null">
+                project_unit=#{projectUnit ,jdbcType=VARCHAR},
+            </if>
+            <if test="remarks != null">
+                remarks=#{remarks ,jdbcType=VARCHAR},
+            </if>
+            <if test="sysFlag != null">
+                sys_flag=#{sysFlag ,jdbcType=VARCHAR},
+            </if>
+            <if test="dataOrder != null">
+                data_order=#{dataOrder ,jdbcType=INTEGER},
+            </if>
+            <if test="delFlag != null">
+                del_flag=#{delFlag ,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+                create_date=#{createDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+                create_user=#{createUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserDisp != null">
+                create_user_disp=#{createUserDisp ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyDate != null">
+                modify_date=#{modifyDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUser != null">
+                modify_user=#{modifyUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUserDisp != null">
+                modify_user_disp=#{modifyUserDisp ,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status=#{status ,jdbcType=VARCHAR},
+            </if>
+            <if test="auditStatus != null">
+                audit_status=#{auditStatus ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUser != null">
+                update_user=#{updateUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                update_date=#{updateDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak1 != null">
+                bak1=#{bak1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak2 != null">
+                bak2=#{bak2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak3 != null">
+                bak3=#{bak3 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak4 != null">
+                bak4=#{bak4 ,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where = #{
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.pcitc.base.laboratory.LaboratoryBasicProject">
+        update laboratory_basic_project
+        set
+            data_id=#{dataId,jdbcType=VARCHAR},
+            base_id=#{baseId,jdbcType=VARCHAR},
+            project_sources=#{projectSources,jdbcType=VARCHAR},
+            research_direction=#{researchDirection,jdbcType=VARCHAR},
+            project_name=#{projectName,jdbcType=LONGVARCHAR},
+            project_people=#{projectPeople,jdbcType=VARCHAR},
+            tech_officer=#{techOfficer,jdbcType=VARCHAR},
+            project_year=#{projectYear,jdbcType=VARCHAR},
+            research_cycle=#{researchCycle,jdbcType=VARCHAR},
+            project_funds=#{projectFunds,jdbcType=VARCHAR},
+            project_completion=#{projectCompletion,jdbcType=LONGVARCHAR},
+            project_unit=#{projectUnit,jdbcType=VARCHAR},
+            remarks=#{remarks,jdbcType=VARCHAR},
+            sys_flag=#{sysFlag,jdbcType=VARCHAR},
+            data_order=#{dataOrder,jdbcType=INTEGER},
+            del_flag=#{delFlag,jdbcType=INTEGER},
+            create_date=#{createDate,jdbcType=VARCHAR},
+            create_user=#{createUser,jdbcType=VARCHAR},
+            create_user_disp=#{createUserDisp,jdbcType=VARCHAR},
+            modify_date=#{modifyDate,jdbcType=VARCHAR},
+            modify_user=#{modifyUser,jdbcType=VARCHAR},
+            modify_user_disp=#{modifyUserDisp,jdbcType=VARCHAR},
+            status=#{status,jdbcType=VARCHAR},
+            audit_status=#{auditStatus,jdbcType=VARCHAR},
+            update_user=#{updateUser,jdbcType=VARCHAR},
+            update_date=#{updateDate,jdbcType=VARCHAR},
+            bak1=#{bak1,jdbcType=VARCHAR},
+            bak2=#{bak2,jdbcType=VARCHAR},
+            bak3=#{bak3,jdbcType=VARCHAR},
+            bak4=#{bak4,jdbcType=VARCHAR}
+        where  = #{
+    </update>
+    <!-- 分页查询 -->
+    <select id="findSysFileKindByPage" parameterType="com.pcitc.base.laboratory.LaboratoryBasicProject" resultMap="BaseResultMap">
+
+        select
+        data_id,
+        base_id,
+        project_sources,
+        research_direction,
+        project_name,
+        project_people,
+        tech_officer,
+        project_year,
+        research_cycle,
+        project_funds,
+        project_completion,
+        project_unit,
+        remarks,
+        sys_flag,
+        data_order,
+        del_flag,
+        create_date,
+        create_user,
+        create_user_disp,
+        modify_date,
+        modify_user,
+        modify_user_disp,
+        status,
+        audit_status,
+        update_user,
+        update_date,
+        bak1,
+        bak2,
+        bak3,
+        bak4
+        from laboratory_basic_project
+        where 1=1
+        <if test="dataId!=null and dataId!=''.toString()">
+            and data_id like '%${dataId}%'
+        </if>
+        <if test="baseId!=null and baseId!=''.toString()">
+            and base_id like '%${baseId}%'
+        </if>
+        <if test="projectSources!=null and projectSources!=''.toString()">
+            and project_sources like '%${projectSources}%'
+        </if>
+        <if test="researchDirection!=null and researchDirection!=''.toString()">
+            and research_direction like '%${researchDirection}%'
+        </if>
+        <if test="projectName!=null and projectName!=''.toString()">
+            and project_name like '%${projectName}%'
+        </if>
+        <if test="projectPeople!=null and projectPeople!=''.toString()">
+            and project_people like '%${projectPeople}%'
+        </if>
+        <if test="techOfficer!=null and techOfficer!=''.toString()">
+            and tech_officer like '%${techOfficer}%'
+        </if>
+        <if test="projectYear!=null and projectYear!=''.toString()">
+            and project_year like '%${projectYear}%'
+        </if>
+        <if test="researchCycle!=null and researchCycle!=''.toString()">
+            and research_cycle like '%${researchCycle}%'
+        </if>
+        <if test="projectFunds!=null and projectFunds!=''.toString()">
+            and project_funds like '%${projectFunds}%'
+        </if>
+        <if test="projectCompletion!=null and projectCompletion!=''.toString()">
+            and project_completion like '%${projectCompletion}%'
+        </if>
+        <if test="projectUnit!=null and projectUnit!=''.toString()">
+            and project_unit like '%${projectUnit}%'
+        </if>
+        <if test="remarks!=null and remarks!=''.toString()">
+            and remarks like '%${remarks}%'
+        </if>
+        <if test="sysFlag!=null and sysFlag!=''.toString()">
+            and sys_flag like '%${sysFlag}%'
+        </if>
+        <if test="dataOrder!=null and dataOrder!=''.toString()">
+            and data_order like '%${dataOrder}%'
+        </if>
+        <if test="delFlag!=null and delFlag!=''.toString()">
+            and del_flag like '%${delFlag}%'
+        </if>
+        <if test="createDate!=null and createDate!=''.toString()">
+            and create_date like '%${createDate}%'
+        </if>
+        <if test="createUser!=null and createUser!=''.toString()">
+            and create_user like '%${createUser}%'
+        </if>
+        <if test="createUserDisp!=null and createUserDisp!=''.toString()">
+            and create_user_disp like '%${createUserDisp}%'
+        </if>
+        <if test="modifyDate!=null and modifyDate!=''.toString()">
+            and modify_date like '%${modifyDate}%'
+        </if>
+        <if test="modifyUser!=null and modifyUser!=''.toString()">
+            and modify_user like '%${modifyUser}%'
+        </if>
+        <if test="modifyUserDisp!=null and modifyUserDisp!=''.toString()">
+            and modify_user_disp like '%${modifyUserDisp}%'
+        </if>
+        <if test="status!=null and status!=''.toString()">
+            and status like '%${status}%'
+        </if>
+        <if test="auditStatus!=null and auditStatus!=''.toString()">
+            and audit_status like '%${auditStatus}%'
+        </if>
+        <if test="updateUser!=null and updateUser!=''.toString()">
+            and update_user like '%${updateUser}%'
+        </if>
+        <if test="updateDate!=null and updateDate!=''.toString()">
+            and update_date like '%${updateDate}%'
+        </if>
+        <if test="bak1!=null and bak1!=''.toString()">
+            and bak1 like '%${bak1}%'
+        </if>
+        <if test="bak2!=null and bak2!=''.toString()">
+            and bak2 like '%${bak2}%'
+        </if>
+        <if test="bak3!=null and bak3!=''.toString()">
+            and bak3 like '%${bak3}%'
+        </if>
+        <if test="bak4!=null and bak4!=''.toString()">
+            and bak4 like '%${bak4}%'
+        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+    <!-- 查询列表 -->
+    <select id="findLaboratoryBasicProjectList" parameterType="com.pcitc.base.laboratory.LaboratoryBasicProject" resultMap="BaseResultMap">
+        select
+        data_id,
+        base_id,
+        project_sources,
+        research_direction,
+        project_name,
+        project_people,
+        tech_officer,
+        project_year,
+        research_cycle,
+        project_funds,
+        project_completion,
+        project_unit,
+        remarks,
+        sys_flag,
+        data_order,
+        del_flag,
+        create_date,
+        create_user,
+        create_user_disp,
+        modify_date,
+        modify_user,
+        modify_user_disp,
+        status,
+        audit_status,
+        update_user,
+        update_date,
+        bak1,
+        bak2,
+        bak3,
+        bak4
+        from laboratory_basic_project
+        where 1=1
+        <if test="dataId!=null">
+            and data_id = #{dataId,jdbcType=VARCHAR}
+        </if>
+        <if test="baseId!=null">
+            and base_id = #{baseId,jdbcType=VARCHAR}
+        </if>
+        <if test="projectSources!=null">
+            and project_sources = #{projectSources,jdbcType=VARCHAR}
+        </if>
+        <if test="researchDirection!=null">
+            and research_direction = #{researchDirection,jdbcType=VARCHAR}
+        </if>
+        <if test="projectName!=null">
+            and project_name = #{projectName,jdbcType=VARCHAR}
+        </if>
+        <if test="projectPeople!=null">
+            and project_people = #{projectPeople,jdbcType=VARCHAR}
+        </if>
+        <if test="techOfficer!=null">
+            and tech_officer = #{techOfficer,jdbcType=VARCHAR}
+        </if>
+        <if test="projectYear!=null">
+            and project_year = #{projectYear,jdbcType=VARCHAR}
+        </if>
+        <if test="researchCycle!=null">
+            and research_cycle = #{researchCycle,jdbcType=VARCHAR}
+        </if>
+        <if test="projectFunds!=null">
+            and project_funds = #{projectFunds,jdbcType=VARCHAR}
+        </if>
+        <if test="projectCompletion!=null">
+            and project_completion = #{projectCompletion,jdbcType=VARCHAR}
+        </if>
+        <if test="projectUnit!=null">
+            and project_unit = #{projectUnit,jdbcType=VARCHAR}
+        </if>
+        <if test="remarks!=null">
+            and remarks = #{remarks,jdbcType=VARCHAR}
+        </if>
+        <if test="sysFlag!=null">
+            and sys_flag = #{sysFlag,jdbcType=VARCHAR}
+        </if>
+        <if test="dataOrder!=null">
+            and data_order = #{dataOrder,jdbcType=VARCHAR}
+        </if>
+        <if test="delFlag!=null">
+            and del_flag = #{delFlag,jdbcType=VARCHAR}
+        </if>
+        <if test="createDate!=null">
+            and create_date = #{createDate,jdbcType=VARCHAR}
+        </if>
+        <if test="createUser!=null">
+            and create_user = #{createUser,jdbcType=VARCHAR}
+        </if>
+        <if test="createUserDisp!=null">
+            and create_user_disp = #{createUserDisp,jdbcType=VARCHAR}
+        </if>
+        <if test="modifyDate!=null">
+            and modify_date = #{modifyDate,jdbcType=VARCHAR}
+        </if>
+        <if test="modifyUser!=null">
+            and modify_user = #{modifyUser,jdbcType=VARCHAR}
+        </if>
+        <if test="modifyUserDisp!=null">
+            and modify_user_disp = #{modifyUserDisp,jdbcType=VARCHAR}
+        </if>
+        <if test="status!=null">
+            and status = #{status,jdbcType=VARCHAR}
+        </if>
+        <if test="auditStatus!=null">
+            and audit_status = #{auditStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="updateUser!=null">
+            and update_user = #{updateUser,jdbcType=VARCHAR}
+        </if>
+        <if test="updateDate!=null">
+            and update_date = #{updateDate,jdbcType=VARCHAR}
+        </if>
+        <if test="bak1!=null">
+            and bak1 = #{bak1,jdbcType=VARCHAR}
+        </if>
+        <if test="bak2!=null">
+            and bak2 = #{bak2,jdbcType=VARCHAR}
+        </if>
+        <if test="bak3!=null">
+            and bak3 = #{bak3,jdbcType=VARCHAR}
+        </if>
+        <if test="bak4!=null">
+            and bak4 = #{bak4,jdbcType=VARCHAR}
+        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+</mapper>

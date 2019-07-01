@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/common/js/base.js"></script>
+</head>
+<body>
+<div class="formBox">
+    <form id="laboratoryBase-form" name="laboratoryBase-form" lay-filter="laboratoryBase-form" class="form-horizontal layui-form">
+        <input type="hidden" name="groupId">
+        <div class="box-body">
+            <input type="hidden" name="dataId" id="dataId"/>
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">重点研发机构名称<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="orgName" name="orgName" lay-verify="required" placeholder="请输入重点研发机构名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">依托单位<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="dependentUnit" name="dependentUnit" lay-verify="required" placeholder="请输入依托单位" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">重点研发机构简介<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="orgNameDesc" name="orgNameDesc" lay-verify="required" placeholder="请输入重点研发机构简介" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">实验室主任<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="laboratoryDirector" name="laboratoryDirector" lay-verify="required" placeholder="请输入实验室主任" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">主任履历<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="directorDesc" name="directorDesc" lay-verify="required" placeholder="请输入主任履历" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">发展规划、年度工作计划的制定与实施情况<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="planDesc" name="planDesc" lay-verify="required" placeholder="请输入发展规划、年度工作计划的制定与实施情况" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">代表性研究成果简介<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="achievementDesc" name="achievementDesc" lay-verify="required" placeholder="请输入代表性研究成果简介" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">成果转化<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="achievementTransformation" name="achievementTransformation" lay-verify="required" placeholder="请输入成果转化" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="sysFlag" name="sysFlag" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">排序<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="dataOrder" name="dataOrder" lay-verify="required" placeholder="请输入排序" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">状态<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="delFlag" name="delFlag" lay-verify="required" placeholder="请输入状态" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">创建时间<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="createDate" name="createDate" lay-verify="required" placeholder="请输入创建时间" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">创建人id<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="createUser" name="createUser" lay-verify="required" placeholder="请输入创建人id" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">创建人姓名<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="createUserDisp" name="createUserDisp" lay-verify="required" placeholder="请输入创建人姓名" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">修改时间<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="modifyDate" name="modifyDate" lay-verify="required" placeholder="请输入修改时间" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">修改人id<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="modifyUser" name="modifyUser" lay-verify="required" placeholder="请输入修改人id" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">修改人姓名<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="modifyUserDisp" name="modifyUserDisp" lay-verify="required" placeholder="请输入修改人姓名" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">状态<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="status" name="status" lay-verify="required" placeholder="请输入状态" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">审批状态<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="auditStatus" name="auditStatus" lay-verify="required" placeholder="请输入审批状态" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">修改人<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="updateUser" name="updateUser" lay-verify="required" placeholder="请输入修改人" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">修改时间<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="updateDate" name="updateDate" lay-verify="required" placeholder="请输入修改时间" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="bak1" name="bak1" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="bak2" name="bak2" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="bak3" name="bak3" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="bak4" name="bak4" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-bottom">
+                    <div class="form-bottom-btns">
+                        <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>
+                        <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">取消</button>
+                    </div>
+                </div>
+            </div>
+    </form>
+</div>
+
+<script>
+    var id = "${id?default(0)}";
+    if (id != "0") {
+        $("#id").val(id);
+    }
+    layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element'],
+        function () {
+            var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
+            form.render(null, 'laboratoryBase-form');
+            //初始赋值 component-form-group 当前form的lay-filter
+            if (id != "0") {
+                ajaxPost("/laboratoryBase/getLaboratoryBaseInfo", {"id": id}, function (data) {
+                    form.val("laboratoryBase-form", data);
+                });
+            }
+            /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
+            /* form.verify({
+                groupName : function(value,item) {
+                    if (value.length < 5) {
+                        return '标题至少得5个字符啊';
+                    }
+                },
+                orderNum : function(value){
+
+                },
+                content : function(value) {
+                    layedit.sync(editIndex);
+                }
+            }); */
+
+            /* 监听指定开关 */
+            form.on('switch(component-form-switchTest)', function (
+                data) {
+                layer.msg('开关checked：'
+                    + (this.checked ? 'true' : 'false'), {
+                    offset: '6px'
+                });
+                layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF',
+                    data.othis)
+            });
+            /*监听select框*/
+            form.on('select(userUnit)', function (data) {
+                console.log("下拉框");
+                console.log(data);
+            });
+            /* 监听提交 */
+            form.on('submit(submitBtn)', function (data) {
+                ajaxPost("/laboratoryBase/saveLaboratoryBase", data.field, function (dt, status) {
+                    layer.msg("操作成功");
+                    parent.renderTable();
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                });
+                return false;
+            });
+            $("#closeBtn").click(function () {
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+            })
+        });
+</script>
+</body>
+</html>

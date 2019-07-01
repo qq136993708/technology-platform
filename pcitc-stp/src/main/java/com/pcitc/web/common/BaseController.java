@@ -13,6 +13,8 @@ import org.springframework.web.client.RestTemplate;
 
 import com.pcitc.base.system.SysUser;
 
+import java.util.UUID;
+
 /**
  * @author:Administrator
  * @date:2018/5
@@ -95,5 +97,4 @@ public class BaseController implements ErrorController
 //			}
 //        });
 //    }
-
 }

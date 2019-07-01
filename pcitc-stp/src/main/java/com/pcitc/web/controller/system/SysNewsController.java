@@ -107,8 +107,6 @@ public class SysNewsController extends BaseController {
         SysNews sysNews = new SysNews();
         sysNews.setBak3(request.getParameter("bak3"));
         sysNews.setStype(request.getParameter("stype"));
-        System.out.println(sysNews.getBak3());
-        System.out.println(sysNews.getStype());
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(getNewsIndexType, HttpMethod.POST, new HttpEntity<SysNews>(sysNews, this.httpHeaders), JSONObject.class);
         JSONObject retJson = responseEntity.getBody();
         List<SysNews> list = (List<SysNews>) retJson.get("list");
