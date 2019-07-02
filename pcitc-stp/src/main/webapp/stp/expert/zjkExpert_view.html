@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
 
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-    <script type="text/javascript" src="/plugins/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="/layuiadmin/javascript/ckeditor5/ckeditor.js"></script>
     <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
 </head>
@@ -668,13 +668,16 @@
             laydate.render({
                 elem: '#birthDate'
             });
-
+            var myEditor = null;
+            ClassicEditor.create(document.querySelector('#userDesc'),{}).then(editor => {
+                myEditor = editor;
+            });
 
             //初始赋值 component-form-group 当前form的lay-filter
             if (id != "0") {
                 ajaxPost("/zjkBaseInfo/getZjkBaseInfoInfo", {"id": id}, function (data) {
                     form.val("zjkExpert-form", data);
-                    CKEDITOR.instances.userDesc.setData(data.userDesc);
+                    myEditor.setData(data.userDesc);
                     //地址-开始
                     address("city", data.province, data.city);
                     address("county", data.city, data.county);

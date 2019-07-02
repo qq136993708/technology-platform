@@ -819,14 +819,16 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String functionId=(String)map.get("functionId");
 		String auditor=(String)map.get("auditor");
 		//申请者机构信息
-		//String applyUnitCode=(String)map.get("applyUnitCode");
-		//String parentApplyUnitCode=(String)map.get("parentApplyUnitCode");
-		//String applyUnitName=(String)map.get("applyUnitName");
+		
 		String applyUserId=(String)map.get("applyUserId");
 		String applyUserName=(String)map.get("applyUserName");
-	//	String applyUnitPathCode=(String)map.get("applyUnitPathCode");
-		//String parentApplyUnitPathCode=(String)map.get("parentApplyUnitPathCode");
-		//String parentApplyUnitPathName=(String)map.get("parentApplyUnitPathName");
+		String applyUnitCode=(String)map.get("applyUnitCode");
+		String applyUnitPathCode=(String)map.get("applyUnitPathCode");
+		String applyUnitName=(String)map.get("applyUnitName");
+		String parentApplyUnitCode=(String)map.get("parentApplyUnitCode");
+		String parentApplyUnitPathCode=(String)map.get("parentApplyUnitPathCode");
+		String parentApplyUnitPathName=(String)map.get("parentApplyUnitPathName");
+		
 		//指定岗位
 		String specialAuditor1=(String)map.get("specialAuditor1");
 		String specialAuditor2=(String)map.get("specialAuditor2");
@@ -886,9 +888,15 @@ public class EquipmentServiceImpl implements EquipmentService {
 		if("true".equals(str)) 
 		{
 			sreProject.setInnerAuditStatus(Constant.AUDIT_STATUS_SUBMIT);
-			
 			sreProject.setApplyUserId(applyUserId);
 			sreProject.setApplyUserName(applyUserName);
+			
+			sreProject.setApplyUnitCode(applyUnitCode);
+			sreProject.setApplyUnitName(applyUnitName);
+			sreProject.setApplyUnitPathCode(applyUnitPathCode);
+			sreProject.setParentApplyUnitCode(parentApplyUnitCode);
+			sreProject.setParentApplyUnitPathCode(parentApplyUnitPathCode);
+			sreProject.setParentApplyUnitPathName(parentApplyUnitPathName);
 			
 			sreProjectTaskMapper.updateByPrimaryKey(sreProject);
 			return new Result(true,"操作成功!");

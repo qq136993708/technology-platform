@@ -324,25 +324,36 @@
   
   <!--数据控制-研究院配置-->
   <select id="selectInstituteData" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-    select sys_dictionary.name,sys_dictionary.code,sys_dictionary.num_value,sys_function_property.is_available
- 	from sys_dictionary left JOIN sys_function_property on (
- 										sys_function_property.post_config_value LIKE CONCAT('%',sys_dictionary.num_value,'%')
- 										<if test="functionId!=null and functionId!=''.toString">
-											and sys_function_property.function_id = #{functionId}
-										</if>
-										<if test="postId!=null and postId!=''.toString">
-											and sys_function_property.post_id = #{postId}
-										</if>
-										<if test="proCode!=null and proCode!=''.toString">
-											and sys_function_property.pro_code = #{proCode}
-										</if>
- 									)
- 	where 
- 	1 = 1
- 	<if test="keyWord!=null and keyWord!=''.toString">
-		and sys_dictionary.parent_code = #{keyWord}
-	</if>
- 	group by sys_dictionary.code
- 	order by sys_dictionary.create_time
+  	select CONCAT(tableB.`name`,'--',tableA.`name`) as name, tableA.code, tableA.num_value, tableA.is_available from (
+	    select sys_dictionary.name,sys_dictionary.code,sys_dictionary.num_value,sys_function_property.is_available,sys_dictionary.parent_id,sys_dictionary.isdelete
+	 	from sys_dictionary left JOIN sys_function_property on (
+	 										sys_function_property.post_config_value LIKE CONCAT('%',sys_dictionary.num_value,'%')
+	 										<if test="functionId!=null and functionId!=''.toString">
+												and sys_function_property.function_id = #{functionId}
+											</if>
+											<if test="postId!=null and postId!=''.toString">
+												and sys_function_property.post_id = #{postId}
+											</if>
+											<if test="proCode!=null and proCode!=''.toString">
+												and sys_function_property.pro_code = #{proCode}
+											</if>
+	 									)
+	 	where 
+	 	1 = 1
+	 	<if test="keyWord!=null and keyWord!=''.toString">
+			and sys_dictionary.parent_code = #{keyWord}
+		</if>
+		<if test="dicIndex!=null and dicIndex!=''.toString">
+			and sys_dictionary.code like '%${dicIndex}%'
+		</if>
+		<if test="dicLevel!=null and dicLevel!=''.toString">
+			and sys_dictionary.level_code = #{dicLevel}
+		</if>
+	 	group by sys_dictionary.code
+	 	order by sys_dictionary.isdelete
+	) as tableA,sys_dictionary as tableB
+	where 
+		tableA.parent_id = tableB.`id`
+	ORDER BY tableA.isdelete
   </select>
 </mapper>

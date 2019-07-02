@@ -271,7 +271,7 @@ span{display: inline-block;}
 .layui-search .search{width: 100%;margin: 15px 0;}
 .layui-search .search input{margin: 0 10px 0 0}
 .search a.add{border: 1px solid #00a3b5;background: none;color: #00a3b5;text-indent: 15px}
-.layui-table .details{text-align: center;color: #54b6e9;font-size: 16px;cursor: pointer;}
+.layui-table .details{text-align: center;color: #1890ff;font-size: 16px;cursor: pointer;}
 .searchIpnut>div .layui-unselect {margin: 10px 0;}
 .layui-expert-div .layui-card{border: 0;}
 .layui-expert-div .layui-col-md3{position: absolute;}
@@ -367,7 +367,7 @@ background: white;box-shadow: 0 0 5px #dadcde;}
 .searchH{background: #f3f5f7;margin: 0px 0 30px;}
 .searchOption{margin: 0 auto;padding: 38px 0 0;}
 .searchOption a{padding: 0 18px; background: white;height: 38px;line-height: 38px;border-radius: 3px;
-    color: #222323;font-size: 16px;display: inline-block;margin-right: 15px;}
+    color: #222323;font-size: 14px;display: inline-block;margin-right: 15px;}
 .searchOption a:nth-child(1){margin-left: 0;}
 .searchOption a:hover,.searchOption a.layui-this{color: white;background: #1890ff;}
 @media screen and (max-width: 1920px) {

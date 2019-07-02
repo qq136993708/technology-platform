@@ -21,6 +21,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -831,8 +832,15 @@ public class ExpertController extends BaseController {
      */
     @RequestMapping(value = "/getUserChoicePage", method = RequestMethod.GET)
     public String getUserChoicePage() {
+        String projectName = request.getParameter("projectName");
+        try {
+            projectName = java.net.URLDecoder.decode(projectName, "UTF-8");
+            System.out.println("projectNameprojectNameprojectNameprojectNameprojectNameprojectNameproject"+projectName);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         request.setAttribute("projectId", request.getParameter("projectId"));
-        request.setAttribute("projectName", request.getParameter("projectName"));
+        request.setAttribute("projectName", projectName);
         request.setAttribute("unitCode", request.getParameter("unitCode"));
         request.setAttribute("flag", request.getParameter("flag"));
         request.setAttribute("bak6", UUID.randomUUID().toString().replace("-",""));

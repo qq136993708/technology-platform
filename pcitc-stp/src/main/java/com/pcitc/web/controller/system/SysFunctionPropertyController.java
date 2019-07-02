@@ -256,6 +256,12 @@ public class SysFunctionPropertyController extends BaseController {
 		if (request.getParameter("keyWord")!= null) {
 			map.put("keyWord", request.getParameter("keyWord"));
 		}
+		if (request.getParameter("dicIndex")!= null) {
+			map.put("dicIndex", request.getParameter("dicIndex"));
+		}
+		if (request.getParameter("dicLevel")!= null) {
+			map.put("dicLevel", request.getParameter("dicLevel"));
+		}
 		map.put("userId", sysUserInfo.getUserId());
 		HttpEntity<HashMap<String, Object>> entity = new HttpEntity<HashMap<String, Object>>(map, this.httpHeaders);
 

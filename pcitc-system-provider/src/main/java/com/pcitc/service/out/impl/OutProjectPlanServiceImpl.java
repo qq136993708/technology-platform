@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
@@ -262,6 +263,11 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 	 * 项目计划数据，涉及项目预算、项目计划详情等相关的查询时调用
 	 */
 	public LayuiTableData selectProjectPlanByCond(LayuiTableParam param) {
+		
+		
+		
+		JSONObject paramstr = JSONObject.parseObject(JSONObject.toJSONString(param));
+		System.out.println(">>>>>>>>>入口-》参数："+paramstr.toString());
 		// 每页显示条数
 		int pageSize = param.getLimit();
 		// 当前是第几页
@@ -393,14 +399,6 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		if (param.getParam().get("nd")!=null&&!StringUtils.isBlank(param.getParam().get("nd")+"")) {
 			hashmap.put("nd", param.getParam().get("nd"));
 		}
-		System.out.println("1234>>>>>>>>>ysnd"+param.getParam().get("ysnd"));
-		System.out.println("1234>>>>>>>>>zycmc"+param.getParam().get("zycmc"));
-		System.out.println("1234>>>>>>>>>zylb"+param.getParam().get("zylb"));
-		System.out.println("1234>>>>>>>>>type_flag"+param.getParam().get("type_flag"));
-		System.out.println("1234>>>>>>>>>define1"+param.getParam().get("define1"));
-		System.out.println("1234>>>>>>>>>define2"+param.getParam().get("define2"));
-		System.out.println("1234>>>>>>>>>qdbz"+param.getParam().get("qdbz"));
-		System.out.println("1234>>>>>>>>>fzdwflag"+param.getParam().get("fzdwflag"));
 
 		if (param.getParam().get("ysnd")!=null&&!StringUtils.isBlank(param.getParam().get("ysnd")+"")) {
 			hashmap.put("ysnd", param.getParam().get("ysnd"));
@@ -410,6 +408,11 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		if (param.getParam().get("ktlx")!=null&&!StringUtils.isBlank(param.getParam().get("ktlx")+"")) {
 			hashmap.put("ktlx", param.getParam().get("ktlx"));
 		}
+		
+		
+		JSONObject hashmapstr = JSONObject.parseObject(JSONObject.toJSONString(hashmap));
+		System.out.println(">>>>>>>>>封装后-》参数："+hashmapstr.toString());
+		
 
 		List<OutProjectPlan> list = outProjectPlanMapper.selectProjectPlanByCond(hashmap);
 		System.out.println("1>>>>>>>>>查询分页结果"+list.size());
