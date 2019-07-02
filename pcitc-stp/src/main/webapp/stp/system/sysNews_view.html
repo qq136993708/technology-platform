@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-    <script type="text/javascript" src="/plugins/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="/layuiadmin/javascript/ckeditor5/ckeditor.js"></script>
     <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
 </head>
@@ -124,11 +124,15 @@
                 , value: new Date()//必须遵循format参数设定的格式
                 , position: 'fixed'
             });
+            var contentC=null;
+            ClassicEditor.create(document.querySelector('#content'),{}).then(editor => {
+                contentC = editor;
+            });
             //初始赋值 component-form-group 当前form的lay-filter
             if (id != "0") {
                 ajaxPost("/sysNews/getSysNewsInfo", {"id": id}, function (data) {
                     form.val("sysNews-form", data);
-                    CKEDITOR.instances.content.setData(data.content);
+                    contentC.setData(data.content);
                 });
             }
             /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
@@ -163,7 +167,7 @@
             });
             /* 监听提交 */
             form.on('submit(submitBtn)', function (data) {
-                data.field.content = CKEDITOR.instances.content.getData();
+                data.field.content = contentC.getData();
                 ajaxPost("/sysNews/saveSysNews", data.field, function (dt, status) {
                     layer.msg("操作成功");
                     parent.layui.table.reload('sysNewsTableId', {where: {param: {}}});

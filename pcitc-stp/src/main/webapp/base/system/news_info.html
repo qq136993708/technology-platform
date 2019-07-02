@@ -6,13 +6,13 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black"> 
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="format-detection" content="telephone=no">
   <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
   <link rel="stylesheet" href="/layuiadmin/style/common.css">
   <script src="/layuiadmin/layui/layui.js"></script>
-  <script type="text/javascript" src="/plugins/ckeditor/ckeditor.js"></script>
+	<script type="text/javascript" src="/layuiadmin/javascript/ckeditor5/ckeditor.js"></script>
 <style>
 body{padding: 10px 10px 0;}
 </style>
@@ -45,7 +45,7 @@ body{padding: 10px 10px 0;}
 			<div class="layui-form-item">
 				<label class="layui-form-label">新闻内容:<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-						<textarea name="ckEditor" class="ckeditor"></textarea>
+						<textarea name="ckEditor" class="ckeditor" id="ckEditor"></textarea>
 					</div>
 			</div>
 		</div>
@@ -73,12 +73,16 @@ body{padding: 10px 10px 0;}
             ,layer = layui.layer
             ,laydate = layui.laydate
             ,form = layui.form;
+        var ckEditor=null;
+        ClassicEditor.create(document.querySelector('#ckEditor'),{}).then(editor => {
+            ckEditor = editor;
+    	});
         	var id = "${id}";
     		if (id) {
     			$.ajax({
     				type : 'post',
     				dataType : 'json',
-    				async : false,
+    				async : true,
     				data : {
     					"id" : id
     				},
@@ -87,9 +91,9 @@ body{padding: 10px 10px 0;}
     					$("input[name=id]").val(data.id);
         				$("input[name=title]").val(data.title);
         				$("input[name=status][value='" + data.status + "']").prop("checked", "checked");
-        			
-        				
-    					CKEDITOR.instances.ckEditor.setData(data.content);
+
+
+                        ckEditor.setData(data.content);
     					form.render();
     				},
     				error : function(e) {
@@ -138,7 +142,7 @@ body{padding: 10px 10px 0;}
         form.on('submit(component-form-save)', function(data){
         	//console.log(JSON.stringify(data.field))
         	var formData = data.field;
-        	var content = CKEDITOR.instances.ckEditor.getData();
+        	var content =ckEditor.getData();
 			if (!(content && $.trim(content).length > 0)) {
 				parent.layer.msg("新闻内容不能为空");
 				return;
