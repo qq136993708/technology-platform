@@ -161,14 +161,9 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">归属部门</label>
                             <div class="layui-input-block">
-                                <select name="belongDepartmentCode" id="belongDepartmentCode" disabled="disabled"
-                                        lay-filter="getDepartNameByUnitName" style="width:200px">
-                                    <option value="">--请选择部门--</option>
-                                    <#list departmentList as vo>
-                                    <option value="${vo.code}"
-                                    <#if vo.code == sreProjectBasic.belongDepartmentCode> selected="selected" </#if> >${vo.name}</option>
-                            </#list>
-                            </select>
+                             <input class="layui-input readOnlyBox" name="belongDepartmentName" id="belongDepartmentName" readonly="readonly"
+                                       value="${sreProjectBasic.belongDepartmentName}"
+                                       autocomplete="off" type="text">
                         </div>
                     </div>
                 </div>
@@ -178,27 +173,22 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">专业处</label>
                         <div class="layui-input-block">
-                            <select id="professionalDepartCode" name="professionalDepartCode"  disabled="disabled"
-                                    
-                                    style="width:200px"></select>
+                        <input class="layui-input readOnlyBox" name="professionalDepartName" id="professionalDepartName" readonly="readonly"
+                                       value="${sreProjectBasic.professionalDepartName}"
+                                       autocomplete="off" type="text">
+                                       
                         </div>
                     </div>
                 </div>
 
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">专业领域</label>
+                        <label for="" class="layui-form-label">专业</label>
                         <div class="layui-input-block">
-                        <select name="professionalFieldCode" id="professionalFieldCode" disabled="disabled"
-                                         style="width:200px">
-                                    <option value="">--请选择部门--</option>
-                                    <#list fieldList as vo>
-                                    <option value="${vo.code}"
-                                    <#if vo.code == sreProjectBasic.professionalFieldCode> selected="selected" </#if> >${vo.name}</option>
-                            </#list>
-                            </select>
-                        
-                        
+                         <input class="layui-input readOnlyBox" name="professionalFieldName" id="professionalFieldName" readonly="readonly"
+                                       value="${sreProjectBasic.professionalFieldName}"
+                                       autocomplete="off" type="text">
+                                       
                         </div>
                     </div>
                 </div>
@@ -312,8 +302,9 @@
         var beginYear = $("#beginYear").val();
         var v_date = (new Date()).getTime();
         var equipmentIds = $("#equipmentIds").val();
+        var belongDepartmentCode="${sreProjectBasic.belongDepartmentCode?default('')}";
         var professionalDepartCode="${sreProjectBasic.professionalDepartCode?default('')}";
-        var professionalFieldName="${sreProjectBasic.professionalFieldName?default('')}";
+        var professionalFieldCode="${sreProjectBasic.professionalFieldCode?default('')}";
         //牵头单位名称
         var leadUnitName = "${sreProjectBasic.leadUnitName?default('')}";
         //牵头单位--表格
@@ -341,57 +332,7 @@
             publicMethods = layui.publicMethods;
             
             
-            
-            
-            
-
-            form.on('select(getDepartNameByUnitName)',function(data){
-            	getDepartNameByUnitName(data.value);
-            })
-
-
-
-    			getDepartNameByUnitName($("#belongDepartmentCode").val());
-    			function getDepartNameByUnitName(depp_code)
-    			{
-    				 $("#professionalDepartCode").empty();
-    				 if(depp_code!=null && depp_code!='')
-    	                {
-    	                	 var v_date=(new Date()).getTime();
-    	    				 $.ajax({
-    	    						url : "/sre-project-basic/getDicListByParentCode?v_date="+v_date+"&belongDepartmentCode="+depp_code,
-    	    						type : "post",
-    	    						async: false,
-    	    						dataType : "json",
-    	    						success : function(data)
-    	    						{
-    	    							$("#professionalDepartCode").append("<option value=''>--请选择--</option>");
-    	    							$.each(data, function(i, el)
-    	    							{
-    	    								var content='<option value="'+ el.code +'" ';
-    	    								if(professionalDepartCode==el.code)
-    	    								{
-    	    									content+=' selected="selected" ';
-    	    								}
-    	    								content+=' >' + el.name+ '</option>';
-    	    								$("#professionalDepartCode").append(content);
-
-    	    							});
-    	    							
-    	    						},
-    	    						error : function()
-    	    						{
-    	    							alert("发生未知错误 ,请重新操作.");
-    	    						}
-    	    					});
-    	                }
-    	                
-    	                form.render('select');
-
-
-
-
-    			}
+           
 
 
     			

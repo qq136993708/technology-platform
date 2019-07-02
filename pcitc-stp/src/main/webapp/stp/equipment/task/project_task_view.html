@@ -149,15 +149,11 @@
 				                        <div class="layui-form-item">
 				                            <label class="layui-form-label">归属部门</label>
 				                            <div class="layui-input-block">
+				                            
+				                            
+				                            <input class="layui-input readOnlyBox"  readonly="readonly"   name="belongDepartmentName" id="belongDepartmentName" readonly="readonly"
+							                               value="${sreProjectTask.belongDepartmentName}" autocomplete="off" type="text">
 
-				                                <select name="belongDepartmentName" id="belongDepartmentName" disabled="disabled"
-				                                        lay-filter="getDepartNameByUnitName" style="width:200px">
-				                                    <option value="">--请选择部门--</option>
-				                                    <#list unitFieldList as vo>
-				                                    <option value="${vo.unitName}"
-				                                    <#if vo.unitName == sreProjectTask.belongDepartmentName> selected="selected" </#if> >${vo.unitName}</option>
-				                            </#list>
-				                            </select>
 				                        </div>
 				                    </div>
 				                </div>
@@ -167,9 +163,11 @@
 				                    <div class="layui-form-item">
 				                        <label for="" class="layui-form-label">专业处</label>
 				                        <div class="layui-input-block">
-				                            <select id="professionalDepartName" name="professionalDepartName"  disabled="disabled"
-				                                    lay-filter="getProfessionalNameListByUnitNameAndDept"
-				                                    style="width:200px"></select>
+				                        
+				                        <input class="layui-input readOnlyBox"  readonly="readonly"   name="professionalDepartName" id="professionalDepartName" readonly="readonly"
+							                               value="${sreProjectTask.professionalDepartName}" autocomplete="off" type="text">
+				                        
+				                        
 				                        </div>
 				                    </div>
 				                </div>
@@ -178,8 +176,10 @@
 				                    <div class="layui-form-item">
 				                        <label for="" class="layui-form-label">专业领域</label>
 				                        <div class="layui-input-block">
-				                            <select id="professionalFieldName" name="professionalFieldName"  disabled="disabled"
-				                                    style="width:200px"></select>
+				                             <input class="layui-input readOnlyBox"  readonly="readonly"  name="professionalFieldName" id="professionalFieldName" readonly="readonly"
+							                               value="${sreProjectTask.professionalFieldName}" autocomplete="off" type="text">
+				                        
+				                        
 				                        </div>
 				                    </div>
 				                </div>
@@ -704,94 +704,7 @@
             , form = layui.form;
         var publicMethods = layui.publicMethods;
 
-
-
-
-
-        form.on('select(getDepartNameByUnitName)',function(data){
-        	getDepartNameByUnitName(data.value);
-        })
-
-         form.on('select(getProfessionalNameListByUnitNameAndDept)',function(data){
-        	 getProfessionalNameListByUnitNameAndDept(data.value);
-        })
-
-
-			getDepartNameByUnitName($("#belongDepartmentName").val());
-			function getDepartNameByUnitName(belongDepartmentName)
-			{
-				 $("#belongDepartmentName").val(belongDepartmentName);
-				 $("#professionalDepartName").empty();
-
-				 var v_date=(new Date()).getTime();
-				 $.ajax({
-						url : "/unitField/getDepartmentNameListByUnitName?v_date="+v_date+"&unitName="+belongDepartmentName,
-						type : "post",
-						async: false,
-						dataType : "json",
-						success : function(data)
-						{
-							$("#professionalDepartName").append("<option value=''>--请选择--</option>");
-							$.each(data, function(i, el)
-							{
-								var content='<option value="'+ el.departmentName +'" ';
-								if(professionalDepartName==el.departmentName)
-								{
-									content+=' selected="selected" ';
-								}
-								content+=' >' + el.departmentName+ '</option>';
-								$("#professionalDepartName").append(content);
-
-							});
-							form.render('select');
-						},
-						error : function()
-						{
-							alert("发生未知错误 ,请重新操作.");
-						}
-					});
-
-
-
-
-				getProfessionalNameListByUnitNameAndDept(professionalDepartName);
-			}
-
-
-			function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
-			{
-				 var belongDepartmentName= $("#belongDepartmentName").val();
-				 $("#professionalFieldName").empty();
-				 var v_date=(new Date()).getTime();
-				 $.ajax({
-						url : "/unitField/getProfessionalNameListByUnitNameAndDept?v_date="+v_date+"&unitName="+belongDepartmentName+"&departmentName="+professionalDepartName,
-						type : "post",
-						async: false,
-						dataType : "json",
-						success : function(data)
-						{
-							$("#professionalFieldName").append("<option value=''>--请选择--</option>");
-
-							$.each(data, function(i, el)
-							{
-								var content='<option value="'+ el.professionalFieldName +'" ';
-								if(professionalFieldName==el.professionalFieldName)
-								{
-									content+=' selected="selected" ';
-								}
-								content+=' >' + el.professionalFieldName+ '</option>';
-
-								$("#professionalFieldName").append(content);
-							});
-							form.render('select');
-						},
-						error : function()
-						{
-							alert("发生未知错误 ,请重新操作.");
-						}
-					});
-			}
-
+        
 
 
 
