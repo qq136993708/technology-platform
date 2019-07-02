@@ -341,11 +341,11 @@ public class ExcelUtils {
      * @return void
      */
 	public static void responseDownload(HttpServletResponse response, Workbook wb, String fileName) throws IOException {
-        fileName = new String((fileName).getBytes("gb2312"), "ISO8859-1");
+        //fileName = new String((fileName).getBytes("gb2312"), "ISO8859-1");
 
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/vnd.ms-excel");
-        response.setHeader("Content-Disposition", "attachment;filename=\"" + fileName + ".xls\"");
+        response.setHeader("Content-Disposition", "attachment;filename=\"" + URLEncoder.encode(fileName, "UTF-8") + ".xls\"");
 
         wb.write(response.getOutputStream());
 
