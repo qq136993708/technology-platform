@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
 
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-    <script type="text/javascript" src="/plugins/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="/layuiadmin/javascript/ckeditor5/ckeditor.js"></script>
     <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
     <!--<script type="text/javascript" src="/common/js/base.js"></script>-->
@@ -108,6 +108,10 @@
                 , value: new Date()//必须遵循format参数设定的格式
                 , position: 'fixed'
             });
+            var evalDesc = null;
+            ClassicEditor.create(document.querySelector('#evalDesc'),{}).then(editor => {
+                evalDesc = editor;
+            });
             form.render(null, 'zjkEvaluate-form');
             //初始赋值 component-form-group 当前form的lay-filter
             console.log("----------");
@@ -116,7 +120,7 @@
                 ajaxPost("/zjkEvaluate/getZjkEvaluateInfo", {"id": id}, function (data) {
                     console.log(data);
                     form.val("zjkEvaluate-form", data);
-                    CKEDITOR.instances.evalDesc.setData(data.evalDesc);
+                    evalDesc.setData(data.evalDesc);
                 });
             }
             /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
@@ -150,7 +154,7 @@
             });
             /* 监听提交 */
             form.on('submit(submitBtn)', function (data) {
-                data.field.evalDesc=CKEDITOR.instances.evalDesc.getData();
+                data.field.evalDesc=evalDesc.getData();
                 ajaxPost("/zjkEvaluate/saveZjkEvaluate", data.field, function (dt, status) {
                     layer.msg("操作成功");
                     setTimeout(function (){

@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
 
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-    <script type="text/javascript" src="/plugins/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="/layuiadmin/javascript/ckeditor5/ckeditor.js"></script>
     <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
 </head>
@@ -109,10 +109,14 @@
                 , value: new Date()//必须遵循format参数设定的格式
                 , position: 'fixed'
             });
+            var myEditor = null;
+            ClassicEditor.create(document.querySelector('#trainDesc'),{}).then(editor => {
+                myEditor = editor;
+            });
             if (id != "0") {
                 ajaxPost("/zjkTrain/getZjkTrainInfo", {"id": id}, function (data) {
                     form.val("zjkTrain-form", data);
-                    CKEDITOR.instances.trainDesc.setData(data.trainDesc);
+                    myEditor.setData(data.trainDesc);
                 });
             }
 
@@ -161,7 +165,7 @@
             });
             /* 监听提交 */
             form.on('submit(submitBtn)', function (data) {
-                data.field.trainDesc = CKEDITOR.instances.trainDesc.getData();
+                data.field.trainDesc = myEditor.getData();
                 ajaxPost("/zjkTrain/saveZjkTrain", data.field, function (dt, status) {
                     layer.msg("操作成功");
                     parent.layui.table.reload('zjkTrainTableId', {where: {param: {}}});
