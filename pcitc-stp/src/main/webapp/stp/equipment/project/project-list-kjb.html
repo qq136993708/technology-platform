@@ -9,6 +9,7 @@
     <script src="/common/js/jquery-1.11.3.min.js"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <script type="text/javascript" src="/stp/equipment/js/equipment.js"></script>
     <style>
         .searchBox{ height: auto;}
         .searchBox label{margin-bottom: 10px;display: inline-block; }
@@ -25,7 +26,6 @@
 </form>
 
     <!--查询条件-->
-    <input type="hidden" name="auditStatus" id="auditStatus" value="${auditStatus}">
     <label class="dateInput">
         <span>立项年度</span>
         <input type="text" name="setupYear" value=""  style="cursor:pointer" readonly="readonly" placeholder="请选择立项年度" title="立项年度" autocomplete="off" class="form-control" id="setupYear">
@@ -46,29 +46,35 @@
 		 </select>
      </label>
      
-    
+     
      <label class="dateInput">
+         <span>审核状态</span>
+          <select name="auditStatus" id="auditStatus"   class="form-control"  >
+             <option value="" >--请选择--</option>
+             <#list auditStatusList as vo> 
+		          <option value="${vo.numValue}"  >${vo.name}</option>
+		      </#list>
+		 </select>
+     </label>
+     
+    
+       <label class="dateInput">
          <span>归属部门</span>
-         <select name="belongDepartmentCode" id="belongDepartmentCode"  onchange="getDepartNameByUnitName(this.value)" class="form-control"  >
+         <select name="belongDepartmentCode" id="belongDepartmentCode"  onchange="getDepartNameByParentCode(this.value)" class="form-control"  >
               <option value="ROOT_ZGSHJT_ZBJG_KJB" >科技部</option>
 		 </select>
      </label>
      
      <label class="dateInput">
          <span>专业处</span>
-         <select id="professionalDepartCode" name="professionalDepartCode"  class="form-control" ></select>
+         <select id="professionalDepartCode" name="professionalDepartCode" onchange="getProfessionalNameListByParentCode(this.value)"   class="form-control" ></select>
      </label>
     
       <label class="dateInput">
-         <span>专业领域</span>
-         
-          <select name="professionalFieldCode" id="professionalFieldCode"   class="form-control"  >
-             <option value="" >--请选择--</option>
-             <#list fieldList as vo> 
-		          <option value="${vo.code}"  >${vo.name}</option>
-		      </#list>
-		 </select>
-     </label>   
+         <span>专业</span>
+         <select id="professionalFieldCode" name="professionalFieldCode"  class="form-control" ></select>
+     </label> 
+             
     
     <!--按钮组-->
     <div class="btnGroup">
@@ -81,26 +87,6 @@
         <div class="whiteLine"></div>
         <div  class="tableBtns">
         
-            <button id="allData" class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue active btnMyBgImg" data-type="allEvent">
-					<span class="btn-state btn-all-ryg"></span>
-					全部
-				</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
-                    data-type="draftEvent">
-                <span class="btn-state btnYellow"></span>未上报
-            </button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
-                    data-type="submitEvent">
-                <span class="btn-state btn-green"></span>已上报
-            </button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
-                    data-type="passEvent">
-                <span class="btn-state btn-blue"></span>通过
-            </button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
-                    data-type="rejectEvent">
-                <span class="btn-state btn-yellow"></span>退回调整
-            </button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" id="detailEvent" data-type="detailEvent">详情</button>
            
         </div>
@@ -110,27 +96,6 @@
 </div>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script type="text/javascript">
-    // 时间格式化
-    function formatTime(d) {
-        if (d) {
-            var date = new Date();
-            date.setTime(d);
-            var y = date.getFullYear();
-            var m = date.getMonth() + 1;
-            m = m < 10 ? ('0' + m) : m;
-            var day = date.getDate();
-            day = day < 10 ? ("0" + day) : day;
-            var h = date.getHours();
-            h = h < 10 ? ("0" + h) : h;
-            var M = date.getMinutes();
-            M = M < 10 ? ("0" + M) : M;
-            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
-            return str;
-        } else {
-            return '';
-        }
-    }
-    
     
     function view_project(id) 
     {
@@ -150,36 +115,7 @@
     
 </script>
 <script type="text/javascript">
-
-getDepartNameByUnitName($("#belongDepartmentCode").val());
-function getDepartNameByUnitName(belongDepartmentCode)
-{
-	 $("#professionalDepartCode").empty();
-	 var v_date=(new Date()).getTime();
-	 if(belongDepartmentCode!=null && belongDepartmentCode!='')
-     {
-		 
-		 $.ajax({
-				url : "/sre-project-basic/getDicListByParentCode?v_date="+v_date+"&belongDepartmentCode="+belongDepartmentCode,
-				type : "post",
-				async: false,
-				dataType : "json",
-				success : function(data) 
-				{
-					$("#professionalDepartCode").append("<option value=''>--请选择--</option>");
-					$.each(data, function(i, el) 
-					{
-						$("#professionalDepartCode").append('<option value="'+ el.code +'">' + el.name+ '</option>');
-					});
-				},
-				error : function() 
-				{
-					alert("发生未知错误 ,请重新操作.");
-				}
-			});
-     }
-}
-
+getDepartNameByParentCode($("#belongDepartmentCode").val());
 </script>
 <!--表格数据操作js-->
 
@@ -233,7 +169,6 @@ var name=$('#name').val();
             	$('#leadUnitCode').val("");
             	
             },
-            
            
             detailEvent: function(){  //点击详情按钮
             	if (typeof(selectRowData) == "undefined") {
@@ -255,26 +190,6 @@ var name=$('#name').val();
                      });
             	}
             
-            },
-            allEvent: function(){ 
-            	$("#auditStatus").val("");
-            	renderTable();
-            },
-            draftEvent: function(){ 
-            	$("#auditStatus").val("0");//0未审批(草稿), 1审批中(已提交)  2审批通过   0审批不通过
-            	renderTable();
-            },
-            submitEvent: function(){ 
-            	$("#auditStatus").val("1");
-            	renderTable();
-            },
-            passEvent: function(){ 
-            	$("#auditStatus").val("2");
-            	renderTable();
-            },
-            rejectEvent: function(){ 
-            	$("#auditStatus").val("0");
-            	renderTable();
             }
             
         };
@@ -328,7 +243,7 @@ var name=$('#name').val();
             cols: [[
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
-                {field : 'status',         title : '状态',            style : 'cursor: pointer;', align: 'center', width : '10%', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width : 55},
+                {field : 'status',         title : '状态',            style : 'cursor: pointer;', align: 'center', width : '5%', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>'},
                 {field : 'name',           title : '课题名称',         style : 'cursor: pointer;', align: 'left',    width : '20%',templet:function(d){return '<span onclick="view_project(\''+d.id+'\')" style="color:#1890ff">'+d.name+'</span>'}},
                 {field : 'beginYear',      title : '投资期限',         style : 'cursor: pointer;', align: 'center',  width : '7%',templet:function(d){return '<div style="">'+d.beginYear+'-'+d.endYear+'</div><br/><div style="color:red">'+d.beginYear+'</div>'}},
                 {field : 'projectMoney',   title : '总经费(万元)',      style : 'cursor: pointer;', align: 'center',  width : '8%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},

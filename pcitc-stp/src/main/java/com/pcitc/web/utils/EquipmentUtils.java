@@ -19,6 +19,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSON;
@@ -307,6 +309,46 @@ public class EquipmentUtils {
 		return returnlist;
 		
 	}
+	
+	
+	public static SysDictionary  getDictionaryByCode(String code ,RestTemplate restTemplate,HttpHeaders httpHeaders)
+	{
+		
+		String DICTIONARY_CODE = "http://pcitc-zuul/system-proxy/dictionary-provider/getDictionaryByCode/";
+		SysDictionary sysDictionary =restTemplate.exchange(DICTIONARY_CODE + code, HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysDictionary.class).getBody();
+		return sysDictionary;
+		
+	}
+	
+	
+	
+	public static String  getDictionaryNameByCode(String code ,RestTemplate restTemplate,HttpHeaders httpHeaders)
+	{
+		String name = "";
+		String DICTIONARY_CODE = "http://pcitc-zuul/system-proxy/dictionary-provider/getDictionaryByCode/";
+		SysDictionary sysDictionary =restTemplate.exchange(DICTIONARY_CODE + code, HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysDictionary.class).getBody();
+		if(sysDictionary!=null)
+	    {
+			name=sysDictionary.getName();
+	    }
+		return name;
+		
+	}
+	
+	
+	public static String  getDictionaryValueByCode(String code ,RestTemplate restTemplate,HttpHeaders httpHeaders)
+	{
+		String name = "";
+		String DICTIONARY_CODE = "http://pcitc-zuul/system-proxy/dictionary-provider/getDictionaryByCode/";
+		SysDictionary sysDictionary =restTemplate.exchange(DICTIONARY_CODE + code, HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysDictionary.class).getBody();
+		if(sysDictionary!=null)
+	    {
+			name=sysDictionary.getNumValue();
+	    }
+		return name;
+		
+	}
+	
 	
 	
 

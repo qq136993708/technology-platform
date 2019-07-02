@@ -317,30 +317,10 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("unitPathIds", unitPathIds);
 		map.put("parentUnitPathIds", parentUnitPathIds);
 		System.out.println(">>>>>>>>applyUnitCode="+applyUnitCode);
-		StringBuffer applyUnitCodeStr=new StringBuffer();
-		
-		/*if(!applyUnitCode.equals(""))
-		{
-			applyUnitCodeStr.append(" (");
-			String arr[]=applyUnitCode.split(",");
-			for(int i=0;i<arr.length;i++)
-			{
-				if(i>0)
-				{
-					applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]+"', t.`apply_unit_code`)");
-				}else
-				{
-					applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`apply_unit_code`)");
-				}
-				
-			}
-			applyUnitCodeStr.append(" )");
-		}
-		map.put("sqlStr", applyUnitCodeStr.toString());*/
 		
 		
 		
-		System.out.println(">>>>>>>>sqlstr"+applyUnitCodeStr.toString());
+		
 		List<SreProject> list = sreProjectMapper.getList(map);
 		PageInfo<SreProject> pageInfo = new PageInfo<SreProject>(list);
 		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
@@ -763,30 +743,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("closeStatus", closeStatus);
 		map.put("isCheck", isCheck);
 		System.out.println(">>>>>>>>applyUnitCode="+applyUnitCode);
-		StringBuffer applyUnitCodeStr=new StringBuffer();
-		/*if(!applyUnitCode.equals(""))
-		{
-			applyUnitCodeStr.append(" (");
-			String arr[]=applyUnitCode.split(",");
-			for(int i=0;i<arr.length;i++)
-			{
-				if(i>0)
-				{
-					applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]+"', t.`apply_unit_code`)");
-				}else
-				{
-					applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`apply_unit_code`)");
-				}
-				
-			}
-			applyUnitCodeStr.append(" )");
-		}
 		
-		
-		
-		
-		map.put("sqlStr", applyUnitCodeStr.toString());
-		System.out.println(">>>>>>>>sqlstr"+applyUnitCodeStr.toString());*/
 		
 		
 		List<SreProjectTask> list = sreProjectTaskMapper.getList(map);
@@ -1069,27 +1026,6 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("contractNum", contractNum);
 		System.out.println(">>>>>>>>applyUnitCode="+applyUnitCode);
 		StringBuffer applyUnitCodeStr=new StringBuffer();
-		/*if(!applyUnitCode.equals(""))
-		{
-			applyUnitCodeStr.append(" (");
-			String arr[]=applyUnitCode.split(",");
-			for(int i=0;i<arr.length;i++)
-			{
-				if(i>0)
-				{
-					applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]+"', t.`apply_unit_code`)");
-				}else
-				{
-					applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`apply_unit_code`)");
-				}
-				
-			}
-			applyUnitCodeStr.append(" )");
-		}
-		
-		map.put("sqlStr", applyUnitCodeStr.toString());
-		System.out.println(">>>>>>>>sqlstr"+applyUnitCodeStr.toString());
-		*/
 		
 		List<SreProjectSetup> list = sreProjectSetupMapper.getList(map);
 		PageInfo<SreProjectSetup> pageInfo = new PageInfo<SreProjectSetup>(list);

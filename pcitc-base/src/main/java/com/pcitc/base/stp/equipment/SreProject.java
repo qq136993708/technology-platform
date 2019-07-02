@@ -51,15 +51,19 @@ public class SreProject {
     private String professionalFieldName;
 
     private String professionalFieldCode;
+    
 
     private String belongDepartmentName;
 
     private String belongDepartmentCode;
+   
 
     private String professionalDepartName;
 
     private String professionalDepartCode;
-
+    private String professionalDepartValue;
+    private String professionalFieldValue;
+    private String belongDepartmentValue;
     private String projectType;
 
     private String professional;
@@ -110,6 +114,30 @@ public class SreProject {
     private String parentApplyUnitCode;
     
     
+
+	public String getProfessionalDepartValue() {
+		return professionalDepartValue;
+	}
+
+	public void setProfessionalDepartValue(String professionalDepartValue) {
+		this.professionalDepartValue = professionalDepartValue;
+	}
+
+	public String getProfessionalFieldValue() {
+		return professionalFieldValue;
+	}
+
+	public void setProfessionalFieldValue(String professionalFieldValue) {
+		this.professionalFieldValue = professionalFieldValue;
+	}
+
+	public String getBelongDepartmentValue() {
+		return belongDepartmentValue;
+	}
+
+	public void setBelongDepartmentValue(String belongDepartmentValue) {
+		this.belongDepartmentValue = belongDepartmentValue;
+	}
 
 	public String getApplyUnitId() {
 		return applyUnitId;

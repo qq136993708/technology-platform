@@ -175,7 +175,9 @@ public class ProjectTaskController extends BaseController {
 		
 		List<SysDictionary>  leaddicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
 		request.setAttribute("leaddicList", leaddicList);
-		
+		//流程状态
+		List<SysDictionary> auditStatusList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+		request.setAttribute("auditStatusList", auditStatusList);
 		return "/stp/equipment/task/join_list";
 	}		
 	
@@ -194,7 +196,9 @@ public class ProjectTaskController extends BaseController {
 			List<SysDictionary> fieldList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZBGL_ZYLY", restTemplate, httpHeaders);
 			request.setAttribute("fieldList", fieldList);
 			
-			
+			//流程状态
+			List<SysDictionary> auditStatusList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+			request.setAttribute("auditStatusList", auditStatusList);
 			
 			List<SysDictionary>  leaddicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
 			request.setAttribute("leaddicList", leaddicList);
@@ -215,13 +219,6 @@ public class ProjectTaskController extends BaseController {
 		
 		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(param));
 		logger.info("============参数：" + parmamss.toString());
-		//
-		String applyDepartCode=sysUserInfo.getUnitCode();
-		
-		
-		
-		
-		
 		
 		
 		LayuiTableData layuiTableData = new LayuiTableData();
@@ -253,11 +250,7 @@ public class ProjectTaskController extends BaseController {
 		//专业领域
 		List<SysDictionary> fieldList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZBGL_ZYLY", restTemplate, httpHeaders);
 		request.setAttribute("fieldList", fieldList);
-				
 		
-	/*	String unitPathIds = sysUserInfo.getUnitPath();
-		String parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
-		request.setAttribute("parentUnitPathIds", parentUnitPathIds);*/
 		return "/stp/equipment/task/confirm_list";
 	}
 	
@@ -515,7 +508,9 @@ public class ProjectTaskController extends BaseController {
 			sreProjectBasic.setProfessionalFieldCode(sreProject.getProfessionalFieldCode());
 			sreProjectBasic.setJoinUnitParentCodes(sreProject.getJoinUnitParentCodes());
 			sreProjectBasic.setJoinUnitParentNames(sreProject.getJoinUnitParentNames());
-			
+			sreProjectBasic.setBelongDepartmentValue(sreProject.getBelongDepartmentValue());
+			sreProjectBasic.setProfessionalDepartValue(sreProject.getProfessionalDepartValue());
+			sreProjectBasic.setProfessionalFieldValue(sreProject.getProfessionalFieldValue());
 		}
 		Map<String ,String> map=EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
 		String leadUnitName = map.get("unitName");//申报单位

@@ -43,6 +43,7 @@ import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
+import com.pcitc.web.utils.HanaUtil;
 
 @Controller
 @RequestMapping(value = "/sre-project-basic")
@@ -78,7 +79,9 @@ public class ProjectBasicController extends BaseController {
 		List<SysDictionary> fieldList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZBGL_ZYLY", restTemplate, httpHeaders);
 		request.setAttribute("fieldList", fieldList);
 		
-		
+		//流程状态
+		List<SysDictionary> auditStatusList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+		request.setAttribute("auditStatusList", auditStatusList);
 		
 		
 		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathIds);
@@ -96,7 +99,9 @@ public class ProjectBasicController extends BaseController {
 		List<SysDictionary> fieldList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZBGL_ZYLY", restTemplate, httpHeaders);
 		request.setAttribute("fieldList", fieldList);
 		
-		
+		//流程状态
+				List<SysDictionary> auditStatusList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+				request.setAttribute("auditStatusList", auditStatusList);
 		List<SysDictionary> dicList = CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate,
 						httpHeaders);
 				request.setAttribute("dicList", dicList);
@@ -203,9 +208,6 @@ public class ProjectBasicController extends BaseController {
 		//归属部门
 		List<SysDictionary> departmentList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
 		request.setAttribute("departmentList", departmentList);
-		//专业领域
-		List<SysDictionary> fieldList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZBGL_ZYLY", restTemplate, httpHeaders);
-		request.setAttribute("fieldList", fieldList);
 		
 		return "/stp/equipment/project/project-basic-add";
 	}
@@ -216,8 +218,8 @@ public class ProjectBasicController extends BaseController {
 	@ResponseBody
 	public String getDicListByParentCode(HttpServletRequest request, HttpServletResponse response) 
 	{
-		String belongDepartmentCode = CommonUtil.getParameter(request, "belongDepartmentCode", "");
-		List<SysDictionary> list=	EquipmentUtils.getSysDictionaryListByParentCode(belongDepartmentCode, restTemplate, httpHeaders);
+		String parentCode = CommonUtil.getParameter(request, "parentCode", "");
+		List<SysDictionary> list=	EquipmentUtils.getSysDictionaryListByParentCode(parentCode, restTemplate, httpHeaders);
 		JSONArray result = JSONArray.parseArray(JSON.toJSONString(list));
 		logger.info("============result" + result);
 		return result.toString();
@@ -335,55 +337,20 @@ public class ProjectBasicController extends BaseController {
 		String unitPathNames = CommonUtil.getParameter(request, "unitPathNames", "");
 		String unitPathIds = CommonUtil.getParameter(request, "unitPathIds", "");
 		
+		//字典维护->专业处
+		String professionalDepartName =EquipmentUtils.getDictionaryNameByCode(professionalDepartCode, restTemplate, httpHeaders);
+	    //专业领域  
+	    String professionalFieldName =EquipmentUtils.getDictionaryNameByCode(professionalFieldCode, restTemplate, httpHeaders);
+	    //字典维护->归属部门 
+	    String belongDepartmentName =EquipmentUtils.getDictionaryNameByCode(belongDepartmentCode, restTemplate, httpHeaders);
 		
-		//字典维护->专业处 	 ROOT_ZGSHJT_ZBJG_KJB
-		
-		String professionalDepartName = "";
-		List<SysDictionary> professionalDepartList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
-	    if(professionalDepartList!=null && professionalDepartList.size()>0)
-	    {
-	    	for(int i=0;i<professionalDepartList.size();i++)
-	    	{
-	    		SysDictionary sysDictionary=professionalDepartList.get(i);
-	    		String code=sysDictionary.getCode();
-	    		if(code.equals(professionalDepartCode))
-	    		{
-	    			professionalDepartName=sysDictionary.getName();
-	    		}
-	    	}
-	    }
-	    //专业领域  ROOT_ZBGL_ZYLY
-	    String professionalFieldName = "";
-	    List<SysDictionary> professionalFieldList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZBGL_ZYLY", restTemplate, httpHeaders);
-	    if(professionalFieldList!=null && professionalFieldList.size()>0)
-	    {
-	    	for(int i=0;i<professionalFieldList.size();i++)
-	    	{
-	    		SysDictionary sysDictionary=professionalFieldList.get(i);
-	    		String code=sysDictionary.getCode();
-	    		if(code.equals(professionalFieldCode))
-	    		{
-	    			professionalFieldName=sysDictionary.getName();
-	    		}
-	    	}
-	    }
 	    
-	    //字典维护->归属部门 ROOT_ZGSHJT_ZBJG
-	    String belongDepartmentName = "";
-	    List<SysDictionary> belongDepartmentList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
-	    if(belongDepartmentList!=null && belongDepartmentList.size()>0)
-	    {
-	    	for(int i=0;i<belongDepartmentList.size();i++)
-	    	{
-	    		SysDictionary sysDictionary=belongDepartmentList.get(i);
-	    		String code=sysDictionary.getCode();
-	    		if(code.equals(belongDepartmentCode))
-	    		{
-	    			belongDepartmentName=sysDictionary.getName();
-	    		}
-	    	}
-	    }
-		
+	    String belongDepartmentValue =EquipmentUtils.getDictionaryValueByCode(belongDepartmentCode, restTemplate, httpHeaders);
+	    String professionalFieldValue =EquipmentUtils.getDictionaryValueByCode(professionalFieldCode, restTemplate, httpHeaders);
+	    String professionalDepartValue =EquipmentUtils.getDictionaryValueByCode(professionalDepartCode, restTemplate, httpHeaders);
+		  
+	    
+	    
 		String joinUnitParentNames = "";
 		String joinUnitParentCodes = "";
 		if (!joinUnitIds.equals("")) {
@@ -425,6 +392,11 @@ public class ProjectBasicController extends BaseController {
 		/**=========================================================================*/
 		sreProjectBasic.setProfessionalFieldCode(professionalFieldCode);
 		sreProjectBasic.setProfessionalFieldName(professionalFieldName);
+		
+		sreProjectBasic.setBelongDepartmentValue(belongDepartmentValue);
+		sreProjectBasic.setProfessionalDepartValue(professionalDepartValue);
+		sreProjectBasic.setProfessionalFieldValue(professionalFieldValue);
+		
 		sreProjectBasic.setYearFeeStr(yearFeeStr);
 		sreProjectBasic.setDocumentDoc(documentDoc);
 		sreProjectBasic.setName(name);
