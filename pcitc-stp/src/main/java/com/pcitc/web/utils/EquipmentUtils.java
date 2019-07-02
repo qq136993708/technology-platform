@@ -39,6 +39,7 @@ import com.pcitc.base.system.SysPost;
 import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserProperty;
+import com.pcitc.base.util.CodeUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.web.common.JwtTokenUtil;
@@ -1485,10 +1486,11 @@ public class EquipmentUtils {
 	
 	/*	public static void main(String[] args) 
 	{
-		String strPath="100106850008";
-		String parentUnitPathId=strPath.substring(0, strPath.length()-4);
+			String year=DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY);
+			
+			year=year.substring(2);
 		
-		System.out.println("--------arr: "+parentUnitPathId);
+		System.out.println("--------year: "+year);
 		
 	}*/
 	
@@ -1504,4 +1506,79 @@ public class EquipmentUtils {
 		}
 		return sreDetail;
 	}
+	
+	public static String createContractNum(SreProjectTask sreProjectTask,RestTemplate restTemplate,HttpHeaders httpHeaders)
+	{
+		
+		
+		
+		String	str = "";
+		String name=sreProjectTask.getProfessionalDepartName();
+		String fieldName=sreProjectTask.getProfessionalFieldName();
+		String year=DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY);
+		
+		year=year.substring(2);
+		String endStr = CodeUtil.getCode("XTBM_0075", restTemplate, httpHeaders);
+		
+		if(name.contains("三剂"))//30130062
+		{
+			str="H"+year+endStr;
+		}
+		//8位
+		if(name.contains("化工"))//30130057
+		{
+			str="4"+year+endStr;
+		}
+		if(name.contains("技术监督"))//30130063
+		{
+			str="7"+year+endStr;
+		}
+		if(name.contains("材料"))//30130058
+		{
+			str="2"+year+endStr;
+		}
+		//8位
+		if(name.contains("炼油"))//30130056
+		{
+			str="8"+year+endStr;
+		}
+		if(name.contains("知识产权"))//30130061
+		{
+			str="9"+year+"";
+		}
+		if(name.contains("储运"))//30130059
+		{
+			str="3"+year+endStr;
+		}
+		if(name.contains("计划"))//30130054,计划处：R表示软课题、X表示基础研究、YK表示院控、5表示其他
+		{
+			String prix="5";
+			if(fieldName.equals("软课题"))//3013005402
+			{
+				prix="R";
+			}
+			if(fieldName.equals("基础研究"))//3013005403
+			{
+				prix="X";
+			}
+			if(fieldName.equals("院控"))//
+			{
+				prix="YK";
+			}
+			str=prix+year+endStr;
+		}
+		if(name.contains("油气勘探"))//30130055,30130064
+		{
+			str="P"+year+endStr;
+		}
+		if(name.contains("石油工程"))//30130055,30130065
+		{
+			str="P"+year+endStr;
+		}
+		
+		System.out.println("--------生成合同号: "+str);
+		return str;
+	}
+	
+	
 }

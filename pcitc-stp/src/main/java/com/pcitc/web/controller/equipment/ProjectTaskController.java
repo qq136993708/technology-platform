@@ -816,16 +816,10 @@ public class ProjectTaskController extends BaseController {
 	{
 		
 		String taskId = CommonUtil.getParameter(request, "taskId", "");
-		String contractNum = CodeUtil.getCode("XTBM_0072", restTemplate, httpHeaders);
-		contractNum=contractNum.replace("-", "");//52019001
-		
-		String oneStr=contractNum.substring(0, 1);
-		String towStr=contractNum.substring(3, 8);
-		String num=oneStr+towStr;
-		
-		Result resultsDate = new Result();
 		SreProjectTask sreProjectTask =EquipmentUtils.getSreProjectTask(taskId,restTemplate,httpHeaders);
-		sreProjectTask.setContractNum(num);
+		String contractNum = EquipmentUtils.createContractNum(sreProjectTask, restTemplate, httpHeaders);
+		Result resultsDate = new Result();
+		sreProjectTask.setContractNum(contractNum);
 		String str=EquipmentUtils.updateSreProjectTask(sreProjectTask,restTemplate,httpHeaders);
 		if (!str.equals(""))
 		{
