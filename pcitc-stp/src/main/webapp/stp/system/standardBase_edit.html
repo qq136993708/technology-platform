@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-    <script type="text/javascript" src="/plugins/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="/layuiadmin/javascript/ckeditor5/ckeditor.js"></script>
     <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
 </head>
@@ -199,10 +199,14 @@
             var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
             form.render(null, 'standardBase-form');
             //初始赋值 component-form-group 当前form的lay-filter
+            var standardDesc=null;
+            ClassicEditor.create(document.querySelector('#standardDesc'),{}).then(editor => {
+                standardDesc = editor;
+            });
             if (id != "0") {
                 ajaxPost("/standardBase/getStandardBaseInfo", {"id": id}, function (data) {
                     form.val("standardBase-form", data);
-                    CKEDITOR.instances.standardDesc.setData(data.standardDesc);
+                    standardDesc.setData(data.standardDesc);
                 });
             }
             /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
@@ -237,7 +241,7 @@
             });
             /* 监听提交 */
             form.on('submit(submitBtn)', function (data) {
-                data.field.standardDesc = CKEDITOR.instances.standardDesc.getData();
+                data.field.standardDesc = standardDesc.getData();
                 ajaxPost("/standardBase/saveStandardBase", data.field, function (dt, status) {
                     layer.msg("操作成功");
                     parent.renderTable();

@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
 
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-    <script type="text/javascript" src="/plugins/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="/layuiadmin/javascript/ckeditor5/ckeditor.js"></script>
     <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
 </head>
@@ -156,6 +156,10 @@
         function () {
             var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
             form.render(null, 'zjkComplaint-form');
+            var complaintDesc=null;
+            ClassicEditor.create(document.querySelector('#complaintDesc'),{}).then(editor => {
+                complaintDesc = editor;
+            });
             //初始赋值 component-form-group 当前form的lay-filter
             // if (id != "0") {
             //     ajaxPost("/zjkComplaint/getZjkComplaintInfo", {"id": id}, function (data) {
@@ -195,7 +199,7 @@
             });
             /* 监听提交 */
             form.on('submit(submitBtn)', function (data) {
-                data.field.complaintDesc=CKEDITOR.instances.complaintDesc.getData();
+                data.field.complaintDesc=complaintDesc.getData();
                 data.field.isComplet="ROOT_UNIVERSAL_WEHTHER_NO";
                 ajaxPost("/zjkComplaint/saveZjkComplaint", data.field, function (dt, status) {
                     layer.msg("操作成功");
