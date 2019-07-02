@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-    <script type="text/javascript" src="/plugins/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="/layuiadmin/javascript/ckeditor5/ckeditor.js"></script>
     <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
 </head>
@@ -69,10 +69,14 @@
             var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
             form.render(null, 'emailTemplate-form');
             //初始赋值 component-form-group 当前form的lay-filter
+            var contentC=null;
+            ClassicEditor.create(document.querySelector('#content'),{}).then(editor => {
+                contentC = editor;
+            });
             if (id != "0") {
                 ajaxPost("/emailTemplate/getEmailTemplateInfo", {"id": id}, function (data) {
                     form.val("emailTemplate-form", data);
-                    CKEDITOR.instances.content.setData(data.content);
+                    contentC.setData(data.content);
                 });
             }
             /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
@@ -107,7 +111,7 @@
             });
             /* 监听提交 */
             form.on('submit(submitBtn)', function (data) {
-                data.field.content = CKEDITOR.instances.content.getData();
+                data.field.content = contentC.getData();
                 ajaxPost("/emailTemplate/saveEmailTemplate", data.field, function (dt, status) {
                     layer.msg("操作成功");
                     parent.renderTable();
