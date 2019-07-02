@@ -8,119 +8,106 @@
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
 
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-    <script type="text/javascript" src="/plugins/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="/layuiadmin/javascript/ckeditor5/ckeditor.js"></script>
     <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
 </head>
 <body>
 <div class="formBox">
     <form id="zjkComplaint-form" name="zjkComplaint-form" lay-filter="zjkComplaint-form" class="form-horizontal layui-form">
-        <input type="hidden" name="groupId">
-        <div class="layui-row">
-            <input type="hidden" name="dataId" id="dataId"/>
-            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">专家名称<span class="must-fill">*</span></label>
-                    <div class="layui-input-block">
-                        <input type="text" id="zjkName" name="zjkName" readonly="readonly" lay-verify="required" placeholder="请输入专家名称" autocomplete="off" class="layui-input">
+        <div class="box-body">
+            <input type="hidden" name="groupId">
+            <div class="layui-row">
+                <input type="hidden" name="dataId" id="dataId"/>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">专家名称<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="zjkName" name="zjkName" readonly="readonly" lay-verify="required" placeholder="请输入专家名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">项目名称<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="xmName" name="xmName"  readonly="readonly" lay-verify="required" placeholder="请输入项目名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">项目阶段<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <select name="xmSteps" id="xmSteps" lay-filter="xmSteps" disabled="disabled">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">投诉类型<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <select name="complaintType" id="complaintType" lay-filter="complaintType" disabled="disabled">
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
 
-
-
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-            <div class="layui-form-item">
-                <label class="layui-form-label">项目名称<span class="must-fill">*</span></label>
-                <div class="layui-input-block">
-                    <input type="text" id="xmName" name="xmName"  readonly="readonly" lay-verify="required" placeholder="请输入项目名称" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-        </div>
-        </div>
-<div class="layui-row">
-
-    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-            <label class="layui-form-label">项目阶段<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-                <select name="xmSteps" id="xmSteps" lay-filter="xmSteps" disabled="disabled">
-                </select>
-            </div>
-        </div>
-    </div>
-
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-            <div class="layui-form-item">
-                <label class="layui-form-label">投诉类型<span class="must-fill">*</span></label>
-                <div class="layui-input-block">
-                    <select name="complaintType" id="complaintType" lay-filter="complaintType" disabled="disabled">
-                    </select>
-                </div>
-            </div>
-        </div>
-</div>
-
-        <div class="layui-row">
-
-            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">投诉人名称</label>
-                    <div class="layui-input-block">
-                        <input type="text" id="complaintUserName" name="complaintUserName"  readonly="readonly"   placeholder="请输入投诉人名称" autocomplete="off" class="layui-input">
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">投诉人名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="complaintUserName" name="complaintUserName"  readonly="readonly"   placeholder="请输入投诉人名称" autocomplete="off" class="layui-input">
+                        </div>
                     </div>
                 </div>
             </div>
-
-
-
-        </div>
-        <div class="layui-row">
-            <div class="layui-form-item layui-form-text">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">投诉内容<span class="must-fill">*</span></label>
-                    <div class="layui-input-block">
-                        <textarea name="complaintDesc" id="complaintDesc" class="ckeditor" disabled="disabled"  readonly="readonly" ></textarea>
+            <div class="layui-row">
+                <div class="layui-form-item layui-form-text">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">投诉内容<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <textarea name="complaintDesc" id="complaintDesc" class="ckeditor" disabled="disabled"  readonly="readonly" ></textarea>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-
-        <div class="layui-row">
-
-            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">是否处理<span class="must-fill">*</span></label>
-                    <div class="layui-input-block">
-                        <select name="isComplet" id="isComplet" lay-filter="isComplet">
-                            <option value="">请选择</option>
-                        </select>
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">是否处理<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <select name="isComplet" id="isComplet" lay-filter="isComplet">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">处理结果<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <textarea name="doDesc" id="doDesc" class="ckeditor"></textarea>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="layui-form-item layui-form-text">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">处理结果<span class="must-fill">*</span></label>
-                    <div class="layui-input-block">
-                        <textarea name="doDesc" id="doDesc" class="ckeditor"></textarea>
-                    </div>
+            <div class="form-bottom">
+                <div class="form-bottom-btns">
+                    <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>
+                    <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">取消</button>
                 </div>
             </div>
-
-
         </div>
-
-        <div class="form-bottom">
-            <div class="form-bottom-btns">
-                <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>
-                <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">取消</button>
-            </div>
-        </div>
-    </div>
     </form>
 </div>
-
 <script>
     ajaxPost('/dictionary/list/ROOT_XTGL_XMJD', null, function (data, status) {
         $.each(data, function (i, dt) {
@@ -151,11 +138,18 @@
             var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
             form.render(null, 'zjkComplaint-form');
             //初始赋值 component-form-group 当前form的lay-filter
+            var doDesc = null,complaintDesc=null;
+            ClassicEditor.create(document.querySelector('#doDesc'),{}).then(editor => {
+                doDesc = editor;
+            });
+            ClassicEditor.create(document.querySelector('#complaintDesc'),{}).then(editor => {
+                complaintDesc = editor;
+            });
             if (id != "0") {
                 ajaxPost("/zjkComplaint/getZjkComplaintInfo", {"id": id}, function (data) {
                     form.val("zjkComplaint-form", data);
-                    CKEDITOR.instances.complaintDesc.setData(data.complaintDesc);
-                    CKEDITOR.instances.doDesc.setData(data.doDesc);
+                    complaintDesc.setData(data.complaintDesc);
+                    doDesc.setData(data.doDesc);
                 });
             }
             /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
@@ -189,8 +183,8 @@
             });
             /* 监听提交 */
             form.on('submit(submitBtn)', function (data) {
-                data.field.complaintDesc=CKEDITOR.instances.complaintDesc.getData();
-                data.field.doDesc=CKEDITOR.instances.doDesc.getData();
+                data.field.complaintDesc=complaintDesc.getData();
+                data.field.doDesc=doDesc.getData();
                 ajaxPost("/zjkComplaint/saveZjkComplaint", data.field, function (dt, status) {
                     layer.msg("操作成功");
                     parent.layui.table.reload('zjkComplaintTableId', {where: {param: {}}});
