@@ -19,7 +19,7 @@
 	</div>
 	<div class="form-bottom">
 		<div class="form-bottom-btns">
-			<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"  id="test9">导入</button>
+			<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"  id="inputExcel">导入</button>
 		</div>
 	</div>
 	<script>
@@ -29,25 +29,24 @@
 
             upload.render({
                 elem: '#test8'
-                ,url: '/sysLog/importData'
+                ,url: '/sysLog/newImportData'
                 ,auto: false
                 //,multiple: true
                 ,accept: 'file' //普通文件
                 ,exts: 'xls|xlsx' //只允许上传excel文件
-                ,bindAction: '#test9'
+                ,bindAction: '#inputExcel'
                 ,done: function(res){
+                	parent.layer.msg(res.success);
                     if (res) {
-                        if (res == 200) {
+                        if (res.success) {
                             var index = parent.layer.getFrameIndex(window.name);
                             parent.layer.close(index);
                             parent.layer.msg("导入成功！");
                             //刷新table;
                             parent.layui.table.reload('logTable', {});
-                            $$(".layui-table-header table thead th input").remove();
-                        } else if (res == 404) {
-                            parent.layer.msg("请选择要导入的excel文件!");
-                        } else if (res == 500) {
-                            parent.layer.msg("导入失败!");
+                            $(".layui-table-header table thead th input").remove();
+                        } else {
+                            parent.layer.msg("导入异常，请检查数据后重试!");
                         }
                     }
                 }

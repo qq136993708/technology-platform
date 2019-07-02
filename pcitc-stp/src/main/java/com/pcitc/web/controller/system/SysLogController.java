@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.system.SysLog;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
@@ -236,7 +237,35 @@ public class SysLogController extends BaseController {
 		out.close();
 		in.close();
 	}
-
+	@RequestMapping(value = "/newImportData")
+	@ResponseBody
+	public Object newImportData(HttpServletRequest req, HttpServletResponse resp,MultipartFile file) throws Exception 
+	{
+		if (file.isEmpty()) {
+			return new Result(false,"上传异常，请重试!");
+		}
+		InputStream in = file.getInputStream();
+		List<List<Object>> listob = new ImportExcelUtil().getBankListByExcel(in, file.getOriginalFilename());
+		List<SysLog> list = new ArrayList<SysLog>();
+		for (int i = 0; i < listob.size(); i++) {
+			List<Object> lo = listob.get(i);
+			SysLog obj = new SysLog();
+			obj.setLogId(String.valueOf(lo.get(0)));
+			obj.setLogActionName(String.valueOf(lo.get(1)));
+			obj.setLogAction(String.valueOf(lo.get(2)));
+			obj.setLogType(String.valueOf(lo.get(3)));
+			obj.setLogPersonId(String.valueOf(lo.get(4)));
+			obj.setLogPerson(String.valueOf(lo.get(5)));
+			obj.setLogTime(DateUtil.strToDate(String.valueOf(lo.get(6)), DateUtil.FMT_SS));
+			obj.setLogStatus(String.valueOf(lo.get(7)));
+			obj.setLogIp(String.valueOf(lo.get(8)));
+			obj.setAuditStatus(String.valueOf(lo.get(9)));
+			obj.setLogRemarks(String.valueOf(lo.get(10)));
+			list.add(obj);
+		}
+		Integer rscount = this.restTemplate.exchange(IMPORT_FUNCTION, HttpMethod.POST, new HttpEntity<Object>(list, this.httpHeaders), Integer.class).getBody();
+		return new Result(true,rscount);
+	}
 	/**
 	 * 导入excel数据
 	 * 
