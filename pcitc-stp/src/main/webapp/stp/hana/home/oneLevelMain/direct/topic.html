@@ -190,9 +190,8 @@ layui.config({
             //obj.del(); //删除当前行
             //obj.update(fields) //修改当前行数据
             selectRowData=obj.data;
-            
             var nd=$("#year").val();
-            var url=　encodeURIComponent("/one_level_main/count_table?define2="+selectRowData.define2+"&nd="+nd+"&ysnd="+nd+"&define1=费用性");
+            var url=　encodeURIComponent("/one_level_main/count_table?define2="+selectRowData.define2+"&nd=&ysnd="+nd+"&define1=费用性");
 	        window.open("/instituteIndex?url="+url);
 	        
         });
@@ -208,7 +207,7 @@ layui.config({
             selectRowData=obj.data;
             
             var nd=$("#year").val();
-            var url=　encodeURIComponent("/one_level_main/count_table?project_property="+selectRowData.define2+"&nd="+nd+"&ysnd="+nd+"&define1=费用性");
+            var url=　encodeURIComponent("/one_level_main/count_table?project_property="+selectRowData.project_property+"&nd=&ysnd="+nd+"&define1=费用性");
 	        window.open("/instituteIndex?url="+url);
         });
         myTable();
@@ -266,9 +265,6 @@ function initEchart()
 	        window.open("/instituteIndex?url="+url);
 	          
 	    });
-		//统计
-    	//var set_topic_equ_count_count_url="/direct/topic_equip_count?typeFlag=研究院&nd="+nd+"&v_date="+v_date+"&xmlbbm=fkyzb";
-    	//set_topic_equ_count(set_topic_equ_count_count_url);
 	
 	
 	
@@ -278,7 +274,14 @@ function initEchart()
 	echart4.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		var url=　encodeURIComponent("/one_level_main/count_table?project_property="+xName+"&nd="+nd+"&ysnd="+nd+"&define1=费用性");
+		
+		var nd_temp=nd;
+		if(legentName=='结转课题')
+		{
+			nd_temp="";
+		}
+		//alert(legentName);
+		var url=　encodeURIComponent("/one_level_main/count_table?project_property="+xName+"&nd="+nd_temp+"&ysnd="+nd+"&define1=费用性");
         window.open("/instituteIndex?url="+url);
           
     });

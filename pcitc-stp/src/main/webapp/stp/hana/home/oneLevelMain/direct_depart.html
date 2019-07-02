@@ -579,7 +579,13 @@
             	echart1.on('click', function (params) {
             		var xName=params.name;
             		var legentName=params.seriesName;
-            		var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+nd+"&ysnd="+nd+"&ktlx="+legentName+"&define1=费用性");
+            		
+            		var nd_temp=nd;
+        			if(legentName=='结转课题')
+        			{
+        				nd_temp="";
+        			}
+            		var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+nd_temp+"&ysnd="+nd+"&ktlx="+legentName+"&define1=费用性");
                     window.open("/instituteIndex?url="+url);
                 });
             	
@@ -608,9 +614,14 @@
         	 echart3.on('click', function (params) {
         		 var xName=params.name;
         		 var legentName=params.seriesName;
-        		
         		 var nd=$("#nd").val();
-                 var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+nd+"&ysnd="+nd+"&ktlx="+legentName+"&define1=资本性");
+        		 
+        		 var nd_temp=nd;
+     			 if(legentName=='结转课题')
+     			 {
+     				nd_temp="";
+     			 }
+                 var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+nd_temp+"&ysnd="+nd+"&ktlx="+legentName+"&define1=资本性");
         	     window.open("/instituteIndex?url="+url);
              });
         	//统计

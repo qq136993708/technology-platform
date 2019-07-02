@@ -506,6 +506,9 @@ public class EquipmentController extends BaseController {
 		String applyDepartName = map.get("applyDepartName");// 申报部门
 		String applyDepartCode = map.get("applyDepartCode");// 申报部门
 
+		
+		String unitPathIds= map.get("applyDepartCode");
+		String unitPathNames= map.get("applyDepartName");
 		/*
 		 * String firstApplyUser=sysUserInfo.getUserDisp(); String
 		 * attachmentDoc= IdUtil.createFileIdByTime(); String unitCode =
@@ -551,8 +554,12 @@ public class EquipmentController extends BaseController {
 			attachmentDoc = sreEquipment.getAttachmentDoc();
 			parentUnitPathNames = sreEquipment.getParentUnitPathNames();
 			parentUnitPathIds = sreEquipment.getParentUnitPathIds();
+			unitPathIds=sreEquipment.getUnitPathIds();
+			unitPathNames=sreEquipment.getUnitPathNames();
 		}
 
+		request.setAttribute("unitPathNames", unitPathNames);
+		request.setAttribute("unitPathIds", unitPathIds);
 		request.setAttribute("parentUnitPathNames", parentUnitPathNames);
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		request.setAttribute("attachmentDoc", attachmentDoc);
@@ -595,7 +602,10 @@ public class EquipmentController extends BaseController {
 		String applyDepartCode = CommonUtil.getParameter(request, "applyDepartCode", "");
 		String originPlace = CommonUtil.getParameter(request, "originPlace", "");
 
-		String supplierIds = CommonUtil.getParameter(request, "supplierIds", "");
+		String unitPathNames = CommonUtil.getParameter(request, "unitPathNames", "");
+		String unitPathIds = CommonUtil.getParameter(request, "unitPathIds", "");
+		
+		
 		/*
 		 * String unitPathIds = CommonUtil.getParameter(request,
 		 * "unitPathIds",sysUserInfo.getUnitPath()); String unitPathNames =
@@ -640,8 +650,8 @@ public class EquipmentController extends BaseController {
 			sreEquipment = se.getBody();
 		}
 		// 流程状态
-		sreEquipment.setUnitPathIds("");
-		sreEquipment.setUnitPathNames("");
+		sreEquipment.setUnitPathIds(unitPathIds);
+		sreEquipment.setUnitPathNames(unitPathNames);
 		sreEquipment.setParentUnitPathIds(parentUnitPathIds);
 		sreEquipment.setParentUnitPathNames(parentUnitPathNames);
 
