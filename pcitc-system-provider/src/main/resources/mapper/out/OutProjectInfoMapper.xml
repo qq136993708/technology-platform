@@ -1815,10 +1815,10 @@
 				and type_flag like '%${typeFlag}%'
 			</if>
 			<if test="leaderFlag == null or leaderFlag != '1'.toString()">
-				<if test="zycmc != null and zycmc != ''">
-					and find_in_set(zycmc, '${zycmc}')
+				<if test="zycbm != null and zycbm != ''">
+					and find_in_set(zycbm, '${zycbm}')
 				</if>
-				<if test="zycmc == null or zycmc == ''">
+				<if test="zycbm == null or zycbm == ''">
 					and out_project_info.nd = '1900'
 				</if>
 			</if>
@@ -1838,10 +1838,10 @@
 				and type_flag like '%${typeFlag}%'
 			</if>
 			<if test="leaderFlag == null or leaderFlag != '1'.toString()">
-				<if test="zycmc != null and zycmc != ''">
-					and find_in_set(zycmc, '${zycmc}')
+				<if test="zycbm != null and zycbm != ''">
+					and find_in_set(zycbm, '${zycbm}')
 				</if>
-				<if test="zycmc == null or zycmc == ''">
+				<if test="zycbm == null or zycbm == ''">
 					and out_project_info.nd = '1900'
 				</if>
 			</if>
@@ -1870,10 +1870,10 @@
 					and xmlbbm != 'KYZB'
 				</if>
 				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					<if test="zycmc != null and zycmc != ''">
-						and find_in_set(zycmc, '${zycmc}')
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(zycbm, '${zycbm}')
 					</if>
-					<if test="zycmc == null or zycmc == ''">
+					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
 				</if>
@@ -1895,10 +1895,10 @@
 					and define2 is not null and type_flag like '%直属研究院%'
 				</if>
 				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					<if test="zycmc != null and zycmc != ''">
-						and find_in_set(zycmc, '${zycmc}')
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(zycbm, '${zycbm}')
 					</if>
-					<if test="zycmc == null or zycmc == ''">
+					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
 				</if>
@@ -1919,10 +1919,10 @@
 				  out_project_info.define3 = '项目管理系统' and
 				  xmlbbm != 'KYZB'
 				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					<if test="zycmc != null and zycmc != ''">
-						and find_in_set(zycmc, '${zycmc}')
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(zycbm, '${zycbm}')
 					</if>
-					<if test="zycmc == null or zycmc == ''">
+					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
 				 </if>
@@ -1946,10 +1946,10 @@
 				  out_project_info.define3 = '项目管理系统' and
 				  xmlbbm = 'KYZB'
 				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					<if test="zycmc != null and zycmc != ''">
-						and find_in_set(zycmc, '${zycmc}')
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(zycbm, '${zycbm}')
 					</if>
-					<if test="zycmc == null or zycmc == ''">
+					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
 				 </if>
@@ -1983,12 +1983,12 @@
 						and type_flag like '%${typeFlag}%'
 				  </if>
 				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					  <if test="zycmc != null and zycmc != ''">
-							and find_in_set(zycmc, '${zycmc}')
-					  </if>
-					  <if test="zycmc == null or zycmc == ''">
+					    <if test="zycbm != null and zycbm != ''">
+							and find_in_set(zycbm, '${zycbm}')
+						</if>
+						<if test="zycbm == null or zycbm == ''">
 							and out_project_info.nd = '1900'
-					  </if>
+						</if>
 				  </if>
 			group by xmid
 		) as tableA
@@ -2026,12 +2026,12 @@
 					 and xmlbbm !='KYZB'
 				</if>
 				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
-				   <if test="zycmc != null and zycmc != ''">
-						and find_in_set(zycmc, '${zycmc}')
-				   </if>
-				   <if test="zycmc == null or zycmc == ''">
+				    <if test="zycbm != null and zycbm != ''">
+						and find_in_set(zycbm, '${zycbm}')
+					</if>
+					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
-				   </if>
+					</if>
 			   </if>
 			group by xmid
 		) as tableA
@@ -2053,10 +2053,10 @@
 				xmlbbm != 'KYZB' and 
 				define10 is not null
 				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					<if test="zycmc != null and zycmc != ''">
-						and find_in_set(zycmc, '${zycmc}')
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(zycbm, '${zycbm}')
 					</if>
-					<if test="zycmc == null or zycmc == ''">
+					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
 				</if>
@@ -2083,10 +2083,10 @@
 				  type_flag like '%直属研究院%' and 
 				  define2 is not null
 				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					<if test="zycmc != null and zycmc != ''">
-						and find_in_set(zycmc, '${zycmc}')
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(zycbm, '${zycbm}')
 					</if>
-					<if test="zycmc == null or zycmc == ''">
+					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
 				 </if>
@@ -2113,10 +2113,10 @@
 				  type_flag like '%直属研究院%' and 
 				  define2 is not null
 				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					<if test="zycmc != null and zycmc != ''">
-						and find_in_set(zycmc, '${zycmc}')
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(zycbm, '${zycbm}')
 					</if>
-					<if test="zycmc == null or zycmc == ''">
+					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
 				 </if>
@@ -2140,10 +2140,10 @@
 				xmlbbm = 'KYZB' and 
 				zylb is not null
 				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					<if test="zycmc != null and zycmc != ''">
-						and find_in_set(zycmc, '${zycmc}')
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(zycbm, '${zycbm}')
 					</if>
-					<if test="zycmc == null or zycmc == ''">
+					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
 				</if>
@@ -2170,10 +2170,10 @@
 				  out_project_info.define3 = '项目管理系统' and
 				  define2 is not null
 				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					<if test="zycmc != null and zycmc != ''">
-						and find_in_set(zycmc, '${zycmc}')
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(zycbm, '${zycbm}')
 					</if>
-					<if test="zycmc == null or zycmc == ''">
+					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
 				 </if>
@@ -2207,11 +2207,11 @@
 				  out_project_plan.define4 = '项目管理系统' and
 				  xmlbbm is not null
 				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					<if test="zycmc != null and zycmc != ''">
-						and find_in_set(zycmc, '${zycmc}')
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(zycbm, '${zycbm}')
 					</if>
-					<if test="zycmc == null or zycmc == ''">
-						and out_project_plan.nd = '1900'
+					<if test="zycbm == null or zycbm == ''">
+						and out_project_info.nd = '1900'
 					</if>
 				 </if>
 			group by xmid
@@ -2226,10 +2226,10 @@
 				  out_project_info.define3 = '项目管理系统' and
 				  xmlbbm is not null
 				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					<if test="zycmc != null and zycmc != ''">
-						and find_in_set(zycmc, '${zycmc}')
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(zycbm, '${zycbm}')
 					</if>
-					<if test="zycmc == null or zycmc == ''">
+					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
 				 </if>
@@ -2262,10 +2262,10 @@
 				  out_project_info.define3 = '项目管理系统' and
 				  xmlbbm is not null
 				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					<if test="zycmc != null and zycmc != ''">
-						and find_in_set(zycmc, '${zycmc}')
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(zycbm, '${zycbm}')
 					</if>
-					<if test="zycmc == null or zycmc == ''">
+					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
 				 </if>
@@ -2291,10 +2291,10 @@
 				  ysnd= '${nd}' and project_type != '1' and 
 				  project_property = '国家项目'
 				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					<if test="zycmc != null and zycmc != ''">
-						and find_in_set(zycmc, '${zycmc}')
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(zycbm, '${zycbm}')
 					</if>
-					<if test="zycmc == null or zycmc == ''">
+					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
 				 </if>
@@ -2316,10 +2316,10 @@
 				xmlbbm != 'KYZB' and 
 				type_flag is not null
 				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					<if test="zycmc != null and zycmc != ''">
-						and find_in_set(zycmc, '${zycmc}')
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(zycbm, '${zycbm}')
 					</if>
-					<if test="zycmc == null or zycmc == ''">
+					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
 				</if>
@@ -2341,10 +2341,10 @@
 				xmlbbm != 'KYZB' and 
 				define10 is not null
 				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					<if test="zycmc != null and zycmc != ''">
-						and find_in_set(zycmc, '${zycmc}')
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(zycbm, '${zycbm}')
 					</if>
-					<if test="zycmc == null or zycmc == ''">
+					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
 				</if>
@@ -2366,10 +2366,10 @@
 				xmlbbm = 'KYZB' and 
 				type_flag is not null
 				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					<if test="zycmc != null and zycmc != ''">
-						and find_in_set(zycmc, '${zycmc}')
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(zycbm, '${zycbm}')
 					</if>
-					<if test="zycmc == null or zycmc == ''">
+					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
 				</if>
@@ -2391,10 +2391,10 @@
 				type_flag like '%直属研究院%' and
 				define2 is not null 
 				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					<if test="zycmc != null and zycmc != ''">
-						and find_in_set(zycmc, '${zycmc}')
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(zycbm, '${zycbm}')
 					</if>
-					<if test="zycmc == null or zycmc == ''">
+					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
 				</if>
@@ -2416,10 +2416,10 @@
 				out_project_info.define3 = '项目管理系统' and
 				xmlbbm is not null
 				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					<if test="zycmc != null and zycmc != ''">
-						and find_in_set(zycmc, '${zycmc}')
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(zycbm, '${zycbm}')
 					</if>
-					<if test="zycmc == null or zycmc == ''">
+					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
 				</if>
@@ -2440,10 +2440,10 @@
 				out_project_info.define3 = '项目管理系统' and
 				xmlbbm is not null
 				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					<if test="zycmc != null and zycmc != ''">
-						and find_in_set(zycmc, '${zycmc}')
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(zycbm, '${zycbm}')
 					</if>
-					<if test="zycmc == null or zycmc == ''">
+					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
 				</if>
@@ -2464,10 +2464,10 @@
 			where ysnd = '${nd}' and project_type != '1' and 
 				project_property is not null
 				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					<if test="zycmc != null and zycmc != ''">
-						and find_in_set(zycmc, '${zycmc}')
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(zycbm, '${zycbm}')
 					</if>
-					<if test="zycmc == null or zycmc == ''">
+					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
 				</if>
@@ -2490,10 +2490,10 @@
 				type_flag is not null and
 				xmlbbm !='KYZB'
 				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					<if test="zycmc != null and zycmc != ''">
-						and find_in_set(zycmc, '${zycmc}')
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(zycbm, '${zycbm}')
 					</if>
-					<if test="zycmc == null or zycmc == ''">
+					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
 				</if>
@@ -2518,10 +2518,10 @@
 				type_flag is not null and
 				xmlbbm !='KYZB'
 				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					<if test="zycmc != null and zycmc != ''">
-						and find_in_set(zycmc, '${zycmc}')
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(zycbm, '${zycbm}')
 					</if>
-					<if test="zycmc == null or zycmc == ''">
+					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
 				</if>
@@ -2546,10 +2546,10 @@
 				 define10 is not null and
 				 xmlbbm !='KYZB'
 				 <if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					<if test="zycmc != null and zycmc != ''">
-						and find_in_set(zycmc, '${zycmc}')
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(zycbm, '${zycbm}')
 					</if>
-					<if test="zycmc == null or zycmc == ''">
+					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
 				</if>
@@ -2762,12 +2762,12 @@
 					 and xmlbbm !='KYZB'
 				</if>
 				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
-				   <if test="zycmc != null and zycmc != ''">
-						and find_in_set(zycmc, '${zycmc}')
-				   </if>
-				   <if test="zycmc == null or zycmc == ''">
+				   <if test="zycbm != null and zycbm != ''">
+						and find_in_set(zycbm, '${zycbm}')
+					</if>
+					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
-				   </if>
+					</if>
 			    </if>
 			group by xmid) AS tableA 
 		GROUP BY tableA.define5
@@ -3091,12 +3091,12 @@
 				)
 			</if>
 			<if test="leaderFlag == null or leaderFlag != '1'.toString()">
-			    <if test="zycmc != null and zycmc != ''">
-					and find_in_set(zycmc, '${zycmc}')
-			    </if>
-			    <if test="zycmc == null or zycmc == ''">
+			    <if test="zycbm != null and zycbm != ''">
+					and find_in_set(zycbm, '${zycbm}')
+				</if>
+				<if test="zycbm == null or zycbm == ''">
 					and out_project_info.nd = '1900'
-			    </if>
+				</if>
 		    </if>
 			<!--add start-->
 	        <if test="keyword != null">
