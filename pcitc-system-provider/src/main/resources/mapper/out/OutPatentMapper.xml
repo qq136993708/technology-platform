@@ -1492,7 +1492,7 @@
 		select
 			sum(case LEFT(FLZTGGRQ,4) when #{nd,jdbcType=VARCHAR} then 1 else 0 end) as agreeCount,
 			sum(case LEFT(SQRI,4) when #{nd,jdbcType=VARCHAR} then 1 else 0 end) as applyCount,
-			'集团单位' as unitType
+			'股份付集团' as unitType
 		from out_patent
 		WHERE SHENQR like '%集团%' and flztyj = '有效' and flztej = '授权'
 		

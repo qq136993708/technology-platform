@@ -6631,7 +6631,7 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 			List<String>  type_flagList=new ArrayList<String>();
 			type_flagList.add("直属研究院");
 			type_flagList.add("分子公司");
-			type_flagList.add("集团单位");
+			type_flagList.add("股份付集团");
 			
 			request.setAttribute("type_flagList", type_flagList);
 			

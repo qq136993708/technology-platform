@@ -272,7 +272,7 @@
 		          "G0GSSP",
 		          CASE WHEN "G0GSSP" LIKE '直属研究院' THEN 1
 		               WHEN "G0GSSP" LIKE '分子公司' THEN 2
-		               WHEN "G0GSSP" LIKE '集团单位' THEN 3
+		               WHEN "G0GSSP" LIKE '股份付集团' THEN 3
 		               WHEN "G0GSSP" LIKE '外部单位' THEN 4 
 		               WHEN "G0GSSP" LIKE '盈科' THEN 5
 		               WHEN "G0GSSP" LIKE '休斯顿研发中心' THEN 6

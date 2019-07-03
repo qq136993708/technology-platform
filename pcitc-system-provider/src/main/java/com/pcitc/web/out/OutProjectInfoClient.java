@@ -239,8 +239,8 @@ public class OutProjectInfoClient {
 		// 各个组织机构名称，如果有基础数据库的话，也可以直接取，此处就不用写死
 		temList = iniListValue(temList, "type_flag", "直属研究院", keyList);
 		temList = iniListValue(temList, "type_flag", "分子公司", keyList);
-		temList = iniListValue(temList, "type_flag", "集团单位", keyList);
-		temList = iniListValue(temList, "type_flag", "资产单位", keyList);
+		temList = iniListValue(temList, "type_flag", "股份付集团", keyList);
+		temList = iniListValue(temList, "type_flag", "股份付资产", keyList);
 		temList = iniListValue(temList, "type_flag", "外部单位", keyList);
 		temList = iniListValue(temList, "type_flag", "集团公司", keyList);
 		temList = iniListValue(temList, "type_flag", "资产公司", keyList);
@@ -264,8 +264,8 @@ public class OutProjectInfoClient {
 		// 各个组织机构名称，如果有基础数据库的话，也可以直接取，此处就不用写死
 		temList = iniListValue(temList, "type_flag", "直属研究院", keyList);
 		temList = iniListValue(temList, "type_flag", "分子公司", keyList);
-		temList = iniListValue(temList, "type_flag", "集团单位", keyList);
-		temList = iniListValue(temList, "type_flag", "资产单位", keyList);
+		temList = iniListValue(temList, "type_flag", "股份付集团", keyList);
+		temList = iniListValue(temList, "type_flag", "股份付资产", keyList);
 		temList = iniListValue(temList, "type_flag", "外部单位", keyList);
 		temList = iniListValue(temList, "type_flag", "集团公司", keyList);
 		temList = iniListValue(temList, "type_flag", "资产公司", keyList);
@@ -548,8 +548,8 @@ public class OutProjectInfoClient {
 		// 各个组件机构概念，如果有基础数据库的话，也可以直接取，此处就不用写死
 		temList = iniListValue(temList, "type_flag", "直属研究院", keyList);
 		temList = iniListValue(temList, "type_flag", "分子公司", keyList);
-		temList = iniListValue(temList, "type_flag", "集团单位", keyList);
-		temList = iniListValue(temList, "type_flag", "资产单位", keyList);
+		temList = iniListValue(temList, "type_flag", "股份付集团", keyList);
+		temList = iniListValue(temList, "type_flag", "股份付资产", keyList);
 		temList = iniListValue(temList, "type_flag", "外部单位", keyList);
 		temList = iniListValue(temList, "type_flag", "休斯顿", keyList);
 		temList = iniListValue(temList, "type_flag", "集团公司", keyList);
@@ -626,8 +626,8 @@ public class OutProjectInfoClient {
 		List keyList = new ArrayList<String>();
 		keyList.add("直属研究院");
 		keyList.add("分子公司");
-		keyList.add("集团单位");
-		keyList.add("资产单位");
+		keyList.add("股份付集团");
+		keyList.add("股份付资产");
 		keyList.add("外部单位");
 		keyList.add("休斯顿");
 		keyList.add("中东");
@@ -682,8 +682,8 @@ public class OutProjectInfoClient {
 		List keyList = new ArrayList<String>();
 		keyList.add("直属研究院");
 		keyList.add("分子公司");
-		keyList.add("集团单位");
-		keyList.add("资产单位");
+		keyList.add("股份付集团");
+		keyList.add("股份付资产");
 		keyList.add("外部单位");
 		keyList.add("休斯顿");
 		keyList.add("集团公司");
@@ -751,8 +751,8 @@ public class OutProjectInfoClient {
 		List keyList = new ArrayList<String>();
 		keyList.add("直属研究院");
 		keyList.add("分子公司");
-		keyList.add("集团单位");
-		keyList.add("资产单位");
+		keyList.add("股份付集团");
+		keyList.add("股份付资产");
 		keyList.add("外部单位");
 		keyList.add("休斯顿");
 		keyList.add("中东");
@@ -781,8 +781,8 @@ public class OutProjectInfoClient {
 		// 各个组织机构名称，如果有基础数据库的话，也可以直接取，此处就不用写死
 		temList = iniListValue(temList, "type_flag", "直属研究院", keyList);
 		temList = iniListValue(temList, "type_flag", "分子公司", keyList);
-		temList = iniListValue(temList, "type_flag", "集团单位", keyList);
-		temList = iniListValue(temList, "type_flag", "资产单位", keyList);
+		temList = iniListValue(temList, "type_flag", "股份付集团", keyList);
+		temList = iniListValue(temList, "type_flag", "股份付资产", keyList);
 		temList = iniListValue(temList, "type_flag", "外部单位", keyList);
 		temList = iniListValue(temList, "type_flag", "集团公司", keyList);
 		temList = iniListValue(temList, "type_flag", "资产公司", keyList);
