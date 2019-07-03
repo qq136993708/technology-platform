@@ -39,6 +39,18 @@
         }
     }
 </script>
+
+
+<script type="text/html" id="isLinkedProject_temp">
+          {{#  if(d.isLinkedProject == ''){ }}
+            <span style="color:red">未关联</span>
+          {{#  } else if(d.isLinkedProject == '1'){ }}
+            <span style="color:green">已关联</span>
+          {{#  } else{ }}
+            <span style="color:red">未关联</span>
+          {{#  } }}
+</script>
+
 <script type="text/javascript">
 var publicMethods;
     $(document).ready(function() {
@@ -59,7 +71,7 @@ var publicMethods;
 	            cols: [[
 	            	{type:'checkbox',event: 'changeEvents'}
 	             	,{title:'序号', type:'numbers'},
-	             	{field : 'auditStatus', title : '状态',    style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width : 55},
+	             	{field : 'isLinkedProject',    title : '是否关联课题',   style : 'cursor: pointer;', align: 'center', width : '10%', width : 100,templet : '#isLinkedProject_temp'},
 	                {field : 'name',        title : '装备名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
 	                {field : 'type',        title : '装备分类', style : 'cursor: pointer;', align : 'center', width : '10%'},
 	                {field : 'unitPrice',   title : '单价（万元）', style : 'cursor: pointer;', align : 'center', width : '10%'},
