@@ -337,8 +337,9 @@ var name=$('#name').val();
             cols: [[
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
-                {field : 'status',         title : '状态',            style : 'cursor: pointer;', align: 'center', width : '5%', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>'},
+                
                 {field : 'name',           title : '课题名称',         style : 'cursor: pointer;', align: 'left',    width : '20%',templet:function(d){return '<span onclick="view_project(\''+d.id+'\')" style="color:#1890ff">'+d.name+'</span>'}},
+                {field : 'status',         title : '状态',            style : 'cursor: pointer;', align: 'center', width : '5%', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>'},
                 {field : 'beginYear',      title : '投资期限',         style : 'cursor: pointer;', align: 'center',  width : '7%',templet:function(d){return '<div style="">'+d.beginYear+'-'+d.endYear+'</div><br/><div style="color:red">'+d.beginYear+'</div>'}},
                 {field : 'projectMoney',   title : '总经费(万元)',      style : 'cursor: pointer;', align: 'center',  width : '8%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
                 {field : 'leadUnitName',   title : '牵头单位',         style : 'cursor: pointer;', align: 'left', width : '20%'},
