@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -1002,5 +1003,30 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     public List<Map<String,Object>> queryAllExpert(Map<String, Object> map){
      return zjkBaseInfoMapper.queryAllExpert(new HashMap<>());
     }
+
+	@Override
+	public List<ZjkExpert> selectYsList() {
+		ZjkExpertExample example = new ZjkExpertExample();
+		ZjkExpertExample.Criteria c = example.createCriteria();
+		c.andBak3EqualTo("ZJK_ZJLX_YS");
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode().toString());
+		String [] sorts = new String[] {"陈俊武","徐承恩","李大东","顾心怿","汪燮卿","毛炳权","关兴亚","袁晴棠","何鸣元","杨启业","胡永康","曹湘洪","蒋士成","舒兴田","王基铭","康玉柱","马永生","曹耀峰","李阳","金之钧","戴厚良","谢在库"};
+		
+		List<String> names = new ArrayList<String>(Arrays.asList(sorts));
+		
+		List<ZjkExpert> rs = zjkBaseInfoMapper.selectByExample(example);
+		rs.sort(new Comparator<ZjkExpert>() {
+			@Override
+			public int compare(ZjkExpert o1, ZjkExpert o2) {
+				Integer s1 = names.indexOf(o1.getExpertName());
+				Integer s2 = names.indexOf(o2.getExpertName());
+				return s1-s2;
+			}
+			
+		});
+		
+		
+		return rs;
+	}
 
 }
