@@ -1152,6 +1152,8 @@ public class AdminController extends BaseController {
 		paramsMap.put("lastWeekEnd", DateUtil.dateToStr(DateUtil.getDayOfWeek(Calendar.MONDAY, 1, -1), DateUtil.FMT_DD));
 		paramsMap.put("thisWeekStart", DateUtil.dateToStr(DateUtil.getDayOfWeek(Calendar.MONDAY, 2, 0), DateUtil.FMT_DD));
 		paramsMap.put("thisWeekEnd", DateUtil.dateToStr(DateUtil.getDayOfWeek(Calendar.MONDAY, 1, 0), DateUtil.FMT_DD));
+		paramsMap.put("workOrderAllotUserId", sysUserInfo.getUserId());
+		paramsMap.put("createUserId", sysUserInfo.getUserId());
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
