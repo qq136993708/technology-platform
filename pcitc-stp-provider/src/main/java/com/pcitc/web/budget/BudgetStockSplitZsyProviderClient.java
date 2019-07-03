@@ -75,7 +75,10 @@ public class BudgetStockSplitZsyProviderClient
 			for(BudgetInfo dt:datalist) {
 				if(finalBudgetInfo !=null) {
 					List<BudgetStockTotal> totals = budgetStockTotalService.selectItemsByBudgetId(finalBudgetInfo.getDataId());
-					Optional<BudgetStockTotal> rs = totals.stream().filter(a -> BudgetSplitEnum.SPLIT_STOCK_YJY.getCode().equals(a.getDisplayCode())).findFirst();
+					Optional<BudgetStockTotal> rs = totals.stream()
+							.filter(a -> BudgetSplitEnum.SPLIT_STOCK_YJY.getCode().equals(a.getDisplayCode()))
+							.filter(a -> new Integer(0).equals(a.getLevel()))
+							.findFirst();
 					if(rs != null && rs.isPresent()) {
 						//dt.setBudgetMoney(rs.get().getXmjfTotal());
 						dt.setBudgetMoney(rs.get().getXmjfFyx());

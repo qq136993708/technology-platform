@@ -323,11 +323,80 @@
                 $("#chart1_02").html(e2);
                 $("#chart1_03").html(e3);
                 
-                console.info(expert1);
+                //console.info(expert1);
                 $("#expert1").append(expert1);
                 $("#expert2").append(expert2);
                 $("#expert3").append(expert3);
             });
+            publicMethods.ajaxPost("/zjkBaseInfo/zjk-ys-list", null, function (data) {
+            	var content = "";
+            	$.each(data,function(i,d){
+            		content +=   
+           			'<li>'+
+	                    '<div>'+
+	                        '<div class="expert-i">'+
+	                            '<img  src="'+photoContent(d.dataId)+'" alt="" height="110">'+
+	                        '</div>'+
+	                        '<div class="expert-t">'+d.expertName+'</div>'+
+	                        '<div class="expert-s">'+d.expertProfessionalFieldName+'</div>'+
+	                        '<div class="expert-ab">'+d.userDesc+'</div>'+
+	                        '<div class="expert-a">'+
+	                            '<a href="javascript:;">查看详情</a>'+
+	                        '</div>'+
+	                    '</div>'+
+	                '</li>';
+            	});
+            	$(".academician ul").html(content);
+            });
+            function photoContent(picId) {
+                var ret = getFileResult(picId);
+                if (ret != null && ret.list.length > 0) {
+                    picId = ret.list[0].id;
+                }
+                var base64 = "";
+                $.ajax({
+                    type: 'get',
+                    dataType: 'text',
+                    async: false,
+                    url: '/sysfile/viewPic/' + picId,
+                    success: function (data) {
+                        base64 = data;
+                    },
+                    error: function (e) {
+                        alert("出错了");
+                    }
+                });
+                return base64;
+            }
+
+            ////加载图片
+            function getFileResult(fileIds) {
+                var ret = null;
+                ajaxFile("/sysfile/getFilesLayuiByFormId", {fileIds: fileIds}, function (result) {
+                    ret = result;
+                });
+                return ret;
+            }
+            function ajaxFile(url, data, callback) {
+                var result = null;
+                $.ajax({
+                    type: 'post',
+                    async: false,
+                    url: url,
+                    data: data,
+                    dataType: 'json',
+                    success: function (data, status) {
+                        result = data;
+                        if (callback) {
+                            callback.call(this, data, status);
+                        }
+                    },
+                    error: function (err, err1, err2) {
+                        console.log("ajaxPost发生异常，请仔细检查请求url是否正确");
+                    }
+                });
+                return result;
+            }
         });
     </script>
 </body>
