@@ -115,7 +115,7 @@ function barAjax_single(url,  echartsobj, options,width,callback)
                                 }
 	                        }]
 	                    });
-	                    if(callback)
+                      if(callback)
 	                    {
 	                    	console.log("call.....back......");
 	                    	callback(data);
