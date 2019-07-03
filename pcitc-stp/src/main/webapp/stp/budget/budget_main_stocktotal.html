@@ -94,7 +94,7 @@
                 <thead>
                 <tr>
                 	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
-                	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}" rowspan="2">序号</th>
+                	<th lay-data="{field:'no',align: 'center', width: 55,totalRowText: '合计'}" rowspan="2">序号</th>
                     <th lay-data="{field:'displayName', width: '20%'}" rowspan="2">类别</th>
                    	<!-- <th lay-data="{field:'last_year_end',align: 'right', width: '15%'}" rowspan="2">年预算完成</th>
                     <th lay-data="{field:'plan_money',align: 'right', width: '15%'}" rowspan="2">年计划金额</th> -->
@@ -240,6 +240,10 @@
 					$(".layui-table-body").find("tr").eq(index).find('td').eq(2).attr("align",align);
 					$(".layui-table-body").find("tr").eq(index).find('td').eq(1).find("div").html(no);
 				});
+				//如果是审批中或者最终版本，禁止修改
+				if(curent_budget_info && curent_budget_info.auditStatus >= 1){
+					$('td[data-edit="true"]').css("pointer-events","none");
+				}
 			}
             // 点击按钮时激活
             $('.tableBtns').children('button').on('click',function(){
@@ -422,10 +426,8 @@
     					publicMethods.ajaxPost("/budget/del-stock-item/"+curent_tabel_data[selectIndex].dataId, null, function (data) {
     	                     if (data.success) {
     	                    	 curent_tabel_data.splice(selectIndex,1);
-    	                    	 
     	                    	 reloadDataAndTableFormart(curent_tabel_data);
-    	                    	 //table.reload('dataTable', {data: curent_tabel_data});
-    	                     	 //renderfunc();
+    	                    	 curent_tabel_data.splice(selectIndex, 1);//删除元素
     	                     	 calculationSurplusMoney();
     	                     } else {
     	                    	 layer.msg('操作异常，请重试!');
