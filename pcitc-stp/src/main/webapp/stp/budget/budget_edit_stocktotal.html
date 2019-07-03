@@ -417,7 +417,8 @@
                 	parent.layer.alert(data.message, {
 						title : '信息'
 					});
-					return;
+                	layer.close(lodingMsg);
+					return false;
                 }
                 layer.close(lodingMsg);
             }); 
