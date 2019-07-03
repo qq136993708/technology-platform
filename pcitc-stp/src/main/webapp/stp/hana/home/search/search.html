@@ -329,7 +329,7 @@
         });
     });
     function search() {
-        var keyword=$("#keyword").val();
+        var keyword="${keyword}";
         $("#ifrIndex").attr("src","/fullSearch/searchIndex?keyword="+keyword);
         $("#ifrOne").attr("src","/fullSearch/query_scientific?keyword="+keyword);
         $("#ifrTwo").attr("src","/fullSearch/query_achievement?keyword="+keyword);
