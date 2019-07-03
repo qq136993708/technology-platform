@@ -145,10 +145,11 @@ background: url("/layuiadmin/layui/images/icon-leader-aw.png") right no-repeat;
 /*第五块*/
 .layui-tool{display: inline-block;float: right;}
 .btn-tool{border: none;cursor: pointer;margin-right: 10px;}
-.collapse{background: url("/layuiadmin/layui/images/icon-up.png") no-repeat;width: 12px;
+
+.collapse{background: url("/layuiadmin/layui/images/icon-dele.png") no-repeat;width: 10px;
     height: 10px;}
-.remove{background: url("/layuiadmin/layui/images/icon-dele.png") no-repeat;width: 10px;
-    height: 10px;}
+.collapseF{transform:scaleY(-1);position: relative;
+    top: -6px;}
 /*第六块*/
 .layui-col-md4 .layui-box{margin-bottom: 10px;}
 .layui-col-md4 .layui-box:last-child{margin: 0;}
@@ -266,13 +267,13 @@ background: url("/layuiadmin/layui/images/icon-leader-aw.png") right no-repeat;
 /*放大*/
 .layui-col-md15{
     -webkit-transform-origin: 0 0 0;
-    transition: transform 0.9s;}
+    transition: transform 0.2s;}
 .layui-col-md15:hover {
-    transform:scale(1.6);
-    -webkit-transform:scale(1.6);
-    -moz-transform:scale(1.6);
-    -o-transform:scale(1.6);
-    -ms-transform:scale(1.6);
+    transform:scale(1.2);
+    -webkit-transform:scale(1.2);
+    -moz-transform:scale(1.2);
+    -o-transform:scale(1.2);
+    -ms-transform:scale(1.2);
     transform-origin: 0 0 0;
     -webkit-transform-origin: 0 0 0;
     z-index: 9999;
