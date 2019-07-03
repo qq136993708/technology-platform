@@ -407,7 +407,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="layui-card layui-col-md3" style="margin-left: 6px;width: 24.5%;">
+				<div class="layui-card layui-col-md3" style="margin-left: 6px; width: 24.5%;">
 					<div class="layui-card-header">
 						<p>会议纪要</p>
 						<div class="layui-tool">
@@ -422,12 +422,8 @@
 								<li>部务会会议纪要</li>
 							</ul>
 							<div class="layui-tab-content">
-								<div class="layui-tab-item layui-show">
-
-								</div>
-								<div class="layui-tab-item">
-
-								</div>
+								<div class="layui-tab-item layui-show"></div>
+								<div class="layui-tab-item"></div>
 							</div>
 						</div>
 					</div>
@@ -557,7 +553,7 @@
         
         function sendPost(url,type,callback)
         {
-        	 $.ajax({
+        	 /* $.ajax({
           	      type:type,
           	      url: "/getOA",
           	      dataType:"json",
@@ -580,7 +576,7 @@
                       }
 	       		   }
             
-          });
+          }); */
         } 
         
         
@@ -1148,14 +1144,19 @@
                             for (var i = 0; i < list.length; i++) 
                             {
                                 var createTime = list[i].createTime;
-                                var processDefinitionName = list[i].processDefinitionName;
-                                //var tt=layui.laytpl.toDateString(createTime)
+                                var processInstanceName = '';
+                                if (typeof(list[i].processInstanceName) == "undefined") {
+                                	processInstanceName = '';
+                                } else {
+                                	processInstanceName = list[i].processInstanceName;
+                                }
+                                var tt=layui.laytpl.toDateString(createTime);
                                 var processInstanceId= list[i].processInstanceId;
                                 var id= list[i].id;
                                 //alert(processInstanceId);
                                 if(i<4)
                                 {
-                                	$("#wait_work_id_list").append("<li onclick=\"wait_work('"+id+"')\" style='cursor:pointer'><span class='date'>"+createTime+"</span> <span class='content'>"+processDefinitionName+"</span></li>");
+                                	$("#wait_work_id_list").append("<li onclick=\"wait_work('"+id+"')\" style='cursor:pointer'><span class='date'>"+tt+"</span> <span class='content'>"+processInstanceName+"</span></li>");
                                 }
                                 
                             }
