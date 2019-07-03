@@ -217,9 +217,9 @@
 								<thead>
 									<tr>
 										<th></th>
-										<th>工作受理人</th>
-										<th>安排时间</th>
-										<th>工作内容</th>
+										<th>当前处理人</th>
+										<th>发起时间</th>
+										<th width="35%">工作内容</th>
 										<th>完成进度(%)</th>
 									</tr>
 								</thead>
@@ -257,9 +257,9 @@
 									<thead>
 										<tr>
 											<th></th>
-											<th>工作安排人</th>
-											<th>安排时间</th>
-											<th>工作内容</th>
+											<th>工作发起人</th>
+											<th>发起时间</th>
+											<th width="35%">工作内容</th>
 											<th>完成进度(%)</th>
 										</tr>
 									</thead>
@@ -270,13 +270,9 @@
 											<td>${taskList.createUserName}</td>
 											<td>${taskList.createDate}</td>
 											<td>${taskList.workOrderName}</td>
-											<td align="right"><#if taskList.bl==''>
-												<div class="layui-progress">
-													<div class="layui-progress-bar" lay-percent="0%"></div>
-												</div>0% </#if> <#if taskList.bl!=''>
-												<div class="layui-progress">
-													<div class="layui-progress-bar" lay-percent="${taskList.bl}%"></div>
-												</div> ${taskList.bl}% </#if>
+											<td>
+												<span class="span-st ">已完成</span>
+												<span class="span-st ">进行中</span>
 											</td>
 										</tr>
 										</#if> <#else>
@@ -309,9 +305,6 @@
 							</ul>
 							<div class="layui-tab-content">
 								<div class="layui-tab-item layui-show">
-									<a lay-href="" lay-text="科研项目">
-										<!-- 更多> -->
-									</a>
 									<div class="lan">
 										<table class="layui-table" id="news-workdynamics-list-table">
 											<tbody>
@@ -332,7 +325,6 @@
 									</div>
 								</div>
 								<div class="layui-tab-item">
-									<a lay-href="" lay-text="知识产权">更多></a>
 									<div class="lan">
 										<table class="layui-table">
 											<tbody>
@@ -353,7 +345,6 @@
 									</div>
 								</div>
 								<div class="layui-tab-item">
-									<a lay-href="" lay-text="科技成果">更多></a>
 									<div class="lan">
 										<table class="layui-table">
 											<tbody>
@@ -603,7 +594,7 @@
             var formIds = "";
             var list = [];
             var ROOT_XTGL_SPLX_PT = "";//视频
-            publicMethods.ajaxPost("/sysNews/getNewsIndexType", {"stype": stype, "bak3": 8}, function (data) {
+            publicMethods.ajaxPost("/sysNews/getNewsIndexType", {"stype": stype, "bak3": 10}, function (data) {
                 var ROOT_XTGL_XWLX_GCSY = "";//集团领导讲话
                 var ROOT_XTGL_XWLX_SHYW = "";//国家领导讲话
                 var ROOT_XTGL_XWLX_GCDT = "";//最新讲话
