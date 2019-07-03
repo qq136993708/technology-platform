@@ -148,7 +148,6 @@
 
             publicMethods.tableRenderH('sysReportStpTableId', 'sysReportStpTableId',40, '/fullSearch/getTableDataReport', false, cols, where, true, function (res, curr, count) {
                 parent.$("#report").html(count);
-                console.log("report table");
                 /*console.log(res.data);*/
                 var html="";
                 $.each(res.data,function (i,val) {
