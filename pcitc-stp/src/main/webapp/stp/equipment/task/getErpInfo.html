@@ -57,6 +57,7 @@ var v_date=(new Date()).getTime();
                 	 var erpNum=$("#g0PROJCODE").val();
                 	 
                 	 layer.confirm('确定选择此项目吗？', { btn: ['确定','取消']}, function(){ 
+                		 //alert(taskId+"--"+erpNum);
                 		 parent.createErpBack(taskId,erpNum)
                     	 var index = parent.layer.getFrameIndex(window.name);
         			     parent.layer.close(index); 

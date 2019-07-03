@@ -296,8 +296,6 @@ var name=$('#name').val();
             	{field : 'auditStatus',    title : '总部审核状态',        style : 'cursor: pointer;', align: 'center', width : '10%', width : 100, templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>'},
             	{field : 'contractNum', title : '合同号', style : 'cursor: pointer;', align: 'center', width : '10%'},
             	{field : 'erpNum', title : 'ERP号', style : 'cursor: pointer;', align: 'center', width : '15%'},
-         
-                
                 {field : 'setupYear',      title : '立项年份', style : 'cursor: pointer;', align: 'center', width : '10%'},
                 {field : 'projectMoney',   title : '总经费(万元)', style : 'cursor: pointer;', align: 'center', width : '10%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
                 {field : 'taskVersion',      title : '任务书版本号', style : 'cursor: pointer;', align: 'center', width : '10%',templet : '#view_taskVersion'},
