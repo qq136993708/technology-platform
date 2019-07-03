@@ -434,9 +434,6 @@ public class EquipmentUtils {
 	}
 	
 	
-	
-	
-	
 	//取得当前人的单位代码
 	public static String getEquipmentUnitCode(SysUser sysUserInfo,RestTemplate restTemplate,HttpHeaders httpHeaders)
 	{

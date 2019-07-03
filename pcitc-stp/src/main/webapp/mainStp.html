@@ -202,8 +202,8 @@
 					<div class="layui-card-header">
 						<p>工作安排</p>
 						<div class="layui-tool">
+
 							<button type="button" class="btn btn-tool collapse"></button>
-							<button type="button" class="btn btn-tool remove"></button>
 						</div>
 					</div>
 					<div class="layui-card-body btn-function">
@@ -292,8 +292,8 @@
 					<div class="layui-card-header">
 						<p>工作动态</p>
 						<div class="layui-tool">
+
 							<button type="button" class="btn btn-tool collapse"></button>
-							<button type="button" class="btn btn-tool remove"></button>
 						</div>
 					</div>
 					<div class="layui-card-body">
@@ -373,8 +373,8 @@
 					<div class="layui-card-header">
 						<p>新闻动态</p>
 						<div class="layui-tool">
+
 							<button type="button" class="btn btn-tool collapse"></button>
-							<button type="button" class="btn btn-tool remove"></button>
 						</div>
 					</div>
 					<div class="layui-card-body">
@@ -402,8 +402,8 @@
 					<div class="layui-card-header">
 						<p>会议纪要</p>
 						<div class="layui-tool">
+							<!--<button type="button" class="btn btn-tool collapse"></button>-->
 							<button type="button" class="btn btn-tool collapse"></button>
-							<button type="button" class="btn btn-tool remove"></button>
 						</div>
 					</div>
 					<div class="layui-card-body">
@@ -665,10 +665,15 @@
                 var headerHeight = $(".layui-card-header").outerHeight(true);
                 $(".layui-wifi-left,.layui-wifi-right").css("height", md4Height - headerHeight + "px");
 
-                $(".remove").on("click", function () {
+                /*$(".remove").on("click", function () {
                     $(this).parents(".layui-card").parent().remove();
-                });
+                });*/
                 $(".collapse").on("click", function () {
+                    if($(this).attr("class").indexOf("collapseF")==-1){
+                        $(this).addClass("collapseF")
+					}else {
+                        $(this).removeClass("collapseF")
+                    }
                     $(this).parent().parent().nextAll().slideToggle(400);
                 });
                 /*table*/
