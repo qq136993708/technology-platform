@@ -222,6 +222,7 @@
 .layui-icon{margin-left: 0px;}
 .layui-btn-mini{padding: 0 15px;}
 .layui-table td, .layui-table th{padding: 6px 15px;}
+.project .layui-table td,.project .layui-table th{padding: 10px 6px;}
 .layui-btn-blue{background-color:#1890ff;}
 .layui-btn-white{background-color: #fefefe;}
 .layui-btn-white:hover{color: #8E8E8E;background-color: #F2F2F2;}

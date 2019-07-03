@@ -270,13 +270,9 @@
 											<td>${taskList.createUserName}</td>
 											<td>${taskList.createDate}</td>
 											<td>${taskList.workOrderName}</td>
-											<td align="right"><#if taskList.bl==''>
-												<div class="layui-progress">
-													<div class="layui-progress-bar" lay-percent="0%"></div>
-												</div>0% </#if> <#if taskList.bl!=''>
-												<div class="layui-progress">
-													<div class="layui-progress-bar" lay-percent="${taskList.bl}%"></div>
-												</div> ${taskList.bl}% </#if>
+											<td>
+												<span class="span-st ">已完成</span>
+												<span class="span-st ">进行中</span>
 											</td>
 										</tr>
 										</#if> <#else>
