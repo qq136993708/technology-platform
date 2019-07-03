@@ -107,11 +107,11 @@
 						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 							<div class="layui-form-item">
 								<label for="" class="layui-form-label">
-									工作处理人
+									当前处理人
 									<span class="must-fill">*</span>
 								</label>
 								<div class="layui-input-block">
-									<input class="layui-input" name="workOrderAllotUserName" id="workOrderAllotUserName" placeholder="请选择工作处理人" readOnly="true" autocomplete="off" type="text">
+									<input class="layui-input" name="workOrderAllotUserName" id="workOrderAllotUserName" placeholder="请选择当前处理人" readOnly="true" autocomplete="off" type="text">
 								</div>
 							</div>
 						</div>
@@ -425,7 +425,7 @@
 					}
 				}, {
 					field : 'workOrderAllotUserName',
-					title : '工作处理人',
+					title : '当前处理人',
 					event : 'setActive',
 					style : 'cursor: pointer;',
 					width : 100,
@@ -472,7 +472,7 @@
 			//动态添加事项
 			$('#addMatter').click(function() {
 				if ($("#workOrderAllotUserName").val() == "") {
-					layer.msg("请选择工作处理人");
+					layer.msg("请选择当前处理人");
 					return;
 				}
 				var trParam = {
