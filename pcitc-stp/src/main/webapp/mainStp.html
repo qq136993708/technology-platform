@@ -395,13 +395,13 @@
 							</ul>
 							<div class="layui-tab-content">
 								<div class="layui-tab-item layui-show">
-									<ul id="ROOT_XTGL_XWLX_ZXJH"></ul>
+									<ul id="ROOT_XTGL_XWLX_GCDT"></ul>
 								</div>
 								<div class="layui-tab-item">
-									<ul id="ROOT_XTGL_XWLX_JTLDJH"></ul>
+									<ul id="ROOT_XTGL_XWLX_GCSY"></ul>
 								</div>
 								<div class="layui-tab-item">
-									<ul id="ROOT_XTGL_XWLX_GJLDJH"></ul>
+									<ul id="ROOT_XTGL_XWLX_SHYW"></ul>
 								</div>
 							</div>
 						</div>
@@ -603,25 +603,22 @@
                 
                 
                 
-            var stype = "ROOT_XTGL_XWLX_KJBLDJH|ROOT_XTGL_XWLX_JTLDJH|ROOT_XTGL_XWLX_GJLDJH|ROOT_XTGL_XWLX_ZXJH|ROOT_XTGL_SPLX_PT";
+            var stype = "ROOT_XTGL_XWLX_GCSY|ROOT_XTGL_XWLX_SHYW|ROOT_XTGL_XWLX_GCDT|ROOT_XTGL_SPLX_PT";
             var formIds = "";
             var list = [];
             var ROOT_XTGL_SPLX_PT = "";//视频
             publicMethods.ajaxPost("/sysNews/getNewsIndexType", {"stype": stype, "bak3": 8}, function (data) {
-                var ROOT_XTGL_XWLX_KJBLDJH = "";//科技部领导讲话
-                var ROOT_XTGL_XWLX_JTLDJH = "";//集团领导讲话
-                var ROOT_XTGL_XWLX_GJLDJH = "";//国家领导讲话
-                var ROOT_XTGL_XWLX_ZXJH = "";//最新讲话
+                var ROOT_XTGL_XWLX_GCSY = "";//集团领导讲话
+                var ROOT_XTGL_XWLX_SHYW = "";//国家领导讲话
+                var ROOT_XTGL_XWLX_GCDT = "";//最新讲话
                 for (var i = data.length-1; i >0 ; i--) {
                     var d = data[i];
-                    if (d.stype == "ROOT_XTGL_XWLX_KJBLDJH") {
-                        ROOT_XTGL_XWLX_KJBLDJH = ROOT_XTGL_XWLX_KJBLDJH + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
-                    } else if (d.stype == "ROOT_XTGL_XWLX_JTLDJH") {
-                        ROOT_XTGL_XWLX_JTLDJH = ROOT_XTGL_XWLX_JTLDJH + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
-                    } else if (d.stype == "ROOT_XTGL_XWLX_GJLDJH") {
-                        ROOT_XTGL_XWLX_GJLDJH = ROOT_XTGL_XWLX_GJLDJH + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
-                    } else if (d.stype == "ROOT_XTGL_XWLX_ZXJH") {
-                        ROOT_XTGL_XWLX_ZXJH = ROOT_XTGL_XWLX_ZXJH + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
+                    if (d.stype == "ROOT_XTGL_XWLX_GCSY") {
+                        ROOT_XTGL_XWLX_GCSY = ROOT_XTGL_XWLX_GCSY + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
+                    } else if (d.stype == "ROOT_XTGL_XWLX_SHYW") {
+                        ROOT_XTGL_XWLX_SHYW = ROOT_XTGL_XWLX_SHYW + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
+                    } else if (d.stype == "ROOT_XTGL_XWLX_GCDT") {
+                        ROOT_XTGL_XWLX_GCDT = ROOT_XTGL_XWLX_GCDT + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
                     }
                     else if (d.stype == "ROOT_XTGL_SPLX_PT") {
                         list.push(d);
@@ -629,10 +626,9 @@
                     }
 
                 }
-                $("#ROOT_XTGL_XWLX_KJBLDJH").html(ROOT_XTGL_XWLX_KJBLDJH);
-                $("#ROOT_XTGL_XWLX_JTLDJH").html(ROOT_XTGL_XWLX_JTLDJH);
-                $("#ROOT_XTGL_XWLX_GJLDJH").html(ROOT_XTGL_XWLX_GJLDJH);
-                $("#ROOT_XTGL_XWLX_ZXJH").html(ROOT_XTGL_XWLX_ZXJH);
+                $("#ROOT_XTGL_XWLX_GCSY").html(ROOT_XTGL_XWLX_GCSY);
+                $("#ROOT_XTGL_XWLX_SHYW").html(ROOT_XTGL_XWLX_SHYW);
+                $("#ROOT_XTGL_XWLX_GCDT").html(ROOT_XTGL_XWLX_GCDT);
             });
             
             
@@ -869,9 +865,8 @@
 
             // 经费支出
             function getndys_xfzc(month) {
-                //alert(companyCode);
                 var v_date = (new Date()).getTime();
-                $.ajax({
+                /* $.ajax({
                     type: "GET",
                     url: '/direct/pay_01?month=' + month + '&companyCode=' + companyCode + '&v_date' + v_date,
                     dataType: "json",
@@ -895,7 +890,7 @@
 
                         }
                     }
-                });
+                }); */
 
             }
 
@@ -1154,13 +1149,13 @@
                             {
                                 var createTime = list[i].createTime;
                                 var processDefinitionName = list[i].processDefinitionName;
-                                var tt=layui.laytpl.toDateString(createTime)
+                                //var tt=layui.laytpl.toDateString(createTime)
                                 var processInstanceId= list[i].processInstanceId;
                                 var id= list[i].id;
                                 //alert(processInstanceId);
                                 if(i<4)
                                 {
-                                	$("#wait_work_id_list").append("<li onclick=\"wait_work('"+id+"')\" style='cursor:pointer'><span class='date'>"+tt+"</span> <span class='content'>"+processDefinitionName+"</span></li>");
+                                	$("#wait_work_id_list").append("<li onclick=\"wait_work('"+id+"')\" style='cursor:pointer'><span class='date'>"+createTime+"</span> <span class='content'>"+processDefinitionName+"</span></li>");
                                 }
                                 
                             }
