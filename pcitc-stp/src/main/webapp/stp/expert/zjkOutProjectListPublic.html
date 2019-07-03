@@ -213,6 +213,7 @@
             resetEvent: function () { //点击重置按钮
                 $('#nd').val("");
                 $('#xmmc').val("");
+                $('#hth').val("");
                 $('#project_property').val("");
                 $('#projectName').val("");
                 $('.tableBtns').children('button').removeClass('active');
@@ -249,7 +250,7 @@
                 if (typeof (selectRowData.xmid) == "undefined") {
                     layer.msg('请点击选择一行数据');
                 } else {
-                    openBaseWin("已选专家列表", "/expertController/showExpertPage?projectId=" + selectRowData.xmid+"&projectName="+selectRowData.xmmc);
+                    openBaseWin("已选专家列表", "/expertController/showExpertPage?projectId=" + selectRowData.xmid);
                 }
             },
             detailEvent: function () { //点击详情按钮

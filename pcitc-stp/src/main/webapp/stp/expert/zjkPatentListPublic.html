@@ -16,7 +16,7 @@
     <!--查询条件-->
     <label class="dateInput">
         <span>专利名称</span>
-        <input type="text" id="fmmc" name="fmmc" placeholder="" title="专利名称" class="form-control">
+        <input type="text" id="fmmc" name="fmmc"  placeholder="请输入专利名称" title="专利名称" class="form-control">
         <input type="hidden" id="xmid" name="xmid" value="${xmid}">
     </label>
     <label class="dateInput">
@@ -165,7 +165,7 @@
                 if (typeof (selectRowData.dataId) == "undefined") {
                     layer.msg('请点击选择一行数据');
                 } else {
-                    openBaseWin("已选专家列表", "/expertController/showExpertPage?projectId=" + selectRowData.dataId+"&projectName="+selectRowData.fmmc);
+                    openBaseWin("已选专家列表", "/expertController/showExpertPage?projectId=" + selectRowData.dataId);
                 }
             },
             detailEvent: function () { //点击详情按钮
