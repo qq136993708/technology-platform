@@ -96,7 +96,8 @@ public class SearchFullController extends BaseController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/searchFile")
     public String searchFile(HttpServletRequest request) throws Exception {
-        request.setAttribute("keyword", request.getParameter("keyword"));
+        String keyword = request.getParameter("keyword");
+        request.setAttribute("keyword", (keyword==null||"undefined".equals(keyword))?"":keyword);
         return "stp/hana/home/search/query_file";
     }
 
