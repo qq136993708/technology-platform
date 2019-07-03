@@ -622,7 +622,10 @@
 		sys_unit.unit_id = sys_user_unit.unit_id and 
 		sys_user.user_delflag = '0'
 		<if test="userName != null and userName != ''">
-			AND (sys_user.user_name like '%${userName}%' or sys_user.user_disp like '%${userName}%')
+			AND sys_user.user_name = '${userName}'
+		</if>
+		<if test="keyWord != null and keyWord != ''">
+			AND (sys_user.user_name like '%${keyWord}%' or sys_user.user_disp like '%${keyWord}%')
 		</if>
 		<if test="userPassword != null and userPassword != ''">
 			AND sys_user.user_password = '${userPassword}'

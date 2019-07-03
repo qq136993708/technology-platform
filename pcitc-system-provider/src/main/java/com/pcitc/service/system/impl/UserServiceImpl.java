@@ -610,6 +610,9 @@ public class UserServiceImpl implements UserService {
 		if (param.getParam().get("userName") != null && !StringUtils.isBlank(param.getParam().get("userName") + "")) {
             hashmap.put("userName", param.getParam().get("userName"));
         }
+		if (param.getParam().get("keyWord") != null && !StringUtils.isBlank(param.getParam().get("keyWord") + "")) {
+            hashmap.put("keyWord", param.getParam().get("keyWord"));
+        }
 		if (param.getParam().get("unitName") != null && !StringUtils.isBlank(param.getParam().get("unitName") + "")) {
             List unitName = new ArrayList();
             String[] temS = param.getParam().get("unitName").toString().split(",");
