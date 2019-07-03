@@ -186,7 +186,7 @@
                     }
             };
 
-            publicMethods.tableRenderH('tfmTypeTableId', 'tfmTypeTableId',485, '/tfmType/getTableData', false, cols, where, true, function (res, curr, count) {
+            publicMethods.tableRenderH('tfmTypeTableId', 'tfmTypeTableId',400, '/tfmType/getTableData', false, cols, where, true, function (res, curr, count) {
                 parent.$("#tech").html(count);
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     var index = parseInt($(this).index() + 1);
