@@ -7,6 +7,7 @@ import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.expert.ZjkExpert;
 import com.pcitc.base.expert.ZjkExpertExample;
 import com.pcitc.service.expert.ZjkBaseInfoService;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -249,4 +250,26 @@ public class ZjkBaseInfoClient {
         }
         return retJson;
     }
+    @ApiOperation(value = "专家-院士查询列表", notes = "专家-院士基本信息列表")
+    @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/zjkYsList", method = RequestMethod.POST)
+	public Object selectZjkBaseInfoYsList(@RequestBody ZjkExpert zjkBaseInfo) {
+		JSONObject retJson = new JSONObject();
+		try {
+			List<ZjkExpert> list = zjkBaseInfoService.selectYsList();
+			for(ZjkExpert z:list) {
+				if(z.getUserDesc() != null) {
+					z.setUserDesc(z.getUserDesc().replaceAll("<p>", ""));
+				}
+				if(z.getExpertProfessionalFieldName() == null) {
+					z.setExpertProfessionalFieldName("院士");
+				}
+			}
+			
+			return JSON.toJSONString(list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return retJson;
+	}
+
 }

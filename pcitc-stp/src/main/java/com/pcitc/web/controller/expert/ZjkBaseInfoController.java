@@ -100,7 +100,11 @@ public class ZjkBaseInfoController extends BaseController {
      * 保存
      */
     private static final String SAVE = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/save_zjkbaseinfo";
-
+    /**
+     * 院士
+     */
+    private static final String ZJK_YS_LIST = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkYsList";
+    
 
     /**
      * 专家-基本信息-查询列表
@@ -421,5 +425,11 @@ public class ZjkBaseInfoController extends BaseController {
             return new Result(false, "保存失败请重试！");
         }
     }
-
+    @RequestMapping(value = "/zjk-ys-list", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getYsList(HttpServletRequest request) {
+    	ZjkExpert zjk = new ZjkExpert();
+        ResponseEntity<Object> responseEntity = this.restTemplate.exchange(ZJK_YS_LIST, HttpMethod.POST, new HttpEntity<ZjkExpert>(zjk,this.httpHeaders), Object.class);
+        return responseEntity.getBody();
+    }
 }
