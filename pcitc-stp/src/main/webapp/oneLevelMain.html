@@ -182,6 +182,7 @@
 </div>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/lib/extend/Sortable.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/javascript/jquery.mousewheel.min.js"></script>
 <script>
     var nd=$("#month").val().substring(4,0);
 	var publicMethods;
@@ -345,6 +346,24 @@
         $(".menu-two").click(function () {
             $(".main-two").fadeIn("3000");
             $(".main-one").fadeOut("3000");
+        });
+        /*滚动*/
+        $(".main-two").css("height",$(".main-one").height()+"px");
+        $(document).mousewheel(function(event, delta) {
+            var dir = delta > 0 ? 'Up' : 'Down';
+            if (dir == 'Up') {
+                $(".main-one").removeClass("opacity1");
+                $(".main-two").removeClass("opacity0");
+                $(".main-one").addClass("opacity0");
+                $(".main-two").addClass("opacity1");
+            } else {
+                $(".main-one").removeClass("opacity0");
+                $(".main-two").removeClass("opacity1");
+                $(".main-one").addClass("opacity1");
+                $(".main-two").addClass("opacity0");
+
+            }
+            //return false;
         });
     });
     /*动画*/

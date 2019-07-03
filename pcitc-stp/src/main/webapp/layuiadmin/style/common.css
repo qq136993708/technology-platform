@@ -79,6 +79,7 @@
 /*按钮*/
 .layui-btn+.layui-btn {margin-left: 6px;}
 .layui-btn{background-color: #1890ff}
+.layui-red{background: red;border: 1px solid red;color: white;border-radius: 2px;}
 .layui-upload-list tr td>span{color: #1890ff !important;}
 .btn_search {background: #1890ff url(/layuiadmin/layui/images/icon_04.png) no-repeat;}
 .btn_look {background: url(/layuiadmin/layui/images/operation_72.png) no-repeat;}

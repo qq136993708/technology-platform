@@ -16,7 +16,7 @@
         .layui-table-view,.layui-table-page,.tableBox table tr td{border: none;}
         .layui-table-body{margin-top: 20px;}
         .layui-table-cell{height: auto;margin-bottom: 15px;}
-        p{width: 500px;height: auto;overflow: hidden;white-space: normal;/*text-overflow: ellipsis;*/
+        p{height: auto;overflow: hidden;white-space: normal;/*text-overflow: ellipsis;*/
             font-size: 13px;word-break:break-all;word-wrap:break-word;line-height: 20px;
             margin-left: 10px;}
         .layui-table-body{margin-top: 0;}
@@ -28,10 +28,10 @@
         .layui-div{height: auto;overflow: hidden;}
         .layui-div>a{height: 14px;line-height: 14px;}
         .tableBox ul{height: auto;overflow: hidden;
-            width: 94%;}
-        .tableBox ul li{width: 25%;float: left;}
+            width: 100%;padding-left: 5px;}
+        .tableBox ul li{width: 23%;float: left;margin: 0 10px 10px;}
         .tableBox ul li a{background: #e7f4ff;display: inline-block;width: 100%;text-align: center;height: 26px;line-height: 26px;}
-        .tableBox ul li p{text-align: right;}
+        .tableBox ul li p{text-align: right;padding-right: 10px;}
         .tableBox ul li p span{background: #1890ff;width: 12px;height: 8px;display: inline-block;}
         .tableBox ul li div{border:1px solid #ddeeff;}
     </style>
@@ -53,8 +53,8 @@
 </div>-->
 <input type="text" class="layui-hide" name="keyword"  value="${keyword}"  id="keyword">
 <div class="tableBox">
-    <ul>
-        <li>
+    <ul id="chart">
+        <!--<li>
             <a href="javascript:;">标题</a>
             <div class="cont">
                 <p><span></span>图表</p>
@@ -81,7 +81,7 @@
                 <p><span></span>图表</p>
                 <img src="/layuiadmin/layui/images/icon-seach-j.png"/>
             </div>
-        </li>
+        </li>-->
     </ul>
     <table id="sysReportStpTableId" class="layui-hide" lay-filter="tableEvent"></table>
 </div>
@@ -96,9 +96,9 @@
             publicMethods = layui.publicMethods,
             laypage = layui.laypage;
         var cols =
-            [ /*{field:'workOrderStatus',title:'状态',
-                templet:  '<div>{{ layui.laytpl.searchE(d) }}</div>' }*/
-                /*{type: 'checkbox', event: 'changeEvents', width: 55},
+            [ {field:'workOrderStatus',title:'状态',
+                templet:  '<div>{{ layui.laytpl.searchE(d) }}</div>' },
+                {type: 'checkbox', event: 'changeEvents', width: 55},
                 {title: '序号', type: 'numbers', width: 55},
                 // {
                 //     field: 'workOrderStatus',
@@ -133,7 +133,7 @@
                 {
                     field: "reportModule",
                     title: "所属模块", event: 'setActive', style: 'cursor: pointer;'
-                },*/
+                },
             ];
 
         function renderTable() {
@@ -149,7 +149,19 @@
             publicMethods.tableRenderH('sysReportStpTableId', 'sysReportStpTableId',40, '/fullSearch/getTableDataReport', false, cols, where, true, function (res, curr, count) {
                 parent.$("#report").html(count);
                 console.log("report table");
-                console.log(res.data);
+                /*console.log(res.data);*/
+                var html="";
+                $.each(res.data,function (i,val) {
+                    console.log(val)
+                    html+="<li>" +
+                        "            <a href='/instituteIndex?url="+val.url+"' target='_blank'>"+val.name+"</a>" +
+                        "            <div class='cont'>" +
+                        "                <p><span></span>图表</p>" +
+                        "                <img src='/layuiadmin/layui/images/icon-seach-j.png'/>" +
+                        "            </div>" +
+                        "        </li>";
+                });
+                $("#chart").append(html);
                 $(".openUrl").click(function () {
                     var index=$(this).parents("tr").attr("data-index");
                     layer.open({
