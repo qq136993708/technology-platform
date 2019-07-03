@@ -46,7 +46,7 @@
         }
 
         .layui-select-title input, .dateInput input {
-            height: 26px;
+            height: 26px !important;
         }
 
         .layui-form-select dl {
@@ -142,7 +142,7 @@
                         </select>
                         <span>人数</span>
                         <input type="number" id="count"   name="count" title="" value="10"
-                               autocomplete="off" class="layui-input" style="    width: 10%;display: inline-block;">
+                               autocomplete="off" class="layui-input garlic-auto-save" style="    width: 10%;display: inline-block;">
                     </label>
                     <input type="button" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" value="换一批" onclick="renderTable()">
                     <input type="button" value="确定" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" onclick="okEvent()">
@@ -150,12 +150,12 @@
                     <table id="expertTable" class="layui-hide" lay-filter="expertTable"></table>
                 </div>
                 <div id="ww" class="layui-tab-item">
-                    <div class="searchBox">
+                    <div class="searchBox" style="margin-bottom: 10px">
                         <!--查询条件-->
                         <label class="dateInput">
                             <span>机构</span>
                             <div class="layui-form-select select-tree">
-                                <input type="text" id="companyDivs">
+                                <input type="text" id="companyDivs" class="layui-input garlic-auto-save">
                                 <!--onclick="chooseUnitMulti('choose_joinUnitName_callback1')"-->
                                 <input type="hidden" id="company1DivValue">
                             </div>
