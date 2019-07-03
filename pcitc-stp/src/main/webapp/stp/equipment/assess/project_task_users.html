@@ -172,51 +172,38 @@
 		      data = checkStatus.data;
 		        usersMessage="";
 		        informcontent="";
-				for(var i=0;i<data.length;i++)
-				{
-						if(i==0)
-						{
-						usersMessage=data[i].userId;
-						informcontent=data[i].userDisp; 
+				for(var i=0;i<data.length;i++){
+						if(i==0){
+							usersMessage=data[i].userId;
+							informcontent=data[i].userDisp; 
+						}else{
+							usersMessage=usersMessage+","+data[i].userId;
+							informcontent=informcontent+","+data[i].userDisp;
 						}
-						else
-						{
-						usersMessage=usersMessage+","+data[i].userId;
-						informcontent=informcontent+","+data[i].userDisp;
-						}
-				}
+					}
 	        	if (data.length == 0){
            			layer.msg('请选择数据');
-               	} 
-               	else{
+               	}else{
                	       $.ajax({
 			           type : 'GET',
 			           url : "/sre_project_assess/addUsers?id="+$("#id").val()+"&usersid="+usersMessage+"&informcontent="+informcontent,
-			       
+			           traditional : true,
+                       async : true,   
+                       dataType:"json",
 			           success : function(data) {
-			           layer.alert("保存成功！", {icon: 1,closeBtn: 0 }, function () 
-			                       {
-			                           var index = parent.layer.getFrameIndex(window.name); 
-								       parent.layer.close(index); 
-								       var v_date = (new Date()).getTime();
-								       var backurl="/sre_project_assess/to_list?v_date="+v_date;
-								       parent.location.href = backurl;
-			                      });
-					 
-	                      },
+			        	   if(data.result == 1) {
+                       			layer.alert("添加成功!!", function(index){
+                       				parent.location.href = '/sre_project_assess/to_list';
+                       			});
+	                       	}else {
+	                       		layer.alert("添加失败,请联系管理员!!");
+	                       	}
+	                      }
 	               });
                  
                	}
         	},
     	};
-        //区别按钮属性
-        $('.layui-btn').on('click', function () {
-            var type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
-        });
-        $(".layui-table-header table thead th input").remove();
-        
-        
         
         $('.layui-btn').on('click', function () {
             var type = $(this).data('type');
@@ -227,28 +214,6 @@
         $("#closeBtn").click(function () {
             var index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
-        })
-            $("#submitEvent").click(function(){
-            	 layer.confirm('是否提交？', { btn: ['确定','取消']}, function(){
-	         				 var applicationId=$("#id").val();
-            		 $.ajax({
-			           type : 'GET',
-			           url : "/sre_project_assess/submitAudit?id="+applicationId+"&status="+"40",
-			       
-			           success : function(data) {
-			           layer.alert("保存成功！", {icon: 1,closeBtn: 0 }, function () 
-			                       {
-			                           var index = parent.layer.getFrameIndex(window.name); 
-								       parent.layer.close(index); 
-								       var v_date = (new Date()).getTime();
-								       var backurl="/sre_project_assess/to_list?v_date="+v_date;
-								       parent.location.href = backurl;
-			                      });
-					 
-	                      },
-	               });
-	         			})
-            		
         })
         
     });

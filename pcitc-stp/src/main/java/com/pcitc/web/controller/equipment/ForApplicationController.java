@@ -95,12 +95,15 @@ public class ForApplicationController extends BaseController {
 	}
 
 	@RequestMapping(value = "/sre-forapplication/to-list")
-	public String list(HttpServletRequest request, HttpServletResponse response) {
-
-		String	parentUnitPathIds="";
-		String unitPathIds =   sysUserInfo.getUnitPath();
-		String applyDepartCode = sysUserInfo.getUnitCode();
-		parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
+	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String parentUnitPathNames = map.get("unitName");// 申报单位
+		String parentUnitPathIds = map.get("unitCode");// 申报单位
+		String applyDepartName = map.get("applyDepartName");// 申报部门
+		String applyDepartCode = map.get("applyDepartCode");// 申报部门
+		String unitPathIds= map.get("applyDepartCode");
+		String unitPathNames= map.get("applyDepartName");
+		
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		request.setAttribute("applyDepartCode", applyDepartCode);
  		return "/stp/equipment/forapplication/application-list";
@@ -169,9 +172,15 @@ public class ForApplicationController extends BaseController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/sre-forapplication/add")
 	public String add(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String parentUnitPathNames = map.get("unitName");// 申报单位
+		String parentUnitPathIds = map.get("unitCode");// 申报单位
+		String applyDepartName = map.get("applyDepartName");// 申报部门
+		String applyDepartCode = map.get("applyDepartCode");// 申报部门
+		String unitPathIds= map.get("applyDepartCode");
+		String unitPathNames= map.get("applyDepartName");
 
-		String applyDepartName = sysUserInfo.getUnitName();
-		String applyDepartCode = sysUserInfo.getUnitCode();
 		String firstApplyUser=sysUserInfo.getUserDisp();
 		String attachmentDoc= IdUtil.createFileIdByTime();
 		String equipmentId = CommonUtil.getParameter(request, "equipmentId", "");
@@ -191,8 +200,7 @@ public class ForApplicationController extends BaseController {
 		}
 		String leadUnitName =  "";
 		String leadUnitCode =  "";
-		String unitPathIds =   EquipmentUtils.getParentUnitPathId(sysUserInfo.getUnitPath());
-		request.setAttribute("parentUnitPathIds", unitPathIds);
+		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		request.setAttribute("leadUnitName", leadUnitName);
 		request.setAttribute("leadUnitCode", leadUnitCode);
 		request.setAttribute("attachmentDoc", attachmentDoc);
@@ -247,29 +255,32 @@ public class ForApplicationController extends BaseController {
 	 * @param request
 	 * @param response
 	 * @return
-	 * @throws IOException 
 	 * @throws Exception
 	 */
 	@ResponseBody
 	@RequestMapping(method = RequestMethod.POST, value = "/sre-forapplicatio/save")
-	public String savePrivilege(String[] arr,String equipmentIds,String froname,String companyCode,HttpServletResponse response) throws IOException{ 
+	public String savePrivilege(String[] arr,String equipmentIds,String froname,String companyCode,HttpServletResponse response) throws Exception{ 
 		String result = "";
 		SreForApplication pplication = new SreForApplication();
 		ResponseEntity<String> responseEntity = null;
 		ResponseEntity<String> respo = null;
+		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String parentUnitPathNames = map.get("unitName");// 申报单位
+		String parentUnitPathIds = map.get("unitCode");// 申报单位
+		String applyDepartName = map.get("applyDepartName");// 申报部门
+		String applyDepartCode = map.get("applyDepartCode");// 申报部门
+		String unitPathIds= map.get("applyDepartCode");
+		String unitPathNames= map.get("applyDepartName");
+
 		String UserDisp = sysUserInfo.getUserDisp();
-		String applyDepartName = sysUserInfo.getUnitName();
-		String applyDepartCode = sysUserInfo.getUnitCode();
 		String firstApplyUser=sysUserInfo.getUnitPath();
-		String unitPathIds=sysUserInfo.getUnitPath();
 		String attachmentDoc= IdUtil.createFileIdByTime();
-		unitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
 
 		String id = UUID.randomUUID().toString().replaceAll("-", "");
 		pplication.setApplicationId(id);
 		pplication.setApplyDepartName(applyDepartName);
 		pplication.setApplyDepartCode(applyDepartCode);
-		pplication.setFirstApplyUser(unitPathIds);
+		pplication.setFirstApplyUser(parentUnitPathIds);
 		pplication.setApplicationName(froname);//转资名称
 		pplication.setApplicationTime(new Date());//申请时间
 		pplication.setApplicationUserName(UserDisp);//当前操作人
@@ -296,8 +307,8 @@ public class ForApplicationController extends BaseController {
 			sreDeta.setDeclareTime(new Date());//转资时间
 			sreDeta.setDeclarePeople(squipment.getFirstApplyUser());//第一申报人
 			sreDeta.setDeclareTime(squipment.getCreateDate());//申报时间
-			sreDeta.setUnitPathIds(unitPathIds);//子ID
-			sreDeta.setParentUnitPathIds(firstApplyUser);//父ID
+			sreDeta.setUnitPathIds(parentUnitPathIds);//子ID
+			sreDeta.setParentUnitPathIds(applyDepartCode);//父ID
 			sreDeta.setConfigure(id);//转资申请ID
 			sreDeta.setIsscrap(Constant.EQUME_ZERO);
 			if(arr!=null) {

@@ -2,6 +2,7 @@ package com.pcitc.web.controller.equipment;
 
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -58,10 +59,15 @@ public class TaskClosureController extends BaseController {
 	}
 
 	@RequestMapping(value = "/sre-task-closure/to-list")
-	public String list(HttpServletRequest request, HttpServletResponse response) {
-		String	parentUnitPathIds="";
-		String unitPathIds =   sysUserInfo.getUnitPath();
-		parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
+	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String parentUnitPathNames = map.get("unitName");// 申报单位
+		String parentUnitPathIds = map.get("unitCode");// 申报单位
+		String applyDepartName = map.get("applyDepartName");// 申报部门
+		String applyDepartCode = map.get("applyDepartCode");// 申报部门
+		String unitPathIds= map.get("applyDepartCode");
+		String unitPathNames= map.get("applyDepartName");
+		request.setAttribute("unitPathIds", unitPathIds);
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		return "/stp/equipment/taskclosure/task_closure_list";
 	}
@@ -143,7 +149,16 @@ public class TaskClosureController extends BaseController {
 	}
 
 	@RequestMapping(value = "/sre-closure/to-list")
-	public String tolist(HttpServletRequest request, HttpServletResponse response) {
+	public String tolist(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String parentUnitPathNames = map.get("unitName");// 申报单位
+		String parentUnitPathIds = map.get("unitCode");// 申报单位
+		String applyDepartName = map.get("applyDepartName");// 申报部门
+		String applyDepartCode = map.get("applyDepartCode");// 申报部门
+		String unitPathIds= map.get("applyDepartCode");
+		String unitPathNames= map.get("applyDepartName");
+		request.setAttribute("unitPathIds", unitPathIds);
+		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		return "/stp/equipment/taskclosure/closure_list";
 	}
 }

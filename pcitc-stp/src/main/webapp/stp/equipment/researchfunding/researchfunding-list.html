@@ -360,11 +360,11 @@ var name=$('#name').val();
             });
         });
       
-        //监听表格双击事件
+       /* //监听表格双击事件
         table.on('rowDouble(processdef-table)', function(obj){
         	var temUrl = '/sre-forapplication/get/'+obj.data.applicationId;
         	openFullWin("详情",temUrl);
-        });
+        });*/
         
         
         
@@ -405,13 +405,13 @@ var name=$('#name').val();
            },
            cols: [[
            	{title : '序号', type : 'numbers', width : 55},
-           	{field : 'assetNumber', title : '资产编号', style : 'cursor: pointer;', align : 'left', width : '15%'},
-            {field : 'applicationName',     title : '资产名称', style : 'cursor: pointer;', align : 'left', width : '15%',templet:function(d){return '<span onclick="view(\''+d.applicationId+'\')" style="color:#17a2b8">'+d.applicationName+'</span>'} },
-            {field : 'applicationUserName', title : '资产申请人', style : 'cursor: pointer;', align : 'left', width : '15%'},
+           	{field : 'assetNumber', title : '资产编号', style : 'cursor: pointer;', align : 'left', width : '10%'},
+            {field : 'applicationName',     title : '资产名称', style : 'cursor: pointer;', align : 'left', width : '13%'},
+            {field : 'applicationUserName', title : '资产申请人', style : 'cursor: pointer;', align : 'left', width : '10%'},
             {field : 'applicationTime', title : '资产申请时间', style : 'cursor: pointer;', align : 'center',width : '15%', templet : '#dateTpl'},
             {field : 'applyDepartName',     title : '资产申请部门', style : 'cursor: pointer;', align : 'left', width : '15%' },
             {field : 'equipmentName', title : '装备名称', style : 'cursor: pointer;', align : 'left', width : '15%'},
-            {field : 'equipmenNumber', title : '数量', style : 'cursor: pointer;', align : 'center',width : '15%'},
+            {field : 'equipmenNumber', title : '数量', style : 'cursor: pointer;', align : 'center',width : '10%'},
             {field : 'isscrap', title : '是否报废', style : 'cursor: pointer;', align : 'center'},
             ]],
            done: function (res, curr, count) {

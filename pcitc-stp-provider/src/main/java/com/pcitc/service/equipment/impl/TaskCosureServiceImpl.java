@@ -69,25 +69,25 @@ public  class TaskCosureServiceImpl implements TaskCosureService {
 		map.put("parentUnitPathIds", parentUnitPathIds);
 		
 		StringBuffer applyUnitCodeStr=new StringBuffer();
-		if(!applyDepartCode.equals(""))
-		{
-			applyUnitCodeStr.append(" (");
-			String arr[]=applyDepartCode.split(",");
-			for(int i=0;i<arr.length;i++)
-			{
-				if(i>0)
-				{
-					applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
-				}else
-				{
-					applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
-				}
-				
-			}
-			applyUnitCodeStr.append(" )");
-		}
-		
-		map.put("sqlStr", applyUnitCodeStr.toString());
+//		if(!applyDepartCode.equals(""))
+//		{
+//			applyUnitCodeStr.append(" (");
+//			String arr[]=applyDepartCode.split(",");
+//			for(int i=0;i<arr.length;i++)
+//			{
+//				if(i>0)
+//				{
+//					applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
+//				}else
+//				{
+//					applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
+//				}
+//				
+//			}
+//			applyUnitCodeStr.append(" )");
+//		}
+//		
+//		map.put("sqlStr", applyUnitCodeStr.toString());
 		List<SreProjectTask> list = sreProjectTaskMapper.getClosedList(map);
 		PageInfo<SreProjectTask> pageInfo = new PageInfo<SreProjectTask>(list);
 		System.out.println(">>>>>>>>>任务书查询分页结果 "+pageInfo.getList().size());

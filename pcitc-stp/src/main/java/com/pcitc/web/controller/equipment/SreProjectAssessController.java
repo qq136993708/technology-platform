@@ -268,7 +268,19 @@ public class SreProjectAssessController extends BaseController{
              sreProjectAssess.setTestdate(new Date());
              sreProjectAssess.setInformuser(sysUserInfo.getUserId());
              ResponseEntity<String>  exchange = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SreProjectAssess>(sreProjectAssess, this.httpHeaders), String.class);
-           return "";	
+             int statusCode = exchange.getStatusCodeValue();
+             String result = "";
+				if(statusCode == 200) {
+					  result = "1";
+				}
+            JSONObject jObject=new JSONObject();
+     		jObject.put("result", result);
+     		response.setContentType("text/html;charset=UTF-8");
+     		PrintWriter out = response.getWriter();
+     		out.println(jObject.toString());
+     		out.flush();
+     		out.close();
+     		return null;
 	       }
 	    
 	    /**

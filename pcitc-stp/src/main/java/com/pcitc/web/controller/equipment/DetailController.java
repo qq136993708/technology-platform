@@ -81,10 +81,14 @@ public class DetailController extends BaseController {
 
 	@RequestMapping(value = "/sre-detail/to-list")
 	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		String	parentUnitPathIds="";
-		String unitPathIds =   sysUserInfo.getUnitPath();
-		unitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
+		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String parentUnitPathNames = map.get("unitName");// 申报单位
+		String parentUnitPathIds = map.get("unitCode");// 申报单位
+		String applyDepartName = map.get("applyDepartName");// 申报部门
+		String applyDepartCode = map.get("applyDepartCode");// 申报部门
+		String unitPathIds= map.get("applyDepartCode");
+		String unitPathNames= map.get("applyDepartName");
+		
 		request.setAttribute("unitPathIds", unitPathIds);
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		return "/stp/equipment/detail/detail-list";
