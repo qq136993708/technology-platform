@@ -115,6 +115,7 @@
                         //附件文件配置ID
                         publicMethods.viewAtt(dataId, param.id);
                     });
+                    $(".layui-table-header table thead th input").remove();
                 });
 
                 $(document).off("click").on("click", ".onClickImg", function () {

@@ -404,9 +404,9 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         if ("suiji".equals(strType)) {
             String strCount = map.get("count").toString();//数量
 
-            Object expertProfessinal = param.getParam().get("expertProfessinal");
-            if (!StrUtil.isObjectEmpty(expertProfessinal)) {
-                c.andExpertProfessinalEqualTo(expertProfessinal.toString());
+            Object expertProfessinalField = param.getParam().get("expertProfessinal");
+            if (!StrUtil.isObjectEmpty(expertProfessinalField)) {
+                c.andExpertProfessionalFieldEqualTo(expertProfessinalField.toString());
             }
             List<ZjkExpert> experts = zjkBaseInfoService.selectByExample(example);
             int count = Integer.parseInt(strCount);
