@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>领导讲话</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/oneLevel.css" media="all">
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        html{background: #fff;}
+        .video{width: 800px;height: 400px;margin: 0 auto;}
+        .layui-speech-d span{padding: 20px 0 16px;}
+        .layui-leader-list, .layui-leader-details {width: 98%;margin: 10px auto;}
+    </style>
+</head>
+<body>
+<div class="layui-leader-speech layui-leader-details">
+    <div class="layui-row">
+        <div class="layui-col-md12 layui-speech-d">
+            <#if list.bak1!=1>
+            <!--<embed src="/plugins/ckplayer/ckplayer/ckplayer.swf" flashvars="video=/sysfile/video/${list.bak3}"  quality="high" width="480" height="400" align="middle" allowScriptAccess="always" allowFullscreen="true" type="application/x-shockwave-flash"></embed>-->
+            <!--视频-->
+            <h4>${list.title}</h4>
+            <span id="time" class="time">${list.publicDate}</span>
+            <!--<span>来源：</span><span id="source">人民网－人民日报</span>-->
+            <!--<p id="videoshow"><embed src="" width="300" height="300"></p>-->
+            <div id="video" class="video"></div>
+            <!--<video src="/sysfile/video/d6a568fe-e978-47f5-aa2b-cc1070864755" width="320" height="240" controls="controls">-->
+                <!--浏览器不支持video标签-->
+            <!--</video>-->
+            <!--<p><video src="/sysfile/video/d6a568fe-e978-47f5-aa2b-cc1070864755"> 视频播放</video></p>-->
+            <p id="videoshowid" style="display: none">${list.bak3}</p>
+            <!--<p><embed src="/m.mp4" width="300" height="300"></p>-->
+        </#if>
+            <!--文本-->
+            <#if list.bak1==1>
+            <div class="details">
+                <h4>${list.title}</h4>
+                <!--<h5 class="title">——在《告台湾同胞书》发表40周年纪念会上的讲话</h5>-->
+                <h5 class="title-time">（${list.publicDate}）</h5>
+                <!--<span id="time" class="time">${list.publicDate}</span>-->
+                <!--<span>来源：</span><span id="source">人民网－人民日报</span>-->
+                ${list.content}
+                <!--<p>同志们，同胞们，朋友们：</p>-->
+            </div>
+        </#if>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/plugins/ckplayer/ckplayer/ckplayer.js"></script>
+<script type="text/javascript">
+    var videoObject = {
+        container: '#video', //容器的ID或className
+        variable: 'player',//播放函数名称
+        // poster:'../material/poster.jpg',//封面图片
+        autoplay:true,
+        video: '/sysfile/video/${list.bak3}'
+        //     [//视频地址列表形式
+        //     ['/sysfile/video/${list.bak3}', 'video/mp4', '播放', 0]
+        // ]
+    };
+    var player = new ckplayer(videoObject);
+</script>
+<script>
+    var d = '${list.stype}';
+    var stype="";
+    if (d == "ROOT_XTGL_XWLX_KJBLDJH") {
+        stype="科技部领导讲话";
+    } else if (d == "ROOT_XTGL_XWLX_JTLDJH") {
+        stype="集团领导讲话";
+    } else if (d == "ROOT_XTGL_XWLX_GJLDJH") {
+        stype="国家领导讲话";
+    } else if (d == "ROOT_XTGL_XWLX_ZXJH") {
+        stype="最新讲话";
+    } else if (d == "ROOT_XTGL_SPLX_PT") {
+        stype="视频";
+        $("#twoIdShow").html("");
+    }
+    $("#stype").text(stype);
+
+    //根据图片路径获取图片流
+    photoContent($("#videoshowid").html());
+    function photoContent(picId) {
+        console.log(picId);
+        var ret = getFileResult(picId);
+        if (ret != null && ret.list.length > 0) {
+            picId = ret.list[0].id;
+        }
+        console.log(picId);
+        var html = "<embed src=\""+'/sysfile/download/' + picId+"\" width=\"300\" height=\"300\">";
+        // $("#videoshow").html(html);
+        // var base64 = "";
+        // $.ajax({
+        //     type: 'get',
+        //     dataType: 'text',
+        //     async: false,
+        //     url: '/sysfile/viewPic/' + picId,
+        //     success: function (data) {
+        //         base64 = data;
+        //     },
+        //     error: function (e) {
+        //         alert("出错了");
+        //     }
+        // });
+        // return base64;
+    }
+
+    ////加载图片
+    function getFileResult(fileIds) {
+        var ret = null;
+        ajaxFile("/sysfile/getFilesLayuiByFormId", {fileIds: fileIds}, function (result) {
+            ret = result;
+        });
+        return ret;
+    }
+    function ajaxFile(url, data, callback) {
+        var result = null;
+        jQuery.ajax({
+            type: 'post',
+            async: false,
+            url: url,
+            data: data,
+            dataType: 'json',
+            success: function (data, status) {
+                result = data;
+                if (callback) {
+                    callback.call(this, data, status);
+                }
+            },
+            error: function (err, err1, err2) {
+                console.log("ajaxPost发生异常，请仔细检查请求url是否正确");
+            }
+        });
+        return result;
+    }
+</script>
+</body>
+</html>

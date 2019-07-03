@@ -189,6 +189,9 @@
             text-indent: 10px;font-size: 14px;}
         .searchH .btnMyBgImg{height: 26px;line-height: 26px;position: relative;top: -3px;
             margin-left: 8px;}
+        @media screen and (min-width: 1677px) {
+            .main-content .expert-ab{height: 110px;}
+        }
     </style>
 </head>
 <body>
@@ -274,7 +277,7 @@
     </#if>
 </#list>
     </div>
-    <div class="main-content" id="main-content-end" style="margin-top: 20px;">
+    <div class="main-content" id="main-content-end" style="margin-top: 20px;padding-bottom: 18px;">
         <#list expert as vo>
         <#if vo_index<5>
         <#else>

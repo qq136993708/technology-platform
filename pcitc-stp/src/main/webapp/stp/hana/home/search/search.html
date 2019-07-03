@@ -18,8 +18,8 @@
         .information{top: 56px;}
         .layui-tab-i{width: 74%;margin: 0 auto;background: white;}
         .layui-leader .layui-footer {
-            left: 200px;
-            right: 200px;
+            left: 0px;
+            right: 0px;
         }
     </style>
 </head>
@@ -329,7 +329,7 @@
         });
     });
     function search() {
-        var keyword=$("#keyword").val();
+        var keyword="${keyword}";
         $("#ifrIndex").attr("src","/fullSearch/searchIndex?keyword="+keyword);
         $("#ifrOne").attr("src","/fullSearch/query_scientific?keyword="+keyword);
         $("#ifrTwo").attr("src","/fullSearch/query_achievement?keyword="+keyword);

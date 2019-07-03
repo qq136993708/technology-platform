@@ -194,8 +194,8 @@ line-height: 60px;font-size: 22px;}
 .equipment-front img{position: absolute;right: 6px;bottom: 4px;}
 .equipment .number{margin-top: 96px;}
 .equipment:hover{border: 1px solid #ccd7df;box-shadow: 0 0 10px #0155dc;}
-.equipment img{transition: transform 2s;}
-.equipment:hover img{animation:imgAnimation 2s;animation-fill-mode:forwards;
+.equipment img{transition: transform 1.5s;}
+.equipment:hover img{animation:imgAnimation 1.5s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
 .contract{position: absolute;top: 146px;left: 0;height: 132px;width: 134px;    perspective: 1000px; }
 .contract-cont{height: 100%;width: 100%;position: relative;}
@@ -224,7 +224,6 @@ line-height: 60px;font-size: 22px;}
     background: url("/layuiadmin/layui/images/project-back.png") no-repeat;position: absolute;top: 0;}
 .project:hover .project-front{    border: 1px solid #ccd7df;
     box-shadow: 0 0 10px #0155dc;box-sizing: border-box;}
-
 .institute{position: absolute;top: 438px;left: 0;height: 132px;width: 134px;    perspective: 1000px; }
 .institute-cont{height: 100%;width: 100%;position: relative;}
 .institute .institute-front{height: 100%;width: 100%;position: absolute;top: 0;
@@ -240,8 +239,8 @@ line-height: 60px;font-size: 22px;}
     background: url("/layuiadmin/layui/images/equipment-bg.png") no-repeat right bottom;}
 .personnel-front img{position: absolute;right: 6px;bottom: 4px;}
 .personnel:hover{border: 1px solid #ccd7df;box-shadow: 0 0 10px #0155dc;}
-.personnel img{transition: transform 2s;}
-.personnel:hover img{animation:imgAnimationT 2s;animation-fill-mode:forwards;
+.personnel img{transition: transform 1.5s;}
+.personnel:hover img{animation:imgAnimationT 1.5s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
 
 .achievement{position: absolute;right: 0;width: 134px;height: 132px;top:438px;box-sizing: border-box;
@@ -250,8 +249,8 @@ line-height: 60px;font-size: 22px;}
     background: url("/layuiadmin/layui/images/equipment-bg.png") no-repeat right bottom;}
 .achievement-front img{position: absolute;right: 6px;bottom: 4px;}
 .achievement:hover{border: 1px solid #ccd7df;box-shadow: 0 0 10px #0155dc;}
-.achievement img{transition: transform 2s;}
-.achievement:hover img{animation:imgAnimationT 2s;animation-fill-mode:forwards;
+.achievement img{transition: transform 1.5s;}
+.achievement:hover img{animation:imgAnimationT 1.5s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
 /*第二屏*/
 .property{background:#f58b9c url("/layuiadmin/layui/images/unify.png") no-repeat right bottom;width: 100%;
@@ -261,12 +260,12 @@ line-height: 60px;font-size: 22px;}
 .petrification{background:#b265fb url("/layuiadmin/layui/images/unify.png") no-repeat right bottom;width: 100%;
     height: 131px;margin-bottom: 14px;}
 .add{height: 131px;width: 183px;background:#345e80 url("/layuiadmin/layui/images/add.png") no-repeat center center;}
-.main-two{display: none;}
+/*.main-two{display: none;}*/
 /*快捷导航*/
 .menu-right{position: absolute;right: 0;top: 124px;padding-top:10px; }
 .menu-right .menu-open,.menu-right .menu-index,.menu-right .menu-two{box-shadow: 0 0 15px #012f56;}
 .menu-right .menu-open{background: url("/layuiadmin/layui/images/menu-open.png") no-repeat;
-    width: 14px;height: 40px;margin: 0 0 10px 10px;position: relative}
+    width: 14px;height: 40px;margin: 0 0 10px 10px;position: relative;display: none;}
 .menu-right .menu-retract{background: url("/layuiadmin/layui/images/menu-retract.png") no-repeat;
     width: 14px;height: 40px;margin: 0 0 10px 10px;position: relative}
 .menu{position: relative;}
@@ -359,30 +358,33 @@ line-height: 60px;font-size: 22px;}
 
 }
 /*首页动画效果*/
-.laboratoryH,.projectH{animation:oneAHText 3s;animation-fill-mode:forwards;
+.laboratoryH,.projectH{animation:oneAHText 1.5s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.laboratoryC,.projectC{animation:oneAnimationColor 3s;animation-fill-mode:forwards;
+.laboratoryC,.projectC{animation:oneAnimationColor 1.5s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.laboratoryB,.projectB{animation:oneAnimationB 3s;animation-fill-mode:forwards;
+.laboratoryB,.projectB{animation:oneAnimationB 1.5s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.laboratoryHO,.projectHO{animation:oneAHTO 3s;animation-fill-mode:forwards;
+.laboratoryHO,.projectHO{animation:oneAHTO 1.5s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.laboratoryCO,.projectCO{animation:oneAnimationCO 3s;animation-fill-mode:forwards;
+.laboratoryCO,.projectCO{animation:oneAnimationCO 1.5s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.laboratoryBO,.projectBO{animation:oneAnimationBO 3s;animation-fill-mode:forwards;
+.laboratoryBO,.projectBO{animation:oneAnimationBO 1.5s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.contractH,.investmentH,.instituteH{animation:oneAHText 3s;animation-fill-mode:forwards;
+.contractH,.investmentH,.instituteH{animation:oneAHText 1.5s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.contractC,.investmentC,.instituteC{animation:rotateX 3s;animation-fill-mode:forwards;
+.contractC,.investmentC,.instituteC{animation:rotateX 1.5s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.contractB,.investmentB,.instituteB{animation:rotateXX 3s;animation-fill-mode:forwards;
+.contractB,.investmentB,.instituteB{animation:rotateXX 1.5s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.contractHO,.investmentHO,.instituteHO{animation:oneAHTO 3s;animation-fill-mode:forwards;
+.contractHO,.investmentHO,.instituteHO{animation:oneAHTO 1.5s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.contractCO,.investmentCO,.instituteCO{animation:rotateXO 3s;animation-fill-mode:forwards;
+.contractCO,.investmentCO,.instituteCO{animation:rotateXO 1.5s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.contractBO,.investmentBO,.instituteBO{animation:rotateXXO 3s;animation-fill-mode:forwards;
+.contractBO,.investmentBO,.instituteBO{animation:rotateXXO 1.5s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
+.opacity1{animation:opacity1 1.5s;animation-fill-mode:forwards;-webkit-animation-fill-mode:forwards;}
+.opacity0{animation:opacity0 1.5s;animation-fill-mode:forwards;-webkit-animation-fill-mode:forwards;}
+
 /*hover文字与图标透明*/
 @keyframes oneAHText {
     0% {opacity: 1;    border: 1px solid #ccd7df;
@@ -838,7 +840,7 @@ line-height: 60px;font-size: 22px;}
     32.5%{right: 13px;}
     100%{right: 13px;}
 }
-@-webkit-keyframes reducePx {
+@keyframes reducePx {
     0%{width: 102px;}
     100%{width: 94px;}
 }
@@ -846,7 +848,7 @@ line-height: 60px;font-size: 22px;}
     0%{width: 102px;}
     100%{width: 94px;}
 }
-@-webkit-keyframes addPx {
+@keyframes addPx {
     0%{width: 94px;}
     100%{width: 102px;}
 }
@@ -854,7 +856,7 @@ line-height: 60px;font-size: 22px;}
     0%{width: 94px;}
     100%{width: 102px;}
 }
-@-webkit-keyframes TPx {
+@keyframes TPx {
     0%{width: 94px;}
     100%{width: 102px;}
 }
@@ -862,7 +864,7 @@ line-height: 60px;font-size: 22px;}
     0%{width: 94px;}
     100%{width: 102px;}
 }
-@-webkit-keyframes rPx {
+@keyframes rPx {
     0%{right: 94px;}
     100%{right: 102px;}
 }
@@ -870,7 +872,7 @@ line-height: 60px;font-size: 22px;}
     0%{right: 94px;}
     100%{right: 102px;}
 }
-@-webkit-keyframes raPx {
+@keyframes raPx {
     0%{right: 102px;}
     100%{right: 94px;}
 }
@@ -878,7 +880,7 @@ line-height: 60px;font-size: 22px;}
     0%{right: 102px;}
     100%{right: 94px;}
 }
-@-webkit-keyframes trPx {
+@keyframes trPx {
     0%{transform: translate(0px,0px);}
     8%{transform: translate(0px,-2px);}
     16%{transform: translate(0px,-4px);}
@@ -911,4 +913,36 @@ line-height: 60px;font-size: 22px;}
     96%{transform: translate(0px,2px);}
     99%{transform: translate(0px,1px);}
     100%{transform: translate(0px,0px);}
+}
+@keyframes opacity0 {
+    0%{opacity:0;}
+    20%{opacity:0.2;}
+    40%{opacity:0.4;}
+    60%{opacity:0.6;}
+    80%{opacity:0.8;}
+    100%{opacity:1;}
+}
+@-webkit-keyframes opacity0 {
+    0%{opacity:0;}
+    20%{opacity:0.2;}
+    40%{opacity:0.4;}
+    60%{opacity:0.6;}
+    80%{opacity:0.8;}
+    100%{opacity:1;}
+}
+@keyframes opacity1 {
+    0%{opacity:1;}
+    20%{opacity:0.8;}
+    40%{opacity:0.6;}
+    60%{opacity:0.4;}
+    80%{opacity:0.2;}
+    100%{opacity:0;}
+}
+@-webkit-keyframes opacity1 {
+    0%{opacity:1;}
+    20%{opacity:0.8;}
+    40%{opacity:0.6;}
+    60%{opacity:0.4;}
+    80%{opacity:0.2;}
+    100%{opacity:0;}
 }

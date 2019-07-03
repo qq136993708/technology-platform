@@ -28,6 +28,7 @@
         .form-control{height: 28px !important;line-height: 28px !important;}
         .c-nameC{height: 0px;}
         .relevant p{margin-top: 0}
+        .layui-table-none{padding: 0;}
     </style>
 </head>
 <body>
@@ -71,6 +72,7 @@
     <!--按钮组-->
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"  onclick="renderTable()">查询</button>
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"  onclick="renderTableReset()">重置</button>
     </div>
 </div>
 <div class="tableBox">
@@ -107,22 +109,16 @@
     <p>搜索热点</p>
     <div class="relevant-cont hotspot">
         <div class="item">
-            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法</a>
+            <a href="javascript:void(0)" onclick="renderTableKeyword('炼化企业胺液系统')">炼化企业胺液系统</a>
         </div>
         <div class="item">
-            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+            <a href="javascript:void(0)" onclick="renderTableKeyword('油库加油加气站')">油库加油加气站</a>
         </div>
         <div class="item">
-            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+            <a href="javascript:void(0)" onclick="renderTableKeyword('井筒工程技术')">井筒工程技术</a>
         </div>
         <div class="item">
-            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
-        </div>
-        <div class="item">
-            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
-        </div>
-        <div class="item">
-            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+            <a href="javascript:void(0)" onclick="renderTableKeyword('催化剂')">催化剂</a>
         </div>
     </div>
 </div>
@@ -199,6 +195,17 @@
             active[type] ? active[type].call(this) : '';
         });
     });
+    function renderTableKeyword(key) {
+        $("#keyword").val(key);
+        renderTable();
+    }
+    function renderTableReset() {
+            $("#hth").val("");
+            $("#xmmc").val("");
+            $("#cgmc").val("");
+            $("#keyword").val("");
+            renderTable();
+    }
     function renderTable()
     {
 

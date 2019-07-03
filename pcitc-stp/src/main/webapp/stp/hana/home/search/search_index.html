@@ -23,6 +23,7 @@
         .hotspot>.item{width: 100%;text-align: left;padding: 0;padding-top: 10px;}
         .hotspot>.item a{font-size: 14px;color: #1890ff;line-height: 26px;}
         .hotspot>.item a:hover{text-decoration:underline;}
+        .layui-table-none{padding: 0;}
     </style>
 </head>
 <body>
@@ -64,22 +65,16 @@
     <p>搜索热点</p>
     <div class="relevant-cont hotspot">
         <div class="item">
-            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法</a>
+            <a href="javascript:void(0)" onclick="renderTableKeyword('可燃气体探测器')">可燃气体探测器</a>
         </div>
         <div class="item">
-            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+            <a href="javascript:void(0)" onclick="renderTableKeyword('加油加氢')">加油加氢</a>
         </div>
         <div class="item">
-            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+            <a href="javascript:void(0)" onclick="renderTableKeyword('井筒工程技术')">井筒工程技术</a>
         </div>
         <div class="item">
-            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
-        </div>
-        <div class="item">
-            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
-        </div>
-        <div class="item">
-            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+            <a href="javascript:void(0)" onclick="renderTableKeyword('催化剂')">催化剂</a>
         </div>
     </div>
 </div>
@@ -151,6 +146,10 @@
         });
     });
     var where =  {};
+    function renderTableKeyword(key) {
+        $("#keyword").val(key);
+        renderTable();
+    }
     function renderTable()
     {
         where =  {param: {

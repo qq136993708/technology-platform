@@ -277,7 +277,7 @@ public class SysNewsServiceImpl implements SysNewsService {
         for (int i = 0; i < strStypeArray.length; i++) {
             SysNewsExample e = new SysNewsExample();
             e.createCriteria().andStypeEqualTo(strStypeArray[i]);
-            e.setOrderByClause("create_date desc");
+            e.setOrderByClause("public_date asc");
 
             int pageSize = limit;
             int pageStart = 0;

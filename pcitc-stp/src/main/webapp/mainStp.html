@@ -202,8 +202,8 @@
 					<div class="layui-card-header">
 						<p>工作安排</p>
 						<div class="layui-tool">
+
 							<button type="button" class="btn btn-tool collapse"></button>
-							<button type="button" class="btn btn-tool remove"></button>
 						</div>
 					</div>
 					<div class="layui-card-body btn-function">
@@ -217,9 +217,9 @@
 								<thead>
 									<tr>
 										<th></th>
-										<th>工作受理人</th>
-										<th>安排时间</th>
-										<th>工作内容</th>
+										<th>当前处理人</th>
+										<th>发起时间</th>
+										<th width="35%">工作内容</th>
 										<th>完成进度(%)</th>
 									</tr>
 								</thead>
@@ -257,9 +257,9 @@
 									<thead>
 										<tr>
 											<th></th>
-											<th>工作安排人</th>
-											<th>安排时间</th>
-											<th>工作内容</th>
+											<th>工作发起人</th>
+											<th>发起时间</th>
+											<th width="35%">工作内容</th>
 											<th>完成进度(%)</th>
 										</tr>
 									</thead>
@@ -270,13 +270,9 @@
 											<td>${taskList.createUserName}</td>
 											<td>${taskList.createDate}</td>
 											<td>${taskList.workOrderName}</td>
-											<td align="right"><#if taskList.bl==''>
-												<div class="layui-progress">
-													<div class="layui-progress-bar" lay-percent="0%"></div>
-												</div>0% </#if> <#if taskList.bl!=''>
-												<div class="layui-progress">
-													<div class="layui-progress-bar" lay-percent="${taskList.bl}%"></div>
-												</div> ${taskList.bl}% </#if>
+											<td>
+												<span class="span-st ">已完成</span>
+												<span class="span-st ">进行中</span>
 											</td>
 										</tr>
 										</#if> <#else>
@@ -296,8 +292,8 @@
 					<div class="layui-card-header">
 						<p>工作动态</p>
 						<div class="layui-tool">
+
 							<button type="button" class="btn btn-tool collapse"></button>
-							<button type="button" class="btn btn-tool remove"></button>
 						</div>
 					</div>
 					<div class="layui-card-body">
@@ -306,13 +302,9 @@
 								<li class="layui-this">科研项目</li>
 								<li>知识产权</li>
 								<li>科技成果</li>
-								<li>会议纪要</li>
 							</ul>
 							<div class="layui-tab-content">
 								<div class="layui-tab-item layui-show">
-									<a lay-href="" lay-text="科研项目">
-										<!-- 更多> -->
-									</a>
 									<div class="lan">
 										<table class="layui-table" id="news-workdynamics-list-table">
 											<tbody>
@@ -333,7 +325,6 @@
 									</div>
 								</div>
 								<div class="layui-tab-item">
-									<a lay-href="" lay-text="知识产权">更多></a>
 									<div class="lan">
 										<table class="layui-table">
 											<tbody>
@@ -354,7 +345,6 @@
 									</div>
 								</div>
 								<div class="layui-tab-item">
-									<a lay-href="" lay-text="科技成果">更多></a>
 									<div class="lan">
 										<table class="layui-table">
 											<tbody>
@@ -370,16 +360,6 @@
 													<td>2019-03-28</td>
 													<td>处理集团所有预算统计</td>
 												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-								<div class="layui-tab-item">
-									<a lay-href="" lay-text="会议纪要">更多></a>
-									<div class="lan">
-										<table class="layui-table">
-											<tbody id="list_data_top">
-
 											</tbody>
 										</table>
 									</div>
@@ -389,35 +369,52 @@
 					</div>
 				</div>
 
-				<div class="layui-card layui-col-md5" style="margin-left: 3px;">
+				<div class="layui-card layui-col-md3" style="margin-left: 3px;">
 					<div class="layui-card-header">
-						<p>新闻</p>
+						<p>新闻动态</p>
 						<div class="layui-tool">
+
 							<button type="button" class="btn btn-tool collapse"></button>
-							<button type="button" class="btn btn-tool remove"></button>
 						</div>
 					</div>
 					<div class="layui-card-body">
 						<div class="layui-tab">
 							<ul class="layui-tab-title">
-								<li class="layui-this">最新讲话</li>
-								<li>集团领导讲话</li>
-								<li>国家领导讲话</li>
-								<li>科技部领导讲话</li>
+								<li class="layui-this">高层动态</li>
+								<li>高层声音</li>
+								<li>石化要闻</li>
 							</ul>
 							<div class="layui-tab-content">
 								<div class="layui-tab-item layui-show">
-									<ul id="ROOT_XTGL_XWLX_ZXJH"></ul>
+									<ul id="ROOT_XTGL_XWLX_GCDT"></ul>
 								</div>
 								<div class="layui-tab-item">
-									<ul id="ROOT_XTGL_XWLX_JTLDJH"></ul>
+									<ul id="ROOT_XTGL_XWLX_GCSY"></ul>
 								</div>
 								<div class="layui-tab-item">
-									<ul id="ROOT_XTGL_XWLX_GJLDJH"></ul>
+									<ul id="ROOT_XTGL_XWLX_SHYW"></ul>
 								</div>
-								<div class="layui-tab-item">
-									<ul id="ROOT_XTGL_XWLX_KJBLDJH"></ul>
-								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="layui-card layui-col-md3" style="margin-left: 6px; width: 24.5%;">
+					<div class="layui-card-header">
+						<p>会议纪要</p>
+						<div class="layui-tool">
+							<!--<button type="button" class="btn btn-tool collapse"></button>-->
+							<button type="button" class="btn btn-tool collapse"></button>
+						</div>
+					</div>
+					<div class="layui-card-body">
+						<div class="layui-tab">
+							<ul class="layui-tab-title">
+								<li class="layui-this">集团会议纪要</li>
+								<li>部务会会议纪要</li>
+							</ul>
+							<div class="layui-tab-content">
+								<div class="layui-tab-item layui-show"></div>
+								<div class="layui-tab-item"></div>
 							</div>
 						</div>
 					</div>
@@ -547,7 +544,7 @@
         
         function sendPost(url,type,callback)
         {
-        	 $.ajax({
+        	 /* $.ajax({
           	      type:type,
           	      url: "/getOA",
           	      dataType:"json",
@@ -570,7 +567,7 @@
                       }
 	       		   }
             
-          });
+          }); */
         } 
         
         
@@ -593,25 +590,22 @@
                 
                 
                 
-            var stype = "ROOT_XTGL_XWLX_KJBLDJH|ROOT_XTGL_XWLX_JTLDJH|ROOT_XTGL_XWLX_GJLDJH|ROOT_XTGL_XWLX_ZXJH|ROOT_XTGL_SPLX_PT";
+            var stype = "ROOT_XTGL_XWLX_GCSY|ROOT_XTGL_XWLX_SHYW|ROOT_XTGL_XWLX_GCDT|ROOT_XTGL_SPLX_PT";
             var formIds = "";
             var list = [];
             var ROOT_XTGL_SPLX_PT = "";//视频
-            publicMethods.ajaxPost("/sysNews/getNewsIndexType", {"stype": stype, "bak3": 8}, function (data) {
-                var ROOT_XTGL_XWLX_KJBLDJH = "";//科技部领导讲话
-                var ROOT_XTGL_XWLX_JTLDJH = "";//集团领导讲话
-                var ROOT_XTGL_XWLX_GJLDJH = "";//国家领导讲话
-                var ROOT_XTGL_XWLX_ZXJH = "";//最新讲话
+            publicMethods.ajaxPost("/sysNews/getNewsIndexType", {"stype": stype, "bak3": 10}, function (data) {
+                var ROOT_XTGL_XWLX_GCSY = "";//集团领导讲话
+                var ROOT_XTGL_XWLX_SHYW = "";//国家领导讲话
+                var ROOT_XTGL_XWLX_GCDT = "";//最新讲话
                 for (var i = data.length-1; i >0 ; i--) {
                     var d = data[i];
-                    if (d.stype == "ROOT_XTGL_XWLX_KJBLDJH") {
-                        ROOT_XTGL_XWLX_KJBLDJH = ROOT_XTGL_XWLX_KJBLDJH + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
-                    } else if (d.stype == "ROOT_XTGL_XWLX_JTLDJH") {
-                        ROOT_XTGL_XWLX_JTLDJH = ROOT_XTGL_XWLX_JTLDJH + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
-                    } else if (d.stype == "ROOT_XTGL_XWLX_GJLDJH") {
-                        ROOT_XTGL_XWLX_GJLDJH = ROOT_XTGL_XWLX_GJLDJH + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
-                    } else if (d.stype == "ROOT_XTGL_XWLX_ZXJH") {
-                        ROOT_XTGL_XWLX_ZXJH = ROOT_XTGL_XWLX_ZXJH + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
+                    if (d.stype == "ROOT_XTGL_XWLX_GCSY") {
+                        ROOT_XTGL_XWLX_GCSY = ROOT_XTGL_XWLX_GCSY + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
+                    } else if (d.stype == "ROOT_XTGL_XWLX_SHYW") {
+                        ROOT_XTGL_XWLX_SHYW = ROOT_XTGL_XWLX_SHYW + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
+                    } else if (d.stype == "ROOT_XTGL_XWLX_GCDT") {
+                        ROOT_XTGL_XWLX_GCDT = ROOT_XTGL_XWLX_GCDT + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
                     }
                     else if (d.stype == "ROOT_XTGL_SPLX_PT") {
                         list.push(d);
@@ -619,10 +613,9 @@
                     }
 
                 }
-                $("#ROOT_XTGL_XWLX_KJBLDJH").html(ROOT_XTGL_XWLX_KJBLDJH);
-                $("#ROOT_XTGL_XWLX_JTLDJH").html(ROOT_XTGL_XWLX_JTLDJH);
-                $("#ROOT_XTGL_XWLX_GJLDJH").html(ROOT_XTGL_XWLX_GJLDJH);
-                $("#ROOT_XTGL_XWLX_ZXJH").html(ROOT_XTGL_XWLX_ZXJH);
+                $("#ROOT_XTGL_XWLX_GCSY").html(ROOT_XTGL_XWLX_GCSY);
+                $("#ROOT_XTGL_XWLX_SHYW").html(ROOT_XTGL_XWLX_SHYW);
+                $("#ROOT_XTGL_XWLX_GCDT").html(ROOT_XTGL_XWLX_GCDT);
             });
             
             
@@ -672,10 +665,15 @@
                 var headerHeight = $(".layui-card-header").outerHeight(true);
                 $(".layui-wifi-left,.layui-wifi-right").css("height", md4Height - headerHeight + "px");
 
-                $(".remove").on("click", function () {
+                /*$(".remove").on("click", function () {
                     $(this).parents(".layui-card").parent().remove();
-                });
+                });*/
                 $(".collapse").on("click", function () {
+                    if($(this).attr("class").indexOf("collapseF")==-1){
+                        $(this).addClass("collapseF")
+					}else {
+                        $(this).removeClass("collapseF")
+                    }
                     $(this).parent().parent().nextAll().slideToggle(400);
                 });
                 /*table*/
@@ -859,7 +857,6 @@
 
             // 经费支出
             function getndys_xfzc(month) {
-                //alert(companyCode);
                 var v_date = (new Date()).getTime();
                 $.ajax({
                     type: "GET",
@@ -1143,14 +1140,19 @@
                             for (var i = 0; i < list.length; i++) 
                             {
                                 var createTime = list[i].createTime;
-                                var processDefinitionName = list[i].processDefinitionName;
-                                var tt=layui.laytpl.toDateString(createTime)
+                                var processInstanceName = '';
+                                if (typeof(list[i].processInstanceName) == "undefined") {
+                                	processInstanceName = '';
+                                } else {
+                                	processInstanceName = list[i].processInstanceName;
+                                }
+                                var tt=layui.laytpl.toDateString(createTime);
                                 var processInstanceId= list[i].processInstanceId;
                                 var id= list[i].id;
                                 //alert(processInstanceId);
                                 if(i<4)
                                 {
-                                	$("#wait_work_id_list").append("<li onclick=\"wait_work('"+id+"')\" style='cursor:pointer'><span class='date'>"+tt+"</span> <span class='content'>"+processDefinitionName+"</span></li>");
+                                	$("#wait_work_id_list").append("<li onclick=\"wait_work('"+id+"')\" style='cursor:pointer'><span class='date'>"+tt+"</span> <span class='content'>"+processInstanceName+"</span></li>");
                                 }
                                 
                             }
