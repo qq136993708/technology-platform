@@ -61,7 +61,9 @@
      <result column="parent_apply_unit_code" property="parentApplyUnitCode"  jdbcType="VARCHAR" />
     
     
-    
+    <result column="belong_department_value"   property="belongDepartmentValue"   jdbcType="VARCHAR" />
+    <result column="professional_depart_value" property="belongDepartmentValue"   jdbcType="VARCHAR" />
+    <result column="professional_field_value"  property="professionalFieldValue"  jdbcType="VARCHAR" />
     
     
     
@@ -75,8 +77,12 @@
     project_type, professional, is_contract, erp_num, lead_unit_code, join_unit_code, 
     entrust_unit_code, project_charges_code, project_charges_name, lead_linkmans_code, 
     lead_linkmans_name, year_fee_str, year_fee_str_join_unit, apply_unit_name, apply_unit_code, 
-    task_write_user_names, task_write_users_ids,unit_path_ids,unit_path_names,parent_unit_path_names,parent_unit_path_ids,apply_unit_id,parent_apply_unit_code
+    task_write_user_names, task_write_users_ids,unit_path_ids,unit_path_names,
+    parent_unit_path_names,parent_unit_path_ids,apply_unit_id,parent_apply_unit_code
     ,join_unit_ids,join_unit_parent_codes,join_unit_parent_names
+    ,belong_department_value
+    ,professional_depart_value
+    ,professional_field_value
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -106,6 +112,9 @@
       year_fee_str_join_unit, apply_unit_name, apply_unit_code, 
       task_write_user_names, task_write_users_ids,unit_path_ids,unit_path_names,parent_unit_path_names,parent_unit_path_ids
       ,join_unit_ids,join_unit_parent_codes,join_unit_parent_names,apply_unit_id,parent_apply_unit_code
+      ,belong_department_value
+      ,professional_depart_value
+      ,professional_field_value
       )
     values (#{id,jdbcType=VARCHAR}, #{contractNum,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{remarks,jdbcType=VARCHAR}, #{projectMoney,jdbcType=DECIMAL}, #{updateUserId,jdbcType=VARCHAR}, 
@@ -134,6 +143,10 @@
       
        ,#{applyUnitId,jdbcType=VARCHAR}
         ,#{parentApplyUnitCode,jdbcType=VARCHAR}
+        
+        ,#{belongDepartmentValue,jdbcType=VARCHAR}
+        ,#{belongDepartmentValue,jdbcType=VARCHAR}
+        ,#{professionalFieldValue,jdbcType=VARCHAR}
       
       )
   </insert>
@@ -308,8 +321,23 @@
       </if>
       
       
+      <if test="belongDepartmentValue != null" >
+        belong_department_value,
+      </if>
+      <if test="belongDepartmentValue != null" >
+        professional_depart_value,
+      </if>
+      <if test="professionalFieldValue != null" >
+        professional_field_value,
+      </if>
       
       
+      
+      
+      
+      
+      
+     
     
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -472,9 +500,28 @@
       <if test="applyUnitId != null" >
         #{applyUnitId,jdbcType=VARCHAR},
       </if>
-       <if test="parentApplyUnitCode != null" >
+      <if test="parentApplyUnitCode != null" >
         #{parentApplyUnitCode,jdbcType=VARCHAR},
       </if>
+      
+      
+      <if test="belongDepartmentValue != null" >
+        #{belongDepartmentValue,jdbcType=VARCHAR},
+      </if>
+      <if test="belongDepartmentValue != null" >
+        #{belongDepartmentValue,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalFieldValue != null" >
+        #{professionalFieldValue,jdbcType=VARCHAR},
+      </if>
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -644,6 +691,24 @@
         parent_apply_unit_code = #{parentApplyUnitCode,jdbcType=VARCHAR},
       </if>
       
+      <if test="belongDepartmentValue != null" >
+        belong_department_value = #{belongDepartmentValue,jdbcType=VARCHAR},
+      </if>
+      <if test="belongDepartmentValue != null" >
+        professional_depart_value = #{belongDepartmentValue,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalFieldValue != null" >
+        professional_field_value = #{professionalFieldValue,jdbcType=VARCHAR},
+      </if>
+      
+      
+      
+      
+      
+      
+       
+      
+      
       
       
     </set>
@@ -654,6 +719,13 @@
     set contract_num = #{contractNum,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       remarks = #{remarks,jdbcType=VARCHAR},
+      
+      
+      belong_department_value = #{belongDepartmentValue,jdbcType=VARCHAR},
+      professional_depart_value = #{belongDepartmentValue,jdbcType=VARCHAR},
+      professional_field_value = #{professionalFieldValue,jdbcType=VARCHAR},
+      
+      
       project_money = #{projectMoney,jdbcType=DECIMAL},
       update_user_id = #{updateUserId,jdbcType=VARCHAR},
       begin_year = #{beginYear,jdbcType=VARCHAR},
@@ -742,11 +814,20 @@
 	     <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.parent_unit_path_ids = #{parentUnitPathIds}</if>
 	     <if test="applyUnitId != null               and applyUnitId !=''  ">             AND t.apply_unit_id = #{applyUnitId}</if>
 	     <if test="parentApplyUnitCode != null       and parentApplyUnitCode !=''  ">     AND t.parent_apply_unit_code = #{parentApplyUnitCode}</if>
+	     
+	      <if test="belongDepartmentValue != null       and belongDepartmentValue !=''  ">     AND t.belong_department_value = #{belongDepartmentValue}</if>
+	      <if test="belongDepartmentValue != null       and belongDepartmentValue !=''  ">     AND t.professional_depart_value = #{belongDepartmentValue}</if>
+	      <if test="professionalFieldValue != null      and professionalFieldValue !=''  ">     AND t.professional_field_value = #{professionalFieldValue}</if>
+	        
+	        
          <if test="startMoney != null   and startMoney !='' ">      AND  t.project_money &gt;= #{startMoney}</if>
          <if test="endMoney != null   and endMoney !='' ">      AND  t.project_money &lt;= #{endMoney}</if>
 	     <if test="sqlStr != null   and sqlStr !='' ">                                        AND ${sqlStr}</if>
 	 </trim>
 	</sql>
+	
+    
+    
     
    <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
      select * from sre_project t <include refid="selectCondition" />    

@@ -130,13 +130,17 @@ layui.define(['jquery'],function (e) {
     o.auditStatus_equipment = function(d){
         var stateData;
         if(d==0){
-            stateData="<span class='fontStateColor btnYellow'></span>"
+        	stateData="<button style='background-color: #5FB878' class='layui-btn  layui-btn-xs'>未提交</button>";
+            //<span class='fontStateColor btnYellow'></span>"
         }else if(d==1){
-            stateData="<span class='fontStateColor btn-green'></span>"
+        	stateData="<button style='background-color: #FFB800' class='layui-btn layui-btn-xs'>审核中</button>";
+            //stateData="<span class='fontStateColor btn-green'></span>"
         }else if(d==2){
-            stateData="<span class='fontStateColor btn-blue'></span>"
+        	stateData="<button  style='background-color: #1E9FFF' class='layui-btn layui-btn-xs'>已通过</button>";
+            //stateData="<span class='fontStateColor btn-blue'></span>"
         }else if(d==3){
-            stateData="<span class='fontStateColor btn-yellow'></span>"
+        	stateData="<button style='background-color: #1E9FFF' class='layui-btn  layui-btn-xs'>已驳回</button>";
+           // stateData="<span class='fontStateColor btn-yellow'></span>"
         }
         return stateData;
     };

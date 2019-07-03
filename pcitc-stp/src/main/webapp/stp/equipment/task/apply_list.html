@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
     <script src="/common/js/jquery-1.11.3.min.js"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
-       <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
-       <script type="text/javascript" src="/stp/equipment/js/equipment.js"></script>
-           <style>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <script type="text/javascript" src="/stp/equipment/js/equipment.js"></script>
+    <style>
         .searchBox{ height: auto;}
         .searchBox label{margin-bottom: 10px;display: inline-block; }
     </style>
@@ -55,28 +55,25 @@
 		      </#list>
 		 </select>
     </label> 
+    
+    
+    
     <label class="dateInput">
          <span>归属部门</span>
-         <select name="belongDepartmentCode" id="belongDepartmentCode"  onchange="getDepartNameByUnitName(this.value)" class="form-control"  >
+         <select name="belongDepartmentCode" id="belongDepartmentCode"  onchange="getDepartNameByParentCode(this.value)" class="form-control"  >
               <option value="ROOT_ZGSHJT_ZBJG_KJB" >科技部</option>
 		 </select>
      </label>
      
      <label class="dateInput">
          <span>专业处</span>
-         <select id="professionalDepartCode" name="professionalDepartCode"  class="form-control" ></select>
+         <select id="professionalDepartCode" name="professionalDepartCode" onchange="getProfessionalNameListByParentCode(this.value)"   class="form-control" ></select>
      </label>
     
       <label class="dateInput">
-         <span>专业领域</span>
-         
-          <select name="professionalFieldCode" id="professionalFieldCode"   class="form-control"  >
-             <option value="" >--请选择--</option>
-             <#list fieldList as vo> 
-		          <option value="${vo.code}"  >${vo.name}</option>
-		      </#list>
-		 </select>
-     </label> 
+         <span>专业</span>
+         <select id="professionalFieldCode" name="professionalFieldCode"  class="form-control" ></select>
+     </label>
                  
     
     
@@ -104,26 +101,6 @@
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script id="view_taskVersion" type="text/html"> {{view_taskVersion(d.taskVersion)}} </script>
 <script type="text/javascript">
-    // 时间格式化
-    function formatTime(d) {
-        if (d) {
-            var date = new Date();
-            date.setTime(d);
-            var y = date.getFullYear();
-            var m = date.getMonth() + 1;
-            m = m < 10 ? ('0' + m) : m;
-            var day = date.getDate();
-            day = day < 10 ? ("0" + day) : day;
-            var h = date.getHours();
-            h = h < 10 ? ("0" + h) : h;
-            var M = date.getMinutes();
-            M = M < 10 ? ("0" + M) : M;
-            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
-            return str;
-        } else {
-            return '';
-        }
-    }
     
     function view_taskVersion(taskVersion) 
     {
@@ -180,71 +157,12 @@
             content:  temUrl
         });
     }
-    
 
-    getDepartNameByUnitName($("#belongDepartmentCode").val());
-    function getDepartNameByUnitName(belongDepartmentCode)
-    {
-    	
-    	 $("#professionalDepartCode").empty();
-    	 var v_date=(new Date()).getTime();
-    	 if(belongDepartmentCode!=null && belongDepartmentCode!='')
-         {
-    		 
-    		 $.ajax({
-    				url : "/sre-project-basic/getDicListByParentCode?v_date="+v_date+"&belongDepartmentCode="+belongDepartmentCode,
-    				type : "post",
-    				async: false,
-    				dataType : "json",
-    				success : function(data) 
-    				{
-    					$("#professionalDepartCode").append("<option value=''>--请选择--</option>");
-    					$.each(data, function(i, el) 
-    					{
-    						$("#professionalDepartCode").append('<option value="'+ el.code +'">' + el.name+ '</option>');
-    					});
-    				},
-    				error : function() 
-    				{
-    					alert("发生未知错误 ,请重新操作.");
-    				}
-    			});
-         }
-    	 
-    	 
-    	 
-    }
+    getDepartNameByParentCode($("#belongDepartmentCode").val());
     
 </script>
 
-<script type="text/html" id="innerAuditStatus_temp">
-          {{#  if(d.innerAuditStatus == '0'){ }}
-            <button class="layui-btn layui-btn-primary layui-btn-xs">未上报</button>
-          {{#  } else if(d.innerAuditStatus == '1'){ }}
-            <button class="layui-btn  layui-btn-xs">已上报</button>
-          {{#  } else if(d.innerAuditStatus == '2'){ }}
-            <button class="layui-btn layui-btn-normal layui-btn-xs">已通过</button>
-           {{#  } else if(d.innerAuditStatus == '3'){ }}
-            <button class="layui-btn layui-btn-danger layui-btn-xs">已退回</button>
-          {{#  } else{ }}
-            <button class="layui-btn layui-btn-primary layui-btn-xs">未上报</button>
-          {{#  } }}
-</script>
-<script type="text/html" id="auditStatus_tepm">
-          {{#  if(d.auditStatus == '0'){ }}
-            <button class="layui-btn layui-btn-primary layui-btn-xs">未上报</button>
-          {{#  } else if(d.auditStatus == '1'){ }}
-            <button class="layui-btn  layui-btn-xs">已上报</button>
-          {{#  } else if(d.auditStatus == '2'){ }}
-            <button class="layui-btn layui-btn-normal layui-btn-xs">已通过</button>
-           {{#  } else if(d.auditStatus == '3'){ }}
-            <button class="layui-btn layui-btn-danger layui-btn-xs">已退回</button>
-          {{#  } else{ }}
-            <button class="layui-btn layui-btn-primary layui-btn-xs">未上报</button>
-          {{#  } }}
-</script>
 <!--表格数据操作js-->
-
 <script>
 var isKJBPerson=$('#isKJBPerson').val();
 var publicMethods;
@@ -489,8 +407,8 @@ var name=$('#name').val();
             cols: [[
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
-            	{field : 'innerAuditStatus',    title : '院内确认状态',   style : 'cursor: pointer;', align: 'center', width : '10%', width : 100,templet : '#innerAuditStatus_temp'},
-            	{field : 'auditStatus',    title : '总部审核状态',        style : 'cursor: pointer;', align: 'center', width : '10%', width : 100,templet : '#auditStatus_tepm'},
+            	{field : 'innerAuditStatus',    title : '院内确认状态',   style : 'cursor: pointer;', align: 'center', width : '10%', width : 100, templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.innerAuditStatus) }}</div>'},
+            	{field : 'auditStatus',    title : '总部审核状态',        style : 'cursor: pointer;', align: 'center', width : '10%', width : 100, templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>'},
                 {field : 'topicName',     title : '课题名称',    style : 'cursor: pointer;', align: 'center', width : '10%',templet:function(d){return '<span onclick="view_project(\''+d.topicId+'\')" style="color:#1890ff">详情</span>'}},
                 {field : 'topicName',     title : '任务书名称', style : 'cursor: pointer;', align: 'left', width : '10%',templet:function(d){return '<span   onclick="view_isWriteTask(\''+d.taskId+'\')" style="color: #1890ff">'+d.topicName+'</span>'}},
                 {field : 'isWriteSetup',  title : '立项报告否填写', style : 'cursor: pointer;', align: 'center', width : '10%',templet:function(d){return '<span   onclick="view_isWriteSetup(\''+d.setupId+'\')" style="color: #1890ff">详情</span>'}},
@@ -499,16 +417,13 @@ var name=$('#name').val();
                 {field : 'setupYear', title : '立项年份', style : 'cursor: pointer;', align: 'center', width : '10%'},
                 {field : 'projectMoney', title : '总经费(万元)', style : 'cursor: pointer;', align: 'center', width : '10%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
                 {field : 'taskVersion',      title : '任务书版本号', style : 'cursor: pointer;', align: 'center', width : '10%',templet : '#view_taskVersion'},
-                {field : 'leadUnitName', title : '牵头单位', style : 'cursor: pointer;', align: 'left', width : '20%'},
+               
                 {field : 'belongDepartmentName',   title : '归属部门', style : 'cursor: pointer;', align: 'left', width : '10%'},
                 {field : 'professionalDepartName', title : '专业处',  style : 'cursor: pointer;', align: 'left', width : '10%'},
                 {field : 'professionalFieldName',  title : '专业领域', style : 'cursor: pointer;', align: 'left', width : '10%'},
-                {field : 'applyUnitName', title : '申报单位', style : 'cursor: pointer;', align: 'left', width : '10%'},
                 
-                {field : 'parentUnitPathNames',    title : '填写单位', style : 'cursor: pointer;', align: 'left', width : '20%'},
-                {field : 'createUnitName',         title : '填写部门', style : 'cursor: pointer;', align: 'left', width : '10%'},
-                {field : 'createUserName',         title : '填写人', style : 'cursor: pointer;', align: 'left', width : '10%'},
-                {field : 'createDate',             title : '任务书填写时间', style : 'cursor: pointer;', align: 'center', width : '10%', templet : '#dateTpl'},
+                {field : 'leadUnitName',              title : '牵头单位', style : 'cursor: pointer;', align: 'left', width : '20%'},
+                {field : 'createDate',                title : '上报时间', style : 'cursor: pointer;', align: 'center', width : '10%', templet : '#dateTpl'},
                 {field : 'parentApplyUnitPathName',   title : '上报单位',  style : 'cursor: pointer;', align: 'left', width : '20%'},
                 {field : 'applyUnitName',             title : '上报部门',  style : 'cursor: pointer;', align: 'left', width : '10%'},
                 {field : 'applyUserName',             title : '上报人',    style : 'cursor: pointer;', align: 'left', width : '10%'}

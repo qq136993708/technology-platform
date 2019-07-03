@@ -113,12 +113,38 @@ public class SreProjectTask {
     
     private Date checkDate;
     
+    private String professionalDepartValue;
+    private String professionalFieldValue;
+    private String belongDepartmentValue;
     
     
     
     
-    
-    public Date getCheckDate() {
+    public String getProfessionalDepartValue() {
+		return professionalDepartValue;
+	}
+
+	public void setProfessionalDepartValue(String professionalDepartValue) {
+		this.professionalDepartValue = professionalDepartValue;
+	}
+
+	public String getProfessionalFieldValue() {
+		return professionalFieldValue;
+	}
+
+	public void setProfessionalFieldValue(String professionalFieldValue) {
+		this.professionalFieldValue = professionalFieldValue;
+	}
+
+	public String getBelongDepartmentValue() {
+		return belongDepartmentValue;
+	}
+
+	public void setBelongDepartmentValue(String belongDepartmentValue) {
+		this.belongDepartmentValue = belongDepartmentValue;
+	}
+
+	public Date getCheckDate() {
 		return checkDate;
 	}
 

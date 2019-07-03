@@ -60,6 +60,9 @@
     <result column="join_unit_parent_names"   property="joinUnitParentNames"  jdbcType="VARCHAR" />
     <result column="is_check"                 property="isCheck"  jdbcType="VARCHAR" />
     <result column="check_date"               property="checkDate" jdbcType="TIMESTAMP" />
+     <result column="belong_department_value"   property="belongDepartmentValue"   jdbcType="VARCHAR" />
+    <result column="professional_depart_value" property="belongDepartmentValue"   jdbcType="VARCHAR" />
+    <result column="professional_field_value"  property="professionalFieldValue"  jdbcType="VARCHAR" />
     
     
     
@@ -78,6 +81,9 @@
     apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name,
     apply_user_id,apply_user_name,document_doc,task_version,erp_num,close_status,close_date
     ,join_unit_parent_codes,join_unit_parent_names,is_check,check_date
+     ,belong_department_value
+    ,professional_depart_value
+    ,professional_field_value
     
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -107,7 +113,13 @@
       professional_field_name, lead_unit_name,setup_id,unit_path_ids,
       unit_path_names,parent_unit_path_names,parent_unit_path_ids,create_unit_name,create_unit_code,
       apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name,apply_user_id,
-      apply_user_name,document_doc,task_version,erp_num,close_status,close_date,join_unit_parent_codes,join_unit_parent_names,is_check,check_date
+      apply_user_name,document_doc,task_version,erp_num,close_status,
+      close_date,join_unit_parent_codes,join_unit_parent_names,is_check,check_date
+      
+       ,belong_department_value
+      ,professional_depart_value
+      ,professional_field_value
+      
       )
     values (#{taskId,jdbcType=VARCHAR}, #{topicId,jdbcType=VARCHAR}, #{topicName,jdbcType=VARCHAR}, 
       #{createUserId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
@@ -139,6 +151,9 @@
         ,#{joinUnitParentCodes,jdbcType=VARCHAR}
       ,#{joinUnitParentNames,jdbcType=VARCHAR}
       ,#{isCheck,jdbcType=VARCHAR},#{checkDate,jdbcType=TIMESTAMP}
+       ,#{belongDepartmentValue,jdbcType=VARCHAR}
+        ,#{belongDepartmentValue,jdbcType=VARCHAR}
+        ,#{professionalFieldValue,jdbcType=VARCHAR}
       )
   </insert>
   
@@ -324,7 +339,15 @@
       </if>
     
    
-    
+     <if test="belongDepartmentValue != null" >
+        belong_department_value,
+      </if>
+      <if test="belongDepartmentValue != null" >
+        professional_depart_value,
+      </if>
+      <if test="professionalFieldValue != null" >
+        professional_field_value,
+      </if>
     
     
      
@@ -508,7 +531,15 @@
       
       
       
-       
+        <if test="belongDepartmentValue != null" >
+        #{belongDepartmentValue,jdbcType=VARCHAR},
+      </if>
+      <if test="belongDepartmentValue != null" >
+        #{belongDepartmentValue,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalFieldValue != null" >
+        #{professionalFieldValue,jdbcType=VARCHAR},
+      </if>
      
       
       
@@ -691,7 +722,15 @@
         check_date = #{checkDate,jdbcType=TIMESTAMP},
       </if>
       
-      
+      <if test="belongDepartmentValue != null" >
+        belong_department_value = #{belongDepartmentValue,jdbcType=VARCHAR},
+      </if>
+      <if test="belongDepartmentValue != null" >
+        professional_depart_value = #{belongDepartmentValue,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalFieldValue != null" >
+        professional_field_value = #{professionalFieldValue,jdbcType=VARCHAR},
+      </if>
       
      
       
@@ -703,6 +742,10 @@
     update sre_project_task
     set topic_id = #{topicId,jdbcType=VARCHAR},
       topic_name = #{topicName,jdbcType=VARCHAR},
+       
+      belong_department_value = #{belongDepartmentValue,jdbcType=VARCHAR},
+      professional_depart_value = #{belongDepartmentValue,jdbcType=VARCHAR},
+      professional_field_value = #{professionalFieldValue,jdbcType=VARCHAR},
       create_user_id = #{createUserId,jdbcType=VARCHAR},
       create_user_name = #{createUserName,jdbcType=VARCHAR},
       create_unit_name = #{createUnitName,jdbcType=VARCHAR},
@@ -787,16 +830,24 @@
 	     <if test="setupId != null       and setupId !=''  ">     AND t.setup_id = #{setupId}</if>
 	     <if test="innerAuditStatus != null       and innerAuditStatus !=''  ">     AND t.inner_audit_status = #{innerAuditStatus}</if>
 	     <if test="createUserId != null       and createUserId !=''  ">     AND t.create_user_id = #{createUserId}</if>
+	     
+	     
 	     <if test="professionalFieldCode != null       and professionalFieldCode !=''  ">     AND t.professional_field_code = #{professionalFieldCode}</if>
 	     <if test="professionalFieldName != null       and professionalFieldName !=''  ">     AND t.professional_field_name like CONCAT('%',#{professionalFieldName},'%')  </if>
 	     <if test="parentApplyUnitPathCode != null       and parentApplyUnitPathCode !=''  ">     AND t.parent_apply_unit_path_code = #{parentApplyUnitPathCode}</if>
-	     <if test="createUserId != null       and createUserId !=''  ">               AND t.create_user_id = #{createUserId}</if>
+	     
+	     
+	     
+	     
 	     <if test="unitPathIds != null             and unitPathIds !=''  ">           AND t.unit_path_ids = #{unitPathIds}</if>
 	     <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.parent_unit_path_ids = #{parentUnitPathIds}</if>
-	     <if test="createUserId != null       and createUserId !=''  ">               AND t.create_user_id = #{createUserId}</if>
 	     <if test="applyUserId != null        and applyUserId !=''  ">                AND t.apply_user_id = #{applyUserId}</if>
 	     <if test="applyUserName != null       and applyUserName !=''  ">             AND t.apply_user_name = #{applyUserName}</if>
 	     <if test="erpNum != null       and erpNum !=''  ">                           AND t.erp_num = #{erpNum}</if>
+	        <if test="belongDepartmentValue != null       and belongDepartmentValue !=''  ">     AND t.belong_department_value = #{belongDepartmentValue}</if>
+	      <if test="belongDepartmentValue != null       and belongDepartmentValue !=''  ">     AND t.professional_depart_value = #{belongDepartmentValue}</if>
+	      <if test="professionalFieldValue != null      and professionalFieldValue !=''  ">     AND t.professional_field_value = #{professionalFieldValue}</if>
+	       
 	     <if test="closeStatus != null       and closeStatus !=''  ">                           AND t.close_status = #{closeStatus}</if>
 	     <if test="isCheck != null       and isCheck !=''  ">                           AND t.is_check = #{isCheck}</if>
 	     <if test="sqlStr != null       and sqlStr !='' ">                            AND ${sqlStr}</if>

@@ -40,3 +40,95 @@
 		}
 		return specialAuditor0;
 	}
+    
+    
+    
+    
+    function getDepartNameByParentCode(parentCode)
+    {
+    	
+    	 $("#professionalDepartCode").empty();
+    	 var v_date=(new Date()).getTime();
+    	 if(parentCode!=null && parentCode!='')
+         {
+    		 
+    		 $.ajax({
+    				url : "/sre-project-basic/getDicListByParentCode?v_date="+v_date+"&parentCode="+parentCode,
+    				type : "post",
+    				async: false,
+    				dataType : "json",
+    				success : function(data) 
+    				{
+    					$("#professionalDepartCode").append("<option value=''>--请选择--</option>");
+    					$.each(data, function(i, el) 
+    					{
+    						$("#professionalDepartCode").append('<option value="'+ el.code +'">' + el.name+ '</option>');
+    					});
+    				},
+    				error : function() 
+    				{
+    					alert("发生未知错误 ,请重新操作.");
+    				}
+    			});
+    		 
+         }
+    	 var code_temp=$("#professionalDepartCode").val();
+    	 getProfessionalNameListByParentCode(code_temp);
+    }
+
+
+    function getProfessionalNameListByParentCode(parentCode)
+    {
+    	
+    	if(parentCode==null || parentCode=='')
+    	{
+    		parentCode='-1';
+    	}
+    	 $("#professionalFieldCode").empty();
+    	 var v_date=(new Date()).getTime();
+    	 $.ajax({
+    			url : "/sre-project-basic/getDicListByParentCode?v_date="+v_date+"&parentCode="+parentCode,
+    			type : "post",
+    			async: false,
+    			dataType : "json",
+    			success : function(data) 
+    			{
+    				$("#professionalFieldCode").append("<option value=''>--请选择--</option>");
+    				$.each(data, function(i, el) 
+    				{
+    					$("#professionalFieldCode").append('<option value="'+ el.code +'">' + el.name+ '</option>');
+    	  			  	
+    				});
+    			},
+    			error : function() 
+    			{
+    				alert("发生未知错误 ,请重新操作.");
+    			}
+    		});
+    }
+    
+    
+    
+    
+    
+    
+    // 时间格式化
+    function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
