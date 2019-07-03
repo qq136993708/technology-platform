@@ -276,7 +276,7 @@ span{display: inline-block;}
 .layui-expert-div .layui-card{border: 0;}
 .layui-expert-div .layui-col-md3{position: absolute;}
 .layui-expert-div .layui-col-md9{width: 100%;    padding-left: 180px;z-index: 2;
-    background: url("/layuiadmin/layui/images/expert-border.png") no-repeat right 8px;height: 305px;}
+    height: 240px;}
 .layui-expert-div p{font-size: 18px;color: #FFFFFF;position: relative;left: -48px;margin-top: 20px;text-indent: 70px;width: 138px;
     background: url("/layuiadmin/layui/images/expert-p.png ") no-repeat;padding: 5px 0;}
 .layui-expert-div span{background: #cce2ed;height: 36px;line-height: 36px;border-radius: 18px;font-size: 16px;
@@ -316,8 +316,12 @@ background: white;box-shadow: 0 0 5px #dadcde;}
 .layui-expert .layui-col-md5:nth-child(1n){padding-right: 9px;}
 .expert-bottom{position: absolute;z-index: 1;top: 270px;height: 90px;background-color:  #f3f9ff;box-sizing: border-box;
     padding: 16px 25px;}
-.expert-bottom>span{display: inline-block;padding-bottom: 8px;padding-right: 30px;border-bottom: 1px #c7e4ff;}
-.expert-bottom>span:nth-child(4),.expert-bottom>span:nth-child(5){padding-top: 8px;}
+.expert-bottom>span{display: inline-block;}
+.expert-bottom>span:nth-child(1){background: url("/layuiadmin/layui/images/span-1.png") no-repeat bottom;width: 128px;height: 40px;}
+.expert-bottom>span:nth-child(2){background: url("/layuiadmin/layui/images/span-2.png") no-repeat bottom;width: 188px;height: 40px}
+.expert-bottom>span:nth-child(3){background: url("/layuiadmin/layui/images/span-3.png") no-repeat bottom;width: 199px;height: 40px;}
+.expert-bottom>span:nth-child(5){width: 128px;height: 40px;background: url("/layuiadmin/layui/images/span-5.png") no-repeat;}
+.expert-bottom>span:nth-child(6){width: 188px;height: 40px;background: url("/layuiadmin/layui/images/span-6.png") no-repeat;}
 .expert-bottom .red{color: #f16061;}
 .expert-h .layui-card{border: 0;}
 .expert-h .layui-tab-content{border:1px solid #e5e5e5;border-top: 0;}
@@ -370,6 +374,8 @@ background: white;box-shadow: 0 0 5px #dadcde;}
     color: #222323;font-size: 14px;display: inline-block;margin-right: 15px;}
 .searchOption a:nth-child(1){margin-left: 0;}
 .searchOption a:hover,.searchOption a.layui-this{color: white;background: #1890ff;}
+
+.layui-tab-content{height: 303px}
 @media screen and (max-width: 1920px) {
     .work-report{padding: 18px 80px 17px;}
     .work-report ul li {width: 130px; height: 132px;float: left;margin-left: 70px;line-height: 159px;font-size: 18px;}
@@ -386,7 +392,6 @@ background: white;box-shadow: 0 0 5px #dadcde;}
 @media screen and (max-width: 1366px) {
     .work-report ul li {margin-left: 19px;}
     .work-two{padding-left: 70px;}
-    .layui-tab-content{height: 303px}
 }
 
 /*科研人才*/
