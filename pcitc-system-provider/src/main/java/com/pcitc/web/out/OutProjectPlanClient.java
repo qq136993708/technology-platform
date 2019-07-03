@@ -256,15 +256,6 @@ public class OutProjectPlanClient {
 			temMap.put("define3", "分子公司");
 			temList.add(1, temMap);
 		}
-		if (!JSON.toJSONString(temList).contains("集团单位")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("jhqds", 0);
-			temMap.put("sjqds", 0);
-			temMap.put("qdbl", 0);
-
-			temMap.put("define3", "集团单位");
-			temList.add(2, temMap);
-		}
 		if (!JSON.toJSONString(temList).contains("外部单位")) {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("jhqds", 0);
@@ -274,7 +265,15 @@ public class OutProjectPlanClient {
 			temMap.put("define3", "外部单位");
 			temList.add(3, temMap);
 		}
-		
+		if (!JSON.toJSONString(temList).contains("股份付集团")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("jhqds", 0);
+			temMap.put("sjqds", 0);
+			temMap.put("qdbl", 0);
+
+			temMap.put("define3", "股份付集团");
+			temList.add(2, temMap);
+		}
 		if (!JSON.toJSONString(temList).contains("休斯顿研发中心")) {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("jhqds", 0);
@@ -293,6 +292,15 @@ public class OutProjectPlanClient {
 			temMap.put("define3", "中东研发中心");
 			temList.add(5, temMap);
 		}
+		if (!JSON.toJSONString(temList).contains("盈科")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("jhqds", 0);
+			temMap.put("sjqds", 0);
+			temMap.put("qdbl", 0);
+			
+			temMap.put("define3", "盈科");
+			temList.add(8, temMap);
+		}
 		if (!JSON.toJSONString(temList).contains("集团公司")) {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("jhqds", 0);
@@ -310,15 +318,7 @@ public class OutProjectPlanClient {
 			temMap.put("define3", "资产公司");
 			temList.add(7, temMap);
 		}
-		if (!JSON.toJSONString(temList).contains("盈科")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("jhqds", 0);
-			temMap.put("sjqds", 0);
-			temMap.put("qdbl", 0);
-			
-			temMap.put("define3", "盈科");
-			temList.add(8, temMap);
-		}
+		
 		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
