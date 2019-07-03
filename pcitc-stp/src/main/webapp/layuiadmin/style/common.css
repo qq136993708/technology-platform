@@ -222,6 +222,7 @@
 .layui-icon{margin-left: 0px;}
 .layui-btn-mini{padding: 0 15px;}
 .layui-table td, .layui-table th{padding: 6px 15px;}
+.project .layui-table td,.project .layui-table th{padding: 10px 6px;}
 .layui-btn-blue{background-color:#1890ff;}
 .layui-btn-white{background-color: #fefefe;}
 .layui-btn-white:hover{color: #8E8E8E;background-color: #F2F2F2;}
@@ -739,3 +740,4 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .skill-left>ul li.layui-this{color: white;background-color: #5258f3;}
 .skill-right{width: 35%;float: right;}
 .doc-box ul{margin-bottom: 10px;}
+.ck-editor__editable { min-height: 240px; }

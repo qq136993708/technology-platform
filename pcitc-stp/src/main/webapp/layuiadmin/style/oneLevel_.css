@@ -224,7 +224,6 @@ line-height: 60px;font-size: 22px;}
     background: url("/layuiadmin/layui/images/project-back.png") no-repeat;position: absolute;top: 0;}
 .project:hover .project-front{    border: 1px solid #ccd7df;
     box-shadow: 0 0 10px #0155dc;box-sizing: border-box;}
-
 .institute{position: absolute;top: 438px;left: 0;height: 132px;width: 134px;    perspective: 1000px; }
 .institute-cont{height: 100%;width: 100%;position: relative;}
 .institute .institute-front{height: 100%;width: 100%;position: absolute;top: 0;

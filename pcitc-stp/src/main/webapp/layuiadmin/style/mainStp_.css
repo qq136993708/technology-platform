@@ -260,7 +260,10 @@ background: url("/layuiadmin/layui/images/icon-leader-aw.png") right no-repeat;
 .work-summary span{position: absolute;top: 44px;
     left: 42.5%;color: rgba(255,255,255,.8);}
 .work-summary>div p{text-align: center;color: #fff;height: 14px;line-height: 14px;font-size: 14px;}
-    /*放大*/
+.span-st{background: #e8e8e8; padding:6px 10px;font-size: 12px;color: #666;border-radius: 3px;}
+.span-wc{color: white;background: #1890ff}
+.span-jx{color: white;background: #42b678}
+/*放大*/
 .layui-col-md15{
     -webkit-transform-origin: 0 0 0;
     transition: transform 0.9s;}
