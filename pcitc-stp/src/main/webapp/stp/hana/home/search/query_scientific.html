@@ -15,6 +15,7 @@
         .layui-table tbody tr:nth-child(odd) {
             background-color: #f6f9fb;
         }
+        .layui-table-page{border-bottom: 1px solid #e6e6e6;}
     </style>
 </head>
 <body>
@@ -182,7 +183,7 @@
 
 </div>
 
-<div class="tableBox" style="clear:both;margin-bottom: 70px;">
+<div class="tableBox" style="clear:both;margin-bottom: 20px;">
     <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
 </div>
 <!--表格数据操作js-->
@@ -473,7 +474,6 @@
 
                 }},
             limit: 15,
-            height:400,
             id: 'processdef-table',
             page: {
                 groups: 5,
