@@ -94,6 +94,7 @@ public  class InvestServiceImpl implements InvestService {
 		String InvestmentrogressId=getTableParam(param,"InvestmentrogressId","");
 		SreEquipment quipment = new SreEquipment();
 		SreProject sreProject = sreProjectMapper.selectByPrimaryKey(InvestmentrogressId);
+		if(sreProject!=null&&sreProject.getEquipmentIds()!=null) {
 		String[] sreEqumimpId =  sreProject.getEquipmentIds().split(",");
 		for(int i =0;i<sreEqumimpId.length; i++) {
 			SreInvestmentrogress mentrogress = new SreInvestmentrogress();//创建投资进度对象
@@ -133,6 +134,7 @@ public  class InvestServiceImpl implements InvestService {
 				}
 		}
 			list.add(mentrogress);
+		}
 		}
 		PageInfo<SreInvestmentrogress> pageInfo = new PageInfo<SreInvestmentrogress>(list);
 		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
