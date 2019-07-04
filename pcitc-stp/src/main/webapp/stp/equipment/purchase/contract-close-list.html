@@ -44,11 +44,11 @@
 
 <script type="text/html" id="isContractClosed_temp">
     {{#  if(d.isContractClosed == '0'){ }}
-    <button class="layui-btn layui-btn-primary layui-btn-xs">未上传</button>
+    <button class="layui-red layui-btn-primary layui-btn-xs">未上传</button>
     {{#  } else if(d.isContractClosed == '1'){ }}
     <button class="layui-btn layui-btn-normal layui-btn-xs">已关闭</button>
     {{#  } else{ }}
-    <button class="layui-btn layui-btn-primary layui-btn-xs">未上传</button>
+    <button class="layui-red layui-btn-primary layui-btn-xs">未上传</button>
     {{#  } }}
 </script>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
