@@ -11,12 +11,12 @@
     <link rel="stylesheet" href="/layuiadmin/style/adminStp.css?+Math.random()" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <style>
-        .layui-tab-title{margin: 0 auto 15px;height: auto;border: none;width: 74%; padding-top: 106px;}
+        .layui-tab-title{margin: 0 auto 15px;height: auto;border: none;width: 75.5%; padding-top: 6px;}
         .layui-tab-brief>.layui-tab-title .layui-this {color: #1890ff;}
         .layui-tab-title li{font-size: 14px;}
         .layui-tab-bar{display: none;}
         .information{top: 56px;}
-        .layui-tab-i{width: 74%;margin: 0 auto;background: white;}
+        .layui-tab-i{width: 75.5%;margin: 0 auto;background: white;}
         .layui-leader .layui-footer {
             left: 0px;
             right: 0px;
@@ -28,8 +28,8 @@
 
 <div id="LAY_app">
     <div class="layui-layout layui-layout-admin layui-leader">
-        <div class="layui-header">
-            <!--搜索框-->
+        <!--<div class="layui-header">
+            &lt;!&ndash;搜索框&ndash;&gt;
             <div class="stpSearchBox">
                 <div class="logo"><img src="/layuiadmin/layui/images/logo-leader-new.png" style="margin-top: 10px;"></div>
                 <a href="/stpHome"><img src="/layuiadmin/layui/images/icon-index.png"/> </a>
@@ -38,7 +38,7 @@
                     <img src="/layuiadmin/layui/images/stpicon_06.png" alt="">
                 </div>
             </div>
-            <!--通知-->
+            &lt;!&ndash;通知&ndash;&gt;
             <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
 
                 <li class="layui-index layui-nav-item layui-nav-itemnew" title="系统">
@@ -102,9 +102,9 @@
                         </dl>
                     </div>
                 </li>
-                <!--<li class="layui-nav-item layui-nav-itemnew notify">
+                &lt;!&ndash;<li class="layui-nav-item layui-nav-itemnew notify">
                     <a id="numberNotify" lay-href="/task/pending/list/ini" lay-text="通知" title="通知"></a>
-                </li>-->
+                </li>&ndash;&gt;
                 <li class="layui-nav-item layui-nav-itemnew " title="二维码">
                     <span class="QRCode"></span>
                     <div class="QRCode-content layui-hide">
@@ -136,11 +136,11 @@
                         </dl>
                     </div>
                 </li>
-                <!--<li class="layui-nav-item layui-nav-itemnew collection" title="收藏">
+                &lt;!&ndash;<li class="layui-nav-item layui-nav-itemnew collection" title="收藏">
                     <a id="collection"></a>
-                </li>-->
+                </li>&ndash;&gt;
             </ul>
-        </div>
+        </div>-->
 
         <input type="text" class="selfRownum layui-hide" id="userConfig1" value="${userInfo.userConfig1?default(15)}">
         <div class="layui-tab layui-tab-brief layui-q" lay-filter="component-tabs-hash">
@@ -167,7 +167,7 @@
                     <span id="expert" class="search-number"></span></li>
                 <li><span class="search-img"></span><span class="search-text">知识产权</span>
                     <span id="patent" class="search-number"></span></li>
-                <li><span class="search-img"></span><span class="search-text">文档资料</span>
+                <li style="margin-right: 0px !important;;"><span class="search-img"></span><span class="search-text">文档资料</span>
                     <span id="file" class="search-number"></span></li>
             </ul>
 
@@ -204,11 +204,11 @@
                 </div>
             </div>
         </div>
-        <div class="layui-footer">
+        <!--<div class="layui-footer">
             <div>
                 <p>版权所有：石化盈科信息技术有限责任公司</p>
             </div>
-        </div>
+        </div>-->
     </div>
 </div>
 <script src="/layuiadmin/layui/layui.js"></script>
@@ -221,7 +221,13 @@
         index : 'lib/index' //主入口模块
     }).use(['index' ,'jquery','element'], function() {
         var $ = layui.jquery;
-        $(".layui-tab-i").css("height",$(document).height()-240+"px");
+        if(parent.$("#LAY_app>div").attr("class").indexOf("layui-leader")==-1){
+            $(".layui-tab-i,.layui-tab-title").css("width","100%");
+            $(".layui-q>.layui-tab-title li").css("margin-right","22px");
+            $(".layui-tab-i").css("height",parent.$(document).height()-90+"px");
+        }else {
+            $(".layui-tab-i").css("height",parent.$(document).height()-110+"px");
+        }
         search();
         $("#toUserInfo").on("click", function() {
             layer.open({
