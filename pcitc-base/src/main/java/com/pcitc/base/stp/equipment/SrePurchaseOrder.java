@@ -7,7 +7,7 @@ public class SrePurchaseOrder {
 
     private String g0logsys;
 
-    private Date g0cald;
+    private String g0cald;
 
     private String g0gsdm;
 
@@ -99,11 +99,11 @@ public class SrePurchaseOrder {
         this.g0logsys = g0logsys;
     }
 
-    public Date getG0cald() {
+    public String getG0cald() {
         return g0cald;
     }
 
-    public void setG0cald(Date g0cald) {
+    public void setG0cald(String g0cald) {
         this.g0cald = g0cald;
     }
 

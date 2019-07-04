@@ -11,29 +11,18 @@
 <link rel="stylesheet" href="/layuiadmin/style/adminStp_.css" media="all">
 <link rel="stylesheet" href="/layuiadmin/style/mainStp_.css" media="all">
 <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
-
 <style>
-.refreshBox {
-	display: none;
-	width: 100%;
-	height: 100px;
-	line-height: 100px;
-	text-align: center;
-	font-size: 12px;
-}
-
-.loadingImg {
-	width: 24px;
-	height: auto;
-}
-
-.anchorBL {
-	display: none
-}
-
-.layui-table-body .layui-none {
-	padding: 0;
-}
+	.refreshBox {display: none;width: 100%;height: 100px;line-height: 100px;text-align: center;font-size: 12px;}
+	.loadingImg {width: 24px;height: auto;}
+	.anchorBL {display: none}
+	.layui-table-body .layui-none {padding: 0;}
+	.layui-table-cell-td{ overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 200px;}
+	.layui-table-cell-td1{ overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 100px;}
+	@media (min-width: 1673px) {
+		.layui-table-cell-td{ width: 320px;}
+		.layui-table-cell-td1{width: 140px;}
+	}
+	.project table tr td{height: 20px;line-height: 20px;}
 </style>
 </head>
 <body>
@@ -217,10 +206,10 @@
 								<thead>
 									<tr>
 										<th></th>
-										<th>当前处理人</th>
+										<th style="width: 120px">当前处理人</th>
 										<th>发起时间</th>
-										<th width="35%">工作内容</th>
-										<th>完成进度(%)</th>
+										<th>工作内容</th>
+										<th style="width: 200px;">完成进度(%)</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -228,8 +217,8 @@
 									<tr>
 										<td>${taskList_index+1}</td>
 										<td>${taskList.workOrderAllotUserName}</td>
-										<td>${taskList.createDate}</td>
-										<td>${taskList.workOrderName}</td>
+										<td><div class="layui-table-cell-td1">${taskList.createDate}</div></td>
+										<td><div class="layui-table-cell-td">${taskList.workOrderName}</div></td>
 										<td align="right"><#if taskList.bl==''>
 											<div class="layui-progress">
 												<div class="layui-progress-bar" lay-percent="0%"></div>
@@ -257,10 +246,10 @@
 									<thead>
 										<tr>
 											<th></th>
-											<th>工作发起人</th>
+											<th style="width: 80px;">工作发起人</th>
 											<th>发起时间</th>
-											<th width="35%">工作内容</th>
-											<th>完成进度(%)</th>
+											<th>工作内容</th>
+											<th style="width: 120px;">工作进展</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -268,8 +257,8 @@
 										<tr>
 											<td>${taskList_index+1}</td>
 											<td>${taskList.createUserName}</td>
-											<td>${taskList.createDate}</td>
-											<td>${taskList.workOrderName}</td>
+											<td><div class="layui-table-cell-td1">${taskList.createDate}</div></td>
+											<td><div class="layui-table-cell-td">${taskList.workOrderName}</div></td>
 											<td>
 												<span class="span-st ">已完成</span>
 												<span class="span-st ">进行中</span>
@@ -475,7 +464,6 @@
         sendPost(url,"POST", function (data){
         	$("#kjb_oady").html(data.data);
         });
-        
        //督办管理待办
         var url=host+"/_layouts/15/autologon/?appid=62&step=1";
         sendPost(url,"POST", function (data){

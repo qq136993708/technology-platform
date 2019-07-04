@@ -434,13 +434,13 @@ var name=$('#name').val();
             cols: [[
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
-            	{field : 'topicName',      title : '任务书名称', style : 'cursor: pointer;', align: 'left', width : '10%'},
-                {field : 'setupYear',      title : '立项年份', style : 'cursor: pointer;', align: 'center', width : '10%'},
-                {field : 'contractNum', title : '合同号', style : 'cursor: pointer;', align: 'center', width : '10%'},
-                {field : 'parentUnitPathNames',  title : '填写单位', style : 'cursor: pointer;', align: 'left', width : '15%'},
-                {field : 'createUnitName',  title : '填写部门', style : 'cursor: pointer;', align: 'left', width : '10%'},
-                {field : 'createDate',     title : '任务书填写时间', style : 'cursor: pointer;', align: 'center', width : '15%', templet : '#dateTpl'},
-            	{field : 'createUserName', title : '任务书填写人', style : 'cursor: pointer;', align: 'center', }
+            	{field : 'topicName',      title : '任务书名称', style : 'cursor: pointer;', align: 'left',sort : true, width : '10%'},
+                {field : 'setupYear',      title : '立项年份', style : 'cursor: pointer;', align: 'center',sort : true, width : '10%'},
+                {field : 'contractNum', title : '合同号', style : 'cursor: pointer;', align: 'center', sort : true,width : '10%'},
+                {field : 'parentUnitPathNames',  title : '填写单位', style : 'cursor: pointer;', align: 'left',sort : true, width : '15%'},
+                {field : 'createUnitName',  title : '填写部门', style : 'cursor: pointer;', align: 'left',sort : true, width : '10%'},
+                {field : 'createDate',     title : '任务书填写时间', style : 'cursor: pointer;', align: 'center', sort : true,width : '15%', templet : '#dateTpl'},
+            	{field : 'createUserName', title : '任务书填写人', style : 'cursor: pointer;', align: 'center',sort : true, }
             
                 ]],
             done: function (res, curr, count) {

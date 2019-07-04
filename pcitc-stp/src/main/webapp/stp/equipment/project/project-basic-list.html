@@ -337,18 +337,18 @@ var name=$('#name').val();
             cols: [[
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
-                
-                {field : 'name',           title : '课题名称',         style : 'cursor: pointer;', align: 'left',    width : '20%',templet:function(d){return '<span onclick="view_project(\''+d.id+'\')" style="color:#1890ff">'+d.name+'</span>'}},
-                {field : 'status',         title : '状态',            style : 'cursor: pointer;', align: 'center', width : '5%', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>'},
-                {field : 'beginYear',      title : '投资期限',         style : 'cursor: pointer;', align: 'center',  width : '7%',templet:function(d){return '<div style="">'+d.beginYear+'-'+d.endYear+'</div><br/><div style="color:red">'+d.beginYear+'</div>'}},
-                {field : 'projectMoney',   title : '总经费(万元)',      style : 'cursor: pointer;', align: 'center',  width : '8%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
-                {field : 'leadUnitName',   title : '牵头单位',         style : 'cursor: pointer;', align: 'left', width : '20%'},
-                {field : 'belongDepartmentName',   title : '归属部门', style : 'cursor: pointer;', align: 'left', width : '7%'},
-                {field : 'professionalDepartName', title : '专业处',  style : 'cursor: pointer;', align: 'left', width : '7%'},
-                {field : 'professionalFieldName',  title : '专业领域', style : 'cursor: pointer;', align: 'left', width : '7%'},
-                {field : 'parentUnitPathNames',    title : '上报单位', style : 'cursor: pointer;', align: 'left', width : '20%'},
-                {field : 'applyUnitName',          title : '上报部门', style : 'cursor: pointer;', align: 'left', width : '10%'},
-                {field : 'createDate',             title : '上报时间', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl', width : '10%'}
+                {field : 'name',           title : '课题名称',         style : 'cursor: pointer;', align: 'left',    width : '20%',templet:function(d){return '<span onclick="view_project(\''+d.id+'\')" style="color:#1890ff">'+d.name+'</span>'},sort : true},
+                {field : 'setupYear', title : '立项年份', style : 'cursor: pointer;', align: 'center', width : '7%',sort : true},
+                {field : 'beginYear',      title : '投资期限',         style : 'cursor: pointer;', align: 'center',  width : '7%',templet:function(d){return '<div style="">'+d.beginYear+'-'+d.endYear+'</div><br/><div style="color:red">'+d.beginYear+'</div>'},sort : true},
+                {field : 'projectMoney',   title : '总经费(万元)',      style : 'cursor: pointer;', align: 'center',  width : '8%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'},sort : true},
+                {field : 'status',         title : '状态',            style : 'cursor: pointer;', align: 'center', width : '5%', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>',sort : true},
+                {field : 'leadUnitName',   title : '牵头单位',         style : 'cursor: pointer;', align: 'left', width : '10%',sort : true},
+                {field : 'belongDepartmentName',   title : '归属部门', style : 'cursor: pointer;', align: 'left', width : '7%',sort : true},
+                {field : 'professionalDepartName', title : '专业处',  style : 'cursor: pointer;', align: 'left', width : '7%',sort : true},
+                {field : 'professionalFieldName',  title : '专业领域', style : 'cursor: pointer;', align: 'left', width : '7%',sort : true},
+                {field : 'parentUnitPathNames',    title : '上报单位', style : 'cursor: pointer;', align: 'left', width : '10%',sort : true},
+                {field : 'applyUnitName',          title : '上报部门', style : 'cursor: pointer;', align: 'left', width : '10%',sort : true},
+                {field : 'createDate',             title : '上报时间', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl', width : '10%',sort : true}
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选

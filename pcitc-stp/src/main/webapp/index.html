@@ -47,12 +47,12 @@
 					</div>
 				</div>
 				<!--搜索-->
-				<!--<div class="layui-header-search inline-block">
+				<div class="layui-header-search inline-block">
 					<div class="seacrhBox">
 						<input type="text" placeholder="搜索">
 						<img src="/layuiadmin/layui/images/icon-s.png" alt="">
 					</div>
-				</div>-->
+				</div>
 				<!--右侧-->
 				<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
 					<li class="layui-nav-item layui-nav-itemnew chat" title="消息">
@@ -252,10 +252,10 @@
 
 			<!-- 页面标签 -->
 			<div class="dowebok news">
-				<a lay-href="javascript:;" lay-text="新闻详情"><span>最新消息:</span>国家主席习近平发表二零一九年新年贺词。</a>
-				<a href="javascript:;"><span>最新消息:</span>马永生会见国外公司客人。</a>
-				<a href="javascript:;"><span>最新消息:</span>扬子石化乙烯产量创历史新记录。</a>
-				<a href="javascript:;"><span>最新消息:</span>马永生会见国外公司客人。</a>
+				<a lay-href="javascript:;" lay-text="新闻详情"><span>通知:</span>国家主席习近平发表二零一九年新年贺词。</a>
+				<a href="javascript:;"><span>通知:</span>马永生会见国外公司客人。</a>
+				<a href="javascript:;"><span>通知:</span>扬子石化乙烯产量创历史新记录。</a>
+				<a href="javascript:;"><span>通知:</span>马永生会见国外公司客人。</a>
 			</div>
 			<div class="layadmin-pagetabs" id="LAY_app_tabs">
 				<div class="layui-icon layadmin-tabs-control layui-icon-prev" layadmin-event="leftPage"></div>
@@ -325,7 +325,10 @@
 				}
             });
            
-
+			$(".seacrhBox img").click(function () {
+			    var val=$(".seacrhBox input").val();
+                parent.layui.index.openTabsPage("/fullSearch/search?keyword="+val, "全文检索");
+            });
             $(".layui-header .layui-icon-prev").css("left",navLeft+"px");
             if(!$(".layui-header .layui-icon-prev").hasClass("layui-hide")){
                 $("#navPrev ul").append(headerNav);

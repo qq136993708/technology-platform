@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.SrePurchaseOrder">
     <result column="G0FLAG" jdbcType="VARCHAR" property="g0flag" />
     <result column="G0LOGSYS" jdbcType="VARCHAR" property="g0logsys" />
-    <result column="G0CALD" jdbcType="TIMESTAMP" property="g0cald" />
+    <result column="G0CALD" jdbcType="VARCHAR" property="g0cald" />
     <result column="G0GSDM" jdbcType="VARCHAR" property="g0gsdm" />
     <result column="G0GSJC" jdbcType="VARCHAR" property="g0gsjc" />
     <result column="G0GSOR" jdbcType="VARCHAR" property="g0gsor" />
@@ -50,7 +50,7 @@
       G0EINDT, G0LIFNR, G0NAME2, 
       G0DDLX, K0XMDDSL, K0XMDDJE, 
       create_date)
-    values (#{g0flag,jdbcType=VARCHAR}, #{g0logsys,jdbcType=VARCHAR}, #{g0cald,jdbcType=TIMESTAMP}, 
+    values (#{g0flag,jdbcType=VARCHAR}, #{g0logsys,jdbcType=VARCHAR}, #{g0cald,jdbcType=VARCHAR},
       #{g0gsdm,jdbcType=VARCHAR}, #{g0gsjc,jdbcType=VARCHAR}, #{g0gsor,jdbcType=VARCHAR}, 
       #{g0gsjcl,jdbcType=VARCHAR}, #{g0gsgp,jdbcType=VARCHAR}, #{g0gssp,jdbcType=VARCHAR}, 
       #{g0projcode,jdbcType=VARCHAR}, #{g0projtxt,jdbcType=VARCHAR}, #{g0wbscode,jdbcType=VARCHAR}, 
@@ -177,7 +177,7 @@
         #{g0logsys,jdbcType=VARCHAR},
       </if>
       <if test="g0cald != null">
-        #{g0cald,jdbcType=TIMESTAMP},
+        #{g0cald,jdbcType=VARCHAR},
       </if>
       <if test="g0gsdm != null">
         #{g0gsdm,jdbcType=VARCHAR},
@@ -294,7 +294,7 @@
     values
     <foreach collection="list" item="purchaseOrder" index="index"
              separator=",">
-    (#{purchaseOrder.g0flag,jdbcType=VARCHAR}, #{purchaseOrder.g0logsys,jdbcType=VARCHAR}, #{purchaseOrder.g0cald,jdbcType=TIMESTAMP},
+    (#{purchaseOrder.g0flag,jdbcType=VARCHAR}, #{purchaseOrder.g0logsys,jdbcType=VARCHAR}, #{purchaseOrder.g0cald,jdbcType=VARCHAR},
       #{purchaseOrder.g0gsdm,jdbcType=VARCHAR}, #{purchaseOrder.g0gsjc,jdbcType=VARCHAR}, #{purchaseOrder.g0gsor,jdbcType=VARCHAR},
       #{purchaseOrder.g0gsjcl,jdbcType=VARCHAR}, #{purchaseOrder.g0gsgp,jdbcType=VARCHAR}, #{purchaseOrder.g0gssp,jdbcType=VARCHAR},
       #{purchaseOrder.g0projcode,jdbcType=VARCHAR}, #{purchaseOrder.g0projtxt,jdbcType=VARCHAR}, #{purchaseOrder.g0wbscode,jdbcType=VARCHAR},

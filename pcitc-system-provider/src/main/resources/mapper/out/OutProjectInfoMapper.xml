@@ -2881,54 +2881,52 @@
   	
   	<!-- 获取详细的查询条件 -->
 	<select id="getProjectInfoSelectCondition" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select 'define1' as showCode,define1 as showName 
-		from out_project_info
-		WHERE
-			define3='项目管理系统'
-		group by define1
-		
-		union ALL
-		select 'define2' as showCode,SUBSTR(define2 FROM 6) as showName
-		from out_project_info
-		WHERE
-			define3='项目管理系统' and type_flag like '%研究院%'
-		group by define2
-		
-		union ALL
-		select 'define11' as showCode,SUBSTR(define11 FROM 2) as showName
-		from out_project_info
-		WHERE
-			define3='项目管理系统'
-		group by define11
-		
-		union ALL
-		select 'define12' as showCode,SUBSTR(define12 FROM 4) as showName
-		from out_project_info
-		WHERE
-			define3='项目管理系统' and define12 is not null
-		group by define12
-		
-		union ALL
-		select 'type_flag' as showCode,SUBSTR(type_flag FROM 4) as showName
-		from out_project_info
-		WHERE
-			define3='项目管理系统' and type_flag is not null
-		group by type_flag
-		
-		union ALL
-		select 'zylb' as showCode, zylb as showName
-		from out_project_info
-		WHERE
-			define3='项目管理系统' and zylb is not null
-		GROUP BY zylb
-		
-		union ALL
-		select 'define10' as showCode, SUBSTR(define10 FROM 4) as showName
-		from out_project_info
-		WHERE
-			define3='项目管理系统'
-		group by define10
-		
+	
+		select showCode,showName from (
+			select 'define1' as showCode,name as showName, '1' as orderCode1, isdelete as orderCode2
+						from sys_dictionary
+						WHERE
+							parent_code ='ROOT_FZJCZX_FYLX'
+			
+			union ALL
+			select 'define2' as showCode,name as showName, '2' as orderCode1, isdelete as orderCode2
+						from sys_dictionary
+						WHERE
+							parent_code ='ROOT_FZJCZX_YS'
+			
+			union ALL
+			select 'define11' as showCode,name as showName, '3' as orderCode1, isdelete as orderCode2
+						from sys_dictionary
+						WHERE
+							parent_code ='ROOT_FZJCZX_GSLXCW'
+			
+			union ALL
+			select 'define12' as showCode,name as showName, '4' as orderCode1, isdelete as orderCode2
+						from sys_dictionary
+						WHERE
+							parent_code ='ROOT_FZJCZX_GSLX' and num_value like 'A%'
+			
+			union ALL
+			select 'type_flag' as showCode,name as showName, '5' as orderCode1, isdelete as orderCode2
+						from sys_dictionary
+						WHERE
+							parent_code ='ROOT_FZJCZX_GSLX'
+			
+			union ALL
+			select 'zylb' as showCode, name as showName, '6' as orderCode1, isdelete as orderCode2
+						from sys_dictionary
+						WHERE
+							code like 'ROOT_ZGSHJT_ZBJG%' and level_code = '5'
+			      GROUP BY name
+			
+			union ALL
+			select 'define10' as showCode, SUBSTR(define10 FROM 4) as showName, '6' as orderCode1, zycbm as orderCode2
+			from out_project_info
+			WHERE
+				define3='项目管理系统'
+			group by define10
+		) as tableA
+		ORDER BY tableA.orderCode1, tableA.orderCode2
 	</select>
 	
 	
