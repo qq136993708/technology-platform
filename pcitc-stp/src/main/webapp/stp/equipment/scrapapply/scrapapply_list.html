@@ -54,6 +54,13 @@
 
 
 <script id="dateTpl" type="text/html"> {{formatTime(d.applicationTime)}} </script>
+<script type="text/html" id="status_buttonTpl">
+    {{#  if(d.status == '20'){ }}
+    <button class="layui-btn layui-btn-normal layui-btn-xs">已通过</button>
+    {{#  } else{ }}
+    <button class="layui-red layui-btn-primary layui-btn-xs">未上传</button>
+    {{#  } }}
+</script>
 <script type="text/javascript">
     // 时间格式化
     function formatTime(d) {
@@ -484,7 +491,7 @@ var name=$('#name').val();
             {type : 'checkbox', event : 'changeEvents', width : 55},
            	{title : '序号', type : 'numbers', width : 55},
             {field : 'name',     title : '报废名称', style : 'cursor: pointer;',sort : true,  align : 'left', width : '20%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.name+'</span>'}},
-            {field : 'status', title : '状态', style : 'cursor: pointer;', align : 'center',sort : true, width : '30%',templet:'#buttonTpl'},
+            {field : 'status', title : '状态', style : 'cursor: pointer;', align : 'center',sort : true, width : '30%',templet:'#status_buttonTpl'},
             {field : 'createUser',     title : '创建人', sort : true, style : 'cursor: pointer;', align : 'left', width : '25%' },
             {field : 'updateUser', title : '更新人', sort : true, style : 'cursor: pointer;',width : '14.6%',align : 'center'},
          
