@@ -307,7 +307,7 @@ var name=$('#name').val();
            cols: [[
                {type : 'checkbox', event : 'changeEvents', width : 55},
                {title : '序号', type : 'numbers', width : 55},
-               {field : 'projectName',     title : '项目名称', style : 'cursor: pointer;', align : 'center', width : '20%',templet:function(d){return '<span onclick="view(\''+d.useDepartment+'\')" style="color:#1890ff">'+d.projectName+'</span>'}},
+               {field : 'projectName',    sort : true,  title : '项目名称', style : 'cursor: pointer;', align : 'center', width : '20%',templet:function(d){return '<span onclick="view(\''+d.useDepartment+'\')" style="color:#1890ff">'+d.projectName+'</span>'}},
                {field : 'useDepartment', title : 'ERP号', style : 'cursor: pointer;', align : 'center', width : '20%'},
                {field : 'contractNumber', title : '合同号', style : 'cursor: pointer;', align : 'center', width : '20%'},
                {field : 'projectPrice', title : '计划万元', style : 'cursor: pointer;', align : 'center', width : '20%'},

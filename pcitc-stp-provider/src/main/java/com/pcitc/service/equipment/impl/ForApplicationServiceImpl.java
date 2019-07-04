@@ -315,15 +315,15 @@ public  class ForApplicationServiceImpl implements ForApplicationService {
 		map.put("applicationTime", applicationTime);
 		List<SreForApplication> list = sreforapplicationMapper.getList(map);
 		List<SreResearchAssets> sreResearchAssets = new ArrayList<>();
-		SreResearchAssets researchAssets = new SreResearchAssets();
 		if(list.size()!=0) {
 			for(SreForApplication application : list) {
-				researchAssets.setApplicationName(application.getApplicationName());//获取资产名称
-				researchAssets.setApplicationTime(application.getApplicationTime());//获取资产时间
-				researchAssets.setApplicationUserName(application.getApplicationUserName());//资产申请人
-				researchAssets.setApplyDepartName(application.getApplyDepartName());//资产申报部门
 				String[] str = application.getApplicationPurchaseid().split(",");//获取装备ID 
 				for(int i =0;i<str.length;i++) {
+					SreResearchAssets researchAssets = new SreResearchAssets();
+					researchAssets.setApplicationName(application.getApplicationName());//获取资产名称
+					researchAssets.setApplicationTime(application.getApplicationTime());//获取资产时间
+					researchAssets.setApplicationUserName(application.getApplicationUserName());//资产申请人
+					researchAssets.setApplyDepartName(application.getApplyDepartName());//资产申报部门
 					SreDetail SreDetail = sreDetailMapper.selectaRchaseidKey(str[i]);
 					researchAssets.setEquipmentName(SreDetail.getEquipmentName());//装备名称
 					researchAssets.setEquipmenNumber(SreDetail.getEquipmenNumber());//装备数量

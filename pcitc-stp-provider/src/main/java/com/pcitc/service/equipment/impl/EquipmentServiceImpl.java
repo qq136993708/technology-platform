@@ -571,7 +571,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 					
 					LayuiTableData data = new LayuiTableData();
 					data.setData(pageInfo.getList());
-					Long total = pageInfo.getTotal();
+					Long total = (long) pageInfo.getSize();
 					data.setCount(total.intValue());
 				    return data;
 				}
