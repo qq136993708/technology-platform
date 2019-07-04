@@ -20,11 +20,10 @@
         <span>专家姓名</span>
         <input type="text" id="expertName" name="expertName" placeholder="请输入专家姓名" title="专家姓名" autocomplete="off" class="form-control">
     </label>
-    <label class="dateInput">
-
+    <!-- <label class="dateInput">
         <span>邮箱</span>
         <input type="text" id="email" name="email" placeholder="请输入邮箱" title="邮箱" autocomplete="off" class="form-control">
-    </label>
+    </label> -->
 
     <!--<label class="selectInput">-->
         <!--<span>所属机构</span>-->
@@ -134,36 +133,37 @@
                     },
                     {
                         field: "expertName",
-                        title: "姓名", event: 'setActive', style: 'cursor: pointer;',width: 80
+                        title: "姓名", event: 'setActive', style: 'cursor: pointer;', align: 'left',width: 100
                     },
                     {
                         field: "sex",
-                        title: "性别", event: 'setActive', style: 'cursor: pointer;',width: 50
+                        title: "性别", event: 'setActive', style: 'cursor: pointer;', align: 'center',width: 80
                     },
-                    // {
-                    //     field: "expertProfessionalFieldName",
-                    //     title: "专业领域", event: 'setActive', style: 'cursor: pointer;'
-                    // },
+                    {
+                        field: "expertProfessinal",
+                        title: "职称", event: 'setActive', style: 'cursor: pointer;', align: 'left',width: 200
+                    },
+                    {
+                         field: "bak3",
+                         title: "专家类型", event: 'setActive', style: 'cursor: pointer;', align: 'left',width: 200
+                    },
                     {
                         field: "birthDate",
-                        title: "出生日期", event: 'setActive', style: 'cursor: pointer;',width: 120
+                        title: "出生日期", event: 'setActive', style: 'cursor: pointer;', align: 'center',width: 150
                     },
-                    {
+                    /* {
                         field: "email",
                         title: "邮箱", event: 'setActive', style: 'cursor: pointer;',width: 210
-                    },
+                    }, */
                     {
                         field: "mobile",
-                        title: "联系方式", event: 'setActive', style: 'cursor: pointer;',width: 120
+                        title: "联系方式", event: 'setActive', style: 'cursor: pointer;', align: 'left',width: 150
                     },
                     {
                         field: "expertProfessionalField",
                         title: "专业领域", event: 'setActive', style: 'cursor: pointer;'
                     },
-                    {
-                        field: "expertProfessinal",
-                        title: "职称", event: 'setActive', style: 'cursor: pointer;',width: 60
-                    },
+                    
                     {
                         field: "companyName",
                         title: "所属机构", event: 'setActive', style: 'cursor: pointer;'
@@ -203,14 +203,14 @@
                         url: "/pageCommon/dic/ROOT_ZGSHJT_GFGS_ZSYJY"//接口
                     };
                     publicMethods.dataDictionary(param);
-                    // var param = {
-                    //     data: res.data,//数据
-                    //     element: ".layui-table-body table",// 当前的表格元素
-                    //     column: 11,//列数 从0开始
-                    //     field: "company",//当前数据的字段
-                    //     url: "/pageCommon/dic/ROOT_ZGSHJT_GFGS_ZSYJY"//接口
-                    // };
-                    // publicMethods.dataDictionary(param);
+                    var param = {
+                         data: res.data,//数据
+                         element: ".layui-table-body table",// 当前的表格元素
+                         column: 6,//列数 从0开始
+                         field: "bak3",//当前数据的字段
+                         url: "/pageCommon/dic/ZJK_ZJLX"//接口
+                     };
+                     publicMethods.dataDictionary(param);
                 }
             });
             //移除表头的复选框,去掉全选
