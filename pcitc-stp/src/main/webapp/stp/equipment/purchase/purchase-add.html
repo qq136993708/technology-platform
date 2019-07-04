@@ -290,7 +290,8 @@
         }
         table.render({
             elem: '#join_apply_table',
-            url: '/sre-equipment/chooseEquipmentByMap?equipmentIds=' + equipmentIds+"&purchaseStatus="+purchaseStatus,
+            url: '/sre-equipment/chooseEquipmentByMap?equipmentIds=' + equipmentIds+"&purchaseStatus="+purchaseStatus+"&purchaseEquipmentIds="+purchaseEquipmentIds,
+            /*url: '/sre-equipment/chooseEquipmentByMap?equipmentIds=' + equipmentIds+"&purchaseStatus="+purchaseStatus,*/
             limit: 15,
             method: "GET",
             id: 'join_apply_table',
