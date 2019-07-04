@@ -65,6 +65,12 @@
     <result column="professional_depart_value" property="belongDepartmentValue"   jdbcType="VARCHAR" />
     <result column="professional_field_value"  property="professionalFieldValue"  jdbcType="VARCHAR" />
     
+    <result column="source_type"         property="sourceType"    jdbcType="VARCHAR" />
+    <result column="project_code"        property="projectCode"  jdbcType="VARCHAR" />
+    <result column="charge_man"          property="chargeMan"        jdbcType="VARCHAR" />
+    <result column="project_background"  property="projectBackground"  jdbcType="VARCHAR" />
+    <result column="search_content"      property="searchContent"  jdbcType="VARCHAR" />
+    <result column="chief_man"           property="chiefMan"       jdbcType="VARCHAR" />
     
     
   </resultMap>
@@ -83,6 +89,13 @@
     ,belong_department_value
     ,professional_depart_value
     ,professional_field_value
+    
+    ,source_type
+    ,project_code
+    ,charge_man
+    ,project_background
+    ,search_content
+    ,chief_man
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -115,6 +128,12 @@
       ,belong_department_value
       ,professional_depart_value
       ,professional_field_value
+      ,source_type
+    ,project_code
+    ,charge_man
+    ,project_background
+    ,search_content
+    ,chief_man
       )
     values (#{id,jdbcType=VARCHAR}, #{contractNum,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{remarks,jdbcType=VARCHAR}, #{projectMoney,jdbcType=DECIMAL}, #{updateUserId,jdbcType=VARCHAR}, 
@@ -147,11 +166,19 @@
         ,#{belongDepartmentValue,jdbcType=VARCHAR}
         ,#{belongDepartmentValue,jdbcType=VARCHAR}
         ,#{professionalFieldValue,jdbcType=VARCHAR}
+        
+        ,#{sourceType,jdbcType=VARCHAR}
+        ,#{projectCode,jdbcType=VARCHAR}
+        ,#{chargeMan,jdbcType=VARCHAR}
+        ,#{projectBackground,jdbcType=VARCHAR}
+        ,#{searchContent,jdbcType=VARCHAR}
+        ,#{chiefMan,jdbcType=VARCHAR}
       
       )
   </insert>
   
  
+    
     
     
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreProject" >
@@ -319,8 +346,6 @@
       <if test="parentApplyUnitCode != null" >
         parent_apply_unit_code,
       </if>
-      
-      
       <if test="belongDepartmentValue != null" >
         belong_department_value,
       </if>
@@ -330,13 +355,24 @@
       <if test="professionalFieldValue != null" >
         professional_field_value,
       </if>
-      
-      
-      
-      
-      
-      
-      
+      <if test="sourceType != null" >
+        source_type,
+      </if>
+      <if test="projectCode != null" >
+        project_code,
+      </if>
+      <if test="chargeMan != null" >
+        charge_man,
+      </if>
+      <if test="projectBackground != null" >
+        project_background,
+      </if>
+      <if test="searchContent != null" >
+        search_content,
+      </if>
+      <if test="chiefMan != null" >
+        chief_man,
+      </if>
      
     
     </trim>
@@ -503,8 +539,6 @@
       <if test="parentApplyUnitCode != null" >
         #{parentApplyUnitCode,jdbcType=VARCHAR},
       </if>
-      
-      
       <if test="belongDepartmentValue != null" >
         #{belongDepartmentValue,jdbcType=VARCHAR},
       </if>
@@ -514,14 +548,24 @@
       <if test="professionalFieldValue != null" >
         #{professionalFieldValue,jdbcType=VARCHAR},
       </if>
-      
-      
-      
-      
-      
-      
-      
-      
+      <if test="sourceType != null" >
+        #{sourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCode != null" >
+        #{projectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeMan != null" >
+        #{chargeMan,jdbcType=VARCHAR},
+      </if>
+      <if test="projectBackground != null" >
+        #{projectBackground,jdbcType=VARCHAR},
+      </if>
+      <if test="searchContent != null" >
+        #{searchContent,jdbcType=VARCHAR},
+      </if>
+      <if test="chiefMan != null" >
+        #{chiefMan,jdbcType=VARCHAR},
+      </if>
       
       
       
@@ -700,15 +744,24 @@
       <if test="professionalFieldValue != null" >
         professional_field_value = #{professionalFieldValue,jdbcType=VARCHAR},
       </if>
-      
-      
-      
-      
-      
-      
-       
-      
-      
+      <if test="sourceType != null" >
+        source_type = #{sourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCode != null" >
+        project_code = #{projectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeMan != null" >
+        charge_man = #{chargeMan,jdbcType=VARCHAR},
+      </if>
+      <if test="projectBackground != null" >
+        project_background = #{projectBackground,jdbcType=VARCHAR},
+      </if>
+      <if test="searchContent != null" >
+        search_content = #{searchContent,jdbcType=VARCHAR},
+      </if>
+      <if test="chiefMan != null" >
+        chief_man = #{chiefMan,jdbcType=VARCHAR},
+      </if>
       
       
     </set>
@@ -725,6 +778,12 @@
       professional_depart_value = #{belongDepartmentValue,jdbcType=VARCHAR},
       professional_field_value = #{professionalFieldValue,jdbcType=VARCHAR},
       
+      source_type = #{sourceType,jdbcType=VARCHAR},
+      project_code = #{projectCode,jdbcType=VARCHAR},
+      charge_man = #{chargeMan,jdbcType=VARCHAR},
+      project_background = #{projectBackground,jdbcType=VARCHAR},
+      search_content = #{searchContent,jdbcType=VARCHAR},
+      chief_man = #{chiefMan,jdbcType=VARCHAR},
       
       project_money = #{projectMoney,jdbcType=DECIMAL},
       update_user_id = #{updateUserId,jdbcType=VARCHAR},
@@ -818,7 +877,9 @@
 	      <if test="belongDepartmentValue != null       and belongDepartmentValue !=''  ">     AND t.belong_department_value = #{belongDepartmentValue}</if>
 	      <if test="belongDepartmentValue != null       and belongDepartmentValue !=''  ">     AND t.professional_depart_value = #{belongDepartmentValue}</if>
 	      <if test="professionalFieldValue != null      and professionalFieldValue !=''  ">     AND t.professional_field_value = #{professionalFieldValue}</if>
-	        
+	      <if test="sourceType != null      and sourceType !=''  ">     AND t.source_type = #{sourceType}</if>
+	      <if test="projectCode != null      and projectCode !=''  ">     AND t.project_code = #{projectCode}</if>
+	       
 	        
          <if test="startMoney != null   and startMoney !='' ">      AND  t.project_money &gt;= #{startMoney}</if>
          <if test="endMoney != null   and endMoney !='' ">      AND  t.project_money &lt;= #{endMoney}</if>

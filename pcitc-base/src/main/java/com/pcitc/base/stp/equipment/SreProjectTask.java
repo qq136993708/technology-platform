@@ -120,7 +120,68 @@ public class SreProjectTask {
     
     
     
-    public String getProfessionalDepartValue() {
+    
+    
+    
+    private String sourceType;
+    private String projectCode;
+    private String chargeMan;
+    private String linkTel;
+    private String linkMail;
+    private String chiefMan;
+    
+    
+    
+    
+    public String getSourceType() {
+		return sourceType;
+	}
+
+	public void setSourceType(String sourceType) {
+		this.sourceType = sourceType;
+	}
+
+	public String getProjectCode() {
+		return projectCode;
+	}
+
+	public void setProjectCode(String projectCode) {
+		this.projectCode = projectCode;
+	}
+
+	public String getChargeMan() {
+		return chargeMan;
+	}
+
+	public void setChargeMan(String chargeMan) {
+		this.chargeMan = chargeMan;
+	}
+
+	public String getLinkTel() {
+		return linkTel;
+	}
+
+	public void setLinkTel(String linkTel) {
+		this.linkTel = linkTel;
+	}
+
+	public String getLinkMail() {
+		return linkMail;
+	}
+
+	public void setLinkMail(String linkMail) {
+		this.linkMail = linkMail;
+	}
+
+	public String getChiefMan() {
+		return chiefMan;
+	}
+
+	public void setChiefMan(String chiefMan) {
+		this.chiefMan = chiefMan;
+	}
+
+	public String getProfessionalDepartValue() {
 		return professionalDepartValue;
 	}
 

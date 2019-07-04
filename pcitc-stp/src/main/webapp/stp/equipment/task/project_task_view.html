@@ -346,7 +346,48 @@
 					                </div>
 					            </div>
 
-
+				                <!--老系统信息-->
+				                <#if sreProjectTask.sourceType=="2">
+				                 <div class="layui-row">
+				                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				                        <div class="layui-form-item">
+				                            <label for="" class="layui-form-label">原项目编号</label>
+				                            <div class="layui-input-block">
+				                                <input class="layui-input readOnlyBox" name="projectCode" id="projectCode" readonly="readonly"
+				                                       value="${sreProjectTask.projectCode}"
+				                                       autocomplete="off" type="text">
+				                            </div>
+				                        </div>
+				                    </div>
+				                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				                        <div class="layui-form-item">
+				                            <label for="" class="layui-form-label">联系人电话</label>
+				                            <div class="layui-input-block">
+				                                <input class="layui-input readOnlyBox"  name="linkTel" id="linkTel"  readonly="readonly"
+				                                       value="${sreProjectTask.linkTel}"
+				                                       autocomplete="off" type="text">
+				                            </div>
+				                        </div>
+				                    </div>
+				                </div>
+				                
+				                
+				                 <div class="layui-row">
+				                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				                        <div class="layui-form-item">
+				                            <label for="" class="layui-form-label">联系人邮箱</label>
+				                            <div class="layui-input-block">
+				                                 <input class="layui-input readOnlyBox" name="linkMail" id="linkMail"  readonly="readonly"
+				                                       value="${sreProjectTask.linkMail}"
+				                                       autocomplete="off" type="text">
+				                            </div>
+				                        </div>
+				                    </div>
+				                </div>
+				                
+				                
+				                 
+				                 </#if>
 
 
 

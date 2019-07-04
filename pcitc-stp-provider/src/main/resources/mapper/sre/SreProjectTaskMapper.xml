@@ -65,8 +65,12 @@
     <result column="professional_field_value"  property="professionalFieldValue"  jdbcType="VARCHAR" />
     
     
-    
-    
+    <result column="source_type"         property="sourceType"    jdbcType="VARCHAR" />
+    <result column="project_code"        property="projectCode"  jdbcType="VARCHAR" />
+    <result column="charge_man"          property="chargeMan"        jdbcType="VARCHAR" />
+    <result column="link_tel"            property="linkTel"  jdbcType="VARCHAR" />
+    <result column="link_mail"           property="linkMail"  jdbcType="VARCHAR" />
+    <result column="chief_man"           property="chiefMan"       jdbcType="VARCHAR" />
     
   </resultMap>
   <sql id="Base_Column_List" >
@@ -84,7 +88,12 @@
      ,belong_department_value
     ,professional_depart_value
     ,professional_field_value
-    
+    ,source_type
+    ,project_code
+    ,charge_man
+    ,link_tel
+    ,link_mail
+    ,chief_man
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -116,10 +125,15 @@
       apply_user_name,document_doc,task_version,erp_num,close_status,
       close_date,join_unit_parent_codes,join_unit_parent_names,is_check,check_date
       
-       ,belong_department_value
+      ,belong_department_value
       ,professional_depart_value
       ,professional_field_value
-      
+      ,source_type
+    ,project_code
+    ,charge_man
+    ,link_tel
+    ,link_mail
+    ,chief_man
       )
     values (#{taskId,jdbcType=VARCHAR}, #{topicId,jdbcType=VARCHAR}, #{topicName,jdbcType=VARCHAR}, 
       #{createUserId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
@@ -154,11 +168,19 @@
        ,#{belongDepartmentValue,jdbcType=VARCHAR}
         ,#{belongDepartmentValue,jdbcType=VARCHAR}
         ,#{professionalFieldValue,jdbcType=VARCHAR}
+        
+        
+          ,#{sourceType,jdbcType=VARCHAR}
+        ,#{projectCode,jdbcType=VARCHAR}
+        ,#{chargeMan,jdbcType=VARCHAR}
+        ,#{linkTel,jdbcType=VARCHAR}
+        ,#{linkMail,jdbcType=VARCHAR}
+        ,#{chiefMan,jdbcType=VARCHAR}
+        
+        
       )
   </insert>
   
- 
-    
     
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreProjectTask" >
     insert into sre_project_task
@@ -334,11 +356,9 @@
      <if test="isCheck != null" >
         is_check,
       </if>
-    <if test="checkDate != null" >
+      <if test="checkDate != null" >
         check_date,
       </if>
-    
-   
      <if test="belongDepartmentValue != null" >
         belong_department_value,
       </if>
@@ -349,8 +369,24 @@
         professional_field_value,
       </if>
     
-    
-     
+      <if test="sourceType != null" >
+        source_type,
+      </if>
+      <if test="projectCode != null" >
+        project_code,
+      </if>
+      <if test="chargeMan != null" >
+        charge_man,
+      </if>
+      <if test="linkTel != null" >
+        link_tel,
+      </if>
+      <if test="linkMail != null" >
+        link_mail,
+      </if>
+      <if test="chiefMan != null" >
+        chief_man,
+      </if>
    
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -528,10 +564,7 @@
        <if test="checkDate != null" >
         #{checkDate,jdbcType=TIMESTAMP},
       </if>
-      
-      
-      
-        <if test="belongDepartmentValue != null" >
+      <if test="belongDepartmentValue != null" >
         #{belongDepartmentValue,jdbcType=VARCHAR},
       </if>
       <if test="belongDepartmentValue != null" >
@@ -540,9 +573,24 @@
       <if test="professionalFieldValue != null" >
         #{professionalFieldValue,jdbcType=VARCHAR},
       </if>
-     
-      
-      
+      <if test="sourceType != null" >
+        #{sourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCode != null" >
+        #{projectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeMan != null" >
+        #{chargeMan,jdbcType=VARCHAR},
+      </if>
+      <if test="linkTel != null" >
+        #{linkTel,jdbcType=VARCHAR},
+      </if>
+      <if test="linkMail != null" >
+        #{linkMail,jdbcType=VARCHAR},
+      </if>
+      <if test="chiefMan != null" >
+        #{chiefMan,jdbcType=VARCHAR},
+      </if>
         
      
     </trim>
@@ -721,7 +769,6 @@
       <if test="checkDate != null" >
         check_date = #{checkDate,jdbcType=TIMESTAMP},
       </if>
-      
       <if test="belongDepartmentValue != null" >
         belong_department_value = #{belongDepartmentValue,jdbcType=VARCHAR},
       </if>
@@ -731,9 +778,25 @@
       <if test="professionalFieldValue != null" >
         professional_field_value = #{professionalFieldValue,jdbcType=VARCHAR},
       </if>
-      
      
-      
+      <if test="sourceType != null" >
+        source_type = #{sourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCode != null" >
+        project_code = #{projectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeMan != null" >
+        charge_man = #{chargeMan,jdbcType=VARCHAR},
+      </if>
+      <if test="linkTel != null" >
+        link_tel = #{linkTel,jdbcType=VARCHAR},
+      </if>
+      <if test="linkMail != null" >
+        link_mail = #{linkMail,jdbcType=VARCHAR},
+      </if>
+      <if test="chiefMan != null" >
+        chief_man = #{chiefMan,jdbcType=VARCHAR},
+      </if>
       
     </set>
     where task_id = #{taskId,jdbcType=VARCHAR}
@@ -742,6 +805,13 @@
     update sre_project_task
     set topic_id = #{topicId,jdbcType=VARCHAR},
       topic_name = #{topicName,jdbcType=VARCHAR},
+      
+      source_type = #{sourceType,jdbcType=VARCHAR},
+      project_code = #{projectCode,jdbcType=VARCHAR},
+      charge_man = #{chargeMan,jdbcType=VARCHAR},
+      link_tel = #{linkTel,jdbcType=VARCHAR},
+      link_mail = #{linkMail,jdbcType=VARCHAR},
+      chief_man = #{chiefMan,jdbcType=VARCHAR},
        
       belong_department_value = #{belongDepartmentValue,jdbcType=VARCHAR},
       professional_depart_value = #{belongDepartmentValue,jdbcType=VARCHAR},
