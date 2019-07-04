@@ -18,8 +18,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.stp.IntlProject.IntlProjectApply;
-import com.pcitc.base.stp.IntlProject.IntlProjectApplyExample;
 import com.pcitc.base.system.SysNotice;
 import com.pcitc.base.system.SysNoticeExample;
 import com.pcitc.base.system.SysNoticeExample.Criteria;
@@ -245,6 +243,8 @@ public class SysNoticeServiceImpl implements SysNoticeService {
 		}
 		for(SysUserUnit unit:sysUserUnitList) {
 			SysNoticeExample.Criteria c = example.createCriteria();
+			c.andIsPublishedEqualTo(1);
+			c.andIsVariableEqualTo(1);
 			c.andNoticeReceiverLike("%"+unit.getUnitId()+"%");
 			example.or(c);
 		}
