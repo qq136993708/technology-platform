@@ -233,21 +233,21 @@ public class ExpertController extends BaseController {
 
         //ajax获取专家数据
         ZjkExpert expert = new ZjkExpert();
-//        expert.setSelect_type("ZJK_XYLY");
+        expert.setSelect_type("ZJK_XYLY");
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST_RANDOM, HttpMethod.POST, new HttpEntity<ZjkExpert>(expert, this.httpHeaders), JSONObject.class);
         JSONObject retJson = responseEntity.getBody();
-        List<ZjkExpert> list = (List<ZjkExpert>) retJson.get("list");
-        request.setAttribute("expert", list);
+        //List<ZjkExpert> list = (List<ZjkExpert>) retJson.get("list");
+        request.setAttribute("expert", retJson.get("list"));
 
         //机构
-        ResponseEntity<String> responseEntityJg = restTemplate.exchange(UNIT_LIST_ZTREE_DATA, HttpMethod.POST, new HttpEntity<Object>("", this.httpHeaders), String.class);
-        System.out.println(responseEntityJg.getBody());
-        request.setAttribute("agent", responseEntityJg.getBody());
+        //ResponseEntity<String> responseEntityJg = restTemplate.exchange(UNIT_LIST_ZTREE_DATA, HttpMethod.POST, new HttpEntity<Object>("", this.httpHeaders), String.class);
+        //System.out.println(responseEntityJg.getBody());
+        //request.setAttribute("agent", responseEntityJg.getBody());
 
         //行业领域
-        List<SysDictionary> dictionarys = this.restTemplate.exchange(DICTIONARY_LIST + "ZJK_XYLY", HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class).getBody();
+        //List<?> dictionarys = this.restTemplate.exchange(DICTIONARY_LIST + "ZJK_XYLY", HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class).getBody();
 
-        request.setAttribute("dictionarys", dictionarys);
+        //request.setAttribute("dictionarys", dictionarys);
 //        request.setAttribute("dictionarys",JSON.toJSONString(dictionarys));
         return "stp/expert/pageExpertIndexNew";
     }

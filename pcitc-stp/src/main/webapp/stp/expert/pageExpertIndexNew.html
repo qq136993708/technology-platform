@@ -253,20 +253,20 @@
     <!--<#else>-->
     <!--<div class="main-content">-->
     <!--</#if>-->
-    <div class="searchH">
+    <!-- <div class="searchH">
         <input id="key" value="" onblur="changeUrl()" placeholder="输入查找关键字"/>
         <a class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" lay-href="/expertController/queryExpert" target="_blank" id="hrefExpert" lay-text="找专家">找专家</a>
-    </div>
+    </div> -->
 
     <div class="main-content" id="main-content-first">
         <#list expert as vo>
         <#if vo_index<5>
         <div class="main-expert">
-            <div class="expert-i"><img id="${vo.dataId}" height="110" src="/stp/expert/img/default.png" alt=""></div>
+            <div class="expert-i"><img dataType="headImg" id="${vo.dataId}" height="110" src="/stp/expert/img/default.png" alt=""></div>
             <!--<div class="expert-i"><img src="/layuiadmin/layui/images/expert-img.png" alt=""></div>-->
             <div class="expert-t">${vo.expertName}</div>
-            <div class="expert-s">${vo.birthDate}</div>
-            <div class="expert-s">${vo.email}</div>
+            <!-- <div class="expert-s">${vo.birthDate}</div>
+            <div class="expert-s">${vo.email}</div> -->
             <div class="expert-ab"><p>${vo.userDesc}</p></div>
             <!--<div class="expert-p">
                 &lt;!&ndash;<a href="javascript:void(0);" onclick="addBx('${vo.dataId}','${vo.company}','${vo.companyName}')">加入备选</a>&ndash;&gt;
@@ -282,7 +282,7 @@
         <#if vo_index<5>
         <#else>
         <div class="main-expert">
-            <div class="expert-i"><img id="${vo.dataId}" height="110" src="/stp/expert/img/default.png" alt=""></div>
+            <div class="expert-i"><img dataType="headImg" id="${vo.dataId}" height="110" src="/stp/expert/img/default.png" alt=""></div>
             <!--<div class="expert-i"><img src="/layuiadmin/layui/images/expert-img.png" alt=""></div>-->
             <div class="expert-t">${vo.expertName}</div>
             <div class="expert-s">${vo.birthDate}</div>
@@ -392,6 +392,60 @@
         index: 'lib/index' //主入口模块, 'formSelects'
     }).use(['index', 'form', 'jquery', 'publicMethods'], function () {
         publicMethods = layui.publicMethods, formSelects = layui.formSelects;
+        
+        function photoContent(picId) {
+            var ret = getFileResult(picId);
+            if (ret != null && ret.list.length > 0) {
+                picId = ret.list[0].id;
+            }
+            var base64 = "";
+            $.ajax({
+                type: 'get',
+                dataType: 'text',
+                async: false,
+                url: '/sysfile/viewPic/' + picId,
+                success: function (data) {
+                    base64 = data;
+                },
+                error: function (e) {
+                    alert("出错了");
+                }
+            });
+            return base64;
+        }
+
+        ////加载图片
+        function getFileResult(fileIds) {
+            var ret = null;
+            ajaxFile("/sysfile/getFilesLayuiByFormId", {fileIds: fileIds}, function (result) {
+                ret = result;
+            });
+            return ret;
+        }
+        function ajaxFile(url, data, callback) {
+            var result = null;
+            $.ajax({
+                type: 'post',
+                async: false,
+                url: url,
+                data: data,
+                dataType: 'json',
+                success: function (data, status) {
+                    result = data;
+                    if (callback) {
+                        callback.call(this, data, status);
+                    }
+                },
+                error: function (err, err1, err2) {
+                    console.log("ajaxPost发生异常，请仔细检查请求url是否正确");
+                }
+            });
+            return result;
+        }
+        $.each($('img[dataType="headImg"]'),function(i,d){
+        	console.log($(this).attr("id"));
+        	$(this).attr("src",photoContent($(this).attr("id")));
+        });
         //行业领域
         // publicMethods.ajaxPost("/pageCommon/dic/ZJK_XYLY", null, function (data) {
         //     var arr = [];
