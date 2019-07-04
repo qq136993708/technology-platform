@@ -82,6 +82,7 @@ public class InvestmentProgressController extends BaseController {
 	{
 		BigDecimal equipmentmoney = new BigDecimal(0);
 		SreProject sreProject=EquipmentUtils.getSreProject(InvestmentrogressId, restTemplate, httpHeaders);
+		if(sreProject!=null&&sreProject.getEquipmentIds()!=null&&!sreProject.getEquipmentIds().equals("")) {
 		String[] sre = sreProject.getEquipmentIds().split(",");
 		for(int i =0;i<sre.length;i++) {
 			SreEquipment  sreEquipment= EquipmentUtils.getSreEquipment(sre[i], restTemplate, httpHeaders);
@@ -90,6 +91,7 @@ public class InvestmentProgressController extends BaseController {
 			}
 		}
 		request.setAttribute("equipmentmoney", equipmentmoney);
+		}
 		return "/stp/equipment/Investmentrogress/Investmentrogress-view";
 	}
 	
