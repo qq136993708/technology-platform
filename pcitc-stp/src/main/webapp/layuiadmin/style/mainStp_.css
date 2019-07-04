@@ -177,7 +177,7 @@ background: url("/layuiadmin/layui/images/icon-leader-aw.png") right no-repeat;
 .project-1 .layui-bg-red-3{background: #28a745 !important;}
 .project-1 .layui-bg-red-4{background: #ffc107 !important;}
 .layui-progress-bar{border-radius: 0;height: 10px;}
-.layui-table .layui-progress{    top: 12px;width: 70%;right: 33%;}
+.layui-table .layui-progress{    top: 12px;width: 70%;left: 6px;position: absolute;}
 .layui-table .layui-progress-bar{height: 6px;border-radius: 20px;background-color: #1890ff;}
 /**/
 .layui-card-ul{background: #f7f7f7;border-radius: 6px}
@@ -188,7 +188,7 @@ background: url("/layuiadmin/layui/images/icon-leader-aw.png") right no-repeat;
 .workNews .layui-tab-title .layui-this:after{height: 38px;border: none;}
 .workNews .layui-tab-title li:nth-child(1){margin-left: 0;}
 .workNews .layui-tab-title li {margin: 2px 4px 0;height: 34px;line-height: 34px;color: #666666;font-size: 14px;}
-.workNews .layui-tab-title li.layui-this{color: #fff;background: #53acff;border-radius: 4px;}
+.workNews .layui-tab-title li.layui-this{color: #fff;background: #53acff;border-radius: 2px 2px 0 0;}
 .workNews .layui-tab-content{height: auto;}
 .workNews .layui-tab{position: relative;}
 .workNews .layui-tab-content .layui-tab-item>a{position: absolute;font-size: 12px;top: 8px;right: 0;}

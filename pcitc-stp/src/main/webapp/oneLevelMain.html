@@ -193,11 +193,11 @@
         carousel= layui.carousel
         /*搜索*/
         $(".layui-search .btn").click(function () {
-            window.open("fullSearch/search?keyword="+$(".layui-search input").val(),"_target");
+            window.open("/instituteIndex?url=/fullSearch/search?keyword="+$(".layui-search input").val(),"_target");
         });
         $(document).keyup(function(event){
             if(event.keyCode ==13){
-                window.open("fullSearch/search?keyword="+$(".layui-search input").val(),"_target");
+                window.open("/instituteIndex?url=/fullSearch/search?keyword="+$(".layui-search input").val(),"_target");
             }
         });
         //图片轮播
