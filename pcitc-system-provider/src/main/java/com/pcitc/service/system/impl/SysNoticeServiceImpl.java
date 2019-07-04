@@ -16,6 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.stp.IntlProject.IntlProjectApply;
+import com.pcitc.base.stp.IntlProject.IntlProjectApplyExample;
 import com.pcitc.base.system.SysNotice;
 import com.pcitc.base.system.SysNoticeExample;
 import com.pcitc.base.system.SysNoticeExample.Criteria;
@@ -40,6 +44,8 @@ public class SysNoticeServiceImpl implements SysNoticeService {
 	
 	@Autowired
 	private SysUserNoticeMapper sysUserNoticeMapper;
+	
+	
 	
 	@Override
 	public JSONObject selectSysNoticeAll(SysNoticeVo vo) throws Exception {
@@ -204,5 +210,44 @@ public class SysNoticeServiceImpl implements SysNoticeService {
 		Long count = sysUserNoticeMapper.countByExample(ex);
 		return count;
 	}
+	private LayuiTableData findByExample(LayuiTableParam param,SysNoticeExample example) 
+	{
+		//每页显示条数
+		int pageSize = param.getLimit();
+		//从第多少条开始
+		int pageStart = (param.getPage()-1)*pageSize;
+		//当前是第几页
+		int pageNum = pageStart/pageSize + 1;
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
+		
+		List<SysNotice> list = sysNoticeMapper.selectByExample(example);
+		// 3、获取分页查询后的数据
+		PageInfo<SysNotice> pageInfo= new PageInfo<SysNotice>(list);
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+		return data;
+	}
 
+	@Override
+	public LayuiTableData findNoticList(LayuiTableParam param) 
+	{
+		SysNoticeExample example = new SysNoticeExample();
+		//查询当前用户所在机构
+		String userId = param.getParam().get("userId").toString();
+		SysUserUnitExample ex = new SysUserUnitExample();
+		ex.createCriteria().andUserIdEqualTo(userId);
+		List<SysUserUnit> sysUserUnitList = sysUserUnitMapper.selectByExample(ex);
+		if(sysUserUnitList.size() == 0) {
+			return new LayuiTableData();
+		}
+		for(SysUserUnit unit:sysUserUnitList) {
+			SysNoticeExample.Criteria c = example.createCriteria();
+			c.andNoticeReceiverLike("%"+unit.getUnitId()+"%");
+			example.or(c);
+		}
+		return findByExample(param,example);
+	}
 }

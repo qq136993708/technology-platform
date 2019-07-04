@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+	<link rel="stylesheet" href="/layuiadmin/style/common.css">
+	<script src="/layuiadmin/layui/layui.js"></script>
+	<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+</head>
+<body>
+	<div class="layui-row searchBox">
+	    <!--查询条件-->
+	    <label class="dateInput">
+	        <span>公告标题</span>
+	        <input type="text" id="noticeTitle" name="noticeTitle" placeholder="请输入公告标题" title="公告标题" autocomplete="off" class="form-control">
+	    </label>
+		<!--按钮组-->
+        <div class="btnGroup">
+            <button id="search" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg btn_search" data-type="searchEvent">查询</button>
+            <button class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg btn_reset" data-type="resetEvent">重置</button>
+        </div>
+	</div>
+	<div class="tableBox">
+	    <div class="tableToolBox">
+	        <div class="whiteLine"></div>
+	        <div  class="tableBtns">
+	            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg" data-type="detailEvent">详情</button>
+	        </div>
+	    </div>
+		<table id="noticeTable" class="layui-hide" lay-filter="demoEvent"></table>
+	</div>
+	<script>
+	layui.use(['jquery', 'table','laypage',"publicMethods"], function(){
+		var table = layui.table,publicMethods=layui.publicMethods,$ = layui.jquery;
+		//获取当前行数据  设置全局变量
+        var selectRowData = '';
+        var noticeTitle = $('#noticeTitle').val();
+        table.render({
+        	id:'notice', //唯一即可
+            elem: '#noticeTable',
+            url: '/sysNotice/getMyNoticeList',
+            limit: 15,
+            height: commonDislodgeTable(),
+            method: 'POST',
+            where: {noticeTitle: noticeTitle},
+            page: {
+            	count: 500, //数据总数，从服务端得到
+                groups: 5,
+                limits: [15,30,45,60],
+                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                first: '首页', //不显示首页
+                last: '尾页', //不显示尾页
+                theme: '#0F9EE0'
+            },
+            cols: [[
+                {title:'序号', type:'numbers' ,width : 55},
+                {field:'noticeTitle', title:'公告标题', event: 'setActive',style:'cursor: pointer;'},
+                {field:'noticeCreater', title:'创建者', event: 'setActive',style:'cursor: pointer;',width : '8%'},
+                {field:'noticeCreatetime', title:'创建时间', event: 'setActive',align:'center',style:'cursor: pointer;',width : '10%'},
+                {field:'noticePublishtime', title:'发布时间' ,event: 'setActive',align:'center',style:'cursor: pointer;',width : '10%'}
+                
+            ]]
+            ,done: function (res, curr, count) {
+                // 点击行联动选择框--单选
+                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+		        	var index=parseInt($(this).index()+1);
+		            selectRowData=res.data[index-1];
+		        })
+            }
+        });
+        table.on('rowDouble(demoEvent)', function(obj){
+        	var temUrl = '/sysNotice/readNotice?id='+selectRowData.noticeId;
+        	openFullWin("查看公告",temUrl);
+        });
+        //若使用单选框 需要移除表头的复选框
+		$(".layui-table-header table thead th input").remove();
+	 	function doSearch(){
+        	var noticeTitle = $('#noticeTitle');
+            table.reload('notice', {
+                where: {
+                	noticeTitle: noticeTitle.val()
+                }
+            });
+          	//若使用单选框 需要移除表头的复选框
+    		$(".layui-table-header table thead th input").remove();
+    		selectRowData = '';
+        }
+		// 触发不同的按钮事件
+        var $ = layui.$, active = {
+            searchEvent: function() { //点击查询按钮
+            	doSearch();
+            }
+            ,resetEvent: function() { //点击重置按钮
+            	$('#noticeTitle').val('');
+            	doSearch();
+            }
+            ,detailEvent: function(){  //点击详情按钮
+            	if (!selectRowData.noticeId) {
+                	layer.msg('请选择一条数据');
+                    return false;
+                }
+            	var temUrl = '/sysNotice/readNotice?id='+selectRowData.noticeId;
+            	openFullWin("查看公告",temUrl);
+            }
+            
+        };
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+	</script>
+</body>
+</html>
