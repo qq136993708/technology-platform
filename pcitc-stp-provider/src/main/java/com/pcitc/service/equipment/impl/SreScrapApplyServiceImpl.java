@@ -182,4 +182,9 @@ public class SreScrapApplyServiceImpl implements SreScrapApplyService {
             return new Result(false,"操作失败!");
         }
     }
+	@Override
+	public int deleteByApplyId(String id) {
+		// TODO Auto-generated method stub
+		return sreScrapApplyMapper.deleteByPrimaryKey(id);
+	}
 }

@@ -71,6 +71,12 @@ public class SreScrapApplyClient {
 		return sreScrapApplyItemService.selectByAppltidList(id);
 	}
 	
+	@RequestMapping(value = "/sre-provider/sreScrapApply/delete/{id}", method = RequestMethod.POST)
+	public int deleteSreForapplication(@PathVariable("id") String id)throws Exception{
+		logger.info("=============================delete sreForapplication=================");
+		Integer countApplyId = sreScrapApplyService.deleteByApplyId(id);
+		return sreScrapApplyItemService.deleteByApplyId(id);
+	}
 
 	@RequestMapping(value = "/sre-provider/project_task/audit", method = RequestMethod.POST)
 	public String addAudit(@RequestBody SreProjectAudit sreProjectAudit)throws Exception{

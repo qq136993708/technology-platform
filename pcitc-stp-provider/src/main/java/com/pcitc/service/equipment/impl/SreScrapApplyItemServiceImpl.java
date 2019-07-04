@@ -31,6 +31,6 @@ public class SreScrapApplyItemServiceImpl implements SreScrapApplyItemService{
 	   }
 	   public int deleteByApplyId(String applyid)throws Exception
 	   {
-		   return srescrapapplyitemMapper.deleteByApplyId(applyid);
+		   return srescrapapplyitemMapper.deleteapplyid(applyid);
 	   }
 }

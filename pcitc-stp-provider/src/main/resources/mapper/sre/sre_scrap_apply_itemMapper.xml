@@ -151,4 +151,9 @@
     select * from sre_scrap_apply_item
     where eqdetailid = #{eqdetailid,jdbcType=VARCHAR}
   </select>
+  
+  <delete id="deleteapplyid" parameterType="java.lang.String" >
+    delete from sre_scrap_apply_item
+    where applyid = #{applyid,jdbcType=VARCHAR}
+  </delete>
 </mapper>

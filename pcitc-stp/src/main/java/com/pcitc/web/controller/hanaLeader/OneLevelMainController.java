@@ -39,7 +39,6 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.common.TreeNode2;
 import com.pcitc.base.hana.report.AchievementsAnalysis;
 import com.pcitc.base.hana.report.BudgetMysql;
-import com.pcitc.base.hana.report.CompanyCode;
 import com.pcitc.base.hana.report.Contract;
 import com.pcitc.base.hana.report.H1AMKYSY100117;
 import com.pcitc.base.hana.report.Knowledge;
@@ -764,6 +763,7 @@ public class OneLevelMainController extends BaseController {
 		String define11 = CommonUtil.getParameter(request, "define11", "");// 费用来源
 		String define12 = CommonUtil.getParameter(request, "define12", "");// 单位类别
 		String fzdwflag = CommonUtil.getParameter(request, "fzdwflag", "承担单位");
+		String groupFlag = CommonUtil.getParameter(request, "groupFlag", "");// 查询分组条件
 		request.setAttribute("fzdwflag", fzdwflag);
 		request.setAttribute("define12", define12);
 		request.setAttribute("define11", define11);
@@ -779,6 +779,7 @@ public class OneLevelMainController extends BaseController {
 		request.setAttribute("project_property", project_property);
 		request.setAttribute("project_scope", project_scope);
 		request.setAttribute("zylb", zylb);
+		request.setAttribute("groupFlag", groupFlag);
 		String projectId = CommonUtil.getParameter(request, "projectId", "");
 		request.setAttribute("projectId", projectId);
 
