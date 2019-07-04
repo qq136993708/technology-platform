@@ -1,16 +1,17 @@
 package com.pcitc.service.equipment.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -18,6 +19,7 @@ import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.stp.equipment.ProjectMoney;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectSetup;
@@ -26,8 +28,7 @@ import com.pcitc.base.stp.equipment.SreProjectYear;
 import com.pcitc.base.stp.equipment.SreProjectYearExample;
 import com.pcitc.base.stp.equipment.SreSupplier;
 import com.pcitc.base.stp.equipment.SreTechMeeting;
-import com.pcitc.base.system.SysUnit;
-import com.pcitc.base.system.SysUser;
+import com.pcitc.mapper.equipment.ProjectMoneyMapper;
 import com.pcitc.mapper.equipment.SreEquipmentMapper;
 import com.pcitc.mapper.equipment.SreProjectAssessMapper;
 import com.pcitc.mapper.equipment.SreProjectAuditMapper;
@@ -74,7 +75,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 	@Autowired
 	private WorkflowRemoteClient workflowRemoteClient;
 	
-	
+	@Autowired
+	private ProjectMoneyMapper projectMoneyMapper;
 	
 	public SreEquipment selectEquipment(String id) throws Exception
 	{
@@ -186,28 +188,6 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("unitPathIds", unitPathIds);
 		map.put("parentUnitPathIds", parentUnitPathIds);
 		map.put("isLinkedProject", isLinkedProject);
-		System.out.println(">>>>>>>>applyDepartCode="+applyDepartCode);
-		StringBuffer applyUnitCodeStr=new StringBuffer();
-		/*if(!applyDepartCode.equals(""))
-		{
-			applyUnitCodeStr.append(" (");
-			String arr[]=applyDepartCode.split(",");
-			for(int i=0;i<arr.length;i++)
-			{
-				if(i>0)
-				{
-					applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
-				}else
-				{
-					applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
-				}
-				
-			}
-			applyUnitCodeStr.append(" )");
-		}
-		
-		map.put("sqlStr", applyUnitCodeStr.toString());*/
-		
 		
 		List<SreEquipment> list = sreEquipmentMapper.getList(map);
 		PageInfo<SreEquipment> pageInfo = new PageInfo<SreEquipment>(list);
@@ -229,6 +209,34 @@ public class EquipmentServiceImpl implements EquipmentService {
 
 	public Integer updateProjectBasic(SreProject record)throws Exception
 	{
+		projectMoneyMapper.deleteProjectMoneyByProjectId(record.getId());
+		
+		
+		String str=record.getYearFeeStr();
+		if(str!=null)
+		{
+			String arr[]=str.split("#");
+			if(arr!=null && arr.length>0)
+			{
+				for(int i=0;i<arr.length;i++)
+				{
+					String yearStr=arr[i];
+					if(yearStr!=null && !yearStr.equals(""))
+					{
+						ProjectMoney projectMoney=new ProjectMoney();
+						String arrYear[]=yearStr.split(",");
+						projectMoney.setProjectId(record.getId());
+						projectMoney.setYear(arrYear[0]);
+						projectMoney.setFyMoney(Integer.valueOf(arrYear[1]));
+						projectMoney.setZbMoney(Integer.valueOf(arrYear[2]));
+						projectMoney.setUnitCode(record.getLeadUnitCode());
+						projectMoney.setUnitName(record.getLeadUnitName());
+						projectMoneyMapper.insert(projectMoney);
+					}
+				}
+				
+			}
+		}
 		return sreProjectMapper.updateByPrimaryKey(record);
 	}
 
@@ -239,7 +247,33 @@ public class EquipmentServiceImpl implements EquipmentService {
 
 	public Integer insertProjectBasic(SreProject record)throws Exception
 	{
-		return sreProjectMapper.insert(record);
+		int count=sreProjectMapper.insert(record);
+		String str=record.getYearFeeStr();
+		if(str!=null)
+		{
+			String arr[]=str.split("#");
+			if(arr!=null && arr.length>0)
+			{
+				for(int i=0;i<arr.length;i++)
+				{
+					String yearStr=arr[i];
+					if(yearStr!=null && !yearStr.equals(""))
+					{
+						ProjectMoney projectMoney=new ProjectMoney();
+						String arrYear[]=yearStr.split(",");
+						projectMoney.setProjectId(record.getId());
+						projectMoney.setYear(arrYear[0]);
+						projectMoney.setFyMoney(Integer.valueOf(arrYear[1]));
+						projectMoney.setZbMoney(Integer.valueOf(arrYear[2]));
+						projectMoney.setUnitCode(record.getLeadUnitCode());
+						projectMoney.setUnitName(record.getLeadUnitName());
+						projectMoneyMapper.insert(projectMoney);
+					}
+				}
+				
+			}
+		}
+		return count;
 	}
 
 	
@@ -316,9 +350,6 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("taskId", taskId);
 		map.put("unitPathIds", unitPathIds);
 		map.put("parentUnitPathIds", parentUnitPathIds);
-		System.out.println(">>>>>>>>applyUnitCode="+applyUnitCode);
-		
-		
 		
 		
 		List<SreProject> list = sreProjectMapper.getList(map);
@@ -1079,6 +1110,52 @@ public class EquipmentServiceImpl implements EquipmentService {
 	}
 	
 	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	public ProjectMoney selectProjectMoney(String id) throws Exception
+	{
+		return projectMoneyMapper.selectByPrimaryKey(id);
+	}
+
+	public Integer updateProjectMoney(ProjectMoney record)throws Exception
+	{
+		
+		return projectMoneyMapper.updateByPrimaryKey(record);
+	}
+
+	public int deleteProjectMoney(String id)throws Exception
+	{
+		return projectMoneyMapper.deleteByPrimaryKey(id);
+	}
+	public int deleteProjectMoneyBy(String projectId)throws Exception
+	{
+		return projectMoneyMapper.deleteProjectMoneyByProjectId(projectId);
+	}
+	public Integer insertProjectMoney(ProjectMoney record)throws Exception
+	{
+		return projectMoneyMapper.insert(record);
+	}
+
+	public List<ProjectMoney> getList(Map map)throws Exception
+	{
+		return projectMoneyMapper.getList(map);
+	}
+	
+	
+	
+	
+	
+	
+	
 	/**===========================================技术交流==========================================*/
 
 	
@@ -1200,27 +1277,6 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("unitPathIds", unitPathIds);
 		map.put("parentUnitPathIds", parentUnitPathIds);
 		
-		System.out.println(">>>>>>>>applyDepartCode="+applyDepartCode);
-		StringBuffer applyUnitCodeStr=new StringBuffer();
-		if(!applyDepartCode.equals(""))
-		{
-			applyUnitCodeStr.append(" (");
-			String arr[]=applyDepartCode.split(",");
-			for(int i=0;i<arr.length;i++)
-			{
-				if(i>0)
-				{
-					applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
-				}else
-				{
-					applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
-				}
-				
-			}
-			applyUnitCodeStr.append(" )");
-		}
-		
-		map.put("sqlStr", applyUnitCodeStr.toString());
 		
 		
 		List<SreSupplier> list = sreSupplierMapper.getList(map);

@@ -439,7 +439,7 @@ public class ProjectBasicController extends BaseController {
 		sreProjectBasic.setApplyUnitCode(applyUnitCode);
 		sreProjectBasic.setApplyUnitName(applyUnitName);
 		sreProjectBasic.setApplyUnitId(applyUnitId);
-		
+		sreProjectBasic.setSourceType("1");
 		sreProjectBasic.setTaskWriteUserNames(taskWriteUserNames);
 		sreProjectBasic.setTaskWriteUsersIds(taskWriteUsersIds);
 		sreProjectBasic.setSetupYear(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));

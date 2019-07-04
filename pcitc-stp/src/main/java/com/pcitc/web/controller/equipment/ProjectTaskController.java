@@ -479,8 +479,7 @@ public class ProjectTaskController extends BaseController {
 			sreProjectBasic.setTaskVersion(taskVersion);
 			sreProjectBasic.setCloseStatus("0");
 			sreProjectBasic.setIsCheck("0");
-			
-			
+			sreProjectBasic.setSourceType("1");
 			
 		} else 
 		{
