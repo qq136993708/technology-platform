@@ -113,7 +113,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         */
     	//取十个院士
     	List<ZjkExpert> zjkExpertreturnList = selectYsList();
-        return zjkExpertreturnList.subList(0, 10);
+        return zjkExpertreturnList;
     }
 
     @Override
