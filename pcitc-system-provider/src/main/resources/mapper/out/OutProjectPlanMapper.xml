@@ -1363,9 +1363,9 @@
 				out_project_plan.ND= '${nd}' 
 				and out_project_plan.PROJECT_TYPE != '1'
 				and out_project_plan.define4 = '项目管理系统'
-				group by out_project_plan.xmid,out_project_plan.DEFINE12
+				group by out_project_plan.xmid,out_project_plan.define2,out_project_plan.define8
 		) as tableB  
-		group by tableB.DEFINE12
+		group by tableB.define3
 		ORDER BY tableB.DEFINE3
 	</select>
 	
@@ -1378,11 +1378,11 @@
 			 tableC.zbxRate,tableC.fyxRate,tableC.zRate
 		FROM (
 			SELECT tableB.define3,tableB.zbxsjje,tableB.fyxsjje, tableB.zbxsjje+tableB.fyxsjje as zsjje,
-			out_tem_money_total.zbx_money+out_tem_money_total.fyx_money as zysje,
-			out_tem_money_total.zbx_money as zbxysje,out_tem_money_total.fyx_money as fyxysje,
-			round(tableB.zbxsjje/out_tem_money_total.zbx_money *100, 4) zbxRate,
-			round(tableB.fyxsjje/out_tem_money_total.fyx_money *100, 4) fyxRate,
-			round((tableB.zbxsjje+tableB.fyxsjje)/(out_tem_money_total.zbx_money+out_tem_money_total.fyx_money) *100, 4) zRate
+			tableD.xmjf_zbx+tableD.xmjf_fyx as zysje,
+			tableD.xmjf_zbx as zbxysje,tableD.xmjf_fyx as fyxysje,
+			round(tableB.zbxsjje/tableD.xmjf_zbx *100, 4) zbxRate,
+			round(tableB.fyxsjje/tableD.xmjf_fyx *100, 4) fyxRate,
+			round((tableB.zbxsjje+tableB.fyxsjje)/(tableD.xmjf_zbx+tableD.xmjf_fyx) *100, 4) zRate
 			FROM (			
 				select SUBSTR(tableA.DEFINE3 FROM 4) as define3, tableA.DEFINE3 as temOrder, zbxsjje, fyxsjje from (
 						select 
@@ -1396,7 +1396,93 @@
 							and define3='项目管理系统' and ysje is not null
 							group by out_project_info.type_flag
 						) as tableA
-				) as tableB LEFT JOIN out_tem_money_total ON (tableB.define3 = out_tem_money_total.show_ali and out_tem_money_total.nd = '${nd}')
+				) as tableB LEFT JOIN (
+									SELECT
+										nd,
+										case when display_name = '集团单位' then '股份付集团' when display_name = '休斯顿研发中心' then '休斯顿' when display_name = '中东研发中心' then '中东' else display_name end as display_name,
+										xmjf_total,
+										xmjf_zbx,
+										xmjf_fyx
+									FROM
+										out_tem_money_stock_total
+									WHERE
+										(
+											budget_info_id IN (
+												SELECT
+													data_id
+												FROM
+													out_tem_budget_info
+												WHERE
+													(
+														del_flag = '0'
+														AND audit_status = '3'
+														AND budget_type = '103'
+														AND nd  = '${nd}'
+														AND `level` = '0'
+													)
+											)
+											AND del_flag = '0'
+											AND item_type = '1'
+										)
+									UNION ALL
+										SELECT
+											nd,
+											'集团公司' AS display_name,
+											sum(total) AS xmjf_total,
+											0 AS xmjf_zbx,
+											sum(total) AS xmjf_fyx
+										FROM
+											out_tem_money_group_total
+										WHERE
+											(
+												del_flag = '0'
+												AND budget_info_id IN (
+													SELECT
+														data_id
+													FROM
+														out_tem_budget_info
+													WHERE
+														(
+															del_flag = '0'
+															AND audit_status = '3'
+															AND budget_type = '101'
+															AND nd  = '${nd}'
+															AND `level` = '0'
+														)
+												)
+												AND LEVEL = '0'
+												AND nd  = '${nd}'
+											)
+										UNION ALL
+											SELECT
+												nd,
+												'资产公司' AS display_name,
+												sum(xmjf) AS xmjf_total,
+												0 AS xmjf_zbx,
+												sum(xmjf) AS xmjf_fyx
+											FROM
+												out_tem_money_asset_total
+											WHERE
+												(
+													del_flag = '0'
+													AND budget_info_id IN (
+														SELECT
+															data_id
+														FROM
+															out_tem_budget_info
+														WHERE
+															(
+																del_flag = '0'
+																AND audit_status = '3'
+																AND budget_type = '102'
+																AND nd = '${nd}'
+																AND `level` = '0'
+															)
+													)
+													AND LEVEL = '0'
+												)
+										
+									) as tableD ON (tableB.define3 = tableD.display_name and tableD.nd = '${nd}')
 			ORDER BY tableB.temOrder
 		) AS tableC
 	</select>
@@ -1414,7 +1500,7 @@
 				out_project_plan.ND = '${nd}' 
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
 				and out_project_plan.define4 = '项目管理系统'
-				group by out_project_plan.xmid
+				group by out_project_plan.xmid,out_project_plan.define2,out_project_plan.define8
 		) as tableB 
 		group by tableB.DEFINE3,tableB.DEFINE2
 		order by tableB.DEFINE3
@@ -1486,11 +1572,13 @@
 				</foreach>
 				)
 			</if>
+			
+			<!-- define12, 财务相关的牵头单位，所以查询define13 -->
 			<if test="fzdwflag != null and fzdwflag == '牵头单位'">
 				<if test="define12 != null">
 					and (
 					<foreach collection="define12" item="define12" index="index" separator=" or ">
-						tableA.fzdwunit like '%${define12}%'
+						tableA.define13 like '%${define12}%'
 					</foreach>
 					)
 				</if>
@@ -1503,11 +1591,12 @@
 				</if>
 			</if>
 			
+			<!-- define12, 财务相关的承担单位，所以查询define3 -->
 			<if test="fzdwflag == null or fzdwflag == '' or fzdwflag == '承担单位'">
 				<if test="define12 != null">
 					and (
 					<foreach collection="define12" item="define12" index="index" separator=" or ">
-						tableA.define12 like '%${define12}%'
+						tableA.DEFINE3 like '%${define12}%'
 					</foreach>
 					)
 				</if>
@@ -1574,7 +1663,17 @@
 				)
 			</if>
 			
-			GROUP BY tableA.XMID,tableA.YSND,tableA.define2
+			<if test="groupFlag != null and groupFlag != ''">
+				<if test="groupFlag != null and groupFlag != ''">
+					GROUP BY ${groupFlag}
+				</if>
+				<if test="groupFlag == null or groupFlag == ''">
+					GROUP BY XMID
+				</if>
+			</if>
+			<if test="groupFlag == null">
+				GROUP BY XMID
+			</if>
 			<if test="orderKey != null and orderKey != ''">
 				<if test="orderType != null and orderType != ''">
 					order by ${orderKey} ${orderType}
