@@ -485,8 +485,8 @@ var name=$('#name').val();
            	{title : '序号', type : 'numbers', width : 55},
             {field : 'name',     title : '报废名称', style : 'cursor: pointer;',sort : true,  align : 'left', width : '20%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.name+'</span>'}},
             {field : 'status', title : '状态', style : 'cursor: pointer;', align : 'center',sort : true, width : '30%',templet:'#buttonTpl'},
-            {field : 'createUser',     title : '创建人', style : 'cursor: pointer;', align : 'left', width : '25%' },
-            {field : 'updateUser', title : '更新人', style : 'cursor: pointer;',width : '14.6%',align : 'center'},
+            {field : 'createUser',     title : '创建人', sort : true, style : 'cursor: pointer;', align : 'left', width : '25%' },
+            {field : 'updateUser', title : '更新人', sort : true, style : 'cursor: pointer;',width : '14.6%',align : 'center'},
          
                
            ]],
