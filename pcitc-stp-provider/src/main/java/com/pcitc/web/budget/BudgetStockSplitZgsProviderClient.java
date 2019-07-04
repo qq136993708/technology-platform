@@ -86,7 +86,10 @@ public class BudgetStockSplitZgsProviderClient
 				if(finalBudgetInfo !=null) {
 					List<BudgetStockTotal> totals = budgetStockTotalService.selectItemsByBudgetId(finalBudgetInfo.getDataId());
 					for(BudgetSplitEnum item:enums) {
-						Optional<BudgetStockTotal> rs = totals.stream().filter(a -> item.getCode().equals(a.getDisplayCode())).findFirst();
+						Optional<BudgetStockTotal> rs = totals.stream()
+								.filter(a -> item.getCode().equals(a.getDisplayCode()))
+								.filter(a -> new Integer(0).equals(a.getLevel()))
+								.findFirst();
 						if(rs != null && rs.isPresent()) {
 							//map.put(item.getCode(), rs.get().getXmjfTotal());
 							map.put(item.getCode(), rs.get().getXmjfFyx());

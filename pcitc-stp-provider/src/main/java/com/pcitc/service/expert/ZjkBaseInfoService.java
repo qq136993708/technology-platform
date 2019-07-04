@@ -229,5 +229,11 @@ public interface ZjkBaseInfoService {
     JSONObject findZjkBaseInfoListImg(ZjkExpert zjkBaseInfo);
 
     List<Map<String,Object>> queryAllExpert(Map<String,Object> map);
+    
+    /**
+     * 查询院士列表信息
+     * @return
+     */
+    List<ZjkExpert> selectYsList();
 
 }

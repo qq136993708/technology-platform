@@ -149,11 +149,12 @@
 	    	if($("#data_version").val()){
 	    		publicMethods.ajaxPost("/budget/budget-info-create-bytemplate",{"nd":cu_date,"budgetType":budgetType,"dataId":$("#data_version").val()}, function (dt) {
 	    			//提示消息
-		    		parent.layer.alert("操作成功", {title : '信息'});
-		    		//关闭当前页面
-					parent.layer.close(parent.layer.getFrameIndex(window.name));
-		    		//刷新父页面
-					parent.initDataVersion(dt.dataId);
+		    		parent.layer.alert("操作成功", {title : '信息'},function(i){
+		    			//关闭当前页面
+						parent.layer.close(parent.layer.getFrameIndex(window.name));
+			    		//刷新父页面
+						parent.initDataVersion(dt.dataId);
+		    		});
 	 		   	});
 	    	}else{
 	    		parent.layer.alert("请选择参考历史预算表", {title : '信息'});

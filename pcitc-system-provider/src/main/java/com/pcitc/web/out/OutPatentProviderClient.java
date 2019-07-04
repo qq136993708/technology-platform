@@ -162,7 +162,7 @@ public class OutPatentProviderClient {
 			temMap.put("define3", "分子公司");
 			temList.add(1, temMap);
 		}
-		if (!JSON.toJSONString(temList).contains("集团单位")) {
+		if (!JSON.toJSONString(temList).contains("股份付集团")) {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("syxxApplyCount", 0);
 			temMap.put("syxxAgreeCount", 0);
@@ -170,7 +170,7 @@ public class OutPatentProviderClient {
 			temMap.put("fmzlAgreeCount", 0);
 			temMap.put("applyCount", 0);
 			temMap.put("agreeCount", 0);
-			temMap.put("define3", "集团单位");
+			temMap.put("define3", "股份付集团");
 			temList.add(2, temMap);
 		}
 		if (!JSON.toJSONString(temList).contains("外部单位")) {
