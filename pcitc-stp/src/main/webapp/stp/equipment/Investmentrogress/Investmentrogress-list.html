@@ -326,13 +326,13 @@ var name=$('#name').val();
             cols: [[
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
-                {field : 'name',           title : '项目名称',         style : 'cursor: pointer;', align: 'left', width : '15%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.name+'</span>'}},
-                {field : 'beginYear',      title : '投资期限',         style : 'cursor: pointer;', align: 'center',  width : '9%'},
-                {field : 'projectMoney',   title : '总经费(万元)',      style : 'cursor: pointer;', align: 'center',  width : '9%'},
-                {field : 'leadUnitName',   title : '牵头单位',         style : 'cursor: pointer;', align: 'left', width : '20%'},
-                {field : 'parentUnitPathNames',    title : '上报单位', style : 'cursor: pointer;', align: 'left', width : '20%'},
-                {field : 'applyUnitName',          title : '上报部门', style : 'cursor: pointer;', align: 'left', width : '10%'},
-                {field : 'createDate',title :'上报时间', style : 'cursor: pointer;',align:'center',templet:'#dateTpl'}
+                {field : 'name',           title : '项目名称',        sort : true,  style : 'cursor: pointer;', align: 'left', width : '15%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.name+'</span>'}},
+                {field : 'beginYear',      title : '投资期限',        sort : true, style : 'cursor: pointer;', align: 'center',  width : '9%'},
+                {field : 'projectMoney',   title : '总经费(万元)',     sort : true, style : 'cursor: pointer;', align: 'center',  width : '10%'},
+                {field : 'leadUnitName',   title : '牵头单位',         sort : true,style : 'cursor: pointer;', align: 'left', width : '20%'},
+                {field : 'parentUnitPathNames',    title : '上报单位', sort : true,style : 'cursor: pointer;', align: 'left', width : '20%'},
+                {field : 'applyUnitName',          title : '上报部门', sort : true,style : 'cursor: pointer;', align: 'left', width : '10%'},
+                {field : 'createDate',title :'上报时间',sort : true, style : 'cursor: pointer;',align:'center',templet:'#dateTpl',width : '15%'}
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选

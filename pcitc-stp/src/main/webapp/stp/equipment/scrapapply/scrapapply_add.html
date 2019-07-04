@@ -197,12 +197,11 @@
 	        , cols: [[
 	            	 {type: 'checkbox', event: 'roleCheckboxEvent',width:55}
 	            	,{title:'序号', type:'numbers',width:55}
-	            	, {field: 'id', title: '编号', style: 'cursor: pointer;'}
 	            	, {field: 'equipmentPrice', title: '装备单价', style: 'cursor: pointer;'}
 	            	, {field: 'equipmenNumber', title: '规格数量', style: 'cursor: pointer;'}
 	            	, {field: 'equipmentName', title: '装备名称', style: 'cursor: pointer;',width:100}
 	            	, {field: 'specification', title: '规格型号', style: 'cursor: pointer;',width:99}
-	            	, {field: 'arrivaldate', title: '到货日期', style: 'cursor: pointer;', templet :function (row){
+	            	, {field: 'arrivaldate', title: '到货日期', width : '20%',style: 'cursor: pointer;', templet :function (row){
                         return formatTime(row.arrivaldate);
                         }  }
 	            	, {field: 'supplier', title: '供应商', style: 'cursor: pointer;'}
@@ -258,8 +257,7 @@
 	        , height: commonDislodgeTable()
 	        , loading: true
 	        , cols: [[
-	        	 {field: 'id', title: '编号', style: 'cursor: pointer;'}
-	           , {field: 'equipmentName', title: '装备名称', style: 'cursor: pointer;'}
+	            {field: 'equipmentName', title: '装备名称', style: 'cursor: pointer;'}
 	           , {field: 'specification', title: '规格型号', style: 'cursor: pointer;'}
 	           , {field: 'del', title :'删除', style :'cursor: pointer;color: red;', align: 'center', templet:function(d){return '<span onclick="view_project(&#39;'+d.id+'&#39;)" style="color:red">删除</span>'}}
 	        ]],
