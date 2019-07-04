@@ -1,6 +1,7 @@
 package com.pcitc.service.job;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -42,12 +43,14 @@ public class StpPurchaseOrderJob implements Job, Serializable {
             for (int i = 0; i < resultList.size(); i++) {
                 JSONObject json = resultList.getJSONObject(i);
 
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMM") ; //使用了默认的格式创建了一个日期格式化对象。
+                String time = dateFormat.format(json.getDate("G0CALD"));//可以把日期转换转指定格式的字符串
 
                 SrePurchaseOrder srePurchaseOrder =new SrePurchaseOrder();
 
                 srePurchaseOrder.setCreateDate(new Date());//导入时间
                 srePurchaseOrder.setG0flag(json.getString("G0FLAG"));//数据标示
-                srePurchaseOrder.setG0cald(json.getDate("G0CALD"));//年月
+                srePurchaseOrder.setG0cald(time);//年月
                 srePurchaseOrder.setG0gsdm(json.getString("G0GSDM"));//公司代码
                 srePurchaseOrder.setG0gsjc(json.getString("G0GSJC"));//公司简称
                 srePurchaseOrder.setG0gsor(json.getString("G0GSOR"));//公司排序吗
