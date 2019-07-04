@@ -3,6 +3,8 @@ package com.pcitc.service.system;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.system.SysNotice;
 import com.pcitc.base.system.SysNoticeVo;
 
@@ -77,4 +79,10 @@ public interface SysNoticeService {
 	 * @return
 	 */
 	Long getSysNoticeCount(SysNoticeVo vo);
+	/**
+	 * 
+	 * @param param
+	 * @return
+	 */
+	LayuiTableData findNoticList(LayuiTableParam param);
 }

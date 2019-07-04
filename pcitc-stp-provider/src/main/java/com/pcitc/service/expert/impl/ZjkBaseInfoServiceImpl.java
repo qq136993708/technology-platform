@@ -90,7 +90,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
     @Override
     public List<ZjkExpert> findZjkBaseInfoListRandom(ZjkExpert record) throws Exception {
-        List<ZjkExpert> zjkExpertreturnList = zjkBaseInfoMapper.findZjkExpertList(record);
+    	/*List<ZjkExpert> zjkExpertreturnList = zjkBaseInfoMapper.findZjkExpertList(record);
         int[] s = StrUtil.randomCommon(0, zjkExpertreturnList.size(), 10);
         List<ZjkExpert> experts = new ArrayList<>();
         int len = (s==null)?zjkExpertreturnList.size():s.length;
@@ -110,6 +110,10 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             experts.add(e);
         }
         return experts;
+        */
+    	//取十个院士
+    	List<ZjkExpert> zjkExpertreturnList = selectYsList();
+        return zjkExpertreturnList.subList(0, 10);
     }
 
     @Override
