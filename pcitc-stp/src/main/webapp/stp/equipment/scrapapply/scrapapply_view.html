@@ -139,7 +139,7 @@ $("#file_div").load('/common/public/uploadlayuiload.html');
        {
          sprice=sprice+parseInt(s[i].sumprice);
          }
-        AddData.unshift({id:"合计",equipmentName:"",specification:"",assetnumber:"",placepeople:"",sumprice:sprice});
+        AddData.unshift({assetnumber:"合计",equipmentName:"",specification:"",placepeople:"",sumprice:sprice});
         for( var i=0;i<s.length;i++)
         {
        
@@ -225,7 +225,6 @@ $("#file_div").load('/common/public/uploadlayuiload.html');
 	        , loading: true
 	        , cols: [[
 	              {title:'序号', type:'numbers'}
-	        	, {field: 'id', title: '编号', style: 'cursor: pointer;'}
 	        	, {field: 'assetnumber', title: '资产编号', style: 'cursor: pointer;'}
 	            , {field: 'equipmentName', title: '资产名称', style: 'cursor: pointer;'}
 	            , {field: 'sumprice', title: '资产价值', style: 'cursor: pointer;'}

@@ -7,7 +7,7 @@ import com.pcitc.base.stp.equipment.sre_scrap_apply_item;
 
 public interface sre_scrap_apply_itemMapper {
     int deleteByPrimaryKey(String accountId);
-
+    int deleteapplyid(String accountId);
     int insert(sre_scrap_apply_item record);
 
     int insertSelective(sre_scrap_apply_item record);
