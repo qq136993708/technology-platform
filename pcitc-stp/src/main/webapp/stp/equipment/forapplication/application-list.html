@@ -251,9 +251,9 @@ var name=$('#name').val();
                  {
             		layer.msg('请点击选择一行数据');
             	 } else if(selectRowData.applicationState =="30"){
-            		 layer.msg('转资申请已通过,不能删除');
+            		 layer.alert('审核已通过,不能删除');
             	}else if(selectRowData.applicationState =="20"){
-            		layer.msg('转资申请已上报,不能删除');
+            		layer.alert('审核已通过,不能删除');
             	}else {
             		var applicationId=selectRowData.applicationId;
             		var url="/sre-forapplication/delete/"+applicationId;

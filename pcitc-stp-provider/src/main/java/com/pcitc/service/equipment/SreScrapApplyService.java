@@ -23,4 +23,7 @@ public interface SreScrapApplyService {
 	public String addAudit(SreProjectAudit sreProjectAudit)throws Exception;
 	
 	Result dealInnerPurchaseFlow(String id, Map map)throws Exception;
+
+	public int deleteByApplyId(String id);
+	
 }
