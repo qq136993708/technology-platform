@@ -205,30 +205,24 @@ public  class InvestServiceImpl implements InvestService {
 		map.put("contractNum", contractNum);
 		map.put("erpNum", erpNum);
 		StringBuffer applyUnitCodeStr=new StringBuffer();
-		if(!applyDepartCode.equals(""))
-		{
-			applyUnitCodeStr.append(" (");
-			String arr[]=applyDepartCode.split(",");
-			for(int i=0;i<arr.length;i++)
-			{
-				if(i>0)
-				{
-					applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
-				}else
-				{
-					applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
-				}
-				
-			}
-			applyUnitCodeStr.append(" )");
-		}
-		
-		map.put("sqlStr", applyUnitCodeStr.toString());
+		/*
+		 * if(!applyDepartCode.equals("")) { applyUnitCodeStr.append(" ("); String
+		 * arr[]=applyDepartCode.split(","); for(int i=0;i<arr.length;i++) { if(i>0) {
+		 * applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]
+		 * +"', t.`apply_depart_code`)"); }else {
+		 * applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
+		 * }
+		 * 
+		 * } applyUnitCodeStr.append(" )"); }
+		 * 
+		 * map.put("sqlStr", applyUnitCodeStr.toString());
+		 */
 		List<SreProject> list = sreProjectMapper.getList(map);
 		List<SrePlanCompletion> plancompletionlist = new ArrayList<SrePlanCompletion>();
 		 Set set=new HashSet();
 		if(list.size()!=0) {
 			for(SreProject sretask :list) {
+				if(sretask.getErpNum()!=null&&!sretask.getErpNum().equals("")&&sretask.getContractNum()!=null&&!sretask.getContractNum().equals("")) {
 				String[] sreEqumimpId =  sretask.getEquipmentIds().split(",");
 //				for(int i=0;i<sreEqumimpId.length;i++) {
 //					SreEquipment quipment = sreEquipmentMapper.selectByPrimaryKey(sreEqumimpId[i]);
@@ -247,6 +241,7 @@ public  class InvestServiceImpl implements InvestService {
 						}
 						plancompletionlist.add(plancompletion);
 					}
+				}
 				}
 		//}
 		List<SrePlanCompletion> setonlist = new ArrayList<SrePlanCompletion>();

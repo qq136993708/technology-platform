@@ -889,7 +889,7 @@
 	     <if test="topicName != null and topicName  !='' "> AND t.topic_name like CONCAT('%',#{topicName},'%')</if>
 	     <if test="setupYear != null and setupYear !=''  "> AND t.setup_year = #{setupYear}</if>
    		 <if test="unitPathIds != null             and unitPathIds !=''  ">           AND t.unit_path_ids = #{unitPathIds}</if>
-	     <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.parent_unit_path_ids = #{parentUnitPathIds}</if>
+	     <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.parent_apply_unit_path_code = #{parentUnitPathIds}</if>
    </select>
    
    <select id="getClosedList" resultMap="BaseResultMap" parameterType="Map">
@@ -897,7 +897,7 @@
 	     <if test="topicName != null and topicName  !='' "> AND t.topic_name like CONCAT('%',#{topicName},'%')</if>
 	     <if test="setupYear != null and setupYear !=''  "> AND t.setup_year = #{setupYear}</if>
 	     <if test="unitPathIds != null             and unitPathIds !=''  ">           AND t.unit_path_ids = #{firstApplyUser}</if>
-	     <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.parent_unit_path_ids = #{parentUnitPathIds}</if>
+	     <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.parent_apply_unit_path_code = #{parentUnitPathIds}</if>
    </select>
   
   

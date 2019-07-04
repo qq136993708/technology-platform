@@ -1,5 +1,7 @@
 package com.pcitc.web.controller.equipment;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,6 +21,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.equipment.SreForApplication;
 import com.pcitc.base.stp.equipment.SrePurchase;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.utils.EquipmentUtils;
 
 @Controller
 public class ProcurementProgramController extends BaseController {
@@ -51,19 +54,13 @@ public class ProcurementProgramController extends BaseController {
 
 	@RequestMapping(value = "/sre-procurementprogram/to-list")
 	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		 String departCode=sysUserInfo.getUnitCode();
-	        request.setAttribute("departCode", departCode);
-			String	parentUnitPathIds="";
-			String unitPathIds =   sysUserInfo.getUnitPath();
-			if(!unitPathIds.equals(""))
-			{
-				if(unitPathIds.length()>4)
-				{
-					parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-
-				}
-			}
+		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String parentUnitPathNames = map.get("unitName");// 申报单位
+		String parentUnitPathIds = map.get("unitCode");// 申报单位
+		String applyDepartName = map.get("applyDepartName");// 申报部门
+		String applyDepartCode = map.get("applyDepartCode");// 申报部门
+		String unitPathIds= map.get("applyDepartCode");
+		String unitPathNames= map.get("applyDepartName");
 			request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		return "/stp/equipment/procurementprogram/procurementprogram-list";
 	}

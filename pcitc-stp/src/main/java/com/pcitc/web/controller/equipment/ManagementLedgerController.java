@@ -2,6 +2,7 @@ package com.pcitc.web.controller.equipment;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,10 +32,15 @@ public class ManagementLedgerController extends BaseController {
 	private static final String PAG_URL = "http://pcitc-zuul/stp-proxy/sre-provider/mana/page";
 	
 	@RequestMapping(value = "/sre-mana/to-list")
-	public String list(HttpServletRequest request, HttpServletResponse response) {
-		String	parentUnitPathIds="";
-		String unitPathIds =   sysUserInfo.getUnitPath();
-		parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
+	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String parentUnitPathNames = map.get("unitName");// 申报单位
+		String parentUnitPathIds = map.get("unitCode");// 申报单位
+		String applyDepartName = map.get("applyDepartName");// 申报部门
+		String applyDepartCode = map.get("applyDepartCode");// 申报部门
+		String unitPathIds= map.get("applyDepartCode");
+		String unitPathNames= map.get("applyDepartName");
+		
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SELECT_URL, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
 		int count = responseEntity.getBody();
 		Date data = new Date();

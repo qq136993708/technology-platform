@@ -94,8 +94,8 @@ public class DetailServiceImpl implements DetailService {
 		map.put("placePeople", placePeople);
 		map.put("receivePeople", receivePeople);
 	
-		map.put("unitPathIds", unitPathIds);
-		map.put("parentUnitPathIds", parentUnitPathIds);
+		map.put("unitPathIds", parentUnitPathIds);
+		map.put("parentUnitPathIds", unitPathIds);
 
 		
 		List<SreDetail> list = detailMapper.getList(map);
