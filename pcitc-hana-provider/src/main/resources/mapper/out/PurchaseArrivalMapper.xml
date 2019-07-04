@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.pcitc.mapper.out.PurchaseOrderMapper">
+<mapper namespace="com.pcitc.mapper.out.PurchaseArrivalMapper">
 
 
 	<!-- 获取国家项目的数据 -->
-	<select id="getPurchaseOrderList" resultType="java.util.Map" parameterType="java.util.HashMap">
+	<select id="getPurchaseArrivalList" resultType="java.util.Map" parameterType="java.util.HashMap">
 		SELECT
 	  "G0FLAG",
 	 "G0CALD",
