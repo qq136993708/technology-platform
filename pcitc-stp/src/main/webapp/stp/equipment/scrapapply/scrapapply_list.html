@@ -483,12 +483,10 @@ var name=$('#name').val();
            cols: [[
             {type : 'checkbox', event : 'changeEvents', width : 55},
            	{title : '序号', type : 'numbers', width : 55},
-            {field : 'id', title : 'id', style : 'cursor: pointer;', align : 'center',width : '55'},
-            {field : 'name',     title : '报废名称', style : 'cursor: pointer;', align : 'left', width : '20%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#17a2b8">'+d.name+'</span>'}},
-            {field : 'status', title : '状态', style : 'cursor: pointer;', align : 'center',width : '10%',templet:'#buttonTpl'},
-            {field : 'createUser',     title : '创建人', style : 'cursor: pointer;', align : 'left', width : '15%' },
-            {field : 'updateUser', title : '更新人', style : 'cursor: pointer;', align : 'center',width : '15%'},
-            {field : 'remarks', title : '备注', style : 'cursor: pointer;', align : 'center',width : '30%'},
+            {field : 'name',     title : '报废名称', style : 'cursor: pointer;',sort : true,  align : 'left', width : '20%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.name+'</span>'}},
+            {field : 'status', title : '状态', style : 'cursor: pointer;', align : 'center',sort : true, width : '30%',templet:'#buttonTpl'},
+            {field : 'createUser',     title : '创建人', style : 'cursor: pointer;', align : 'left', width : '25%' },
+            {field : 'updateUser', title : '更新人', style : 'cursor: pointer;',width : '14.6%',align : 'center'},
          
                
            ]],

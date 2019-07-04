@@ -439,8 +439,8 @@ var name=$('#name').val();
            cols: [[
            	   {type : 'checkbox', event : 'changeEvents', width : 55},
            	{title : '序号', type : 'numbers', width : 55},
-            {field : 'applicationState', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '#applicationState_temp', width : '10%'},
-            {field : 'applicationName',     title : '转资名称', style : 'cursor: pointer;', align : 'left', width : '30%' ,templet:function(d){return '<span onclick="view(\''+d.applicationId+'\')" style="color:#1890ff">'+d.applicationName+'</span>'}},
+            {field : 'applicationState', title : '状态', style : 'cursor: pointer;',align : 'center', sort : true, templet : '#applicationState_temp', width : '10%'},
+            {field : 'applicationName',     title : '转资名称', style : 'cursor: pointer;',sort : true, align : 'left', width : '30%' ,templet:function(d){return '<span onclick="view(\''+d.applicationId+'\')" style="color:#1890ff">'+d.applicationName+'</span>'}},
             {field : 'applicationUserName', title : '转资申请人', style : 'cursor: pointer;', align : 'left', width : '28%'},
             {field : 'applicationTime', title : '转资时间', style : 'cursor: pointer;', align : 'center', templet : '#dateTpl'},
            ]],
