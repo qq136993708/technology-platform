@@ -114,6 +114,71 @@ public class SreProject {
     private String parentApplyUnitCode;
     
     
+    
+    
+    private String sourceType;
+    private String projectCode;
+    private String chargeMan;
+    private String projectBackground;
+    private String searchContent;
+    private String chiefMan;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+	public String getSourceType() {
+		return sourceType;
+	}
+
+	public void setSourceType(String sourceType) {
+		this.sourceType = sourceType;
+	}
+
+	public String getProjectCode() {
+		return projectCode;
+	}
+
+	public void setProjectCode(String projectCode) {
+		this.projectCode = projectCode;
+	}
+
+	public String getChargeMan() {
+		return chargeMan;
+	}
+
+	public void setChargeMan(String chargeMan) {
+		this.chargeMan = chargeMan;
+	}
+
+	public String getProjectBackground() {
+		return projectBackground;
+	}
+
+	public void setProjectBackground(String projectBackground) {
+		this.projectBackground = projectBackground;
+	}
+
+	public String getSearchContent() {
+		return searchContent;
+	}
+
+	public void setSearchContent(String searchContent) {
+		this.searchContent = searchContent;
+	}
+
+	public String getChiefMan() {
+		return chiefMan;
+	}
+
+	public void setChiefMan(String chiefMan) {
+		this.chiefMan = chiefMan;
+	}
 
 	public String getProfessionalDepartValue() {
 		return professionalDepartValue;

@@ -72,8 +72,62 @@
                         </div>
                     </div>
                 </div>
+                <!--老系统信息-->
+                <#if sreProjectBasic.sourceType=="2">
+                 <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">原项目编号</label>
+                            <div class="layui-input-block">
+                                <input class="layui-input readOnlyBox" name="projectCode" id="projectCode" readonly="readonly"
+                                       value="${sreProjectBasic.projectCode}"
+                                       autocomplete="off" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">项目负责人姓名</label>
+                            <div class="layui-input-block">
+                                <input class="layui-input readOnlyBox"  name="chargeMan" id="chargeMan"  readonly="readonly"
+                                       value="${sreProjectBasic.chargeMan}"
+                                       autocomplete="off" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
                 
+                 <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">技术首席姓名</label>
+                            <div class="layui-input-block">
+                                 <input class="layui-input readOnlyBox" name="chiefMan" id="chiefMan"  readonly="readonly"
+                                       value="${sreProjectBasic.chiefMan}"
+                                       autocomplete="off" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                 <div class="layui-form-item layui-form-text">
+                    <label  class="layui-form-label">立项背景</label>
+                    <div class="layui-input-block">
+                    <textarea placeholder="请简述立项背景" name="projectBackground" id="projectBackground"  readonly="readonly"
+                              class="layui-textarea readOnlyBox">${sreProjectBasic.projectBackground}</textarea>
+                    </div>
+                 </div>
+                 <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">研究内容</label>
+                    <div class="layui-input-block">
+                    <textarea placeholder="请简述立项背景" name="searchContent" id="searchContent"  readonly="readonly"
+                              class="layui-textarea readOnlyBox">${sreProjectBasic.searchContent}</textarea>
+                    </div>
+                 </div>
+                 
+                 </#if>
                  
 					            
 					            
@@ -281,7 +335,9 @@
                     <label class="layui-form-label">附件</label>
                     <div id="file_div" class="layui-input-block"></div>
                 </div>
-
+                
+                
+                
 
             </div>
         </form>

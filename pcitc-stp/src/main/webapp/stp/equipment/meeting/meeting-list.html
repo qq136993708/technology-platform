@@ -246,12 +246,12 @@ var table,selectRowData;
            cols: [[
 	           	{type : 'checkbox', event: 'changeEvents', width : 55},
 	           	{title : '序号', type : 'numbers', width : 55},
-	            {field : 'title',        title : '会议主题', style : 'cursor: pointer;', align : 'center',width:'33%',templet:function(d){return '<span onclick="view(\''+d.meetingId+'\')" style="color:#1890ff">'+d.title+'</span>'}},
-	            {field : 'meetingPlace', title : '会议地点', style : 'cursor: pointer;', align : 'center',width:'10%'},
-	            {field : 'parentUnitPathNames', title : '会议发起单位', style : 'cursor: pointer;', align : 'center',width:'20%'},
-	            {field : 'createDepartName', title : '会议发起部门', style : 'cursor: pointer;', align : 'center',width:'10%'},
-	            {field : 'createUserName', title : '会议发起人', style : 'cursor: pointer;', align : 'center',width:'10%'},
-	            {field : 'meetingDate', title : '会议开始时间', style : 'cursor: pointer;', align : 'center', templet : '#dateTpl',width:'10%'}
+	            {field : 'title',        title : '会议主题', style : 'cursor: pointer;', align : 'center',width:'33%',templet:function(d){return '<span onclick="view(\''+d.meetingId+'\')" style="color:#1890ff">'+d.title+'</span>'},sort : true},
+	            {field : 'meetingPlace', title : '会议地点', style : 'cursor: pointer;', align : 'center',width:'10%',sort : true},
+	            {field : 'parentUnitPathNames', title : '会议发起单位', style : 'cursor: pointer;', align : 'center',width:'20%',sort : true},
+	            {field : 'createDepartName', title : '会议发起部门', style : 'cursor: pointer;', align : 'center',width:'10%',sort : true},
+	            {field : 'createUserName', title : '会议发起人', style : 'cursor: pointer;', align : 'center',width:'10%',sort : true},
+	            {field : 'meetingDate', title : '会议开始时间', style : 'cursor: pointer;', align : 'center', templet : '#dateTpl',width:'10%',sort : true}
            ]],
            done: function (res, curr, count) {
                // 点击行联动选择框--单选

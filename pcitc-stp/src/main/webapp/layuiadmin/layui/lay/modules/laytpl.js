@@ -145,6 +145,18 @@ layui.define(['jquery'],function (e) {
         return stateData;
     };
 	
+    
+    o.arrange_man = function(d){
+    	alert(d);
+        var stateData;
+        if(d!=null && d!=''){
+        	stateData="<span style='color: green' >已安排（"+d+"）</span>";
+        }{
+        	stateData="<span style='color: red' >未安排</span>";
+        }
+        return stateData;
+    };
+    
 	o.purchaseState_equipment = function(d){
         var stateData;
          if(d!=0&&d!=null){
