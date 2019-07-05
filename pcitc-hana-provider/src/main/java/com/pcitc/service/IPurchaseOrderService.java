@@ -17,7 +17,7 @@ public interface IPurchaseOrderService {
 	List getPurchaseOrderList(HashMap<String, String> map);
 
 	List getPurchaseArrivalList(HashMap<String, String> map);
-	
+
 	/**
 	 * 根据ERP号获取采购订单的数据
 	 */
