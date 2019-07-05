@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
@@ -170,9 +169,7 @@ public class BudgetInfoProviderClient
 		Integer rs = 0;
 		try
 		{
-			System.out.println(JSON.toJSONString(info));
 			rs = budgetInfoService.insertBudgetInfo(info);
-			System.out.println(JSON.toJSONString(rs));
 		}
 		catch (Exception e)
 		{
@@ -185,13 +182,10 @@ public class BudgetInfoProviderClient
 	@RequestMapping(value = "/stp-provider/budget/budget-info-update", method = RequestMethod.POST)
 	public Object updOrUpdateBudgetInfo(@RequestBody BudgetInfo info) 
 	{
-		logger.info("saveorupdate-budget-info...");
 		Integer rs = 0;
 		try
 		{
-			System.out.println(JSON.toJSONString(info));
 			rs = budgetInfoService.updateBudgetInfo(info);
-			System.out.println(JSON.toJSONString(rs));
 		}
 		catch (Exception e)
 		{
@@ -204,7 +198,6 @@ public class BudgetInfoProviderClient
 	@RequestMapping(value = "/stp-provider/budget/budget-info-del", method = RequestMethod.POST)
 	public Object deleteBudgetInfo(@RequestBody BudgetInfo info) 
 	{
-		logger.info("delete-budget-info...");
 		Integer rs = 0;
 		try
 		{
@@ -220,7 +213,6 @@ public class BudgetInfoProviderClient
 	@RequestMapping(value = "/stp-provider/budget/budget-info-get/{dataId}", method = RequestMethod.POST)
 	public Object selectBudgetInfo(@PathVariable("dataId") String dataId) 
 	{
-		logger.info("get-budget-info...");
 		BudgetInfo info = null;
 		try
 		{
@@ -281,10 +273,10 @@ public class BudgetInfoProviderClient
 				}
 			}
 			info.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
-			//输出到辅助决策
-			/*if(BudgetInfoEnum.GROUP_TOTAL.getCode().equals(info.getBudgetType())) {
-				budgetGroupTotalService.outDataToReport(info);
-			}*/
+			/*
+			 *  输出到最终报表 
+			*/
+			budgetInfoService.processDataImport(info);
 		}else {
 			//更新状态
 			info.setAuditStatus(workflow_status);

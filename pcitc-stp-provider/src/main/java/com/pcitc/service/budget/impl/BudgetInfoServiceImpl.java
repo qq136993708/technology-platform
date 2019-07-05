@@ -21,15 +21,26 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
+import com.pcitc.base.common.enums.BudgetInfoEnum;
+import com.pcitc.base.common.enums.BudgetOrganEnum;
+import com.pcitc.base.common.enums.BudgetOrganNdEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetInfoExample;
+import com.pcitc.base.stp.budget.BudgetMoneyMecompose;
+import com.pcitc.base.stp.budget.BudgetMoneyMecomposeExample;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.mapper.budget.BudgetInfoMapper;
+import com.pcitc.mapper.budget.BudgetMoneyMecomposeMapper;
+import com.pcitc.service.budget.BudgetAssetSplitService;
+import com.pcitc.service.budget.BudgetGroupSplitService;
 import com.pcitc.service.budget.BudgetInfoService;
+import com.pcitc.service.budget.BudgetStockSplitXtwSplitService;
+import com.pcitc.service.budget.BudgetStockSplitZgsSplitService;
+import com.pcitc.service.budget.BudgetStockSplitZsySplitService;
 import com.pcitc.service.feign.SystemRemoteClient;
 import com.pcitc.service.feign.WorkflowRemoteClient;
 
@@ -41,11 +52,39 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	@Autowired
 	private BudgetInfoMapper budgetInfoMapper;
 	
+	/**
+	 * 预算处部门分解总表
+	 */
+	@Autowired
+	private BudgetMoneyMecomposeMapper budgetMoneyMecomposeMapper;
+	
 	@Resource
 	private SystemRemoteClient systemRemoteClient;
 	
 	@Autowired
 	private WorkflowRemoteClient workflowRemoteClient;
+	
+	/*@Autowired
+	private BudgetB2cSplitService budgetB2cSplitService;
+	
+	@Autowired
+	private BudgetTechSplitService budgetTechSplitService;
+	*/
+	
+	@Autowired
+	private BudgetAssetSplitService budgetAssetSplitService;
+	
+	@Autowired
+	private BudgetGroupSplitService budgetGroupSplitService;
+	
+	@Autowired
+	private BudgetStockSplitXtwSplitService budgetStockSplitXtwSplitService;
+	
+	@Autowired
+	private BudgetStockSplitZgsSplitService budgetStockSplitZgsSplitService;
+	
+	@Autowired
+	private BudgetStockSplitZsySplitService budgetStockSplitZsySplitService;
 	
 	@Override
 	public BudgetInfo selectBudgetInfo(String dataId) throws Exception
@@ -266,4 +305,205 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 			return false;
 		}
 	}
+	@Override
+	public List<Map<String, Object>> selectGroupFinalSplit(String nd) 
+	{
+		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
+		try
+		{
+			//最终预算
+			BudgetInfo fInfo = selectFinalBudget(nd,BudgetInfoEnum.GROUP_SPLIT.getCode());
+			if(fInfo == null) {
+				fInfo = selectBudgetInfoList(nd,BudgetInfoEnum.GROUP_SPLIT.getCode()).get(0);
+			}
+			List<Map<String,Object>> list = budgetGroupSplitService.selectBudgetSplitDataList(fInfo == null?"xxx":fInfo.getDataId());
+			
+			for(int i = 0;i<list.size();i++) {
+				Map<String,Object> rowmap = new HashMap<String,Object>();
+				rowmap.put("no", list.get(i).get("no"));
+				rowmap.put("organCode", list.get(i).get("organCode"));
+				rowmap.put("organName", list.get(i).get("organName"));
+				rowmap.put("group_jz", (Double)list.get(i).get("total_jz"));
+				rowmap.put("group_xq", (Double)list.get(i).get("total_xq"));
+				rowmap.put("group_total", (Double)list.get(i).get("total"));
+			
+				rsdata.add(rowmap);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rsdata;
+	}
+
+	@Override
+	public List<Map<String, Object>> selectAssetFinalSplit(String nd) {
+		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
+		try
+		{
+			//最终预算
+			BudgetInfo fInfo = selectFinalBudget(nd,BudgetInfoEnum.ASSET_SPLIT.getCode());
+			if(fInfo == null) {
+				fInfo = selectBudgetInfoList(nd,BudgetInfoEnum.ASSET_SPLIT.getCode()).get(0);
+			}
+			
+			
+			List<Map<String,Object>> list = budgetAssetSplitService.selectBudgetSplitDataList(fInfo == null?"xxx":fInfo.getDataId());
+			for(int i = 0;i<list.size();i++) {
+				Map<String,Object> rowmap = new HashMap<String,Object>();
+				rowmap.put("no", list.get(i).get("no"));
+				rowmap.put("organCode", list.get(i).get("organCode"));
+				rowmap.put("organName", list.get(i).get("organName"));
+				rowmap.put("asset_jz", (Double)list.get(i).get("total_jz"));
+				rowmap.put("asset_xq", (Double)list.get(i).get("total_xq"));
+				rowmap.put("asset_total", (Double)list.get(i).get("total"));
+			
+				rsdata.add(rowmap);
+			}
+			
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rsdata;
+	}
+
+	@Override
+	public List<Map<String, Object>> selectStockFinalSplit(String nd) 
+	{
+		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
+		try
+		{
+			BudgetInfo xtwInfo = selectFinalBudget(nd,BudgetInfoEnum.STOCK_XTY_SPLIT.getCode());
+			BudgetInfo zgsInfo = selectFinalBudget(nd,BudgetInfoEnum.STOCK_ZGS_SPLIT.getCode());
+			BudgetInfo zsyInfo = selectFinalBudget(nd,BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode());
+			if(xtwInfo == null) {
+				xtwInfo = selectBudgetInfoList(nd,BudgetInfoEnum.STOCK_XTY_SPLIT.getCode()).get(0);
+			}if(zgsInfo == null) {
+				zgsInfo = selectBudgetInfoList(nd,BudgetInfoEnum.STOCK_ZGS_SPLIT.getCode()).get(0);
+			}if(zsyInfo == null) {
+				zsyInfo = selectBudgetInfoList(nd,BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode()).get(0);
+			}
+			
+			List<Map<String,Object>> xtw = budgetStockSplitXtwSplitService.selectBudgetSplitDataList(xtwInfo==null?"xxx":xtwInfo.getDataId());
+			List<Map<String,Object>> zgs = budgetStockSplitZgsSplitService.selectBudgetSplitDataList(zgsInfo == null?"xxx":zgsInfo.getDataId());
+			List<Map<String,Object>> zsy = budgetStockSplitZsySplitService.selectBudgetSplitDataList(zsyInfo == null?"xxx":zsyInfo.getDataId());
+			for(int i = 0;i<xtw.size();i++) {
+				Map<String,Object> rowmap = new HashMap<String,Object>();
+				rowmap.put("no", xtw.get(i).get("no"));
+				rowmap.put("organCode", xtw.get(i).get("organCode"));
+				rowmap.put("organName", xtw.get(i).get("organName"));
+				rowmap.put("stock_jz", (Double)xtw.get(i).get("total_jz")+(Double)zgs.get(i).get("total_jz")+(Double)zsy.get(i).get("total_jz"));
+				rowmap.put("stock_xq", (Double)xtw.get(i).get("total_xq")+(Double)zgs.get(i).get("total_xq")+(Double)zsy.get(i).get("total_xq"));
+				rowmap.put("stock_total", (Double)xtw.get(i).get("total")+(Double)zgs.get(i).get("total")+(Double)zsy.get(i).get("total"));
+			
+				rsdata.add(rowmap);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rsdata;
+	}
+	
+	@Override
+	public Boolean processDataImport(BudgetInfo info) 
+	{
+		BudgetMoneyMecomposeExample example = new BudgetMoneyMecomposeExample();
+		BudgetMoneyMecomposeExample.Criteria c = example.createCriteria();
+		c.andNdEqualTo(info.getNd());
+		example.setOrderByClause("xh");
+		List<BudgetMoneyMecompose> list = budgetMoneyMecomposeMapper.selectByExample(example);
+		//如果没有则创建
+		if(list.size() == 0) 
+		{
+			Long dataCount = budgetMoneyMecomposeMapper.countByExample(new BudgetMoneyMecomposeExample());
+			Integer xh = 0;
+			List<BudgetOrganEnum> organs = BudgetOrganNdEnum.getByNd(info.getNd()).getOrgans();
+			for(BudgetOrganEnum org:organs) {
+				dataCount++;
+				xh++;
+				BudgetMoneyMecompose budget = new BudgetMoneyMecompose();
+				budget.setNd(info.getNd());
+				budget.setCb(org.getName());
+				budget.setDataId(dataCount.intValue());
+				budget.setXh(xh.toString());
+				budget.setGfyshjlht("0");
+				budget.setGfyshjys("0");
+				budget.setGfyshjxq("0");
+				
+				budget.setJfyszjlht("0");
+				budget.setJfyszjxq("0");
+				budget.setJfyszjys("0");
+				
+				budget.setJtyshjlht("0");
+				budget.setJtyshjys("0");
+				budget.setJtyshxq("0");
+				
+				budget.setZcyshjlht("0");
+				budget.setZcyshjxq("0");
+				budget.setZcyshjys("0");
+				budgetMoneyMecomposeMapper.insert(budget);
+			}
+			list = budgetMoneyMecomposeMapper.selectByExample(example);
+		}
+		
+		//table_data.push({"index": i,"no":d.no,"organName":d.organName,"group_total":d.group_total,"group_jz":d.group_jz,"group_xq":d.group_xq,"asset_total":0,"asset_jz":0,"asset_xq":0,"stock_total":0,"stock_jz":0,"stock_xq":0,"total":0,"jz":0,"xq":0});
+		if(BudgetInfoEnum.GROUP_SPLIT.getCode().equals(info.getBudgetType())) 
+		{
+			//集团汇总
+			List<Map<String, Object>> groupsplit = selectGroupFinalSplit(info.getNd());
+			for(int i =0;i<list.size();i++) {
+				BudgetMoneyMecompose budget = list.get(i);
+				
+				budget.setJtyshjlht(dToI(groupsplit.get(i).get("group_jz")));//老合同
+				budget.setJtyshxq(dToI(groupsplit.get(i).get("group_xq")));//新签
+				budget.setJtyshjys(dToI(groupsplit.get(i).get("group_total")));
+			}
+		}else if(BudgetInfoEnum.ASSET_SPLIT.getCode().equals(info.getBudgetType())) 
+		{
+			//资产汇总
+			List<Map<String, Object>> assetsplit = selectAssetFinalSplit(info.getNd());
+			for(int i =0;i<list.size();i++) {
+				BudgetMoneyMecompose budget = list.get(i);
+				budget.setZcyshjlht(dToI(assetsplit.get(i).get("asset_jz")));//老合同
+				budget.setZcyshjxq(dToI(assetsplit.get(i).get("asset_xq")));
+				budget.setZcyshjys(dToI(assetsplit.get(i).get("asset_total")));
+			}
+		}else if (BudgetInfoEnum.STOCK_XTY_SPLIT.getCode().equals(info.getBudgetType()) || BudgetInfoEnum.STOCK_ZGS_SPLIT.getCode().equals(info.getBudgetType()) || BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode().equals(info.getBudgetType())) 
+		{
+			//股份汇总
+			List<Map<String, Object>> stocksplit = selectStockFinalSplit(info.getNd());
+			for(int i =0;i<list.size();i++) {
+				BudgetMoneyMecompose budget = list.get(i);
+				budget.setGfyshjlht(dToI(stocksplit.get(i).get("stock_jz")));//老合同
+				budget.setGfyshjxq(dToI(stocksplit.get(i).get("stock_xq")));
+				budget.setGfyshjys(dToI(stocksplit.get(i).get("stock_total")));
+			}
+		}
+		//计算总数
+		for(int i =0;i<list.size();i++) {
+			BudgetMoneyMecompose budget = list.get(i);
+			
+			Integer jz = new Double(budget.getJtyshjlht()).intValue()+new Double(budget.getZcyshjlht()).intValue() + new Double(budget.getGfyshjlht()).intValue();
+			Integer xq = new Double(budget.getJtyshxq()).intValue()+new Double(budget.getZcyshjxq()).intValue() + new Double(budget.getGfyshjxq()).intValue();
+			Integer ys = new Double(budget.getJtyshjys()).intValue()+new Double(budget.getZcyshjys()).intValue()+ new Double(budget.getGfyshjys()).intValue();
+			
+			budget.setJfyszjlht(jz.toString());
+			budget.setJfyszjxq(xq.toString());
+			budget.setJfyszjys(ys.toString());
+			
+			
+			budgetMoneyMecomposeMapper.updateByPrimaryKey(budget);
+		}
+		return true;
+	}
+	private String dToI(Object obj) 
+	{
+		return new Double(obj.toString()).intValue()+"";
+	}
+	
 }

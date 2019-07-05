@@ -101,4 +101,34 @@ public abstract interface BudgetInfoService
 	 * @return
 	 */
 	public Boolean startWorkFlow(BudgetInfo info,WorkflowVo workflowVo);
+	/**
+	 * 集团预算分解汇总
+	 * @param nd
+	 * @return
+	 */
+	public List<Map<String,Object>> selectGroupFinalSplit(String nd);
+	/**
+	 * 资产预算分解汇总
+	 * @param nd
+	 * @return
+	 */
+	public List<Map<String,Object>> selectAssetFinalSplit(String nd);
+	/**
+	 * 股份预算分解汇总
+	 * @param nd
+	 * @return
+	 */
+	public List<Map<String,Object>> selectStockFinalSplit(String nd);
+	/**
+	 * 更新汇总数据
+	 * [资产分解表：out_tem_money_asset]
+	 * [集团分解表：out_tem_money_group]
+	 * [股份分解表：直属院out_tem_money_institute，股份支付集团、外系统外out_tem_money_other，分子公司out_tem_money_company]
+	 * [事业部分解表：out_tem_money_b2c]
+	 * [专项经费分解表：out_tem_money_tech]
+	 * [分解总表：out_tem_money_decompose]
+	 * @param info
+	 * @return
+	 */
+	public Boolean processDataImport(BudgetInfo info);
 }
