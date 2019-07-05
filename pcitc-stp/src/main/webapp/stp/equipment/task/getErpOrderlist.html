@@ -13,24 +13,37 @@
 
 <div class="">
 <input  name="month"          id="month"        value="${month}"   type="hidden">
-<input  name="companyName"    id="companyName"  value="${companyName}"   type="hidden">
-<input  name="companyCode"    id="companyCode"  value="${companyCode}"   type="hidden">
-    
+<input  name="code"    id="code"  value="${code}"   type="hidden">
     
 </div>
 
 <div class="tableBox" style="clear:both">
-
-<div class="btnGroup" style="float:right;margin-right:20px"><button  onclick="exput_excel()" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg" >导出EXCEL</<button></div>
-<h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt" ></label>${companyName}（${month}）</h3>
-<h3 style="font-weight: bold;text-align: right;margin: 10px 0;" id="stp_table_title"><label id="ttt" ></label>(单位：万元)</h3>
-
-
  <table id="myTable2" class="layui-hide" lay-filter="myTable2">
 </div>
+<script id="g0DDLX_id" type="text/html"> {{getG0DDLXid(d.g0ddlx)}} </script>
+<script id="k0xmddje_id" type="text/html"> {{getk0xmddje(d.k0xmddje)}} </script>
+
 
 <script id="dateTpl" type="text/html"> {{formatTime(d.SQRI)}} </script>
 <script type="text/javascript">
+
+function getk0xmddje(d) 
+{
+	return '<span style="color:red">'+d+'</span>';
+}
+function getG0DDLXid(d) 
+{
+    if (d=='M') 
+    {
+        
+        return '<span style="color:#000000">物料</span>';
+    } else 
+    {
+        return "<span style='color:#ccc'>服务</span>"; 
+    }
+}
+
+
     // 时间格式化
       function formatTime(d) {
         if (d) {
@@ -109,36 +122,34 @@ layui.config({
     function renderTable()
     {
     	var month=$('#month').val();
-    	month=month.replace("-","");
       //渲染
       table.render({
         elem: '#myTable2',
-        url: '/tzxmzcqkb_detail_data_page',
+        url: '/sre_project_task/getErpOrderlist_data',
         method:"POST",
-        where: {param: {"month":month, "companyCode":$("#companyCode").val()}},
+        where: {param: {"month":month, "code":$("#code").val()}},
         id: 'myTable2',
-        limit: 10,
-        page: {
+        limit: 1000,
+       /*  page: {
             groups: 5,
             limits: [10,20,30,40],
             layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
             first: '首页', //不显示首页
             last: '尾页', //不显示尾页
             theme: '#0F9EE0'
-        },
+        }, */
+        
         cols: [[
-        	 {field:'g0GSJC',            title:'院所',        style:'cursor: pointer;',align: 'left', width: '10%'},
-        	 {field:'g0XMLXMS',          title:'项目类别',        style:'cursor: pointer;',align: 'left', width: '10%'},
-             {field:'g0PROJCODE',          title:'项目编码',        style:'cursor: pointer;',align: 'left', width: '10%'},
-             {field:'g0PROJTXT',          title:'项目名称',        style:'cursor: pointer;',align: 'left', width: '20%'},
-             {field:'g0ANLN1',          title:'资产编号',        style:'cursor: pointer;',align: 'left', width: '20%'},
-             {field:'g0TXT50',          title:'资产名称',        style:'cursor: pointer;',align: 'left', width: '20%'},
-        	 {field:'k0NCGZYZLJJE',          title:'累计购置价值-总计',        style:'cursor: pointer;',align: 'left', width: '15%'},
-             {field:'k0NCGZYZLJGZJE',     title:'累计购置价值-固定资产',        style:'cursor: pointer;',align: 'left', width: '15%'},
-             {field:'k0NCGZYZLJZJJE',        title:'累计购置价值-在建工程',        style:'cursor: pointer;',align: 'left', width: '15%'},
-             {field:'k0NCGZYZBNJE',              title:'本年购置价值-总计',     style:'cursor: pointer;',align: 'left', width: '15%'},
-             {field:'k0NCGZYZBNGZJE',          title:'本年购置价值-固定资产',     style:'cursor: pointer;',align: 'left', width: '15%'},
-             {field:'k0NCGZYZBNZJJE',        title:'本年购置价值-在建工程',     style:'cursor: pointer;',align: 'left', width: '10%'}
+          //  {field:'g0GSJC',              title:'院所',            style:'cursor: pointer;',align: 'center', width: '9%'},
+            {field:'g0ebeln',             title:'采购单号',        style:'cursor: pointer;',align: 'center', width: '10%',sort : true},
+            {field:'g0matnr',             title:'物料号',        style:'cursor: pointer;',align: 'left', width: '15%',sort : true},
+            {field:'g0maktx',             title:'物料名称',        style:'cursor: pointer;',align: 'left', width: '20%',sort : true},
+            {field:'k0xmddje',            title:'采购金额(税前、元)',      style:'cursor: pointer;',align: 'right', width: '13%',templet : '#k0xmddje_id',sort : true},
+            {field:'k0xmddsl',             title:'采购数量',        style:'cursor: pointer;',align: 'center', width: '10%',sort : true},
+            {field:'g0lifnr',             title:'供应商号',        style:'cursor: pointer;',align: 'left', width: '8%',sort : true},
+            {field:'g0name2',             title:'供应商名称',        style:'cursor: pointer;',align: 'left', width: '15%',sort : true},
+            {field:'g0ddlx',              title:'采购类型',        style:'cursor: pointer;',align: 'center', width: '8%',templet : '#g0DDLX_id',sort : true}
+            
         ]],
         done: function (res, curr, count) {
             // 点击行联动选择框--单选
@@ -150,17 +161,15 @@ layui.config({
                 $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                 selectRowData=res.data[index-1];
             });
+            
+            
         }
       });
+      
+      
 }
     
-    function exput_excel()
-    {
-    	var companyCode=$('#companyCode').val();
-    	var month=$('#month').val();
-    	window.open("/tzxmzcqkb_detail_exput_excel?month="+month+"&companyCode="+companyCode);
-    } 
-       
+    
        
    
    

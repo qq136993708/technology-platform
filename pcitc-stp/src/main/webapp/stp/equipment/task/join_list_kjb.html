@@ -94,7 +94,21 @@
 
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script id="view_taskVersion" type="text/html"> {{view_taskVersion(d.taskVersion)}} </script>
+<script id="getErpOrderlist_tlp_id" type="text/html"> {{getErpOrderlist_tlp(d.erpNum)}} </script>
 <script type="text/javascript">
+
+
+function getErpOrderlist_tlp(d) 
+{
+    if (d) 
+    {
+        
+        return '<span onclick="getErpOrderlist(\''+d+'\')" style="color:#1890ff">'+d+'</span>';
+    } else 
+    {
+        return "<span></span>";
+    }
+}
 function view_isWriteTask(isWriteTask) 
 {
 	 var temUrl="/sre_project_task/get/" + isWriteTask;
@@ -250,7 +264,7 @@ var name=$('#name').val();
             	 {field : 'setupYear', title : '立项年份', style : 'cursor: pointer;', align: 'center', width : '8%',sort : true},
             	 {field : 'leadUnitName',   title : '牵头单位',    style : 'cursor: pointer;', align: 'left', width : '8%',sort : true},
             	 {field : 'contractNum', title : '合同号', style : 'cursor: pointer;', align: 'center', width : '8%',sort : true},
-            	 {field : 'erpNum', title : 'ERP号', style : 'cursor: pointer;', align: 'center', width : '8%',sort : true},
+            	 {field : 'erpNum', title : 'ERP号', style : 'cursor: pointer;', align: 'center', width : '8%',sort : true,templet : '#getErpOrderlist_tlp_id'},
             	 {field : 'auditStatus',    title : '总部审核状态',        style : 'cursor: pointer;', align: 'center', width : '15%', width : 100, templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>',sort : true},
                  {field : 'isWriteSetup',  title : '立项报告',  style : 'cursor: pointer;', align: 'center', width : '8%',templet:function(d){return '<span   onclick="view_isWriteSetup(\''+d.setupId+'\')" style="color: #1890ff">详情</span>'},sort : true},
                  {field : 'setupYear',      title : '立项年份', style : 'cursor: pointer;', align: 'center', width : '8%',sort : true},
@@ -361,9 +375,21 @@ var name=$('#name').val();
     } 
     
     
-    
-    
-   
+    function getErpOrderlist(code) 
+    {
+   	    var v_date=(new Date()).getTime();
+   	    var url= '/sre_project_task/getErpOrderlist?v_date='+v_date+'&code='+code;
+        layer.open({
+            title:'采购订单详情',
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            maxmin: false,
+            area: ['70%', '90%'],
+            content:  url
+        });
+    }
     
 
 </script>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.pcitc.mapper.out.PurchaseOrderMapper">
+<mapper namespace="com.pcitc.mapper.out.PurchaseArrivalMapper">
 
 
 	<!-- 获取国家项目的数据 -->
-	<select id="getPurchaseOrderList" resultType="java.util.Map" parameterType="java.util.HashMap">
+	<select id="getPurchaseArrivalList" resultType="java.util.Map" parameterType="java.util.HashMap">
 		SELECT
 	  "G0FLAG",
 	 "G0CALD",
@@ -42,8 +42,8 @@
 	 sum("K0XMLYJE") AS "K0XMLYJE"
 FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_YW_1000_03"
 (
-'PLACEHOLDER' = ('$$PR_CALMONTH$$', '201905'),
-'PLACEHOLDER' = ('$$PR_GSDM$$','1020')
+'PLACEHOLDER' = ('$$PR_CALMONTH$$', '${month}'),
+'PLACEHOLDER' = ('$$PR_GSDM$$','1020,1040,1041,1060,1061,1080,1100,1101,1120,1123,1124,1127,1130,4360')
 )
 GROUP BY "G0FLAG",
 	 "G0CALD",
