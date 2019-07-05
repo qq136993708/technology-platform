@@ -16,7 +16,6 @@
         body{background: #f1f2f7;}
         .main{border: 1px solid #dadada;border-radius: 3px;background: white;}
         .main-content {
-            display: flex;
             height: auto;
             overflow: hidden;
             padding: 0 10px;
@@ -26,21 +25,23 @@
         .main-expert {
             position: relative;
         }
-        .main-expert:hover {background: #fafdff;border: 1px solid #1890ff;box-shadow:0 0 5px #d4eaff}
+        .main-expert:hover .main-expert-div {background: #fafdff;border: 1px solid #1890ff;box-shadow:0 0 5px #d4eaff}
         .main-expert:hover .expert-a{background: #e8f3fe;}
         .main-expert:hover .expert-a a{color: #1890ff;}
-        .main-expert:active {background: #e8f3fe;border: 1px solid #1890ff;box-shadow:0 0 5px #d4eaff}
+        .main-expert:active .main-expert-div{background: #e8f3fe;border: 1px solid #1890ff;box-shadow:0 0 5px #d4eaff}
         .main-expert:active .expert-a{background: #1890ff;}
         .main-expert:active .expert-a a{color: #fff;}
         .main-content > div {
             width: 20%;
             float: left;
-            margin-right: 20px;
-            border: 1px solid #d8d8d8;
-            border-radius: 4px;
-            background: #f7f7f7;
+            padding-right: 20px;
+            box-sizing: border-box;
         }
-
+        .main-expert-div{height: auto;overflow: hidden;
+            border: 1px solid #d8d8d8;
+            background: #f7f7f7;
+            margin-bottom: 15px;
+            border-radius: 3px;}
         .main-content > div:last-child {
             margin-right: 0;
         }
@@ -90,12 +91,14 @@
         }
 
         .main-content .expert-ab {
-            padding: 0 10px 10px;
+            padding: 0 10px 24px;
             font-size: 12px;
             color: #666;
             line-height: 20px;
             height: 35px;
             overflow: hidden;
+            text-indent: 2em;
+            overflow-y: scroll;
         }
 
         .main-content .expert-p {
@@ -260,117 +263,23 @@
 
     <div class="main-content" id="main-content-first" style="margin-top: 20px;">
     <#list expert as vo>
-        <#if (vo_index>=0 && vo_index<5)>
-	        <div class="main-expert">
-	            <div class="expert-i"><img dataType="headImg" id="${vo.dataId}" height="110" src="/stp/expert/img/default.png" alt=""></div>
-	            <!--<div class="expert-i"><img src="/layuiadmin/layui/images/expert-img.png" alt=""></div>-->
-	            <div class="expert-t">${vo.expertName}</div>
-	            <!-- <div class="expert-s">${vo.birthDate}</div>
-	            <div class="expert-s">${vo.email}</div> -->
-	            <div class="expert-ab"><p>${vo.userDesc}</p></div>
-	            <!--<div class="expert-p">
-	                &lt;!&ndash;<a href="javascript:void(0);" onclick="addBx('${vo.dataId}','${vo.company}','${vo.companyName}')">加入备选</a>&ndash;&gt;
-	                &lt;!&ndash;<a href="javascript:void(0);" onclick="addDb('${vo.dataId}','${vo.company}','${vo.companyName}')">加入对比</a>&ndash;&gt;
-	            </div>-->
-	            <div class="expert-a"><a href="javascript:;" onclick="showDetail('${vo.dataId}')">查看详情</a></div>
-	        </div>
-    	</#if>
+        <div class="main-expert">
+            <div class="main-expert-div">
+                <div class="expert-i"><img dataType="headImg" id="${vo.dataId}" height="110" src="/stp/expert/img/default.png" alt=""></div>
+                <!--<div class="expert-i"><img src="/layuiadmin/layui/images/expert-img.png" alt=""></div>-->
+                <div class="expert-t">${vo.expertName}</div>
+                <!-- <div class="expert-s">${vo.birthDate}</div>
+                <div class="expert-s">${vo.email}</div> -->
+                <div class="expert-ab"><p>${vo.userDesc}</p></div>
+                <!--<div class="expert-p">
+                    &lt;!&ndash;<a href="javascript:void(0);" onclick="addBx('${vo.dataId}','${vo.company}','${vo.companyName}')">加入备选</a>&ndash;&gt;
+                    &lt;!&ndash;<a href="javascript:void(0);" onclick="addDb('${vo.dataId}','${vo.company}','${vo.companyName}')">加入对比</a>&ndash;&gt;
+                </div>-->
+                <div class="expert-a"><a href="javascript:;" onclick="showDetail('${vo.dataId}')">查看详情</a></div>
+            </div>
+        </div>
 	</#list>
     </div>
-   
-    <div class="main-content" id="main-content-end" style="margin-top: 20px;padding-bottom: 18px;">
-    <#list expert as vo>
-       	<#if (vo_index>=5 && vo_index<10)>
-	        <div class="main-expert">
-	            <div class="expert-i"><img dataType="headImg" id="${vo.dataId}" height="110" src="/stp/expert/img/default.png" alt=""></div>
-	            <!--<div class="expert-i"><img src="/layuiadmin/layui/images/expert-img.png" alt=""></div>-->
-	            <div class="expert-t">${vo.expertName}</div>
-	            <!-- <div class="expert-s">${vo.birthDate}</div> -->
-	            <div class="expert-ab"><p>${vo.userDesc}</p></div>
-	            <!--<div class="expert-p">
-	                &lt;!&ndash;<a href="javascript:void(0);" onclick="addBx('${vo.dataId}','${vo.company}','${vo.companyName}')">加入备选</a>&ndash;&gt;
-	                &lt;!&ndash;<a href="javascript:void(0);" onclick="addDb('${vo.dataId}','${vo.company}','${vo.companyName}')">加入对比</a>&ndash;&gt;
-	            </div>-->
-	            <div class="expert-a"><a href="javascript:;" onclick="showDetail('${vo.dataId}')">查看详情</a></div>
-	        </div>
-        </#if>
-	</#list>
-    </div>
-    <div class="main-content" id="main-content-first">
-    <#list expert as vo>
-       	<#if (vo_index>=10 && vo_index<15)>
-	        <div class="main-expert">
-	            <div class="expert-i"><img dataType="headImg" id="${vo.dataId}" height="110" src="/stp/expert/img/default.png" alt=""></div>
-	            <!--<div class="expert-i"><img src="/layuiadmin/layui/images/expert-img.png" alt=""></div>-->
-	            <div class="expert-t">${vo.expertName}</div>
-	            <!-- <div class="expert-s">${vo.birthDate}</div>
-	            <div class="expert-s">${vo.email}</div> -->
-	            <div class="expert-ab"><p>${vo.userDesc}</p></div>
-	            <!--<div class="expert-p">
-	                &lt;!&ndash;<a href="javascript:void(0);" onclick="addBx('${vo.dataId}','${vo.company}','${vo.companyName}')">加入备选</a>&ndash;&gt;
-	                &lt;!&ndash;<a href="javascript:void(0);" onclick="addDb('${vo.dataId}','${vo.company}','${vo.companyName}')">加入对比</a>&ndash;&gt;
-	            </div>-->
-	            <div class="expert-a"><a href="javascript:;" onclick="showDetail('${vo.dataId}')">查看详情</a></div>
-	        </div>
-        </#if>
-	</#list>
-    </div>
-     <div class="main-content" id="main-content-end" style="margin-top: 20px;padding-bottom: 18px;">
-    <#list expert as vo>
-       	<#if (vo_index>=15 && vo_index<20)>
-	         <div class="main-expert">
-	            <div class="expert-i"><img dataType="headImg" id="${vo.dataId}" height="110" src="/stp/expert/img/default.png" alt=""></div>
-	            <!--<div class="expert-i"><img src="/layuiadmin/layui/images/expert-img.png" alt=""></div>-->
-	            <div class="expert-t">${vo.expertName}</div>
-	            <!-- <div class="expert-s">${vo.birthDate}</div> -->
-	            <div class="expert-ab"><p>${vo.userDesc}</p></div>
-	            <!--<div class="expert-p">
-	                &lt;!&ndash;<a href="javascript:void(0);" onclick="addBx('${vo.dataId}','${vo.company}','${vo.companyName}')">加入备选</a>&ndash;&gt;
-	                &lt;!&ndash;<a href="javascript:void(0);" onclick="addDb('${vo.dataId}','${vo.company}','${vo.companyName}')">加入对比</a>&ndash;&gt;
-	            </div>-->
-	            <div class="expert-a"><a href="javascript:;" onclick="showDetail('${vo.dataId}')">查看详情</a></div>
-	        </div>
-        </#if>
-	</#list>
-    </div>
-   <div class="main-content" id="main-content-first">
-    <#list expert as vo>
-       	<#if (vo_index>=20 && vo_index<25)>
-	        <div class="main-expert">
-	            <div class="expert-i"><img dataType="headImg" id="${vo.dataId}" height="110" src="/stp/expert/img/default.png" alt=""></div>
-	            <!--<div class="expert-i"><img src="/layuiadmin/layui/images/expert-img.png" alt=""></div>-->
-	            <div class="expert-t">${vo.expertName}</div>
-	            <!-- <div class="expert-s">${vo.birthDate}</div>
-	            <div class="expert-s">${vo.email}</div> -->
-	            <div class="expert-ab"><p>${vo.userDesc}</p></div>
-	            <!--<div class="expert-p">
-	                &lt;!&ndash;<a href="javascript:void(0);" onclick="addBx('${vo.dataId}','${vo.company}','${vo.companyName}')">加入备选</a>&ndash;&gt;
-	                &lt;!&ndash;<a href="javascript:void(0);" onclick="addDb('${vo.dataId}','${vo.company}','${vo.companyName}')">加入对比</a>&ndash;&gt;
-	            </div>-->
-	            <div class="expert-a"><a href="javascript:;" onclick="showDetail('${vo.dataId}')">查看详情</a></div>
-	        </div>
-        </#if>
-	</#list>
-    </div>
-    <div class="main-content" id="main-content-end" style="margin-top: 20px;padding-bottom: 18px;">
-    <#list expert as vo>
-       	<#if (vo_index>=25 && vo_index<30)>
-	        <div class="main-expert">
-	            <div class="expert-i"><img dataType="headImg" id="${vo.dataId}" height="110" src="/stp/expert/img/default.png" alt=""></div>
-	            <!--<div class="expert-i"><img src="/layuiadmin/layui/images/expert-img.png" alt=""></div>-->
-	            <div class="expert-t">${vo.expertName}</div>
-	            <!-- <div class="expert-s">${vo.birthDate}</div> -->
-	            <div class="expert-ab"><p>${vo.userDesc}</p></div>
-	            <!--<div class="expert-p">
-	                &lt;!&ndash;<a href="javascript:void(0);" onclick="addBx('${vo.dataId}','${vo.company}','${vo.companyName}')">加入备选</a>&ndash;&gt;
-	                &lt;!&ndash;<a href="javascript:void(0);" onclick="addDb('${vo.dataId}','${vo.company}','${vo.companyName}')">加入对比</a>&ndash;&gt;
-	            </div>-->
-	            <div class="expert-a"><a href="javascript:;" onclick="showDetail('${vo.dataId}')">查看详情</a></div>
-	        </div>
-        </#if>
-	</#list>
-    </div>
-    
     <!--<div class="main-button">
         <button onclick="changeExpert()" style="cursor: pointer">换一批</button>
     </div>-->
