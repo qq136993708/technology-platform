@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.equipment.SreEquipmentLedgerMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.SreEquipmentLedger">
+    <result column="G0CALD" jdbcType="VARCHAR" property="g0cald" />
+    <result column="G0GSDM" jdbcType="VARCHAR" property="g0gsdm" />
+    <result column="G0BUTXT" jdbcType="VARCHAR" property="g0butxt" />
+    <result column="G0GSJC" jdbcType="VARCHAR" property="g0gsjc" />
+    <result column="G0GSOR" jdbcType="VARCHAR" property="g0gsor" />
+    <result column="G0GSJCL" jdbcType="VARCHAR" property="g0gsjcl" />
+    <result column="G0GSGP" jdbcType="VARCHAR" property="g0gsgp" />
+    <result column="G0GSSP" jdbcType="VARCHAR" property="g0gssp" />
+    <result column="G0ANLN1" jdbcType="VARCHAR" property="g0anln1" />
+    <result column="G0TXT50" jdbcType="VARCHAR" property="g0txt50" />
+    <result column="G0ANLN2" jdbcType="VARCHAR" property="g0anln2" />
+    <result column="G0ANLKL" jdbcType="VARCHAR" property="g0anlkl" />
+    <result column="G0ERNAM" jdbcType="VARCHAR" property="g0ernam" />
+    <result column="G0ERDAT" jdbcType="VARCHAR" property="g0erdat" />
+    <result column="G0ZUJHR" jdbcType="VARCHAR" property="g0zujhr" />
+    <result column="G0AKTIV" jdbcType="VARCHAR" property="g0aktiv" />
+    <result column="G0GPLAB" jdbcType="VARCHAR" property="g0gplab" />
+    <result column="G0AFABE" jdbcType="VARCHAR" property="g0afabe" />
+    <result column="G0BDATU" jdbcType="VARCHAR" property="g0bdatu" />
+    <result column="G0AFASL" jdbcType="VARCHAR" property="g0afasl" />
+    <result column="G0NDJAR" jdbcType="VARCHAR" property="g0ndjar" />
+    <result column="G0NDPER" jdbcType="VARCHAR" property="g0ndper" />
+    <result column="G0NAPRZ" jdbcType="DECIMAL" property="g0naprz" />
+    <result column="G0SAPRZ" jdbcType="DECIMAL" property="g0saprz" />
+    <result column="G0WBIND" jdbcType="VARCHAR" property="g0wbind" />
+    <result column="G0NDURJ" jdbcType="VARCHAR" property="g0ndurj" />
+    <result column="G0NDURP" jdbcType="VARCHAR" property="g0ndurp" />
+    <result column="G0SCHRW" jdbcType="DECIMAL" property="g0schrw" />
+    <result column="G0XAFBE" jdbcType="VARCHAR" property="g0xafbe" />
+    <result column="G0PRCTR" jdbcType="VARCHAR" property="g0prctr" />
+    <result column="G0PRCTRT" jdbcType="VARCHAR" property="g0prctrt" />
+    <result column="G0KOSTL" jdbcType="VARCHAR" property="g0kostl" />
+    <result column="G0KOSTLT" jdbcType="VARCHAR" property="g0kostlt" />
+    <result column="G0WERKS" jdbcType="VARCHAR" property="g0werks" />
+    <result column="G0GSBER" jdbcType="VARCHAR" property="g0gsber" />
+    <result column="G0ZZDXGP" jdbcType="VARCHAR" property="g0zzdxgp" />
+    <result column="G0ZZDXGPT" jdbcType="VARCHAR" property="g0zzdxgpt" />
+    <result column="G0ZZDXZC" jdbcType="VARCHAR" property="g0zzdxzc" />
+    <result column="G0ZDXZCT" jdbcType="VARCHAR" property="g0zdxzct" />
+    <result column="G0ZZJQD" jdbcType="VARCHAR" property="g0zzjqd" />
+    <result column="G0ZXJSZT" jdbcType="VARCHAR" property="g0zxjszt" />
+    <result column="G0ZXSYQK" jdbcType="VARCHAR" property="g0zxsyqk" />
+    <result column="G0ZXJJYT" jdbcType="VARCHAR" property="g0zxjjyt" />
+    <result column="G0WAERS" jdbcType="VARCHAR" property="g0waers" />
+    <result column="G0ORD41" jdbcType="VARCHAR" property="g0ord41" />
+    <result column="G0ORD41T" jdbcType="VARCHAR" property="g0ord41t" />
+    <result column="G0ORD43" jdbcType="VARCHAR" property="g0ord43" />
+    <result column="G0ORD43T" jdbcType="VARCHAR" property="g0ord43t" />
+    <result column="G0NCGZYZJE" jdbcType="DECIMAL" property="g0ncgzyzje" />
+    <result column="G0LJZJJE" jdbcType="DECIMAL" property="g0ljzjje" />
+    <result column="G0LJGZYZJE" jdbcType="DECIMAL" property="g0ljgzyzje" />
+    <result column="G0LJDJZJJE" jdbcType="DECIMAL" property="g0ljdjzjje" />
+  </resultMap>
+  <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SreEquipmentLedger">
+    insert into sre_equipment_ledger (G0CALD, G0GSDM, G0BUTXT, 
+      G0GSJC, G0GSOR, G0GSJCL, 
+      G0GSGP, G0GSSP, G0ANLN1, 
+      G0TXT50, G0ANLN2, G0ANLKL, 
+      G0ERNAM, G0ERDAT, G0ZUJHR, 
+      G0AKTIV, G0GPLAB, G0AFABE, 
+      G0BDATU, G0AFASL, G0NDJAR, 
+      G0NDPER, G0NAPRZ, G0SAPRZ, 
+      G0WBIND, G0NDURJ, G0NDURP, 
+      G0SCHRW, G0XAFBE, G0PRCTR, 
+      G0PRCTRT, G0KOSTL, G0KOSTLT, 
+      G0WERKS, G0GSBER, G0ZZDXGP, 
+      G0ZZDXGPT, G0ZZDXZC, G0ZDXZCT, 
+      G0ZZJQD, G0ZXJSZT, G0ZXSYQK, 
+      G0ZXJJYT, G0WAERS, G0ORD41, 
+      G0ORD41T, G0ORD43, G0ORD43T, 
+      G0NCGZYZJE, G0LJZJJE, G0LJGZYZJE, 
+      G0LJDJZJJE)
+    values (#{g0cald,jdbcType=VARCHAR}, #{g0gsdm,jdbcType=VARCHAR}, #{g0butxt,jdbcType=VARCHAR}, 
+      #{g0gsjc,jdbcType=VARCHAR}, #{g0gsor,jdbcType=VARCHAR}, #{g0gsjcl,jdbcType=VARCHAR}, 
+      #{g0gsgp,jdbcType=VARCHAR}, #{g0gssp,jdbcType=VARCHAR}, #{g0anln1,jdbcType=VARCHAR}, 
+      #{g0txt50,jdbcType=VARCHAR}, #{g0anln2,jdbcType=VARCHAR}, #{g0anlkl,jdbcType=VARCHAR}, 
+      #{g0ernam,jdbcType=VARCHAR}, #{g0erdat,jdbcType=VARCHAR}, #{g0zujhr,jdbcType=VARCHAR}, 
+      #{g0aktiv,jdbcType=VARCHAR}, #{g0gplab,jdbcType=VARCHAR}, #{g0afabe,jdbcType=VARCHAR}, 
+      #{g0bdatu,jdbcType=VARCHAR}, #{g0afasl,jdbcType=VARCHAR}, #{g0ndjar,jdbcType=VARCHAR}, 
+      #{g0ndper,jdbcType=VARCHAR}, #{g0naprz,jdbcType=DECIMAL}, #{g0saprz,jdbcType=DECIMAL}, 
+      #{g0wbind,jdbcType=VARCHAR}, #{g0ndurj,jdbcType=VARCHAR}, #{g0ndurp,jdbcType=VARCHAR}, 
+      #{g0schrw,jdbcType=DECIMAL}, #{g0xafbe,jdbcType=VARCHAR}, #{g0prctr,jdbcType=VARCHAR}, 
+      #{g0prctrt,jdbcType=VARCHAR}, #{g0kostl,jdbcType=VARCHAR}, #{g0kostlt,jdbcType=VARCHAR}, 
+      #{g0werks,jdbcType=VARCHAR}, #{g0gsber,jdbcType=VARCHAR}, #{g0zzdxgp,jdbcType=VARCHAR}, 
+      #{g0zzdxgpt,jdbcType=VARCHAR}, #{g0zzdxzc,jdbcType=VARCHAR}, #{g0zdxzct,jdbcType=VARCHAR}, 
+      #{g0zzjqd,jdbcType=VARCHAR}, #{g0zxjszt,jdbcType=VARCHAR}, #{g0zxsyqk,jdbcType=VARCHAR}, 
+      #{g0zxjjyt,jdbcType=VARCHAR}, #{g0waers,jdbcType=VARCHAR}, #{g0ord41,jdbcType=VARCHAR}, 
+      #{g0ord41t,jdbcType=VARCHAR}, #{g0ord43,jdbcType=VARCHAR}, #{g0ord43t,jdbcType=VARCHAR}, 
+      #{g0ncgzyzje,jdbcType=DECIMAL}, #{g0ljzjje,jdbcType=DECIMAL}, #{g0ljgzyzje,jdbcType=DECIMAL}, 
+      #{g0ljdjzjje,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreEquipmentLedger">
+    insert into sre_equipment_ledger
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="g0cald != null">
+        G0CALD,
+      </if>
+      <if test="g0gsdm != null">
+        G0GSDM,
+      </if>
+      <if test="g0butxt != null">
+        G0BUTXT,
+      </if>
+      <if test="g0gsjc != null">
+        G0GSJC,
+      </if>
+      <if test="g0gsor != null">
+        G0GSOR,
+      </if>
+      <if test="g0gsjcl != null">
+        G0GSJCL,
+      </if>
+      <if test="g0gsgp != null">
+        G0GSGP,
+      </if>
+      <if test="g0gssp != null">
+        G0GSSP,
+      </if>
+      <if test="g0anln1 != null">
+        G0ANLN1,
+      </if>
+      <if test="g0txt50 != null">
+        G0TXT50,
+      </if>
+      <if test="g0anln2 != null">
+        G0ANLN2,
+      </if>
+      <if test="g0anlkl != null">
+        G0ANLKL,
+      </if>
+      <if test="g0ernam != null">
+        G0ERNAM,
+      </if>
+      <if test="g0erdat != null">
+        G0ERDAT,
+      </if>
+      <if test="g0zujhr != null">
+        G0ZUJHR,
+      </if>
+      <if test="g0aktiv != null">
+        G0AKTIV,
+      </if>
+      <if test="g0gplab != null">
+        G0GPLAB,
+      </if>
+      <if test="g0afabe != null">
+        G0AFABE,
+      </if>
+      <if test="g0bdatu != null">
+        G0BDATU,
+      </if>
+      <if test="g0afasl != null">
+        G0AFASL,
+      </if>
+      <if test="g0ndjar != null">
+        G0NDJAR,
+      </if>
+      <if test="g0ndper != null">
+        G0NDPER,
+      </if>
+      <if test="g0naprz != null">
+        G0NAPRZ,
+      </if>
+      <if test="g0saprz != null">
+        G0SAPRZ,
+      </if>
+      <if test="g0wbind != null">
+        G0WBIND,
+      </if>
+      <if test="g0ndurj != null">
+        G0NDURJ,
+      </if>
+      <if test="g0ndurp != null">
+        G0NDURP,
+      </if>
+      <if test="g0schrw != null">
+        G0SCHRW,
+      </if>
+      <if test="g0xafbe != null">
+        G0XAFBE,
+      </if>
+      <if test="g0prctr != null">
+        G0PRCTR,
+      </if>
+      <if test="g0prctrt != null">
+        G0PRCTRT,
+      </if>
+      <if test="g0kostl != null">
+        G0KOSTL,
+      </if>
+      <if test="g0kostlt != null">
+        G0KOSTLT,
+      </if>
+      <if test="g0werks != null">
+        G0WERKS,
+      </if>
+      <if test="g0gsber != null">
+        G0GSBER,
+      </if>
+      <if test="g0zzdxgp != null">
+        G0ZZDXGP,
+      </if>
+      <if test="g0zzdxgpt != null">
+        G0ZZDXGPT,
+      </if>
+      <if test="g0zzdxzc != null">
+        G0ZZDXZC,
+      </if>
+      <if test="g0zdxzct != null">
+        G0ZDXZCT,
+      </if>
+      <if test="g0zzjqd != null">
+        G0ZZJQD,
+      </if>
+      <if test="g0zxjszt != null">
+        G0ZXJSZT,
+      </if>
+      <if test="g0zxsyqk != null">
+        G0ZXSYQK,
+      </if>
+      <if test="g0zxjjyt != null">
+        G0ZXJJYT,
+      </if>
+      <if test="g0waers != null">
+        G0WAERS,
+      </if>
+      <if test="g0ord41 != null">
+        G0ORD41,
+      </if>
+      <if test="g0ord41t != null">
+        G0ORD41T,
+      </if>
+      <if test="g0ord43 != null">
+        G0ORD43,
+      </if>
+      <if test="g0ord43t != null">
+        G0ORD43T,
+      </if>
+      <if test="g0ncgzyzje != null">
+        G0NCGZYZJE,
+      </if>
+      <if test="g0ljzjje != null">
+        G0LJZJJE,
+      </if>
+      <if test="g0ljgzyzje != null">
+        G0LJGZYZJE,
+      </if>
+      <if test="g0ljdjzjje != null">
+        G0LJDJZJJE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="g0cald != null">
+        #{g0cald,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gsdm != null">
+        #{g0gsdm,jdbcType=VARCHAR},
+      </if>
+      <if test="g0butxt != null">
+        #{g0butxt,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gsjc != null">
+        #{g0gsjc,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gsor != null">
+        #{g0gsor,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gsjcl != null">
+        #{g0gsjcl,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gsgp != null">
+        #{g0gsgp,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gssp != null">
+        #{g0gssp,jdbcType=VARCHAR},
+      </if>
+      <if test="g0anln1 != null">
+        #{g0anln1,jdbcType=VARCHAR},
+      </if>
+      <if test="g0txt50 != null">
+        #{g0txt50,jdbcType=VARCHAR},
+      </if>
+      <if test="g0anln2 != null">
+        #{g0anln2,jdbcType=VARCHAR},
+      </if>
+      <if test="g0anlkl != null">
+        #{g0anlkl,jdbcType=VARCHAR},
+      </if>
+      <if test="g0ernam != null">
+        #{g0ernam,jdbcType=VARCHAR},
+      </if>
+      <if test="g0erdat != null">
+        #{g0erdat,jdbcType=VARCHAR},
+      </if>
+      <if test="g0zujhr != null">
+        #{g0zujhr,jdbcType=VARCHAR},
+      </if>
+      <if test="g0aktiv != null">
+        #{g0aktiv,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gplab != null">
+        #{g0gplab,jdbcType=VARCHAR},
+      </if>
+      <if test="g0afabe != null">
+        #{g0afabe,jdbcType=VARCHAR},
+      </if>
+      <if test="g0bdatu != null">
+        #{g0bdatu,jdbcType=VARCHAR},
+      </if>
+      <if test="g0afasl != null">
+        #{g0afasl,jdbcType=VARCHAR},
+      </if>
+      <if test="g0ndjar != null">
+        #{g0ndjar,jdbcType=VARCHAR},
+      </if>
+      <if test="g0ndper != null">
+        #{g0ndper,jdbcType=VARCHAR},
+      </if>
+      <if test="g0naprz != null">
+        #{g0naprz,jdbcType=DECIMAL},
+      </if>
+      <if test="g0saprz != null">
+        #{g0saprz,jdbcType=DECIMAL},
+      </if>
+      <if test="g0wbind != null">
+        #{g0wbind,jdbcType=VARCHAR},
+      </if>
+      <if test="g0ndurj != null">
+        #{g0ndurj,jdbcType=VARCHAR},
+      </if>
+      <if test="g0ndurp != null">
+        #{g0ndurp,jdbcType=VARCHAR},
+      </if>
+      <if test="g0schrw != null">
+        #{g0schrw,jdbcType=DECIMAL},
+      </if>
+      <if test="g0xafbe != null">
+        #{g0xafbe,jdbcType=VARCHAR},
+      </if>
+      <if test="g0prctr != null">
+        #{g0prctr,jdbcType=VARCHAR},
+      </if>
+      <if test="g0prctrt != null">
+        #{g0prctrt,jdbcType=VARCHAR},
+      </if>
+      <if test="g0kostl != null">
+        #{g0kostl,jdbcType=VARCHAR},
+      </if>
+      <if test="g0kostlt != null">
+        #{g0kostlt,jdbcType=VARCHAR},
+      </if>
+      <if test="g0werks != null">
+        #{g0werks,jdbcType=VARCHAR},
+      </if>
+      <if test="g0gsber != null">
+        #{g0gsber,jdbcType=VARCHAR},
+      </if>
+      <if test="g0zzdxgp != null">
+        #{g0zzdxgp,jdbcType=VARCHAR},
+      </if>
+      <if test="g0zzdxgpt != null">
+        #{g0zzdxgpt,jdbcType=VARCHAR},
+      </if>
+      <if test="g0zzdxzc != null">
+        #{g0zzdxzc,jdbcType=VARCHAR},
+      </if>
+      <if test="g0zdxzct != null">
+        #{g0zdxzct,jdbcType=VARCHAR},
+      </if>
+      <if test="g0zzjqd != null">
+        #{g0zzjqd,jdbcType=VARCHAR},
+      </if>
+      <if test="g0zxjszt != null">
+        #{g0zxjszt,jdbcType=VARCHAR},
+      </if>
+      <if test="g0zxsyqk != null">
+        #{g0zxsyqk,jdbcType=VARCHAR},
+      </if>
+      <if test="g0zxjjyt != null">
+        #{g0zxjjyt,jdbcType=VARCHAR},
+      </if>
+      <if test="g0waers != null">
+        #{g0waers,jdbcType=VARCHAR},
+      </if>
+      <if test="g0ord41 != null">
+        #{g0ord41,jdbcType=VARCHAR},
+      </if>
+      <if test="g0ord41t != null">
+        #{g0ord41t,jdbcType=VARCHAR},
+      </if>
+      <if test="g0ord43 != null">
+        #{g0ord43,jdbcType=VARCHAR},
+      </if>
+      <if test="g0ord43t != null">
+        #{g0ord43t,jdbcType=VARCHAR},
+      </if>
+      <if test="g0ncgzyzje != null">
+        #{g0ncgzyzje,jdbcType=DECIMAL},
+      </if>
+      <if test="g0ljzjje != null">
+        #{g0ljzjje,jdbcType=DECIMAL},
+      </if>
+      <if test="g0ljgzyzje != null">
+        #{g0ljgzyzje,jdbcType=DECIMAL},
+      </if>
+      <if test="g0ljdjzjje != null">
+        #{g0ljdjzjje,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+
+  <insert id="insertEquipmentLedgerList" parameterType="com.pcitc.base.stp.equipment.SreEquipmentLedger">
+    insert into sre_equipment_ledger (G0CALD, G0GSDM, G0BUTXT,
+      G0GSJC, G0GSOR, G0GSJCL,
+      G0GSGP, G0GSSP, G0ANLN1,
+      G0TXT50, G0ANLN2, G0ANLKL,
+      G0ERNAM, G0ERDAT, G0ZUJHR,
+      G0AKTIV, G0GPLAB, G0AFABE,
+      G0BDATU, G0AFASL, G0NDJAR,
+      G0NDPER, G0NAPRZ, G0SAPRZ,
+      G0WBIND, G0NDURJ, G0NDURP,
+      G0SCHRW, G0XAFBE, G0PRCTR,
+      G0PRCTRT, G0KOSTL, G0KOSTLT,
+      G0WERKS, G0GSBER, G0ZZDXGP,
+      G0ZZDXGPT, G0ZZDXZC, G0ZDXZCT,
+      G0ZZJQD, G0ZXJSZT, G0ZXSYQK,
+      G0ZXJJYT, G0WAERS, G0ORD41,
+      G0ORD41T, G0ORD43, G0ORD43T,
+      G0NCGZYZJE, G0LJZJJE, G0LJGZYZJE,
+      G0LJDJZJJE)
+    values
+      <foreach collection="list" item="equipmentLedger" index="index"
+               separator=",">
+          (#{equipmentLedger.g0cald,jdbcType=VARCHAR}, #{equipmentLedger.g0gsdm,jdbcType=VARCHAR}, #{equipmentLedger.g0butxt,jdbcType=VARCHAR},
+          #{equipmentLedger.g0gsjc,jdbcType=VARCHAR}, #{equipmentLedger.g0gsor,jdbcType=VARCHAR}, #{equipmentLedger.g0gsjcl,jdbcType=VARCHAR},
+          #{equipmentLedger.g0gsgp,jdbcType=VARCHAR}, #{equipmentLedger.g0gssp,jdbcType=VARCHAR}, #{equipmentLedger.g0anln1,jdbcType=VARCHAR},
+          #{equipmentLedger.g0txt50,jdbcType=VARCHAR}, #{equipmentLedger.g0anln2,jdbcType=VARCHAR}, #{equipmentLedger.g0anlkl,jdbcType=VARCHAR},
+          #{equipmentLedger.g0ernam,jdbcType=VARCHAR}, #{equipmentLedger.g0erdat,jdbcType=VARCHAR}, #{equipmentLedger.g0zujhr,jdbcType=VARCHAR},
+          #{equipmentLedger.g0aktiv,jdbcType=VARCHAR}, #{equipmentLedger.g0gplab,jdbcType=VARCHAR}, #{equipmentLedger.g0afabe,jdbcType=VARCHAR},
+          #{equipmentLedger.g0bdatu,jdbcType=VARCHAR}, #{equipmentLedger.g0afasl,jdbcType=VARCHAR}, #{equipmentLedger.g0ndjar,jdbcType=VARCHAR},
+          #{equipmentLedger.g0ndper,jdbcType=VARCHAR}, #{equipmentLedger.g0naprz,jdbcType=DECIMAL}, #{equipmentLedger.g0saprz,jdbcType=DECIMAL},
+          #{equipmentLedger.g0wbind,jdbcType=VARCHAR}, #{equipmentLedger.g0ndurj,jdbcType=VARCHAR}, #{equipmentLedger.g0ndurp,jdbcType=VARCHAR},
+          #{equipmentLedger.g0schrw,jdbcType=DECIMAL}, #{equipmentLedger.g0xafbe,jdbcType=VARCHAR}, #{equipmentLedger.g0prctr,jdbcType=VARCHAR},
+          #{equipmentLedger.g0prctrt,jdbcType=VARCHAR}, #{equipmentLedger.g0kostl,jdbcType=VARCHAR}, #{equipmentLedger.g0kostlt,jdbcType=VARCHAR},
+          #{equipmentLedger.g0werks,jdbcType=VARCHAR}, #{equipmentLedger.g0gsber,jdbcType=VARCHAR}, #{equipmentLedger.g0zzdxgp,jdbcType=VARCHAR},
+          #{equipmentLedger.g0zzdxgpt,jdbcType=VARCHAR}, #{equipmentLedger.g0zzdxzc,jdbcType=VARCHAR}, #{equipmentLedger.g0zdxzct,jdbcType=VARCHAR},
+          #{equipmentLedger.g0zzjqd,jdbcType=VARCHAR}, #{equipmentLedger.g0zxjszt,jdbcType=VARCHAR}, #{equipmentLedger.g0zxsyqk,jdbcType=VARCHAR},
+          #{equipmentLedger.g0zxjjyt,jdbcType=VARCHAR}, #{equipmentLedger.g0waers,jdbcType=VARCHAR}, #{equipmentLedger.g0ord41,jdbcType=VARCHAR},
+          #{equipmentLedger.g0ord41t,jdbcType=VARCHAR}, #{equipmentLedger.g0ord43,jdbcType=VARCHAR}, #{equipmentLedger.g0ord43t,jdbcType=VARCHAR},
+          #{equipmentLedger.g0ncgzyzje,jdbcType=DECIMAL}, #{equipmentLedger.g0ljzjje,jdbcType=DECIMAL}, #{equipmentLedger.g0ljgzyzje,jdbcType=DECIMAL},
+          #{equipmentLedger.g0ljdjzjje,jdbcType=DECIMAL})
+      </foreach>
+  </insert>
+
+</mapper>
