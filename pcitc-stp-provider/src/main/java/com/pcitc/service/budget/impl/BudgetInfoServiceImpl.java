@@ -433,13 +433,16 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 				budget.setXh(xh.toString());
 				budget.setGfyshjlht("0");
 				budget.setGfyshjys("0");
-				budget.setGfyshjys("0");
+				budget.setGfyshjxq("0");
+				
 				budget.setJfyszjlht("0");
 				budget.setJfyszjxq("0");
 				budget.setJfyszjys("0");
+				
 				budget.setJtyshjlht("0");
 				budget.setJtyshjys("0");
 				budget.setJtyshxq("0");
+				
 				budget.setZcyshjlht("0");
 				budget.setZcyshjxq("0");
 				budget.setZcyshjys("0");
@@ -455,9 +458,10 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 			List<Map<String, Object>> groupsplit = selectGroupFinalSplit(info.getNd());
 			for(int i =0;i<list.size();i++) {
 				BudgetMoneyMecompose budget = list.get(i);
-				budget.setJtyshjlht(groupsplit.get(i).get("group_jz").toString());//老合同
-				budget.setJtyshxq(groupsplit.get(i).get("group_xq").toString());//新签
-				budget.setJtyshjys(groupsplit.get(i).get("group_total").toString());
+				
+				budget.setJtyshjlht(dToI(groupsplit.get(i).get("group_jz")));//老合同
+				budget.setJtyshxq(dToI(groupsplit.get(i).get("group_xq")));//新签
+				budget.setJtyshjys(dToI(groupsplit.get(i).get("group_total")));
 			}
 		}else if(BudgetInfoEnum.ASSET_SPLIT.getCode().equals(info.getBudgetType())) 
 		{
@@ -465,19 +469,19 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 			List<Map<String, Object>> assetsplit = selectAssetFinalSplit(info.getNd());
 			for(int i =0;i<list.size();i++) {
 				BudgetMoneyMecompose budget = list.get(i);
-				budget.setZcyshjlht(assetsplit.get(i).get("asset_jz").toString());//老合同
-				budget.setZcyshjxq(assetsplit.get(i).get("asset_xq").toString());
-				budget.setZcyshjys(assetsplit.get(i).get("asset_total").toString());
+				budget.setZcyshjlht(dToI(assetsplit.get(i).get("asset_jz")));//老合同
+				budget.setZcyshjxq(dToI(assetsplit.get(i).get("asset_xq")));
+				budget.setZcyshjys(dToI(assetsplit.get(i).get("asset_total")));
 			}
-		}else if (BudgetInfoEnum.ASSET_SPLIT.getCode().equals(info.getBudgetType())) 
+		}else if (BudgetInfoEnum.STOCK_XTY_SPLIT.getCode().equals(info.getBudgetType()) || BudgetInfoEnum.STOCK_ZGS_SPLIT.getCode().equals(info.getBudgetType()) || BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode().equals(info.getBudgetType())) 
 		{
 			//股份汇总
 			List<Map<String, Object>> stocksplit = selectStockFinalSplit(info.getNd());
 			for(int i =0;i<list.size();i++) {
 				BudgetMoneyMecompose budget = list.get(i);
-				budget.setGfyshjlht(stocksplit.get(i).get("stock_jz").toString());//老合同
-				budget.setGfyshjxq(stocksplit.get(i).get("stock_xq").toString());
-				budget.setGfyshjys(stocksplit.get(i).get("stock_total").toString());
+				budget.setGfyshjlht(dToI(stocksplit.get(i).get("stock_jz")));//老合同
+				budget.setGfyshjxq(dToI(stocksplit.get(i).get("stock_xq")));
+				budget.setGfyshjys(dToI(stocksplit.get(i).get("stock_total")));
 			}
 		}
 		//计算总数
@@ -492,8 +496,14 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 			budget.setJfyszjxq(xq.toString());
 			budget.setJfyszjys(ys.toString());
 			
+			
 			budgetMoneyMecomposeMapper.updateByPrimaryKey(budget);
 		}
 		return true;
 	}
+	private String dToI(Object obj) 
+	{
+		return new Double(obj.toString()).intValue()+"";
+	}
+	
 }
