@@ -143,21 +143,21 @@
 			// 触发不同的按钮事件
 			var $ = layui.$;
 			active = {
-				searchEvent : function() { 
+				searchEvent : function() {
 					renderTable();
 				},
-				resetEvent : function() { 
+				resetEvent : function() {
 					$("#fileName").val("");
 					renderTable();
 				},
-				replaceEvent : function() { 
+				replaceEvent : function() {
 					var selectedData = active.getCheckData();
 					if (selectedData.length != 1) {
 						// 只能选择一个文档进行替换
 						layer.msg('选择一个文档进行替换！');
 						return false;
 					}
-					
+
 					var versionUUID = selectedData[0].bak3;
 					//获取此版本信息，替换正在生效的版本
 					layer.confirm('确定要替换吗?', {
@@ -175,7 +175,7 @@
 						});
 					});
 				},
-				
+
 				downloadEvent : function() {
 					var ids = active.getChecked();
 					if (ids == "") {
@@ -229,7 +229,7 @@
 		// 上传文档，替换原历史记录中的文档，只修改文档路径、文档名称等
 		var pcitc = pcitc || {};
 		pcitc.fileUpload2 = pcitc.fileUpload2 || {};
-		
+
 		// 查询是哪个菜单
 		var param = JSON.parse(window.localStorage.getItem("param"));
 
@@ -293,18 +293,17 @@
 			var fIEVersion = parseFloat(RegExp["$1"]);
 			pcitcFile2.url = "/sysfile/uploadMultipleFileLayuiIE";
 		}
-		
+
 		var fileParams = [];
 
-　　　　 var fileParam = {};
- 		fileParam.lastModifiedDate = new Date();
-        fileParams.push(fileParam);
-　　　　 fileParams = JSON.stringify(fileParams);
+		var fileParam = {};
+		fileParam.lastModifiedDate = new Date();
+		fileParams.push(fileParam);
+		fileParams = JSON.stringify(fileParams);
 
 		layui.use([ 'element', 'upload2' ], function() {
 			var $ = layui.jquery, element = layui.element, upload = layui.upload2;
-			var uploadListIns = upload.render(
-					{
+			var uploadListIns = upload.render({
 				elem : '#realUpload',
 				url : pcitcFile2.url,
 				accept : pcitcFile2.accept,
@@ -318,12 +317,12 @@
 				},
 				exts : pcitcFile2.ext,
 				number : pcitcFile2.number,
-				auto : true,     // 选择完文档自动上传
-				before: function(obj) { 
-	            	lodingMsg = layer.msg('上传中....');
-	            },
+				auto : true, // 选择完文档自动上传
+				before : function(obj) {
+					lodingMsg = layer.msg('上传中....');
+				},
 				done : function(res, index, upload) {
-					layer.close(lodingMsg);	//关闭等待图标
+					layer.close(lodingMsg); //关闭等待图标
 					if (res.error == null) { //上传成功
 						// 替换原历史文档属性（所属路径、文档名称等）。历史版本表的唯一值selectedData[0].bak3
 						var selectedData = active.getCheckData();
@@ -332,7 +331,7 @@
 							url : '/file/history/error/replace',
 							type : 'post',
 							dataType : 'json',
-							data: JSON.stringify(res.list[0]),
+							data : JSON.stringify(res.list[0]),
 							headers : {
 								'Content-Type' : 'application/json',
 							},
@@ -346,7 +345,7 @@
 
 							}
 						});
-						
+
 					} else {
 						this.error(index, upload);
 					}
@@ -356,8 +355,8 @@
 				}
 			});
 		});
-		
-		$('#showUpload').click(function(){
+
+		$('#showUpload').click(function() {
 			var selectedData = active.getCheckData();
 			if (selectedData.length != 1) {
 				// 只能选择一个文档进行替换
