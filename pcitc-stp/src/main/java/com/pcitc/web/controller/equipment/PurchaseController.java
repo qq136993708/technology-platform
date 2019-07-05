@@ -581,7 +581,7 @@ public class PurchaseController extends BaseController {
 
         LayuiTableData layuiTableData = new LayuiTableData();
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-        ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_URL, HttpMethod.POST, entity, LayuiTableData.class);
+        ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_URL_PROJECT_TASK, HttpMethod.POST, entity, LayuiTableData.class);
         int statusCode = responseEntity.getStatusCodeValue();
         if (statusCode == 200) {
             layuiTableData = responseEntity.getBody();
