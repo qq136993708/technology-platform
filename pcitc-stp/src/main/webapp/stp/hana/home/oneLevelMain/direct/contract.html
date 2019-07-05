@@ -138,7 +138,7 @@ layui.config({
         $(".layui-time").html($("#year").val());
         var nd=$("#year").val();
         $("#table_detail_id").click(function () {
-        	 var url=　encodeURIComponent("/one_level_main/common_table?nd="+nd+"&ysnd="+nd);
+        	 var url=encodeURIComponent("/one_level_main/common_table?nd="+nd+"&ysnd="+nd);
              window.open("/instituteIndex?url="+url);
         });
        
@@ -242,7 +242,7 @@ function initEchart()
 		 var xName=params.name;
 		 var legentName=params.seriesName;
 		// alert(xName);
-		 var url=　encodeURIComponent("/one_level_main/common_table?define3=直属研究院&qdbz="+xName+"订&nd="+nd+"&ysnd="+nd);
+		 var url=encodeURIComponent("/one_level_main/common_table?define3=直属研究院&qdbz="+xName+"订&nd="+nd+"&ysnd="+nd);
          window.open("/instituteIndex?url="+url);
           
     });
@@ -266,7 +266,7 @@ function initEchart()
 		var xName=params.name;
 		var legentName=params.seriesName;
 		
-		 var url=　encodeURIComponent("/one_level_main/common_table?define2="+xName+"&nd="+nd+"&ysnd="+nd);
+		 var url=encodeURIComponent("/one_level_main/common_table?define2="+xName+"&nd="+nd+"&ysnd="+nd);
          window.open("/instituteIndex?url="+url);
          
           
@@ -279,7 +279,7 @@ function initEchart()
 
 function contract_chart1(qdbz)
 {
-	 var url=　encodeURIComponent("/one_level_main/common_table?define3=直属研究院&qdbz="+qdbz+"&nd="+nd+"&ysnd="+nd);
+	 var url=encodeURIComponent("/one_level_main/common_table?define3=直属研究院&qdbz="+qdbz+"&nd="+nd+"&ysnd="+nd);
      window.open("/instituteIndex?url="+url);
 }
 
@@ -383,7 +383,7 @@ function renderTable2()
 	          $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
 	          selectRowData=res.data[index-1];
 	          
-	          var url=　encodeURIComponent("/one_level_main/common_table?define2="+selectRowData.define2+"&nd="+nd+"&ysnd="+nd);
+	          var url=encodeURIComponent("/one_level_main/common_table?define2="+selectRowData.define2+"&nd="+nd+"&ysnd="+nd);
 	          window.open("/instituteIndex?url="+url);
 	          
 	      });

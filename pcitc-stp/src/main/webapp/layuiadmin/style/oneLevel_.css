@@ -382,8 +382,8 @@ line-height: 60px;font-size: 22px;}
     -webkit-animation-fill-mode:forwards;}
 .contractBO,.investmentBO,.instituteBO{animation:rotateXXO 1.5s;animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;}
-.opacity1{animation:opacity1 1.5s;animation-fill-mode:forwards;-webkit-animation-fill-mode:forwards;}
-.opacity0{animation:opacity0 1.5s;animation-fill-mode:forwards;-webkit-animation-fill-mode:forwards;}
+.opacity1{animation:opacity1 .7s;animation-fill-mode:forwards;-webkit-animation-fill-mode:forwards;}
+.opacity0{animation:opacity0 .7s;animation-fill-mode:forwards;-webkit-animation-fill-mode:forwards;}
 
 /*hover文字与图标透明*/
 @keyframes oneAHText {

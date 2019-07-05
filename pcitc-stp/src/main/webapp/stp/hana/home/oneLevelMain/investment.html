@@ -1,496 +1,516 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css"  media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/mainStp.css"   media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/common.css"    media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/second.css"    media="all">
-    <style>
-        .loadingImg{width: 24px;}
-        .btn_details{background:url(/layuiadmin/layui/images/operation_03.png) 2px 4px #fff no-repeat;}
-        .btnMyBgImg:hover{background-size:inherit;background-position: 2px;}
-        .searchBox{background:none;}
-    </style>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/mainStp.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
+<style>
+.loadingImg {
+	width: 24px;
+}
+
+.btn_details {
+	background: url(/layuiadmin/layui/images/operation_03.png) 2px 4px #fff
+		no-repeat;
+}
+
+.btnMyBgImg:hover {
+	background-size: inherit;
+	background-position: 2px;
+}
+
+.searchBox {
+	background: none;
+}
+</style>
 </head>
 <body>
-<div class="layui-fluid">
-    <div class="">
-        <div class="fluid-top">
-            <div class="breadcrumb">
-                <a href="/stpHome" target="_parent">首页 > </a><span>科研投入</span>
-            </div>
-            <div class="searchBox">
-                <label class="dateInput">
-                    <span>年份</span>
-                    <input type="text" name="nd" placeholder="请选择年份" title="年份" value="${nd}"  autocomplete="off" class="form-control" id="nd">
-                </label>
-                <div class="btnGroup">
-                    <button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
-                    >明细</button>
-                </div>
-            </div>
-        </div>
-        <div class="layui-row layui-col-space15">
-            <div class="layui-col-md6">
-                <div class="layui-card">
-                    <div class="layui-card-header" title="包括新开和结转的所有资本性、费用性预算。科研投入是实际签订且当年预算分配的金额（暂时不包括新增基金、科技部、信息部、炼油军工、专项、机动等）。以股份公司（直属研究院、分子公司、股份付资产、股份付集团、休斯顿、中东、外部单位、盈科）、资产公司、集团公司为维度">
-                       <span class="layui-time"></span>科研预算执行率
-                    </div>
-                    <div class="layui-card-body btn-function">
-                        <div class="text-total" style="font-size: 13px;">
-                            <span>年度预算总计:<span class="text-total-blue"    id="chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>费用性科研投入:<span class="text-total-blue"   id="chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>资本性科研投入:<span class="text-total-blue"   id="chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>预算执行率:<span class="text-total-blue"      id="chart1_04"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                        </div>
-                        <div  style="height:272px;width: 100%;" id="chart1"></div>
-                    </div>
-                </div>
-            </div>
+	<div class="layui-fluid">
+		<div class="">
+			<div class="fluid-top">
+				<div class="breadcrumb">
+					<a href="/stpHome" target="_parent">首页 > </a>
+					<span>科研投入</span>
+				</div>
+				<div class="searchBox">
+					<label class="dateInput">
+						<span>年份</span>
+						<input type="text" name="nd" placeholder="请选择年份" title="年份" value="${nd}" autocomplete="off" class="form-control" id="nd">
+					</label>
+					<div class="btnGroup">
+						<button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details">明细</button>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row layui-col-space15">
+				<div class="layui-col-md6">
+					<div class="layui-card">
+						<div class="layui-card-header" title="包括新开和结转的所有资本性、费用性预算。科研投入是实际签订且当年预算分配的金额（暂时不包括新增基金、科技部、信息部、炼油军工、专项、机动等）。以股份公司（直属研究院、分子公司、股份付资产、股份付集团、休斯顿、中东、外部单位、盈科）、资产公司、集团公司为维度">
+							<span class="layui-time"></span>
+							科研预算执行率
+						</div>
+						<div class="layui-card-body btn-function">
+							<div class="text-total" style="font-size: 13px;">
+								<span>
+									年度预算总计:
+									<span class="text-total-blue" id="chart1_01">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+								<span>
+									费用性科研投入:
+									<span class="text-total-blue" id="chart1_02">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+								<span>
+									资本性科研投入:
+									<span class="text-total-blue" id="chart1_03">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+								<span>
+									预算执行率:
+									<span class="text-total-blue" id="chart1_04">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+							</div>
+							<div style="height: 272px; width: 100%;" id="chart1"></div>
+						</div>
+					</div>
+				</div>
 
-            <div class="layui-col-md6">
-                <div class="layui-card">
-                    <div class="layui-card-header"   title="包括新开和结转的所有资本性、费用性预算。科研投入是实际签订且当年预算分配的金额（暂时不包括新增基金、科技部、信息部、炼油军工、专项、机动等）。以股份公司（直属研究院、分子公司、股份付资产、股份付集团、休斯顿、中东、外部单位、盈科）、资产公司、集团公司为维度">
-                       <span class="layui-time"></span>科研预算执行率（万元）
-                    </div>
-                    <div class="layui-row-main" >
-                        <table id="myTable" class="layui-table" lay-filter="myTable" >
-                            <thead>
-	                            <tr>
-	                                <th lay-data="{field:'define3', width:'16%'}" rowspan="2" >企业类型</th>
-	                                <th lay-data="{align:'center'}" colspan="3">总计</th>
-	                                <th lay-data="{align:'center'}" colspan="3">费用性</th>
-	                                <th lay-data="{align:'center'}" colspan="3">资本性</th>
-	                            </tr>
-	                            <tr>
-	                                <th lay-data="{field:'zysje', width:'10%',align:'right'}">年度预算</th>
-	                                <th lay-data="{field:'zsjje', width:'10%',align:'right'}">实际签订</th>
-	                                <th lay-data="{field:'zRate', width:'8%',align:'right',templet:function(d){return d.zRate+'%'}}">执行率</th>
-	
-	                                <th lay-data="{field:'fyxysje', width:'10%',align:'right'}">年度预算</th>
-	                                <th lay-data="{field:'fyxsjje', width:'10%',align:'right'}">实际签订</th>
-	                                <th lay-data="{field:'fyxRate', width:'8%',align:'right',templet:function(d){return d.fyxRate+'%'}}">执行率</th>
-	
-	                                <th lay-data="{field:'zbxysje', width:'10%',align:'right'}">年度预算</th>
-	                                <th lay-data="{field:'zbxsjje', width:'10%',align:'right'}">实际签订</th>
-	                                <th lay-data="{field:'zbxRate', width:'8%',align:'right',templet:function(d){return d.zbxRate+'%'}}">执行率</th>
-	                            </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-         <div class="layui-row layui-col-space15">
-            <div class="layui-col-md12">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        <span class="layui-time"></span>新开课题科研预算执行率
-                    </div>
-                    <div class="layui-card-body btn-function">
+				<div class="layui-col-md6">
+					<div class="layui-card">
+						<div class="layui-card-header" title="包括新开和结转的所有资本性、费用性预算。科研投入是实际签订且当年预算分配的金额（暂时不包括新增基金、科技部、信息部、炼油军工、专项、机动等）。以股份公司（直属研究院、分子公司、股份付资产、股份付集团、休斯顿、中东、外部单位、盈科）、资产公司、集团公司为维度">
+							<span class="layui-time"></span>
+							科研预算执行率（万元）
+						</div>
+						<div class="layui-row-main">
+							<table id="myTable" class="layui-table" lay-filter="myTable">
+								<thead>
+									<tr>
+										<th lay-data="{field:'define3', width:'16%'}" rowspan="2">企业类型</th>
+										<th lay-data="{align:'center'}" colspan="3">总计</th>
+										<th lay-data="{align:'center'}" colspan="3">费用性</th>
+										<th lay-data="{align:'center'}" colspan="3">资本性</th>
+									</tr>
+									<tr>
+										<th lay-data="{field:'zysje', width:'10%',align:'right'}">年度预算</th>
+										<th lay-data="{field:'zsjje', width:'10%',align:'right'}">实际签订</th>
+										<th lay-data="{field:'zRate', width:'8%',align:'right',templet:function(d){return d.zRate+'%'}}">执行率</th>
 
-    	
-                          <div class="text-total">
-                            <span>新开课题预算总金额:<span class="text-total-blue"      id="investment_chart6_01"><img class="loadingImg" style="" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>新开课题实际总金额:<span class="text-total-blue"      id="investment_chart6_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                        </div>
+										<th lay-data="{field:'fyxysje', width:'10%',align:'right'}">年度预算</th>
+										<th lay-data="{field:'fyxsjje', width:'10%',align:'right'}">实际签订</th>
+										<th lay-data="{field:'fyxRate', width:'8%',align:'right',templet:function(d){return d.fyxRate+'%'}}">执行率</th>
 
-                        <div class="main-chart" id="investment_chart6" style="height:280px;width: 100%;"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="layui-row layui-col-space15">
-            <div class="layui-col-md12">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        <span class="layui-time"></span>直属研究院科研预算执行率
-                    </div>
-                    <div class="layui-card-body btn-function">
-                          <div class="text-total">
-	                            <span>年度预算总计:<span class="text-total-blue"     id="chart7_01"><img class="loadingImg" style="" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-	                            <span>实际科研投入:<span class="text-total-blue"     id="chart7_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-	                            <span>未执行:<span class="text-total-blue"       id="chart7_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-	                            <span>预算执行率:<span class="text-total-blue"       id="chart7_04"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                          </div>
-                        <div class="main-chart" id="chart7" style="height:280px;width: 100%;"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-    </div>
-</div>
-<script src="/common/js/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
-<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_chart.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
-<script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
-<script type="text/javascript" src="/stp/hana/home/oneLevelMain/investment.js"></script>
-<script type="text/javascript">
-var tableOne=null,tableTwo=null,selectRowData;
-layui.config({
-    base: '/layuiadmin/lib/extend/'
-}).extend({
-    treeGridCom:'treeGridCom'
-}).use(['jquery','table','form', 'laydate','layer'], function(){
-    var $=layui.jquery;
-    table = layui.table;
-    layer=layui.layer;
-    laydate = layui.laydate;
-    form = layui.form;
-    var nd=$("#nd").val();
-    $(".layui-time").html(nd+"年");
-    form.render(null, 'component-form-group');
-    laydate.render({
-        elem: '#nd',min: '2016-10-14'
-        
-        ,type: 'year'
-        ,done: function(value, date, endDate){
-            $(".layui-time").html(date.year);
-            $("#nd").val(date.year); 
-            search_Event();
-        }
-    });
-    myTable();
-    $("#knowledge_table").click(function () {
-    	var url=　encodeURIComponent("/one_level_main/common_table?define3=直属研究院&nd="+nd+"&ysnd="+nd);
-        window.open("/instituteIndex?url="+url);
-    });
-  
-});
+										<th lay-data="{field:'zbxysje', width:'10%',align:'right'}">年度预算</th>
+										<th lay-data="{field:'zbxsjje', width:'10%',align:'right'}">实际签订</th>
+										<th lay-data="{field:'zbxRate', width:'8%',align:'right',templet:function(d){return d.zbxRate+'%'}}">执行率</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="layui-row layui-col-space15">
+				<div class="layui-col-md12">
+					<div class="layui-card">
+						<div class="layui-card-header">
+							<span class="layui-time"></span>
+							新开课题科研预算执行率
+						</div>
+						<div class="layui-card-body btn-function">
 
 
-function initEchart()
-{
-	  var v_date=(new Date()).getTime();
-	  var month=$('#nd').val();
-	  var nd=$('#nd').val();
-	 
-	  var  yAxis1= [
-          {
-          	 type: 'value',
-          	 name: '亿元',
-               min: 0,
-              // interval: 10,
-               //max:'dataMax',
-               position: 'left',
-               axisLabel: {
-                   formatter: '{value}'
-               }
-          } 
-      ];
-	  
-	  var  yAxis2= [
-          {
-          	 type: 'value',
-          	 name: '亿元',
-               //min: 0,
-               //interval: 10,
-               //max:'dataMax',
-               splitLine:{show: false},//去除网格线
-               position: 'left',
-               axisLabel: {
-                   formatter: '{value}'
-               }
-          } ,
-          {
-              type: 'value',
-              show: true ,
-              name: '百分比',
-              //min: 0,
-              //max: 100,
-              //interval: 20,
-             // splitLine:{show: false},//去除网格线
-              position: 'right',
-              axisLabel: {
-                  formatter: '{value}%'
-              }
-          } 
-      ];
-	  
-	  var  yAxis3= [
-          {
-          	 type: 'value',
-          	 name: '亿元',
-               //min: 0,
-               //interval: 10,
-               //max:'dataMax',
-               splitLine:{show: false},//去除网格线
-               position: 'left',
-               axisLabel: {
-                   formatter: '{value}'
-               }
-          }
-      ];
-	  
-	  
-	  
-	  var  yAxis4= [
-          {
-          	   type: 'value',
-               name: '亿元',
-               position: 'left',
-               axisLabel: {
-                   formatter: '{value}'
-               }
-          }/* ,
-          {
-        	  type: 'value',
-              name: '亿元',
-              show: true ,
-              position: 'right',
-              splitLine:{show: false},
-              axisLabel: {
-                  formatter: '{value}'
-              }
+							<div class="text-total">
+								<span>
+									新开课题预算总金额:
+									<span class="text-total-blue" id="investment_chart6_01">
+										<img class="loadingImg" style="" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+								<span>
+									新开课题实际总金额:
+									<span class="text-total-blue" id="investment_chart6_02">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+							</div>
 
-          } */
-      ];
-	  
-	
-	    $("#chart1_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-        $("#chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-        $("#chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-        
-        
-		var chart1_url="/one_level_main/investment_01?nd="+nd+"&v_date="+v_date;
-		var colorOne=["#5181E6","#E79579"];
-	
-	    var echart=load_mutl_bar_down(chart1_url,"chart1","","",yAxis4,"",colorOne);
-		echart.on('click', function (params) {
-			var xName=params.name;//ysnd、type_flag（直属研究院、分子公司等）、define1（费用性、资本性）、define2 各个研究院名称
-			var legentName=params.seriesName;
-			
-			
-			 var url=　encodeURIComponent("/one_level_main/common_table?define3=直属研究院&qdbz="+xName+"订&nd="+nd+"&ysnd="+nd);
-	         window.open("/instituteIndex?url="+url);
-	         
-	         
-	         
-	    }); 
-		var investment_0101_url="/one_level_main/investment_0101?nd="+nd+"&v_date="+v_date;
-		setinvestmentCount(investment_0101_url);
-		
-		
-		
+							<div class="main-chart" id="investment_chart6" style="height: 280px; width: 100%;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-		
-		var chart6_url="/one_level_main/investment_03?nd="+nd+"&v_date="+v_date+"&type=1";
-        var colorNew2=["#f4974a","#f3cc41","#95c740"];
-        var echart6=load_mutl_bar_down_rotate(chart6_url,"investment_chart6","","",yAxis3,30,colorNew2,true);
-        echart6.on('click', function (params) {
-             var xName=params.name;
-             var legentName=params.seriesName;
-             var url=　encodeURIComponent("/one_level_main/common_table?define3=直属研究院&qdbz="+xName+"订&nd="+nd+"&ysnd="+nd);
-	         window.open("/instituteIndex?url="+url);
-        }); 
-        
-	    $("#chart7_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-        $("#chart7_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-        $("#chart7_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-        $("#chart7_04").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-		var chart7_url="/one_level_main/investment_02?nd="+nd+"&v_date="+v_date;
-		var color=["#f3655b","#8ab3cf","#f19049"];
-		var echart7=load_mutl_bar_investment(chart7_url,"chart7","","",yAxis2,color,60,function (data){
-		});
-		echart7.on('click', function (params){
-			var xName=params.name;
-			var legentName=params.seriesName;
-			
-			var url=　encodeURIComponent("/one_level_main/common_table?define2="+xName+"&nd="+nd+"&ysnd="+nd);
-	         window.open("/instituteIndex?url="+url);
-	         
-	         
-	    });
-		var investment_02_count_url="/one_level_main/investment_02_count?nd="+nd+"&v_date="+v_date;
-		setInvestment_02_count(investment_02_count_url);
-}
+			<div class="layui-row layui-col-space15">
+				<div class="layui-col-md12">
+					<div class="layui-card">
+						<div class="layui-card-header">
+							<span class="layui-time"></span>
+							直属研究院科研预算执行率
+						</div>
+						<div class="layui-card-body btn-function">
+							<div class="text-total">
+								<span>
+									年度预算总计:
+									<span class="text-total-blue" id="chart7_01">
+										<img class="loadingImg" style="" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+								<span>
+									实际科研投入:
+									<span class="text-total-blue" id="chart7_02">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+								<span>
+									未执行:
+									<span class="text-total-blue" id="chart7_03">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+								<span>
+									预算执行率:
+									<span class="text-total-blue" id="chart7_04">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+							</div>
+							<div class="main-chart" id="chart7" style="height: 280px; width: 100%;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-//初始化图形
-initEchart();
-//查询
-function search_Event()
-{
-	initEchart();
-	myTable();
-}
+		</div>
+	</div>
+	<script src="/common/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+	<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+	<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+	<script type="text/javascript" src="/stp/hana/common/stp_common_chart.js"></script>
+	<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+	<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+	<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+	<script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
+	<script type="text/javascript" src="/stp/hana/home/oneLevelMain/investment.js"></script>
+	<script type="text/javascript">
+		var tableOne = null, tableTwo = null, selectRowData;
+		layui.config({
+			base : '/layuiadmin/lib/extend/'
+		}).extend({
+			treeGridCom : 'treeGridCom'
+		}).use([ 'jquery', 'table', 'form', 'laydate', 'layer' ], function() {
+			var $ = layui.jquery;
+			table = layui.table;
+			layer = layui.layer;
+			laydate = layui.laydate;
+			form = layui.form;
+			var nd = $("#nd").val();
+			$(".layui-time").html(nd + "年");
+			form.render(null, 'component-form-group');
+			laydate.render({
+				elem : '#nd',
+				min : '2016-10-14'
 
-
-function myTable()
-{
-	
-	 var nd=$("#nd").val();
-	 var v_date=(new Date()).getTime();
-	 var url= '/one_level_main/investment_01_01?nd='+nd+"&v_date="+v_date;
-	    table.init('myTable', {
-			  url: url
-			  ,height:"296px"
-			  ,where: {} 
-			  
+				,
+				type : 'year',
+				done : function(value, date, endDate) {
+					$(".layui-time").html(date.year);
+					$("#nd").val(date.year);
+					search_Event();
+				}
 			});
-	 
-}
+			myTable();
+			$("#knowledge_table").click(function() {
+				var url = encodeURIComponent("/one_level_main/common_table?ysnd=" + nd + "&groupFlag=xmid,define8");
+				window.open("/instituteIndex?url=" + url);
+			});
 
+		});
 
+		function initEchart() {
+			var v_date = (new Date()).getTime();
+			var month = $('#nd').val();
+			var nd = $('#nd').val();
 
+			var yAxis1 = [ {
+				type : 'value',
+				name : '亿元',
+				min : 0,
+				// interval: 10,
+				//max:'dataMax',
+				position : 'left',
+				axisLabel : {
+					formatter : '{value}'
+				}
+			} ];
 
-function setinvestmentCount(url) 
-{
-	
-	
-	$("#chart1_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-    $("#chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-    $("#chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-    
-	
-   $.ajax({
-	     type:"GET",
-	     url: url,
-	     dataType:"json",
-	     timeout : 11000,
-	     cache: false,
-	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
-         success:function(data,status)
-         {    
-	          if(data.success==true ||data.success=='true')
-	          {
-	        	           var zysje_count=0;
-	        	           var fyxsjje_count=0;
-	        	           var zbxsjje_count=0;
-	        	           var list=data.data;
-	        	           
-	        	           for(var i=0;i<list.length;i++)
-	        	           {
-	        	        	   var tt=list[i].fyxsjje;
-	        	        	   
-	        	        	   if (typeof(tt) == "undefined")
-	        	        	   {
-	        	        		   tt=0;
-	        	        	   }
-	        	        	   
-	        	        	  var zysje=list[i].zysje/10000;//预算总计 
-	        	        	  var fyxsjje=tt/10000;//费用性科研投入
-	        	        	  var zbxsjje=list[i].zbxsjje/10000;//资本性科研投入
-	        	        	  // alert(fyxsjje);
-	        	        	  zysje_count=zysje_count+parseFloat(zysje);
-	        	        	  fyxsjje_count=fyxsjje_count+parseFloat(fyxsjje);
-	        	        	  zbxsjje_count=zbxsjje_count+parseFloat(zbxsjje);
-	        	           }
-	        	           
-	        	           
-	        	           
-	        	           $("#chart1_01").html(zysje_count.toFixed(2)+"亿元");
-	        	           $("#chart1_02").html(fyxsjje_count.toFixed(2)+"亿元");
-	        	           $("#chart1_03").html(zbxsjje_count.toFixed(2)+"亿元");
-	        	          // alert(zysje_count);
-	        	           if(zysje_count=='0')
-        	        	   {
-	        	        	   $("#chart1_04").html("0%");
-        	        	   }else
-       	        		   {
-       	        		     $("#chart1_04").html(percentNum(zbxsjje_count+fyxsjje_count,zysje_count));
-       	        		   }
-	        	         
-	        	           
-	        	           
-	        	       
-	          } 
-		   },
-		   error:function()
-		   {
-		   },
-		   complete: function (XMLHttpRequest, status) 
-		   {
-	            
-	       }
-		  
-  });
-} 
+			var yAxis2 = [ {
+				type : 'value',
+				name : '亿元',
+				//min: 0,
+				//interval: 10,
+				//max:'dataMax',
+				splitLine : {
+					show : false
+				},//去除网格线
+				position : 'left',
+				axisLabel : {
+					formatter : '{value}'
+				}
+			}, {
+				type : 'value',
+				show : true,
+				name : '百分比',
+				//min: 0,
+				//max: 100,
+				//interval: 20,
+				// splitLine:{show: false},//去除网格线
+				position : 'right',
+				axisLabel : {
+					formatter : '{value}%'
+				}
+			} ];
 
+			var yAxis3 = [ {
+				type : 'value',
+				name : '亿元',
+				//min: 0,
+				//interval: 10,
+				//max:'dataMax',
+				splitLine : {
+					show : false
+				},//去除网格线
+				position : 'left',
+				axisLabel : {
+					formatter : '{value}'
+				}
+			} ];
 
+			var yAxis4 = [ {
+				type : 'value',
+				name : '亿元',
+				position : 'left',
+				axisLabel : {
+					formatter : '{value}'
+				}
+			} /* ,
+				          {
+				        	  type: 'value',
+				              name: '亿元',
+				              show: true ,
+				              position: 'right',
+				              splitLine:{show: false},
+				              axisLabel: {
+				                  formatter: '{value}'
+				              }
 
-function setInvestment_02_count(url) 
-{
-	
-   $.ajax({
-	     type:"GET",
-	     url: url,
-	     dataType:"json",
-	     timeout : 11000,
-	     cache: false,
-	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
-         success:function(data,status)
-         {    
-	          if(data.success==true ||data.success=='true')
-	          {
-	        	  
-	        	           var zysje_count=0;
-	        	           var zsjje_count=0;
-	        	           var wxdje_count=0;
-	        	           
-	        	           var list=data.data;
-	        	           for(var i=0;i<list.length;i++)
-	        	           {
-	        	        	  var zysje=list[i].zysje;//预算总计 
-	        	        	  var zsjje=list[i].zsjje;//实际签订
-	        	        	  var wxdje=list[i].wxdje;//未签订
-	        	        	  //alert(fyxsjje);
-	        	        	  zysje_count=zysje_count+parseFloat(zysje);
-	        	        	  zsjje_count=zsjje_count+parseFloat(zsjje);
-	        	        	  wxdje_count=wxdje_count+parseFloat(wxdje);
-	        	           }
-	        	           
-	        	           $("#chart7_01").html(zysje_count.toFixed(2)+"亿元");
-	        	           $("#chart7_02").html(zsjje_count.toFixed(2)+"亿元");
-	        	           $("#chart7_03").html(wxdje_count.toFixed(2)+"亿元");
-	        	           
-	        	           
-	        	           if(zysje_count==0)
-		        	       	{
-	        	        	   $("#chart7_04").html("0%");
-		        	       	}else
-		        	       		{
-		        	       		$("#chart7_04").html(percentNum(zsjje_count,zysje_count));
-		        	       		
-		        	       		}
-	        	       
-	          } 
-		   },
-		   error:function()
-		   {
-		   },
-		   complete: function (XMLHttpRequest, status) 
-		   {
-	            
-	       }
-		  
-  });
-} 
+				          } */
+			];
 
-function percent_Num(num,num2) {
-	
-   return (Math.round(num / num2 * 10000) / 100.00); 
-}
+			$("#chart1_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 
+			var chart1_url = "/one_level_main/investment_01?nd=" + nd + "&v_date=" + v_date;
+			var colorOne = [ "#5181E6", "#E79579" ];
 
-//小数点后两位百分比
-function percentNum(num,num2) {
-	
-	//return Math.floor(num / num2 * 100) / 100+"%";
-   return (Math.round(num / num2 * 10000) / 100.00 + "%"); 
-}
-        
-</script>
+			var echart = load_mutl_bar_down(chart1_url, "chart1", "", "", yAxis4, "", colorOne);
+			echart.on('click', function(params) {
+				var xName = params.name;//ysnd、type_flag（直属研究院、分子公司等）、define1（费用性、资本性）、define2 各个研究院名称
+				var legentName = params.seriesName;
+				// define12, 后台查询时用的是define2、define3(type_flag)
+				var qdbz = '已签订';
+				var url = encodeURIComponent("/one_level_main/common_table?define12=直属研究院&define1=" + legentName.substring(0, 3) + "&ysnd=" + nd + "&qdbz=" + qdbz + "&groupFlag=xmid,define8");
+				window.open("/instituteIndex?url=" + url);
+
+			});
+			var investment_0101_url = "/one_level_main/investment_0101?nd=" + nd + "&v_date=" + v_date;
+			setinvestmentCount(investment_0101_url);
+
+			var chart6_url = "/one_level_main/investment_03?nd=" + nd + "&v_date=" + v_date + "&type=1";
+			var colorNew2 = [ "#f4974a", "#f3cc41", "#95c740" ];
+			var echart6 = load_mutl_bar_down_rotate(chart6_url, "investment_chart6", "", "", yAxis3, 30, colorNew2, true);
+			echart6.on('click', function(params) {
+				var xName = params.name;
+				var legentName = params.seriesName;
+				var qdbz = '';
+				if (legentName == '新开课题实际金额') {
+					qdbz = '已签订';
+				}
+				var url = encodeURIComponent("/one_level_main/common_table?qdbz=" + qdbz + "&ysnd=" + nd + "&define10=" + xName + "&groupFlag=xmid,define8");
+				window.open("/instituteIndex?url=" + url);
+			});
+
+			$("#chart7_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#chart7_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#chart7_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#chart7_04").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			var chart7_url = "/one_level_main/investment_02?nd=" + nd + "&v_date=" + v_date;
+			var color = [ "#f3655b", "#8ab3cf", "#f19049" ];
+			var echart7 = load_mutl_bar_investment(chart7_url, "chart7", "", "", yAxis2, color, 60, function(data) {
+			});
+			echart7.on('click', function(params) {
+				var xName = params.name;
+				var legentName = params.seriesName;
+				var qdbz = '';
+				if (legentName == '实际科研投入') {
+					qdbz = '已签订';
+				}
+				if (legentName == '未执行') {
+					qdbz = '未签订';
+				}
+				var url = encodeURIComponent("/one_level_main/common_table?define2=" + xName + "&qdbz=" + qdbz + "&ysnd=" + nd + "&groupFlag=xmid,define8");
+				window.open("/instituteIndex?url=" + url);
+
+			});
+			var investment_02_count_url = "/one_level_main/investment_02_count?nd=" + nd + "&v_date=" + v_date;
+			setInvestment_02_count(investment_02_count_url);
+		}
+
+		//初始化图形
+		initEchart();
+		//查询
+		function search_Event() {
+			initEchart();
+			myTable();
+		}
+
+		function myTable() {
+
+			var nd = $("#nd").val();
+			var v_date = (new Date()).getTime();
+			var url = '/one_level_main/investment_01_01?nd=' + nd + "&v_date=" + v_date;
+			table.init('myTable', {
+				url : url,
+				height : "296px",
+				where : {}
+
+			});
+
+		}
+
+		function setinvestmentCount(url) {
+
+			$("#chart1_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+
+			$.ajax({
+				type : "GET",
+				url : url,
+				dataType : "json",
+				timeout : 11000,
+				cache : false,
+				contentType : "application/x-www-form-urlencoded; charset=utf-8",
+				success : function(data, status) {
+					if (data.success == true || data.success == 'true') {
+						var zysje_count = 0;
+						var fyxsjje_count = 0;
+						var zbxsjje_count = 0;
+						var list = data.data;
+
+						for (var i = 0; i < list.length; i++) {
+							var tt = list[i].fyxsjje;
+
+							if (typeof (tt) == "undefined") {
+								tt = 0;
+							}
+
+							var zysje = list[i].zysje / 10000;//预算总计 
+							var fyxsjje = tt / 10000;//费用性科研投入
+							var zbxsjje = list[i].zbxsjje / 10000;//资本性科研投入
+							// alert(fyxsjje);
+							zysje_count = zysje_count + parseFloat(zysje);
+							fyxsjje_count = fyxsjje_count + parseFloat(fyxsjje);
+							zbxsjje_count = zbxsjje_count + parseFloat(zbxsjje);
+						}
+
+						$("#chart1_01").html(zysje_count.toFixed(2) + "亿元");
+						$("#chart1_02").html(fyxsjje_count.toFixed(2) + "亿元");
+						$("#chart1_03").html(zbxsjje_count.toFixed(2) + "亿元");
+						// alert(zysje_count);
+						if (zysje_count == '0') {
+							$("#chart1_04").html("0%");
+						} else {
+							$("#chart1_04").html(percentNum(zbxsjje_count + fyxsjje_count, zysje_count));
+						}
+
+					}
+				},
+				error : function() {
+				},
+				complete : function(XMLHttpRequest, status) {
+
+				}
+
+			});
+		}
+
+		function setInvestment_02_count(url) {
+			$.ajax({
+				type : "GET",
+				url : url,
+				dataType : "json",
+				timeout : 11000,
+				cache : false,
+				contentType : "application/x-www-form-urlencoded; charset=utf-8",
+				success : function(data, status) {
+					if (data.success == true || data.success == 'true') {
+
+						var zysje_count = 0;
+						var zsjje_count = 0;
+						var wxdje_count = 0;
+
+						var list = data.data;
+						for (var i = 0; i < list.length; i++) {
+							var zysje = list[i].zysje;//预算总计 
+							var zsjje = list[i].zsjje;//实际签订
+							var wxdje = list[i].wxdje;//未签订
+							zysje_count = zysje_count + parseFloat(zysje);
+							zsjje_count = zsjje_count + parseFloat(zsjje);
+							wxdje_count = wxdje_count + parseFloat(wxdje);
+						}
+
+						$("#chart7_01").html(zysje_count.toFixed(2) + "亿元");
+						$("#chart7_02").html(zsjje_count.toFixed(2) + "亿元");
+						$("#chart7_03").html(wxdje_count.toFixed(2) + "亿元");
+
+						if (zysje_count == 0) {
+							$("#chart7_04").html("0%");
+						} else {
+							$("#chart7_04").html(percentNum(zsjje_count, zysje_count));
+
+						}
+					}
+				},
+				error : function() {
+				},
+				complete : function(XMLHttpRequest, status) {
+
+				}
+			});
+		}
+
+		function percent_Num(num, num2) {
+			return (Math.round(num / num2 * 10000) / 100.00);
+		}
+
+		//小数点后两位百分比
+		function percentNum(num, num2) {
+			return (Math.round(num / num2 * 10000) / 100.00 + "%");
+		}
+	</script>
 </body>
 </html>
