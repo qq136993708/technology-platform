@@ -119,8 +119,12 @@ public class ProjectTaskController extends BaseController {
 				if (status_Code == 200)
 				{
 					layuiTableData = res.getBody();
+					//is_list=layuiTableData.getData();
 				}
 			}
+			
+			
+			
 			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
 			System.out.println(">>>>>>>>>>>>>getErpOrderlist_data 返回结果:" + result.toString());
 			return result.toString();
