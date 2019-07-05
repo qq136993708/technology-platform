@@ -12,6 +12,7 @@ import com.pcitc.mapper.equipment.SreEquipmentMapper;
 import com.pcitc.mapper.equipment.SreProjectMapper;
 import com.pcitc.mapper.equipment.SreProjectTaskMapper;
 import com.pcitc.service.feign.WorkflowRemoteClient;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -525,20 +526,23 @@ public class PurchaseServiceImpl implements PurchaseService {
         for (SreProjectTask sreProjectTask : list) {
             int count = 0;
             String topicId2 = sreProjectTask.getTopicId();//循环获取课题ID
-            SreProject sreProject = sreProjectMapper.selectByPrimaryKey(topicId2);//根据课题ID获取所有课题
-            if (sreProject!=null){
-                String equipmentIds2 = sreProject.getEquipmentIds();
-                if(equipmentIds2!=null){
-                    String[] equipmentIds = equipmentIds2.split(",");//获取课题下所有的装备的ID
-                    for (int i = 0; i < equipmentIds.length; i++) {//循环获取装备信息
-                        String equipmentId = equipmentIds[i];
-                        SreEquipment sreEquipment = sreEquipmentMapper.selectByPrimaryKey(equipmentId);//根据装备ID获取装备信息
-                        if(sreEquipment!=null){
-                            String purchaseStatus = sreEquipment.getPurchaseStatus();//获取装备的状态
-                            if(purchaseStatus.equals("0")){
-                                //如果当前装备采购状态等于0,代表此课题下有未采购的装备,跳出此循环
-                                count++;//记录当前装备采购标示
-                                break;
+            String contractNum2 = sreProjectTask.getContractNum();//合同号
+            if(StringUtils.isNotBlank(contractNum2)){
+                SreProject sreProject = sreProjectMapper.selectByPrimaryKey(topicId2);//根据课题ID获取所有课题
+                if (sreProject!=null){
+                    String equipmentIds2 = sreProject.getEquipmentIds();
+                    if(equipmentIds2!=null){
+                        String[] equipmentIds = equipmentIds2.split(",");//获取课题下所有的装备的ID
+                        for (int i = 0; i < equipmentIds.length; i++) {//循环获取装备信息
+                            String equipmentId = equipmentIds[i];
+                            SreEquipment sreEquipment = sreEquipmentMapper.selectByPrimaryKey(equipmentId);//根据装备ID获取装备信息
+                            if(sreEquipment!=null){
+                                String purchaseStatus = sreEquipment.getPurchaseStatus();//获取装备的状态
+                                if(purchaseStatus.equals("0")){
+                                    //如果当前装备采购状态等于0,代表此课题下有未采购的装备,跳出此循环
+                                    count++;//记录当前装备采购标示
+                                    break;
+                                }
                             }
                         }
                     }
