@@ -55,6 +55,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	/**
 	 * 预算处部门分解总表
 	 */
+	@Autowired
 	private BudgetMoneyMecomposeMapper budgetMoneyMecomposeMapper;
 	
 	@Resource
