@@ -38,57 +38,57 @@
     }
 </style>
 <body>
-  <input type="hidden" name="id" id="id" value="${id}">
+<input type="hidden" name="id" id="id" value="${id}">
 <div class="treeTableContainer">
     <div class="treeBox">
         <div class="title-box title-btns">组织机构
         </div>
         <div class="layui-side-scroll">
-         <input type="text" name="searchUnitName" id="searchUnitName" placeholder="机构名称" autocomplete="off" class="form-control"> 
-         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="loadUnitTree('')"  >查询</button>
-         <ul id="unitTree" class="ztree"></ul>
+            <input type="text" name="searchUnitName" id="searchUnitName" placeholder="机构名称" autocomplete="off" class="form-control">
+            <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="loadUnitTree('')"  >查询</button>
+            <ul id="unitTree" class="ztree"></ul>
         </div>
     </div>
     <div class="treeTableBox" style="margin-top: 10px; width:500px;">
         <div class="tableToolBox"></div>
         <table id="tableData" class="layui-hide" lay-filter="tableData"></table>
     </div>
-       <div class="treeBox" style="margin-left: 770px;">
+    <div class="treeBox" style="margin-left: 770px;">
         <div class="title-box title-btns">通知内容
         </div>
         <div class="layui-side-scroll">
-           <textarea placeholder="请输入通知内容" name="describe" id="describe" lay-verify="required"   class="layui-textarea" style="height:100%"></textarea>
+            <textarea placeholder="请输入通知内容" name="describe" id="describe" lay-verify="required"   class="layui-textarea" style="height:100%"></textarea>
         </div>
     </div>
     <div class="form-bottom">
-       <div class="form-bottom-btns">
-           <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
-            lay-filter="component-form-demo1" id="sureBtn" data-type="addEvent">确定
-       		</button>
-       		<!--<button type="button" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
-                   id="submitEvent">提交
-           </button>-->
-           <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
-                   id="closeBtn">关闭
-           </button>
-       </div>
-	</div>
+        <div class="form-bottom-btns">
+            <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
+                    lay-filter="component-form-demo1" id="sureBtn" data-type="addEvent">确定
+            </button>
+            <!--<button type="button" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
+                id="submitEvent">提交
+        </button>-->
+            <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
+                    id="closeBtn">关闭
+            </button>
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
     var unitId, zTreeObj, table, form, unitType = {}, postType = {}, selectRowData;
     var usersMessage="";
     var dParam = {};
     var setting =
-    {
-        //check: { enable: true, chkStyle: "radio", radioType: "level" },//单选按钮
-        data: {simpleData: {enable: true}},
-        callback: {onClick: onClickMenu}
-    };
+        {
+            //check: { enable: true, chkStyle: "radio", radioType: "level" },//单选按钮
+            data: {simpleData: {enable: true}},
+            callback: {onClick: onClickMenu}
+        };
     //单击选择
     function onClickMenu(event, treeId, treeNode, clickFlag) {
         unitId = treeNode.id;
         dParam = {param: {"unitId": unitId}};
-       // alert(unitId);
+        // alert(unitId);
         renderTable();
     }
     //从新加载树
@@ -106,9 +106,9 @@
             }
         }
     }
-    
-  
-  
+
+
+
     //初始化树型结构
     $(document).ready(function () {
         //初始机构类型
@@ -154,107 +154,119 @@
                 done: function (res, curr, count) {
                     layer.close(lodingMsg);
                     $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-  	                	//var index=parseInt($(this).index()+1);
-  	                    //$('tr').removeClass('layui-table-click');
-  	                   // $(this).addClass('layui-table-click');
-  	                   // $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-  	                  //  $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-  	                   // selectRowData=res.data[index-1];
-  
-  	                });
+                        //var index=parseInt($(this).index()+1);
+                        //$('tr').removeClass('layui-table-click');
+                        // $(this).addClass('layui-table-click');
+                        // $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        //  $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        // selectRowData=res.data[index-1];
+
+                    });
                 }
             });
         }
         renderTable();
+
+
+        function ajaxOpt(url, formName, type, backurl, successMsg, failMsg) {
+            $.ajax({
+                type: type,
+                url: url,
+                dataType: "json",
+                data: $("#" + formName).serialize(),
+                async: false,
+                cache: false,
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                success: function (data, status) {
+
+                    if (data.success == true || data.success == 'true') {
+
+
+                        layer.alert(
+                            successMsg,
+                            {icon: 1, closeBtn: 0},
+                            function () {
+                                var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                                parent.layer.close(index);  // 关闭layer
+                                parent.location.href = backurl;
+                            });
+
+                    } else {
+                        layer.alert(failMsg);
+                    }
+
+                },
+                error: function () {
+                    layer.alert("网络访问错误");
+                }
+
+            });
+        }
+
         var $ = layui.$, active = {
-	        addEvent: function() { 
-	         var checkStatus = table.checkStatus('tableData')
-		      ,data = checkStatus.data;
-		        usersMessage="";
+            addEvent: function() {
+                var checkStatus = table.checkStatus('tableData')
+                /*,*/data = checkStatus.data;
+                usersMessage="";
                 informcontent="";
-				for(var i=0;i<data.length;i++)
-				{
-						if(i==0)
-						{
-						usersMessage=data[i].userId;
-                            informcontent=data[i].userDisp;
-						}
-						else
-						{
-						usersMessage=usersMessage+","+data[i].userId;
-                            informcontent=informcontent+","+data[i].userDisp;
-						}
-				}
-	        	if (data.length == 0){
-           			layer.msg('请选择数据');
-               	} 
-               	else{
-               	       $.ajax({
-			           type : 'GET',
-			           url : "/sre_project_taskac/addUsers?id="+$("#id").val()+"&usersid="+usersMessage+"&informcontent="+informcontent,
-			       
-			           success : function(data) {
-			           layer.alert("保存成功！", {icon: 1,closeBtn: 0 }, function () 
-			                       {
-			                           var index = parent.layer.getFrameIndex(window.name); 
-								       parent.layer.close(index); 
-								       var v_date = (new Date()).getTime();
-								       var backurl="/sre_project_taskac/to_list?v_date="+v_date;
-								       location.href = backurl;
-			                      });
-					 
-	                      },
-	               });
-                 
-               	}
-        	},
-            	
-            
-    	};
-    	  
+                for(var i=0;i<data.length;i++)
+                {
+                    if(i==0)
+                    {
+                        usersMessage=data[i].userId;
+                        informcontent=data[i].userDisp;
+                    }
+                    else
+                    {
+                        usersMessage=usersMessage+","+data[i].userId;
+                        informcontent=informcontent+","+data[i].userDisp;
+                    }
+                }
+                if (data.length == 0){
+                    layer.msg('请选择数据');
+                }
+                else{
+                    var v_date = (new Date()).getTime();
+                    var url = "/sre_project_taskac/addUsers?id="+$("#id").val()+"&usersid="+usersMessage+"&informcontent="+informcontent;
+                    var backurl="/sre_project_taskac/to_list?v_date="+v_date;
+                    ajaxOpt(url,"form1","GET",backurl,"保存成功","保存失败");
+                    return false;
+                }
+            }
+        };
         //区别按钮属性
         $('.layui-btn').on('click', function () {
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
-        $(".layui-table-header table thead th input").remove();
-        
-        
-        
-        $('.layui-btn').on('click', function () {
-            var type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
-        });
-        
-        
+
+
         $("#closeBtn").click(function () {
             var index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
         })
         $("#submitEvent").click(function(){
-            	 layer.confirm('是否提交？', { btn: ['确定','取消']}, function(){
-	         				 var applicationId=$("#id").val();
-            		 $.ajax({
-			           type : 'GET',
-			           url : "/sre_project_taskac/submitAudit?id="+applicationId+"&status="+"40",
-			       
-			           success : function(data) {
-			           layer.alert("保存成功！", {icon: 1,closeBtn: 0 }, function () 
-			                       {
-			                       
-			                          var index = parent.layer.getFrameIndex(window.name); 
-								       parent.layer.close(index); 
-								       var v_date = (new Date()).getTime();
-								       var backurl="/sre_project_taskac/to_list?v_date="+v_date
-								       parent.location.href = backurl;
-			                      });
-					 
-	                      },
-	               });
-	         			})
-            		
+            layer.confirm('是否提交？', { btn: ['确定','取消']}, function(){
+                var applicationId=$("#id").val();
+                $.ajax({
+                    type : 'GET',
+                    url : "/sre_project_taskac/submitAudit?id="+applicationId+"&status="+"40",
+
+                    success : function(data) {
+                        layer.alert("保存成功！", {icon: 1,closeBtn: 0 }, function ()
+                        {
+
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+                            var v_date = (new Date()).getTime();
+                            var backurl="/sre_project_taskac/to_list?v_date="+v_date
+                            parent.location.href = backurl;
+                        });
+                    },
+                });
+            })
         })
-        
+
     });
 </script>
 </body>
