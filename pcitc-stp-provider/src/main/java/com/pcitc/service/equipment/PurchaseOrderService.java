@@ -1,5 +1,7 @@
 package com.pcitc.service.equipment;
 
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.equipment.SrePurchaseArrival;
 import com.pcitc.base.stp.equipment.SrePurchaseOrder;
 
@@ -18,4 +20,5 @@ public interface PurchaseOrderService {
     void insertPurchaseArrivalList(List<SrePurchaseArrival> srePurchaseArrivals);
 
     void insertPurchaseOrderList(List<SrePurchaseOrder> srePurchaseOrderList);
+    public LayuiTableData getErpOrderPageByErpNo(LayuiTableParam param)throws Exception;
 }

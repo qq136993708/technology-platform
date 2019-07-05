@@ -35,4 +35,8 @@ public interface PurchaseOrderStpClient {
      */
     @RequestMapping(value = "/sre-provider/purchase/insertPurchaseArrival")
     void insertPurchaseArrival(List<SrePurchaseArrival> purchaseArrivalDate);
+    
+    
+    
+    
 }

@@ -159,6 +159,8 @@
 				<option value="">---</option>
 				<option value="xmid" <#if groupFlag == 'xmid'>selected="selected"</#if> >按项目分组</option>
 				<option value="xmid,define8" <#if groupFlag == 'xmid,define8'>selected="selected"</#if> >按项目、承担单位</option>
+				<option value="xmid,ysnd" <#if groupFlag == 'xmid,ysnd'>selected="selected"</#if> >按项目、预算年度</option>
+				<option value="xmid,ysnd,define8" <#if groupFlag == 'xmid,ysnd,define8'>selected="selected"</#if> >按项目、预算年度、承担单</option>
 			</select>
 		</label>
 		<label class="dateInput">
@@ -467,106 +469,106 @@
 						cols : [ [ {
 							title : '序号',
 							type : 'numbers',
-							width : '4%'
+							width : '45'
 						}, {
 							field : 'nd',
 							title : '项目年度',
 							style : 'cursor: pointer;',
 							align : 'center',
-							width : '150',
+							width : '80',
 							sort : true
 						}, {
 							field : 'ysnd',
 							title : '预算年度',
 							style : 'cursor: pointer;',
 							align : 'center',
-							width : '150',
+							width : '80',
 							sort : true
 						}, {
 							field : 'hth',
 							title : '合同号',
 							style : 'cursor: pointer;',
 							align : 'center',
-							width : '150',
+							width : '80',
 							sort : true
 						}, {
 							field : 'define10',
 							title : '专业处',
 							style : 'cursor: pointer;',
 							align : 'left',
-							width : '150',
+							width : '80',
 							sort : true
 						}, {
 							field : 'xmmc',
 							title : '项目名称',
 							style : 'cursor: pointer;',
 							align : 'left',
-							width : '380',
+							width : '350',
 							sort : true
 						}, {
 							field : 'jf',
 							title : '总额（万元）',
 							style : 'cursor: pointer;',
 							align : 'center',
-							width : '150',
+							width : '100',
 							sort : true
 						}, {
 							field : 'ysje',
 							title : '年度预算（万元）',
 							style : 'cursor: pointer;',
 							align : 'center',
-							width : '150',
+							width : '130',
 							sort : true
 						},
 
 						{
 							field : 'yszbxje',
-							title : '年度预算-资本性',
+							title : '资本性预算',
 							style : 'cursor: pointer;',
 							align : 'center',
-							width : '150',
+							width : '100',
 							sort : true
 						}, {
 							field : 'ysfyxje',
-							title : '年度预算-费用性',
+							title : '费用性预算',
 							style : 'cursor: pointer;',
 							align : 'center',
-							width : '150',
+							width : '100',
 							sort : true
 						}, {
 							field : 'define11',
 							title : '经费来源',
 							style : 'cursor: pointer;',
 							align : 'center',
-							width : '150',
+							width : '100',
 							sort : true
 						}, {
 							field : 'define12',
 							title : '单位类别',
 							style : 'cursor: pointer;',
 							align : 'center',
-							width : '150',
+							width : '120',
 							sort : true
 						}, {
 							field : 'define1',
 							title : '资本/费用',
 							style : 'cursor: pointer;',
 							align : 'center',
-							width : '150',
+							width : '110',
 							sort : true
 						}, {
 							field : 'define2',
 							title : '二级单位名称',
 							style : 'cursor: pointer;',
 							align : 'left',
-							width : '150',
+							width : '140',
 							sort : true
 						}, {
 							field : 'zylb',
 							title : '专业类别',
 							style : 'cursor: pointer;',
 							align : 'left',
-							width : '150',
+							width : '130',
 							sort : true
 						}, {
 							field : 'fzdw',
@@ -580,7 +582,7 @@
 							title : '签订标识',
 							style : 'cursor: pointer;',
 							align : 'left',
-							width : '150',
+							width : '80',
 							sort : true
 						}
 

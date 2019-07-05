@@ -261,21 +261,34 @@ public class ProjectTaskAcController extends BaseController{
 	  
 	    @RequestMapping(value = "/addUsers")
 	    @ResponseBody
-		public String addUsers(HttpServletRequest request) throws Exception {
-	    	String id = CommonUtil.getParameter(request, "id", "");
+		public Result addUsers(HttpServletRequest request) throws Exception {
+			Result resultsDate = new Result();
+
+			String id = CommonUtil.getParameter(request, "id", "");
 			String usersid = CommonUtil.getParameter(request, "usersid", "");
 			String informcontent = CommonUtil.getParameter(request, "informcontent", "");
-			 ResponseEntity<SreProjectAudit> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProjectAudit.class);
-             SreProjectAudit sreProjectAudit = responseEntity.getBody();
-             sreProjectAudit.setId(id);
-             sreProjectAudit.setUsersid(usersid);
-             sreProjectAudit.setInformcontent(informcontent);
-             sreProjectAudit.setTestdate(new Date());
-             sreProjectAudit.setInformuser(sysUserInfo.getUserId());
-            sreProjectAudit.setStatus("40");
-             ResponseEntity<String>  exchange = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SreProjectAudit>(sreProjectAudit, this.httpHeaders), String.class);
-           return "";	
-	       }
+			ResponseEntity<SreProjectAudit> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProjectAudit.class);
+			SreProjectAudit sreProjectAudit = responseEntity.getBody();
+			sreProjectAudit.setId(id);
+			sreProjectAudit.setUsersid(usersid);
+			sreProjectAudit.setInformcontent(informcontent);
+			sreProjectAudit.setTestdate(new Date());
+			sreProjectAudit.setInformuser(sysUserInfo.getUserId());
+			sreProjectAudit.setStatus("40");
+			ResponseEntity<String>  exchange = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SreProjectAudit>(sreProjectAudit, this.httpHeaders), String.class);
+
+			// 返回结果代码
+			int statusCode = exchange.getStatusCodeValue();
+			if (statusCode == 200) {
+
+				resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
+			} else
+			{
+				resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
+			}
+
+			return resultsDate;
+		}
 
 	/**
 	 * 根据id删除

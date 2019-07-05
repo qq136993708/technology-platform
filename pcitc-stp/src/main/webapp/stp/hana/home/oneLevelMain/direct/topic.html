@@ -177,7 +177,7 @@ layui.config({
         $("#knowledge_table").click(function () {
         	
         	 var nd=$("#year").val();
-             var url=　encodeURIComponent("/one_level_main/count_table?nd="+nd+"&ysnd="+nd);
+             var url=encodeURIComponent("/one_level_main/count_table?nd="+nd+"&ysnd="+nd);
     	        window.open("/instituteIndex?url="+url);
     	        
         });
@@ -191,7 +191,7 @@ layui.config({
             //obj.update(fields) //修改当前行数据
             selectRowData=obj.data;
             var nd=$("#year").val();
-            var url=　encodeURIComponent("/one_level_main/count_table?define2="+selectRowData.define2+"&nd=&ysnd="+nd+"&define1=费用性");
+            var url=encodeURIComponent("/one_level_main/count_table?define2="+selectRowData.define2+"&nd=&ysnd="+nd+"&define1=费用性");
 	        window.open("/instituteIndex?url="+url);
 	        
         });
@@ -207,7 +207,7 @@ layui.config({
             selectRowData=obj.data;
             
             var nd=$("#year").val();
-            var url=　encodeURIComponent("/one_level_main/count_table?project_property="+selectRowData.project_property+"&nd=&ysnd="+nd+"&define1=费用性");
+            var url=encodeURIComponent("/one_level_main/count_table?project_property="+selectRowData.project_property+"&nd=&ysnd="+nd+"&define1=费用性");
 	        window.open("/instituteIndex?url="+url);
         });
         myTable();
@@ -261,7 +261,7 @@ function initEchart()
 				nd_temp="";
 			}
 			//alert(legentName);
-			var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+nd_temp+"&ysnd="+nd+"&ktlx="+legentName+"&define1=费用性");
+			var url=encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+nd_temp+"&ysnd="+nd+"&ktlx="+legentName+"&define1=费用性");
 	        window.open("/instituteIndex?url="+url);
 	          
 	    });
@@ -281,7 +281,7 @@ function initEchart()
 			nd_temp="";
 		}
 		//alert(legentName);
-		var url=　encodeURIComponent("/one_level_main/count_table?project_property="+xName+"&nd="+nd_temp+"&ysnd="+nd+"&define1=费用性");
+		var url=encodeURIComponent("/one_level_main/count_table?project_property="+xName+"&nd="+nd_temp+"&ysnd="+nd+"&define1=费用性");
         window.open("/instituteIndex?url="+url);
           
     });
@@ -294,7 +294,7 @@ function initEchart()
 		 var xName=params.name;
 		 var legentName=params.seriesName;
 		 var nd=$("#year").val();
-         var url=　encodeURIComponent("/one_level_main/count_table?define5="+xName+"&nd="+nd+"&ysnd="+nd+"&define1=费用性");
+         var url=encodeURIComponent("/one_level_main/count_table?define5="+xName+"&nd="+nd+"&ysnd="+nd+"&define1=费用性");
 	     window.open("/instituteIndex?url="+url);
     });
 }
@@ -341,7 +341,7 @@ function topic_chart1(qdbz)
 	
 	var nd=$("#year").val();
 	var v_date=(new Date()).getTime();
-	var url=　encodeURIComponent("/one_level_main/count_table?nd="+nd+"&ysnd="+nd+"&define1=费用性&v_date="+v_date);
+	var url=encodeURIComponent("/one_level_main/count_table?nd="+nd+"&ysnd="+nd+"&define1=费用性&v_date="+v_date);
     window.open("/instituteIndex?url="+url);
 }
 

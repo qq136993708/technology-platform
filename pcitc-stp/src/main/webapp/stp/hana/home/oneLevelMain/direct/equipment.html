@@ -261,7 +261,7 @@ function initEchart()
 			nd_temp="";
 		}
 		
-		var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+nd_temp+"&ysnd="+ndv+"&define1=资本性&ktlx="+legentName);
+		var url=encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+nd_temp+"&ysnd="+ndv+"&define1=资本性&ktlx="+legentName);
         window.open("/instituteIndex?url="+url);
     });
 
@@ -284,7 +284,7 @@ function initEchart()
 		var xName=params.name;
 		var legentName=params.seriesName;
 		 
-		 var url=　encodeURIComponent("/one_level_main/equipment_03_detail?month="+$("#month").val()+"&companyName="+xName);
+		 var url=encodeURIComponent("/one_level_main/equipment_03_detail?month="+$("#month").val()+"&companyName="+xName);
 		 window.open("/instituteIndex?url="+url);
     });
 
@@ -305,7 +305,7 @@ function initEchart()
 	echart5.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		var url=　encodeURIComponent("/one_level_main/equipment_03_detail?month="+$("#month").val()+"&companyName="+xName);
+		var url=encodeURIComponent("/one_level_main/equipment_03_detail?month="+$("#month").val()+"&companyName="+xName);
 		 window.open("/instituteIndex?url="+url);
     });
 
@@ -358,7 +358,7 @@ function equipment_chart1(ktlx)
 	{
 		nd_temp="";
 	}
-	var url=　encodeURIComponent("/one_level_main/count_table?nd="+nd_temp+"&ysnd="+nd+"&define1=资本性&v_date="+v_date+"&ktlx="+ktlx);
+	var url=encodeURIComponent("/one_level_main/count_table?nd="+nd_temp+"&ysnd="+nd+"&define1=资本性&v_date="+v_date+"&ktlx="+ktlx);
     window.open("/instituteIndex?url="+url);
 }
 
@@ -415,7 +415,7 @@ function renderTable2()
 	          selectRowData=res.data[index-1];
 	          
 	          var companyName=selectRowData.g0GSJC;
-	          var url=　encodeURIComponent("/one_level_main/equipment_03_detail?month="+$("#month").val()+"&companyName="+companyName);
+	          var url=encodeURIComponent("/one_level_main/equipment_03_detail?month="+$("#month").val()+"&companyName="+companyName);
 	 		  window.open("/instituteIndex?url="+url);
 	 		 
 	      });
@@ -443,7 +443,7 @@ function myTable()
         console.log(obj.tr) //得到当前行元素对象
         console.log(obj.data) //得到当前行数据
         var selectRowData=obj.data;
-		var url=　encodeURIComponent("/one_level_main/count_table?define2="+selectRowData.define2+"&nd=&ysnd="+nd+"&define1=资本性&v_date="+v_date);
+		var url=encodeURIComponent("/one_level_main/count_table?define2="+selectRowData.define2+"&nd=&ysnd="+nd+"&define1=资本性&v_date="+v_date);
         window.open("/instituteIndex?url="+url);
     });
     

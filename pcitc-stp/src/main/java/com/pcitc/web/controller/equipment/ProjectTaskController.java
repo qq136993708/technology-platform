@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -40,22 +39,16 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.stp.equipment.JoinUnitWord;
-import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectSetup;
 import com.pcitc.base.stp.equipment.SreProjectTask;
+import com.pcitc.base.stp.equipment.SrePurchaseOrder;
 import com.pcitc.base.stp.equipment.UnitField;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysPost;
-import com.pcitc.base.system.SysUnit;
-import com.pcitc.base.system.SysUser;
-import com.pcitc.base.system.SysUserProperty;
-import com.pcitc.base.util.CodeUtil;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
-import com.pcitc.base.workflow.Constants;
-import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.WordUtil;
@@ -80,6 +73,73 @@ public class ProjectTaskController extends BaseController {
 	private static final String GET_ERP_NUM =  "http://pcitc-zuul/hana-proxy/hana/common/dic/getErpInfoList";
 	
 	
+	private static final String getErpOrderlist =  "http://pcitc-zuul/hana-proxy/hana/getErpOrderlist";
+	
+	//从本地取
+	private static final String getStpErpOrderlistByErpNo = "http://pcitc-zuul/stp-proxy/sre-provider/getErpOrderlistByErpNo";
+	//从HANA取
+	private static final String getHanaErpOrderlistByErpNo =  "http://pcitc-zuul/hana-proxy/hana/getErpOrderlist_data";
+	
+	
+	
+	  @RequestMapping(method = RequestMethod.GET, value = "/getErpOrderlist")
+	  public String getErpOrderlist(HttpServletRequest request) throws Exception
+	  {
+		      this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+			  String month = DateUtil.dateToStr(new Date(), DateUtil.FMT_MM);
+			  String code = CommonUtil.getParameter(request, "code", "");
+			  request.setAttribute("month", month);
+			  request.setAttribute("code", code);
+			  return "/stp/equipment/task/getErpOrderlist";
+	  }
+     
+    
+    
+	  @RequestMapping(method = RequestMethod.POST, value = "/getErpOrderlist_data")
+		@ResponseBody
+	  public String getErpOrderlist_data_page(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
+		{
+			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(param));
+			System.out.println(">>>>>>>>>>>>>>>>>getErpOrderlist_data 参数 "+resultObj.toString());
+			List is_list=null;
+			LayuiTableData layuiTableData = new LayuiTableData();
+			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getStpErpOrderlistByErpNo, HttpMethod.POST, entity, LayuiTableData.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200)
+			{
+				layuiTableData = responseEntity.getBody();
+				is_list=layuiTableData.getData();
+			}
+			//如果本地为空，再从HANA取
+			if(is_list==null)
+			{
+				ResponseEntity<LayuiTableData> res = restTemplate.exchange(getHanaErpOrderlistByErpNo, HttpMethod.POST, entity, LayuiTableData.class);
+				int status_Code = responseEntity.getStatusCodeValue();
+				if (status_Code == 200)
+				{
+					layuiTableData = res.getBody();
+				}
+			}
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+			System.out.println(">>>>>>>>>>>>>getErpOrderlist_data 返回结果:" + result.toString());
+			return result.toString();
+		}
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+
+		
+		
+	  
+	  
 	//任务安排
 	@RequestMapping(value = "/arrange_list")
 	public String arrange_list(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -479,8 +539,7 @@ public class ProjectTaskController extends BaseController {
 			sreProjectBasic.setTaskVersion(taskVersion);
 			sreProjectBasic.setCloseStatus("0");
 			sreProjectBasic.setIsCheck("0");
-			
-			
+			sreProjectBasic.setSourceType("1");
 			
 		} else 
 		{

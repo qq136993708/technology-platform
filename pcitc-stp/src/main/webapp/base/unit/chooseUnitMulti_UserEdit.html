@@ -72,7 +72,7 @@
 	    
 	    //设置展开前三级节点
 		function expandThreeLevel(treeObj) {
-			var nodeList = treeObj.getNodes();　　　　　　 //展开第一个根节点
+			var nodeList = treeObj.getNodes();//展开第一个根节点
 			for(var i = 0; i < nodeList.length; i++) { //设置节点展开第二级节点
 				treeObj.expandNode(nodeList[i], true, false, true);
 				var nodespan = nodeList[i].children;

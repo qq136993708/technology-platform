@@ -1,10 +1,12 @@
 package com.pcitc.service.feign.hana;
 
 import com.alibaba.fastjson.JSONArray;
+
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author zhf 

@@ -1,12 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.pcitc.mapper.out.PurchaseOrderMapper">
-
-
-
-
-<resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.SrePurchaseOrder">
-     <result column="G0FLAG" jdbcType="VARCHAR" property="g0flag" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.equipment.ErpOrderMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.SrePurchaseOrder">
+    <result column="G0FLAG" jdbcType="VARCHAR" property="g0flag" />
     <result column="G0LOGSYS" jdbcType="VARCHAR" property="g0logsys" />
     <result column="G0CALD" jdbcType="VARCHAR" property="g0cald" />
     <result column="G0GSDM" jdbcType="VARCHAR" property="g0gsdm" />
@@ -41,90 +37,63 @@
     <result column="K0XMDDJE" jdbcType="DECIMAL" property="k0xmddje" />
   </resultMap>
   
-
-	<!-- 获取国家项目的数据 -->
-	<select id="getPurchaseOrderList" resultMap="BaseResultMap" parameterType="java.util.HashMap">
-		SELECT
-	  "G0FLAG",
-	 "G0CALD",
-	 "G0GSDM",
-	 "G0GSJC",
-	 "G0GSOR",
-	 "G0GSJCL",
-	 "G0GSGP",
-	 "G0GSSP",
-	 "G0PROJCODE",
-	 "G0PROJTXT",
-	 "G0WBSCODE",
-	 "G0WBSTXT",
-	 "G0XMGLLX",
-	 "G0XMGLLY",
-	 "G0XMGLJB",
-	 "G0XMLX",
-	 "G0XMLXMS",
-	 "G0XMZT",
-	 "G0XMZTMS",
-	 "G0XMDL",
-	 "G0KYPFWH",
-	 "G0MATNR",
-	 "G0MAKTX",
-	 "G0EBELN",
-	 "G0EBELP",
-	 "G0TXZ01",
-	 "G0EINDT",
-	 "G0LIFNR",
-	 "G0NAME2",
-	 "G0DDLX",
-	 sum("K0XMDDSL") AS "K0XMDDSL",
-	 sum("K0XMDDJE") AS "K0XMDDJE"
-FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_YW_1000_02"
-(
-'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
-'PLACEHOLDER' = ('$$PR_GSDM$$','1020,1040,1041,1060,1061,1080,1100,1101,1120,1123,1124,1127,1130,4360')
-)
-GROUP BY "G0FLAG",
-	 "G0CALD",
-	 "G0GSDM",
-	 "G0GSJC",
-	 "G0GSOR",
-	 "G0GSJCL",
-	 "G0GSGP",
-	 "G0GSSP",
-	 "G0PROJCODE",
-	 "G0PROJTXT",
-	 "G0WBSCODE",
-	 "G0WBSTXT",
-	 "G0XMGLLX",
-	 "G0XMGLLY",
-	 "G0XMGLJB",
-	 "G0XMLX",
-	 "G0XMLXMS",
-	 "G0XMZT",
-	 "G0XMZTMS",
-	 "G0XMDL",
-	 "G0KYPFWH",
-	 "G0MATNR",
-	 "G0MAKTX",
-	 "G0EBELN",
-	 "G0EBELP",
-	 "G0TXZ01",
-	 "G0EINDT",
-	 "G0LIFNR",
-	 "G0NAME2",
-	 "G0DDLX"
-ORDER BY "G0WBSCODE" ASC
-
-	</select>
-
-
-
-
-
-
-    
-
-
-
-
-
+     <sql id="getDetail_sql">
+	    SELECT
+			 '合计' AS "G0EBELN",
+			 '-' AS "G0DDLX",
+			 '-' AS "G0MAKTX",
+			 '-' AS "G0WBSTXT",
+			 '-' AS "G0LIFNR",
+			 '-' AS "G0MATNR",
+			 '-' AS "G0NAME2",
+			 '-' AS "G0PROJCODE",
+			 sum("K0XMDDSL") AS "K0XMDDSL",
+			 sum("K0XMDDJE") AS "K0XMDDJE" 
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_YW_1000_02" ('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '1020,1040,1041,1060,1061,1080,1100,1101,1120,1123,1124,1127,1130,4360')) 
+		where 	G0PROJCODE='${g0PROJCODE}'
+		UNION ALL SELECT
+			 "G0EBELN",
+			 "G0DDLX",
+			 "G0MAKTX",
+			 "G0WBSTXT",
+			 "G0LIFNR",
+			 "G0MATNR",
+			 "G0NAME2",
+			 "G0PROJCODE",
+			 sum("K0XMDDSL") AS "K0XMDDSL",
+			 sum("K0XMDDJE") AS "K0XMDDJE" 
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_YW_1000_02" ('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '1020,1040,1041,1060,1061,1080,1100,1101,1120,1123,1124,1127,1130,4360')) 
+		where 	G0PROJCODE='${g0PROJCODE}'
+		GROUP BY "G0EBELN",
+			 "G0DDLX",
+			 "G0MAKTX",
+			 "G0WBSTXT",
+			 "G0LIFNR",
+			 "G0MATNR",
+			 "G0NAME2",
+			 "G0PROJCODE" 
+	 </sql>
+	 
+     <select id="getErpOrderListByG0PROJCODE" resultMap="BaseResultMap" parameterType="java.util.Map" >
+        <include refid="getDetail_sql"></include>
+        <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>   
+     </select>
+      <select id="getErpOrderCountByG0PROJCODE" resultType="int"  parameterType="java.util.Map" >
+         SELECT COUNT(*) FROM( <include refid="getDetail_sql"></include>)
+      </select>
+  
+  
+  
+  
+  
+  
+  
+  
+  
 </mapper>

@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-    <title>科技管理平台</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
-    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/mobile/css/mobileNew.css">
+<meta charset="UTF-8">
+<title>科技管理平台</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/mobile/css/mobileNew.css">
 </head>
 <body>
-<header>
-    <div class="m_return child">
-        <a href="/mobile/indexTest"><img src="/mobile/images/icon-back.png"/> </a>
-        <h4>科研装备</h4>
-    </div>
-</header>
-<main class="main">
-<input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
+	<header>
+		<div class="m_return child">
+			<a href="/mobile/indexTest">
+				<img src="/mobile/images/icon-back.png" />
+			</a>
+			<h4>科研装备</h4>
+		</div>
+	</header>
+	<main class="main"> <input type="hidden" name="companyCode" value="${companyCode}" id="companyCode">
 	<div class="layui-card layui-form " lay-filter="component-form-element">
 		<div class="layui-card-body layui-row layui-col-space10">
 			<div class="layui-col-xs4">
-				<input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  placeholder="yyyy-MM" class="form-control layui-input" id="month">
+				<input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}" placeholder="yyyy-MM" class="form-control layui-input" id="month">
 			</div>
-			<div class="layui-col-xs4" style="display:none">
+			<div class="layui-col-xs4" style="display: none">
 				<select name="city" lay-verify="">
 					<option value="">全部</option>
 					<option value="010">北京</option>
@@ -34,308 +35,349 @@
 			</div>
 		</div>
 	</div>
-   <div class="main-card first-card">
-        <div class="main-card-header hasborder"><span class="layui_time1"></span>年直属研究院科研装备课题</div>
-        <div class="main-card-body">
-         <div class="text-total">
-                            <span>总计:<span    class="text-total-blue"    id="equipment_chart1_01" onclick="equipment_chart1('')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>新开课题:<span class="text-total-blue"    id="equipment_chart1_02" onclick="equipment_chart1('新开课题')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>结转课题:<span class="text-total-blue"    id="equipment_chart1_03" onclick="equipment_chart1('结转课题')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                        </div>
-                        <div class="main-chart" id="equipment_chart1" style="height:280px;width: 100%;"></div>
-        </div>
-    </div>
-    
-    <div class="main-card first-card">
-        <div class="main-card-header hasborder"><span class="layui_time1"></span>直属研究院科研课题数量占比</div>
-        <div class="main-card-body">
-           <table id="myTable" class="layui-table" lay-filter="myTable"  >
-                 <thead>
-                            <tr>
-                                <th lay-data="{field:'define2', width:'30%',align:'center'}" rowspan="2">项目</th>
-                                <th lay-data="{align:'center'}" colspan="2">总计</th>
-                            </tr>
-                            <tr>
-                                <th lay-data="{field:'zsl', width:'30%',align:'right'}">数量（个）</th>
-                                <th lay-data="{field:'zslRate', width:'30%',align:'right',templet:function(d){return d.zslRate.toFixed(2)+'%'}}">占比</th>
-                            </tr>
-                  </thead>
-             </table>
-        </div>
-    </div>
-    
-    <div class="main-card" id="isKJBPerson_id">
-        <div class="main-card-header hasborder"><span class="layui_time"></span>直属研究院科研装备数量</div>
-        <div class="main-card-body">
-                <div class="text-total" style="font-size: 12px;">
-                      <span>大型分析仪器:<span class="text-total-blue" id="bar4_1_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                     <span>中型实验装置:<span class="text-total-blue" id="bar4_2_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                     <span>单台值大于500万:<span class="text-total-blue" id="bar4_3_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                     <span>专业软件（外购）:<span class="text-total-blue" id="bar4_4_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                 </div>
-                 <div class="main-chart" id="equipment_chart3" style="height:280px;width: 100%;"></div>
-        </div>
-    </div>
-    
-    <div class="main-card first-card">
-        <div class="main-card-header hasborder"><span class="layui_time"></span>科研课题数量占比</div>
-        <div class="main-card-body"  style="height:360px;">
-           <table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table_02"></table>
-        </div>
-    </div>
-    
-</main>
-<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
-<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
-<script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
-<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
-<script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
+	<div class="main-card first-card">
+		<div class="main-card-header hasborder">
+			<span class="layui_time1"></span>
+			年直属研究院科研装备课题
+		</div>
+		<div class="main-card-body">
+			<div class="text-total">
+				<span>
+					总计:
+					<span class="text-total-blue" id="equipment_chart1_01" onclick="equipment_chart1('')" style="cursor: pointer">
+						<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+					</span>
+				</span>
+				<span>
+					新开课题:
+					<span class="text-total-blue" id="equipment_chart1_02" onclick="equipment_chart1('新开课题')" style="cursor: pointer">
+						<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+					</span>
+				</span>
+				<span>
+					结转课题:
+					<span class="text-total-blue" id="equipment_chart1_03" onclick="equipment_chart1('结转课题')" style="cursor: pointer">
+						<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+					</span>
+				</span>
+			</div>
+			<div class="main-chart" id="equipment_chart1" style="height: 280px; width: 100%;"></div>
+		</div>
+	</div>
+
+	<div class="main-card first-card">
+		<div class="main-card-header hasborder">
+			<span class="layui_time1"></span>
+			直属研究院科研课题数量占比
+		</div>
+		<div class="main-card-body">
+			<table id="myTable" class="layui-table" lay-filter="myTable">
+				<thead>
+					<tr>
+						<th lay-data="{field:'define2', width:'30%',align:'center'}" rowspan="2">项目</th>
+						<th lay-data="{align:'center'}" colspan="2">总计</th>
+					</tr>
+					<tr>
+						<th lay-data="{field:'zsl', width:'30%',align:'right'}">数量（个）</th>
+						<th lay-data="{field:'zslRate', width:'30%',align:'right',templet:function(d){return d.zslRate.toFixed(2)+'%'}}">占比</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+
+	<div class="main-card" id="isKJBPerson_id">
+		<div class="main-card-header hasborder">
+			<span class="layui_time"></span>
+			直属研究院科研装备数量
+		</div>
+		<div class="main-card-body">
+			<div class="text-total" style="font-size: 12px;">
+				<span>
+					大型分析仪器:
+					<span class="text-total-blue" id="bar4_1_count">
+						<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+					</span>
+				</span>
+				<span>
+					中型实验装置:
+					<span class="text-total-blue" id="bar4_2_count">
+						<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+					</span>
+				</span>
+				<span>
+					单台值大于500万:
+					<span class="text-total-blue" id="bar4_3_count">
+						<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+					</span>
+				</span>
+				<span>
+					专业软件（外购）:
+					<span class="text-total-blue" id="bar4_4_count">
+						<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+					</span>
+				</span>
+			</div>
+			<div class="main-chart" id="equipment_chart3" style="height: 280px; width: 100%;"></div>
+		</div>
+	</div>
+
+	<div class="main-card first-card">
+		<div class="main-card-header hasborder">
+			<span class="layui_time"></span>
+			科研课题数量占比
+		</div>
+		<div class="main-card-body" style="height: 360px;">
+			<table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table_02"></table>
+		</div>
+	</div>
+
+	</main>
+	<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+	<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+	<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+	<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+	<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+	<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+	<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+	<script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
 
 
 
-<script type="text/javascript">
-(function(doc, win) {
-    var docEl = doc.documentElement,
-        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
-        recalc = function() {
-            var clientWidth = docEl.clientWidth;
-            if (!clientWidth) return;
-            docEl.style.fontSize =  (clientWidth / 10.8) + 'px';
-        };
-    if (!doc.addEventListener) return;
-    win.addEventListener(resizeEvt, recalc, false);
-    doc.addEventListener('DOMContentLoaded', recalc, false);
-})(document, window);
-	
-	
-var echart1;
-var data7;
-var table;
-layui.config({
-    base: '/layuiadmin/'
-}).extend({
-    index: 'lib/index'
-}).use(['index','jquery','form', 'laydate','table','laypage'], function(){
-	  $ = layui.jquery
-      ,table = layui.table
-      ,form = layui.form
-      ,laydate = layui.laydate
-	  form.render(null, 'component-form-group');
-        laydate.render({
-        	 elem: '#month',type: 'month' 
-        	       
-            ,done: function(value, date, endDate){
-                $(".layui_time1").html(date.year);
-                $(".layui_time").html(date.year+"年"+date.month+"月");
-                $("#month").val(date.year+""+PrefixInteger(date.month, 2));
-                search_Event();
-            }
-        });
+	<script type="text/javascript">
+		(function(doc, win) {
+			var docEl = doc.documentElement, resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize', recalc = function() {
+				var clientWidth = docEl.clientWidth;
+				if (!clientWidth) return;
+				docEl.style.fontSize = (clientWidth / 10.8) + 'px';
+			};
+			if (!doc.addEventListener) return;
+			win.addEventListener(resizeEvt, recalc, false);
+			doc.addEventListener('DOMContentLoaded', recalc, false);
+		})(document, window);
 
+		var echart1;
+		var data7;
+		var table;
+		layui.config({
+			base : '/layuiadmin/'
+		}).extend({
+			index : 'lib/index'
+		}).use([ 'index', 'jquery', 'form', 'laydate', 'table', 'laypage' ], function() {
+			$ = layui.jquery, table = layui.table, form = layui.form, laydate = layui.laydate
+			form.render(null, 'component-form-group');
+			laydate.render({
+				elem : '#month',
+				type : 'month'
 
-        var monthValY=$("#month").val().substring(4,0);
-        var monthValM=$("#month").val().substring(4);
-        $(".layui_time").html(monthValY+"年"+monthValM+"月");
-        $(".layui_time1").html(monthValY);
+				,
+				done : function(value, date, endDate) {
+					$(".layui_time1").html(date.year);
+					$(".layui_time").html(date.year + "年" + date.month + "月");
+					$("#month").val(date.year + "" + PrefixInteger(date.month, 2));
+					search_Event();
+				}
+			});
 
-        renderTable2();
-        myTable();
-});
+			var monthValY = $("#month").val().substring(4, 0);
+			var monthValM = $("#month").val().substring(4);
+			$(".layui_time").html(monthValY + "年" + monthValM + "月");
+			$(".layui_time1").html(monthValY);
 
-function PrefixInteger(num, length) {
-	  return (num/Math.pow(10,length)).toFixed(length).substr(2);
-	}
+			renderTable2();
+			myTable();
+		});
 
-function initEchart()
-{
+		function PrefixInteger(num, length) {
+			return (num / Math.pow(10, length)).toFixed(length).substr(2);
+		}
 
+		function initEchart() {
 
-	var month=$('#month').val();
-	month=month.replace("-","");
-	var companyCode=$('#companyCode').val();
-	var nd=month.substr(0,4);
+			var month = $('#month').val();
+			month = month.replace("-", "");
+			var companyCode = $('#companyCode').val();
+			var nd = month.substr(0, 4);
 
-	var v_date=(new Date()).getTime();
-	var ndstr=nd+"年";
-	var yAxis= [
-        {
-            type: 'value',
-            name: '数量（个）',
-            position: 'left',
-            axisLabel: {
-                formatter: '{value}'
-            }
-        }
-    ];
+			var v_date = (new Date()).getTime();
+			var ndstr = nd + "年";
+			var yAxis = [ {
+				type : 'value',
+				name : '数量（个）',
+				position : 'left',
+				axisLabel : {
+					formatter : '{value}'
+				}
+			} ];
 
+			//直属研究院科研装备课题数量
+			$("#equipment_chart1_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#equipment_chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#equipment_chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			//直属研究院科研装备数量
+			$("#bar4_1_count").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#bar4_2_count").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#bar4_3_count").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#bar4_4_count").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 
+			var chart1_url = "/direct/equipment_01?type=1&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=kyzb";
+			var color = [];
+			echart1 = load_mutl_bar_down_r(chart1_url, "equipment_chart1", "", "", yAxis, true, 15, color)
 
-	//直属研究院科研装备课题数量
-    $("#equipment_chart1_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-    $("#equipment_chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-    $("#equipment_chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-    //直属研究院科研装备数量
-    $("#bar4_1_count").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-    $("#bar4_2_count").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-    $("#bar4_3_count").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-    $("#bar4_4_count").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			var url_01 = "/direct/equipment_02?type=1&companyCode=" + companyCode + "&month=" + month + "&v_date=" + v_date;
+			data7 = load_bar_zhengfu_callback(url_01, "equipment_chart3", "", "", function(data) {
 
+				var bCount_4 = getDataCountForName_t(data, '大型分析仪器');
+				var zCount_4 = getDataCountForName_t(data, '中型实验装置');
+				var dCount_4 = getDataCountForName_t(data, '单台值大于500万');
+				var zyCount_4 = getDataCountForName_t(data, '专业软件（外购）');
+				var allCount_4 = bCount_4 + zCount_4 + dCount_4 + zyCount_4;
+				//alert(bCount_4);
+				$("#bar4_1_count").html(bCount_4 + "套");
+				$("#bar4_2_count").html(zCount_4 + "台");
+				$("#bar4_3_count").html(dCount_4 + "台");
+				$("#bar4_4_count").html(zyCount_4 + "套");
 
+			});
 
-    
-	var chart1_url="/direct/equipment_01?type=1&nd="+nd+"&v_date="+v_date+"&xmlbbm=kyzb";
-	var color=[];
-	echart1=     load_mutl_bar_down_r(chart1_url,"equipment_chart1","","",yAxis,true,15,color)
+		}
 
-	var url_01="/direct/equipment_02?type=1&companyCode="+companyCode+"&month="+month+"&v_date="+v_date;
-	data7=load_bar_zhengfu_callback(url_01,"equipment_chart3","","",function(data){
+		function getDataCountForName_t(data, strName) {
+			var seriesList = data.seriesList;
+			//alert(data);
+			var xkCount = 0;
+			if (typeof (seriesList) == "undefined") {
 
-		var bCount_4=getDataCountForName_t(data,'大型分析仪器');
-    	var zCount_4=getDataCountForName_t(data,'中型实验装置');
-    	var dCount_4=getDataCountForName_t(data,'单台值大于500万');
-    	var zyCount_4=getDataCountForName_t(data,'专业软件（外购）');
-        var allCount_4=bCount_4+zCount_4+dCount_4+zyCount_4;
-        //alert(bCount_4);
-        $("#bar4_1_count").html(bCount_4+"套");
-        $("#bar4_2_count").html(zCount_4+"台");
-        $("#bar4_3_count").html(dCount_4+"台");
-        $("#bar4_4_count").html(zyCount_4+"套");
+			} else {
+				for (var i = 0; i < seriesList.length; i++) {
+					var arr = seriesList[i].data;
+					var name = seriesList[i].name;
+					if (name == strName) {
+						var name_count = 0;
+						for (var j = 0; j < arr.length; j++) {
+							name_count = name_count + parseInt(arr[j]);
+						}
+						xkCount = name_count;
+					}
+				}
 
-	});
+			}
+			return parseInt(xkCount);
 
+		}
 
-}
+		function equipment_chart1(ktlx) {
 
-function getDataCountForName_t(data,strName)
-{
-	var seriesList=data.seriesList;
-	//alert(data);
-    var xkCount=0;
-    if (typeof(seriesList) == "undefined")
-    {
+			var month = $('#month').val();
+			month = month.replace("-", "");
+			var nd = month.substr(0, 4);
+			var v_date = (new Date()).getTime();
+			var url = encodeURIComponent("/one_level_main/count_table?nd=" + nd + "&ysnd=" + nd + "&define1=资本性&v_date=" + v_date + "&ktlx=" + ktlx);
+			window.open("/instituteIndex?url=" + url);
+		}
 
-    }else
-    {
-    	 for(var i=0;i<seriesList.length;i++)
-         {
-         	var arr=seriesList[i].data;
-         	var name=seriesList[i].name;
-         	if(name==strName)
-         	{
-         		var name_count=0;
-         		for(var j=0;j<arr.length;j++)
- 	            {
-         			name_count=name_count+parseInt(arr[j]);
- 	            }
-         		xkCount=name_count;
-         	}
-         }
+		//初始化图形
+		initEchart();
 
-    }
-    return parseInt(xkCount);
+		window.onresize = function() {
+			echart1.resize();
+			data7.resize();
+		}
 
-}
+		//查询
+		function search_Event() {
+			initEchart();
+			myTable();
+			renderTable2();
+		}
 
+		//集团重大项目
+		function renderTable2() {
+			var month = $('#month').val();
+			month = month.replace("-", "");
+			var companyCode = $('#companyCode').val();
 
+			var v_date = (new Date()).getTime();
+			var tableOne = table.render({
+				elem : '#processdef_table_02',
+				url : '/direct/equipment_02?type=2&companyCode=' + companyCode + '&v_date=' + v_date + '&month=' + month + "&xmlbbm=kyzb",
+				method : "GET",
+				height : 420,
+				where : {
+					param : {
+						"month" : $("#month").val()
+					}
+				},
+				limit : 15,
+				id : 'processdef_table_02',
 
-function equipment_chart1(ktlx)
-{
+				cols : [ [ {
+					field : 'g0GSJC',
+					title : '研究院',
+					edit : 'text',
+					width : '20%',
+					align : 'center'
+				}, {
+					field : 'g0SBSL1',
+					title : '大型分析仪器（套）',
+					style : 'cursor: pointer;',
+					align : 'right',
+					width : '25%',
+					templet : function(d) {
+						return parseInt(d.g0SBSL1)
+					}
+				}, {
+					field : 'g0SBSL2',
+					title : '中型实验装置（台）',
+					style : 'cursor: pointer;',
+					align : 'right',
+					width : '25%',
+					templet : function(d) {
+						return parseInt(d.g0SBSL2)
+					}
+				},
+				//{field:'g0SBSL3',          title:'单台值大于500万（台）',   style:'cursor: pointer;',align: 'right', width: '20%',templet:function(d){return parseInt(d.g0SBSL3)}},
+				{
+					field : 'g0SBSL4',
+					title : '外购专业软件（套）',
+					style : 'cursor: pointer;',
+					align : 'right',
+					width : '25%',
+					templet : function(d) {
+						return parseInt(d.g0SBSL4)
+					}
+				}
 
+				] ],
+				done : function(res, curr, count) {
+					layer.closeAll('loading');
+					// 点击行联动选择框--单选
+					$('.processdef_table_02 .layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
+						var index = parseInt($(this).index() + 1);
+						$('tr').removeClass('layui-table-click');
+						$(this).addClass('layui-table-click');
+						$('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+						$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+						selectRowData = res.data[index - 1];
+					});
+				}
+			});
 
-	var month=$('#month').val();
-	month=month.replace("-","");
-	var nd=month.substr(0,4);
-	var v_date=(new Date()).getTime();
-	var url=　encodeURIComponent("/one_level_main/count_table?nd="+nd+"&ysnd="+nd+"&define1=资本性&v_date="+v_date+"&ktlx="+ktlx);
-    window.open("/instituteIndex?url="+url);
-}
+		}
 
+		function myTable() {
+			var month = $('#month').val();
+			month = month.replace("-", "");
+			var nd = month.substr(0, 4);
+			var v_date = (new Date()).getTime();
+			var url = '/direct/equipment_01?type=2&v_date=' + v_date + "&nd=" + nd + "&xmlbbm=kyzb";
+			table.init('myTable', {
+				url : url,
+				height : "450px",
+				where : {}
+			});
 
-
-
-//初始化图形
-initEchart();
-
-window.onresize = function()
-{
-	echart1.resize();       
-	data7.resize();       
-}
-
-//查询
-function search_Event()
-{
-	initEchart();
-	myTable();
-	renderTable2();
-}
-
-
-//集团重大项目
-function renderTable2()
-{
-	var month=$('#month').val();
-	month=month.replace("-","");
-	var companyCode=$('#companyCode').val();
-
-	  var v_date=(new Date()).getTime();
-	  var tableOne=table.render({
-	  elem: '#processdef_table_02',
-	  url:'/direct/equipment_02?type=2&companyCode='+companyCode+'&v_date='+v_date+'&month='+month+"&xmlbbm=kyzb",
-	  method:"GET",
-      height:420,
-	  where: {param: {"month":$("#month").val()}},
-	  limit: 15,
-	  id: 'processdef_table_02',
-
-	  cols: [[
-	  	   {field:'g0GSJC',           title: '研究院',    edit:'text', width: '20%',align: 'center'},
-	       {field:'g0SBSL1',          title:'大型分析仪器（套）',style:'cursor: pointer;',align: 'right', width: '25%',templet:function(d){return parseInt(d.g0SBSL1)}},
-	       {field:'g0SBSL2',          title:'中型实验装置（台）',style:'cursor: pointer;',align: 'right', width: '25%',templet:function(d){return parseInt(d.g0SBSL2)}},
-	       //{field:'g0SBSL3',          title:'单台值大于500万（台）',   style:'cursor: pointer;',align: 'right', width: '20%',templet:function(d){return parseInt(d.g0SBSL3)}},
-	       {field:'g0SBSL4',          title:'外购专业软件（套）',   style:'cursor: pointer;',align: 'right', width: '25%',templet:function(d){return parseInt(d.g0SBSL4)}}
-
-
-
-
-	  ]],
-	  done: function (res, curr, count) {
-	  	layer.closeAll('loading');
-	      // 点击行联动选择框--单选
-	      $('.processdef_table_02 .layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-	          var index=parseInt($(this).index()+1);
-	          $('tr').removeClass('layui-table-click');
-	          $(this).addClass('layui-table-click');
-	          $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-	          $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-	          selectRowData=res.data[index-1];
-	      });
-	  }
-	});
-
-}
-
-function myTable()
-{
-	var month=$('#month').val();
-	month=month.replace("-","");
-	var nd=month.substr(0,4);
-	var v_date=(new Date()).getTime();
-	var url= '/direct/equipment_01?type=2&v_date='+v_date+"&nd="+nd+"&xmlbbm=kyzb";
-    table.init('myTable', {
-		  url: url
-		  ,height:"450px"
-		  ,where: {}
-	});
-
-
-    
-    
-}
-        
-</script>
+		}
+	</script>
 </body>
 </html>
