@@ -349,7 +349,7 @@
         });
         /*滚动*/
         $(".main-two").css("height",$(".main-one").height()+"px");
-        $(document).mousewheel(function(event, delta) {
+        /*$(".layui-level-admin").on("mousewheel",function(event, delta, deltaX, deltaY) {
             var dir = delta > 0 ? 'Up' : 'Down';
             if (dir == 'Up') {
                 $(".main-one").removeClass("opacity1");
@@ -361,10 +361,54 @@
                 $(".main-two").removeClass("opacity1");
                 $(".main-one").addClass("opacity1");
                 $(".main-two").addClass("opacity0");
-
             }
-            //return false;
-        });
+        });*/
+        var scrollFunc = function (e) {
+            var direct = 0;
+            e = e || window.event;
+            if (e.wheelDelta) {  //判断浏览器IE，谷歌滑轮事件
+                if (e.wheelDelta > 0) { //当滑轮向上滚动时
+                    if(document.documentElement.scrollTop!=0){
+                        $(".main-one").removeClass("opacity1");
+                        $(".main-two").removeClass("opacity0");
+                        $(".main-one").addClass("opacity0");
+                        $(".main-two").addClass("opacity1");
+                    }
+                }
+                if (e.wheelDelta < 0) { //当滑轮向下滚动时
+                    if(document.documentElement.scrollTop!=0){
+                        $(".main-one").removeClass("opacity0");
+                        $(".main-two").removeClass("opacity1");
+                        $(".main-one").addClass("opacity1");
+                        $(".main-two").addClass("opacity0");
+                    }
+                }
+            } else if (e.detail) {  //Firefox滑轮事件
+                if (e.detail> 0) { //当滑轮向上滚动时
+                    if(document.documentElement.scrollTop!=0){
+                        $(".main-one").removeClass("opacity1");
+                        $(".main-two").removeClass("opacity0");
+                        $(".main-one").addClass("opacity0");
+                        $(".main-two").addClass("opacity1");
+                    }
+                }
+                if (e.detail< 0) { //当滑轮向下滚动时
+                    if(document.documentElement.scrollTop!=0){
+                        $(".main-one").removeClass("opacity0");
+                        $(".main-two").removeClass("opacity1");
+                        $(".main-one").addClass("opacity1");
+                        $(".main-two").addClass("opacity0");
+                    }
+                }
+            }
+        }
+        //给页面绑定滑轮滚动事件
+        if (document.addEventListener) {
+            document.addEventListener('DOMMouseScroll', scrollFunc, false);
+        }
+        //滚动滑轮触发scrollFunc方法
+        window.onmousewheel = document.onmousewheel = scrollFunc;
+
     });
     /*动画*/
     function animationAdd(className1,className2) {
