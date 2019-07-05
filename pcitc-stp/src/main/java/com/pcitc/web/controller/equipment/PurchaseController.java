@@ -222,7 +222,7 @@ public class PurchaseController extends BaseController {
 		String sreProjectEquipmentIds = "";
 		String remarks = "";
 		String purchaseCode = "";
-
+		String purchaseEquipmentId ="";
 
 		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
 		String parentUnitPathNames = map.get("unitName");// 申报单位
@@ -246,6 +246,7 @@ public class PurchaseController extends BaseController {
 			equipmentId = srePurchase.getEquipmentId();
 			remarks = srePurchase.getRemarks();
 			purchaseCode = srePurchase.getPurchaseCode();
+			purchaseEquipmentId = srePurchase.getEquipmentId();
 			ResponseEntity<SreProject> SreProjectResponseEntity = this.restTemplate.exchange(GET_BY_PROJECT_ID + projectId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
 			if (SreProjectResponseEntity != null) {
 				SreProject sreProject = SreProjectResponseEntity.getBody();
@@ -269,6 +270,7 @@ public class PurchaseController extends BaseController {
 		request.setAttribute("sreProjectEquipmentIds", sreProjectEquipmentIds);
 		request.setAttribute("purchaseCode", purchaseCode);
 		request.setAttribute("remarks", remarks);
+		request.setAttribute("purchaseEquipmentIds",purchaseEquipmentId);
 
 		List<UnitField> unitFieldList = CommonUtil.getUnitNameList(restTemplate, httpHeaders);
 		request.setAttribute("unitFieldList", unitFieldList);
