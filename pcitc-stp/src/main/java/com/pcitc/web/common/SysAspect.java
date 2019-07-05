@@ -9,7 +9,6 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.catalina.connector.RequestFacade;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -174,7 +173,7 @@ public class SysAspect extends BaseController {
 			}
 			
 			// 第一个参数为HttpServletRequest类型
-			if (args != null && args.length > 0 && args[0].getClass() == RequestFacade.class) {
+			if (args != null && args.length > 0 /*&& args[0].getClass() == RequestFacade.class*/) {
 				HttpServletRequest inPro = (HttpServletRequest) args[0];
 				List<String> list = httpHeaders.get("Authorization");
 				if (inPro.getParameter("functionId") != null && !inPro.getParameter("functionId").equals("")) {

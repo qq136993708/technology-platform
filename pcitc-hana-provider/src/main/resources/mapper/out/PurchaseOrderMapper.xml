@@ -3,47 +3,8 @@
 <mapper namespace="com.pcitc.mapper.out.PurchaseOrderMapper">
 
 
-
-
-<resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.SrePurchaseOrder">
-     <result column="G0FLAG" jdbcType="VARCHAR" property="g0flag" />
-    <result column="G0LOGSYS" jdbcType="VARCHAR" property="g0logsys" />
-    <result column="G0CALD" jdbcType="VARCHAR" property="g0cald" />
-    <result column="G0GSDM" jdbcType="VARCHAR" property="g0gsdm" />
-    <result column="G0GSJC" jdbcType="VARCHAR" property="g0gsjc" />
-    <result column="G0GSOR" jdbcType="VARCHAR" property="g0gsor" />
-    <result column="G0GSJCL" jdbcType="VARCHAR" property="g0gsjcl" />
-    <result column="G0GSGP" jdbcType="VARCHAR" property="g0gsgp" />
-    <result column="G0GSSP" jdbcType="VARCHAR" property="g0gssp" />
-    <result column="G0PROJCODE" jdbcType="VARCHAR" property="g0projcode" />
-    <result column="G0PROJTXT" jdbcType="VARCHAR" property="g0projtxt" />
-    <result column="G0WBSCODE" jdbcType="VARCHAR" property="g0wbscode" />
-    <result column="G0WBSTXT" jdbcType="VARCHAR" property="g0wbstxt" />
-    <result column="G0XMGLLX" jdbcType="VARCHAR" property="g0xmgllx" />
-    <result column="G0XMGLLY" jdbcType="VARCHAR" property="g0xmglly" />
-    <result column="G0XMGLJB" jdbcType="VARCHAR" property="g0xmgljb" />
-    <result column="G0XMLX" jdbcType="VARCHAR" property="g0xmlx" />
-    <result column="G0XMLXMS" jdbcType="VARCHAR" property="g0xmlxms" />
-    <result column="G0XMZT" jdbcType="VARCHAR" property="g0xmzt" />
-    <result column="G0XMZTMS" jdbcType="VARCHAR" property="g0xmztms" />
-    <result column="G0XMDL" jdbcType="VARCHAR" property="g0xmdl" />
-    <result column="G0KYPFWH" jdbcType="VARCHAR" property="g0kypfwh" />
-    <result column="G0MATNR" jdbcType="VARCHAR" property="g0matnr" />
-    <result column="G0MAKTX" jdbcType="VARCHAR" property="g0maktx" />
-    <result column="G0EBELN" jdbcType="VARCHAR" property="g0ebeln" />
-    <result column="G0EBELP" jdbcType="VARCHAR" property="g0ebelp" />
-    <result column="G0TXZ01" jdbcType="VARCHAR" property="g0txz01" />
-    <result column="G0EINDT" jdbcType="VARCHAR" property="g0eindt" />
-    <result column="G0LIFNR" jdbcType="VARCHAR" property="g0lifnr" />
-    <result column="G0NAME2" jdbcType="VARCHAR" property="g0name2" />
-    <result column="G0DDLX" jdbcType="VARCHAR" property="g0ddlx" />
-    <result column="K0XMDDSL" jdbcType="INTEGER" property="k0xmddsl" />
-    <result column="K0XMDDJE" jdbcType="DECIMAL" property="k0xmddje" />
-  </resultMap>
-  
-
 	<!-- 获取国家项目的数据 -->
-	<select id="getPurchaseOrderList" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+	<select id="getPurchaseOrderList" resultType="java.util.Map" parameterType="java.util.HashMap">
 		SELECT
 	  "G0FLAG",
 	 "G0CALD",
@@ -79,7 +40,7 @@
 	 sum("K0XMDDJE") AS "K0XMDDJE"
 FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_YW_1000_02"
 (
-'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+'PLACEHOLDER' = ('$$PR_CALMONTH$$','201905'),
 'PLACEHOLDER' = ('$$PR_GSDM$$','1020,1040,1041,1060,1061,1080,1100,1101,1120,1123,1124,1127,1130,4360')
 )
 GROUP BY "G0FLAG",
@@ -115,14 +76,6 @@ GROUP BY "G0FLAG",
 ORDER BY "G0WBSCODE" ASC
 
 	</select>
-
-
-
-
-
-
-    
-
 
 
 

@@ -29,15 +29,14 @@
     <result column="G0EBELN" jdbcType="VARCHAR" property="g0ebeln" />
     <result column="G0EBELP" jdbcType="VARCHAR" property="g0ebelp" />
     <result column="G0TXZ01" jdbcType="VARCHAR" property="g0txz01" />
-    <result column="G0EINDT" jdbcType="VARCHAR" property="g0eindt" />
+    <result column="G0EINDT" jdbcType="TIMESTAMP" property="g0eindt" />
     <result column="G0LIFNR" jdbcType="VARCHAR" property="g0lifnr" />
     <result column="G0NAME2" jdbcType="VARCHAR" property="g0name2" />
     <result column="G0DDLX" jdbcType="VARCHAR" property="g0ddlx" />
-    <result column="K0XMDDSL" jdbcType="INTEGER" property="k0xmddsl" />
-    <result column="K0XMDDJE" jdbcType="DECIMAL" property="k0xmddje" />
+    <result column="K0XMDDSL" jdbcType="VARCHAR" property="k0xmddsl" />
+    <result column="K0XMDDJE" jdbcType="DOUBLE" property="k0xmddje" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
   </resultMap>
-  
   <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SrePurchaseOrder">
     insert into sre_purchase_order (G0FLAG, G0LOGSYS, G0CALD, 
       G0GSDM, G0GSJC, G0GSOR, 
@@ -51,7 +50,7 @@
       G0EINDT, G0LIFNR, G0NAME2, 
       G0DDLX, K0XMDDSL, K0XMDDJE, 
       create_date)
-    values (#{g0flag,jdbcType=VARCHAR}, #{g0logsys,jdbcType=VARCHAR}, #{g0cald,jdbcType=VARCHAR}, 
+    values (#{g0flag,jdbcType=VARCHAR}, #{g0logsys,jdbcType=VARCHAR}, #{g0cald,jdbcType=VARCHAR},
       #{g0gsdm,jdbcType=VARCHAR}, #{g0gsjc,jdbcType=VARCHAR}, #{g0gsor,jdbcType=VARCHAR}, 
       #{g0gsjcl,jdbcType=VARCHAR}, #{g0gsgp,jdbcType=VARCHAR}, #{g0gssp,jdbcType=VARCHAR}, 
       #{g0projcode,jdbcType=VARCHAR}, #{g0projtxt,jdbcType=VARCHAR}, #{g0wbscode,jdbcType=VARCHAR}, 
@@ -60,8 +59,8 @@
       #{g0xmzt,jdbcType=VARCHAR}, #{g0xmztms,jdbcType=VARCHAR}, #{g0xmdl,jdbcType=VARCHAR}, 
       #{g0kypfwh,jdbcType=VARCHAR}, #{g0matnr,jdbcType=VARCHAR}, #{g0maktx,jdbcType=VARCHAR}, 
       #{g0ebeln,jdbcType=VARCHAR}, #{g0ebelp,jdbcType=VARCHAR}, #{g0txz01,jdbcType=VARCHAR}, 
-      #{g0eindt,jdbcType=VARCHAR}, #{g0lifnr,jdbcType=VARCHAR}, #{g0name2,jdbcType=VARCHAR}, 
-      #{g0ddlx,jdbcType=VARCHAR}, #{k0xmddsl,jdbcType=INTEGER}, #{k0xmddje,jdbcType=DECIMAL}, 
+      #{g0eindt,jdbcType=TIMESTAMP}, #{g0lifnr,jdbcType=VARCHAR}, #{g0name2,jdbcType=VARCHAR}, 
+      #{g0ddlx,jdbcType=VARCHAR}, #{k0xmddsl,jdbcType=VARCHAR}, #{k0xmddje,jdbcType=DOUBLE}, 
       #{createDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SrePurchaseOrder">
@@ -178,7 +177,7 @@
         #{g0logsys,jdbcType=VARCHAR},
       </if>
       <if test="g0cald != null">
-        #{g0cald,jdbcType=TIMESTAMP},
+        #{g0cald,jdbcType=VARCHAR},
       </if>
       <if test="g0gsdm != null">
         #{g0gsdm,jdbcType=VARCHAR},
@@ -265,10 +264,10 @@
         #{g0ddlx,jdbcType=VARCHAR},
       </if>
       <if test="k0xmddsl != null">
-        #{k0xmddsl,jdbcType=INTEGER},
+        #{k0xmddsl,jdbcType=VARCHAR},
       </if>
       <if test="k0xmddje != null">
-        #{k0xmddje,jdbcType=DECIMAL},
+        #{k0xmddje,jdbcType=DOUBLE},
       </if>
       <if test="createDate != null">
         #{createDate,jdbcType=TIMESTAMP},
@@ -304,47 +303,12 @@
       #{purchaseOrder.g0xmzt,jdbcType=VARCHAR}, #{purchaseOrder.g0xmztms,jdbcType=VARCHAR}, #{purchaseOrder.g0xmdl,jdbcType=VARCHAR},
       #{purchaseOrder.g0kypfwh,jdbcType=VARCHAR}, #{purchaseOrder.g0matnr,jdbcType=VARCHAR}, #{purchaseOrder.g0maktx,jdbcType=VARCHAR},
       #{purchaseOrder.g0ebeln,jdbcType=VARCHAR}, #{purchaseOrder.g0ebelp,jdbcType=VARCHAR}, #{purchaseOrder.g0txz01,jdbcType=VARCHAR},
-      #{purchaseOrder.g0eindt,jdbcType=VARCHAR}, #{purchaseOrder.g0lifnr,jdbcType=VARCHAR}, #{purchaseOrder.g0name2,jdbcType=VARCHAR},
-      #{purchaseOrder.g0ddlx,jdbcType=VARCHAR}, #{purchaseOrder.k0xmddsl,jdbcType=INTEGER}, #{purchaseOrder.k0xmddje,jdbcType=DECIMAL},
+      #{purchaseOrder.g0eindt,jdbcType=TIMESTAMP}, #{purchaseOrder.g0lifnr,jdbcType=VARCHAR}, #{purchaseOrder.g0name2,jdbcType=VARCHAR},
+      #{purchaseOrder.g0ddlx,jdbcType=VARCHAR}, #{purchaseOrder.k0xmddsl,jdbcType=VARCHAR}, #{purchaseOrder.k0xmddje,jdbcType=DOUBLE},
       #{purchaseOrder.createDate,jdbcType=TIMESTAMP})
     </foreach>
   </insert>
   <select id="selectErpnum" resultMap="BaseResultMap" parameterType="java.lang.String" >
   	SELECT * FROM sre_purchase_order where G0PROJCODE =#{g0projcode,jdbcType=VARCHAR} 
   </select>
-  
-  
-   <select id="getErpOrderListByG0PROJCODE" resultMap="BaseResultMap" parameterType="string" >
-		   SELECT 
-		  '合计' AS "G0EBELN",
-		  '-' AS "G0DDLX",
-		  '-' AS "G0MATNR",
-		  '-' AS "G0MAKTX",
-		  '-' AS "G0LIFNR",
-		  '-' AS "G0NAME2",
-		  '-' AS "G0PROJCODE",
-		  SUM(K0XMDDSL) AS "K0XMDDSL",
-		  SUM(K0XMDDJE) AS "K0XMDDJE" 
-		FROM
-		  sre_purchase_order 
-		WHERE G0PROJCODE = #{g0projcode,jdbcType=VARCHAR} 
-		UNION
-		ALL 
-		SELECT 
-		  G0EBELN,
-		  G0DDLX,
-		  G0MATNR,
-		  G0MAKTX,
-		  G0LIFNR,
-		  G0NAME2,
-		  G0PROJCODE,
-		  K0XMDDSL,
-		  K0XMDDJE 
-		FROM
-		  sre_purchase_order t 
-		WHERE t.`G0PROJCODE` = #{g0projcode,jdbcType=VARCHAR}
-		order by G0EBELN
-     </select>
-     
-     
 </mapper>
