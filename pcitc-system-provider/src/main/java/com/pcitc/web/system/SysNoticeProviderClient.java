@@ -5,6 +5,9 @@ import io.swagger.annotations.ApiOperation;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.system.SysNotice;
 import com.pcitc.base.system.SysNoticeVo;
 import com.pcitc.service.system.SysNoticeService;
@@ -163,5 +168,11 @@ public class SysNoticeProviderClient {
 	public Long getSysNoticeCount(@RequestBody SysNoticeVo vo){
 		return sysNoticeService.getSysNoticeCount(vo);
 	}
-
+	@ApiOperation(value="查询我的通知公告",notes="获取自己的通知公告")
+	@RequestMapping(value = "/sysNotice-provider/getMyNoticeList",method = RequestMethod.POST)
+	public Object getMyNoticeList(@RequestBody LayuiTableParam param,HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		return  sysNoticeService.findNoticList(param);
+	
+	}
 }

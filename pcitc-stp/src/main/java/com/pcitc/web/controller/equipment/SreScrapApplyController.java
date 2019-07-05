@@ -59,6 +59,7 @@ public class SreScrapApplyController extends BaseController {
 	private static final String GETVIEW_URL="http://pcitc-zuul/stp-proxy/sre-provider/sreScrapApply/getapplybyid/";
 	private static final String GETLIST_URL="http://pcitc-zuul/stp-proxy/sre-provider/sreScrapApply/selectByAppltidList/";
 	private static final String INVALID_URL="http://pcitc-zuul/stp-proxy/sre-provider/sreScrapApply/submitInvalid/";
+	private static final String DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/sreScrapApply/delete/";
 	   private static final String PURCHASE_INNER_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/sreScrapApply/start_inner_activity/";
 	   private static final String UPDATE_URL="http://pcitc-zuul/stp-proxy/sre-provider/sreScrapApply/update";
 	   //临时导出文件目录
@@ -277,7 +278,35 @@ public class SreScrapApplyController extends BaseController {
 	        out.close();
 	        return null;
 	    }
-	
+	  
+	  /**
+		 * 删除
+		 * 
+		 * @param request
+		 * @param response
+		 * @return
+		 * @throws Exception
+		 */
+		@RequestMapping(value = "/sre-sreScrapApply/delete/{id}")
+		public String delete(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+			Result resultsDate = new Result();
+			ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(DEL_URL + id, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			int status = responseEntity.getBody();
+			logger.info("============远程返回  statusCode " + statusCode + "  status=" + status);
+			if (responseEntity.getBody() > 0) {
+				resultsDate = new Result(true);
+			} else {
+				resultsDate = new Result(false, "删除失败，请联系系统管理员！");
+			}
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+			out.println(ob.toString());
+			out.flush();
+			out.close();
+			return null;
+		}
 	  /* =================================生成word文档  START================================*/
 	    //生成采购单word模板
 	    @RequestMapping(value = "/sre-sreScrapApply/createWord/{id}", method = RequestMethod.GET)

@@ -44,8 +44,10 @@
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"     data-type="addEvent"  id="addEvent" > 新增</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"    data-type="editEvent"  id="editEvent" >编辑</button>
             <!-- <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit"    data-type="submitEvent"  id="submitEvent" >提交</button> -->
+                     <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent" id="detailEvent" >详情</button>
                     <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="uploadEvent">上传</button>
                         <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"    data-type="outEvent"  id="outEvent" >导出</button>
+             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="deleteEvent" id="deleteEvent" >删除</button>
              </div>
     </div>
     <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
@@ -54,6 +56,13 @@
 
 
 <script id="dateTpl" type="text/html"> {{formatTime(d.applicationTime)}} </script>
+<script type="text/html" id="status_buttonTpl">
+    {{#  if(d.status == '20'){ }}
+    <button class="layui-btn layui-btn-normal layui-btn-xs">已通过</button>
+    {{#  } else{ }}
+    <button class="layui-red layui-btn-primary layui-btn-xs">未上传</button>
+    {{#  } }}
+</script>
 <script type="text/javascript">
     // 时间格式化
     function formatTime(d) {
@@ -86,9 +95,9 @@
                       type: 2,
                       fixed: false,
                       //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                      maxmin: false,
+                      maxmin: true,
                       //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                      area: ['100%', '100%'],
+                      area: ['70%', '90%'],
                       content:  temUrl
                   });
     }
@@ -178,13 +187,18 @@ var name=$('#name').val();
                
             },deleteEvent: function(){  //点击删除按钮
                  console.log('点击了删除按钮')
+                 var status=selectRowData.status;
+            	if(status>=20){
+            		layer.alert('审核已通过,不能删除');
+            		return false;
+            	}
                  if (typeof(selectRowData) == "undefined") 
                  {
             		layer.msg('请点击选择一行数据');
             	 } else 
             	 {
-            		  var applicationId=selectRowData.applicationId;
-           		      var url="/sre-forapplication/delete/"+applicationId;
+            		  var id=selectRowData.id;
+           		      var url="/sre-sreScrapApply/delete/"+id;
 	           		  layer.confirm('确定要删除吗？', { btn: ['确定','取消']}, function(){
 	         				 ajaxDeleteOpt(url,"post","删除成功","删除失败");
 	         			}, function(){
@@ -198,8 +212,8 @@ var name=$('#name').val();
             	if (typeof(selectRowData) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
-            		 var equipmentId=selectRowData.applicationId;
-            		 var temUrl="/sre-forapplication/get/" + applicationId;
+            		 var id=selectRowData.id;
+            		 var temUrl = '/sre-sreScrapApply/view/'+id
             		 layer.open({
                          title:'详情',
                          skin: 'layui-layer-lan',
@@ -484,9 +498,9 @@ var name=$('#name').val();
             {type : 'checkbox', event : 'changeEvents', width : 55},
            	{title : '序号', type : 'numbers', width : 55},
             {field : 'name',     title : '报废名称', style : 'cursor: pointer;',sort : true,  align : 'left', width : '20%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.name+'</span>'}},
-            {field : 'status', title : '状态', style : 'cursor: pointer;', align : 'center',sort : true, width : '30%',templet:'#buttonTpl'},
-            {field : 'createUser',     title : '创建人', style : 'cursor: pointer;', align : 'left', width : '25%' },
-            {field : 'updateUser', title : '更新人', style : 'cursor: pointer;',width : '14.6%',align : 'center'},
+            {field : 'status', title : '状态', style : 'cursor: pointer;', align : 'center',sort : true, width : '30%',templet:'#status_buttonTpl'},
+            {field : 'createUser',     title : '创建人', sort : true, style : 'cursor: pointer;', align : 'left', width : '25%' },
+            {field : 'updateUser', title : '更新人', sort : true, style : 'cursor: pointer;',width : '14.6%',align : 'center'},
          
                
            ]],

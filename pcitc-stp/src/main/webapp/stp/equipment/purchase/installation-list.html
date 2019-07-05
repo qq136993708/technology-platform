@@ -44,11 +44,11 @@
 
 <script type="text/html" id="stage_temp">
     {{#  if(d.stage == '5'){ }}
-    <button class="layui-btn layui-btn-primary layui-btn-xs">未上报</button>
+    <button class="layui-red layui-btn-primary layui-btn-xs">未上报</button>
     {{#  } else if(d.stage != '5'){ }}
     <button class="layui-btn layui-btn-normal layui-btn-xs">已通过</button>
     {{#  } else{ }}
-    <button class="layui-btn layui-btn-primary layui-btn-xs">未上报</button>
+    <button class="layui-red layui-btn-primary layui-btn-xs">未上报</button>
     {{#  } }}
 </script>
 
@@ -215,14 +215,13 @@
             },
             cols: [[
                 {type : 'checkbox', event : 'changeEvents', width : 55},
-                {title : '序号', type :'numbers', width : 55},
-                {field : 'stage', title : '状态', style : 'cursor: pointer;', align : 'center',templet : '#stage_temp', width : '10%'},
-                {field : 'purchaseName',     title : '申请名称', style : 'cursor: pointer;', align : 'left', width : '18%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.purchaseName+'</span>'}},
-                {field : 'parentUnitPathNames',     title : '单位名称', style : 'cursor: pointer;', align : 'left', width : '18%'},
-                {field : 'departName',     title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '18%'},
-                //{field : 'stage',      		title : '阶段',         style : 'cursor: pointer;', align: 'center',  width : '10%',},
-                {field : 'proposerName',      		title : '申请人',         style : 'cursor: pointer;', align: 'center',  width : '15%',},
-                {field : 'createDate',      title : '申请日期', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
+                {title : '序号',sort : true, type :'numbers', width : 55},
+                {field : 'stage',sort : true, title : '状态', style : 'cursor: pointer;', align : 'center',templet : '#stage_temp', width : '10%'},
+                {field : 'purchaseName',sort : true,     title : '申请名称', style : 'cursor: pointer;', align : 'left', width : '18%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.purchaseName+'</span>'}},
+                {field : 'parentUnitPathNames',sort : true,     title : '单位名称', style : 'cursor: pointer;', align : 'left', width : '18%'},
+                {field : 'departName',sort : true,     title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '18%'},
+                {field : 'proposerName',sort : true,      		title : '申请人',         style : 'cursor: pointer;', align: 'center',  width : '15%',},
+                {field : 'createDate',sort : true,      title : '申请日期', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选

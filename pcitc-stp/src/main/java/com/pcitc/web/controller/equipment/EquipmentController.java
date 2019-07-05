@@ -410,10 +410,12 @@ public class EquipmentController extends BaseController {
 		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);// 设置参数类型和编码
 		String ids = CommonUtil.getParameter(request, "equipmentIds", "");
 		String purchaseStatus = CommonUtil.getParameter(request, "purchaseStatus", "");
-
-		Map<String, Object> paramMap = new HashMap<String, Object>();
+		String purchaseEquipmentIds = CommonUtil.getParameter(request, "purchaseEquipmentIds", "");
+		Map<String ,Object> paramMap = new HashMap<String ,Object>();
 		paramMap.put("equipmentIds", ids);
 		paramMap.put("purchaseStatus", purchaseStatus);
+		paramMap.put("purchaseEquipmentIds", purchaseEquipmentIds);
+
 		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap, this.httpHeaders);
 		responseEntity = restTemplate.exchange(chooseEquipmentByMap, HttpMethod.POST, httpEntity, List.class);
 		int statusCode = responseEntity.getStatusCodeValue();

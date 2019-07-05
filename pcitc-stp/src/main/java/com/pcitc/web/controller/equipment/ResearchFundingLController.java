@@ -1,5 +1,7 @@
 package com.pcitc.web.controller.equipment;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -48,18 +50,14 @@ public class ResearchFundingLController extends BaseController {
 	@RequestMapping(value = "/sre-researchfunding/to-list")
 	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String	parentUnitPathIds="";
-		String unitPathIds =   sysUserInfo.getUnitPath();
-		String applyDepartCode = sysUserInfo.getUnitCode();
-		if(!unitPathIds.equals(""))
-		{
-			if(unitPathIds.length()>4)
-			{
-				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-				
-			}
-		}
-		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathIds);
+		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String parentUnitPathNames = map.get("unitName");// 申报单位
+		String parentUnitPathIds = map.get("unitCode");// 申报单位
+		String applyDepartName = map.get("applyDepartName");// 申报部门
+		String applyDepartCode = map.get("applyDepartCode");// 申报部门
+		String unitPathIds= map.get("applyDepartCode");
+		String unitPathNames= map.get("applyDepartName");
+		boolean isKJBPerson = EquipmentUtils.isKJBPerson(applyDepartCode);
 	    request.setAttribute("isKJBPerson", isKJBPerson);
  		return "/stp/equipment/researchfunding/researchfunding-list";
 	}

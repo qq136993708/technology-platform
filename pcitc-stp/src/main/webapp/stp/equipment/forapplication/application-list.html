@@ -111,7 +111,7 @@
     {{#  if(d.applicationState == '30'){ }}
     <button class="layui-btn layui-btn-normal layui-btn-xs">已通过</button>
     {{#  } else{ }}
-    <button class="layui-btn layui-btn-primary layui-btn-xs">未上传</button>
+    <button class="layui-red layui-btn-primary layui-btn-xs">未上传</button>
     {{#  } }}
 </script>
 <script type="text/javascript">
@@ -251,9 +251,9 @@ var name=$('#name').val();
                  {
             		layer.msg('请点击选择一行数据');
             	 } else if(selectRowData.applicationState =="30"){
-            		 layer.msg('转资申请已通过,不能删除');
+            		 layer.alert('审核已通过,不能删除');
             	}else if(selectRowData.applicationState =="20"){
-            		layer.msg('转资申请已上报,不能删除');
+            		layer.alert('审核已通过,不能删除');
             	}else {
             		var applicationId=selectRowData.applicationId;
             		var url="/sre-forapplication/delete/"+applicationId;
@@ -441,8 +441,8 @@ var name=$('#name').val();
            	{title : '序号', type : 'numbers', width : 55},
             {field : 'applicationState', title : '状态', style : 'cursor: pointer;',align : 'center', sort : true, templet : '#applicationState_temp', width : '10%'},
             {field : 'applicationName',     title : '转资名称', style : 'cursor: pointer;',sort : true, align : 'left', width : '30%' ,templet:function(d){return '<span onclick="view(\''+d.applicationId+'\')" style="color:#1890ff">'+d.applicationName+'</span>'}},
-            {field : 'applicationUserName', title : '转资申请人', style : 'cursor: pointer;', align : 'left', width : '28%'},
-            {field : 'applicationTime', title : '转资时间', style : 'cursor: pointer;', align : 'center', templet : '#dateTpl'},
+            {field : 'applicationUserName', title : '转资申请人', sort : true,style : 'cursor: pointer;', align : 'left', width : '28%'},
+            {field : 'applicationTime', title : '转资时间', sort : true,style : 'cursor: pointer;', align : 'center', templet : '#dateTpl'},
            ]],
            done: function (res, curr, count) {
                // 点击行联动选择框--单选

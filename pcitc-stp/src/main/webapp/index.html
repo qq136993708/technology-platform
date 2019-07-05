@@ -47,12 +47,12 @@
 					</div>
 				</div>
 				<!--搜索-->
-				<!--<div class="layui-header-search inline-block">
+				<div class="layui-header-search inline-block">
 					<div class="seacrhBox">
 						<input type="text" placeholder="搜索">
 						<img src="/layuiadmin/layui/images/icon-s.png" alt="">
 					</div>
-				</div>-->
+				</div>
 				<!--右侧-->
 				<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
 					<li class="layui-nav-item layui-nav-itemnew chat" title="消息">
@@ -325,7 +325,10 @@
 				}
             });
            
-
+			$(".seacrhBox img").click(function () {
+			    var val=$(".seacrhBox input").val();
+                parent.layui.index.openTabsPage("/fullSearch/search?keyword="+val, "全文检索");
+            });
             $(".layui-header .layui-icon-prev").css("left",navLeft+"px");
             if(!$(".layui-header .layui-icon-prev").hasClass("layui-hide")){
                 $("#navPrev ul").append(headerNav);

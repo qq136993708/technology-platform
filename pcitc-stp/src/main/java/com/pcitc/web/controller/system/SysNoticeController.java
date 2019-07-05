@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.InforVo;
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.system.SysNotice;
 import com.pcitc.base.system.SysNoticeVo;
 import com.pcitc.base.system.SysUser;
@@ -19,6 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,6 +49,7 @@ public class SysNoticeController extends BaseController {
 
 	private static final String COUNT_NOTICE = "http://pcitc-zuul/system-proxy/sysNotice-provider/getSysNoticeCount";
 
+	private static final String MY_NOTICE = "http://pcitc-zuul/system-proxy/sysNotice-provider/getMyNoticeList";
 	/**
 	 * 跳转到公告列表页
 	 */
@@ -57,7 +61,14 @@ public class SysNoticeController extends BaseController {
 		request.setAttribute("userId", sysUserInfo.getUserId());
 		return "/base/system/sysNotice_list";
 	}
-
+	@RequestMapping(value = "/my_notice_list")
+	public String toMyNoticeList(String userNoticeStatus, Model model,HttpServletRequest request, HttpServletResponse response) {
+		if (StringUtils.isEmpty(userNoticeStatus))
+			userNoticeStatus = "";
+		model.addAttribute("userNoticeStatus", userNoticeStatus);
+		request.setAttribute("userId", sysUserInfo.getUserId());
+		return "/base/system/my_notice_list";
+	}
 	/**
 	 * 跳转到查看公告列表页
 	 */
@@ -158,7 +169,17 @@ public class SysNoticeController extends BaseController {
 		}
 		return null;
 	}
-
+	@RequestMapping(value = "/getMyNoticeList", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getMyNoticeList(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request, HttpServletResponse response) throws IOException 
+	{
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+		param.getParam().put("userId", sysUserInfo.getUserId());
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(MY_NOTICE, HttpMethod.POST, entity, LayuiTableData.class);
+		LayuiTableData data = responseEntity.getBody();
+		System.out.println(JSON.toJSON(data).toString());
+		return JSON.toJSON(data).toString();
+	}
 	/**
 	 * 保存公告
 	 * 

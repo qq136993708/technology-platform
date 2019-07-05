@@ -43,6 +43,7 @@
             <input name="equipmentIds" id="equipmentIds"  value="${equipmentIds}" type="hidden">
             <input name="sreProjectEquipmentIds" id="sreProjectEquipmentIds"  value="${sreProjectEquipmentIds}" type="hidden">
             <input name="yearFeeStr" id="yearFeeStr" value="${sreProjectBasic.yearFeeStr}" type="hidden">
+            <input name="purchaseEquipmentIds" id="purchaseEquipmentIds" value="${purchaseEquipmentIds}" type="hidden">
 
             <input name="parentUnitPathId" id="parentUnitPathId" value="${parentUnitPathId}" type="hidden">
             <input name="departCode" id="departCode" value="${departCode}" type="hidden">
@@ -280,6 +281,7 @@
 
     function renderTable(equipmentIds) {
         var id = $("#id").val();
+        var purchaseEquipmentIds = $("#purchaseEquipmentIds").val();
         if(id != null && id != ""){
             var purchaseStatus = "5";
         }else{
@@ -290,7 +292,8 @@
         }
         table.render({
             elem: '#join_apply_table',
-            url: '/sre-equipment/chooseEquipmentByMap?equipmentIds=' + equipmentIds+"&purchaseStatus="+purchaseStatus,
+            url: '/sre-equipment/chooseEquipmentByMap?equipmentIds=' + equipmentIds+"&purchaseStatus="+purchaseStatus+"&purchaseEquipmentIds="+purchaseEquipmentIds,
+            /*url: '/sre-equipment/chooseEquipmentByMap?equipmentIds=' + equipmentIds+"&purchaseStatus="+purchaseStatus,*/
             limit: 15,
             method: "GET",
             id: 'join_apply_table',

@@ -546,7 +546,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .layui-q>.layui-tab-title li{background: url("/layuiadmin/layui/images/search-default.png") no-repeat;
     width: 110px;height: 74px;padding: 0;margin-right: 4px;}
 .layui-q>.layui-tab-title li:hover{background: url("/layuiadmin/layui/images/search-hover.png") no-repeat;
-    transform: translate(0px,-20px);box-shadow: 0 0 10px #badbfa}
+    transform: translate(0px,-6px);box-shadow: 0 0 10px #badbfa}
 .layui-q>.layui-tab-title li:hover .search-number{opacity: .9;}
 .layui-q>.layui-tab-title li:hover .search-text{color: #1890ff;}
 .layui-q>.layui-tab-title li.layui-this:hover{background: url("/layuiadmin/layui/images/search-hover.png") no-repeat;}

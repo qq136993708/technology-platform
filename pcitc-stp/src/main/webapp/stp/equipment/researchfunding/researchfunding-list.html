@@ -406,13 +406,13 @@ var name=$('#name').val();
            cols: [[
            	{title : '序号', type : 'numbers', width : 55},
            	{field : 'assetNumber', title : '资产编号', style : 'cursor: pointer;', align : 'left',sort : true,  width : '10%'},
-            {field : 'applicationName',     title : '资产名称', style : 'cursor: pointer;', align : 'left',sort : true,  width : '13%'},
-            {field : 'applicationUserName', title : '资产申请人', style : 'cursor: pointer;', align : 'left', width : '10%'},
-            {field : 'applicationTime', title : '资产申请时间', style : 'cursor: pointer;', align : 'center',width : '15%', templet : '#dateTpl'},
-            {field : 'applyDepartName',     title : '资产申请部门', style : 'cursor: pointer;', align : 'left', width : '15%' },
-            {field : 'equipmentName', title : '装备名称', style : 'cursor: pointer;', align : 'left', width : '15%'},
-            {field : 'equipmenNumber', title : '数量', style : 'cursor: pointer;', align : 'center',width : '10%'},
-            {field : 'isscrap', title : '是否报废', style : 'cursor: pointer;', align : 'center'},
+            {field : 'applicationName',     title : '资产名称', style : 'cursor: pointer;', align : 'left',sort : true,  width : '15%'},
+            {field : 'applicationUserName', title : '资产申请人',sort : true, style : 'cursor: pointer;', align : 'left', width : '15%'},
+            {field : 'applicationTime', title : '资产申请时间', sort : true,style : 'cursor: pointer;', align : 'center',width : '15%', templet : '#dateTpl'},
+            {field : 'applyDepartName',     title : '资产申请部门',sort : true, style : 'cursor: pointer;', align : 'left', width : '15%' },
+            {field : 'equipmentName', title : '装备名称', sort : true,style : 'cursor: pointer;', align : 'left', width : '15%'},
+            {field : 'equipmenNumber', title : '数量', sort : true,style : 'cursor: pointer;', align : 'center',width : '10%'},
+            {field : 'isscrap', title : '是否报废', sort : true,style : 'cursor: pointer;', width : '13%',align : 'center'},
             ]],
            done: function (res, curr, count) {
                // 点击行联动选择框--单选

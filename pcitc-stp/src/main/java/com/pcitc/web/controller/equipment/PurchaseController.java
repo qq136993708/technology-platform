@@ -85,11 +85,18 @@ public class PurchaseController extends BaseController {
 	@RequestMapping(value = "/sre_purchase/to-list")
 	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String departCode = sysUserInfo.getUnitCode();
-		request.setAttribute("departCode", departCode);
+		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String parentUnitPathNames = map.get("unitName");// 申报单位
+		String parentUnitPathIds = map.get("unitCode");// 申报单位
+		String applyDepartName = map.get("applyDepartName");// 申报部门
+		String applyDepartCode = map.get("applyDepartCode");// 申报部门
+
+		/*String departCode = sysUserInfo.getUnitCode();
 		String parentUnitPathIds = "";
 		String unitPathIds = sysUserInfo.getUnitPath();
-		parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
+		parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);*/
+
+		request.setAttribute("departCode", applyDepartCode);
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 
 		return "/stp/equipment/purchase/purchase-list";
@@ -99,12 +106,13 @@ public class PurchaseController extends BaseController {
 	@RequestMapping(value = "/sre-purchase/apply_list")
 	public String apply_list(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String departCode = sysUserInfo.getUnitCode();
-		request.setAttribute("departCode", departCode);
-		String parentUnitPathIds = "";
-		String unitPathIds = sysUserInfo.getUnitPath();
-		parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
-		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+        Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+        String parentUnitPathIds = map.get("unitCode");// 申报单位
+        String applyDepartCode = map.get("applyDepartCode");// 申报部门
+
+
+        request.setAttribute("departCode", applyDepartCode);
+        request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 
 		return "/stp/equipment/purchase/apply-list";
 	}
@@ -113,12 +121,13 @@ public class PurchaseController extends BaseController {
 	@RequestMapping(value = "/sre-purchase/to-arrive-goods-list")
 	public String arriveGoodsList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String departCode = sysUserInfo.getUnitCode();
-		request.setAttribute("departCode", departCode);
-		String parentUnitPathIds = "";
-		String unitPathIds = sysUserInfo.getUnitPath();
-		parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
-		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+        Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+        String parentUnitPathIds = map.get("unitCode");// 申报单位
+        String applyDepartCode = map.get("applyDepartCode");// 申报部门
+
+
+        request.setAttribute("departCode", applyDepartCode);
+        request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 
 		return "/stp/equipment/purchase/arrive-goods-list";
 	}
@@ -127,12 +136,13 @@ public class PurchaseController extends BaseController {
 	@RequestMapping(value = "/sre-purchase/to-contract-acceptance-list")
 	public String contracAcceptanceList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String departCode = sysUserInfo.getUnitCode();
-		request.setAttribute("departCode", departCode);
-		String parentUnitPathIds = "";
-		String unitPathIds = sysUserInfo.getUnitPath();
-		parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
-		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+        Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+        String parentUnitPathIds = map.get("unitCode");// 申报单位
+        String applyDepartCode = map.get("applyDepartCode");// 申报部门
+
+
+        request.setAttribute("departCode", applyDepartCode);
+        request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 
 		return "/stp/equipment/purchase/contract-acceptance-list";
 	}
@@ -141,12 +151,13 @@ public class PurchaseController extends BaseController {
 	@RequestMapping(value = "/sre-purchase/to-installation-list")
 	public String installationList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String departCode = sysUserInfo.getUnitCode();
-		request.setAttribute("departCode", departCode);
-		String parentUnitPathIds = "";
-		String unitPathIds = sysUserInfo.getUnitPath();
-		parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
-		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+        Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+        String parentUnitPathIds = map.get("unitCode");// 申报单位
+        String applyDepartCode = map.get("applyDepartCode");// 申报部门
+
+
+        request.setAttribute("departCode", applyDepartCode);
+        request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 
 		return "/stp/equipment/purchase/installation-list";
 	}
@@ -155,12 +166,13 @@ public class PurchaseController extends BaseController {
 	@RequestMapping(value = "/sre-purchase/to-contract-close-list")
 	public String contractCloseList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String departCode = sysUserInfo.getUnitCode();
-		request.setAttribute("departCode", departCode);
-		String parentUnitPathIds = "";
-		String unitPathIds = sysUserInfo.getUnitPath();
-		parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
-		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+        Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+        String parentUnitPathIds = map.get("unitCode");// 申报单位
+        String applyDepartCode = map.get("applyDepartCode");// 申报部门
+
+
+        request.setAttribute("departCode", applyDepartCode);
+        request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 
 		return "/stp/equipment/purchase/contract-close-list";
 	}
@@ -193,7 +205,7 @@ public class PurchaseController extends BaseController {
 	}
 
 	/**
-	 * 增加
+	 * 跳转到新增或者编辑页面
 	 * 
 	 * @param request
 	 * @param response
@@ -203,8 +215,6 @@ public class PurchaseController extends BaseController {
 	@RequestMapping(value = "/sre-purchase/add")
 	public String add(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String parentUnitPathName = "";
-		String parentUnitPathId = "";
 		String purchaseName = "";
 		String projectId = "";
 		String name = "";
@@ -212,16 +222,19 @@ public class PurchaseController extends BaseController {
 		String sreProjectEquipmentIds = "";
 		String remarks = "";
 		String purchaseCode = "";
-		String unitPathIds = sysUserInfo.getUnitPath();
-		parentUnitPathId = EquipmentUtils.getParentUnitPathId(unitPathIds);
-		parentUnitPathName = EquipmentUtils.getParentUnitPathName(parentUnitPathId, restTemplate, httpHeaders);
+		String purchaseEquipmentId ="";
 
-		String departName = sysUserInfo.getUnitName();
-		String departCode = sysUserInfo.getUnitCode();
+		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String parentUnitPathNames = map.get("unitName");// 申报单位
+		String parentUnitPathIds = map.get("unitCode");// 申报单位
+		String applyDepartName = map.get("applyDepartName");// 申报部门
+		String applyDepartCode = map.get("applyDepartCode");// 申报部门
+
 		String createUserName = sysUserInfo.getUserDisp();
 		String createUserId = sysUserInfo.getUserName();
 		String id = CommonUtil.getParameter(request, "id", "");
 		request.setAttribute("id", id);
+
 		// purchaseCode = CodeUtil.getCode("XTBM_0074", restTemplate,
 		// httpHeaders);
 		if (!id.equals("")) {
@@ -233,18 +246,21 @@ public class PurchaseController extends BaseController {
 			equipmentId = srePurchase.getEquipmentId();
 			remarks = srePurchase.getRemarks();
 			purchaseCode = srePurchase.getPurchaseCode();
+			purchaseEquipmentId = srePurchase.getEquipmentId();
 			ResponseEntity<SreProject> SreProjectResponseEntity = this.restTemplate.exchange(GET_BY_PROJECT_ID + projectId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
 			if (SreProjectResponseEntity != null) {
 				SreProject sreProject = SreProjectResponseEntity.getBody();
-				name = sreProject.getName();
-				sreProjectEquipmentIds = sreProject.getEquipmentIds();
+				if (sreProject!=null){
+                    name = sreProject.getName();
+                    sreProjectEquipmentIds = sreProject.getEquipmentIds();
+                }
 			}
 		}
 
-		request.setAttribute("parentUnitPathName", parentUnitPathName);
-		request.setAttribute("parentUnitPathId", parentUnitPathId);
-		request.setAttribute("departName", departName);
-		request.setAttribute("departCode", departCode);
+		request.setAttribute("parentUnitPathName", parentUnitPathNames);
+		request.setAttribute("parentUnitPathId", parentUnitPathIds);
+		request.setAttribute("departName", applyDepartName);
+		request.setAttribute("departCode", applyDepartCode);
 		request.setAttribute("createUserName", createUserName);
 		request.setAttribute("createUserId", createUserId);
 		request.setAttribute("purchaseName", purchaseName);
@@ -254,6 +270,7 @@ public class PurchaseController extends BaseController {
 		request.setAttribute("sreProjectEquipmentIds", sreProjectEquipmentIds);
 		request.setAttribute("purchaseCode", purchaseCode);
 		request.setAttribute("remarks", remarks);
+		request.setAttribute("purchaseEquipmentIds",purchaseEquipmentId);
 
 		List<UnitField> unitFieldList = CommonUtil.getUnitNameList(restTemplate, httpHeaders);
 		request.setAttribute("unitFieldList", unitFieldList);
@@ -261,61 +278,7 @@ public class PurchaseController extends BaseController {
 		return "/stp/equipment/purchase/purchase-add";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/sre-purchase/chooseProject")
-	private String chooseProject(HttpServletRequest request) {
-		String applyUnitCode = sysUserInfo.getUnitCode();
-		request.setAttribute("applyUnitCode", applyUnitCode);
-		String parentUnitPathIds = "";
-		String unitPathIds = sysUserInfo.getUnitPath();
-		parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
-		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
-		return "/stp/equipment/purchase/chooseProject";
-	}
 
-	@RequestMapping(value = "/sre-purchase/chooseProject_data")
-	@ResponseBody
-	public String chooseProject_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		LayuiTableData layuiTableData = new LayuiTableData();
-		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_URL_CHOOSE_PROJECT, HttpMethod.POST, entity, LayuiTableData.class);
-		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode == 200) {
-			layuiTableData = responseEntity.getBody();
-		}
-		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		logger.info("============查询结果：" + result);
-		return result.toString();
-	}
-
-	/**
-	 * 查询合同数据
-	 * 
-	 * @param param
-	 * @param request
-	 * @param response
-	 * @return
-	 */
-	@RequestMapping(value = "/sre-purchase/project_task/list")
-	@ResponseBody
-	public String list(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
-
-		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(param));
-		logger.info("============参数：" + parmamss.toString());
-		//
-		String applyDepartCode = sysUserInfo.getUnitCode();
-
-		LayuiTableData layuiTableData = new LayuiTableData();
-		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_URL_PROJECT_TASK, HttpMethod.POST, entity, LayuiTableData.class);
-		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode == 200) {
-			layuiTableData = responseEntity.getBody();
-		}
-		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		logger.info("============查询结果：" + result);
-		return result.toString();
-	}
 
 	/**
 	 * 保存-更新操作
@@ -574,6 +537,61 @@ public class PurchaseController extends BaseController {
 
 		return "/stp/equipment/purchase/purchase-view";
 	}
+
+    @RequestMapping(method = RequestMethod.GET, value = "/sre-purchase/chooseProject")
+    private String chooseProject(HttpServletRequest request)throws Exception {
+        Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+        String parentUnitPathIds = map.get("unitCode");// 申报单位
+        String applyDepartName = map.get("applyDepartName");// 申报部门
+
+        request.setAttribute("departCode", applyDepartName);
+        request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+        return "/stp/equipment/purchase/chooseProject";
+    }
+
+    @RequestMapping(value = "/sre-purchase/chooseProject_data")
+    @ResponseBody
+    public String chooseProject_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        LayuiTableData layuiTableData = new LayuiTableData();
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_URL_CHOOSE_PROJECT, HttpMethod.POST, entity, LayuiTableData.class);
+        int statusCode = responseEntity.getStatusCodeValue();
+        if (statusCode == 200) {
+            layuiTableData = responseEntity.getBody();
+        }
+        JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+        logger.info("============查询结果：" + result);
+        return result.toString();
+    }
+
+    /**
+     * 查询合同数据
+     *
+     * @param param
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/sre-purchase/project_task/list")
+    @ResponseBody
+    public String list(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+
+        JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(param));
+        logger.info("============参数：" + parmamss.toString());
+
+
+        LayuiTableData layuiTableData = new LayuiTableData();
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_URL_PROJECT_TASK, HttpMethod.POST, entity, LayuiTableData.class);
+        int statusCode = responseEntity.getStatusCodeValue();
+        if (statusCode == 200) {
+            layuiTableData = responseEntity.getBody();
+        }
+        JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+        logger.info("============查询结果：" + result);
+        return result.toString();
+    }
 
 	// 启动采购申请 确认上报流程
 	@RequestMapping(value = "/sre-purchase/start_purchase_workflow")

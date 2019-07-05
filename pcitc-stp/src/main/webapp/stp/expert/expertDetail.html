@@ -9,6 +9,7 @@
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
     <style>
         .layui-row-main{text-align: center;}
+        .layui-tab-content p{text-indent: 2em;}
     </style>
 </head>
 <body>
@@ -29,13 +30,13 @@
     <div class="layui-row">
         <div class="layui-col-md5 layui-expert-div">
             <div class="layui-card">
-                <div class="layui-col-md3"><img id="${zjkBaseInfo.dataId}" src="/stp/expert/img/default.png" style=" height: 234px;"></div>
+                <div class="layui-col-md3"><img dataType="headImg" id="${zjkBaseInfo.dataId}" src="/stp/expert/img/default.png" style=" height: 234px;"></div>
                 <div class="layui-col-md9">
                     <p>${zjkBaseInfo.expertName}</p>
                     <span class="layui-zc">职称：${zjkBaseInfo.expertProfessinal}</span>
-                    <span class="layui-pone">电话：${zjkBaseInfo.mobile}</span>
-                    <span class="layui-e">邮箱：${zjkBaseInfo.email}</span>
-                    <span class="layui-a">地址：${zjkBaseInfo.address}</span>
+                    <span class="layui-pone">专家类型：${zjkBaseInfo.bak3}</span>
+                    <span class="layui-e">专业领域：${zjkBaseInfo.expertProfessionalField}</span>
+                    <span class="layui-a">所属机构：${zjkBaseInfo.companyName}</span>
                     <div class="search">
                         <!--<a class="add" href="javascript:;" id="addBx">加入备选</a>-->
                         <!--<a class="add" href="javascript:;" id="addDb">加入对比</a>-->
@@ -65,22 +66,22 @@
                         </div>
                         <div class="layui-tab-item">
                             <ul>
-                                <#list listCg as vo>
-                                <li>
-                                    <p>${vo.publishDate}</p>
-                                    <span>${vo.achievementName}</span>
-                                    <p>${vo.achievementDesc}</p>
-                                </li>
-                            </#list>
+                            <#list listCg as vo>
+                               <li>
+                                   <p>${vo.publishDate}</p>
+                                   <span>${vo.achievementName}</span>
+                                   <p>${vo.achievementDesc}</p>
+                               </li>
+                           	</#list>
                             </ul>
                         </div>
                         <div class="layui-tab-item">
-                            <#list listZl as vo>
-                            <li>
-                                <p>${vo.patentCode}</p>
-                                <span>${vo.patentName}</span>
-                            </li>
-                        </#list>
+                        <#list listZl as vo>
+                           <li>
+                               <p>${vo.patentCode}</p>
+                               <span>${vo.patentName}</span>
+                           </li>
+                       </#list>
                     </div>
                 </div>
             </div>
@@ -217,6 +218,8 @@
                 $("#five").html("<img src='/layuiadmin/layui/images/null-data.png' />");
             }
         });
+        
+        
     }
 
     initEchart();
@@ -316,6 +319,17 @@
                 $this.css("width", current_width + "px");
             });
         })
+        
+        publicMethods.ajaxPost('/dictionary/list/ZJK_ZJLX', null, function (data, status) { 
+        	$.each(data,function(i,dt){
+        		if(data[i].code === "${zjkBaseInfo.bak3}"){
+        			$(".layui-pone").html("专家类型："+data[i].name);
+        		} 
+        	});
+        });
+       
+        
+        
         //** 搜索框宽度随着内容自适应End
         // 触发不同的按钮事件
         var $ = layui.$, active = {
@@ -390,14 +404,16 @@
 <script type="text/javascript" src="/plugins/echarts/echarts-all.js"></script>
 <script>
     function relationPic() {
-        var one = "/expertController/picIndex?id=5&type=force&expertId="+expertId;
-        var one = load_single_force(one, "one", "专家与机构关系", "", "");
+        //var one = "/expertController/picIndex?id=5&type=force&expertId="+expertId;
+        //var one = load_single_force(one, "one", "专家与机构关系", "", "");
+        
+        $("#one").html("<img src='/layuiadmin/layui/images/null-data.png' />");
     }
 
     relationPic();
 </script>
 <script>
-    loadImg();
+   /*  loadImg();
     function loadImg() {
             var imgBase = photoContent(expertId);
             console.log("图片");
@@ -405,30 +421,35 @@
             if(imgBase!=""&&imaBase!="data:image/png;base64,PHNjcmlwdD4NCiBtb2RhbHMuaW5mbygnPz8/Pz8hJyk7DQo8L3NjcmlwdD4NCg=="){
                 $("#"+expertId).attr("src", imgBase);
             }
-    }
-
+    } */
+    var dataId = $('img[dataType="headImg"]').attr("id");
+    $('img[dataType="headImg"]').attr("src",photoContent(dataId));
+    
+    
+    
+    
     function photoContent(picId) {
         var ret = getFileResult(picId);
         if (ret != null && ret.list.length > 0) {
             picId = ret.list[0].id;
-        }else{
-            return "";
         }
         var base64 = "";
         $.ajax({
             type: 'get',
             dataType: 'text',
             async: false,
-            url: '/sysfile/viewPicThumbnail/' + picId,
+            url: '/sysfile/viewPic/' + picId,
             success: function (data) {
                 base64 = data;
             },
             error: function (e) {
-                //alert("出错了");
+                alert("出错了");
             }
         });
         return base64;
     }
+
+    ////加载图片
     function getFileResult(fileIds) {
         var ret = null;
         ajaxFile("/sysfile/getFilesLayuiByFormId", {fileIds: fileIds}, function (result) {
@@ -438,7 +459,7 @@
     }
     function ajaxFile(url, data, callback) {
         var result = null;
-        jQuery.ajax({
+        $.ajax({
             type: 'post',
             async: false,
             url: url,

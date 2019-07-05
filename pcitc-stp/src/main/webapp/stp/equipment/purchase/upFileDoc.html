@@ -53,7 +53,7 @@
             <div class="form-bottom">
                 <div class="form-bottom-btns">
                     <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
-                            lay-submit="" lay-filter="sub">保存
+                            lay-submit="" lay-filter="sub" id="sub">保存
                     </button>
                     <button type="button"
                             class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
@@ -67,7 +67,12 @@
 </div>
 </div>
 <script type="text/javascript">
-
+        $(function(){
+            var uploadState = $("#uploadState").val();
+            if(uploadState=="9" || uploadState=="10"){
+                document.getElementById("sub").style.display = "none";
+            }
+        })
 </script>
 <script>
     var publicMethods;
@@ -85,20 +90,20 @@
         //detail:详情，edit：编辑
         file_edit_detail = "edit";
         //统管理-附件管理-附件配置：页面标识
-        file_opt_flag = "2a6704a9117441dea1d39bd5b1646f1b";
+        file_opt_flag = "5c90d345dc4a4015a3969d2a3324fd7a";
     }
     else if (uploadState=="2"){
         var file_ids = "documentDoc";
         //detail:详情，edit：编辑
         file_edit_detail = "edit";
         //统管理-附件管理-附件配置：页面标识
-        file_opt_flag = "22d87bd321a44332acbb7199756dbc98";
+        file_opt_flag = "1e1949b27027493184d536c23f8a1000";
     }else if (uploadState=="3") {
         var file_ids = "docArriveGoods";
         //detail:详情，edit：编辑
         file_edit_detail = "edit";
         //统管理-附件管理-附件配置：页面标识
-        file_opt_flag = "bf250d24bbee43f49e1be190c01653d1";
+        file_opt_flag = "1e1df80aff0d403bb5d9204fcdaca3e8";
     }else if(uploadState=="4"){
         var file_ids = "documentDocContractAcceptance";
         //detail:详情，edit：编辑
@@ -122,25 +127,25 @@
         //detail:详情，edit：编辑
         file_edit_detail = "edit";
         //统管理-附件管理-附件配置：页面标识
-        file_opt_flag = "6985bb5ac457409cb8d734507fbf2467";
+        file_opt_flag = "1e1949b27027493184d536c23f8a1000";
     }else if (uploadState=="8") {//上传协议
         var file_ids = "documentDocAgreement";
         //detail:详情，edit：编辑
         file_edit_detail = "edit";
         //统管理-附件管理-附件配置：页面标识
-        file_opt_flag = "6985bb5ac457409cb8d734507fbf2467";
+        file_opt_flag = "1e1949b27027493184d536c23f8a1000";
     }else if (uploadState=="9") {//查看标书
         var file_ids = "documentDocTender";
         //detail:详情，edit：编辑
         file_edit_detail = "detail";
         //统管理-附件管理-附件配置：页面标识
-        file_opt_flag = "6985bb5ac457409cb8d734507fbf2467";
+        file_opt_flag = "1e1949b27027493184d536c23f8a1000";
     }else if (uploadState=="10") {//查看协议
         var file_ids = "documentDocAgreement";
         //detail:详情，edit：编辑
         file_edit_detail = "detail";
         //统管理-附件管理-附件配置：页面标识
-        file_opt_flag = "6985bb5ac457409cb8d734507fbf2467";
+        file_opt_flag = "1e1949b27027493184d536c23f8a1000";
     }
     var equipmentIds = $("#equipmentIds").val();
     var yearFeeStr = $("#yearFeeStr").val();
