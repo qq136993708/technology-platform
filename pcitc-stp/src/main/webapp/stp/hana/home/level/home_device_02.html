@@ -122,7 +122,7 @@ layui.config({
     $("#detail_id").click(function () {
     	
     	 var nd=$("#year").val();
-         var url=　encodeURIComponent("/one_level_main/count_table?nd="+nd+"&ysnd="+nd+"&xmlbbm=kyzb");
+         var url=encodeURIComponent("/one_level_main/count_table?nd="+nd+"&ysnd="+nd+"&xmlbbm=kyzb");
 	     window.open("/instituteIndex?url="+url);
     });
   
@@ -154,7 +154,7 @@ function initEchart()
 	echart7.on('click', function (params){
 		var xName=params.name;
 		var legentName=params.seriesName;
-		var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+nd+"&ysnd="+nd+"&define1=资本性&ktlx="+legentName);
+		var url=encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+nd+"&ysnd="+nd+"&define1=资本性&ktlx="+legentName);
         window.open("/instituteIndex?url="+url);
         
         
@@ -169,7 +169,7 @@ function initEchart()
 	echart4.on('click', function (params){
 		var xName=params.name;
 		var legentName=params.seriesName;
-		var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+nd+"&ysnd="+nd+"&define1=资本性&ktlx="+legentName);
+		var url=encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+nd+"&ysnd="+nd+"&define1=资本性&ktlx="+legentName);
         window.open("/instituteIndex?url="+url);
 		//parent.layui.index.openTabsPage("/home/project-list?type_flag="+xName+"&project_scope="+legentName, "科研装备明细");
     });

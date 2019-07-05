@@ -208,7 +208,7 @@
         $(".layui-time").html($("#nd").val());
         var nd=$("#nd").val();
         $("#table_detail_id").click(function () {
-        	 var url=　encodeURIComponent("/one_level_main/common_table?nd="+nd+"&groupFlag=xmid");
+        	 var url=encodeURIComponent("/one_level_main/common_table?nd="+nd+"&groupFlag=xmid");
              window.open("/instituteIndex?url="+url);
         });
         renderTable2();
@@ -273,7 +273,7 @@
             {
             	qdbz="已签订";
             }
-            var url=　encodeURIComponent("/one_level_main/common_table?define1="+xName+"&qdbz="+qdbz+"&nd="+nd+"&groupFlag=xmid");
+            var url=encodeURIComponent("/one_level_main/common_table?define1="+xName+"&qdbz="+qdbz+"&nd="+nd+"&groupFlag=xmid");
             window.open("/instituteIndex?url="+url);
 
         });
@@ -325,13 +325,13 @@
     function contract_chart1(qdbz)
     {
     	// define12, 后台查询时用的是define2、define3（type_flag）
-    	 var url=　encodeURIComponent("/one_level_main/common_table?define12=直属研究院&qdbz="+qdbz+"&nd="+nd+"&groupFlag=xmid,define8");
+    	 var url=encodeURIComponent("/one_level_main/common_table?define12=直属研究院&qdbz="+qdbz+"&nd="+nd+"&groupFlag=xmid,define8");
          window.open("/instituteIndex?url="+url);
     }
     
     function contract_chart_oneLevel(qdbz)
     {
-    	 var url=　encodeURIComponent("/one_level_main/common_table?qdbz="+qdbz+"&nd="+nd+"&groupFlag=xmid");
+    	 var url=encodeURIComponent("/one_level_main/common_table?qdbz="+qdbz+"&nd="+nd+"&groupFlag=xmid");
          window.open("/instituteIndex?url="+url);
     }
     
