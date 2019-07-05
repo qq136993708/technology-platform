@@ -1,5 +1,7 @@
 package com.pcitc.web.equipment;
 
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.equipment.SrePurchaseArrival;
 import com.pcitc.base.stp.equipment.SrePurchaseOrder;
 import com.pcitc.service.equipment.PurchaseOrderService;
@@ -41,4 +43,16 @@ public class PurchaseOrderClient
 
         purchaseOrderService.insertPurchaseArrivalList(srePurchaseArrivals);
     }
+    
+    
+    
+    @ApiOperation(value = "获取ERP采购订单数据", notes = "获取ERP采购订单数据")
+	@RequestMapping(value = "/sre-provider/getErpOrderlistByErpNo", method = RequestMethod.POST)
+	public LayuiTableData getErpOrderlistByErpNo(@RequestBody LayuiTableParam param)throws Exception
+	{
+		return purchaseOrderService.getErpOrderPageByErpNo(param);
+	}
+    
+    
+    
 }

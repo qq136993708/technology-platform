@@ -18,6 +18,7 @@ import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.stp.equipment.ProjectMoney;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectSetup;
@@ -1350,6 +1351,42 @@ public class EquipmentServiceImpl implements EquipmentService {
 		Long total = pageInfo.getTotal();
 		data.setCount(list.size());
 	    return data;
+	}
+
+	@Override
+	public ProjectMoney selectProjectMoney(String id) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Integer updateProjectMoney(ProjectMoney record) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int deleteProjectMoney(String id) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Integer insertProjectMoney(ProjectMoney record) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ProjectMoney> getList(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int deleteProjectMoneyBy(String projectId) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	

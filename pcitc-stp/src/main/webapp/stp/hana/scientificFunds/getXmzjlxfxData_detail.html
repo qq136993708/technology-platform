@@ -122,9 +122,6 @@ layui.config({
     {
     	var month=$('#month').val();
     	month=month.replace("-","");
-    	var index = layer.load(1, {
-    		  shade: [0.1,'#fff'] 
-    		}); 
     	
     	var  g0PROJCODE=$("#g0PROJCODE").val();
    	   var  g0PROJTXT=$("#g0PROJTXT").val();
@@ -181,7 +178,6 @@ layui.config({
                 selectRowData=res.data[index-1];
             });
             
-            layer.close(index); 
             
         }
       });

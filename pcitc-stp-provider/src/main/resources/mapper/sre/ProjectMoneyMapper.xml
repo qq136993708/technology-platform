@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.equipment.ProjectMoneyMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.ProjectMoney" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="project_id" property="projectId" jdbcType="VARCHAR" />
+    <result column="year" property="year" jdbcType="VARCHAR" />
+    <result column="zb_money" property="zbMoney" jdbcType="INTEGER" />
+    <result column="fy_money" property="fyMoney" jdbcType="INTEGER" />
+    <result column="unit_name" property="unitName" jdbcType="VARCHAR" />
+    <result column="unit_code" property="unitCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, project_id, year, zb_money, fy_money, unit_name, unit_code
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sre_project_money
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sre_project_money
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  
+  
+  
+  <insert id="insert" parameterType="com.pcitc.base.stp.equipment.ProjectMoney" >
+    insert into sre_project_money (id, project_id, year, 
+      zb_money, fy_money, unit_name, 
+      unit_code)
+    values (#{id,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{year,jdbcType=VARCHAR}, 
+      #{zbMoney,jdbcType=INTEGER}, #{fyMoney,jdbcType=INTEGER}, #{unitName,jdbcType=VARCHAR}, 
+      #{unitCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.ProjectMoney" >
+    insert into sre_project_money
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="year != null" >
+        year,
+      </if>
+      <if test="zbMoney != null" >
+        zb_money,
+      </if>
+      <if test="fyMoney != null" >
+        fy_money,
+      </if>
+      <if test="unitName != null" >
+        unit_name,
+      </if>
+      <if test="unitCode != null" >
+        unit_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null" >
+        #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="zbMoney != null" >
+        #{zbMoney,jdbcType=INTEGER},
+      </if>
+      <if test="fyMoney != null" >
+        #{fyMoney,jdbcType=INTEGER},
+      </if>
+      <if test="unitName != null" >
+        #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null" >
+        #{unitCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.equipment.ProjectMoney" >
+    update sre_project_money
+    <set >
+      <if test="projectId != null" >
+        project_id = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null" >
+        year = #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="zbMoney != null" >
+        zb_money = #{zbMoney,jdbcType=INTEGER},
+      </if>
+      <if test="fyMoney != null" >
+        fy_money = #{fyMoney,jdbcType=INTEGER},
+      </if>
+      <if test="unitName != null" >
+        unit_name = #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null" >
+        unit_code = #{unitCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.equipment.ProjectMoney" >
+    update sre_project_money
+    set project_id = #{projectId,jdbcType=VARCHAR},
+      year = #{year,jdbcType=VARCHAR},
+      zb_money = #{zbMoney,jdbcType=INTEGER},
+      fy_money = #{fyMoney,jdbcType=INTEGER},
+      unit_name = #{unitName,jdbcType=VARCHAR},
+      unit_code = #{unitCode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+  
+  
+  <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="unitName != null and unitName  !='' ">               AND t.unit_name like CONCAT('%',#{unitName},'%')</if>
+	      <if test="projectId != null     and projectId !=''  ">        AND t.project_id = #{projectId}</if>
+	      <if test="unitCode != null     and unitCode !=''  ">        AND t.unit_code = #{unitCode}</if>
+	     <if test="sqlStr != null   and sqlStr !='' ">                  AND ${sqlStr}</if>
+	 </trim>
+	</sql>
+	
+    
+    
+    
+   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from sre_project_money t <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  create_date desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM sre_project_money t <include refid="selectCondition"/>
+    </select>
+    
+    
+    <delete id="deleteProjectMoneyByProjectId" parameterType="java.lang.String" >
+    delete from sre_project_money
+    where project_id = #{projectId,jdbcType=VARCHAR}
+  </delete>
+    
+</mapper>

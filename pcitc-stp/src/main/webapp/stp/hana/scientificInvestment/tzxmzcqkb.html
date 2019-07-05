@@ -126,9 +126,6 @@ layui.config({
     {
     	var month=$('#month').val();
     	month=month.replace("-","");
-    	var index = layer.load(1, {
-    		  shade: [0.1,'#fff'] 
-    		}); 
     	
       //渲染
       table.render({
@@ -165,7 +162,6 @@ layui.config({
                 selectRowData=res.data[index-1];
             });
             
-            layer.close(index); 
         }
       });
       

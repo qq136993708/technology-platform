@@ -1,13 +1,13 @@
 package com.pcitc.service.equipment;
 
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.stp.equipment.ProjectMoney;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectSetup;
@@ -187,10 +187,18 @@ public interface EquipmentService {
 	
 	
 	
+	public ProjectMoney selectProjectMoney(String id) throws Exception;
+
+	public Integer updateProjectMoney(ProjectMoney record)throws Exception;
+
+	public int deleteProjectMoney(String id)throws Exception;
+
+	public Integer insertProjectMoney(ProjectMoney record)throws Exception;
 	
 	
+	public List<ProjectMoney> getList(Map map)throws Exception;
 	
-	
+	public int deleteProjectMoneyBy(String projectId)throws Exception;
 	
 	
 

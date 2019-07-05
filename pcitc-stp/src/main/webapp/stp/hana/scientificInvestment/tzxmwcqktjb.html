@@ -160,9 +160,6 @@ function exput_excel()
     {
     	var month=$('#month').val();
     	month=month.replace("-","");
-    	var index = layer.load(1, {
-    		  shade: [0.1,'#fff'] 
-    		}); 
       //渲染
       table.render({
         elem: '#processdef-table',
@@ -198,7 +195,6 @@ function exput_excel()
                 selectRowData=res.data[index-1];
             });
             
-            layer.close(index); 
             
         }
       });
