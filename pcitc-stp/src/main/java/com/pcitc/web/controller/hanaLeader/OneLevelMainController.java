@@ -387,6 +387,7 @@ public class OneLevelMainController extends BaseController {
 		String ktlx = CommonUtil.getParameter(request, "ktlx", "");
 		String define11 = CommonUtil.getParameter(request, "define11", "");// 费用来源
 		String define12 = CommonUtil.getParameter(request, "define12", "");// 单位类别
+		String groupFlag = CommonUtil.getParameter(request, "groupFlag", "");// 后台查询分组类别
 		request.setAttribute("define12", define12);
 		request.setAttribute("define11", define11);
 		request.setAttribute("ktlx", ktlx);
@@ -402,7 +403,7 @@ public class OneLevelMainController extends BaseController {
 		request.setAttribute("project_property", project_property);
 		request.setAttribute("project_scope", project_scope);
 		request.setAttribute("zylb", zylb);
-
+		request.setAttribute("groupFlag", groupFlag);
 		String projectId = CommonUtil.getParameter(request, "projectId", "");
 		request.setAttribute("projectId", projectId);
 
@@ -525,7 +526,7 @@ public class OneLevelMainController extends BaseController {
 		String ktlx = CommonUtil.getParameter(request, "ktlx", "");
 		String define11 = CommonUtil.getParameter(request, "define11", "");// 费用来源
 		String define12 = CommonUtil.getParameter(request, "define12", "");// 单位类别
-
+		String groupFlag = CommonUtil.getParameter(request, "groupFlag", "");// 后台查询分组类别
 		String fzdwflag = CommonUtil.getParameter(request, "fzdwflag", "承担单位");
 		request.setAttribute("fzdwflag", fzdwflag);
 		request.setAttribute("define12", define12);
@@ -543,7 +544,7 @@ public class OneLevelMainController extends BaseController {
 		request.setAttribute("project_property", project_property);
 		request.setAttribute("project_scope", project_scope);
 		request.setAttribute("zylb", zylb);
-
+		request.setAttribute("groupFlag", groupFlag);
 		String projectId = CommonUtil.getParameter(request, "projectId", "");
 		request.setAttribute("projectId", projectId);
 
@@ -552,7 +553,7 @@ public class OneLevelMainController extends BaseController {
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			// 领导标识，不控制数据
 			paramsMap.put("leaderFlag", "1");
-			request.setAttribute("leaderFlag",  "1");
+			request.setAttribute("leaderFlag", "1");
 		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -788,7 +789,7 @@ public class OneLevelMainController extends BaseController {
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			// 领导标识，不控制数据
 			paramsMap.put("leaderFlag", "1");
-			request.setAttribute("leaderFlag",  "1");
+			request.setAttribute("leaderFlag", "1");
 		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
