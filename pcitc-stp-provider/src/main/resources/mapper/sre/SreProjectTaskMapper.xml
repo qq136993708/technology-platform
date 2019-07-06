@@ -71,6 +71,10 @@
     <result column="link_tel"            property="linkTel"  jdbcType="VARCHAR" />
     <result column="link_mail"           property="linkMail"  jdbcType="VARCHAR" />
     <result column="chief_man"           property="chiefMan"       jdbcType="VARCHAR" />
+    <result column="purchase_money"      jdbcType="DECIMAL" property="purchaseMoney" />
+    
+    
+    
     
   </resultMap>
   <sql id="Base_Column_List" >
@@ -935,7 +939,22 @@
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
    </select>
    
-     <select id="getListByErpnum" resultMap="BaseResultMap" parameterType="Map" >
+   
+   <select id="getRelationList" resultMap="BaseResultMap" parameterType="Map" >
+     select *,
+     ROUND(( SELECT SUM(K0XMDDJE) AS "K0XMDDJE" FROM sre_purchase_order  t2 WHERE t2.G0PROJCODE = t.`erp_num`)/10000 ,2)AS purchase_money
+      from sre_project_task t <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  create_date desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+   
+   <select id="getListByErpnum" resultMap="BaseResultMap" parameterType="Map" >
      select * from sre_project_task t  where t.erp_num is not null and  t.erp_num !=''
      ORDER BY  create_date desc
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   

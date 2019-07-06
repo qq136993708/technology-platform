@@ -130,10 +130,20 @@ public class SreProjectTask {
     private String linkMail;
     private String chiefMan;
     
+    private BigDecimal purchaseMoney;
     
     
     
-    public String getSourceType() {
+    
+    public BigDecimal getPurchaseMoney() {
+		return purchaseMoney;
+	}
+
+	public void setPurchaseMoney(BigDecimal purchaseMoney) {
+		this.purchaseMoney = purchaseMoney;
+	}
+
+	public String getSourceType() {
 		return sourceType;
 	}
 

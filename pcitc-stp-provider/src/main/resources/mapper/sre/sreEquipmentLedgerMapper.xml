@@ -455,5 +455,21 @@
           #{equipmentLedger.g0ljdjzjje,jdbcType=DECIMAL})
       </foreach>
   </insert>
+  
+  <select id="getSreDetailId" resultMap="BaseResultMap" parameterType="Map" >
+     select * from sre_equipment_ledger  <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  G0GSDM   desc
+      </otherwise>
+     </choose>
+   </select>
 
+	<sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	   	 <if test="g0gsdm != null and g0gsdm!='' ">  AND G0GSDM = #{g0gsdm}</if>/*公司代码*/
+	   	 <if test="g0anln1 != null and g0anln1!='' ">  AND G0ANLN1 = #{g0anln1}</if>/*资产编号*/
+	 </trim>
+	</sql>
 </mapper>

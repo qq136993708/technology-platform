@@ -73,6 +73,52 @@ public class SrePurchaseOrder {
     private Date createDate;
     
     private String arrival;
+    
+    
+    
+    
+    private String k0xmrksl;
+
+    private BigDecimal k0xmrkje;
+
+    private String k0xmlysl;
+
+    private BigDecimal k0xmlyje;
+    
+    
+    
+
+	public String getK0xmrksl() {
+		return k0xmrksl;
+	}
+
+	public void setK0xmrksl(String k0xmrksl) {
+		this.k0xmrksl = k0xmrksl;
+	}
+
+	public BigDecimal getK0xmrkje() {
+		return k0xmrkje;
+	}
+
+	public void setK0xmrkje(BigDecimal k0xmrkje) {
+		this.k0xmrkje = k0xmrkje;
+	}
+
+	public String getK0xmlysl() {
+		return k0xmlysl;
+	}
+
+	public void setK0xmlysl(String k0xmlysl) {
+		this.k0xmlysl = k0xmlysl;
+	}
+
+	public BigDecimal getK0xmlyje() {
+		return k0xmlyje;
+	}
+
+	public void setK0xmlyje(BigDecimal k0xmlyje) {
+		this.k0xmlyje = k0xmlyje;
+	}
 
 	public String getG0flag() {
 		return g0flag;
