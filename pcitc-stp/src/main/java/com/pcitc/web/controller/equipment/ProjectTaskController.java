@@ -59,6 +59,10 @@ public class ProjectTaskController extends BaseController {
 
 
 	private static final String PAGE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/page";
+	private static final String PAGE_RELATION_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_relation_task/page";
+	
+	
+	
 	private static final String ADD_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/add";
 	private static final String UPDATE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/update";
 	private static final String BATCH_DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/batch-delete/";
@@ -297,7 +301,26 @@ public class ProjectTaskController extends BaseController {
 		return result.toString();
 	}
 	
-	
+	////带采购金额的
+	@RequestMapping(value = "/relation_list")
+	@ResponseBody
+	public String relation_list(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+		
+		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(param));
+		logger.info("============参数：" + parmamss.toString());
+		
+		
+		LayuiTableData layuiTableData = new LayuiTableData();
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_RELATION_URL, HttpMethod.POST, entity, LayuiTableData.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200) {
+			layuiTableData = responseEntity.getBody();
+		}
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+		logger.info("============查询结果：" + result);
+		return result.toString();
+	}
 	
 	@RequestMapping(value = "/confirm_list")
 	public String confirm(HttpServletRequest request, HttpServletResponse response) throws Exception {

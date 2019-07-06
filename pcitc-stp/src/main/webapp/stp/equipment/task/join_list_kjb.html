@@ -95,7 +95,21 @@
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script id="view_taskVersion" type="text/html"> {{view_taskVersion(d.taskVersion)}} </script>
 <script id="getErpOrderlist_tlp_id" type="text/html"> {{getErpOrderlist_tlp(d.erpNum)}} </script>
+<script id="purchase_money_id" type="text/html"> {{purchase_money(d.purchaseMoney)}} </script>
 <script type="text/javascript">
+
+
+function purchase_money(d) 
+{
+    if (d) 
+    {
+        
+        return '<span style="color:red">'+d+'</span>';
+    } else 
+    {
+        return "<span></span>";
+    }
+}
 
 
 function getErpOrderlist_tlp(d) 
@@ -241,7 +255,7 @@ var name=$('#name').val();
     	//渲染
         table.render({
             elem: '#processdef-table',
-            url: '/sre_project_task/list',
+            url: '/sre_project_task/relation_list',
             method:"POST",
             where: {param: {"setupYear":$("#setupYear").val(),"topicName":$("#topicName").val(),"leadUnitCode":$("#leadUnitCode").val(),"belongDepartmentCode":$("#belongDepartmentCode").val(),"professionalDepartCode":$("#professionalDepartCode").val(),"professionalFieldCode":$("#professionalFieldCode").val(),"contractNum":$("#contractNum").val(),"auditStatus":$("#auditStatus").val()}},
             limit: 15,	
@@ -260,7 +274,8 @@ var name=$('#name').val();
             	{title : '序号', type :'numbers', width : 55},
             	 {field : 'topicName',     title : '课题名称',      style : 'cursor: pointer;', align: 'left', width : '20%',templet:function(d){return '<span onclick="view_project(\''+d.topicId+'\')" style="color:#1890ff">'+d.topicName+'</span>'},sort : true},
             	 {field : 'topicName',     title : '任务书',     style : 'cursor: pointer;', align: 'left', width : '20%',templet:function(d){return '<span   onclick="view_isWriteTask(\''+d.taskId+'\')" style="color: #1890ff">'+d.topicName+'</span>'},sort : true},
-            	 {field : 'projectMoney',   title : '总经费(万元)', style : 'cursor: pointer;', align: 'center', width : '8%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'},sort : true},
+            	 {field : 'projectMoney',    title : '总经费(万元)', style : 'cursor: pointer;', align: 'center', width : '8%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'},sort : true},
+            	 {field : 'purchaseMoney',   title : '已采购金额(万元)', style : 'cursor: pointer;', align: 'center', width : '8%',templet : '#purchase_money_id',sort : true},
             	 {field : 'setupYear', title : '立项年份', style : 'cursor: pointer;', align: 'center', width : '8%',sort : true},
             	 {field : 'leadUnitName',   title : '牵头单位',    style : 'cursor: pointer;', align: 'left', width : '8%',sort : true},
             	 {field : 'contractNum', title : '合同号', style : 'cursor: pointer;', align: 'center', width : '8%',sort : true},
