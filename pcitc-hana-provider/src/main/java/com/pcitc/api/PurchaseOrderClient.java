@@ -16,6 +16,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.stp.equipment.SrePurchaseArrival;
 import com.pcitc.base.stp.equipment.SrePurchaseOrder;
 import com.pcitc.service.IPurchaseOrderService;
 
@@ -51,7 +52,7 @@ public class PurchaseOrderClient {
 	@RequestMapping(value = "/hana/purchase-arrival/list")
 	public JSONArray getPurchaseArrivalList(@RequestBody HashMap<String, String> map) {
 		System.out.println("=================getPrchaseOrder");
-		List resultList = purchaseOrderService.getPurchaseArrivalList(map);
+		List<SrePurchaseArrival> resultList = purchaseOrderService.getPurchaseArrivalList(map);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(resultList));
 		return json;
 	}
