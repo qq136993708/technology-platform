@@ -33,35 +33,41 @@
 
 
 <div class="tableBox">
-<h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt"></label>项目资金流向分析</h3>
+<h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt"></label>项目经费流向分析</h3>
    <!--  <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"> -->
     <table id="myTable" class="layui-table" lay-filter="myTable" >
                  <thead>
                   <tr>
                       <th lay-data="{field:'g0GSJC', width:'8%',templet:viewv}" rowspan="2" >院所</th>
-                      <th lay-data="{align:'center'}" colspan="9">累计</th>
-                      <th lay-data="{align:'center'}" colspan="9">本年</th>
+                      <th lay-data="{align:'center'}" colspan="4">累计</th>
+                      <th lay-data="{align:'center'}" colspan="4">本年</th>
                   </tr>
                   <tr>
-                      <th lay-data="{field:'k0ZTYSJE',       width:'7%',align:'right'}">总体预算 </th>
-                      <th lay-data="{field:'k0LJKYFPQCB',    width:'7%',align:'right'}">科研分配前成本</th>
-                      <th lay-data="{field:'k0LJKYFPHCB',    width:'7%',align:'right'}">科研分配后成本</th> 
-                      <th lay-data="{field:'k0LJGLFPHCB',     width:'7%',align:'right'}">管理分配后成本</th>
-                      <th lay-data="{field:'k0LJGLFPHJECB',       width:'7%',align:'right'}">实际支出合计</th> 
+                  
+                      <th lay-data="{field:'k0LJKYFPQCB',    width:'12%',align:'right'}">直接经费</th>
+                      <th lay-data="{field:'k0LJKYFPHCB',    width:'12%',align:'right'}">间接分配经费</th> 
+                      <th lay-data="{field:'k0LJGLFPHCB',     width:'12%',align:'right'}">管理分配经费</th>
+                      <th lay-data="{field:'k0LJGLFPHJECB',  width:'12%',align:'right'}">经费合计</th> 
+                      
+                      
+                      <!-- <th lay-data="{field:'k0ZTYSJE',       width:'7%',align:'right'}">总体预算 </th>
                       <th lay-data="{field:'k0LJSJCNJE',       width:'7%',align:'right'}">资金承诺累计 </th> 
                       <th lay-data="{field:'k0LJSJDJJE',       width:'7%',align:'right'}">定金 </th> 
                       <th lay-data="{field:'k0LJZJSYBL',     width:'7%',align:'right'}">资金使用% </th>
-                      <th lay-data="{field:'k0LJYSJY',     width:'7%',align:'right'}">资金结余累计</th>
+                      <th lay-data="{field:'k0LJYSJY',     width:'7%',align:'right'}">资金结余累计</th> -->
                       
-                      <th lay-data="{field:'k0BNYSJHJE',      width:'7%',align:'right'}">本年预算 </th>
-                      <th lay-data="{field:'k0BNKYFPQCB',     width:'7%',align:'right'}">科研分配前成本</th>
-                      <th lay-data="{field:'k0BNKYFPHCB',     width:'7%',align:'right'}">科研分配后成本</th> 
-                      <th lay-data="{field:'k0BNGLFPHCB',     width:'7%',align:'right'}">管理分配后成本 </th>
-                      <th lay-data="{field:'k0BNGLFPHJECB',   width:'7%',align:'right'}">实际支出合计</th> 
+                      
+                      <th lay-data="{field:'k0BNKYFPQCB',     width:'11%',align:'right'}">直接经费</th>
+                      <th lay-data="{field:'k0BNKYFPHCB',     width:'11%',align:'right'}">间接分配经费</th> 
+                      <th lay-data="{field:'k0BNGLFPHCB',     width:'11%',align:'right'}">管理分配经费 </th>
+                      <th lay-data="{field:'k0BNGLFPHJECB',   width:'11%',align:'right'}">经费合计</th> 
+                      
+                   <!--    <th lay-data="{field:'k0BNYSJHJE',      width:'7%',align:'right'}">本年预算 </th>
+                      
                       <th lay-data="{field:'k0BNSJCNJE',      width:'7%',align:'right'}">资金承诺 </th> 
                       <th lay-data="{field:'k0BNSJDJJE',      width:'7%',align:'right'}">定金 </th> 
                       <th lay-data="{field:'k0BNZJSYBL',      width:'7%',align:'right'}">资金使用% </th> 
-                      <th lay-data="{field:'k0BNYSJY',      width:'7%',align:'right'}">资金结余 </th> 
+                      <th lay-data="{field:'k0BNYSJY',      width:'7%',align:'right'}">资金结余 </th>  -->
                   </tr>
                  </thead>
              </table>
@@ -192,15 +198,15 @@ layui.config({
        
     function renderTable()
     {
-    	layer.load(2);
     	 var month=$("#month").val();
     	 var companyCode=$("#companyCode").val();
     	 month=month.replace("-","");
     	 var v_date=(new Date()).getTime();
-    	 alert(companyCode);
+    	 //alert(companyCode);
     	 var url= '/xmzjlxfx_data?month='+month+"&v_date="+v_date+"&companyCode="+companyCode;
     	 table.init('myTable', {
     			  url: url
+    			  ,height: commonDislodgeTable()-100
     			  ,where: {} ,
     			  done: function (res, curr, count) {layer.closeAll('loading');}
     			  
