@@ -468,8 +468,8 @@
 
 	<sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
-	   	 <if test="g0gsdm != null and g0gsdm!='' ">  AND G0GSDM = #{g0gsdm}</if>
-	   	 <if test="g0gsdm != null and g0gsdm!='' ">  AND G0ANLN1 = #{g0anln1}</if>
+	   	 <if test="g0gsdm != null and g0gsdm!='' ">  AND G0GSDM = #{g0gsdm}</if>/*公司代码*/
+	   	 <if test="g0anln1 != null and g0anln1!='' ">  AND G0ANLN1 = #{g0anln1}</if>/*资产编号*/
 	 </trim>
 	</sql>
 </mapper>

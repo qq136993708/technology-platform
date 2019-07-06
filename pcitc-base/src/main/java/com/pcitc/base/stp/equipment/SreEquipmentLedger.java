@@ -107,6 +107,76 @@ public class SreEquipmentLedger {
 
     private BigDecimal g0ljdjzjje;
 
+    private String equipmentName;
+
+    private String assetNumber;
+
+    private String equipmentPrice;
+
+    private String equipmenNumber;
+
+    private String declareUnit;
+
+    private String declareDepartment;
+
+    private String declarePeople;
+
+    public String getAssetNumber() {
+        return assetNumber;
+    }
+
+    public void setAssetNumber(String assetNumber) {
+        this.assetNumber = assetNumber;
+    }
+
+    public String getEquipmentPrice() {
+        return equipmentPrice;
+    }
+
+    public void setEquipmentPrice(String equipmentPrice) {
+        this.equipmentPrice = equipmentPrice;
+    }
+
+    public String getEquipmenNumber() {
+        return equipmenNumber;
+    }
+
+    public void setEquipmenNumber(String equipmenNumber) {
+        this.equipmenNumber = equipmenNumber;
+    }
+
+    public String getDeclareUnit() {
+        return declareUnit;
+    }
+
+    public void setDeclareUnit(String declareUnit) {
+        this.declareUnit = declareUnit;
+    }
+
+    public String getDeclareDepartment() {
+        return declareDepartment;
+    }
+
+    public void setDeclareDepartment(String declareDepartment) {
+        this.declareDepartment = declareDepartment;
+    }
+
+    public String getDeclarePeople() {
+        return declarePeople;
+    }
+
+    public void setDeclarePeople(String declarePeople) {
+        this.declarePeople = declarePeople;
+    }
+
+    public String getEquipmentName() {
+        return equipmentName;
+    }
+
+    public void setEquipmentName(String equipmentName) {
+        this.equipmentName = equipmentName;
+    }
+
     public String getG0cald() {
         return g0cald;
     }
