@@ -1216,7 +1216,7 @@ public class PurchaseController extends BaseController {
 																				 * =
 																				 */
 		// 写入新文件采购申请单
-		String newFilePath = path.getPath() + "static/template/采购申请Excel测试_" + DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss") + ".xlsx";
+		String newFilePath = path.getPath() + "static/template/采购申请Excel_" + DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss") + ".xlsx";
 		File outFile = new File(newFilePath);
 
 		processDataAndDownload(f, tabldata, parammap, outFile);
