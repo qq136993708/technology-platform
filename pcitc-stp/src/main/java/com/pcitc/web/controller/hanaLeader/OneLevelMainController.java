@@ -49,6 +49,7 @@ import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
+import com.pcitc.web.common.OperationFilter;
 import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.FileUtil;
 import com.pcitc.web.utils.HanaUtil;
@@ -156,14 +157,19 @@ public class OneLevelMainController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/contract_count")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String contract_count(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 		String resault = "";
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String zycbm = CommonUtil.getParameter(request, "zycbm", "");
+		String zylbbm = CommonUtil.getParameter(request, "zylbbm", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
-		System.out.println("1---领导标识，不控制数据" + sysUserInfo.getUserLevel());
+		paramsMap.put("zycbm", zycbm);
+		paramsMap.put("zylbbm", zylbbm);
+		System.out.println("1---领导标识，不控制数据" + sysUserInfo.getUserLevel()+"===="+zylbbm);
+		System.out.println("1---领导标识，不控制数据" + sysUserInfo.getUserLevel()+"===="+zycbm);
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			// 领导标识，不控制数据
 			System.out.println("2---领导标识，不控制数据");

@@ -1211,12 +1211,11 @@
 		from (
 			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1,out_project_plan.PROJECT_PROPERTY
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
-																	and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' 
-																	and out_project_info.project_property not like '%国家%')
+																	and out_project_info.define3='项目管理系统' and out_project_info.ND= '${nd}')
 			WHERE
 				out_project_plan.ND= '${nd}' 
-				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
-				and out_project_plan.project_property not like '%国家%'
+				and out_project_plan.PROJECT_TYPE != '1'
+				and out_project_plan.DEFINE4 = '项目管理系统'
 				<if test="define3 != null and define3 != ''">
 					and out_project_plan.DEFINE3 like '%${define3}%'
 				</if>
