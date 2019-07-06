@@ -172,4 +172,9 @@ public class DetailServiceImpl implements DetailService {
 		// TODO Auto-generated method stub
 		return detailMapper.selectSreDetailId(id);
 	}
+
+	@Override
+	public LayuiTableData getLedgerPage(LayuiTableParam param) {
+		return null;
+	}
 }

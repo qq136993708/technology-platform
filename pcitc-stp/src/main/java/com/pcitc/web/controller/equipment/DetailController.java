@@ -54,7 +54,8 @@ public class DetailController extends BaseController {
 //	private static final String BUDGET_ASSETSPLIT_TITLES = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-assetsplit-titles";
 //	private static final String BUDGET_ASSETSPLIT_INFO = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-assetsplit-info";	
 //	private static final String BUDGET_ASSETSPLIT_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-assetsplit-items";
-	
+
+    private static final String PAGE_LEDGER_URL = "http://pcitc-zuul/stp-proxy/sre-provider/ledger/page";
 	
 	/**
 	 * 列表
@@ -93,7 +94,46 @@ public class DetailController extends BaseController {
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		return "/stp/equipment/detail/detail-list";
 	}
-	
-	
+
+
+	@RequestMapping(value = "/sre-detail/to-equipmentLedger-list")
+	public String equipmentLedgerList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String parentUnitPathNames = map.get("unitName");// 申报单位
+		String parentUnitPathIds = map.get("unitCode");// 申报单位
+		String applyDepartName = map.get("applyDepartName");// 申报部门
+		String applyDepartCode = map.get("applyDepartCode");// 申报部门
+		String unitPathIds= map.get("applyDepartCode");
+		String unitPathNames= map.get("applyDepartName");
+
+		request.setAttribute("unitPathIds", unitPathIds);
+		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+
+		return "/stp/equipment/detail/ledger-list";
+	}
+
+    /**
+     * 查询ERP装备台账
+     * @param param
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/sre-ledger/list")
+    @ResponseBody
+    public String ajaxLedgerList(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+
+        LayuiTableData layuiTableData = new LayuiTableData();
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_LEDGER_URL, HttpMethod.POST, entity, LayuiTableData.class);
+        int statusCode = responseEntity.getStatusCodeValue();
+        if (statusCode == 200) {
+            layuiTableData = responseEntity.getBody();
+        }
+        JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+        logger.info("============result" + result);
+        return result.toString();
+    }
 	
 }
