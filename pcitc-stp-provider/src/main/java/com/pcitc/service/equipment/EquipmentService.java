@@ -85,7 +85,8 @@ public interface EquipmentService {
 	public Result dealInnerTaskFlow(String id, Map map)throws Exception;
 	public Result dealUpTaskFlow(String id, Map map)throws Exception;
 	
-	
+	//带采购金额的
+	public LayuiTableData getSreProjectTaskRelationPage(LayuiTableParam param)throws Exception;
 	
 /**=========================================立项报告==========================================*/
 	

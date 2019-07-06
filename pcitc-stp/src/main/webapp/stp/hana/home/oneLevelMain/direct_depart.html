@@ -710,7 +710,11 @@
 				data7.on('click', function(params) {
 					var xName = params.name;
 					var legentName = params.seriesName;
-					var url = encodeURIComponent("/one_level_main/country_table?define2=" + xName + "&nd=" + nd + "&ysnd=" + nd);
+					var temNd = nd;
+					if (legentName == '结转课题') {
+						temNd = '';
+					}
+					var url = encodeURIComponent("/one_level_main/country_table?define2=" + xName + "&nd=" + temNd + "&ysnd=" + nd + "&ktlx=" + legentName);
 					window.open("/instituteIndex?url=" + url);
 				});
 
@@ -720,7 +724,7 @@
 				echart8.on('click', function(params) {
 					var xName = params.name;
 					var legentName = params.seriesName;
-					var url = encodeURIComponent("/one_level_main/country_table?define2=" + xName + "&nd=" + nd + "&ysnd=" + nd);
+					var url = encodeURIComponent("/one_level_main/country_table?define2=" + xName + "&nd=" + nd + "&ysnd=" + nd + "&ktlx=新开课题");
 					window.open("/instituteIndex?url=" + url);
 				});
 
@@ -730,7 +734,7 @@
 				echart9.on('click', function(params) {
 					var xName = params.name;
 					var legentName = params.seriesName;
-					var url = encodeURIComponent("/one_level_main/country_table?define2=" + xName + "&nd=" + nd + "&ysnd=" + nd);
+					var url = encodeURIComponent("/one_level_main/country_table?define2=" + xName + "&ysnd=" + nd + "&ktlx=结转课题");
 					window.open("/instituteIndex?url=" + url);
 				});
 
@@ -811,16 +815,12 @@
 
 		// 国家课题情况 详情
 		function countryProjectDetail(labelFlag) {
-			var qdbz = '';
-			if (labelFlag == '实际科研投入') {
-				qdbz = '已签订';
+			
+			var temNd = '';
+			if (labelFlag == '新开课题') {
+				temNd = nd;
 			}
-
-			if (labelFlag == '未执行') {
-				qdbz = '未签订';
-			}
-			var define12 = '直属研究院';
-			var url = encodeURIComponent("/one_level_main/common_table?qdbz=" + qdbz + "&define12=" + define12 + "&ysnd=" + nd + "&nd=" + nd + "&groupFlag=xmid,define8");
+			var url = encodeURIComponent("/one_level_main/country_table?nd=" + temNd + "&ysnd=" + nd + "&ktlx=" + labelFlag);
 			window.open("/instituteIndex?url=" + url);
 		}
 	</script>

@@ -25,7 +25,9 @@ public interface SreProjectTaskMapper {
     
 	public List<SreProjectTask> getSreProjectTaskListBytopicId(String topicId);
     
-    
+	List getRelationList(Map map);
+	
+	
     List getList(Map map);
     
     List getListByErpnum(Map map);

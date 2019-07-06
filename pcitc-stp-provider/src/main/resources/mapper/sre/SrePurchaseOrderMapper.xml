@@ -35,6 +35,15 @@
     <result column="G0DDLX" jdbcType="VARCHAR" property="g0ddlx" />
     <result column="K0XMDDSL" jdbcType="INTEGER" property="k0xmddsl" />
     <result column="K0XMDDJE" jdbcType="DECIMAL" property="k0xmddje" />
+    
+    
+    
+    <result column="K0XMRKSL" jdbcType="VARCHAR" property="k0xmrksl" />
+    <result column="K0XMRKJE" jdbcType="DECIMAL" property="k0xmrkje" />
+    <result column="K0XMLYSL" jdbcType="VARCHAR" property="k0xmlysl" />
+    <result column="K0XMLYJE" jdbcType="DECIMAL" property="k0xmlyje" />
+    
+    
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
   </resultMap>
   
@@ -314,7 +323,7 @@
   </select>
   
   
-   <select id="getErpOrderListByG0PROJCODE" resultMap="BaseResultMap" parameterType="string" >
+   <!-- <select id="getErpOrderListByG0PROJCODE" resultMap="BaseResultMap" parameterType="string" >
 		   SELECT 
 		  '合计' AS "G0EBELN",
 		  '-' AS "G0DDLX",
@@ -344,7 +353,18 @@
 		  sre_purchase_order t 
 		WHERE t.`G0PROJCODE` = #{g0projcode,jdbcType=VARCHAR}
 		order by G0EBELN
+     </select> -->
+     
+     
+     <select id="getErpOrderListByG0PROJCODE" resultMap="BaseResultMap" parameterType="string" >
+		SELECT t.*,t3.K0XMLYJE,t3.K0XMRKJE,t3.K0XMRKSL,t3.K0XMLYSL FROM
+		  (SELECT * FROM sre_purchase_order tv WHERE tv.`G0PROJCODE` = #{g0projcode,jdbcType=VARCHAR})t
+		LEFT JOIN 
+		 (SELECT G0EBELN, G0EBELP,SUM(t2.`K0XMLYJE`) AS K0XMLYJE,SUM(t2.`K0XMRKJE`) AS K0XMRKJE,SUM(t2.`K0XMRKSL`) AS K0XMRKSL,SUM(t2.`K0XMLYSL`) AS K0XMLYSL  FROM sre_purchase_arrival t2 WHERE t2.`G0PROJCODE`=#{g0projcode,jdbcType=VARCHAR} GROUP BY t2.`G0EBELN`, t2.G0EBELP) t3
+		ON t.`G0EBELN`=t3.G0EBELN AND t.`G0EBELP`=t3.G0EBELP
+		ORDER BY G0EBELN
      </select>
+     
      
      
 </mapper>
