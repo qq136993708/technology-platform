@@ -710,7 +710,11 @@
 				data7.on('click', function(params) {
 					var xName = params.name;
 					var legentName = params.seriesName;
-					var url = encodeURIComponent("/one_level_main/country_table?define2=" + xName + "&nd=" + nd + "&ysnd=" + nd);
+					var temNd = nd;
+					if (legentName == '结转课题') {
+						temNd = '';
+					}
+					var url = encodeURIComponent("/one_level_main/country_table?define2=" + xName + "&nd=" + temNd + "&ysnd=" + nd);
 					window.open("/instituteIndex?url=" + url);
 				});
 
