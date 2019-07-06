@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+	<!-- 数据库驱动包位置 -->
+	<classPathEntry location="D:\java\workspace\workspace_findworker\slxj\WebRoot\WEB-INF\lib\mysql-connector-java-5.1.7-bin.jar" />
+	<context id="context1">
+		<!-- 去除自动生成的注释 -->
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		<!-- 数据库配置 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://10.246.94.11:3306/pcitc_stp?characterEncoding=UTF-8&amp;autoReconnect=true&amp;serverTimezone=GMT%2B8&amp;useSSL=false" userId="pcitc" password="Pcitc@123456" />
+		<!--model配置   -->
+	    <javaModelGenerator targetPackage="com.pcitc.base.stp.equipment" targetProject="pcitc-base" /> 
+		<!-- MAPPER配置 -->
+		<sqlMapGenerator     targetPackage="com.pcitc.mapper.equipment" targetProject="pcitc-hana-provider"  />
+	    <javaClientGenerator targetPackage="com.pcitc.mapper.equipment"    targetProject="pcitc-hana-provider"  type="XMLMAPPER" />
+		<!-- 数据库表配置 -->
+		<table schema="pcitc-hana-provider" tableName="sre_project_money" domainObjectName="ProjectMoney"
+			enableCountByExample="false" 
+			enableUpdateByExample="false"
+			enableDeleteByExample="false" 
+			enableSelectByExample="false"
+			selectByExampleQueryId="false">
+		</table>
+		
+	</context>
+</generatorConfiguration>
+
