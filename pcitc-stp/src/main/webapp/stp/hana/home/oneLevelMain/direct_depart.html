@@ -290,19 +290,19 @@
 						<div class="text-total">
 							<span>
 								总计:
-								<span class="text-total-blue" id="direct_kt_chart1_01">
+								<span class="text-total-blue" id="direct_kt_chart1_01"  onclick="countryProjectDetail('总计')" style="cursor: pointer">
 									<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 								</span>
 							</span>
 							<span>
 								新开课题:
-								<span class="text-total-blue" id="direct_kt_chart1_02">
+								<span class="text-total-blue" id="direct_kt_chart1_02"  onclick="countryProjectDetail('新开课题')" style="cursor: pointer">
 									<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 								</span>
 							</span>
 							<span>
 								结转课题:
-								<span class="text-total-blue" id="direct_kt_chart1_03">
+								<span class="text-total-blue" id="direct_kt_chart1_03"  onclick="countryProjectDetail('结转课题')" style="cursor: pointer">
 									<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 								</span>
 							</span>
@@ -328,10 +328,6 @@
 					</div>
 				</div>
 			</div>
-
-
-
-
 
 		</div>
 	</div>
@@ -627,7 +623,8 @@
 					var xName = params.name;
 					var legentName = params.seriesName;
 					var url = encodeURIComponent("/one_level_main/common_table?define2=" + xName + "&define1=" + legentName + "&ysnd=" + nd + "&groupFlag=xmid,define8");
-					window.open("/instituteIndex?url=" + url);
+					
+		window.open("/instituteIndex?url=" + url);
 
 				});
 
@@ -713,7 +710,8 @@
 				data7.on('click', function(params) {
 					var xName = params.name;
 					var legentName = params.seriesName;
-					window.open("/one_level_main/country_table?define2=" + xName + "&nd=" + nd + "&ysnd=" + nd);
+					var url = encodeURIComponent("/one_level_main/country_table?define2=" + xName + "&nd=" + nd + "&ysnd=" + nd);
+					window.open("/instituteIndex?url=" + url);
 				});
 
 				//新开课题
@@ -722,7 +720,8 @@
 				echart8.on('click', function(params) {
 					var xName = params.name;
 					var legentName = params.seriesName;
-					window.open("/one_level_main/country_table?define2=" + xName + "&nd=" + nd + "&ysnd=" + nd);
+					var url = encodeURIComponent("/one_level_main/country_table?define2=" + xName + "&nd=" + nd + "&ysnd=" + nd);
+					window.open("/instituteIndex?url=" + url);
 				});
 
 				//结转课题
@@ -731,7 +730,8 @@
 				echart9.on('click', function(params) {
 					var xName = params.name;
 					var legentName = params.seriesName;
-					window.open("/one_level_main/country_table?define2=" + xName + "&nd=" + nd + "&ysnd=" + nd);
+					var url = encodeURIComponent("/one_level_main/country_table?define2=" + xName + "&nd=" + nd + "&ysnd=" + nd);
+					window.open("/instituteIndex?url=" + url);
 				});
 
 			}
@@ -806,6 +806,21 @@
 				temND = nd
 			}
 			var url = encodeURIComponent("/one_level_main/count_table?ysnd=" + nd + "&nd=" + temND + "&v_date=" + v_date + "&ktlx=" + ktlx + "&define1=" + define1 + "&define12=直属研究院&groupFlag=xmid,define8");
+			window.open("/instituteIndex?url=" + url);
+		}
+
+		// 国家课题情况 详情
+		function countryProjectDetail(labelFlag) {
+			var qdbz = '';
+			if (labelFlag == '实际科研投入') {
+				qdbz = '已签订';
+			}
+
+			if (labelFlag == '未执行') {
+				qdbz = '未签订';
+			}
+			var define12 = '直属研究院';
+			var url = encodeURIComponent("/one_level_main/common_table?qdbz=" + qdbz + "&define12=" + define12 + "&ysnd=" + nd + "&nd=" + nd + "&groupFlag=xmid,define8");
 			window.open("/instituteIndex?url=" + url);
 		}
 	</script>

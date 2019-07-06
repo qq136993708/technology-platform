@@ -367,7 +367,6 @@ public class OneLevelMainController extends BaseController {
 
 	/**
 	 * =======================================================国博--详情============
-	 * ==============================================
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/country_table")
 	public String country_table(HttpServletRequest request) throws Exception {
