@@ -59,6 +59,12 @@
        
        <result column="G0ANLN1"     property="g0ANLN1"        jdbcType="VARCHAR" />
        <result column="G0TXT50"     property="g0TXT50"        jdbcType="VARCHAR" />
+       
+       <result column="K0LJSJZC"     property="k0LJSJZC"        jdbcType="DECIMAL" />
+       <result column="K0BNSJZC"     property="k0BNSJZC"        jdbcType="DECIMAL" />
+       
+       
+       
      </resultMap>
      
       <!-- 投资项目完成情况统计表--> 

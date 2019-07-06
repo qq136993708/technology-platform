@@ -170,17 +170,18 @@ function exput_excel()
         height: "620px",
         limit: 15,
         cols: [[
-            {field:'g0GSJC',            title:'院所',            style:'cursor: pointer;',align: 'left', width: '9%',templet:function(d){return '<span onclick="view(\''+d.g0GSJC+'\')" style="color:#1890ff">'+d.g0GSJC+'</span>'}},
+            {field:'g0GSJC',            title:'院所',            style:'cursor: pointer;',align: 'left', width: '9%',templet:function(d){return '<span onclick="view(\''+d.g0GSJC+'\')" style="color:#1890ff">'+d.g0GSJC+'</span>'},sort : true},
             {field:'k0ZTYSJE',          title:'计划总投资',        style:'cursor: pointer;',align: 'right', width: '9%'},
             {field:'k0LJGLFPHJECB',     title:'累计支出额',        style:'cursor: pointer;',align: 'right', width: '9%'},
             {field:'k0LJSJDJJE',        title:'预付余额',          style:'cursor: pointer;',align: 'right', width: '9%'},
-            {field:'aDD1',              title:'累计投资完成额',      style:'cursor: pointer;',align: 'right', width: '9%'},
-            {field:'k0LJYSJY',          title:'项目资金计划结余',     style:'cursor: pointer;',align: 'right', width: '9%'},
+            {field:'k0LJSJZC',          title:'投资完成额',      style:'cursor: pointer;',align: 'right', width: '9%'},
+            {field:'k0LJYSJY',          title:'资金计划结余',     style:'cursor: pointer;',align: 'right', width: '9%'},
+            
             {field:'k0BNYSJHJE',        title:'本年投资计划',        style:'cursor: pointer;',align: 'right', width: '9%'},
             {field:'k0BNGLFPHJECB',     title:'本年累计支出',        style:'cursor: pointer;',align: 'right', width: '9%'},
             {field:'k0BNSJDJJE',        title:'本年预付款',          style:'cursor: pointer;',align: 'right', width: '9%'},
-            {field:'aDD2',              title:'本年投资完成额',       style:'cursor: pointer;',align: 'right', width: '9%'},
-            {field:'k0BNYSJY',          title:'本年资金计划结余',      style:'cursor: pointer;',align: 'right', width: '9%'}
+            {field:'k0BNSJZC',          title:'投资完成额',       style:'cursor: pointer;',align: 'right', width: '9%'},
+            {field:'k0BNYSJY',          title:'资金计划结余',      style:'cursor: pointer;',align: 'right', width: '9%'}
             
             
         ]],

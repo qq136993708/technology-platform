@@ -80,10 +80,28 @@ public class ScientificInvestment implements Serializable{
 	    private String g0ANLN1;
 	    private String g0TXT50;
 	    
+	    private BigDecimal k0LJSJZC;
+	    private BigDecimal k0BNSJZC;
+	    
+	    
+	       
+	    
 	    
 	    
 	    
 	   
+		public BigDecimal getK0LJSJZC() {
+			return k0LJSJZC;
+		}
+		public void setK0LJSJZC(BigDecimal k0ljsjzc) {
+			k0LJSJZC = k0ljsjzc;
+		}
+		public BigDecimal getK0BNSJZC() {
+			return k0BNSJZC;
+		}
+		public void setK0BNSJZC(BigDecimal k0bnsjzc) {
+			k0BNSJZC = k0bnsjzc;
+		}
 		public String getG0ANLN1() {
 			return g0ANLN1;
 		}
