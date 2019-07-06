@@ -11,17 +11,21 @@
 <body>
 
 
-<div class="">
+<form action="">
 <input  name="month"          id="month"        value="${month}"   type="hidden">
 <input  name="code"    id="code"  value="${code}"   type="hidden">
-    
-</div>
+</form>
 
-<div class="tableBox" style="clear:both">
+<div class="tableBox" style="margin:2px">
  <table id="myTable2" class="layui-hide" lay-filter="myTable2">
 </div>
 <script id="g0DDLX_id" type="text/html"> {{getG0DDLXid(d.g0ddlx)}} </script>
 <script id="k0xmddje_id" type="text/html"> {{getk0xmddje(d.k0xmddje)}} </script>
+<script id="k0xmrkje_id" type="text/html"> {{getk0xmddje(d.k0xmrkje)}} </script>
+<script id="k0xmlyje_id" type="text/html"> {{getk0xmddje(d.k0xmlyje)}} </script>
+
+<script id="k0xmlysl_id" type="text/html"> {{getk0xmlysl(d.k0xmlysl)}} </script>
+<script id="k0xmrksl_id" type="text/html"> {{getk0xmlysl(d.k0xmrksl)}} </script>
 
 
 <script id="dateTpl" type="text/html"> {{formatTime(d.SQRI)}} </script>
@@ -35,7 +39,6 @@ function getk0xmddje(d)
 	{
 		d="-";
 	}
-	
 	return '<span style="color:red">'+d+'</span>';
 }
 function getG0DDLXid(d) 
@@ -49,6 +52,23 @@ function getG0DDLXid(d)
         return "<span style='color:#ccc'>服务</span>"; 
     }
 }
+
+
+function getk0xmlysl(d) 
+{
+	
+  
+	if(typeof(d) == 'undefined')
+	{
+		d=0;
+	}
+	
+	
+	return '<span >'+Math.round(d)+'</span>';
+	
+	
+}
+
 
 
     // 时间格式化
@@ -137,6 +157,7 @@ layui.config({
         where: {param: {"month":month, "code":$("#code").val()}},
         id: 'myTable2',
         limit: 1000,
+        height: commonDislodgeTable(),
        /*  page: {
             groups: 5,
             limits: [10,20,30,40],
@@ -155,7 +176,12 @@ layui.config({
             {field:'k0xmddsl',             title:'采购数量',        style:'cursor: pointer;',align: 'center', width: '10%',sort : true},
             {field:'g0lifnr',             title:'供应商号',        style:'cursor: pointer;',align: 'left', width: '8%',sort : true},
             {field:'g0name2',             title:'供应商名称',        style:'cursor: pointer;',align: 'left', width: '15%',sort : true},
-            {field:'g0ddlx',              title:'采购类型',        style:'cursor: pointer;',align: 'center', width: '8%',templet : '#g0DDLX_id',sort : true}
+            {field:'g0ddlx',              title:'采购类型',        style:'cursor: pointer;',align: 'center', width: '8%',templet : '#g0DDLX_id',sort : true},
+            
+            {field:'k0xmrkje',             title:'入库金额',        style:'cursor: pointer;',align: 'right', width: '8%',sort : true,templet : '#k0xmrkje_id'},
+            {field:'k0xmrksl',             title:'入库数量',        style:'cursor: pointer;',align: 'center', width: '8%',sort : true,templet : '#k0xmrksl_id'},
+            {field:'k0xmlyje',             title:'领用金额',        style:'cursor: pointer;',align: 'right', width: '8%',sort : true,templet : '#k0xmlyje_id'},
+            {field:'k0xmlysl',             title:'领用数量',        style:'cursor: pointer;',align: 'center', width: '8%',sort : true,templet : '#k0xmlysl_id'}
             
         ]],
         done: function (res, curr, count) {

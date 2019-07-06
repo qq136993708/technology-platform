@@ -367,6 +367,20 @@ public class EquipmentProviderClient
 		return equipmentService.getSreProjectTaskPage(paramsJson);
 	}
 	
+	
+	
+	@ApiOperation(value = "任务书统计列表-带采购信息的", notes = "任务书统计列表-带采购信息的")
+	@RequestMapping(value = "/sre-provider/project_relation_task/page", method = RequestMethod.POST)
+	public LayuiTableData getSreProjectTaskRelationPage(@RequestBody LayuiTableParam paramsJson)throws Exception
+	{
+		logger.info("==================page getSreProjectTaskRelationPage==========================="+paramsJson);
+		return equipmentService.getSreProjectTaskRelationPage(paramsJson);
+	}
+	
+	
+	
+	
+	
 	@ApiOperation(value = "增加任务书", notes = "增加任务书")
 	@RequestMapping(value = "/sre-provider/project_task/add", method = RequestMethod.POST)
 	public String insertSreSreProjectTask(@RequestBody SreProjectTask sreProjectTask) throws Exception{
