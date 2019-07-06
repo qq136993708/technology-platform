@@ -460,7 +460,7 @@ public class DirectController extends BaseController {
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_ALL);
-		String typeFlag = CommonUtil.getParameter(request, "typeFlag ", "研究院");
+		String typeFlag = CommonUtil.getParameter(request, "typeFlag", "研究院");
 		String xmlbbm = CommonUtil.getParameter(request, "xmlbbm ", "");
 		String type = CommonUtil.getParameter(request, "type", "1");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
@@ -1190,11 +1190,13 @@ public class DirectController extends BaseController {
 		Result result = new Result();
 		PageResult pageResult = new PageResult();
 		String type = CommonUtil.getParameter(request, "type", "");
+		String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "");
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String typeFlag = CommonUtil.getParameter(request, "typeFlag ", "研究院");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("typeFlag", typeFlag);
+		paramsMap.put("xmlbbm", xmlbbm);
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			// 领导标识，不控制数据
 			paramsMap.put("leaderFlag", "1");
@@ -1296,9 +1298,11 @@ public class DirectController extends BaseController {
 
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-		String typeFlag = CommonUtil.getParameter(request, "typeFlag ", "研究院");
+		String typeFlag = CommonUtil.getParameter(request, "typeFlag", "研究院");
+		String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
+		paramsMap.put("xmlbbm", xmlbbm);
 		paramsMap.put("typeFlag", typeFlag);
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			// 领导标识，不控制数据

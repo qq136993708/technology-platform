@@ -447,6 +447,8 @@
 						"leaderFlag" : $("#leaderFlag").val(),
 						"project_property" : $("#project_property").val(),
 						"projectId" : $("#projectId").val(),
+						"leaderFlag" : $("#leaderFlag").val(),
+						"fzdwflag" : $("input[name='fzdwflag']:checked").val(),
 						"groupFlag" : $("#groupFlagSelector").find("option:selected").val()
 
 					}
@@ -515,9 +517,7 @@
 					align : 'center',
 					width : '130',
 					sort : true
-				},
-
-				{
+				}, {
 					field : 'yszbxje',
 					title : '资本性预算',
 					style : 'cursor: pointer;',
@@ -572,6 +572,13 @@
 					style : 'cursor: pointer;',
 					align : 'left',
 					width : '140',
+					sort : true
+				}, {
+					field : 'projectProperty',
+					title : '项目类型',
+					style : 'cursor: pointer;',
+					align : 'left',
+					width : '100',
 					sort : true
 				}, {
 					field : 'zylb',
