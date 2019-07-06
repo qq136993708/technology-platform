@@ -3024,11 +3024,13 @@
 				</foreach>
 				)
 			</if>
+			
+			<!-- define12, 财务相关的牵头单位，所以查询define13 -->
 			<if test="fzdwflag != null and fzdwflag == '牵头单位'">
 				<if test="define12 != null">
 					and (
 					<foreach collection="define12" item="define12" index="index" separator=" or ">
-						out_project_info.fzdwunit like '%${define12}%'
+						out_project_info.define13 like '%${define12}%'
 					</foreach>
 					)
 				</if>
@@ -3041,11 +3043,12 @@
 				</if>
 			</if>
 			
+			<!-- define12, 财务相关的承担单位，所以查询type_flag -->
 			<if test="fzdwflag == null or fzdwflag == '' or fzdwflag == '承担单位'">
 				<if test="define12 != null">
 					and (
 					<foreach collection="define12" item="define12" index="index" separator=" or ">
-						out_project_info.define12 like '%${define12}%'
+						out_project_info.type_flag like '%${define12}%'
 					</foreach>
 					)
 				</if>
@@ -3071,9 +3074,6 @@
 				</foreach>
 				)
 			</if>
-			<if test="project_property == null">
-				and out_project_info.project_property not like '%国家%'
-			</if>
 			<if test="zylb != null">
 				and (
 				<foreach collection="zylb" item="zylb" index="index" separator=" or ">
@@ -3096,13 +3096,17 @@
 					and out_project_info.nd = '1900'
 				</if>
 		    </if>
-			<!--add start-->
-	        <if test="keyword != null">
-	            ${keyword}
-	        </if>
-	        <!--add end-->
-			
-			group by xmid,ysnd
+			<if test="groupFlag != null and groupFlag != ''">
+				<if test="groupFlag != null and groupFlag != ''">
+					GROUP BY ${groupFlag}
+				</if>
+				<if test="groupFlag == null or groupFlag == ''">
+					GROUP BY xmid
+				</if>
+			</if>
+			<if test="groupFlag == null">
+				GROUP BY xmid
+			</if>
 			<if test="orderKey != null and orderKey != ''">
 				<if test="orderType != null and orderType != ''">
 					order by ${orderKey} ${orderType}
