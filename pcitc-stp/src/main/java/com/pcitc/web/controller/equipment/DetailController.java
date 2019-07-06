@@ -135,5 +135,123 @@ public class DetailController extends BaseController {
         logger.info("============result" + result);
         return result.toString();
     }
-	
+
+     /*=================================导出Excel文档 START================================*/
+    @RequestMapping("sre-ledger/exportExcel")
+    public void downBudgetGroupSplit(HttpServletResponse res) throws IOException {
+        LayuiTableParam param = new LayuiTableParam();
+        param.setLimit(100);
+        param.setPage(1);
+        System.out.println(JSON.toJSONString(param));
+        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PAGE_LEDGER_URL, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), LayuiTableData.class);
+        LayuiTableData tabldata = responseEntity.getBody();
+
+        Map<String, String> parammap = new HashMap<String, String>();
+
+        URL path = this.getClass().getResource("/");
+        File f = new File(path.getPath() + "static/template/equipmentLedger.xlsx");
+        // 写入新文件采购申请单模板
+        String newFilePath = path.getPath() + "static/template/装备台账Excel_" + DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss") + ".xlsx";
+        File outFile = new File(newFilePath);
+
+        processDataAndDownload(f, tabldata, parammap, outFile);
+        // 下载文件
+        this.fileDownload(new File(newFilePath), res);
+    }
+
+    private XSSFWorkbook workbook;
+    private XSSFSheet sheet;
+
+    private void processDataAndDownload(File template, LayuiTableData tableData, Map<String, String> param, File outFile) {
+        try {
+            InputStream is = new FileInputStream(template);
+            workbook = new XSSFWorkbook(is);
+            sheet = workbook.getSheetAt(0);
+
+            // 从第二行开始数据
+            int c_index = 0;
+            for (java.util.Iterator<?> iter = tableData.getData().iterator(); iter.hasNext();) {
+                c_index++;
+                JSONObject json = JSON.parseObject(JSON.toJSONString(iter.next()));
+
+                String equipmentName = json.getString("equipmentName");
+                String equipmentPrice = json.getString("equipmentPrice");
+                String equipmenNumber = json.getString("equipmenNumber");
+                String declareUnit = json.getString("declareUnit");
+                String declareDepartment = json.getString("declareDepartment");
+                String declarePeople = json.getString("declarePeople");
+                String assetNumber = json.getString("assetNumber");
+                String g0txt50 = json.getString("g0txt50");
+                String g0naprz = json.getString("g0naprz");
+                String g0saprz = json.getString("g0saprz");
+                String g0schrw = json.getString("g0schrw");
+                String g0ncgzyzje = json.getString("g0ncgzyzje");
+
+
+
+                Row row = sheet.getRow(c_index);
+                if (row == null) {
+                    row = sheet.createRow(c_index);
+                }
+
+                row.createCell(0).setCellValue(equipmentName);
+                row.createCell(1).setCellValue(equipmentPrice);
+                row.createCell(2).setCellValue(equipmenNumber);
+                row.createCell(3).setCellValue(declareUnit);
+                row.createCell(4).setCellValue(declareDepartment);
+                row.createCell(5).setCellValue(declarePeople);
+                row.createCell(6).setCellValue(assetNumber);
+                row.createCell(7).setCellValue(g0txt50);
+                row.createCell(8).setCellValue(g0naprz);
+                row.createCell(9).setCellValue(g0saprz);
+                row.createCell(10).setCellValue(g0schrw);
+                row.createCell(11).setCellValue(g0ncgzyzje);
+            }
+
+            // 写入新文件
+            FileOutputStream fos = new FileOutputStream(outFile);
+            workbook.write(fos);
+            // 关闭流
+            closeIO(fos);
+            closeIO(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void fileDownload(File file, HttpServletResponse res) {
+        OutputStream out = null;
+        InputStream in = null;
+        try {
+
+            res.setHeader("content-type", "application/octet-stream");
+            res.setContentType("application/octet-stream");
+            res.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(file.getName(), "UTF-8"));
+
+            out = res.getOutputStream();
+            in = new FileInputStream(file);
+
+            byte[] b = new byte[1000];
+            int len;
+            while ((len = in.read(b)) > 0) {
+                out.write(b, 0, len);
+            }
+            closeIO(in);
+            closeIO(out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void closeIO(Closeable io) {
+        if (io != null) {
+            try {
+                io.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+     /*=================================导出Excel文档 END================================*/
 }
