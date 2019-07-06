@@ -154,7 +154,6 @@ function search_Event()
 
 function myTable()
 {
-	layer.load(2);
 	 var month=$("#month").val();
 	 month=month.replace("-","");
 	 var companyCode=$("#companyCode").val();
@@ -162,6 +161,7 @@ function myTable()
 	 var url= '/yclzctjb_data?month='+month+"&v_date="+v_date+"&companyCode="+companyCode;
 	    table.init('myTable', {
 			  url: url
+			  ,height: commonDislodgeTable()-100
 			  ,where: {},
 			  done: function (res, curr, count) {layer.closeAll('loading');}
 			  

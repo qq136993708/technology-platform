@@ -275,11 +275,13 @@ var name=$('#name').val();
             	 {field : 'topicName',     title : '课题名称',      style : 'cursor: pointer;', align: 'left', width : '20%',templet:function(d){return '<span onclick="view_project(\''+d.topicId+'\')" style="color:#1890ff">'+d.topicName+'</span>'},sort : true},
             	 {field : 'topicName',     title : '任务书',     style : 'cursor: pointer;', align: 'left', width : '20%',templet:function(d){return '<span   onclick="view_isWriteTask(\''+d.taskId+'\')" style="color: #1890ff">'+d.topicName+'</span>'},sort : true},
             	 {field : 'projectMoney',    title : '总经费(万元)', style : 'cursor: pointer;', align: 'center', width : '8%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'},sort : true},
+            	
+            	 {field : 'erpNum', title : 'ERP采购订单号', style : 'cursor: pointer;', align: 'center', width : '8%',sort : true,templet : '#getErpOrderlist_tlp_id'},
             	 {field : 'purchaseMoney',   title : '已采购金额(万元)', style : 'cursor: pointer;', align: 'center', width : '8%',templet : '#purchase_money_id',sort : true},
             	 {field : 'setupYear', title : '立项年份', style : 'cursor: pointer;', align: 'center', width : '8%',sort : true},
             	 {field : 'leadUnitName',   title : '牵头单位',    style : 'cursor: pointer;', align: 'left', width : '8%',sort : true},
             	 {field : 'contractNum', title : '合同号', style : 'cursor: pointer;', align: 'center', width : '8%',sort : true},
-            	 {field : 'erpNum', title : 'ERP号', style : 'cursor: pointer;', align: 'center', width : '8%',sort : true,templet : '#getErpOrderlist_tlp_id'},
+            	
             	 {field : 'auditStatus',    title : '总部审核状态',        style : 'cursor: pointer;', align: 'center', width : '15%', width : 100, templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>',sort : true},
                  {field : 'isWriteSetup',  title : '立项报告',  style : 'cursor: pointer;', align: 'center', width : '8%',templet:function(d){return '<span   onclick="view_isWriteSetup(\''+d.setupId+'\')" style="color: #1890ff">详情</span>'},sort : true},
                  {field : 'setupYear',      title : '立项年份', style : 'cursor: pointer;', align: 'center', width : '8%',sort : true},

@@ -42,7 +42,7 @@
         <div class="whiteLine"></div>
         <div  class="tableBtns">
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"     data-type="addEvent"  id="addEvent" > 新增</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"    data-type="editEvent"  id="editEvent" >编辑</button>
+           <!--  <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"    data-type="editEvent"  id="editEvent" >编辑</button> -->
             <!-- <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit"    data-type="submitEvent"  id="submitEvent" >提交</button> -->
                      <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent" id="detailEvent" >详情</button>
                     <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="uploadEvent">上传</button>
@@ -55,7 +55,7 @@
 </div>
 
 
-<script id="dateTpl" type="text/html"> {{formatTime(d.applicationTime)}} </script>
+<script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script type="text/html" id="status_buttonTpl">
     {{#  if(d.status == '20'){ }}
     <button class="layui-btn layui-btn-normal layui-btn-xs">已通过</button>
@@ -500,7 +500,7 @@ var name=$('#name').val();
             {field : 'name',     title : '报废名称', style : 'cursor: pointer;',sort : true,  align : 'left', width : '20%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.name+'</span>'}},
             {field : 'status', title : '状态', style : 'cursor: pointer;', align : 'center',sort : true, width : '30%',templet:'#status_buttonTpl'},
             {field : 'createUser',     title : '创建人', sort : true, style : 'cursor: pointer;', align : 'left', width : '25%' },
-            {field : 'updateUser', title : '更新人', sort : true, style : 'cursor: pointer;',width : '14.6%',align : 'center'},
+            {field : 'createDate', title : '创建时间', sort : true, style : 'cursor: pointer;',width : '14.6%',align : 'center',templet : '#dateTpl'},
          
                
            ]],

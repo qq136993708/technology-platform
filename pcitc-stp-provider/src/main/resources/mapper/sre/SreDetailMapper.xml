@@ -26,6 +26,8 @@
      <result column="isscrap" property="isscrap" jdbcType="VARCHAR" />
      <result column="unitPathIds" property="unitPathIds" jdbcType="VARCHAR" />
      <result column="parentUnitPathIds" property="parentUnitPathIds" jdbcType="VARCHAR" />
+     
+     <result column="G0SCHRW" property="g0schrw" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, equipment_id, equipment_name, equipment_type, equipment_price, equipmen_number, 

@@ -309,6 +309,7 @@ public class ForApplicationController extends BaseController {
 			sreDeta.setDeclareTime(squipment.getCreateDate());//申报时间
 			sreDeta.setUnitPathIds(parentUnitPathIds);//子ID
 			sreDeta.setParentUnitPathIds(applyDepartCode);//父ID
+			sreDeta.setSupplier(companyCode);
 			sreDeta.setConfigure(id);//转资申请ID
 			sreDeta.setIsscrap(Constant.EQUME_ZERO);
 			if(arr!=null) {
