@@ -2601,7 +2601,7 @@
 	    	SUBSTR(define2 FROM 6) define2
 		from out_project_info
 		where project_type != '1' and out_project_info.ysnd = '${nd}'  and 
-			   type_flag like '%直属研究院%' and out_project_info.define3 = '项目管理系统' 
+			  type_flag like '%直属研究院%' and out_project_info.define3 = '项目管理系统' 
 			  <if test="xmlbbm != null and xmlbbm == 'kyzb'">
 				 and xmlbbm ='KYZB'
 			  </if>
@@ -2707,16 +2707,8 @@
 	<select id="getProjectNewOldInfoByType" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select 
 			sum(case when nd = '${nd}' then 1 else 0 end) as xksl,
-		    sum(case when nd &lt; '${nd}' then 1 else 0 end) as xjsl,
+		    sum(case when nd <![CDATA[< ]]> '${nd}' then 1 else 0 end) as xjsl,
 		    count(*) as zsl,
-			( select count(DISTINCT xmid) 
-			  from out_project_info 
-				  where 
-					project_type != '1' 
-					and out_project_info.define3 = '项目管理系统' 
-					and out_project_info.ysnd = '${nd}'
-					and type_flag like '%直属研究院%'
-			) as temsh,
 			round(count(DISTINCT xmid)/(select count(DISTINCT xmid) 
 										from out_project_info 
 										where 
@@ -2724,31 +2716,44 @@
 											and out_project_info.define3 = '项目管理系统' 
 											and out_project_info.ysnd = '${nd}'
 											and type_flag like '%直属研究院%'
+											<if test="xmlbbm != null and xmlbbm == 'kyzb'">
+												 and xmlbbm ='KYZB'
+											</if>
+											<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
+												 and xmlbbm !='KYZB'
+											</if>
 										)*100, 2) as zslRate,
 			round(sum(case when nd = '${nd}' then 1 else 0 end)/count(*)*100, 2) as xkRate,
-			round(sum(case when nd &lt; '${nd}' then 1 else 0 end)/count(*)*100, 2) as xjRate,
+			round(sum(case when nd <![CDATA[< ]]> '${nd}' then 1 else 0 end)/count(*)*100, 2) as xjRate,
 			project_property
 		from (
-			select nd,xmid,project_property
-			FROM out_project_info
+		    select nd,ysnd,xmid,project_property
+			from  out_project_info
 			where 
 				  project_type != '1' 
 				  and out_project_info.define3 = '项目管理系统' 
-      		      and out_project_info.ysnd = '${nd}'
+	  		      and out_project_info.ysnd = '${nd}'
 				  and type_flag like '%直属研究院%'
-      		GROUP BY out_project_info.xmid) as tableA
+				  <if test="xmlbbm != null and xmlbbm == 'kyzb'">
+					 and xmlbbm ='KYZB'
+				  </if>
+				  <if test="xmlbbm != null and xmlbbm == 'fkyzb'">
+					 and xmlbbm !='KYZB'
+				  </if>
+				  group by xmid
+		) as tableA
 		group by project_property
 		
 	</select>
 	
 	<!--  领导二级页面，各类型技术的新开、结转情况 -->
 	<select id="getProjectInfoByTecTypeWithOldNew" resultType="java.util.Map" parameterType="java.util.HashMap">
-		SELECT SUBSTR(define5 FROM 4) define5,SUM(zsl) zsl,SUM(xksl) xksl,SUM(xjsl) xjsl FROM (
+		SELECT SUBSTR(define5 FROM 4) define5,count(*) as zsl,
+		       SUM(xksl) xksl,SUM(xjsl) xjsl FROM (
 			select 
 				case when define5 is null then '109其他相关技术' else define5 end as define5,
-					 count(*) as zsl,
-				   sum(case when nd = '${nd}' then 1 else 0 end) as xksl,
-			       sum(case when nd &lt; '${nd}' then 1 else 0 end) as xjsl
+				case when nd = '${nd}' then 1 else 0 end as xksl,
+			    case when nd &lt; '${nd}' then 1 else 0 end as xjsl
 			from out_project_info
 			WHERE
 				ysnd= '${nd}' and project_type != '1' and out_project_info.define3 = '项目管理系统' 
@@ -2771,6 +2776,7 @@
 			    </if>
 			group by xmid) AS tableA 
 		GROUP BY tableA.define5
+		order by tableA.define5
 	</select>
 	
 	<!--  领导首页-十条龙，十条龙项目的类型分布 -->
@@ -2920,7 +2926,13 @@
 			      GROUP BY name
 			
 			union ALL
-			select 'define10' as showCode, SUBSTR(define10 FROM 4) as showName, '6' as orderCode1, zycbm as orderCode2
+			select 'define5' as showCode,name as showName, '7' as orderCode1, isdelete as orderCode2
+						from sys_dictionary
+						WHERE
+							parent_code ='ROOT_FZJCZX_JSFL'
+			
+			union ALL
+			select 'define10' as showCode, SUBSTR(define10 FROM 4) as showName, '8' as orderCode1, zycbm as orderCode2
 			from out_project_info
 			WHERE
 				define3='项目管理系统'

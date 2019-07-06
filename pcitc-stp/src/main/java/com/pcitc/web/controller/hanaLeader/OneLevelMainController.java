@@ -568,6 +568,7 @@ public class OneLevelMainController extends BaseController {
 			List<String> zycmcList = new ArrayList<String>();
 			List<String> define11List = new ArrayList<String>();
 			List<String> define12List = new ArrayList<String>();
+			List<String> define5List = new ArrayList<String>();
 			for (int i = 0; i < jSONArray.size(); i++) {
 				Map object = (Map) jSONArray.get(i);
 				String showCode = (String) object.get("showCode");
@@ -576,10 +577,12 @@ public class OneLevelMainController extends BaseController {
 					if (showName != null && !showName.equals("")) {
 						define1List.add(showName);
 					}
-
 				}
 				if (showCode.equals("define2")) {
 					define21List.add(showName);
+				}
+				if (showCode.equals("define5")) {
+					define5List.add(showName);
 				}
 				if (showCode.equals("type_flag")) {
 					type_flagList.add(showName);
@@ -614,6 +617,7 @@ public class OneLevelMainController extends BaseController {
 
 			request.setAttribute("define1List", define1List);
 			request.setAttribute("define21List", define21List);
+			request.setAttribute("define5List", define5List);
 			request.setAttribute("type_flagList", type_flagList);
 			request.setAttribute("zylbList", zylbList);
 			request.setAttribute("zycmcList", zycmcList);
