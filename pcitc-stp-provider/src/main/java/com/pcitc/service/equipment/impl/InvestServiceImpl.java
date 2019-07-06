@@ -225,6 +225,7 @@ public  class InvestServiceImpl implements InvestService {
 		if(list.size()!=0) {
 			for(SreProject sretask :list) {
 				if(sretask.getErpNum()!=null&&!sretask.getErpNum().equals("")&&sretask.getContractNum()!=null&&!sretask.getContractNum().equals("")) {
+				if(sretask.getEquipmentIds()!=null){
 				String[] sreEqumimpId =  sretask.getEquipmentIds().split(",");
 //				for(int i=0;i<sreEqumimpId.length;i++) {
 //					SreEquipment quipment = sreEquipmentMapper.selectByPrimaryKey(sreEqumimpId[i]);
@@ -242,6 +243,7 @@ public  class InvestServiceImpl implements InvestService {
 							plancompletionlist.add(plancompletion);
 						}
 						plancompletionlist.add(plancompletion);
+				}
 					}
 				}
 				}
