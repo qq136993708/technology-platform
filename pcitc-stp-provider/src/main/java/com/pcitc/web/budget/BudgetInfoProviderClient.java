@@ -273,9 +273,7 @@ public class BudgetInfoProviderClient
 				}
 			}
 			info.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
-			/*
-			 *  输出到最终报表 
-			*/
+			//输出到最终报表
 			budgetInfoService.processDataImport(info);
 		}else {
 			//更新状态
