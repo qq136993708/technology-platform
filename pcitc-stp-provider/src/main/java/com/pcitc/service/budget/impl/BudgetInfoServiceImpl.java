@@ -27,14 +27,14 @@ import com.pcitc.base.common.enums.BudgetOrganNdEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetInfoExample;
-import com.pcitc.base.stp.budget.BudgetMoneyMecompose;
-import com.pcitc.base.stp.budget.BudgetMoneyMecomposeExample;
+import com.pcitc.base.stp.budget.BudgetMoneyDecompose;
+import com.pcitc.base.stp.budget.BudgetMoneyDecomposeExample;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.mapper.budget.BudgetInfoMapper;
-import com.pcitc.mapper.budget.BudgetMoneyMecomposeMapper;
+import com.pcitc.mapper.budget.BudgetMoneyDecomposeMapper;
 import com.pcitc.service.budget.BudgetAssetSplitService;
 import com.pcitc.service.budget.BudgetGroupSplitService;
 import com.pcitc.service.budget.BudgetInfoService;
@@ -56,7 +56,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	 * 预算处部门分解总表
 	 */
 	@Autowired
-	private BudgetMoneyMecomposeMapper budgetMoneyMecomposeMapper;
+	private BudgetMoneyDecomposeMapper budgetMoneyDecomposeMapper;
 	
 	@Resource
 	private SystemRemoteClient systemRemoteClient;
@@ -489,21 +489,21 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	//[分解总表：out_tem_money_decompose]
 	private void writeToDecompose(BudgetInfo info) 
 	{
-		BudgetMoneyMecomposeExample example = new BudgetMoneyMecomposeExample();
-		BudgetMoneyMecomposeExample.Criteria c = example.createCriteria();
+		BudgetMoneyDecomposeExample example = new BudgetMoneyDecomposeExample();
+		BudgetMoneyDecomposeExample.Criteria c = example.createCriteria();
 		c.andNdEqualTo(info.getNd());
 		example.setOrderByClause("xh");
-		List<BudgetMoneyMecompose> list = budgetMoneyMecomposeMapper.selectByExample(example);
+		List<BudgetMoneyDecompose> list = budgetMoneyDecomposeMapper.selectByExample(example);
 		//如果没有则创建
 		if(list.size() == 0) 
 		{
-			Long dataCount = budgetMoneyMecomposeMapper.countByExample(new BudgetMoneyMecomposeExample());
+			Long dataCount = budgetMoneyDecomposeMapper.countByExample(new BudgetMoneyDecomposeExample());
 			Integer xh = 0;
 			List<BudgetOrganEnum> organs = BudgetOrganNdEnum.getByNd(info.getNd()).getOrgans();
 			for(BudgetOrganEnum org:organs) {
 				dataCount++;
 				xh++;
-				BudgetMoneyMecompose budget = new BudgetMoneyMecompose();
+				BudgetMoneyDecompose budget = new BudgetMoneyDecompose();
 				budget.setNd(info.getNd());
 				budget.setCb(org.getName());
 				budget.setDataId(dataCount.intValue());
@@ -523,9 +523,9 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 				budget.setZcyshjlht("0");
 				budget.setZcyshjxq("0");
 				budget.setZcyshjys("0");
-				budgetMoneyMecomposeMapper.insert(budget);
+				budgetMoneyDecomposeMapper.insert(budget);
 			}
-			list = budgetMoneyMecomposeMapper.selectByExample(example);
+			list = budgetMoneyDecomposeMapper.selectByExample(example);
 		}
 		
 		//table_data.push({"index": i,"no":d.no,"organName":d.organName,"group_total":d.group_total,"group_jz":d.group_jz,"group_xq":d.group_xq,"asset_total":0,"asset_jz":0,"asset_xq":0,"stock_total":0,"stock_jz":0,"stock_xq":0,"total":0,"jz":0,"xq":0});
@@ -534,7 +534,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 			//集团汇总
 			List<Map<String, Object>> groupsplit = selectGroupFinalSplit(info.getNd());
 			for(int i =0;i<list.size();i++) {
-				BudgetMoneyMecompose budget = list.get(i);
+				BudgetMoneyDecompose budget = list.get(i);
 				
 				budget.setJtyshjlht(dToI(groupsplit.get(i).get("group_jz")));//老合同
 				budget.setJtyshxq(dToI(groupsplit.get(i).get("group_xq")));//新签
@@ -545,7 +545,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 			//资产汇总
 			List<Map<String, Object>> assetsplit = selectAssetFinalSplit(info.getNd());
 			for(int i =0;i<list.size();i++) {
-				BudgetMoneyMecompose budget = list.get(i);
+				BudgetMoneyDecompose budget = list.get(i);
 				budget.setZcyshjlht(dToI(assetsplit.get(i).get("asset_jz")));//老合同
 				budget.setZcyshjxq(dToI(assetsplit.get(i).get("asset_xq")));
 				budget.setZcyshjys(dToI(assetsplit.get(i).get("asset_total")));
@@ -555,7 +555,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 			//股份汇总
 			List<Map<String, Object>> stocksplit = selectStockFinalSplit(info.getNd());
 			for(int i =0;i<list.size();i++) {
-				BudgetMoneyMecompose budget = list.get(i);
+				BudgetMoneyDecompose budget = list.get(i);
 				budget.setGfyshjlht(dToI(stocksplit.get(i).get("stock_jz")));//老合同
 				budget.setGfyshjxq(dToI(stocksplit.get(i).get("stock_xq")));
 				budget.setGfyshjys(dToI(stocksplit.get(i).get("stock_total")));
@@ -563,7 +563,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		}
 		//计算总数
 		for(int i =0;i<list.size();i++) {
-			BudgetMoneyMecompose budget = list.get(i);
+			BudgetMoneyDecompose budget = list.get(i);
 			
 			Integer jz = new Double(budget.getJtyshjlht()).intValue()+new Double(budget.getZcyshjlht()).intValue() + new Double(budget.getGfyshjlht()).intValue();
 			Integer xq = new Double(budget.getJtyshxq()).intValue()+new Double(budget.getZcyshjxq()).intValue() + new Double(budget.getGfyshjxq()).intValue();
@@ -574,7 +574,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 			budget.setJfyszjys(ys.toString());
 			
 			
-			budgetMoneyMecomposeMapper.updateByPrimaryKey(budget);
+			budgetMoneyDecomposeMapper.updateByPrimaryKey(budget);
 		}
 	}
 	private String dToI(Object obj) 

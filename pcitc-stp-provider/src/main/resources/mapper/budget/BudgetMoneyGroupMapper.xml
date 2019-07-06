@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.budget.BudgetMoneyGroupMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.budget.BudgetMoneyGroup">
+    <id column="data_id" jdbcType="INTEGER" property="dataId" />
+    <result column="nd" jdbcType="VARCHAR" property="nd" />
+    <result column="xh" jdbcType="VARCHAR" property="xh" />
+    <result column="zyc" jdbcType="VARCHAR" property="zyc" />
+    <result column="yshj" jdbcType="VARCHAR" property="yshj" />
+    <result column="jzxmjfhj" jdbcType="VARCHAR" property="jzxmjfhj" />
+    <result column="jzxmjfbkyf" jdbcType="VARCHAR" property="jzxmjfbkyf" />
+    <result column="jzxmjfbkjx" jdbcType="VARCHAR" property="jzxmjfbkjx" />
+    <result column="jzxmjfqt" jdbcType="VARCHAR" property="jzxmjfqt" />
+    <result column="jzxmjfjh" jdbcType="VARCHAR" property="jzxmjfjh" />
+    <result column="xkxmjfhj" jdbcType="VARCHAR" property="xkxmjfhj" />
+    <result column="xkxmjfbkyf" jdbcType="VARCHAR" property="xkxmjfbkyf" />
+    <result column="xkxmjfbkjx" jdbcType="VARCHAR" property="xkxmjfbkjx" />
+    <result column="xkxmjfqt" jdbcType="VARCHAR" property="xkxmjfqt" />
+    <result column="xkxmjfjh" jdbcType="VARCHAR" property="xkxmjfjh" />
+    <result column="define1" jdbcType="VARCHAR" property="define1" />
+    <result column="define2" jdbcType="VARCHAR" property="define2" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    data_id, nd, xh, zyc, yshj, jzxmjfhj, jzxmjfbkyf, jzxmjfbkjx, jzxmjfqt, jzxmjfjh, 
+    xkxmjfhj, xkxmjfbkyf, xkxmjfbkjx, xkxmjfqt, xkxmjfjh, define1, define2
+  </sql>
+  <select id="selectByExample" parameterType="com.pcitc.base.stp.budget.BudgetMoneyGroupExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from out_tem_money_group
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from out_tem_money_group
+    where data_id = #{dataId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from out_tem_money_group
+    where data_id = #{dataId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.budget.BudgetMoneyGroupExample">
+    delete from out_tem_money_group
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.budget.BudgetMoneyGroup">
+    insert into out_tem_money_group (data_id, nd, xh, 
+      zyc, yshj, jzxmjfhj, 
+      jzxmjfbkyf, jzxmjfbkjx, jzxmjfqt, 
+      jzxmjfjh, xkxmjfhj, xkxmjfbkyf, 
+      xkxmjfbkjx, xkxmjfqt, xkxmjfjh, 
+      define1, define2)
+    values (#{dataId,jdbcType=INTEGER}, #{nd,jdbcType=VARCHAR}, #{xh,jdbcType=VARCHAR}, 
+      #{zyc,jdbcType=VARCHAR}, #{yshj,jdbcType=VARCHAR}, #{jzxmjfhj,jdbcType=VARCHAR}, 
+      #{jzxmjfbkyf,jdbcType=VARCHAR}, #{jzxmjfbkjx,jdbcType=VARCHAR}, #{jzxmjfqt,jdbcType=VARCHAR}, 
+      #{jzxmjfjh,jdbcType=VARCHAR}, #{xkxmjfhj,jdbcType=VARCHAR}, #{xkxmjfbkyf,jdbcType=VARCHAR}, 
+      #{xkxmjfbkjx,jdbcType=VARCHAR}, #{xkxmjfqt,jdbcType=VARCHAR}, #{xkxmjfjh,jdbcType=VARCHAR}, 
+      #{define1,jdbcType=VARCHAR}, #{define2,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.budget.BudgetMoneyGroup">
+    insert into out_tem_money_group
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        data_id,
+      </if>
+      <if test="nd != null">
+        nd,
+      </if>
+      <if test="xh != null">
+        xh,
+      </if>
+      <if test="zyc != null">
+        zyc,
+      </if>
+      <if test="yshj != null">
+        yshj,
+      </if>
+      <if test="jzxmjfhj != null">
+        jzxmjfhj,
+      </if>
+      <if test="jzxmjfbkyf != null">
+        jzxmjfbkyf,
+      </if>
+      <if test="jzxmjfbkjx != null">
+        jzxmjfbkjx,
+      </if>
+      <if test="jzxmjfqt != null">
+        jzxmjfqt,
+      </if>
+      <if test="jzxmjfjh != null">
+        jzxmjfjh,
+      </if>
+      <if test="xkxmjfhj != null">
+        xkxmjfhj,
+      </if>
+      <if test="xkxmjfbkyf != null">
+        xkxmjfbkyf,
+      </if>
+      <if test="xkxmjfbkjx != null">
+        xkxmjfbkjx,
+      </if>
+      <if test="xkxmjfqt != null">
+        xkxmjfqt,
+      </if>
+      <if test="xkxmjfjh != null">
+        xkxmjfjh,
+      </if>
+      <if test="define1 != null">
+        define1,
+      </if>
+      <if test="define2 != null">
+        define2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        #{dataId,jdbcType=INTEGER},
+      </if>
+      <if test="nd != null">
+        #{nd,jdbcType=VARCHAR},
+      </if>
+      <if test="xh != null">
+        #{xh,jdbcType=VARCHAR},
+      </if>
+      <if test="zyc != null">
+        #{zyc,jdbcType=VARCHAR},
+      </if>
+      <if test="yshj != null">
+        #{yshj,jdbcType=VARCHAR},
+      </if>
+      <if test="jzxmjfhj != null">
+        #{jzxmjfhj,jdbcType=VARCHAR},
+      </if>
+      <if test="jzxmjfbkyf != null">
+        #{jzxmjfbkyf,jdbcType=VARCHAR},
+      </if>
+      <if test="jzxmjfbkjx != null">
+        #{jzxmjfbkjx,jdbcType=VARCHAR},
+      </if>
+      <if test="jzxmjfqt != null">
+        #{jzxmjfqt,jdbcType=VARCHAR},
+      </if>
+      <if test="jzxmjfjh != null">
+        #{jzxmjfjh,jdbcType=VARCHAR},
+      </if>
+      <if test="xkxmjfhj != null">
+        #{xkxmjfhj,jdbcType=VARCHAR},
+      </if>
+      <if test="xkxmjfbkyf != null">
+        #{xkxmjfbkyf,jdbcType=VARCHAR},
+      </if>
+      <if test="xkxmjfbkjx != null">
+        #{xkxmjfbkjx,jdbcType=VARCHAR},
+      </if>
+      <if test="xkxmjfqt != null">
+        #{xkxmjfqt,jdbcType=VARCHAR},
+      </if>
+      <if test="xkxmjfjh != null">
+        #{xkxmjfjh,jdbcType=VARCHAR},
+      </if>
+      <if test="define1 != null">
+        #{define1,jdbcType=VARCHAR},
+      </if>
+      <if test="define2 != null">
+        #{define2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.stp.budget.BudgetMoneyGroupExample" resultType="java.lang.Long">
+    select count(*) from out_tem_money_group
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update out_tem_money_group
+    <set>
+      <if test="record.dataId != null">
+        data_id = #{record.dataId,jdbcType=INTEGER},
+      </if>
+      <if test="record.nd != null">
+        nd = #{record.nd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xh != null">
+        xh = #{record.xh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zyc != null">
+        zyc = #{record.zyc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yshj != null">
+        yshj = #{record.yshj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jzxmjfhj != null">
+        jzxmjfhj = #{record.jzxmjfhj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jzxmjfbkyf != null">
+        jzxmjfbkyf = #{record.jzxmjfbkyf,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jzxmjfbkjx != null">
+        jzxmjfbkjx = #{record.jzxmjfbkjx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jzxmjfqt != null">
+        jzxmjfqt = #{record.jzxmjfqt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jzxmjfjh != null">
+        jzxmjfjh = #{record.jzxmjfjh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xkxmjfhj != null">
+        xkxmjfhj = #{record.xkxmjfhj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xkxmjfbkyf != null">
+        xkxmjfbkyf = #{record.xkxmjfbkyf,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xkxmjfbkjx != null">
+        xkxmjfbkjx = #{record.xkxmjfbkjx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xkxmjfqt != null">
+        xkxmjfqt = #{record.xkxmjfqt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xkxmjfjh != null">
+        xkxmjfjh = #{record.xkxmjfjh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define1 != null">
+        define1 = #{record.define1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define2 != null">
+        define2 = #{record.define2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update out_tem_money_group
+    set data_id = #{record.dataId,jdbcType=INTEGER},
+      nd = #{record.nd,jdbcType=VARCHAR},
+      xh = #{record.xh,jdbcType=VARCHAR},
+      zyc = #{record.zyc,jdbcType=VARCHAR},
+      yshj = #{record.yshj,jdbcType=VARCHAR},
+      jzxmjfhj = #{record.jzxmjfhj,jdbcType=VARCHAR},
+      jzxmjfbkyf = #{record.jzxmjfbkyf,jdbcType=VARCHAR},
+      jzxmjfbkjx = #{record.jzxmjfbkjx,jdbcType=VARCHAR},
+      jzxmjfqt = #{record.jzxmjfqt,jdbcType=VARCHAR},
+      jzxmjfjh = #{record.jzxmjfjh,jdbcType=VARCHAR},
+      xkxmjfhj = #{record.xkxmjfhj,jdbcType=VARCHAR},
+      xkxmjfbkyf = #{record.xkxmjfbkyf,jdbcType=VARCHAR},
+      xkxmjfbkjx = #{record.xkxmjfbkjx,jdbcType=VARCHAR},
+      xkxmjfqt = #{record.xkxmjfqt,jdbcType=VARCHAR},
+      xkxmjfjh = #{record.xkxmjfjh,jdbcType=VARCHAR},
+      define1 = #{record.define1,jdbcType=VARCHAR},
+      define2 = #{record.define2,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.budget.BudgetMoneyGroup">
+    update out_tem_money_group
+    <set>
+      <if test="nd != null">
+        nd = #{nd,jdbcType=VARCHAR},
+      </if>
+      <if test="xh != null">
+        xh = #{xh,jdbcType=VARCHAR},
+      </if>
+      <if test="zyc != null">
+        zyc = #{zyc,jdbcType=VARCHAR},
+      </if>
+      <if test="yshj != null">
+        yshj = #{yshj,jdbcType=VARCHAR},
+      </if>
+      <if test="jzxmjfhj != null">
+        jzxmjfhj = #{jzxmjfhj,jdbcType=VARCHAR},
+      </if>
+      <if test="jzxmjfbkyf != null">
+        jzxmjfbkyf = #{jzxmjfbkyf,jdbcType=VARCHAR},
+      </if>
+      <if test="jzxmjfbkjx != null">
+        jzxmjfbkjx = #{jzxmjfbkjx,jdbcType=VARCHAR},
+      </if>
+      <if test="jzxmjfqt != null">
+        jzxmjfqt = #{jzxmjfqt,jdbcType=VARCHAR},
+      </if>
+      <if test="jzxmjfjh != null">
+        jzxmjfjh = #{jzxmjfjh,jdbcType=VARCHAR},
+      </if>
+      <if test="xkxmjfhj != null">
+        xkxmjfhj = #{xkxmjfhj,jdbcType=VARCHAR},
+      </if>
+      <if test="xkxmjfbkyf != null">
+        xkxmjfbkyf = #{xkxmjfbkyf,jdbcType=VARCHAR},
+      </if>
+      <if test="xkxmjfbkjx != null">
+        xkxmjfbkjx = #{xkxmjfbkjx,jdbcType=VARCHAR},
+      </if>
+      <if test="xkxmjfqt != null">
+        xkxmjfqt = #{xkxmjfqt,jdbcType=VARCHAR},
+      </if>
+      <if test="xkxmjfjh != null">
+        xkxmjfjh = #{xkxmjfjh,jdbcType=VARCHAR},
+      </if>
+      <if test="define1 != null">
+        define1 = #{define1,jdbcType=VARCHAR},
+      </if>
+      <if test="define2 != null">
+        define2 = #{define2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where data_id = #{dataId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.budget.BudgetMoneyGroup">
+    update out_tem_money_group
+    set nd = #{nd,jdbcType=VARCHAR},
+      xh = #{xh,jdbcType=VARCHAR},
+      zyc = #{zyc,jdbcType=VARCHAR},
+      yshj = #{yshj,jdbcType=VARCHAR},
+      jzxmjfhj = #{jzxmjfhj,jdbcType=VARCHAR},
+      jzxmjfbkyf = #{jzxmjfbkyf,jdbcType=VARCHAR},
+      jzxmjfbkjx = #{jzxmjfbkjx,jdbcType=VARCHAR},
+      jzxmjfqt = #{jzxmjfqt,jdbcType=VARCHAR},
+      jzxmjfjh = #{jzxmjfjh,jdbcType=VARCHAR},
+      xkxmjfhj = #{xkxmjfhj,jdbcType=VARCHAR},
+      xkxmjfbkyf = #{xkxmjfbkyf,jdbcType=VARCHAR},
+      xkxmjfbkjx = #{xkxmjfbkjx,jdbcType=VARCHAR},
+      xkxmjfqt = #{xkxmjfqt,jdbcType=VARCHAR},
+      xkxmjfjh = #{xkxmjfjh,jdbcType=VARCHAR},
+      define1 = #{define1,jdbcType=VARCHAR},
+      define2 = #{define2,jdbcType=VARCHAR}
+    where data_id = #{dataId,jdbcType=INTEGER}
+  </update>
+</mapper>
