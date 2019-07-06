@@ -211,7 +211,8 @@
             cols: [[
                 {type : 'checkbox', event : 'changeEvents', width : 55},
                 {title : '序号',sort : true, type :'numbers', width : 55},
-                {field : 'stage',sort : true, title : '状态', style : 'cursor: pointer;', align : 'center',templet : '#stage_temp', width : '10%'},
+                {field : 'isContractClosed',    title : '合同状态',        style : 'cursor: pointer;', align: 'center', width : 100,templet : '#isContractClosed_temp'},
+                /*{field : 'stage',sort : true, title : '状态', style : 'cursor: pointer;', align : 'center',templet : '#stage_temp', width : '10%'},*/
                 {field : 'purchaseName',sort : true,     title : '申请名称', style : 'cursor: pointer;', align : 'left', width : '18%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.purchaseName+'</span>'}},
                 {field : 'parentUnitPathNames',sort : true,     title : '单位名称', style : 'cursor: pointer;', align : 'left', width : '18%'},
                 {field : 'departName',sort : true,     title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '18%'},
