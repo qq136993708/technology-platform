@@ -3,78 +3,119 @@
 <mapper namespace="com.pcitc.mapper.out.PurchaseArrivalMapper">
 
 
+<resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.SrePurchaseArrival">
+    <result column="G0FLAG" jdbcType="VARCHAR" property="g0flag" />
+    <result column="G0LOGSYS" jdbcType="VARCHAR" property="g0logsys" />
+    <result column="G0CALD" jdbcType="TIMESTAMP" property="g0cald" />
+    <result column="G0GSDM" jdbcType="VARCHAR" property="g0gsdm" />
+    <result column="G0GSJC" jdbcType="VARCHAR" property="g0gsjc" />
+    <result column="G0GSOR" jdbcType="VARCHAR" property="g0gsor" />
+    <result column="G0GSJCL" jdbcType="VARCHAR" property="g0gsjcl" />
+    <result column="G0GSGP" jdbcType="VARCHAR" property="g0gsgp" />
+    <result column="G0GSSP" jdbcType="VARCHAR" property="g0gssp" />
+    <result column="G0PROJCODE" jdbcType="VARCHAR" property="g0projcode" />
+    <result column="G0PROJTXT" jdbcType="VARCHAR" property="g0projtxt" />
+    <result column="G0WBSCODE" jdbcType="VARCHAR" property="g0wbscode" />
+    <result column="G0WBSTXT" jdbcType="VARCHAR" property="g0wbstxt" />
+    <result column="G0XMGLLX" jdbcType="VARCHAR" property="g0xmgllx" />
+    <result column="G0XMGLLY" jdbcType="VARCHAR" property="g0xmglly" />
+    <result column="G0XMGLJB" jdbcType="VARCHAR" property="g0xmgljb" />
+    <result column="G0XMLX" jdbcType="VARCHAR" property="g0xmlx" />
+    <result column="G0XMLXMS" jdbcType="VARCHAR" property="g0xmlxms" />
+    <result column="G0XMZT" jdbcType="VARCHAR" property="g0xmzt" />
+    <result column="G0XMZTMS" jdbcType="VARCHAR" property="g0xmztms" />
+    <result column="G0XMDL" jdbcType="VARCHAR" property="g0xmdl" />
+    <result column="G0KYPFWH" jdbcType="VARCHAR" property="g0kypfwh" />
+    <result column="G0MATNR" jdbcType="VARCHAR" property="g0matnr" />
+    <result column="G0MAKTX" jdbcType="VARCHAR" property="g0maktx" />
+    <result column="G0EBELN" jdbcType="VARCHAR" property="g0ebeln" />
+    <result column="G0EBELP" jdbcType="VARCHAR" property="g0ebelp" />
+    <result column="G0VGABE" jdbcType="VARCHAR" property="g0vgabe" />
+    <result column="G0GJAHR" jdbcType="TIMESTAMP" property="g0gjahr" />
+    <result column="G0BELNR" jdbcType="VARCHAR" property="g0belnr" />
+    <result column="G0BUZEI" jdbcType="VARCHAR" property="g0buzei" />
+    <result column="G0BUDAT" jdbcType="TIMESTAMP" property="g0budat" />
+    <result column="K0XMRKSL" jdbcType="VARCHAR" property="k0xmrksl" />
+    <result column="K0XMRKJE" jdbcType="DOUBLE" property="k0xmrkje" />
+    <result column="K0XMLYSL" jdbcType="VARCHAR" property="k0xmlysl" />
+    <result column="K0XMLYJE" jdbcType="DOUBLE" property="k0xmlyje" />
+  </resultMap>
+
+
+
+
 	<!-- 获取国家项目的数据 -->
-	<select id="getPurchaseArrivalList" resultType="java.util.Map" parameterType="java.util.HashMap">
-		SELECT
-	  "G0FLAG",
-	 "G0CALD",
-	 "G0GSDM",
-	 "G0GSJC",
-	 "G0GSOR",
-	 "G0GSJCL",
-	 "G0GSGP",
-	 "G0GSSP",
-	 "G0PROJCODE",
-	 "G0PROJTXT",
-	 "G0WBSCODE",
-	 "G0WBSTXT",
-	 "G0XMGLLX",
-	 "G0XMGLLY",
-	 "G0XMGLJB",
-	 "G0XMLX",
-	 "G0XMLXMS",
-	 "G0XMZT",
-	 "G0XMZTMS",
-	 "G0XMDL",
-	 "G0KYPFWH",
-	 "G0MATNR",
-	 "G0MAKTX",
-	 "G0EBELN",
-	 "G0EBELP",
-	 "G0VGABE",
-	 "G0GJAHR",
-	 "G0BELNR",
-	 "G0BUZEI",
-	 "G0BUDAT",
-	 sum("K0XMRKSL") AS "K0XMRKSL",
-	 sum("K0XMRKJE") AS "K0XMRKJE",
-	 sum("K0XMLYSL") AS "K0XMLYSL",
-	 sum("K0XMLYJE") AS "K0XMLYJE"
-FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_YW_1000_03"
-(
-'PLACEHOLDER' = ('$$PR_CALMONTH$$', '${month}'),
-'PLACEHOLDER' = ('$$PR_GSDM$$','1020,1040,1041,1060,1061,1080,1100,1101,1120,1123,1124,1127,1130,4360')
-)
-GROUP BY "G0FLAG",
-	 "G0CALD",
-	 "G0GSDM",
-	 "G0GSJC",
-	 "G0GSOR",
-	 "G0GSJCL",
-	 "G0GSGP",
-	 "G0GSSP",
-	 "G0PROJCODE",
-	 "G0PROJTXT",
-	 "G0WBSCODE",
-	 "G0WBSTXT",
-	 "G0XMGLLX",
-	 "G0XMGLLY",
-	 "G0XMGLJB",
-	 "G0XMLX",
-	 "G0XMLXMS",
-	 "G0XMZT",
-	 "G0XMZTMS",
-	 "G0XMDL",
-	 "G0KYPFWH",
-	 "G0MATNR",
-	 "G0MAKTX",
-	 "G0EBELN",
-	 "G0EBELP",
-	 "G0VGABE",
-	 "G0GJAHR",
-	 "G0BELNR",
-	 "G0BUZEI",
-	 "G0BUDAT"
+	<select id="getPurchaseArrivalList"  resultMap="BaseResultMap" parameterType="java.util.HashMap">
+	SELECT
+			 "G0FLAG",
+			 "G0CALD",
+			 "G0GSDM",
+			 "G0GSJC",
+			 "G0GSOR",
+			 "G0GSJCL",
+			 "G0GSGP",
+			 "G0GSSP",
+			 "G0PROJCODE",
+			 "G0PROJTXT",
+			 "G0WBSCODE",
+			 "G0WBSTXT",
+			 "G0XMGLLX",
+			 "G0XMGLLY",
+			 "G0XMGLJB",
+			 "G0XMLX",
+			 "G0XMLXMS",
+			 "G0XMZT",
+			 "G0XMZTMS",
+			 "G0XMDL",
+			 "G0KYPFWH",
+			 "G0MATNR",
+			 "G0MAKTX",
+			 "G0EBELN",
+			 "G0EBELP",
+			 "G0VGABE",
+			 "G0GJAHR",
+			 "G0BELNR",
+			 "G0BUZEI",
+			 "G0BUDAT",
+			 sum("K0XMRKSL") AS "K0XMRKSL",
+			 sum("K0XMRKJE") AS "K0XMRKJE",
+			 sum("K0XMLYSL") AS "K0XMLYSL",
+			 sum("K0XMLYJE") AS "K0XMLYJE"
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_YW_1000_03"
+		(
+		'PLACEHOLDER' = ('$$PR_CALMONTH$$', '${month}'),
+		'PLACEHOLDER' = ('$$PR_GSDM$$','1020,1040,1041,1060,1061,1080,1100,1101,1120,1123,1124,1127,1130,4360')
+		)
+		GROUP BY "G0FLAG",
+			 "G0CALD",
+			 "G0GSDM",
+			 "G0GSJC",
+			 "G0GSOR",
+			 "G0GSJCL",
+			 "G0GSGP",
+			 "G0GSSP",
+			 "G0PROJCODE",
+			 "G0PROJTXT",
+			 "G0WBSCODE",
+			 "G0WBSTXT",
+			 "G0XMGLLX",
+			 "G0XMGLLY",
+			 "G0XMGLJB",
+			 "G0XMLX",
+			 "G0XMLXMS",
+			 "G0XMZT",
+			 "G0XMZTMS",
+			 "G0XMDL",
+			 "G0KYPFWH",
+			 "G0MATNR",
+			 "G0MAKTX",
+			 "G0EBELN",
+			 "G0EBELP",
+			 "G0VGABE",
+			 "G0GJAHR",
+			 "G0BELNR",
+			 "G0BUZEI",
+			 "G0BUDAT"
 
 	</select>
 

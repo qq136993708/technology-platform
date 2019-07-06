@@ -218,6 +218,10 @@ public class OutProjectServiceImpl implements OutProjectService {
             hashmap.put("ktlx", param.getParam().get("ktlx"));
         }
         
+        if (param.getParam().get("groupFlag") != null && !StringUtils.isBlank(param.getParam().get("groupFlag") + "")) {
+            hashmap.put("groupFlag", param.getParam().get("groupFlag"));
+        }
+        
         
         JSONObject hashmapstr = JSONObject.parseObject(JSONObject.toJSONString(hashmap));
     	System.out.println(">>>>>>>封装后->参数： " + hashmapstr.toString());

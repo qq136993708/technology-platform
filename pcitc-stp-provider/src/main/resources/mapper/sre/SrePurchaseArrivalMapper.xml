@@ -5,7 +5,7 @@
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="G0FLAG" jdbcType="VARCHAR" property="g0flag" />
     <result column="G0LOGSYS" jdbcType="VARCHAR" property="g0logsys" />
-    <result column="G0CALD" jdbcType="TIMESTAMP" property="g0cald" />
+    <result column="G0CALD" jdbcType="VARCHAR" property="g0cald" />
     <result column="G0GSDM" jdbcType="VARCHAR" property="g0gsdm" />
     <result column="G0GSJC" jdbcType="VARCHAR" property="g0gsjc" />
     <result column="G0GSOR" jdbcType="VARCHAR" property="g0gsor" />
@@ -30,14 +30,14 @@
     <result column="G0EBELN" jdbcType="VARCHAR" property="g0ebeln" />
     <result column="G0EBELP" jdbcType="VARCHAR" property="g0ebelp" />
     <result column="G0VGABE" jdbcType="VARCHAR" property="g0vgabe" />
-    <result column="G0GJAHR" jdbcType="TIMESTAMP" property="g0gjahr" />
+    <result column="G0GJAHR" jdbcType="VARCHAR" property="g0gjahr" />
     <result column="G0BELNR" jdbcType="VARCHAR" property="g0belnr" />
     <result column="G0BUZEI" jdbcType="VARCHAR" property="g0buzei" />
-    <result column="G0BUDAT" jdbcType="TIMESTAMP" property="g0budat" />
+    <result column="G0BUDAT" jdbcType="VARCHAR" property="g0budat" />
     <result column="K0XMRKSL" jdbcType="VARCHAR" property="k0xmrksl" />
-    <result column="K0XMRKJE" jdbcType="DOUBLE" property="k0xmrkje" />
+    <result column="K0XMRKJE" jdbcType="DECIMAL" property="k0xmrkje" />
     <result column="K0XMLYSL" jdbcType="VARCHAR" property="k0xmlysl" />
-    <result column="K0XMLYJE" jdbcType="DOUBLE" property="k0xmlyje" />
+    <result column="K0XMLYJE" jdbcType="DECIMAL" property="k0xmlyje" />
     <result column="arrival_state" jdbcType="VARCHAR" property="arrivalState" />
     <result column="document_doc" jdbcType="VARCHAR" property="documentDoc" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
@@ -75,7 +75,7 @@
       arrival_state, document_doc, create_date
       )
     values (#{id,jdbcType=VARCHAR}, #{g0flag,jdbcType=VARCHAR}, #{g0logsys,jdbcType=VARCHAR}, 
-      #{g0cald,jdbcType=TIMESTAMP}, #{g0gsdm,jdbcType=VARCHAR}, #{g0gsjc,jdbcType=VARCHAR}, 
+      #{g0cald,jdbcType=VARCHAR}, #{g0gsdm,jdbcType=VARCHAR}, #{g0gsjc,jdbcType=VARCHAR}, 
       #{g0gsor,jdbcType=VARCHAR}, #{g0gsjcl,jdbcType=VARCHAR}, #{g0gsgp,jdbcType=VARCHAR}, 
       #{g0gssp,jdbcType=VARCHAR}, #{g0projcode,jdbcType=VARCHAR}, #{g0projtxt,jdbcType=VARCHAR}, 
       #{g0wbscode,jdbcType=VARCHAR}, #{g0wbstxt,jdbcType=VARCHAR}, #{g0xmgllx,jdbcType=VARCHAR}, 
@@ -83,9 +83,9 @@
       #{g0xmlxms,jdbcType=VARCHAR}, #{g0xmzt,jdbcType=VARCHAR}, #{g0xmztms,jdbcType=VARCHAR}, 
       #{g0xmdl,jdbcType=VARCHAR}, #{g0kypfwh,jdbcType=VARCHAR}, #{g0matnr,jdbcType=VARCHAR}, 
       #{g0maktx,jdbcType=VARCHAR}, #{g0ebeln,jdbcType=VARCHAR}, #{g0ebelp,jdbcType=VARCHAR}, 
-      #{g0vgabe,jdbcType=VARCHAR}, #{g0gjahr,jdbcType=TIMESTAMP}, #{g0belnr,jdbcType=VARCHAR}, 
-      #{g0buzei,jdbcType=VARCHAR}, #{g0budat,jdbcType=TIMESTAMP}, #{k0xmrksl,jdbcType=VARCHAR}, 
-      #{k0xmrkje,jdbcType=DOUBLE}, #{k0xmlysl,jdbcType=VARCHAR}, #{k0xmlyje,jdbcType=DOUBLE}, 
+      #{g0vgabe,jdbcType=VARCHAR}, #{g0gjahr,jdbcType=VARCHAR}, #{g0belnr,jdbcType=VARCHAR}, 
+      #{g0buzei,jdbcType=VARCHAR}, #{g0budat,jdbcType=VARCHAR}, #{k0xmrksl,jdbcType=VARCHAR}, 
+      #{k0xmrkje,jdbcType=DECIMAL}, #{k0xmlysl,jdbcType=VARCHAR}, #{k0xmlyje,jdbcType=DECIMAL}, 
       #{arrivalState,jdbcType=VARCHAR}, #{documentDoc,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -221,7 +221,7 @@
         #{g0logsys,jdbcType=VARCHAR},
       </if>
       <if test="g0cald != null">
-        #{g0cald,jdbcType=TIMESTAMP},
+        #{g0cald,jdbcType=VARCHAR},
       </if>
       <if test="g0gsdm != null">
         #{g0gsdm,jdbcType=VARCHAR},
@@ -296,7 +296,7 @@
         #{g0vgabe,jdbcType=VARCHAR},
       </if>
       <if test="g0gjahr != null">
-        #{g0gjahr,jdbcType=TIMESTAMP},
+        #{g0gjahr,jdbcType=VARCHAR},
       </if>
       <if test="g0belnr != null">
         #{g0belnr,jdbcType=VARCHAR},
@@ -305,19 +305,19 @@
         #{g0buzei,jdbcType=VARCHAR},
       </if>
       <if test="g0budat != null">
-        #{g0budat,jdbcType=TIMESTAMP},
+        #{g0budat,jdbcType=VARCHAR},
       </if>
       <if test="k0xmrksl != null">
         #{k0xmrksl,jdbcType=VARCHAR},
       </if>
       <if test="k0xmrkje != null">
-        #{k0xmrkje,jdbcType=DOUBLE},
+        #{k0xmrkje,jdbcType=DECIMAL},
       </if>
       <if test="k0xmlysl != null">
         #{k0xmlysl,jdbcType=VARCHAR},
       </if>
       <if test="k0xmlyje != null">
-        #{k0xmlyje,jdbcType=DOUBLE},
+        #{k0xmlyje,jdbcType=DECIMAL},
       </if>
       <if test="arrivalState != null">
         #{arrivalState,jdbcType=VARCHAR},
@@ -340,7 +340,7 @@
         G0LOGSYS = #{g0logsys,jdbcType=VARCHAR},
       </if>
       <if test="g0cald != null">
-        G0CALD = #{g0cald,jdbcType=TIMESTAMP},
+        G0CALD = #{g0cald,jdbcType=VARCHAR},
       </if>
       <if test="g0gsdm != null">
         G0GSDM = #{g0gsdm,jdbcType=VARCHAR},
@@ -415,7 +415,7 @@
         G0VGABE = #{g0vgabe,jdbcType=VARCHAR},
       </if>
       <if test="g0gjahr != null">
-        G0GJAHR = #{g0gjahr,jdbcType=TIMESTAMP},
+        G0GJAHR = #{g0gjahr,jdbcType=VARCHAR},
       </if>
       <if test="g0belnr != null">
         G0BELNR = #{g0belnr,jdbcType=VARCHAR},
@@ -424,19 +424,19 @@
         G0BUZEI = #{g0buzei,jdbcType=VARCHAR},
       </if>
       <if test="g0budat != null">
-        G0BUDAT = #{g0budat,jdbcType=TIMESTAMP},
+        G0BUDAT = #{g0budat,jdbcType=VARCHAR},
       </if>
       <if test="k0xmrksl != null">
         K0XMRKSL = #{k0xmrksl,jdbcType=VARCHAR},
       </if>
       <if test="k0xmrkje != null">
-        K0XMRKJE = #{k0xmrkje,jdbcType=DOUBLE},
+        K0XMRKJE = #{k0xmrkje,jdbcType=DECIMAL},
       </if>
       <if test="k0xmlysl != null">
         K0XMLYSL = #{k0xmlysl,jdbcType=VARCHAR},
       </if>
       <if test="k0xmlyje != null">
-        K0XMLYJE = #{k0xmlyje,jdbcType=DOUBLE},
+        K0XMLYJE = #{k0xmlyje,jdbcType=DECIMAL},
       </if>
       <if test="arrivalState != null">
         arrival_state = #{arrivalState,jdbcType=VARCHAR},
@@ -454,7 +454,7 @@
     update sre_purchase_arrival
     set G0FLAG = #{g0flag,jdbcType=VARCHAR},
       G0LOGSYS = #{g0logsys,jdbcType=VARCHAR},
-      G0CALD = #{g0cald,jdbcType=TIMESTAMP},
+      G0CALD = #{g0cald,jdbcType=VARCHAR},
       G0GSDM = #{g0gsdm,jdbcType=VARCHAR},
       G0GSJC = #{g0gsjc,jdbcType=VARCHAR},
       G0GSOR = #{g0gsor,jdbcType=VARCHAR},
@@ -479,14 +479,14 @@
       G0EBELN = #{g0ebeln,jdbcType=VARCHAR},
       G0EBELP = #{g0ebelp,jdbcType=VARCHAR},
       G0VGABE = #{g0vgabe,jdbcType=VARCHAR},
-      G0GJAHR = #{g0gjahr,jdbcType=TIMESTAMP},
+      G0GJAHR = #{g0gjahr,jdbcType=VARCHAR},
       G0BELNR = #{g0belnr,jdbcType=VARCHAR},
       G0BUZEI = #{g0buzei,jdbcType=VARCHAR},
-      G0BUDAT = #{g0budat,jdbcType=TIMESTAMP},
+      G0BUDAT = #{g0budat,jdbcType=VARCHAR},
       K0XMRKSL = #{k0xmrksl,jdbcType=VARCHAR},
-      K0XMRKJE = #{k0xmrkje,jdbcType=DOUBLE},
+      K0XMRKJE = #{k0xmrkje,jdbcType=DECIMAL},
       K0XMLYSL = #{k0xmlysl,jdbcType=VARCHAR},
-      K0XMLYJE = #{k0xmlyje,jdbcType=DOUBLE},
+      K0XMLYJE = #{k0xmlyje,jdbcType=DECIMAL},
       arrival_state = #{arrivalState,jdbcType=VARCHAR},
       document_doc = #{documentDoc,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP}
@@ -515,8 +515,8 @@
     values
     <foreach collection="list" item="purchaseArrival" index="index"
              separator=",">
-    (#{purchaseArrival.id,jdbcType=VARCHAR}, #{purchaseArrival.g0flag,jdbcType=VARCHAR}, #{purchaseArrival.g0logsys,jdbcType=VARCHAR},
-      #{purchaseArrival.g0cald,jdbcType=TIMESTAMP}, #{purchaseArrival.g0gsdm,jdbcType=VARCHAR}, #{purchaseArrival.g0gsjc,jdbcType=VARCHAR},
+      (REPLACE(UUID(), '-', ''), #{purchaseArrival.g0flag,jdbcType=VARCHAR}, #{purchaseArrival.g0logsys,jdbcType=VARCHAR},
+      #{purchaseArrival.g0cald,jdbcType=VARCHAR}, #{purchaseArrival.g0gsdm,jdbcType=VARCHAR}, #{purchaseArrival.g0gsjc,jdbcType=VARCHAR},
       #{purchaseArrival.g0gsor,jdbcType=VARCHAR}, #{purchaseArrival.g0gsjcl,jdbcType=VARCHAR}, #{purchaseArrival.g0gsgp,jdbcType=VARCHAR},
       #{purchaseArrival.g0gssp,jdbcType=VARCHAR}, #{purchaseArrival.g0projcode,jdbcType=VARCHAR}, #{purchaseArrival.g0projtxt,jdbcType=VARCHAR},
       #{purchaseArrival.g0wbscode,jdbcType=VARCHAR}, #{purchaseArrival.g0wbstxt,jdbcType=VARCHAR}, #{purchaseArrival.g0xmgllx,jdbcType=VARCHAR},
@@ -524,10 +524,10 @@
       #{purchaseArrival.g0xmlxms,jdbcType=VARCHAR}, #{purchaseArrival.g0xmzt,jdbcType=VARCHAR}, #{purchaseArrival.g0xmztms,jdbcType=VARCHAR},
       #{purchaseArrival.g0xmdl,jdbcType=VARCHAR}, #{purchaseArrival.g0kypfwh,jdbcType=VARCHAR}, #{purchaseArrival.g0matnr,jdbcType=VARCHAR},
       #{purchaseArrival.g0maktx,jdbcType=VARCHAR}, #{purchaseArrival.g0ebeln,jdbcType=VARCHAR}, #{purchaseArrival.g0ebelp,jdbcType=VARCHAR},
-      #{purchaseArrival.g0vgabe,jdbcType=VARCHAR}, #{purchaseArrival.g0gjahr,jdbcType=TIMESTAMP}, #{purchaseArrival.g0belnr,jdbcType=VARCHAR},
-      #{purchaseArrival.g0buzei,jdbcType=VARCHAR}, #{purchaseArrival.g0budat,jdbcType=TIMESTAMP}, #{purchaseArrival.k0xmrksl,jdbcType=VARCHAR},
-      #{purchaseArrival.k0xmrkje,jdbcType=DOUBLE}, #{purchaseArrival.k0xmlysl,jdbcType=VARCHAR}, #{purchaseArrival.k0xmlyje,jdbcType=DOUBLE},
-      #{purchaseArrival.arrivalState,jdbcType=VARCHAR}, #{purchaseArrival.documentDoc,jdbcType=VARCHAR}, #{purchaseArrival.createDate,jdbcType=TIMESTAMP}
+      #{purchaseArrival.g0vgabe,jdbcType=VARCHAR}, #{purchaseArrival.g0gjahr,jdbcType=VARCHAR}, #{purchaseArrival.g0belnr,jdbcType=VARCHAR},
+      #{purchaseArrival.g0buzei,jdbcType=VARCHAR}, #{purchaseArrival.g0budat,jdbcType=VARCHAR}, #{purchaseArrival.k0xmrksl,jdbcType=VARCHAR},
+      #{purchaseArrival.k0xmrkje,jdbcType=DECIMAL}, #{purchaseArrival.k0xmlysl,jdbcType=VARCHAR}, #{purchaseArrival.k0xmlyje,jdbcType=DECIMAL},
+      #{purchaseArrival.arrivalState,jdbcType=VARCHAR}, #{purchaseArrival.documentDoc,jdbcType=VARCHAR}, NOW()
       )
     </foreach>
   </insert>

@@ -64,19 +64,19 @@
 								</span>
 								<span>
 									费用性科研投入:
-									<span class="text-total-blue" id="chart1_02">
+									<span class="text-total-blue" style="cursor: pointer" onclick="investmentDetails('费用性')" id="chart1_02">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
 								<span>
 									资本性科研投入:
-									<span class="text-total-blue" id="chart1_03">
+									<span class="text-total-blue" style="cursor: pointer" onclick="investmentDetails('资本性')" id="chart1_03">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
 								<span>
 									预算执行率:
-									<span class="text-total-blue" id="chart1_04">
+									<span class="text-total-blue" style="cursor: pointer" onclick="investmentDetails('')" id="chart1_04">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
@@ -134,13 +134,13 @@
 							<div class="text-total">
 								<span>
 									新开课题预算总金额:
-									<span class="text-total-blue" id="investment_chart6_01">
+									<span class="text-total-blue" id="investment_chart6_01" onclick="budget_implementation('新开课题预算总金额')" style="cursor: pointer">
 										<img class="loadingImg" style="" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
 								<span>
 									新开课题实际总金额:
-									<span class="text-total-blue" id="investment_chart6_02">
+									<span class="text-total-blue" id="investment_chart6_02" onclick="budget_implementation('新开课题实际总金额')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
@@ -169,19 +169,19 @@
 								</span>
 								<span>
 									实际科研投入:
-									<span class="text-total-blue" id="chart7_02">
+									<span class="text-total-blue" id="chart7_02" onclick="budget_institute_implementation('实际科研投入')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
 								<span>
 									未执行:
-									<span class="text-total-blue" id="chart7_03">
+									<span class="text-total-blue" id="chart7_03" onclick="budget_institute_implementation('未执行')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
 								<span>
 									预算执行率:
-									<span class="text-total-blue" id="chart7_04">
+									<span class="text-total-blue" id="chart7_04" onclick="budget_institute_implementation('预算执行率')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
@@ -205,7 +205,7 @@
 	<script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
 	<script type="text/javascript" src="/stp/hana/home/oneLevelMain/investment.js"></script>
 	<script type="text/javascript">
-		var tableOne = null, tableTwo = null, selectRowData;
+		var tableOne = null, tableTwo = null, selectRowData, nd;
 		layui.config({
 			base : '/layuiadmin/lib/extend/'
 		}).extend({
@@ -216,7 +216,7 @@
 			layer = layui.layer;
 			laydate = layui.laydate;
 			form = layui.form;
-			var nd = $("#nd").val();
+			nd = $("#nd").val();
 			$(".layui-time").html(nd + "年");
 			form.render(null, 'component-form-group');
 			laydate.render({
@@ -305,19 +305,7 @@
 				axisLabel : {
 					formatter : '{value}'
 				}
-			} /* ,
-				          {
-				        	  type: 'value',
-				              name: '亿元',
-				              show: true ,
-				              position: 'right',
-				              splitLine:{show: false},
-				              axisLabel: {
-				                  formatter: '{value}'
-				              }
-
-				          } */
-			];
+			} ];
 
 			$("#chart1_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
@@ -332,7 +320,7 @@
 				var legentName = params.seriesName;
 				// define12, 后台查询时用的是define2、define3(type_flag)
 				var qdbz = '已签订';
-				var url = encodeURIComponent("/one_level_main/common_table?define12=直属研究院&define1=" + legentName.substring(0, 3) + "&ysnd=" + nd + "&qdbz=" + qdbz + "&groupFlag=xmid,define8");
+				var url = encodeURIComponent("/one_level_main/common_table?define12=" + xName + "&define1=" + legentName.substring(0, 3) + "&ysnd=" + nd + "&qdbz=" + qdbz + "&groupFlag=xmid,define8");
 				window.open("/instituteIndex?url=" + url);
 
 			});
@@ -510,6 +498,35 @@
 		//小数点后两位百分比
 		function percentNum(num, num2) {
 			return (Math.round(num / num2 * 10000) / 100.00 + "%");
+		}
+
+		function investmentDetails(define1) {
+			var qdbz = '已签订';
+			var url = encodeURIComponent("/one_level_main/common_table?define1=" + define1 + "&ysnd=" + nd + "&qdbz=" + qdbz + "&groupFlag=xmid,define8");
+			window.open("/instituteIndex?url=" + url);
+		}
+
+		function budget_implementation(labelFlag) {
+			var qdbz = '';
+			if (labelFlag == '新开课题实际总金额') {
+				qdbz = '已签订';
+			}
+			var url = encodeURIComponent("/one_level_main/common_table?qdbz=" + qdbz + "&ysnd=" + nd + "&nd=" + nd + "&groupFlag=xmid,define8");
+			window.open("/instituteIndex?url=" + url);
+		}
+
+		function budget_institute_implementation(labelFlag) {
+			var qdbz = '';
+			if (labelFlag == '实际科研投入') {
+				qdbz = '已签订';
+			}
+
+			if (labelFlag == '未执行') {
+				qdbz = '未签订';
+			}
+			var define12 = '直属研究院';
+			var url = encodeURIComponent("/one_level_main/common_table?qdbz=" + qdbz + "&define12=" + define12 + "&ysnd=" + nd + "&nd=" + nd + "&groupFlag=xmid,define8");
+			window.open("/instituteIndex?url=" + url);
 		}
 	</script>
 </body>

@@ -184,438 +184,450 @@
 	<script type="text/javascript" src="/stp/hana/home/oneLevelMain/investment.js"></script>
 
 	<script type="text/javascript">
-    var table,treeGridCom;
-    layui.config({
-        base: '/layuiadmin/lib/extend/'
-    }).extend({
-        treeGridCom:'treeGridCom'
-    }).use(['jquery','form','treeGridCom', 'laydate','table','laypage'], function(){
-        table = layui.table;
-        treeGridCom = layui.treeGridCom;
-        var $ = layui.jquery
-            ,form = layui.form
-            ,laydate = layui.laydate
-        form.render(null, 'component-form-group');
-        laydate.render({
-        	      elem: '#nd',min: '2016-10-14'
-         	      ,type: 'year'
-            ,done: function(value, date, endDate){
-                $(".layui-time").html(date.year);
-                $("#nd").val(date.year); 
-                search_Event();
-            }
-        });
-        $(".layui-time").html($("#nd").val());
-        var nd=$("#nd").val();
-        $("#table_detail_id").click(function () {
-        	 var url=encodeURIComponent("/one_level_main/common_table?nd="+nd+"&groupFlag=xmid");
-             window.open("/instituteIndex?url="+url);
-        });
-        renderTable2();
-        renderTable();
-    });
-    var v_date=(new Date()).getTime();
-    var nd=$('#nd').val();
-    function initEchart()
-    {
+		var table, treeGridCom;
+		layui.config({
+			base : '/layuiadmin/lib/extend/'
+		}).extend({
+			treeGridCom : 'treeGridCom'
+		}).use([ 'jquery', 'form', 'treeGridCom', 'laydate', 'table', 'laypage' ], function() {
+			table = layui.table;
+			treeGridCom = layui.treeGridCom;
+			var $ = layui.jquery, form = layui.form, laydate = layui.laydate
+			form.render(null, 'component-form-group');
+			laydate.render({
+				elem : '#nd',
+				min : '2016-10-14',
+				type : 'year',
+				done : function(value, date, endDate) {
+					$(".layui-time").html(date.year);
+					$("#nd").val(date.year);
+					search_Event();
+				}
+			});
+			$(".layui-time").html($("#nd").val());
+			var nd = $("#nd").val();
+			$("#table_detail_id").click(function() {
+				var url = encodeURIComponent("/one_level_main/common_table?nd=" + nd + "&groupFlag=xmid");
+				window.open("/instituteIndex?url=" + url);
+			});
+			renderTable2();
+			renderTable();
+		});
+		var v_date = (new Date()).getTime();
+		var nd = $('#nd').val();
+		function initEchart() {
 
-       
-        var ndstr=nd+"年";
-        var yAxis= [
-            {
-                type: 'value',
-                name: '数量（个）',
-                position: 'left',
-                axisLabel: {
-                    formatter: '{value}'
-                }
-            }
-        ];
-        
-       var  yAxis2= [
-            {
-            	 type: 'value',
-                 name: '数量（个）',
-                 position: 'left',
-                 axisLabel: {
-                     formatter: '{value}'
-                 }
-            },
-            {
-                type: 'value',
-                show: true ,
-                name: '百分比',
-                position: 'right',
-                axisLabel: {
-                    formatter: '{value}%'
-                }
-                ,splitLine:{show: false},//去除网格线
+			var ndstr = nd + "年";
+			var yAxis = [ {
+				type : 'value',
+				name : '数量（个）',
+				position : 'left',
+				axisLabel : {
+					formatter : '{value}'
+				}
+			} ];
 
-            }
-        ];
-        
-        //表盘
-        setGauge("direct_contract_01");
-        setGauge_count();
-        var chart_01_01="/one_level_main/contract_01_01?type=1&nd="+nd+"&v_date="+v_date+"";
-        var colorOne=["#2F9CFF","#36CBCB","#FAD337"]
-        var echartchart_01_01=load_mutl_bar_down(chart_01_01,"direct_contract_01_01","","",yAxis2,30,colorOne);
-        echartchart_01_01.on('click', function (params) {
-            var xName=params.name;
-            var legentName=params.seriesName;
-            //alert("xName="+xName+" legentName="+legentName);
-            var qdbz="";
-            if(legentName=='计划签订数')
-            {
-            	qdbz="";
-            }
-            if(legentName=='实际签订数')
-            {
-            	qdbz="已签订";
-            }
-            var url=encodeURIComponent("/one_level_main/common_table?define1="+xName+"&qdbz="+qdbz+"&nd="+nd+"&groupFlag=xmid");
-            window.open("/instituteIndex?url="+url);
+			var yAxis2 = [ {
+				type : 'value',
+				name : '数量（个）',
+				position : 'left',
+				axisLabel : {
+					formatter : '{value}'
+				}
+			}, {
+				type : 'value',
+				show : true,
+				name : '百分比',
+				position : 'right',
+				axisLabel : {
+					formatter : '{value}%'
+				},
+				splitLine : {
+					show : false
+				},//去除网格线
 
-        });
+			} ];
 
-        //
-        var chart2_url="/one_level_main/contract_02?type=1&nd="+nd+"&v_date="+v_date+"";
-        var echart2=load_single_line(chart2_url,"direct_contract_04","","",yAxis);
-        echart2.on('click', function (params) {
-            var xName=params.name;
-            var legentName=params.seriesName;
-            // alert(xName+"------"+projectId);
-            var define12="";
-            var define11="";
-            if(xName=='资产公司' || xName=='集团公司')
-            {
-            	define11=xName;
+			//表盘
+			setGauge("direct_contract_01");
+			setGauge_count();
+			var chart_01_01 = "/one_level_main/contract_01_01?type=1&nd=" + nd + "&v_date=" + v_date + "";
+			var colorOne = [ "#2F9CFF", "#36CBCB", "#FAD337" ]
+			var echartchart_01_01 = load_mutl_bar_down(chart_01_01, "direct_contract_01_01", "", "", yAxis2, 30, colorOne);
+			echartchart_01_01.on('click', function(params) {
+				var xName = params.name;
+				var legentName = params.seriesName;
+				//alert("xName="+xName+" legentName="+legentName);
+				var qdbz = "";
+				if (legentName == '计划签订数') {
+					qdbz = "";
+				}
+				if (legentName == '实际签订数') {
+					qdbz = "已签订";
+				}
+				var url = encodeURIComponent("/one_level_main/common_table?define1=" + xName + "&qdbz=" + qdbz + "&nd=" + nd + "&groupFlag=xmid");
+				window.open("/instituteIndex?url=" + url);
 
-            }else
-           	{
-            	define12=xName;
-           	}
-            
-            window.open("/one_level_main/common_table?nd="+nd+"&define12="+define12+"&define11="+define11+"&groupFlag=xmid,define8");
-        });
+			});
 
+			//
+			var chart2_url = "/one_level_main/contract_02?type=1&nd=" + nd + "&v_date=" + v_date + "";
+			var echart2 = load_single_line(chart2_url, "direct_contract_04", "", "", yAxis);
+			echart2.on('click', function(params) {
+				var xName = params.name;
+				var legentName = params.seriesName;
+				// alert(xName+"------"+projectId);
+				var define12 = "";
+				var define11 = "";
+				if (xName == '资产公司' || xName == '集团公司') {
+					define11 = xName;
 
-        //直属研究院签订率
-        $("#direct_contract_chart_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-        $("#direct_contract_chart_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-        $("#direct_contract_chart_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-        
-        
-        var chart6_url="/one_level_main/contract_03?type=1&nd="+nd+"&v_date="+v_date+"";
-        var color2=["#f3655b","#8ab3cf","#f19049"];
-        var echart6=load_mutl_bar_down(chart6_url,"direct_contract_chart","","",yAxis,30,color2);
-        echart6.on('click', function (params) {
-            var xName=params.name;
-            var legentName=params.seriesName;
-            window.open("/one_level_main/common_table?define2="+xName+"&nd="+nd+"&groupFlag=xmid,define8");
-        });
+				} else {
+					define12 = xName;
+				}
+				if (xName == '休斯顿') {
+					define12 = '休斯顿研发中心';
+				}
+				if (xName == '中东') {
+					define12 = '中东研发中心';
+				}
 
+				var url = encodeURIComponent("/one_level_main/common_table?nd=" + nd + "&define12=" + define12 + "&define11=" + define11 + "&groupFlag=xmid,define8");
+				window.open("/instituteIndex?url=" + url);
+			});
 
-    }
+			//直属研究院签订率
+			$("#direct_contract_chart_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#direct_contract_chart_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#direct_contract_chart_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 
-    
-    
-    
+			var chart6_url = "/one_level_main/contract_03?type=1&nd=" + nd + "&v_date=" + v_date + "";
+			var color2 = [ "#f3655b", "#8ab3cf", "#f19049" ];
+			var echart6 = load_mutl_bar_down(chart6_url, "direct_contract_chart", "", "", yAxis, 30, color2);
+			echart6.on('click', function(params) {
+				var xName = params.name;
+				var legentName = params.seriesName;
+				var url = encodeURIComponent("/one_level_main/common_table?define2=" + xName + "&nd=" + nd + "&groupFlag=xmid,define8");
+				window.open("/instituteIndex?url=" + url);
+			});
 
-    function contract_chart1(qdbz)
-    {
-    	// define12, 后台查询时用的是define2、define3（type_flag）
-    	 var url=encodeURIComponent("/one_level_main/common_table?define12=直属研究院&qdbz="+qdbz+"&nd="+nd+"&groupFlag=xmid,define8");
-         window.open("/instituteIndex?url="+url);
-    }
-    
-    function contract_chart_oneLevel(qdbz)
-    {
-    	 var url=encodeURIComponent("/one_level_main/common_table?qdbz="+qdbz+"&nd="+nd+"&groupFlag=xmid");
-         window.open("/instituteIndex?url="+url);
-    }
-    
-    
-    //初始化图形
-    initEchart();
-    //查询
-    function search_Event()
-    {
-        initEchart();
-        renderTable();
-        renderTable2();
-    }
+		}
 
+		function contract_chart1(qdbz) {
+			// define12, 后台查询时用的是define2、define3（type_flag）
+			var url = encodeURIComponent("/one_level_main/common_table?define12=直属研究院&qdbz=" + qdbz + "&nd=" + nd + "&groupFlag=xmid,define8");
+			window.open("/instituteIndex?url=" + url);
+		}
 
-    function setGauge_count()
-    {
-    	
-    	$("#vdirect_contract_01_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-        $("#vdirect_contract_01_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-        $("#vdirect_contract_01_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-        
-        var nd=$('#nd').val();
-        var series=[];
-        $.ajax({
-            type:"get",
-            url: "/one_level_main/contract_01?type=1&nd="+nd+"",
-            timeout : 9000,
-            dataType:"json",
-            cache: false,
-            contentType: "application/x-www-form-urlencoded; charset=utf-8",
-            success:function(data,status)
-            {
-                if(data.success==true ||data.success=='true')
-                {
-                    $("#vdirect_contract_01_01").html(data.data.zsl+"个");
-                    
-                    if (typeof(data.data.yqht) == "undefined")
-				    {
-                    	 $("#vdirect_contract_01_02").html("0个");
-				    }else
-			    	{
-				    	 $("#vdirect_contract_01_02").html(data.data.yqht+"个");
-			    	}
-                    
-                    
-                   
-                    $("#vdirect_contract_01_03").html(data.data.qdl+"%");
-                }
-            },
-            error:function()
-            {
-            },
-            complete: function (XMLHttpRequest, status) {
-            }
-        });
+		function contract_chart_oneLevel(qdbz) {
+			var url = encodeURIComponent("/one_level_main/common_table?qdbz=" + qdbz + "&nd=" + nd + "&groupFlag=xmid");
+			window.open("/instituteIndex?url=" + url);
+		}
 
-    }
-    
+		//初始化图形
+		initEchart();
+		//查询
+		function search_Event() {
+			initEchart();
+			renderTable();
+			renderTable2();
+		}
 
-    function setGauge(id)
-    {
-        var myChart2 = echarts.init(document.getElementById(id));
-        var options = {
-            title: {
-                text: '',
-                x:'center',
-                y: '10px',
-                textStyle: {
-                    fontSize: 15,
-                    fontWeight: 'normal',
-                    color: '#000000'
-                },
-                subtextStyle: {
-                    color: '#7B7B7B'
-                },
-                subtext:''
-            },
-            tooltip : {
-                formatter: "{a} <br/>{b} : {c}%"
-            },
-            toolbox: {
-                feature: {
-                    restore: {},
-                    saveAsImage: {}
-                }
-            },
-            series: [
-                {
+		function setGauge_count() {
 
-                    data: []
-                }
-            ]
-        };
-        var nd=$('#nd').val();
-        ajax_getGauge("/one_level_main/contract_01?type=2&nd="+nd+"", myChart2, options);
-    }
+			$("#vdirect_contract_01_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#vdirect_contract_01_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#vdirect_contract_01_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 
-    function ajax_getGauge(url, echartsobj, options)
-    {
-        var series=[];
-        $.ajax({
-            type:"get",
-            url: url,
-            timeout : 9000,
-            dataType:"json",
-            cache: false,
-            contentType: "application/x-www-form-urlencoded; charset=utf-8",
-            success:function(data,status)
-            {
-                if(data.success==true ||data.success=='true')
-                {
-                    echartsobj.hideLoading();
-                    var data=data.data;
-                    echartsobj.setOption({
-                        series: [{
-                            data: [{value: data.value, name: '完成率'}],
-                            name: '签订率',
-                            type: 'gauge',
-                            radius: "110%",
-                            center: ['50%', '61%'],
-                            detail: {formatter:'{value}%'},
-                        }]
-                    });
-                }
-            },
-            error:function()
-            {
-                layer.msg('图表加载失败');
-            },
-            complete: function (XMLHttpRequest, status) {
-                if(status == 'timeout'){
-                    layer.msg('超时');
-                }
-            }
-        });
+			var nd = $('#nd').val();
+			var series = [];
+			$.ajax({
+				type : "get",
+				url : "/one_level_main/contract_01?type=1&nd=" + nd + "",
+				timeout : 9000,
+				dataType : "json",
+				cache : false,
+				contentType : "application/x-www-form-urlencoded; charset=utf-8",
+				success : function(data, status) {
+					if (data.success == true || data.success == 'true') {
+						$("#vdirect_contract_01_01").html(data.data.zsl + "个");
 
-    }
+						if (typeof (data.data.yqht) == "undefined") {
+							$("#vdirect_contract_01_02").html("0个");
+						} else {
+							$("#vdirect_contract_01_02").html(data.data.yqht + "个");
+						}
 
+						$("#vdirect_contract_01_03").html(data.data.qdl + "%");
+					}
+				},
+				error : function() {
+				},
+				complete : function(XMLHttpRequest, status) {
+				}
+			});
 
-    function renderTable()
-    {  
-    	var nd=$("#nd").val();
-    	var v_date=(new Date()).getTime();
-    	table.render({
-            elem: '#processdef_table' //表格容器
-            , url:'/one_level_main/contract_05?nd='+nd+"&v_date="+v_date+''
-            , id: 'processdef_table'
-            , limit: 15 //每页默认显示的数量
-            , height: 270
-            , cols: [[
-            	{field:'define3',  title:'类别',           style:'cursor: pointer;',align: 'left'},
-            	{field:'define2',  title:'机构',           style:'cursor: pointer;',align: 'left', width: '20%'},
- 	            {field:'zsl',      title:'计划签订数（个）',   style:'cursor: pointer;',align: 'right', width: '20%'},
- 	            {field:'yqhtzj',   title:'实际签订数（个）',   style:'cursor: pointer;',align: 'right', width: '20%'},
- 	            {field:'qdlzj',    title:'签订率（%）',      style:'cursor: pointer;',align: 'right', width: '20%',templet:function(d){return d.qdlzj+"%"}}
-            ]],
-            done: function(res, curr, count){
-               
-            	 merge(res);
-               
-               $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-                   var index=parseInt($(this).index()+1);
-                   $('tr').removeClass('layui-table-click');
-                   $(this).addClass('layui-table-click');
-                   $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                   $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                   selectRowData=res.data[index-1];
-                   window.open("/one_level_main/common_table?define12="+selectRowData.define3+"&nd="+nd+"&define2="+selectRowData.define2+"&groupFlag=xmid,define8");
-                   
-               });
-               
-              
-               
-            }
-        });
-    	function merge(res) {
+		}
 
-            var data = res.data;
-            var mergeIndex = 0;//定位需要添加合并属性的行数
-            var mark = 1; //这里涉及到简单的运算，mark是计算每次需要合并的格子数
-            var columsName = ['define3'];//需要合并的列名称
-            var columsIndex = [0];//需要合并的列索引值
+		function setGauge(id) {
+			var myChart2 = echarts.init(document.getElementById(id));
+			var options = {
+				title : {
+					text : '',
+					x : 'center',
+					y : '10px',
+					textStyle : {
+						fontSize : 15,
+						fontWeight : 'normal',
+						color : '#000000'
+					},
+					subtextStyle : {
+						color : '#7B7B7B'
+					},
+					subtext : ''
+				},
+				tooltip : {
+					formatter : "{a} <br/>{b} : {c}%"
+				},
+				toolbox : {
+					feature : {
+						restore : {},
+						saveAsImage : {}
+					}
+				},
+				series : [ {
 
-            for (var k = 0; k < columsName.length; k++) { //这里循环所有要合并的列
-                var trArr = $("#processdef_table_div .layui-table-body .layui-table").find("tr");//所有行
-                for (var i = 1; i < res.data.length; i++) { //这里循环表格当前的数据
-                    var tdCurArr = trArr.eq(i).find("td").eq(columsIndex[k]);//获取当前行的当前列
-                    var tdPreArr = trArr.eq(mergeIndex).find("td").eq(columsIndex[k]);//获取相同列的第一列
+					data : []
+				} ]
+			};
+			var nd = $('#nd').val();
+			ajax_getGauge("/one_level_main/contract_01?type=2&nd=" + nd + "", myChart2, options);
+		}
 
-                    if (data[i][columsName[k]] === data[i-1][columsName[k]]) { //后一行的值与前一行的值做比较，相同就需要合并
-                        mark += 1;
-                        tdPreArr.each(function () {//相同列的第一列增加rowspan属性
-                            $(this).attr("rowspan", mark);
-                        });
-                        tdCurArr.each(function () {//当前行隐藏
-                            $(this).css("display", "none");
-                        });
-                    }else {
-                        mergeIndex = i;
-                        mark = 1;//一旦前后两行的值不一样了，那么需要合并的格子数mark就需要重新计算
-                    }
-                }
-                mergeIndex = 0;
-                mark = 1;
-            }
-        }
-    	 /* var month=$("#nd").val();
-    	 var ptable=treeGridCom.render({
-    	        id:'processdef_table'
-    	        ,elem: '#processdef_table'
-    	        ,url:'/one_level_main/contract_05?nd='+month
-    	        ,cellMinWidth: 200
-    	        ,idField:'id'//必須字段
-    	        ,treeId:'id'//树形id字段名称
-    	        ,treeUpId:'pId'//树形父id字段名称
-    	        ,treeShowName:'name'//以树形式显示的字段
-    	        ,height:'309'
-    	        ,isFilter:false
-    	        ,iconOpen:false//是否显示图标【默认显示】
-    	        ,isOpenDefault:true//节点默认是展开还是折叠【默认展开】
-    	        ,loading: false
-    	        ,method:'get'
-    	        ,cols: [[
-    	            {field:'name',  title:'类型',  style:'cursor: pointer;',align: 'left', width: '25%'},
-    	            {field:'extend01',  title:'计划签订数（个）',   style:'cursor: pointer;',align: 'left', width: '25%'},
-    	            {field:'extend02',  title:'实际签订数（个）',   style:'cursor: pointer;',align: 'left', width: '25%'},
-    	            {field:'extend03',  title:'签订率（%）',       style:'cursor: pointer;',align: 'left', width: '25%',templet:function(d){return d.extend03+"%"}}
-    	            
-    	        ]]
-    	        ,isPage:false
-    	        ,parseData:function (res) {
-    	            return res;
-    	        }
-    	        ,onClickRow:function (index, o) {
-    	            console.log(index,o,"单击！");
-    	        }
-    	        ,onDblClickRow:function (index, o) {
-    	            console.log(index,o,"双击");
-    	        }
-    	    }); */
-    }
-    //重大项目
-    function renderTable2()
-    {
-        var nd=$('#nd').val();
-        var tableOne=table.render({
-            elem: '#processdef_table_02',
-            url:'/one_level_main/contract_01_01?nd='+nd+'&type=2',
-            method:"GET",
-            where: {param: {"month":$("#month").val()}},
-            limit: 15,
-            id: 'processdef_table_02',
-            cols: [[
-                {field:'define1',        title: '类型',     edit:'text'},
-                {field:'jhqds',          title:'计划签订数',  style:'cursor: pointer;',align: 'right'},
-                {field:'sjqds',          title:'实际签订数',  style:'cursor: pointer;',align: 'right'},
-                {field:'htqdl',          title:'签订率(%)',  style:'cursor: pointer;',align: 'right',templet:function(d){return d.htqdl+"%"}
-                }
-            ]],
-            done: function (res, curr, count) {
-                layer.closeAll('loading');
-                // 点击行联动选择框--单选
-                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-                    var index=parseInt($(this).index()+1);
-                    $('tr').removeClass('layui-table-click');
-                    $(this).addClass('layui-table-click');
-                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                    selectRowData=res.data[index-1];
-                    window.open("/one_level_main/common_table?define1="+selectRowData.define1+"&nd="+nd+"&groupFlag=xmid");
-                    
-                });
-            }
-        });
-    }
-    
-    
-    
-    
+		function ajax_getGauge(url, echartsobj, options) {
+			var series = [];
+			$.ajax({
+				type : "get",
+				url : url,
+				timeout : 9000,
+				dataType : "json",
+				cache : false,
+				contentType : "application/x-www-form-urlencoded; charset=utf-8",
+				success : function(data, status) {
+					if (data.success == true || data.success == 'true') {
+						echartsobj.hideLoading();
+						var data = data.data;
+						echartsobj.setOption({
+							series : [ {
+								data : [ {
+									value : data.value,
+									name : '完成率'
+								} ],
+								name : '签订率',
+								type : 'gauge',
+								radius : "110%",
+								center : [ '50%', '61%' ],
+								detail : {
+									formatter : '{value}%'
+								},
+							} ]
+						});
+					}
+				},
+				error : function() {
+					layer.msg('图表加载失败');
+				},
+				complete : function(XMLHttpRequest, status) {
+					if (status == 'timeout') {
+						layer.msg('超时');
+					}
+				}
+			});
 
+		}
 
+		function renderTable() {
+			var nd = $("#nd").val();
+			var v_date = (new Date()).getTime();
+			table.render({
+				elem : '#processdef_table' //表格容器
+				,
+				url : '/one_level_main/contract_05?nd=' + nd + "&v_date=" + v_date + '',
+				id : 'processdef_table',
+				limit : 15 //每页默认显示的数量
+				,
+				height : 270,
+				cols : [ [ {
+					field : 'define3',
+					title : '类别',
+					style : 'cursor: pointer;',
+					align : 'left'
+				}, {
+					field : 'define2',
+					title : '机构',
+					style : 'cursor: pointer;',
+					align : 'left',
+					width : '20%'
+				}, {
+					field : 'zsl',
+					title : '计划签订数（个）',
+					style : 'cursor: pointer;',
+					align : 'right',
+					width : '20%'
+				}, {
+					field : 'yqhtzj',
+					title : '实际签订数（个）',
+					style : 'cursor: pointer;',
+					align : 'right',
+					width : '20%'
+				}, {
+					field : 'qdlzj',
+					title : '签订率（%）',
+					style : 'cursor: pointer;',
+					align : 'right',
+					width : '20%',
+					templet : function(d) {
+						return d.qdlzj + "%"
+					}
+				} ] ],
+				done : function(res, curr, count) {
 
-</script>
+					merge(res);
+
+					$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
+						var index = parseInt($(this).index() + 1);
+						$('tr').removeClass('layui-table-click');
+						$(this).addClass('layui-table-click');
+						$('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+						$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+						selectRowData = res.data[index - 1];
+						var url = encodeURIComponent("/one_level_main/common_table?define12=" + selectRowData.define3 + "&nd=" + nd + "&define2=" + selectRowData.define2 + "&groupFlag=xmid,define8");
+						window.open("/instituteIndex?url=" + url);
+					});
+
+				}
+			});
+			function merge(res) {
+
+				var data = res.data;
+				var mergeIndex = 0;//定位需要添加合并属性的行数
+				var mark = 1; //这里涉及到简单的运算，mark是计算每次需要合并的格子数
+				var columsName = [ 'define3' ];//需要合并的列名称
+				var columsIndex = [ 0 ];//需要合并的列索引值
+
+				for (var k = 0; k < columsName.length; k++) { //这里循环所有要合并的列
+					var trArr = $("#processdef_table_div .layui-table-body .layui-table").find("tr");//所有行
+					for (var i = 1; i < res.data.length; i++) { //这里循环表格当前的数据
+						var tdCurArr = trArr.eq(i).find("td").eq(columsIndex[k]);//获取当前行的当前列
+						var tdPreArr = trArr.eq(mergeIndex).find("td").eq(columsIndex[k]);//获取相同列的第一列
+
+						if (data[i][columsName[k]] === data[i - 1][columsName[k]]) { //后一行的值与前一行的值做比较，相同就需要合并
+							mark += 1;
+							tdPreArr.each(function() {//相同列的第一列增加rowspan属性
+								$(this).attr("rowspan", mark);
+							});
+							tdCurArr.each(function() {//当前行隐藏
+								$(this).css("display", "none");
+							});
+						} else {
+							mergeIndex = i;
+							mark = 1;//一旦前后两行的值不一样了，那么需要合并的格子数mark就需要重新计算
+						}
+					}
+					mergeIndex = 0;
+					mark = 1;
+				}
+			}
+			/* var month=$("#nd").val();
+			var ptable=treeGridCom.render({
+			       id:'processdef_table'
+			       ,elem: '#processdef_table'
+			       ,url:'/one_level_main/contract_05?nd='+month
+			       ,cellMinWidth: 200
+			       ,idField:'id'//必須字段
+			       ,treeId:'id'//树形id字段名称
+			       ,treeUpId:'pId'//树形父id字段名称
+			       ,treeShowName:'name'//以树形式显示的字段
+			       ,height:'309'
+			       ,isFilter:false
+			       ,iconOpen:false//是否显示图标【默认显示】
+			       ,isOpenDefault:true//节点默认是展开还是折叠【默认展开】
+			       ,loading: false
+			       ,method:'get'
+			       ,cols: [[
+			           {field:'name',  title:'类型',  style:'cursor: pointer;',align: 'left', width: '25%'},
+			           {field:'extend01',  title:'计划签订数（个）',   style:'cursor: pointer;',align: 'left', width: '25%'},
+			           {field:'extend02',  title:'实际签订数（个）',   style:'cursor: pointer;',align: 'left', width: '25%'},
+			           {field:'extend03',  title:'签订率（%）',       style:'cursor: pointer;',align: 'left', width: '25%',templet:function(d){return d.extend03+"%"}}
+			           
+			       ]]
+			       ,isPage:false
+			       ,parseData:function (res) {
+			           return res;
+			       }
+			       ,onClickRow:function (index, o) {
+			           console.log(index,o,"单击！");
+			       }
+			       ,onDblClickRow:function (index, o) {
+			           console.log(index,o,"双击");
+			       }
+			   }); */
+		}
+		//重大项目
+		function renderTable2() {
+			var nd = $('#nd').val();
+			var tableOne = table.render({
+				elem : '#processdef_table_02',
+				url : '/one_level_main/contract_01_01?nd=' + nd + '&type=2',
+				method : "GET",
+				where : {
+					param : {
+						"month" : $("#month").val()
+					}
+				},
+				limit : 15,
+				id : 'processdef_table_02',
+				cols : [ [ {
+					field : 'define1',
+					title : '类型',
+					edit : 'text'
+				}, {
+					field : 'jhqds',
+					title : '计划签订数',
+					style : 'cursor: pointer;',
+					align : 'right'
+				}, {
+					field : 'sjqds',
+					title : '实际签订数',
+					style : 'cursor: pointer;',
+					align : 'right'
+				}, {
+					field : 'htqdl',
+					title : '签订率(%)',
+					style : 'cursor: pointer;',
+					align : 'right',
+					templet : function(d) {
+						return d.htqdl + "%"
+					}
+				} ] ],
+				done : function(res, curr, count) {
+					layer.closeAll('loading');
+					// 点击行联动选择框--单选
+					$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
+						var index = parseInt($(this).index() + 1);
+						$('tr').removeClass('layui-table-click');
+						$(this).addClass('layui-table-click');
+						$('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+						$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+						selectRowData = res.data[index - 1];
+						var url = encodeURIComponent("/one_level_main/common_table?define1=" + selectRowData.define1 + "&nd=" + nd + "&groupFlag=xmid");
+						window.open("/instituteIndex?url=" + url);
+
+					});
+				}
+			});
+		}
+	</script>
 
 </body>
 </html>

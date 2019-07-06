@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Page;
+import com.pcitc.base.stp.equipment.SrePurchaseArrival;
 import com.pcitc.base.stp.equipment.SrePurchaseOrder;
 import com.pcitc.mapper.equipment.ErpOrderMapper;
 import com.pcitc.mapper.out.PurchaseArrivalMapper;
@@ -37,7 +38,7 @@ public class PurchaseOrderServiceImpl implements IPurchaseOrderService {
     }
 
     @Override
-    public List getPurchaseArrivalList(HashMap<String, String> map) {
+    public List<SrePurchaseArrival> getPurchaseArrivalList(HashMap<String, String> map) {
         return purchaseArrivalMapper.getPurchaseArrivalList(map);
     }
     

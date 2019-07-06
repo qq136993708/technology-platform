@@ -157,10 +157,10 @@
 			<span>分组类型</span>
 			<select name="groupFlagSelector" id="groupFlagSelector" class="form-control">
 				<option value="">---</option>
-				<option value="xmid" <#if groupFlag == 'xmid'>selected="selected"</#if> >按项目分组</option>
-				<option value="xmid,define8" <#if groupFlag == 'xmid,define8'>selected="selected"</#if> >按项目、承担单位</option>
-				<option value="xmid,ysnd" <#if groupFlag == 'xmid,ysnd'>selected="selected"</#if> >按项目、预算年度</option>
-				<option value="xmid,ysnd,define8" <#if groupFlag == 'xmid,ysnd,define8'>selected="selected"</#if> >按项目、预算年度、承担单</option>
+				<option value="xmid"<#if groupFlag == 'xmid'>selected="selected"</#if> >按项目分组</option>
+				<option value="xmid,define8"<#if groupFlag == 'xmid,define8'>selected="selected"</#if> >按项目、承担单位</option>
+				<option value="xmid,ysnd"<#if groupFlag == 'xmid,ysnd'>selected="selected"</#if> >按项目、预算年度</option>
+				<option value="xmid,ysnd,define8"<#if groupFlag == 'xmid,ysnd,define8'>selected="selected"</#if> >按项目、预算年度、承担单</option>
 			</select>
 		</label>
 		<label class="dateInput">
@@ -185,446 +185,454 @@
 
 	<div class="tableBox" style="clear: both">
 		<table id="processdef-table" class="layui-hide" lay-filter="processdef-table">
-			</div>
-			<!--表格数据操作js-->
-			<script src="/common/js/jquery-1.11.3.min.js"></script>
-			<script>
-				var table, selectRowData;
-				var xmmc = $('#xmmc').val();
+		</table>
+	</div>
+	<!--表格数据操作js-->
+	<script src="/common/js/jquery-1.11.3.min.js"></script>
+	<script>
+		var table, selectRowData;
+		var xmmc = $('#xmmc').val();
 
-				layui.config({
-					base : '/layuiadmin/lib/extend/'
-				}).use([ 'jquery', 'form', 'laydate', 'table', 'laypage' ], function() {
-					$ = layui.jquery, table = layui.table, form = layui.form, laydate = layui.laydate, form.render(null, 'component-form-group');
-					laydate.render({
-						elem : '#nd',
-						type : 'year',
-						done : function(value, date, endDate) {
-							$("#nd").val(date.year);
-						}
-					});
-					laydate.render({
-						elem : '#ysnd',
-						type : 'year',
-						done : function(value, date, endDate) {
-							$("#ysnd").val(date.year);
-						}
-					});
-					//加载表格      
-					renderTable();
-					//移除表头的复选框,去掉全选
-					$(".layui-table-header table thead th input").remove();
-
-					// 触发不同的按钮事件
-					var $ = layui.$, active = {
-
-					};
-
-					//区别按钮属性
-					$('.layui-btn').on('click', function() {
-						var type = $(this).data('type');
-						active[type] ? active[type].call(this) : '';
-					});
-
-					if ($(".specialty ul li").length >= 25) {
-						$(".specialty .selector-right").css({
-							"height" : "80px",
-							"overflow-y" : "scroll"
-						})
-					}
-					$(".cost ul li").each(function() {
-						var htmlA = $(this).find("a").html(), htmlT = $("#define1").val(), htmlName = $(this).parents(".selector-right").prev().html();
-						if (htmlA == htmlT && htmlA != "") {
-							$(this).addClass("layui-this");
-							$(".conditionNew").removeClass("layui-hide");
-							$(".conditionNew ul").append("<li>" + htmlName + "<a href='javascript:;'>" + htmlA + "</a></li>");
-							renderTable();
-						}
-
-						dele();
-					});
-
-					$(".define11 ul li").each(function() {
-						var htmlA = $(this).find("a").html(), htmlT = $("#define11").val(), htmlName = $(this).parents(".selector-right").prev().html();
-						if (htmlA == htmlT && htmlA != "") {
-							$(this).addClass("layui-this");
-							$(".conditionNew").removeClass("layui-hide");
-							$(".conditionNew ul").append("<li>" + htmlName + "<a href='javascript:;'>" + htmlA + "</a></li>");
-							renderTable();
-						}
-
-						dele();
-					});
-
-					$(".institute ul li").each(function() {
-						var htmlA = $(this).find("a").html(), htmlT = $("#define2").val(), htmlName = $(this).parents(".selector-right").prev().html();
-						if (htmlA == htmlT && htmlA != "") {
-							$(this).addClass("layui-this");
-							$(".conditionNew").removeClass("layui-hide");
-							$(".conditionNew ul").append("<li>" + htmlName + "<a href='javascript:;'>" + htmlA + "</a></li>");
-							renderTable();
-						}
-
-						dele();
-					});
-					$(".define12 ul li").each(function() {
-						var htmlA = $(this).find("a").html(), htmlT = $("#define12").val(), htmlName = $(this).parents(".selector-right").prev().html();
-						if (htmlA == htmlT && htmlA != "") {
-							$(this).addClass("layui-this");
-							$(".conditionNew").removeClass("layui-hide");
-							$(".conditionNew ul").append("<li>" + htmlName + "<a href='javascript:;'>" + htmlA + "</a></li>");
-							renderTable();
-						}
-
-						dele();
-					});
-
-					$(".specialty ul li").each(function() {
-						var htmlA = $(this).find("a").html(), htmlT = $("#zylb").val(), htmlName = $(this).parents(".selector-right").prev().html();
-						if (htmlA == htmlT && htmlA != "") {
-							$(this).addClass("layui-this");
-							$(".conditionNew").removeClass("layui-hide");
-							$(".conditionNew ul").append("<li>" + htmlName + "<a href='javascript:;'>" + htmlA + "</a></li>");
-							renderTable();
-						}
-
-						dele();
-					});
-
-					$(".specialt_chu ul li").each(function() {
-						var htmlA = $(this).find("a").html(), htmlT = $("#define10").val(), htmlName = $(this).parents(".selector-right").prev().html();
-						if (htmlA == htmlT && htmlA != "") {
-							$(this).addClass("layui-this");
-							$(".conditionNew").removeClass("layui-hide");
-							$(".conditionNew ul").append("<li>" + htmlName + "<a href='javascript:;'>" + htmlA + "</a></li>");
-							renderTable();
-						}
-
-						dele();
-					});
-
-					$(".specialt_qdbz ul li").each(function() {
-						var htmlA = $(this).find("a").html(), htmlT = $("#qdbz").val(), htmlName = $(this).parents(".selector-right").prev().html();
-						if (htmlA == htmlT && htmlA != "") {
-							$(this).addClass("layui-this");
-							$(".conditionNew").removeClass("layui-hide");
-							$(".conditionNew ul").append("<li>" + htmlName + "<a href='javascript:;'>" + htmlA + "</a></li>");
-							renderTable();
-						}
-
-						dele();
-					});
-
-					/*循环生成*/
-					//费用类别
-					/* $(".cost ul").append("<li><a href='javascript:;'>"+"资本性"+"</a> </li>");
-					//研究院
-					$(".institute ul").append("<li><a href='javascript:;'>"+"资本性"+"</a> </li>");
-					//其他系统标识
-					$(".system ul").append("<li><a href='javascript:;'>"+"资本性"+"</a> </li>");
-					//专业类别
-					$(".specialty ul").append("<li><a href='javascript:;'>"+"资本性"+"</a> </li>"); */
-					$(".selector>div ul li a").click(function() {
-						if ($(this).parents(".selector-right").parent().attr("class") == "conditionNew") {
-							var htmlThis = $(this).html();
-							var htmlW = $(this).parent().text();
-							$(".selector-right ul li a").each(function() {
-								var htmlN = $(this).parents(".selector-right").prev().html();
-								if (htmlW.indexOf(htmlN) != -1 && htmlThis.indexOf($(this).html()) != -1) {
-									$(this).parents("li").removeClass("layui-this");
-									return false;
-								}
-							});
-							$(this).parent().remove()
-						} else if ($(this).parents("li").hasClass("layui-this")) {
-							$(this).parents("li").removeClass("layui-this");
-							var htmlThis = $(this).html();
-							$(".conditionNew ul li a").each(function() {
-								if (htmlThis.indexOf($(this).html()) != -1) {
-									$(this).parents("li").remove();
-									return false;
-								}
-							});
-						} else {
-							$(this).parents("li").addClass("layui-this");
-							var htmlName = $(this).parents(".selector-right").prev().html();
-							var htmlThis = $(this).html();
-							$(".conditionNew").removeClass("layui-hide");
-							$(".conditionNew ul").append("<li>" + htmlName + "<a href='javascript:;'>" + htmlThis + "</a></li>");
-							$(".conditionNew ul li a").click(function() {
-								$(this).parents("li").remove();
-							});
-							$(".conditionNew ul li a").click(function() {
-								var htmlThis = $(this).html();
-								var htmlW = $(this).parent().text();
-								$(".selector-right ul li a").each(function() {
-									var htmlN = $(this).parents(".selector-right").prev().html();
-									if (htmlW.indexOf(htmlN) != -1 && htmlThis.indexOf($(this).html()) != -1) {
-										$(this).parents("li").removeClass("layui-this");
-										return false;
-									}
-								});
-							});
-							dele();
-						}
-					});
-				});
-
-				function dele() {
-					$(".conditionNew .dele").click(function() {
-						$(".conditionNew ul li").remove();
-						$(".selector-right ul li").removeClass("layui-this");
-						$(".conditionNew").addClass("layui-hide");
-					});
+		layui.config({
+			base : '/layuiadmin/lib/extend/'
+		}).use([ 'jquery', 'form', 'laydate', 'table', 'laypage' ], function() {
+			$ = layui.jquery, table = layui.table, form = layui.form, laydate = layui.laydate, form.render(null, 'component-form-group');
+			laydate.render({
+				elem : '#nd',
+				type : 'year',
+				done : function(value, date, endDate) {
+					$("#nd").val(date.year);
 				}
-				function renderTable() {
-					var costSelectedItem = "", instituteSelectedItem = "", systemSelectedItem = "", specialtySelectedItem = "", specialtySelectedspecialt_chuItem = "", specialtySelectedItem_qdbz = "", define11SelectedItem = "", define12SelectedItem = "";
-					$(".cost ul li").each(function() {
-						if ($(this).attr("class") == "layui-this") {
-							costSelectedItem += $(this).find("a").html() + ',';
+			});
+			laydate.render({
+				elem : '#ysnd',
+				type : 'year',
+				done : function(value, date, endDate) {
+					$("#ysnd").val(date.year);
+				}
+			});
+			//加载表格      
+			renderTable();
+			//移除表头的复选框,去掉全选
+			$(".layui-table-header table thead th input").remove();
+
+			// 触发不同的按钮事件
+			var $ = layui.$, active = {
+
+			};
+
+			//区别按钮属性
+			$('.layui-btn').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+
+			if ($(".specialty ul li").length >= 25) {
+				$(".specialty .selector-right").css({
+					"height" : "80px",
+					"overflow-y" : "scroll"
+				})
+			}
+			$(".cost ul li").each(function() {
+				var htmlA = $(this).find("a").html(), htmlT = $("#define1").val(), htmlName = $(this).parents(".selector-right").prev().html();
+				if (htmlA == htmlT && htmlA != "") {
+					$(this).addClass("layui-this");
+					$(".conditionNew").removeClass("layui-hide");
+					$(".conditionNew ul").append("<li>" + htmlName + "<a href='javascript:;'>" + htmlA + "</a></li>");
+					renderTable();
+				}
+
+				dele();
+			});
+
+			$(".define11 ul li").each(function() {
+				var htmlA = $(this).find("a").html(), htmlT = $("#define11").val(), htmlName = $(this).parents(".selector-right").prev().html();
+				if (htmlA == htmlT && htmlA != "") {
+					$(this).addClass("layui-this");
+					$(".conditionNew").removeClass("layui-hide");
+					$(".conditionNew ul").append("<li>" + htmlName + "<a href='javascript:;'>" + htmlA + "</a></li>");
+					renderTable();
+				}
+
+				dele();
+			});
+
+			$(".institute ul li").each(function() {
+				var htmlA = $(this).find("a").html(), htmlT = $("#define2").val(), htmlName = $(this).parents(".selector-right").prev().html();
+				if (htmlA == htmlT && htmlA != "") {
+					$(this).addClass("layui-this");
+					$(".conditionNew").removeClass("layui-hide");
+					$(".conditionNew ul").append("<li>" + htmlName + "<a href='javascript:;'>" + htmlA + "</a></li>");
+					renderTable();
+				}
+
+				dele();
+			});
+			$(".define12 ul li").each(function() {
+				var htmlA = $(this).find("a").html(), htmlT = $("#define12").val(), htmlName = $(this).parents(".selector-right").prev().html();
+				if (htmlA == htmlT && htmlA != "") {
+					$(this).addClass("layui-this");
+					$(".conditionNew").removeClass("layui-hide");
+					$(".conditionNew ul").append("<li>" + htmlName + "<a href='javascript:;'>" + htmlA + "</a></li>");
+					renderTable();
+				}
+
+				dele();
+			});
+
+			$(".specialty ul li").each(function() {
+				var htmlA = $(this).find("a").html(), htmlT = $("#zylb").val(), htmlName = $(this).parents(".selector-right").prev().html();
+				if (htmlA == htmlT && htmlA != "") {
+					$(this).addClass("layui-this");
+					$(".conditionNew").removeClass("layui-hide");
+					$(".conditionNew ul").append("<li>" + htmlName + "<a href='javascript:;'>" + htmlA + "</a></li>");
+					renderTable();
+				}
+
+				dele();
+			});
+
+			$(".specialt_chu ul li").each(function() {
+				var htmlA = $(this).find("a").html(), htmlT = $("#define10").val(), htmlName = $(this).parents(".selector-right").prev().html();
+				if (htmlA == htmlT && htmlA != "") {
+					$(this).addClass("layui-this");
+					$(".conditionNew").removeClass("layui-hide");
+					$(".conditionNew ul").append("<li>" + htmlName + "<a href='javascript:;'>" + htmlA + "</a></li>");
+					renderTable();
+				}
+
+				dele();
+			});
+
+			$(".specialt_qdbz ul li").each(function() {
+				var htmlA = $(this).find("a").html(), htmlT = $("#qdbz").val(), htmlName = $(this).parents(".selector-right").prev().html();
+				if (htmlA == htmlT && htmlA != "") {
+					$(this).addClass("layui-this");
+					$(".conditionNew").removeClass("layui-hide");
+					$(".conditionNew ul").append("<li>" + htmlName + "<a href='javascript:;'>" + htmlA + "</a></li>");
+					renderTable();
+				}
+
+				dele();
+			});
+
+			/*循环生成*/
+			//费用类别
+			/* $(".cost ul").append("<li><a href='javascript:;'>"+"资本性"+"</a> </li>");
+			//研究院
+			$(".institute ul").append("<li><a href='javascript:;'>"+"资本性"+"</a> </li>");
+			//其他系统标识
+			$(".system ul").append("<li><a href='javascript:;'>"+"资本性"+"</a> </li>");
+			//专业类别
+			$(".specialty ul").append("<li><a href='javascript:;'>"+"资本性"+"</a> </li>"); */
+			$(".selector>div ul li a").click(function() {
+				if ($(this).parents(".selector-right").parent().attr("class") == "conditionNew") {
+					var htmlThis = $(this).html();
+					var htmlW = $(this).parent().text();
+					$(".selector-right ul li a").each(function() {
+						var htmlN = $(this).parents(".selector-right").prev().html();
+						if (htmlW.indexOf(htmlN) != -1 && htmlThis.indexOf($(this).html()) != -1) {
+							$(this).parents("li").removeClass("layui-this");
+							return false;
 						}
 					});
-					$(".define11 ul li").each(function() {
-						if ($(this).attr("class") == "layui-this") {
-							define11SelectedItem += $(this).find("a").html() + ',';
+					$(this).parent().remove()
+				} else if ($(this).parents("li").hasClass("layui-this")) {
+					$(this).parents("li").removeClass("layui-this");
+					var htmlThis = $(this).html();
+					$(".conditionNew ul li a").each(function() {
+						if (htmlThis.indexOf($(this).html()) != -1) {
+							$(this).parents("li").remove();
+							return false;
 						}
 					});
-
-					$(".institute ul li").each(function() {
-						if ($(this).attr("class") == "layui-this") {
-							instituteSelectedItem += $(this).find("a").html() + ',';
-						}
+				} else {
+					$(this).parents("li").addClass("layui-this");
+					var htmlName = $(this).parents(".selector-right").prev().html();
+					var htmlThis = $(this).html();
+					$(".conditionNew").removeClass("layui-hide");
+					$(".conditionNew ul").append("<li>" + htmlName + "<a href='javascript:;'>" + htmlThis + "</a></li>");
+					$(".conditionNew ul li a").click(function() {
+						$(this).parents("li").remove();
 					});
-					$(".define12 ul li").each(function() {
-						if ($(this).attr("class") == "layui-this") {
-							define12SelectedItem += $(this).find("a").html() + ',';
-						}
-					});
-					$(".specialty ul li").each(function() {
-						if ($(this).attr("class") == "layui-this") {
-							specialtySelectedItem += $(this).find("a").html() + ',';
-						}
-					});
-					$(".specialt_chu ul li").each(function() {
-						if ($(this).attr("class") == "layui-this") {
-							specialtySelectedspecialt_chuItem += $(this).find("a").html() + ',';
-						}
-					});
-
-					$(".specialt_qdbz ul li").each(function() {
-						if ($(this).attr("class") == "layui-this") {
-							specialtySelectedItem_qdbz += $(this).find("a").html() + ',';
-						}
-					});
-
-					costSelectedItem = costSelectedItem.slice(0, costSelectedItem.length - 1);//define1
-					define11SelectedItem = define11SelectedItem.slice(0, define11SelectedItem.length - 1);//define11
-					instituteSelectedItem = instituteSelectedItem.slice(0, instituteSelectedItem.length - 1);//define2  8大院等细分结构
-					define12SelectedItem = define12SelectedItem.slice(0, define12SelectedItem.length - 1);
-					specialtySelectedItem = specialtySelectedItem.slice(0, specialtySelectedItem.length - 1);//zylb     装备的各种技术类型
-					specialtySelectedspecialt_chuItem = specialtySelectedspecialt_chuItem.slice(0, specialtySelectedspecialt_chuItem.length - 1);//define10   专业处
-					specialtySelectedItem_qdbz = specialtySelectedItem_qdbz.slice(0, specialtySelectedItem_qdbz.length - 1);//qdbz     签订标示
-
-					//alert("specialtySelectedItem="+specialtySelectedItem);
-					var index = layer.load(1, {
-						shade : [ 0.1, '#fff' ]
-					});
-
-					//渲染
-					table.render({
-						elem : '#processdef-table',
-						url : '/one_level_main/common_table_data',
-						method : "POST",
-						where : {
-							param : {
-								"nd" : $("#nd").val(),
-								"ysnd" : $("#ysnd").val(),
-								"xmmc" : $("#xmmc").val(),
-								"define1" : costSelectedItem,
-								"define11" : define11SelectedItem,
-								"define2" : instituteSelectedItem,
-								"define12" : define12SelectedItem,
-								"define10" : specialtySelectedspecialt_chuItem,
-								"zylb" : specialtySelectedItem,
-								"qdbz" : specialtySelectedItem_qdbz,
-								"project_scope" : $("#project_scope").val(),
-								"leaderFlag" : $("#leaderFlag").val(),
-								"project_property" : $("#project_property").val(),
-								"projectId" : $("#projectId").val(),
-								"groupFlag" : $("#groupFlagSelector").find("option:selected").val()
-
-							}
-						},
-						limit : 15,
-						id : 'processdef-table',
-						height : commonDislodgeTable(),
-						page : {
-							groups : 5,
-							limits : [ 15, 30, 45, 60 ],
-							layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
-							first : '首页', //不显示首页
-							last : '尾页', //不显示尾页
-							theme : '#0F9EE0'
-						},
-						cols : [ [ {
-							title : '序号',
-							type : 'numbers',
-							width : '45'
-						}, {
-							field : 'nd',
-							title : '项目年度',
-							style : 'cursor: pointer;',
-							align : 'center',
-							width : '80',
-							sort : true
-						}, {
-							field : 'ysnd',
-							title : '预算年度',
-							style : 'cursor: pointer;',
-							align : 'center',
-							width : '80',
-							sort : true
-						}, {
-							field : 'hth',
-							title : '合同号',
-							style : 'cursor: pointer;',
-							align : 'center',
-							width : '80',
-							sort : true
-						}, {
-							field : 'define10',
-							title : '专业处',
-							style : 'cursor: pointer;',
-							align : 'left',
-							width : '80',
-							sort : true
-						}, {
-							field : 'xmmc',
-							title : '项目名称',
-							style : 'cursor: pointer;',
-							align : 'left',
-							width : '350',
-							sort : true
-						}, {
-							field : 'jf',
-							title : '总额（万元）',
-							style : 'cursor: pointer;',
-							align : 'center',
-							width : '100',
-							sort : true
-						}, {
-							field : 'ysje',
-							title : '年度预算（万元）',
-							style : 'cursor: pointer;',
-							align : 'center',
-							width : '130',
-							sort : true
-						},
-
-						{
-							field : 'yszbxje',
-							title : '资本性预算',
-							style : 'cursor: pointer;',
-							align : 'center',
-							width : '100',
-							sort : true
-						}, {
-							field : 'ysfyxje',
-							title : '费用性预算',
-							style : 'cursor: pointer;',
-							align : 'center',
-							width : '100',
-							sort : true
-						}, {
-							field : 'define11',
-							title : '经费来源',
-							style : 'cursor: pointer;',
-							align : 'center',
-							width : '100',
-							sort : true
-						}, {
-							field : 'define12',
-							title : '单位类别',
-							style : 'cursor: pointer;',
-							align : 'center',
-							width : '120',
-							sort : true
-						}, {
-							field : 'define1',
-							title : '资本/费用',
-							style : 'cursor: pointer;',
-							align : 'center',
-							width : '110',
-							sort : true
-						}, {
-							field : 'define2',
-							title : '二级单位名称',
-							style : 'cursor: pointer;',
-							align : 'left',
-							width : '140',
-							sort : true
-						}, {
-							field : 'zylb',
-							title : '专业类别',
-							style : 'cursor: pointer;',
-							align : 'left',
-							width : '130',
-							sort : true
-						}, {
-							field : 'fzdw',
-							title : '负责单位',
-							style : 'cursor: pointer;',
-							align : 'left',
-							width : '150',
-							sort : true
-						}, {
-							field : 'qdbz',
-							title : '签订标识',
-							style : 'cursor: pointer;',
-							align : 'left',
-							width : '80',
-							sort : true
-						}
-
-						] ],
-						done : function(res, curr, count) {
-							// 点击行联动选择框--单选
-							$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
-								var index = parseInt($(this).index() + 1);
-								$('tr').removeClass('layui-table-click');
-								$(this).addClass('layui-table-click');
-								$('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-								$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-								selectRowData = res.data[index - 1];
-							});
-
-							layer.close(index);
-						}
-					});
-
-					//监听排序
-					table.on('sort(processdef-table)', function(obj) {
-						console.log(this, obj.field, obj.type)
-						//return;
-						//服务端排序
-						table.reload('processdef-table', {
-							initSort : obj,
-							page : {
-								curr : 1
-							}, //重新从第一页开始
-							where : { //重新请求服务端
-								orderKey : obj.field, //排序字段
-								orderType : obj.type
-							//排序方式
+					$(".conditionNew ul li a").click(function() {
+						var htmlThis = $(this).html();
+						var htmlW = $(this).parent().text();
+						$(".selector-right ul li a").each(function() {
+							var htmlN = $(this).parents(".selector-right").prev().html();
+							if (htmlW.indexOf(htmlN) != -1 && htmlThis.indexOf($(this).html()) != -1) {
+								$(this).parents("li").removeClass("layui-this");
+								return false;
 							}
 						});
 					});
+					dele();
+				}
+			});
+		});
 
+		function dele() {
+			$(".conditionNew .dele").click(function() {
+				$(".conditionNew ul li").remove();
+				$(".selector-right ul li").removeClass("layui-this");
+				$(".conditionNew").addClass("layui-hide");
+			});
+		}
+		function renderTable() {
+			var costSelectedItem = "", instituteSelectedItem = "", systemSelectedItem = "", specialtySelectedItem = "", specialtySelectedspecialt_chuItem = "", specialtySelectedItem_qdbz = "", define11SelectedItem = "", define12SelectedItem = "";
+			$(".cost ul li").each(function() {
+				if ($(this).attr("class") == "layui-this") {
+					costSelectedItem += $(this).find("a").html() + ',';
+				}
+			});
+			$(".define11 ul li").each(function() {
+				if ($(this).attr("class") == "layui-this") {
+					define11SelectedItem += $(this).find("a").html() + ',';
+				}
+			});
+
+			$(".institute ul li").each(function() {
+				if ($(this).attr("class") == "layui-this") {
+					instituteSelectedItem += $(this).find("a").html() + ',';
+				}
+			});
+			$(".define12 ul li").each(function() {
+				if ($(this).attr("class") == "layui-this") {
+					define12SelectedItem += $(this).find("a").html() + ',';
+				}
+			});
+			$(".specialty ul li").each(function() {
+				if ($(this).attr("class") == "layui-this") {
+					specialtySelectedItem += $(this).find("a").html() + ',';
+				}
+			});
+			$(".specialt_chu ul li").each(function() {
+				if ($(this).attr("class") == "layui-this") {
+					specialtySelectedspecialt_chuItem += $(this).find("a").html() + ',';
+				}
+			});
+
+			$(".specialt_qdbz ul li").each(function() {
+				if ($(this).attr("class") == "layui-this") {
+					specialtySelectedItem_qdbz += $(this).find("a").html() + ',';
+				}
+			});
+
+			costSelectedItem = costSelectedItem.slice(0, costSelectedItem.length - 1);//define1
+			define11SelectedItem = define11SelectedItem.slice(0, define11SelectedItem.length - 1);//define11
+			instituteSelectedItem = instituteSelectedItem.slice(0, instituteSelectedItem.length - 1);//define2  8大院等细分结构
+			define12SelectedItem = define12SelectedItem.slice(0, define12SelectedItem.length - 1);
+			specialtySelectedItem = specialtySelectedItem.slice(0, specialtySelectedItem.length - 1);//zylb     装备的各种技术类型
+			specialtySelectedspecialt_chuItem = specialtySelectedspecialt_chuItem.slice(0, specialtySelectedspecialt_chuItem.length - 1);//define10   专业处
+			specialtySelectedItem_qdbz = specialtySelectedItem_qdbz.slice(0, specialtySelectedItem_qdbz.length - 1);//qdbz     签订标示
+
+			//alert("specialtySelectedItem="+specialtySelectedItem);
+			var index = layer.load(1, {
+				shade : [ 0.1, '#fff' ]
+			});
+
+			//渲染
+			table.render({
+				elem : '#processdef-table',
+				url : '/one_level_main/common_table_data',
+				method : "POST",
+				where : {
+					param : {
+						"nd" : $("#nd").val(),
+						"ysnd" : $("#ysnd").val(),
+						"xmmc" : $("#xmmc").val(),
+						"define1" : costSelectedItem,
+						"define11" : define11SelectedItem,
+						"define2" : instituteSelectedItem,
+						"define12" : define12SelectedItem,
+						"define10" : specialtySelectedspecialt_chuItem,
+						"zylb" : specialtySelectedItem,
+						"qdbz" : specialtySelectedItem_qdbz,
+						"project_scope" : $("#project_scope").val(),
+						"leaderFlag" : $("#leaderFlag").val(),
+						"project_property" : $("#project_property").val(),
+						"projectId" : $("#projectId").val(),
+						"groupFlag" : $("#groupFlagSelector").find("option:selected").val()
+
+					}
+				},
+				limit : 15,
+				id : 'processdef-table',
+				height : commonDislodgeTable(),
+				page : {
+					groups : 5,
+					limits : [ 15, 30, 45, 60 ],
+					layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
+					first : '首页', //不显示首页
+					last : '尾页', //不显示尾页
+					theme : '#0F9EE0'
+				},
+				cols : [ [ {
+					title : '序号',
+					type : 'numbers',
+					width : '45'
+				}, {
+					field : 'nd',
+					title : '项目年度',
+					style : 'cursor: pointer;',
+					align : 'center',
+					width : '80',
+					sort : true
+				}, {
+					field : 'ysnd',
+					title : '预算年度',
+					style : 'cursor: pointer;',
+					align : 'center',
+					width : '80',
+					sort : true
+				}, {
+					field : 'hth',
+					title : '合同号',
+					style : 'cursor: pointer;',
+					align : 'center',
+					width : '80',
+					sort : true
+				}, {
+					field : 'define10',
+					title : '专业处',
+					style : 'cursor: pointer;',
+					align : 'left',
+					width : '80',
+					sort : true
+				}, {
+					field : 'xmmc',
+					title : '项目名称',
+					style : 'cursor: pointer;',
+					align : 'left',
+					width : '350',
+					sort : true
+				}, {
+					field : 'jf',
+					title : '总额（万元）',
+					style : 'cursor: pointer;',
+					align : 'center',
+					width : '100',
+					sort : true
+				}, {
+					field : 'ysje',
+					title : '年度预算（万元）',
+					style : 'cursor: pointer;',
+					align : 'center',
+					width : '130',
+					sort : true
+				},
+
+				{
+					field : 'yszbxje',
+					title : '资本性预算',
+					style : 'cursor: pointer;',
+					align : 'center',
+					width : '100',
+					sort : true
+				}, {
+					field : 'ysfyxje',
+					title : '费用性预算',
+					style : 'cursor: pointer;',
+					align : 'center',
+					width : '100',
+					sort : true
+				}, {
+					field : 'fzdw',
+					title : '负责单位',
+					style : 'cursor: pointer;',
+					align : 'left',
+					width : '150',
+					sort : true
+				}, {
+					field : 'define8',
+					title : '承担单位',
+					style : 'cursor: pointer;',
+					align : 'left',
+					width : '150',
+					sort : true
+				}, {
+					field : 'define11',
+					title : '经费来源',
+					style : 'cursor: pointer;',
+					align : 'center',
+					width : '100',
+					sort : true
+				}, {
+					field : 'define1',
+					title : '资本/费用',
+					style : 'cursor: pointer;',
+					align : 'center',
+					width : '110',
+					sort : true
+				}, {
+					field : 'define12',
+					title : '一级单位类别',
+					style : 'cursor: pointer;',
+					align : 'left',
+					width : '150',
+					sort : true
+				}, {
+					field : 'define2',
+					title : '二级单位类别',
+					style : 'cursor: pointer;',
+					align : 'left',
+					width : '140',
+					sort : true
+				}, {
+					field : 'zylb',
+					title : '专业类别',
+					style : 'cursor: pointer;',
+					align : 'left',
+					width : '130',
+					sort : true
+				}, {
+					field : 'qdbz',
+					title : '签订标识',
+					style : 'cursor: pointer;',
+					align : 'left',
+					width : '80',
+					sort : true
 				}
 
-				function back() {
+				] ],
+				done : function(res, curr, count) {
+					// 点击行联动选择框--单选
+					$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
+						var index = parseInt($(this).index() + 1);
+						$('tr').removeClass('layui-table-click');
+						$(this).addClass('layui-table-click');
+						$('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+						$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+						selectRowData = res.data[index - 1];
+					});
 
+					layer.close(index);
 				}
-			</script>
+			});
+
+			//监听排序
+			table.on('sort(processdef-table)', function(obj) {
+				console.log(this, obj.field, obj.type)
+				//return;
+				//服务端排序
+				table.reload('processdef-table', {
+					initSort : obj,
+					page : {
+						curr : 1
+					}, //重新从第一页开始
+					where : { //重新请求服务端
+						orderKey : obj.field, //排序字段
+						orderType : obj.type
+					//排序方式
+					}
+				});
+			});
+
+		}
+
+		function back() {
+
+		}
+	</script>
 </body>
 </html>
