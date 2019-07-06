@@ -126,14 +126,14 @@ public class DetailServiceImpl implements DetailService {
 					  }
 					}
 				}
+				PageInfo<SreDetail> pageInfo = new PageInfo<SreDetail>(sreSunlike);
+				System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
+				LayuiTableData data = new LayuiTableData();
+				data.setData(pageInfo.getList());
+				Long total = pageInfo.getTotal();
+				data.setCount(total.intValue());
+			    return data;
 			}
-			PageInfo<SreDetail> pageInfo = new PageInfo<SreDetail>(sreSunlike);
-			System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
-			LayuiTableData data = new LayuiTableData();
-			data.setData(pageInfo.getList());
-			Long total = pageInfo.getTotal();
-			data.setCount(total.intValue());
-		    return data;
 		}
 		PageInfo<SreDetail> pageInfo = new PageInfo<SreDetail>(list);
 		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
