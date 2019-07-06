@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.budget.BudgetMoneyB2cMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.budget.BudgetMoneyB2c">
+    <id column="data_id" jdbcType="INTEGER" property="dataId" />
+    <result column="nd" jdbcType="VARCHAR" property="nd" />
+    <result column="xh" jdbcType="VARCHAR" property="xh" />
+    <result column="mc" jdbcType="VARCHAR" property="mc" />
+    <result column="lysybys" jdbcType="VARCHAR" property="lysybys" />
+    <result column="lysybjz" jdbcType="VARCHAR" property="lysybjz" />
+    <result column="lysybkxq" jdbcType="VARCHAR" property="lysybkxq" />
+    <result column="hgsybys" jdbcType="VARCHAR" property="hgsybys" />
+    <result column="hgsybjz" jdbcType="VARCHAR" property="hgsybjz" />
+    <result column="hgsybkxq" jdbcType="VARCHAR" property="hgsybkxq" />
+    <result column="define1" jdbcType="VARCHAR" property="define1" />
+    <result column="define2" jdbcType="VARCHAR" property="define2" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    data_id, nd, xh, mc, lysybys, lysybjz, lysybkxq, hgsybys, hgsybjz, hgsybkxq, define1, 
+    define2
+  </sql>
+  <select id="selectByExample" parameterType="com.pcitc.base.stp.budget.BudgetMoneyB2cExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from out_tem_money_b2c
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from out_tem_money_b2c
+    where data_id = #{dataId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from out_tem_money_b2c
+    where data_id = #{dataId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.budget.BudgetMoneyB2cExample">
+    delete from out_tem_money_b2c
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.budget.BudgetMoneyB2c">
+    insert into out_tem_money_b2c (data_id, nd, xh, 
+      mc, lysybys, lysybjz, 
+      lysybkxq, hgsybys, hgsybjz, 
+      hgsybkxq, define1, define2
+      )
+    values (#{dataId,jdbcType=INTEGER}, #{nd,jdbcType=VARCHAR}, #{xh,jdbcType=VARCHAR}, 
+      #{mc,jdbcType=VARCHAR}, #{lysybys,jdbcType=VARCHAR}, #{lysybjz,jdbcType=VARCHAR}, 
+      #{lysybkxq,jdbcType=VARCHAR}, #{hgsybys,jdbcType=VARCHAR}, #{hgsybjz,jdbcType=VARCHAR}, 
+      #{hgsybkxq,jdbcType=VARCHAR}, #{define1,jdbcType=VARCHAR}, #{define2,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.budget.BudgetMoneyB2c">
+    insert into out_tem_money_b2c
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        data_id,
+      </if>
+      <if test="nd != null">
+        nd,
+      </if>
+      <if test="xh != null">
+        xh,
+      </if>
+      <if test="mc != null">
+        mc,
+      </if>
+      <if test="lysybys != null">
+        lysybys,
+      </if>
+      <if test="lysybjz != null">
+        lysybjz,
+      </if>
+      <if test="lysybkxq != null">
+        lysybkxq,
+      </if>
+      <if test="hgsybys != null">
+        hgsybys,
+      </if>
+      <if test="hgsybjz != null">
+        hgsybjz,
+      </if>
+      <if test="hgsybkxq != null">
+        hgsybkxq,
+      </if>
+      <if test="define1 != null">
+        define1,
+      </if>
+      <if test="define2 != null">
+        define2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        #{dataId,jdbcType=INTEGER},
+      </if>
+      <if test="nd != null">
+        #{nd,jdbcType=VARCHAR},
+      </if>
+      <if test="xh != null">
+        #{xh,jdbcType=VARCHAR},
+      </if>
+      <if test="mc != null">
+        #{mc,jdbcType=VARCHAR},
+      </if>
+      <if test="lysybys != null">
+        #{lysybys,jdbcType=VARCHAR},
+      </if>
+      <if test="lysybjz != null">
+        #{lysybjz,jdbcType=VARCHAR},
+      </if>
+      <if test="lysybkxq != null">
+        #{lysybkxq,jdbcType=VARCHAR},
+      </if>
+      <if test="hgsybys != null">
+        #{hgsybys,jdbcType=VARCHAR},
+      </if>
+      <if test="hgsybjz != null">
+        #{hgsybjz,jdbcType=VARCHAR},
+      </if>
+      <if test="hgsybkxq != null">
+        #{hgsybkxq,jdbcType=VARCHAR},
+      </if>
+      <if test="define1 != null">
+        #{define1,jdbcType=VARCHAR},
+      </if>
+      <if test="define2 != null">
+        #{define2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.stp.budget.BudgetMoneyB2cExample" resultType="java.lang.Long">
+    select count(*) from out_tem_money_b2c
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update out_tem_money_b2c
+    <set>
+      <if test="record.dataId != null">
+        data_id = #{record.dataId,jdbcType=INTEGER},
+      </if>
+      <if test="record.nd != null">
+        nd = #{record.nd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xh != null">
+        xh = #{record.xh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mc != null">
+        mc = #{record.mc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lysybys != null">
+        lysybys = #{record.lysybys,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lysybjz != null">
+        lysybjz = #{record.lysybjz,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lysybkxq != null">
+        lysybkxq = #{record.lysybkxq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hgsybys != null">
+        hgsybys = #{record.hgsybys,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hgsybjz != null">
+        hgsybjz = #{record.hgsybjz,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hgsybkxq != null">
+        hgsybkxq = #{record.hgsybkxq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define1 != null">
+        define1 = #{record.define1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define2 != null">
+        define2 = #{record.define2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update out_tem_money_b2c
+    set data_id = #{record.dataId,jdbcType=INTEGER},
+      nd = #{record.nd,jdbcType=VARCHAR},
+      xh = #{record.xh,jdbcType=VARCHAR},
+      mc = #{record.mc,jdbcType=VARCHAR},
+      lysybys = #{record.lysybys,jdbcType=VARCHAR},
+      lysybjz = #{record.lysybjz,jdbcType=VARCHAR},
+      lysybkxq = #{record.lysybkxq,jdbcType=VARCHAR},
+      hgsybys = #{record.hgsybys,jdbcType=VARCHAR},
+      hgsybjz = #{record.hgsybjz,jdbcType=VARCHAR},
+      hgsybkxq = #{record.hgsybkxq,jdbcType=VARCHAR},
+      define1 = #{record.define1,jdbcType=VARCHAR},
+      define2 = #{record.define2,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.budget.BudgetMoneyB2c">
+    update out_tem_money_b2c
+    <set>
+      <if test="nd != null">
+        nd = #{nd,jdbcType=VARCHAR},
+      </if>
+      <if test="xh != null">
+        xh = #{xh,jdbcType=VARCHAR},
+      </if>
+      <if test="mc != null">
+        mc = #{mc,jdbcType=VARCHAR},
+      </if>
+      <if test="lysybys != null">
+        lysybys = #{lysybys,jdbcType=VARCHAR},
+      </if>
+      <if test="lysybjz != null">
+        lysybjz = #{lysybjz,jdbcType=VARCHAR},
+      </if>
+      <if test="lysybkxq != null">
+        lysybkxq = #{lysybkxq,jdbcType=VARCHAR},
+      </if>
+      <if test="hgsybys != null">
+        hgsybys = #{hgsybys,jdbcType=VARCHAR},
+      </if>
+      <if test="hgsybjz != null">
+        hgsybjz = #{hgsybjz,jdbcType=VARCHAR},
+      </if>
+      <if test="hgsybkxq != null">
+        hgsybkxq = #{hgsybkxq,jdbcType=VARCHAR},
+      </if>
+      <if test="define1 != null">
+        define1 = #{define1,jdbcType=VARCHAR},
+      </if>
+      <if test="define2 != null">
+        define2 = #{define2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where data_id = #{dataId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.budget.BudgetMoneyB2c">
+    update out_tem_money_b2c
+    set nd = #{nd,jdbcType=VARCHAR},
+      xh = #{xh,jdbcType=VARCHAR},
+      mc = #{mc,jdbcType=VARCHAR},
+      lysybys = #{lysybys,jdbcType=VARCHAR},
+      lysybjz = #{lysybjz,jdbcType=VARCHAR},
+      lysybkxq = #{lysybkxq,jdbcType=VARCHAR},
+      hgsybys = #{hgsybys,jdbcType=VARCHAR},
+      hgsybjz = #{hgsybjz,jdbcType=VARCHAR},
+      hgsybkxq = #{hgsybkxq,jdbcType=VARCHAR},
+      define1 = #{define1,jdbcType=VARCHAR},
+      define2 = #{define2,jdbcType=VARCHAR}
+    where data_id = #{dataId,jdbcType=INTEGER}
+  </update>
+</mapper>
