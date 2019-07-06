@@ -81,7 +81,12 @@ public class CsrCheckInterceptor implements HandlerInterceptor
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
-		out.print("<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><title>非法访问</title></head><body><h1>您的访问涉嫌非法！<h1></body></html>");
+		out.println("<html>");      
+	    out.println("<script>");      
+	    out.println("window.open ('/error','_top')");      
+	    out.println("</script>");      
+	    out.println("</html>");   
+		//out.print("<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><title>非法访问</title></head><body><h1>您的访问涉嫌非法！<h1></body></html>");
 		out.close();
 	}
 }
