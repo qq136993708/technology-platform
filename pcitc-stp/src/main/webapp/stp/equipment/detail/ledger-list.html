@@ -271,7 +271,7 @@ var name=$('#name').val();
        //渲染
        table.render({
            elem: '#processdef-table',
-           url: '/sre-detail/list',
+           url: '/sre-ledger/list',
            method:"POST",
            where: {param: {"equipmentName":$("#name").val(),"auditStatus":$("#auditStatus").val(),"unitPathIds":$("#unitPathIds").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
            limit: 15,
@@ -294,7 +294,13 @@ var name=$('#name').val();
                {field : 'declareDepartment', title : '申报部门',sort : true, style : 'cursor: pointer;', align : 'left', width : '13%'},
                {field : 'declarePeople', title : '第一申报人',sort : true, style : 'cursor: pointer;', align : 'left', width : '10%'},
                {field : 'assetNumber', title : '资产编号', sort : true,style : 'cursor: pointer;', align : 'center', width : '10%'},
-               {field : 'declareTime', title : '申请时间', sort : true,style : 'cursor: pointer;', align : 'center', templet : '#dateTpl'}
+               {field : 'declareTime', title : '申请时间', sort : true,style : 'cursor: pointer;', align : 'center', templet : '#dateTpl'},
+
+               {field : 'g0txt50', title : '资产描述', sort : true,style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'g0naprz', title : '正常折旧率', sort : true,style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'g0saprz', title : '特别折旧率', sort : true,style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'g0schrw', title : '资产残值', sort : true,style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'g0ncgzyzje', title : '年初购置价值', sort : true,style : 'cursor: pointer;', align : 'center', width : '10%'},
            ]],
            done: function (res, curr, count) {
                // 点击行联动选择框--单选

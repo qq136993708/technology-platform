@@ -34,5 +34,5 @@ public interface DetailService {
 	public SreDetail selectSreDetailId(String id);
 
 
-	LayuiTableData getLedgerPage(LayuiTableParam param);
+	LayuiTableData getLedgerPage(LayuiTableParam param)throws Exception;
 }
