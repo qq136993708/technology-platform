@@ -12,4 +12,6 @@ public int insert(sre_scrap_apply_item record)throws Exception;
 public List<FindAppltid> selectByAppltidList(String id)throws Exception;
 
 public int deleteByApplyId(String applyid)throws Exception;
+
+public List<FindAppltid> seListview(String id);
 }

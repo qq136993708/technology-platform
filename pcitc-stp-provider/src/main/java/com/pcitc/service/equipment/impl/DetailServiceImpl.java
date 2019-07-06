@@ -57,6 +57,7 @@ public class DetailServiceImpl implements DetailService {
 		int pageNum = pageStart/pageSize + 1;
 		// 1、设置分页信息，包括当前页数和每页显示的总计数
 		PageHelper.startPage(pageNum, pageSize);
+		String sunlike=getTableParam(param,"sunlike","");
 		String unitPathIds=getTableParam(param,"unitPathIds","");
 		String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
 		
@@ -102,9 +103,38 @@ public class DetailServiceImpl implements DetailService {
 	
 		map.put("unitPathIds", parentUnitPathIds);
 		map.put("parentUnitPathIds", unitPathIds);
-
 		
+		List<SreDetail> sreSunlike = new ArrayList<SreDetail>();
 		List<SreDetail> list = detailMapper.getList(map);
+		if(list.size()!=0) {
+			if(sunlike.equals("1")) {
+				for(SreDetail detail : list) {
+					map.put("g0anln1", detail.getAssetNumber());
+					map.put("g0gsdm", detail.getSupplier());
+					List<SreEquipmentLedger> sreequin  = sreEquipmentLedgerMapper.getSreDetailId(map);
+					if(sreequin.size()!=0) {
+					for(SreEquipmentLedger ledasd : sreequin) {
+						if(ledasd!=null) {
+							detail.setG0NDURJ(ledasd.getG0ndurj().toString());//使用年限
+							detail.setG0SCHRW(ledasd.getG0schrw().toString());//资产残值
+							detail.setG0LJGZYZJE(ledasd.getG0ljgzyzje().toString());//账面净额
+							detail.setG0LJDJZJJE(ledasd.getG0ljdjzjje().toString());//预付定金
+							detail.setG0NCGZYZJE(ledasd.getG0ncgzyzje().toString());//年初购置价值
+							detail.setG0LJZJJE(ledasd.getG0ljzjje().toString());//累计折旧
+							sreSunlike.add(detail);
+						}
+					  }
+					}
+				}
+			}
+			PageInfo<SreDetail> pageInfo = new PageInfo<SreDetail>(sreSunlike);
+			System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
+			LayuiTableData data = new LayuiTableData();
+			data.setData(pageInfo.getList());
+			Long total = pageInfo.getTotal();
+			data.setCount(total.intValue());
+		    return data;
+		}
 		PageInfo<SreDetail> pageInfo = new PageInfo<SreDetail>(list);
 		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
 		LayuiTableData data = new LayuiTableData();
@@ -113,7 +143,6 @@ public class DetailServiceImpl implements DetailService {
 		data.setCount(total.intValue());
 	    return data;
 	}
-
 
 	@Override
 	public Integer insertDetail(SreDetail sreDetail) {

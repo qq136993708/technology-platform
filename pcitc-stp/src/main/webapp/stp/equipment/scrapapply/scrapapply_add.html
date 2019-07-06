@@ -14,6 +14,7 @@
 </head>
 <body>
 <input type="hidden" value="${id}" id="getid" name="getid">
+<input type="hidden" value="1" id="sunlike" name="sunlike">
 <div class="twoListleft">
 	<div class="searchBox">
         <!--查询条件-->
@@ -182,7 +183,7 @@
 	        , url: '/sre-detail/list' //请求的url地址
 	        , limit : param.selfRownum //每页默认显示的数量
 	        , id: 'roleListTable'
-	        , where: {param: {"equipmentName":$("#equipmentName").val()}}
+	        , where: {param: {"sunlike":$("#sunlike").val(),"equipmentName":$("#equipmentName").val()}}
 	        , height: commonDislodgeTable()
 	        , method:"POST"
 	        ,loading:true
@@ -197,15 +198,13 @@
 	        , cols: [[
 	            	 {type: 'checkbox', event: 'roleCheckboxEvent',width:55}
 	            	,{title:'序号', type:'numbers',width:55}
-	            	, {field: 'equipmentPrice', title: '装备单价', style: 'cursor: pointer;'}
-	            	, {field: 'equipmenNumber', title: '规格数量', style: 'cursor: pointer;'}
-	            	, {field: 'equipmentName', title: '装备名称', style: 'cursor: pointer;',width:100}
-	            	, {field: 'specification', title: '规格型号', style: 'cursor: pointer;',width:99}
-	            	, {field: 'arrivaldate', title: '到货日期', width : '20%',style: 'cursor: pointer;', templet :function (row){
-                        return formatTime(row.arrivaldate);
-                        }  }
-	            	, {field: 'supplier', title: '供应商', style: 'cursor: pointer;'}
-	            	, {field: 'assetsClassification', title: '分类', style: 'cursor: pointer;'}
+	            	, {field: 'equipmentName', title: '装备名称', width : "20%",style: 'cursor: pointer;'}
+	            	, {field: 'assetNumber', title: '资产编号', width : "20%",style: 'cursor: pointer;'}
+	            	, {field: 'g0SCHRW', title: '资产残值',width : "20%", style: 'cursor: pointer;'}
+	            	, {field: 'g0LJGZYZJE', title: '账面净额', style: 'cursor: pointer;',width : "20%"}
+	            	, {field: 'g0LJDJZJJE', title: '预付定金', style: 'cursor: pointer;',width : "20%"}
+	            	, {field: 'g0NCGZYZJE', title: '购置价值', style: 'cursor: pointer;',width : "20%"}
+	            	, {field: 'g0LJZJJE', title: '累计折旧', style: 'cursor: pointer;',width : "20%"}
 	        ]]
 	        , done: function (res, curr, count) {
 	        $("[data-field='equipmentPrice']").css('display','none');
@@ -228,7 +227,14 @@
 	                  }
 	                  if(bo==false)
 	                  {
-						AddData.unshift({id:selectRowData.id,equipmentName:selectRowData.equipmentName,specification:selectRowData.specification,del:"删除",p:selectRowData.equipmentPrice,n:selectRowData.equipmenNumber});
+						AddData.unshift({id:selectRowData.id,
+							assetNumber:selectRowData.assetNumber,
+							g0SCHRW:selectRowData.g0SCHRW,
+							g0LJGZYZJE:selectRowData.g0LJGZYZJE,
+							g0LJDJZJJE:selectRowData.g0LJDJZJJE,
+							g0NCGZYZJE:selectRowData.g0NCGZYZJE,
+							g0LJZJJE:selectRowData.g0LJZJJE,
+							equipmentName:selectRowData.equipmentName,specification:selectRowData.specification,del:"删除",p:selectRowData.equipmentPrice,n:selectRowData.equipmenNumber});
 					  }
 						table.reload('userListTable',{
 						data : AddData
@@ -256,9 +262,22 @@
 	        , id: 'userListTable'
 	        , height: commonDislodgeTable()
 	        , loading: true
+	        , page: {
+	            groups: 5
+	            , limits : [ param.selfRownum, 15, 30, 45, 60 ]
+	            , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+	            , first: '首页' //不显示首页
+	            , last: '尾页' //不显示尾页
+	            , theme: '#0F9EE0'
+	        }
 	        , cols: [[
-	            {field: 'equipmentName', title: '装备名称', style: 'cursor: pointer;'}
-	           , {field: 'specification', title: '规格型号', style: 'cursor: pointer;'}
+	            {field: 'equipmentName', title: '装备名称', width : "20%",style: 'cursor: pointer;'}
+	           , {field: 'assetNumber', title: '资产编号', width : "20%",style: 'cursor: pointer;'}
+	           , {field: 'g0SCHRW', title: '资产残值',width : "20%", style: 'cursor: pointer;'}
+           	, {field: 'g0LJGZYZJE', title: '账面净额', style: 'cursor: pointer;',width : "20%"}
+           	, {field: 'g0LJDJZJJE', title: '预付定金', style: 'cursor: pointer;',width : "20%"}
+           	, {field: 'g0NCGZYZJE', title: '购置价值', style: 'cursor: pointer;',width : "20%"}
+           	, {field: 'g0LJZJJE', title: '累计折旧', style: 'cursor: pointer;',width : "20%"}
 	           , {field: 'del', title :'删除', style :'cursor: pointer;color: red;', align: 'center', templet:function(d){return '<span onclick="view_project(&#39;'+d.id+'&#39;)" style="color:red">删除</span>'}}
 	        ]],
 	        data:AddData

@@ -58,6 +58,8 @@ public class SreScrapApplyController extends BaseController {
 	private static final String INSERT_URL="http://pcitc-zuul/stp-proxy/sre-provider/sreScrapApply/addApplyAndItem";
 	private static final String GETVIEW_URL="http://pcitc-zuul/stp-proxy/sre-provider/sreScrapApply/getapplybyid/";
 	private static final String GETLIST_URL="http://pcitc-zuul/stp-proxy/sre-provider/sreScrapApply/selectByAppltidList/";
+	
+	private static final String List_view="http://pcitc-zuul/stp-proxy/sre-provider/sreScrapApply/Listview/";
 	private static final String INVALID_URL="http://pcitc-zuul/stp-proxy/sre-provider/sreScrapApply/submitInvalid/";
 	private static final String DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/sreScrapApply/delete/";
 	   private static final String PURCHASE_INNER_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/sreScrapApply/start_inner_activity/";
@@ -205,7 +207,7 @@ public class SreScrapApplyController extends BaseController {
 			}
 			request.setAttribute("name",name);        
 		    request.setAttribute("documentDoc", documentDoc);     
-			ResponseEntity<List> selectByAppltidList=restTemplate.exchange(GETLIST_URL + id, HttpMethod.GET,new HttpEntity<Object>(this.httpHeaders),List.class);
+			ResponseEntity<List> selectByAppltidList=restTemplate.exchange(List_view + id, HttpMethod.GET,new HttpEntity<Object>(this.httpHeaders),List.class);
 			List<FindAppltid> list = selectByAppltidList.getBody();
 			JSONArray jsonObject = JSONArray.parseArray(JSON.toJSONString(list));
 			request.setAttribute("getList",jsonObject.toString());
