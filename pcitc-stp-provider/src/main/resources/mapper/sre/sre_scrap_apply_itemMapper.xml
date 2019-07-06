@@ -17,7 +17,7 @@
      <result column="assetnumber" property="assetnumber" jdbcType="VARCHAR" />
       <result column="placepeople" property="placepeople" jdbcType="VARCHAR" />
        <result column="sumprice" property="sumprice" jdbcType="VARCHAR" />
-        <result column="price" property="price" jdbcType="VARCHAR" />
+        <result column="supplier" property="supplier" jdbcType="VARCHAR" />
        <result column="number" property="number" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -38,7 +38,7 @@
 		(CONVERT(equipmen_number,SIGNED)*CONVERT(equipment_price,SIGNED))as sumprice,
     sre_equipment_detail.equipment_name as equipmentName,
     sre_equipment_detail.specification as specification,
-    sre_equipment_detail.equipment_price as price,
+    sre_equipment_detail.supplier as supplier,
     sre_equipment_detail.equipmen_number as number
     from sre_scrap_apply_item left join sre_equipment_detail on 
     sre_scrap_apply_item.eqdetailid=sre_equipment_detail.id where sre_scrap_apply_item.applyid = #{id,jdbcType=VARCHAR}

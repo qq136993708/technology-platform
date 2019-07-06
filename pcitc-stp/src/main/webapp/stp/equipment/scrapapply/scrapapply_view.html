@@ -139,11 +139,18 @@ $("#file_div").load('/common/public/uploadlayuiload.html');
        {
          sprice=sprice+parseInt(s[i].sumprice);
          }
-        AddData.unshift({assetnumber:"合计",equipmentName:"",specification:"",placepeople:"",sumprice:sprice});
+      //  AddData.unshift({assetnumber:"合计",equipmentName:"",specification:"",placepeople:"",sumprice:sprice});
         for( var i=0;i<s.length;i++)
         {
        
-        AddData.unshift({id:s[i].detailid,equipmentName:s[i].equipmentName,specification:s[i].specification,assetnumber:s[i].assetnumber,placepeople:s[i].placepeople,sumprice:s[i].sumprice})
+        AddData.unshift({id:s[i].detailid,
+        	assetNumber:s[i].assetNumber,
+			g0SCHRW:s[i].g0SCHRW,
+			g0LJGZYZJE:s[i].g0LJGZYZJE,
+			g0LJDJZJJE:s[i].g0LJDJZJJE,
+			g0NCGZYZJE:s[i].g0NCGZYZJE,
+			g0LJZJJE:s[i].g0LJZJJE,
+        	equipmentName:s[i].equipmentName,specification:s[i].specification,assetnumber:s[i].assetnumber,placepeople:s[i].placepeople,sumprice:s[i].sumprice})
         }
        
     	var lodingMsg = layer.msg('数据加载中....');
@@ -172,16 +179,11 @@ $("#file_div").load('/common/public/uploadlayuiload.html');
 	            	, {field: 'id', title: 'id', style: 'cursor: pointer;'}
 	            	, {field: 'assetnumber', title: '资产编号', style: 'cursor: pointer;'}
 	            	, {field: 'equipmentName', title: '资产名称', style: 'cursor: pointer;'}
-	            	, {field: 'sumprice', title: '资产价值', style: 'cursor: pointer;'}
-	            	, {field: 'placepeople', title: '使用人', style: 'cursor: pointer;'}	
-	            	, {field: 'equipmentPrice', title: '装备单价', style: 'cursor: pointer;'}
-	            	, {field: 'equipmenNumber', title: '规格数量', style: 'cursor: pointer;'}
-	            	, {field: 'specification', title: '规格型号', style: 'cursor: pointer;'}
-	            	, {field: 'arrivaldate', title: '到货日期', style: 'cursor: pointer;', templet :function (row){
-                        return formatTime(row.arrivaldate);
-                        }  }
-	            	, {field: 'supplier', title: '供应商', style: 'cursor: pointer;'}
-	            	, {field: 'assetsClassification', title: '分类', style: 'cursor: pointer;'}
+	            	,, {field: 'g0SCHRW', title: '资产残值',width : "20%", style: 'cursor: pointer;'}
+		           	, {field: 'g0LJGZYZJE', title: '账面净额', style: 'cursor: pointer;',width : "20%"}
+		           	, {field: 'g0LJDJZJJE', title: '预付定金', style: 'cursor: pointer;',width : "20%"}
+		           	, {field: 'g0NCGZYZJE', title: '购置价值', style: 'cursor: pointer;',width : "20%"}
+		           	, {field: 'g0LJZJJE', title: '累计折旧', style: 'cursor: pointer;',width : "20%"}
 	        ]]
 	        , done: function (res, curr, count) {
 	         $("[data-field='id']").css('display','none');
@@ -224,11 +226,14 @@ $("#file_div").load('/common/public/uploadlayuiload.html');
 	        , height: commonDislodgeTable()
 	        , loading: true
 	        , cols: [[
-	              {title:'序号', type:'numbers'}
-	        	, {field: 'assetnumber', title: '资产编号', style: 'cursor: pointer;'}
-	            , {field: 'equipmentName', title: '资产名称', style: 'cursor: pointer;'}
-	            , {field: 'sumprice', title: '资产价值', style: 'cursor: pointer;'}
-	            , {field: 'placepeople', title: '使用人', style: 'cursor: pointer;'}	
+	              {title:'序号', width : "20%",type:'numbers'}
+	        	, {field: 'assetnumber', title: '资产编号',width : "20%", style: 'cursor: pointer;'}
+	            , {field: 'equipmentName', title: '资产名称', width : "20%",style: 'cursor: pointer;'}
+	            , {field: 'g0SCHRW', title: '资产残值',width : "20%", style: 'cursor: pointer;'}
+	           	, {field: 'g0LJGZYZJE', title: '账面净额', style: 'cursor: pointer;',width : "20%"}
+	           	, {field: 'g0LJDJZJJE', title: '预付定金', style: 'cursor: pointer;',width : "20%"}
+	           	, {field: 'g0NCGZYZJE', title: '购置价值', style: 'cursor: pointer;',width : "20%"}
+	           	, {field: 'g0LJZJJE', title: '累计折旧', style: 'cursor: pointer;',width : "20%"}
 	        	        ]],
 	        data:AddData
 	        , done: function (res, curr, count) {

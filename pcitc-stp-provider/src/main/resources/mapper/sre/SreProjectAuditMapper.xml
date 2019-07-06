@@ -133,23 +133,52 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.equipment.SreProjectAudit" >
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.equipment.SreProjectAudit">
     update sre_project_audit
-    set projecttaskid = #{projecttaskid,jdbcType=VARCHAR},
-      projecttask = #{projecttask,jdbcType=VARCHAR},
-      content = #{content,jdbcType=VARCHAR},
-      create_user = #{createUser,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=VARCHAR},
-      documentdoc=#{documentdoc,jdbcType=VARCHAR},
-      documentdoctwo=#{documentdoctwo,jdbcType=VARCHAR},
-      usersid=#{usersid,jdbcType=VARCHAR},
-      informcontent=#{informcontent,jdbcType=VARCHAR},
-      testdate= #{testdate,jdbcType=TIMESTAMP},
-      informdate= #{informdate,jdbcType=TIMESTAMP},
-      informuser=#{informuser,jdbcType=VARCHAR}
-      
-      
+    <set>
+      <if test="projecttaskid != null">
+        projecttaskid = #{projecttaskid,jdbcType=VARCHAR},
+      </if>
+      <if test="projecttask != null">
+        projecttask = #{projecttask,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserid != null">
+        create_userid = #{createUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="documentdoc != null">
+        documentdoc = #{documentdoc,jdbcType=VARCHAR},
+      </if>
+      <if test="documentdoctwo != null">
+        documentdoctwo = #{documentdoctwo,jdbcType=VARCHAR},
+      </if>
+      <if test="usersid != null">
+        usersid = #{usersid,jdbcType=VARCHAR},
+      </if>
+      <if test="informcontent != null">
+        informcontent = #{informcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="testdate != null">
+        testdate = #{testdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="informdate != null">
+        informdate = #{informdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="informuser != null">
+        informuser = #{informuser,jdbcType=VARCHAR},
+      </if>
+    </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
   

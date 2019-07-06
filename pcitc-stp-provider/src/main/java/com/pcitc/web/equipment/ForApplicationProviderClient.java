@@ -174,4 +174,12 @@ public class ForApplicationProviderClient
 		logger.info("===============================get sreEquipment id "+id+"===========");
 		return detailService.selectSreDetailId(id);
 	}
+
+	@ApiOperation(value = "ERP装备台账分页", notes = "ERP装备台账分页")
+	@RequestMapping(value = "/sre-provider/ledger/page", method = RequestMethod.POST)
+	public LayuiTableData getLedgerList(@RequestBody LayuiTableParam param)throws Exception
+	{
+		LayuiTableData rageResult=detailService.getLedgerPage(param);
+		return rageResult;
+	}
 }

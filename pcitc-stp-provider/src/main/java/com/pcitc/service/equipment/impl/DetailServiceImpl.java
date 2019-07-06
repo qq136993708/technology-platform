@@ -1,9 +1,12 @@
 package com.pcitc.service.equipment.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.pcitc.base.stp.equipment.SreEquipmentLedger;
+import com.pcitc.mapper.equipment.SreEquipmentLedgerMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,9 @@ public class DetailServiceImpl implements DetailService {
 	private final static Logger logger = LoggerFactory.getLogger(DetailServiceImpl.class); 
 	@Autowired
 	private SreDetailMapper detailMapper;
+
+	@Autowired
+	private SreEquipmentLedgerMapper sreEquipmentLedgerMapper;
 	
 	
 	private String getTableParam(LayuiTableParam param,String paramName,String defaultstr)
@@ -51,6 +57,7 @@ public class DetailServiceImpl implements DetailService {
 		int pageNum = pageStart/pageSize + 1;
 		// 1、设置分页信息，包括当前页数和每页显示的总计数
 		PageHelper.startPage(pageNum, pageSize);
+		String sunlike=getTableParam(param,"sunlike","");
 		String unitPathIds=getTableParam(param,"unitPathIds","");
 		String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
 		
@@ -96,9 +103,38 @@ public class DetailServiceImpl implements DetailService {
 	
 		map.put("unitPathIds", parentUnitPathIds);
 		map.put("parentUnitPathIds", unitPathIds);
-
 		
+		List<SreDetail> sreSunlike = new ArrayList<SreDetail>();
 		List<SreDetail> list = detailMapper.getList(map);
+		if(list.size()!=0) {
+			if(sunlike.equals("1")) {
+				for(SreDetail detail : list) {
+					map.put("g0anln1", detail.getAssetNumber());
+					map.put("g0gsdm", detail.getSupplier());
+					List<SreEquipmentLedger> sreequin  = sreEquipmentLedgerMapper.getSreDetailId(map);
+					if(sreequin.size()!=0) {
+					for(SreEquipmentLedger ledasd : sreequin) {
+						if(ledasd!=null) {
+							detail.setG0NDURJ(ledasd.getG0ndurj().toString());//使用年限
+							detail.setG0SCHRW(ledasd.getG0schrw().toString());//资产残值
+							detail.setG0LJGZYZJE(ledasd.getG0ljgzyzje().toString());//账面净额
+							detail.setG0LJDJZJJE(ledasd.getG0ljdjzjje().toString());//预付定金
+							detail.setG0NCGZYZJE(ledasd.getG0ncgzyzje().toString());//年初购置价值
+							detail.setG0LJZJJE(ledasd.getG0ljzjje().toString());//累计折旧
+							sreSunlike.add(detail);
+						}
+					  }
+					}
+				}
+			}
+			PageInfo<SreDetail> pageInfo = new PageInfo<SreDetail>(sreSunlike);
+			System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
+			LayuiTableData data = new LayuiTableData();
+			data.setData(pageInfo.getList());
+			Long total = pageInfo.getTotal();
+			data.setCount(total.intValue());
+		    return data;
+		}
 		PageInfo<SreDetail> pageInfo = new PageInfo<SreDetail>(list);
 		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
 		LayuiTableData data = new LayuiTableData();
@@ -107,7 +143,6 @@ public class DetailServiceImpl implements DetailService {
 		data.setCount(total.intValue());
 	    return data;
 	}
-
 
 	@Override
 	public Integer insertDetail(SreDetail sreDetail) {
@@ -171,5 +206,68 @@ public class DetailServiceImpl implements DetailService {
 	public SreDetail selectSreDetailId(String id) {
 		// TODO Auto-generated method stub
 		return detailMapper.selectSreDetailId(id);
+	}
+
+	@Override
+	public LayuiTableData getLedgerPage(LayuiTableParam param) throws Exception
+	{
+
+		//每页显示条数
+		int pageSize = param.getLimit();
+		//从第多少条开始
+		int pageStart = (param.getPage()-1)*pageSize;
+		//当前是第几页
+		int pageNum = pageStart/pageSize + 1;
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
+		String unitPathIds=getTableParam(param,"unitPathIds","");
+		String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
+
+
+		Map map=new HashMap();
+		map.put("unitPathIds", parentUnitPathIds);
+		map.put("parentUnitPathIds", unitPathIds);
+
+		List<SreDetail> list = detailMapper.getList(map);
+
+
+		Map map1=new HashMap();
+        List<SreEquipmentLedger> ledgerList = null;
+		for (SreDetail sreDetail : list) {
+
+			String supplier = sreDetail.getSupplier();//公司代码
+			String assetNumber = sreDetail.getAssetNumber();//资产编号
+            String equipmentName = sreDetail.getEquipmentName();//装备名称
+
+            String equipmentPrice = sreDetail.getEquipmentPrice();//单价(万元)
+            String equipmenNumber = sreDetail.getEquipmenNumber();//装备数量
+            String declareUnit = sreDetail.getDeclareUnit();//申报单位
+            String declareDepartment = sreDetail.getDeclareDepartment();//申报部门
+            String declarePeople = sreDetail.getDeclarePeople();//申报人
+
+            map1.put("g0gsdm",supplier);
+			map1.put("g0anln1",assetNumber);
+
+			ledgerList = sreEquipmentLedgerMapper.getSreDetailId(map1);
+			for (SreEquipmentLedger equipmentLedger: ledgerList) {
+
+                equipmentLedger.setEquipmentName(equipmentName);
+                equipmentLedger.setAssetNumber(assetNumber);
+                equipmentLedger.setEquipmentPrice(equipmentPrice);
+                equipmentLedger.setEquipmenNumber(equipmenNumber);
+                equipmentLedger.setDeclareUnit(declareUnit);
+                equipmentLedger.setDeclareDepartment(declareDepartment);
+                equipmentLedger.setDeclarePeople(declarePeople);
+
+			}
+		}
+
+		PageInfo<SreEquipmentLedger> pageInfo = new PageInfo<SreEquipmentLedger>(ledgerList);
+		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+		return data;
 	}
 }
