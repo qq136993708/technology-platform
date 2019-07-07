@@ -292,6 +292,7 @@ background: url("/layuiadmin/layui/images/icon-leader-aw.png") right no-repeat;
     .stay-do-m:hover .stay-doz-n{transform:translate(226px,64px)}
     .layui-col-md15{padding: 10px 8px 8px;}
     .layui-main-box .layui-box-icon{background-size: contain !important;}
+    .workNews .layui-col-md3{width: 28.7%;}
 }
 @media (max-width: 1200px) {
     .work-collect ul li{width: 46.85%;}

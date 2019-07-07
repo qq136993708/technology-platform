@@ -518,7 +518,7 @@
             	$("#smdb").html("0");
             }
         });
-        
+
         //督办管理待阅
         var url=host+"/_layouts/15/autologon/?appid=63&step=1";
         sendPost(url,"POST", function (data){
@@ -772,7 +772,7 @@
                 	$("#listPlanPage")[0].click();
                 });
               
-                $(".layui-table tbody tr").click(function () {
+                /*$(".layui-table tbody tr").click(function () {
                     layer.open({
                         title: '任务计划-新增',
                         skin: 'layui-layer-lan',
@@ -785,7 +785,7 @@
                         area: ['80%', '90%'],
                         content: '/layui/taskView.html'
                     });
-                });
+                });*/
             });
             function circle(id,value,number){
                 $("#"+id).circleProgress({
