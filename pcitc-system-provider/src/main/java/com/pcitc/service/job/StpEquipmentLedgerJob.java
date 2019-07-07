@@ -39,7 +39,7 @@ public class StpEquipmentLedgerJob implements Job, Serializable {
 
         HashMap<String, String> map = new HashMap<String, String>();
         List<SreEquipmentLedger> purchaseOrderDate = new ArrayList<SreEquipmentLedger>();
-
+        map.put("month", /*"20 1704"*/DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
         JSONArray jSONArray= equipmentLedgerSysClient.getEquipmentLedgerList(map);
         List<SreEquipmentLedger> resultList = JSONObject.parseArray(jSONArray.toJSONString(), SreEquipmentLedger.class);
 

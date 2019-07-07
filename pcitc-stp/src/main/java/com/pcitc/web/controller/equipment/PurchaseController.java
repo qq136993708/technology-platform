@@ -496,44 +496,36 @@ public class PurchaseController extends BaseController {
 		System.out.println(id);
 		System.out.println(uploadState);
 		ResponseEntity<SrePurchase> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
-		int statusCode = 0;
-		String projectId = null;
-		SrePurchase srePurchase = null;
-		if (responseEntity != null) {
-			statusCode = responseEntity.getStatusCodeValue();
-			logger.info("============远程返回  statusCode " + statusCode);
-			srePurchase = responseEntity.getBody();
-			request.setAttribute("srePurchase", srePurchase);
-			projectId = srePurchase.getProjectId();
-		}
-		ResponseEntity<SreProject> responseEntity1 = this.restTemplate.exchange(GET_PROJECT_URL + projectId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
-		if (responseEntity1 != null) {
-			int statusCode1 = responseEntity.getStatusCodeValue();
-			logger.info("============远程返回  statusCode " + statusCode);
-			SreProject sreProjectBasic = responseEntity1.getBody();
-			request.setAttribute("sreProjectBasic", sreProjectBasic);
-			String name = sreProjectBasic.getName();
-			System.out.println(name + "=================================");
+        SrePurchase srePurchase = responseEntity.getBody();
+        if(srePurchase!=null){
 
-			String proposerName = srePurchase.getProposerName();
-			String departCode = srePurchase.getDepartCode();
-			String departName = srePurchase.getDepartName();
-			String parentUnitPathNames = srePurchase.getParentUnitPathNames();
-			String remarks = srePurchase.getRemarks();
-			String purchaseCode = srePurchase.getPurchaseCode();
+            String projectId = srePurchase.getProjectId();
+            SreProject sreProject = this.restTemplate.exchange(GET_PROJECT_URL + projectId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class).getBody();
+            if (sreProject!=null){
 
-			request.setAttribute("uploadState", uploadState);
-			request.setAttribute("proposerName", proposerName);
-			request.setAttribute("departCode", departCode);
-			request.setAttribute("departName", departName);
-			request.setAttribute("parentUnitPathNames", parentUnitPathNames);
-			request.setAttribute("remarks", remarks);
-			request.setAttribute("purchaseCode", purchaseCode);
-			List<UnitField> unitFieldList = CommonUtil.getUnitNameList(restTemplate, httpHeaders);
-			request.setAttribute("unitFieldList", unitFieldList);
-		}
-		List<SysDictionary> dicList = CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
-		request.setAttribute("dicList", dicList);
+                String name = sreProject.getName();
+            }
+            String proposerName = srePurchase.getProposerName();
+            String departCode = srePurchase.getDepartCode();
+            String departName = srePurchase.getDepartName();
+            String parentUnitPathNames = srePurchase.getParentUnitPathNames();
+            String remarks = srePurchase.getRemarks();
+            String purchaseCode = srePurchase.getPurchaseCode();
+
+
+            request.setAttribute("sreProjectBasic", sreProject);
+            request.setAttribute("srePurchase", srePurchase);
+            request.setAttribute("uploadState", uploadState);
+            request.setAttribute("proposerName", proposerName);
+            request.setAttribute("departCode", departCode);
+            request.setAttribute("departName", departName);
+            request.setAttribute("parentUnitPathNames", parentUnitPathNames);
+            request.setAttribute("remarks", remarks);
+            request.setAttribute("purchaseCode", purchaseCode);
+
+        }
+        List<SysDictionary> dicList = CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+        request.setAttribute("dicList", dicList);
 
 		return "/stp/equipment/purchase/purchase-view";
 	}

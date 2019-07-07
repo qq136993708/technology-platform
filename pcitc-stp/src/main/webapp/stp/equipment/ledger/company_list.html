@@ -35,6 +35,13 @@
     </div>
 </div>
 <div class="tableBox">
+    <div class="tableToolBox">
+        <div class="whiteLine"></div>
+        <div  class="tableBtns">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg"id="exportEvent"data-type="exportEvent">导出Excel</button>
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createWord" data-type="createWord">导出</button>-->
+        </div>
+    </div>
    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table> 
 </div>
 
@@ -168,7 +175,15 @@ var name=$('#name').val();
             	$('#leadUnitCode').val("");
             	$('#month').val("");
             	$('#g0txt50').val("");
-            }
+            },
+             exportEvent:function(){
+                 var month=$('#month').val();
+                 month=month.replace("-","");
+                 var g0anln1= $('#g0anln1').val();
+                 var g0gsjc= $('#g0gsjc').val();
+                 var g0txt50= $('#g0txt50').val();
+                 window.open("/sre-ledger/exportLedgerExcel?g0anln1="+g0anln1+"&g0gsjc="+g0gsjc+"&month="+month+"&g0txt50="+g0txt50);
+             }
             
             
             
