@@ -1398,10 +1398,7 @@
 							group by out_project_info.define2) as tableA LEFT JOIN out_tem_money_total ON (tableA.define2 = out_tem_money_total.show_ali and out_tem_money_total.nd = '${nd}')
 			) tableB 
 		WHERE 
-		find_in_set(expenses_pay_hana.G0LIFNR,tableB.hanaCode) 
-		and G0GJAHR = '${month}' 
-		and SUBSTR(G0AUGDT FROM 1 FOR 6) <![CDATA[  <=  ]]> '${month}'
-		and SUBSTR(G0AUGDT FROM 1 FOR 6) <![CDATA[  >=  ]]> '${nd}01'
+		find_in_set(expenses_pay_hana.G0LIFNR,tableB.hanaCode)  
 		GROUP BY tableB.hanaCode
 		ORDER BY tableB.define3
 	</select>
@@ -1414,8 +1411,8 @@
 			from expenses_pay_hana
 			where 
 			G0LIFNR in ('0033550000','0035800000','0033550006','0033600000','0033700000','0034880000','0033650000','0033750000','0033800000') 
-			and SUBSTR(G0AUGDT FROM 1 FOR 6) <![CDATA[  <=  ]]> '${endMonth}' 
-			and SUBSTR(G0AUGDT FROM 1 FOR 6) <![CDATA[  >=  ]]> '${startMonth}' 
+			and SUBSTR(G0AUGDT FROM 1 FOR 6) &lt;= '${endMonth}' 
+			and SUBSTR(G0AUGDT FROM 1 FOR 6) &gt;= '${startMonth}' 
 			GROUP BY SUBSTR(G0AUGDT FROM 1 FOR 6)
 			ORDER BY SUBSTR(G0AUGDT FROM 1 FOR 6)
 		) tableA LEFT JOIN out_tem_money_total ON (SUBSTR(tableA.yearMonth FROM 1 FOR 4) = out_tem_money_total.nd AND out_tem_money_total.show_ali = '直属研究院')
