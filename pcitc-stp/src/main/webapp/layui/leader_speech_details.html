@@ -79,18 +79,6 @@
 <script>
     var d = '${list.stype}';
     var stype="${dic.name}";
-    if (d == "ROOT_XTGL_XWLX_KJBLDJH") {
-        stype="科技部领导讲话";
-    } else if (d == "ROOT_XTGL_XWLX_JTLDJH") {
-        stype="集团领导讲话";
-    } else if (d == "ROOT_XTGL_XWLX_GJLDJH") {
-        stype="国家领导讲话";
-    } else if (d == "ROOT_XTGL_XWLX_ZXJH") {
-        stype="最新讲话";
-    } else if (d == "ROOT_XTGL_SPLX_PT") {
-        stype="视频";
-        $("#twoIdShow").html("");
-    }
     $("#stype").text(stype);
     layui.use(['jquery'], function(){
         var $=layui.jquery;
@@ -108,21 +96,6 @@
         }
         console.log(picId);
         var html = "<embed src=\""+'/sysfile/download/' + picId+"\" width=\"300\" height=\"300\">";
-        // $("#videoshow").html(html);
-        // var base64 = "";
-        // $.ajax({
-        //     type: 'get',
-        //     dataType: 'text',
-        //     async: false,
-        //     url: '/sysfile/viewPic/' + picId,
-        //     success: function (data) {
-        //         base64 = data;
-        //     },
-        //     error: function (e) {
-        //         alert("出错了");
-        //     }
-        // });
-        // return base64;
     }
 
     ////加载图片
