@@ -1,5 +1,6 @@
 package com.pcitc.service.equipment.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
@@ -51,7 +52,8 @@ public class EquipmentLedgerServiceImpl implements EquipmentLedgerService {
 
 	public LayuiTableData getEquipmentLedgerPage(LayuiTableParam param)throws Exception
 	{
-		
+		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(param));
+		System.out.println(">>>>>>>>>参数："+parmamss.toString());
 		//每页显示条数
 		int pageSize = param.getLimit();
 		//从第多少条开始
@@ -59,12 +61,17 @@ public class EquipmentLedgerServiceImpl implements EquipmentLedgerService {
 		//当前是第几页
 		int pageNum = pageStart/pageSize + 1;
 		PageHelper.startPage(pageNum, pageSize);
-		String equipmentName=getTableParam(param,"equipmentName","");
-		String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
-		
+		String g0anln1=getTableParam(param,"g0anln1","");
+		String g0txt50=getTableParam(param,"g0txt50","");
+		String month=getTableParam(param,"month","");
+		String g0gsdm=getTableParam(param,"g0gsdm","");
+		String g0gsjc=getTableParam(param,"g0gsjc","");
 		Map map=new HashMap();
-		map.put("parentUnitPathIds", parentUnitPathIds);
-		map.put("equipmentName", equipmentName);
+		map.put("g0txt50", g0txt50);
+		map.put("g0anln1", g0anln1);
+		map.put("g0cald", month);
+		map.put("g0gsdm", g0gsdm);
+		map.put("g0gsjc", g0gsjc);
 		List<SreEquipmentLedger> list=sreEquipmentLedgerMapper.getList(map);
 		
 		
