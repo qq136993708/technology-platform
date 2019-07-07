@@ -645,10 +645,14 @@ public class OneLevelMainController extends BaseController {
 	// 三级表格
 	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/count_table_data")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String count_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
-
 		System.out.println(">>>>>>>>>>>>count_table_data>param:" + JSONObject.toJSONString(param));
 
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			param.getParam().put("leaderFlag", "");
+		}
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(count_table_data, HttpMethod.POST, entity, LayuiTableData.class);
