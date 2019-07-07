@@ -855,7 +855,8 @@ display: inline-block;vertical-align: top;margin: 6px 10px 0 0;}
 .layui-leader .stpSearchBox .seacrhBox{width: 268px;top: 24px;right: 3px;position: absolute;}
 .layui-leader .stpSearchBox .seacrhBox input{background-color: #335676;border: 1px solid #335676;width: 100%;
     color: #adb7c1;}
-.layui-leader .layui-body{bottom: 0;left: 22px;top: 96px;}
+.layui-leader .layui-body{bottom: 40px;left: 22px;top: 96px;}
+.layui-leader .layui-fluid {padding-bottom: 0;}
 .layui-leader .collection{height: 55px !important;line-height: 55px !important;
     background: #002142 url(/layuiadmin/layui/images/icon-collection.png) center 18px no-repeat;}
 .layui-leader .layui-index{text-align: left;}
