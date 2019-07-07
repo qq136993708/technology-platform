@@ -2027,10 +2027,14 @@ public class OneLevelMainController extends BaseController {
 
 				chartCircleList.add(node);
 			}
-			// 把合计放到第一位置（查询结果在队列末尾）
-			chartCircleList.set(0, chartCircleList.get(chartCircleList.size() - 1));
-			// 移除最后位置的合计值
-			chartCircleList.remove(chartCircleList.size() - 1);
+			if(chartCircleList.size()>0)
+			{
+				// 把合计放到第一位置（查询结果在队列末尾）
+				chartCircleList.set(0, chartCircleList.get(chartCircleList.size() - 1));
+				// 移除最后位置的合计值
+				chartCircleList.remove(chartCircleList.size() - 1);
+			}
+			
 
 			pageResult.setData(chartCircleList);
 			pageResult.setCode(0);
