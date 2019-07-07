@@ -290,19 +290,19 @@
 						<div class="text-total">
 							<span>
 								总计:
-								<span class="text-total-blue" id="direct_kt_chart1_01"  onclick="countryProjectDetail('总计')" style="cursor: pointer">
+								<span class="text-total-blue" id="direct_kt_chart1_01" onclick="countryProjectDetail('总计')" style="cursor: pointer">
 									<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 								</span>
 							</span>
 							<span>
 								新开课题:
-								<span class="text-total-blue" id="direct_kt_chart1_02"  onclick="countryProjectDetail('新开课题')" style="cursor: pointer">
+								<span class="text-total-blue" id="direct_kt_chart1_02" onclick="countryProjectDetail('新开课题')" style="cursor: pointer">
 									<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 								</span>
 							</span>
 							<span>
 								结转课题:
-								<span class="text-total-blue" id="direct_kt_chart1_03"  onclick="countryProjectDetail('结转课题')" style="cursor: pointer">
+								<span class="text-total-blue" id="direct_kt_chart1_03" onclick="countryProjectDetail('结转课题')" style="cursor: pointer">
 									<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 								</span>
 							</span>
@@ -402,7 +402,7 @@
 		function getCommonCount(nd) {
 			$.ajax({
 				type : 'GET',
-				url : "/direct/topic_equipment_count?typeFlag=研究院&nd=" + nd,
+				url : "/direct/topic_equipment_count?functionId=984b64b13cf54222bf57bd840759fabe&typeFlag=研究院&nd=" + nd,
 				dataType : 'json',
 				headers : {
 					'Content-Type' : 'application/json'
@@ -428,7 +428,7 @@
 
 		//合同签订--bak--
 		function setContcator_id(nd, v_date) {
-			var url = "/direct/contract_01?type=3&nd=" + nd + "&v_date=" + v_date;
+			var url = "/direct/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=3&nd=" + nd + "&v_date=" + v_date;
 			$.ajax({
 				type : 'GET',
 				url : url,
@@ -598,7 +598,7 @@
 					}
 				} ];
 
-				var chart1_url = "/direct/topic_01?type=1&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=fkyzb";
+				var chart1_url = "/direct/topic_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=fkyzb";
 				var colorOne = [ "#75C9C0", "#5181E6" ]
 				var echart1 = load_mutl_bar_down(chart1_url, "topic_chart1", "", "", yAxis, '', colorOne);
 				echart1.on('click', function(params) {
@@ -615,7 +615,7 @@
 				});
 
 				//直属研究院合同签订分析
-				var chart2_url = "/direct/contract_04?nd=" + nd + "&v_date=" + v_date + "&type=1";
+				var chart2_url = "/direct/contract_04?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date + "&type=1";
 				var colorLine = [ "#b68d01", "#9799ec" ];
 				var echart2 = load_mony_line_down(chart2_url, "contract_line", "", "", yAxis3, colorLine);
 
@@ -623,12 +623,12 @@
 					var xName = params.name;
 					var legentName = params.seriesName;
 					var url = encodeURIComponent("/one_level_main/common_table?define2=" + xName + "&define1=" + legentName + "&ysnd=" + nd + "&groupFlag=xmid,define8");
-					
-		window.open("/instituteIndex?url=" + url);
+
+					window.open("/instituteIndex?url=" + url);
 
 				});
 
-				var chart3_url = "/direct/topic_01?type=1&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=kyzb";
+				var chart3_url = "/direct/topic_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=kyzb";
 				var color = [ "#ea886d", "#9799ec" ];
 				var echart3 = load_mutl_bar_down(chart3_url, "direct_topic_chart3", "", "", yAxis, 20, color);
 				echart3.on('click', function(params) {
@@ -704,7 +704,7 @@
 				});
 
 				//第4排
-				var chart7_url = "/direct/contry_01?type=1&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=fkyzb";
+				var chart7_url = "/direct/contry_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=fkyzb";
 				var colorNew = [ "#70b1ab", "#87d359" ];
 				var data7 = load_mutl_bar_down(chart7_url, "direct_kt_chart1", "", "", yAxis, 20, colorNew);
 				data7.on('click', function(params) {
@@ -719,7 +719,7 @@
 				});
 
 				//新开课题
-				var url_8 = "/direct/contry_01?type=3&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=fkyzb";
+				var url_8 = "/direct/contry_01?functionId=984b64b13cf54222bf57bd840759fabe&type=3&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=fkyzb";
 				var echart8 = loadPie_02(url_8, "direct_kt_chart2", "", "");
 				echart8.on('click', function(params) {
 					var xName = params.name;
@@ -729,7 +729,7 @@
 				});
 
 				//结转课题
-				var url_9 = "/direct/contry_01?type=2&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=fkyzb";
+				var url_9 = "/direct/contry_01?functionId=984b64b13cf54222bf57bd840759fabe&type=2&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=fkyzb";
 				var echart9 = loadPie_02(url_9, "direct_kt_chart3", "", "");
 				echart9.on('click', function(params) {
 					var xName = params.name;
@@ -815,7 +815,7 @@
 
 		// 国家课题情况 详情
 		function countryProjectDetail(labelFlag) {
-			
+
 			var temNd = '';
 			if (labelFlag == '新开课题') {
 				temNd = nd;

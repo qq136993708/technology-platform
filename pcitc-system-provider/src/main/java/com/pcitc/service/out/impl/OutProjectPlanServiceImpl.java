@@ -409,6 +409,18 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			hashmap.put("ktlx", param.getParam().get("ktlx"));
 		}
 		
+		if (param.getParam().get("zylbbm")!=null&&!StringUtils.isBlank(param.getParam().get("zylbbm")+"")) {
+			hashmap.put("zylbbm", param.getParam().get("zylbbm"));
+		}
+		
+		if (param.getParam().get("zycbm")!=null&&!StringUtils.isBlank(param.getParam().get("zycbm")+"")) {
+			hashmap.put("zycbm", param.getParam().get("zycbm"));
+		}
+		
+		if (param.getParam().get("leaderFlag")!=null&&!StringUtils.isBlank(param.getParam().get("leaderFlag")+"")) {
+			hashmap.put("leaderFlag", param.getParam().get("leaderFlag"));
+		}
+		
 		if (param.getParam().get("groupFlag")!=null&&!StringUtils.isBlank(param.getParam().get("groupFlag")+"")) {
 			hashmap.put("groupFlag", param.getParam().get("groupFlag"));
 		}

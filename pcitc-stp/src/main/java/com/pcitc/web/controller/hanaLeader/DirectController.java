@@ -96,11 +96,14 @@ public class DirectController extends BaseController {
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String typeFlag = CommonUtil.getParameter(request, "typeFlag", "");
-		String zycmc = request.getAttribute("zycmc") == null ? "" : request.getAttribute("zycmc").toString();
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
+		
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("typeFlag", typeFlag);
-		paramsMap.put("zycmc", zycmc);
+		paramsMap.put("zycbm", zycbm);
+		paramsMap.put("zylbbm", zylbbm);
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			// 领导标识，不控制数据
 			paramsMap.put("leaderFlag", "1");
@@ -455,6 +458,7 @@ public class DirectController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/contry_01")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String contry_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
@@ -469,10 +473,16 @@ public class DirectController extends BaseController {
 		paramsMap.put("xmlbbm", xmlbbm);
 		paramsMap.put("companyCode", companyCode);
 
+		// 数据控制属性
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
+		paramsMap.put("zycbm", zycbm);
+		paramsMap.put("zylbbm", zylbbm);
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			// 领导标识，不控制数据
 			paramsMap.put("leaderFlag", "1");
 		}
+		
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		System.out.println(">>>>>>>>>>>>>>contry_01 参数-> " + jsonObject.toString());
@@ -646,12 +656,15 @@ public class DirectController extends BaseController {
 		String type = CommonUtil.getParameter(request, "type", "");
 		String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "");
 		String define3 = CommonUtil.getParameter(request, "define3 ", "研究院");
-		String zycmc = request.getAttribute("zycmc") == null ? "" : request.getAttribute("zycmc").toString();
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
+		
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
 		paramsMap.put("xmlbbm", xmlbbm);
-		paramsMap.put("zycmc", zycmc);
+		paramsMap.put("zycbm", zycbm);
+		paramsMap.put("zylbbm", zylbbm);
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			// 领导标识，不控制数据
 			paramsMap.put("leaderFlag", "1");
@@ -919,15 +932,26 @@ public class DirectController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/contract_04")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String contract_04(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
 		String type = CommonUtil.getParameter(request, "type", "");
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String define3 = CommonUtil.getParameter(request, "define3 ", "研究院");
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
+		
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
+		paramsMap.put("zycbm", zycbm);
+		paramsMap.put("zylbbm", zylbbm);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			System.out.println("2---领导标识，不控制数据");
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -1072,6 +1096,7 @@ public class DirectController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/topic_01")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String topic_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String resault = "";
@@ -1085,6 +1110,12 @@ public class DirectController extends BaseController {
 		paramsMap.put("nd", nd);
 		paramsMap.put("typeFlag", typeFlag);
 		paramsMap.put("xmlbbm", xmlbbm);
+		
+		// 数据控制属性
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
+		paramsMap.put("zycbm", zycbm);
+		paramsMap.put("zylbbm", zylbbm);
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			// 领导标识，不控制数据
 			paramsMap.put("leaderFlag", "1");
