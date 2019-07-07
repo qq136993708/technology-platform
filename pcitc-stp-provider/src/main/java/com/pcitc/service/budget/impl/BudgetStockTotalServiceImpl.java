@@ -102,7 +102,7 @@ public class BudgetStockTotalServiceImpl implements BudgetStockTotalService
 	}
 
 	@Override
-	public List<BudgetStockTotal> selectItemsByBudgetId(String budgetInfoId) throws Exception
+	public List<BudgetStockTotal> selectItemsByBudgetId(String budgetInfoId)
 	{
 		BudgetStockTotalExample example = new BudgetStockTotalExample();
 		BudgetStockTotalExample.Criteria c = example.createCriteria();
@@ -375,5 +375,24 @@ public class BudgetStockTotalServiceImpl implements BudgetStockTotalService
 			}
 		}
 		return newInfo;
+	}
+
+	@Override
+	public Map<String, Object> selectFinalStockTotalBudget(BudgetInfo info) {
+		Map<String,Object> rsmap = new HashMap<String,Object>();
+		if(info != null) {
+			rsmap = MyBeanUtils.transBean2Map(info);
+			List<BudgetStockTotal> totals = selectItemsByBudgetId(info.getDataId());
+			Double items_total = 0d;
+			for(BudgetStockTotal total:totals) {
+				items_total += total.getXmjfTotal();
+			}
+			rsmap.put("items", totals);
+			rsmap.put("items_total", items_total);
+		}else {
+			rsmap.put("items", new ArrayList<BudgetStockTotal>());
+			rsmap.put("items_total", 0);
+		}
+		return rsmap;
 	}
 }

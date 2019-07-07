@@ -651,20 +651,7 @@ public class BudgetAssetTotalProviderClient
 	public Object selectFinalAssetTotalInfo(@RequestBody String nd) throws Exception 
 	{
 		BudgetInfo info = budgetInfoService.selectFinalBudget(nd, BudgetInfoEnum.ASSETS_TOTAL.getCode());
-		Map<String,Object> rsmap = new HashMap<String,Object>();
-		if(info != null) {
-			rsmap = MyBeanUtils.transBean2Map(info);
-			List<BudgetAssetTotal> totals = budgetAssetTotalService.selectItemsByBudgetId(info.getDataId());
-			Double items_total = 0d;
-			for(BudgetAssetTotal total:totals) {
-				items_total += (total.getTotal()==null?0:total.getTotal());
-			}
-			rsmap.put("items", totals);
-			rsmap.put("items_total", items_total);
-		}else {
-			rsmap.put("items", new ArrayList<BudgetAssetTotal>());
-			rsmap.put("items_total", 0);
-		}
-		return rsmap;
+		
+		return budgetAssetTotalService.selectFinalAssetTotalBudget(info);
 	}
 }
