@@ -34,7 +34,9 @@ import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.mapper.budget.BudgetInfoMapper;
+import com.pcitc.mapper.budget.BudgetMoneyAssetMapper;
 import com.pcitc.mapper.budget.BudgetMoneyDecomposeMapper;
+import com.pcitc.mapper.budget.BudgetMoneyGroupMapper;
 import com.pcitc.service.budget.BudgetAssetSplitService;
 import com.pcitc.service.budget.BudgetGroupSplitService;
 import com.pcitc.service.budget.BudgetInfoService;
@@ -52,11 +54,15 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	@Autowired
 	private BudgetInfoMapper budgetInfoMapper;
 	
-	/**
-	 * 预算处部门分解总表
-	 */
+	
 	@Autowired
 	private BudgetMoneyDecomposeMapper budgetMoneyDecomposeMapper;
+	
+	@Autowired
+	private BudgetMoneyAssetMapper budgetMoneyAssetMapper;
+	
+	@Autowired
+	private BudgetMoneyGroupMapper BudgetMoneyGroupMapper;
 	
 	@Resource
 	private SystemRemoteClient systemRemoteClient;
@@ -451,13 +457,14 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 			writeToDecompose(info);
 		}
 	}
-	//[资产分解表：out_tem_money_asset]
-	private void writeToAsset(BudgetInfo info) 
+	
+	//[集团分解表：out_tem_money_group]
+	private void writeToGroup(BudgetInfo info) 
 	{
 		
 	}
-	//[集团分解表：out_tem_money_group]
-	private void writeToGroup(BudgetInfo info) 
+	//[资产分解表：out_tem_money_asset]
+	private void writeToAsset(BudgetInfo info) 
 	{
 		
 	}
