@@ -1,399 +1,412 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/mainStp.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
-    <style>
-        .btn_details{background:url(/layuiadmin/layui/images/operation_03.png) 2px 4px #fff no-repeat;}
-        .btnMyBgImg:hover{background-size:inherit;background-position: 2px;}
-        .searchBox{background:none;}
-    </style>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/mainStp.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
+<style>
+.btn_details {
+	background: url(/layuiadmin/layui/images/operation_03.png) 2px 4px #fff
+		no-repeat;
+}
+
+.btnMyBgImg:hover {
+	background-size: inherit;
+	background-position: 2px;
+}
+
+.searchBox {
+	background: none;
+}
+</style>
 </head>
 <body>
-<div class="layui-fluid">
-    <div class="">
-        <div class="fluid-top">
-            <div class="breadcrumb">
-                <a href="/stpHome" target="_parent">首页 > </a>
-                <a href="/instituteIndex?url=/home_ld/direct_depart" target="_parent">直属研究院概况 > </a><span>科研课题</span>
-            </div>
-            <div class="searchBox">
-                <label class="dateInput">
-                    <span>年份</span>
-                    <input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
-                    <i class="layui-icon layui-icon-date" style="margin-left:-35px"></i>
+	<div class="layui-fluid">
+		<div class="">
+			<div class="fluid-top">
+				<div class="breadcrumb">
+					<a href="/stpHome" target="_parent">首页 > </a>
+					<a href="/instituteIndex?url=/home_ld/direct_depart" target="_parent">直属研究院概况 > </a>
+					<span>科研课题</span>
+				</div>
+				<div class="searchBox">
+					<label class="dateInput">
+						<span>年份</span>
+						<input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}" autocomplete="off" class="form-control" id="year">
+						<i class="layui-icon layui-icon-date" style="margin-left: -35px"></i>
 
-                </label>
-                <div class="btnGroup" style="margin-left:10px">
-                    <button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
-                    >详情</button>
-                </div>
-            </div>
-        </div>
+					</label>
+					<div class="btnGroup" style="margin-left: 10px">
+						<button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details">详情</button>
+					</div>
+				</div>
+			</div>
 
-        <div class="layui-row layui-col-space15">
-            <div class="layui-col-md6">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        <span class="layui-time"></span>年直属研究院科研科题数量分布
-                    </div>
-                    <div class="layui-row-main">
-                        <div class="text-total">
-                            <span>总计:<span    class="text-total-blue"    id="topic_chart1_01" onclick="topic_chart1('')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>新开课题:<span class="text-total-blue"    id="topic_chart1_02" onclick="topic_chart1('新开课题')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>转结课题:<span class="text-total-blue"    id="topic_chart1_03" onclick="topic_chart1('转结课题')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                        </div>
-                        <div class="main-chart" id="topic_chart1" style="height:280px;width: 100%;"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-md6">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        <span class="layui-time"></span>年直属研究院科研科题数量占比
-                    </div>
-                    <div class="layui-row-main" >
-                        <table id="myTable" class="layui-table" lay-filter="myTable" >
-                            <thead>
-                            <tr>
-                                <th lay-data="{field:'define2', width:'22%',align:'center'}" rowspan="2">项目</th>
-                                <th lay-data="{align:'center'}" colspan="2">总计</th>
-                                <th lay-data="{align:'center'}" colspan="2">新开课题</th>
-                                <th lay-data="{align:'center'}" colspan="2">转结课题</th>
-                            </tr>
-                            <tr>
-                                <th lay-data="{field:'zsl', width:'13%',align:'right'}">数量（个）</th>
-                                <th lay-data="{field:'zslRate', width:'13%',align:'right',templet:function(d){return d.zslRate.toFixed(2)+'%'}}">占比</th>
-                                <th lay-data="{field:'xksl', width:'13%',align:'right'}">数量（个）</th>
-                                <th lay-data="{field:'xkRate', width:'13%',align:'right',templet:function(d){return d.xkRate.toFixed(2)+'%'}}">占比</th>
-                                <th lay-data="{field:'xjsl', width:'13%',align:'right'}">数量（个）</th>
-                                <th lay-data="{field:'xjRate', width:'13%',align:'right',templet:function(d){return d.xjRate.toFixed(2)+'%'}}">占比</th>
-                            </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="layui-row layui-col-space15">
-            <div class="layui-col-md6">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        <span class="layui-time"></span>年科研科题数量
-                    </div>
-                    <div class="layui-row-main">
-                        <div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="topic_chart4_01" onclick="topic_chart1('')"          style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>新开课题:<span class="text-total-blue" id="topic_chart4_02" onclick="topic_chart1('新开课题')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>转结课题:<span class="text-total-blue" id="topic_chart4_03" onclick="topic_chart1('转结课题')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                        </div>
-                        <div class="main-chart" id="topic_chart4" style="height:280px;width: 100%;"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-md6">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        <span class="layui-time"></span>年科研科题数量占比
-                    </div>
-                    <div class="layui-row-main" >
-                        <table id="myTable2" class="layui-table" lay-filter="myTable2" >
-                            <thead>
-                            <tr>
-                                <th lay-data="{field:'project_property', width:'22%',align:'center'}" rowspan="2">项目</th>
-                                <th lay-data="{align:'center'}" colspan="2">总计</th>
-                                <th lay-data="{align:'center'}" colspan="2">新开课题</th>
-                                <th lay-data="{align:'center'}" colspan="2">转结课题</th>
-                            </tr>
-                            <tr>
-                                <th lay-data="{field:'zsl', width:'13%',align:'right'}">数量（个）</th>
-                                <th lay-data="{field:'zslRate', width:'13%',align:'right',templet:function(d){return d.zslRate.toFixed(2)+'%'}}">占比</th>
-                                <th lay-data="{field:'xksl', width:'13%',align:'right'}">数量（个）</th>
-                                <th lay-data="{field:'xkRate', width:'13%',align:'right',templet:function(d){return d.xkRate.toFixed(2)+'%'}}">占比</th>
-                                <th lay-data="{field:'xjsl', width:'13%',align:'right'}">数量（个）</th>
-                                <th lay-data="{field:'xjRate', width:'13%',align:'right',templet:function(d){return d.xjRate.toFixed(2)+'%'}}">占比</th>
-                            </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-         <div class="layui-row layui-col-space15">
-            <div class="layui-col-md12">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        <span class="layui-time"></span>年科研课题数量技术分布
-                    </div>
-                    <div class="layui-card-body btn-function">
-                         <div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="topic_chart7_01"  onclick="topic_chart1('')"          style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>新开课题:<span class="text-total-blue" id="topic_chart7_02"  onclick="topic_chart1('新开课题')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>转结课题:<span class="text-total-blue" id="topic_chart7_03"  onclick="topic_chart1('转结课题')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                        </div>
-                        <div class="main-chart" id="topic_chart7" style="height:280px;width: 100%;"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="/common/js/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
-<script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
-<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
-<script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
-<script type="text/javascript">
-var table;
-layui.config({
-    base: '/layuiadmin/'
-}).extend({
-    index: 'lib/index' //主入口模块
-}).use(['index','jquery','form', 'laydate','table','laypage'], function(){
-	  $ = layui.jquery
-      ,table = layui.table
-      ,form = layui.form
-      ,laydate = layui.laydate
-	  form.render(null, 'component-form-group');
-        laydate.render({
-        	 elem: '#year',min: '2016-10-14'
-         	      ,type: 'year'
-            ,done: function(value, date, endDate){
-                $(".layui-time").html(date.year);
-                $("#year").val(date.year); 
-                search_Event();
-            }
-        });
-        $(".layui-time").html($("#year").val());
-        $("#knowledge_table").click(function () {
-        	
-        	 var nd=$("#year").val();
-             var url=encodeURIComponent("/one_level_main/count_table?nd="+nd+"&ysnd="+nd);
-    	        window.open("/instituteIndex?url="+url);
-    	        
-        });
-        
-        
-        //监听行单击事件
-        table.on('row(myTable)', function(obj){
-            console.log(obj.tr) //得到当前行元素对象
-            console.log(obj.data) //得到当前行数据
-            //obj.del(); //删除当前行
-            //obj.update(fields) //修改当前行数据
-            selectRowData=obj.data;
-            var nd=$("#year").val();
-            var url=encodeURIComponent("/one_level_main/count_table?define2="+selectRowData.define2+"&nd=&ysnd="+nd+"&define1=费用性");
-	        window.open("/instituteIndex?url="+url);
-	        
-        });
-        
-        
-        //监听行单击事件
-        table.on('row(myTable2)', function(obj){
-        	//alert(obj.data.project_property);
-            console.log(obj.tr) //得到当前行元素对象
-            console.log(obj.data) //得到当前行数据
-            //obj.del(); //删除当前行
-            //obj.update(fields) //修改当前行数据
-            selectRowData=obj.data;
-            
-            var nd=$("#year").val();
-            var url=encodeURIComponent("/one_level_main/count_table?project_property="+selectRowData.project_property+"&nd=&ysnd="+nd+"&define1=费用性");
-	        window.open("/instituteIndex?url="+url);
-        });
-        myTable();
-        myTable2();
-        
-});
+			<div class="layui-row layui-col-space15">
+				<div class="layui-col-md6">
+					<div class="layui-card">
+						<div class="layui-card-header">
+							<span class="layui-time"></span>
+							年直属研究院科研课题数量分布
+						</div>
+						<div class="layui-row-main">
+							<div class="text-total">
+								<span>
+									总计:
+									<span class="text-total-blue" id="topic_chart1_01" onclick="topic_chart1('')" style="cursor: pointer">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+								<span>
+									新开课题:
+									<span class="text-total-blue" id="topic_chart1_02" onclick="topic_chart1('新开课题')" style="cursor: pointer">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+								<span>
+									结转课题:
+									<span class="text-total-blue" id="topic_chart1_03" onclick="topic_chart1('结转课题')" style="cursor: pointer">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+							</div>
+							<div class="main-chart" id="topic_chart1" style="height: 280px; width: 100%;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-md6">
+					<div class="layui-card">
+						<div class="layui-card-header">
+							<span class="layui-time"></span>
+							年直属研究院科研课题数量占比
+						</div>
+						<div class="layui-row-main">
+							<table id="myTable" class="layui-table" lay-filter="myTable">
+								<thead>
+									<tr>
+										<th lay-data="{field:'define2', width:'22%',align:'center'}" rowspan="2">项目</th>
+										<th lay-data="{align:'center'}" colspan="2">总计</th>
+										<th lay-data="{align:'center'}" colspan="2">新开课题</th>
+										<th lay-data="{align:'center'}" colspan="2">结转课题</th>
+									</tr>
+									<tr>
+										<th lay-data="{field:'zsl', width:'13%',align:'right'}">数量（个）</th>
+										<th lay-data="{field:'zslRate', width:'13%',align:'right',templet:function(d){return d.zslRate.toFixed(2)+'%'}}">占比</th>
+										<th lay-data="{field:'xksl', width:'13%',align:'right'}">数量（个）</th>
+										<th lay-data="{field:'xkRate', width:'13%',align:'right',templet:function(d){return d.xkRate.toFixed(2)+'%'}}">占比</th>
+										<th lay-data="{field:'xjsl', width:'13%',align:'right'}">数量（个）</th>
+										<th lay-data="{field:'xjRate', width:'13%',align:'right',templet:function(d){return d.xjRate.toFixed(2)+'%'}}">占比</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row layui-col-space15">
+				<div class="layui-col-md6">
+					<div class="layui-card">
+						<div class="layui-card-header">
+							<span class="layui-time"></span>
+							年科研课题数量
+						</div>
+						<div class="layui-row-main">
+							<div class="text-total">
+								<span>
+									总计:
+									<span class="text-total-blue" id="topic_chart4_01" onclick="topic_chart2('')" style="cursor: pointer">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+								<span>
+									新开课题:
+									<span class="text-total-blue" id="topic_chart4_02" onclick="topic_chart2('新开课题')" style="cursor: pointer">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+								<span>
+									结转课题:
+									<span class="text-total-blue" id="topic_chart4_03" onclick="topic_chart2('结转课题')" style="cursor: pointer">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+							</div>
+							<div class="main-chart" id="topic_chart4" style="height: 280px; width: 100%;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-md6">
+					<div class="layui-card">
+						<div class="layui-card-header">
+							<span class="layui-time"></span>
+							年科研课题数量占比
+						</div>
+						<div class="layui-row-main">
+							<table id="myTable2" class="layui-table" lay-filter="myTable2">
+								<thead>
+									<tr>
+										<th lay-data="{field:'project_property', width:'22%',align:'center'}" rowspan="2">项目</th>
+										<th lay-data="{align:'center'}" colspan="2">总计</th>
+										<th lay-data="{align:'center'}" colspan="2">新开课题</th>
+										<th lay-data="{align:'center'}" colspan="2">结转课题</th>
+									</tr>
+									<tr>
+										<th lay-data="{field:'zsl', width:'13%',align:'right'}">数量（个）</th>
+										<th lay-data="{field:'zslRate', width:'13%',align:'right',templet:function(d){return d.zslRate.toFixed(2)+'%'}}">占比</th>
+										<th lay-data="{field:'xksl', width:'13%',align:'right'}">数量（个）</th>
+										<th lay-data="{field:'xkRate', width:'13%',align:'right',templet:function(d){return d.xkRate.toFixed(2)+'%'}}">占比</th>
+										<th lay-data="{field:'xjsl', width:'13%',align:'right'}">数量（个）</th>
+										<th lay-data="{field:'xjRate', width:'13%',align:'right',templet:function(d){return d.xjRate.toFixed(2)+'%'}}">占比</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row layui-col-space15">
+				<div class="layui-col-md12">
+					<div class="layui-card">
+						<div class="layui-card-header">
+							<span class="layui-time"></span>
+							年科研课题数量技术分布
+						</div>
+						<div class="layui-card-body btn-function">
+							<div class="text-total">
+								<span>
+									总计:
+									<span class="text-total-blue" id="topic_chart7_01" onclick="topic_chart1('')" style="cursor: pointer">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+								<span>
+									新开课题:
+									<span class="text-total-blue" id="topic_chart7_02" onclick="topic_chart1('新开课题')" style="cursor: pointer">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+								<span>
+									结转课题:
+									<span class="text-total-blue" id="topic_chart7_03" onclick="topic_chart1('结转课题')" style="cursor: pointer">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+							</div>
+							<div class="main-chart" id="topic_chart7" style="height: 280px; width: 100%;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="/common/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+	<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+	<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+	<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+	<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+	<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+	<script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
+	<script type="text/javascript">
+		var table;
+		layui.config({
+			base : '/layuiadmin/'
+		}).extend({
+			index : 'lib/index' //主入口模块
+		}).use([ 'index', 'jquery', 'form', 'laydate', 'table', 'laypage' ], function() {
+			$ = layui.jquery, table = layui.table, form = layui.form, laydate = layui.laydate
+			form.render(null, 'component-form-group');
+			laydate.render({
+				elem : '#year',
+				min : '2016-10-14',
+				type : 'year',
+				done : function(value, date, endDate) {
+					$(".layui-time").html(date.year);
+					$("#year").val(date.year);
+					search_Event();
+				}
+			});
+			$(".layui-time").html($("#year").val());
+			$("#knowledge_table").click(function() {
 
+				var nd = $("#year").val();
+				var url = encodeURIComponent("/one_level_main/count_table?nd=" + nd + "&ysnd=" + nd);
+				window.open("/instituteIndex?url=" + url);
 
-function initEchart()
-{
-	
-	var v_date=(new Date()).getTime();
-	var nd=$('#year').val();
-	var ndstr=nd+"年";
-	var yAxis= [
-        {
-            type: 'value',
-            name: '数量（个）',
-            position: 'left',
-            axisLabel: {
-                formatter: '{value}'
-            }
-        }
-    ];
-	
-	
-	
-	    //直属研究院科研科题数量分布
-        $("#topic_chart1_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-	    $("#topic_chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-	    $("#topic_chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-	    //科研科题数量
-        $("#topic_chart4_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-	    $("#topic_chart4_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-	    $("#topic_chart4_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-	    //科研课题数量技术分布
-        $("#topic_chart7_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-	    $("#topic_chart7_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-	    $("#topic_chart7_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
- 
-    
-		var chart1_url="/direct/topic_01?type=1&nd="+nd+"&v_date="+v_date+"&typeFlag=研究院&xmlbbm=fkyzb";
-		var colorOne=["#3ec0c2","#55b6e9"];
-		var echart1=load_mutl_bar_down(chart1_url,"topic_chart1","","",yAxis,20,colorOne);
-		echart1.on('click', function (params) {
-			var xName=params.name;
-			var legentName=params.seriesName;
-			var nd_temp=nd;
-			if(legentName=='结转课题')
-			{
-				nd_temp="";
-			}
-			//alert(legentName);
-			var url=encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+nd_temp+"&ysnd="+nd+"&ktlx="+legentName+"&define1=费用性");
-	        window.open("/instituteIndex?url="+url);
-	          
-	    });
-	
-	
-	
-	var chart4_url="/direct/topic_02?type=1&nd="+nd+"&v_date="+v_date+"&typeFlag=研究院&xmlbbm=fkyzb";
-    var colorT=["#ff9f7f","#f3d156"];
-	var echart4=load_mutl_bar_down(chart4_url,"topic_chart4","","",yAxis,20,colorT);
-	echart4.on('click', function (params) {
-		var xName=params.name;
-		var legentName=params.seriesName;
-		
-		var nd_temp=nd;
-		if(legentName=='结转课题')
-		{
-			nd_temp="";
+			});
+
+			//监听行单击事件
+			table.on('row(myTable)', function(obj) {
+				console.log(obj.tr) //得到当前行元素对象
+				console.log(obj.data) //得到当前行数据
+				//obj.del(); //删除当前行
+				//obj.update(fields) //修改当前行数据
+				selectRowData = obj.data;
+				var nd = $("#year").val();
+				var url = encodeURIComponent("/one_level_main/count_table?define2=" + selectRowData.define2 + "&nd=&ysnd=" + nd + "&define1=费用性");
+				window.open("/instituteIndex?url=" + url);
+
+			});
+
+			//监听行单击事件
+			table.on('row(myTable2)', function(obj) {
+				//alert(obj.data.project_property);
+				console.log(obj.tr) //得到当前行元素对象
+				console.log(obj.data) //得到当前行数据
+				//obj.del(); //删除当前行
+				//obj.update(fields) //修改当前行数据
+				selectRowData = obj.data;
+
+				var nd = $("#year").val();
+				var url = encodeURIComponent("/one_level_main/count_table?project_property=" + selectRowData.project_property + "&nd=&ysnd=" + nd + "&define1=费用性");
+				window.open("/instituteIndex?url=" + url);
+			});
+			myTable();
+			myTable2();
+
+		});
+
+		function initEchart() {
+
+			var v_date = (new Date()).getTime();
+			var nd = $('#year').val();
+			var ndstr = nd + "年";
+			var yAxis = [ {
+				type : 'value',
+				name : '数量（个）',
+				position : 'left',
+				axisLabel : {
+					formatter : '{value}'
+				}
+			} ];
+
+			//直属研究院科研课题数量分布
+			$("#topic_chart1_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#topic_chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#topic_chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			//科研课题数量
+			$("#topic_chart4_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#topic_chart4_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#topic_chart4_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			//科研课题数量技术分布
+			$("#topic_chart7_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#topic_chart7_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#topic_chart7_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+
+			var chart1_url = "/direct/topic_01?type=1&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
+			var colorOne = [ "#3ec0c2", "#55b6e9" ];
+			var echart1 = load_mutl_bar_down(chart1_url, "topic_chart1", "", "", yAxis, 20, colorOne);
+			echart1.on('click', function(params) {
+				var xName = params.name;
+				var legentName = params.seriesName;
+				var nd_temp = "";
+				if (legentName == '新开课题') {
+					nd_temp = nd;
+				}
+				
+				var url = encodeURIComponent("/one_level_main/count_table?define2=" + xName + "&nd=" + nd_temp + "&ysnd=" + nd + "&ktlx=" + legentName + "&define1=费用性&groupFlag=xmid,define8");
+				window.open("/instituteIndex?url=" + url);
+
+			});
+
+			var chart4_url = "/direct/topic_02?type=1&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
+			var colorT = [ "#ff9f7f", "#f3d156" ];
+			var echart4 = load_mutl_bar_down(chart4_url, "topic_chart4", "", "", yAxis, 20, colorT);
+			echart4.on('click', function(params) {
+				var xName = params.name;
+				var legentName = params.seriesName;
+
+				var nd_temp = "";
+				if (legentName == '新开课题') {
+					nd_temp = nd;
+				}
+				//alert(legentName);
+				var url = encodeURIComponent("/one_level_main/count_table?project_property=" + xName + "&nd=" + nd_temp + "&ysnd=" + nd + "&define1=费用性");
+				window.open("/instituteIndex?url=" + url);
+
+			});
+
+			var chart6_url = "/direct/topic_03?type=4&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
+			var colorTr = [ "#71d398", "#96bfff" ];
+			var echart6 = load_mutl_bar_down(chart6_url, "topic_chart7", "", "", "", 50, colorTr);
+			echart6.on('click', function(params) {
+				var xName = params.name;
+				var legentName = params.seriesName;
+				var nd = $("#year").val();
+				
+				var nd_temp = "";
+				if (legentName == '新开课题') {
+					nd_temp = nd;
+				}
+				var url = encodeURIComponent("/one_level_main/count_table?define5=" + xName + "&define12=直属研究院&nd=" + nd_temp + "&ysnd=" + nd + "&define1=费用性&groupFlag=xmid");
+				window.open("/instituteIndex?url=" + url);
+			});
 		}
-		//alert(legentName);
-		var url=encodeURIComponent("/one_level_main/count_table?project_property="+xName+"&nd="+nd_temp+"&ysnd="+nd+"&define1=费用性");
-        window.open("/instituteIndex?url="+url);
-          
-    });
-	
-	
-	var chart6_url="/direct/topic_03?type=4&nd="+nd+"&v_date="+v_date+"&typeFlag=研究院&xmlbbm=fkyzb";
-    var colorTr=["#71d398","#96bfff"];
-	var echart6=load_mutl_bar_down(chart6_url,"topic_chart7","","","",50,colorTr);
-	echart6.on('click', function (params) {
-		 var xName=params.name;
-		 var legentName=params.seriesName;
-		 var nd=$("#year").val();
-         var url=encodeURIComponent("/one_level_main/count_table?define5="+xName+"&nd="+nd+"&ysnd="+nd+"&define1=费用性");
-	     window.open("/instituteIndex?url="+url);
-    });
-}
 
-/* 
-function set_topic_equ_count(url) 
-{
-   $.ajax({
-	     type:"GET",
-	     url: url,
-	     dataType:"json",
-	     timeout : 11000,
-	     cache: false,
-	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
-         success:function(data,status)
-         {    
-	          if(data.success==true ||data.success=='true')
-	          {
-	        	  
-					
-					 var zsl=data.data.zsl;
-					 var xkCount=data.data.xkCount;
-					 var jzCount=data.data.jzCount;
-					 
-					 $("#topic_chart1_01").html(zsl+"个");
-           	         $("#topic_chart1_02").html(xkCount+"个");
-           	         $("#topic_chart1_03").html(jzCount+"个"); 
-	          } 
-		   },
-		   error:function()
-		   {
-		   },
-		   complete: function (XMLHttpRequest, status) 
-		   {
-	       }
-		  
-  });
-} 
- */
+		function topic_chart1(labelFlag) {
 
+			var nd = $("#year").val();
+			var nd_temp = "";
+			if (labelFlag == '新开课题') {
+				nd_temp = nd;
+			}
+			// var v_date = (new Date()).getTime();
+			var url = encodeURIComponent("/one_level_main/count_table?nd=" + nd_temp + "&ysnd=" + nd + "&ktlx=" + labelFlag + "&define12=直属研究院&define1=费用性&groupFlag=xmid,define8");
+			window.open("/instituteIndex?url=" + url);
+		}
+		
+		function topic_chart2(labelFlag) {
 
-function topic_chart1(qdbz)
-{
-	
-	var nd=$("#year").val();
-	var v_date=(new Date()).getTime();
-	var url=encodeURIComponent("/one_level_main/count_table?nd="+nd+"&ysnd="+nd+"&define1=费用性&v_date="+v_date);
-    window.open("/instituteIndex?url="+url);
-}
+			var nd = $("#year").val();
+			var nd_temp = "";
+			if (labelFlag == '新开课题') {
+				nd_temp = nd;
+			}
+			// var v_date = (new Date()).getTime();
+			var url = encodeURIComponent("/one_level_main/count_table?nd=" + nd_temp + "&ysnd=" + nd + "&ktlx=" + labelFlag + "&define12=直属研究院&define1=费用性&groupFlag=xmid");
+			window.open("/instituteIndex?url=" + url);
+		}
 
+		//初始化图形
+		initEchart();
+		//查询
+		function search_Event() {
+			initEchart();
+			myTable();
+			myTable2();
+		}
 
+		function myTable() {
+			var v_date = (new Date()).getTime();
+			var nd = $('#year').val();
+			var chart1_url = "/direct/topic_01?type=2&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
+			table.init('myTable', {
+				url : chart1_url,
+				height : "299px",
+				where : {}
 
-//初始化图形
-initEchart();
-//查询
-function search_Event()
-{
-	initEchart();
-	myTable();
-	myTable2();
-}
-        
+			});
 
+		}
 
+		function myTable2() {
+			var v_date = (new Date()).getTime();
+			var nd = $('#year').val();
+			var chart1_url = "/direct/topic_02?type=2&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
+			table.init('myTable2', {
+				url : chart1_url,
+				height : "299px",
+				where : {}
 
-function myTable()
-{
-	var v_date=(new Date()).getTime();
-	var nd=$('#year').val();
-	var chart1_url="/direct/topic_01?type=2&nd="+nd+"&v_date="+v_date+"&typeFlag=研究院&xmlbbm=fkyzb";
-	 table.init('myTable', {
-		 url: chart1_url 
-		  ,height:"299px"
-		  ,where: {} 
-		  
-		});
-	 
-	
-	
-	
-}
+			});
 
-
-function myTable2()
-{
-	var v_date=(new Date()).getTime();
-	var nd=$('#year').val();
-	var chart1_url="/direct/topic_02?type=2&nd="+nd+"&v_date="+v_date+"&typeFlag=研究院&xmlbbm=fkyzb";
-	table.init('myTable2', {
-		url: chart1_url
-		  ,height:"299px"
-		  ,where: {} 
-		  
-		});
-	 
-	
-}
-        
-</script>
+		}
+	</script>
 
 </body>
 </html>

@@ -78,6 +78,16 @@
 			</div>
 		</div>
 
+		<div class="define5">
+			<div class="selector-left">技术分类：</div>
+			<div class="selector-right">
+				<ul>
+					<#list define5List as t>
+					<li><a href="javascript:;">${t}</a></li> </#list>
+				</ul>
+			</div>
+		</div>
+
 		<div class="specialt_ktlx">
 			<div class="selector-left">课题：</div>
 			<div class="selector-right">
@@ -113,6 +123,8 @@
 		<input type="hidden" name="define1" value="${define1}" id="define1">
 		<!--8大院等细分结构-->
 		<input type="hidden" name="define2" value="${define2}" id="define2">
+		<!-- 技术分类 -->
+		<input type="hidden" name="define5" value="${define5}" id="define5">
 		<!-- 直属研究院、分子公司、集团等9种类型 -->
 		<input type="hidden" name="type_flag" value="${type_flag}" id="type_flag">
 		<!-- 装备的各种技术类型 -->
@@ -257,6 +269,18 @@
 
 				dele();
 			});
+			
+			$(".define5 ul li").each(function() {
+				var htmlA = $(this).find("a").html(), htmlT = $("#define5").val(), htmlName = $(this).parents(".selector-right").prev().html();
+				if (htmlA == htmlT && htmlA != "") {
+					$(this).addClass("layui-this");
+					$(".conditionNew").removeClass("layui-hide");
+					$(".conditionNew ul").append("<li>" + htmlName + "<a href='javascript:;'>" + htmlA + "</a></li>");
+					renderTable();
+				}
+
+				dele();
+			});
 
 			$(".specialty ul li").each(function() {
 				var htmlA = $(this).find("a").html(), htmlT = $("#zylb").val(), htmlName = $(this).parents(".selector-right").prev().html();
@@ -366,7 +390,7 @@
 		}
 		function renderTable() {
 
-			var costSelectedItem = "", instituteSelectedItem = "", systemSelectedItem = "", specialtySelectedItem = "", specialtySelectedspecialt_chuItem = "", specialtySelectedspecialt_ktlx = "", define11SelectedItem = "", define12SelectedItem = "";
+			var costSelectedItem = "", instituteSelectedItem = "", systemSelectedItem = "", specialtySelectedItem = "", specialtySelectedspecialt_chuItem = "", specialtySelectedspecialt_ktlx = "", define11SelectedItem = "", define12SelectedItem = "", define5SelectedItem = "";
 			$(".cost ul li").each(function() {
 				if ($(this).attr("class") == "layui-this") {
 					costSelectedItem += $(this).find("a").html() + ',';
@@ -395,6 +419,12 @@
 				}
 			});
 
+			$(".define5 ul li").each(function() {
+				if ($(this).attr("class") == "layui-this") {
+					define5SelectedItem += $(this).find("a").html() + ',';
+				}
+			});
+
 			$(".specialty ul li").each(function() {
 				if ($(this).attr("class") == "layui-this") {
 					specialtySelectedItem += $(this).find("a").html() + ',';
@@ -417,6 +447,7 @@
 			instituteSelectedItem = instituteSelectedItem.slice(0, instituteSelectedItem.length - 1);//define2  8大院等细分结构
 			// systemSelectedItem=systemSelectedItem.slice(0,systemSelectedItem.length-1);//type_flag           直属研究院、分子公司、集团等9种类型
 			define12SelectedItem = define12SelectedItem.slice(0, define12SelectedItem.length - 1);
+			define5SelectedItem = define5SelectedItem.slice(0, define5SelectedItem.length - 1); // 技术分类
 			specialtySelectedItem = specialtySelectedItem.slice(0, specialtySelectedItem.length - 1);//zylb     装备的各种技术类型
 			specialtySelectedspecialt_chuItem = specialtySelectedspecialt_chuItem.slice(0, specialtySelectedspecialt_chuItem.length - 1);//define10   专业处
 			specialtySelectedspecialt_ktlx = specialtySelectedspecialt_ktlx.slice(0, specialtySelectedspecialt_ktlx.length - 1);//课题
@@ -439,6 +470,7 @@
 						"define1" : costSelectedItem,
 						"define11" : define11SelectedItem,
 						"define2" : instituteSelectedItem,
+						"define5" : define5SelectedItem,
 						"define12" : define12SelectedItem,
 						"define10" : specialtySelectedspecialt_chuItem,
 						"zylb" : specialtySelectedItem,
@@ -447,6 +479,7 @@
 						"project_property" : $("#project_property").val(),
 						"leaderFlag" : $("#leaderFlag").val(),
 						"projectId" : $("#projectId").val(),
+						"fzdwflag" : $("input[name='fzdwflag']:checked").val(),
 						"groupFlag" : $("#groupFlagSelector").find("option:selected").val()
 
 					}
@@ -570,6 +603,13 @@
 					style : 'cursor: pointer;',
 					align : 'left',
 					width : '140',
+					sort : true
+				}, {
+					field : 'projectProperty',
+					title : '项目类型',
+					style : 'cursor: pointer;',
+					align : 'left',
+					width : '100',
 					sort : true
 				}, {
 					field : 'zylb',

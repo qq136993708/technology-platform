@@ -1211,12 +1211,11 @@
 		from (
 			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1,out_project_plan.PROJECT_PROPERTY
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
-																	and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' 
-																	and out_project_info.project_property not like '%国家%')
+																	and out_project_info.define3='项目管理系统' and out_project_info.ND= '${nd}')
 			WHERE
 				out_project_plan.ND= '${nd}' 
-				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
-				and out_project_plan.project_property not like '%国家%'
+				and out_project_plan.PROJECT_TYPE != '1'
+				and out_project_plan.DEFINE4 = '项目管理系统'
 				<if test="define3 != null and define3 != ''">
 					and out_project_plan.DEFINE3 like '%${define3}%'
 				</if>
@@ -1512,7 +1511,7 @@
 			   tableA.DEFINE9,tableA.DEFINE10,tableA.DEFINE11,tableA.DEFINE12,tableA.XMMC,tableA.YSND,
 			   tableA.JF,sum(tableA.YSJE) as YSJE,
 			   sum(tableA.YSZBXJE) as YSZBXJE,sum(tableA.YSFYXJE) as YSFYXJE,
-			   tableA.PROJECT_PROPERTY,tableA.PROJECT_SCOPE,tableA.FZDW,tableA.ZYLB,
+			   tableA.PROJECT_PROPERTY as projectProperty,tableA.PROJECT_SCOPE as projectScope,tableA.FZDW,tableA.ZYLB,
 			   tableA.ND,tableA.HTH,tableA.ZYCMC,
 			   case when tableA.qdbz is null then '未签订' else '已签订' end as qdbz
 		from (
@@ -1522,6 +1521,7 @@
 				   SUBSTR(out_project_plan.DEFINE10 FROM 4) as DEFINE10,
 				   SUBSTR(out_project_plan.DEFINE11 FROM 2) as DEFINE11,
 				   SUBSTR(out_project_plan.DEFINE12 FROM 4) as DEFINE12,
+				   SUBSTR(out_project_plan.DEFINE13 FROM 2) as DEFINE13,
 				   SUBSTR(out_project_plan.FZDWUNITCW FROM 6) as FZDWUNITCW,
 				   SUBSTR(out_project_plan.FZDWUNIT FROM 4) as FZDWUNIT,
 				   out_project_plan.XMID,out_project_plan.XMMC,out_project_plan.YSND,
