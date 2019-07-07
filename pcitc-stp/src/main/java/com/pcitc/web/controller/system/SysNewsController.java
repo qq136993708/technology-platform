@@ -276,6 +276,17 @@ public class SysNewsController extends BaseController {
 		request.setAttribute("dic", dic);
 		return "layui/leader_speech_details";
 	}
+	
+	@RequestMapping(value = "/sysNews/newsDetail")
+	public String toNewsDetail(HttpServletRequest request) {
+		String id = request.getParameter("dataId");
+		ResponseEntity<SysNews> responseEntity = this.restTemplate.exchange(GET_INFO + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), SysNews.class);
+		SysNews news = responseEntity.getBody();
+		request.setAttribute("news", news);
+		SysDictionary dic = this.restTemplate.exchange(DICTIONARY+news.getStype(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysDictionary.class).getBody();
+		request.setAttribute("dic", dic);
+		return "layui/leader_details";
+	}
 
 	@RequestMapping(value = "/sysNews/tree-data")
 	@ResponseBody
