@@ -19,7 +19,7 @@
 <div class="layui-fluid">
  
     <input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
-    <input type="hidden" name="month"  value="${month}"   id="month">
+    <!-- <input type="hidden" name="month"  value="${month}"   id="month"> -->
     
     <div class="">
         <div class="fluid-top">
@@ -27,6 +27,13 @@
                 <a href="/stpHome" target="_parent">首页 > </a><span>科研装备</span>
             </div>
             <div class="searchBox">
+            
+             <label class="dateInput">
+	            <span>月份</span>
+	            <input type="text" name="month"  title="月份" value="${month}"  id="month">
+	            <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
+	        </label>
+        
                 <div class="btnGroup">
                     <button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
                     >详情</button>
@@ -194,6 +201,7 @@ function renderTable(){
 	var month=$("#month").val();
 	month=month.replace("-","");
 	var companyCode=$("#companyCode").val();
+	
     table.render({
         elem: '#processdef_table_02' //表格容器
         , url: '/one_level_main/equipment_02?month='+month+"&companyCode="+companyCode
