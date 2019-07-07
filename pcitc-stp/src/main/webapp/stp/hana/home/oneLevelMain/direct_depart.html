@@ -79,7 +79,7 @@
 					<div class="layui-main-box">
 						<span class="layui-box-icon bg-3"></span>
 						<div class="layui-box-content">
-							<span class="layui-box-text">经费支出</span>
+							<span class="layui-box-text">科研投入</span>
 							<span class="layui-box-number" id="pay_id">
 								<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 							</span>
@@ -364,7 +364,8 @@
 			});
 			//支出
 			$(".layui-top .layui-col-md15").eq(3).click(function() {
-				window.open("/instituteIndex?url=" + "/direct/actualPay", "_target");
+				//window.open("/instituteIndex?url=" + "/direct/actualPay", "_target");
+				window.open("/instituteIndex?url=" + "/small_leader/investment", "_target");
 			});
 
 			$(".layui-top .layui-col-md15").eq(4).click(function() {

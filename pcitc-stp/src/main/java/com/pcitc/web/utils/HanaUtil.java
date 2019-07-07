@@ -3446,7 +3446,7 @@ public class HanaUtil {
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("zysje")) {
 			chartBarLineSeries.setName("预算金额");
-			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("zsjje")) {
 			chartBarLineSeries.setName("合同金额");
@@ -3474,7 +3474,7 @@ public class HanaUtil {
 					
 					if(zysje!=null)
 					{
-						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(zysje))/10000));
+						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(zysje))));
 						
 					}else
 					{
@@ -3488,7 +3488,7 @@ public class HanaUtil {
 					
 					if(zsjje!=null)
 					{
-						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(zsjje))/10000));
+						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(zsjje))));
 						
 					}else
 					{
@@ -3501,7 +3501,7 @@ public class HanaUtil {
 					
 					if(hanaMoney!=null)
 					{
-						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(hanaMoney))/10000));
+						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(hanaMoney))));
 						
 					}else
 					{
@@ -3554,7 +3554,7 @@ public class HanaUtil {
 					
 					if(zysje!=null)
 					{
-						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(zysje))/10000));
+						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(zysje))));
 						
 					}else
 					{
@@ -3568,7 +3568,7 @@ public class HanaUtil {
 					
 					if(zsjje!=null)
 					{
-						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(zsjje))/10000));
+						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(zsjje))));
 						
 					}else
 					{
@@ -3581,7 +3581,7 @@ public class HanaUtil {
 					
 					if(hanaMoney!=null)
 					{
-						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(hanaMoney))/10000));
+						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(hanaMoney))));
 						
 					}else
 					{

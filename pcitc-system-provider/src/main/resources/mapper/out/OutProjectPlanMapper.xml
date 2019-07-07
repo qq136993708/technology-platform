@@ -1421,8 +1421,8 @@
 						from out_project_info
 						WHERE
 							out_project_info.ysnd= '${nd}' 
-							and STRCMP(left(G0AUGDT, 6), '201801') &gt; -1
-							and STRCMP(left(G0AUGDT, 6), '201812') &lt; 1
+							<!-- and STRCMP(left(G0AUGDT, 6), '201801') &gt; -1
+							and STRCMP(left(G0AUGDT, 6), '201812') &lt; 1 -->
 							and out_project_info.PROJECT_TYPE != '1' and out_project_info.type_flag like '%直属研究院%'
 							and define3='项目管理系统'
 							group by out_project_info.define2) as tableA LEFT JOIN out_tem_money_total ON (tableA.define2 = out_tem_money_total.show_ali and out_tem_money_total.nd = '${nd}')
