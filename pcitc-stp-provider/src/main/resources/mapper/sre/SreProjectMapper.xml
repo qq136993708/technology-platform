@@ -879,7 +879,7 @@
 	      <if test="professionalFieldValue != null      and professionalFieldValue !=''  ">     AND t.professional_field_value = #{professionalFieldValue}</if>
 	      <if test="sourceType != null      and sourceType !=''  ">     AND t.source_type = #{sourceType}</if>
 	      <if test="projectCode != null      and projectCode !=''  ">     AND t.project_code = #{projectCode}</if>
-	       
+	      <if test="equipmentIds != null      and equipmentIds  !='' ">    AND t.equipment_ids like CONCAT('%',#{equipmentIds},'%')</if>
 	        
          <if test="startMoney != null   and startMoney !='' ">      AND  t.project_money &gt;= #{startMoney}</if>
          <if test="endMoney != null   and endMoney !='' ">      AND  t.project_money &lt;= #{endMoney}</if>
@@ -907,6 +907,9 @@
     
     <select id="getSelectDate" resultMap="BaseResultMap" parameterType="Map" >
     select *  from sre_project
+  </select>
+  <select id="getListMap" resultMap="BaseResultMap" parameterType="Map" >
+   select * from sre_project where equipment_ids LIKE  CONCAT('%',#{equipmentIds},'%')
   </select>
     
 </mapper>

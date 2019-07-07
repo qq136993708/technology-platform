@@ -22,4 +22,7 @@ public interface SreProjectMapper {
     int getCount(Map map);
 
 	List<SreProject> getSelectDate(Map map);
+
+	List<SreProject> getListMap(Map map);
+	
 }

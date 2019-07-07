@@ -67,7 +67,7 @@ public class DetailController extends BaseController {
 	/**
 	 * 列表
 	 * 
-	 * @param request
+	 * @param requestPAGE_URL
 	 * @param response
 	 * @return
 	 */
