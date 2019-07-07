@@ -392,6 +392,12 @@ background: white;box-shadow: 0 0 5px #dadcde;}
 @media screen and (max-width: 1366px) {
     .work-report ul li {margin-left: 19px;}
     .work-two{padding-left: 70px;}
+    .expert-bottom>span{display: inline-block;font-size: 12px}
+    .expert-bottom>span:nth-child(1){background: url("/layuiadmin/layui/images/span-1.png") no-repeat right bottom;width: 100px;height: 40px;}
+    .expert-bottom>span:nth-child(2){background: url("/layuiadmin/layui/images/span-2.png") no-repeat right bottom;width: 168px;height: 40px}
+    .expert-bottom>span:nth-child(3){background: url("/layuiadmin/layui/images/span-3.png") no-repeat right bottom;width: 160px;height: 40px;}
+    .expert-bottom>span:nth-child(5){width: 100px;height: 40px;background: url("/layuiadmin/layui/images/span-5.png") no-repeat right 0;}
+    .expert-bottom>span:nth-child(6){width: 168px;height: 40px;background: url("/layuiadmin/layui/images/span-6.png") no-repeat right 0;}
 }
 
 /*科研人才*/
