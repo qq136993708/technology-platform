@@ -400,7 +400,7 @@ var name=$('#name').val();
             cols: [[
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
-            	{field : 'purchaseName',     title : '采购名称', ssort : true,tyle : 'cursor: pointer;', align : 'left', width : '20%',templet:function(d){return '<span onclick="view_purchaseName(\''+d.id+'\')" style="color:#1890ff">'+d.purchaseName+'</span>'}},
+            	{field : 'purchaseName',           title : '采购名称',         style : 'cursor: pointer;', align: 'left',    width : '20%',templet:function(d){return '<span onclick="view_purchaseName(\''+d.id+'\')" style="color:#1890ff">'+d.purchaseName+'</span>'}},
          	    {field : 'parentUnitPathNames',     title : '单位名称', sort : true,style : 'cursor: pointer;', align : 'left', width : '20%'},
          		{field : 'departName',     title : '部门名称', sort : true,style : 'cursor: pointer;', align : 'left', width : '20%'},
                 {field : 'proposerName',      		title : '申请人', sort : true,        style : 'cursor: pointer;', align: 'center',  width : '10%',},
