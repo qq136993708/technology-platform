@@ -184,14 +184,6 @@ public class AdminController extends BaseController {
 
 						// 收藏的菜单
 						List<SysCollect> scList = userDetails.getScList();
-						// 收藏菜单前端显示
-						List<SysCollect> scShowList = new ArrayList<SysCollect>();
-						for (int i = 0; i < scList.size(); i++) {
-							if (i < 6) {
-								scShowList.add(scList.get(i));
-							}
-						}
-						request.setAttribute("scShowList", scShowList);
 						request.setAttribute("scList", scList);
 						request.setAttribute("funList", funList);
 						request.setAttribute("grgztList", grgztList);
@@ -336,14 +328,6 @@ public class AdminController extends BaseController {
 
 						// 收藏的菜单
 						List<SysCollect> scList = userDetails.getScList();
-						// 收藏菜单前端显示
-						List<SysCollect> scShowList = new ArrayList<SysCollect>();
-						for (int i = 0; i < scList.size(); i++) {
-							if (i < 6) {
-								scShowList.add(scList.get(i));
-							}
-						}
-						request.setAttribute("scShowList", scShowList);
 						request.setAttribute("scList", scList);
 						request.setAttribute("funList", funList);
 						request.setAttribute("grgztList", grgztList);
@@ -469,14 +453,6 @@ public class AdminController extends BaseController {
 
 			// 收藏的菜单
 			List<SysCollect> scList = userDetails.getScList();
-			// 收藏菜单前端显示
-			List<SysCollect> scShowList = new ArrayList<SysCollect>();
-			for (int i = 0; i < scList.size(); i++) {
-				if (i < 6) {
-					scShowList.add(scList.get(i));
-				}
-			}
-			request.setAttribute("scShowList", scShowList);
 			request.setAttribute("scList", scList);
 
 			// 重置登录次数
@@ -535,14 +511,6 @@ public class AdminController extends BaseController {
 
 			// 收藏的菜单
 			List<SysCollect> scList = userDetails.getScList();
-			// 收藏菜单前端显示
-			List<SysCollect> scShowList = new ArrayList<SysCollect>();
-			for (int i = 0; i < scList.size(); i++) {
-				if (i < 6) {
-					scShowList.add(scList.get(i));
-				}
-			}
-			request.setAttribute("scShowList", scShowList);
 			request.setAttribute("scList", scList);
 
 			// 重新登录，覆盖原cookies。cookies中信息都是后续要用的
@@ -600,14 +568,6 @@ public class AdminController extends BaseController {
 
 		// 收藏的菜单
 		List<SysCollect> scList = userDetails.getScList();
-		// 收藏菜单前端显示
-		List<SysCollect> scShowList = new ArrayList<SysCollect>();
-		for (int i = 0; i < scList.size(); i++) {
-			if (i < 6) {
-				scShowList.add(scList.get(i));
-			}
-		}
-		request.setAttribute("scShowList", scShowList);
 		request.setAttribute("scList", scList);
 
 		List<SysFunction> funList = userDetails.getFunList();
@@ -713,8 +673,17 @@ public class AdminController extends BaseController {
 		request.setAttribute("taskListMy", resultMy.getData());
 
 		SysUser sysUser = EquipmentUtils.getSysUserByUserId(sysUserInfo.getUserId(), restTemplate, httpHeaders);
-		List scList = sysUser.getScList();
+		List<SysCollect> scList = sysUser.getScList();
+		// 收藏菜单前端显示
+		List<SysCollect> scShowList = new ArrayList<SysCollect>();
+		for (int i = 0; i < scList.size(); i++) {
+			if (i < 6) {
+				scShowList.add(scList.get(i));
+			}
+		}
+		request.setAttribute("scShowList", scShowList);
 		request.setAttribute("scList", scList);
+		
 		String unitPathId = sysUserInfo.getUnitPath();
 		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
 		request.setAttribute("isKJBPerson", isKJBPerson);
