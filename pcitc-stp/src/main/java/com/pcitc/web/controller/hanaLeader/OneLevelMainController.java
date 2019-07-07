@@ -651,7 +651,7 @@ public class OneLevelMainController extends BaseController {
 
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			// 领导标识，不控制数据
-			param.getParam().put("leaderFlag", "");
+			param.getParam().put("leaderFlag", "1");
 		}
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
@@ -1237,10 +1237,6 @@ public class OneLevelMainController extends BaseController {
 		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
 		paramsMap.put("zycbm", zycbm);
 		paramsMap.put("zylbbm", zylbbm);
-		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
-			// 领导标识，不控制数据
-			paramsMap.put("leaderFlag", "1");
-		}
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			// 领导标识，不控制数据
 			paramsMap.put("leaderFlag", "1");

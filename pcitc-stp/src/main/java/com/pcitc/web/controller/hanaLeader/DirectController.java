@@ -1216,6 +1216,7 @@ public class DirectController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/topic_02")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String topic_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String resault = "";
 		Result result = new Result();
@@ -1228,6 +1229,11 @@ public class DirectController extends BaseController {
 		paramsMap.put("nd", nd);
 		paramsMap.put("typeFlag", typeFlag);
 		paramsMap.put("xmlbbm", xmlbbm);
+		// 数据控制属性
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
+		paramsMap.put("zycbm", zycbm);
+		paramsMap.put("zylbbm", zylbbm);
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			// 领导标识，不控制数据
 			paramsMap.put("leaderFlag", "1");
