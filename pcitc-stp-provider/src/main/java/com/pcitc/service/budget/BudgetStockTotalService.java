@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetStockTotal;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectPlan;
@@ -77,7 +78,7 @@ public interface BudgetStockTotalService extends BudgetPublicService
 	 * @return
 	 * @throws Exception
 	 */
-	public List<BudgetStockTotal> selectItemsByBudgetId(String budgetId)throws Exception;
+	public List<BudgetStockTotal> selectItemsByBudgetId(String budgetId);
 	/**
 	 * 根据预算表查询预算表下所有预算项（包括一级和二级）
 	 * @param budgetId
@@ -124,4 +125,10 @@ public interface BudgetStockTotalService extends BudgetPublicService
 	 * @return
 	 */
 	public Map<String,List<OutProjectInfo>> selectCompareProjectInfoData(Set<String> codes,String nd);
+	/**
+	 * 最终预算
+	 * @param info
+	 * @return
+	 */
+	public Map<String,Object> selectFinalStockTotalBudget(BudgetInfo info);
 }

@@ -106,7 +106,7 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 	}
 
 	@Override
-	public List<BudgetGroupTotal> selectItemsByBudgetId(String budgetInfoId) throws Exception
+	public List<BudgetGroupTotal> selectItemsByBudgetId(String budgetInfoId)
 	{
 		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
 		BudgetGroupTotalExample.Criteria c = example.createCriteria();
@@ -389,5 +389,25 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 			}
 		}
 		return newInfo;
+	}
+
+	@Override
+	public Map<String, Object> selectFinalGroupTotalBudget(BudgetInfo info)  
+	{
+		Map<String,Object> rsmap = new HashMap<String,Object>();
+		if(info != null) {
+			rsmap = MyBeanUtils.transBean2Map(info);
+			List<BudgetGroupTotal> totals = selectItemsByBudgetId(info.getDataId());
+			Double items_total = 0d;
+			for(BudgetGroupTotal total:totals) {
+				items_total += total.getTotal()==null?0d:total.getZxjf()+total.getXmjf();
+			}
+			rsmap.put("items", totals);
+			rsmap.put("items_total", items_total);
+		}else {
+			rsmap.put("items", new ArrayList<BudgetGroupTotal>());
+			rsmap.put("items_total", 0);
+		}
+		return rsmap;
 	}
 }

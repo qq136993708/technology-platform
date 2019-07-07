@@ -100,7 +100,7 @@ public class BudgetAssetTotalServiceImpl implements BudgetAssetTotalService
 	}
 
 	@Override
-	public List<BudgetAssetTotal> selectItemsByBudgetId(String budgetInfoId) throws Exception
+	public List<BudgetAssetTotal> selectItemsByBudgetId(String budgetInfoId)
 	{
 		BudgetAssetTotalExample example = new BudgetAssetTotalExample();
 		BudgetAssetTotalExample.Criteria c = example.createCriteria();
@@ -322,5 +322,24 @@ public class BudgetAssetTotalServiceImpl implements BudgetAssetTotalService
 			}
 		}
 		return newInfo;
+	}
+
+	@Override
+	public Map<String, Object> selectFinalAssetTotalBudget(BudgetInfo info) {
+		Map<String,Object> rsmap = new HashMap<String,Object>();
+		if(info != null) {
+			rsmap = MyBeanUtils.transBean2Map(info);
+			List<BudgetAssetTotal> totals = selectItemsByBudgetId(info.getDataId());
+			Double items_total = 0d;
+			for(BudgetAssetTotal total:totals) {
+				items_total += (total.getTotal()==null?0:total.getTotal());
+			}
+			rsmap.put("items", totals);
+			rsmap.put("items_total", items_total);
+		}else {
+			rsmap.put("items", new ArrayList<BudgetAssetTotal>());
+			rsmap.put("items_total", 0);
+		}
+		return rsmap;
 	}
 }

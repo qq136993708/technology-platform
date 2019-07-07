@@ -750,20 +750,7 @@ public class BudgetGroupTotalProviderClient
 	public Object selectFinalGroupTotalInfo(@RequestBody String nd) throws Exception 
 	{
 		BudgetInfo info = budgetInfoService.selectFinalBudget(nd, BudgetInfoEnum.GROUP_TOTAL.getCode());
-		Map<String,Object> rsmap = new HashMap<String,Object>();
-		if(info != null) {
-			rsmap = MyBeanUtils.transBean2Map(info);
-			List<BudgetGroupTotal> totals = budgetGroupTotalService.selectItemsByBudgetId(info.getDataId());
-			Double items_total = 0d;
-			for(BudgetGroupTotal total:totals) {
-				items_total += total.getTotal()==null?0d:total.getZxjf()+total.getXmjf();
-			}
-			rsmap.put("items", totals);
-			rsmap.put("items_total", items_total);
-		}else {
-			rsmap.put("items", new ArrayList<BudgetGroupTotal>());
-			rsmap.put("items_total", 0);
-		}
-		return rsmap;
+		
+		return budgetGroupTotalService.selectFinalGroupTotalBudget(info);
 	}
 }
