@@ -2467,6 +2467,7 @@ public class OneLevelMainController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/investment_01")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String investment_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
@@ -2476,6 +2477,11 @@ public class OneLevelMainController extends BaseController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("companyCode", companyCode);
+		// 数据控制属性
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
+		paramsMap.put("zycbm", zycbm);
+		paramsMap.put("zylbbm", zylbbm);
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			// 领导标识，不控制数据
 			paramsMap.put("leaderFlag", "1");
@@ -2561,6 +2567,7 @@ public class OneLevelMainController extends BaseController {
 	// 重在集团
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/investment_01_01")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String investment_01_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		PageResult pageResult = new PageResult();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
@@ -2570,6 +2577,11 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("nd", nd);
 		paramsMap.put("type", type);
 		paramsMap.put("companyCode", companyCode);
+		// 数据控制属性
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
+		paramsMap.put("zycbm", zycbm);
+		paramsMap.put("zylbbm", zylbbm);
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			// 领导标识，不控制数据
 			paramsMap.put("leaderFlag", "1");
@@ -2654,6 +2666,7 @@ public class OneLevelMainController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/investment_02")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String investment_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
@@ -2663,6 +2676,11 @@ public class OneLevelMainController extends BaseController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("companyCode", companyCode);
+		// 数据控制属性
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
+		paramsMap.put("zycbm", zycbm);
+		paramsMap.put("zylbbm", zylbbm);
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			// 领导标识，不控制数据
 			paramsMap.put("leaderFlag", "1");
@@ -2710,6 +2728,7 @@ public class OneLevelMainController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/investment_03")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String investment_03(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		JSONObject resultObj = null;
@@ -2722,6 +2741,11 @@ public class OneLevelMainController extends BaseController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("companyCode", companyCode);
+		// 数据控制属性
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
+		paramsMap.put("zycbm", zycbm);
+		paramsMap.put("zylbbm", zylbbm);
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			// 领导标识，不控制数据
 			paramsMap.put("leaderFlag", "1");

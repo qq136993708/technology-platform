@@ -2605,6 +2605,14 @@
 											<if test="zycbm != null and zycbm != ''">
 												and find_in_set(zycbm, '${zycbm}')
 											</if>
+											<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+												<if test="zycbm != null and zycbm != ''">
+													and find_in_set(out_project_info.zycbm, '${zycbm}')
+												</if>
+												<if test="zycbm == null or zycbm == ''">
+													and out_project_info.ND = '1900'
+												</if>
+											</if>
 		    						)*100,4) zslRate,
 			round(sum(case when nd = '${nd}' then 1 else 0 end)/(select count(DISTINCT xmid) 
 		    							from out_project_info 
@@ -2621,6 +2629,14 @@
 											</if>
 											<if test="zycbm != null and zycbm != ''">
 												and find_in_set(zycbm, '${zycbm}')
+											</if>
+											<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+												<if test="zycbm != null and zycbm != ''">
+													and find_in_set(out_project_info.zycbm, '${zycbm}')
+												</if>
+												<if test="zycbm == null or zycbm == ''">
+													and out_project_info.ND = '1900'
+												</if>
 											</if>
 		    						)*100,4) xkRate,
 			round(sum(case when nd != '${nd}' then 1 else 0 end)/(select count(DISTINCT xmid) 
@@ -2639,6 +2655,14 @@
 											<if test="zycbm != null and zycbm != ''">
 												and find_in_set(zycbm, '${zycbm}')
 											</if>
+											<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+												<if test="zycbm != null and zycbm != ''">
+													and find_in_set(out_project_info.zycbm, '${zycbm}')
+												</if>
+												<if test="zycbm == null or zycbm == ''">
+													and out_project_info.ND = '1900'
+												</if>
+											</if>
 		    						)*100,4) xjRate,
 	    	SUBSTR(define2 FROM 6) define2
 		from out_project_info
@@ -2655,6 +2679,14 @@
 			  </if>
 			  <if test="zycbm != null and zycbm != ''">
 				 and find_in_set(zycbm, '${zycbm}')
+			  </if>
+			  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				  <if test="zycbm != null and zycbm != ''">
+					  and find_in_set(out_project_info.zycbm, '${zycbm}')
+				  </if>
+				  <if test="zycbm == null or zycbm == ''">
+					  and out_project_info.ND = '1900'
+				  </if>
 			  </if>
 	    group by define2
 	</select>
@@ -2830,14 +2862,22 @@
 				<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
 					 and xmlbbm !='KYZB'
 				</if>
+				<!-- 数据控制 -->
+				<if test="zylbbm != null and zylbbm != ''">
+					and find_in_set(out_project_info.zylbbm, '${zylbbm}')
+				</if>
+				<if test="zycbm != null and zycbm != ''">
+					and find_in_set(out_project_info.zycbm, '${zycbm}')
+				</if>
 				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
-				   <if test="zycbm != null and zycbm != ''">
-						and find_in_set(zycbm, '${zycbm}')
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
 					</if>
 					<if test="zycbm == null or zycbm == ''">
-						and out_project_info.nd = '1900'
+						and out_project_info.ND = '1900'
 					</if>
-			    </if>
+				</if>
+				<!-- 数据控制 -->
 			group by xmid) AS tableA 
 		GROUP BY tableA.define5
 		order by tableA.define5

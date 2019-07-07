@@ -1331,6 +1331,7 @@ public class DirectController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/topic_03")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String topic_03(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
@@ -1341,6 +1342,11 @@ public class DirectController extends BaseController {
 		paramsMap.put("nd", nd);
 		paramsMap.put("xmlbbm", xmlbbm);
 		paramsMap.put("typeFlag", typeFlag);
+		// 数据控制属性
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
+		paramsMap.put("zycbm", zycbm);
+		paramsMap.put("zylbbm", zylbbm);
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			// 领导标识，不控制数据
 			paramsMap.put("leaderFlag", "1");
@@ -1460,6 +1466,7 @@ public class DirectController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/equipment_01")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String equipment_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String resault = "";
@@ -1472,6 +1479,11 @@ public class DirectController extends BaseController {
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
 		paramsMap.put("xmlbbm", "kyzb");
+		// 数据控制属性
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
+		paramsMap.put("zycbm", zycbm);
+		paramsMap.put("zylbbm", zylbbm);
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			// 领导标识，不控制数据
 			paramsMap.put("leaderFlag", "1");
