@@ -749,15 +749,18 @@
                         thisWeekTotal = data.data.thisWeekTotal;   // 本周安排出去的工作总数
                         thisWeekHaved = data.data.thisWeekHaved;   // 本周安排出去已经完成的工作
                 	}
-                	circle("circleOne",0,lastWeekHaved+"/"+lastWeekTotal);
-                    circle("circleTwo",0,thisWeekHaved+"/"+thisWeekTotal);
-                    $(".work-summary").hover(function(){
-                        circle("circleOne",(lastWeekHaved/lastWeekTotal).toFixed(2),lastWeekHaved+"/"+lastWeekTotal);
-                        circle("circleTwo",(thisWeekHaved/thisWeekTotal).toFixed(2),thisWeekHaved+"/"+thisWeekTotal);
-                    },function(){
+                	//circle("circleOne",0,lastWeekHaved+"/"+lastWeekTotal);
+                    //circle("circleTwo",0,thisWeekHaved+"/"+thisWeekTotal);
+					if(lastWeekHaved==0 && lastWeekTotal==0){
                         circle("circleOne",0,lastWeekHaved+"/"+lastWeekTotal);
+					}else {
+                        circle("circleOne",(lastWeekHaved/lastWeekTotal).toFixed(2),lastWeekHaved+"/"+lastWeekTotal);
+					}
+					if(thisWeekHaved==0 && thisWeekTotal==0){
                         circle("circleTwo",0,thisWeekHaved+"/"+thisWeekTotal);
-                    });
+					}else {
+                        circle("circleTwo",(thisWeekHaved/thisWeekTotal).toFixed(2),thisWeekHaved+"/"+thisWeekTotal);
+					}
                     
                 });
                 
