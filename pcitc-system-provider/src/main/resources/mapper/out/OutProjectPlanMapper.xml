@@ -1238,6 +1238,20 @@
 			from out_project_info 
 			WHERE
 				out_project_info.ysnd= '${nd}' 
+				<if test="zylbbm != null and zylbbm != ''">
+					and find_in_set(out_project_info.zylbbm, '${zylbbm}')
+				</if>
+				<if test="zycbm != null and zycbm != ''">
+					and find_in_set(out_project_info.zycbm, '${zycbm}')
+				</if>
+				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
+					</if>
+					<if test="zycbm == null or zycbm == ''">
+						and out_project_info.ND = '1900'
+					</if>
+				</if>
 				and out_project_info.PROJECT_TYPE != '1'
 				and define3='项目管理系统' and define2 not like '%休斯顿%' and define2 not like '%中东%' 
 				group by out_project_info.define10) as tableA ON (out_tem_money_decompose.cb = tableA.define10)
@@ -1334,6 +1348,20 @@
 			from out_project_info
 			WHERE
 				out_project_info.ysnd= '${nd}' 
+				<if test="zylbbm != null and zylbbm != ''">
+					and find_in_set(out_project_info.zylbbm, '${zylbbm}')
+				</if>
+				<if test="zycbm != null and zycbm != ''">
+					and find_in_set(out_project_info.zycbm, '${zycbm}')
+				</if>
+				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
+					</if>
+					<if test="zycbm == null or zycbm == ''">
+						and out_project_info.ND = '1900'
+					</if>
+				</if>
 				and out_project_info.PROJECT_TYPE != '1' and out_project_info.type_flag like '%直属研究院%'
 				and define3='项目管理系统'
 				group by out_project_info.define2) as tableA LEFT JOIN out_tem_money_total ON (tableA.define2 = out_tem_money_total.show_ali and out_tem_money_total.nd = '${nd}')
@@ -1487,6 +1515,20 @@
 						from out_project_info 
 						WHERE
 							out_project_info.ysnd= '${nd}' 
+							<if test="zylbbm != null and zylbbm != ''">
+								and find_in_set(out_project_plan.zylbbm, '${zylbbm}')
+							</if>
+							<if test="zycbm != null and zycbm != ''">
+								and find_in_set(out_project_plan.zycbm, '${zycbm}')
+							</if>
+							<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+								<if test="zycbm != null and zycbm != ''">
+									and find_in_set(out_project_plan.zycbm, '${zycbm}')
+								</if>
+								<if test="zycbm == null or zycbm == ''">
+									and out_project_plan.ND = '1900'
+								</if>
+							</if>
 							and out_project_info.PROJECT_TYPE != '1'
 							and define3='项目管理系统' and ysje is not null
 							group by out_project_info.type_flag

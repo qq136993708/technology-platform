@@ -175,19 +175,19 @@
 							<div class="text-total">
 								<span>
 									总计:
-									<span class="text-total-blue" id="topic_chart7_01" onclick="topic_chart1('')" style="cursor: pointer">
+									<span class="text-total-blue" id="topic_chart7_01" onclick="topic_chart2('')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
 								<span>
 									新开课题:
-									<span class="text-total-blue" id="topic_chart7_02" onclick="topic_chart1('新开课题')" style="cursor: pointer">
+									<span class="text-total-blue" id="topic_chart7_02" onclick="topic_chart2('新开课题')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
 								<span>
 									结转课题:
-									<span class="text-total-blue" id="topic_chart7_03" onclick="topic_chart1('结转课题')" style="cursor: pointer">
+									<span class="text-total-blue" id="topic_chart7_03" onclick="topic_chart2('结转课题')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
@@ -309,7 +309,7 @@
 
 			});
 
-			var chart4_url = "/direct/topic_02?type=1&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
+			var chart4_url = "/direct/topic_02?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
 			var colorT = [ "#ff9f7f", "#f3d156" ];
 			var echart4 = load_mutl_bar_down(chart4_url, "topic_chart4", "", "", yAxis, 20, colorT);
 			echart4.on('click', function(params) {
@@ -320,13 +320,12 @@
 				if (legentName == '新开课题') {
 					nd_temp = nd;
 				}
-				//alert(legentName);
-				var url = encodeURIComponent("/one_level_main/count_table?project_property=" + xName + "&nd=" + nd_temp + "&ysnd=" + nd + "&define1=费用性");
+				var url = encodeURIComponent("/one_level_main/count_table?project_property=" + xName + "&nd=" + nd_temp + "&ysnd=" + nd + "&typeFlag=研究院&xmlbbm=fkyzb&groupFlag=xmid");
 				window.open("/instituteIndex?url=" + url);
 
 			});
 
-			var chart6_url = "/direct/topic_03?type=4&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
+			var chart6_url = "/direct/topic_03?functionId=984b64b13cf54222bf57bd840759fabe&type=4&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
 			var colorTr = [ "#71d398", "#96bfff" ];
 			var echart6 = load_mutl_bar_down(chart6_url, "topic_chart7", "", "", "", 50, colorTr);
 			echart6.on('click', function(params) {

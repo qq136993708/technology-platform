@@ -295,7 +295,7 @@
 			$("#equipment_chart5_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#equipment_chart5_04").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 
-			var chart1_url = "/direct/equipment_01?type=1&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=kyzb";
+			var chart1_url = "/direct/equipment_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=kyzb";
 			var echart1 = load_mutl_bar_down_color(chart1_url, "equipment_chart1", "", "", yAxis);
 			echart1.on('click', function(params) {
 				var xName = params.name;
@@ -497,7 +497,7 @@
 			month = month.replace("-", "");
 			var nd = month.substr(0, 4);
 			var v_date = (new Date()).getTime();
-			var url = '/direct/equipment_01?type=2&v_date=' + v_date + "&nd=" + nd + "&xmlbbm=kyzb";
+			var url = '/direct/equipment_01?functionId=984b64b13cf54222bf57bd840759fabe&type=2&v_date=' + v_date + "&nd=" + nd + "&xmlbbm=kyzb";
 			table.init('myTable', {
 				url : url,
 				height : "300px",

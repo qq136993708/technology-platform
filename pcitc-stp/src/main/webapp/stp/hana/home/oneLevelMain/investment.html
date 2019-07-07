@@ -311,7 +311,7 @@
 			$("#chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 
-			var chart1_url = "/one_level_main/investment_01?nd=" + nd + "&v_date=" + v_date;
+			var chart1_url = "/one_level_main/investment_01?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date;
 			var colorOne = [ "#5181E6", "#E79579" ];
 
 			var echart = load_mutl_bar_down(chart1_url, "chart1", "", "", yAxis4, "", colorOne);
@@ -327,7 +327,7 @@
 			var investment_0101_url = "/one_level_main/investment_0101?nd=" + nd + "&v_date=" + v_date;
 			setinvestmentCount(investment_0101_url);
 
-			var chart6_url = "/one_level_main/investment_03?nd=" + nd + "&v_date=" + v_date + "&type=1";
+			var chart6_url = "/one_level_main/investment_03?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date + "&type=1";
 			var colorNew2 = [ "#f4974a", "#f3cc41", "#95c740" ];
 			var echart6 = load_mutl_bar_down_rotate(chart6_url, "investment_chart6", "", "", yAxis3, 30, colorNew2, true);
 			echart6.on('click', function(params) {
@@ -345,7 +345,7 @@
 			$("#chart7_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#chart7_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#chart7_04").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-			var chart7_url = "/one_level_main/investment_02?nd=" + nd + "&v_date=" + v_date;
+			var chart7_url = "/one_level_main/investment_02?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date;
 			var color = [ "#f3655b", "#8ab3cf", "#f19049" ];
 			var echart7 = load_mutl_bar_investment(chart7_url, "chart7", "", "", yAxis2, color, 60, function(data) {
 			});
@@ -379,7 +379,7 @@
 
 			var nd = $("#nd").val();
 			var v_date = (new Date()).getTime();
-			var url = '/one_level_main/investment_01_01?nd=' + nd + "&v_date=" + v_date;
+			var url = '/one_level_main/investment_01_01?functionId=984b64b13cf54222bf57bd840759fabe&nd=' + nd + "&v_date=" + v_date;
 			table.init('myTable', {
 				url : url,
 				height : "296px",
