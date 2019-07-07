@@ -251,7 +251,7 @@
 			//表盘
 			setGauge("direct_contract_01");
 			setGauge_count();
-			var chart_01_01 = "/one_level_main/contract_01_01?type=1&nd=" + nd + "&v_date=" + v_date + "";
+			var chart_01_01 = "/one_level_main/contract_01_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "&v_date=" + v_date + "";
 			var colorOne = [ "#2F9CFF", "#36CBCB", "#FAD337" ]
 			var echartchart_01_01 = load_mutl_bar_down(chart_01_01, "direct_contract_01_01", "", "", yAxis2, 30, colorOne);
 			echartchart_01_01.on('click', function(params) {
@@ -271,7 +271,7 @@
 			});
 
 			//
-			var chart2_url = "/one_level_main/contract_02?type=1&nd=" + nd + "&v_date=" + v_date + "";
+			var chart2_url = "/one_level_main/contract_02?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "&v_date=" + v_date + "";
 			var echart2 = load_single_line(chart2_url, "direct_contract_04", "", "", yAxis);
 			echart2.on('click', function(params) {
 				var xName = params.name;
@@ -301,7 +301,7 @@
 			$("#direct_contract_chart_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#direct_contract_chart_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 
-			var chart6_url = "/one_level_main/contract_03?type=1&nd=" + nd + "&v_date=" + v_date + "";
+			var chart6_url = "/one_level_main/contract_03?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "&v_date=" + v_date + "";
 			var color2 = [ "#f3655b", "#8ab3cf", "#f19049" ];
 			var echart6 = load_mutl_bar_down(chart6_url, "direct_contract_chart", "", "", yAxis, 30, color2);
 			echart6.on('click', function(params) {
@@ -343,7 +343,7 @@
 			var series = [];
 			$.ajax({
 				type : "get",
-				url : "/one_level_main/contract_01?type=1&nd=" + nd + "",
+				url : "/one_level_main/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "",
 				timeout : 9000,
 				dataType : "json",
 				cache : false,
@@ -401,7 +401,7 @@
 				} ]
 			};
 			var nd = $('#nd').val();
-			ajax_getGauge("/one_level_main/contract_01?type=2&nd=" + nd + "", myChart2, options);
+			ajax_getGauge("/one_level_main/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=2&nd=" + nd + "", myChart2, options);
 		}
 
 		function ajax_getGauge(url, echartsobj, options) {
@@ -452,7 +452,7 @@
 			table.render({
 				elem : '#processdef_table' //表格容器
 				,
-				url : '/one_level_main/contract_05?nd=' + nd + "&v_date=" + v_date + '',
+				url : '/one_level_main/contract_05?functionId=984b64b13cf54222bf57bd840759fabe&nd=' + nd + "&v_date=" + v_date + '',
 				id : 'processdef_table',
 				limit : 15 //每页默认显示的数量
 				,
@@ -578,7 +578,7 @@
 			var nd = $('#nd').val();
 			var tableOne = table.render({
 				elem : '#processdef_table_02',
-				url : '/one_level_main/contract_01_01?nd=' + nd + '&type=2',
+				url : '/one_level_main/contract_01_01?functionId=984b64b13cf54222bf57bd840759fabe&nd=' + nd + '&type=2',
 				method : "GET",
 				where : {
 					param : {

@@ -1263,6 +1263,12 @@
 				<if test="define3 != null and define3 != ''">
 					and out_project_plan.DEFINE3 like '%${define3}%'
 				</if>
+				<if test="zylbbm != null and zylbbm != ''">
+					and find_in_set(out_project_plan.zylbbm, '${zylbbm}')
+				</if>
+				<if test="zycbm != null and zycbm != ''">
+					and find_in_set(out_project_plan.zycbm, '${zycbm}')
+				</if>
 				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
 					<if test="zycbm != null and zycbm != ''">
 						and find_in_set(out_project_plan.zycbm, '${zycbm}')
@@ -1292,7 +1298,22 @@
 																 and out_project_info.type_flag like '%直属研究院%'
 																 and out_project_info.ND= '${nd}')
 			WHERE
-				out_project_plan.ND= '${nd}' and out_project_plan.DEFINE3 like '%直属研究院%'
+				out_project_plan.ND= '${nd}' 
+				<if test="zylbbm != null and zylbbm != ''">
+					and find_in_set(out_project_plan.zylbbm, '${zylbbm}')
+				</if>
+				<if test="zycbm != null and zycbm != ''">
+					and find_in_set(out_project_plan.zycbm, '${zycbm}')
+				</if>
+				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(out_project_plan.zycbm, '${zycbm}')
+					</if>
+					<if test="zycbm == null or zycbm == ''">
+						and out_project_plan.ND = '1900'
+					</if>
+				</if>
+				and out_project_plan.DEFINE3 like '%直属研究院%'
 				and out_project_plan.PROJECT_TYPE != '1'
 				and out_project_plan.define4 = '项目管理系统'
 				group by out_project_plan.xmid,out_project_plan.YSND,out_project_plan.DEFINE2
@@ -1329,6 +1350,20 @@
 																	and out_project_info.define3 = '项目管理系统' and out_project_info.ND= '${nd}')
 			WHERE
 				out_project_plan.ND= '${nd}' 
+				<if test="zylbbm != null and zylbbm != ''">
+				    and find_in_set(out_project_plan.zylbbm, '${zylbbm}')
+			    </if>
+			    <if test="zycbm != null and zycbm != ''">
+				    and find_in_set(out_project_plan.zycbm, '${zycbm}')
+			    </if>
+			    <if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				    <if test="zycbm != null and zycbm != ''">
+					    and find_in_set(out_project_plan.zycbm, '${zycbm}')
+				    </if>
+				    <if test="zycbm == null or zycbm == ''">
+					    and ND = '1900'
+				    </if>
+			    </if>
 				and out_project_plan.PROJECT_TYPE != '1'
 				and out_project_plan.define4 = '项目管理系统'
 				group by out_project_plan.xmid
@@ -1360,6 +1395,20 @@
 																	and out_project_info.define3 = '项目管理系统' and out_project_info.ND= '${nd}')
 			WHERE
 				out_project_plan.ND= '${nd}' 
+				<if test="zylbbm != null and zylbbm != ''">
+				    and find_in_set(out_project_plan.zylbbm, '${zylbbm}')
+			    </if>
+			    <if test="zycbm != null and zycbm != ''">
+				    and find_in_set(out_project_plan.zycbm, '${zycbm}')
+			    </if>
+			    <if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				    <if test="zycbm != null and zycbm != ''">
+					    and find_in_set(out_project_plan.zycbm, '${zycbm}')
+				    </if>
+				    <if test="zycbm == null or zycbm == ''">
+					    and ND = '1900'
+				    </if>
+			    </if>
 				and out_project_plan.PROJECT_TYPE != '1'
 				and out_project_plan.define4 = '项目管理系统'
 				group by out_project_plan.xmid,out_project_plan.define2,out_project_plan.define8
@@ -1497,6 +1546,20 @@
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.ND= '${nd}'  and out_project_info.define3 = '项目管理系统')
 			WHERE
 				out_project_plan.ND = '${nd}' 
+				<if test="zylbbm != null and zylbbm != ''">
+				    and find_in_set(out_project_plan.zylbbm, '${zylbbm}')
+			    </if>
+			    <if test="zycbm != null and zycbm != ''">
+				    and find_in_set(out_project_plan.zycbm, '${zycbm}')
+			    </if>
+			    <if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				    <if test="zycbm != null and zycbm != ''">
+					    and find_in_set(out_project_plan.zycbm, '${zycbm}')
+				    </if>
+				    <if test="zycbm == null or zycbm == ''">
+					    and ND = '1900'
+				    </if>
+			    </if>
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
 				and out_project_plan.define4 = '项目管理系统'
 				group by out_project_plan.xmid,out_project_plan.define2,out_project_plan.define8
@@ -1524,6 +1587,7 @@
 				   SUBSTR(out_project_plan.DEFINE13 FROM 2) as DEFINE13,
 				   SUBSTR(out_project_plan.FZDWUNITCW FROM 6) as FZDWUNITCW,
 				   SUBSTR(out_project_plan.FZDWUNIT FROM 4) as FZDWUNIT,
+				   out_project_plan.zycbm,out_project_plan.zylbbm,
 				   out_project_plan.XMID,out_project_plan.XMMC,out_project_plan.YSND,
 				   out_project_plan.JF,out_project_plan.YSJE,
 				   out_project_plan.YSZBXJE,out_project_plan.YSFYXJE,
@@ -1662,6 +1726,23 @@
 				</foreach>
 				)
 			</if>
+			
+			<!-- 数据控制 -->
+			<if test="zylbbm != null and zylbbm != ''">
+				and find_in_set(tableA.zylbbm, '${zylbbm}')
+			</if>
+			<if test="zycbm != null and zycbm != ''">
+				and find_in_set(tableA.zycbm, '${zycbm}')
+			</if>
+			<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				<if test="zycbm != null and zycbm != ''">
+					and find_in_set(tableA.zycbm, '${zycbm}')
+				</if>
+				<if test="zycbm == null or zycbm == ''">
+					and tableA.ND = '1900'
+				</if>
+			</if>
+			<!-- 数据控制 -->
 			
 			<if test="groupFlag != null and groupFlag != ''">
 				<if test="groupFlag != null and groupFlag != ''">
