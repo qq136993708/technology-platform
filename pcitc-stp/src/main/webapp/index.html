@@ -324,10 +324,15 @@
                     navLeft+=$(val).width()+24;
 				}
             });
-           
+
+            var val=$(".seacrhBox input").val();
 			$(".seacrhBox img").click(function () {
-			    var val=$(".seacrhBox input").val();
                 parent.layui.index.openTabsPage("/fullSearch/search?keyword="+val, "全文检索");
+            });
+            $(document).keyup(function(event) {
+                if (event.keyCode == 13) {
+                    parent.layui.index.openTabsPage("/fullSearch/search?keyword="+val, "全文检索");
+                }
             });
             $(".layui-header .layui-icon-prev").css("left",navLeft+"px");
             if(!$(".layui-header .layui-icon-prev").hasClass("layui-hide")){
