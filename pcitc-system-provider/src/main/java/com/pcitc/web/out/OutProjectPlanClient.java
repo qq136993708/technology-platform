@@ -235,8 +235,9 @@ public class OutProjectPlanClient {
 	@RequestMapping(value = "/out-project-plan-provider/complete-rate/money-hana-type")
 	public JSONArray getPlanCompleteRateByPlanTypeForHana(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanCompleteRateByPlanTypeForHana===========================" + map);
+		map.put("startMonth", "201801");
+		map.put("endMonth", "201812");
 		map.put("nd", "2018");
-		map.put("month", "201812");
 		List temList = outProjectPlanService.getPlanCompleteRateByPlanTypeForHana(map);
 		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
