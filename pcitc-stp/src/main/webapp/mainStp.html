@@ -180,7 +180,7 @@
 					<div class="work-collect">
 						<p class="work-title">我的收藏</p>
 						<ul id="work-title_id">
-							<#list scList as sc>
+							<#list scShowList as sc>
 								<li><a lay-href="${sc.collectUrl}" data-id="${sc.functionId}" lay-text="${sc.collectName}"> ${sc.collectName} </a></li>
 						    </#list>
 						</ul>

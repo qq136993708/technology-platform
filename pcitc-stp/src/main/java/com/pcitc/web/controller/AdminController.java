@@ -184,6 +184,14 @@ public class AdminController extends BaseController {
 
 						// 收藏的菜单
 						List<SysCollect> scList = userDetails.getScList();
+						// 收藏菜单前端显示
+						List<SysCollect> scShowList = new ArrayList<SysCollect>();
+						for (int i = 0; i < scList.size(); i++) {
+							if (i < 6) {
+								scShowList.add(scList.get(i));
+							}
+						}
+						request.setAttribute("scShowList", scShowList);
 						request.setAttribute("scList", scList);
 						request.setAttribute("funList", funList);
 						request.setAttribute("grgztList", grgztList);
@@ -220,7 +228,7 @@ public class AdminController extends BaseController {
 
 		// oa系统的服务器地址
 		request.setAttribute("outOAIp", "10.1.4.10");
-		
+
 		String cFlag = request.getParameter("cFlag");
 		request.setAttribute("userId", rsUser.getUserId());
 		if (rsUser.getUserLevel() != null && rsUser.getUserLevel() == 1 && cFlag == null) {
@@ -310,7 +318,7 @@ public class AdminController extends BaseController {
 
 						if (funList != null) {
 							for (SysFunction sysfun : funList) {
-								if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台")) {
+								if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台") && !sysfun.getName().contains("权限")) {
 									upList.add(sysfun);
 								}
 
@@ -328,6 +336,14 @@ public class AdminController extends BaseController {
 
 						// 收藏的菜单
 						List<SysCollect> scList = userDetails.getScList();
+						// 收藏菜单前端显示
+						List<SysCollect> scShowList = new ArrayList<SysCollect>();
+						for (int i = 0; i < scList.size(); i++) {
+							if (i < 6) {
+								scShowList.add(scList.get(i));
+							}
+						}
+						request.setAttribute("scShowList", scShowList);
 						request.setAttribute("scList", scList);
 						request.setAttribute("funList", funList);
 						request.setAttribute("grgztList", grgztList);
@@ -440,7 +456,7 @@ public class AdminController extends BaseController {
 			// 个人工作台菜单
 			List<SysFunction> grgztList = new ArrayList<SysFunction>();
 			for (SysFunction sysfun : funList) {
-				if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台")) {
+				if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台") && !sysfun.getName().contains("权限")) {
 					upList.add(sysfun);
 				}
 
@@ -453,6 +469,15 @@ public class AdminController extends BaseController {
 
 			// 收藏的菜单
 			List<SysCollect> scList = userDetails.getScList();
+			// 收藏菜单前端显示
+			List<SysCollect> scShowList = new ArrayList<SysCollect>();
+			for (int i = 0; i < scList.size(); i++) {
+				if (i < 6) {
+					scShowList.add(scList.get(i));
+				}
+			}
+			request.setAttribute("scShowList", scShowList);
+			request.setAttribute("scList", scList);
 
 			// 重置登录次数
 			if (userDetails.getLoginErrorNumber() != null && userDetails.getLoginErrorNumber() > 0) {
@@ -460,7 +485,6 @@ public class AdminController extends BaseController {
 				this.restTemplate.exchange(UPD_USER_INFO, HttpMethod.POST, new HttpEntity<SysUser>(userDetails, this.httpHeaders), Integer.class);
 			}
 
-			request.setAttribute("scList", scList);
 			request.setAttribute("funList", funList);
 			request.setAttribute("grgztList", grgztList);
 			request.setAttribute("upList", upList);
@@ -498,7 +522,7 @@ public class AdminController extends BaseController {
 			// 个人工作台菜单
 			List<SysFunction> grgztList = new ArrayList<SysFunction>();
 			for (SysFunction sysfun : funList) {
-				if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台")) {
+				if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台") && !sysfun.getName().contains("权限")) {
 					upList.add(sysfun);
 				}
 
@@ -511,6 +535,15 @@ public class AdminController extends BaseController {
 
 			// 收藏的菜单
 			List<SysCollect> scList = userDetails.getScList();
+			// 收藏菜单前端显示
+			List<SysCollect> scShowList = new ArrayList<SysCollect>();
+			for (int i = 0; i < scList.size(); i++) {
+				if (i < 6) {
+					scShowList.add(scList.get(i));
+				}
+			}
+			request.setAttribute("scShowList", scShowList);
+			request.setAttribute("scList", scList);
 
 			// 重新登录，覆盖原cookies。cookies中信息都是后续要用的
 			httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -527,7 +560,6 @@ public class AdminController extends BaseController {
 			cookie.setPath("/");
 			response.addCookie(cookie);
 
-			request.setAttribute("scList", scList);
 			request.setAttribute("funList", funList);
 			request.setAttribute("grgztList", grgztList);
 			request.setAttribute("upList", upList);
@@ -567,13 +599,23 @@ public class AdminController extends BaseController {
 		SysUser userDetails = this.restTemplate.exchange(USER_DETAILS_URL + sysUserInfo.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
 
 		// 收藏的菜单
-		List<SysCollect> scList = userInfo.getScList();
+		List<SysCollect> scList = userDetails.getScList();
+		// 收藏菜单前端显示
+		List<SysCollect> scShowList = new ArrayList<SysCollect>();
+		for (int i = 0; i < scList.size(); i++) {
+			if (i < 6) {
+				scShowList.add(scList.get(i));
+			}
+		}
+		request.setAttribute("scShowList", scShowList);
+		request.setAttribute("scList", scList);
+
 		List<SysFunction> funList = userDetails.getFunList();
 		List<SysFunction> upList = new ArrayList<SysFunction>();
 		// 个人工作台菜单
 		List<SysFunction> grgztList = new ArrayList<SysFunction>();
 		for (SysFunction sysfun : funList) {
-			if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台")) {
+			if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台") && !sysfun.getName().contains("权限")) {
 				upList.add(sysfun);
 			}
 
@@ -582,7 +624,6 @@ public class AdminController extends BaseController {
 				grgztList.add(sysfun);
 			}
 		}
-		request.setAttribute("scList", scList);
 		request.setAttribute("funList", funList);
 		request.setAttribute("grgztList", grgztList);
 		request.setAttribute("upList", upList);
@@ -677,7 +718,7 @@ public class AdminController extends BaseController {
 		String unitPathId = sysUserInfo.getUnitPath();
 		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
 		request.setAttribute("isKJBPerson", isKJBPerson);
-		
+
 		// oa系统的服务器地址
 		request.setAttribute("outOAIp", "10.1.4.10");
 
@@ -702,10 +743,10 @@ public class AdminController extends BaseController {
 			resultsDate.setSuccess(false);
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		
+
 		// 安全设置：归档文件下载
-		response.setHeader("Pragma","no-cache");
-		response.setHeader("Cache-Control","no-cache");
+		response.setHeader("Pragma", "no-cache");
+		response.setHeader("Cache-Control", "no-cache");
 		return result.toJSONString();
 	}
 

@@ -209,6 +209,7 @@ public class UserServiceImpl implements UserService {
 		Criteria cri = sysCollectExample.createCriteria();
 		cri.andUserIdEqualTo(userId);
 		cri.andStatusEqualTo("1");
+		sysCollectExample.setOrderByClause(" create_date desc");
 		List<SysCollect> scList = sysCollectMapper.selectByExample(sysCollectExample);
 		user.setScList(scList);
 		return user;
