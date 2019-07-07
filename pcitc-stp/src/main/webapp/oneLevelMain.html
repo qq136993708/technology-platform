@@ -1,725 +1,725 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>首页</title>
-<meta name="renderer" content="webkit">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-<link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico" />
-<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
-<link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
-<link rel="stylesheet" href="/layuiadmin/style/oneLevel_.css" media="all">
-<link rel="stylesheet" href="/common/css/echart-common.css">
-<script src="/layuiadmin/layui/layui.js"></script>
-<style>
-html {
-	background: #013660;
-}
-</style>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/oneLevel_.css" media="all">
+    <link rel="stylesheet" href="/common/css/echart-common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        html {
+            background: #013660;
+        }
+    </style>
 </head>
 <body>
-	<input type="hidden" name="companyCode" value="${companyCode}" id="companyCode">
-	<input type="hidden" name="month" value="${month}" id="month">
-	<div class="layui-fluid layui-level-admin">
-		<div class="layui-top">
-			<div class="layui-header">
-				<img src="/layuiadmin/layui/images/logo-leader-new.png" />
-				<div class="layui-search">
-					<input type="text" placeholder="请输入关键字">
-					<button class="btn"></button>
-				</div>
-			</div>
-		</div>
-		<div class="layui-main">
-			<!--第一屏-->
-			<div class="layui-level-main main-one">
-				<div class="main-left">
-					<div class="main-agency">
-						<p class="main-left-p">
-							待办事项
-							<a href="/instituteIndex?url=/task/pending/list/ini" target="_blank">
-								<span id="pendingSpan"></span>
-							</a>
-						</p>
-						<ul id="pendingUl">
-						</ul>
-					</div>
-					<div class="main-task">
-						<p class="main-left-p">
-							任务督办
-							<span id="workOrderSpan"></span>
-						</p>
-						<ul id="workOrderUl">
-						</ul>
-					</div>
-				</div>
-				<div class="main-midd">
-					<div class="layui-row-pic">
-						<div class="layui-carousel" id="test-carousel-img">
-							<div carousel-item="">
-								<div>
-									<img src="/layuiadmin/layui/images/pic.png" />
-									<p></p>
-								</div>
-								<div>
-									<img src="/layuiadmin/layui/images/pic1.jpg" />
-									<p></p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="layui-news">
-						<p>
-							科技要闻
-							<span>
+<input type="hidden" name="companyCode" value="${companyCode}" id="companyCode">
+<input type="hidden" name="month" value="${month}" id="month">
+<div class="layui-fluid layui-level-admin">
+    <div class="layui-top">
+        <div class="layui-header">
+            <img src="/layuiadmin/layui/images/logo-leader-new.png" />
+            <div class="layui-search">
+                <input type="text" placeholder="请输入关键字">
+                <button class="btn"></button>
+            </div>
+        </div>
+    </div>
+    <div class="layui-main">
+        <!--第一屏-->
+        <div class="layui-level-main main-one">
+            <div class="main-left">
+                <div class="main-agency">
+                    <p class="main-left-p">
+                        待办事项
+                        <a href="/instituteIndex?url=/task/pending/list/ini" target="_blank">
+                            <span id="pendingSpan"></span>
+                        </a>
+                    </p>
+                    <ul id="pendingUl">
+                    </ul>
+                </div>
+                <div class="main-task">
+                    <p class="main-left-p">
+                        任务督办
+                        <span id="workOrderSpan"></span>
+                    </p>
+                    <ul id="workOrderUl">
+                    </ul>
+                </div>
+            </div>
+            <div class="main-midd">
+                <div class="layui-row-pic">
+                    <div class="layui-carousel" id="test-carousel-img">
+                        <div carousel-item="">
+                            <div>
+                                <img src="/layuiadmin/layui/images/pic.png" />
+                                <p></p>
+                            </div>
+                            <div>
+                                <img src="/layuiadmin/layui/images/pic1.jpg" />
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-news">
+                    <p>
+                        科技要闻
+                        <span>
 								<a href="/instituteIndex?url=/expertController/leader_speech" target="_blank">更多></a>
 							</span>
-						</p>
-						<ul id="news">
-						</ul>
-					</div>
-				</div>
-				<div class="main-right" id="moduleConfig">
-					<div class="laboratory item">
-						<div class="laboratory-color"></div>
-						<div class="laboratory-front">
-							<div class="laboratory-cont">
-								<p class="title">重点研发机构</p>
-								<p class="number" id="textBottomTwo"></p>
-							</div>
-						</div>
-						<div class="laboratory-back"></div>
-					</div>
-					<div class="equipment item">
-						<div class="equipment-front">
-							<p class="title">科研装备</p>
-							<p class="number" id="equipment_id"></p>
-							<img src="/layuiadmin/layui/images/equipment-img.png" alt="">
-						</div>
-					</div>
-					<div class="contract item">
-						<div class="contract-cont">
-							<div class="contract-front">
-								<div class="contract-cont">
-									<p class="title">科研合同</p>
-									<p class="number" id="contract_id"></p>
-								</div>
-							</div>
-							<div class="contract-back">
-								<div class="contract-img"></div>
-								<div class="contract-color"></div>
-							</div>
-						</div>
-					</div>
-					<div class="investment item">
-						<div class="investment-cont">
-							<div class="investment-front">
-								<div class="investment-cont">
-									<p class="title">科研投入</p>
-									<p class="number" id="textTopTwo"></p>
-								</div>
-							</div>
-							<div class="investment-back">
-								<div class="investment-img"></div>
-								<div class="investment-color"></div>
-							</div>
-						</div>
-					</div>
-					<div class="project item">
-						<div class="project-color"></div>
-						<div class="project-front">
-							<div class="project-cont">
-								<p class="title">重大项目及十条龙科技攻关</p>
-								<p class="number" id="dragon_id"></p>
-							</div>
-						</div>
-						<div class="project-back"></div>
-					</div>
-					<div class="institute item">
-						<div class="institute-cont">
-							<div class="institute-front">
-								<div class="institute-cont">
-									<p class="title">直属研究院概况</p>
-								</div>
-							</div>
-							<div class="institute-back">
-								<div class="institute-img"></div>
-								<div class="institute-color"></div>
-							</div>
-						</div>
-					</div>
-					<div class="personnel item">
-						<div class="personnel-front">
-							<p class="title">科研人才</p>
-							<img src="/layuiadmin/layui/images/personnel-img.png" alt="">
-						</div>
-					</div>
-					<div class="achievement item">
-						<div class="achievement-front">
-							<p class="title">科技成果</p>
-							<p class="number" id="appraisalId"></p>
-							<img src="/layuiadmin/layui/images/achievement-img.png" alt="">
-						</div>
-					</div>
-				</div>
-			</div>
-			<!--第二屏-->
-			<div class="layui-level-main main-two">
-				<div class="main-left">
-					<div class="property">
-						<p class="title">知识产权</p>
-						<p class="number" id="patentId"></p>
-					</div>
-					<div class="petrification">
-						<p class="title">中国石化标准化</p>
-						<p class="number"></p>
-					</div>
-					<div class="add"></div>
-				</div>
-				<div class="main-midd"></div>
-				<div class="main-right"></div>
-			</div>
-		</div>
-		<div class="menu-right">
-			<div class="open menu-open"></div>
-			<div class="menu">
-				<div class="menu-index">
-					<div class="menu-index-icon"></div>
-				</div>
-				<div class="menu-two">
-					<div class="menu-two-icon"></div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
-	<script type="text/javascript" src="/layuiadmin/lib/extend/Sortable.min.js"></script>
-	<script type="text/javascript" src="/layuiadmin/javascript/jquery.mousewheel.min.js"></script>
-	<script>
-		var nd = $("#month").val().substring(4, 0);
-		var publicMethods;
-		var carousel;
-		layui.use([ 'carousel', 'form', 'jquery', 'publicMethods' ], function() {
-			var $ = layui.jquery, form = layui.form;
-			publicMethods = layui.publicMethods;
-			carousel = layui.carousel
-			/*搜索*/
-			$(".layui-search .btn").click(function() {
-				window.open("/instituteIndex?url=/fullSearch/search?keyword=" + $(".layui-search input").val(), "_target");
-			});
-			$(document).keyup(function(event) {
-				if (event.keyCode == 13) {
-					window.open("/instituteIndex?url=/fullSearch/search?keyword=" + $(".layui-search input").val(), "_target");
-				}
-			});
-			//图片轮播
-			carousel.render({
-				elem : '#test-carousel-img',
-				width : '100%',
-				height : '100%',
-				interval : 5000
-			});
-			/*配置模块*/
-			$.ajax({
-				type : 'GET',
-				dataType : 'json',
-				headers : {
-					'Content-Type' : 'application/json;charset=UTF-8',
-				},
-				url : "/layuiadmin/json/data.json",
-				success : function(data, status) {
-					//publicMethods.moduleConfigs(data.data);
-					//领导讲话
-					$("#layui_leader").on("click", function() {
-						window.open("/expertController/leader_speech", "_target");
-					});
-					//直属研究院
-					$(".institute").on("click", function() {
-						window.open("/instituteIndex?url=" + "/home_ld/direct_depart", "_target");
-					});
-					//科研投入
-					$(".investment").on("click", function() {
-						window.open("/instituteIndex?url=" + "/one_level_main/investment", "_target");
-					});
-					//十条龙-项目
-					$(".project").on("click", function() {
-						window.open("/instituteIndex?url=" + "/one_level_main/dragon", "_target");
-					});
-					//科技成果
-					$(".achievement").on("click", function() {
-						window.open("/instituteIndex?url=" + "/one_level_main/achievement", "_target");
-					});
-					//知识产权
-					$(".property").on("click", function() {
-						window.open("/instituteIndex?url=" + "/one_level_main/knowledge", "_target");
-					});
-					//合同
-					$(".contract").on("click", function() {
-						window.open("/instituteIndex?url=" + "/one_level_main/contract", "_target");
-					});
-					//重点实验室
-					$(".laboratory").on("click", function() {
-						window.open("/instituteIndex?url=/chart/lab.html", "_target");
-					});
-					//装备
-					$(".equipment").on("click", function() {
-						window.open("/instituteIndex?url=" + "/one_level_main/equipment", "_target");
-					});
-					//科研人才
-					$(".personnel").on("click", function() {
-						window.open("/instituteIndex?url=expertController/personnel", "_target");
-					});
-					init();
-					$("#textBottomTwo").html("48");
-					window.addLast = function() {
-						$("#layui-add").click(function() {
-							var temUrl = "/user/show/config";
-							publicMethods.openBaseWin("模块配置", temUrl, "50%", "80%")
-						});
-					}
-					addLast();
-					var fooU = document.getElementById("moduleConfig");
-					Sortable.create(fooU, {
-						draggable : '.item',
-						disabled : false
-					});
-				},
-				error : function(err, err1, err2) {
-					console.log("ajaxPost发生异常，请仔细检查请求url是否正确");
-				}
-			});
-			/*执行动画*/
-			$(".laboratory").mouseover(function() {
-				mouseOver("laboratory");
-			});
-			$(".laboratory").mouseout(function() {
-				mouseOut("laboratory");
-			});
-			$(".contract").mouseover(function() {
-				mouseOver("contract");
-			});
-			$(".contract").mouseout(function() {
-				mouseOut("contract");
-			});
-			$(".investment").mouseover(function() {
-				mouseOver("investment");
-			});
-			$(".investment").mouseout(function() {
-				mouseOut("investment");
-			});
-			$(".project").mouseover(function() {
-				mouseOver("project");
-			});
-			$(".project").mouseout(function() {
-				mouseOut("project");
-			});
-			$(".institute").mouseover(function() {
-				mouseOver("institute");
-			});
-			$(".institute").mouseout(function() {
-				mouseOut("institute");
-			});
-			$(".open").click(function() {
-				if ($(".open").hasClass("menu-open")) {
-					$(".open").removeClass("menu-open")
-					$(".open").addClass("menu-retract")
-					animationAdd("menu-index", "menuIndex");
-					animationAdd("menu-retract", "menuOpen");
-					animationAdd("menu-two", "menuTwo");
-					animationAdd("menu-index-icon", "indexIcon");
-					animationAdd("menu-two-icon", "indexIcon");
-				} else {
-					$(".open").removeClass("menu-retract")
-					$(".open").addClass("menu-open")
-					animationRem("menu-index", "menuIndex");
-					animationRem("menu-index", "indexAdd");
-					animationRem("open", "openAdd");
-					animationRem("open", "menuOpen");
-					animationRem("menu-two", "menuTwo");
-					animationRem("menu-index-icon", "indexIcon");
-					animationRem("menu-two-icon", "indexIcon");
-				}
-			});
-			$(".menu-two").mouseover(function() {
-				animationRem("open", "menuOpen");
-				animationRem("open", "openAdd");
-				animationRem("menu-index", "indexAdd");
-				animationAdd("menu-index", "indexReduce");
-				animationAdd("open", "openReduce");
-			});
-			$(".menu-index").mouseover(function() {
-				animationRem("open", "menuOpen");
-				animationRem("menu-index", "indexReduce");
-				animationRem("open", "openReduce");
-				animationAdd("menu-index", "indexAdd");
-				animationAdd("open", "openAdd");
-			});
-			$(".menu-index").click(function() {
-				$(".main-one").fadeIn("3000");
-				$(".main-two").fadeOut("3000");
-			});
-			$(".menu-two").click(function() {
-				$(".main-two").fadeIn("3000");
-				$(".main-one").fadeOut("3000");
-			});
-			/*滚动*/
-			$(".main-two").css("height", $(".main-one").height() + "px");
-			/*$(".layui-level-admin").on("mousewheel",function(event, delta, deltaX, deltaY) {
-			    var dir = delta > 0 ? 'Up' : 'Down';
-			    if (dir == 'Up') {
-			        $(".main-one").removeClass("opacity1");
-			        $(".main-two").removeClass("opacity0");
-			        $(".main-one").addClass("opacity0");
-			        $(".main-two").addClass("opacity1");
-			    } else {
-			        $(".main-one").removeClass("opacity0");
-			        $(".main-two").removeClass("opacity1");
-			        $(".main-one").addClass("opacity1");
-			        $(".main-two").addClass("opacity0");
-			    }
-			});*/
-			var scrollFunc = function(e) {
-				var direct = 0;
-				e = e || window.event;
-				if (e.wheelDelta) { //判断浏览器IE，谷歌滑轮事件
-					if (e.wheelDelta > 0) { //当滑轮向上滚动时
-						if (document.documentElement.scrollTop != 0) {
-							$(".main-one").removeClass("opacity1");
-							$(".main-two").removeClass("opacity0");
-							$(".main-one").addClass("opacity0");
-							$(".main-two").addClass("opacity1");
-						}
-					}
-					if (e.wheelDelta < 0) { //当滑轮向下滚动时
-						if (document.documentElement.scrollTop != 0) {
-							$(".main-one").removeClass("opacity0");
-							$(".main-two").removeClass("opacity1");
-							$(".main-one").addClass("opacity1");
-							$(".main-two").addClass("opacity0");
-						}
-					}
-				} else if (e.detail) { //Firefox滑轮事件
-					if (e.detail > 0) { //当滑轮向上滚动时
-						if (document.documentElement.scrollTop != 0) {
-							$(".main-one").removeClass("opacity1");
-							$(".main-two").removeClass("opacity0");
-							$(".main-one").addClass("opacity0");
-							$(".main-two").addClass("opacity1");
-						}
-					}
-					if (e.detail < 0) { //当滑轮向下滚动时
-						if (document.documentElement.scrollTop != 0) {
-							$(".main-one").removeClass("opacity0");
-							$(".main-two").removeClass("opacity1");
-							$(".main-one").addClass("opacity1");
-							$(".main-two").addClass("opacity0");
-						}
-					}
-				}
-			}
-			//给页面绑定滑轮滚动事件
-			if (document.addEventListener) {
-				document.addEventListener('DOMMouseScroll', scrollFunc, false);
-			}
-			//滚动滑轮触发scrollFunc方法
-			window.onmousewheel = document.onmousewheel = scrollFunc;
+                    </p>
+                    <ul id="news">
+                    </ul>
+                </div>
+            </div>
+            <div class="main-right" id="moduleConfig">
+                <div class="laboratory item">
+                    <div class="laboratory-color"></div>
+                    <div class="laboratory-front">
+                        <div class="laboratory-cont">
+                            <p class="title">重点研发机构</p>
+                            <p class="number" id="textBottomTwo"></p>
+                        </div>
+                    </div>
+                    <div class="laboratory-back"></div>
+                </div>
+                <div class="equipment item">
+                    <div class="equipment-front">
+                        <p class="title">科研装备</p>
+                        <p class="number" id="equipment_id"></p>
+                        <img src="/layuiadmin/layui/images/equipment-img.png" alt="">
+                    </div>
+                </div>
+                <div class="contract item">
+                    <div class="contract-cont">
+                        <div class="contract-front">
+                            <div class="contract-cont">
+                                <p class="title">科研合同</p>
+                                <p class="number" id="contract_id"></p>
+                            </div>
+                        </div>
+                        <div class="contract-back">
+                            <div class="contract-img"></div>
+                            <div class="contract-color"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="investment item">
+                    <div class="investment-cont">
+                        <div class="investment-front">
+                            <div class="investment-cont">
+                                <p class="title">科研投入</p>
+                                <p class="number" id="textTopTwo"></p>
+                            </div>
+                        </div>
+                        <div class="investment-back">
+                            <div class="investment-img"></div>
+                            <div class="investment-color"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="project item">
+                    <div class="project-color"></div>
+                    <div class="project-front">
+                        <div class="project-cont">
+                            <p class="title">重大项目及十条龙科技攻关</p>
+                            <p class="number" id="dragon_id"></p>
+                        </div>
+                    </div>
+                    <div class="project-back"></div>
+                </div>
+                <div class="institute item">
+                    <div class="institute-cont">
+                        <div class="institute-front">
+                            <div class="institute-cont">
+                                <p class="title">直属研究院概况</p>
+                            </div>
+                        </div>
+                        <div class="institute-back">
+                            <div class="institute-img"></div>
+                            <div class="institute-color"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="personnel item">
+                    <div class="personnel-front">
+                        <p class="title">科研人才</p>
+                        <img src="/layuiadmin/layui/images/personnel-img.png" alt="">
+                    </div>
+                </div>
+                <div class="achievement item">
+                    <div class="achievement-front">
+                        <p class="title">科技成果</p>
+                        <p class="number" id="appraisalId"></p>
+                        <img src="/layuiadmin/layui/images/achievement-img.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--第二屏-->
+        <div class="layui-level-main main-two">
+            <div class="main-left">
+                <div class="property">
+                    <p class="title">知识产权</p>
+                    <p class="number" id="patentId"></p>
+                </div>
+                <div class="petrification">
+                    <p class="title">中国石化标准化</p>
+                    <p class="number"></p>
+                </div>
+                <div class="add"></div>
+            </div>
+            <div class="main-midd"></div>
+            <div class="main-right"></div>
+        </div>
+    </div>
+    <div class="menu-right">
+        <div class="open menu-open"></div>
+        <div class="menu">
+            <div class="menu-index">
+                <div class="menu-index-icon"></div>
+            </div>
+            <div class="menu-two">
+                <div class="menu-two-icon"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/lib/extend/Sortable.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/javascript/jquery.mousewheel.min.js"></script>
+<script>
+    var nd = $("#month").val().substring(4, 0);
+    var publicMethods;
+    var carousel;
+    layui.use([ 'carousel', 'form', 'jquery', 'publicMethods' ], function() {
+        var $ = layui.jquery, form = layui.form;
+        publicMethods = layui.publicMethods;
+        carousel = layui.carousel
+        /*搜索*/
+        $(".layui-search .btn").click(function() {
+            window.open("/instituteIndex?url=/fullSearch/search?keyword=" + $(".layui-search input").val(), "_target");
+        });
+        $(document).keyup(function(event) {
+            if (event.keyCode == 13) {
+                window.open("/instituteIndex?url=/fullSearch/search?keyword=" + $(".layui-search input").val(), "_target");
+            }
+        });
+        //图片轮播
+        carousel.render({
+            elem : '#test-carousel-img',
+            width : '100%',
+            height : '100%',
+            interval : 5000
+        });
+        /*配置模块*/
+        $.ajax({
+            type : 'GET',
+            dataType : 'json',
+            headers : {
+                'Content-Type' : 'application/json;charset=UTF-8',
+            },
+            url : "/layuiadmin/json/data.json",
+            success : function(data, status) {
+                //publicMethods.moduleConfigs(data.data);
+                //领导讲话
+                $("#layui_leader").on("click", function() {
+                    window.open("/expertController/leader_speech", "_target");
+                });
+                //直属研究院
+                $(".institute").on("click", function() {
+                    window.open("/instituteIndex?url=" + "/home_ld/direct_depart", "_target");
+                });
+                //科研投入
+                $(".investment").on("click", function() {
+                    window.open("/instituteIndex?url=" + "/one_level_main/investment", "_target");
+                });
+                //十条龙-项目
+                $(".project").on("click", function() {
+                    window.open("/instituteIndex?url=" + "/one_level_main/dragon", "_target");
+                });
+                //科技成果
+                $(".achievement").on("click", function() {
+                    window.open("/instituteIndex?url=" + "/one_level_main/achievement", "_target");
+                });
+                //知识产权
+                $(".property").on("click", function() {
+                    window.open("/instituteIndex?url=" + "/one_level_main/knowledge", "_target");
+                });
+                //合同
+                $(".contract").on("click", function() {
+                    window.open("/instituteIndex?url=" + "/one_level_main/contract", "_target");
+                });
+                //重点实验室
+                $(".laboratory").on("click", function() {
+                    window.open("/instituteIndex?url=/chart/lab.html", "_target");
+                });
+                //装备
+                $(".equipment").on("click", function() {
+                    window.open("/instituteIndex?url=" + "/one_level_main/equipment", "_target");
+                });
+                //科研人才
+                $(".personnel").on("click", function() {
+                    window.open("/instituteIndex?url=expertController/personnel", "_target");
+                });
+                init();
+                $("#textBottomTwo").html("48");
+                window.addLast = function() {
+                    $("#layui-add").click(function() {
+                        var temUrl = "/user/show/config";
+                        publicMethods.openBaseWin("模块配置", temUrl, "50%", "80%")
+                    });
+                }
+                addLast();
+                var fooU = document.getElementById("moduleConfig");
+                Sortable.create(fooU, {
+                    draggable : '.item',
+                    disabled : false
+                });
+            },
+            error : function(err, err1, err2) {
+                console.log("ajaxPost发生异常，请仔细检查请求url是否正确");
+            }
+        });
+        /*执行动画*/
+        $(".laboratory").mouseover(function() {
+            mouseOver("laboratory");
+        });
+        $(".laboratory").mouseout(function() {
+            mouseOut("laboratory");
+        });
+        $(".contract").mouseover(function() {
+            mouseOver("contract");
+        });
+        $(".contract").mouseout(function() {
+            mouseOut("contract");
+        });
+        $(".investment").mouseover(function() {
+            mouseOver("investment");
+        });
+        $(".investment").mouseout(function() {
+            mouseOut("investment");
+        });
+        $(".project").mouseover(function() {
+            mouseOver("project");
+        });
+        $(".project").mouseout(function() {
+            mouseOut("project");
+        });
+        $(".institute").mouseover(function() {
+            mouseOver("institute");
+        });
+        $(".institute").mouseout(function() {
+            mouseOut("institute");
+        });
+        $(".open").click(function() {
+            if ($(".open").hasClass("menu-open")) {
+                $(".open").removeClass("menu-open")
+                $(".open").addClass("menu-retract")
+                animationAdd("menu-index", "menuIndex");
+                animationAdd("menu-retract", "menuOpen");
+                animationAdd("menu-two", "menuTwo");
+                animationAdd("menu-index-icon", "indexIcon");
+                animationAdd("menu-two-icon", "indexIcon");
+            } else {
+                $(".open").removeClass("menu-retract")
+                $(".open").addClass("menu-open")
+                animationRem("menu-index", "menuIndex");
+                animationRem("menu-index", "indexAdd");
+                animationRem("open", "openAdd");
+                animationRem("open", "menuOpen");
+                animationRem("menu-two", "menuTwo");
+                animationRem("menu-index-icon", "indexIcon");
+                animationRem("menu-two-icon", "indexIcon");
+            }
+        });
+        $(".menu-two").mouseover(function() {
+            animationRem("open", "menuOpen");
+            animationRem("open", "openAdd");
+            animationRem("menu-index", "indexAdd");
+            animationAdd("menu-index", "indexReduce");
+            animationAdd("open", "openReduce");
+        });
+        $(".menu-index").mouseover(function() {
+            animationRem("open", "menuOpen");
+            animationRem("menu-index", "indexReduce");
+            animationRem("open", "openReduce");
+            animationAdd("menu-index", "indexAdd");
+            animationAdd("open", "openAdd");
+        });
+        $(".menu-index").click(function() {
+            $(".main-one").fadeIn("3000");
+            $(".main-two").fadeOut("3000");
+        });
+        $(".menu-two").click(function() {
+            $(".main-two").fadeIn("3000");
+            $(".main-one").fadeOut("3000");
+        });
+        /*滚动*/
+        $(".main-two").css("height", $(".main-one").height() + "px");
+        /*$(".layui-level-admin").on("mousewheel",function(event, delta, deltaX, deltaY) {
+            var dir = delta > 0 ? 'Up' : 'Down';
+            if (dir == 'Up') {
+                $(".main-one").removeClass("opacity1");
+                $(".main-two").removeClass("opacity0");
+                $(".main-one").addClass("opacity0");
+                $(".main-two").addClass("opacity1");
+            } else {
+                $(".main-one").removeClass("opacity0");
+                $(".main-two").removeClass("opacity1");
+                $(".main-one").addClass("opacity1");
+                $(".main-two").addClass("opacity0");
+            }
+        });*/
+        var scrollFunc = function(e) {
+            var direct = 0;
+            e = e || window.event;
+            if (e.wheelDelta) { //判断浏览器IE，谷歌滑轮事件
+                if (e.wheelDelta > 0) { //当滑轮向上滚动时
+                    if (document.documentElement.scrollTop != 0) {
+                        $(".main-one").removeClass("opacity1");
+                        $(".main-two").removeClass("opacity0");
+                        $(".main-one").addClass("opacity0");
+                        $(".main-two").addClass("opacity1");
+                    }
+                }
+                if (e.wheelDelta < 0) { //当滑轮向下滚动时
+                    if (document.documentElement.scrollTop != 0) {
+                        $(".main-one").removeClass("opacity0");
+                        $(".main-two").removeClass("opacity1");
+                        $(".main-one").addClass("opacity1");
+                        $(".main-two").addClass("opacity0");
+                    }
+                }
+            } else if (e.detail) { //Firefox滑轮事件
+                if (e.detail > 0) { //当滑轮向上滚动时
+                    if (document.documentElement.scrollTop != 0) {
+                        $(".main-one").removeClass("opacity1");
+                        $(".main-two").removeClass("opacity0");
+                        $(".main-one").addClass("opacity0");
+                        $(".main-two").addClass("opacity1");
+                    }
+                }
+                if (e.detail < 0) { //当滑轮向下滚动时
+                    if (document.documentElement.scrollTop != 0) {
+                        $(".main-one").removeClass("opacity0");
+                        $(".main-two").removeClass("opacity1");
+                        $(".main-one").addClass("opacity1");
+                        $(".main-two").addClass("opacity0");
+                    }
+                }
+            }
+        }
+        //给页面绑定滑轮滚动事件
+        if (document.addEventListener) {
+            document.addEventListener('DOMMouseScroll', scrollFunc, false);
+        }
+        //滚动滑轮触发scrollFunc方法
+        window.onmousewheel = document.onmousewheel = scrollFunc;
 
-		});
-		/*动画*/
-		function animationAdd(className1, className2) {
-			$("." + className1).addClass(className2);
-		}
-		function animationRem(className1, className2) {
-			$("." + className1).removeClass(className2);
-		}
-		function mouseOver(className) {
-			animationRem(className + "-front", className + "HO");
-			animationRem(className + "-color", className + "CO");
-			animationRem(className + "-img", className + "BO");
-			animationAdd(className + "-front", className + "H");
-			animationAdd(className + "-color", className + "C");
-			animationAdd(className + "-img", className + "B");
-		}
-		function mouseOut(className) {
-			animationRem(className + "-front", className + "H");
-			animationRem(className + "-color", className + "C");
-			animationRem(className + "-img", className + "B");
-			animationAdd(className + "-front", className + "HO");
-			animationAdd(className + "-color", className + "CO");
-			animationAdd(className + "-img", className + "BO");
-		}
-		//合同
-		function getContract() {
-			$.ajax({
-				type : 'GET',
-				url : "/one_level_main/contract_count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd,
-				dataType : 'json',
-				headers : {
-					'Content-Type' : 'application/json'
-				},
-				timeout : 3000,
-				error : function(XMLHttpRequest, status) {
+    });
+    /*动画*/
+    function animationAdd(className1, className2) {
+        $("." + className1).addClass(className2);
+    }
+    function animationRem(className1, className2) {
+        $("." + className1).removeClass(className2);
+    }
+    function mouseOver(className) {
+        animationRem(className + "-front", className + "HO");
+        animationRem(className + "-color", className + "CO");
+        animationRem(className + "-img", className + "BO");
+        animationAdd(className + "-front", className + "H");
+        animationAdd(className + "-color", className + "C");
+        animationAdd(className + "-img", className + "B");
+    }
+    function mouseOut(className) {
+        animationRem(className + "-front", className + "H");
+        animationRem(className + "-color", className + "C");
+        animationRem(className + "-img", className + "B");
+        animationAdd(className + "-front", className + "HO");
+        animationAdd(className + "-color", className + "CO");
+        animationAdd(className + "-img", className + "BO");
+    }
+    //合同
+    function getContract() {
+        $.ajax({
+            type : 'GET',
+            url : "/one_level_main/contract_count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd,
+            dataType : 'json',
+            headers : {
+                'Content-Type' : 'application/json'
+            },
+            timeout : 3000,
+            error : function(XMLHttpRequest, status) {
 
-				},
-				success : function(data) {
-					var projectCount = data.data.projectCount;
-					$("#contract_id").html(projectCount);
-				}
-			});
+            },
+            success : function(data) {
+                var projectCount = data.data.projectCount;
+                $("#contract_id").html(projectCount);
+            }
+        });
 
-		}
-		//科研装备
-		function getEquipment() {
+    }
+    //科研装备
+    function getEquipment() {
 
-			var v_date = (new Date()).getTime();
-			var month = $("#month").val();
+        var v_date = (new Date()).getTime();
+        var month = $("#month").val();
 
-			//alert(month);
-			var companyCode = $("#companyCode").val();
-			//alert(companyCode);
-			var chart1_url = "/one_level_main/equipment_01?month=" + month + "&v_date=" + v_date + "&companyCode=" + companyCode;
-			$.ajax({
-				type : 'GET',
-				url : chart1_url,
-				dataType : 'json',
-				headers : {
-					'Content-Type' : 'application/json'
-				},
-				timeout : 3000,
-				error : function(XMLHttpRequest, status) {
+        //alert(month);
+        var companyCode = $("#companyCode").val();
+        //alert(companyCode);
+        var chart1_url = "/one_level_main/equipment_01?month=" + month + "&v_date=" + v_date + "&companyCode=" + companyCode;
+        $.ajax({
+            type : 'GET',
+            url : chart1_url,
+            dataType : 'json',
+            headers : {
+                'Content-Type' : 'application/json'
+            },
+            timeout : 3000,
+            error : function(XMLHttpRequest, status) {
 
-				},
-				success : function(data) {
-					var xkCount_1 = getDataCountForName(data.data, '500万以上');
-					var jzCount_2 = getDataCountForName(data.data, '300-500万');
-					var jzCount_3 = getDataCountForName(data.data, '100-300万');
-					var jzCount_4 = getDataCountForName(data.data, '100万以下');
-					var allCount = xkCount_1 + jzCount_2 + jzCount_3 + jzCount_4;
-					$("#equipment_id").html(allCount + "<span style='font-size: 14px;'>台</span>");
-				}
-			});
+            },
+            success : function(data) {
+                var xkCount_1 = getDataCountForName(data.data, '500万以上');
+                var jzCount_2 = getDataCountForName(data.data, '300-500万');
+                var jzCount_3 = getDataCountForName(data.data, '100-300万');
+                var jzCount_4 = getDataCountForName(data.data, '100万以下');
+                var allCount = xkCount_1 + jzCount_2 + jzCount_3 + jzCount_4;
+                $("#equipment_id").html(allCount + "<span style='font-size: 14px;'>台</span>");
+            }
+        });
 
-		}
+    }
 
-		//专利
-		function patentCount() {
-			$.ajax({
-				type : 'POST',
-				url : "/admin/patent-count?nd=" + nd,
-				dataType : 'json',
-				headers : {
-					'Content-Type' : 'application/json'
-				},
-				timeout : 3000,
-				error : function(XMLHttpRequest, status) {
+    //专利
+    function patentCount() {
+        $.ajax({
+            type : 'POST',
+            url : "/admin/patent-count?nd=" + nd,
+            dataType : 'json',
+            headers : {
+                'Content-Type' : 'application/json'
+            },
+            timeout : 3000,
+            error : function(XMLHttpRequest, status) {
 
-				},
-				success : function(data) {
-					var patentCount = data.patentCount;
-					$("#patentId").html(patentCount);
-				}
-			});
+            },
+            success : function(data) {
+                var patentCount = data.patentCount;
+                $("#patentId").html(patentCount);
+            }
+        });
 
-		}
+    }
 
-		//成果
-		function appraisalCount() {
-			$.ajax({
-				type : 'POST',
-				url : "/admin/appraisal-count?nd=" + nd,
-				dataType : 'json',
-				headers : {
-					'Content-Type' : 'application/json'
-				},
-				timeout : 3000,
-				error : function(XMLHttpRequest, status) {
+    //成果
+    function appraisalCount() {
+        $.ajax({
+            type : 'POST',
+            url : "/admin/appraisal-count?nd=" + nd,
+            dataType : 'json',
+            headers : {
+                'Content-Type' : 'application/json'
+            },
+            timeout : 3000,
+            error : function(XMLHttpRequest, status) {
 
-				},
-				success : function(data) {
-					var appraisalCount = data.appraisalCount;
-					$("#appraisalId").html(appraisalCount);
-				}
-			});
+            },
+            success : function(data) {
+                var appraisalCount = data.appraisalCount;
+                $("#appraisalId").html(appraisalCount);
+            }
+        });
 
-		}
+    }
 
-		//十条龙-项目
-		function setdragon_count() {
-			$.ajax({
-				type : 'GET',
-				url : "/one_level_main/dragon_count?nd=" + nd,
-				dataType : 'json',
-				headers : {
-					'Content-Type' : 'application/json'
-				},
-				timeout : 3000,
-				error : function(XMLHttpRequest, status) {
+    //十条龙-项目
+    function setdragon_count() {
+        $.ajax({
+            type : 'GET',
+            url : "/one_level_main/dragon_count?nd=" + nd,
+            dataType : 'json',
+            headers : {
+                'Content-Type' : 'application/json'
+            },
+            timeout : 3000,
+            error : function(XMLHttpRequest, status) {
 
-				},
-				success : function(data) {
-					var zsl = data.data.zsl;
-					$("#dragon_id").html(zsl);
-				}
-			});
-		}
+            },
+            success : function(data) {
+                var zsl = data.data.zsl;
+                $("#dragon_id").html(zsl);
+            }
+        });
+    }
 
-		//科研投入
-		function setinvestment_count() {
-			$.ajax({
-				type : 'GET',
-				url : "/one_level_main/investment_first_page_count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd,
-				dataType : 'json',
-				headers : {
-					'Content-Type' : 'application/json'
-				},
-				timeout : 3000, //超时时间设置，单位毫秒
-				error : function(XMLHttpRequest, status) {
+    //科研投入
+    function setinvestment_count() {
+        $.ajax({
+            type : 'GET',
+            url : "/one_level_main/investment_first_page_count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd,
+            dataType : 'json',
+            headers : {
+                'Content-Type' : 'application/json'
+            },
+            timeout : 3000, //超时时间设置，单位毫秒
+            error : function(XMLHttpRequest, status) {
 
-				},
-				success : function(data) {
-					var projectMoney = data.data.projectMoney;
-					var tt = parseFloat(projectMoney) / 10000;
+            },
+            success : function(data) {
+                var projectMoney = data.data.projectMoney;
+                var tt = parseFloat(projectMoney) / 10000;
 
-					$("#textTopTwo").html(tt.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
-				}
-			});
-		}
+                $("#textTopTwo").html(tt.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
+            }
+        });
+    }
 
-		//新闻
-		function get_news() {
-			$.ajax({
-				type : 'GET',
-				url : "/one_level_main/get_news",
-				dataType : 'json',
-				headers : {
-					'Content-Type' : 'application/json'
-				},
-				timeout : 3000,
-				error : function(XMLHttpRequest, status) {
-				},
-				success : function(data) {
-					var list = data.data;
-					$.each(list, function(index, dt) {
-						if (index < 5) {
-							var content = "";
-							var time = (dt.createtimestr).split("-");
-							var md = time[1] + "/" + time[2];
-							var ym = time[0] + "/" + time[1];
-							if (dt.content == undefined) {
-								//content="详情请点击查看...";
-							} else {
-								content = (dt.content).substr(3, 70) + "...";
-							}
-							if (index == 0) {
-								var html = '<li>' + '           <span class="time">' + '               <span class="date">' + time[2] + '</span>' + '               <span class="yearM">' + ym + '</span>' + '           </span>' + '           <span class="content">'
-										+ '               <a href="/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=' + dt.id + '" target="_blank">' + dt.title + '</a>' + '               <span>' + content + '</span>' + '      </li>';
-							} else {
-								var html = "<li><span class='time'>" + md + "</span><a href='/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + dt.id + "' target='_blank'>" + dt.title + "</a></li>"
-							}
+    //新闻
+    function get_news() {
+        $.ajax({
+            type : 'GET',
+            url : "/one_level_main/get_news",
+            dataType : 'json',
+            headers : {
+                'Content-Type' : 'application/json'
+            },
+            timeout : 3000,
+            error : function(XMLHttpRequest, status) {
+            },
+            success : function(data) {
+                var list = data.data;
+                $.each(list, function(index, dt) {
+                    if (index < 5) {
+                        var content = "";
+                        var time = (dt.createtimestr).split("-");
+                        var md = time[1] + "/" + time[2];
+                        var ym = time[0] + "/" + time[1];
+                        if (dt.content == undefined) {
+                            //content="详情请点击查看...";
+                        } else {
+                            content = (dt.content).substr(3, 70) + "...";
+                        }
+                        if (index == 0) {
+                            var html = '<li>' + '           <span class="time">' + '               <span class="date">' + time[2] + '</span>' + '               <span class="yearM">' + ym + '</span>' + '           </span>' + '           <span class="content">'
+                                + '               <a href="/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=' + dt.id + '" target="_blank">' + dt.title + '</a>' + '               <span>' + content + '</span>' + '      </li>';
+                        } else {
+                            var html = "<li><span class='time'>" + md + "</span><a href='/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + dt.id + "' target='_blank'>" + dt.title + "</a></li>"
+                        }
 
-							$("#news").append(html);
-						}
-					});
-				}
-			});
-		}
+                        $("#news").append(html);
+                    }
+                });
+            }
+        });
+    }
 
-		// 获取待办事项、任务督办
-		function pendingTask() {
-			publicMethods.ajaxAsyncPost('/task/index-pending-list', {
-				page : 1,
-				limit : 100,
-				param : {
-					"isRead" : "0"
-				}
-			}, function(data, status) {
-				var pendingCount = data.length;
-				var content = "";
-				if (pendingCount <= 0) {
-					$("#pendingSpan").css("visibility", "hidden");
-				} else {
-					$("#pendingSpan").text(pendingCount);
-					$("#pendingSpan").css("visibility", "visible");
-				}
+    // 获取待办事项、任务督办
+    function pendingTask() {
+        publicMethods.ajaxAsyncPost('/task/index-pending-list', {
+            page : 1,
+            limit : 100,
+            param : {
+                "isRead" : "0"
+            }
+        }, function(data, status) {
+            var pendingCount = data.length;
+            var content = "";
+            if (pendingCount <= 0) {
+                $("#pendingSpan").css("visibility", "hidden");
+            } else {
+                $("#pendingSpan").text(pendingCount);
+                $("#pendingSpan").css("visibility", "visible");
+            }
 
-				$.each(data, function(index, dt) {
-					if (index < 10) {
-						content += '<li class="state_1"><a target="_blank" href="instituteIndex?url=/task/pending/deal/' + dt.id + '"> ';
-						if (dt.createTime != null) {
-							content += layui.laytpl.toDateString(dt.createTime);
-						}
-						if (dt.processInstanceName != null) {
-							content += '<p>' + dt.processInstanceName + '</p></a>';
-						}
-						// /instituteIndex?url=/task/pending/deal/dt.id
-						content += '</li>';
-					}
-				});
+            $.each(data, function(index, dt) {
+                if (index < 10) {
+                    content += '<li class="state_1"><a target="_blank" href="instituteIndex?url=/task/pending/deal/' + dt.id + '"> ';
+                    if (dt.createTime != null) {
+                        content += layui.laytpl.toDateString(dt.createTime);
+                    }
+                    if (dt.processInstanceName != null) {
+                        content += '<p>' + dt.processInstanceName + '</p></a>';
+                    }
+                    // /instituteIndex?url=/task/pending/deal/dt.id
+                    content += '</li>';
+                }
+            });
 
-				$("#pendingUl").html(content);
-			});
+            $("#pendingUl").html(content);
+        });
 
-			publicMethods.ajaxAsyncPost('/admin/workorder/ld/stat', {
-				page : 1,
-				limit : 100,
-				param : {
-					"workOrderStatus" : "1",
-					"parentId" : "1"
-				}
-			}, function(data, status) {
-				var workOrderCount = data.count;
-				var content = "";
-				if (workOrderCount <= 0) {
-					$("#workOrderSpan").css("visibility", "hidden");
-				} else {
-					$("#workOrderSpan").text(workOrderCount);
-					$("#workOrderSpan").css("visibility", "visible");
-				}
-				$.each(data.data, function(index, dt) {
-					if (index < 10) {
-						content += '<li class="state_1"><a target="_blank" href="instituteIndex?url=/plan/viewPlanPage/' + dt.dataId + '"> ';
-						if (dt.createDate != null) {
-							content += layui.laytpl.toDateString(dt.createDate);
-						}
-						if (dt.workOrderName != null) {
-							content += '<p>' + dt.workOrderName + '</p></a>';
-						}
-						content += '</li>';
-					}
-				});
-				$("#workOrderUl").html(content);
-			});
-		}
+        publicMethods.ajaxAsyncPost('/admin/workorder/ld/stat', {
+            page : 1,
+            limit : 100,
+            param : {
+                "workOrderStatus" : "1",
+                "parentId" : "1"
+            }
+        }, function(data, status) {
+            var workOrderCount = data.count;
+            var content = "";
+            if (workOrderCount <= 0) {
+                $("#workOrderSpan").css("visibility", "hidden");
+            } else {
+                $("#workOrderSpan").text(workOrderCount);
+                $("#workOrderSpan").css("visibility", "visible");
+            }
+            $.each(data.data, function(index, dt) {
+                if (index < 10) {
+                    content += '<li class="state_1"><a target="_blank" href="instituteIndex?url=/plan/viewPlanPage/' + dt.dataId + '"> ';
+                    if (dt.createDate != null) {
+                        content += layui.laytpl.toDateString(dt.createDate);
+                    }
+                    if (dt.workOrderName != null) {
+                        content += '<p>' + dt.workOrderName + '</p></a>';
+                    }
+                    content += '</li>';
+                }
+            });
+            $("#workOrderUl").html(content);
+        });
+    }
 
-		function init() {
-			appraisalCount();
-			patentCount();
-			getContract();
-			getEquipment();
-			setdragon_count();
-			setinvestment_count();
-			get_news();
-			pendingTask(); //待办任务
-		}
-		function getDataCountForName(data, strName) {
-			var seriesList = data.seriesList;
-			//alert(seriesList.length);
+    function init() {
+        appraisalCount();
+        patentCount();
+        getContract();
+        getEquipment();
+        setdragon_count();
+        setinvestment_count();
+        get_news();
+        pendingTask(); //待办任务
+    }
+    function getDataCountForName(data, strName) {
+        var seriesList = data.seriesList;
+        //alert(seriesList.length);
 
-			var xkCount = 0;
-			for (var i = 0; i < seriesList.length; i++) {
-				var arr = seriesList[i].data;
-				var name = seriesList[i].name;
-				if (name == strName) {
-					var name_count = 0;
-					for (var j = 0; j < arr.length; j++) {
-						name_count = name_count + parseInt(arr[j]);
-					}
-					xkCount = name_count;
-				}
-			}
-			return parseInt(xkCount);
-		}
-	</script>
+        var xkCount = 0;
+        for (var i = 0; i < seriesList.length; i++) {
+            var arr = seriesList[i].data;
+            var name = seriesList[i].name;
+            if (name == strName) {
+                var name_count = 0;
+                for (var j = 0; j < arr.length; j++) {
+                    name_count = name_count + parseInt(arr[j]);
+                }
+                xkCount = name_count;
+            }
+        }
+        return parseInt(xkCount);
+    }
+</script>
 </body>
 </html>
