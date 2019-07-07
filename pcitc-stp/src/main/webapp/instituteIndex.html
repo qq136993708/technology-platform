@@ -98,6 +98,15 @@
 			if(JSON.stringify(windowHref).indexOf("personnel")>0){
 			    $("#LAY_app_body").addClass("layui-personnel");
 			}
+            /*搜索*/
+            $(".seacrhBox img").click(function() {
+                window.open("/instituteIndex?url=/fullSearch/search?keyword=" + $(".seacrhBox input").val(), "_target");
+            });
+            $(document).keyup(function(event) {
+                if (event.keyCode == 13) {
+                    window.open("/instituteIndex?url=/fullSearch/search?keyword=" + $(".seacrhBox input").val(), "_target");
+                }
+            });
 			/*导航宽度*/
 			var layuiHeaderWidth = parseInt($(".layui-header").width());
 			var layuiHeaderUlActualWidth = 0, DValue = 0, ulLiNumber = 0;
