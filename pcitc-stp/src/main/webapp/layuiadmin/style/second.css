@@ -346,7 +346,8 @@ background: white;box-shadow: 0 0 5px #dadcde;}
 .work-report{padding: 18px 20px 17px;}
 .work-report ul{height: auto;overflow: hidden;display: block;text-align: center;}
 .work-report ul li {width: 130px; height: 132px;float: left;margin-left: 50px;}
-.work-report ul li a{width: 130px; height: 132px;display: inline-block;color: #fff;}
+.work-report ul li a{width: 130px; height: 132px;display: inline-block;color: #fff;
+    line-height: 154px;}
 .work-one li:nth-child(1){margin-left: 0;}
 .work-one li:nth-child(1) a{background: url("/layuiadmin/layui/images/icon-long.png") no-repeat;}
 .work-one li:nth-child(1) a:hover{background: url("/layuiadmin/layui/images/icon-long-t.png") no-repeat;}
@@ -377,13 +378,13 @@ background: white;box-shadow: 0 0 5px #dadcde;}
 
 .layui-tab-content{height: 303px}
 @media screen and (max-width: 1920px) {
-    .work-report{padding: 18px 80px 17px;}
+    .work-report{padding: 18px 80px 12px;}
     .work-report ul li {width: 130px; height: 132px;float: left;margin-left: 70px;line-height: 159px;font-size: 18px;}
     .work-two{padding-left: 104px;}
 }
 @media screen and (max-width: 1680px) {
     .layui-tab-content{height: 303px}
-    .work-report{padding: 18px 20px 17px;}
+    .work-report{padding: 18px 20px 12px;}
     .work-report ul li {margin-left: 46px;}
     .work-two{padding-left: 86px;}
     .work-two li:nth-child(1){margin-left: 0;}
