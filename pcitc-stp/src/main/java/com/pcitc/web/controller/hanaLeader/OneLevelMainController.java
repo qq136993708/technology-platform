@@ -115,13 +115,18 @@ public class OneLevelMainController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/investment_first_page_count")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String investment_first_page_count(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String resault = "";
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
+		paramsMap.put("zycbm", zycbm);
+		paramsMap.put("zylbbm", zylbbm);
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			// 领导标识，不控制数据
 			paramsMap.put("leaderFlag", "1");
@@ -162,8 +167,8 @@ public class OneLevelMainController extends BaseController {
 		String resault = "";
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-		String zycbm = CommonUtil.getParameter(request, "zycbm", "");
-		String zylbbm = CommonUtil.getParameter(request, "zylbbm", "");
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("zycbm", zycbm);

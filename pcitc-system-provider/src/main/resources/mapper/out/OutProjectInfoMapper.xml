@@ -1843,6 +1843,12 @@
 			<if test="typeFlag != null and typeFlag != ''">
 				and type_flag like '%${typeFlag}%'
 			</if>
+			<if test="zylbbm != null and zylbbm != ''">
+				and find_in_set(zylbbm, '${zylbbm}')
+			</if>
+			<if test="zycbm != null and zycbm != ''">
+				and find_in_set(zycbm, '${zycbm}')
+			</if>
 			<if test="leaderFlag == null or leaderFlag != '1'.toString()">
 				<if test="zycbm != null and zycbm != ''">
 					and find_in_set(zycbm, '${zycbm}')
