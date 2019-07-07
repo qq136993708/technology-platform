@@ -17,4 +17,10 @@ public interface SreEquipmentLedgerMapper {
 
 	List<SreEquipmentLedger> getDate(Map map);
 	
+	
+	List getList(Map map);
+	
+	
+	
+	
 }

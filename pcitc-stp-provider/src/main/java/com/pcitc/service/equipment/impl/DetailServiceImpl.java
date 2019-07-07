@@ -224,45 +224,46 @@ public class DetailServiceImpl implements DetailService {
 		PageHelper.startPage(pageNum, pageSize);
 		String unitPathIds=getTableParam(param,"unitPathIds","");
 		String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
+        String equipmentName1 = getTableParam(param, "equipmentName", "");
 
-
-		Map map=new HashMap();
+        Map map=new HashMap();
 		map.put("unitPathIds", parentUnitPathIds);
 		map.put("parentUnitPathIds", unitPathIds);
-
+        map.put("equipmentName", equipmentName1);
 		List<SreDetail> list = detailMapper.getList(map);
 
 
-		Map map1=new HashMap();
-        List<SreEquipmentLedger> ledgerList = null;
-		for (SreDetail sreDetail : list) {
+        Map map1=new HashMap();
+        List<SreEquipmentLedger> ledgerList = new ArrayList<>();
+        if (list!=null){
+            for (SreDetail sreDetail : list) {
+                String supplier = sreDetail.getSupplier();//公司代码
+                String assetNumber = sreDetail.getAssetNumber();//资产编号
+                String equipmentName = sreDetail.getEquipmentName();//装备名称
 
-			String supplier = sreDetail.getSupplier();//公司代码
-			String assetNumber = sreDetail.getAssetNumber();//资产编号
-            String equipmentName = sreDetail.getEquipmentName();//装备名称
+                String equipmentPrice = sreDetail.getEquipmentPrice();//单价(万元)
+                String equipmenNumber = sreDetail.getEquipmenNumber();//装备数量
+                String declareUnit = sreDetail.getDeclareUnit();//申报单位
+                String declareDepartment = sreDetail.getDeclareDepartment();//申报部门
+                String declarePeople = sreDetail.getDeclarePeople();//申报人
 
-            String equipmentPrice = sreDetail.getEquipmentPrice();//单价(万元)
-            String equipmenNumber = sreDetail.getEquipmenNumber();//装备数量
-            String declareUnit = sreDetail.getDeclareUnit();//申报单位
-            String declareDepartment = sreDetail.getDeclareDepartment();//申报部门
-            String declarePeople = sreDetail.getDeclarePeople();//申报人
+                map1.put("g0gsdm",supplier);
+                map1.put("g0anln1",assetNumber);
 
-            map1.put("g0gsdm",supplier);
-			map1.put("g0anln1",assetNumber);
+                ledgerList = sreEquipmentLedgerMapper.getSreDetailId(map1);
+                    for (SreEquipmentLedger equipmentLedger: ledgerList) {
 
-			ledgerList = sreEquipmentLedgerMapper.getSreDetailId(map1);
-			for (SreEquipmentLedger equipmentLedger: ledgerList) {
+                        equipmentLedger.setEquipmentName(equipmentName);
+                        equipmentLedger.setAssetNumber(assetNumber);
+                        equipmentLedger.setEquipmentPrice(equipmentPrice);
+                        equipmentLedger.setEquipmenNumber(equipmenNumber);
+                        equipmentLedger.setDeclareUnit(declareUnit);
+                        equipmentLedger.setDeclareDepartment(declareDepartment);
+                        equipmentLedger.setDeclarePeople(declarePeople);
 
-                equipmentLedger.setEquipmentName(equipmentName);
-                equipmentLedger.setAssetNumber(assetNumber);
-                equipmentLedger.setEquipmentPrice(equipmentPrice);
-                equipmentLedger.setEquipmenNumber(equipmenNumber);
-                equipmentLedger.setDeclareUnit(declareUnit);
-                equipmentLedger.setDeclareDepartment(declareDepartment);
-                equipmentLedger.setDeclarePeople(declarePeople);
-
-			}
-		}
+                    }
+            }
+        }
 
 		PageInfo<SreEquipmentLedger> pageInfo = new PageInfo<SreEquipmentLedger>(ledgerList);
 		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());

@@ -130,5 +130,5 @@ public abstract interface BudgetInfoService
 	 * @param info
 	 * @return
 	 */
-	public Boolean processDataImport(BudgetInfo info);
+	public void processDataImport(BudgetInfo info);
 }

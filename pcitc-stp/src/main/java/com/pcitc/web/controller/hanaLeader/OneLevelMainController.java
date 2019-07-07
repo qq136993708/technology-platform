@@ -49,6 +49,7 @@ import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
+import com.pcitc.web.common.OperationFilter;
 import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.FileUtil;
 import com.pcitc.web.utils.HanaUtil;
@@ -156,14 +157,19 @@ public class OneLevelMainController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/contract_count")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String contract_count(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 		String resault = "";
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String zycbm = CommonUtil.getParameter(request, "zycbm", "");
+		String zylbbm = CommonUtil.getParameter(request, "zylbbm", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
-		System.out.println("1---领导标识，不控制数据" + sysUserInfo.getUserLevel());
+		paramsMap.put("zycbm", zycbm);
+		paramsMap.put("zylbbm", zylbbm);
+		System.out.println("1---领导标识，不控制数据" + sysUserInfo.getUserLevel()+"===="+zylbbm);
+		System.out.println("1---领导标识，不控制数据" + sysUserInfo.getUserLevel()+"===="+zycbm);
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			// 领导标识，不控制数据
 			System.out.println("2---领导标识，不控制数据");
@@ -568,6 +574,7 @@ public class OneLevelMainController extends BaseController {
 			List<String> zycmcList = new ArrayList<String>();
 			List<String> define11List = new ArrayList<String>();
 			List<String> define12List = new ArrayList<String>();
+			List<String> define5List = new ArrayList<String>();
 			for (int i = 0; i < jSONArray.size(); i++) {
 				Map object = (Map) jSONArray.get(i);
 				String showCode = (String) object.get("showCode");
@@ -576,10 +583,12 @@ public class OneLevelMainController extends BaseController {
 					if (showName != null && !showName.equals("")) {
 						define1List.add(showName);
 					}
-
 				}
 				if (showCode.equals("define2")) {
 					define21List.add(showName);
+				}
+				if (showCode.equals("define5")) {
+					define5List.add(showName);
 				}
 				if (showCode.equals("type_flag")) {
 					type_flagList.add(showName);
@@ -614,6 +623,7 @@ public class OneLevelMainController extends BaseController {
 
 			request.setAttribute("define1List", define1List);
 			request.setAttribute("define21List", define21List);
+			request.setAttribute("define5List", define5List);
 			request.setAttribute("type_flagList", type_flagList);
 			request.setAttribute("zylbList", zylbList);
 			request.setAttribute("zycmcList", zycmcList);

@@ -120,6 +120,13 @@ public class SreEquipmentLedger {
     private String declareDepartment;
 
     private String declarePeople;
+    
+    
+    
+    
+    
+    
+    
 
     public String getAssetNumber() {
         return assetNumber;
