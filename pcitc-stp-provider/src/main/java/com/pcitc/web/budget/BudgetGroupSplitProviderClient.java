@@ -11,7 +11,6 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
@@ -28,7 +26,6 @@ import com.pcitc.base.stp.budget.BudgetSplitData;
 import com.pcitc.base.stp.budget.vo.BudgetSplitBaseDataVo;
 import com.pcitc.base.stp.budget.vo.SplitItemVo;
 import com.pcitc.base.util.MyBeanUtils;
-import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.service.budget.BudgetGroupSplitService;
 import com.pcitc.service.budget.BudgetInfoService;
 import com.pcitc.service.feign.SystemRemoteClient;
@@ -225,8 +222,6 @@ public class BudgetGroupSplitProviderClient
 		Map<String,Object> map = new HashMap<String,Object>();
 		try
 		{
-			System.out.println(JSON.toJSONString(vo));
-			System.out.println("--------------");
 			map = budgetGroupSplitService.selectGroupSplitItem(vo.getBudgetInfoId(),vo.getOrganCode());
 		}
 		catch (Exception e)
@@ -248,8 +243,6 @@ public class BudgetGroupSplitProviderClient
 				String cnd = iter.next();
 				rsmap.put(cnd, budgetGroupSplitService.selectGroupSplitFinalItem(cnd,vo.getOrganCode()));
 			}
-			System.out.println("**********");
-			System.out.println(JSON.toJSONString(rsmap));
 		}
 		catch (Exception e)
 		{
@@ -278,42 +271,4 @@ public class BudgetGroupSplitProviderClient
 		}
 		return rsmap;
 	}
-	
-	@ApiOperation(value="集团公司预算分解-集团预算审批",notes="发起集团预算表审批")
-	@RequestMapping(value = "/stp-provider/budget/start-budget-groupsplit-activity/{budgetInfoId}", method = RequestMethod.POST)
-	public Object startBudgetGroupTotalActivity(@PathVariable("budgetInfoId") String budgetInfoId,@RequestBody WorkflowVo workflowVo) 
-	{
-		
-		BudgetInfo info = null;
-		try {
-			info = budgetInfoService.selectBudgetInfo(budgetInfoId);
-		
-			if(!(BudgetAuditStatusEnum.AUDIT_STATUS_NO_START.getCode().equals(info.getAuditStatus()) || BudgetAuditStatusEnum.AUDIT_STATUS_REFUSE.getCode().equals(info.getAuditStatus())))
-			{
-				return new Result(false,"审批中或者已完成审批不可重复发起！");
-			}
-			workflowVo.setBusinessId(info.getDataId());
-			workflowVo.setProcessInstanceName("集团预算分解表审批");
-			workflowVo.setAuthenticatedUserId(info.getCreaterId());
-			workflowVo.setAuthenticatedUserName(info.getCreaterName());
-			//workflowVo.setFunctionId(workflowVo.getFunctionId());
-	    	// 待办业务详情、最终审批同意、最终审批不同意路径
-			workflowVo.setAuditDetailsPath("/budget/budget_detail_groupsplit?dataId="+info.getDataId());
-			workflowVo.setAuditAgreeMethod("http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-notice-budgetinfo?budgetId=" + info.getDataId()+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
-			workflowVo.setAuditRejectMethod("http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-notice-budgetinfo?budgetId=" + info.getDataId()+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_REFUSE.getCode());
-			Boolean rs = budgetInfoService.startWorkFlow(info,workflowVo);
-			if(rs) 
-			{
-				info.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_START.getCode());
-				budgetInfoService.updateBudgetInfo(info);
-				return new Result(true,"操作成功!");
-			}else {
-				return new Result(false,rs);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return new Result(false);
-	}
-	
 }
