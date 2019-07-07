@@ -32,6 +32,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
@@ -40,6 +41,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.budget.BudgetInfo;
+import com.pcitc.base.stp.equipment.SreDetail;
+import com.pcitc.base.stp.equipment.SreForApplication;
 import com.pcitc.base.stp.equipment.SrePurchase;
 import com.pcitc.base.stp.equipment.UnitField;
 import com.pcitc.base.util.CommonUtil;
@@ -56,6 +59,10 @@ public class DetailController extends BaseController {
 //	private static final String BUDGET_ASSETSPLIT_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-assetsplit-items";
 
     private static final String PAGE_LEDGER_URL = "http://pcitc-zuul/stp-proxy/sre-provider/ledger/page";
+    
+    private static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/detail/get/";
+    
+    private static final String DETAIL = "http://pcitc-zuul/stp-proxy/sre-provider/detailLIVRW/page";
 	
 	/**
 	 * 列表
@@ -135,5 +142,46 @@ public class DetailController extends BaseController {
         logger.info("============result" + result);
         return result.toString();
     }
+    
+    /**
+	 * 详情
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/sre-detail/get/{id}", method = RequestMethod.GET)
+	public String get(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ResponseEntity<SreDetail> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreDetail.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		logger.info("============远程返回  statusCode " + statusCode);
+		SreDetail pplication =  responseEntity.getBody();
+		request.setAttribute("pplication", pplication);
+		return "/stp/equipment/detail/detail-view";
+	}
+	
+	/**
+	 * 详情列表
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/sre-detail/listView")
+	@ResponseBody
+	public String listView(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+		
+		LayuiTableData layuiTableData = new LayuiTableData();
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(DETAIL, HttpMethod.POST, entity, LayuiTableData.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200) {
+			layuiTableData = responseEntity.getBody();
+		}
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+		logger.info("============result" + result);
+		return result.toString();
+	}
 	
 }

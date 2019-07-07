@@ -14,5 +14,7 @@ public interface SreEquipmentLedgerMapper {
     void insertEquipmentLedgerList(List<SreEquipmentLedger> sreEquipmentLedgerList);
 
 	List getSreDetailId(Map map);
+
+	List<SreEquipmentLedger> getDate(Map map);
 	
 }

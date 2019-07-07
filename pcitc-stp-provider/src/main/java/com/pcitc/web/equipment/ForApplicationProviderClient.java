@@ -182,4 +182,20 @@ public class ForApplicationProviderClient
 		LayuiTableData rageResult=detailService.getLedgerPage(param);
 		return rageResult;
 	}
+	
+	/*-------------------------------------根据资产编号查看相关信息*/
+	 @ApiOperation(value = "根据资产编号查询数据", notes = "根据资产编号查询数据")
+		@RequestMapping(value = "/sre-provider/detail/get/{id}", method = RequestMethod.GET)
+		public SreDetail detail(@PathVariable(value = "id", required = true) String id) throws Exception {
+			logger.info("===============================get sreEquipment id "+id+"===========");
+			return detailService.detail(id);
+		}
+	 
+	 @ApiOperation(value = "根据资产编号查看相关信息", notes = "根据资产编号查看相关信息")
+		@RequestMapping(value = "/sre-provider/detailLIVRW/page", method = RequestMethod.POST)
+		public LayuiTableData getDetailLIVRW(@RequestBody LayuiTableParam param)throws Exception
+		{
+			LayuiTableData rageResult=detailService.getDetailLIVRW(param);
+			return rageResult;
+		}
 }

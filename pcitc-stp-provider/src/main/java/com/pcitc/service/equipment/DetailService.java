@@ -35,4 +35,12 @@ public interface DetailService {
 
 
 	LayuiTableData getLedgerPage(LayuiTableParam param)throws Exception;
+
+
+	public SreDetail detail(String id);
+
+
+	public LayuiTableData getDetailLIVRW(LayuiTableParam param);
+	
+	
 }
