@@ -457,7 +457,7 @@
   </insert>
   
   <select id="getSreDetailId" resultMap="BaseResultMap" parameterType="Map" >
-     select * from sre_equipment_ledger  <include refid="selectCondition" />    
+     select * from sre_equipment_ledger t <include refid="selectCondition" />    
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>

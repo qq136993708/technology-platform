@@ -112,7 +112,13 @@ public class DetailServiceImpl implements DetailService {
 	
 		map.put("unitPathIds", parentUnitPathIds);
 		map.put("parentUnitPathIds", unitPathIds);
-		
+		Date dBefore = new Date();
+		Calendar   calendar= Calendar.getInstance();
+        calendar.setTime(dBefore);
+        calendar.set(Calendar.MONTH,calendar.get(Calendar.MONTH)-1);
+        System.out.println(calendar.getTime());
+		SimpleDateFormat df = new SimpleDateFormat("yyyyMM");//设置日期格式
+		map.put("g0cald", df.format(calendar.getTime()));
 		List<SreDetail> sreSunlike = new ArrayList<SreDetail>();
 		List<SreDetail> list = detailMapper.getList(map);
 		if(list.size()!=0) {
