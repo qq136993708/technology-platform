@@ -231,6 +231,13 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 	public List getPlanCompleteRateByPlanType(HashMap<String, String> map) {
 		return outProjectPlanMapper.getPlanCompleteRateByPlanType(map);
 	}
+	
+	/**
+     * 首页-直属研究院，项目计划完成的比率，+ hana支付的费用，按照资本性费用性来分组
+     */
+	public List getPlanCompleteRateByPlanTypeForHana(HashMap<String, String> map) {
+		return outProjectPlanMapper.getPlanCompleteRateByPlanTypeForHana(map);
+	}
 
 	/**
 	 * 领导首页-科研合同，项目计划完成的比率，按照直属研究所、分子公司等9个来分组
