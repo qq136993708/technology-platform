@@ -37,7 +37,7 @@ public class SysDictionaryProviderClient {
 	 */
 	@RequestMapping(value = "/dictionary-provider/getTreeOneLevel")
 	@ResponseBody
-	public List selectTreeNodeOneLevel() {
+	public List<?> selectTreeNodeOneLevel() {
 		List<TreeNode> list = null;
 		try {
 			list = dictionaryService.selectTreeNodeOneLevel();
@@ -55,7 +55,7 @@ public class SysDictionaryProviderClient {
 	 */
 	@RequestMapping(value = "/dictionary-provider/getChildNode/{parentId}")
 	@ResponseBody
-	public List getChildNode(@PathVariable(value = "parentId", required = true) String parentId) {
+	public List<?> getChildNode(@PathVariable(value = "parentId", required = true) String parentId) {
 		List<TreeNode> list = null;
 		try {
 			list = dictionaryService.selectChildNodeByParentId(parentId);
@@ -105,7 +105,7 @@ public class SysDictionaryProviderClient {
 	 */
 	@RequestMapping(value = "/dictionary-provider/getTreeByLevel", method = RequestMethod.POST)
 	@ResponseBody
-	public List selectTreeNodeByLevel(@RequestBody SysDictionary dictionary) {
+	public List<?> selectTreeNodeByLevel(@RequestBody SysDictionary dictionary) {
 		List<TreeNode> list = null;
 		try {
 			list = dictionaryService.selectTreeNodeByLevel(dictionary);

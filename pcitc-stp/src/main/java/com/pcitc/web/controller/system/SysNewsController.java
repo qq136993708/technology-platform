@@ -1,59 +1,43 @@
 package com.pcitc.web.controller.system;
 
-import com.alibaba.druid.support.json.JSONUtils;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.pcitc.base.common.Result;
-import com.pcitc.base.system.SysNews;
-import com.pcitc.base.common.LayuiTableData;
-import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.util.StrUtil;
-import com.pcitc.web.utils.UserProfileAware;
-import com.pcitc.base.common.TreeNode;
-import com.pcitc.base.common.enums.DataOperationStatusEnum;
-import com.pcitc.base.util.DateUtil;
-import com.pcitc.web.common.JwtTokenUtil;
-import com.pcitc.base.doc.SysFileKind;
-import com.pcitc.web.common.OperationFilter;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-import com.pcitc.web.common.BaseController;
-import com.pcitc.base.util.DataTableInfoVo;
-import com.pcitc.base.util.DateTableUtil;
-import com.pcitc.web.common.DataTableParameter;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import java.io.PrintWriter;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import com.alibaba.druid.support.json.JSONUtils;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.Result;
+import com.pcitc.base.common.TreeNode;
+import com.pcitc.base.system.SysDictionary;
+import com.pcitc.base.system.SysNews;
+import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.StrUtil;
+import com.pcitc.web.common.BaseController;
+import com.pcitc.web.common.OperationFilter;
 
 /**
  * <p>
@@ -103,6 +87,8 @@ public class SysNewsController extends BaseController {
 	private static final String SAVE = "http://pcitc-zuul/stp-proxy/sysnews-provider/sysnews/save_sysnews";
 
 	private static final String getNewsIndexType = "http://pcitc-zuul/stp-proxy/sysnews-provider/sysnews/getNewsIndexType";
+	
+	private static final String  DICTIONARY= "http://pcitc-zuul/system-proxy/dictionary-provider/getDictionaryByCode/";
 
 	@RequestMapping(value = "/sysNews/getNewsIndexType", method = RequestMethod.POST)
 	@ResponseBody
@@ -112,7 +98,7 @@ public class SysNewsController extends BaseController {
 		sysNews.setStype(request.getParameter("stype"));
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(getNewsIndexType, HttpMethod.POST, new HttpEntity<SysNews>(sysNews, this.httpHeaders), JSONObject.class);
 		JSONObject retJson = responseEntity.getBody();
-		List<SysNews> list = (List<SysNews>) retJson.get("list");
+		List<?> list = (List<?>) retJson.get("list");
 		// String formIds = "";
 		// for (int i = 0; i < list.size(); i++) {
 		// if ("ROOT_XTGL_SPLX_PT".equals(list.get(i).getStype())){
@@ -135,7 +121,7 @@ public class SysNewsController extends BaseController {
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST, HttpMethod.POST, new HttpEntity<SysNews>(sysNews, this.httpHeaders), JSONObject.class);
 		JSONObject retJson = responseEntity.getBody();
-		List<SysNews> list = (List<SysNews>) retJson.get("list");
+		List<?> list = (List<?>) retJson.get("list");
 		return list;
 	}
 
@@ -148,7 +134,7 @@ public class SysNewsController extends BaseController {
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LISTPARAM, HttpMethod.POST, entity, JSONObject.class);
 		JSONObject retJson = responseEntity.getBody();
-		List<SysNews> list = (List<SysNews>) retJson.get("list");
+		List<?> list = (List<?>) retJson.get("list");
 		return list;
 	}
 
@@ -286,6 +272,8 @@ public class SysNewsController extends BaseController {
 		ResponseEntity<SysNews> responseEntity = this.restTemplate.exchange(GET_INFO + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), SysNews.class);
 		SysNews news = responseEntity.getBody();
 		request.setAttribute("list", news);
+		SysDictionary dic = this.restTemplate.exchange(DICTIONARY+news.getStype(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysDictionary.class).getBody();
+		request.setAttribute("dic", dic);
 		return "layui/leader_speech_details";
 	}
 
@@ -302,7 +290,7 @@ public class SysNewsController extends BaseController {
 	@ResponseBody
 	public String getSysNewsTreeDatas(HttpServletRequest request) throws Exception {
 		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-		List list = this.restTemplate.exchange(TREE_DATA, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class).getBody();
+		List<?> list = this.restTemplate.exchange(TREE_DATA, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class).getBody();
 		return JSONUtils.toJSONString(list);
 	}
 
@@ -346,13 +334,8 @@ public class SysNewsController extends BaseController {
 	public String toLeaderSpeechList() {
 		String stype = request.getParameter("stype");
 		request.setAttribute("stype", stype);
-		// 查询类型名称
-		// List list = this.restTemplate.exchange(DICTIONARY_CODE + stype,
-		// HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders),
-		// List.class).getBody();
-		// for (int i = 0; i < list.size(); i++) {
-		// System.out.println(list.get(i));
-		// }
+		SysDictionary dic = this.restTemplate.exchange(DICTIONARY+stype, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysDictionary.class).getBody();
+		request.setAttribute("dic", dic);
 		return "layui/leader_speech_list";
 	}
 
