@@ -231,6 +231,13 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 	public List getPlanCompleteRateByPlanType(HashMap<String, String> map) {
 		return outProjectPlanMapper.getPlanCompleteRateByPlanType(map);
 	}
+	
+	/**
+     * 首页-直属研究院，项目计划完成的比率，+ hana支付的费用，按照资本性费用性来分组
+     */
+	public List getPlanCompleteRateByPlanTypeForHana(HashMap<String, String> map) {
+		return outProjectPlanMapper.getPlanCompleteRateByPlanTypeForHana(map);
+	}
 
 	/**
 	 * 领导首页-科研合同，项目计划完成的比率，按照直属研究所、分子公司等9个来分组
@@ -407,6 +414,18 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		// 新开课题结转课题标志
 		if (param.getParam().get("ktlx")!=null&&!StringUtils.isBlank(param.getParam().get("ktlx")+"")) {
 			hashmap.put("ktlx", param.getParam().get("ktlx"));
+		}
+		
+		if (param.getParam().get("zylbbm")!=null&&!StringUtils.isBlank(param.getParam().get("zylbbm")+"")) {
+			hashmap.put("zylbbm", param.getParam().get("zylbbm"));
+		}
+		
+		if (param.getParam().get("zycbm")!=null&&!StringUtils.isBlank(param.getParam().get("zycbm")+"")) {
+			hashmap.put("zycbm", param.getParam().get("zycbm"));
+		}
+		
+		if (param.getParam().get("leaderFlag")!=null&&!StringUtils.isBlank(param.getParam().get("leaderFlag")+"")) {
+			hashmap.put("leaderFlag", param.getParam().get("leaderFlag"));
 		}
 		
 		if (param.getParam().get("groupFlag")!=null&&!StringUtils.isBlank(param.getParam().get("groupFlag")+"")) {

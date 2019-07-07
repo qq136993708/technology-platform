@@ -69,11 +69,11 @@
 					cols : [ [ {
 						type : 'checkbox',
 						event : 'changeEvents',
-						width : 45
+						width : 55
 					}, {
 						title : '序号',
 						type : 'numbers',
-						width : 45
+						width : 55
 					}, {
 						field : 'messageType',
 						title : '消息类型',
@@ -82,13 +82,13 @@
 					}, {
 						field : 'messageTitle',
 						title : '消息标题',
-						width : '60%',
 						style : 'cursor: pointer;'
 					}, {
 						field : 'createDate',
 						title : '创建时间',
-						width : '12%',
+						width : '15%',
 						style : 'cursor: pointer;',
+						align : 'center',
 						sort : true
 					}, ] ],
 					done : function(res, curr, count) {
@@ -125,7 +125,8 @@
 					if (typeof (selectRowData.dataId) == "undefined") {
 						layer.msg('请点击选择一行数据');
 					} else {
-						var temUrl = "/task/message/details";
+						//var temUrl = "/task/message/details";
+						var temUrl = "/message/sys_message_detail?messageId="+selectRowData.dataId;
 						layer.open({
 							title : '详情',
 							skin : 'layui-layer-lan',
@@ -164,7 +165,8 @@
 
 			//监听行双击事件
 			table.on('rowDouble(tableData)', function(obj) {
-				var temUrl = "/task/message/details";
+				//var temUrl = "/task/message/details";
+				var temUrl = "/message/sys_message_detail?messageId="+selectRowData.dataId;
 				layer.open({
 					title : '详情',
 					skin : 'layui-layer-lan',

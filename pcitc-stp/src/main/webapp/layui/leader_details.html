@@ -23,11 +23,11 @@
 <div class="layui-leader-speech layui-leader-details">
     <div class="layui-row">
         <div class="layui-col-md12 layui-speech-d">
-            <#if list.bak1!=1>
-            <!--<embed src="/plugins/ckplayer/ckplayer/ckplayer.swf" flashvars="video=/sysfile/video/${list.bak3}"  quality="high" width="480" height="400" align="middle" allowScriptAccess="always" allowFullscreen="true" type="application/x-shockwave-flash"></embed>-->
+            <#if news.bak1!=1>
+            <!--<embed src="/plugins/ckplayer/ckplayer/ckplayer.swf" flashvars="video=/sysfile/video/"  quality="high" width="480" height="400" align="middle" allowScriptAccess="always" allowFullscreen="true" type="application/x-shockwave-flash"></embed>-->
             <!--视频-->
-            <h4>${list.title}</h4>
-            <span id="time" class="time">${list.publicDate}</span>
+            <h4>${news.title}</h4>
+            <span id="time" class="time">${news.publicDate}</span>
             <!--<span>来源：</span><span id="source">人民网－人民日报</span>-->
             <!--<p id="videoshow"><embed src="" width="300" height="300"></p>-->
             <div id="video" class="video"></div>
@@ -35,18 +35,18 @@
                 <!--浏览器不支持video标签-->
             <!--</video>-->
             <!--<p><video src="/sysfile/video/d6a568fe-e978-47f5-aa2b-cc1070864755"> 视频播放</video></p>-->
-            <p id="videoshowid" style="display: none">${list.bak3}</p>
+            <p id="videoshowid" style="display: none">${news.bak3}</p>
             <!--<p><embed src="/m.mp4" width="300" height="300"></p>-->
         </#if>
             <!--文本-->
-            <#if list.bak1==1>
+            <#if news.bak1==1>
             <div class="details">
-                <h4>${list.title}</h4>
+                <h4>${news.title}</h4>
                 <!--<h5 class="title">——在《告台湾同胞书》发表40周年纪念会上的讲话</h5>-->
-                <h5 class="title-time">（${list.publicDate}）</h5>
-                <!--<span id="time" class="time">${list.publicDate}</span>-->
+                <h5 class="title-time">（${news.publicDate}）</h5>
+                <!--<span id="time" class="time"></span>-->
                 <!--<span>来源：</span><span id="source">人民网－人民日报</span>-->
-                ${list.content}
+                ${news.content}
                 <!--<p>同志们，同胞们，朋友们：</p>-->
             </div>
         </#if>
@@ -60,15 +60,15 @@
         variable: 'player',//播放函数名称
         // poster:'../material/poster.jpg',//封面图片
         autoplay:true,
-        video: '/sysfile/video/${list.bak3}'
+        video: '/sysfile/video/${news.bak3}'
         //     [//视频地址列表形式
-        //     ['/sysfile/video/${list.bak3}', 'video/mp4', '播放', 0]
+        //     ['/sysfile/video/', 'video/mp4', '播放', 0]
         // ]
     };
     var player = new ckplayer(videoObject);
 </script>
 <script>
-    var d = '${list.stype}';
+    var d = '${news.stype}';
     var stype="";
     if (d == "ROOT_XTGL_XWLX_KJBLDJH") {
         stype="科技部领导讲话";

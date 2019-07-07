@@ -188,7 +188,8 @@ public class ForApplicationProviderClient
 		@RequestMapping(value = "/sre-provider/detail/get/{id}", method = RequestMethod.GET)
 		public SreDetail detail(@PathVariable(value = "id", required = true) String id) throws Exception {
 			logger.info("===============================get sreEquipment id "+id+"===========");
-			return detailService.detail(id);
+			SreDetail  sre =  detailService.detail(id);
+			return sre;
 		}
 	 
 	 @ApiOperation(value = "根据资产编号查看相关信息", notes = "根据资产编号查看相关信息")

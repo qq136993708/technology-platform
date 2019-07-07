@@ -46,10 +46,23 @@
                 </div>
             </div>
             <div class="layui-col-md15">
+                <div class="layui-main-box" id="equipment">
+                    <span class="layui-box-icon bg-4"></span>
+                    <div class="layui-box-content">
+                        <span class="layui-box-text">科研装备</span>
+                        <span class="layui-box-number" id="equipment_id">
+                                <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                                <small>(个)</small>
+                            </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="layui-col-md15">
                 <div class="layui-main-box" id="home_budget">
                     <span class="layui-box-icon bg-2"></span>
                     <div class="layui-box-content">
-                        <span class="layui-box-text">合同签订</span>
+                        <span class="layui-box-text">合同签订率</span>
                         <span class="layui-box-number" id="contcator_id">
                             <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
                             </span>
@@ -67,18 +80,7 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-col-md15">
-                <div class="layui-main-box" id="equipment">
-                    <span class="layui-box-icon bg-4"></span>
-                    <div class="layui-box-content">
-                        <span class="layui-box-text">科研装备</span>
-                        <span class="layui-box-number" id="equipment_id">
-                                <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
-                                <small>(个)</small>
-                            </span>
-                    </div>
-                </div>
-            </div>
+            
             <div class="layui-col-md15">
                 <div class="layui-main-box" id="knowledge">
                     <span class="layui-box-icon bg-5"></span>
@@ -430,7 +432,7 @@
 				</div>
 				<div class="layui-card layui-col-md3" style="margin-left: 6px; width: 24.5%;">
 					<div class="layui-card-header">
-						<p>会议纪要</p>
+						<p>研究院动态</p>
 						<div class="layui-tool">
 							<!--<button type="button" class="btn btn-tool collapse"></button>-->
 							<button type="button" class="btn btn-tool collapse"></button>
@@ -439,12 +441,12 @@
 					<div class="layui-card-body">
 						<div class="layui-tab">
 							<ul class="layui-tab-title">
-								<li class="layui-this">集团会议纪要</li>
-								<li>部务会会议纪要</li>
+								<li class="layui-this">研究院动态</li>
 							</ul>
 							<div class="layui-tab-content">
-								<div class="layui-tab-item layui-show"></div>
-								<div class="layui-tab-item"></div>
+								<div class="layui-tab-item layui-show">
+									<ul id="ROOT_XTGL_XWLX_YJYDT"></ul>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -617,9 +619,9 @@
                 publicMethods=layui.publicMethods;
                 /*新开页面*/
                 
+
                 
-                
-            var stype = "ROOT_XTGL_XWLX_GCSY|ROOT_XTGL_XWLX_SHYW|ROOT_XTGL_XWLX_GCDT|ROOT_XTGL_SPLX_PT";
+            var stype = "ROOT_XTGL_XWLX_GCSY|ROOT_XTGL_XWLX_SHYW|ROOT_XTGL_XWLX_GCDT|ROOT_XTGL_SPLX_YJYDT";
             var formIds = "";
             var list = [];
             var ROOT_XTGL_SPLX_PT = "";//视频
@@ -630,15 +632,14 @@
                 for (var i = data.length-1; i >0 ; i--) {
                     var d = data[i];
                     if (d.stype == "ROOT_XTGL_XWLX_GCSY") {
-                        ROOT_XTGL_XWLX_GCSY = ROOT_XTGL_XWLX_GCSY + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
+                        ROOT_XTGL_XWLX_GCSY = ROOT_XTGL_XWLX_GCSY + "<li><a target='_blank' lay-text='新闻详情' lay-href='/sysNews/newsDetail?dataId=" + d.dataId + "'>" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
                     } else if (d.stype == "ROOT_XTGL_XWLX_SHYW") {
-                        ROOT_XTGL_XWLX_SHYW = ROOT_XTGL_XWLX_SHYW + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
+                        ROOT_XTGL_XWLX_SHYW = ROOT_XTGL_XWLX_SHYW + "<li><a target='_blank' lay-text='新闻详情' lay-href='/sysNews/newsDetail?dataId=" + d.dataId + "'>" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
                     } else if (d.stype == "ROOT_XTGL_XWLX_GCDT") {
-                        ROOT_XTGL_XWLX_GCDT = ROOT_XTGL_XWLX_GCDT + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
-                    }
-                    else if (d.stype == "ROOT_XTGL_SPLX_PT") {
+                        ROOT_XTGL_XWLX_GCDT = ROOT_XTGL_XWLX_GCDT + "<li><a target='_blank' lay-text='新闻详情' lay-href='/sysNews/newsDetail?dataId=" + d.dataId + "'>" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
+                    }else if (d.stype == "ROOT_XTGL_SPLX_YJYDT") {
                         list.push(d);
-                        // ROOT_XTGL_SPLX_PT = ROOT_XTGL_SPLX_PT + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
+                        ROOT_XTGL_SPLX_PT = ROOT_XTGL_SPLX_PT + "<li><a target='_blank' lay-text='新闻详情' lay-href='/sysNews/newsDetail?dataId=" + d.dataId + "'>" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
                     }
 
                 }
@@ -647,35 +648,42 @@
                 $("#ROOT_XTGL_XWLX_GCDT").html(ROOT_XTGL_XWLX_GCDT);
             });
             
-            
-            
                 
                 
                 $("#actualPay").on("click", function () {
-                	 parent.layui.index.openTabsPage("/direct/actualPay?isdisplay=1", "经费支出");
+                	parent.layui.index.openTabsPage("/small_leader/actualPay", "经费支出");
+                	// parent.layui.index.openTabsPage("/direct/actualPay?isdisplay=1", "经费支出");
                 });
                 
                 $("#home_project").on("click", function () {
-               	     parent.layui.index.openTabsPage("/home_project_02/home_project", "科研课题");
+                	parent.layui.index.openTabsPage("/small_leader/topic", "科研课题");
+                	//parent.layui.index.openTabsPage("/home_project_02/home_project", "科研课题");
                 });
                 $("#home_budget").on("click", function () {
-              	   parent.layui.index.openTabsPage("/home_budget_02/home_budget", "合同签订（亿元）");
+                	 parent.layui.index.openTabsPage("/small_leader/contract", "科研合同");
+                	 // parent.layui.index.openTabsPage("/home_budget_02/home_budget", "合同签订（亿元）");
                 });
                 
                 $("#knowledge").on("click", function () {
-             	     parent.layui.index.openTabsPage("/home_knowledge/knowledge_level2", "知识产权");
+                	parent.layui.index.openTabsPage("/small_leader/knowledgePatent", "知识产权");
+                	//parent.layui.index.openTabsPage("/home_knowledge/knowledge_level2", "知识产权");
                 });
                 
                 $("#achievement").on("click", function () {
-            	     parent.layui.index.openTabsPage("/home_achievement/award_level2", "科技成果");
+                	parent.layui.index.openTabsPage("/small_leader/achievement", "科技成果");
+            	     //parent.layui.index.openTabsPage("/home_achievement/award_level2", "科技成果");
                 });
                  
                 $("#report_intl_project_main").on("click", function () {
-                	parent.layui.index.openTabsPage("/intl_project/report/report_intl_project_main", "国际合作");
+                	
+                	parent.layui.index.openTabsPage("/small_leader/intl_cooperation", "国际合作");
+                	//parent.layui.index.openTabsPage("/intl_project/report/report_intl_project_main", "国际合作");
                });
                 
                 $("#equipment").on("click", function () {
-                	 parent.layui.index.openTabsPage("/home_device_02/home_device", "科研装备");
+                	
+                	 parent.layui.index.openTabsPage("/small_leader/equipment", "科研装备");
+                	 //parent.layui.index.openTabsPage("/home_device_02/home_device", "科研装备");
                });
                
                 //新闻
@@ -741,15 +749,18 @@
                         thisWeekTotal = data.data.thisWeekTotal;   // 本周安排出去的工作总数
                         thisWeekHaved = data.data.thisWeekHaved;   // 本周安排出去已经完成的工作
                 	}
-                	circle("circleOne",0,lastWeekHaved+"/"+lastWeekTotal);
-                    circle("circleTwo",0,thisWeekHaved+"/"+thisWeekTotal);
-                    $(".work-summary").hover(function(){
-                        circle("circleOne",(lastWeekHaved/lastWeekTotal).toFixed(2),lastWeekHaved+"/"+lastWeekTotal);
-                        circle("circleTwo",(thisWeekHaved/thisWeekTotal).toFixed(2),thisWeekHaved+"/"+thisWeekTotal);
-                    },function(){
+                	//circle("circleOne",0,lastWeekHaved+"/"+lastWeekTotal);
+                    //circle("circleTwo",0,thisWeekHaved+"/"+thisWeekTotal);
+					if(lastWeekHaved==0 && lastWeekTotal==0){
                         circle("circleOne",0,lastWeekHaved+"/"+lastWeekTotal);
+					}else {
+                        circle("circleOne",(lastWeekHaved/lastWeekTotal).toFixed(2),lastWeekHaved+"/"+lastWeekTotal);
+					}
+					if(thisWeekHaved==0 && thisWeekTotal==0){
                         circle("circleTwo",0,thisWeekHaved+"/"+thisWeekTotal);
-                    });
+					}else {
+                        circle("circleTwo",(thisWeekHaved/thisWeekTotal).toFixed(2),thisWeekHaved+"/"+thisWeekTotal);
+					}
                     
                 });
                 
@@ -829,7 +840,8 @@
             function getCommonCount(nd) {
                 $.ajax({
                     type: 'GET',
-                    url: "/direct/topic_equipment_count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd,
+                    url : "/direct/topic_equipment_count?functionId=984b64b13cf54222bf57bd840759fabe&typeFlag=研究院&nd=" + nd,
+                    //url: "/direct/topic_equipment_count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd,
                     dataType: 'json',
                     headers: {
                         'Content-Type': 'application/json'
@@ -843,8 +855,6 @@
                     success: function (data) {
                         //alert(data.data.projectCount);
                         $("#topic_id").html(data.data.projectCount + "<small>(个)</small>");
-
-
                         if (typeof(data.data.kyzbCount) == "undefined") {
                             $("#equipment_id").html("<small>0(个)</small>");
                         } else {
@@ -860,6 +870,7 @@
 
             //合同签订--bak--
             function setContcator_id(nd, v_date) {
+            	//var url = "/direct/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=3&nd=" + nd + "&v_date=" + v_date;
                 var url = "/direct/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=3&nd=" + nd + "&v_date=" + v_date;
                 $.ajax({
                     type: 'GET',
@@ -920,7 +931,7 @@
             function patentCount(nd) {
                 $.ajax({
                     type: 'POST',
-                    url: "/admin/patent-count?define3=研究院&nd=" + nd,
+                    url : "/admin/patent-count?define3=研究院&nd=" + nd,
                     dataType: 'json',
                     headers: {
                         'Content-Type': 'application/json'

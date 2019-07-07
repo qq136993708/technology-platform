@@ -52,6 +52,25 @@
    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table> 
 </div>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
+<script type="text/javascript"> 
+function view_purchaseName(id) 
+    {
+    	
+		 var temUrl="/sre-procurementprogram/get/" + id;
+		 layer.open({
+             title:'实施进度查看',
+             skin: 'layui-layer-lan',
+             shadeClose: true,
+             type: 2,
+             fixed: false,
+             //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+             maxmin: true,
+             //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+             area: ['70%', '90%'],
+             content:  temUrl
+         });
+    }
+ </script>   
 <script type="text/javascript">
     // 时间格式化
     function formatTime(d) {
@@ -358,24 +377,6 @@ var name=$('#name').val();
         });
     });
     
-    function view(id) 
-    {
-    	 var purchaseId=selectRowData.id;
-		 var temUrl="/sre-procurementprogram/get/" + purchaseId;
-		 layer.open({
-             title:'实施进度查看',
-             skin: 'layui-layer-lan',
-             shadeClose: true,
-             type: 2,
-             fixed: false,
-             //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-             maxmin: true,
-             //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-             area: ['70%', '90%'],
-             content:  temUrl
-         });
-    }
-    
     function renderTable()
 	{    
     	//渲染
@@ -399,7 +400,7 @@ var name=$('#name').val();
             cols: [[
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
-            	{field : 'purchaseName',     title : '采购名称', ssort : true,tyle : 'cursor: pointer;', align : 'left', width : '20%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.purchaseName+'</span>'}},
+            	{field : 'purchaseName',           title : '采购名称',         style : 'cursor: pointer;', align: 'left',    width : '20%',templet:function(d){return '<span onclick="view_purchaseName(\''+d.id+'\')" style="color:#1890ff">'+d.purchaseName+'</span>'}},
          	    {field : 'parentUnitPathNames',     title : '单位名称', sort : true,style : 'cursor: pointer;', align : 'left', width : '20%'},
          		{field : 'departName',     title : '部门名称', sort : true,style : 'cursor: pointer;', align : 'left', width : '20%'},
                 {field : 'proposerName',      		title : '申请人', sort : true,        style : 'cursor: pointer;', align: 'center',  width : '10%',},

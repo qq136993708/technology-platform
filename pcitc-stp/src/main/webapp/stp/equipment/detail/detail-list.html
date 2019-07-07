@@ -287,6 +287,8 @@ var name=$('#name').val();
            },
            cols: [[
         	   {title : '序号', type : 'numbers', width : 55},
+        	   {field : 'name',     title : '课题名称', sort : true,style : 'cursor: pointer;', align : 'center', width : '10%'},
+        	   {field : 'contractNum',     title : '合同编号', sort : true,style : 'cursor: pointer;', align : 'center', width : '10%'},
                {field : 'equipmentName',     title : '装备名称', sort : true,style : 'cursor: pointer;', align : 'center', width : '10%'},
                {field : 'assetNumber', title : '资产编号', sort : true,style : 'cursor: pointer;', align : 'center', width : '10%',templet:function(d){return '<span onclick="view(\''+d.assetNumber+'\')" style="color:#1890ff">'+d.assetNumber+'</span>'}},
                {field : 'supplier', title : '公司代码',sort : true, style : 'cursor: pointer;', align : 'left', width : '10%'},

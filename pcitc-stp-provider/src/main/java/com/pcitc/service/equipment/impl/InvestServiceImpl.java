@@ -277,8 +277,8 @@ public  class InvestServiceImpl implements InvestService {
 			map.put("g0ebelp", g0ebelp);
 			map.put("g0ebeln", g0ebeln);
 			if(!g0ebeln.equals("")&&g0ebeln!=null|| !g0ebelp.equals("")&&g0ebelp!=null) {
-			SrePurchaseArrival srePurchaseArriva = srePurchaseArrivalMapper.selectErpnum(map);
-			if(srePurchaseArriva!=null) {
+			List<SrePurchaseArrival> srePurchaseArriva = srePurchaseArrivalMapper.selectErpnum(map);
+			if(srePurchaseArriva.size()!=0) {
 				orderlist.setArrival("已入库");
 			}else {
 				orderlist.setArrival("未入库");

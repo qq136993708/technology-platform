@@ -67,6 +67,22 @@
 </div>
 
 <script id="dateTpl" type="text/html"> {{formatTime(d.declareTime)}} </script>
+ <script  type="text/javascript"> 
+    function view_useDepartment(useDepartment) 
+    {
+    	 var temUrl="/sre-mana/get/" + useDepartment;
+		 layer.open({
+            title:'详情',
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            maxmin: true,
+            area: ['70%', '90%'],
+            content:  temUrl
+        });
+    }
+ </script>
 <script type="text/javascript">
     // 时间格式化
     function formatTime(d) {
@@ -89,21 +105,6 @@
         }
     }
     
-    
-    function view(id) 
-    {
-    	 var temUrl="/sre-equipment/get/" + id;
-		 layer.open({
-            title:'详情',
-            skin: 'layui-layer-lan',
-            shadeClose: true,
-            type: 2,
-            fixed: false,
-            maxmin: false,
-            area: ['70%', '90%'],
-            content:  temUrl
-        });
-    }
 </script>
 
 
@@ -307,8 +308,8 @@ var name=$('#name').val();
            cols: [[
                {type : 'checkbox', event : 'changeEvents', width : 55},
                {title : '序号', type : 'numbers', width : 55},
-               {field : 'projectName',    sort : true,  title : '项目名称', style : 'cursor: pointer;', align : 'center', width : '20%',templet:function(d){return '<span onclick="view(\''+d.useDepartment+'\')" style="color:#1890ff">'+d.projectName+'</span>'}},
-               {field : 'useDepartment', title : 'ERP号', sort : true,style : 'cursor: pointer;', align : 'center', width : '20%'},
+               {field : 'projectName',    sort : true,  title : '项目名称', style : 'cursor: pointer;', align : 'center', width : '20%'},
+               {field : 'useDepartment', title : 'ERP号', sort : true,style : 'cursor: pointer;', align : 'center', width : '20%',templet:function(d){return '<span onclick="view_useDepartment(\''+d.useDepartment+'\')" style="color:#1890ff">'+d.useDepartment+'</span>'}},
                {field : 'contractNumber', title : '合同号', sort : true,style : 'cursor: pointer;', align : 'center', width : '20%'},
                {field : 'projectPrice', title : '计划万元', sort : true,style : 'cursor: pointer;', align : 'center', width : '20%'},
                {field : 'contractPrice', title : '合同额(万元)',sort : true, style : 'cursor: pointer;', align : 'left'},

@@ -23,6 +23,6 @@ public interface SrePurchaseArrivalMapper {
 
     void insertPurchaseArrivalList(List<SrePurchaseArrival> srePurchaseArrivals);
 
-	SrePurchaseArrival selectErpnum(Map map);
+	List<SrePurchaseArrival> selectErpnum(Map map);
 	
 }
