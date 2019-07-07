@@ -1402,7 +1402,7 @@
 	
 	<!-- 首页-直属研究院，项目计划完成的比率, 实际的hana报销费用，按照研究院来分组 -->
 	<select id="getPlanCompleteRateByPlanTypeForHana" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select sum(K0DMBTR) as hanaMoney,tableB.* from expenses_pay_hana,(
+		select round(sum(K0DMBTR)/10000,4) as hanaMoney,tableB.* from expenses_pay_hana,(
 			select define2,define3,zsjje, round((out_tem_money_total.zbx_money+out_tem_money_total.fyx_money), 4) as zysje,
 							round((out_tem_money_total.zbx_money+out_tem_money_total.fyx_money)-zsjje,4) as wxdje,
 							round(zsjje/(out_tem_money_total.zbx_money+out_tem_money_total.fyx_money)*100,4) as jeRate,
@@ -1435,7 +1435,7 @@
 	<select id="getPlanCompleteRateByPlanTypeForHanaMonth" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select tableA.*,(out_tem_money_total.zbx_money+out_tem_money_total.fyx_money) as zysje 
 		from (
-			select sum(K0DMBTR) as hanaMoney, SUBSTR(G0AUGDT FROM 1 FOR 6) as yearMonth
+			select round(sum(K0DMBTR)/10000,4) as hanaMoney, SUBSTR(G0AUGDT FROM 1 FOR 6) as yearMonth
 			from expenses_pay_hana
 			where 
 			G0LIFNR in ('0033550000','0035800000','0033550006','0033600000','0033700000','0034880000','0033650000','0033750000','0033800000') 
