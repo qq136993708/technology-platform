@@ -73,7 +73,7 @@ public interface BudgetGroupTotalService extends BudgetPublicService
 	 * @return
 	 * @throws Exception
 	 */
-	public List<BudgetGroupTotal> selectItemsByBudgetId(String budgetId)throws Exception;
+	public List<BudgetGroupTotal> selectItemsByBudgetId(String budgetId);
 	/**
 	 * 根据预算表查询预算表下所有预算项（包括一级和二级）
 	 * @param budgetId
@@ -132,4 +132,10 @@ public interface BudgetGroupTotalService extends BudgetPublicService
 	 * @return
 	 */
 	public Boolean outDataToReport(BudgetInfo info);
+	/**
+	 * 获取最终集团预算总表
+	 * @param info
+	 * @return
+	 */
+	public Map<String,Object> selectFinalGroupTotalBudget(BudgetInfo info);
 }
