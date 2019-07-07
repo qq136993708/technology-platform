@@ -18,22 +18,9 @@
  <input type="hidden" name="applyDepartCode" id="applyDepartCode" value="${applyDepartCode}">
  <input type="hidden" name="unitPathIds" id="unitPathIds" value="${unitPathIds}">
  <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
+  <input name="supplier" id="supplier" value="${pplication.supplier}" type="hidden">
+  <input name="assetNumber" id="assetNumber" value="${pplication.assetNumber}" type="hidden">
  
- 
-    <!--查询条件-->
-    <label class="dateInput">
-        <span>装备名称</span>
-        <input type="text" name="name" id="name" placeholder="请输入装备名称" title="装备名称" autocomplete="off" class="form-control" >
-    </label>
-    
-    
-    <!--按钮组-->
-    <div class="btnGroup">
-        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
-        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
-    </div>
-</div>
-
  
 <!--
 <div class="tableBox">
@@ -271,9 +258,9 @@ var name=$('#name').val();
        //渲染
        table.render({
            elem: '#processdef-table',
-           url: '/sre-detail/list',
+           url: '/sre-detail/listView',
            method:"POST",
-           where: {param: {"equipmentName":$("#name").val(),"auditStatus":$("#auditStatus").val(),"unitPathIds":$("#unitPathIds").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+           where: {param:{"assetNumber":$("#assetNumber").val(),"supplier":$("#supplier").val()}},
            limit: 15,
            id: 'processdef-table',
            height: commonDislodgeTable(),
@@ -287,15 +274,20 @@ var name=$('#name').val();
            },
            cols: [[
         	   {title : '序号', type : 'numbers', width : 55},
-               {field : 'equipmentName',     title : '装备名称', sort : true,style : 'cursor: pointer;', align : 'center', width : '10%'},
-               {field : 'assetNumber', title : '资产编号', sort : true,style : 'cursor: pointer;', align : 'center', width : '10%',templet:function(d){return '<span onclick="view(\''+d.assetNumber+'\')" style="color:#1890ff">'+d.assetNumber+'</span>'}},
-               {field : 'supplier', title : '公司代码',sort : true, style : 'cursor: pointer;', align : 'left', width : '10%'},
-               {field : 'equipmentPrice', title : '单价（万元）', sort : true,style : 'cursor: pointer;', align : 'center', width : '15%'},
-               {field : 'equipmenNumber', title : '装备数量', sort : true,style : 'cursor: pointer;', align : 'center', width : '10%'},
-               {field : 'declareUnit', title : '申报单位',sort : true, style : 'cursor: pointer;', align : 'left', width : '10%'},
-               {field : 'declareDepartment', title : '申报部门',sort : true, style : 'cursor: pointer;', align : 'left', width : '10%'},
-               {field : 'declarePeople', title : '第一申报人',sort : true, style : 'cursor: pointer;', align : 'left', width : '10%'},
-               {field : 'declareTime', title : '申请时间', sort : true,style : 'cursor: pointer;', align : 'center', templet : '#dateTpl'}
+               {field : 'g0TXT50',     title : '资产描述', sort : true,style : 'cursor: pointer;', align : 'center', width : '15%'},
+               {field : 'g0AKTIV', title : '资产资本化日期', sort : true,style : 'cursor: pointer;', align : 'center', width : '18%'},
+               {field : 'g0GPLAB', title : '计划报废日期',sort : true, style : 'cursor: pointer;', align : 'left', width : '15%'},
+               {field : 'g0NDJAR', title : '计划年使用期', sort : true,style : 'cursor: pointer;', align : 'center', width : '15%'},
+               {field : 'g0NDPER', title : '计划使用期间', sort : true,style : 'cursor: pointer;', align : 'center', width : '15%'},
+               {field : 'g0NDURJ', title : '原始使用年限',sort : true, style : 'cursor: pointer;', align : 'left', width : '15%'},
+               {field : 'g0NDURP', title : '原始使用期间',sort : true, style : 'cursor: pointer;', align : 'left', width : '15%'},
+               {field : 'g0PRCTR', title : '利润中心',sort : true, style : 'cursor: pointer;', align : 'left', width : '15%'},
+               {field : 'g0PRCTRT', title : '利润中心描述', sort : true,style : 'cursor: pointer;', align : 'center', width : '15%'},
+               {field : 'g0KOSTL', title : '成本中心', sort : true,style : 'cursor: pointer;', align : 'center', width : '15%'},
+               {field : 'g0KOSTLT', title : '成本中心描述',sort : true, style : 'cursor: pointer;', align : 'left', width : '15%'},
+               {field : 'g0NCGZYZJE', title : '年初购置价值',sort : true, style : 'cursor: pointer;', align : 'left', width : '15%'},
+               {field : 'g0LJZJJE', title : '累计折旧',sort : true, style : 'cursor: pointer;', align : 'left', width : '15%'},
+               {field : 'g0LJGZYZJE', title : '账面净额',sort : true, style : 'cursor: pointer;', align : 'left', width : '15%'}
            ]],
            done: function (res, curr, count) {
                // 点击行联动选择框--单选
