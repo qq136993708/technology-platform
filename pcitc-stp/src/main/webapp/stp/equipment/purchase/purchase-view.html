@@ -53,7 +53,7 @@
                             <label for="" class="layui-form-label">课题名称</label>
                             <div class="layui-input-block">
                                 <input class="layui-input readOnlyBox" name="name" id="name"
-                                       value="${sreProjectBasic.name}"
+                                       value="${sreProjectBasic.name}"readonly="readonly"
                                        autocomplete="off" type="text">
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                             <label for="" class="layui-form-label">申请名称</label>
                             <div class="layui-input-block">
                                 <input class="layui-input readOnlyBox" name="purchaseName" id="purchaseName"
-                                       value="${srePurchase.purchaseName}"
+                                       value="${srePurchase.purchaseName}"readonly="readonly"
                                        autocomplete="off" type="text">
                             </div>
                         </div>
@@ -91,7 +91,7 @@
                             <label for="" class="layui-form-label">申报单位</label>
                             <div class="layui-input-block">
                                 <input class="layui-input readOnlyBox" name="parentUnitPathNames" id="parentUnitPathNames"
-                                       value="${parentUnitPathNames}"
+                                       value="${parentUnitPathNames}"readonly="readonly"
                                        autocomplete="off" type="text">
                             </div>
                         </div>
@@ -101,7 +101,7 @@
                             <label for="" class="layui-form-label">申报部门</label>
                             <div class="layui-input-block">
                                 <input class="layui-input readOnlyBox" name="departName" id="departName"
-                                       value="${departName}"
+                                       value="${departName}"readonly="readonly"
                                        autocomplete="off" type="text">
                             </div>
                         </div>
@@ -117,7 +117,7 @@
                             <label for="" class="layui-form-label">申请人</label>
                             <div class="layui-input-block">
                                 <input class="layui-input readOnlyBox" name="proposerName" id="proposerName"
-                                       value="${proposerName}"
+                                       value="${proposerName}"readonly="readonly"
                                        autocomplete="off" type="text">
                             </div>
                         </div>
@@ -126,7 +126,7 @@
                         <div class="layui-form-item">
                             <label for="" class="layui-form-label">申请时间</label>
                             <div class="layui-input-block">
-                             <input class="layui-input readOnlyBox" name="createDate" id="createDate" value="${srePurchase.createDate?string("yyyy-MM-dd HH:mm:ss")}"     autocomplete="off" type="text">
+                             <input class="layui-input readOnlyBox"readonly="readonly" name="createDate" id="createDate" value="${srePurchase.createDate?string("yyyy-MM-dd HH:mm:ss")}"     autocomplete="off" type="text">
                                 
                             </div>
                         </div>
@@ -138,7 +138,7 @@
                             <label for="" class="layui-form-label">旧合同号</label>
                             <div class="layui-input-block">
                                 <input class="layui-input readOnlyBox" name="purchaseCode" id="purchaseCode"
-                                       value="${purchaseCode}"
+                                       value="${purchaseCode}"readonly="readonly"
                                        autocomplete="off" type="text">
                             </div>
                         </div>
@@ -148,7 +148,7 @@
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">备注</label>
                     <div class="layui-input-block">
-                        <textarea placeholder="请输入备注" name="remarks" id="remarks"class="layui-textarea">${remarks}</textarea>
+                        <textarea placeholder="请输入备注"readonly="readonly" name="remarks" id="remarks"class="layui-textarea">${remarks}</textarea>
                     </div>
                 </div>
 
@@ -212,6 +212,12 @@
             file_edit_detail = "detail";
             //统管理-附件管理-附件配置：页面标识
             file_opt_flag = "2b6913f158e740f18a2691972abaf4c6";
+        }else if (uploadState=="no") {
+            var file_ids = "no";
+            //detail:详情，edit：编辑
+            file_edit_detail = "detail";
+            //统管理-附件管理-附件配置：页面标识
+            file_opt_flag = "no";
         }
 
 

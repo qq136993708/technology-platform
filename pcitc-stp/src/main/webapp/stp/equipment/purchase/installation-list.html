@@ -35,7 +35,7 @@
     <div class="tableToolBox">
         <div class="whiteLine"></div>
         <div  class="tableBtns" >
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" id="applyEvent" data-type="applyEvent">上报</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" id="applyEvent" data-type="applyEvent">确认已调试</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="upQianEvent">上传附件</button>
         </div>
     </div>
@@ -152,10 +152,10 @@
                     var state=selectRowData.state;
                     if(state!='50')
                     {
-                        layer.alert('请选择未上报的申请');
+                        layer.alert('请选择未调试的申请');
                         return;
                     }else{
-                        layer.confirm('是否上报？', { btn: ['确定','取消']}, function(){
+                        layer.confirm('是否调试？', { btn: ['确定','取消']}, function(){
                             var url="/sre-purchase/installationSubmission/"+id;
                             var backurl="/sre-purchase/to-installation-list";
                             ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");

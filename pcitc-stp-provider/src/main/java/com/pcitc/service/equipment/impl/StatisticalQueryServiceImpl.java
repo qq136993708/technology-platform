@@ -98,13 +98,14 @@ public class StatisticalQueryServiceImpl implements StatisticalQueryService {
 
         map.put("sqlStr", applyUnitCodeStr.toString());
         list = srePurchaseMapper.getList(map);
-        if(isKJBPerson.equals("true")){
+        /*if(isKJBPerson.equals("true")){
             pageInfo = new PageInfo<SrePurchase>(list);
         }else{
              list = new ArrayList<SrePurchase>();
             pageInfo = new PageInfo<SrePurchase>(list);
             System.err.println("此用户不是科技部人员");
-        }
+        }*/
+        pageInfo = new PageInfo<SrePurchase>(list);
         System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
         LayuiTableData data = new LayuiTableData();
         data.setData(pageInfo.getList());

@@ -18,10 +18,6 @@
         <input type="hidden" name="isKJBPerson" id="isKJBPerson" value="${isKJBPerson}">
     </form>
     <!--查询条件-->
-    <!--<label class="dateInput">
-        <span>采购年度</span>
-        <input type="text" name="createDate" value="" readonly="readonly" placeholder="请选择采购年度" title="采购年度" autocomplete="off" class="form-control" id="createDate">
-    </label>-->
     <label class="dateInput">
         <span>申请名称</span>
         <input type="text" name="purchaseName" value="" placeholder="请输入申请名称" title="申请名称" autocomplete="off" class="form-control" id="purchaseName">
@@ -31,6 +27,15 @@
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
         <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
     </div>
+</div>
+<div class="tableBox">
+    <div class="tableToolBox">
+        <div class="whiteLine"></div>
+        <div  class="tableBtns">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" id="detailEvent" data-type="detailEvent">详情</button>
+        </div>
+    </div>
+    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table>
 </div>
 
 
@@ -60,6 +65,25 @@
         } else {
             return '';
         }
+    }
+
+    function view(id) {//详情
+
+        var uploadState="no";
+        var temUrl="/sre-purchase/getParticularsDouble?id=" + id +"&uploadState="+uploadState;
+        layer.open({
+            title:'详情',
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+            maxmin: true,
+            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+            area: ['70%', '90%'],
+            content:  temUrl
+
+        });
     }
 </script>
 
@@ -92,6 +116,28 @@
                 $('#purchaseName').val("");
                 $('#createDate').val("");
                 $('#proposerName').val("");
+            },
+            detailEvent: function(){  //点击详情按钮
+                if (typeof(selectRowData) == "undefined") {
+                    layer.msg('请点击选择一行数据');
+                } else {
+                    var id=selectRowData.id;
+                    var uploadState="no";
+                    var temUrl="/sre-purchase/getParticularsDouble?id=" + id +"&uploadState="+uploadState;
+                    layer.open({
+                        title:'详情',
+                        skin: 'layui-layer-lan',
+                        shadeClose: true,
+                        type: 2,
+                        fixed: false,
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        maxmin: true,
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        area: ['70%', '90%'],
+                        content:  temUrl
+                    });
+                }
+
             }
         };
 
@@ -109,11 +155,11 @@
                 }
             });
         });
-        //监听表格双击事件
+        /*//监听表格双击事件
         table.on('rowDouble(tableEvent)', function(obj){
-            var temUrl = '/sre-purchase/getParticulars/'+obj.data.id;
+            var temUrl="/sre-purchase/getParticularsDouble?id=" + id;
             openFullWin("详情",temUrl);
-        });
+        });*/
         //区别按钮属性
         $('.layui-btn').on('click', function(){
             var type = $(this).data('type');
@@ -129,7 +175,7 @@
             elem: '#processdef-table',
             url: '/sre-statisticalQuery/purchaseEquipmentList',
             method:"POST",
-            where: {param: {"isKJBPerson":$("#isKJBPerson").val(),"purchaseName":$("#purchaseName").val()}},
+            where: {param: {/*"isKJBPerson":$("#isKJBPerson").val(),*/"purchaseName":$("#purchaseName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"departCode":$("#departCode").val()}},
             limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),
@@ -144,13 +190,13 @@
             cols: [[
                 {type : 'checkbox', event : 'changeEvents', width : 55},
                 {title : '序号', type :'numbers', width : 55},
-                //{field : 'state', title : '状态',  style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.state) }}</div>', width : 55},
-                {field : 'purchaseName',     title : '申请名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
-                {field : 'parentUnitPathNames',     title : '单位名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
-                {field : 'departName',     title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '19%'},
+                {field : 'purchaseName',sort : true,     title : '申请名称', style : 'cursor: pointer;', align : 'left', width : '20%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.purchaseName+'</span>'}},
+                /*{field : 'purchaseName',     title : '申请名称', style : 'cursor: pointer;', align : 'left', width : '20%'},*/
+                {field : 'parentUnitPathNames',sort : true,     title : '单位名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
+                {field : 'departName',sort : true,     title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
                 //{field : 'stage',      		title : '阶段',         style : 'cursor: pointer;', align: 'center',  width : '10%',},
-                {field : 'proposerName',      		title : '申请人',         style : 'cursor: pointer;', align: 'center',  width : '15%',},
-                {field : 'createDate',      title : '申请日期', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl', width : '15%'}
+                {field : 'proposerName', sort : true,     		title : '申请人',         style : 'cursor: pointer;', align: 'center',  width : '20%',},
+                {field : 'createDate', sort : true,     title : '申请日期', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选

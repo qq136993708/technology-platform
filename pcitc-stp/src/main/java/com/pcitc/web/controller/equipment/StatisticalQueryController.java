@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class StatisticalQueryController extends BaseController {
@@ -27,15 +28,17 @@ public class StatisticalQueryController extends BaseController {
     //跳转到  科研装备采购查询
     @RequestMapping(value = "/sre-statisticalQuery/to-purchaseEquipment-list")
     public String purchaseEquipmentList(HttpServletRequest request, HttpServletResponse response)throws Exception {
+        Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+        String parentUnitPathNames = map.get("unitName");// 申报单位
+        String parentUnitPathIds = map.get("unitCode");// 申报单位
+        String applyDepartName = map.get("applyDepartName");// 申报部门
+        String applyDepartCode = map.get("applyDepartCode");// 申报部门
 
-        String unitPathId=sysUserInfo.getUnitPath();
-        String departCode=sysUserInfo.getUnitCode();
-        String	parentUnitPathIds="";
-        String unitPathIds =   sysUserInfo.getUnitPath();
-        parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);
-        boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);/*"100106851234"*/
-        request.setAttribute("isKJBPerson", isKJBPerson);
-        request.setAttribute("departCode", departCode);
+
+        /*String parentUnitPathId = EquipmentUtils.getParentUnitPathId(parentUnitPathIds);
+        boolean isKJBPerson = EquipmentUtils.isKJBPerson(parentUnitPathId);*//*"100106851234"*//*
+        request.setAttribute("isKJBPerson", isKJBPerson);*/
+        request.setAttribute("departCode", applyDepartCode);
         request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 
         return "/stp/equipment/statisticalQuery/purchaseEquipment-list";
