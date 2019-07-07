@@ -1,8 +1,6 @@
 package com.pcitc.web;
 
 import javax.servlet.MultipartConfigElement;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -12,11 +10,8 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.boot.web.servlet.ServletComponentScan;
-import org.springframework.boot.web.servlet.ServletContextInitializer;
-import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
@@ -24,11 +19,6 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.client.RestTemplate;
-
-import com.pcitc.web.interceptor.InitFilter;
-import com.sinopec.siam.agent.web.AccessEnforcer;
-import com.sinopec.siam.agent.web.SAMLProfileFilter;
-import com.sinopec.siam.provisioning.listener.ApplicationWatch;
 
 /**
  * @author zhf
@@ -65,9 +55,9 @@ public class PplusApplication extends SpringBootServletInitializer {
 		return (ConfigurableEmbeddedServletContainer container) -> {
 			if (container instanceof TomcatEmbeddedServletContainerFactory) {
 				TomcatEmbeddedServletContainerFactory tomcat = (TomcatEmbeddedServletContainerFactory) container;
-				tomcat.addConnectorCustomizers((connector) -> {
+				/*tomcat.addConnectorCustomizers((connector) -> {
 					connector.setMaxPostSize(100000000); // 100 MB
-				});
+				});*/
 			}
 		};
 	}

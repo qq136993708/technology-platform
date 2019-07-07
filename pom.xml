@@ -10,10 +10,10 @@
 
 	<name>pcitc-parent</name>
 
-	<properties>
+	<!-- <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<tomcat.version>8.5.42</tomcat.version>
-	</properties>
+	</properties> -->
 	
 	<parent>
 		<groupId>org.springframework.boot</groupId>

@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
@@ -685,65 +684,6 @@ public class BudgetGroupTotalProviderClient
 			e1.printStackTrace();
 		}
 		return plans;
-	}
-	/*@ApiOperation(value="集团公司预算-集团预算审批",notes="发起集团预算表审批")
-	@RequestMapping(value = "/stp-provider/budget/start-budget-grouptotal-activity/{budgetInfoId}", method = RequestMethod.POST)
-	public Object startBudgetGroupTotalActivity(@PathVariable("budgetInfoId") String budgetInfoId,@RequestBody WorkflowVo workflowVo) 
-	{
-		
-		BudgetInfo info = null;
-		try {
-			info = budgetInfoService.selectBudgetInfo(budgetInfoId);
-			//如果审批已发起则不能再次发起(只有编制中，获取审批驳回可再发起)
-			if(!(BudgetAuditStatusEnum.AUDIT_STATUS_NO_START.getCode().equals(info.getAuditStatus()) || BudgetAuditStatusEnum.AUDIT_STATUS_REFUSE.getCode().equals(info.getAuditStatus())))
-			{
-				return new Result(false,"审批中或者已完成审批不可重复发起！");
-			}
-			workflowVo.setBusinessId(info.getDataId());
-			workflowVo.setProcessInstanceName("集团预算总表审批");
-			workflowVo.setAuthenticatedUserId(info.getCreaterId());
-			workflowVo.setAuthenticatedUserName(info.getCreaterName());
-			//workflowVo.setFunctionId(workflowVo.getFunctionId());
-	    	// 待办业务详情、最终审批同意、最终审批不同意路径
-			workflowVo.setAuditDetailsPath("/budget/budget_detail_grouptotal?dataId="+info.getDataId());
-			workflowVo.setAuditAgreeMethod("http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-notice-budgetinfo?budgetId=" + info.getDataId()+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
-			workflowVo.setAuditRejectMethod("http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-notice-budgetinfo?budgetId=" + info.getDataId()+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_REFUSE.getCode());
-			Boolean rs = budgetInfoService.startWorkFlow(info,workflowVo);
-			if(rs) 
-			{
-				info.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_START.getCode());
-				budgetInfoService.updateBudgetInfo(info);
-				return new Result(true,"操作成功!");
-			}else {
-				return new Result(false,rs);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return new Result(false);
-	}*/
-	@ApiOperation(value="集团公司预算-审批流程回调通知",notes="审批结果回调通知")
-	@RequestMapping(value = "/stp-provider/budget/callback-workflow-grouptotal-notice")
-	public Object callBackProjectNoticeWorkflow(@RequestParam(value = "budgetId", required = true) String budgetId,
-			@RequestParam(value = "workflow_status", required = true) Integer workflow_status) throws Exception 
-	{
-		if(budgetId != null) {
-			BudgetInfo info = budgetInfoService.selectBudgetInfo(budgetId);
-			if(info != null) {
-				//将当年的其他值设置为审批通过
-				List<BudgetInfo> infos = budgetInfoService.selectBudgetInfoList(info.getNd(), info.getBudgetType());
-				for(BudgetInfo i:infos) {
-					//最终版本只有一个，多次审批后以最后一次审批为准
-					if(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode().equals(i.getAuditStatus())) {
-						i.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_PASS.getCode());
-						budgetInfoService.updateBudgetInfo(i);
-					}
-				}
-				info.setAuditStatus(workflow_status);
-				budgetInfoService.updateBudgetInfo(info);
-			}
-		}
-		return null;
 	}
 	@ApiOperation(value="集团公司预算-获取指定年度最终预算表",notes="获取指定年度最终预算表信息及列表")
 	@RequestMapping(value = "/stp-provider/budget/get-final-grouptotal", method = RequestMethod.POST)

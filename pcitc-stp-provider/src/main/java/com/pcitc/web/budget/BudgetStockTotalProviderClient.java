@@ -18,13 +18,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.common.Result;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
@@ -38,11 +36,9 @@ import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.stp.out.OutUnit;
 import com.pcitc.base.system.SysDictionary;
-import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
-import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.service.budget.BudgetInfoService;
 import com.pcitc.service.budget.BudgetStockTotalService;
 import com.pcitc.service.feign.SystemRemoteClient;
@@ -56,7 +52,7 @@ public class BudgetStockTotalProviderClient
 {
 	
 	private final static Logger logger = LoggerFactory.getLogger(BudgetStockTotalProviderClient.class);
-	private final static String WORKFLOW_DEFINE_ID = "xxxx:x:xxxxx";
+	
 	
 	@Autowired
 	private BudgetStockTotalService budgetStockTotalService;
@@ -71,11 +67,9 @@ public class BudgetStockTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/budget-stocktotal-info-list", method = RequestMethod.POST)
 	public Object selectBudgetStockTotalInfoList(@RequestBody BudgetInfo info) 
 	{
-		logger.info("budget-info-list...");
 		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
 		try
 		{
-			
 			List<BudgetInfo> datalist = budgetInfoService.selectBudgetInfoList(info.getNd(),BudgetInfoEnum.STOCK_TOTAL.getCode());
 			for(BudgetInfo dt:datalist) {
 				Map<String,Object> map = MyBeanUtils.transBean2Map(dt);
@@ -93,13 +87,11 @@ public class BudgetStockTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/budget-stocktotal-info-table", method = RequestMethod.POST)
 	public Object selectBudgetStockTotalInfoTable(@RequestBody LayuiTableParam param) 
 	{
-		logger.info("budget-stocktotal-info-list...");
 		LayuiTableData data = null;
 		try
 		{
 			param.getParam().put("budget_type", BudgetInfoEnum.STOCK_TOTAL.getCode());
 			data = budgetInfoService.selectBudgetInfoPage(param);
-			return data;
 		}
 		catch (Exception e)
 		{
@@ -127,13 +119,10 @@ public class BudgetStockTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/budget-stocktotal-items", method = RequestMethod.POST)
 	public Object selectStockTotalItemTable(@RequestBody LayuiTableParam param) 
 	{
-		logger.info("select-budget-stocktotal-items...");
 		LayuiTableData data = null;
 		try
 		{
 			data = budgetStockTotalService.selectBudgetStockTotalPage(param);
-
-			System.out.println(JSON.toJSONString(data));
 		}
 		catch (Exception e)
 		{
@@ -146,7 +135,6 @@ public class BudgetStockTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/budget-persistence-stocktotal-item", method = RequestMethod.POST)
 	public Object addOrUpdateStockTotalItem(@RequestBody BudgetStockTotal budgetStockTotal) 
 	{
-		logger.info("add-budget-stocktotal-item...");
 		Integer rs = 0;
 		try
 		{
@@ -163,7 +151,6 @@ public class BudgetStockTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/budget-create-blank-stocktotal", method = RequestMethod.POST)
 	public Object createOrUpdateBudgetInfo(@RequestBody BudgetInfo info) 
 	{
-		logger.info("budget-create-blank-stocktotal...");
 		BudgetInfo rsbean = null;
 		try
 		{
@@ -180,14 +167,10 @@ public class BudgetStockTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/budget-create-template-stocktotal", method = RequestMethod.POST)
 	public Object createOrUpdateBudgetInfoByHis(@RequestBody BudgetInfo info) 
 	{
-		logger.info("budget-create-template-stocktotal...");
 		BudgetInfo newInfo = null;
 		try
 		{
-			//System.out.println(JSON.toJSONString(info.getNd()));
 			BudgetInfo oldInfo = budgetInfoService.selectBudgetInfo(info.getDataId());
-			
-			
 			newInfo = budgetInfoService.createBlankBudgetInfo(info.getNd(),oldInfo);
 			
 			newInfo.setBudgetMoney(oldInfo.getBudgetMoney());
@@ -249,7 +232,6 @@ public class BudgetStockTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/get-stocktotal-item/{itemId}", method = RequestMethod.POST)
 	public Object selectBudgetStockTotalItem(@PathVariable("itemId") String itemId) 
 	{
-		logger.info("get-stocktotal-item...");
 		Map<String,Object> map = new HashMap<String,Object>();
 		try
 		{
@@ -279,7 +261,6 @@ public class BudgetStockTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/get-stocktotal-item-company/{itemId}", method = RequestMethod.POST)
 	public Object selectBudgetStockTotalCompanyItem(@PathVariable("itemId") String itemId) 
 	{
-		logger.info("get-stocktotal-item-company...");
 		Map<String,Object> map = new HashMap<String,Object>();
 		try
 		{
@@ -307,7 +288,6 @@ public class BudgetStockTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/save-stocktotal-item", method = RequestMethod.POST)
 	public Object saveBudgetStockTotalInfo(@RequestBody BudgetStockTotal item) 
 	{
-		logger.info("budget-save-stocktotal...");
 		BudgetStockTotal stock = null;
 		try
 		{
@@ -340,7 +320,6 @@ public class BudgetStockTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/save-stocktotal-items", method = RequestMethod.POST)
 	public Object saveBudgetStockTotalItems(@RequestBody List<BudgetStockTotal> items) 
 	{
-		logger.info("budget-save-stocktotal-items...");
 		Integer rs = 0;
 		try
 		{
@@ -416,7 +395,6 @@ public class BudgetStockTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/search-stock-company-items", method = RequestMethod.POST)
 	public Object selectBudgetStockCompanyItems() 
 	{
-		logger.info("search-group-items...");
 		List<OutUnit> units = null;
 		try
 		{
@@ -432,7 +410,6 @@ public class BudgetStockTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/search-stock-company-tree", method = RequestMethod.POST)
 	public Object selectBudgetStockCompanyTree() 
 	{
-		logger.info("search-group-items...");
 		List<TreeNode> nodes = new ArrayList<TreeNode>();
 		try
 		{
@@ -456,7 +433,6 @@ public class BudgetStockTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/del-stocktotal-item/{dataId}", method = RequestMethod.POST)
 	public Object deleteBudgetStockTotalInfo(@PathVariable("dataId") String dataId) 
 	{
-		logger.info("budget-delete-stocktotal-item...");
 		Integer rs = 0;
 		try
 		{
@@ -514,8 +490,6 @@ public class BudgetStockTotalProviderClient
 				map.put("items", rsdata.getData());
 				rsmap.add(map);
 			}
-			System.out.println("-----");
-			System.out.println(JSON.toJSONString(rsmap));
 		}
 		catch (Exception e)
 		{
@@ -565,82 +539,8 @@ public class BudgetStockTotalProviderClient
 		}
 		return plans;
 	}
-	@ApiOperation(value="股份公司预算-股份预算审批",notes="发起股份预算表审批")
-	@RequestMapping(value = "/stp-provider/budget/start-budget-stocktotal-activity/{budgetInfoId}", method = RequestMethod.POST)
-	public Object startBudgetStockTotalActivity(@PathVariable("budgetInfoId") String budgetInfoId,@RequestBody WorkflowVo workflowVo) 
-	{
-		
-		BudgetInfo info = null;
-		try {
-			info = budgetInfoService.selectBudgetInfo(budgetInfoId);
-		
-			//如果审批已发起则不能再次发起(只有编制中，获取审批驳回可再发起)
-			if(!(BudgetAuditStatusEnum.AUDIT_STATUS_NO_START.getCode().equals(info.getAuditStatus()) || BudgetAuditStatusEnum.AUDIT_STATUS_REFUSE.getCode().equals(info.getAuditStatus())))
-			{
-				return new Result(false,"审批中或者已完成审批不可重复发起！");
-			}
-			//workflowVo.setAuthenticatedUserId("111");
-			workflowVo.setProcessDefineId(WORKFLOW_DEFINE_ID); 
-			workflowVo.setBusinessId(info.getDataId());
-			workflowVo.setProcessInstanceName("股份预算表审批："+info.getDataVersion());
-			Map<String, Object> variables = new HashMap<String, Object>();  
-			//starter为必填项。流程图的第一个节点待办人变量必须为starter
-	        variables.put("starter", workflowVo.getAuthenticatedUserId());
-	        
-	        //必须设置。流程中，需要的第二个节点的指派人；除starter外，所有待办人变量都指定为auditor(处长审批)
-	        //处长审批 ZSH_JTZSZYC_GJHZC_CZ
-	        List<SysUser> users = systemRemoteClient.selectUsersByPostCode("ZSH_JTZSZYC_GJHZC_CZ");
-	        System.out.println("start userIds ... "+JSON.toJSONString(users));
-	        variables.put("auditor", workflowVo.getAuthenticatedUserId());
-	        if(users != null && users.size()>0) {
-	        	variables.put("auditor", users.get(0).getUserId());
-	        }
-	        //必须设置，统一流程待办任务中需要的业务详情
-	        variables.put("auditDetailsPath", "/budget/notice_view?noticeId="+info.getDataId());
-	        //流程完全审批通过时，调用的方法（通过版本即为当前预算最终版本）
-	        variables.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-stocktotal-notice?budgetId="+info.getDataId()+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
-	        //流程驳回时，调用的方法（可能驳回到第一步，也可能驳回到第1+n步
-	        variables.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-stocktotal-notice?budgetId="+info.getDataId()+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_REFUSE.getCode());
-	        
-	        workflowVo.setVariables(variables);
-			String rs = systemRemoteClient.startWorkflowByProcessDefinitionId(workflowVo);
-			System.out.println("startwork  rs...."+rs);
-			if("true".equals(rs)) 
-			{
-				info.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_START.getCode());
-				budgetInfoService.updateBudgetInfo(info);
-				return new Result(true,"操作成功!");
-			}else {
-				return new Result(false,rs);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return new Result(false);
-	}
-	@ApiOperation(value="股份公司预算-审批流程回调通知",notes="审批结果回调通知")
-	@RequestMapping(value = "/stp-provider/budget/callback-workflow-stocktotal-notice")
-	public Object callBackProjectNoticeWorkflow(@RequestParam(value = "budgetId", required = true) String budgetId,
-			@RequestParam(value = "workflow_status", required = true) Integer workflow_status) throws Exception 
-	{
-		if(budgetId != null) {
-			BudgetInfo info = budgetInfoService.selectBudgetInfo(budgetId);
-			if(info != null) {
-				//将当年的其他值设置为审批通过
-				List<BudgetInfo> infos = budgetInfoService.selectBudgetInfoList(info.getNd(), info.getBudgetType());
-				for(BudgetInfo i:infos) {
-					//最终版本只有一个，多次审批后以最后一次审批为准
-					if(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode().equals(i.getAuditStatus())) {
-						i.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_PASS.getCode());
-						budgetInfoService.updateBudgetInfo(i);
-					}
-				}
-				info.setAuditStatus(workflow_status);
-				budgetInfoService.updateBudgetInfo(info);
-			}
-		}
-		return null;
-	}
+	
+	
 	@ApiOperation(value="股份公司预算-检索预算项",notes="检索预算项树形数据")
 	@RequestMapping(value = "/stp-provider/budget/search-stockitem-tree")
 	public Object searchStockitemTree(@RequestBody String budgetId) throws Exception 

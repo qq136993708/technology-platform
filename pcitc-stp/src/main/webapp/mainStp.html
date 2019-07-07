@@ -518,7 +518,7 @@
             	$("#smdb").html("0");
             }
         });
-        
+
         //督办管理待阅
         var url=host+"/_layouts/15/autologon/?appid=63&step=1";
         sendPost(url,"POST", function (data){
@@ -621,7 +621,7 @@
                 
 
                 
-            var stype = "ROOT_XTGL_XWLX_GCSY|ROOT_XTGL_XWLX_SHYW|ROOT_XTGL_XWLX_GCDT|ROOT_XTGL_SPLX_YJYDT";
+            var stype = "ROOT_XTGL_XWLX_GCSY|ROOT_XTGL_XWLX_SHYW|ROOT_XTGL_XWLX_GCDT|ROOT_XTGL_XWLX_YJYDT";
             var formIds = "";
             var list = [];
             var ROOT_XTGL_SPLX_PT = "";//视频
@@ -629,6 +629,7 @@
                 var ROOT_XTGL_XWLX_GCSY = "";//集团领导讲话
                 var ROOT_XTGL_XWLX_SHYW = "";//国家领导讲话
                 var ROOT_XTGL_XWLX_GCDT = "";//最新讲话
+                var ROOT_XTGL_XWLX_YJYDT = "";
                 for (var i = data.length-1; i >0 ; i--) {
                     var d = data[i];
                     if (d.stype == "ROOT_XTGL_XWLX_GCSY") {
@@ -637,15 +638,16 @@
                         ROOT_XTGL_XWLX_SHYW = ROOT_XTGL_XWLX_SHYW + "<li><a target='_blank' lay-text='新闻详情' lay-href='/sysNews/newsDetail?dataId=" + d.dataId + "'>" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
                     } else if (d.stype == "ROOT_XTGL_XWLX_GCDT") {
                         ROOT_XTGL_XWLX_GCDT = ROOT_XTGL_XWLX_GCDT + "<li><a target='_blank' lay-text='新闻详情' lay-href='/sysNews/newsDetail?dataId=" + d.dataId + "'>" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
-                    }else if (d.stype == "ROOT_XTGL_SPLX_YJYDT") {
-                        list.push(d);
-                        ROOT_XTGL_SPLX_PT = ROOT_XTGL_SPLX_PT + "<li><a target='_blank' lay-text='新闻详情' lay-href='/sysNews/newsDetail?dataId=" + d.dataId + "'>" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
+                    }else if (d.stype == "ROOT_XTGL_XWLX_YJYDT") {
+                        //list.push(d);
+                        ROOT_XTGL_XWLX_YJYDT = ROOT_XTGL_XWLX_YJYDT + "<li><a target='_blank' lay-text='新闻详情' lay-href='/sysNews/newsDetail?dataId=" + d.dataId + "'>" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
                     }
 
                 }
                 $("#ROOT_XTGL_XWLX_GCSY").html(ROOT_XTGL_XWLX_GCSY);
                 $("#ROOT_XTGL_XWLX_SHYW").html(ROOT_XTGL_XWLX_SHYW);
                 $("#ROOT_XTGL_XWLX_GCDT").html(ROOT_XTGL_XWLX_GCDT);
+                $("#ROOT_XTGL_XWLX_YJYDT").html(ROOT_XTGL_XWLX_YJYDT);
             });
             
                 
@@ -772,7 +774,7 @@
                 	$("#listPlanPage")[0].click();
                 });
               
-                $(".layui-table tbody tr").click(function () {
+                /*$(".layui-table tbody tr").click(function () {
                     layer.open({
                         title: '任务计划-新增',
                         skin: 'layui-layer-lan',
@@ -785,7 +787,7 @@
                         area: ['80%', '90%'],
                         content: '/layui/taskView.html'
                     });
-                });
+                });*/
             });
             function circle(id,value,number){
                 $("#"+id).circleProgress({
