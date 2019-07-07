@@ -472,4 +472,12 @@
 	   	 <if test="g0anln1 != null and g0anln1!='' ">  AND G0ANLN1 = #{g0anln1}</if>/*资产编号*/
 	 </trim>
 	</sql>
+	
+	
+	<select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+	 SELECT t.*,t2.`equipment_name` FROM sre_equipment_ledger t  LEFT JOIN sre_equipment_detail t2 ON t.G0ANLN1=t2.asset_number AND t.G0GSDM=t2.supplier
+    </select>
+   
+	
+	
 </mapper>
