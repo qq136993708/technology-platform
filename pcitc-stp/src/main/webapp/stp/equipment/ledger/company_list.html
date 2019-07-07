@@ -13,21 +13,13 @@
 </head>
 <body>
 <div class="searchBox">
+<input name="g0gsjc" id="g0gsjc" type="hidden" value="${g0gsjc}">
       <label class="dateInput">
             <span>月份</span>
             <input type="text" name="month"  title="月份" value="${month}"  id="month">
             <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
         </label>
-      <label class="dateInput" style="margin-left:10px;">
-         <span>公司</span>
-         <select name="g0gsjc" id="g0gsjc"  class="form-control"  >
-             <option value="" >--请选择--</option>
-             <#list leaddicList as vo> 
-		          <option value="${vo.numValue}"  >${vo.name}</option>
-		      </#list>
-		 </select>
-     </label>
-    <label class="dateInput">
+    <label class="dateInput" style="margin-left:10px;">
         <span>资产号</span>
         <input type="text" name="g0anln1"  title="资产号" autocomplete="off" class="form-control" id="g0anln1">
     </label>
@@ -38,7 +30,7 @@
                             
     <!--按钮组-->
     <div class="btnGroup">
-        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"                 data-type="searchEvent">查询</button>
         <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
     </div>
 </div>
@@ -47,20 +39,19 @@
 </div>
 
 
-
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script id="view_taskVersion" type="text/html"> {{view_taskVersion(d.taskVersion)}} </script>
 <script id="getErpOrderlist_tlp_id" type="text/html"> {{getErpOrderlist_tlp(d.erpNum)}} </script>
 <script id="purchase_money_id" type="text/html"> {{purchase_money(d.purchaseMoney)}} </script>
 <script id="g0ndjar_id" type="text/html"> {{getyear(d.g0ndjar)}} </script>
 <script type="text/javascript">
+
 function getyear(d) 
 {
 	
 	d=d.replace(/\b(0+)/gi,"");
 	return d+"年";
 }
-
 function purchase_money(d) 
 {
     if (d) 
@@ -72,7 +63,6 @@ function purchase_money(d)
         return "<span></span>";
     }
 }
-
 
 function getErpOrderlist_tlp(d) 
 {
@@ -99,6 +89,7 @@ function view_isWriteTask(isWriteTask)
          content:  temUrl
      });
 }
+
 function view_taskVersion(taskVersion) 
 {
     if (taskVersion==null || taskVersion==''|| taskVersion=='1') 
@@ -174,7 +165,7 @@ var name=$('#name').val();
             },
             resetEvent: function() { //点击重置按钮
             	$('#g0anln1').val("");
-            	$('#g0gsjc').val("");
+            	$('#leadUnitCode').val("");
             	$('#month').val("");
             	$('#g0txt50').val("");
             }
@@ -215,7 +206,7 @@ var name=$('#name').val();
     	//渲染
         table.render({
             elem: '#processdef-table',
-            url: '/sre_equipment_ledger/list_data',
+            url: '/sre_equipment_ledger/company_list_data',
             method:"POST",
             where: {param: {"month":month,"g0anln1":$("#g0anln1").val(),"g0gsjc":$("#g0gsjc").val(),"g0txt50":$("#g0txt50").val()}},
             limit: 15,	
