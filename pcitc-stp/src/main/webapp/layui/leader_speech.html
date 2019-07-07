@@ -90,8 +90,8 @@
                     </ul>
                 </div>
                 <div class="news science">
-                    <p>研究院动态<a href="/instituteIndex?url=/sysNews/toLeaderSpeechList?stype=ROOT_XTGL_XWLX_ZXJH" target="_blank">更多</a></p>
-                    <ul id="ROOT_XTGL_XWLX_ZXJH">
+                    <p>研究院动态<a href="/instituteIndex?url=/sysNews/toLeaderSpeechList?stype=ROOT_XTGL_XWLX_YJYDT" target="_blank">更多</a></p>
+                    <ul id="ROOT_XTGL_XWLX_YJYDT">
                         <!--<li><a href="javascript:void(0);">习近平：为实现民族伟大复兴 推进祖国和平统一而共同奋斗</a><span>[2019-01-03]</span></li>-->
                         <!--<li><a href="javascript:void(0);">国家主席习近平发表二〇一九年新年贺词</a>-->
                             <!--<span>[2019-01-01]</span></li>-->
@@ -147,7 +147,7 @@
             var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
             publicMethods = layui.publicMethods;
             parent.$("html").css("background", "#fff");
-            var stype = "ROOT_XTGL_XWLX_SHYW|ROOT_XTGL_XWLX_GCSY|ROOT_XTGL_XWLX_GCDT|ROOT_XTGL_XWLX_ZXJH|ROOT_XTGL_SPLX_PT";
+            var stype = "ROOT_XTGL_XWLX_SHYW|ROOT_XTGL_XWLX_GCSY|ROOT_XTGL_XWLX_GCDT|ROOT_XTGL_XWLX_YJYDT|ROOT_XTGL_SPLX_PT";
 
             var formIds = "";
             var list = [];
@@ -156,7 +156,7 @@
                 var ROOT_XTGL_XWLX_SHYW = "";//科技部领导讲话
                 var ROOT_XTGL_XWLX_GCSY = "";//集团领导讲话
                 var ROOT_XTGL_XWLX_GCDT = "";//国家领导讲话
-                var ROOT_XTGL_XWLX_ZXJH = "";//最新讲话
+                var ROOT_XTGL_XWLX_YJYDT = "";//最新讲话
                 for (var i = data.length-1; i >0 ; i--) {
                     var d = data[i];
                     if (d.stype == "ROOT_XTGL_XWLX_SHYW") {
@@ -165,8 +165,8 @@
                         ROOT_XTGL_XWLX_GCSY = ROOT_XTGL_XWLX_GCSY + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
                     } else if (d.stype == "ROOT_XTGL_XWLX_GCDT") {
                         ROOT_XTGL_XWLX_GCDT = ROOT_XTGL_XWLX_GCDT + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
-                    } else if (d.stype == "ROOT_XTGL_XWLX_ZXJH") {
-                        ROOT_XTGL_XWLX_ZXJH = ROOT_XTGL_XWLX_ZXJH + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
+                    } else if (d.stype == "ROOT_XTGL_XWLX_YJYDT") {
+                        ROOT_XTGL_XWLX_YJYDT = ROOT_XTGL_XWLX_YJYDT + "<li><a target='_blank' href=\"/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
                     }
                     else if (d.stype == "ROOT_XTGL_SPLX_PT") {
                         list.push(d);
@@ -177,7 +177,7 @@
                 $("#ROOT_XTGL_XWLX_SHYW").html(ROOT_XTGL_XWLX_SHYW);
                 $("#ROOT_XTGL_XWLX_GCSY").html(ROOT_XTGL_XWLX_GCSY);
                 $("#ROOT_XTGL_XWLX_GCDT").html(ROOT_XTGL_XWLX_GCDT);
-                $("#ROOT_XTGL_XWLX_ZXJH").html(ROOT_XTGL_XWLX_ZXJH);
+                $("#ROOT_XTGL_XWLX_YJYDT").html(ROOT_XTGL_XWLX_YJYDT);
                 // $("#ROOT_XTGL_SPLX_PT").html(ROOT_XTGL_SPLX_PT);
             });
             for (let i = 0; i < list.length; i++) {

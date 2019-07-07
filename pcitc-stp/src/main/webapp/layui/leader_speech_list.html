@@ -23,7 +23,7 @@
     <div class="layui-row">
         <div class="layui-col-md12 layui-speech-m">
             <a href="/stpHome" target="_parent">首页&nbsp;&nbsp;>&nbsp;&nbsp;</a>
-            <a href="/instituteIndex?url=/layui/leader_speech.html" target="_parent">领导讲话&nbsp;&nbsp;>&nbsp;&nbsp;</a>
+            <a href="/instituteIndex?url=/layui/leader_speech.html" target="_parent">科技要闻&nbsp;&nbsp;>&nbsp;&nbsp;</a>
             <span id="stype"></span>
         </div>
         <div class="layui-col-md8 layui-speech layui-speech-right">
@@ -90,16 +90,7 @@
         parent.$("html").css("background", "#fff");
         parent.$("#LAY_app_body").css("left", "0");
         var d = '${stype}';
-        var stype="";
-        if (d == "ROOT_XTGL_XWLX_KJBLDJH") {
-            stype="科技部领导讲话";
-        } else if (d == "ROOT_XTGL_XWLX_JTLDJH") {
-            stype="集团领导讲话";
-        } else if (d == "ROOT_XTGL_XWLX_GJLDJH") {
-            stype="国家领导讲话";
-        } else if (d == "ROOT_XTGL_XWLX_ZXJH") {
-            stype="最新讲话";
-        }
+        var stype="${dic.name}";
         $("#stype").text(stype);
         $("#stypeshow").text(stype);
         var cols =
