@@ -22,8 +22,7 @@ import com.pcitc.base.common.ChartBarLineResultData;
 import com.pcitc.base.common.ChartBarLineSeries;
 import com.pcitc.base.common.PageResult;
 import com.pcitc.base.common.Result;
-import com.pcitc.base.hana.report.Knowledge;
-import com.pcitc.base.hana.report.Topic;
+import com.pcitc.base.hana.report.BudgetMysql;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
@@ -205,7 +204,7 @@ public class SmallLeaderController extends BaseController{
 
 				JSONArray jSONArray = responseEntity.getBody();
 				System.out.println(">>>>>>>>>>>>>>investment_data jSONArray-> " + jSONArray.toString());
-				List<Topic> list = JSONObject.parseArray(jSONArray.toJSONString(), Topic.class);
+				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
 					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "define2");
@@ -218,10 +217,13 @@ public class SmallLeaderController extends BaseController{
 					barLine.setLegendDataList(legendDataList);
 					// X轴数据
 					List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-					ChartBarLineSeries s1 = HanaUtil.getTopicChartBarLineSeries05(list, "xksl");
+					ChartBarLineSeries s1 = HanaUtil.getInvestmentBarLineSeries(list, "zysje");
 					seriesList.add(s1);
-					ChartBarLineSeries s2 = HanaUtil.getTopicChartBarLineSeries05(list, "xjsl");
+					ChartBarLineSeries s2 = HanaUtil.getInvestmentBarLineSeries(list, "zsjje");
 					seriesList.add(s2);
+					ChartBarLineSeries s3 = HanaUtil.getInvestmentBarLineSeries(list, "hanaMoney");
+					seriesList.add(s3);
+					
 					barLine.setSeriesList(seriesList);
 					result.setSuccess(true);
 					result.setData(barLine);
@@ -278,21 +280,22 @@ public class SmallLeaderController extends BaseController{
 
 				JSONArray jSONArray = responseEntity.getBody();
 				System.out.println(">>>>>>>>>>>>>>getInvestment02 jSONArray-> " + jSONArray.toString());
-				List<Topic> list = JSONObject.parseArray(jSONArray.toJSONString(), Topic.class);
+				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
-					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "define2");
+					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "yearMonth");
 					barLine.setxAxisDataList(xAxisDataList);
 
 					List<String> legendDataList = new ArrayList<String>();
-					legendDataList.add("新开课题");
-					legendDataList.add("结转课题");
+					legendDataList.add("预算金额");
+					//legendDataList.add("合同金额");
+					legendDataList.add("拨款金额");
 					barLine.setLegendDataList(legendDataList);
 					// X轴数据
 					List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-					ChartBarLineSeries s1 = HanaUtil.getTopicChartBarLineSeries05(list, "xksl");
+					ChartBarLineSeries s1 = HanaUtil.getInvestmentBarLineSeries02(list, "zysje");
 					seriesList.add(s1);
-					ChartBarLineSeries s2 = HanaUtil.getTopicChartBarLineSeries05(list, "xjsl");
+					ChartBarLineSeries s2 = HanaUtil.getInvestmentBarLineSeries02(list, "hanaMoney");
 					seriesList.add(s2);
 					barLine.setSeriesList(seriesList);
 					result.setSuccess(true);

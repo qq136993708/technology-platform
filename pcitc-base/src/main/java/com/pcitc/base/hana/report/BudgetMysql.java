@@ -77,9 +77,27 @@ public class BudgetMysql {
 	 private String ysxkje;
 	 
 	 
+	 private Object hanaMoney;
+	 
+	 private String yearMonth;
 	 
 	 
 	 
+	 
+	 
+	 
+	public Object getHanaMoney() {
+		return hanaMoney;
+	}
+	public void setHanaMoney(Object hanaMoney) {
+		this.hanaMoney = hanaMoney;
+	}
+	public String getYearMonth() {
+		return yearMonth;
+	}
+	public void setYearMonth(String yearMonth) {
+		this.yearMonth = yearMonth;
+	}
 	public String getYsxkje() {
 		return ysxkje;
 	}
