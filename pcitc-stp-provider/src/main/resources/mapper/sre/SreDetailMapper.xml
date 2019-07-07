@@ -380,4 +380,11 @@
     from sre_equipment_detail
     where equipment_id = #{id,jdbcType=VARCHAR}
   </select>
+  
+  <select id="detail" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+			*
+    from sre_equipment_detail
+    where asset_number = #{id,jdbcType=VARCHAR}
+  </select>
 </mapper>

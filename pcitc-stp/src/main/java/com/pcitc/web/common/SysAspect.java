@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.catalina.connector.RequestFacade;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -173,24 +174,31 @@ public class SysAspect extends BaseController {
 			}
 			
 			// 第一个参数为HttpServletRequest类型
-			if (args != null && args.length > 0 /*&& args[0].getClass() == RequestFacade.class*/) {
+			System.out.println("========过滤，第一个参数为request================"+args[0].getClass());
+			if (args != null && args.length > 0 && args[0].getClass() == RequestFacade.class) {
+				System.out.println("========1过滤，第一个参数为request================");
 				HttpServletRequest inPro = (HttpServletRequest) args[0];
 				List<String> list = httpHeaders.get("Authorization");
+				System.out.println("========2过滤，第一个参数为request================"+inPro.getParameter("functionId"));
 				if (inPro.getParameter("functionId") != null && !inPro.getParameter("functionId").equals("")) {
 					// 既然已经点击这个菜单，说明此人有此功能的权限。直接查询这个菜单有哪些属性的权限控制，此人的属性权限控制又有哪些内容
 					HashMap<String, Object> paramMap = new HashMap<String, Object>();
 					paramMap.put("functionId", inPro.getParameter("functionId"));
 					if (list != null && list.get(0) != null) {
+						System.out.println("========3过滤，第一个参数为request================"+list.get(0));
 						SysUser userInfo = JwtTokenUtil.getUserFromTokenByValue(list.get(0).split(" ")[1]);
 						String[] postArr = userInfo.getUserPost().split(",");
 						paramMap.put("postIds", Arrays.asList(postArr));
 						HttpEntity<HashMap<String, Object>> entity = new HttpEntity<HashMap<String, Object>>(paramMap, this.httpHeaders);
 						ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(FUNCTION_FILTER_URL , HttpMethod.POST, entity, JSONArray.class);
 						JSONArray retJson = responseEntity.getBody();
+						System.out.println("========4过滤，第一个参数为request================"+retJson);
 						if (retJson != null) {
 							List<SysFunctionProperty> sfpList = JSONArray.parseArray(retJson.toString(), SysFunctionProperty.class);
 							for (SysFunctionProperty sfpVO : sfpList) {
+								System.out.println("========5过滤，第一个参数为request================"+sfpVO);
 								if (inPro != null && inPro.getParameter(sfpVO.getProCode()) == null) {
+									System.out.println(sfpVO.getProCode() + "========自动加入的控制数据key-value================" + sfpVO.getPostConfigValue());
 									inPro.setAttribute(sfpVO.getProCode(), sfpVO.getPostConfigValue());
 								}
 							}
@@ -198,9 +206,7 @@ public class SysAspect extends BaseController {
 						}
 					}
 				}
-				
 			}
-		
 		}
 
 		Object obj = joinPoint.proceed(args);

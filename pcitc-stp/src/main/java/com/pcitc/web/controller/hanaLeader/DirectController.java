@@ -1417,7 +1417,7 @@ public class DirectController extends BaseController {
 		String year = HanaUtil.getBeforeYear();
 		request.setAttribute("year", year);
 		String month = HanaUtil.getCurrrentYear_Moth();
-		request.setAttribute("month", month);
+		request.setAttribute("month", year + "-" + month.substring(5));
 		return "stp/hana/home/oneLevelMain/direct/equipment";
 	}
 

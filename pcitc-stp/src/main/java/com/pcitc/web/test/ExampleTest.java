@@ -12,13 +12,14 @@ public class ExampleTest {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		String year = "2018-09-06";
 		HashMap<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put("lastWeekStart", DateUtil.dateToStr(DateUtil.getDayOfWeek(Calendar.MONDAY, 2, -1), DateUtil.FMT_SS));
 		paramsMap.put("lastWeekEnd", DateUtil.dateToStr(DateUtil.getDayOfWeek(Calendar.MONDAY, 1, -1), DateUtil.FMT_SS));
 		paramsMap.put("thisWeekStart", DateUtil.dateToStr(DateUtil.getDayOfWeek(Calendar.MONDAY, 2, 0), DateUtil.FMT_SS));
 		paramsMap.put("thisWeekEnd", DateUtil.dateToStr(DateUtil.getDayOfWeek(Calendar.MONDAY, 1, 0), DateUtil.FMT_SS));
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
-		System.out.println("1============"+jsonObject.toJSONString());
+		System.out.println("1============"+year.substring(5));
 	}
 
 	/**
