@@ -231,6 +231,18 @@ public class OutProjectPlanClient {
 		return json;
 	}
 	
+	@ApiOperation(value = "项目计划完成的比率，+ hana支付的费用，按照资本性费用性来分组 ", notes = "参数年度")
+	@RequestMapping(value = "/out-project-plan-provider/complete-rate/money-hana-type")
+	public JSONArray getPlanCompleteRateByPlanTypeForHana(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getPlanCompleteRateByPlanTypeForHana===========================" + map);
+		map.put("nd", "2018");
+		map.put("month", "201812");
+		List temList = outProjectPlanService.getPlanCompleteRateByPlanTypeForHana(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
 	@ApiOperation(value = "领导首页-科研合同，项目计划完成的比率，按照直属研究所、分子公司等9个来分组", notes = "参数年度")
 	@RequestMapping(value = "/out-project-plan-provider/complete-rate/company-type")
 	public JSONArray getPlanCompleteRateByCompanyType(@RequestBody HashMap<String, String> map) throws Exception {
