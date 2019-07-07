@@ -15,4 +15,10 @@ public interface SreEquipmentLedgerMapper {
 
 	List getSreDetailId(Map map);
 	
+	
+	List getList(Map map);
+	
+	
+	
+	
 }
