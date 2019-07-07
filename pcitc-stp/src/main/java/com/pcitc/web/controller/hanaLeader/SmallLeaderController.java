@@ -170,7 +170,7 @@ public class SmallLeaderController extends BaseController{
 	@RequestMapping(method = RequestMethod.GET, value = "/small_leader/investment")
 	public String investment(HttpServletRequest request) throws Exception {
 
-		String nd = HanaUtil.getCurrrentYear();
+		String nd = HanaUtil.getBeforeYear();
 		request.setAttribute("nd", nd);
 		return "stp/hana/home/small_leader/investment";
 	}

@@ -844,19 +844,33 @@ function set_multi_graph_statistics(data,id)
 		
 	}
 	
-	if(id=='topic_chart1')
+/*	if(id=='investment_smal_chart1')
 	{
-		
-		var xkCount_1=getDataCountForName(data,'新开课题');
-    	var jzCount_2=getDataCountForName(data,'结转课题');
-        var allCount_3=xkCount_1+jzCount_2;
+		var xkCount_1=getDataCountForName(data,'预算金额');
+    	var jzCount_2=getDataCountForName(data,'合同金额');
+    	var jzCount_3=getDataCountForName(data,'拨款金额');
         
-        $("#topic_chart1_01").html(allCount_3+"个");
-        $("#topic_chart1_02").html(xkCount_1+"个");
-        $("#topic_chart1_03").html(jzCount_2+"个");
+        $("#investment_smal_chart1_01").html(xkCount_1+"个");
+        $("#investment_smal_chart1_02").html(jzCount_2+"个");
+        $("#investment_smal_chart1_03").html(jzCount_3+"个");
         
 		
-	}
+	}*/
+	/*if(id=='investment_smal_chart2')
+	{
+		var xkCount_1=getDataCountForName(data,'预算金额');
+    	var jzCount_2=getDataCountForName(data,'合同金额');
+    	var jzCount_3=getDataCountForName(data,'拨款金额');
+        
+        $("#investment_smal_chart2_01").html(xkCount_1+"个");
+        $("#investment_smal_chart2_02").html(jzCount_2+"个");
+        $("#investment_smal_chart2_03").html(jzCount_3+"个");
+        
+		
+	}*/
+	
+	
+	
 	if(id=='direct_topic_chart3')
 	{
 		
