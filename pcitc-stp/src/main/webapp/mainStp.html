@@ -181,7 +181,8 @@
 						<p class="work-title">我的收藏</p>
 						<ul id="work-title_id">
 							<#list scList as sc>
-							<li><a lay-href="${sc.collectUrl}" data-id="${sc.functionId}" lay-text="${sc.collectName}"> ${sc.collectName} </a></li> </#list>
+								<li><a lay-href="${sc.collectUrl}" data-id="${sc.functionId}" lay-text="${sc.collectName}"> ${sc.collectName} </a></li>
+						    </#list>
 						</ul>
 					</div>
 				</div>
@@ -249,7 +250,7 @@
 											<th style="width: 80px;">工作发起人</th>
 											<th>发起时间</th>
 											<th>工作内容</th>
-											<th style="width: 120px;">工作进展</th>
+											<th style="width: 125px;">工作进展</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -289,69 +290,109 @@
 						<div class="layui-tab">
 							<ul class="layui-tab-title">
 								<li class="layui-this">科研项目</li>
-								<li>知识产权</li>
 								<li>科技成果</li>
+								<li>科技奖励</li>
 							</ul>
 							<div class="layui-tab-content">
 								<div class="layui-tab-item layui-show">
-									<div class="lan">
-										<table class="layui-table" id="news-workdynamics-list-table">
-											<tbody>
-												<tr>
-													<td style="width: 10px;">1</td>
-													<!-- <td>张三</td> -->
-													<td>处理集团所有预算统计</td>
-													<td>2019-03-28</td>
-												</tr>
-												<tr>
-													<td style="width: 10px;">1</td>
-													<!--  <td>张三</td> -->
-													<td>处理集团所有预算统计</td>
-													<td>2019-03-28</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
+									<ul>
+										<li>
+											<a href="http://10.1.19.130:8008/info/view.aspx?csurl=A18601F1F6941FDB" target="_blank">关于2019年新开科研项目合同（任务书）上报相关事宜的通知</a>
+											<span>[2019-06-03]</span>
+										</li>
+										<li>
+											<a href="http://10.1.19.130:8008/info/view.aspx?csurl=350F3DDF5DA6C3F9" target="_blank">关于需求征集功能的使用说明</a>
+											<span>[2019-05-29]</span>
+										</li>
+										<li>
+											<a href="http://10.1.19.130:8008/info/view.aspx?csurl=C4BA941E60642152" target="_blank">关于2019年年度合同及任务书5月31日之后停止上报的通知</a>
+											<span>[2019-05-19]</span>
+										</li>
+										<li>
+											<a href="http://10.1.19.130:8008/info/view.aspx?csurl=2B4E70D3871FB149" target="_blank">关于2019年度合同及任务书上报时间的重要通知</a>
+											<span>[2019-04-22]</span>
+										</li>
+										<li>
+											<a href="http://10.1.19.130:8008/info/view.aspx?csurl=AEB85C183F813175" target="_blank">2019年计划已发布</a>
+											<span>[2019-04-09]</span>
+										</li>
+										<li>
+											<a href="http://10.1.19.130:8008/info/view.aspx?csurl=C793F827BD0B5FC8" target="_blank">科技项目管理系统更新简要说明</a>
+											<span>[2019-03-11]</span>
+										</li>
+									</ul>
 								</div>
 								<div class="layui-tab-item">
-									<div class="lan">
-										<table class="layui-table">
-											<tbody>
-												<tr>
-													<td style="width: 4px;">1</td>
-													<td>张三</td>
-													<td>2019-03-28</td>
-													<td>处理集团所有预算统计</td>
-												</tr>
-												<tr>
-													<td style="width: 4px;">1</td>
-													<td>张三</td>
-													<td>2019-03-28</td>
-													<td>处理集团所有预算统计</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
+									<ul>
+										<li>
+											<a href="http://10.1.19.130/zshjdgl/xxgl/xxll.aspx?id=27" target="_blank">关于鉴定系统开放时间更改的通知</a>
+											<span>[2019-06-06]</span>
+										</li>
+										<li>
+											<a href="http://10.1.19.130/zshjdgl/xxgl/xxll.aspx?id=26" target="_blank">关于各单位抓紧上报鉴定/奖励系统用户统一身份账号的通知</a>
+											<span>[2019-05-28]</span>
+										</li>
+										<li>
+											<a href="http://10.1.19.130/zshjdgl/xxgl/xxll.aspx?id=25" target="_blank">关于各单位抓紧上传鉴定证书的通知</a>
+											<span>[2019-05-23]</span>
+										</li>
+										<li>
+											<a href="http://10.1.19.130/zshjdgl/xxgl/xxll.aspx?id=24" target="_blank">关于经济效益内容无法填写的解决办法</a>
+											<span>[2019-05-16]</span>
+										</li>
+										<li>
+											<a href="http://10.1.19.130/zshjdgl/xxgl/xxll.aspx?id=23" target="_blank">关于鉴定申报书知识产权内容填写的说明</a>
+											<span>[2019-05-16]</span>
+										</li>
+										<li>
+											<a href="http://10.1.19.130/zshjdgl/xxgl/xxll.aspx?id=22" target="_blank">关于参加人员信息无法插入问题的解决办法</a>
+											<span>[2019-05-09]</span>
+										</li>
+									</ul>
 								</div>
 								<div class="layui-tab-item">
-									<div class="lan">
-										<table class="layui-table">
-											<tbody>
-												<tr>
-													<td style="width: 4px;">1</td>
-													<td>张三</td>
-													<td>2019-03-28</td>
-													<td>处理集团所有预算统计</td>
-												</tr>
-												<tr>
-													<td style="width: 4px;">1</td>
-													<td>张三</td>
-													<td>2019-03-28</td>
-													<td>处理集团所有预算统计</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
+									<ul>
+										<li>
+											<a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=96" target="_blank">附件上传不成功的话请下班人少的时候再传</a>
+											<span>[	2019-06-28]</span>
+										</li>
+										<li>
+											<a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=95" target="_blank">项目英文名称不用填写</a>
+											<span>[	2019-06-26]</span>
+										</li>
+										<li>
+											<a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=94" target="_blank">研究方向信息已有，请补填</a>
+											<span>[2019-06-21]</span>
+										</li>
+										<li>
+											<a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=93" target="_blank">关于奖励申报注意事项的通知（重要）</a>
+											<span>[2019-06-19]</span>
+										</li>
+										<li>
+											<a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=92" target="_blank">系统暂时不允许上报</a>
+											<span>[2019-06-19]</span>
+										</li>
+										<li>
+											<a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=91" target="_blank">经济效益无法正常显示的问题说明</a>
+											<span>[	2019-06-17]</span>
+										</li>
+										<li>
+											<a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=90" target="_blank">英文无法录入、附件无法上传的问题说明</a>
+											<span>[2019-06-14]</span>
+										</li>
+										<li>
+											<a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=89" target="_blank">一级用户给下级用户添加对照关系的方法说明</a>
+											<span>[2019-06-10]</span>
+										</li>
+										<li>
+											<a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=88" target="_blank">系统开放申报的通知</a>
+											<span>[2019-06-06]</span>
+										</li>
+										<li>
+											<a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=87" target="_blank">系统尚未开放的通知</a>
+											<span>[2019-06-05]</span>
+										</li>
+									</ul>
 								</div>
 							</div>
 						</div>
