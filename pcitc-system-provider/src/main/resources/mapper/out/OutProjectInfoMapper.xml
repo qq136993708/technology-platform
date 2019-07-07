@@ -2782,6 +2782,22 @@
 				  and out_project_info.define3 = '项目管理系统' 
 	  		      and out_project_info.ysnd = '${nd}'
 				  and type_flag like '%直属研究院%'
+				  <!-- 数据控制 -->
+					<if test="zylbbm != null and zylbbm != ''">
+						and find_in_set(out_project_info.zylbbm, '${zylbbm}')
+					</if>
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
+					</if>
+					<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+						<if test="zycbm != null and zycbm != ''">
+							and find_in_set(out_project_info.zycbm, '${zycbm}')
+						</if>
+						<if test="zycbm == null or zycbm == ''">
+							and out_project_info.ND = '1900'
+						</if>
+					</if>
+				  <!-- 数据控制 -->
 				  <if test="xmlbbm != null and xmlbbm == 'kyzb'">
 					 and xmlbbm ='KYZB'
 				  </if>
@@ -3148,14 +3164,24 @@
 				</foreach>
 				)
 			</if>
+			
+			<!-- 数据控制 -->
+			<if test="zylbbm != null and zylbbm != ''">
+				and find_in_set(out_project_info.zylbbm, '${zylbbm}')
+			</if>
+			<if test="zycbm != null and zycbm != ''">
+				and find_in_set(out_project_info.zycbm, '${zycbm}')
+			</if>
 			<if test="leaderFlag == null or leaderFlag != '1'.toString()">
-			    <if test="zycbm != null and zycbm != ''">
-					and find_in_set(zycbm, '${zycbm}')
+				<if test="zycbm != null and zycbm != ''">
+					and find_in_set(out_project_info.zycbm, '${zycbm}')
 				</if>
 				<if test="zycbm == null or zycbm == ''">
-					and out_project_info.nd = '1900'
+					and out_project_info.ND = '1900'
 				</if>
-		    </if>
+			</if>
+			<!-- 数据控制 -->
+			
 			<if test="groupFlag != null and groupFlag != ''">
 				<if test="groupFlag != null and groupFlag != ''">
 					GROUP BY ${groupFlag}
