@@ -12,20 +12,16 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.common.Result;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
@@ -38,7 +34,6 @@ import com.pcitc.base.stp.out.OutUnit;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
-import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.service.budget.BudgetAssetTotalService;
 import com.pcitc.service.budget.BudgetInfoService;
 import com.pcitc.service.feign.SystemRemoteClient;
@@ -51,7 +46,7 @@ import io.swagger.annotations.ApiOperation;
 public class BudgetAssetTotalProviderClient 
 {
 	
-	private final static Logger logger = LoggerFactory.getLogger(BudgetAssetTotalProviderClient.class);
+	//private final static Logger logger = LoggerFactory.getLogger(BudgetAssetTotalProviderClient.class);
 	
 	@Autowired
 	private BudgetAssetTotalService budgetAssetTotalService;
@@ -66,13 +61,11 @@ public class BudgetAssetTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/budget-assettotal-info-list", method = RequestMethod.POST)
 	public Object selectBudgetAssetTotalInfoList(@RequestBody BudgetInfo info) 
 	{
-		logger.info("budget-info-list...");
 		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
 		try
 		{
 			
 			List<BudgetInfo> datalist = budgetInfoService.selectBudgetInfoList(info.getNd(),BudgetInfoEnum.ASSETS_TOTAL.getCode());
-			System.out.println(JSON.toJSONString(datalist));
 			for(BudgetInfo dt:datalist) {
 				Map<String,Object> map = MyBeanUtils.transBean2Map(dt);
 				map.put("auditStatusDesc", BudgetAuditStatusEnum.getStatusByCode(dt.getAuditStatus()).getDesc());
@@ -89,13 +82,11 @@ public class BudgetAssetTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/budget-assettotal-info-table", method = RequestMethod.POST)
 	public Object selectBudgetAssetTotalInfoTable(@RequestBody LayuiTableParam param) 
 	{
-		logger.info("budget-assettotal-info-list...");
 		LayuiTableData data = null;
 		try
 		{
 			param.getParam().put("budget_type", BudgetInfoEnum.ASSETS_TOTAL.getCode());
 			data = budgetInfoService.selectBudgetInfoPage(param);
-			return data;
 		}
 		catch (Exception e)
 		{
@@ -123,7 +114,6 @@ public class BudgetAssetTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/budget-assettotal-items", method = RequestMethod.POST)
 	public Object selectAssetTotalItemTable(@RequestBody LayuiTableParam param) 
 	{
-		logger.info("select-budget-assettotal-items...");
 		LayuiTableData data = null;
 		try
 		{
@@ -207,7 +197,6 @@ public class BudgetAssetTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/budget-persistence-assettotal-item", method = RequestMethod.POST)
 	public Object addOrUpdateAssetTotalItem(@RequestBody BudgetAssetTotal budgetAssetTotal) 
 	{
-		logger.info("add-budget-assettotal-item...");
 		Integer rs = 0;
 		try
 		{
@@ -223,7 +212,6 @@ public class BudgetAssetTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/budget-create-blank-assettotal", method = RequestMethod.POST)
 	public Object createOrUpdateBudgetInfo(@RequestBody BudgetInfo info) 
 	{
-		logger.info("budget-create-blank-assettotal...");
 		BudgetInfo rsbean = null;
 		try
 		{
@@ -240,14 +228,10 @@ public class BudgetAssetTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/budget-create-template-assettotal", method = RequestMethod.POST)
 	public Object createOrUpdateBudgetInfoByHis(@RequestBody BudgetInfo info) 
 	{
-		logger.info("budget-create-template-assettotal...");
 		BudgetInfo newInfo = null;
 		try
 		{
-			//System.out.println(JSON.toJSONString(info.getNd()));
 			BudgetInfo oldInfo = budgetInfoService.selectBudgetInfo(info.getDataId());
-			
-			
 			newInfo = budgetInfoService.createBlankBudgetInfo(info.getNd(),oldInfo);
 			
 			newInfo.setBudgetMoney(oldInfo.getBudgetMoney());
@@ -292,7 +276,6 @@ public class BudgetAssetTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/budget-assettotal-del", method = RequestMethod.POST)
 	public Object deleteBudgetAssetTotalInfo(@RequestBody BudgetInfo info) 
 	{
-		logger.info("budget-delete-assettotal...");
 		Integer rs = 0;
 		try
 		{
@@ -309,7 +292,6 @@ public class BudgetAssetTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/get-assettotal-item/{itemId}", method = RequestMethod.POST)
 	public Object selectBudgetAssetTotalItem(@PathVariable("itemId") String itemId) 
 	{
-		logger.info("budget-select-assettotal...");
 		Map<String,Object> map = new HashMap<String,Object>();
 		try
 		{
@@ -339,7 +321,6 @@ public class BudgetAssetTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/save-assettotal-item", method = RequestMethod.POST)
 	public Object saveBudgetAssetTotalInfo(@RequestBody BudgetAssetTotal item) 
 	{
-		logger.info("budget-save-assettotal...");
 		BudgetAssetTotal rs = null;
 		try
 		{
@@ -371,7 +352,6 @@ public class BudgetAssetTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/save-assettotal-items", method = RequestMethod.POST)
 	public Object saveBudgetAssetTotalItems(@RequestBody List<BudgetAssetTotal> items) 
 	{
-		logger.info("budget-save-assettotal-items...");
 		Integer rs = 0;
 		try
 		{
@@ -442,7 +422,6 @@ public class BudgetAssetTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/search-asset-company-items", method = RequestMethod.POST)
 	public Object selectBudgetAssetCompanyItems() 
 	{
-		logger.info("search-group-items...");
 		List<OutUnit> units = null;
 		try
 		{
@@ -458,7 +437,6 @@ public class BudgetAssetTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/search-asset-company-tree", method = RequestMethod.POST)
 	public Object selectBudgetAssetCompanyTree() 
 	{
-		logger.info("search-group-items...");
 		List<TreeNode> nodes = new ArrayList<TreeNode>();
 		try
 		{
@@ -482,7 +460,6 @@ public class BudgetAssetTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/del-assettotal-item/{dataId}", method = RequestMethod.POST)
 	public Object deleteBudgetAssetTotalInfo(@PathVariable("dataId") String dataId) 
 	{
-		logger.info("budget-delete-assettotal-item...");
 		Integer rs = 0;
 		try
 		{
@@ -585,66 +562,7 @@ public class BudgetAssetTotalProviderClient
 		}
 		return plans;
 	}
-	@ApiOperation(value="资产公司预算-资产预算审批",notes="发起资产预算表审批")
-	@RequestMapping(value = "/stp-provider/budget/start-budget-assettotal-activity/{budgetInfoId}", method = RequestMethod.POST)
-	public Object startBudgetAssetTotalActivity(@PathVariable("budgetInfoId") String budgetInfoId,@RequestBody WorkflowVo workflowVo) 
-	{
-		BudgetInfo info = null;
-		try {
-			info = budgetInfoService.selectBudgetInfo(budgetInfoId);
-			//如果审批已发起则不能再次发起(只有编制中，获取审批驳回可再发起)
-			if(!(BudgetAuditStatusEnum.AUDIT_STATUS_NO_START.getCode().equals(info.getAuditStatus()) || BudgetAuditStatusEnum.AUDIT_STATUS_REFUSE.getCode().equals(info.getAuditStatus())))
-			{
-				return new Result(false,"审批中或者已完成审批不可重复发起！");
-			}
-			workflowVo.setBusinessId(info.getDataId());
-			workflowVo.setProcessInstanceName("集团预算总表审批");
-			workflowVo.setAuthenticatedUserId(info.getCreaterId());
-			workflowVo.setAuthenticatedUserName(info.getCreaterName());
-			//workflowVo.setFunctionId(workflowVo.getFunctionId());
-	    	// 待办业务详情、最终审批同意、最终审批不同意路径
-			workflowVo.setAuditDetailsPath("/budget/budget_main_assettotal?budgetId="+info.getDataId());
-			workflowVo.setAuditAgreeMethod("http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-notice-budgetinfo?budgetId=" + info.getDataId()+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
-			workflowVo.setAuditRejectMethod("http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-notice-budgetinfo?budgetId=" + info.getDataId()+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_REFUSE.getCode());
-
-			Boolean rs = budgetInfoService.startWorkFlow(info,workflowVo);
-			if(rs) 
-			{
-				info.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_START.getCode());
-				budgetInfoService.updateBudgetInfo(info);
-				return new Result(true,"操作成功!");
-			}else {
-				return new Result(false,rs);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return new Result(false);
-
-	}
-	@ApiOperation(value="资产公司预算-审批流程回调通知",notes="审批结果回调通知")
-	@RequestMapping(value = "/stp-provider/budget/callback-workflow-assettotal-notice")
-	public Object callBackProjectNoticeWorkflow(@RequestParam(value = "budgetId", required = true) String budgetId,
-			@RequestParam(value = "workflow_status", required = true) Integer workflow_status) throws Exception 
-	{
-		if(budgetId != null) {
-			BudgetInfo info = budgetInfoService.selectBudgetInfo(budgetId);
-			if(info != null) {
-				//将当年的其他值设置为审批通过
-				List<BudgetInfo> infos = budgetInfoService.selectBudgetInfoList(info.getNd(), info.getBudgetType());
-				for(BudgetInfo i:infos) {
-					//最终版本只有一个，多次审批后以最后一次审批为准
-					if(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode().equals(i.getAuditStatus())) {
-						i.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_PASS.getCode());
-						budgetInfoService.updateBudgetInfo(i);
-					}
-				}
-				info.setAuditStatus(workflow_status);
-				budgetInfoService.updateBudgetInfo(info);
-			}
-		}
-		return null;
-	}
+	
 	
 	@ApiOperation(value="资产公司预算-获取指定年度最终预算表",notes="获取指定年度最终预算表信息及列表")
 	@RequestMapping(value = "/stp-provider/budget/get-final-assettotal", method = RequestMethod.POST)
