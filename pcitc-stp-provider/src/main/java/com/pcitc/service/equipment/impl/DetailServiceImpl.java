@@ -2,6 +2,7 @@ package com.pcitc.service.equipment.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -284,15 +285,21 @@ public class DetailServiceImpl implements DetailService {
 
 	@Override
 	public LayuiTableData getDetailLIVRW(LayuiTableParam param) {
-		SimpleDateFormat df = new SimpleDateFormat("yyyyMM");//设置日期格式
-		System.out.println(df.format(new Date()));// new Date()为获取当前系统时间
+		SimpleDateFormat yymm = new SimpleDateFormat("yyyy-MM");//设置日期格式
 		String assetNumber=getTableParam(param,"assetNumber","");
 		String supplier=getTableParam(param,"supplier","");
+		Date dBefore = new Date();
+		Calendar   calendar= Calendar.getInstance();
+        calendar.setTime(dBefore);
+        calendar.set(Calendar.MONTH,calendar.get(Calendar.MONTH)-1);
+        System.out.println(calendar.getTime());
+		SimpleDateFormat df = new SimpleDateFormat("yyyyMM");//设置日期格式
+		System.out.println(df.format(calendar.getTime()));
 		Map map=new HashMap();
 		map.put("assetNumber", assetNumber);
 		map.put("supplier", supplier);
-		//map.put("g0CALD", df.format(new Date()));
-		map.put("g0CALD", "201805");
+		map.put("g0CALD", df.format(calendar.getTime()));
+		//map.put("g0CALD", "201805");测试，暂时注释
 		List<SreEquipmentLedger> sreequin  = sreEquipmentLedgerMapper.getDate(map);
 		PageInfo<SreEquipmentLedger> pageInfo = new PageInfo<SreEquipmentLedger>(sreequin);
 		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
