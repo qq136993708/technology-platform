@@ -9,7 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.pcitc.base.stp.equipment.SreEquipmentLedger;
+import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.mapper.equipment.SreEquipmentLedgerMapper;
+import com.pcitc.mapper.equipment.SreProjectMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +38,9 @@ public class DetailServiceImpl implements DetailService {
 
 	@Autowired
 	private SreEquipmentLedgerMapper sreEquipmentLedgerMapper;
+	
+	@Autowired
+	private SreProjectMapper sreProjectMapper;
 	
 	
 	private String getTableParam(LayuiTableParam param,String paramName,String defaultstr)
@@ -129,6 +135,7 @@ public class DetailServiceImpl implements DetailService {
 					  }
 					}
 				}
+				
 				PageInfo<SreDetail> pageInfo = new PageInfo<SreDetail>(sreSunlike);
 				System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
 				LayuiTableData data = new LayuiTableData();
@@ -136,6 +143,15 @@ public class DetailServiceImpl implements DetailService {
 				Long total = pageInfo.getTotal();
 				data.setCount(total.intValue());
 			    return data;
+			}
+		}
+		for(SreDetail  detail : list) {
+			map.put("equipmentIds", detail.getEquipmentId());
+			List<SreProject> sre = sreProjectMapper.getListMap(map);
+			for(SreProject ject : sre) {
+				detail.setContractNum(ject.getContractNum());//获取合同编号
+				detail.setName(ject.getName());//获取课题名称
+				break;
 			}
 		}
 		PageInfo<SreDetail> pageInfo = new PageInfo<SreDetail>(list);
@@ -278,8 +294,44 @@ public class DetailServiceImpl implements DetailService {
 
 	@Override
 	public SreDetail detail(String id) {
-		// TODO Auto-generated method stub
-		return detailMapper.detail(id);
+		SimpleDateFormat yymm = new SimpleDateFormat("yyyy-MM");//设置日期格式
+		SreDetail sredetail = detailMapper.detail(id);
+		if(sredetail!=null) {
+		Date dBefore = new Date();
+		Calendar   calendar= Calendar.getInstance();
+        calendar.setTime(dBefore);
+        calendar.set(Calendar.MONTH,calendar.get(Calendar.MONTH)-1);
+        System.out.println(calendar.getTime());
+		SimpleDateFormat df = new SimpleDateFormat("yyyyMM");//设置日期格式
+		System.out.println(df.format(calendar.getTime()));
+		Map map=new HashMap();
+		map.put("assetNumber", sredetail.getAssetNumber());
+		map.put("supplier", sredetail.getSupplier());
+		//map.put("g0CALD", df.format(calendar.getTime()));
+		map.put("g0CALD", "201805");
+		List<SreEquipmentLedger> sreequin  = sreEquipmentLedgerMapper.getDate(map);
+		if(sreequin.size()!=0) {
+			for(SreEquipmentLedger lesde : sreequin) {
+				sredetail.setG0butxt(lesde.getG0butxt());//公司名称
+				sredetail.setG0gsjc(lesde.getG0gsjc());//公司简称
+				sredetail.setG0txt50(lesde.getG0txt50());//资产描述
+				sredetail.setG0aktiv(lesde.getG0aktiv());//资产资本化日期
+				sredetail.setG0ndjar(lesde.getG0ndjar());//计划年使用期
+				sredetail.setG0zzdxzc(lesde.getG0zzdxzc());//资产类别
+				sredetail.setG0zdxzct(lesde.getG0zdxzct());//资产类别描述
+				sredetail.setG0zzdxgp(lesde.getG0zzdxgp());//资产类别组
+				sredetail.setG0zzdxgpt(lesde.getG0zzdxgpt());//资产类别组描述
+				sredetail.setG0prctr(lesde.getG0prctr());//利润中心
+				sredetail.setG0prctrt(lesde.getG0prctrt());//利润中心描述
+				sredetail.setG0kostl(lesde.getG0kostl());//成本中心
+				sredetail.setG0kostlt(lesde.getG0kostlt());//成本中心描述
+				sredetail.setG0ncgzyzje(lesde.getG0ncgzyzje().toString());//年初购置价值
+				sredetail.setG0ljzjje(lesde.getG0ljzjje().toString());//累计折旧
+				sredetail.setG0ljgzyzje(lesde.getG0ljgzyzje().toString());//账面净额
+				}
+			}
+		}
+		return sredetail;
 	}
 
 

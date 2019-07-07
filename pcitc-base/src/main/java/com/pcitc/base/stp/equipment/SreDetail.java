@@ -64,8 +64,190 @@ public class SreDetail {
     
     private String G0LJZJJE;//累计折旧
     
+    private String name;//课题名称
     
-    public String getG0NDURJ() {
+    private String contractNum;//合同号
+    
+    
+    private String g0butxt;//公司名称
+    
+    private String g0gsjc;//公司简称
+    
+    private String g0txt50;//资产描述
+    
+    private String g0aktiv;//资产资本化日期
+    
+    private String g0ndjar;//计划年使用期
+    
+    private String g0zzdxzc;//资产类别
+    
+    private String g0zdxzct;//资产类别描述
+    
+    private String g0zzdxgp;//资产类别组
+    
+    private String g0zzdxgpt;//资产类别组描述
+    
+    private String g0prctr;//利润中心
+    
+    private String g0prctrt;//利润中心描述
+    
+    private String g0kostl;//成本中心
+    
+    private String g0kostlt;//成本中心描述
+    
+    private String g0ncgzyzje;//年初购置价值
+    
+    private String g0ljzjje;//累计折旧
+    
+    private String g0ljgzyzje;//'账面净额
+    
+    
+    
+    public String getG0butxt() {
+		return g0butxt;
+	}
+
+	public void setG0butxt(String g0butxt) {
+		this.g0butxt = g0butxt;
+	}
+
+	public String getG0gsjc() {
+		return g0gsjc;
+	}
+
+	public void setG0gsjc(String g0gsjc) {
+		this.g0gsjc = g0gsjc;
+	}
+
+	public String getG0txt50() {
+		return g0txt50;
+	}
+
+	public void setG0txt50(String g0txt50) {
+		this.g0txt50 = g0txt50;
+	}
+
+	public String getG0aktiv() {
+		return g0aktiv;
+	}
+
+	public void setG0aktiv(String g0aktiv) {
+		this.g0aktiv = g0aktiv;
+	}
+
+	public String getG0ndjar() {
+		return g0ndjar;
+	}
+
+	public void setG0ndjar(String g0ndjar) {
+		this.g0ndjar = g0ndjar;
+	}
+
+	public String getG0zzdxzc() {
+		return g0zzdxzc;
+	}
+
+	public void setG0zzdxzc(String g0zzdxzc) {
+		this.g0zzdxzc = g0zzdxzc;
+	}
+
+	public String getG0zdxzct() {
+		return g0zdxzct;
+	}
+
+	public void setG0zdxzct(String g0zdxzct) {
+		this.g0zdxzct = g0zdxzct;
+	}
+
+	public String getG0zzdxgp() {
+		return g0zzdxgp;
+	}
+
+	public void setG0zzdxgp(String g0zzdxgp) {
+		this.g0zzdxgp = g0zzdxgp;
+	}
+
+	public String getG0zzdxgpt() {
+		return g0zzdxgpt;
+	}
+
+	public void setG0zzdxgpt(String g0zzdxgpt) {
+		this.g0zzdxgpt = g0zzdxgpt;
+	}
+
+	public String getG0prctr() {
+		return g0prctr;
+	}
+
+	public void setG0prctr(String g0prctr) {
+		this.g0prctr = g0prctr;
+	}
+
+	public String getG0prctrt() {
+		return g0prctrt;
+	}
+
+	public void setG0prctrt(String g0prctrt) {
+		this.g0prctrt = g0prctrt;
+	}
+
+	public String getG0kostl() {
+		return g0kostl;
+	}
+
+	public void setG0kostl(String g0kostl) {
+		this.g0kostl = g0kostl;
+	}
+
+	public String getG0kostlt() {
+		return g0kostlt;
+	}
+
+	public void setG0kostlt(String g0kostlt) {
+		this.g0kostlt = g0kostlt;
+	}
+
+	public String getG0ncgzyzje() {
+		return g0ncgzyzje;
+	}
+
+	public void setG0ncgzyzje(String g0ncgzyzje) {
+		this.g0ncgzyzje = g0ncgzyzje;
+	}
+
+	public String getG0ljzjje() {
+		return g0ljzjje;
+	}
+
+	public void setG0ljzjje(String g0ljzjje) {
+		this.g0ljzjje = g0ljzjje;
+	}
+
+	public String getG0ljgzyzje() {
+		return g0ljgzyzje;
+	}
+
+	public void setG0ljgzyzje(String g0ljgzyzje) {
+		this.g0ljgzyzje = g0ljgzyzje;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getContractNum() {
+		return contractNum;
+	}
+
+	public void setContractNum(String contractNum) {
+		this.contractNum = contractNum;
+	}
+
+	public String getG0NDURJ() {
 		return G0NDURJ;
 	}
 
