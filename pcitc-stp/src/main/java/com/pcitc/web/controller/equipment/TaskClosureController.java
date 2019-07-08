@@ -83,13 +83,17 @@ public class TaskClosureController extends BaseController {
 	@RequestMapping(value = "/sre-task-closure/uppdata/{taskId}")
 	public String uppdata(@PathVariable("taskId") String taskId, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result resultsDate = new Result();
+		String[] strp = taskId.split(",");
 		String result = "";
+		for(int j = 0 ;j<strp.length;j++) {
+			
 		//ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(UPP_URL + taskId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
-		SreProjectTask sreProjectTask=EquipmentUtils.getSreProjectTask(taskId, restTemplate, httpHeaders);
+		SreProjectTask sreProjectTask=EquipmentUtils.getSreProjectTask(strp[j], restTemplate, httpHeaders);
 		if(sreProjectTask!=null) {
 		SreProject  sreProject = EquipmentUtils.getSreProject(sreProjectTask.getTopicId(), restTemplate, httpHeaders);//根据taskid获取课题数据
 		int count =0;
 		if(sreProject!=null) {
+			if(sreProject.getEquipmentIds()!=null) {
 			String equipmentid[] = sreProject.getEquipmentIds().split(",");//取出该课题所绑定装备id
 			for(int i=0;i<equipmentid.length;i++){
 				SreEquipment  sreEquipment = EquipmentUtils.getSreEquipment(equipmentid[i], restTemplate, httpHeaders);
@@ -100,6 +104,7 @@ public class TaskClosureController extends BaseController {
 				}
 				}
 			}
+		}
 		}
 		if(count>0) {//如果count大于0,代表存在未转资的装备，就不能关闭
 			result ="2";
@@ -121,6 +126,7 @@ public class TaskClosureController extends BaseController {
 		out.flush();
 		out.close();
 		}
+	}
 		return null;
 	}
 	

@@ -196,7 +196,7 @@ background: url("/layuiadmin/layui/images/icon-leader-aw.png") right no-repeat;
 .lan .layui-table tr:nth-child(2n){background-color: #f5f9fc;}
 .workNews .layui-tab-item ul li{height: 30px;line-height: 30px;position: relative;border: 0 !important;
     text-indent: 6px;background: url("/layuiadmin/layui/images/news-d.png") no-repeat center left;}
-.workNews .layui-tab-item ul li a{color: #666666;font-size: 12px;width: 76%;overflow:hidden;display: inline-block;
+.workNews .layui-tab-item ul li a{color: #666666;font-size: 12px;width: 70%;overflow:hidden;display: inline-block;
     text-overflow:ellipsis;white-space:nowrap}
 .workNews .layui-tab-item ul li span{position: absolute;top: 11px;right: 0;font-size: 12px;color: #676767 !important;
     font-weight: normal !important;width: auto !important;}
@@ -303,4 +303,13 @@ background: url("/layuiadmin/layui/images/icon-leader-aw.png") right no-repeat;
     .workNews .layui-col-md5{    width: 49.7%;}
     .layui-col-md15{padding: 8px 5px;margin-right: 5px;}
     .work-summary>div canvas{    margin: 10px 22%;}
+}
+@media (max-width: 1052px) {
+    .workNews .layui-col-md5 {
+        width: 44.3%;
+    }
+    .workNews .layui-tab-item ul li a{width: 64%;}
+    .workNews .layui-col-md3 {
+        width: 30%;
+    }
 }
