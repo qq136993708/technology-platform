@@ -424,8 +424,7 @@
             ids=ids+","+$(this).attr("id");
         });
         var ret = getFileResult(ids);
-        for (let i = 0; i < ret.list.length; i++) {
-            console.log(ret.list[i].dataid);
+        for (let i = ret.list.length-1; i >=0 ; i--) {
             $("#"+ret.list[i].dataid).attr("src",ret.list[i].filePath);
         }
     }
