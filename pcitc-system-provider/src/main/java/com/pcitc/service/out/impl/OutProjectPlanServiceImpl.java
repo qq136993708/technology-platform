@@ -618,4 +618,11 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		outProjectPlanMapper.deleteByExample(example);
 		outProjectPlanMapper.insertOutProjectPlanBatch(list);
 	}
+	
+	/**
+     * 直属研究院二级页面（领导），总的科研投入，数据来源于hana
+     */
+	public List getTotalInvestMoneyWithHana(HashMap<String, String> map) {
+		return outProjectPlanMapper.getTotalInvestMoneyWithHana(map);
+	}
 }

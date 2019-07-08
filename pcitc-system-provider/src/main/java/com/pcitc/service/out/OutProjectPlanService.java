@@ -115,4 +115,9 @@ public interface OutProjectPlanService {
      */
 	public LayuiTableData getProjectRewardDetails(LayuiTableParam param);
 	
+	/**
+     * 直属研究院二级页面（领导），总的科研投入，数据来源于hana
+     */
+	public List getTotalInvestMoneyWithHana(HashMap<String, String> map);
+	
 }

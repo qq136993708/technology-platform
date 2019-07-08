@@ -93,6 +93,17 @@ public class OutProjectPlanClient {
 		return json;
 	}
 	
+	@ApiOperation(value = "直属研究院二级页面（领导），总的科研投入，数据来源于hana ", notes = "参数年度")
+	@RequestMapping(value = "/out-project-plan-provider/hana-invest/money")
+	public JSONArray getTotalInvestMoneyWithHana(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getTotalInvestMoneyWithHana===========================" + map);
+		map.put("nd", "2018");
+		List temList = outProjectPlanService.getTotalInvestMoneyWithHana(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
 	@ApiOperation(value = "直属研究院二级页面（领导），各个院的合同签订率", notes = "参数年度")
 	@RequestMapping(value = "/out-project-plan-provider/complete-rate/institute")
 	public JSONArray getPlanCompleteRateByInstitute(@RequestBody HashMap<String, String> map) throws Exception {
