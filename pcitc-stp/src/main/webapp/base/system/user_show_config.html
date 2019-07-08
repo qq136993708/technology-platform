@@ -20,15 +20,16 @@ html {
 </head>
 <body>
 	<div class="module">
-		<p>已选功能</p>
+		<p>已选菜单</p>
 		<div class="selected selectOption">
 			<div class="selectedProject">
 				<p class="title">统计模块</p>
 				<div class="option">
 					<#if show1List?exists> <#list show1List as s1>
 					<p>
-						${s1.showName}
-						<span></span>
+						<img src="/layuiadmin/layui/images/icon-text.png"/>
+						<span class="textSpan">${s1.showName}</span>
+						<span style="display: none;"></span>
 					</p>
 					</#list> </#if>
 				</div>
@@ -38,21 +39,24 @@ html {
 				<div class="option">
 					<#if show2List?exists> <#list show2List as s2>
 					<p>
-						${s2.showName}
+						<img src="/layuiadmin/layui/images/icon-text.png"/>
+						<span  class="textSpan">${s2.showName}</span>
 						<span></span>
 					</p>
 					</#list> </#if>
 				</div>
 			</div>
 		</div>
-		<p>未选功能</p>
+		<p>未选菜单</p>
 		<div class="unselected selectOption">
 			<div class="unselectedProject">
 				<p class="title">统计模块</p>
 				<div class="option">
 					<#if config1List?exists> <#list config1List as c1>
 					<p>
-						${c1.moduleName}
+						<img src="/layuiadmin/layui/images/icon-text.png"/>
+						<span  class="textSpan">${c1.moduleName}</span>
+						<span></span>
 					</p>
 					</#list> </#if>
 				</div>
@@ -62,7 +66,9 @@ html {
 				<div class="option">
 					<#if config2List?exists> <#list config2List as c2>
 					<p>
-						${c2.name}
+						<img src="/layuiadmin/layui/images/icon-text.png"/>
+						<span  class="textSpan">${c2.name}</span>
+						<span></span>
 					</p>
 					</#list> </#if>
 				</div>
@@ -98,42 +104,17 @@ html {
 			$("#confirm").click(function() {
 				//获取选中项
 				var selectedOP = [];
-				$(".selected .option p").each(function() {
-					selectedOP.push($(this).text())
+				$(".selectedTechnical .option p").each(function() {
+					selectedOP.push($(this).find(".textSpan").html())
 				});
-				$.ajax({
-					type : 'GET',
-					dataType : 'json',
-					headers : {
-						'Content-Type' : 'application/json;charset=UTF-8',
-					},
-					url : "/layuiadmin/json/data1.json",
-					success : function(data, status) {
-						$.each(selectedOP, function(index, d) {
-							$.each(data.data, function(index, dt) {
-								if (dt.name == d) {
-									publicMethods.moduleConfig(dt);
-								}
-							});
-						})
-						if (parent.$("#moduleConfig li").length < 16) {
-							var htmlA = "<li class='layui-col-md3'>" + "           <div class='layui-col-md' id='layui-add'>" + "               <div class='layui-add'>"
-									+ "                   <img src='/layuiadmin/layui/images/icon-puls.png'/>" + "               </div>" + "           </div>"
-									+ "      </li>";
-							parent.$("#moduleConfig").append(htmlA);
-						} else {
-							var htmlA = "<li class='layui-col-md3'>" + "           <div class='layui-col-md' id='layui-add'>" + "               <div class='layui-add'>"
-									+ "                   <img src='/layuiadmin/layui/images/icon-puls.png'/>" + "               </div>" + "           </div>"
-									+ "      </li>";
-							parent.$(".layui-row-special ul").append(htmlA);
-						}
-						parent.addLast();
-						//publicMethods.moduleConfigs(data.data);
-					},
-					error : function(err, err1, err2) {
-						console.log("ajaxPost发生异常，请仔细检查请求url是否正确");
-					}
-				});
+                var addHtml='<div class="add"></div>';
+				$.each(selectedOP,function (i,val) {
+                    var html='<div class="main-left'+i+'">' +
+                        '                    <p class="title">'+val+'</p>' +
+                        '                    <p class="number"></p>' +
+                        '                </div>';
+                    parent.$(".main-two .main-left1 .add").before(html);
+                });
 				var index = parent.layer.getFrameIndex(window.name);
 				parent.layer.close(index);
 			});

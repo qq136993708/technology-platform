@@ -81,11 +81,24 @@ public class BudgetMysql {
 	 
 	 private String yearMonth;
 	 
+	 private Object wqhtzje;
+	 private Object wbkzje;
 	 
 	 
 	 
 	 
-	 
+	public Object getWqhtzje() {
+		return wqhtzje;
+	}
+	public void setWqhtzje(Object wqhtzje) {
+		this.wqhtzje = wqhtzje;
+	}
+	public Object getWbkzje() {
+		return wbkzje;
+	}
+	public void setWbkzje(Object wbkzje) {
+		this.wbkzje = wbkzje;
+	}
 	public Object getHanaMoney() {
 		return hanaMoney;
 	}
