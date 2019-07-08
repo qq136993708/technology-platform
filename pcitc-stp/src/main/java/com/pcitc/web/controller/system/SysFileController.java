@@ -124,6 +124,7 @@ public class SysFileController extends BaseController {
     private static final String getFiles = "http://pcitc-zuul/system-proxy/sysfile-provider/sysfile/getFiles";
     private static final String getFilesLayui = "http://pcitc-zuul/system-proxy/sysfile-provider/sysfile/getFilesLayui";
     private static final String getFilesLayuiByFormId = "http://pcitc-zuul/system-proxy/sysfile-provider/sysfile/getFilesLayuiByFormId";
+    private static final String getFilesLayuiByFormIdOss = "http://pcitc-zuul/system-proxy/sysfile-provider/sysfile/getFilesLayuiByFormIdOss";
     /**
      * 组装展示页面
      */
@@ -505,6 +506,24 @@ public class SysFileController extends BaseController {
         form.add("fileIds", fileIds);
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(form, httpHeaders);
         ResponseEntity<FileResult> responseEntity = this.restTemplate.postForEntity(getFilesLayuiByFormId, httpEntity, FileResult.class);
+        return responseEntity.getBody();
+    }
+
+    /**
+     * 获取OSS地址
+     * @param fileIds
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/sysfile/getFilesLayuiByFormIdOss", method = RequestMethod.POST)
+    @ResponseBody
+    public FileResult getFilesLayuiByFormIdOss(String fileIds, HttpServletRequest request) {
+        // this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        this.httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
+        form.add("fileIds", fileIds);
+        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(form, httpHeaders);
+        ResponseEntity<FileResult> responseEntity = this.restTemplate.postForEntity(getFilesLayuiByFormIdOss, httpEntity, FileResult.class);
         return responseEntity.getBody();
     }
 

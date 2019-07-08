@@ -233,6 +233,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         ZjkExpertExample.Criteria c = example.createCriteria();
         c.andStatusEqualTo("0");
         c.andDelFlagEqualTo("0");
+        c.andSysFlagEqualTo("0");
         Object expertName = param.getParam().get("expertName");
         if (!StrUtil.isObjectEmpty(expertName)) {
             c.andExpertNameLike("%" + expertName + "%");

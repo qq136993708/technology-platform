@@ -13,8 +13,16 @@
 
 
     <style>
-        body{background: #f1f2f7;}
-        .main{border: 1px solid #dadada;border-radius: 3px;background: white;}
+        body {
+            background: #f1f2f7;
+        }
+
+        .main {
+            border: 1px solid #dadada;
+            border-radius: 3px;
+            background: white;
+        }
+
         .main-content {
             height: auto;
             overflow: hidden;
@@ -25,23 +33,51 @@
         .main-expert {
             position: relative;
         }
-        .main-expert:hover .main-expert-div {background: #fafdff;border: 1px solid #1890ff;box-shadow:0 0 5px #d4eaff}
-        .main-expert:hover .expert-a{background: #e8f3fe;}
-        .main-expert:hover .expert-a a{color: #1890ff;}
-        .main-expert:active .main-expert-div{background: #e8f3fe;border: 1px solid #1890ff;box-shadow:0 0 5px #d4eaff}
-        .main-expert:active .expert-a{background: #1890ff;}
-        .main-expert:active .expert-a a{color: #fff;}
+
+        .main-expert:hover .main-expert-div {
+            background: #fafdff;
+            border: 1px solid #1890ff;
+            box-shadow: 0 0 5px #d4eaff
+        }
+
+        .main-expert:hover .expert-a {
+            background: #e8f3fe;
+        }
+
+        .main-expert:hover .expert-a a {
+            color: #1890ff;
+        }
+
+        .main-expert:active .main-expert-div {
+            background: #e8f3fe;
+            border: 1px solid #1890ff;
+            box-shadow: 0 0 5px #d4eaff
+        }
+
+        .main-expert:active .expert-a {
+            background: #1890ff;
+        }
+
+        .main-expert:active .expert-a a {
+            color: #fff;
+        }
+
         .main-content > div {
             width: 20%;
             float: left;
             padding-right: 20px;
             box-sizing: border-box;
         }
-        .main-expert-div{height: auto;overflow: hidden;
+
+        .main-expert-div {
+            height: auto;
+            overflow: hidden;
             border: 1px solid #d8d8d8;
             background: #f7f7f7;
             margin-bottom: 20px;
-            border-radius: 3px;}
+            border-radius: 3px;
+        }
+
         .main-content > div:last-child {
             margin-right: 0;
         }
@@ -84,7 +120,7 @@
         }
 
         .main-content .expert-s {
-            height:19px;
+            height: 19px;
             text-indent: 10px;
             font-size: 12px;
             color: #666;
@@ -167,7 +203,11 @@
             padding-left: 10px;
             background: white;
         }
-        .formBox{padding-top: 0;}
+
+        .formBox {
+            padding-top: 0;
+        }
+
         .search {
             width: 51%;
             margin: 24px auto 0px;
@@ -185,19 +225,39 @@
             height: 80px;
             font-weight: normal;
         }
-        .select-tree{
-            width: 300px;float: left;margin-right: 15px;
+
+        .select-tree {
+            width: 300px;
+            float: left;
+            margin-right: 15px;
         }
-        .searchH input{ border: 1px solid #999999;border-radius: 3px;height: 24px;line-height: 24px;
-            text-indent: 10px;font-size: 14px;}
-        .searchH .btnMyBgImg{height: 26px;line-height: 26px;position: relative;top: -3px;
-            margin-left: 8px;}
+
+        .searchH input {
+            border: 1px solid #999999;
+            border-radius: 3px;
+            height: 24px;
+            line-height: 24px;
+            text-indent: 10px;
+            font-size: 14px;
+        }
+
+        .searchH .btnMyBgImg {
+            height: 26px;
+            line-height: 26px;
+            position: relative;
+            top: -3px;
+            margin-left: 8px;
+        }
+
         @media screen and (min-width: 1677px) {
-            .main-content .expert-ab{height: 110px;}
+            .main-content .expert-ab {
+                height: 110px;
+            }
         }
     </style>
 </head>
 <body>
+<!--<IMG src="http://oss01-cn-beijing-sinopec-d01-a.yun-inc.sinopec.com/stp-vpc1-sctepl/files/uploadPath/671d81b4c593419caf69c5035ddfffd0/20190626134127892_file_16b924d9ad7_f729a2da.png"/>-->
 <!--<div class="layui-main-oil layui-expert">
     &lt;!&ndash;<div class="layui-statistics">
         <span>机构数量:${jlCount}</span>
@@ -262,7 +322,7 @@
     </div> -->
 
     <div class="main-content" id="main-content-first" style="margin-top: 20px;">
-    <#list expert as vo>
+        <#list expert as vo>
         <div class="main-expert">
             <div class="main-expert-div">
                 <div class="expert-i"><img dataType="headImg" id="${vo.dataId}" height="110" src="/stp/expert/img/default.png" alt=""></div>
@@ -278,39 +338,39 @@
                 <div class="expert-a"><a href="javascript:;" onclick="showDetail('${vo.dataId}')">查看详情</a></div>
             </div>
         </div>
-	</#list>
-    </div>
-    <!--<div class="main-button">
-        <button onclick="changeExpert()" style="cursor: pointer">换一批</button>
-    </div>-->
+    </#list>
+</div>
+<!--<div class="main-button">
+    <button onclick="changeExpert()" style="cursor: pointer">换一批</button>
+</div>-->
 </div>
 
 
 <!--<div class="main-e layui-row">-->
-    <!--<div class="layui-col-md6">-->
-        <!--<div class="layui-col-md12">-->
-            <!--<div class="layui-card">-->
-                <!--<div class="layui-card-header" style="text-align: center;border: none;">-->
-                    <!--研究院统计专家数量-->
-                <!--</div>-->
-                <!--<div class="layui-row-main">-->
-                    <!--<div class="main-chart" id="four" style="height:300px;width: 100%;"></div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-    <!--<div class="layui-col-md6">-->
-        <!--<div class="layui-col-md12">-->
-            <!--<div class="layui-card">-->
-                <!--<div class="layui-card-header">-->
-                    <!--年龄段专家数量-->
-                <!--</div>-->
-                <!--<div class="layui-row-main">-->
-                    <!--<div class="main-chart" id="three" style="height:300px;width: 100%;"></div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
+<!--<div class="layui-col-md6">-->
+<!--<div class="layui-col-md12">-->
+<!--<div class="layui-card">-->
+<!--<div class="layui-card-header" style="text-align: center;border: none;">-->
+<!--研究院统计专家数量-->
+<!--</div>-->
+<!--<div class="layui-row-main">-->
+<!--<div class="main-chart" id="four" style="height:300px;width: 100%;"></div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="layui-col-md6">-->
+<!--<div class="layui-col-md12">-->
+<!--<div class="layui-card">-->
+<!--<div class="layui-card-header">-->
+<!--年龄段专家数量-->
+<!--</div>-->
+<!--<div class="layui-row-main">-->
+<!--<div class="main-chart" id="three" style="height:300px;width: 100%;"></div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
 <!--</div>-->
 </div>
 <!--<div class="layui-row layui-col-space15">-->
@@ -348,9 +408,6 @@
 <script type="text/javascript" src="/stp/hana/common/stp_common_pie_rose.js"></script>
 
 
-
-
-
 <!--<div class="main-chart" id="four" style="height:280px;width: 100%;"></div>-->
 <!--<div class="main-chart" id="three" style="height:280px;width: 100%;"></div>-->
 
@@ -358,6 +415,22 @@
 <div class="main-chart" id="five" style="height:280px;width: 100%;"></div>-->
 
 <script>
+
+
+    function getFileResultImg() {
+        //获取通用url
+        var ids = "";
+        $.each($('img[dataType="headImg"]'), function (i, d) {
+            ids=ids+","+$(this).attr("id");
+        });
+        var ret = getFileResult(ids);
+        for (let i = 0; i < ret.list.length; i++) {
+            console.log(ret.list[i].dataid);
+            $("#"+ret.list[i].dataid).attr("src",ret.list[i].filePath);
+        }
+    }
+    //获取图片
+    getFileResultImg();
     // var str = "";
     // for (var i = 0; i < dictionarys.length; i++) {
     //     var item = dictionarys[i];
@@ -374,7 +447,7 @@
         index: 'lib/index' //主入口模块, 'formSelects'
     }).use(['index', 'form', 'jquery', 'publicMethods'], function () {
         publicMethods = layui.publicMethods, formSelects = layui.formSelects;
-        
+
         function photoContent(picId) {
             var ret = getFileResult(picId);
             if (ret != null && ret.list.length > 0) {
@@ -404,6 +477,7 @@
             });
             return ret;
         }
+
         function ajaxFile(url, data, callback) {
             var result = null;
             $.ajax({
@@ -424,9 +498,11 @@
             });
             return result;
         }
-        $.each($('img[dataType="headImg"]'),function(i,d){
-        	$(this).attr("src",photoContent($(this).attr("id")));
-        });
+
+        // $.each($('img[dataType="headImg"]'), function (i, d) {
+            // $(this).attr("src",photoContent($(this).attr("id")));
+        // });
+
         //行业领域
         // publicMethods.ajaxPost("/pageCommon/dic/ZJK_XYLY", null, function (data) {
         //     var arr = [];
@@ -458,6 +534,7 @@
 
     //ajax获取专家数据
     var dataIds = new Array();
+
     function changeExpert() {
         publicMethods.ajaxPost("/expertController/expertIndexData", null, function (data) {
             var arr = [];
@@ -477,7 +554,7 @@
                 userDesc = cutString(userDesc, 30);
                 tempHtml += "            <div class=\"main-expert\">\n" +
                     "                <div class=\"expert-h\"></div>\n" +
-                    "                <div class=\"expert-i\"><img id='"+dataId+"'  height='110' src=\"/stp/expert/img/default.png\" alt=\"\"></div>\n" +
+                    "                <div class=\"expert-i\"><img id='" + dataId + "'  height='110' src=\"/stp/expert/img/default.png\" alt=\"\"></div>\n" +
                     "                <!--<div class=\"expert-i\"><img src=\"/layuiadmin/layui/images/expert-img.png\" alt=\"\"></div>-->\n" +
                     "                <div class=\"expert-t\">" + zjkBaseInfo.expertName + "</div>\n" +
                     "                <div class=\"expert-s\">" + professional + "</div>\n" +
@@ -494,12 +571,12 @@
         });
         // loadImg();
     }
-    
+
     function loadImg() {
         for (let i = 0; i < dataIds.length; i++) {
             var imgBase = photoContent(dataIds[i]);
-            if(imgBase!=""){
-                $("#"+dataIds[i]).attr("src", imgBase);
+            if (imgBase != "") {
+                $("#" + dataIds[i]).attr("src", imgBase);
             }
         }
     }
@@ -508,7 +585,7 @@
         var ret = getFileResult(picId);
         if (ret != null && ret.list.length > 0) {
             picId = ret.list[0].id;
-        }else{
+        } else {
             return "";
         }
         var base64 = "";
@@ -526,6 +603,7 @@
         });
         return base64;
     }
+
     function getFileResult(fileIds) {
         var ret = null;
         ajaxFile("/sysfile/getFilesLayuiByFormId", {fileIds: fileIds}, function (result) {
@@ -533,6 +611,7 @@
         });
         return ret;
     }
+
     function ajaxFile(url, data, callback) {
         var result = null;
         jQuery.ajax({
@@ -553,6 +632,7 @@
         });
         return result;
     }
+
     function cutString(str, len) {
         //length属性读出来的汉字长度为1
         if (str == null) {
@@ -586,7 +666,7 @@
     }
 
     function changeUrl() {
-        var href = "jg=" + $("#companyDivValue").val() + "&key=" + $("#key").val()+"&jgshow="+$("#companyDivShow").val();
+        var href = "jg=" + $("#companyDivValue").val() + "&key=" + $("#key").val() + "&jgshow=" + $("#companyDivShow").val();
         console.log(href);
         // var href = "jg=" + layui.formSelects.value('jg', 'valStr') + "&key=" + $("#key").val();
         $("#hrefExpert").attr("lay-href", "/expertController/queryExpert?" + href);
@@ -659,22 +739,22 @@
 <script type="text/javascript">
     var zNodes = JSON.parse('${agent}');
     // // 下拉树初始化
-    $(document).ready(function() {
-    //     $.ajax({
-    //         url : "/unit/ztree-unit-list",//这个就是请求地址对应sAjaxSource
-    //         type : 'get',
-    //         headers : {
-    //             'Content-Type' : 'application/json',
-    //         },
-    //         dataType : 'json',
-    //         async : false,
-    //         success : function(data) {
-    //             zNodes = data;
-    //         },
-    //         error : function(msg) {
-    //             layer.msg(msg);
-    //         }
-    //     });
+    $(document).ready(function () {
+        //     $.ajax({
+        //         url : "/unit/ztree-unit-list",//这个就是请求地址对应sAjaxSource
+        //         type : 'get',
+        //         headers : {
+        //             'Content-Type' : 'application/json',
+        //         },
+        //         dataType : 'json',
+        //         async : false,
+        //         success : function(data) {
+        //             zNodes = data;
+        //         },
+        //         error : function(msg) {
+        //             layer.msg(msg);
+        //         }
+        //     });
         /*
          * initSelectTree参数：
          * 参数1：div的id，
@@ -687,6 +767,7 @@
         // initHideMenu(); //不加此方法则默认打开下拉树
 
     });
+
     function selectTreeCallFun(treeNode, zTree) {
         changeUrl();
     }

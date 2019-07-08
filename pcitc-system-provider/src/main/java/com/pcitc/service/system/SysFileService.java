@@ -175,6 +175,7 @@ public interface SysFileService {
      * @return
      */
     public FileResult getFilesLayuiByFormId(String fileIds, HttpServletRequest request);
+    public FileResult getFilesLayuiByFormIdOss(String fileIds, HttpServletRequest request);
 
     /**
      * 根据文件IDS获取文件信息

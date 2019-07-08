@@ -822,6 +822,35 @@ public class SysFileServiceImpl implements SysFileService {
 		return fileResult;
 	}
 
+	public FileResult getFilesLayuiByFormIdOss(String fileIds, HttpServletRequest request) {
+		List<SysFile> fileList = new ArrayList<>();
+		if (!StrUtil.isEmpty(fileIds)) {
+			String[] fileIdArr = fileIds.split(",");
+			SysFileExample sysFileExample = new SysFileExample();
+			sysFileExample.createCriteria().andDataidIn(Arrays.asList(fileIdArr)).andIsDelEqualTo("0");
+			// sysFileExample.createCriteria().andDataidIn(Arrays.asList(fileIdArr)).andFlagNotEqualTo("0").andIsDelEqualTo("0");
+			sysFileExample.setOrderByClause("create_date_time desc");
+			fileList = this.selectByExample(sysFileExample);
+		}
+
+		// 添加坐标
+		for (int i = 0; i<fileList.size(); i++) {
+			String strLongLat = fileList.get(i).getBak8();
+			if (strLongLat!=null) {
+				String[] strings = strLongLat.split(",");
+				if (strLongLat.indexOf("°")>-1) {
+					fileList.get(i).setBak8(GetLocation.dssConvertlonglat(strings[0])+","+GetLocation.dssConvertlonglat(strings[1]));
+				}
+			} else {
+				fileList.get(i).setBak8("");
+			}
+		}
+		FileResult fileResult = new FileResult();
+		fileResult.setList(fileList);
+		fileResult.setFileIds(fileIds);
+		return fileResult;
+	}
+
 	public FileResult getFiles(String fileIds, HttpServletRequest request) {
 		List<SysFile> fileList = new ArrayList<>();
 		if (!StrUtil.isEmpty(fileIds)) {
