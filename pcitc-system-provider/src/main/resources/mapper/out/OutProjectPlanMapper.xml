@@ -1219,6 +1219,20 @@
 				<if test="define3 != null and define3 != ''">
 					and out_project_plan.DEFINE3 like '%${define3}%'
 				</if>
+				<if test="zylbbm != null and zylbbm != ''">
+					and find_in_set(out_project_plan.zylbbm, '${zylbbm}')
+				</if>
+				<if test="zycbm != null and zycbm != ''">
+					and find_in_set(out_project_plan.zycbm, '${zycbm}')
+				</if>
+				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(out_project_plan.zycbm, '${zycbm}')
+					</if>
+					<if test="zycbm == null or zycbm == ''">
+						and out_project_plan.ND = '1900'
+					</if>
+				</if>
 				
 				group by out_project_plan.xmid
 		) as tableB 
