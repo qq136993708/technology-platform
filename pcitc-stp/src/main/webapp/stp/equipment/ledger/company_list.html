@@ -214,9 +214,12 @@ var name=$('#name').val();
     
     function renderTable()
 	{    
-    	
     	var month=$('#month').val();
-    	month=month.replace("-","");
+    	if(month==""){
+    		month="201906";
+    	}else{
+    		month=month.replace("-","");
+    	}
     	
     	//渲染
         table.render({
