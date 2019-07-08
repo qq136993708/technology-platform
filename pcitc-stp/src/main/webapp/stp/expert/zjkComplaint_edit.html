@@ -148,8 +148,8 @@
             if (id != "0") {
                 ajaxPost("/zjkComplaint/getZjkComplaintInfo", {"id": id}, function (data) {
                     form.val("zjkComplaint-form", data);
-                    complaintDesc.setData(data.complaintDesc);
-                    doDesc.setData(data.doDesc);
+                    /*complaintDesc.setData(data.complaintDesc);
+                    doDesc.setData(data.doDesc);*/
                 });
             }
             /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
