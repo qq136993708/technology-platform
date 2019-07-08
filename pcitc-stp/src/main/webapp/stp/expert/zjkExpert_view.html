@@ -677,7 +677,7 @@
             if (id != "0") {
                 ajaxPost("/zjkBaseInfo/getZjkBaseInfoInfo", {"id": id}, function (data) {
                     form.val("zjkExpert-form", data);
-                    myEditor.setData(data.userDesc);
+                    //myEditor.setData(data.userDesc);
                     //地址-开始
                     address("city", data.province, data.city);
                     address("county", data.city, data.county);

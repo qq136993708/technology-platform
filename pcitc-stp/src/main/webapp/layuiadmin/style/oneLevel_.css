@@ -258,8 +258,30 @@ line-height: 60px;font-size: 22px;}
     height: 131px;margin-bottom: 14px;}
 .main-two .title{font-size: 16px;color: white;padding: 15px 0 0 12px;}
 .main-two .number{text-align: center;color: white;font-size: 24px;height: 24px;line-height: 24px;}
+.main-two .main-left1{float: none;position: relative;}
+.main-two .main-left1>div{width: 183px;}
 .petrification{background:#b265fb url("/layuiadmin/layui/images/unify.png") no-repeat right bottom;width: 100%;
     height: 131px;margin-bottom: 14px;}
+.main-two .main-left1 .main-left0{    background: #01a19a url(/layuiadmin/layui/images/unify.png) no-repeat right bottom;
+   height: 280px;margin-bottom: 14px;}
+.main-two .main-left1 .main-left1{    background: #24b3dd url(/layuiadmin/layui/images/unify.png) no-repeat right bottom;
+   height: 276px;margin-bottom: 14px;position: absolute;top: 0;left: 210px;}
+.main-two .main-left1 .main-left2{    background: #e1bb4c url(/layuiadmin/layui/images/unify.png) no-repeat right bottom;
+   height: 131px;margin-bottom: 14px;width: 318px;position: absolute;top: 0;left: 414px;}
+.main-two .main-left1 .main-left3{    background: #faa990 url(/layuiadmin/layui/images/unify.png) no-repeat right bottom;
+   height: 131px;width:120px;margin-bottom: 14px;top: 145px;position: absolute;left: 414px;}
+.main-two .main-left1 .main-left4{    background: #b265fb url(/layuiadmin/layui/images/unify.png) no-repeat right bottom;
+   height: 131px;margin-bottom: 14px;width:186px;top: 145px;position: absolute;left: 546px;}
+.main-two .main-left1 .main-left5{    background: #f58b9c url(/layuiadmin/layui/images/unify.png) no-repeat right bottom;
+   height: 131px;margin-bottom: 14px;width: 324px;position: absolute;left: 210px;top: 293px;}
+.main-two .main-left1 .main-left6{    background: #0089c7 url(/layuiadmin/layui/images/unify.png) no-repeat right bottom;
+   height: 131px;margin-bottom: 14px;width: 186px;position: absolute;top: 293px;left: 546px;}
+.main-two .main-left1 .main-left7{    background: #0d88c8 url(/layuiadmin/layui/images/unify.png) no-repeat right bottom;
+   height: 131px;margin-bottom: 14px;width: 155px;position: absolute;top: 440px;left:210px; }
+.main-two .main-left1 .main-left8{    background: #a1c4fe url(/layuiadmin/layui/images/unify.png) no-repeat right bottom;
+    height: 131px;margin-bottom: 14px;width: 155px;position: absolute;top: 440px;left: 379px;}
+.main-two .main-left1 .main-left9{    background: #ce4a6f url(/layuiadmin/layui/images/unify.png) no-repeat right bottom;
+    height: 131px;margin-bottom: 14px;width: 186px;position: absolute;top: 440px;left:546px; }
 .add{height: 131px;width: 183px;background:#345e80 url("/layuiadmin/layui/images/add.png") no-repeat center center;}
 /*.main-two{display: none;}*/
 /*快捷导航*/

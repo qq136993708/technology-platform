@@ -71,7 +71,7 @@
                 </div>
                 <div class="layui-news">
                     <p>
-                        科技要闻
+                        研究院动态
                         <span>
 								<a href="/instituteIndex?url=/expertController/leader_speech" target="_blank">更多></a>
 							</span>
@@ -166,7 +166,7 @@
         </div>
         <!--第二屏-->
         <div class="layui-level-main main-two">
-            <div class="main-left">
+            <div class="main-left1">
                 <div class="property">
                     <p class="title">知识产权</p>
                     <p class="number" id="patentId"></p>
@@ -177,8 +177,8 @@
                 </div>
                 <div class="add"></div>
             </div>
-            <div class="main-midd"></div>
-            <div class="main-right"></div>
+            <!--<div class="main-midd"></div>
+            <div class="main-right"></div>-->
         </div>
     </div>
     <div class="menu-right">
@@ -364,7 +364,7 @@
             $(".main-one").fadeOut("3000");
         });
         /*滚动*/
-        $(".main-two").css("height", $(".main-one").height() + "px");
+        $(".main-two").css("height", ($(".main-one").height()+131) + "px");
         /*$(".layui-level-admin").on("mousewheel",function(event, delta, deltaX, deltaY) {
             var dir = delta > 0 ? 'Up' : 'Down';
             if (dir == 'Up') {
