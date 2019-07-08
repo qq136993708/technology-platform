@@ -193,7 +193,8 @@
 			});
 
 			$("#knowledge_table").click(function() {
-				parent.layui.index.openTabsPage("/home_achievement/award_table", "科技成果明细");
+				var url = encodeURIComponent("/one_level_main/achievement_table?nd=" + nd);
+				window.open("/instituteIndex?url=" + url);
 			});
 
 			/*时间轴*/
