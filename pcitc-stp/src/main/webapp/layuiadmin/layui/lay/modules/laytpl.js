@@ -400,7 +400,7 @@ layui.define(['jquery'],function (e) {
         }
         var cName="c-nameC";
         var select_type=d.select_type;
-        if(d.select_type=="undefined"){
+        if(d.select_type==undefined){
             var cName="c-name";
             var select_type='';
         }

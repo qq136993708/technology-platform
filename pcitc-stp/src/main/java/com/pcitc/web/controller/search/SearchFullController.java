@@ -49,7 +49,7 @@ public class SearchFullController extends BaseController {
 
 	private static final String[] tabString = { "科研", "成果" };
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fullSearchsearchEquipment")
+	@RequestMapping(method = RequestMethod.GET, value = "/fullSearch/searchEquipment")
 	public String searchEquipment(HttpServletRequest request) throws Exception {
 		request.setAttribute("keyword", request.getParameter("keyword"));
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
@@ -64,7 +64,7 @@ public class SearchFullController extends BaseController {
 		return "stp/hana/home/search/query_equipment";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fullSearchsearchIndex")
+	@RequestMapping(method = RequestMethod.GET, value = "/fullSearch/searchIndex")
 	public String searchIndex(HttpServletRequest request) throws Exception {
 		request.setAttribute("keyword", request.getParameter("keyword"));
 		// 添加装备start
@@ -81,51 +81,51 @@ public class SearchFullController extends BaseController {
 		return "stp/hana/home/search/search_index";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fullSearchsearchExpert")
+	@RequestMapping(method = RequestMethod.GET, value = "/fullSearch/searchExpert")
 	public String searchExpert(HttpServletRequest request) throws Exception {
 		request.setAttribute("keyword", request.getParameter("keyword"));
 		return "stp/hana/home/search/query_expert";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fullSearchsearchPatent")
+	@RequestMapping(method = RequestMethod.GET, value = "/fullSearch/searchPatent")
 	public String searchPatent(HttpServletRequest request) throws Exception {
 		request.setAttribute("keyword", request.getParameter("keyword"));
 		return "stp/hana/home/search/query_patent";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fullSearchsearchFile")
+	@RequestMapping(method = RequestMethod.GET, value = "/fullSearch/searchFile")
 	public String searchFile(HttpServletRequest request) throws Exception {
 		String keyword = request.getParameter("keyword");
 		request.setAttribute("keyword", (keyword == null || "undefined".equals(keyword)) ? "" : keyword);
 		return "stp/hana/home/search/query_file";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fullSearchsearchOutreward")
+	@RequestMapping(method = RequestMethod.GET, value = "/fullSearch/searchOutreward")
 	public String searchOutreward(HttpServletRequest request) throws Exception {
 		request.setAttribute("keyword", request.getParameter("keyword"));
 		return "stp/hana/home/search/query_outreward";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fullSearchsearchTfmType")
+	@RequestMapping(method = RequestMethod.GET, value = "/fullSearch/searchTfmType")
 	public String searchTfmType(HttpServletRequest request) throws Exception {
 		request.setAttribute("keyword", request.getParameter("keyword"));
 		return "stp/hana/home/search/query_tfmType";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fullSearchsearchReport")
+	@RequestMapping(method = RequestMethod.GET, value = "/fullSearch/searchReport")
 	public String searchReport(HttpServletRequest request) throws Exception {
 		request.setAttribute("keyword", request.getParameter("keyword"));
 		return "stp/hana/home/search/query_report";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fullSearchsearch")
+	@RequestMapping(method = RequestMethod.GET, value = "/fullSearch/search")
 	public String search(HttpServletRequest request) throws Exception {
 		String keyword = request.getParameter("keyword");
 		request.setAttribute("keyword", (keyword == null || "undefined".equals(keyword)) ? "" : keyword);
 		return "stp/hana/home/search/search";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fullSearchgetTableSearchEquipment")
+	@RequestMapping(method = RequestMethod.GET, value = "/fullSearch/getTableSearchEquipment")
 	@ResponseBody
 	public String equipment_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -211,7 +211,7 @@ public class SearchFullController extends BaseController {
 		return resultObj.toString();
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/fullSearchgetTableSearch")
+	@RequestMapping(method = RequestMethod.POST, value = "/fullSearch/getTableSearch")
 	@ResponseBody
 	public String getTableSearch(@ModelAttribute("param") LayuiTableParam param) {
 
@@ -230,7 +230,7 @@ public class SearchFullController extends BaseController {
 		return JSONObject.toJSONString(layuiTableData);
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/fullSearchgetTableDataReport")
+	@RequestMapping(method = RequestMethod.POST, value = "/fullSearch/getTableDataReport")
 	@ResponseBody
 	public String getTableDataReport(@ModelAttribute("param") LayuiTableParam param) {
 		LayuiTableData layuiTableData = new LayuiTableData();
@@ -245,7 +245,7 @@ public class SearchFullController extends BaseController {
 	 * ---------------
 	 */
 
-	@RequestMapping(method = RequestMethod.POST, value = "/fullSearchgetTableDataAchivement")
+	@RequestMapping(method = RequestMethod.POST, value = "/fullSearch/getTableDataAchivement")
 	@ResponseBody
 	public String getTableDataAchivement(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
@@ -261,7 +261,7 @@ public class SearchFullController extends BaseController {
 		return result.toString();
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/fullSearchgetTableDataOutReward")
+	@RequestMapping(method = RequestMethod.POST, value = "/fullSearch/getTableDataOutReward")
 	@ResponseBody
 	public String getTableDataOutReward(@ModelAttribute("param") LayuiTableParam param) {
 
@@ -277,7 +277,7 @@ public class SearchFullController extends BaseController {
 		return result.toString();
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fullSearchquery_achievement")
+	@RequestMapping(method = RequestMethod.GET, value = "/fullSearch/query_achievement")
 	public String achievement(HttpServletRequest request) throws Exception {
 
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
@@ -303,7 +303,7 @@ public class SearchFullController extends BaseController {
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping(method = RequestMethod.POST, value = "/fullSearchgetTableDataScientific")
+	@RequestMapping(method = RequestMethod.POST, value = "/fullSearch/getTableDataScientific")
 	@ResponseBody
 	public String getTableData(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
@@ -319,7 +319,7 @@ public class SearchFullController extends BaseController {
 		return JSONObject.toJSONString(layuiTableData);
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fullSearchquery_scientific")
+	@RequestMapping(method = RequestMethod.GET, value = "/fullSearch/query_scientific")
 	public String query_scientific(HttpServletRequest request) throws Exception {
 
 		request.setAttribute("keyword", request.getParameter("keyword"));

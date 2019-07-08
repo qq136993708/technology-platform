@@ -242,6 +242,13 @@ public class SysFileClient {
         System.out.println(fileIds+"------------getFilesLayuiByFormId------------");
         return sysFileService.getFilesLayuiByFormId(fileIds, request);
     }
+
+    @ApiOperation(value = "Layui根据表单ID获取文件列表", notes = "Layui根据表单ID获取文件列表,返回FileResult类型对象")
+    @RequestMapping(value = "/sysfile-provider/sysfile/getFilesLayuiByFormIdOss", method = RequestMethod.POST)
+    @ResponseBody
+    public FileResult getFilesLayuiByFormIdOss(String fileIds, HttpServletRequest request) {
+        return sysFileService.getFilesLayuiByFormIdOss(fileIds, request);
+    }
     /**
      * 回填已有文件的缩略图
      *
