@@ -248,7 +248,7 @@
         });
 
 
-        var chart4_url="/one_level_main/knowledge_bar_02?nd="+nd+"&v_date="+v_date;
+        var chart4_url="/one_level_main/knowledge_bar_02?functionId=984b64b13cf54222bf57bd840759fabe&nd="+nd+"&v_date="+v_date;
         var color=["#6592b3","#55b6e9"]
         var echart4=load_mutl_bar_down_r(chart4_url,"leader_knowledge_chart4","","",yAxis,1,20,color);
         echart4.on('click', function (params) {
@@ -260,7 +260,7 @@
 
 
 
-        var chart5_url="/one_level_main/knowledge_pie?type=3&nd="+nd+"&v_date="+v_date;
+        var chart5_url="/one_level_main/knowledge_pie?functionId=984b64b13cf54222bf57bd840759fabe&type=3&nd="+nd+"&v_date="+v_date;
         var echart5=loadPie(chart5_url,"chart5","","");
         echart5.on('click', function (params) {
             var xName=params.name;
