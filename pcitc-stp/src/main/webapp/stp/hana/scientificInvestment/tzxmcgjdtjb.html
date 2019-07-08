@@ -33,7 +33,7 @@
 
 <div class="tableBox">
 <div class="btnGroup" style="float:right;margin-right:20px"><button  onclick="exput_excel()" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg" >导出EXCEL</<button></div>
-    <h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt"></label>投资项目采购进度统计表</h3>
+    <h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt"></label>投资采购进度统计表</h3>
     <table id="processdef-table" class="layui-hide" lay-filter="processdef-table">
 </div>
 
@@ -191,7 +191,7 @@ layui.config({
    	    //alert(companyName+"="+month);
    	    var url= '/si/tzxmcgjdtjb_detail?month='+month+"&v_date="+v_date+"&companyName="+companyName;
         layer.open({
-            title:'投资采购进度表-详情',
+            title:'投资采购进度统计表-详情',
             skin: 'layui-layer-lan',
             shadeClose: true,
             type: 2,

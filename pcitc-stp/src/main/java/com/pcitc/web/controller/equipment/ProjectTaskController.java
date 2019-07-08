@@ -202,8 +202,8 @@ public class ProjectTaskController extends BaseController {
 		List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
 		request.setAttribute("dicList", dicList);
 		String unitPathIds = sysUserInfo.getUnitPath();
-		String leadUnitCode = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);// .getParentUnitPathId(unitPathIds);
-		request.setAttribute("leadUnitCode", leadUnitCode);
+		//String leadUnitCode = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);// .getParentUnitPathId(unitPathIds);
+		//request.setAttribute("leadUnitCode", leadUnitCode);
 		
 		
 		//归属部门
