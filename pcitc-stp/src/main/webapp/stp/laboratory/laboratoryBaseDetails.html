@@ -67,7 +67,7 @@
                     <div class="layui-tab-content">
                         <div class="layui-tab-item layui-show">
                             <div class="lan">
-                                <table class="layui-table" id="tableProject">
+                                <table class="layui-table" id="tableProject" lay-filter="tableProject">
                                 </table>
                             </div>
                         </div>
@@ -126,8 +126,8 @@
         </div>
     </div>
     <script>
-    	layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
-    		var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
+    	layui.use(['jquery', 'table', 'laydate', 'layer','element','publicMethods'], function () {
+    		var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,element=layui.element,publicMethods=layui.publicMethods;
     		var param = JSON.parse(window.localStorage.getItem("param"));
             var cols = [
                 {title: '序号', type: 'numbers', width: 55},
