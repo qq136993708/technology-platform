@@ -202,7 +202,7 @@ var roleCodes = "";
 var unitCodes = "";
 var postCodes = "";
 
-
+var equipmss="";
 
 var table,selectRowData;
 var name=$('#name').val();
@@ -217,7 +217,7 @@ var name=$('#name').val();
             //加载表格      
 	  	    renderTable();
 	  	    //移除表头的复选框,去掉全选
-	  	    $(".layui-table-header table thead th input").remove();  
+	  	    //$(".layui-table-header table thead th input").remove();  
 	  	    form.render();
   	     
   	     
@@ -287,16 +287,22 @@ var name=$('#name').val();
             	}
                
             },deleteEvent: function(){  //点击关闭按钮
-                 console.log('点击了关闭按钮')
-                 if (typeof(selectRowData) == "undefined") 
+            	var check = table.checkStatus('processdef-table');
+            	console.log(check);
+            	var equipmentIds="";
+                	for(var dt in check.data)
+                	{
+                		equipmentIds=equipmentIds+check.data[dt].taskId+",";
+                	}
+                 if (equipmentIds == "") 
                  {
             		layer.msg('请点击选择一行数据');
             	 } else 
             	 {
-            		  var id=selectRowData.taskId;
+            		  var taskId=equipmentIds;
             		  $.ajax({
 	                       type : "POST",
-	                       url: "/sre-task-closure/uppdata/"+id,
+	                       url: "/sre-task-closure/uppdata/"+taskId,
 	                       data: {"id":id},
 	                       traditional : true,
 	                       async : true,   
@@ -432,7 +438,7 @@ var name=$('#name').val();
                 theme: '#0F9EE0'
             },
             cols: [[
-            	{type : 'checkbox', event : 'changeEvents', width : 55},
+            	{type:'checkbox',event: 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
             	{field : 'topicName',      title : '任务书名称', style : 'cursor: pointer;', align: 'left',sort : true, width : '10%'},
                 {field : 'setupYear',      title : '立项年份', style : 'cursor: pointer;', align: 'center',sort : true, width : '10%'},
@@ -441,19 +447,14 @@ var name=$('#name').val();
                 {field : 'createUnitName',  title : '填写部门', style : 'cursor: pointer;', align: 'left',sort : true, width : '10%'},
                 {field : 'createDate',     title : '任务书填写时间', style : 'cursor: pointer;', align: 'center', sort : true,width : '15%', templet : '#dateTpl'},
             	{field : 'createUserName', title : '任务书填写人', style : 'cursor: pointer;', align: 'center',sort : true, }
-            
                 ]],
-            done: function (res, curr, count) {
-                // 点击行联动选择框--单选
-                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-                	var index=parseInt($(this).index()+1);
-                    $('tr').removeClass('layui-table-click');
-                    $(this).addClass('layui-table-click');
-                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                    selectRowData=res.data[index-1];
-                    var auditStatus=selectRowData.auditStatus;
-                });
+                done: function (res, curr, count) {
+	            	var equipmentIds="";
+	            	for(var i;i<res.data.length;i++)
+	            	{
+	            		var equipmentId=res.data.equipmentId;
+	            		equipmss=res.data.equipmentId;
+	            	}
                 //项目分类，项目性质
                 var dicMap = ['ROOT_ZBGL_ZBFL'];
                 var dicVal = {};
@@ -469,7 +470,6 @@ var name=$('#name').val();
  			   	}); 
             }
         });
-        $(".layui-table-header table thead th input").remove()
 	 }
     
     /*formName：form表单名称，
