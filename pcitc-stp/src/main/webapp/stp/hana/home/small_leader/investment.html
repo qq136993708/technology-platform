@@ -84,9 +84,9 @@
 								        <th lay-data="{field:'yearMonth', width:'16%',align:'center'}">月份</th>
 								        <th lay-data="{field:'zysje',     width:'16%',align:'right'}">预算金额(万元)</th>
 										<th lay-data="{field:'zsjje',     width:'17%',align:'right'}">已签合同总金额(万元)</th>
-										<th lay-data="{field:'zsjje',     width:'17%',align:'right'}">未签合同总金额(万元)</th>
+										<th lay-data="{field:'wqhtzje',     width:'17%',align:'right'}">未签合同总金额(万元)</th>
 										<th lay-data="{field:'hanaMoney', width:'17%',align:'right'}">已签拨款总金额(万元)</th>
-										<th lay-data="{field:'hanaMoney', width:'17%',align:'right'}">未拨款总金额(万元)</th>
+										<th lay-data="{field:'wbkzje', width:'17%',align:'right'}">未拨款总金额(万元)</th>
 								</thead>
 							</table>
 						</div>
@@ -146,9 +146,9 @@
 									    <th lay-data="{field:'define2',   width:'16%',align:'center'}">研究院</th>
 										<th lay-data="{field:'zysje',     width:'16%',align:'right'}">预算金额(万元)</th>
 										<th lay-data="{field:'zsjje',     width:'17%',align:'right'}">已签合同总金额(万元)</th>
-										<th lay-data="{field:'zsjje',     width:'17%',align:'right'}">未签合同总金额(万元)</th>
+										<th lay-data="{field:'wqhtzje',     width:'17%',align:'right'}">未签合同总金额(万元)</th>
 										<th lay-data="{field:'hanaMoney', width:'17%',align:'right'}">已拨款总金额(万元)</th>
-										<th lay-data="{field:'hanaMoney', width:'17%',align:'right'}">未拨款总金额(万元)</th>
+										<th lay-data="{field:'wbkzje', width:'17%',align:'right'}">未拨款总金额(万元)</th>
 									</tr>
 								</thead>
 							</table>
@@ -258,7 +258,7 @@
 			//var colorOne = [ "#75C9C0", "#5181E6" ,"#9799ec"]
 			
 			var colorOne = [ "#ea886d", "#9799ec", "#5181E6" ];
-			var echart1 = load_mutl_bar_down(chart1_url, "investment_smal_chart1", "", "", yAxis2, 20, colorOne);
+			var echart1 = load_mutl_bar_down(chart1_url, "investment_smal_chart1", "", "", yAxis2, 10, colorOne);
 			echart1.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
