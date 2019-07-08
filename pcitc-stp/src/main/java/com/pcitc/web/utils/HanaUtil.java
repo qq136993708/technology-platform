@@ -2963,7 +2963,8 @@ public class HanaUtil {
 		return chartBarLineSeries;
 	}
 
-	public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> list, String name) {
+
+public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("zysje")) {
@@ -2978,52 +2979,106 @@ public class HanaUtil {
 			chartBarLineSeries.setName("拨款金额");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
+		if (name.equals("wqhtzje")) {
+			chartBarLineSeries.setName("未签合同金额");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("wbkzje")) {
+			chartBarLineSeries.setName("未拨款金额");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
 
 		List<Object> dataList = new ArrayList<Object>();
-		if (list != null && list.size() > 0) {
-			for (int i = 0; i < list.size(); i++) {
+		if (list != null && list.size() > 0) 
+		{
+			for (int i = 0; i < list.size(); i++) 
+			{
 				BudgetMysql f03 = list.get(i);
 				Object zysje = f03.getZysje();
 				Object zsjje = f03.getZsjje();
 				Object hanaMoney = f03.getHanaMoney();
-
-				if (name.equals("zysje")) {
-
-					if (zysje != null) {
+				Object wqhtzje = f03.getWqhtzje();
+				Object wbkzje = f03.getWbkzje();
+				
+				if (name.equals("zysje"))
+				{
+					
+					if(zysje!=null)
+					{
 						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(zysje))));
-
-					} else {
+						
+					}else
+					{
 						dataList.add(0);
 					}
-
+					
 				}
-
-				if (name.equals("zsjje")) {
-
-					if (zsjje != null) {
+				
+				if (name.equals("zsjje"))
+				{
+					
+					if(zsjje!=null)
+					{
 						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(zsjje))));
-
-					} else {
+						
+					}else
+					{
 						dataList.add(0);
 					}
-
+					
 				}
-				if (name.equals("hanaMoney")) {
-
-					if (hanaMoney != null) {
+				if (name.equals("hanaMoney"))
+				{
+					
+					if(hanaMoney!=null)
+					{
 						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(hanaMoney))));
-
-					} else {
+						
+					}else
+					{
 						dataList.add(0);
 					}
-
+					
 				}
+				
+				
+				
+				if (name.equals("wqhtzje"))
+				{
+					
+					if(wqhtzje!=null)
+					{
+						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(wqhtzje))));
+						
+					}else
+					{
+						dataList.add(0);
+					}
+					
+				}
+				
+				if (name.equals("wbkzje"))
+				{
+					
+					if(wbkzje!=null)
+					{
+						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(wbkzje))));
+						
+					}else
+					{
+						dataList.add(0);
+					}
+					
+				}
+				
+				
 
 			}
 			chartBarLineSeries.setData(dataList);
 		}
 		return chartBarLineSeries;
 	}
+	
 
 	public static ChartBarLineSeries getInvestmentBarLineSeries02(List<BudgetMysql> list, String name) {
 
