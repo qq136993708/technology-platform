@@ -72,7 +72,6 @@ layui.define(['jquery','form','table','laydate'],
              * @param {String} callback 状态
              */
             ajaxAsyncPost:function(url, params, callback) {
-                var result = null;
                 var headers = {};
                 $.ajax({
                     type: 'post',
@@ -85,7 +84,6 @@ layui.define(['jquery','form','table','laydate'],
                     	XMLHttpRequest.setRequestHeader("client_req_type", "ajaxAsyncPost");
                     },
                     success: function (data, status) {
-                    	result = data;
                     	if (data && data.code && data.code == '401') {
                     		layer.alert("登录超时，请重新登录！", {title : '提示'},function(){
                        		 	window.open("/login","_top");
@@ -104,7 +102,6 @@ layui.define(['jquery','form','table','laydate'],
                         console.log("ajaxPost发生异常，请仔细检查请求url是否正确");
                     }
                 });
-                return result;
             },
             /**
              * ajax请求
