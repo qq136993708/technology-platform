@@ -412,6 +412,17 @@ public class OutProjectServiceImpl implements OutProjectService {
 
         return 1;
     }
+    
+    public int updateProjectData(List<OutProjectInfo> list, String nd) {
+
+        List<OutProjectInfo> insertData = new ArrayList<OutProjectInfo>();
+        for (int i = 0; i < list.size(); i++) {
+            int temInt = this.updateOutProjectInfo1(list.get(i));
+        }
+
+
+        return 1;
+    }
 
     public LayuiTableData getOutProjectPage(LayuiTableParam param) {
         // 每页显示条数
@@ -555,6 +566,32 @@ public class OutProjectServiceImpl implements OutProjectService {
                     }
                     if (StrUtil.isNotBlank(opi.getLxrxm())) {
                         newOPI.setLxrxm(opi.getLxrxm());
+                    }
+                    outProjectInfoMapper.updateByPrimaryKey(newOPI);
+                }
+            }
+            return 0;
+        } else {
+			/*List<OutProjectInfo> insertData = new ArrayList<OutProjectInfo>();
+			insertData.add(opi);
+			outProjectInfoMapper.insertOutProjectBatch(insertData);*/
+            return -1;
+        }
+    }
+    
+    public int updateOutProjectInfo1(OutProjectInfo opi) {
+
+        OutProjectInfoExample example = new OutProjectInfoExample();
+        OutProjectInfoExample.Criteria criteria = example.createCriteria();
+        criteria.andXmidEqualTo(opi.getXmid());
+        criteria.andDefine3EqualTo("项目管理系统");
+        List<OutProjectInfo> returnList = outProjectInfoMapper.selectByExample(example);
+        if (returnList != null && returnList.size() > 0) {
+            for (int j = 0; j < returnList.size(); j++) {
+                OutProjectInfo newOPI = returnList.get(j);
+                if (newOPI != null) {
+                    if (StrUtil.isNotBlank(opi.getDefine16())) {
+                        newOPI.setDefine16(opi.getDefine16());
                     }
                     outProjectInfoMapper.updateByPrimaryKey(newOPI);
                 }

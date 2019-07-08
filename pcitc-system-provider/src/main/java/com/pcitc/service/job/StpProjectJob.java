@@ -41,7 +41,7 @@ public class StpProjectJob implements Job, Serializable {
 		
 		Calendar date = Calendar.getInstance();
 		String ndCon = String.valueOf(date.get(Calendar.YEAR));
-		ndCon = "2018";
+		ndCon = "2017";
 		String str = null;
 		try {
 			// 远程获取数据 -----
@@ -66,6 +66,7 @@ public class StpProjectJob implements Job, Serializable {
 					String fwdxbm = object.getString("FWDXBM");
 					String fwdx = object.getString("FWDX");
 					String zylbbm = object.getString("ZYLBBM");
+					String htqdsj = object.getString("htqdsj");
 
 					String zylb = object.getString("ZYLB");
 					String fzdwbm = object.getString("FZDWBM");
@@ -108,6 +109,7 @@ public class StpProjectJob implements Job, Serializable {
 					opi.setXmjb(xmjb);
 					opi.setJf(jf);
 					opi.setFwdxbm(fwdxbm);
+					opi.setDefine16(htqdsj);  // 合同签订时间
 					if (fwdxbm.equals("JT")) {
 						opi.setFwdx("集团");
 					} else if (fwdxbm.equals("GF")) {
@@ -221,7 +223,9 @@ public class StpProjectJob implements Job, Serializable {
 					
 				}
 				if (insertData != null && insertData.size() > 0) {
-					outProjectService.insertProjectData(insertData, ndCon);
+					System.out.println("1======----------------");
+					outProjectService.updateProjectData(insertData, ndCon);
+					System.out.println("2======----------------");
 				}
 				
 				
@@ -231,14 +235,14 @@ public class StpProjectJob implements Job, Serializable {
 				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时任务--定时获取项目管理系统的项目数据--保存到本地数据库-结束========="+culTotal);
 				// 统一调用存储过程，把数据中部分属性集中处理
 			}
-			FlowProjectRemoteClient flowProjectRemoteClient = SpringContextUtil.getApplicationContext().getBean(FlowProjectRemoteClient.class);
-			System.out.println("定时开始调用feign获取stp数据---------------"+flowProjectRemoteClient);
-			FlowProjectInfo flowProjectInfo = new FlowProjectInfo();
-			flowProjectInfo.setDataId("123");
-			Date date1 = new Date();
-			flowProjectRemoteClient.insertFlowProjectInfo(flowProjectInfo);
-			Date date2 = new Date();
-			System.out.println("========feign========调用时间*************====="+(date2.getTime()-date1.getTime()));
+			//FlowProjectRemoteClient flowProjectRemoteClient = SpringContextUtil.getApplicationContext().getBean(FlowProjectRemoteClient.class);
+			//System.out.println("定时开始调用feign获取stp数据---------------"+flowProjectRemoteClient);
+			//FlowProjectInfo flowProjectInfo = new FlowProjectInfo();
+			//flowProjectInfo.setDataId("123");
+			//Date date1 = new Date();
+			//flowProjectRemoteClient.insertFlowProjectInfo(flowProjectInfo);
+			//Date date2 = new Date();
+			//System.out.println("========feign========调用时间*************====="+(date2.getTime()-date1.getTime()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
