@@ -67,7 +67,7 @@
                     <div class="layui-tab-content">
                         <div class="layui-tab-item layui-show">
                             <div class="lan">
-                                <table class="layui-table" id="news-workdynamics-list-table">
+                                <table class="layui-table" id="tableProject">
                                     <tbody>
                                     <tr>
                                         <td style="width: 10px;">1</td>
@@ -140,8 +140,35 @@
         </div>
     </div>
     <script>
-        layui.use(['jquery', 'table', 'layer', 'laydate',"element"], function () {
-            var $ = layui.jquery, table = layui.table, laydate = layui.laydate,element=layui.element;
+    	layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
+    		var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
+    		var param = JSON.parse(window.localStorage.getItem("param"));
+            var cols = [
+                {type: 'checkbox', event: 'changeEvents', width: 55},
+                {title: '序号', type: 'numbers', width: 55},
+                {
+                    field: 'expertName',
+                    title: '姓名',event: 'setActive',align: 'left',style: 'cursor: pointer;',width: 120
+                },
+                {
+                    field: "sex",
+                    title: "性别", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "birthDate",
+                    title: "出生日期", event: 'setActive', style: 'cursor: pointer;', align: "right"
+                },
+                {
+                    field: 'email',
+                    title: '邮箱',event: 'setActive',align: 'left',style: 'cursor: pointer;',width: 180,
+                }
+            ];
+            var where = {
+                    param: {"baseId": ${laboratoryBase.dataId}}
+            };
+    		publicMethods.tableRender('tableProject', 'tableProject', '/laboratoryBasicProject/getTableData', false, cols, where, false, function (res, curr, count) {
+                console.log("---------");
+            });
         });
     </script>
 </body>
