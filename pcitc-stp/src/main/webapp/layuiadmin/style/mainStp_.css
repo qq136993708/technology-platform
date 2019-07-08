@@ -38,7 +38,7 @@
 .accept .layui-table tbody tr:hover td:nth-child(1) {border-left: 1px solid #42b678;}
 /*第一块*/
 .layui-top{display: flex;background: #fff;border: 1px solid #dfdfdf;
-    padding: 10px;margin: 0px 0 0 5px;width: 99.2%;border-radius: 4px;}
+    padding: 10px;margin: 4px 0 0 5px;width: 99.2%;border-radius: 4px;}
 .layui-col-md15{width: 12.5%;float: left;height: auto;overflow: hidden;background: #f4f4f4;
     border-radius: 5px;padding: 8px;cursor: pointer;
     margin-right: 10px;}
@@ -103,7 +103,7 @@ background: url("/layuiadmin/layui/images/icon-leader-aw.png") right no-repeat;
     background:url("/layuiadmin/layui/images/icon-leader-5.png") 84% 26px  no-repeat  #3c97d8;}
 /*工作动态*/
 .workNews .layui-col-md5{ width: 46%;}
-.workNews .layui-col-md3{width: 28.5%;}
+.workNews .layui-col-md3{width: 28.57%;}
 .workNews .layui-tab-bar{display: none;}
 .layui-leader-admin .layui-col-md15:nth-child(1) .layui-box-percent{color: #89f9fc !important;}
 .layui-leader-admin .layui-col-md15:nth-child(2) .layui-box-percent{color: #8fff9a !important;}
@@ -292,7 +292,8 @@ background: url("/layuiadmin/layui/images/icon-leader-aw.png") right no-repeat;
     .stay-do-m:hover .stay-doz-n{transform:translate(226px,64px)}
     .layui-col-md15{padding: 10px 8px 8px;}
     .layui-main-box .layui-box-icon{background-size: contain !important;}
-    .workNews .layui-col-md3{width: 28.7%;}
+    .workNews .layui-col-md3{width: 28.75%;}
+    .layui-top{width: 99.4%;}
 }
 @media (max-width: 1200px) {
     .work-collect ul li{width: 46.85%;}

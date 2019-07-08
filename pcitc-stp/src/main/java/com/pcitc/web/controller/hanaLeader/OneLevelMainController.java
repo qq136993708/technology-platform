@@ -293,7 +293,6 @@ public class OneLevelMainController extends BaseController {
 
 	/**
 	 * ========================================================成果--详情==========
-	 * ================================================
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/achievement_table")
 	public String achievement_table(HttpServletRequest request) throws Exception {
@@ -1034,6 +1033,7 @@ public class OneLevelMainController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/knowledge_pie")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String knowledge_pie(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result result = new Result();
 
@@ -1097,6 +1097,7 @@ public class OneLevelMainController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/knowledge_bar_02")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String knowledge_bar_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result result = new Result();
 
@@ -1711,6 +1712,7 @@ public class OneLevelMainController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/achievement_01")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String achievement_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
@@ -1753,6 +1755,7 @@ public class OneLevelMainController extends BaseController {
 	//
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/achievement_02")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String achievement_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
