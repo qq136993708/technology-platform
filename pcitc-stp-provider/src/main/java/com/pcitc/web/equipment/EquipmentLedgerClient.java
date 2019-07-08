@@ -3,6 +3,7 @@ package com.pcitc.web.equipment;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.equipment.SreEquipmentLedger;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.service.equipment.EquipmentLedgerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -16,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Api(value = "PurchaseOrder-API",tags = {"装备台账订单相关的接口"})
 @RestController
@@ -32,7 +36,9 @@ public class EquipmentLedgerClient
     @RequestMapping(value = "/sre-provider/equipmentLedger/insertEquipmentLedger")
     public void insertEquipmentLedger(@RequestBody List<SreEquipmentLedger> sreEquipmentLedgerList) throws Exception{
         logger.info("====================add sreEquipmentLedger....========================");
-        /*purchaseOrderService.deletePurchaseOrder();*/
+        Map map = new HashMap();
+        map.put("month",DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+        equipmentLedgerService.deleteByMonth(map);//删除当月数据
 
         equipmentLedgerService.insertEquipmentLedger(sreEquipmentLedgerList);
     }
