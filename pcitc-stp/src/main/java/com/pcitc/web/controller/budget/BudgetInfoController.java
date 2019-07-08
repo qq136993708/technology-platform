@@ -97,7 +97,7 @@ public class BudgetInfoController extends BaseController
 	public Object deleteBudgetGroupInfo(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
 	{
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_INFO_DEL, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
-		return JSON.toJSON(responseEntity.getBody()).toString();
+		return JSON.toJSON(responseEntity.getBody());
 	}
 	@RequestMapping(value = "/budget/budget-info-create", method = RequestMethod.POST)
 	@ResponseBody
@@ -130,6 +130,6 @@ public class BudgetInfoController extends BaseController
 	public Object getBudgetGroupList(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
 	{
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_INFO_FINAL_LIST, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
-		return JSON.toJSON(responseEntity.getBody()).toString();
+		return JSON.toJSON(responseEntity.getBody());
 	}
 }
