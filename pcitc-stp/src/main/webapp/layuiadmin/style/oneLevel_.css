@@ -76,8 +76,8 @@
 .layui-news ul{height: auto;overflow: hidden;}
 .layui-news ul li{height: 36px;line-height: 36px;text-align: left;}
 .layui-news ul li a{font-size: 12px;color: white;}
-.layui-news ul li>a{float: right;width: 84%;
-    background: url("/layuiadmin/layui/images/icon-news-r.png") no-repeat center right;}
+.layui-news ul li>a{float: right;width: 84%;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;box-sizing: border-box;
+    background: url("/layuiadmin/layui/images/icon-news-r.png") no-repeat center right;padding-right: 10px;}
 .layui-news ul li>.time{width: 56px;color: white;text-align: center;display: inline-block;font-size: 12px;}
 .layui-news ul li:first-child{height: 56px;margin: 10px 0px;}
 .layui-news ul li:first-child .time{background: url("/layuiadmin/layui/images/icon-time-bg.png") no-repeat;
@@ -87,7 +87,8 @@
 .layui-news ul li:first-child .yearM{color: white;font-size: 12px;font-family: "Helvetica Neue";
     position: relative;top: -16px;}
 .layui-news ul li:first-child .content{float: right;width: 84%;height: 56px;}
-.layui-news ul li:first-child a{width: 100%;display: inline-block;position: relative;top: -11px;}
+.layui-news ul li:first-child a{width: 100%;display: inline-block;position: relative;top: -11px;
+    overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
 .layui-news ul li:first-child .content span{height: 35px;display: inline-block;font-size: 12px;
     color: white;position: relative;top: -16px;line-height: 16px;padding-top: 2px;overflow: hidden;
     border-top: 1px dashed rgba(255,255,255,.8);width: 100%;}
