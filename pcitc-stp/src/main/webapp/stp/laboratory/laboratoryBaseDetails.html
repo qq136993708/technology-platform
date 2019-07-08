@@ -28,19 +28,12 @@
             </p>
             <div class="layui-col-md4">
                 <div class="details-left">
-                    发展规划、年度工作计划的制定与实施情况
+                   	主任履历
                 </div>
                 <div class="details-right">
-                    <p>按照中国石油化工集团公司关于命名中国石化重点实验室文件精神，
-                        以及中国石化科技开发部关于西南油气分公司和石油勘探开发
-                        研究院“关于多波地震技术重点实验室组织机构相关问题报告批复” 精神，西南油
-                        气分公司和石油勘探开发研究院在 2011 年度开始联合 建设中国石化“多波地震技术”
-                        重点实验室。在科技开发部和两个依 托单位的领导和支持下, 2011 年 7 月 21 日多波地震技术
-                        重点实验室 顺利揭牌并召开了学术委员会第一次全体会议，认真讨论了实验室建 设规划，重点分
-                        析实验室建设中的优势和劣势，研究了实验室发展目 标和措施。会议通过了实验室发展规划、2011-2012 年度工作计划，
-                        从体制机制和规章制度上为实验室建设给以保障。学术委员会要求实 验室做好在研项目的研发工作、积极申报国家项目
+                    <p>${laboratoryBase.directorDesc}
                     </p>
-                    <a href="javascript:;">更多…</a>
+                    <a href="javascript:;">&nbsp;</a>
                 </div>
             </div>
             <div class="layui-col-md4">
@@ -48,33 +41,17 @@
                     发展规划、年度工作计划的制定与实施情况
                 </div>
                 <div class="details-right">
-                    <p>按照中国石油化工集团公司关于命名中国石化重点实验室文件精神，
-                        以及中国石化科技开发部关于西南油气分公司和石油勘探开发
-                        研究院“关于多波地震技术重点实验室组织机构相关问题报告批复” 精神，西南油
-                        气分公司和石油勘探开发研究院在 2011 年度开始联合 建设中国石化“多波地震技术”
-                        重点实验室。在科技开发部和两个依 托单位的领导和支持下, 2011 年 7 月 21 日多波地震技术
-                        重点实验室 顺利揭牌并召开了学术委员会第一次全体会议，认真讨论了实验室建 设规划，重点分
-                        析实验室建设中的优势和劣势，研究了实验室发展目 标和措施。会议通过了实验室发展规划、2011-2012 年度工作计划，
-                        从体制机制和规章制度上为实验室建设给以保障。学术委员会要求实 验室做好在研项目的研发工作、积极申报国家项目
-                    </p>
-                    <a href="javascript:;">更多…</a>
+                    <p>${laboratoryBase.planDesc}</p>
+                    <a href="javascript:;">&nbsp;</a>
                 </div>
             </div>
             <div class="layui-col-md4">
                 <div class="details-left">
-                    发展规划、年度工作计划的制定与实施情况
+                    代表性研究成果简介
                 </div>
                 <div class="details-right">
-                    <p>按照中国石油化工集团公司关于命名中国石化重点实验室文件精神，
-                        以及中国石化科技开发部关于西南油气分公司和石油勘探开发
-                        研究院“关于多波地震技术重点实验室组织机构相关问题报告批复” 精神，西南油
-                        气分公司和石油勘探开发研究院在 2011 年度开始联合 建设中国石化“多波地震技术”
-                        重点实验室。在科技开发部和两个依 托单位的领导和支持下, 2011 年 7 月 21 日多波地震技术
-                        重点实验室 顺利揭牌并召开了学术委员会第一次全体会议，认真讨论了实验室建 设规划，重点分
-                        析实验室建设中的优势和劣势，研究了实验室发展目 标和措施。会议通过了实验室发展规划、2011-2012 年度工作计划，
-                        从体制机制和规章制度上为实验室建设给以保障。学术委员会要求实 验室做好在研项目的研发工作、积极申报国家项目
-                    </p>
-                    <a href="javascript:;">更多…</a>
+                    <p>${laboratoryBase.achievementDesc}</p>
+                    <a href="javascript:;">&nbsp;</a>
                 </div>
             </div>
         </div>
@@ -90,21 +67,7 @@
                     <div class="layui-tab-content">
                         <div class="layui-tab-item layui-show">
                             <div class="lan">
-                                <table class="layui-table" id="news-workdynamics-list-table">
-                                    <tbody>
-                                    <tr>
-                                        <td style="width: 10px;">1</td>
-                                        <!-- <td>张三</td> -->
-                                        <td>处理集团所有预算统计</td>
-                                        <td>2019-03-28</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width: 10px;">1</td>
-                                        <!--  <td>张三</td> -->
-                                        <td>处理集团所有预算统计</td>
-                                        <td>2019-03-28</td>
-                                    </tr>
-                                    </tbody>
+                                <table class="layui-table" id="tableProject" lay-filter="tableProject">
                                 </table>
                             </div>
                         </div>
@@ -163,8 +126,33 @@
         </div>
     </div>
     <script>
-        layui.use(['jquery', 'table', 'layer', 'laydate',"element"], function () {
-            var $ = layui.jquery, table = layui.table, laydate = layui.laydate,element=layui.element;
+    	layui.use(['jquery', 'table', 'laydate', 'layer','element','publicMethods'], function () {
+    		var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,element=layui.element,publicMethods=layui.publicMethods;
+    		var param = JSON.parse(window.localStorage.getItem("param"));
+            var cols = [
+                {title: '序号', type: 'numbers', width: 55},
+                {
+                    field: 'projectName',
+                    title: '项目名称',event: 'setActive',align: 'left',style: 'cursor: pointer;'
+                },
+                {
+                    field: "projectSources",
+                    title: "项目来源", event: 'setActive', style: 'cursor: pointer;',width: 200
+                },
+                {
+                    field: "projectPeople",
+                    title: "负责人", event: 'setActive', style: 'cursor: pointer;', align: "right",width: 120
+                },
+                {
+                    field: 'projectYear',
+                    title: '立项年度',event: 'setActive',align: 'left',style: 'cursor: pointer;',width: 120,
+                }
+            ];
+            var where = {
+                    param: {"baseId": "${laboratoryBase.dataId}"}
+            };
+    		publicMethods.tableRender('tableProject', 'tableProject', '/laboratoryBasicProject/getTableData', false, cols, where, false, function (res, curr, count) {
+            });
         });
     </script>
 </body>

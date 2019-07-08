@@ -38,7 +38,7 @@ public class DemoController {
 		return "/index";
 	}
 
-	public static void main1(String[] args) {
+	public static void main(String[] args) {
 		/*
 		 * String maxTypeCode = "100011011031011"; String retCode = "101"; if
 		 * (maxTypeCode != null) { //取后四位+1 String temcode =
@@ -68,7 +68,7 @@ public class DemoController {
 			Map<String, String> paramMap = new HashMap<String, String>();
 			paramMap.put("sqlName", "SelectAllProjectFromSinopecData2017");
 			JsonObject jo = new JsonObject();
-			jo.addProperty("", "");
+			jo.addProperty("ND", "2018");
 
 			System.out.println(jo.toString());
 			paramMap.put("conditions", jo.toString());
@@ -92,7 +92,7 @@ public class DemoController {
 
 	}
 
-	public static void main(String[] args) {
+	public static void main3(String[] args) {
 		/*
 		 * 测试成功方法一 try { String TEST_URL =
 		 * "http://10.1.19.131:9001/DataService/BasicQuery/Sql";

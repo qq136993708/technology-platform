@@ -85,7 +85,10 @@ public class EquipmentLedgerServiceImpl implements EquipmentLedgerService {
 	    
 	}
 
-    
-    
-    
+	@Override
+	public void deleteByMonth(Map map) {
+		sreEquipmentLedgerMapper.deleteByMonth(map);
+	}
+
+
 }

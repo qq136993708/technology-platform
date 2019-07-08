@@ -492,4 +492,9 @@
      select * from sre_equipment_ledger 
      where G0GSDM=#{supplier} and G0ANLN1=#{assetNumber} and G0CALD=#{g0CALD}
    </select>
+
+  <delete id="deleteByMonth" parameterType="Map">
+    delete from sre_equipment_ledger
+    where G0CALD=#{month}
+  </delete>
 </mapper>
