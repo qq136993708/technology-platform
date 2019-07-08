@@ -48,7 +48,7 @@ $(document).ready(function() {
 			 		$("#noticeId").val(noticeId);
 			 		publicMethods.ajaxPost('/project/get-notice', {"noticeId":noticeId}, function (data, status) {
 		        		form.val("apply-form",data);
-                        myEditor.setData(data.noticeContent);
+                        //myEditor.setData(data.noticeContent);
 		            });
 		        }else{
 		    		$("#appendFiles").val("${appendFiles}");

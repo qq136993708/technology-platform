@@ -116,7 +116,7 @@
             if (id != "0") {
                 ajaxPost("/zjkTrain/getZjkTrainInfo", {"id": id}, function (data) {
                     form.val("zjkTrain-form", data);
-                    myEditor.setData(data.trainDesc);
+                    //myEditor.setData(data.trainDesc);
                 });
             }
 

@@ -201,7 +201,7 @@
             if (id != "0") {
                 ajaxPost("/sysNews/getSysNewsInfo", {"id": id}, function (data) {
                     form.val("sysNews-form", data);
-                    contentC.setData(data.content);
+                    //contentC.setData(data.content);
                 });
             }
             $("#file_upload_img").load('/common/public/uploadlayuiload2.html');
