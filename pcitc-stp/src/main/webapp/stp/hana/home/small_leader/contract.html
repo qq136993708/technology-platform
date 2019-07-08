@@ -257,20 +257,27 @@
 			$("#contract_chart4_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#contract_chart4_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 
-			var chart1_url = "/direct/contract_01?type=1&nd=" + nd + "&v_date=" + v_date;
+			var chart1_url = "/direct/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "&v_date=" + v_date;
 			var color = [ "#43c5ff", "#ffa70f" ];
 			var echart1 = load_single_bar_down(chart1_url, "contract_chart1", "", "", yAxis, color);
 			echart1.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
 				// alert(xName);
-				var url = encodeURIComponent("/one_level_main/common_table?define3=直属研究院&qdbz=" + xName + "订&nd=" + nd + "&ysnd=" + nd);
+				var qdbz = "";
+				if (xName == '未签') {
+					qdbz = "未签订";
+				}
+				if (xName == '已签') {
+					qdbz = "已签订";
+				}
+				var url = encodeURIComponent("/one_level_main/common_table?define12=直属研究院&qdbz=" + qdbz + "&nd=" + nd + "&ysnd=" + nd);
 				window.open("/instituteIndex?url=" + url);
 
 			});
 
 			//圆圈
-			var url = "/direct/contract_01?type=2&nd=" + nd + "&v_date=" + v_date;
+			var url = "/direct/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=2&nd=" + nd + "&v_date=" + v_date;
 			var echart2 = loadCicle(url, "contract_chart1_02_02");
 			echart2.on('click', function(params) {
 				var xName = params.name;
@@ -279,7 +286,7 @@
 
 			});
 
-			var chart4_url = "/direct/contract_03?type=1&nd=" + nd + "&v_date=" + v_date;
+			var chart4_url = "/direct/contract_03?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "&v_date=" + v_date;
 			var colorTr = [ "#17a2b9", "#43c5ff", "#f9c16d" ];
 			var echart4 = load_mutl_bar_down_r(chart4_url, "contract_chart4", "", "", yAxis, 1, 25, colorTr);
 			echart4.on('click', function(params) {
@@ -322,7 +329,7 @@
 			var ptable = treeGridCom.render({
 				id : 'processdef_table',
 				elem : '#processdef_table',
-				url : '/direct/contract_02?nd=' + month,
+				url : '/direct/contract_02?functionId=984b64b13cf54222bf57bd840759fabe&nd=' + month,
 				cellMinWidth : 200,
 				idField : 'id'//必須字段
 				,
@@ -398,7 +405,7 @@
 			var nd = $('#year').val();
 			var tableOne = table.render({
 				elem : '#processdef_table_02',
-				url : '/direct/contract_03?nd=' + nd + "&type=2",
+				url : '/direct/contract_03?functionId=984b64b13cf54222bf57bd840759fabe&nd=' + nd + "&type=2",
 				method : "GET",
 				height : 299,
 				where : {
