@@ -173,8 +173,8 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("nd", nd);
 		paramsMap.put("zycbm", zycbm);
 		paramsMap.put("zylbbm", zylbbm);
-		System.out.println("1---领导标识，不控制数据" + sysUserInfo.getUserLevel()+"===="+zylbbm);
-		System.out.println("1---领导标识，不控制数据" + sysUserInfo.getUserLevel()+"===="+zycbm);
+		System.out.println("1---领导标识，不控制数据" + sysUserInfo.getUserLevel() + "====" + zylbbm);
+		System.out.println("1---领导标识，不控制数据" + sysUserInfo.getUserLevel() + "====" + zycbm);
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			// 领导标识，不控制数据
 			System.out.println("2---领导标识，不控制数据");
@@ -911,7 +911,7 @@ public class OneLevelMainController extends BaseController {
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getBeforeYear();
 		request.setAttribute("year", year);
 		return "stp/hana/home/oneLevelMain/knowledge";
 	}
@@ -1117,25 +1117,27 @@ public class OneLevelMainController extends BaseController {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(knowledge_pie, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
-
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>knowledge_bar_02 jSONArray-> " + jSONArray.toString());
+				System.out.println(">>>>>>>>>>>>>>getKnowledgeBar_02 jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 
 				ChartBarLineResultData barLine = new ChartBarLineResultData();
-				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "define3");
+				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "lx");
 				barLine.setxAxisDataList(xAxisDataList);
 
 				List<String> legendDataList = new ArrayList<String>();
-				legendDataList.add("专利申请");
-				legendDataList.add("专利授权");
+				legendDataList.add("发明专利");
+				legendDataList.add("外观设计");
+				legendDataList.add("实用新型");
 				barLine.setLegendDataList(legendDataList);
 				// X轴数据
 				List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-				ChartBarLineSeries s1 = HanaUtil.getKNOWLDGELevel2ChartBarLineSeries(list, "applyCount");
+				ChartBarLineSeries s1 = HanaUtil.getKnowledgeChartBarLineSeries07(list, "fmzlAgreeCount");
 				seriesList.add(s1);
-				ChartBarLineSeries s2 = HanaUtil.getKNOWLDGELevel2ChartBarLineSeries(list, "agreeCount");
+				ChartBarLineSeries s2 = HanaUtil.getKnowledgeChartBarLineSeries07(list, "wgsjAgreeCount");
 				seriesList.add(s2);
+				ChartBarLineSeries s3 = HanaUtil.getKnowledgeChartBarLineSeries07(list, "syxxAgreeCount");
+				seriesList.add(s3);
 				barLine.setSeriesList(seriesList);
 				result.setSuccess(true);
 				result.setData(barLine);
@@ -1180,7 +1182,7 @@ public class OneLevelMainController extends BaseController {
 				barLine.setxAxisDataList(xAxisDataList);
 
 				List<String> legendDataList = new ArrayList<String>();
-				legendDataList.add("发明授权");
+				legendDataList.add("发明专利");
 				legendDataList.add("外观设计");
 				legendDataList.add("实用新型");
 				barLine.setLegendDataList(legendDataList);
@@ -1921,7 +1923,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", companyCode);
 		paramsMap.put("type", type);
-		
+
 		// 数据控制属性
 		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
 		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
@@ -2030,14 +2032,12 @@ public class OneLevelMainController extends BaseController {
 
 				chartCircleList.add(node);
 			}
-			if(chartCircleList.size()>0)
-			{
+			if (chartCircleList.size() > 0) {
 				// 把合计放到第一位置（查询结果在队列末尾）
 				chartCircleList.set(0, chartCircleList.get(chartCircleList.size() - 1));
 				// 移除最后位置的合计值
 				chartCircleList.remove(chartCircleList.size() - 1);
 			}
-			
 
 			pageResult.setData(chartCircleList);
 			pageResult.setCode(0);

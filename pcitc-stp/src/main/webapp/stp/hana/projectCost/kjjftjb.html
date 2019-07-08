@@ -26,7 +26,7 @@
 </div>
 <div class="tableBox">
 <div class="btnGroup" style="float:right;margin-right:20px"><button  onclick="exput_excel()" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg" >导出EXCEL</<button></div>
-    <h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt"></label>科技经费统计表</h3>
+    <h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt"></label>经费全成本统计表</h3>
     <table id="myTable" class="layui-table" lay-filter="myTable" >
                  <thead>
                   <tr>
@@ -101,7 +101,7 @@
     	  month=month.replace("-","");
     	  var url="/to_kjjftjb_detail?month="+month+"&companyName="+g0GSJC;
 	        layer.open({
-              title:'科技经费-详情',
+              title:'经费全成本统计表-详情',
               skin: 'layui-layer-lan',
               shadeClose: true,
               type: 2,

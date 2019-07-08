@@ -2,6 +2,7 @@ package com.pcitc.web.controller.hanaLeader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +41,7 @@ public class SmallLeaderController extends BaseController{
 	private static final String getInvestment02 = "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/month/money-hana-type";
 	
 	
+	private static final String getInvestmentAll = "http://pcitc-zuul/system-proxy/out-project-plan-provider/hana-invest/money";
 	
 	
 	
@@ -179,7 +181,46 @@ public class SmallLeaderController extends BaseController{
 	
 	
 	
-	
+	@RequestMapping(method = RequestMethod.GET, value = "/small_leader/getInvestmentAll")
+	@ResponseBody
+	public String getInvestmentAll(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		String resault = "";
+		Result result = new Result();
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put("nd", nd);
+		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+		if (!nd.equals(""))
+		{
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getInvestmentAll, HttpMethod.POST, entity, JSONArray.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200) 
+			{
+				  Map<String, String> map = new HashMap<String, String>();
+				  JSONArray jSONArray = responseEntity.getBody();
+				  for (Iterator iterator = jSONArray.iterator(); iterator.hasNext();) 
+				  {
+					  Map job = (Map) iterator.next();
+			          String investMoney=job.get("investMoney").toString();
+			          map.put("investMoney", investMoney);
+			          
+			      }
+				 result.setSuccess(true);
+				 result.setData(map);
+			}
+
+		} else 
+		{
+			result.setSuccess(false);
+			result.setMessage("参数为空");
+		}
+		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+		resault = resultObj.toString();
+		System.out.println(">>>>>>>>>>>>>>>getInvestmentAll " + resultObj.toString());
+		return resault;
+	}
 	
 	
 	

@@ -6367,9 +6367,12 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 			return list;
 		}
 		
+		public static String getMonthName( String month) 
+		{
+			return month.substring(0, 4)+"年"+ month.substring(4)+"月";
+		}
 	
-	
-	
+		
 	//字典表
 	public static List<SysDictionary> getDicListByParentCode( String parentCode, HttpServletRequest request,RestTemplate restTemplate, HttpHeaders httpHeaders) 
 	{

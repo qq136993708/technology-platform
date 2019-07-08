@@ -81,11 +81,12 @@
 						<div class="layui-row-main">
 							<table id="myTable2" class="layui-table" lay-filter="myTable2">
 								<thead>
-								
-								        <th lay-data="{field:'yearMonth', width:'25%',align:'center'}">月份</th>
-								        <th lay-data="{field:'zysje', width:'25%',align:'right'}">预算金额(万元)</th>
-										<th lay-data="{field:'zsjje', width:'25%',align:'right'}">合同金额(万元)</th>
-										<th lay-data="{field:'hanaMoney', width:'25%',align:'right'}">拨款金额(万元)</th>
+								        <th lay-data="{field:'yearMonth', width:'16%',align:'center'}">月份</th>
+								        <th lay-data="{field:'zysje',     width:'16%',align:'right'}">预算金额(万元)</th>
+										<th lay-data="{field:'zsjje',     width:'17%',align:'right'}">已签合同总金额(万元)</th>
+										<th lay-data="{field:'zsjje',     width:'17%',align:'right'}">未签合同总金额(万元)</th>
+										<th lay-data="{field:'hanaMoney', width:'17%',align:'right'}">已签拨款总金额(万元)</th>
+										<th lay-data="{field:'hanaMoney', width:'17%',align:'right'}">未拨款总金额(万元)</th>
 								</thead>
 							</table>
 						</div>
@@ -102,7 +103,7 @@
 					<div class="layui-card">
 						<div class="layui-card-header">
 							<span class="layui-time"></span>
-							年直属研究院科研投入趋势分析
+							年直属研究院科研投入分析
 						</div>
 						
 					
@@ -142,10 +143,12 @@
 							<table id="myTable" class="layui-table" lay-filter="myTable">
 								<thead>
 									<tr>
-									    <th lay-data="{field:'define2', width:'25%',align:'right'}">研究院</th>
-										<th lay-data="{field:'zysje', width:'25%',align:'right'}">预算金额(万元)</th>
-										<th lay-data="{field:'zsjje', width:'25%',align:'right'}">合同金额(万元)</th>
-										<th lay-data="{field:'hanaMoney', width:'25%',align:'right'}">拨款金额(万元)</th>
+									    <th lay-data="{field:'define2',   width:'16%',align:'center'}">研究院</th>
+										<th lay-data="{field:'zysje',     width:'16%',align:'right'}">预算金额(万元)</th>
+										<th lay-data="{field:'zsjje',     width:'17%',align:'right'}">已签合同总金额(万元)</th>
+										<th lay-data="{field:'zsjje',     width:'17%',align:'right'}">未签合同总金额(万元)</th>
+										<th lay-data="{field:'hanaMoney', width:'17%',align:'right'}">已拨款总金额(万元)</th>
+										<th lay-data="{field:'hanaMoney', width:'17%',align:'right'}">未拨款总金额(万元)</th>
 									</tr>
 								</thead>
 							</table>
@@ -252,7 +255,9 @@
 			$("#investment_smal_chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">'); 
  */
 			var chart1_url = "/small_leader/investment_data?type=1&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
-			var colorOne = [ "#3ec0c2", "#55b6e9" ];
+			//var colorOne = [ "#75C9C0", "#5181E6" ,"#9799ec"]
+			
+			var colorOne = [ "#ea886d", "#9799ec", "#5181E6" ];
 			var echart1 = load_mutl_bar_down(chart1_url, "investment_smal_chart1", "", "", yAxis2, 20, colorOne);
 			echart1.on('click', function(params) {
 				var xName = params.name;
@@ -279,7 +284,7 @@
 			
 
 			var chart2_url = "/small_leader/investment_data_02?nd=" + nd + "&v_date=" + v_date + "&type=1";
-			var colorLine = [ "#b68d01", "#9799ec" ];
+			var colorLine = [ "#75C9C0", "#5181E6" ,"#9799ec"]
 			var echart2 = load_mony_line_down(chart2_url, "investment_smal_chart2", "", "", yAxis3, colorLine);
 			echart2.on('click', function(params) {
 				var xName = params.name;

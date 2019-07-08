@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -211,7 +212,6 @@ public class EquipmentServiceImpl implements EquipmentService {
 	{
 		projectMoneyMapper.deleteProjectMoneyByProjectId(record.getId());
 		
-		
 		String str=record.getYearFeeStr();
 		if(str!=null)
 		{
@@ -224,7 +224,9 @@ public class EquipmentServiceImpl implements EquipmentService {
 					if(yearStr!=null && !yearStr.equals(""))
 					{
 						ProjectMoney projectMoney=new ProjectMoney();
+						String id = UUID.randomUUID().toString().replaceAll("-", "");
 						String arrYear[]=yearStr.split(",");
+						projectMoney.setId(id);
 						projectMoney.setProjectId(record.getId());
 						projectMoney.setYear(arrYear[0]);
 						projectMoney.setFyMoney(Integer.valueOf(arrYear[1]));
