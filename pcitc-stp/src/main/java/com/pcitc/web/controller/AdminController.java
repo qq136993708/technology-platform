@@ -214,7 +214,7 @@ public class AdminController extends BaseController {
 		JSONObject retJson = responseEntity.getBody();
 
 		Cookie cookie = new Cookie("token", retJson.getString("token"));
-		cookie.setMaxAge(1 * 60 * 60);// 设置有效期为1天
+		cookie.setMaxAge(1 * 60 * 60);// 设置有效期为一小时
 		cookie.setPath("/");
 		response.addCookie(cookie);
 
@@ -360,7 +360,7 @@ public class AdminController extends BaseController {
 		System.out.println("-----indexStp----------login token:" + retJson.get("token"));
 
 		Cookie cookie = new Cookie("token", retJson.getString("token"));
-		cookie.setMaxAge(1 * 60 * 60);// 设置有效期为1天
+		cookie.setMaxAge(1 * 60 * 60);// 设置有效期为一小时
 		cookie.setPath("/");
 		response.addCookie(cookie);
 		request.setAttribute("userId", rsUser.getUserId());
@@ -419,7 +419,7 @@ public class AdminController extends BaseController {
 
 				// 登录错误次数
 				Cookie loginCookie = new Cookie("loginErrorCount", String.valueOf(errorNumber));
-				loginCookie.setMaxAge(1 * 60 * 60);// 设置有效期为1天
+				loginCookie.setMaxAge(1 * 60 * 60);// 设置有效期为一小时
 				loginCookie.setPath("/");
 				response.addCookie(loginCookie);
 				response.sendRedirect("/login");
@@ -428,7 +428,7 @@ public class AdminController extends BaseController {
 			}
 
 			Cookie cookie = new Cookie("token", retJson.getString("token"));
-			cookie.setMaxAge(1 * 60 * 60);// 设置有效期为1天
+			cookie.setMaxAge(1 * 60 * 60);// 设置有效期为一小时
 			cookie.setPath("/");
 			response.addCookie(cookie);
 
@@ -467,7 +467,7 @@ public class AdminController extends BaseController {
 			request.setAttribute("userInfo", userDetails);
 
 			Cookie loginCookie = new Cookie("loginErrorCount", null);
-			loginCookie.setMaxAge(0);// 设置有效期为1天
+			loginCookie.setMaxAge(0);// 设置有效期为一小时
 			loginCookie.setPath("/");
 			response.addCookie(loginCookie);
 			System.out.println("----------====登录成功2index....");
@@ -524,7 +524,7 @@ public class AdminController extends BaseController {
 			JSONObject retJson = responseEntity.getBody();
 
 			Cookie cookie = new Cookie("token", retJson.getString("token"));
-			cookie.setMaxAge(1 * 60 * 60);// 设置有效期为1天
+			cookie.setMaxAge(1 * 60 * 60);// 设置有效期为一小时
 			cookie.setPath("/");
 			response.addCookie(cookie);
 
@@ -535,7 +535,7 @@ public class AdminController extends BaseController {
 
 			System.out.println("----------====登录成功1index....");
 			Cookie loginCookie = new Cookie("loginErrorCount", null);
-			loginCookie.setMaxAge(0);// 设置有效期为1天
+			loginCookie.setMaxAge(0);
 			loginCookie.setPath("/");
 			response.addCookie(loginCookie);
 
@@ -869,7 +869,7 @@ public class AdminController extends BaseController {
 		}
 
 		Cookie cookie = new Cookie("token", retJson.getString("token"));
-		cookie.setMaxAge(1 * 60 * 60);// 设置有效期为1天
+		cookie.setMaxAge(1 * 60 * 60);// 设置有效期为一小时
 		cookie.setPath("/");
 		response.addCookie(cookie);
 		return new Result(true, retJson.get("token"));
