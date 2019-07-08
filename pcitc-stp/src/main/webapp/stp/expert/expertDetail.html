@@ -422,11 +422,21 @@
                 $("#"+expertId).attr("src", imgBase);
             }
     } */
-    var dataId = $('img[dataType="headImg"]').attr("id");
-    $('img[dataType="headImg"]').attr("src",photoContent(dataId));
+    //var dataId = $('img[dataType="headImg"]').attr("id");
+    //$('img[dataType="headImg"]').attr("src",photoContent(dataId));
     
     
-    
+    function getFileResultImg() {
+        //获取通用url
+        var ids = "";
+        $.each($('img[dataType="headImg"]'), function (i, d) {
+            ids=ids+","+$(this).attr("id");
+        });
+        var ret = getFileResult(ids);
+        for (let i = 0; i < ret.list.length; i++) {
+            $("#"+ret.list[i].dataid).attr("src",ret.list[i].filePath);
+        }
+    }
     
     function photoContent(picId) {
         var ret = getFileResult(picId);
