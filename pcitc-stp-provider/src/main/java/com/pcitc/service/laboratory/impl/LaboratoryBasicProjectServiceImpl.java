@@ -162,6 +162,7 @@ public class LaboratoryBasicProjectServiceImpl implements LaboratoryBasicProject
         {
         	c.andBaseIdEqualTo(param.getParam().get("baseId").toString());
         }
+        System.out.println("------------------------"+param.getParam().get("baseId"));
         example.setOrderByClause("create_date desc");
         return this.findByExample(param, example);
     }
