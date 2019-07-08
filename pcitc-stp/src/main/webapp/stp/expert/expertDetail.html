@@ -424,8 +424,6 @@
     } */
     //var dataId = $('img[dataType="headImg"]').attr("id");
     //$('img[dataType="headImg"]').attr("src",photoContent(dataId));
-    
-    
     function getFileResultImg() {
         //获取通用url
         var ids = "";
@@ -437,7 +435,7 @@
             $("#"+ret.list[i].dataid).attr("src",ret.list[i].filePath);
         }
     }
-    
+    getFileResultImg();
     function photoContent(picId) {
         var ret = getFileResult(picId);
         if (ret != null && ret.list.length > 0) {
