@@ -1,22 +1,26 @@
 package com.pcitc.web.laboratory;
 
 
-import com.pcitc.base.common.LayuiTableData;
-import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.common.enums.DataOperationStatusEnum;
-import com.pcitc.base.laboratory.LaboratoryBase;
-import com.pcitc.base.laboratory.LaboratoryBaseExample;
-import com.pcitc.service.laboratory.LaboratoryBaseService;
-import com.alibaba.fastjson.JSONObject;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.laboratory.LaboratoryBase;
+import com.pcitc.service.laboratory.LaboratoryBaseService;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
-import java.io.Serializable;
-import java.util.List;
 
 
 /**
@@ -27,22 +31,21 @@ import java.util.List;
 */
 @Api(value = "LaboratoryBaseClient-API", description = "实验室-基本情况服务接口")
 @RestController
-public class LaboratoryBaseClient
-        {
+public class LaboratoryBaseClient{
         private final static Logger logger = LoggerFactory.getLogger(LaboratoryBaseClient.class);
 
         @Autowired
-LaboratoryBaseService laboratoryBaseService;
+        LaboratoryBaseService laboratoryBaseService;
 
 
         //参数查询
-@ApiOperation(value = "带参实验室-基本情况查询列表", notes = "根据ID查询查询实验室-基本情况信息,返回一个实验室-基本情况的JSONObject对象")
+        @ApiOperation(value = "带参实验室-基本情况查询列表", notes = "根据ID查询查询实验室-基本情况信息,返回一个实验室-基本情况的JSONObject对象")
         @RequestMapping(value = "/laboratorybase-provider/laboratorybase/laboratorybase_list_param",method = RequestMethod.POST)
         public JSONObject selectLaboratoryBaseListParam(@RequestParam(value="id", required=false) String id) {
              JSONObject retJson = new JSONObject();
                 try {
-LaboratoryBase laboratoryBase= new LaboratoryBase();
-laboratoryBase.setId(id);
+                	LaboratoryBase laboratoryBase= new LaboratoryBase();
+                	laboratoryBase.setId(id);
                     List<LaboratoryBase> list = laboratoryBaseService.findLaboratoryBaseList(laboratoryBase);
                     retJson.put("list", list);
                 } catch (Exception e) {
@@ -52,12 +55,12 @@ laboratoryBase.setId(id);
         }
 
         //对象查询,js需要JSON.stringify({id:"1"},转换之后,才能自动赋值
-@ApiOperation(value = "实验室-基本情况查询列表", notes = "自定义对象(条件)查询实验室-基本情况信息,返回存储在JSONObject对象中的实验室-基本情况列表")
+		@ApiOperation(value = "实验室-基本情况查询列表", notes = "自定义对象(条件)查询实验室-基本情况信息,返回存储在JSONObject对象中的实验室-基本情况列表")
         @RequestMapping(value = "/laboratorybase-provider/laboratorybase/laboratorybase_list",method = RequestMethod.POST)
         public JSONObject selectLaboratoryBaseList(@RequestBody LaboratoryBase laboratoryBase) {
              JSONObject retJson = new JSONObject();
                 try {
-                List<LaboratoryBase> list = laboratoryBaseService.findLaboratoryBaseList(laboratoryBase);
+                	List<LaboratoryBase> list = laboratoryBaseService.findLaboratoryBaseList(laboratoryBase);
                     retJson.put("list", list);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -66,15 +69,15 @@ laboratoryBase.setId(id);
         }
 
 
-@ApiOperation(value = "查询实验室-基本情况树形详情信息", notes = "按ID查询实验室-基本情况详情信息(带父ID),操作成功返回SysFileKind对象")
+		@ApiOperation(value = "查询实验室-基本情况树形详情信息", notes = "按ID查询实验室-基本情况详情信息(带父ID),操作成功返回SysFileKind对象")
         @RequestMapping(value = "/laboratorybase-provider/laboratorybase/get-laboratorybase/{id}",method = RequestMethod.POST)
         public LaboratoryBase getLaboratoryBaseInfo(@PathVariable(value = "id", required = true) String id){
         try {
-        return laboratoryBaseService.getLaboratoryBaseInfo(id);
+        	return laboratoryBaseService.getLaboratoryBaseInfo(id);
         } catch (Exception e) {
-        logger.error("[初始化信息失败：]", e);
+        	logger.error("[初始化信息失败：]", e);
         }
-        return null;
+        	return null;
         }
 
 
@@ -83,10 +86,10 @@ laboratoryBase.setId(id);
         * @return
         * @throws Exception
         */
-@ApiOperation(value = "查询(树)实验室-基本情况信息", notes = "查询(树)实验室-基本情况信息,操作成功返回List<TreeNode>对象")
+		@ApiOperation(value = "查询(树)实验室-基本情况信息", notes = "查询(树)实验室-基本情况信息,操作成功返回List<TreeNode>对象")
         @RequestMapping(value = "/laboratorybase-provider/laboratorybase/tree-data")
         @ResponseBody
-        public List selectObjectByTree() throws Exception {
+        public List<?> selectObjectByTree() throws Exception {
         return laboratoryBaseService.selectObjectByTree();
         }
 
@@ -97,21 +100,21 @@ laboratoryBase.setId(id);
         * @param laboratoryBasecId
         * @return
         */
-    @ApiOperation(value = "伪删除实验室-基本情况信息", notes = "按ID伪删除实验室-基本情况信息,操作成功返回201")
+		@ApiOperation(value = "伪删除实验室-基本情况信息", notes = "按ID伪删除实验室-基本情况信息,操作成功返回201")
         @RequestMapping(value = "/laboratorybase-provider/laboratorybase/del-laboratorybase/{laboratoryBaseId}")
         public Object deleteLaboratoryBase(@PathVariable("laboratoryBaseId") String laboratoryBasecId) {
-    return laboratoryBaseService.deleteLaboratoryBase(laboratoryBasecId);
+			return laboratoryBaseService.deleteLaboratoryBase(laboratoryBasecId);
         }
 
         /**
-        * 删除实验室-基本情况-true
+          * 删除实验室-基本情况-true
         * @param laboratoryBasecId
         * @return
         */
-    @ApiOperation(value = "删除实验室-基本情况信息", notes = "按ID删除实验室-基本情况信息,操作成功返回201")
+		@ApiOperation(value = "删除实验室-基本情况信息", notes = "按ID删除实验室-基本情况信息,操作成功返回201")
         @RequestMapping(value = "/laboratorybase-provider/laboratorybase/del-laboratorybase-real/{laboratoryBaseId}", method = RequestMethod.POST)
         public Object deleteLaboratoryBaseReal(@PathVariable("laboratoryBaseId") String laboratoryBasecId) {
-    return laboratoryBaseService.deleteLaboratoryBaseReal(laboratoryBasecId);
+			return laboratoryBaseService.deleteLaboratoryBaseReal(laboratoryBasecId);
         }
 
 
@@ -120,7 +123,7 @@ laboratoryBase.setId(id);
         * @param param
         * @return
         */
-    @ApiOperation(value = "查询实验室-基本情况信息-分页查询", notes = "查询实验室-基本情况信息-分页查询,Object")
+		@ApiOperation(value = "查询实验室-基本情况信息-分页查询", notes = "查询实验室-基本情况信息-分页查询,Object")
         @RequestMapping(value = "/laboratorybase-provider/laboratorybase/laboratorybase-page")
         public Object selectLaboratoryBaseByPage(@RequestBody LayuiTableParam param) {
             return laboratoryBaseService.findLaboratoryBaseByPage(param);
@@ -134,11 +137,13 @@ laboratoryBase.setId(id);
     @ApiOperation(value = "新增实验室-基本情况信息", notes = "新增实验室-基本情况信息,操作成功返回500")
     @RequestMapping(value = "/laboratorybase-provider/laboratorybase/save_laboratorybase", method = RequestMethod.POST)
     public int updateOrInsertLaboratoryBase(@RequestBody LaboratoryBase laboratoryBase) {
-    try {
+    try 
+    {
         return laboratoryBaseService.updateOrInsertLaboratoryBase(laboratoryBase);
-    } catch (Exception e) {
-    logger.error("[保存信息失败：]", e);
+    } 
+    catch (Exception e) {
+    	logger.error("[保存信息失败：]", e);
     }
-    return 500;
+    	return 500;
     }
 }
