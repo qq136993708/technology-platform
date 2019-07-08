@@ -1271,7 +1271,7 @@
 			from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
 																	and out_project_info.define3 = '项目管理系统' and out_project_info.ND= '${nd}')
 			WHERE
-				out_project_plan.ND= '${nd}'
+				out_project_plan.ND = '${nd}'
 				and out_project_plan.PROJECT_TYPE != '1'
 				and out_project_plan.DEFINE4 = '项目管理系统'
 				<if test="define3 != null and define3 != ''">
@@ -1293,6 +1293,15 @@
 				</if>
 			group by out_project_plan.XMID
 		) as tableB
+	</select>
+	
+	<!-- 直属研究院二级页面（领导），总的科研投入，数据来源于hana-->
+	<select id="getTotalInvestMoneyWithHana" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select round(sum(K0DMBTR)/10000,4) as investMoney
+		from expenses_pay_hana
+		where 
+			G0GJAHR = '${nd}'
+			and sts = '1'
 	</select>
 	
 	<!-- 直属研究院二级页面（领导），各个院的合同签订率-->

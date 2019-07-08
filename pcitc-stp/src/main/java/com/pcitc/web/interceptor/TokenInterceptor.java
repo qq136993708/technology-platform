@@ -82,6 +82,10 @@ public class TokenInterceptor implements HandlerInterceptor {
 				for (Cookie c : cookies) {
 					if ("token".equalsIgnoreCase(c.getName()) && !StringUtils.isBlank(c.getValue())) {
 						token = c.getValue();
+						// 此cookies重新计时
+						c.setMaxAge(1 * 60 * 60);  // 设置有效期为一小时
+						c.setPath("/");
+						response.addCookie(c);
 						break;
 					}
 				}
