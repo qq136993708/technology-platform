@@ -1,50 +1,38 @@
 package com.pcitc.web.controller.laboratory;
 
-import com.alibaba.druid.support.json.JSONUtils;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.pcitc.base.common.Result;
-import com.pcitc.base.laboratory.LaboratoryBase;
-import com.pcitc.base.common.LayuiTableData;
-import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.web.utils.UserProfileAware;
-import com.pcitc.base.common.TreeNode;
-import com.pcitc.base.common.enums.DataOperationStatusEnum;
-import com.pcitc.base.util.DateUtil;
-import com.pcitc.web.common.JwtTokenUtil;
-import com.pcitc.base.doc.SysFileKind;
-import com.pcitc.web.common.OperationFilter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-import com.pcitc.web.common.BaseController;
-import com.pcitc.base.util.DataTableInfoVo;
-import com.pcitc.base.util.DateTableUtil;
-import com.pcitc.web.common.DataTableParameter;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.druid.support.json.JSONUtils;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.Result;
+import com.pcitc.base.common.TreeNode;
+import com.pcitc.base.laboratory.LaboratoryBase;
+import com.pcitc.base.util.DateUtil;
+import com.pcitc.web.common.BaseController;
+import com.pcitc.web.common.OperationFilter;
 
 /**
  * <p>控制类</p>
@@ -89,6 +77,21 @@ public class LaboratoryBaseController extends BaseController {
      */
     private static final String SAVE = "http://pcitc-zuul/stp-proxy/laboratorybase-provider/laboratorybase/save_laboratorybase";
 
+	@RequestMapping(method = RequestMethod.GET, value = "/laboratoryBase/laboratoryBaseMain")
+	public Object toLaboratoryBaseMain() 
+	{
+		return "/stp/laboratory/laboratoryBaseMain";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/laboratoryBase/laboratoryBaseDetails/{dataId}")
+	public Object toLaboratoryBaseDetails(@PathVariable("dataId") String dataId) 
+	{
+		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(GET_INFO + dataId, HttpMethod.POST,new HttpEntity<Object>(this.httpHeaders), JSONObject.class);
+		JSONObject retJson = responseEntity.getBody();
+		request.setAttribute("laboratoryBase", retJson);
+		return "/stp/laboratory/laboratoryBaseDetails";
+	}
+   
     /**
      * 实验室-基本情况-查询列表
      *
@@ -101,9 +104,21 @@ public class LaboratoryBaseController extends BaseController {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST, HttpMethod.POST, new HttpEntity<LaboratoryBase>(laboratoryBase, this.httpHeaders), JSONObject.class);
         JSONObject retJson = responseEntity.getBody();
-        List<LaboratoryBase> list = (List<LaboratoryBase>) retJson.get("list");
-        return list;
+        return retJson.get("list");
     }
+    /**
+     *
+     * @param laboratoryBase
+     * @return
+     */
+    @RequestMapping(value = "/laboratoryBase/listByBak1", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getListByBak1(@ModelAttribute("laboratoryBase") LaboratoryBase laboratoryBase) {
+        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST, HttpMethod.POST, new HttpEntity<LaboratoryBase>(laboratoryBase, this.httpHeaders), JSONObject.class);
+        JSONObject retJson = responseEntity.getBody();
+        return retJson.get("list");
+    }
+    
 
     @RequestMapping(value = "/laboratoryBase/listParam", method = RequestMethod.POST)
     @ResponseBody
@@ -114,8 +129,7 @@ public class LaboratoryBaseController extends BaseController {
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LISTPARAM, HttpMethod.POST, entity, JSONObject.class);
         JSONObject retJson = responseEntity.getBody();
-        List<LaboratoryBase> list = (List<LaboratoryBase>) retJson.get("list");
-        return list;
+        return retJson.get("list");
     }
 
     /**
@@ -229,7 +243,7 @@ public class LaboratoryBaseController extends BaseController {
     @ResponseBody
     public String getLaboratoryBaseTreeDatas(HttpServletRequest request) throws Exception {
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        List list = this.restTemplate.exchange(TREE_DATA, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class).getBody();
+        List<?> list = this.restTemplate.exchange(TREE_DATA, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class).getBody();
         return JSONUtils.toJSONString(list);
     }
 
