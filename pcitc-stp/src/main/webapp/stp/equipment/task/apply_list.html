@@ -205,7 +205,7 @@ var functionId=param.id;
 $('#functionId').val(functionId);
 var roleCodes = "";
 var unitCodes = "";
-var postCodes = "";
+var postCodes = "",tableHeight=null;
 
 var table,selectRowData;
 var name=$('#name').val();
@@ -218,6 +218,7 @@ var name=$('#name').val();
             laypage = layui.laypage;
             publicMethods=layui.publicMethods;
            //加载表格      
+           tableHeight=commonDislodgeTable()
   	    renderTable();
   	     //移除表头的复选框,去掉全选
   	     $(".layui-table-header table thead th input").remove();  
@@ -420,7 +421,7 @@ var name=$('#name').val();
     
     
     function renderTable()
-	{    
+	{   
     	//渲染
         table.render({
             elem: '#processdef-table',
@@ -429,7 +430,7 @@ var name=$('#name').val();
             where: {param: {"topicName":$("#topicName").val(),"auditStatus":$("#auditStatus").val(),"innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentCode":$("#belongDepartmentCode").val(),"professionalDepartCode":$("#professionalDepartCode").val(),"professionalFieldCode":$("#professionalFieldCode").val(),"leadUnitCode":$("#leadUnitCode").val()}},
             limit: 15,	
             id: 'processdef-table',
-            height: commonDislodgeTable(),
+            height: tableHeight,
             page: {
                 groups: 5,
                 limits: [15,30,45,60],

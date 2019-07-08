@@ -127,6 +127,13 @@
         });
     }
 
+    function createWord(id) {//预览采购申请单
+        var temUrl="/sre-purchase/createWord/" + id;
+        location.href=temUrl;
+    }
+
+
+
 </script>
 <!--表格数据操作js-->
 <script>
@@ -398,11 +405,12 @@ var name=$('#name').val();
             	{title : '序号',sort : true, type :'numbers', width : 55},
             	/*{field : 'state', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.state_purchase(d.state) }}</div>', width : 55},*/
                 {field : 'stage', sort : true,title : '状态', style : 'cursor: pointer;', align : 'center',templet : '#stage_temp', width : '10%'},
-                {field : 'purchaseName',sort : true, title : '申请名称', style : 'cursor: pointer;', align : 'left', width : '18%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.purchaseName+'</span>'}},
-         	    {field : 'parentUnitPathNames', sort : true, title : '单位名称', style : 'cursor: pointer;', align : 'left', width : '18%'},
-         		{field : 'departName', sort : true, title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '18%'},
-                {field : 'proposerName', sort : true,title : '申请人',         style : 'cursor: pointer;', align: 'center',  width : '15%',},
-                {field : 'createDate',sort : true,title : '申请日期', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
+                {field : 'purchaseName',sort : true, title : '申请名称', style : 'cursor: pointer;', align : 'left', width : '15%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.purchaseName+'</span>'}},
+         	    {field : 'parentUnitPathNames', sort : true, title : '单位名称', style : 'cursor: pointer;', align : 'left', width : '15%'},
+         		{field : 'departName', sort : true, title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '13%'},
+                {field : 'proposerName', sort : true,title : '申请人',         style : 'cursor: pointer;', align: 'center',  width : '13%'},
+                {field : 'createDate',sort : true,title : '申请日期', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl',width : '15%'},
+                {sort : true,title : '下载', 		style : 'cursor: pointer;', align: 'center', templet:function(d){return '<a class=\'layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_import btnMyBgImg demo-delete\' target="_top" onclick="createWord(\''+d.id+'\')">下载</a>'}}
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选
