@@ -240,17 +240,15 @@
         	var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods; 
             //国家级
             publicMethods.ajaxAsyncPost("/laboratoryBase/listByBak1",{"bak1":"国家级研发机构"}, function (data) {
-    			console.log(data);
-    			var html = "";
     			$.each(data,function(i,d){
-    				html += '<div>'+
+    				var html ='<div>'+
 			                    '<a href="/instituteIndex?url=/laboratoryBase/laboratoryBaseDetails/'+d.dataId+'" target="_blank">'+
 			                        '<span class="layui-text-span">依托单位：'+d.dependentUnit+'</span>'+
 			                        '<span class="layui-lab-span">'+d.orgName+'</span>'+
 			                    '</a>'+
 			                '</div>';
+    				$("#countryUnit").append(html);          
     			});
-    			$("#countryUnit").html(html);
 	   		}); 
         });
     </script>

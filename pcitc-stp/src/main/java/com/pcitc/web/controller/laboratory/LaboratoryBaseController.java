@@ -77,22 +77,21 @@ public class LaboratoryBaseController extends BaseController {
      */
     private static final String SAVE = "http://pcitc-zuul/stp-proxy/laboratorybase-provider/laboratorybase/save_laboratorybase";
 
-    /**
-    *
-    * @param laboratoryBase
-    * @return
-    */
-   @RequestMapping(method = RequestMethod.GET, value = "/laboratoryBase/laboratoryBaseDetails/{dataId}")
-   public Object toLaboratoryBaseDetails(@PathVariable("dataId") String dataId) {
-	   ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(GET_INFO+dataId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), JSONObject.class);
-       JSONObject retJson = responseEntity.getBody();
-       request.setAttribute("laboratoryBase", retJson);
-       return "/stp/laboratory/laboratoryBaseDetails";
-   }
-   @RequestMapping(method = RequestMethod.GET, value = "/laboratoryBase/laboratoryBaseMain")
-   public Object toLaboratoryBaseMain() {
-       return "/stp/laboratory/laboratoryBaseMain";
-   }
+	@RequestMapping(method = RequestMethod.GET, value = "/laboratoryBase/laboratoryBaseMain")
+	public Object toLaboratoryBaseMain() 
+	{
+		return "/stp/laboratory/laboratoryBaseMain";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/laboratoryBase/laboratoryBaseDetails/{dataId}")
+	public Object toLaboratoryBaseDetails(@PathVariable("dataId") String dataId) 
+	{
+		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(GET_INFO + dataId, HttpMethod.POST,new HttpEntity<Object>(this.httpHeaders), JSONObject.class);
+		JSONObject retJson = responseEntity.getBody();
+		request.setAttribute("laboratoryBase", retJson);
+		return "/stp/laboratory/laboratoryBaseDetails";
+	}
+   
     /**
      * 实验室-基本情况-查询列表
      *
