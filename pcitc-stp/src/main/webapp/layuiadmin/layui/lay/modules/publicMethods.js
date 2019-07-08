@@ -40,6 +40,9 @@ layui.define(['jquery','form','table','laydate'],
                     data: params,
                     dataType: 'json',
                     headers: headers,
+                    beforeSend: function (XMLHttpRequest) {
+                    	XMLHttpRequest.setRequestHeader("client_req_type", "ajaxPost");
+                    },
                     success: function (data, status) {
                         result = data;
                         if (data && data.code && data.code == '101') {
@@ -72,6 +75,9 @@ layui.define(['jquery','form','table','laydate'],
                     data: params,
                     dataType: 'json',
                     headers: headers,
+                    beforeSend: function (XMLHttpRequest) {
+                    	XMLHttpRequest.setRequestHeader("client_req_type", "ajaxAsyncPost");
+                    },
                     success: function (data, status) {
                         result = data;
                         if (data && data.code && data.code == '101') {
@@ -110,6 +116,9 @@ layui.define(['jquery','form','table','laydate'],
                     data: params,
                     dataType: 'json',
                     headers: headers,
+                    beforeSend: function (XMLHttpRequest) {
+                    	XMLHttpRequest.setRequestHeader("client_req_type", "ajaxGet");
+                    },
                     success: function (data, status) {
                         result = data;
                         if (data && data.code && data.code == '101') {

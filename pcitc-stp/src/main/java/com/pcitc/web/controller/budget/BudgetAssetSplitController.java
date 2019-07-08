@@ -180,7 +180,7 @@ public class BudgetAssetSplitController extends BaseController {
 	{
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_ASSETSPLIT_LIST, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
-		return JSON.toJSON(responseEntity.getBody()).toString();
+		return JSON.toJSON(responseEntity.getBody());
 	}
 	@RequestMapping(value = "/budget/budget-assetsplit-info-table", method = RequestMethod.POST)
 	@ResponseBody
@@ -188,7 +188,7 @@ public class BudgetAssetSplitController extends BaseController {
 	{
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_ASSETSPLIT_TABLE, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), Object.class);
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
-		return JSON.toJSON(responseEntity.getBody()).toString();
+		return JSON.toJSON(responseEntity.getBody());
 	}
 	@RequestMapping(value = "/budget/budget-assetsplit-items", method = RequestMethod.POST)
 	@ResponseBody
@@ -196,7 +196,7 @@ public class BudgetAssetSplitController extends BaseController {
 	{
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_ASSETSPLIT_ITEMS, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), Object.class);
 		System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
-		return JSON.toJSON(responseEntity.getBody()).toString();
+		return JSON.toJSON(responseEntity.getBody());
 	}
 	@RequestMapping(value = "/budget/budget-assetsplit-create", method = RequestMethod.POST)
 	@ResponseBody
@@ -206,7 +206,7 @@ public class BudgetAssetSplitController extends BaseController {
 		info.setCreaterName(this.getUserProfile().getUserDisp());
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_ASSETSPLIT_CREATE, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
-		return JSON.toJSON(responseEntity.getBody()).toString();
+		return JSON.toJSON(responseEntity.getBody());
 	}
 	
 	@RequestMapping(value = "/budget/budget-assetsplit-del", method = RequestMethod.POST)
@@ -215,7 +215,7 @@ public class BudgetAssetSplitController extends BaseController {
 	{
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_ASSETSPLIT_DELETE, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
-		return JSON.toJSON(responseEntity.getBody()).toString();
+		return JSON.toJSON(responseEntity.getBody());
 	}
 	
 	@RequestMapping(value = "/budget/get-assetsplit-item", method = RequestMethod.POST)
@@ -223,8 +223,8 @@ public class BudgetAssetSplitController extends BaseController {
 	public Object selectBudgetGroupSplitItem(@ModelAttribute("vo") BudgetSplitBaseDataVo vo,HttpServletRequest request) throws IOException 
 	{
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_ASSETSPLIT_GET_ITEM, HttpMethod.POST, new HttpEntity<Object>(vo, this.httpHeaders), Object.class);
-		System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
-		return JSON.toJSON(responseEntity.getBody()).toString();
+		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
+		return JSON.toJSON(responseEntity.getBody());
 	}
 	
 	@RequestMapping(value = "/budget/get-assetsplit-history-items", method = RequestMethod.POST)
@@ -232,8 +232,8 @@ public class BudgetAssetSplitController extends BaseController {
 	public Object selectBudgetGroupSplitHistoryItems(@ModelAttribute("vo") BudgetSplitBaseDataVo vo,HttpServletRequest request) throws IOException 
 	{
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_ASSETSPLIT_HISTORY_ITEMS, HttpMethod.POST, new HttpEntity<Object>(vo, this.httpHeaders), Object.class);
-		System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
-		return JSON.toJSON(responseEntity.getBody()).toString();
+		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
+		return JSON.toJSON(responseEntity.getBody());
 	}
 	
 	
@@ -246,16 +246,16 @@ public class BudgetAssetSplitController extends BaseController {
 		BudgetInfo budget = JSON.toJavaObject(JSON.parseObject(info), BudgetInfo.class);
 		Result result = this.restTemplate.exchange(BUDGET_INFO_EDIT_CHECK+budget.getDataId(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Result.class).getBody();
 		if(!result.isSuccess()) {
-			return result;
+			return JSON.toJSON(result);
 		}
 		
 		ResponseEntity<Integer> infors = this.restTemplate.exchange(BUDGET_INFO_UPDATE, HttpMethod.POST, new HttpEntity<Object>(budget, this.httpHeaders), Integer.class);
 		ResponseEntity<Integer> grouprs = this.restTemplate.exchange(BUDGET_ASSETSPLIT_SAVE_ITEM, HttpMethod.POST, new HttpEntity<Object>(item, this.httpHeaders), Integer.class);
 		if (infors.getBody() >= 0 && grouprs.getBody() >= 0) 
 		{
-			return new Result(true);
+			return JSON.toJSON(new Result(true));
 		} else {
-			return new Result(false);
+			return JSON.toJSON(new Result(false));
 		}
 	}
 	@RequestMapping(value = "/budget/save-assetsplit-items", method = RequestMethod.POST)
@@ -267,16 +267,16 @@ public class BudgetAssetSplitController extends BaseController {
 		BudgetInfo budget = JSON.toJavaObject(JSON.parseObject(info), BudgetInfo.class);
 		Result result = this.restTemplate.exchange(BUDGET_INFO_EDIT_CHECK+budget.getDataId(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Result.class).getBody();
 		if(!result.isSuccess()) {
-			return result;
+			return JSON.toJSON(result);
 		}
 		
 		ResponseEntity<Integer> infors = this.restTemplate.exchange(BUDGET_INFO_UPDATE, HttpMethod.POST, new HttpEntity<Object>(budget, this.httpHeaders), Integer.class);
 		ResponseEntity<Integer> grouprs = this.restTemplate.exchange(BUDGET_ASSETSPLIT_SAVE_ITEMS, HttpMethod.POST, new HttpEntity<Object>(items, this.httpHeaders), Integer.class);
 		if (infors.getBody() >= 0 && grouprs.getBody() >= 0) 
 		{
-			return new Result(true);
+			return JSON.toJSON(new Result(true));
 		} else {
-			return new Result(false);
+			return JSON.toJSON(new Result(false));
 		}
 	}
 	
@@ -302,7 +302,7 @@ public class BudgetAssetSplitController extends BaseController {
 		
 		HttpEntity<WorkflowVo> entity = new HttpEntity<WorkflowVo>(vo, this.httpHeaders);
 		Result startRs = this.restTemplate.exchange(BUDGET_WORKFLOW_URL + budgetInfoId, HttpMethod.POST, entity, Result.class).getBody();
-		return startRs;
+		return JSON.toJSON(startRs);
 	}
 	
 	@RequestMapping(value = "/budget/search-assetsplit-final-history-list", method = RequestMethod.POST)
@@ -311,7 +311,7 @@ public class BudgetAssetSplitController extends BaseController {
 	{
 		//System.out.println(JSON.toJSONString(info));
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_ASSETSPLIT_FINAL_HISTORY_LIST, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
-		return infors.getBody();
+		return JSON.toJSON(infors.getBody());
 	}
 	
 	
@@ -319,9 +319,8 @@ public class BudgetAssetSplitController extends BaseController {
 	@ResponseBody
 	public Object selectBudgetGroupSplitComparePlan(@RequestParam(value="nd",required = false)String nd,@RequestParam(value="code",required = false)String code,HttpServletRequest request) throws IOException 
 	{
-		System.out.println("plan............"+nd+"------"+code);
 		if(nd == null || code == null) {
-			return new ArrayList<Object>();
+			return JSON.toJSON(new ArrayList<Object>());
 		}
 		Map<String,Object> param = new HashMap<String,Object>();
 		param.put("nd", nd);
@@ -329,7 +328,7 @@ public class BudgetAssetSplitController extends BaseController {
 		//System.out.println(JSON.toJSONString(info));
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_ASSETSPLIT_COMPARE_PLAN, HttpMethod.POST, new HttpEntity<Object>(param,this.httpHeaders), List.class);
 		//System.out.println(JSON.toJSONString(infors.getBody()));
-		return infors.getBody();
+		return JSON.toJSON(infors.getBody());
 	}
 	
 	@RequestMapping(value = "/budget/select-assetsplit-compare-project", method = RequestMethod.POST)
@@ -346,7 +345,7 @@ public class BudgetAssetSplitController extends BaseController {
 		//System.out.println(JSON.toJSONString(info));
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_ASSETSPLIT_COMPARE_PROJECT, HttpMethod.POST, new HttpEntity<Object>(param,this.httpHeaders), List.class);
 		//System.out.println(JSON.toJSONString(infors.getBody()));
-		return infors.getBody();
+		return JSON.toJSON(infors.getBody());
 	}
 	
 	
@@ -357,7 +356,7 @@ public class BudgetAssetSplitController extends BaseController {
 		param.getParam().put("budget_info_id", dataId);
 		param.setLimit(100);
 		param.setPage(1);
-		System.out.println(JSON.toJSONString(param));
+		
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(BUDGET_ASSETSPLIT_ITEMS, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), LayuiTableData.class);
 		LayuiTableData tabldata = responseEntity.getBody();
 		//System.out.println(JSON.toJSONString(tabldata));

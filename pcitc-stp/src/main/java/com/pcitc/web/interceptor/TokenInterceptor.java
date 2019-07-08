@@ -1,6 +1,7 @@
 package com.pcitc.web.interceptor;
 
 import java.io.PrintWriter;
+import java.util.Enumeration;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +31,12 @@ public class TokenInterceptor implements HandlerInterceptor {
 		try {
 			System.out.println("TokenInterceptor--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
 			String path = request.getRequestURI();
-			
+			Enumeration<String> hnames = request.getHeaderNames();
+			while(hnames.hasMoreElements())
+			{
+				String hearderName = hnames.nextElement();
+				System.out.println(hearderName+":"+request.getHeader(hearderName));
+			}
 			/*if(!doLoginInterceptor(path, basePath) ){//是否进行登陆拦截
 				return true;
 			}*/

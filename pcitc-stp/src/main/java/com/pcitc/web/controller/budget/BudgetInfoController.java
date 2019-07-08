@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.InputCheckUtil;
@@ -66,7 +67,7 @@ public class BudgetInfoController extends BaseController
 	public Object getBudgetInfo(@RequestParam(value = "dataId", required = true) String dataId,HttpServletRequest request) throws IOException 
 	{
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_GET_INFO+dataId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Object.class);
-		return responseEntity.getBody();
+		return JSON.toJSON(responseEntity.getBody());
 	}
 	@RequestMapping(value = "/budget/budget-info-table", method = RequestMethod.POST)
 	@ResponseBody
@@ -74,10 +75,10 @@ public class BudgetInfoController extends BaseController
 	{
 		if(!InputCheckUtil.check(InputCheckUtil.pub_nd, param.getParam().get("nd")+"") || !InputCheckUtil.check(InputCheckUtil.budget_budgettype, param.getParam().get("budgetType")+"")) 
 		{
-			return "error";
+			return JSON.toJSON(new Result(false));
 		}
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_INFO_TABLE, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), Object.class);
-		return responseEntity.getBody();
+		return JSON.toJSON(responseEntity.getBody());
 	}
 	@RequestMapping(value = "/budget/budget-info-list", method = RequestMethod.POST)
 	@ResponseBody
@@ -86,10 +87,10 @@ public class BudgetInfoController extends BaseController
 		//输入验证
 		if(!InputCheckUtil.check(InputCheckUtil.pub_nd, info.getNd()) || !InputCheckUtil.check(InputCheckUtil.budget_budgettype, info.getBudgetType()+"")) 
 		{
-			return "error";
+			return JSON.toJSON(new Result(false));
 		}
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_INFO_LIST, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
-		return responseEntity.getBody();
+		return JSON.toJSON(responseEntity.getBody());
 	}
 	@RequestMapping(value = "/budget/budget-info-del", method = RequestMethod.POST)
 	@ResponseBody
@@ -105,7 +106,7 @@ public class BudgetInfoController extends BaseController
 		info.setCreaterId(this.getUserProfile().getUserId());
 		info.setCreaterName(this.getUserProfile().getUserDisp());
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_INFO_CREATE, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
-		return responseEntity.getBody();
+		return JSON.toJSON(responseEntity.getBody());
 	}
 	@RequestMapping(value = "/budget/budget-info-create-bytemplate", method = RequestMethod.POST)
 	@ResponseBody
@@ -114,7 +115,7 @@ public class BudgetInfoController extends BaseController
 		info.setCreaterId(this.getUserProfile().getUserId());
 		info.setCreaterName(this.getUserProfile().getUserDisp());
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_INFO_CREATE_BYTEMPLATE, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
-		return responseEntity.getBody();
+		return JSON.toJSON(responseEntity.getBody());
 	}
 	
 	
