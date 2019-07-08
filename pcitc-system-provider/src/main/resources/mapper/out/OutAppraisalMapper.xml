@@ -711,20 +711,27 @@
 	
 	<!--  领导二级页面，各个研究院的成果情况 -->
 	<select id="getAppraisalInfoByInstitute" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select count(*) as sl, 
-			sum(case when cglx = 'A.工业化' then 1 else 0 end) as gyhsl,
-			sum(case when cglx = 'B.工业试验' then 1 else 0 end) as gysysl,
-			sum(case when cglx = 'C.其他' then 1 else 0 end) as qtsl,
-			SUBSTR(define1 FROM 4) define1 
-		from (
+		select sys_dictionary.name as define1,IFNULL(tableB.gyhsl,'0') as gyhsl,
+				IFNULL(tableB.gysysl,'0') as gysysl,IFNULL(tableB.qtsl,'0') as qtsl,IFNULL(tableB.sl,'0') as sl
+  		from sys_dictionary left join (
+			select count(*) as sl, 
+				sum(case when cglx = 'A.工业化' then 1 else 0 end) as gyhsl,
+				sum(case when cglx = 'B.工业试验' then 1 else 0 end) as gysysl,
+				sum(case when cglx = 'C.其他' then 1 else 0 end) as qtsl,
+				SUBSTR(define1 FROM 4) define1 
+			from (
 				select define1,define3,cglx,jdh
 				from out_appraisal
 				where 
 					nd='${nd}' and define1 is not null 
 					and define3 like '%研究院%'
-			  GROUP BY cgid
-		) as tableA
-		group by define1
+			  	GROUP BY cgid
+			) as tableA
+			group by define1
+		) as tableB on (sys_dictionary.name = tableB.define1)
+		where 
+			sys_dictionary.parent_code = 'ROOT_ZGSHJT_GFGS_ZSYJY'
+		ORDER BY sys_dictionary.isdelete
 	</select>
 	
 	<!--  领导二级页面，各种类型的成果情况 -->
@@ -742,19 +749,24 @@
 	
 	<!--  辅助决策分析，成果鉴定年度分析，近三年成果各专业分布 -->
 	<select id="getAppraisalInfoByZyForThreeYear" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select 
-			tableA.zy,
-			sum(case when tableA.nd = '${nd}' OR tableA.nd = '${nd}'-1 OR tableA.nd = '${nd}'-2 then sl else 0 end) as zsl,
-			sum(case when tableA.nd = '${nd}' then sl else 0 end) as  thisYearSl,
-			sum(case when tableA.nd = '${nd}'-1 then sl else 0 end) as  lastYearSl,
-			sum(case when tableA.nd = '${nd}'-2 then sl else 0 end) as  beforeYearSl
-		from (
-				select count(DISTINCT cgid) as sl, nd, case when zy is null then '其他' else zy end as zy 
+		select tableB.* from sys_dictionary left join (
+			select 
+				tableA.zy,
+				sum(case when tableA.nd = '${nd}' OR tableA.nd = '${nd}'-1 OR tableA.nd = '${nd}'-2 then sl else 0 end) as zsl,
+				sum(case when tableA.nd = '${nd}' then sl else 0 end) as  thisYearSl,
+				sum(case when tableA.nd = '${nd}'-1 then sl else 0 end) as  lastYearSl,
+				sum(case when tableA.nd = '${nd}'-2 then sl else 0 end) as  beforeYearSl
+			from (
+				select count(DISTINCT cgid) as sl, nd, zy 
 				from out_appraisal
 				where 
 					define3 not like '%外部单位%'
 				group by zy,nd) as tableA
-		group by tableA.zy
+			group by tableA.zy
+		) as tableB ON (sys_dictionary.name = tableB.zy)
+		where 
+			sys_dictionary.parent_code = 'ROOT_FZJCZX_CGLX'
+		ORDER BY sys_dictionary.isdelete
 	</select>
 	
 	<!--  领导二级页面，各种专业的成果情况 -->
@@ -772,15 +784,18 @@
 	
 	<!--  领导首页-科研成果，直属院、分子公司等9个的成果情况 -->
 	<select id="getAppraisalInfoByCompanyType" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select tableA.sl,SUBSTR(tableA.define3 FROM 2) as define3 from (
-			select count(DISTINCT cgid) as sl, 
-				IFNULL(define3,'J其他') as define3
-			from out_appraisal
-			where 
-				nd='${nd}' and define3 not like '%外部单位%'
-			group by define3
-		) as tableA
-		ORDER BY tableA.define3 asc
+		 select sys_dictionary.name as define3,IFNULL(tableA.sl,'0') as sl
+		 from sys_dictionary left join (
+				select count(DISTINCT cgid) as sl, 
+						SUBSTR(define3 FROM 2) as define3
+					from out_appraisal
+					where 
+						nd='${nd}' and define3 not like '%外部单位%'
+					group by define3
+		) as tableA on (sys_dictionary.name = tableA.define3)
+		where 
+		parent_code in ('ROOT_ZGSHJT_GFGS','ROOT_ZGSHJT_JTGS','ROOT_ZGSHJT_ZCGS') and name not like '%外部单位%'
+		ORDER BY sys_dictionary.isdelete
 	</select>
 	
 	<!-- 分页显示项目的科研成果信息,统计的第三级展示 -->
@@ -860,28 +875,29 @@
 	
 	<!-- 获取成果详细的查询条件 -->
 	<select id="getAppraisalInfoSelectCondition" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select 'cglx' as showCode,cglx as showName
-		from out_appraisal
-		group BY cglx
-
-		union ALL
-		select 'zy',zy as showName
-		from out_appraisal
-		group by zy
-
-		union ALL
-		select 'define1',SUBSTR(define1 FROM 4) as showName
-		from out_appraisal
-		WHERE
-		define1 is not null and define3 like '%研究院%'
-		group by define1
-
-		union ALL
-		select 'define3',SUBSTR(define3 FROM 2) as showName
-		from out_appraisal
-		WHERE
-		define3 is not null and define3 not like '%外部单位%'
-		group by define3
-		
+		select * from (
+			select 'cglx' as showCode,cglx as showName,'1' as orderType, cglx as orderValue
+			from out_appraisal
+			group BY cglx
+	
+			union ALL
+			select 'zy',name as showName,'2' as orderType, isdelete as orderValue
+			from sys_dictionary
+			WHERE
+			parent_code = 'ROOT_FZJCZX_CGLX'
+	
+			union ALL
+			select 'define1',name as showName,'3' as orderType, isdelete as orderValue
+			from sys_dictionary
+			WHERE
+			parent_code = 'ROOT_ZGSHJT_GFGS_ZSYJY'
+	
+			union ALL
+			select 'define3',name as showName,'4' as orderType, isdelete as orderValue
+			from sys_dictionary
+			WHERE
+			parent_code in ('ROOT_ZGSHJT_GFGS','ROOT_ZGSHJT_JTGS','ROOT_ZGSHJT_ZCGS'
+		) and name not like '%外部单位%') as tableA 
+		ORDER BY orderType, orderValue
 	</select>
 </mapper>

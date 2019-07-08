@@ -158,14 +158,14 @@ span{display: inline-block;}
 .layui-oil-div div:nth-child(1){left: 50px;}
 .layui-oil-div div:nth-child(1) span{top: 16px;left: 100px;}
 .layui-oil-div div:nth-child(1) img{top: 16px;left: 200px;}
-.layui-oil-div div:nth-child(2){top: -137px;left: 390px;}
+.layui-oil-div div:nth-child(2){top: -137px;left: 520px;}
 .layui-oil-div div:nth-child(2) span{top: 16px;left: 100px;}
 .layui-oil-div div:nth-child(2) img{top: 16px;left: 250px;}
 .layui-oil-div div:nth-child(3) {top: -144px;  left: 129px;}
 .layui-oil-div div:nth-child(3) span{left: -116px;}
 .layui-oil-div div:nth-child(4){    top: -279px;left: 376px;}
 .layui-oil-div div:nth-child(4) img{left: 165px;}
-.layui-oil-div div:nth-child(5){    top: -416px;  left: 690px;}
+.layui-oil-div div:nth-child(5){    top: -463px;  left: 850px;}
 .layui-oil-div div:nth-child(5) img{left: 80px;}
 .layui-oil>img{    position: relative;top: 45%;left: 5px;}
 /*石油化工*/
@@ -209,9 +209,9 @@ span{display: inline-block;}
 .prospecting{padding-left: 42px;}
 /*分辨率*/
 @media screen and (max-width: 1920px) {
-    .layui-oil-div div:nth-child(1){left: 0;}
+    .layui-oil-div div:nth-child(1){left: 130px;}
     .layui-oil-div div:nth-child(1) img{left: 260px}
-    .layui-oil-div div:nth-child(4){    top: -279px;left: 382px;}
+    .layui-oil-div div:nth-child(4){    top: -279px;left: 520px;}
     .layui-oil-div div:nth-child(4) img{left: 126px;}
     .layui-oil-div div:nth-child(5) .layui-text-span {
         width: 552px;}
@@ -224,9 +224,10 @@ span{display: inline-block;}
     .layui-industry-right>div:nth-child(1){margin-top: 0;}
     .prospecting .layui-text-span{text-indent: 4px;}
     .layui-oil .layui-text-span,.layui-technique-div .layui-text-span{text-indent: 20px;}
-    .layui-oil-div .layui-lab-span{font-size: 16px;}
+
 }
 @media screen and (max-width: 1536px) {
+    .layui-oil-div .layui-lab-span{font-size: 14px;}
     .layui-red-list div,.layui-right-list div,.layui-industry-right>div{margin-top: 0;}
     .layui-prospecting-div .layui-text-span{display: block;}
     .layui-country-div .layui-text-span{position: absolute;}
@@ -234,7 +235,11 @@ span{display: inline-block;}
     .layui-industry-right span {margin-left: 80px !important;}
     .layui-green-list>div{    margin: 2px 0 2px -10px;}
     .layui-orange-bg{background: none;    margin-left: 100px;padding: 25px 0 0 24px;}
-    .layui-oil-div div:nth-child(5) .layui-text-span{width:248px;}
+    .layui-oil-div div:nth-child(1){left: 0;}
+    .layui-oil-div div:nth-child(2){left: 400px;}
+    .layui-oil-div div:nth-child(3){left: 80px;}
+    .layui-oil-div div:nth-child(4){left: 400px;}
+    .layui-oil-div div:nth-child(5) {left: 730px;}
     .layui-oil .layui-text-span,.layui-technique-div .layui-text-span,
     .layui-prospecting .layui-text-span,.layui-industry .layui-text-span{text-indent: 20px;}
 }

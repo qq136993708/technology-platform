@@ -163,7 +163,7 @@ public class BudgetGroupTotalController extends BaseController {
 	{
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_LIST, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
-		return JSON.toJSON(responseEntity.getBody()).toString();
+		return JSON.toJSON(responseEntity.getBody());
 	}
 	@RequestMapping(value = "/budget/budget-group-info-table", method = RequestMethod.POST)
 	@ResponseBody
@@ -171,7 +171,7 @@ public class BudgetGroupTotalController extends BaseController {
 	{
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_TABLE, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), Object.class);
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
-		return JSON.toJSON(responseEntity.getBody()).toString();
+		return JSON.toJSON(responseEntity.getBody());
 	}
 	@RequestMapping(value = "/budget/budget-grouptotal-items", method = RequestMethod.POST)
 	@ResponseBody
@@ -179,7 +179,7 @@ public class BudgetGroupTotalController extends BaseController {
 	{
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_ITEMS, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), Object.class);
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
-		return JSON.toJSON(responseEntity.getBody()).toString();
+		return JSON.toJSON(responseEntity.getBody());
 	}
 	@RequestMapping(value = "/budget/budget-grouptotal-create", method = RequestMethod.POST)
 	@ResponseBody
@@ -189,7 +189,7 @@ public class BudgetGroupTotalController extends BaseController {
 		info.setCreaterName(this.getUserProfile().getUserDisp());
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_CREATE, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
-		return JSON.toJSON(responseEntity.getBody()).toString();
+		return JSON.toJSON(responseEntity.getBody());
 	}
 	
 	@RequestMapping(value = "/budget/budget-grouptotal-create-bytemplate", method = RequestMethod.POST)
@@ -200,7 +200,7 @@ public class BudgetGroupTotalController extends BaseController {
 		info.setCreaterName(this.getUserProfile().getUserDisp());
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_CREATE_BYTEMPLATE, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
-		return JSON.toJSON(responseEntity.getBody()).toString();
+		return JSON.toJSON(responseEntity.getBody());
 	}
 	
 	@RequestMapping(value = "/budget/budget-grouptotal-del", method = RequestMethod.POST)
@@ -209,7 +209,7 @@ public class BudgetGroupTotalController extends BaseController {
 	{
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_DELETE, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
-		return JSON.toJSON(responseEntity.getBody()).toString();
+		return JSON.toJSON(responseEntity.getBody());
 	}
 	@RequestMapping(value = "/budget/get-grouptotal-item/{dataId}", method = RequestMethod.POST)
 	@ResponseBody
@@ -227,14 +227,14 @@ public class BudgetGroupTotalController extends BaseController {
 		//检查是否可编辑
 		Result result = this.restTemplate.exchange(BUDGET_INFO_EDIT_CHECK+item.getBudgetInfoId(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Result.class).getBody();
 		if(!result.isSuccess()) {
-			return result;
+			return JSON.toJSON(result);
 		}
 		
 		ResponseEntity<BudgetGroupTotal> rs = this.restTemplate.exchange(BUDGET_GROUPTOTAL_SAVE_ITEM, HttpMethod.POST, new HttpEntity<BudgetGroupTotal>(item, this.httpHeaders), BudgetGroupTotal.class);
 		if (rs.getBody() != null) {
-			return new Result(true,rs.getBody());
+			return JSON.toJSON(new Result(true,rs.getBody()));
 		} else {
-			return BudgetExceptionResultEnum.ERROR;
+			return JSON.toJSON(BudgetExceptionResultEnum.ERROR.getResult());
 		}
 	}
 	@RequestMapping(value = "/budget/save-grouptotal-items", method = RequestMethod.POST)
@@ -247,7 +247,7 @@ public class BudgetGroupTotalController extends BaseController {
 		//检查是否可编辑
 		Result result = this.restTemplate.exchange(BUDGET_INFO_EDIT_CHECK+budget.getDataId(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Result.class).getBody();
 		if(!result.isSuccess()) {
-			return result;
+			return JSON.toJSON(result);
 		}
 		
 		List<BudgetGroupTotal> grouplist = JSON.parseArray(items, BudgetGroupTotal.class);
@@ -255,9 +255,9 @@ public class BudgetGroupTotalController extends BaseController {
 		ResponseEntity<Integer> grouprs = this.restTemplate.exchange(BUDGET_GROUPTOTAL_SAVE_ITEMS, HttpMethod.POST, new HttpEntity<Object>(grouplist, this.httpHeaders), Integer.class);
 		if (infors.getBody() >= 0 && grouprs.getBody() >= 0) 
 		{
-			return new Result(true);
+			return JSON.toJSON(new Result(true));
 		} else {
-			return BudgetExceptionResultEnum.ERROR;
+			return JSON.toJSON(BudgetExceptionResultEnum.ERROR.getResult());
 		}
 	}
 	@RequestMapping(value = "/budget/save-grouptotal-childitems", method = RequestMethod.POST)
@@ -269,9 +269,9 @@ public class BudgetGroupTotalController extends BaseController {
 		mapParam.put("item", JSON.parse(item).toString());
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_SAVE_CHILDITEMS, HttpMethod.POST, new HttpEntity<Object>(mapParam, this.httpHeaders), Integer.class);
 		if (responseEntity.getBody() == 0) {
-			return new Result(false);
+			return JSON.toJSON(new Result(false));
 		} else {
-			return new Result(true);
+			return JSON.toJSON(new Result(true));
 		}
 	}
 	
@@ -281,7 +281,7 @@ public class BudgetGroupTotalController extends BaseController {
 	{
 		//获取所有的集团公司
 		ResponseEntity<?> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_COMPANY_ITEMS, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
-		return responseEntity.getBody();
+		return JSON.toJSON(responseEntity.getBody());
 	}
 	@RequestMapping(value = "/budget/search-group-company-tree", method = RequestMethod.POST)
 	@ResponseBody
@@ -290,7 +290,7 @@ public class BudgetGroupTotalController extends BaseController {
 		//获取所有的集团公司
 		ResponseEntity<?> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_COMPANY_TREE, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
 		//System.out.println(JSON.toJSONString(responseEntity.getBody()));
-		return responseEntity.getBody();
+		return JSON.toJSON(responseEntity.getBody());
 	}
 	
 	@RequestMapping(value = "/budget/del-group-item/{dataId}", method = RequestMethod.POST)
@@ -301,13 +301,13 @@ public class BudgetGroupTotalController extends BaseController {
 		Map<?,?> rsmap = this.restTemplate.exchange(BUDGET_GROUPTOTAL_GET_ITEM+dataId, HttpMethod.POST, new HttpEntity<Object>(dataId, this.httpHeaders), Map.class).getBody();
 		Result result = this.restTemplate.exchange(BUDGET_INFO_EDIT_CHECK+rsmap.get("budgetInfoId"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Result.class).getBody();
 		if(!result.isSuccess()) {
-			return result;
+			return JSON.toJSON(result);
 		}
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_DEL_ITEMS+dataId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
 		if (responseEntity.getBody() == 0) {
-			return new Result(false);
+			return JSON.toJSON(new Result(false));
 		} else {
-			return new Result(true);
+			return JSON.toJSON(new Result(true));
 		}
 	}
 	@RequestMapping(value = "/budget/start-budget-grouptotal-activity", method = RequestMethod.POST)
@@ -315,7 +315,6 @@ public class BudgetGroupTotalController extends BaseController {
 	public Object submitBudgetGroupTotal(@RequestParam(value = "budgetInfoId", required = true) String budgetInfoId,
 			@RequestParam(value = "functionId", required = true) String functionId,HttpServletRequest request) throws IOException 
 	{
-		System.out.println("start-budget-grouptotal-activity-----------------");
 		WorkflowVo vo = new WorkflowVo();
 		vo.setAuditUserIds(this.getUserProfile().getUserId());
 		vo.setFunctionId(functionId);
@@ -332,7 +331,7 @@ public class BudgetGroupTotalController extends BaseController {
 		
 		HttpEntity<WorkflowVo> entity = new HttpEntity<WorkflowVo>(vo, this.httpHeaders);
 		Result startRs = this.restTemplate.exchange(BUDGET_WORKFLOW_URL + budgetInfoId, HttpMethod.POST, entity, Result.class).getBody();
-		return startRs;
+		return JSON.toJSON(startRs);
 	}
 	@RequestMapping(value = "/budget/search-grouptotal-history-items", method = RequestMethod.POST)
 	@ResponseBody
@@ -340,7 +339,7 @@ public class BudgetGroupTotalController extends BaseController {
 	{
 		//System.out.println(JSON.toJSONString(info));
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPTOTAL_HISTORY_ITEMS, HttpMethod.POST, new HttpEntity<Object>(info, this.httpHeaders), List.class);
-		return infors.getBody();
+		return JSON.toJSON(infors.getBody());
 	}
 	@RequestMapping(value = "/budget/search-grouptotal-final-history-list", method = RequestMethod.POST)
 	@ResponseBody
@@ -348,7 +347,7 @@ public class BudgetGroupTotalController extends BaseController {
 	{
 		//System.out.println(JSON.toJSONString(info));
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPTOTAL_FINAL_HISTORY_LIST, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
-		return infors.getBody();
+		return JSON.toJSON(infors.getBody());
 	}
 	
 	
@@ -356,9 +355,8 @@ public class BudgetGroupTotalController extends BaseController {
 	@ResponseBody
 	public Object selectBudgetGroupTotalComparePlan(@RequestParam(value="nd",required = false)String nd,@RequestParam(value="code",required = false)String code,HttpServletRequest request) throws IOException 
 	{
-		System.out.println("plan............"+nd+"------"+code);
 		if(nd == null || code == null) {
-			return new ArrayList<Object>();
+			return JSON.toJSON(new ArrayList<Object>());
 		}
 		Map<String,Object> param = new HashMap<String,Object>();
 		param.put("nd", nd);
@@ -366,7 +364,7 @@ public class BudgetGroupTotalController extends BaseController {
 		//System.out.println(JSON.toJSONString(info));
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPTOTAL_COMPARE_PLAN, HttpMethod.POST, new HttpEntity<Object>(param,this.httpHeaders), List.class);
 		//System.out.println(JSON.toJSONString(infors.getBody()));
-		return infors.getBody();
+		return JSON.toJSON(infors.getBody());
 	}
 	
 	@RequestMapping(value = "/budget/select-grouptotal-compare-project", method = RequestMethod.POST)
@@ -375,7 +373,7 @@ public class BudgetGroupTotalController extends BaseController {
 	{
 		System.out.println("plan............"+nd+"------"+code);
 		if(nd == null || code == null) {
-			return new ArrayList<Object>();
+			return JSON.toJSON(new ArrayList<Object>());
 		}
 		Map<String,Object> param = new HashMap<String,Object>();
 		param.put("nd", nd);
@@ -383,7 +381,7 @@ public class BudgetGroupTotalController extends BaseController {
 		//System.out.println(JSON.toJSONString(info));
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPTOTAL_COMPARE_PROJECT, HttpMethod.POST, new HttpEntity<Object>(param,this.httpHeaders), List.class);
 		//System.out.println(JSON.toJSONString(infors.getBody()));
-		return infors.getBody();
+		return JSON.toJSON(infors.getBody());
 	}
 	@RequestMapping(value = "/budget/select-grouptotal-plandata", method = RequestMethod.POST)
 	@ResponseBody
@@ -391,7 +389,7 @@ public class BudgetGroupTotalController extends BaseController {
 			HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
 		ResponseEntity<?> rs = this.restTemplate.exchange(BUDGET_GROUPTOTAL_PLANDATA + budget_info_id, HttpMethod.POST,  new HttpEntity<Object>(this.httpHeaders), Object.class);
-		return rs.getBody();
+		return JSON.toJSON(rs.getBody());
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
