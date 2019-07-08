@@ -332,7 +332,7 @@ var name=$('#name').val();
             	{field : 'topicName',     title : '课题名称',      style : 'cursor: pointer;', align: 'left', width : '20%',templet:function(d){return '<span onclick="view_project(\''+d.topicId+'\')" style="color:#1890ff">'+d.topicName+'</span>'},sort : true},
                 {field : 'topicName',     title : '任务书',     style : 'cursor: pointer;', align: 'left', width : '20%',templet:function(d){return '<span   onclick="view_isWriteTask(\''+d.taskId+'\')" style="color: #1890ff">'+d.topicName+'</span>'},sort : true},
                 {field : 'projectMoney',   title : '总经费(万元)', style : 'cursor: pointer;', align: 'center', width : '8%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'},sort : true},
-                {field : 'erpNum',            title : 'ERP采购订单号', style : 'cursor: pointer;', align: 'center', width : '10%',sort : true,templet : '#getErpOrderlist_tlp_id'},
+                {field : 'erpNum',            title : 'ERP项目号', style : 'cursor: pointer;', align: 'center', width : '10%',sort : true,templet : '#getErpOrderlist_tlp_id'},
                 {field : 'purchaseMoney',   title : '已采购金额(万元)', style : 'cursor: pointer;', align: 'center', width : '8%',templet : '#purchase_money_id',sort : true},
                 {field : 'setupYear',      title : '立项年份', style : 'cursor: pointer;', align: 'center', width : '8%',sort : true},
             	

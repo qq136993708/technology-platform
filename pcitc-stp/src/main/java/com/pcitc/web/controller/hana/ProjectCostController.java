@@ -202,7 +202,7 @@ public class ProjectCostController extends BaseController {
 			
 			String monthstr =DateUtil.dateToStr(DateUtil.strToDate(month, DateUtil.FMT_MM), DateUtil.FMT_YYYY_ZH);
 			request.setAttribute("monthstr", monthstr);
-			
+			request.setAttribute("monthName", HanaUtil.getMonthName(month));
 	        return "stp/hana/projectCost/kytztjb_detail";
 	  }
 	  
@@ -434,6 +434,7 @@ public class ProjectCostController extends BaseController {
 				
 				String monthstr =DateUtil.dateToStr(DateUtil.strToDate(month, DateUtil.FMT_MM), DateUtil.FMT_YYYY_ZH);
 				request.setAttribute("monthstr", monthstr);
+				request.setAttribute("monthName", HanaUtil.getMonthName(month));
 		        return "stp/hana/projectCost/kjjftjb_detail";
 		  }
 	     
@@ -661,6 +662,7 @@ public class ProjectCostController extends BaseController {
 				
 				String monthstr =DateUtil.dateToStr(DateUtil.strToDate(month, DateUtil.FMT_MM), DateUtil.FMT_YYYY_ZH);
 				request.setAttribute("monthstr", monthstr);
+				request.setAttribute("monthName", HanaUtil.getMonthName(month));
 		        return "stp/hana/projectCost/hxktqcbtjb_detail";
 		  }
 	     
