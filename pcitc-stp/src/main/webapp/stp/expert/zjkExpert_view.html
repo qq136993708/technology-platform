@@ -6,11 +6,16 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
 
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/layuiadmin/javascript/ckeditor5/ckeditor.js"></script>
     <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
+    <!--<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>-->
+    <!--<script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>-->
 </head>
 <body>
 <div class="formBox">
@@ -28,42 +33,44 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">姓名<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="expertName" name="expertName" readonly="readonly" class="layui-input readOnlyBox"  lay-verify="required" placeholder="请输入姓名" autocomplete="off">
+                            <input type="text" id="expertName" name="expertName" lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">
                         </div>
                     </div>
 
                     <div class="layui-form-item">
                         <label class="layui-form-label">性别<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <select id="sex" name="sex" disabled="disabled" class="readOnlyBox"></select>
+                            <select disabled="disabled" class="readOnlyBox" disabled="disabled" class="readOnlyBox" id="sex" name="sex"></select>
                         </div>
                     </div>
 
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">年龄<span class="must-fill">*</span></label>
-                        <div class="layui-input-block">
-                            <input type="number" id="age" name="age" lay-verify="required" placeholder="请输入年龄" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">
-                        </div>
-                    </div>
+
 
                     <div class="layui-form-item">
                         <label class="layui-form-label">出生日期<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="birthDate" name="birthDate" lay-verify="required" readonly="readonly" class="layui-input readOnlyBox" placeholder="yyyy-MM-dd">
+                            <input type="text" id="birthDate" name="birthDate" lay-verify="required"  class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item" style="display: none">
+                        <label class="layui-form-label">年龄<span class="must-fill"></span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="age" name="age" placeholder="请输入年龄" autocomplete="off"  class="layui-input readOnlyBox" readonly="readonly">
                         </div>
                     </div>
 
                     <div class="layui-form-item">
-                        <label class="layui-form-label">邮箱<span class="must-fill">*</span></label>
+                        <label class="layui-form-label">邮箱<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input type="email" id="email" name="email" lay-verify="required" placeholder="请输入邮箱" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">
+                            <input type="email" id="email" name="email" placeholder="请输入邮箱" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">
                         </div>
                     </div>
 
                     <div class="layui-form-item">
                         <label class="layui-form-label">国籍<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <select id="expertNationality" name="expertNationality" disabled="disabled" class="readOnlyBox"></select>
+                            <select disabled="disabled" class="readOnlyBox" id="expertNationality" name="expertNationality"></select>
                         </div>
                     </div>
                 </div>
@@ -74,9 +81,9 @@
                                 class="must-fill">*</span></label>
                     </div>
                     <div class="layui-form-item">
-                        <div class="photo_box" id="upload_File_photoAttach" style="margin: 30px auto;"><img id="photoAttach" src=""
-                                                                                                            title="点击上传免冠照片" alt=""
-                                                                                                            height="100%" width="140"></div>
+                        <div class="photo_box" id="upload_File_photoAttach" style="margin: 0px auto 10px;"><img id="photoAttach" src=""
+                                                                                                                title="点击上传免冠照片" alt=""
+                                                                                                                height="100%" width="140"></div>
                     </div>
                 </div>
 
@@ -99,7 +106,7 @@
             <!--&lt;!&ndash;<div class="layui-form-item">&ndash;&gt;-->
             <!--&lt;!&ndash;<label class="layui-form-label">年龄段<span class="must-fill">*</span></label>&ndash;&gt;-->
             <!--&lt;!&ndash;<div class="layui-input-block">&ndash;&gt;-->
-            <!--&lt;!&ndash;<input type="text" id="ageBetween" name="ageBetween" lay-verify="required" placeholder="请输入年龄段" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">&ndash;&gt;-->
+            <!--&lt;!&ndash;<input type="text" id="ageBetween" name="ageBetween" lay-verify="required" placeholder="请输入年龄段" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">&ndash;&gt;-->
             <!--&lt;!&ndash;</div>&ndash;&gt;-->
             <!--&lt;!&ndash;</div>&ndash;&gt;-->
             <!--&lt;!&ndash;</div>&ndash;&gt;-->
@@ -116,18 +123,18 @@
             <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">证件类型<span class="must-fill">*</span></label>
+                        <label class="layui-form-label">证件类型<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <select id="cardType" name="cardType" disabled="disabled" class="readOnlyBox"></select>
+                            <select disabled="disabled" class="readOnlyBox" id="cardType" name="cardType"></select>
                         </div>
                     </div>
                 </div>
 
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">证件号码<span class="must-fill">*</span></label>
+                        <label class="layui-form-label">证件号码<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="cardId" name="cardId" lay-verify="required" placeholder="请输入证件号码" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">
+                            <input type="text" id="cardId" name="cardId"  placeholder="请输入证件号码" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">
                         </div>
                     </div>
                 </div>
@@ -139,15 +146,23 @@
                 <!--<div class="layui-form-item">-->
                 <!--<label class="layui-form-label">机构名称<span class="must-fill">*</span></label>-->
                 <!--<div class="layui-input-block">-->
-                <!--<input type="text" id="companyName" name="companyName" lay-verify="required" placeholder="请输入机构名称" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">-->
+                <!--<input type="text" id="companyName" name="companyName" lay-verify="required" placeholder="请输入机构名称" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">-->
                 <!--</div>-->
                 <!--</div>-->
                 <!--</div>-->
+
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">机构<span class="must-fill">*</span></label>
-                        <div class="layui-input-block">
-                            <select name="company" id="company" lay-filter="company" disabled="disabled" class="readOnlyBox"></select>
+                        <!--<div class="layui-input-block">-->
+                        <!--<select disabled="disabled" class="readOnlyBox" name="company" id="company" lay-filter="company"></select>-->
+                        <!--</div>-->
+                        <div class=" layui-input-block">
+                            <input class="layui-input readOnlyBox" readonly="readonly" name="companyName" id="companyName" value=""  autocomplete="off" type="text">
+
+                            <!--onclick="chooseUnitMulti('choose_joinUnitName_callback')" placeholder="请选择"-->
+                            <input type="hidden" id="company" name="company" />
+                            <!--<div id="companyDiv" class="layui-form-select select-tree"></div>-->
                         </div>
                     </div>
                 </div>
@@ -180,7 +195,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">毕业院校<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="college" name="college" placeholder="请输入毕业院校" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">
+                            <input type="text" id="college" name="college" placeholder="请输入毕业院校" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">
                         </div>
                     </div>
                 </div>
@@ -197,8 +212,6 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">市<span class="must-fill"></span></label>
@@ -224,9 +237,9 @@
 
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">详细地址<span class="must-fill">*</span></label>
+                        <label class="layui-form-label">详细地址<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="address" name="address" lay-verify="required" placeholder="请输入居住地地址" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">
+                            <input type="text" id="address" name="address"  placeholder="请输入居住地地址" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">
                         </div>
                     </div>
                 </div>
@@ -239,7 +252,7 @@
             <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label">参与金额数量<span class="must-fill">*</span></label>-->
             <!--<div class="layui-input-block">-->
-            <!--<input type="text" id="amountCount" name="amountCount" lay-verify="required" placeholder="请输入参与金额数量" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">-->
+            <!--<input type="text" id="amountCount" name="amountCount" lay-verify="required" placeholder="请输入参与金额数量" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">-->
             <!--</div>-->
             <!--</div>-->
             <!--</div>-->
@@ -247,7 +260,7 @@
             <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label">专利数量<span class="must-fill">*</span></label>-->
             <!--<div class="layui-input-block">-->
-            <!--<input type="text" id="patentCount" name="patentCount" lay-verify="required" placeholder="请输入专利数量" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">-->
+            <!--<input type="text" id="patentCount" name="patentCount" lay-verify="required" placeholder="请输入专利数量" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">-->
             <!--</div>-->
             <!--</div>-->
             <!--</div>-->
@@ -260,7 +273,7 @@
             <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label">参与项目数量<span class="must-fill">*</span></label>-->
             <!--<div class="layui-input-block">-->
-            <!--<input type="text" id="projectCount" name="projectCount" lay-verify="required" placeholder="请输入参与项目数量" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">-->
+            <!--<input type="text" id="projectCount" name="projectCount" lay-verify="required" placeholder="请输入参与项目数量" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">-->
             <!--</div>-->
             <!--</div>-->
             <!--</div>-->
@@ -268,7 +281,7 @@
             <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label">参与机构数量<span class="must-fill">*</span></label>-->
             <!--<div class="layui-input-block">-->
-            <!--<input type="text" id="companyCount" name="companyCount" lay-verify="required" placeholder="请输入参与机构数量" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">-->
+            <!--<input type="text" id="companyCount" name="companyCount" lay-verify="required" placeholder="请输入参与机构数量" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">-->
             <!--</div>-->
             <!--</div>-->
             <!--</div>-->
@@ -281,7 +294,7 @@
             <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label">成果数量<span class="must-fill">*</span></label>-->
             <!--<div class="layui-input-block">-->
-            <!--<input type="text" id="achievementCount" name="achievementCount" lay-verify="required" placeholder="请输入成果数量" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">-->
+            <!--<input type="text" id="achievementCount" name="achievementCount" lay-verify="required" placeholder="请输入成果数量" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">-->
             <!--</div>-->
             <!--</div>-->
             <!--</div>-->
@@ -289,7 +302,7 @@
             <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label"><span class="must-fill">*</span></label>-->
             <!--<div class="layui-input-block">-->
-            <!--<input type="text" id="bak1" name="bak1" lay-verify="required" placeholder="请输入" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">-->
+            <!--<input type="text" id="bak1" name="bak1" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">-->
             <!--</div>-->
             <!--</div>-->
             <!--</div>-->
@@ -302,7 +315,7 @@
             <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label"><span class="must-fill">*</span></label>-->
             <!--<div class="layui-input-block">-->
-            <!--<input type="text" id="bak2" name="bak2" lay-verify="required" placeholder="请输入" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">-->
+            <!--<input type="text" id="bak2" name="bak2" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">-->
             <!--</div>-->
             <!--</div>-->
             <!--</div>-->
@@ -310,7 +323,7 @@
             <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label"><span class="must-fill">*</span></label>-->
             <!--<div class="layui-input-block">-->
-            <!--<input type="text" id="bak3" name="bak3" lay-verify="required" placeholder="请输入" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">-->
+            <!--<input type="text" id="bak3" name="bak3" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">-->
             <!--</div>-->
             <!--</div>-->
             <!--</div>-->
@@ -323,7 +336,7 @@
             <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label"><span class="must-fill">*</span></label>-->
             <!--<div class="layui-input-block">-->
-            <!--<input type="text" id="bak4" name="bak4" lay-verify="required" placeholder="请输入" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">-->
+            <!--<input type="text" id="bak4" name="bak4" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">-->
             <!--</div>-->
             <!--</div>-->
             <!--</div>-->
@@ -331,7 +344,7 @@
             <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label"><span class="must-fill">*</span></label>-->
             <!--<div class="layui-input-block">-->
-            <!--<input type="text" id="bak5" name="bak5" lay-verify="required" placeholder="请输入" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">-->
+            <!--<input type="text" id="bak5" name="bak5" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">-->
             <!--</div>-->
             <!--</div>-->
             <!--</div>-->
@@ -344,7 +357,7 @@
             <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label"><span class="must-fill">*</span></label>-->
             <!--<div class="layui-input-block">-->
-            <!--<input type="text" id="bak6" name="bak6" lay-verify="required" placeholder="请输入" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">-->
+            <!--<input type="text" id="bak6" name="bak6" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">-->
             <!--</div>-->
             <!--</div>-->
             <!--</div>-->
@@ -352,7 +365,7 @@
             <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label">用户ID<span class="must-fill">*</span></label>-->
             <!--<div class="layui-input-block">-->
-            <!--<input type="text" id="userId" name="userId" lay-verify="required" placeholder="请输入用户ID" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">-->
+            <!--<input type="text" id="userId" name="userId" lay-verify="required" placeholder="请输入用户ID" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">-->
             <!--</div>-->
             <!--</div>-->
             <!--</div>-->
@@ -363,9 +376,9 @@
 
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">联系方式<span class="must-fill">*</span></label>
+                        <label class="layui-form-label">联系方式<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input type="tel" id="mobile" name="mobile" lay-verify="required" placeholder="请输入手机" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">
+                            <input type="tel" id="mobile" name="mobile"  placeholder="请输入手机" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">
                         </div>
                     </div>
                 </div>
@@ -386,7 +399,7 @@
             <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label">专业领域名称<span class="must-fill">*</span></label>-->
             <!--<div class="layui-input-block">-->
-            <!--<input type="text" id="expertProfessionalFieldName" name="expertProfessionalFieldName" lay-verify="required" placeholder="请输入专业领域名称" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">-->
+            <!--<input type="text" id="expertProfessionalFieldName" name="expertProfessionalFieldName" lay-verify="required" placeholder="请输入专业领域名称" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">-->
             <!--</div>-->
             <!--</div>-->
             <!--</div>-->
@@ -394,7 +407,7 @@
             <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label">来源<span class="must-fill">*</span></label>-->
             <!--<div class="layui-input-block">-->
-            <!--<input type="text" id="source" name="source" lay-verify="required" placeholder="请输入来源" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">-->
+            <!--<input type="text" id="source" name="source" lay-verify="required" placeholder="请输入来源" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">-->
             <!--</div>-->
             <!--</div>-->
             <!--</div>-->
@@ -414,11 +427,12 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">专家类型<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <select id="bak3" name="bak3" disabled="disabled" class="readOnlyBox"></select>
+                            <select disabled="disabled" class="readOnlyBox" id="bak3" name="bak3"></select>
 
                         </div>
                     </div>
@@ -428,7 +442,7 @@
                 <!--<div class="layui-form-item">-->
                 <!--<label class="layui-form-label">专家头像<span class="must-fill"></span></label>-->
                 <!--<div class="layui-input-block">-->
-                <!--<input type="text" id="headerImg" name="headerImg" placeholder="请输入专家头像" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">-->
+                <!--<input type="text" id="headerImg" name="headerImg" placeholder="请输入专家头像" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">-->
                 <!--</div>-->
                 <!--</div>-->
                 <!--</div>-->
@@ -441,7 +455,7 @@
             <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label">参与项目名称<span class="must-fill">*</span></label>-->
             <!--<div class="layui-input-block">-->
-            <!--<input type="text" id="joinProjectName" name="joinProjectName" lay-verify="required" placeholder="请输入参与项目名称" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">-->
+            <!--<input type="text" id="joinProjectName" name="joinProjectName" lay-verify="required" placeholder="请输入参与项目名称" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">-->
             <!--</div>-->
             <!--</div>-->
             <!--</div>-->
@@ -449,7 +463,7 @@
             <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label">参与项目ID<span class="must-fill">*</span></label>-->
             <!--<div class="layui-input-block">-->
-            <!--<input type="text" id="joinProjectId" name="joinProjectId" lay-verify="required" placeholder="请输入参与项目ID" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">-->
+            <!--<input type="text" id="joinProjectId" name="joinProjectId" lay-verify="required" placeholder="请输入参与项目ID" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">-->
             <!--</div>-->
             <!--</div>-->
             <!--</div>-->
@@ -462,7 +476,7 @@
             <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label">状态位<span class="must-fill">*</span></label>-->
             <!--<div class="layui-input-block">-->
-            <!--<input type="text" id="sysFlag" name="sysFlag" lay-verify="required" placeholder="请输入状态位" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">-->
+            <!--<input type="text" id="sysFlag" name="sysFlag" lay-verify="required" placeholder="请输入状态位" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">-->
             <!--</div>-->
             <!--</div>-->
             <!--</div>-->
@@ -474,7 +488,7 @@
             <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label">排序<span class="must-fill">*</span></label>-->
             <!--<div class="layui-input-block">-->
-            <!--<input type="text" id="dataOrder" name="dataOrder" lay-verify="required" placeholder="请输入排序" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">-->
+            <!--<input type="text" id="dataOrder" name="dataOrder" lay-verify="required" placeholder="请输入排序" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">-->
             <!--</div>-->
             <!--</div>-->
             <!--</div>-->
@@ -482,7 +496,7 @@
             <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label">状态<span class="must-fill">*</span></label>-->
             <!--<div class="layui-input-block">-->
-            <!--<input type="text" id="delFlag" name="delFlag" lay-verify="required" placeholder="请输入状态" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">-->
+            <!--<input type="text" id="delFlag" name="delFlag" lay-verify="required" placeholder="请输入状态" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">-->
             <!--</div>-->
             <!--</div>-->
             <!--</div>-->
@@ -495,7 +509,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">简介:<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <textarea name="userDesc" id="userDesc" class="ckeditor" readonly="readonly" disabled="disabled" class="readOnlyBox"></textarea>
+                            <textarea name="userDesc" readonly="readonly"  id="userDesc" class="ckeditor"></textarea>
                         </div>
                     </div>
                 </div>
@@ -517,7 +531,7 @@
             <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label">创建时间<span class="must-fill">*</span></label>-->
             <!--<div class="layui-input-block">-->
-            <!--<input type="text" id="createDate" name="createDate" lay-verify="required" placeholder="请输入创建时间" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">-->
+            <!--<input type="text" id="createDate" name="createDate" lay-verify="required" placeholder="请输入创建时间" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">-->
             <!--</div>-->
             <!--</div>-->
             <!--</div>-->
@@ -525,7 +539,7 @@
             <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label">创建人id<span class="must-fill">*</span></label>-->
             <!--<div class="layui-input-block">-->
-            <!--<input type="text" id="createUser" name="createUser" lay-verify="required" placeholder="请输入创建人id" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">-->
+            <!--<input type="text" id="createUser" name="createUser" lay-verify="required" placeholder="请输入创建人id" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">-->
             <!--</div>-->
             <!--</div>-->
             <!--</div>-->
@@ -536,7 +550,7 @@
             <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label">创建人姓名<span class="must-fill">*</span></label>-->
             <!--<div class="layui-input-block">-->
-            <!--<input type="text" id="createUserDisp" name="createUserDisp" lay-verify="required" placeholder="请输入创建人姓名" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">-->
+            <!--<input type="text" id="createUserDisp" name="createUserDisp" lay-verify="required" placeholder="请输入创建人姓名" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">-->
             <!--</div>-->
             <!--</div>-->
             <!--</div>-->
@@ -544,7 +558,7 @@
             <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label">修改时间<span class="must-fill">*</span></label>-->
             <!--<div class="layui-input-block">-->
-            <!--<input type="text" id="modifyDate" name="modifyDate" lay-verify="required" placeholder="请输入修改时间" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">-->
+            <!--<input type="text" id="modifyDate" name="modifyDate" lay-verify="required" placeholder="请输入修改时间" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">-->
             <!--</div>-->
             <!--</div>-->
             <!--</div>-->
@@ -557,7 +571,7 @@
             <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label">修改人id<span class="must-fill">*</span></label>-->
             <!--<div class="layui-input-block">-->
-            <!--<input type="text" id="modifyUser" name="modifyUser" lay-verify="required" placeholder="请输入修改人id" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">-->
+            <!--<input type="text" id="modifyUser" name="modifyUser" lay-verify="required" placeholder="请输入修改人id" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">-->
             <!--</div>-->
             <!--</div>-->
             <!--</div>-->
@@ -565,7 +579,7 @@
             <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label">修改人姓名<span class="must-fill">*</span></label>-->
             <!--<div class="layui-input-block">-->
-            <!--<input type="text" id="modifyUserDisp" name="modifyUserDisp" lay-verify="required" placeholder="请输入修改人姓名" autocomplete="off" readonly="readonly" class="layui-input readOnlyBox">-->
+            <!--<input type="text" id="modifyUserDisp" name="modifyUserDisp" lay-verify="required" placeholder="请输入修改人姓名" autocomplete="off" class="layui-input readOnlyBox" readonly="readonly">-->
             <!--</div>-->
             <!--</div>-->
             <!--</div>-->
@@ -576,7 +590,11 @@
 
             <div class="form-bottom">
                 <div class="form-bottom-btns">
-                    <!--<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>-->
+                    <!--<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" id="save" lay-submit="" lay-filter="component-form-save">保存</button>-->
+                    <!--<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="component-form-commit">提交</button>-->
+
+                    <!--<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>-->
+                    <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
                 </div>
             </div>
         </div>
@@ -584,8 +602,59 @@
 </div>
 
 <script>
+    var unitList = [],unitMap={};
+    //获得机构信息
+    ajaxPost('/unit/list-data', null, function (data, status) {
+        $.each(data,function(i,dt){
+            unitMap[data[i].unitId]=data[i];
+        });
+    });
+    //机构检索页面初始化数据
+    window.initUnitTreeChoose = function(){
+        return unitList;
+    }
+    //机构页面选择后回调函数
+    window.callbackUnitTreeChoose = function(unitIds){
+        unitList = unitIds;
+        var unitText = "";
+        var unitdataIds = "";
+        var unitListNodes = [];
+        $.each(unitIds,function(i,dt){
+            if(unitMap[unitIds[i]]){
+                unitText += ","+unitMap[unitIds[i]].unitName;
+                unitdataIds += ","+unitMap[unitIds[i]].unitId;
+                unitListNodes.push(new zTreeNode(unitIds[i],0,unitMap[unitIds[i]].unitName));
+            }
+        });
+        $("#companyName").val(unitText.length>0?unitText.substring(1):"");
+        $("#company").val(unitdataIds.length>0?unitdataIds.substring(1):"");
+    }
+    $("#companyName").on("click", function() {
+        layer.open({
+            title : "详情",
+            skin : 'layui-layer-lan',
+            shadeClose : true,
+            type : 2,
+            fixed : false,
+            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+            maxmin : false,
+            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+            area : [ '80%', '70%' ],
+            content : "/unit/chooseUnitMultiV2?initFuncName=initUnitTreeChoose&callbackFuncName=callbackUnitTreeChoose"
+        });
+    });
+</script>
+<script>
 
     var global_hos = {};//省市县定义全局变量
+
+    // ajaxPost('/dictionary/list/ROOT_ZGSHJT_GFGS_ZSYJY', null, function (data, status) {
+    //     $.each(data, function (i, dt) {
+    //         if (i < 8) {
+    //             $("#company").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+    //         }
+    //     });
+    // });
 
     var map = {};
     map["ZJK_ZCXX"]="expertProfessinal";
@@ -603,14 +672,8 @@
             });
         });
     });
-    // ajaxPost('/dictionary/list/ROOT_ZGSHJT_GFGS_ZSYJY', null, function (data, status) {
-    //     $.each(data, function (i, dt) {
-    //         if (i < 8) {
-    //             $("#company").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
-    //         }
-    //     });
-    // });
-    // ajaxPost('/dictionary/list/ZJK_ZCXX', null, function (data, status) {
+
+    //     ajaxPost('/dictionary/list/ZJK_ZCXX', null, function (data, status) {
     //     $.each(data, function (i, dt) {
     //         $("#expertProfessinal").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
     //     });
@@ -645,6 +708,11 @@
     //         $("#education").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
     //     });
     // });
+    // ajaxPost('/dictionary/list/ZJK_ZJLX', null, function (data, status) {
+    //     $.each(data, function (i, dt) {
+    //         $("#bak3").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+    //     });
+    // });
     var DataDeal = {
         //将从form中通过$('#form').serialize()获取的值转成json
         formToJson: function (data) {
@@ -665,25 +733,26 @@
             var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
             publicMethods = layui.publicMethods
             form.render(null, 'zjkExpert-form');
-            laydate.render({
-                elem: '#birthDate'
-            });
+            // laydate.render({
+            //     elem: '#birthDate'
+            // });
+
             var myEditor = null;
             ClassicEditor.create(document.querySelector('#userDesc'),{}).then(editor => {
                 myEditor = editor;
             });
-
             //初始赋值 component-form-group 当前form的lay-filter
             if (id != "0") {
                 ajaxPost("/zjkBaseInfo/getZjkBaseInfoInfo", {"id": id}, function (data) {
                     form.val("zjkExpert-form", data);
-                    //myEditor.setData(data.userDesc);
                     //地址-开始
                     address("city", data.province, data.city);
                     address("county", data.city, data.county);
                     global_hos = data;
                     //地址-结束
+                    //myEditor.setData(data.userDesc);
                     form.render();
+                    // $("#companyDivShow").val(data.companyName);
                 });
             }
             /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
@@ -731,14 +800,18 @@
                 saveFormData(data);
                 return false;
             });
+            var  formData = "";
             /* 监听提交 */
             form.on('submit(component-form-commit)', function (data) {
 
-                data.field.auditStatus = "1";
+                // data.field.auditStatus = "1";
+                formData = data;
                 saveFormData(data);
 
-                data.field.functionId = JSON.parse(window.localStorage.getItem("param")).id;
-                workflow(data);
+                var param = JSON.parse(window.localStorage.getItem("param"));
+                $("#functionId").attr("value", param.id);
+                formData.field.functionId = param.id;
+                workflow(formData);
 
                 return false;
             });
@@ -766,7 +839,7 @@
                                 //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                                 maxmin: true,
                                 //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                                area: ['800px', '550px'],
+                                area: ['700px', '500px'],
                                 content: temUrl
                             });
                         } else if (data.code == 'unit' || data.code == 'post') {
@@ -788,7 +861,7 @@
                                 //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                                 maxmin: true,
                                 //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                                area: ['800px', '550px'],
+                                area: ['700px', '500px'],
                                 content: temUrl
                             });
                         } else if (data.code == 'int') {
@@ -808,7 +881,8 @@
             }
 
             function saveFormData(data) {
-                var age = $("#age").val();
+                var age = calAge($("#birthDate").val());
+                $("#age").val(age);
                 var ageBetween = "";
                 if (age > 20 && age <= 30) {
                     ageBetween = "20-30";
@@ -825,7 +899,12 @@
                 } else {
                     ageBetween = "80-200";
                 }
+                data.field.age = age;
                 data.field.ageBetween = ageBetween;
+                data.field.userDesc=myEditor.getData();
+                // data.field.company =$("#companyDivValue").val();
+                // data.field.companyName =$("#companyDivShow").val();
+
                 console.log("-------提交数据---------");
                 console.log(data.field);
                 ajaxPost("/zjkBaseInfo/saveZjkBaseInfo", data.field, function (dt, status) {
@@ -835,7 +914,7 @@
                         layer.msg("操作成功");
                         parent.layui.table.reload('zjkBaseInfoTableId', {where: {param: {}}});
                         var index = parent.layer.getFrameIndex(window.name);
-                        parent.layer.close(index);
+                        // parent.layer.close(index);
                     }
 
                 });
@@ -847,10 +926,21 @@
             })
         });
 
+    function calAge(str){
+        var   r   =   str.match(/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/);
+        if(r==null)return   false;
+        var   d=   new   Date(r[1],   r[3]-1,   r[4]);
+        if   (d.getFullYear()==r[1]&&(d.getMonth()+1)==r[3]&&d.getDate()==r[4])
+        {
+            var   Y   =   new   Date().getFullYear();
+            return ((Y-r[1]));
+        }
+    }
+
     //附件上传-start
     // $('#upload_File_photoAttach').click(function () {
     //     // 取消上次延时未执行的方法
-    //     // clearTimeout(TimeFn);
+    //     clearTimeout(TimeFn);
     //     //执行延时
     //     TimeFn = setTimeout(function () {
     //         //do function在此处写单击事件要执行的代码
@@ -859,17 +949,18 @@
     //         param.file_ids_value = $("input[name=dataId]").val();
     //
     //         param.callback = "call_fun";//回调函数名称
-    //         param.file_opt_flag = "672ac41cf40c45c2a9e6d56ec323061b";//文件配置ID
+    //         param.file_opt_flag = "1cf7678a240c42299313322d904ca7f0";//文件配置ID
     //         param.file_edit_detail = "edit";//新增、修改用edit, 显示用detail
     //         var temUrl = "/sysFilePage/uploadFile?param=" + encodeURIComponent(JSON.stringify(param));
     //         publicMethods.openBaseWin("文件上传", temUrl, "90%", "80%");
     //     }, 300);
     // });
     // $('#upload_File_photoAttach').dblclick(function () {
-    //     //取消上次延时未执行的方法
-    //     // clearTimeout(TimeFn);
-    //     //双击查看免冠照片
-    //     showImg(photofilePath);
+    //     return false;
+        //取消上次延时未执行的方法
+        // clearTimeout(TimeFn);
+        //双击查看免冠照片
+        // showImg(photofilePath);
     // });
 
     function call_fun(data, param) {
@@ -881,7 +972,7 @@
         var photoStream = photoContent(photofilePath);
         //设置photoAttach图片流
         $("#photoAttach").attr("src", photoStream);
-        $("#photoAttach").attr("title", "双击查看大图");
+        // $("#photoAttach").attr("title", "双击查看大图");
     }
 
     function ajaxFile(url, data, callback) {
@@ -960,8 +1051,8 @@
             photofilePath = photoAttachId;
             if (photofilePath != null && photofilePath != "") {
                 var photoStream = photoContent(photofilePath);
-                $("#photoAttach").attr("src", photoStream)
-                $("#photoAttach").attr("title", "双击查看大图");
+                $("#photoAttach").attr("src", photoStream);
+                // $("#photoAttach").attr("title", "双击查看大图");
             }
         }
     });
@@ -976,7 +1067,7 @@
     function takeAddress() {
         $.ajax({
             contentType: 'application/json;charset=utf-8',
-            async: false,
+            async: true,
             type: "POST",
             url: "/sysAddress/list",
             data: JSON.stringify({"depth": "1"}),
@@ -985,7 +1076,6 @@
                 for (var i = 0; i < data.length; i++) {
                     if (global_hos.province == data[i].dataId && global_hos != '') {
                         $("#province").append('<option value="' + data[i].dataId + '" selected>' + data[i].cityname + '</option>');
-                        console.log('<option value="' + data[i].dataId + '" selected>' + data[i].cityname + '</option>');
                         cityAddress(global_hos.province);//通过省id获取市列表
                     } else {
                         $("#province").append('<option value="' + data[i].dataId + '">' + data[i].cityname + '</option>');
@@ -1017,7 +1107,7 @@
                 }
             },
             error: function (data) {
-                alert(data.message);
+                console.log(data.message);
             }
         });
     }
@@ -1028,6 +1118,7 @@
     // 处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
     function handleTask(userIds) {
         $('#userIds').val(userIds);
+        console.log("handleTask userids:"+userIds);
         var data = $('#zjkExpert-form').serialize();//获取值
         data = decodeURIComponent(data, true);//防止中文乱码
         var json = DataDeal.formToJson(data);//转化为json
@@ -1049,6 +1140,91 @@
 
         });
     }
+</script>
+<script>
+
+    // var zNodes;
+    // $(function() {
+    //     $.ajax({
+    //         url : "/unit/ztree-unit-list",//这个就是请求地址对应sAjaxSource
+    //         type : 'get',
+    //         headers : {
+    //             'Content-Type' : 'application/json',
+    //         },
+    //         dataType : 'json',
+    //         async : false,
+    //         success : function(data) {
+    //             zNodes = data;
+    //         },
+    //         error : function(msg) {
+    //             layer.msg(msg);
+    //         }
+    //     });
+    // });
+    // // 下拉树初始化
+    // $(document).ready(function() {
+    //     /*
+    //      * initSelectTree参数：
+    //      * 参数1：div的id，
+    //      * 参数2：isMultiple 是否多选(true或false),
+    //      * 参数3：是否显示连接线(true或false),
+    //      * 参数4：是否显示图标(true或false),
+    //      *
+    //      */
+    //     initSelectTree("companyDiv", false, true, false);
+    //     initHideMenu(); //不加此方法则默认打开下拉树
+    //
+    // });
+    function choose_joinUnitName_callback(unitIds, unitNames) {
+        $("#companyName").val(unitNames);
+        $("#company").val(unitIds);
+    }
+    window.chooseUnitMulti=function (choose_leadUnitName_callback) {
+        v_date = (new Date()).getTime();
+        var temUrl = "/unit/chooseUnitMulti?v_date=" + v_date + "&funcName=" + choose_leadUnitName_callback;//funcName(unitId,unitName) 选择机构后的回调方法名(自定义 ),回调方法里面有两个参数，unitId是机构ID,unitName是机构名
+        layer.open({
+            title: '选择机构',
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+            maxmin: true,
+            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+            area: ['60%', '80%'],
+            content: temUrl
+            // end: function () {
+            //     var arrJ = $("#joinUnitName").val().split(",");
+            //     if(arrJ=='undefined'|| arrJ=='')
+            //     {
+            //
+            //     }else {
+            //         $("#units").empty();
+            //         $.each(arrJ, function (i, val) {
+            //             var html = ' <div class="layui-form-item layui-form-text" >' +
+            //                 '        <div class="layui-input-block" id="yearTr'+i+'">' +
+            //                 '        <label class="layui-form-label" style="width:100%;text-align: left;margin-left: 0;">' + arrJ[i] + '</label>' +
+            //                 '            <table class="layui-table">' +
+            //                 '             <thead>' +
+            //                 '             <tr>' +
+            //                 '                <td width="20%">年  度</td>' +
+            //                 '                <td width="8%">费用性支出(万元)</td>' +
+            //                 '                <td width="8%">资本性支出(万元)</td>' +
+            //                 '                <td width="8%">小  计(万元)</td>' +
+            //                 '             </tr>' +
+            //                 '            </thead>' +
+            //                 '            <tbody></tbody>' +
+            //                 '          </table>' +
+            //                 '        </div>' +
+            //                 '       </div>';
+            //             $("#units").append(html);
+            //             publicMethods.createTable($("#beginYear").val(), $("#endYear").val(), "yearTr"+i, 2, yearFeeStr);
+            //         });
+            //     }
+            // }
+        });
+    }
+
 </script>
 </body>
 </html>

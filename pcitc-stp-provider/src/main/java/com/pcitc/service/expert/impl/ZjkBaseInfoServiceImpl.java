@@ -120,7 +120,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         int result = 500;
         ZjkExpert expert = zjkBaseInfoMapper.selectByPrimaryKey(zjkBaseInfo.getDataId());
         if (expert != null) {
-            zjkBaseInfoMapper.updateByPrimaryKeySelective(zjkBaseInfo);
+            zjkBaseInfoMapper.updateByPrimaryKey(zjkBaseInfo);
         } else {
 //            zjkBaseInfo.setDataId(IdUtil.createIdByTime());
             zjkBaseInfoMapper.insertSelective(zjkBaseInfo);
