@@ -106,13 +106,13 @@ public class PurchaseController extends BaseController {
 	@RequestMapping(value = "/sre-purchase/apply_list")
 	public String apply_list(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
-        String parentUnitPathIds = map.get("unitCode");// 申报单位
-        String applyDepartCode = map.get("applyDepartCode");// 申报部门
+		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String parentUnitPathIds = map.get("unitCode");// 申报单位
+		String applyDepartCode = map.get("applyDepartCode");// 申报部门
 
 
-        request.setAttribute("departCode", applyDepartCode);
-        request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+		request.setAttribute("departCode", applyDepartCode);
+		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 
 		return "/stp/equipment/purchase/apply-list";
 	}
@@ -121,13 +121,13 @@ public class PurchaseController extends BaseController {
 	@RequestMapping(value = "/sre-purchase/to-arrive-goods-list")
 	public String arriveGoodsList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
-        String parentUnitPathIds = map.get("unitCode");// 申报单位
-        String applyDepartCode = map.get("applyDepartCode");// 申报部门
+		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String parentUnitPathIds = map.get("unitCode");// 申报单位
+		String applyDepartCode = map.get("applyDepartCode");// 申报部门
 
 
-        request.setAttribute("departCode", applyDepartCode);
-        request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+		request.setAttribute("departCode", applyDepartCode);
+		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 
 		return "/stp/equipment/purchase/arrive-goods-list";
 	}
@@ -136,13 +136,13 @@ public class PurchaseController extends BaseController {
 	@RequestMapping(value = "/sre-purchase/to-contract-acceptance-list")
 	public String contracAcceptanceList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
-        String parentUnitPathIds = map.get("unitCode");// 申报单位
-        String applyDepartCode = map.get("applyDepartCode");// 申报部门
+		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String parentUnitPathIds = map.get("unitCode");// 申报单位
+		String applyDepartCode = map.get("applyDepartCode");// 申报部门
 
 
-        request.setAttribute("departCode", applyDepartCode);
-        request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+		request.setAttribute("departCode", applyDepartCode);
+		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 
 		return "/stp/equipment/purchase/contract-acceptance-list";
 	}
@@ -151,13 +151,13 @@ public class PurchaseController extends BaseController {
 	@RequestMapping(value = "/sre-purchase/to-installation-list")
 	public String installationList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
-        String parentUnitPathIds = map.get("unitCode");// 申报单位
-        String applyDepartCode = map.get("applyDepartCode");// 申报部门
+		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String parentUnitPathIds = map.get("unitCode");// 申报单位
+		String applyDepartCode = map.get("applyDepartCode");// 申报部门
 
 
-        request.setAttribute("departCode", applyDepartCode);
-        request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+		request.setAttribute("departCode", applyDepartCode);
+		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 
 		return "/stp/equipment/purchase/installation-list";
 	}
@@ -166,20 +166,20 @@ public class PurchaseController extends BaseController {
 	@RequestMapping(value = "/sre-purchase/to-contract-close-list")
 	public String contractCloseList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
-        String parentUnitPathIds = map.get("unitCode");// 申报单位
-        String applyDepartCode = map.get("applyDepartCode");// 申报部门
+		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String parentUnitPathIds = map.get("unitCode");// 申报单位
+		String applyDepartCode = map.get("applyDepartCode");// 申报部门
 
 
-        request.setAttribute("departCode", applyDepartCode);
-        request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+		request.setAttribute("departCode", applyDepartCode);
+		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 
 		return "/stp/equipment/purchase/contract-close-list";
 	}
 
 	/**
 	 * 查询列表
-	 * 
+	 *
 	 * @param param
 	 * @param request
 	 * @param response
@@ -206,7 +206,7 @@ public class PurchaseController extends BaseController {
 
 	/**
 	 * 跳转到新增或者编辑页面
-	 * 
+	 *
 	 * @param request
 	 * @param response
 	 * @return
@@ -251,9 +251,9 @@ public class PurchaseController extends BaseController {
 			if (SreProjectResponseEntity != null) {
 				SreProject sreProject = SreProjectResponseEntity.getBody();
 				if (sreProject!=null){
-                    name = sreProject.getName();
-                    sreProjectEquipmentIds = sreProject.getEquipmentIds();
-                }
+					name = sreProject.getName();
+					sreProjectEquipmentIds = sreProject.getEquipmentIds();
+				}
 			}
 		}
 
@@ -343,7 +343,7 @@ public class PurchaseController extends BaseController {
 		// 流程状态
 		srePurchase.setTaskId(taskId);
 		srePurchase.setState(status);
-		srePurchase.setPurchaseName(purchaseName);// 采购名称
+		srePurchase.setPurchaseName(purchaseName+"申请名称");// 采购名称
 		srePurchase.setParentUnitPathNames(parentUnitPathName);// 单位名称
 		srePurchase.setParentUnitPathId(parentUnitPathId);// 单位ID
 		srePurchase.setDepartName(departName);// 部门名称
@@ -369,12 +369,14 @@ public class PurchaseController extends BaseController {
 		if (statusCode == 200) {
 			String[] arr = equipmentIds.split(",");
 			for (int i = 0; i < arr.length; i++) {
-				System.err.println(arr[i]);
-				SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
-				if (sreEquipment != null) {
-					sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_PRE_PURCHASE);
-					EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
-				}
+                if (StringUtils.isNotBlank(arr[i])) {
+                    System.err.println(arr[i]);
+                    SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
+                    if (sreEquipment != null) {
+                        sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_PRE_PURCHASE);
+                        EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
+                    }
+                }
 			}
 			resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
 		} else {
@@ -400,14 +402,18 @@ public class PurchaseController extends BaseController {
 			SrePurchase srePurchase = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class).getBody();
 			if (srePurchase != null) {
 				String equipmentIds = srePurchase.getEquipmentId();
-				String[] arr = equipmentIds.split(",");
-				for (int i = 0; i < arr.length; i++) {
-					System.err.println(arr[i]);
-					SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
-					sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_DRAFT);
-					EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
-				}
-			}
+				if (StringUtils.isNotBlank(equipmentIds)){
+                    String[] arr = equipmentIds.split(",");
+                    for (int i = 0; i < arr.length; i++) {
+                        System.err.println(arr[i]);
+                        SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
+                        if (sreEquipment!=null){
+                            sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_DRAFT);
+                            EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
+                        }
+                    }
+			    }
+            }
 		}
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(DEL_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), Integer.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -496,94 +502,94 @@ public class PurchaseController extends BaseController {
 		System.out.println(id);
 		System.out.println(uploadState);
 		ResponseEntity<SrePurchase> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
-        SrePurchase srePurchase = responseEntity.getBody();
-        if(srePurchase!=null){
+		SrePurchase srePurchase = responseEntity.getBody();
+		if(srePurchase!=null){
 
-            String projectId = srePurchase.getProjectId();
-            SreProject sreProject = this.restTemplate.exchange(GET_PROJECT_URL + projectId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class).getBody();
-            if (sreProject!=null){
+			String projectId = srePurchase.getProjectId();
+			SreProject sreProject = this.restTemplate.exchange(GET_PROJECT_URL + projectId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class).getBody();
+			if (sreProject!=null){
 
-                String name = sreProject.getName();
-            }
-            String proposerName = srePurchase.getProposerName();
-            String departCode = srePurchase.getDepartCode();
-            String departName = srePurchase.getDepartName();
-            String parentUnitPathNames = srePurchase.getParentUnitPathNames();
-            String remarks = srePurchase.getRemarks();
-            String purchaseCode = srePurchase.getPurchaseCode();
+				String name = sreProject.getName();
+			}
+			String proposerName = srePurchase.getProposerName();
+			String departCode = srePurchase.getDepartCode();
+			String departName = srePurchase.getDepartName();
+			String parentUnitPathNames = srePurchase.getParentUnitPathNames();
+			String remarks = srePurchase.getRemarks();
+			String purchaseCode = srePurchase.getPurchaseCode();
 
 
-            request.setAttribute("sreProjectBasic", sreProject);
-            request.setAttribute("srePurchase", srePurchase);
-            request.setAttribute("uploadState", uploadState);
-            request.setAttribute("proposerName", proposerName);
-            request.setAttribute("departCode", departCode);
-            request.setAttribute("departName", departName);
-            request.setAttribute("parentUnitPathNames", parentUnitPathNames);
-            request.setAttribute("remarks", remarks);
-            request.setAttribute("purchaseCode", purchaseCode);
+			request.setAttribute("sreProjectBasic", sreProject);
+			request.setAttribute("srePurchase", srePurchase);
+			request.setAttribute("uploadState", uploadState);
+			request.setAttribute("proposerName", proposerName);
+			request.setAttribute("departCode", departCode);
+			request.setAttribute("departName", departName);
+			request.setAttribute("parentUnitPathNames", parentUnitPathNames);
+			request.setAttribute("remarks", remarks);
+			request.setAttribute("purchaseCode", purchaseCode);
 
-        }
-        List<SysDictionary> dicList = CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
-        request.setAttribute("dicList", dicList);
+		}
+		List<SysDictionary> dicList = CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+		request.setAttribute("dicList", dicList);
 
 		return "/stp/equipment/purchase/purchase-view";
 	}
 
-    @RequestMapping(method = RequestMethod.GET, value = "/sre-purchase/chooseProject")
-    private String chooseProject(HttpServletRequest request)throws Exception {
-        Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
-        String parentUnitPathIds = map.get("unitCode");// 申报单位
-        String applyDepartName = map.get("applyDepartName");// 申报部门
+	@RequestMapping(method = RequestMethod.GET, value = "/sre-purchase/chooseProject")
+	private String chooseProject(HttpServletRequest request)throws Exception {
+		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String parentUnitPathIds = map.get("unitCode");// 申报单位
+		String applyDepartName = map.get("applyDepartName");// 申报部门
 
-        request.setAttribute("departCode", applyDepartName);
-        request.setAttribute("parentUnitPathIds", parentUnitPathIds);
-        return "/stp/equipment/purchase/chooseProject";
-    }
+		request.setAttribute("departCode", applyDepartName);
+		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+		return "/stp/equipment/purchase/chooseProject";
+	}
 
-    @RequestMapping(value = "/sre-purchase/chooseProject_data")
-    @ResponseBody
-    public String chooseProject_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/sre-purchase/chooseProject_data")
+	@ResponseBody
+	public String chooseProject_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        LayuiTableData layuiTableData = new LayuiTableData();
-        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-        ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_URL_CHOOSE_PROJECT, HttpMethod.POST, entity, LayuiTableData.class);
-        int statusCode = responseEntity.getStatusCodeValue();
-        if (statusCode == 200) {
-            layuiTableData = responseEntity.getBody();
-        }
-        JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-        logger.info("============查询结果：" + result);
-        return result.toString();
-    }
+		LayuiTableData layuiTableData = new LayuiTableData();
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_URL_CHOOSE_PROJECT, HttpMethod.POST, entity, LayuiTableData.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200) {
+			layuiTableData = responseEntity.getBody();
+		}
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+		logger.info("============查询结果：" + result);
+		return result.toString();
+	}
 
-    /**
-     * 查询合同数据
-     *
-     * @param param
-     * @param request
-     * @param response
-     * @return
-     */
-    @RequestMapping(value = "/sre-purchase/project_task/list")
-    @ResponseBody
-    public String list(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+	/**
+	 * 查询合同数据
+	 *
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/sre-purchase/project_task/list")
+	@ResponseBody
+	public String list(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-        JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(param));
-        logger.info("============参数：" + parmamss.toString());
+		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(param));
+		logger.info("============参数：" + parmamss.toString());
 
 
-        LayuiTableData layuiTableData = new LayuiTableData();
-        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-        ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_URL_PROJECT_TASK, HttpMethod.POST, entity, LayuiTableData.class);
-        int statusCode = responseEntity.getStatusCodeValue();
-        if (statusCode == 200) {
-            layuiTableData = responseEntity.getBody();
-        }
-        JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-        logger.info("============查询结果：" + result);
-        return result.toString();
-    }
+		LayuiTableData layuiTableData = new LayuiTableData();
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_URL_PROJECT_TASK, HttpMethod.POST, entity, LayuiTableData.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200) {
+			layuiTableData = responseEntity.getBody();
+		}
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+		logger.info("============查询结果：" + result);
+		return result.toString();
+	}
 
 	// 启动采购申请 确认上报流程
 	@RequestMapping(value = "/sre-purchase/start_purchase_workflow")
@@ -625,15 +631,19 @@ public class PurchaseController extends BaseController {
 		SrePurchase srePurchase = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class).getBody();
 		if (srePurchase != null) {
 			String equipmentIds = srePurchase.getEquipmentId();
-			String[] arr = equipmentIds.split(",");
-			for (int i = 0; i < arr.length; i++) {
-				System.err.println(arr[i]);
-				SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
-				sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_COMPACT);
-				EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
-			}
-			srePurchase.setState(Constant.PURCHASE_STATUS_COMPACT);
-			srePurchase.setStage(Constant.PURCHASE_ARRIVE_GOODS);
+            if (StringUtils.isNotBlank(equipmentIds)){
+                String[] arr = equipmentIds.split(",");
+                for (int i = 0; i < arr.length; i++) {
+                    System.err.println(arr[i]);
+                    SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
+                    if (sreEquipment!=null){
+                        sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_COMPACT);
+                        EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
+                    }
+                }
+                srePurchase.setState(Constant.PURCHASE_STATUS_COMPACT);
+                srePurchase.setStage(Constant.PURCHASE_ARRIVE_GOODS);
+		    }
 		}
 		ResponseEntity<String> exchange1 = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
 		int statusCodeValue = exchange1.getStatusCodeValue();
@@ -653,19 +663,21 @@ public class PurchaseController extends BaseController {
 
 		SrePurchase srePurchase = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class).getBody();
 		if (srePurchase != null) {
-			String equipmentIds = srePurchase.getEquipmentId();
-			String[] arr = equipmentIds.split(",");
-			for (int i = 0; i < arr.length; i++) {
-				System.err.println(arr[i]);
-				SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
-				if (sreEquipment != null) {
-					sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_ARRIVE_GOODS);
-					EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
-				}
-			}
-			srePurchase.setState(Constant.PURCHASE_STATUS_ARRIVE_GOODS);
-			srePurchase.setStage(Constant.PURCHASE_CONTRACT_CHECK);
-		}
+            String equipmentIds = srePurchase.getEquipmentId();
+            if (StringUtils.isNotBlank(equipmentIds)) {
+                String[] arr = equipmentIds.split(",");
+                for (int i = 0; i < arr.length; i++) {
+                    System.err.println(arr[i]);
+                    SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
+                    if (sreEquipment != null) {
+                        sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_ARRIVE_GOODS);
+                        EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
+                    }
+                }
+                srePurchase.setState(Constant.PURCHASE_STATUS_ARRIVE_GOODS);
+                srePurchase.setStage(Constant.PURCHASE_CONTRACT_CHECK);
+            }
+        }
 		ResponseEntity<String> exchange1 = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
 		int statusCodeValue = exchange1.getStatusCodeValue();
 		if (statusCodeValue == 200) {
@@ -684,19 +696,21 @@ public class PurchaseController extends BaseController {
 
 		SrePurchase srePurchase = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class).getBody();
 		if (srePurchase != null) {
-			String equipmentIds = srePurchase.getEquipmentId();
-			String[] arr = equipmentIds.split(",");
-			for (int i = 0; i < arr.length; i++) {
-				System.err.println(arr[i]);
-				SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
-				if (sreEquipment != null) {
-					sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_CONTRACT_ACCEPTANCE);
-					EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
-				}
-			}
-			srePurchase.setState(Constant.PURCHASE_STATUS_CONTRACT_ACCEPTANCE);
-			srePurchase.setStage(Constant.PURCHASE_INSTALL_DEBUG);
-		}
+            String equipmentIds = srePurchase.getEquipmentId();
+            if (StringUtils.isNotBlank(equipmentIds)) {
+                String[] arr = equipmentIds.split(",");
+                for (int i = 0; i < arr.length; i++) {
+                    System.err.println(arr[i]);
+                    SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
+                    if (sreEquipment != null) {
+                        sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_CONTRACT_ACCEPTANCE);
+                        EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
+                    }
+                }
+                srePurchase.setState(Constant.PURCHASE_STATUS_CONTRACT_ACCEPTANCE);
+                srePurchase.setStage(Constant.PURCHASE_INSTALL_DEBUG);
+            }
+        }
 		ResponseEntity<String> exchange1 = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
 		int statusCodeValue = exchange1.getStatusCodeValue();
 		if (statusCodeValue == 200) {
@@ -715,19 +729,21 @@ public class PurchaseController extends BaseController {
 
 		SrePurchase srePurchase = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class).getBody();
 		if (srePurchase != null) {
-			String equipmentIds = srePurchase.getEquipmentId();
-			String[] arr = equipmentIds.split(",");
-			for (int i = 0; i < arr.length; i++) {
-				System.err.println(arr[i]);
-				SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
-				if (sreEquipment != null) {
-					sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_INSTALLATION);
-					EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
-				}
-			}
-			srePurchase.setState(Constant.PURCHASE_STATUS_INSTALLATION);
-			srePurchase.setStage(Constant.PURCHASE_CONTRACT_CLOSE);
-		}
+            String equipmentIds = srePurchase.getEquipmentId();
+            if (StringUtils.isNotBlank(equipmentIds)) {
+                String[] arr = equipmentIds.split(",");
+                for (int i = 0; i < arr.length; i++) {
+                    System.err.println(arr[i]);
+                    SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
+                    if (sreEquipment != null) {
+                        sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_INSTALLATION);
+                        EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
+                    }
+                }
+                srePurchase.setState(Constant.PURCHASE_STATUS_INSTALLATION);
+                srePurchase.setStage(Constant.PURCHASE_CONTRACT_CLOSE);
+            }
+        }
 		ResponseEntity<String> exchange1 = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
 		int statusCodeValue = exchange1.getStatusCodeValue();
 		if (statusCodeValue == 200) {
@@ -746,19 +762,21 @@ public class PurchaseController extends BaseController {
 
 		SrePurchase srePurchase = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class).getBody();
 		if (srePurchase != null) {
-			String equipmentIds = srePurchase.getEquipmentId();
-			String[] arr = equipmentIds.split(",");
-			for (int i = 0; i < arr.length; i++) {
-				System.err.println(arr[i]);
-				SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
-				if (sreEquipment != null) {
-					sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_CONTRACT_CLOSE);
-					EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
-				}
-			}
-			srePurchase.setState(Constant.PURCHASE_STATUS_CONTRACT_CLOSE);
-			srePurchase.setIsContractClosed(Constant.PURCHASE_CONTRACT_CLOSED);
-		}
+            String equipmentIds = srePurchase.getEquipmentId();
+            if (StringUtils.isNotBlank(equipmentIds)) {
+                String[] arr = equipmentIds.split(",");
+                for (int i = 0; i < arr.length; i++) {
+                    System.err.println(arr[i]);
+                    SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
+                    if (sreEquipment != null) {
+                        sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_CONTRACT_CLOSE);
+                        EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
+                    }
+                }
+                srePurchase.setState(Constant.PURCHASE_STATUS_CONTRACT_CLOSE);
+                srePurchase.setIsContractClosed(Constant.PURCHASE_CONTRACT_CLOSED);
+            }
+        }
 		ResponseEntity<String> exchange1 = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
 		int statusCodeValue = exchange1.getStatusCodeValue();
 		if (statusCodeValue == 200) {
@@ -994,7 +1012,7 @@ public class PurchaseController extends BaseController {
 	 */
 	/**
 	 * 跳转到上传附件页面
-	 * 
+	 *
 	 * @param request
 	 * @param response
 	 * @return
@@ -1158,19 +1176,21 @@ public class PurchaseController extends BaseController {
 			} else if (uploadState.equals(Constant.PURCHASE_CONTRACT_CLOSE)) {// 关闭合同
 				SrePurchase srePurchase = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class).getBody();
 				if (srePurchase != null) {
-					String equipmentIds = srePurchase.getEquipmentId();
-					String[] arr = equipmentIds.split(",");
-					for (int i = 0; i < arr.length; i++) {
-						System.err.println(arr[i]);
-						SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
-						if (sreEquipment != null) {
-							sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_CONTRACT_CLOSE);
-							EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
-						}
-					}
-					srePurchase.setState(Constant.PURCHASE_STATUS_CONTRACT_CLOSE);
-					srePurchase.setIsContractClosed(Constant.PURCHASE_CONTRACT_CLOSED);
-				}
+                    String equipmentIds = srePurchase.getEquipmentId();
+                    if (StringUtils.isNotBlank(equipmentIds)) {
+                        String[] arr = equipmentIds.split(",");
+                        for (int i = 0; i < arr.length; i++) {
+                            System.err.println(arr[i]);
+                            SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
+                            if (sreEquipment != null) {
+                                sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_CONTRACT_CLOSE);
+                                EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
+                            }
+                        }
+                        srePurchase.setState(Constant.PURCHASE_STATUS_CONTRACT_CLOSE);
+                        srePurchase.setIsContractClosed(Constant.PURCHASE_CONTRACT_CLOSED);
+                    }
+                }
 				ResponseEntity<String> exchange1 = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePurchase>(srePurchase, this.httpHeaders), String.class);
 			}
 		} else {
@@ -1203,10 +1223,10 @@ public class PurchaseController extends BaseController {
 
 		URL path = this.getClass().getResource("/");
 		File f = new File(path.getPath() + "static/template/purchaseExcel.xlsx");/*
-																				 * 模板
-																				 * ==
-																				 * =
-																				 */
+		 * 模板
+		 * ==
+		 * =
+		 */
 		// 写入新文件采购申请单
 		String newFilePath = path.getPath() + "static/template/采购申请Excel_" + DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss") + ".xlsx";
 		File outFile = new File(newFilePath);
