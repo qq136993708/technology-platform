@@ -266,7 +266,7 @@
            			'<li>'+
 	                    '<div>'+
 	                        '<div class="expert-i">'+
-	                            '<img  src="'+photoContent(d.dataId)+'" alt="" height="110">'+
+	                            '<img dataType="headImg" id="'+d.dataId+'" src="" alt="" height="110">'+
 	                        '</div>'+
 	                        '<div class="expert-t">'+d.expertName+'</div>'+
 	                        '<div class="expert-s">'+d.expertProfessionalFieldName+'</div>'+
@@ -278,6 +278,8 @@
 	                '</li>';
             	});
             	$(".academician ul").html(content);
+                 //获取图片
+                 getFileResultImg();
             });
             publicMethods.ajaxGet("/expertController/queryAllExpert", null, function (data) {
                 var expert1 = "";
@@ -348,7 +350,17 @@
                 $("#expert2").append(expert2);
                 $("#expert3").append(expert3);
             });
-            
+            function getFileResultImg() {
+                //获取通用url
+                var ids = "";
+                $.each($('img[dataType="headImg"]'), function (i, d) {
+                    ids=ids+","+$(this).attr("id");
+                });
+                var ret = getFileResult(ids);
+                for (let i = 0; i < ret.list.length; i++) {
+                    $("#"+ret.list[i].dataid).attr("src",ret.list[i].filePath);
+                }
+            }
             function photoContent(picId) {
                 var ret = getFileResult(picId);
                 if (ret != null && ret.list.length > 0) {
