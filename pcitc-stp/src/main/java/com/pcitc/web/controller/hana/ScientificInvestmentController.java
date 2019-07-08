@@ -185,6 +185,8 @@ public class ScientificInvestmentController extends BaseController {
 						companyCode=HanaUtil.YJY_CODE_NOT_YINGKE;
 					  }
 					  request.setAttribute("companyCode", companyCode);
+					  //201802
+					  request.setAttribute("monthName",HanaUtil.getMonthName(month));
 					  return "stp/hana/scientificInvestment/tzxmwcqktjb_detail";
 			  }
 		     
@@ -466,6 +468,7 @@ public class ScientificInvestmentController extends BaseController {
 					companyCode=HanaUtil.YJY_CODE_NOT_YINGKE;
 				  }
 				  request.setAttribute("companyCode", companyCode);
+				  request.setAttribute("monthName",HanaUtil.getMonthName(month));
 				  return "stp/hana/scientificInvestment/tzxmcgjdtjb_detail";
 		  }
 	     
@@ -710,6 +713,7 @@ public class ScientificInvestmentController extends BaseController {
 				companyCode=HanaUtil.YJY_CODE_NOT_YINGKE;
 			  }
 			  request.setAttribute("companyCode", companyCode);
+			  request.setAttribute("monthName",HanaUtil.getMonthName(month));
 			  return "stp/hana/scientificInvestment/tzxmzcqkb_detail";
 	  }
    
