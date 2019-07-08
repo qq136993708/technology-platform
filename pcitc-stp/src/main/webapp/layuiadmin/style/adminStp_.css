@@ -942,7 +942,7 @@ html{background-color: #f2f2f2; color: #666;}
     background: url("/layuiadmin/layui/images/icon-f-b.png") no-repeat 46px center !important;
     text-indent: 25px !important;}
 .layui-side-menu .layui-nav .layui-nav-item a.thirdChild:hover{line-height: 41px !important;height: 41px !important;}
-.news{position: fixed;top: 94px;right: 0;z-index: 999;}
+.news{position: fixed;top: 94px;right: 40px;z-index: 999;left: 210px;}
 .news a{margin: 0 15px;display: inline-block;z-index: 9999;}
 .layui-side-menu .layui-nav-tree .layui-nav-item.layui-this>a{color: white !important;
     background: url(/layuiadmin/layui/images/tree_w_m.png) 10px 14px no-repeat #1890ff;}
