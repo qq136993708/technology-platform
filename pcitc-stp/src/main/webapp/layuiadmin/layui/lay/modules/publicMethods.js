@@ -45,6 +45,12 @@ layui.define(['jquery','form','table','laydate'],
                     },
                     success: function (data, status) {
                         result = data;
+                        if (data && data.code && data.code == '401') {
+                        	layer.alert("登录超时，请重新登录！", {title : '提示'},function(){
+                        		 window.open("/login","_top");
+                                 return false;
+                        	});
+                        }
                         if (data && data.code && data.code == '101') {
                             console.log("操作失败，请刷新重试，具体错误：" + data.message);
                             return false;
@@ -79,7 +85,13 @@ layui.define(['jquery','form','table','laydate'],
                     	XMLHttpRequest.setRequestHeader("client_req_type", "ajaxAsyncPost");
                     },
                     success: function (data, status) {
-                        result = data;
+                    	result = data;
+                    	if (data && data.code && data.code == '401') {
+                    		layer.alert("登录超时，请重新登录！", {title : '提示'},function(){
+                       		 	window.open("/login","_top");
+                                return false;
+                    		});
+                        }
                         if (data && data.code && data.code == '101') {
                             console.log("操作失败，请刷新重试，具体错误：" + data.message);
                             return false;
@@ -121,6 +133,12 @@ layui.define(['jquery','form','table','laydate'],
                     },
                     success: function (data, status) {
                         result = data;
+                        if (data && data.code && data.code == '401') {
+                        	layer.alert("登录超时，请重新登录！", {title : '提示'},function(){
+                       		 	window.open("/login","_top");
+                                return false;
+                    		});
+                        }
                         if (data && data.code && data.code == '101') {
                             console.log("操作失败，请刷新重试，具体错误：" + data.message);
                             return false;

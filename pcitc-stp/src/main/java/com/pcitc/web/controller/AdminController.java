@@ -94,6 +94,7 @@ public class AdminController extends BaseController {
 	// 工作完成情况统计
 	private static final String WORKORDER_STAT = "http://pcitc-zuul/system-proxy/planbase-provider/workorder/stat";
 
+	private Integer TIME_OUT= 1*60*60;
 	/**
 	 * 科技平台统一身份认证首页
 	 * 
@@ -214,7 +215,7 @@ public class AdminController extends BaseController {
 		JSONObject retJson = responseEntity.getBody();
 
 		Cookie cookie = new Cookie("token", retJson.getString("token"));
-		cookie.setMaxAge(1 * 60 * 60);// 设置有效期为一小时
+		cookie.setMaxAge(TIME_OUT);// 设置有效期为一小时
 		cookie.setPath("/");
 		response.addCookie(cookie);
 
@@ -360,7 +361,7 @@ public class AdminController extends BaseController {
 		System.out.println("-----indexStp----------login token:" + retJson.get("token"));
 
 		Cookie cookie = new Cookie("token", retJson.getString("token"));
-		cookie.setMaxAge(1 * 60 * 60);// 设置有效期为一小时
+		cookie.setMaxAge(TIME_OUT);// 设置有效期为一小时
 		cookie.setPath("/");
 		response.addCookie(cookie);
 		request.setAttribute("userId", rsUser.getUserId());
@@ -419,7 +420,7 @@ public class AdminController extends BaseController {
 
 				// 登录错误次数
 				Cookie loginCookie = new Cookie("loginErrorCount", String.valueOf(errorNumber));
-				loginCookie.setMaxAge(1 * 60 * 60);// 设置有效期为一小时
+				loginCookie.setMaxAge(TIME_OUT);// 设置有效期为一小时
 				loginCookie.setPath("/");
 				response.addCookie(loginCookie);
 				response.sendRedirect("/login");
@@ -428,7 +429,7 @@ public class AdminController extends BaseController {
 			}
 
 			Cookie cookie = new Cookie("token", retJson.getString("token"));
-			cookie.setMaxAge(1 * 60 * 60);// 设置有效期为一小时
+			cookie.setMaxAge(TIME_OUT);// 设置有效期为一小时
 			cookie.setPath("/");
 			response.addCookie(cookie);
 
@@ -524,7 +525,7 @@ public class AdminController extends BaseController {
 			JSONObject retJson = responseEntity.getBody();
 
 			Cookie cookie = new Cookie("token", retJson.getString("token"));
-			cookie.setMaxAge(1 * 60 * 60);// 设置有效期为一小时
+			cookie.setMaxAge(TIME_OUT);// 设置有效期为一小时
 			cookie.setPath("/");
 			response.addCookie(cookie);
 
@@ -869,7 +870,7 @@ public class AdminController extends BaseController {
 		}
 
 		Cookie cookie = new Cookie("token", retJson.getString("token"));
-		cookie.setMaxAge(1 * 60 * 60);// 设置有效期为一小时
+		cookie.setMaxAge(TIME_OUT);// 设置有效期为一小时
 		cookie.setPath("/");
 		response.addCookie(cookie);
 		return new Result(true, retJson.get("token"));
