@@ -59,6 +59,12 @@
 
 							<div class="text-total">
 								<span>
+									总计:
+									<span class="text-total-blue" id="leader_knowledge_chart4_01">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+								<span>
 									发明专利:
 									<span class="text-total-blue" id="leader_knowledge_chart4_02">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
@@ -230,7 +236,7 @@
 			form.render(null, 'component-form-group');
 			laydate.render({
 				elem : '#year',
-				min : '2016-10-14',
+				min : '2000-10-14',
 				type : 'year',
 				done : function(value, date, endDate) {
 					$(".layui-time").html(date.year);
@@ -260,6 +266,7 @@
 			} ];
 
 			//专利类型分布
+			$("#leader_knowledge_chart4_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#leader_knowledge_chart4_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#leader_knowledge_chart4_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#leader_knowledge_chart4_04").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
@@ -280,7 +287,7 @@
 			data7.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+				//window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
 			});
 
 			var chart2_url = "/one_level_main/knowledge_pie_01?nd=" + nd + "&v_date=" + v_date + "&type=1";
@@ -288,7 +295,7 @@
 			echart2.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+				//window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
 
 			});
 
@@ -297,17 +304,17 @@
 			echart3.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+				//window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
 
 			});
 
 			var chart4_url = "/one_level_main/knowledge_bar_02?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date;
-			var color = [ "#6592b3", "#55b6e9", "#95c740" ]
+			var color = [ "#6592b3", "#55b6e9", "#95c840" ]
 			var echart4 = load_mutl_bar_down(chart4_url, "leader_knowledge_chart4", "", "", yAxis, 30, color);
 			echart4.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+				//window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
 
 			});
 			
@@ -317,7 +324,7 @@
 			echart5.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+				//window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
 
 			});
 
@@ -326,7 +333,7 @@
 			echart6.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+				//window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
 
 			});
 
@@ -336,7 +343,7 @@
 			echart7.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+				//window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
 
 			});
 

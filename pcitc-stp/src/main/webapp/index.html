@@ -22,13 +22,14 @@
 			<div class="layui-header">
 				<!--logo-->
 				<div class="layui-header-logo inline-block">
-					<img src="/layuiadmin/layui/images/header-logo.png"/> </div>
+					<img src="/layuiadmin/layui/images/header-logo.png" />
+				</div>
 				<!--首页-->
 				<div class="layui-header-index inline-block">
 					<div class="layui-tab index-fixed-tab">
 						<ul class="layui-tab-title index-fixed">
 							<li lay-id="" lay-attr="" class="layui-this">
-								<img src="/layuiadmin/layui/images/header-index.png"/>
+								<img src="/layuiadmin/layui/images/header-index.png" />
 							</li>
 						</ul>
 					</div>
@@ -36,11 +37,13 @@
 				<!--导航-->
 				<div class="layui-header-nav inline-block">
 					<ul class="layui-nav layui-layout-left">
-						<#if upList?exists> <#list upList as p>
-						<li class="layui-nav-item ${p_index}" id="up${p.id}">
-							<a href="javascript:;" id="${p.id}">${p.name}</a>
-						</li>
-						</#list> </#if>
+						<#if upList?exists> 
+							<#list upList as p>
+								<li class="layui-nav-item ${p_index}" id="up${p.id}">
+									<a href="javascript:;" id="${p.id}">${p.name}</a>
+								</li> 
+							</#list> 
+						</#if>
 					</ul>
 					<div class="layui-icon layadmin-tabs-control layui-icon-prev layui-hide" id="navPrev">
 						<ul class="layui-nav layui-layout-left layui-hide"></ul>
@@ -56,14 +59,18 @@
 				<!--右侧-->
 				<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
 					<li class="layui-nav-item layui-nav-itemnew chat" title="消息">
-						<a id="numberChat" lay-href="/message/sys_message_list" lay-text="消息"><span id="nc" style="visibility: hidden"></span></a>
+						<a id="numberChat" lay-href="/message/sys_message_list" lay-text="消息">
+							<span id="nc" style="visibility: hidden"></span>
+						</a>
 						<div class="chat-content layui-hide">
 							<dl id="message_box" class="layui-nav-child-dl">
 							</dl>
 						</div>
 					</li>
 					<li class="layui-nav-item layui-nav-itemnew deal" title="待办任务">
-						<a id="numberDeal" lay-href="/task/pending/list/ini" lay-text="待办任务"><span id="pendingCount" style="visibility: hidden"></span></a>
+						<a id="numberDeal" lay-href="/task/pending/list/ini" lay-text="待办任务">
+							<span id="pendingCount" style="visibility: hidden"></span>
+						</a>
 					</li>
 					<!-- <li class="layui-nav-item layui-nav-itemnew notify">
 						<a id="numberNotify" lay-href="/task/pending/list/ini" lay-text="通知" title="通知"></a>
@@ -111,151 +118,132 @@
 						<li class="layadmin-flexible">
 							<div></div>
 						</li>
-						
-						<#assign gztFlag="0">
-						<#if grgztList?exists>
-							<#list grgztList as grgzt>
-								<#if grgzt.url=='#'>
-									<#if gztFlag=="0">
-										<li class="layui-nav-item layui-nav-itemed">
-									</#if>
-									<#if gztFlag=="1">
-										<li class="layui-nav-item">
-									</#if>
-									<a href="#" title="${grgzt.name}">
-										<span>${grgzt.name}</span>
-										<span class="arrow"></span>
-										<i class="fa fa-angle-left pull-right"></i>
+						<#assign gztFlag="0"> <#if grgztList?exists> <#list grgztList as grgzt> <#if grgzt.url=='#'> <#if gztFlag=="0">
+						<li class="layui-nav-item layui-nav-itemed"></#if> <#if gztFlag=="1">
+						<li class="layui-nav-item">
+							</#if>
+							<a href="#" title="${grgzt.name}">
+								<span>${grgzt.name}</span>
+								<span class="arrow"></span>
+								<i class="fa fa-angle-left pull-right"></i>
+							</a>
+							<#assign gztFlag="1"> </#if>
+							<dl class="layui-nav-child">
+								<#list grgztList as threeLevel> <#if threeLevel.parentId == grgzt.id>
+								<dd>
+									<a lay-href="${threeLevel.url}" lay-text="${threeLevel.name}" data-id="${threeLevel.id}" data-code="${threeLevel.code}" data-functionbuttons="ALL">${threeLevel.name}</a>
+								</dd>
+								</#if> </#list>
+							</dl>
+							</#list> </#if> <#if scList?exists>
+						<li class="layui-nav-item">
+							<a href="#" title="我的收藏">
+								<span>我的收藏</span>
+								<span class="arrow"></span>
+								<i class="fa fa-angle-left pull-right"></i>
+							</a>
+							<dl class="layui-nav-child" id="dlCollect">
+								<#list scList as sc>
+								<dd id="${sc.dataId}">
+									<a lay-href="${sc.collectUrl}" lay-text="${sc.collectName}" data-id="${sc.functionId}" data-code="${sc.functionCode}" data-functionbuttons="ALL">
+										${sc.collectName}
+										<img title="取消收藏" src="/layuiadmin/layui/images/icon_collection.png" class="layui-hide" />
 									</a>
-									<#assign gztFlag="1">
-								</#if>
-								<dl class="layui-nav-child">
-									<#list grgztList as threeLevel>
-										<#if threeLevel.parentId == grgzt.id>
-											<dd>
-												<a lay-href="${threeLevel.url}" lay-text="${threeLevel.name}" data-id="${threeLevel.id}" data-code="${threeLevel.code}" data-functionbuttons="ALL">${threeLevel.name}</a>
-											</dd>
-										</#if>
-									</#list>
-								</dl>
-							</#list>
-						</#if>
-						
-						<#if scList?exists>
-							<li class="layui-nav-item">
-								<a href="#" title="我的收藏">
-									<span>我的收藏</span>
-									<span class="arrow"></span>
-									<i class="fa fa-angle-left pull-right"></i>
-								</a>
-								<dl class="layui-nav-child" id="dlCollect">
-									<#list scList as sc>
-										<dd id="${sc.dataId}">
-											<a lay-href="${sc.collectUrl}" lay-text="${sc.collectName}" data-id="${sc.functionId}" data-code="${sc.functionCode}" data-functionbuttons="ALL">${sc.collectName}
-												<img title="取消收藏"  src="/layuiadmin/layui/images/icon_collection.png" class="layui-hide"/></a>
-										</dd>
-									</#list>
-								</dl>
-							</li>
+								</dd>
+								</#list>
+							</dl>
+						</li>
 						</#if>
 
 					</ul>
 
-					<#if upList?exists>
-						<#list upList as p>
-							<ul class="layui-nav layui-nav-tree layui-hide" lay-shrink="all" lay-filter="layadmin-system-side-menu" id="nav${p.id}">
-								<li class="layadmin-flexible">
-									<div></div>
-								</li>
-								<#assign openFlag="0">
-								<#list funList as s>
-									<#if s.parentId == p.id && s.url=='#'>
-										<#if openFlag=="0">
-											<li class="layui-nav-item layui-nav-itemed">
-												<a href="#" title="${s.name}">
-													<span>${s.name}</span>
-													<span class="arrow"></span>
-													<i class="fa fa-angle-left pull-right"></i>
-												</a>
-												<dl class="layui-nav-child">
-													<#list funList as t>
-														<#if t.parentId == s.id>
-															<dd>
-																<#if t.url != '#'>
-																	<a lay-href="${t.url}" lay-text="${t.name}" data-id="${t.id}" data-code="${t.code}" data-functionbuttons="${t.functionButtons}">${t.name}</a>
-																</#if>
-																<#if t.url == '#'>
-																	<a href="${t.url}" title="${t.name}">${t.name}</a>
-																	<dl class="layui-nav-child">
-																		<#list funList as k>
-																			<#if k.parentId == t.id>
-																				<dd>
-																					<a class="thirdChild" lay-href="${k.url}" lay-text="${k.name}" data-id="${k.id}" data-code="${k.code}" data-functionbuttons="${k.functionButtons}" title="${k.name}">${k.name}</a>
-																				</dd>
-																			</#if>
-																		</#list>
-																	</dl>
-																</#if>
-															</dd>
-														</#if>
-													</#list>
-												</dl>
-											</li>
-										</#if>
-										<#if openFlag!="0">
-											<li class="layui-nav-item">
-												<a href="#" title="${s.name}">
-													<span>${s.name}</span>
-													<span class="arrow"></span>
-													<i class="fa fa-angle-left pull-right"></i>
-												</a>
-												<dl class="layui-nav-child">
-													<#list funList as t>
-														<#if t.parentId == s.id>
-															<dd>
-																<#if t.url != '#'>
-																	<a lay-href="${t.url}" lay-text="${t.name}" data-id="${t.id}" data-code="${t.code}" data-functionbuttons="${t.functionButtons}">${t.name}</a>
-																</#if>
-																<#if t.url == '#'>
-																	<a href="${t.url}" title="${t.name}">${t.name}</a>
-																	<dl class="layui-nav-child">
-																		<#list funList as k>
-																			<#if k.parentId == t.id>
-																				<dd>
-																					<a class="thirdChild" lay-href="${k.url}" lay-text="${k.name}" data-id="${k.id}" data-code="${k.code}" data-functionbuttons="${k.functionButtons}" title="${k.name}">${k.name}</a>
-																				</dd>
-																			</#if>
-																		</#list>
-																	</dl>
-																</#if>
-															</dd>
-														</#if>
-													</#list>
-												</dl>
-											</li>
-										</#if>
-										<#assign openFlag="1">
+					<#if upList?exists> <#list upList as p>
+					<ul class="layui-nav layui-nav-tree layui-hide" lay-shrink="all" lay-filter="layadmin-system-side-menu" id="nav${p.id}">
+						<li class="layadmin-flexible">
+							<div></div>
+						</li>
+						<#assign openFlag="0"> <#list funList as s> <#if s.parentId == p.id && s.url=='#'> <#if openFlag=="0">
+						<li class="layui-nav-item layui-nav-itemed">
+							<a href="#" title="${s.name}">
+								<span>${s.name}</span>
+								<span class="arrow"></span>
+								<i class="fa fa-angle-left pull-right"></i>
+							</a>
+							<dl class="layui-nav-child">
+								<#list funList as t> <#if t.parentId == s.id>
+								<dd>
+									<#if t.url != '#'>
+									<a lay-href="${t.url}" lay-text="${t.name}" data-id="${t.id}" data-code="${t.code}" data-functionbuttons="${t.functionButtons}">${t.name}</a>
+									</#if> <#if t.url == '#'>
+									<a href="${t.url}" title="${t.name}">${t.name}</a>
+									<dl class="layui-nav-child">
+										<#list funList as k> <#if k.parentId == t.id>
+										<dd>
+											<a class="thirdChild" lay-href="${k.url}" lay-text="${k.name}" data-id="${k.id}" data-code="${k.code}" data-functionbuttons="${k.functionButtons}" title="${k.name}">${k.name}</a>
+										</dd>
+										</#if> </#list>
+									</dl>
 									</#if>
-									<#if s.parentId == p.id && s.url!='#'>
-										<li class="layui-nav-item">
-											<a lay-href="${s.url}" lay-text="${s.name}"  data-id="${s.id}" data-code="${s.code}" data-functionbuttons="${s.functionButtons}">
-												<span>${s.name}</span>
-											</a>
-										</li>
+								</dd>
+								</#if> </#list>
+							</dl>
+						</li>
+						</#if> <#if openFlag!="0">
+						<li class="layui-nav-item">
+							<a href="#" title="${s.name}">
+								<span>${s.name}</span>
+								<span class="arrow"></span>
+								<i class="fa fa-angle-left pull-right"></i>
+							</a>
+							<dl class="layui-nav-child">
+								<#list funList as t> <#if t.parentId == s.id>
+								<dd>
+									<#if t.url != '#'>
+									<a lay-href="${t.url}" lay-text="${t.name}" data-id="${t.id}" data-code="${t.code}" data-functionbuttons="${t.functionButtons}">${t.name}</a>
+									</#if> <#if t.url == '#'>
+									<a href="${t.url}" title="${t.name}">${t.name}</a>
+									<dl class="layui-nav-child">
+										<#list funList as k> <#if k.parentId == t.id>
+										<dd>
+											<a class="thirdChild" lay-href="${k.url}" lay-text="${k.name}" data-id="${k.id}" data-code="${k.code}" data-functionbuttons="${k.functionButtons}" title="${k.name}">${k.name}</a>
+										</dd>
+										</#if> </#list>
+									</dl>
 									</#if>
-								</#list>
-							</ul>
-						</#list>
-					</#if>
+								</dd>
+								</#if> </#list>
+							</dl>
+						</li>
+						</#if> <#assign openFlag="1"> </#if> <#if s.parentId == p.id && s.url!='#'>
+						<li class="layui-nav-item">
+							<a lay-href="${s.url}" lay-text="${s.name}" data-id="${s.id}" data-code="${s.code}" data-functionbuttons="${s.functionButtons}">
+								<span>${s.name}</span>
+							</a>
+						</li>
+						</#if> </#list>
+					</ul>
+					</#list> </#if>
 				</div>
 			</div>
 
 			<!-- 页面标签 -->
 			<div class="dowebok news">
-				<a lay-href="javascript:;" lay-text="新闻详情"><span>通知:</span>国家主席习近平发表二零一九年新年贺词。</a>
-				<a href="javascript:;"><span>通知:</span>马永生会见国外公司客人。</a>
-				<a href="javascript:;"><span>通知:</span>扬子石化乙烯产量创历史新记录。</a>
-				<a href="javascript:;"><span>通知:</span>马永生会见国外公司客人。</a>
+				<a lay-href="javascript:;" lay-text="新闻详情">
+					<span>通知:</span>
+					国家主席习近平发表二零一九年新年贺词。
+				</a>
+				<a href="javascript:;">
+					<span>通知:</span>
+					马永生会见国外公司客人。
+				</a>
+				<a href="javascript:;">
+					<span>通知:</span>
+					扬子石化乙烯产量创历史新记录。
+				</a>
+				<a href="javascript:;">
+					<span>通知:</span>
+					马永生会见国外公司客人。
+				</a>
 			</div>
 			<div class="layadmin-pagetabs" id="LAY_app_tabs">
 				<div class="layui-icon layadmin-tabs-control layui-icon-prev" layadmin-event="leftPage"></div>
@@ -311,316 +299,350 @@
 			base : '../layuiadmin/' //静态资源所在路径
 		}).extend({
 			index : 'lib/index' //主入口模块
-		}).use([ 'index', 'jquery' ,"publicMethods"], function() {
-			var $ = layui.jquery,publicMethods=layui.publicMethods;
-            $('.dowebok').liMarquee();
-			var headerNav= $(".layui-header-nav ul").html();
-			var navLeft=36;
-            $(".layui-header-nav ul li").each(function (i, val) {
-				if(i>3){
-                    $(".layui-header .layui-icon-prev").removeClass("layui-hide");
-                    $(val).remove();
-				}else {
-                    navLeft+=$(val).width()+24;
-				}
-            });
-
-            var val=$(".seacrhBox input").val();
-			$(".seacrhBox img").click(function () {
-                parent.layui.index.openTabsPage("/fullSearch/search?keyword="+val, "全文检索");
-            });
-            $(document).keyup(function(event) {
-                if (event.keyCode == 13) {
-                    parent.layui.index.openTabsPage("/fullSearch/search?keyword="+val, "全文检索");
-                }
-            });
-            $(".layui-header .layui-icon-prev").css("left",navLeft+"px");
-            if(!$(".layui-header .layui-icon-prev").hasClass("layui-hide")){
-                $("#navPrev ul").append(headerNav);
-                $("#navPrev ul span").remove();
-                $("#navPrev ul li").each(function (i, val) {
-                    if(i<4){
-                        $(".layui-header .layui-icon-prev").removeClass("layui-hide");
-                        $(val).remove();
-                    }
-                });
-                $(".layui-header .layui-icon-prev").on({
-                    mouseover : function() {
-                        $(".layui-layout-left").eq(1).removeClass("layui-hide");
-                    },
-                    mouseout : function() {
-                        $(".layui-layout-left").eq(1).toggleClass("layui-hide");
-                    }
-
-                });
-            }
-			$(".layui-header .layui-layout-left li a").on("click", function() {
-				var id = $(this).attr("id")
-				$(".layui-nav-tree").addClass("layui-hide");
-				$("#nav" + id).removeClass("layui-hide");
-				if($("#" + id).text()=="专家库"){
-                    parent.layui.index.openTabsPage("/expertController/expertIndexNew", "首页");
-				}
-                $(".layui-header .layui-layout-left li").removeClass("layui-this");
-				if(!$(this).parent().hasClass("layui-this")){
-                    $(this).parent().addClass("layui-this");
-				}
-			});
-			function initMessageSocket() {
-				//初始化websocket
-				var websocket = null;
-				if ('WebSocket' in window) {
-					websocket = new WebSocket("ws://" + document.location.host + "/messageIndex/${userId?default(0)}");
-					websocket.onerror = function() {
-					};
-					websocket.onopen = function(event) {
-						console.log("onopen.............");
-					}
-					websocket.onclose = function() {
-						console.log("onclose.............");
-					}
-					window.onbeforeunload = function() {
-						websocket.close();
-					}
-					websocket.onmessage = function(event) {
-						getNotReadMessageList();
-					}
-				} else {
-					console.log('Not support websocket');
-				}
-			}
-			function initTaskSocket() {
-				//初始化websocket
-				var websocket = null;
-				if ('WebSocket' in window) {
-					websocket = new WebSocket("ws://" + document.location.host + "/taskIndex/${userId?default(0)}");
-					websocket.onerror = function() {
-					};
-					websocket.onopen = function(event) {
-						console.log("onopen.............");
-					}
-					websocket.onclose = function() {
-						console.log("onclose.............");
-					}
-					window.onbeforeunload = function() {
-						websocket.close();
-					}
-					websocket.onmessage = function(event) {
-						getNotReadTaskList();
-					}
-				} else {
-					console.log('Not support websocket');
-				}
-			}
-			$("#toUserInfo").on("click", function() {
-				layer.open({
-					title : "用户详情",
-					skin : 'layui-layer-lan',
-					shadeClose : true,
-					type : 2,
-					fixed : false,
-					//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-					maxmin : false,
-					//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-					area : [ '80%', '70%' ],
-					content : "/user/user-dispaly?userId=${userInfo.userId}"
-				});
-			});
-			$("#logout").on("click", function() {
-				layer.confirm('确定要退出登录吗？', {
-					title : "退出登录"
-				}, function(index) {
-					layer.close(index);
-					$.ajax({
-						type : 'post',
-						dataType : 'json',
-						async : false,
-						url : '/logout',
-						success : function(data) {
-							window.location.href = "/login";
-						},
-						error : function(e) {
-							console.log(e);
+		}).use(
+				[ 'index', 'jquery', "publicMethods" ],
+				function() {
+					var $ = layui.jquery, publicMethods = layui.publicMethods;
+					$('.dowebok').liMarquee();
+					var headerNav = $(".layui-header-nav ul").html();
+					var navLeft = 36;
+					$(".layui-header-nav ul li").each(function(i, val) {
+						if (i > 3) {
+							$(".layui-header .layui-icon-prev").removeClass("layui-hide");
+							$(val).remove();
+						} else {
+							navLeft += $(val).width() + 24;
 						}
 					});
-				});
-			});
-			$("#toUpdPass").on("click", function() {
-				layer.open({
-					title : "修改密码",
-					skin : 'layui-layer-lan',
-					shadeClose : true,
-					type : 2,
-					fixed : false,
-					//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-					maxmin : false,
-					//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-					area : [ '500px', '300px' ],
-					content : "/user/upd-pass?userId=${userInfo.userId}"
-				});
-			});
 
-			$("#selfConfig").on("click", function() {
-				layer.open({
-					title : "个人设置",
-					skin : 'layui-layer-lan',
-					shadeClose : true,
-					type : 2,
-					fixed : false,
-					//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-					maxmin : false,
-					//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-					area : [ '500px', '300px' ],
-					content : "/user/ini-self-config"
-				});
-			});
-
-			$("#changeIndex").on("click", function() {
-				var host = window.location.host;
-	        	window.location.href="http://"+host+"/work";
-			});
-			$("#moreInfo").on("click",function () {
-                window.open("/instituteIndex?url="+"/one_level_main/dragon","_target");
-            });
-			
-			
-            $("#nav li dl dd a").hover(function (){
-                $(this).find("img").removeClass("layui-hide");
-                $(this).find("img").off("click").on("click",function () {
-                    $.ajax({
-                        type : 'post',
-                        dataType : 'json',
-                        async : false,
-                        url : '/admin/collect?functionCode='+$(this).parent().attr("data-code")+"&functionName="+$(this).parent().attr("lay-text")+"&functionId="+$(this).parent().attr("data-id"),
-                        success : function(data) {
-                            layer.msg(data.message);
-                            if (data.success) {
-                                // 动态修改当前我的收藏
-                                var obj = eval('(' + data.data + ')');
-                                if (obj.status == '1') {
-                                    var collectMenu = document.getElementById("dlCollect").innerHTML;
-                                    collectMenu = collectMenu + "<dd id='"+obj.dataId+"'><a lay-href='"+obj.collectUrl+"' lay-text='"+obj.collectName+"' data-id='"+obj.functionId+"' data-code='"+obj.functionCode+"' data-functionbuttons='ALL'>"+obj.collectName+"<img title=\"取消收藏\"  src=\"/layuiadmin/layui/images/icon_collection.png\" class=\"layui-hide\"/></a></dd>"
-                                    document.getElementById("dlCollect").innerHTML = collectMenu;
-
-                                } else if (obj.status == '0') {
-                                    var dl = document.getElementById("dlCollect");
-                                    // 查找dl里的所有dd
-                                    var dds = document.getElementsByTagName('dd');
-                                    for (var i = dds.length - 1; i >= 0; i--) {
-                                        if (dds[i].id == obj.dataId) {
-                                            dl.removeChild(dds[i]);
-                                        }
-                                    }
-                                }
-
-                            }
-
-                        },
-                        error : function(e) {
-                            console.log(e);
-                        }
-                    });
-					return false;
-                });
-            },function (){
-                $(this).find("img").addClass("layui-hide");
-            });
-			// 菜单收藏
-			$("#collectFunction").on("click", function() {
-				var param = JSON.parse(window.localStorage.getItem("param"));
-				$.ajax({
-					type : 'post',
-					dataType : 'json',
-					async : false,
-					url : '/admin/collect?functionCode='+param.code+"&functionName="+param.name+"&functionId="+param.id,
-					success : function(data) {
-						layer.msg(data.message);
-
-						if (data.success) {
-							// 动态修改当前我的收藏
-							var obj = eval('(' + data.data + ')');
-							if (obj.status == '1') {
-								var collectMenu = document.getElementById("dlCollect").innerHTML;
-								collectMenu = collectMenu + "<dd id='"+obj.dataId+"'><a lay-href='"+obj.collectUrl+"' lay-text='"+obj.collectName+"' data-id='"+obj.functionId+"' data-code='"+obj.functionCode+"' data-functionbuttons='ALL'>"+obj.collectName+"</a></dd>"
-								document.getElementById("dlCollect").innerHTML = collectMenu;
-							} else if (obj.status == '0') {
-								var dl = document.getElementById("dlCollect");
-								// 查找dl里的所有dd
-								var dds = document.getElementsByTagName('dd');
-								for (var i = dds.length - 1; i >= 0; i--) {
-								    if (dds[i].id == obj.dataId) {
-								    	dl.removeChild(dds[i]);
-								    }
-								}
+					var val = $(".seacrhBox input").val();
+					$(".seacrhBox img").click(function() {
+						parent.layui.index.openTabsPage("/fullSearch/search?keyword=" + val, "全文检索");
+					});
+					$(document).keyup(function(event) {
+						if (event.keyCode == 13) {
+							parent.layui.index.openTabsPage("/fullSearch/search?keyword=" + val, "全文检索");
+						}
+					});
+					$(".layui-header .layui-icon-prev").css("left", navLeft + "px");
+					if (!$(".layui-header .layui-icon-prev").hasClass("layui-hide")) {
+						$("#navPrev ul").append(headerNav);
+						$("#navPrev ul span").remove();
+						$("#navPrev ul li").each(function(i, val) {
+							if (i < 4) {
+								$(".layui-header .layui-icon-prev").removeClass("layui-hide");
+								$(val).remove();
+							}
+						});
+						$(".layui-header .layui-icon-prev").on({
+							mouseover : function() {
+								$(".layui-layout-left").eq(1).removeClass("layui-hide");
+							},
+							mouseout : function() {
+								$(".layui-layout-left").eq(1).toggleClass("layui-hide");
 							}
 
+						});
+					}
+					$(".layui-header .layui-layout-left li a").on("click", function() {
+						var id = $(this).attr("id")
+						if ($("#" + id).text() == "科研项目管理") {
+							window.open("http://10.1.19.130:8008/");
+							return false;
 						}
-
-					},
-					error : function(e) {
-						console.log(e);
+						if ($("#" + id).text() == "知识产权管理") {
+							window.open("http://10.1.19.130/zshzlgl/index.aspx");
+							return false;
+						}
+						if ($("#" + id).text() == "成果鉴定管理") {
+							window.open("http://10.1.19.130/zshjdgl/");
+							return false;
+						}
+						if ($("#" + id).text() == "科技奖励管理") {
+							window.open("http://10.1.19.130/zshkjjl/");
+							return false;
+						}
+						$(".layui-nav-tree").addClass("layui-hide");
+						$("#nav" + id).removeClass("layui-hide");
+						
+						if ($("#" + id).text() == "专家库") {
+							parent.layui.index.openTabsPage("/expertController/expertIndexNew", "首页");
+						}
+						
+						$(".layui-header .layui-layout-left li").removeClass("layui-this");
+						if (!$(this).parent().hasClass("layui-this")) {
+							$(this).parent().addClass("layui-this");
+						}
+					});
+					function initMessageSocket() {
+						//初始化websocket
+						var websocket = null;
+						if ('WebSocket' in window) {
+							websocket = new WebSocket("ws://" + document.location.host + "/messageIndex/${userId?default(0)}");
+							websocket.onerror = function() {
+							};
+							websocket.onopen = function(event) {
+								console.log("onopen.............");
+							}
+							websocket.onclose = function() {
+								console.log("onclose.............");
+							}
+							window.onbeforeunload = function() {
+								websocket.close();
+							}
+							websocket.onmessage = function(event) {
+								getNotReadMessageList();
+							}
+						} else {
+							console.log('Not support websocket');
+						}
 					}
+					function initTaskSocket() {
+						//初始化websocket
+						var websocket = null;
+						if ('WebSocket' in window) {
+							websocket = new WebSocket("ws://" + document.location.host + "/taskIndex/${userId?default(0)}");
+							websocket.onerror = function() {
+							};
+							websocket.onopen = function(event) {
+								console.log("onopen.............");
+							}
+							websocket.onclose = function() {
+								console.log("onclose.............");
+							}
+							window.onbeforeunload = function() {
+								websocket.close();
+							}
+							websocket.onmessage = function(event) {
+								getNotReadTaskList();
+							}
+						} else {
+							console.log('Not support websocket');
+						}
+					}
+					$("#toUserInfo").on("click", function() {
+						layer.open({
+							title : "用户详情",
+							skin : 'layui-layer-lan',
+							shadeClose : true,
+							type : 2,
+							fixed : false,
+							//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+							maxmin : false,
+							//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+							area : [ '80%', '70%' ],
+							content : "/user/user-dispaly?userId=${userInfo.userId}"
+						});
+					});
+					$("#logout").on("click", function() {
+						layer.confirm('确定要退出登录吗？', {
+							title : "退出登录"
+						}, function(index) {
+							layer.close(index);
+							$.ajax({
+								type : 'post',
+								dataType : 'json',
+								async : false,
+								url : '/logout',
+								success : function(data) {
+									window.location.href = "/login";
+								},
+								error : function(e) {
+									console.log(e);
+								}
+							});
+						});
+					});
+					$("#toUpdPass").on("click", function() {
+						layer.open({
+							title : "修改密码",
+							skin : 'layui-layer-lan',
+							shadeClose : true,
+							type : 2,
+							fixed : false,
+							//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+							maxmin : false,
+							//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+							area : [ '500px', '300px' ],
+							content : "/user/upd-pass?userId=${userInfo.userId}"
+						});
+					});
+
+					$("#selfConfig").on("click", function() {
+						layer.open({
+							title : "个人设置",
+							skin : 'layui-layer-lan',
+							shadeClose : true,
+							type : 2,
+							fixed : false,
+							//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+							maxmin : false,
+							//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+							area : [ '500px', '300px' ],
+							content : "/user/ini-self-config"
+						});
+					});
+
+					$("#changeIndex").on("click", function() {
+						var host = window.location.host;
+						window.location.href = "http://" + host + "/work";
+					});
+					$("#moreInfo").on("click", function() {
+						window.open("/instituteIndex?url=" + "/one_level_main/dragon", "_target");
+					});
+
+					$("#nav li dl dd a").hover(
+							function() {
+								$(this).find("img").removeClass("layui-hide");
+								$(this).find("img").off("click").on(
+										"click",
+										function() {
+											$.ajax({
+												type : 'post',
+												dataType : 'json',
+												async : false,
+												url : '/admin/collect?functionCode=' + $(this).parent().attr("data-code") + "&functionName=" + $(this).parent().attr("lay-text") + "&functionId=" + $(this).parent().attr("data-id"),
+												success : function(data) {
+													layer.msg(data.message);
+													if (data.success) {
+														// 动态修改当前我的收藏
+														var obj = eval('(' + data.data + ')');
+														if (obj.status == '1') {
+															var collectMenu = document.getElementById("dlCollect").innerHTML;
+															collectMenu = collectMenu + "<dd id='"+obj.dataId+"'><a lay-href='"+obj.collectUrl+"' lay-text='"+obj.collectName+"' data-id='"+obj.functionId+"' data-code='"+obj.functionCode+"' data-functionbuttons='ALL'>" + obj.collectName
+																	+ "<img title=\"取消收藏\"  src=\"/layuiadmin/layui/images/icon_collection.png\" class=\"layui-hide\"/></a></dd>"
+															document.getElementById("dlCollect").innerHTML = collectMenu;
+
+														} else if (obj.status == '0') {
+															var dl = document.getElementById("dlCollect");
+															// 查找dl里的所有dd
+															var dds = document.getElementsByTagName('dd');
+															for (var i = dds.length - 1; i >= 0; i--) {
+																if (dds[i].id == obj.dataId) {
+																	dl.removeChild(dds[i]);
+																}
+															}
+														}
+
+													}
+
+												},
+												error : function(e) {
+													console.log(e);
+												}
+											});
+											return false;
+										});
+							}, function() {
+								$(this).find("img").addClass("layui-hide");
+							});
+					// 菜单收藏
+					$("#collectFunction").on("click", function() {
+						var param = JSON.parse(window.localStorage.getItem("param"));
+						$.ajax({
+							type : 'post',
+							dataType : 'json',
+							async : false,
+							url : '/admin/collect?functionCode=' + param.code + "&functionName=" + param.name + "&functionId=" + param.id,
+							success : function(data) {
+								layer.msg(data.message);
+
+								if (data.success) {
+									// 动态修改当前我的收藏
+									var obj = eval('(' + data.data + ')');
+									if (obj.status == '1') {
+										var collectMenu = document.getElementById("dlCollect").innerHTML;
+										collectMenu = collectMenu + "<dd id='"+obj.dataId+"'><a lay-href='"+obj.collectUrl+"' lay-text='"+obj.collectName+"' data-id='"+obj.functionId+"' data-code='"+obj.functionCode+"' data-functionbuttons='ALL'>" + obj.collectName + "</a></dd>"
+										document.getElementById("dlCollect").innerHTML = collectMenu;
+									} else if (obj.status == '0') {
+										var dl = document.getElementById("dlCollect");
+										// 查找dl里的所有dd
+										var dds = document.getElementsByTagName('dd');
+										for (var i = dds.length - 1; i >= 0; i--) {
+											if (dds[i].id == obj.dataId) {
+												dl.removeChild(dds[i]);
+											}
+										}
+									}
+
+								}
+
+							},
+							error : function(e) {
+								console.log(e);
+							}
+						});
+					});
+					//获取未读消息
+					window.getNotReadMessageList = function() {
+						publicMethods.ajaxAsyncPost('/message/get-newest-messages', {
+							page : 1,
+							limit : 100,
+							param : {
+								"isRead" : "0"
+							}
+						}, function(data, status) {
+							$(".message_more").unbind();
+							$(".message_info").unbind();
+							var content = "";
+							if (data.length <= 0) {
+								$("#nc").css("visibility", "hidden");
+							} else {
+								/* $.each(data,function(index,dt){
+									if(index < 3){//最新消息(取前三条未读)
+										content += '<dd class="message_info" dataId="'+dt.dataId+'"><span class="layui-name">'+dt.userName+'</span><span class="layui-text">'+dt.messageTitle+'</span><span class="layui-time"><i class="fa fa-clock-o mr-1"></i>'+dt.ago+'</span></dd>';
+									}
+								}); */
+								$("#nc").text(data.length);
+								$("#nc").css("visibility", "visible");
+							}
+							content += '<dd class="message_more"><a href="javascript:void(0)">查看更多</a></dd>';
+							$("#message_box").html(content);
+							$('.message_more').on('click', function() {
+								parent.layui.index.openTabsPage("/message/sys_message_list", "消息列表");
+							});
+						});
+					}
+					//待办任务
+					window.getNotReadTaskList = function() {
+						//admin/pending-task-count
+						publicMethods.ajaxAsyncPost('/task/index-pending-list', {
+							page : 1,
+							limit : 100,
+							param : {
+								"isRead" : "0"
+							}
+						}, function(data, status) {
+							$(".task_more").unbind();
+							$(".task_info").unbind();
+							var pendingCount = data.length;
+							var content = "";
+							if (pendingCount <= 0) {
+								$("#pendingCount").css("visibility", "hidden");
+							} else {
+								$("#pendingCount").text(pendingCount);
+								$("#pendingCount").css("visibility", "visible");
+								/* $.each(data,function(index,dt){
+									if(index < 3){//最新消息(取前三条未读)
+										content +='<dd class="task_info" dataId="'+dt.id+'"><p><span class="layui-icon-span"><img src="/layuiadmin/layui/images/icon-information.png"/></span><span class="layui-text-span">'+dt.name+'</span>	<span class="layui-date">'+dt.ago+'</span></p></dd>';
+									}
+								}); */
+							}
+							content += '<dd><a class="task_more"  href="javascript:void(0)">查看更多</a></dd>';
+							$("#task_box").html(content);
+							$(".task_more").on("click", function() {
+								parent.layui.index.openTabsPage("/task/pending/list/ini", "待办任务");
+							});
+						});
+					}
+					$(document).ready(function() {
+						$("#mainIframe", parent.document.body).attr("src", "/mainStp");
+						initMessageSocket();
+						initTaskSocket();
+						getNotReadMessageList();
+						getNotReadTaskList();
+					});
 				});
-			});
-			//获取未读消息
-			window.getNotReadMessageList = function() {
-				publicMethods.ajaxAsyncPost('/message/get-newest-messages', {page:1,limit:100,param: {"isRead":"0"}}, function (data, status) {
-					$(".message_more").unbind();
-					$(".message_info").unbind();
-					var content = "";
-					if(data.length <=0){
-	        			$("#nc").css("visibility", "hidden");
-	        		}else{
-	        			/* $.each(data,function(index,dt){
-		        			if(index < 3){//最新消息(取前三条未读)
-		        				content += '<dd class="message_info" dataId="'+dt.dataId+'"><span class="layui-name">'+dt.userName+'</span><span class="layui-text">'+dt.messageTitle+'</span><span class="layui-time"><i class="fa fa-clock-o mr-1"></i>'+dt.ago+'</span></dd>';
-		        			}
-		        		}); */
-	        			$("#nc").text(data.length);
-						$("#nc").css("visibility", "visible");
-	        		}
-	        		content += '<dd class="message_more"><a href="javascript:void(0)">查看更多</a></dd>';
-	        		$("#message_box").html(content);
-				    $('.message_more').on('click', function() { 
-				    	parent.layui.index.openTabsPage("/message/sys_message_list", "消息列表");
-				    });
-	            });
-			}
-			//待办任务
-			window.getNotReadTaskList = function() {
-				//admin/pending-task-count
-				publicMethods.ajaxAsyncPost('/task/index-pending-list', {page:1,limit:100,param: {"isRead":"0"}}, function (data, status) {
-					$(".task_more").unbind();
-					$(".task_info").unbind();
-					var pendingCount = data.length;
-					var content = "";
-					if (pendingCount <= 0) {
-						$("#pendingCount").css("visibility", "hidden");
-					} else {
-						$("#pendingCount").text(pendingCount);
-						$("#pendingCount").css("visibility", "visible");
-						/* $.each(data,function(index,dt){
-		        			if(index < 3){//最新消息(取前三条未读)
-		        				content +='<dd class="task_info" dataId="'+dt.id+'"><p><span class="layui-icon-span"><img src="/layuiadmin/layui/images/icon-information.png"/></span><span class="layui-text-span">'+dt.name+'</span>	<span class="layui-date">'+dt.ago+'</span></p></dd>';
-		        			}
-		        		}); */
-					}
-					content += '<dd><a class="task_more"  href="javascript:void(0)">查看更多</a></dd>';
-					$("#task_box").html(content);
-					$(".task_more").on("click", function(){ 
-				     	parent.layui.index.openTabsPage("/task/pending/list/ini", "待办任务");
-				    });
-	            });
-			}
-			$(document).ready(function() {				
-				 $("#mainIframe", parent.document.body).attr("src", "/mainStp");
-				 initMessageSocket();
-			     initTaskSocket();
-				 getNotReadMessageList();
-				 getNotReadTaskList();
-			});
-		});
-
 	</script>
 </body>
 </html>
