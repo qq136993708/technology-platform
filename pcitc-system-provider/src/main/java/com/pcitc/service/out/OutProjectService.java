@@ -88,7 +88,7 @@ public interface OutProjectService {
 
 
 	OutProjectInfo getOutProjectShowById(String dataId) throws Exception;
-	
+	public int updateProjectData(List<OutProjectInfo> list, String nd);
 	/**
      * @param nd
      * @return
