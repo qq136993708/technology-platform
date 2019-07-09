@@ -208,18 +208,18 @@
 							<table class="layui-table">
 								<thead>
 									<tr>
-										<th></th>
-										<th style="width: 120px">当前处理人</th>
-										<th>发起时间</th>
-										<th>工作内容</th>
-										<th style="width: 200px;">完成进度(%)</th>
+										<th style="width: 25px; text-align: center;"></th>
+										<th style="width: 120px; text-align: center;">当前处理人</th>
+										<th style="text-align: center;">发起时间</th>
+										<th style="text-align: center;">工作内容</th>
+										<th style="width: 200px; text-align: center;">完成进度(%)</th>
 									</tr>
 								</thead>
 								<tbody>
 									<#list taskList as taskList > <#if taskList?exists>
 									<tr>
-										<td>${taskList_index+1}</td>
-										<td>${taskList.workOrderAllotUserName}</td>
+										<td style="text-align: center;">${taskList_index+1}</td>
+										<td style="text-align: center;">${taskList.workOrderAllotUserName}</td>
 										<td><div class="layui-table-cell-td1">${taskList.createDate}</div></td>
 										<td><div class="layui-table-cell-td">${taskList.workOrderName}</div></td>
 										<td align="right"><#if taskList.bl==''>
@@ -248,23 +248,23 @@
 								<table class="layui-table">
 									<thead>
 										<tr>
-											<th></th>
+											<th style="width: 25px;"></th>
 											<th style="width: 80px;">工作发起人</th>
-											<th>发起时间</th>
-											<th>工作内容</th>
-											<th style="width: 125px;">工作进展</th>
+											<th style="text-align: center;">发起时间</th>
+											<th style="text-align: center;">工作内容</th>
+											<th style="width: 125px; text-align: center;">工作进展</th>
 										</tr>
 									</thead>
 									<tbody>
 										<#list taskListMy as taskList > <#if taskList?exists>
 										<tr>
-											<td>${taskList_index+1}</td>
-											<td>${taskList.createUserName}</td>
+											<td style="text-align: center;">${taskList_index+1}</td>
+											<td style="text-align: center;">${taskList.createUserName}</td>
 											<td><div class="layui-table-cell-td1">${taskList.createDate}</div></td>
 											<td><div class="layui-table-cell-td">${taskList.workOrderName}</div></td>
 											<td>
 												<span class="span-st ">已完成</span>
-												<span class="span-st ">进行中</span>
+												<span class="span-st span-jx">进行中</span>
 											</td>
 										</tr>
 										</#if> <#else>
@@ -949,7 +949,7 @@
             	//nd="2018";
                 $.ajax({
                     type: 'POST',
-                    url : "/admin/patent-count?define3=研究院&nd=" + nd,
+                    url : "/admin/patent-count?nd=" + nd,
                     dataType: 'json',
                     headers: {
                         'Content-Type': 'application/json'
