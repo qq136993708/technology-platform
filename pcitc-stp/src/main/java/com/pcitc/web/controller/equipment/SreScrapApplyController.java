@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,14 +34,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-
+import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.stp.equipment.FindAppltid;
 import com.pcitc.base.stp.equipment.FindView;
+import com.pcitc.base.stp.equipment.SreDetail;
 import com.pcitc.base.stp.equipment.SreEquipment;
+import com.pcitc.base.stp.equipment.SreForApplication;
 import com.pcitc.base.stp.equipment.SreProjectAudit;
 import com.pcitc.base.stp.equipment.SrePurchase;
 import com.pcitc.base.stp.equipment.SreScrapApply;
@@ -62,10 +65,15 @@ public class SreScrapApplyController extends BaseController {
 	private static final String List_view="http://pcitc-zuul/stp-proxy/sre-provider/sreScrapApply/Listview/";
 	private static final String INVALID_URL="http://pcitc-zuul/stp-proxy/sre-provider/sreScrapApply/submitInvalid/";
 	private static final String DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/sreScrapApply/delete/";
-	   private static final String PURCHASE_INNER_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/sreScrapApply/start_inner_activity/";
-	   private static final String UPDATE_URL="http://pcitc-zuul/stp-proxy/sre-provider/sreScrapApply/update";
-	   //临时导出文件目录
-	    private static final String TEMP_FILE_PATH = "src/main/resources/tem/";
+	private static final String PURCHASE_INNER_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/sreScrapApply/start_inner_activity/";
+	private static final String UPDATE_URL="http://pcitc-zuul/stp-proxy/sre-provider/sreScrapApply/update";
+	//临时导出文件目录
+	private static final String TEMP_FILE_PATH = "src/main/resources/tem/";
+	
+	//新增报废添加路径
+	private static final String ANOUNCE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/sreScrapApply/announceAdd";
+	
+	private static final String MODEL_URL="http://pcitc-zuul/stp-proxy/sre-provider/sreScrapApply/model/";
 	  
 	   @RequestMapping(value = "/sre-sreScrapApply/list")
 	@ResponseBody
@@ -168,6 +176,14 @@ public class SreScrapApplyController extends BaseController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/sre-sreScrapApply/add")
 	public String add(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String parentUnitPathNames = map.get("unitName");// 申报单位
+		String parentUnitPathIds = map.get("unitCode");// 申报单位
+		String applyDepartName = map.get("applyDepartName");// 申报部门
+		String applyDepartCode = map.get("applyDepartCode");// 申报部门
+		String unitPathIds= map.get("applyDepartCode");
+		String unitPathNames= map.get("applyDepartName");
+		request.setAttribute("applyDepartName", applyDepartName);
 		String id = CommonUtil.getParameter(request, "id", "");
 		request.setAttribute("id",id);
 		if(id=="")
@@ -193,26 +209,26 @@ public class SreScrapApplyController extends BaseController {
 		}
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/sre-sreScrapApply/view/{id}")
-	public String view(@PathVariable("id") String id,HttpServletRequest request, HttpServletResponse response) throws Exception {
-		//request.setAttribute("id",id);
-			System.out.println(id);
-			String name="";
-			String documentDoc="";
-			ResponseEntity<SreScrapApply> sreScrapApply=restTemplate.exchange(GETVIEW_URL + id, HttpMethod.GET,new HttpEntity<Object>(this.httpHeaders), SreScrapApply.class);
-			if(sreScrapApply!=null && sreScrapApply.getBody()!=null)
-			{
-				name=sreScrapApply.getBody().getName();	
-				documentDoc=sreScrapApply.getBody().getDocumentdoc();
-			}
-			request.setAttribute("name",name);        
-		    request.setAttribute("documentDoc", documentDoc);     
-			ResponseEntity<List> selectByAppltidList=restTemplate.exchange(List_view + id, HttpMethod.GET,new HttpEntity<Object>(this.httpHeaders),List.class);
-			List<FindAppltid> list = selectByAppltidList.getBody();
-			JSONArray jsonObject = JSONArray.parseArray(JSON.toJSONString(list));
-			request.setAttribute("getList",jsonObject.toString());
-			return "/stp/equipment/scrapapply/scrapapply_view";
-	}
+//	@RequestMapping(method = RequestMethod.GET, value = "/sre-sreScrapApply/view/{id}")
+//	public String view(@PathVariable("id") String id,HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		//request.setAttribute("id",id);
+//			System.out.println(id);
+//			String name="";
+//			String documentDoc="";
+//			ResponseEntity<SreScrapApply> sreScrapApply=restTemplate.exchange(GETVIEW_URL + id, HttpMethod.GET,new HttpEntity<Object>(this.httpHeaders), SreScrapApply.class);
+//			if(sreScrapApply!=null && sreScrapApply.getBody()!=null)
+//			{
+//				name=sreScrapApply.getBody().getName();	
+//				documentDoc=sreScrapApply.getBody().getDocumentdoc();
+//			}
+//			request.setAttribute("name",name);        
+//		    request.setAttribute("documentDoc", documentDoc);     
+//			ResponseEntity<List> selectByAppltidList=restTemplate.exchange(List_view + id, HttpMethod.GET,new HttpEntity<Object>(this.httpHeaders),List.class);
+//			List<FindAppltid> list = selectByAppltidList.getBody();
+//			JSONArray jsonObject = JSONArray.parseArray(JSON.toJSONString(list));
+//			request.setAttribute("getList",jsonObject.toString());
+//			return "/stp/equipment/scrapapply/scrapapply_view";
+//	}
 	
 	
 	
@@ -296,7 +312,7 @@ public class SreScrapApplyController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			int status = responseEntity.getBody();
 			logger.info("============远程返回  statusCode " + statusCode + "  status=" + status);
-			if (responseEntity.getBody() > 0) {
+			if (responseEntity.getBody() == 0) {
 				resultsDate = new Result(true);
 			} else {
 				resultsDate = new Result(false, "删除失败，请联系系统管理员！");
@@ -341,29 +357,35 @@ public class SreScrapApplyController extends BaseController {
 	            Map<String, Object> dataMap = new HashMap<String, Object>();
 	          
 	 
-	            	ResponseEntity<List> selectByAppltidList=restTemplate.exchange(GETLIST_URL + id, HttpMethod.GET,new HttpEntity<Object>(this.httpHeaders),List.class);
+	            	ResponseEntity<List> selectByAppltidList=restTemplate.exchange(MODEL_URL + id, HttpMethod.GET,new HttpEntity<Object>(this.httpHeaders),List.class);
 	            	List<Map<String, Object>> list = selectByAppltidList.getBody();
 	            	for (int i = 0; i < list.size(); i++) {
 	            		Map<String, Object> stringObjectMap=list.get(i);
 	                
-	            	    String equipmentName=stringObjectMap.get("equipmentName").toString();
-//                	    String  specification=stringObjectMap.get("specification")!=null?stringObjectMap.get("specification").toString():"";
-	            	    String  specification="科技部";
-	            	    String price=stringObjectMap.get("price").toString();
-                	    String  number=stringObjectMap.get("number").toString();
-                	    String  assetnumber=stringObjectMap.get("assetnumber").toString();
-                	    //String  placepeople=stringObjectMap.get("placepeople").toString();
-                	    String  placepeople="安工院计划员";
-                	    String sumprice=stringObjectMap.get("sumprice").toString();
+	            	    String  name=stringObjectMap.get("name").toString();//申报名称
+	            	    String  createUser=stringObjectMap.get("createUser").toString();//装备名称
+	            	    String  applicationNumber=stringObjectMap.get("applicationNumber").toString();//资产编号
+	            	    String  updateUser=stringObjectMap.get("updateUser").toString();//公司代码
+	            	    String  remarks=stringObjectMap.get("remarks").toString();//申报单位
+                	    String  G0NDURJ=stringObjectMap.get("g0NDURJ").toString();//使用年限
+                	    String  G0SCHRW=stringObjectMap.get("g0SCHRW").toString();//资产残值
+                	    String  G0LJGZYZJE=stringObjectMap.get("g0LJGZYZJE").toString();//账面净额
+                	    String  G0LJDJZJJE=stringObjectMap.get("g0LJDJZJJE").toString();//预付定金
+                	    String  G0NCGZYZJE=stringObjectMap.get("g0NCGZYZJE").toString();//年初购置价值
+                	    String  G0LJZJJE=stringObjectMap.get("g0LJZJJE").toString();//累计折旧
                         Map<String, Object> map = new HashMap<String, Object>();
 
-	                        map.put("equipmentName",equipmentName);                      //课题名称
-	                        map.put("specification",specification);                    //申请名称
-	                        map.put("price",price);     //申请单位
-	                        map.put("number",number);                   //申请人
-	                        map.put("assetnumber",assetnumber);                       //申请时间
-	                        map.put("placepeople",placepeople);                   //装备名称
-	                        map.put("sumprice",sumprice);                   //规格型号
+	                        map.put("name",name);         //申报名称
+	                        map.put("createUser",createUser);         //装备名称
+	                        map.put("applicationNumber",applicationNumber);         //资产编号
+	                        map.put("updateUser",updateUser);         //公司代码
+	                        map.put("remarks",remarks);      //申报单位 
+	                        map.put("G0NDURJ",G0NDURJ);       //使用年限
+	                        map.put("G0SCHRW",G0SCHRW);       //资产残值
+	                        map.put("G0LJGZYZJE",G0LJGZYZJE);     //账面净额  
+	                        map.put("G0LJDJZJJE",G0LJDJZJJE);       //预付定金
+	                        map.put("G0NCGZYZJE",G0NCGZYZJE);       //年初购置价值
+	                        map.put("G0LJZJJE",G0LJZJJE);       //累计折旧
 
 	                        purchaseEquipmentList.add(map);
 
@@ -441,5 +463,99 @@ public class SreScrapApplyController extends BaseController {
 	    /* =================================生成word文档  END================================*/
 		
 		
+	    /*******************************************修改报废新增功能*************************/
+	    /**
+		 * 保存-更新操作
+		 * 
+		 * @param request
+		 * @param response
+		 * @return
+		 * @throws Exception
+		 */
+		@ResponseBody
+		@RequestMapping(method = RequestMethod.POST, value = "/sre-announceAdd/announceAdd")
+		public String savePrivilege(String ids,String froname,HttpServletResponse response) throws Exception{ 
+			String result = "";
+			SreForApplication pplication = new SreForApplication();
+			ResponseEntity<Integer> responseEntity = null;
+			ResponseEntity<Integer> respo = null;
+			Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+			String parentUnitPathNames = map.get("unitName");// 申报单位
+			String parentUnitPathIds = map.get("unitCode");// 申报单位
+			String applyDepartName = map.get("applyDepartName");// 申报部门
+			String applyDepartCode = map.get("applyDepartCode");// 申报部门
+			String unitPathIds= map.get("applyDepartCode");
+			String unitPathNames= map.get("applyDepartName");
+			SreScrapApply srescrapply = new SreScrapApply();//创建报废对象
+			String id = UUID.randomUUID().toString().replaceAll("-", "");
+			srescrapply.setId(id);//报废ID
+			srescrapply.setName(froname);//报废名称 
+			srescrapply.setRemarks(applyDepartName);//申请单位
+			srescrapply.setAuditStatus(Constant.EQUME_ZERO);//添加状态
+			srescrapply.setCreateUserId(ids);//装备ID
+			respo = this.restTemplate.exchange(ANOUNCE_URL, HttpMethod.POST, new HttpEntity<SreScrapApply>(srescrapply, this.httpHeaders), Integer.class);
+			int statusCode = respo.getStatusCodeValue();
+			if(statusCode == 200) {
+				 result = "1";
+			}else {
+				 result = "2";
+			}
+			JSONObject jObject=new JSONObject();
+			jObject.put("result", result);
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println(jObject.toString());
+			out.flush();
+			out.close();
+			return null;
+			}
+	    
+
+		/**
+		 * 详情
+		 * 
+		 * @param request
+		 * @param response
+		 * @return
+		 * @throws Exception
+		 */
+		@RequestMapping(method = RequestMethod.GET, value = "/sre-sreScrapApply/view/{id}")
+		public String view(@PathVariable("id") String id,HttpServletRequest request, HttpServletResponse response) throws Exception {
+			//request.setAttribute("id",id);
+				System.out.println(id);
+				String name="";
+				String documentDoc="";
+				ResponseEntity<SreScrapApply> sreScrapApply=restTemplate.exchange(GETVIEW_URL + id, HttpMethod.GET,new HttpEntity<Object>(this.httpHeaders), SreScrapApply.class);
+				if(sreScrapApply!=null && sreScrapApply.getBody()!=null)
+				{
+					name=sreScrapApply.getBody().getName();	
+					documentDoc=sreScrapApply.getBody().getDocumentdoc();
+				}
+				SreScrapApply srescrap = sreScrapApply.getBody();
+				request.setAttribute("srescrap",srescrap);
+				return "/stp/equipment/scrapapply/scrapapply_view";
+		}
 		
+		/**
+		 * 详情列表
+		 * 
+		 * @param request
+		 * @param response
+		 * @return
+		 */
+		@RequestMapping(value = "/sre-sreScrapApply/listView")
+		@ResponseBody
+		public String listView(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+			
+			LayuiTableData layuiTableData = new LayuiTableData();
+			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(GETLIST_URL, HttpMethod.POST, entity, LayuiTableData.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200) {
+				layuiTableData = responseEntity.getBody();
+			}
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+			logger.info("============result" + result);
+			return result.toString();
+		}
 }

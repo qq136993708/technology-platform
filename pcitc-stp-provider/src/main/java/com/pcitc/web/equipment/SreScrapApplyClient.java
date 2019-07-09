@@ -24,6 +24,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.equipment.FindAppltid;
 import com.pcitc.base.stp.equipment.FindView;
+import com.pcitc.base.stp.equipment.SreForApplication;
 import com.pcitc.base.stp.equipment.SreProjectAudit;
 import com.pcitc.base.stp.equipment.SrePurchase;
 import com.pcitc.base.stp.equipment.SreScrapApply;
@@ -64,12 +65,22 @@ public class SreScrapApplyClient {
 		return sreScrapApplyService.selectByPrimaryKey(id);
 	}
 	
-	@RequestMapping(value = "/sre-provider/sreScrapApply/selectByAppltidList/{id}", method = RequestMethod.GET)
-	public List<FindAppltid> selectByAppltidList(@PathVariable(value = "id", required = true) String id)throws Exception{
-		System.out.println("===================================================");
-		
-		return sreScrapApplyItemService.selectByAppltidList(id);
+	@RequestMapping(value = "/sre-provider/sreScrapApply/model/{id}", method = RequestMethod.GET)
+	public List<SreScrapApply> getSreScrapApply(@PathVariable(value = "id", required = true) String id)throws Exception{
+		return sreScrapApplyService.selectSreScrapApplyy(id);
 	}
+	
+	@ApiOperation(value = "报废分页", notes = "报废分页")
+	@RequestMapping(value = "/sre-provider/sreScrapApply/selectByAppltidList", method = RequestMethod.POST)
+	public LayuiTableData scrApplyByPrimaryKey(@RequestBody LayuiTableParam param)throws Exception
+	{
+		
+		LayuiTableData rageResult=sreScrapApplyService.scrApplyByPrimaryKey(param);
+		
+		
+		return rageResult;
+	}
+	
 	
 	@RequestMapping(value = "/sre-provider/sreScrapApply/Listview/{id}", method = RequestMethod.GET)
 	public List<FindAppltid> seListview(@PathVariable(value = "id", required = true) String id)throws Exception{
@@ -258,5 +269,14 @@ public class SreScrapApplyClient {
 	public int updateByPrimaryKey(@RequestBody SreScrapApply record) throws Exception
 	{
 		return sreScrapApplyService.updateByPrimaryKeySelective(record);
+	}
+    
+    /**************************************2019/7/8修改报废添加********************************************/
+    
+    @ApiOperation(value = "报废添加", notes = "报废添加")
+	@RequestMapping(value = "/sre-provider/sreScrapApply/announceAdd", method = RequestMethod.POST)
+	public Integer insertSreScrapApply(@RequestBody SreScrapApply srescrapply) throws Exception{
+		logger.info("====================add insertSreScrapApply....========================");
+		return sreScrapApplyService.insertSreScrapApply(srescrapply);
 	}
 }
