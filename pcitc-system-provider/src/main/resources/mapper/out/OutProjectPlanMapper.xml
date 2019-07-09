@@ -1314,7 +1314,7 @@
 		select round(sum(K0DMBTR)/10000,4) as investMoney
 		from expenses_pay_hana
 		where 
-			G0GJAHR = '${nd}'
+			G0GJAHR = '${nd}' and expenses_pay_hana.G0LIFNR in ('0033550000','0035800000','0033550006','0033600000','0033700000','0034880000','0033650000','0033750000','0033800000')
 			and sts = '1'
 	</select>
 	
