@@ -20,6 +20,7 @@ import com.pcitc.base.common.Chart3dData;
 import com.pcitc.base.common.Chart3dResultData;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.util.CommonUtil;
 import com.pcitc.web.common.BaseController;
 
 @Controller
@@ -54,7 +55,8 @@ public class IntlProjectReportController extends BaseController {
 	
 	@RequestMapping(value = "/intl_project/report/report_intl_project_main", method = RequestMethod.GET)
 	public Object toTotalReportPage(HttpServletRequest request) throws IOException {
-		
+		String userLevel = CommonUtil.getParameter(request, "userLevel", "");
+		request.setAttribute("userLevel", userLevel);
 		return "stp/intlproject/report_intl_project_main";
 	}
 

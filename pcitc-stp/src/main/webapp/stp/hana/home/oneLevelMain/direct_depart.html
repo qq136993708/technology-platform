@@ -353,33 +353,33 @@
 
 			//科研课题
 			$(".layui-top .layui-col-md15").eq(0).click(function() {
-				window.open("/instituteIndex?url=" + "/direct/topic", "_target");
+				window.open("/instituteIndex?url=" + "/direct/topic?userLevel=1", "_target");
 			});
 			//科研装备
 			$(".layui-top .layui-col-md15").eq(1).click(function() {
-				window.open("/instituteIndex?url=" + "/direct/equipment", "_target");
+				window.open("/instituteIndex?url=" + "/direct/equipment?userLevel=1", "_target");
 			});
 			//合同
 			$(".layui-top .layui-col-md15").eq(2).click(function() {
-				window.open("/instituteIndex?url=" + "/direct/contract", "_target");
+				window.open("/instituteIndex?url=" + "/direct/contract?userLevel=1", "_target");
 			});
 			//支出
 			$(".layui-top .layui-col-md15").eq(3).click(function() {
 				//window.open("/instituteIndex?url=" + "/direct/actualPay", "_target");
-				window.open("/instituteIndex?url=" + "/small_leader/investment", "_target");
+				window.open("/instituteIndex?url=" + "/small_leader/investment?userLevel=1", "_target");
 			});
 
 			$(".layui-top .layui-col-md15").eq(4).click(function() {
-				window.open("/instituteIndex?url=" + "/direct/knowledgePatent", "_target");
+				window.open("/instituteIndex?url=" + "/direct/knowledgePatent?userLevel=1", "_target");
 			});
 			//科研成果
 			$(".layui-top .layui-col-md15").eq(5).click(function() {
 
-				window.open("/instituteIndex?url=" + "/direct/achievement", "_target");
+				window.open("/instituteIndex?url=" + "/direct/achievement?userLevel=1", "_target");
 			});
 
 			$(".layui-top .layui-col-md15").eq(6).click(function() {
-				parent.layui.index.openTabsPage("/intl_project/report/report_intl_project_main", "国际合作");
+				parent.layui.index.openTabsPage("/intl_project/report/report_intl_project_main?userLevel=1", "国际合作");
 			});
 
 			var md4Height = $(".layui-col-md4").height() - 2;
