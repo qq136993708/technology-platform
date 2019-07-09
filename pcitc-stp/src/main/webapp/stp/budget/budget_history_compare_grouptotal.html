@@ -15,35 +15,35 @@
 <body>
 <div class="con-box">
     <div class="margin-bot30">
-        <table id="itemTable" class="layui-table" lay-filter="itemTable" lay-data="{height: '100'}">
+        <table id="itemTable" class="layui-table" lay-filter="itemTable" lay-data="">
             <thead>
             <tr>
-                <th lay-data="{field:'nd',width: '10%', align:'center'}" rowspan="2">年度</th>
-                <th lay-data="{field:'dataVersion', width: '15%'}" rowspan="2">预算版本</th>
-                <th lay-data="{field:'displayName', width: '30%'}" rowspan="2">承担单位</th>
+                <th lay-data="{field:'nd',width: 65, align:'center'}" rowspan="2">年度</th>
+                <th lay-data="{field:'dataVersion', width: 145}" rowspan="2">预算版本</th>
+                <th lay-data="{field:'displayName'}" rowspan="2">承担单位</th>
                 <th lay-data="{align:'center'}", colspan="3">年度经费预算</th>
             </tr>
             <tr>
                 <th lay-data="{field:'total', align: 'right'}">合计</th>
-                <th lay-data="{field:'xmjf', width: '15%',edit: true,align:'right'}">项目经费</th>
-                <th lay-data="{field:'zxjf', width: '15%',edit: true,align:'right'}">重点实验室专项经费</th>
+                <th lay-data="{field:'xmjf',edit: true,align:'right'}">项目经费</th>
+                <th lay-data="{field:'zxjf',edit: true,align:'right'}">重点实验室专项经费</th>
             </tr>
             </thead>
         </table>
     </div>
     <div class="bottom-table-box">
-        <table id="historyItemTable" class="layui-table" lay-filter="historyItemTable" lay-data="{height: '250',limit:100}">
+        <table id="historyItemTable" class="layui-table" lay-filter="historyItemTable" lay-data="{height: '400',limit:100}">
             <thead>
             <tr>
-                <th lay-data="{field:'nd', width: '10%', align:'center'}" rowspan="2">年度</th>
-                <th lay-data="{field:'dataVersion', width: '15%'}" rowspan="2">预算版本</th>
-                <th lay-data="{field:'displayName', width: '30%'}" rowspan="2">承担单位</th>
+                <th lay-data="{field:'nd', width: 65, align:'center'}" rowspan="2">年度</th>
+                <th lay-data="{field:'dataVersion', width: 145}" rowspan="2">预算版本</th>
+                <th lay-data="{field:'displayName'}" rowspan="2">承担单位</th>
                 <th lay-data="{align:'center'}", colspan="3">历年预算</th>
             </tr>
             <tr>
                 <th lay-data="{field:'total', align: 'right'}">合计</th>
-                <th lay-data="{field:'xmjf', width: '15%',align:'right'}">项目经费</th>
-                <th lay-data="{field:'zxjf', width: '15%',align:'right'}">重点实验室专项经费</th>
+                <th lay-data="{field:'xmjf', align:'right'}">项目经费</th>
+                <th lay-data="{field:'zxjf', align:'right'}">重点实验室专项经费</th>
             </tr>
             </thead>
         </table>

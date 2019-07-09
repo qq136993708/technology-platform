@@ -287,6 +287,9 @@
 						$(this).find("div").html(parseInt(val));
 					}
 				});
+				if(curent_budget_info && curent_budget_info.auditStatus >= 1){
+					$('td[data-edit="true"]').css("pointer-events","none");
+				}
 			}
           	//初始化数据版本
             window.initDataVersion =function(budget_id){
