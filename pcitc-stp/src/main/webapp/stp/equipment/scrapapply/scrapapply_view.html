@@ -1,255 +1,284 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>科技管理平台</title>
-	<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/common/js/jquery-1.11.3.min.js"></script>
 
-	<script src="/layuiadmin/layui/layui.js"></script>
-	<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
-    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 </head>
 <body>
-<input type="hidden" value="${id}" id="getid" name="getid">
-<input type="hidden" id="getList" name="getList" value='${getList}'/>
-    <input name="documentDoc" id="documentDoc" value="${documentDoc}" type="hidden">
-<div class="">
-
-    <div class="tableBox">
+<div class="layer-box">
+    <form id="planForm" class="layui-form" action="" lay-filter="component-form-group layui-container"></form>
+    <input type="hidden" value="2" id="sunlike" name="sunlike">
+    <input name="applicationUpload" id="applicationUpload" value="${srescrap.documentdoc}" type="hidden">
+     <input name="id" id="id" value="${srescrap.id}" type="hidden">
+    <div class="formBox">
         <div class="tableToolBox">
-          <span id="priceandnumber"></span>
-        </div>
-        <table id="user_table" class="layui-hide" lay-filter="tableDataTwo"></table>
-           <div class="layui-form-item" style="padding:10px;margin-left:-100px;">
-                <label class="layui-form-label">附件</label>
-                <div id="file_div" class="layui-input-block"></div>
+            <div class="tableBtns">
+                <div class="tableTitle">基本信息</span>
+                </div>
             </div>
+        </div>
     </div>
-  
-</div>
-</body>
-<script type="text/javascript">
-    // 时间格式化
-    function formatTime(d) {
-        if (d) {
-            var date = new Date();
-            date.setTime(d);
-            var y = date.getFullYear();
-            var m = date.getMonth() + 1;
-            m = m < 10 ? ('0' + m) : m;
-            var day = date.getDate();
-            day = day < 10 ? ("0" + day) : day;
-            var h = date.getHours();
-            h = h < 10 ? ("0" + h) : h;
-            var M = date.getMinutes();
-            M = M < 10 ? ("0" + M) : M;
-            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
-            return str;
-        } else {
-            return '';
-        }
-    }
-</script>
-<script type="text/javascript">
-    var AddData=[];
-	var selectRowData,table;
-	    var file_ids = "documentDoc";
-        //detail:详情，edit：编辑
-        file_edit_detail = "detail";
-        //统管理-附件管理-附件配置：页面标识
-        file_opt_flag = "98c8e383481f44c7a3f12d253fb1b3d4";
-  //添加到form.render()之后
-$("#file_div").load('/common/public/uploadlayuiload.html');
-	//reload后删除表头
-	function reloadTable(table,where)
-	{
-		layui.table.reload(table,{where: where});
-		$(".layui-table-header table thead th input").remove();
-	}
-		function view_project(id) 
-    {
-    var k=[];
-		    for(var i=0;i<AddData.length;i++)
-		    {
-		    if(AddData[i]!="undefined" && AddData[i]!=null && AddData[i]!="")
-			        {
-					    if(AddData[i].id==id)
-					    {
-					         delete AddData[i];
-					     }
-				        }
-		        }
-		        for(var i=0;i<AddData.length;i++)
-		        {
-			        if(AddData[i]!="undefined" && AddData[i]!=null && AddData[i]!="")
-			        {
-			        k.unshift({id:AddData[i].id,equipmentName:AddData[i].equipmentName,specification:AddData[i].specification,del:"删除"});
-			        }
-		        }
-		        AddData=k;
-		    table.reload('userListTable',{
-						data : AddData
-			}) 
-				$("#priceandnumber").html("合计100数量100"); 
-								 
-    }
-	function save()
-	{
-	if($("#applyName").val()=="")
-	{
-	layer.msg("请输入名称");
-	return;
-	}
-	var ids='';
-	var getid=$("#getid").val();
-		for(var i=0;i<AddData.length;i++)
-		{
-		ids=ids+","+AddData[i].id;
-		}
-		var name=$("#applyName").val();
-		 $.ajax({
-	           type : 'POST',
-	           url : "/sre-sreScrapApply/addApplyAndItem",
-	           data : {"name":name,"ids":ids,"id":getid,"addorupdate":"1"},
-	           success : function(data) {
-	           alert("保存成功！");
-	        	}
-	       });
-    	  
-	}
-	layui.use(['jquery', 'table', 'laypage'], function () {
-    	table = layui.table,$ = layui.jquery;
-    	    	
-    	 var $ = layui.$, active = {
-            roleSearchEvent: function() { //点击查询按钮
-            	rendRoleTable(); 
-            }
-        };
-    	
-    function rendRoleTable()
-    {
-        AddData=[];
-        var str=$("#getList").val();
-        var s =  JSON.parse(str);
-        var sprice=0;
-       for( var i=0;i<s.length;i++)
-       {
-         sprice=sprice+parseInt(s[i].sumprice);
-         }
-      //  AddData.unshift({assetnumber:"合计",equipmentName:"",specification:"",placepeople:"",sumprice:sprice});
-        for( var i=0;i<s.length;i++)
-        {
-       
-        AddData.unshift({id:s[i].detailid,
-        	assetNumber:s[i].assetNumber,
-			g0SCHRW:s[i].g0SCHRW,
-			g0LJGZYZJE:s[i].g0LJGZYZJE,
-			g0LJDJZJJE:s[i].g0LJDJZJJE,
-			g0NCGZYZJE:s[i].g0NCGZYZJE,
-			g0LJZJJE:s[i].g0LJZJJE,
-        	equipmentName:s[i].equipmentName,specification:s[i].specification,assetnumber:s[i].assetnumber,placepeople:s[i].placepeople,sumprice:s[i].sumprice})
-        }
-       
-    	var lodingMsg = layer.msg('数据加载中....');
-    	var param = JSON.parse(window.localStorage.getItem("param"));
-	    //渲染第一个表格
-	    table.render({
-	        elem: '#role_table' //表格容器
-	        , url: '/sre-detail/list' //请求的url地址
-	        , limit : param.selfRownum //每页默认显示的数量
-	        , id: 'roleListTable'
-	        , where: {param: {"equipmentName":$("#equipmentName").val()}}
-	        , height: commonDislodgeTable()
-	        , method:"POST"
-	        ,loading:true
-	        , page: {
-	            groups: 5
-	            , limits : [ param.selfRownum, 15, 30, 45, 60 ]
-	            , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
-	            , first: '首页' //不显示首页
-	            , last: '尾页' //不显示尾页
-	            , theme: '#0F9EE0'
-	        }
-	        , cols: [[
-	            	 {type: 'checkbox', event: 'roleCheckboxEvent'}
-	            	,{title:'序号', type:'numbers'}
-	            	, {field: 'id', title: 'id', style: 'cursor: pointer;'}
-	            	, {field: 'assetnumber', title: '资产编号', style: 'cursor: pointer;'}
-	            	, {field: 'equipmentName', title: '资产名称', style: 'cursor: pointer;'}
-	            	,, {field: 'g0SCHRW', title: '资产残值',width : "20%", style: 'cursor: pointer;'}
-		           	, {field: 'g0LJGZYZJE', title: '账面净额', style: 'cursor: pointer;',width : "20%"}
-		           	, {field: 'g0LJDJZJJE', title: '预付定金', style: 'cursor: pointer;',width : "20%"}
-		           	, {field: 'g0NCGZYZJE', title: '购置价值', style: 'cursor: pointer;',width : "20%"}
-		           	, {field: 'g0LJZJJE', title: '累计折旧', style: 'cursor: pointer;',width : "20%"}
-	        ]]
-	        , done: function (res, curr, count) {
-	         $("[data-field='id']").css('display','none');
-	            // 点击行联动选择框--单选
-	            $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-	               
-	                 var index=parseInt($(this).index()+1);
-	                  selectRowData=res.data[index-1];
-                   $(this).addClass('layui-table-click');
-                   $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-               
-	                  var bo=false;
-	                  for(var i=0;i<AddData.length;i++)
-	                  {
-		                  if(AddData[i].id==selectRowData.id)
-		                  {
-		                  bo=true;
-		                  }
-	                  }
-	                  if(bo==false)
-	                  {
-						AddData.unshift({id:selectRowData.id,equipmentName:selectRowData.equipmentName,specification:selectRowData.specification,del:"删除"});
-					  }
-						table.reload('userListTable',{
-						data : AddData
-						}) 
-						$("#priceandnumber").html("合计100数量100");       
-	            })
-	        }
-	    });
-    }
-    
+    <div class="">
+        <table id="eqiu_table" class="layui-hide" lay-filter="tableEvent"></table>
+    </div>
+    <div class="box-body">
+        <form class="layui-form" name="form1" id="form1" action="" method="POST"
+              lay-filter="component-form-group layui-container">
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">报废名称<span class="must-fill"></span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input readOnlyBox" name="froappname" id="froappname" value="${srescrap.name}"
+                                   lay-verify="required" readonly="readonly"   readonly="readonly"   autocomplete="off" type="text" >
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+		            <div class="layui-form-item">
+			            <label for="" class="layui-form-label">申请部门</label>
+			            <div class="layui-input-block">
+			            <input class="layui-input readOnlyBox"  name="applyDepartName" id="applyDepartName" value="${srescrap.remarks}"  readonly="readonly"   autocomplete="off" type="text" >
+		            </div>
+        	    </div>
+        		</div>
+            </div>
+            <div class="layui-form-item" id="equipment">
+                <label class="layui-form-label">装备详情<span class="must-fill"></span></label>
+                <div class="layui-input-block">
+                    <div class="tableBox">
+                        <div class="tableToolBox">
+                            <div class="whiteLine"></div>
+                        </div>
+                        <table id="notjoin_apply_table" class="layui-hide" lay-filter="JoinEvent"></table>
+                    </div>
+                </div>
+            </div>
+			
+		<div class="layui-form-item">
+	      	 <label class="layui-form-label">附件</label>
+	         <div id="file_div" class="layui-input-block"></div>
+       	</div>
 
-    function rendUserTable(){
-    	var lodingMsg = layer.msg('数据加载中....');
-    	var param = JSON.parse(window.localStorage.getItem("param"));
-	    table.render({
-	        elem: '#user_table' //表格容器
-	        , id: 'userListTable'
-	        , height: commonDislodgeTable()
-	        , loading: true
-	        , cols: [[
-	              {title:'序号', width : "20%",type:'numbers'}
-	        	, {field: 'assetnumber', title: '资产编号',width : "20%", style: 'cursor: pointer;'}
-	            , {field: 'equipmentName', title: '资产名称', width : "20%",style: 'cursor: pointer;'}
-	            , {field: 'g0SCHRW', title: '资产残值',width : "20%", style: 'cursor: pointer;'}
-	           	, {field: 'g0LJGZYZJE', title: '账面净额', style: 'cursor: pointer;',width : "20%"}
-	           	, {field: 'g0LJDJZJJE', title: '预付定金', style: 'cursor: pointer;',width : "20%"}
-	           	, {field: 'g0NCGZYZJE', title: '购置价值', style: 'cursor: pointer;',width : "20%"}
-	           	, {field: 'g0LJZJJE', title: '累计折旧', style: 'cursor: pointer;',width : "20%"}
-	        	        ]],
-	        data:AddData
-	        , done: function (res, curr, count) {
-	        	layer.close(lodingMsg);
-	        }
-	        
-	    });
-	    $(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
-    }
-    rendRoleTable();
-    rendUserTable();
-    //区别按钮属性
-    $('.layui-btn').on('click', function () {
-        var type = $(this).data('type');
-        active[type] ? active[type].call(this) : '';
-    });
-});
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+
 </script>
+<script id="dateTpl" type="text/html"> {{formatTime(d.declareTime)}} </script> 
+<script id="g0ndjar_id" type="text/html"> {{getyear(d.g0NDURJ)}} </script>
+<script type="text/javascript">
+function getyear(d) 
+{
+	d=d.replace(/\b(0+)/gi,"");
+	return d+"年";
+}
+</script>
+<script type="text/javascript">
+// 时间格式化
+function formatTime(d) {
+    if (d) {
+        var date = new Date();
+        date.setTime(d);
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        m = m < 10 ? ('0' + m) : m;
+        var day = date.getDate();
+        day = day < 10 ? ("0" + day) : day;
+        var h = date.getHours();
+        h = h < 10 ? ("0" + h) : h;
+        var M = date.getMinutes();
+        M = M < 10 ? ("0" + M) : M;
+        var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+        return str;
+    } else {
+        return '';
+    }
+}
+
+var v_date=(new Date()).getTime();
+var publicMethods;
+var file_ids = "applicationUpload";
+//detail:详情，edit：编辑
+file_edit_detail = "detail";
+//统管理-附件管理-附件配置：页面标识
+file_opt_flag = "7b6f6480989040ac9d3fbe7899fabc7b";
+var supplierStr =$("#supplierStr").val();
+var supplierWillStr =$("#supplierWillStr").val();
+
+layui.config({
+}).extend({
+    index: 'layui/tableDemo' //主入口模块
+}).use(['form', 'table', 'laypage', 'layer', 'laydate', 'laytpl', 'jquery', "publicMethods"], function () {
+
+    var admin = layui.admin
+    element = layui.element
+        , table = layui.table
+        , layer = layui.layer
+        , laydate = layui.laydate
+        , laypage = layui.laypage
+        , form = layui.form
+        , $ = layui.jquery;
+       publicMethods = layui.publicMethods;
+       //添加到form.render()之后
+	 	$("#file_div").load('/common/public/uploadlayuiload.html');
+		form.render();
+			 	
+			 	
+		});
+</script>
+<script type="text/javascript">
+var publicMethods;
+    $(document).ready(function() {
+    	layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element','publicMethods' ],function() {
+ 			var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
+ 			publicMethods=layui.publicMethods;
+ 			var form = layui.form;
+ 			var table = layui.table;
+	    	table.render({
+	            elem: '#notjoin_apply_table',
+	            url: '/sre-sreScrapApply/listView',
+	            limit: 5,
+	            method:"POST",  
+	            where: {param:{"id":$("#id").val()}},
+	        	id: 'notjoin_apply_table',
+	        	height: 220,
+	        	page: {
+	                groups: 5,
+	                limits: [5,10,15,20],
+	                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+	                first: '首页', //不显示首页
+	                last: '尾页', //不显示尾页
+	                theme: '#0F9EE0'
+	            },
+	            cols: [[
+	            	{title:'序号', type:'numbers', width : 55},
+					{field: 'name', title: '装备名称', width : "20%",style: 'cursor: pointer;'}, 
+					{field: 'updateUser', title : '公司代码',sort : true, style : 'cursor: pointer;', align : 'left', width : '20%'},
+					{field: 'applicationNumber', title: '资产编号', width : "20%",style: 'cursor: pointer;'}, 
+					{field: 'g0NDURJ', title: '使用年限', style: 'cursor: pointer;',width : "20%"},
+					{field: 'g0SCHRW', title: '资产残值',width : "20%", style: 'cursor: pointer;'}, 
+					{field: 'g0LJGZYZJE', title: '账面净额', style: 'cursor: pointer;',width : "20%"}, 
+					{field: 'g0LJDJZJJE', title: '预付定金', style: 'cursor: pointer;',width : "20%"}, 
+					{field: 'g0NCGZYZJE', title: '购置价值', style: 'cursor: pointer;',width : "20%"}, 
+					{field: 'g0LJZJJE', title: '累计折旧', style: 'cursor: pointer;',width : "20%"}
+	                ]],
+	            done: function (res, curr, count) {
+	            	var equipmentIds="";
+	            	for(var i;i<res.data.length;i++)
+	            	{
+	            		var equipmentId=res.data.equipmentId;
+	            	}
+	            	//alert(res.data.length);
+	            	
+	            	//项目分类，项目性质
+	                var dicMap = ['ROOT_ZBGL_ZBFL'];
+	                var dicVal = {};
+	 				publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
+	 					$.each(data,function(key,val){
+	 						$.each(val,function(i,dt){
+	 							dicVal[dt.code] = dt.name;
+	 						});
+	 					});
+	 			   	}); 
+	 				$.each(res.data,function(i,dt){
+	 					$("tr[data-index='"+i+"'] td[data-field='type'] div").html(dicVal[res.data[i].type]); 
+	 			   	});
+	 				
+	            }
+	        });
+	    	//多行点击事件
+	        $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
+	     	   	var checkCell = $(this).parent().find("tr[data-index=" + $(this).attr('data-index') + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox");
+	            console.log("checkCell---",checkCell); 
+	     	   	if (checkCell.length > 0) {
+	                 checkCell.click();
+	             }
+	         });
+	         $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+	             e.stopPropagation();
+	         });
+	         var arr = [];
+	         var size = 0;
+	          table.on('edit(JoinEvent)',function(obj){
+	              var arrln = $(this).parent().parent().attr('data-index')
+	              //var check = table.checkStatus('notjoin_apply_table');
+	              arr[arrln] = obj.value;
+					console.log("obj--",obj);
+					console.log("arrln--",arrln);
+	              //console.log("check--",check);
+	              //console.log("check.data--",check.data);
+	              console.log("arr---",arr);
+	              size++;
+		
+             })
+			console.log("arr--",arr);
+	    	var $ = layui.$, active = {
+	    		searchEvent: function() { 
+                    table.reload("notjoin_apply_table",{where:{param:{"equipmentIds":$("#equipmentIds").val(),"name":$("#name").val()}}});
+                },
+                addEvent:function(){
+                	var check = table.checkStatus('notjoin_apply_table');
+                	if(check.data.length == 0)
+                	{
+                		layer.msg('请点击选择装备数据!');
+                		return;
+                	}
+                	var equipmentIds="";
+                	for(var dt in check.data)
+                	{
+                		equipmentIds=equipmentIds+check.data[dt].equipmentId+",";
+                	}
+                	var froname = $("#froappname").val();
+                	if(froname == null || froname == "") {
+                		layer.alert("报废名称不能为空");
+                		 return false;
+                	}
+                	$.ajax({
+                        type : "POST",
+                        url: "/sre-announceAdd/announceAdd",
+                        data: {"ids":equipmentIds,"froname":froname}, 
+                        traditional : true,
+                        async : true,   
+                        dataType:"json",
+                        success : function(data){
+                        	if(data.result == 1) {
+                        		layer.alert("添加成功!!", function(index){
+                        			parent.location.href = '/sre-sreScrapApply/to-list';
+                        		});
+                        	}else {
+                        		layer.alert("添加失败,请联系管理员!!");
+                        	}
+                        },
+                    });    
+                }
+        	}
+        	$('.layui-btn').on('click', function(){
+            	var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+	    	$("#close").click(function () {
+			    var index = parent.layer.getFrameIndex(window.name);
+			    parent.layer.close(index);
+			});
+    	});
+    });
+</script>
+</body>
 </html>

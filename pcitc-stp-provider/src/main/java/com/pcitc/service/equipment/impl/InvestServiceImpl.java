@@ -266,6 +266,14 @@ public  class InvestServiceImpl implements InvestService {
 
 	@Override
 	public LayuiTableData getManagementERPList(LayuiTableParam param) {
+		//每页显示条数
+		int pageSize = param.getLimit();
+		//从第多少条开始
+		int pageStart = (param.getPage()-1)*pageSize;
+		//当前是第几页
+		int pageNum = pageStart/pageSize + 1;
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
 		String g0projcode=getTableParam(param,"erp","");
 		List<SrePurchaseOrder> list = srePurchaseOederMapper.selectErpnum(g0projcode);
 		List<SrePurchaseOrder> rdelist = new ArrayList<SrePurchaseOrder>();
@@ -287,7 +295,7 @@ public  class InvestServiceImpl implements InvestService {
 			rdelist.add(orderlist);
 		}
 		}
-		PageInfo<SrePurchaseOrder> pageInfo = new PageInfo<SrePurchaseOrder>(rdelist);
+		PageInfo<SrePurchaseOrder> pageInfo = new PageInfo<SrePurchaseOrder>(list);
 		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
 		LayuiTableData data = new LayuiTableData();
 		data.setData(pageInfo.getList());
