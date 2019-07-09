@@ -1457,7 +1457,7 @@
 			sum(case LEFT(WXLX,12) when '实用新型' then 1 else 0 end) as syxxsl,
 			SUBSTR(STATUS,4) as lx
 		from out_patent
-		WHERE STATUS is not null and DEFINE3 not like '%外部单位%'
+		WHERE STATUS is not null and DEFINE3 not like '%外部单位%' and
 			  LEFT(FLZTGGRQ,4) = #{nd,jdbcType=VARCHAR} and flztyj = '有效' and flztej = '授权'
 		GROUP BY STATUS
 	</select>

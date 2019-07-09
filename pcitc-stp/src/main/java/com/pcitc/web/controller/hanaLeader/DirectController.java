@@ -284,7 +284,7 @@ public class DirectController extends BaseController {
 				barLine.setxAxisDataList(xAxisDataList);
 
 				List<String> legendDataList = new ArrayList<String>();
-				legendDataList.add("发明授权");
+				legendDataList.add("发明专利");
 				legendDataList.add("外观设计");
 				legendDataList.add("实用新型");
 				barLine.setLegendDataList(legendDataList);
