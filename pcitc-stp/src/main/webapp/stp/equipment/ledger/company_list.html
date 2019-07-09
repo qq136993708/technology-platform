@@ -214,9 +214,21 @@ var name=$('#name').val();
     
     function renderTable()
 	{    
+    	 var date = new Date();
+         var seperator1 = "-";
+         var year = date.getFullYear();
+         var month = date.getMonth();
+         var strDate = date.getDate();
+         if (month >= 1 && month <= 9) {
+             month = "0" + month;
+         }
+         if (strDate >= 0 && strDate <= 9) {
+             strDate = "0" + strDate;
+         }
+         var currentdate = year + 0 + month
     	var month=$('#month').val();
     	if(month==""){
-    		month="201906";
+    		month=currentdate;
     	}else{
     		month=month.replace("-","");
     	}
