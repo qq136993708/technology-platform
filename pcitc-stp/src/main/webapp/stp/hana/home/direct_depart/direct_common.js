@@ -831,7 +831,7 @@ function set_multi_graph_statistics(data,id)
 	if(id=='knowldege_chart4')
 	{
 		
-		var count_1=getDataCountForName(data,'发明授权');
+		var count_1=getDataCountForName(data,'发明专利');
     	var count_2=getDataCountForName(data,'外观设计');
         var count_3=getDataCountForName(data,'实用新型');
         var count_all=count_1+count_2+count_3;

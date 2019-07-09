@@ -1314,7 +1314,7 @@
 		select round(sum(K0DMBTR)/10000,4) as investMoney
 		from expenses_pay_hana
 		where 
-			G0GJAHR = '${nd}'
+			G0GJAHR = '${nd}' and expenses_pay_hana.G0LIFNR in ('0033550000','0035800000','0033550006','0033600000','0033700000','0034880000','0033650000','0033750000','0033800000')
 			and sts = '1'
 	</select>
 	
@@ -1460,17 +1460,26 @@
 	
 	<!-- 首页-直属研究院，项目计划完成的比率, 实际的hana报销费用，按照月份分组 -->
 	<select id="getPlanCompleteRateByPlanTypeForHanaMonth" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select tableA.*,(out_tem_money_total.zbx_money+out_tem_money_total.fyx_money) as zysje 
-		from (
-			select round(sum(K0DMBTR)/10000,4) as hanaMoney, left(G0AUGDT, 6) as yearMonth
-			from expenses_pay_hana
-			where 
-			G0LIFNR in ('0033550000','0035800000','0033550006','0033600000','0033700000','0034880000','0033650000','0033750000','0033800000') 
-			and STRCMP(left(G0AUGDT, 6), '201801') &gt; -1
-			and STRCMP(left(G0AUGDT, 6), '201812') &lt; 1
-			GROUP BY left(G0AUGDT, 6)
-			ORDER BY left(G0AUGDT, 6)
-		) tableA LEFT JOIN out_tem_money_total ON (left(yearMonth, 4) = out_tem_money_total.nd AND out_tem_money_total.show_ali = '直属研究院')
+		select tableB.*,IFNULL(sum(tableC.jf),0) as zsjje  from (
+			select tableA.*,(out_tem_money_total.zbx_money+out_tem_money_total.fyx_money) as zysje 
+			from (
+				select round(sum(K0DMBTR)/10000,4) as hanaMoney, left(G0AUGDT, 6) as yearMonth
+				from expenses_pay_hana
+				where 
+				G0LIFNR in ('0033550000','0035800000','0033550006','0033600000','0033700000','0034880000','0033650000','0033750000','0033800000') 
+				and STRCMP(left(G0AUGDT, 6), '201801') &gt; -1
+				and STRCMP(left(G0AUGDT, 6), '201812') &lt; 1
+				GROUP BY left(G0AUGDT, 6)
+				ORDER BY left(G0AUGDT, 6)
+			) tableA LEFT JOIN out_tem_money_total ON (left(yearMonth, 4) = out_tem_money_total.nd AND out_tem_money_total.show_ali = '直属研究院')
+			) as tableB left join (
+				select xmid,jf,left(define16, 6) as projectMount
+				from out_project_info
+				where 
+					left(define16, 4) = '2018'
+				GROUP BY xmid
+		) tableC on (tableC.projectMount = tableB.yearMonth)
+		GROUP BY tableB.yearMonth
 	</select>
 	
 	<!-- 领导首页-科研合同，项目计划完成的比率，按照直属研究所、分子公司等9个来分组 -->

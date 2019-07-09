@@ -51,7 +51,7 @@ public class DemoController {
 
 		try {
 			String temS = "";
-			String TEST_URL = "SelectAllProjectFromSinopecData2017"+temS;
+			String TEST_URL = "http://10.1.19.131:9001/DataService/BasicQuery/Sql";
 			System.out.println("=====开始访问===" + TEST_URL);
 			// 创建一个请求客户端
 			RestfulHttpClient.HttpClient client = RestfulHttpClient.getClient(TEST_URL);
@@ -59,7 +59,7 @@ public class DemoController {
 
 			Map<String, String> headerMap = new HashMap<String, String>();
 			headerMap.put("Authorization", "Basic AwardsClientTest:wangcong382.slyt");
-
+			
 			// 设置全局默认请求头，每次请求都会带上这些请求头
 			RestfulHttpClient.setDefaultHeaders(headerMap);
 			// 添加多个参数请求头
